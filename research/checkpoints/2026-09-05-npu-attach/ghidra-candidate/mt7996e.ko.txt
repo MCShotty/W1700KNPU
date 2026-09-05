@@ -1,0 +1,1328 @@
+program=mt7996e.ko
+executable_sha256=be33d682b39be9940bc858bcd100b95cdb445658537b98bd9dc3cdf49b1e7738
+language=AARCH64:LE:64:v8A
+
+FUNCTION mt7996_dma_reset @ 001053e0
+XREF Entry Point EXTERNAL
+XREF 00116b78 UNCONDITIONAL_CALL
+XREF 00117384 UNCONDITIONAL_CALL
+decompiled=true
+
+void mt7996_dma_reset(mt7996_dev *dev,bool force)
+
+{
+  bool bVar1;
+  long lVar2;
+  int iVar3;
+  long lVar4;
+  mt7996_dev *pmVar5;
+  mt7996_dev *pmVar6;
+  mt7996_dev *pmVar7;
+  long lVar8;
+  long lVar9;
+  
+                    /* Unresolved local var: mt76_phy * phy2@[DW_OP_reg24(x24)]
+                       Unresolved local var: mt76_phy * phy3@[DW_OP_reg25(x25)]
+                       Unresolved local var: u32 hif1_ofs@[???]
+                       Unresolved local var: int i@[DW_OP_reg20(x20)] */
+  lVar8 = *(long *)(dev + 0x798);
+  lVar9 = *(long *)(dev + 0x7a0);
+  (**(code **)(*(long *)(dev + 0x848) + 0x10))(dev,0xd4208,5,0);
+  if (*(long *)(dev + 0x69d0) != 0) {
+    (**(code **)(*(long *)(dev + 0x848) + 0x10))(dev,0xd8208,5,0);
+  }
+  lVar4 = 0x40;
+  usleep_range_state(1000,2000,2);
+  do {
+    (**(code **)(*(long *)(dev + 0x3e70) + 0x30))(dev,*(undefined8 *)(dev + lVar4),1);
+    if (lVar8 != 0) {
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x30))(dev,*(undefined8 *)(lVar8 + lVar4),1);
+    }
+    if (lVar9 != 0) {
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x30))(dev,*(undefined8 *)(lVar9 + lVar4),1);
+    }
+    lVar4 = lVar4 + 8;
+  } while (lVar4 != 0x78);
+  pmVar7 = dev + 0x33f0;
+  pmVar5 = dev + 0x33d8;
+  do {
+    pmVar6 = pmVar5 + 8;
+    (**(code **)(*(long *)(dev + 0x3e70) + 0x30))(dev,*(undefined8 *)pmVar5,1);
+    pmVar5 = pmVar6;
+  } while (pmVar6 != pmVar7);
+  pmVar5 = pmVar7;
+  do {
+    if (*(int *)(pmVar5 + 0x30) != 0) {
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x40))(dev,pmVar5);
+    }
+    pmVar5 = pmVar5 + 0x80;
+  } while (pmVar5 != dev + 0x3e70);
+  mt76_tx_status_check(dev,1);
+  if (*(int *)(dev + 0x3e88) != 0) {
+    mt7996_rro_msdu_page_map_free(dev);
+  }
+  if (force) {
+    mt7996_wfsys_reset(dev);
+  }
+  mt76_npu_disable_irqs(dev);
+  lVar4 = 0x40;
+  mt7996_dma_disable(dev,force);
+  mt76_wed_dma_reset(dev);
+  do {
+    lVar2 = *(long *)(dev + lVar4);
+                    /* Unresolved local var: bool reset_idx@[???] */
+    bVar1 = false;
+    if (lVar2 != 0) {
+      bVar1 = true;
+      if ((*(ushort *)(lVar2 + 0x40) >> 9 & 1) != 0) {
+        bVar1 = (*(ushort *)(lVar2 + 0x40) & 0x1c) != 0;
+      }
+    }
+    (**(code **)(*(long *)(dev + 0x3e70) + 0x50))(dev,lVar2,bVar1);
+    if (lVar8 != 0) {
+      lVar2 = *(long *)(lVar8 + lVar4);
+                    /* Unresolved local var: bool reset_idx@[???] */
+      bVar1 = false;
+      if (lVar2 != 0) {
+        bVar1 = true;
+        if ((*(ushort *)(lVar2 + 0x40) >> 9 & 1) != 0) {
+          bVar1 = (*(ushort *)(lVar2 + 0x40) & 0x1c) != 0;
+        }
+      }
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x50))(dev,lVar2,bVar1);
+    }
+    if (lVar9 != 0) {
+      lVar2 = *(long *)(lVar9 + lVar4);
+                    /* Unresolved local var: bool reset_idx@[???] */
+      bVar1 = false;
+      if (lVar2 != 0) {
+        bVar1 = true;
+        if ((*(ushort *)(lVar2 + 0x40) >> 9 & 1) != 0) {
+          bVar1 = (*(ushort *)(lVar2 + 0x40) & 0x1c) != 0;
+        }
+      }
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x50))(dev,lVar2,bVar1);
+    }
+    lVar4 = lVar4 + 8;
+    pmVar5 = dev + 0x33d8;
+  } while (lVar4 != 0x78);
+  do {
+    pmVar6 = pmVar5 + 8;
+    (**(code **)(*(long *)(dev + 0x3e70) + 0x50))(dev,*(undefined8 *)pmVar5,1);
+    pmVar5 = pmVar6;
+  } while (pmVar6 != pmVar7);
+  do {
+                    /* Unresolved local var: mt76_queue * q@[???] */
+    if (*(int *)(pmVar7 + 0x30) != 0) {
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x50))(dev,pmVar7,1);
+    }
+    pmVar7 = pmVar7 + 0x80;
+  } while (pmVar7 != dev + 0x3e70);
+  mt76_tx_status_check(dev,1);
+  iVar3 = 0;
+  pmVar7 = dev + 0x3420;
+  do {
+    if (*(int *)pmVar7 != 0) {
+      (**(code **)(*(long *)(dev + 0x3e70) + 0x28))(dev,iVar3);
+    }
+    iVar3 = iVar3 + 1;
+    pmVar7 = pmVar7 + 0x80;
+  } while (iVar3 != 0x15);
+  mt7996_dma_enable(dev,!force);
+  return;
+}
+
+
+
+FUNCTION mt7996_mac_reset_work @ 00116890
+XREF Entry Point EXTERNAL
+XREF 00102740 DATA
+XREF 0010270c PARAM
+decompiled=true
+
+void mt7996_mac_reset_work(work_struct *work)
+
+{
+  ulong *puVar1;
+  work_struct *pwVar2;
+  mt7996_dev *dev;
+  work_struct *pwVar3;
+  list_head *plVar4;
+  undefined8 *puVar5;
+  ushort uVar6;
+  char cVar7;
+  bool bVar8;
+  undefined2 uVar9;
+  int iVar10;
+  int iVar11;
+  ulong uVar12;
+  mt7996_phy *phy;
+  work_struct *pwVar13;
+  long lVar14;
+  work_struct *pwVar15;
+  undefined8 uVar16;
+  work_struct *pwVar17;
+  work_struct *pwVar18;
+  work_struct *pwVar19;
+  work_struct *pwVar20;
+  long *plVar21;
+  work_struct *pwVar22;
+  work_struct *pwVar23;
+  long lVar24;
+  undefined8 unaff_x30;
+  int local_4c;
+  list_head list;
+  
+                    /* Unresolved local var: ieee80211_hw * hw@[DW_OP_reg26(x26)]
+                       Unresolved local var: mt7996_dev * dev@[???]
+                       Unresolved local var: mt7996_phy * phy@[???]
+                       Unresolved local var: int i@[???]
+                       Unresolved local var: void * __mptr@[???] */
+  dev = (mt7996_dev *)(work + -0x9fc8);
+  if (((byte)work[0x44] >> 2 & 1) == 0) {
+    if ((*(uint *)(work + 0x38) >> 2 & 1) != 0) {
+      lVar24 = *(long *)(work + -0x9fc8);
+      lVar14 = *(long *)(*(long *)(lVar24 + 0x50) + 0x1d0);
+      if (lVar14 == 0) {
+        lVar14 = *(long *)(*(long *)(lVar24 + 0x50) + 0x180);
+      }
+      _dev_info(*(undefined8 *)(work + -0x9760),"\n%s L1 SER recovery start.",lVar14);
+      mt7996_npu_hw_stop(dev);
+      ieee80211_stop_queues(*(undefined8 *)(work + -0x9fc8));
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+      pwVar19 = work + -0x9fb0;
+      Hint_Prefetch(pwVar19,2,0,1);
+      do {
+        cVar7 = '\x01';
+        bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+        if (bVar8) {
+          *(ulong *)pwVar19 = *(ulong *)pwVar19 | 0x100;
+          cVar7 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar7 != '\0');
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+      Hint_Prefetch(pwVar19,2,0,1);
+      do {
+        cVar7 = '\x01';
+        bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+        if (bVar8) {
+          *(ulong *)pwVar19 = *(ulong *)pwVar19 | 0x200;
+          cVar7 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar7 != '\0');
+      __wake_up(work + -0x9710,3,1,0);
+      mt76_abort_scan(dev);
+      cancel_work_sync(work + 0x968);
+                    /* Unresolved local var: int __i@[???] */
+      pwVar18 = work + -0x36a0;
+      pwVar3 = work + -0x3688;
+      pwVar19 = pwVar18;
+      do {
+        plVar21 = *(long **)pwVar19;
+        if (plVar21 != (long *)0x0) {
+          mt76_abort_roc(*plVar21);
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+          puVar1 = (ulong *)(*plVar21 + 0x18);
+          Hint_Prefetch(puVar1,2,0,1);
+          do {
+            cVar7 = '\x01';
+            bVar8 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+            if (bVar8) {
+              *puVar1 = *puVar1 | 0x100;
+              cVar7 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar7 != '\0');
+          cancel_delayed_work_sync(*plVar21 + 0x358);
+        }
+        pwVar19 = pwVar19 + 8;
+      } while (pwVar19 != pwVar3);
+      mutex_lock();
+      if (*(long *)(work + -0x6138) != 0) {
+        kthread_park();
+        *(undefined8 *)(work + -0x6128) = 0;
+      }
+      pwVar20 = work + -0x6ba8;
+      pwVar22 = work + -0x96e0;
+      pwVar19 = pwVar20;
+      pwVar23 = pwVar22;
+      do {
+                    /* Unresolved local var: airoha_npu * __UNIQUE_ID_rcu994@[???] */
+        if ((*(int *)pwVar19 != 0) &&
+           ((((uVar6 = *(ushort *)(pwVar19 + 0x10), *(int *)(*(long *)(work + -0x9780) + 0x38) != 0
+              || (*(long *)(work + -0x3710) == 0)) || ((uVar6 >> 6 & 1) == 0)) &&
+            (((uVar6 >> 5 & 1) != 0 || ((uVar6 & 0x1c) != 4)))))) {
+          napi_disable(pwVar23);
+        }
+        pwVar19 = pwVar19 + 0x80;
+        pwVar23 = pwVar23 + 0x1f0;
+      } while (pwVar19 != work + -0x6128);
+      pwVar19 = work + -0x6120;
+      napi_disable(pwVar19);
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x2108,1);
+      bVar8 = mt7996_wait_reset_state(dev,8);
+      if (bVar8) {
+        mt7996_dma_reset(dev,false);
+        mt7996_tx_token_put(dev);
+        *(undefined4 *)(work + -0x5f28) = 0;
+        *(undefined4 *)(work + -0x5f24) = 0x2000004;
+        *(undefined8 *)(work + -0x5f20) = 0;
+        *(undefined8 *)(work + -0x5f18) = 0;
+        (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x2108,2);
+        mt7996_wait_reset_state(dev,0x10);
+      }
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x2108,8);
+      mt7996_wait_reset_state(dev,0x20);
+      mt7996_dma_start(dev,false,false);
+                    /* Unresolved local var: u16 chip@[???] */
+      if ((1 < ((*(uint *)(work + -0x38e4) >> 0x10) - 0x7990 & 0xffff)) &&
+         (*(int *)(work + -0x6140) == 1)) {
+        (**(code **)(*(long *)(work + -0x9780) + 0x10))(dev,0xa600,0,0x800);
+      }
+      __mt7996_npu_hw_init(dev);
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+      pwVar23 = work + -0x9fb0;
+      Hint_Prefetch(pwVar23,2,0,1);
+      do {
+        cVar7 = '\x01';
+        bVar8 = (bool)ExclusiveMonitorPass(pwVar23,0x10);
+        if (bVar8) {
+          *(ulong *)pwVar23 = *(ulong *)pwVar23 & 0xfffffffffffffdff;
+          cVar7 = ExclusiveMonitorsStatus();
+        }
+        pwVar15 = pwVar18;
+      } while (cVar7 != '\0');
+      do {
+        if (*(long **)pwVar15 != (long *)0x0) {
+          puVar1 = (ulong *)(**(long **)pwVar15 + 0x18);
+          Hint_Prefetch(puVar1,2,0,1);
+          do {
+            cVar7 = '\x01';
+            bVar8 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+            if (bVar8) {
+              *puVar1 = *puVar1 & 0xfffffffffffffeff;
+              cVar7 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar7 != '\0');
+        }
+        pwVar15 = pwVar15 + 8;
+      } while (pwVar15 != pwVar3);
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+      lVar14 = sp_el0;
+      do {
+                    /* Unresolved local var: airoha_npu * __UNIQUE_ID_rcu994@[???] */
+        if (((*(int *)pwVar20 != 0) &&
+            (((uVar6 = *(ushort *)(pwVar20 + 0x10), *(int *)(*(long *)(work + -0x9780) + 0x38) != 0
+              || (*(long *)(work + -0x3710) == 0)) || ((uVar6 >> 6 & 1) == 0)))) &&
+           (((uVar6 >> 5 & 1) != 0 || ((uVar6 & 0x1c) != 4)))) {
+          napi_enable(pwVar22);
+          *(int *)(lVar14 + 0x10) = *(int *)(lVar14 + 0x10) + 0x200;
+          uVar12 = napi_schedule_prep(pwVar22);
+          if ((uVar12 & 1) != 0) {
+            __napi_schedule(pwVar22);
+          }
+          __local_bh_enable_ip(0x117688,0x200);
+        }
+        pwVar20 = pwVar20 + 0x80;
+        pwVar22 = pwVar22 + 0x1f0;
+      } while (pwVar20 != work + -0x6128);
+                    /* Unresolved local var: long old@[???]
+                       Unresolved local var: ulong mask@[???]
+                       Unresolved local var: s64 result@[???]
+                       Unresolved local var: s64 val@[???]
+                       Unresolved local var: ulong tmp@[???] */
+      pwVar23 = work + -0x6c30;
+      Hint_Prefetch(pwVar23,2,0,1);
+      do {
+        uVar12 = *(ulong *)pwVar23;
+        cVar7 = '\x01';
+        bVar8 = (bool)ExclusiveMonitorPass(pwVar23,0x10);
+        if (bVar8) {
+          *(ulong *)pwVar23 = uVar12 | 1;
+          cVar7 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar7 != '\0');
+      DataMemoryBarrier(2,3);
+      if ((uVar12 & 1) == 0) {
+        __tasklet_schedule();
+      }
+      if ((*(long *)(work + -0x6138) != 0) && (kthread_unpark(), *(long *)(work + -0x6138) != 0)) {
+                    /* Unresolved local var: long old@[???]
+                       Unresolved local var: ulong mask@[???]
+                       Unresolved local var: s64 result@[???]
+                       Unresolved local var: s64 val@[???]
+                       Unresolved local var: ulong tmp@[???] */
+        pwVar23 = work + -0x6128;
+        Hint_Prefetch(pwVar23,2,0,1);
+        do {
+          uVar12 = *(ulong *)pwVar23;
+          cVar7 = '\x01';
+          bVar8 = (bool)ExclusiveMonitorPass(pwVar23,0x10);
+          if (bVar8) {
+            *(ulong *)pwVar23 = uVar12 | 1;
+            cVar7 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar7 != '\0');
+        DataMemoryBarrier(2,3);
+        if (((uVar12 & 1) == 0) && (((uint)*(undefined8 *)(work + -0x6128) >> 1 & 1) == 0)) {
+          wake_up_process(*(undefined8 *)(work + -0x6138));
+        }
+      }
+      napi_enable(pwVar19);
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+      lVar14 = sp_el0;
+      *(int *)(lVar14 + 0x10) = *(int *)(lVar14 + 0x10) + 0x200;
+      uVar12 = napi_schedule_prep(pwVar19);
+      if ((uVar12 & 1) != 0) {
+        __napi_schedule(pwVar19);
+      }
+      __local_bh_enable_ip(0x11758c,0x200);
+      ieee80211_wake_queues(lVar24);
+                    /* Unresolved local var: mt76_phy * phy2@[DW_OP_reg0(x0)]
+                       Unresolved local var: mt76_phy * phy3@[DW_OP_reg0(x0)] */
+      mt7996_mac_update_beacons((mt7996_phy *)(work + -0x3528));
+      if (*(long *)(work + -0x9830) != 0) {
+        mt7996_mac_update_beacons(*(mt7996_phy **)(*(long *)(work + -0x9830) + 0x10));
+      }
+      if (*(long *)(work + -0x9828) != 0) {
+        mt7996_mac_update_beacons(*(mt7996_phy **)(*(long *)(work + -0x9828) + 0x10));
+      }
+      mutex_unlock(work + -0x97a0);
+      do {
+                    /* Unresolved local var: int __i@[???] */
+        if (*(long **)pwVar18 != (long *)0x0) {
+          ieee80211_queue_delayed_work(lVar24,**(long **)pwVar18 + 0x358,10);
+        }
+        pwVar18 = pwVar18 + 8;
+      } while (pwVar18 != pwVar3);
+      lVar14 = *(long *)(*(long *)(*(long *)(work + -0x97f0) + 0x50) + 0x1d0);
+      if (lVar14 == 0) {
+        lVar14 = *(long *)(*(long *)(*(long *)(work + -0x97f0) + 0x50) + 0x180);
+      }
+      _dev_info(*(undefined8 *)(work + -0x9760),"\n%s L1 SER recovery completed.",lVar14);
+    }
+    return;
+  }
+  (**(code **)(*(long *)(work + -0x9780) + 0x10))(dev,0xd41f4,0xc0000000,0);
+  if (*(int *)(work + 0x38) < 0) {
+    *(int *)(work + 0x3c) = *(int *)(work + 0x3c) + 1;
+  }
+  else {
+    *(int *)(work + 0x40) = *(int *)(work + 0x40) + 1;
+  }
+                    /* Unresolved local var: ieee80211_hw * hw@[???]
+                       Unresolved local var: mt7996_phy * phy@[???]
+                       Unresolved local var: int i@[???] */
+  uVar16 = *(undefined8 *)(work + -0x9fc8);
+  _list = &list;
+  pwVar19 = work + -0x9fb0;
+  work[0x44] = (work_struct)((byte)work[0x44] | 1);
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+  Hint_Prefetch(pwVar19,2,0,1);
+  do {
+    cVar7 = '\x01';
+    bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+    if (bVar8) {
+      *(ulong *)pwVar19 = *(ulong *)pwVar19 | 0x200;
+      cVar7 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar7 != '\0');
+  pwVar3 = work + -0x3688;
+  __wake_up(work + -0x9710,3,1,0);
+  ieee80211_stop_queues(uVar16);
+  cancel_work_sync(work + 0x968);
+                    /* Unresolved local var: int __i@[???] */
+  pwVar23 = work + -0x36a0;
+  pwVar18 = pwVar23;
+  do {
+    if (*(long **)pwVar18 != (long *)0x0) {
+      cancel_delayed_work_sync(**(long **)pwVar18 + 0x358);
+    }
+    pwVar18 = pwVar18 + 8;
+  } while (pwVar18 != pwVar3);
+  mt76_abort_scan(dev);
+  pwVar18 = work + -0x6e30;
+  mutex_lock();
+  local_4c = 0;
+                    /* Unresolved local var: mt76_dev * mdev@[???]
+                       Unresolved local var: mt7996_phy * phy@[???]
+                       Unresolved local var: int i@[???]
+                       Unresolved local var: int ret@[???] */
+  pwVar20 = work + -0x6ba8;
+  pwVar22 = work + -0x96e0;
+  pwVar15 = work + -0x6120;
+  do {
+    if (*(long *)(work + -0x35f8) != 0) {
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd8204,0);
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd8200,0xffffffff);
+    }
+    if ((*(undefined **)(*(long *)(work + -0x9760) + 0x60) == &pci_bus_type) &&
+       ((**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x74030188,0),
+       *(long *)(work + -0x35f8) != 0)) {
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x74090188,0);
+    }
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+    Hint_Prefetch(pwVar19,2,0,1);
+    do {
+      cVar7 = '\x01';
+      bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+      if (bVar8) {
+        *(ulong *)pwVar19 = *(ulong *)pwVar19 | 0x200;
+        cVar7 = ExclusiveMonitorsStatus();
+      }
+      pwVar13 = pwVar23;
+    } while (cVar7 != '\0');
+    do {
+      if (*(long **)pwVar13 != (long *)0x0) {
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+        puVar1 = (ulong *)(**(long **)pwVar13 + 0x18);
+        Hint_Prefetch(puVar1,2,0,1);
+        do {
+          cVar7 = '\x01';
+          bVar8 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+          if (bVar8) {
+            *puVar1 = *puVar1 | 0x100;
+            cVar7 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar7 != '\0');
+      }
+      pwVar13 = pwVar13 + 8;
+    } while (pwVar13 != pwVar3);
+    __wake_up(work + -0x9710,3,1,0);
+                    /* Unresolved local var: int __i@[???] */
+    pwVar13 = pwVar23;
+    do {
+      if (*(undefined8 **)pwVar13 != (undefined8 *)0x0) {
+        mt76_txq_schedule_all(**(undefined8 **)pwVar13);
+      }
+      pwVar13 = pwVar13 + 8;
+    } while (pwVar13 != pwVar3);
+    pwVar13 = pwVar22;
+    pwVar17 = pwVar20;
+    if (*(long *)(work + -0x6138) != 0) {
+      kthread_park();
+      *(undefined8 *)(work + -0x6128) = 0;
+    }
+    do {
+      while (*(int *)pwVar17 != 0) {
+        pwVar2 = pwVar13 + 0x1f0;
+        napi_disable(pwVar13);
+        pwVar13 = pwVar2;
+        pwVar17 = pwVar17 + 0x80;
+        if (pwVar2 == pwVar18) goto LAB_00116b38;
+      }
+      pwVar13 = pwVar13 + 0x1f0;
+      pwVar17 = pwVar17 + 0x80;
+    } while (pwVar13 != pwVar18);
+LAB_00116b38:
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+    lVar14 = sp_el0;
+    napi_disable(pwVar15);
+    mt7996_tx_token_put(dev);
+    *(undefined4 *)(work + -0x5f28) = 0;
+    *(undefined4 *)(work + -0x5f24) = 0x2000004;
+    *(undefined8 *)(work + -0x5f20) = 0;
+    *(undefined8 *)(work + -0x5f18) = 0;
+    mt7996_dma_reset(dev,true);
+    pwVar13 = pwVar22;
+    pwVar17 = pwVar20;
+    do {
+      while (*(int *)pwVar17 != 0) {
+        napi_enable(pwVar13);
+        *(int *)(lVar14 + 0x10) = *(int *)(lVar14 + 0x10) + 0x200;
+        uVar12 = napi_schedule_prep(pwVar13);
+        if ((uVar12 & 1) != 0) {
+          __napi_schedule(pwVar13);
+        }
+        pwVar13 = pwVar13 + 0x1f0;
+        __local_bh_enable_ip(0x116bb8,0x200);
+        pwVar17 = pwVar17 + 0x80;
+        if (pwVar13 == pwVar18) goto LAB_00116bd4;
+      }
+      pwVar13 = pwVar13 + 0x1f0;
+      pwVar17 = pwVar17 + 0x80;
+    } while (pwVar13 != pwVar18);
+LAB_00116bd4:
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+    Hint_Prefetch(pwVar19,2,0,1);
+    do {
+      cVar7 = '\x01';
+      bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+      if (bVar8) {
+        *(ulong *)pwVar19 = *(ulong *)pwVar19 & 0xfffffffffffffdff;
+        cVar7 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar7 != '\0');
+                    /* Unresolved local var: s64 result@[???]
+                       Unresolved local var: ulong tmp@[???] */
+    Hint_Prefetch(pwVar19,2,0,1);
+    do {
+      cVar7 = '\x01';
+      bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+      if (bVar8) {
+        *(ulong *)pwVar19 = *(ulong *)pwVar19 & 0xfffffffffffffff7;
+        cVar7 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar7 != '\0');
+    (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd4204,*(undefined4 *)(work + -0x375c));
+    (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd4200,0xffffffff);
+    if (*(long *)(work + -0x35f8) != 0) {
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd8204,*(undefined4 *)(work + -0x375c));
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0xd8200,0xffffffff);
+    }
+    if ((*(undefined **)(*(long *)(work + -0x9760) + 0x60) == &pci_bus_type) &&
+       ((**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x74030188,0xff),
+       *(long *)(work + -0x35f8) != 0)) {
+      (**(code **)(*(long *)(work + -0x9780) + 8))(dev,0x74090188,0xff);
+    }
+    iVar10 = mt7996_mcu_init_firmware(dev);
+    pwVar13 = pwVar23;
+    if ((iVar10 == 0) && (iVar10 = mt7996_mcu_set_eeprom(dev), iVar10 == 0)) {
+      mt7996_mac_init(dev);
+                    /* Unresolved local var: int __i@[???] */
+      pwVar17 = pwVar23;
+      do {
+        if (*(mt7996_phy **)pwVar17 != (mt7996_phy *)0x0) {
+          mt7996_init_txpower(*(mt7996_phy **)pwVar17);
+        }
+        pwVar17 = pwVar17 + 8;
+      } while (pwVar17 != pwVar3);
+      iVar11 = mt7996_txbf_init(dev);
+      pwVar17 = pwVar23;
+      iVar10 = iVar11;
+      if (iVar11 == 0) {
+        do {
+                    /* Unresolved local var: int __i@[???] */
+          phy = *(mt7996_phy **)pwVar17;
+          if (((phy != (mt7996_phy *)0x0) &&
+              (((uint)*(undefined8 *)(*(long *)phy + 0x18) >> 2 & 1) != 0)) &&
+             (iVar10 = mt7996_run(phy), iVar10 != 0)) break;
+          pwVar17 = pwVar17 + 8;
+          iVar10 = iVar11;
+        } while (pwVar17 != pwVar3);
+      }
+    }
+    do {
+      if (*(long **)pwVar13 != (long *)0x0) {
+        puVar1 = (ulong *)(**(long **)pwVar13 + 0x18);
+        Hint_Prefetch(puVar1,2,0,1);
+        do {
+          cVar7 = '\x01';
+          bVar8 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+          if (bVar8) {
+            *puVar1 = *puVar1 & 0xfffffffffffffeff;
+            cVar7 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar7 != '\0');
+      }
+      pwVar13 = pwVar13 + 8;
+    } while (pwVar13 != pwVar3);
+    napi_enable(pwVar15);
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+    lVar14 = sp_el0;
+    *(int *)(lVar14 + 0x10) = *(int *)(lVar14 + 0x10) + 0x200;
+    uVar12 = napi_schedule_prep(pwVar15);
+    if ((uVar12 & 1) != 0) {
+      __napi_schedule(pwVar15);
+    }
+    __local_bh_enable_ip(0x116d80,0x200);
+    if ((*(long *)(work + -0x6138) != 0) && (kthread_unpark(), *(long *)(work + -0x6138) != 0)) {
+                    /* Unresolved local var: long old@[???]
+                       Unresolved local var: ulong mask@[???]
+                       Unresolved local var: s64 result@[???]
+                       Unresolved local var: s64 val@[???]
+                       Unresolved local var: ulong tmp@[???] */
+      pwVar13 = work + -0x6128;
+      Hint_Prefetch(pwVar13,2,0,1);
+      do {
+        uVar12 = *(ulong *)pwVar13;
+        cVar7 = '\x01';
+        bVar8 = (bool)ExclusiveMonitorPass(pwVar13,0x10);
+        if (bVar8) {
+          *(ulong *)pwVar13 = uVar12 | 1;
+          cVar7 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar7 != '\0');
+      DataMemoryBarrier(2,3);
+      if (((uVar12 & 1) == 0) && (((uint)*(undefined8 *)(work + -0x6128) >> 1 & 1) == 0)) {
+        wake_up_process(*(undefined8 *)(work + -0x6138));
+      }
+    }
+    if (iVar10 == 0) goto LAB_00116e08;
+    local_4c = local_4c + 1;
+  } while (local_4c != 10);
+  _dev_err(*(undefined8 *)(work + -0x9760),"chip full reset failed\n");
+LAB_00116e08:
+                    /* Unresolved local var: int __i@[???] */
+  if (*(long *)(work + -0x36a0) != 0) {
+    *(undefined8 *)(*(long *)(work + -0x36a0) + 13000) = 0;
+  }
+  if (*(long *)(work + -0x3698) != 0) {
+    *(undefined8 *)(*(long *)(work + -0x3698) + 13000) = 0;
+  }
+  if (*(long *)(work + -0x3690) != 0) {
+    *(undefined8 *)(*(long *)(work + -0x3690) + 13000) = 0;
+  }
+  *(undefined8 *)(work + -0x3540) = 0;
+  *(undefined8 *)(work + -0x3538) = 0;
+  ieee80211_iterate_stations_atomic(uVar16,mt7996_mac_reset_sta_iter,dev);
+  mt76_reset_device(dev);
+  ieee80211_iterate_active_interfaces_atomic(uVar16,4,mt7996_mac_reset_vif_iter,dev);
+  *(work_struct **)(work + 0x70) = work + 0x70;
+  *(work_struct **)(work + 0x78) = work + 0x70;
+  *(work_struct **)(work + 0x80) = work + 0x80;
+  *(work_struct **)(work + 0x88) = work + 0x80;
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+  lVar14 = sp_el0;
+  *(int *)(lVar14 + 0x10) = *(int *)(lVar14 + 0x10) + 0x200;
+                    /* Unresolved local var: int val@[???]
+                       Unresolved local var: int * __po@[???]
+                       Unresolved local var: int __r@[???]
+                       Unresolved local var: int __o@[???]
+                       Unresolved local var: int __ret@[???]
+                       Unresolved local var: ulong tmp@[???]
+                       Unresolved local var: u32 oldval@[???] */
+  pwVar19 = work + 0x998;
+  Hint_Prefetch(pwVar19,2,0,1);
+  do {
+    iVar10 = *(int *)pwVar19;
+    if (iVar10 != 0) break;
+    cVar7 = '\x01';
+    bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+    if (bVar8) {
+      *(int *)pwVar19 = 1;
+      cVar7 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar7 != '\0');
+  if (iVar10 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  pwVar19 = work + 0x988;
+  if (pwVar19 != *(work_struct **)(work + 0x988)) {
+                    /* Unresolved local var: list_head * first@[DW_OP_reg3(x3)]
+                       Unresolved local var: list_head * last@[DW_OP_reg2(x2)] */
+    plVar4 = *(list_head **)(work + 0x988);
+    puVar5 = *(undefined8 **)(work + 0x990);
+    *(list_head **)(plVar4 + 8) = &list;
+    *puVar5 = _list;
+    *(undefined8 **)(_list + 8) = puVar5;
+    *(work_struct **)(work + 0x988) = pwVar19;
+    *(work_struct **)(work + 0x990) = pwVar19;
+    _list = plVar4;
+  }
+                    /* Unresolved local var: u8 * __p@[???]
+                       Unresolved local var: anon_union_0_0_00000001 __u@[???] */
+  *(undefined4 *)(work + 0x998) = 0;
+  __local_bh_enable_ip(unaff_x30,0x200);
+  if (_list != &list) {
+    do {
+                    /* Unresolved local var: mt7996_wed_rro_session_id * e@[???]
+                       Unresolved local var: void * __mptr@[DW_OP_reg19(x19)] */
+      plVar4 = _list;
+                    /* Unresolved local var: bool ret@[???]
+                       Unresolved local var: list_head * prev@[DW_OP_reg0(x0)]
+                       Unresolved local var: list_head * next@[DW_OP_reg1(x1)] */
+      lVar14 = *(long *)_list;
+      plVar21 = *(long **)(_list + 8);
+      if ((_list == (list_head *)*plVar21) && (_list == *(list_head **)(lVar14 + 8))) {
+        *(long **)(lVar14 + 8) = plVar21;
+        *plVar21 = lVar14;
+      }
+      else {
+        __list_del_entry_valid_or_report(_list);
+      }
+      *(list_head **)plVar4 = plVar4;
+      *(list_head **)(plVar4 + 8) = plVar4;
+      kfree(plVar4);
+    } while (_list != &list);
+  }
+                    /* Unresolved local var: u16 chip@[???] */
+  if (((*(uint *)(work + -0x38e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+    iVar10 = (uint)(byte)work[0x11f0] * 0x100 + 0x40;
+    iVar11 = 0x39;
+  }
+  else {
+    iVar10 = (uint)(byte)work[0x11f0] * 0x100 + 0x20;
+    iVar11 = 0x20;
+  }
+                    /* Unresolved local var: int __UNIQUE_ID_x_1066@[???]
+                       Unresolved local var: int __UNIQUE_ID_y_1067@[???] */
+  uVar9 = __mt76_wcid_alloc(work + -0x5ec4,0,(iVar10 + -1) - iVar11);
+  *(undefined2 *)(work + -0x5d78) = uVar9;
+  work[0x44] = (work_struct)((byte)work[0x44] & 0xfe);
+  mutex_unlock(work + -0x97a0);
+  ieee80211_wake_queues(*(undefined8 *)(work + -0x9fc8));
+  ieee80211_restart_hw(*(undefined8 *)(work + -0x9fc8));
+  if (*(long *)(work + -0x35f8) == 0) {
+    mt76_set_irq_mask(dev,0);
+  }
+  else {
+    mt7996_dual_hif_set_irq_mask(dev,false,0,0x20000000);
+  }
+                    /* Unresolved local var: long old@[???]
+                       Unresolved local var: ulong mask@[???]
+                       Unresolved local var: s64 result@[???]
+                       Unresolved local var: s64 val@[???]
+                       Unresolved local var: ulong tmp@[???] */
+  pwVar19 = work + -0x6c30;
+  Hint_Prefetch(pwVar19,2,0,1);
+  do {
+    uVar12 = *(ulong *)pwVar19;
+    cVar7 = '\x01';
+    bVar8 = (bool)ExclusiveMonitorPass(pwVar19,0x10);
+    if (bVar8) {
+      *(ulong *)pwVar19 = uVar12 | 1;
+      cVar7 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar7 != '\0');
+  DataMemoryBarrier(2,3);
+  if ((uVar12 & 1) == 0) {
+    __tasklet_schedule();
+    lVar14 = *(long *)(work + -0x35f8);
+  }
+  else {
+    lVar14 = *(long *)(work + -0x35f8);
+  }
+  if (lVar14 == 0) {
+    mt76_set_irq_mask(dev,0xd4204,0,0);
+  }
+  else {
+    mt7996_dual_hif_set_irq_mask(dev,true,0,0);
+  }
+  (**(code **)(*(long *)(work + -0x9780) + 0x10))(dev,0xd41f4,0,0xc0000000);
+  *(undefined4 *)(work + 0x38) = 0x20;
+  work[0x44] = (work_struct)((byte)work[0x44] & 0xfb);
+  return;
+}
+
+
+
+FUNCTION __mt7996_npu_hw_init @ 0011bcc0
+XREF Entry Point EXTERNAL
+XREF 0011cc20 UNCONDITIONAL_CALL
+XREF 00117450 UNCONDITIONAL_CALL
+decompiled=true
+
+int __mt7996_npu_hw_init(mt7996_dev *dev)
+
+{
+  u32 uVar1;
+  bool bVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  int iVar6;
+  uint uVar7;
+  long lVar8;
+  long lVar9;
+  mt7996_dev *pmVar10;
+  u32 *puVar11;
+  undefined8 uVar12;
+  u32 val_2;
+  u32 val;
+  u32 val_1;
+  int iStack_4;
+  
+                    /* Unresolved local var: airoha_npu * npu@[???]
+                       Unresolved local var: int i@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+  lVar9 = *(long *)(dev + 0x68b8);
+  if (lVar9 == 0) {
+LAB_0011c5d0:
+    iVar4 = 0;
+  }
+  else {
+                    /* Unresolved local var: int err@[DW_OP_reg22(x22)] */
+    iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,0,10,&val,4,0xcc0);
+    if (iVar3 != 0) {
+      _dev_warn(*(undefined8 *)(dev + 0x868),"failed getting NPU fw version\n");
+      return iVar3;
+    }
+    _dev_info(*(undefined8 *)(dev + 0x868),"NPU version: %0d.%d\n",val >> 0x10,val & 0xffff);
+    val_1 = *(u32 *)(dev + 0x68c8);
+    iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,0,0xe,&val_1,4,0xcc0);
+    if (iVar3 != 0) {
+      _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan PCIe port type\n");
+      return iVar3;
+    }
+                    /* Unresolved local var: u16 chip@[???] */
+                    /* Unresolved local var: u32 hif1_ofs@[???]
+                       Unresolved local var: phys_addr_t phy_addr@[???]
+                       Unresolved local var: u32 dma_addr@[???]
+                       Unresolved local var: int err@[???] */
+    iVar3 = (uint)(*(long *)(dev + 0x69d0) != 0) * 0x4000;
+    iVar6 = (int)*(undefined8 *)(dev + 0x68c0);
+    if (1 < ((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff)) {
+                    /* Unresolved local var: u32 hif1_ofs@[???]
+                       Unresolved local var: phys_addr_t phy_addr@[???]
+                       Unresolved local var: u32 dma_addr@[???]
+                       Unresolved local var: int i@[DW_OP_reg20(x20)]
+                       Unresolved local var: int err@[???] */
+      iVar4 = 0;
+      do {
+        val_1 = 0x600;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,iVar4,1,&val_1,4,0xcc0);
+        if (iVar5 != 0) goto LAB_0011c644;
+        bVar2 = (*(uint *)(dev + 0x6a80) & 0x1000000) != 0;
+        if (iVar4 != 0) {
+          iVar4 = 0xd4450;
+          if (bVar2) {
+            iVar4 = 0xd5450;
+          }
+          val_1 = iVar4 + iVar3 + iVar6;
+          iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,1,0x13,&val_1,4,0xcc0);
+          if (iVar5 == 0) {
+            val_1 = iVar6 + 0xa650;
+            iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,9,0,&val_1,4,0xcc0);
+            if (iVar3 != 0) {
+              _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan rxdmad_c addr\n");
+              return iVar3;
+            }
+            val_1 = 0x600;
+            iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,9,1,&val_1,4,0xcc0);
+            if (iVar3 != 0) {
+              _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan rxdmad_c desc size\n")
+              ;
+              return iVar3;
+            }
+            val_1 = iVar6 + 0xa050;
+            iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,2,0x13,&val_1,4,0xcc0);
+            goto joined_r0x0011c804;
+          }
+          break;
+        }
+        iVar4 = 0xd4420;
+        if (bVar2) {
+          iVar4 = 0xd5420;
+        }
+        val_1 = iVar4 + iVar6;
+        iVar4 = 1;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,0,0x13,&val_1,4,0xcc0);
+      } while (iVar5 == 0);
+      goto LAB_0011c6d4;
+    }
+    val_1 = 0x600;
+    iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,0,1,&val_1,4,0xcc0);
+    if (iVar4 == 0) {
+      val_1 = 0x400;
+      iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,2,1,&val_1,4,0xcc0);
+      if (iVar4 == 0) {
+        iVar4 = 0xd4500;
+        if ((*(uint *)(dev + 0x6a80) & 0x4000) != 0) {
+          iVar4 = 0xd5500;
+        }
+        val_1 = iVar6 + 0xa0 + iVar4;
+        iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,5,0,&val_1,4,0xcc0);
+        if (iVar4 != 0) {
+LAB_0011c774:
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan PCIe desc addr\n");
+          return iVar4;
+        }
+        val_1 = 0x100;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,5,1,&val_1,4,0xcc0);
+        if (iVar5 != 0) {
+LAB_0011c644:
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan rx desc size\n");
+          return iVar5;
+        }
+        iVar4 = 0xd4500;
+        if ((*(uint *)(dev + 0x6a80) & 0x8000) != 0) {
+          iVar4 = 0xd5500;
+        }
+        val_1 = iVar6 + 0xb0 + iVar4;
+        iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,6,0,&val_1,4,0xcc0);
+        if (iVar4 != 0) goto LAB_0011c774;
+        val_1 = 0x200;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,6,1,&val_1,4,0xcc0);
+        if (iVar5 != 0) goto LAB_0011c644;
+        iVar4 = 0xd4500;
+        if ((*(uint *)(dev + 0x6a80) & 0x10000) != 0) {
+          iVar4 = 0xd5500;
+        }
+        val_1 = iVar6 + 0xc0 + iVar4;
+        iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,7,0,&val_1,4,0xcc0);
+        if (iVar4 != 0) goto LAB_0011c774;
+        val_1 = 0x400;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,7,1,&val_1,4,0xcc0);
+        if (iVar5 != 0) goto LAB_0011c644;
+        val_1 = iVar6 + 0xa040;
+        iVar4 = (**(code **)(lVar9 + 0x260))(lVar9,8,0,&val_1,4,0xcc0);
+        if (iVar4 != 0) goto LAB_0011c774;
+        val_1 = 0x600;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,8,1,&val_1,4,0xcc0);
+        if (iVar5 != 0) goto LAB_0011c644;
+        val_1 = iVar6 + 0xa050;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,3,0x13,&val_1,4,0xcc0);
+        if (iVar5 != 0) {
+LAB_0011c6d4:
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan tx desc addr\n");
+          return iVar5;
+        }
+        iVar4 = 0xd4300;
+        if ((*(uint *)(dev + 0x6a80) & 0x2000000) != 0) {
+          iVar4 = 0xd5300;
+        }
+        val_1 = iVar6 + 0x120 + iVar4;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,0,0x13,&val_1,4,0xcc0);
+        if (iVar5 != 0) goto LAB_0011c6d4;
+        iVar4 = 0xd4300;
+        if ((*(uint *)(dev + 0x6a80) & 0x1000000) != 0) {
+          iVar4 = 0xd5300;
+        }
+        val_1 = iVar4 + iVar3 + iVar6 + 0x150;
+        iVar5 = (**(code **)(lVar9 + 0x260))(lVar9,2,0x13,&val_1,4,0xcc0);
+joined_r0x0011c804:
+        if (iVar5 != 0) goto LAB_0011c6d4;
+        val_1 = 0x2000;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,0,0x21,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          return iVar3;
+        }
+                    /* Unresolved local var: u16 chip@[???] */
+        *(undefined2 *)(dev + 0x40bc) = 0x2000;
+                    /* Unresolved local var: int err@[???] */
+        if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+          iVar3 = (**(code **)(lVar9 + 0x268))();
+          if (iVar3 == 0) {
+            DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+            **(u32 **)(dev + 0x37f0) = val_1;
+            iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,2,4,&val_1,4,0xcc0);
+            if (iVar3 == 0) {
+              DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+              **(u32 **)(dev + 0x38f0) = val_1;
+              iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,10,4,&val_1,4,0xcc0);
+              if (iVar3 == 0) {
+                DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+                **(u32 **)(dev + 0x3970) = val_1;
+                iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,0xb,4,&val_1,4,0xcc0);
+                if (iVar3 == 0) {
+                  DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+                  **(u32 **)(dev + 0x39f0) = val_1;
+                  iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,0xc,4,&val_1,4,0xcc0);
+                  if (iVar3 == 0) {
+                    DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+                    **(u32 **)(dev + 0x3a70) = val_1;
+                    iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,8,4,&val_1,4,0xcc0);
+                    if (iVar3 == 0) {
+                      DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+                      **(u32 **)(dev + 0x3c70) = val_1;
+                      goto LAB_0011c234;
+                    }
+                    _dev_warn(*(undefined8 *)(dev + 0x868),
+                              "failed retriving NPU wlan ind_cmd ring addr\n");
+                    goto joined_r0x0011c884;
+                  }
+                }
+              }
+              _dev_warn(*(undefined8 *)(dev + 0x868),"failed retriving NPU wlan msdu pg ring addr\n"
+                       );
+            }
+            else {
+              _dev_warn(*(undefined8 *)(dev + 0x868),"failed retriving NPU wlan rx ring2 addr\n");
+            }
+          }
+          else {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed retriving NPU wlan rx ring0 addr\n");
+          }
+joined_r0x0011c884:
+          if (iVar3 != 0) {
+            return iVar3;
+          }
+        }
+        else {
+                    /* Unresolved local var: int err@[???] */
+          iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,0,4,&val_1,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed retrieving NPU wlan rx ring0 addr\n");
+            goto joined_r0x0011c884;
+          }
+          DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+          **(u32 **)(dev + 0x37f0) = val_1;
+          iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,1,4,&val_1,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed retrieving NPU wlan rx ring1 addr\n");
+            goto joined_r0x0011c884;
+          }
+          DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+          **(u32 **)(dev + 0x3870) = val_1;
+          iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,9,4,&val_1,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed retrieving NPU wlan rxdmad_c ring addr\n"
+                     );
+            goto joined_r0x0011c884;
+          }
+          DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+          **(u32 **)(dev + 0x3cf0) = val_1;
+        }
+LAB_0011c234:
+                    /* Unresolved local var: int i@[???]
+                       Unresolved local var: int index@[???] */
+        pmVar10 = dev + 0xb168;
+                    /* Unresolved local var: u16 chip@[???] */
+        puVar11 = &val_1;
+        val_1 = 0;
+        iStack_4 = (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) + 1;
+        do {
+                    /* Unresolved local var: int err@[???]
+                       Unresolved local var: int band@[DW_OP_reg27(x27)]
+                       Unresolved local var: int phy_id@[???] */
+          uVar1 = *puVar11;
+          iVar3 = (**(code **)(lVar9 + 0x268))(lVar9,uVar1 + 5,4,&val_2,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed retrieving NPU wlan tx ring addr\n");
+            return iVar3;
+          }
+                    /* Unresolved local var: u16 chip@[???] */
+          uVar7 = uVar1;
+          if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+            uVar7 = (uint)(uVar1 == 0);
+          }
+          DataMemoryBarrier(0,2);
+                    /* Unresolved local var: u32 * ptr@[???] */
+          *(u32 *)**(undefined8 **)(*(long *)(dev + (long)(int)uVar7 * 8 + 0x790) + 0x40) = val_2;
+          val = (u32)*(undefined8 *)pmVar10;
+          iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,uVar1,0x15,&val,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan queue buf addr\n");
+            return iVar3;
+          }
+          val = (u32)*(undefined8 *)(pmVar10 + 8);
+          iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,uVar1 + 5,0x15,&val,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan tx buf addr\n");
+            return iVar3;
+          }
+          val = (u32)*(undefined8 *)(pmVar10 + 0x10);
+          iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,uVar1 + 10,0x15,&val,4,0xcc0);
+          if (iVar3 != 0) {
+            _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan tx buf base\n");
+            return iVar3;
+          }
+          pmVar10 = pmVar10 + 0x18;
+          puVar11 = puVar11 + 1;
+        } while (dev + 0xb198 != pmVar10);
+                    /* Unresolved local var: int qid@[???]
+                       Unresolved local var: phys_addr_t phy_addr@[???]
+                       Unresolved local var: mt76_queue * q@[???]
+                       Unresolved local var: int err@[???]
+                       Unresolved local var: u16 chip@[???] */
+        uVar12 = *(undefined8 *)(dev + 0x68c0);
+        uVar7 = 5;
+        if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+          uVar7 = 0xe;
+        }
+        val_1 = (u32)*(undefined8 *)(dev + (ulong)uVar7 * 0x80 + 0x3458);
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,0,0x16,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan tx-done ring\n");
+          return iVar3;
+        }
+        val_1 = 0x200;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,10,1,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan descriptors\n");
+          return iVar3;
+        }
+                    /* Unresolved local var: u16 chip@[???] */
+        iVar3 = 0xd4500;
+        if ((*(uint *)(dev + 0x6a80) >> (ulong)(uVar7 + 3) & 1) != 0) {
+          iVar3 = 0xd5500;
+        }
+        iVar6 = 0x20;
+        if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+          iVar6 = 0x90;
+        }
+        val_1 = (int)uVar12 + iVar3 + iVar6;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,10,0,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan rx pcie address\n");
+          return iVar3;
+        }
+                    /* Unresolved local var: u32 hif1_ofs@[???]
+                       Unresolved local var: dma_addr_t dma_addr@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+        lVar8 = *(long *)(dev + 0x69d0);
+        iVar3 = 0xd4580;
+        if ((*(uint *)(dev + 0x6a80) & 0x800) != 0) {
+          iVar3 = 0xd5580;
+        }
+        val_1 = (int)*(undefined8 *)(dev + 0x68c0) + iVar3;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,0,0,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+LAB_0011ca3c:
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan PCIe desc addr\n");
+          return iVar3;
+        }
+                    /* Unresolved local var: u16 chip@[???] */
+        iVar3 = (int)*(undefined8 *)(dev + 0x68c0) + (uint)(lVar8 != 0) * 0x4000;
+        if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+          iVar6 = 0xd4560;
+          if ((*(uint *)(dev + 0x6a80) & 0x2000) != 0) {
+            iVar6 = 0xd5560;
+          }
+          val_1 = iVar3 + iVar6;
+          iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,2,0,&val_1,4,0xcc0);
+        }
+        else {
+          iVar6 = 0xd4590;
+          if ((*(uint *)(dev + 0x6a80) & 0x1000) != 0) {
+            iVar6 = 0xd5590;
+          }
+          val_1 = iVar3 + iVar6;
+          iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,1,0,&val_1,4,0xcc0);
+        }
+        if (iVar3 != 0) goto LAB_0011ca3c;
+                    /* Unresolved local var: int err@[???] */
+        val_1 = 0;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,0xf,0,&val_1,4,0xcc0);
+        if (iVar3 != 0) goto LAB_0011ca3c;
+        val_1 = 0;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,2,0x18,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan txrx addr2\n");
+          return iVar3;
+        }
+        val_1 = 0;
+        iVar3 = (**(code **)(lVar9 + 0x260))(lVar9,7,0x18,&val_1,4,0xcc0);
+        if (iVar3 != 0) {
+          _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan txrx addr7\n");
+          return iVar3;
+        }
+        (**(code **)(lVar9 + 0x288))(lVar9,0);
+        (**(code **)(lVar9 + 0x288))(lVar9,1);
+        goto LAB_0011c5d0;
+      }
+    }
+    _dev_warn(*(undefined8 *)(dev + 0x868),"failed setting NPU wlan rx desc size\n");
+  }
+  return iVar4;
+}
+
+
+
+FUNCTION mt7996_npu_hw_init @ 0011cae0
+XREF Entry Point EXTERNAL
+XREF 00102d70 UNCONDITIONAL_CALL
+decompiled=true
+
+int mt7996_npu_hw_init(mt7996_dev *dev)
+
+{
+  undefined8 uVar1;
+  int iVar2;
+  long lVar3;
+  
+                    /* Unresolved local var: int i@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+  iVar2 = 0;
+                    /* Unresolved local var: airoha_npu * __UNIQUE_ID_rcu994@[???] */
+  if ((*(int *)(*(long *)(dev + 0x848) + 0x38) == 0) && (iVar2 = 0, *(long *)(dev + 0x68b8) != 0)) {
+                    /* Unresolved local var: int band@[???]
+                       Unresolved local var: u32 size@[???] */
+                    /* Unresolved local var: u16 chip@[???] */
+    uVar1 = 0x20000;
+    if (1 < ((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff)) {
+      uVar1 = 0x80000;
+    }
+    lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),uVar1,dev + 0xb168,0xcc0,0);
+    if (((lVar3 != 0) &&
+        (lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),uVar1,dev + 0xb170,0xcc0,0),
+        lVar3 != 0)) &&
+       (lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),0x40000,dev + 0xb178,0xcc0,0),
+       lVar3 != 0)) {
+      uVar1 = 0x80000;
+      if (((*(uint *)(dev + 0x66e4) >> 0x10) - 0x7990 & 0xffff) < 2) {
+        uVar1 = 0x40000;
+      }
+      lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),uVar1,dev + 0xb180,0xcc0,0);
+      if (((lVar3 != 0) &&
+          (lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),uVar1,dev + 0xb188,0xcc0,0),
+          lVar3 != 0)) &&
+         (lVar3 = dmam_alloc_attrs(*(undefined8 *)(dev + 0x870),0x40000,dev + 0xb190,0xcc0,0),
+         lVar3 != 0)) {
+        mutex_lock(dev + 0x828);
+        iVar2 = __mt7996_npu_hw_init(dev);
+        mutex_unlock(dev + 0x828);
+        return iVar2;
+      }
+    }
+    iVar2 = -0xc;
+  }
+  return iVar2;
+}
+
+
+
+FUNCTION mt7996_npu_hw_stop @ 0011cc60
+XREF Entry Point EXTERNAL
+XREF 00117214 UNCONDITIONAL_CALL
+decompiled=true
+
+int mt7996_npu_hw_stop(mt7996_dev *dev)
+
+{
+  mt7996_dev *pmVar1;
+  int iVar2;
+  int iVar3;
+  long lVar4;
+  u32 info;
+  undefined4 local_4;
+  
+                    /* Unresolved local var: airoha_npu * npu@[???]
+                       Unresolved local var: int i@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+  pmVar1 = dev + 0x828;
+  mutex_lock(pmVar1);
+  lVar4 = *(long *)(dev + 0x68b8);
+  if (lVar4 == 0) {
+    mutex_unlock(pmVar1);
+    return 0;
+  }
+  local_4 = 0;
+  iVar2 = (**(code **)(lVar4 + 0x260))(lVar4,4,0x18,&local_4,4,0xcc0);
+  if (iVar2 == 0) {
+    iVar2 = 10;
+    do {
+      iVar3 = (**(code **)(lVar4 + 0x268))(lVar4,3,0,&info,4,0xcc0);
+      if (iVar3 == 0 && info == 0) {
+        local_4 = 0;
+        iVar2 = (**(code **)(lVar4 + 0x260))(lVar4,6,0x18,&local_4,4,0xcc0);
+        mutex_unlock(pmVar1);
+        return iVar2;
+      }
+      usleep_range_state(10000,15000,2);
+      iVar2 = iVar2 + -1;
+    } while (iVar2 != 0);
+    iVar2 = -0x6e;
+    _dev_err(*(undefined8 *)(dev + 0x868),"npu stop failed\n");
+  }
+  mutex_unlock(pmVar1);
+  return iVar2;
+}
+
+
+
+total_defined_functions=314
+selected_functions=5
+failed_decompilations=0

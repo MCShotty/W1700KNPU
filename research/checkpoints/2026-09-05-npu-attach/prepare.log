@@ -1,0 +1,33 @@
+WARNING: Makefile 'package/feeds/packages/bmx7-dnsupdate/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/packages/bmx7-dnsupdate/Makefile' has a dependency on 'bmx7-json', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-babeld/Makefile' has a dependency on 'babeld', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-uci-config', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-json', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-tun', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-iwinfo', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-dcwapd/Makefile' has a dependency on 'dcwapd', which does not exist
+WARNING: Makefile 'package/feeds/packages/prometheus-node-exporter-lua/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/packages/prometheus-node-exporter-lua/Makefile' has a dependency on 'bmx7-json', which does not exist
+make[2]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/scripts/config'
+make[1]: Entering directory '/home/captain/W1700KNPU/.build/openwrt'
+make[2]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/package/kernel/mt76'
+touch /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791/.prepared_9ef101cfde567dbb618f860859060181_6664517399ebbbc92a37c5bb081b5c53_check
+. /home/captain/W1700KNPU/.build/openwrt/include/shell.sh; zstdcat /home/captain/W1700KNPU/.build/openwrt/dl/mt76-2026.09.01~be5ce791.tar.zst | tar -C /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791/.. -xf -
+find /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791 -mindepth 1 -type f -not -name '.*' -not -name 'version.date' -printf '%T@\n' 2>/dev/null | cut -d. -f1 | sort -n | tail -n1 > /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791/version.date
+[ ! -d ./src/ ] || cp -fpR ./src/. /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791
+
+Applying /home/captain/W1700KNPU/.build/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch using plaintext: 
+patching file mt7996/debugfs.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch using plaintext: 
+patching file mt7996/debugfs.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch using plaintext: 
+patching file mt7996/npu.c
+touch /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~be5ce791/.prepared_9ef101cfde567dbb618f860859060181_6664517399ebbbc92a37c5bb081b5c53
+make[2]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/package/kernel/mt76'
+time: package/kernel/mt76/prepare#0.69#0.54#1.56
+make[1]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt'

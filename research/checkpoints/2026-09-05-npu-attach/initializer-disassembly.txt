@@ -1,0 +1,120 @@
+
+.local/npu-attach/artifacts/npu-enabled/mt7996e.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .plt:
+
+Disassembly of section .text.ftrace_trampoline:
+
+Disassembly of section .text:
+
+000000000001ca20 <mt7996_npu_hw_init>:
+   1ca20:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+   1ca24:	910003fd 	mov	x29, sp
+   1ca28:	a90153f3 	stp	x19, x20, [sp, #16]
+   1ca2c:	aa0003f3 	mov	x19, x0
+   1ca30:	52800014 	mov	w20, #0x0                   	// #0
+   1ca34:	f9442400 	ldr	x0, [x0, #2120]
+   1ca38:	b9403800 	ldr	w0, [x0, #56]
+   1ca3c:	350009e0 	cbnz	w0, 1cb78 <mt7996_npu_hw_init+0x158>
+   1ca40:	f9745e60 	ldr	x0, [x19, #26808]
+   1ca44:	52800014 	mov	w20, #0x0                   	// #0
+   1ca48:	b4000980 	cbz	x0, 1cb78 <mt7996_npu_hw_init+0x158>
+   1ca4c:	f9001bf7 	str	x23, [sp, #48]
+   1ca50:	91401277 	add	x23, x19, #0x4, lsl #12
+   1ca54:	a9025bf5 	stp	x21, x22, [sp, #32]
+   1ca58:	128f31f6 	mov	w22, #0xffff8670            	// #-31120
+   1ca5c:	d2962d08 	mov	x8, #0xb168                	// #45416
+   1ca60:	b966e6e5 	ldr	w5, [x23, #9956]
+   1ca64:	d2a00055 	mov	x21, #0x20000               	// #131072
+   1ca68:	f9443a60 	ldr	x0, [x19, #2160]
+   1ca6c:	d2a00114 	mov	x20, #0x80000               	// #524288
+   1ca70:	0b4542c5 	add	w5, w22, w5, lsr #16
+   1ca74:	8b080262 	add	x2, x19, x8
+   1ca78:	12003ca5 	and	w5, w5, #0xffff
+   1ca7c:	d2800004 	mov	x4, #0x0                   	// #0
+   1ca80:	710008bf 	cmp	w5, #0x2
+   1ca84:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1ca88:	9a9432b5 	csel	x21, x21, x20, cc	// cc = lo, ul, last
+   1ca8c:	aa1503e1 	mov	x1, x21
+   1ca90:	94000000 	bl	0 <dmam_alloc_attrs>
+			1ca90: R_AARCH64_CALL26	dmam_alloc_attrs
+   1ca94:	b40007a0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1ca98:	f9443a60 	ldr	x0, [x19, #2160]
+   1ca9c:	d2962e07 	mov	x7, #0xb170                	// #45424
+   1caa0:	aa1503e1 	mov	x1, x21
+   1caa4:	8b070262 	add	x2, x19, x7
+   1caa8:	d2800004 	mov	x4, #0x0                   	// #0
+   1caac:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1cab0:	94000000 	bl	0 <dmam_alloc_attrs>
+			1cab0: R_AARCH64_CALL26	dmam_alloc_attrs
+   1cab4:	b40006a0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1cab8:	f9443a60 	ldr	x0, [x19, #2160]
+   1cabc:	d2962f06 	mov	x6, #0xb178                	// #45432
+   1cac0:	d2800004 	mov	x4, #0x0                   	// #0
+   1cac4:	8b060262 	add	x2, x19, x6
+   1cac8:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1cacc:	d2a00081 	mov	x1, #0x40000               	// #262144
+   1cad0:	94000000 	bl	0 <dmam_alloc_attrs>
+			1cad0: R_AARCH64_CALL26	dmam_alloc_attrs
+   1cad4:	b40005a0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1cad8:	b966e6e1 	ldr	w1, [x23, #9956]
+   1cadc:	d2963005 	mov	x5, #0xb180                	// #45440
+   1cae0:	f9443a60 	ldr	x0, [x19, #2160]
+   1cae4:	d2a00095 	mov	x21, #0x40000               	// #262144
+   1cae8:	0b4142c1 	add	w1, w22, w1, lsr #16
+   1caec:	8b050262 	add	x2, x19, x5
+   1caf0:	12003c21 	and	w1, w1, #0xffff
+   1caf4:	d2800004 	mov	x4, #0x0                   	// #0
+   1caf8:	7100043f 	cmp	w1, #0x1
+   1cafc:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1cb00:	9a958294 	csel	x20, x20, x21, hi	// hi = pmore
+   1cb04:	aa1403e1 	mov	x1, x20
+   1cb08:	94000000 	bl	0 <dmam_alloc_attrs>
+			1cb08: R_AARCH64_CALL26	dmam_alloc_attrs
+   1cb0c:	b40003e0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1cb10:	f9443a60 	ldr	x0, [x19, #2160]
+   1cb14:	d2963102 	mov	x2, #0xb188                	// #45448
+   1cb18:	aa1403e1 	mov	x1, x20
+   1cb1c:	8b020262 	add	x2, x19, x2
+   1cb20:	d2800004 	mov	x4, #0x0                   	// #0
+   1cb24:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1cb28:	94000000 	bl	0 <dmam_alloc_attrs>
+			1cb28: R_AARCH64_CALL26	dmam_alloc_attrs
+   1cb2c:	b40002e0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1cb30:	d2963200 	mov	x0, #0xb190                	// #45456
+   1cb34:	8b000262 	add	x2, x19, x0
+   1cb38:	f9443a60 	ldr	x0, [x19, #2160]
+   1cb3c:	aa1503e1 	mov	x1, x21
+   1cb40:	d2800004 	mov	x4, #0x0                   	// #0
+   1cb44:	52819803 	mov	w3, #0xcc0                 	// #3264
+   1cb48:	94000000 	bl	0 <dmam_alloc_attrs>
+			1cb48: R_AARCH64_CALL26	dmam_alloc_attrs
+   1cb4c:	b40001e0 	cbz	x0, 1cb88 <mt7996_npu_hw_init+0x168>
+   1cb50:	9120a275 	add	x21, x19, #0x828
+   1cb54:	aa1503e0 	mov	x0, x21
+   1cb58:	94000000 	bl	0 <mutex_lock>
+			1cb58: R_AARCH64_CALL26	mutex_lock
+   1cb5c:	aa1303e0 	mov	x0, x19
+   1cb60:	94000000 	bl	1bc00 <__mt7996_npu_hw_init>
+			1cb60: R_AARCH64_CALL26	__mt7996_npu_hw_init
+   1cb64:	2a0003f4 	mov	w20, w0
+   1cb68:	aa1503e0 	mov	x0, x21
+   1cb6c:	94000000 	bl	0 <mutex_unlock>
+			1cb6c: R_AARCH64_CALL26	mutex_unlock
+   1cb70:	a9425bf5 	ldp	x21, x22, [sp, #32]
+   1cb74:	f9401bf7 	ldr	x23, [sp, #48]
+   1cb78:	2a1403e0 	mov	w0, w20
+   1cb7c:	a94153f3 	ldp	x19, x20, [sp, #16]
+   1cb80:	a8c47bfd 	ldp	x29, x30, [sp], #64
+   1cb84:	d65f03c0 	ret
+   1cb88:	f9401bf7 	ldr	x23, [sp, #48]
+   1cb8c:	12800174 	mov	w20, #0xfffffff4            	// #-12
+   1cb90:	a9425bf5 	ldp	x21, x22, [sp, #32]
+   1cb94:	17fffff9 	b	1cb78 <mt7996_npu_hw_init+0x158>
+
+Disassembly of section .text.unlikely:
+
+Disassembly of section .init.text:
+
+Disassembly of section .exit.text:

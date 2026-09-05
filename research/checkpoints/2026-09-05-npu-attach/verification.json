@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "ghidra": [
+    {
+      "program": "stock_hostadpt.ko",
+      "sha256": "eef9e68ff3c7ef603ac36506dfdd0db832ad55cd3e17b709f46087ab9deba261",
+      "selected_functions": 27,
+      "initialized_executable_functions": 27
+    },
+    {
+      "program": "stock_npu.ko",
+      "sha256": "fecef1a24531765da1243de773ee7e9bb5b20ff47f1ad3b3736e1f09e9db088e",
+      "selected_functions": 21,
+      "initialized_executable_functions": 21
+    },
+    {
+      "program": "mt7996e.ko",
+      "sha256": "be33d682b39be9940bc858bcd100b95cdb445658537b98bd9dc3cdf49b1e7738",
+      "selected_functions": 5,
+      "initialized_executable_functions": 314
+    }
+  ],
+  "analysis": "Full auto-analysis preceded exports; synthetic EXTERNAL stubs excluded",
+  "binary_initializer_guard_reviewed": true,
+  "decompiler_limits": "Optimized DWARF locations partly unresolved; source/assembly cross-checks required",
+  "recovery": "L1 unchecked returns and full-reset pre-quiescence token release remain unresolved",
+  "tests": {
+    "passed": true,
+    "cases": 20,
+    "test_type": "compiled actual C body with fault-injected stubs",
+    "source_sha256": "f02712c754b2f4c85ed8b5bbcf06576da774a07d68c3266492202bee8beec04d",
+    "preimage_sha256": "d70dc1953576c134c8732edb92efd2a8d18e5dbba35435cb230f98ce448b6b5e",
+    "unpatched_negative_control": "FAIL attached=0 chip7996=0 fail=0 result=0 allocations=6 expected=0",
+    "fixed_result": "PASS cases=20 mt7996_bytes=1310720 mt7992_bytes=2621440",
+    "limits": "Not kernel runtime, provider concurrency, DMA ownership or recovery certification"
+  },
+  "module_checks": true
+}

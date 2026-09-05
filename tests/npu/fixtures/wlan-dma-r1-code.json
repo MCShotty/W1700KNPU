@@ -1,0 +1,33 @@
+{
+  "basis": "Retained Ghidra-audited WLAN-DMA baseline used for Daybreak21 R1; equality verified before freezing fixture",
+  "modules": {
+    "mt76.ko": {
+      "original_elf_sha256": "38504280d5cd32c12fc6e2ddb8212fb50fa70e58e055a2323c63b1f0975774af",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "a9c0d3ed2c7b72c6dd1f3d9139da507c6945522753689e3c1af55c4eff3750db"
+      }
+    },
+    "mt76-connac-lib.ko": {
+      "original_elf_sha256": "5b78a8b25f386798cf6bb373df8564f202f06ee8f242af1dac62985e8aa78c9e",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+        ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+      }
+    },
+    "mt7996e.ko": {
+      "original_elf_sha256": "64c972c36246bd53d60406aed16eae4f423ac5966a2cad51a91b133d5afc0bd3",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "ff8da133dd3067b03bb1926e4b9b06f7641e026db6a0868d5d46b512062e432d",
+        ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+        ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+        ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+      }
+    }
+  }
+}

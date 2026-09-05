@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify cumulative patches using temporary Git indexes, without source edits."""
 import hashlib
+import argparse
 import json
 import os
 from pathlib import Path
@@ -27,7 +28,12 @@ for label, source in [('openwrt', SOURCE), ('luci', SOURCE / 'feeds/luci')]:
         results.append({'component': label, 'base': lock[label]['base'],
                         'tracked_patched_tree': git('write-tree').decode().strip(),
                         'changed_files_verified': len(lock[label]['changed_files']), 'passed': True})
-path = ROOT / 'docs/migration/source-export-verification.json'
+parser = argparse.ArgumentParser()
+parser.add_argument('--output', type=Path, default=ROOT / 'docs/migration/source-export-verification.json')
+args = parser.parse_args()
+path = args.output.resolve()
+if not path.is_relative_to(ROOT):
+    raise RuntimeError('Verification report must remain in the canonical workspace')
 path.parent.mkdir(parents=True, exist_ok=True)
 path.write_text(json.dumps(results, indent=2) + '\n')
 print(json.dumps(results, indent=2))

@@ -1,0 +1,25 @@
+From: W1700K local firmware work
+Subject: [PATCH] wifi: mt76: mt7996: skip NPU buffers without an attached provider
+
+Early Airoha provider attachment may fail and leave the device using normal
+DMA. The outer NPU initializer still allocates six coherent buffers before
+the inner initializer notices the absent provider. Avoid the unused
+allocation and a possible -ENOMEM probe failure on that normal-DMA path.
+
+This does not implement rollback after attached-provider initialization
+failure.
+
+---
+
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -560,6 +560,9 @@ int mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
+ 	int i, err;
+ 
++	if (!mt76_npu_device_active(&dev->mt76))
++		return 0;
++
+ 	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {

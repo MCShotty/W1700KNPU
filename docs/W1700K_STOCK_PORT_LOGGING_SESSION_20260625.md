@@ -6065,3 +6065,22 @@ release checksum files pass. Exact receipts: `docs/migration/`.
 
 No router access/configuration/flash or firmware behavior changes in this task.
 Stock parity and real-client/throughput acceptance remain unfinished.
+
+## NPU Provider Guard - 2026-09-05
+
+Resumed in the canonical workspace. Implemented patch 003 to skip six coherent
+allocations when no Airoha provider attached. Twenty compiled-C cases and an
+unpatched negative control pass; enabled and disabled real module builds pass.
+Normal config and baseline executable sections remain unchanged. No image or
+live configuration/module update was made.
+
+Headless Ghidra analyzed the stock host-adapter/NPU and rebuilt enabled driver,
+with 53 SHA-bound lifecycle exports. Source/ELF analysis confirms the unresolved
+L1 error-discard path and full-reset token release before NPU quiescence. Stock
+exit hooks do not prove a complete drain contract. The next implementation must
+cover L1, full reset and removal, not just two unchecked returns.
+
+Pinned Ethernet-only router readback confirms the W1700K on 6.18.44, WLAN NPU
+compiled out and healthy memory. Detailed evidence, warnings, scope boundaries
+and next gates: `research/checkpoints/2026-09-05-npu-attach/REPORT.md`. Ledger and
+current reference updated; both goals remain unfinished.

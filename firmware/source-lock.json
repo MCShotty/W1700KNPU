@@ -1,6 +1,7 @@
 {
   "schema": 1,
-  "snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
+  "snapshot": "post-Daybreak21-R1-NPU-detached-init-20260905",
+  "last_router_tested_snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
   "openwrt": {
     "url": "https://github.com/openwrt/openwrt.git",
     "base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
@@ -20,6 +21,11 @@
         "path": "package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
         "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
         "mode": "0o755"
+      },
+      {
+        "path": "package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
+        "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+        "mode": "0o644"
       },
       {
         "path": "package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh",

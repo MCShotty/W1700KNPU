@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "cases": 20,
+  "test_type": "compiled actual C body with fault-injected stubs",
+  "source_sha256": "f02712c754b2f4c85ed8b5bbcf06576da774a07d68c3266492202bee8beec04d",
+  "preimage_sha256": "d70dc1953576c134c8732edb92efd2a8d18e5dbba35435cb230f98ce448b6b5e",
+  "unpatched_negative_control": "FAIL attached=0 chip7996=0 fail=0 result=0 allocations=6 expected=0",
+  "fixed_result": "PASS cases=20 mt7996_bytes=1310720 mt7992_bytes=2621440",
+  "limits": "Not kernel runtime, provider concurrency, DMA ownership or recovery certification"
+}

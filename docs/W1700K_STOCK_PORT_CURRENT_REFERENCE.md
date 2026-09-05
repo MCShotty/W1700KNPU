@@ -1,6 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (workspace migration; live authority remains 03:55 +03:00)
+Last updated: 2026-09-05 (NPU provider-guard checkpoint; running image unchanged)
+
+## Current Work - NPU Provider Guard and Recovery - 2026-09-05
+
+- Implemented the absent-provider guard before six coherent NPU allocations:
+  1.25 MiB avoided on the MT7996 path; attached-provider semantics unchanged.
+- 20 compiled-C fault cases and the unpatched negative control pass. Real
+  NPU-enabled and disabled package builds pass; all normal-DMA executable
+  module sections match the retained baseline. Build config remains unchanged.
+- Ghidra fully analyzed 27 + 21 stock functions and 314 current initialized
+  executable functions; 53 selected exports pass and are SHA-bound to ELFs.
+- Confirmed both L1 unchecked errors and the full-reset token release before
+  NPU quiescence. These remain unresolved; no active-NPU image is approved.
+- New source checkpoint is ahead of the last router-tested R1 release. No new
+  image/flash or runtime configuration change. Fresh pinned Ethernet readback
+  confirms W1700K, kernel 6.18.44, WLAN NPU compiled out, healthy memory.
+- Continue with provider/stock reset-coordinator drain semantics, then a shared
+  L1/full-reset/removal ownership policy. Do not only add L1 return checks.
+- Evidence and exact next gates:
+  `research/checkpoints/2026-09-05-npu-attach/REPORT.md`.
 
 ## Canonical Workspace Migration - 2026-09-05
 

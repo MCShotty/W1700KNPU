@@ -1,0 +1,1806 @@
+program=stock_npu.ko
+executable_sha256=fecef1a24531765da1243de773ee7e9bb5b20ff47f1ad3b3736e1f09e9db088e
+language=AARCH64:LE:64:v8A
+
+FUNCTION FUN_00100020 @ 00100020
+XREF _elfSectionHeaders::00000090 DATA
+XREF 00102c74 DATA
+XREF 00100180 UNCONDITIONAL_CALL
+XREF 001001c8 UNCONDITIONAL_CALL
+decompiled=true
+
+void FUN_00100020(void)
+
+{
+  ulong uVar1;
+  
+  uVar1 = daif;
+  if ((uVar1 & 0x80) != 0) {
+    return;
+  }
+  uVar1 = daif;
+  daif = uVar1 | 0x80;
+  return;
+}
+
+
+
+FUNCTION FUN_0010003c @ 0010003c
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined1  [16] FUN_0010003c(long param_1,ulong param_2,ulong param_3)
+
+{
+  ulong *puVar1;
+  long lVar2;
+  undefined1 auVar3 [16];
+  bool bVar4;
+  size_t __n;
+  undefined8 uVar5;
+  ulong uVar6;
+  undefined8 extraout_x1;
+  ulong uVar7;
+  undefined1 auVar8 [16];
+  
+  puVar1 = (ulong *)sp_el0;
+  if (((*(uint *)((long)puVar1 + 0x34) >> 0x15 & 1) == 0) && ((*puVar1 & 0x4000000) == 0)) {
+    bVar4 = CARRY8(param_2,param_3);
+    uVar7 = param_2 + param_3;
+    uVar6 = 0;
+    if (!bVar4 || uVar7 == 0) {
+      uVar6 = puVar1[1];
+    }
+    if (bVar4) {
+      uVar7 = 0xffffffffffffffff;
+    }
+    bVar4 = !CARRY8(uVar7,~uVar6) && !CARRY8(uVar7 + ~uVar6,(ulong)bVar4) || uVar7 == uVar6 + !bVar4
+    ;
+  }
+  else {
+    uVar7 = param_2 & (long)(param_2 << 8) >> 8;
+    bVar4 = CARRY8(uVar7,param_3);
+    uVar7 = uVar7 + param_3;
+    uVar6 = 0;
+    if (!bVar4 || uVar7 == 0) {
+      uVar6 = puVar1[1];
+    }
+    if (bVar4) {
+      uVar7 = 0xffffffffffffffff;
+    }
+    bVar4 = !CARRY8(uVar7,~uVar6) && !CARRY8(uVar7 + ~uVar6,(ulong)bVar4) || uVar7 == uVar6 + !bVar4
+    ;
+  }
+  uVar7 = (ulong)bVar4;
+  __n = param_3;
+  if (uVar7 == 0) goto joined_r0x00100140;
+  if ((int)_arm64_const_caps_ready < 1) {
+    if ((_cpu_hwcaps & 0x10) == 0) goto LAB_00100180;
+  }
+  else if ((int)_cpu_hwcaps < 1) {
+LAB_00100180:
+    uVar5 = FUN_00100020();
+    lVar2 = sp_el0;
+    uVar7 = ttbr1_el1;
+    ttbr1_el1 = *(ulong *)(lVar2 + 0x10) & 0xffff000000000000 | uVar7 & 0xffffffffffff;
+    InstructionSynchronizationBarrier();
+    ttbr0_el1 = *(ulong *)(lVar2 + 0x10);
+    InstructionSynchronizationBarrier();
+    daif = uVar5;
+  }
+  lVar2 = sp_el0;
+  if ((param_2 & (long)(param_2 << 8) >> 8 & (*(ulong *)(lVar2 + 8) ^ 0xffffffffffffffff)) != 0) {
+    param_2 = 0;
+  }
+  __n = __arch_copy_from_user(param_1,param_2,param_3,uVar7);
+  uVar6 = (ulong)_arm64_const_caps_ready;
+  if ((int)_arm64_const_caps_ready < 1) {
+    if ((_cpu_hwcaps & 0x10) != 0) goto joined_r0x00100140;
+  }
+  else if (0 < (int)_cpu_hwcaps) goto joined_r0x00100140;
+  uVar5 = FUN_00100020();
+  uVar7 = ttbr1_el1;
+  uVar6 = (uVar7 & 0xffffffffffff) - 0x1000;
+  ttbr0_el1 = uVar6;
+  InstructionSynchronizationBarrier();
+  ttbr1_el1 = uVar7 & 0xffffffffffff;
+  InstructionSynchronizationBarrier();
+  daif = uVar5;
+joined_r0x00100140:
+  if (__n != 0) {
+    memset((void *)(param_1 + (param_3 - __n)),0,__n);
+    auVar8._8_8_ = extraout_x1;
+    auVar8._0_8_ = __n;
+    return auVar8;
+  }
+  auVar3._8_8_ = 0;
+  auVar3._0_8_ = uVar6;
+  return auVar3 << 0x40;
+}
+
+
+
+FUNCTION FUN_00100040 @ 00100040
+XREF 00102cb4 DATA
+XREF 00100aac UNCONDITIONAL_CALL
+XREF 00100e34 UNCONDITIONAL_CALL
+XREF 00101078 UNCONDITIONAL_CALL
+XREF 00101150 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined1  [16] FUN_00100040(long param_1,ulong param_2,ulong param_3)
+
+{
+  ulong *puVar1;
+  long lVar2;
+  undefined1 auVar3 [16];
+  bool bVar4;
+  size_t __n;
+  undefined8 uVar5;
+  ulong uVar6;
+  undefined8 extraout_x1;
+  ulong uVar7;
+  undefined1 auVar8 [16];
+  
+  puVar1 = (ulong *)sp_el0;
+  if (((*(uint *)((long)puVar1 + 0x34) >> 0x15 & 1) == 0) && ((*puVar1 & 0x4000000) == 0)) {
+    bVar4 = CARRY8(param_2,param_3);
+    uVar7 = param_2 + param_3;
+    uVar6 = 0;
+    if (!bVar4 || uVar7 == 0) {
+      uVar6 = puVar1[1];
+    }
+    if (bVar4) {
+      uVar7 = 0xffffffffffffffff;
+    }
+    bVar4 = !CARRY8(uVar7,~uVar6) && !CARRY8(uVar7 + ~uVar6,(ulong)bVar4) || uVar7 == uVar6 + !bVar4
+    ;
+  }
+  else {
+    uVar7 = param_2 & (long)(param_2 << 8) >> 8;
+    bVar4 = CARRY8(uVar7,param_3);
+    uVar7 = uVar7 + param_3;
+    uVar6 = 0;
+    if (!bVar4 || uVar7 == 0) {
+      uVar6 = puVar1[1];
+    }
+    if (bVar4) {
+      uVar7 = 0xffffffffffffffff;
+    }
+    bVar4 = !CARRY8(uVar7,~uVar6) && !CARRY8(uVar7 + ~uVar6,(ulong)bVar4) || uVar7 == uVar6 + !bVar4
+    ;
+  }
+  uVar7 = (ulong)bVar4;
+  __n = param_3;
+  if (uVar7 == 0) goto joined_r0x00100140;
+  if ((int)_arm64_const_caps_ready < 1) {
+    if ((_cpu_hwcaps & 0x10) == 0) goto LAB_00100180;
+  }
+  else if ((int)_cpu_hwcaps < 1) {
+LAB_00100180:
+    uVar5 = FUN_00100020();
+    lVar2 = sp_el0;
+    uVar7 = ttbr1_el1;
+    ttbr1_el1 = *(ulong *)(lVar2 + 0x10) & 0xffff000000000000 | uVar7 & 0xffffffffffff;
+    InstructionSynchronizationBarrier();
+    ttbr0_el1 = *(ulong *)(lVar2 + 0x10);
+    InstructionSynchronizationBarrier();
+    daif = uVar5;
+  }
+  lVar2 = sp_el0;
+  if ((param_2 & (long)(param_2 << 8) >> 8 & (*(ulong *)(lVar2 + 8) ^ 0xffffffffffffffff)) != 0) {
+    param_2 = 0;
+  }
+  __n = __arch_copy_from_user(param_1,param_2,param_3,uVar7);
+  uVar6 = (ulong)_arm64_const_caps_ready;
+  if ((int)_arm64_const_caps_ready < 1) {
+    if ((_cpu_hwcaps & 0x10) != 0) goto joined_r0x00100140;
+  }
+  else if (0 < (int)_cpu_hwcaps) goto joined_r0x00100140;
+  uVar5 = FUN_00100020();
+  uVar7 = ttbr1_el1;
+  uVar6 = (uVar7 & 0xffffffffffff) - 0x1000;
+  ttbr0_el1 = uVar6;
+  InstructionSynchronizationBarrier();
+  ttbr1_el1 = uVar7 & 0xffffffffffff;
+  InstructionSynchronizationBarrier();
+  daif = uVar5;
+joined_r0x00100140:
+  if (__n != 0) {
+    memset((void *)(param_1 + (param_3 - __n)),0,__n);
+    auVar8._8_8_ = extraout_x1;
+    auVar8._0_8_ = __n;
+    return auVar8;
+  }
+  auVar3._8_8_ = 0;
+  auVar3._0_8_ = uVar6;
+  return auVar3 << 0x40;
+}
+
+
+
+FUNCTION show_wifi_offload_tx_counter @ 001001f4
+XREF 00102cec DATA
+decompiled=true
+
+void show_wifi_offload_tx_counter(byte param_1)
+
+{
+  long lVar1;
+  
+  lVar1 = (&counter_base)[param_1];
+  if (lVar1 != 0) {
+    printk("------WIFI TX (band%d)----------\n",param_1);
+    printk("TDMA_RX_GET_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x100));
+    printk("TX_PKT_FROM_HOSTADPT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x14c));
+    printk("TX_FULL_DESC: \t\t\t%lu\n",*(undefined4 *)(lVar1 + 0x150));
+    printk("TX_DONE_GET_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x154));
+    printk("TX_SLOW_PATH_Q_FULL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x158));
+    printk("TX_SLOW_PATH_TXRING_FULL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x15c));
+    printk("TX_SLOW_PATH_TOO_MUCH_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x160));
+    lVar1 = DAT_00103210;
+    printk("TX_SKB_ALLOC_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(DAT_00103210 + 0x4c));
+    printk("TX_SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar1 + 0x48));
+    printk("TX_SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar1 + 0x50));
+    printk("TX_DONE_VER_ABNORMAL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x54));
+    printk("TX_DONE_TOKEN_LEAK: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x58));
+    printk("TX_BUF_POOL_ABNORMAL_ALLOC: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x5c));
+    printk("TX_BUF_POOL_ABNORMAL_FREE: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x60));
+    printk("WIFI_TX_TOKEN_ABNORMAL: \t\t%lu\n",*(undefined4 *)(lVar1 + 100));
+    printk("WIFI_TX_MSDU_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x68));
+  }
+  return;
+}
+
+
+
+FUNCTION FUN_0010033c @ 0010033c
+decompiled=true
+
+void FUN_0010033c(byte param_1)
+
+{
+  char *pcVar1;
+  long lVar2;
+  undefined4 *puVar3;
+  
+  puVar3 = (undefined4 *)(&counter_base)[param_1];
+  if (puVar3 != (undefined4 *)0x0) {
+    pcVar1 = "2.4G/5G";
+    if (param_1 != 0) {
+      pcVar1 = "6G";
+    }
+    printk("[%s debug counter ]\n",pcVar1);
+    printk("get packet while count:\t\t%lu\n",puVar3[1]);
+    printk("RX_DESC_DDONE\t\t\t%lu\n",puVar3[2]);
+    printk("ALL_GET_PKT_COUNT\t\t%lu\n",puVar3[3]);
+    printk("DROP_PACKETS\t\t\t%lu\n",puVar3[4]);
+    printk("TO_TDMA_COUNT\t\t\t%lu\n",puVar3[0x15]);
+    printk("GET_BUFID_FAIL\t\t\t%lu\n",*puVar3);
+    printk("SCATTER_CNT_MORE1\t\t%lu\n",puVar3[0x1d]);
+    printk("BIGGER_PACKET\t\t\t%lu\n",puVar3[0x1e]);
+    printk("SCATTER_PKT_ONE_BUFID\t\t%lu\n",puVar3[0x20]);
+    printk("ENQ_BIGPKT_TOSRAM_FAIL_COUNT\t%lu\n",puVar3[0x1f]);
+    printk("------Enq & Deq Counter----------\n");
+    printk("ENQ_DEQ_WHILE_COUNT\t\t%lu\n",puVar3[5]);
+    printk("ENQ_SRAM_COUNT:\t\t\t%lu\n",puVar3[6]);
+    printk("ENQ_SRAM_FULL_COUNT:\t\t%lu\n",puVar3[7]);
+    printk("ENQ_SRAM_FAIL_COUNT:\t\t%lu\n",puVar3[8]);
+    printk("DEQ_SRAM_COUNT:\t\t\t%lu\nDEQ_SRAM_FAIL_BUFID_COUNT:\t%lu\nDEQ_SRAM_FAIL_LEN_COUNT:\t\t%lu\n"
+           ,puVar3[9],puVar3[10],puVar3[0xb]);
+    printk("TO_HOSTAPD_COUNT\t%lu\n",puVar3[0xc]);
+    printk("HOST_APD_ERROR_COUNT:\t\t%lu\n",puVar3[0x1b]);
+    printk("HOSTADPT_API_Q_FULL:\t\t%lu\n",puVar3[0x3b]);
+    printk("API_HOSTADPT_SEND:\t\t%lu\n",puVar3[0x23]);
+    printk("RX_G4_PKT_NO_SN:\t\t\t%lu\n",puVar3[0x41]);
+    printk("------pipe queue----------\n");
+    printk("RX_PIPE_Q_FULL:\t\t\t%lu\n",puVar3[0x42]);
+    printk("RX_PIPE_Q3_Q4_FULL:\t\t\t%lu\n",puVar3[0x43]);
+    printk("PIPE_Q3_ENQ:\t\t\t%lu\n",puVar3[0x44]);
+    printk("PIPE_Q3_DEQ:\t\t\t%lu\n",puVar3[0x45]);
+    printk("PIPE_Q4_ENQ:\t\t\t%lu\n",puVar3[0x46]);
+    printk("PIPE_Q4_DEQ:\t\t\t%lu\n",puVar3[0x47]);
+    printk("------Enq & Deq scatter packet Counter----------\n");
+    printk("NO_BIGPKT_COUNT:\t%lu\n",puVar3[0x26]);
+    printk("GET_BUFID_FOR_BIGPKT_FAIL:\t%lu\n",puVar3[0x21]);
+    printk("BIGPKT_TO_HOSTADPT_ERROR_COUNT:\t%lu\n",puVar3[0x22]);
+    printk("ENQ_BIGPKT_SRAM_FULL_COUNT:\t%lu\n",puVar3[0x24]);
+    printk("ENQ_BIGPKT_SRAM_COUNT:\t\t%lu\n",puVar3[0x25]);
+    printk("CHECK_BIGPKT:\t\t\t%lu\n",puVar3[0x27]);
+    printk("CHECK_BIGPKT2:\t\t\t%lu\n",puVar3[0x28]);
+    printk("CHECK_BIGPKT_ISLAST:\t\t%lu\n",puVar3[0x2a]);
+    printk("CHECK_BIGPKT_IDX_FAIL:\t\t%lu\n",puVar3[0x2b]);
+    printk("CHECK_BIGPKT_CNT_FAIL:\t\t%lu\n",puVar3[0x2c]);
+    printk("CHECK_BIGPKT_FAIL:\t\t%lu\n",puVar3[0x2d]);
+    printk("CHECK_BIGPKT_OVER_RETRY:\t\t%lu\n",puVar3[0x2e]);
+    printk("BIGPKT_TO_HOSTAPD_COUNT:\t\t%lu\n",puVar3[0x2f]);
+    printk("BIGPKT_DESC_FREE_COUNT:\t\t%lu\n",puVar3[0x30]);
+    printk("------TDMA----------\n");
+    printk("TDMA_TXDESC_FULL_COUNT: \t\t%lu\n",puVar3[0x3f]);
+    printk("------BA Counter----------\n");
+    printk("BA1(in order):\t\t\t%lu\nBA2(Dupl Packet):\t\t%lu\nBA3(old packet):\t\t\t%lu\nBA4(with in window):\t\t%lu\nBA5(surpasses Win):\t\t%lu\nBA_AMSDU:\t\t\t%lu\n!AMPDU_COUNT:\t\t\t%lu\n"
+           ,puVar3[0xd],puVar3[0xe],puVar3[0xf],puVar3[0x10],puVar3[0x11],puVar3[0x12],puVar3[0x13])
+    ;
+    printk("BA_NO_MEM_COUNT:\t\t\t%lu\n",puVar3[0x14]);
+    printk("BA_AMSDU_MISS:\t\t\t%lu\n",puVar3[0x31]);
+    printk("BA_TIMEOUT_FLUSH100:\t\t%lu\n",puVar3[0x32]);
+    printk("BA_TIMEOUT_FLUSH250:\t\t%lu\n",puVar3[0x33]);
+    printk("BA_ENQ_DUP_SEQ:\t\t\t%lu\n",puVar3[0x34]);
+    printk("BA_REORDERING_NODE_ALLOC_COUNT\t%lu\n",puVar3[0x37]);
+    printk("BA_REORDERING_NODE_ALLOC_DRAM_COUNT\t%lu\n",puVar3[0x38]);
+    printk("BA_REORDERING_NODE_FREE_COUNT\t%lu\n",puVar3[0x35]);
+    printk("BA_REORDERINT_NODE_ALLOC_FAIL\t%lu\n",puVar3[0x36]);
+    printk("BA_ENQ_QLEN_ERROR_COUNT:\t\t%lu\n",puVar3[0x39]);
+    printk("BA_WCID_ERROR:\t\t\t%lu\n",puVar3[0x3a]);
+    printk("============ TEMP_DBG ==========\n");
+    printk("ENQ_PKT_TO_SLOWPATH_CASE1\t\t%lu\n",puVar3[0x48]);
+    printk("ENQ_PKT_TO_SLOWPATH_CASE2\t\t%lu\n",puVar3[0x49]);
+    printk("ENQ_PKT_TO_SLOWPATH_CASE3\t\t%lu\n",puVar3[0x4a]);
+    printk("ENQ_PIPELINE_PKT_CNT\t\t%lu\n",puVar3[0x4b]);
+    printk("DEQ_PIPELINE_PKT_CNT\t\t%lu\n",puVar3[0x4c]);
+    printk("TDMA_TXRING_SEND\t\t%lu\n",puVar3[0x4d]);
+    printk("========= RRO related ======== \n");
+    printk("0:MSDU_PG_2G_PKT 1:IND_CMD_WHILE\t\t%lu\n",puVar3[0x4f]);
+    printk("0:MSDU_PG_5G_PKT 1:IND_CMD_DESC\t\t%lu\n",puVar3[0x50]);
+    printk("0:MSDU_PG_6G_PKT 1:IND_CMD_SIG_FAIL\t\t%lu\n",puVar3[0x51]);
+    printk("0:MSDU_PG_READ_FAIL 1:OLD_DUP_PKT\t\t%lu\n",puVar3[0x52]);
+    printk("RRO EXCEPTION PKT\t\t%lu\n",puVar3[0x4e]);
+    lVar2 = DAT_00103210;
+    printk("============ TDMA Counter =============\n");
+    printk("TDMA_UNBIND_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 8));
+    printk("TDMA_DONE_COUNT:\t\t\t%lu\n",*(undefined4 *)(lVar2 + 0x14));
+    printk("TDMA_FREE_BUFID_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 4));
+    printk("TDMA_TO_ENQ_FAIL_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 0xc));
+    printk("TDMA_TX_DSCP_IDX_INVALID:\t%lu\n",*(undefined4 *)(lVar2 + 0x24));
+    printk("TDMA_TX_DSCP_INFO_ERROR:\t\t%lu\n",*(undefined4 *)(lVar2 + 0x28));
+    printk("TDMA_DONE_DROP_BIT_ERROR:\t%lu\n",*(undefined4 *)(lVar2 + 0x2c));
+    printk("============ Bufid Counter ==========\n");
+    printk("SKB_ALLOC_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x1c));
+    printk("SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x18));
+    printk("SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x20));
+    printk("SKB_BUFID_STATE_ABNORMAL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x6c));
+    printk("============ Hostadpt API Counter ==========\n");
+    printk("API_BUFF_SEND_BIGPKT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x30));
+    printk("API_BUFF_SEND_NOMALPKT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x34));
+    printk("HOSTADPT_API_DONE_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x38));
+    printk("======= RRO MSDU PG SKB counter =======\n");
+    printk("MSDU_SKB_ALLOC_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x44));
+    printk("MSDU_SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x3c));
+    printk("MSDU_SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x40));
+  }
+  return;
+}
+
+
+
+FUNCTION show_wifi_offload_counter @ 00100340
+XREF 00102d14 DATA
+XREF 00100dd0 UNCONDITIONAL_CALL
+XREF 00100de8 UNCONDITIONAL_CALL
+decompiled=true
+
+void show_wifi_offload_counter(byte param_1)
+
+{
+  char *pcVar1;
+  long lVar2;
+  undefined4 *puVar3;
+  
+  puVar3 = (undefined4 *)(&counter_base)[param_1];
+  if (puVar3 != (undefined4 *)0x0) {
+    pcVar1 = "2.4G/5G";
+    if (param_1 != 0) {
+      pcVar1 = "6G";
+    }
+    printk("[%s debug counter ]\n",pcVar1);
+    printk("get packet while count:\t\t%lu\n",puVar3[1]);
+    printk("RX_DESC_DDONE\t\t\t%lu\n",puVar3[2]);
+    printk("ALL_GET_PKT_COUNT\t\t%lu\n",puVar3[3]);
+    printk("DROP_PACKETS\t\t\t%lu\n",puVar3[4]);
+    printk("TO_TDMA_COUNT\t\t\t%lu\n",puVar3[0x15]);
+    printk("GET_BUFID_FAIL\t\t\t%lu\n",*puVar3);
+    printk("SCATTER_CNT_MORE1\t\t%lu\n",puVar3[0x1d]);
+    printk("BIGGER_PACKET\t\t\t%lu\n",puVar3[0x1e]);
+    printk("SCATTER_PKT_ONE_BUFID\t\t%lu\n",puVar3[0x20]);
+    printk("ENQ_BIGPKT_TOSRAM_FAIL_COUNT\t%lu\n",puVar3[0x1f]);
+    printk("------Enq & Deq Counter----------\n");
+    printk("ENQ_DEQ_WHILE_COUNT\t\t%lu\n",puVar3[5]);
+    printk("ENQ_SRAM_COUNT:\t\t\t%lu\n",puVar3[6]);
+    printk("ENQ_SRAM_FULL_COUNT:\t\t%lu\n",puVar3[7]);
+    printk("ENQ_SRAM_FAIL_COUNT:\t\t%lu\n",puVar3[8]);
+    printk("DEQ_SRAM_COUNT:\t\t\t%lu\nDEQ_SRAM_FAIL_BUFID_COUNT:\t%lu\nDEQ_SRAM_FAIL_LEN_COUNT:\t\t%lu\n"
+           ,puVar3[9],puVar3[10],puVar3[0xb]);
+    printk("TO_HOSTAPD_COUNT\t%lu\n",puVar3[0xc]);
+    printk("HOST_APD_ERROR_COUNT:\t\t%lu\n",puVar3[0x1b]);
+    printk("HOSTADPT_API_Q_FULL:\t\t%lu\n",puVar3[0x3b]);
+    printk("API_HOSTADPT_SEND:\t\t%lu\n",puVar3[0x23]);
+    printk("RX_G4_PKT_NO_SN:\t\t\t%lu\n",puVar3[0x41]);
+    printk("------pipe queue----------\n");
+    printk("RX_PIPE_Q_FULL:\t\t\t%lu\n",puVar3[0x42]);
+    printk("RX_PIPE_Q3_Q4_FULL:\t\t\t%lu\n",puVar3[0x43]);
+    printk("PIPE_Q3_ENQ:\t\t\t%lu\n",puVar3[0x44]);
+    printk("PIPE_Q3_DEQ:\t\t\t%lu\n",puVar3[0x45]);
+    printk("PIPE_Q4_ENQ:\t\t\t%lu\n",puVar3[0x46]);
+    printk("PIPE_Q4_DEQ:\t\t\t%lu\n",puVar3[0x47]);
+    printk("------Enq & Deq scatter packet Counter----------\n");
+    printk("NO_BIGPKT_COUNT:\t%lu\n",puVar3[0x26]);
+    printk("GET_BUFID_FOR_BIGPKT_FAIL:\t%lu\n",puVar3[0x21]);
+    printk("BIGPKT_TO_HOSTADPT_ERROR_COUNT:\t%lu\n",puVar3[0x22]);
+    printk("ENQ_BIGPKT_SRAM_FULL_COUNT:\t%lu\n",puVar3[0x24]);
+    printk("ENQ_BIGPKT_SRAM_COUNT:\t\t%lu\n",puVar3[0x25]);
+    printk("CHECK_BIGPKT:\t\t\t%lu\n",puVar3[0x27]);
+    printk("CHECK_BIGPKT2:\t\t\t%lu\n",puVar3[0x28]);
+    printk("CHECK_BIGPKT_ISLAST:\t\t%lu\n",puVar3[0x2a]);
+    printk("CHECK_BIGPKT_IDX_FAIL:\t\t%lu\n",puVar3[0x2b]);
+    printk("CHECK_BIGPKT_CNT_FAIL:\t\t%lu\n",puVar3[0x2c]);
+    printk("CHECK_BIGPKT_FAIL:\t\t%lu\n",puVar3[0x2d]);
+    printk("CHECK_BIGPKT_OVER_RETRY:\t\t%lu\n",puVar3[0x2e]);
+    printk("BIGPKT_TO_HOSTAPD_COUNT:\t\t%lu\n",puVar3[0x2f]);
+    printk("BIGPKT_DESC_FREE_COUNT:\t\t%lu\n",puVar3[0x30]);
+    printk("------TDMA----------\n");
+    printk("TDMA_TXDESC_FULL_COUNT: \t\t%lu\n",puVar3[0x3f]);
+    printk("------BA Counter----------\n");
+    printk("BA1(in order):\t\t\t%lu\nBA2(Dupl Packet):\t\t%lu\nBA3(old packet):\t\t\t%lu\nBA4(with in window):\t\t%lu\nBA5(surpasses Win):\t\t%lu\nBA_AMSDU:\t\t\t%lu\n!AMPDU_COUNT:\t\t\t%lu\n"
+           ,puVar3[0xd],puVar3[0xe],puVar3[0xf],puVar3[0x10],puVar3[0x11],puVar3[0x12],puVar3[0x13])
+    ;
+    printk("BA_NO_MEM_COUNT:\t\t\t%lu\n",puVar3[0x14]);
+    printk("BA_AMSDU_MISS:\t\t\t%lu\n",puVar3[0x31]);
+    printk("BA_TIMEOUT_FLUSH100:\t\t%lu\n",puVar3[0x32]);
+    printk("BA_TIMEOUT_FLUSH250:\t\t%lu\n",puVar3[0x33]);
+    printk("BA_ENQ_DUP_SEQ:\t\t\t%lu\n",puVar3[0x34]);
+    printk("BA_REORDERING_NODE_ALLOC_COUNT\t%lu\n",puVar3[0x37]);
+    printk("BA_REORDERING_NODE_ALLOC_DRAM_COUNT\t%lu\n",puVar3[0x38]);
+    printk("BA_REORDERING_NODE_FREE_COUNT\t%lu\n",puVar3[0x35]);
+    printk("BA_REORDERINT_NODE_ALLOC_FAIL\t%lu\n",puVar3[0x36]);
+    printk("BA_ENQ_QLEN_ERROR_COUNT:\t\t%lu\n",puVar3[0x39]);
+    printk("BA_WCID_ERROR:\t\t\t%lu\n",puVar3[0x3a]);
+    printk("============ TEMP_DBG ==========\n");
+    printk("ENQ_PKT_TO_SLOWPATH_CASE1\t\t%lu\n",puVar3[0x48]);
+    printk("ENQ_PKT_TO_SLOWPATH_CASE2\t\t%lu\n",puVar3[0x49]);
+    printk("ENQ_PKT_TO_SLOWPATH_CASE3\t\t%lu\n",puVar3[0x4a]);
+    printk("ENQ_PIPELINE_PKT_CNT\t\t%lu\n",puVar3[0x4b]);
+    printk("DEQ_PIPELINE_PKT_CNT\t\t%lu\n",puVar3[0x4c]);
+    printk("TDMA_TXRING_SEND\t\t%lu\n",puVar3[0x4d]);
+    printk("========= RRO related ======== \n");
+    printk("0:MSDU_PG_2G_PKT 1:IND_CMD_WHILE\t\t%lu\n",puVar3[0x4f]);
+    printk("0:MSDU_PG_5G_PKT 1:IND_CMD_DESC\t\t%lu\n",puVar3[0x50]);
+    printk("0:MSDU_PG_6G_PKT 1:IND_CMD_SIG_FAIL\t\t%lu\n",puVar3[0x51]);
+    printk("0:MSDU_PG_READ_FAIL 1:OLD_DUP_PKT\t\t%lu\n",puVar3[0x52]);
+    printk("RRO EXCEPTION PKT\t\t%lu\n",puVar3[0x4e]);
+    lVar2 = DAT_00103210;
+    printk("============ TDMA Counter =============\n");
+    printk("TDMA_UNBIND_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 8));
+    printk("TDMA_DONE_COUNT:\t\t\t%lu\n",*(undefined4 *)(lVar2 + 0x14));
+    printk("TDMA_FREE_BUFID_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 4));
+    printk("TDMA_TO_ENQ_FAIL_COUNT:\t\t%lu\n",*(undefined4 *)(lVar2 + 0xc));
+    printk("TDMA_TX_DSCP_IDX_INVALID:\t%lu\n",*(undefined4 *)(lVar2 + 0x24));
+    printk("TDMA_TX_DSCP_INFO_ERROR:\t\t%lu\n",*(undefined4 *)(lVar2 + 0x28));
+    printk("TDMA_DONE_DROP_BIT_ERROR:\t%lu\n",*(undefined4 *)(lVar2 + 0x2c));
+    printk("============ Bufid Counter ==========\n");
+    printk("SKB_ALLOC_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x1c));
+    printk("SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x18));
+    printk("SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x20));
+    printk("SKB_BUFID_STATE_ABNORMAL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x6c));
+    printk("============ Hostadpt API Counter ==========\n");
+    printk("API_BUFF_SEND_BIGPKT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x30));
+    printk("API_BUFF_SEND_NOMALPKT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x34));
+    printk("HOSTADPT_API_DONE_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x38));
+    printk("======= RRO MSDU PG SKB counter =======\n");
+    printk("MSDU_SKB_ALLOC_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x44));
+    printk("MSDU_SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar2 + 0x3c));
+    printk("MSDU_SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar2 + 0x40));
+  }
+  return;
+}
+
+
+
+FUNCTION fileCopyToSram @ 00100940
+XREF 00102d3c DATA
+XREF 00101210 UNCONDITIONAL_CALL
+XREF 0010122c UNCONDITIONAL_CALL
+decompiled=true
+
+undefined8 fileCopyToSram(char *param_1,undefined8 param_2,uint param_3,undefined4 param_4)
+
+{
+  char cVar1;
+  bool bVar2;
+  ulong *puVar3;
+  undefined8 uVar4;
+  ulong uVar5;
+  ulong uVar6;
+  undefined1 auStack_88 [56];
+  ulong local_50;
+  
+  puVar3 = (ulong *)sp_el0;
+  uVar6 = puVar3[1];
+  puVar3[1] = 0xffffffffffffffff;
+  DataSynchronizationBarrier(1,3,0);
+  InstructionSynchronizationBarrier();
+  Hint_Prefetch(puVar3,2,0,1);
+  do {
+    cVar1 = '\x01';
+    bVar2 = (bool)ExclusiveMonitorPass(puVar3,0x10);
+    if (bVar2) {
+      *puVar3 = *puVar3 | 0x20;
+      cVar1 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar1 != '\0');
+  vfs_statx(0xffffff9c,param_1,0x800,auStack_88,0x7ff);
+  if (param_3 < (uint)local_50) {
+    printk("Error: NPU binary:%s(0x%x) is larger than 0x%x\n",param_1,local_50 & 0xffffffff,param_3)
+    ;
+    uVar4 = 1;
+  }
+  else {
+    printk("copy NPU binary:%s",param_1);
+    if ((param_1 != (char *)0x0) && (*param_1 != '\0')) {
+      uVar5 = filp_open(param_1,0,0);
+      if (0xfffffffffffff000 < uVar5) {
+        printk("--> Error opening!!\n");
+        return 1;
+      }
+      copy_file_to_ram(uVar5,local_50 & 0xffffffff,param_4);
+      filp_close(uVar5,0);
+    }
+    puVar3 = (ulong *)sp_el0;
+    puVar3[1] = uVar6;
+    DataSynchronizationBarrier(1,3,0);
+    InstructionSynchronizationBarrier();
+    Hint_Prefetch(puVar3,2,0,1);
+    do {
+      cVar1 = '\x01';
+      bVar2 = (bool)ExclusiveMonitorPass(puVar3,0x10);
+      if (bVar2) {
+        *puVar3 = *puVar3 | 0x20;
+        cVar1 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar1 != '\0');
+    uVar4 = 0;
+  }
+  return uVar4;
+}
+
+
+
+FUNCTION boot_all_npu_cores @ 00100a70
+XREF 00102d70 DATA
+decompiled=true
+
+void boot_all_npu_cores(void)
+
+{
+  boot_npu_all_cores();
+  return;
+}
+
+
+
+FUNCTION FUN_00100a84 @ 00100a84
+XREF 00102dc0 DATA
+XREF 0010126c DATA
+decompiled=true
+
+ulong FUN_00100a84(undefined8 param_1,undefined8 param_2,ulong param_3)
+
+{
+  long lVar1;
+  ulong uVar2;
+  uint local_c;
+  char acStack_5 [5];
+  
+  uVar2 = 0xffffffea;
+  local_c = 0;
+  if (param_3 < 5) {
+    uVar2 = 0xfffffff2;
+    lVar1 = FUN_00100040(acStack_5);
+    if (lVar1 == 0) {
+      uVar2 = param_3 & 0xffffffff;
+      acStack_5[param_3] = '\0';
+      sscanf(acStack_5,"%d",&local_c);
+      if (local_c < 5) {
+        if (local_c == 4) {
+          printk("Dump CSRs of All Cores\n");
+          host_dump_npu_csr(0);
+          host_dump_npu_csr(1);
+          host_dump_npu_csr(2);
+          host_dump_npu_csr(3);
+        }
+        else {
+          printk("Dump CSR of Core<%d>\n");
+          host_dump_npu_csr(local_c);
+        }
+      }
+      else {
+        printk("Invalid core id\n");
+      }
+    }
+  }
+  return uVar2;
+}
+
+
+
+FUNCTION npu_wifi_offload_get_dbg_counter_address @ 00100b50
+XREF 00102de8 DATA
+XREF 00100de0 UNCONDITIONAL_CALL
+XREF 00100f24 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* WARNING: Restarted to delay deadcode elimination for space: ram */
+
+void npu_wifi_offload_get_dbg_counter_address(void)
+
+{
+  undefined *puVar1;
+  undefined4 uVar2;
+  int iVar3;
+  long lVar4;
+  byte *__s;
+  undefined8 uVar5;
+  uint uVar6;
+  ulong uVar7;
+  ulong uVar8;
+  ulong uVar9;
+  undefined8 local_30;
+  undefined8 local_28;
+  byte *pbStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  uVar8 = 0;
+  do {
+    local_30 = 0;
+    lVar4 = get_ecnt_npu_dev();
+    uVar9 = uVar8 & 0xffffffff;
+    if (lVar4 == 0) {
+      printk("\nget_ecnt_npu_dev failed\n",0x120,&local_30,0x2a21,0x100);
+LAB_00100d54:
+      puVar1 = &DAT_00102800;
+      if ((int)uVar8 == 0) {
+        puVar1 = &DAT_00102808;
+      }
+      printk("Error: NPU_WIFI_OFFLOAD Get %s counter base fail\n",puVar1);
+      return;
+    }
+    __s = (byte *)dma_alloc_attrs();
+    if (__s == (byte *)0x0) {
+      printk("%s dma_alloc_coherent failed\n","WIFI_MAIL_API_GET_WAIT_DBG_COUNTER");
+      goto LAB_00100d54;
+    }
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(__s,0,0x120);
+    *__s = (byte)uVar8 | 0x30;
+    __s[4] = 3;
+    __s[5] = 0;
+    __s[6] = 0;
+    __s[7] = 0;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar7 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar7 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar7 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pbStack_20 = __s;
+    iVar3 = host_notify_npuMbox(&local_28);
+    if (iVar3 != 1) {
+      dma_free_attrs(lVar4,0x120,__s,local_30,0);
+      printk("WIFI_MAIL_API_GET_WAIT_DBG_COUNTER fail!\n");
+      goto LAB_00100d54;
+    }
+    uVar2 = *(undefined4 *)(__s + 8);
+    dma_free_attrs(lVar4,0x120,__s,local_30,0);
+    if (uVar8 == 2) {
+      if (_arm64_const_caps_ready < 1) {
+        uVar6 = (uint)_cpu_hwcaps >> 0x17 & 1;
+      }
+      else {
+        uVar6 = (uint)(0 < _DAT_00104094);
+      }
+      uVar5 = 0x68000000000707;
+      if (uVar6 != 0) {
+        uVar5 = 0x68000000000f07;
+      }
+      DAT_00103210 = __ioremap(uVar2,0x70,uVar5);
+      printk("counter_base[%d]=%lx(%x) \n",2,DAT_00103210,uVar2);
+      return;
+    }
+    uVar5 = 0x68000000000f07;
+    if (_arm64_const_caps_ready < 1) {
+      if ((_cpu_hwcaps & 0x800000) == 0) {
+        uVar5 = 0x68000000000707;
+      }
+    }
+    else if (_DAT_00104094 < 1) {
+      uVar5 = 0x68000000000707;
+    }
+    uVar5 = __ioremap(uVar2,0x164,uVar5);
+    (&counter_base)[uVar8] = uVar5;
+    uVar8 = uVar8 + 1;
+    printk("counter_base[%d]=%lx(%x) \n",uVar9,uVar5,uVar2);
+  } while( true );
+}
+
+
+
+FUNCTION print_npu_wifi_offload_dbg_counter @ 00100db0
+XREF 00102e2c DATA
+XREF 00100e8c UNCONDITIONAL_CALL
+decompiled=true
+
+void print_npu_wifi_offload_dbg_counter(undefined2 param_1)
+
+{
+  if (DAT_00103210 != 0) {
+    show_wifi_offload_counter(param_1);
+    return;
+  }
+  npu_wifi_offload_get_dbg_counter_address();
+  show_wifi_offload_counter(param_1);
+  return;
+}
+
+
+
+FUNCTION FUN_00100e00 @ 00100e00
+XREF 00102e58 DATA
+XREF 001012a8 DATA
+decompiled=true
+
+void FUN_00100e00(undefined8 param_1,undefined8 param_2,ulong param_3)
+
+{
+  char *pcVar1;
+  long lVar2;
+  ushort uVar3;
+  long lVar4;
+  undefined1 auStack_18 [16];
+  long local_8;
+  
+  lVar2 = sp_el0;
+  if (0xf < param_3) {
+    param_3 = 0xf;
+  }
+  local_8 = *(long *)(lVar2 + 0x408);
+  lVar4 = FUN_00100040(auStack_18,param_2,param_3,0);
+  if (lVar4 == 0) {
+    auStack_18[param_3] = 0xb8;
+    uVar3 = simple_strtol(auStack_18,0,10);
+    if (uVar3 < 2) {
+      pcVar1 = "2.4G/5G";
+      if (uVar3 != 0) {
+        pcVar1 = "6G";
+      }
+      printk("[%s debug counter]\n",pcVar1);
+      print_npu_wifi_offload_dbg_counter(uVar3);
+      param_3 = param_3 & 0xffffffff;
+    }
+    else {
+      printk("plz echo 0(2.4G) or 1(5G).\n");
+      param_3 = param_3 & 0xffffffff;
+    }
+  }
+  else {
+    param_3 = 0xfffffff2;
+  }
+  if (local_8 == *(long *)(lVar2 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(param_3);
+}
+
+
+
+FUNCTION print_npu_wifi_offload_tx_dbg_counter @ 00100ee0
+XREF 00102e84 DATA
+XREF 001010d0 UNCONDITIONAL_CALL
+decompiled=true
+
+void print_npu_wifi_offload_tx_dbg_counter(byte param_1)
+
+{
+  long lVar1;
+  
+  if (DAT_00103210 == 0) {
+    npu_wifi_offload_get_dbg_counter_address();
+  }
+  lVar1 = (&counter_base)[param_1];
+  if (lVar1 != 0) {
+    printk("------WIFI TX (band%d)----------\n",param_1);
+    printk("TDMA_RX_GET_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x100));
+    printk("TX_PKT_FROM_HOSTADPT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x14c));
+    printk("TX_FULL_DESC: \t\t\t%lu\n",*(undefined4 *)(lVar1 + 0x150));
+    printk("TX_DONE_GET_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x154));
+    printk("TX_SLOW_PATH_Q_FULL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x158));
+    printk("TX_SLOW_PATH_TXRING_FULL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x15c));
+    printk("TX_SLOW_PATH_TOO_MUCH_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x160));
+    lVar1 = DAT_00103210;
+    printk("TX_SKB_ALLOC_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(DAT_00103210 + 0x4c));
+    printk("TX_SKB_FREE_BUFID_COUNT\t\t%lu\n",*(undefined4 *)(lVar1 + 0x48));
+    printk("TX_SKB_BUFID_ALLOC_FAIL\t\t%lu\n",*(undefined4 *)(lVar1 + 0x50));
+    printk("TX_DONE_VER_ABNORMAL: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x54));
+    printk("TX_DONE_TOKEN_LEAK: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x58));
+    printk("TX_BUF_POOL_ABNORMAL_ALLOC: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x5c));
+    printk("TX_BUF_POOL_ABNORMAL_FREE: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x60));
+    printk("WIFI_TX_TOKEN_ABNORMAL: \t\t%lu\n",*(undefined4 *)(lVar1 + 100));
+    printk("WIFI_TX_MSDU_PKT: \t\t%lu\n",*(undefined4 *)(lVar1 + 0x68));
+  }
+  return;
+}
+
+
+
+FUNCTION FUN_00101044 @ 00101044
+XREF 00102eb0 DATA
+XREF 001012c4 DATA
+XREF 001012c0 PARAM
+decompiled=true
+
+void FUN_00101044(undefined8 param_1,undefined8 param_2,ulong param_3)
+
+{
+  char *pcVar1;
+  long lVar2;
+  ushort uVar3;
+  long lVar4;
+  undefined1 auStack_18 [16];
+  long local_8;
+  
+  lVar2 = sp_el0;
+  if (0xf < param_3) {
+    param_3 = 0xf;
+  }
+  local_8 = *(long *)(lVar2 + 0x408);
+  lVar4 = FUN_00100040(auStack_18,param_2,param_3,0);
+  if (lVar4 == 0) {
+    auStack_18[param_3] = 0xb8;
+    uVar3 = simple_strtol(auStack_18,0,10);
+    if (uVar3 < 2) {
+      pcVar1 = "2.4G/5G";
+      if (uVar3 != 0) {
+        pcVar1 = "6G";
+      }
+      printk("[%s tx debug counter]\n",pcVar1);
+      print_npu_wifi_offload_tx_dbg_counter(uVar3);
+      param_3 = param_3 & 0xffffffff;
+    }
+    else {
+      printk("plz echo 0(2.4G) or 1(5G).\n");
+      param_3 = param_3 & 0xffffffff;
+    }
+  }
+  else {
+    param_3 = 0xfffffff2;
+  }
+  if (local_8 == *(long *)(lVar2 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(param_3);
+}
+
+
+
+FUNCTION FUN_0010111c @ 0010111c
+decompiled=true
+
+void FUN_0010111c(undefined8 param_1,undefined8 param_2,ulong param_3)
+
+{
+  long lVar1;
+  ushort uVar2;
+  long lVar3;
+  undefined1 auStack_18 [16];
+  long lStack_8;
+  
+  lVar1 = sp_el0;
+  lStack_8 = *(long *)(lVar1 + 0x408);
+  if (0xf < param_3) {
+    param_3 = 0xf;
+  }
+  lVar3 = FUN_00100040(auStack_18,param_2,param_3,0);
+  if (lVar3 == 0) {
+    auStack_18[param_3] = 0xb8;
+    uVar2 = simple_strtol(auStack_18,0,10);
+    if ((uVar2 & 0xfff9) == 0) {
+      printk("[eagle rro dbg = %x] \n",uVar2);
+      set_npu_wifi_offload_eagle_rro_debug(uVar2);
+    }
+    else {
+      printk("plz echo 0(Disable) or 2 or 4 or 6.\n");
+    }
+    param_3 = param_3 & 0xffffffff;
+  }
+  else {
+    param_3 = 0xfffffff2;
+  }
+  if (lStack_8 == *(long *)(lVar1 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(param_3);
+}
+
+
+
+FUNCTION FUN_00101120 @ 00101120
+XREF 00102efc DATA
+XREF 00101288 DATA
+decompiled=true
+
+void FUN_00101120(undefined8 param_1,undefined8 param_2,ulong param_3)
+
+{
+  long lVar1;
+  ushort uVar2;
+  long lVar3;
+  undefined1 auStack_18 [16];
+  long local_8;
+  
+  lVar1 = sp_el0;
+  local_8 = *(long *)(lVar1 + 0x408);
+  if (0xf < param_3) {
+    param_3 = 0xf;
+  }
+  lVar3 = FUN_00100040(auStack_18,param_2,param_3,0);
+  if (lVar3 == 0) {
+    auStack_18[param_3] = 0xb8;
+    uVar2 = simple_strtol(auStack_18,0,10);
+    if ((uVar2 & 0xfff9) == 0) {
+      printk("[eagle rro dbg = %x] \n",uVar2);
+      set_npu_wifi_offload_eagle_rro_debug(uVar2);
+    }
+    else {
+      printk("plz echo 0(Disable) or 2 or 4 or 6.\n");
+    }
+    param_3 = param_3 & 0xffffffff;
+  }
+  else {
+    param_3 = 0xfffffff2;
+  }
+  if (local_8 == *(long *)(lVar1 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(param_3);
+}
+
+
+
+FUNCTION init_module @ 001011e4
+XREF 00102f2c DATA
+decompiled=true
+
+undefined8 init_module(void)
+
+{
+  undefined1 uVar1;
+  int iVar2;
+  undefined4 uVar3;
+  long lVar4;
+  undefined1 *puVar5;
+  ulong uVar6;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined1 *puStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  iVar2 = test_ram_b4_npu_load();
+  if (iVar2 == -1) {
+    printk("npuLoadRamTest failed!  Just return!\n");
+    return 0;
+  }
+  iVar2 = fileCopyToSram("/userfs/npu_rv32.bin",npu_init_code_unc_addr,0x200000,0);
+  if (iVar2 != 0) {
+    printk("fileCopyToSram failed for NPU_BIN_FILE!  Just return!\n");
+    return 0;
+  }
+  iVar2 = fileCopyToSram("/userfs/npu_data.bin",0xbe900000,0x10000,1);
+  if (iVar2 != 0) {
+    printk("fileCopyToSram failed for NPU_DATA_FILE!  Just return!\n");
+    return 0;
+  }
+  set_npu_needed_info();
+  boot_npu_all_cores();
+  lVar4 = create_proc_entry("npu_dump_core_csr",0,0);
+  *(code **)(lVar4 + 0x60) = FUN_00100a84;
+  lVar4 = create_proc_entry("tc3162/npu_wifi_eagle_rro_dbg",0,0);
+  *(code **)(lVar4 + 0x60) = FUN_00101120;
+  lVar4 = create_proc_entry("tc3162/npu_wifioffload_dbg_counter",0,0);
+  *(code **)(lVar4 + 0x60) = FUN_00100e00;
+  lVar4 = create_proc_entry("tc3162/npu_wifioffload_tx_dbg_counter",0,0);
+  *(code **)(lVar4 + 0x60) = FUN_00101044;
+  uVar3 = npu_wifi_offload_get_pkt_buf_addr();
+  local_30 = 0;
+  lVar4 = get_ecnt_npu_dev();
+  if (lVar4 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+LAB_001014d0:
+    printk("Error: NPU_WIFI_OFFLOAD Get packet buf address Fail!!!\n");
+  }
+  else {
+    puVar5 = (undefined1 *)dma_alloc_attrs(lVar4,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar5,0,0x120);
+    *puVar5 = 0x10;
+    *(undefined4 *)(puVar5 + 4) = 8;
+    *(undefined4 *)(puVar5 + 8) = uVar3;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar6 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar6 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar6 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar5;
+    iVar2 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar4,0x120,puVar5,local_30,0);
+    if (iVar2 != 1) {
+      printk("%s fail! \n","WIFI_MAIL_API_SET_WAIT_PKT_BUF_ADDR");
+      goto LAB_001014d0;
+    }
+  }
+  npu_stat = 1;
+  uVar3 = npu_wifi_offload_get_tx_pkt_buf_addr();
+  local_30 = 0;
+  lVar4 = get_ecnt_npu_dev();
+  if (lVar4 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    puVar5 = (undefined1 *)dma_alloc_attrs(lVar4,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar5,0,0x120);
+    *puVar5 = 0x10;
+    *(undefined4 *)(puVar5 + 4) = 0x16;
+    *(undefined4 *)(puVar5 + 8) = uVar3;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar6 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar6 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar6 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar5;
+    iVar2 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar4,0x120,puVar5,local_30,0);
+    if (iVar2 == 1) goto LAB_0010143c;
+    printk("WIFI_MAIL_API_SET_WAIT_TX_PKT_BUF_ADDR fail! \n");
+  }
+  printk("Error: NPU_WIFI_OFFLOAD Get packet buf address Fail!!!\n");
+LAB_0010143c:
+  uVar1 = npu_wifi_offload_get_force_to_cpu_flag();
+  iVar2 = FUN_0010153c(uVar1);
+  if (iVar2 != 1) {
+    printk("Error: NPU_WIFI_OFFLOAD Get isForceToCpu flag Fail!!!\n");
+  }
+  return 0;
+}
+
+
+
+FUNCTION FUN_0010153c @ 0010153c
+XREF _elfSectionHeaders::00000110 DATA
+XREF 00102c88 DATA
+XREF 00101704 UNCONDITIONAL_CALL
+XREF 00101444 UNCONDITIONAL_CALL
+decompiled=true
+
+int FUN_0010153c(undefined4 param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  undefined1 *__s;
+  ulong uVar3;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined1 *puStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  local_30 = 0;
+  printk("isForceToCpu=%x\n",param_1);
+  lVar2 = get_ecnt_npu_dev();
+  if (lVar2 == 0) {
+    iVar1 = 0;
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    __s = (undefined1 *)dma_alloc_attrs(lVar2,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(__s,0,0x120);
+    *__s = 0x10;
+    *(undefined4 *)(__s + 4) = 0xc;
+    *(undefined4 *)(__s + 8) = param_1;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar3 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar3 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar3 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = __s;
+    iVar1 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar2,0x120,__s,local_30,0);
+    if (iVar1 != 1) {
+      printk("%s fail! \n","WIFI_MAIL_API_SET_WAIT_IS_FORCE_TO_CPU");
+    }
+  }
+  return iVar1;
+}
+
+
+
+FUNCTION host_dump_npu_csr @ 00101648
+XREF 00102d90 DATA
+XREF 00100b10 UNCONDITIONAL_CALL
+XREF 00100b18 UNCONDITIONAL_CALL
+XREF 00100b20 UNCONDITIONAL_CALL
+XREF 00100b28 UNCONDITIONAL_CALL
+XREF 00100b40 UNCONDITIONAL_CALL
+decompiled=true
+
+void host_dump_npu_csr(undefined4 param_1)
+
+{
+  undefined **ppuVar1;
+  undefined4 uVar2;
+  long lVar3;
+  undefined *local_48 [3];
+  undefined4 local_30 [4];
+  undefined8 local_20;
+  undefined8 uStack_18;
+  undefined8 local_10;
+  undefined8 uStack_8;
+  
+  local_30[0] = 0;
+  local_30[3] = 0;
+  lVar3 = 0;
+  local_48[2] = PTR_DAT_001017b8;
+  local_48[0] = PTR_DAT_001017a8;
+  local_48[1] = PTR_DAT_001017b0;
+  local_30[1] = 4;
+  local_30[2] = 8;
+  local_20 = 0;
+  uStack_18 = 0;
+  local_10 = 0;
+  uStack_8 = 0;
+  printk("\n[H]Dump NPU core %d CSR START\n",param_1);
+  do {
+    uVar2 = get_npu_dbg_csr(param_1,local_30[lVar3]);
+    ppuVar1 = local_48 + lVar3;
+    lVar3 = lVar3 + 1;
+    printk("%-15s<0x%x>\n",*ppuVar1,uVar2);
+  } while (lVar3 != 0xc);
+  printk("[H]Dump CSR END\n\n");
+  return;
+}
+
+
+
+FUNCTION set_npu_wifi_offload_eagle_rro_debug @ 001016fc
+XREF 00102edc DATA
+XREF 001011dc UNCONDITIONAL_CALL
+decompiled=true
+
+void set_npu_wifi_offload_eagle_rro_debug(void)
+
+{
+  FUN_0010153c();
+  return;
+}
+
+
+
+FUNCTION cleanup_module @ 00101710
+XREF _elfSectionHeaders::00000190 DATA
+XREF 00102f74 DATA
+decompiled=true
+
+void cleanup_module(void)
+
+{
+  printk(&DAT_00102b40,"npuExit");
+  npu_stat = 0;
+  remove_proc_entry("tc3162/npu_wifi_eagle_rro_dbg",0);
+  remove_proc_entry("tc3162/npu_wifiOffload_dbg_counter",0);
+  remove_proc_entry("tc3162/npu_wifiOffload_tx_dbg_counter",0);
+  remove_proc_entry("npu_dump_core_csr",0);
+  return;
+}
+
+
+
+FUNCTION filp_open @ 00104000
+XREF 00100a08 UNCONDITIONAL_CALL
+XREF 00101380 PARAM
+XREF 00101730 PARAM
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void filp_open(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION npu_wifi_offload_get_tx_pkt_buf_addr @ 00104008
+XREF 00101388 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_wifi_offload_get_tx_pkt_buf_addr(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION simple_strtol @ 00104018
+XREF 00100e54 UNCONDITIONAL_CALL
+XREF 00101098 UNCONDITIONAL_CALL
+XREF 00101174 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void simple_strtol(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION vfs_statx @ 00104020
+XREF 001009a0 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void vfs_statx(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION set_npu_needed_info @ 00104028
+XREF 0010123c UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void set_npu_needed_info(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION host_notify_npuMbox @ 00104030
+XREF 001015f8 UNCONDITIONAL_CALL
+XREF 00100c0c UNCONDITIONAL_CALL
+XREF 00101354 UNCONDITIONAL_CALL
+XREF 00101414 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void host_notify_npuMbox(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION create_proc_entry @ 00104040
+XREF 00101254 UNCONDITIONAL_CALL
+XREF 00101278 UNCONDITIONAL_CALL
+XREF 00101298 UNCONDITIONAL_CALL
+XREF 001012b8 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void create_proc_entry(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION __stack_chk_fail @ 00104050
+XREF 00100ec0 UNCONDITIONAL_CALL
+XREF 00101104 UNCONDITIONAL_CALL
+XREF 001011c4 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void __stack_chk_fail(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION __ioremap @ 00104058
+XREF 00100c68 UNCONDITIONAL_CALL
+XREF 00100cd8 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void __ioremap(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION dma_alloc_attrs @ 00104060
+XREF 00101594 UNCONDITIONAL_CALL
+XREF 00100bb8 UNCONDITIONAL_CALL
+XREF 001012f0 UNCONDITIONAL_CALL
+XREF 001013b0 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void dma_alloc_attrs(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION sscanf @ 00104070
+XREF 00100adc UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+int sscanf(char *__s,char *__format,...)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION printk @ 00104078
+XREF 00101560 UNCONDITIONAL_CALL
+XREF 00101578 UNCONDITIONAL_CALL
+XREF 00101630 UNCONDITIONAL_CALL
+XREF 0010172c UNCONDITIONAL_CALL
+XREF 00100230 UNCONDITIONAL_CALL
+XREF 00100240 UNCONDITIONAL_CALL
+XREF 00100250 UNCONDITIONAL_CALL
+XREF 00100260 UNCONDITIONAL_CALL
+XREF 00100270 UNCONDITIONAL_CALL
+XREF 00100280 UNCONDITIONAL_CALL
+XREF 00100290 UNCONDITIONAL_CALL
+XREF 001002a0 UNCONDITIONAL_CALL
+XREF 001002b4 UNCONDITIONAL_CALL
+XREF 001002c4 UNCONDITIONAL_CALL
+XREF 001002d4 UNCONDITIONAL_CALL
+XREF 001002e4 UNCONDITIONAL_CALL
+XREF 001002f4 UNCONDITIONAL_CALL
+XREF 00100304 UNCONDITIONAL_CALL
+XREF 00100314 UNCONDITIONAL_CALL
+XREF 00100324 UNCONDITIONAL_CALL
+XREF 00100334 UNCONDITIONAL_CALL
+XREF 00100390 UNCONDITIONAL_CALL
+XREF 001003a0 UNCONDITIONAL_CALL
+XREF 001003b0 UNCONDITIONAL_CALL
+XREF 001003c0 UNCONDITIONAL_CALL
+XREF 001003d0 UNCONDITIONAL_CALL
+XREF 001003e0 UNCONDITIONAL_CALL
+XREF 001003f0 UNCONDITIONAL_CALL
+XREF 00100400 UNCONDITIONAL_CALL
+XREF 00100410 UNCONDITIONAL_CALL
+XREF 00100420 UNCONDITIONAL_CALL
+XREF 00100430 UNCONDITIONAL_CALL
+XREF 0010043c UNCONDITIONAL_CALL
+XREF 0010044c UNCONDITIONAL_CALL
+XREF 0010045c UNCONDITIONAL_CALL
+XREF 0010046c UNCONDITIONAL_CALL
+XREF 0010047c UNCONDITIONAL_CALL
+XREF 00100490 UNCONDITIONAL_CALL
+XREF 001004a0 UNCONDITIONAL_CALL
+XREF 001004b0 UNCONDITIONAL_CALL
+XREF 001004c0 UNCONDITIONAL_CALL
+XREF 001004d0 UNCONDITIONAL_CALL
+XREF 001004e0 UNCONDITIONAL_CALL
+XREF 001004ec UNCONDITIONAL_CALL
+XREF 001004fc UNCONDITIONAL_CALL
+XREF 0010050c UNCONDITIONAL_CALL
+XREF 0010051c UNCONDITIONAL_CALL
+XREF 0010052c UNCONDITIONAL_CALL
+XREF 0010053c UNCONDITIONAL_CALL
+XREF 0010054c UNCONDITIONAL_CALL
+XREF 00100558 UNCONDITIONAL_CALL
+XREF 00100568 UNCONDITIONAL_CALL
+XREF 00100578 UNCONDITIONAL_CALL
+XREF 00100588 UNCONDITIONAL_CALL
+XREF 00100598 UNCONDITIONAL_CALL
+XREF 001005a8 UNCONDITIONAL_CALL
+XREF 001005b8 UNCONDITIONAL_CALL
+XREF 001005c8 UNCONDITIONAL_CALL
+XREF 001005d8 UNCONDITIONAL_CALL
+XREF 001005e8 UNCONDITIONAL_CALL
+XREF 001005f8 UNCONDITIONAL_CALL
+XREF 00100608 UNCONDITIONAL_CALL
+XREF 00100618 UNCONDITIONAL_CALL
+XREF 00100628 UNCONDITIONAL_CALL
+XREF 00100638 UNCONDITIONAL_CALL
+XREF 00100644 UNCONDITIONAL_CALL
+XREF 00100654 UNCONDITIONAL_CALL
+XREF 00100660 UNCONDITIONAL_CALL
+XREF 0010067c UNCONDITIONAL_CALL
+XREF 0010068c UNCONDITIONAL_CALL
+XREF 0010069c UNCONDITIONAL_CALL
+XREF 001006ac UNCONDITIONAL_CALL
+XREF 001006bc UNCONDITIONAL_CALL
+XREF 001006cc UNCONDITIONAL_CALL
+XREF 001006dc UNCONDITIONAL_CALL
+XREF 001006ec UNCONDITIONAL_CALL
+XREF 001006fc UNCONDITIONAL_CALL
+XREF 0010070c UNCONDITIONAL_CALL
+XREF 0010071c UNCONDITIONAL_CALL
+XREF 0010072c UNCONDITIONAL_CALL
+XREF 00100738 UNCONDITIONAL_CALL
+XREF 00100748 UNCONDITIONAL_CALL
+XREF 00100758 UNCONDITIONAL_CALL
+XREF 00100768 UNCONDITIONAL_CALL
+XREF 00100778 UNCONDITIONAL_CALL
+XREF 00100788 UNCONDITIONAL_CALL
+XREF 00100798 UNCONDITIONAL_CALL
+XREF 001007a4 UNCONDITIONAL_CALL
+XREF 001007b4 UNCONDITIONAL_CALL
+XREF 001007c4 UNCONDITIONAL_CALL
+XREF 001007d4 UNCONDITIONAL_CALL
+XREF 001007e4 UNCONDITIONAL_CALL
+XREF 001007f4 UNCONDITIONAL_CALL
+XREF 00100804 UNCONDITIONAL_CALL
+XREF 00100814 UNCONDITIONAL_CALL
+XREF 00100824 UNCONDITIONAL_CALL
+XREF 00100834 UNCONDITIONAL_CALL
+XREF 00100844 UNCONDITIONAL_CALL
+XREF 00100854 UNCONDITIONAL_CALL
+XREF 00100864 UNCONDITIONAL_CALL
+XREF 00100874 UNCONDITIONAL_CALL
+XREF 00100880 UNCONDITIONAL_CALL
+XREF 00100890 UNCONDITIONAL_CALL
+XREF 001008a0 UNCONDITIONAL_CALL
+XREF 001008b0 UNCONDITIONAL_CALL
+XREF 001008c0 UNCONDITIONAL_CALL
+XREF 001008cc UNCONDITIONAL_CALL
+XREF 001008dc UNCONDITIONAL_CALL
+XREF 001008ec UNCONDITIONAL_CALL
+XREF 001008fc UNCONDITIONAL_CALL
+XREF 00100908 UNCONDITIONAL_CALL
+XREF 00100918 UNCONDITIONAL_CALL
+XREF 00100928 UNCONDITIONAL_CALL
+XREF 00100938 UNCONDITIONAL_CALL
+XREF 001009c4 UNCONDITIONAL_CALL
+XREF 001009ec UNCONDITIONAL_CALL
+XREF 00100a20 UNCONDITIONAL_CALL
+XREF 00100af4 UNCONDITIONAL_CALL
+XREF 00100b08 UNCONDITIONAL_CALL
+XREF 00100b38 UNCONDITIONAL_CALL
+XREF 001016b0 UNCONDITIONAL_CALL
+XREF 001016d0 UNCONDITIONAL_CALL
+XREF 001016e4 UNCONDITIONAL_CALL
+XREF 00100c90 UNCONDITIONAL_CALL
+XREF 00100d00 UNCONDITIONAL_CALL
+XREF 00100d50 UNCONDITIONAL_CALL
+XREF 00100d74 UNCONDITIONAL_CALL
+XREF 00100d84 UNCONDITIONAL_CALL
+XREF 00100da0 UNCONDITIONAL_CALL
+XREF 00100e84 UNCONDITIONAL_CALL
+XREF 00100ecc UNCONDITIONAL_CALL
+XREF 00100f38 UNCONDITIONAL_CALL
+XREF 00100f48 UNCONDITIONAL_CALL
+XREF 00100f58 UNCONDITIONAL_CALL
+XREF 00100f68 UNCONDITIONAL_CALL
+XREF 00100f78 UNCONDITIONAL_CALL
+XREF 00100f88 UNCONDITIONAL_CALL
+XREF 00100f98 UNCONDITIONAL_CALL
+XREF 00100fa8 UNCONDITIONAL_CALL
+XREF 00100fbc UNCONDITIONAL_CALL
+XREF 00100fcc UNCONDITIONAL_CALL
+XREF 00100fdc UNCONDITIONAL_CALL
+XREF 00100fec UNCONDITIONAL_CALL
+XREF 00100ffc UNCONDITIONAL_CALL
+XREF 0010100c UNCONDITIONAL_CALL
+XREF 0010101c UNCONDITIONAL_CALL
+XREF 0010102c UNCONDITIONAL_CALL
+XREF 0010103c UNCONDITIONAL_CALL
+XREF 001010c8 UNCONDITIONAL_CALL
+XREF 00101110 UNCONDITIONAL_CALL
+XREF 0010118c UNCONDITIONAL_CALL
+XREF 001011d4 UNCONDITIONAL_CALL
+XREF 0010146c UNCONDITIONAL_CALL
+XREF 0010147c UNCONDITIONAL_CALL
+XREF 00101494 UNCONDITIONAL_CALL
+XREF 001014a0 UNCONDITIONAL_CALL
+XREF 001014b0 UNCONDITIONAL_CALL
+XREF 001014cc UNCONDITIONAL_CALL
+XREF 001014d8 UNCONDITIONAL_CALL
+XREF 001014e8 UNCONDITIONAL_CALL
+XREF 001014f8 UNCONDITIONAL_CALL
+XREF 00101508 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void printk(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION get_npu_dbg_csr @ 00104080
+XREF 001016bc UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void get_npu_dbg_csr(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION boot_npu_all_cores @ 00104088
+XREF 00100a78 UNCONDITIONAL_CALL
+XREF 00101240 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void boot_npu_all_cores(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION test_ram_b4_npu_load @ 00104090
+XREF 001011ec UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void test_ram_b4_npu_load(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION memset @ 00104098
+XREF 001015b0 UNCONDITIONAL_CALL
+XREF 00100154 UNCONDITIONAL_CALL
+XREF 00100bd4 UNCONDITIONAL_CALL
+XREF 0010130c UNCONDITIONAL_CALL
+XREF 001013cc UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+void * memset(void *__s,int __c,size_t __n)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION copy_file_to_ram @ 001040a0
+XREF 00100a34 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void copy_file_to_ram(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION npu_wifi_offload_get_force_to_cpu_flag @ 001040a8
+XREF 0010143c UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_wifi_offload_get_force_to_cpu_flag(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION npu_wifi_offload_get_pkt_buf_addr @ 001040b0
+XREF 001012c8 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_wifi_offload_get_pkt_buf_addr(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION get_ecnt_npu_dev @ 001040b8
+XREF 00101564 UNCONDITIONAL_CALL
+XREF 00100b94 UNCONDITIONAL_CALL
+XREF 001012d4 UNCONDITIONAL_CALL
+XREF 00101394 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void get_ecnt_npu_dev(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION dma_free_attrs @ 001040c0
+XREF 00101614 UNCONDITIONAL_CALL
+XREF 00100c34 UNCONDITIONAL_CALL
+XREF 00100d44 UNCONDITIONAL_CALL
+XREF 00101370 UNCONDITIONAL_CALL
+XREF 00101430 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void dma_free_attrs(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION filp_close @ 001040c8
+XREF 00100a40 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void filp_close(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION remove_proc_entry @ 001040d0
+XREF 00101744 UNCONDITIONAL_CALL
+XREF 00101754 UNCONDITIONAL_CALL
+XREF 00101764 UNCONDITIONAL_CALL
+XREF 00101774 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void remove_proc_entry(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+FUNCTION __arch_copy_from_user @ 001040d8
+XREF 001000dc UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void __arch_copy_from_user(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+
+total_defined_functions=45
+selected_functions=45
+failed_decompilations=0

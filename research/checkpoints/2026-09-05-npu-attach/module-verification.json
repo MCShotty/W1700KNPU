@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "default_config_unchanged": true,
+  "variants": {
+    "npu-enabled": {
+      "mt76.ko": {
+        "sha256": "5544822797ccd8142d00e9324d752799d40439efb47cfdb1f16d0a8d3cfd6ba7",
+        "bytes": 1342016,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "53c1d4f9fe94acf98b4a129b723cdc414202975915bacc3b242434a494efcc1b"
+        }
+      },
+      "mt76-connac-lib.ko": {
+        "sha256": "a4d348b71ea72fcbe66e2ae9f799998700742758ec4e61bff3a46b9f5a34bd94",
+        "bytes": 651728,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+          ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+        }
+      },
+      "mt7996e.ko": {
+        "sha256": "be33d682b39be9940bc858bcd100b95cdb445658537b98bd9dc3cdf49b1e7738",
+        "bytes": 1811320,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "903379bfe56d4fbbbc831fa77b85af62966ea9229a9c56bddc5656a300ec8f05",
+          ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+          ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+          ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+        },
+        "defined_npu_lifecycle_symbols": [
+          "__mt7996_npu_hw_init",
+          "mt7996_npu_hw_init",
+          "mt7996_npu_hw_stop"
+        ]
+      }
+    },
+    "wlan-dma": {
+      "mt76.ko": {
+        "sha256": "a905735a7ddfd4472b22687389d19f706c8898c9c37dae9168510338e614aa48",
+        "bytes": 1227248,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "a9c0d3ed2c7b72c6dd1f3d9139da507c6945522753689e3c1af55c4eff3750db"
+        },
+        "all_executable_sections_match_retained_baseline": true,
+        "baseline_elf_sha256": "38504280d5cd32c12fc6e2ddb8212fb50fa70e58e055a2323c63b1f0975774af"
+      },
+      "mt76-connac-lib.ko": {
+        "sha256": "8baa839e54676611d289c02d717661275afcb08e0a6b30368ce182d0a65b6317",
+        "bytes": 651728,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+          ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+        },
+        "all_executable_sections_match_retained_baseline": true,
+        "baseline_elf_sha256": "5b78a8b25f386798cf6bb373df8564f202f06ee8f242af1dac62985e8aa78c9e"
+      },
+      "mt7996e.ko": {
+        "sha256": "205f42dcc5afe9baafa674897a5258d9e9816a8eb3f4ec22ac24d28eaa554a08",
+        "bytes": 1755872,
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "ff8da133dd3067b03bb1926e4b9b06f7641e026db6a0868d5d46b512062e432d",
+          ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+          ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+          ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+        },
+        "defined_npu_lifecycle_symbols": [],
+        "all_executable_sections_match_retained_baseline": true,
+        "baseline_elf_sha256": "64c972c36246bd53d60406aed16eae4f423ac5966a2cad51a91b133d5afc0bd3"
+      }
+    }
+  },
+  "scope": "component builds only; no new image, live load or active-NPU runtime test"
+}

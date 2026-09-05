@@ -17316,3 +17316,43 @@ Status and boundary:
 - Final measured free space: C: 29.04 GiB, D: 30.24 GiB. Current and rollback
   bundle checksums and Git fsck pass. Exact manifests/receipts and limitations
   are in `docs/migration/REPORT.md` and adjacent JSON records.
+
+## NPU Provider Guard and Recovery Checkpoint - 2026-09-05
+
+- Resumed both active goals from the canonical GitHub/WSL workspace. Live
+  upstream mt76 HEAD remains `be5ce7910521492d4a2e4ce7ee3843680a46c047`.
+- Added overlay patch 003, SHA256
+  `6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092`.
+  It avoids six unused coherent allocations before the inner no-provider check,
+  preventing unnecessary 1.25 MiB MT7996/2.5 MiB MT7992 allocation and possible
+  -ENOMEM failure on early-attach normal-DMA fallback. No late-failure rollback,
+  recovery or throughput fix is claimed.
+- Compiled actual initializer-body harness: 20 passing cases, both chip branches,
+  each allocation-failure position, inner-error propagation, detached provider;
+  unpatched negative control reproduces the defect. Strict checkpatch 0/0/0.
+- Both real package-build variants passed. Enabled mt7996e SHA256
+  `be33d682b39be9940bc858bcd100b95cdb445658537b98bd9dc3cdf49b1e7738`.
+  Normal configuration restored/byte-identical, NPU functions absent in disabled
+  variant, all executable sections of three normal modules equal retained
+  baseline. Only component builds, no new image or live module replacement.
+- Headless Ghidra 12.1.2 full auto-analysis completed for stock hostadpt/npu and
+  the rebuilt enabled driver: 362 initialized executable functions, 53 selected
+  successful exports. Corrected an initial EXTERNAL-stub counting mistake;
+  generated projects use ignored scratch/ because Ghidra rejects dot paths.
+  Existing tool-template XML and optimized-DWARF warnings remain disclosed.
+- Stock TX handler ties SKB unmap/free to consumer indices on 0x400/0xd0 rings.
+  Stock exit hooks are not a proven drain acknowledgement. Current enabled ELF
+  confirms unchecked L1 stop/init returns and full-reset token reclamation
+  before NPU quiescence. No fault was injected into the live router.
+- Fresh pinned SSH bound to Ethernet verifies board gemtek,w1700k-ubi, kernel
+  6.18.44, WLAN NPU compiled out, MemAvailable 1,659,132/1,868,028 KiB. No router
+  config, WiFi association, transmit-power, NPU mode, module, reboot or flash
+  changes. Current R1 and rollback release artifacts remain untouched.
+- Source-lock now distinguishes current source from last router-tested image;
+  33 OpenWrt + 3 LuCI file hashes reconstruct. Checkpoint report, test/build logs,
+  Ghidra exports and binary/source verification live under
+  `research/checkpoints/2026-09-05-npu-attach/`.
+- Next: establish provider/stock coordinator quiescence guarantees; implement
+  shared failure handling for L1/full reset/removal before reclaiming ownership;
+  then current-mt76 lifecycle port and serial-backed active-NPU tests. Both goals
+  remain active, stock parity and real-client throughput acceptance unfinished.
