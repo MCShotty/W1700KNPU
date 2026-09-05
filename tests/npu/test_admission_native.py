@@ -25,9 +25,16 @@ HOOKS = {0x840030b2: ('npu_emulation_irq_dispatch', '411122c4'),
          0x84000188: ('npu_coordinator_main_return', 'b2400145')}
 
 
-def build_platform(state_address=None):
+def build_platform(state_address=None, gdma_source=None, poll_limit=65536, gdma_binding=None):
     lld = shutil.which('ld.lld') or str(BUILD / 'lld/usr/lib/llvm-21/bin/ld.lld')
     tag = '' if state_address is None else '-' + hex(state_address)
+    extra_sources = []
+    if gdma_source is not None:
+        tag += '-gdma-' + gdma_source.stem + '-' + str(poll_limit)
+        if gdma_binding is not None:
+            tag += '-' + gdma_binding.stem
+        extra_sources = [str(gdma_source), str(gdma_binding or ROOT / 'tests/npu/gdma-platform-emulation.c'),
+                         '-DNPU_GDMA_POLL_LIMIT=' + str(poll_limit)]
     path = BUILD / ('admission-platform' + tag + '.elf')
     extra = [] if state_address is None else [f'-Wl,--defsym=npu_emulation_barrier_state={state_address}']
     subprocess.run([shutil.which('clang'), '--target=riscv32', '-march=rv32imac_zicsr',
@@ -35,7 +42,7 @@ def build_platform(state_address=None):
                     '-nostdlib', '-fno-stack-protector', f'--ld-path={lld}',
                     '-I', str(SOURCE.parent), str(SOURCE), str(ADMISSION),
                     str(ROOT / 'tests/npu/barrier-core5-emulation.S'),
-                    str(ROOT / 'tests/npu/barrier-workers-emulation.S'), str(PLATFORM), str(ASSEMBLY),
+                    str(ROOT / 'tests/npu/barrier-workers-emulation.S'), str(PLATFORM), str(ASSEMBLY), *extra_sources,
                     *extra, '-Wl,-T,' + str(ROOT / 'tests/npu/barrier-workers-emulation.ld') + ',--no-relax',
                     '-Wl,--defsym=original_irq_30b6=0x840030b6', '-o', str(path)],
                    check=True, capture_output=state_address is not None, text=True)
@@ -391,8 +398,8 @@ def irq_abi(path):
     return cases
 
 
-def main():
-    path = build_platform()
+def main(path=None):
+    path = path or build_platform()
     irqs = stopped_irqs(path)
     busy = inflight_irq(path)
     shared = eight_contexts(path)

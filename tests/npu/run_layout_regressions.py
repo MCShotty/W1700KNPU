@@ -18,15 +18,18 @@ SUITES = ('test_firmware_memory_layout', 'test_firmware_gdma', 'test_firmware_st
           'test_admission_protocol', 'test_admission_native')
 
 
-def main():
-    OUT.mkdir(parents=True, exist_ok=True)
+def main(output=OUT, suites=SUITES, adapter_path=None):
+    output.mkdir(parents=True, exist_ok=True)
     runs = []
-    for name in SUITES:
+    for name in suites:
         module = importlib.import_module(name)
-        module.OUT = OUT / name
+        module.OUT = output / name
         module.OUT.mkdir(parents=True, exist_ok=True)
         with contextlib.redirect_stdout(io.StringIO()):
-            module.main()
+            if name == 'test_admission_native' and adapter_path is not None:
+                module.main(adapter_path)
+            else:
+                module.main()
         evidence = sorted(module.OUT.glob('*.json'))
         assert evidence, name
         runs.append({'suite': name, 'passed': True,
@@ -43,7 +46,7 @@ def main():
             rejected.append(hex(address))
         else:
             raise AssertionError('invalid linker state accepted: ' + hex(address))
-    path = build_platform()
+    path = adapter_path or build_platform()
     coordinator = Coordinator(path)
     assert coordinator.barrier.symbols['npu_emulation_barrier_state'] == STATE
     assert coordinator.barrier.symbols['npu_emulation_admission_state'] == STATE + 0x100
@@ -60,8 +63,8 @@ def main():
               'combined_elf_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
               'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in source_files},
               'scope': 'Bounded emulation and retained FIT inspection, not full boot, device cache, physical drain or production reservation.'}
-    (OUT / 'layout-regressions.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('PASS: ten suites, four linker negative controls, three linked state symbols')
+    (output / 'layout-regressions.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(f'PASS: {len(suites)} suites, four linker negative controls, three linked state symbols')
 
 
 if __name__ == '__main__':

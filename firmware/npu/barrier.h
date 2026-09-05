@@ -23,6 +23,7 @@ enum npu_barrier_action {
 
 /* All fields are naturally aligned, shared, coherent 32-bit words. Only the
  * serialized coordinator writes control/domain fields; each hart owns its slots.
+ * Any owner may atomically latch fault; only contained cold init clears it.
  * Cold initialization requires independent containment of every previous user. */
 struct npu_barrier {
     uint32_t request;
@@ -36,6 +37,7 @@ struct npu_barrier {
 };
 
 void npu_barrier_init(struct npu_barrier *state);
+void npu_barrier_fail(struct npu_barrier *state);
 uint32_t npu_barrier_stop(struct npu_barrier *state);
 enum npu_barrier_action npu_barrier_poll(struct npu_barrier *state,
                                        uint32_t hart, uint32_t *epoch);

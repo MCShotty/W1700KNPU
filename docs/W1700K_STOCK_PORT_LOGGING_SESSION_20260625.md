@@ -6213,3 +6213,22 @@ flash or association action. Linux recovery/removal, full NPU parity and actual
 client acceptance remain open. Evidence and replay:
 `research/checkpoints/2026-09-06-npu-layout/REPORT.md`. Ledger/reference/remaining
 work updated; R1 is still last router-tested, not freshly revalidated here.
+
+## Guarded Copy Candidate - 2026-09-06
+
+The unpromoted copy guard checks known hart/channel ownership, preexisting busy
+work, stale-DONE clear, DONE plus ENABLE-clear completion and final ACK readback.
+The legacy void caller is held on failure with only a shared atomic fault write;
+coordinator admission state remains coordinator-owned. All three native caller
+paths, late completion, eight mutants and twelve combined suites pass. Both
+poll-budget ELFs reproduce; default 65,536-observation holds and Ghidra's three
+selected exports from 50 extension functions verify. No physical drain or
+working restart is claimed.
+
+Fresh pinned Ethernet readback confirms W1700K/kernel6.18.44, WLAN NPU compiled
+out and all radios reported up, not actual-client acceptance. No MMIO access
+(`devmem` absent), helper installation, config, association, module, image or
+flash change. Packaged source/config remain unchanged; full boot/cache/drains,
+Linux retention/restart, full parity and client proof remain open. Evidence:
+`research/checkpoints/2026-09-06-npu-copy/REPORT.md`. Ledger/reference/remaining
+work updated; both full goals remain active.

@@ -55,6 +55,11 @@ uint32_t npu_barrier_stop(struct npu_barrier *s)
     return epoch + 1;
 }
 
+void npu_barrier_fail(struct npu_barrier *s)
+{
+    store(&s->fault, 1);
+}
+
 enum npu_barrier_action npu_barrier_poll(struct npu_barrier *s,
                                        uint32_t hart, uint32_t *epoch)
 {

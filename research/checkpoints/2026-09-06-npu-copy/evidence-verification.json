@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "suites": 12,
+  "mutation_controls": 8,
+  "packaged_source_unchanged_from": "f48c25da94f4d1d33fdc509b3e22a209267ca1b4",
+  "default_elf_sha256": "6397a75c3ee80cac0a80de478eb9ac41dc4584c223c394deca0605b7dd6f8fa0",
+  "ghidra_export_sha256": "6f54c23e6ca41d40b9dc071d57fc5d7f53e315c4114d494a3631bf5641e46e22",
+  "ghidra_functions": 3,
+  "ghidra_discovered_functions": 50,
+  "elf_sections": [
+    {
+      "name": ".text",
+      "start": 2214854656,
+      "end": 2214863978
+    }
+  ],
+  "source_lock_sha256": "139e8b45d60c634b5578ac6a818196bccc63a1ba7a673a69afa3d9b50fa3a203",
+  "helpers": {
+    "ExportMailboxContract.java": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd",
+    "SetupCopyCandidateMap.java": "692d481e80275d1f657a91ccb4e000d1a16fb879ae32062982dec7b193d4600d",
+    "copy-candidate.pattern": "7cfc235aa069b627ce92ae4cdf4c4c09ce529095d164e7a0fa19efe1aeda45ad"
+  },
+  "verifier_sha256": "82d3ae0f29c3a4df8f2c6776d3049af9c70862388f6f690bd031d585a48af40e",
+  "scope": "Exact software/binary/test inputs and scoped read-only identity; not full hardware drain, boot, cache, host recovery or client acceptance."
+}

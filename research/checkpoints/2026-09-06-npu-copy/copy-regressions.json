@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "suites": [
+    "test_firmware_memory_layout",
+    "test_firmware_gdma",
+    "test_firmware_stop_counterexample",
+    "test_firmware_stop_irqs",
+    "test_firmware_mailbox_dispatch",
+    "test_barrier_protocol",
+    "test_barrier_core5",
+    "test_barrier_workers",
+    "test_admission_protocol",
+    "test_admission_native",
+    "test_gdma_owner_routes",
+    "test_gdma_copy_guard"
+  ],
+  "combined_test_elf": ".local/npu-barrier/admission-platform-gdma-gdma-64.elf",
+  "combined_test_elf_sha256": "6cbaa3ba5a6113a19c45f0d0a68eece05dfbfc215fc1360bac06f13012773e63",
+  "test_poll_limit": 64,
+  "default_elf": ".local/npu-barrier/admission-platform-gdma-gdma-65536.elf",
+  "default_elf_sha256": "6397a75c3ee80cac0a80de478eb9ac41dc4584c223c394deca0605b7dd6f8fa0",
+  "default_poll_limit": 65536,
+  "both_compiles_reproduced_byte_for_byte": true,
+  "default_poll_fault_cases": [
+    {
+      "model": {
+        "busy_before": -1
+      },
+      "retained_after_late_completion": true,
+      "device": {
+        "launches": 0,
+        "copies": 0,
+        "post_done_reads": 0,
+        "pre_control_reads": 65536,
+        "enable": true,
+        "irq_enabled_accesses": 0,
+        "overwrote_busy": false,
+        "writes": []
+      }
+    },
+    {
+      "model": {
+        "early_done": true,
+        "idle_at": null
+      },
+      "retained_after_late_completion": true,
+      "device": {
+        "launches": 1,
+        "copies": 1,
+        "post_done_reads": 65536,
+        "pre_control_reads": 1,
+        "enable": false,
+        "irq_enabled_accesses": 0,
+        "overwrote_busy": false,
+        "writes": [
+          [
+            "0x204",
+            "0x1"
+          ],
+          [
+            "0x0",
+            "0x82000010"
+          ],
+          [
+            "0x4",
+            "0x82020000"
+          ],
+          [
+            "0x8",
+            "0x4c0023"
+          ]
+        ]
+      }
+    }
+  ],
+  "scope": "Actual combined software instructions and fault models; not hardware completion/cache/boot or host lifecycle proof."
+}

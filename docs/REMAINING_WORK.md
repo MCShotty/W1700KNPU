@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from the bounded-layout/GDMA checkpoint, current reference and release
+Updated 2026-09-06 from the guarded-copy checkpoint, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926). The last
@@ -35,6 +35,10 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   DONE. Close owner/channel/alias/cache and actual start-clear semantics before
   using this as a physical drain witness; conditional stale-DONE tests are not
   a proved live-device fault.
+  An unpromoted guard now enforces known hart/channel owners, pre-idle and
+  DONE/ENABLE completion, with fault-only cross-hart publication and no return
+  to legacy publishers after failure. All three callers and late completions
+  pass native tests, but this is not a physical drain or restart implementation.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -98,7 +102,8 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-06-npu-layout/REPORT.md`,
+Detailed evidence: `research/checkpoints/2026-09-06-npu-copy/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-layout/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-admission/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-workers/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`,

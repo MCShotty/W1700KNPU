@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (bounded layout and native GDMA contract; unpromoted)
+Last updated: 2026-09-06 (guarded copy candidate; unpromoted, read-only live check)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17599,3 +17599,34 @@ Status and boundary:
   Linux recovery/removal, full stock parity and client Wi-Fi acceptance stay open.
 - Report: `research/checkpoints/2026-09-06-npu-layout/REPORT.md`.
   Reference/logging/remaining-work updated; protected historical inputs untouched.
+
+## Guarded Copy Completion Candidate - 2026-09-06
+
+- Added unpromoted `firmware/npu/gdma.c/.h` and test-only legacy helper detour:
+  enforce known owners (hart2/channel1, hart3/channels0/3), wait for preexisting
+  work, clear/read back DONE, publish original transfer fields with I/O fences,
+  require DONE plus ENABLE clear, and verify acknowledgement.
+- Failures latch only the shared barrier fault and permanently retain the
+  calling context with IRQs gated. A review correction removed cross-worker
+  writes to coordinator admission state; native control reports the fault and
+  rejects new work. No worker ACK, release or physical drain is manufactured.
+- Native tests cover 48 success cases, 65 owner/limit rejections, nine failure
+  holds, 14 extra original-caller paths, six ABI cases and eight killed mutants.
+  All three original copy callers reproduce conditional early-completion
+  hazards; guarded callers wait or retain. Actual hardware visibility/start
+  semantics remain unproved, so these are not live Wi-Fi root-cause claims.
+- Twelve suites pass against the combined candidate; both poll-limit builds
+  reproduce. Two default 65,536-observation holds retain the caller after late
+  completion. Ghidra analyzes 50 extension functions and verifies three selected
+  functions, zero failures; default ELF SHA256
+  `6397a75c3ee80cac0a80de478eb9ac41dc4584c223c394deca0605b7dd6f8fa0`.
+- Pinned Ethernet readback confirms W1700K/kernel6.18.44, WLAN NPU compiled out,
+  provider not attached to mt76 and all radios reported up. `devmem` is absent;
+  no raw MMIO access or workaround. No router config, association, module,
+  image or flash changes. Separate-client reproduction requested, still pending.
+- Packaged source/config/patch926 remain unchanged from `f48c25d`; source
+  reconstruction passes 34 OpenWrt and three LuCI files. Full boot/cache/drains,
+  Linux recovery/removal/restart, full NPU parity and client acceptance stay open.
+- Report: `research/checkpoints/2026-09-06-npu-copy/REPORT.md`.
+  Reference/logging/remaining-work updated; historical receipts and protected
+  router/recovery inputs are unchanged. Both full goals remain active.

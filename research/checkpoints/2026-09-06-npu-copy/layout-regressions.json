@@ -1,0 +1,143 @@
+{
+  "passed": true,
+  "runs": [
+    {
+      "suite": "test_firmware_memory_layout",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_firmware_memory_layout/native-memory-layout.json": "bcfb8e9e97fb4d55cb7abe540adcf4c4c67e19119dcc654b83c212d907443045"
+      }
+    },
+    {
+      "suite": "test_firmware_gdma",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_firmware_gdma/native-gdma.json": "1ad35e492b5cf976fac2004c525af455c620f0febe7ee6ea3f26bd8ea3fff548"
+      }
+    },
+    {
+      "suite": "test_firmware_stop_counterexample",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_firmware_stop_counterexample/firmware-stop-counterexample.json": "891b170c7a70c7cd0980df9b7109196e28b453bb7dedd4f52dfac5cf3203aa47"
+      }
+    },
+    {
+      "suite": "test_firmware_stop_irqs",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_firmware_stop_irqs/irq-stop-counterexamples.json": "bb6eec050bb0411c3299ae36b3750f0c68a7cbaffd686aa2f9b6219b99138ca4"
+      }
+    },
+    {
+      "suite": "test_firmware_mailbox_dispatch",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_firmware_mailbox_dispatch/native-mailbox-dispatch.json": "56a6cfb6c3a84f36de5d3d99a36e4cab2c63c4a79383c79d69bc39594da3edbb"
+      }
+    },
+    {
+      "suite": "test_barrier_protocol",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_barrier_protocol/protocol-tests.json": "1ebf0f2299229bfac2f0f3cb34743153ccbeaa37675dc1da50c35e9ef72e50dc"
+      }
+    },
+    {
+      "suite": "test_barrier_core5",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_barrier_core5/core5-detour-tests.json": "5dc0b0e289329099cf9c2bb6334f3a1fa3038b7dc0fd69ff704e307b1aa7693e"
+      }
+    },
+    {
+      "suite": "test_barrier_workers",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_barrier_workers/worker-tests.json": "bb8bcb9d89d335b6520f32e5d16933bc698ff5f603a574e157ccc193011ad220"
+      }
+    },
+    {
+      "suite": "test_admission_protocol",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_admission_protocol/admission-protocol-tests.json": "208c95e9410e42f0a45714df38d45bb4bc3a353c3071fd3904950b1d85703d25"
+      }
+    },
+    {
+      "suite": "test_admission_native",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_admission_native/admission-native-tests.json": "b93c1a5ff92063e794f76d1b6bae4a6568fdabf4a5758623e3b1e9922d124cb4"
+      }
+    },
+    {
+      "suite": "test_gdma_owner_routes",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_gdma_owner_routes/known-gdma-owners.json": "8a40631429b228d9e2d6137b5cb121fdc73ddcd6419540f295d84022f71651a3"
+      }
+    },
+    {
+      "suite": "test_gdma_copy_guard",
+      "passed": true,
+      "evidence": {
+        "research/checkpoints/2026-09-06-npu-copy/test_gdma_copy_guard/copy-guard-tests.json": "6fee515e4d81a73dd505bc6d20b20b9b9117b54ce508cbfbcc486ea0e6aad3a6"
+      }
+    }
+  ],
+  "rejected_linker_addresses": [
+    "0x3e920000",
+    "0x3e904740",
+    "0x3e907ec0",
+    "0x3e906001"
+  ],
+  "state": "0x3e906000",
+  "local_sram_test_bytes": 32768,
+  "separate_synthetic_ring_region": [
+    "0x3e800000",
+    "0x3e878000"
+  ],
+  "combined_elf_sha256": "6cbaa3ba5a6113a19c45f0d0a68eece05dfbfc215fc1360bac06f13012773e63",
+  "source_sha256": {
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "5e424028ccec16d1e124604f0dd377b414d906046e69abeac42772827366049f",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "40c3fc7095f65c18d1223f125390d8c2b376a7ba8d1f984bb31b494a4baff6a3",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/run_copy_regressions.py": "4635ad4851ded56e0b9e534e04d558acbc368e87de597b599ef220a100c79d79",
+    "tests/npu/run_layout_regressions.py": "32b5a7b63ddd8f085ff6b5da6053811f755cb5d2100250f4f4eca43ed3afc30b",
+    "tests/npu/test_admission_native.py": "83d0e8bbb52e9192ba3feb37c97b164a762adff62537783d4ac54a1f078077c6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_attach_init.py": "29dad514b7d221be75cfaa4631bb68d9d132b63db4ef493c97862837f2a36556",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_firmware_gdma.py": "0d426d17582254a3e29e3d6762b360dc1cb44079c3fe525d2efbaff6c5be2223",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_gdma_copy_guard.py": "59f5acae13006d338499c7f03903a5838536f083026c92e3e137f7213de0a6b8",
+    "tests/npu/test_gdma_owner_routes.py": "c66263ad6d7a2481c0b5418db288ed10f2aa14cc52bf3e8a6cc00c72485c8ade",
+    "tests/npu/test_mailbox_ownership.py": "44f85e3d4d6e0d52e1df7ae8946bb44016427af3afd29bc6f9f4f8b62c42e96c",
+    "tests/npu/test_stock_reset_dispatch.py": "ed997ab9ea38c6de704fce5955c5a6ad6902def59e97f202a8541e50a5c98144",
+    "tests/npu/verify_admission_evidence.py": "97b380d29241bb5db9549903dd91ffbbd728dbce742c7a536879cdc00617e7a0",
+    "tests/npu/verify_barrier_evidence.py": "a530030e8379556d738e7cbaecfa3adfe59999792b44424824169adfbc20f408",
+    "tests/npu/verify_layout_evidence.py": "de86d7e40625de1bb72057f3edd3fb5368211ebcc53613660d14084cbfb32105",
+    "tests/npu/verify_modules.py": "6f80fc91d8a5768fa0f10c8242b27925faef3427d9f9cc4870bb8914ad721d6b",
+    "tests/npu/verify_quiescence_evidence.py": "adecf5974f908c13f118b4fa8de4452123924502570ff9d3c3b39a88cedac4ef",
+    "tests/npu/verify_stock_reset_evidence.py": "c5b8ea8c89837f8d3cda91a25eaa6b28c5f4cb550bcb715f1fb80c1d32e45fda",
+    "tests/npu/verify_worker_evidence.py": "1b1d424573e84497991daed5ef4a24a252a8bb97c4b4a6c06097e72dd02cb3a2"
+  },
+  "scope": "Bounded emulation and retained FIT inspection, not full boot, device cache, physical drain or production reservation."
+}

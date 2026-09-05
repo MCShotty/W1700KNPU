@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (bounded layout and native GDMA contract; packaged firmware/router unchanged)
+Last updated: 2026-09-06 (guarded copy candidate; read-only router check, packaged firmware unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,25 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Bounded Layout And GDMA Contract - 2026-09-06
+## Current Work - Guarded Copy Candidate - 2026-09-06
+
+- Added unpromoted owner-bound GDMA sequencing: wait for preexisting work,
+  clear/read back stale DONE, require DONE plus ENABLE clear, and verify ACK.
+  A legacy-copy detour masks local IRQs and holds the caller on failure; worker
+  fault publication no longer writes coordinator-owned admission state.
+- All three original copy callers execute against the guard. Twelve suites,
+  eight new negative controls, late-completion retention, default 65,536-poll
+  holds and two reproducible builds pass. Ghidra verifies three new functions
+  in the final 50-function extension ELF. No physical drain witness is claimed.
+- Fresh pinned Ethernet readback confirms W1700K/kernel 6.18.44, WLAN NPU compiled
+  out and all radios reported up. No raw MMIO read, helper installation, image,
+  flash, association or configuration change. Separate-client proof is pending.
+- Complete boot/cache/physical ownership, Linux recovery/removal, validated
+  restart, full parity and actual-client acceptance remain open. Packaged source
+  and patch 926 are unchanged. R1 remains the last verified image baseline, not full parity.
+- Evidence: `research/checkpoints/2026-09-06-npu-copy/REPORT.md`.
+
+## Previous Work - Bounded Layout And GDMA Contract - 2026-09-06
 
 - Corrected emulator placement: local SRAM is bounded to a conservative 32 KiB;
   state is at `0x3e906000`, with synthetic ring data in separate 480 KiB SRAM.
