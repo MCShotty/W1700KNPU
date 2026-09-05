@@ -2,6 +2,21 @@
 
 Last updated: 2026-09-05 03:55 +03:00
 
+## Canonical Workspace Migration - 2026-09-05
+
+The canonical repository is https://github.com/MCShotty/W1700KNPU (private), with
+local checkout `/home/captain/W1700KNPU`. Start future work here. The previous
+Windows task directory is archival input, not the working source authority.
+Current firmware source is represented by `firmware/source-lock.json`, complete
+public-base-to-working patches, overlays, and build configuration. All 35 changed
+files passed reconstruction/hash checks. Initial import commit:
+`4a5a3fe0589d34849fc8b8c53559a06db01238e6` (175 files; remote/local tree identical).
+See `docs/migration/REPORT.md` for final migration/cleanup receipts and retained
+private/local artifacts. Historical paths below remain original evidence.
+No router configuration, flash, radio, NPU behavior, or live acceptance state is
+changed by this migration. The live authority below is the last verified state,
+not a fresh router check during cleanup.
+
 Use this file as the first stop for future W1700K stock-firmware-port work. It points to the canonical comparison/logging file and keeps the current state short enough to be usable.
 
 ## Current Live Authority - Daybreak21 R1 - 2026-09-05 03:55 +03:00

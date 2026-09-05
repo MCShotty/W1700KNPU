@@ -18,8 +18,10 @@ output.parent.mkdir(parents=True, exist_ok=True)
 partial = output.with_name(output.name + '.partial')
 total = hashlib.sha256()
 size = 0
+created = False
 try:
     with partial.open('xb') as out:
+        created = True
         for part in data['parts']:
             path = (manifest.parent / part['path']).resolve(strict=True)
             if not path.is_relative_to(manifest.parent):
@@ -35,7 +37,7 @@ try:
     partial.rename(output)
 except BaseException:
     # Remove only the newly created partial, never an existing user artifact.
-    if partial.exists():
+    if created and partial.exists():
         partial.unlink()
     raise
 print(f'{data["sha256"]}  {output}')

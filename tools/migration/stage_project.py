@@ -93,7 +93,8 @@ def source():
     write_json(ROOT / 'firmware/source-lock.json', lock)
     for name in ['W1700K_STOCK_PORT_CURRENT_REFERENCE.md', 'W1700K_STOCK_PORT_LEDGER.md',
                  'W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md']:
-        put(ROOT / 'docs' / name, (OLD / 'work' / name).read_bytes())
+        if not (ROOT / 'docs' / name).exists():
+            put(ROOT / 'docs' / name, (OLD / 'work' / name).read_bytes())
     # Retain the final separate legacy candidate as evidence, not active patches.
     legacy = BUILD / 'mt76-patch85-integration-daybreak19-r2-20260904'
     if legacy.exists():
@@ -155,27 +156,42 @@ def pack():
     for finding in findings:
         p = Path(finding['File'])
         if not p.is_absolute():
-            p = stage / p
+            p = ROOT / p
         p = p.resolve()
         if not p.is_relative_to(stage.resolve()):
             raise RuntimeError('Scanner path outside stage')
+        target = MIGRATION / 'quarantine' / p.relative_to(stage)
         if p.exists():
-            target = MIGRATION / 'quarantine' / p.relative_to(stage)
             target.parent.mkdir(parents=True, exist_ok=True)
             p.rename(target)
+        elif not target.is_file():
+            raise RuntimeError(f'Scanner finding path missing: {p}')
     inventory = []
     dest = ROOT / 'research/history-20260905.tar.gz'
     dest.parent.mkdir(parents=True, exist_ok=True)
-    with tarfile.open(dest, 'w:gz', compresslevel=9) as archive:
+    canonical = {}
+    with tarfile.open(dest, 'w:gz', compresslevel=6) as archive:
         for p in sorted(stage.rglob('*')):
             if not p.is_file():
                 continue
             rel = p.relative_to(stage).as_posix()
-            archive.add(p, arcname=rel, recursive=False)
-            inventory.append({'path': rel, 'bytes': p.stat().st_size, 'sha256': digest(p)})
+            sha = digest(p)
+            info = archive.gettarinfo(p, arcname=rel)
+            identity = (sha, info.mode)
+            if identity in canonical:
+                info.type = tarfile.LNKTYPE
+                info.linkname = canonical[identity]
+                info.size = 0
+                archive.addfile(info)
+            else:
+                canonical[identity] = rel
+                with p.open('rb') as f:
+                    archive.addfile(info, f)
+            inventory.append({'path': rel, 'bytes': p.stat().st_size, 'sha256': sha})
     write_json(ROOT / 'research/history-manifest.json', inventory)
     write_json(ROOT / 'docs/migration/history-privacy-summary.json', {
         'files_archived': len(inventory), 'bytes_archived_uncompressed': sum(r['bytes'] for r in inventory),
+        'unique_file_contents_and_modes': len(canonical),
         'archive_bytes': dest.stat().st_size, 'archive_sha256': digest(dest),
         'scanner': 'gitleaks 8.30.1, default rules, redacted reporting',
         'quarantined_scanner_files': len({f['File'] for f in findings}),

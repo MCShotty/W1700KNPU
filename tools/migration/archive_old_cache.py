@@ -23,8 +23,7 @@ WINDOWS = [
     'ghidra-v642-hostadpt-tx-headroom-20260805', 'ghidra-final-20260710',
 ]
 LINUX = ['v688-provider79-build-20260901/build_dir',
-         'v686-release-73a8983-20260901/build-a-upper/build_dir',
-         '.v685-build-upper/build_dir']
+         'v686-release-73a8983-20260901/build-a-upper/build_dir']
 
 
 def sha(path):

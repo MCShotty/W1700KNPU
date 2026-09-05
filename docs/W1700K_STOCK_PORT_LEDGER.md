@@ -17264,3 +17264,34 @@ Status and boundary:
   LIVE-REPORT. Bundle now has 30 payload files plus manifest/checksum files;
   all 31 checksum entries pass. This does not extend the no-real-client/no-
   throughput boundary or certify every UI save combination.
+
+## Canonical GitHub Migration and Storage Cleanup - 2026-09-05
+
+- User requested retirement of obsolete project data and exclusive use of
+  `MCShotty/W1700KNPU`. The repository is private. The new native-WSL checkout
+  is `/home/captain/W1700KNPU`; future code, patches, reports and trackers live
+  here. Old paths remain provenance and protected/archival storage only.
+- Initial source/artifact import: `4a5a3fe0589d34849fc8b8c53559a06db01238e6`,
+  175 files, Git tree `3281b7203fa15ad719f6f111b1a2974122707cd8`, matching the
+  local index exactly. Existing GitHub initial commit was retained as parent.
+- Export covers earlier committed local changes as well as current uncommitted
+  edits: 32 OpenWrt and 3 LuCI files reconstruct and match SHA256 against the
+  pinned public bases. Includes overlays, feed pins, build config, selected
+  current/rollback bundles, stock inputs, and separate Daybreak19 legacy source.
+- Large inputs use verified parts because the GitHub blob API rejected the
+  complete stock image request size. The restore tool checks part and complete
+  artifact hashes. Native Git authentication is unavailable; the authorized
+  connector uploads objects and local Git imports only hash-matching commits.
+- Credential screening uses Gitleaks 8.30.1 and additional private-path/config
+  filters. Reviewed `scatter/SKB/bufid` terminology is narrowly allowlisted as
+  a false positive. Potentially credential-bearing historical originals stay
+  local; no private router backups, signing keys, factory/calibration or recovery
+  VHD are uploaded or removed.
+- Old Ghidra databases and selected prepared build directories are archived
+  losslessly and content-verified before removal. Unique old source changes are
+  not assumed to be present in the current image. Current build and v689 source
+  are protected. Pre-September superseded FIT images may be retired only after
+  preserving source/report/checksum history; current, rollback and recovery
+  artifacts are excluded. Exact completion receipts: `docs/migration/REPORT.md`.
+- Migration makes no router, WiFi, transmit-power, NPU, flashing, or live-test
+  changes. Stock parity and previous runtime-validation boundaries remain open.
