@@ -75,6 +75,37 @@ they do not make old patches safe to apply to current upstream.
 - No firmware source behavior, router configuration, radio, transmit-power,
   NPU setting, flashing or live-router validation was changed by this task.
 
-Cleanup completion, measured drive-space changes and final upload verification
-are appended below after the respective operations finish. Firmware runtime
-acceptance and unfinished stock-port boundaries remain as recorded in the ledger.
+## Completion
+
+Research import commit `2b4a1a5210ac1b3b860b782d52f8226e5c2b174e` has Git tree
+`3740a03c7761d0791ea4c64621acc33e73331538`, exactly matching all 200 staged files.
+This includes the verified historical archive and privacy/integrity manifests.
+Final cleanup receipts and tracker updates are committed after that import.
+
+All 597 selected obsolete images were removed; see `obsolete-images-removed.json`.
+Eight Ghidra directories and both selected build directories were removed only
+after complete archive verification and fresh source checks. Their compressed
+archives remain local and restorable. Temporary history staging was removed
+after remote verification. The duplicate-image hardlink plan was audit-only;
+no hardlink replacements were performed.
+
+Windows VHD compaction completed using the documented native
+[CompactVirtualDisk API](https://learn.microsoft.com/en-us/windows/win32/api/virtdisk/nf-virtdisk-compactvirtualdisk).
+The first attempt encountered a sharing violation and made no change. After
+stopping the only WSL distribution and its VM, compaction succeeded:
+103,698,923,520 -> 75,906,416,640 bytes, reclaiming **27,792,506,880 bytes**.
+No sparse mode or unsafe override was used. WSL restarted, the filesystem is
+writable, Git integrity passes, and systemd reports `running`.
+
+Final measured free space: **C: 29.04 GiB; D: 30.24 GiB**, versus approximately
+15.03 and 15.31 GiB at inventory. This is about **28.94 GiB net additional free
+space** across both drives; incidental system activity can change those totals.
+Do not interpret fstrim's large virtual-range count as physical recovered space.
+Current and rollback bundle checksum files still pass. Firmware runtime
+acceptance and unfinished stock-port boundaries are unchanged.
+
+Final helper checks: four artifact-restoration tests pass (valid reconstruction,
+corrupt-part rejection, existing-output preservation, existing-partial
+preservation); Python syntax checks pass. Current docs/tools and the complete
+Daybreak19 source tree pass credential screening with the narrow terminology
+allowlist. Stock firmware was successfully reassembled to its original SHA256.

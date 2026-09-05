@@ -6036,3 +6036,32 @@ The actual tri-band creation dialog passed single-click Save and page reload
 with correct staged 1/2/0 link order, SAE and PMF=2. No GUI Apply was issued.
 Test session logged out; original config and zero global UCI deltas verified.
 GUI evidence added to FinalResult, 31 checksum entries replay. Tunnel closed.
+
+## Workspace Migration and Cleanup - 2026-09-05
+
+Canonical working repository moved to private `MCShotty/W1700KNPU`, local WSL
+`/home/captain/W1700KNPU`. Current build and upstream Git backing moved inside
+its ignored `.build/` and `.local/` directories; old paths are compatibility
+symlinks. Old Windows locations now carry migration pointers, not new source.
+
+Source/release import `4a5a3fe0589d34849fc8b8c53559a06db01238e6` and research
+import `2b4a1a5210ac1b3b860b782d52f8226e5c2b174e` passed remote/local tree checks.
+35 changed source files reconstruct correctly. The historical archive contains
+49,891 verified files; 1,224 prefiltered entries and 152 scanner-flagged files
+remain local. Original stock and selected release inputs are included, using
+checksummed parts where required by the GitHub API.
+
+Completed: retired 597 obsolete FIT images (11,744,507,404 bytes); replaced eight
+old Ghidra directories and two old prepared build directories with losslessly
+verified local archives. No protected recovery VHD, private keys/backups,
+factory/calibration, current build, retained v689 source, or selected rollback
+was removed. Temporary historical staging was removed after verified upload.
+
+Windows VHD compaction succeeded through the documented CompactVirtualDisk API
+after full WSL shutdown; sparse mode was not enabled. Reclaimed 27,792,506,880
+physical bytes from the VHD; WSL restarted and systemd reports running. Final
+measurement: C: 29.04 GiB free; D: 30.24 GiB free. Git integrity and both retained
+release checksum files pass. Exact receipts: `docs/migration/`.
+
+No router access/configuration/flash or firmware behavior changes in this task.
+Stock parity and real-client/throughput acceptance remain unfinished.

@@ -17295,3 +17295,24 @@ Status and boundary:
   artifacts are excluded. Exact completion receipts: `docs/migration/REPORT.md`.
 - Migration makes no router, WiFi, transmit-power, NPU, flashing, or live-test
   changes. Stock parity and previous runtime-validation boundaries remain open.
+
+### Migration Completion
+
+- Research import `2b4a1a5210ac1b3b860b782d52f8226e5c2b174e`, tree
+  `3740a03c7761d0791ea4c64621acc33e73331538`, matches the 200-file local index.
+  Includes 49,891 verified historical files represented by an archive and full
+  manifest; all 152 scanner-flagged files are excluded, originals retained locally.
+- Removed 597 obsolete pre-September FIT images, 11,744,507,404 bytes, after
+  preservation/upload verification. Eight Ghidra and two old build directories
+  are recoverable from content-verified local archives, not discarded source.
+- Active source is `.build/openwrt`; public-upstream Git backing is
+  `.local/upstream/openwrt`. Both local source HEADs and 35 changed file hashes
+  remain correct after relocation. Compatibility symlinks preserve old cache
+  paths; new work must use this repository.
+- Documented native VHD compaction returned success after WSL shutdown:
+  103,698,923,520 -> 75,906,416,640 bytes. Initial sharing-violation attempt made
+  no change; the stopped-VM retry reclaimed 27,792,506,880 bytes. No unsafe
+  sparse flag or privilege escalation was used. WSL/systemd restarted normally.
+- Final measured free space: C: 29.04 GiB, D: 30.24 GiB. Current and rollback
+  bundle checksums and Git fsck pass. Exact manifests/receipts and limitations
+  are in `docs/migration/REPORT.md` and adjacent JSON records.

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 03:55 +03:00
+Last updated: 2026-09-05 (workspace migration; live authority remains 03:55 +03:00)
 
 ## Canonical Workspace Migration - 2026-09-05
 

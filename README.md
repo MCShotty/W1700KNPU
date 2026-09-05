@@ -28,6 +28,12 @@ Start with [current reference](docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md),
 - `.build/`, `.local/`, `.migration/`: ignored builds, protected local data and
   temporary staging. Never commit private keys or device-specific backups.
 
+See [migration and cleanup report](docs/migration/REPORT.md) for exact retained
+archives and retirement receipts. Historical source/research is provided as a
+checksummed archive with 49,891 entries and a searchable JSON manifest. Large
+binary inputs use `.parts.json` manifests; `tools/restore_artifact.py` restores
+the original file with end-to-end SHA256 verification.
+
 ## Build Preparation
 
 Use WSL native ext4. The canonical local checkout is `/home/captain/W1700KNPU`.
