@@ -1,3 +1,28 @@
+diff --git a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
+index 24585be6c1..94480acbd4 100644
+--- a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
++++ b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
+@@ -2,6 +2,20 @@
+ 
+ #include "an7581-npu-wlan.dtsi"
+ 
++/* MT7996 firmware initializes 0x7000 u16 TX buffer-check entries. */
++&npu_txbufid {
++	reg = <0x0 0x90c00000 0x0 0xe000>;
++};
++
++&{/reserved-memory} {
++	/delete-node/ npu-ba@90c06800;
++
++	npu_ba: npu-ba@90c0e000 {
++		no-map;
++		reg = <0x0 0x90c0e000 0x0 0x200000>;
++	};
++};
++
+ &npu {
+ 	firmware-name = "airoha/en7581_MT7996_npu_rv32.bin",
+                         "airoha/en7581_MT7996_npu_data.bin";
 diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
 index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ada4b3333c 100644
 --- a/package/kernel/mt76/Makefile

@@ -6232,3 +6232,21 @@ flash change. Packaged source/config remain unchanged; full boot/cache/drains,
 Linux retention/restart, full parity and client proof remain open. Evidence:
 `research/checkpoints/2026-09-06-npu-copy/REPORT.md`. Ledger/reference/remaining
 work updated; both full goals remain active.
+
+## MT7996 TX-Check Reservation Fix - 2026-09-06
+
+Native boot plus the original mailbox address callback confirms56KiB of TX
+check-table writes against the old26KiB reservation, with30KiB entering BA.
+The MT7996-specific DTS include now reserves the full table and relocates BA.
+Three affected DTBs preserve all other properties, genericEVB is byte-identical,
+and native replay plus two partial-fix controls pass. Source reconstruction
+verifies35OpenWrt/3LuCifiles; this is a source fix, not a new image or live
+Wi-Fi failure diagnosis. Current staged NPU blobs match the tested pristine hashes.
+
+Core0 waits for the host's address command before finishing initialization, so
+bootstrap admission and contained barrier-state setup remain unresolved alongside
+physical drains/cache, Linux recovery/restart and full parity. `/dev/mem` absent;
+no MMIO workaround, install, radio/config/association/module change or flash.
+R1 remains last router-tested; actual-client proof is pending. Evidence:
+`research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`. Ledger/reference/remaining
+work updated; both full goals remain active.

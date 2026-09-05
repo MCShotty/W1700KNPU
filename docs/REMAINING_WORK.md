@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from the guarded-copy checkpoint, current reference and release
+Updated 2026-09-06 from the TX-check reservation correction, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926). The last
@@ -8,6 +8,10 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 
 ## Priority 1: Safe NPU Recovery
 
+- [x] Correct the MT7996 TX-check reservation: native initialization clears
+  56 KiB, not the previously reserved 26 KiB. The MT7996 include now moves BA
+  beyond the full table; three affected DTBs and a generic control verify.
+  This is source/DTB proof, not a new image or active-NPU hardware acceptance.
 - [x] Establish current firmware STOP/GET limits and stock host mailbox ordering.
   Native RV32 emulation reaches core 5 through the hart dispatcher and reproduces
   descriptor consumption after STOP/GET3 zero. Standalone page-loop reachability
@@ -39,6 +43,9 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   DONE/ENABLE completion, with fault-only cross-hart publication and no return
   to legacy publishers after failure. All three callers and late completions
   pass native tests, but this is not a physical drain or restart implementation.
+  The native boot test proves core 0 waits for SET API 32 before main returns;
+  do not close bootstrap commands prematurely. Explicit contained barrier-state
+  initialization and complete startup/host-adapter negotiation remain required.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -102,7 +109,8 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-06-npu-copy/REPORT.md`,
+Detailed evidence: `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-copy/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-layout/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-admission/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-workers/REPORT.md`,

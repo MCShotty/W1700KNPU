@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (guarded copy candidate; unpromoted, read-only live check)
+Last updated: 2026-09-06 (MT7996 TX-check reservation source fix; no image/flash)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17630,3 +17630,29 @@ Status and boundary:
 - Report: `research/checkpoints/2026-09-06-npu-copy/REPORT.md`.
   Reference/logging/remaining-work updated; historical receipts and protected
   router/recovery inputs are unchanged. Both full goals remain active.
+
+## MT7996 TX-Check Reservation Correction - 2026-09-06
+
+- Verified a memory-contract defect: original core-0 initialization at
+  `0x84004e76` clears 0x7000 halfwords (56 KiB), while the W1700K R1 DTB reserves
+  only 0x6800 bytes (26 KiB). Native mailbox SET API32 supplies the pointer;
+  instruction `0x84004f1e` writes 30 KiB beyond TX-check into the BA reservation.
+  This is not a demonstrated cause of live client failures on WLAN-NPU-disabled R1.
+- Corrected only `an7581-npu-mt7996.dtsi`: TX size0xe000 at0x90c00000, BA moved
+  to0x90c0e000 with its size/label/role preserved. Canonical cumulative patch and
+  source lock updated, prepared source SHA256
+  `83cd7d8b494399ec218ce65810d8e17d08b930b9d1156a1591fef56f04d5a89d`.
+- Three MT7996 profile DTBs change only intended reservation properties; generic
+  EVB is byte-identical. Native replay has zero overflow/BA overlap and accepts
+  the relocated BA through API7. Both partial-fix controls reproduce 30 KiB
+  violations. Complete four-profile comparison covers742nodes/3505properties.
+- Source reconstruction passes35OpenWrt/3LuCifiles. New snapshot is
+  `post-Daybreak21-R1-NPU-txbuf-reservation-20260906`; build policy, kernel/module
+  code, NPU guard sources, firmware blobs and last-router-tested R1 are unchanged.
+  No new full image, flash, config, association, module or radio changes.
+- Startup still needs explicit contained barrier initialization and admission
+  that permits required bootstrap before core0_main returns. `/dev/mem` absent;
+  no MMIO/installation/workaround. Hardware drains/cache, Linux retention/restart,
+  full NPU parity and actual-client acceptance remain open. Both goals stay active.
+- Report: `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`.
+  Reference/logging/remaining-work updated; protected recovery inputs untouched.

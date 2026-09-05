@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (guarded copy candidate; read-only router check, packaged firmware unchanged)
+Last updated: 2026-09-06 (MT7996 TX-check reservation source fix; no new image or flash)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,24 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Guarded Copy Candidate - 2026-09-06
+## Current Work - TX-Check Reservation Fix - 2026-09-06
+
+- Native boot/mailbox tests confirm the selected MT7996 firmware clears 56 KiB
+  into a 26 KiB TX-check reservation, overwriting 30 KiB of the next BA region.
+  This is a verified memory-contract bug, not a proved live client failure cause.
+- Corrected only the MT7996-specific DTS include: TX-check now reserves 56 KiB;
+  BA moves beyond it. Three affected DTBs preserve all other properties; the
+  generic EVB control is byte-identical. Native replay and both partial-fix
+  controls pass; canonical reconstruction verifies 35 OpenWrt and three LuCI files.
+- Packaged source checkpoint advances; build policy remains WLAN NPU compiled
+  out. No new FIT/image, module, flash or configuration change. R1 remains last
+  router-tested. `/dev/mem` is absent; no MMIO or workaround was attempted.
+- Core 0 requires the bootstrap address command before main returns. Contained
+  barrier initialization, startup admission, hardware drains/cache, Linux
+  recovery/restart, full parity and actual-client acceptance remain open.
+- Evidence: `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`.
+
+## Previous Work - Guarded Copy Candidate - 2026-09-06
 
 - Added unpromoted owner-bound GDMA sequencing: wait for preexisting work,
   clear/read back stale DONE, require DONE plus ENABLE clear, and verify ACK.

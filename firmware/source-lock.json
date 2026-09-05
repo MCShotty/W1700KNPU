@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "snapshot": "post-Daybreak21-R1-NPU-mailbox-ownership-20260905",
+  "snapshot": "post-Daybreak21-R1-NPU-txbuf-reservation-20260906",
   "last_router_tested_snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
   "openwrt": {
     "url": "https://github.com/openwrt/openwrt.git",
@@ -161,6 +161,11 @@
         "path": "target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate",
         "sha256": "861f6aac6bf8f3dc5022cbed67f0119c74d52189b9ae9bd19b5e1ef1c4261f87",
         "mode": "0o755"
+      },
+      {
+        "path": "target/linux/airoha/dts/an7581-npu-mt7996.dtsi",
+        "sha256": "83cd7d8b494399ec218ce65810d8e17d08b930b9d1156a1591fef56f04d5a89d",
+        "mode": "0o644"
       },
       {
         "path": "target/linux/airoha/image/an7581.mk",

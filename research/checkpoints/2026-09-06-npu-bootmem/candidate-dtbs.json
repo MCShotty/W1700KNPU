@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "baseline": false,
+  "profiles": [
+    {
+      "profile": "an7581-w1700k-ubi",
+      "dtb_sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+      "nodes": 187,
+      "properties": 892,
+      "only_intended_reservation_changes": true
+    },
+    {
+      "profile": "an7581-nokia-valyrian",
+      "dtb_sha256": "12616402b5e1e2e128226bd75241135e75589e1f1a2d22896fb02611cd8ef864",
+      "nodes": 204,
+      "properties": 952,
+      "only_intended_reservation_changes": true
+    },
+    {
+      "profile": "an7581-evb-emmc-eagle",
+      "dtb_sha256": "20861e369e9817bc9921324264978c3b656b91b09e6a08e3b7b3af71bcf8b601",
+      "nodes": 178,
+      "properties": 840,
+      "only_intended_reservation_changes": true
+    },
+    {
+      "profile": "an7581-evb",
+      "dtb_sha256": "07d084f0b326f21f549ff6edd58f69e529c1f42e936533e3f3fb0009a7e05e5e",
+      "nodes": 173,
+      "properties": 821,
+      "only_intended_reservation_changes": true
+    }
+  ],
+  "scope": "Whole decoded DTB comparison for three MT7996 profiles and one unchanged generic control; no image build or flash."
+}

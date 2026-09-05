@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "affected_profiles": 3,
+  "unchanged_generic_control": true,
+  "old_overlap_bytes": 30720,
+  "corrected_overlap_bytes": 0,
+  "partial_fix_controls": 2,
+  "packaged_source_delta": "target/linux/airoha/dts/an7581-npu-mt7996.dtsi",
+  "source_lock_sha256": "b460f089e3b4653f05419158e715e4dd120e865e294df37bd8b39129a1ada5d1",
+  "cumulative_patch_sha256": "589481fde3271e88c83bab2cac87e56132f883ad40ac035135dd6423360d0a8d",
+  "inputs": {
+    "tests/npu/test_boot_txbuf_extent.py": "85577cd1cb4e1cc0d45dd459a143c45dd2aab959b620ddf001f97d5cc8a47e82",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tools/migration/verify_source_export.py": "eb102acb1452261ca8ba808d3191f9b89753c69df49d571f07846e1d20b79b0d"
+  },
+  "verifier_sha256": "4662b095e182a2d637d8b50987c8005b5f0c8052bab0de6bd2cac50eeee0ac6c",
+  "scope": "Native instruction/DTB/source reconstruction proof. No full image, flash, active-NPU hardware or client Wi-Fi acceptance."
+}
