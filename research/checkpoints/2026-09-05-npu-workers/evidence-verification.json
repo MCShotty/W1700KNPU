@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "packaged_source_unchanged_from": "657aad1ab9f44722220a4302ceaf9567fc0b8493",
+  "source_lock_sha256": "139e8b45d60c634b5578ac6a818196bccc63a1ba7a673a69afa3d9b50fa3a203",
+  "worker_results_sha256": "ed7f07a70798ca0e22985dc97845a58742261e1d769292251d53f298755ab3eb",
+  "verifier_sha256": "1b1d424573e84497991daed5ef4a24a252a8bb97c4b4a6c06097e72dd02cb3a2",
+  "ghidra_export_sha256": "8bf363da702e14948064fdd4b4ef9fa40c7b0abacc1280a58f2633ac835f09ad",
+  "elf_sha256": "0df4cfa2400fbfd4a67e6d8b6ea33ec28423c739e51dd0e01f22971af1d17c71",
+  "elf_allocated_sections": [
+    {
+      "name": ".text",
+      "start": 2214854656,
+      "end": 2214861092
+    }
+  ],
+  "detour_original_bytes_and_assembly": [
+    {
+      "address": "0x8400ce1c",
+      "hart": 1,
+      "symbol": "gate_core1_startup",
+      "preimage": "9c4281cf",
+      "target": "0x840407dc",
+      "postimage": "6f30131c",
+      "original_assembly": [
+        "c.lw a5,0x0(a3)",
+        "c.beqz a5,0x8400ce36"
+      ]
+    },
+    {
+      "address": "0x8400cf10",
+      "hart": 1,
+      "symbol": "gate_core1_outer",
+      "preimage": "1c4081ef",
+      "target": "0x840408e0",
+      "postimage": "6f30131d",
+      "original_assembly": [
+        "c.lw a5,0x0(s0)",
+        "c.bnez a5,0x8400cf2a"
+      ]
+    },
+    {
+      "address": "0x8400cf26",
+      "hart": 1,
+      "symbol": "gate_core1_idle",
+      "preimage": "1c40f5d7",
+      "target": "0x84040a48",
+      "postimage": "6f303332",
+      "original_assembly": [
+        "c.lw a5,0x0(s0)",
+        "c.beqz a5,0x8400cf14"
+      ]
+    },
+    {
+      "address": "0x8400ec7e",
+      "hart": 2,
+      "symbol": "gate_core2_startup",
+      "preimage": "1c43fddf",
+      "target": "0x84040bb0",
+      "postimage": "6f103373",
+      "original_assembly": [
+        "c.lw a5,0x0(a4)",
+        "c.beqz a5,0x8400ec7e"
+      ]
+    },
+    {
+      "address": "0x8400ecc2",
+      "hart": 2,
+      "symbol": "gate_core2_outer",
+      "preimage": "83470900",
+      "target": "0x84040cdc",
+      "postimage": "6f20a301",
+      "original_assembly": [
+        "lbu a5,0x0(s2)"
+      ]
+    },
+    {
+      "address": "0x8400ece6",
+      "hart": 2,
+      "symbol": "gate_core2_idle",
+      "preimage": "83470900",
+      "target": "0x84040e00",
+      "postimage": "6f20a311",
+      "original_assembly": [
+        "lbu a5,0x0(s2)"
+      ]
+    },
+    {
+      "address": "0x8400e440",
+      "hart": 3,
+      "symbol": "gate_core3_startup",
+      "preimage": "1c42e5db",
+      "target": "0x84040f24",
+      "postimage": "6f20532e",
+      "original_assembly": [
+        "c.lw a5,0x0(a2)",
+        "c.beqz a5,0x8400e432"
+      ]
+    },
+    {
+      "address": "0x8400e4d4",
+      "hart": 3,
+      "symbol": "gate_core3_outer",
+      "preimage": "83c70700",
+      "target": "0x84041028",
+      "postimage": "6f205335",
+      "original_assembly": [
+        "lbu a5,0x0(a5)"
+      ]
+    },
+    {
+      "address": "0x8400d0ea",
+      "hart": 4,
+      "symbol": "gate_core4_startup",
+      "preimage": "83470400",
+      "target": "0x84041124",
+      "postimage": "6f40a303",
+      "original_assembly": [
+        "lbu a5,0x0(s0)"
+      ]
+    },
+    {
+      "address": "0x8400d144",
+      "hart": 4,
+      "symbol": "gate_core4_outer",
+      "preimage": "83470400",
+      "target": "0x84041220",
+      "postimage": "6f40c30d",
+      "original_assembly": [
+        "lbu a5,0x0(s0)"
+      ]
+    },
+    {
+      "address": "0x8400d160",
+      "hart": 4,
+      "symbol": "gate_core4_idle",
+      "preimage": "83470400",
+      "target": "0x8404131c",
+      "postimage": "6f40c31b",
+      "original_assembly": [
+        "lbu a5,0x0(s0)"
+      ]
+    },
+    {
+      "address": "0x8400cd3e",
+      "hart": 6,
+      "symbol": "gate_core6_startup",
+      "preimage": "9c40fddf",
+      "target": "0x84041418",
+      "postimage": "6f40a36d",
+      "original_assembly": [
+        "c.lw a5,0x0(s1)",
+        "c.beqz a5,0x8400cd3e"
+      ]
+    },
+    {
+      "address": "0x8400cd8a",
+      "hart": 6,
+      "symbol": "gate_core6_outer",
+      "preimage": "9c4099cb",
+      "target": "0x8404151c",
+      "postimage": "6f402379",
+      "original_assembly": [
+        "c.lw a5,0x0(s1)",
+        "c.beqz a5,0x8400cda2"
+      ]
+    },
+    {
+      "address": "0x8400cd9e",
+      "hart": 6,
+      "symbol": "gate_core6_retry",
+      "preimage": "9c40fdf7",
+      "target": "0x84041620",
+      "postimage": "6f403308",
+      "original_assembly": [
+        "c.lw a5,0x0(s1)",
+        "c.bnez a5,0x8400cd8e"
+      ]
+    },
+    {
+      "address": "0x84000b24",
+      "hart": 7,
+      "symbol": "gate_core7_startup",
+      "preimage": "ef00f014",
+      "target": "0x84041724",
+      "postimage": "6f001440",
+      "original_assembly": [
+        "jal ra,0x84001472"
+      ]
+    },
+    {
+      "address": "0x84000b36",
+      "hart": 7,
+      "symbol": "gate_core7_outer",
+      "preimage": "ef00100c",
+      "target": "0x84041824",
+      "postimage": "6f00f44e",
+      "original_assembly": [
+        "jal ra,0x840013f6"
+      ]
+    }
+  ],
+  "scope": "Artifact/source/preimage binding and recorded case inventory. Not independent all-path validation, production placement, hardware completion or actual-client proof."
+}

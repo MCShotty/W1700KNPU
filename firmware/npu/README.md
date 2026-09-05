@@ -46,6 +46,14 @@ fails closed and requires independently contained cold initialization.
   pass. The helper's return, other harts and drain witnesses are modeled.
 - Native UART and PPE interrupt counterexamples remain after vendor STOP/GET0.
   Their real integration cannot be replaced by a worker-only patch.
+- The combined emulator ELF now adds 16 adapters for the other six workers:
+  20 detours total, with five refill pointer caches and both fast-RX indices
+  refreshed. Fast startup also needs index refresh. New tests pass 16 stop/
+  resume, 96 differential register/MSTATUS, 17 missing-startup, six in-flight
+  and six interrupted-refresh cases, three shared-SRAM seven-worker cycles,
+  and 19 negative controls. Scheduling is serialized; coordinator 0, helper
+  returns and physical drains are modeled. See the `2026-09-05-npu-workers`
+  checkpoint for exact scope and remaining reachability boundaries.
 
 The test linker addresses and state at `0x3e920000` are emulation fixtures, not
 validated production reservations. Do not append code at the original blob end:
@@ -60,14 +68,16 @@ PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_barrier_protocol.p
 PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_barrier_core5.py
 PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_firmware_stop_irqs.py
 python3 tests/npu/verify_barrier_evidence.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_barrier_workers.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/verify_worker_evidence.py
 ```
 
 The runner accepts system `ld.lld`, otherwise the locally unpacked
 `.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld`. Proprietary inputs remain in
 the existing ignored `.local/npu-quiescence/firmware/` directory with SHA guards.
 
-Next: all-hart startup/steady-state detours; coordinator mailbox/IRQ admission;
-copy/PPE/tunnel/DMA drain contracts; production SRAM/code reservations and cache
+Next: complete boot/helper/IRQ path closure; coordinator mailbox/IRQ admission;
+versioned host ABI; copy/PPE/tunnel/DMA drains; production SRAM/code and cache
 validation; then common Linux L1/full-reset/probe-unwind/removal retention and
 late-completion generation checks. Full host-adapter parity and client Wi-Fi
 acceptance remain separate open requirements.

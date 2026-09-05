@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (generation barrier candidate; packaged firmware/router unchanged)
+Last updated: 2026-09-05 (seven-worker barrier extension; packaged firmware/router unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,27 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Generation Barrier Candidate - 2026-09-05
+## Current Work - Seven-Worker Barrier Extension - 2026-09-05
+
+- Combined emulator ELF now contains 20 detours for seven worker contexts:
+  refill, fast/slow RX, TX done, both indirect parts and tunnel. It adds refill's
+  five cached-pointer refreshes and fast RX's two cached indices, including
+  startup. No deployable firmware binary is emitted.
+- 16 new stop/resume cases, 96 register/MSTATUS differential cases, 17 missing
+  startup dependencies, six in-flight and six interrupted-refresh cases pass.
+  Three cycles execute seven saved worker contexts against shared SRAM with
+  randomized ordering and alternating ring regions; 19 negative controls fail
+  as expected. Existing core-5/protocol/IRQ regressions pass unchanged.
+- These are serialized instruction tests with modeled helper returns,
+  coordinator-0 participation and physical drain witnesses. Full boot/helper/
+  IRQ path closure, coordinator admission, hardware drain and production memory
+  placement are not proved. Legacy STOP/GET3 does not implement this protocol.
+- Packaged source/config, patch 926 and router state are unchanged. No image,
+  router contact or flash. Linux L1/full-reset/removal retention, full NPU
+  ownership parity and actual-client Wi-Fi acceptance remain open.
+- Evidence: `research/checkpoints/2026-09-05-npu-workers/REPORT.md`.
+
+## Previous Work - Generation Barrier Candidate - 2026-09-05
 
 - Added unpromoted eight-hart generation protocol with separate drain witnesses,
   stale-epoch rejection and all-hart refresh before restart. 9,351 compiled

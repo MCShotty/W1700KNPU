@@ -1,0 +1,26 @@
+{
+  "reviewed": true,
+  "packaged_firmware_changed": false,
+  "image_built": false,
+  "router_contacted": false,
+  "flashed": false,
+  "protected_backups_touched": false,
+  "gitleaks": {
+    "tests_npu_findings": 0,
+    "new_checkpoint_findings": 0,
+    "firmware_npu_findings": 0,
+    "docs_findings": 3,
+    "docs_review": "All three are unchanged historical prose describing scatter/SKB/bufid lifecycle after the word token, not credentials.",
+    "docs_false_positive_locations": [
+      "docs/W1700K_STOCK_PORT_LEDGER.md:319",
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md:754",
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md:763"
+    ]
+  },
+  "source_export": {
+    "openwrt_changed_files_verified": 34,
+    "luci_changed_files_verified": 3,
+    "passed": true
+  },
+  "boundaries": "RV32 emulator-only detours and fixtures. No hardware drain, production memory placement, coordinator IRQ/control admission, Linux recovery integration or actual-client acceptance. No raw stock binaries, keys, calibration or recovery data included."
+}

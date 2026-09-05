@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-04 08:03 +03:00
+Last updated: 2026-09-05 (seven-worker barrier extension; unpromoted)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17506,3 +17506,34 @@ Status and boundary:
 - Report and replay: `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`.
   Current reference/logging/remaining-work are updated. Private inputs, local
   lld extraction, compiler artifacts and Ghidra projects remain ignored.
+
+## Seven-Worker Barrier Extension - 2026-09-05
+
+- Added 16 emulator-only RV32 adapters for refill, fast/slow RX, TX done,
+  indirect part 1 and tunnel; the combined ELF retains four core-5 adapters.
+  Refill refreshes five cached pointers. Fast RX refreshes two cached indices,
+  including startup: an initial steady-only implementation failed the startup
+  replacement-ring test and was corrected before this checkpoint.
+- 16 stop/resume, 96 original/detour register-MSTATUS differential, 17 missing
+  startup dependency, six in-flight and six actual interrupted-refresh cases
+  pass. Three randomized-order cycles execute seven saved worker contexts on
+  shared SRAM and alternate ring regions. Nineteen omitted-hook/cache controls
+  are rejected. Existing core-5/protocol/UART-PPE regressions pass unchanged.
+- Combined ELF SHA256 is
+  `0df4cfa2400fbfd4a67e6d8b6ea33ec28423c739e51dd0e01f22971af1d17c71`.
+  The artifact verifier binds all 16 new four-byte preimages and JAL targets to
+  the original SHA-guarded blob, existing Ghidra assembly, sources and results.
+  Allocated code is an emulator reservation, not production placement approval.
+- Helper returns, coordinator-0 participation and physical drain witnesses are
+  modeled. Worker-entry/loop tests do not close full boot, all helper/indirect
+  paths, IRQ admission, cache/bus completion or simultaneous-core execution.
+  Legacy STOP/GET3 is not the generation ABI; refill may park before clearing
+  its legacy busy flag. Versioned host/firmware integration remains required.
+- Packaged source/config is unchanged from `657aad1`; patch 926 remains latest
+  packaged source. No router contact, image build, flash or configuration/
+  association change. R1 remains last router-tested, with WLAN NPU compiled out.
+  Common L1/full-reset/probe-unwind/removal retention, full NPU ownership parity
+  and actual-client Wi-Fi acceptance remain open. Both full goals stay active.
+- Report and replay: `research/checkpoints/2026-09-05-npu-workers/REPORT.md`.
+  Reference/logging/remaining-work updated; proprietary inputs and generated
+  binaries remain ignored. Historical workspace and protected backups untouched.

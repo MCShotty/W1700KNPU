@@ -6158,3 +6158,20 @@ Packaged source/config and patch 926 are unchanged. No router contact, image
 build or flash. R1 remains the last router-tested WLAN-NPU-disabled baseline,
 not full parity or fresh client acceptance. Report, hashes and replay commands:
 `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`. Ledger/reference updated.
+
+## Seven-Worker Barrier Extension - 2026-09-05
+
+Combined emulator ELF has 20 detours covering seven worker contexts. New refill
+and fast-RX caches are refreshed before READY, including fast startup's already
+zeroed indices. Sixteen new stop/resume, 96 differential register/MSTATUS,
+17 missing-startup, six in-flight and six interrupted-refresh cases pass.
+Three randomized shared-SRAM cycles alternate ring locations across seven saved
+RV32 worker contexts; 19 negative controls are rejected. Prior regressions pass.
+
+This is serialized instruction emulation with modeled helpers, coordinator 0
+and hardware drains. Full boot/helper/IRQ closure, versioned host ABI, physical
+completion/cache/placement and common Linux recovery retention remain open.
+Packaged source/config and patch 926 are unchanged. No router access, image or
+flash; R1 remains last router-tested, not stock parity or fresh client evidence.
+Report: `research/checkpoints/2026-09-05-npu-workers/REPORT.md`.
+Ledger/reference/remaining-work updated; both full project goals remain active.
