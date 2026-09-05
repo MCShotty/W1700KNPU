@@ -6101,3 +6101,21 @@ remain protected. Exact receipts: `docs/maintenance/cleanup-20260905/`.
 
 Resume from `docs/REMAINING_WORK.md`; NPU quiescence/lifetime work and real-client
 WiFi/MLO throughput/stability acceptance are still open.
+
+## Mailbox Ownership And Quiescence Checkpoint - 2026-09-05
+
+Added provider patch 926 for command-before-counter publication and timed-out
+mailbox buffer retention. Actual-function model: 143 assertions; both independent
+unpatched negative controls reproduce the defects. Real kernel and both mt76
+variants compile, ARM64 layout is unchanged, and executable module sections match
+the previous provider-guard checkpoint. Original build configuration is retained.
+
+Full Ghidra stock-kernel/provider analysis and corrected pristine RISC-V firmware
+analysis confirm the transport order but disprove STOP/GET as a whole-worker
+barrier. Two workers continue ring/buffer actions without steady-state stop gates.
+An older comparison used our V28-patched blob; the provenance correction and
+independent pristine revalidation are recorded in the report and ledger.
+
+No router contact, flash or runtime changes. Shared recovery/removal ownership,
+full NPU host-adapter parity and actual-client WiFi acceptance remain unfinished.
+Evidence: `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md`.

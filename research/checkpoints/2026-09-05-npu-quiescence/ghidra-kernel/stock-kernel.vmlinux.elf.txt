@@ -1,0 +1,1252 @@
+program=stock-kernel.vmlinux.elf
+sha256=a51e6d0a6deee620a5f715c9469f193906cdf3fcea28b97ce01cf88383aa704e
+language=AARCH64:LE:64:v8A
+
+FUNCTION npu_wifi_offload_get_ba_node_addr @ ffffffc0100d0d84
+decompiled=true
+
+undefined4 npu_wifi_offload_get_ba_node_addr(void)
+
+{
+  return DAT_ffffffc010c6c1a8;
+}
+
+
+ASSEMBLY
+ffffffc0100d0d84 adrp x0,-0x3fef394000
+ffffffc0100d0d88 ldr w0,[x0, #0x1a8]
+ffffffc0100d0d8c ret
+
+FUNCTION npu_wifi_offload_get_force_to_cpu_flag @ ffffffc0100d0d90
+decompiled=true
+
+undefined1 npu_wifi_offload_get_force_to_cpu_flag(void)
+
+{
+  return DAT_ffffffc010c6c1ac;
+}
+
+
+ASSEMBLY
+ffffffc0100d0d90 adrp x0,-0x3fef394000
+ffffffc0100d0d94 ldrb w0,[x0, #0x1ac]
+ffffffc0100d0d98 ret
+
+FUNCTION set_npu_dma_config @ ffffffc0100d0eb4
+decompiled=true
+
+void set_npu_dma_config(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c164) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c160) = 0x2a;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c168) = param_1;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c16c) = param_2;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c170) = param_3;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c174) = param_4;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d0eb4 dmb OSHST
+ffffffc0100d0eb8 adrp x4,-0x3fef394000
+ffffffc0100d0ebc ldr x5,[x4, #0x1a0]
+ffffffc0100d0ec0 ldr x5,[x5, #0x10]
+ffffffc0100d0ec4 add x5,x5,#0x30c, LSL #12
+ffffffc0100d0ec8 add x5,x5,#0x164
+ffffffc0100d0ecc str wzr,[x5]
+ffffffc0100d0ed0 dmb OSHST
+ffffffc0100d0ed4 ldr x5,[x4, #0x1a0]
+ffffffc0100d0ed8 mov w6,#0x2a
+ffffffc0100d0edc ldr x5,[x5, #0x10]
+ffffffc0100d0ee0 add x5,x5,#0x30c, LSL #12
+ffffffc0100d0ee4 add x5,x5,#0x160
+ffffffc0100d0ee8 str w6,[x5]
+ffffffc0100d0eec dmb OSHST
+ffffffc0100d0ef0 ldr x5,[x4, #0x1a0]
+ffffffc0100d0ef4 ldr x5,[x5, #0x10]
+ffffffc0100d0ef8 add x5,x5,#0x30c, LSL #12
+ffffffc0100d0efc add x5,x5,#0x168
+ffffffc0100d0f00 str w0,[x5]
+ffffffc0100d0f04 dmb OSHST
+ffffffc0100d0f08 ldr x0,[x4, #0x1a0]
+ffffffc0100d0f0c ldr x0,[x0, #0x10]
+ffffffc0100d0f10 add x0,x0,#0x30c, LSL #12
+ffffffc0100d0f14 add x0,x0,#0x16c
+ffffffc0100d0f18 str w1,[x0]
+ffffffc0100d0f1c dmb OSHST
+ffffffc0100d0f20 ldr x0,[x4, #0x1a0]
+ffffffc0100d0f24 ldr x0,[x0, #0x10]
+ffffffc0100d0f28 add x0,x0,#0x30c, LSL #12
+ffffffc0100d0f2c add x0,x0,#0x170
+ffffffc0100d0f30 str w2,[x0]
+ffffffc0100d0f34 dmb OSHST
+ffffffc0100d0f38 ldr x0,[x4, #0x1a0]
+ffffffc0100d0f3c ldr x0,[x0, #0x10]
+ffffffc0100d0f40 add x0,x0,#0x30c, LSL #12
+ffffffc0100d0f44 add x0,x0,#0x174
+ffffffc0100d0f48 str w3,[x0]
+ffffffc0100d0f4c ret
+
+FUNCTION set_npu_needed_info @ ffffffc0100d1274
+decompiled=true
+
+void set_npu_needed_info(void)
+
+{
+  undefined4 uVar1;
+  
+  DataMemoryBarrier(0,2);
+  *(int *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c168) =
+       (int)*(undefined8 *)(DAT_ffffffc010c6c1a0 + 0x18) + 0x200000;
+  uVar1 = get_l2c_sram_size();
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c16c) = uVar1;
+  uVar1 = GET_IS_FPGA();
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c170) = uVar1;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c194) = 0;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d1274 stp x29,x30,[sp, #-0x20]!
+ffffffc0100d1278 mov x29,sp
+ffffffc0100d127c str x19,[sp, #0x10]
+ffffffc0100d1280 adrp x19,-0x3fef394000
+ffffffc0100d1284 ldr x0,[x19, #0x1a0]
+ffffffc0100d1288 ldr x0,[x0, #0x18]
+ffffffc0100d128c add w0,w0,#0x200, LSL #12
+ffffffc0100d1290 dmb OSHST
+ffffffc0100d1294 ldr x1,[x19, #0x1a0]
+ffffffc0100d1298 ldr x1,[x1, #0x10]
+ffffffc0100d129c add x1,x1,#0x30c, LSL #12
+ffffffc0100d12a0 add x1,x1,#0x168
+ffffffc0100d12a4 str w0,[x1]
+ffffffc0100d12a8 bl 0xffffffc0100c8b50
+ffffffc0100d12ac dmb OSHST
+ffffffc0100d12b0 ldr x1,[x19, #0x1a0]
+ffffffc0100d12b4 ldr x1,[x1, #0x10]
+ffffffc0100d12b8 add x1,x1,#0x30c, LSL #12
+ffffffc0100d12bc add x1,x1,#0x16c
+ffffffc0100d12c0 str w0,[x1]
+ffffffc0100d12c4 bl 0xffffffc0100c9530
+ffffffc0100d12c8 dmb OSHST
+ffffffc0100d12cc ldr x1,[x19, #0x1a0]
+ffffffc0100d12d0 ldr x1,[x1, #0x10]
+ffffffc0100d12d4 add x1,x1,#0x30c, LSL #12
+ffffffc0100d12d8 add x1,x1,#0x170
+ffffffc0100d12dc str w0,[x1]
+ffffffc0100d12e0 dmb OSHST
+ffffffc0100d12e4 ldr x0,[x19, #0x1a0]
+ffffffc0100d12e8 ldr x0,[x0, #0x10]
+ffffffc0100d12ec add x0,x0,#0x30c, LSL #12
+ffffffc0100d12f0 add x0,x0,#0x194
+ffffffc0100d12f4 str wzr,[x0]
+ffffffc0100d12f8 ldr x19,[sp, #0x10]
+ffffffc0100d12fc ldp x29,x30,[sp], #0x20
+ffffffc0100d1300 ret
+
+FUNCTION ecnt_npu_drv_remove @ ffffffc0100d1304
+decompiled=true
+
+undefined8 ecnt_npu_drv_remove(void)
+
+{
+  tasklet_kill(&DAT_ffffffc010c6c1c8);
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc0100d1304 stp x29,x30,[sp, #-0x10]!
+ffffffc0100d1308 adrp x0,-0x3fef394000
+ffffffc0100d130c add x0,x0,#0x1a0
+ffffffc0100d1310 mov x29,sp
+ffffffc0100d1314 add x0,x0,#0x28
+ffffffc0100d1318 bl 0xffffffc0100e3310
+ffffffc0100d131c mov w0,#0x0
+ffffffc0100d1320 ldp x29,x30,[sp], #0x10
+ffffffc0100d1324 ret
+
+FUNCTION ecnt_npu_drv_probe @ ffffffc0100d1330
+decompiled=true
+
+ulong ecnt_npu_drv_probe(long param_1)
+
+{
+  long lVar1;
+  long *plVar2;
+  long *plVar3;
+  int iVar4;
+  undefined4 uVar5;
+  long *plVar6;
+  long lVar7;
+  undefined8 uVar8;
+  ulong uVar9;
+  ulong uVar10;
+  ulong uVar11;
+  undefined *__s;
+  long local_40;
+  long lStack_38;
+  
+  lVar1 = param_1 + 0x10;
+  if (*(long *)(param_1 + 0x278) == 0) {
+    uVar11 = 0xffffffea;
+    _dev_err(lVar1,s_No_npu_DT_node_found_ffffffc0108f5858);
+  }
+  else {
+    DAT_ffffffc010c6c1a0 = (long *)devm_kmalloc(lVar1,0x68,0xdc0);
+    if (DAT_ffffffc010c6c1a0 == (long *)0x0) {
+      uVar11 = 0xfffffff4;
+    }
+    else {
+      *(long **)(param_1 + 0x88) = DAT_ffffffc010c6c1a0;
+      plVar6 = (long *)platform_get_resource(param_1,0x200,0);
+      plVar2 = DAT_ffffffc010c6c1a0;
+      lVar7 = devm_ioremap_resource(lVar1,plVar6);
+      plVar3 = DAT_ffffffc010c6c1a0;
+      plVar2[1] = lVar7;
+      uVar11 = plVar3[1];
+      if (uVar11 < 0xfffffffffffff001) {
+        iVar4 = 0;
+        DAT_ffffffc010c6c1b8 = (plVar6[1] + 1) - *plVar6;
+        uVar8 = platform_get_resource(param_1,0x200,1);
+        plVar2 = DAT_ffffffc010c6c1a0;
+        lVar7 = devm_ioremap_resource(lVar1,uVar8);
+        plVar3 = DAT_ffffffc010c6c1a0;
+        plVar2[2] = lVar7;
+        uVar11 = plVar3[2];
+        if (uVar11 < 0xfffffffffffff001) {
+          do {
+            uVar9 = platform_get_irq(param_1,iVar4);
+            plVar2 = DAT_ffffffc010c6c1a0;
+            uVar11 = uVar9 & 0xffffffff;
+            if ((int)uVar9 < 1) goto LAB_ffffffc0100d1530;
+            lVar7 = (long)iVar4;
+            iVar4 = iVar4 + 1;
+            *(int *)((long)DAT_ffffffc010c6c1a0 + lVar7 * 4 + 0x28) = (int)uVar9;
+          } while (iVar4 != 6);
+          *plVar2 = lVar1;
+          lVar7 = of_parse_phandle(*(undefined8 *)(param_1 + 0x278),s_memory_region_ffffffc0108f5870
+                                   ,0);
+          if (lVar7 == 0) {
+            uVar11 = 0xffffffea;
+            _dev_err(lVar1,s_No_memory_region_specified_ffffffc0108f5880);
+          }
+          else {
+            iVar4 = of_address_to_resource(lVar7,0,&local_40);
+            plVar2 = DAT_ffffffc010c6c1a0;
+            if (iVar4 == 0) {
+              DAT_ffffffc010c6c1a0[3] = local_40;
+              lVar7 = memremap(local_40,(lStack_38 + 1) - local_40);
+              plVar2[4] = lVar7;
+              plVar2 = DAT_ffffffc010c6c1a0;
+              uVar5 = platform_get_irq(param_1,6);
+              plVar3 = DAT_ffffffc010c6c1a0;
+              *(undefined4 *)(plVar2 + 8) = uVar5;
+              if ((int)plVar3[8] < 1) {
+                printk(s_get_NPU_mbox2host_irq__d_failed_ffffffc0108f58c8);
+                uVar11 = (ulong)*(uint *)(DAT_ffffffc010c6c1a0 + 8);
+              }
+              else {
+                iVar4 = dma_set_coherent_mask(lVar1,0xbfffffff);
+                if (iVar4 == 0) {
+                  _dev_info(lVar1,s_ecnt_npu_use_1GB_DMA_for_coheren_ffffffc0108f58f0);
+                }
+                else {
+                  _dev_err(lVar1,s_ERROR___ecnt_npu_No_usable_coher_ffffffc0108f5918);
+                }
+                uVar9 = 0;
+                do {
+                  plVar2 = DAT_ffffffc010c6c1a0;
+                  uVar5 = platform_get_irq(param_1,(int)uVar9 + 7);
+                  plVar3 = DAT_ffffffc010c6c1a0;
+                  lVar1 = (long)(int)uVar9 + 0x10;
+                  *(undefined4 *)((long)plVar2 + lVar1 * 4 + 4) = uVar5;
+                  iVar4 = *(int *)((long)plVar3 + lVar1 * 4 + 4);
+                  if (iVar4 < 1) {
+                    printk(s_get_NPU_wdog_irq__d___d_failed_ffffffc0108f5960,uVar9 & 0xffffffff,
+                           iVar4);
+                    uVar11 = (ulong)*(uint *)((long)DAT_ffffffc010c6c1a0 + lVar1 * 4 + 4);
+                    goto LAB_ffffffc0100d1530;
+                  }
+                  uVar10 = request_threaded_irq
+                                     (iVar4,npu_wdog_isr,0,0,
+                                      (&PTR_s_npu_wdog0_ffffffc010c17218)[uVar9],*plVar3);
+                  uVar11 = uVar10 & 0xffffffff;
+                  if ((int)uVar10 != 0) {
+                    printk(s_ERROR__request_irq___for_wdog_d_f_ffffffc0108f5988,uVar9 & 0xffffffff,
+                           uVar11);
+                    goto LAB_ffffffc0100d1530;
+                  }
+                  uVar9 = uVar9 + 1;
+                } while (uVar9 != 8);
+                uVar9 = request_threaded_irq
+                                  ((int)DAT_ffffffc010c6c1a0[8],npuMbox2host_isr,0,0,
+                                   s_npuMbox2host_ffffffc0108f59c0,*DAT_ffffffc010c6c1a0);
+                uVar11 = uVar9 & 0xffffffff;
+                if ((int)uVar9 == 0) {
+                  __s = &DAT_ffffffc010c6c1f0;
+                  tasklet_init(&DAT_ffffffc010c6c1c8,mbox_tasklet_handler,0);
+                  iVar4 = 8;
+                  do {
+                    memset(__s,0,0xb8);
+                    __s = __s + 0xb8;
+                    iVar4 = iVar4 + -1;
+                  } while (iVar4 != 0);
+                }
+                else {
+                  printk(s_request_irq____irq_number___d__f_ffffffc0108f32d8,
+                         (int)DAT_ffffffc010c6c1a0[8],uVar11);
+                }
+              }
+            }
+            else {
+              uVar11 = 0xffffffea;
+              _dev_err(lVar1,s_No_memory_address_assigned_to_re_ffffffc0108f58a0);
+            }
+          }
+        }
+      }
+    }
+  }
+LAB_ffffffc0100d1530:
+  return uVar11 & 0xffffffff;
+}
+
+
+ASSEMBLY
+ffffffc0100d1330 stp x29,x30,[sp, #-0x90]!
+ffffffc0100d1334 mov x29,sp
+ffffffc0100d1338 stp x19,x20,[sp, #0x10]
+ffffffc0100d133c stp x21,x22,[sp, #0x20]
+ffffffc0100d1340 mov x21,x0
+ffffffc0100d1344 stp x23,x24,[sp, #0x30]
+ffffffc0100d1348 add x23,x0,#0x10
+ffffffc0100d134c ldr x0,[x0, #0x278]
+ffffffc0100d1350 cbz x0,0xffffffc0100d1550
+ffffffc0100d1354 adrp x24,-0x3fef394000
+ffffffc0100d1358 mov x0,x23
+ffffffc0100d135c mov w2,#0xdc0
+ffffffc0100d1360 mov x1,#0x68
+ffffffc0100d1364 bl 0xffffffc01044b110
+ffffffc0100d1368 str x0,[x24, #0x1a0]
+ffffffc0100d136c add x22,x24,#0x1a0
+ffffffc0100d1370 cbz x0,0xffffffc0100d1548
+ffffffc0100d1374 str x0,[x23, #0x78]
+ffffffc0100d1378 mov w2,#0x0
+ffffffc0100d137c mov w1,#0x200
+ffffffc0100d1380 mov x0,x21
+ffffffc0100d1384 bl 0xffffffc010448880
+ffffffc0100d1388 mov x1,x0
+ffffffc0100d138c ldr x19,[x24, #0x1a0]
+ffffffc0100d1390 mov x20,x0
+ffffffc0100d1394 mov x0,x23
+ffffffc0100d1398 bl 0xffffffc0103b0280
+ffffffc0100d139c ldr x1,[x24, #0x1a0]
+ffffffc0100d13a0 str x0,[x19, #0x8]
+ffffffc0100d13a4 ldr x19,[x1, #0x8]
+ffffffc0100d13a8 cmn x19,#0x1, LSL #12
+ffffffc0100d13ac b.hi 0xffffffc0100d1530
+ffffffc0100d13b0 ldp x4,x3,[x20]
+ffffffc0100d13b4 mov w2,#0x1
+ffffffc0100d13b8 mov w1,#0x200
+ffffffc0100d13bc mov x0,x21
+ffffffc0100d13c0 mov w20,#0x0
+ffffffc0100d13c4 add x3,x3,#0x1
+ffffffc0100d13c8 sub x3,x3,x4
+ffffffc0100d13cc str x3,[x22, #0x18]
+ffffffc0100d13d0 bl 0xffffffc010448880
+ffffffc0100d13d4 mov x1,x0
+ffffffc0100d13d8 ldr x19,[x24, #0x1a0]
+ffffffc0100d13dc mov x0,x23
+ffffffc0100d13e0 bl 0xffffffc0103b0280
+ffffffc0100d13e4 ldr x1,[x24, #0x1a0]
+ffffffc0100d13e8 str x0,[x19, #0x10]
+ffffffc0100d13ec ldr x19,[x1, #0x10]
+ffffffc0100d13f0 cmn x19,#0x1, LSL #12
+ffffffc0100d13f4 b.hi 0xffffffc0100d1530
+ffffffc0100d13f8 mov w1,w20
+ffffffc0100d13fc mov x0,x21
+ffffffc0100d1400 bl 0xffffffc010449a34
+ffffffc0100d1404 mov w19,w0
+ffffffc0100d1408 cmp w0,#0x0
+ffffffc0100d140c b.le 0xffffffc0100d1530
+ffffffc0100d1410 ldr x0,[x22]
+ffffffc0100d1414 add x1,x0,w20, SXTW  #0x2
+ffffffc0100d1418 add w20,w20,#0x1
+ffffffc0100d141c str w19,[x1, #0x28]
+ffffffc0100d1420 cmp w20,#0x6
+ffffffc0100d1424 b.ne 0xffffffc0100d13f8
+ffffffc0100d1428 str x23,[x0]
+ffffffc0100d142c adrp x1,-0x3fef70b000
+ffffffc0100d1430 mov w2,#0x0
+ffffffc0100d1434 add x1,x1,#0x870
+ffffffc0100d1438 ldr x0,[x21, #0x278]
+ffffffc0100d143c bl 0xffffffc010565704
+ffffffc0100d1440 cbz x0,0xffffffc0100d1594
+ffffffc0100d1444 add x2,sp,#0x50
+ffffffc0100d1448 mov w1,#0x0
+ffffffc0100d144c bl 0xffffffc01056ae24
+ffffffc0100d1450 cbnz w0,0xffffffc0100d157c
+ffffffc0100d1454 ldp x0,x1,[sp, #0x50]
+ffffffc0100d1458 mov x2,#0x1
+ffffffc0100d145c ldr x19,[x22]
+ffffffc0100d1460 str x0,[x19, #0x18]
+ffffffc0100d1464 add x1,x1,x2
+ffffffc0100d1468 sub x1,x1,x0
+ffffffc0100d146c bl 0xffffffc010188d84
+ffffffc0100d1470 str x0,[x19, #0x20]
+ffffffc0100d1474 ldr x19,[x22]
+ffffffc0100d1478 mov w1,w20
+ffffffc0100d147c mov x0,x21
+ffffffc0100d1480 bl 0xffffffc010449a34
+ffffffc0100d1484 ldr x1,[x22]
+ffffffc0100d1488 str w0,[x19, #0x40]
+ffffffc0100d148c ldr w1,[x1, #0x40]
+ffffffc0100d1490 cmp w1,#0x0
+ffffffc0100d1494 b.le 0xffffffc0100d15ac
+ffffffc0100d1498 mov x0,x23
+ffffffc0100d149c mov w1,#0xbfffffff
+ffffffc0100d14a0 str x25,[sp, #0x40]
+ffffffc0100d14a4 bl 0xffffffc0101499d0
+ffffffc0100d14a8 cbz w0,0xffffffc0100d1568
+ffffffc0100d14ac adrp x1,-0x3fef70b000
+ffffffc0100d14b0 mov x0,x23
+ffffffc0100d14b4 add x1,x1,#0x918
+ffffffc0100d14b8 bl 0xffffffc01044446c
+ffffffc0100d14bc adrp x23,-0x3fef3e9000
+ffffffc0100d14c0 add x23,x23,#0x148
+ffffffc0100d14c4 adrp x24,-0x3feff2f000
+ffffffc0100d14c8 add x23,x23,#0xd0
+ffffffc0100d14cc add x24,x24,#0xb50
+ffffffc0100d14d0 mov x20,#0x0
+ffffffc0100d14d4 add w1,w20,#0x7
+ffffffc0100d14d8 mov x0,x21
+ffffffc0100d14dc ldr x19,[x22]
+ffffffc0100d14e0 bl 0xffffffc010449a34
+ffffffc0100d14e4 sxtw x1,w20
+ffffffc0100d14e8 add x1,x1,#0x10
+ffffffc0100d14ec ldr x2,[x22]
+ffffffc0100d14f0 add x19,x19,x1, LSL #0x2
+ffffffc0100d14f4 lsl x25,x1,#0x2
+ffffffc0100d14f8 add x1,x2,x1, LSL #0x2
+ffffffc0100d14fc str w0,[x19, #0x4]
+ffffffc0100d1500 ldr w0,[x1, #0x4]
+ffffffc0100d1504 cmp w0,#0x0
+ffffffc0100d1508 b.gt 0xffffffc0100d15c4
+ffffffc0100d150c mov w2,w0
+ffffffc0100d1510 mov w1,w20
+ffffffc0100d1514 adrp x0,-0x3fef70b000
+ffffffc0100d1518 add x0,x0,#0x960
+ffffffc0100d151c bl 0xffffffc010133850
+ffffffc0100d1520 ldr x0,[x22]
+ffffffc0100d1524 add x0,x0,x25
+ffffffc0100d1528 ldr x25,[sp, #0x40]
+ffffffc0100d152c ldr w19,[x0, #0x4]
+ffffffc0100d1530 mov w0,w19
+ffffffc0100d1534 ldp x19,x20,[sp, #0x10]
+ffffffc0100d1538 ldp x21,x22,[sp, #0x20]
+ffffffc0100d153c ldp x23,x24,[sp, #0x30]
+ffffffc0100d1540 ldp x29,x30,[sp], #0x90
+ffffffc0100d1544 ret
+ffffffc0100d1548 mov w19,#0xfffffff4
+ffffffc0100d154c b 0xffffffc0100d1530
+ffffffc0100d1550 mov x0,x23
+ffffffc0100d1554 adrp x1,-0x3fef70b000
+ffffffc0100d1558 mov w19,#0xffffffea
+ffffffc0100d155c add x1,x1,#0x858
+ffffffc0100d1560 bl 0xffffffc01044446c
+ffffffc0100d1564 b 0xffffffc0100d1530
+ffffffc0100d1568 mov x0,x23
+ffffffc0100d156c adrp x1,-0x3fef70b000
+ffffffc0100d1570 add x1,x1,#0x8f0
+ffffffc0100d1574 bl 0xffffffc0104445d4
+ffffffc0100d1578 b 0xffffffc0100d14bc
+ffffffc0100d157c mov x0,x23
+ffffffc0100d1580 adrp x1,-0x3fef70b000
+ffffffc0100d1584 mov w19,#0xffffffea
+ffffffc0100d1588 add x1,x1,#0x8a0
+ffffffc0100d158c bl 0xffffffc01044446c
+ffffffc0100d1590 b 0xffffffc0100d1530
+ffffffc0100d1594 mov x0,x23
+ffffffc0100d1598 adrp x1,-0x3fef70b000
+ffffffc0100d159c mov w19,#0xffffffea
+ffffffc0100d15a0 add x1,x1,#0x880
+ffffffc0100d15a4 bl 0xffffffc01044446c
+ffffffc0100d15a8 b 0xffffffc0100d1530
+ffffffc0100d15ac adrp x0,-0x3fef70b000
+ffffffc0100d15b0 add x0,x0,#0x8c8
+ffffffc0100d15b4 bl 0xffffffc010133850
+ffffffc0100d15b8 ldr x0,[x22]
+ffffffc0100d15bc ldr w19,[x0, #0x40]
+ffffffc0100d15c0 b 0xffffffc0100d1530
+ffffffc0100d15c4 ldr x5,[x2]
+ffffffc0100d15c8 mov x1,x24
+ffffffc0100d15cc ldr x4,[x23, x20, LSL #0x3]
+ffffffc0100d15d0 mov x3,#0x0
+ffffffc0100d15d4 mov x2,#0x0
+ffffffc0100d15d8 bl 0xffffffc010137d80
+ffffffc0100d15dc mov w19,w0
+ffffffc0100d15e0 cbz w0,0xffffffc0100d1600
+ffffffc0100d15e4 mov w1,w20
+ffffffc0100d15e8 mov w2,w19
+ffffffc0100d15ec adrp x0,-0x3fef70b000
+ffffffc0100d15f0 add x0,x0,#0x988
+ffffffc0100d15f4 bl 0xffffffc010133850
+ffffffc0100d15f8 ldr x25,[sp, #0x40]
+ffffffc0100d15fc b 0xffffffc0100d1530
+ffffffc0100d1600 add x20,x20,#0x1
+ffffffc0100d1604 cmp x20,#0x8
+ffffffc0100d1608 b.ne 0xffffffc0100d14d4
+ffffffc0100d160c ldr x0,[x22]
+ffffffc0100d1610 adrp x4,-0x3fef70b000
+ffffffc0100d1614 adrp x1,-0x3feff2f000
+ffffffc0100d1618 add x4,x4,#0x9c0
+ffffffc0100d161c add x1,x1,#0x700
+ffffffc0100d1620 mov x3,#0x0
+ffffffc0100d1624 ldr x5,[x0]
+ffffffc0100d1628 mov x2,#0x0
+ffffffc0100d162c ldr w0,[x0, #0x40]
+ffffffc0100d1630 bl 0xffffffc010137d80
+ffffffc0100d1634 mov w19,w0
+ffffffc0100d1638 cbnz w0,0xffffffc0100d1678
+ffffffc0100d163c adrp x1,-0x3feff2f000
+ffffffc0100d1640 add x21,x22,#0x50
+ffffffc0100d1644 add x1,x1,#0x810
+ffffffc0100d1648 add x0,x22,#0x28
+ffffffc0100d164c mov x2,#0x0
+ffffffc0100d1650 bl 0xffffffc0100e3300
+ffffffc0100d1654 mov x0,x21
+ffffffc0100d1658 mov x2,#0xb8
+ffffffc0100d165c mov w1,#0x0
+ffffffc0100d1660 bl 0xffffffc01076d580
+ffffffc0100d1664 add x21,x21,#0xb8
+ffffffc0100d1668 subs w20,w20,#0x1
+ffffffc0100d166c b.ne 0xffffffc0100d1654
+ffffffc0100d1670 ldr x25,[sp, #0x40]
+ffffffc0100d1674 b 0xffffffc0100d1530
+ffffffc0100d1678 ldr x1,[x22]
+ffffffc0100d167c mov w2,w19
+ffffffc0100d1680 adrp x0,-0x3fef70d000
+ffffffc0100d1684 add x0,x0,#0x2d8
+ffffffc0100d1688 ldr w1,[x1, #0x40]
+ffffffc0100d168c bl 0xffffffc010133850
+ffffffc0100d1690 ldr x25,[sp, #0x40]
+ffffffc0100d1694 b 0xffffffc0100d1530
+
+FUNCTION npuMbox2host_isr @ ffffffc0100d1700
+decompiled=true
+
+undefined8 npuMbox2host_isr(void)
+
+{
+  char cVar1;
+  bool bVar2;
+  ulong uVar3;
+  
+  if (DAT_ffffffc010c6c1b0 == (code *)0x0) {
+    DataMemoryBarrier(0,2);
+    *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x30c000) = 0x100;
+    if ((DAT_ffffffc010c6c1d0 & 1) == 0) {
+      Hint_Prefetch(0xffffffc010c6c1d0,2,0,1);
+      do {
+        uVar3 = DAT_ffffffc010c6c1d0;
+        cVar1 = '\x01';
+        bVar2 = (bool)ExclusiveMonitorPass(0xffffffc010c6c1d0,0x10);
+        if (bVar2) {
+          cVar1 = ExclusiveMonitorsStatus();
+          DAT_ffffffc010c6c1d0 = DAT_ffffffc010c6c1d0 | 1;
+        }
+      } while (cVar1 != '\0');
+      DataMemoryBarrier(2,3);
+      if ((uVar3 & 1) == 0) {
+        __tasklet_schedule();
+      }
+    }
+  }
+  else {
+    (*DAT_ffffffc010c6c1b0)();
+  }
+  return 1;
+}
+
+
+ASSEMBLY
+ffffffc0100d1700 adrp x2,-0x3fef394000
+ffffffc0100d1704 add x0,x2,#0x1a0
+ffffffc0100d1708 stp x29,x30,[sp, #-0x10]!
+ffffffc0100d170c mov x29,sp
+ffffffc0100d1710 ldr x1,[x0, #0x10]
+ffffffc0100d1714 cbz x1,0xffffffc0100d1728
+ffffffc0100d1718 blr x1
+ffffffc0100d171c mov w0,#0x1
+ffffffc0100d1720 ldp x29,x30,[sp], #0x10
+ffffffc0100d1724 ret
+ffffffc0100d1728 dmb OSHST
+ffffffc0100d172c ldr x1,[x2, #0x1a0]
+ffffffc0100d1730 mov w2,#0x100
+ffffffc0100d1734 ldr x1,[x1, #0x10]
+ffffffc0100d1738 add x1,x1,#0x30c, LSL #12
+ffffffc0100d173c str w2,[x1]
+ffffffc0100d1740 ldr x1,[x0, #0x30]
+ffffffc0100d1744 add x0,x0,#0x28
+ffffffc0100d1748 tbnz w1,#0x0,0xffffffc0100d171c
+ffffffc0100d174c add x4,x0,#0x8
+ffffffc0100d1750 prfm PSTL1STRM,[x4]
+ffffffc0100d1754 ldxr x1,[x4]
+ffffffc0100d1758 orr x2,x1,#0x1
+ffffffc0100d175c stlxr w3,x2,[x4]
+ffffffc0100d1760 cbnz w3,0xffffffc0100d1754
+ffffffc0100d1764 dmb ISH
+ffffffc0100d1768 tbnz w1,#0x0,0xffffffc0100d171c
+ffffffc0100d176c bl 0xffffffc0100e3640
+ffffffc0100d1770 b 0xffffffc0100d171c
+
+FUNCTION get_npu_reg_data @ ffffffc0100d1790
+decompiled=true
+
+void get_npu_reg_data(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d1790 adrp x1,-0x3fef394000
+ffffffc0100d1794 ldr x1,[x1, #0x1a0]
+ffffffc0100d1798 ldr x1,[x1, #0x10]
+ffffffc0100d179c add x0,x1,w0, UXTW 
+ffffffc0100d17a0 ldr w0,[x0]
+ffffffc0100d17a4 dmb OSHLD
+ffffffc0100d17a8 mov w1,w0
+ffffffc0100d17ac eor x1,x1,x1
+ffffffc0100d17b0 cbnz x1,0xffffffc0100d17b0
+ffffffc0100d17b4 ret
+
+FUNCTION host_set_npu_core_on_off @ ffffffc0100d1c10
+decompiled=true
+
+void host_set_npu_core_on_off(uint param_1,int param_2)
+
+{
+  uint uVar1;
+  uint uVar2;
+  uint uVar3;
+  long lVar4;
+  
+  uVar3 = get_npu_reg_data(0x306004);
+  uVar2 = 1 << (ulong)(param_1 & 0x1f);
+  uVar1 = uVar3 & (uVar2 ^ 0xffffffff);
+  if (param_2 != 0) {
+    uVar1 = uVar2 | uVar3;
+  }
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x306004) = uVar1;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x306000) = 0;
+  __const_udelay(0x418958);
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + 0x306000) = 1;
+  lVar4 = 100;
+  do {
+    __const_udelay(0x418958);
+    lVar4 = lVar4 + -1;
+  } while (lVar4 != 0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d1c10 stp x29,x30,[sp, #-0x20]!
+ffffffc0100d1c14 mov w2,w0
+ffffffc0100d1c18 mov w0,#0x6004
+ffffffc0100d1c1c mov x29,sp
+ffffffc0100d1c20 mov w3,w1
+ffffffc0100d1c24 movk w0,#0x30, LSL #16
+ffffffc0100d1c28 stp x19,x20,[sp, #0x10]
+ffffffc0100d1c2c bl 0xffffffc0100d1790
+ffffffc0100d1c30 mov w20,#0x1
+ffffffc0100d1c34 lsl w1,w20,w2
+ffffffc0100d1c38 cmp w3,#0x0
+ffffffc0100d1c3c orr w2,w1,w0
+ffffffc0100d1c40 bic w0,w0,w1
+ffffffc0100d1c44 csel w0,w0,w2,eq
+ffffffc0100d1c48 dmb OSHST
+ffffffc0100d1c4c adrp x19,-0x3fef394000
+ffffffc0100d1c50 ldr x1,[x19, #0x1a0]
+ffffffc0100d1c54 ldr x1,[x1, #0x10]
+ffffffc0100d1c58 add x1,x1,#0x306, LSL #12
+ffffffc0100d1c5c add x1,x1,#0x4
+ffffffc0100d1c60 str w0,[x1]
+ffffffc0100d1c64 dmb OSHST
+ffffffc0100d1c68 ldr x0,[x19, #0x1a0]
+ffffffc0100d1c6c ldr x0,[x0, #0x10]
+ffffffc0100d1c70 add x0,x0,#0x306, LSL #12
+ffffffc0100d1c74 str wzr,[x0]
+ffffffc0100d1c78 mov x0,#0x8958
+ffffffc0100d1c7c movk x0,#0x41, LSL #16
+ffffffc0100d1c80 bl 0xffffffc01076d000
+ffffffc0100d1c84 dmb OSHST
+ffffffc0100d1c88 ldr x0,[x19, #0x1a0]
+ffffffc0100d1c8c ldr x0,[x0, #0x10]
+ffffffc0100d1c90 add x0,x0,#0x306, LSL #12
+ffffffc0100d1c94 str w20,[x0]
+ffffffc0100d1c98 mov x20,#0x8958
+ffffffc0100d1c9c mov x19,#0x64
+ffffffc0100d1ca0 movk x20,#0x41, LSL #16
+ffffffc0100d1ca4 nop
+ffffffc0100d1ca8 mov x0,x20
+ffffffc0100d1cac bl 0xffffffc01076d000
+ffffffc0100d1cb0 subs x19,x19,#0x1
+ffffffc0100d1cb4 b.ne 0xffffffc0100d1ca8
+ffffffc0100d1cb8 ldp x19,x20,[sp, #0x10]
+ffffffc0100d1cbc ldp x29,x30,[sp], #0x20
+ffffffc0100d1cc0 ret
+
+FUNCTION host_notify_npuMbox @ ffffffc0100d1cc4
+decompiled=true
+
+uint host_notify_npuMbox(uint *param_1)
+
+{
+  int *piVar1;
+  uint uVar2;
+  int iVar3;
+  char cVar4;
+  bool bVar5;
+  long lVar6;
+  int iVar7;
+  uint uVar8;
+  ulong uVar9;
+  uint uVar10;
+  uint uVar11;
+  
+  uVar8 = *param_1;
+  if ((uVar8 < 8) && (param_1[1] < 8)) {
+    uVar10 = 300;
+    uVar11 = (uint)((*(ulong *)(param_1 + 6) & 6) != 0) << 5;
+    if ((param_1[6] & 1) != 0) {
+      uVar10 = param_1[7];
+      uVar11 = uVar11 | 1;
+      if (uVar10 == 0) {
+        uVar10 = 300;
+      }
+    }
+    *(undefined8 *)
+     (&DAT_ffffffc010c6c260 + ((ulong)uVar8 * 7 + (ulong)uVar8 * 0x10 + (ulong)param_1[1]) * 8) =
+         *(undefined8 *)(param_1 + 8);
+    uVar8 = *param_1;
+    uVar2 = param_1[1];
+    iVar3 = uVar8 * 0x10;
+    if ((((*(long *)(param_1 + 2) == 0) || (param_1[4] == 0)) || ((short)param_1[5] == 0)) &&
+       ((param_1[6] >> 2 & 1) == 0)) {
+      uVar9 = (ulong)uVar8;
+      if (*(long *)(&DAT_ffffffc010c6c1f0 + (uVar9 * 7 + (ulong)uVar8 * 0x10) * 8 + (ulong)uVar2 * 8
+                   ) == 0) {
+        printk(s_Error__s___no_default__virtAddr__ffffffc0108f5bd8,
+               s_host_notify_npuMbox_ffffffc010807c58);
+        return 0;
+      }
+    }
+    else {
+      *(long *)(&DAT_ffffffc010c6c1f0 +
+               ((ulong)uVar8 * 7 + (ulong)uVar8 * 0x10) * 8 + (ulong)uVar2 * 8) =
+           *(long *)(param_1 + 2);
+      *(uint *)(&DAT_ffffffc010c6c1f0 + ((ulong)param_1[1] + (ulong)*param_1 * 0x2e + 0x10) * 4) =
+           param_1[4];
+      *(short *)(&DAT_ffffffc010c6c1f0 + ((ulong)param_1[1] + (ulong)*param_1 * 0x5c + 0x30) * 2) =
+           (short)param_1[5];
+      uVar9 = (ulong)*param_1;
+    }
+    lVar6 = sp_el0;
+    *(int *)(lVar6 + 0x18) = *(int *)(lVar6 + 0x18) + 0x200;
+    piVar1 = (int *)(&DAT_ffffffc010c6c2a0 + uVar9 * 0xb8);
+    Hint_Prefetch(piVar1,2,0,1);
+    do {
+      iVar7 = *piVar1;
+      if (iVar7 != 0) break;
+      cVar4 = '\x01';
+      bVar5 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+      if (bVar5) {
+        *piVar1 = 1;
+        cVar4 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar4 != '\0');
+    if (iVar7 != 0) {
+      queued_spin_lock_slowpath();
+    }
+    DataMemoryBarrier(0,2);
+    *(undefined4 *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + (ulong)(iVar3 + 0x30c030)) =
+         *(undefined4 *)
+          (&DAT_ffffffc010c6c1f0 + ((ulong)param_1[1] + (ulong)*param_1 * 0x2e + 0x10) * 4);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + (ulong)(iVar3 + 0x30c034)) =
+         (uint)*(ushort *)
+                (&DAT_ffffffc010c6c1f0 + ((ulong)param_1[1] + (ulong)*param_1 * 0x5c + 0x30) * 2);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + (ulong)(iVar3 + 0x30c03cU)) =
+         uVar11 | (uVar2 & 0xf) << 0xb;
+    iVar7 = get_npu_reg_data(iVar3 + 0x30c038U);
+    DataMemoryBarrier(0,2);
+    *(int *)(*(long *)(DAT_ffffffc010c6c1a0 + 0x10) + (ulong)(iVar3 + 0x30c038U)) = iVar7 + 1;
+    while( true ) {
+      uVar8 = get_npu_reg_data(iVar3 + 0x30c03cU);
+      if (((uVar8 & 0xffff) >> 1 & 1) != 0) break;
+      uVar10 = uVar10 - 1;
+      if ((int)uVar10 < 0) {
+        uVar11 = 0;
+        printk(s_Error___s_timeout_for_core_id__d_ffffffc0108f5c20,
+               s_host_notify_npuMbox_ffffffc010807c58,*param_1,param_1[1]);
+        goto LAB_ffffffc0100d1f14;
+      }
+      __const_udelay(0x68dbc);
+    }
+    uVar11 = (uVar8 & 0xffff) >> 2 & 7;
+LAB_ffffffc0100d1f14:
+    *(undefined4 *)(&DAT_ffffffc010c6c2a0 + (ulong)*param_1 * 0xb8) = 0;
+    __local_bh_enable_ip();
+  }
+  else {
+    uVar11 = 0;
+    printk(s_Error___core_id__d_>___d______fu_ffffffc0108f5ba0,(ulong)uVar8,8);
+  }
+  return uVar11;
+}
+
+
+ASSEMBLY
+ffffffc0100d1cc4 stp x29,x30,[sp, #-0x50]!
+ffffffc0100d1cc8 mov x29,sp
+ffffffc0100d1ccc stp x21,x22,[sp, #0x20]
+ffffffc0100d1cd0 ldp w1,w3,[x0]
+ffffffc0100d1cd4 cmp w1,#0x7
+ffffffc0100d1cd8 b.hi 0xffffffc0100d1fc4
+ffffffc0100d1cdc cmp w3,#0x7
+ffffffc0100d1ce0 b.hi 0xffffffc0100d1fc4
+ffffffc0100d1ce4 stp x19,x20,[sp, #0x10]
+ffffffc0100d1ce8 mov x20,x0
+ffffffc0100d1cec mov w21,#0x0
+ffffffc0100d1cf0 stp x23,x24,[sp, #0x30]
+ffffffc0100d1cf4 mov w19,#0x12c
+ffffffc0100d1cf8 mov x23,x30
+ffffffc0100d1cfc stp x25,x26,[sp, #0x40]
+ffffffc0100d1d00 ldr x2,[x20, #0x18]
+ffffffc0100d1d04 ldr w0,[x0, #0x18]
+ffffffc0100d1d08 tst x2,#0x6
+ffffffc0100d1d0c cset w2,ne
+ffffffc0100d1d10 bfm w21,w2,#0x1b,#0x0
+ffffffc0100d1d14 tbz w0,#0x0,0xffffffc0100d1d28
+ffffffc0100d1d18 ldr w0,[x20, #0x1c]
+ffffffc0100d1d1c orr w21,w21,#0x1
+ffffffc0100d1d20 cmp w0,#0x0
+ffffffc0100d1d24 csel w19,w0,w19,ne
+ffffffc0100d1d28 mov w2,w1
+ffffffc0100d1d2c adrp x26,-0x3fef394000
+ffffffc0100d1d30 add x0,x2,w1, UXTW  #0x1
+ffffffc0100d1d34 add x22,x26,#0x1a0
+ffffffc0100d1d38 ldr x1,[x20, #0x20]
+ffffffc0100d1d3c lsl x0,x0,#0x3
+ffffffc0100d1d40 sub x0,x0,x2
+ffffffc0100d1d44 add x0,x0,w3, UXTW 
+ffffffc0100d1d48 add x0,x22,x0, LSL #0x3
+ffffffc0100d1d4c str x1,[x0, #0xc0]
+ffffffc0100d1d50 ldp w1,w2,[x20]
+ffffffc0100d1d54 ldr x4,[x20, #0x8]
+ffffffc0100d1d58 lsl w25,w1,#0x4
+ffffffc0100d1d5c bfm w21,w2,#0x15,#0x3
+ffffffc0100d1d60 cbz x4,0xffffffc0100d1f68
+ffffffc0100d1d64 ldr w0,[x20, #0x10]
+ffffffc0100d1d68 cbz w0,0xffffffc0100d1f68
+ffffffc0100d1d6c ldrh w0,[x20, #0x14]
+ffffffc0100d1d70 cbz w0,0xffffffc0100d1f68
+ffffffc0100d1d74 mov w5,w1
+ffffffc0100d1d78 add x3,x22,#0x50
+ffffffc0100d1d7c add x0,x5,w1, UXTW  #0x1
+ffffffc0100d1d80 mov x1,x3
+ffffffc0100d1d84 lsl x0,x0,#0x3
+ffffffc0100d1d88 sub x0,x0,x5
+ffffffc0100d1d8c add x0,x0,w2, UXTW 
+ffffffc0100d1d90 str x4,[x3, x0, LSL #0x3]
+ffffffc0100d1d94 ldp w2,w4,[x20]
+ffffffc0100d1d98 ldr w3,[x20, #0x10]
+ffffffc0100d1d9c add x0,x2,x2, LSL #0x1
+ffffffc0100d1da0 lsl x0,x0,#0x3
+ffffffc0100d1da4 sub x0,x0,x2
+ffffffc0100d1da8 add x0,x4,x0, LSL #0x1
+ffffffc0100d1dac add x0,x0,#0x10
+ffffffc0100d1db0 str w3,[x1, x0, LSL #0x2]
+ffffffc0100d1db4 ldp w2,w4,[x20]
+ffffffc0100d1db8 ldrh w3,[x20, #0x14]
+ffffffc0100d1dbc add x0,x2,x2, LSL #0x1
+ffffffc0100d1dc0 lsl x0,x0,#0x3
+ffffffc0100d1dc4 sub x0,x0,x2
+ffffffc0100d1dc8 add x0,x4,x0, LSL #0x2
+ffffffc0100d1dcc add x0,x0,#0x30
+ffffffc0100d1dd0 strh w3,[x1, x0, LSL #0x1]
+ffffffc0100d1dd4 ldr w3,[x20]
+ffffffc0100d1dd8 add x0,x3,x3, LSL #0x1
+ffffffc0100d1ddc mrs x1,sp_el0
+ffffffc0100d1de0 lsl x0,x0,#0x3
+ffffffc0100d1de4 ldr w2,[x1, #0x18]
+ffffffc0100d1de8 sub x0,x0,x3
+ffffffc0100d1dec add w2,w2,#0x200
+ffffffc0100d1df0 str w2,[x1, #0x18]
+ffffffc0100d1df4 add x0,x22,x0, LSL #0x3
+ffffffc0100d1df8 add x0,x0,#0x100
+ffffffc0100d1dfc mov x2,#0x0
+ffffffc0100d1e00 mov w3,#0x1
+ffffffc0100d1e04 prfm PSTL1STRM,[x0]
+ffffffc0100d1e08 ldaxr w1,[x0]
+ffffffc0100d1e0c eor w4,w1,w2
+ffffffc0100d1e10 cbnz w4,0xffffffc0100d1e1c
+ffffffc0100d1e14 stxr w4,w3,[x0]
+ffffffc0100d1e18 cbnz w4,0xffffffc0100d1e08
+ffffffc0100d1e1c cbnz w1,0xffffffc0100d1fbc
+ffffffc0100d1e20 ldp w2,w3,[x20]
+ffffffc0100d1e24 add x1,x22,#0x50
+ffffffc0100d1e28 add x0,x2,x2, LSL #0x1
+ffffffc0100d1e2c lsl x0,x0,#0x3
+ffffffc0100d1e30 sub x0,x0,x2
+ffffffc0100d1e34 add x0,x3,x0, LSL #0x1
+ffffffc0100d1e38 add x0,x0,#0x10
+ffffffc0100d1e3c ldr w2,[x1, x0, LSL #0x2]
+ffffffc0100d1e40 dmb OSHST
+ffffffc0100d1e44 ldr x3,[x26, #0x1a0]
+ffffffc0100d1e48 add w0,w25,#0x30c, LSL #12
+ffffffc0100d1e4c add w0,w0,#0x30
+ffffffc0100d1e50 ldr x3,[x3, #0x10]
+ffffffc0100d1e54 add x0,x3,w0, UXTW 
+ffffffc0100d1e58 str w2,[x0]
+ffffffc0100d1e5c ldp w2,w3,[x20]
+ffffffc0100d1e60 add x0,x2,x2, LSL #0x1
+ffffffc0100d1e64 lsl x0,x0,#0x3
+ffffffc0100d1e68 sub x0,x0,x2
+ffffffc0100d1e6c add x0,x3,x0, LSL #0x2
+ffffffc0100d1e70 add x0,x0,#0x30
+ffffffc0100d1e74 ldrh w1,[x1, x0, LSL #0x1]
+ffffffc0100d1e78 dmb OSHST
+ffffffc0100d1e7c ldr x2,[x26, #0x1a0]
+ffffffc0100d1e80 add w0,w25,#0x30c, LSL #12
+ffffffc0100d1e84 add w0,w0,#0x34
+ffffffc0100d1e88 ldr x2,[x2, #0x10]
+ffffffc0100d1e8c add x0,x2,w0, UXTW 
+ffffffc0100d1e90 str w1,[x0]
+ffffffc0100d1e94 add w24,w25,#0x30c, LSL #12
+ffffffc0100d1e98 and w21,w21,#0xffff
+ffffffc0100d1e9c add w24,w24,#0x3c
+ffffffc0100d1ea0 dmb OSHST
+ffffffc0100d1ea4 ldr x0,[x26, #0x1a0]
+ffffffc0100d1ea8 ldr x0,[x0, #0x10]
+ffffffc0100d1eac add x0,x0,w24, UXTW 
+ffffffc0100d1eb0 str w21,[x0]
+ffffffc0100d1eb4 add w25,w25,#0x30c, LSL #12
+ffffffc0100d1eb8 add w25,w25,#0x38
+ffffffc0100d1ebc mov w0,w25
+ffffffc0100d1ec0 bl 0xffffffc0100d1790
+ffffffc0100d1ec4 dmb OSHST
+ffffffc0100d1ec8 ldr x2,[x26, #0x1a0]
+ffffffc0100d1ecc add w1,w0,#0x1
+ffffffc0100d1ed0 ldr x0,[x2, #0x10]
+ffffffc0100d1ed4 add x25,x0,w25, UXTW 
+ffffffc0100d1ed8 str w1,[x25]
+ffffffc0100d1edc mov x25,#0x8dbc
+ffffffc0100d1ee0 movk x25,#0x6, LSL #16
+ffffffc0100d1ee4 b 0xffffffc0100d1ef4
+ffffffc0100d1ee8 subs w19,w19,#0x1
+ffffffc0100d1eec b.mi 0xffffffc0100d1fe0
+ffffffc0100d1ef0 bl 0xffffffc01076d000
+ffffffc0100d1ef4 mov w0,w24
+ffffffc0100d1ef8 bl 0xffffffc0100d1790
+ffffffc0100d1efc mov w1,w0
+ffffffc0100d1f00 mov x0,x25
+ffffffc0100d1f04 and w1,w1,#0xffff
+ffffffc0100d1f08 mov w21,w1
+ffffffc0100d1f0c tbz w1,#0x1,0xffffffc0100d1ee8
+ffffffc0100d1f10 ubfx x21,x21,#0x2,#0x3
+ffffffc0100d1f14 ldr w1,[x20]
+ffffffc0100d1f18 add x22,x22,#0x50
+ffffffc0100d1f1c mov w2,#0x0
+ffffffc0100d1f20 add x0,x1,x1, LSL #0x1
+ffffffc0100d1f24 lsl x0,x0,#0x3
+ffffffc0100d1f28 sub x0,x0,x1
+ffffffc0100d1f2c add x22,x22,x0, LSL #0x3
+ffffffc0100d1f30 add x0,x22,#0xb0
+ffffffc0100d1f34 stlrb w2,[x0]
+ffffffc0100d1f38 mov x30,x23
+ffffffc0100d1f3c xpaclri
+ffffffc0100d1f40 mov w1,#0x200
+ffffffc0100d1f44 mov x0,x30
+ffffffc0100d1f48 bl 0xffffffc0100e3a00
+ffffffc0100d1f4c ldp x19,x20,[sp, #0x10]
+ffffffc0100d1f50 ldp x23,x24,[sp, #0x30]
+ffffffc0100d1f54 ldp x25,x26,[sp, #0x40]
+ffffffc0100d1f58 mov w0,w21
+ffffffc0100d1f5c ldp x21,x22,[sp, #0x20]
+ffffffc0100d1f60 ldp x29,x30,[sp], #0x50
+ffffffc0100d1f64 ret
+ffffffc0100d1f68 ldr w0,[x20, #0x18]
+ffffffc0100d1f6c tbnz w0,#0x2,0xffffffc0100d1d74
+ffffffc0100d1f70 mov w3,w1
+ffffffc0100d1f74 add x0,x22,#0x50
+ffffffc0100d1f78 add x1,x3,w1, UXTW  #0x1
+ffffffc0100d1f7c lsl x1,x1,#0x3
+ffffffc0100d1f80 sub x1,x1,x3
+ffffffc0100d1f84 add x1,x1,w2, UXTW 
+ffffffc0100d1f88 ldr x0,[x0, x1, LSL #0x3]
+ffffffc0100d1f8c cbnz x0,0xffffffc0100d1dd8
+ffffffc0100d1f90 adrp x1,-0x3fef7f9000
+ffffffc0100d1f94 add x1,x1,#0xbb0
+ffffffc0100d1f98 add x1,x1,#0xa8
+ffffffc0100d1f9c adrp x0,-0x3fef70b000
+ffffffc0100d1fa0 mov w21,#0x0
+ffffffc0100d1fa4 add x0,x0,#0xbd8
+ffffffc0100d1fa8 bl 0xffffffc010133850
+ffffffc0100d1fac ldp x19,x20,[sp, #0x10]
+ffffffc0100d1fb0 ldp x23,x24,[sp, #0x30]
+ffffffc0100d1fb4 ldp x25,x26,[sp, #0x40]
+ffffffc0100d1fb8 b 0xffffffc0100d1f58
+ffffffc0100d1fbc bl 0xffffffc01012aed0
+ffffffc0100d1fc0 b 0xffffffc0100d1e20
+ffffffc0100d1fc4 mov w4,#0x8
+ffffffc0100d1fc8 adrp x0,-0x3fef70b000
+ffffffc0100d1fcc mov w2,w4
+ffffffc0100d1fd0 mov w21,#0x0
+ffffffc0100d1fd4 add x0,x0,#0xba0
+ffffffc0100d1fd8 bl 0xffffffc010133850
+ffffffc0100d1fdc b 0xffffffc0100d1f58
+ffffffc0100d1fe0 ldp w2,w3,[x20]
+ffffffc0100d1fe4 adrp x1,-0x3fef7f9000
+ffffffc0100d1fe8 add x1,x1,#0xbb0
+ffffffc0100d1fec mov w21,#0x0
+ffffffc0100d1ff0 add x1,x1,#0xa8
+ffffffc0100d1ff4 adrp x0,-0x3fef70b000
+ffffffc0100d1ff8 add x0,x0,#0xc20
+ffffffc0100d1ffc bl 0xffffffc010133850
+ffffffc0100d2000 b 0xffffffc0100d1f14
+
+FUNCTION get_npu_core_reply @ ffffffc0100d2320
+decompiled=true
+
+void get_npu_core_reply(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d2320 adrp x0,-0x3fef394000
+ffffffc0100d2324 ldr x0,[x0, #0x1a0]
+ffffffc0100d2328 ldr x0,[x0, #0x10]
+ffffffc0100d232c add x0,x0,#0x30c, LSL #12
+ffffffc0100d2330 add x0,x0,#0x174
+ffffffc0100d2334 ldr w0,[x0]
+ffffffc0100d2338 dmb OSHLD
+ffffffc0100d233c mov w1,w0
+ffffffc0100d2340 eor x1,x1,x1
+ffffffc0100d2344 cbnz x1,0xffffffc0100d2344
+ffffffc0100d2348 ret
+
+FUNCTION get_npu_hostadpt_reg @ ffffffc0100d2410
+decompiled=true
+
+void get_npu_hostadpt_reg(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d2410 adrp x2,-0x3fef394000
+ffffffc0100d2414 add w1,w0,#0x30d, LSL #12
+ffffffc0100d2418 ldr x0,[x2, #0x1a0]
+ffffffc0100d241c ldr x0,[x0, #0x10]
+ffffffc0100d2420 add x0,x0,x1
+ffffffc0100d2424 ldr w0,[x0]
+ffffffc0100d2428 dmb OSHLD
+ffffffc0100d242c mov w1,w0
+ffffffc0100d2430 eor x1,x1,x1
+ffffffc0100d2434 cbnz x1,0xffffffc0100d2434
+ffffffc0100d2438 ret
+
+FUNCTION npu_wifi_offload_set_ba_node_addr @ ffffffc0100d2584
+decompiled=true
+
+void npu_wifi_offload_set_ba_node_addr(undefined4 param_1)
+
+{
+  DAT_ffffffc010c6c1a8 = param_1;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d2584 adrp x1,-0x3fef394000
+ffffffc0100d2588 str w0,[x1, #0x1a8]
+ffffffc0100d258c ret
+
+FUNCTION npu_wifi_offload_get_pkt_buf_addr @ ffffffc0100d25d0
+decompiled=true
+
+undefined4 npu_wifi_offload_get_pkt_buf_addr(void)
+
+{
+  printk(s___s_npu_pkt_buf_addr__x_ffffffc0108f57e8,
+         s_npu_wifi_offload_get_pkt_buf_add_ffffffc010807bb0,DAT_ffffffc010c6c1c0);
+  return DAT_ffffffc010c6c1c0;
+}
+
+
+ASSEMBLY
+ffffffc0100d25d0 stp x29,x30,[sp, #-0x20]!
+ffffffc0100d25d4 adrp x1,-0x3fef7f9000
+ffffffc0100d25d8 adrp x0,-0x3fef70b000
+ffffffc0100d25dc mov x29,sp
+ffffffc0100d25e0 str x19,[sp, #0x10]
+ffffffc0100d25e4 adrp x19,-0x3fef394000
+ffffffc0100d25e8 add x19,x19,#0x1a0
+ffffffc0100d25ec add x1,x1,#0xbb0
+ffffffc0100d25f0 add x0,x0,#0x7e8
+ffffffc0100d25f4 ldr w2,[x19, #0x20]
+ffffffc0100d25f8 bl 0xffffffc010133850
+ffffffc0100d25fc ldr w0,[x19, #0x20]
+ffffffc0100d2600 ldr x19,[sp, #0x10]
+ffffffc0100d2604 ldp x29,x30,[sp], #0x20
+ffffffc0100d2608 ret
+
+FUNCTION npu_wifi_offload_get_tx_pkt_buf_addr @ ffffffc0100d260c
+decompiled=true
+
+undefined4 npu_wifi_offload_get_tx_pkt_buf_addr(void)
+
+{
+  printk(s___s_npu_tx_pkt_buf_addr__x_ffffffc0108f5808,
+         s_npu_wifi_offload_get_tx_pkt_buf__ffffffc010807bd8,DAT_ffffffc010c6c1c4);
+  return DAT_ffffffc010c6c1c4;
+}
+
+
+ASSEMBLY
+ffffffc0100d260c stp x29,x30,[sp, #-0x20]!
+ffffffc0100d2610 adrp x1,-0x3fef7f9000
+ffffffc0100d2614 add x1,x1,#0xbb0
+ffffffc0100d2618 mov x29,sp
+ffffffc0100d261c str x19,[sp, #0x10]
+ffffffc0100d2620 adrp x19,-0x3fef394000
+ffffffc0100d2624 add x19,x19,#0x1a0
+ffffffc0100d2628 add x1,x1,#0x28
+ffffffc0100d262c adrp x0,-0x3fef70b000
+ffffffc0100d2630 add x0,x0,#0x808
+ffffffc0100d2634 ldr w2,[x19, #0x24]
+ffffffc0100d2638 bl 0xffffffc010133850
+ffffffc0100d263c ldr w0,[x19, #0x24]
+ffffffc0100d2640 ldr x19,[sp, #0x10]
+ffffffc0100d2644 ldp x29,x30,[sp], #0x20
+ffffffc0100d2648 ret
+
+FUNCTION npu_wifi_offload_set_force_to_cpu_flag @ ffffffc0100d264c
+decompiled=true
+
+void npu_wifi_offload_set_force_to_cpu_flag(undefined1 param_1)
+
+{
+  DAT_ffffffc010c6c1ac = param_1;
+  printk(s___s_isForceToCpu__x__x_ffffffc0108f5828,
+         s_npu_wifi_offload_set_force_to_cp_ffffffc010807c00,param_1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d264c stp x29,x30,[sp, #-0x10]!
+ffffffc0100d2650 adrp x2,-0x3fef394000
+ffffffc0100d2654 and w3,w0,#0xff
+ffffffc0100d2658 mov x29,sp
+ffffffc0100d265c adrp x1,-0x3fef7f9000
+ffffffc0100d2660 add x1,x1,#0xbb0
+ffffffc0100d2664 strb w3,[x2, #0x1ac]
+ffffffc0100d2668 add x1,x1,#0x50
+ffffffc0100d266c mov w2,w3
+ffffffc0100d2670 adrp x0,-0x3fef70b000
+ffffffc0100d2674 add x0,x0,#0x828
+ffffffc0100d2678 bl 0xffffffc010133850
+ffffffc0100d267c ldp x29,x30,[sp], #0x10
+ffffffc0100d2680 ret
+
+FUNCTION npu_wifi_offload_set_pkt_buf_addr @ ffffffc0100d27cc
+decompiled=true
+
+void npu_wifi_offload_set_pkt_buf_addr(undefined4 param_1)
+
+{
+  DAT_ffffffc010c6c1c0 = param_1;
+  printk(s___s_npu_pkt_buf_addr__x__x_ffffffc0108f5cc0,
+         s_npu_wifi_offload_set_pkt_buf_add_ffffffc010807ca0,param_1,param_1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d27cc stp x29,x30,[sp, #-0x10]!
+ffffffc0100d27d0 adrp x2,-0x3fef394000
+ffffffc0100d27d4 adrp x1,-0x3fef7f9000
+ffffffc0100d27d8 mov x29,sp
+ffffffc0100d27dc add x1,x1,#0xbb0
+ffffffc0100d27e0 mov w3,w0
+ffffffc0100d27e4 str w0,[x2, #0x1c0]
+ffffffc0100d27e8 add x1,x1,#0xf0
+ffffffc0100d27ec mov w2,w0
+ffffffc0100d27f0 adrp x0,-0x3fef70b000
+ffffffc0100d27f4 add x0,x0,#0xcc0
+ffffffc0100d27f8 bl 0xffffffc010133850
+ffffffc0100d27fc ldp x29,x30,[sp], #0x10
+ffffffc0100d2800 ret
+
+FUNCTION npu_wifi_offload_set_tx_pkt_buf_addr @ ffffffc0100d2804
+decompiled=true
+
+void npu_wifi_offload_set_tx_pkt_buf_addr(undefined4 param_1)
+
+{
+  DAT_ffffffc010c6c1c4 = param_1;
+  printk(s___s_npu_tx_pkt_buf_addr__x__x_ffffffc0108f5ce0,
+         s_npu_wifi_offload_set_tx_pkt_buf__ffffffc010807cc8,param_1,param_1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100d2804 stp x29,x30,[sp, #-0x10]!
+ffffffc0100d2808 adrp x2,-0x3fef394000
+ffffffc0100d280c adrp x1,-0x3fef7f9000
+ffffffc0100d2810 mov x29,sp
+ffffffc0100d2814 add x1,x1,#0xbb0
+ffffffc0100d2818 mov w3,w0
+ffffffc0100d281c str w0,[x2, #0x1c4]
+ffffffc0100d2820 add x1,x1,#0x118
+ffffffc0100d2824 mov w2,w0
+ffffffc0100d2828 adrp x0,-0x3fef70b000
+ffffffc0100d282c add x0,x0,#0xce0
+ffffffc0100d2830 bl 0xffffffc010133850
+ffffffc0100d2834 ldp x29,x30,[sp], #0x10
+ffffffc0100d2838 ret
+
+total_executable_functions=33676
+exported_functions=18
+failed_decompilations=0

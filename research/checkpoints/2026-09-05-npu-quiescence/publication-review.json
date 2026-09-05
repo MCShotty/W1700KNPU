@@ -1,0 +1,22 @@
+{
+  "reviewed_on": "2026-09-05",
+  "component_build_observed_exit_codes": {
+    "target/linux/prepare": 0,
+    "target/linux/compile": 0,
+    "package/kernel/mt76/compile CONFIG_MT76_AIROHA_NPU=y": 0,
+    "package/kernel/mt76/compile (original config)": 0,
+    "kernel-context layout probes": 0
+  },
+  "kernel_checkpatch": {"errors": 0, "warnings": 0, "checks": 0},
+  "manual_source_whitespace_check": "passed; raw Ghidra/build evidence and patch context excluded, preserved byte-for-byte",
+  "secret_scan": {
+    "scanner": "gitleaks 8.30.1, default rules, redacted reports retained locally",
+    "zero_findings": ["checkpoint readable artifacts", "firmware", "tests", "tools"],
+    "docs_findings": 3,
+    "docs_findings_disposition": "All three generic-api-key matches are unchanged prose about token release/equivalence followed by scatter/SKB/bufid lifecycle; not credentials.",
+    "credentials_detected_in_reviewed_changes": 0,
+    "limitation": "Scanner output is not proof of absence; compressed ELF relocation/symbol inventories were reviewed by their generation/input scope. A malformed shell-loop scan was canceled; explicit scoped commands were rerun."
+  },
+  "private_scope": "No raw router backup, private key, device factory/calibration or recovery dump is staged. Private inputs and generated ELF modules remain ignored/local.",
+  "hardware_validation": "None in this checkpoint; no image flash or router contact."
+}

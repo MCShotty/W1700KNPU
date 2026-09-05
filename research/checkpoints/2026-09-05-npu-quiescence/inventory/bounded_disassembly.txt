@@ -1,0 +1,662 @@
+
+SHA256 c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text.unlikely", "--start-address=0x0", "--stop-address=0xa0", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text.unlikely:
+
+0000000000000000 <npu_unassign_trans-0x414>:
+   0:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+   4:	90000001 	adrp	x1, 0 <npu_unassign_trans-0x414>
+			4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x328
+   8:	91000021 	add	x1, x1, #0x0
+			8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x328
+   c:	910003fd 	mov	x29, sp
+  10:	f9000bf3 	str	x19, [sp, #16]
+  14:	aa0003f3 	mov	x19, x0
+  18:	f9401c00 	ldr	x0, [x0, #56]
+  1c:	94000000 	bl	0 <_dev_info>
+			1c: R_AARCH64_CALL26	_dev_info
+  20:	90000000 	adrp	x0, 0 <glb_npu_en_tx>
+			20: R_AARCH64_ADR_PREL_PG_HI21	glb_npu_en_tx
+  24:	90000001 	adrp	x1, 0 <glb_npu_en_rx>
+			24: R_AARCH64_ADR_PREL_PG_HI21	glb_npu_en_rx
+  28:	39400000 	ldrb	w0, [x0]
+			28: R_AARCH64_LDST8_ABS_LO12_NC	glb_npu_en_tx
+  2c:	39400021 	ldrb	w1, [x1]
+			2c: R_AARCH64_LDST8_ABS_LO12_NC	glb_npu_en_rx
+  30:	2a010000 	orr	w0, w0, w1
+  34:	72001c1f 	tst	w0, #0xff
+  38:	54000060 	b.eq	44 <npu_unassign_trans-0x3d0>  // b.none
+  3c:	aa1303e0 	mov	x0, x19
+  40:	94000000 	bl	6250 <send_rro_done_msg_2_NPU>
+			40: R_AARCH64_CALL26	send_rro_done_msg_2_NPU
+  44:	f9400bf3 	ldr	x19, [sp, #16]
+  48:	a8c27bfd 	ldp	x29, x30, [sp], #32
+  4c:	d65f03c0 	ret
+  50:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+  54:	90000001 	adrp	x1, 0 <npu_unassign_trans-0x414>
+			54: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x340
+  58:	91000021 	add	x1, x1, #0x0
+			58: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x340
+  5c:	910003fd 	mov	x29, sp
+  60:	f9000bf3 	str	x19, [sp, #16]
+  64:	aa0003f3 	mov	x19, x0
+  68:	f9401c00 	ldr	x0, [x0, #56]
+  6c:	94000000 	bl	0 <_dev_info>
+			6c: R_AARCH64_CALL26	_dev_info
+  70:	90000000 	adrp	x0, 0 <glb_npu_en_tx>
+			70: R_AARCH64_ADR_PREL_PG_HI21	glb_npu_en_tx
+  74:	90000001 	adrp	x1, 0 <glb_npu_en_rx>
+			74: R_AARCH64_ADR_PREL_PG_HI21	glb_npu_en_rx
+  78:	39400000 	ldrb	w0, [x0]
+			78: R_AARCH64_LDST8_ABS_LO12_NC	glb_npu_en_tx
+  7c:	39400021 	ldrb	w1, [x1]
+			7c: R_AARCH64_LDST8_ABS_LO12_NC	glb_npu_en_rx
+  80:	2a010000 	orr	w0, w0, w1
+  84:	72001c1f 	tst	w0, #0xff
+  88:	54000060 	b.eq	94 <npu_unassign_trans-0x380>  // b.none
+  8c:	aa1303e0 	mov	x0, x19
+  90:	94000000 	bl	6370 <send_rro_stop_msg_2_NPU>
+			90: R_AARCH64_CALL26	send_rro_stop_msg_2_NPU
+  94:	f9400bf3 	ldr	x19, [sp, #16]
+  98:	a8c27bfd 	ldp	x29, x30, [sp], #32
+  9c:	d65f03c0 	ret
+
+SHA256 c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0x6250", "--stop-address=0x65d8", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000006250 <send_rro_done_msg_2_NPU>:
+    6250:	a9ba7bfd 	stp	x29, x30, [sp, #-96]!
+    6254:	910003fd 	mov	x29, sp
+    6258:	a9025bf5 	stp	x21, x22, [sp, #32]
+    625c:	aa0003f5 	mov	x21, x0
+    6260:	f9001bff 	str	xzr, [sp, #48]
+    6264:	94000000 	bl	0 <get_ecnt_npu_dev>
+			6264: R_AARCH64_CALL26	get_ecnt_npu_dev
+    6268:	b4000580 	cbz	x0, 6318 <send_rro_done_msg_2_NPU+0xc8>
+    626c:	d2802004 	mov	x4, #0x100                 	// #256
+    6270:	52854423 	mov	w3, #0x2a21                	// #10785
+    6274:	9100c3e2 	add	x2, sp, #0x30
+    6278:	d2802401 	mov	x1, #0x120                 	// #288
+    627c:	a90153f3 	stp	x19, x20, [sp, #16]
+    6280:	aa0003f4 	mov	x20, x0
+    6284:	94000000 	bl	0 <dma_alloc_attrs>
+			6284: R_AARCH64_CALL26	dma_alloc_attrs
+    6288:	aa0003f3 	mov	x19, x0
+    628c:	d2802416 	mov	x22, #0x120                 	// #288
+    6290:	52800001 	mov	w1, #0x0                   	// #0
+    6294:	aa1603e2 	mov	x2, x22
+    6298:	b804e3ff 	stur	wzr, [sp, #78]
+    629c:	7900a7ff 	strh	wzr, [sp, #82]
+    62a0:	94000000 	bl	0 <memset>
+			62a0: R_AARCH64_CALL26	memset
+    62a4:	52800241 	mov	w1, #0x12                  	// #18
+    62a8:	528002e0 	mov	w0, #0x17                  	// #23
+    62ac:	39000261 	strb	w1, [x19]
+    62b0:	d2800023 	mov	x3, #0x1                   	// #1
+    62b4:	b9000660 	str	w0, [x19, #4]
+    62b8:	f2dd4c03 	movk	x3, #0xea60, lsl #32
+    62bc:	9100e3e0 	add	x0, sp, #0x38
+    62c0:	a903cfff 	stp	xzr, x19, [sp, #56]
+    62c4:	f9402be1 	ldr	x1, [sp, #80]
+    62c8:	79009bf6 	strh	w22, [sp, #76]
+    62cc:	f9401be2 	ldr	x2, [sp, #48]
+    62d0:	927f7821 	and	x1, x1, #0xfffffffe
+    62d4:	aa030021 	orr	x1, x1, x3
+    62d8:	b9004be2 	str	w2, [sp, #72]
+    62dc:	a9057fe1 	stp	x1, xzr, [sp, #80]
+    62e0:	94000000 	bl	0 <host_notify_npuMbox>
+			62e0: R_AARCH64_CALL26	host_notify_npuMbox
+    62e4:	f9401be3 	ldr	x3, [sp, #48]
+    62e8:	aa1303e2 	mov	x2, x19
+    62ec:	aa1603e1 	mov	x1, x22
+    62f0:	2a0003f3 	mov	w19, w0
+    62f4:	d2800004 	mov	x4, #0x0                   	// #0
+    62f8:	aa1403e0 	mov	x0, x20
+    62fc:	94000000 	bl	0 <dma_free_attrs>
+			62fc: R_AARCH64_CALL26	dma_free_attrs
+    6300:	7100067f 	cmp	w19, #0x1
+    6304:	54000201 	b.ne	6344 <send_rro_done_msg_2_NPU+0xf4>  // b.any
+    6308:	a94153f3 	ldp	x19, x20, [sp, #16]
+    630c:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    6310:	a8c67bfd 	ldp	x29, x30, [sp], #96
+    6314:	d65f03c0 	ret
+    6318:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6318: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x8d8
+    631c:	91000000 	add	x0, x0, #0x0
+			631c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x8d8
+    6320:	94000000 	bl	0 <printk>
+			6320: R_AARCH64_CALL26	printk
+    6324:	f9401ea0 	ldr	x0, [x21, #56]
+    6328:	90000002 	adrp	x2, 0 <pci_get_speed_width-0x524>
+			6328: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x130
+    632c:	91000042 	add	x2, x2, #0x0
+			632c: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x130
+    6330:	90000001 	adrp	x1, 0 <pci_get_speed_width-0x524>
+			6330: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xd08
+    6334:	9105a042 	add	x2, x2, #0x168
+    6338:	91000021 	add	x1, x1, #0x0
+			6338: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xd08
+    633c:	94000000 	bl	0 <_dev_info>
+			633c: R_AARCH64_CALL26	_dev_info
+    6340:	17fffff3 	b	630c <send_rro_done_msg_2_NPU+0xbc>
+    6344:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6344: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xdf8
+    6348:	52800004 	mov	w4, #0x0                   	// #0
+    634c:	91000000 	add	x0, x0, #0x0
+			634c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xdf8
+    6350:	52800003 	mov	w3, #0x0                   	// #0
+    6354:	52800002 	mov	w2, #0x0                   	// #0
+    6358:	52800001 	mov	w1, #0x0                   	// #0
+    635c:	94000000 	bl	0 <printk>
+			635c: R_AARCH64_CALL26	printk
+    6360:	a94153f3 	ldp	x19, x20, [sp, #16]
+    6364:	17fffff0 	b	6324 <send_rro_done_msg_2_NPU+0xd4>
+    6368:	d503201f 	nop
+    636c:	d503201f 	nop
+
+0000000000006370 <send_rro_stop_msg_2_NPU>:
+    6370:	a9b67bfd 	stp	x29, x30, [sp, #-160]!
+    6374:	910003fd 	mov	x29, sp
+    6378:	a90153f3 	stp	x19, x20, [sp, #16]
+    637c:	a9025bf5 	stp	x21, x22, [sp, #32]
+    6380:	a90363f7 	stp	x23, x24, [sp, #48]
+    6384:	a9046bf9 	stp	x25, x26, [sp, #64]
+    6388:	aa0003fa 	mov	x26, x0
+    638c:	a90573fb 	stp	x27, x28, [sp, #80]
+    6390:	f9003bff 	str	xzr, [sp, #112]
+    6394:	94000000 	bl	0 <get_ecnt_npu_dev>
+			6394: R_AARCH64_CALL26	get_ecnt_npu_dev
+    6398:	b4000fa0 	cbz	x0, 658c <send_rro_stop_msg_2_NPU+0x21c>
+    639c:	9101c3f6 	add	x22, sp, #0x70
+    63a0:	d2802004 	mov	x4, #0x100                 	// #256
+    63a4:	52854423 	mov	w3, #0x2a21                	// #10785
+    63a8:	aa0003f4 	mov	x20, x0
+    63ac:	aa1603e2 	mov	x2, x22
+    63b0:	d2802401 	mov	x1, #0x120                 	// #288
+    63b4:	94000000 	bl	0 <dma_alloc_attrs>
+			63b4: R_AARCH64_CALL26	dma_alloc_attrs
+    63b8:	91023bf5 	add	x21, sp, #0x8e
+    63bc:	aa0003f3 	mov	x19, x0
+    63c0:	b808e3ff 	stur	wzr, [sp, #142]
+    63c4:	d2802418 	mov	x24, #0x120                 	// #288
+    63c8:	52800001 	mov	w1, #0x0                   	// #0
+    63cc:	aa1803e2 	mov	x2, x24
+    63d0:	79000abf 	strh	wzr, [x21, #4]
+    63d4:	94000000 	bl	0 <memset>
+			63d4: R_AARCH64_CALL26	memset
+    63d8:	9101e3f7 	add	x23, sp, #0x78
+    63dc:	52800281 	mov	w1, #0x14                  	// #20
+    63e0:	528002e0 	mov	w0, #0x17                  	// #23
+    63e4:	39000261 	strb	w1, [x19]
+    63e8:	d2800023 	mov	x3, #0x1                   	// #1
+    63ec:	b9000660 	str	w0, [x19, #4]
+    63f0:	f2dd4c03 	movk	x3, #0xea60, lsl #32
+    63f4:	aa1703e0 	mov	x0, x23
+    63f8:	a907cfff 	stp	xzr, x19, [sp, #120]
+    63fc:	f9404be1 	ldr	x1, [sp, #144]
+    6400:	79011bf8 	strh	w24, [sp, #140]
+    6404:	f9403be2 	ldr	x2, [sp, #112]
+    6408:	927f7821 	and	x1, x1, #0xfffffffe
+    640c:	aa030021 	orr	x1, x1, x3
+    6410:	b9008be2 	str	w2, [sp, #136]
+    6414:	a9097fe1 	stp	x1, xzr, [sp, #144]
+    6418:	94000000 	bl	0 <host_notify_npuMbox>
+			6418: R_AARCH64_CALL26	host_notify_npuMbox
+    641c:	f9403be3 	ldr	x3, [sp, #112]
+    6420:	aa1303e2 	mov	x2, x19
+    6424:	aa1803e1 	mov	x1, x24
+    6428:	2a0003f3 	mov	w19, w0
+    642c:	d2800004 	mov	x4, #0x0                   	// #0
+    6430:	aa1403e0 	mov	x0, x20
+    6434:	94000000 	bl	0 <dma_free_attrs>
+			6434: R_AARCH64_CALL26	dma_free_attrs
+    6438:	7100067f 	cmp	w19, #0x1
+    643c:	540008a1 	b.ne	6550 <send_rro_stop_msg_2_NPU+0x1e0>  // b.any
+    6440:	90000019 	adrp	x25, 0 <pci_get_speed_width-0x524>
+			6440: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x130
+    6444:	91000339 	add	x25, x25, #0x0
+			6444: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x130
+    6448:	d2800038 	mov	x24, #0x1                   	// #1
+    644c:	9000001c 	adrp	x28, 0 <pci_get_speed_width-0x524>
+			644c: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xe68
+    6450:	9000001b 	adrp	x27, 0 <pci_get_speed_width-0x524>
+			6450: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xe40
+    6454:	9100039c 	add	x28, x28, #0x0
+			6454: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xe68
+    6458:	91000360 	add	x0, x27, #0x0
+			6458: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xe40
+    645c:	f2c07d18 	movk	x24, #0x3e8, lsl #32
+    6460:	f90037e0 	str	x0, [sp, #104]
+    6464:	14000006 	b	647c <send_rro_stop_msg_2_NPU+0x10c>
+    6468:	b9400b74 	ldr	w20, [x27, #8]
+    646c:	aa1303e0 	mov	x0, x19
+    6470:	d2800004 	mov	x4, #0x0                   	// #0
+    6474:	94000000 	bl	0 <dma_free_attrs>
+			6474: R_AARCH64_CALL26	dma_free_attrs
+    6478:	34000994 	cbz	w20, 65a8 <send_rro_stop_msg_2_NPU+0x238>
+    647c:	f9003bff 	str	xzr, [sp, #112]
+    6480:	94000000 	bl	0 <get_ecnt_npu_dev>
+			6480: R_AARCH64_CALL26	get_ecnt_npu_dev
+    6484:	d2802414 	mov	x20, #0x120                 	// #288
+    6488:	aa1603e2 	mov	x2, x22
+    648c:	aa1403e1 	mov	x1, x20
+    6490:	aa0003f3 	mov	x19, x0
+    6494:	d2802004 	mov	x4, #0x100                 	// #256
+    6498:	52854423 	mov	w3, #0x2a21                	// #10785
+    649c:	b4000520 	cbz	x0, 6540 <send_rro_stop_msg_2_NPU+0x1d0>
+    64a0:	94000000 	bl	0 <dma_alloc_attrs>
+			64a0: R_AARCH64_CALL26	dma_alloc_attrs
+    64a4:	aa0003fb 	mov	x27, x0
+    64a8:	aa1403e2 	mov	x2, x20
+    64ac:	52800001 	mov	w1, #0x0                   	// #0
+    64b0:	b40003e0 	cbz	x0, 652c <send_rro_stop_msg_2_NPU+0x1bc>
+    64b4:	b90002bf 	str	wzr, [x21]
+    64b8:	79000abf 	strh	wzr, [x21, #4]
+    64bc:	94000000 	bl	0 <memset>
+			64bc: R_AARCH64_CALL26	memset
+    64c0:	52800660 	mov	w0, #0x33                  	// #51
+    64c4:	39000360 	strb	w0, [x27]
+    64c8:	aa1703e0 	mov	x0, x23
+    64cc:	a907efff 	stp	xzr, x27, [sp, #120]
+    64d0:	f9404be1 	ldr	x1, [sp, #144]
+    64d4:	79011bf4 	strh	w20, [sp, #140]
+    64d8:	f9403be2 	ldr	x2, [sp, #112]
+    64dc:	927f7821 	and	x1, x1, #0xfffffffe
+    64e0:	aa180021 	orr	x1, x1, x24
+    64e4:	b9008be2 	str	w2, [sp, #136]
+    64e8:	a9097fe1 	stp	x1, xzr, [sp, #144]
+    64ec:	94000000 	bl	0 <host_notify_npuMbox>
+			64ec: R_AARCH64_CALL26	host_notify_npuMbox
+    64f0:	aa1b03e2 	mov	x2, x27
+    64f4:	aa1403e1 	mov	x1, x20
+    64f8:	f9403be3 	ldr	x3, [sp, #112]
+    64fc:	7100041f 	cmp	w0, #0x1
+    6500:	54fffb40 	b.eq	6468 <send_rro_stop_msg_2_NPU+0xf8>  // b.none
+    6504:	aa1303e0 	mov	x0, x19
+    6508:	d2800004 	mov	x4, #0x0                   	// #0
+    650c:	94000000 	bl	0 <dma_free_attrs>
+			650c: R_AARCH64_CALL26	dma_free_attrs
+    6510:	f94037e0 	ldr	x0, [sp, #104]
+    6514:	94000000 	bl	0 <printk>
+			6514: R_AARCH64_CALL26	printk
+    6518:	f9401f40 	ldr	x0, [x26, #56]
+    651c:	91060322 	add	x2, x25, #0x180
+    6520:	aa1c03e1 	mov	x1, x28
+    6524:	94000000 	bl	0 <_dev_info>
+			6524: R_AARCH64_CALL26	_dev_info
+    6528:	17ffffd5 	b	647c <send_rro_stop_msg_2_NPU+0x10c>
+    652c:	91066321 	add	x1, x25, #0x198
+    6530:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6530: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x930
+    6534:	91000000 	add	x0, x0, #0x0
+			6534: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x930
+    6538:	94000000 	bl	0 <printk>
+			6538: R_AARCH64_CALL26	printk
+    653c:	17fffff7 	b	6518 <send_rro_stop_msg_2_NPU+0x1a8>
+    6540:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6540: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x8d8
+    6544:	91000000 	add	x0, x0, #0x0
+			6544: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x8d8
+    6548:	94000000 	bl	0 <printk>
+			6548: R_AARCH64_CALL26	printk
+    654c:	17fffff3 	b	6518 <send_rro_stop_msg_2_NPU+0x1a8>
+    6550:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6550: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xdf8
+    6554:	52800004 	mov	w4, #0x0                   	// #0
+    6558:	91000000 	add	x0, x0, #0x0
+			6558: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xdf8
+    655c:	52800003 	mov	w3, #0x0                   	// #0
+    6560:	52800002 	mov	w2, #0x0                   	// #0
+    6564:	52800001 	mov	w1, #0x0                   	// #0
+    6568:	94000000 	bl	0 <printk>
+			6568: R_AARCH64_CALL26	printk
+    656c:	f9401f40 	ldr	x0, [x26, #56]
+    6570:	90000019 	adrp	x25, 0 <pci_get_speed_width-0x524>
+			6570: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x130
+    6574:	91000339 	add	x25, x25, #0x0
+			6574: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x130
+    6578:	90000001 	adrp	x1, 0 <pci_get_speed_width-0x524>
+			6578: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xd08
+    657c:	91060322 	add	x2, x25, #0x180
+    6580:	91000021 	add	x1, x1, #0x0
+			6580: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xd08
+    6584:	94000000 	bl	0 <_dev_info>
+			6584: R_AARCH64_CALL26	_dev_info
+    6588:	17ffffb0 	b	6448 <send_rro_stop_msg_2_NPU+0xd8>
+    658c:	9101c3f6 	add	x22, sp, #0x70
+    6590:	9101e3f7 	add	x23, sp, #0x78
+    6594:	90000000 	adrp	x0, 0 <pci_get_speed_width-0x524>
+			6594: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x8d8
+    6598:	91000000 	add	x0, x0, #0x0
+			6598: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x8d8
+    659c:	94000000 	bl	0 <printk>
+			659c: R_AARCH64_CALL26	printk
+    65a0:	91023bf5 	add	x21, sp, #0x8e
+    65a4:	17fffff2 	b	656c <send_rro_stop_msg_2_NPU+0x1fc>
+    65a8:	f9401f40 	ldr	x0, [x26, #56]
+    65ac:	91060322 	add	x2, x25, #0x180
+    65b0:	90000001 	adrp	x1, 0 <pci_get_speed_width-0x524>
+			65b0: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0xea0
+    65b4:	91000021 	add	x1, x1, #0x0
+			65b4: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0xea0
+    65b8:	94000000 	bl	0 <_dev_info>
+			65b8: R_AARCH64_CALL26	_dev_info
+    65bc:	a94153f3 	ldp	x19, x20, [sp, #16]
+    65c0:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    65c4:	a94363f7 	ldp	x23, x24, [sp, #48]
+    65c8:	a9446bf9 	ldp	x25, x26, [sp, #64]
+    65cc:	a94573fb 	ldp	x27, x28, [sp, #80]
+    65d0:	a8ca7bfd 	ldp	x29, x30, [sp], #160
+    65d4:	d65f03c0 	ret
+
+SHA256 6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0xce90", "--stop-address=0xcef8", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+000000000000ce90 <mtk_ge_stop_npu>:
+    ce90:	f9405800 	ldr	x0, [x0, #176]
+    ce94:	f9434800 	ldr	x0, [x0, #1680]
+    ce98:	f9403401 	ldr	x1, [x0, #104]
+    ce9c:	f9409421 	ldr	x1, [x1, #296]
+    cea0:	b40000e1 	cbz	x1, cebc <mtk_ge_stop_npu+0x2c>
+    cea4:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    cea8:	910003fd 	mov	x29, sp
+    ceac:	d63f0020 	blr	x1
+    ceb0:	52800000 	mov	w0, #0x0                   	// #0
+    ceb4:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    ceb8:	d65f03c0 	ret
+    cebc:	52800000 	mov	w0, #0x0                   	// #0
+    cec0:	d65f03c0 	ret
+
+000000000000cec4 <mtk_ge_start_npu>:
+    cec4:	f9405800 	ldr	x0, [x0, #176]
+    cec8:	f9434800 	ldr	x0, [x0, #1680]
+    cecc:	f9403401 	ldr	x1, [x0, #104]
+    ced0:	f9409821 	ldr	x1, [x1, #304]
+    ced4:	b40000e1 	cbz	x1, cef0 <mtk_ge_start_npu+0x2c>
+    ced8:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    cedc:	910003fd 	mov	x29, sp
+    cee0:	d63f0020 	blr	x1
+    cee4:	52800000 	mov	w0, #0x0                   	// #0
+    cee8:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    ceec:	d65f03c0 	ret
+    cef0:	52800000 	mov	w0, #0x0                   	// #0
+    cef4:	d65f03c0 	ret
+
+SHA256 6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0xd020", "--stop-address=0xd04c", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+000000000000d020 <mtk_ge_hw_reset>:
+    d020:	f9403c01 	ldr	x1, [x0, #120]
+    d024:	f9401821 	ldr	x1, [x1, #48]
+    d028:	f9401421 	ldr	x1, [x1, #40]
+    d02c:	b40000c1 	cbz	x1, d044 <mtk_ge_hw_reset+0x24>
+    d030:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    d034:	910003fd 	mov	x29, sp
+    d038:	d63f0020 	blr	x1
+    d03c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    d040:	d65f03c0 	ret
+    d044:	12800bc0 	mov	w0, #0xffffffa1            	// #-95
+    d048:	d65f03c0 	ret
+
+SHA256 6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0xcb64", "--stop-address=0xcb7c", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+000000000000cb64 <mtk_hdev_ops_init>:
+    cb64:	aa0003e2 	mov	x2, x0
+    cb68:	90000001 	adrp	x1, 0 <mtk_hwifi_get_bus_mgmt>
+			cb68: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x608
+    cb6c:	52800000 	mov	w0, #0x0                   	// #0
+    cb70:	91000021 	add	x1, x1, #0x0
+			cb70: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x608
+    cb74:	f9034441 	str	x1, [x2, #1672]
+    cb78:	d65f03c0 	ret
+
+SHA256 40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0x386870", "--stop-address=0x386894", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000386870 <hwifi_ser_handler>:
+  386870:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+  386874:	910003fd 	mov	x29, sp
+  386878:	f9400400 	ldr	x0, [x0, #8]
+  38687c:	f9404000 	ldr	x0, [x0, #128]
+  386880:	f8420403 	ldr	x3, [x0], #32
+  386884:	f9404863 	ldr	x3, [x3, #144]
+  386888:	d63f0060 	blr	x3
+  38688c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+  386890:	d65f03c0 	ret
+
+SHA256 40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0x34d820", "--stop-address=0x34d8a0", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+000000000034d820 <asic_ser_handler>:
+  34d820:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+  34d824:	d2900003 	mov	x3, #0x8000                	// #32768
+  34d828:	f2a02603 	movk	x3, #0x130, lsl #16
+  34d82c:	910003fd 	mov	x29, sp
+  34d830:	8b030003 	add	x3, x0, x3
+  34d834:	a90153f3 	stp	x19, x20, [sp, #16]
+  34d838:	aa0003f3 	mov	x19, x0
+  34d83c:	2a0103f4 	mov	w20, w1
+  34d840:	f90013f5 	str	x21, [sp, #32]
+  34d844:	2a0203f5 	mov	w21, w2
+  34d848:	f94b6060 	ldr	x0, [x3, #5824]
+  34d84c:	94000000 	bl	352e20 <hc_get_arch_ops>
+			34d84c: R_AARCH64_CALL26	hc_get_arch_ops
+  34d850:	f941c403 	ldr	x3, [x0, #904]
+  34d854:	b4000123 	cbz	x3, 34d878 <asic_ser_handler+0x58>
+  34d858:	2a1503e2 	mov	w2, w21
+  34d85c:	2a1403e1 	mov	w1, w20
+  34d860:	aa1303e0 	mov	x0, x19
+  34d864:	d63f0060 	blr	x3
+  34d868:	a94153f3 	ldp	x19, x20, [sp, #16]
+  34d86c:	f94013f5 	ldr	x21, [sp, #32]
+  34d870:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  34d874:	d65f03c0 	ret
+  34d878:	90000001 	adrp	x1, 0 <AutoChBssSearchWithSSID-0x27e4>
+			34d878: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x28f30
+  34d87c:	91000021 	add	x1, x1, #0x0
+			34d87c: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x28f30
+  34d880:	aa1303e0 	mov	x0, x19
+  34d884:	91256021 	add	x1, x1, #0x958
+  34d888:	94000000 	bl	3480b0 <AsicNotSupportFunc>
+			34d888: R_AARCH64_CALL26	AsicNotSupportFunc
+  34d88c:	52800020 	mov	w0, #0x1                   	// #1
+  34d890:	a94153f3 	ldp	x19, x20, [sp, #16]
+  34d894:	f94013f5 	ldr	x21, [sp, #32]
+  34d898:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  34d89c:	d65f03c0 	ret
+
+SHA256 502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0x140", "--stop-address=0x1ac", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000140 <.text+0x140>:
+     140:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     144:	910003fd 	mov	x29, sp
+     148:	f9000bf3 	str	x19, [sp, #16]
+     14c:	f9434813 	ldr	x19, [x0, #1680]
+     150:	f9403260 	ldr	x0, [x19, #96]
+     154:	f9400403 	ldr	x3, [x0, #8]
+     158:	b40000c3 	cbz	x3, 170 <.text+0x170>
+     15c:	5290c001 	mov	w1, #0x8600                	// #34304
+     160:	aa1303e0 	mov	x0, x19
+     164:	52800022 	mov	w2, #0x1                   	// #1
+     168:	72a003e1 	movk	w1, #0x1f, lsl #16
+     16c:	d63f0060 	blr	x3
+     170:	d2912b00 	mov	x0, #0x8958                	// #35160
+     174:	f2a00820 	movk	x0, #0x41, lsl #16
+     178:	94000000 	bl	0 <__const_udelay>
+			178: R_AARCH64_CALL26	__const_udelay
+     17c:	f9403260 	ldr	x0, [x19, #96]
+     180:	f9400403 	ldr	x3, [x0, #8]
+     184:	b40000c3 	cbz	x3, 19c <.text+0x19c>
+     188:	5290c001 	mov	w1, #0x8600                	// #34304
+     18c:	aa1303e0 	mov	x0, x19
+     190:	72a003e1 	movk	w1, #0x1f, lsl #16
+     194:	52800002 	mov	w2, #0x0                   	// #0
+     198:	d63f0060 	blr	x3
+     19c:	52800000 	mov	w0, #0x0                   	// #0
+     1a0:	f9400bf3 	ldr	x19, [sp, #16]
+     1a4:	a8c27bfd 	ldp	x29, x30, [sp], #32
+     1a8:	d65f03c0 	ret
+
+SHA256 502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81
+COMMAND ["aarch64-linux-gnu-objdump", "-dr", "-j", ".text", "--start-address=0xcc4", "--stop-address=0xe70", "/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko"]
+
+/home/captain/W1700KNPU/.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000cc4 <.text+0xcc4>:
+     cc4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+     cc8:	52800002 	mov	w2, #0x0                   	// #0
+     ccc:	910003fd 	mov	x29, sp
+     cd0:	a90153f3 	stp	x19, x20, [sp, #16]
+     cd4:	aa0003f4 	mov	x20, x0
+     cd8:	a9025bf5 	stp	x21, x22, [sp, #32]
+     cdc:	f9403001 	ldr	x1, [x0, #96]
+     ce0:	f9400023 	ldr	x3, [x1]
+     ce4:	b40000e3 	cbz	x3, d00 <.text+0xd00>
+     ce8:	52884101 	mov	w1, #0x4208                	// #16904
+     cec:	72a001a1 	movk	w1, #0xd, lsl #16
+     cf0:	d63f0060 	blr	x3
+     cf4:	f9403281 	ldr	x1, [x20, #96]
+     cf8:	128000a2 	mov	w2, #0xfffffffa            	// #-6
+     cfc:	0a020002 	and	w2, w0, w2
+     d00:	f9400423 	ldr	x3, [x1, #8]
+     d04:	b40009a3 	cbz	x3, e38 <.text+0xe38>
+     d08:	52884101 	mov	w1, #0x4208                	// #16904
+     d0c:	aa1403e0 	mov	x0, x20
+     d10:	72a001a1 	movk	w1, #0xd, lsl #16
+     d14:	d63f0060 	blr	x3
+     d18:	f9403281 	ldr	x1, [x20, #96]
+     d1c:	528003e2 	mov	w2, #0x1f                  	// #31
+     d20:	f9400023 	ldr	x3, [x1]
+     d24:	b40000e3 	cbz	x3, d40 <.text+0xd40>
+     d28:	52882781 	mov	w1, #0x413c                	// #16700
+     d2c:	aa1403e0 	mov	x0, x20
+     d30:	72a001a1 	movk	w1, #0xd, lsl #16
+     d34:	d63f0060 	blr	x3
+     d38:	f9403281 	ldr	x1, [x20, #96]
+     d3c:	32001002 	orr	w2, w0, #0x1f
+     d40:	f9400423 	ldr	x3, [x1, #8]
+     d44:	b4000803 	cbz	x3, e44 <.text+0xe44>
+     d48:	52882781 	mov	w1, #0x413c                	// #16700
+     d4c:	aa1403e0 	mov	x0, x20
+     d50:	72a001a1 	movk	w1, #0xd, lsl #16
+     d54:	d63f0060 	blr	x3
+     d58:	f9403280 	ldr	x0, [x20, #96]
+     d5c:	f9400002 	ldr	x2, [x0]
+     d60:	528e0896 	mov	w22, #0x7044                	// #28740
+     d64:	d2912b15 	mov	x21, #0x8958                	// #35160
+     d68:	52800cb3 	mov	w19, #0x65                  	// #101
+     d6c:	72a001b6 	movk	w22, #0xd, lsl #16
+     d70:	f2a00835 	movk	x21, #0x41, lsl #16
+     d74:	b40001c2 	cbz	x2, dac <.text+0xdac>
+     d78:	2a1603e1 	mov	w1, w22
+     d7c:	aa1403e0 	mov	x0, x20
+     d80:	d63f0040 	blr	x2
+     d84:	2a0003e1 	mov	w1, w0
+     d88:	aa1503e0 	mov	x0, x21
+     d8c:	36000101 	tbz	w1, #0, dac <.text+0xdac>
+     d90:	94000000 	bl	0 <__const_udelay>
+			d90: R_AARCH64_CALL26	__const_udelay
+     d94:	51000661 	sub	w1, w19, #0x1
+     d98:	72001c33 	ands	w19, w1, #0xff
+     d9c:	54000580 	b.eq	e4c <.text+0xe4c>  // b.none
+     da0:	f9403280 	ldr	x0, [x20, #96]
+     da4:	f9400002 	ldr	x2, [x0]
+     da8:	b5fffe82 	cbnz	x2, d78 <.text+0xd78>
+     dac:	52800013 	mov	w19, #0x0                   	// #0
+     db0:	912eb280 	add	x0, x20, #0xbac
+     db4:	97fffea7 	bl	850 <.text+0x850>
+     db8:	f9403281 	ldr	x1, [x20, #96]
+     dbc:	aa0003f5 	mov	x21, x0
+     dc0:	f9400423 	ldr	x3, [x1, #8]
+     dc4:	b4000183 	cbz	x3, df4 <.text+0xdf4>
+     dc8:	b94df281 	ldr	w1, [x20, #3568]
+     dcc:	aa1403e0 	mov	x0, x20
+     dd0:	52800002 	mov	w2, #0x0                   	// #0
+     dd4:	d63f0060 	blr	x3
+     dd8:	f9403280 	ldr	x0, [x20, #96]
+     ddc:	b94b4a81 	ldr	w1, [x20, #2888]
+     de0:	f9400403 	ldr	x3, [x0, #8]
+     de4:	b4000083 	cbz	x3, df4 <.text+0xdf4>
+     de8:	aa1403e0 	mov	x0, x20
+     dec:	52800002 	mov	w2, #0x0                   	// #0
+     df0:	d63f0060 	blr	x3
+     df4:	52800000 	mov	w0, #0x0                   	// #0
+     df8:	912eb281 	add	x1, x20, #0xbac
+     dfc:	089ffc20 	stlrb	w0, [x1]
+     e00:	d51b4235 	msr	daif, x21
+     e04:	d503201f 	nop
+     e08:	d2800020 	mov	x0, #0x1                   	// #1
+     e0c:	912f4283 	add	x3, x20, #0xbd0
+     e10:	f9800071 	prfm	pstl1strm, [x3]
+     e14:	c85f7c61 	ldxr	x1, [x3]
+     e18:	8a200021 	bic	x1, x1, x0
+     e1c:	c8027c61 	stxr	w2, x1, [x3]
+     e20:	35ffffa2 	cbnz	w2, e14 <.text+0xe14>
+     e24:	2a1303e0 	mov	w0, w19
+     e28:	a94153f3 	ldp	x19, x20, [sp, #16]
+     e2c:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     e30:	a8c37bfd 	ldp	x29, x30, [sp], #48
+     e34:	d65f03c0 	ret
+     e38:	f9400023 	ldr	x3, [x1]
+     e3c:	b5fff763 	cbnz	x3, d28 <.text+0xd28>
+     e40:	17ffffdb 	b	dac <.text+0xdac>
+     e44:	f9400022 	ldr	x2, [x1]
+     e48:	17ffffc6 	b	d60 <.text+0xd60>
+     e4c:	f9401e80 	ldr	x0, [x20, #56]
+     e50:	90000002 	adrp	x2, 0 <.text>
+			e50: R_AARCH64_ADR_PREL_PG_HI21	.rodata
+     e54:	91000042 	add	x2, x2, #0x0
+			e54: R_AARCH64_ADD_ABS_LO12_NC	.rodata
+     e58:	90000001 	adrp	x1, 0 <.text>
+			e58: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.8+0x288
+     e5c:	910e8042 	add	x2, x2, #0x3a0
+     e60:	91000021 	add	x1, x1, #0x0
+			e60: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.8+0x288
+     e64:	52800033 	mov	w19, #0x1                   	// #1
+     e68:	94000000 	bl	0 <_dev_err>
+			e68: R_AARCH64_CALL26	_dev_err
+     e6c:	17ffffd1 	b	db0 <.text+0xdb0>

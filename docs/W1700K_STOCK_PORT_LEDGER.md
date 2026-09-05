@@ -17394,3 +17394,44 @@ Status and boundary:
 - Both goals remain unfinished. Next is the provider/stock reset coordinator
   and safe shared quiescence policy, followed by current-mt76 ownership port
   and the validation gates in the remaining-work checklist.
+
+## Mailbox Ownership And Current Firmware Quiescence - 2026-09-05
+
+- Continued both goals after completed storage maintenance. No router contact,
+  configuration change, flash or new complete sysupgrade image in this pass.
+- Added kernel overlay patch 926: payload/length/flags before producer counter,
+  negative-length/register-error handling, and retained mailbox ownership after
+  timeout until observed DONE. This fixes mailbox transport, not all WLAN DMA.
+- The actual prepared function passes 143 compiled-C MMIO-model assertions;
+  unpatched negative controls reproduce immediate-completion overwrite and
+  timed-out payload reuse. Kernel prepare/compile and both mt76 variants exit 0.
+  Real ARM64 before/after layout witnesses match. All six mt76 executable-section
+  sets equal the prior provider-guard checkpoint, and build config is unchanged.
+- New provider object SHA256:
+  `5b025cfa3ae234909ff4164f42a789b08390248de471cbf803afecad65374a68`.
+  Full Ghidra analysis covers 24 functions; both selected exports succeed and
+  assembly confirms order and pending-byte behavior. Stock kernel: 33,676
+  initialized executable functions, 18 selected successful NPU/mailbox exports.
+- Current pristine MT7996 NPU firmware SHA256:
+  `e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643`.
+  Corrected code/data mapping and a separate SiFive-compatible cache-op decoder
+  yield 424/424 successful discovered-function exports. Earlier incomplete decode
+  output is retained but superseded. No firmware blob bytes were changed.
+- Current STOP4/GET3 is proven insufficient as full-worker quiescence: RRO page
+  worker `8400c9b0` and indirect part-2 worker `8400cb0e` only gate at startup and
+  can mutate rings/buffer ownership after ACK. API27 stop wrapper is unsupported.
+- Corrected September 2 comparison provenance: `51f3583c...929b79` is our July V28
+  patched blob (two JAL hooks plus 244-byte append), not independent pristine
+  stock. Relevant current firmware behavior was revalidated against pristine
+  bytes. Historical reports are preserved, not rewritten as fresh proof.
+- Complete stock inventory: 134 modules + kernel; 435,395 relocations and 37
+  proven direct mailbox CALL26 sites. Indirect SER/reset/table bindings remain
+  explicit open edges, not invented direct calls or runtime proof.
+- Source-lock snapshot updated; 34 OpenWrt + 3 LuCI changed files reconstruct.
+  Current reference/logging/remaining-work updated. Evidence and replay tools:
+  `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md`.
+- Required next work: full-worker generation barrier or validated containment,
+  shared L1/full-reset/probe-unwind/removal failure policy, then current-source
+  host-adapter ownership implementation and serial/client acceptance. Existing
+  L1 ignored errors and full-reset early token release remain unresolved. Both
+  goals stay active; no full stock-parity or active-NPU release claim.

@@ -1,0 +1,25 @@
+define endian=little;
+@define XLEN 4
+@define XLEN2 8
+@define FLEN 8
+@define CONTEXTLEN 4
+@define ADDRSIZE "32"
+@define FPSIZE "64"
+@include "riscv.reg.sinc"
+@include "riscv.table.sinc"
+@include "riscv.instr.sinc"
+@include "riscv.custom.sinc"
+
+# Cache operations remain opaque side effects, not DMA-drain acknowledgements.
+define pcodeop sifive_cdiscard_d_l1;
+define pcodeop sifive_cflush_d_l1;
+
+:sf.cdiscard.d.l1 rs1 is rs1 & op0001=3 & op0204=4 & op0506=3 & funct3=0 & op0711=0 & op2031=0xfc2
+{
+    sifive_cdiscard_d_l1(rs1);
+}
+
+:sf.cflush.d.l1 rs1 is rs1 & op0001=3 & op0204=4 & op0506=3 & funct3=0 & op0711=0 & op2031=0xfc0
+{
+    sifive_cflush_d_l1(rs1);
+}

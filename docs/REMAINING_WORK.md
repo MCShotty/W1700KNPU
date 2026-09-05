@@ -1,15 +1,21 @@
 # Remaining W1700K Work
 
-Updated 2026-09-05 from checkpoint `b385f6f`, the current reference and release
+Updated 2026-09-05 from the mailbox/quiescence checkpoint, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
-The current source includes the detached-provider allocation guard. The last
+The current source includes the detached-provider allocation guard and mailbox
+publication/timeout-ownership fix (patch 926). The last
 router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 
 ## Priority 1: Safe NPU Recovery
 
-- [ ] Reverse engineer the stock WiFi/provider mailbox reset coordinator and
-  establish exactly what successful stop guarantees about DMA, pending TX/RX,
-  completions and host-owned buffers. Stock module exit hooks are insufficient.
+- [x] Establish current firmware STOP/GET limits and stock host mailbox ordering.
+  Two workers lack a steady-state stop gate; ACK/GET3 zero is not all-DMA silence.
+  Corrected pristine-input provenance and RISC-V cache-op decoding are documented.
+- [x] Fix mailbox publication order and preserve in-flight request buffers after
+  timeout; 143 actual-code model assertions, both variants and kernel compile pass.
+- [ ] Resolve stock SER/reset indirect dispatch and prove all-worker quiescence
+  or hardware containment before token/ring reclamation. Current STOP/GET cannot
+  supply this guarantee; do not substitute longer polling or host IRQ masking.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -73,5 +79,6 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-05-npu-attach/REPORT.md`.
+Detailed evidence: `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md`
+and prior `research/checkpoints/2026-09-05-npu-attach/REPORT.md`.
 All substantive changes must also be recorded in `W1700K_STOCK_PORT_LEDGER.md`.

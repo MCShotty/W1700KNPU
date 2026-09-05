@@ -1,0 +1,19 @@
+make: Entering directory '/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44'
+make[1]: Entering directory '/home/captain/W1700KNPU/.local/npu-quiescence/layout'
+  CC [M]  layout-before.o
+aarch64-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+  CC [M]  layout-after.o
+aarch64-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+  MODPOST Module.symvers
+WARNING: modpost: missing MODULE_DESCRIPTION() in layout-before.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in layout-after.o
+  CC [M]  layout-before.mod.o
+aarch64-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+  CC [M]  .module-common.o
+aarch64-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+  LD [M]  layout-before.ko
+  CC [M]  layout-after.mod.o
+aarch64-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+  LD [M]  layout-after.ko
+make[1]: Leaving directory '/home/captain/W1700KNPU/.local/npu-quiescence/layout'
+make: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44'

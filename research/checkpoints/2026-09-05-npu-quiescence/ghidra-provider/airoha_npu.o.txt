@@ -1,0 +1,801 @@
+program=airoha_npu.o
+sha256=5b025cfa3ae234909ff4164f42a789b08390248de471cbf803afecad65374a68
+language=AARCH64:LE:64:v8A
+
+FUNCTION __airoha_npu_send_msg @ 00100168
+decompiled=true
+
+int __airoha_npu_send_msg(airoha_npu *npu,int func_id,void *data,int len,void *reply,u16 reply_len)
+
+{
+  airoha_npu *paVar1;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  int iVar5;
+  long lVar6;
+  long lVar7;
+  u32 val;
+  u32 sequence;
+  
+                    /* Unresolved local var: airoha_npu_core * core@[???]
+                       Unresolved local var: u32 offset@[???]
+                       Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+  if (0x100 < (uint)len) {
+    return -0x16;
+  }
+  if ((reply != (void *)0x0) && (len < (int)(uint)reply_len)) {
+    return -0x16;
+  }
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+  lVar6 = sp_el0;
+  *(int *)(lVar6 + 0x10) = *(int *)(lVar6 + 0x10) + 0x200;
+                    /* Unresolved local var: int val@[???]
+                       Unresolved local var: int r@[???]
+                       Unresolved local var: int o@[???]
+                       Unresolved local var: int __ret@[???]
+                       Unresolved local var: ulong tmp@[???]
+                       Unresolved local var: u32 oldval@[???] */
+  paVar1 = npu + 0x18;
+  Hint_Prefetch(paVar1,2,0,1);
+  do {
+    iVar4 = *(int *)paVar1;
+    if (iVar4 != 0) break;
+    cVar2 = '\x01';
+    bVar3 = (bool)ExclusiveMonitorPass(paVar1,0x10);
+    if (bVar3) {
+      *(int *)paVar1 = 1;
+      cVar2 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar2 != '\0');
+  if (iVar4 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  if (((byte)npu[0x1c] & 1) != 0) {
+    iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+    if ((iVar4 != 0) || (iVar4 = -0x10, (val >> 1 & 1) == 0)) goto LAB_001002e0;
+    npu[0x1c] = (airoha_npu)0x0;
+  }
+  iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c038,&sequence);
+  if (iVar4 == 0) {
+                    /* Unresolved local var: size_t __fortify_size@[DW_OP_reg28(x28)]
+                       Unresolved local var: size_t __p_size@[???]
+                       Unresolved local var: size_t __q_size@[???]
+                       Unresolved local var: size_t __p_size_field@[???]
+                       Unresolved local var: size_t __q_size_field@[???]
+                       Unresolved local var: size_t __copy_size@[???] */
+    memcpy(*(void **)(npu + 0x40),data,(long)len);
+    iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c030,*(undefined4 *)(npu + 0x48));
+    if ((iVar4 == 0) && (iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c034,len), iVar4 == 0)) {
+      npu[0x1c] = (airoha_npu)0x1;
+      val = func_id << 0xb | 1;
+      iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c03c);
+      if ((iVar4 == 0) &&
+         (iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c038,sequence + 1), iVar4 == 0)) {
+                    /* Unresolved local var: u64 __timeout_us@[???]
+                       Unresolved local var: ulong __delay_us@[???]
+                       Unresolved local var: ktime_t __timeout@[???]
+                       Unresolved local var: int __ret@[???] */
+        lVar6 = ktime_get();
+        iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+        iVar5 = iVar4;
+        if (iVar4 == 0) {
+          while ((val >> 1 & 1) == 0) {
+            lVar7 = ktime_get();
+            if (lVar6 + 100000000 < lVar7) {
+              iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+              if (iVar4 == 0) {
+                if ((val >> 1 & 1) != 0) break;
+                iVar4 = -0x6e;
+              }
+              goto LAB_001002e0;
+            }
+            __const_udelay(0x68dbc);
+            iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+            iVar5 = iVar4;
+            if (iVar4 != 0) goto LAB_001002e0;
+          }
+          npu[0x1c] = (airoha_npu)0x0;
+          if ((val & 0x1c) == 4) {
+            iVar4 = iVar5;
+            if (reply != (void *)0x0) {
+                    /* Unresolved local var: size_t __fortify_size@[DW_OP_reg2(x2)]
+                       Unresolved local var: size_t __p_size@[???]
+                       Unresolved local var: size_t __q_size@[???]
+                       Unresolved local var: size_t __p_size_field@[???]
+                       Unresolved local var: size_t __q_size_field@[???]
+                       Unresolved local var: size_t __copy_size@[DW_OP_reg2(x2)] */
+              memcpy(reply,(void *)(*(long *)(npu + 0x40) + ((long)len - (ulong)reply_len)),
+                     (ulong)reply_len);
+            }
+          }
+          else {
+            iVar4 = -0x16;
+          }
+        }
+      }
+    }
+  }
+LAB_001002e0:
+                    /* Unresolved local var: u8 * __p@[???]
+                       Unresolved local var: anon_union_0_0_00000001 __u@[???] */
+  *(undefined4 *)(npu + 0x18) = 0;
+  __local_bh_enable_ip();
+  return iVar4;
+}
+
+
+ASSEMBLY
+00100168 stp x29,x30,[sp, #-0x70]!
+0010016c mov x29,sp
+00100170 stp x19,x20,[sp, #0x10]
+00100174 cmp w3,#0x100
+00100178 b.hi 0x001003c0
+0010017c stp x21,x22,[sp, #0x20]
+00100180 mov x19,x0
+00100184 mov w21,w3
+00100188 stp x23,x24,[sp, #0x30]
+0010018c mov x22,x4
+00100190 mov x23,x30
+00100194 stp x25,x26,[sp, #0x40]
+00100198 mov w24,w1
+0010019c mov x25,x2
+001001a0 and w26,w5,#0xffff
+001001a4 cbz x4,0x001001b0
+001001a8 cmp w26,w3
+001001ac b.gt 0x001003e0
+001001b0 stp x27,x28,[sp, #0x50]
+001001b4 mrs x1,sp_el0
+001001b8 ldr w0,[x1, #0x10]
+001001bc add w0,w0,#0x200
+001001c0 str w0,[x1, #0x10]
+001001c4 mov x3,#0x0
+001001c8 add x0,x19,#0x18
+001001cc mov w4,#0x1
+001001d0 prfm PSTL1STRM,[x0]
+001001d4 ldaxr w1,[x0]
+001001d8 eor w2,w1,w3
+001001dc cbnz w2,0x001001e8
+001001e0 stxr w2,w4,[x0]
+001001e4 cbnz w2,0x001001d4
+001001e8 cbnz w1,0x0010031c
+001001ec ldrb w0,[x19, #0x1c]
+001001f0 add x27,x19,#0x10
+001001f4 tbz w0,#0x0,0x00100224
+001001f8 ldr x0,[x19, #0x8]
+001001fc mov w1,#0xc03c
+00100200 add x2,sp,#0x68
+00100204 movk w1,#0x30, LSL #16
+00100208 bl 0x00102048
+0010020c mov w20,w0
+00100210 cbnz w0,0x001002e0
+00100214 ldr w0,[sp, #0x68]
+00100218 mov w20,#0xfffffff0
+0010021c tbz w0,#0x1,0x001002e0
+00100220 strb wzr,[x27, #0xc]
+00100224 ldr x0,[x19, #0x8]
+00100228 mov w1,#0xc038
+0010022c add x2,sp,#0x6c
+00100230 movk w1,#0x30, LSL #16
+00100234 bl 0x00102048
+00100238 mov w20,w0
+0010023c cbnz w0,0x001002e0
+00100240 ldr x0,[x27, #0x30]
+00100244 sxtw x28,w21
+00100248 mov x1,x25
+0010024c mov x2,x28
+00100250 bl 0x00102050
+00100254 ldr x0,[x19, #0x8]
+00100258 mov w1,#0xc030
+0010025c ldr w2,[x27, #0x38]
+00100260 movk w1,#0x30, LSL #16
+00100264 bl 0x00102020
+00100268 mov w20,w0
+0010026c cbnz w0,0x001002e0
+00100270 ldr x0,[x19, #0x8]
+00100274 mov w1,#0xc034
+00100278 mov w2,w21
+0010027c movk w1,#0x30, LSL #16
+00100280 bl 0x00102020
+00100284 mov w20,w0
+00100288 cbnz w0,0x001002e0
+0010028c mov w0,#0x1
+00100290 strb w0,[x27, #0xc]
+00100294 lsl w2,w24,#0xb
+00100298 mov w1,#0xc03c
+0010029c ldr x0,[x19, #0x8]
+001002a0 orr w2,w2,#0x1
+001002a4 movk w1,#0x30, LSL #16
+001002a8 str w2,[sp, #0x68]
+001002ac bl 0x00102020
+001002b0 mov w20,w0
+001002b4 cbnz w0,0x001002e0
+001002b8 ldr x0,[x19, #0x8]
+001002bc mov w1,#0xc038
+001002c0 ldr w2,[sp, #0x6c]
+001002c4 movk w1,#0x30, LSL #16
+001002c8 add w2,w2,#0x1
+001002cc bl 0x00102020
+001002d0 mov w20,w0
+001002d4 cbz w0,0x00100324
+001002d8 nop
+001002dc nop
+001002e0 add x0,x19,#0x18
+001002e4 stlrb wzr,[x0]
+001002e8 mov x30,x23
+001002ec xpaclri
+001002f0 mov w1,#0x200
+001002f4 mov x0,x30
+001002f8 bl 0x00102058
+001002fc ldp x21,x22,[sp, #0x20]
+00100300 ldp x23,x24,[sp, #0x30]
+00100304 ldp x25,x26,[sp, #0x40]
+00100308 ldp x27,x28,[sp, #0x50]
+0010030c mov w0,w20
+00100310 ldp x19,x20,[sp, #0x10]
+00100314 ldp x29,x30,[sp], #0x70
+00100318 ret
+0010031c bl 0x00102060
+00100320 b 0x001001ec
+00100324 bl 0x00102068
+00100328 add x2,sp,#0x68
+0010032c mov x1,#0xe100
+00100330 movk x1,#0x5f5, LSL #16
+00100334 add x21,x0,x1
+00100338 ldr x0,[x19, #0x8]
+0010033c mov w1,#0xc03c
+00100340 movk w1,#0x30, LSL #16
+00100344 bl 0x00102048
+00100348 mov w20,w0
+0010034c cbnz w0,0x001002e0
+00100350 ldr w1,[sp, #0x68]
+00100354 tbnz w1,#0x1,0x001003c8
+00100358 bl 0x00102068
+0010035c cmp x0,x21
+00100360 b.gt 0x00100390
+00100364 mov x0,#0x8dbc
+00100368 movk x0,#0x6, LSL #16
+0010036c bl 0x00102070
+00100370 ldr x0,[x19, #0x8]
+00100374 mov w1,#0xc03c
+00100378 add x2,sp,#0x68
+0010037c movk w1,#0x30, LSL #16
+00100380 bl 0x00102048
+00100384 mov w20,w0
+00100388 cbz w0,0x00100350
+0010038c b 0x001002e0
+00100390 ldr x0,[x19, #0x8]
+00100394 mov w1,#0xc03c
+00100398 add x2,sp,#0x68
+0010039c movk w1,#0x30, LSL #16
+001003a0 bl 0x00102048
+001003a4 cbnz w0,0x001003b8
+001003a8 ldr w1,[sp, #0x68]
+001003ac tbnz w1,#0x1,0x001003c8
+001003b0 mov w20,#0xffffff92
+001003b4 b 0x001002e0
+001003b8 mov w20,w0
+001003bc b 0x001002e0
+001003c0 mov w20,#0xffffffea
+001003c4 b 0x0010030c
+001003c8 and w1,w1,#0x1c
+001003cc strb wzr,[x27, #0xc]
+001003d0 cmp w1,#0x4
+001003d4 b.eq 0x001003f4
+001003d8 mov w20,#0xffffffea
+001003dc b 0x001002e0
+001003e0 ldp x21,x22,[sp, #0x20]
+001003e4 mov w20,#0xffffffea
+001003e8 ldp x23,x24,[sp, #0x30]
+001003ec ldp x25,x26,[sp, #0x40]
+001003f0 b 0x0010030c
+001003f4 cbz x22,0x001002e0
+001003f8 ldr x1,[x27, #0x30]
+001003fc mov w2,w26
+00100400 sub x28,x28,x2
+00100404 mov x0,x22
+00100408 add x1,x1,x28
+0010040c bl 0x00102050
+00100410 b 0x001002e0
+
+FUNCTION airoha_npu_probe @ 00100c64
+decompiled=true
+
+int airoha_npu_probe(platform_device *pdev)
+
+{
+  device *dev;
+  airoha_npu *paVar1;
+  uint uVar2;
+  int iVar3;
+  uint uVar4;
+  void *addr;
+  airoha_npu *npu;
+  ulong uVar5;
+  undefined8 *puVar6;
+  void *addr_00;
+  airoha_npu *paVar7;
+  int iVar8;
+  long lVar9;
+  u32 val;
+  undefined4 uStack_4c;
+  char *local_48;
+  resource res;
+  
+                    /* Unresolved local var: device * dev@[???]
+                       Unresolved local var: airoha_npu * npu@[???]
+                       Unresolved local var: void * base@[DW_OP_reg24(x24)]
+                       Unresolved local var: int i@[DW_OP_reg20(x20)]
+                       Unresolved local var: int irq@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+  dev = (device *)(pdev + 0x10);
+  addr = (void *)devm_platform_ioremap_resource(pdev,0);
+  addr_00 = (void *)((ulong)addr & 0xffffffff);
+  if (addr < (void *)0xfffffffffffff001) {
+    npu = (airoha_npu *)devm_kmalloc(dev,0x298,0xdc0);
+    if (npu == (airoha_npu *)0x0) {
+LAB_0010108c:
+      addr_00 = (void *)0xfffffff4;
+    }
+    else {
+      *(device **)npu = dev;
+      *(code **)(npu + 0x230) = airoha_npu_ppe_init;
+      *(code **)(npu + 0x238) = airoha_npu_ppe_deinit;
+      *(code **)(npu + 0x240) = airoha_npu_ppe_stats_setup;
+      *(code **)(npu + 0x248) = airoha_npu_ppe_flush_sram_entries;
+      *(code **)(npu + 0x250) = airoha_npu_foe_commit_entry;
+      *(code **)(npu + 600) = airoha_npu_wlan_init_memory;
+      *(code **)(npu + 0x260) = airoha_npu_wlan_msg_send;
+      *(code **)(npu + 0x268) = airoha_npu_wlan_msg_get;
+      *(undefined8 *)(npu + 0x270) = 0x100000;
+      *(code **)(npu + 0x278) = airoha_npu_wlan_irq_status_set;
+      *(code **)(npu + 0x280) = airoha_npu_wlan_irq_status_get;
+      *(code **)(npu + 0x288) = airoha_npu_wlan_irq_enable;
+      *(code **)(npu + 0x290) = airoha_npu_wlan_irq_disable;
+      addr_00 = (void *)__devm_regmap_init_mmio_clk(dev,0,addr,&regmap_config,0,0);
+      *(void **)(npu + 8) = addr_00;
+      if (addr_00 < (void *)0xfffffffffffff001) {
+        uVar5 = of_reserved_mem_region_to_resource(*(undefined8 *)(pdev + 0x268),0,&res);
+        addr_00 = (void *)(uVar5 & 0xffffffff);
+        if ((int)uVar5 == 0) {
+          uVar5 = platform_get_irq(pdev,0);
+          addr_00 = (void *)(uVar5 & 0xffffffff);
+          if (-1 < (int)uVar5) {
+            uVar5 = devm_request_threaded_irq
+                              (dev,uVar5 & 0xffffffff,airoha_npu_mbox_handler,0,0x200080,
+                               "airoha-npu-mbox",npu);
+            addr_00 = (void *)(uVar5 & 0xffffffff);
+            if ((int)uVar5 == 0) {
+                    /* Unresolved local var: airoha_npu_core * core@[???] */
+              paVar7 = npu + 0x10;
+              do {
+                *(airoha_npu **)paVar7 = npu;
+                uVar4 = (int)addr_00 + 1;
+                addr_00 = (void *)(ulong)uVar4;
+                *(undefined4 *)(paVar7 + 8) = 0;
+                uVar5 = platform_get_irq(pdev,addr_00);
+                if ((int)uVar5 < 0) {
+                  addr_00 = (void *)(uVar5 & 0xffffffff);
+                  goto LAB_00100d8c;
+                }
+                uVar2 = devm_request_threaded_irq
+                                  (dev,uVar5 & 0xffffffff,airoha_npu_wdt_handler,0,0x200080,
+                                   "airoha-npu-wdt",paVar7);
+                    /* Unresolved local var: lock_class_key __key@[???] */
+                paVar1 = paVar7 + 0x18;
+                if (uVar2 != 0) {
+                  addr_00 = (void *)(ulong)uVar2;
+                  goto LAB_00100d8c;
+                }
+                *(undefined8 *)(paVar7 + 0x10) = 0xfffffffe00000;
+                *(airoha_npu **)paVar1 = paVar1;
+                *(airoha_npu **)(paVar7 + 0x20) = paVar1;
+                *(code **)(paVar7 + 0x28) = airoha_npu_wdt_work;
+                paVar7 = paVar7 + 0x40;
+              } while (uVar4 != 8);
+              lVar9 = 0;
+              do {
+                uVar5 = platform_get_irq(pdev,(int)lVar9 + 9);
+                addr_00 = (void *)(uVar5 & 0xffffffff);
+                if ((int)uVar5 < 0) goto LAB_00100d8c;
+                *(int *)(npu + lVar9 * 4 + 0x210) = (int)uVar5;
+                lVar9 = lVar9 + 1;
+              } while (lVar9 != 6);
+              uVar5 = dma_set_coherent_mask(dev,0xffffffff);
+              addr_00 = (void *)(uVar5 & 0xffffffff);
+              if ((int)uVar5 == 0) {
+                paVar7 = npu + 0x48;
+                do {
+                    /* Unresolved local var: airoha_npu_core * core@[???] */
+                  lVar9 = dmam_alloc_attrs(dev,0x100,paVar7,0xcc0,0);
+                  *(long *)(paVar7 + -8) = lVar9;
+                  paVar7 = paVar7 + 0x40;
+                  if (lVar9 == 0) goto LAB_0010108c;
+                } while (paVar7 != npu + 0x248);
+                    /* Unresolved local var: airoha_npu_soc_data * soc@[DW_OP_reg21(x21)]
+                       Unresolved local var: void * addr@[DW_OP_reg20(x20)]
+                       Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+                puVar6 = (undefined8 *)of_device_get_match_data(dev);
+                if (puVar6 == (undefined8 *)0x0) {
+                  addr_00 = (void *)0xffffffea;
+                }
+                else {
+                  addr_00 = (void *)devm_ioremap_resource(dev,&res);
+                  if (addr_00 < (void *)0xfffffffffffff001) {
+                    lVar9 = of_find_property(*(undefined8 *)(pdev + 0x268),"firmware-name",0);
+                    if (lVar9 == 0) {
+                      uVar4 = airoha_npu_load_firmware
+                                        (dev,addr_00,(char *)*puVar6,*(int *)(puVar6 + 1));
+                      addr_00 = (void *)(ulong)uVar4;
+                      if (uVar4 != 0) goto LAB_00100d8c;
+                      uVar4 = airoha_npu_load_firmware
+                                        (dev,addr,(char *)puVar6[2],*(int *)(puVar6 + 3));
+                      addr_00 = (void *)(ulong)uVar4;
+                    }
+                    else {
+                    /* Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+                      iVar3 = of_property_read_string_helper
+                                        (*(undefined8 *)(pdev + 0x268),"firmware-name",&val,2,0);
+                      if (iVar3 == 2) {
+                        uVar4 = airoha_npu_load_firmware
+                                          (dev,addr_00,(char *)CONCAT44(uStack_4c,val),0x200000);
+                        addr_00 = (void *)(ulong)uVar4;
+                        if (uVar4 != 0) goto LAB_00100d8c;
+                        uVar4 = airoha_npu_load_firmware(dev,addr,local_48,0x10000);
+                        addr_00 = (void *)(ulong)uVar4;
+                      }
+                      else {
+                        uVar5 = dev_err_probe(dev,0xffffffea,"invalid firmware-name property\n");
+                        addr_00 = (void *)(uVar5 & 0xffffffff);
+                      }
+                    }
+                    if ((int)addr_00 == 0) {
+                      regmap_write(*(undefined8 *)(npu + 8),0x30c168,_res + 0x200000);
+                      regmap_write(*(undefined8 *)(npu + 8),0x30c16c,0x40000);
+                      regmap_write(*(undefined8 *)(npu + 8),0x30c170,0);
+                      regmap_write(*(undefined8 *)(npu + 8),0x30c194,1);
+                      msleep(100);
+                      iVar3 = 0x306020;
+                      do {
+                        iVar8 = iVar3;
+                        regmap_write(*(undefined8 *)(npu + 8),iVar8,_res);
+                        iVar3 = iVar8 + 4;
+                      } while (iVar8 + 4 != 0x306040);
+                      usleep_range_state(1000,2000,2);
+                      regmap_write(*(undefined8 *)(npu + 8),iVar8 + -0x38,0xff);
+                      regmap_write(*(undefined8 *)(npu + 8),iVar8 + -0x3c,1);
+                      msleep(100);
+                      iVar3 = airoha_npu_wlan_msg_get
+                                        (npu,0,WLAN_FUNC_GET_WAIT_NPU_VERSION,&val,4,0xcc0);
+                      if (iVar3 == 0) {
+                        _dev_info(dev,"NPU fw version: %0d.%d\n",val >> 0x10,val & 0xffff);
+                      }
+                      *(airoha_npu **)(pdev + 0x88) = npu;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+LAB_00100d8c:
+  return (int)addr_00;
+}
+
+
+ASSEMBLY
+00100c64 stp x29,x30,[sp, #-0xb0]!
+00100c68 mov w1,#0x0
+00100c6c mov x29,sp
+00100c70 stp x19,x20,[sp, #0x10]
+00100c74 stp x21,x22,[sp, #0x20]
+00100c78 add x22,x0,#0x10
+00100c7c stp x23,x24,[sp, #0x30]
+00100c80 mov x23,x0
+00100c84 bl 0x00102118
+00100c88 mov x24,x0
+00100c8c mov w20,w0
+00100c90 cmn x0,#0x1, LSL #12
+00100c94 b.hi 0x00100d8c
+00100c98 mov x0,x22
+00100c9c mov w2,#0xdc0
+00100ca0 mov x1,#0x298
+00100ca4 bl 0x00102120
+00100ca8 mov x19,x0
+00100cac cbz x0,0x0010108c
+00100cb0 add x17,x19,#0x230
+00100cb4 add x18,x19,#0x250
+00100cb8 add x20,x19,#0x270
+00100cbc str x22,[x19]
+00100cc0 adrp x1,0x100000
+00100cc4 adrp x0,0x100000
+00100cc8 add x1,x1,#0x908
+00100ccc add x0,x0,#0x890
+00100cd0 adrp x16,0x100000
+00100cd4 adrp x15,0x100000
+00100cd8 add x16,x16,#0xa20
+00100cdc add x15,x15,#0x988
+00100ce0 stp x1,x0,[x17]
+00100ce4 adrp x14,0x100000
+00100ce8 adrp x13,0x101000
+00100cec stp x16,x15,[x17, #0x10]
+00100cf0 add x14,x14,#0xae0
+00100cf4 add x13,x13,#0x130
+00100cf8 adrp x12,0x100000
+00100cfc adrp x11,0x100000
+00100d00 add x12,x12,#0x420
+00100d04 add x11,x11,#0xbc0
+00100d08 stp x14,x13,[x18]
+00100d0c adrp x10,0x100000
+00100d10 adrp x9,0x100000
+00100d14 stp x12,x11,[x18, #0x10]
+00100d18 add x10,x10,#0x0
+00100d1c add x9,x9,#0x88
+00100d20 adrp x8,0x100000
+00100d24 adrp x7,0x100000
+00100d28 add x8,x8,#0x140
+00100d2c add x7,x7,#0x84c
+00100d30 adrp x6,0x100000
+00100d34 add x6,x6,#0x760
+00100d38 stp x10,x9,[x20]
+00100d3c mov x2,x24
+00100d40 mov x0,x22
+00100d44 stp x8,x7,[x20, #0x10]
+00100d48 adrp x3,0x101000
+00100d4c mov x5,#0x0
+00100d50 str x6,[x19, #0x290]
+00100d54 add x3,x3,#0x610
+00100d58 mov x4,#0x0
+00100d5c mov x1,#0x0
+00100d60 bl 0x00102128
+00100d64 str x0,[x19, #0x8]
+00100d68 mov x20,x0
+00100d6c cmn x0,#0x1, LSL #12
+00100d70 b.hi 0x00100d8c
+00100d74 ldr x0,[x22, #0x258]
+00100d78 add x2,sp,#0x70
+00100d7c mov w1,#0x0
+00100d80 bl 0x00102130
+00100d84 mov w20,w0
+00100d88 cbz w0,0x00100da4
+00100d8c ldp x21,x22,[sp, #0x20]
+00100d90 mov w0,w20
+00100d94 ldp x19,x20,[sp, #0x10]
+00100d98 ldp x23,x24,[sp, #0x30]
+00100d9c ldp x29,x30,[sp], #0xb0
+00100da0 ret
+00100da4 mov x0,x23
+00100da8 mov w1,#0x0
+00100dac bl 0x00102138
+00100db0 mov w20,w0
+00100db4 tbnz w0,#0x1f,0x00100d8c
+00100db8 mov x4,#0x80
+00100dbc mov w1,w0
+00100dc0 mov x6,x19
+00100dc4 mov x0,x22
+00100dc8 movk x4,#0x20, LSL #16
+00100dcc adrp x5,0x101000
+00100dd0 adrp x2,0x100000
+00100dd4 add x5,x5,#0x4b8
+00100dd8 add x2,x2,#0x704
+00100ddc mov x3,#0x0
+00100de0 bl 0x00102140
+00100de4 mov w20,w0
+00100de8 cbnz w0,0x00100d8c
+00100dec add x21,x19,#0x10
+00100df0 stp x25,x26,[sp, #0x40]
+00100df4 adrp x26,0x101000
+00100df8 adrp x25,0x100000
+00100dfc add x26,x26,#0x4c8
+00100e00 add x25,x25,#0x7a4
+00100e04 str x19,[x21]
+00100e08 add w20,w20,#0x1
+00100e0c str wzr,[x21, #0x8]
+00100e10 mov w1,w20
+00100e14 mov x0,x23
+00100e18 bl 0x00102138
+00100e1c mov w1,w0
+00100e20 mov x4,#0x80
+00100e24 mov x6,x21
+00100e28 mov x5,x26
+00100e2c mov x2,x25
+00100e30 mov x0,x22
+00100e34 movk x4,#0x20, LSL #16
+00100e38 mov x3,#0x0
+00100e3c tbnz w1,#0x1f,0x00101070
+00100e40 bl 0x00102140
+00100e44 adrp x2,0x100000
+00100e48 add x1,x21,#0x18
+00100e4c add x2,x2,#0xac
+00100e50 orr x3,xzr,#0xfffffffe00000
+00100e54 cbnz w0,0x0010107c
+00100e58 str x3,[x21, #0x10]
+00100e5c add x21,x21,#0x40
+00100e60 str x1,[x1]
+00100e64 str x1,[x1, #0x8]
+00100e68 stur x2,[x21, #-0x18]
+00100e6c cmp w20,#0x8
+00100e70 b.ne 0x00100e04
+00100e74 add x25,x19,#0x210
+00100e78 mov x21,#0x0
+00100e7c add w1,w21,#0x9
+00100e80 mov x0,x23
+00100e84 bl 0x00102138
+00100e88 mov w20,w0
+00100e8c tbnz w0,#0x1f,0x00101068
+00100e90 str w0,[x25, x21, LSL #0x2]
+00100e94 add x21,x21,#0x1
+00100e98 cmp x21,#0x6
+00100e9c b.ne 0x00100e7c
+00100ea0 mov x0,x22
+00100ea4 orr x1,xzr,#0xffffffff
+00100ea8 bl 0x00102148
+00100eac mov w20,w0
+00100eb0 cbnz w0,0x00101068
+00100eb4 add x20,x19,#0x48
+00100eb8 add x21,x19,#0x248
+00100ebc nop
+00100ec0 mov x2,x20
+00100ec4 mov x0,x22
+00100ec8 mov x4,#0x0
+00100ecc mov w3,#0xcc0
+00100ed0 mov x1,#0x100
+00100ed4 bl 0x00102150
+00100ed8 stur x0,[x20, #-0x8]
+00100edc add x20,x20,#0x40
+00100ee0 cbz x0,0x00101088
+00100ee4 cmp x20,x21
+00100ee8 b.ne 0x00100ec0
+00100eec mov x0,x22
+00100ef0 bl 0x00102158
+00100ef4 mov x21,x0
+00100ef8 cbz x0,0x00101104
+00100efc add x1,sp,#0x70
+00100f00 mov x0,x22
+00100f04 bl 0x00102160
+00100f08 mov x20,x0
+00100f0c cmn x0,#0x1, LSL #12
+00100f10 b.hi 0x00101068
+00100f14 ldr x0,[x22, #0x258]
+00100f18 adrp x23,0x101000
+00100f1c add x23,x23,#0x4d8
+00100f20 mov x2,#0x0
+00100f24 mov x1,x23
+00100f28 bl 0x00102168
+00100f2c cbz x0,0x00101094
+00100f30 ldr x0,[x22, #0x258]
+00100f34 mov x1,x23
+00100f38 add x2,sp,#0x60
+00100f3c mov w4,#0x0
+00100f40 mov x3,#0x2
+00100f44 bl 0x00102170
+00100f48 cmp w0,#0x2
+00100f4c b.eq 0x001010cc
+00100f50 mov x0,x22
+00100f54 adrp x2,0x101000
+00100f58 mov w1,#0xffffffea
+00100f5c add x2,x2,#0x4e8
+00100f60 bl 0x001020a8
+00100f64 mov w20,w0
+00100f68 cbnz w20,0x00101068
+00100f6c ldr x0,[x19, #0x8]
+00100f70 mov w1,#0xc168
+00100f74 ldr x2,[sp, #0x70]
+00100f78 movk w1,#0x30, LSL #16
+00100f7c mov w21,#0x6020
+00100f80 mov w23,#0x6040
+00100f84 add w2,w2,#0x200, LSL #12
+00100f88 bl 0x00102020
+00100f8c ldr x0,[x19, #0x8]
+00100f90 mov w1,#0xc16c
+00100f94 movk w1,#0x30, LSL #16
+00100f98 mov w2,#0x40000
+00100f9c movk w21,#0x30, LSL #16
+00100fa0 movk w23,#0x30, LSL #16
+00100fa4 bl 0x00102020
+00100fa8 ldr x0,[x19, #0x8]
+00100fac mov w1,#0xc170
+00100fb0 movk w1,#0x30, LSL #16
+00100fb4 mov w2,#0x0
+00100fb8 bl 0x00102020
+00100fbc ldr x0,[x19, #0x8]
+00100fc0 mov w1,#0xc194
+00100fc4 movk w1,#0x30, LSL #16
+00100fc8 mov w2,#0x1
+00100fcc bl 0x00102020
+00100fd0 mov w0,#0x64
+00100fd4 bl 0x00102178
+00100fd8 nop
+00100fdc nop
+00100fe0 ldr x0,[x19, #0x8]
+00100fe4 mov w1,w21
+00100fe8 ldr w2,[sp, #0x70]
+00100fec add w21,w21,#0x4
+00100ff0 bl 0x00102020
+00100ff4 cmp w21,w23
+00100ff8 b.ne 0x00100fe0
+00100ffc mov w2,#0x2
+00101000 mov x1,#0x7d0
+00101004 mov x0,#0x3e8
+00101008 bl 0x00102180
+0010100c ldr x0,[x19, #0x8]
+00101010 sub w1,w21,#0x3c
+00101014 mov w2,#0xff
+00101018 str w1,[sp, #0x5c]
+0010101c bl 0x00102020
+00101020 ldr w0,[sp, #0x5c]
+00101024 mov w2,#0x1
+00101028 sub w1,w0,#0x4
+0010102c ldr x0,[x19, #0x8]
+00101030 bl 0x00102020
+00101034 mov w0,#0x64
+00101038 bl 0x00102178
+0010103c mov x0,x19
+00101040 add x3,sp,#0x60
+00101044 mov w5,#0xcc0
+00101048 mov w4,#0x4
+0010104c mov w2,#0xa
+00101050 mov w1,#0x0
+00101054 bl 0x00100bc0
+00101058 cbz w0,0x00101110
+0010105c str x19,[x22, #0x78]
+00101060 ldp x25,x26,[sp, #0x40]
+00101064 b 0x00100d8c
+00101068 ldp x25,x26,[sp, #0x40]
+0010106c b 0x00100d8c
+00101070 ldp x25,x26,[sp, #0x40]
+00101074 mov w20,w1
+00101078 b 0x00100d8c
+0010107c ldp x25,x26,[sp, #0x40]
+00101080 mov w20,w0
+00101084 b 0x00100d8c
+00101088 ldp x25,x26,[sp, #0x40]
+0010108c mov w20,#0xfffffff4
+00101090 b 0x00100d8c
+00101094 ldr x2,[x21]
+00101098 mov x1,x20
+0010109c ldr w3,[x21, #0x8]
+001010a0 mov x0,x22
+001010a4 bl 0x00100500
+001010a8 mov w20,w0
+001010ac cbnz w0,0x00101068
+001010b0 ldr x2,[x21, #0x10]
+001010b4 mov x1,x24
+001010b8 ldr w3,[x21, #0x18]
+001010bc mov x0,x22
+001010c0 bl 0x00100500
+001010c4 mov w20,w0
+001010c8 b 0x00100f68
+001010cc ldr x2,[sp, #0x60]
+001010d0 mov x1,x20
+001010d4 mov x0,x22
+001010d8 mov w3,#0x200000
+001010dc bl 0x00100500
+001010e0 mov w20,w0
+001010e4 cbnz w0,0x00101068
+001010e8 ldr x2,[sp, #0x68]
+001010ec mov x1,x24
+001010f0 mov x0,x22
+001010f4 mov w3,#0x10000
+001010f8 bl 0x00100500
+001010fc mov w20,w0
+00101100 b 0x00100f68
+00101104 ldp x25,x26,[sp, #0x40]
+00101108 mov w20,#0xffffffea
+0010110c b 0x00100d8c
+00101110 ldr w2,[sp, #0x60]
+00101114 mov x0,x22
+00101118 adrp x1,0x101000
+0010111c add x1,x1,#0x508
+00101120 and w3,w2,#0xffff
+00101124 lsr w2,w2,#0x10
+00101128 bl 0x00102188
+0010112c b 0x0010105c
+
+total_executable_functions=24
+exported_functions=2
+failed_decompilations=0

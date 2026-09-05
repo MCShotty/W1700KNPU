@@ -1,0 +1,111 @@
+{
+  "passed": true,
+  "scope": "identity, export coverage, cache opcode decoding, config and module-code consistency; not DMA quiescence or hardware proof",
+  "inputs": {
+    "research/stock/elf/stock-kernel.vmlinux.elf": "a51e6d0a6deee620a5f715c9469f193906cdf3fcea28b97ce01cf88383aa704e",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-firmware-20260810/airoha/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-firmware-20260810/airoha/en7581_MT7996_npu_data.bin": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+    ".local/npu-quiescence/artifacts/airoha_npu.o": "5b025cfa3ae234909ff4164f42a789b08390248de471cbf803afecad65374a68",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "51cd396f8c141bbf6d425088ddbf39e8a59d4874fa529980332509ba3b52e1fa"
+  },
+  "ghidra": {
+    "ghidra-kernel": {
+      "sha256": "fde6255fba1398db891320e032986f1a94ec64006b14b0ade8a9d50acfa08910",
+      "exported": 18,
+      "analyzed_functions": 33676
+    },
+    "ghidra-current-rv32-decoded": {
+      "sha256": "098da31821148eddb15d68d5d0c7b9cb889c03a5f2e1282f0b31e33aafbebcb9",
+      "exported": 424,
+      "analyzed_functions": 424
+    },
+    "ghidra-provider": {
+      "sha256": "dd9e32edd0e9158201673c145f130c012fb33e437c356ec6137707cc98dc20ab",
+      "exported": 2,
+      "analyzed_functions": 24
+    }
+  },
+  "variants": {
+    "npu-enabled": {
+      "mt76.ko": {
+        "sha256": "73f82b2d95a3c760a6a70a540c8412623c85c13bba72e1b0ba111dc0d187b96a",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "53c1d4f9fe94acf98b4a129b723cdc414202975915bacc3b242434a494efcc1b"
+        },
+        "matches_prior_provider_guard": true
+      },
+      "mt76-connac-lib.ko": {
+        "sha256": "a4d348b71ea72fcbe66e2ae9f799998700742758ec4e61bff3a46b9f5a34bd94",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+          ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+        },
+        "matches_prior_provider_guard": true
+      },
+      "mt7996e.ko": {
+        "sha256": "e08d116dd04bd85860b8cf5b587227fc9fd1fe12ab0e1e91743391280ef42810",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "903379bfe56d4fbbbc831fa77b85af62966ea9229a9c56bddc5656a300ec8f05",
+          ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+          ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+          ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+        },
+        "matches_prior_provider_guard": true
+      }
+    },
+    "wlan-dma": {
+      "mt76.ko": {
+        "sha256": "a905735a7ddfd4472b22687389d19f706c8898c9c37dae9168510338e614aa48",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "a9c0d3ed2c7b72c6dd1f3d9139da507c6945522753689e3c1af55c4eff3750db"
+        },
+        "matches_prior_provider_guard": true
+      },
+      "mt76-connac-lib.ko": {
+        "sha256": "8baa839e54676611d289c02d717661275afcb08e0a6b30368ce182d0a65b6317",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+          ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+        },
+        "matches_prior_provider_guard": true
+      },
+      "mt7996e.ko": {
+        "sha256": "b3658ffb529c3d7fc74aa6d8e319a928d2e21d8b8d3d38732f68054bd65db046",
+        "executable_sections": {
+          ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          ".text": "ff8da133dd3067b03bb1926e4b9b06f7641e026db6a0868d5d46b512062e432d",
+          ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+          ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+          ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+        },
+        "matches_prior_provider_guard": true
+      }
+    }
+  },
+  "historical_v28_comparison": {
+    "sha256": "51f3583c45b2c356866ee53bd79dac93e10ad069bc75ff516019ea7edb929b79",
+    "changed_prefix_offsets": [
+      "0xac30",
+      "0xac31",
+      "0xac32",
+      "0xac33",
+      "0xf0f6",
+      "0xf0f7",
+      "0xf0f8",
+      "0xf0f9"
+    ],
+    "appended_bytes": 244
+  },
+  "config_sha256": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad"
+}

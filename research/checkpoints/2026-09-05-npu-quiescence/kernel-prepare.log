@@ -1,0 +1,2346 @@
+WARNING: Makefile 'package/feeds/packages/bmx7-dnsupdate/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/packages/bmx7-dnsupdate/Makefile' has a dependency on 'bmx7-json', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-babeld/Makefile' has a dependency on 'babeld', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-uci-config', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-json', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-tun', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-bmx7/Makefile' has a dependency on 'bmx7-iwinfo', which does not exist
+WARNING: Makefile 'package/feeds/luci/luci-app-dcwapd/Makefile' has a dependency on 'dcwapd', which does not exist
+WARNING: Makefile 'package/feeds/packages/prometheus-node-exporter-lua/Makefile' has a dependency on 'bmx7', which does not exist
+WARNING: Makefile 'package/feeds/packages/prometheus-node-exporter-lua/Makefile' has a dependency on 'bmx7-json', which does not exist
+make[2]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/scripts/config'
+make[4]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/target/linux'
+make[5]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha'
+make[6]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/image'
+make[6]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/image'
+make[5]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha'
+make[4]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/target/linux'
+time: target/linux/prereq#0.22#0.17#0.40
+make[1]: Entering directory '/home/captain/W1700KNPU/.build/openwrt'
+make[2]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/target/linux'
+make[3]: Entering directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha'
+rm -rf /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581
+mkdir -p /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581
+xzcat /home/captain/W1700KNPU/.build/openwrt/dl/linux-6.18.44.tar.xz | tar -C /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581 -xf -
+cp -fpR "/home/captain/W1700KNPU/.build/openwrt/target/linux/generic/files"/. /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/
+find /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/ -name \*.rej -or -name \*.orig | xargs -r rm -f
+if [ -d /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/patches ]; then echo "generic patches directory is present. please move your patches to the pending directory" ; exit 1; fi
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/010-v6.19-nvmem-layouts-u-boot-env-add-optional-env-size-property.patch using plaintext: 
+patching file Documentation/devicetree/bindings/nvmem/layouts/u-boot,env.yaml
+patching file drivers/nvmem/layouts/u-boot-env.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/211-01-v6.19-bitfield-Add-less-checking-__FIELD_-GET-PREP.patch using plaintext: 
+patching file include/linux/bitfield.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/211-02-v6.19-bitfield-Add-non-constant-field_-prep-get-helpers.patch using plaintext: 
+patching file include/linux/bitfield.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/434-v6.19-mtd-spinand-esmt-add-support-for-F50L1G41LC.patch using plaintext: 
+patching file drivers/mtd/nand/spi/core.c
+patching file drivers/mtd/nand/spi/esmt.c
+patching file include/linux/mtd/spinand.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/435-v6.19-mtd-spinand-add-support-for-FudanMicro-FM25S01BI3.patch using plaintext: 
+patching file drivers/mtd/nand/spi/fmsh.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/436-v7.3-mtd-spinand-add-support-for-HeYangTek-HYF1GQ4UDACAE.patch using plaintext: 
+patching file drivers/mtd/nand/spi/Makefile
+patching file drivers/mtd/nand/spi/core.c
+patching file drivers/mtd/nand/spi/heyangtek.c
+patching file include/linux/mtd/spinand.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/436-v7.3-mtd-spinand-fmsh-add-support-for-FM25G01B-FM25G02B.patch using plaintext: 
+patching file drivers/mtd/nand/spi/fmsh.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/437-v7.3-mtd-spinand-fmsh-fix-FM25G01B-FM25G02B-Quad-IO-read-dummy-cycles.patch using plaintext: 
+patching file drivers/mtd/nand/spi/fmsh.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/501-v7.1-ksmbd-harden-file-lifetime-during-session-teardown.patch using plaintext: 
+patching file fs/smb/server/smb2pdu.c
+patching file fs/smb/server/vfs_cache.c
+patching file fs/smb/server/vfs_cache.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/502-v7.3-smb-server-fix-signing-multi-iov-response.patch using plaintext: 
+patching file fs/smb/server/smb2pdu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/503-01-v7.3-ksmbd-enable-tcp-keepalive-for-accepted-connections.patch using plaintext: 
+patching file fs/smb/server/transport_tcp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/503-02-v7.3-ksmbd-keep-tcp-timers-alive-for-kernel-sockets.patch using plaintext: 
+patching file fs/smb/server/transport_tcp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/601-v7.1-net-add-netdev_from_priv-helper.patch using plaintext: 
+patching file include/linux/netdevice.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/613-07-v6.19-net-dsa-b53-allow-VID-0-for-BCM5325-65.patch using plaintext: 
+patching file drivers/net/dsa/b53/b53_common.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/626-25-v6.19-net-pse-pd-pd692x0-Replace-__free-macro.patch using plaintext: 
+patching file drivers/net/pse-pd/pd692x0.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/626-26-v6.19-net-pse-pd-pd692x0-Separate-configuration-parsing.patch using plaintext: 
+patching file drivers/net/pse-pd/pd692x0.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/626-27-v6.19-net-pse-pd-pd692x0-Preserve-PSE-configuration.patch using plaintext: 
+patching file drivers/net/pse-pd/pd692x0.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/626-28-v6.19-net-pse-pd-tps23881-Add-support-for-TPS23881B.patch using plaintext: 
+patching file drivers/net/pse-pd/tps23881.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/650-v7.2-net-pppoe-implement-GRO-GSO-support.patch using plaintext: 
+patching file drivers/net/ppp/pppoe.c
+patching file net/ipv4/af_inet.c
+patching file net/ipv6/ip6_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-01-v7.0-net-sched-Export-mq-functions-for-reuse.patch using plaintext: 
+patching file MAINTAINERS
+patching file include/net/sch_priv.h
+patching file net/sched/sch_mq.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-02-v7.0-net-sched-sch_cake-Factor-out-config-variables-into-.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-03-v7.0-net-sched-sch_cake-Add-cake_mq-qdisc-for-using-cake-.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-04-v7.0-net-sched-sch_cake-Share-config-across-cake_mq-sub-q.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-05-v7.0-net-sched-sch_cake-share-shaper-state-across-sub-ins.patch using plaintext: 
+patching file Documentation/netlink/specs/tc.yaml
+patching file include/uapi/linux/pkt_sched.h
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-06-v7.0-selftests-tc-testing-add-selftests-for-cake_mq-qdisc.patch using plaintext: 
+patching file tools/testing/selftests/tc-testing/tc-tests/qdiscs/cake_mq.json
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/700-07-v7.0-net-sched-cake-avoid-separate-allocation-of-struct-c.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/701-01-v7.0-net-sched-sch_cake-avoid-sync-overhead-when-unlimite.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/701-02-v7.0-net-sched-sch_cake-fixup-cake_mq-rate-adjustment-for.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/702-v7.0-net-phylink-fix-NULL-pointer-deref-in-phylink_major_.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/703-01-v7.0-net-phylink-simplify-phylink_resolve-phylink_major_c.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/703-02-v7.0-net-phylink-introduce-helpers-for-replaying-link-cal.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+patching file include/linux/phylink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/705-01-v7.0-net-phy-motorcomm-Support-YT8531S-PHY-in-YT6801-Ethernet.patch using plaintext: 
+patching file drivers/net/phy/motorcomm.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/705-02-v7.0-net-stmmac-Add-glue-driver-for-Motorcomm-YT6801-ethernet.patch using plaintext: 
+patching file drivers/net/ethernet/stmicro/stmmac/Kconfig
+patching file drivers/net/ethernet/stmicro/stmmac/Makefile
+patching file drivers/net/ethernet/stmicro/stmmac/dwmac-motorcomm.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/706-v7.2-bus-mhi-host-pci_generic-round-up-nr_irqs-to-a-power-of-two.patch using plaintext: 
+patching file drivers/bus/mhi/host/pci_generic.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/710-01-v7.1-net-sfp-add-quirk-for-ZOERAX-SFP-2.5G-T.patch using plaintext: 
+patching file drivers/net/phy/sfp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/711-v7.2-net-phy-sfp-detect-presence-via-I2C-when-no-MOD_DEF0-GPIO.patch using plaintext: 
+patching file drivers/net/phy/sfp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/730-10-v6.19-net-phy-mxl-gpy-add-support-for-MxL86211C.patch using plaintext: 
+patching file drivers/net/phy/mxl-gpy.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/730-11-v7.0-net-phy-mxl-gpy-implement-SGMII-in-band-configuratio.patch using plaintext: 
+patching file drivers/net/phy/mxl-gpy.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/740-v6.19-r8152-Advertise-software-timestamp-information.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/741-v7.1-r8152-Add-2500baseT-EEE-status-configuration-support.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/743-v7.1-r8152-add-helper-functions-for-PLA-USB-OCP-registers.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/744-v7.1-r8152-add-helper-functions-for-PHY-OCP-registers.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/745-v7.1-r8152-Add-helper-functions-for-SRAM2.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/746-v7.1-r8152-Add-support-for-5Gbit-Link-Speeds-and-EEE.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/747-v7.1-r8152-Add-support-for-the-RTL8157-hardware.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/750-v7.0-net-phy-move-mmd_phy_read-and-mmd_phy_write-to-phyli.patch using plaintext: 
+patching file include/linux/phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/751-v7.2-net-dsa-qca8k-add-support-for-force-mode-for-fixed-l.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+patching file drivers/net/dsa/qca/qca8k.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/755-v7.3-net-sfp-add-quirk-for-HORACO-copper-SFP-module.patch using plaintext: 
+patching file drivers/net/phy/sfp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/761-v6.19-net-phy-mxl-gpy-add-support-for-mxl86252-and-mxl86282.patch using plaintext: 
+patching file drivers/net/phy/mxl-gpy.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/762-v7.0-net-dsa-add-tag-format-for-MxL862xx-switches.patch using plaintext: 
+patching file include/net/dsa.h
+patching file net/dsa/Kconfig
+patching file net/dsa/Makefile
+patching file net/dsa/tag_mxl862xx.c
+patching file include/uapi/linux/if_ether.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/763-v7.0-net-mdio-add-unlocked-mdiodev-C45-bus-accessors.patch using plaintext: 
+patching file include/linux/mdio.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/764-v7.0-net-dsa-add-basic-initial-driver-for-MxL862xx-switch.patch using plaintext: 
+patching file drivers/net/dsa/Kconfig
+patching file drivers/net/dsa/Makefile
+patching file drivers/net/dsa/mxl862xx/Kconfig
+patching file drivers/net/dsa/mxl862xx/Makefile
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/765-v7.0-net-dsa-mxl862xx-rename-MDIO-op-arguments.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/766-v7.0-net-dsa-mxl862xx-don-t-set-user_mii_bus.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/767-v7.0-net-dsa-mxl862xx-don-t-read-out-of-bounds.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/768-v7.1-net-dsa-MxL862xx-don-t-force-enable-MAXLINEAR_GPHY.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/769-v7.1-net-dsa-mxl862xx-add-CRC-for-MDIO-communication.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/Kconfig
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/770-v7.1-net-dsa-mxl862xx-use-RST_DATA-to-skip-writing-zero-w.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/771-v7.1-net-dsa-mxl862xx-cancel-pending-work-on-probe-error.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/772-v7.1-net-dsa-move-dsa_bridge_ports-helper-to-dsa.h.patch using plaintext: 
+patching file include/net/dsa.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/773-v7.1-net-dsa-add-bridge-member-iteration-macro.patch using plaintext: 
+patching file include/net/dsa.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/774-v7.1-dsa-tag_mxl862xx-set-dsa_default_offload_fwd_mark.patch using plaintext: 
+patching file net/dsa/tag_mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/775-v7.1-net-dsa-mxl862xx-implement-bridge-offloading.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/776-v7.1-net-dsa-mxl862xx-reject-DSA_PORT_TYPE_DSA.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/777-v7.1-net-dsa-mxl862xx-don-t-skip-early-bridge-port-config.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/778-v7.1-net-dsa-mxl862xx-implement-VLAN-functionality.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/779-v7.1-net-dsa-mxl862xx-add-ethtool-statistics-support.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/780-v7.1-net-dsa-mxl862xx-implement-.get_stats64.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-01-v7.2-net-dsa-mxl862xx-store-firmware-version-for-feature-.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-02-v7.2-net-dsa-mxl862xx-move-phylink-stubs-to-mxl862xx-phyl.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/Makefile
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-03-v7.2-net-dsa-mxl862xx-move-API-macros-to-mxl862xx-host.h.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-04-v7.2-net-dsa-mxl862xx-add-support-for-SerDes-ports.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-05-v7.2-net-dsa-mxl862xx-avoid-unaligned-16-bit-access-in-ap.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-06-v7.2-net-dsa-mxl862xx-fix-use-after-free-of-DSA-ports-in-.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/781-v7.1-net-mvneta-support-EPROBE_DEFER-when-reading-MAC-add.patch using plaintext: 
+patching file drivers/net/ethernet/marvell/mvneta.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/784-06-v6.19-net-phy-realtek-Add-RTL8224-cable-testing-support.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/784-07-v6.19-net-phy-realtek-add-interrupt-support-for-RTL8221B.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-01-dt-bindings-phy-rename-transmit-amplitude.yaml-to-ph.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/transmit-amplitude.yaml
+patching file Documentation/devicetree/bindings/phy/phy-common-props.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-02-dt-bindings-phy-common-props-create-a-reusable-proto.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/phy-common-props.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-03-dt-bindings-phy-common-props-ensure-protocol-names-a.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/phy-common-props.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-04-dt-bindings-phy-common-props-RX-and-TX-lane-polarity.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/phy-common-props.yaml
+patching file include/dt-bindings/phy/phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-05-phy-add-phy_get_rx_polarity-and-phy_get_tx_polarity.patch using plaintext: 
+patching file drivers/phy/Kconfig
+patching file drivers/phy/Makefile
+patching file drivers/phy/phy-common-props-test.c
+patching file drivers/phy/phy-common-props.c
+patching file include/linux/phy/phy-common-props.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-06-dt-bindings-net-airoha-en8811h-deprecate-airoha-pnsw.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/airoha,en8811h.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-07-net-phy-air_en8811h-deprecate-airoha-pnswap-rx-and-a.patch using plaintext: 
+patching file drivers/net/phy/Kconfig
+patching file drivers/net/phy/air_en8811h.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-08-dt-bindings-net-pcs-mediatek-sgmiisys-deprecate-medi.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/pcs/mediatek,sgmiisys.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-09-net-pcs-pcs-mtk-lynxi-pass-SGMIISYS-OF-node-to-PCS.patch using plaintext: 
+patching file drivers/net/dsa/mt7530-mdio.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/pcs/pcs-mtk-lynxi.c
+patching file include/linux/pcs/pcs-mtk-lynxi.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-10-net-pcs-pcs-mtk-lynxi-deprecate-mediatek-pnswap.patch using plaintext: 
+patching file drivers/net/pcs/Kconfig
+patching file drivers/net/pcs/pcs-mtk-lynxi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/785-v7.0-11-phy-enter-drivers-phy-Makefile-even-without-CONFIG_G.patch using plaintext: 
+patching file drivers/Makefile
+patching file drivers/phy/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/786-01-v7.4-net-phy-add-phy_detach_internal-helper.patch using plaintext: 
+patching file drivers/net/phy/phy_device.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/786-02-v7.4-net-phy-add-notify_phy_attach_detach-hooks-to-struct-mii_bus.patch using plaintext: 
+patching file drivers/net/phy/phy_device.c
+patching file include/linux/phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/788-v7.0-net-phy-realtek-fix-whitespace-in-struct-phy_driver-.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/789-v7.0-net-phy-realtek-implement-configuring-in-band-an.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/790-v7.0-net-phy-realtek-use-paged-access-for-MDIO_MMD_VEND2-.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/791-v7.0-net-phy-realtek-get-rid-of-magic-number-in-rtlgen_re.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/792-v7.0-net-phy-realtek-add-dummy-PHY-driver-for-RTL8127ATF.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/net/phy/realtek/realtek_main.c
+patching file include/net/phy/realtek_phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/793-v7.0-net-phy-realtek-fix-in-band-capabilities-for-2.5G-PH.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/794-v7.0-net-phy-realtek-support-interrupt-also-for-C22-varia.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/795-v7.0-net-phy-realtek-simplify-C22-reg-access-via-MDIO_MMD.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/796-v7.0-net-phy-realtek-reunify-C22-and-C45-drivers.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/797-v7.0-net-phy-realtek-demystify-PHYSR-register-location.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/798-v7.0-net-phy-realtek-simplify-bogus-paged-operations.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/799-v7.0-mtd-physmap-core-Prioritize-ofparts-for-OF-probe.patch using plaintext: 
+patching file drivers/mtd/maps/physmap-core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/799-v7.2-net-phy-realtek-Add-support-for-PHY-LEDs-on-RTL8221B.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/821-01-v7.0-dt-bindings-gpio-add-gpio-line-mux-controller.patch using plaintext: 
+patching file Documentation/devicetree/bindings/gpio/gpio-line-mux.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/821-02-v7.0-gpio-add-gpio-line-mux-driver.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/gpio/Kconfig
+patching file drivers/gpio/Makefile
+patching file drivers/gpio/gpio-line-mux.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/821-03-v7.0-gpio-line-mux-remove-bits-already-handled-by-GPIO-co.patch using plaintext: 
+patching file drivers/gpio/gpio-line-mux.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/822-v6.19-ALSA-usb-audio-Convert-to-common-field_-get-prep-hel.patch using plaintext: 
+patching file sound/usb/mixer_quirks.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/823-v6.19-clk-at91-Convert-to-common-field_-get-prep-helpers.patch using plaintext: 
+patching file drivers/clk/at91/clk-peripheral.c
+patching file drivers/clk/at91/pmc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/824-v6.19-iio-mlx90614-Convert-to-common-field_-get-prep-helpe.patch using plaintext: 
+patching file drivers/iio/temperature/mlx90614.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/825-v6.19-pinctrl-ma35-Convert-to-common-field_-get-prep-helpe.patch using plaintext: 
+patching file drivers/pinctrl/nuvoton/pinctrl-ma35.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/830-v7.0-hwmon-emc2305-Simplify-with-scoped-for-each-OF-child.patch using plaintext: 
+patching file drivers/hwmon/emc2305.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/842-v7.2-hwmon-lm63-make-pwm1_freq-and-lut-hyst-writable.patch using plaintext: 
+patching file drivers/hwmon/lm63.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/851-01-v7.3-dt-bindings-hwmon-add-adi-adt7470.patch using plaintext: 
+patching file Documentation/devicetree/bindings/hwmon/adi,adt7470.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/851-02-v7.3-hwmon-adt7470-Add-ADT7470_PWM_MAX-macro.patch using plaintext: 
+patching file drivers/hwmon/adt7470.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/851-03-v7.3-hwmon-adt7470-Expose-fan-control-via-PWM-framework.patch using plaintext: 
+patching file drivers/hwmon/Kconfig
+patching file drivers/hwmon/adt7470.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/851-04-v7.3-hwmon-adt7470-Add-thermal-zone-sensor-support.patch using plaintext: 
+patching file drivers/hwmon/adt7470.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/894-v7.3-usb-xhci-handle-port-events-when-there-is-one-roothub.patch using plaintext: 
+patching file drivers/usb/host/xhci-ring.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/907-v6.19-genirq-Change-hwirq-parameter-to-irq_hw_number_t.patch using plaintext: 
+patching file include/linux/irqdesc.h
+patching file kernel/irq/irqdesc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/908-1-v7.0-genirq-Add-interrupt-redirection-infrastructure.patch using plaintext: 
+patching file include/linux/irq.h
+patching file include/linux/irqdesc.h
+patching file kernel/irq/chip.c
+patching file kernel/irq/irqdesc.c
+patching file kernel/irq/manage.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/908-2-v7.0-PCI-dwc-Code-cleanup.patch using plaintext: 
+patching file drivers/pci/controller/dwc/pcie-designware-host.c
+patching file drivers/pci/controller/dwc/pcie-designware.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/908-3-v7.0-PCI-dwc-Enable-MSI-affinity-support.patch using plaintext: 
+patching file drivers/pci/controller/dwc/pcie-designware-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/909-v7.0-genirq-Update-effective-affinity-for-redirected-inte.patch using plaintext: 
+patching file kernel/irq/chip.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/910-v6.19-crypto-testmgr-Add-missing-DES-weak-and-semi-weak-ke.patch using plaintext: 
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/911-v7.0-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/912-v7.0-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/913-v7.0-crypto-testmgr-Add-test-vectors-for-authenc-hmac-md5.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/914-v7.0-crypto-testmgr-allow-authenc-sha224-rfc3686-variant-.patch using plaintext: 
+patching file crypto/testmgr.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/915-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-md5.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/916-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/917-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/918-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/919-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/920-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-sha.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/921-v7.1-crypto-tesmgr-allow-authenc-hmac-sha224-sha384-cbc-a.patch using plaintext: 
+patching file crypto/testmgr.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/922-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-md5.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/923-v7.1-crypto-testmgr-Add-test-vectors-for-authenc-hmac-md5.patch using plaintext: 
+patching file crypto/testmgr.c
+patching file crypto/testmgr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/930-v7.1-crypto-safexcel-Group-authenc-ciphersuites.patch using plaintext: 
+patching file drivers/crypto/inside-secure/safexcel.c
+patching file drivers/crypto/inside-secure/safexcel.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/931-v7.1-crypto-safexcel-Add-support-for-authenc-hmac-md5-sui.patch using plaintext: 
+patching file drivers/crypto/inside-secure/safexcel.c
+patching file drivers/crypto/inside-secure/safexcel.h
+patching file drivers/crypto/inside-secure/safexcel_cipher.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/932-v7.1-crypto-tcrypt-clamp-num_mb-to-avoid-divide-by-zero.patch using plaintext: 
+patching file crypto/tcrypt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/933-v7.1-crypto-tcrypt-stop-ahash-speed-tests-when-setkey-fai.patch using plaintext: 
+patching file crypto/tcrypt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/940-01-v7.1-net-dsa-tag_rtl8_4-update-format-description.patch using plaintext: 
+patching file net/dsa/tag_rtl8_4.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/940-02-v7.1-net-dsa-tag_rtl8_4-set-KEEP-flag.patch using plaintext: 
+patching file net/dsa/tag_rtl8_4.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/941-v7.2-net-dsa-realtek-rtl8365mb-add-support-for-rtl8367sb.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-01-v7.2-net-dsa-realtek-rtl8365mb-use-ERR_PTR.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-02-v7.2-net-dsa-realtek-rtl8365mb-reject-unsupported-topolog.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-03-v7.2-net-dsa-realtek-rtl8365mb-use-dsa-helpers-for-port-i.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-04-v7.2-net-dsa-realtek-rtl8365mb-prepare-for-multiple-sourc.patch using plaintext: 
+patching file drivers/net/dsa/realtek/Makefile
+patching file drivers/net/dsa/realtek/rtl8365mb.c
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-05-v7.2-net-dsa-realtek-rtl8365mb-add-table-lookup-interface.patch using plaintext: 
+patching file drivers/net/dsa/realtek/Makefile
+patching file drivers/net/dsa/realtek/rtl8365mb_table.c
+patching file drivers/net/dsa/realtek/rtl8365mb_table.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-06-v7.2-net-dsa-realtek-rtl8365mb-add-VLAN-support.patch using plaintext: 
+patching file drivers/net/dsa/realtek/Makefile
+patching file drivers/net/dsa/realtek/realtek.h
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+patching file drivers/net/dsa/realtek/rtl8365mb_vlan.c
+patching file drivers/net/dsa/realtek/rtl8365mb_vlan.h
+patching file drivers/net/dsa/realtek/rtl83xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-07-v7.2-net-dsa-realtek-rtl8365mb-add-FDB-support.patch using plaintext: 
+patching file drivers/net/dsa/realtek/Makefile
+patching file drivers/net/dsa/realtek/realtek.h
+patching file drivers/net/dsa/realtek/rtl8365mb_l2.c
+patching file drivers/net/dsa/realtek/rtl8365mb_l2.h
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+patching file drivers/net/dsa/realtek/rtl83xx.c
+patching file drivers/net/dsa/realtek/rtl83xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-08-v7.2-net-dsa-realtek-rtl8365mb-add-port_bridge_-join-leav.patch using plaintext: 
+patching file drivers/net/dsa/realtek/realtek.h
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+patching file drivers/net/dsa/realtek/rtl83xx.c
+patching file drivers/net/dsa/realtek/rtl83xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/942-09-v7.2-net-dsa-realtek-rtl8365mb-add-bridge-port-flags.patch using plaintext: 
+patching file drivers/net/dsa/realtek/realtek.h
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+patching file drivers/net/dsa/realtek/rtl83xx.c
+patching file drivers/net/dsa/realtek/rtl83xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/943-01-v7.3-net-dsa-realtek-rtl8365mb-add-SGMII-support.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/943-02-v7.3-net-dsa-realtek-rtl8365mb-add-HSGMII-support.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/944-01-v7.2-net-dsa-realtek-rtl8365mb-use-devm_mutex_init-for-mib_lock.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl8365mb_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/944-02-v7.2-net-dsa-realtek-use-devm_mutex_init-for-regmap-lock.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl83xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/944-03-v7.2-net-dsa-realtek-use-devm_mutex_init-for-vlan_lock.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl83xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/944-04-v7.2-net-dsa-realtek-use-devm_mutex_init-for-l2_lock.patch using plaintext: 
+patching file drivers/net/dsa/realtek/rtl83xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/backport-6.18/945-v7.2-net-dsa-mxl862xx-enable-assisted-learning-on-cpu-port.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/100-compiler.h-only-include-asm-rwonce.h-for-kernel-code.patch using plaintext: 
+patching file include/linux/compiler.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/102-MIPS-only-process-negative-stack-offsets-on-stack-tr.patch using plaintext: 
+patching file arch/mips/kernel/process.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/103-kbuild-export-SUBARCH.patch using plaintext: 
+patching file Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/111-watchdog-max63xx_wdt-Add-support-for-specifying-WDI-.patch using plaintext: 
+patching file drivers/watchdog/max63xx_wdt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/140-jffs2-use-.rename2-and-add-RENAME_WHITEOUT-support.patch using plaintext: 
+patching file fs/jffs2/dir.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/141-jffs2-add-RENAME_EXCHANGE-support.patch using plaintext: 
+patching file fs/jffs2/dir.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/142-jffs2-add-splice-ops.patch using plaintext: 
+patching file fs/jffs2/file.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/150-bridge_allow_receiption_on_disabled_port.patch using plaintext: 
+patching file net/bridge/br_input.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/151-net-bridge-do-not-send-arp-replies-if-src-and-target.patch using plaintext: 
+patching file net/bridge/br_arp_nd_proxy.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/190-rtc-rs5c372-support_alarms_up_to_1_week.patch using plaintext: 
+patching file drivers/rtc/rtc-rs5c372.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/191-rtc-rs5c372-let_the_alarm_to_be_used_as_wakeup_source.patch using plaintext: 
+patching file drivers/rtc/rtc-rs5c372.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/200-ARM-9404-1-arm32-fix-boot-hang-with-HAVE_LD_DEAD_COD.patch using plaintext: 
+patching file arch/arm/include/asm/vmlinux.lds.h
+patching file arch/arm/kernel/vmlinux.lds.S
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/203-kallsyms_uncompressed.patch using plaintext: 
+patching file init/Kconfig
+patching file kernel/kallsyms.c
+patching file kernel/vmcore_info.c
+patching file scripts/kallsyms.c
+patching file scripts/link-vmlinux.sh
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/205-backtrace_module_info.patch using plaintext: 
+patching file lib/vsprintf.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/240-remove-unsane-filenames-from-deps_initramfs-list.patch using plaintext: 
+patching file usr/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/250-kernel-fork-Increase-minimum-number-of-allowed-threa.patch using plaintext: 
+patching file kernel/fork.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/270-platform-mikrotik-build-bits.patch using plaintext: 
+patching file drivers/platform/Kconfig
+patching file drivers/platform/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/300-mips_expose_boot_raw.patch using plaintext: 
+patching file arch/mips/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/301-MIPS-Add-barriers-between-dcache-icache-flushes.patch using plaintext: 
+patching file arch/mips/mm/c-r4k.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/302-mips_no_branch_likely.patch using plaintext: 
+patching file arch/mips/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/308-mips32r2_tune.patch using plaintext: 
+patching file arch/mips/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/310-arm_module_unresolved_weak_sym.patch using plaintext: 
+patching file arch/arm/kernel/module.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/330-MIPS-kexec-Accept-command-line-parameters-from-users.patch using plaintext: 
+patching file arch/mips/kernel/machine_kexec.c
+patching file arch/mips/kernel/machine_kexec.h
+patching file arch/mips/kernel/relocate_kernel.S
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/342-powerpc-Enable-kernel-XZ-compression-option-on-PPC_8.patch using plaintext: 
+patching file arch/powerpc/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/350-mips-kernel-fix-detect_memory_region-function.patch using plaintext: 
+patching file arch/mips/include/asm/bootinfo.h
+patching file arch/mips/kernel/setup.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/400-mtd-mtdsplit-support.patch using plaintext: 
+patching file drivers/mtd/Kconfig
+patching file drivers/mtd/Makefile
+patching file drivers/mtd/mtdpart.c
+patching file include/linux/mtd/mtd.h
+patching file include/linux/mtd/partitions.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/402-mtd-spi-nor-write-support-for-minor-aligned-partitions.patch using plaintext: 
+patching file drivers/mtd/mtdcore.c
+patching file drivers/mtd/mtdpart.c
+patching file drivers/mtd/spi-nor/Kconfig
+patching file drivers/mtd/spi-nor/core.c
+patching file include/linux/mtd/mtd.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/417-mtd-spi-nand-macronix-disable-continuous-read-for-MX.patch using plaintext: 
+patching file drivers/mtd/nand/spi/macronix.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/420-mtd-redboot_space.patch using plaintext: 
+patching file drivers/mtd/parsers/redboot.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/430-mtd-add-myloader-partition-parser.patch using plaintext: 
+patching file drivers/mtd/parsers/Kconfig
+patching file drivers/mtd/parsers/Makefile
+patching file drivers/mtd/parsers/myloader.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/431-mtd-bcm47xxpart-check-for-bad-blocks-when-calculatin.patch using plaintext: 
+patching file drivers/mtd/parsers/parser_trx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/432-mtd-bcm47xxpart-detect-T_Meter-partition.patch using plaintext: 
+patching file drivers/mtd/parsers/bcm47xxpart.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/435-mtd-add-routerbootpart-parser-config.patch using plaintext: 
+patching file drivers/mtd/parsers/Kconfig
+patching file drivers/mtd/parsers/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/450-block-allow-setting-partition-of_node.patch using plaintext: 
+patching file block/partitions/check.h
+patching file block/partitions/core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/451-block-partitions-of-assign-Device-Tree-node-to-parti.patch using plaintext: 
+patching file block/partitions/of.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/452-partitions-efi-apply-Linux-code-style.patch using plaintext: 
+patching file block/partitions/efi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/453-partitions-efi-allow-assigning-partition-Device-Tree.patch using plaintext: 
+patching file block/partitions/efi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/454-block-add-support-for-notifications.patch using plaintext: 
+patching file block/Kconfig
+patching file block/Makefile
+patching file block/blk-notify.c
+patching file include/linux/blkdev.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/455-block-add-new-genhd-flag-GENHD_FL_NVMEM.patch using plaintext: 
+patching file include/linux/blkdev.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/456-nvmem-implement-block-NVMEM-provider.patch using plaintext: 
+patching file drivers/nvmem/Kconfig
+patching file drivers/nvmem/Makefile
+patching file drivers/nvmem/block.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/457-mmc-block-set-GENHD_FL_NVMEM.patch using plaintext: 
+patching file drivers/mmc/core/block.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/460-mtd-cfi_cmdset_0002-no-erase_suspend.patch using plaintext: 
+patching file drivers/mtd/chips/cfi_cmdset_0002.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/461-mtd-cfi_cmdset_0002-add-buffer-write-cmd-timeout.patch using plaintext: 
+patching file drivers/mtd/chips/cfi_cmdset_0002.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/476-mtd-spi-nor-add-eon-en25q128.patch using plaintext: 
+patching file drivers/mtd/spi-nor/eon.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/477-mtd-spi-nor-add-eon-en25qx128a.patch using plaintext: 
+patching file drivers/mtd/spi-nor/eon.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/479-mtd-spi-nor-add-xtx-xt25f128b.patch using plaintext: 
+patching file drivers/mtd/spi-nor/Makefile
+patching file drivers/mtd/spi-nor/xtx.c
+patching file drivers/mtd/spi-nor/core.c
+patching file drivers/mtd/spi-nor/core.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/481-mtd-spi-nor-add-support-for-Gigadevice-GD25D05.patch using plaintext: 
+patching file drivers/mtd/spi-nor/gigadevice.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/482-mtd-spi-nor-add-gd25q512.patch using plaintext: 
+patching file drivers/mtd/spi-nor/gigadevice.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/484-mtd-spi-nor-add-esmt-f25l16pa.patch using plaintext: 
+patching file drivers/mtd/spi-nor/esmt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/485-mtd-spi-nor-add-xmc-xm25qh128c.patch using plaintext: 
+patching file drivers/mtd/spi-nor/xmc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/487-mtd-spinand-Add-support-for-Etron-EM73D044VCx.patch using plaintext: 
+patching file drivers/mtd/nand/spi/Makefile
+patching file drivers/mtd/nand/spi/core.c
+patching file drivers/mtd/nand/spi/etron.c
+patching file include/linux/mtd/spinand.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/488-mtd-spi-nor-add-xmc-xm25qh64c.patch using plaintext: 
+patching file drivers/mtd/spi-nor/xmc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/490-ubi-auto-attach-mtd-device-named-ubi-or-data-on-boot.patch using plaintext: 
+patching file drivers/mtd/ubi/build.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/491-ubi-auto-create-ubiblock-device-for-rootfs.patch using plaintext: 
+patching file drivers/mtd/ubi/block.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/492-try-auto-mounting-ubi0-rootfs-in-init-do_mounts.c.patch using plaintext: 
+patching file init/do_mounts.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/493-ubi-set-ROOT_DEV-to-ubiblock-rootfs-if-unset.patch using plaintext: 
+patching file drivers/mtd/ubi/block.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/494-mtd-ubi-add-EOF-marker-support.patch using plaintext: 
+patching file drivers/mtd/ubi/attach.c
+patching file drivers/mtd/ubi/ubi.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/496-dt-bindings-add-bindings-for-mtd-concat-devices.patch using plaintext: 
+patching file Documentation/devicetree/bindings/mtd/mtd-concat.txt
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/497-mtd-mtdconcat-add-dt-driver-for-concat-devices.patch using plaintext: 
+patching file drivers/mtd/Kconfig
+patching file drivers/mtd/Makefile
+patching file drivers/mtd/composite/Kconfig
+patching file drivers/mtd/composite/Makefile
+patching file drivers/mtd/composite/virt_concat.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/500-fs_cdrom_dependencies.patch using plaintext: 
+patching file fs/hfs/Kconfig
+patching file fs/hfsplus/Kconfig
+patching file fs/isofs/Kconfig
+patching file fs/udf/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/510-block-add-uImage.FIT-subimage-block-driver.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/block/Kconfig
+patching file drivers/block/Makefile
+patching file drivers/block/fitblk.c
+patching file include/uapi/linux/fitblk.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/511-init-bypass-device-lookup-for-dev-fit-rootfs.patch using plaintext: 
+patching file init/do_mounts.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/530-jffs2_make_lzma_available.patch using plaintext: 
+patching file fs/jffs2/Kconfig
+patching file fs/jffs2/Makefile
+patching file fs/jffs2/compr.c
+patching file fs/jffs2/compr.h
+patching file fs/jffs2/compr_lzma.c
+patching file fs/jffs2/super.c
+patching file include/linux/lzma.h
+patching file include/linux/lzma/LzFind.h
+patching file include/linux/lzma/LzHash.h
+patching file include/linux/lzma/LzmaDec.h
+patching file include/linux/lzma/LzmaEnc.h
+patching file include/linux/lzma/Types.h
+patching file include/uapi/linux/jffs2.h
+patching file lib/Kconfig
+patching file lib/Makefile
+patching file lib/lzma/LzFind.c
+patching file lib/lzma/LzmaDec.c
+patching file lib/lzma/LzmaEnc.c
+patching file lib/lzma/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/532-jffs2_eofdetect.patch using plaintext: 
+patching file fs/jffs2/build.c
+patching file fs/jffs2/scan.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/600-netfilter_conntrack_flush.patch using plaintext: 
+patching file net/netfilter/nf_conntrack_standalone.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/630-packet_socket_type.patch using plaintext: 
+patching file include/uapi/linux/if_packet.h
+patching file net/packet/af_packet.c
+patching file net/packet/internal.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/640-net-bridge-fix-switchdev-host-mdb-entry-updates.patch using plaintext: 
+patching file net/bridge/br_switchdev.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/641-net-bridge-switchdev-Don-t-drop-packets-between-port.patch using plaintext: 
+patching file net/bridge/br_switchdev.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/655-increase_skb_pad.patch using plaintext: 
+patching file include/linux/skbuff.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/666-Add-support-for-MAP-E-FMRs-mesh-mode.patch using plaintext: 
+patching file include/net/ip6_tunnel.h
+patching file include/uapi/linux/if_tunnel.h
+patching file net/ipv6/ip6_tunnel.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/670-ipv6-allow-rejecting-with-source-address-failed-policy.patch using plaintext: 
+patching file include/net/netns/ipv6.h
+patching file include/uapi/linux/fib_rules.h
+patching file include/uapi/linux/rtnetlink.h
+patching file net/ipv4/fib_semantics.c
+patching file net/ipv4/fib_trie.c
+patching file net/ipv4/ipmr.c
+patching file net/ipv6/fib6_rules.c
+patching file net/ipv6/ip6mr.c
+patching file net/ipv6/route.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/671-net-provide-defines-for-_POLICY_FAILED-until-all-cod.patch using plaintext: 
+patching file include/uapi/linux/fib_rules.h
+patching file include/uapi/linux/icmpv6.h
+patching file include/uapi/linux/rtnetlink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/681-net-remove-NETIF_F_GSO_FRAGLIST-from-NETIF_F_GSO_SOF.patch using plaintext: 
+patching file drivers/net/dummy.c
+patching file drivers/net/loopback.c
+patching file drivers/net/macvlan.c
+patching file include/linux/netdev_features.h
+patching file net/8021q/vlan.h
+patching file net/8021q/vlan_dev.c
+patching file net/core/sock.c
+patching file net/mac80211/ieee80211_i.h
+patching file net/openvswitch/vport-internal_dev.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/683-of_net-add-mac-address-to-of-tree.patch using plaintext: 
+patching file net/core/of_net.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/700-netfilter-nft_flow_offload-handle-netdevice-events-f.patch using plaintext: 
+patching file net/netfilter/nf_flow_table_core.c
+patching file net/netfilter/nft_flow_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/701-netfilter-nf_tables-ignore-EOPNOTSUPP-on-flowtable-d.patch using plaintext: 
+patching file net/netfilter/nf_tables_api.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/702-net-ethernet-mtk_eth_soc-enable-threaded-NAPI.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/703-phy-add-detach-callback-to-struct-phy_driver.patch using plaintext: 
+patching file drivers/net/phy/phy_device.c
+patching file include/linux/phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/704-net-dsa-support-EPROBE_DEFER-when-reading-the-port-M.patch using plaintext: 
+patching file net/dsa/dsa.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/705-net-dsa-tag_mtk-add-padding-for-tx-packets.patch using plaintext: 
+patching file net/dsa/tag_mtk.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/706-net-phy-populate-host_interfaces-when-attaching-PHY.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/707-net-pcs-pcs-mtk-lynxi-fix-bpi-r3-serdes-configuratio.patch using plaintext: 
+patching file drivers/net/pcs/pcs-mtk-lynxi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch using plaintext: 
+patching file include/linux/if_bridge.h
+patching file net/bridge/br_forward.c
+patching file net/bridge/br_input.c
+patching file net/bridge/br_sysfs_if.c
+patching file net/bridge/br_stp_bpdu.c
+patching file include/uapi/linux/if_link.h
+patching file net/bridge/br_netlink.c
+patching file net/core/rtnetlink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-01-net-dsa-qca8k-implement-lag_fdb_add-del-ops.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+patching file drivers/net/dsa/qca/qca8k-common.c
+patching file drivers/net/dsa/qca/qca8k.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-02-net-dsa-qca8k-enable-flooding-to-both-CPU-port.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-03-net-dsa-qca8k-add-support-for-port_change_master.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-04-net-dsa-qca8k-no-program-unicast-host-FDB-entries.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-common.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-05-net-dsa-qca8k-fall-back-to-ethernet-ports-node-name-.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-leds.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-06-net-dsa-qca8k-support-PHY-to-PHY-CPU-link.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-07-net-dsa-qca8k-use-correct-CPU-port-when-having-multi.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/711-08-net-dsa-qca8k-implement-ds-ops-preferred_default_loc.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/712-net-dsa-qca8k-enable-assisted-learning-on-CPU-port.patch using plaintext: 
+patching file drivers/net/dsa/qca/qca8k-8xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/713-net-phy-c45-check-validity-of-10GbE-link-partner.patch using plaintext: 
+patching file include/linux/mdio.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/715-net-phy-aquantia-add-support-for-CUX3410.patch using plaintext: 
+patching file drivers/net/phy/aquantia/aquantia_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-01-net-phy-realtek-use-genphy_soft_reset-for-2.5G-PHYs.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-03-net-phy-realtek-make-sure-paged-read-is-protected-by.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-04-net-phy-realtek-setup-aldps.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-05-net-phy-realtek-detect-early-version-of-RTL8221B.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-06-net-phy-realtek-mark-existing-MMDs-as-present.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-07-net-phy-realtek-disable-MDIO-broadcast.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/720-08-net-phy-realtek-rate-adapter-in-C22-mode.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/731-net-permit-ieee80211_ptr-even-with-no-CFG82111-suppo.patch using plaintext: 
+patching file include/linux/netdevice.h
+patching file net/batman-adv/hard-interface.c
+patching file net/wireless/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/732-00-net-ethernet-mtk_eth_soc-compile-out-netsys-v2-code-.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/732-01-net-ethernet-mtk_eth_soc-work-around-issue-with-send.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/732-03-net-ethernet-mtk_eth_soc-optimize-dma-ring-address-i.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/732-04-net-ethernet-mtk_eth_soc-shrink-struct-mtk_tx_buf.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/732-05-net-ethernet-mtk_eth_soc-add-support-for-sending-fra.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/733-01-net-ethernet-mtk_eth_soc-use-napi_build_skb.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/734-net-ethernet-mediatek-enlarge-DMA-reserve-buffer.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/736-03-net-ethernet-mtk_eth_soc-improve-keeping-track-of-of.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe.c
+patching file drivers/net/ethernet/mediatek/mtk_ppe.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/736-04-net-ethernet-mediatek-fix-ppe-flow-accounting-for-L2.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe.c
+patching file drivers/net/ethernet/mediatek/mtk_ppe.h
+patching file drivers/net/ethernet/mediatek/mtk_ppe_debugfs.c
+patching file drivers/net/ethernet/mediatek/mtk_ppe_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/736-05-net-ethernet-mtk_eth_soc-zero-initialize-PPE-flow-ta.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-01-net-phylink-keep-and-use-MAC-supported_interfaces-in.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-02-net-phylink-introduce-internal-phylink-PCS-handling.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+patching file include/linux/phylink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-03-net-phylink-add-phylink_release_pcs-to-externally-re.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+patching file include/linux/phylink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-04-net-pcs-implement-Firmware-node-support-for-PCS-driv.patch using plaintext: 
+patching file drivers/net/pcs/Kconfig
+patching file drivers/net/pcs/Makefile
+patching file drivers/net/pcs/pcs.c
+patching file include/linux/pcs/pcs-provider.h
+patching file include/linux/pcs/pcs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-05-net-phylink-support-late-PCS-provider-attach.patch using plaintext: 
+patching file drivers/net/pcs/pcs.c
+patching file drivers/net/phy/phylink.c
+patching file include/linux/pcs/pcs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-06-dt-bindings-net-ethernet-controller-permit-to-define.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/ethernet-controller.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-07-net-phylink-add-.pcs_link_down-PCS-OP.patch using plaintext: 
+patching file drivers/net/phy/phylink.c
+patching file include/linux/phylink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-08-net-ethernet-mtk_eth_soc-improve-probe-deferal.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/737-09-net-ethernet-mtk_eth_soc-add-paths-and-SerDes-modes-.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_path.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/738-01-net-ethernet-mtk_eth_soc-reduce-rx-ring-size-for-older.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/738-02-net-ethernet-mtk_eth_soc-do-not-enable-page-pool-sta.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/Kconfig
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/739-03-net-pcs-pcs-mtk-lynxi-add-platform-driver-for-MT7988.patch using plaintext: 
+patching file drivers/net/pcs/pcs-mtk-lynxi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/739-04-dt-bindings-net-pcs-add-bindings-for-MediaTek-USXGMI.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/pcs/mediatek,usxgmii.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/739-05-net-pcs-add-driver-for-MediaTek-USXGMII-PCS.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/net/pcs/Kconfig
+patching file drivers/net/pcs/Kconfig.orig
+patching file drivers/net/pcs/Makefile
+patching file drivers/net/pcs/pcs-mtk-usxgmii.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/740-net-phy-motorcomm-Add-missing-include.patch using plaintext: 
+patching file drivers/net/phy/motorcomm.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/741-net-phy-broadcom-update-dependency-condition.patch using plaintext: 
+patching file drivers/net/phy/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/742-net-phy-realtek-add-5G-and-10G-PHY-support.patch using plaintext: 
+patching file drivers/net/phy/realtek/Makefile
+patching file drivers/net/phy/realtek/realtek.h
+patching file drivers/net/phy/realtek/realtek_main.c
+patching file drivers/net/phy/realtek/Kconfig
+patching file drivers/net/phy/realtek/phy_patch.c
+patching file drivers/net/phy/realtek/phy_patch.h
+patching file drivers/net/phy/realtek/phy_patch_rtl826x.c
+patching file drivers/net/phy/realtek/phy_patch_rtl826x.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/743-net-phy-realtek-reset-RTL8261N-USXGMII-SerDes-on-lin.patch using plaintext: 
+patching file drivers/net/phy/realtek/realtek.h
+patching file drivers/net/phy/realtek/realtek_main.c
+patching file drivers/net/phy/realtek/phy_patch_rtl826x.c
+patching file drivers/net/phy/realtek/phy_patch_rtl826x.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/750-net-sfp-add-quirk-for-QINIYEK-BJ-SFP-10G-T-copper-SF.patch using plaintext: 
+patching file drivers/net/phy/sfp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/751-net-sfp-add-quirk-for-TP-LINK-SM410U.patch using plaintext: 
+patching file drivers/net/phy/sfp.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-00-net-dsa-mxl862xx-wait-for-firmware-boot-time-configu.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-01-net-dsa-mxl862xx-add-SerDes-ethtool-statistics.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-02-dsa-add-devlink-flash_update-callback-to-dsa.patch using plaintext: 
+patching file include/net/dsa.h
+patching file net/dsa/devlink.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-03-dsa-mxl862xx-add-SMDIO-clause-22-register-ac.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-04-dsa-mxl862xx-add-devlink-flash_update-and-in.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/Makefile
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-fw.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-fw.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-05-dsa-mxl862xx-recover-switch-stuck-in-MCUboot.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-fw.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-fw.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-06-net-dsa-tag_mxl862xx-leave-offload_fwd_mark-unset-on.patch using plaintext: 
+patching file net/dsa/tag_mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-07-net-dsa-mxl862xx-trap-link-local-and-multicast-snoop.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-08-net-dsa-mxl862xx-warn-about-old-firmware-default-PCE.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-09-net-dsa-add-802.1Q-VLAN-based-tag-driver-for-MxL862x.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/Kconfig
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+patching file include/net/dsa.h
+patching file net/dsa/Kconfig
+patching file net/dsa/Makefile
+patching file net/dsa/tag_mxl862xx.c
+patching file net/dsa/tag_mxl862xx.h
+patching file net/dsa/tag_mxl862xx_8021q.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-10-net-dsa-mxl862xx-add-link-aggregation-support.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-11-net-dsa-mxl862xx-add-support-for-mirror-port.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-12-net-dsa-mxl862xx-implement-port-MTU-configuration.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-13-net-dsa-mxl862xx-support-BR_HAIRPIN_MODE-bridge-flag.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-14-net-dsa-mxl862xx-support-BR_ISOLATED-bridge-flag.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-15-DO-NOT-SUBMIT-net-dsa-mxl862xx-re-introduce-PCE-work.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-16-DO-NOT-SUBMIT-net-dsa-mxl862xx-legacy-SFP-API-fallba.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-api.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-cmd.h
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.c
+patching file drivers/net/dsa/mxl862xx/mxl862xx-phylink.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/760-17-DO-NOT-SUBMIT-net-dsa-mxl862xx-increase-CMD-timeout.patch using plaintext: 
+patching file drivers/net/dsa/mxl862xx/mxl862xx-host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/780-ARM-kirkwood-add-missing-linux-if_ether.h-for-ETH_AL.patch using plaintext: 
+patching file arch/arm/mach-mvebu/kirkwood.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/790-bus-mhi-core-add-SBL-state-callback.patch using plaintext: 
+patching file drivers/bus/mhi/host/main.c
+patching file include/linux/mhi.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/791-tg3-Fix-DMA-allocations-on-57766-devices.patch using plaintext: 
+patching file drivers/net/ethernet/broadcom/tg3.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-01-net-ethernet-mtk_ppe_offload-use-rhashtable_lookup_f.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-02-net-ethernet-mtk_ppe-set-tport_idx-on-netsys_v3-for-.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe.c
+patching file drivers/net/ethernet/mediatek/mtk_ppe.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-03-net-ethernet-mtk_ppe_offload-set-output-device-befor.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-04-net-ethernet-mtk_eth_soc-per-SoC-QDMA-TX-queue-count.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-05-net-ethernet-mtk_eth_soc-add-per-conduit-DSA-user-po.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-06-net-ethernet-mtk_eth_soc-use-DSA-queue-map-in-TX-pat.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-07-net-ethernet-mtk_ppe_offload-use-DSA-queue-map-in-fl.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-08-net-dsa-tag_mxl862xx_8021q-set-skb-queue_mapping-to-.patch using plaintext: 
+patching file net/dsa/tag_mxl862xx_8021q.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/795-09-net-ethernet-mtk_ppe-offload-flows-to-MxL862xx-switc.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_ppe_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/796-dt-bindings-wireless-ath12k-drop-qcom-ath12k-cali.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/wireless/qcom,ath12k-wsi.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/800-bcma-get-SoC-device-struct-copy-its-DMA-params-to-th.patch using plaintext: 
+patching file drivers/bcma/host_soc.c
+patching file drivers/bcma/main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/801-01-net-phy-add-PHY_DETACH_NO_HW_RESET-PHY-flag.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+patching file drivers/net/phy/phy_device.c
+patching file include/linux/phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/801-02-net-phy-as21xxx-add-flag-PHY_DETACH_NO_HW_RESET.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/802-01-net-phy-as21xxx-handle-corner-case-with-link-and-aut.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/802-02-net-phy-as21xxx-fix-read_status-speed-handling.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/802-03-net-phy-as21xxx-force-C45-OPs-for-AUTONEG.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/802-OPP-Provide-old-opp-to-config_clks-on-_set_opp.patch using plaintext: 
+patching file drivers/devfreq/tegra30-devfreq.c
+patching file drivers/opp/core.c
+patching file drivers/ufs/core/ufshcd.c
+patching file include/linux/pm_opp.h
+patching file include/ufs/ufshcd.h
+patching file drivers/cpufreq/airoha-cpufreq.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/804-net-phy-as21xxx-implement-read-workaround-for-C45-re.patch using plaintext: 
+patching file drivers/net/phy/as21xxx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/804-nvmem-core-support-mac-base-fixed-layout-cells.patch using plaintext: 
+patching file drivers/nvmem/Kconfig
+patching file drivers/nvmem/core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/809-01-nvmem-core-generalize-mac-base-cells-handling.patch using plaintext: 
+patching file drivers/nvmem/core.c
+patching file drivers/nvmem/layouts.c
+patching file include/linux/nvmem-provider.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/809-02-nvmem-layouts-add-support-for-ascii-env-driver.patch using plaintext: 
+patching file drivers/nvmem/layouts/Kconfig
+patching file drivers/nvmem/layouts/Makefile
+patching file drivers/nvmem/layouts/ascii-env.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/809-03-nvmem-layouts-ascii-env-handle-CRLF-while-parsing.patch using plaintext: 
+patching file drivers/nvmem/layouts/ascii-env.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/810-pci_disable_common_quirks.patch using plaintext: 
+patching file drivers/pci/Kconfig
+patching file drivers/pci/quirks.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/811-pci_disable_usb_common_quirks.patch using plaintext: 
+patching file drivers/usb/host/pci-quirks.c
+patching file drivers/usb/host/pci-quirks.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/812-PCI-sysfs-enforce-single-creation-of-sysfs-entry-for.patch using plaintext: 
+patching file drivers/pci/pci-sysfs.c
+patching file include/linux/pci.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/834-ledtrig-libata.patch using plaintext: 
+patching file drivers/ata/Kconfig
+patching file drivers/ata/libata-core.c
+patching file include/linux/libata.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/840-hwrng-bcm2835-set-quality-to-1000.patch using plaintext: 
+patching file drivers/char/hw_random/bcm2835-rng.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/850-0023-PCI-aardvark-Make-main-irq_chip-structure-a-static-d.patch using plaintext: 
+patching file drivers/pci/controller/pci-aardvark.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/890-usb-serial-add-support-for-CH348.patch using plaintext: 
+patching file drivers/usb/serial/Kconfig
+patching file drivers/usb/serial/Makefile
+patching file drivers/usb/serial/ch348.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/895-00-net-pse-pd-fix-out-of-bounds-bitmap-access-in-pse_isr-on-32-bit.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/895-00a-net-pse-pd-disable-IRQ-before-freeing-PI-data-in-unregister.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/895-00b-net-pse-pd-guard-against-freed-PI-data-on-regulator-disable.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/896-01-net-pse-pd-add-notifier-chain-for-controller-lifecyc.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+patching file include/linux/pse-pd/pse.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/896-02-net-pse-pd-fire-lifecycle-events-on-controller-regis.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/896-03-net-phy-own-phydev-psec-via-PSE-notifier-and-remove-.patch using plaintext: 
+patching file drivers/net/mdio/fwnode_mdio.c
+patching file drivers/net/phy/phy_device.c
+patching file drivers/net/phy/sfp.c
+patching file drivers/net/pse-pd/pse_core.c
+patching file include/linux/phy.h
+patching file include/linux/pse-pd/pse.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/897-00-dt-bindings-net-pse-pd-add-poll-interval-ms.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/897-01-net-pse-pd-add-devm_pse_poll_helper.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+patching file include/linux/pse-pd/pse.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/897-02-net-pse-pd-add-LED-trigger-support.patch using plaintext: 
+patching file drivers/net/pse-pd/pse_core.c
+patching file include/linux/pse-pd/pse.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/900-net-ag71xx-fix-qca9530-and-qca9550-mdio-probe.patch using plaintext: 
+patching file drivers/net/ethernet/atheros/ag71xx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/pending-6.18/920-mangle_bootargs.patch using plaintext: 
+patching file init/Kconfig
+patching file init/main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/200-tools_portability.patch using plaintext: 
+patching file tools/scripts/Makefile.include
+patching file tools/include/linux/types.h
+patching file tools/objtool/include/objtool/objtool.h
+patching file tools/include/asm-generic/bitops/fls.h
+patching file tools/lib/string.c
+patching file tools/arch/x86/include/asm/insn.h
+patching file tools/arch/x86/include/asm/orc_types.h
+patching file tools/include/linux/rbtree.h
+patching file tools/lib/subcmd/exec-cmd.c
+patching file tools/objtool/Makefile
+patching file tools/arch/x86/lib/insn.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/201-gen_init_cpio_portability.patch using plaintext: 
+patching file usr/gen_init_cpio.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/202-objtool_portability.patch using plaintext: 
+patching file tools/objtool/builtin-check.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/204-module_strip.patch using plaintext: 
+patching file include/linux/module.h
+patching file include/linux/moduleparam.h
+patching file kernel/module/Kconfig
+patching file kernel/module/main.c
+patching file scripts/mod/modpost.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/205-kconfig-abort-configuration-on-unset-symbol.patch using plaintext: 
+patching file scripts/kconfig/conf.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/210-darwin_scripts_include.patch using plaintext: 
+patching file scripts/mod/elf.h
+patching file scripts/mod/mk_elfconfig.c
+patching file scripts/mod/modpost.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/211-darwin-uuid-typedef-clash.patch using plaintext: 
+patching file scripts/mod/file2alias.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/214-spidev_h_portability.patch using plaintext: 
+patching file include/uapi/linux/spi/spidev.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/230-openwrt_lzma_options.patch using plaintext: 
+patching file lib/decompress.c
+patching file scripts/Makefile.lib
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/249-udp-tunnel-selection.patch using plaintext: 
+patching file net/ipv4/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/250-netfilter_depends.patch using plaintext: 
+patching file net/netfilter/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/251-kconfig.patch using plaintext: 
+patching file crypto/Kconfig
+patching file drivers/bcma/Kconfig
+patching file drivers/ssb/Kconfig
+patching file lib/Kconfig
+patching file net/netfilter/Kconfig
+patching file sound/core/Kconfig
+patching file net/Kconfig
+patching file lib/crc/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/253-ksmbd-config.patch using plaintext: 
+patching file init/Kconfig
+patching file lib/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/259-regmap_dynamic.patch using plaintext: 
+patching file drivers/base/regmap/Kconfig
+patching file drivers/base/regmap/Makefile
+patching file drivers/base/regmap/regmap.c
+patching file include/linux/regmap.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/260-crypto_test_dependencies.patch using plaintext: 
+patching file crypto/Kconfig
+patching file crypto/algboss.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/261-lib-arc4-unhide.patch using plaintext: 
+patching file lib/crypto/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/280-rfkill-stubs.patch using plaintext: 
+patching file include/linux/rfkill.h
+patching file net/Makefile
+patching file net/rfkill/Kconfig
+patching file net/rfkill/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/300-MIPS-r4k_cache-use-more-efficient-cache-blast.patch using plaintext: 
+patching file arch/mips/include/asm/r4kcache.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/301-01-mm-permit-to-declare-custom-execmem-alloc-free-funct.patch using plaintext: 
+patching file include/linux/moduleloader.h
+patching file mm/execmem.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/301-02-mips-replace-mlong-calls-with-mno-long-calls-if-poss.patch using plaintext: 
+patching file arch/mips/Makefile
+patching file arch/mips/include/asm/module.h
+patching file arch/mips/kernel/module.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/402-mtd-blktrans-call-add-disks-after-mtd-device.patch using plaintext: 
+patching file drivers/mtd/mtd_blkdevs.c
+patching file drivers/mtd/mtdcore.c
+patching file include/linux/mtd/blktrans.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/420-mtd-support-OpenWrt-s-MTD_ROOTFS_ROOT_DEV.patch using plaintext: 
+patching file drivers/mtd/mtdcore.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/421-drivers-mtd-parsers-add-nvmem-support-to-cmdlinepart.patch using plaintext: 
+patching file drivers/mtd/parsers/cmdlinepart.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/430-mtk-bmt-support.patch using plaintext: 
+patching file drivers/mtd/nand/Kconfig
+patching file drivers/mtd/nand/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/499-LEGACY-block-partitions-populate-fwnode.patch using plaintext: 
+patching file block/partitions/core.c
+patching file drivers/mmc/core/bus.c
+patching file drivers/mmc/core/block.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/600-net-enable-fraglist-GRO-by-default.patch using plaintext: 
+patching file include/linux/netdev_features.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/610-net-page_pool-try-to-free-deferred-skbs-while-waitin.patch using plaintext: 
+patching file net/core/page_pool.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/645-netfilter-connmark-introduce-set-dscpmark.patch using plaintext: 
+patching file include/uapi/linux/netfilter/xt_connmark.h
+patching file net/netfilter/xt_connmark.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/650-netfilter-add-xt_FLOWOFFLOAD-target.patch using plaintext: 
+patching file net/netfilter/Kconfig
+patching file net/netfilter/Makefile
+patching file net/netfilter/xt_FLOWOFFLOAD.c
+patching file net/netfilter/nf_flow_table_core.c
+patching file include/uapi/linux/netfilter/xt_FLOWOFFLOAD.h
+patching file include/net/netfilter/nf_flow_table.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/651-wireless_mesh_header.patch using plaintext: 
+patching file include/linux/netdevice.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/660-fq_codel_defaults.patch using plaintext: 
+patching file net/sched/sch_fq_codel.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/661-kernel-ct-size-the-hashtable-more-adequately.patch using plaintext: 
+patching file net/netfilter/nf_conntrack_core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/700-swconfig_switch_drivers.patch using plaintext: 
+patching file drivers/net/phy/Kconfig
+patching file drivers/net/phy/Makefile
+patching file include/linux/platform_data/b53.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/710-net-sched-sch_cake-configure-sync_time-via-debugfs.patch using plaintext: 
+patching file net/sched/sch_cake.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/711-net-dsa-mv88e6xxx-disable-ATU-violation.patch using plaintext: 
+patching file drivers/net/dsa/mv88e6xxx/chip.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/721-net-add-packet-mangeling.patch using plaintext: 
+patching file include/linux/netdevice.h
+patching file include/linux/skbuff.h
+patching file net/Kconfig
+patching file net/core/dev.c
+patching file net/core/skbuff.c
+patching file net/ethernet/eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/722-net-phy-aquantia-enable-AQR112-and-AQR412.patch using plaintext: 
+patching file drivers/net/phy/aquantia/aquantia_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/723-net-phy-aquantia-fix-system-side-protocol-mi.patch using plaintext: 
+patching file drivers/net/phy/aquantia/aquantia_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/725-net-phy-aquantia-add-PHY_IDs-for-AQR112-variants.patch using plaintext: 
+patching file drivers/net/phy/aquantia/aquantia_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/730-net-ethernet-mtk_eth_soc-add-hw-dump-for-forced-rese.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/739-net-ethernet-mtk_eth_soc-fix-offload-with-incompatible-.patch using plaintext: 
+patching file drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/755-net-phy-motorcomm-yt8821-bus-collision-workaround.patch using plaintext: 
+patching file drivers/net/phy/motorcomm.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/760-net-usb-r8152-add-LED-configuration-from-OF.patch using plaintext: 
+patching file drivers/net/usb/r8152.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/761-dt-bindings-net-add-RTL8152-binding-documentation.patch using plaintext: 
+patching file Documentation/devicetree/bindings/net/realtek,rtl8152.yaml
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/766-net-phy-mediatek-ge-add-LED-configuration-interface.patch using plaintext: 
+patching file drivers/net/phy/mediatek/mtk-ge.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/770-r8169-LED-uses-original-network-port-name.patch using plaintext: 
+patching file drivers/net/ethernet/realtek/r8169.h
+patching file drivers/net/ethernet/realtek/r8169_leds.c
+patching file drivers/net/ethernet/realtek/r8169_main.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/773-bgmac-add-srab-switch.patch using plaintext: 
+patching file drivers/net/ethernet/broadcom/bgmac-bcma.c
+patching file drivers/net/ethernet/broadcom/bgmac.c
+patching file drivers/net/ethernet/broadcom/bgmac.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/780-usb-net-MeigLink_modem_support.patch using plaintext: 
+patching file drivers/net/usb/qmi_wwan.c
+patching file drivers/usb/serial/option.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/781-usb-net-rndis-support-asr.patch using plaintext: 
+patching file drivers/net/usb/rndis_host.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/800-GPIO-add-named-gpio-exports.patch using plaintext: 
+patching file drivers/gpio/gpiolib-of.c
+patching file include/linux/gpio/consumer.h
+patching file drivers/gpio/gpiolib-sysfs.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/810-bcma-ssb-fallback-sprom.patch using plaintext: 
+patching file drivers/bcma/Kconfig
+patching file drivers/bcma/Makefile
+patching file drivers/bcma/bcma_private.h
+patching file drivers/bcma/main.c
+patching file drivers/bcma/sprom.c
+patching file drivers/ssb/Kconfig
+patching file drivers/ssb/Makefile
+patching file drivers/ssb/main.c
+patching file drivers/ssb/sprom.c
+patching file drivers/ssb/ssb_private.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/820-ledtrig-network-module.patch using plaintext: 
+patching file drivers/leds/trigger/Kconfig
+patching file drivers/leds/trigger/Makefile
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/890-serial-8250-add-UPIO_AU-case-to-set_io_from_upio.patch using plaintext: 
+patching file drivers/tty/serial/8250/8250_port.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/901-debloat_sock_diag.patch using plaintext: 
+patching file net/Kconfig
+patching file net/core/Makefile
+patching file net/core/sock.c
+patching file net/core/sock_diag.c
+patching file net/ipv4/Kconfig
+patching file net/netlink/Kconfig
+patching file net/packet/Kconfig
+patching file net/unix/Kconfig
+patching file net/xdp/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/902-debloat_proc.patch using plaintext: 
+patching file fs/locks.c
+patching file fs/proc/Kconfig
+patching file fs/proc/consoles.c
+patching file fs/proc/proc_tty.c
+patching file include/net/snmp.h
+patching file ipc/msg.c
+patching file ipc/sem.c
+patching file ipc/shm.c
+patching file ipc/util.c
+patching file kernel/exec_domain.c
+patching file kernel/irq/proc.c
+patching file kernel/time/timer_list.c
+patching file mm/vmalloc.c
+patching file mm/vmstat.c
+patching file net/8021q/vlanproc.c
+patching file net/core/net-procfs.c
+patching file net/core/sock.c
+patching file net/ipv4/fib_trie.c
+patching file net/ipv4/proc.c
+patching file net/ipv4/route.c
+patching file net/ipv4/inet_timewait_sock.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/904-debloat_dma_buf.patch using plaintext: 
+patching file drivers/base/Kconfig
+patching file drivers/dma-buf/heaps/Makefile
+patching file drivers/dma-buf/Makefile
+patching file drivers/dma-buf/dma-buf.c
+patching file kernel/sched/core.c
+patching file fs/d_path.c
+patching file net/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/905-io_uring-zcrx-Use-IS_REACHABLE-instead-of-IS_ENABLED.patch using plaintext: 
+patching file io_uring/zcrx.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/910-kobject_uevent.patch using plaintext: 
+patching file include/linux/kobject.h
+patching file lib/kobject_uevent.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/911-kobject_add_broadcast_uevent.patch using plaintext: 
+patching file include/linux/kobject.h
+patching file lib/kobject_uevent.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/920-device_tree_cmdline.patch using plaintext: 
+patching file drivers/of/fdt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/926-crypto-eip93-use-AES-fallback-for-small-requests.patch using plaintext: 
+patching file drivers/crypto/inside-secure/eip93/Kconfig
+patching file drivers/crypto/inside-secure/eip93/eip93-cipher.c
+patching file drivers/crypto/inside-secure/eip93/eip93-cipher.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/930-Revert-Revert-Revert-driver-core-Set-fw_devlink-on-b.patch using plaintext: 
+patching file drivers/base/core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/940-kbuild-extract-modules-builtin-modinfo-from-vmlinux_o.patch using plaintext: 
+patching file scripts/Makefile.vmlinux
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/generic/hack-6.18/950-silence-unused-variable-warnings.patch using plaintext: 
+patching file include/net/ipv6.h
+patching file net/ipv4/tcp_input.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-05-v6.19-spi-airoha-remove-unnecessary-restriction-length.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-06-v6.19-spi-airoha-remove-unnecessary-switch-to-non-dma-mode.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-07-v6.19-spi-airoha-unify-dirmap-read-write-code.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-08-v6.19-spi-airoha-support-of-dualio-quadio-flash-reading-co.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-09-v6.19-spi-airoha-avoid-setting-of-page-oob-sizes-in-REG_SP.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-10-v6.19-spi-airoha-reduce-the-number-of-modification-of-REG_.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-11-v6.19-spi-airoha-set-custom-sector-size-equal-to-flash-pag.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-12-v6.19-spi-airoha-avoid-reading-flash-page-settings-from-SN.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-13-v6.19-spi-airoha-buffer-must-be-0xff-ed-before-writing.patch using plaintext: 
+patching file drivers/spi/spi-airoha-snfi.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/029-15-arm-dts-airoha-en7523-add-SNAND-node.patch using plaintext: 
+patching file arch/arm/boot/dts/airoha/en7523.dtsi
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/096-v6.19-net-airoha-Add-missing-stats-to-ethtool_eth_mac_stat.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/097-v6.19-net-airoha-Add-get_link-ethtool-callback.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/099-06-v6.19-net-airoha-ppe-Remove-airoha_ppe_is_enabled-where-no.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/099-07-v6.19-net-airoha-ppe-Configure-SRAM-PPE-entries-via-the-cp.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/099-08-v6.19-net-airoha-ppe-Flush-PPE-SRAM-table-during-PPE-setup.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/099-09-v6.19-net-airoha-Select-default-ppe-cpu-port-in-airoha_dev.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/099-11-v6.19-net-airoha-ppe-Do-not-use-magic-numbers-in-airoha_pp.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/107-v6.19-pwm-airoha-Add-support-for-EN7581-SoC.patch using plaintext: 
+patching file drivers/pwm/Kconfig
+patching file drivers/pwm/Makefile
+patching file drivers/pwm/pwm-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/109-02-v6.19-pinctrl-airoha-convert-PHY-LED-GPIO-to-macro.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/109-03-v6.19-pinctrl-airoha-convert-PWM-GPIO-to-macro.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/109-05-v6.19-pinctrl-airoha-add-support-for-Airoha-AN7583-PINs.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/111-v6.19-wifi-mt76-Introduce-the-NPU-generic-layer.patch using plaintext: 
+patching file include/linux/soc/airoha/airoha_offload.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/113-v6.19-pinctrl-airoha-Fix-AIROHA_PINCTRL_CONFS_DRIVE_E2.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/114-v6.19-pinctrl-airoha-convert-comma-to-semicolon.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/120-v7.0-net-airoha-implement-get_link_ksettings.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/122-v7.0-net-airoha_eth-increase-max-MTU-to-9220-for-DSA-jumb.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/125-v7.1-net-airoha-Rely-__field_prep-for-non-constant-masks.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/126-v7.1-net-airoha-Make-flow-control-source-port-mapping-dep.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/127-v7.1-net-airoha-Move-GDM-forward-port-configuration-in-nd.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/129-v7.1-net-airoha-select-QDMA-block-according-LAN-WAN-confi.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/131-v7.0-net-phy-mediatek-enable-interrupts-on-AN7581.patch using plaintext: 
+patching file drivers/net/phy/mediatek/mtk-ge-soc.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/132-v7.1-net-airoha-Reset-PPE-default-cput-port-in-airoha_ppe.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/134-v7.1-net-airoha-Delay-offloading-until-all-net_devices-ar.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/142-01-v7.1-net-airoha-Rely-on-net_device-pointer-in-airoha_dev_.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/142-02-v7.1-net-airoha-Rely-on-net_device-pointer-in-HTB-callbac.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/142-03-v7.1-net-airoha-Rely-on-net_device-pointer-in-ETS-callbac.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/142-04-v7.1-net-airoha-Remove-PCE_MC_EN_MASK-bit-in-REG_FE_PCE_C.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/143-v7.1-net-airoha-Fix-typo-in-airoha_set_gdm2_loopback-rout.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/144-v7.1-net-airoha-Set-REG_RX_CPU_IDX-once-in-airoha_qdma_fi.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/147-v7.1-net-airoha-Fix-PPE-cpu-port-configuration-for-GDM2-l.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/155-v7.2-net-airoha-Rename-get_src_port_id-callback-in-get_sp.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/158-v7.2-net-airoha-configure-QoS-channel-for-HW-accelerated-.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/159-v7.2-net-airoha-Introduce-airoha_fe_get-airoha_qdma_get-r.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/160-v7.2-net-airoha-Reserve-RX-headroom-to-avoid-skb-realloca.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-01-v7.2-net-airoha-Introduce-airoha_gdm_dev-struct.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-02-v7.2-net-airoha-Move-airoha_qdma-pointer-in-airoha_gdm_de.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-03-v7.2-net-airoha-Rely-on-airoha_gdm_dev-pointer-in-airoha_.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-04-v7.2-net-airoha-Move-qos_sq_bmap-in-airoha_gdm_dev-struct.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-05-v7.2-net-airoha-Move-cpu-fwd-_tx_packets-in-airoha_gdm_de.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/161-06-v7.2-net-airoha-Rename-airoha_set_gdm2_loopback-in-airoha.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/163-v7.2-net-airoha-Report-extack-error-to-the-user-if-airoha.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/165-01-v7.2-net-airoha-Remove-private-net_device-pointer-in-airo.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/165-02-v7.2-net-airoha-Support-multiple-net_devices-for-a-single.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/165-03-v7.2-net-airoha-Do-not-stop-GDM-port-if-it-is-shared.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/165-04-v7.2-net-airoha-Introduce-WAN-device-flag.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/165-05-v7.2-net-airoha-Support-multiple-LAN-WAN-interfaces-for-h.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/166-v7.2-net-airoha-better-handle-MIBs-for-GDM-ports-with-mul.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/167-v7.2-net-airoha-use-int-instead-of-atomic_t-for-qdma-user.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/168-v7.2-net-airoha-move-get_sport-callback-at-the-beginning-.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/169-v7.2-net-airoha-simplify-WAN-device-check-in-airoha_dev_i.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/173-v7.2-net-airoha-Fix-non-standard-return-value-in-airoha_p.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/175-v7.2-net-airoha-Fix-TX-scheduler-queue-mask-loop-upper-bo.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/176-v7.2-net-airoha-Fix-typos-in-comments-and-Kconfig.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/Kconfig
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/177-v7.2-net-airoha-Fix-off-by-one-in-airoha_tc_remove_htb_qu.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/178-v7.2-net-airoha-fix-netif_set_real_num_tx_queues-for-spar.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/179-v7.2-pinctrl-airoha-Fix-type-in-.pin_config_group_get-cal.patch using plaintext: 
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-01-v7.2-pinctrl-Move-Airoha-driver-to-dedicated-directory.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/pinctrl/Kconfig
+patching file drivers/pinctrl/Makefile
+patching file drivers/pinctrl/airoha/Kconfig
+patching file drivers/pinctrl/airoha/Makefile
+patching file drivers/pinctrl/mediatek/Kconfig
+patching file drivers/pinctrl/mediatek/Makefile
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+patching file drivers/pinctrl/mediatek/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-03-v7.2-pinctrl-airoha-an7583-add-missed-gpio32-pin-group.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-05-v7.2-pinctrl-airoha-an7583-fix-misprint-in-gpio19-pinconf.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-06-v7.2-pinctrl-airoha-an7581-fix-incorrect-led-mapping-in-p.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-07-v7.2-pinctrl-airoha-an7583-fix-incorrect-led-mapping-in-p.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-08-v7.2-pinctrl-airoha-fix-pwm-pin-function-for-an7581-and-a.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-09-v7.2-pinctrl-airoha-an7583-fix-gpio21-pin-group.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-10-v7.2-pinctrl-airoha-an7583-add-missed-gpio22-pin-group.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-11-v7.2-pinctrl-airoha-an7583-fix-phy1_led1-pin-function.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/180-12-v7.2-pinctrl-airoha-an7583-remove-undefined-groups-from-p.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/200-02-ASoC-airoha-Add-AFE-and-I2S-driver-for-Airoha-AN7581.patch using plaintext: 
+patching file MAINTAINERS
+patching file sound/soc/mediatek/Kconfig
+patching file sound/soc/mediatek/Makefile
+patching file sound/soc/mediatek/an7581/Makefile
+patching file sound/soc/mediatek/an7581/an7581-afe-common.h
+patching file sound/soc/mediatek/an7581/an7581-afe-pcm.c
+patching file sound/soc/mediatek/an7581/an7581-dai-etdm.c
+patching file sound/soc/mediatek/an7581/an7581-reg.h
+patching file sound/soc/mediatek/an7581/an7581-wm8960.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-01-v7.3-pinctrl-airoha-fix-mdio-bitfield-names.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-02-v7.3-pinctrl-airoha-an7581-fix-pinconf-of-i2c_scl-i2c.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-03-v7.3-pinctrl-airoha-an7583-fix-I2C0_SDA_PD-register-b.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-04-v7.3-pinctrl-airoha-an7581-fix-mux-conf-of-pcie_reset.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-05-v7.3-pinctrl-airoha-an7583-fix-muxing-of-non-gpio-def.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-06-v7.3-pinctrl-airoha-fix-I2C1-pin-mux-config-for-AN758.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-07-v7.3-pinctrl-airoha-fix-I2C-pin-mux-config-for-AN7583.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-08-v7.3-pinctrl-airoha-fix-AN7583-MDIO-pin-mux-config.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-09-v7.3-pinctrl-airoha-an7583-fix-spi-group-pins.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-10-v7.3-pinctrl-airoha-add-missed-get_direction-function.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-11-v7.3-pinctrl-airoha-add-set_direction-helper-for-gpio.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-12-v7.3-pinctrl-airoha-minor-improvements.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-13-v7.3-pinctrl-airoha-fix-getting-gpiochip-pinctrl-poin.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-14-v7.3-pinctrl-airoha-add-missed-IRQ-resource-helpers.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-15-v7.3-pinctrl-airoha-fix-IRQ-mask-unmask-code.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-16-v7.3-pinctrl-airoha-fix-edge-triggered-interrupts-han.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-17-v7.3-pinctrl-airoha-remove-not-needed-irq_type-array.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-18-v7.3-pinctrl-airoha-statically-allocate-gpio-regs-str.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-19-v7.3-pinctrl-airoha-move-common-definitions-to-the-se.patch using plaintext: 
+patching file drivers/pinctrl/airoha/airoha-common.h
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-20-v7.3-pinctrl-airoha-split-driver-on-shared-code-and-S.patch using plaintext: 
+patching file drivers/pinctrl/airoha/Kconfig
+patching file drivers/pinctrl/airoha/Makefile
+patching file drivers/pinctrl/airoha/airoha-common.h
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+patching file drivers/pinctrl/airoha/pinctrl-an7581.c
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-21-v7.3-pinctrl-airoha-an7581-remove-en7581-prefix-from-.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7581.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-22-v7.3-pinctrl-airoha-an7583-remove-an7583-prefix-from-.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-23-v7.3-pinctrl-airoha-an7583-rename-registers-to-match-.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-24-v7.3-pinctrl-airoha-an7583-add-support-for-npu_uart-p.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-25-v7.3-pinctrl-airoha-an7583-add-support-for-pon_alt-pi.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-26-v7.3-pinctrl-airoha-an7583-add-support-for-olt-pinmux.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-27-v7.3-pinctrl-airoha-add-support-of-en7523-SoC.patch using plaintext: 
+patching file drivers/pinctrl/airoha/Kconfig
+patching file drivers/pinctrl/airoha/Makefile
+patching file drivers/pinctrl/airoha/pinctrl-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/202-28-v7.3-pinctrl-airoha-try-to-find-chip-scu-node-by-phan.patch using plaintext: 
+patching file drivers/pinctrl/airoha/airoha-common.h
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+patching file drivers/pinctrl/airoha/pinctrl-an7581.c
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+patching file drivers/pinctrl/airoha/pinctrl-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/203-01-pinctrl-airoha-fix-setting-of-GPIO-direction.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/203-02-pinctrl-airoha-reset-SCU-IOMUX-registers-at-probe.patch using plaintext: 
+patching file drivers/pinctrl/airoha/airoha-common.h
+patching file drivers/pinctrl/airoha/pinctrl-airoha.c
+patching file drivers/pinctrl/airoha/pinctrl-an7581.c
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+patching file drivers/pinctrl/airoha/pinctrl-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/203-06-pinctrl-airoha-fix-AN7583-SPI-pin-mux-config.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/203-08-pinctrl-airoha-fix-AN7583-eMMC-pin-mux-config.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/203-09-pinctrl-airoha-permit-GPIO43-46-for-PHY-LED0.patch using plaintext: 
+patching file drivers/pinctrl/airoha/pinctrl-an7581.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-04-dt-bindings-soc-Add-bindings-for-Airoha-SCU-Serdes-l.patch using plaintext: 
+patching file include/dt-bindings/soc/airoha,scu-ssr.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-05-dt-bindings-phy-Add-documentation-for-Airoha-AN7581-.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/airoha,an7581-usb-phy.yaml
+patching file MAINTAINERS
+patching file include/dt-bindings/phy/airoha,an7581-usb-phy.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-06-phy-move-Airoha-PCIe-PHY-driver-to-dedicated-directo.patch using plaintext: 
+patching file drivers/phy/Kconfig
+patching file drivers/phy/Makefile
+patching file drivers/phy/airoha/Kconfig
+patching file drivers/phy/airoha/Makefile
+patching file drivers/phy/airoha/phy-airoha-pcie-regs.h
+patching file drivers/phy/airoha/phy-airoha-pcie.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-07-phy-airoha-Add-support-for-Airoha-AN7581-USB-PHY.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/phy/airoha/Kconfig
+patching file drivers/phy/airoha/Makefile
+patching file drivers/phy/airoha/phy-airoha-usb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-08-usb-host-add-ARCH_AIROHA-in-XHCI-MTK-dependency.patch using plaintext: 
+patching file drivers/usb/host/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/220-10-PCI-mediatek-gen3-set-PHY-mode-for-Airoha-EN7581.patch using plaintext: 
+patching file drivers/pci/controller/pcie-mediatek-gen3.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/221-01-pmdomain-mediatek-allow-Airoha-platform-to-access-PM-Domains-menu.patch using plaintext: 
+patching file drivers/pmdomain/mediatek/Kconfig
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/221-02-pmdomain-airoha-Add-AN7583-cpufreq-compatible.patch using plaintext: 
+patching file drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/310-02-net-airoha-deassert-XSI-line-on-hw-init.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/310-06-net-airoha-add-initial-fixup-for-GDM3-4-port-support.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/310-07-airoha-ethernet-drop-xsi-mac-reset.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/310-09-net-pcs-airoha-add-PCS-driver-for-Airoha-AN7581-SoC.patch using plaintext: 
+patching file drivers/net/pcs/Kconfig
+patching file drivers/net/pcs/Makefile
+patching file drivers/net/pcs/airoha/Kconfig
+patching file drivers/net/pcs/airoha/Makefile
+patching file drivers/net/pcs/airoha/pcs-airoha-common.c
+patching file drivers/net/pcs/airoha/pcs-airoha.h
+patching file drivers/net/pcs/airoha/pcs-an7581.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/310-10-net-airoha-add-phylink-support.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/Kconfig
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/402-01-thermal-airoha-convert-to-regmap-API.patch using plaintext: 
+patching file drivers/thermal/airoha_thermal.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/402-02-thermal-drivers-airoha-Generalize-probe-function.patch using plaintext: 
+patching file drivers/thermal/airoha_thermal.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/402-03-thermal-drivers-airoha-generalize-get_thermal_ADC-an.patch using plaintext: 
+patching file drivers/thermal/airoha_thermal.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/402-05-thermal-drivers-airoha-Add-support-for-AN7583.patch using plaintext: 
+patching file drivers/thermal/airoha_thermal.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-09-dt-bindings-clock-airoha-Document-support-for-AN7583.patch using plaintext: 
+patching file include/dt-bindings/clock/en7523-clk.h
+patching file include/dt-bindings/reset/airoha,an7583-reset.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-11-dt-bindings-clock-airoha-Add-reset-support-to-EN7523.patch using plaintext: 
+patching file Documentation/devicetree/bindings/clock/airoha,en7523-scu.yaml
+patching file include/dt-bindings/reset/airoha,en7523-reset.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/600-13-ARM-dts-airoha-update-EN7523-dtsi-to-support-resets.patch using plaintext: 
+patching file arch/arm/boot/dts/airoha/en7523.dtsi
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/604-01-net-pcs-airoha-add-support-for-AN7583.patch using plaintext: 
+patching file drivers/net/pcs/airoha/Kconfig
+patching file drivers/net/pcs/airoha/Makefile
+patching file drivers/net/pcs/airoha/pcs-airoha-common.c
+patching file drivers/net/pcs/airoha/pcs-airoha.h
+patching file drivers/net/pcs/airoha/pcs-an7583.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/605-net-pcs-airoha-add-support-for-optional-xfi-reset-li.patch using plaintext: 
+patching file drivers/net/pcs/airoha/pcs-airoha-common.c
+patching file drivers/net/pcs/airoha/pcs-airoha.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/606-net-pcs-airoha-fix-an7583-port-count.patch using plaintext: 
+patching file drivers/net/pcs/airoha/pcs-airoha-common.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/607-01-dt-bindings-phy-Add-documentation-for-Airoha-AN7583-USB-PHY.patch using plaintext: 
+patching file Documentation/devicetree/bindings/phy/airoha,an7583-usb-phy.yaml
+patching file MAINTAINERS
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/607-02-phy-airoha-Add-support-for-Airoha-AN7583-USB-PHY.patch using plaintext: 
+patching file MAINTAINERS
+patching file drivers/phy/airoha/Kconfig
+patching file drivers/phy/airoha/Makefile
+patching file drivers/phy/airoha/phy-airoha-an7583-usb.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/607-cpufreq-airoha-fix-probe-failure-with-correct-error-check.patch using plaintext: 
+patching file drivers/cpufreq/airoha-cpufreq.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/609-01-dt-bindings-clock-airoha-Add-additional-reset-for-PC.patch using plaintext: 
+patching file include/dt-bindings/reset/airoha,en7581-reset.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/609-04-PCI-mediatek-gen3-Add-2-lanes-mode-support-for-Airoh.patch using plaintext: 
+patching file drivers/pci/controller/pcie-mediatek-gen3.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/885-i2c-mt7621-optional-reset.patch using plaintext: 
+patching file drivers/i2c/busses/i2c-mt7621.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/886-uart-add-en7523-support.patch using plaintext: 
+patching file drivers/tty/serial/8250/8250_en7523.c
+patching file drivers/tty/serial/8250/8250_of.c
+patching file drivers/tty/serial/8250/8250_port.c
+patching file drivers/tty/serial/8250/Kconfig
+patching file drivers/tty/serial/8250/Makefile
+patching file include/uapi/linux/serial_reg.h
+patching file include/uapi/linux/serial_core.h
+patching file include/linux/serial_8250.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/900-airoha-bmt-support.patch using plaintext: 
+patching file drivers/mtd/nand/airoha_bmt.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/901-snand-mtk-bmt-support.patch using plaintext: 
+patching file drivers/mtd/nand/spi/core.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch using plaintext: 
+patching file drivers/clk/clk-en7523.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/915-01-net-netfilter-flowtable-Add-the-capability-to-offloa.patch using plaintext: 
+patching file include/net/netfilter/nf_flow_table.h
+patching file net/netfilter/nf_flow_table_ip.c
+patching file net/netfilter/nf_flow_table_offload.c
+patching file net/netfilter/nft_flow_offload.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/915-02-net-airoha-Set-hw-QoS-parameter-according-to-the-pac.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/916-02-net-airoha-Implement-HW-GRO-TCP-support.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/920-12-net-airoha-defer-GDM3-GDM4-WAN-mode-and-GDM2-loopbac.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/920-13-net-airoha-Rework-MTU-configuration.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_eth.h
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+patching file drivers/net/ethernet/airoha/airoha_regs.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/920-15-net-airoha-fix-wrong-airoha_get_fe_port.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/920-16-net-airoha-Account-for-L2-overhead-in-PPE-MTU-configuration.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+patching file drivers/net/ethernet/airoha/airoha_ppe.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/924-net-airoha-npu-use-coherent-mailbox-dma.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+patching file include/linux/soc/airoha/airoha_offload.h
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch using plaintext: 
+patching file drivers/net/ethernet/airoha/airoha_eth.c
+
+Applying /home/captain/W1700KNPU/.build/openwrt/target/linux/airoha/patches-6.18/926-net-airoha-npu-protect-inflight-mailbox-buffer.patch using plaintext: 
+patching file include/linux/soc/airoha/airoha_offload.h
+patching file drivers/net/ethernet/airoha/airoha_npu.c
+touch /home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/.prepared_5a8911c338826ef3988449b95227d8dd
+make[3]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/target/linux/airoha'
+make[2]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt/target/linux'
+time: target/linux/prepare#9.55#11.31#14.04
+make[1]: Leaving directory '/home/captain/W1700KNPU/.build/openwrt'

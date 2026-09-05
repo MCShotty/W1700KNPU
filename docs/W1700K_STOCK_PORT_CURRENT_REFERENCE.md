@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (NPU provider-guard checkpoint; running image unchanged)
+Last updated: 2026-09-05 (NPU mailbox/quiescence checkpoint; running image unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,27 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - NPU Provider Guard and Recovery - 2026-09-05
+## Current Work - Mailbox Ownership And Stop Contract - 2026-09-05
+
+- Added provider patch 926: command flags before producer-counter publication;
+  preserve timed-out coherent request ownership until observed DONE. 143 compiled
+  actual-function assertions and both preimage negative controls pass.
+- Kernel prepare/compile and NPU-enabled/disabled mt76 builds pass. All six mt76
+  module executable-section sets match the prior provider-guard checkpoint; active
+  config is unchanged. Real ARM64 before/after structure layouts match.
+- Stock kernel fully analyzed (33,676 functions; 18 mailbox/NPU exports), current
+  provider object (24 functions; 2 exports), and current pristine NPU firmware
+  (424/424 exports, zero failures) with a separate cache-operation decoder.
+- STOP selector 4 and GET3 zero do not stop two steady-state ring/buffer workers.
+  The old comparison blob was our July V28 patched input, not pristine vendor;
+  this provenance error is corrected and current pristine bytes revalidated.
+- No router contact or flash in this pass. R1 is still the last router-tested
+  baseline. Shared L1/full-reset/removal policy and full stock parity remain open.
+- Next: stock SER/reset dispatch and full-worker barrier or verified hardware
+  containment before reclaiming tokens/rings. See
+  `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md` and remaining-work list.
+
+## Previous Work - NPU Provider Guard and Recovery - 2026-09-05
 
 - Implemented the absent-provider guard before six coherent NPU allocations:
   1.25 MiB avoided on the MT7996 path; attached-provider semantics unchanged.

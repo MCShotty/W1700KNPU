@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language_definitions>
+  <language processor="RISCV" endian="little" size="32" variant="W1700KNPU"
+            version="1.0" slafile="w1700k_npu.sla" processorspec="RV32.pspec"
+            id="RISCV:LE:32:W1700KNPU">
+    <description>W1700K RV32 analysis with explicit SiFive-compatible cache operations</description>
+    <compiler name="gcc" spec="riscv32-fp.cspec" id="gcc"/>
+    <external_name tool="gnu" name="riscv:rv32"/>
+  </language>
+</language_definitions>

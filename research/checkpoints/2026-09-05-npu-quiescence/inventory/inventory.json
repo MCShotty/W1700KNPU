@@ -1,0 +1,2250 @@
+{
+  "module_count": 134,
+  "kernel_count": 1,
+  "pyelftools_version": "0.32",
+  "related_name_pattern": "(?<!i)npu|mbox|mailbox|hostadpt|host_notify|host_(?:send|rcv|recv)|reset|recover|(?:^|_)ser(?:_|$)|quiesc|drain|wifi.*(?:stop|start|enable|disable)",
+  "files": [
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/act_connmark.ko",
+      "sha256": "6f7beadd123739fe35be7d61f63073018f4841536ca2e2b23afd8cc00f22a63d",
+      "size": 10296,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 63,
+        "imports": 32,
+        "relocation_sections": 7,
+        "relocations": 97,
+        "executable_reference": 31,
+        "direct_call_BL": 40,
+        "data_reference": 26
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/act_gact.ko",
+      "sha256": "48579083380cb2b7f183dd95fc34066c8ef7298a1cc472e1f65db23be7c29196",
+      "size": 10824,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 59,
+        "imports": 29,
+        "relocation_sections": 9,
+        "relocations": 110,
+        "executable_reference": 35,
+        "direct_call_BL": 35,
+        "data_reference": 40
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/act_mirred.ko",
+      "sha256": "9c7e139aec7e9bbfd4be0753dcaf6df17c2f57825965af24f3b6d19479415772",
+      "size": 16248,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 77,
+        "imports": 41,
+        "relocation_sections": 8,
+        "relocations": 195,
+        "executable_reference": 65,
+        "direct_call_BL": 63,
+        "data_reference": 67
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/act_skbedit.ko",
+      "sha256": "7784e7fed87d6fb31571549e5c28a0100c8aedcab402f9e22fcf6f246bdf1710",
+      "size": 11552,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 61,
+        "imports": 30,
+        "relocation_sections": 8,
+        "relocations": 110,
+        "executable_reference": 33,
+        "direct_call_BL": 45,
+        "data_reference": 32
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ae_wan.ko",
+      "sha256": "71bae5819554ff845ce26fc5b80f7e99528cc54103bb742940361e0920181c81",
+      "size": 65656,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 182,
+        "related_symbols": 2,
+        "imports": 79,
+        "relocation_sections": 11,
+        "relocations": 1175,
+        "executable_reference": 599,
+        "direct_call_BL": 432,
+        "related_relocations": 4,
+        "data_reference": 144
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/axon_quicktest.ko",
+      "sha256": "cc76f0fc58915b6477af6ce0e84e5024949af0561620abb2de6d7e8e8fd05ed0",
+      "size": 222256,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 339,
+        "imports": 113,
+        "relocation_sections": 13,
+        "relocations": 4161,
+        "executable_reference": 2320,
+        "direct_call_BL": 1317,
+        "direct_branch_B": 4,
+        "data_reference": 520
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cfg80211.ko",
+      "sha256": "4d2ae6e633dbb1c49b2649e6c088fe575950bf9fb5b383481eaf3ccfa584c79a",
+      "size": 485448,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 1148,
+        "imports": 149,
+        "relocation_sections": 13,
+        "relocations": 5846,
+        "direct_call_BL": 2618,
+        "executable_reference": 1208,
+        "data_reference": 2020
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_basic.ko",
+      "sha256": "975d1f61736381095977bb5fa86737c436ba6ffcfb41c08c385a7a6b1f2bb6c7",
+      "size": 12632,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 73,
+        "imports": 39,
+        "relocation_sections": 8,
+        "relocations": 123,
+        "direct_call_BL": 52,
+        "executable_reference": 36,
+        "data_reference": 35
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_flow.ko",
+      "sha256": "603d7c0c6432bba6c938b5f934b59c1d303798eef51b431a31b15b4b6795d4ab",
+      "size": 15832,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 74,
+        "imports": 41,
+        "relocation_sections": 7,
+        "relocations": 132,
+        "direct_call_BL": 61,
+        "executable_reference": 30,
+        "data_reference": 41
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_fw.ko",
+      "sha256": "fee258726430e5a6b55af0a0cbfd6254c2a93f5b2992aaecd1d12e9bf003bfa7",
+      "size": 12784,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 63,
+        "imports": 29,
+        "relocation_sections": 7,
+        "relocations": 120,
+        "direct_call_BL": 52,
+        "executable_reference": 34,
+        "data_reference": 34
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_matchall.ko",
+      "sha256": "c3d3fa831c2a6a157309b956a5d9d8753516f28ba614a52a1916bcc979be7a83",
+      "size": 13488,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 72,
+        "imports": 38,
+        "relocation_sections": 8,
+        "relocations": 130,
+        "direct_call_BL": 60,
+        "executable_reference": 34,
+        "data_reference": 36
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_route.ko",
+      "sha256": "b46b14b783360c1627c68c01f05512cd22ba34d79d3d2ab7fee22a1159e7c180",
+      "size": 14352,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 60,
+        "imports": 26,
+        "relocation_sections": 7,
+        "relocations": 129,
+        "direct_call_BL": 56,
+        "executable_reference": 41,
+        "data_reference": 32
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_tcindex.ko",
+      "sha256": "f1daf8137ddbda02d052d34b782abf8b080d2b6f84655058a7cc20edba653c2e",
+      "size": 15376,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 60,
+        "imports": 26,
+        "relocation_sections": 7,
+        "relocations": 158,
+        "direct_call_BL": 79,
+        "executable_reference": 38,
+        "data_reference": 41
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/cls_u32.ko",
+      "sha256": "0c1843d4330cbb6ff82db1388165004a955abbd5c2e2da0d8f3311d509e14e86",
+      "size": 23472,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 90,
+        "imports": 52,
+        "relocation_sections": 8,
+        "relocations": 217,
+        "direct_call_BL": 96,
+        "executable_reference": 70,
+        "data_reference": 51
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/compat.ko",
+      "sha256": "1550ea05f35c4a62960e8e9815b9496cd0e881e7d958728a7caa2739759dfcf0",
+      "size": 10080,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 71,
+        "imports": 17,
+        "relocation_sections": 9,
+        "relocations": 92,
+        "executable_reference": 34,
+        "direct_call_BL": 13,
+        "data_reference": 45
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/connac_if.ko",
+      "sha256": "52f5c19cacf0febddc73a72247250a7c067039c80b8bbd744f5283a5492e0d28",
+      "size": 23608,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 59,
+        "imports": 26,
+        "related_symbols": 1,
+        "relocation_sections": 8,
+        "relocations": 288,
+        "direct_call_BL": 65,
+        "executable_reference": 119,
+        "related_relocations": 1,
+        "data_reference": 104
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_802_3.ko",
+      "sha256": "178f5dea13530acd4fa56865a437a4349402dd5f87f5745f0f39465d5ccb603a",
+      "size": 3728,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_among.ko",
+      "sha256": "eb24f7f52ffdb1d594b5c6397bbaa5eabd30cd446da21057849d5aa27c5b91ba",
+      "size": 6992,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 31,
+        "imports": 5,
+        "relocation_sections": 6,
+        "relocations": 47,
+        "executable_reference": 22,
+        "direct_call_BL": 14,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_arp.ko",
+      "sha256": "197d40cdeeb1acec40380983fe50e2be8ac43e720a3dffd76be643dae9e0f044",
+      "size": 4728,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 24,
+        "imports": 3,
+        "relocation_sections": 6,
+        "relocations": 20,
+        "direct_call_BL": 7,
+        "executable_reference": 4,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_arpreply.ko",
+      "sha256": "8944b4af0bf0965e14ace735298976555900f99915a693aed1b6fc22071a4ff1",
+      "size": 4528,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 4,
+        "relocation_sections": 6,
+        "relocations": 21,
+        "direct_call_BL": 7,
+        "executable_reference": 4,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_dnat.ko",
+      "sha256": "8b46745bb378fbd3fceb78e27cfc30bdb43f2a866f2a03f1c5e233bce7499ee8",
+      "size": 4496,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 4,
+        "relocation_sections": 6,
+        "relocations": 22,
+        "executable_reference": 8,
+        "direct_call_BL": 5,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_ip.ko",
+      "sha256": "86b1d6999bc655df5da8bcb17896b5052ab1f903abbdd31de64fde9b7333ae27",
+      "size": 4592,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 24,
+        "imports": 3,
+        "relocation_sections": 6,
+        "relocations": 17,
+        "direct_call_BL": 4,
+        "executable_reference": 4,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_ip6.ko",
+      "sha256": "dadfa8cadf126dac5c3ac012f73848916b55d03c730d3f55f5820ee79fc0e1d4",
+      "size": 4784,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 26,
+        "imports": 5,
+        "relocation_sections": 6,
+        "relocations": 19,
+        "direct_call_BL": 6,
+        "executable_reference": 4,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_limit.ko",
+      "sha256": "2cc0e2a6c1ea6ac350d41d4b2326d59314d1ee8eef79c662d79904f064fc968d",
+      "size": 5264,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 34,
+        "imports": 7,
+        "relocation_sections": 6,
+        "relocations": 34,
+        "executable_reference": 18,
+        "direct_call_BL": 7,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_mark.ko",
+      "sha256": "bc4bf0570d7888177a2115a6959d92028b367aba572a23af9cf16783d2ad6c8c",
+      "size": 3664,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_mark_m.ko",
+      "sha256": "2fa3b79cd9ed386a7752bf2ace6d6346b84ec3032b43230077d6f3027f20b982",
+      "size": 3600,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_pkttype.ko",
+      "sha256": "a8e0c2e4c81762c49d7e58bfb5066c5057ecb3d73638108b3b02c1b29b77d98f",
+      "size": 3600,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_redirect.ko",
+      "sha256": "2bb202b7c9832cf07e92d04a42909bc52502e3e6a7895c127ce3cd027a5df6e8",
+      "size": 4368,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 4,
+        "relocation_sections": 6,
+        "relocations": 22,
+        "executable_reference": 8,
+        "direct_call_BL": 5,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_snat.ko",
+      "sha256": "6febe408aaf866f462c31d0af520e480dd8b152a9eb4dcf4417e8170cb10bd6a",
+      "size": 4280,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 28,
+        "imports": 5,
+        "relocation_sections": 6,
+        "relocations": 19,
+        "direct_call_BL": 5,
+        "executable_reference": 4,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_stp.ko",
+      "sha256": "c1ca7fd6f4bfa3e9e826841ca1d1807ccf5ab12c2d087f3ea0c11f80f9c7488c",
+      "size": 5104,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 4,
+        "relocation_sections": 6,
+        "relocations": 21,
+        "executable_reference": 7,
+        "direct_call_BL": 5,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebt_vlan.ko",
+      "sha256": "5d94a961cf496c99be2ca77d76d849e02409a6cbe1d8c1f9eecc5b1682b7e0c3",
+      "size": 4120,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 24,
+        "imports": 3,
+        "relocation_sections": 6,
+        "relocations": 16,
+        "direct_call_BL": 3,
+        "executable_reference": 4,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebtable_broute.ko",
+      "sha256": "55da53c0cca7830290b25621183a2a40576f4fb9152570ac40905b20eda1d8fd",
+      "size": 4776,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 5,
+        "relocation_sections": 7,
+        "relocations": 29,
+        "executable_reference": 8,
+        "direct_call_BL": 5,
+        "data_reference": 16
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebtable_filter.ko",
+      "sha256": "c130792b339ae7ebcba6f9f59e09b9d8703065fa9a812f91992558c8c065daca",
+      "size": 4920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 5,
+        "relocation_sections": 7,
+        "relocations": 35,
+        "executable_reference": 8,
+        "direct_call_BL": 6,
+        "data_reference": 21
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebtable_nat.ko",
+      "sha256": "41207e9304150e73114a570e16718052e34f1da3401f369d3a9aa54f87aacfeb",
+      "size": 4920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 5,
+        "relocation_sections": 7,
+        "relocations": 35,
+        "executable_reference": 8,
+        "direct_call_BL": 6,
+        "data_reference": 21
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ebtables.ko",
+      "sha256": "b01c6af0dbaaaf3e132c8b07e773e90b08a89402c8bf0b9f7dd4c94b1ac746f2",
+      "size": 30512,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 89,
+        "imports": 43,
+        "relocation_sections": 11,
+        "relocations": 350,
+        "executable_reference": 129,
+        "direct_call_BL": 138,
+        "direct_branch_B": 2,
+        "data_reference": 81
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/econet_bob.ko",
+      "sha256": "5871840727834d0b8483344b4c274e2728c551c29006bf8857f5796f39b8c612",
+      "size": 6200,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 31,
+        "imports": 3,
+        "relocation_sections": 8,
+        "relocations": 65,
+        "executable_reference": 34,
+        "direct_call_BL": 13,
+        "data_reference": 18
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/em_u32.ko",
+      "sha256": "3fdd610bb081f0c1058a6ab87418369077649270e8011078d1b8404f986fd98d",
+      "size": 3424,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 22,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/en7572.ko",
+      "sha256": "db0065680707791fdd2275e98f7c8236626a6223795f3f647806711836832d67",
+      "size": 72704,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 128,
+        "imports": 35,
+        "relocation_sections": 7,
+        "relocations": 1371,
+        "executable_reference": 736,
+        "direct_call_BL": 489,
+        "data_reference": 146
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/eth.ko",
+      "sha256": "6dc3281e9cf784c38f8ea83b272ddc65ef4fdfe2bf3acf99391d5def1635451d",
+      "size": 431472,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 888,
+        "related_symbols": 8,
+        "imports": 157,
+        "relocation_sections": 12,
+        "relocations": 7627,
+        "executable_reference": 3227,
+        "direct_call_BL": 3518,
+        "related_relocations": 21,
+        "data_reference": 882
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/eth_ephy.ko",
+      "sha256": "b10143d9f578a701e82e2bff954199db9ef0810d3e59d66f81b8de4dbd6fe500",
+      "size": 235928,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 176,
+        "related_symbols": 1,
+        "imports": 31,
+        "relocation_sections": 7,
+        "relocations": 4724,
+        "direct_call_BL": 2337,
+        "executable_reference": 2097,
+        "direct_branch_B": 3,
+        "data_reference": 287,
+        "related_relocations": 1
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/fe_core.ko",
+      "sha256": "8571f3969246a8524edc66924600e82cb80f0cde365e80de2bd73d91b5ea60e7",
+      "size": 359920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 515,
+        "related_symbols": 25,
+        "imports": 88,
+        "relocation_sections": 9,
+        "relocations": 6421,
+        "executable_reference": 2752,
+        "direct_call_BL": 3032,
+        "related_relocations": 37,
+        "data_reference": 637
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/fuse.ko",
+      "sha256": "de06fc7cc9af5bea09d8cc1b6e93ede41c082a0125d640d599469443217aac5c",
+      "size": 168656,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 499,
+        "imports": 247,
+        "relocation_sections": 15,
+        "relocations": 2175,
+        "direct_call_BL": 1088,
+        "executable_reference": 487,
+        "direct_branch_B": 1,
+        "data_reference": 599
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/gpio-button-hotplug.ko",
+      "sha256": "13f70af49d53ae98e91b8bdd096b6ee2a55a8f73160ea5e8fceab92f470d7afa",
+      "size": 18952,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 75,
+        "imports": 44,
+        "relocation_sections": 8,
+        "relocations": 248,
+        "direct_call_BL": 76,
+        "executable_reference": 118,
+        "data_reference": 54
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/gpon_flow.ko",
+      "sha256": "f9627ad3892c83756d9f447c6e0dacaa0efeef344f5b85ab522fe732cdb0de9e",
+      "size": 195408,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 322,
+        "imports": 37,
+        "relocation_sections": 8,
+        "relocations": 4117,
+        "executable_reference": 2645,
+        "direct_call_BL": 1015,
+        "data_reference": 457
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/gre.ko",
+      "sha256": "5ccd98f33ce3470330404b3ec57c8706770049d69507ccccfbaafc5bf53e8be7",
+      "size": 7360,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 42,
+        "imports": 8,
+        "relocation_sections": 8,
+        "relocations": 45,
+        "executable_reference": 16,
+        "direct_call_BL": 12,
+        "data_reference": 17
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/hostadpt.ko",
+      "sha256": "eef9e68ff3c7ef603ac36506dfdd0db832ad55cd3e17b709f46087ab9deba261",
+      "size": 40216,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 101,
+        "related_symbols": 21,
+        "imports": 42,
+        "relocation_sections": 7,
+        "relocations": 751,
+        "direct_call_BL": 206,
+        "related_relocations": 69,
+        "executable_reference": 502,
+        "data_reference": 43
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/hsgmii_lan.ko",
+      "sha256": "60a711a1690d3e5f20f0385ab9fefb3ddc3cbaf8170df317ccd03068e8f38fd9",
+      "size": 111144,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 246,
+        "related_symbols": 4,
+        "imports": 84,
+        "relocation_sections": 11,
+        "relocations": 2106,
+        "executable_reference": 970,
+        "direct_call_BL": 896,
+        "related_relocations": 13,
+        "data_reference": 240
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/hw_nat.ko",
+      "sha256": "894b91053435a85fa44abb62bfe218c50ffc316f2a2252a75c0d1847f527f200",
+      "size": 829400,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 1255,
+        "related_symbols": 22,
+        "imports": 311,
+        "relocation_sections": 9,
+        "relocations": 15411,
+        "executable_reference": 8019,
+        "direct_call_BL": 5870,
+        "related_relocations": 132,
+        "data_reference": 1522
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/hwmon.ko",
+      "sha256": "c1d7839a1730b55a5cd2fc52dec3332d8f008f60669d2fa0813c16d6f39bc069",
+      "size": 20648,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 71,
+        "imports": 25,
+        "relocation_sections": 10,
+        "relocations": 275,
+        "executable_reference": 52,
+        "direct_call_BL": 46,
+        "data_reference": 177
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/i2c_api.ko",
+      "sha256": "e5e763730bbcd98132a7c3dad2577891edcac632ded89c911d62823f53c1e0b0",
+      "size": 8888,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 43,
+        "imports": 18,
+        "relocation_sections": 7,
+        "relocations": 114,
+        "executable_reference": 60,
+        "direct_call_BL": 27,
+        "data_reference": 27
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ifb.ko",
+      "sha256": "69dde7ece7f23c91752e508e5f5b4c165ecef4f5be79c1dd1f0d9114c848fea5",
+      "size": 10232,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 59,
+        "imports": 30,
+        "relocation_sections": 9,
+        "relocations": 81,
+        "direct_call_BL": 29,
+        "executable_reference": 22,
+        "data_reference": 30
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ifc.ko",
+      "sha256": "4f8b2db482e61d9c9e13f3733542fa3e6533bee9c8f149999053460cc9df71e9",
+      "size": 296096,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 362,
+        "imports": 38,
+        "relocation_sections": 10,
+        "relocations": 4656,
+        "direct_call_BL": 998,
+        "executable_reference": 2928,
+        "data_reference": 730
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip6_gre.ko",
+      "sha256": "5902078b6e59759a9b5121fe6bf6415150cb1975b547084f6864d71b4a096f41",
+      "size": 41680,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 108,
+        "imports": 79,
+        "relocation_sections": 10,
+        "relocations": 416,
+        "executable_reference": 119,
+        "direct_call_BL": 158,
+        "data_reference": 139
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip6t_REJECT.ko",
+      "sha256": "8d78462f86cafb9521ca701a7050d2598119cffe81574f1f43955dc78a86fe50",
+      "size": 5264,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 32,
+        "imports": 6,
+        "related_symbols": 1,
+        "relocation_sections": 6,
+        "relocations": 37,
+        "executable_reference": 16,
+        "direct_call_BL": 11,
+        "related_relocations": 1,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip6table_filter.ko",
+      "sha256": "8307a7db3ef51e1595a2173690a62ca0d24ecc1d0f2d8cfc8e72c8848256bc40",
+      "size": 5912,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 36,
+        "imports": 10,
+        "relocation_sections": 8,
+        "relocations": 52,
+        "executable_reference": 25,
+        "direct_call_BL": 10,
+        "data_reference": 17
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip6table_mangle.ko",
+      "sha256": "390f4124c8485556a9ad920b4d85b629a664514faab9cc6fcc9de5384e1816bc",
+      "size": 6048,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 34,
+        "imports": 10,
+        "relocation_sections": 7,
+        "relocations": 52,
+        "executable_reference": 25,
+        "direct_call_BL": 17,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_gre.ko",
+      "sha256": "3accae638fe00591540527b7ac6d88a7a957fc05d7ef75028ed4dca2a42f08b9",
+      "size": 34632,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 101,
+        "imports": 68,
+        "relocation_sections": 11,
+        "relocations": 375,
+        "direct_call_BL": 144,
+        "executable_reference": 94,
+        "data_reference": 137
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set.ko",
+      "sha256": "551e5ef5ad0261fc088a2b36bf174b5bab261e4ae38ca517e674e702d43df2fd",
+      "size": 54128,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 165,
+        "imports": 61,
+        "relocation_sections": 12,
+        "relocations": 602,
+        "executable_reference": 186,
+        "direct_call_BL": 220,
+        "data_reference": 196
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_bitmap_ip.ko",
+      "sha256": "dadbc4403d31de6d33a1c4d6669ede608ae2d5fa813c3251aef9164b219f614d",
+      "size": 15224,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 57,
+        "imports": 29,
+        "relocation_sections": 8,
+        "relocations": 126,
+        "executable_reference": 43,
+        "direct_call_BL": 50,
+        "data_reference": 33
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_bitmap_ipmac.ko",
+      "sha256": "5e5216f59132567de9e93badc0193d6be683b6e7758cdc433565fe89254f3f3f",
+      "size": 14864,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 56,
+        "imports": 29,
+        "relocation_sections": 8,
+        "relocations": 118,
+        "direct_call_BL": 50,
+        "executable_reference": 35,
+        "data_reference": 33
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_bitmap_port.ko",
+      "sha256": "8ce5b15b1a0b97e94541142eb91dd43467ef17d0020bdd63594a413386c9f0bf",
+      "size": 13656,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 55,
+        "imports": 28,
+        "relocation_sections": 8,
+        "relocations": 107,
+        "direct_call_BL": 43,
+        "executable_reference": 31,
+        "data_reference": 33
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_ip.ko",
+      "sha256": "3c232239b1b10f0c52171570efda71f846e7d43c66aec645bc0dd571182a47bd",
+      "size": 41632,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 71,
+        "imports": 39,
+        "relocation_sections": 8,
+        "relocations": 411,
+        "executable_reference": 122,
+        "direct_call_BL": 219,
+        "data_reference": 70
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_ipmark.ko",
+      "sha256": "918b098ce49cf3a6887b29e9ef78922a5a2ef452e0c0b6646c51671803ce2361",
+      "size": 41688,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 70,
+        "imports": 38,
+        "relocation_sections": 8,
+        "relocations": 407,
+        "executable_reference": 116,
+        "direct_call_BL": 221,
+        "data_reference": 70
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_ipport.ko",
+      "sha256": "85a1e305f46f0d5288de2b93184843b62780bc7085ba99f15920fc7154026f78",
+      "size": 42336,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 72,
+        "imports": 40,
+        "relocation_sections": 8,
+        "relocations": 409,
+        "executable_reference": 116,
+        "direct_call_BL": 223,
+        "data_reference": 70
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_ipportip.ko",
+      "sha256": "e85b9d2f55cb18d90580f2cc202f73fba845e3adb6b46678ef741e3ed7616ab5",
+      "size": 43096,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 72,
+        "imports": 40,
+        "relocation_sections": 8,
+        "relocations": 414,
+        "executable_reference": 116,
+        "direct_call_BL": 228,
+        "data_reference": 70
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_ipportnet.ko",
+      "sha256": "f8b22e4e998b271c4d3b59f5171a1ded9580c56f053358b6999d2522c7a33a28",
+      "size": 49968,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 75,
+        "imports": 43,
+        "relocation_sections": 8,
+        "relocations": 466,
+        "executable_reference": 135,
+        "direct_call_BL": 258,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_mac.ko",
+      "sha256": "d8f4dd972f04e11a8a5a63f6f2d472f2d6f5d193807de9f65a7911daa567da6d",
+      "size": 24632,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 64,
+        "imports": 34,
+        "relocation_sections": 8,
+        "relocations": 221,
+        "executable_reference": 67,
+        "direct_call_BL": 115,
+        "data_reference": 39
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_net.ko",
+      "sha256": "4a9b549b0d53b8433333d121106f2e95ce60f0931e87f25e721e373be8395f04",
+      "size": 47168,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 73,
+        "imports": 41,
+        "relocation_sections": 8,
+        "relocations": 449,
+        "executable_reference": 131,
+        "direct_call_BL": 245,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_netiface.ko",
+      "sha256": "72ba8035e5d0ff89c5d55a4a748a20616c22953dbeeedebc9a32d4c3a47b96d3",
+      "size": 49224,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 75,
+        "imports": 43,
+        "relocation_sections": 8,
+        "relocations": 479,
+        "executable_reference": 141,
+        "direct_call_BL": 265,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_netnet.ko",
+      "sha256": "c471f85fb1146de788cc3ae2b9edd7b35a64195f9e833b99798f1179123c91c5",
+      "size": 49672,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 72,
+        "imports": 40,
+        "relocation_sections": 8,
+        "relocations": 459,
+        "executable_reference": 133,
+        "direct_call_BL": 253,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_netport.ko",
+      "sha256": "5c6f7d451416c0b03ec8773edd1324bd9ece0ace0ee6790d8d37ea422e9240ab",
+      "size": 48728,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 75,
+        "imports": 43,
+        "relocation_sections": 8,
+        "relocations": 457,
+        "executable_reference": 133,
+        "direct_call_BL": 251,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_hash_netportnet.ko",
+      "sha256": "aa58ab1de2dd2ab5fb80c4754812a13ec3517b73851833791103961143b65c11",
+      "size": 51192,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 74,
+        "imports": 42,
+        "relocation_sections": 8,
+        "relocations": 468,
+        "executable_reference": 135,
+        "direct_call_BL": 260,
+        "data_reference": 73
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ip_set_list_set.ko",
+      "sha256": "debd643f015d577354382214f2b403fdc29a12dd04a7d42a755a1a797b98baac",
+      "size": 15920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 61,
+        "imports": 33,
+        "relocation_sections": 8,
+        "relocations": 141,
+        "executable_reference": 46,
+        "direct_call_BL": 59,
+        "data_reference": 36
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ipt_REJECT.ko",
+      "sha256": "596ce475192d1e5989c81fbd152ae6bf40f8518d91a13c729029c72ec8e950b8",
+      "size": 5312,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 32,
+        "imports": 6,
+        "related_symbols": 1,
+        "relocation_sections": 6,
+        "relocations": 39,
+        "executable_reference": 16,
+        "direct_call_BL": 13,
+        "related_relocations": 1,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/iptable_filter.ko",
+      "sha256": "d9123fa42f8ae8dfb234149321a39919775ae9ce326902d45f98a9523a9c5cc4",
+      "size": 5880,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 36,
+        "imports": 10,
+        "relocation_sections": 8,
+        "relocations": 51,
+        "executable_reference": 24,
+        "direct_call_BL": 10,
+        "data_reference": 17
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/l2tp_offload.ko",
+      "sha256": "7e68289bf9f7544ff1859dab3a493019bdcb116f75c437f2942f4f1af5cd30c8",
+      "size": 26080,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 86,
+        "imports": 48,
+        "relocation_sections": 8,
+        "relocations": 417,
+        "executable_reference": 239,
+        "direct_call_BL": 118,
+        "data_reference": 60
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/lro_lan.ko",
+      "sha256": "1d4fd24f8616fac1f001b322be3ee3b84e57905ba459ef6422d75ec8debe7ed3",
+      "size": 48080,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 90,
+        "imports": 37,
+        "relocation_sections": 9,
+        "relocations": 777,
+        "direct_call_BL": 155,
+        "executable_reference": 458,
+        "data_reference": 164
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/lro_wan.ko",
+      "sha256": "ae4c84c1a2e1c4299e779287ea7e99f8761972e411b6af6f1673323ce8635412",
+      "size": 48720,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 94,
+        "imports": 40,
+        "relocation_sections": 9,
+        "relocations": 789,
+        "direct_call_BL": 159,
+        "executable_reference": 466,
+        "data_reference": 164
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mapfilter.ko",
+      "sha256": "abd470d63956b6387a66e1df53ba657fbcb83ef92412a73766d45c5870c6611e",
+      "size": 94040,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 248,
+        "imports": 50,
+        "relocation_sections": 9,
+        "relocations": 1433,
+        "executable_reference": 768,
+        "direct_call_BL": 444,
+        "direct_branch_B": 1,
+        "data_reference": 220
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mdio_arht.ko",
+      "sha256": "643e19c0c249f926b2c42c2dc3be29775aed8f4015549502ba42527e76d1f61c",
+      "size": 7992,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 43,
+        "imports": 18,
+        "relocation_sections": 7,
+        "relocations": 71,
+        "direct_call_BL": 15,
+        "executable_reference": 28,
+        "data_reference": 28
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/module_sel.ko",
+      "sha256": "756b78404c465d7a326b14343551e720fadd968243b7b3cc4554710eb2fd9385",
+      "size": 20064,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 67,
+        "imports": 18,
+        "relocation_sections": 6,
+        "relocations": 354,
+        "executable_reference": 134,
+        "direct_call_BL": 182,
+        "data_reference": 38
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/module_sel_unopen.ko",
+      "sha256": "6f010200b386a4d25e80faca736bd7079155b4b360831273b858969af5edfe58",
+      "size": 6976,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 42,
+        "imports": 15,
+        "relocation_sections": 6,
+        "relocations": 71,
+        "executable_reference": 34,
+        "direct_call_BL": 18,
+        "data_reference": 19
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko",
+      "sha256": "502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81",
+      "size": 5295088,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 67,
+        "imports": 22,
+        "relocation_sections": 10,
+        "relocations": 288,
+        "direct_call_BL": 69,
+        "executable_reference": 83,
+        "data_reference": 136
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990_dbg.ko",
+      "sha256": "d966c9a185926e1cdec516445f2d2b839d2fcd0bc23d4e6744efe93ecab2ca14",
+      "size": 106640,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 60,
+        "imports": 19,
+        "relocation_sections": 8,
+        "relocations": 1958,
+        "direct_call_BL": 522,
+        "executable_reference": 1124,
+        "data_reference": 312
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7991.ko",
+      "sha256": "ae97aef1644033f47edc50994dc70f583e0d91abc0d460aa221147c0d8e96222",
+      "size": 17304,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 47,
+        "imports": 7,
+        "relocation_sections": 10,
+        "relocations": 147,
+        "executable_reference": 38,
+        "direct_call_BL": 29,
+        "data_reference": 80
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi.ko",
+      "sha256": "40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0",
+      "size": 14980128,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 10819,
+        "related_symbols": 115,
+        "imports": 217,
+        "relocation_sections": 12,
+        "relocations": 245906,
+        "direct_call_BL": 70870,
+        "executable_reference": 158034,
+        "related_relocations": 347,
+        "direct_branch_B": 1,
+        "data_reference": 17001
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt_wifi_cmn.ko",
+      "sha256": "b468c07710ca55055d610b5de6422f152487e20c2d509a2f186195ccfe2c3192",
+      "size": 14680,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 122,
+        "imports": 38,
+        "relocation_sections": 7,
+        "relocations": 173,
+        "direct_call_BL": 40,
+        "executable_reference": 40,
+        "data_reference": 93
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko",
+      "sha256": "6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7",
+      "size": 201552,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 402,
+        "related_symbols": 4,
+        "imports": 78,
+        "relocation_sections": 10,
+        "relocations": 3482,
+        "executable_reference": 1729,
+        "direct_call_BL": 1287,
+        "data_reference": 466,
+        "related_relocations": 8
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko",
+      "sha256": "c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b",
+      "size": 120920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 210,
+        "related_symbols": 36,
+        "imports": 90,
+        "relocation_sections": 10,
+        "relocations": 1912,
+        "direct_call_BL": 639,
+        "executable_reference": 1055,
+        "related_relocations": 161,
+        "data_reference": 218
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nat46.ko",
+      "sha256": "37920393c6223da03c0a9e1e424c53883f7a0cf3888dea220e0f670784a87b6e",
+      "size": 51128,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 150,
+        "imports": 50,
+        "relocation_sections": 9,
+        "relocations": 702,
+        "direct_call_BL": 299,
+        "executable_reference": 305,
+        "data_reference": 98
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nf_conncount.ko",
+      "sha256": "79492037ae12d73872feec59ccbd68da4e072820793c59f844e268f210bc7243",
+      "size": 17512,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 83,
+        "imports": 30,
+        "relocation_sections": 8,
+        "relocations": 177,
+        "executable_reference": 65,
+        "direct_call_BL": 66,
+        "data_reference": 46
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nf_log_common.ko",
+      "sha256": "51decd895481464f2220a742895628e087cd222a892a221134dbd789d444c021",
+      "size": 9224,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 42,
+        "imports": 9,
+        "relocation_sections": 4,
+        "relocations": 121,
+        "executable_reference": 64,
+        "direct_call_BL": 38,
+        "data_reference": 19
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nf_log_ipv4.ko",
+      "sha256": "b4ef273a520c2e1d00d76c957b1fbe55bc4412b0befde67237b06144ffaaf5a3",
+      "size": 11416,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 44,
+        "imports": 18,
+        "relocation_sections": 7,
+        "relocations": 158,
+        "executable_reference": 90,
+        "direct_call_BL": 55,
+        "data_reference": 13
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nf_log_ipv6.ko",
+      "sha256": "38ef91675ca59d4a1b4ae5dc96a6915338ad138b4dc59542dfba3ac02aec4dfd",
+      "size": 11824,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 44,
+        "imports": 18,
+        "relocation_sections": 7,
+        "relocations": 167,
+        "executable_reference": 94,
+        "direct_call_BL": 60,
+        "data_reference": 13
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nls_cp936.ko",
+      "sha256": "6b462acdc7bc9649c3adaaf84c95f85add2a5570a2c802ca807462c7c733ece4",
+      "size": 131680,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 26,
+        "imports": 2,
+        "relocation_sections": 7,
+        "relocations": 255,
+        "executable_reference": 12,
+        "direct_call_BL": 2,
+        "data_reference": 241
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/nls_utf8.ko",
+      "sha256": "720c63ed06211b6b8a90a2f49bd30a3ebfa373f0622e4c2cf6d49c145db070b2",
+      "size": 4040,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 4,
+        "relocation_sections": 6,
+        "relocations": 23,
+        "direct_call_BL": 4,
+        "executable_reference": 8,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/npu.ko",
+      "sha256": "fecef1a24531765da1243de773ee7e9bb5b20ff47f1ad3b3736e1f09e9db088e",
+      "size": 33800,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 71,
+        "related_symbols": 18,
+        "imports": 28,
+        "relocation_sections": 7,
+        "relocations": 693,
+        "executable_reference": 427,
+        "direct_call_BL": 229,
+        "related_relocations": 36,
+        "data_reference": 37
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/phy_10g.ko",
+      "sha256": "142639c5e92e176bd35ba9894ba740ff5a5403b3cec39a229e88726a6513ed78",
+      "size": 595752,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 358,
+        "related_symbols": 16,
+        "imports": 72,
+        "relocation_sections": 8,
+        "relocations": 11234,
+        "direct_call_BL": 3590,
+        "executable_reference": 7118,
+        "related_relocations": 98,
+        "data_reference": 526
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ponmacfilter.ko",
+      "sha256": "5e4f0df56aa065c27d8473e4a20079e75196424175ee5dc469bf93d69fa9645b",
+      "size": 26120,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 52,
+        "imports": 23,
+        "relocation_sections": 6,
+        "relocations": 421,
+        "executable_reference": 285,
+        "direct_call_BL": 106,
+        "data_reference": 30
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/ponvlan.ko",
+      "sha256": "7e04f77ce22ed0c30f9b003f692f0aeef0e421cbb82145a1d1b8ded384fe674b",
+      "size": 240976,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 203,
+        "imports": 82,
+        "relocation_sections": 7,
+        "relocations": 4652,
+        "executable_reference": 3478,
+        "direct_call_BL": 1031,
+        "data_reference": 143
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/qdma_lan.ko",
+      "sha256": "cad7c2494eaeb9883bc0596839f17d650ab4ce93179c8271b91ae0f9953c02c2",
+      "size": 653912,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 773,
+        "related_symbols": 1,
+        "imports": 127,
+        "relocation_sections": 11,
+        "relocations": 11815,
+        "direct_call_BL": 2688,
+        "executable_reference": 7690,
+        "data_reference": 1437,
+        "related_relocations": 2
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/qdma_wan.ko",
+      "sha256": "711cb5e8a1c7971b0eaee361382d9002e742696567d19131f03688259b933f11",
+      "size": 388720,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 568,
+        "related_symbols": 1,
+        "imports": 95,
+        "relocation_sections": 12,
+        "relocations": 7671,
+        "direct_call_BL": 2476,
+        "executable_reference": 4528,
+        "data_reference": 667,
+        "related_relocations": 2
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/rtk-ms-phy.ko",
+      "sha256": "05133422088b984ef7397426850fa585a12ab769be444a776fe940d7a0a28bcf",
+      "size": 119704,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 137,
+        "imports": 28,
+        "relocation_sections": 7,
+        "relocations": 408,
+        "direct_call_BL": 236,
+        "executable_reference": 82,
+        "data_reference": 90
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sch_hfsc.ko",
+      "sha256": "602d5bfa7a315fcdc8fe67e6949a4a81f614e016131cf30350289b30f3d0fa66",
+      "size": 28752,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 96,
+        "imports": 50,
+        "related_symbols": 1,
+        "relocation_sections": 9,
+        "relocations": 358,
+        "direct_call_BL": 132,
+        "related_relocations": 3,
+        "executable_reference": 138,
+        "data_reference": 88
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sch_htb.ko",
+      "sha256": "c1832569e49445f5a5066e641b6296147a1c0301a3786dbfe13b5c61fea8fd45",
+      "size": 32600,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 126,
+        "imports": 63,
+        "related_symbols": 1,
+        "relocation_sections": 9,
+        "relocations": 397,
+        "direct_call_BL": 130,
+        "executable_reference": 148,
+        "related_relocations": 3,
+        "data_reference": 119
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sch_ingress.ko",
+      "sha256": "90b59efbc57495795d49092ea3b93d1b8ecb01cfd5fc8be2527fdb71ca89e608",
+      "size": 7656,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 34,
+        "imports": 11,
+        "relocation_sections": 7,
+        "relocations": 83,
+        "direct_call_BL": 22,
+        "executable_reference": 8,
+        "data_reference": 53
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sch_tbf.ko",
+      "sha256": "a777ade843ccb75749892f723827bc3e01b581346a141c2db8aea6b2aca63b5a",
+      "size": 15656,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 75,
+        "imports": 38,
+        "related_symbols": 1,
+        "relocation_sections": 9,
+        "relocations": 169,
+        "direct_call_BL": 61,
+        "related_relocations": 1,
+        "executable_reference": 62,
+        "data_reference": 46
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/scsi_mod.ko",
+      "sha256": "21f970dc56250baa08f1a293c48eb8628526d4637769091fb3815198a1ea8341",
+      "size": 226424,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 645,
+        "related_symbols": 8,
+        "imports": 216,
+        "relocation_sections": 15,
+        "relocations": 3639,
+        "direct_call_BL": 1048,
+        "executable_reference": 970,
+        "related_relocations": 31,
+        "direct_branch_B": 5,
+        "data_reference": 1616
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sd_mod.ko",
+      "sha256": "a284275b51c9252a4c649f455750da01368227db480a008ad74d475bfecf9b49",
+      "size": 68064,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 151,
+        "imports": 107,
+        "relocation_sections": 9,
+        "relocations": 1146,
+        "executable_reference": 619,
+        "direct_call_BL": 337,
+        "data_reference": 190
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/secureupgrade.ko",
+      "sha256": "47b85a88a40ca3c9f5d96daada1502c9bec0640a8affa7f1c0013cf1a0bdd782",
+      "size": 13856,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 66,
+        "imports": 34,
+        "relocation_sections": 7,
+        "relocations": 177,
+        "executable_reference": 96,
+        "direct_call_BL": 43,
+        "data_reference": 38
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/sif.ko",
+      "sha256": "16ea33585e290373ee5c8647a63e129b047e06555aeb0cb0956d4a72b9a49664",
+      "size": 52624,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 113,
+        "imports": 33,
+        "relocation_sections": 8,
+        "relocations": 981,
+        "executable_reference": 577,
+        "direct_call_BL": 261,
+        "data_reference": 143
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/speedtest.ko",
+      "sha256": "2654ada906e418dc8320f4885996fda8ba4d4a6e06435220e5596cf7b8c94196",
+      "size": 242592,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 463,
+        "related_symbols": 12,
+        "imports": 81,
+        "relocation_sections": 7,
+        "relocations": 4792,
+        "executable_reference": 3532,
+        "direct_call_BL": 1078,
+        "related_relocations": 27,
+        "data_reference": 182
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/tccicmd.ko",
+      "sha256": "9a0e081553d6d92ad198e8b346c28f97b63855dde181bde14f57575a2964ed45",
+      "size": 50432,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 139,
+        "related_symbols": 3,
+        "imports": 37,
+        "relocation_sections": 10,
+        "relocations": 914,
+        "executable_reference": 410,
+        "direct_call_BL": 284,
+        "related_relocations": 2,
+        "data_reference": 220
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/tcledctrl.ko",
+      "sha256": "5503abb220f4f5dcad78b59160f90f265360f35939ded2ac170754396d2fe155",
+      "size": 30848,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 136,
+        "imports": 43,
+        "relocation_sections": 8,
+        "relocations": 506,
+        "executable_reference": 143,
+        "direct_call_BL": 157,
+        "data_reference": 206
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/tso2.ko",
+      "sha256": "210774740df1cf861c9f07114534d9073aeae78e7e69c9ce895a622cd4de0153",
+      "size": 75784,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 107,
+        "imports": 40,
+        "relocation_sections": 7,
+        "relocations": 1377,
+        "direct_call_BL": 258,
+        "executable_reference": 913,
+        "data_reference": 206
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/usb-storage.ko",
+      "sha256": "47129d122443ed47088e328081d55d0229b2d7f93fa55ef6362b7edd1311843b",
+      "size": 115528,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 218,
+        "related_symbols": 13,
+        "imports": 90,
+        "relocation_sections": 11,
+        "relocations": 1436,
+        "direct_call_BL": 239,
+        "executable_reference": 271,
+        "related_relocations": 33,
+        "data_reference": 926
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xpon.ko",
+      "sha256": "2ab6770ce75db1323c7c717bd1d3454a8b18f80864efc6b5fe9b68edfb43e75c",
+      "size": 1176304,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 1166,
+        "related_symbols": 30,
+        "imports": 182,
+        "relocation_sections": 10,
+        "relocations": 23048,
+        "direct_call_BL": 4516,
+        "executable_reference": 15700,
+        "related_relocations": 305,
+        "direct_branch_B": 3,
+        "data_reference": 2829
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xpon_10g.ko",
+      "sha256": "4c59bdfaedbb2c704c33ec66dbb438bdd3866af48fdd47fb73042369834d55ac",
+      "size": 1166416,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 1253,
+        "related_symbols": 20,
+        "imports": 170,
+        "relocation_sections": 10,
+        "relocations": 23172,
+        "direct_call_BL": 5025,
+        "executable_reference": 15012,
+        "related_relocations": 244,
+        "direct_branch_B": 2,
+        "data_reference": 3133
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xpon_igmp.ko",
+      "sha256": "e2095b0823d17c407549ad0763846975fff47a16436b7358023b31a3a0729a0b",
+      "size": 203784,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 326,
+        "related_symbols": 2,
+        "imports": 118,
+        "relocation_sections": 6,
+        "relocations": 3546,
+        "executable_reference": 2013,
+        "direct_call_BL": 1236,
+        "related_relocations": 7,
+        "data_reference": 297
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xpon_int.ko",
+      "sha256": "0853ba523a37c0b83a8bf1461e2adc5c8f8d7c2bd9c90d3c0e503f2c6035859d",
+      "size": 18704,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 48,
+        "imports": 21,
+        "relocation_sections": 5,
+        "relocations": 333,
+        "direct_call_BL": 210,
+        "executable_reference": 108,
+        "data_reference": 15
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xponmap.ko",
+      "sha256": "fd8ddc9c6aee9fbf5c16053d26a7b4b3b7cb3292a794c12dd33912931ee09403",
+      "size": 83920,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 181,
+        "related_symbols": 1,
+        "imports": 57,
+        "relocation_sections": 7,
+        "relocations": 1384,
+        "executable_reference": 932,
+        "direct_call_BL": 318,
+        "related_relocations": 2,
+        "data_reference": 134
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_CLASSIFY.ko",
+      "sha256": "b21206143f955a04366351701ca5e0cc82c5cd066e755ee8292d3f0a3b61c610",
+      "size": 3736,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 15,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_DSCP.ko",
+      "sha256": "175cac63929073c97c46b84b8b0a468bf4995f74a75d76c162c1d4b18a5f1389",
+      "size": 5560,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 26,
+        "imports": 3,
+        "relocation_sections": 6,
+        "relocations": 33,
+        "direct_call_BL": 6,
+        "executable_reference": 4,
+        "data_reference": 23
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_LOG.ko",
+      "sha256": "6ffefd9c9bd090a8e07a1cb2981f86bc24495293c5bf2fcef40e8878111afe73",
+      "size": 4576,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 28,
+        "imports": 5,
+        "relocation_sections": 6,
+        "relocations": 26,
+        "direct_call_BL": 5,
+        "executable_reference": 6,
+        "data_reference": 15
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_comment.ko",
+      "sha256": "dbf6ba22d73c871c6227d99d562fcab0a2a8dc93b493fb1b2d72f69931efda69",
+      "size": 3552,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 13,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 7
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_connbytes.ko",
+      "sha256": "106ab3851e3466d64f4b52f16c0970ecd5d1db0a54e818c285b9e70eb8e6a158",
+      "size": 5288,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 32,
+        "imports": 6,
+        "relocation_sections": 6,
+        "relocations": 30,
+        "direct_call_BL": 7,
+        "executable_reference": 12,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_connlimit.ko",
+      "sha256": "8704a8658c6538386ee993591eaafe2c36933497e9b6a9d92d30c7158f69e93f",
+      "size": 4720,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 29,
+        "imports": 8,
+        "relocation_sections": 6,
+        "relocations": 24,
+        "direct_call_BL": 7,
+        "executable_reference": 6,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_connmark.ko",
+      "sha256": "adbd3a6ccc4ac0dfd9a3b19415b4eed8703345b3619785e1383ccd7e25d9765a",
+      "size": 6504,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 34,
+        "imports": 8,
+        "relocation_sections": 6,
+        "relocations": 53,
+        "direct_call_BL": 13,
+        "executable_reference": 16,
+        "data_reference": 24
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_helper.ko",
+      "sha256": "e5818769b3879ad4c2ca19f071d571ff8b5e1376ff4828f4f931da0c4f5bfb6e",
+      "size": 5008,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 34,
+        "imports": 8,
+        "relocation_sections": 6,
+        "relocations": 29,
+        "direct_call_BL": 8,
+        "executable_reference": 10,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_length.ko",
+      "sha256": "8820341c009a905229e454f1e6ff80bf4e079d1ee92ce7cf8fe4c0e4fdf16981",
+      "size": 3952,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 23,
+        "imports": 2,
+        "relocation_sections": 5,
+        "relocations": 16,
+        "executable_reference": 4,
+        "direct_call_BL": 2,
+        "data_reference": 10
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_recent.ko",
+      "sha256": "1c3ea31417ed4ae784839db683858d8be24aef178bc5b6c6f8188fab599a2e8d",
+      "size": 21816,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 76,
+        "imports": 46,
+        "relocation_sections": 10,
+        "relocations": 278,
+        "executable_reference": 118,
+        "direct_call_BL": 74,
+        "data_reference": 86
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_set.ko",
+      "sha256": "93f07457edae07a2a8f7a18b4df71e3b2685b7f9c91efbfdb0fd56f8451ddec0",
+      "size": 17984,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 38,
+        "imports": 12,
+        "relocation_sections": 6,
+        "relocations": 269,
+        "direct_call_BL": 80,
+        "executable_reference": 102,
+        "data_reference": 87
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_statistic.ko",
+      "sha256": "cbe17d3e2522904c152fe421c0a9d840630d38a21ab696de6ca2221f09e5f7b9",
+      "size": 4432,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 27,
+        "imports": 6,
+        "relocation_sections": 6,
+        "relocations": 22,
+        "direct_call_BL": 5,
+        "executable_reference": 6,
+        "data_reference": 11
+      }
+    },
+    {
+      "file": ".local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/xt_time.ko",
+      "sha256": "ab32ee6a229bf80c3839035b367b1989d3ecee4d9a10feb4858cbd1bb2f36c09",
+      "size": 6176,
+      "elf_type": "ET_REL",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 32,
+        "imports": 6,
+        "relocation_sections": 6,
+        "relocations": 46,
+        "executable_reference": 28,
+        "direct_call_BL": 9,
+        "data_reference": 9
+      }
+    },
+    {
+      "file": "research/stock/elf/stock-kernel.vmlinux.elf",
+      "sha256": "a51e6d0a6deee620a5f715c9469f193906cdf3fcea28b97ce01cf88383aa704e",
+      "size": 13680031,
+      "elf_type": "ET_EXEC",
+      "machine": "EM_AARCH64",
+      "counts": {
+        "symbols": 29142,
+        "related_symbols": 263
+      }
+    }
+  ],
+  "totals": {
+    "symbols": 59398,
+    "imports": 5680,
+    "relocation_sections": 1054,
+    "relocations": 435395,
+    "executable_reference": 262105,
+    "direct_call_BL": 129294,
+    "data_reference": 43974,
+    "related_symbols": 632,
+    "related_relocations": 1592,
+    "direct_branch_B": 22
+  },
+  "methodology": [
+    "Complete symbol and relocation enumeration for every *.ko beneath the supplied stock module root plus the supplied stock kernel ELF.",
+    "ET_REL addresses are section-relative; pair the file and target_section with offset. elf_address in ET_EXEC is a linked virtual address, never a loaded module address.",
+    "direct_call_BL requires R_AARCH64_CALL26 and a BL opcode; direct_branch_B requires R_AARCH64_JUMP26 and a B opcode, and may be a tail call or branch, not necessarily a returning call.",
+    "Data/executable references, undefined names, export records, and callback pointer relocations do not prove execution or a call.",
+    "Containing function uses same-section STT_FUNC ranges. Zero-size symbols use an explicitly labeled next-symbol extent. Aliases at the same start are retained.",
+    "Absent STT_FUNC containment falls back to a .eh_frame FDE: relocation-backed initial address plus the parsed address_range. unnamed@ labels are generated locators, not vendor symbol names.",
+    "Section-symbol relocations resolve symbol value plus RELA addend to a function range when possible. All original symbol/addend fields remain available.",
+    "No indirect call resolution, path feasibility, ordering, drain completion, runtime semantics, or Ghidra analysis is claimed."
+  ]
+}

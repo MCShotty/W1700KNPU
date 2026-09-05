@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "snapshot": "post-Daybreak21-R1-NPU-detached-init-20260905",
+  "snapshot": "post-Daybreak21-R1-NPU-mailbox-ownership-20260905",
   "last_router_tested_snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
   "openwrt": {
     "url": "https://github.com/openwrt/openwrt.git",
@@ -170,6 +170,11 @@
       {
         "path": "target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch",
         "sha256": "c96f30fb04e6c82ae0f244e135cbbcab6fac889d578c000b4f37bfcb68a4b7e4",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/patches-6.18/926-net-airoha-npu-protect-inflight-mailbox-buffer.patch",
+        "sha256": "faa96f10049abc6edd9d3be973946cf4d4a81f178b56e3063e6c94b6f0de8d9c",
         "mode": "0o644"
       }
     ]

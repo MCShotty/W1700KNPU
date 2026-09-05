@@ -1,0 +1,150 @@
+2026-09-05 09:26:56 INFO  (LoggingInitialization) Using log config file: jar:file:/C:/Tools/ghidra_12.1.2_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml  
+2026-09-05 09:26:56 INFO  (LoggingInitialization) Using log file: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\research\checkpoints\2026-09-05-npu-quiescence\ghidra-current-rv32\analysis.log  
+2026-09-05 09:26:56 DEBUG (GhidraObjectInputFilter) Including serial input filter: FileSystem/data/client.rmi.serial.filter  
+2026-09-05 09:26:56 INFO  (Preferences) Loading user preferences: C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\preferences  
+2026-09-05 09:26:56 INFO  (ClassSearcher) Searching for classes...  
+2026-09-05 09:26:57 INFO  (ClassSearcher) Class search complete (1198 ms)  
+2026-09-05 09:26:58 INFO  (DefaultSSLContextInitializer) Initializing SSL Context  
+2026-09-05 09:26:58 INFO  (SecureRandomFactory) Initializing Random Number Generator...  
+2026-09-05 09:26:58 INFO  (SecureRandomFactory) Random Number Generator initialization complete: SHA1PRNG  
+2026-09-05 09:26:58 INFO  (DefaultTrustManagerFactory) Trust manager disabled, cacerts have not been set  
+2026-09-05 09:27:00 INFO  (AnalyzeHeadless) Headless startup complete (5341 ms)  
+2026-09-05 09:27:00 INFO  (ClassSearcher) Class searcher loaded 211 extension points (115 false positives)  
+2026-09-05 09:27:00 INFO  (HeadlessAnalyzer) HEADLESS Script Paths:
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\captain\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts  
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer) HEADLESS: execution starts  
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer) Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-quiescence/current-rv32/CurrentNpu  
+2026-09-05 09:27:01 ERROR (ToolUtils) Error reading XML for C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\tools\_code_browser.tcd org.jdom2.input.JDOMParseException: Error on line 971: The markup in the document following the root element must be well-formed.
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:234)
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:253)
+	at org.jdom2.input.SAXBuilder.build(SAXBuilder.java:1079)
+	at ghidra.framework.ToolUtils.readToolTemplate(ToolUtils.java:245)
+	at ghidra.framework.ToolUtils.loadUserTools(ToolUtils.java:146)
+	at ghidra.framework.project.ToolChestImpl.<init>(ToolChestImpl.java:38)
+	at ghidra.framework.project.DefaultProjectManager.createUserToolChest(DefaultProjectManager.java:476)
+	at ghidra.framework.project.DefaultProjectManager.<init>(DefaultProjectManager.java:73)
+	at ghidra.app.util.headless.HeadlessAnalyzer$HeadlessGhidraProjectManager.<init>(HeadlessAnalyzer.java:1874)
+	at ghidra.app.util.headless.HeadlessAnalyzer.getProjectManager(HeadlessAnalyzer.java:1851)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:451)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+Caused by: org.xml.sax.SAXParseException; lineNumber: 971; columnNumber: 3; The markup in the document following the root element must be well-formed.
+	at java.xml/com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:204)
+	at java.xml/com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:178)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:400)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:327)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1465)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$TrailingMiscDriver.next(XMLDocumentScannerImpl.java:1424)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:635)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:113)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:551)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:890)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:826)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:134)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1225)
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:217)
+	... 13 more
+ 
+2026-09-05 09:27:01 INFO  (DefaultProject) Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-quiescence/current-rv32/CurrentNpu  
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer) REPORT: Processing input files:   
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer)      project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-quiescence/current-rv32/CurrentNpu  
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer) IMPORTING: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin  
+2026-09-05 09:27:01 WARN  (LcsHintLoadSpecChooser) Using unknown opinion: Raw Binary, RISCV:LE:32:RV32IMC:gcc  
+2026-09-05 09:27:01 INFO  (ProgramLoader) Successfully applied "-loader-baseAddr" to "Base Address" (old: "null", new: "0x84000000")  
+2026-09-05 09:27:01 INFO  (ProgramLoader) Using Loader: Raw Binary  
+2026-09-05 09:27:01 INFO  (ProgramLoader) Using Language/Compiler: RISCV:LE:32:RV32IMC:gcc  
+2026-09-05 09:27:01 INFO  (ProgramLoader) Using Library Search Path: [., C:\Windows\SysWOW64, C:\Program Files\Java\jdk-24\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell, C:\Users\captain\.codex\tmp\arg0\codex-arg0joZcrw, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\libheif\libheif\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\jxrlib\jxrlib\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\override, C:\Program Files\Common Files\Oracle\Java\javapath, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Program Files\nodejs\, C:\Program Files\dotnet\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files (x86)\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\180\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\DTS\Binn\, C:\Program Files\PuTTY\, C:\Program Files\Git\cmd, C:\Users\captain\AppData\Local\Programs\Python\Python314\Scripts\, C:\Users\captain\AppData\Local\Programs\Python\Python314\, C:\Users\captain\AppData\Local\Programs\Python\Launcher\, C:\Users\captain\AppData\Local\Microsoft\WindowsApps, C:\Users\captain\AppData\Roaming\npm, C:\Users\captain\.dotnet\tools, C:\Users\captain\AppData\Local\Programs\cursor\resources\app\bin, C:\Users\captain\Documents\Projects\Flutter\flutter\bin, C:\Users\captain\bin, C:\Program Files\ExtraPuTTY\Bin, C:\Tools\apache-maven-3.9.16\bin, C:\Users\captain\AppData\Local\Microsoft\WinGet\Packages\ar51an.iPerf3_Microsoft.Winget.Source_8wekyb3d8bbwe, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\80b8e5c230e43848, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\27d6a192e9c98618]  
+2026-09-05 09:27:01 INFO  (HeadlessAnalyzer) IMPORTING: Loaded 0 additional files  
+2026-09-05 09:27:02 INFO  (HeadlessAnalyzer) REPORT: Execute script: SetupCurrentNpuMap.java '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-quiescence\firmware\en7581_MT7996_npu_data.bin'   
+2026-09-05 09:27:04 INFO  (HeadlessAnalyzer) SCRIPT: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\SetupCurrentNpuMap.java  
+2026-09-05 09:27:04 INFO  (GhidraScript) SetupCurrentNpuMap.java> CURRENT_NPU_MAP code_end=8401dde0 data=3084 pointers=76  
+2026-09-05 09:27:04 INFO  (HeadlessAnalyzer) ANALYZING all memory and code: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin  
+2026-09-05 09:27:11 DEBUG (FidAnalyzer) No FID Libraries apply for language RISCV:LE:32:RV32IMC  
+2026-09-05 09:27:11 INFO  (PackedDatabaseCache) Packed database cache: C:\Users\captain\AppData\Local\ghidra\packed-db-cache  
+2026-09-05 09:27:11 DEBUG (PackedDatabaseCache) Using cached packed database: C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\data\typeinfo\generic\generic_clib.gdt  
+2026-09-05 09:27:12 INFO  (ApplyDataArchiveAnalyzer) Applied data type archive: generic_clib  
+2026-09-05 09:27:14 INFO  (AutoAnalysisManager) -----------------------------------------------------
+    ASCII Strings                              0.399 secs
+    Apply Data Archives                        0.966 secs
+    Call Convention ID                         0.008 secs
+    Call-Fixup Installer                       0.012 secs
+    Create Address Tables                      0.082 secs
+    Create Address Tables - One Time           0.041 secs
+    Create Function                            0.188 secs
+    Data Reference                             0.016 secs
+    Decompiler Switch Analysis                 5.098 secs
+    Demangler GNU                              0.079 secs
+    Disassemble                                0.096 secs
+    Disassemble Entry Points                   0.005 secs
+    Embedded Media                             0.023 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.116 secs
+    Function Start Search                      0.015 secs
+    Function Start Search delayed - One Time   0.010 secs
+    Non-Returning Functions - Discovered       0.072 secs
+    RISCV Constant Reference Analyzer          1.215 secs
+    Reference                                  0.172 secs
+    Shared Return Calls                        0.095 secs
+    Stack                                      0.986 secs
+    Subroutine References                      0.045 secs
+    Subroutine References - One Time           0.000 secs
+-----------------------------------------------------
+     Total Time   9 secs
+-----------------------------------------------------
+  
+2026-09-05 09:27:14 INFO  (HeadlessAnalyzer) REPORT: Analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin  
+2026-09-05 09:27:14 INFO  (HeadlessAnalyzer) REPORT: Execute script: ExportMailboxContract.java '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\research\checkpoints\2026-09-05-npu-quiescence\ghidra-current-rv32' '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\all-functions.pattern'   
+2026-09-05 09:27:14 INFO  (HeadlessAnalyzer) SCRIPT: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\ExportMailboxContract.java  
+2026-09-05 09:27:16 WARN  (DecompileCallback) Decompiling ram:8400b0a6, pcode error at ram:8400b19a: Unable to resolve constructor at ram:8400b19a  
+2026-09-05 09:27:16 WARN  (DecompileCallback) Decompiling ram:8400b0a6, pcode error at ram:8400b3ba: Unable to resolve constructor at ram:8400b3ba  
+2026-09-05 09:27:17 WARN  (DecompileCallback) Decompiling ram:8400c284, pcode error at ram:8400c56a: Unable to resolve constructor at ram:8400c56a  
+2026-09-05 09:27:17 WARN  (DecompileCallback) Decompiling ram:8400c284, pcode error at ram:8400c720: Unable to resolve constructor at ram:8400c720  
+2026-09-05 09:27:21 WARN  (DecompileCallback) Decompiling ram:8401b174, pcode error at ram:8401b174: Unable to resolve constructor at ram:8401b174  
+2026-09-05 09:27:21 WARN  (DecompileCallback) Decompiling ram:8401d3b0, pcode error at ram:8401d3d0: Unable to resolve constructor at ram:8401d3d0  
+2026-09-05 09:27:21 WARN  (DecompileCallback) Decompiling ram:8401d908, pcode error at ram:8401d90a: Unable to resolve constructor at ram:8401d90a  
+2026-09-05 09:27:21 ERROR (HeadlessAnalyzer) REPORT SCRIPT ERROR:  java.lang.IllegalStateException: Contract export incomplete
+	at ExportMailboxContract.run(ExportMailboxContract.java:58)
+	at ghidra.app.script.GhidraScript.executeNormal(GhidraScript.java:460)
+	at ghidra.app.script.GhidraScript.doExecute(GhidraScript.java:314)
+	at ghidra.app.script.GhidraScript.execute(GhidraScript.java:290)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScript(HeadlessAnalyzer.java:597)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScriptsList(HeadlessAnalyzer.java:941)
+	at ghidra.app.util.headless.HeadlessAnalyzer.analyzeProgram(HeadlessAnalyzer.java:1097)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processFileWithImport(HeadlessAnalyzer.java:1595)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithLoader(HeadlessAnalyzer.java:1755)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1696)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1780)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:464)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+ 
+2026-09-05 09:27:21 INFO  (HeadlessAnalyzer) ANALYZING changes made by post scripts: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin  
+2026-09-05 09:27:21 INFO  (HeadlessAnalyzer) REPORT: Post-analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin  
+2026-09-05 09:27:22 INFO  (LocalFileSystem) /en7581_MT7996_npu_rv32.bin: file created (captain)  
+2026-09-05 09:27:22 INFO  (HeadlessAnalyzer) REPORT: Save succeeded for: /en7581_MT7996_npu_rv32.bin (CurrentNpu:/en7581_MT7996_npu_rv32.bin)  
+2026-09-05 09:27:22 INFO  (HeadlessAnalyzer) REPORT: Import succeeded  
