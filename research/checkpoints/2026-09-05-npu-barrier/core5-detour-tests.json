@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "detour_elf_sha256": "302f17b1ebf0139886fa8779c591ba300ea17776504f36543063ea24c02f51d3",
+  "cases": [
+    {
+      "site": "0x8400cb3e",
+      "old_ring_unchanged": true,
+      "consumer_reloaded": 7,
+      "new_enqueue": [
+        8738,
+        80,
+        0,
+        0,
+        1,
+        2
+      ],
+      "writes": [
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc4e",
+          "address": "0x3e9046e2",
+          "size": 2,
+          "value": 8
+        },
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc52",
+          "address": "0x3e911070",
+          "size": 4,
+          "value": 254
+        }
+      ]
+    },
+    {
+      "site": "0x8400cbbe",
+      "old_ring_unchanged": true,
+      "consumer_reloaded": 7,
+      "new_enqueue": [
+        8738,
+        80,
+        0,
+        0,
+        1,
+        2
+      ],
+      "writes": [
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc4e",
+          "address": "0x3e9046e2",
+          "size": 2,
+          "value": 8
+        },
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc52",
+          "address": "0x3e911070",
+          "size": 4,
+          "value": 254
+        }
+      ]
+    },
+    {
+      "site": "0x8400cbca",
+      "old_ring_unchanged": true,
+      "consumer_reloaded": 7,
+      "new_enqueue": [
+        8738,
+        80,
+        0,
+        0,
+        1,
+        2
+      ],
+      "writes": [
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc4e",
+          "address": "0x3e9046e2",
+          "size": 2,
+          "value": 8
+        },
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc52",
+          "address": "0x3e911070",
+          "size": 4,
+          "value": 254
+        }
+      ]
+    },
+    {
+      "site": "0x8400cc0c",
+      "old_ring_unchanged": true,
+      "consumer_reloaded": 7,
+      "new_enqueue": [
+        8738,
+        80,
+        0,
+        0,
+        1,
+        2
+      ],
+      "writes": [
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc4e",
+          "address": "0x3e9046e2",
+          "size": 2,
+          "value": 8
+        },
+        {
+          "phase": "new-generation-running",
+          "pc": "0x8400cc52",
+          "address": "0x3e911070",
+          "size": 4,
+          "value": 254
+        }
+      ]
+    }
+  ],
+  "inflight": {
+    "ack_withheld_until_helper_returns": true,
+    "helper_return_is_modeled": true,
+    "writes_before_stop": [
+      {
+        "phase": "active",
+        "pc": "0x8400cc4e",
+        "address": "0x3e9046e2",
+        "size": 2,
+        "value": 1
+      },
+      {
+        "phase": "active",
+        "pc": "0x8400cc52",
+        "address": "0x3e910000",
+        "size": 4,
+        "value": 254
+      }
+    ]
+  },
+  "missing_detour_control": {
+    "rejected": true,
+    "assertion": "0x8400cc08"
+  },
+  "register_mie_preservation_cases": [
+    {
+      "site": "0x8400cb3e",
+      "mie": false,
+      "startup_value": 0
+    },
+    {
+      "site": "0x8400cb3e",
+      "mie": false,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cb3e",
+      "mie": true,
+      "startup_value": 0
+    },
+    {
+      "site": "0x8400cb3e",
+      "mie": true,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cbbe",
+      "mie": false,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cbbe",
+      "mie": true,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cbca",
+      "mie": false,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cbca",
+      "mie": true,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cc0c",
+      "mie": false,
+      "startup_value": 1
+    },
+    {
+      "site": "0x8400cc0c",
+      "mie": true,
+      "startup_value": 1
+    }
+  ],
+  "patches": [
+    {
+      "address": "0x8400cb3e",
+      "target": "0x8404044c",
+      "preimage": "1c43fddf",
+      "postimage": "6f30f310"
+    },
+    {
+      "address": "0x8400cbbe",
+      "target": "0x84040530",
+      "preimage": "83570a00",
+      "postimage": "6f303317"
+    },
+    {
+      "address": "0x8400cbca",
+      "target": "0x84040614",
+      "preimage": "83576100",
+      "postimage": "6f30b324"
+    },
+    {
+      "address": "0x8400cc0c",
+      "target": "0x840406f8",
+      "preimage": "83576100",
+      "postimage": "6f30d32e"
+    }
+  ],
+  "scope": "Actual RV32 protocol and four instruction detours in emulator memory, original core-5 dispatcher/worker and SET4/GET3/SET2/SET7. Other harts and drain witnesses are modeled; printf/hart ID are stubbed; enqueue halts at entry or has a modeled return. Reserved addresses are emulation-only. No deployable patched blob, all-hart hook integration, cache/bus/DMA proof or router test."
+}

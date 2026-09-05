@@ -17475,3 +17475,34 @@ Status and boundary:
 - Report, replay harnesses, hashes and scope:
   `research/checkpoints/2026-09-05-npu-reset/REPORT.md`. Current reference, logging
   and remaining-work list updated. Both goals remain active and incomplete.
+
+## Generation Barrier Candidate And IRQ Ownership - 2026-09-05
+
+- Added unpromoted `firmware/npu/barrier.c`: eight-hart stop generations, five
+  separately witnessed drain categories, stale-completion rejection, resource
+  preparation and all-hart refresh before arm. Timeouts cannot authorize reuse;
+  release revokes reclamation even on partial restart. No packaged-source change.
+- Same C passes 9,351 native/RV32 call pairs and 100 stop/resume cycles. Each
+  missing worker/domain/refresh, partial restart, stale epoch and generation
+  exhaustion is tested; three omitted-check mutation controls are rejected.
+- Four SHA-guarded RV32 core-5 detours in emulator memory cover startup, outer
+  polling and both empty-ring paths. They park before ownership work, withhold
+  in-flight ACK, and reload a replacement ring/consumer before new-generation
+  consumption. Ten integer-register/MIE passthrough cases and an omitted-detour
+  control pass. Other harts and physical drain witnesses remain modeled.
+- Seeded the previously omitted UART IRQ entry `840047a0` in a new Ghidra
+  project; 425 discovered functions export without decompile failures. Original
+  UART registration/dispatch/command instructions re-enable RX after STOP/GET0;
+  original PPE IRQ reaches bufid-release entry with `0x1234` after STOP/GET0.
+  Registers/interrupt delivery are modeled; physical frees are not claimed.
+- Coordinator IRQ/mailbox/UART admission is now an explicit implementation gate.
+  Three direct copy-helper call sites are inventoried, not a complete indirect
+  caller or hardware completion proof. No production code/state reservation,
+  deployable patched blob, common Linux recovery policy or all-hart hook coverage.
+- Packaged source lock/config remains identical to `364b093`; patch 926 remains
+  latest packaged source and R1 remains last router-tested. No router access,
+  image build, flash, association or configuration changes. Full NPU ownership
+  parity and client Wi-Fi acceptance remain open; both goals stay active.
+- Report and replay: `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`.
+  Current reference/logging/remaining-work are updated. Private inputs, local
+  lld extraction, compiler artifacts and Ghidra projects remain ignored.

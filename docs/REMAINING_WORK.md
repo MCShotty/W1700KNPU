@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-05 from the executable reset-counterexample checkpoint, current reference and release
+Updated 2026-09-05 from the generation-barrier candidate, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926). The last
@@ -21,6 +21,10 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   token/ring reclamation. Include slow path, both indirect workers, startup and
   in-flight work; close shared copy-engine/IRQ/PPE/tunnel ownership boundaries.
   Current STOP/GET cannot supply this guarantee; longer polling is insufficient.
+  An unpromoted eight-hart protocol and four core-5 emulator detours now pass
+  tests; remaining harts, real drain callbacks and production memory placement
+  are not integrated. Native UART/PPE IRQ counterexamples require coordinator
+  control admission as well as worker safe points.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -84,7 +88,8 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-05-npu-reset/REPORT.md`,
+Detailed evidence: `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`,
+`research/checkpoints/2026-09-05-npu-reset/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md`
 and prior `research/checkpoints/2026-09-05-npu-attach/REPORT.md`.
 All substantive changes must also be recorded in `W1700K_STOCK_PORT_LEDGER.md`.

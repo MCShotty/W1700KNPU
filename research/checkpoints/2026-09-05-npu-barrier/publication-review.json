@@ -1,0 +1,27 @@
+{
+  "reviewed": true,
+  "candidate_protocol_added": true,
+  "core5_detours_emulation_only": true,
+  "all_hart_hooks_integrated": false,
+  "hardware_drain_proven": false,
+  "packaged_firmware_source_changed": false,
+  "image_built": false,
+  "router_contacted": false,
+  "flashed": false,
+  "gitleaks": {
+    "new_candidate_firmware_directory": 0,
+    "new_checkpoint_directory": 0,
+    "tests_npu_directory": 0,
+    "tools_ghidra_directory": 0,
+    "docs_findings": 3,
+    "docs_manual_disposition": "Existing prose false positives: ledger line 319 and current reference lines 734 and 743 contain scatter/SKB/bufid lifecycle, not credentials. No new finding."
+  },
+  "excluded": [
+    "private firmware binary inputs",
+    "router keys and device-specific backups",
+    "factory calibration and recovery data",
+    "local compiler/linker dependencies and outputs",
+    "Ghidra project databases"
+  ],
+  "scope": "Research, unpromoted source and executable-model evidence only. Full NPU parity and Wi-Fi client acceptance remain incomplete."
+}

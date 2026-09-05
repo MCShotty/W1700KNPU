@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (executable NPU stop counterexample; firmware/router unchanged)
+Last updated: 2026-09-05 (generation barrier candidate; packaged firmware/router unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,27 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Executable Stop Counterexample - 2026-09-05
+## Current Work - Generation Barrier Candidate - 2026-09-05
+
+- Added unpromoted eight-hart generation protocol with separate drain witnesses,
+  stale-epoch rejection and all-hart refresh before restart. 9,351 compiled
+  native/RV32 call pairs, 100 cycles and three mutation controls pass.
+- Four actual RV32 core-5 detours pass startup/outer/empty-loop stop and new-ring
+  resume tests in emulator memory. In-flight ACK withholding and ten register/MIE
+  preservation cases pass. Other harts/drain witnesses remain modeled; no
+  deployable blob or production memory reservation is claimed.
+- Resolved a missing UART IRQ entry in Ghidra: 425 discovered functions export.
+  Original IRQ registration/dispatch tests show UART can re-enable RX and PPE can
+  reach bufid release after STOP/GET0. Coordinator IRQ/control admission is a
+  required part of the full barrier, not covered by worker polling alone.
+- Candidate lives in `firmware/npu/`, outside packaged source. Source lock/config,
+  patch 926, last router-tested R1 and hardware state are unchanged. No router
+  access, image build or flash. All-hart hooks, hardware drain/containment and
+  common Linux recovery/removal ownership policy remain incomplete.
+- Evidence and exact next gates:
+  `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`.
+
+## Previous Work - Executable Stop Counterexample - 2026-09-05
 
 - Resolved stock SER dispatch through the previously missing connac_if layer,
   arch/GE/PCI callback tables and registration. Original AArch64 wrapper code

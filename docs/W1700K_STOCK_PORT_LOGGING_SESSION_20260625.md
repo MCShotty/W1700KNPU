@@ -6138,3 +6138,23 @@ These are static/emulator results, not hardware DMA or live-binding proof. No
 firmware source/router/image change. The actual generation-aware barrier and
 shared recovery/removal ownership policy remain open. Full evidence and replay:
 `research/checkpoints/2026-09-05-npu-reset/REPORT.md`. Ledger/reference updated.
+
+## Generation Barrier Candidate - 2026-09-05
+
+Implemented an unpromoted eight-hart generation protocol with separate drain
+witnesses and refresh-before-arm. Actual C passes 9,351 native/RV32 call pairs,
+100 cycles and three check-removal controls. Four core-5 instruction detours in
+emulator memory pass startup/empty/steady/in-flight stop, new-ring refresh and
+ten register/MIE preservation cases. No production memory reservation or
+deployable patched blob is claimed; other harts and drain witnesses are modeled.
+
+New Ghidra import resolves a missed UART handler (425 discovered functions).
+Native IRQ registration/dispatch shows UART writes can re-enable RX and the PPE
+handler can reach bufid release after STOP/GET0. These require coordinator IRQ
+and control-command admission, not just worker polling. Hardware drain semantics,
+all-hart hooks and shared Linux recovery/removal retention remain unfinished.
+
+Packaged source/config and patch 926 are unchanged. No router contact, image
+build or flash. R1 remains the last router-tested WLAN-NPU-disabled baseline,
+not full parity or fresh client acceptance. Report, hashes and replay commands:
+`research/checkpoints/2026-09-05-npu-barrier/REPORT.md`. Ledger/reference updated.

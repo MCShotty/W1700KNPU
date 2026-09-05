@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "packaged_source_unchanged_from": "364b0932749a435705bfa2d0e3ddfc93635d0108",
+  "source_lock_sha256": "139e8b45d60c634b5578ac6a818196bccc63a1ba7a673a69afa3d9b50fa3a203",
+  "ghidra_export_sha256": "8bf363da702e14948064fdd4b4ef9fa40c7b0abacc1280a58f2633ac835f09ad",
+  "source_files": {
+    "firmware/npu/barrier.c": "b2b2edabb46e45272dc9152adc1123f5d5e9cd367f688abb20ae0d1240c8b6f4",
+    "firmware/npu/barrier.h": "178259894447c7e26558407f17623404be36abb23445a62137c13bb7cb39bd00",
+    "tests/npu/barrier-core5-emulation.S": "889b10acf2aebdfdef1fb57d4305145ff1d85c05a80dc0b28638ad7c33437223",
+    "tests/npu/barrier-emulation.ld": "ef4b44d68096d541bec3fb671d196e7f22810fada5c32341861aef7f0565b099",
+    "tests/npu/test_barrier_protocol.py": "053a66b33c944ec3554fbd6c73412e0b86e67fdbbfeedefaf6ff756a114c9c58",
+    "tests/npu/test_barrier_core5.py": "77fe3fd24dbfda55bf8548acfa9a5398e8cc641bf6a66f0ac1885f8438907e78",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/verify_barrier_evidence.py": "a530030e8379556d738e7cbaecfa3adfe59999792b44424824169adfbc20f408",
+    "tools/ghidra/SeedNpuUartIrq.java": "478b5463a9a8540e628ccab77a48e08898e7cedc3bcd73ac2c3ffc83e28af577",
+    "tools/ghidra/run_barrier_irq.ps1": "3b15e6770b18d0fc5b533fbd41dccae994c35b9c339a1b759b96a81dbaa9f7c6"
+  },
+  "discovered_functions": 425,
+  "failed_decompilations": 0,
+  "direct_copy_helper_calls": [
+    {
+      "function": "0x8400e87a",
+      "call": "0x8400eb32"
+    },
+    {
+      "function": "0x8400f0c4",
+      "call": "0x8400f198"
+    },
+    {
+      "function": "0x8400f528",
+      "call": "0x8400f58e"
+    }
+  ],
+  "direct_irq_registration_calls": [
+    {
+      "function": "0x840001a0",
+      "call": "0x840001b0"
+    },
+    {
+      "function": "0x84000aee",
+      "call": "0x84000b20"
+    },
+    {
+      "function": "0x84003f00",
+      "call": "0x84003f2e"
+    },
+    {
+      "function": "0x84004348",
+      "call": "0x84004480"
+    },
+    {
+      "function": "0x8400981c",
+      "call": "0x840098d0"
+    }
+  ],
+  "scope": "Exact current artifacts and discovered direct calls only. Counts are not whole-program coverage; indirect calls and hardware ownership remain open. Candidate code is not packaged."
+}
