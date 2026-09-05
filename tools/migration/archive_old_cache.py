@@ -23,7 +23,8 @@ WINDOWS = [
     'ghidra-v642-hostadpt-tx-headroom-20260805', 'ghidra-final-20260710',
 ]
 LINUX = ['v688-provider79-build-20260901/build_dir',
-         'v686-release-73a8983-20260901/build-a-upper/build_dir']
+         'v686-release-73a8983-20260901/build-a-upper/build_dir',
+         'v689-build-full-20260902/build_dir']
 
 
 def sha(path):
@@ -102,10 +103,15 @@ def archive_one(source, allowed, destination, label):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('surface', choices=['windows', 'linux'])
+    parser.add_argument('--name', help='One exact entry from the approved surface list')
     args = parser.parse_args()
     if args.surface == 'windows':
-        for name in WINDOWS:
+        if args.name and args.name not in WINDOWS:
+            raise RuntimeError('Unapproved archive name')
+        for name in ([args.name] if args.name else WINDOWS):
             archive_one(WINDOWS_ROOT / name, WINDOWS_ROOT, WINDOWS_ARCHIVES / 'ghidra', name)
     else:
-        for name in LINUX:
+        if args.name and args.name not in LINUX:
+            raise RuntimeError('Unapproved archive name')
+        for name in ([args.name] if args.name else LINUX):
             archive_one(LINUX_ROOT / name, LINUX_ROOT, ROOT / '.local/archives/build-cache', name)

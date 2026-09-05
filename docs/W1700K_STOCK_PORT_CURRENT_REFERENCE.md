@@ -2,6 +2,15 @@
 
 Last updated: 2026-09-05 (NPU provider-guard checkpoint; running image unchanged)
 
+Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
+validation, service and release gates. Update it along with the ledger.
+
+Storage maintenance completed 2026-09-05: C: 59.96 GiB free, D: 38.34 GiB free.
+Inactive v689 prepared source/binaries are now in a verified local archive;
+current source/build and all protected recovery data remain intact. See
+`docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
+provider-guard/recovery checkpoint below; cleanup made no router changes.
+
 ## Current Work - NPU Provider Guard and Recovery - 2026-09-05
 
 - Implemented the absent-provider guard before six coherent NPU allocations:

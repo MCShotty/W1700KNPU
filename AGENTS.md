@@ -22,5 +22,8 @@ say when a read-only session leaves it unchanged.
   evidence, not an instruction to apply every old patch to current upstream.
 - Keep edits surgical and use existing source patterns. Do not apply global
   path rewrites to archived evidence or delete an only copy during cleanup.
+- Use bounded standalone prompts for authorized subagents; do not fork this
+  accumulated task history by default. Keep large evidence in files and return
+  concise summaries/hashes so duplicate histories do not exhaust the drives.
 - Use the authorized GitHub connector if native Git authentication is absent;
   do not extract connector credentials. Verify the remote tree before cleanup.

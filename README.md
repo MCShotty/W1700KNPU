@@ -15,6 +15,7 @@ passed; actual-client association and throughput acceptance remain open.
 Start with [current reference](docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md),
 [ledger](docs/W1700K_STOCK_PORT_LEDGER.md), and
 [logging session](docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md).
+The [remaining-work checklist](docs/REMAINING_WORK.md) is the resume plan.
 
 ## Layout
 

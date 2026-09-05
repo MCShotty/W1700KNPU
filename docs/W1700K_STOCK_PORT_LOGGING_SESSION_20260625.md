@@ -6084,3 +6084,20 @@ Pinned Ethernet-only router readback confirms the W1700K on 6.18.44, WLAN NPU
 compiled out and healthy memory. Detailed evidence, warnings, scope boundaries
 and next gates: `research/checkpoints/2026-09-05-npu-attach/REPORT.md`. Ledger and
 current reference updated; both goals remain unfinished.
+
+## Remaining-Work Note and Storage Cleanup - 2026-09-05
+
+Created the canonical remaining-work checklist and durable routing note at the
+user's request. Reviewed Windows user-profile and WSL storage. Preserved all
+histories via verified compression, cleared regenerable caches, removed only
+SHA-matching duplicate installers, and archived the complete inactive v689 build
+before removing its expanded copy. Private inventories stay local.
+
+Normal VHD compaction succeeded and WSL restarted. Final host free space:
+C: 59.96 GiB, D: 38.34 GiB, approximately 39.68 GiB gained in this pass.
+Source reconstruction, release checksums and Git integrity still pass. No router
+or firmware changes. Recovery/calibration/credentials/current build and rollback
+remain protected. Exact receipts: `docs/maintenance/cleanup-20260905/`.
+
+Resume from `docs/REMAINING_WORK.md`; NPU quiescence/lifetime work and real-client
+WiFi/MLO throughput/stability acceptance are still open.

@@ -1,0 +1,77 @@
+{
+  "before_free_gib_approx": {
+    "C": 28.69,
+    "D": 29.93
+  },
+  "after": [
+    {
+      "Drive": "C",
+      "FreeBytes": 64382849024,
+      "FreeGiB": 59.96
+    },
+    {
+      "Drive": "D",
+      "FreeBytes": 41169944576,
+      "FreeGiB": 38.34
+    }
+  ],
+  "inactive_history": {
+    "unique_files_processed": 221,
+    "verified_operations": 222,
+    "allocated_bytes_saved": 21549123499,
+    "failed_compression_operations": 0,
+    "all_content_hashes_unchanged": true,
+    "active_task_file_excluded": true,
+    "method": "Windows compact LZX; no transcript deletion or content rewriting"
+  },
+  "regenerable_windows_caches": {
+    "removed_files": 4110,
+    "removed_logical_bytes": 3233957587,
+    "locked_or_skipped": 1
+  },
+  "duplicate_installers": {
+    "removed_files": 19,
+    "removed_bytes": 8681127677,
+    "existing_backup_zip_preserved": true,
+    "zip_members_and_sources_sha256_verified": true
+  },
+  "wsl_caches": {
+    "removed_files": 818,
+    "allocated_bytes": 2425573376
+  },
+  "inactive_build_archives": [
+    {
+      "source": "/home/captain/w1700k-openwrt-build/v689-build-full-20260902/build_dir",
+      "archive": "/home/captain/W1700KNPU/.local/archives/build-cache/v689-build-full-20260902__build_dir.tar.gz",
+      "archive_sha256": "6a3a854bf58be70ddbf026f26e32664c36cb308e2c5d736dbc52885437e56101",
+      "archive_bytes": 3695476891,
+      "source_bytes": 11720147920,
+      "verified": true,
+      "original_deleted": true,
+      "created_unix": 1788586436.067103
+    }
+  ],
+  "vhd_compaction": {
+    "Target": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+    "BeforeBytes": 77866205184,
+    "Method": "Microsoft CompactVirtualDisk V2 open / V1 compact",
+    "SparseEnabled": false,
+    "Win32Status": 0,
+    "Message": "The operation completed successfully.",
+    "RestartExitCode": 0,
+    "AfterBytes": 67204284416,
+    "ReclaimedBytes": 10661920768
+  },
+  "privacy": "Personal filenames, archive contents and complete inventory remain local and Git-ignored.",
+  "preserved": [
+    "current source/build/runtime",
+    "all task histories",
+    "personal documents/media/archives",
+    "credentials and account/browser state",
+    "current and rollback firmware",
+    "factory/calibration/router backups",
+    "recovery VHD",
+    "only archived-source copies"
+  ],
+  "router_contacted": false
+}

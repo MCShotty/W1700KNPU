@@ -17356,3 +17356,41 @@ Status and boundary:
   shared failure handling for L1/full reset/removal before reclaiming ownership;
   then current-mt76 lifecycle port and serial-backed active-NPU tests. Both goals
   remain active, stock parity and real-client throughput acceptance unfinished.
+
+## Remaining-Work Note and Second Storage Cleanup - 2026-09-05
+
+- User requested a complete remaining-work note and further cleanup across WSL
+  and the Windows user profile. Created `docs/REMAINING_WORK.md`, linked it from
+  README/current reference, and saved a requested durable routing note. The
+  checklist distinguishes implemented code from unfulfilled hardware/client,
+  NPU ownership, recovery, monitoring, CPU clock and service acceptance gates.
+- Metadata-only profile/drive inventories identified space consumers without
+  uploading personal file lists. 221 inactive histories were losslessly LZX-
+  compressed with unchanged SHA256, saving 21,549,123,499 allocated bytes.
+  Active task history and account state were preserved. No history deletion.
+- Cleared 4,110 regenerable Windows cache files, skipped one locked item, and
+  removed 19 installer duplicates only after matching their backup ZIP members
+  and rechecking the backup. Personal archive, documents/media and installed
+  applications remain. Cache/install logical removals: 3,233,957,587 and
+  8,681,127,677 bytes, respectively.
+- Removed 818 verified WSL duplicate-download/apt-cache files, 2,425,573,376
+  allocated bytes. Retained every unique download and installed package. The
+  5,057 individually audited generated objects were not discarded separately.
+- Fully archived and verified inactive v689 build_dir before removing its
+  expanded copy. Archive SHA256:
+  `6a3a854bf58be70ddbf026f26e32664c36cb308e2c5d736dbc52885437e56101`,
+  3,695,476,891 bytes. All source/historical binary contents are preserved;
+  this is not a claim of bit-for-bit future rebuild reproducibility. v685,
+  current build/toolchain and earlier sole-copy archives remain untouched.
+- Native normal VHD compaction returned success, reclaiming 10,661,920,768
+  physical bytes; no unsafe sparse flag. WSL restarted, systemd is running,
+  Git integrity passes, source reconstruction verifies 36 files and both
+  current/rollback bundle checksum files pass. Protected recovery VHD remains
+  68,640,833,536 bytes and read-only; it was not compacted or deleted.
+- Final measured free space: C: 59.96 GiB; D: 38.34 GiB. Approximately 39.68 GiB
+  net additional host-drive space. Full aggregate receipts and limitations:
+  `docs/maintenance/cleanup-20260905/`. Detailed personal inventory stays ignored
+  and local. Firmware/source behavior and router state were not changed.
+- Both goals remain unfinished. Next is the provider/stock reset coordinator
+  and safe shared quiescence policy, followed by current-mt76 ownership port
+  and the validation gates in the remaining-work checklist.

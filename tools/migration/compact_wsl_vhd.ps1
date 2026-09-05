@@ -1,6 +1,17 @@
+param(
+    [string]$ReportPath = '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\docs\migration\vhd-compaction-receipt.json',
+    [string]$LocalReceiptPath = 'C:\Users\captain\Downloads\FW\W1700KNPU-LocalArchives\vhd-compaction-receipt.json'
+)
 $ErrorActionPreference = 'Stop'
 $target = 'D:\WSL\Ubuntu\ext4.vhdx'
 $repo = '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU'
+$ReportPath = [IO.Path]::GetFullPath($ReportPath)
+$LocalReceiptPath = [IO.Path]::GetFullPath($LocalReceiptPath)
+if (-not $ReportPath.StartsWith($repo + '\docs\',[StringComparison]::OrdinalIgnoreCase) -or
+    -not $LocalReceiptPath.StartsWith('C:\Users\captain\Downloads\FW\W1700KNPU-LocalArchives\',[StringComparison]::OrdinalIgnoreCase)) {
+    throw 'Receipt outside approved report locations'
+}
+New-Item -ItemType Directory -Path (Split-Path -Parent $ReportPath) -Force | Out-Null
 $registration = @(Get-ChildItem 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss' |
     ForEach-Object { Get-ItemProperty $_.PSPath } | Where-Object DistributionName -eq 'Ubuntu')
 if ($registration.Count -ne 1) { throw 'Ubuntu registration is ambiguous' }
@@ -63,9 +74,9 @@ try {
     $result.AfterBytes = (Get-Item -LiteralPath $target).Length
     $result.ReclaimedBytes = $before - $result.AfterBytes
     $json = $result | ConvertTo-Json -Depth 4
-    $json | Set-Content -LiteralPath 'C:\Users\captain\Downloads\FW\W1700KNPU-LocalArchives\vhd-compaction-receipt.json' -Encoding utf8
+    $json | Set-Content -LiteralPath $LocalReceiptPath -Encoding utf8
     if ($result.RestartExitCode -eq 0) {
-        $json | Set-Content -LiteralPath (Join-Path $repo 'docs\migration\vhd-compaction-receipt.json') -Encoding utf8
+        $json | Set-Content -LiteralPath $ReportPath -Encoding utf8
     }
     $json
 }

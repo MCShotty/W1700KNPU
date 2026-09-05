@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Remove only complete, content-verified old caches retained in local archives."""
 import hashlib
+import argparse
 import json
 import os
 from pathlib import Path
@@ -10,7 +11,8 @@ ROOT = Path(__file__).resolve().parents[2]
 ALLOWED = Path('/home/captain/w1700k-openwrt-build').resolve()
 NAMES = {'v688-provider79-build-20260901/build_dir',
          'v686-release-73a8983-20260901/build-a-upper/build_dir',
-         '.v685-build-upper/build_dir'}
+         '.v685-build-upper/build_dir',
+         'v689-build-full-20260902/build_dir'}
 
 
 def sha(p):
@@ -18,6 +20,12 @@ def sha(p):
         return hashlib.file_digest(f, 'sha256').hexdigest()
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--output', type=Path, default=ROOT / 'docs/migration/linux-archived-cache-removals.json')
+args = parser.parse_args()
+output = args.output.resolve()
+if not output.is_relative_to(ROOT):
+    raise RuntimeError('Cleanup receipt must remain in the canonical workspace')
 results = []
 for receipt in sorted((ROOT / '.local/archives/build-cache').glob('*.receipt.json')):
     record = json.loads(receipt.read_text())
@@ -47,7 +55,7 @@ for receipt in sorted((ROOT / '.local/archives/build-cache').glob('*.receipt.jso
     record['original_deleted'] = True
     receipt.write_text(json.dumps(record, indent=2) + '\n')
     results.append({k: v for k, v in record.items() if k != 'entries'})
-out = ROOT / 'docs/migration/linux-archived-cache-removals.json'
+out = output
 out.parent.mkdir(parents=True, exist_ok=True)
 previous = json.loads(out.read_text()) if out.exists() else []
 out.write_text(json.dumps(previous + results, indent=2) + '\n')
