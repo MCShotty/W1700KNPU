@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'research/checkpoints/2026-09-05-npu-admission'
 MBOX, INIT, ISR, WIFI = 0x1ec0c000, 0x84003f00, 0x84003cd6, 0x84003a9c
 PHYSICAL, PAYLOAD, CAPACITY = 0x02000000, 0x42000000, 256
+from emulation_layout import ICV
+
 CALLBACK = 0x3e900d2c
 
 
@@ -37,7 +39,7 @@ class Mailbox(Irqs):
         assert self.get32(CALLBACK + 16) == 0x84001060
         assert self.get32(CALLBACK + 20) == 0x840060a8
         assert self.get32(SRAM + 0x1850 + 8 * 4) == ISR
-        self.put32(SRAM + 0x2ac0, SRAM + 0x14000)
+        self.put32(SRAM + 0x2ac0, ICV)
         self.trace = True
 
     def mbox_read(self, cpu, access, address, size, value, data):

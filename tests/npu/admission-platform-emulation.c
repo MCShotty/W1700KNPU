@@ -2,11 +2,18 @@
  * are not a production memory or device-drain contract. */
 #include "admission.h"
 
-#define BARRIER ((struct npu_barrier *)0x3e920000u)
-#define ADMISSION ((struct npu_admission *)0x3e920100u)
-#define MASKED ((uint32_t *)0x3e920140u)
+extern struct npu_barrier npu_emulation_barrier_state;
+extern struct npu_admission npu_emulation_admission_state;
+extern uint32_t npu_emulation_masked_state[NPU_ADMISSION_IRQ_WORDS];
+#define BARRIER (&npu_emulation_barrier_state)
+#define ADMISSION (&npu_emulation_admission_state)
+#define MASKED npu_emulation_masked_state
 #define MBOX 0x1ec0c000u
 #define CALLBACKS ((const uint32_t *)0x3e900d2cu)
+
+_Static_assert(sizeof(struct npu_barrier) <= 0x100, "barrier state overlap");
+_Static_assert(sizeof(struct npu_admission) <= 0x40, "admission state overlap");
+_Static_assert(NPU_ADMISSION_IRQ_WORDS * sizeof(uint32_t) == 0x18, "mask extent");
 
 typedef uint32_t (*native_call)(uint32_t, uint32_t);
 typedef uint32_t (*native_hart_id)(void);

@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "native_rv32_call_pairs": 9351,
+  "stop_resume_cycles": 100,
+  "worker_omission_cases": 8,
+  "domain_omission_cases": 5,
+  "partial_refresh_stop_cases": 8,
+  "mutation_controls": {
+    "missing-last-worker": {
+      "rejected": true,
+      "assertion": "('workers_parked', (1,), 1, 0)"
+    },
+    "missing-last-domain": {
+      "rejected": true,
+      "assertion": "('reclaimable', (1,), 1, 0)"
+    },
+    "missing-last-refresh": {
+      "rejected": true,
+      "assertion": "('arm', (1,), 1, 0)"
+    }
+  },
+  "unicorn": "2.1.4",
+  "source_sha256": "b2b2edabb46e45272dc9152adc1123f5d5e9cd367f688abb20ae0d1240c8b6f4",
+  "rv32_elf_sha256": "f7e6dc495cc12a5e7d33effe42d78259706c2d93782bf3d6e7b3b7d1240a18a0",
+  "native_elf_sha256": "277958ab0caffbe283f9afa32168e7da5f22f7d1b5f06d333a84d3499f04ee89",
+  "scope": "Candidate protocol actual C, compiled native and RV32; serialized API schedules and modeled drain witnesses. No firmware hooks, hardware/cache/DMA behavior, Linux recovery integration or physical-router acceptance."
+}

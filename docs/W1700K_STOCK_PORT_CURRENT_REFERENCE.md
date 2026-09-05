@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (coordinator admission candidate; packaged firmware/router unchanged)
+Last updated: 2026-09-06 (bounded layout and native GDMA contract; packaged firmware/router unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,25 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Coordinator Admission Candidate - 2026-09-05
+## Current Work - Bounded Layout And GDMA Contract - 2026-09-06
+
+- Corrected emulator placement: local SRAM is bounded to a conservative 32 KiB;
+  state is at `0x3e906000`, with synthetic ring data in separate 480 KiB SRAM.
+  Linker/structure/symbol checks reject old out-of-window and overlapping state.
+- Sixteen native reset cases verify exact BSS clear bounds and eight stack tops;
+  36 allocator/table entries and the retained R1 FIT/board reservations verify.
+  Ten suites, existing worker/admission regressions and four linker controls pass.
+  This is not full boot, hardware SRAM/cache proof or a production reservation.
+- Stock kernel GDMA/HSDMA exports recover 63 functions, 67 with referrers.
+  Native ARM64 confirms WAIT polls CT0.ENABLE clear; RV32 copy polls only DONE.
+  Stale-DONE early return is conditional on unverified hardware start behavior,
+  not a proved live Wi-Fi fault. No physical drain witness is claimed.
+- Packaged source/config and protocol sources are unchanged. No router contact,
+  image, flash or association change. Real drains, boot/placement/cache closure,
+  Linux recovery/removal, full parity and actual-client acceptance remain open.
+- Evidence: `research/checkpoints/2026-09-06-npu-layout/REPORT.md`.
+
+## Previous Work - Coordinator Admission Candidate - 2026-09-05
 
 - Added unpromoted coordinator admission with active-handler retention,
   deferred IRQs, fault propagation and a versioned 64-byte control envelope.

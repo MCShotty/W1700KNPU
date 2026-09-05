@@ -1,0 +1,4763 @@
+program=stock-kernel.vmlinux.elf
+sha256=a51e6d0a6deee620a5f715c9469f193906cdf3fcea28b97ce01cf88383aa704e
+language=AARCH64:LE:64:v8A
+
+FUNCTION CLEAR_GDMA_DONE @ ffffffc0100cbfa0
+decompiled=true
+
+void CLEAR_GDMA_DONE(uint param_1)
+
+{
+  DataMemoryBarrier(0,2);
+  *(int *)(*(long *)(DAT_ffffffc010c6c138 + 8) + 0x204) = 1 << (ulong)(param_1 & 0x1f);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cbfa0 dmb OSHST
+ffffffc0100cbfa4 adrp x2,-0x3fef394000
+ffffffc0100cbfa8 mov w1,#0x1
+ffffffc0100cbfac lsl w0,w1,w0
+ffffffc0100cbfb0 ldr x1,[x2, #0x138]
+ffffffc0100cbfb4 ldr x1,[x1, #0x8]
+ffffffc0100cbfb8 add x1,x1,#0x204
+ffffffc0100cbfbc str w0,[x1]
+ffffffc0100cbfc0 ret
+
+FUNCTION SET_GDMA_CONFIG @ ffffffc0100cbfc4
+decompiled=true
+
+void SET_GDMA_CONFIG(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
+                    undefined4 param_5)
+
+{
+  uint uVar1;
+  
+  uVar1 = param_1 * 0x10;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)uVar1) = param_2;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)(uVar1 + 4)) = param_3;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)(uVar1 + 0xc)) = param_5;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)(uVar1 + 8)) = param_4;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cbfc4 lsl w0,w0,#0x4
+ffffffc0100cbfc8 dmb OSHST
+ffffffc0100cbfcc adrp x5,-0x3fef394000
+ffffffc0100cbfd0 ldr x6,[x5, #0x138]
+ffffffc0100cbfd4 ldr x6,[x6, #0x8]
+ffffffc0100cbfd8 add x6,x6,w0, UXTW 
+ffffffc0100cbfdc str w1,[x6]
+ffffffc0100cbfe0 dmb OSHST
+ffffffc0100cbfe4 ldr x6,[x5, #0x138]
+ffffffc0100cbfe8 add w1,w0,#0x4
+ffffffc0100cbfec ldr x6,[x6, #0x8]
+ffffffc0100cbff0 add x1,x6,w1, UXTW 
+ffffffc0100cbff4 str w2,[x1]
+ffffffc0100cbff8 dmb OSHST
+ffffffc0100cbffc ldr x2,[x5, #0x138]
+ffffffc0100cc000 add w1,w0,#0xc
+ffffffc0100cc004 ldr x2,[x2, #0x8]
+ffffffc0100cc008 add x1,x2,w1, UXTW 
+ffffffc0100cc00c str w4,[x1]
+ffffffc0100cc010 dmb OSHST
+ffffffc0100cc014 ldr x1,[x5, #0x138]
+ffffffc0100cc018 add w0,w0,#0x8
+ffffffc0100cc01c ldr x1,[x1, #0x8]
+ffffffc0100cc020 add x0,x1,w0, UXTW 
+ffffffc0100cc024 str w3,[x0]
+ffffffc0100cc028 ret
+
+FUNCTION SET_GDMA_CT0 @ ffffffc0100cc030
+decompiled=true
+
+void SET_GDMA_CT0(int param_1,undefined4 param_2)
+
+{
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)(param_1 * 0x10 + 8)) = param_2;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc030 dmb OSHST
+ffffffc0100cc034 adrp x2,-0x3fef394000
+ffffffc0100cc038 lsl w0,w0,#0x4
+ffffffc0100cc03c add w0,w0,#0x8
+ffffffc0100cc040 ldr x2,[x2, #0x138]
+ffffffc0100cc044 ldr x2,[x2, #0x8]
+ffffffc0100cc048 add x0,x2,w0, UXTW 
+ffffffc0100cc04c str w1,[x0]
+ffffffc0100cc050 ret
+
+FUNCTION ecnt_gdma_drv_remove @ ffffffc0100cc054
+decompiled=true
+
+undefined8 ecnt_gdma_drv_remove(void)
+
+{
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc0100cc054 mov w0,#0x0
+ffffffc0100cc058 ret
+
+FUNCTION ecnt_gdma_drv_probe @ ffffffc0100cc060
+decompiled=true
+
+ulong ecnt_gdma_drv_probe(long param_1)
+
+{
+  long lVar1;
+  long *plVar2;
+  long *plVar3;
+  undefined8 uVar4;
+  long lVar5;
+  ulong uVar6;
+  
+  lVar1 = param_1 + 0x10;
+  if (*(long *)(param_1 + 0x278) == 0) {
+    _dev_err(lVar1,s_No_gdma_DT_node_found_ffffffc0108f3b78);
+    uVar6 = 0xffffffea;
+  }
+  else {
+    DAT_ffffffc010c6c138 = (long *)devm_kmalloc(lVar1,0x10,0xdc0);
+    if (DAT_ffffffc010c6c138 == (long *)0x0) {
+      uVar6 = 0xfffffff4;
+    }
+    else {
+      *(long **)(param_1 + 0x88) = DAT_ffffffc010c6c138;
+      uVar4 = platform_get_resource(param_1,0x200,0);
+      plVar2 = DAT_ffffffc010c6c138;
+      lVar5 = devm_ioremap_resource(lVar1,uVar4);
+      plVar3 = DAT_ffffffc010c6c138;
+      plVar2[1] = lVar5;
+      uVar6 = plVar3[1];
+      if (uVar6 < 0xfffffffffffff001) {
+        *plVar3 = lVar1;
+        uVar6 = 0;
+      }
+    }
+  }
+  return uVar6;
+}
+
+
+ASSEMBLY
+ffffffc0100cc060 stp x29,x30,[sp, #-0x30]!
+ffffffc0100cc064 mov x29,sp
+ffffffc0100cc068 stp x19,x20,[sp, #0x10]
+ffffffc0100cc06c mov x19,x0
+ffffffc0100cc070 add x20,x0,#0x10
+ffffffc0100cc074 ldr x0,[x0, #0x278]
+ffffffc0100cc078 cbz x0,0xffffffc0100cc100
+ffffffc0100cc07c str x21,[sp, #0x20]
+ffffffc0100cc080 adrp x21,-0x3fef394000
+ffffffc0100cc084 mov x0,x20
+ffffffc0100cc088 mov w2,#0xdc0
+ffffffc0100cc08c mov x1,#0x10
+ffffffc0100cc090 bl 0xffffffc01044b110
+ffffffc0100cc094 str x0,[x21, #0x138]
+ffffffc0100cc098 cbz x0,0xffffffc0100cc0f4
+ffffffc0100cc09c str x0,[x20, #0x78]
+ffffffc0100cc0a0 mov w2,#0x0
+ffffffc0100cc0a4 mov x0,x19
+ffffffc0100cc0a8 mov w1,#0x200
+ffffffc0100cc0ac bl 0xffffffc010448880
+ffffffc0100cc0b0 mov x1,x0
+ffffffc0100cc0b4 ldr x19,[x21, #0x138]
+ffffffc0100cc0b8 mov x0,x20
+ffffffc0100cc0bc bl 0xffffffc0103b0280
+ffffffc0100cc0c0 ldr x1,[x21, #0x138]
+ffffffc0100cc0c4 str x0,[x19, #0x8]
+ffffffc0100cc0c8 ldr x0,[x1, #0x8]
+ffffffc0100cc0cc cmn x0,#0x1, LSL #12
+ffffffc0100cc0d0 b.hi 0xffffffc0100cc0ec
+ffffffc0100cc0d4 str x20,[x1]
+ffffffc0100cc0d8 mov w0,#0x0
+ffffffc0100cc0dc ldr x21,[sp, #0x20]
+ffffffc0100cc0e0 ldp x19,x20,[sp, #0x10]
+ffffffc0100cc0e4 ldp x29,x30,[sp], #0x30
+ffffffc0100cc0e8 ret
+ffffffc0100cc0ec ldr x21,[sp, #0x20]
+ffffffc0100cc0f0 b 0xffffffc0100cc0e0
+ffffffc0100cc0f4 mov w0,#0xfffffff4
+ffffffc0100cc0f8 ldr x21,[sp, #0x20]
+ffffffc0100cc0fc b 0xffffffc0100cc0e0
+ffffffc0100cc100 mov x0,x20
+ffffffc0100cc104 adrp x1,-0x3fef70d000
+ffffffc0100cc108 add x1,x1,#0xb78
+ffffffc0100cc10c bl 0xffffffc01044446c
+ffffffc0100cc110 mov w0,#0xffffffea
+ffffffc0100cc114 b 0xffffffc0100cc0e0
+
+FUNCTION WAIT_GDMA_DONE @ ffffffc0100cc120
+decompiled=true
+
+void WAIT_GDMA_DONE(int param_1)
+
+{
+  do {
+    DataMemoryBarrier(0,1);
+  } while ((*(uint *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (ulong)(param_1 * 0x10 + 8)) >> 1 & 1)
+           != 0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc120 lsl w2,w0,#0x4
+ffffffc0100cc124 adrp x3,-0x3fef394000
+ffffffc0100cc128 add w2,w2,#0x8
+ffffffc0100cc12c add x3,x3,#0x138
+ffffffc0100cc130 ldr x0,[x3]
+ffffffc0100cc134 ldr x0,[x0, #0x8]
+ffffffc0100cc138 add x0,x0,x2
+ffffffc0100cc13c ldr w0,[x0]
+ffffffc0100cc140 dmb OSHLD
+ffffffc0100cc144 mov w1,w0
+ffffffc0100cc148 eor x1,x1,x1
+ffffffc0100cc14c cbnz x1,0xffffffc0100cc14c
+ffffffc0100cc150 tbnz w0,#0x1,0xffffffc0100cc130
+ffffffc0100cc154 ret
+
+FUNCTION GET_GDMA_SA @ ffffffc0100cc160
+decompiled=true
+
+void GET_GDMA_SA(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc160 adrp x1,-0x3fef394000
+ffffffc0100cc164 ldr x2,[x1, #0x138]
+ffffffc0100cc168 lsl w1,w0,#0x4
+ffffffc0100cc16c ldr x0,[x2, #0x8]
+ffffffc0100cc170 add x0,x0,x1
+ffffffc0100cc174 ldr w0,[x0]
+ffffffc0100cc178 dmb OSHLD
+ffffffc0100cc17c mov w1,w0
+ffffffc0100cc180 eor x1,x1,x1
+ffffffc0100cc184 cbnz x1,0xffffffc0100cc184
+ffffffc0100cc188 ret
+
+FUNCTION GET_GDMA_CT0 @ ffffffc0100cc190
+decompiled=true
+
+void GET_GDMA_CT0(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc190 adrp x1,-0x3fef394000
+ffffffc0100cc194 lsl w0,w0,#0x4
+ffffffc0100cc198 add w0,w0,#0x8
+ffffffc0100cc19c ldr x1,[x1, #0x138]
+ffffffc0100cc1a0 ldr x1,[x1, #0x8]
+ffffffc0100cc1a4 add x0,x1,w0, UXTW 
+ffffffc0100cc1a8 ldr w0,[x0]
+ffffffc0100cc1ac dmb OSHLD
+ffffffc0100cc1b0 mov w1,w0
+ffffffc0100cc1b4 eor x1,x1,x1
+ffffffc0100cc1b8 cbnz x1,0xffffffc0100cc1b8
+ffffffc0100cc1bc ret
+
+FUNCTION GET_GDMA_DA @ ffffffc0100cc1c0
+decompiled=true
+
+void GET_GDMA_DA(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc1c0 adrp x1,-0x3fef394000
+ffffffc0100cc1c4 lsl w0,w0,#0x4
+ffffffc0100cc1c8 add w0,w0,#0x4
+ffffffc0100cc1cc ldr x1,[x1, #0x138]
+ffffffc0100cc1d0 ldr x1,[x1, #0x8]
+ffffffc0100cc1d4 add x0,x1,w0, UXTW 
+ffffffc0100cc1d8 ldr w0,[x0]
+ffffffc0100cc1dc dmb OSHLD
+ffffffc0100cc1e0 mov w1,w0
+ffffffc0100cc1e4 eor x1,x1,x1
+ffffffc0100cc1e8 cbnz x1,0xffffffc0100cc1e8
+ffffffc0100cc1ec ret
+
+FUNCTION GET_GDMA_CT1 @ ffffffc0100cc1f0
+decompiled=true
+
+void GET_GDMA_CT1(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc1f0 adrp x1,-0x3fef394000
+ffffffc0100cc1f4 lsl w0,w0,#0x4
+ffffffc0100cc1f8 add w0,w0,#0xc
+ffffffc0100cc1fc ldr x1,[x1, #0x138]
+ffffffc0100cc200 ldr x1,[x1, #0x8]
+ffffffc0100cc204 add x0,x1,w0, UXTW 
+ffffffc0100cc208 ldr w0,[x0]
+ffffffc0100cc20c dmb OSHLD
+ffffffc0100cc210 mov w1,w0
+ffffffc0100cc214 eor x1,x1,x1
+ffffffc0100cc218 cbnz x1,0xffffffc0100cc218
+ffffffc0100cc21c ret
+
+FUNCTION IS_GDMA_DONE @ ffffffc0100cc220
+decompiled=true
+
+bool IS_GDMA_DONE(uint param_1)
+
+{
+  DataMemoryBarrier(0,1);
+  return (1 << (ulong)(param_1 & 0x1f) & *(uint *)(*(long *)(DAT_ffffffc010c6c138 + 8) + 0x204)) !=
+         0;
+}
+
+
+ASSEMBLY
+ffffffc0100cc220 adrp x1,-0x3fef394000
+ffffffc0100cc224 ldr x1,[x1, #0x138]
+ffffffc0100cc228 ldr x1,[x1, #0x8]
+ffffffc0100cc22c add x1,x1,#0x204
+ffffffc0100cc230 ldr w1,[x1]
+ffffffc0100cc234 dmb OSHLD
+ffffffc0100cc238 mov w2,w1
+ffffffc0100cc23c eor x2,x2,x2
+ffffffc0100cc240 cbnz x2,0xffffffc0100cc240
+ffffffc0100cc244 mov w2,#0x1
+ffffffc0100cc248 lsl w0,w2,w0
+ffffffc0100cc24c tst w0,w1
+ffffffc0100cc250 cset w0,ne
+ffffffc0100cc254 ret
+
+FUNCTION get_gdma_data @ ffffffc0100cc260
+decompiled=true
+
+void get_gdma_data(void)
+
+{
+  DataMemoryBarrier(0,1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc260 adrp x1,-0x3fef394000
+ffffffc0100cc264 ldr x1,[x1, #0x138]
+ffffffc0100cc268 ldr x1,[x1, #0x8]
+ffffffc0100cc26c add x0,x1,w0, UXTW 
+ffffffc0100cc270 ldr w0,[x0]
+ffffffc0100cc274 dmb OSHLD
+ffffffc0100cc278 mov w1,w0
+ffffffc0100cc27c eor x1,x1,x1
+ffffffc0100cc280 cbnz x1,0xffffffc0100cc280
+ffffffc0100cc284 ret
+
+FUNCTION set_GDMA_enable_bit @ ffffffc0100cc290
+decompiled=true
+
+void set_GDMA_enable_bit(int param_1)
+
+{
+  uint uVar1;
+  ulong uVar2;
+  
+  uVar2 = (ulong)(param_1 * 0x10 + 8);
+  uVar1 = get_gdma_data(uVar2);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (uVar2 & 0xffffffff)) = uVar1 | 2;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc290 stp x29,x30,[sp, #-0x10]!
+ffffffc0100cc294 lsl w2,w0,#0x4
+ffffffc0100cc298 add w2,w2,#0x8
+ffffffc0100cc29c mov x29,sp
+ffffffc0100cc2a0 mov w0,w2
+ffffffc0100cc2a4 bl 0xffffffc0100cc260
+ffffffc0100cc2a8 dmb OSHST
+ffffffc0100cc2ac adrp x1,-0x3fef394000
+ffffffc0100cc2b0 orr w0,w0,#0x2
+ffffffc0100cc2b4 ldr x1,[x1, #0x138]
+ffffffc0100cc2b8 ldr x1,[x1, #0x8]
+ffffffc0100cc2bc add x2,x1,w2, UXTW 
+ffffffc0100cc2c0 str w0,[x2]
+ffffffc0100cc2c4 ldp x29,x30,[sp], #0x10
+ffffffc0100cc2c8 ret
+
+FUNCTION set_gdma_data @ ffffffc0100cc2d0
+decompiled=true
+
+void set_gdma_data(ulong param_1,undefined4 param_2)
+
+{
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c138 + 8) + (param_1 & 0xffffffff)) = param_2;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100cc2d0 dmb OSHST
+ffffffc0100cc2d4 adrp x2,-0x3fef394000
+ffffffc0100cc2d8 ldr x2,[x2, #0x138]
+ffffffc0100cc2dc ldr x2,[x2, #0x8]
+ffffffc0100cc2e0 add x0,x2,w0, UXTW 
+ffffffc0100cc2e4 str w1,[x0]
+ffffffc0100cc2e8 ret
+
+FUNCTION get_gdma_dev @ ffffffc0100cc2f0
+decompiled=true
+
+undefined8 get_gdma_dev(void)
+
+{
+  undefined8 uVar1;
+  
+  uVar1 = 0;
+  if (DAT_ffffffc010c6c138 != (undefined8 *)0x0) {
+    uVar1 = *DAT_ffffffc010c6c138;
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+ffffffc0100cc2f0 adrp x0,-0x3fef394000
+ffffffc0100cc2f4 ldr x0,[x0, #0x138]
+ffffffc0100cc2f8 cbz x0,0xffffffc0100cc300
+ffffffc0100cc2fc ldr x0,[x0]
+ffffffc0100cc300 ret
+
+FUNCTION get_gdma_base @ ffffffc0100cc304
+decompiled=true
+
+undefined8 get_gdma_base(void)
+
+{
+  return *(undefined8 *)(DAT_ffffffc010c6c138 + 8);
+}
+
+
+ASSEMBLY
+ffffffc0100cc304 adrp x0,-0x3fef394000
+ffffffc0100cc308 ldr x0,[x0, #0x138]
+ffffffc0100cc30c ldr x0,[x0, #0x8]
+ffffffc0100cc310 ret
+
+FUNCTION get_gdma_special_fp @ ffffffc0100ccb40
+decompiled=true
+
+undefined8 get_gdma_special_fp(char param_1)
+
+{
+  undefined8 uVar1;
+  
+  if (param_1 == '\0') {
+    uVar1 = get_fe_ppe_data(0x55c);
+    return uVar1;
+  }
+  if (param_1 != '\x01') {
+    if (param_1 == '\x02') {
+      uVar1 = get_fe_ppe_data(0x155c);
+    }
+    else {
+      printk(s__Error__incorrect_pdev_id____s__ffffffc0108f3cf8,
+             s_get_gdma_special_fp_ffffffc010807360);
+      uVar1 = 0xffffffff;
+    }
+    return uVar1;
+  }
+  uVar1 = get_fe_ppe_data(0x255c);
+  return uVar1;
+}
+
+
+ASSEMBLY
+ffffffc0100ccb40 stp x29,x30,[sp, #-0x10]!
+ffffffc0100ccb44 ands w0,w0,#0xff
+ffffffc0100ccb48 mov x29,sp
+ffffffc0100ccb4c b.eq 0xffffffc0100ccb70
+ffffffc0100ccb50 cmp w0,#0x1
+ffffffc0100ccb54 b.eq 0xffffffc0100ccb80
+ffffffc0100ccb58 cmp w0,#0x2
+ffffffc0100ccb5c b.ne 0xffffffc0100ccb90
+ffffffc0100ccb60 mov w0,#0x155c
+ffffffc0100ccb64 bl 0xffffffc0100cc820
+ffffffc0100ccb68 ldp x29,x30,[sp], #0x10
+ffffffc0100ccb6c ret
+ffffffc0100ccb70 mov w0,#0x55c
+ffffffc0100ccb74 bl 0xffffffc0100cc820
+ffffffc0100ccb78 ldp x29,x30,[sp], #0x10
+ffffffc0100ccb7c ret
+ffffffc0100ccb80 mov w0,#0x255c
+ffffffc0100ccb84 bl 0xffffffc0100cc820
+ffffffc0100ccb88 ldp x29,x30,[sp], #0x10
+ffffffc0100ccb8c ret
+ffffffc0100ccb90 adrp x1,-0x3fef7f9000
+ffffffc0100ccb94 add x1,x1,#0x2f0
+ffffffc0100ccb98 add x1,x1,#0x70
+ffffffc0100ccb9c adrp x0,-0x3fef70d000
+ffffffc0100ccba0 add x0,x0,#0xcf8
+ffffffc0100ccba4 bl 0xffffffc010133850
+ffffffc0100ccba8 mov w0,#0xffffffff
+ffffffc0100ccbac b 0xffffffc0100ccb68
+
+FUNCTION set_gdma_special_fp @ ffffffc0100ccbb0
+decompiled=true
+
+void set_gdma_special_fp(char param_1,undefined4 param_2)
+
+{
+  if (param_1 == '\0') {
+    DataMemoryBarrier(0,2);
+    *(undefined4 *)(*(long *)(DAT_ffffffc010c6c140 + 8) + 0x55c) = param_2;
+    return;
+  }
+  if (param_1 != '\x01') {
+    if (param_1 == '\x02') {
+      DataMemoryBarrier(0,2);
+      *(undefined4 *)(*(long *)(DAT_ffffffc010c6c140 + 8) + 0x155c) = param_2;
+      return;
+    }
+    printk(s__Error__incorrect_pdev_id____s__ffffffc0108f3cf8,s_set_gdma_special_fp_ffffffc010807378
+          );
+    return;
+  }
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c6c140 + 8) + 0x255c) = param_2;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc0100ccbb0 ands w0,w0,#0xff
+ffffffc0100ccbb4 b.ne 0xffffffc0100ccbd4
+ffffffc0100ccbb8 dmb OSHST
+ffffffc0100ccbbc adrp x0,-0x3fef394000
+ffffffc0100ccbc0 ldr x0,[x0, #0x140]
+ffffffc0100ccbc4 ldr x0,[x0, #0x8]
+ffffffc0100ccbc8 add x0,x0,#0x55c
+ffffffc0100ccbcc str w1,[x0]
+ffffffc0100ccbd0 ret
+ffffffc0100ccbd4 cmp w0,#0x1
+ffffffc0100ccbd8 b.eq 0xffffffc0100ccc04
+ffffffc0100ccbdc cmp w0,#0x2
+ffffffc0100ccbe0 b.ne 0xffffffc0100ccc24
+ffffffc0100ccbe4 dmb OSHST
+ffffffc0100ccbe8 adrp x0,-0x3fef394000
+ffffffc0100ccbec mov x2,#0x155c
+ffffffc0100ccbf0 ldr x0,[x0, #0x140]
+ffffffc0100ccbf4 ldr x0,[x0, #0x8]
+ffffffc0100ccbf8 add x0,x0,x2
+ffffffc0100ccbfc str w1,[x0]
+ffffffc0100ccc00 ret
+ffffffc0100ccc04 dmb OSHST
+ffffffc0100ccc08 adrp x0,-0x3fef394000
+ffffffc0100ccc0c mov x3,#0x255c
+ffffffc0100ccc10 ldr x0,[x0, #0x140]
+ffffffc0100ccc14 ldr x0,[x0, #0x8]
+ffffffc0100ccc18 add x0,x0,x3
+ffffffc0100ccc1c str w1,[x0]
+ffffffc0100ccc20 ret
+ffffffc0100ccc24 stp x29,x30,[sp, #-0x10]!
+ffffffc0100ccc28 adrp x1,-0x3fef7f9000
+ffffffc0100ccc2c add x1,x1,#0x2f0
+ffffffc0100ccc30 mov x29,sp
+ffffffc0100ccc34 add x1,x1,#0x88
+ffffffc0100ccc38 adrp x0,-0x3fef70d000
+ffffffc0100ccc3c add x0,x0,#0xcf8
+ffffffc0100ccc40 bl 0xffffffc010133850
+ffffffc0100ccc44 ldp x29,x30,[sp], #0x10
+ffffffc0100ccc48 ret
+
+FUNCTION ecnt_hsdma_disable_test_mode @ ffffffc01040c500
+decompiled=true
+
+void ecnt_hsdma_disable_test_mode(undefined4 param_1,undefined4 param_2)
+
+{
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x220) = 0xf0030003;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x204) = param_1;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x20c) = param_2;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c500 adrp x2,-0x3fef379000
+ffffffc01040c504 ldr x3,[x2, #0xae8]
+ffffffc01040c508 dmb OSHST
+ffffffc01040c50c ldr x3,[x3, #0x130]
+ffffffc01040c510 mov w4,#0x3
+ffffffc01040c514 movk w4,#0xf003, LSL #16
+ffffffc01040c518 add x3,x3,#0x220
+ffffffc01040c51c str w4,[x3]
+ffffffc01040c520 ldr x3,[x2, #0xae8]
+ffffffc01040c524 dmb OSHST
+ffffffc01040c528 ldr x3,[x3, #0x130]
+ffffffc01040c52c add x3,x3,#0x204
+ffffffc01040c530 str w0,[x3]
+ffffffc01040c534 ldr x0,[x2, #0xae8]
+ffffffc01040c538 dmb OSHST
+ffffffc01040c53c ldr x0,[x0, #0x130]
+ffffffc01040c540 add x0,x0,#0x20c
+ffffffc01040c544 str w1,[x0]
+ffffffc01040c548 ret
+
+FUNCTION ecnt_hsdma_get_ring @ ffffffc01040c550
+decompiled=true
+
+long ecnt_hsdma_get_ring(int param_1)
+
+{
+  if (DAT_ffffffc010c87af0 != 0) {
+    return *(long *)(DAT_ffffffc010c87ae8 + 0x148) + (long)param_1 * 0x70;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040c550 adrp x1,-0x3fef379000
+ffffffc01040c554 add x2,x1,#0xae8
+ffffffc01040c558 ldr x2,[x2, #0x8]
+ffffffc01040c55c cbz x2,0xffffffc01040c574
+ffffffc01040c560 ldr x1,[x1, #0xae8]
+ffffffc01040c564 mov w2,#0x70
+ffffffc01040c568 ldr x1,[x1, #0x148]
+ffffffc01040c56c smaddl x0,w0,w2,x1
+ffffffc01040c570 ret
+ffffffc01040c574 mov x0,#0x0
+ffffffc01040c578 ret
+
+FUNCTION ecnt_hsdma_clear_intr_sts @ ffffffc01040c580
+decompiled=true
+
+void ecnt_hsdma_clear_intr_sts(undefined4 param_1)
+
+{
+  if (DAT_ffffffc010c87af0 != 0) {
+    DataMemoryBarrier(0,2);
+    *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x220) = param_1;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c580 adrp x1,-0x3fef379000
+ffffffc01040c584 add x2,x1,#0xae8
+ffffffc01040c588 ldr x2,[x2, #0x8]
+ffffffc01040c58c cbz x2,0xffffffc01040c5a4
+ffffffc01040c590 ldr x1,[x1, #0xae8]
+ffffffc01040c594 dmb OSHST
+ffffffc01040c598 ldr x1,[x1, #0x130]
+ffffffc01040c59c add x1,x1,#0x220
+ffffffc01040c5a0 str w0,[x1]
+ffffffc01040c5a4 ret
+
+FUNCTION ecnt_hsdma_set_idx @ ffffffc01040c5b0
+decompiled=true
+
+void ecnt_hsdma_set_idx(int param_1,int param_2,int param_3,undefined4 param_4)
+
+{
+  long lVar1;
+  
+  lVar1 = *(long *)(DAT_ffffffc010c87ae8 + 0x148) + (long)param_1 * 0x70;
+  if (DAT_ffffffc010c87af0 != 0) {
+    if (param_2 == 1) {
+      if (param_3 == 4) {
+        DataMemoryBarrier(0,2);
+        *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + (ulong)*(uint *)(lVar1 + 0x50)) =
+             param_4;
+        return;
+      }
+    }
+    else if (param_3 == 4 && param_2 == 2) {
+      DataMemoryBarrier(0,2);
+      *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + (ulong)*(uint *)(lVar1 + 0x60)) =
+           param_4;
+      return;
+    }
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c5b0 adrp x4,-0x3fef379000
+ffffffc01040c5b4 add x5,x4,#0xae8
+ffffffc01040c5b8 mov w7,#0x70
+ffffffc01040c5bc ldr x4,[x4, #0xae8]
+ffffffc01040c5c0 ldr x5,[x5, #0x8]
+ffffffc01040c5c4 ldr x6,[x4, #0x148]
+ffffffc01040c5c8 smaddl x0,w0,w7,x6
+ffffffc01040c5cc cbz x5,0xffffffc01040c5e4
+ffffffc01040c5d0 cmp w1,#0x1
+ffffffc01040c5d4 b.eq 0xffffffc01040c5e8
+ffffffc01040c5d8 cmp w2,#0x4
+ffffffc01040c5dc ccmp w1,#0x2,#0x0,eq
+ffffffc01040c5e0 b.eq 0xffffffc01040c608
+ffffffc01040c5e4 ret
+ffffffc01040c5e8 cmp w2,#0x4
+ffffffc01040c5ec b.ne 0xffffffc01040c5e4
+ffffffc01040c5f0 ldr w0,[x0, #0x50]
+ffffffc01040c5f4 dmb OSHST
+ffffffc01040c5f8 ldr x1,[x4, #0x130]
+ffffffc01040c5fc add x0,x1,w0, UXTW 
+ffffffc01040c600 str w3,[x0]
+ffffffc01040c604 ret
+ffffffc01040c608 ldr w0,[x0, #0x60]
+ffffffc01040c60c dmb OSHST
+ffffffc01040c610 ldr x1,[x4, #0x130]
+ffffffc01040c614 add x0,x1,w0, UXTW 
+ffffffc01040c618 str w3,[x0]
+ffffffc01040c61c ret
+
+FUNCTION ecnt_hsdma_alloc_chan_resources @ ffffffc01040c620
+decompiled=true
+
+undefined8 ecnt_hsdma_alloc_chan_resources(long *param_1)
+
+{
+  int *piVar1;
+  char cVar2;
+  bool bVar3;
+  long lVar4;
+  
+  if (param_1 != (long *)0x0) {
+    lVar4 = *param_1;
+    if (*(int *)(lVar4 + 0x150) != 0) {
+      piVar1 = (int *)(lVar4 + 0x150);
+      Hint_Prefetch(piVar1,2,0,1);
+      do {
+        cVar2 = '\x01';
+        bVar3 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+        if (bVar3) {
+          *piVar1 = *piVar1 + 1;
+          cVar2 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar2 != '\0');
+      return 0;
+    }
+    *(undefined4 *)(lVar4 + 0x150) = 1;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040c620 cbz x0,0xffffffc01040c638
+ffffffc01040c624 ldr x0,[x0]
+ffffffc01040c628 ldr w1,[x0, #0x150]
+ffffffc01040c62c cbnz w1,0xffffffc01040c640
+ffffffc01040c630 mov w1,#0x1
+ffffffc01040c634 str w1,[x0, #0x150]
+ffffffc01040c638 mov w0,#0x0
+ffffffc01040c63c ret
+ffffffc01040c640 add x0,x0,#0x150
+ffffffc01040c644 prfm PSTL1STRM,[x0]
+ffffffc01040c648 ldxr w1,[x0]
+ffffffc01040c64c add w1,w1,#0x1
+ffffffc01040c650 stxr w2,w1,[x0]
+ffffffc01040c654 cbnz w2,0xffffffc01040c648
+ffffffc01040c658 mov w0,#0x0
+ffffffc01040c65c ret
+
+FUNCTION ecnt_hsdma_free_dma @ ffffffc01040c660
+decompiled=true
+
+void ecnt_hsdma_free_dma(undefined4 param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  dma_free_attrs(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x60),param_1,param_2,param_3,0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c660 stp x29,x30,[sp, #-0x10]!
+ffffffc01040c664 adrp x3,-0x3fef379000
+ffffffc01040c668 mov x4,x1
+ffffffc01040c66c mov x29,sp
+ffffffc01040c670 ldr x5,[x3, #0xae8]
+ffffffc01040c674 mov w1,w0
+ffffffc01040c678 mov x3,x2
+ffffffc01040c67c mov x2,x4
+ffffffc01040c680 mov x4,#0x0
+ffffffc01040c684 ldr x0,[x5, #0x60]
+ffffffc01040c688 bl 0xffffffc010149770
+ffffffc01040c68c ldp x29,x30,[sp], #0x10
+ffffffc01040c690 ret
+
+FUNCTION ecnt_hsdma_alloc_dma @ ffffffc01040c694
+decompiled=true
+
+void ecnt_hsdma_alloc_dma(undefined4 param_1,undefined8 param_2)
+
+{
+  dma_alloc_attrs(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x60),param_1,param_2,0xdc0,0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c694 stp x29,x30,[sp, #-0x10]!
+ffffffc01040c698 adrp x2,-0x3fef379000
+ffffffc01040c69c mov x4,#0x0
+ffffffc01040c6a0 mov x29,sp
+ffffffc01040c6a4 ldr x5,[x2, #0xae8]
+ffffffc01040c6a8 mov x2,x1
+ffffffc01040c6ac mov w1,w0
+ffffffc01040c6b0 mov w3,#0xdc0
+ffffffc01040c6b4 ldr x0,[x5, #0x60]
+ffffffc01040c6b8 bl 0xffffffc010149600
+ffffffc01040c6bc ldp x29,x30,[sp], #0x10
+ffffffc01040c6c0 ret
+
+FUNCTION ecnt_hsdma_init @ ffffffc01040c6c4
+decompiled=true
+
+void ecnt_hsdma_init(void)
+
+{
+  __platform_driver_register(&PTR_ecnt_hsdma_probe_ffffffc010c361c8,0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c6c4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040c6c8 mov x1,#0x0
+ffffffc01040c6cc adrp x0,-0x3fef3ca000
+ffffffc01040c6d0 mov x29,sp
+ffffffc01040c6d4 add x0,x0,#0x1c8
+ffffffc01040c6d8 bl 0xffffffc010448e20
+ffffffc01040c6dc ldp x29,x30,[sp], #0x10
+ffffffc01040c6e0 ret
+
+FUNCTION ecnt_hsdma_vdesc_free @ ffffffc01040c6e4
+decompiled=true
+
+void ecnt_hsdma_vdesc_free(void)
+
+{
+  kfree();
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c6e4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040c6e8 mov x29,sp
+ffffffc01040c6ec bl 0xffffffc0101e6340
+ffffffc01040c6f0 ldp x29,x30,[sp], #0x10
+ffffffc01040c6f4 ret
+
+FUNCTION ecnt_hsdma_exit @ ffffffc01040c700
+decompiled=true
+
+void ecnt_hsdma_exit(void)
+
+{
+  platform_driver_unregister(&PTR_ecnt_hsdma_probe_ffffffc010c361c8);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c700 stp x29,x30,[sp, #-0x10]!
+ffffffc01040c704 adrp x0,-0x3fef3ca000
+ffffffc01040c708 add x0,x0,#0x1c8
+ffffffc01040c70c mov x29,sp
+ffffffc01040c710 bl 0xffffffc010448f60
+ffffffc01040c714 ldp x29,x30,[sp], #0x10
+ffffffc01040c718 ret
+
+FUNCTION ecnt_hsdma_reset @ ffffffc01040c720
+decompiled=true
+
+void ecnt_hsdma_reset(void)
+
+{
+  long *plVar1;
+  long lVar2;
+  long lVar3;
+  long lVar4;
+  long lVar5;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar5 = 0;
+    do {
+      lVar3 = DAT_ffffffc010c87ae8;
+      plVar1 = (long *)(*(long *)(DAT_ffffffc010c87ae8 + 0x148) + lVar5);
+      memset(*(void **)(*(long *)(DAT_ffffffc010c87ae8 + 0x148) + lVar5),0,plVar1[7]);
+      lVar4 = 0;
+      do {
+        *(uint *)(*plVar1 + lVar4 + 4) = *(uint *)(*plVar1 + lVar4 + 4) | **(uint **)(lVar3 + 0x158)
+        ;
+        lVar2 = plVar1[1] + lVar4;
+        lVar4 = lVar4 + 0x20;
+        *(uint *)(lVar2 + 4) = *(uint *)(lVar2 + 4) & (**(uint **)(lVar3 + 0x158) ^ 0xffffffff);
+      } while (lVar4 != 0x10000);
+      *(undefined4 *)(plVar1 + 5) = 0x7ff0000;
+      DataMemoryBarrier(0,2);
+      *(int *)(*(long *)(lVar3 + 0x130) + 0x208) = (int)plVar1[0xd];
+      DataMemoryBarrier(0,2);
+      *(uint *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + (ulong)*(uint *)(plVar1 + 10)) =
+           (uint)*(ushort *)(plVar1 + 5);
+      DataMemoryBarrier(0,2);
+      *(uint *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + (ulong)*(uint *)(plVar1 + 0xc)) =
+           (uint)*(ushort *)((long)plVar1 + 0x2a);
+      lVar5 = lVar5 + 0x70;
+    } while (lVar5 != 0xe0);
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c720 stp x29,x30,[sp, #-0x40]!
+ffffffc01040c724 mov x29,sp
+ffffffc01040c728 str x23,[sp, #0x30]
+ffffffc01040c72c adrp x23,-0x3fef379000
+ffffffc01040c730 add x23,x23,#0xae8
+ffffffc01040c734 ldr x0,[x23, #0x8]
+ffffffc01040c738 cbz x0,0xffffffc01040c818
+ffffffc01040c73c stp x19,x20,[sp, #0x10]
+ffffffc01040c740 mov w19,#0x7ff0000
+ffffffc01040c744 stp x21,x22,[sp, #0x20]
+ffffffc01040c748 mov x22,#0x0
+ffffffc01040c74c mov w1,#0x0
+ffffffc01040c750 ldr x21,[x23]
+ffffffc01040c754 ldr x0,[x21, #0x148]
+ffffffc01040c758 add x20,x0,x22
+ffffffc01040c75c ldr x0,[x0, x22, LSL #0x0]
+ffffffc01040c760 ldr x2,[x20, #0x38]
+ffffffc01040c764 bl 0xffffffc01076d580
+ffffffc01040c768 mov x0,#0x0
+ffffffc01040c76c nop
+ffffffc01040c770 ldr x1,[x20]
+ffffffc01040c774 ldr x2,[x21, #0x158]
+ffffffc01040c778 add x1,x1,x0
+ffffffc01040c77c ldr w3,[x2]
+ffffffc01040c780 ldr w2,[x1, #0x4]
+ffffffc01040c784 orr w2,w2,w3
+ffffffc01040c788 str w2,[x1, #0x4]
+ffffffc01040c78c ldr x1,[x20, #0x8]
+ffffffc01040c790 ldr x2,[x21, #0x158]
+ffffffc01040c794 add x1,x1,x0
+ffffffc01040c798 add x0,x0,#0x20
+ffffffc01040c79c ldr w3,[x1, #0x4]
+ffffffc01040c7a0 ldr w2,[x2]
+ffffffc01040c7a4 bic w2,w3,w2
+ffffffc01040c7a8 str w2,[x1, #0x4]
+ffffffc01040c7ac cmp x0,#0x10, LSL #12
+ffffffc01040c7b0 b.ne 0xffffffc01040c770
+ffffffc01040c7b4 ldr w1,[x20, #0x68]
+ffffffc01040c7b8 str w19,[x20, #0x28]
+ffffffc01040c7bc dmb OSHST
+ffffffc01040c7c0 ldr x0,[x21, #0x130]
+ffffffc01040c7c4 add x0,x0,#0x208
+ffffffc01040c7c8 str w1,[x0]
+ffffffc01040c7cc ldrh w1,[x20, #0x28]
+ffffffc01040c7d0 ldr w0,[x20, #0x50]
+ffffffc01040c7d4 ldr x2,[x23]
+ffffffc01040c7d8 dmb OSHST
+ffffffc01040c7dc ldr x2,[x2, #0x130]
+ffffffc01040c7e0 add x0,x2,w0, UXTW 
+ffffffc01040c7e4 str w1,[x0]
+ffffffc01040c7e8 ldrh w1,[x20, #0x2a]
+ffffffc01040c7ec ldr w0,[x20, #0x60]
+ffffffc01040c7f0 ldr x2,[x23]
+ffffffc01040c7f4 dmb OSHST
+ffffffc01040c7f8 ldr x2,[x2, #0x130]
+ffffffc01040c7fc add x0,x2,w0, UXTW 
+ffffffc01040c800 str w1,[x0]
+ffffffc01040c804 add x22,x22,#0x70
+ffffffc01040c808 cmp x22,#0xe0
+ffffffc01040c80c b.ne 0xffffffc01040c74c
+ffffffc01040c810 ldp x19,x20,[sp, #0x10]
+ffffffc01040c814 ldp x21,x22,[sp, #0x20]
+ffffffc01040c818 ldr x23,[sp, #0x30]
+ffffffc01040c81c ldp x29,x30,[sp], #0x40
+ffffffc01040c820 ret
+
+FUNCTION ecnt_hsdma_busy_wait @ ffffffc01040c890
+decompiled=true
+
+undefined8 ecnt_hsdma_busy_wait(long param_1)
+
+{
+  long lVar1;
+  long lVar2;
+  
+  lVar1 = ktime_get();
+  while( true ) {
+    DataMemoryBarrier(0,1);
+    if ((*(uint *)(*(long *)(param_1 + 0x130) + 0x204) & 10) == 0) {
+      return 0;
+    }
+    lVar2 = ktime_get();
+    if (lVar1 + 200000000 < lVar2) break;
+    usleep_range(6,0x14);
+  }
+  DataMemoryBarrier(0,1);
+  if ((*(uint *)(*(long *)(param_1 + 0x130) + 0x204) & 10) == 0) {
+    return 0;
+  }
+  return 0xffffff92;
+}
+
+
+ASSEMBLY
+ffffffc01040c890 stp x29,x30,[sp, #-0x30]!
+ffffffc01040c894 mov x29,sp
+ffffffc01040c898 stp x19,x20,[sp, #0x10]
+ffffffc01040c89c mov x20,#0xc200
+ffffffc01040c8a0 mov x19,x0
+ffffffc01040c8a4 movk x20,#0xbeb, LSL #16
+ffffffc01040c8a8 str x21,[sp, #0x20]
+ffffffc01040c8ac bl 0xffffffc010151fd0
+ffffffc01040c8b0 add x20,x0,x20
+ffffffc01040c8b4 mov w21,#0xa
+ffffffc01040c8b8 ldr x1,[x19, #0x130]
+ffffffc01040c8bc add x1,x1,#0x204
+ffffffc01040c8c0 ldr w1,[x1]
+ffffffc01040c8c4 dmb OSHLD
+ffffffc01040c8c8 mov w2,w1
+ffffffc01040c8cc eor x2,x2,x2
+ffffffc01040c8d0 cbnz x2,0xffffffc01040c8d0
+ffffffc01040c8d4 tst w1,w21
+ffffffc01040c8d8 b.eq 0xffffffc01040c91c
+ffffffc01040c8dc bl 0xffffffc010151fd0
+ffffffc01040c8e0 cmp x0,x20
+ffffffc01040c8e4 b.gt 0xffffffc01040c8f8
+ffffffc01040c8e8 mov x1,#0x14
+ffffffc01040c8ec mov x0,#0x6
+ffffffc01040c8f0 bl 0xffffffc01078a990
+ffffffc01040c8f4 b 0xffffffc01040c8b8
+ffffffc01040c8f8 ldr x0,[x19, #0x130]
+ffffffc01040c8fc add x0,x0,#0x204
+ffffffc01040c900 ldr w0,[x0]
+ffffffc01040c904 dmb OSHLD
+ffffffc01040c908 mov w1,w0
+ffffffc01040c90c eor x1,x1,x1
+ffffffc01040c910 cbnz x1,0xffffffc01040c910
+ffffffc01040c914 tst w0,w21
+ffffffc01040c918 b.ne 0xffffffc01040c930
+ffffffc01040c91c mov w0,#0x0
+ffffffc01040c920 ldp x19,x20,[sp, #0x10]
+ffffffc01040c924 ldr x21,[sp, #0x20]
+ffffffc01040c928 ldp x29,x30,[sp], #0x30
+ffffffc01040c92c ret
+ffffffc01040c930 mov w0,#0xffffff92
+ffffffc01040c934 b 0xffffffc01040c920
+
+FUNCTION ecnt_hsdma_reg_dump @ ffffffc01040c960
+decompiled=true
+
+void ecnt_hsdma_reg_dump(void)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0);
+  printk(s_ECNT_HSDMA_TX_BASE_0x_08x__0x_08_ffffffc01092d4a0,0x1fa01800,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),4);
+  printk(s_ECNT_HSDMA_TX_CNT_0x_08x__0x_08x_ffffffc01092d4c8,0x1fa01804,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),8);
+  printk(s_ECNT_HSDMA_TX_CPU_0x_08x__0x_08x_ffffffc01092d4f0,0x1fa01808,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0xc);
+  printk(s_ECNT_HSDMA_TX_DMA_0x_08x__0x_08x_ffffffc01092d518,0x1fa0180c,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x10);
+  printk(s_ECNT_HSDMA_TX_BASE_1_0x_08x__0x__ffffffc01092d540,0x1fa01810,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x14);
+  printk(s_ECNT_HSDMA_TX_CNT_1_0x_08x__0x_0_ffffffc01092d568,0x1fa01814,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x18);
+  printk(s_ECNT_HSDMA_TX_CPU_1_0x_08x__0x_0_ffffffc01092d590,0x1fa01818,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x1c);
+  printk(s_ECNT_HSDMA_TX_DMA_1_0x_08x__0x_0_ffffffc01092d5b8,0x1fa0181c,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x100);
+  printk(s_ECNT_HSDMA_RX_BASE_0x_08x__0x_08_ffffffc01092d5e0,0x1fa01900,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x104);
+  printk(s_ECNT_HSDMA_RX_CNT_0x_08x__0x_08x_ffffffc01092d608,0x1fa01904,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x108);
+  printk(s_ECNT_HSDMA_RX_CPU_0x_08x__0x_08x_ffffffc01092d630,0x1fa01908,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x10c);
+  printk(s_ECNT_HSDMA_RX_DMA_0x_08x__0x_08x_ffffffc01092d658,0x1fa0190c,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x110);
+  printk(s_ECNT_HSDMA_RX_BASE_1_0x_08x__0x__ffffffc01092d680,0x1fa01910,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x114);
+  printk(s_ECNT_HSDMA_RX_CNT_1_0x_08x__0x_0_ffffffc01092d6a8,0x1fa01914,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x118);
+  printk(s_ECNT_HSDMA_RX_CPU_1_0x_08x__0x_0_ffffffc01092d6d0,0x1fa01918,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x11c);
+  printk(s_ECNT_HSDMA_RX_DMA_1_0x_08x__0x_0_ffffffc01092d6f8,0x1fa0191c,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x200);
+  printk(s_ECNT_HSDMA_INFO_0x_08x__0x_08x_ffffffc01092d720,0x1fa01a00,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+  printk(s_ECNT_HSDMA_GLO_0x_08x__0x_08x_ffffffc01092d748,0x1fa01a04,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x208);
+  printk(s_ECNT_HSDMA_RESET_0x_08x__0x_08x_ffffffc01092d770,0x1fa01a08,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x20c);
+  printk(s_ECNT_HSDMA_DLYINT_0x_08x__0x_08x_ffffffc01092d798,0x1fa01a0c,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x210);
+  printk(s_ECNT_HSDMA_FRQ_THR_0x_08x__0x_08_ffffffc01092d7c0,0x1fa01a10,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x220);
+  printk(s_ECNT_HSDMA_INT_STATUS_0x_08x__0x_ffffffc01092d7e8,0x1fa01a20,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x228);
+  printk(s_ECNT_HSDMA_INT_ENABLE_0x_08x__0x_ffffffc01092d810,0x1fa01a28,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x230);
+  printk(s_ECNT_HSDMA_DBG0_0x_08x__0x_08x_ffffffc01092d838,0x1fa01a30,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x234);
+  printk(s_ECNT_HSDMA_DBG1_0x_08x__0x_08x_ffffffc01092d860,0x1fa01a34,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x238);
+  printk(s_ECNT_HSDMA_DBG2_0x_08x__0x_08x_ffffffc01092d888,0x1fa01a38,uVar1);
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x23c);
+  printk(s_ECNT_HSDMA_DBG3_0x_08x__0x_08x_ffffffc01092d8b0,0x1fa01a3c,uVar1);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040c960 stp x29,x30,[sp, #-0x20]!
+ffffffc01040c964 mov w1,#0x0
+ffffffc01040c968 mov x29,sp
+ffffffc01040c96c str x19,[sp, #0x10]
+ffffffc01040c970 adrp x19,-0x3fef379000
+ffffffc01040c974 ldr x0,[x19, #0xae8]
+ffffffc01040c978 ldr x0,[x0, #0x130]
+ffffffc01040c97c bl 0xffffffc01040c940
+ffffffc01040c980 mov w2,w0
+ffffffc01040c984 mov w1,#0x1800
+ffffffc01040c988 adrp x0,-0x3fef6d3000
+ffffffc01040c98c movk w1,#0x1fa0, LSL #16
+ffffffc01040c990 add x0,x0,#0x4a0
+ffffffc01040c994 bl 0xffffffc010133850
+ffffffc01040c998 ldr x0,[x19, #0xae8]
+ffffffc01040c99c mov w1,#0x4
+ffffffc01040c9a0 ldr x0,[x0, #0x130]
+ffffffc01040c9a4 bl 0xffffffc01040c940
+ffffffc01040c9a8 mov w2,w0
+ffffffc01040c9ac mov w1,#0x1804
+ffffffc01040c9b0 adrp x0,-0x3fef6d3000
+ffffffc01040c9b4 movk w1,#0x1fa0, LSL #16
+ffffffc01040c9b8 add x0,x0,#0x4c8
+ffffffc01040c9bc bl 0xffffffc010133850
+ffffffc01040c9c0 ldr x0,[x19, #0xae8]
+ffffffc01040c9c4 mov w1,#0x8
+ffffffc01040c9c8 ldr x0,[x0, #0x130]
+ffffffc01040c9cc bl 0xffffffc01040c940
+ffffffc01040c9d0 mov w2,w0
+ffffffc01040c9d4 mov w1,#0x1808
+ffffffc01040c9d8 adrp x0,-0x3fef6d3000
+ffffffc01040c9dc movk w1,#0x1fa0, LSL #16
+ffffffc01040c9e0 add x0,x0,#0x4f0
+ffffffc01040c9e4 bl 0xffffffc010133850
+ffffffc01040c9e8 ldr x0,[x19, #0xae8]
+ffffffc01040c9ec mov w1,#0xc
+ffffffc01040c9f0 ldr x0,[x0, #0x130]
+ffffffc01040c9f4 bl 0xffffffc01040c940
+ffffffc01040c9f8 mov w2,w0
+ffffffc01040c9fc mov w1,#0x180c
+ffffffc01040ca00 adrp x0,-0x3fef6d3000
+ffffffc01040ca04 movk w1,#0x1fa0, LSL #16
+ffffffc01040ca08 add x0,x0,#0x518
+ffffffc01040ca0c bl 0xffffffc010133850
+ffffffc01040ca10 ldr x0,[x19, #0xae8]
+ffffffc01040ca14 mov w1,#0x10
+ffffffc01040ca18 ldr x0,[x0, #0x130]
+ffffffc01040ca1c bl 0xffffffc01040c940
+ffffffc01040ca20 mov w2,w0
+ffffffc01040ca24 mov w1,#0x1810
+ffffffc01040ca28 adrp x0,-0x3fef6d3000
+ffffffc01040ca2c movk w1,#0x1fa0, LSL #16
+ffffffc01040ca30 add x0,x0,#0x540
+ffffffc01040ca34 bl 0xffffffc010133850
+ffffffc01040ca38 ldr x0,[x19, #0xae8]
+ffffffc01040ca3c mov w1,#0x14
+ffffffc01040ca40 ldr x0,[x0, #0x130]
+ffffffc01040ca44 bl 0xffffffc01040c940
+ffffffc01040ca48 mov w2,w0
+ffffffc01040ca4c mov w1,#0x1814
+ffffffc01040ca50 adrp x0,-0x3fef6d3000
+ffffffc01040ca54 movk w1,#0x1fa0, LSL #16
+ffffffc01040ca58 add x0,x0,#0x568
+ffffffc01040ca5c bl 0xffffffc010133850
+ffffffc01040ca60 ldr x0,[x19, #0xae8]
+ffffffc01040ca64 mov w1,#0x18
+ffffffc01040ca68 ldr x0,[x0, #0x130]
+ffffffc01040ca6c bl 0xffffffc01040c940
+ffffffc01040ca70 mov w2,w0
+ffffffc01040ca74 mov w1,#0x1818
+ffffffc01040ca78 adrp x0,-0x3fef6d3000
+ffffffc01040ca7c movk w1,#0x1fa0, LSL #16
+ffffffc01040ca80 add x0,x0,#0x590
+ffffffc01040ca84 bl 0xffffffc010133850
+ffffffc01040ca88 ldr x0,[x19, #0xae8]
+ffffffc01040ca8c mov w1,#0x1c
+ffffffc01040ca90 ldr x0,[x0, #0x130]
+ffffffc01040ca94 bl 0xffffffc01040c940
+ffffffc01040ca98 mov w2,w0
+ffffffc01040ca9c mov w1,#0x181c
+ffffffc01040caa0 adrp x0,-0x3fef6d3000
+ffffffc01040caa4 movk w1,#0x1fa0, LSL #16
+ffffffc01040caa8 add x0,x0,#0x5b8
+ffffffc01040caac bl 0xffffffc010133850
+ffffffc01040cab0 ldr x0,[x19, #0xae8]
+ffffffc01040cab4 mov w1,#0x100
+ffffffc01040cab8 ldr x0,[x0, #0x130]
+ffffffc01040cabc bl 0xffffffc01040c940
+ffffffc01040cac0 mov w2,w0
+ffffffc01040cac4 mov w1,#0x1900
+ffffffc01040cac8 adrp x0,-0x3fef6d3000
+ffffffc01040cacc movk w1,#0x1fa0, LSL #16
+ffffffc01040cad0 add x0,x0,#0x5e0
+ffffffc01040cad4 bl 0xffffffc010133850
+ffffffc01040cad8 ldr x0,[x19, #0xae8]
+ffffffc01040cadc mov w1,#0x104
+ffffffc01040cae0 ldr x0,[x0, #0x130]
+ffffffc01040cae4 bl 0xffffffc01040c940
+ffffffc01040cae8 mov w2,w0
+ffffffc01040caec mov w1,#0x1904
+ffffffc01040caf0 adrp x0,-0x3fef6d3000
+ffffffc01040caf4 movk w1,#0x1fa0, LSL #16
+ffffffc01040caf8 add x0,x0,#0x608
+ffffffc01040cafc bl 0xffffffc010133850
+ffffffc01040cb00 ldr x0,[x19, #0xae8]
+ffffffc01040cb04 mov w1,#0x108
+ffffffc01040cb08 ldr x0,[x0, #0x130]
+ffffffc01040cb0c bl 0xffffffc01040c940
+ffffffc01040cb10 mov w2,w0
+ffffffc01040cb14 mov w1,#0x1908
+ffffffc01040cb18 adrp x0,-0x3fef6d3000
+ffffffc01040cb1c movk w1,#0x1fa0, LSL #16
+ffffffc01040cb20 add x0,x0,#0x630
+ffffffc01040cb24 bl 0xffffffc010133850
+ffffffc01040cb28 ldr x0,[x19, #0xae8]
+ffffffc01040cb2c mov w1,#0x10c
+ffffffc01040cb30 ldr x0,[x0, #0x130]
+ffffffc01040cb34 bl 0xffffffc01040c940
+ffffffc01040cb38 mov w2,w0
+ffffffc01040cb3c mov w1,#0x190c
+ffffffc01040cb40 adrp x0,-0x3fef6d3000
+ffffffc01040cb44 movk w1,#0x1fa0, LSL #16
+ffffffc01040cb48 add x0,x0,#0x658
+ffffffc01040cb4c bl 0xffffffc010133850
+ffffffc01040cb50 ldr x0,[x19, #0xae8]
+ffffffc01040cb54 mov w1,#0x110
+ffffffc01040cb58 ldr x0,[x0, #0x130]
+ffffffc01040cb5c bl 0xffffffc01040c940
+ffffffc01040cb60 mov w2,w0
+ffffffc01040cb64 mov w1,#0x1910
+ffffffc01040cb68 adrp x0,-0x3fef6d3000
+ffffffc01040cb6c movk w1,#0x1fa0, LSL #16
+ffffffc01040cb70 add x0,x0,#0x680
+ffffffc01040cb74 bl 0xffffffc010133850
+ffffffc01040cb78 ldr x0,[x19, #0xae8]
+ffffffc01040cb7c mov w1,#0x114
+ffffffc01040cb80 ldr x0,[x0, #0x130]
+ffffffc01040cb84 bl 0xffffffc01040c940
+ffffffc01040cb88 mov w2,w0
+ffffffc01040cb8c mov w1,#0x1914
+ffffffc01040cb90 adrp x0,-0x3fef6d3000
+ffffffc01040cb94 movk w1,#0x1fa0, LSL #16
+ffffffc01040cb98 add x0,x0,#0x6a8
+ffffffc01040cb9c bl 0xffffffc010133850
+ffffffc01040cba0 ldr x0,[x19, #0xae8]
+ffffffc01040cba4 mov w1,#0x118
+ffffffc01040cba8 ldr x0,[x0, #0x130]
+ffffffc01040cbac bl 0xffffffc01040c940
+ffffffc01040cbb0 mov w2,w0
+ffffffc01040cbb4 mov w1,#0x1918
+ffffffc01040cbb8 adrp x0,-0x3fef6d3000
+ffffffc01040cbbc movk w1,#0x1fa0, LSL #16
+ffffffc01040cbc0 add x0,x0,#0x6d0
+ffffffc01040cbc4 bl 0xffffffc010133850
+ffffffc01040cbc8 ldr x0,[x19, #0xae8]
+ffffffc01040cbcc mov w1,#0x11c
+ffffffc01040cbd0 ldr x0,[x0, #0x130]
+ffffffc01040cbd4 bl 0xffffffc01040c940
+ffffffc01040cbd8 mov w2,w0
+ffffffc01040cbdc mov w1,#0x191c
+ffffffc01040cbe0 adrp x0,-0x3fef6d3000
+ffffffc01040cbe4 movk w1,#0x1fa0, LSL #16
+ffffffc01040cbe8 add x0,x0,#0x6f8
+ffffffc01040cbec bl 0xffffffc010133850
+ffffffc01040cbf0 ldr x0,[x19, #0xae8]
+ffffffc01040cbf4 mov w1,#0x200
+ffffffc01040cbf8 ldr x0,[x0, #0x130]
+ffffffc01040cbfc bl 0xffffffc01040c940
+ffffffc01040cc00 mov w2,w0
+ffffffc01040cc04 mov w1,#0x1a00
+ffffffc01040cc08 adrp x0,-0x3fef6d3000
+ffffffc01040cc0c movk w1,#0x1fa0, LSL #16
+ffffffc01040cc10 add x0,x0,#0x720
+ffffffc01040cc14 bl 0xffffffc010133850
+ffffffc01040cc18 ldr x0,[x19, #0xae8]
+ffffffc01040cc1c mov w1,#0x204
+ffffffc01040cc20 ldr x0,[x0, #0x130]
+ffffffc01040cc24 bl 0xffffffc01040c940
+ffffffc01040cc28 mov w2,w0
+ffffffc01040cc2c mov w1,#0x1a04
+ffffffc01040cc30 adrp x0,-0x3fef6d3000
+ffffffc01040cc34 movk w1,#0x1fa0, LSL #16
+ffffffc01040cc38 add x0,x0,#0x748
+ffffffc01040cc3c bl 0xffffffc010133850
+ffffffc01040cc40 ldr x0,[x19, #0xae8]
+ffffffc01040cc44 mov w1,#0x208
+ffffffc01040cc48 ldr x0,[x0, #0x130]
+ffffffc01040cc4c bl 0xffffffc01040c940
+ffffffc01040cc50 mov w2,w0
+ffffffc01040cc54 mov w1,#0x1a08
+ffffffc01040cc58 adrp x0,-0x3fef6d3000
+ffffffc01040cc5c movk w1,#0x1fa0, LSL #16
+ffffffc01040cc60 add x0,x0,#0x770
+ffffffc01040cc64 bl 0xffffffc010133850
+ffffffc01040cc68 ldr x0,[x19, #0xae8]
+ffffffc01040cc6c mov w1,#0x20c
+ffffffc01040cc70 ldr x0,[x0, #0x130]
+ffffffc01040cc74 bl 0xffffffc01040c940
+ffffffc01040cc78 mov w2,w0
+ffffffc01040cc7c mov w1,#0x1a0c
+ffffffc01040cc80 adrp x0,-0x3fef6d3000
+ffffffc01040cc84 movk w1,#0x1fa0, LSL #16
+ffffffc01040cc88 add x0,x0,#0x798
+ffffffc01040cc8c bl 0xffffffc010133850
+ffffffc01040cc90 ldr x0,[x19, #0xae8]
+ffffffc01040cc94 mov w1,#0x210
+ffffffc01040cc98 ldr x0,[x0, #0x130]
+ffffffc01040cc9c bl 0xffffffc01040c940
+ffffffc01040cca0 mov w2,w0
+ffffffc01040cca4 mov w1,#0x1a10
+ffffffc01040cca8 adrp x0,-0x3fef6d3000
+ffffffc01040ccac movk w1,#0x1fa0, LSL #16
+ffffffc01040ccb0 add x0,x0,#0x7c0
+ffffffc01040ccb4 bl 0xffffffc010133850
+ffffffc01040ccb8 ldr x0,[x19, #0xae8]
+ffffffc01040ccbc mov w1,#0x220
+ffffffc01040ccc0 ldr x0,[x0, #0x130]
+ffffffc01040ccc4 bl 0xffffffc01040c940
+ffffffc01040ccc8 mov w2,w0
+ffffffc01040cccc mov w1,#0x1a20
+ffffffc01040ccd0 adrp x0,-0x3fef6d3000
+ffffffc01040ccd4 movk w1,#0x1fa0, LSL #16
+ffffffc01040ccd8 add x0,x0,#0x7e8
+ffffffc01040ccdc bl 0xffffffc010133850
+ffffffc01040cce0 ldr x0,[x19, #0xae8]
+ffffffc01040cce4 mov w1,#0x228
+ffffffc01040cce8 ldr x0,[x0, #0x130]
+ffffffc01040ccec bl 0xffffffc01040c940
+ffffffc01040ccf0 mov w2,w0
+ffffffc01040ccf4 mov w1,#0x1a28
+ffffffc01040ccf8 adrp x0,-0x3fef6d3000
+ffffffc01040ccfc movk w1,#0x1fa0, LSL #16
+ffffffc01040cd00 add x0,x0,#0x810
+ffffffc01040cd04 bl 0xffffffc010133850
+ffffffc01040cd08 ldr x0,[x19, #0xae8]
+ffffffc01040cd0c mov w1,#0x230
+ffffffc01040cd10 ldr x0,[x0, #0x130]
+ffffffc01040cd14 bl 0xffffffc01040c940
+ffffffc01040cd18 mov w2,w0
+ffffffc01040cd1c mov w1,#0x1a30
+ffffffc01040cd20 adrp x0,-0x3fef6d3000
+ffffffc01040cd24 movk w1,#0x1fa0, LSL #16
+ffffffc01040cd28 add x0,x0,#0x838
+ffffffc01040cd2c bl 0xffffffc010133850
+ffffffc01040cd30 ldr x0,[x19, #0xae8]
+ffffffc01040cd34 mov w1,#0x234
+ffffffc01040cd38 ldr x0,[x0, #0x130]
+ffffffc01040cd3c bl 0xffffffc01040c940
+ffffffc01040cd40 mov w2,w0
+ffffffc01040cd44 mov w1,#0x1a34
+ffffffc01040cd48 adrp x0,-0x3fef6d3000
+ffffffc01040cd4c movk w1,#0x1fa0, LSL #16
+ffffffc01040cd50 add x0,x0,#0x860
+ffffffc01040cd54 bl 0xffffffc010133850
+ffffffc01040cd58 ldr x0,[x19, #0xae8]
+ffffffc01040cd5c mov w1,#0x238
+ffffffc01040cd60 ldr x0,[x0, #0x130]
+ffffffc01040cd64 bl 0xffffffc01040c940
+ffffffc01040cd68 mov w2,w0
+ffffffc01040cd6c mov w1,#0x1a38
+ffffffc01040cd70 adrp x0,-0x3fef6d3000
+ffffffc01040cd74 movk w1,#0x1fa0, LSL #16
+ffffffc01040cd78 add x0,x0,#0x888
+ffffffc01040cd7c bl 0xffffffc010133850
+ffffffc01040cd80 ldr x0,[x19, #0xae8]
+ffffffc01040cd84 mov w1,#0x23c
+ffffffc01040cd88 ldr x0,[x0, #0x130]
+ffffffc01040cd8c bl 0xffffffc01040c940
+ffffffc01040cd90 mov w2,w0
+ffffffc01040cd94 mov w1,#0x1a3c
+ffffffc01040cd98 adrp x0,-0x3fef6d3000
+ffffffc01040cd9c movk w1,#0x1fa0, LSL #16
+ffffffc01040cda0 add x0,x0,#0x8b0
+ffffffc01040cda4 bl 0xffffffc010133850
+ffffffc01040cda8 ldr x19,[sp, #0x10]
+ffffffc01040cdac ldp x29,x30,[sp], #0x20
+ffffffc01040cdb0 ret
+
+FUNCTION hsdma_reg_dump @ ffffffc01040cdb4
+decompiled=true
+
+undefined8 hsdma_reg_dump(void)
+
+{
+  ecnt_hsdma_reg_dump();
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040cdb4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040cdb8 mov x29,sp
+ffffffc01040cdbc bl 0xffffffc01040c960
+ffffffc01040cdc0 mov w0,#0x0
+ffffffc01040cdc4 ldp x29,x30,[sp], #0x10
+ffffffc01040cdc8 ret
+
+FUNCTION ecnt_hsdma_get_idx @ ffffffc01040cdd0
+decompiled=true
+
+undefined8 ecnt_hsdma_get_idx(int param_1,int param_2,int param_3)
+
+{
+  undefined8 uVar1;
+  long lVar2;
+  
+  lVar2 = *(long *)(DAT_ffffffc010c87ae8 + 0x148) + (long)param_1 * 0x70;
+  if (DAT_ffffffc010c87af0 != 0) {
+    if (param_2 == 1) {
+      if (param_3 == 4) {
+        uVar1 = ecnt_dma_read_isra_0
+                          (*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),
+                           *(undefined4 *)(lVar2 + 0x50));
+      }
+      else {
+        uVar1 = 0;
+        if (param_3 == 8) {
+          uVar1 = ecnt_dma_read_isra_0
+                            (*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),
+                             *(undefined4 *)(lVar2 + 0x54));
+        }
+      }
+    }
+    else {
+      uVar1 = 0;
+      if (param_2 == 2) {
+        if (param_3 == 4) {
+          uVar1 = ecnt_dma_read_isra_0
+                            (*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),
+                             *(undefined4 *)(lVar2 + 0x60));
+        }
+        else if (param_3 == 8) {
+          uVar1 = ecnt_dma_read_isra_0
+                            (*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),
+                             *(undefined4 *)(lVar2 + 100));
+        }
+      }
+    }
+    return uVar1;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040cdd0 adrp x4,-0x3fef379000
+ffffffc01040cdd4 add x3,x4,#0xae8
+ffffffc01040cdd8 mov w6,#0x70
+ffffffc01040cddc ldr x4,[x4, #0xae8]
+ffffffc01040cde0 ldr x5,[x3, #0x8]
+ffffffc01040cde4 ldr x3,[x4, #0x148]
+ffffffc01040cde8 smaddl x3,w0,w6,x3
+ffffffc01040cdec cbz x5,0xffffffc01040ce58
+ffffffc01040cdf0 stp x29,x30,[sp, #-0x10]!
+ffffffc01040cdf4 mov x29,sp
+ffffffc01040cdf8 cmp w1,#0x1
+ffffffc01040cdfc b.eq 0xffffffc01040ce14
+ffffffc01040ce00 mov w0,#0x0
+ffffffc01040ce04 cmp w1,#0x2
+ffffffc01040ce08 b.eq 0xffffffc01040ce38
+ffffffc01040ce0c ldp x29,x30,[sp], #0x10
+ffffffc01040ce10 ret
+ffffffc01040ce14 cmp w2,#0x4
+ffffffc01040ce18 b.eq 0xffffffc01040ce60
+ffffffc01040ce1c mov w0,#0x0
+ffffffc01040ce20 cmp w2,#0x8
+ffffffc01040ce24 b.ne 0xffffffc01040ce0c
+ffffffc01040ce28 ldr w1,[x3, #0x54]
+ffffffc01040ce2c ldr x0,[x4, #0x130]
+ffffffc01040ce30 bl 0xffffffc01040c940
+ffffffc01040ce34 b 0xffffffc01040ce0c
+ffffffc01040ce38 cmp w2,#0x4
+ffffffc01040ce3c b.eq 0xffffffc01040ce70
+ffffffc01040ce40 cmp w2,#0x8
+ffffffc01040ce44 b.ne 0xffffffc01040ce0c
+ffffffc01040ce48 ldr w1,[x3, #0x64]
+ffffffc01040ce4c ldr x0,[x4, #0x130]
+ffffffc01040ce50 bl 0xffffffc01040c940
+ffffffc01040ce54 b 0xffffffc01040ce0c
+ffffffc01040ce58 mov w0,#0x0
+ffffffc01040ce5c ret
+ffffffc01040ce60 ldr w1,[x3, #0x50]
+ffffffc01040ce64 ldr x0,[x4, #0x130]
+ffffffc01040ce68 bl 0xffffffc01040c940
+ffffffc01040ce6c b 0xffffffc01040ce0c
+ffffffc01040ce70 ldr w1,[x3, #0x60]
+ffffffc01040ce74 ldr x0,[x4, #0x130]
+ffffffc01040ce78 bl 0xffffffc01040c940
+ffffffc01040ce7c b 0xffffffc01040ce0c
+
+FUNCTION ecnt_hsdma_enable_test_mode @ ffffffc01040ce80
+decompiled=true
+
+void ecnt_hsdma_enable_test_mode
+               (undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
+               undefined4 *param_5)
+
+{
+  undefined4 uVar1;
+  long lVar2;
+  long extraout_x8;
+  
+  lVar2 = DAT_ffffffc010c87ae8;
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+  *param_1 = uVar1;
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(lVar2 + 0x130),0x20c);
+  *param_2 = uVar1;
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(lVar2 + 0x130),0x228);
+  *param_3 = uVar1;
+  *param_4 = **(undefined4 **)(lVar2 + 0x158);
+  *param_5 = *(undefined4 *)(*(long *)(lVar2 + 0x158) + 4);
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(lVar2 + 0x130) + 0x20c) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(*(long *)(extraout_x8 + 0xae8) + 0x130) + 0x220) = 0xf0030003;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040ce80 stp x29,x30,[sp, #-0x10]!
+ffffffc01040ce84 adrp x8,-0x3fef379000
+ffffffc01040ce88 mov x7,x0
+ffffffc01040ce8c mov x29,sp
+ffffffc01040ce90 ldr x5,[x8, #0xae8]
+ffffffc01040ce94 mov x6,x1
+ffffffc01040ce98 mov w1,#0x204
+ffffffc01040ce9c ldr x0,[x5, #0x130]
+ffffffc01040cea0 bl 0xffffffc01040c940
+ffffffc01040cea4 str w0,[x7]
+ffffffc01040cea8 mov w1,#0x20c
+ffffffc01040ceac ldr x0,[x5, #0x130]
+ffffffc01040ceb0 bl 0xffffffc01040c940
+ffffffc01040ceb4 str w0,[x6]
+ffffffc01040ceb8 mov w1,#0x228
+ffffffc01040cebc ldr x0,[x5, #0x130]
+ffffffc01040cec0 bl 0xffffffc01040c940
+ffffffc01040cec4 str w0,[x2]
+ffffffc01040cec8 ldr x0,[x5, #0x158]
+ffffffc01040cecc ldr w0,[x0]
+ffffffc01040ced0 str w0,[x3]
+ffffffc01040ced4 ldr x0,[x5, #0x158]
+ffffffc01040ced8 ldr w0,[x0, #0x4]
+ffffffc01040cedc str w0,[x4]
+ffffffc01040cee0 dmb OSHST
+ffffffc01040cee4 ldr x0,[x5, #0x130]
+ffffffc01040cee8 add x0,x0,#0x20c
+ffffffc01040ceec str wzr,[x0]
+ffffffc01040cef0 ldr x0,[x8, #0xae8]
+ffffffc01040cef4 dmb OSHST
+ffffffc01040cef8 ldr x0,[x0, #0x130]
+ffffffc01040cefc mov w1,#0x3
+ffffffc01040cf00 movk w1,#0xf003, LSL #16
+ffffffc01040cf04 add x0,x0,#0x220
+ffffffc01040cf08 str w1,[x0]
+ffffffc01040cf0c ldp x29,x30,[sp], #0x10
+ffffffc01040cf10 ret
+
+FUNCTION ecnt_hsdma_enable_swap @ ffffffc01040cf14
+decompiled=true
+
+void ecnt_hsdma_enable_swap(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 | 0x20000000;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040cf14 adrp x0,-0x3fef379000
+ffffffc01040cf18 add x1,x0,#0xae8
+ffffffc01040cf1c ldr x1,[x1, #0x8]
+ffffffc01040cf20 cbz x1,0xffffffc01040cf58
+ffffffc01040cf24 stp x29,x30,[sp, #-0x10]!
+ffffffc01040cf28 mov w1,#0x204
+ffffffc01040cf2c mov x29,sp
+ffffffc01040cf30 ldr x2,[x0, #0xae8]
+ffffffc01040cf34 ldr x0,[x2, #0x130]
+ffffffc01040cf38 bl 0xffffffc01040c940
+ffffffc01040cf3c dmb OSHST
+ffffffc01040cf40 ldr x1,[x2, #0x130]
+ffffffc01040cf44 orr w0,w0,#0x20000000
+ffffffc01040cf48 add x1,x1,#0x204
+ffffffc01040cf4c str w0,[x1]
+ffffffc01040cf50 ldp x29,x30,[sp], #0x10
+ffffffc01040cf54 ret
+ffffffc01040cf58 ret
+
+FUNCTION ecnt_hsdma_disable_swap @ ffffffc01040cf60
+decompiled=true
+
+void ecnt_hsdma_disable_swap(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 & 0xdfffffff;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040cf60 adrp x0,-0x3fef379000
+ffffffc01040cf64 add x1,x0,#0xae8
+ffffffc01040cf68 ldr x1,[x1, #0x8]
+ffffffc01040cf6c cbz x1,0xffffffc01040cfa4
+ffffffc01040cf70 stp x29,x30,[sp, #-0x10]!
+ffffffc01040cf74 mov w1,#0x204
+ffffffc01040cf78 mov x29,sp
+ffffffc01040cf7c ldr x2,[x0, #0xae8]
+ffffffc01040cf80 ldr x0,[x2, #0x130]
+ffffffc01040cf84 bl 0xffffffc01040c940
+ffffffc01040cf88 dmb OSHST
+ffffffc01040cf8c ldr x1,[x2, #0x130]
+ffffffc01040cf90 and w0,w0,#0xdfffffff
+ffffffc01040cf94 add x1,x1,#0x204
+ffffffc01040cf98 str w0,[x1]
+ffffffc01040cf9c ldp x29,x30,[sp], #0x10
+ffffffc01040cfa0 ret
+ffffffc01040cfa4 ret
+
+FUNCTION ecnt_hsdma_set_burst_size @ ffffffc01040cfb0
+decompiled=true
+
+void ecnt_hsdma_set_burst_size(uint param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = param_1 | uVar1 & 0xffffffcf;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040cfb0 adrp x1,-0x3fef379000
+ffffffc01040cfb4 add x3,x1,#0xae8
+ffffffc01040cfb8 mov w2,w0
+ffffffc01040cfbc ldr x0,[x3, #0x8]
+ffffffc01040cfc0 cbz x0,0xffffffc01040cffc
+ffffffc01040cfc4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040cfc8 mov x29,sp
+ffffffc01040cfcc ldr x3,[x1, #0xae8]
+ffffffc01040cfd0 mov w1,#0x204
+ffffffc01040cfd4 ldr x0,[x3, #0x130]
+ffffffc01040cfd8 bl 0xffffffc01040c940
+ffffffc01040cfdc and w0,w0,#0xffffffcf
+ffffffc01040cfe0 dmb OSHST
+ffffffc01040cfe4 ldr x1,[x3, #0x130]
+ffffffc01040cfe8 orr w0,w2,w0
+ffffffc01040cfec add x1,x1,#0x204
+ffffffc01040cff0 str w0,[x1]
+ffffffc01040cff4 ldp x29,x30,[sp], #0x10
+ffffffc01040cff8 ret
+ffffffc01040cffc ret
+
+FUNCTION ecnt_hsdma_enable_intr @ ffffffc01040d000
+decompiled=true
+
+void ecnt_hsdma_enable_intr(uint param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x228);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x228) = param_1 | uVar1;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d000 adrp x1,-0x3fef379000
+ffffffc01040d004 add x3,x1,#0xae8
+ffffffc01040d008 mov w2,w0
+ffffffc01040d00c ldr x0,[x3, #0x8]
+ffffffc01040d010 cbz x0,0xffffffc01040d048
+ffffffc01040d014 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d018 mov x29,sp
+ffffffc01040d01c ldr x3,[x1, #0xae8]
+ffffffc01040d020 mov w1,#0x228
+ffffffc01040d024 ldr x0,[x3, #0x130]
+ffffffc01040d028 bl 0xffffffc01040c940
+ffffffc01040d02c dmb OSHST
+ffffffc01040d030 ldr x1,[x3, #0x130]
+ffffffc01040d034 orr w0,w2,w0
+ffffffc01040d038 add x1,x1,#0x228
+ffffffc01040d03c str w0,[x1]
+ffffffc01040d040 ldp x29,x30,[sp], #0x10
+ffffffc01040d044 ret
+ffffffc01040d048 ret
+
+FUNCTION ecnt_hsdma_disable_tx_wbd @ ffffffc01040d050
+decompiled=true
+
+void ecnt_hsdma_disable_tx_wbd(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 & 0xffffffbf;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d050 adrp x0,-0x3fef379000
+ffffffc01040d054 add x1,x0,#0xae8
+ffffffc01040d058 ldr x1,[x1, #0x8]
+ffffffc01040d05c cbz x1,0xffffffc01040d094
+ffffffc01040d060 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d064 mov w1,#0x204
+ffffffc01040d068 mov x29,sp
+ffffffc01040d06c ldr x2,[x0, #0xae8]
+ffffffc01040d070 ldr x0,[x2, #0x130]
+ffffffc01040d074 bl 0xffffffc01040c940
+ffffffc01040d078 dmb OSHST
+ffffffc01040d07c ldr x1,[x2, #0x130]
+ffffffc01040d080 and w0,w0,#0xffffffbf
+ffffffc01040d084 add x1,x1,#0x204
+ffffffc01040d088 str w0,[x1]
+ffffffc01040d08c ldp x29,x30,[sp], #0x10
+ffffffc01040d090 ret
+ffffffc01040d094 ret
+
+FUNCTION ecnt_hsdma_enable_tx_wbd @ ffffffc01040d0a0
+decompiled=true
+
+void ecnt_hsdma_enable_tx_wbd(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 | 0x40;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d0a0 adrp x0,-0x3fef379000
+ffffffc01040d0a4 add x1,x0,#0xae8
+ffffffc01040d0a8 ldr x1,[x1, #0x8]
+ffffffc01040d0ac cbz x1,0xffffffc01040d0e4
+ffffffc01040d0b0 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d0b4 mov w1,#0x204
+ffffffc01040d0b8 mov x29,sp
+ffffffc01040d0bc ldr x2,[x0, #0xae8]
+ffffffc01040d0c0 ldr x0,[x2, #0x130]
+ffffffc01040d0c4 bl 0xffffffc01040c940
+ffffffc01040d0c8 dmb OSHST
+ffffffc01040d0cc ldr x1,[x2, #0x130]
+ffffffc01040d0d0 orr w0,w0,#0x40
+ffffffc01040d0d4 add x1,x1,#0x204
+ffffffc01040d0d8 str w0,[x1]
+ffffffc01040d0dc ldp x29,x30,[sp], #0x10
+ffffffc01040d0e0 ret
+ffffffc01040d0e4 ret
+
+FUNCTION ecnt_hsdma_disable_rdbk @ ffffffc01040d0f0
+decompiled=true
+
+void ecnt_hsdma_disable_rdbk(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 & 0xfffff7ff;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d0f0 adrp x0,-0x3fef379000
+ffffffc01040d0f4 add x1,x0,#0xae8
+ffffffc01040d0f8 ldr x1,[x1, #0x8]
+ffffffc01040d0fc cbz x1,0xffffffc01040d134
+ffffffc01040d100 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d104 mov w1,#0x204
+ffffffc01040d108 mov x29,sp
+ffffffc01040d10c ldr x2,[x0, #0xae8]
+ffffffc01040d110 ldr x0,[x2, #0x130]
+ffffffc01040d114 bl 0xffffffc01040c940
+ffffffc01040d118 dmb OSHST
+ffffffc01040d11c ldr x1,[x2, #0x130]
+ffffffc01040d120 and w0,w0,#0xfffff7ff
+ffffffc01040d124 add x1,x1,#0x204
+ffffffc01040d128 str w0,[x1]
+ffffffc01040d12c ldp x29,x30,[sp], #0x10
+ffffffc01040d130 ret
+ffffffc01040d134 ret
+
+FUNCTION ecnt_hsdma_enable_rdbk @ ffffffc01040d140
+decompiled=true
+
+void ecnt_hsdma_enable_rdbk(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 | 0x800;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d140 adrp x0,-0x3fef379000
+ffffffc01040d144 add x1,x0,#0xae8
+ffffffc01040d148 ldr x1,[x1, #0x8]
+ffffffc01040d14c cbz x1,0xffffffc01040d184
+ffffffc01040d150 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d154 mov w1,#0x204
+ffffffc01040d158 mov x29,sp
+ffffffc01040d15c ldr x2,[x0, #0xae8]
+ffffffc01040d160 ldr x0,[x2, #0x130]
+ffffffc01040d164 bl 0xffffffc01040c940
+ffffffc01040d168 dmb OSHST
+ffffffc01040d16c ldr x1,[x2, #0x130]
+ffffffc01040d170 orr w0,w0,#0x800
+ffffffc01040d174 add x1,x1,#0x204
+ffffffc01040d178 str w0,[x1]
+ffffffc01040d17c ldp x29,x30,[sp], #0x10
+ffffffc01040d180 ret
+ffffffc01040d184 ret
+
+FUNCTION ecnt_hsdma_disable_intr @ ffffffc01040d190
+decompiled=true
+
+void ecnt_hsdma_disable_intr(uint param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x228);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x228) = uVar1 & (param_1 ^ 0xffffffff);
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d190 adrp x1,-0x3fef379000
+ffffffc01040d194 add x3,x1,#0xae8
+ffffffc01040d198 mov w2,w0
+ffffffc01040d19c ldr x0,[x3, #0x8]
+ffffffc01040d1a0 cbz x0,0xffffffc01040d1d8
+ffffffc01040d1a4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d1a8 mov x29,sp
+ffffffc01040d1ac ldr x3,[x1, #0xae8]
+ffffffc01040d1b0 mov w1,#0x228
+ffffffc01040d1b4 ldr x0,[x3, #0x130]
+ffffffc01040d1b8 bl 0xffffffc01040c940
+ffffffc01040d1bc dmb OSHST
+ffffffc01040d1c0 ldr x1,[x3, #0x130]
+ffffffc01040d1c4 bic w0,w0,w2
+ffffffc01040d1c8 add x1,x1,#0x228
+ffffffc01040d1cc str w0,[x1]
+ffffffc01040d1d0 ldp x29,x30,[sp], #0x10
+ffffffc01040d1d4 ret
+ffffffc01040d1d8 ret
+
+FUNCTION ecnt_hsdma_free_pchan @ ffffffc01040d1e0
+decompiled=true
+
+void ecnt_hsdma_free_pchan(long param_1,undefined8 *param_2)
+
+{
+  uint uVar1;
+  uint uVar2;
+  
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(param_1 + 0x130),0x204);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(param_1 + 0x130) + 0x204) = uVar1 & 0xfffffffa;
+  ecnt_hsdma_busy_wait(param_1);
+  uVar1 = *(uint *)((long)param_2 + 0x6c);
+  uVar2 = ecnt_dma_read_isra_0(*(undefined8 *)(param_1 + 0x130),0x228);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(param_1 + 0x130) + 0x228) = uVar2 & (uVar1 ^ 0xffffffff);
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)(param_2 + 9)) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)((long)param_2 + 0x4c)) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)(param_2 + 10)) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)(param_2 + 0xb)) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)((long)param_2 + 0x5c)) = 0;
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)(param_2 + 0xc)) = 0x7ff;
+  kfree(param_2[2]);
+  dma_free_attrs(*(undefined8 *)(param_1 + 0x60),param_2[7],*param_2,param_2[3],0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d1e0 stp x29,x30,[sp, #-0x20]!
+ffffffc01040d1e4 mov x29,sp
+ffffffc01040d1e8 stp x19,x20,[sp, #0x10]
+ffffffc01040d1ec mov x19,x0
+ffffffc01040d1f0 mov x20,x1
+ffffffc01040d1f4 ldr x0,[x0, #0x130]
+ffffffc01040d1f8 mov w1,#0x204
+ffffffc01040d1fc bl 0xffffffc01040c940
+ffffffc01040d200 dmb OSHST
+ffffffc01040d204 ldr x1,[x19, #0x130]
+ffffffc01040d208 mov w2,#0xfffffffa
+ffffffc01040d20c and w0,w0,w2
+ffffffc01040d210 add x1,x1,#0x204
+ffffffc01040d214 str w0,[x1]
+ffffffc01040d218 mov x0,x19
+ffffffc01040d21c bl 0xffffffc01040c890
+ffffffc01040d220 ldr x0,[x19, #0x130]
+ffffffc01040d224 mov w1,#0x228
+ffffffc01040d228 ldr w2,[x20, #0x6c]
+ffffffc01040d22c bl 0xffffffc01040c940
+ffffffc01040d230 dmb OSHST
+ffffffc01040d234 ldr x1,[x19, #0x130]
+ffffffc01040d238 bic w2,w0,w2
+ffffffc01040d23c add x0,x1,#0x228
+ffffffc01040d240 str w2,[x0]
+ffffffc01040d244 ldr w0,[x20, #0x48]
+ffffffc01040d248 dmb OSHST
+ffffffc01040d24c ldr x1,[x19, #0x130]
+ffffffc01040d250 add x0,x1,w0, UXTW 
+ffffffc01040d254 str wzr,[x0]
+ffffffc01040d258 ldr w0,[x20, #0x4c]
+ffffffc01040d25c dmb OSHST
+ffffffc01040d260 ldr x1,[x19, #0x130]
+ffffffc01040d264 add x0,x1,w0, UXTW 
+ffffffc01040d268 str wzr,[x0]
+ffffffc01040d26c ldr w0,[x20, #0x50]
+ffffffc01040d270 dmb OSHST
+ffffffc01040d274 ldr x1,[x19, #0x130]
+ffffffc01040d278 add x0,x1,w0, UXTW 
+ffffffc01040d27c str wzr,[x0]
+ffffffc01040d280 ldr w0,[x20, #0x58]
+ffffffc01040d284 dmb OSHST
+ffffffc01040d288 ldr x1,[x19, #0x130]
+ffffffc01040d28c add x0,x1,w0, UXTW 
+ffffffc01040d290 str wzr,[x0]
+ffffffc01040d294 ldr w0,[x20, #0x5c]
+ffffffc01040d298 dmb OSHST
+ffffffc01040d29c ldr x1,[x19, #0x130]
+ffffffc01040d2a0 add x0,x1,w0, UXTW 
+ffffffc01040d2a4 str wzr,[x0]
+ffffffc01040d2a8 ldr w0,[x20, #0x60]
+ffffffc01040d2ac dmb OSHST
+ffffffc01040d2b0 ldr x2,[x19, #0x130]
+ffffffc01040d2b4 mov w1,#0x7ff
+ffffffc01040d2b8 add x0,x2,w0, UXTW 
+ffffffc01040d2bc str w1,[x0]
+ffffffc01040d2c0 ldr x0,[x20, #0x10]
+ffffffc01040d2c4 bl 0xffffffc0101e6340
+ffffffc01040d2c8 ldr x2,[x20]
+ffffffc01040d2cc mov x4,#0x0
+ffffffc01040d2d0 ldr x3,[x20, #0x18]
+ffffffc01040d2d4 ldr x1,[x20, #0x38]
+ffffffc01040d2d8 ldr x0,[x19, #0x60]
+ffffffc01040d2dc bl 0xffffffc010149770
+ffffffc01040d2e0 ldp x19,x20,[sp, #0x10]
+ffffffc01040d2e4 ldp x29,x30,[sp], #0x20
+ffffffc01040d2e8 ret
+
+FUNCTION ecnt_hsdma_remove @ ffffffc01040d2f0
+decompiled=true
+
+undefined8 ecnt_hsdma_remove(long param_1)
+
+{
+  long lVar1;
+  long lVar2;
+  long *plVar3;
+  long lVar4;
+  uint uVar5;
+  long lVar6;
+  
+  lVar1 = param_1 + 0x10;
+  lVar6 = *(long *)(param_1 + 0x88);
+  if (*(int *)(lVar6 + 0x13c) != 0) {
+    uVar5 = 0;
+    do {
+      lVar4 = *(long *)(lVar6 + 0x140) + (long)(int)uVar5 * 0x118;
+      uVar5 = uVar5 + 1;
+      lVar2 = *(long *)(lVar4 + 0x20);
+      plVar3 = *(long **)(lVar4 + 0x28);
+      *(long **)(lVar2 + 8) = plVar3;
+      *plVar3 = lVar2;
+      *(undefined1 **)(lVar4 + 0x20) = &DAT_dead000000000100;
+      *(undefined1 **)(lVar4 + 0x28) = &DAT_dead000000000122;
+      tasklet_kill(lVar4 + 0x58);
+    } while (uVar5 < *(uint *)(lVar6 + 0x13c));
+  }
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(lVar6 + 0x130) + 0x228) = 0;
+  if (DAT_ffffffc010c87af8 != 0) {
+    remove_proc_entry(s_tc3162_hsdma_reg_dump_ffffffc01092d8d8,0);
+  }
+  synchronize_irq(*(undefined4 *)(lVar6 + 0x138));
+  devm_free_irq(lVar1,*(undefined4 *)(lVar6 + 0x138),lVar6);
+  DataMemoryBarrier(0,2);
+  *(undefined4 *)(*(long *)(lVar6 + 0x130) + 0x204) = 0;
+  ecnt_hsdma_free_pchan(lVar6,*(undefined8 *)(lVar6 + 0x148));
+  ecnt_hsdma_free_pchan(lVar6,*(long *)(lVar6 + 0x148) + 0x70);
+  of_dma_controller_free(*(undefined8 *)(param_1 + 0x278));
+  dma_async_device_unregister(lVar6);
+  devm_kfree(lVar1,*(undefined8 *)(lVar6 + 0x140));
+  devm_kfree(lVar1,*(undefined8 *)(lVar6 + 0x148));
+  devm_iounmap(lVar1,*(undefined8 *)(lVar6 + 0x130));
+  devm_kfree(lVar1,lVar6);
+  _dev_info(lVar1,s_Econet_HSDMA_driver_unregistered_ffffffc01092d8f0);
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040d2f0 stp x29,x30,[sp, #-0x50]!
+ffffffc01040d2f4 mov x29,sp
+ffffffc01040d2f8 stp x23,x24,[sp, #0x30]
+ffffffc01040d2fc add x24,x0,#0x10
+ffffffc01040d300 stp x19,x20,[sp, #0x10]
+ffffffc01040d304 str x25,[sp, #0x40]
+ffffffc01040d308 mov x25,x0
+ffffffc01040d30c ldr x20,[x24, #0x78]
+ffffffc01040d310 ldr w0,[x20, #0x13c]
+ffffffc01040d314 cbz w0,0xffffffc01040d36c
+ffffffc01040d318 stp x21,x22,[sp, #0x20]
+ffffffc01040d31c mov x22,#0x100
+ffffffc01040d320 mov x21,#0x122
+ffffffc01040d324 mov w19,#0x0
+ffffffc01040d328 mov w23,#0x118
+ffffffc01040d32c movk x22,#0xdead, LSL #48
+ffffffc01040d330 movk x21,#0xdead, LSL #48
+ffffffc01040d334 nop
+ffffffc01040d338 ldr x1,[x20, #0x140]
+ffffffc01040d33c smaddl x1,w19,w23,x1
+ffffffc01040d340 add w19,w19,#0x1
+ffffffc01040d344 add x0,x1,#0x58
+ffffffc01040d348 ldp x3,x2,[x1, #0x20]
+ffffffc01040d34c str x2,[x3, #0x8]
+ffffffc01040d350 str x3,[x2]
+ffffffc01040d354 stp x22,x21,[x1, #0x20]
+ffffffc01040d358 bl 0xffffffc0100e3310
+ffffffc01040d35c ldr w0,[x20, #0x13c]
+ffffffc01040d360 cmp w0,w19
+ffffffc01040d364 b.hi 0xffffffc01040d338
+ffffffc01040d368 ldp x21,x22,[sp, #0x20]
+ffffffc01040d36c dmb OSHST
+ffffffc01040d370 ldr x0,[x20, #0x130]
+ffffffc01040d374 add x0,x0,#0x228
+ffffffc01040d378 str wzr,[x0]
+ffffffc01040d37c adrp x0,-0x3fef379000
+ffffffc01040d380 ldr x0,[x0, #0xaf8]
+ffffffc01040d384 cbz x0,0xffffffc01040d398
+ffffffc01040d388 adrp x0,-0x3fef6d3000
+ffffffc01040d38c mov x1,#0x0
+ffffffc01040d390 add x0,x0,#0x8d8
+ffffffc01040d394 bl 0xffffffc010272d50
+ffffffc01040d398 ldr w0,[x20, #0x138]
+ffffffc01040d39c bl 0xffffffc010136184
+ffffffc01040d3a0 ldr w1,[x20, #0x138]
+ffffffc01040d3a4 mov x2,x20
+ffffffc01040d3a8 mov x0,x24
+ffffffc01040d3ac bl 0xffffffc01013b7f0
+ffffffc01040d3b0 dmb OSHST
+ffffffc01040d3b4 ldr x0,[x20, #0x130]
+ffffffc01040d3b8 add x0,x0,#0x204
+ffffffc01040d3bc str wzr,[x0]
+ffffffc01040d3c0 ldr x1,[x20, #0x148]
+ffffffc01040d3c4 mov x0,x20
+ffffffc01040d3c8 bl 0xffffffc01040d1e0
+ffffffc01040d3cc ldr x1,[x20, #0x148]
+ffffffc01040d3d0 mov x0,x20
+ffffffc01040d3d4 add x1,x1,#0x70
+ffffffc01040d3d8 bl 0xffffffc01040d1e0
+ffffffc01040d3dc ldr x0,[x25, #0x278]
+ffffffc01040d3e0 bl 0xffffffc01040bf00
+ffffffc01040d3e4 mov x0,x20
+ffffffc01040d3e8 bl 0xffffffc01040a820
+ffffffc01040d3ec ldr x1,[x20, #0x140]
+ffffffc01040d3f0 mov x0,x24
+ffffffc01040d3f4 bl 0xffffffc01044bfb0
+ffffffc01040d3f8 ldr x1,[x20, #0x148]
+ffffffc01040d3fc mov x0,x24
+ffffffc01040d400 bl 0xffffffc01044bfb0
+ffffffc01040d404 ldr x1,[x20, #0x130]
+ffffffc01040d408 mov x0,x24
+ffffffc01040d40c bl 0xffffffc0103afe30
+ffffffc01040d410 mov x1,x20
+ffffffc01040d414 mov x0,x24
+ffffffc01040d418 bl 0xffffffc01044bfb0
+ffffffc01040d41c mov x0,x24
+ffffffc01040d420 adrp x1,-0x3fef6d3000
+ffffffc01040d424 add x1,x1,#0x8f0
+ffffffc01040d428 bl 0xffffffc0104445d4
+ffffffc01040d42c mov w0,#0x0
+ffffffc01040d430 ldp x19,x20,[sp, #0x10]
+ffffffc01040d434 ldp x23,x24,[sp, #0x30]
+ffffffc01040d438 ldr x25,[sp, #0x40]
+ffffffc01040d43c ldp x29,x30,[sp], #0x50
+ffffffc01040d440 ret
+
+FUNCTION ecnt_hsdma_start_dma @ ffffffc01040d444
+decompiled=true
+
+void ecnt_hsdma_start_dma(uint param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  undefined *puVar3;
+  
+  puVar3 = &DAT_ffffffc010c87000;
+  if (DAT_ffffffc010c87af0 == 0) {
+    return;
+  }
+  if ((param_1 & 1) != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 | 1;
+  }
+  if ((param_1 >> 1 & 1) != 0) {
+    lVar2 = *(long *)(puVar3 + 0xae8);
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(lVar2 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 | 4;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d444 adrp x3,-0x3fef379000
+ffffffc01040d448 add x1,x3,#0xae8
+ffffffc01040d44c mov w2,w0
+ffffffc01040d450 ldr x0,[x1, #0x8]
+ffffffc01040d454 cbz x0,0xffffffc01040d4c4
+ffffffc01040d458 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d45c mov x29,sp
+ffffffc01040d460 tbnz w2,#0x0,0xffffffc01040d470
+ffffffc01040d464 tbnz w2,#0x1,0xffffffc01040d498
+ffffffc01040d468 ldp x29,x30,[sp], #0x10
+ffffffc01040d46c ret
+ffffffc01040d470 ldr x4,[x3, #0xae8]
+ffffffc01040d474 mov w1,#0x204
+ffffffc01040d478 ldr x0,[x4, #0x130]
+ffffffc01040d47c bl 0xffffffc01040c940
+ffffffc01040d480 dmb OSHST
+ffffffc01040d484 ldr x1,[x4, #0x130]
+ffffffc01040d488 orr w0,w0,#0x1
+ffffffc01040d48c add x1,x1,#0x204
+ffffffc01040d490 str w0,[x1]
+ffffffc01040d494 tbz w2,#0x1,0xffffffc01040d468
+ffffffc01040d498 ldr x2,[x3, #0xae8]
+ffffffc01040d49c mov w1,#0x204
+ffffffc01040d4a0 ldr x0,[x2, #0x130]
+ffffffc01040d4a4 bl 0xffffffc01040c940
+ffffffc01040d4a8 dmb OSHST
+ffffffc01040d4ac ldr x1,[x2, #0x130]
+ffffffc01040d4b0 orr w0,w0,#0x4
+ffffffc01040d4b4 add x1,x1,#0x204
+ffffffc01040d4b8 str w0,[x1]
+ffffffc01040d4bc ldp x29,x30,[sp], #0x10
+ffffffc01040d4c0 ret
+ffffffc01040d4c4 ret
+
+FUNCTION ecnt_hsdma_stop_dma @ ffffffc01040d4d0
+decompiled=true
+
+void ecnt_hsdma_stop_dma(uint param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  undefined *puVar3;
+  
+  puVar3 = &DAT_ffffffc010c87000;
+  if (DAT_ffffffc010c87af0 == 0) {
+    return;
+  }
+  if ((param_1 & 1) != 0) {
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 & 0xfffffffe;
+  }
+  if ((param_1 >> 1 & 1) != 0) {
+    lVar2 = *(long *)(puVar3 + 0xae8);
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(lVar2 + 0x130),0x204);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x204) = uVar1 & 0xfffffffb;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d4d0 adrp x3,-0x3fef379000
+ffffffc01040d4d4 add x1,x3,#0xae8
+ffffffc01040d4d8 mov w2,w0
+ffffffc01040d4dc ldr x0,[x1, #0x8]
+ffffffc01040d4e0 cbz x0,0xffffffc01040d550
+ffffffc01040d4e4 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d4e8 mov x29,sp
+ffffffc01040d4ec tbnz w2,#0x0,0xffffffc01040d4fc
+ffffffc01040d4f0 tbnz w2,#0x1,0xffffffc01040d524
+ffffffc01040d4f4 ldp x29,x30,[sp], #0x10
+ffffffc01040d4f8 ret
+ffffffc01040d4fc ldr x4,[x3, #0xae8]
+ffffffc01040d500 mov w1,#0x204
+ffffffc01040d504 ldr x0,[x4, #0x130]
+ffffffc01040d508 bl 0xffffffc01040c940
+ffffffc01040d50c dmb OSHST
+ffffffc01040d510 ldr x1,[x4, #0x130]
+ffffffc01040d514 and w0,w0,#0xfffffffe
+ffffffc01040d518 add x1,x1,#0x204
+ffffffc01040d51c str w0,[x1]
+ffffffc01040d520 tbz w2,#0x1,0xffffffc01040d4f4
+ffffffc01040d524 ldr x2,[x3, #0xae8]
+ffffffc01040d528 mov w1,#0x204
+ffffffc01040d52c ldr x0,[x2, #0x130]
+ffffffc01040d530 bl 0xffffffc01040c940
+ffffffc01040d534 dmb OSHST
+ffffffc01040d538 ldr x1,[x2, #0x130]
+ffffffc01040d53c and w0,w0,#0xfffffffb
+ffffffc01040d540 add x1,x1,#0x204
+ffffffc01040d544 str w0,[x1]
+ffffffc01040d548 ldp x29,x30,[sp], #0x10
+ffffffc01040d54c ret
+ffffffc01040d550 ret
+
+FUNCTION ecnt_hsdma_prep_dma_memcpy @ ffffffc01040d554
+decompiled=true
+
+long ecnt_hsdma_prep_dma_memcpy
+               (long param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
+               undefined4 param_5)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  long *plVar3;
+  
+  if (param_1 == 0) {
+    return 0;
+  }
+  lVar1 = kmem_cache_alloc(DAT_ffffffc010967a48,0xdc0);
+  if (lVar1 != 0) {
+    *(undefined8 *)(lVar1 + 0x60) = param_4;
+    *(undefined8 *)(lVar1 + 0x68) = param_4;
+    *(undefined8 *)(lVar1 + 0x70) = param_2;
+    *(undefined8 *)(lVar1 + 0x78) = param_3;
+    dma_async_tx_descriptor_init(lVar1,param_1);
+    *(undefined4 *)(lVar1 + 4) = param_5;
+    *(code **)(lVar1 + 0x18) = vchan_tx_submit;
+    *(code **)(lVar1 + 0x20) = vchan_tx_desc_free;
+    *(undefined8 *)(lVar1 + 0x48) = 0;
+    uVar2 = __raw_spin_lock_irqsave(param_1 + 0x88);
+    plVar3 = *(long **)(param_1 + 0x98);
+    *(long *)(lVar1 + 0x50) = param_1 + 0x90;
+    *(long **)(lVar1 + 0x58) = plVar3;
+    *(long *)(param_1 + 0x98) = lVar1 + 0x50;
+    *plVar3 = lVar1 + 0x50;
+    *(undefined4 *)(param_1 + 0x88) = 0;
+    daif = uVar2;
+    return lVar1;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040d554 stp x29,x30,[sp, #-0x40]!
+ffffffc01040d558 mov x29,sp
+ffffffc01040d55c stp x19,x20,[sp, #0x10]
+ffffffc01040d560 cbz x0,0xffffffc01040d628
+ffffffc01040d564 mov x20,x0
+ffffffc01040d568 adrp x0,-0x3fef699000
+ffffffc01040d56c stp x21,x22,[sp, #0x20]
+ffffffc01040d570 mov x22,x2
+ffffffc01040d574 mov x21,x3
+ffffffc01040d578 ldr x0,[x0, #0xa48]
+ffffffc01040d57c stp x23,x24,[sp, #0x30]
+ffffffc01040d580 mov x24,x1
+ffffffc01040d584 mov x23,x4
+ffffffc01040d588 mov w1,#0xdc0
+ffffffc01040d58c bl 0xffffffc0101e5280
+ffffffc01040d590 mov x19,x0
+ffffffc01040d594 cbz x0,0xffffffc01040d610
+ffffffc01040d598 stp x21,x21,[x0, #0x60]
+ffffffc01040d59c mov x1,x20
+ffffffc01040d5a0 stp x24,x22,[x0, #0x70]
+ffffffc01040d5a4 bl 0xffffffc010409e90
+ffffffc01040d5a8 str w23,[x19, #0x4]
+ffffffc01040d5ac adrp x1,-0x3fefbf5000
+ffffffc01040d5b0 add x1,x1,#0xe10
+ffffffc01040d5b4 adrp x0,-0x3fefbf5000
+ffffffc01040d5b8 add x0,x0,#0xb40
+ffffffc01040d5bc stp x0,x1,[x19, #0x18]
+ffffffc01040d5c0 add x0,x20,#0x88
+ffffffc01040d5c4 str xzr,[x19, #0x48]
+ffffffc01040d5c8 bl 0xffffffc01040c824
+ffffffc01040d5cc ldr x2,[x20, #0x98]
+ffffffc01040d5d0 add x1,x19,#0x50
+ffffffc01040d5d4 add x3,x20,#0x90
+ffffffc01040d5d8 stp x3,x2,[x19, #0x50]
+ffffffc01040d5dc mov w3,#0x0
+ffffffc01040d5e0 str x1,[x20, #0x98]
+ffffffc01040d5e4 str x1,[x2]
+ffffffc01040d5e8 add x1,x20,#0x88
+ffffffc01040d5ec stlrb w3,[x1]
+ffffffc01040d5f0 msr daif,x0
+ffffffc01040d5f4 nop
+ffffffc01040d5f8 mov x0,x19
+ffffffc01040d5fc ldp x19,x20,[sp, #0x10]
+ffffffc01040d600 ldp x21,x22,[sp, #0x20]
+ffffffc01040d604 ldp x23,x24,[sp, #0x30]
+ffffffc01040d608 ldp x29,x30,[sp], #0x40
+ffffffc01040d60c ret
+ffffffc01040d610 mov x0,x19
+ffffffc01040d614 ldp x19,x20,[sp, #0x10]
+ffffffc01040d618 ldp x21,x22,[sp, #0x20]
+ffffffc01040d61c ldp x23,x24,[sp, #0x30]
+ffffffc01040d620 ldp x29,x30,[sp], #0x40
+ffffffc01040d624 ret
+ffffffc01040d628 mov x19,#0x0
+ffffffc01040d62c mov x0,x19
+ffffffc01040d630 ldp x19,x20,[sp, #0x10]
+ffffffc01040d634 ldp x29,x30,[sp], #0x40
+ffffffc01040d638 ret
+
+FUNCTION ecnt_hsdma_disable_dly_intr @ ffffffc01040d640
+decompiled=true
+
+void ecnt_hsdma_disable_dly_intr(int param_1)
+
+{
+  uint uVar1;
+  long lVar2;
+  
+  if (DAT_ffffffc010c87af0 == 0) {
+    return;
+  }
+  if (param_1 != 1) {
+    if (param_1 != 2) {
+      return;
+    }
+    lVar2 = DAT_ffffffc010c87ae8;
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x20c);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(lVar2 + 0x130) + 0x20c) = uVar1 & 0xffff0000;
+    return;
+  }
+  lVar2 = DAT_ffffffc010c87ae8;
+  uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x20c);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(lVar2 + 0x130) + 0x20c) = uVar1 & 0xffff;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040d640 adrp x1,-0x3fef379000
+ffffffc01040d644 add x2,x1,#0xae8
+ffffffc01040d648 ldr x2,[x2, #0x8]
+ffffffc01040d64c cbz x2,0xffffffc01040d670
+ffffffc01040d650 stp x29,x30,[sp, #-0x10]!
+ffffffc01040d654 mov x29,sp
+ffffffc01040d658 cmp w0,#0x1
+ffffffc01040d65c b.eq 0xffffffc01040d674
+ffffffc01040d660 cmp w0,#0x2
+ffffffc01040d664 b.eq 0xffffffc01040d6a0
+ffffffc01040d668 ldp x29,x30,[sp], #0x10
+ffffffc01040d66c ret
+ffffffc01040d670 ret
+ffffffc01040d674 ldr x2,[x1, #0xae8]
+ffffffc01040d678 mov w1,#0x20c
+ffffffc01040d67c ldr x0,[x2, #0x130]
+ffffffc01040d680 bl 0xffffffc01040c940
+ffffffc01040d684 dmb OSHST
+ffffffc01040d688 ldr x1,[x2, #0x130]
+ffffffc01040d68c and w0,w0,#0xffff
+ffffffc01040d690 add x1,x1,#0x20c
+ffffffc01040d694 str w0,[x1]
+ffffffc01040d698 ldp x29,x30,[sp], #0x10
+ffffffc01040d69c ret
+ffffffc01040d6a0 ldr x2,[x1, #0xae8]
+ffffffc01040d6a4 mov w1,#0x20c
+ffffffc01040d6a8 ldr x0,[x2, #0x130]
+ffffffc01040d6ac bl 0xffffffc01040c940
+ffffffc01040d6b0 dmb OSHST
+ffffffc01040d6b4 ldr x1,[x2, #0x130]
+ffffffc01040d6b8 and w0,w0,#0xffff0000
+ffffffc01040d6bc add x1,x1,#0x20c
+ffffffc01040d6c0 str w0,[x1]
+ffffffc01040d6c4 ldp x29,x30,[sp], #0x10
+ffffffc01040d6c8 ret
+
+FUNCTION ecnt_hsdma_probe @ ffffffc01040d6d0
+decompiled=true
+
+ulong ecnt_hsdma_probe(long param_1)
+
+{
+  long lVar1;
+  ulong *puVar2;
+  long *plVar3;
+  char cVar4;
+  bool bVar5;
+  int iVar6;
+  uint uVar7;
+  uint uVar8;
+  long lVar9;
+  undefined8 uVar10;
+  ulong uVar11;
+  long lVar12;
+  undefined8 *puVar13;
+  long lVar14;
+  int iVar15;
+  ulong uVar16;
+  long lVar17;
+  
+  lVar1 = param_1 + 0x10;
+  lVar9 = devm_kmalloc(lVar1,0x160,0xdc0);
+  if (lVar9 == 0) {
+    return 0xfffffff4;
+  }
+  uVar10 = platform_get_resource(param_1,0x200,0);
+  uVar11 = devm_ioremap_resource(lVar1,uVar10);
+  *(ulong *)(lVar9 + 0x130) = uVar11;
+  uVar16 = uVar11 & 0xffffffff;
+  if (0xfffffffffffff000 < uVar11) goto LAB_ffffffc01040d914;
+  lVar12 = of_device_get_match_data(lVar1);
+  *(long *)(lVar9 + 0x158) = lVar12;
+  if (lVar12 == 0) {
+    uVar16 = 0xffffffed;
+    _dev_err(lVar1,s_No_device_match_found_ffffffc01092d918);
+  }
+  else {
+    puVar13 = (undefined8 *)platform_get_resource(param_1,0x400,0);
+    if (puVar13 == (undefined8 *)0x0) {
+      lVar12 = *(long *)(param_1 + 0x60);
+      if (lVar12 == 0) {
+        lVar12 = *(long *)(param_1 + 0x10);
+      }
+      uVar16 = 0xffffffea;
+      _dev_err(lVar1,s_No_irq_resource_for__s_ffffffc0108f6728,lVar12);
+      goto LAB_ffffffc01040d914;
+    }
+    puVar2 = (ulong *)(lVar9 + 0x40);
+    *(int *)(lVar9 + 0x138) = (int)*puVar13;
+    *(undefined4 *)(lVar9 + 0x150) = 0;
+    Hint_Prefetch(puVar2,2,0,1);
+    do {
+      cVar4 = '\x01';
+      bVar5 = (bool)ExclusiveMonitorPass(puVar2,0x10);
+      if (bVar5) {
+        *puVar2 = *puVar2 | 1;
+        cVar4 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar4 != '\0');
+    lVar12 = *(long *)(param_1 + 0x278);
+    *(long *)(lVar9 + 8) = lVar9 + 8;
+    *(long *)(lVar9 + 0x10) = lVar9 + 8;
+    *(undefined4 *)(lVar9 + 0x4c) = 0;
+    *(long *)(lVar9 + 0x60) = lVar1;
+    *(undefined4 *)(lVar9 + 0x70) = 0x1011e;
+    *(undefined4 *)(lVar9 + 0x74) = 0x1011e;
+    *(undefined4 *)(lVar9 + 0x78) = 7;
+    *(undefined4 *)(lVar9 + 0x84) = 1;
+    *(code **)(lVar9 + 0x88) = ecnt_hsdma_alloc_chan_resources;
+    *(code **)(lVar9 + 0x90) = ecnt_hsdma_free_chan_resources;
+    *(code **)(lVar9 + 0x98) = ecnt_hsdma_prep_dma_memcpy;
+    *(code **)(lVar9 + 0x110) = ecnt_hsdma_terminate_all;
+    *(code **)(lVar9 + 0x120) = ecnt_hsdma_tx_status;
+    *(code **)(lVar9 + 0x128) = ecnt_hsdma_issue_pending;
+    *(undefined4 *)(lVar9 + 0x13c) = 2;
+    if ((lVar12 != 0) &&
+       (iVar6 = of_property_read_variable_u32_array
+                          (lVar12,s_dma_requests_ffffffc01092d930,lVar9 + 0x13c,1,0), iVar6 < 0)) {
+      _dev_info(lVar1,s_Using__u_as_missing_dma_requests_ffffffc01092d940,2);
+    }
+    lVar12 = devm_kmalloc(lVar1,0xe0,0xdc0);
+    *(long *)(lVar9 + 0x148) = lVar12;
+    if (lVar12 == 0) {
+      uVar16 = 0xfffffff4;
+      goto LAB_ffffffc01040d914;
+    }
+    lVar12 = devm_kmalloc(lVar1,(ulong)*(uint *)(lVar9 + 0x13c) * 0x118,0xdc0);
+    *(long *)(lVar9 + 0x140) = lVar12;
+    if (lVar12 == 0) {
+      uVar16 = 0xfffffff4;
+    }
+    else {
+      *(undefined4 *)(*(long *)(lVar9 + 0x148) + 0x44) = 0;
+      *(undefined4 *)(*(long *)(lVar9 + 0x148) + 0xb4) = 0;
+      if (*(int *)(lVar9 + 0x13c) != 0) {
+        uVar7 = 0;
+        do {
+          lVar12 = *(long *)(lVar9 + 0x140) + (long)(int)uVar7 * 0x118;
+          uVar7 = uVar7 + 1;
+          *(code **)(lVar12 + 0x80) = ecnt_hsdma_vdesc_free;
+          vchan_init(lVar12,lVar9);
+          *(undefined4 *)(lVar12 + 0xe0) = 0;
+          __init_waitqueue_head(lVar12 + 0xe8,s__x_>wait_ffffffc0108f7b08,&DAT_ffffffc010c87b00);
+          *(long *)(lVar12 + 0x108) = lVar12 + 0x108;
+          *(long *)(lVar12 + 0x110) = lVar12 + 0x108;
+        } while (uVar7 < *(uint *)(lVar9 + 0x13c));
+      }
+      uVar7 = dma_async_device_register(lVar9);
+      uVar16 = (ulong)uVar7;
+      if (uVar7 == 0) {
+        uVar7 = of_dma_controller_register
+                          (*(undefined8 *)(param_1 + 0x278),of_dma_xlate_by_chan_id,lVar9);
+        uVar16 = (ulong)uVar7;
+        if (uVar7 == 0) {
+          DataMemoryBarrier(0,2);
+          *(undefined4 *)(*(long *)(lVar9 + 0x130) + 0x210) = 0;
+          DataMemoryBarrier(0,2);
+          *(undefined4 *)(*(long *)(lVar9 + 0x130) + 0x228) = 0;
+          DataMemoryBarrier(0,2);
+          *(undefined4 *)(*(long *)(lVar9 + 0x130) + 0x204) = 0x875;
+          iVar6 = 0;
+          lVar12 = 0;
+          iVar15 = 0;
+          while( true ) {
+            lVar17 = *(long *)(lVar9 + 0x148);
+            plVar3 = (long *)(lVar17 + lVar12);
+            plVar3[6] = 0;
+            plVar3[7] = 0;
+            plVar3[8] = 0;
+            plVar3[9] = 0;
+            *plVar3 = 0;
+            plVar3[1] = 0;
+            plVar3[2] = 0;
+            plVar3[3] = 0;
+            plVar3[4] = 0;
+            plVar3[5] = 0;
+            *(int *)(plVar3 + 6) = iVar15;
+            plVar3[7] = 0x20000;
+            *(int *)(plVar3 + 9) = iVar6;
+            *(int *)((long)plVar3 + 0x4c) = iVar6 + 4;
+            *(int *)(plVar3 + 10) = iVar6 + 8;
+            *(int *)((long)plVar3 + 0x54) = iVar6 + 0xc;
+            *(int *)(plVar3 + 0xb) = iVar6 + 0x100;
+            *(int *)((long)plVar3 + 0x5c) = iVar6 + 0x104;
+            *(int *)(plVar3 + 0xc) = iVar6 + 0x108;
+            *(int *)((long)plVar3 + 100) = iVar6 + 0x10c;
+            *(int *)(plVar3 + 0xd) = (int)(0x10001L << iVar15);
+            *(int *)((long)plVar3 + 0x6c) = (int)(0x10000L << iVar15);
+            lVar14 = dma_alloc_attrs(*(undefined8 *)(lVar9 + 0x60),0x20000,plVar3 + 3,0xdc0,0);
+            *(long *)(lVar17 + lVar12) = lVar14;
+            if (lVar14 == 0) break;
+            lVar17 = 0;
+            plVar3[1] = lVar14 + 0x10000;
+            plVar3[4] = plVar3[3] + 0x10000;
+            *(undefined4 *)(plVar3 + 5) = 0x7ff0000;
+            while( true ) {
+              *(uint *)(lVar14 + lVar17 + 4) =
+                   *(uint *)(lVar14 + lVar17 + 4) | **(uint **)(lVar9 + 0x158);
+              lVar14 = plVar3[1] + lVar17;
+              lVar17 = lVar17 + 0x20;
+              *(uint *)(lVar14 + 4) =
+                   *(uint *)(lVar14 + 4) & (**(uint **)(lVar9 + 0x158) ^ 0xffffffff);
+              if (lVar17 == 0x10000) break;
+              lVar14 = *plVar3;
+            }
+            DataSynchronizationBarrier(3,2,0);
+            lVar14 = kmalloc_order(0x8000,0xdc0,3);
+            plVar3[2] = lVar14;
+            if (lVar14 == 0) {
+              uVar16 = 0xfffffff4;
+              _dev_err(*(undefined8 *)(lVar9 + 0x60),s_Allocate_cb_failed_ffffffc01092d9b8);
+LAB_ffffffc01040dca0:
+              dma_free_attrs(*(undefined8 *)(lVar9 + 0x60),plVar3[7],*plVar3,plVar3[3],0);
+              goto LAB_ffffffc01040dcb8;
+            }
+            *(undefined4 *)(plVar3 + 8) = 0x7ff;
+            uVar7 = ecnt_dma_read_isra_0(*(undefined8 *)(lVar9 + 0x130),0x204);
+            DataMemoryBarrier(0,2);
+            *(uint *)(*(long *)(lVar9 + 0x130) + 0x204) = uVar7 & 0xfffffffa;
+            uVar7 = ecnt_hsdma_busy_wait(lVar9);
+            uVar16 = (ulong)uVar7;
+            if (uVar7 != 0) {
+              kfree(plVar3[2]);
+              goto LAB_ffffffc01040dca0;
+            }
+            DataMemoryBarrier(0,2);
+            *(int *)(*(long *)(lVar9 + 0x130) + 0x208) = (int)plVar3[0xd];
+            DataMemoryBarrier(0,2);
+            *(int *)(*(long *)(lVar9 + 0x130) + (ulong)*(uint *)(plVar3 + 9)) = (int)plVar3[3];
+            DataMemoryBarrier(0,2);
+            *(undefined4 *)(*(long *)(lVar9 + 0x130) + (ulong)*(uint *)((long)plVar3 + 0x4c)) =
+                 0x800;
+            DataMemoryBarrier(0,2);
+            *(uint *)(*(long *)(lVar9 + 0x130) + (ulong)*(uint *)(plVar3 + 10)) =
+                 (uint)*(ushort *)(plVar3 + 5);
+            DataMemoryBarrier(0,2);
+            *(int *)(*(long *)(lVar9 + 0x130) + (ulong)*(uint *)(plVar3 + 0xb)) = (int)plVar3[4];
+            DataMemoryBarrier(0,2);
+            *(undefined4 *)(*(long *)(lVar9 + 0x130) + (ulong)*(uint *)((long)plVar3 + 0x5c)) =
+                 0x800;
+            DataMemoryBarrier(0,2);
+            lVar14 = *(long *)(lVar9 + 0x130);
+            *(uint *)(lVar14 + (ulong)*(uint *)(plVar3 + 0xc)) =
+                 (uint)*(ushort *)((long)plVar3 + 0x2a);
+            uVar7 = ecnt_dma_read_isra_0(lVar14,0x204);
+            DataMemoryBarrier(0,2);
+            *(uint *)(*(long *)(lVar9 + 0x130) + 0x204) = uVar7 | 5;
+            DataMemoryBarrier(0,2);
+            lVar14 = *(long *)(lVar9 + 0x130);
+            *(undefined4 *)(lVar14 + 0x20c) = 0x9414;
+            uVar7 = *(uint *)((long)plVar3 + 0x6c);
+            uVar8 = ecnt_dma_read_isra_0(lVar14,0x228);
+            DataMemoryBarrier(0,2);
+            *(uint *)(*(long *)(lVar9 + 0x130) + 0x228) = uVar7 | uVar8;
+            lVar12 = lVar12 + 0x70;
+            iVar6 = iVar6 + 0x10;
+            if (iVar15 == 1) {
+              lVar12 = *(long *)(param_1 + 0x60);
+              if (lVar12 == 0) {
+                lVar12 = *(long *)(param_1 + 0x10);
+              }
+              uVar7 = devm_request_threaded_irq
+                                (lVar1,*(undefined4 *)(lVar9 + 0x138),ecnt_hsdma_irq,0,0,lVar12,
+                                 lVar9);
+              uVar16 = (ulong)uVar7;
+              if (uVar7 == 0) {
+                DAT_ffffffc010c87af8 =
+                     create_proc_entry(s_tc3162_hsdma_reg_dump_ffffffc01092d8d8,0,0);
+                if (DAT_ffffffc010c87af8 != 0) {
+                  *(code **)(DAT_ffffffc010c87af8 + 0x58) = hsdma_reg_dump;
+                  *(long *)(param_1 + 0x88) = lVar9;
+                  _dev_info(lVar1,s_Econet_HSDMA_driver_registered_ffffffc01092da18);
+                  DAT_ffffffc010c87ae8 = lVar9;
+                  return 0;
+                }
+                _dev_err(lVar1,s_create_proc_for_hsdma_reg_dump_f_ffffffc01092d9f0);
+                uVar16 = 0xfffffff4;
+                devm_free_irq(lVar1,*(undefined4 *)(lVar9 + 0x138),lVar9);
+              }
+              else {
+                _dev_err(lVar1,s_request_irq_failed_with_err__d_ffffffc0108f6740,uVar7);
+              }
+              DataMemoryBarrier(0,2);
+              *(undefined4 *)(*(long *)(lVar9 + 0x130) + 0x204) = 0;
+              ecnt_hsdma_free_pchan(lVar9,*(undefined8 *)(lVar9 + 0x148));
+              ecnt_hsdma_free_pchan(lVar9,*(long *)(lVar9 + 0x148) + 0x70);
+              goto LAB_ffffffc01040dcf0;
+            }
+            iVar15 = 1;
+          }
+          uVar16 = 0xfffffff4;
+          _dev_err(*(undefined8 *)(lVar9 + 0x60),s_Allocate_descripter_failed_ffffffc01092d998);
+LAB_ffffffc01040dcb8:
+          if (iVar15 == 1) {
+            ecnt_hsdma_free_pchan(lVar9,*(undefined8 *)(lVar9 + 0x148));
+          }
+          DataMemoryBarrier(0,2);
+          *(undefined4 *)(*(long *)(lVar9 + 0x130) + 0x204) = 0;
+          _dev_err(lVar1,s_allocate_resource_err__d_ffffffc01092d9d0,uVar16);
+LAB_ffffffc01040dcf0:
+          of_dma_controller_free(*(undefined8 *)(param_1 + 0x278));
+        }
+        else {
+          _dev_err(lVar1,s_Econet_HSDMA_OF_registration_fai_ffffffc01092d970,uVar7);
+        }
+        dma_async_device_unregister(lVar9);
+      }
+      devm_kfree(lVar1,*(undefined8 *)(lVar9 + 0x140));
+    }
+    devm_kfree(lVar1,*(undefined8 *)(lVar9 + 0x148));
+  }
+  devm_iounmap(lVar1,*(undefined8 *)(lVar9 + 0x130));
+LAB_ffffffc01040d914:
+  devm_kfree(lVar1,lVar9);
+  return uVar16;
+}
+
+
+ASSEMBLY
+ffffffc01040d6d0 stp x29,x30,[sp, #-0x60]!
+ffffffc01040d6d4 mov w2,#0xdc0
+ffffffc01040d6d8 mov x1,#0x160
+ffffffc01040d6dc mov x29,sp
+ffffffc01040d6e0 stp x19,x20,[sp, #0x10]
+ffffffc01040d6e4 add x20,x0,#0x10
+ffffffc01040d6e8 stp x21,x22,[sp, #0x20]
+ffffffc01040d6ec mov x21,x0
+ffffffc01040d6f0 mov x0,x20
+ffffffc01040d6f4 bl 0xffffffc01044b110
+ffffffc01040d6f8 cbz x0,0xffffffc01040dd08
+ffffffc01040d6fc stp x27,x28,[sp, #0x50]
+ffffffc01040d700 mov x27,x0
+ffffffc01040d704 mov w2,#0x0
+ffffffc01040d708 mov w1,#0x200
+ffffffc01040d70c mov x0,x21
+ffffffc01040d710 bl 0xffffffc010448880
+ffffffc01040d714 mov x1,x0
+ffffffc01040d718 mov x0,x20
+ffffffc01040d71c bl 0xffffffc0103b0280
+ffffffc01040d720 str x0,[x27, #0x130]
+ffffffc01040d724 mov w19,w0
+ffffffc01040d728 cmn x0,#0x1, LSL #12
+ffffffc01040d72c b.hi 0xffffffc01040d914
+ffffffc01040d730 mov x0,x20
+ffffffc01040d734 bl 0xffffffc010566ad0
+ffffffc01040d738 str x0,[x27, #0x158]
+ffffffc01040d73c cbz x0,0xffffffc01040ddd4
+ffffffc01040d740 mov x0,x21
+ffffffc01040d744 mov w2,#0x0
+ffffffc01040d748 mov w1,#0x400
+ffffffc01040d74c bl 0xffffffc010448880
+ffffffc01040d750 cbz x0,0xffffffc01040ddb4
+ffffffc01040d754 ldr x0,[x0]
+ffffffc01040d758 add x2,x27,#0x40
+ffffffc01040d75c str w0,[x27, #0x138]
+ffffffc01040d760 str wzr,[x27, #0x150]
+ffffffc01040d764 prfm PSTL1STRM,[x2]
+ffffffc01040d768 ldxr x0,[x2]
+ffffffc01040d76c orr x0,x0,#0x1
+ffffffc01040d770 stxr w1,x0,[x2]
+ffffffc01040d774 cbnz w1,0xffffffc01040d768
+ffffffc01040d778 ldr x0,[x21, #0x278]
+ffffffc01040d77c mov w7,#0x11e
+ffffffc01040d780 add x8,x27,#0x8
+ffffffc01040d784 adrp x6,-0x3fefbf4000
+ffffffc01040d788 adrp x5,-0x3fefbf2000
+ffffffc01040d78c add x6,x6,#0x620
+ffffffc01040d790 add x5,x5,#0x950
+ffffffc01040d794 adrp x2,-0x3fefbf2000
+ffffffc01040d798 adrp x1,-0x3fefbf2000
+ffffffc01040d79c add x2,x2,#0x994
+ffffffc01040d7a0 add x1,x1,#0x444
+ffffffc01040d7a4 adrp x4,-0x3fefbf3000
+ffffffc01040d7a8 adrp x3,-0x3fefbf2000
+ffffffc01040d7ac add x4,x4,#0x554
+ffffffc01040d7b0 add x3,x3,#0x934
+ffffffc01040d7b4 mov w10,#0x7
+ffffffc01040d7b8 mov w9,#0x1
+ffffffc01040d7bc movk w7,#0x1, LSL #16
+ffffffc01040d7c0 mov w19,#0x2
+ffffffc01040d7c4 str x8,[x27, #0x8]
+ffffffc01040d7c8 str x8,[x27, #0x10]
+ffffffc01040d7cc str wzr,[x27, #0x4c]
+ffffffc01040d7d0 str x20,[x27, #0x60]
+ffffffc01040d7d4 stp w7,w7,[x27, #0x70]
+ffffffc01040d7d8 str w10,[x27, #0x78]
+ffffffc01040d7dc str w9,[x27, #0x84]
+ffffffc01040d7e0 stp x6,x5,[x27, #0x88]
+ffffffc01040d7e4 str x4,[x27, #0x98]
+ffffffc01040d7e8 str x3,[x27, #0x110]
+ffffffc01040d7ec stp x2,x1,[x27, #0x120]
+ffffffc01040d7f0 str w19,[x27, #0x13c]
+ffffffc01040d7f4 cbz x0,0xffffffc01040d814
+ffffffc01040d7f8 adrp x1,-0x3fef6d3000
+ffffffc01040d7fc add x2,x27,#0x13c
+ffffffc01040d800 add x1,x1,#0x930
+ffffffc01040d804 mov x4,#0x0
+ffffffc01040d808 mov x3,#0x1
+ffffffc01040d80c bl 0xffffffc010568884
+ffffffc01040d810 tbnz w0,#0x1f,0xffffffc01040dd20
+ffffffc01040d814 mov x0,x20
+ffffffc01040d818 mov w2,#0xdc0
+ffffffc01040d81c mov x1,#0xe0
+ffffffc01040d820 bl 0xffffffc01044b110
+ffffffc01040d824 str x0,[x27, #0x148]
+ffffffc01040d828 cbz x0,0xffffffc01040dd18
+ffffffc01040d82c stp x25,x26,[sp, #0x40]
+ffffffc01040d830 mov w26,#0x118
+ffffffc01040d834 mov x0,x20
+ffffffc01040d838 ldr w1,[x27, #0x13c]
+ffffffc01040d83c mov w2,#0xdc0
+ffffffc01040d840 umull x1,w1,w26
+ffffffc01040d844 bl 0xffffffc01044b110
+ffffffc01040d848 str x0,[x27, #0x140]
+ffffffc01040d84c cbz x0,0xffffffc01040dd10
+ffffffc01040d850 stp x23,x24,[sp, #0x30]
+ffffffc01040d854 ldr x0,[x27, #0x148]
+ffffffc01040d858 str wzr,[x0, #0x44]
+ffffffc01040d85c ldr x0,[x27, #0x148]
+ffffffc01040d860 str wzr,[x0, #0xb4]
+ffffffc01040d864 ldr w0,[x27, #0x13c]
+ffffffc01040d868 cbz w0,0xffffffc01040d8d8
+ffffffc01040d86c adrp x23,-0x3fef379000
+ffffffc01040d870 add x23,x23,#0xae8
+ffffffc01040d874 adrp x25,-0x3fefbf4000
+ffffffc01040d878 adrp x24,-0x3fef709000
+ffffffc01040d87c add x23,x23,#0x18
+ffffffc01040d880 add x25,x25,#0x6e4
+ffffffc01040d884 add x24,x24,#0xb08
+ffffffc01040d888 mov w22,#0x0
+ffffffc01040d88c nop
+ffffffc01040d890 ldr x19,[x27, #0x140]
+ffffffc01040d894 mov x1,x27
+ffffffc01040d898 smaddl x19,w22,w26,x19
+ffffffc01040d89c add w22,w22,#0x1
+ffffffc01040d8a0 mov x0,x19
+ffffffc01040d8a4 str x25,[x19, #0x80]
+ffffffc01040d8a8 bl 0xffffffc01040bab0
+ffffffc01040d8ac str wzr,[x19, #0xe0]
+ffffffc01040d8b0 add x0,x19,#0xe8
+ffffffc01040d8b4 mov x2,x23
+ffffffc01040d8b8 mov x1,x24
+ffffffc01040d8bc bl 0xffffffc010120ca0
+ffffffc01040d8c0 add x0,x19,#0x108
+ffffffc01040d8c4 str x0,[x19, #0x108]
+ffffffc01040d8c8 str x0,[x19, #0x110]
+ffffffc01040d8cc ldr w0,[x27, #0x13c]
+ffffffc01040d8d0 cmp w0,w22
+ffffffc01040d8d4 b.hi 0xffffffc01040d890
+ffffffc01040d8d8 mov x0,x27
+ffffffc01040d8dc bl 0xffffffc01040a940
+ffffffc01040d8e0 mov w19,w0
+ffffffc01040d8e4 cbz w0,0xffffffc01040d938
+ffffffc01040d8e8 ldr x1,[x27, #0x140]
+ffffffc01040d8ec mov x0,x20
+ffffffc01040d8f0 bl 0xffffffc01044bfb0
+ffffffc01040d8f4 ldp x23,x24,[sp, #0x30]
+ffffffc01040d8f8 mov x0,x20
+ffffffc01040d8fc ldr x1,[x27, #0x148]
+ffffffc01040d900 bl 0xffffffc01044bfb0
+ffffffc01040d904 ldp x25,x26,[sp, #0x40]
+ffffffc01040d908 mov x0,x20
+ffffffc01040d90c ldr x1,[x27, #0x130]
+ffffffc01040d910 bl 0xffffffc0103afe30
+ffffffc01040d914 mov x1,x27
+ffffffc01040d918 mov x0,x20
+ffffffc01040d91c bl 0xffffffc01044bfb0
+ffffffc01040d920 ldp x27,x28,[sp, #0x50]
+ffffffc01040d924 mov w0,w19
+ffffffc01040d928 ldp x19,x20,[sp, #0x10]
+ffffffc01040d92c ldp x21,x22,[sp, #0x20]
+ffffffc01040d930 ldp x29,x30,[sp], #0x60
+ffffffc01040d934 ret
+ffffffc01040d938 ldr x0,[x21, #0x278]
+ffffffc01040d93c mov x2,x27
+ffffffc01040d940 adrp x1,-0x3fefbf4000
+ffffffc01040d944 add x1,x1,#0xe0
+ffffffc01040d948 bl 0xffffffc01040c430
+ffffffc01040d94c mov w19,w0
+ffffffc01040d950 cbnz w0,0xffffffc01040dd6c
+ffffffc01040d954 dmb OSHST
+ffffffc01040d958 ldr x0,[x27, #0x130]
+ffffffc01040d95c add x0,x0,#0x210
+ffffffc01040d960 str wzr,[x0]
+ffffffc01040d964 dmb OSHST
+ffffffc01040d968 ldr x0,[x27, #0x130]
+ffffffc01040d96c add x0,x0,#0x228
+ffffffc01040d970 str wzr,[x0]
+ffffffc01040d974 dmb OSHST
+ffffffc01040d978 ldr x0,[x27, #0x130]
+ffffffc01040d97c mov w1,#0x875
+ffffffc01040d980 add x0,x0,#0x204
+ffffffc01040d984 str w1,[x0]
+ffffffc01040d988 mov w24,#0x0
+ffffffc01040d98c mov x22,#0x0
+ffffffc01040d990 orr w26,wzr,#0x10001
+ffffffc01040d994 mov x25,#0x10000
+ffffffc01040d998 ldr x23,[x27, #0x148]
+ffffffc01040d99c add w2,w24,#0x4
+ffffffc01040d9a0 add w3,w24,#0x8
+ffffffc01040d9a4 add w1,w24,#0xc
+ffffffc01040d9a8 add x28,x23,x22
+ffffffc01040d9ac add w11,w24,#0x100
+ffffffc01040d9b0 add w10,w24,#0x104
+ffffffc01040d9b4 add w9,w24,#0x108
+ffffffc01040d9b8 add w8,w24,#0x10c
+ffffffc01040d9bc lsl x6,x26,x19
+ffffffc01040d9c0 stp xzr,xzr,[x28, #0x30]
+ffffffc01040d9c4 lsl x0,x25,x19
+ffffffc01040d9c8 mov x4,#0x20000
+ffffffc01040d9cc stp xzr,xzr,[x28, #0x40]
+ffffffc01040d9d0 stp xzr,xzr,[x28]
+ffffffc01040d9d4 stp xzr,xzr,[x28, #0x10]
+ffffffc01040d9d8 stp xzr,xzr,[x28, #0x20]
+ffffffc01040d9dc str w19,[x28, #0x30]
+ffffffc01040d9e0 str x4,[x28, #0x38]
+ffffffc01040d9e4 mov x4,#0x0
+ffffffc01040d9e8 stp w24,w2,[x28, #0x48]
+ffffffc01040d9ec add x2,x28,#0x18
+ffffffc01040d9f0 stp w3,w1,[x28, #0x50]
+ffffffc01040d9f4 mov x1,#0x20000
+ffffffc01040d9f8 stp w11,w10,[x28, #0x58]
+ffffffc01040d9fc mov w3,#0xdc0
+ffffffc01040da00 stp w9,w8,[x28, #0x60]
+ffffffc01040da04 stp w6,w0,[x28, #0x68]
+ffffffc01040da08 ldr x0,[x27, #0x60]
+ffffffc01040da0c bl 0xffffffc010149600
+ffffffc01040da10 str x0,[x23, x22, LSL #0x0]
+ffffffc01040da14 mov x1,x0
+ffffffc01040da18 cbz x0,0xffffffc01040dd84
+ffffffc01040da1c add x3,x0,#0x10, LSL #12
+ffffffc01040da20 mov x2,#0x0
+ffffffc01040da24 ldr x0,[x28, #0x18]
+ffffffc01040da28 str x3,[x28, #0x8]
+ffffffc01040da2c add x0,x0,#0x10, LSL #12
+ffffffc01040da30 str x0,[x28, #0x20]
+ffffffc01040da34 mov w0,#0x7ff0000
+ffffffc01040da38 str w0,[x28, #0x28]
+ffffffc01040da3c b 0xffffffc01040da44
+ffffffc01040da40 ldr x1,[x28]
+ffffffc01040da44 add x1,x1,x2
+ffffffc01040da48 ldr x0,[x27, #0x158]
+ffffffc01040da4c ldr w3,[x1, #0x4]
+ffffffc01040da50 ldr w0,[x0]
+ffffffc01040da54 orr w3,w3,w0
+ffffffc01040da58 str w3,[x1, #0x4]
+ffffffc01040da5c ldr x1,[x28, #0x8]
+ffffffc01040da60 ldr x0,[x27, #0x158]
+ffffffc01040da64 add x1,x1,x2
+ffffffc01040da68 add x2,x2,#0x20
+ffffffc01040da6c ldr w3,[x0]
+ffffffc01040da70 ldr w0,[x1, #0x4]
+ffffffc01040da74 bic w3,w0,w3
+ffffffc01040da78 str w3,[x1, #0x4]
+ffffffc01040da7c cmp x2,#0x10, LSL #12
+ffffffc01040da80 b.ne 0xffffffc01040da40
+ffffffc01040da84 dsb ST
+ffffffc01040da88 mov w2,#0x3
+ffffffc01040da8c mov w1,#0xdc0
+ffffffc01040da90 mov x0,#0x8000
+ffffffc01040da94 bl 0xffffffc0101af544
+ffffffc01040da98 str x0,[x28, #0x10]
+ffffffc01040da9c cbz x0,0xffffffc01040dd9c
+ffffffc01040daa0 mov w0,#0x7ff
+ffffffc01040daa4 str w0,[x28, #0x40]
+ffffffc01040daa8 mov w1,#0x204
+ffffffc01040daac ldr x0,[x27, #0x130]
+ffffffc01040dab0 bl 0xffffffc01040c940
+ffffffc01040dab4 dmb OSHST
+ffffffc01040dab8 ldr x1,[x27, #0x130]
+ffffffc01040dabc mov w2,#0xfffffffa
+ffffffc01040dac0 and w0,w0,w2
+ffffffc01040dac4 add x1,x1,#0x204
+ffffffc01040dac8 str w0,[x1]
+ffffffc01040dacc mov x0,x27
+ffffffc01040dad0 bl 0xffffffc01040c890
+ffffffc01040dad4 mov w23,w0
+ffffffc01040dad8 cbnz w0,0xffffffc01040dc98
+ffffffc01040dadc ldr w1,[x28, #0x68]
+ffffffc01040dae0 dmb OSHST
+ffffffc01040dae4 ldr x0,[x27, #0x130]
+ffffffc01040dae8 add x0,x0,#0x208
+ffffffc01040daec str w1,[x0]
+ffffffc01040daf0 ldr w0,[x28, #0x48]
+ffffffc01040daf4 ldr x1,[x28, #0x18]
+ffffffc01040daf8 dmb OSHST
+ffffffc01040dafc ldr x2,[x27, #0x130]
+ffffffc01040db00 add x0,x2,w0, UXTW 
+ffffffc01040db04 str w1,[x0]
+ffffffc01040db08 ldr w0,[x28, #0x4c]
+ffffffc01040db0c dmb OSHST
+ffffffc01040db10 ldr x2,[x27, #0x130]
+ffffffc01040db14 mov w1,#0x800
+ffffffc01040db18 add x0,x2,w0, UXTW 
+ffffffc01040db1c str w1,[x0]
+ffffffc01040db20 ldrh w2,[x28, #0x28]
+ffffffc01040db24 ldr w0,[x28, #0x50]
+ffffffc01040db28 dmb OSHST
+ffffffc01040db2c ldr x3,[x27, #0x130]
+ffffffc01040db30 add x0,x3,w0, UXTW 
+ffffffc01040db34 str w2,[x0]
+ffffffc01040db38 ldr w0,[x28, #0x58]
+ffffffc01040db3c ldr x2,[x28, #0x20]
+ffffffc01040db40 dmb OSHST
+ffffffc01040db44 ldr x3,[x27, #0x130]
+ffffffc01040db48 add x0,x3,w0, UXTW 
+ffffffc01040db4c str w2,[x0]
+ffffffc01040db50 ldr w0,[x28, #0x5c]
+ffffffc01040db54 dmb OSHST
+ffffffc01040db58 ldr x2,[x27, #0x130]
+ffffffc01040db5c add x0,x2,w0, UXTW 
+ffffffc01040db60 str w1,[x0]
+ffffffc01040db64 ldrh w2,[x28, #0x2a]
+ffffffc01040db68 ldr w1,[x28, #0x60]
+ffffffc01040db6c dmb OSHST
+ffffffc01040db70 ldr x0,[x27, #0x130]
+ffffffc01040db74 add x1,x0,w1, UXTW 
+ffffffc01040db78 str w2,[x1]
+ffffffc01040db7c mov w1,#0x204
+ffffffc01040db80 bl 0xffffffc01040c940
+ffffffc01040db84 dmb OSHST
+ffffffc01040db88 ldr x1,[x27, #0x130]
+ffffffc01040db8c mov w2,#0x5
+ffffffc01040db90 orr w0,w0,w2
+ffffffc01040db94 add x1,x1,#0x204
+ffffffc01040db98 str w0,[x1]
+ffffffc01040db9c dmb OSHST
+ffffffc01040dba0 ldr x0,[x27, #0x130]
+ffffffc01040dba4 mov w1,#0x9414
+ffffffc01040dba8 add x2,x0,#0x20c
+ffffffc01040dbac str w1,[x2]
+ffffffc01040dbb0 mov w1,#0x228
+ffffffc01040dbb4 ldr w2,[x28, #0x6c]
+ffffffc01040dbb8 bl 0xffffffc01040c940
+ffffffc01040dbbc dmb OSHST
+ffffffc01040dbc0 ldr x1,[x27, #0x130]
+ffffffc01040dbc4 orr w2,w2,w0
+ffffffc01040dbc8 add x0,x1,#0x228
+ffffffc01040dbcc str w2,[x0]
+ffffffc01040dbd0 add x22,x22,#0x70
+ffffffc01040dbd4 add w24,w24,#0x10
+ffffffc01040dbd8 cmp w19,#0x1
+ffffffc01040dbdc b.ne 0xffffffc01040dc90
+ffffffc01040dbe0 ldr x5,[x20, #0x50]
+ffffffc01040dbe4 ldr w1,[x27, #0x138]
+ffffffc01040dbe8 cbnz x5,0xffffffc01040dbf0
+ffffffc01040dbec ldr x5,[x21, #0x10]
+ffffffc01040dbf0 mov x6,x27
+ffffffc01040dbf4 mov x0,x20
+ffffffc01040dbf8 adrp x2,-0x3fefbf2000
+ffffffc01040dbfc mov x4,#0x0
+ffffffc01040dc00 add x2,x2,#0xb4
+ffffffc01040dc04 mov x3,#0x0
+ffffffc01040dc08 bl 0xffffffc01013b600
+ffffffc01040dc0c mov w19,w0
+ffffffc01040dc10 cbnz w0,0xffffffc01040ddec
+ffffffc01040dc14 mov w1,#0x0
+ffffffc01040dc18 adrp x0,-0x3fef6d3000
+ffffffc01040dc1c mov x2,#0x0
+ffffffc01040dc20 add x0,x0,#0x8d8
+ffffffc01040dc24 bl 0xffffffc010273ef0
+ffffffc01040dc28 adrp x22,-0x3fef379000
+ffffffc01040dc2c add x1,x22,#0xae8
+ffffffc01040dc30 str x0,[x1, #0x10]
+ffffffc01040dc34 cbnz x0,0xffffffc01040dd38
+ffffffc01040dc38 mov x0,x20
+ffffffc01040dc3c adrp x1,-0x3fef6d3000
+ffffffc01040dc40 add x1,x1,#0x9f0
+ffffffc01040dc44 bl 0xffffffc01044446c
+ffffffc01040dc48 ldr w1,[x27, #0x138]
+ffffffc01040dc4c mov x2,x27
+ffffffc01040dc50 mov x0,x20
+ffffffc01040dc54 mov w19,#0xfffffff4
+ffffffc01040dc58 bl 0xffffffc01013b7f0
+ffffffc01040dc5c dmb OSHST
+ffffffc01040dc60 ldr x0,[x27, #0x130]
+ffffffc01040dc64 add x0,x0,#0x204
+ffffffc01040dc68 str wzr,[x0]
+ffffffc01040dc6c ldr x1,[x27, #0x148]
+ffffffc01040dc70 mov x0,x27
+ffffffc01040dc74 mov w23,w19
+ffffffc01040dc78 bl 0xffffffc01040d1e0
+ffffffc01040dc7c ldr x1,[x27, #0x148]
+ffffffc01040dc80 mov x0,x27
+ffffffc01040dc84 add x1,x1,#0x70
+ffffffc01040dc88 bl 0xffffffc01040d1e0
+ffffffc01040dc8c b 0xffffffc01040dcf0
+ffffffc01040dc90 mov w19,#0x1
+ffffffc01040dc94 b 0xffffffc01040d998
+ffffffc01040dc98 ldr x0,[x28, #0x10]
+ffffffc01040dc9c bl 0xffffffc0101e6340
+ffffffc01040dca0 ldr x2,[x28]
+ffffffc01040dca4 mov x4,#0x0
+ffffffc01040dca8 ldr x3,[x28, #0x18]
+ffffffc01040dcac ldr x1,[x28, #0x38]
+ffffffc01040dcb0 ldr x0,[x27, #0x60]
+ffffffc01040dcb4 bl 0xffffffc010149770
+ffffffc01040dcb8 cmp w19,#0x1
+ffffffc01040dcbc b.ne 0xffffffc01040dccc
+ffffffc01040dcc0 ldr x1,[x27, #0x148]
+ffffffc01040dcc4 mov x0,x27
+ffffffc01040dcc8 bl 0xffffffc01040d1e0
+ffffffc01040dccc dmb OSHST
+ffffffc01040dcd0 ldr x0,[x27, #0x130]
+ffffffc01040dcd4 add x0,x0,#0x204
+ffffffc01040dcd8 str wzr,[x0]
+ffffffc01040dcdc adrp x1,-0x3fef6d3000
+ffffffc01040dce0 mov w2,w23
+ffffffc01040dce4 mov x0,x20
+ffffffc01040dce8 add x1,x1,#0x9d0
+ffffffc01040dcec bl 0xffffffc01044446c
+ffffffc01040dcf0 ldr x0,[x21, #0x278]
+ffffffc01040dcf4 mov w19,w23
+ffffffc01040dcf8 bl 0xffffffc01040bf00
+ffffffc01040dcfc mov x0,x27
+ffffffc01040dd00 bl 0xffffffc01040a820
+ffffffc01040dd04 b 0xffffffc01040d8e8
+ffffffc01040dd08 mov w19,#0xfffffff4
+ffffffc01040dd0c b 0xffffffc01040d924
+ffffffc01040dd10 mov w19,#0xfffffff4
+ffffffc01040dd14 b 0xffffffc01040d8f8
+ffffffc01040dd18 mov w19,#0xfffffff4
+ffffffc01040dd1c b 0xffffffc01040d914
+ffffffc01040dd20 mov w2,w19
+ffffffc01040dd24 mov x0,x20
+ffffffc01040dd28 adrp x1,-0x3fef6d3000
+ffffffc01040dd2c add x1,x1,#0x940
+ffffffc01040dd30 bl 0xffffffc0104445d4
+ffffffc01040dd34 b 0xffffffc01040d814
+ffffffc01040dd38 adrp x1,-0x3fefbf4000
+ffffffc01040dd3c add x1,x1,#0xdb4
+ffffffc01040dd40 str x1,[x0, #0x58]
+ffffffc01040dd44 mov x0,x20
+ffffffc01040dd48 str x27,[x20, #0x78]
+ffffffc01040dd4c adrp x1,-0x3fef6d3000
+ffffffc01040dd50 add x1,x1,#0xa18
+ffffffc01040dd54 bl 0xffffffc0104445d4
+ffffffc01040dd58 str x27,[x22, #0xae8]
+ffffffc01040dd5c ldp x23,x24,[sp, #0x30]
+ffffffc01040dd60 ldp x25,x26,[sp, #0x40]
+ffffffc01040dd64 ldp x27,x28,[sp, #0x50]
+ffffffc01040dd68 b 0xffffffc01040d924
+ffffffc01040dd6c mov w2,w0
+ffffffc01040dd70 adrp x1,-0x3fef6d3000
+ffffffc01040dd74 mov x0,x20
+ffffffc01040dd78 add x1,x1,#0x970
+ffffffc01040dd7c bl 0xffffffc01044446c
+ffffffc01040dd80 b 0xffffffc01040dcfc
+ffffffc01040dd84 ldr x0,[x27, #0x60]
+ffffffc01040dd88 adrp x1,-0x3fef6d3000
+ffffffc01040dd8c mov w23,#0xfffffff4
+ffffffc01040dd90 add x1,x1,#0x998
+ffffffc01040dd94 bl 0xffffffc01044446c
+ffffffc01040dd98 b 0xffffffc01040dcb8
+ffffffc01040dd9c ldr x0,[x27, #0x60]
+ffffffc01040dda0 adrp x1,-0x3fef6d3000
+ffffffc01040dda4 mov w23,#0xfffffff4
+ffffffc01040dda8 add x1,x1,#0x9b8
+ffffffc01040ddac bl 0xffffffc01044446c
+ffffffc01040ddb0 b 0xffffffc01040dca0
+ffffffc01040ddb4 ldr x2,[x20, #0x50]
+ffffffc01040ddb8 cbz x2,0xffffffc01040de04
+ffffffc01040ddbc mov x0,x20
+ffffffc01040ddc0 adrp x1,-0x3fef70a000
+ffffffc01040ddc4 mov w19,#0xffffffea
+ffffffc01040ddc8 add x1,x1,#0x728
+ffffffc01040ddcc bl 0xffffffc01044446c
+ffffffc01040ddd0 b 0xffffffc01040d914
+ffffffc01040ddd4 mov x0,x20
+ffffffc01040ddd8 adrp x1,-0x3fef6d3000
+ffffffc01040dddc mov w19,#0xffffffed
+ffffffc01040dde0 add x1,x1,#0x918
+ffffffc01040dde4 bl 0xffffffc01044446c
+ffffffc01040dde8 b 0xffffffc01040d908
+ffffffc01040ddec mov w2,w0
+ffffffc01040ddf0 adrp x1,-0x3fef70a000
+ffffffc01040ddf4 mov x0,x20
+ffffffc01040ddf8 add x1,x1,#0x740
+ffffffc01040ddfc bl 0xffffffc01044446c
+ffffffc01040de00 b 0xffffffc01040dc5c
+ffffffc01040de04 ldr x2,[x21, #0x10]
+ffffffc01040de08 b 0xffffffc01040ddbc
+
+FUNCTION ecnt_hsdma_issue_vchan_pending @ ffffffc01040de10
+decompiled=true
+
+long * ecnt_hsdma_issue_vchan_pending(long param_1,long param_2,int param_3)
+
+{
+  long *plVar1;
+  long *plVar2;
+  long lVar3;
+  uint uVar4;
+  char cVar5;
+  code *pcVar6;
+  bool bVar7;
+  long *plVar8;
+  long *plVar9;
+  ulong uVar10;
+  long lVar11;
+  uint uVar12;
+  ulong uVar13;
+  undefined8 *puVar14;
+  uint uVar15;
+  long *plVar16;
+  long *plVar17;
+  
+  plVar8 = (long *)(param_2 + 0xb0);
+  plVar16 = (long *)*plVar8;
+  if (plVar16 != plVar8) {
+    plVar17 = (long *)*plVar16;
+    do {
+      plVar2 = (long *)(*(long *)(param_1 + 0x148) + (long)param_3 * 0x70);
+      plVar9 = (long *)__raw_spin_lock_irqsave((undefined4 *)((long)plVar2 + 0x44));
+      uVar13 = (ulong)DAT_ffffffc010c36288;
+      uVar12 = 0;
+      if (uVar13 != 0) {
+        uVar12 = (uint)(((uVar13 - 1) + plVar16[2]) / uVar13);
+      }
+      uVar4 = *(uint *)(plVar2 + 8);
+      if ((uVar12 & 0xffff) <= (*(uint *)(plVar2 + 8) & 0xffff)) {
+        uVar4 = uVar12;
+      }
+      uVar4 = uVar4 & 0xffff;
+      if (uVar4 == 0) {
+        *(undefined4 *)((long)plVar2 + 0x44) = 0;
+        daif = plVar9;
+        return plVar9;
+      }
+      plVar1 = plVar2 + 8;
+      Hint_Prefetch(plVar1,2,0,1);
+      do {
+        cVar5 = '\x01';
+        bVar7 = (bool)ExclusiveMonitorPass(plVar1,0x10);
+        if (bVar7) {
+          *(uint *)plVar1 = (int)*plVar1 - uVar4;
+          cVar5 = ExclusiveMonitorsStatus();
+        }
+      } while (cVar5 != '\0');
+      uVar4 = uVar4 - 1;
+      do {
+        lVar11 = *plVar2 + (ulong)*(ushort *)(plVar2 + 5) * 0x20;
+        lVar3 = plVar2[1] + (ulong)*(ushort *)(plVar2 + 5) * 0x20;
+        if ((*(uint *)(lVar11 + 4) & **(uint **)(param_1 + 0x158)) == 0) {
+          __warn_printk(s_TXD_done_bit_is_0_ffffffc01092da38);
+                    /* WARNING: Does not return */
+          pcVar6 = (code *)SoftwareBreakpoint(0x800,0xffffffc01040e088);
+          (*pcVar6)();
+        }
+        if ((*(uint *)(lVar3 + 4) & **(uint **)(param_1 + 0x158)) != 0) {
+          __warn_printk(s_RXD_done_bit_is_1_ffffffc01092da50);
+                    /* WARNING: Does not return */
+          pcVar6 = (code *)SoftwareBreakpoint(0x800,0xffffffc01040e078);
+          (*pcVar6)();
+        }
+        uVar10 = plVar16[2];
+        uVar15 = 0;
+        uVar13 = (ulong)DAT_ffffffc010c36288;
+        uVar12 = (uint)DAT_ffffffc010c36288;
+        if (DAT_ffffffc010c36288 < uVar10) {
+          uVar15 = *(uint *)(*(long *)(param_1 + 0x158) + 4);
+        }
+        else {
+          uVar12 = (uint)uVar10 & 0xffff;
+          uVar13 = uVar10;
+        }
+        *(int *)(lVar3 + 8) = (int)plVar16[4];
+        *(uint *)(lVar3 + 4) = uVar12 | uVar15;
+        uVar4 = (uVar4 & 0xffff) - 1;
+        *(int *)(lVar11 + 8) = (int)plVar16[5];
+        *(uint *)(lVar11 + 4) = uVar12 | uVar15;
+        *(long **)(plVar2[2] + (ulong)*(ushort *)(plVar2 + 5) * 0x10) = plVar16 + -10;
+        *(ushort *)(plVar2 + 5) = (short)plVar2[5] + 1U & 0x7ff;
+        lVar11 = plVar16[2];
+        plVar16[2] = lVar11 - uVar13;
+        plVar16[4] = plVar16[4] + uVar13;
+        plVar16[5] = plVar16[5] + uVar13;
+      } while ((uVar4 & 0xffff) != 0xffff);
+      if (lVar11 - uVar13 == 0) {
+        *(undefined4 *)(plVar2[2] + ((ulong)(*(ushort *)(plVar2 + 5) - 1) & 0x7ff) * 0x10 + 8) = 1;
+      }
+      DataSynchronizationBarrier(3,2,0);
+      DataMemoryBarrier(0,2);
+      *(uint *)(*(long *)(param_1 + 0x130) + (ulong)*(uint *)(plVar2 + 10)) =
+           (uint)*(ushort *)(plVar2 + 5);
+      *(undefined4 *)((long)plVar2 + 0x44) = 0;
+      daif = plVar9;
+      if ((long *)plVar16[2] != (long *)0x0) {
+        return (long *)plVar16[2];
+      }
+      lVar11 = *plVar16;
+      plVar2 = (long *)plVar16[1];
+      *(long **)(lVar11 + 8) = plVar2;
+      *plVar2 = lVar11;
+      puVar14 = *(undefined8 **)(param_2 + 0x110);
+      *(long **)(param_2 + 0x110) = plVar16;
+      *plVar16 = param_2 + 0x108;
+      plVar16[1] = (long)puVar14;
+      *puVar14 = plVar16;
+      bVar7 = plVar17 != plVar8;
+      plVar16 = plVar17;
+      plVar17 = (long *)*plVar17;
+    } while (bVar7);
+  }
+  return plVar8;
+}
+
+
+ASSEMBLY
+ffffffc01040de10 stp x29,x30,[sp, #-0x90]!
+ffffffc01040de14 mov x29,sp
+ffffffc01040de18 stp x25,x26,[sp, #0x40]
+ffffffc01040de1c mov x26,x0
+ffffffc01040de20 mov x0,x1
+ffffffc01040de24 stp x19,x20,[sp, #0x10]
+ffffffc01040de28 stp x21,x22,[sp, #0x20]
+ffffffc01040de2c ldr x19,[x0, #0xb0]!
+ffffffc01040de30 str x0,[sp, #0x78]
+ffffffc01040de34 mov x25,x19
+ffffffc01040de38 ldr x21,[x19], #-0x50
+ffffffc01040de3c cmp x25,x0
+ffffffc01040de40 b.eq 0xffffffc01040e058
+ffffffc01040de44 mov w0,#0x70
+ffffffc01040de48 adrp x6,-0x3fef3ca000
+ffffffc01040de4c sub x21,x21,#0x50
+ffffffc01040de50 stp x23,x24,[sp, #0x30]
+ffffffc01040de54 smull x0,w2,w0
+ffffffc01040de58 mov x23,x1
+ffffffc01040de5c add x24,x6,#0x1c8
+ffffffc01040de60 stp x27,x28,[sp, #0x50]
+ffffffc01040de64 adrp x27,-0x3fef6d3000
+ffffffc01040de68 str x0,[sp, #0x70]
+ffffffc01040de6c add x0,x27,#0xa38
+ffffffc01040de70 str x0,[sp, #0x80]
+ffffffc01040de74 adrp x0,-0x3fef6d3000
+ffffffc01040de78 add x0,x0,#0xa50
+ffffffc01040de7c str x0,[sp, #0x88]
+ffffffc01040de80 ldr x0,[sp, #0x70]
+ffffffc01040de84 ldr x20,[x26, #0x148]
+ffffffc01040de88 add x20,x20,x0
+ffffffc01040de8c add x28,x20,#0x44
+ffffffc01040de90 mov x0,x28
+ffffffc01040de94 bl 0xffffffc01040c824
+ffffffc01040de98 ldrh w2,[x24, #0xc0]
+ffffffc01040de9c ldr x3,[x19, #0x60]
+ffffffc01040dea0 sub x1,x2,#0x1
+ffffffc01040dea4 str x0,[sp, #0x68]
+ffffffc01040dea8 add x0,x1,x3
+ffffffc01040deac ldr w4,[x20, #0x40]
+ffffffc01040deb0 udiv x0,x0,x2
+ffffffc01040deb4 and w1,w0,#0xffff
+ffffffc01040deb8 cmp w1,w4, UXTH 
+ffffffc01040debc csel w4,w4,w0,hi
+ffffffc01040dec0 ands w4,w4,#0xffff
+ffffffc01040dec4 b.eq 0xffffffc01040e094
+ffffffc01040dec8 add x2,x20,#0x40
+ffffffc01040decc prfm PSTL1STRM,[x2]
+ffffffc01040ded0 ldxr w0,[x2]
+ffffffc01040ded4 sub w0,w0,w4
+ffffffc01040ded8 stxr w1,w0,[x2]
+ffffffc01040dedc cbnz w1,0xffffffc01040ded0
+ffffffc01040dee0 sub w4,w4,#0x1
+ffffffc01040dee4 and w27,w4,#0xffff
+ffffffc01040dee8 b 0xffffffc01040df60
+ffffffc01040deec ldr x0,[x26, #0x158]
+ffffffc01040def0 ldr w8,[x0, #0x4]
+ffffffc01040def4 ldr x0,[x19, #0x70]
+ffffffc01040def8 str w0,[x22, #0x8]
+ffffffc01040defc orr w2,w2,w8
+ffffffc01040df00 str w2,[x22, #0x4]
+ffffffc01040df04 sub w8,w27,#0x1
+ffffffc01040df08 mov w9,#0xffff
+ffffffc01040df0c ldr x0,[x19, #0x78]
+ffffffc01040df10 str w0,[x28, #0x8]
+ffffffc01040df14 str w2,[x28, #0x4]
+ffffffc01040df18 and w27,w8,#0xffff
+ffffffc01040df1c ldrh w0,[x20, #0x28]
+ffffffc01040df20 ldr x1,[x20, #0x10]
+ffffffc01040df24 lsl x0,x0,#0x4
+ffffffc01040df28 str x19,[x1, x0, LSL #0x0]
+ffffffc01040df2c ldrh w1,[x20, #0x28]
+ffffffc01040df30 add w1,w1,#0x1
+ffffffc01040df34 and w1,w1,#0x7ff
+ffffffc01040df38 strh w1,[x20, #0x28]
+ffffffc01040df3c ldp x2,x0,[x19, #0x70]
+ffffffc01040df40 ldr x1,[x19, #0x60]
+ffffffc01040df44 sub x1,x1,x3
+ffffffc01040df48 str x1,[x19, #0x60]
+ffffffc01040df4c add x2,x2,x3
+ffffffc01040df50 add x3,x0,x3
+ffffffc01040df54 stp x2,x3,[x19, #0x70]
+ffffffc01040df58 cmp w9,w8, UXTH 
+ffffffc01040df5c b.eq 0xffffffc01040dfb8
+ffffffc01040df60 ldrh w1,[x20, #0x28]
+ffffffc01040df64 ldr x0,[x26, #0x158]
+ffffffc01040df68 lsl x2,x1,#0x5
+ffffffc01040df6c ldp x28,x1,[x20]
+ffffffc01040df70 ldr w0,[x0]
+ffffffc01040df74 add x28,x28,x2
+ffffffc01040df78 add x22,x1,x2
+ffffffc01040df7c ldr w3,[x28, #0x4]
+ffffffc01040df80 tst w3,w0
+ffffffc01040df84 b.eq 0xffffffc01040e07c
+ffffffc01040df88 ldr w2,[x22, #0x4]
+ffffffc01040df8c tst w2,w0
+ffffffc01040df90 b.ne 0xffffffc01040e06c
+ffffffc01040df94 ldr x0,[x19, #0x60]
+ffffffc01040df98 mov w8,#0x0
+ffffffc01040df9c ldrh w2,[x24, #0xc0]
+ffffffc01040dfa0 and x3,x2,#0xffff
+ffffffc01040dfa4 cmp x0,w2, UXTH 
+ffffffc01040dfa8 b.hi 0xffffffc01040deec
+ffffffc01040dfac and w2,w0,#0xffff
+ffffffc01040dfb0 mov x3,x0
+ffffffc01040dfb4 b 0xffffffc01040def4
+ffffffc01040dfb8 cbnz x1,0xffffffc01040dfd8
+ffffffc01040dfbc ldrh w0,[x20, #0x28]
+ffffffc01040dfc0 mov w2,#0x1
+ffffffc01040dfc4 ldr x1,[x20, #0x10]
+ffffffc01040dfc8 sub w0,w0,#0x1
+ffffffc01040dfcc ubfiz x0,x0,#0x4,#0xb
+ffffffc01040dfd0 add x0,x1,x0
+ffffffc01040dfd4 str w2,[x0, #0x8]
+ffffffc01040dfd8 dsb ST
+ffffffc01040dfdc ldrh w1,[x20, #0x28]
+ffffffc01040dfe0 ldr w0,[x20, #0x50]
+ffffffc01040dfe4 dmb OSHST
+ffffffc01040dfe8 ldr x2,[x26, #0x130]
+ffffffc01040dfec add x0,x2,w0, UXTW 
+ffffffc01040dff0 str w1,[x0]
+ffffffc01040dff4 mov w0,#0x0
+ffffffc01040dff8 add x1,x20,#0x44
+ffffffc01040dffc stlrb w0,[x1]
+ffffffc01040e000 ldr x0,[sp, #0x68]
+ffffffc01040e004 msr daif,x0
+ffffffc01040e008 nop
+ffffffc01040e00c ldr x0,[x19, #0x60]
+ffffffc01040e010 cbnz x0,0xffffffc01040e050
+ffffffc01040e014 ldp x3,x2,[x19, #0x50]
+ffffffc01040e018 str x2,[x3, #0x8]
+ffffffc01040e01c add x1,x23,#0x108
+ffffffc01040e020 ldr x0,[sp, #0x78]
+ffffffc01040e024 str x3,[x2]
+ffffffc01040e028 ldr x2,[x23, #0x110]
+ffffffc01040e02c str x25,[x23, #0x110]
+ffffffc01040e030 stp x1,x2,[x19, #0x50]
+ffffffc01040e034 mov x19,x21
+ffffffc01040e038 str x25,[x2]
+ffffffc01040e03c mov x25,x21
+ffffffc01040e040 ldr x21,[x25, #0x50]!
+ffffffc01040e044 sub x21,x21,#0x50
+ffffffc01040e048 cmp x25,x0
+ffffffc01040e04c b.ne 0xffffffc01040de80
+ffffffc01040e050 ldp x23,x24,[sp, #0x30]
+ffffffc01040e054 ldp x27,x28,[sp, #0x50]
+ffffffc01040e058 ldp x19,x20,[sp, #0x10]
+ffffffc01040e05c ldp x21,x22,[sp, #0x20]
+ffffffc01040e060 ldp x25,x26,[sp, #0x40]
+ffffffc01040e064 ldp x29,x30,[sp], #0x90
+ffffffc01040e068 ret
+ffffffc01040e06c ldr x0,[sp, #0x88]
+ffffffc01040e070 bl 0xffffffc0100dde60
+ffffffc01040e074 brk #0x800
+ffffffc01040e07c ldr x0,[sp, #0x80]
+ffffffc01040e080 bl 0xffffffc0100dde60
+ffffffc01040e084 brk #0x800
+ffffffc01040e094 mov w0,#0x0
+ffffffc01040e098 stlrb w0,[x28]
+ffffffc01040e09c ldr x0,[sp, #0x68]
+ffffffc01040e0a0 msr daif,x0
+ffffffc01040e0a4 nop
+ffffffc01040e0a8 ldp x23,x24,[sp, #0x30]
+ffffffc01040e0ac ldp x27,x28,[sp, #0x50]
+ffffffc01040e0b0 b 0xffffffc01040e058
+
+FUNCTION ecnt_hsdma_irq @ ffffffc01040e0b4
+decompiled=true
+
+undefined8 ecnt_hsdma_irq(undefined8 param_1,long param_2)
+
+{
+  uint uVar1;
+  ulong *puVar2;
+  long lVar3;
+  int iVar4;
+  long *plVar5;
+  char cVar6;
+  bool bVar7;
+  code *pcVar8;
+  uint uVar9;
+  long lVar10;
+  long lVar11;
+  long lVar12;
+  int *piVar13;
+  long lVar14;
+  ulong uVar15;
+  undefined8 *puVar16;
+  long lVar17;
+  long lVar18;
+  long lVar19;
+  uint uVar20;
+  
+  if (DAT_ffffffc010c87af0 != (code *)0x0) {
+    (*DAT_ffffffc010c87af0)();
+    return 1;
+  }
+  uVar9 = ecnt_dma_read_isra_0(*(undefined8 *)(param_2 + 0x130),0x228);
+  DataMemoryBarrier(0,2);
+  lVar10 = *(long *)(param_2 + 0x130);
+  *(uint *)(lVar10 + 0x228) = uVar9 & 0xfffcffff;
+  uVar9 = ecnt_dma_read_isra_0(lVar10,0x220);
+  if ((uVar9 & 0x30000) != 0) {
+    lVar10 = 0;
+    uVar20 = 0x800;
+    do {
+      lVar18 = *(long *)(param_2 + 0x148) + lVar10;
+      if ((uVar9 & *(uint *)(lVar18 + 0x6c)) != 0) {
+        for (; uVar20 != 0; uVar20 = uVar20 - 1) {
+          uVar1 = *(ushort *)(lVar18 + 0x2a) + 1;
+          lVar3 = *(long *)(lVar18 + 8) + ((ulong)uVar1 & 0x7ff) * 0x20;
+          if ((*(uint *)(lVar3 + 4) & **(uint **)(param_2 + 0x158)) == 0) break;
+          lVar19 = *(long *)(lVar18 + 0x10);
+          lVar17 = ((ulong)uVar1 & 0x7ff) * 0x10;
+          lVar11 = *(long *)(lVar19 + lVar17);
+          if (lVar11 == 0) {
+            _dev_err(*(undefined8 *)(param_2 + 0x60),s_cb_>vd_cannot_be_null_ffffffc01092da68);
+            break;
+          }
+          *(ulong *)(lVar11 + 0x68) =
+               *(long *)(lVar11 + 0x68) - (ulong)(ushort)*(undefined4 *)(lVar3 + 4);
+          if (*(int *)(lVar19 + lVar17 + 8) == 1) {
+            lVar11 = *(long *)(*(long *)(lVar19 + lVar17) + 0x10);
+            piVar13 = (int *)(lVar11 + 0x88);
+            Hint_Prefetch(piVar13,2,0,1);
+            do {
+              iVar4 = *piVar13;
+              if (iVar4 != 0) break;
+              cVar6 = '\x01';
+              bVar7 = (bool)ExclusiveMonitorPass(piVar13,0x10);
+              if (bVar7) {
+                *piVar13 = 1;
+                cVar6 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar6 != '\0');
+            if (iVar4 != 0) {
+              queued_spin_lock_slowpath();
+            }
+            lVar12 = *(long *)(lVar19 + lVar17);
+            lVar14 = *(long *)(lVar12 + 0x50);
+            plVar5 = *(long **)(lVar12 + 0x58);
+            *(long **)(lVar14 + 8) = plVar5;
+            *plVar5 = lVar14;
+            *(undefined1 **)(lVar12 + 0x50) = &DAT_dead000000000100;
+            *(undefined1 **)(lVar12 + 0x58) = &DAT_dead000000000122;
+            piVar13 = *(int **)(lVar19 + lVar17);
+            lVar14 = *(long *)(piVar13 + 4);
+            if (*piVar13 < 1) {
+                    /* WARNING: Does not return */
+              pcVar8 = (code *)SoftwareBreakpoint(0x800,0xffffffc01040e410);
+              (*pcVar8)();
+            }
+            *(int *)(lVar14 + 0xc) = *piVar13;
+            *piVar13 = 0;
+            puVar16 = *(undefined8 **)(lVar14 + 200);
+            *(int **)(lVar14 + 200) = piVar13 + 0x14;
+            *(long *)(piVar13 + 0x14) = lVar14 + 0xc0;
+            *(undefined8 **)(piVar13 + 0x16) = puVar16;
+            *puVar16 = piVar13 + 0x14;
+            if ((*(ulong *)(lVar14 + 0x60) & 1) == 0) {
+              puVar2 = (ulong *)(lVar14 + 0x60);
+              Hint_Prefetch(puVar2,2,0,1);
+              do {
+                uVar15 = *puVar2;
+                cVar6 = '\x01';
+                bVar7 = (bool)ExclusiveMonitorPass(puVar2,0x10);
+                if (bVar7) {
+                  *puVar2 = uVar15 | 1;
+                  cVar6 = ExclusiveMonitorsStatus();
+                }
+              } while (cVar6 != '\0');
+              DataMemoryBarrier(2,3);
+              if ((uVar15 & 1) == 0) {
+                __tasklet_schedule(lVar14 + 0x58);
+              }
+            }
+            if ((*(char *)(lVar11 + 0x100) != '\0') && (lVar11 + 0x108 == *(long *)(lVar11 + 0x108))
+               ) {
+              complete(lVar11 + 0xe0);
+              *(undefined1 *)(lVar11 + 0x100) = 0;
+            }
+            *(undefined4 *)(lVar11 + 0x88) = 0;
+            *(undefined4 *)(lVar19 + lVar17 + 8) = 0;
+          }
+          *(undefined8 *)(lVar19 + lVar17) = 0;
+          piVar13 = (int *)(lVar18 + 0x40);
+          *(undefined4 *)(lVar3 + 8) = 0;
+          *(undefined4 *)(lVar3 + 4) = 0;
+          *(ushort *)(lVar18 + 0x2a) = (ushort)uVar1 & 0x7ff;
+          Hint_Prefetch(piVar13,2,0,1);
+          do {
+            cVar6 = '\x01';
+            bVar7 = (bool)ExclusiveMonitorPass(piVar13,0x10);
+            if (bVar7) {
+              *piVar13 = *piVar13 + 1;
+              cVar6 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar6 != '\0');
+        }
+        DataSynchronizationBarrier(3,2,0);
+        DataMemoryBarrier(0,2);
+        *(uint *)(*(long *)(param_2 + 0x130) + (ulong)*(uint *)(lVar18 + 0x60)) =
+             (uint)*(ushort *)(lVar18 + 0x2a);
+        if (0x7fe < *(int *)(lVar18 + 0x40)) {
+          DataMemoryBarrier(0,2);
+          *(undefined4 *)(*(long *)(param_2 + 0x130) + 0x220) = *(undefined4 *)(lVar18 + 0x6c);
+        }
+        uVar20 = 0;
+        if (*(int *)(param_2 + 0x13c) != 0) {
+          do {
+            lVar18 = *(long *)(param_2 + 0x140) + (long)(int)uVar20 * 0x118;
+            piVar13 = (int *)(lVar18 + 0x88);
+            Hint_Prefetch(piVar13,2,0,1);
+            do {
+              iVar4 = *piVar13;
+              if (iVar4 != 0) break;
+              cVar6 = '\x01';
+              bVar7 = (bool)ExclusiveMonitorPass(piVar13,0x10);
+              if (bVar7) {
+                *piVar13 = 1;
+                cVar6 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar6 != '\0');
+            if (iVar4 != 0) {
+              queued_spin_lock_slowpath();
+            }
+            ecnt_hsdma_issue_vchan_pending(param_2,lVar18,uVar20);
+            *(undefined4 *)(lVar18 + 0x88) = 0;
+            uVar20 = uVar20 + 1;
+          } while (uVar20 < *(uint *)(param_2 + 0x13c));
+        }
+      }
+      lVar10 = lVar10 + 0x70;
+    } while (lVar10 != 0xe0);
+  }
+  uVar9 = ecnt_dma_read_isra_0(*(undefined8 *)(param_2 + 0x130),0x228);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(param_2 + 0x130) + 0x228) = uVar9 | 0x30000;
+  return 1;
+}
+
+
+ASSEMBLY
+ffffffc01040e0b4 stp x29,x30,[sp, #-0x80]!
+ffffffc01040e0b8 adrp x0,-0x3fef379000
+ffffffc01040e0bc mov x29,sp
+ffffffc01040e0c0 ldr x0,[x0, #0xaf0]
+ffffffc01040e0c4 cbz x0,0xffffffc01040e0d8
+ffffffc01040e0c8 blr x0
+ffffffc01040e0cc mov w0,#0x1
+ffffffc01040e0d0 ldp x29,x30,[sp], #0x80
+ffffffc01040e0d4 ret
+ffffffc01040e0d8 stp x25,x26,[sp, #0x40]
+ffffffc01040e0dc mov x25,x1
+ffffffc01040e0e0 mov w1,#0x228
+ffffffc01040e0e4 stp x23,x24,[sp, #0x30]
+ffffffc01040e0e8 ldr x0,[x25, #0x130]
+ffffffc01040e0ec bl 0xffffffc01040c940
+ffffffc01040e0f0 dmb OSHST
+ffffffc01040e0f4 and w1,w0,#0xfffcffff
+ffffffc01040e0f8 ldr x0,[x25, #0x130]
+ffffffc01040e0fc add x2,x0,#0x228
+ffffffc01040e100 str w1,[x2]
+ffffffc01040e104 mov w1,#0x220
+ffffffc01040e108 bl 0xffffffc01040c940
+ffffffc01040e10c mov w24,w0
+ffffffc01040e110 tst w0,#0x30000
+ffffffc01040e114 b.eq 0xffffffc01040e164
+ffffffc01040e118 mov x26,#0x100
+ffffffc01040e11c mov w23,#0x118
+ffffffc01040e120 movk x26,#0xdead, LSL #48
+ffffffc01040e124 stp x19,x20,[sp, #0x10]
+ffffffc01040e128 stp x21,x22,[sp, #0x20]
+ffffffc01040e12c mov x22,#0x0
+ffffffc01040e130 stp x27,x28,[sp, #0x50]
+ffffffc01040e134 mov w28,#0x800
+ffffffc01040e138 ldr x20,[x25, #0x148]
+ffffffc01040e13c add x20,x20,x22
+ffffffc01040e140 ldr w0,[x20, #0x6c]
+ffffffc01040e144 tst w24,w0
+ffffffc01040e148 b.ne 0xffffffc01040e198
+ffffffc01040e14c add x22,x22,#0x70
+ffffffc01040e150 cmp x22,#0xe0
+ffffffc01040e154 b.ne 0xffffffc01040e138
+ffffffc01040e158 ldp x19,x20,[sp, #0x10]
+ffffffc01040e15c ldp x21,x22,[sp, #0x20]
+ffffffc01040e160 ldp x27,x28,[sp, #0x50]
+ffffffc01040e164 mov w1,#0x228
+ffffffc01040e168 ldr x0,[x25, #0x130]
+ffffffc01040e16c bl 0xffffffc01040c940
+ffffffc01040e170 dmb OSHST
+ffffffc01040e174 ldr x1,[x25, #0x130]
+ffffffc01040e178 orr w0,w0,#0x30000
+ffffffc01040e17c add x1,x1,#0x228
+ffffffc01040e180 str w0,[x1]
+ffffffc01040e184 mov w0,#0x1
+ffffffc01040e188 ldp x23,x24,[sp, #0x30]
+ffffffc01040e18c ldp x25,x26,[sp, #0x40]
+ffffffc01040e190 ldp x29,x30,[sp], #0x80
+ffffffc01040e194 ret
+ffffffc01040e198 cbz w28,0xffffffc01040e338
+ffffffc01040e19c mov x5,#0x0
+ffffffc01040e1a0 mov w6,#0x0
+ffffffc01040e1a4 b 0xffffffc01040e1d8
+ffffffc01040e1a8 str xzr,[x27, x19, LSL #0x0]
+ffffffc01040e1ac add x2,x20,#0x40
+ffffffc01040e1b0 str wzr,[x21, #0x8]
+ffffffc01040e1b4 str wzr,[x21, #0x4]
+ffffffc01040e1b8 strh w7,[x20, #0x2a]
+ffffffc01040e1bc prfm PSTL1STRM,[x2]
+ffffffc01040e1c0 ldxr w0,[x2]
+ffffffc01040e1c4 add w0,w0,#0x1
+ffffffc01040e1c8 stxr w1,w0,[x2]
+ffffffc01040e1cc cbnz w1,0xffffffc01040e1c0
+ffffffc01040e1d0 subs w28,w28,#0x1
+ffffffc01040e1d4 b.eq 0xffffffc01040e338
+ffffffc01040e1d8 ldrh w19,[x20, #0x2a]
+ffffffc01040e1dc ldr x21,[x20, #0x8]
+ffffffc01040e1e0 add w19,w19,#0x1
+ffffffc01040e1e4 ldr x0,[x25, #0x158]
+ffffffc01040e1e8 ubfiz x1,x19,#0x5,#0xb
+ffffffc01040e1ec add x21,x21,x1
+ffffffc01040e1f0 and w7,w19,#0x7ff
+ffffffc01040e1f4 and x19,x19,#0x7ff
+ffffffc01040e1f8 ldr w0,[x0]
+ffffffc01040e1fc ldr w1,[x21, #0x4]
+ffffffc01040e200 tst w1,w0
+ffffffc01040e204 b.eq 0xffffffc01040e338
+ffffffc01040e208 ldr x27,[x20, #0x10]
+ffffffc01040e20c lsl x19,x19,#0x4
+ffffffc01040e210 add x4,x27,x19
+ffffffc01040e214 ldr x0,[x27, x19, LSL #0x0]
+ffffffc01040e218 cbz x0,0xffffffc01040e324
+ffffffc01040e21c ldr x1,[x0, #0x68]
+ffffffc01040e220 ldr w2,[x21, #0x4]
+ffffffc01040e224 sub x1,x1,w2, UXTH 
+ffffffc01040e228 str x1,[x0, #0x68]
+ffffffc01040e22c ldr w2,[x4, #0x8]
+ffffffc01040e230 cmp w2,#0x1
+ffffffc01040e234 b.ne 0xffffffc01040e1a8
+ffffffc01040e238 ldr x0,[x27, x19, LSL #0x0]
+ffffffc01040e23c ldr x8,[x0, #0x10]
+ffffffc01040e240 add x0,x8,#0x88
+ffffffc01040e244 prfm PSTL1STRM,[x0]
+ffffffc01040e248 ldaxr w1,[x0]
+ffffffc01040e24c eor w9,w1,w5
+ffffffc01040e250 cbnz w9,0xffffffc01040e25c
+ffffffc01040e254 stxr w9,w2,[x0]
+ffffffc01040e258 cbnz w9,0xffffffc01040e248
+ffffffc01040e25c cbnz w1,0xffffffc01040e3e8
+ffffffc01040e260 ldr x0,[x27, x19, LSL #0x0]
+ffffffc01040e264 ldp x2,x1,[x0, #0x50]
+ffffffc01040e268 str x1,[x2, #0x8]
+ffffffc01040e26c str x2,[x1]
+ffffffc01040e270 mov x1,#0x122
+ffffffc01040e274 movk x1,#0xdead, LSL #48
+ffffffc01040e278 stp x26,x1,[x0, #0x50]
+ffffffc01040e27c ldr x0,[x27, x19, LSL #0x0]
+ffffffc01040e280 ldr w9,[x0]
+ffffffc01040e284 ldr x1,[x0, #0x10]
+ffffffc01040e288 cmp w9,#0x0
+ffffffc01040e28c b.le 0xffffffc01040e40c
+ffffffc01040e290 mov x2,x0
+ffffffc01040e294 str w9,[x1, #0xc]
+ffffffc01040e298 add x9,x1,#0xc0
+ffffffc01040e29c str wzr,[x2], #0x50
+ffffffc01040e2a0 ldr x10,[x1, #0xc8]
+ffffffc01040e2a4 str x2,[x1, #0xc8]
+ffffffc01040e2a8 stp x9,x10,[x0, #0x50]
+ffffffc01040e2ac str x2,[x10]
+ffffffc01040e2b0 ldr x0,[x1, #0x60]
+ffffffc01040e2b4 tbnz w0,#0x0,0xffffffc01040e2fc
+ffffffc01040e2b8 add x0,x1,#0x58
+ffffffc01040e2bc add x1,x1,#0x60
+ffffffc01040e2c0 prfm PSTL1STRM,[x1]
+ffffffc01040e2c4 ldxr x2,[x1]
+ffffffc01040e2c8 orr x9,x2,#0x1
+ffffffc01040e2cc stlxr w10,x9,[x1]
+ffffffc01040e2d0 cbnz w10,0xffffffc01040e2c4
+ffffffc01040e2d4 dmb ISH
+ffffffc01040e2d8 tbnz w2,#0x0,0xffffffc01040e2fc
+ffffffc01040e2dc str w7,[sp, #0x60]
+ffffffc01040e2e0 stp x4,x8,[sp, #0x68]
+ffffffc01040e2e4 str w6,[sp, #0x7c]
+ffffffc01040e2e8 bl 0xffffffc0100e3640
+ffffffc01040e2ec ldp x4,x8,[sp, #0x68]
+ffffffc01040e2f0 mov x5,#0x0
+ffffffc01040e2f4 ldr w7,[sp, #0x60]
+ffffffc01040e2f8 ldr w6,[sp, #0x7c]
+ffffffc01040e2fc ldrb w0,[x8, #0x100]
+ffffffc01040e300 cbz w0,0xffffffc01040e314
+ffffffc01040e304 ldr x0,[x8, #0x108]
+ffffffc01040e308 add x1,x8,#0x108
+ffffffc01040e30c cmp x1,x0
+ffffffc01040e310 b.eq 0xffffffc01040e410
+ffffffc01040e314 add x0,x8,#0x88
+ffffffc01040e318 stlrb w6,[x0]
+ffffffc01040e31c str wzr,[x4, #0x8]
+ffffffc01040e320 b 0xffffffc01040e1a8
+ffffffc01040e324 ldr x0,[x25, #0x60]
+ffffffc01040e328 adrp x1,-0x3fef6d3000
+ffffffc01040e32c add x1,x1,#0xa68
+ffffffc01040e330 bl 0xffffffc01044446c
+ffffffc01040e334 nop
+ffffffc01040e338 dsb ST
+ffffffc01040e33c ldrh w1,[x20, #0x2a]
+ffffffc01040e340 ldr w0,[x20, #0x60]
+ffffffc01040e344 dmb OSHST
+ffffffc01040e348 ldr x2,[x25, #0x130]
+ffffffc01040e34c add x0,x2,w0, UXTW 
+ffffffc01040e350 str w1,[x0]
+ffffffc01040e354 ldr w0,[x20, #0x40]
+ffffffc01040e358 cmp w0,#0x7fe
+ffffffc01040e35c b.le 0xffffffc01040e374
+ffffffc01040e360 ldr w1,[x20, #0x6c]
+ffffffc01040e364 dmb OSHST
+ffffffc01040e368 ldr x0,[x25, #0x130]
+ffffffc01040e36c add x0,x0,#0x220
+ffffffc01040e370 str w1,[x0]
+ffffffc01040e374 ldr w0,[x25, #0x13c]
+ffffffc01040e378 mov w28,#0x0
+ffffffc01040e37c cbz w0,0xffffffc01040e14c
+ffffffc01040e380 mov x21,#0x0
+ffffffc01040e384 mov w20,#0x1
+ffffffc01040e388 mov w27,#0x0
+ffffffc01040e38c b 0xffffffc01040e3b8
+ffffffc01040e390 mov x0,x25
+ffffffc01040e394 mov w2,w28
+ffffffc01040e398 mov x1,x19
+ffffffc01040e39c bl 0xffffffc01040de10
+ffffffc01040e3a0 add x0,x19,#0x88
+ffffffc01040e3a4 stlrb w27,[x0]
+ffffffc01040e3a8 ldr w0,[x25, #0x13c]
+ffffffc01040e3ac add w28,w28,#0x1
+ffffffc01040e3b0 cmp w0,w28
+ffffffc01040e3b4 b.ls 0xffffffc01040e14c
+ffffffc01040e3b8 ldr x19,[x25, #0x140]
+ffffffc01040e3bc smaddl x19,w28,w23,x19
+ffffffc01040e3c0 add x0,x19,#0x88
+ffffffc01040e3c4 prfm PSTL1STRM,[x0]
+ffffffc01040e3c8 ldaxr w1,[x0]
+ffffffc01040e3cc eor w2,w1,w21
+ffffffc01040e3d0 cbnz w2,0xffffffc01040e3dc
+ffffffc01040e3d4 stxr w2,w20,[x0]
+ffffffc01040e3d8 cbnz w2,0xffffffc01040e3c8
+ffffffc01040e3dc cbz w1,0xffffffc01040e390
+ffffffc01040e3e0 bl 0xffffffc01012aed0
+ffffffc01040e3e4 b 0xffffffc01040e390
+ffffffc01040e3e8 str w7,[sp, #0x60]
+ffffffc01040e3ec stp x4,x8,[sp, #0x68]
+ffffffc01040e3f0 str w6,[sp, #0x7c]
+ffffffc01040e3f4 bl 0xffffffc01012aed0
+ffffffc01040e3f8 mov x5,#0x0
+ffffffc01040e3fc ldr w7,[sp, #0x60]
+ffffffc01040e400 ldr w6,[sp, #0x7c]
+ffffffc01040e404 ldp x4,x8,[sp, #0x68]
+ffffffc01040e408 b 0xffffffc01040e260
+ffffffc01040e40c brk #0x800
+ffffffc01040e410 add x0,x8,#0xe0
+ffffffc01040e414 str x8,[sp, #0x60]
+ffffffc01040e418 str w7,[sp, #0x68]
+ffffffc01040e41c str x4,[sp, #0x70]
+ffffffc01040e420 str w6,[sp, #0x7c]
+ffffffc01040e424 bl 0xffffffc010121f00
+ffffffc01040e428 ldr x8,[sp, #0x60]
+ffffffc01040e42c mov x5,#0x0
+ffffffc01040e430 ldr w7,[sp, #0x68]
+ffffffc01040e434 ldr w6,[sp, #0x7c]
+ffffffc01040e438 strb wzr,[x8, #0x100]
+ffffffc01040e43c ldr x4,[sp, #0x70]
+ffffffc01040e440 b 0xffffffc01040e314
+
+FUNCTION ecnt_hsdma_issue_pending @ ffffffc01040e444
+decompiled=true
+
+void ecnt_hsdma_issue_pending(undefined8 *param_1)
+
+{
+  undefined8 *puVar1;
+  long lVar2;
+  long *plVar3;
+  undefined8 uVar4;
+  long *plVar5;
+  undefined8 uVar6;
+  
+  if (param_1 != (undefined8 *)0x0) {
+    uVar6 = *param_1;
+    uVar4 = __raw_spin_lock_irqsave(param_1 + 0x11);
+    puVar1 = param_1 + 0x14;
+    if (puVar1 != (undefined8 *)param_1[0x14]) {
+      lVar2 = param_1[0x14];
+      plVar3 = (long *)param_1[0x15];
+      plVar5 = (long *)param_1[0x17];
+      *(long **)(lVar2 + 8) = plVar5;
+      *plVar5 = lVar2;
+      *plVar3 = (long)(param_1 + 0x16);
+      param_1[0x14] = puVar1;
+      param_1[0x15] = puVar1;
+      param_1[0x17] = plVar3;
+    }
+    if (param_1 + 0x16 != (undefined8 *)param_1[0x16]) {
+      ecnt_hsdma_issue_vchan_pending(uVar6,param_1,*(undefined4 *)(param_1 + 2));
+    }
+    *(undefined4 *)(param_1 + 0x11) = 0;
+    daif = uVar4;
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040e444 cbz x0,0xffffffc01040e4cc
+ffffffc01040e448 stp x29,x30,[sp, #-0x30]!
+ffffffc01040e44c mov x29,sp
+ffffffc01040e450 stp x19,x20,[sp, #0x10]
+ffffffc01040e454 mov x19,x0
+ffffffc01040e458 str x21,[sp, #0x20]
+ffffffc01040e45c ldr x21,[x0], #0x88
+ffffffc01040e460 bl 0xffffffc01040c824
+ffffffc01040e464 mov x20,x0
+ffffffc01040e468 ldr x2,[x19, #0xa0]
+ffffffc01040e46c add x1,x19,#0xa0
+ffffffc01040e470 add x0,x19,#0xb0
+ffffffc01040e474 cmp x1,x2
+ffffffc01040e478 b.eq 0xffffffc01040e49c
+ffffffc01040e47c ldp x4,x2,[x19, #0xa0]
+ffffffc01040e480 ldr x3,[x19, #0xb8]
+ffffffc01040e484 str x3,[x4, #0x8]
+ffffffc01040e488 str x4,[x3]
+ffffffc01040e48c str x0,[x2]
+ffffffc01040e490 str x1,[x19, #0xa0]
+ffffffc01040e494 str x1,[x19, #0xa8]
+ffffffc01040e498 str x2,[x19, #0xb8]
+ffffffc01040e49c ldr x1,[x19, #0xb0]
+ffffffc01040e4a0 cmp x0,x1
+ffffffc01040e4a4 b.ne 0xffffffc01040e4d0
+ffffffc01040e4a8 mov w0,#0x0
+ffffffc01040e4ac add x1,x19,#0x88
+ffffffc01040e4b0 stlrb w0,[x1]
+ffffffc01040e4b4 msr daif,x20
+ffffffc01040e4b8 nop
+ffffffc01040e4bc ldp x19,x20,[sp, #0x10]
+ffffffc01040e4c0 ldr x21,[sp, #0x20]
+ffffffc01040e4c4 ldp x29,x30,[sp], #0x30
+ffffffc01040e4c8 ret
+ffffffc01040e4cc ret
+ffffffc01040e4d0 ldr w2,[x19, #0x10]
+ffffffc01040e4d4 mov x0,x21
+ffffffc01040e4d8 mov x1,x19
+ffffffc01040e4dc bl 0xffffffc01040de10
+ffffffc01040e4e0 b 0xffffffc01040e4a8
+
+FUNCTION ecnt_hsdma_enable_dly_intr @ ffffffc01040e520
+decompiled=true
+
+void ecnt_hsdma_enable_dly_intr(int param_1,uint param_2,uint param_3)
+
+{
+  long extraout_x8;
+  long extraout_x8_00;
+  
+  param_2 = param_2 & 0xff;
+  if (DAT_ffffffc010c87af0 == 0) {
+    return;
+  }
+  param_3 = param_3 & 0xff;
+  if (param_1 != 1) {
+    if (param_1 != 2) {
+      return;
+    }
+    ecnt_dma_rmw(DAT_ffffffc010c87ae8,0x20c,0xffff,0);
+    DataMemoryBarrier(0,2);
+    *(uint *)(*(long *)(extraout_x8_00 + 0x130) + 0x20c) = (param_2 & 0x7f) << 8 | param_3 | 0x8000;
+    return;
+  }
+  ecnt_dma_rmw(DAT_ffffffc010c87ae8,0x20c,0xffff0000,0);
+  DataMemoryBarrier(0,2);
+  *(uint *)(*(long *)(extraout_x8 + 0x130) + 0x20c) =
+       (param_2 & 0x7f) << 0x18 | param_3 << 0x10 | 0x80000000;
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040e520 adrp x3,-0x3fef379000
+ffffffc01040e524 add x4,x3,#0xae8
+ffffffc01040e528 and w6,w1,#0xff
+ffffffc01040e52c ldr x1,[x4, #0x8]
+ffffffc01040e530 cbz x1,0xffffffc01040e594
+ffffffc01040e534 stp x29,x30,[sp, #-0x10]!
+ffffffc01040e538 and w7,w2,#0xff
+ffffffc01040e53c mov x29,sp
+ffffffc01040e540 cmp w0,#0x1
+ffffffc01040e544 b.eq 0xffffffc01040e558
+ffffffc01040e548 cmp w0,#0x2
+ffffffc01040e54c b.eq 0xffffffc01040e598
+ffffffc01040e550 ldp x29,x30,[sp], #0x10
+ffffffc01040e554 ret
+ffffffc01040e558 ldr x8,[x3, #0xae8]
+ffffffc01040e55c mov w2,#0xffff0000
+ffffffc01040e560 mov w3,#0x0
+ffffffc01040e564 mov w1,#0x20c
+ffffffc01040e568 mov x0,x8
+ffffffc01040e56c bl 0xffffffc01040e4e4
+ffffffc01040e570 dmb OSHST
+ffffffc01040e574 ldr x0,[x8, #0x130]
+ffffffc01040e578 ubfiz w6,w6,#0x18,#0x7
+ffffffc01040e57c orr w6,w6,w7, LSL #0x10
+ffffffc01040e580 orr w6,w6,#0x80000000
+ffffffc01040e584 add x0,x0,#0x20c
+ffffffc01040e588 str w6,[x0]
+ffffffc01040e58c ldp x29,x30,[sp], #0x10
+ffffffc01040e590 ret
+ffffffc01040e594 ret
+ffffffc01040e598 ldr x8,[x3, #0xae8]
+ffffffc01040e59c mov w2,#0xffff
+ffffffc01040e5a0 mov w3,#0x0
+ffffffc01040e5a4 mov w1,#0x20c
+ffffffc01040e5a8 mov x0,x8
+ffffffc01040e5ac bl 0xffffffc01040e4e4
+ffffffc01040e5b0 dmb OSHST
+ffffffc01040e5b4 ldr x0,[x8, #0x130]
+ffffffc01040e5b8 ubfiz w6,w6,#0x8,#0x7
+ffffffc01040e5bc orr w6,w6,w7
+ffffffc01040e5c0 orr w6,w6,#0x8000
+ffffffc01040e5c4 add x0,x0,#0x20c
+ffffffc01040e5c8 str w6,[x0]
+ffffffc01040e5cc ldp x29,x30,[sp], #0x10
+ffffffc01040e5d0 ret
+
+FUNCTION ecnt_hsdma_reg_access_test @ ffffffc01040e5d4
+decompiled=true
+
+undefined8 ecnt_hsdma_reg_access_test(int param_1)
+
+{
+  undefined4 uVar1;
+  
+  DataMemoryBarrier(0,2);
+  *(int *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x20c) = param_1;
+  DataMemoryBarrier(0,1);
+  if (param_1 != *(int *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x20c)) {
+    uVar1 = ecnt_dma_read_isra_0(*(undefined8 *)(DAT_ffffffc010c87ae8 + 0x130),0x20c,param_1);
+    printk(s_hsdma_read_DLYINT__0x_x____0x_x_ffffffc01092da80,uVar1);
+    return 0xffffffff;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040e5d4 adrp x2,-0x3fef379000
+ffffffc01040e5d8 ldr x1,[x2, #0xae8]
+ffffffc01040e5dc dmb OSHST
+ffffffc01040e5e0 ldr x1,[x1, #0x130]
+ffffffc01040e5e4 add x1,x1,#0x20c
+ffffffc01040e5e8 str w0,[x1]
+ffffffc01040e5ec ldr x1,[x2, #0xae8]
+ffffffc01040e5f0 ldr x1,[x1, #0x130]
+ffffffc01040e5f4 add x1,x1,#0x20c
+ffffffc01040e5f8 ldr w1,[x1]
+ffffffc01040e5fc dmb OSHLD
+ffffffc01040e600 mov w3,w1
+ffffffc01040e604 eor x3,x3,x3
+ffffffc01040e608 cbnz x3,0xffffffc01040e608
+ffffffc01040e60c cmp w0,w1
+ffffffc01040e610 b.ne 0xffffffc01040e61c
+ffffffc01040e614 mov w0,#0x0
+ffffffc01040e618 ret
+ffffffc01040e61c stp x29,x30,[sp, #-0x10]!
+ffffffc01040e620 mov w1,#0x20c
+ffffffc01040e624 mov x29,sp
+ffffffc01040e628 ldr x3,[x2, #0xae8]
+ffffffc01040e62c mov w2,w0
+ffffffc01040e630 ldr x0,[x3, #0x130]
+ffffffc01040e634 bl 0xffffffc01040c940
+ffffffc01040e638 mov w1,w0
+ffffffc01040e63c adrp x0,-0x3fef6d3000
+ffffffc01040e640 add x0,x0,#0xa80
+ffffffc01040e644 bl 0xffffffc010133850
+ffffffc01040e648 mov w0,#0xffffffff
+ffffffc01040e64c ldp x29,x30,[sp], #0x10
+ffffffc01040e650 ret
+
+FUNCTION ecnt_hsdma_get_intr_sts @ ffffffc01040e654
+decompiled=true
+
+undefined4 ecnt_hsdma_get_intr_sts(void)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0;
+  if (DAT_ffffffc010c87af0 != 0) {
+    uVar1 = *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x220);
+    DataMemoryBarrier(0,1);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+ffffffc01040e654 adrp x1,-0x3fef379000
+ffffffc01040e658 add x2,x1,#0xae8
+ffffffc01040e65c mov w0,#0x0
+ffffffc01040e660 ldr x2,[x2, #0x8]
+ffffffc01040e664 cbz x2,0xffffffc01040e688
+ffffffc01040e668 ldr x0,[x1, #0xae8]
+ffffffc01040e66c ldr x0,[x0, #0x130]
+ffffffc01040e670 add x0,x0,#0x220
+ffffffc01040e674 ldr w0,[x0]
+ffffffc01040e678 dmb OSHLD
+ffffffc01040e67c mov w1,w0
+ffffffc01040e680 eor x1,x1,x1
+ffffffc01040e684 cbnz x1,0xffffffc01040e684
+ffffffc01040e688 ret
+
+FUNCTION ecnt_hsdma_get_intr @ ffffffc01040e690
+decompiled=true
+
+undefined4 ecnt_hsdma_get_intr(void)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0;
+  if (DAT_ffffffc010c87af0 != 0) {
+    uVar1 = *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x228);
+    DataMemoryBarrier(0,1);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+ffffffc01040e690 adrp x1,-0x3fef379000
+ffffffc01040e694 add x2,x1,#0xae8
+ffffffc01040e698 mov w0,#0x0
+ffffffc01040e69c ldr x2,[x2, #0x8]
+ffffffc01040e6a0 cbz x2,0xffffffc01040e6c4
+ffffffc01040e6a4 ldr x0,[x1, #0xae8]
+ffffffc01040e6a8 ldr x0,[x0, #0x130]
+ffffffc01040e6ac add x0,x0,#0x228
+ffffffc01040e6b0 ldr w0,[x0]
+ffffffc01040e6b4 dmb OSHLD
+ffffffc01040e6b8 mov w1,w0
+ffffffc01040e6bc eor x1,x1,x1
+ffffffc01040e6c0 cbnz x1,0xffffffc01040e6c0
+ffffffc01040e6c4 ret
+
+FUNCTION ecnt_hsdma_get_cfg @ ffffffc01040e6d0
+decompiled=true
+
+undefined4 ecnt_hsdma_get_cfg(void)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0;
+  if (DAT_ffffffc010c87af0 != 0) {
+    uVar1 = *(undefined4 *)(*(long *)(DAT_ffffffc010c87ae8 + 0x130) + 0x204);
+    DataMemoryBarrier(0,1);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+ffffffc01040e6d0 adrp x1,-0x3fef379000
+ffffffc01040e6d4 add x2,x1,#0xae8
+ffffffc01040e6d8 mov w0,#0x0
+ffffffc01040e6dc ldr x2,[x2, #0x8]
+ffffffc01040e6e0 cbz x2,0xffffffc01040e704
+ffffffc01040e6e4 ldr x0,[x1, #0xae8]
+ffffffc01040e6e8 ldr x0,[x0, #0x130]
+ffffffc01040e6ec add x0,x0,#0x204
+ffffffc01040e6f0 ldr w0,[x0]
+ffffffc01040e6f4 dmb OSHLD
+ffffffc01040e6f8 mov w1,w0
+ffffffc01040e6fc eor x1,x1,x1
+ffffffc01040e700 cbnz x1,0xffffffc01040e700
+ffffffc01040e704 ret
+
+FUNCTION ecnt_hsdma_free_all_desc @ ffffffc01040e710
+decompiled=true
+
+void ecnt_hsdma_free_all_desc(long param_1)
+
+{
+  int *piVar1;
+  long lVar2;
+  int iVar3;
+  long ***ppplVar4;
+  long ****pppplVar5;
+  long ****pppplVar6;
+  char cVar7;
+  bool bVar8;
+  code *pcVar9;
+  undefined8 uVar10;
+  long ***local_10;
+  long ***local_8;
+  
+  if (param_1 == 0) {
+    return;
+  }
+  piVar1 = (int *)(param_1 + 0x88);
+  Hint_Prefetch(piVar1,2,0,1);
+  do {
+    iVar3 = *piVar1;
+    if (iVar3 != 0) break;
+    cVar7 = '\x01';
+    bVar8 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+    if (bVar8) {
+      *piVar1 = 1;
+      cVar7 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar7 != '\0');
+  if (iVar3 != 0) {
+    queued_spin_lock_slowpath(piVar1);
+  }
+  if (param_1 + 0x108 == *(long *)(param_1 + 0x108)) {
+    *(undefined4 *)(param_1 + 0x88) = 0;
+  }
+  else {
+    *(undefined1 *)(param_1 + 0x100) = 1;
+    *(undefined4 *)(param_1 + 0x88) = 0;
+    wait_for_completion(param_1 + 0xe0);
+  }
+  if ((param_1 + 0x108 != *(long *)(param_1 + 0x108)) && (DAT_ffffffc010c55f83 == '\0')) {
+    DAT_ffffffc010c55f83 = 1;
+    __warn_printk(s_Desc_pending_still_in_list_desc__ffffffc01092daa8);
+                    /* WARNING: Does not return */
+    pcVar9 = (code *)SoftwareBreakpoint(0x800,0xffffffc01040e930);
+    (*pcVar9)();
+  }
+  local_10 = (long ***)&local_10;
+  local_8 = (long ***)&local_10;
+  uVar10 = __raw_spin_lock_irqsave(piVar1);
+  lVar2 = param_1 + 0x90;
+  if (lVar2 != *(long *)(param_1 + 0x90)) {
+    ppplVar4 = *(long ****)(param_1 + 0x90);
+    pppplVar5 = *(long *****)(param_1 + 0x98);
+    ppplVar4[1] = (long **)local_8;
+    *local_8 = (long **)ppplVar4;
+    *pppplVar5 = (long ***)&local_10;
+    *(long *)(param_1 + 0x90) = lVar2;
+    *(long *)(param_1 + 0x98) = lVar2;
+    local_8 = (long ***)pppplVar5;
+  }
+  lVar2 = param_1 + 0xa0;
+  if (lVar2 != *(long *)(param_1 + 0xa0)) {
+    ppplVar4 = *(long ****)(param_1 + 0xa0);
+    pppplVar5 = *(long *****)(param_1 + 0xa8);
+    ppplVar4[1] = (long **)local_8;
+    *local_8 = (long **)ppplVar4;
+    *pppplVar5 = (long ***)&local_10;
+    *(long *)(param_1 + 0xa0) = lVar2;
+    *(long *)(param_1 + 0xa8) = lVar2;
+    local_8 = (long ***)pppplVar5;
+  }
+  lVar2 = param_1 + 0xb0;
+  if (lVar2 != *(long *)(param_1 + 0xb0)) {
+    ppplVar4 = *(long ****)(param_1 + 0xb0);
+    pppplVar5 = *(long *****)(param_1 + 0xb8);
+    ppplVar4[1] = (long **)local_8;
+    *local_8 = (long **)ppplVar4;
+    *pppplVar5 = (long ***)&local_10;
+    *(long *)(param_1 + 0xb0) = lVar2;
+    *(long *)(param_1 + 0xb8) = lVar2;
+    local_8 = (long ***)pppplVar5;
+  }
+  lVar2 = param_1 + 0xc0;
+  pppplVar5 = (long ****)local_10;
+  if (lVar2 != *(long *)(param_1 + 0xc0)) {
+    ppplVar4 = *(long ****)(param_1 + 0xc0);
+    pppplVar6 = *(long *****)(param_1 + 200);
+    ppplVar4[1] = (long **)local_8;
+    *local_8 = (long **)ppplVar4;
+    *pppplVar6 = (long ***)&local_10;
+    *(long *)(param_1 + 0xc0) = lVar2;
+    *(long *)(param_1 + 200) = lVar2;
+    pppplVar5 = (long ****)local_10;
+    local_8 = (long ***)pppplVar6;
+  }
+  while (&local_10 != pppplVar5) {
+    *(uint *)((long)pppplVar5 + -0x4c) = *(uint *)((long)pppplVar5 + -0x4c) & 0xffffffbf;
+    pppplVar5 = (long ****)*pppplVar5;
+  }
+  *(undefined4 *)(param_1 + 0x88) = 0;
+  daif = uVar10;
+  vchan_dma_desc_free_list(param_1,&local_10);
+  if ((lVar2 != *(long *)(param_1 + 0xc0)) && (DAT_ffffffc010c55f84 == '\0')) {
+    DAT_ffffffc010c55f84 = 1;
+    __warn_printk(s_Desc_pending_still_in_list_desc__ffffffc01092dad8);
+                    /* WARNING: Does not return */
+    pcVar9 = (code *)SoftwareBreakpoint(0x800,0xffffffc01040e908);
+    (*pcVar9)();
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040e710 cbz x0,0xffffffc01040e8c0
+ffffffc01040e714 stp x29,x30,[sp, #-0x40]!
+ffffffc01040e718 mov x29,sp
+ffffffc01040e71c stp x19,x20,[sp, #0x10]
+ffffffc01040e720 mov x19,x0
+ffffffc01040e724 str x21,[sp, #0x20]
+ffffffc01040e728 mov x0,#0x0
+ffffffc01040e72c add x21,x19,#0x88
+ffffffc01040e730 mov w2,#0x1
+ffffffc01040e734 prfm PSTL1STRM,[x21]
+ffffffc01040e738 ldaxr w1,[x21]
+ffffffc01040e73c eor w3,w1,w0
+ffffffc01040e740 cbnz w3,0xffffffc01040e74c
+ffffffc01040e744 stxr w3,w2,[x21]
+ffffffc01040e748 cbnz w3,0xffffffc01040e738
+ffffffc01040e74c cbnz w1,0xffffffc01040e8d4
+ffffffc01040e750 ldr x0,[x19, #0x108]
+ffffffc01040e754 add x20,x19,#0x108
+ffffffc01040e758 cmp x20,x0
+ffffffc01040e75c b.eq 0xffffffc01040e8c4
+ffffffc01040e760 mov w1,#0x1
+ffffffc01040e764 mov w0,#0x0
+ffffffc01040e768 strb w1,[x19, #0x100]
+ffffffc01040e76c add x1,x19,#0x88
+ffffffc01040e770 stlrb w0,[x1]
+ffffffc01040e774 add x0,x19,#0xe0
+ffffffc01040e778 bl 0xffffffc010788200
+ffffffc01040e77c ldr x0,[x19, #0x108]
+ffffffc01040e780 cmp x20,x0
+ffffffc01040e784 b.ne 0xffffffc01040e90c
+ffffffc01040e788 add x20,sp,#0x30
+ffffffc01040e78c mov x0,x21
+ffffffc01040e790 stp x20,x20,[sp, #0x30]
+ffffffc01040e794 bl 0xffffffc01040c824
+ffffffc01040e798 add x1,x19,#0x90
+ffffffc01040e79c ldr x2,[x19, #0x90]
+ffffffc01040e7a0 cmp x1,x2
+ffffffc01040e7a4 b.eq 0xffffffc01040e7c8
+ffffffc01040e7a8 ldp x4,x2,[x19, #0x90]
+ffffffc01040e7ac ldr x3,[sp, #0x38]
+ffffffc01040e7b0 str x3,[x4, #0x8]
+ffffffc01040e7b4 str x4,[x3]
+ffffffc01040e7b8 str x20,[x2]
+ffffffc01040e7bc str x2,[sp, #0x38]
+ffffffc01040e7c0 str x1,[x19, #0x90]
+ffffffc01040e7c4 str x1,[x19, #0x98]
+ffffffc01040e7c8 ldr x2,[x19, #0xa0]
+ffffffc01040e7cc add x1,x19,#0xa0
+ffffffc01040e7d0 cmp x1,x2
+ffffffc01040e7d4 b.eq 0xffffffc01040e7f8
+ffffffc01040e7d8 ldp x4,x2,[x19, #0xa0]
+ffffffc01040e7dc ldr x3,[sp, #0x38]
+ffffffc01040e7e0 str x3,[x4, #0x8]
+ffffffc01040e7e4 str x4,[x3]
+ffffffc01040e7e8 str x20,[x2]
+ffffffc01040e7ec str x2,[sp, #0x38]
+ffffffc01040e7f0 str x1,[x19, #0xa0]
+ffffffc01040e7f4 str x1,[x19, #0xa8]
+ffffffc01040e7f8 ldr x2,[x19, #0xb0]
+ffffffc01040e7fc add x1,x19,#0xb0
+ffffffc01040e800 cmp x1,x2
+ffffffc01040e804 b.eq 0xffffffc01040e828
+ffffffc01040e808 ldp x4,x2,[x19, #0xb0]
+ffffffc01040e80c ldr x3,[sp, #0x38]
+ffffffc01040e810 str x3,[x4, #0x8]
+ffffffc01040e814 str x4,[x3]
+ffffffc01040e818 str x20,[x2]
+ffffffc01040e81c str x2,[sp, #0x38]
+ffffffc01040e820 str x1,[x19, #0xb0]
+ffffffc01040e824 str x1,[x19, #0xb8]
+ffffffc01040e828 ldr x1,[x19, #0xc0]
+ffffffc01040e82c add x21,x19,#0xc0
+ffffffc01040e830 cmp x21,x1
+ffffffc01040e834 b.eq 0xffffffc01040e858
+ffffffc01040e838 ldp x3,x1,[x19, #0xc0]
+ffffffc01040e83c ldr x2,[sp, #0x38]
+ffffffc01040e840 str x2,[x3, #0x8]
+ffffffc01040e844 str x3,[x2]
+ffffffc01040e848 str x20,[x1]
+ffffffc01040e84c str x1,[sp, #0x38]
+ffffffc01040e850 str x21,[x19, #0xc0]
+ffffffc01040e854 str x21,[x19, #0xc8]
+ffffffc01040e858 ldr x1,[sp, #0x30]
+ffffffc01040e85c sub x2,x1,#0x50
+ffffffc01040e860 cmp x20,x1
+ffffffc01040e864 b.eq 0xffffffc01040e884
+ffffffc01040e868 ldr w3,[x2, #0x4]
+ffffffc01040e86c ldr x4,[x2, #0x50]
+ffffffc01040e870 and w3,w3,#0xffffffbf
+ffffffc01040e874 str w3,[x2, #0x4]
+ffffffc01040e878 sub x2,x4,#0x50
+ffffffc01040e87c cmp x20,x4
+ffffffc01040e880 b.ne 0xffffffc01040e868
+ffffffc01040e884 add x2,x19,#0x88
+ffffffc01040e888 mov w1,#0x0
+ffffffc01040e88c stlrb w1,[x2]
+ffffffc01040e890 msr daif,x0
+ffffffc01040e894 nop
+ffffffc01040e898 mov x0,x19
+ffffffc01040e89c mov x1,x20
+ffffffc01040e8a0 bl 0xffffffc01040b9e0
+ffffffc01040e8a4 ldr x0,[x19, #0xc0]
+ffffffc01040e8a8 cmp x21,x0
+ffffffc01040e8ac b.ne 0xffffffc01040e8e0
+ffffffc01040e8b0 ldp x19,x20,[sp, #0x10]
+ffffffc01040e8b4 ldr x21,[sp, #0x20]
+ffffffc01040e8b8 ldp x29,x30,[sp], #0x40
+ffffffc01040e8bc ret
+ffffffc01040e8c0 ret
+ffffffc01040e8c4 add x1,x19,#0x88
+ffffffc01040e8c8 mov w0,#0x0
+ffffffc01040e8cc stlrb w0,[x1]
+ffffffc01040e8d0 b 0xffffffc01040e77c
+ffffffc01040e8d4 mov x0,x21
+ffffffc01040e8d8 bl 0xffffffc01012aed0
+ffffffc01040e8dc b 0xffffffc01040e750
+ffffffc01040e8e0 adrp x1,-0x3fef3ab000
+ffffffc01040e8e4 add x1,x1,#0xf83
+ffffffc01040e8e8 ldrb w0,[x1, #0x1]
+ffffffc01040e8ec cbnz w0,0xffffffc01040e8b0
+ffffffc01040e8f0 mov w2,#0x1
+ffffffc01040e8f4 adrp x0,-0x3fef6d3000
+ffffffc01040e8f8 add x0,x0,#0xad8
+ffffffc01040e8fc strb w2,[x1, #0x1]
+ffffffc01040e900 bl 0xffffffc0100dde60
+ffffffc01040e904 brk #0x800
+ffffffc01040e90c adrp x1,-0x3fef3ab000
+ffffffc01040e910 ldrb w0,[x1, #0xf83]
+ffffffc01040e914 cbnz w0,0xffffffc01040e788
+ffffffc01040e918 mov w2,#0x1
+ffffffc01040e91c adrp x0,-0x3fef6d3000
+ffffffc01040e920 strb w2,[x1, #0xf83]
+ffffffc01040e924 add x0,x0,#0xaa8
+ffffffc01040e928 bl 0xffffffc0100dde60
+ffffffc01040e92c brk #0x800
+
+FUNCTION ecnt_hsdma_terminate_all @ ffffffc01040e934
+decompiled=true
+
+undefined8 ecnt_hsdma_terminate_all(void)
+
+{
+  ecnt_hsdma_free_all_desc();
+  return 0;
+}
+
+
+ASSEMBLY
+ffffffc01040e934 stp x29,x30,[sp, #-0x10]!
+ffffffc01040e938 mov x29,sp
+ffffffc01040e93c bl 0xffffffc01040e710
+ffffffc01040e940 mov w0,#0x0
+ffffffc01040e944 ldp x29,x30,[sp], #0x10
+ffffffc01040e948 ret
+
+FUNCTION ecnt_hsdma_free_chan_resources @ ffffffc01040e950
+decompiled=true
+
+void ecnt_hsdma_free_chan_resources(long *param_1)
+
+{
+  int *piVar1;
+  char cVar2;
+  bool bVar3;
+  long lVar4;
+  
+  if (param_1 != (long *)0x0) {
+    lVar4 = *param_1;
+    ecnt_hsdma_free_all_desc();
+    piVar1 = (int *)(lVar4 + 0x150);
+    Hint_Prefetch(piVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+      if (bVar3) {
+        *piVar1 = *piVar1 + -1;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+ffffffc01040e950 cbz x0,0xffffffc01040e990
+ffffffc01040e954 stp x29,x30,[sp, #-0x20]!
+ffffffc01040e958 mov x29,sp
+ffffffc01040e95c str x19,[sp, #0x10]
+ffffffc01040e960 ldr x19,[x0]
+ffffffc01040e964 bl 0xffffffc01040e710
+ffffffc01040e968 mov w0,#0x1
+ffffffc01040e96c add x3,x19,#0x150
+ffffffc01040e970 prfm PSTL1STRM,[x3]
+ffffffc01040e974 ldxr w1,[x3]
+ffffffc01040e978 sub w1,w1,w0
+ffffffc01040e97c stxr w2,w1,[x3]
+ffffffc01040e980 cbnz w2,0xffffffc01040e974
+ffffffc01040e984 ldr x19,[sp, #0x10]
+ffffffc01040e988 ldp x29,x30,[sp], #0x20
+ffffffc01040e98c ret
+ffffffc01040e990 ret
+
+FUNCTION ecnt_hsdma_tx_status @ ffffffc01040e994
+decompiled=true
+
+undefined8 ecnt_hsdma_tx_status(long param_1,int param_2,int *param_3)
+
+{
+  int iVar1;
+  undefined8 uVar2;
+  int iVar3;
+  long *plVar4;
+  int *piVar5;
+  
+  if (param_1 == 0) {
+    return 0;
+  }
+  iVar3 = *(int *)(param_1 + 8);
+  iVar1 = *(int *)(param_1 + 0xc);
+  if (param_3 != (int *)0x0) {
+    *param_3 = iVar1;
+    param_3[1] = iVar3;
+    param_3[2] = 0;
+  }
+  if (iVar3 < iVar1) {
+    if (param_2 <= iVar1 && iVar3 < param_2) {
+      return 0;
+    }
+  }
+  else if (param_2 <= iVar1 || iVar3 < param_2) {
+    return 0;
+  }
+  if (param_3 == (int *)0x0) {
+    return 1;
+  }
+  uVar2 = __raw_spin_lock_irqsave(param_1 + 0x88);
+  for (plVar4 = *(long **)(param_1 + 0x108); (long *)(param_1 + 0x108) != plVar4;
+      plVar4 = (long *)*plVar4) {
+    piVar5 = (int *)(plVar4 + -10);
+    if (param_2 == *piVar5) goto LAB_ffffffc01040ea2c;
+  }
+  for (plVar4 = *(long **)(param_1 + 0xb0); (long *)(param_1 + 0xb0) != plVar4;
+      plVar4 = (long *)*plVar4) {
+    piVar5 = (int *)(plVar4 + -10);
+    if (param_2 == *piVar5) goto LAB_ffffffc01040ea2c;
+  }
+  piVar5 = (int *)0x0;
+LAB_ffffffc01040ea2c:
+  *(undefined4 *)(param_1 + 0x88) = 0;
+  daif = uVar2;
+  iVar3 = 0;
+  if (piVar5 != (int *)0x0) {
+    iVar3 = piVar5[0x1a];
+  }
+  param_3[2] = iVar3;
+  return 1;
+}
+
+
+ASSEMBLY
+ffffffc01040e994 cbz x0,0xffffffc01040ea84
+ffffffc01040e998 stp x29,x30,[sp, #-0x30]!
+ffffffc01040e99c mov x29,sp
+ffffffc01040e9a0 stp x19,x20,[sp, #0x10]
+ffffffc01040e9a4 mov x20,x0
+ffffffc01040e9a8 mov w19,w1
+ffffffc01040e9ac str x21,[sp, #0x20]
+ffffffc01040e9b0 mov x21,x2
+ffffffc01040e9b4 ldp w1,w0,[x0, #0x8]
+ffffffc01040e9b8 cbz x2,0xffffffc01040e9c4
+ffffffc01040e9bc stp w0,w1,[x2]
+ffffffc01040e9c0 str wzr,[x2, #0x8]
+ffffffc01040e9c4 cmp w19,w0
+ffffffc01040e9c8 cset w3,le
+ffffffc01040e9cc cmp w19,w1
+ffffffc01040e9d0 cset w2,gt
+ffffffc01040e9d4 cmp w1,w0
+ffffffc01040e9d8 b.lt 0xffffffc01040ea64
+ffffffc01040e9dc cmp w3,#0x0
+ffffffc01040e9e0 ccmp w2,#0x0,#0x0,eq
+ffffffc01040e9e4 b.ne 0xffffffc01040ea70
+ffffffc01040e9e8 mov w0,#0x1
+ffffffc01040e9ec cbz x21,0xffffffc01040ea74
+ffffffc01040e9f0 add x0,x20,#0x88
+ffffffc01040e9f4 bl 0xffffffc01040c824
+ffffffc01040e9f8 ldr x1,[x20, #0x108]
+ffffffc01040e9fc add x2,x20,#0x108
+ffffffc01040ea00 sub x3,x1,#0x50
+ffffffc01040ea04 cmp x2,x1
+ffffffc01040ea08 b.ne 0xffffffc01040ea20
+ffffffc01040ea0c b 0xffffffc01040ea8c
+ffffffc01040ea10 ldr x1,[x3, #0x50]
+ffffffc01040ea14 sub x3,x1,#0x50
+ffffffc01040ea18 cmp x2,x1
+ffffffc01040ea1c b.eq 0xffffffc01040ea8c
+ffffffc01040ea20 ldr w1,[x3]
+ffffffc01040ea24 cmp w19,w1
+ffffffc01040ea28 b.ne 0xffffffc01040ea10
+ffffffc01040ea2c add x2,x20,#0x88
+ffffffc01040ea30 mov w1,#0x0
+ffffffc01040ea34 stlrb w1,[x2]
+ffffffc01040ea38 msr daif,x0
+ffffffc01040ea3c nop
+ffffffc01040ea40 mov w1,#0x0
+ffffffc01040ea44 cbz x3,0xffffffc01040ea4c
+ffffffc01040ea48 ldr w1,[x3, #0x68]
+ffffffc01040ea4c str w1,[x21, #0x8]
+ffffffc01040ea50 mov w0,#0x1
+ffffffc01040ea54 ldp x19,x20,[sp, #0x10]
+ffffffc01040ea58 ldr x21,[sp, #0x20]
+ffffffc01040ea5c ldp x29,x30,[sp], #0x30
+ffffffc01040ea60 ret
+ffffffc01040ea64 cmp w3,#0x0
+ffffffc01040ea68 ccmp w2,#0x0,#0x4,ne
+ffffffc01040ea6c b.eq 0xffffffc01040e9e8
+ffffffc01040ea70 mov w0,#0x0
+ffffffc01040ea74 ldp x19,x20,[sp, #0x10]
+ffffffc01040ea78 ldr x21,[sp, #0x20]
+ffffffc01040ea7c ldp x29,x30,[sp], #0x30
+ffffffc01040ea80 ret
+ffffffc01040ea84 mov w0,#0x0
+ffffffc01040ea88 ret
+ffffffc01040ea8c mov x2,x20
+ffffffc01040ea90 ldr x1,[x2, #0xb0]!
+ffffffc01040ea94 sub x3,x1,#0x50
+ffffffc01040ea98 cmp x2,x1
+ffffffc01040ea9c b.ne 0xffffffc01040eab4
+ffffffc01040eaa0 b 0xffffffc01040eac4
+ffffffc01040eaa4 ldr x1,[x3, #0x50]
+ffffffc01040eaa8 sub x3,x1,#0x50
+ffffffc01040eaac cmp x2,x1
+ffffffc01040eab0 b.eq 0xffffffc01040eac4
+ffffffc01040eab4 ldr w1,[x3]
+ffffffc01040eab8 cmp w19,w1
+ffffffc01040eabc b.ne 0xffffffc01040eaa4
+ffffffc01040eac0 b 0xffffffc01040ea2c
+ffffffc01040eac4 mov x3,#0x0
+ffffffc01040eac8 b 0xffffffc01040ea2c
+
+FUNCTION ecnt_gdma_driver_init @ ffffffc010a0697c
+decompiled=true
+
+void ecnt_gdma_driver_init(void)
+
+{
+  __platform_driver_register(&PTR_ecnt_gdma_drv_probe_ffffffc010c16d50,0);
+  return;
+}
+
+
+ASSEMBLY
+ffffffc010a0697c stp x29,x30,[sp, #-0x10]!
+ffffffc010a06980 mov x1,#0x0
+ffffffc010a06984 adrp x0,-0x3fef3ea000
+ffffffc010a06988 mov x29,sp
+ffffffc010a0698c add x0,x0,#0xd50
+ffffffc010a06990 bl 0xffffffc010448e20
+ffffffc010a06994 ldp x29,x30,[sp], #0x10
+ffffffc010a06998 ret
+
+total_executable_functions=33676
+exported_functions=63
+failed_decompilations=0

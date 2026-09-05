@@ -1,0 +1,393 @@
+{
+  "status": "PASS",
+  "code_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "reset_cases": [
+    {
+      "hart": 0,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": true,
+      "stack": "0x84021e00"
+    },
+    {
+      "hart": 0,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84021e00"
+    },
+    {
+      "hart": 1,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x84025e00"
+    },
+    {
+      "hart": 1,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84025e00"
+    },
+    {
+      "hart": 2,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x84029e00"
+    },
+    {
+      "hart": 2,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84029e00"
+    },
+    {
+      "hart": 3,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x8402de00"
+    },
+    {
+      "hart": 3,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x8402de00"
+    },
+    {
+      "hart": 4,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x84031e00"
+    },
+    {
+      "hart": 4,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84031e00"
+    },
+    {
+      "hart": 5,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x84035e00"
+    },
+    {
+      "hart": 5,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84035e00"
+    },
+    {
+      "hart": 6,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x84039e00"
+    },
+    {
+      "hart": 6,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x84039e00"
+    },
+    {
+      "hart": 7,
+      "mailbox_word_all_ones": false,
+      "bss_cleared": false,
+      "stack": "0x8403de00"
+    },
+    {
+      "hart": 7,
+      "mailbox_word_all_ones": true,
+      "bss_cleared": false,
+      "stack": "0x8403de00"
+    }
+  ],
+  "lookup": {
+    "tables": {
+      "dynamic_low": [
+        {
+          "type": 1,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 303168
+        },
+        {
+          "type": 2,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 6168
+        },
+        {
+          "type": 3,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 6168
+        },
+        {
+          "type": 9,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1000
+        },
+        {
+          "type": 10,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1000
+        },
+        {
+          "type": 11,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 120
+        },
+        {
+          "type": 14,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1536
+        },
+        {
+          "type": 15,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1536
+        },
+        {
+          "type": 22,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 4104
+        },
+        {
+          "type": 25,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 32784
+        },
+        {
+          "type": 26,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 16384
+        },
+        {
+          "type": 30,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 256
+        },
+        {
+          "type": 18,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 57344
+        },
+        {
+          "type": 16,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 8224
+        },
+        {
+          "type": 17,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 8224
+        },
+        {
+          "type": 28,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 57344
+        },
+        {
+          "type": 29,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 4096
+        },
+        {
+          "type": 23,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 2048
+        }
+      ],
+      "dynamic_high": [
+        {
+          "type": 138,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 32768
+        },
+        {
+          "type": 129,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 58879
+        },
+        {
+          "type": 132,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 69632
+        },
+        {
+          "type": 133,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 69632
+        },
+        {
+          "type": 130,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 4
+        },
+        {
+          "type": 137,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 4
+        }
+      ],
+      "fixed_low": [
+        {
+          "type": 256,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049239552
+        },
+        {
+          "type": 257,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049247776
+        },
+        {
+          "type": 258,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049256000
+        },
+        {
+          "type": 259,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049262168
+        },
+        {
+          "type": 260,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049268336
+        },
+        {
+          "type": 261,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049269872
+        },
+        {
+          "type": 262,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049271408
+        },
+        {
+          "type": 263,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049287792
+        },
+        {
+          "type": 264,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049289840
+        },
+        {
+          "type": 265,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049347184
+        }
+      ],
+      "fixed_high": [
+        {
+          "type": 385,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049100288
+        },
+        {
+          "type": 386,
+          "alignment_tag": 0,
+          "reserved": 0,
+          "value": 1049169920
+        }
+      ]
+    },
+    "table_entries_checked": 36,
+    "native_allocator_init": true,
+    "old_virtual_state_unmapped": true,
+    "extent_note": "Fixed entries contain start addresses, not allocation lengths; no dynamic caller closure asserted."
+  },
+  "board": {
+    "fit_sha256": "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+    "dtb_sha256": "565136de9144d0e366404d299933ebd8e58cedbfdb97c7b803749e0248eec596",
+    "reserved_memory": {
+      "atf@80000000": {
+        "start": 2147483648,
+        "size": 2097152
+      },
+      "npu-binary@84000000": {
+        "start": 2214592512,
+        "size": 10485760
+      },
+      "qdma0-buf@87000000": {
+        "start": 2264924160,
+        "size": 33554432
+      },
+      "qdma1-buf@89000000": {
+        "start": 2298478592,
+        "size": 16777216
+      },
+      "npu-pkt@8a000000": {
+        "start": 2315255808,
+        "size": 46137344
+      },
+      "npu-txpkt@8cc00000": {
+        "start": 2361393152,
+        "size": 67108864
+      },
+      "npu-txbufid@90c00000": {
+        "start": 2428502016,
+        "size": 26624
+      },
+      "npu-ba@90c06800": {
+        "start": 2428528640,
+        "size": 2097152
+      }
+    },
+    "npu_memory_region_order": [
+      "npu-binary@84000000",
+      "npu-pkt@8a000000",
+      "npu-txpkt@8cc00000",
+      "npu-txbufid@90c00000",
+      "npu-ba@90c06800"
+    ],
+    "native_bss": [
+      "0x3e900c10",
+      "0x3e904754"
+    ],
+    "candidate_state": [
+      "0x3e906000",
+      "0x3e906158"
+    ],
+    "local_sram_test_bound": 32768,
+    "reference_url": "https://github.com/merbanan/airoha_ml/blob/92f7959aa1750e428d10efbeb21360e0955c1895/en7581-base.dtsi",
+    "reference_sha256": "f471d76ee6db6289c2f24d4afe7d397f45bd1d0d9906b83d42689a09c5835f22",
+    "boundary": "DTB reg includes SRAM and registers; the 32KiB RAM bound comes from a separate reference DTS, not this board DTB or hardware."
+  },
+  "scope": "Original instructions and retained R1 FIT; no full boot, live MMIO, cache, DMA or production reservation proof."
+}

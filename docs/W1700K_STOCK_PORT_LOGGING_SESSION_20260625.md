@@ -6194,3 +6194,22 @@ host recovery, full parity and client Wi-Fi acceptance remain open.
 No packaged source/config, router, image, flash or association change. Evidence:
 `research/checkpoints/2026-09-05-npu-admission/REPORT.md` and
 `firmware/npu/ADMISSION_ABI.md`. Ledger/reference/remaining-work updated.
+
+## Bounded Layout And Native GDMA Contract - 2026-09-06
+
+The candidate now uses a conservative 32 KiB local SRAM map, linker-bound state
+at `0x3e906000`, and synthetic rings in separate 480 KiB SRAM. Sixteen native reset
+cases, 36 fixed/dynamic table entries, retained R1 FIT/DTB identity and reservations,
+ten regression suites and four linker negative controls pass. This does not prove
+production placement, full boot, atomic/cache support or physical containment.
+
+Stock kernel exports recover 63 GDMA/HSDMA functions, 67 with known referrers.
+Native ARM64 WAIT observes CT0.ENABLE clear; RV32 copy observes only DONE.
+Conditional stale-DONE tests require a hardware start-clear fact still unverified;
+they are not a live Wi-Fi failure diagnosis. No physical drain witness is emitted.
+
+Packaged source/config and protocol sources remain unchanged; no image, router,
+flash or association action. Linux recovery/removal, full NPU parity and actual
+client acceptance remain open. Evidence and replay:
+`research/checkpoints/2026-09-06-npu-layout/REPORT.md`. Ledger/reference/remaining
+work updated; R1 is still last router-tested, not freshly revalidated here.

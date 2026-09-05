@@ -1,5 +1,12 @@
 /* Emulator reservations only, not validated firmware memory. */
 ENTRY(npu_barrier_init)
+PROVIDE(npu_emulation_barrier_state = 0x3e906000);
+PROVIDE(npu_emulation_admission_state = npu_emulation_barrier_state + 0x100);
+PROVIDE(npu_emulation_masked_state = npu_emulation_barrier_state + 0x140);
+ASSERT((npu_emulation_barrier_state & 63) == 0 &&
+       npu_emulation_barrier_state >= 0x3e904754 &&
+       npu_emulation_barrier_state + 0x158 <= 0x3e908000,
+       "candidate state outside conservative local SRAM or overlaps native BSS")
 original_cb3e = 0x8400cb3e;
 original_cb42 = 0x8400cb42;
 original_cbc2 = 0x8400cbc2;

@@ -45,7 +45,7 @@
     csrrci t0, mstatus, 8
     sw t0, 64(sp)
 1:
-    li a0, 0x3e920000
+    la a0, npu_emulation_barrier_state
     li a1, \hart
     addi a2, sp, 68
     call npu_barrier_poll
@@ -90,7 +90,7 @@
 #endif
 #endif
     .endif
-    li a0, 0x3e920000
+    la a0, npu_emulation_barrier_state
     li a1, \hart
     lw a2, 68(sp)
     call npu_barrier_refreshed

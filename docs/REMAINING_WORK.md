@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-05 from the coordinator-admission candidate, current reference and release
+Updated 2026-09-06 from the bounded-layout/GDMA checkpoint, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926). The last
@@ -28,6 +28,13 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   Complete boot/helper/IRQ closure, real drains, production placement/cache
   proof and host integration remain unimplemented/unproved. Individual legacy
   payload/indirect-call contracts and strict versus legacy transport also remain.
+  The candidate now fits a conservative 32 KiB local SRAM test map with separate
+  heap fixtures; reset/BSS/stacks, fixed tables and exact retained FIT reservations
+  verify, but this is not a production reservation or complete boot/cache proof.
+  Native stock GDMA WAIT polls CT0.ENABLE clear while the RV32 helper polls only
+  DONE. Close owner/channel/alias/cache and actual start-clear semantics before
+  using this as a physical drain witness; conditional stale-DONE tests are not
+  a proved live-device fault.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -91,7 +98,8 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-05-npu-admission/REPORT.md`,
+Detailed evidence: `research/checkpoints/2026-09-06-npu-layout/REPORT.md`,
+`research/checkpoints/2026-09-05-npu-admission/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-workers/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-barrier/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-reset/REPORT.md`,

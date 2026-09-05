@@ -10,13 +10,13 @@ from unicorn.riscv_const import UC_RISCV_REG_PC, UC_RISCV_REG_SP, UC_RISCV_REG_G
 from unicorn.riscv_const import UC_RISCV_REG_A0, UC_RISCV_REG_A1, UC_RISCV_REG_A2
 from unicorn.riscv_const import UC_RISCV_REG_A3, UC_RISCV_REG_A4, UC_RISCV_REG_A5
 import unicorn
+from emulation_layout import CODE, SRAM, RING, STATS, map_sram
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT = ROOT / '.local/npu-quiescence/firmware'
 OUT = ROOT / 'research/checkpoints/2026-09-05-npu-reset'
 CODE_SHA = 'e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643'
 DATA_SHA = '61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1'
-CODE, SRAM, RING, STATS = 0x84000000, 0x3e900000, 0x3e910000, 0x3e912000
 WORKER, LOOP, PRINTF, ENQUEUE = 0x8400cb0e, 0x8400cbbe, 0x840048f4, 0x8400ac30
 SET, GET, END = 0x8400e084, 0x8400d7ca, 0x84200000
 DISPATCH, HART_ID, CORE5_WRAPPER = 0x84000104, 0x84004212, 0x8400e7f8
@@ -35,7 +35,7 @@ class Harness:
         self.cpu = Uc(UC_ARCH_RISCV, UC_MODE_RISCV32)
         self.cpu.mem_map(CODE, 0x201000)
         self.cpu.mem_write(CODE, code)
-        self.cpu.mem_map(SRAM, 0x40000)
+        map_sram(self.cpu)
         self.cpu.mem_write(SRAM, data)
         self.cpu.reg_write(UC_RISCV_REG_GP, 0x3e9013a8)
         self.cpu.reg_write(UC_RISCV_REG_SP, 0x84035e00)

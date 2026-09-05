@@ -1,0 +1,590 @@
+{
+  "passed": true,
+  "kernel_sha256": "a51e6d0a6deee620a5f715c9469f193906cdf3fcea28b97ce01cf88383aa704e",
+  "kernel_cases": [
+    {
+      "channel": 0,
+      "config_and_accessors_verified": true,
+      "wait_polls_enable_not_done": true,
+      "done_clear_preserves_other_channel": true,
+      "enable_set_preserves_other_control_bits": true,
+      "wait_without_idle_does_not_return_within_2000_instructions": true
+    },
+    {
+      "channel": 1,
+      "config_and_accessors_verified": true,
+      "wait_polls_enable_not_done": true,
+      "done_clear_preserves_other_channel": true,
+      "enable_set_preserves_other_control_bits": true,
+      "wait_without_idle_does_not_return_within_2000_instructions": true
+    },
+    {
+      "channel": 3,
+      "config_and_accessors_verified": true,
+      "wait_polls_enable_not_done": true,
+      "done_clear_preserves_other_channel": true,
+      "enable_set_preserves_other_control_bits": true,
+      "wait_without_idle_does_not_return_within_2000_instructions": true
+    },
+    {
+      "channel": 7,
+      "config_and_accessors_verified": true,
+      "wait_polls_enable_not_done": true,
+      "done_clear_preserves_other_channel": true,
+      "enable_set_preserves_other_control_bits": true,
+      "wait_without_idle_does_not_return_within_2000_instructions": true
+    }
+  ],
+  "rv32_cases": [
+    {
+      "channel": 0,
+      "length": 0,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x0",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x4",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x8",
+          "value": "0x23",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x1",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 0,
+      "length": 76,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x0",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x4",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x8",
+          "value": "0x4c0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x1",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 0,
+      "length": 1792,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x0",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x4",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x8",
+          "value": "0x7000023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x1",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 0,
+      "length": 65535,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x0",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x4",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x8",
+          "value": "0xffff0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x1",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 1,
+      "length": 0,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x10",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x14",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x18",
+          "value": "0x23",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x2",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 1,
+      "length": 76,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x10",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x14",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x18",
+          "value": "0x4c0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x2",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 1,
+      "length": 1792,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x10",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x14",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x18",
+          "value": "0x7000023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x2",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 1,
+      "length": 65535,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x10",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x14",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x18",
+          "value": "0xffff0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x2",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 3,
+      "length": 0,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x30",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x34",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x38",
+          "value": "0x23",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x8",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 3,
+      "length": 76,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x30",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x34",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x38",
+          "value": "0x4c0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x8",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 3,
+      "length": 1792,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x30",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x34",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x38",
+          "value": "0x7000023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x8",
+          "pc": "0x840053de"
+        }
+      ]
+    },
+    {
+      "channel": 3,
+      "length": 65535,
+      "stale_initial_done": false,
+      "modeled_start_clears_done": false,
+      "modeled_new_done_after_reads": 7,
+      "returned": true,
+      "done_reads": 7,
+      "control_reads": 0,
+      "control_enable_at_return_or_bound": false,
+      "writes": [
+        {
+          "kind": "write",
+          "offset": "0x30",
+          "value": "0x82000000",
+          "pc": "0x840053b6"
+        },
+        {
+          "kind": "write",
+          "offset": "0x34",
+          "value": "0x82001000",
+          "pc": "0x840053c2"
+        },
+        {
+          "kind": "write",
+          "offset": "0x38",
+          "value": "0xffff0023",
+          "pc": "0x840053ca"
+        },
+        {
+          "kind": "write",
+          "offset": "0x204",
+          "value": "0x8",
+          "pc": "0x840053de"
+        }
+      ]
+    }
+  ],
+  "rv32_stalled": {
+    "channel": 1,
+    "length": 76,
+    "stale_initial_done": false,
+    "modeled_start_clears_done": false,
+    "modeled_new_done_after_reads": null,
+    "returned": false,
+    "done_reads": 662,
+    "control_reads": 0,
+    "control_enable_at_return_or_bound": true,
+    "writes": [
+      {
+        "kind": "write",
+        "offset": "0x10",
+        "value": "0x82000000",
+        "pc": "0x840053b6"
+      },
+      {
+        "kind": "write",
+        "offset": "0x14",
+        "value": "0x82001000",
+        "pc": "0x840053c2"
+      },
+      {
+        "kind": "write",
+        "offset": "0x18",
+        "value": "0x4c0023",
+        "pc": "0x840053ca"
+      }
+    ]
+  },
+  "conditional_stale_done": {
+    "channel": 1,
+    "length": 76,
+    "stale_initial_done": true,
+    "modeled_start_clears_done": false,
+    "modeled_new_done_after_reads": null,
+    "returned": true,
+    "done_reads": 1,
+    "control_reads": 0,
+    "control_enable_at_return_or_bound": true,
+    "writes": [
+      {
+        "kind": "write",
+        "offset": "0x10",
+        "value": "0x82000000",
+        "pc": "0x840053b6"
+      },
+      {
+        "kind": "write",
+        "offset": "0x14",
+        "value": "0x82001000",
+        "pc": "0x840053c2"
+      },
+      {
+        "kind": "write",
+        "offset": "0x18",
+        "value": "0x4c0023",
+        "pc": "0x840053ca"
+      },
+      {
+        "kind": "write",
+        "offset": "0x204",
+        "value": "0x2",
+        "pc": "0x840053de"
+      }
+    ]
+  },
+  "alternative_start_clears_done": {
+    "channel": 1,
+    "length": 76,
+    "stale_initial_done": true,
+    "modeled_start_clears_done": true,
+    "modeled_new_done_after_reads": 7,
+    "returned": true,
+    "done_reads": 7,
+    "control_reads": 0,
+    "control_enable_at_return_or_bound": false,
+    "writes": [
+      {
+        "kind": "write",
+        "offset": "0x10",
+        "value": "0x82000000",
+        "pc": "0x840053b6"
+      },
+      {
+        "kind": "write",
+        "offset": "0x14",
+        "value": "0x82001000",
+        "pc": "0x840053c2"
+      },
+      {
+        "kind": "write",
+        "offset": "0x18",
+        "value": "0x4c0023",
+        "pc": "0x840053ca"
+      },
+      {
+        "kind": "write",
+        "offset": "0x204",
+        "value": "0x2",
+        "pc": "0x840053de"
+      }
+    ]
+  },
+  "scope": "Native register accesses, not hardware DMA. Stock WAIT observes CT0.ENABLE clear; RV32 helper only observes DONE. Stale-DONE outcome is conditional on an unverified hardware start-clear rule. No physical drain witness recorded."
+}

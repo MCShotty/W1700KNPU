@@ -16,13 +16,14 @@ from unicorn.riscv_const import UC_RISCV_REG_A0, UC_RISCV_REG_A1, UC_RISCV_REG_A
 from unicorn.riscv_const import UC_RISCV_REG_A3, UC_RISCV_REG_SP, UC_RISCV_REG_RA
 from unicorn.riscv_const import UC_RISCV_REG_PC
 import unicorn
+from emulation_layout import STATE, SCRATCH, map_sram
 
 ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / '.local/npu-barrier'
 OUT = ROOT / 'research/checkpoints/2026-09-05-npu-barrier'
 SOURCE = ROOT / 'firmware/npu/barrier.c'
 LINKER = ROOT / 'tests/npu/barrier-emulation.ld'
-TEXT, STATE, SCRATCH, STACK, END = 0x84040000, 0x3e920000, 0x3e921000, 0x84100000, 0x84200000
+TEXT, STACK, END = 0x84040000, 0x84100000, 0x84200000
 WORDS = 26
 PARK, REFRESH, RUN, FAULT = range(4)
 ARGS = (UC_RISCV_REG_A0, UC_RISCV_REG_A1, UC_RISCV_REG_A2, UC_RISCV_REG_A3)
@@ -70,7 +71,7 @@ class Rv32:
         self.cpu = cpu or Uc(UC_ARCH_RISCV, UC_MODE_RISCV32)
         if cpu is None:
             self.cpu.mem_map(0x84000000, 0x201000)
-            self.cpu.mem_map(0x3e900000, 0x40000)
+            map_sram(self.cpu)
         self.elf = ELFFile(io.BytesIO(path.read_bytes()))
         self.symbols = {symbol.name: int(symbol['st_value'])
                         for symbol in self.elf.get_section_by_name('.symtab').iter_symbols()

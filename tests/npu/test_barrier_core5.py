@@ -14,6 +14,7 @@ from test_barrier_protocol import BUILD, SOURCE, LINKER, OUT, Rv32, digest, STAT
 from test_barrier_protocol import PARK, REFRESH, RUN, build
 from test_firmware_stop_counterexample import Harness, CODE, CODE_SHA, DATA_SHA
 from test_firmware_stop_counterexample import DISPATCH, LOOP, END, SET, RING, SRAM, ENQUEUE
+from emulation_layout import ICV
 
 SITES = {
     0x8400cb3e: ('gate_core5_startup', '1c43fddf'),
@@ -142,7 +143,7 @@ class Worker(Harness):
         self.put32(NEW_RING + 7 * 16 + 4, 0x2222)
         self.put32(NEW_RING + 7 * 16 + 8, 80 << 3)
         saved = self.cpu.context_save()
-        self.put32(SRAM + 0x2ac0, SRAM + 0x14000)
+        self.put32(SRAM + 0x2ac0, ICV)
         self.call(SET, 2)
         self.call(SET, 7)
         self.cpu.context_restore(saved)

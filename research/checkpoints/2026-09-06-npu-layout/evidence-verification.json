@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "suites": 10,
+  "packaged_source_and_protocol_unchanged_from": "b9cff2bc40a67feafd1c94c522f8cbd81888d16c",
+  "combined_elf_sha256": "e8ffe9efe17418210211b0105831ea2e0088422130c7ff42ece07fbf07ae610c",
+  "ghidra": {
+    "ghidra-kernel-dma": {
+      "functions": 63,
+      "sha256": "a30eb3ebb99f33badabd74011730d13027dcb4488851cc3f116127cc6d01800c"
+    },
+    "ghidra-kernel-dma-callers": {
+      "functions": 67,
+      "sha256": "4f004531847f2774a6f73bf85eea94d83698420b93fc1a12920c6d04334efaac"
+    }
+  },
+  "source_lock_sha256": "139e8b45d60c634b5578ac6a818196bccc63a1ba7a673a69afa3d9b50fa3a203",
+  "helpers": {
+    "ExportMailboxContract.java": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd",
+    "kernel-dma.pattern": "ccec1e40122b328c215842f1a56a0b234fe921cef432855cf8906a38613e1489"
+  },
+  "verifier_sha256": "de86d7e40625de1bb72057f3edd3fb5368211ebcc53613660d14084cbfb32105",
+  "scope": "Exact inputs, result inventory and machine-code facts; physical ownership/cache/drain and full boot remain unproved."
+}

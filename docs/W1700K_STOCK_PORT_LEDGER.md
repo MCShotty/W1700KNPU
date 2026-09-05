@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-05 (coordinator admission candidate; unpromoted)
+Last updated: 2026-09-06 (bounded layout and native GDMA contract; unpromoted)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17571,3 +17571,31 @@ Status and boundary:
 - Report: `research/checkpoints/2026-09-05-npu-admission/REPORT.md`; candidate
   contract: `firmware/npu/ADMISSION_ABI.md`. Reference/logging/remaining-work
   updated; private inputs, binaries, Ghidra projects and backups remain protected.
+
+## Bounded Memory Layout And Native GDMA Contract - 2026-09-06
+
+- Replaced the emulator-only `0x3e920000` state with linker-bound `0x3e906000`,
+  limited local SRAM to a conservative 32 KiB, and moved synthetic rings/stats/ICV
+  into separate 480 KiB SRAM. Four linker negative controls and actual-symbol
+  checks pass; a discovered LLD late-override assertion bypass is closed in the
+  controlled builder. These remain test allocations, not production reservations.
+- Sixteen native reset cases verify `[0x3e900c10,0x3e904754)` BSS clearing,
+  conditional clear behavior and all eight stack tops, with CSR hart ID modeled.
+  Native init and 36 table/allocator entries pass. Exact retained R1 FIT and
+  selected W1700K DTB verify the NPU reservations. The 32 KiB bound comes from a
+  pinned separate EN7581 reference, not hardware probing or the board reg length.
+- Read-only exports from the fully analyzed stock kernel recover 63 DMA-named
+  functions, 67 with one-level referrers, without decompile failures. Four native
+  ARM64 channel cases confirm GDMA WAIT polls CT0.ENABLE clear; twelve native RV32
+  normal cases confirm its copy helper polls only DONE. Three model controls
+  distinguish stuck, stale-DONE and start-clears-DONE behavior. Hardware start
+  semantics are unverified; no live Wi-Fi root-cause or physical drain claim.
+- All ten bounded-layout suites pass, including prior barrier/admission and
+  combined all-worker/IRQ regressions. Historical receipts are preserved; current
+  inputs/results and Ghidra exports are bound in the new checkpoint manifest.
+- Packaged source/config, patch 926 and `firmware/npu/` protocol sources remain
+  unchanged from `b9cff2b`. No router, image, flash, association or configuration
+  action. R1 remains last router-tested; full boot/cache/physical ownership,
+  Linux recovery/removal, full stock parity and client Wi-Fi acceptance stay open.
+- Report: `research/checkpoints/2026-09-06-npu-layout/REPORT.md`.
+  Reference/logging/remaining-work updated; protected historical inputs untouched.

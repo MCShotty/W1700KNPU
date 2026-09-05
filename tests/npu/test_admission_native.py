@@ -25,17 +25,20 @@ HOOKS = {0x840030b2: ('npu_emulation_irq_dispatch', '411122c4'),
          0x84000188: ('npu_coordinator_main_return', 'b2400145')}
 
 
-def build_platform():
+def build_platform(state_address=None):
     lld = shutil.which('ld.lld') or str(BUILD / 'lld/usr/lib/llvm-21/bin/ld.lld')
-    path = BUILD / 'admission-platform.elf'
+    tag = '' if state_address is None else '-' + hex(state_address)
+    path = BUILD / ('admission-platform' + tag + '.elf')
+    extra = [] if state_address is None else [f'-Wl,--defsym=npu_emulation_barrier_state={state_address}']
     subprocess.run([shutil.which('clang'), '--target=riscv32', '-march=rv32imac_zicsr',
                     '-mabi=ilp32', '-O2', '-Wall', '-Wextra', '-Werror', '-fno-builtin',
                     '-nostdlib', '-fno-stack-protector', f'--ld-path={lld}',
                     '-I', str(SOURCE.parent), str(SOURCE), str(ADMISSION),
                     str(ROOT / 'tests/npu/barrier-core5-emulation.S'),
                     str(ROOT / 'tests/npu/barrier-workers-emulation.S'), str(PLATFORM), str(ASSEMBLY),
-                    '-Wl,-T,' + str(ROOT / 'tests/npu/barrier-workers-emulation.ld') + ',--no-relax',
-                    '-Wl,--defsym=original_irq_30b6=0x840030b6', '-o', str(path)], check=True)
+                    *extra, '-Wl,-T,' + str(ROOT / 'tests/npu/barrier-workers-emulation.ld') + ',--no-relax',
+                    '-Wl,--defsym=original_irq_30b6=0x840030b6', '-o', str(path)],
+                   check=True, capture_output=state_address is not None, text=True)
     return path
 
 
@@ -47,6 +50,9 @@ class Coordinator(Mailbox):
         self.register(22, UART)
         self.register(95, PPE)
         self.barrier = Rv32(path, self.cpu)
+        assert self.barrier.symbols['npu_emulation_barrier_state'] == STATE
+        assert self.barrier.symbols['npu_emulation_admission_state'] == ADM
+        assert self.barrier.symbols['npu_emulation_masked_state'] == ADM + 0x40
         self.patches = []
         for address, (name, expected) in HOOKS.items():
             assert bytes(self.cpu.mem_read(address, 4)).hex() == expected

@@ -12,6 +12,7 @@ from unicorn import riscv_const as r
 from test_barrier_protocol import BUILD, SOURCE, Rv32, digest, PARK, REFRESH
 from test_barrier_core5 import SITES as CORE5_SITES, jump, stopped_at, inflight, passthrough
 from test_firmware_stop_counterexample import Harness, CODE_SHA, DATA_SHA, SRAM, END
+from emulation_layout import OLD, NEW
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'research/checkpoints/2026-09-05-npu-workers'
@@ -44,7 +45,6 @@ STARTUP_FLAGS = {1: (0x2a84, 0x4588, 0x1f44, 0x3954, 0x2ce8, 0x46ec),
                  4: (0x46fa, 0x4708, 0x46f9), 6: (0x46f0, 0x46ec)}
 REFILL_SLOTS = (0x2cf0, 0x3904, 0x395c, 0x2a80, 0x4630)
 REFILL_CONSUMERS = (0x460c, 0x2a98, 0x4580, 0x2ac8, 0x4598)
-OLD, NEW = SRAM + 0x30000, SRAM + 0x31000
 HELPERS = {0x8400bd96: 0, 0x8400bea8: 0, 0x8400bfba: 0,
            0x8400c0a8: 0, 0x8400c196: 0, 0x8400e87a: 0,
            0x84009da4: 0, 0x8400f638: 0, 0x8400b0a6: 1,
