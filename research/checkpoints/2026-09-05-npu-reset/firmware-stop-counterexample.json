@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "unicorn": "2.1.4",
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "get_result": 0,
+  "native_post_stop_writes": [
+    {
+      "phase": "after-stop-get-zero",
+      "pc": "0x8400cc4e",
+      "address": "0x3e9046e2",
+      "size": 2,
+      "value": 1
+    },
+    {
+      "phase": "after-stop-get-zero",
+      "pc": "0x8400cc52",
+      "address": "0x3e910000",
+      "size": 4,
+      "value": 254
+    }
+  ],
+  "native_core_dispatch": {
+    "0": "0x84000164",
+    "1": "0x84000190",
+    "2": "0x840001a0",
+    "3": "0x840009bc",
+    "4": "0x84000a82",
+    "5": "0x84000aa6",
+    "6": "0x84000aca",
+    "7": "0x84000aee"
+  },
+  "core5_entry_trace": [
+    "0x84000104",
+    "0x84000aa6",
+    "0x8400e7f8",
+    "0x8400cb0e"
+  ],
+  "enqueue_call_arguments": [
+    4660,
+    64,
+    0,
+    0,
+    1,
+    2
+  ],
+  "controls": {
+    "empty_ring_no_mutation": true,
+    "stop_before_startup_blocks_worker": true
+  },
+  "scope": "Unmodified RV32 instructions for the post-common-init hart dispatcher, core5 wrappers, SET4, GET3 and indirect worker; serialized hart contexts share modeled SRAM. The hart-ID getter and printf are stubbed, other worker idle values are modeled, enqueue execution is stopped at entry. This demonstrates reachability and a protocol counterexample, not physical DMA activity or cache/bus containment."
+}

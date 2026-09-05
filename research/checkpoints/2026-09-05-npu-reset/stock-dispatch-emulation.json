@@ -1,0 +1,994 @@
+{
+  "passed": true,
+  "unicorn": "2.1.4",
+  "normal_cases": 16,
+  "negative_controls": 2,
+  "inputs": {
+    "mt_wifi.ko": "40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0",
+    "connac_if.ko": "52f5c19cacf0febddc73a72247250a7c067039c80b8bbd744f5283a5492e0d28",
+    "mtk_hwifi.ko": "6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7"
+  },
+  "scope": "original stock AArch64 wrapper instructions, one standard CALL26 relocation, synthetic callback tables/objects/results; not hardware, kernel scheduling, firmware stop, or DMA proof",
+  "cases": [
+    {
+      "action": 8,
+      "callback_status": 0,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": 1,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -5,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -16,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -95,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -110,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -110,
+      "missing": "pci",
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 8,
+      "callback_status": -110,
+      "missing": "ge",
+      "mutant": false,
+      "return": -95,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": 0,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": 1,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -5,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -16,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -95,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -110,
+      "missing": null,
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -110,
+      "missing": "pci",
+      "mutant": false,
+      "return": 0,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -110,
+      "missing": "ge",
+      "mutant": false,
+      "return": -95,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "action": 8,
+      "callback_status": -110,
+      "missing": null,
+      "mutant": true,
+      "return": -110,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x8",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_stop_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200ce90",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "action": 9,
+      "callback_status": -110,
+      "missing": null,
+      "mutant": true,
+      "return": -110,
+      "trace": [
+        {
+          "function": "asic_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hc_get_arch_ops",
+          "x0_x1_x2": [
+            "0x41004000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "hwifi_ser_handler",
+          "x0_x1_x2": [
+            "0x40000000",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "connac_if .text+0xc80",
+          "x0_x1_x2": [
+            "0x41002020",
+            "0x9",
+            "0x0"
+          ]
+        },
+        {
+          "function": "mtk_ge_start_npu",
+          "x0_x1_x2": [
+            "0x41006000",
+            "0x1200cec4",
+            "0x0"
+          ]
+        },
+        {
+          "function": "synthetic PCI callback",
+          "x0_x1_x2": [
+            "0x4100a000",
+            "0x43001000",
+            "0x0"
+          ]
+        }
+      ]
+    }
+  ]
+}

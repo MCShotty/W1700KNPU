@@ -1,0 +1,4293 @@
+program=connac_if.ko
+sha256=52f5c19cacf0febddc73a72247250a7c067039c80b8bbd744f5283a5492e0d28
+language=AARCH64:LE:64:v8A
+
+FUNCTION FUN_00100020 @ 00100020
+decompiled=true
+
+undefined8 FUN_00100020(long param_1,undefined1 param_2)
+
+{
+  long lVar1;
+  code *pcVar2;
+  
+  lVar1 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  pcVar2 = *(code **)(*(long *)(lVar1 + 0x688) + 0xd8);
+  if (pcVar2 == (code *)0x0) {
+    return 0;
+  }
+  lVar1 = (*pcVar2)(lVar1,param_2);
+  if (lVar1 != 0) {
+    return *(undefined8 *)(*(long *)(lVar1 + 0x38) + 0x118);
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+00100020 ldr x0,[x0, #0x48]
+00100024 ldr x0,[x0, #0xb0]
+00100028 ldr x2,[x0, #0x688]
+0010002c ldr x2,[x2, #0xd8]
+00100030 cbz x2,0x00100064
+00100034 stp x29,x30,[sp, #-0x10]!
+00100038 and w1,w1,#0xff
+0010003c mov x29,sp
+00100040 blr x2
+00100044 cbz x0,0x00100058
+00100048 ldr x0,[x0, #0x38]
+0010004c ldp x29,x30,[sp], #0x10
+00100050 ldr x0,[x0, #0x118]
+00100054 ret
+00100058 mov x0,#0x0
+0010005c ldp x29,x30,[sp], #0x10
+00100060 ret
+00100064 mov x0,#0x0
+00100068 ret
+
+FUNCTION FUN_0010006c @ 0010006c
+decompiled=true
+
+undefined8 FUN_0010006c(undefined8 param_1,long param_2)
+
+{
+  long lVar1;
+  long lVar2;
+  long lVar3;
+  code *pcVar4;
+  long *plVar5;
+  
+  plVar5 = (long *)(param_2 + 0x48);
+  do {
+    lVar1 = *plVar5;
+    if (lVar1 != 0) {
+      lVar2 = *(long *)(lVar1 + 0x38);
+      lVar3 = *(long *)(lVar2 + 0xb0);
+      *plVar5 = 0;
+      pcVar4 = *(code **)(*(long *)(lVar3 + 0x688) + 0x18);
+      if (pcVar4 != (code *)0x0) {
+        (*pcVar4)(lVar2,lVar1);
+      }
+    }
+    plVar5 = plVar5 + 1;
+  } while (plVar5 != (long *)(param_2 + 0x60));
+  return 0;
+}
+
+
+ASSEMBLY
+0010006c nop
+
+FUNCTION FUN_00100070 @ 00100070
+decompiled=true
+
+undefined8 FUN_00100070(undefined8 param_1,long param_2)
+
+{
+  long lVar1;
+  long lVar2;
+  long lVar3;
+  code *pcVar4;
+  long *plVar5;
+  
+  plVar5 = (long *)(param_2 + 0x48);
+  do {
+    lVar1 = *plVar5;
+    if (lVar1 != 0) {
+      lVar2 = *(long *)(lVar1 + 0x38);
+      lVar3 = *(long *)(lVar2 + 0xb0);
+      *plVar5 = 0;
+      pcVar4 = *(code **)(*(long *)(lVar3 + 0x688) + 0x18);
+      if (pcVar4 != (code *)0x0) {
+        (*pcVar4)(lVar2,lVar1);
+      }
+    }
+    plVar5 = plVar5 + 1;
+  } while (plVar5 != (long *)(param_2 + 0x60));
+  return 0;
+}
+
+
+ASSEMBLY
+00100070 stp x29,x30,[sp, #-0x20]!
+00100074 mov x29,sp
+00100078 stp x19,x20,[sp, #0x10]
+0010007c add x19,x1,#0x48
+00100080 add x20,x1,#0x60
+00100084 ldr x0,[x19]
+00100088 mov x1,x0
+0010008c cbz x0,0x001000ac
+00100090 ldr x0,[x0, #0x38]
+00100094 ldr x2,[x0, #0xb0]
+00100098 str xzr,[x19]
+0010009c ldr x2,[x2, #0x688]
+001000a0 ldr x2,[x2, #0x18]
+001000a4 cbz x2,0x001000ac
+001000a8 blr x2
+001000ac add x19,x19,#0x8
+001000b0 cmp x19,x20
+001000b4 b.ne 0x00100084
+001000b8 mov w0,#0x0
+001000bc ldp x19,x20,[sp, #0x10]
+001000c0 ldp x29,x30,[sp], #0x20
+001000c4 ret
+
+FUNCTION FUN_001000d0 @ 001000d0
+decompiled=true
+
+undefined8 FUN_001000d0(long param_1,int param_2,undefined4 param_3,undefined4 *param_4)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  code *pcVar3;
+  int local_10;
+  undefined4 uStack_c;
+  undefined4 local_8;
+  undefined2 local_4;
+  undefined2 local_2;
+  
+  local_2 = 0;
+  lVar1 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  if ((param_2 != 1) && (param_2 != 2)) {
+    param_2 = 0;
+  }
+  local_8 = *param_4;
+  local_4 = *(undefined2 *)(param_4 + 1);
+  pcVar3 = *(code **)(*(long *)(lVar1 + 0x688) + 0x20);
+  if (pcVar3 == (code *)0x0) {
+    uVar2 = 0xffffffa1;
+  }
+  else {
+    local_10 = param_2;
+    uStack_c = param_3;
+    uVar2 = (*pcVar3)(lVar1,&local_10);
+  }
+  return uVar2;
+}
+
+
+ASSEMBLY
+001000d0 stp x29,x30,[sp, #-0x20]!
+001000d4 mov x29,sp
+001000d8 ldr x0,[x0, #0x48]
+001000dc strh wzr,[sp, #0x1e]
+001000e0 ldr x0,[x0, #0xb0]
+001000e4 cmp w1,#0x1
+001000e8 b.eq 0x001000f4
+001000ec cmp w1,#0x2
+001000f0 csel w1,w1,wzr,eq
+001000f4 ldr x5,[x0, #0x688]
+001000f8 stp w1,w2,[sp, #0x10]
+001000fc ldr w4,[x3]
+00100100 ldrh w1,[x3, #0x4]
+00100104 ldr x3,[x5, #0x20]
+00100108 str w4,[sp, #0x18]
+0010010c strh w1,[sp, #0x1c]
+00100110 cbz x3,0x00100124
+00100114 add x1,sp,#0x10
+00100118 blr x3
+0010011c ldp x29,x30,[sp], #0x20
+00100120 ret
+00100124 mov w0,#0xffffffa1
+00100128 b 0x0010011c
+
+FUNCTION FUN_00100130 @ 00100130
+decompiled=true
+
+undefined8 FUN_00100130(long param_1)
+
+{
+  undefined8 uVar1;
+  code *pcVar2;
+  
+  pcVar2 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x688) + 0x28);
+  if (pcVar2 != (code *)0x0) {
+    uVar1 = (*pcVar2)();
+    return uVar1;
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100130 ldr x0,[x0, #0x48]
+00100134 ldr x0,[x0, #0xb0]
+00100138 ldr x2,[x0, #0x688]
+0010013c ldr x2,[x2, #0x28]
+00100140 cbz x2,0x00100158
+00100144 stp x29,x30,[sp, #-0x10]!
+00100148 mov x29,sp
+0010014c blr x2
+00100150 ldp x29,x30,[sp], #0x10
+00100154 ret
+00100158 mov w0,#0xffffffa1
+0010015c ret
+
+FUNCTION FUN_00100160 @ 00100160
+decompiled=true
+
+undefined8 FUN_00100160(long param_1,undefined8 param_2,long param_3)
+
+{
+  undefined8 uVar1;
+  code *pcVar2;
+  
+  if (param_3 == 0) {
+    return 0;
+  }
+  pcVar2 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x688) + 0x50);
+  if (pcVar2 != (code *)0x0) {
+    uVar1 = (*pcVar2)(*(long *)(param_1 + 0x48),param_3 + 0x18);
+    return uVar1;
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100160 cbnz x2,0x0010016c
+00100164 mov w0,#0x0
+00100168 ret
+0010016c ldr x0,[x0, #0x48]
+00100170 add x1,x2,#0x18
+00100174 ldr x2,[x0, #0xb0]
+00100178 ldr x2,[x2, #0x688]
+0010017c ldr x2,[x2, #0x50]
+00100180 cbz x2,0x00100198
+00100184 stp x29,x30,[sp, #-0x10]!
+00100188 mov x29,sp
+0010018c blr x2
+00100190 ldp x29,x30,[sp], #0x10
+00100194 ret
+00100198 mov w0,#0xffffffa1
+0010019c ret
+
+FUNCTION FUN_001001a0 @ 001001a0
+decompiled=true
+
+undefined8 FUN_001001a0(long param_1)
+
+{
+  undefined8 uVar1;
+  code *pcVar2;
+  
+  pcVar2 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x688) + 0x60);
+  if (pcVar2 != (code *)0x0) {
+    uVar1 = (*pcVar2)();
+    return uVar1;
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+001001a0 ldr x0,[x0, #0x48]
+001001a4 ldr x0,[x0, #0xb0]
+001001a8 ldr x1,[x0, #0x688]
+001001ac ldr x1,[x1, #0x60]
+001001b0 cbz x1,0x001001c8
+001001b4 stp x29,x30,[sp, #-0x10]!
+001001b8 mov x29,sp
+001001bc blr x1
+001001c0 ldp x29,x30,[sp], #0x10
+001001c4 ret
+001001c8 mov w0,#0xffffffa1
+001001cc ret
+
+FUNCTION FUN_001001d0 @ 001001d0
+decompiled=true
+
+undefined8 FUN_001001d0(long param_1,undefined8 param_2,undefined4 *param_3)
+
+{
+  undefined4 uVar1;
+  long lVar2;
+  undefined8 uVar3;
+  code *pcVar4;
+  
+  lVar2 = *(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690);
+  if ((*(ulong *)(lVar2 + 0x30) & 4) == 0) {
+    uVar3 = 0xffffffea;
+  }
+  else {
+    uVar1 = 0;
+    pcVar4 = *(code **)(*(long *)(lVar2 + 0x60) + 0x10);
+    if (pcVar4 != (code *)0x0) {
+      uVar1 = (*pcVar4)();
+    }
+    uVar3 = 0;
+    *param_3 = uVar1;
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+001001d0 stp x29,x30,[sp, #-0x20]!
+001001d4 mov x29,sp
+001001d8 str x19,[sp, #0x10]
+001001dc mov x19,x2
+001001e0 ldr x0,[x0, #0x48]
+001001e4 ldr x0,[x0, #0xb0]
+001001e8 ldr x0,[x0, #0x690]
+001001ec ldr x2,[x0, #0x30]
+001001f0 tst w2,#0x4
+001001f4 b.eq 0x00100224
+001001f8 ldr x3,[x0, #0x60]
+001001fc mov w2,#0x0
+00100200 ldr x3,[x3, #0x10]
+00100204 cbz x3,0x00100210
+00100208 blr x3
+0010020c mov w2,w0
+00100210 mov w0,#0x0
+00100214 str w2,[x19]
+00100218 ldr x19,[sp, #0x10]
+0010021c ldp x29,x30,[sp], #0x20
+00100220 ret
+00100224 mov w0,#0xffffffea
+00100228 b 0x00100218
+
+FUNCTION FUN_0010022c @ 0010022c
+decompiled=true
+
+undefined8 FUN_0010022c(long param_1)
+
+{
+  long lVar1;
+  code *pcVar2;
+  undefined8 uVar3;
+  
+  lVar1 = *(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690);
+  if ((*(ulong *)(lVar1 + 0x30) & 4) == 0) {
+    uVar3 = 0xffffffea;
+  }
+  else {
+    uVar3 = 0;
+    pcVar2 = *(code **)(*(long *)(lVar1 + 0x60) + 0x18);
+    if (pcVar2 != (code *)0x0) {
+      (*pcVar2)();
+    }
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+0010022c nop
+
+FUNCTION FUN_00100230 @ 00100230
+decompiled=true
+
+undefined8 FUN_00100230(long param_1)
+
+{
+  long lVar1;
+  code *pcVar2;
+  undefined8 uVar3;
+  
+  lVar1 = *(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690);
+  if ((*(ulong *)(lVar1 + 0x30) & 4) == 0) {
+    uVar3 = 0xffffffea;
+  }
+  else {
+    uVar3 = 0;
+    pcVar2 = *(code **)(*(long *)(lVar1 + 0x60) + 0x18);
+    if (pcVar2 != (code *)0x0) {
+      (*pcVar2)();
+    }
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+00100230 stp x29,x30,[sp, #-0x20]!
+00100234 mov x29,sp
+00100238 str x19,[sp, #0x10]
+0010023c ldr x0,[x0, #0x48]
+00100240 ldr x0,[x0, #0xb0]
+00100244 ldr x0,[x0, #0x690]
+00100248 ldr x3,[x0, #0x30]
+0010024c tst w3,#0x4
+00100250 b.eq 0x00100278
+00100254 ldr x3,[x0, #0x60]
+00100258 mov w19,#0x0
+0010025c ldr x3,[x3, #0x18]
+00100260 cbz x3,0x00100268
+00100264 blr x3
+00100268 mov w0,w19
+0010026c ldr x19,[sp, #0x10]
+00100270 ldp x29,x30,[sp], #0x20
+00100274 ret
+00100278 mov w19,#0xffffffea
+0010027c b 0x00100268
+
+FUNCTION FUN_00100280 @ 00100280
+decompiled=true
+
+short FUN_00100280(long param_1,char param_2)
+
+{
+  short sVar1;
+  long lVar2;
+  code *pcVar3;
+  
+  lVar2 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  pcVar3 = *(code **)(*(long *)(lVar2 + 0x688) + 0xc0);
+  if (param_2 == '\0') {
+    if (pcVar3 == (code *)0x0) {
+      sVar1 = -0x5f;
+    }
+    else {
+      sVar1 = (*pcVar3)(lVar2,lVar2 + 0x438);
+    }
+  }
+  else {
+    if (pcVar3 != (code *)0x0) {
+      sVar1 = (*pcVar3)(lVar2,lVar2 + 0x470);
+      return sVar1 + 1;
+    }
+    sVar1 = -0x5e;
+  }
+  return sVar1;
+}
+
+
+ASSEMBLY
+00100280 stp x29,x30,[sp, #-0x10]!
+00100284 mov x29,sp
+00100288 ldr x0,[x0, #0x48]
+0010028c ldr x0,[x0, #0xb0]
+00100290 ldr x2,[x0, #0x688]
+00100294 ldr x2,[x2, #0xc0]
+00100298 tst w1,#0xff
+0010029c b.eq 0x001002bc
+001002a0 add x1,x0,#0x470
+001002a4 cbz x2,0x001002d4
+001002a8 blr x2
+001002ac add w0,w0,#0x1
+001002b0 and w0,w0,#0xffff
+001002b4 ldp x29,x30,[sp], #0x10
+001002b8 ret
+001002bc add x1,x0,#0x438
+001002c0 cbz x2,0x001002dc
+001002c4 blr x2
+001002c8 and w0,w0,#0xffff
+001002cc ldp x29,x30,[sp], #0x10
+001002d0 ret
+001002d4 mov w0,#0xffa2
+001002d8 b 0x001002cc
+001002dc mov w0,#0xffa1
+001002e0 b 0x001002cc
+
+FUNCTION connac_if_get_fw_info @ 001002e4
+decompiled=true
+
+void connac_if_get_fw_info(long param_1)
+
+{
+  code *pcVar1;
+  
+  pcVar1 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x688) + 0xe0);
+  if (pcVar1 != (code *)0x0) {
+    (*pcVar1)();
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+001002e4 ldr x0,[x0, #0x48]
+001002e8 ldr x0,[x0, #0xb0]
+001002ec ldr x5,[x0, #0x688]
+001002f0 ldr x5,[x5, #0xe0]
+001002f4 cbz x5,0x0010030c
+001002f8 stp x29,x30,[sp, #-0x10]!
+001002fc mov x29,sp
+00100300 blr x5
+00100304 ldp x29,x30,[sp], #0x10
+00100308 ret
+0010030c ret
+
+FUNCTION connac_if_set_fw_mode @ 00100310
+decompiled=true
+
+void connac_if_set_fw_mode(long param_1,undefined8 param_2,undefined1 param_3)
+
+{
+  long lVar1;
+  code *pcVar2;
+  
+  lVar1 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  pcVar2 = *(code **)(*(long *)(lVar1 + 0x688) + 0xe8);
+  if (pcVar2 != (code *)0x0) {
+    (*pcVar2)(lVar1,param_2,param_3);
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00100310 ldr x0,[x0, #0x48]
+00100314 ldr x0,[x0, #0xb0]
+00100318 ldr x3,[x0, #0x688]
+0010031c ldr x3,[x3, #0xe8]
+00100320 cbz x3,0x0010033c
+00100324 stp x29,x30,[sp, #-0x10]!
+00100328 and w2,w2,#0xff
+0010032c mov x29,sp
+00100330 blr x3
+00100334 ldp x29,x30,[sp], #0x10
+00100338 ret
+0010033c ret
+
+FUNCTION FUN_00100340 @ 00100340
+decompiled=true
+
+undefined8 FUN_00100340(long param_1)
+
+{
+  long lVar1;
+  
+  lVar1 = *(long *)(param_1 + 0x160);
+  if (lVar1 != 0) {
+    *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(*(long *)(lVar1 + 0x20) + 8);
+    *(undefined4 *)(param_1 + 0x14) = *(undefined4 *)(*(long *)(lVar1 + 0x28) + 8);
+    return 0;
+  }
+  return 0xfffffffe;
+}
+
+
+ASSEMBLY
+00100340 ldr x2,[x0, #0x160]
+00100344 mov x1,x0
+00100348 cbz x2,0x0010036c
+0010034c ldr x3,[x2, #0x20]
+00100350 mov w0,#0x0
+00100354 ldr w3,[x3, #0x8]
+00100358 str w3,[x1, #0x10]
+0010035c ldr x2,[x2, #0x28]
+00100360 ldr w2,[x2, #0x8]
+00100364 str w2,[x1, #0x14]
+00100368 ret
+0010036c mov w0,#0xfffffffe
+00100370 ret
+
+FUNCTION FUN_00100374 @ 00100374
+decompiled=true
+
+undefined4 FUN_00100374(long param_1,uint param_2)
+
+{
+  undefined4 uVar1;
+  long lVar2;
+  
+  if (param_1 == -0x148) {
+    return 0;
+  }
+  lVar2 = *(long *)(param_1 + 0x160);
+  uVar1 = 0;
+  if (lVar2 != 0) {
+    if ((param_2 & 1) != 0) {
+      return *(undefined4 *)(*(long *)(lVar2 + 0x28) + 8);
+    }
+    uVar1 = *(undefined4 *)(*(long *)(lVar2 + 0x20) + 8);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+00100374 and w1,w1,#0xff
+00100378 adds x0,x0,#0x148
+0010037c b.eq 0x001003a8
+00100380 ldr x2,[x0, #0x18]
+00100384 mov w0,#0x0
+00100388 cbz x2,0x00100398
+0010038c tbnz w1,#0x0,0x0010039c
+00100390 ldr x0,[x2, #0x20]
+00100394 ldr w0,[x0, #0x8]
+00100398 ret
+0010039c ldr x0,[x2, #0x28]
+001003a0 ldr w0,[x0, #0x8]
+001003a4 ret
+001003a8 mov w0,#0x0
+001003ac ret
+
+FUNCTION connac_if_init_rro_addr_elem_by_seid @ 001003b0
+decompiled=true
+
+undefined1 connac_if_init_rro_addr_elem_by_seid(long param_1,undefined2 param_2)
+
+{
+  undefined1 uVar1;
+  long lVar2;
+  code *pcVar3;
+  
+  lVar2 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  if ((*(ulong *)(lVar2 + 0x28) & 8) != 0) {
+    return 0;
+  }
+  lVar2 = *(long *)(lVar2 + 0x690);
+  pcVar3 = *(code **)(*(long *)(lVar2 + 0x68) + 0x110);
+  if (pcVar3 != (code *)0x0) {
+    uVar1 = (*pcVar3)(lVar2,param_2);
+    return uVar1;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+001003b0 ldr x0,[x0, #0x48]
+001003b4 ldr x0,[x0, #0xb0]
+001003b8 ldr x2,[x0, #0x28]
+001003bc tst w2,#0x8
+001003c0 b.ne 0x001003fc
+001003c4 ldr x3,[x0, #0x690]
+001003c8 mov w0,#0x0
+001003cc ldr x2,[x3, #0x68]
+001003d0 ldr x2,[x2, #0x110]
+001003d4 cbz x2,0x001003f8
+001003d8 stp x29,x30,[sp, #-0x10]!
+001003dc and w1,w1,#0xffff
+001003e0 mov x0,x3
+001003e4 mov x29,sp
+001003e8 blr x2
+001003ec and w0,w0,#0xff
+001003f0 ldp x29,x30,[sp], #0x10
+001003f4 ret
+001003f8 ret
+001003fc mov w0,#0x0
+00100400 ret
+
+FUNCTION FUN_00100404 @ 00100404
+decompiled=true
+
+undefined8 FUN_00100404(long param_1)
+
+{
+  undefined8 uVar1;
+  code *pcVar2;
+  
+  pcVar2 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x688) + 0xf0);
+  if (pcVar2 != (code *)0x0) {
+    uVar1 = (*pcVar2)();
+    return uVar1;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+00100404 ldr x0,[x0, #0x48]
+00100408 ldr x0,[x0, #0xb0]
+0010040c ldr x1,[x0, #0x688]
+00100410 ldr x1,[x1, #0xf0]
+00100414 cbz x1,0x0010042c
+00100418 stp x29,x30,[sp, #-0x10]!
+0010041c mov x29,sp
+00100420 blr x1
+00100424 ldp x29,x30,[sp], #0x10
+00100428 ret
+0010042c mov w0,#0x0
+00100430 ret
+
+FUNCTION FUN_00100434 @ 00100434
+decompiled=true
+
+void FUN_00100434(long param_1,undefined2 *param_2,undefined2 *param_3,char param_4)
+
+{
+  bool bVar1;
+  bool bVar2;
+  int iVar3;
+  int iVar4;
+  long lVar5;
+  code *pcVar6;
+  long lVar7;
+  long lVar8;
+  
+  lVar7 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  if (param_4 == '\0') {
+    lVar5 = *(long *)(lVar7 + 0x688);
+    lVar8 = lVar7 + 0x438;
+    pcVar6 = *(code **)(lVar5 + 200);
+    if (pcVar6 == (code *)0x0) {
+      bVar1 = true;
+      iVar3 = -0x5f;
+      goto LAB_0010048c;
+    }
+  }
+  else {
+    if (param_4 != '\x01') {
+      return;
+    }
+    lVar5 = *(long *)(lVar7 + 0x688);
+    lVar8 = lVar7 + 0x470;
+    pcVar6 = *(code **)(lVar5 + 200);
+    if (pcVar6 == (code *)0x0) {
+      iVar3 = -0x5f;
+      bVar1 = true;
+      goto LAB_0010048c;
+    }
+  }
+  iVar3 = (*pcVar6)(lVar7,lVar8);
+  bVar1 = iVar3 != 0;
+  lVar5 = *(long *)(lVar7 + 0x688);
+LAB_0010048c:
+  if (*(code **)(lVar5 + 0xc0) == (code *)0x0) {
+    bVar2 = true;
+    iVar4 = -0x5f;
+  }
+  else {
+    iVar4 = (**(code **)(lVar5 + 0xc0))(lVar7,lVar8);
+    bVar2 = iVar4 != 0;
+  }
+  if (param_2 != (undefined2 *)0x0 && bVar1) {
+    *param_2 = (short)iVar3;
+  }
+  if (param_3 != (undefined2 *)0x0 && bVar2) {
+    *param_3 = (short)iVar4;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00100434 stp x29,x30,[sp, #-0x40]!
+00100438 ands w3,w3,#0xff
+0010043c mov x29,sp
+00100440 stp x19,x20,[sp, #0x10]
+00100444 mov x20,x1
+00100448 stp x21,x22,[sp, #0x20]
+0010044c mov x21,x2
+00100450 stp x23,x24,[sp, #0x30]
+00100454 ldr x0,[x0, #0x48]
+00100458 ldr x19,[x0, #0xb0]
+0010045c b.ne 0x001004dc
+00100460 ldr x0,[x19, #0x688]
+00100464 add x24,x19,#0x438
+00100468 ldr x2,[x0, #0xc8]
+0010046c cbz x2,0x00100500
+00100470 mov x1,x24
+00100474 mov x0,x19
+00100478 blr x2
+0010047c cmp w0,#0x0
+00100480 mov w22,w0
+00100484 cset w23,ne
+00100488 ldr x0,[x19, #0x688]
+0010048c ldr x2,[x0, #0xc0]
+00100490 cbz x2,0x0010050c
+00100494 mov x1,x24
+00100498 mov x0,x19
+0010049c blr x2
+001004a0 cmp w0,#0x0
+001004a4 cset w1,ne
+001004a8 cmp x20,#0x0
+001004ac ccmp w23,#0x0,#0x4,ne
+001004b0 b.eq 0x001004b8
+001004b4 strh w22,[x20]
+001004b8 cmp x21,#0x0
+001004bc ccmp w1,#0x0,#0x4,ne
+001004c0 b.eq 0x001004c8
+001004c4 strh w0,[x21]
+001004c8 ldp x19,x20,[sp, #0x10]
+001004cc ldp x21,x22,[sp, #0x20]
+001004d0 ldp x23,x24,[sp, #0x30]
+001004d4 ldp x29,x30,[sp], #0x40
+001004d8 ret
+001004dc cmp w3,#0x1
+001004e0 b.ne 0x001004c8
+001004e4 ldr x0,[x19, #0x688]
+001004e8 add x24,x19,#0x470
+001004ec ldr x2,[x0, #0xc8]
+001004f0 cbnz x2,0x00100470
+001004f4 mov w23,w3
+001004f8 mov w22,#0xffffffa1
+001004fc b 0x0010048c
+00100500 mov w23,#0x1
+00100504 mov w22,#0xffffffa1
+00100508 b 0x0010048c
+0010050c mov w1,#0x1
+00100510 mov w0,#0xffffffa1
+00100514 b 0x001004a8
+
+FUNCTION FUN_00100520 @ 00100520
+decompiled=true
+
+void FUN_00100520(long param_1)
+
+{
+  mtk_bus_get_tx_token_num(*(undefined8 *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690));
+  return;
+}
+
+
+ASSEMBLY
+00100520 stp x29,x30,[sp, #-0x10]!
+00100524 mov x29,sp
+00100528 ldr x0,[x0, #0x48]
+0010052c ldr x0,[x0, #0xb0]
+00100530 ldr x0,[x0, #0x690]
+00100534 bl 0x00104048
+00100538 ldp x29,x30,[sp], #0x10
+0010053c ret
+
+FUNCTION FUN_00100540 @ 00100540
+decompiled=true
+
+void FUN_00100540(long param_1)
+
+{
+  mtk_bus_set_pn_check(*(undefined8 *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690));
+  return;
+}
+
+
+ASSEMBLY
+00100540 stp x29,x30,[sp, #-0x10]!
+00100544 mov x29,sp
+00100548 ldr x0,[x0, #0x48]
+0010054c ldr x0,[x0, #0xb0]
+00100550 ldr x0,[x0, #0x690]
+00100554 bl 0x00104038
+00100558 ldp x29,x30,[sp], #0x10
+0010055c ret
+
+FUNCTION FUN_00100560 @ 00100560
+decompiled=true
+
+void FUN_00100560(long param_1)
+
+{
+  mtk_bus_set_pao_sta_info(*(undefined8 *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x690));
+  return;
+}
+
+
+ASSEMBLY
+00100560 stp x29,x30,[sp, #-0x10]!
+00100564 mov x29,sp
+00100568 ldr x0,[x0, #0x48]
+0010056c ldr x0,[x0, #0xb0]
+00100570 ldr x0,[x0, #0x690]
+00100574 bl 0x00104020
+00100578 ldp x29,x30,[sp], #0x10
+0010057c ret
+
+FUNCTION FUN_00100580 @ 00100580
+decompiled=true
+
+undefined4 FUN_00100580(undefined4 *param_1,undefined1 *param_2)
+
+{
+  undefined1 *puVar1;
+  long lVar2;
+  long lVar3;
+  int iVar4;
+  long lVar5;
+  code *pcVar6;
+  uint uVar7;
+  long lVar8;
+  long lVar9;
+  long lVar10;
+  long lVar11;
+  
+  lVar10 = *(long *)(param_1 + 0xc);
+  if ((param_2 == (undefined1 *)0x0) || (lVar8 = *(long *)(lVar10 + 0x38), lVar8 == 0)) {
+    return 0xffffffea;
+  }
+  puVar1 = *(undefined1 **)(param_2 + 0x38);
+  lVar2 = *(long *)(param_2 + 0x28);
+  lVar3 = *(long *)(param_2 + 0x30);
+  lVar11 = *(long *)(puVar1 + 0xb0);
+  lVar5 = *(long *)(lVar11 + 0x688);
+  if (*(long *)(param_2 + 0x40) != 0) {
+    if (*(code **)(lVar5 + 0x88) == (code *)0x0) {
+      return 0xffffffea;
+    }
+    iVar4 = (**(code **)(lVar5 + 0x88))(lVar11);
+    if (iVar4 != 0) {
+      return 0xffffffea;
+    }
+    lVar8 = *(long *)(lVar10 + 0x38);
+    lVar5 = *(long *)(lVar11 + 0x688);
+  }
+  lVar9 = 0;
+  while( true ) {
+    uVar7 = (uint)lVar9;
+    lVar9 = lVar9 + 1;
+    if (*(code **)(lVar5 + 0x78) == (code *)0x0) {
+      return 0xffffffea;
+    }
+    iVar4 = (**(code **)(lVar5 + 0x78))(lVar11,param_2,lVar2,uVar7 & 0xff,lVar8 + 0x18);
+    if (iVar4 != 0) {
+      return 0xffffffea;
+    }
+    *(undefined4 *)(lVar8 + 0x38) = 0;
+    if (lVar9 == 0x11) break;
+    lVar8 = *(long *)(lVar10 + 0x38 + lVar9 * 8);
+    lVar5 = *(long *)(lVar11 + 0x688);
+  }
+  if (lVar3 == 0) {
+    *(undefined1 *)((long)param_1 + 0x15) = *puVar1;
+    *param_1 = *(undefined4 *)(param_2 + 0xc);
+    *(undefined1 *)(param_1 + 5) = *param_2;
+    *(undefined4 *)(lVar10 + 4) = *(undefined4 *)(lVar2 + 8);
+  }
+  else {
+    if (param_2[1] == '\x01') {
+      lVar8 = 0;
+      do {
+        uVar7 = (uint)lVar8;
+        lVar5 = *(long *)(lVar10 + 0xc0 + lVar8 * 8);
+        pcVar6 = *(code **)(*(long *)(lVar11 + 0x688) + 0x78);
+        lVar8 = lVar8 + 1;
+        if (pcVar6 == (code *)0x0) {
+          return 0xffffffea;
+        }
+        iVar4 = (*pcVar6)(lVar11,param_2,lVar3,uVar7 & 0xff,lVar5 + 0x18);
+        if (iVar4 != 0) {
+          return 0xffffffea;
+        }
+        *(undefined4 *)(lVar5 + 0x38) = 0;
+      } while (lVar8 != 0x11);
+    }
+    *(undefined1 *)((long)param_1 + 0x15) = *puVar1;
+    *param_1 = *(undefined4 *)(param_2 + 0xc);
+    *(undefined1 *)(param_1 + 5) = *param_2;
+    *(undefined4 *)(lVar10 + 4) = *(undefined4 *)(lVar2 + 8);
+    if (param_2[1] == '\x01') {
+      *(undefined4 *)(lVar10 + 8) = *(undefined4 *)(lVar3 + 8);
+    }
+  }
+  lVar10 = *(long *)(param_2 + 0x40);
+  if (lVar10 != 0) {
+    param_1[4] = *(undefined4 *)(lVar10 + 4);
+    param_1[3] = *(undefined4 *)(lVar10 + 8);
+  }
+  param_1[2] = *(undefined4 *)(param_2 + 4);
+  param_1[1] = *(undefined4 *)(param_2 + 8);
+  *(undefined1 **)(param_1 + 0x10) = param_2;
+  _dev_info(*(undefined8 *)(lVar11 + 0x48),
+            "%s(): fw_idx %d, omac_idx %x, wmm_idx %d, band_idx %d, group sta %d\n",
+            "connac_if_config_bss",*(undefined4 *)(param_2 + 8),*(undefined4 *)(param_2 + 0xc),
+            *param_2,*puVar1,*(undefined4 *)(*(long *)(param_2 + 0x28) + 8));
+  return 0;
+}
+
+
+ASSEMBLY
+00100580 stp x29,x30,[sp, #-0x70]!
+00100584 mov x29,sp
+00100588 stp x21,x22,[sp, #0x20]
+0010058c stp x23,x24,[sp, #0x30]
+00100590 ldr x24,[x0, #0x30]
+00100594 cbz x1,0x001006a0
+00100598 stp x19,x20,[sp, #0x10]
+0010059c ldr x19,[x24, #0x38]
+001005a0 cbz x19,0x001006b8
+001005a4 stp x25,x26,[sp, #0x40]
+001005a8 mov x25,x0
+001005ac mov x26,x1
+001005b0 stp x27,x28,[sp, #0x50]
+001005b4 ldp x0,x2,[x1, #0x38]
+001005b8 str x0,[sp, #0x68]
+001005bc ldp x22,x23,[x1, #0x28]
+001005c0 ldr x28,[x0, #0xb0]
+001005c4 ldr x0,[x28, #0x688]
+001005c8 cbz x2,0x001005e8
+001005cc ldr x2,[x0, #0x88]
+001005d0 cbz x2,0x00100694
+001005d4 mov x0,x28
+001005d8 blr x2
+001005dc cbnz w0,0x00100694
+001005e0 ldr x19,[x24, #0x38]
+001005e4 ldr x0,[x28, #0x688]
+001005e8 add x27,x24,#0x38
+001005ec mov x20,#0x0
+001005f0 b 0x001005fc
+001005f4 ldr x19,[x27, x20, LSL #0x3]
+001005f8 ldr x0,[x28, #0x688]
+001005fc add x19,x19,#0x18
+00100600 ldr x5,[x0, #0x78]
+00100604 and w3,w20,#0xff
+00100608 mov x2,x22
+0010060c mov x1,x26
+00100610 mov x4,x19
+00100614 add x20,x20,#0x1
+00100618 mov x0,x28
+0010061c cbz x5,0x00100694
+00100620 blr x5
+00100624 mov w21,w0
+00100628 cbnz w0,0x00100694
+0010062c str wzr,[x19, #0x20]
+00100630 cmp x20,#0x11
+00100634 b.ne 0x001005f4
+00100638 cbz x23,0x00100764
+0010063c ldrb w0,[x26, #0x1]
+00100640 cmp w0,#0x1
+00100644 b.ne 0x001006c0
+00100648 add x27,x24,#0xc0
+0010064c mov x19,#0x0
+00100650 b 0x00100660
+00100654 str wzr,[x20, #0x20]
+00100658 cmp x19,#0x11
+0010065c b.eq 0x001006c0
+00100660 ldr x0,[x28, #0x688]
+00100664 and w3,w19,#0xff
+00100668 ldr x20,[x27, x19, LSL #0x3]
+0010066c mov x2,x23
+00100670 ldr x5,[x0, #0x78]
+00100674 add x20,x20,#0x18
+00100678 mov x4,x20
+0010067c add x19,x19,#0x1
+00100680 mov x1,x26
+00100684 cbz x5,0x00100694
+00100688 mov x0,x28
+0010068c blr x5
+00100690 cbz w0,0x00100654
+00100694 ldp x19,x20,[sp, #0x10]
+00100698 ldp x25,x26,[sp, #0x40]
+0010069c ldp x27,x28,[sp, #0x50]
+001006a0 mov w21,#0xffffffea
+001006a4 mov w0,w21
+001006a8 ldp x21,x22,[sp, #0x20]
+001006ac ldp x23,x24,[sp, #0x30]
+001006b0 ldp x29,x30,[sp], #0x70
+001006b4 ret
+001006b8 ldp x19,x20,[sp, #0x10]
+001006bc b 0x001006a0
+001006c0 ldr x0,[sp, #0x68]
+001006c4 ldrb w0,[x0]
+001006c8 strb w0,[x25, #0x15]
+001006cc ldr w0,[x26, #0xc]
+001006d0 str w0,[x25]
+001006d4 ldrb w0,[x26]
+001006d8 strb w0,[x25, #0x14]
+001006dc ldr w0,[x22, #0x8]
+001006e0 str w0,[x24, #0x4]
+001006e4 ldrb w0,[x26, #0x1]
+001006e8 cmp w0,#0x1
+001006ec b.ne 0x001006f8
+001006f0 ldr w0,[x23, #0x8]
+001006f4 str w0,[x24, #0x8]
+001006f8 ldr x0,[x26, #0x40]
+001006fc cbz x0,0x00100710
+00100700 ldr w1,[x0, #0x4]
+00100704 str w1,[x25, #0x10]
+00100708 ldr w0,[x0, #0x8]
+0010070c str w0,[x25, #0xc]
+00100710 ldr w0,[x26, #0x4]
+00100714 adrp x2,0x101000
+00100718 str w0,[x25, #0x8]
+0010071c add x2,x2,#0xee8
+00100720 ldr x3,[sp, #0x68]
+00100724 adrp x1,0x102000
+00100728 ldr w0,[x26, #0x8]
+0010072c add x1,x1,#0x128
+00100730 str w0,[x25, #0x4]
+00100734 str x26,[x25, #0x40]
+00100738 ldr x0,[x26, #0x28]
+0010073c ldrb w6,[x3]
+00100740 ldrb w5,[x26]
+00100744 ldp w3,w4,[x26, #0x8]
+00100748 ldr w7,[x0, #0x8]
+0010074c ldr x0,[x28, #0x48]
+00100750 bl 0x00104060
+00100754 ldp x19,x20,[sp, #0x10]
+00100758 ldp x25,x26,[sp, #0x40]
+0010075c ldp x27,x28,[sp, #0x50]
+00100760 b 0x001006a4
+00100764 ldr x0,[sp, #0x68]
+00100768 ldrb w0,[x0]
+0010076c strb w0,[x25, #0x15]
+00100770 ldr w0,[x26, #0xc]
+00100774 str w0,[x25]
+00100778 ldrb w0,[x26]
+0010077c strb w0,[x25, #0x14]
+00100780 ldr w0,[x22, #0x8]
+00100784 str w0,[x24, #0x4]
+00100788 b 0x001006f8
+
+FUNCTION FUN_00100790 @ 00100790
+decompiled=true
+
+undefined8 FUN_00100790(undefined8 param_1,long param_2,uint *param_3,int param_4)
+
+{
+  undefined8 uVar1;
+  
+  if (param_4 == 0) {
+    uVar1 = FUN_00100580(param_2,*(undefined8 *)(param_2 + (ulong)*param_3 * 8 + 0x48));
+    return uVar1;
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100790 cbnz w3,0x001007b8
+00100794 stp x29,x30,[sp, #-0x10]!
+00100798 mov x0,x1
+0010079c mov x29,sp
+001007a0 ldr w1,[x2]
+001007a4 add x1,x0,x1, LSL #0x3
+001007a8 ldr x1,[x1, #0x48]
+001007ac bl 0x00100580
+001007b0 ldp x29,x30,[sp], #0x10
+001007b4 ret
+001007b8 mov w0,#0xffffffa1
+001007bc ret
+
+FUNCTION FUN_001007c0 @ 001007c0
+decompiled=true
+
+undefined8 FUN_001007c0(long param_1,long param_2)
+
+{
+  undefined8 uVar1;
+  long lVar2;
+  long lVar3;
+  undefined1 uVar4;
+  uint uVar5;
+  ulong uVar6;
+  code *pcVar7;
+  long lVar8;
+  uint uVar9;
+  byte *pbVar10;
+  long lVar11;
+  int local_10;
+  undefined4 uStack_c;
+  undefined4 local_8;
+  undefined2 local_4;
+  undefined2 local_2;
+  
+  lVar8 = param_2 + 0x60;
+  pbVar10 = *(byte **)(param_1 + 0x48);
+  if (*(int *)(param_1 + 0x14) == 0) {
+    return 0;
+  }
+  lVar3 = *(long *)(param_2 + 0x30) + 0x148;
+  uVar9 = 0;
+  do {
+    *(long *)(param_2 + (ulong)*pbVar10 * 8 + 0x48) = lVar8;
+    uVar5 = *(uint *)(param_2 + 0x18);
+    lVar11 = lVar3;
+    if (uVar5 < 0x41) {
+      if (uVar5 < 2) {
+LAB_00100874:
+        uVar4 = 0;
+        lVar2 = 0;
+      }
+      else {
+        uVar6 = 1L << ((ulong)(uVar5 - 2) & 0x3f);
+        if ((uVar6 & 0x4000000040000005) != 0) goto LAB_00100910;
+        uVar5 = (uint)uVar6;
+        if ((uVar5 >> 6 & 1) == 0) {
+          if ((uVar5 >> 0xe & 1) == 0) goto LAB_00100874;
+          uVar4 = 2;
+        }
+        else {
+          uVar4 = 5;
+        }
+        lVar2 = 0;
+      }
+    }
+    else {
+      if ((uVar5 != 0x1000) && (uVar5 != 0x4000)) goto LAB_00100874;
+LAB_00100910:
+      lVar2 = lVar3 + 0x60;
+      uVar4 = 1;
+      lVar11 = lVar2;
+    }
+    *(undefined1 *)(lVar8 + 1) = uVar4;
+    *(long *)(lVar8 + 0x28) = lVar3;
+    *(long *)(lVar8 + 0x30) = lVar2;
+    local_10 = *(int *)(param_2 + 0x1c);
+    lVar3 = *(long *)(pbVar10 + 0xb0);
+    local_2 = 0;
+    if ((local_10 != 1) && (local_10 != 2)) {
+      local_10 = 0;
+    }
+    local_4 = *(undefined2 *)(param_2 + 0x2e);
+    local_8 = *(undefined4 *)(param_2 + 0x2a);
+    uStack_c = *(undefined4 *)(param_2 + 0x20);
+    *(long *)(lVar8 + 0x70) = param_2;
+    pcVar7 = *(code **)(*(long *)(lVar3 + 0x688) + 0x10);
+    if (pcVar7 == (code *)0x0) {
+      return 0xffffffa1;
+    }
+    uVar1 = (*pcVar7)(pbVar10,lVar8,param_2 + 0x24,&local_10);
+    if ((int)uVar1 != 0) {
+      return uVar1;
+    }
+    if (uVar9 == 0) {
+      uVar1 = FUN_00100580(param_2,lVar8);
+      if ((int)uVar1 != 0) {
+        return uVar1;
+      }
+      uVar9 = 1;
+      lVar8 = lVar8 + 0x80;
+      pbVar10 = pbVar10 + 0x120;
+      lVar3 = lVar11 + 0x60;
+      if (*(uint *)(param_1 + 0x14) < 2) {
+        return 0;
+      }
+    }
+    else {
+      uVar9 = uVar9 + 1;
+      lVar8 = lVar8 + 0x80;
+      pbVar10 = pbVar10 + 0x120;
+      lVar3 = lVar11 + 0x60;
+      if (*(uint *)(param_1 + 0x14) <= uVar9) {
+        return 0;
+      }
+    }
+  } while( true );
+}
+
+
+ASSEMBLY
+001007c0 stp x29,x30,[sp, #-0x70]!
+001007c4 mov x29,sp
+001007c8 stp x19,x20,[sp, #0x10]
+001007cc add x19,x1,#0x60
+001007d0 stp x21,x22,[sp, #0x20]
+001007d4 mov x21,x0
+001007d8 stp x25,x26,[sp, #0x40]
+001007dc mov x26,x1
+001007e0 stp x27,x28,[sp, #0x50]
+001007e4 ldr w1,[x0, #0x14]
+001007e8 ldr x27,[x0, #0x48]
+001007ec ldr x0,[x26, #0x30]
+001007f0 cbz w1,0x00100950
+001007f4 add x0,x0,#0x148
+001007f8 add x25,x26,#0x24
+001007fc add x20,x26,#0x2a
+00100800 mov w22,#0x0
+00100804 stp x23,x24,[sp, #0x30]
+00100808 add x24,x26,#0x40
+0010080c mov x23,#0x1
+00100810 b 0x00100834
+00100814 cbz w22,0x00100920
+00100818 ldr w1,[x21, #0x14]
+0010081c add w22,w22,#0x1
+00100820 add x19,x19,#0x80
+00100824 add x27,x27,#0x120
+00100828 add x0,x28,#0x60
+0010082c cmp w1,w22
+00100830 b.ls 0x0010094c
+00100834 ldrb w1,[x27]
+00100838 add x1,x24,x1, LSL #0x3
+0010083c str x19,[x1, #0x8]
+00100840 ldr w2,[x26, #0x18]
+00100844 cmp w2,#0x40
+00100848 b.hi 0x00100900
+0010084c cmp w2,#0x1
+00100850 b.ls 0x00100874
+00100854 sub w2,w2,#0x2
+00100858 mov x1,#0x4000000040000000
+0010085c movk x1,#0x5
+00100860 lsl x2,x23,x2
+00100864 tst x2,x1
+00100868 b.ne 0x00100910
+0010086c tbnz w2,#0x6,0x0010098c
+00100870 tbnz w2,#0xe,0x0010099c
+00100874 mov x28,x0
+00100878 mov w2,#0x0
+0010087c mov x1,#0x0
+00100880 strb w2,[x19, #0x1]
+00100884 stp x0,x1,[x19, #0x28]
+00100888 ldr w0,[x26, #0x1c]
+0010088c ldr x1,[x27, #0xb0]
+00100890 strh wzr,[sp, #0x6e]
+00100894 cmp w0,#0x1
+00100898 b.eq 0x001008a4
+0010089c cmp w0,#0x2
+001008a0 csel w0,w0,wzr,eq
+001008a4 ldrh w5,[x20, #0x4]
+001008a8 ldr w2,[x20]
+001008ac ldr w3,[x26, #0x20]
+001008b0 str x26,[x19, #0x70]
+001008b4 strh w5,[sp, #0x6c]
+001008b8 ldr x1,[x1, #0x688]
+001008bc stp w0,w3,[sp, #0x60]
+001008c0 str w2,[sp, #0x68]
+001008c4 ldr x5,[x1, #0x10]
+001008c8 cbz x5,0x0010096c
+001008cc add x3,sp,#0x60
+001008d0 mov x2,x25
+001008d4 mov x1,x19
+001008d8 mov x0,x27
+001008dc blr x5
+001008e0 cbz w0,0x00100814
+001008e4 ldp x19,x20,[sp, #0x10]
+001008e8 ldp x21,x22,[sp, #0x20]
+001008ec ldp x23,x24,[sp, #0x30]
+001008f0 ldp x25,x26,[sp, #0x40]
+001008f4 ldp x27,x28,[sp, #0x50]
+001008f8 ldp x29,x30,[sp], #0x70
+001008fc ret
+00100900 cmp w2,#0x1, LSL #12
+00100904 b.eq 0x00100910
+00100908 cmp w2,#0x4, LSL #12
+0010090c b.ne 0x00100874
+00100910 add x28,x0,#0x60
+00100914 mov w2,#0x1
+00100918 mov x1,x28
+0010091c b 0x00100880
+00100920 mov x1,x19
+00100924 mov x0,x26
+00100928 bl 0x00100580
+0010092c cbnz w0,0x001008e4
+00100930 ldr w1,[x21, #0x14]
+00100934 add w22,w22,#0x1
+00100938 add x19,x19,#0x80
+0010093c add x27,x27,#0x120
+00100940 add x0,x28,#0x60
+00100944 cmp w1,w22
+00100948 b.hi 0x00100834
+0010094c ldp x23,x24,[sp, #0x30]
+00100950 mov w0,#0x0
+00100954 ldp x19,x20,[sp, #0x10]
+00100958 ldp x21,x22,[sp, #0x20]
+0010095c ldp x25,x26,[sp, #0x40]
+00100960 ldp x27,x28,[sp, #0x50]
+00100964 ldp x29,x30,[sp], #0x70
+00100968 ret
+0010096c mov w0,#0xffffffa1
+00100970 ldp x19,x20,[sp, #0x10]
+00100974 ldp x21,x22,[sp, #0x20]
+00100978 ldp x23,x24,[sp, #0x30]
+0010097c ldp x25,x26,[sp, #0x40]
+00100980 ldp x27,x28,[sp, #0x50]
+00100984 ldp x29,x30,[sp], #0x70
+00100988 ret
+0010098c mov w2,#0x5
+00100990 mov x28,x0
+00100994 mov x1,#0x0
+00100998 b 0x00100880
+0010099c mov w2,#0x2
+001009a0 b 0x00100990
+
+FUNCTION FUN_001009a4 @ 001009a4
+decompiled=true
+
+int FUN_001009a4(long param_1,long param_2)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  int iVar3;
+  code *pcVar4;
+  long lVar5;
+  long lVar6;
+  
+  lVar6 = *(long *)(param_2 + 0x40);
+  lVar5 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  pcVar4 = *(code **)(*(long *)(lVar5 + 0x688) + 0x38);
+  if (pcVar4 == (code *)0x0) {
+    iVar3 = -0x5f;
+  }
+  else {
+    iVar3 = (*pcVar4)(lVar5,lVar6);
+    if (iVar3 == 0) {
+      uVar1 = *(undefined4 *)(lVar6 + 0x1c);
+      *(undefined4 *)(param_2 + 0x20) = uVar1;
+      uVar2 = *(undefined4 *)(lVar6 + 4);
+      *(undefined4 *)(param_2 + 8) = uVar2;
+      *(undefined8 *)(param_2 + 0xc) = 0xff000000ff;
+      _dev_info(*(undefined8 *)(lVar5 + 0x48),"%s(): grp %d, mat %d, mldmat %d, remap %d\n",
+                "connac_if_mld_remove_link",uVar1,uVar2,0xff);
+    }
+  }
+  return iVar3;
+}
+
+
+ASSEMBLY
+001009a4 stp x29,x30,[sp, #-0x30]!
+001009a8 mov x29,sp
+001009ac stp x19,x20,[sp, #0x10]
+001009b0 stp x21,x22,[sp, #0x20]
+001009b4 ldr x0,[x0, #0x48]
+001009b8 ldr x22,[x1, #0x40]
+001009bc ldr x21,[x0, #0xb0]
+001009c0 ldr x0,[x21, #0x688]
+001009c4 ldr x2,[x0, #0x38]
+001009c8 cbz x2,0x001009f8
+001009cc mov x20,x1
+001009d0 mov x0,x21
+001009d4 mov x1,x22
+001009d8 blr x2
+001009dc mov w19,w0
+001009e0 cbz w0,0x00100a00
+001009e4 mov w0,w19
+001009e8 ldp x19,x20,[sp, #0x10]
+001009ec ldp x21,x22,[sp, #0x20]
+001009f0 ldp x29,x30,[sp], #0x30
+001009f4 ret
+001009f8 mov w19,#0xffffffa1
+001009fc b 0x001009e4
+00100a00 ldr w3,[x22, #0x1c]
+00100a04 orr x0,xzr,#0xff000000ff
+00100a08 str w3,[x20, #0x20]
+00100a0c adrp x2,0x101000
+00100a10 add x2,x2,#0xee8
+00100a14 mov w6,#0xff
+00100a18 ldr w4,[x22, #0x4]
+00100a1c add x2,x2,#0x70
+00100a20 str w4,[x20, #0x8]
+00100a24 mov w5,w6
+00100a28 stur x0,[x20, #0xc]
+00100a2c adrp x1,0x102000
+00100a30 add x1,x1,#0x1e0
+00100a34 ldr x0,[x21, #0x48]
+00100a38 bl 0x00104060
+00100a3c b 0x001009e4
+
+FUNCTION FUN_00100a40 @ 00100a40
+decompiled=true
+
+int FUN_00100a40(long param_1,long param_2)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  int iVar3;
+  code *pcVar4;
+  long lVar5;
+  long lVar6;
+  
+  lVar6 = *(long *)(param_2 + 0x40);
+  lVar5 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  pcVar4 = *(code **)(*(long *)(lVar5 + 0x688) + 0x30);
+  if (pcVar4 == (code *)0x0) {
+    iVar3 = -0x5f;
+  }
+  else {
+    iVar3 = (*pcVar4)(lVar5,lVar6);
+    if (iVar3 == 0) {
+      uVar1 = *(undefined4 *)(lVar6 + 0x1c);
+      *(undefined4 *)(param_2 + 0x20) = uVar1;
+      uVar2 = *(undefined4 *)(lVar6 + 4);
+      *(undefined4 *)(param_2 + 8) = uVar2;
+      lVar6 = *(long *)(lVar6 + 0x40);
+      if (lVar6 != 0) {
+        *(undefined4 *)(param_2 + 0x10) = *(undefined4 *)(lVar6 + 4);
+        *(undefined4 *)(param_2 + 0xc) = *(undefined4 *)(lVar6 + 8);
+      }
+      _dev_info(*(undefined8 *)(lVar5 + 0x48),"%s(): grp %d, mat %d, mldmat %d, remap %d\n",
+                "connac_if_mld_add_link",uVar1,uVar2,*(undefined4 *)(param_2 + 0xc),
+                *(undefined4 *)(param_2 + 0x10));
+    }
+  }
+  return iVar3;
+}
+
+
+ASSEMBLY
+00100a40 stp x29,x30,[sp, #-0x30]!
+00100a44 mov x29,sp
+00100a48 stp x19,x20,[sp, #0x10]
+00100a4c stp x21,x22,[sp, #0x20]
+00100a50 ldr x0,[x0, #0x48]
+00100a54 ldr x22,[x1, #0x40]
+00100a58 ldr x21,[x0, #0xb0]
+00100a5c ldr x0,[x21, #0x688]
+00100a60 ldr x3,[x0, #0x30]
+00100a64 cbz x3,0x00100a94
+00100a68 mov x20,x1
+00100a6c mov x0,x21
+00100a70 mov x1,x22
+00100a74 blr x3
+00100a78 mov w19,w0
+00100a7c cbz w0,0x00100a9c
+00100a80 mov w0,w19
+00100a84 ldp x19,x20,[sp, #0x10]
+00100a88 ldp x21,x22,[sp, #0x20]
+00100a8c ldp x29,x30,[sp], #0x30
+00100a90 ret
+00100a94 mov w19,#0xffffffa1
+00100a98 b 0x00100a80
+00100a9c ldr w3,[x22, #0x1c]
+00100aa0 str w3,[x20, #0x20]
+00100aa4 ldr w4,[x22, #0x4]
+00100aa8 str w4,[x20, #0x8]
+00100aac ldr x0,[x22, #0x40]
+00100ab0 cbz x0,0x00100ac4
+00100ab4 ldr w1,[x0, #0x4]
+00100ab8 str w1,[x20, #0x10]
+00100abc ldr w0,[x0, #0x8]
+00100ac0 str w0,[x20, #0xc]
+00100ac4 ldp w5,w6,[x20, #0xc]
+00100ac8 adrp x2,0x101000
+00100acc ldr x0,[x21, #0x48]
+00100ad0 add x2,x2,#0xee8
+00100ad4 add x2,x2,#0x90
+00100ad8 adrp x1,0x102000
+00100adc add x1,x1,#0x1e0
+00100ae0 bl 0x00104060
+00100ae4 b 0x00100a80
+
+FUNCTION FUN_00100af0 @ 00100af0
+decompiled=true
+
+void FUN_00100af0(long param_1,undefined8 param_2)
+
+{
+  mtk_dbg_info(0,*(undefined8 *)(param_1 + 0x48),param_2);
+  return;
+}
+
+
+ASSEMBLY
+00100af0 mov x3,x0
+00100af4 stp x29,x30,[sp, #-0x10]!
+00100af8 mov x2,x1
+00100afc mov x29,sp
+00100b00 ldr x1,[x3, #0x48]
+00100b04 mov w0,#0x0
+00100b08 bl 0x00104030
+00100b0c ldp x29,x30,[sp], #0x10
+00100b10 ret
+
+FUNCTION FUN_00100b14 @ 00100b14
+decompiled=true
+
+int FUN_00100b14(long param_1,undefined4 *param_2)
+
+{
+  char cVar1;
+  int iVar2;
+  code *pcVar3;
+  long lVar4;
+  undefined8 local_48;
+  undefined4 local_40;
+  undefined4 local_38;
+  undefined4 uStack_34;
+  undefined1 local_30 [6];
+  char cStack_2a;
+  undefined1 uStack_29;
+  undefined8 local_28;
+  ulong local_20;
+  undefined8 *local_18;
+  undefined8 local_10;
+  undefined8 uStack_8;
+  
+  local_18 = &local_48;
+  local_10 = *(undefined8 *)(param_2 + 2);
+  local_48 = *(undefined8 *)(param_2 + 4);
+  local_38 = *param_2;
+  uStack_34 = param_2[1];
+  local_40 = 0;
+  cVar1 = *(char *)((long)param_2 + 0x21);
+  _local_30 = (uint7)(uint)param_2[6];
+  _local_30 = CONCAT17(*(undefined1 *)(param_2 + 9),_local_30);
+  local_28 = (ulong)CONCAT14(*(undefined1 *)((long)param_2 + 0x23),
+                             CONCAT13(*(undefined1 *)(param_2 + 8),
+                                      (uint3)*(ushort *)((long)param_2 + 0x25)));
+  uStack_8 = 0;
+  local_20 = (ulong)(uint)param_2[10];
+  lVar4 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  if ((cVar1 == '\x02') || (cVar1 == '\x03')) {
+    local_30._0_5_ = CONCAT14(cVar1,param_2[6]);
+LAB_00100c74:
+    cVar1 = *(char *)((long)param_2 + 0x22);
+    if ((cVar1 == '\x01') || (cVar1 == '\x02')) {
+      iVar2 = 0;
+      _local_30 = CONCAT16(cVar1,local_30);
+      goto LAB_00100ba8;
+    }
+  }
+  else if (cVar1 == '\0') goto LAB_00100c74;
+  iVar2 = -0x16;
+LAB_00100ba8:
+  mtk_dbg(2,"%s(ret=%d):len=%d,cmd=0x%x,ext_cmd=0x%x,\n","connac_if_mcu_tx",iVar2);
+  mtk_dbg(2,"%s:wait_rsp=%d,ack=%d,dest=%d,act=%d,\n","connac_if_mcu_tx",local_28._3_1_,
+          local_28._4_1_,local_30[4],cStack_2a);
+  mtk_dbg(2,"%s:frag=%d/%d,uni=%d\n","connac_if_mcu_tx",local_28 & 0xff,local_28._1_1_,uStack_29);
+  if (iVar2 == 0) {
+    pcVar3 = *(code **)(*(long *)(lVar4 + 0x688) + 0x90);
+    if (pcVar3 == (code *)0x0) {
+      iVar2 = -0x5f;
+    }
+    else {
+      iVar2 = (*pcVar3)(lVar4,&local_38);
+    }
+    mtk_dbg(2,"%s(): resp %p, res_len :%d, ret: %d\n","connac_if_mcu_tx",local_48,local_40,iVar2);
+    param_2[7] = local_40;
+  }
+  return iVar2;
+}
+
+
+ASSEMBLY
+00100b14 stp x29,x30,[sp, #-0x90]!
+00100b18 mov x29,sp
+00100b1c stp x19,x20,[sp, #0x10]
+00100b20 mov x19,x1
+00100b24 add x3,sp,#0x48
+00100b28 stp x21,x22,[sp, #0x20]
+00100b2c str x23,[sp, #0x30]
+00100b30 stp xzr,xzr,[sp, #0x60]
+00100b34 ldrb w9,[x1, #0x20]
+00100b38 ldp x2,x4,[x19, #0x8]
+00100b3c str x4,[sp, #0x48]
+00100b40 ldrb w8,[x1, #0x23]
+00100b44 ldrb w11,[x1, #0x24]
+00100b48 ldurh w10,[x1, #0x25]
+00100b4c ldp w5,w6,[x1]
+00100b50 str wzr,[sp, #0x50]
+00100b54 ldr w7,[x1, #0x28]
+00100b58 ldr x1,[x0, #0x48]
+00100b5c stp w5,w6,[sp, #0x58]
+00100b60 ldr w4,[x19, #0x18]
+00100b64 ldrb w0,[x19, #0x21]
+00100b68 str w4,[sp, #0x60]
+00100b6c strb w11,[sp, #0x67]
+00100b70 strh w10,[sp, #0x68]
+00100b74 strb w9,[sp, #0x6b]
+00100b78 strb w8,[sp, #0x6c]
+00100b7c stp xzr,xzr,[sp, #0x70]
+00100b80 stp xzr,xzr,[sp, #0x80]
+00100b84 str w7,[sp, #0x70]
+00100b88 stp x3,x2,[sp, #0x78]
+00100b8c ldr x23,[x1, #0xb0]
+00100b90 cmp w0,#0x2
+00100b94 b.eq 0x00100c70
+00100b98 cmp w0,#0x3
+00100b9c b.eq 0x00100c70
+00100ba0 cbz w0,0x00100c74
+00100ba4 mov w20,#0xffffffea
+00100ba8 adrp x21,0x101000
+00100bac add x21,x21,#0xee8
+00100bb0 add x22,x21,#0xc0
+00100bb4 mov w3,w20
+00100bb8 mov x2,x22
+00100bbc mov w0,#0x2
+00100bc0 adrp x1,0x102000
+00100bc4 add x1,x1,#0x210
+00100bc8 bl 0x00104088
+00100bcc ldrb w5,[sp, #0x64]
+00100bd0 ldrb w4,[sp, #0x6c]
+00100bd4 mov x2,x22
+00100bd8 ldrb w3,[sp, #0x6b]
+00100bdc mov w0,#0x2
+00100be0 ldrb w6,[sp, #0x66]
+00100be4 adrp x1,0x102000
+00100be8 add x1,x1,#0x240
+00100bec bl 0x00104088
+00100bf0 ldrb w5,[sp, #0x67]
+00100bf4 ldrb w4,[sp, #0x69]
+00100bf8 adrp x1,0x102000
+00100bfc ldrb w3,[sp, #0x68]
+00100c00 mov x2,x22
+00100c04 add x1,x1,#0x268
+00100c08 mov w0,#0x2
+00100c0c bl 0x00104088
+00100c10 cbnz w20,0x00100c58
+00100c14 ldr x0,[x23, #0x688]
+00100c18 ldr x2,[x0, #0x90]
+00100c1c cbz x2,0x00100c94
+00100c20 mov x0,x23
+00100c24 add x1,sp,#0x58
+00100c28 blr x2
+00100c2c mov w20,w0
+00100c30 ldr w4,[sp, #0x50]
+00100c34 mov w0,#0x2
+00100c38 ldr x3,[sp, #0x48]
+00100c3c add x2,x21,#0xc0
+00100c40 mov w5,w20
+00100c44 adrp x1,0x102000
+00100c48 add x1,x1,#0x280
+00100c4c bl 0x00104088
+00100c50 ldr w0,[sp, #0x50]
+00100c54 str w0,[x19, #0x1c]
+00100c58 mov w0,w20
+00100c5c ldp x19,x20,[sp, #0x10]
+00100c60 ldp x21,x22,[sp, #0x20]
+00100c64 ldr x23,[sp, #0x30]
+00100c68 ldp x29,x30,[sp], #0x90
+00100c6c ret
+00100c70 strb w0,[sp, #0x64]
+00100c74 ldrb w0,[x19, #0x22]
+00100c78 cmp w0,#0x1
+00100c7c b.eq 0x00100c88
+00100c80 cmp w0,#0x2
+00100c84 b.ne 0x00100ba4
+00100c88 mov w20,#0x0
+00100c8c strb w0,[sp, #0x66]
+00100c90 b 0x00100ba8
+00100c94 mov w20,#0xffffffa1
+00100c98 b 0x00100c30
+
+FUNCTION FUN_00100c9c @ 00100c9c
+decompiled=true
+
+undefined8 FUN_00100c9c(long param_1,uint param_2,int param_3)
+
+{
+  ulong *puVar1;
+  char cVar2;
+  bool bVar3;
+  long lVar4;
+  undefined8 uVar5;
+  code *pcVar6;
+  long lVar7;
+  long lVar8;
+  
+  lVar4 = *(long *)(param_1 + 0x48);
+  lVar7 = *(long *)(lVar4 + 0xb0);
+  lVar8 = *(long *)(lVar7 + 0x690);
+  if (param_2 == 5) {
+    pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xa8);
+    if (pcVar6 != (code *)0x0) {
+      uVar5 = (*pcVar6)(lVar7);
+      return uVar5;
+    }
+  }
+  else if (param_2 < 6) {
+    if (param_2 == 2) {
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0x98);
+      if (param_3 == 0) {
+        if (pcVar6 != (code *)0x0) {
+          uVar5 = (*pcVar6)(lVar4,0);
+          return uVar5;
+        }
+      }
+      else if (pcVar6 != (code *)0x0) {
+        uVar5 = (*pcVar6)(lVar4,1);
+        return uVar5;
+      }
+    }
+    else {
+      if (2 < param_2) {
+        return 0;
+      }
+      if (param_2 == 0) {
+        if (param_3 == 0) {
+          puVar1 = (ulong *)(lVar8 + 0x30);
+          Hint_Prefetch(puVar1,2,0,1);
+          do {
+            cVar2 = '\x01';
+            bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+            if (bVar3) {
+              *puVar1 = *puVar1 & 0xfffffffffffffffb;
+              cVar2 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar2 != '\0');
+          return 0;
+        }
+        puVar1 = (ulong *)(lVar8 + 0x30);
+        Hint_Prefetch(puVar1,2,0,1);
+        do {
+          cVar2 = '\x01';
+          bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+          if (bVar3) {
+            *puVar1 = *puVar1 | 4;
+            cVar2 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar2 != '\0');
+        return 0;
+      }
+      if (param_2 != 1) goto LAB_00100e6c;
+      pcVar6 = *(code **)(*(long *)(lVar8 + 0x68) + 0x98);
+      if (pcVar6 != (code *)0x0) {
+        uVar5 = (*pcVar6)(lVar8,param_3);
+        return uVar5;
+      }
+    }
+  }
+  else {
+    if (param_2 == 8) {
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xf8);
+    }
+    else {
+      if (param_2 < 9) {
+        if (param_2 == 6) {
+          if (param_3 == 0) {
+            puVar1 = (ulong *)(lVar7 + 0x28);
+            Hint_Prefetch(puVar1,2,0,1);
+            do {
+              cVar2 = '\x01';
+              bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+              if (bVar3) {
+                *puVar1 = *puVar1 & 0xfffffffffffffff7;
+                cVar2 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar2 != '\0');
+          }
+          else {
+            puVar1 = (ulong *)(lVar7 + 0x28);
+            Hint_Prefetch(puVar1,2,0,1);
+            do {
+              cVar2 = '\x01';
+              bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+              if (bVar3) {
+                *puVar1 = *puVar1 | 8;
+                cVar2 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar2 != '\0');
+          }
+          mtk_dbg(2,"%s(): SER action = %u, state:0x%lx\n","connac_if_ser_handler",6,
+                  *(undefined8 *)(lVar7 + 0x28));
+          return 0;
+        }
+        if (param_2 == 7) {
+          pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xb0);
+          if (pcVar6 == (code *)0x0) {
+            return 0xffffffa1;
+          }
+          uVar5 = (*pcVar6)(lVar7,param_3 != 0);
+          return uVar5;
+        }
+LAB_00100e6c:
+        _dev_err(*(undefined8 *)(lVar7 + 0x48),"%s(): action = %u not supported\n",
+                 "connac_if_ser_handler",param_2);
+        return 0xffffffa1;
+      }
+      if (param_2 != 9) goto LAB_00100e6c;
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0x100);
+    }
+    if (pcVar6 != (code *)0x0) {
+      uVar5 = (*pcVar6)();
+      return uVar5;
+    }
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100c9c nop
+
+FUNCTION FUN_00100ca0 @ 00100ca0
+decompiled=true
+
+undefined8 FUN_00100ca0(long param_1,uint param_2,int param_3)
+
+{
+  ulong *puVar1;
+  char cVar2;
+  bool bVar3;
+  long lVar4;
+  undefined8 uVar5;
+  code *pcVar6;
+  long lVar7;
+  long lVar8;
+  
+  lVar4 = *(long *)(param_1 + 0x48);
+  lVar7 = *(long *)(lVar4 + 0xb0);
+  lVar8 = *(long *)(lVar7 + 0x690);
+  if (param_2 == 5) {
+    pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xa8);
+    if (pcVar6 != (code *)0x0) {
+      uVar5 = (*pcVar6)(lVar7);
+      return uVar5;
+    }
+  }
+  else if (param_2 < 6) {
+    if (param_2 == 2) {
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0x98);
+      if (param_3 == 0) {
+        if (pcVar6 != (code *)0x0) {
+          uVar5 = (*pcVar6)(lVar4,0);
+          return uVar5;
+        }
+      }
+      else if (pcVar6 != (code *)0x0) {
+        uVar5 = (*pcVar6)(lVar4,1);
+        return uVar5;
+      }
+    }
+    else {
+      if (2 < param_2) {
+        return 0;
+      }
+      if (param_2 == 0) {
+        if (param_3 == 0) {
+          puVar1 = (ulong *)(lVar8 + 0x30);
+          Hint_Prefetch(puVar1,2,0,1);
+          do {
+            cVar2 = '\x01';
+            bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+            if (bVar3) {
+              *puVar1 = *puVar1 & 0xfffffffffffffffb;
+              cVar2 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar2 != '\0');
+          return 0;
+        }
+        puVar1 = (ulong *)(lVar8 + 0x30);
+        Hint_Prefetch(puVar1,2,0,1);
+        do {
+          cVar2 = '\x01';
+          bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+          if (bVar3) {
+            *puVar1 = *puVar1 | 4;
+            cVar2 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar2 != '\0');
+        return 0;
+      }
+      if (param_2 != 1) goto LAB_00100e6c;
+      pcVar6 = *(code **)(*(long *)(lVar8 + 0x68) + 0x98);
+      if (pcVar6 != (code *)0x0) {
+        uVar5 = (*pcVar6)(lVar8,param_3);
+        return uVar5;
+      }
+    }
+  }
+  else {
+    if (param_2 == 8) {
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xf8);
+    }
+    else {
+      if (param_2 < 9) {
+        if (param_2 == 6) {
+          if (param_3 == 0) {
+            puVar1 = (ulong *)(lVar7 + 0x28);
+            Hint_Prefetch(puVar1,2,0,1);
+            do {
+              cVar2 = '\x01';
+              bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+              if (bVar3) {
+                *puVar1 = *puVar1 & 0xfffffffffffffff7;
+                cVar2 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar2 != '\0');
+          }
+          else {
+            puVar1 = (ulong *)(lVar7 + 0x28);
+            Hint_Prefetch(puVar1,2,0,1);
+            do {
+              cVar2 = '\x01';
+              bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+              if (bVar3) {
+                *puVar1 = *puVar1 | 8;
+                cVar2 = ExclusiveMonitorsStatus();
+              }
+            } while (cVar2 != '\0');
+          }
+          mtk_dbg(2,"%s(): SER action = %u, state:0x%lx\n","connac_if_ser_handler",6,
+                  *(undefined8 *)(lVar7 + 0x28));
+          return 0;
+        }
+        if (param_2 == 7) {
+          pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0xb0);
+          if (pcVar6 == (code *)0x0) {
+            return 0xffffffa1;
+          }
+          uVar5 = (*pcVar6)(lVar7,param_3 != 0);
+          return uVar5;
+        }
+LAB_00100e6c:
+        _dev_err(*(undefined8 *)(lVar7 + 0x48),"%s(): action = %u not supported\n",
+                 "connac_if_ser_handler",param_2);
+        return 0xffffffa1;
+      }
+      if (param_2 != 9) goto LAB_00100e6c;
+      pcVar6 = *(code **)(*(long *)(lVar7 + 0x688) + 0x100);
+    }
+    if (pcVar6 != (code *)0x0) {
+      uVar5 = (*pcVar6)();
+      return uVar5;
+    }
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100ca0 stp x29,x30,[sp, #-0x10]!
+00100ca4 mov x29,sp
+00100ca8 ldr x0,[x0, #0x48]
+00100cac ldr x3,[x0, #0xb0]
+00100cb0 ldr x4,[x3, #0x690]
+00100cb4 cmp w1,#0x5
+00100cb8 b.eq 0x00100e10
+00100cbc b.ls 0x00100cec
+00100cc0 cmp w1,#0x8
+00100cc4 b.eq 0x00100e2c
+00100cc8 b.ls 0x00100d04
+00100ccc cmp w1,#0x9
+00100cd0 b.ne 0x00100e6c
+00100cd4 ldr x1,[x3, #0x688]
+00100cd8 ldr x1,[x1, #0x100]
+00100cdc cbz x1,0x00100e38
+00100ce0 blr x1
+00100ce4 ldp x29,x30,[sp], #0x10
+00100ce8 ret
+00100cec cmp w1,#0x2
+00100cf0 b.eq 0x00100e40
+00100cf4 mov w0,#0x0
+00100cf8 b.ls 0x00100d5c
+00100cfc ldp x29,x30,[sp], #0x10
+00100d00 ret
+00100d04 cmp w1,#0x6
+00100d08 b.ne 0x00100d80
+00100d0c cbnz w2,0x00100df4
+00100d10 mov x0,#0x8
+00100d14 add x4,x3,#0x28
+00100d18 prfm PSTL1STRM,[x4]
+00100d1c ldxr x1,[x4]
+00100d20 bic x1,x1,x0
+00100d24 stxr w2,x1,[x4]
+00100d28 cbnz w2,0x00100d1c
+00100d2c ldr x4,[x3, #0x28]
+00100d30 adrp x2,0x101000
+00100d34 add x2,x2,#0xee8
+00100d38 mov w0,#0x2
+00100d3c add x2,x2,#0xd8
+00100d40 mov w3,#0x6
+00100d44 adrp x1,0x102000
+00100d48 add x1,x1,#0x2a8
+00100d4c bl 0x00104088
+00100d50 mov w0,#0x0
+00100d54 ldp x29,x30,[sp], #0x10
+00100d58 ret
+00100d5c cbnz w1,0x00100dac
+00100d60 cbz w2,0x00100dd4
+00100d64 add x3,x4,#0x30
+00100d68 prfm PSTL1STRM,[x3]
+00100d6c ldxr x1,[x3]
+00100d70 orr x1,x1,#0x4
+00100d74 stxr w2,x1,[x3]
+00100d78 cbnz w2,0x00100d6c
+00100d7c b 0x00100cfc
+00100d80 cmp w1,#0x7
+00100d84 b.ne 0x00100e6c
+00100d88 ldr x0,[x3, #0x688]
+00100d8c ldr x4,[x0, #0xb0]
+00100d90 cbz x4,0x00100e38
+00100d94 cmp w2,#0x0
+00100d98 mov x0,x3
+00100d9c cset w1,ne
+00100da0 blr x4
+00100da4 ldp x29,x30,[sp], #0x10
+00100da8 ret
+00100dac cmp w1,#0x1
+00100db0 b.ne 0x00100e6c
+00100db4 ldr x0,[x4, #0x68]
+00100db8 ldr x3,[x0, #0x98]
+00100dbc cbz x3,0x00100e38
+00100dc0 mov w1,w2
+00100dc4 mov x0,x4
+00100dc8 blr x3
+00100dcc ldp x29,x30,[sp], #0x10
+00100dd0 ret
+00100dd4 add x4,x4,#0x30
+00100dd8 mov x1,#0x4
+00100ddc prfm PSTL1STRM,[x4]
+00100de0 ldxr x2,[x4]
+00100de4 bic x2,x2,x1
+00100de8 stxr w3,x2,[x4]
+00100dec cbnz w3,0x00100de0
+00100df0 b 0x00100cfc
+00100df4 add x2,x3,#0x28
+00100df8 prfm PSTL1STRM,[x2]
+00100dfc ldxr x0,[x2]
+00100e00 orr x0,x0,#0x8
+00100e04 stxr w1,x0,[x2]
+00100e08 cbnz w1,0x00100dfc
+00100e0c b 0x00100d2c
+00100e10 ldr x0,[x3, #0x688]
+00100e14 ldr x1,[x0, #0xa8]
+00100e18 cbz x1,0x00100e38
+00100e1c mov x0,x3
+00100e20 blr x1
+00100e24 ldp x29,x30,[sp], #0x10
+00100e28 ret
+00100e2c ldr x1,[x3, #0x688]
+00100e30 ldr x1,[x1, #0xf8]
+00100e34 cbnz x1,0x00100ce0
+00100e38 mov w0,#0xffffffa1
+00100e3c b 0x00100cfc
+00100e40 ldr x1,[x3, #0x688]
+00100e44 ldr x3,[x1, #0x98]
+00100e48 cbnz w2,0x00100e5c
+00100e4c cbz x3,0x00100e38
+00100e50 mov w1,#0x0
+00100e54 blr x3
+00100e58 b 0x00100cfc
+00100e5c cbz x3,0x00100e38
+00100e60 mov w1,#0x1
+00100e64 blr x3
+00100e68 b 0x00100cfc
+00100e6c ldr x0,[x3, #0x48]
+00100e70 adrp x2,0x101000
+00100e74 add x2,x2,#0xee8
+00100e78 mov w3,w1
+00100e7c add x2,x2,#0xd8
+00100e80 adrp x1,0x102000
+00100e84 add x1,x1,#0x2d0
+00100e88 bl 0x00104068
+00100e8c mov w0,#0xffffffa1
+00100e90 b 0x00100cfc
+
+FUNCTION FUN_00100e94 @ 00100e94
+decompiled=true
+
+undefined8 FUN_00100e94(long param_1,long param_2)
+
+{
+  long lVar1;
+  uint uVar2;
+  ulong uVar3;
+  undefined8 uVar4;
+  
+  if (param_2 == 0) {
+    uVar4 = 0xffffffea;
+  }
+  else {
+    uVar4 = 0;
+    uVar3 = *(ulong *)(param_2 + 0x88) >> 0x38 & 0xf;
+    uVar2 = (uint)uVar3;
+    if (((uVar2 < 3) && (lVar1 = *(long *)(param_1 + 0x590 + (long)(int)uVar2 * 8), lVar1 != 0)) &&
+       (*(int *)(*(long *)(lVar1 + 0xe8) + 4) < 10)) {
+      mtk_mac_dequeue_by_token(*(undefined8 *)(lVar1 + 0x118),uVar3);
+      return 0;
+    }
+  }
+  return uVar4;
+}
+
+
+ASSEMBLY
+00100e94 stp x29,x30,[sp, #-0x20]!
+00100e98 mov x29,sp
+00100e9c str x19,[sp, #0x10]
+00100ea0 cbz x1,0x00100f00
+00100ea4 ldr x1,[x1, #0x88]
+00100ea8 mov w19,#0x0
+00100eac ubfx x2,x1,#0x38,#0x4
+00100eb0 mov x1,x2
+00100eb4 cmp w2,#0x2
+00100eb8 b.hi 0x00100ed8
+00100ebc add x0,x0,#0x590
+00100ec0 ldr x0,[x0, w2, SXTW #0x3]
+00100ec4 cbz x0,0x00100ed8
+00100ec8 ldr x2,[x0, #0xe8]
+00100ecc ldr w2,[x2, #0x4]
+00100ed0 cmp w2,#0x9
+00100ed4 b.le 0x00100ee8
+00100ed8 mov w0,w19
+00100edc ldr x19,[sp, #0x10]
+00100ee0 ldp x29,x30,[sp], #0x20
+00100ee4 ret
+00100ee8 ldr x0,[x0, #0x118]
+00100eec bl 0x00104098
+00100ef0 mov w0,w19
+00100ef4 ldr x19,[sp, #0x10]
+00100ef8 ldp x29,x30,[sp], #0x20
+00100efc ret
+00100f00 mov w19,#0xffffffea
+00100f04 b 0x00100ed8
+
+FUNCTION FUN_00100f10 @ 00100f10
+decompiled=true
+
+void FUN_00100f10(void)
+
+{
+  mtk_rx_ser_event();
+  return;
+}
+
+
+ASSEMBLY
+00100f10 stp x29,x30,[sp, #-0x10]!
+00100f14 mov x29,sp
+00100f18 bl 0x00104018
+00100f1c ldp x29,x30,[sp], #0x10
+00100f20 ret
+
+FUNCTION FUN_00100f24 @ 00100f24
+decompiled=true
+
+void FUN_00100f24(long param_1)
+
+{
+  mtk_mac_rx_unsolicited_event(*(undefined8 *)(param_1 + 0x40));
+  return;
+}
+
+
+ASSEMBLY
+00100f24 stp x29,x30,[sp, #-0x10]!
+00100f28 mov x29,sp
+00100f2c ldr x0,[x0, #0x40]
+00100f30 bl 0x001040b8
+00100f34 ldp x29,x30,[sp], #0x10
+00100f38 ret
+
+FUNCTION FUN_00100f3c @ 00100f3c
+decompiled=true
+
+undefined8 FUN_00100f3c(long param_1,long param_2,byte *param_3)
+
+{
+  byte bVar1;
+  long lVar2;
+  byte *pbVar3;
+  code *pcVar4;
+  undefined1 uStack_d;
+  undefined1 auStack_c [4];
+  undefined1 auStack_8 [4];
+  uint uStack_4;
+  
+  if (((param_2 == 0) || (*(long *)(param_2 + 0x10) == 0)) ||
+     (pbVar3 = *(byte **)(*(long *)(param_2 + 0x10) + 0x38), pbVar3 == (byte *)0x0)) {
+    uStack_4 = 3;
+  }
+  else {
+    bVar1 = *pbVar3;
+    uStack_4 = (uint)bVar1;
+    if (uStack_4 < 3) {
+      pcVar4 = *(code **)(*(long *)(param_1 + 0x688) + 0x80);
+      if (pcVar4 == (code *)0x0) {
+        *param_3 = bVar1;
+        return 0;
+      }
+      lVar2 = (*pcVar4)(param_1,&uStack_4,auStack_c,auStack_8,&uStack_d);
+      *param_3 = (byte)uStack_4;
+      if (lVar2 != 0) {
+        mtk_mac_tx_status(*(undefined8 *)(lVar2 + 0x118),param_3);
+        return 0;
+      }
+      return 0;
+    }
+  }
+  _dev_err(*(undefined8 *)(param_1 + 0x48),"%s(): band_idx not exist\n","connac_if_tx_status");
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+00100f3c nop
+
+FUNCTION FUN_00100f40 @ 00100f40
+decompiled=true
+
+undefined8 FUN_00100f40(long param_1,long param_2,byte *param_3)
+
+{
+  byte bVar1;
+  long lVar2;
+  byte *pbVar3;
+  code *pcVar4;
+  undefined1 uStack_d;
+  undefined1 auStack_c [4];
+  undefined1 auStack_8 [4];
+  uint local_4;
+  
+  if (((param_2 == 0) || (*(long *)(param_2 + 0x10) == 0)) ||
+     (pbVar3 = *(byte **)(*(long *)(param_2 + 0x10) + 0x38), pbVar3 == (byte *)0x0)) {
+    local_4 = 3;
+  }
+  else {
+    bVar1 = *pbVar3;
+    local_4 = (uint)bVar1;
+    if (local_4 < 3) {
+      pcVar4 = *(code **)(*(long *)(param_1 + 0x688) + 0x80);
+      if (pcVar4 == (code *)0x0) {
+        *param_3 = bVar1;
+        return 0;
+      }
+      lVar2 = (*pcVar4)(param_1,&local_4,auStack_c,auStack_8,&uStack_d);
+      *param_3 = (byte)local_4;
+      if (lVar2 != 0) {
+        mtk_mac_tx_status(*(undefined8 *)(lVar2 + 0x118),param_3);
+        return 0;
+      }
+      return 0;
+    }
+  }
+  _dev_err(*(undefined8 *)(param_1 + 0x48),"%s(): band_idx not exist\n","connac_if_tx_status");
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+00100f40 stp x29,x30,[sp, #-0x30]!
+00100f44 mov x29,sp
+00100f48 str x19,[sp, #0x10]
+00100f4c mov x19,x2
+00100f50 mov x2,x0
+00100f54 cbz x1,0x00100fc0
+00100f58 ldr x1,[x1, #0x10]
+00100f5c cbz x1,0x00100fc0
+00100f60 ldr x1,[x1, #0x38]
+00100f64 cbz x1,0x00100fc0
+00100f68 ldrb w1,[x1]
+00100f6c str w1,[sp, #0x2c]
+00100f70 cmp w1,#0x2
+00100f74 b.hi 0x00100fc8
+00100f78 ldr x2,[x0, #0x688]
+00100f7c ldr x5,[x2, #0x80]
+00100f80 cbz x5,0x00100fec
+00100f84 add x1,sp,#0x2c
+00100f88 add x4,sp,#0x23
+00100f8c add x3,sp,#0x28
+00100f90 add x2,sp,#0x24
+00100f94 blr x5
+00100f98 ldr w1,[sp, #0x2c]
+00100f9c strb w1,[x19]
+00100fa0 cbz x0,0x00101000
+00100fa4 ldr x0,[x0, #0x118]
+00100fa8 mov x1,x19
+00100fac bl 0x001040a0
+00100fb0 mov w0,#0x0
+00100fb4 ldr x19,[sp, #0x10]
+00100fb8 ldp x29,x30,[sp], #0x30
+00100fbc ret
+00100fc0 mov w0,#0x3
+00100fc4 str w0,[sp, #0x2c]
+00100fc8 ldr x0,[x2, #0x48]
+00100fcc adrp x2,0x101000
+00100fd0 add x2,x2,#0xee8
+00100fd4 adrp x1,0x102000
+00100fd8 add x2,x2,#0x120
+00100fdc add x1,x1,#0x338
+00100fe0 bl 0x00104068
+00100fe4 mov w0,#0xffffffea
+00100fe8 b 0x00100fb4
+00100fec strb w1,[x19]
+00100ff0 mov w0,#0x0
+00100ff4 ldr x19,[sp, #0x10]
+00100ff8 ldp x29,x30,[sp], #0x30
+00100ffc ret
+00101000 mov w0,#0x0
+00101004 ldr x19,[sp, #0x10]
+00101008 ldp x29,x30,[sp], #0x30
+0010100c ret
+
+FUNCTION FUN_00101010 @ 00101010
+decompiled=true
+
+undefined8 FUN_00101010(long param_1,undefined8 param_2,long *param_3)
+
+{
+  long *plVar1;
+  byte bVar2;
+  int iVar3;
+  long lVar4;
+  long *plVar5;
+  
+  plVar5 = (long *)*param_3;
+  if (plVar5 != (long *)0x0 && param_3 != plVar5) {
+    *(int *)(param_3 + 2) = (int)param_3[2] + -1;
+    while( true ) {
+      lVar4 = *plVar5;
+      plVar1 = (long *)plVar5[1];
+      *plVar5 = 0;
+      plVar5[1] = 0;
+      *(long **)(lVar4 + 8) = plVar1;
+      *plVar1 = lVar4;
+      bVar2 = *(byte *)((long)plVar5 + 0x2c);
+      if ((((2 < bVar2) || (*(long *)(param_1 + 0x590 + (ulong)bVar2 * 8) == 0)) ||
+          (lVar4 = *(long *)(param_1 + 0x590 + (ulong)bVar2 * 8), lVar4 == 0)) ||
+         (iVar3 = mtk_mac_rx_napi(*(undefined8 *)(lVar4 + 0x118),0,plVar5), iVar3 != 0)) {
+        *(int *)(*(long *)(param_1 + 0x690) + 0x98) =
+             *(int *)(*(long *)(param_1 + 0x690) + 0x98) + 1;
+        consume_skb(plVar5);
+      }
+      plVar5 = (long *)*param_3;
+      if (plVar5 == (long *)0x0 || param_3 == plVar5) break;
+      *(int *)(param_3 + 2) = (int)param_3[2] + -1;
+    }
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+00101010 stp x29,x30,[sp, #-0x30]!
+00101014 mov x29,sp
+00101018 stp x19,x20,[sp, #0x10]
+0010101c ldr x19,[x2]
+00101020 cmp x19,#0x0
+00101024 ccmp x2,x19,#0x4,ne
+00101028 b.eq 0x001010c4
+0010102c stp x21,x22,[sp, #0x20]
+00101030 mov x22,x0
+00101034 add x21,x0,#0x590
+00101038 ldr w0,[x2, #0x10]
+0010103c mov x20,x2
+00101040 sub w0,w0,#0x1
+00101044 str w0,[x2, #0x10]
+00101048 b 0x00101058
+0010104c ldr w1,[x20, #0x10]
+00101050 sub w1,w1,#0x1
+00101054 str w1,[x20, #0x10]
+00101058 ldp x1,x0,[x19]
+0010105c stp xzr,xzr,[x19]
+00101060 mov x2,x19
+00101064 str x0,[x1, #0x8]
+00101068 str x1,[x0]
+0010106c mov x1,#0x0
+00101070 ldrb w4,[x19, #0x2c]
+00101074 cmp w4,#0x2
+00101078 b.hi 0x00101098
+0010107c ldr x0,[x21, x4, LSL #0x3]
+00101080 cbz x0,0x00101098
+00101084 ldr x0,[x21, x4, LSL #0x3]
+00101088 cbz x0,0x00101098
+0010108c ldr x0,[x0, #0x118]
+00101090 bl 0x00104090
+00101094 cbz w0,0x001010b0
+00101098 ldr x2,[x22, #0x690]
+0010109c mov x0,x19
+001010a0 ldr w1,[x2, #0x98]
+001010a4 add w1,w1,#0x1
+001010a8 str w1,[x2, #0x98]
+001010ac bl 0x00104000
+001010b0 ldr x19,[x20]
+001010b4 cmp x19,#0x0
+001010b8 ccmp x20,x19,#0x4,ne
+001010bc b.ne 0x0010104c
+001010c0 ldp x21,x22,[sp, #0x20]
+001010c4 mov w0,#0x0
+001010c8 ldp x19,x20,[sp, #0x10]
+001010cc ldp x29,x30,[sp], #0x30
+001010d0 ret
+
+FUNCTION FUN_001010d4 @ 001010d4
+decompiled=true
+
+undefined8 FUN_001010d4(long param_1,long *param_2,long param_3)
+
+{
+  long *plVar1;
+  long lVar2;
+  char cVar3;
+  bool bVar4;
+  undefined8 uVar5;
+  long lVar6;
+  code *pcVar7;
+  long lVar8;
+  long lVar9;
+  
+  lVar9 = *(long *)(param_1 + 0x48);
+  lVar8 = *(long *)(lVar9 + 0xb0);
+  if (param_2 == (long *)0x0) {
+    _dev_err(*(undefined8 *)(lVar8 + 0x48),"%s(): err txq!\n","connac_if_tx_queue");
+    uVar5 = 0xffffffea;
+  }
+  else {
+    lVar2 = param_2[1];
+    if ((*param_2 == 0 || lVar2 == 0) || param_2 + 3 == (long *)0x0) {
+      _dev_err(*(undefined8 *)(lVar8 + 0x48),"%s(): invalid input!\n","connac_if_tx_queue");
+      uVar5 = 0xffffffea;
+    }
+    else {
+      lVar6 = *(long *)(*param_2 + 0x40);
+      if (lVar6 == 0 || lVar2 == -0x148) {
+        _dev_err(*(undefined8 *)(lVar8 + 0x48),"%s(): err hw_bss or hw_sta!\n","connac_if_tx_queue")
+        ;
+        uVar5 = 0xffffffea;
+      }
+      else if (param_2[6] == lVar2 + 0x148) {
+        if (*(long *)(param_2[6] + 0x10) == lVar6) {
+          plVar1 = param_2 + 7;
+          Hint_Prefetch(plVar1,2,0,1);
+          do {
+            lVar8 = *plVar1;
+            if ((int)lVar8 != 0) break;
+            cVar3 = '\x01';
+            bVar4 = (bool)ExclusiveMonitorPass(plVar1,0x10);
+            if (bVar4) {
+              *(int *)plVar1 = 1;
+              cVar3 = ExclusiveMonitorsStatus();
+            }
+          } while (cVar3 != '\0');
+          if ((int)lVar8 != 0) {
+            queued_spin_lock_slowpath();
+          }
+          param_2[5] = param_3;
+          pcVar7 = *(code **)(*(long *)(*(long *)(lVar9 + 0xb0) + 0x688) + 0x58);
+          if (pcVar7 == (code *)0x0) {
+            uVar5 = 0xffffffa1;
+          }
+          else {
+            uVar5 = (*pcVar7)(lVar9,param_2 + 3);
+          }
+          *(undefined4 *)(param_2 + 7) = 0;
+        }
+        else {
+          _dev_err(*(undefined8 *)(lVar8 + 0x48),"%s(): not sync hw_bss!\n","connac_if_tx_queue");
+          uVar5 = 0xffffffea;
+        }
+      }
+      else {
+        _dev_err(*(undefined8 *)(lVar8 + 0x48),"%s(): not sync hw_sta!\n","connac_if_tx_queue");
+        uVar5 = 0xffffffea;
+      }
+    }
+  }
+  return uVar5;
+}
+
+
+ASSEMBLY
+001010d4 stp x29,x30,[sp, #-0x30]!
+001010d8 mov x29,sp
+001010dc stp x21,x22,[sp, #0x20]
+001010e0 ldr x22,[x0, #0x48]
+001010e4 ldr x3,[x22, #0xb0]
+001010e8 cbz x1,0x00101250
+001010ec stp x19,x20,[sp, #0x10]
+001010f0 add x20,x1,#0x18
+001010f4 mov x19,x1
+001010f8 ldp x1,x0,[x1]
+001010fc cmp x1,#0x0
+00101100 ccmp x0,#0x0,#0x4,ne
+00101104 ccmp x20,#0x0,#0x4,ne
+00101108 b.eq 0x00101228
+0010110c ldr x1,[x1, #0x40]
+00101110 add x0,x0,#0x148
+00101114 cmp x1,#0x0
+00101118 ccmp x0,#0x0,#0x4,ne
+0010111c b.eq 0x00101200
+00101120 mov x21,x2
+00101124 ldr x2,[x20, #0x18]
+00101128 cmp x2,x0
+0010112c b.ne 0x001011d8
+00101130 ldr x0,[x2, #0x10]
+00101134 cmp x0,x1
+00101138 b.ne 0x001011b0
+0010113c mov x2,#0x0
+00101140 add x0,x19,#0x38
+00101144 mov w3,#0x1
+00101148 prfm PSTL1STRM,[x0]
+0010114c ldaxr w1,[x0]
+00101150 eor w4,w1,w2
+00101154 cbnz w4,0x00101160
+00101158 stxr w4,w3,[x0]
+0010115c cbnz w4,0x0010114c
+00101160 cbnz w1,0x001011a0
+00101164 str x21,[x20, #0x10]
+00101168 ldr x0,[x22, #0xb0]
+0010116c ldr x0,[x0, #0x688]
+00101170 ldr x2,[x0, #0x58]
+00101174 cbz x2,0x001011a8
+00101178 mov x1,x20
+0010117c mov x0,x22
+00101180 blr x2
+00101184 mov w1,#0x0
+00101188 add x2,x19,#0x38
+0010118c stlrb w1,[x2]
+00101190 ldp x19,x20,[sp, #0x10]
+00101194 ldp x21,x22,[sp, #0x20]
+00101198 ldp x29,x30,[sp], #0x30
+0010119c ret
+001011a0 bl 0x00104040
+001011a4 b 0x00101164
+001011a8 mov w0,#0xffffffa1
+001011ac b 0x00101184
+001011b0 ldr x0,[x3, #0x48]
+001011b4 adrp x2,0x101000
+001011b8 add x2,x2,#0xee8
+001011bc adrp x1,0x102000
+001011c0 add x2,x2,#0x150
+001011c4 add x1,x1,#0x3b8
+001011c8 bl 0x00104068
+001011cc mov w0,#0xffffffea
+001011d0 ldp x19,x20,[sp, #0x10]
+001011d4 b 0x00101194
+001011d8 ldr x0,[x3, #0x48]
+001011dc adrp x2,0x101000
+001011e0 add x2,x2,#0xee8
+001011e4 adrp x1,0x102000
+001011e8 add x2,x2,#0x150
+001011ec add x1,x1,#0x3a0
+001011f0 bl 0x00104068
+001011f4 mov w0,#0xffffffea
+001011f8 ldp x19,x20,[sp, #0x10]
+001011fc b 0x00101194
+00101200 ldr x0,[x3, #0x48]
+00101204 adrp x2,0x101000
+00101208 add x2,x2,#0xee8
+0010120c adrp x1,0x102000
+00101210 add x2,x2,#0x150
+00101214 add x1,x1,#0x380
+00101218 bl 0x00104068
+0010121c mov w0,#0xffffffea
+00101220 ldp x19,x20,[sp, #0x10]
+00101224 b 0x00101194
+00101228 ldr x0,[x3, #0x48]
+0010122c adrp x2,0x101000
+00101230 add x2,x2,#0xee8
+00101234 adrp x1,0x102000
+00101238 add x2,x2,#0x150
+0010123c add x1,x1,#0x368
+00101240 bl 0x00104068
+00101244 mov w0,#0xffffffea
+00101248 ldp x19,x20,[sp, #0x10]
+0010124c b 0x00101194
+00101250 ldr x0,[x3, #0x48]
+00101254 adrp x2,0x101000
+00101258 add x2,x2,#0xee8
+0010125c adrp x1,0x102000
+00101260 add x2,x2,#0x150
+00101264 add x1,x1,#0x358
+00101268 bl 0x00104068
+0010126c mov w0,#0xffffffea
+00101270 b 0x00101194
+
+FUNCTION FUN_00101274 @ 00101274
+decompiled=true
+
+void FUN_00101274(long param_1,undefined8 param_2)
+
+{
+  long lVar1;
+  
+  lVar1 = physical_device_find_physical_dev();
+  if (lVar1 != 0) {
+    mtk_mac_rx_uni_unsolicited_event(lVar1,param_2);
+    return;
+  }
+  mtk_mac_rx_uni_unsolicited_event(*(undefined8 *)(param_1 + 0x40),param_2);
+  return;
+}
+
+
+ASSEMBLY
+00101274 stp x29,x30,[sp, #-0x20]!
+00101278 mov x29,sp
+0010127c stp x19,x20,[sp, #0x10]
+00101280 mov x19,x1
+00101284 mov x20,x0
+00101288 bl 0x001040b0
+0010128c cbz x0,0x001012a4
+00101290 mov x1,x19
+00101294 bl 0x00104058
+00101298 ldp x19,x20,[sp, #0x10]
+0010129c ldp x29,x30,[sp], #0x20
+001012a0 ret
+001012a4 ldr x0,[x20, #0x40]
+001012a8 mov x1,x19
+001012ac bl 0x00104058
+001012b0 ldp x19,x20,[sp, #0x10]
+001012b4 ldp x29,x30,[sp], #0x20
+001012b8 ret
+
+FUNCTION FUN_001012bc @ 001012bc
+decompiled=true
+
+undefined8 FUN_001012bc(long param_1)
+
+{
+  long lVar1;
+  code *pcVar2;
+  long lVar3;
+  long lVar4;
+  long lVar5;
+  int iStack_4;
+  
+  lVar3 = *(long *)(param_1 + 0x40);
+  if (*(uint *)(lVar3 + 0x14) < 2) {
+    iStack_4 = 0;
+    while (lVar3 = idr_get_next(param_1 + 0x5b8,&iStack_4), lVar3 != 0) {
+      lVar5 = *(long *)(param_1 + 0x40);
+      pcVar2 = *(code **)(*(long *)(param_1 + 0x688) + 0x70);
+      lVar4 = *(long *)(lVar3 + 0x118);
+      lVar1 = lVar4;
+      if (pcVar2 != (code *)0x0) {
+        (*pcVar2)(param_1,lVar3);
+        lVar1 = *(long *)(lVar3 + 0x118);
+      }
+      mtk_mac_hw_unregister(lVar1);
+      if (lVar4 != lVar5) {
+        mtk_mac_free_hw(*(undefined8 *)(lVar3 + 0x118));
+      }
+      iStack_4 = iStack_4 + 1;
+    }
+    return 0;
+  }
+  iStack_4 = 0;
+  while (lVar1 = idr_get_next(param_1 + 0x5b8,&iStack_4), lVar1 != 0) {
+    pcVar2 = *(code **)(*(long *)(param_1 + 0x688) + 0x70);
+    if (pcVar2 != (code *)0x0) {
+      (*pcVar2)(param_1,lVar1);
+    }
+    iStack_4 = iStack_4 + 1;
+  }
+  mtk_mac_hw_unregister(lVar3);
+  return 0;
+}
+
+
+ASSEMBLY
+001012bc nop
+
+FUNCTION FUN_001012c0 @ 001012c0
+decompiled=true
+
+undefined8 FUN_001012c0(long param_1)
+
+{
+  long lVar1;
+  code *pcVar2;
+  long lVar3;
+  long lVar4;
+  long lVar5;
+  int local_4;
+  
+  lVar3 = *(long *)(param_1 + 0x40);
+  if (*(uint *)(lVar3 + 0x14) < 2) {
+    local_4 = 0;
+    while (lVar3 = idr_get_next(param_1 + 0x5b8,&local_4), lVar3 != 0) {
+      lVar5 = *(long *)(param_1 + 0x40);
+      pcVar2 = *(code **)(*(long *)(param_1 + 0x688) + 0x70);
+      lVar4 = *(long *)(lVar3 + 0x118);
+      lVar1 = lVar4;
+      if (pcVar2 != (code *)0x0) {
+        (*pcVar2)(param_1,lVar3);
+        lVar1 = *(long *)(lVar3 + 0x118);
+      }
+      mtk_mac_hw_unregister(lVar1);
+      if (lVar4 != lVar5) {
+        mtk_mac_free_hw(*(undefined8 *)(lVar3 + 0x118));
+      }
+      local_4 = local_4 + 1;
+    }
+    return 0;
+  }
+  local_4 = 0;
+  while (lVar1 = idr_get_next(param_1 + 0x5b8,&local_4), lVar1 != 0) {
+    pcVar2 = *(code **)(*(long *)(param_1 + 0x688) + 0x70);
+    if (pcVar2 != (code *)0x0) {
+      (*pcVar2)(param_1,lVar1);
+    }
+    local_4 = local_4 + 1;
+  }
+  mtk_mac_hw_unregister(lVar3);
+  return 0;
+}
+
+
+ASSEMBLY
+001012c0 stp x29,x30,[sp, #-0x50]!
+001012c4 mov x29,sp
+001012c8 stp x19,x20,[sp, #0x10]
+001012cc mov x20,x0
+001012d0 stp x21,x22,[sp, #0x20]
+001012d4 add x22,x0,#0x5b8
+001012d8 ldr x19,[x0, #0x40]
+001012dc ldr w0,[x19, #0x14]
+001012e0 cmp w0,#0x1
+001012e4 b.ls 0x00101344
+001012e8 add x21,sp,#0x4c
+001012ec str wzr,[sp, #0x4c]
+001012f0 b 0x00101314
+001012f4 ldr x2,[x20, #0x688]
+001012f8 mov x0,x20
+001012fc ldr x2,[x2, #0x70]
+00101300 cbz x2,0x00101308
+00101304 blr x2
+00101308 ldr w0,[sp, #0x4c]
+0010130c add w0,w0,#0x1
+00101310 str w0,[sp, #0x4c]
+00101314 mov x1,x21
+00101318 mov x0,x22
+0010131c bl 0x00104050
+00101320 mov x1,x0
+00101324 cbnz x0,0x001012f4
+00101328 mov x0,x19
+0010132c bl 0x001040a8
+00101330 mov w0,#0x0
+00101334 ldp x19,x20,[sp, #0x10]
+00101338 ldp x21,x22,[sp, #0x20]
+0010133c ldp x29,x30,[sp], #0x50
+00101340 ret
+00101344 add x21,sp,#0x4c
+00101348 stp x23,x24,[sp, #0x30]
+0010134c str wzr,[sp, #0x4c]
+00101350 b 0x00101398
+00101354 ldr x2,[x20, #0x688]
+00101358 mov x1,x19
+0010135c mov x0,x20
+00101360 ldr x24,[x20, #0x40]
+00101364 ldr x2,[x2, #0x70]
+00101368 ldr x23,[x19, #0x118]
+0010136c cbz x2,0x001013c4
+00101370 blr x2
+00101374 ldr x0,[x19, #0x118]
+00101378 bl 0x001040a8
+0010137c cmp x23,x24
+00101380 b.eq 0x0010138c
+00101384 ldr x0,[x19, #0x118]
+00101388 bl 0x00104070
+0010138c ldr w0,[sp, #0x4c]
+00101390 add w0,w0,#0x1
+00101394 str w0,[sp, #0x4c]
+00101398 mov x1,x21
+0010139c mov x0,x22
+001013a0 bl 0x00104050
+001013a4 mov x19,x0
+001013a8 cbnz x0,0x00101354
+001013ac mov w0,#0x0
+001013b0 ldp x19,x20,[sp, #0x10]
+001013b4 ldp x21,x22,[sp, #0x20]
+001013b8 ldp x23,x24,[sp, #0x30]
+001013bc ldp x29,x30,[sp], #0x50
+001013c0 ret
+001013c4 mov x0,x23
+001013c8 b 0x00101378
+
+FUNCTION FUN_001013cc @ 001013cc
+decompiled=true
+
+void FUN_001013cc(void)
+
+{
+  FUN_001012c0();
+  return;
+}
+
+
+ASSEMBLY
+001013cc nop
+
+FUNCTION FUN_001013d0 @ 001013d0
+decompiled=true
+
+void FUN_001013d0(void)
+
+{
+  FUN_001012c0();
+  return;
+}
+
+
+ASSEMBLY
+001013d0 stp x29,x30,[sp, #-0x10]!
+001013d4 mov x29,sp
+001013d8 bl 0x001012c0
+001013dc ldp x29,x30,[sp], #0x10
+001013e0 ret
+
+FUNCTION FUN_001013e4 @ 001013e4
+decompiled=true
+
+ulong FUN_001013e4(long param_1)
+
+{
+  ulong *puVar1;
+  char cVar2;
+  bool bVar3;
+  uint uVar4;
+  long lVar5;
+  long lVar6;
+  long lVar7;
+  code *pcVar8;
+  long lVar9;
+  int iVar10;
+  ulong uVar11;
+  
+  lVar5 = *(long *)(param_1 + 0x78);
+  lVar6 = *(long *)(param_1 + 0x40);
+  lVar7 = *(long *)(lVar5 + 0x38);
+  lVar9 = *(long *)(lVar6 + 0x48);
+  if ((*(ulong *)(lVar7 + 0x30) & 1) != 0) {
+    puVar1 = (ulong *)(lVar6 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 8;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+    *(undefined4 *)(lVar6 + 0x30) = *(undefined4 *)(lVar7 + 0x38);
+    *(undefined4 *)(lVar6 + 0x34) = *(undefined4 *)(lVar7 + 0x3c);
+  }
+  iVar10 = 0;
+  physical_device_add_main_device
+            (param_1,*(undefined4 *)(lVar5 + 0x40),*(undefined8 *)(lVar6 + 0x28));
+  lVar5 = lVar9;
+  do {
+    uVar4 = FUN_00101da0(param_1,lVar5);
+    uVar11 = (ulong)uVar4;
+    if (uVar4 != 0) goto LAB_00101464;
+    iVar10 = iVar10 + 1;
+    if ((int)(uint)*(byte *)(param_1 + 0x69a) <= iVar10) {
+      uVar4 = 1;
+      lVar5 = *(long *)(param_1 + 0x40);
+      while( true ) {
+        if (*(uint *)(lVar5 + 0x14) <= uVar4) {
+          return 0;
+        }
+        pcVar8 = *(code **)(*(long *)(param_1 + 0x688) + 0x68);
+        lVar6 = lVar9 + (int)(uVar4 * 0x120);
+        if (pcVar8 == (code *)0x0) break;
+        uVar11 = (*pcVar8)(param_1,lVar6);
+        if ((int)uVar11 != 0) {
+          return uVar11;
+        }
+        *(long *)(lVar6 + 0x118) = lVar5;
+        uVar4 = uVar4 + 1;
+        *(undefined8 *)(lVar6 + 0xb0) = *(undefined8 *)(lVar9 + 0xb0);
+      }
+      return 0xffffffa1;
+    }
+    lVar5 = FUN_00101bc4(param_1);
+  } while (lVar5 != 0);
+  uVar11 = 0xfffffff4;
+LAB_00101464:
+  FUN_001012c0(param_1);
+  return uVar11;
+}
+
+
+ASSEMBLY
+001013e4 stp x29,x30,[sp, #-0x40]!
+001013e8 mov x29,sp
+001013ec stp x19,x20,[sp, #0x10]
+001013f0 mov x19,x0
+001013f4 stp x21,x22,[sp, #0x20]
+001013f8 ldr x0,[x0, #0x78]
+001013fc ldr x1,[x19, #0x40]
+00101400 ldr x2,[x0, #0x38]
+00101404 add x3,x1,#0x30
+00101408 ldr x20,[x1, #0x48]
+0010140c ldr x4,[x2, #0x30]
+00101410 tbz w4,#0x0,0x0010143c
+00101414 add x6,x1,#0x28
+00101418 prfm PSTL1STRM,[x6]
+0010141c ldxr x4,[x6]
+00101420 orr x4,x4,#0x8
+00101424 stxr w5,x4,[x6]
+00101428 cbnz w5,0x0010141c
+0010142c ldr w4,[x2, #0x38]
+00101430 str w4,[x1, #0x30]
+00101434 ldr w2,[x2, #0x3c]
+00101438 str w2,[x3, #0x4]
+0010143c ldr x2,[x1, #0x28]
+00101440 mov w21,#0x0
+00101444 ldr w1,[x0, #0x40]
+00101448 mov x0,x19
+0010144c bl 0x001040c8
+00101450 mov x1,x20
+00101454 mov x0,x19
+00101458 bl 0x00101da0
+0010145c mov w22,w0
+00101460 cbz w0,0x00101480
+00101464 mov x0,x19
+00101468 bl 0x001012c0
+0010146c mov w0,w22
+00101470 ldp x19,x20,[sp, #0x10]
+00101474 ldp x21,x22,[sp, #0x20]
+00101478 ldp x29,x30,[sp], #0x40
+0010147c ret
+00101480 ldrb w0,[x19, #0x69a]
+00101484 add w21,w21,#0x1
+00101488 cmp w0,w21
+0010148c b.gt 0x001014d8
+00101490 stp x23,x24,[sp, #0x30]
+00101494 mov w22,#0x1
+00101498 mov w24,#0x120
+0010149c ldr x23,[x19, #0x40]
+001014a0 ldr w0,[x23, #0x14]
+001014a4 cmp w22,w0
+001014a8 b.cs 0x001014f0
+001014ac ldr x0,[x19, #0x688]
+001014b0 mul w21,w22,w24
+001014b4 ldr x2,[x0, #0x68]
+001014b8 add x21,x20,w21, SXTW 
+001014bc cbz x2,0x001014fc
+001014c0 mov x1,x21
+001014c4 mov x0,x19
+001014c8 blr x2
+001014cc cbz w0,0x00101508
+001014d0 ldp x23,x24,[sp, #0x30]
+001014d4 b 0x00101470
+001014d8 mov x0,x19
+001014dc bl 0x00101bc4
+001014e0 mov x1,x0
+001014e4 cbnz x0,0x00101454
+001014e8 mov w22,#0xfffffff4
+001014ec b 0x00101464
+001014f0 mov w0,#0x0
+001014f4 ldp x23,x24,[sp, #0x30]
+001014f8 b 0x00101470
+001014fc mov w0,#0xffffffa1
+00101500 ldp x23,x24,[sp, #0x30]
+00101504 b 0x00101470
+00101508 str x23,[x21, #0x118]
+0010150c add w22,w22,#0x1
+00101510 ldr x0,[x20, #0xb0]
+00101514 str x0,[x21, #0xb0]
+00101518 b 0x001014a0
+
+FUNCTION FUN_0010151c @ 0010151c
+decompiled=true
+
+undefined4 FUN_0010151c(long param_1)
+
+{
+  int *piVar1;
+  int iVar2;
+  undefined4 uVar3;
+  char cVar4;
+  bool bVar5;
+  long lVar6;
+  long lVar7;
+  
+  lVar6 = sp_el0;
+  lVar7 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  *(int *)(lVar6 + 0x18) = *(int *)(lVar6 + 0x18) + 0x200;
+  piVar1 = (int *)(lVar7 + 0x4b0);
+  Hint_Prefetch(piVar1,2,0,1);
+  do {
+    iVar2 = *piVar1;
+    if (iVar2 != 0) break;
+    cVar4 = '\x01';
+    bVar5 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+    if (bVar5) {
+      *piVar1 = 1;
+      cVar4 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar4 != '\0');
+  if (iVar2 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  uVar3 = *(undefined4 *)(lVar7 + 0x4d0);
+  *(undefined4 *)(lVar7 + 0x4b0) = 0;
+  __local_bh_enable_ip();
+  return uVar3;
+}
+
+
+ASSEMBLY
+0010151c nop
+
+FUNCTION FUN_00101520 @ 00101520
+decompiled=true
+
+undefined4 FUN_00101520(long param_1)
+
+{
+  int *piVar1;
+  int iVar2;
+  undefined4 uVar3;
+  char cVar4;
+  bool bVar5;
+  long lVar6;
+  long lVar7;
+  
+  lVar6 = sp_el0;
+  lVar7 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  *(int *)(lVar6 + 0x18) = *(int *)(lVar6 + 0x18) + 0x200;
+  piVar1 = (int *)(lVar7 + 0x4b0);
+  Hint_Prefetch(piVar1,2,0,1);
+  do {
+    iVar2 = *piVar1;
+    if (iVar2 != 0) break;
+    cVar4 = '\x01';
+    bVar5 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+    if (bVar5) {
+      *piVar1 = 1;
+      cVar4 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar4 != '\0');
+  if (iVar2 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  uVar3 = *(undefined4 *)(lVar7 + 0x4d0);
+  *(undefined4 *)(lVar7 + 0x4b0) = 0;
+  __local_bh_enable_ip();
+  return uVar3;
+}
+
+
+ASSEMBLY
+00101520 stp x29,x30,[sp, #-0x30]!
+00101524 mrs x2,sp_el0
+00101528 mov x29,sp
+0010152c stp x19,x20,[sp, #0x10]
+00101530 mov x20,x30
+00101534 str x21,[sp, #0x20]
+00101538 ldr x0,[x0, #0x48]
+0010153c ldr w1,[x2, #0x18]
+00101540 add w1,w1,#0x200
+00101544 ldr x19,[x0, #0xb0]
+00101548 str w1,[x2, #0x18]
+0010154c mov x2,#0x0
+00101550 add x0,x19,#0x4b0
+00101554 mov w3,#0x1
+00101558 prfm PSTL1STRM,[x0]
+0010155c ldaxr w1,[x0]
+00101560 eor w4,w1,w2
+00101564 cbnz w4,0x00101570
+00101568 stxr w4,w3,[x0]
+0010156c cbnz w4,0x0010155c
+00101570 cbnz w1,0x001015ac
+00101574 mov w0,#0x0
+00101578 add x1,x19,#0x4b0
+0010157c ldr w21,[x19, #0x4d0]
+00101580 stlrb w0,[x1]
+00101584 mov x30,x20
+00101588 xpaclri
+0010158c mov w1,#0x200
+00101590 mov x0,x30
+00101594 bl 0x00104078
+00101598 mov w0,w21
+0010159c ldp x19,x20,[sp, #0x10]
+001015a0 ldr x21,[sp, #0x20]
+001015a4 ldp x29,x30,[sp], #0x30
+001015a8 ret
+001015ac bl 0x00104040
+001015b0 b 0x00101574
+
+FUNCTION FUN_001015b4 @ 001015b4
+decompiled=true
+
+undefined8 FUN_001015b4(long param_1)
+
+{
+  int *piVar1;
+  ulong *puVar2;
+  int iVar3;
+  char cVar4;
+  bool bVar5;
+  long lVar6;
+  undefined8 uVar7;
+  code *pcVar8;
+  long lVar9;
+  
+  lVar6 = sp_el0;
+  lVar9 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  *(int *)(lVar6 + 0x18) = *(int *)(lVar6 + 0x18) + 0x200;
+  piVar1 = (int *)(lVar9 + 0x4b0);
+  Hint_Prefetch(piVar1,2,0,1);
+  do {
+    iVar3 = *piVar1;
+    if (iVar3 != 0) break;
+    cVar4 = '\x01';
+    bVar5 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+    if (bVar5) {
+      *piVar1 = 1;
+      cVar4 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar4 != '\0');
+  if (iVar3 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  iVar3 = *(int *)(lVar9 + 0x4d0);
+  *(undefined4 *)(lVar9 + 0x4b0) = 0;
+  __local_bh_enable_ip();
+  uVar7 = 0;
+  if (iVar3 == 0) {
+    puVar2 = (ulong *)(lVar9 + 0x30);
+    Hint_Prefetch(puVar2,2,0,1);
+    do {
+      cVar4 = '\x01';
+      bVar5 = (bool)ExclusiveMonitorPass(puVar2,0x10);
+      if (bVar5) {
+        *puVar2 = *puVar2 & 0xfffffffffffffeff;
+        cVar4 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar4 != '\0');
+    pcVar8 = *(code **)(*(long *)(lVar9 + 0x688) + 8);
+    if (pcVar8 == (code *)0x0) {
+      uVar7 = 0xffffffa1;
+    }
+    else {
+      uVar7 = (*pcVar8)(lVar9);
+    }
+  }
+  return uVar7;
+}
+
+
+ASSEMBLY
+001015b4 stp x29,x30,[sp, #-0x30]!
+001015b8 mrs x2,sp_el0
+001015bc mov x29,sp
+001015c0 stp x19,x20,[sp, #0x10]
+001015c4 mov x20,x30
+001015c8 str x21,[sp, #0x20]
+001015cc ldr x0,[x0, #0x48]
+001015d0 ldr w1,[x2, #0x18]
+001015d4 add w1,w1,#0x200
+001015d8 ldr x19,[x0, #0xb0]
+001015dc str w1,[x2, #0x18]
+001015e0 mov x2,#0x0
+001015e4 add x0,x19,#0x4b0
+001015e8 mov w3,#0x1
+001015ec prfm PSTL1STRM,[x0]
+001015f0 ldaxr w1,[x0]
+001015f4 eor w4,w1,w2
+001015f8 cbnz w4,0x00101604
+001015fc stxr w4,w3,[x0]
+00101600 cbnz w4,0x001015f0
+00101604 cbnz w1,0x00101674
+00101608 ldr w21,[x19, #0x4d0]
+0010160c add x1,x19,#0x4b0
+00101610 mov w0,#0x0
+00101614 stlrb w0,[x1]
+00101618 mov x30,x20
+0010161c xpaclri
+00101620 mov w1,#0x200
+00101624 mov x0,x30
+00101628 bl 0x00104078
+0010162c mov w0,#0x0
+00101630 cbnz w21,0x00101664
+00101634 add x3,x19,#0x30
+00101638 mov x0,#0x100
+0010163c prfm PSTL1STRM,[x3]
+00101640 ldxr x1,[x3]
+00101644 bic x1,x1,x0
+00101648 stxr w2,x1,[x3]
+0010164c cbnz w2,0x00101640
+00101650 ldr x0,[x19, #0x688]
+00101654 ldr x1,[x0, #0x8]
+00101658 cbz x1,0x0010167c
+0010165c mov x0,x19
+00101660 blr x1
+00101664 ldp x19,x20,[sp, #0x10]
+00101668 ldr x21,[sp, #0x20]
+0010166c ldp x29,x30,[sp], #0x30
+00101670 ret
+00101674 bl 0x00104040
+00101678 b 0x00101608
+0010167c mov w0,#0xffffffa1
+00101680 b 0x00101664
+
+FUNCTION FUN_00101684 @ 00101684
+decompiled=true
+
+int FUN_00101684(long param_1,uint param_2,uint param_3)
+
+{
+  int iVar1;
+  code *pcVar2;
+  long lVar3;
+  undefined4 *puVar4;
+  
+  param_2 = param_2 & 0xffff;
+  lVar3 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  puVar4 = *(undefined4 **)(*(long *)(*(long *)(lVar3 + 0x78) + 0x38) + 0x40);
+  _dev_info(*(undefined8 *)(lVar3 + 0x48),"uwtbl.end from %u to %u\n",puVar4[1],param_2);
+  pcVar2 = *(code **)(*(long *)(lVar3 + 0x688) + 0xd0);
+  if (pcVar2 == (code *)0x0) {
+    iVar1 = -0x5f;
+  }
+  else {
+    iVar1 = (*pcVar2)(lVar3,lVar3 + 0x438,*puVar4,param_2);
+    if (iVar1 == 0) {
+      iVar1 = (param_3 & 0xffff) + param_2;
+      _dev_info(*(undefined8 *)(lVar3 + 0x48),"group.start from %u to %u\n",puVar4[2],param_2 + 1);
+      _dev_info(*(undefined8 *)(lVar3 + 0x48),"group.end from %u to %u\n",puVar4[3],iVar1);
+      pcVar2 = *(code **)(*(long *)(lVar3 + 0x688) + 0xd0);
+      if (pcVar2 == (code *)0x0) {
+        iVar1 = -0x5f;
+      }
+      else {
+        iVar1 = (*pcVar2)(lVar3,lVar3 + 0x470,param_2 + 1,iVar1);
+        if (iVar1 == 0) {
+          return 0;
+        }
+      }
+      _dev_info(*(undefined8 *)(lVar3 + 0x48),"!!! update group fail  !!!\n");
+      return iVar1;
+    }
+  }
+  _dev_info(*(undefined8 *)(lVar3 + 0x48),"!!! update uwtbl fail  !!!\n");
+  return iVar1;
+}
+
+
+ASSEMBLY
+00101684 stp x29,x30,[sp, #-0x40]!
+00101688 mov x29,sp
+0010168c stp x19,x20,[sp, #0x10]
+00101690 stp x21,x22,[sp, #0x20]
+00101694 and w21,w2,#0xffff
+00101698 stp x23,x24,[sp, #0x30]
+0010169c and w23,w1,#0xffff
+001016a0 mov w3,w23
+001016a4 ldr x0,[x0, #0x48]
+001016a8 adrp x1,0x102000
+001016ac add x1,x1,#0x88
+001016b0 ldr x19,[x0, #0xb0]
+001016b4 ldr x2,[x19, #0x78]
+001016b8 ldr x0,[x19, #0x48]
+001016bc ldr x2,[x2, #0x38]
+001016c0 ldr x22,[x2, #0x40]
+001016c4 ldr w2,[x22, #0x4]
+001016c8 bl 0x00104060
+001016cc ldr x0,[x19, #0x688]
+001016d0 ldr w2,[x22]
+001016d4 ldr x4,[x0, #0xd0]
+001016d8 cbz x4,0x001016f8
+001016dc add x1,x19,#0x438
+001016e0 mov w3,w23
+001016e4 mov x0,x19
+001016e8 blr x4
+001016ec mov w20,w0
+001016f0 cbz w0,0x00101710
+001016f4 b 0x001016fc
+001016f8 mov w20,#0xffffffa1
+001016fc ldr x0,[x19, #0x48]
+00101700 adrp x1,0x102000
+00101704 add x1,x1,#0xa8
+00101708 bl 0x00104060
+0010170c b 0x00101788
+00101710 ldr w2,[x22, #0x8]
+00101714 add w24,w23,#0x1
+00101718 ldr x0,[x19, #0x48]
+0010171c mov w3,w24
+00101720 adrp x1,0x102000
+00101724 add x1,x1,#0xc8
+00101728 add w21,w21,w23
+0010172c bl 0x00104060
+00101730 ldr w2,[x22, #0xc]
+00101734 mov w3,w21
+00101738 ldr x0,[x19, #0x48]
+0010173c adrp x1,0x102000
+00101740 add x1,x1,#0xe8
+00101744 bl 0x00104060
+00101748 ldr x0,[x19, #0x688]
+0010174c add x1,x19,#0x470
+00101750 ldr x4,[x0, #0xd0]
+00101754 cbz x4,0x00101774
+00101758 mov w3,w21
+0010175c mov w2,w24
+00101760 mov x0,x19
+00101764 blr x4
+00101768 mov w20,w0
+0010176c cbz w0,0x00101788
+00101770 b 0x00101778
+00101774 mov w20,#0xffffffa1
+00101778 ldr x0,[x19, #0x48]
+0010177c adrp x1,0x102000
+00101780 add x1,x1,#0x108
+00101784 bl 0x00104060
+00101788 mov w0,w20
+0010178c ldp x19,x20,[sp, #0x10]
+00101790 ldp x21,x22,[sp, #0x20]
+00101794 ldp x23,x24,[sp, #0x30]
+00101798 ldp x29,x30,[sp], #0x40
+0010179c ret
+
+FUNCTION FUN_001017a0 @ 001017a0
+decompiled=true
+
+undefined8 FUN_001017a0(long param_1,long param_2)
+
+{
+  _dev_info(*(undefined8 *)(*(long *)(*(long *)(param_1 + 0x48) + 0xb0) + 0x48),
+            "%s(): update channel to %d\n","connac_if_config_phy",*(undefined1 *)(param_2 + 4));
+  return 0;
+}
+
+
+ASSEMBLY
+001017a0 stp x29,x30,[sp, #-0x10]!
+001017a4 mov x3,x1
+001017a8 adrp x2,0x101000
+001017ac mov x29,sp
+001017b0 ldr x0,[x0, #0x48]
+001017b4 add x2,x2,#0xee8
+001017b8 ldrb w3,[x3, #0x4]
+001017bc add x2,x2,#0x18
+001017c0 adrp x1,0x102000
+001017c4 add x1,x1,#0x170
+001017c8 ldr x0,[x0, #0xb0]
+001017cc ldr x0,[x0, #0x48]
+001017d0 bl 0x00104060
+001017d4 mov w0,#0x0
+001017d8 ldp x29,x30,[sp], #0x10
+001017dc ret
+
+FUNCTION FUN_001017e0 @ 001017e0
+decompiled=true
+
+undefined8 FUN_001017e0(long param_1)
+
+{
+  ulong *puVar1;
+  char cVar2;
+  bool bVar3;
+  undefined8 uVar4;
+  code *pcVar5;
+  long lVar6;
+  long lVar7;
+  
+  lVar7 = *(long *)(param_1 + 0x48);
+  lVar6 = *(long *)(lVar7 + 0xb0);
+  _dev_info(*(undefined8 *)(lVar6 + 0x48),"%s()\n","connac_if_start");
+  if ((*(ulong *)(lVar6 + 0x28) & 1) == 0) {
+    if ((code *)**(undefined8 **)(lVar6 + 0x688) == (code *)0x0) {
+      return 0xffffffa1;
+    }
+    uVar4 = (*(code *)**(undefined8 **)(lVar6 + 0x688))(lVar6);
+    if ((int)uVar4 != 0) {
+      return uVar4;
+    }
+  }
+  else {
+    puVar1 = (ulong *)(lVar6 + 0x30);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x100;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  *(undefined4 *)(param_1 + 0x3c) = *(undefined4 *)(lVar6 + 0x6b4);
+  if ((*(ulong *)(lVar6 + 0x30) & 0x10) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 4;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 8) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 2;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 0x20) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x20;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 0x200) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x10;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 0x40) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    *(undefined1 *)(param_1 + 0x40) = *(undefined1 *)(lVar6 + 0x6b8);
+    *(undefined1 *)(param_1 + 0x41) = *(undefined1 *)(lVar6 + 0x6b9);
+    *(undefined1 *)(param_1 + 0x42) = *(undefined1 *)(lVar6 + 0x6ba);
+    *(undefined1 *)(param_1 + 0x43) = *(undefined1 *)(lVar6 + 0x6bb);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x40;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 0x80) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x80;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if ((*(ulong *)(lVar6 + 0x30) & 0x100) == 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 & 0xfffffffffffffffe;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  else {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 1;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  if (*(short *)(lVar6 + 0x6a4) != 0) {
+    puVar1 = (ulong *)(param_1 + 0x28);
+    *(short *)(param_1 + 0x38) = *(short *)(lVar6 + 0x6a4);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar2 = '\x01';
+      bVar3 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar3) {
+        *puVar1 = *puVar1 | 0x100;
+        cVar2 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar2 != '\0');
+  }
+  _dev_info(*(undefined8 *)(lVar6 + 0x48),"%s() mtk_hdev_arht_start_npu\n","connac_if_start");
+  pcVar5 = *(code **)(*(long *)(lVar6 + 0x688) + 0x100);
+  if (pcVar5 != (code *)0x0) {
+    (*pcVar5)(lVar7);
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+001017e0 stp x29,x30,[sp, #-0x30]!
+001017e4 adrp x1,0x102000
+001017e8 add x1,x1,#0x190
+001017ec mov x29,sp
+001017f0 stp x19,x20,[sp, #0x10]
+001017f4 mov x19,x0
+001017f8 stp x21,x22,[sp, #0x20]
+001017fc adrp x21,0x101000
+00101800 add x21,x21,#0xee8
+00101804 ldr x22,[x0, #0x48]
+00101808 add x2,x21,#0x30
+0010180c ldr x20,[x22, #0xb0]
+00101810 ldr x0,[x20, #0x48]
+00101814 bl 0x00104060
+00101818 ldr x0,[x20, #0x28]
+0010181c tbz w0,#0x0,0x0010183c
+00101820 add x2,x20,#0x30
+00101824 prfm PSTL1STRM,[x2]
+00101828 ldxr x0,[x2]
+0010182c orr x0,x0,#0x100
+00101830 stxr w1,x0,[x2]
+00101834 cbnz w1,0x00101828
+00101838 b 0x00101854
+0010183c ldr x0,[x20, #0x688]
+00101840 ldr x1,[x0]
+00101844 cbz x1,0x001019f0
+00101848 mov x0,x20
+0010184c blr x1
+00101850 cbnz w0,0x001019fc
+00101854 add x0,x19,#0x30
+00101858 ldr w1,[x20, #0x6b4]
+0010185c str w1,[x0, #0xc]
+00101860 ldr x1,[x20, #0x30]
+00101864 tst w1,#0x10
+00101868 b.eq 0x00101884
+0010186c add x3,x19,#0x28
+00101870 prfm PSTL1STRM,[x3]
+00101874 ldxr x1,[x3]
+00101878 orr x1,x1,#0x4
+0010187c stxr w2,x1,[x3]
+00101880 cbnz w2,0x00101874
+00101884 ldr x1,[x20, #0x30]
+00101888 tst w1,#0x8
+0010188c b.eq 0x001018a8
+00101890 add x3,x19,#0x28
+00101894 prfm PSTL1STRM,[x3]
+00101898 ldxr x1,[x3]
+0010189c orr x1,x1,#0x2
+001018a0 stxr w2,x1,[x3]
+001018a4 cbnz w2,0x00101898
+001018a8 ldr x1,[x20, #0x30]
+001018ac tst w1,#0x20
+001018b0 b.eq 0x001018cc
+001018b4 add x3,x19,#0x28
+001018b8 prfm PSTL1STRM,[x3]
+001018bc ldxr x1,[x3]
+001018c0 orr x1,x1,#0x20
+001018c4 stxr w2,x1,[x3]
+001018c8 cbnz w2,0x001018bc
+001018cc ldr x1,[x20, #0x30]
+001018d0 tst w1,#0x200
+001018d4 b.eq 0x001018f0
+001018d8 add x3,x19,#0x28
+001018dc prfm PSTL1STRM,[x3]
+001018e0 ldxr x1,[x3]
+001018e4 orr x1,x1,#0x10
+001018e8 stxr w2,x1,[x3]
+001018ec cbnz w2,0x001018e0
+001018f0 ldr x1,[x20, #0x30]
+001018f4 tst w1,#0x40
+001018f8 b.eq 0x00101934
+001018fc ldrb w1,[x20, #0x6b8]
+00101900 add x3,x19,#0x28
+00101904 strb w1,[x0, #0x10]
+00101908 ldrb w1,[x20, #0x6b9]
+0010190c strb w1,[x0, #0x11]
+00101910 ldrb w1,[x20, #0x6ba]
+00101914 strb w1,[x0, #0x12]
+00101918 ldrb w1,[x20, #0x6bb]
+0010191c strb w1,[x0, #0x13]
+00101920 prfm PSTL1STRM,[x3]
+00101924 ldxr x1,[x3]
+00101928 orr x1,x1,#0x40
+0010192c stxr w2,x1,[x3]
+00101930 cbnz w2,0x00101924
+00101934 ldr x1,[x20, #0x30]
+00101938 tst w1,#0x80
+0010193c b.eq 0x00101958
+00101940 add x3,x19,#0x28
+00101944 prfm PSTL1STRM,[x3]
+00101948 ldxr x1,[x3]
+0010194c orr x1,x1,#0x80
+00101950 stxr w2,x1,[x3]
+00101954 cbnz w2,0x00101948
+00101958 ldr x1,[x20, #0x30]
+0010195c tst w1,#0x100
+00101960 b.eq 0x00101980
+00101964 add x3,x19,#0x28
+00101968 prfm PSTL1STRM,[x3]
+0010196c ldxr x1,[x3]
+00101970 orr x1,x1,#0x1
+00101974 stxr w2,x1,[x3]
+00101978 cbnz w2,0x0010196c
+0010197c b 0x0010199c
+00101980 mov x1,#0x1
+00101984 add x4,x19,#0x28
+00101988 prfm PSTL1STRM,[x4]
+0010198c ldxr x2,[x4]
+00101990 bic x2,x2,x1
+00101994 stxr w3,x2,[x4]
+00101998 cbnz w3,0x0010198c
+0010199c ldrh w1,[x20, #0x6a4]
+001019a0 cbz w1,0x001019c0
+001019a4 add x2,x19,#0x28
+001019a8 strh w1,[x0, #0x8]
+001019ac prfm PSTL1STRM,[x2]
+001019b0 ldxr x0,[x2]
+001019b4 orr x0,x0,#0x100
+001019b8 stxr w1,x0,[x2]
+001019bc cbnz w1,0x001019b0
+001019c0 ldr x0,[x20, #0x48]
+001019c4 add x2,x21,#0x30
+001019c8 adrp x1,0x102000
+001019cc add x1,x1,#0x198
+001019d0 bl 0x00104060
+001019d4 ldr x0,[x20, #0x688]
+001019d8 ldr x1,[x0, #0x100]
+001019dc cbz x1,0x001019f8
+001019e0 mov x0,x22
+001019e4 blr x1
+001019e8 mov w0,#0x0
+001019ec b 0x001019fc
+001019f0 mov w0,#0xffffffa1
+001019f4 b 0x001019fc
+001019f8 mov w0,#0x0
+001019fc ldp x19,x20,[sp, #0x10]
+00101a00 ldp x21,x22,[sp, #0x20]
+00101a04 ldp x29,x30,[sp], #0x30
+00101a08 ret
+
+FUNCTION FUN_00101a0c @ 00101a0c
+decompiled=true
+
+undefined8 FUN_00101a0c(long param_1,undefined8 param_2,long param_3)
+
+{
+  code *pcVar1;
+  long lVar2;
+  undefined8 uVar3;
+  
+  uVar3 = *(undefined8 *)(param_3 + 0x158);
+  lVar2 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  _dev_info(*(undefined8 *)(lVar2 + 0x48),"%s()\n","connac_if_remove_sta");
+  pcVar1 = *(code **)(*(long *)(lVar2 + 0x688) + 0x48);
+  if (pcVar1 == (code *)0x0) {
+    uVar3 = 0xffffffa1;
+  }
+  else {
+    uVar3 = (*pcVar1)(lVar2,uVar3,param_3 + 0x148);
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+00101a0c stp x29,x30,[sp, #-0x30]!
+00101a10 adrp x1,0x102000
+00101a14 add x1,x1,#0x190
+00101a18 mov x29,sp
+00101a1c stp x19,x20,[sp, #0x10]
+00101a20 add x19,x2,#0x148
+00101a24 adrp x2,0x101000
+00101a28 str x21,[sp, #0x20]
+00101a2c add x2,x2,#0xee8
+00101a30 add x2,x2,#0x40
+00101a34 ldr x0,[x0, #0x48]
+00101a38 ldr x21,[x19, #0x10]
+00101a3c ldr x20,[x0, #0xb0]
+00101a40 ldr x0,[x20, #0x48]
+00101a44 bl 0x00104060
+00101a48 ldr x0,[x20, #0x688]
+00101a4c ldr x3,[x0, #0x48]
+00101a50 cbz x3,0x00101a68
+00101a54 mov x2,x19
+00101a58 mov x1,x21
+00101a5c mov x0,x20
+00101a60 blr x3
+00101a64 b 0x00101a6c
+00101a68 mov w0,#0xffffffa1
+00101a6c ldp x19,x20,[sp, #0x10]
+00101a70 ldr x21,[sp, #0x20]
+00101a74 ldp x29,x30,[sp], #0x30
+00101a78 ret
+
+FUNCTION FUN_00101a7c @ 00101a7c
+decompiled=true
+
+int FUN_00101a7c(long param_1,long param_2,char *param_3)
+
+{
+  int iVar1;
+  code *pcVar2;
+  char cVar3;
+  long lVar4;
+  long lVar5;
+  long lVar6;
+  undefined8 uVar7;
+  
+  cVar3 = *param_3;
+  uVar7 = *(undefined8 *)(param_2 + 0x40);
+  lVar5 = *(long *)(*(long *)(param_1 + 0x48) + 0xb0);
+  if ((cVar3 != '\x01') && (cVar3 != '\x02')) {
+    cVar3 = '\0';
+  }
+  _dev_info(*(undefined8 *)(lVar5 + 0x48),"%s(): mld_sta_id %d\n","connac_if_add_sta",
+            *(undefined4 *)(param_3 + 0xc));
+  pcVar2 = *(code **)(*(long *)(lVar5 + 0x688) + 0x40);
+  if (pcVar2 != (code *)0x0) {
+    iVar1 = (*pcVar2)(lVar5,uVar7,param_3 + 0x148,cVar3,*(undefined4 *)(param_3 + 0xc));
+    if (iVar1 != 0) goto LAB_00101b64;
+    lVar6 = 0;
+    *(undefined4 *)(param_3 + 4) = *(undefined4 *)(param_3 + 0x150);
+    while( true ) {
+      lVar4 = *(long *)(param_3 + lVar6 * 8 + 0x38);
+      pcVar2 = *(code **)(*(long *)(lVar5 + 0x688) + 0x78);
+      if (pcVar2 == (code *)0x0) break;
+      iVar1 = (*pcVar2)(lVar5,uVar7,param_3 + 0x148,(uint)lVar6 & 0xff,lVar4 + 0x18);
+      if (iVar1 != 0) goto LAB_00101b64;
+      lVar6 = lVar6 + 1;
+      *(undefined4 *)(lVar4 + 0x38) = 0;
+      if (lVar6 == 0x11) {
+        return 0;
+      }
+    }
+  }
+  iVar1 = -0x5f;
+LAB_00101b64:
+  _dev_info(*(undefined8 *)(lVar5 + 0x48),"%s(): err\n","connac_if_add_sta");
+  return iVar1;
+}
+
+
+ASSEMBLY
+00101a7c stp x29,x30,[sp, #-0x50]!
+00101a80 mov x29,sp
+00101a84 stp x19,x20,[sp, #0x10]
+00101a88 mov x20,x2
+00101a8c stp x21,x22,[sp, #0x20]
+00101a90 stp x23,x24,[sp, #0x30]
+00101a94 stp x25,x26,[sp, #0x40]
+00101a98 add x25,x2,#0x148
+00101a9c ldr x0,[x0, #0x48]
+00101aa0 ldrb w19,[x2]
+00101aa4 ldr x24,[x1, #0x40]
+00101aa8 ldr x21,[x0, #0xb0]
+00101aac cmp w19,#0x1
+00101ab0 b.eq 0x00101abc
+00101ab4 cmp w19,#0x2
+00101ab8 csel w19,w19,wzr,eq
+00101abc ldr w3,[x20, #0xc]
+00101ac0 adrp x23,0x101000
+00101ac4 ldr x0,[x21, #0x48]
+00101ac8 add x23,x23,#0xee8
+00101acc add x2,x23,#0x58
+00101ad0 adrp x1,0x102000
+00101ad4 add x1,x1,#0x1b8
+00101ad8 bl 0x00104060
+00101adc ldr x0,[x21, #0x688]
+00101ae0 ldr w4,[x20, #0xc]
+00101ae4 ldr x5,[x0, #0x40]
+00101ae8 cbz x5,0x00101b60
+00101aec mov w3,w19
+00101af0 mov x2,x25
+00101af4 mov x1,x24
+00101af8 mov x0,x21
+00101afc blr x5
+00101b00 mov w19,w0
+00101b04 cbnz w0,0x00101b64
+00101b08 ldr w0,[x25, #0x8]
+00101b0c add x26,x20,#0x38
+00101b10 mov x22,#0x0
+00101b14 str w0,[x20, #0x4]
+00101b18 ldr x0,[x21, #0x688]
+00101b1c and w3,w22,#0xff
+00101b20 ldr x20,[x26, x22, LSL #0x3]
+00101b24 ldr x5,[x0, #0x78]
+00101b28 add x20,x20,#0x18
+00101b2c cbz x5,0x00101b60
+00101b30 mov x4,x20
+00101b34 mov x2,x25
+00101b38 mov x1,x24
+00101b3c mov x0,x21
+00101b40 blr x5
+00101b44 mov w19,w0
+00101b48 cbnz w0,0x00101b64
+00101b4c add x22,x22,#0x1
+00101b50 str wzr,[x20, #0x20]
+00101b54 cmp x22,#0x11
+00101b58 b.ne 0x00101b18
+00101b5c b 0x00101b78
+00101b60 mov w19,#0xffffffa1
+00101b64 ldr x0,[x21, #0x48]
+00101b68 adrp x1,0x102000
+00101b6c add x2,x23,#0x58
+00101b70 add x1,x1,#0x1d0
+00101b74 bl 0x00104060
+00101b78 mov w0,w19
+00101b7c ldp x19,x20,[sp, #0x10]
+00101b80 ldp x21,x22,[sp, #0x20]
+00101b84 ldp x23,x24,[sp, #0x30]
+00101b88 ldp x25,x26,[sp, #0x40]
+00101b8c ldp x29,x30,[sp], #0x50
+00101b90 ret
+
+FUNCTION FUN_00101b94 @ 00101b94
+decompiled=true
+
+undefined8 FUN_00101b94(long param_1)
+
+{
+  _dev_info(*(undefined8 *)(param_1 + 0x48),"%s()\n","connac_if_rx_indicate");
+  return 0;
+}
+
+
+ASSEMBLY
+00101b94 stp x29,x30,[sp, #-0x10]!
+00101b98 adrp x2,0x101000
+00101b9c add x2,x2,#0xee8
+00101ba0 mov x29,sp
+00101ba4 ldr x0,[x0, #0x48]
+00101ba8 add x2,x2,#0xa8
+00101bac adrp x1,0x102000
+00101bb0 add x1,x1,#0x190
+00101bb4 bl 0x00104060
+00101bb8 mov w0,#0x0
+00101bbc ldp x29,x30,[sp], #0x10
+00101bc0 ret
+
+FUNCTION FUN_00101bc4 @ 00101bc4
+decompiled=true
+
+long FUN_00101bc4(long param_1)
+
+{
+  undefined8 *puVar1;
+  long lVar2;
+  
+  _dev_info(*(undefined8 *)(param_1 + 0x48),"%s()\n","connac_if_alloc_phy");
+  puVar1 = (undefined8 *)mtk_mac_alloc_hw(0x120,&hw_ops);
+  lVar2 = 0;
+  if (puVar1 != (undefined8 *)0x0) {
+    _dev_info(*(undefined8 *)(param_1 + 0x48),"%s(): hw:%p, priv:%p\n","connac_if_alloc_phy",puVar1,
+              puVar1[9]);
+    lVar2 = puVar1[9];
+    *puVar1 = *(undefined8 *)(param_1 + 0x48);
+    *(undefined4 *)((long)puVar1 + 0x14) = 1;
+    *(undefined8 **)(lVar2 + 0x118) = puVar1;
+    *(long *)(lVar2 + 0xb0) = param_1;
+  }
+  return lVar2;
+}
+
+
+ASSEMBLY
+00101bc4 stp x29,x30,[sp, #-0x30]!
+00101bc8 adrp x1,0x102000
+00101bcc add x1,x1,#0x190
+00101bd0 mov x29,sp
+00101bd4 stp x19,x20,[sp, #0x10]
+00101bd8 mov x20,x0
+00101bdc str x21,[sp, #0x20]
+00101be0 adrp x21,0x101000
+00101be4 add x21,x21,#0xee8
+00101be8 ldr x0,[x0, #0x48]
+00101bec add x21,x21,#0xf0
+00101bf0 mov x2,x21
+00101bf4 bl 0x00104060
+00101bf8 adrp x1,0x102000
+00101bfc mov x0,#0x120
+00101c00 add x1,x1,#0xdd0
+00101c04 bl 0x00104008
+00101c08 mov x19,x0
+00101c0c cbz x0,0x00101c4c
+00101c10 mov x3,x0
+00101c14 mov x2,x21
+00101c18 ldr x4,[x0, #0x48]
+00101c1c adrp x1,0x102000
+00101c20 ldr x0,[x20, #0x48]
+00101c24 add x1,x1,#0x2f8
+00101c28 bl 0x00104060
+00101c2c ldr x0,[x19, #0x48]
+00101c30 mov w1,#0x1
+00101c34 ldr x2,[x20, #0x48]
+00101c38 str x2,[x19]
+00101c3c str w1,[x19, #0x14]
+00101c40 str x19,[x0, #0x118]
+00101c44 mov x19,x0
+00101c48 str x20,[x0, #0xb0]
+00101c4c mov x0,x19
+00101c50 ldp x19,x20,[sp, #0x10]
+00101c54 ldr x21,[sp, #0x20]
+00101c58 ldp x29,x30,[sp], #0x30
+00101c5c ret
+
+FUNCTION FUN_00101c60 @ 00101c60
+decompiled=true
+
+long FUN_00101c60(long param_1,undefined8 param_2,int param_3)
+
+{
+  int iVar1;
+  undefined8 *puVar2;
+  long lVar3;
+  long lVar4;
+  uint uVar5;
+  
+  if (DAT_001031c0 == 1) {
+    uVar5 = (uint)*(byte *)(*(long *)(*(long *)(param_1 + 0x38) + 0x40) + 0x40);
+  }
+  else {
+    uVar5 = 1;
+  }
+  iVar1 = uVar5 * 0x120;
+  _dev_info(param_2,"%s()\n","connac_if_alloc_device");
+  puVar2 = (undefined8 *)mtk_mac_alloc_hw((long)(iVar1 + param_3),&hw_ops);
+  lVar4 = 0;
+  if (puVar2 != (undefined8 *)0x0) {
+    _dev_info(param_2,"%s(): hw:%p, priv:%p, phy_size = %d\n","connac_if_alloc_device",puVar2,
+              puVar2[9],iVar1);
+    *puVar2 = param_2;
+    if (DAT_001031c0 == 1) {
+      uVar5 = (uint)*(byte *)(*(long *)(*(long *)(param_1 + 0x38) + 0x40) + 0x40);
+    }
+    else {
+      uVar5 = 1;
+    }
+    lVar3 = puVar2[9];
+    *(uint *)((long)puVar2 + 0x14) = uVar5;
+    lVar4 = lVar3 + iVar1;
+    *(long *)(lVar3 + 0xb0) = lVar4;
+    *(undefined8 **)(lVar3 + 0x118) = puVar2;
+    *(undefined8 **)(lVar4 + 0x40) = puVar2;
+  }
+  return lVar4;
+}
+
+
+ASSEMBLY
+00101c60 stp x29,x30,[sp, #-0x40]!
+00101c64 mov x29,sp
+00101c68 stp x23,x24,[sp, #0x30]
+00101c6c adrp x23,0x103000
+00101c70 mov x24,x0
+00101c74 ldr w3,[x23, #0x1c0]
+00101c78 stp x19,x20,[sp, #0x10]
+00101c7c mov x19,x2
+00101c80 stp x21,x22,[sp, #0x20]
+00101c84 mov x22,x1
+00101c88 cmp w3,#0x1
+00101c8c b.ne 0x00101ca0
+00101c90 ldr x0,[x0, #0x38]
+00101c94 ldr x0,[x0, #0x40]
+00101c98 ldrb w20,[x0, #0x40]
+00101c9c b 0x00101ca4
+00101ca0 mov w20,#0x1
+00101ca4 mov w0,#0x120
+00101ca8 adrp x21,0x101000
+00101cac add x21,x21,#0xee8
+00101cb0 adrp x1,0x102000
+00101cb4 mul w20,w20,w0
+00101cb8 add x21,x21,#0x108
+00101cbc mov x2,x21
+00101cc0 add x1,x1,#0x190
+00101cc4 add w19,w20,w19
+00101cc8 mov x0,x22
+00101ccc bl 0x00104060
+00101cd0 sxtw x0,w19
+00101cd4 adrp x1,0x102000
+00101cd8 add x1,x1,#0xdd0
+00101cdc bl 0x00104008
+00101ce0 mov x19,x0
+00101ce4 cbz x0,0x00101d48
+00101ce8 ldr x4,[x19, #0x48]
+00101cec mov x3,x0
+00101cf0 mov x2,x21
+00101cf4 mov x0,x22
+00101cf8 mov w5,w20
+00101cfc adrp x1,0x102000
+00101d00 add x1,x1,#0x310
+00101d04 bl 0x00104060
+00101d08 str x22,[x19]
+00101d0c ldr w0,[x23, #0x1c0]
+00101d10 cmp w0,#0x1
+00101d14 b.ne 0x00101d28
+00101d18 ldr x0,[x24, #0x38]
+00101d1c ldr x0,[x0, #0x40]
+00101d20 ldrb w1,[x0, #0x40]
+00101d24 b 0x00101d2c
+00101d28 mov w1,#0x1
+00101d2c ldr x0,[x19, #0x48]
+00101d30 str w1,[x19, #0x14]
+00101d34 add x20,x0,w20, SXTW 
+00101d38 str x20,[x0, #0xb0]
+00101d3c str x19,[x0, #0x118]
+00101d40 str x19,[x20, #0x40]
+00101d44 mov x19,x20
+00101d48 mov x0,x19
+00101d4c ldp x19,x20,[sp, #0x10]
+00101d50 ldp x21,x22,[sp, #0x20]
+00101d54 ldp x23,x24,[sp, #0x30]
+00101d58 ldp x29,x30,[sp], #0x40
+00101d5c ret
+
+FUNCTION FUN_00101d60 @ 00101d60
+decompiled=true
+
+undefined8 FUN_00101d60(long param_1)
+
+{
+  undefined8 uVar1;
+  
+  uVar1 = *(undefined8 *)(param_1 + 0x40);
+  _dev_info(*(undefined8 *)(param_1 + 0x48),"%s()\n","connac_if_free_device");
+  mtk_mac_free_hw(uVar1);
+  return 0;
+}
+
+
+ASSEMBLY
+00101d60 stp x29,x30,[sp, #-0x20]!
+00101d64 adrp x2,0x101000
+00101d68 add x2,x2,#0xee8
+00101d6c mov x29,sp
+00101d70 str x19,[sp, #0x10]
+00101d74 add x2,x2,#0x138
+00101d78 adrp x1,0x102000
+00101d7c add x1,x1,#0x190
+00101d80 ldp x19,x0,[x0, #0x40]
+00101d84 bl 0x00104060
+00101d88 mov x0,x19
+00101d8c bl 0x00104070
+00101d90 mov w0,#0x0
+00101d94 ldr x19,[sp, #0x10]
+00101d98 ldp x29,x30,[sp], #0x20
+00101d9c ret
+
+FUNCTION FUN_00101da0 @ 00101da0
+decompiled=true
+
+undefined8 FUN_00101da0(long param_1,undefined1 *param_2)
+
+{
+  int iVar1;
+  undefined8 uVar2;
+  code *pcVar3;
+  long lVar4;
+  long lVar5;
+  
+  lVar4 = *(long *)(param_2 + 0x118);
+  lVar5 = *(long *)(param_1 + 0x78);
+  _dev_info(*(undefined8 *)(param_1 + 0x48),"%s()\n","connac_if_register_device_with_phy");
+  *(undefined4 *)(lVar4 + 0xc) = *(undefined4 *)(lVar5 + 0x40);
+  *(int *)(lVar4 + 0x18) = *(int *)(lVar4 + 0x14) * 0x80 + 0x20;
+  *(int *)(lVar4 + 0x1c) = *(int *)(lVar4 + 0x14) * 0x60;
+  *(undefined4 *)(lVar4 + 0x20) = 0x40;
+  pcVar3 = *(code **)(*(long *)(param_1 + 0x688) + 0x68);
+  if ((pcVar3 != (code *)0x0) && (iVar1 = (*pcVar3)(param_1,param_2), iVar1 == 0)) {
+    *(undefined1 *)(lVar4 + 8) = *param_2;
+    uVar2 = mtk_mac_hw_register(param_1,lVar4);
+    if ((int)uVar2 == 0) {
+      return uVar2;
+    }
+    pcVar3 = *(code **)(*(long *)(param_1 + 0x688) + 0x70);
+    if (pcVar3 != (code *)0x0) {
+      (*pcVar3)(param_1,param_2);
+    }
+  }
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+00101da0 stp x29,x30,[sp, #-0x30]!
+00101da4 adrp x2,0x101000
+00101da8 add x2,x2,#0xee8
+00101dac mov x29,sp
+00101db0 stp x19,x20,[sp, #0x10]
+00101db4 mov x19,x0
+00101db8 add x2,x2,#0x168
+00101dbc stp x21,x22,[sp, #0x20]
+00101dc0 mov x21,x1
+00101dc4 adrp x1,0x102000
+00101dc8 ldr x0,[x0, #0x48]
+00101dcc add x1,x1,#0x190
+00101dd0 ldr x20,[x21, #0x118]
+00101dd4 ldr x22,[x19, #0x78]
+00101dd8 bl 0x00104060
+00101ddc ldr w0,[x20, #0x14]
+00101de0 mov w3,#0x60
+00101de4 mov w2,#0x40
+00101de8 ldr w4,[x22, #0x40]
+00101dec lsl w1,w0,#0x7
+00101df0 str w4,[x20, #0xc]
+00101df4 mul w0,w0,w3
+00101df8 add w1,w1,#0x20
+00101dfc stp w1,w0,[x20, #0x18]
+00101e00 str w2,[x20, #0x20]
+00101e04 ldr x0,[x19, #0x688]
+00101e08 ldr x2,[x0, #0x68]
+00101e0c cbz x2,0x00101e50
+00101e10 mov x1,x21
+00101e14 mov x0,x19
+00101e18 blr x2
+00101e1c cbnz w0,0x00101e50
+00101e20 ldrb w0,[x21]
+00101e24 mov x1,x20
+00101e28 strb w0,[x20, #0x8]
+00101e2c mov x0,x19
+00101e30 bl 0x00104080
+00101e34 cbz w0,0x00101e54
+00101e38 ldr x0,[x19, #0x688]
+00101e3c ldr x2,[x0, #0x70]
+00101e40 cbz x2,0x00101e50
+00101e44 mov x1,x21
+00101e48 mov x0,x19
+00101e4c blr x2
+00101e50 mov w0,#0xffffffea
+00101e54 ldp x19,x20,[sp, #0x10]
+00101e58 ldp x21,x22,[sp, #0x20]
+00101e5c ldp x29,x30,[sp], #0x30
+00101e60 ret
+
+FUNCTION FUN_00101e64 @ 00101e64
+decompiled=true
+
+undefined8 FUN_00101e64(undefined8 param_1,long *param_2)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  
+  lVar1 = FUN_00101bc4();
+  if (lVar1 == 0) {
+    uVar2 = 0xfffffff4;
+  }
+  else {
+    *param_2 = lVar1;
+    uVar2 = FUN_00101da0(param_1);
+  }
+  return uVar2;
+}
+
+
+ASSEMBLY
+00101e64 stp x29,x30,[sp, #-0x20]!
+00101e68 mov x29,sp
+00101e6c stp x19,x20,[sp, #0x10]
+00101e70 mov x20,x1
+00101e74 mov x19,x0
+00101e78 bl 0x00101bc4
+00101e7c cbz x0,0x00101e94
+00101e80 mov x1,x0
+00101e84 str x1,[x20]
+00101e88 mov x0,x19
+00101e8c bl 0x00101da0
+00101e90 b 0x00101e98
+00101e94 mov w0,#0xfffffff4
+00101e98 ldp x19,x20,[sp, #0x10]
+00101e9c ldp x29,x30,[sp], #0x20
+00101ea0 ret
+
+FUNCTION init_module @ 00101ea4
+decompiled=true
+
+void init_module(void)
+
+{
+  mtk_interface_register(&DAT_00102ee0);
+  return;
+}
+
+
+ASSEMBLY
+00101ea4 stp x29,x30,[sp, #-0x10]!
+00101ea8 adrp x0,0x102000
+00101eac add x0,x0,#0xdd0
+00101eb0 mov x29,sp
+00101eb4 add x0,x0,#0x110
+00101eb8 bl 0x00104028
+00101ebc ldp x29,x30,[sp], #0x10
+00101ec0 ret
+
+FUNCTION cleanup_module @ 00101ec4
+decompiled=true
+
+void cleanup_module(void)
+
+{
+  mtk_interface_unregister(&DAT_00102ee0);
+  return;
+}
+
+
+ASSEMBLY
+00101ec4 stp x29,x30,[sp, #-0x10]!
+00101ec8 adrp x0,0x102000
+00101ecc add x0,x0,#0xdd0
+00101ed0 mov x29,sp
+00101ed4 add x0,x0,#0x110
+00101ed8 bl 0x00104010
+00101edc ldp x29,x30,[sp], #0x10
+00101ee0 ret
+
+total_executable_functions=59
+exported_functions=59
+failed_decompilations=0

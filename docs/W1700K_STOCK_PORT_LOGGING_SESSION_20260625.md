@@ -6119,3 +6119,22 @@ independent pristine revalidation are recorded in the report and ledger.
 No router contact, flash or runtime changes. Shared recovery/removal ownership,
 full NPU host-adapter parity and actual-client WiFi acceptance remain unfinished.
 Evidence: `research/checkpoints/2026-09-05-npu-quiescence/REPORT.md`.
+
+## Executable Reset Counterexample - 2026-09-05
+
+Recovered the stock reset path through connac_if, arch/GE/PCI callback tables and
+registration. Original AArch64 code confirms status masking in 16 controlled
+cases with two mutation controls. Original RV32 hart dispatch and core-5 worker
+code reproduce descriptor consumption after STOP callback completion and GET3
+zero; empty-ring and stopped-before-startup controls pass.
+
+Corrected Ghidra shared-SRAM volatility and non-returning worker metadata. Earlier
+C output hid cross-core acknowledgement stores and merged adjacent wrappers;
+raw assembly was retained. Standalone page-loop reachability is unproven and
+must not be counted as a second active ungated worker. Core-5 reachability and
+the counterexample stand independently.
+
+These are static/emulator results, not hardware DMA or live-binding proof. No
+firmware source/router/image change. The actual generation-aware barrier and
+shared recovery/removal ownership policy remain open. Full evidence and replay:
+`research/checkpoints/2026-09-05-npu-reset/REPORT.md`. Ledger/reference updated.

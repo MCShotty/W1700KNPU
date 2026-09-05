@@ -1,0 +1,4658 @@
+program=mtk_pci.ko
+sha256=c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b
+language=AARCH64:LE:64:v8A
+
+FUNCTION analysis_reset__text_14c0 @ 001014e0
+section_relative=.text+0x14c0
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text	0x14c0	0x1608	0x1520	unnamed@.text+0x14c0	eh_frame_FDE:0x5f4	Anonymous SER event caller; CALL26 at +0x153c and +0x1560
+XREF 0010e214 DATA
+XREF 001047a8 PARAM
+decompiled=true
+
+undefined8 analysis_reset__text_14c0(long param_1)
+
+{
+  byte bVar1;
+  long lVar2;
+  uint uVar3;
+  uint uVar4;
+  undefined8 *puVar5;
+  undefined4 uVar6;
+  long lVar7;
+  long lVar8;
+  undefined4 *puVar9;
+  
+  lVar2 = sp_el0;
+  lVar7 = *(long *)(param_1 + 0x38);
+  lVar8 = lVar7 + -0xc0;
+  bVar1 = *(byte *)(lVar7 + 0xd29);
+  puVar9 = *(undefined4 **)(lVar7 + -0x80);
+  *(int *)(lVar2 + 0x18) = *(int *)(lVar2 + 0x18) + 0x200;
+  puVar5 = *(undefined8 **)(lVar7 + -0x60);
+  uVar6 = *(undefined4 *)(lVar7 + 0xd34);
+  if ((code *)*puVar5 == (code *)0x0) {
+    uVar3 = 0;
+  }
+  else {
+    uVar3 = (*(code *)*puVar5)(lVar8,uVar6);
+    uVar4 = uVar3 & *(uint *)(lVar7 + 0xd38);
+    if (uVar4 != 0) {
+      mtk_bus_rx_ser_event(puVar9,*(undefined4 *)(*(long *)(puVar9 + 0x1e) + 0x40),10,uVar4,*puVar9)
+      ;
+    }
+    uVar4 = uVar3 & *(uint *)(lVar7 + 0xd3c);
+    if (uVar4 != 0) {
+      mtk_bus_rx_ser_event(puVar9,*(undefined4 *)(*(long *)(puVar9 + 0x1e) + 0x40),5,uVar4,*puVar9);
+      puVar5 = *(undefined8 **)(lVar7 + -0x60);
+      uVar4 = 0;
+      uVar6 = *(undefined4 *)(lVar7 + 0xd30);
+      if ((code *)*puVar5 != (code *)0x0) {
+        uVar4 = (*(code *)*puVar5)(lVar8,uVar6);
+        uVar6 = *(undefined4 *)(lVar7 + 0xd30);
+        puVar5 = *(undefined8 **)(lVar7 + -0x60);
+      }
+      if ((code *)puVar5[1] == (code *)0x0) goto LAB_001015e0;
+      (*(code *)puVar5[1])(lVar8,uVar6,uVar4 & (*(uint *)(lVar7 + 0xd3c) ^ 0xffffffff));
+    }
+    uVar6 = *(undefined4 *)(lVar7 + 0xd34);
+    puVar5 = *(undefined8 **)(lVar7 + -0x60);
+  }
+  if ((code *)puVar5[1] != (code *)0x0) {
+    (*(code *)puVar5[1])(lVar8,uVar6,uVar3);
+  }
+LAB_001015e0:
+  __local_bh_enable_ip(0x1015e0,0x200);
+  napi_complete_done(param_1,0);
+  FUN_00101480(lVar8 + (ulong)bVar1 * 0x40 + 0x948,*(undefined4 *)(lVar7 + 0xd2c));
+  return 0;
+}
+
+
+ASSEMBLY
+001014e0 stp x29,x30,[sp, #-0x40]!
+001014e4 mrs x1,sp_el0
+001014e8 mov x29,sp
+001014ec stp x21,x22,[sp, #0x20]
+001014f0 mov x22,x0
+001014f4 stp x19,x20,[sp, #0x10]
+001014f8 str x23,[sp, #0x30]
+001014fc ldr x19,[x22, #0x38]
+00101500 ldr w0,[x1, #0x18]
+00101504 sub x19,x19,#0xc0
+00101508 ldrb w20,[x19, #0xde9]
+0010150c add w0,w0,#0x200
+00101510 ldr x23,[x19, #0x40]
+00101514 str w0,[x1, #0x18]
+00101518 add x20,x19,x20, LSL #0x6
+0010151c add x20,x20,#0x948
+00101520 ldr x0,[x19, #0x60]
+00101524 ldr w1,[x19, #0xdf4]
+00101528 ldr x2,[x0]
+0010152c cbz x2,0x00101620
+00101530 mov x0,x19
+00101534 blr x2
+00101538 ldr w3,[x19, #0xdf8]
+0010153c mov w21,w0
+00101540 ands w3,w0,w3
+00101544 b.eq 0x00101560
+00101548 ldr x1,[x23, #0x78]
+0010154c mov x0,x23
+00101550 ldr w4,[x23]
+00101554 mov w2,#0xa
+00101558 ldr w1,[x1, #0x40]
+0010155c bl 0x001102c8
+00101560 ldr w3,[x19, #0xdfc]
+00101564 ands w3,w21,w3
+00101568 b.eq 0x001015c4
+0010156c ldr x1,[x23, #0x78]
+00101570 mov w2,#0x5
+00101574 ldr w4,[x23]
+00101578 mov x0,x23
+0010157c ldr w1,[x1, #0x40]
+00101580 bl 0x001102c8
+00101584 ldr x3,[x19, #0x60]
+00101588 mov w2,#0x0
+0010158c ldr w1,[x19, #0xdf0]
+00101590 ldr x4,[x3]
+00101594 cbz x4,0x001015ac
+00101598 mov x0,x19
+0010159c blr x4
+001015a0 ldr w1,[x19, #0xdf0]
+001015a4 mov w2,w0
+001015a8 ldr x3,[x19, #0x60]
+001015ac ldr x3,[x3, #0x8]
+001015b0 cbz x3,0x001015e0
+001015b4 ldr w4,[x19, #0xdfc]
+001015b8 mov x0,x19
+001015bc bic w2,w2,w4
+001015c0 blr x3
+001015c4 ldr w1,[x19, #0xdf4]
+001015c8 ldr x0,[x19, #0x60]
+001015cc ldr x3,[x0, #0x8]
+001015d0 cbz x3,0x001015e0
+001015d4 mov w2,w21
+001015d8 mov x0,x19
+001015dc blr x3
+001015e0 mov w1,#0x200
+001015e4 adrp x0,0x101000
+001015e8 add x0,x0,#0x5e0
+001015ec bl 0x001101a0
+001015f0 mov x0,x22
+001015f4 mov w1,#0x0
+001015f8 bl 0x001100c8
+001015fc ldr w1,[x19, #0xdec]
+00101600 mov x0,x20
+00101604 bl 0x00101480
+00101608 mov w0,#0x0
+0010160c ldp x19,x20,[sp, #0x10]
+00101610 ldp x21,x22,[sp, #0x20]
+00101614 ldr x23,[sp, #0x30]
+00101618 ldp x29,x30,[sp], #0x40
+0010161c ret
+00101620 mov w21,#0x0
+00101624 b 0x001015cc
+
+FUNCTION pci_dma_init_rx_data_queue @ 00103570
+section_relative=.text+0x3550
+XREF 0010e7a4 DATA
+decompiled=true
+
+void pci_dma_init_rx_data_queue(long param_1,int *param_2)
+
+{
+  long lVar1;
+  byte bVar2;
+  ushort uVar3;
+  char cVar4;
+  uint uVar5;
+  int iVar6;
+  undefined8 uVar7;
+  undefined4 *puVar8;
+  long lVar9;
+  undefined4 uVar10;
+  code *pcVar11;
+  long lVar12;
+  long lVar13;
+  long lVar14;
+  uint uVar15;
+  uint local_4;
+  
+  uVar3 = *(ushort *)(param_2 + 0x1b);
+  local_4 = 0xffffffff;
+  cVar4 = npu_pci_dma_init_rx_data_queue();
+  if (cVar4 == '\0') {
+    *(undefined1 *)((long)param_2 + 0x2ae) = 0;
+    lVar13 = *(long *)(param_2 + 0x10);
+    lVar14 = *(long *)(param_2 + 0x12);
+    if (uVar3 == 0) {
+      local_4 = 0;
+    }
+    else {
+      lVar12 = 0;
+      uVar5 = 0;
+      do {
+        lVar9 = *(long *)(param_2 + 0xc);
+        lVar1 = lVar9 + lVar12;
+        *(undefined8 *)(lVar1 + 0x20) = 0;
+        *(undefined8 *)(lVar1 + 0x28) = 0;
+        *(ulong *)(lVar9 + lVar12) = (ulong)(uint)param_2[0xb];
+        *(long *)(lVar1 + 8) = lVar13;
+        *(long *)(lVar1 + 0x10) = lVar14;
+        if ((*(char *)((long)param_2 + 0x6e) == '\0') &&
+           ((((uint)*(undefined8 *)(param_1 + 0xbc8) >> 2 & 1) == 0 || (1 < *param_2 - 6U)))) {
+          *(undefined4 *)(lVar13 + 4) = 0;
+          *(ulong *)(lVar1 + 0x30) = (ulong)*(ushort *)((long)param_2 + 0x28e);
+          uVar7 = pci_dma_rx_pkt_alloc(*(undefined8 *)(param_1 + 0x38),param_2,lVar1 + 0x30,1);
+          *(undefined8 *)(lVar1 + 0x20) = uVar7;
+          if ((((uint)*(undefined8 *)(param_1 + 0xbc8) >> 2 & 1) == 0) && (*param_2 == 5)) {
+            uVar15 = uVar5 << 0x10;
+            uVar10 = (undefined4)*(undefined8 *)(lVar1 + 0x40);
+          }
+          else {
+            pcVar11 = *(code **)(*(long *)(*(long *)(param_1 + 0x40) + 0x430) + 0x28);
+            if (pcVar11 == (code *)0x0) {
+              uVar15 = 0xffa10000;
+              uVar5 = 0xffffffa1;
+            }
+            else {
+              uVar5 = (*pcVar11)(*(long *)(param_1 + 0x40) + 0x3f0,uVar7,
+                                 *(undefined8 *)(lVar1 + 0x30),*(undefined8 *)(lVar1 + 0x38),
+                                 *(undefined8 *)(lVar1 + 0x40),&local_4);
+              uVar15 = uVar5 << 0x10;
+            }
+            iVar6 = *param_2;
+            if (iVar6 == 6) {
+              pcVar11 = *(code **)(*(long *)(*(long *)(param_1 + 0x40) + 0x430) + 0x18);
+              if (pcVar11 == (code *)0x0) {
+                uVar10 = (undefined4)*(undefined8 *)(lVar1 + 0x40);
+                goto LAB_00103684;
+              }
+              (*pcVar11)(*(long *)(param_1 + 0x40) + 0x3f0,uVar5,1);
+              iVar6 = *param_2;
+            }
+            uVar10 = (undefined4)*(undefined8 *)(lVar1 + 0x40);
+            if (iVar6 == 7) {
+              rro_msdu_page_hash_init
+                        (param_1,*(undefined8 *)(lVar1 + 0x20),*(undefined8 *)(lVar1 + 0x38));
+              uVar10 = (undefined4)*(undefined8 *)(lVar1 + 0x40);
+            }
+          }
+LAB_00103684:
+          puVar8 = *(undefined4 **)(lVar1 + 8);
+          bVar2 = *(byte *)((long)param_2 + 0x2ae);
+          *puVar8 = uVar10;
+          puVar8[2] = *(uint *)(lVar1 + 0x44) & 0xf | uVar15;
+          puVar8[1] = ((uint)*(undefined8 *)(lVar1 + 0x30) & 0x3fff) << 0x10 | 0x100;
+          puVar8[3] = (uint)bVar2 << 0x1c;
+        }
+        local_4 = uVar5;
+        lVar12 = lVar12 + 0x80;
+        lVar13 = lVar13 + (ulong)(uint)param_2[0xb];
+        lVar14 = lVar14 + (ulong)(uint)param_2[0xb];
+        uVar5 = local_4;
+      } while (lVar12 != (ulong)uVar3 << 7);
+    }
+    if (*param_2 == 6) {
+      param_2[0xaa] = local_4;
+    }
+    param_2[10] = (uint)*(ushort *)(param_2 + 0x1b);
+    param_2[9] = *(ushort *)(param_2 + 0x1b) - 1;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00103570 stp x29,x30,[sp, #-0x70]!
+00103574 mov w2,#0xffffffff
+00103578 mov x29,sp
+0010357c stp x19,x20,[sp, #0x10]
+00103580 mov x20,x1
+00103584 stp x23,x24,[sp, #0x30]
+00103588 stp x25,x26,[sp, #0x40]
+0010358c mov x26,x0
+00103590 ldrh w23,[x1, #0x6c]
+00103594 str w2,[sp, #0x6c]
+00103598 bl 0x00105da4
+0010359c tst w0,#0xff
+001035a0 b.ne 0x001036f8
+001035a4 stp x21,x22,[sp, #0x20]
+001035a8 strb wzr,[x20, #0x2ae]
+001035ac ldp x22,x25,[x20, #0x40]
+001035b0 cbz w23,0x00103760
+001035b4 ubfiz x23,x23,#0x7,#0x10
+001035b8 mov x21,#0x0
+001035bc mov w24,#0x0
+001035c0 stp x27,x28,[sp, #0x50]
+001035c4 nop
+001035c8 ldr x1,[x20, #0x30]
+001035cc add x19,x1,x21
+001035d0 stp xzr,xzr,[x19, #0x20]
+001035d4 ldr w0,[x20, #0x2c]
+001035d8 str x0,[x1, x21, LSL #0x0]
+001035dc stp x22,x25,[x19, #0x8]
+001035e0 ldrb w0,[x20, #0x6e]
+001035e4 cbnz w0,0x001036b8
+001035e8 ldr x0,[x26, #0xbc8]
+001035ec tbz w0,#0x2,0x00103600
+001035f0 ldr w0,[x20]
+001035f4 sub w0,w0,#0x6
+001035f8 cmp w0,#0x1
+001035fc b.ls 0x001036b8
+00103600 str wzr,[x22, #0x4]
+00103604 add x27,x19,#0x30
+00103608 mov x1,x20
+0010360c mov x2,x27
+00103610 ldrh w0,[x20, #0x28e]
+00103614 mov w3,#0x1
+00103618 str x0,[x19, #0x30]
+0010361c ldr x0,[x26, #0x38]
+00103620 bl 0x00103330
+00103624 str x0,[x19, #0x20]
+00103628 mov x1,x0
+0010362c ldr x0,[x26, #0xbc8]
+00103630 tbnz w0,#0x2,0x00103640
+00103634 ldr w0,[x20]
+00103638 cmp w0,#0x5
+0010363c b.eq 0x00103754
+00103640 ldr x0,[x26, #0x40]
+00103644 ldp x3,x4,[x27, #0x8]
+00103648 add x0,x0,#0x3f0
+0010364c ldr x5,[x0, #0x40]
+00103650 ldr x2,[x19, #0x30]
+00103654 ldr x6,[x5, #0x28]
+00103658 cbz x6,0x00103768
+0010365c add x5,sp,#0x6c
+00103660 blr x6
+00103664 mov w24,w0
+00103668 lsl w28,w0,#0x10
+0010366c ldr w0,[x20]
+00103670 cmp w0,#0x6
+00103674 b.eq 0x00103724
+00103678 ldr x3,[x27, #0x10]
+0010367c cmp w0,#0x7
+00103680 b.eq 0x0010370c
+00103684 ldr x0,[x19, #0x8]
+00103688 ldrb w1,[x20, #0x2ae]
+0010368c str w3,[x0]
+00103690 lsl w1,w1,#0x1c
+00103694 ldr w2,[x19, #0x44]
+00103698 and w2,w2,#0xf
+0010369c orr w2,w2,w28
+001036a0 str w2,[x0, #0x8]
+001036a4 ldr x2,[x19, #0x30]
+001036a8 ubfiz w2,w2,#0x10,#0xe
+001036ac orr w2,w2,#0x100
+001036b0 str w2,[x0, #0x4]
+001036b4 str w1,[x0, #0xc]
+001036b8 ldr w1,[x20, #0x2c]
+001036bc add x21,x21,#0x80
+001036c0 str w24,[sp, #0x6c]
+001036c4 add x22,x22,x1
+001036c8 add x25,x25,x1
+001036cc cmp x21,x23
+001036d0 b.ne 0x001035c8
+001036d4 ldp x27,x28,[sp, #0x50]
+001036d8 ldr w0,[x20]
+001036dc cmp w0,#0x6
+001036e0 b.eq 0x0010374c
+001036e4 ldrh w0,[x20, #0x6c]
+001036e8 str w0,[x20, #0x28]
+001036ec sub w0,w0,#0x1
+001036f0 str w0,[x20, #0x24]
+001036f4 ldp x21,x22,[sp, #0x20]
+001036f8 ldp x19,x20,[sp, #0x10]
+001036fc ldp x23,x24,[sp, #0x30]
+00103700 ldp x25,x26,[sp, #0x40]
+00103704 ldp x29,x30,[sp], #0x70
+00103708 ret
+0010370c ldr x2,[x27, #0x8]
+00103710 mov x0,x26
+00103714 ldr x1,[x19, #0x20]
+00103718 bl 0x0010a544
+0010371c ldr x3,[x19, #0x40]
+00103720 b 0x00103684
+00103724 ldr x0,[x26, #0x40]
+00103728 add x0,x0,#0x3f0
+0010372c ldr x1,[x0, #0x40]
+00103730 ldr x3,[x1, #0x18]
+00103734 cbz x3,0x00103774
+00103738 mov w1,w24
+0010373c mov w2,#0x1
+00103740 blr x3
+00103744 ldr w0,[x20]
+00103748 b 0x00103678
+0010374c str w24,[x20, #0x2a8]
+00103750 b 0x001036e4
+00103754 lsl w28,w24,#0x10
+00103758 ldr x3,[x27, #0x10]
+0010375c b 0x00103684
+00103760 mov w24,#0x0
+00103764 b 0x001036d8
+00103768 mov w28,#0xffa10000
+0010376c mov w24,#0xffffffa1
+00103770 b 0x0010366c
+00103774 ldr x3,[x27, #0x10]
+00103778 b 0x00103684
+
+FUNCTION analysis_reset__text_3924 @ 00103944
+section_relative=.text+0x3924
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text	0x3924	0x3ce0	0x3984	unnamed@.text+0x3924	eh_frame_FDE:0xc44	Anonymous SER event caller; CALL26 at +0x3c24
+XREF 0010e864 DATA
+XREF 0010f7a0 DATA
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int analysis_reset__text_3924(long param_1,int *param_2,uint param_3,ulong *param_4)
+
+{
+  int *piVar1;
+  long lVar2;
+  byte bVar3;
+  int iVar4;
+  char cVar5;
+  bool bVar6;
+  int iVar7;
+  ulong uVar8;
+  long lVar9;
+  void *__src;
+  long lVar10;
+  code *pcVar11;
+  ulong uVar12;
+  ulong uVar13;
+  undefined4 *puVar14;
+  undefined8 local_28;
+  ulong local_20;
+  undefined8 local_18;
+  undefined8 local_10;
+  undefined8 uStack_8;
+  
+  uVar13 = (ulong)param_3;
+  lVar2 = *(long *)(param_2 + 0xc) + uVar13 * 0x80;
+  puVar14 = *(undefined4 **)(lVar2 + 8);
+  FUN_001017b0(puVar14,param_4);
+  pcVar11 = (code *)**(undefined8 **)(*(long *)(param_1 + 0x40) + 0x430);
+  if (pcVar11 == (code *)0x0) {
+    iVar7 = -0x5f;
+  }
+  else {
+    iVar7 = (*pcVar11)(*(long *)(param_1 + 0x40) + 0x3f0,(int)param_4[2],param_4,&local_28,&local_20
+                      );
+    if (iVar7 == 0) {
+      local_18 = *(undefined8 *)(lVar2 + 0x30);
+      local_10 = 0;
+      uStack_8 = 0;
+      uVar8 = pci_dma_rx_pkt_alloc(*(undefined8 *)(param_1 + 0x38),param_2,&local_18,0);
+      if (uVar8 == 0) {
+        iVar7 = -0xc;
+      }
+      else {
+        __src = (void *)*param_4;
+        iVar7 = ((int)__src - (int)local_28) + 0xc0;
+        if (iVar7 < 0) {
+          if (DAT_0010fa18 == '\0') {
+            DAT_0010fa18 = '\x01';
+            _dev_err(*(undefined8 *)(param_1 + 0x38),
+                     "%s(): idx = %u, tkid = %u, offset = %d should not negative\n",
+                     "pci_dma_get_data_buf_by_copy",uVar13,(int)param_4[2],iVar7);
+          }
+        }
+        else {
+          uVar12 = param_4[1];
+          if (uVar12 == local_20) {
+            lVar9 = *(long *)(param_1 + 0x38);
+            lVar10 = *(long *)(lVar2 + 0x30);
+            if (*(long *)(lVar9 + 0x218) == 0) {
+              dma_direct_sync_single_for_cpu(lVar9,uVar12,lVar10,2);
+              __src = (void *)*param_4;
+              lVar10 = *(long *)(lVar2 + 0x30);
+            }
+            else {
+              pcVar11 = *(code **)(*(long *)(lVar9 + 0x218) + 0x50);
+              if (pcVar11 != (code *)0x0) {
+                (*pcVar11)(lVar9,uVar12,lVar10,2);
+                __src = (void *)*param_4;
+                lVar10 = *(long *)(lVar2 + 0x30);
+              }
+            }
+            memcpy((void *)(uVar8 + (long)iVar7),__src,
+                   ((lVar10 - iVar7) + 0xffU & 0xffffffffffffffc0) + 0x140);
+            *param_4 = uVar8;
+            *(undefined8 *)(lVar2 + 0x38) = local_28;
+            *(ulong *)(lVar2 + 0x40) = local_20;
+            lVar9 = *(long *)(*(long *)(param_1 + 0x38) + 0x218);
+            if (lVar9 == 0) {
+              dma_direct_sync_single_for_device
+                        (*(long *)(param_1 + 0x38),local_20,*(undefined8 *)(lVar2 + 0x30),2);
+            }
+            else {
+              pcVar11 = *(code **)(lVar9 + 0x58);
+              if (pcVar11 != (code *)0x0) {
+                (*pcVar11)();
+              }
+            }
+            if (*param_2 == 7) {
+              rro_msdu_page_hash_init
+                        (param_1,*(undefined8 *)(lVar2 + 0x20),*(undefined8 *)(lVar2 + 0x38),
+                         *(undefined8 *)(lVar2 + 0x40));
+              if (param_3 == 0) {
+                *(byte *)((long)param_2 + 0x2ae) = *(char *)((long)param_2 + 0x2ae) + 1U & 0xf;
+              }
+              else {
+                *(char *)((long)param_2 + 0x2ae) = *(char *)((long)param_2 + 0x2ae);
+              }
+            }
+            *(undefined4 *)(*(long *)(lVar2 + 8) + 4) = 0;
+            puVar14 = *(undefined4 **)(lVar2 + 8);
+            bVar3 = *(byte *)((long)param_2 + 0x2ae);
+            uVar13 = param_4[2];
+            *puVar14 = (int)*(undefined8 *)(lVar2 + 0x40);
+            puVar14[2] = *(uint *)(lVar2 + 0x44) & 0xf | (int)uVar13 << 0x10;
+            puVar14[1] = ((uint)*(undefined8 *)(lVar2 + 0x30) & 0x3fff) << 0x10 | 0x100;
+            puVar14[3] = (uint)bVar3 << 0x1c;
+            return 0;
+          }
+          if (DAT_0010fa19 == '\0') {
+            DAT_0010fa19 = '\x01';
+            _dev_err(*(undefined8 *)(param_1 + 0x38),
+                     "%s(): idx = %u, tkid = %u, SDP0 = 0x%llx and PKT_PA = 0x%llx not match\n",
+                     "pci_dma_get_data_buf_by_copy",uVar13,(int)param_4[2]);
+          }
+          if (DAT_0010fa1a == '\0') {
+            DAT_0010fa1a = '\x01';
+            _dev_err(*(undefined8 *)(param_1 + 0x38),
+                     "%s(): RXDMAD DW0: 0x%08x DW1: 0x%08x DW2: 0x%08x DW3: 0x%08x\n",
+                     "pci_dma_get_data_buf_by_copy",*puVar14,puVar14[1],puVar14[2],puVar14[3]);
+          }
+          puVar14 = *(undefined4 **)(param_1 + 0x40);
+          mtk_bus_rx_ser_event
+                    (puVar14,*(undefined4 *)(*(long *)(puVar14 + 0x1e) + 0x40),100,0,*puVar14);
+        }
+        lVar2 = _physvirt_offset;
+        if ((uVar8 & 1L << ((ulong)((int)_vabits_actual - 1) & 0x3f)) != 0) {
+          lVar2 = -_kimage_voffset;
+        }
+        lVar2 = _mem_map + ((uVar8 + lVar2 >> 0xc) - (_memstart_addr >> 0xc)) * 0x40;
+        uVar13 = *(ulong *)(lVar2 + 8);
+        if ((uVar13 & 1) != 0) {
+          lVar2 = uVar13 - 1;
+        }
+        lVar9 = *(ulong *)(lVar2 + 8) - 1;
+        if ((*(ulong *)(lVar2 + 8) & 1) == 0) {
+          lVar9 = lVar2;
+        }
+        piVar1 = (int *)(lVar9 + 0x34);
+        Hint_Prefetch(piVar1,2,0,1);
+        do {
+          iVar4 = *piVar1;
+          cVar5 = '\x01';
+          bVar6 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+          if (bVar6) {
+            *piVar1 = iVar4 + -1;
+            cVar5 = ExclusiveMonitorsStatus();
+          }
+        } while (cVar5 != '\0');
+        DataMemoryBarrier(2,3);
+        iVar7 = -0x16;
+        if (iVar4 + -1 == 0) {
+          __put_page();
+        }
+      }
+    }
+  }
+  return iVar7;
+}
+
+
+ASSEMBLY
+00103944 stp x29,x30,[sp, #-0x90]!
+00103948 mov x29,sp
+0010394c stp x19,x20,[sp, #0x10]
+00103950 mov x19,x3
+00103954 stp x21,x22,[sp, #0x20]
+00103958 mov x21,x0
+0010395c mov x22,x1
+00103960 stp x23,x24,[sp, #0x30]
+00103964 mov w24,w2
+00103968 stp x25,x26,[sp, #0x40]
+0010396c ubfiz x2,x24,#0x7,#0x20
+00103970 ldr x20,[x1, #0x30]
+00103974 mov x1,x3
+00103978 add x20,x20,x2
+0010397c ldr x25,[x20, #0x8]
+00103980 mov x0,x25
+00103984 bl 0x001017b0
+00103988 ldr x0,[x21, #0x40]
+0010398c ldr w1,[x19, #0x10]
+00103990 add x0,x0,#0x3f0
+00103994 ldr x2,[x0, #0x40]
+00103998 ldr x5,[x2]
+0010399c cbz x5,0x00103c58
+001039a0 add x4,sp,#0x70
+001039a4 add x3,sp,#0x68
+001039a8 mov x2,x19
+001039ac blr x5
+001039b0 mov w23,w0
+001039b4 cbz w0,0x001039d4
+001039b8 mov w0,w23
+001039bc ldp x19,x20,[sp, #0x10]
+001039c0 ldp x21,x22,[sp, #0x20]
+001039c4 ldp x23,x24,[sp, #0x30]
+001039c8 ldp x25,x26,[sp, #0x40]
+001039cc ldp x29,x30,[sp], #0x90
+001039d0 ret
+001039d4 str x27,[sp, #0x50]
+001039d8 add x2,sp,#0x78
+001039dc mov x1,x22
+001039e0 mov w3,#0x0
+001039e4 ldr x4,[x20, #0x30]
+001039e8 str x4,[sp, #0x78]
+001039ec ldr x0,[x21, #0x38]
+001039f0 stp xzr,xzr,[sp, #0x80]
+001039f4 bl 0x00103330
+001039f8 mov x27,x0
+001039fc cbz x0,0x00103c60
+00103a00 ldr x1,[x19]
+00103a04 ldr x5,[sp, #0x68]
+00103a08 sub w5,w1,w5
+00103a0c adds w26,w5,#0xc0
+00103a10 b.mi 0x00103b64
+00103a14 ldr x5,[x19, #0x8]
+00103a18 ldr x6,[sp, #0x70]
+00103a1c cmp x5,x6
+00103a20 b.ne 0x00103c14
+00103a24 ldr x0,[x21, #0x38]
+00103a28 ldr x2,[x20, #0x30]
+00103a2c ldr x3,[x0, #0x218]
+00103a30 cbz x3,0x00103b10
+00103a34 ldr x4,[x3, #0x50]
+00103a38 cbz x4,0x00103a50
+00103a3c mov x1,x5
+00103a40 mov w3,#0x2
+00103a44 blr x4
+00103a48 ldr x1,[x19]
+00103a4c ldr x2,[x20, #0x30]
+00103a50 sxtw x0,w26
+00103a54 sub x2,x2,x0
+00103a58 add x25,x20,#0x30
+00103a5c add x2,x2,#0xff
+00103a60 add x0,x27,x0
+00103a64 and x2,x2,#-0x40
+00103a68 add x2,x2,#0x140
+00103a6c bl 0x00110078
+00103a70 str x27,[x19]
+00103a74 ldp x0,x1,[sp, #0x68]
+00103a78 stp x0,x1,[x25, #0x8]
+00103a7c ldr x0,[x21, #0x38]
+00103a80 ldr x2,[x20, #0x30]
+00103a84 ldr x3,[x0, #0x218]
+00103a88 cbz x3,0x00103b28
+00103a8c ldr x4,[x3, #0x58]
+00103a90 cbz x4,0x00103aa0
+00103a94 mov w3,#0x2
+00103a98 blr x4
+00103a9c nop
+00103aa0 ldr w0,[x22]
+00103aa4 cmp w0,#0x7
+00103aa8 b.eq 0x00103b34
+00103aac ldr x0,[x20, #0x8]
+00103ab0 str wzr,[x0, #0x4]
+00103ab4 ldr x1,[x20, #0x8]
+00103ab8 ldr x3,[x20, #0x40]
+00103abc ldrb w2,[x22, #0x2ae]
+00103ac0 ldr w0,[x19, #0x10]
+00103ac4 str w3,[x1]
+00103ac8 lsl w2,w2,#0x1c
+00103acc ldr w3,[x20, #0x44]
+00103ad0 and w3,w3,#0xf
+00103ad4 orr w0,w3,w0, LSL #0x10
+00103ad8 str w0,[x1, #0x8]
+00103adc ldr x0,[x20, #0x30]
+00103ae0 ubfiz w0,w0,#0x10,#0xe
+00103ae4 orr w0,w0,#0x100
+00103ae8 str w0,[x1, #0x4]
+00103aec str w2,[x1, #0xc]
+00103af0 mov w0,w23
+00103af4 ldp x19,x20,[sp, #0x10]
+00103af8 ldp x21,x22,[sp, #0x20]
+00103afc ldp x23,x24,[sp, #0x30]
+00103b00 ldp x25,x26,[sp, #0x40]
+00103b04 ldr x27,[sp, #0x50]
+00103b08 ldp x29,x30,[sp], #0x90
+00103b0c ret
+00103b10 mov x1,x5
+00103b14 mov w3,#0x2
+00103b18 bl 0x00110208
+00103b1c ldr x1,[x19]
+00103b20 ldr x2,[x20, #0x30]
+00103b24 b 0x00103a50
+00103b28 mov w3,#0x2
+00103b2c bl 0x00110068
+00103b30 b 0x00103aa0
+00103b34 ldp x2,x3,[x25, #0x8]
+00103b38 mov x0,x21
+00103b3c ldr x1,[x20, #0x20]
+00103b40 bl 0x0010a544
+00103b44 ldrb w0,[x22, #0x2ae]
+00103b48 cbz w24,0x00103b54
+00103b4c strb w0,[x22, #0x2ae]
+00103b50 b 0x00103aac
+00103b54 add w0,w0,#0x1
+00103b58 and w0,w0,#0xf
+00103b5c strb w0,[x22, #0x2ae]
+00103b60 b 0x00103aac
+00103b64 adrp x6,0x10f000
+00103b68 ldrb w0,[x6, #0xa18]
+00103b6c cbz w0,0x00103c6c
+00103b70 adrp x2,0x110000
+00103b74 adrp x0,0x110000
+00103b78 mov x1,#0x1
+00103b7c ldr x2,[x2, #0x270]
+00103b80 ldr x3,[x0, #0x288]
+00103b84 sub w2,w2,#0x1
+00103b88 lsl x1,x1,x2
+00103b8c tst x27,x1
+00103b90 b.ne 0x00103c04
+00103b94 adrp x0,0x110000
+00103b98 ldr x0,[x0, #0x2c0]
+00103b9c add x27,x27,x0
+00103ba0 adrp x0,0x110000
+00103ba4 lsr x27,x27,#0xc
+00103ba8 mov w1,#0x1
+00103bac ldr x0,[x0, #0x198]
+00103bb0 sub x27,x27,x0, ASR #0xc
+00103bb4 add x0,x3,x27, LSL #0x6
+00103bb8 ldr x2,[x0, #0x8]
+00103bbc sub x3,x2,#0x1
+00103bc0 tst x2,#0x1
+00103bc4 csel x0,x0,x3,eq
+00103bc8 ldr x2,[x0, #0x8]
+00103bcc sub x3,x2,#0x1
+00103bd0 tst x2,#0x1
+00103bd4 csel x0,x3,x0,ne
+00103bd8 add x4,x0,#0x34
+00103bdc prfm PSTL1STRM,[x4]
+00103be0 ldxr w2,[x4]
+00103be4 sub w2,w2,w1
+00103be8 stlxr w3,w2,[x4]
+00103bec cbnz w3,0x00103be0
+00103bf0 dmb ISH
+00103bf4 mov w23,#0xffffffea
+00103bf8 cbz w2,0x00103c4c
+00103bfc ldr x27,[sp, #0x50]
+00103c00 b 0x001039b8
+00103c04 adrp x0,0x110000
+00103c08 ldr x0,[x0, #0x180]
+00103c0c sub x27,x27,x0
+00103c10 b 0x00103ba0
+00103c14 adrp x20,0x10f000
+00103c18 add x20,x20,#0xa18
+00103c1c ldrb w0,[x20, #0x1]
+00103c20 cbz w0,0x00103cd0
+00103c24 ldrb w0,[x20, #0x2]
+00103c28 cbz w0,0x00103ca0
+00103c2c ldr x0,[x21, #0x40]
+00103c30 mov w3,#0x0
+00103c34 mov w2,#0x64
+00103c38 ldr x1,[x0, #0x78]
+00103c3c ldr w4,[x0]
+00103c40 ldr w1,[x1, #0x40]
+00103c44 bl 0x001102c8
+00103c48 b 0x00103b70
+00103c4c bl 0x00110018
+00103c50 ldr x27,[sp, #0x50]
+00103c54 b 0x001039b8
+00103c58 mov w23,#0xffffffa1
+00103c5c b 0x001039b8
+00103c60 mov w23,#0xfffffff4
+00103c64 ldr x27,[sp, #0x50]
+00103c68 b 0x001039b8
+00103c6c ldr w4,[x19, #0x10]
+00103c70 mov w7,#0x1
+00103c74 ldr x0,[x21, #0x38]
+00103c78 adrp x2,0x10b000
+00103c7c add x2,x2,#0x4c0
+00103c80 mov w5,w26
+00103c84 mov w3,w24
+00103c88 add x2,x2,#0xb0
+00103c8c adrp x1,0x10c000
+00103c90 strb w7,[x6, #0xa18]
+00103c94 add x1,x1,#0x98
+00103c98 bl 0x00110150
+00103c9c b 0x00103b70
+00103ca0 ldp w3,w4,[x25]
+00103ca4 mov w7,#0x1
+00103ca8 ldp w5,w6,[x25, #0x8]
+00103cac adrp x2,0x10b000
+00103cb0 ldr x0,[x21, #0x38]
+00103cb4 add x2,x2,#0x4c0
+00103cb8 add x2,x2,#0xb0
+00103cbc adrp x1,0x10c000
+00103cc0 add x1,x1,#0x120
+00103cc4 strb w7,[x20, #0x2]
+00103cc8 bl 0x00110150
+00103ccc b 0x00103c2c
+00103cd0 ldr w4,[x19, #0x10]
+00103cd4 mov w7,#0x1
+00103cd8 ldr x0,[x21, #0x38]
+00103cdc adrp x2,0x10b000
+00103ce0 add x2,x2,#0x4c0
+00103ce4 mov w3,w24
+00103ce8 add x2,x2,#0xb0
+00103cec adrp x1,0x10c000
+00103cf0 add x1,x1,#0xd8
+00103cf4 strb w7,[x20, #0x1]
+00103cf8 bl 0x00110150
+00103cfc b 0x00103c24
+
+FUNCTION pci_dma_queue_napi_init @ 001043c0
+section_relative=.text+0x43a0
+XREF 0010ea00 DATA
+XREF 001045e4 UNCONDITIONAL_CALL
+XREF 0010739c UNCONDITIONAL_CALL
+XREF 001073e0 UNCONDITIONAL_CALL
+XREF 00104974 UNCONDITIONAL_CALL
+decompiled=true
+
+uint pci_dma_queue_napi_init(long param_1,long param_2,undefined1 param_3,undefined8 param_4)
+
+{
+  ulong *puVar1;
+  int iVar2;
+  char cVar3;
+  bool bVar4;
+  code *pcVar5;
+  uint uVar6;
+  byte *pbVar7;
+  undefined1 uVar8;
+  uint uVar9;
+  uint uVar10;
+  
+  uVar6 = *(uint *)(param_2 + 0x14);
+  uVar10 = (uVar6 & 0xaaaaaaaa) >> 1 | (uVar6 & 0x55555555) << 1;
+  uVar10 = (uVar10 & 0xcccccccc) >> 2 | (uVar10 & 0x33333333) << 2;
+  uVar10 = (uVar10 & 0xf0f0f0f0) >> 4 | (uVar10 & 0xf0f0f0f) << 4;
+  uVar10 = (uVar10 & 0xff00ff00) >> 8 | (uVar10 & 0xff00ff) << 8;
+  iVar2 = 0;
+  if (uVar6 != 0) {
+    iVar2 = (int)LZCOUNT(uVar10 >> 0x10 | uVar10 << 0x10) + 1;
+  }
+  uVar6 = iVar2 - 1U & 0xff;
+  uVar10 = (uint)*(byte *)(*(long *)(param_1 + 0x40) + 0x69f);
+  if (uVar10 != 0) {
+    pbVar7 = (byte *)(param_1 + 0x972);
+    uVar9 = 0;
+    do {
+      if (((1 << (ulong)(iVar2 - 1U & 0x1f) & *(uint *)(pbVar7 + 10)) != 0) &&
+         (*pbVar7 == *(byte *)(param_2 + 0x73))) {
+        uVar8 = (undefined1)uVar9;
+        goto LAB_0010443c;
+      }
+      uVar9 = uVar9 + 1;
+      pbVar7 = pbVar7 + 0x40;
+    } while (uVar9 != uVar10);
+  }
+  uVar8 = 0;
+LAB_0010443c:
+  if (uVar6 < 0x20) {
+    *(undefined1 *)(param_2 + 0x6f) = param_3;
+    *(undefined1 *)(param_2 + 0x74) = uVar8;
+    *(long *)(param_1 + ((ulong)*(byte *)(param_2 + 0x73) * 0x20 + (long)(int)uVar6) * 8 + 0xbd8) =
+         param_2 + 0x88;
+    netif_napi_add(param_1 + 0xc0,param_2 + 0x88,param_4,0x40);
+    uVar10 = ~(uint)*(undefined8 *)(param_2 + 0x98);
+    uVar6 = uVar10 & 1;
+    if ((uVar10 & 1) != 0) {
+                    /* WARNING: Does not return */
+      pcVar5 = (code *)SoftwareBreakpoint(0x800,0x1044d0);
+      (*pcVar5)();
+    }
+    DataMemoryBarrier(2,3);
+    puVar1 = (ulong *)(param_2 + 0x98);
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar3 = '\x01';
+      bVar4 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar4) {
+        *puVar1 = *puVar1 & 0xfffffffffffffffe;
+        cVar3 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar3 != '\0');
+    Hint_Prefetch(puVar1,2,0,1);
+    do {
+      cVar3 = '\x01';
+      bVar4 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+      if (bVar4) {
+        *puVar1 = *puVar1 & 0xfffffffffffffff7;
+        cVar3 = ExclusiveMonitorsStatus();
+      }
+    } while (cVar3 != '\0');
+  }
+  else {
+    uVar6 = 0xffffffea;
+  }
+  return uVar6;
+}
+
+
+ASSEMBLY
+001043c0 stp x29,x30,[sp, #-0x20]!
+001043c4 and w2,w2,#0xff
+001043c8 mov x29,sp
+001043cc str x19,[sp, #0x10]
+001043d0 mov x19,x1
+001043d4 mov w1,#0x1
+001043d8 ldr x6,[x0, #0x40]
+001043dc ldr w5,[x19, #0x14]
+001043e0 ldrb w8,[x19, #0x73]
+001043e4 rbit w4,w5
+001043e8 cmp w5,#0x0
+001043ec clz w4,w4
+001043f0 ldrb w7,[x6, #0x69f]
+001043f4 csinc w4,wzr,w4,eq
+001043f8 sub w4,w4,#0x1
+001043fc and w9,w4,#0xff
+00104400 lsl w1,w1,w4
+00104404 cbz w7,0x00104438
+00104408 add x4,x0,#0x972
+0010440c mov w5,#0x0
+00104410 ldur w6,[x4, #0xa]
+00104414 tst w1,w6
+00104418 b.eq 0x00104428
+0010441c ldrb w6,[x4]
+00104420 cmp w6,w8
+00104424 b.eq 0x001044c4
+00104428 add w5,w5,#0x1
+0010442c add x4,x4,#0x40
+00104430 cmp w5,w7
+00104434 b.ne 0x00104410
+00104438 mov w5,#0x0
+0010443c cmp w9,#0x1f
+00104440 b.hi 0x001044d0
+00104444 sbfiz x8,x8,#0x5,#0x20
+00104448 strb w2,[x19, #0x6f]
+0010444c add x8,x8,w9, SXTW 
+00104450 strb w5,[x19, #0x74]
+00104454 add x1,x19,#0x88
+00104458 mov x2,x3
+0010445c add x8,x0,x8, LSL #0x3
+00104460 mov w3,#0x40
+00104464 add x0,x0,#0xc0
+00104468 str x1,[x8, #0xbd8]
+0010446c bl 0x00110178
+00104470 ldr x1,[x19, #0x98]
+00104474 mvn w1,w1
+00104478 and w0,w1,#0x1
+0010447c tbnz w1,#0x0,0x001044cc
+00104480 dmb ISH
+00104484 mov x1,#0x1
+00104488 add x4,x19,#0x98
+0010448c prfm PSTL1STRM,[x4]
+00104490 ldxr x2,[x4]
+00104494 bic x2,x2,x1
+00104498 stxr w3,x2,[x4]
+0010449c cbnz w3,0x00104490
+001044a0 mov x1,#0x8
+001044a4 prfm PSTL1STRM,[x4]
+001044a8 ldxr x2,[x4]
+001044ac bic x2,x2,x1
+001044b0 stxr w3,x2,[x4]
+001044b4 cbnz w3,0x001044a8
+001044b8 ldr x19,[sp, #0x10]
+001044bc ldp x29,x30,[sp], #0x20
+001044c0 ret
+001044c4 and w5,w5,#0xff
+001044c8 b 0x0010443c
+001044cc brk #0x800
+001044d0 mov w0,#0xffffffea
+001044d4 b 0x001044b8
+
+FUNCTION npu_allowed_ring @ 00104ea0
+section_relative=.text+0x4e80
+XREF 0010ebf4 DATA
+XREF 001021c8 UNCONDITIONAL_CALL
+XREF 001058dc UNCONDITIONAL_CALL
+decompiled=true
+
+bool npu_allowed_ring(long param_1,long param_2)
+
+{
+  uint uVar1;
+  uint uVar2;
+  
+  if (g_npu_used_opt_type == '\x01') {
+    uVar1 = *(uint *)(param_2 + 0xc);
+    uVar2 = 0x4430;
+  }
+  else {
+    if (g_npu_used_opt_type != '\x05') {
+      if (g_npu_used_opt_type == '\0') {
+        uVar1 = *(uint *)(param_2 + 0xc) & 0xffffffef;
+        return uVar1 == 0xd4420 || uVar1 == 0xd4540;
+      }
+      _dev_info(*(undefined8 *)(param_1 + 0x38),"unsupported handling for option_type=%d\n");
+      return false;
+    }
+    uVar1 = *(uint *)(param_2 + 0xc);
+    uVar2 = 0x4420;
+  }
+  return (uVar1 == (uVar2 | 0xd0000) || uVar1 == 0xd4540) || (uVar1 & 0xfffffeff) == 0xd8450;
+}
+
+
+ASSEMBLY
+00104ea0 adrp x2,0x10f000
+00104ea4 ldrb w2,[x2, #0x968]
+00104ea8 cmp w2,#0x1
+00104eac b.eq 0x00104f3c
+00104eb0 cmp w2,#0x5
+00104eb4 b.ne 0x00104eec
+00104eb8 ldr w0,[x1, #0xc]
+00104ebc mov w2,#0x4420
+00104ec0 movk w2,#0xd, LSL #16
+00104ec4 mov w3,#0x4540
+00104ec8 cmp w0,w2
+00104ecc movk w3,#0xd, LSL #16
+00104ed0 and w2,w0,#0xfffffeff
+00104ed4 ccmp w0,w3,#0x4,ne
+00104ed8 mov w1,#0x8450
+00104edc movk w1,#0xd, LSL #16
+00104ee0 ccmp w2,w1,#0x4,ne
+00104ee4 cset w0,eq
+00104ee8 ret
+00104eec cbnz w2,0x00104f18
+00104ef0 ldr w0,[x1, #0xc]
+00104ef4 mov w2,#0x4420
+00104ef8 movk w2,#0xd, LSL #16
+00104efc mov w1,#0x4540
+00104f00 and w0,w0,#0xffffffef
+00104f04 movk w1,#0xd, LSL #16
+00104f08 cmp w0,w2
+00104f0c ccmp w0,w1,#0x4,ne
+00104f10 cset w0,eq
+00104f14 ret
+00104f18 stp x29,x30,[sp, #-0x10]!
+00104f1c adrp x1,0x10c000
+00104f20 add x1,x1,#0x400
+00104f24 mov x29,sp
+00104f28 ldr x0,[x0, #0x38]
+00104f2c bl 0x00110118
+00104f30 mov w0,#0x0
+00104f34 ldp x29,x30,[sp], #0x10
+00104f38 ret
+00104f3c ldr w0,[x1, #0xc]
+00104f40 mov w2,#0x4430
+00104f44 b 0x00104ec0
+
+FUNCTION npu_get_pcie_index @ 00104f50
+section_relative=.text+0x4f30
+XREF 0010ec14 DATA
+XREF 001020c8 UNCONDITIONAL_CALL
+XREF 00105dbc UNCONDITIONAL_CALL
+XREF 00105a8c UNCONDITIONAL_CALL
+XREF 00105870 UNCONDITIONAL_CALL
+XREF 001058bc UNCONDITIONAL_CALL
+decompiled=true
+
+char npu_get_pcie_index(long param_1,long param_2)
+
+{
+  uint uVar1;
+  char cVar2;
+  
+  if (g_npu_used_opt_type == '\x01') {
+    uVar1 = *(uint *)(param_2 + 0xc);
+    cVar2 = '\x01';
+    if ((uVar1 & 0xfffffeff) != 0xd8450) {
+      return -((uVar1 - 0xd4520 & 0xffffffdf) != 0 && uVar1 != 0xd4430);
+    }
+  }
+  else {
+    if (g_npu_used_opt_type != '\x05') {
+      if (g_npu_used_opt_type == '\0') {
+        uVar1 = *(uint *)(param_2 + 0xc) & 0xffffffef;
+        return -((uVar1 != 0xd4420 && uVar1 != 0xd4540) && *(uint *)(param_2 + 0xc) != 0xd4590);
+      }
+      _dev_info(*(undefined8 *)(param_1 + 0x38),"unsupported handling for option_type=%d\n");
+      return -1;
+    }
+    uVar1 = *(uint *)(param_2 + 0xc);
+    cVar2 = '\x01';
+    if (uVar1 != 0xd8450 && uVar1 != 0xd8560) {
+      cVar2 = (((uVar1 & 0xffffffcf) == 0xd4580 || uVar1 == 0xa040) ||
+              (uVar1 == 0xd4420 || uVar1 == 0xd45c0)) + -1;
+    }
+  }
+  return cVar2;
+}
+
+
+ASSEMBLY
+00104f50 adrp x2,0x10f000
+00104f54 ldrb w2,[x2, #0x968]
+00104f58 cmp w2,#0x1
+00104f5c b.eq 0x00104fd4
+00104f60 cmp w2,#0x5
+00104f64 b.ne 0x00104f94
+00104f68 ldr w0,[x1, #0xc]
+00104f6c mov w3,#0x8450
+00104f70 movk w3,#0xd, LSL #16
+00104f74 mov w1,#0x8560
+00104f78 cmp w0,w3
+00104f7c movk w1,#0xd, LSL #16
+00104f80 mov w2,#0x1
+00104f84 ccmp w0,w1,#0x4,ne
+00104f88 b.ne 0x00105014
+00104f8c mov w0,w2
+00104f90 ret
+00104f94 cbnz w2,0x00105058
+00104f98 ldr w0,[x1, #0xc]
+00104f9c mov w4,#0x4420
+00104fa0 movk w4,#0xd, LSL #16
+00104fa4 mov w3,#0x4540
+00104fa8 and w1,w0,#0xffffffef
+00104fac movk w3,#0xd, LSL #16
+00104fb0 cmp w1,w4
+00104fb4 mov w2,#0x4590
+00104fb8 ccmp w1,w3,#0x4,ne
+00104fbc movk w2,#0xd, LSL #16
+00104fc0 ccmp w0,w2,#0x4,ne
+00104fc4 csetm w2,ne
+00104fc8 and w2,w2,#0xff
+00104fcc mov w0,w2
+00104fd0 ret
+00104fd4 ldr w0,[x1, #0xc]
+00104fd8 mov w1,#0x8450
+00104fdc movk w1,#0xd, LSL #16
+00104fe0 and w3,w0,#0xfffffeff
+00104fe4 cmp w3,w1
+00104fe8 b.eq 0x00104f8c
+00104fec sub w2,w0,#0xd4, LSL #12
+00104ff0 mov w1,#0x4430
+00104ff4 sub w2,w2,#0x520
+00104ff8 movk w1,#0xd, LSL #16
+00104ffc tst w2,#0xffffffdf
+00105000 ccmp w0,w1,#0x4,ne
+00105004 csetm w2,ne
+00105008 and w2,w2,#0xff
+0010500c mov w0,w2
+00105010 ret
+00105014 mov w1,#0x4580
+00105018 and w2,w0,#0xffffffcf
+0010501c movk w1,#0xd, LSL #16
+00105020 cmp w2,w1
+00105024 mov w1,#0xa040
+00105028 ccmp w0,w1,#0x4,ne
+0010502c mov w1,#0x4420
+00105030 cset w2,eq
+00105034 movk w1,#0xd, LSL #16
+00105038 cmp w0,w1
+0010503c add w1,w1,#0x1a0
+00105040 ccmp w0,w1,#0x4,ne
+00105044 cset w0,eq
+00105048 orr w2,w2,w0
+0010504c sub w2,w2,#0x1
+00105050 and w2,w2,#0xff
+00105054 b 0x00104f8c
+00105058 stp x29,x30,[sp, #-0x10]!
+0010505c adrp x1,0x10c000
+00105060 add x1,x1,#0x400
+00105064 mov x29,sp
+00105068 ldr x0,[x0, #0x38]
+0010506c bl 0x00110118
+00105070 mov w2,#0xff
+00105074 mov w0,w2
+00105078 ldp x29,x30,[sp], #0x10
+0010507c ret
+
+FUNCTION npu_band_trans_bit2num @ 00105080
+section_relative=.text+0x5060
+XREF 0010ec34 DATA
+XREF 00106670 UNCONDITIONAL_CALL
+XREF 00107170 UNCONDITIONAL_CALL
+decompiled=true
+
+long npu_band_trans_bit2num(long param_1,long param_2)
+
+{
+  if (g_npu_used_opt_type < 2) {
+    return (ulong)(*(char *)(param_2 + 0x70) == '\x04') << 1;
+  }
+  if (g_npu_used_opt_type == 5) {
+    return (ulong)(*(char *)(param_2 + 0x70) == '\x06') << 1;
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"unsupported handling for option_type=%d\n");
+  return 0;
+}
+
+
+ASSEMBLY
+00105080 adrp x2,0x10f000
+00105084 ldrb w1,[x1, #0x70]
+00105088 ldrb w2,[x2, #0x968]
+0010508c cmp w2,#0x1
+00105090 b.hi 0x001050a4
+00105094 cmp w1,#0x4
+00105098 cset w0,eq
+0010509c lsl w0,w0,#0x1
+001050a0 ret
+001050a4 cmp w2,#0x5
+001050a8 b.ne 0x001050bc
+001050ac cmp w1,#0x6
+001050b0 cset w0,eq
+001050b4 lsl w0,w0,#0x1
+001050b8 ret
+001050bc stp x29,x30,[sp, #-0x10]!
+001050c0 adrp x1,0x10c000
+001050c4 add x1,x1,#0x400
+001050c8 mov x29,sp
+001050cc ldr x0,[x0, #0x38]
+001050d0 bl 0x00110118
+001050d4 mov w0,#0x0
+001050d8 ldp x29,x30,[sp], #0x10
+001050dc ret
+
+FUNCTION npu_tx_slow_path_test_code_pkt_clone @ 001050e0
+section_relative=.text+0x50c0
+XREF 0010ec54 DATA
+decompiled=true
+
+void npu_tx_slow_path_test_code_pkt_clone(undefined8 param_1,undefined8 param_2)
+
+{
+  long lVar1;
+  
+  lVar1 = skb_copy(param_2,0xa20);
+  if (lVar1 != 0) {
+    *(undefined8 *)(lVar1 + 0x10) = param_1;
+  }
+  return;
+}
+
+
+ASSEMBLY
+001050e0 stp x29,x30,[sp, #-0x20]!
+001050e4 mov x29,sp
+001050e8 str x19,[sp, #0x10]
+001050ec mov x19,x0
+001050f0 mov x0,x1
+001050f4 mov w1,#0xa20
+001050f8 bl 0x00110220
+001050fc cbz x0,0x00105104
+00105100 str x19,[x0, #0x10]
+00105104 ldr x19,[sp, #0x10]
+00105108 ldp x29,x30,[sp], #0x20
+0010510c ret
+
+FUNCTION npu_tx_tk_entry_release @ 00105110
+section_relative=.text+0x50f0
+XREF 0010ec78 DATA
+decompiled=true
+
+undefined1 npu_tx_tk_entry_release(long param_1,long param_2)
+
+{
+  undefined1 uVar1;
+  
+  if ((param_1 != 0) && ((*(byte *)(param_1 + 0x90) >> 2 & 1) != 0)) {
+    uVar1 = FUN_00104ce0();
+    return uVar1;
+  }
+  *(int *)(param_2 + 0x3e0) = *(int *)(param_2 + 0x3e0) + 1;
+  return 0xff;
+}
+
+
+ASSEMBLY
+00105110 mov x3,x1
+00105114 cbz x0,0x00105138
+00105118 ldrb w2,[x0, #0x90]
+0010511c tbz w2,#0x2,0x00105138
+00105120 stp x29,x30,[sp, #-0x10]!
+00105124 mov x29,sp
+00105128 bl 0x00104ce0
+0010512c and w0,w0,#0xff
+00105130 ldp x29,x30,[sp], #0x10
+00105134 ret
+00105138 ldr w2,[x3, #0x3e0]
+0010513c mov w0,#0xff
+00105140 add w2,w2,#0x1
+00105144 str w2,[x3, #0x3e0]
+00105148 ret
+
+FUNCTION npu_alloc_for_txp_slow_path_fast_path @ 00105710
+section_relative=.text+0x56f0
+XREF 0010ee00 DATA
+XREF 001027ac UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_alloc_for_txp_slow_path_fast_path(long param_1,long param_2)
+
+{
+  long lVar1;
+  
+  lVar1 = (ulong)*(ushort *)(param_2 + 0x6c) << 8;
+  *(long *)(param_2 + 0x220) = lVar1;
+  lVar1 = dma_alloc_attrs(*(undefined8 *)(param_1 + 0x38),lVar1,param_2 + 0x230,0xcc0,0);
+  *(long *)(param_2 + 0x228) = lVar1;
+  if (lVar1 == 0) {
+    printk("%s can\'t alloc memory !\n","npu_alloc_for_txp_slow_path_fast_path");
+  }
+  lVar1 = (ulong)*(ushort *)(param_2 + 0x6c) << 8;
+  *(long *)(param_2 + 0x238) = lVar1;
+  lVar1 = dma_alloc_attrs(*(undefined8 *)(param_1 + 0x38),lVar1,param_2 + 0x248,0xcc0,0);
+  *(long *)(param_2 + 0x240) = lVar1;
+  if (lVar1 == 0) {
+    printk("%s can\'t alloc memory !\n","npu_alloc_for_txp_slow_path_fast_path");
+  }
+  printk("%s()%ld slow path and fast path pa check:%llx %llx\n",
+         "npu_alloc_for_txp_slow_path_fast_path",*(undefined8 *)(param_2 + 0x238),
+         *(undefined8 *)(param_2 + 0x230),*(undefined8 *)(param_2 + 0x248));
+  *(undefined8 *)(param_2 + 0x250) = 0x40000;
+  lVar1 = dma_alloc_attrs(*(undefined8 *)(param_1 + 0x38),0x40000,param_2 + 0x260,0xcc0,0);
+  *(long *)(param_2 + 600) = lVar1;
+  if (lVar1 == 0) {
+    printk("%s can\'t alloc memory !\n","npu_alloc_for_txp_slow_path_fast_path");
+  }
+  printk("%s()%ld tx slow path queue. pa check:%llx\n","npu_alloc_for_txp_slow_path_fast_path",
+         *(undefined8 *)(param_2 + 0x250),*(undefined8 *)(param_2 + 0x260));
+  return;
+}
+
+
+ASSEMBLY
+00105710 stp x29,x30,[sp, #-0x40]!
+00105714 add x2,x1,#0x230
+00105718 mov x4,#0x0
+0010571c mov x29,sp
+00105720 stp x19,x20,[sp, #0x10]
+00105724 mov x19,x1
+00105728 mov x20,x0
+0010572c stp x21,x22,[sp, #0x20]
+00105730 mov w3,#0xcc0
+00105734 str x23,[sp, #0x30]
+00105738 ldrh w1,[x1, #0x6c]
+0010573c ubfiz x1,x1,#0x8,#0x10
+00105740 str x1,[x19, #0x220]
+00105744 ldr x0,[x0, #0x38]
+00105748 bl 0x00110188
+0010574c str x0,[x19, #0x228]
+00105750 cbz x0,0x00105814
+00105754 adrp x0,0x10b000
+00105758 add x22,x0,#0x5f0
+0010575c ldrh w1,[x19, #0x6c]
+00105760 add x2,x19,#0x248
+00105764 mov x4,#0x0
+00105768 mov w3,#0xcc0
+0010576c ubfiz x1,x1,#0x8,#0x10
+00105770 str x1,[x19, #0x238]
+00105774 ldr x0,[x20, #0x38]
+00105778 bl 0x00110188
+0010577c str x0,[x19, #0x240]
+00105780 cbnz x0,0x00105794
+00105784 adrp x0,0x10c000
+00105788 add x1,x22,#0xe0
+0010578c add x0,x0,#0x558
+00105790 bl 0x001101a8
+00105794 ldr x3,[x19, #0x230]
+00105798 add x23,x22,#0xe0
+0010579c ldr x2,[x19, #0x238]
+001057a0 mov x1,x23
+001057a4 ldr x4,[x19, #0x248]
+001057a8 adrp x0,0x10c000
+001057ac add x0,x0,#0x578
+001057b0 bl 0x001101a8
+001057b4 mov x1,#0x40000
+001057b8 str x1,[x19, #0x250]
+001057bc add x2,x19,#0x260
+001057c0 mov x4,#0x0
+001057c4 ldr x0,[x20, #0x38]
+001057c8 mov w3,#0xcc0
+001057cc bl 0x00110188
+001057d0 str x0,[x19, #0x258]
+001057d4 cbnz x0,0x001057e8
+001057d8 adrp x0,0x10c000
+001057dc mov x1,x23
+001057e0 add x0,x0,#0x558
+001057e4 bl 0x001101a8
+001057e8 ldr x2,[x19, #0x250]
+001057ec add x1,x22,#0xe0
+001057f0 ldr x3,[x19, #0x260]
+001057f4 adrp x0,0x10c000
+001057f8 add x0,x0,#0x5b0
+001057fc bl 0x001101a8
+00105800 ldp x19,x20,[sp, #0x10]
+00105804 ldp x21,x22,[sp, #0x20]
+00105808 ldr x23,[sp, #0x30]
+0010580c ldp x29,x30,[sp], #0x40
+00105810 ret
+00105814 adrp x0,0x10b000
+00105818 add x22,x0,#0x5f0
+0010581c add x1,x22,#0xe0
+00105820 adrp x0,0x10c000
+00105824 add x0,x0,#0x558
+00105828 bl 0x001101a8
+0010582c b 0x0010575c
+
+FUNCTION npu_pci_dma_init_tx_data_queue @ 00105830
+section_relative=.text+0x5810
+XREF 0010ee34 DATA
+XREF 00104694 UNCONDITIONAL_CALL
+decompiled=true
+
+undefined1 npu_pci_dma_init_tx_data_queue(long param_1,int *param_2)
+
+{
+  char cVar1;
+  uint uVar2;
+  int iVar3;
+  int iVar4;
+  undefined8 uVar5;
+  long lVar6;
+  ulong uVar7;
+  uint local_4;
+  
+  if (g_npu_used_opt_type < 2) {
+    iVar4 = (uint)((char)param_2[0x1c] == '\x04') << 1;
+  }
+  else {
+    if (g_npu_used_opt_type == 5) {
+      iVar4 = (uint)((char)param_2[0x1c] == '\x06') << 1;
+      uVar2 = npu_get_pcie_index(param_1,param_2);
+      uVar2 = uVar2 & 0xff;
+      if (uVar2 == 0xff || *param_2 != 0) {
+        return 0;
+      }
+      goto LAB_001058d4;
+    }
+    iVar4 = 0;
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"unsupported handling for option_type=%d\n");
+  }
+  uVar2 = npu_get_pcie_index(param_1,param_2);
+  uVar2 = uVar2 & 0xff;
+  if (uVar2 == 0xff || *param_2 != 0) {
+    return 0;
+  }
+LAB_001058d4:
+  cVar1 = npu_allowed_ring(param_1,param_2);
+  if (cVar1 == '\0') {
+    return 0;
+  }
+  lVar6 = *(long *)((&arht_pdev_pci)[(int)uVar2] + 0x378);
+  printk("%s()[%d] send pcie pa of tx queue %d to NPU. %lx %x %lx\n",
+         "npu_pci_dma_init_tx_data_queue",0x2b3,iVar4,lVar6,(ulong)(uint)param_2[3],
+         lVar6 + (ulong)(uint)param_2[3]);
+  FUN_0010b240(iVar4,param_2[3] + (int)lVar6);
+  FUN_00104b90(iVar4 + 5,&local_4);
+  uVar7 = (ulong)local_4;
+  cVar1 = FUN_00104b50();
+  uVar5 = 0x68000000000f07;
+  if (cVar1 == '\0') {
+    uVar5 = 0x68000000000707;
+  }
+  uVar5 = __ioremap(uVar7,4,uVar5);
+  iVar3 = FUN_0010b144(iVar4,param_2[0x8c]);
+  if (iVar3 != 1) {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_SET_WAIT_TX_BUF_SPACE_BASE fail\n",
+              "npu_pci_dma_init_tx_data_queue");
+  }
+  iVar3 = FUN_0010b144(iVar4 + 5,param_2[0x92]);
+  if (iVar3 != 1) {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_SET_WAIT_TX_BUF_SPACE_BASE fail\n",
+              "npu_pci_dma_init_tx_data_queue");
+  }
+  iVar4 = FUN_0010b144(iVar4 + 10,param_2[0x98]);
+  if (iVar4 != 1) {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_SET_WAIT_TX_BUF_SPACE_BASE fail\n",
+              "npu_pci_dma_init_tx_data_queue");
+  }
+  if (glb_npu_en_tx != '\0') {
+    lVar6 = *(long *)(param_2 + 0xc);
+    *(undefined8 *)(param_2 + 0x10) = uVar5;
+    *(ulong *)(param_2 + 0x12) = uVar7;
+    *(undefined8 *)(lVar6 + 8) = uVar5;
+    *(ulong *)(lVar6 + 0x10) = uVar7;
+    param_2[9] = 0;
+    param_2[10] = 0;
+    return 1;
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() %s NPU tx disable\n",
+            "npu_pci_dma_init_tx_data_queue",*(undefined8 *)(param_2 + 0x86));
+  return 0;
+}
+
+
+ASSEMBLY
+00105830 stp x29,x30,[sp, #-0x70]!
+00105834 adrp x2,0x10f000
+00105838 mov x29,sp
+0010583c ldrb w2,[x2, #0x968]
+00105840 stp x19,x20,[sp, #0x10]
+00105844 mov x20,x0
+00105848 mov x19,x1
+0010584c stp x21,x22,[sp, #0x20]
+00105850 ldrb w0,[x1, #0x70]
+00105854 cmp w2,#0x1
+00105858 b.hi 0x001058a0
+0010585c cmp w0,#0x4
+00105860 cset w0,eq
+00105864 lsl w22,w0,#0x1
+00105868 mov x1,x19
+0010586c mov x0,x20
+00105870 bl 0x00104f50
+00105874 and w21,w0,#0xff
+00105878 ldr w0,[x19]
+0010587c cmp w21,#0xff
+00105880 ccmp w0,#0x0,#0x0,ne
+00105884 b.eq 0x001058d4
+00105888 mov w21,#0x0
+0010588c mov w0,w21
+00105890 ldp x19,x20,[sp, #0x10]
+00105894 ldp x21,x22,[sp, #0x20]
+00105898 ldp x29,x30,[sp], #0x70
+0010589c ret
+001058a0 cmp w2,#0x5
+001058a4 b.ne 0x00105a30
+001058a8 cmp w0,#0x6
+001058ac mov x1,x19
+001058b0 cset w0,eq
+001058b4 lsl w22,w0,#0x1
+001058b8 mov x0,x20
+001058bc bl 0x00104f50
+001058c0 and w21,w0,#0xff
+001058c4 ldr w0,[x19]
+001058c8 cmp w21,#0xff
+001058cc ccmp w0,#0x0,#0x0,ne
+001058d0 b.ne 0x00105888
+001058d4 mov x1,x19
+001058d8 mov x0,x20
+001058dc bl 0x00104ea0
+001058e0 tst w0,#0xff
+001058e4 b.eq 0x00105888
+001058e8 adrp x0,0x10f000
+001058ec add x0,x0,#0xc88
+001058f0 stp x23,x24,[sp, #0x30]
+001058f4 adrp x23,0x10b000
+001058f8 add x23,x23,#0x5f0
+001058fc stp x25,x26,[sp, #0x40]
+00105900 mov w3,w22
+00105904 add w26,w22,#0x5
+00105908 str x27,[sp, #0x50]
+0010590c add x27,x23,#0x108
+00105910 mov x1,x27
+00105914 ldr x2,[x0, w21, SXTW #0x3]
+00105918 adrp x0,0x10c000
+0010591c ldr w5,[x19, #0xc]
+00105920 add x0,x0,#0x5e0
+00105924 ldr x21,[x2, #0x378]
+00105928 mov w2,#0x2b3
+0010592c mov x4,x21
+00105930 add x6,x21,w5, UXTW 
+00105934 bl 0x001101a8
+00105938 ldr w1,[x19, #0xc]
+0010593c mov w0,w22
+00105940 add w1,w1,w21
+00105944 bl 0x0010b240
+00105948 mov w0,w26
+0010594c add x1,sp,#0x6c
+00105950 bl 0x00104b90
+00105954 ldr w25,[sp, #0x6c]
+00105958 bl 0x00104b50
+0010595c tst w0,#0xff
+00105960 mov x1,#0x707
+00105964 mov x2,#0xf07
+00105968 movk x1,#0x68, LSL #48
+0010596c mov x0,x25
+00105970 movk x2,#0x68, LSL #48
+00105974 csel x2,x2,x1,ne
+00105978 mov x1,#0x4
+0010597c bl 0x00110158
+00105980 ldr w1,[x19, #0x230]
+00105984 mov x24,x0
+00105988 mov w0,w22
+0010598c bl 0x0010b144
+00105990 cmp w0,#0x1
+00105994 b.eq 0x001059ac
+00105998 ldr x0,[x20, #0x38]
+0010599c adrp x1,0x10c000
+001059a0 mov x2,x27
+001059a4 add x1,x1,#0x620
+001059a8 bl 0x00110118
+001059ac ldr w1,[x19, #0x248]
+001059b0 mov w0,w26
+001059b4 bl 0x0010b144
+001059b8 cmp w0,#0x1
+001059bc b.eq 0x001059d4
+001059c0 ldr x0,[x20, #0x38]
+001059c4 adrp x1,0x10c000
+001059c8 add x2,x23,#0x108
+001059cc add x1,x1,#0x620
+001059d0 bl 0x00110118
+001059d4 ldr w1,[x19, #0x260]
+001059d8 add w0,w22,#0xa
+001059dc bl 0x0010b144
+001059e0 cmp w0,#0x1
+001059e4 b.eq 0x001059fc
+001059e8 ldr x0,[x20, #0x38]
+001059ec adrp x1,0x10c000
+001059f0 add x2,x23,#0x108
+001059f4 add x1,x1,#0x620
+001059f8 bl 0x00110118
+001059fc adrp x0,0x110000
+00105a00 ldrb w21,[x0, #0x148]
+00105a04 cbnz w21,0x00105a48
+00105a08 ldr x0,[x20, #0x38]
+00105a0c add x2,x23,#0x108
+00105a10 ldr x3,[x19, #0x218]
+00105a14 adrp x1,0x10c000
+00105a18 add x1,x1,#0x660
+00105a1c bl 0x00110118
+00105a20 ldp x23,x24,[sp, #0x30]
+00105a24 ldp x25,x26,[sp, #0x40]
+00105a28 ldr x27,[sp, #0x50]
+00105a2c b 0x0010588c
+00105a30 ldr x0,[x20, #0x38]
+00105a34 mov w22,#0x0
+00105a38 adrp x1,0x10c000
+00105a3c add x1,x1,#0x400
+00105a40 bl 0x00110118
+00105a44 b 0x00105868
+00105a48 ldr x0,[x19, #0x30]
+00105a4c stp x24,x25,[x19, #0x40]
+00105a50 mov w21,#0x1
+00105a54 stp x24,x25,[x0, #0x8]
+00105a58 stur xzr,[x19, #0x24]
+00105a5c ldp x23,x24,[sp, #0x30]
+00105a60 ldp x25,x26,[sp, #0x40]
+00105a64 ldr x27,[sp, #0x50]
+00105a68 b 0x0010588c
+
+FUNCTION npu_pci_dma_init_rx_event_queue @ 00105a70
+section_relative=.text+0x5a50
+XREF 0010ee8c DATA
+XREF 00103dfc UNCONDITIONAL_CALL
+decompiled=true
+
+undefined8 npu_pci_dma_init_rx_event_queue(long param_1,long param_2,long param_3)
+
+{
+  ushort uVar1;
+  uint uVar2;
+  int iVar3;
+  long lVar4;
+  undefined1 *puVar5;
+  ulong uVar6;
+  ulong *puVar7;
+  undefined8 uVar8;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined1 *puStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  uVar2 = npu_get_pcie_index();
+  if ((uVar2 & 0xff) == 0xff) {
+    return 0;
+  }
+  if (*(int *)(param_2 + 0xc) != 0xd4590) {
+    return 0;
+  }
+  local_30 = 0;
+  uVar8 = *(undefined8 *)(param_2 + 0x48);
+  lVar4 = get_ecnt_npu_dev(0,0);
+  if (lVar4 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    puVar5 = (undefined1 *)dma_alloc_attrs(lVar4,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar5,0,0x120);
+    *puVar5 = 0x10;
+    *(undefined4 *)(puVar5 + 4) = 0x15;
+    *(int *)(puVar5 + 8) = (int)uVar8;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar6 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar6 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar6 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar5;
+    iVar3 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar4,0x120,puVar5,local_30,0);
+    if (iVar3 != 1) {
+      printk("WIFI_MAIL_API_SET_WAIT_RX_RING_FOR_TXDONE_HW_BASE fail! \n");
+    }
+  }
+  uVar1 = *(ushort *)(param_2 + 0x6c);
+  local_30 = 0;
+  lVar4 = get_ecnt_npu_dev();
+  if (lVar4 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    puVar5 = (undefined1 *)dma_alloc_attrs(lVar4,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar5,0,0x120);
+    *puVar5 = 0x1a;
+    *(undefined4 *)(puVar5 + 4) = 1;
+    *(uint *)(puVar5 + 8) = (uint)uVar1;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar6 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar6 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar6 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar5;
+    iVar3 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar4,0x120,puVar5,local_30,0);
+    if (iVar3 == 1) goto LAB_00105c2c;
+    printk(" WIFI_MAIL_API_SET_WAIT_DESC fail! \n");
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_DESC fail\n",
+            "npu_pci_dma_init_rx_event_queue");
+LAB_00105c2c:
+  iVar3 = *(int *)(param_2 + 0xc);
+  uVar8 = *(undefined8 *)((&arht_pdev_pci)[(int)(uVar2 & 0xff)] + 0x378);
+  local_30 = 0;
+  lVar4 = get_ecnt_npu_dev();
+  if (lVar4 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    puVar5 = (undefined1 *)dma_alloc_attrs(lVar4,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar5,0,0x120);
+    *puVar5 = 0x1a;
+    *(int *)(puVar5 + 8) = iVar3 + (int)uVar8;
+    local_28 = 0;
+    uVar6 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    local_14 = 0x120;
+    uStack_10 = (ushort)uVar6 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar6 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar5;
+    iVar3 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar4,0x120,puVar5,local_30,0);
+    if (iVar3 != 1) {
+      printk("WIFI_MAIL_API_SET_WAIT_PCIE_ADDR fail! \n");
+    }
+  }
+  *(undefined1 *)(param_3 + 0x2ae) = 0;
+  puVar7 = *(ulong **)(param_2 + 0x30);
+  *puVar7 = (ulong)*(uint *)(param_2 + 0x2c);
+  puVar7[1] = *(ulong *)(param_2 + 0x40);
+  puVar7[2] = *(ulong *)(param_2 + 0x48);
+  *(uint *)(param_2 + 0x28) = (uint)*(ushort *)(param_2 + 0x6c);
+  *(uint *)(param_2 + 0x24) = *(ushort *)(param_2 + 0x6c) - 1;
+  return 1;
+}
+
+
+ASSEMBLY
+00105a70 stp x29,x30,[sp, #-0x90]!
+00105a74 mov x29,sp
+00105a78 stp x19,x20,[sp, #0x10]
+00105a7c mov x19,x1
+00105a80 stp x21,x22,[sp, #0x20]
+00105a84 mov x22,x2
+00105a88 mov x21,x0
+00105a8c bl 0x00104f50
+00105a90 and w20,w0,#0xff
+00105a94 mov w0,#0x0
+00105a98 cmp w20,#0xff
+00105a9c b.eq 0x00105ab4
+00105aa0 ldr w1,[x19, #0xc]
+00105aa4 mov w0,#0x0
+00105aa8 sub w1,w1,#0xd4, LSL #12
+00105aac subs w1,w1,#0x590
+00105ab0 b.eq 0x00105ac4
+00105ab4 ldp x19,x20,[sp, #0x10]
+00105ab8 ldp x21,x22,[sp, #0x20]
+00105abc ldp x29,x30,[sp], #0x90
+00105ac0 ret
+00105ac4 stp x23,x24,[sp, #0x30]
+00105ac8 add x24,x19,#0x38
+00105acc stp x25,x26,[sp, #0x40]
+00105ad0 str x27,[sp, #0x50]
+00105ad4 str xzr,[sp, #0x60]
+00105ad8 ldr x26,[x24, #0x10]
+00105adc bl 0x001101f0
+00105ae0 mov x25,x0
+00105ae4 cbz x0,0x00105d28
+00105ae8 mov x4,#0x100
+00105aec mov w3,#0x2a21
+00105af0 add x2,sp,#0x60
+00105af4 mov x1,#0x120
+00105af8 bl 0x00110188
+00105afc mov x23,x0
+00105b00 mov x27,#0x120
+00105b04 mov w1,#0x0
+00105b08 mov x2,x27
+00105b0c stur wzr,[sp, #0x7e]
+00105b10 strh wzr,[sp, #0x82]
+00105b14 bl 0x001101c0
+00105b18 mov w1,#0x1
+00105b1c mov w0,#0x0
+00105b20 bfm w0,w1,#0x1c,#0x3
+00105b24 mov w1,#0x15
+00105b28 strb w0,[x23]
+00105b2c mov x3,#0x1
+00105b30 stp w1,w26,[x23, #0x4]
+00105b34 movk x3,#0x3e8, LSL #32
+00105b38 add x0,sp,#0x68
+00105b3c stp xzr,x23,[sp, #0x68]
+00105b40 ldr x1,[sp, #0x80]
+00105b44 strh w27,[sp, #0x7c]
+00105b48 ldr x2,[sp, #0x60]
+00105b4c and x1,x1,#0xfffffffe
+00105b50 orr x1,x1,x3
+00105b54 str w2,[sp, #0x78]
+00105b58 stp x1,xzr,[sp, #0x80]
+00105b5c bl 0x00110090
+00105b60 ldr x3,[sp, #0x60]
+00105b64 mov x2,x23
+00105b68 mov x1,x27
+00105b6c mov w23,w0
+00105b70 mov x4,#0x0
+00105b74 mov x0,x25
+00105b78 bl 0x001101f8
+00105b7c cmp w23,#0x1
+00105b80 b.ne 0x00105d94
+00105b84 ldrh w26,[x19, #0x6c]
+00105b88 str xzr,[sp, #0x60]
+00105b8c bl 0x001101f0
+00105b90 mov x25,x0
+00105b94 cbz x0,0x00105d84
+00105b98 mov x4,#0x100
+00105b9c mov w3,#0x2a21
+00105ba0 add x2,sp,#0x60
+00105ba4 mov x1,#0x120
+00105ba8 bl 0x00110188
+00105bac mov x23,x0
+00105bb0 mov x27,#0x120
+00105bb4 mov w1,#0x0
+00105bb8 mov x2,x27
+00105bbc stur wzr,[sp, #0x7e]
+00105bc0 strh wzr,[sp, #0x82]
+00105bc4 bl 0x001101c0
+00105bc8 mov w1,#0x1a
+00105bcc mov w0,#0x1
+00105bd0 strb w1,[x23]
+00105bd4 mov x3,#0x1
+00105bd8 stp w0,w26,[x23, #0x4]
+00105bdc movk x3,#0x3e8, LSL #32
+00105be0 add x0,sp,#0x68
+00105be4 stp xzr,x23,[sp, #0x68]
+00105be8 ldr x1,[sp, #0x80]
+00105bec strh w27,[sp, #0x7c]
+00105bf0 ldr x2,[sp, #0x60]
+00105bf4 and x1,x1,#0xfffffffe
+00105bf8 orr x1,x1,x3
+00105bfc str w2,[sp, #0x78]
+00105c00 stp x1,xzr,[sp, #0x80]
+00105c04 bl 0x00110090
+00105c08 ldr x3,[sp, #0x60]
+00105c0c mov x2,x23
+00105c10 mov x1,x27
+00105c14 mov w23,w0
+00105c18 mov x4,#0x0
+00105c1c mov x0,x25
+00105c20 bl 0x001101f8
+00105c24 cmp w23,#0x1
+00105c28 b.ne 0x00105d58
+00105c2c adrp x0,0x10f000
+00105c30 add x0,x0,#0xc88
+00105c34 ldr w25,[x19, #0xc]
+00105c38 ldr x0,[x0, w20, SXTW #0x3]
+00105c3c ldr x0,[x0, #0x378]
+00105c40 str xzr,[sp, #0x60]
+00105c44 add w25,w25,w0
+00105c48 bl 0x001101f0
+00105c4c mov x21,x0
+00105c50 cbz x0,0x00105d48
+00105c54 mov x4,#0x100
+00105c58 mov w3,#0x2a21
+00105c5c add x2,sp,#0x60
+00105c60 mov x1,#0x120
+00105c64 bl 0x00110188
+00105c68 mov x20,x0
+00105c6c mov x23,#0x120
+00105c70 mov w1,#0x0
+00105c74 mov x2,x23
+00105c78 stur wzr,[sp, #0x7e]
+00105c7c strh wzr,[sp, #0x82]
+00105c80 bl 0x001101c0
+00105c84 mov w0,#0x1a
+00105c88 strb w0,[x20]
+00105c8c str w25,[x20, #0x8]
+00105c90 mov x3,#0x1
+00105c94 movk x3,#0x3e8, LSL #32
+00105c98 add x0,sp,#0x68
+00105c9c ldr x1,[sp, #0x80]
+00105ca0 stp xzr,x20,[sp, #0x68]
+00105ca4 and x1,x1,#0xfffffffe
+00105ca8 strh w23,[sp, #0x7c]
+00105cac ldr x2,[sp, #0x60]
+00105cb0 orr x1,x1,x3
+00105cb4 str w2,[sp, #0x78]
+00105cb8 stp x1,xzr,[sp, #0x80]
+00105cbc bl 0x00110090
+00105cc0 ldr x3,[sp, #0x60]
+00105cc4 mov x2,x20
+00105cc8 mov x1,x23
+00105ccc mov w20,w0
+00105cd0 mov x4,#0x0
+00105cd4 mov x0,x21
+00105cd8 bl 0x001101f8
+00105cdc cmp w20,#0x1
+00105ce0 b.ne 0x00105d38
+00105ce4 strb wzr,[x22, #0x2ae]
+00105ce8 mov w0,#0x1
+00105cec ldr x1,[x19, #0x30]
+00105cf0 ldr w2,[x19, #0x2c]
+00105cf4 str x2,[x1]
+00105cf8 ldr x2,[x24, #0x8]
+00105cfc str x2,[x1, #0x8]
+00105d00 ldr x2,[x24, #0x10]
+00105d04 str x2,[x1, #0x10]
+00105d08 ldrh w1,[x19, #0x6c]
+00105d0c str w1,[x19, #0x28]
+00105d10 sub w1,w1,#0x1
+00105d14 str w1,[x19, #0x24]
+00105d18 ldp x23,x24,[sp, #0x30]
+00105d1c ldp x25,x26,[sp, #0x40]
+00105d20 ldr x27,[sp, #0x50]
+00105d24 b 0x00105ab4
+00105d28 adrp x0,0x10c000
+00105d2c add x0,x0,#0x2b0
+00105d30 bl 0x001101a8
+00105d34 b 0x00105b84
+00105d38 adrp x0,0x10c000
+00105d3c add x0,x0,#0x710
+00105d40 bl 0x001101a8
+00105d44 b 0x00105ce4
+00105d48 adrp x0,0x10c000
+00105d4c add x0,x0,#0x2b0
+00105d50 bl 0x001101a8
+00105d54 b 0x00105ce4
+00105d58 adrp x0,0x10c000
+00105d5c add x0,x0,#0x6b8
+00105d60 bl 0x001101a8
+00105d64 ldr x0,[x21, #0x38]
+00105d68 adrp x2,0x10b000
+00105d6c add x2,x2,#0x5f0
+00105d70 adrp x1,0x10c000
+00105d74 add x2,x2,#0x128
+00105d78 add x1,x1,#0x6e0
+00105d7c bl 0x00110118
+00105d80 b 0x00105c2c
+00105d84 adrp x0,0x10c000
+00105d88 add x0,x0,#0x2b0
+00105d8c bl 0x001101a8
+00105d90 b 0x00105d64
+00105d94 adrp x0,0x10c000
+00105d98 add x0,x0,#0x678
+00105d9c bl 0x001101a8
+00105da0 b 0x00105b84
+
+FUNCTION npu_pci_dma_init_rx_data_queue @ 00105da4
+section_relative=.text+0x5d84
+XREF 0010eed4 DATA
+XREF 00103598 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined1 npu_pci_dma_init_rx_data_queue(long param_1,int *param_2)
+
+{
+  char cVar1;
+  ushort uVar2;
+  char cVar3;
+  uint uVar4;
+  int iVar5;
+  uint uVar6;
+  long lVar7;
+  byte *pbVar8;
+  ulong *puVar9;
+  uint uVar10;
+  ulong uVar11;
+  undefined8 uVar12;
+  uint unaff_w23;
+  undefined8 local_30;
+  undefined8 local_28;
+  byte *pbStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  uVar4 = npu_get_pcie_index();
+  iVar5 = *param_2;
+  if ((uVar4 & 0xff) == 0xff || iVar5 != 6 && iVar5 != 7) {
+    return 0;
+  }
+  cVar3 = '\0';
+  if (iVar5 == 7) {
+    cVar3 = '\x05';
+  }
+  uVar2 = *(ushort *)(param_2 + 0x1b);
+  uVar6 = (uint)*(byte *)(param_2 + 0x1c);
+  uVar10 = (uVar6 & 0xaaaaaaaa) >> 1 | (uVar6 & 0x55555555) << 1;
+  uVar10 = (uVar10 & 0xcccccccc) >> 2 | (uVar10 & 0x33333333) << 2;
+  local_30 = 0;
+  cVar1 = '\0';
+  if (uVar6 != 0) {
+    cVar1 = (char)LZCOUNT((uVar10 >> 4 | (uVar10 & 0xf0f0f0f) << 4) << 0x18) + '\x01';
+  }
+  lVar7 = get_ecnt_npu_dev();
+  if (lVar7 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+LAB_00106148:
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_DESC fail\n",
+              "npu_pci_dma_init_rx_data_queue");
+  }
+  else {
+    pbVar8 = (byte *)dma_alloc_attrs(lVar7,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(pbVar8,0,0x120);
+    *pbVar8 = (cVar1 + cVar3) - 1U & 0xf | 0x10;
+    pbVar8[4] = 1;
+    pbVar8[5] = 0;
+    pbVar8[6] = 0;
+    pbVar8[7] = 0;
+    *(uint *)(pbVar8 + 8) = (uint)uVar2;
+    local_28 = 0;
+    uVar11 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    local_14 = 0x120;
+    uStack_10 = (ushort)uVar11 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar11 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pbStack_20 = pbVar8;
+    iVar5 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar7,0x120,pbVar8,local_30,0);
+    if (iVar5 != 1) {
+      printk(" WIFI_MAIL_API_SET_WAIT_DESC fail! \n");
+      goto LAB_00106148;
+    }
+  }
+  if (glb_npu_en_rx == '\0') {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() %s ring NPU rx disable\n",
+              "npu_pci_dma_init_rx_data_queue",*(undefined8 *)(param_2 + 0x86));
+    return 0;
+  }
+  iVar5 = param_2[3];
+  uVar6 = (uint)*(byte *)(param_2 + 0x1c);
+  uVar10 = (uVar6 & 0xaaaaaaaa) >> 1 | (uVar6 & 0x55555555) << 1;
+  uVar10 = (uVar10 & 0xcccccccc) >> 2 | (uVar10 & 0x33333333) << 2;
+  uVar12 = *(undefined8 *)((&arht_pdev_pci)[(int)(uVar4 & 0xff)] + 0x378);
+  cVar1 = '\0';
+  if (uVar6 != 0) {
+    cVar1 = (char)LZCOUNT((uVar10 >> 4 | (uVar10 & 0xf0f0f0f) << 4) << 0x18) + '\x01';
+  }
+  local_30 = 0;
+  lVar7 = get_ecnt_npu_dev();
+  if (lVar7 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+LAB_001061b4:
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_PCIE_ADDR fail\n",
+              "npu_pci_dma_init_rx_data_queue");
+  }
+  else {
+    pbVar8 = (byte *)dma_alloc_attrs(lVar7,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(pbVar8,0,0x120);
+    *pbVar8 = cVar3 + -1 + cVar1 & 0xfU | 0x10;
+    *(int *)(pbVar8 + 8) = iVar5 + (int)uVar12;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar11 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar11 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar11 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pbStack_20 = pbVar8;
+    iVar5 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar7,0x120,pbVar8,local_30,0);
+    if (iVar5 != 1) {
+      printk("WIFI_MAIL_API_SET_WAIT_PCIE_ADDR fail! \n");
+      goto LAB_001061b4;
+    }
+  }
+  uVar10 = (uint)*(byte *)(param_2 + 0x1c);
+  uVar4 = (uVar10 & 0xaaaaaaaa) >> 1 | (uVar10 & 0x55555555) << 1;
+  uVar4 = (uVar4 & 0xcccccccc) >> 2 | (uVar4 & 0x33333333) << 2;
+  local_30 = 0;
+  if (*param_2 == 7) {
+    cVar3 = '\n';
+  }
+  cVar1 = '\0';
+  if (uVar10 != 0) {
+    cVar1 = (char)LZCOUNT((uVar4 >> 4 | (uVar4 & 0xf0f0f0f) << 4) << 0x18) + '\x01';
+  }
+  lVar7 = get_ecnt_npu_dev();
+  if (lVar7 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    pbVar8 = (byte *)dma_alloc_attrs(lVar7,0x120,&local_30,0x2a21,0x100);
+    if (pbVar8 == (byte *)0x0) {
+      printk("%s dma_alloc_coherent failed\n");
+    }
+    else {
+      local_12 = 0;
+      uStack_10 = 0;
+      uStack_e = 0;
+      memset(pbVar8,0,0x120);
+      *pbVar8 = (cVar1 + cVar3) - 1U & 0xf | 0x30;
+      pbVar8[4] = 4;
+      pbVar8[5] = 0;
+      pbVar8[6] = 0;
+      pbVar8[7] = 0;
+      local_28 = 0;
+      uVar11 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+      local_14 = 0x120;
+      uStack_10 = (ushort)uVar11 | 1;
+      local_18 = (undefined4)local_30;
+      uStack_e = (undefined2)(uVar11 >> 0x10);
+      uStack_c = 1000;
+      uStack_8 = 0;
+      pbStack_20 = pbVar8;
+      iVar5 = host_notify_npuMbox(&local_28);
+      if (iVar5 == 1) {
+        unaff_w23 = *(uint *)(pbVar8 + 8);
+        printk("WIFI_MAIL_API_GET_WAIT_RXDESC_BASE info=%x\n",unaff_w23);
+        dma_free_attrs(lVar7,0x120,pbVar8,local_30,0);
+        goto LAB_001060b0;
+      }
+      dma_free_attrs(lVar7,0x120,pbVar8,local_30,0);
+      printk("WIFI_MAIL_API_GET_WAIT_RXDESC_BASE fail!\n");
+    }
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_GET_WAIT_RXDESC_BASE fail\n",
+            "npu_pci_dma_init_rx_data_queue");
+LAB_001060b0:
+  if (_arm64_const_caps_ready < 1) {
+    uVar12 = 0x68000000000f07;
+    if ((_cpu_hwcaps & 0x800000) == 0) {
+      uVar12 = 0x68000000000707;
+    }
+  }
+  else {
+    uVar12 = 0x68000000000f07;
+    if (_DAT_0011011c < 1) {
+      uVar12 = 0x68000000000707;
+    }
+  }
+  uVar12 = __ioremap((ulong)unaff_w23,4,uVar12);
+  *(undefined8 *)(param_2 + 0x10) = uVar12;
+  *(ulong *)(param_2 + 0x12) = (ulong)unaff_w23;
+  puVar9 = *(ulong **)(param_2 + 0xc);
+  *(undefined1 *)((long)param_2 + 0x2ae) = 0;
+  *puVar9 = (ulong)(uint)param_2[0xb];
+  puVar9[1] = *(ulong *)(param_2 + 0x10);
+  puVar9[2] = *(ulong *)(param_2 + 0x12);
+  param_2[10] = (uint)*(ushort *)(param_2 + 0x1b);
+  param_2[9] = *(ushort *)(param_2 + 0x1b) - 1;
+  return 1;
+}
+
+
+ASSEMBLY
+00105da4 stp x29,x30,[sp, #-0xa0]!
+00105da8 mov x29,sp
+00105dac stp x19,x20,[sp, #0x10]
+00105db0 mov x19,x1
+00105db4 stp x21,x22,[sp, #0x20]
+00105db8 mov x21,x0
+00105dbc bl 0x00104f50
+00105dc0 and w20,w0,#0xff
+00105dc4 ldr w0,[x19]
+00105dc8 cmp w20,#0xff
+00105dcc mov w22,#0x0
+00105dd0 sub w1,w0,#0x6
+00105dd4 ccmp w1,#0x1,#0x2,ne
+00105dd8 b.ls 0x00105df0
+00105ddc mov w0,w22
+00105de0 ldp x19,x20,[sp, #0x10]
+00105de4 ldp x21,x22,[sp, #0x20]
+00105de8 ldp x29,x30,[sp], #0xa0
+00105dec ret
+00105df0 stp x23,x24,[sp, #0x30]
+00105df4 cmp w0,#0x7
+00105df8 mov w0,#0x5
+00105dfc stp x25,x26,[sp, #0x40]
+00105e00 csel w24,wzr,w0,ne
+00105e04 stp x27,x28,[sp, #0x50]
+00105e08 ldrb w1,[x19, #0x70]
+00105e0c ldrh w26,[x19, #0x6c]
+00105e10 rbit w0,w1
+00105e14 cmp w1,#0x0
+00105e18 clz w0,w0
+00105e1c str xzr,[sp, #0x70]
+00105e20 csinc w0,wzr,w0,eq
+00105e24 add w0,w0,w24
+00105e28 sub w25,w0,#0x1
+00105e2c bl 0x001101f0
+00105e30 mov x27,x0
+00105e34 cbz x0,0x0010613c
+00105e38 mov x4,#0x100
+00105e3c mov w3,#0x2a21
+00105e40 add x2,sp,#0x70
+00105e44 mov x1,#0x120
+00105e48 bl 0x00110188
+00105e4c mov x22,x0
+00105e50 mov x28,#0x120
+00105e54 mov w1,#0x0
+00105e58 mov x2,x28
+00105e5c and w25,w25,#0xf
+00105e60 stur wzr,[sp, #0x8e]
+00105e64 orr w25,w25,#0x10
+00105e68 strh wzr,[sp, #0x92]
+00105e6c bl 0x001101c0
+00105e70 mov w0,#0x1
+00105e74 strb w25,[x22]
+00105e78 stp w0,w26,[x22, #0x4]
+00105e7c mov x3,#0x1
+00105e80 movk x3,#0x3e8, LSL #32
+00105e84 add x0,sp,#0x78
+00105e88 ldr x1,[sp, #0x90]
+00105e8c stp xzr,x22,[sp, #0x78]
+00105e90 and x1,x1,#0xfffffffe
+00105e94 strh w28,[sp, #0x8c]
+00105e98 ldr x2,[sp, #0x70]
+00105e9c orr x1,x1,x3
+00105ea0 str w2,[sp, #0x88]
+00105ea4 stp x1,xzr,[sp, #0x90]
+00105ea8 bl 0x00110090
+00105eac ldr x3,[sp, #0x70]
+00105eb0 mov x2,x22
+00105eb4 mov x1,x28
+00105eb8 mov w22,w0
+00105ebc mov x4,#0x0
+00105ec0 mov x0,x27
+00105ec4 bl 0x001101f8
+00105ec8 cmp w22,#0x1
+00105ecc b.ne 0x00106168
+00105ed0 adrp x0,0x110000
+00105ed4 ldrb w22,[x0, #0x88]
+00105ed8 cbz w22,0x00106178
+00105edc adrp x1,0x10f000
+00105ee0 add x1,x1,#0xc88
+00105ee4 ldrb w0,[x19, #0x70]
+00105ee8 sub w22,w24,#0x1
+00105eec ldr w26,[x19, #0xc]
+00105ef0 ldr x1,[x1, w20, SXTW #0x3]
+00105ef4 cmp w0,#0x0
+00105ef8 rbit w0,w0
+00105efc clz w0,w0
+00105f00 ldr x1,[x1, #0x378]
+00105f04 csinc w0,wzr,w0,eq
+00105f08 add w22,w22,w0
+00105f0c str xzr,[sp, #0x70]
+00105f10 add w26,w26,w1
+00105f14 bl 0x001101f0
+00105f18 mov x25,x0
+00105f1c cbz x0,0x001061a8
+00105f20 mov x4,#0x100
+00105f24 mov w3,#0x2a21
+00105f28 add x2,sp,#0x70
+00105f2c mov x1,#0x120
+00105f30 bl 0x00110188
+00105f34 mov x20,x0
+00105f38 and w22,w22,#0xf
+00105f3c mov x27,#0x120
+00105f40 mov w1,#0x0
+00105f44 mov x2,x27
+00105f48 orr w22,w22,#0x10
+00105f4c stur wzr,[sp, #0x8e]
+00105f50 strh wzr,[sp, #0x92]
+00105f54 bl 0x001101c0
+00105f58 strb w22,[x20]
+00105f5c mov x3,#0x1
+00105f60 str w26,[x20, #0x8]
+00105f64 movk x3,#0x3e8, LSL #32
+00105f68 add x0,sp,#0x78
+00105f6c stp xzr,x20,[sp, #0x78]
+00105f70 ldr x1,[sp, #0x90]
+00105f74 strh w27,[sp, #0x8c]
+00105f78 ldr x2,[sp, #0x70]
+00105f7c and x1,x1,#0xfffffffe
+00105f80 orr x1,x1,x3
+00105f84 str w2,[sp, #0x88]
+00105f88 stp x1,xzr,[sp, #0x90]
+00105f8c bl 0x00110090
+00105f90 ldr x3,[sp, #0x70]
+00105f94 mov x2,x20
+00105f98 mov x1,x27
+00105f9c mov w20,w0
+00105fa0 mov x4,#0x0
+00105fa4 mov x0,x25
+00105fa8 bl 0x001101f8
+00105fac cmp w20,#0x1
+00105fb0 b.ne 0x001061d4
+00105fb4 ldrb w1,[x19, #0x70]
+00105fb8 mov w2,#0xa
+00105fbc ldr w3,[x19]
+00105fc0 rbit w0,w1
+00105fc4 str xzr,[sp, #0x70]
+00105fc8 cmp w3,#0x7
+00105fcc clz w0,w0
+00105fd0 csel w24,w24,w2,ne
+00105fd4 cmp w1,#0x0
+00105fd8 csinc w0,wzr,w0,eq
+00105fdc add w0,w0,w24
+00105fe0 sub w20,w0,#0x1
+00105fe4 bl 0x001101f0
+00105fe8 mov x24,x0
+00105fec cbz x0,0x001061e4
+00105ff0 add x2,sp,#0x70
+00105ff4 mov x4,#0x100
+00105ff8 mov w3,#0x2a21
+00105ffc mov x1,#0x120
+00106000 bl 0x00110188
+00106004 mov x22,x0
+00106008 cbz x0,0x001061fc
+0010600c mov x25,#0x120
+00106010 mov w1,#0x0
+00106014 mov x2,x25
+00106018 and w20,w20,#0xf
+0010601c stur wzr,[sp, #0x8e]
+00106020 orr w20,w20,#0x30
+00106024 strh wzr,[sp, #0x92]
+00106028 bl 0x001101c0
+0010602c mov w0,#0x4
+00106030 strb w20,[x22]
+00106034 str w0,[x22, #0x4]
+00106038 mov x3,#0x1
+0010603c movk x3,#0x3e8, LSL #32
+00106040 add x0,sp,#0x78
+00106044 ldr x1,[sp, #0x90]
+00106048 stp xzr,x22,[sp, #0x78]
+0010604c and x1,x1,#0xfffffffe
+00106050 strh w25,[sp, #0x8c]
+00106054 ldr x2,[sp, #0x70]
+00106058 orr x1,x1,x3
+0010605c str w2,[sp, #0x88]
+00106060 stp x1,xzr,[sp, #0x90]
+00106064 bl 0x00110090
+00106068 cmp w0,#0x1
+0010606c b.eq 0x0010621c
+00106070 ldr x3,[sp, #0x70]
+00106074 mov x1,x25
+00106078 mov x2,x22
+0010607c mov x4,#0x0
+00106080 mov x0,x24
+00106084 bl 0x001101f8
+00106088 adrp x0,0x10c000
+0010608c add x0,x0,#0x328
+00106090 bl 0x001101a8
+00106094 adrp x1,0x10b000
+00106098 add x1,x1,#0x5f0
+0010609c ldr x0,[x21, #0x38]
+001060a0 add x2,x1,#0x148
+001060a4 adrp x1,0x10c000
+001060a8 add x1,x1,#0x798
+001060ac bl 0x00110118
+001060b0 adrp x0,0x110000
+001060b4 mov w23,w23
+001060b8 ldr w0,[x0, #0x30]
+001060bc cmp w0,#0x0
+001060c0 b.le 0x0010624c
+001060c4 adrp x0,0x110000
+001060c8 add x0,x0,#0xc0
+001060cc mov x2,#0xf07
+001060d0 mov x1,#0x707
+001060d4 movk x2,#0x68, LSL #48
+001060d8 movk x1,#0x68, LSL #48
+001060dc ldr w0,[x0, #0x5c]
+001060e0 cmp w0,#0x0
+001060e4 csel x2,x2,x1,gt
+001060e8 mov x0,x23
+001060ec mov x1,#0x4
+001060f0 bl 0x00110158
+001060f4 stp x0,x23,[x19, #0x40]
+001060f8 ldr w2,[x19, #0x2c]
+001060fc ldr x0,[x19, #0x30]
+00106100 strb wzr,[x19, #0x2ae]
+00106104 mov w22,#0x1
+00106108 str x2,[x0]
+0010610c ldr x2,[x19, #0x40]
+00106110 str x2,[x0, #0x8]
+00106114 ldr x1,[x19, #0x48]
+00106118 str x1,[x0, #0x10]
+0010611c ldrh w0,[x19, #0x6c]
+00106120 str w0,[x19, #0x28]
+00106124 sub w0,w0,#0x1
+00106128 str w0,[x19, #0x24]
+0010612c ldp x23,x24,[sp, #0x30]
+00106130 ldp x25,x26,[sp, #0x40]
+00106134 ldp x27,x28,[sp, #0x50]
+00106138 b 0x00105ddc
+0010613c adrp x0,0x10c000
+00106140 add x0,x0,#0x2b0
+00106144 bl 0x001101a8
+00106148 ldr x0,[x21, #0x38]
+0010614c adrp x3,0x10c000
+00106150 adrp x1,0x10b000
+00106154 add x1,x1,#0x5f0
+00106158 add x2,x1,#0x148
+0010615c add x1,x3,#0x6e0
+00106160 bl 0x00110118
+00106164 b 0x00105ed0
+00106168 adrp x0,0x10c000
+0010616c add x0,x0,#0x6b8
+00106170 bl 0x001101a8
+00106174 b 0x00106148
+00106178 ldr x0,[x21, #0x38]
+0010617c adrp x2,0x10b000
+00106180 ldr x3,[x19, #0x218]
+00106184 add x2,x2,#0x5f0
+00106188 add x2,x2,#0x148
+0010618c adrp x1,0x10c000
+00106190 add x1,x1,#0x740
+00106194 bl 0x00110118
+00106198 ldp x23,x24,[sp, #0x30]
+0010619c ldp x25,x26,[sp, #0x40]
+001061a0 ldp x27,x28,[sp, #0x50]
+001061a4 b 0x00105ddc
+001061a8 adrp x0,0x10c000
+001061ac add x0,x0,#0x2b0
+001061b0 bl 0x001101a8
+001061b4 ldr x0,[x21, #0x38]
+001061b8 adrp x3,0x10c000
+001061bc adrp x1,0x10b000
+001061c0 add x1,x1,#0x5f0
+001061c4 add x2,x1,#0x148
+001061c8 add x1,x3,#0x760
+001061cc bl 0x00110118
+001061d0 b 0x00105fb4
+001061d4 adrp x0,0x10c000
+001061d8 add x0,x0,#0x710
+001061dc bl 0x001101a8
+001061e0 b 0x001061b4
+001061e4 adrp x0,0x10c000
+001061e8 add x0,x0,#0x2b0
+001061ec bl 0x001101a8
+001061f0 adrp x1,0x10b000
+001061f4 add x1,x1,#0x5f0
+001061f8 b 0x0010609c
+001061fc adrp x1,0x10b000
+00106200 add x1,x1,#0x5f0
+00106204 adrp x0,0x10c000
+00106208 add x0,x0,#0x308
+0010620c str x1,[sp, #0x68]
+00106210 bl 0x001101a8
+00106214 ldr x1,[sp, #0x68]
+00106218 b 0x0010609c
+0010621c ldr w23,[x22, #0x8]
+00106220 adrp x0,0x10c000
+00106224 add x0,x0,#0x358
+00106228 mov w1,w23
+0010622c bl 0x001101a8
+00106230 ldr x3,[sp, #0x70]
+00106234 mov x2,x22
+00106238 mov x1,x25
+0010623c mov x0,x24
+00106240 mov x4,#0x0
+00106244 bl 0x001101f8
+00106248 b 0x001060b0
+0010624c adrp x1,0x110000
+00106250 mov x2,#0xf07
+00106254 mov x0,#0x707
+00106258 movk x2,#0x68, LSL #48
+0010625c ldr x1,[x1, #0xd0]
+00106260 movk x0,#0x68, LSL #48
+00106264 tst w1,#0x800000
+00106268 csel x2,x2,x0,ne
+0010626c b 0x001060e8
+
+FUNCTION send_rro_done_msg_2_NPU @ 00106270
+section_relative=.text+0x6250
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text	0x6250	0x6368	0x62b0	send_rro_done_msg_2_NPU	STT_FUNC_symbol_size	Named done-mailbox helper; one direct mailbox CALL26 site
+XREF 0010af60 UNCONDITIONAL_CALL
+XREF 0010ef2c DATA
+decompiled=true
+
+void send_rro_done_msg_2_NPU(long param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  undefined1 *__s;
+  ulong uVar3;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined1 *puStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  local_30 = 0;
+  lVar2 = get_ecnt_npu_dev();
+  if (lVar2 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    __s = (undefined1 *)dma_alloc_attrs(lVar2,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(__s,0,0x120);
+    *__s = 0x12;
+    *(undefined4 *)(__s + 4) = 0x17;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar3 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar3 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar3 >> 0x10);
+    uStack_c = 60000;
+    uStack_8 = 0;
+    puStack_20 = __s;
+    iVar1 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar2,0x120,__s,local_30,0);
+    if (iVar1 == 1) {
+      return;
+    }
+    printk("WIFI_MAIL_API_SET_WAIT_INODE_TXRX_REG_ADDR fail! dir:%d %x %x %x\n",0,0,0,0);
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_DESC fail\n",
+            "send_rro_done_msg_2_NPU");
+  return;
+}
+
+
+ASSEMBLY
+00106270 stp x29,x30,[sp, #-0x60]!
+00106274 mov x29,sp
+00106278 stp x21,x22,[sp, #0x20]
+0010627c mov x21,x0
+00106280 str xzr,[sp, #0x30]
+00106284 bl 0x001101f0
+00106288 cbz x0,0x00106338
+0010628c mov x4,#0x100
+00106290 mov w3,#0x2a21
+00106294 add x2,sp,#0x30
+00106298 mov x1,#0x120
+0010629c stp x19,x20,[sp, #0x10]
+001062a0 mov x20,x0
+001062a4 bl 0x00110188
+001062a8 mov x19,x0
+001062ac mov x22,#0x120
+001062b0 mov w1,#0x0
+001062b4 mov x2,x22
+001062b8 stur wzr,[sp, #0x4e]
+001062bc strh wzr,[sp, #0x52]
+001062c0 bl 0x001101c0
+001062c4 mov w1,#0x12
+001062c8 mov w0,#0x17
+001062cc strb w1,[x19]
+001062d0 mov x3,#0x1
+001062d4 str w0,[x19, #0x4]
+001062d8 movk x3,#0xea60, LSL #32
+001062dc add x0,sp,#0x38
+001062e0 stp xzr,x19,[sp, #0x38]
+001062e4 ldr x1,[sp, #0x50]
+001062e8 strh w22,[sp, #0x4c]
+001062ec ldr x2,[sp, #0x30]
+001062f0 and x1,x1,#0xfffffffe
+001062f4 orr x1,x1,x3
+001062f8 str w2,[sp, #0x48]
+001062fc stp x1,xzr,[sp, #0x50]
+00106300 bl 0x00110090
+00106304 ldr x3,[sp, #0x30]
+00106308 mov x2,x19
+0010630c mov x1,x22
+00106310 mov w19,w0
+00106314 mov x4,#0x0
+00106318 mov x0,x20
+0010631c bl 0x001101f8
+00106320 cmp w19,#0x1
+00106324 b.ne 0x00106364
+00106328 ldp x19,x20,[sp, #0x10]
+0010632c ldp x21,x22,[sp, #0x20]
+00106330 ldp x29,x30,[sp], #0x60
+00106334 ret
+00106338 adrp x0,0x10c000
+0010633c add x0,x0,#0x2b0
+00106340 bl 0x001101a8
+00106344 ldr x0,[x21, #0x38]
+00106348 adrp x2,0x10b000
+0010634c add x2,x2,#0x5f0
+00106350 adrp x1,0x10c000
+00106354 add x2,x2,#0x168
+00106358 add x1,x1,#0x6e0
+0010635c bl 0x00110118
+00106360 b 0x0010632c
+00106364 adrp x0,0x10c000
+00106368 mov w4,#0x0
+0010636c add x0,x0,#0x7d0
+00106370 mov w3,#0x0
+00106374 mov w2,#0x0
+00106378 mov w1,#0x0
+0010637c bl 0x001101a8
+00106380 ldp x19,x20,[sp, #0x10]
+00106384 b 0x00106344
+
+FUNCTION send_rro_stop_msg_2_NPU @ 00106390
+section_relative=.text+0x6370
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text	0x6370	0x65d8	0x63d0	send_rro_stop_msg_2_NPU	STT_FUNC_symbol_size	Named stop-mailbox helper; two direct mailbox CALL26 sites
+XREF 0010afb0 UNCONDITIONAL_CALL
+XREF 0010ef64 DATA
+decompiled=true
+
+void send_rro_stop_msg_2_NPU(long param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  undefined1 *puVar3;
+  ulong uVar4;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined1 *puStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  local_30 = 0;
+  lVar2 = get_ecnt_npu_dev();
+  if (lVar2 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    puVar3 = (undefined1 *)dma_alloc_attrs(lVar2,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar3,0,0x120);
+    *puVar3 = 0x14;
+    *(undefined4 *)(puVar3 + 4) = 0x17;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar4 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar4 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar4 >> 0x10);
+    uStack_c = 60000;
+    uStack_8 = 0;
+    puStack_20 = puVar3;
+    iVar1 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar2,0x120,puVar3,local_30,0);
+    if (iVar1 == 1) goto LAB_00106468;
+    printk("WIFI_MAIL_API_SET_WAIT_INODE_TXRX_REG_ADDR fail! dir:%d %x %x %x\n",0,0,0,0);
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_DESC fail\n",
+            "send_rro_stop_msg_2_NPU");
+LAB_00106468:
+  do {
+    while( true ) {
+      local_30 = 0;
+      lVar2 = get_ecnt_npu_dev();
+      if (lVar2 != 0) break;
+      printk("\nget_ecnt_npu_dev failed\n",0x120,&local_30,0x2a21,0x100);
+LAB_00106538:
+      _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_GET_WAIT_NPU_INFO fail\n"
+                ,"send_rro_stop_msg_2_NPU");
+    }
+    puVar3 = (undefined1 *)dma_alloc_attrs();
+    if (puVar3 == (undefined1 *)0x0) {
+      printk("%s dma_alloc_coherent failed\n","WIFI_MAIL_API_GET_WAIT_NPU_INFO");
+      goto LAB_00106538;
+    }
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(puVar3,0,0x120);
+    *puVar3 = 0x33;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar4 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar4 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar4 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    puStack_20 = puVar3;
+    iVar1 = host_notify_npuMbox(&local_28);
+    if (iVar1 != 1) {
+      dma_free_attrs(lVar2,0x120,puVar3,local_30,0);
+      printk("WIFI_MAIL_API_GET_WAIT_NPU_INFO fail!\n");
+      goto LAB_00106538;
+    }
+    iVar1 = *(int *)(puVar3 + 8);
+    dma_free_attrs(lVar2,0x120,puVar3,local_30,0);
+    if (iVar1 == 0) {
+      _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() NPU rx is stopped\n","send_rro_stop_msg_2_NPU"
+               );
+      return;
+    }
+  } while( true );
+}
+
+
+ASSEMBLY
+00106390 stp x29,x30,[sp, #-0xa0]!
+00106394 mov x29,sp
+00106398 stp x19,x20,[sp, #0x10]
+0010639c stp x21,x22,[sp, #0x20]
+001063a0 stp x23,x24,[sp, #0x30]
+001063a4 stp x25,x26,[sp, #0x40]
+001063a8 mov x26,x0
+001063ac stp x27,x28,[sp, #0x50]
+001063b0 str xzr,[sp, #0x70]
+001063b4 bl 0x001101f0
+001063b8 cbz x0,0x001065ac
+001063bc add x22,sp,#0x70
+001063c0 mov x4,#0x100
+001063c4 mov w3,#0x2a21
+001063c8 mov x20,x0
+001063cc mov x2,x22
+001063d0 mov x1,#0x120
+001063d4 bl 0x00110188
+001063d8 add x21,sp,#0x8e
+001063dc mov x19,x0
+001063e0 stur wzr,[sp, #0x8e]
+001063e4 mov x24,#0x120
+001063e8 mov w1,#0x0
+001063ec mov x2,x24
+001063f0 strh wzr,[x21, #0x4]
+001063f4 bl 0x001101c0
+001063f8 add x23,sp,#0x78
+001063fc mov w1,#0x14
+00106400 mov w0,#0x17
+00106404 strb w1,[x19]
+00106408 mov x3,#0x1
+0010640c str w0,[x19, #0x4]
+00106410 movk x3,#0xea60, LSL #32
+00106414 mov x0,x23
+00106418 stp xzr,x19,[sp, #0x78]
+0010641c ldr x1,[sp, #0x90]
+00106420 strh w24,[sp, #0x8c]
+00106424 ldr x2,[sp, #0x70]
+00106428 and x1,x1,#0xfffffffe
+0010642c orr x1,x1,x3
+00106430 str w2,[sp, #0x88]
+00106434 stp x1,xzr,[sp, #0x90]
+00106438 bl 0x00110090
+0010643c ldr x3,[sp, #0x70]
+00106440 mov x2,x19
+00106444 mov x1,x24
+00106448 mov w19,w0
+0010644c mov x4,#0x0
+00106450 mov x0,x20
+00106454 bl 0x001101f8
+00106458 cmp w19,#0x1
+0010645c b.ne 0x00106570
+00106460 adrp x25,0x10b000
+00106464 add x25,x25,#0x5f0
+00106468 mov x24,#0x1
+0010646c adrp x28,0x10c000
+00106470 adrp x27,0x10c000
+00106474 add x28,x28,#0x840
+00106478 add x0,x27,#0x818
+0010647c movk x24,#0x3e8, LSL #32
+00106480 str x0,[sp, #0x68]
+00106484 b 0x0010649c
+00106488 ldr w20,[x27, #0x8]
+0010648c mov x0,x19
+00106490 mov x4,#0x0
+00106494 bl 0x001101f8
+00106498 cbz w20,0x001065c8
+0010649c str xzr,[sp, #0x70]
+001064a0 bl 0x001101f0
+001064a4 mov x20,#0x120
+001064a8 mov x2,x22
+001064ac mov x1,x20
+001064b0 mov x19,x0
+001064b4 mov x4,#0x100
+001064b8 mov w3,#0x2a21
+001064bc cbz x0,0x00106560
+001064c0 bl 0x00110188
+001064c4 mov x27,x0
+001064c8 mov x2,x20
+001064cc mov w1,#0x0
+001064d0 cbz x0,0x0010654c
+001064d4 str wzr,[x21]
+001064d8 strh wzr,[x21, #0x4]
+001064dc bl 0x001101c0
+001064e0 mov w0,#0x33
+001064e4 strb w0,[x27]
+001064e8 mov x0,x23
+001064ec stp xzr,x27,[sp, #0x78]
+001064f0 ldr x1,[sp, #0x90]
+001064f4 strh w20,[sp, #0x8c]
+001064f8 ldr x2,[sp, #0x70]
+001064fc and x1,x1,#0xfffffffe
+00106500 orr x1,x1,x24
+00106504 str w2,[sp, #0x88]
+00106508 stp x1,xzr,[sp, #0x90]
+0010650c bl 0x00110090
+00106510 mov x2,x27
+00106514 mov x1,x20
+00106518 ldr x3,[sp, #0x70]
+0010651c cmp w0,#0x1
+00106520 b.eq 0x00106488
+00106524 mov x0,x19
+00106528 mov x4,#0x0
+0010652c bl 0x001101f8
+00106530 ldr x0,[sp, #0x68]
+00106534 bl 0x001101a8
+00106538 ldr x0,[x26, #0x38]
+0010653c add x2,x25,#0x180
+00106540 mov x1,x28
+00106544 bl 0x00110118
+00106548 b 0x0010649c
+0010654c add x1,x25,#0x198
+00106550 adrp x0,0x10c000
+00106554 add x0,x0,#0x308
+00106558 bl 0x001101a8
+0010655c b 0x00106538
+00106560 adrp x0,0x10c000
+00106564 add x0,x0,#0x2b0
+00106568 bl 0x001101a8
+0010656c b 0x00106538
+00106570 adrp x0,0x10c000
+00106574 mov w4,#0x0
+00106578 add x0,x0,#0x7d0
+0010657c mov w3,#0x0
+00106580 mov w2,#0x0
+00106584 mov w1,#0x0
+00106588 bl 0x001101a8
+0010658c ldr x0,[x26, #0x38]
+00106590 adrp x25,0x10b000
+00106594 add x25,x25,#0x5f0
+00106598 adrp x1,0x10c000
+0010659c add x2,x25,#0x180
+001065a0 add x1,x1,#0x6e0
+001065a4 bl 0x00110118
+001065a8 b 0x00106468
+001065ac add x22,sp,#0x70
+001065b0 add x23,sp,#0x78
+001065b4 adrp x0,0x10c000
+001065b8 add x0,x0,#0x2b0
+001065bc bl 0x001101a8
+001065c0 add x21,sp,#0x8e
+001065c4 b 0x0010658c
+001065c8 ldr x0,[x26, #0x38]
+001065cc add x2,x25,#0x180
+001065d0 adrp x1,0x10c000
+001065d4 add x1,x1,#0x878
+001065d8 bl 0x00110118
+001065dc ldp x19,x20,[sp, #0x10]
+001065e0 ldp x21,x22,[sp, #0x20]
+001065e4 ldp x23,x24,[sp, #0x30]
+001065e8 ldp x25,x26,[sp, #0x40]
+001065ec ldp x27,x28,[sp, #0x50]
+001065f0 ldp x29,x30,[sp], #0xa0
+001065f4 ret
+
+FUNCTION npu_hw_init_queue_bus_write @ 00106600
+section_relative=.text+0x65e0
+XREF 0010efa4 DATA
+XREF 00101030 UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_hw_init_queue_bus_write(long param_1,long param_2)
+
+{
+  byte bVar1;
+  int iVar2;
+  long lVar3;
+  byte *__s;
+  ulong uVar4;
+  code *pcVar5;
+  undefined4 unaff_w21;
+  undefined8 local_30;
+  undefined8 local_28;
+  byte *pbStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  if ((glb_npu_en_tx == '\0') ||
+     (*(int *)(param_2 + 0xc) != 0xd4420 && *(int *)(param_2 + 0xc) != 0xd8450)) {
+    pcVar5 = *(code **)(*(long *)(param_1 + 0x60) + 8);
+    if (pcVar5 == (code *)0x0) {
+      return;
+    }
+    (*pcVar5)(param_1,*(undefined4 *)(param_2 + 8),*(undefined4 *)(param_2 + 0x24));
+    return;
+  }
+  bVar1 = npu_band_trans_bit2num();
+  local_30 = 0;
+  lVar3 = get_ecnt_npu_dev();
+  if (lVar3 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    __s = (byte *)dma_alloc_attrs(lVar3,0x120,&local_30,0x2a21,0x100);
+    if (__s == (byte *)0x0) {
+      printk("%s dma_alloc_coherent failed\n","WIFI_MAIL_API_GET_WAIT_NPU_INFO");
+    }
+    else {
+      local_12 = 0;
+      uStack_10 = 0;
+      uStack_e = 0;
+      memset(__s,0,0x120);
+      *__s = bVar1 & 0xf | 0x30;
+      local_28 = 0;
+      uVar4 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+      local_14 = 0x120;
+      uStack_10 = (ushort)uVar4 | 1;
+      local_18 = (undefined4)local_30;
+      uStack_e = (undefined2)(uVar4 >> 0x10);
+      uStack_c = 1000;
+      uStack_8 = 0;
+      pbStack_20 = __s;
+      iVar2 = host_notify_npuMbox(&local_28);
+      if (iVar2 == 1) {
+        unaff_w21 = *(undefined4 *)(__s + 8);
+        dma_free_attrs(lVar3,0x120,__s,local_30,0);
+        goto LAB_0010672c;
+      }
+      dma_free_attrs(lVar3,0x120,__s,local_30,0);
+      printk("WIFI_MAIL_API_GET_WAIT_NPU_INFO fail!\n");
+    }
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_GET_WAIT_NPU_INFO fail\n",
+            "npu_hw_init_queue_bus_write");
+LAB_0010672c:
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() write cpu idx %d for tx data ring %x\n",
+            "npu_hw_init_queue_bus_write",unaff_w21,*(undefined4 *)(param_2 + 0xc));
+  pcVar5 = *(code **)(*(long *)(param_1 + 0x60) + 8);
+  if (pcVar5 != (code *)0x0) {
+    (*pcVar5)(param_1,*(undefined4 *)(param_2 + 8),unaff_w21);
+  }
+  return;
+}
+
+
+ASSEMBLY
+00106600 stp x29,x30,[sp, #-0x80]!
+00106604 adrp x2,0x110000
+00106608 mov x29,sp
+0010660c ldrb w2,[x2, #0x148]
+00106610 stp x19,x20,[sp, #0x10]
+00106614 mov x20,x0
+00106618 mov x19,x1
+0010661c cbz w2,0x00106640
+00106620 ldr w2,[x1, #0xc]
+00106624 mov w4,#0x4420
+00106628 movk w4,#0xd, LSL #16
+0010662c mov w3,#0x8450
+00106630 cmp w2,w4
+00106634 movk w3,#0xd, LSL #16
+00106638 ccmp w2,w3,#0x4,ne
+0010663c b.eq 0x00106668
+00106640 ldr x0,[x20, #0x60]
+00106644 ldr x3,[x0, #0x8]
+00106648 cbz x3,0x0010665c
+0010664c ldr w1,[x19, #0x8]
+00106650 mov x0,x20
+00106654 ldr w2,[x19, #0x24]
+00106658 blr x3
+0010665c ldp x19,x20,[sp, #0x10]
+00106660 ldp x29,x30,[sp], #0x80
+00106664 ret
+00106668 stp x21,x22,[sp, #0x20]
+0010666c stp x23,x24,[sp, #0x30]
+00106670 bl 0x00105080
+00106674 and w23,w0,#0xff
+00106678 str xzr,[sp, #0x50]
+0010667c bl 0x001101f0
+00106680 mov x24,x0
+00106684 cbz x0,0x00106770
+00106688 add x2,sp,#0x50
+0010668c mov x4,#0x100
+00106690 mov w3,#0x2a21
+00106694 mov x1,#0x120
+00106698 bl 0x00110188
+0010669c mov x22,x0
+001066a0 cbz x0,0x001067d8
+001066a4 mov w1,#0x0
+001066a8 str x25,[sp, #0x40]
+001066ac mov x25,#0x120
+001066b0 mov x2,x25
+001066b4 stur wzr,[sp, #0x6e]
+001066b8 strh wzr,[sp, #0x72]
+001066bc bl 0x001101c0
+001066c0 and w0,w23,#0xf
+001066c4 mov x3,#0x1
+001066c8 orr w0,w0,#0x30
+001066cc strb w0,[x22]
+001066d0 movk x3,#0x3e8, LSL #32
+001066d4 add x0,sp,#0x58
+001066d8 ldr x1,[sp, #0x70]
+001066dc stp xzr,x22,[sp, #0x58]
+001066e0 and x1,x1,#0xfffffffe
+001066e4 strh w25,[sp, #0x6c]
+001066e8 ldr x2,[sp, #0x50]
+001066ec orr x1,x1,x3
+001066f0 str w2,[sp, #0x68]
+001066f4 stp x1,xzr,[sp, #0x70]
+001066f8 bl 0x00110090
+001066fc ldr x3,[sp, #0x50]
+00106700 cmp w0,#0x1
+00106704 b.ne 0x001067a8
+00106708 ldr w21,[x22, #0x8]
+0010670c mov x1,x25
+00106710 mov x2,x22
+00106714 mov x0,x24
+00106718 mov x4,#0x0
+0010671c bl 0x001101f8
+00106720 ldr x25,[sp, #0x40]
+00106724 adrp x22,0x10b000
+00106728 add x22,x22,#0x5f0
+0010672c ldr w4,[x19, #0xc]
+00106730 mov w3,w21
+00106734 ldr x0,[x20, #0x38]
+00106738 add x2,x22,#0x1b8
+0010673c adrp x1,0x10c000
+00106740 add x1,x1,#0x890
+00106744 bl 0x00110118
+00106748 ldr x0,[x20, #0x60]
+0010674c ldr w1,[x19, #0x8]
+00106750 ldr x3,[x0, #0x8]
+00106754 cbz x3,0x0010679c
+00106758 mov w2,w21
+0010675c mov x0,x20
+00106760 blr x3
+00106764 ldp x21,x22,[sp, #0x20]
+00106768 ldp x23,x24,[sp, #0x30]
+0010676c b 0x0010665c
+00106770 adrp x22,0x10b000
+00106774 add x22,x22,#0x5f0
+00106778 adrp x0,0x10c000
+0010677c add x0,x0,#0x2b0
+00106780 bl 0x001101a8
+00106784 ldr x0,[x20, #0x38]
+00106788 add x2,x22,#0x1b8
+0010678c adrp x1,0x10c000
+00106790 add x1,x1,#0x840
+00106794 bl 0x00110118
+00106798 b 0x0010672c
+0010679c ldp x21,x22,[sp, #0x20]
+001067a0 ldp x23,x24,[sp, #0x30]
+001067a4 b 0x0010665c
+001067a8 mov x2,x22
+001067ac mov x1,x25
+001067b0 mov x4,#0x0
+001067b4 mov x0,x24
+001067b8 bl 0x001101f8
+001067bc adrp x22,0x10b000
+001067c0 adrp x0,0x10c000
+001067c4 add x22,x22,#0x5f0
+001067c8 add x0,x0,#0x818
+001067cc bl 0x001101a8
+001067d0 ldr x25,[sp, #0x40]
+001067d4 b 0x00106784
+001067d8 adrp x22,0x10b000
+001067dc add x22,x22,#0x5f0
+001067e0 add x1,x22,#0x198
+001067e4 adrp x0,0x10c000
+001067e8 add x0,x0,#0x308
+001067ec bl 0x001101a8
+001067f0 b 0x00106784
+
+FUNCTION npu_pci_dma_sw_init_device @ 001067f4
+section_relative=.text+0x67d4
+XREF 0010eff8 DATA
+XREF 00104664 UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_pci_dma_sw_init_device(long param_1,byte param_2)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  long lVar3;
+  char *pcVar4;
+  ulong uVar5;
+  undefined8 local_30;
+  undefined8 local_28;
+  char *pcStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  if ((param_2 & 0xfb) == 1) {
+    local_30 = 0;
+    lVar3 = get_ecnt_npu_dev();
+    if (lVar3 == 0) {
+      printk("\nget_ecnt_npu_dev failed\n");
+    }
+    else {
+      pcVar4 = (char *)dma_alloc_attrs(lVar3,0x120,&local_30,0x2a21,0x100);
+      local_12 = 0;
+      uStack_10 = 0;
+      uStack_e = 0;
+      memset(pcVar4,0,0x120);
+      *pcVar4 = (param_2 & 0xb) << 4;
+      pcVar4[4] = '\x0e';
+      pcVar4[5] = '\0';
+      pcVar4[6] = '\0';
+      pcVar4[7] = '\0';
+      pcVar4[8] = '\x02';
+      pcVar4[9] = '\0';
+      pcVar4[10] = '\0';
+      pcVar4[0xb] = '\0';
+      local_28 = 0;
+      local_14 = 0x120;
+      uVar5 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+      uStack_10 = (ushort)uVar5 | 1;
+      local_18 = (undefined4)local_30;
+      uStack_e = (undefined2)(uVar5 >> 0x10);
+      uStack_c = 1000;
+      uStack_8 = 0;
+      pcStack_20 = pcVar4;
+      iVar1 = host_notify_npuMbox(&local_28);
+      dma_free_attrs(lVar3,0x120,pcVar4,local_30,0);
+      if (iVar1 == 1) goto LAB_001068cc;
+      printk("WIFI_MAIL_API_SET_WAIT_PCIE_PORT_TYPE fail! \n");
+    }
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_SET_WAIT_PCIE_PORT_TYPE fail !!!\n",
+              "npu_pci_dma_sw_init_device");
+  }
+  else if (param_2 == 0) {
+    local_30 = 0;
+    lVar3 = get_ecnt_npu_dev();
+    if (lVar3 == 0) {
+      printk("\nget_ecnt_npu_dev failed\n");
+    }
+    else {
+      pcVar4 = (char *)dma_alloc_attrs(lVar3,0x120,&local_30,0x2a21,0x100);
+      local_12 = 0;
+      uStack_10 = 0;
+      uStack_e = 0;
+      memset(pcVar4,0,0x120);
+      *pcVar4 = '\x10';
+      pcVar4[4] = '\x0e';
+      pcVar4[5] = '\0';
+      pcVar4[6] = '\0';
+      pcVar4[7] = '\0';
+      local_28 = 0;
+      local_14 = 0x120;
+      uVar5 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+      uStack_10 = (ushort)uVar5 | 1;
+      local_18 = (undefined4)local_30;
+      uStack_e = (undefined2)(uVar5 >> 0x10);
+      uStack_c = 1000;
+      uStack_8 = 0;
+      pcStack_20 = pcVar4;
+      iVar1 = host_notify_npuMbox(&local_28);
+      dma_free_attrs(lVar3,0x120,pcVar4,local_30,0);
+      if (iVar1 == 1) goto LAB_001068cc;
+      printk("WIFI_MAIL_API_SET_WAIT_PCIE_PORT_TYPE fail! \n");
+    }
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_SET_WAIT_PCIE_PORT_TYPE fail !!!\n",
+              "npu_pci_dma_sw_init_device");
+  }
+  else {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "[ERROR] unsupported option type %d for NPU\'s pcie port type\n",param_2);
+  }
+LAB_001068cc:
+  if (ba_dram_alloc_once != '\0') {
+    return;
+  }
+  uVar2 = npu_wifi_offload_get_ba_node_addr();
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() alloc BA memory and send to NPU. pa:%x\n",
+            "npu_pci_dma_sw_init_device",uVar2);
+  local_30 = 0;
+  printk("dramBaEntry_pa=%x\n",uVar2);
+  lVar3 = get_ecnt_npu_dev();
+  if (lVar3 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    pcVar4 = (char *)dma_alloc_attrs(lVar3,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(pcVar4,0,0x120);
+    *pcVar4 = '\x10';
+    pcVar4[4] = '\a';
+    pcVar4[5] = '\0';
+    pcVar4[6] = '\0';
+    pcVar4[7] = '\0';
+    *(undefined4 *)(pcVar4 + 8) = uVar2;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar5 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar5 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar5 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pcStack_20 = pcVar4;
+    iVar1 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar3,0x120,pcVar4,local_30,0);
+    if (iVar1 == 1) goto LAB_00106a78;
+    printk("%s fail! \n","WIFI_MAIL_API_SET_WAIT_DRAM_BA_NODE_ADDR");
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),
+            "%s() Error: TCSUPPORT_NPU_WIFI_OFFLOAD set BA Node in Dram base fail\n",
+            "npu_pci_dma_sw_init_device");
+LAB_00106a78:
+  ba_dram_alloc_once = ba_dram_alloc_once + '\x01';
+  return;
+}
+
+
+ASSEMBLY
+001067f4 stp x29,x30,[sp, #-0x80]!
+001067f8 and w1,w1,#0xff
+001067fc and w2,w1,#0xfffffffb
+00106800 mov x29,sp
+00106804 stp x19,x20,[sp, #0x10]
+00106808 mov x20,x0
+0010680c cmp w2,#0x1
+00106810 b.eq 0x001068e8
+00106814 cbnz w1,0x001069ac
+00106818 stp x21,x22,[sp, #0x20]
+0010681c str xzr,[sp, #0x50]
+00106820 bl 0x001101f0
+00106824 mov x21,x0
+00106828 cbz x0,0x00106ac0
+0010682c mov x4,#0x100
+00106830 mov w3,#0x2a21
+00106834 add x2,sp,#0x50
+00106838 mov x1,#0x120
+0010683c bl 0x00110188
+00106840 mov x19,x0
+00106844 mov x22,#0x120
+00106848 mov w1,#0x0
+0010684c mov x2,x22
+00106850 stur wzr,[sp, #0x6e]
+00106854 strh wzr,[sp, #0x72]
+00106858 bl 0x001101c0
+0010685c mov w1,#0x1
+00106860 mov w0,#0x0
+00106864 bfm w0,w1,#0x1c,#0x3
+00106868 mov w1,#0xe
+0010686c strb w0,[x19]
+00106870 mov x3,#0x1
+00106874 str w1,[x19, #0x4]
+00106878 movk x3,#0x3e8, LSL #32
+0010687c add x0,sp,#0x58
+00106880 stp xzr,x19,[sp, #0x58]
+00106884 ldr x1,[sp, #0x70]
+00106888 strh w22,[sp, #0x6c]
+0010688c ldr x2,[sp, #0x50]
+00106890 and x1,x1,#0xfffffffe
+00106894 orr x1,x1,x3
+00106898 str w2,[sp, #0x68]
+0010689c stp x1,xzr,[sp, #0x70]
+001068a0 bl 0x00110090
+001068a4 ldr x3,[sp, #0x50]
+001068a8 mov x2,x19
+001068ac mov x1,x22
+001068b0 mov w19,w0
+001068b4 mov x4,#0x0
+001068b8 mov x0,x21
+001068bc bl 0x001101f8
+001068c0 cmp w19,#0x1
+001068c4 b.ne 0x00106a90
+001068c8 ldp x21,x22,[sp, #0x20]
+001068cc adrp x19,0x10f000
+001068d0 add x19,x19,#0xc98
+001068d4 ldrb w0,[x19, #0x10]
+001068d8 cbz w0,0x00106a08
+001068dc ldp x19,x20,[sp, #0x10]
+001068e0 ldp x29,x30,[sp], #0x80
+001068e4 ret
+001068e8 stp x21,x22,[sp, #0x20]
+001068ec stp x23,x24,[sp, #0x30]
+001068f0 and w23,w2,#0xff
+001068f4 str xzr,[sp, #0x50]
+001068f8 bl 0x001101f0
+001068fc mov x21,x0
+00106900 cbz x0,0x001069f8
+00106904 mov x4,#0x100
+00106908 mov w3,#0x2a21
+0010690c add x2,sp,#0x50
+00106910 mov x1,#0x120
+00106914 bl 0x00110188
+00106918 mov x19,x0
+0010691c mov x22,#0x120
+00106920 mov w1,#0x0
+00106924 mov x2,x22
+00106928 stur wzr,[sp, #0x6e]
+0010692c strh wzr,[sp, #0x72]
+00106930 bl 0x001101c0
+00106934 mov w0,#0x0
+00106938 mov x1,#0xe
+0010693c bfm w0,w23,#0x1c,#0x3
+00106940 movk x1,#0x2, LSL #32
+00106944 strb w0,[x19]
+00106948 mov x3,#0x1
+0010694c stur x1,[x19, #0x4]
+00106950 movk x3,#0x3e8, LSL #32
+00106954 add x0,sp,#0x58
+00106958 stp xzr,x19,[sp, #0x58]
+0010695c ldr x1,[sp, #0x70]
+00106960 strh w22,[sp, #0x6c]
+00106964 ldr x2,[sp, #0x50]
+00106968 and x1,x1,#0xfffffffe
+0010696c orr x1,x1,x3
+00106970 str w2,[sp, #0x68]
+00106974 stp x1,xzr,[sp, #0x70]
+00106978 bl 0x00110090
+0010697c ldr x3,[sp, #0x50]
+00106980 mov x2,x19
+00106984 mov x1,x22
+00106988 mov w19,w0
+0010698c mov x4,#0x0
+00106990 mov x0,x21
+00106994 bl 0x001101f8
+00106998 cmp w19,#0x1
+0010699c b.ne 0x001069c4
+001069a0 ldp x21,x22,[sp, #0x20]
+001069a4 ldp x23,x24,[sp, #0x30]
+001069a8 b 0x001068cc
+001069ac ldr x0,[x0, #0x38]
+001069b0 mov w2,w1
+001069b4 adrp x1,0x10c000
+001069b8 add x1,x1,#0x930
+001069bc bl 0x00110118
+001069c0 b 0x001068cc
+001069c4 adrp x0,0x10c000
+001069c8 add x0,x0,#0x8c0
+001069cc bl 0x001101a8
+001069d0 ldr x0,[x20, #0x38]
+001069d4 adrp x2,0x10b000
+001069d8 add x2,x2,#0x5f0
+001069dc adrp x1,0x10c000
+001069e0 add x2,x2,#0x1d8
+001069e4 add x1,x1,#0x8f0
+001069e8 bl 0x00110118
+001069ec ldp x21,x22,[sp, #0x20]
+001069f0 ldp x23,x24,[sp, #0x30]
+001069f4 b 0x001068cc
+001069f8 adrp x0,0x10c000
+001069fc add x0,x0,#0x2b0
+00106a00 bl 0x001101a8
+00106a04 b 0x001069d0
+00106a08 stp x21,x22,[sp, #0x20]
+00106a0c adrp x22,0x10b000
+00106a10 add x22,x22,#0x5f0
+00106a14 stp x23,x24,[sp, #0x30]
+00106a18 bl 0x00110058
+00106a1c mov w3,w0
+00106a20 mov w23,w0
+00106a24 add x2,x22,#0x1d8
+00106a28 ldr x0,[x20, #0x38]
+00106a2c adrp x1,0x10c000
+00106a30 add x1,x1,#0x970
+00106a34 bl 0x00110118
+00106a38 str xzr,[sp, #0x50]
+00106a3c mov w1,w23
+00106a40 adrp x0,0x10c000
+00106a44 add x0,x0,#0x9a0
+00106a48 bl 0x001101a8
+00106a4c bl 0x001101f0
+00106a50 mov x24,x0
+00106a54 cbnz x0,0x00106ad0
+00106a58 adrp x0,0x10c000
+00106a5c add x0,x0,#0x2b0
+00106a60 bl 0x001101a8
+00106a64 ldr x0,[x20, #0x38]
+00106a68 adrp x1,0x10c000
+00106a6c add x2,x22,#0x1d8
+00106a70 add x1,x1,#0x9c8
+00106a74 bl 0x00110118
+00106a78 ldrb w0,[x19, #0x10]
+00106a7c add w0,w0,#0x1
+00106a80 strb w0,[x19, #0x10]
+00106a84 ldp x21,x22,[sp, #0x20]
+00106a88 ldp x23,x24,[sp, #0x30]
+00106a8c b 0x001068dc
+00106a90 adrp x0,0x10c000
+00106a94 add x0,x0,#0x8c0
+00106a98 bl 0x001101a8
+00106a9c ldr x0,[x20, #0x38]
+00106aa0 adrp x2,0x10b000
+00106aa4 add x2,x2,#0x5f0
+00106aa8 adrp x1,0x10c000
+00106aac add x2,x2,#0x1d8
+00106ab0 add x1,x1,#0x8f0
+00106ab4 bl 0x00110118
+00106ab8 ldp x21,x22,[sp, #0x20]
+00106abc b 0x001068cc
+00106ac0 adrp x0,0x10c000
+00106ac4 add x0,x0,#0x2b0
+00106ac8 bl 0x001101a8
+00106acc b 0x00106a9c
+00106ad0 mov x4,#0x100
+00106ad4 mov w3,#0x2a21
+00106ad8 add x2,sp,#0x50
+00106adc mov x1,#0x120
+00106ae0 str x25,[sp, #0x40]
+00106ae4 bl 0x00110188
+00106ae8 mov x21,x0
+00106aec mov x25,#0x120
+00106af0 mov w1,#0x0
+00106af4 mov x2,x25
+00106af8 stur wzr,[sp, #0x6e]
+00106afc strh wzr,[sp, #0x72]
+00106b00 bl 0x001101c0
+00106b04 mov w1,#0x1
+00106b08 mov w0,#0x0
+00106b0c bfm w0,w1,#0x1c,#0x3
+00106b10 mov w1,#0x7
+00106b14 strb w0,[x21]
+00106b18 mov x3,#0x1
+00106b1c stp w1,w23,[x21, #0x4]
+00106b20 movk x3,#0x3e8, LSL #32
+00106b24 add x0,sp,#0x58
+00106b28 stp xzr,x21,[sp, #0x58]
+00106b2c ldr x1,[sp, #0x70]
+00106b30 strh w25,[sp, #0x6c]
+00106b34 ldr x2,[sp, #0x50]
+00106b38 and x1,x1,#0xfffffffe
+00106b3c orr x1,x1,x3
+00106b40 str w2,[sp, #0x68]
+00106b44 stp x1,xzr,[sp, #0x70]
+00106b48 bl 0x00110090
+00106b4c ldr x3,[sp, #0x50]
+00106b50 mov x2,x21
+00106b54 mov x1,x25
+00106b58 mov w21,w0
+00106b5c mov x4,#0x0
+00106b60 mov x0,x24
+00106b64 bl 0x001101f8
+00106b68 cmp w21,#0x1
+00106b6c b.eq 0x00106b88
+00106b70 add x1,x22,#0x1f8
+00106b74 adrp x0,0x10c000
+00106b78 add x0,x0,#0x9b8
+00106b7c bl 0x001101a8
+00106b80 ldr x25,[sp, #0x40]
+00106b84 b 0x00106a64
+00106b88 ldr x25,[sp, #0x40]
+00106b8c b 0x00106a78
+
+FUNCTION npu_is_tx_data_ring @ 00106b90
+section_relative=.text+0x6b70
+XREF 0010f07c DATA
+XREF 00100f38 UNCONDITIONAL_CALL
+decompiled=true
+
+bool npu_is_tx_data_ring(char param_1,long param_2)
+
+{
+  bool bVar1;
+  uint uVar2;
+  uint uVar3;
+  
+  if (param_1 == '\x05') {
+    uVar2 = *(uint *)(param_2 + 0xc);
+    uVar3 = 0x4420;
+LAB_00106bd8:
+    return uVar2 == (uVar3 | 0xd0000) || uVar2 == 0xd8450;
+  }
+  if (param_1 == '\0') {
+    bVar1 = (*(uint *)(param_2 + 0xc) & 0xffffffef) == 0xd4420;
+  }
+  else {
+    bVar1 = false;
+    if (param_1 == '\x01') {
+      uVar2 = *(uint *)(param_2 + 0xc);
+      uVar3 = 0x4430;
+      goto LAB_00106bd8;
+    }
+  }
+  return bVar1;
+}
+
+
+ASSEMBLY
+00106b90 and w2,w0,#0xff
+00106b94 cmp w2,#0x5
+00106b98 b.eq 0x00106bd0
+00106b9c cbnz w2,0x00106bb8
+00106ba0 ldr w0,[x1, #0xc]
+00106ba4 and w0,w0,#0xffffffef
+00106ba8 sub w0,w0,#0xd4, LSL #12
+00106bac subs w0,w0,#0x420
+00106bb0 cset w0,eq
+00106bb4 ret
+00106bb8 mov w0,#0x0
+00106bbc cmp w2,#0x1
+00106bc0 b.ne 0x00106bb4
+00106bc4 ldr w0,[x1, #0xc]
+00106bc8 mov w2,#0x4430
+00106bcc b 0x00106bd8
+00106bd0 ldr w0,[x1, #0xc]
+00106bd4 mov w2,#0x4420
+00106bd8 movk w2,#0xd, LSL #16
+00106bdc mov w1,#0x8450
+00106be0 cmp w0,w2
+00106be4 movk w1,#0xd, LSL #16
+00106be8 ccmp w0,w1,#0x4,ne
+00106bec cset w0,eq
+00106bf0 ret
+
+FUNCTION npu_rro_init_ind_cmd_queue @ 00106bf4
+section_relative=.text+0x6bd4
+XREF 0010f090 DATA
+decompiled=true
+
+void npu_rro_init_ind_cmd_queue(long param_1,long param_2)
+
+{
+  long lVar1;
+  ushort uVar2;
+  uint uVar3;
+  char cVar4;
+  uint uVar5;
+  int iVar6;
+  long lVar7;
+  ulong *puVar8;
+  byte *pbVar9;
+  long lVar10;
+  undefined8 uVar11;
+  long lVar12;
+  long lVar13;
+  ulong uVar14;
+  undefined8 local_30;
+  ulong local_28;
+  byte *pbStack_20;
+  undefined4 local_18;
+  undefined2 local_14;
+  undefined2 local_12;
+  ushort uStack_10;
+  undefined2 uStack_e;
+  undefined4 uStack_c;
+  undefined8 uStack_8;
+  
+  cVar4 = glb_npu_en_rx;
+  *(undefined1 *)(param_2 + 0x2ae) = 0;
+  uVar14 = (ulong)*(ushort *)(param_2 + 0x6c);
+  if (cVar4 == '\0') {
+    lVar7 = *(long *)(param_2 + 0x40);
+    lVar10 = *(long *)(param_2 + 0x48);
+    if (*(ushort *)(param_2 + 0x6c) != 0) {
+      lVar12 = 0;
+      do {
+        lVar13 = *(long *)(param_2 + 0x30);
+        lVar1 = lVar13 + lVar12;
+        *(undefined8 *)(lVar1 + 0x20) = 0;
+        *(undefined8 *)(lVar1 + 0x28) = 0;
+        *(ulong *)(lVar13 + lVar12) = (ulong)*(uint *)(param_2 + 0x2c);
+        lVar12 = lVar12 + 0x80;
+        *(long *)(lVar1 + 8) = lVar7;
+        *(long *)(lVar1 + 0x10) = lVar10;
+        *(undefined8 *)(lVar1 + 0x30) = 0;
+        *(uint *)(lVar7 + 4) = *(uint *)(lVar7 + 4) | 0xe0000000;
+        lVar7 = lVar7 + (ulong)*(uint *)(param_2 + 0x2c);
+        lVar10 = lVar10 + (ulong)*(uint *)(param_2 + 0x2c);
+      } while (uVar14 << 7 != lVar12);
+      uVar14 = (ulong)*(ushort *)(param_2 + 0x6c);
+    }
+    *(int *)(param_2 + 0x24) = (int)uVar14 + -1;
+    *(int *)(param_2 + 0x28) = (int)uVar14;
+    return;
+  }
+  uVar5 = (uint)*(byte *)(param_2 + 0x70);
+  uVar3 = (uVar5 & 0xaaaaaaaa) >> 1 | (uVar5 & 0x55555555) << 1;
+  uVar3 = (uVar3 & 0xcccccccc) >> 2 | (uVar3 & 0x33333333) << 2;
+  iVar6 = 0;
+  if (uVar5 != 0) {
+    iVar6 = (int)LZCOUNT((uVar3 >> 4 | (uVar3 & 0xf0f0f0f) << 4) << 0x18) + 1;
+  }
+  printk("%s()init IND_CMD queue (%s) %d. size:%d\n","npu_rro_init_ind_cmd_queue",
+         *(undefined8 *)(param_2 + 0x218),iVar6 + -1,uVar14);
+  iVar6 = *(int *)(param_2 + 0xc);
+  uVar5 = (uint)*(byte *)(param_2 + 0x70);
+  uVar3 = (uVar5 & 0xaaaaaaaa) >> 1 | (uVar5 & 0x55555555) << 1;
+  uVar3 = (uVar3 & 0xcccccccc) >> 2 | (uVar3 & 0x33333333) << 2;
+  uVar11 = *(undefined8 *)(arht_pdev_pci + 0x378);
+  cVar4 = '\0';
+  if (uVar5 != 0) {
+    cVar4 = (char)LZCOUNT((uVar3 >> 4 | (uVar3 & 0xf0f0f0f) << 4) << 0x18) + '\x01';
+  }
+  local_30 = 0;
+  lVar7 = get_ecnt_npu_dev();
+  if (lVar7 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+LAB_00106d14:
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_PCIE_ADDR fail\n",
+              "npu_rro_init_ind_cmd_queue");
+  }
+  else {
+    pbVar9 = (byte *)dma_alloc_attrs(lVar7,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(pbVar9,0,0x120);
+    *pbVar9 = cVar4 + 7U | 0x10;
+    *(int *)(pbVar9 + 8) = iVar6 + (int)uVar11;
+    local_28 = 0;
+    uVar14 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    local_14 = 0x120;
+    uStack_10 = (ushort)uVar14 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar14 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pbStack_20 = pbVar9;
+    iVar6 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar7,0x120,pbVar9,local_30,0);
+    if (iVar6 != 1) {
+      printk("WIFI_MAIL_API_SET_WAIT_PCIE_ADDR fail! \n");
+      goto LAB_00106d14;
+    }
+  }
+  uVar2 = *(ushort *)(param_2 + 0x6c);
+  uVar5 = (uint)*(byte *)(param_2 + 0x70);
+  uVar3 = (uVar5 & 0xaaaaaaaa) >> 1 | (uVar5 & 0x55555555) << 1;
+  uVar3 = (uVar3 & 0xcccccccc) >> 2 | (uVar3 & 0x33333333) << 2;
+  local_30 = 0;
+  cVar4 = '\0';
+  if (uVar5 != 0) {
+    cVar4 = (char)LZCOUNT((uVar3 >> 4 | (uVar3 & 0xf0f0f0f) << 4) << 0x18) + '\x01';
+  }
+  lVar7 = get_ecnt_npu_dev();
+  if (lVar7 == 0) {
+    printk("\nget_ecnt_npu_dev failed\n");
+  }
+  else {
+    pbVar9 = (byte *)dma_alloc_attrs(lVar7,0x120,&local_30,0x2a21,0x100);
+    local_12 = 0;
+    uStack_10 = 0;
+    uStack_e = 0;
+    memset(pbVar9,0,0x120);
+    *pbVar9 = cVar4 + 7U | 0x10;
+    pbVar9[4] = 1;
+    pbVar9[5] = 0;
+    pbVar9[6] = 0;
+    pbVar9[7] = 0;
+    *(uint *)(pbVar9 + 8) = (uint)uVar2;
+    local_28 = 0;
+    local_14 = 0x120;
+    uVar14 = (ulong)CONCAT22(uStack_e,uStack_10) & 0xfffffffe;
+    uStack_10 = (ushort)uVar14 | 1;
+    local_18 = (undefined4)local_30;
+    uStack_e = (undefined2)(uVar14 >> 0x10);
+    uStack_c = 1000;
+    uStack_8 = 0;
+    pbStack_20 = pbVar9;
+    iVar6 = host_notify_npuMbox(&local_28);
+    dma_free_attrs(lVar7,0x120,pbVar9,local_30,0);
+    if (iVar6 == 1) goto LAB_00106d74;
+    printk(" WIFI_MAIL_API_SET_WAIT_DESC fail! \n");
+  }
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() Error: WIFI_MAIL_API_SET_WAIT_DESC fail\n",
+            "npu_rro_init_ind_cmd_queue");
+LAB_00106d74:
+  uVar5 = (uint)*(byte *)(param_2 + 0x70);
+  uVar3 = (uVar5 & 0xaaaaaaaa) >> 1 | (uVar5 & 0x55555555) << 1;
+  uVar3 = (uVar3 & 0xcccccccc) >> 2 | (uVar3 & 0x33333333) << 2;
+  iVar6 = 0;
+  if (uVar5 != 0) {
+    iVar6 = (int)LZCOUNT((uVar3 >> 4 | (uVar3 & 0xf0f0f0f) << 4) << 0x18) + 1;
+  }
+  iVar6 = FUN_00104b90(iVar6 + 7,&local_28);
+  if (iVar6 != 1) {
+    _dev_info(*(undefined8 *)(param_1 + 0x38),
+              "%s() Error: WIFI_MAIL_API_GET_WAIT_RXDESC_BASE fail\n","npu_rro_init_ind_cmd_queue");
+  }
+  uVar14 = local_28 & 0xffffffff;
+  cVar4 = FUN_00104b50();
+  uVar11 = 0x68000000000f07;
+  if (cVar4 == '\0') {
+    uVar11 = 0x68000000000707;
+  }
+  uVar11 = __ioremap(uVar14,4,uVar11);
+  *(undefined8 *)(param_2 + 0x40) = uVar11;
+  *(ulong *)(param_2 + 0x48) = uVar14;
+  puVar8 = *(ulong **)(param_2 + 0x30);
+  *puVar8 = (ulong)*(uint *)(param_2 + 0x2c);
+  puVar8[1] = *(ulong *)(param_2 + 0x40);
+  puVar8[2] = *(ulong *)(param_2 + 0x48);
+  *(uint *)(param_2 + 0x28) = (uint)*(ushort *)(param_2 + 0x6c);
+  *(uint *)(param_2 + 0x24) = *(ushort *)(param_2 + 0x6c) - 1;
+  return;
+}
+
+
+ASSEMBLY
+00106bf4 stp x29,x30,[sp, #-0x90]!
+00106bf8 adrp x2,0x110000
+00106bfc mov x29,sp
+00106c00 stp x19,x20,[sp, #0x10]
+00106c04 mov x19,x1
+00106c08 ldrb w1,[x2, #0x88]
+00106c0c strb wzr,[x19, #0x2ae]
+00106c10 ldrh w6,[x19, #0x6c]
+00106c14 cbnz w1,0x00106c80
+00106c18 ldp x2,x1,[x19, #0x40]
+00106c1c cbz w6,0x00106c6c
+00106c20 ubfiz x6,x6,#0x7,#0x10
+00106c24 mov x3,#0x0
+00106c28 ldr x4,[x19, #0x30]
+00106c2c add x0,x4,x3
+00106c30 stp xzr,xzr,[x0, #0x20]
+00106c34 ldr w5,[x19, #0x2c]
+00106c38 str x5,[x4, x3, LSL #0x0]
+00106c3c add x3,x3,#0x80
+00106c40 stp x2,x1,[x0, #0x8]
+00106c44 str xzr,[x0, #0x30]
+00106c48 ldr w0,[x2, #0x4]
+00106c4c orr w0,w0,#0xe0000000
+00106c50 str w0,[x2, #0x4]
+00106c54 ldr w0,[x19, #0x2c]
+00106c58 add x2,x2,x0
+00106c5c add x1,x1,x0
+00106c60 cmp x6,x3
+00106c64 b.ne 0x00106c28
+00106c68 ldrh w6,[x19, #0x6c]
+00106c6c sub w0,w6,#0x1
+00106c70 stp w0,w6,[x19, #0x24]
+00106c74 ldp x19,x20,[sp, #0x10]
+00106c78 ldp x29,x30,[sp], #0x90
+00106c7c ret
+00106c80 stp x21,x22,[sp, #0x20]
+00106c84 adrp x22,0x10b000
+00106c88 add x22,x22,#0x5f0
+00106c8c stp x23,x24,[sp, #0x30]
+00106c90 mov w4,w6
+00106c94 add x1,x22,#0x228
+00106c98 stp x25,x26,[sp, #0x40]
+00106c9c mov x20,x0
+00106ca0 adrp x0,0x10c000
+00106ca4 ldrb w3,[x19, #0x70]
+00106ca8 add x0,x0,#0xa10
+00106cac ldr x2,[x19, #0x218]
+00106cb0 cmp w3,#0x0
+00106cb4 rbit w3,w3
+00106cb8 clz w3,w3
+00106cbc csinc w3,wzr,w3,eq
+00106cc0 sub w3,w3,#0x1
+00106cc4 bl 0x001101a8
+00106cc8 adrp x1,0x10f000
+00106ccc ldrb w0,[x19, #0x70]
+00106cd0 ldr w26,[x19, #0xc]
+00106cd4 ldr x1,[x1, #0xc88]
+00106cd8 cmp w0,#0x0
+00106cdc rbit w0,w0
+00106ce0 clz w0,w0
+00106ce4 ldr x1,[x1, #0x378]
+00106ce8 csinc w0,wzr,w0,eq
+00106cec add w21,w0,#0x7
+00106cf0 str xzr,[sp, #0x60]
+00106cf4 add w26,w26,w1
+00106cf8 bl 0x001101f0
+00106cfc mov x25,x0
+00106d00 cbnz x0,0x00106e1c
+00106d04 adrp x0,0x10c000
+00106d08 add x24,sp,#0x68
+00106d0c add x0,x0,#0x2b0
+00106d10 bl 0x001101a8
+00106d14 ldr x0,[x20, #0x38]
+00106d18 adrp x1,0x10c000
+00106d1c add x2,x22,#0x228
+00106d20 add x1,x1,#0x760
+00106d24 bl 0x00110118
+00106d28 ldrb w0,[x19, #0x70]
+00106d2c ldrh w25,[x19, #0x6c]
+00106d30 cmp w0,#0x0
+00106d34 rbit w0,w0
+00106d38 clz w0,w0
+00106d3c str xzr,[sp, #0x60]
+00106d40 csinc w0,wzr,w0,eq
+00106d44 add w21,w0,#0x7
+00106d48 bl 0x001101f0
+00106d4c mov x26,x0
+00106d50 cbnz x0,0x00106ec8
+00106d54 adrp x0,0x10c000
+00106d58 add x0,x0,#0x2b0
+00106d5c bl 0x001101a8
+00106d60 ldr x0,[x20, #0x38]
+00106d64 adrp x1,0x10c000
+00106d68 add x2,x22,#0x228
+00106d6c add x1,x1,#0x6e0
+00106d70 bl 0x00110118
+00106d74 ldrb w0,[x19, #0x70]
+00106d78 mov x1,x24
+00106d7c cmp w0,#0x0
+00106d80 rbit w0,w0
+00106d84 clz w0,w0
+00106d88 csinc w0,wzr,w0,eq
+00106d8c add w0,w0,#0x7
+00106d90 bl 0x00104b90
+00106d94 cmp w0,#0x1
+00106d98 b.eq 0x00106db0
+00106d9c ldr x0,[x20, #0x38]
+00106da0 adrp x1,0x10c000
+00106da4 add x2,x22,#0x228
+00106da8 add x1,x1,#0x798
+00106dac bl 0x00110118
+00106db0 ldr w20,[sp, #0x68]
+00106db4 bl 0x00104b50
+00106db8 tst w0,#0xff
+00106dbc mov x1,#0x707
+00106dc0 movk x1,#0x68, LSL #48
+00106dc4 mov x2,#0xf07
+00106dc8 mov x0,x20
+00106dcc movk x2,#0x68, LSL #48
+00106dd0 csel x2,x2,x1,ne
+00106dd4 mov x1,#0x4
+00106dd8 bl 0x00110158
+00106ddc stp x0,x20,[x19, #0x40]
+00106de0 ldr w2,[x19, #0x2c]
+00106de4 ldr x0,[x19, #0x30]
+00106de8 str x2,[x0]
+00106dec ldr x2,[x19, #0x40]
+00106df0 str x2,[x0, #0x8]
+00106df4 ldr x1,[x19, #0x48]
+00106df8 str x1,[x0, #0x10]
+00106dfc ldrh w0,[x19, #0x6c]
+00106e00 str w0,[x19, #0x28]
+00106e04 sub w0,w0,#0x1
+00106e08 str w0,[x19, #0x24]
+00106e0c ldp x21,x22,[sp, #0x20]
+00106e10 ldp x23,x24,[sp, #0x30]
+00106e14 ldp x25,x26,[sp, #0x40]
+00106e18 b 0x00106c74
+00106e1c mov x4,#0x100
+00106e20 mov w3,#0x2a21
+00106e24 add x2,sp,#0x60
+00106e28 mov x1,#0x120
+00106e2c str x27,[sp, #0x50]
+00106e30 bl 0x00110188
+00106e34 mov x23,x0
+00106e38 mov x27,#0x120
+00106e3c add x24,sp,#0x68
+00106e40 mov x2,x27
+00106e44 mov w1,#0x0
+00106e48 stur wzr,[sp, #0x7e]
+00106e4c strh wzr,[sp, #0x82]
+00106e50 bl 0x001101c0
+00106e54 orr w0,w21,#0x10
+00106e58 strb w0,[x23]
+00106e5c str w26,[x23, #0x8]
+00106e60 mov x3,#0x1
+00106e64 movk x3,#0x3e8, LSL #32
+00106e68 mov x0,x24
+00106e6c ldr x1,[sp, #0x80]
+00106e70 stp xzr,x23,[sp, #0x68]
+00106e74 and x1,x1,#0xfffffffe
+00106e78 strh w27,[sp, #0x7c]
+00106e7c ldr x2,[sp, #0x60]
+00106e80 orr x1,x1,x3
+00106e84 str w2,[sp, #0x78]
+00106e88 stp x1,xzr,[sp, #0x80]
+00106e8c bl 0x00110090
+00106e90 ldr x3,[sp, #0x60]
+00106e94 mov w21,w0
+00106e98 mov x2,x23
+00106e9c mov x1,x27
+00106ea0 mov x0,x25
+00106ea4 mov x4,#0x0
+00106ea8 bl 0x001101f8
+00106eac cmp w21,#0x1
+00106eb0 b.eq 0x00106f7c
+00106eb4 adrp x0,0x10c000
+00106eb8 add x0,x0,#0x710
+00106ebc bl 0x001101a8
+00106ec0 ldr x27,[sp, #0x50]
+00106ec4 b 0x00106d14
+00106ec8 mov x4,#0x100
+00106ecc mov w3,#0x2a21
+00106ed0 add x2,sp,#0x60
+00106ed4 mov x1,#0x120
+00106ed8 str x27,[sp, #0x50]
+00106edc bl 0x00110188
+00106ee0 mov x23,x0
+00106ee4 mov x27,#0x120
+00106ee8 mov w1,#0x0
+00106eec mov x2,x27
+00106ef0 stur wzr,[sp, #0x7e]
+00106ef4 strh wzr,[sp, #0x82]
+00106ef8 bl 0x001101c0
+00106efc orr w0,w21,#0x10
+00106f00 mov w1,#0x1
+00106f04 strb w0,[x23]
+00106f08 mov x3,#0x1
+00106f0c stp w1,w25,[x23, #0x4]
+00106f10 movk x3,#0x3e8, LSL #32
+00106f14 mov x0,x24
+00106f18 stp xzr,x23,[sp, #0x68]
+00106f1c ldr x1,[sp, #0x80]
+00106f20 strh w27,[sp, #0x7c]
+00106f24 ldr x2,[sp, #0x60]
+00106f28 and x1,x1,#0xfffffffe
+00106f2c orr x1,x1,x3
+00106f30 str w2,[sp, #0x78]
+00106f34 stp x1,xzr,[sp, #0x80]
+00106f38 bl 0x00110090
+00106f3c mov w21,w0
+00106f40 ldr x3,[sp, #0x60]
+00106f44 mov x2,x23
+00106f48 mov x1,x27
+00106f4c mov x0,x26
+00106f50 mov x4,#0x0
+00106f54 bl 0x001101f8
+00106f58 cmp w21,#0x1
+00106f5c b.eq 0x00106f74
+00106f60 adrp x0,0x10c000
+00106f64 add x0,x0,#0x6b8
+00106f68 bl 0x001101a8
+00106f6c ldr x27,[sp, #0x50]
+00106f70 b 0x00106d60
+00106f74 ldr x27,[sp, #0x50]
+00106f78 b 0x00106d74
+00106f7c ldr x27,[sp, #0x50]
+00106f80 b 0x00106d28
+
+FUNCTION npu_pci_irq_handler @ 00106f84
+section_relative=.text+0x6f64
+XREF 0010f0e8 DATA
+XREF 00101728 UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_pci_irq_handler(long param_1,uint param_2,uint param_3)
+
+{
+  char cVar1;
+  ulong uVar2;
+  ulong uVar3;
+  ulong uVar4;
+  undefined8 uVar5;
+  
+  uVar2 = (ulong)(param_2 & 0xff);
+  uVar3 = (ulong)param_3;
+  if (glb_npu_trans1 == param_1) {
+    if (param_3 - 0xb < 0x15) {
+      uVar4 = 1L << ((ulong)(param_3 - 0xb) & 0x3f);
+      if ((uVar4 & 0x11a9) == 0) {
+        if ((uVar4 & 0x180000) == 0) {
+          if (((uint)uVar4 >> 6 & 1) != 0) {
+            if (glb_npu_en_tx != '\0') {
+              printk("ignore tx done interrupt. isr:%d\n",0x11);
+              return;
+            }
+            uVar5 = *(undefined8 *)(glb_npu_trans1 + uVar2 * 0x100 + 0xc60);
+            cVar1 = napi_schedule_prep(uVar5);
+            goto joined_r0x001070bc;
+          }
+          goto LAB_00107028;
+        }
+        if (glb_npu_en_tx != '\0') {
+          printk(":%d ignore scheduling for isr_map:%d \n",0x503);
+          return;
+        }
+      }
+      else if (glb_npu_en_rx != '\0') {
+        printk(":%d ignore scheduling for isr_map:%d \n",0x4f9);
+        return;
+      }
+      param_1 = glb_npu_trans1 + (uVar2 * 0x20 + uVar3) * 8;
+    }
+    else {
+LAB_00107028:
+      param_1 = param_1 + (uVar2 * 0x20 + uVar3) * 8;
+    }
+  }
+  else {
+    if (glb_npu_trans2 != param_1) {
+      return;
+    }
+    if (param_3 == 0xf) {
+      if (glb_npu_en_tx != '\0') {
+        printk(":%d ignore scheduling for isr_map:%d \n",0x517);
+        return;
+      }
+      uVar5 = *(undefined8 *)(glb_npu_trans2 + uVar2 * 0x100 + 0xc50);
+      cVar1 = napi_schedule_prep(uVar5);
+      goto joined_r0x001070bc;
+    }
+    param_1 = glb_npu_trans2 + (uVar2 * 0x20 + uVar3) * 8;
+  }
+  uVar5 = *(undefined8 *)(param_1 + 0xbd8);
+  cVar1 = napi_schedule_prep(uVar5);
+joined_r0x001070bc:
+  if (cVar1 == '\0') {
+    return;
+  }
+  __napi_schedule(uVar5);
+  return;
+}
+
+
+ASSEMBLY
+00106f84 stp x29,x30,[sp, #-0x20]!
+00106f88 adrp x4,0x10f000
+00106f8c and w1,w1,#0xff
+00106f90 mov x29,sp
+00106f94 ldr x5,[x4, #0xc98]
+00106f98 mov w3,w2
+00106f9c cmp x5,x0
+00106fa0 b.eq 0x00106ffc
+00106fa4 add x4,x4,#0xc98
+00106fa8 ldr x4,[x4, #0x8]
+00106fac cmp x4,x0
+00106fb0 b.eq 0x00106fbc
+00106fb4 ldp x29,x30,[sp], #0x20
+00106fb8 ret
+00106fbc cmp w2,#0xf
+00106fc0 b.ne 0x00107060
+00106fc4 adrp x0,0x110000
+00106fc8 ldrb w0,[x0, #0x148]
+00106fcc cbnz w0,0x001070e8
+00106fd0 sbfiz x1,x1,#0x8,#0x20
+00106fd4 str x19,[sp, #0x10]
+00106fd8 add x1,x4,x1
+00106fdc ldr x19,[x1, #0xc50]
+00106fe0 mov x0,x19
+00106fe4 bl 0x00110258
+00106fe8 tst w0,#0xff
+00106fec b.ne 0x0010704c
+00106ff0 ldr x19,[sp, #0x10]
+00106ff4 ldp x29,x30,[sp], #0x20
+00106ff8 ret
+00106ffc sub w6,w2,#0xb
+00107000 cmp w6,#0x14
+00107004 b.hi 0x00107028
+00107008 mov x4,#0x1
+0010700c mov x7,#0x11a9
+00107010 lsl x4,x4,x6
+00107014 tst x4,x7
+00107018 b.ne 0x00107074
+0010701c tst x4,#0x180000
+00107020 b.ne 0x001070c8
+00107024 tbnz w4,#0x6,0x00107094
+00107028 sbfiz x2,x1,#0x5,#0x20
+0010702c str x19,[sp, #0x10]
+00107030 add x3,x2,w3, UXTW 
+00107034 add x2,x0,x3, LSL #0x3
+00107038 ldr x19,[x2, #0xbd8]
+0010703c mov x0,x19
+00107040 bl 0x00110258
+00107044 tst w0,#0xff
+00107048 b.eq 0x00106ff0
+0010704c mov x0,x19
+00107050 bl 0x00110108
+00107054 ldr x19,[sp, #0x10]
+00107058 ldp x29,x30,[sp], #0x20
+0010705c ret
+00107060 sbfiz x2,x1,#0x5,#0x20
+00107064 str x19,[sp, #0x10]
+00107068 add x2,x2,w3, UXTW 
+0010706c add x2,x4,x2, LSL #0x3
+00107070 b 0x00107038
+00107074 adrp x0,0x110000
+00107078 ldrb w0,[x0, #0x88]
+0010707c cbnz w0,0x00107110
+00107080 sbfiz x2,x1,#0x5,#0x20
+00107084 str x19,[sp, #0x10]
+00107088 add x2,x2,w3, UXTW 
+0010708c add x2,x5,x2, LSL #0x3
+00107090 b 0x00107038
+00107094 adrp x0,0x110000
+00107098 ldrb w0,[x0, #0x148]
+0010709c cbnz w0,0x001070fc
+001070a0 sbfiz x1,x1,#0x8,#0x20
+001070a4 str x19,[sp, #0x10]
+001070a8 add x1,x5,x1
+001070ac ldr x19,[x1, #0xc60]
+001070b0 mov x0,x19
+001070b4 bl 0x00110258
+001070b8 tst w0,#0xff
+001070bc b.ne 0x0010704c
+001070c0 ldr x19,[sp, #0x10]
+001070c4 b 0x00106ff4
+001070c8 adrp x0,0x110000
+001070cc ldrb w0,[x0, #0x148]
+001070d0 cbz w0,0x00107080
+001070d4 adrp x0,0x10c000
+001070d8 mov w1,#0x503
+001070dc add x0,x0,#0xa68
+001070e0 bl 0x001101a8
+001070e4 b 0x00106fb4
+001070e8 adrp x0,0x10c000
+001070ec mov w1,#0x517
+001070f0 add x0,x0,#0xa68
+001070f4 bl 0x001101a8
+001070f8 b 0x00106fb4
+001070fc adrp x0,0x10c000
+00107100 mov w1,#0x11
+00107104 add x0,x0,#0xa40
+00107108 bl 0x001101a8
+0010710c b 0x00106fb4
+00107110 adrp x0,0x10c000
+00107114 mov w1,#0x4f9
+00107118 add x0,x0,#0xa68
+0010711c bl 0x001101a8
+00107120 b 0x00106fb4
+
+FUNCTION npu_pci_dma_tx_data_queue @ 00107124
+section_relative=.text+0x7104
+XREF 0010f138 DATA
+XREF 001021e8 UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void npu_pci_dma_tx_data_queue(long param_1,long param_2,long param_3,byte param_4)
+
+{
+  long lVar1;
+  char cVar2;
+  int iVar3;
+  undefined8 *puVar4;
+  ushort uVar5;
+  long lVar6;
+  long lVar7;
+  uint uVar8;
+  uint *puVar9;
+  undefined4 local_98;
+  ushort uStack_94;
+  undefined2 uStack_92;
+  ulong local_90;
+  undefined8 local_88;
+  undefined8 uStack_80;
+  undefined8 local_78;
+  undefined8 uStack_70;
+  undefined8 local_68;
+  undefined8 uStack_60;
+  undefined8 local_58;
+  undefined8 uStack_50;
+  undefined8 local_48;
+  undefined4 local_40;
+  long local_8;
+  
+  lVar1 = sp_el0;
+  local_8 = *(long *)(lVar1 + 0x408);
+  lVar6 = *(long *)(param_2 + 0x10);
+  lVar7 = *(long *)(param_1 + 0x40);
+  puVar9 = *(uint **)(param_2 + 0x70);
+  cVar2 = npu_band_trans_bit2num(param_1,param_3,param_3,0);
+  if ((param_4 < 2) || (param_4 == 5)) {
+    uVar8 = (uint)(cVar2 == '\x02');
+  }
+  else {
+    uVar8 = 0;
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"unsupported option_type:%d\n",param_4);
+  }
+  if (_ra_sw_nat_hook_tx != (code *)0x0) {
+    uVar5 = (ushort)(puVar9[9] >> 8);
+    if ((*puVar9 >> 0x13 & 0xf) == 2) {
+      uVar5 = *(ushort *)((long)puVar9 + 0x2a) & 0xfff;
+    }
+    local_90 = (ulong)(byte)puVar9[9];
+    _local_98 = CONCAT26(0x7274,CONCAT24(uVar5 & 0x7ff |
+                                         (ushort)((uVar8 | (uint)((ulong)*(undefined8 *)
+                                                                          (param_2 + 0x88) >> 0x3c)
+                                                           << 1) << 0xb),0x207f));
+    iVar3 = (*_ra_sw_nat_hook_tx)(lVar6,&local_98,0x7274);
+    if (iVar3 == 0) {
+      *(byte *)(param_2 + 0x90) = *(byte *)(param_2 + 0x90) | 4;
+      if (param_2 == 0) {
+        *(int *)(lVar7 + 0x3e0) = *(int *)(lVar7 + 0x3e0) + 1;
+LAB_00107338:
+        _dev_err(*(undefined8 *)(param_1 + 0x38),"npu_tx_tk_entry_release fail\n");
+      }
+      else {
+        cVar2 = FUN_00104ce0(param_2,lVar7);
+        if (cVar2 != '\0') goto LAB_00107338;
+      }
+      consume_skb(lVar6);
+      *(undefined4 *)(param_3 + 0x68) = 0;
+      goto LAB_00107278;
+    }
+  }
+  puVar4 = *(undefined8 **)(param_2 + 0x70);
+  local_88 = *puVar4;
+  uStack_80 = puVar4[1];
+  local_78 = puVar4[2];
+  uStack_70 = puVar4[3];
+  local_68 = puVar4[4];
+  uStack_60 = puVar4[5];
+  local_58 = puVar4[6];
+  uStack_50 = puVar4[7];
+  local_48 = puVar4[8];
+  local_40 = *(undefined4 *)(puVar4 + 9);
+  *(byte *)(param_2 + 0x90) = *(byte *)(param_2 + 0x90) | 4;
+  if (param_2 == 0) {
+    *(int *)(lVar7 + 0x3e0) = *(int *)(lVar7 + 0x3e0) + 1;
+LAB_001072dc:
+    _dev_err(*(undefined8 *)(param_1 + 0x38),"npu_tx_tk_entry_release fail\n");
+  }
+  else {
+    cVar2 = FUN_00104ce0(param_2,lVar7);
+    if (cVar2 != '\0') goto LAB_001072dc;
+  }
+  if (_toHostadptPktHandle_hook != (code *)0x0 && lVar6 != 0) {
+    (*_toHostadptPktHandle_hook)(uVar8,lVar6,&local_88,0x4c);
+  }
+  *(undefined4 *)(param_3 + 0x68) = 0;
+LAB_00107278:
+  if (local_8 == *(long *)(lVar1 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+
+
+ASSEMBLY
+00107124 stp x29,x30,[sp, #-0x100]!
+00107128 mov x29,sp
+0010712c stp x19,x20,[sp, #0x10]
+00107130 mrs x20,sp_el0
+00107134 mov x19,x1
+00107138 stp x21,x22,[sp, #0x20]
+0010713c mov x1,x2
+00107140 mov x22,x0
+00107144 stp x23,x24,[sp, #0x30]
+00107148 mov x21,x2
+0010714c stp x25,x26,[sp, #0x40]
+00107150 and w26,w3,#0xff
+00107154 str x27,[sp, #0x50]
+00107158 ldr x3,[x20, #0x408]
+0010715c str x3,[sp, #0xf8]
+00107160 mov x3,#0x0
+00107164 ldr x23,[x19, #0x10]
+00107168 ldr x24,[x0, #0x40]
+0010716c ldr x27,[x19, #0x70]
+00107170 bl 0x00105080
+00107174 and w0,w0,#0xff
+00107178 cmp w26,#0x1
+0010717c b.ls 0x00107188
+00107180 cmp w26,#0x5
+00107184 b.ne 0x00107350
+00107188 cmp w0,#0x2
+0010718c cset w25,eq
+00107190 adrp x0,0x110000
+00107194 ldr x5,[x0, #0x38]
+00107198 cbz x5,0x00107200
+0010719c stp xzr,xzr,[sp, #0x68]
+001071a0 mov w0,#0x207f
+001071a4 ldr w3,[x27, #0x24]
+001071a8 str w0,[sp, #0x68]
+001071ac and w1,w3,#0xff
+001071b0 ldr w0,[x27]
+001071b4 ubfx x3,x3,#0x8,#0x10
+001071b8 ubfx x0,x0,#0x13,#0x4
+001071bc cmp x0,#0x2
+001071c0 b.eq 0x001072c0
+001071c4 ldr x4,[x19, #0x88]
+001071c8 and w3,w3,#0x7ff
+001071cc mov w0,#0x7274
+001071d0 strh w0,[sp, #0x6e]
+001071d4 strb w1,[sp, #0x70]
+001071d8 mov x0,x23
+001071dc lsr x4,x4,#0x3c
+001071e0 add x1,sp,#0x68
+001071e4 mov w2,#0x7274
+001071e8 orr w4,w25,w4, LSL #0x1
+001071ec ubfiz w4,w4,#0xb,#0x5
+001071f0 orr w3,w3,w4
+001071f4 strh w3,[sp, #0x6c]
+001071f8 blr x5
+001071fc cbz w0,0x001072f0
+00107200 ldr x0,[x19, #0x70]
+00107204 ldrb w1,[x19, #0x90]
+00107208 ldp x2,x3,[x0]
+0010720c stp x2,x3,[sp, #0x78]
+00107210 orr w1,w1,#0x4
+00107214 ldp x2,x3,[x0, #0x10]
+00107218 stp x2,x3,[sp, #0x88]
+0010721c ldp x2,x3,[x0, #0x20]
+00107220 stp x2,x3,[sp, #0x98]
+00107224 ldp x2,x3,[x0, #0x30]
+00107228 stp x2,x3,[sp, #0xa8]
+0010722c ldr x2,[x0, #0x40]
+00107230 str x2,[sp, #0xb8]
+00107234 ldr w0,[x0, #0x48]
+00107238 str w0,[sp, #0xc0]
+0010723c strb w1,[x19, #0x90]
+00107240 cbz x19,0x001072cc
+00107244 mov x1,x24
+00107248 mov x0,x19
+0010724c bl 0x00104ce0
+00107250 tst w0,#0xff
+00107254 b.ne 0x001072dc
+00107258 adrp x0,0x110000
+0010725c ldr x4,[x0, #0x20]
+00107260 cmp x4,#0x0
+00107264 ccmp x23,#0x0,#0x4,ne
+00107268 b.ne 0x001072a8
+0010726c mov w0,#0x0
+00107270 add x1,x21,#0x68
+00107274 stlrb w0,[x1]
+00107278 add x20,x20,#0x408
+0010727c ldr x1,[sp, #0xf8]
+00107280 ldr x0,[x20]
+00107284 eor x0,x1,x0
+00107288 cbnz x0,0x0010734c
+0010728c ldp x19,x20,[sp, #0x10]
+00107290 ldp x21,x22,[sp, #0x20]
+00107294 ldp x23,x24,[sp, #0x30]
+00107298 ldp x25,x26,[sp, #0x40]
+0010729c ldr x27,[sp, #0x50]
+001072a0 ldp x29,x30,[sp], #0x100
+001072a4 ret
+001072a8 add x2,sp,#0x78
+001072ac mov x1,x23
+001072b0 mov w0,w25
+001072b4 mov w3,#0x4c
+001072b8 blr x4
+001072bc b 0x0010726c
+001072c0 ldrh w3,[x27, #0x2a]
+001072c4 and w3,w3,#0xfff
+001072c8 b 0x001071c4
+001072cc ldr w0,[x24, #0x3e0]
+001072d0 add x24,x24,#0x370
+001072d4 add w0,w0,#0x1
+001072d8 str w0,[x24, #0x70]
+001072dc ldr x0,[x22, #0x38]
+001072e0 adrp x1,0x10c000
+001072e4 add x1,x1,#0xab0
+001072e8 bl 0x00110150
+001072ec b 0x00107258
+001072f0 ldrb w0,[x19, #0x90]
+001072f4 orr w0,w0,#0x4
+001072f8 strb w0,[x19, #0x90]
+001072fc cbz x19,0x0010732c
+00107300 mov x1,x24
+00107304 mov x0,x19
+00107308 bl 0x00104ce0
+0010730c tst w0,#0xff
+00107310 b.ne 0x00107338
+00107314 mov x0,x23
+00107318 bl 0x00110040
+0010731c add x1,x21,#0x68
+00107320 mov w0,#0x0
+00107324 stlrb w0,[x1]
+00107328 b 0x00107278
+0010732c ldr w0,[x24, #0x3e0]
+00107330 add w0,w0,#0x1
+00107334 str w0,[x24, #0x3e0]
+00107338 ldr x0,[x22, #0x38]
+0010733c adrp x1,0x10c000
+00107340 add x1,x1,#0xab0
+00107344 bl 0x00110150
+00107348 b 0x00107314
+0010734c bl 0x001100f0
+00107350 ldr x0,[x22, #0x38]
+00107354 mov w2,w26
+00107358 mov w25,#0x0
+0010735c adrp x1,0x10c000
+00107360 add x1,x1,#0xa90
+00107364 bl 0x00110118
+00107368 b 0x00107190
+
+FUNCTION npu_pci_dma_sw_init_rx_queue @ 00107370
+section_relative=.text+0x7350
+XREF 0010f17c DATA
+XREF 0010457c UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_pci_dma_sw_init_rx_queue(undefined8 param_1,long param_2,undefined1 param_3)
+
+{
+  if (*(int *)(param_2 + 0xc) == 0xa040) {
+    printk("register to poll hostadpt ring for rxq \"%s\". band:%d\n",
+           *(undefined8 *)(param_2 + 0x218),*(undefined1 *)(param_2 + 0x70));
+    pci_dma_queue_napi_init(param_1,param_2,param_3,pci_dma_rx_poll_hostadpt_ring0);
+  }
+  else {
+    pci_dma_queue_napi_init(param_1,param_2,param_3,pci_dma_rx_poll);
+  }
+  return;
+}
+
+
+ASSEMBLY
+00107370 stp x29,x30,[sp, #-0x30]!
+00107374 mov x29,sp
+00107378 stp x19,x20,[sp, #0x10]
+0010737c and w20,w2,#0xff
+00107380 mov w2,#0xa040
+00107384 ldr w3,[x1, #0xc]
+00107388 cmp w3,w2
+0010738c b.eq 0x001073ac
+00107390 adrp x3,0x101000
+00107394 mov w2,w20
+00107398 add x3,x3,#0xc60
+0010739c bl 0x001043c0
+001073a0 ldp x19,x20,[sp, #0x10]
+001073a4 ldp x29,x30,[sp], #0x30
+001073a8 ret
+001073ac str x21,[sp, #0x20]
+001073b0 mov x19,x1
+001073b4 mov x21,x0
+001073b8 adrp x0,0x10c000
+001073bc ldrb w2,[x1, #0x70]
+001073c0 add x0,x0,#0xad0
+001073c4 ldr x1,[x1, #0x218]
+001073c8 bl 0x001101a8
+001073cc mov x0,x21
+001073d0 mov w2,w20
+001073d4 mov x1,x19
+001073d8 adrp x3,0x105000
+001073dc add x3,x3,#0x430
+001073e0 bl 0x001043c0
+001073e4 ldr x21,[sp, #0x20]
+001073e8 b 0x001073a0
+
+FUNCTION npu_assign_trans @ 001073f0
+section_relative=.text+0x73d0
+XREF 0010f1a8 DATA
+XREF 001029e0 UNCONDITIONAL_CALL
+decompiled=true
+
+void npu_assign_trans(long param_1)
+
+{
+  ulong uVar1;
+  long lVar2;
+  long lVar3;
+  
+  if (glb_npu_trans1 == 0) {
+    lVar2 = *(long *)(param_1 + 0xde0);
+    glb_npu_trans1 = param_1;
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"set glb_npu_trans1:%p\n");
+    uVar1 = (ulong)*(uint *)(lVar2 + 0x8e8);
+    lVar3 = *(long *)(arht_pdev_pci + 0x378);
+    printk("%s()[%d] send ack_sn_addr:%x to NPU. pci_pa:%lx %lx\n","npu_assign_trans",0x5c8,uVar1,
+           lVar3,lVar3 + uVar1);
+    FUN_0010b240(1,*(int *)(lVar2 + 0x8e8) + (int)lVar3);
+  }
+  else if (glb_npu_trans2 == 0) {
+    glb_npu_trans2 = param_1;
+    _dev_info(*(undefined8 *)(param_1 + 0x38),"set glb_npu_trans2:%p\n");
+  }
+  return;
+}
+
+
+ASSEMBLY
+001073f0 stp x29,x30,[sp, #-0x20]!
+001073f4 adrp x1,0x10f000
+001073f8 mov x2,x0
+001073fc mov x29,sp
+00107400 ldr x0,[x1, #0xc98]
+00107404 cbz x0,0x0010741c
+00107408 add x3,x1,#0xc98
+0010740c ldr x0,[x3, #0x8]
+00107410 cbz x0,0x00107484
+00107414 ldp x29,x30,[sp], #0x20
+00107418 ret
+0010741c stp x19,x20,[sp, #0x10]
+00107420 ldr x0,[x2, #0x38]
+00107424 str x2,[x1, #0xc98]
+00107428 adrp x1,0x10c000
+0010742c add x1,x1,#0xb08
+00107430 ldr x19,[x2, #0xde0]
+00107434 bl 0x00110118
+00107438 adrp x2,0x10f000
+0010743c adrp x1,0x10b000
+00107440 add x1,x1,#0x5f0
+00107444 adrp x0,0x10c000
+00107448 ldr x4,[x2, #0xc88]
+0010744c add x1,x1,#0x248
+00107450 ldr w3,[x19, #0x8e8]
+00107454 mov w2,#0x5c8
+00107458 add x0,x0,#0xb20
+0010745c ldr x20,[x4, #0x378]
+00107460 mov x4,x20
+00107464 add x5,x20,w3, UXTW 
+00107468 bl 0x001101a8
+0010746c ldr w1,[x19, #0x8e8]
+00107470 mov w0,#0x1
+00107474 add w1,w1,w20
+00107478 bl 0x0010b240
+0010747c ldp x19,x20,[sp, #0x10]
+00107480 b 0x00107414
+00107484 ldr x0,[x2, #0x38]
+00107488 adrp x1,0x10c000
+0010748c add x1,x1,#0xb58
+00107490 str x2,[x3, #0x8]
+00107494 bl 0x00110118
+00107498 b 0x00107414
+
+FUNCTION analysis_reset__text_unlikely_0 @ 0010af20
+section_relative=.text.unlikely+0x0
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text.unlikely	0x0	0x50	0xaf60	unnamed@.text.unlikely+0x0	eh_frame_FDE:0x37c	PCI start callback slot +0x130; direct call to named done helper
+XREF _elfSectionHeaders::00000210 DATA
+XREF 0010df9c DATA
+decompiled=true
+
+void analysis_reset__text_unlikely_0(long param_1)
+
+{
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"send start msg to NPU\n");
+  if (glb_npu_en_tx != '\0' || glb_npu_en_rx != '\0') {
+    send_rro_done_msg_2_NPU(param_1);
+  }
+  return;
+}
+
+
+ASSEMBLY
+0010af20 stp x29,x30,[sp, #-0x20]!
+0010af24 adrp x1,0x10b000
+0010af28 add x1,x1,#0xd00
+0010af2c mov x29,sp
+0010af30 str x19,[sp, #0x10]
+0010af34 mov x19,x0
+0010af38 ldr x0,[x0, #0x38]
+0010af3c bl 0x00110118
+0010af40 adrp x0,0x110000
+0010af44 adrp x1,0x110000
+0010af48 ldrb w0,[x0, #0x148]
+0010af4c ldrb w1,[x1, #0x88]
+0010af50 orr w0,w0,w1
+0010af54 tst w0,#0xff
+0010af58 b.eq 0x0010af64
+0010af5c mov x0,x19
+0010af60 bl 0x00106270
+0010af64 ldr x19,[sp, #0x10]
+0010af68 ldp x29,x30,[sp], #0x20
+0010af6c ret
+
+FUNCTION analysis_reset__text_unlikely_50 @ 0010af70
+section_relative=.text.unlikely+0x50
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_pci.ko	c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b	.text.unlikely	0x50	0xa0	0xafb0	unnamed@.text.unlikely+0x50	eh_frame_FDE:0x3a0	PCI stop callback slot +0x128; direct call to named stop helper
+XREF 0010dfc0 DATA
+decompiled=true
+
+void analysis_reset__text_unlikely_50(long param_1)
+
+{
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"send stop msg to NPU\n");
+  if (glb_npu_en_tx != '\0' || glb_npu_en_rx != '\0') {
+    send_rro_stop_msg_2_NPU(param_1);
+  }
+  return;
+}
+
+
+ASSEMBLY
+0010af70 stp x29,x30,[sp, #-0x20]!
+0010af74 adrp x1,0x10b000
+0010af78 add x1,x1,#0xd18
+0010af7c mov x29,sp
+0010af80 str x19,[sp, #0x10]
+0010af84 mov x19,x0
+0010af88 ldr x0,[x0, #0x38]
+0010af8c bl 0x00110118
+0010af90 adrp x0,0x110000
+0010af94 adrp x1,0x110000
+0010af98 ldrb w0,[x0, #0x148]
+0010af9c ldrb w1,[x1, #0x88]
+0010afa0 orr w0,w0,w1
+0010afa4 tst w0,#0xff
+0010afa8 b.eq 0x0010afb4
+0010afac mov x0,x19
+0010afb0 bl 0x00106390
+0010afb4 ldr x19,[sp, #0x10]
+0010afb8 ldp x29,x30,[sp], #0x20
+0010afbc ret
+
+FUNCTION npu_unassign_trans @ 0010b334
+section_relative=.text.unlikely+0x414
+XREF 0010f1d0 DATA
+XREF 00102a8c UNCONDITIONAL_CALL
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void npu_unassign_trans(long param_1)
+
+{
+  _dev_info(*(undefined8 *)(param_1 + 0x38),"%s() npu unregister hostapdt hook func\n",
+            "npu_unassign_trans");
+  if (_hostdapt_registe_wifitask_hook != (code *)0x0) {
+    (*_hostdapt_registe_wifitask_hook)(0,0);
+    (*_hostdapt_registe_wifitask_hook)(1,0);
+  }
+  return;
+}
+
+
+ASSEMBLY
+0010b334 stp x29,x30,[sp, #-0x20]!
+0010b338 adrp x2,0x10b000
+0010b33c add x2,x2,#0x5f0
+0010b340 mov x29,sp
+0010b344 str x19,[sp, #0x10]
+0010b348 adrp x19,0x110000
+0010b34c add x2,x2,#0x260
+0010b350 adrp x1,0x10c000
+0010b354 ldr x0,[x0, #0x38]
+0010b358 add x1,x1,#0xb70
+0010b35c bl 0x00110118
+0010b360 ldr x2,[x19]
+0010b364 cbz x2,0x0010b384
+0010b368 mov x1,#0x0
+0010b36c mov w0,#0x0
+0010b370 blr x2
+0010b374 ldr x2,[x19]
+0010b378 mov x1,#0x0
+0010b37c mov w0,#0x1
+0010b380 blr x2
+0010b384 ldr x19,[sp, #0x10]
+0010b388 ldp x29,x30,[sp], #0x20
+0010b38c ret
+
+total_executable_functions=143
+exported_functions=26
+inventory_targets_exported=6
+failed_decompilations=0

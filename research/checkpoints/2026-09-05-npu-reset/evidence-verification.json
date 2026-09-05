@@ -1,0 +1,165 @@
+{
+  "passed": true,
+  "scope": "input/export identities, relocation-defined tables, analysis visibility and recorded model results; not runtime binding or physical DMA containment",
+  "inputs": {
+    "mt_wifi.ko": "40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0",
+    "mt7990.ko": "502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81",
+    "mtk_hwifi.ko": "6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7",
+    "mtk_pci.ko": "c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b",
+    "connac_if.ko": "52f5c19cacf0febddc73a72247250a7c067039c80b8bbd744f5283a5492e0d28"
+  },
+  "bindings": [
+    {
+      "file": "connac_if.ko",
+      "source": ".data+0x90",
+      "target": ".text+0xc80",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_hwifi.ko",
+      "source": ".rodata+0x700",
+      "target": ".text+0xce90",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_hwifi.ko",
+      "source": ".rodata+0x708",
+      "target": ".text+0xcec4",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_hwifi.ko",
+      "source": ".rodata+0x6a0",
+      "target": ".text+0xcf00",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_hwifi.ko",
+      "source": ".rodata+0x6b0",
+      "target": ".text+0xd020",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_pci.ko",
+      "source": ".data+0x1e0",
+      "target": ".text.unlikely+0x50",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_pci.ko",
+      "source": ".data+0x1e8",
+      "target": ".text.unlikely+0x0",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_pci.ko",
+      "source": ".data+0x128",
+      "target": ".text+0x1c14",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_pci.ko",
+      "source": ".data+0x1f0",
+      "target": ".text+0x580",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mtk_pci.ko",
+      "source": ".data+0x1f8",
+      "target": ".text+0x5a0",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mt7990.ko",
+      "source": ".data+0x80",
+      "target": ".text+0xcc4",
+      "relocation": "R_AARCH64_ABS64"
+    },
+    {
+      "file": "mt7990.ko",
+      "source": ".data+0x420",
+      "target": ".text+0x140",
+      "relocation": "R_AARCH64_ABS64"
+    }
+  ],
+  "exports": [
+    {
+      "file": "ghidra-modules/mtk_pci.ko.txt",
+      "sha256": "6e43dcd668de7299b46254175a9a7dd2db5abd646a150359f07d8ab0a9377345",
+      "analyzed_functions": 143,
+      "exported_functions": 26,
+      "inventory_targets": 6
+    },
+    {
+      "file": "ghidra-modules/mtk_hwifi.ko.txt",
+      "sha256": "2b6a89923c78df4cd4022f97a2e877221719acd15933bc87a26d86333c1d95f4",
+      "analyzed_functions": 351,
+      "exported_functions": 4,
+      "inventory_targets": 4
+    },
+    {
+      "file": "ghidra-modules/mt7990.ko.txt",
+      "sha256": "f36153bd6d993fe5ddbe5c451e95232450f3ac53e572fbc2161f1ab19920aa1d",
+      "analyzed_functions": 29,
+      "exported_functions": 2,
+      "inventory_targets": 2
+    },
+    {
+      "file": "ghidra-modules/mt_wifi.ko.txt",
+      "sha256": "e9347f6eaca8408e772674a609cc98c2ec26bdac0168de3df9f57995245ba123",
+      "analyzed_functions": 11264,
+      "exported_functions": 363,
+      "inventory_targets": 7
+    },
+    {
+      "file": "ghidra-modules-all/mtk_pci.ko.txt",
+      "sha256": "7177846d689ac4232c2bb820a7e2e8ac2a7d048837eee0a64b846830c04b4096",
+      "analyzed_functions": 143,
+      "exported_functions": 143,
+      "inventory_targets": null
+    },
+    {
+      "file": "ghidra-modules-all/mtk_hwifi.ko.txt",
+      "sha256": "b7e2e227495fa5453d3a26a4f3e6f333988cc3c42af05e8e686021bcf65cbec2",
+      "analyzed_functions": 351,
+      "exported_functions": 351,
+      "inventory_targets": null
+    },
+    {
+      "file": "ghidra-connac/connac_if.ko.txt",
+      "sha256": "4255f142a21bcad7843d744fbe9528d9744d8da6a629053d06c0824a044a0709",
+      "analyzed_functions": 59,
+      "exported_functions": 59,
+      "inventory_targets": null
+    },
+    {
+      "file": "ghidra-bindings/mt_wifi.ko.txt",
+      "sha256": "98770761fd3b36f1091d87b6a5befd7f7f74a067ab9880498d5872b460e07c43",
+      "analyzed_functions": 11264,
+      "exported_functions": 32,
+      "inventory_targets": null
+    },
+    {
+      "file": "ghidra-kernel/stock-kernel.vmlinux.elf.txt",
+      "sha256": "05ed087de66f784a9a6fa357ca3c87af012a7ef0c72b3cdecc19914a789368af",
+      "analyzed_functions": 33676,
+      "exported_functions": 251,
+      "inventory_targets": null
+    },
+    {
+      "file": "ghidra-current-rv32-concurrent-final/en7581_MT7996_npu_rv32.bin.txt",
+      "sha256": "08b3cf7e1da9a7e2ce39a184bedb74e271397be4425707070764de5f86059a5e",
+      "analyzed_functions": 424,
+      "exported_functions": 424,
+      "inventory_targets": null
+    }
+  ],
+  "static_pci_traffic_slots": "NULL at pci_dma_ops +0x78/+0x80; dynamic overrides are not excluded",
+  "standalone_page_loop": {
+    "address": "0x8400c9b0",
+    "absolute_code_pointer_offset": -1,
+    "absolute_data_pointer_offset": -1,
+    "reachability": "not established; not required for core5 counterexample"
+  },
+  "firmware_source_lock_unchanged": true
+}

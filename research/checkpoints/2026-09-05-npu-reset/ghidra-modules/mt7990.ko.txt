@@ -1,0 +1,263 @@
+program=mt7990.ko
+sha256=502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81
+language=AARCH64:LE:64:v8A
+
+FUNCTION analysis_reset__text_140 @ 00100160
+section_relative=.text+0x140
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko	502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81	.text	0x140	0x1ac	0x1a0	unnamed@.text+0x140	eh_frame_FDE:0x8c	Anonymous hardware-reset candidate; .data+0x420 callback pointer, no mailbox import
+XREF 00608e4c DATA
+XREF 00609660 DATA
+decompiled=true
+
+undefined8 analysis_reset__text_140(long param_1)
+
+{
+  code *pcVar1;
+  long lVar2;
+  
+  lVar2 = *(long *)(param_1 + 0x690);
+  pcVar1 = *(code **)(*(long *)(lVar2 + 0x60) + 8);
+  if (pcVar1 != (code *)0x0) {
+    (*pcVar1)(lVar2,&DAT_001f8600,1);
+  }
+  __const_udelay(&DAT_00418958);
+  pcVar1 = *(code **)(*(long *)(lVar2 + 0x60) + 8);
+  if (pcVar1 != (code *)0x0) {
+    (*pcVar1)(lVar2,&DAT_001f8600,0);
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+00100160 stp x29,x30,[sp, #-0x20]!
+00100164 mov x29,sp
+00100168 str x19,[sp, #0x10]
+0010016c ldr x19,[x0, #0x690]
+00100170 ldr x0,[x19, #0x60]
+00100174 ldr x3,[x0, #0x8]
+00100178 cbz x3,0x00100190
+0010017c mov w1,#0x8600
+00100180 mov x0,x19
+00100184 mov w2,#0x1
+00100188 movk w1,#0x1f, LSL #16
+0010018c blr x3
+00100190 mov x0,#0x8958
+00100194 movk x0,#0x41, LSL #16
+00100198 bl 0x0060a090
+0010019c ldr x0,[x19, #0x60]
+001001a0 ldr x3,[x0, #0x8]
+001001a4 cbz x3,0x001001bc
+001001a8 mov w1,#0x8600
+001001ac mov x0,x19
+001001b0 movk w1,#0x1f, LSL #16
+001001b4 mov w2,#0x0
+001001b8 blr x3
+001001bc mov w0,#0x0
+001001c0 ldr x19,[sp, #0x10]
+001001c4 ldp x29,x30,[sp], #0x20
+001001c8 ret
+
+FUNCTION analysis_reset__text_cc4 @ 00100ce4
+section_relative=.text+0xcc4
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mt7990.ko	502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81	.text	0xcc4	0xe70	0xd24	unnamed@.text+0xcc4	eh_frame_FDE:0x3b0	Anonymous PDMA-disable candidate; .data+0x80 callback pointer, debug string name hint only
+XREF 00609170 DATA
+XREF 006092c0 DATA
+decompiled=true
+
+undefined8 analysis_reset__text_cc4(long param_1)
+
+{
+  ulong *puVar1;
+  bool bVar2;
+  uint uVar3;
+  ulong uVar4;
+  undefined8 uVar5;
+  undefined8 *puVar6;
+  long *plVar7;
+  code *pcVar8;
+  char cVar9;
+  undefined8 uVar10;
+  
+  uVar3 = 0;
+  puVar6 = *(undefined8 **)(param_1 + 0x60);
+  if ((code *)*puVar6 != (code *)0x0) {
+    uVar3 = (*(code *)*puVar6)(param_1,0xd4208,0);
+    puVar6 = *(undefined8 **)(param_1 + 0x60);
+    uVar3 = uVar3 & 0xfffffffa;
+  }
+  if ((code *)puVar6[1] == (code *)0x0) {
+    pcVar8 = (code *)*puVar6;
+    if (pcVar8 == (code *)0x0) goto LAB_00100dcc;
+LAB_00100d48:
+    uVar3 = (*pcVar8)(param_1,0xd413c,uVar3);
+    plVar7 = *(long **)(param_1 + 0x60);
+    uVar3 = uVar3 | 0x1f;
+  }
+  else {
+    (*(code *)puVar6[1])(param_1,0xd4208,uVar3);
+    plVar7 = *(long **)(param_1 + 0x60);
+    uVar3 = 0x1f;
+    pcVar8 = (code *)*plVar7;
+    if (pcVar8 != (code *)0x0) goto LAB_00100d48;
+  }
+  if ((code *)plVar7[1] == (code *)0x0) {
+    pcVar8 = (code *)*plVar7;
+  }
+  else {
+    (*(code *)plVar7[1])(param_1,0xd413c,uVar3);
+    pcVar8 = (code *)**(undefined8 **)(param_1 + 0x60);
+  }
+  cVar9 = 'e';
+  while ((pcVar8 != (code *)0x0 && (uVar4 = (*pcVar8)(param_1,0xd7044), (uVar4 & 1) != 0))) {
+    __const_udelay(&DAT_00418958);
+    cVar9 = cVar9 + -1;
+    if (cVar9 == '\0') {
+      uVar10 = 1;
+      _dev_err(*(undefined8 *)(param_1 + 0x38),"%s(): Polling to idle failed\n",
+               "mt7990_pdma_disable");
+      goto LAB_00100dd0;
+    }
+    pcVar8 = (code *)**(undefined8 **)(param_1 + 0x60);
+  }
+LAB_00100dcc:
+  uVar10 = 0;
+LAB_00100dd0:
+  uVar5 = FUN_00100870(param_1 + 0xbac);
+  pcVar8 = *(code **)(*(long *)(param_1 + 0x60) + 8);
+  if (pcVar8 != (code *)0x0) {
+    (*pcVar8)(param_1,*(undefined4 *)(param_1 + 0xdf0),0);
+    pcVar8 = *(code **)(*(long *)(param_1 + 0x60) + 8);
+    if (pcVar8 != (code *)0x0) {
+      (*pcVar8)(param_1,*(undefined4 *)(param_1 + 0xb48),0);
+    }
+  }
+  *(undefined4 *)(param_1 + 0xbac) = 0;
+  daif = uVar5;
+  puVar1 = (ulong *)(param_1 + 0xbd0);
+  Hint_Prefetch(puVar1,2,0,1);
+  do {
+    cVar9 = '\x01';
+    bVar2 = (bool)ExclusiveMonitorPass(puVar1,0x10);
+    if (bVar2) {
+      *puVar1 = *puVar1 & 0xfffffffffffffffe;
+      cVar9 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar9 != '\0');
+  return uVar10;
+}
+
+
+ASSEMBLY
+00100ce4 stp x29,x30,[sp, #-0x30]!
+00100ce8 mov w2,#0x0
+00100cec mov x29,sp
+00100cf0 stp x19,x20,[sp, #0x10]
+00100cf4 mov x20,x0
+00100cf8 stp x21,x22,[sp, #0x20]
+00100cfc ldr x1,[x0, #0x60]
+00100d00 ldr x3,[x1]
+00100d04 cbz x3,0x00100d20
+00100d08 mov w1,#0x4208
+00100d0c movk w1,#0xd, LSL #16
+00100d10 blr x3
+00100d14 ldr x1,[x20, #0x60]
+00100d18 mov w2,#0xfffffffa
+00100d1c and w2,w0,w2
+00100d20 ldr x3,[x1, #0x8]
+00100d24 cbz x3,0x00100e58
+00100d28 mov w1,#0x4208
+00100d2c mov x0,x20
+00100d30 movk w1,#0xd, LSL #16
+00100d34 blr x3
+00100d38 ldr x1,[x20, #0x60]
+00100d3c mov w2,#0x1f
+00100d40 ldr x3,[x1]
+00100d44 cbz x3,0x00100d60
+00100d48 mov w1,#0x413c
+00100d4c mov x0,x20
+00100d50 movk w1,#0xd, LSL #16
+00100d54 blr x3
+00100d58 ldr x1,[x20, #0x60]
+00100d5c orr w2,w0,#0x1f
+00100d60 ldr x3,[x1, #0x8]
+00100d64 cbz x3,0x00100e64
+00100d68 mov w1,#0x413c
+00100d6c mov x0,x20
+00100d70 movk w1,#0xd, LSL #16
+00100d74 blr x3
+00100d78 ldr x0,[x20, #0x60]
+00100d7c ldr x2,[x0]
+00100d80 mov w22,#0x7044
+00100d84 mov x21,#0x8958
+00100d88 mov w19,#0x65
+00100d8c movk w22,#0xd, LSL #16
+00100d90 movk x21,#0x41, LSL #16
+00100d94 cbz x2,0x00100dcc
+00100d98 mov w1,w22
+00100d9c mov x0,x20
+00100da0 blr x2
+00100da4 mov w1,w0
+00100da8 mov x0,x21
+00100dac tbz w1,#0x0,0x00100dcc
+00100db0 bl 0x0060a090
+00100db4 sub w1,w19,#0x1
+00100db8 ands w19,w1,#0xff
+00100dbc b.eq 0x00100e6c
+00100dc0 ldr x0,[x20, #0x60]
+00100dc4 ldr x2,[x0]
+00100dc8 cbnz x2,0x00100d98
+00100dcc mov w19,#0x0
+00100dd0 add x0,x20,#0xbac
+00100dd4 bl 0x00100870
+00100dd8 ldr x1,[x20, #0x60]
+00100ddc mov x21,x0
+00100de0 ldr x3,[x1, #0x8]
+00100de4 cbz x3,0x00100e14
+00100de8 ldr w1,[x20, #0xdf0]
+00100dec mov x0,x20
+00100df0 mov w2,#0x0
+00100df4 blr x3
+00100df8 ldr x0,[x20, #0x60]
+00100dfc ldr w1,[x20, #0xb48]
+00100e00 ldr x3,[x0, #0x8]
+00100e04 cbz x3,0x00100e14
+00100e08 mov x0,x20
+00100e0c mov w2,#0x0
+00100e10 blr x3
+00100e14 mov w0,#0x0
+00100e18 add x1,x20,#0xbac
+00100e1c stlrb w0,[x1]
+00100e20 msr daif,x21
+00100e24 nop
+00100e28 mov x0,#0x1
+00100e2c add x3,x20,#0xbd0
+00100e30 prfm PSTL1STRM,[x3]
+00100e34 ldxr x1,[x3]
+00100e38 bic x1,x1,x0
+00100e3c stxr w2,x1,[x3]
+00100e40 cbnz w2,0x00100e34
+00100e44 mov w0,w19
+00100e48 ldp x19,x20,[sp, #0x10]
+00100e4c ldp x21,x22,[sp, #0x20]
+00100e50 ldp x29,x30,[sp], #0x30
+00100e54 ret
+00100e58 ldr x3,[x1]
+00100e5c cbnz x3,0x00100d48
+00100e60 b 0x00100dcc
+00100e64 ldr x2,[x1]
+00100e68 b 0x00100d80
+00100e6c ldr x0,[x20, #0x38]
+00100e70 adrp x2,0x101000
+00100e74 add x2,x2,#0xd60
+00100e78 adrp x1,0x608000
+00100e7c add x2,x2,#0x3a0
+00100e80 add x1,x1,#0x760
+00100e84 mov w19,#0x1
+00100e88 bl 0x0060a040
+00100e8c b 0x00100dd0
+
+total_executable_functions=29
+exported_functions=2
+inventory_targets_exported=2
+failed_decompilations=0

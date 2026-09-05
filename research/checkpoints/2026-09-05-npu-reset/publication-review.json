@@ -1,0 +1,29 @@
+{
+  "reviewed_on": "2026-09-05",
+  "classification": "Confirmed unresolved protocol defect; reverse-engineering and emulator checkpoint, not firmware repair",
+  "checks": {
+    "aarch64_original_instruction_cases": 16,
+    "aarch64_mutation_controls": 2,
+    "rv32_hart_dispatch_cases": 8,
+    "rv32_post_stop_counterexample": true,
+    "rv32_empty_ring_control": true,
+    "rv32_stop_before_startup_control": true,
+    "table_bindings_verified": 12,
+    "export_artifacts_verified": 10,
+    "inventory_targets_exported": 19,
+    "prior_mailbox_assertions_replayed": 143,
+    "source_reconstruction_files_verified": 37
+  },
+  "tools": {"unicorn": "2.1.4", "pyelftools": "0.32", "ghidra": "12.1.2", "gitleaks": "8.30.1"},
+  "secret_review": {
+    "new_checkpoint_tests_tools_findings": 0,
+    "documentation_findings": 3,
+    "documentation_disposition": "Unchanged token release/equivalence prose followed by scatter/SKB/bufid lifecycle; manually verified false positives",
+    "raw_device_backups_or_keys_included": false
+  },
+  "firmware_source_changed": false,
+  "new_image_built": false,
+  "router_contacted": false,
+  "hardware_dma_or_cache_containment_verified": false,
+  "all_worker_barrier_implemented": false
+}

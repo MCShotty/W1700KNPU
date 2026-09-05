@@ -1,0 +1,2202 @@
+program=mt_wifi.ko
+sha256=40c8f974ad7317776f602c069c009d1f0d5d939d622ccdee275423fad1e35cb0
+language=AARCH64:LE:64:v8A
+
+FUNCTION hif_ctrl_init @ 00446b00
+decompiled=true
+
+bool hif_ctrl_init(undefined8 param_1,int param_2)
+
+{
+  int iVar1;
+  
+  if (param_2 - 4U < 2 || param_2 == 1) {
+    iVar1 = multi_hif_entry_alloc(param_1,0xd00);
+    return iVar1 != 0;
+  }
+  return (bool)2;
+}
+
+
+ASSEMBLY
+00446b00 sub w2,w1,#0x4
+00446b04 cmp w2,#0x1
+00446b08 ccmp w1,#0x1,#0x4,hi
+00446b0c b.ne 0x00446b30
+00446b10 stp x29,x30,[sp, #-0x10]!
+00446b14 mov w1,#0xd00
+00446b18 mov x29,sp
+00446b1c bl 0x002b0b00
+00446b20 cmp w0,#0x0
+00446b24 cset w0,ne
+00446b28 ldp x29,x30,[sp], #0x10
+00446b2c ret
+00446b30 mov w0,#0x2
+00446b34 ret
+
+FUNCTION hc_get_arch_ops @ 00452e40
+decompiled=true
+
+long hc_get_arch_ops(long param_1)
+
+{
+  return param_1 + 0x13a8;
+}
+
+
+ASSEMBLY
+00452e40 mov x1,#0x13a8
+00452e44 add x0,x0,x1
+00452e48 ret
+
+FUNCTION hc_get_hdev_privdata @ 00452e60
+decompiled=true
+
+undefined8 hc_get_hdev_privdata(long param_1)
+
+{
+  return *(undefined8 *)(param_1 + 0x20d0);
+}
+
+
+ASSEMBLY
+00452e60 ldr x0,[x0, #0x20d0]
+00452e64 ret
+
+FUNCTION hc_get_hif_ops @ 00452e70
+decompiled=true
+
+long hc_get_hif_ops(long param_1)
+
+{
+  return param_1 + 0xce0;
+}
+
+
+ASSEMBLY
+00452e70 add x0,x0,#0xce0
+00452e74 ret
+
+FUNCTION hc_set_hdev_ops @ 00452e80
+decompiled=true
+
+void hc_set_hdev_ops(long param_1,undefined8 param_2)
+
+{
+  *(undefined8 *)(param_1 + 0x1928) = param_2;
+  return;
+}
+
+
+ASSEMBLY
+00452e80 str x1,[x0, #0x1928]
+00452e84 ret
+
+FUNCTION mtk_mac_alloc_hw @ 004845d0
+decompiled=true
+
+undefined8 * mtk_mac_alloc_hw(int param_1,undefined8 param_2)
+
+{
+  int iVar1;
+  undefined8 *puVar2;
+  undefined8 *puVar3;
+  long local_10;
+  long local_8;
+  
+  local_10 = 0;
+  os_alloc_mem(0,&local_10,(long)(param_1 + 0xf8));
+  if (local_10 == 0) {
+    if ((DebugCategory >> 4 & 1) == 0) {
+      return (undefined8 *)0x0;
+    }
+    if ((DAT_00934950 >> 3 & 1) == 0) {
+      return (undefined8 *)0x0;
+    }
+    mtwf_dbg_prt(0,4,1,"mtk_mac_alloc_hw",0x720,"can not allocate memory for handle!!\n");
+    puVar3 = (undefined8 *)0x0;
+  }
+  else {
+    os_zero_mem(local_10,(long)(param_1 + 0xf8));
+    *(long *)(local_10 + 0x80) = local_10 + 0x88;
+    iVar1 = RTMPAllocAdapterBlock(local_10,&local_8,7);
+    if (iVar1 != 0) {
+      if (local_8 != 0) {
+        RTMPFreeAdapter();
+      }
+      if (local_10 == 0) {
+        return (undefined8 *)0x0;
+      }
+      os_free_mem();
+      return (undefined8 *)0x0;
+    }
+    puVar2 = *(undefined8 **)(local_10 + 0x80);
+    puVar2[1] = local_8;
+    puVar3 = puVar2 + 4;
+    *puVar2 = param_2;
+    puVar2[0xd] = puVar2 + 0xe;
+  }
+  return puVar3;
+}
+
+
+ASSEMBLY
+004845d0 stp x29,x30,[sp, #-0x40]!
+004845d4 mov x29,sp
+004845d8 stp x19,x20,[sp, #0x10]
+004845dc add w20,w0,#0xf8
+004845e0 mov x0,#0x0
+004845e4 sxtw x20,w20
+004845e8 str x21,[sp, #0x20]
+004845ec mov x2,x20
+004845f0 mov x21,x1
+004845f4 add x1,sp,#0x30
+004845f8 str xzr,[sp, #0x30]
+004845fc bl 0x0049d5a0
+00484600 ldr x19,[sp, #0x30]
+00484604 cbz x19,0x00484690
+00484608 mov x0,x19
+0048460c mov x1,x20
+00484610 bl 0x0049da04
+00484614 add x1,sp,#0x38
+00484618 ldr x0,[sp, #0x30]
+0048461c mov w2,#0x7
+00484620 add x3,x0,#0x88
+00484624 str x3,[x0, #0x80]
+00484628 bl 0x00533484
+0048462c cbnz w0,0x00484660
+00484630 ldp x0,x2,[sp, #0x30]
+00484634 ldr x0,[x0, #0x80]
+00484638 mov x19,x0
+0048463c add x1,x0,#0x70
+00484640 str x2,[x0, #0x8]
+00484644 str x21,[x19], #0x20
+00484648 str x1,[x19, #0x48]
+0048464c mov x0,x19
+00484650 ldp x19,x20,[sp, #0x10]
+00484654 ldr x21,[sp, #0x20]
+00484658 ldp x29,x30,[sp], #0x40
+0048465c ret
+00484660 ldr x0,[sp, #0x38]
+00484664 cbz x0,0x0048466c
+00484668 bl 0x004a1dc0
+0048466c ldr x0,[sp, #0x30]
+00484670 cbz x0,0x004846a8
+00484674 bl 0x0049d9c4
+00484678 mov x19,#0x0
+0048467c mov x0,x19
+00484680 ldp x19,x20,[sp, #0x10]
+00484684 ldr x21,[sp, #0x20]
+00484688 ldp x29,x30,[sp], #0x40
+0048468c ret
+00484690 adrp x0,0x934000
+00484694 ldr w0,[x0, #0x8b8]
+00484698 tbz w0,#0x4,0x004846a8
+0048469c adrp x0,0x934000
+004846a0 ldr w0,[x0, #0x950]
+004846a4 tbnz w0,#0x3,0x004846c0
+004846a8 mov x19,#0x0
+004846ac mov x0,x19
+004846b0 ldp x19,x20,[sp, #0x10]
+004846b4 ldr x21,[sp, #0x20]
+004846b8 ldp x29,x30,[sp], #0x40
+004846bc ret
+004846c0 adrp x3,0x565000
+004846c4 add x3,x3,#0x3b8
+004846c8 add x3,x3,#0xb8
+004846cc adrp x5,0x61c000
+004846d0 mov w4,#0x720
+004846d4 add x5,x5,#0xa50
+004846d8 mov w2,#0x1
+004846dc mov w1,#0x4
+004846e0 mov x0,#0x0
+004846e4 bl 0x002e46d0
+004846e8 b 0x0048464c
+
+FUNCTION mtk_mac_rx_napi @ 004846f0
+decompiled=true
+
+void mtk_mac_rx_napi(long param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  long lVar1;
+  int iVar2;
+  undefined8 uVar3;
+  undefined1 auStack_128 [288];
+  long local_8;
+  
+  lVar1 = sp_el0;
+  local_8 = *(long *)(lVar1 + 0x408);
+  uVar3 = *(undefined8 *)(param_1 + -0x18);
+  iVar2 = asic_trans_rxd_into_rxblk(uVar3,auStack_128,param_3,0);
+  if (iVar2 != 0) {
+    os_zero_mem(auStack_128,0x120);
+    iVar2 = header_packet_process(uVar3,param_3,auStack_128);
+    if (iVar2 == 0) {
+      uVar3 = rx_packet_process(uVar3,param_3,auStack_128);
+      goto LAB_00484734;
+    }
+  }
+  consume_skb(param_3);
+  uVar3 = 0;
+LAB_00484734:
+  if (local_8 == *(long *)(lVar1 + 0x408)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(uVar3);
+}
+
+
+ASSEMBLY
+004846f0 stp x29,x30,[sp, #-0x160]!
+004846f4 mov x29,sp
+004846f8 stp x19,x20,[sp, #0x10]
+004846fc mrs x19,sp_el0
+00484700 mov x20,x2
+00484704 str x21,[sp, #0x20]
+00484708 add x1,sp,#0x38
+0048470c ldr x3,[x19, #0x408]
+00484710 str x3,[sp, #0x158]
+00484714 mov x3,#0x0
+00484718 ldur x21,[x0, #-0x18]
+0048471c mov x0,x21
+00484720 bl 0x0044d330
+00484724 cbnz w0,0x00484758
+00484728 mov x0,x20
+0048472c bl 0x009572b0
+00484730 mov w0,#0x0
+00484734 add x19,x19,#0x408
+00484738 ldr x2,[sp, #0x158]
+0048473c ldr x1,[x19]
+00484740 eor x1,x2,x1
+00484744 cbnz x1,0x0048478c
+00484748 ldp x19,x20,[sp, #0x10]
+0048474c ldr x21,[sp, #0x20]
+00484750 ldp x29,x30,[sp], #0x160
+00484754 ret
+00484758 add x0,sp,#0x38
+0048475c mov x1,#0x120
+00484760 bl 0x0049da04
+00484764 add x2,sp,#0x38
+00484768 mov x1,x20
+0048476c mov x0,x21
+00484770 bl 0x00243b30
+00484774 cbnz w0,0x00484728
+00484778 add x2,sp,#0x38
+0048477c mov x1,x20
+00484780 mov x0,x21
+00484784 bl 0x00244c10
+00484788 b 0x00484734
+0048478c bl 0x009571d8
+
+FUNCTION mtk_mac_rx @ 00484790
+decompiled=true
+
+undefined8 mtk_mac_rx(long param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+
+{
+  int iVar1;
+  undefined8 uVar2;
+  long lVar3;
+  
+  lVar3 = *(long *)(param_1 + -0x18);
+  if (*(char *)(lVar3 + 0xc5c4) == '\x01') {
+    announce_802_11_radiotap_packet(lVar3,param_3,param_4);
+    return 0;
+  }
+  iVar1 = fill_rx_pkt_info(lVar3,param_4);
+  if (iVar1 == 0) {
+    uVar2 = rx_packet_process(lVar3,param_3,param_4);
+    return uVar2;
+  }
+  consume_skb(param_3);
+  return 0;
+}
+
+
+ASSEMBLY
+00484790 stp x29,x30,[sp, #-0x30]!
+00484794 mov x29,sp
+00484798 stp x19,x20,[sp, #0x10]
+0048479c mov x20,x2
+004847a0 mov x19,x3
+004847a4 str x21,[sp, #0x20]
+004847a8 ldur x21,[x0, #-0x18]
+004847ac add x0,x21,#0xc, LSL #12
+004847b0 ldrb w0,[x0, #0x5c4]
+004847b4 cmp w0,#0x1
+004847b8 b.eq 0x00484808
+004847bc mov x1,x3
+004847c0 mov x0,x21
+004847c4 bl 0x0023bf30
+004847c8 cbnz w0,0x004847ec
+004847cc mov x2,x19
+004847d0 mov x1,x20
+004847d4 mov x0,x21
+004847d8 bl 0x00244c10
+004847dc ldp x19,x20,[sp, #0x10]
+004847e0 ldr x21,[sp, #0x20]
+004847e4 ldp x29,x30,[sp], #0x30
+004847e8 ret
+004847ec mov x0,x20
+004847f0 bl 0x009572b0
+004847f4 mov w0,#0x0
+004847f8 ldp x19,x20,[sp, #0x10]
+004847fc ldr x21,[sp, #0x20]
+00484800 ldp x29,x30,[sp], #0x30
+00484804 ret
+00484808 mov x1,x20
+0048480c mov x0,x21
+00484810 mov x2,x3
+00484814 bl 0x004a1bd0
+00484818 mov w0,#0x0
+0048481c ldp x19,x20,[sp, #0x10]
+00484820 ldr x21,[sp, #0x20]
+00484824 ldp x29,x30,[sp], #0x30
+00484828 ret
+
+FUNCTION mtk_mac_rx_ics @ 00484830
+decompiled=true
+
+undefined8 mtk_mac_rx_ics(long param_1,undefined8 param_2)
+
+{
+  long lVar1;
+  
+  lVar1 = physical_device_get_first_up_mac_adapter
+                    (*(undefined8 *)(*(long *)(param_1 + -0x18) + 0x1b8));
+  if (lVar1 == 0) {
+    lVar1 = *(long *)(param_1 + -0x18);
+  }
+  dbg_log_wrapper(lVar1,0xc,param_2,0);
+  consume_skb(param_2);
+  return 0;
+}
+
+
+ASSEMBLY
+00484830 stp x29,x30,[sp, #-0x20]!
+00484834 mov x29,sp
+00484838 stp x19,x20,[sp, #0x10]
+0048483c sub x20,x0,#0x20
+00484840 mov x19,x1
+00484844 ldur x0,[x0, #-0x18]
+00484848 ldr x0,[x0, #0x1b8]
+0048484c bl 0x00489900
+00484850 cbz x0,0x0048487c
+00484854 mov x2,x19
+00484858 mov w3,#0x0
+0048485c mov w1,#0xc
+00484860 bl 0x002e53c0
+00484864 mov x0,x19
+00484868 bl 0x009572b0
+0048486c mov w0,#0x0
+00484870 ldp x19,x20,[sp, #0x10]
+00484874 ldp x29,x30,[sp], #0x20
+00484878 ret
+0048487c ldr x0,[x20, #0x8]
+00484880 b 0x00484854
+
+FUNCTION mtk_mac_rx_unsolicited_event @ 00484884
+decompiled=true
+
+undefined8 mtk_mac_rx_unsolicited_event(long param_1,long param_2)
+
+{
+  ushort *puVar1;
+  undefined8 uVar2;
+  
+  uVar2 = *(undefined8 *)(param_1 + -0x18);
+  puVar1 = *(ushort **)(param_2 + 0x270);
+  mt_wlan_hook_call(0x16,uVar2,param_2);
+  UnsolicitedEventHandler
+            (uVar2,(char)puVar1[2],(char)puVar1[4],*(long *)(param_2 + 0x270) + 0xc,*puVar1 - 0xc,
+             puVar1);
+  return 0;
+}
+
+
+ASSEMBLY
+00484884 stp x29,x30,[sp, #-0x30]!
+00484888 mov x3,x0
+0048488c mov x2,x1
+00484890 mov x29,sp
+00484894 stp x19,x20,[sp, #0x10]
+00484898 mov x19,x1
+0048489c mov w0,#0x16
+004848a0 str x21,[sp, #0x20]
+004848a4 ldur x21,[x3, #-0x18]
+004848a8 ldr x20,[x19, #0x270]
+004848ac mov x1,x21
+004848b0 bl 0x004a3bb4
+004848b4 ldr x3,[x19, #0x270]
+004848b8 mov x0,x21
+004848bc ldrb w1,[x20, #0x4]
+004848c0 mov x5,x20
+004848c4 ldrb w2,[x20, #0x8]
+004848c8 add x3,x3,#0xc
+004848cc ldrh w4,[x20]
+004848d0 sub w4,w4,#0xc
+004848d4 bl 0x0019abf0
+004848d8 mov w0,#0x0
+004848dc ldp x19,x20,[sp, #0x10]
+004848e0 ldr x21,[sp, #0x20]
+004848e4 ldp x29,x30,[sp], #0x30
+004848e8 ret
+
+FUNCTION mtk_mac_tx_status @ 004848f0
+decompiled=true
+
+undefined8 mtk_mac_tx_status(long param_1,undefined1 *param_2)
+
+{
+  int iVar1;
+  ushort uVar2;
+  ushort uVar3;
+  undefined8 uVar4;
+  long lVar5;
+  long lVar6;
+  
+  lVar6 = *(long *)(param_1 + -0x18);
+  if (param_2 == (undefined1 *)0x0) {
+    uVar4 = 0xffffffff;
+    if (((DebugCategory & 0x10) != 0) && ((DAT_00934950 >> 3 & 1) != 0)) {
+      mtwf_dbg_prt(0,4,1,"mtk_mac_tx_status",0x7c9,"invalid tx_status!\n");
+    }
+  }
+  else if (((((DebugCategory & 0x10) == 0) || ((DAT_00934b50 >> 3 & 1) == 0)) ||
+           (mtwf_dbg_prt(0,4,5,"mtk_mac_tx_status",1999,"===> tx_status=%p\n",param_2),
+           (DebugCategory >> 4 & 1) == 0)) ||
+          ((((DAT_00934b50 >> 3 & 1) == 0 ||
+            (mtwf_dbg_prt(0,4,5,"mtk_mac_tx_status",0x7d2,"wcid[%d] qid[%d] from band:%d\n",
+                          *(undefined2 *)(param_2 + 2),param_2[4],*param_2),
+            (DebugCategory >> 4 & 1) == 0)) || ((DAT_00934b50 >> 3 & 1) == 0)))) {
+    uVar2 = *(ushort *)(param_2 + 2);
+    uVar4 = 0;
+    uVar3 = HcGetMaxStaNum(lVar6);
+    if (uVar2 < uVar3) {
+LAB_00484a30:
+      uVar2 = *(ushort *)(param_2 + 2);
+      lVar5 = *(long *)(lVar6 + 0x2290);
+      CalStaTxLatency(lVar5 + (ulong)uVar2 * 0x4110 + 0x800,*(undefined4 *)(param_2 + 0x14),
+                      *(undefined4 *)(param_2 + 0x10),*(undefined4 *)(param_2 + 0xc));
+      iVar1 = *(int *)(param_2 + 8);
+      if (iVar1 == 1) {
+        lVar5 = lVar5 + (ulong)uVar2 * 0x4000 + (long)(int)(uint)uVar2 * 0x110;
+        *(long *)(lVar5 + 0x42c0) = *(long *)(lVar5 + 0x42c0) + 1;
+        iVar1 = *(int *)(param_2 + 8);
+      }
+      acm_tx_cnt_update(lVar6,param_2[4],*(undefined2 *)(param_2 + 2),1,iVar1);
+      dabs_latency_update(lVar6,param_2[4],*(undefined2 *)(param_2 + 2),
+                          *(undefined2 *)(param_2 + 0x14),*(undefined2 *)(param_2 + 0x10),
+                          *(undefined4 *)(param_2 + 0xc));
+      return 0;
+    }
+  }
+  else {
+    mtwf_dbg_prt(0,4,5,"mtk_mac_tx_status",0x7d5,
+                 "stat:0x%x, tx times:%d, air delay:%d, transmit delay:%d\n",
+                 *(undefined4 *)(param_2 + 8),*(undefined4 *)(param_2 + 0xc),
+                 *(undefined4 *)(param_2 + 0x10),*(undefined4 *)(param_2 + 0x14));
+    uVar2 = *(ushort *)(param_2 + 2);
+    uVar4 = 0;
+    uVar3 = HcGetMaxStaNum(lVar6);
+    if (uVar2 < uVar3) goto LAB_00484a30;
+  }
+  return uVar4;
+}
+
+
+ASSEMBLY
+004848f0 sub sp,sp,#0x50
+004848f4 stp x29,x30,[sp, #0x10]
+004848f8 add x29,sp,#0x10
+004848fc stp x19,x20,[sp, #0x20]
+00484900 adrp x20,0x934000
+00484904 ldr w2,[x20, #0x8b8]
+00484908 stp x21,x22,[sp, #0x30]
+0048490c and w2,w2,#0x10
+00484910 ldur x22,[x0, #-0x18]
+00484914 cbz x1,0x00484ad0
+00484918 mov x19,x1
+0048491c cbnz w2,0x00484950
+00484920 ldrh w21,[x19, #0x2]
+00484924 mov x0,x22
+00484928 mov w20,#0x0
+0048492c bl 0x004521b0
+00484930 cmp w21,w0, UXTH 
+00484934 b.cc 0x00484a30
+00484938 mov w0,w20
+0048493c ldp x29,x30,[sp, #0x10]
+00484940 ldp x19,x20,[sp, #0x20]
+00484944 ldp x21,x22,[sp, #0x30]
+00484948 add sp,sp,#0x50
+0048494c ret
+00484950 adrp x21,0x934000
+00484954 add x21,x21,#0x8c0
+00484958 ldr w0,[x21, #0x290]
+0048495c tbz w0,#0x3,0x00484920
+00484960 str x23,[sp, #0x40]
+00484964 adrp x23,0x565000
+00484968 add x23,x23,#0x3b8
+0048496c mov x6,x1
+00484970 add x23,x23,#0xd0
+00484974 mov x0,#0x0
+00484978 mov x3,x23
+0048497c adrp x5,0x61c000
+00484980 mov w4,#0x7cf
+00484984 add x5,x5,#0xa90
+00484988 mov w2,#0x5
+0048498c mov w1,#0x4
+00484990 bl 0x002e46d0
+00484994 ldr w0,[x20, #0x8b8]
+00484998 tbz w0,#0x4,0x00484b10
+0048499c ldr w0,[x21, #0x290]
+004849a0 tbz w0,#0x3,0x00484b10
+004849a4 ldrb w7,[x19, #0x4]
+004849a8 mov x3,x23
+004849ac ldrh w6,[x19, #0x2]
+004849b0 adrp x5,0x61c000
+004849b4 ldrb w0,[x19]
+004849b8 add x5,x5,#0xaa8
+004849bc str w0,[sp]
+004849c0 mov w4,#0x7d2
+004849c4 mov x0,#0x0
+004849c8 mov w2,#0x5
+004849cc mov w1,#0x4
+004849d0 bl 0x002e46d0
+004849d4 ldr w0,[x20, #0x8b8]
+004849d8 tbz w0,#0x4,0x00484b10
+004849dc ldr w0,[x21, #0x290]
+004849e0 tbz w0,#0x3,0x00484b10
+004849e4 ldp w6,w7,[x19, #0x8]
+004849e8 mov x3,x23
+004849ec ldp w1,w0,[x19, #0x10]
+004849f0 str w1,[sp]
+004849f4 str w0,[sp, #0x8]
+004849f8 mov w4,#0x7d5
+004849fc mov w2,#0x5
+00484a00 mov w1,#0x4
+00484a04 mov x0,#0x0
+00484a08 adrp x5,0x61c000
+00484a0c add x5,x5,#0xac8
+00484a10 bl 0x002e46d0
+00484a14 ldrh w21,[x19, #0x2]
+00484a18 mov x0,x22
+00484a1c mov w20,#0x0
+00484a20 ldr x23,[sp, #0x40]
+00484a24 bl 0x004521b0
+00484a28 cmp w21,w0, UXTH 
+00484a2c b.cs 0x00484938
+00484a30 ldrh w20,[x19, #0x2]
+00484a34 mov x4,#0x800
+00484a38 ldp w3,w2,[x19, #0xc]
+00484a3c mov w0,#0x4110
+00484a40 ldr w1,[x19, #0x14]
+00484a44 ldr x21,[x22, #0x2290]
+00484a48 umaddl x0,w0,w20,x4
+00484a4c add x0,x21,x0
+00484a50 bl 0x00239ac0
+00484a54 ldr w4,[x19, #0x8]
+00484a58 cmp w4,#0x1
+00484a5c b.ne 0x00484a84
+00484a60 sxtw x1,w20
+00484a64 sbfiz x0,x20,#0x6,#0x20
+00484a68 add x0,x0,x1
+00484a6c add x0,x1,x0, LSL #0x4
+00484a70 add x0,x21,x0, LSL #0x4
+00484a74 ldr x1,[x0, #0x42c0]
+00484a78 add x1,x1,#0x1
+00484a7c str x1,[x0, #0x42c0]
+00484a80 ldr w4,[x19, #0x8]
+00484a84 ldrh w2,[x19, #0x2]
+00484a88 mov x0,x22
+00484a8c ldrb w1,[x19, #0x4]
+00484a90 mov w3,#0x1
+00484a94 mov w20,#0x0
+00484a98 bl 0x004443d4
+00484a9c ldrh w2,[x19, #0x2]
+00484aa0 mov x0,x22
+00484aa4 ldrb w1,[x19, #0x4]
+00484aa8 ldrh w4,[x19, #0x10]
+00484aac ldrh w3,[x19, #0x14]
+00484ab0 ldr w5,[x19, #0xc]
+00484ab4 bl 0x00297c70
+00484ab8 mov w0,w20
+00484abc ldp x29,x30,[sp, #0x10]
+00484ac0 ldp x19,x20,[sp, #0x20]
+00484ac4 ldp x21,x22,[sp, #0x30]
+00484ac8 add sp,sp,#0x50
+00484acc ret
+00484ad0 mov w20,#0xffffffff
+00484ad4 cbz w2,0x00484938
+00484ad8 adrp x0,0x934000
+00484adc ldr w0,[x0, #0x950]
+00484ae0 tbz w0,#0x3,0x00484938
+00484ae4 adrp x3,0x565000
+00484ae8 add x3,x3,#0x3b8
+00484aec add x3,x3,#0xd0
+00484af0 adrp x5,0x61c000
+00484af4 mov w4,#0x7c9
+00484af8 add x5,x5,#0xa78
+00484afc mov w2,#0x1
+00484b00 mov w1,#0x4
+00484b04 mov x0,#0x0
+00484b08 bl 0x002e46d0
+00484b0c b 0x00484938
+00484b10 ldr x23,[sp, #0x40]
+00484b14 b 0x00484920
+
+FUNCTION mtk_mac_dequeue_by_token @ 00484b20
+decompiled=true
+
+void mtk_mac_dequeue_by_token(long param_1,uint param_2)
+
+{
+  long lVar1;
+  long lVar2;
+  long lVar3;
+  long lVar4;
+  
+  if (param_1 != 0) {
+    lVar4 = *(long *)(param_1 + -0x18);
+    if (lVar4 != 0) {
+      param_2 = param_2 & 0xff;
+      lVar2 = (ulong)(param_2 + 0x987b6a) * 4;
+      OS_SPIN_LOCK_BH(*(long *)(lVar4 + 0x1b8) + lVar2);
+      lVar3 = *(long *)(lVar4 + 0x1b8);
+      if ((*(long *)(lVar3 + 0x261eef0) != 0) &&
+         (lVar1 = lVar3 + (ulong)param_2 * 0x20,
+         *(int *)(lVar1 + 0x261ecf8) + *(int *)(lVar1 + 0x261ed58) != 0)) {
+        (**(code **)(*(long *)(lVar3 + 0x261eef0) + 0x10))(lVar4,0,param_2);
+        lVar3 = *(long *)(lVar4 + 0x1b8);
+      }
+      OS_SPIN_UNLOCK_BH(lVar3 + lVar2);
+    }
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00484b20 cbz x0,0x00484bc8
+00484b24 stp x29,x30,[sp, #-0x30]!
+00484b28 mov x29,sp
+00484b2c stp x19,x20,[sp, #0x10]
+00484b30 ldur x20,[x0, #-0x18]
+00484b34 cbz x20,0x00484ba0
+00484b38 str x21,[sp, #0x20]
+00484b3c and w21,w1,#0xff
+00484b40 add w19,w21,#0x987, LSL #12
+00484b44 add w19,w19,#0xb6a
+00484b48 ldr x0,[x20, #0x1b8]
+00484b4c sbfiz x19,x19,#0x2,#0x20
+00484b50 add x0,x0,x19
+00484b54 bl 0x0049ce80
+00484b58 ldr x0,[x20, #0x1b8]
+00484b5c mov x3,#0x8000
+00484b60 movk x3,#0x261, LSL #16
+00484b64 add x3,x0,x3
+00484b68 ldr x1,[x3, #0x6ef0]
+00484b6c cbz x1,0x00484b94
+00484b70 sbfiz x3,x21,#0x5,#0x20
+00484b74 mov x2,#0xc000
+00484b78 add x3,x0,x3
+00484b7c movk x2,#0x261, LSL #16
+00484b80 add x3,x3,x2
+00484b84 ldr w2,[x3, #0x2cf8]
+00484b88 ldr w3,[x3, #0x2d58]
+00484b8c cmn w2,w3
+00484b90 b.ne 0x00484bac
+00484b94 add x0,x0,x19
+00484b98 bl 0x0049ced0
+00484b9c ldr x21,[sp, #0x20]
+00484ba0 ldp x19,x20,[sp, #0x10]
+00484ba4 ldp x29,x30,[sp], #0x30
+00484ba8 ret
+00484bac ldr x3,[x1, #0x10]
+00484bb0 mov w2,w21
+00484bb4 mov x0,x20
+00484bb8 mov w1,#0x0
+00484bbc blr x3
+00484bc0 ldr x0,[x20, #0x1b8]
+00484bc4 b 0x00484b94
+00484bc8 ret
+
+FUNCTION mtk_mac_rx_uni_unsolicited_event @ 00484bd0
+decompiled=true
+
+undefined8 mtk_mac_rx_uni_unsolicited_event(undefined8 param_1,undefined8 param_2)
+
+{
+  mt_wlan_hook_call(0x16,0,param_2);
+  AndesMTRxProcessUniEvent(param_1,param_2);
+  return 0;
+}
+
+
+ASSEMBLY
+00484bd0 stp x29,x30,[sp, #-0x20]!
+00484bd4 mov x2,x1
+00484bd8 mov x29,sp
+00484bdc stp x19,x20,[sp, #0x10]
+00484be0 mov x19,x1
+00484be4 mov x20,x0
+00484be8 mov x1,#0x0
+00484bec mov w0,#0x16
+00484bf0 bl 0x004a3bb4
+00484bf4 mov x1,x19
+00484bf8 mov x0,x20
+00484bfc bl 0x00198720
+00484c00 mov w0,#0x0
+00484c04 ldp x19,x20,[sp, #0x10]
+00484c08 ldp x29,x30,[sp], #0x20
+00484c0c ret
+
+FUNCTION mtk_mac_hw_register @ 00484c10
+decompiled=true
+
+int mtk_mac_hw_register(undefined8 param_1,long param_2)
+
+{
+  undefined4 uVar1;
+  long lVar2;
+  char cVar3;
+  int iVar4;
+  long lVar5;
+  long lVar6;
+  long lVar7;
+  undefined1 auStack_78 [112];
+  long local_8;
+  
+  lVar2 = sp_el0;
+  local_8 = *(long *)(lVar2 + 0x408);
+  lVar6 = *(long *)(param_2 + -0x18);
+  if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934a50 >> 3 & 1) != 0)) {
+    mtwf_dbg_prt(lVar6,4,3,"mtk_mac_hw_register",0x86b,"hw_dev(=%p), chip=(0x%x), ad(=%p)!\n",
+                 param_1,*(undefined4 *)(param_2 + 0xc),lVar6);
+  }
+  cVar3 = physical_device_add_mac_adapter(param_1,param_2);
+  if (cVar3 == '\0') {
+    if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934a50 >> 3 & 1) != 0)) {
+      iVar4 = -0xc;
+      mtwf_dbg_prt(lVar6,4,3,"mtk_mac_hw_register",0x86e,
+                   "Fail to add mac adapter to the device list!\n");
+      lVar5 = g_netdev;
+      goto LAB_00484ce4;
+    }
+  }
+  else {
+    uVar1 = *(undefined4 *)(param_2 + 0xc);
+    *(undefined4 *)(lVar6 + 0x31ec) = 7;
+    *(undefined4 *)(lVar6 + 0x3d30) = uVar1;
+    lVar7 = *(long *)(lVar6 + 0x1b8);
+    RtmpRaDevCtrlInit(lVar6);
+    FUN_004835e0(lVar6,param_2);
+    lVar5 = RtmpPhyNetDevInit(lVar6,auStack_78);
+    if (lVar5 != 0) {
+      iVar4 = RtmpOSNetDevAttach(*(undefined1 *)(lVar6 + 0x31f1),lVar5,auStack_78);
+      if (iVar4 == 0) {
+        if (*(long *)(lVar7 + 0x2822c88) == 0) {
+          mtk_fe_reset_notifier_init(lVar7);
+        }
+      }
+      else {
+        if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934950 >> 3 & 1) != 0)) {
+          mtwf_dbg_prt(lVar6,4,1,"mtk_mac_hw_register",0x88a,
+                       "failed to call RtmpOSNetDevAttach(), rv=%d!\n",iVar4);
+        }
+        RtmpOSNetDevFree(lVar5);
+        lVar5 = g_netdev;
+      }
+      goto LAB_00484ce4;
+    }
+  }
+  iVar4 = -0xc;
+  lVar5 = g_netdev;
+LAB_00484ce4:
+  g_netdev = lVar5;
+  if (local_8 != *(long *)(lVar2 + 0x408)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return iVar4;
+}
+
+
+ASSEMBLY
+00484c10 sub sp,sp,#0xd0
+00484c14 stp x29,x30,[sp, #0x10]
+00484c18 add x29,sp,#0x10
+00484c1c stp x23,x24,[sp, #0x40]
+00484c20 adrp x23,0x934000
+00484c24 stp x19,x20,[sp, #0x20]
+00484c28 mov x20,x1
+00484c2c ldr w2,[x23, #0x8b8]
+00484c30 stp x21,x22,[sp, #0x30]
+00484c34 mrs x21,sp_el0
+00484c38 mov x22,x0
+00484c3c ldr x1,[x21, #0x408]
+00484c40 str x1,[sp, #0xc8]
+00484c44 mov x1,#0x0
+00484c48 ldur x19,[x20, #-0x18]
+00484c4c tbz w2,#0x4,0x00484c5c
+00484c50 adrp x0,0x934000
+00484c54 ldr w0,[x0, #0xa50]
+00484c58 tbnz w0,#0x3,0x00484d3c
+00484c5c mov x0,x22
+00484c60 mov x1,x20
+00484c64 bl 0x0048a340
+00484c68 tst w0,#0xff
+00484c6c b.eq 0x00484db0
+00484c70 ldr w0,[x20, #0xc]
+00484c74 mov w1,#0x7
+00484c78 str w1,[x19, #0x31ec]
+00484c7c str w0,[x19, #0x3d30]
+00484c80 mov x0,x19
+00484c84 ldr x24,[x19, #0x1b8]
+00484c88 bl 0x002c55e0
+00484c8c mov x1,x20
+00484c90 mov x0,x19
+00484c94 bl 0x004835e0
+00484c98 add x1,sp,#0x58
+00484c9c mov x0,x19
+00484ca0 bl 0x0049f040
+00484ca4 mov x20,x0
+00484ca8 cbz x0,0x00484d34
+00484cac add x0,x19,#0x3, LSL #12
+00484cb0 add x2,sp,#0x58
+00484cb4 mov x1,x20
+00484cb8 ldrb w0,[x0, #0x1f1]
+00484cbc bl 0x0049b5a0
+00484cc0 mov w22,w0
+00484cc4 cbnz w0,0x00484d14
+00484cc8 mov x0,#0x2c70
+00484ccc movk x0,#0x282, LSL #16
+00484cd0 add x0,x24,x0
+00484cd4 ldr x0,[x0, #0x18]
+00484cd8 cbz x0,0x00484d74
+00484cdc adrp x0,0x955000
+00484ce0 str x20,[x0, #0xed8]
+00484ce4 add x21,x21,#0x408
+00484ce8 ldr x1,[sp, #0xc8]
+00484cec ldr x0,[x21]
+00484cf0 eor x0,x1,x0
+00484cf4 cbnz x0,0x00484df4
+00484cf8 mov w0,w22
+00484cfc ldp x29,x30,[sp, #0x10]
+00484d00 ldp x19,x20,[sp, #0x20]
+00484d04 ldp x21,x22,[sp, #0x30]
+00484d08 ldp x23,x24,[sp, #0x40]
+00484d0c add sp,sp,#0xd0
+00484d10 ret
+00484d14 ldr w0,[x23, #0x8b8]
+00484d18 tbz w0,#0x4,0x00484d28
+00484d1c adrp x0,0x934000
+00484d20 ldr w0,[x0, #0x950]
+00484d24 tbnz w0,#0x3,0x00484d80
+00484d28 mov x0,x20
+00484d2c bl 0x0049b374
+00484d30 b 0x00484ce4
+00484d34 mov w22,#0xfffffff4
+00484d38 b 0x00484ce4
+00484d3c ldr w7,[x20, #0xc]
+00484d40 adrp x3,0x565000
+00484d44 str x19,[sp]
+00484d48 add x3,x3,#0x3b8
+00484d4c add x3,x3,#0xe8
+00484d50 mov x6,x22
+00484d54 mov x0,x19
+00484d58 adrp x5,0x61c000
+00484d5c mov w4,#0x86b
+00484d60 add x5,x5,#0xb08
+00484d64 mov w2,#0x3
+00484d68 mov w1,#0x4
+00484d6c bl 0x002e46d0
+00484d70 b 0x00484c5c
+00484d74 mov x0,x24
+00484d78 bl 0x00447780
+00484d7c b 0x00484cdc
+00484d80 adrp x3,0x565000
+00484d84 add x3,x3,#0x3b8
+00484d88 mov x0,x19
+00484d8c add x3,x3,#0xe8
+00484d90 mov w6,w22
+00484d94 adrp x5,0x61c000
+00484d98 mov w4,#0x88a
+00484d9c add x5,x5,#0xb60
+00484da0 mov w2,#0x1
+00484da4 mov w1,#0x4
+00484da8 bl 0x002e46d0
+00484dac b 0x00484d28
+00484db0 ldr w0,[x23, #0x8b8]
+00484db4 tbz w0,#0x4,0x00484d34
+00484db8 adrp x0,0x934000
+00484dbc ldr w0,[x0, #0xa50]
+00484dc0 tbz w0,#0x3,0x00484d34
+00484dc4 adrp x3,0x565000
+00484dc8 add x3,x3,#0x3b8
+00484dcc mov x0,x19
+00484dd0 add x3,x3,#0xe8
+00484dd4 adrp x5,0x61c000
+00484dd8 mov w4,#0x86e
+00484ddc add x5,x5,#0xb30
+00484de0 mov w2,#0x3
+00484de4 mov w1,#0x4
+00484de8 mov w22,#0xfffffff4
+00484dec bl 0x002e46d0
+00484df0 b 0x00484ce4
+00484df4 bl 0x009571d8
+
+FUNCTION mtk_mac_hw_unregister @ 00484e00
+decompiled=true
+
+void mtk_mac_hw_unregister(long param_1)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  
+  lVar1 = *(long *)(param_1 + -0x18);
+  uVar2 = *(undefined8 *)(lVar1 + 0x10);
+  if (*(long *)(*(long *)(lVar1 + 0x1b8) + 0x2822c88) == lVar1) {
+    mtk_fe_reset_notifier_exit();
+  }
+  if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934a50 >> 3 & 1) != 0)) {
+    mtwf_dbg_prt(lVar1,4,3,"mtk_mac_hw_unregister",0x8b4,"chip=(0x%x), ad(=%p)!\n",
+                 *(undefined4 *)(param_1 + 0xc),lVar1);
+    RtmpPhyNetDevExit(lVar1,uVar2);
+    return;
+  }
+  RtmpPhyNetDevExit(lVar1,uVar2);
+  return;
+}
+
+
+ASSEMBLY
+00484e00 stp x29,x30,[sp, #-0x30]!
+00484e04 mov x1,#0x2c70
+00484e08 movk x1,#0x282, LSL #16
+00484e0c mov x29,sp
+00484e10 stp x19,x20,[sp, #0x10]
+00484e14 mov x20,x0
+00484e18 str x21,[sp, #0x20]
+00484e1c ldur x19,[x0, #-0x18]
+00484e20 ldr x0,[x19, #0x1b8]
+00484e24 ldr x21,[x19, #0x10]
+00484e28 add x1,x0,x1
+00484e2c ldr x1,[x1, #0x18]
+00484e30 cmp x1,x19
+00484e34 b.eq 0x00484eb8
+00484e38 adrp x0,0x934000
+00484e3c ldr w0,[x0, #0x8b8]
+00484e40 tbz w0,#0x4,0x00484e50
+00484e44 adrp x0,0x934000
+00484e48 ldr w0,[x0, #0xa50]
+00484e4c tbnz w0,#0x3,0x00484e6c
+00484e50 mov x1,x21
+00484e54 mov x0,x19
+00484e58 bl 0x0049f350
+00484e5c ldp x19,x20,[sp, #0x10]
+00484e60 ldr x21,[sp, #0x20]
+00484e64 ldp x29,x30,[sp], #0x30
+00484e68 ret
+00484e6c ldr w6,[x20, #0xc]
+00484e70 adrp x3,0x565000
+00484e74 add x3,x3,#0x3b8
+00484e78 mov x7,x19
+00484e7c add x3,x3,#0x100
+00484e80 adrp x5,0x61c000
+00484e84 add x5,x5,#0xb90
+00484e88 mov w4,#0x8b4
+00484e8c mov w2,#0x3
+00484e90 mov x0,x19
+00484e94 mov w1,#0x4
+00484e98 bl 0x002e46d0
+00484e9c mov x1,x21
+00484ea0 mov x0,x19
+00484ea4 bl 0x0049f350
+00484ea8 ldp x19,x20,[sp, #0x10]
+00484eac ldr x21,[sp, #0x20]
+00484eb0 ldp x29,x30,[sp], #0x30
+00484eb4 ret
+00484eb8 bl 0x00447800
+00484ebc b 0x00484e38
+
+FUNCTION mtk_mac_free_hw @ 00484f30
+decompiled=true
+
+void mtk_mac_free_hw(long param_1)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  
+  lVar1 = *(long *)(param_1 + -0x18);
+  if (lVar1 == 0) {
+    if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934950 >> 3 & 1) != 0)) {
+      mtwf_dbg_prt(0,4,1,"mtk_mac_free_hw",0x745,"ad is null. check.\n");
+    }
+  }
+  else {
+    uVar2 = *(undefined8 *)(lVar1 + 0x1b8);
+    *(undefined8 *)(*(long *)(lVar1 + 8) + 0x80) = 0;
+    *(undefined8 *)(param_1 + -0x18) = 0;
+    *(undefined8 *)(param_1 + -0x20) = 0;
+    mt_synchronize_rcu();
+    RtmpRaDevCtrlExit(lVar1);
+    physical_device_remove_main_device(uVar2);
+  }
+  return;
+}
+
+
+ASSEMBLY
+00484f30 stp x29,x30,[sp, #-0x20]!
+00484f34 mov x29,sp
+00484f38 stp x19,x20,[sp, #0x10]
+00484f3c ldur x19,[x0, #-0x18]
+00484f40 cbz x19,0x00484f7c
+00484f44 mov x1,x0
+00484f48 ldr x0,[x19, #0x8]
+00484f4c ldr x20,[x19, #0x1b8]
+00484f50 str xzr,[x0, #0x80]
+00484f54 stur xzr,[x1, #-0x18]
+00484f58 stur xzr,[x1, #-0x20]
+00484f5c bl 0x009571e0
+00484f60 mov x0,x19
+00484f64 bl 0x002c57f0
+00484f68 mov x0,x20
+00484f6c bl 0x0048a170
+00484f70 ldp x19,x20,[sp, #0x10]
+00484f74 ldp x29,x30,[sp], #0x20
+00484f78 ret
+00484f7c adrp x0,0x934000
+00484f80 ldr w0,[x0, #0x8b8]
+00484f84 tbz w0,#0x4,0x00484f70
+00484f88 adrp x0,0x934000
+00484f8c ldr w0,[x0, #0x950]
+00484f90 tbz w0,#0x3,0x00484f70
+00484f94 adrp x3,0x565000
+00484f98 add x3,x3,#0x3b8
+00484f9c add x3,x3,#0x118
+00484fa0 adrp x5,0x61c000
+00484fa4 mov w4,#0x745
+00484fa8 add x5,x5,#0xba8
+00484fac mov w2,#0x1
+00484fb0 mov w1,#0x4
+00484fb4 mov x0,#0x0
+00484fb8 bl 0x002e46d0
+00484fbc b 0x00484f70
+
+FUNCTION hwifi_get_inf_num @ 00486040
+decompiled=true
+
+void hwifi_get_inf_num(long param_1)
+
+{
+  long *plVar1;
+  
+  plVar1 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  (**(code **)(*plVar1 + 0xb0))(plVar1 + 4);
+  return;
+}
+
+
+ASSEMBLY
+00486040 stp x29,x30,[sp, #-0x10]!
+00486044 mov x29,sp
+00486048 ldr x0,[x0, #0x8]
+0048604c ldr x0,[x0, #0x80]
+00486050 ldr x1,[x0], #0x20
+00486054 ldr x1,[x1, #0xb0]
+00486058 blr x1
+0048605c ldp x29,x30,[sp], #0x10
+00486060 ret
+
+FUNCTION hwifi_get_tx_token_num @ 00486064
+decompiled=true
+
+void hwifi_get_tx_token_num(long param_1,undefined8 param_2,undefined1 param_3)
+
+{
+  long *plVar1;
+  code *pcVar2;
+  
+  plVar1 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  pcVar2 = *(code **)(*plVar1 + 0xf8);
+  if (pcVar2 != (code *)0x0) {
+    (*pcVar2)(plVar1 + 4,param_2,param_3);
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00486064 ldr x0,[x0, #0x8]
+00486068 ldr x0,[x0, #0x80]
+0048606c ldr x3,[x0]
+00486070 ldr x3,[x3, #0xf8]
+00486074 cbz x3,0x00486094
+00486078 stp x29,x30,[sp, #-0x10]!
+0048607c and w2,w2,#0xff
+00486080 add x0,x0,#0x20
+00486084 mov x29,sp
+00486088 blr x3
+0048608c ldp x29,x30,[sp], #0x10
+00486090 ret
+00486094 ret
+
+FUNCTION hwifi_get_fw_info @ 004860a0
+decompiled=true
+
+void hwifi_get_fw_info(long param_1)
+
+{
+  long *plVar1;
+  code *pcVar2;
+  
+  plVar1 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  pcVar2 = *(code **)(*plVar1 + 0xc0);
+  if (pcVar2 != (code *)0x0) {
+    (*pcVar2)(plVar1 + 4);
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+004860a0 ldr x0,[x0, #0x8]
+004860a4 ldr x0,[x0, #0x80]
+004860a8 ldr x5,[x0]
+004860ac ldr x5,[x5, #0xc0]
+004860b0 cbz x5,0x004860cc
+004860b4 stp x29,x30,[sp, #-0x10]!
+004860b8 add x0,x0,#0x20
+004860bc mov x29,sp
+004860c0 blr x5
+004860c4 ldp x29,x30,[sp], #0x10
+004860c8 ret
+004860cc ret
+
+FUNCTION hwifi_get_chip_cap @ 004860d0
+decompiled=true
+
+long hwifi_get_chip_cap(long param_1)
+
+{
+  long lVar1;
+  
+  if (*(long *)(param_1 + 0x13096c0) == 0) {
+    printk(&DAT_0061cd48,"hwifi_get_chip_cap");
+    lVar1 = 0;
+  }
+  else {
+    lVar1 = hc_get_chip_cap(*(long *)(param_1 + 0x13096c0));
+    if (lVar1 == 0) {
+      printk(&DAT_0061cd68,"hwifi_get_chip_cap");
+    }
+  }
+  return lVar1;
+}
+
+
+ASSEMBLY
+004860d0 stp x29,x30,[sp, #-0x20]!
+004860d4 mov x1,#0x8000
+004860d8 movk x1,#0x130, LSL #16
+004860dc mov x29,sp
+004860e0 add x0,x0,x1
+004860e4 str x19,[sp, #0x10]
+004860e8 ldr x19,[x0, #0x16c0]
+004860ec cbz x19,0x00486110
+004860f0 mov x0,x19
+004860f4 bl 0x0044f850
+004860f8 mov x19,x0
+004860fc cbz x0,0x0048612c
+00486100 mov x0,x19
+00486104 ldr x19,[sp, #0x10]
+00486108 ldp x29,x30,[sp], #0x20
+0048610c ret
+00486110 adrp x1,0x565000
+00486114 add x1,x1,#0x3b8
+00486118 add x1,x1,#0x178
+0048611c adrp x0,0x61c000
+00486120 add x0,x0,#0xd48
+00486124 bl 0x00957000
+00486128 b 0x00486100
+0048612c adrp x1,0x565000
+00486130 add x1,x1,#0x3b8
+00486134 add x1,x1,#0x178
+00486138 adrp x0,0x61c000
+0048613c add x0,x0,#0xd68
+00486140 bl 0x00957000
+00486144 b 0x00486100
+
+FUNCTION hwifi_update_edca @ 00486150
+decompiled=true
+
+void hwifi_update_edca(long param_1,long param_2,undefined8 param_3,char param_4)
+
+{
+  long lVar1;
+  
+  if (*(long *)(param_1 + 0x13096c0) == 0) {
+    printk(&DAT_0061cd48,"hwifi_get_edca");
+  }
+  else if (*(long *)(param_2 + 0x2a18) != 0) {
+    lVar1 = wmm_ctrl_get_entry_by_idx
+                      (*(long *)(param_1 + 0x13096c0),
+                       *(undefined1 *)(*(long *)(param_2 + 0x2a18) + 0x14));
+    if ((lVar1 == 0) || (lVar1 = lVar1 + 4, lVar1 == 0)) {
+      return;
+    }
+    if (param_4 == '\0') {
+      os_move_mem(lVar1,param_3,0x24);
+      return;
+    }
+    os_zero_mem(lVar1,0x24);
+  }
+  return;
+}
+
+
+ASSEMBLY
+00486150 mov x4,#0x8000
+00486154 stp x29,x30,[sp, #-0x20]!
+00486158 movk x4,#0x130, LSL #16
+0048615c add x0,x0,x4
+00486160 mov x29,sp
+00486164 ldr x1,[x1, #0x2a18]
+00486168 ldr x0,[x0, #0x16c0]
+0048616c cbz x0,0x004861d0
+00486170 cbz x1,0x004861a4
+00486174 stp x19,x20,[sp, #0x10]
+00486178 and w20,w3,#0xff
+0048617c mov x19,x2
+00486180 ldrb w1,[x1, #0x14]
+00486184 bl 0x0048d120
+00486188 cbz x0,0x004861c4
+0048618c adds x0,x0,#0x4
+00486190 b.eq 0x004861c4
+00486194 cbz w20,0x004861ac
+00486198 mov x1,#0x24
+0048619c bl 0x0049da04
+004861a0 ldp x19,x20,[sp, #0x10]
+004861a4 ldp x29,x30,[sp], #0x20
+004861a8 ret
+004861ac mov x1,x19
+004861b0 mov x2,#0x24
+004861b4 bl 0x0049da20
+004861b8 ldp x19,x20,[sp, #0x10]
+004861bc ldp x29,x30,[sp], #0x20
+004861c0 ret
+004861c4 ldp x19,x20,[sp, #0x10]
+004861c8 ldp x29,x30,[sp], #0x20
+004861cc ret
+004861d0 adrp x1,0x565000
+004861d4 add x1,x1,#0x3b8
+004861d8 add x1,x1,#0x190
+004861dc adrp x0,0x61c000
+004861e0 add x0,x0,#0xd48
+004861e4 bl 0x00957000
+004861e8 b 0x004861a4
+
+FUNCTION hwifi_set_edca @ 004861f0
+decompiled=true
+
+void hwifi_set_edca(long param_1)
+
+{
+  long lVar1;
+  long lVar2;
+  long lVar3;
+  long lVar4;
+  undefined8 local_28;
+  undefined8 uStack_20;
+  undefined8 local_18;
+  undefined8 uStack_10;
+  undefined8 local_8;
+  
+  lVar1 = hc_get_hdev_ctrl();
+  lVar4 = *(long *)(param_1 + 0x1b8);
+  lVar3 = *(long *)(param_1 + 0x2a18);
+  lVar2 = *(long *)(lVar4 + 0x13096c0);
+  if (lVar2 == 0) {
+    printk(&DAT_0061cd48,"hwifi_get_edca");
+  }
+  else if ((lVar3 != 0) &&
+          (lVar2 = wmm_ctrl_get_entry_by_idx(lVar2,*(undefined1 *)(lVar3 + 0x14)), lVar2 != 0)) {
+    uStack_20 = 0;
+    local_18 = 0;
+    uStack_10 = 0;
+    local_8 = 0;
+    local_28._0_4_ =
+         CONCAT13(*(undefined1 *)(lVar3 + 0x14),
+                  CONCAT12(*(undefined1 *)(lVar1 + 0x20b9),CONCAT11(1,*(undefined1 *)(lVar3 + 0x15))
+                          ));
+    local_28 = (ulong)(uint)local_28;
+    if (lVar2 + 4 != 0) {
+      os_move_mem((long)&local_28 + 4,lVar2 + 4,0x24);
+      local_28._0_5_ = CONCAT14(1,(uint)local_28);
+      AsicSetEdcaParm(lVar4,&local_28,param_1);
+    }
+  }
+  return;
+}
+
+
+ASSEMBLY
+004861f0 stp x29,x30,[sp, #-0x60]!
+004861f4 mov x29,sp
+004861f8 stp x19,x20,[sp, #0x10]
+004861fc mov x19,x0
+00486200 stp x21,x22,[sp, #0x20]
+00486204 bl 0x00452720
+00486208 mov x1,#0x8000
+0048620c ldr x22,[x19, #0x1b8]
+00486210 movk x1,#0x130, LSL #16
+00486214 mov x20,x0
+00486218 add x1,x22,x1
+0048621c ldr x21,[x19, #0x2a18]
+00486220 ldr x0,[x1, #0x16c0]
+00486224 cbz x0,0x004862a4
+00486228 cbz x21,0x00486294
+0048622c ldrb w1,[x21, #0x14]
+00486230 bl 0x0048d120
+00486234 mov x1,x0
+00486238 cbz x0,0x00486294
+0048623c add x0,x20,#0x2, LSL #12
+00486240 stp xzr,xzr,[sp, #0x38]
+00486244 mov w20,#0x1
+00486248 stp xzr,xzr,[sp, #0x48]
+0048624c adds x1,x1,#0x4
+00486250 ldrb w2,[x0, #0xb9]
+00486254 str xzr,[sp, #0x58]
+00486258 strb w20,[sp, #0x39]
+0048625c ldrb w0,[x21, #0x14]
+00486260 ldrb w3,[x21, #0x15]
+00486264 strb w3,[sp, #0x38]
+00486268 strb w2,[sp, #0x3a]
+0048626c strb w0,[sp, #0x3b]
+00486270 b.eq 0x00486294
+00486274 add x0,sp,#0x3c
+00486278 mov x2,#0x24
+0048627c bl 0x0049da20
+00486280 add x1,sp,#0x38
+00486284 mov x2,x19
+00486288 mov x0,x22
+0048628c strb w20,[sp, #0x3c]
+00486290 bl 0x00449000
+00486294 ldp x19,x20,[sp, #0x10]
+00486298 ldp x21,x22,[sp, #0x20]
+0048629c ldp x29,x30,[sp], #0x60
+004862a0 ret
+004862a4 adrp x1,0x565000
+004862a8 add x1,x1,#0x3b8
+004862ac add x1,x1,#0x190
+004862b0 adrp x0,0x61c000
+004862b4 add x0,x0,#0xd48
+004862b8 bl 0x00957000
+004862bc b 0x00486294
+
+FUNCTION hwifi_get_edca @ 004862c0
+decompiled=true
+
+long hwifi_get_edca(long param_1,long param_2)
+
+{
+  long lVar1;
+  
+  if (*(long *)(param_1 + 0x13096c0) == 0) {
+    printk(&DAT_0061cd48,"hwifi_get_edca");
+    lVar1 = 0;
+  }
+  else {
+    if ((*(long *)(param_2 + 0x2a18) == 0) ||
+       (lVar1 = wmm_ctrl_get_entry_by_idx
+                          (*(long *)(param_1 + 0x13096c0),
+                           *(undefined1 *)(*(long *)(param_2 + 0x2a18) + 0x14)), lVar1 == 0)) {
+      return 0;
+    }
+    lVar1 = lVar1 + 4;
+  }
+  return lVar1;
+}
+
+
+ASSEMBLY
+004862c0 stp x29,x30,[sp, #-0x20]!
+004862c4 mov x2,#0x8000
+004862c8 movk x2,#0x130, LSL #16
+004862cc mov x29,sp
+004862d0 add x0,x0,x2
+004862d4 str x19,[sp, #0x10]
+004862d8 ldr x19,[x0, #0x16c0]
+004862dc ldr x0,[x1, #0x2a18]
+004862e0 cbz x19,0x00486320
+004862e4 cbz x0,0x0048630c
+004862e8 ldrb w1,[x0, #0x14]
+004862ec mov x0,x19
+004862f0 bl 0x0048d120
+004862f4 cbz x0,0x0048630c
+004862f8 add x19,x0,#0x4
+004862fc mov x0,x19
+00486300 ldr x19,[sp, #0x10]
+00486304 ldp x29,x30,[sp], #0x20
+00486308 ret
+0048630c mov x19,#0x0
+00486310 mov x0,x19
+00486314 ldr x19,[sp, #0x10]
+00486318 ldp x29,x30,[sp], #0x20
+0048631c ret
+00486320 adrp x1,0x565000
+00486324 add x1,x1,#0x3b8
+00486328 add x1,x1,#0x190
+0048632c adrp x0,0x61c000
+00486330 add x0,x0,#0xd48
+00486334 bl 0x00957000
+00486338 b 0x004862fc
+
+FUNCTION hwifi_update_hw_cap @ 00486340
+decompiled=true
+
+void hwifi_update_hw_cap(long param_1,ulong param_2,undefined4 *param_3)
+
+{
+  if ((param_2 & 8) != 0) {
+    *(undefined1 *)(param_1 + 0x1ba) = 0;
+  }
+  if ((param_2 & 0x10) != 0) {
+    *(uint *)(param_1 + 0x74) = *(uint *)(param_1 + 0x74) | 0x40000000;
+  }
+  if ((param_2 & 0x20) != 0) {
+    *(uint *)(param_1 + 0x74) = *(uint *)(param_1 + 0x74) | 0x400000;
+  }
+  if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934b50 >> 3 & 1) != 0)) {
+    mtwf_dbg_prt(0,4,5,"hwifi_update_hw_cap",0x637,
+                 "hw_flags :%lx, asic_caps :%x, qm type :%d SW AMSDU num :%d ln :%d\n",param_2,
+                 *(undefined4 *)(param_1 + 0x74),*(undefined1 *)(param_1 + 0x1ba),*param_3,
+                 param_3[1]);
+    return;
+  }
+  return;
+}
+
+
+ASSEMBLY
+00486340 sub sp,sp,#0x40
+00486344 stp x29,x30,[sp, #0x20]
+00486348 add x29,sp,#0x20
+0048634c str x1,[sp, #0x38]
+00486350 ldr x1,[sp, #0x38]
+00486354 tst w1,#0x8
+00486358 b.eq 0x00486360
+0048635c strb wzr,[x0, #0x1ba]
+00486360 ldr x1,[sp, #0x38]
+00486364 tst w1,#0x10
+00486368 b.eq 0x00486378
+0048636c ldr w1,[x0, #0x74]
+00486370 orr w1,w1,#0x40000000
+00486374 str w1,[x0, #0x74]
+00486378 ldr x1,[sp, #0x38]
+0048637c tst w1,#0x20
+00486380 b.eq 0x00486390
+00486384 ldr w1,[x0, #0x74]
+00486388 orr w1,w1,#0x400000
+0048638c str w1,[x0, #0x74]
+00486390 adrp x1,0x934000
+00486394 ldr w1,[x1, #0x8b8]
+00486398 tbz w1,#0x4,0x004863a8
+0048639c adrp x1,0x934000
+004863a0 ldr w1,[x1, #0xb50]
+004863a4 tbnz w1,#0x3,0x004863b4
+004863a8 ldp x29,x30,[sp, #0x20]
+004863ac add sp,sp,#0x40
+004863b0 ret
+004863b4 ldr w7,[x0, #0x74]
+004863b8 adrp x3,0x565000
+004863bc ldr x6,[sp, #0x38]
+004863c0 add x3,x3,#0x3b8
+004863c4 ldrb w4,[x0, #0x1ba]
+004863c8 add x3,x3,#0x1a0
+004863cc ldp w1,w0,[x2]
+004863d0 str w4,[sp]
+004863d4 str w1,[sp, #0x8]
+004863d8 mov w2,#0x5
+004863dc str w0,[sp, #0x10]
+004863e0 mov w4,#0x637
+004863e4 mov w1,#0x4
+004863e8 mov x0,#0x0
+004863ec adrp x5,0x61c000
+004863f0 add x5,x5,#0xd80
+004863f4 bl 0x002e46d0
+004863f8 ldp x29,x30,[sp, #0x20]
+004863fc add sp,sp,#0x40
+00486400 ret
+
+FUNCTION hwifi_tx_mgmt @ 00486404
+decompiled=true
+
+undefined4
+hwifi_tx_mgmt(long param_1,undefined8 param_2,long param_3,undefined8 param_4,long param_5)
+
+{
+  char cVar1;
+  short sVar2;
+  undefined4 uVar3;
+  long lVar4;
+  long lVar5;
+  long *plVar6;
+  
+  plVar6 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  lVar4 = hc_get_chip_cap(*(undefined8 *)(param_1 + 0x13096c0));
+  lVar5 = *(long *)(param_5 + 8);
+  if ((lVar5 == 0) || (*(long *)(lVar5 + 0x20) == 0)) {
+    lVar5 = *(long *)(*(long *)(param_1 + 0x2290) +
+                      (ulong)*(ushort *)(*(long *)(param_5 + 0x18) + 0x1c4) * 0x6b0 + 0x1148c20);
+  }
+  else {
+    lVar5 = *(long *)(lVar5 + 0x20);
+  }
+  if ((lVar5 == 0) || (lVar5 = *(long *)(lVar5 + 0xb8), lVar5 == 0)) {
+    if ((DebugCategory >> 10 & 1) == 0) {
+      uVar3 = 0xffffffea;
+    }
+    else {
+      uVar3 = 0xffffffea;
+      if ((DAT_00934968 >> 5 & 1) != 0) {
+        mtwf_dbg_prt(param_1,10,1,"hwifi_tx_mgmt",0x688,"tx fail!\n");
+        return 0xffffffea;
+      }
+    }
+  }
+  else {
+    skb_pull(*(undefined8 *)(param_5 + 0x10),*(undefined1 *)(lVar4 + 2));
+    *(undefined1 *)(param_5 + 0x44) = *(undefined1 *)(param_3 + 0x20);
+    cVar1 = *(char *)(param_3 + 0x29);
+    *(char *)(param_5 + 0xdc) = cVar1;
+    *(undefined1 *)(param_5 + 0xdd) = *(undefined1 *)(param_3 + 0x2a);
+    *(undefined1 *)(param_5 + 0xdf) = *(undefined1 *)(param_3 + 0xc);
+    *(undefined1 *)(param_5 + 1) = *(undefined1 *)(param_3 + 0x24);
+    *(undefined1 *)(param_5 + 0x30) = *(undefined1 *)(param_3 + 0xd);
+    sVar2 = *(short *)(*(long *)(param_5 + 0x10) + 0x4a);
+    if (sVar2 != 0) {
+      *(short *)(param_5 + 0x32) = sVar2;
+    }
+    if (*(char *)(param_3 + 6) != '\0') {
+      *(undefined1 *)(param_5 + 5) = 1;
+    }
+    if (*(char *)(param_3 + 5) != '\0') {
+      *(uint *)(param_5 + 0x28) = *(uint *)(param_5 + 0x28) | 2;
+    }
+    if (*(char *)(param_3 + 0x37) != '\0') {
+      *(uint *)(param_5 + 0x28) = *(uint *)(param_5 + 0x28) | 0x20000;
+    }
+    if (*(char *)(param_3 + 0x38) != '\0') {
+      *(char *)(param_5 + 0x101) = *(char *)(param_3 + 0x38);
+    }
+    if ((*(char *)(param_3 + 0x25) != '\x01') &&
+       (*(uint *)(param_5 + 0xa4) = *(uint *)(param_5 + 0xa4) | 1,
+       *(char *)(param_3 + 0x25) == '\x02')) {
+      *(uint *)(param_5 + 0x28) = *(uint *)(param_5 + 0x28) | 0x80000000;
+    }
+    if ((((cVar1 == '\x02') && (*(char *)(*(long *)(param_5 + 0x10) + 0x57) != '\x03')) &&
+        (*(undefined1 *)(param_5 + 1) = 1, (DebugCategory >> 10 & 1) != 0)) &&
+       ((DAT_00934ae8 >> 5 & 1) != 0)) {
+      mtwf_dbg_prt(param_1,10,4,"hwifi_tx_mgmt",0x67c,"Send data frame, wcid=%d, QueIdx=%d\n",
+                   *(undefined2 *)(param_5 + 0x32),1);
+    }
+    mt_wlan_hook_call(0x10,param_1,param_5);
+    uVar3 = (**(code **)(*plVar6 + 0x60))(plVar6 + 4,lVar5,param_5);
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+00486404 stp x29,x30,[sp, #-0x40]!
+00486408 mov x3,#0x8000
+0048640c movk x3,#0x130, LSL #16
+00486410 mov x29,sp
+00486414 add x3,x0,x3
+00486418 stp x19,x20,[sp, #0x10]
+0048641c mov x19,x4
+00486420 mov x20,x2
+00486424 stp x21,x22,[sp, #0x20]
+00486428 str x23,[sp, #0x30]
+0048642c mov x23,x0
+00486430 ldr x4,[x0, #0x8]
+00486434 ldr x0,[x3, #0x16c0]
+00486438 ldr x21,[x4, #0x80]
+0048643c bl 0x0044f850
+00486440 mov x3,x0
+00486444 ldp x2,x0,[x19, #0x8]
+00486448 cbz x2,0x0048656c
+0048644c ldr x1,[x2, #0x20]
+00486450 cbz x1,0x0048656c
+00486454 ldr x2,[x2, #0x20]
+00486458 cbz x2,0x00486594
+0048645c ldr x22,[x2, #0xb8]
+00486460 cbz x22,0x00486594
+00486464 ldrb w1,[x3, #0x2]
+00486468 bl 0x00957388
+0048646c ldrb w0,[x20, #0x20]
+00486470 strb w0,[x19, #0x44]
+00486474 ldr x2,[x19, #0x10]
+00486478 ldrb w0,[x20, #0x29]
+0048647c strb w0,[x19, #0xdc]
+00486480 ldrb w1,[x20, #0x2a]
+00486484 strb w1,[x19, #0xdd]
+00486488 ldrb w1,[x20, #0xc]
+0048648c strb w1,[x19, #0xdf]
+00486490 ldrb w1,[x20, #0x24]
+00486494 strb w1,[x19, #0x1]
+00486498 ldrb w1,[x20, #0xd]
+0048649c strb w1,[x19, #0x30]
+004864a0 ldrh w1,[x2, #0x4a]
+004864a4 cbz w1,0x004864ac
+004864a8 strh w1,[x19, #0x32]
+004864ac ldrb w1,[x20, #0x6]
+004864b0 cbz w1,0x004864bc
+004864b4 mov w1,#0x1
+004864b8 strb w1,[x19, #0x5]
+004864bc ldrb w1,[x20, #0x5]
+004864c0 cbz w1,0x004864d0
+004864c4 ldr w1,[x19, #0x28]
+004864c8 orr w1,w1,#0x2
+004864cc str w1,[x19, #0x28]
+004864d0 ldrb w1,[x20, #0x37]
+004864d4 cbz w1,0x004864e4
+004864d8 ldr w1,[x19, #0x28]
+004864dc orr w1,w1,#0x20000
+004864e0 str w1,[x19, #0x28]
+004864e4 ldrb w1,[x20, #0x38]
+004864e8 cbz w1,0x004864f0
+004864ec strb w1,[x19, #0x101]
+004864f0 ldrb w1,[x20, #0x25]
+004864f4 cmp w1,#0x1
+004864f8 b.eq 0x00486520
+004864fc ldr w1,[x19, #0xa4]
+00486500 orr w1,w1,#0x1
+00486504 str w1,[x19, #0xa4]
+00486508 ldrb w1,[x20, #0x25]
+0048650c cmp w1,#0x2
+00486510 b.ne 0x00486520
+00486514 ldr w1,[x19, #0x28]
+00486518 orr w1,w1,#0x80000000
+0048651c str w1,[x19, #0x28]
+00486520 cmp w0,#0x2
+00486524 b.eq 0x004865f0
+00486528 mov x1,x23
+0048652c mov x2,x19
+00486530 mov w0,#0x10
+00486534 bl 0x004a3bb4
+00486538 mov x0,x21
+0048653c mov x2,x19
+00486540 mov x1,x22
+00486544 ldr x3,[x0], #0x20
+00486548 ldr x3,[x3, #0x60]
+0048654c blr x3
+00486550 mov w19,w0
+00486554 mov w0,w19
+00486558 ldp x19,x20,[sp, #0x10]
+0048655c ldp x21,x22,[sp, #0x20]
+00486560 ldr x23,[sp, #0x30]
+00486564 ldp x29,x30,[sp], #0x40
+00486568 ret
+0048656c ldr x5,[x19, #0x18]
+00486570 mov x1,#0x8c00
+00486574 movk x1,#0x114, LSL #16
+00486578 mov w4,#0x6b0
+0048657c ldr x2,[x23, #0x2290]
+00486580 ldrh w5,[x5, #0x1c4]
+00486584 umaddl x4,w4,w5,x1
+00486588 add x2,x2,x4
+0048658c ldr x2,[x2, #0x20]
+00486590 cbnz x2,0x0048645c
+00486594 adrp x0,0x934000
+00486598 ldr w0,[x0, #0x8b8]
+0048659c tbz w0,#0xa,0x00486650
+004865a0 adrp x0,0x934000
+004865a4 mov w19,#0xffffffea
+004865a8 ldr w0,[x0, #0x968]
+004865ac tbz w0,#0x5,0x00486554
+004865b0 adrp x3,0x565000
+004865b4 add x3,x3,#0x3b8
+004865b8 mov x0,x23
+004865bc add x3,x3,#0x1b8
+004865c0 mov w4,#0x688
+004865c4 mov w2,#0x1
+004865c8 mov w1,#0xa
+004865cc adrp x5,0x61c000
+004865d0 add x5,x5,#0xdf0
+004865d4 bl 0x002e46d0
+004865d8 mov w0,w19
+004865dc ldp x19,x20,[sp, #0x10]
+004865e0 ldp x21,x22,[sp, #0x20]
+004865e4 ldr x23,[sp, #0x30]
+004865e8 ldp x29,x30,[sp], #0x40
+004865ec ret
+004865f0 ldrb w0,[x2, #0x57]
+004865f4 cmp w0,#0x3
+004865f8 b.eq 0x00486528
+004865fc mov w1,#0x1
+00486600 adrp x0,0x934000
+00486604 strb w1,[x19, #0x1]
+00486608 ldr w0,[x0, #0x8b8]
+0048660c tbz w0,#0xa,0x00486528
+00486610 adrp x0,0x934000
+00486614 ldr w0,[x0, #0xae8]
+00486618 tbz w0,#0x5,0x00486528
+0048661c ldrh w6,[x19, #0x32]
+00486620 adrp x3,0x565000
+00486624 add x3,x3,#0x3b8
+00486628 mov x0,x23
+0048662c add x3,x3,#0x1b8
+00486630 adrp x5,0x61c000
+00486634 mov w7,#0x1
+00486638 add x5,x5,#0xdc8
+0048663c mov w4,#0x67c
+00486640 mov w2,#0x4
+00486644 mov w1,#0xa
+00486648 bl 0x002e46d0
+0048664c b 0x00486528
+00486650 mov w19,#0xffffffea
+00486654 b 0x00486554
+
+FUNCTION hwifi_tx_data @ 00486660
+decompiled=true
+
+undefined4 hwifi_tx_data(long param_1,long param_2)
+
+{
+  undefined4 uVar1;
+  long lVar2;
+  long *plVar3;
+  
+  if (*(long *)(param_2 + 0x18) != 0 && *(long *)(param_2 + 8) != 0) {
+    plVar3 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+    lVar2 = *(long *)(*(long *)(param_2 + 8) + 0x20);
+    if (*(long *)(*(long *)(param_2 + 0x18) + 0x2a18) != 0 && lVar2 != 0) {
+      if (*(byte *)(param_2 + 0x30) < 0x11) {
+        lVar2 = *(long *)(lVar2 + (long)(int)(uint)*(byte *)(param_2 + 0x30) * 8 + 0x38);
+      }
+      else {
+        lVar2 = *(long *)(lVar2 + 0x38);
+      }
+      if (lVar2 != 0) {
+        mt_wlan_hook_call(0x10,param_1,param_2);
+        uVar1 = (**(code **)(*plVar3 + 0x60))(plVar3 + 4,lVar2,param_2);
+        return uVar1;
+      }
+    }
+  }
+  if (((DebugCategory >> 10 & 1) != 0) && ((DAT_00934968 >> 6 & 1) != 0)) {
+    mtwf_dbg_prt(param_1,10,1,"hwifi_tx_data",0x6b1,"tx fail!\n");
+    return 0xffffffea;
+  }
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+00486660 stp x29,x30,[sp, #-0x30]!
+00486664 mov x29,sp
+00486668 stp x19,x20,[sp, #0x10]
+0048666c mov x19,x1
+00486670 ldr x2,[x1, #0x18]
+00486674 ldr x1,[x1, #0x8]
+00486678 cmp x2,#0x0
+0048667c ccmp x1,#0x0,#0x4,ne
+00486680 b.eq 0x00486700
+00486684 ldr x3,[x0, #0x8]
+00486688 ldr x20,[x3, #0x80]
+0048668c ldr x2,[x2, #0x2a18]
+00486690 ldr x1,[x1, #0x20]
+00486694 cmp x2,#0x0
+00486698 ccmp x1,#0x0,#0x4,ne
+0048669c b.eq 0x00486700
+004866a0 str x21,[sp, #0x20]
+004866a4 ldrb w2,[x19, #0x30]
+004866a8 cmp w2,#0x10
+004866ac b.hi 0x00486750
+004866b0 add x1,x1,w2, SXTW  #0x3
+004866b4 ldr x21,[x1, #0x38]
+004866b8 cbz x21,0x004866fc
+004866bc mov x1,x0
+004866c0 mov x2,x19
+004866c4 mov w0,#0x10
+004866c8 bl 0x004a3bb4
+004866cc mov x0,x20
+004866d0 mov x2,x19
+004866d4 mov x1,x21
+004866d8 ldr x3,[x0], #0x20
+004866dc ldr x3,[x3, #0x60]
+004866e0 blr x3
+004866e4 mov w19,w0
+004866e8 ldr x21,[sp, #0x20]
+004866ec mov w0,w19
+004866f0 ldp x19,x20,[sp, #0x10]
+004866f4 ldp x29,x30,[sp], #0x30
+004866f8 ret
+004866fc ldr x21,[sp, #0x20]
+00486700 adrp x1,0x934000
+00486704 ldr w1,[x1, #0x8b8]
+00486708 tbz w1,#0xa,0x00486758
+0048670c adrp x1,0x934000
+00486710 mov w19,#0xffffffea
+00486714 ldr w1,[x1, #0x968]
+00486718 tbz w1,#0x6,0x004866ec
+0048671c adrp x3,0x565000
+00486720 add x3,x3,#0x3b8
+00486724 add x3,x3,#0x1c8
+00486728 mov w4,#0x6b1
+0048672c mov w2,#0x1
+00486730 mov w1,#0xa
+00486734 adrp x5,0x61c000
+00486738 add x5,x5,#0xdf0
+0048673c bl 0x002e46d0
+00486740 mov w0,w19
+00486744 ldp x19,x20,[sp, #0x10]
+00486748 ldp x29,x30,[sp], #0x30
+0048674c ret
+00486750 ldr x21,[x1, #0x38]
+00486754 b 0x004866b8
+00486758 mov w19,#0xffffffea
+0048675c b 0x004866ec
+
+FUNCTION hwifi_init_hw_ring_setting @ 00486760
+decompiled=true
+
+undefined4 hwifi_init_hw_ring_setting(long param_1)
+
+{
+  short sVar1;
+  undefined4 uVar2;
+  long *plVar3;
+  
+  plVar3 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  sVar1 = (**(code **)(*plVar3 + 0xb0))(plVar3 + 4);
+  if (sVar1 == 0) {
+    if ((plVar3[9] & 0x40U) != 0) {
+      uVar2 = uni_cmd_rro_rx_path(param_1,(char)plVar3[0xc]);
+      printk(&DAT_0061ce98,"hwifi_init_hw_ring_setting",0x6d2,uVar2,(char)plVar3[0xc]);
+      uVar2 = uni_cmd_rro_bypass_mode(param_1,*(undefined1 *)((long)plVar3 + 0x61));
+      printk(&DAT_0061cec8,"hwifi_init_hw_ring_setting",0x6d6,uVar2,
+             *(undefined1 *)((long)plVar3 + 0x61));
+      uVar2 = uni_cmd_rro_tx_free_done_path(param_1,*(undefined1 *)((long)plVar3 + 99));
+      printk(&DAT_0061cef8,"hwifi_init_hw_ring_setting",0x6dc,uVar2,
+             *(undefined1 *)((long)plVar3 + 99));
+    }
+    uVar2 = MtCmdCr4Set(param_1,0x2f,*(undefined4 *)((long)plVar3 + 0x5c),0);
+    printk(&DAT_0061cf28,"hwifi_init_hw_ring_setting",0x6e3,uVar2,
+           *(undefined4 *)((long)plVar3 + 0x5c));
+  }
+  else {
+    uVar2 = 0;
+  }
+  return uVar2;
+}
+
+
+ASSEMBLY
+00486760 stp x29,x30,[sp, #-0x30]!
+00486764 mov x29,sp
+00486768 stp x19,x20,[sp, #0x10]
+0048676c mov x19,x0
+00486770 ldr x0,[x0, #0x8]
+00486774 ldr x20,[x0, #0x80]
+00486778 mov x0,x20
+0048677c ldr x1,[x0], #0x20
+00486780 ldr x1,[x1, #0xb0]
+00486784 blr x1
+00486788 tst w0,#0xffff
+0048678c b.eq 0x004867a4
+00486790 mov w19,#0x0
+00486794 mov w0,w19
+00486798 ldp x19,x20,[sp, #0x10]
+0048679c ldp x29,x30,[sp], #0x30
+004867a0 ret
+004867a4 stp x21,x22,[sp, #0x20]
+004867a8 ldr x0,[x20, #0x48]
+004867ac tst w0,#0x40
+004867b0 b.ne 0x004867fc
+004867b4 adrp x21,0x565000
+004867b8 add x20,x20,#0x50
+004867bc add x21,x21,#0x3b8
+004867c0 ldr w2,[x20, #0xc]
+004867c4 mov x0,x19
+004867c8 mov w3,#0x0
+004867cc mov w1,#0x2f
+004867d0 bl 0x001f03a4
+004867d4 mov w3,w0
+004867d8 ldr w4,[x20, #0xc]
+004867dc add x1,x21,#0x1d8
+004867e0 mov w19,w0
+004867e4 mov w2,#0x6e3
+004867e8 adrp x0,0x61c000
+004867ec add x0,x0,#0xf28
+004867f0 bl 0x00957000
+004867f4 ldp x21,x22,[sp, #0x20]
+004867f8 b 0x00486794
+004867fc ldrb w1,[x20, #0x60]
+00486800 mov x0,x19
+00486804 adrp x21,0x565000
+00486808 add x21,x21,#0x3b8
+0048680c add x22,x21,#0x1d8
+00486810 add x20,x20,#0x50
+00486814 bl 0x001d17b0
+00486818 mov w3,w0
+0048681c ldrb w4,[x20, #0x10]
+00486820 mov x1,x22
+00486824 mov w2,#0x6d2
+00486828 adrp x0,0x61c000
+0048682c add x0,x0,#0xe98
+00486830 bl 0x00957000
+00486834 ldrb w1,[x20, #0x11]
+00486838 mov x0,x19
+0048683c bl 0x001d1a70
+00486840 mov w3,w0
+00486844 ldrb w4,[x20, #0x11]
+00486848 mov x1,x22
+0048684c mov w2,#0x6d6
+00486850 adrp x0,0x61c000
+00486854 add x0,x0,#0xec8
+00486858 bl 0x00957000
+0048685c ldrb w1,[x20, #0x13]
+00486860 mov x0,x19
+00486864 bl 0x001d1bd0
+00486868 mov w3,w0
+0048686c ldrb w4,[x20, #0x13]
+00486870 mov x1,x22
+00486874 adrp x0,0x61c000
+00486878 mov w2,#0x6dc
+0048687c add x0,x0,#0xef8
+00486880 bl 0x00957000
+00486884 b 0x004867c0
+
+FUNCTION hwifi_ser_handler @ 00486890
+decompiled=true
+
+void hwifi_ser_handler(long param_1)
+
+{
+  long *plVar1;
+  
+  plVar1 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  (**(code **)(*plVar1 + 0x90))(plVar1 + 4);
+  return;
+}
+
+
+ASSEMBLY
+00486890 stp x29,x30,[sp, #-0x10]!
+00486894 mov x29,sp
+00486898 ldr x0,[x0, #0x8]
+0048689c ldr x0,[x0, #0x80]
+004868a0 ldr x3,[x0], #0x20
+004868a4 ldr x3,[x3, #0x90]
+004868a8 blr x3
+004868ac ldp x29,x30,[sp], #0x10
+004868b0 ret
+
+FUNCTION hwifi_dbg_info @ 004868b4
+decompiled=true
+
+undefined4 hwifi_dbg_info(long param_1)
+
+{
+  undefined4 uVar1;
+  code *pcVar2;
+  long *plVar3;
+  
+  plVar3 = *(long **)(*(long *)(param_1 + 8) + 0x80);
+  pcVar2 = *(code **)(*plVar3 + 0x98);
+  if (pcVar2 == (code *)0x0) {
+    uVar1 = 0xffffffa1;
+    if (((DebugCategory >> 4 & 1) != 0) && ((DAT_00934950 >> 3 & 1) != 0)) {
+      mtwf_dbg_prt(param_1,4,1,"hwifi_dbg_info",0x6f6,"%s(): null pointer: get_dbg_info\n");
+    }
+  }
+  else {
+    uVar1 = (*pcVar2)(plVar3 + 4);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+004868b4 stp x29,x30,[sp, #-0x20]!
+004868b8 mov x29,sp
+004868bc str x19,[sp, #0x10]
+004868c0 ldr x2,[x0, #0x8]
+004868c4 ldr x3,[x2, #0x80]
+004868c8 ldr x2,[x3]
+004868cc ldr x2,[x2, #0x98]
+004868d0 cbz x2,0x004868f0
+004868d4 add x0,x3,#0x20
+004868d8 blr x2
+004868dc mov w19,w0
+004868e0 mov w0,w19
+004868e4 ldr x19,[sp, #0x10]
+004868e8 ldp x29,x30,[sp], #0x20
+004868ec ret
+004868f0 adrp x1,0x934000
+004868f4 mov w19,#0xffffffa1
+004868f8 ldr w1,[x1, #0x8b8]
+004868fc tbz w1,#0x4,0x004868e0
+00486900 adrp x1,0x934000
+00486904 ldr w1,[x1, #0x950]
+00486908 tbz w1,#0x3,0x004868e0
+0048690c adrp x6,0x565000
+00486910 add x6,x6,#0x3b8
+00486914 add x6,x6,#0x1f8
+00486918 adrp x5,0x61c000
+0048691c mov x3,x6
+00486920 add x5,x5,#0xf58
+00486924 mov w4,#0x6f6
+00486928 mov w2,#0x1
+0048692c mov w1,#0x4
+00486930 bl 0x002e46d0
+00486934 b 0x004868e0
+
+FUNCTION hwifi_core_ops_register @ 00486940
+decompiled=true
+
+void hwifi_core_ops_register(undefined8 param_1)
+
+{
+  long lVar1;
+  undefined8 *puVar2;
+  
+  lVar1 = hc_get_hif_ops();
+  *(code **)(lVar1 + 0x58) = RTPCICmdThread;
+  *(code **)(lVar1 + 0x68) = RT28xxPciStaAsicWakeup;
+  *(code **)(lVar1 + 0x70) = RT28xxPciStaAsicSleepAutoWakeup;
+  hc_set_hdev_ops(param_1,&PTR_FUN_006e0af0);
+  puVar2 = (undefined8 *)hc_get_io_ops(param_1);
+  *puVar2 = FUN_00484420;
+  puVar2[1] = FUN_004843d4;
+  puVar2[4] = FUN_00484520;
+  puVar2[5] = FUN_00484470;
+  puVar2[6] = FUN_00484520;
+  puVar2[7] = FUN_00484470;
+  puVar2[8] = CmdIORead32;
+  puVar2[9] = CmdIOWrite32;
+  puVar2[10] = FUN_00484420;
+  puVar2[0xb] = FUN_004843d4;
+  return;
+}
+
+
+ASSEMBLY
+00486940 stp x29,x30,[sp, #-0x20]!
+00486944 mov x29,sp
+00486948 str x19,[sp, #0x10]
+0048694c mov x19,x0
+00486950 bl 0x00452e70
+00486954 mov x2,x0
+00486958 adrp x3,0x446000
+0048695c adrp x4,0x446000
+00486960 add x3,x3,#0xe0
+00486964 add x4,x4,#0xb0
+00486968 adrp x1,0x6e0000
+0048696c adrp x0,0x4a3000
+00486970 add x1,x1,#0xaf0
+00486974 add x0,x0,#0x380
+00486978 str x0,[x2, #0x58]
+0048697c mov x0,x19
+00486980 stp x4,x3,[x2, #0x68]
+00486984 bl 0x00452e80
+00486988 mov x0,x19
+0048698c bl 0x00452e50
+00486990 adrp x6,0x1a1000
+00486994 adrp x5,0x1a1000
+00486998 add x6,x6,#0xf34
+0048699c add x5,x5,#0xe74
+004869a0 adrp x2,0x484000
+004869a4 adrp x1,0x484000
+004869a8 add x2,x2,#0x420
+004869ac add x1,x1,#0x3d4
+004869b0 adrp x4,0x484000
+004869b4 adrp x3,0x484000
+004869b8 add x4,x4,#0x520
+004869bc add x3,x3,#0x470
+004869c0 stp x2,x1,[x0]
+004869c4 stp x4,x3,[x0, #0x20]
+004869c8 stp x4,x3,[x0, #0x30]
+004869cc stp x6,x5,[x0, #0x40]
+004869d0 stp x2,x1,[x0, #0x50]
+004869d4 ldr x19,[sp, #0x10]
+004869d8 ldp x29,x30,[sp], #0x20
+004869dc ret
+
+FUNCTION hwifi_core_ops_unregister @ 004869e0
+decompiled=true
+
+void hwifi_core_ops_unregister(void)
+
+{
+  return;
+}
+
+
+ASSEMBLY
+004869e0 ret
+
+FUNCTION hwifi_show_mac_cap @ 005374f4
+decompiled=true
+
+void hwifi_show_mac_cap(long param_1)
+
+{
+  long lVar1;
+  
+  lVar1 = *(long *)(*(long *)(param_1 + 8) + 0x80);
+  printk(&DAT_0061ce00);
+  printk(&DAT_0061ce20,*(undefined4 *)(lVar1 + 0x5c));
+  printk(&DAT_0061ce40,*(undefined1 *)(lVar1 + 0x60));
+  printk(&DAT_0061ce58,*(undefined1 *)(lVar1 + 0x61));
+  printk(&DAT_0061ce78,*(undefined1 *)(lVar1 + 99));
+  return;
+}
+
+
+ASSEMBLY
+005374f4 stp x29,x30,[sp, #-0x20]!
+005374f8 mov x1,x0
+005374fc adrp x0,0x61c000
+00537500 mov x29,sp
+00537504 str x19,[sp, #0x10]
+00537508 add x0,x0,#0xe00
+0053750c ldr x1,[x1, #0x8]
+00537510 ldr x19,[x1, #0x80]
+00537514 bl 0x00957000
+00537518 adrp x0,0x61c000
+0053751c add x0,x0,#0xe20
+00537520 ldr w1,[x19, #0x5c]
+00537524 bl 0x00957000
+00537528 ldrb w1,[x19, #0x60]
+0053752c adrp x0,0x61c000
+00537530 add x0,x0,#0xe40
+00537534 bl 0x00957000
+00537538 ldrb w1,[x19, #0x61]
+0053753c adrp x0,0x61c000
+00537540 add x0,x0,#0xe58
+00537544 bl 0x00957000
+00537548 ldrb w1,[x19, #0x63]
+0053754c adrp x0,0x61c000
+00537550 add x0,x0,#0xe78
+00537554 bl 0x00957000
+00537558 ldr x19,[sp, #0x10]
+0053755c ldp x29,x30,[sp], #0x20
+00537560 ret
+
+total_executable_functions=11264
+exported_functions=32
+failed_decompilations=0

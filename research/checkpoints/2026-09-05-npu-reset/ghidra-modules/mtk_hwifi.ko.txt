@@ -1,0 +1,207 @@
+program=mtk_hwifi.ko
+sha256=6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7
+language=AARCH64:LE:64:v8A
+
+FUNCTION mtk_bus_rx_ser_event @ 00100714
+section_relative=.text+0x6f4
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko	6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7	.text	0x6f4	0x7a4	0x754	mtk_bus_rx_ser_event	STT_FUNC_symbol_size	Named exported mtk_bus_rx_ser_event provider
+XREF 001153d8 DATA
+decompiled=true
+
+undefined8
+mtk_bus_rx_ser_event
+          (long param_1,undefined4 param_2,int param_3,undefined4 param_4,undefined4 param_5)
+
+{
+  bool bVar1;
+  undefined8 uVar2;
+  code *pcVar3;
+  
+  bVar1 = param_1 == 0;
+  if (bVar1 || param_3 != 10) {
+    if (bVar1 || param_3 != 5) {
+      if (param_3 != 100 || bVar1) {
+        return 0;
+      }
+      pcVar3 = *(code **)(*(long *)(param_1 + 0x80) + 0x50);
+      if (pcVar3 != (code *)0x0) {
+        uVar2 = (*pcVar3)(param_2,100);
+        return uVar2;
+      }
+    }
+    else {
+      pcVar3 = *(code **)(*(long *)(param_1 + 0x80) + 0x50);
+      if (pcVar3 != (code *)0x0) {
+        uVar2 = (*pcVar3)(param_2,5);
+        return uVar2;
+      }
+    }
+  }
+  else {
+    pcVar3 = *(code **)(*(long *)(param_1 + 0x80) + 0x50);
+    if (pcVar3 != (code *)0x0) {
+      uVar2 = (*pcVar3)(param_2,10,param_4,param_5);
+      return uVar2;
+    }
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+00100714 cmp x0,#0x0
+00100718 stp x29,x30,[sp, #-0x10]!
+0010071c cset w7,ne
+00100720 mov w5,w2
+00100724 mov x29,sp
+00100728 cmp w7,#0x0
+0010072c mov w2,w3
+00100730 mov x6,x0
+00100734 mov w3,w4
+00100738 ccmp w5,#0xa,#0x0,ne
+0010073c b.eq 0x0010079c
+00100740 cmp w7,#0x0
+00100744 ccmp w5,#0x5,#0x0,ne
+00100748 b.eq 0x0010077c
+0010074c cmp w5,#0x64
+00100750 mov w0,#0x0
+00100754 ccmp w7,#0x0,#0x4,eq
+00100758 b.eq 0x00100774
+0010075c ldr x0,[x6, #0x80]
+00100760 ldr x4,[x0, #0x50]
+00100764 cbz x4,0x001007bc
+00100768 mov w0,w1
+0010076c mov w1,#0x64
+00100770 blr x4
+00100774 ldp x29,x30,[sp], #0x10
+00100778 ret
+0010077c ldr x0,[x0, #0x80]
+00100780 ldr x4,[x0, #0x50]
+00100784 cbz x4,0x001007bc
+00100788 mov w0,w1
+0010078c mov w1,#0x5
+00100790 blr x4
+00100794 ldp x29,x30,[sp], #0x10
+00100798 ret
+0010079c ldr x0,[x0, #0x80]
+001007a0 ldr x4,[x0, #0x50]
+001007a4 cbz x4,0x001007bc
+001007a8 mov w0,w1
+001007ac mov w1,#0xa
+001007b0 blr x4
+001007b4 ldp x29,x30,[sp], #0x10
+001007b8 ret
+001007bc mov w0,#0xffffffa1
+001007c0 b 0x00100774
+
+FUNCTION mtk_ge_stop_npu @ 0010ceb0
+section_relative=.text+0xce90
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko	6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7	.text	0xce90	0xcec4	0xcef0	mtk_ge_stop_npu	STT_FUNC_symbol_size	Named stop wrapper; BLR through slot +0x128, not a direct mailbox call
+XREF 001179b8 DATA
+XREF 00111790 DATA
+decompiled=true
+
+undefined8 mtk_ge_stop_npu(long param_1)
+
+{
+  code *pcVar1;
+  
+  pcVar1 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0xb0) + 0x690) + 0x68) + 0x128);
+  if (pcVar1 != (code *)0x0) {
+    (*pcVar1)();
+    return 0;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+0010ceb0 ldr x0,[x0, #0xb0]
+0010ceb4 ldr x0,[x0, #0x690]
+0010ceb8 ldr x1,[x0, #0x68]
+0010cebc ldr x1,[x1, #0x128]
+0010cec0 cbz x1,0x0010cedc
+0010cec4 stp x29,x30,[sp, #-0x10]!
+0010cec8 mov x29,sp
+0010cecc blr x1
+0010ced0 mov w0,#0x0
+0010ced4 ldp x29,x30,[sp], #0x10
+0010ced8 ret
+0010cedc mov w0,#0x0
+0010cee0 ret
+
+FUNCTION mtk_ge_start_npu @ 0010cee4
+section_relative=.text+0xcec4
+inventory_target=1	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko	6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7	.text	0xcec4	0xcef8	0xcf24	mtk_ge_start_npu	STT_FUNC_symbol_size	Named start wrapper; BLR through slot +0x130, not a direct mailbox call
+XREF 001179d8 DATA
+XREF 00111798 DATA
+decompiled=true
+
+undefined8 mtk_ge_start_npu(long param_1)
+
+{
+  code *pcVar1;
+  
+  pcVar1 = *(code **)(*(long *)(*(long *)(*(long *)(param_1 + 0xb0) + 0x690) + 0x68) + 0x130);
+  if (pcVar1 != (code *)0x0) {
+    (*pcVar1)();
+    return 0;
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+0010cee4 ldr x0,[x0, #0xb0]
+0010cee8 ldr x0,[x0, #0x690]
+0010ceec ldr x1,[x0, #0x68]
+0010cef0 ldr x1,[x1, #0x130]
+0010cef4 cbz x1,0x0010cf10
+0010cef8 stp x29,x30,[sp, #-0x10]!
+0010cefc mov x29,sp
+0010cf00 blr x1
+0010cf04 mov w0,#0x0
+0010cf08 ldp x29,x30,[sp], #0x10
+0010cf0c ret
+0010cf10 mov w0,#0x0
+0010cf14 ret
+
+FUNCTION mtk_ge_hw_reset @ 0010d040
+section_relative=.text+0xd020
+inventory_target=2	.local/legacy-firmware/work/extract/stock-rootfs/lib/modules/5.4.55/mtk_hwifi.ko	6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7	.text	0xd020	0xd04c	0xd080	mtk_ge_hw_reset	STT_FUNC_symbol_size	Named hardware-reset wrapper; unresolved indirect dispatch
+XREF 00117a54 DATA
+XREF 00111740 DATA
+decompiled=true
+
+undefined8 mtk_ge_hw_reset(long param_1)
+
+{
+  undefined8 uVar1;
+  code *pcVar2;
+  
+  pcVar2 = *(code **)(*(long *)(*(long *)(param_1 + 0x78) + 0x30) + 0x28);
+  if (pcVar2 != (code *)0x0) {
+    uVar1 = (*pcVar2)();
+    return uVar1;
+  }
+  return 0xffffffa1;
+}
+
+
+ASSEMBLY
+0010d040 ldr x1,[x0, #0x78]
+0010d044 ldr x1,[x1, #0x30]
+0010d048 ldr x1,[x1, #0x28]
+0010d04c cbz x1,0x0010d064
+0010d050 stp x29,x30,[sp, #-0x10]!
+0010d054 mov x29,sp
+0010d058 blr x1
+0010d05c ldp x29,x30,[sp], #0x10
+0010d060 ret
+0010d064 mov w0,#0xffffffa1
+0010d068 ret
+
+total_executable_functions=351
+exported_functions=4
+inventory_targets_exported=4
+failed_decompilations=0

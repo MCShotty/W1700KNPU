@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (NPU mailbox/quiescence checkpoint; running image unchanged)
+Last updated: 2026-09-05 (executable NPU stop counterexample; firmware/router unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,28 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Mailbox Ownership And Stop Contract - 2026-09-05
+## Current Work - Executable Stop Counterexample - 2026-09-05
+
+- Resolved stock SER dispatch through the previously missing connac_if layer,
+  arch/GE/PCI callback tables and registration. Original AArch64 wrapper code
+  passes 16 controlled cases and two mutation controls, confirming masked status.
+- Original RV32 instructions reproduce core-5 descriptor consumption after STOP4
+  completes and GET3 returns zero. All eight hart selections and the core-5 entry
+  route execute; empty-ring and stopped-before-startup controls pass.
+- Corrected Ghidra shared-SRAM volatility and non-returning worker annotations;
+  prior C output hid acknowledgement writes and merged adjacent wrappers. Final
+  424-function export succeeds. The standalone page loop's reachability remains
+  unproven; do not count it as a second active ungated worker.
+- Five stock modules fully analyzed, all 19 selected reset targets export, and
+  12 table bindings verify. Later PCI reset/PDMA operations do not establish
+  independent SoC NPU containment. Hardware/cache/bus behavior is not emulated.
+- No firmware source change, new image, router contact or flash. Patch 926 remains
+  the source checkpoint; R1 remains last router-tested. The actual barrier and
+  common L1/full-reset/removal retention policy are still unimplemented.
+- Evidence, corrections and next implementation requirements:
+  `research/checkpoints/2026-09-05-npu-reset/REPORT.md`.
+
+## Previous Work - Mailbox Ownership And Stop Contract - 2026-09-05
 
 - Added provider patch 926: command flags before producer-counter publication;
   preserve timed-out coherent request ownership until observed DONE. 143 compiled

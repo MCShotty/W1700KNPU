@@ -17435,3 +17435,43 @@ Status and boundary:
   host-adapter ownership implementation and serial/client acceptance. Existing
   L1 ignored errors and full-reset early token release remain unresolved. Both
   goals stay active; no full stock-parity or active-NPU release claim.
+
+## Stock Reset Route And Native Instruction Counterexample - 2026-09-05
+
+- Continued the full goals from source `068832a`. Firmware source lock/config
+  and router state remain unchanged; no image build/flash or router access.
+- Fully analyzed five stock modules, including the missing connac_if adapter:
+  PCI 143, hwifi 351, mt7990 29, mt_wifi 11,264, connac_if 59 functions. All 19
+  inventory-selected targets export; 12 relocation-defined callback bindings
+  verify. Static conditional registration is not live-object binding proof.
+- Traced ASIC arch slot +0x388 through hwifi API +0x90, connac action 8/9, GE
+  slots +0xf8/+0x100, PCI slots +0x128/+0x130 and RRO mailbox helpers. Stock GE
+  stop/start forces success even for missing/error callbacks. Unicorn 2.1.4
+  executes the original AArch64 wrappers: 16 cases plus 2 mutation controls pass.
+- Executed pristine RV32 hart dispatch for all eight IDs. Core 5 reaches
+  `84000104 -> 84000aa6 -> 8400e7f8 -> 8400cb0e`. After actual SET4 callback
+  completion and GET3 zero with modeled other-worker idle values, native
+  instructions `8400cc4e/8400cc52` advance the consumer and mark a pending
+  descriptor consumed, reaching enqueue `8400ac30`. Both empty-ring and
+  stopped-before-startup controls pass. This is a protocol counterexample,
+  not physical DMA execution, hardware timing or cache/bus containment proof.
+- Corrected Ghidra shared-SRAM volatility and permanent-loop no-return metadata.
+  Prior C output omitted cross-core acknowledgement writes and merged adjacent
+  worker wrappers. Final concurrent export succeeds for 424 discovered functions;
+  raw earlier assembly remains valid evidence. No input firmware bytes changed.
+- Reachability correction: standalone page loop `8400c9b0` has no recovered
+  caller/absolute code-data pointer here; do not present it as a second active
+  ungated worker. The independent reachable core-5 counterexample establishes
+  the STOP/GET defect without that assumption. Historical reports are preserved.
+- Stock hardware reset/PDMA disable uses Wi-Fi PCI BAR registers, not a proved
+  SoC NPU shutdown. The core boot-mask helper and named reset line have no proved
+  all-master drain contract. The copy engine at `1fb30000` needs exact reset-domain
+  and completion analysis; do not substitute another platform's HSDMA semantics.
+- Required implementation remains a generation-aware all-worker barrier plus
+  shared L1/full-reset/probe-unwind/removal failure retention. Include slow path,
+  both indirect workers, startup/in-flight work, cached-pointer refresh and the
+  shared copy-engine/IRQ/PPE/tunnel domains. Current init already sends selector
+  2 before 7; selector 7 alone not enabling RX is not a separate proved bug here.
+- Report, replay harnesses, hashes and scope:
+  `research/checkpoints/2026-09-05-npu-reset/REPORT.md`. Current reference, logging
+  and remaining-work list updated. Both goals remain active and incomplete.

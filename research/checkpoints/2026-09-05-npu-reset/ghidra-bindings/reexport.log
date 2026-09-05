@@ -1,0 +1,77 @@
+2026-09-05 11:04:02 INFO  (LoggingInitialization) Using log config file: jar:file:/C:/Tools/ghidra_12.1.2_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml  
+2026-09-05 11:04:02 INFO  (LoggingInitialization) Using log file: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\research\checkpoints\2026-09-05-npu-reset\ghidra-bindings\reexport.log  
+2026-09-05 11:04:02 DEBUG (GhidraObjectInputFilter) Including serial input filter: FileSystem/data/client.rmi.serial.filter  
+2026-09-05 11:04:02 INFO  (Preferences) Loading user preferences: C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\preferences  
+2026-09-05 11:04:02 INFO  (ClassSearcher) Searching for classes...  
+2026-09-05 11:04:03 INFO  (ClassSearcher) Class search complete (879 ms)  
+2026-09-05 11:04:03 INFO  (DefaultSSLContextInitializer) Initializing SSL Context  
+2026-09-05 11:04:03 INFO  (SecureRandomFactory) Initializing Random Number Generator...  
+2026-09-05 11:04:03 INFO  (SecureRandomFactory) Random Number Generator initialization complete: SHA1PRNG  
+2026-09-05 11:04:03 INFO  (DefaultTrustManagerFactory) Trust manager disabled, cacerts have not been set  
+2026-09-05 11:04:04 INFO  (AnalyzeHeadless) Headless startup complete (3102 ms)  
+2026-09-05 11:04:04 INFO  (ClassSearcher) Class searcher loaded 60 extension points (20 false positives)  
+2026-09-05 11:04:04 INFO  (HeadlessAnalyzer) HEADLESS Script Paths:
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\captain\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts  
+2026-09-05 11:04:04 INFO  (HeadlessAnalyzer) HEADLESS: execution starts  
+2026-09-05 11:04:04 INFO  (HeadlessAnalyzer) Opening existing project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-reset/stock-modules/StockReset  
+2026-09-05 11:04:04 ERROR (ToolUtils) Error reading XML for C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\tools\_code_browser.tcd org.jdom2.input.JDOMParseException: Error on line 971: The markup in the document following the root element must be well-formed.
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:234)
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:253)
+	at org.jdom2.input.SAXBuilder.build(SAXBuilder.java:1079)
+	at ghidra.framework.ToolUtils.readToolTemplate(ToolUtils.java:245)
+	at ghidra.framework.ToolUtils.loadUserTools(ToolUtils.java:146)
+	at ghidra.framework.project.ToolChestImpl.<init>(ToolChestImpl.java:38)
+	at ghidra.framework.project.DefaultProjectManager.createUserToolChest(DefaultProjectManager.java:476)
+	at ghidra.framework.project.DefaultProjectManager.<init>(DefaultProjectManager.java:73)
+	at ghidra.app.util.headless.HeadlessAnalyzer$HeadlessGhidraProjectManager.<init>(HeadlessAnalyzer.java:1874)
+	at ghidra.app.util.headless.HeadlessAnalyzer.getProjectManager(HeadlessAnalyzer.java:1851)
+	at ghidra.app.util.headless.HeadlessAnalyzer.openProject(HeadlessAnalyzer.java:1820)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:435)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+Caused by: org.xml.sax.SAXParseException; lineNumber: 971; columnNumber: 3; The markup in the document following the root element must be well-formed.
+	at java.xml/com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:204)
+	at java.xml/com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:178)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:400)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:327)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1465)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$TrailingMiscDriver.next(XMLDocumentScannerImpl.java:1424)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:635)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:113)
+	at java.xml/com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:551)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:890)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:826)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:134)
+	at java.xml/com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1225)
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:217)
+	... 14 more
+ 
+2026-09-05 11:04:04 INFO  (HeadlessProject) Opening project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-reset/stock-modules/StockReset  
+2026-09-05 11:04:07 INFO  (HeadlessAnalyzer) REPORT: Processing read-only project file: /mt_wifi.ko  
+2026-09-05 11:04:08 INFO  (HeadlessAnalyzer) REPORT: Execute script: ExportMailboxContract.java '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\research\checkpoints\2026-09-05-npu-reset\ghidra-bindings' '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\reset-bindings.pattern'   
+2026-09-05 11:04:08 INFO  (HeadlessAnalyzer) SCRIPT: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\ExportMailboxContract.java  
+2026-09-05 11:04:10 INFO  (GhidraScript) ExportMailboxContract.java> MAILBOX_CONTRACT_PASS functions=32 analyzed=11264  
