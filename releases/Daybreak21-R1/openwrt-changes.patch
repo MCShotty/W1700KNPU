@@ -1,0 +1,470 @@
+diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
+index b379ad09a5..ba7e025005 100644
+--- a/package/kernel/mt76/Makefile
++++ b/package/kernel/mt76/Makefile
+@@ -17,6 +17,7 @@ PKG_USE_NINJA:=0
+ PKG_BUILD_PARALLEL:=1
+ 
+ PKG_CONFIG_DEPENDS += \
++	CONFIG_MT76_AIROHA_NPU \
+ 	CONFIG_PACKAGE_kmod-mt76-usb \
+ 	CONFIG_PACKAGE_kmod-mt76x02-common \
+ 	CONFIG_PACKAGE_kmod-mt76x0-common \
+@@ -331,6 +332,16 @@ define KernelPackage/mt7990-firmware
+   DEPENDS+=+kmod-mt7996e
+ endef
+ 
++define KernelPackage/mt7996e/config
++  config MT76_AIROHA_NPU
++    bool "Airoha WLAN NPU attachment"
++    depends on PACKAGE_kmod-mt7996e && TARGET_airoha_an7581
++    default y
++    help
++      Build the Airoha WLAN NPU path. Disable for a normal-DMA WLAN
++      diagnostic baseline. This does not disable Ethernet offload.
++endef
++
+ define KernelPackage/mt7992-firmware
+   $(KernelPackage/mt76-default)
+   TITLE:=MediaTek MT7992 firmware
+@@ -502,10 +513,12 @@ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7996e
+   PKG_MAKE_FLAGS += CONFIG_MT7996E=m
+   ifdef CONFIG_TARGET_airoha_an7581
+-    PKG_MAKE_FLAGS += CONFIG_MT76_NPU=y
+-    PKG_MAKE_FLAGS += CONFIG_MT7996_NPU=y
+-    NOSTDINC_FLAGS += -DCONFIG_MT76_NPU
+-    NOSTDINC_FLAGS += -DCONFIG_MT7996_NPU
++    ifeq ($(CONFIG_MT76_AIROHA_NPU),y)
++      PKG_MAKE_FLAGS += CONFIG_MT76_NPU=y
++      PKG_MAKE_FLAGS += CONFIG_MT7996_NPU=y
++      NOSTDINC_FLAGS += -DCONFIG_MT76_NPU
++      NOSTDINC_FLAGS += -DCONFIG_MT7996_NPU
++    endif
+   endif
+ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7925-common
+diff --git a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+index f5e726714a..23ced383e4 100755
+--- a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
++++ b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+@@ -205,6 +205,8 @@ function config_add_mesh_params(config, data) {
+ 
+ function setup() {
+ 	let data = json(ARGV[3]);
++	let mlo_snapshot = hostapd.mlo_setup_snapshot(data);
++	hostapd.validate_mlo_setup(mlo_snapshot);
+ 
+ 	data.phy = find_phy(data.config, true);
+ 	if (!data.phy) {
+@@ -351,7 +353,7 @@ function setup() {
+ 		supplicant.setup(supplicant_data, data);
+ 
+ 	if (fs.access('/usr/sbin/hostapd', 'x'))
+-		hostapd.setup(data);
++		hostapd.setup(data, mlo_snapshot);
+ 
+ 	if (length(supplicant_data) > 0)
+ 		supplicant.start(data);
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+index 351f78209e..19d77c7278 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+@@ -19,11 +19,7 @@ const WLAN_CIPHER_SUITE_GCMP_256 = 0x000fac09;
+ let phy_features = {};
+ let phy_capabilities = {};
+ 
+-const mlo_common_fields = [
+-	'ssid', 'encryption', 'key', 'sae_password', 'ieee80211w', 'sae_pwe',
+-	'network', 'wpa_group_rekey', 'eap_server', 'auth_server', 'auth_port',
+-	'auth_secret'
+-];
++const mlo_link_local_fields = { macaddr: true };
+ 
+ function mlo_enabled(value) {
+ 	return value === true || value === 1 || value === '1';
+@@ -90,11 +86,15 @@ function mlo_same_value(a, b) {
+ }
+ 
+ function mlo_same_common_config(a, b) {
+-	for (let field in mlo_common_fields)
+-		if (!mlo_same_value(a[field], b[field]))
+-			return false;
+-
+-	return true;
++	let a_common = {};
++	let b_common = {};
++	for (let field, value in a)
++		if (!mlo_link_local_fields[field])
++			a_common[field] = value;
++	for (let field, value in b)
++		if (!mlo_link_local_fields[field])
++			b_common[field] = value;
++	return mlo_same_value(a_common, b_common);
+ }
+ 
+ function mlo_country(config) {
+@@ -122,9 +122,12 @@ function mlo_validate_iface(owner, config) {
+ 	if (type(config.ssid) != 'string' || !length(config.ssid) || length(config.ssid) > 32)
+ 		return `MLO owner ${owner} requires an SSID of 1 to 32 bytes`;
+ 
+-	let encryption = split('' + (config.encryption ?? ''), '+', 2)[0];
++	let encryption_parts = split(lc('' + (config.encryption ?? '')), '+');
++	let encryption = encryption_parts[0];
+ 	if (!(encryption in [ 'sae', 'owe', 'wpa3', 'wpa3-192' ]))
+ 		return `MLO owner ${owner} requires WPA3-SAE, OWE, or WPA3 Enterprise security`;
++	if ('tkip' in encryption_parts)
++		return `MLO owner ${owner} cannot use TKIP; MLO requires CCMP or GCMP`;
+ 	if (+config.ieee80211w != 2)
+ 		return `MLO owner ${owner} requires 802.11w management frame protection`;
+ 
+@@ -382,7 +385,15 @@ export function validate_mlo_config(data, status) {
+ 	return null;
+ }
+ 
+-function validate_mlo_setup(data) {
++export function mlo_setup_snapshot(data) {
++	if (!length(mlo_local_links(data)))
++		return null;
++
++	// Keep the raw netifd view: schema defaults and iface.prepare mutate setup data.
++	return json(sprintf('%J', { config: data.config, interfaces: data.interfaces }));
++}
++
++export function validate_mlo_setup(data) {
+ 	let has_mlo_ap = false;
+ 	for (let key, interface in data?.interfaces ?? {})
+ 		if (mlo_enabled(interface?.config?.mlo) && interface.config.mode == 'ap') {
+@@ -966,10 +977,10 @@ function setup_interface(interface, data, config, vlans, stas, phy_features, fix
+ 	ap.generate(interface, data, config, vlans, stas, phy_features);
+ }
+ 
+-export function setup(data) {
++export function setup(data, mlo_snapshot) {
+ 	let file_name = `/var/run/hostapd-${data.phy}${data.vif_phy_suffix}.conf`;
+ 
+-	validate_mlo_setup(data);
++	validate_mlo_setup(mlo_snapshot ?? data);
+ 
+ 	flush_config();
+ 
+diff --git a/package/network/services/hostapd/files/hostapd.uc b/package/network/services/hostapd/files/hostapd.uc
+index c8b4f788a2..f3166fdb43 100644
+--- a/package/network/services/hostapd/files/hostapd.uc
++++ b/package/network/services/hostapd/files/hostapd.uc
+@@ -1,5 +1,6 @@
+ let libubus = require("ubus");
+ import * as uloop from "uloop";
++import * as nl80211 from "nl80211";
+ import { open, readfile, access } from "fs";
+ import { wdev_create, wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open, wdev_set_radio_mask, wdev_set_up } from "common";
+ 
+@@ -1366,7 +1367,73 @@ function mld_rename_bss(data, name)
+ 	return false;
+ }
+ 
+-function mld_add_bss(name, data, phy_list, i)
++function mld_macaddr_canonical(addr)
++{
++	if (type(addr) != "string" || length(addr) != 17 ||
++	    !match(addr, /^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$/) ||
++	    (hex(substr(addr, 0, 2)) & 1))
++		return null;
++
++	addr = lc(addr);
++	return addr != "00:00:00:00:00:00" ? addr : null;
++}
++
++function mld_macaddr_reserve(state, addr, owner)
++{
++	addr = mld_macaddr_canonical(addr);
++	if (!addr)
++		return;
++
++	state.macaddr_list[addr] = -1;
++	state.owners[addr] ??= [];
++	push(state.owners[addr], owner);
++}
++
++function mld_macaddr_state(old_mld)
++{
++	let state = { macaddr_list: {}, owners: {} };
++	for (let name, data in old_mld)
++		mld_macaddr_reserve(state, data.macaddr, name);
++
++	for (let iface, config in hostapd.data.config)
++		for (let bss in config.bss) {
++			let old = old_mld[bss.ifname];
++			let addr = mld_macaddr_canonical(bss.bssid);
++			let owner = bss.mld_ap && old && addr &&
++				addr == mld_macaddr_canonical(old.macaddr) ? bss.ifname : null;
++			mld_macaddr_reserve(state, addr, owner);
++		}
++
++	// Dump all PHYs/radios, including wdevs outside this service's configuration.
++	let wdevs = nl80211.request(nl80211.const.NL80211_CMD_GET_INTERFACE,
++				    nl80211.const.NLM_F_DUMP, {});
++	if (type(wdevs) != "array")
++		return null;
++
++	for (let wdev in wdevs) {
++		let old = old_mld[wdev.ifname];
++		let addr = mld_macaddr_canonical(wdev.mac);
++		let owner = old && addr && addr == mld_macaddr_canonical(old.macaddr) ?
++			wdev.ifname : null;
++		mld_macaddr_reserve(state, addr, owner);
++	}
++
++	return state;
++}
++
++function mld_macaddr_available(state, addr, name)
++{
++	if (!addr)
++		return false;
++
++	for (let owner in state.owners[addr])
++		if (owner != name)
++			return false;
++
++	return true;
++}
++
++function mld_add_bss(name, data, phy_list, mac_state, old)
+ {
+ 	let config = data.config;
+ 	if (!config.phy) {
+@@ -1399,7 +1466,6 @@ function mld_add_bss(name, data, phy_list, i)
+ 	let phy_state = phy_list[config.phy];
+ 	if (!phy_state) {
+ 		phy_state = {
+-			macaddr_list: phy_macaddr_list(config.phy),
+ 			allocators: {},
+ 		};
+ 		phy_list[config.phy] = phy_state;
+@@ -1417,19 +1483,32 @@ function mld_add_bss(name, data, phy_list, i)
+ 		phy_state.allocators[anchor_radio] = phydev;
+ 	}
+ 
+-	/* Keep every anchor-specific generator on one per-PHY reservation ledger. */
+-	iface_macaddr_init(phydev, data.config, phy_state.macaddr_list);
++	// macaddr_init copies the ledger and adds live wdev reservations.
++	mac_state.macaddr_list = iface_macaddr_init(phydev, data.config, mac_state.macaddr_list);
++	for (let addr in mac_state.macaddr_list) {
++		let canonical = mld_macaddr_canonical(addr);
++		if (canonical && !mac_state.owners[canonical])
++			mld_macaddr_reserve(mac_state, canonical, null);
++	}
+ 
+-	data.macaddr = config.macaddr;
+-	if (!data.macaddr) {
+-		data.macaddr = phydev.macaddr_next();
++	if (config.macaddr != null) {
++		data.macaddr = mld_macaddr_canonical(config.macaddr);
++	} else {
++		let prev = mld_macaddr_canonical(old?.macaddr);
++		if (old?.default_macaddr && old.config.phy == config.phy &&
++		    old.anchor_radio == anchor_radio &&
++		    mld_macaddr_available(mac_state, prev, name))
++			data.macaddr = prev;
++		else
++			data.macaddr = phydev.macaddr_next();
+ 		data.default_macaddr = true;
+ 	}
+-	if (!data.macaddr) {
+-		hostapd.printf(`Cannot prepare MLD ${name}: no MAC address available`);
++	data.macaddr = mld_macaddr_canonical(data.macaddr);
++	if (!mld_macaddr_available(mac_state, data.macaddr, name)) {
++		hostapd.printf(`Cannot prepare MLD ${name}: invalid or conflicting MAC address`);
+ 		return false;
+ 	}
+-	phy_state.macaddr_list[data.macaddr] = -1;
++	mld_macaddr_reserve(mac_state, data.macaddr, name);
+ 
+ 	data.anchor_radio = anchor_radio;
+ 	data.radio_mask = radio_mask;
+@@ -1611,6 +1690,11 @@ function mld_set_config(config, complete)
+ 	let new_mld = {};
+ 	let new_entry = {};
+ 	let phy_list = {};
++	let mac_state = mld_macaddr_state(old_mld);
++	if (!mac_state) {
++		hostapd.printf('Reject MLD config: cannot enumerate live MAC addresses');
++		return false;
++	}
+ 
+ 	hostapd.printf(`Set MLD config: ${keys(config)}`);
+ 
+@@ -1620,6 +1704,10 @@ function mld_set_config(config, complete)
+ 		if (prev) {
+ 			let data = prev_mld[prev];
+ 			if (mld_rename_bss(data, name)) {
++				let addr = mld_macaddr_canonical(data.macaddr);
++				if (!mld_macaddr_available(mac_state, addr, name))
++					return false;
++				mld_macaddr_reserve(mac_state, addr, name);
+ 				new_mld[name] = data;
+ 				delete prev_mld[prev];
+ 				continue;
+@@ -1630,7 +1718,7 @@ function mld_set_config(config, complete)
+ 			config: data,
+ 			iface: {},
+ 		};
+-		if (!mld_add_bss(name, entry, phy_list)) {
++		if (!mld_add_bss(name, entry, phy_list, mac_state, old_mld[name])) {
+ 			hostapd.printf(`Reject MLD config: failed to prepare ${name}`);
+ 			return false;
+ 		}
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+index e77b53ab37..74987d5f2a 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+@@ -58,13 +58,19 @@ set_if_missing() {
+ }
+ 
+ security_valid_for_6g_or_mlo() {
+-	local enc="${1%%+*}"
++	local value="$1"
++	local enc="${value%%+*}"
+ 
+ 	case "$enc" in
+-		sae|owe|wpa3|wpa3-192) return 0 ;;
++		sae|owe|wpa3|wpa3-192) ;;
++		*) return 1 ;;
+ 	esac
+ 
+-	return 1
++	case "+$value+" in
++		*+[tT][kK][iI][pP]+*) return 1 ;;
++	esac
++
++	return 0
+ }
+ 
+ security_needs_key() {
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+index a8d5b06081..fc88f00a51 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+@@ -25,7 +25,7 @@ device_index() {
+ 	local idx
+ 
+ 	idx="$(uci -q get wireless."$dev".radio)"
+-	if [ -z "$idx" ]; then
++	if [ -z "$idx" ] && [ "$radio_map_active" != "1" ]; then
+ 		case "$dev" in
+ 			radio0) idx=0 ;;
+ 			radio1) idx=1 ;;
+@@ -64,6 +64,10 @@ device_disabled() {
+ }
+ 
+ wireless_devices="$(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-device$/\1/p')"
++radio_map_active=0
++for dev in $wireless_devices; do
++	[ -n "$(uci -q get wireless."$dev".radio)" ] && radio_map_active=1
++done
+ enabled_iface_devices=" "
+ mlo_iface_devices=" "
+ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
+@@ -94,6 +98,35 @@ device_requires_runtime_validation() {
+ 	return 1
+ }
+ 
++# Netifd builds its radio map from option radio, never from section names.
++# Reject incomplete maps before --prepare-regdomain can change runtime state.
++device_seen_indices=" "
++for dev in $wireless_devices; do
++	explicit_idx="$(uci -q get wireless."$dev".radio)"
++	if [ -z "$explicit_idx" ]; then
++		case "$mlo_iface_devices" in
++			*" $dev "*)
++				err "$dev is selected for MLO and requires an explicit physical radio index; set option radio to 0, 1, or 2."
++				continue
++				;;
++		esac
++		if [ "$radio_map_active" = "1" ]; then
++			err "$dev has no explicit physical radio index while another radio does; set option radio to 0, 1, or 2."
++			continue
++		fi
++	fi
++	idx="$(device_index "$dev")"
++	if [ -z "$(expected_band "$idx")" ]; then
++		err "$dev uses unsupported physical radio index ${idx:-unset}; W1700K supports only 0, 1, and 2."
++		continue
++	fi
++	case "$device_seen_indices" in
++		*" $idx "*) err "$dev duplicates physical radio index $idx." ;;
++	esac
++	device_seen_indices="$device_seen_indices$idx "
++done
++[ "$failed" -eq 0 ] || exit "$failed"
++
+ device_country_raw() {
+ 	local country
+ 
+@@ -384,13 +417,19 @@ validate_puncturing() {
+ }
+ 
+ security_valid_for_6g_or_mlo() {
+-	local enc="${1%%+*}"
++	local value="$1"
++	local enc="${value%%+*}"
+ 
+ 	case "$enc" in
+-		sae|owe|wpa3|wpa3-192) return 0 ;;
++		sae|owe|wpa3|wpa3-192) ;;
++		*) return 1 ;;
+ 	esac
+ 
+-	return 1
++	case "+$value+" in
++		*+[tT][kK][iI][pP]+*) return 1 ;;
++	esac
++
++	return 0
+ }
+ 
+ security_needs_key() {
+@@ -432,21 +471,10 @@ claim_mlo_radio() {
+ 	esac
+ }
+ 
+-device_seen_indices=" "
+ for dev in $wireless_devices; do
+ 	idx="$(device_index "$dev")"
+ 	band_expected="$(expected_band "$idx")"
+ 
+-	if [ -z "$band_expected" ]; then
+-		err "$dev uses unsupported physical radio index ${idx:-unset}; W1700K supports only 0, 1, and 2."
+-		continue
+-	fi
+-
+-	case "$device_seen_indices" in
+-		*" $idx "*) err "$dev duplicates physical radio index $idx." ;;
+-	esac
+-	device_seen_indices="$device_seen_indices$idx "
+-
+ 	device_requires_runtime_validation "$dev" || continue
+ 
+ 	band_actual="$(uci -q get wireless."$dev".band)"
+diff --git a/target/linux/airoha/image/an7581.mk b/target/linux/airoha/image/an7581.mk
+index 14e28682fd..636b2da0ec 100644
+--- a/target/linux/airoha/image/an7581.mk
++++ b/target/linux/airoha/image/an7581.mk
+@@ -109,8 +109,14 @@ define Device/gemtek_w1700k-ubi
+        with the vendor bootloader with regard to the BMT/BBT partition at \
+        the end of flash. A reinstall including corrected chainloader is needed.
+   DEVICE_PACKAGES := airoha-en7581-mt7996-npu-firmware fitblk \
+-		    kmod-hwmon-nct7802 kmod-mt7996-firmware wpad-basic-mbedtls \
+-		    rtl826x-firmware
++		    kmod-hwmon-nct7802 kmod-mt7996-firmware rtl826x-firmware \
++		    wpad-mbedtls luci-ssl \
++		    luci-app-sqm sqm-scripts tc-tiny kmod-ifb \
++		    kmod-sched-core kmod-sched-cake \
++		    adblock luci-app-adblock \
++		    softethervpn5-server luci-app-w1700k-softether-server \
++		    w1700k-npu-status luci-app-w1700k-npu \
++		    w1700k-system-defaults
+   UBINIZE_OPTS := -E 5
+   BLOCKSIZE := 128k
+   PAGESIZE := 2048

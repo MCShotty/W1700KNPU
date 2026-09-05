@@ -1,0 +1,430 @@
+diff --git a/applications/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js b/applications/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js
+index bbe0645..5991add 100644
+--- a/applications/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js
++++ b/applications/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js
+@@ -184,9 +184,9 @@ function mt7996ePolicyStatusRow(data, key, title) {
+ function mloTxPolicySummary(data) {
+ 	var policy = mt7996ePolicy(data, 'w1700k_mlo_tx_policy');
+ 	var labels = {
+-		'0': _('0: upstream TID preference'),
+-		'1': _('1: all active links'),
+-		'2': _('2: prefer 5/6 GHz (recommended)')
++		'0': _('0: upstream scheduler'),
++		'1': _('1: deprecated alias (uses upstream)'),
++		'2': _('2: deprecated alias (uses upstream)')
+ 	};
+ 	var runtime = policy.runtime || '-';
+ 	var configured = policy.configured || '-';
+@@ -2956,7 +2956,7 @@ return view.extend({
+ 			jobs.push([ 'mt7996e-param', 'npu_stock_ack_sn_ifindex', ackSnIfindex.value || '1' ]);
+ 
+ 		if (mloTxPolicy && mt7996ePolicy(statusData, 'w1700k_mlo_tx_policy').available)
+-			jobs.push([ 'mt7996e-param', 'w1700k_mlo_tx_policy', mloTxPolicy.value || '2' ]);
++			jobs.push([ 'mt7996e-param', 'w1700k_mlo_tx_policy', mloTxPolicy.value || '0' ]);
+ 
+ 		if (stockTxTopology && mt7996ePolicy(statusData, 'w1700k_stock_npu_tx_topology').available)
+ 			jobs.push([ 'mt7996e-param', 'w1700k_stock_npu_tx_topology', stockTxTopology.checked ? '1' : '0' ]);
+@@ -3371,12 +3371,10 @@ return view.extend({
+ 								'id': 'npu_mt7996e_w1700k_mlo_tx_policy',
+ 								'disabled': mt7996ePolicy(data, 'w1700k_mlo_tx_policy').available ? null : 'disabled'
+ 							}, [
+-								E('option', { 'value': '0' }, _('Upstream TID preference')),
+-								E('option', { 'value': '1' }, _('All active links')),
+-								E('option', { 'value': '2' }, _('Prefer 5/6 GHz (recommended)'))
++								E('option', { 'value': '0' }, _('Upstream scheduler'))
+ 							]),
+ 							E('div', { 'class': 'cbi-value-description' },
+-								_('All policies keep queue, TX descriptor, and completion on one active link. Prefer 5/6 GHz avoids pinning best-effort traffic to a 2.4 GHz setup link.'))
++								_('Uses the upstream reorder-safe scheduler. Legacy policies 1 and 2 pinned each TID to one link and are normalized to this policy.'))
+ 						])
+ 					]),
+ 					mt7996ePolicy(data, 'w1700k_stock_npu_tx_topology').available ? E('div', { 'class': 'cbi-value' }, [
+diff --git a/modules/luci-base/htdocs/luci-static/resources/network.js b/modules/luci-base/htdocs/luci-static/resources/network.js
+index 2b6793a..fb4ee74 100644
+--- a/modules/luci-base/htdocs/luci-static/resources/network.js
++++ b/modules/luci-base/htdocs/luci-static/resources/network.js
+@@ -4427,15 +4427,13 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * available.
+ 	 */
+ 	getFrequency() {
++		const freq = this.isMultiRadio()
++			? this.ubus('dev', 'iwinfo', 'frequency')
++			: this.ubus('net', 'iwinfo', 'frequency');
+ 		const fallback = wifiFrequencyFromChannel(
+ 			this.getChannel(),
+ 			this.getRadioConfig('band'));
+ 
+-		if (this.isMultiRadio() && fallback != null)
+-			return '%.03f'.format(fallback / 1000);
+-
+-		const freq = this.ubus('net', 'iwinfo', 'frequency');
+-
+ 		if (freq != null && freq > 0)
+ 			return '%.03f'.format(freq / 1000);
+ 
+@@ -4471,14 +4469,20 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * or `null` if it cannot be determined.
+ 	 */
+ 	getChannel() {
++		const liveChannel = this.isMultiRadio()
++			? this.ubus('dev', 'iwinfo', 'channel')
++			: this.ubus('net', 'iwinfo', 'channel');
+ 		const radioChannel = this.getRadioConfig('channel');
++		const fallbackChannel = radioChannel || this.get('channel');
++		let n;
+ 
+-		if (this.isMultiRadio() && radioChannel != null && radioChannel !== '' && radioChannel != 'auto') {
+-			const n = +radioChannel;
+-			return (Number.isFinite(n) && n > 0) ? n : radioChannel;
++		if (liveChannel != null && liveChannel !== '' && liveChannel != 0) {
++			n = +liveChannel;
++			return (Number.isFinite(n) && n > 0) ? n : liveChannel;
+ 		}
+ 
+-		return this.ubus('net', 'iwinfo', 'channel') || radioChannel || this.get('channel');
++		n = +fallbackChannel;
++		return (Number.isFinite(n) && n > 0) ? n : fallbackChannel;
+ 	},
+ 
+ 	/**
+diff --git a/modules/luci-base/tests/w1700k-network-mlo-device-list.test.js b/modules/luci-base/tests/w1700k-network-mlo-device-list.test.js
+index a5cf05d..df48c09 100644
+--- a/modules/luci-base/tests/w1700k-network-mlo-device-list.test.js
++++ b/modules/luci-base/tests/w1700k-network-mlo-device-list.test.js
+@@ -17,6 +17,15 @@ const wifiDeviceNamesOf = vm.runInNewContext(
+ 	{ L: { toArray: value => value == null ? [] : (Array.isArray(value) ? value : [ value ]) } }
+ );
+ 
++function methodSource(name) {
++	const methodStart = source.indexOf(`\n\t${name}() {`);
++	const methodEnd = source.indexOf('\n\t},', methodStart);
++
++	assert.notEqual(methodStart, -1, `${name}() not found`);
++	assert.notEqual(methodEnd, -1, `${name}() boundary not found`);
++	return source.slice(methodStart + 2, methodEnd + 4);
++}
++
+ assert.deepEqual(Array.from(wifiDeviceNamesOf({ device: 'renamed5g' })), [ 'renamed5g' ]);
+ assert.deepEqual(Array.from(wifiDeviceNamesOf({ device: 'radio1 radio2  radio1' })), [ 'radio1', 'radio2' ]);
+ assert.deepEqual(Array.from(wifiDeviceNamesOf({ device: [ 'radio0 radio1', 'radio2', 'radio1' ] })), [ 'radio0', 'radio1', 'radio2' ]);
+@@ -24,4 +33,50 @@ assert.deepEqual(Array.from(wifiDeviceNamesOf({ device: [ 'radio0', 'radio1', 'r
+ assert.deepEqual(Array.from(wifiDeviceNamesOf({ device: 42 })), []);
+ assert.deepEqual(Array.from(wifiDeviceNamesOf(null)), []);
+ 
++{
++	const values = {
++		dev: { iwinfo: { channel: 149, frequency: 5745 } },
++		net: { iwinfo: { channel: 36, frequency: 5180 } }
++	};
++	const context = {
++		wifiFrequencyFromChannel: (channel, band) => band == '5g' ? 5000 + (+channel * 5) : null
++	};
++
++	vm.runInNewContext(
++		'String.prototype.format = function(value) { return Number(value).toFixed(3); };',
++		context);
++
++	const methods = vm.runInNewContext(`({
++		${methodSource('getFrequency')}
++		${methodSource('getChannel')}
++	})`, context);
++	const wifi = {
++		...methods,
++		multi: true,
++		radioConfig: { band: '5g', channel: '100' },
++		isMultiRadio() { return this.multi; },
++		ubus(...keys) {
++			let value = values;
++
++			for (const key of keys)
++				value = value?.[key];
++
++			return value ?? null;
++		},
++		getRadioConfig(option) { return this.radioConfig[option]; },
++		get(option) { return this.radioConfig[option]; }
++	};
++
++	assert.equal(wifi.getChannel(), 149, 'multi-radio view prefers live physical-radio channel');
++	assert.equal(wifi.getFrequency(), '5.745', 'multi-radio view prefers live physical-radio frequency');
++
++	values.dev.iwinfo = {};
++	assert.equal(wifi.getChannel(), 100, 'missing physical-radio runtime state falls back to radio config');
++	assert.equal(wifi.getFrequency(), '5.500', 'missing physical-radio frequency derives from radio config');
++
++	wifi.multi = false;
++	assert.equal(wifi.getChannel(), 36, 'ordinary network uses interface runtime channel');
++	assert.equal(wifi.getFrequency(), '5.180', 'ordinary network uses interface runtime frequency');
++}
++
+ console.log('PASS w1700k network MLO device normalization');
+diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+index d32f5a0..68e6e5e 100644
+--- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
++++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+@@ -835,24 +835,65 @@ function w1700kAvailableMloDevices(section_id, current) {
+ }
+ 
+ const w1700kMloSafeRadioDefaults = {
+-	'0': { channel: '6', htmode: 'EHT40' },
+-	'1': { channel: '36', htmode: 'EHT80' },
+-	'2': { channel: '37', htmode: 'EHT160' }
++	'0': { channel: '6', htmodes: [ 'EHT20' ] },
++	'1': { channel: '36', htmodes: [ 'EHT80', 'EHT40', 'EHT20' ] },
++	'2': { channel: '37', htmodes: [ 'EHT160', 'EHT80', 'EHT40', 'EHT20' ] }
+ };
+ 
+-function w1700kEnsureMloRadioDefaults(devices) {
++function w1700kMloRadioStateValid(dev, channel, htmode, apChannels) {
++	return (w1700kRadioIndex(dev) != '0' || htmode == 'EHT20') &&
++		channel != null && channel != '' && channel != 'auto' &&
++		/^EHT(?:20|40|80|160|320)$/.test(String(htmode || '')) &&
++		w1700kChannelAllowed(dev, channel, apChannels) &&
++		w1700kHtmodeAllowed(dev, htmode, channel, apChannels);
++}
++
++function w1700kMloSafeRadioState(dev, apChannels) {
++	const defaults = w1700kMloSafeRadioDefaults[w1700kRadioIndex(dev)];
++	const band = w1700kRadioBand(dev);
++	const channels = [];
++
++	if (!defaults || !band)
++		return null;
++
++	channels.push(defaults.channel);
++	Object.keys(w1700kApChannelsForBand(band, apChannels))
++		.sort(function(a, b) { return +a - +b; })
++		.forEach(function(channel) {
++			if (channels.indexOf(String(channel)) < 0)
++				channels.push(String(channel));
++		});
++
++	for (const htmode of defaults.htmodes)
++		for (const channel of channels)
++			if (w1700kMloRadioStateValid(dev, channel, htmode, apChannels))
++				return { channel, htmode };
++
++	return null;
++}
++
++function w1700kEnsureMloRadioDefaults(devices, apChannelsByRadio) {
++	let complete = true;
++
+ 	w1700kDeviceNames(devices).forEach(function(dev) {
+-		const defaults = w1700kMloSafeRadioDefaults[w1700kRadioIndex(dev)];
+ 		const channel = uci.get('wireless', dev, 'channel');
++		const htmode = uci.get('wireless', dev, 'htmode');
++		const apChannels = apChannelsByRadio?.[dev] || null;
++		const valid = w1700kMloRadioStateValid(dev, channel, htmode, apChannels);
++		const safe = valid ? null : w1700kMloSafeRadioState(dev, apChannels);
+ 
+-		if (!defaults)
++		if (valid)
++			return;
++		if (!safe) {
++			complete = false;
+ 			return;
+-
+-		if (!channel || channel == 'auto') {
+-			uci.set('wireless', dev, 'channel', defaults.channel);
+-			uci.set('wireless', dev, 'htmode', defaults.htmode);
+ 		}
++
++		uci.set('wireless', dev, 'channel', safe.channel);
++		uci.set('wireless', dev, 'htmode', safe.htmode);
+ 	});
++
++	return complete;
+ }
+ 
+ function w1700kSelectVisibleModalTab(name) {
+@@ -945,6 +986,10 @@ function w1700kValidateMloDevices(section_id, value, apChannelsByRadio) {
+ 			return _('%s must use an EHT width for MLO; current mode is %s.').format(
+ 				w1700kRadioLabel(dev), htmode || _('unset'));
+ 
++		if (idx == '0' && htmode != 'EHT20')
++			return _('%s must use EHT20 for reliable MLO operation because 2.4GHz 20/40 coexistence fallback cannot update this MLD safely.').format(
++				w1700kRadioLabel(dev));
++
+ 		if (apChannelsByRadio && !apChannels)
+ 			return _('Could not load the live AP channel map for %s. Reload the page before saving.').format(
+ 				w1700kRadioLabel(dev));
+@@ -996,7 +1041,7 @@ function w1700kUses6gOrMlo(section, section_id, current) {
+ 	return devices.some(w1700kDeviceIs6g) || (mlo && devices.length > 1);
+ }
+ 
+-function w1700kEnsure6gMloApDefaults(section, section_id) {
++function w1700kEnsure6gMloApDefaults(section, section_id, apChannelsByRadio) {
+ 	const mode = w1700kFormValue(section, section_id, 'mode');
+ 	const mlo = w1700kFormValue(section, section_id, 'mlo') == '1';
+ 	const encryption = w1700kFormValue(section, section_id, 'encryption');
+@@ -1008,7 +1053,7 @@ function w1700kEnsure6gMloApDefaults(section, section_id) {
+ 		return;
+ 
+ 	if (mlo && devices.length > 1)
+-		w1700kEnsureMloRadioDefaults(devices);
++		w1700kEnsureMloRadioDefaults(devices, apChannelsByRadio);
+ 
+ 	if (!w1700kSecureFor6gOrMlo(encryption))
+ 		w1700kSetFormValue(section, section_id, 'encryption', 'sae');
+@@ -2214,8 +2259,10 @@ return view.extend({
+ 					o = ss.taboption('general', form.Flag, 'legacy_rates', _('Allow legacy 802.11b rates'), _('Legacy or badly behaving devices may require legacy 802.11b rates to interoperate. Airtime efficiency may be significantly reduced where these are used. It is recommended to not allow 802.11b rates where possible.'));
+ 					o.depends({'_freq': '2g', '!contains': true});
+ 
+-					o = ss.taboption('general', CBIWifiTxPowerValue, 'txpower', _('Maximum transmit power'), _('Specifies the maximum transmit power the wireless radio may use. Depending on regulatory requirements and wireless usage, the actual transmit power may be reduced by the driver.'));
+-					o.wifiNetwork = radioNet;
++					if (!w1700kRadioMapActive()) {
++						o = ss.taboption('general', CBIWifiTxPowerValue, 'txpower', _('Maximum transmit power'), _('Specifies the maximum transmit power the wireless radio may use. Depending on regulatory requirements and wireless usage, the actual transmit power may be reduced by the driver.'));
++						o.wifiNetwork = radioNet;
++					}
+ 
+ 					o = ss.taboption('general', CBIWifiCountryValue, 'country', _('Country Code'));
+ 					o.wifiNetwork = radioNet;
+@@ -2226,9 +2273,11 @@ return view.extend({
+ 					o.value('2', _('High'));
+ 					o.value('3', _('Very High'));
+ 
+-					o = ss.taboption('advanced', form.Value, 'distance', _('Distance Optimization'), _('Distance to farthest network member in meters. Set only for distances above one kilometer; otherwise it is harmful.'));
+-					o.datatype = 'or(range(0,114750),"auto")';
+-					o.placeholder = 'auto';
++					if (!w1700kRadioMapActive()) {
++						o = ss.taboption('advanced', form.Value, 'distance', _('Distance Optimization'), _('Distance to farthest network member in meters. Set only for distances above one kilometer; otherwise it is harmful.'));
++						o.datatype = 'or(range(0,114750),"auto")';
++						o.placeholder = 'auto';
++					}
+ 
+ 					o = ss.taboption('advanced', form.Value, 'frag', _('Fragmentation Threshold'));
+ 					o.datatype = 'min(256)';
+@@ -2290,9 +2339,6 @@ return view.extend({
+ 								this.section, section_id, ifaceSection, ifaceSectionId,
+ 								frequencyOption, { bitmap: value });
+ 
+-							if (!state.mlo)
+-								return true;
+-
+ 							const bitmap = w1700kParsePunctBitmap(value);
+ 							const threshold = +state.threshold || 0;
+ 							let rv;
+@@ -2587,7 +2633,7 @@ return view.extend({
+ 							elem.setValue(devices);
+ 						w1700kRefreshMloChoices(this, section_id);
+ 
+-						w1700kEnsure6gMloApDefaults(this.section, section_id);
++						w1700kEnsure6gMloApDefaults(this.section, section_id, this.apChannelsByRadio);
+ 						this.map.checkDepends();
+ 					};
+ 
+@@ -2641,7 +2687,7 @@ return view.extend({
+ 
+ 						if (devices.length > 1) {
+ 							uci.set('wireless', section_id, 'mlo', '1');
+-							w1700kEnsure6gMloApDefaults(this.section, section_id);
++							w1700kEnsure6gMloApDefaults(this.section, section_id, this.apChannelsByRadio);
+ 						}
+ 					};
+ 
+diff --git a/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js b/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
+index d864400..5ca47cf 100644
+--- a/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
++++ b/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
+@@ -24,6 +24,15 @@ function constantSource(name) {
+ 	return source.slice(start, end + 2);
+ }
+ 
++function objectConstantSource(name) {
++	const start = source.indexOf(`const ${name} =`);
++	const end = source.indexOf('\n};', start);
++
++	assert.notEqual(start, -1, `${name} not found`);
++	assert.notEqual(end, -1, `${name} boundary not found`);
++	return source.slice(start, end + 3);
++}
++
+ function evaluate(parts, context, exports) {
+ 	vm.runInNewContext(`${parts.join('\n')}\nglobalThis.helpers = { ${exports.join(', ')} };`, context);
+ 	return context.helpers;
+@@ -264,6 +273,62 @@ const list = value => value == null ? [] : (Array.isArray(value) ? value : [ val
+ 		/not valid on channel/);
+ }
+ 
++{
++	const radios = {
++		radio0: { band: '2g', channel: '36', htmode: 'EHT80' },
++		radio1: { band: '5g', channel: '149', htmode: 'EHT320' },
++		radio2: { band: '6g', channel: '2', htmode: 'EHT320' }
++	};
++	const maps = {
++		radio0: { '2g': { 1: true, 6: true, 10: true }, '5g': {}, '6g': {}, '60g': {} },
++		radio1: { '2g': {}, '5g': { 36: true, 40: true, 44: true, 48: true, 100: true }, '6g': {}, '60g': {} },
++		radio2: { '2g': {}, '5g': {}, '6g': { 37: true, 41: true, 45: true, 49: true }, '60g': {} }
++	};
++	const allowed = {
++		radio0: new Set([ '6/EHT40', '6/EHT20' ]),
++		radio1: new Set([ '36/EHT80', '36/EHT40', '36/EHT20', '100/EHT160' ]),
++		radio2: new Set([ '37/EHT160', '37/EHT80', '37/EHT40', '37/EHT20' ])
++	};
++	const context = {
++		L: { toArray: list },
++		uci: {
++			get: (config, section, option) => radios[section]?.[option],
++			set: (config, section, option, value) => { radios[section][option] = value; }
++		},
++		w1700kDeviceNames: value => value,
++		w1700kRadioIndex: dev => ({ radio0: '0', radio1: '1', radio2: '2' })[dev],
++		w1700kRadioBand: dev => radios[dev].band,
++		w1700kApChannelsForBand: (band, apChannels) => apChannels[band],
++		w1700kChannelAllowed: (dev, channel, apChannels) => apChannels[radios[dev].band][+channel] === true,
++		w1700kHtmodeAllowed: (dev, htmode, channel) => allowed[dev].has(`${channel}/${htmode}`)
++	};
++	const h = evaluate([
++		objectConstantSource('w1700kMloSafeRadioDefaults'),
++		functionSource('w1700kMloRadioStateValid'),
++		functionSource('w1700kMloSafeRadioState'),
++		functionSource('w1700kEnsureMloRadioDefaults')
++	], context, [
++		'w1700kMloRadioStateValid',
++		'w1700kMloSafeRadioState',
++		'w1700kEnsureMloRadioDefaults'
++	]);
++
++	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio0', 'radio1', 'radio2' ], maps), true);
++	assert.deepEqual(radios.radio0, { band: '2g', channel: '6', htmode: 'EHT20' });
++	assert.deepEqual(radios.radio1, { band: '5g', channel: '36', htmode: 'EHT80' });
++	assert.deepEqual(radios.radio2, { band: '6g', channel: '37', htmode: 'EHT160' });
++
++	radios.radio0.htmode = 'EHT40';
++	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio0' ], maps), true);
++	assert.equal(radios.radio0.htmode, 'EHT20', '2.4GHz MLO is normalized away from unsafe 20/40 fallback');
++
++	radios.radio1.channel = '100';
++	radios.radio1.htmode = 'EHT160';
++	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio1' ], maps), true);
++	assert.equal(radios.radio1.channel, '100', 'valid fixed channel is preserved');
++	assert.equal(radios.radio1.htmode, 'EHT160', 'valid fixed width is preserved');
++}
++
+ {
+ 	const context = {
+ 		w1700kRadioBand: () => '5g',
+@@ -325,6 +390,7 @@ const list = value => value == null ? [] : (Array.isArray(value) ? value : [ val
+ {
+ 	const modal = source.slice(source.indexOf('s.addModalOptions = function'), source.indexOf('s.handleRemove = function'));
+ 	const join = source.slice(source.indexOf('s.handleJoinConfirm = function'), source.indexOf('s.handleJoin = function'));
++	const puncturing = source.slice(source.indexOf("form.Value, 'punct_bitmap'"), source.indexOf("form.Value, 'punct_acs_threshold'"));
+ 
+ 	assert.match(modal, /frequencyOption = o;[\s\S]*w1700kFrequencyWidgetActive\(ifaceSection, ifaceSectionId\)/);
+ 	assert.match(modal, /w1700kLoadMloApChannels\(w1700kMappedRadioNames\(\)\)/);
+@@ -335,6 +401,13 @@ const list = value => value == null ? [] : (Array.isArray(value) ? value : [ val
+ 	assert.match(join, /w1700kScanJoinHtmode/);
+ 	assert.doesNotMatch(join, /uci\.unset\('wireless',[\s\S]{0,100}'htmode'\)/,
+ 		'scan join must never erase htmode');
++	assert.match(modal, /if \(!w1700kRadioMapActive\(\)\) \{[\s\S]{0,500}CBIWifiTxPowerValue/,
++		'W1700K must not expose per-radio control for shared-PHY transmit power');
++	assert.match(modal, /if \(!w1700kRadioMapActive\(\)\) \{[\s\S]{0,500}Distance Optimization/,
++		'W1700K must not expose per-radio control for shared-PHY distance');
++	assert.doesNotMatch(puncturing, /if \(!state\.mlo\)/,
++		'manual puncturing must be validated for ordinary APs as well as MLO');
++	assert.match(puncturing, /w1700kValidatePunctBitmap/);
+ }
+ 
+ console.log('PASS W1700K wireless live-form and scan/join transitions');

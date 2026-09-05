@@ -1,0 +1,1445 @@
+drwxr-xr-x root/root               248 2026-09-04 19:17 squashfs-root
+drwxr-xr-x root/root               766 2026-09-04 19:17 squashfs-root/bin
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ash -> busybox
+-rwxr-xr-x root/root               490 2026-09-04 19:17 squashfs-root/bin/board_detect
+-rwxr-xr-x root/root            425997 2026-09-04 19:17 squashfs-root/bin/busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/cat -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/chgrp -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/chmod -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/chown -> busybox
+-rwxr-xr-x root/root             12190 2026-09-04 19:17 squashfs-root/bin/config_generate
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/cp -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/date -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/dd -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/df -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/dmesg -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/echo -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/egrep -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/false -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/fgrep -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/fsync -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/grep -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/gunzip -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/gzip -> busybox
+-rwxr-xr-x root/root              3012 2026-09-04 19:17 squashfs-root/bin/ipcalc.sh
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/kill -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ln -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/lock -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/login -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ls -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/mkdir -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/mknod -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/mktemp -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/mount -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/mv -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/netmsg -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/netstat -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/nice -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/passwd -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/pidof -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ping -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ping6 -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/ps -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/pwd -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/rm -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/rmdir -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/sed -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/sh -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/sleep -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/sync -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/tar -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/touch -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/traceroute -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/traceroute6 -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/true -> busybox
+-rwxr-xr-x root/root             16400 2026-09-04 19:17 squashfs-root/bin/ubus
+-rwxr-xr-x root/root             20524 2026-09-04 19:17 squashfs-root/bin/uclient-fetch
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/umount -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/uname -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/vi -> busybox
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/bin/zcat -> busybox
+drwxr-xr-x root/root                30 2026-09-04 19:17 squashfs-root/dev
+crw------- root/root             5,  1 2026-09-04 19:17 squashfs-root/dev/console
+drwxr-xr-x root/root              1045 2026-09-04 19:17 squashfs-root/etc
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/etc/TZ -> /tmp/TZ
+drwxr-xr-x root/root               160 2026-09-04 19:17 squashfs-root/etc/adblock
+-rw------- root/root                 0 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.allowlist
+-rw------- root/root                 0 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.blocklist
+-rw------- root/root              5690 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.categories
+-rw------- root/root                 0 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.custom.feeds
+-rw------- root/root              5052 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.feeds
+-rwxr-xr-x root/root              2691 2026-09-04 19:17 squashfs-root/etc/adblock/adblock.mail
+drwxr-xr-x root/root                74 2026-09-04 19:17 squashfs-root/etc/apk
+-rw-r--r-- root/root                19 2026-09-04 19:17 squashfs-root/etc/apk/arch
+drwxr-xr-x root/root                66 2026-09-04 19:17 squashfs-root/etc/apk/keys
+-rw-r--r-- root/root               178 2026-09-04 19:17 squashfs-root/etc/apk/keys/openwrt-snapshots.pem
+-rw-r--r-- root/root               178 2026-09-04 19:17 squashfs-root/etc/apk/keys/public-key.pem
+drwxr-xr-x root/root                61 2026-09-04 19:17 squashfs-root/etc/apk/repositories.d
+-rw-r--r-- root/root                91 2026-09-04 19:17 squashfs-root/etc/apk/repositories.d/customfeeds.list
+-rw-r--r-- root/root               785 2026-09-04 19:17 squashfs-root/etc/apk/repositories.d/distfeeds.list
+-rw-r--r-- root/root              2480 2026-09-04 19:17 squashfs-root/etc/apk/world
+-rw-r--r-- root/root               400 2026-09-04 19:17 squashfs-root/etc/banner
+-rw-r--r-- root/root               461 2026-09-04 19:17 squashfs-root/etc/banner.failsafe
+drwxr-xr-x root/root               121 2026-09-04 19:17 squashfs-root/etc/board.d
+-rw-r--r-- root/root               996 2026-09-04 19:17 squashfs-root/etc/board.d/01_leds
+-rw-r--r-- root/root               760 2026-09-04 19:17 squashfs-root/etc/board.d/02_network
+-rw-r--r-- root/root               229 2026-09-04 19:17 squashfs-root/etc/board.d/05_compat-version
+-rw-r--r-- root/root               891 2026-09-04 19:17 squashfs-root/etc/board.d/05_fw_defaults
+-rw-r--r-- root/root               256 2026-09-04 19:17 squashfs-root/etc/board.d/99-default_network
+drwxr-xr-x root/root                49 2026-09-04 19:17 squashfs-root/etc/capabilities
+-rw-r--r-- root/root               317 2026-09-04 19:17 squashfs-root/etc/capabilities/ntpd.json
+-rw-r--r-- root/root               407 2026-09-04 19:17 squashfs-root/etc/capabilities/wpad.json
+drwxr-xr-x root/root               157 2026-09-04 19:17 squashfs-root/etc/config
+-rw------- root/root               275 2026-09-04 19:17 squashfs-root/etc/config/adblock
+-rw------- root/root              1244 2026-09-04 19:17 squashfs-root/etc/config/dhcp
+-rw------- root/root               286 2026-09-04 19:17 squashfs-root/etc/config/dropbear
+-rw-r--r-- root/root              4064 2026-09-04 19:17 squashfs-root/etc/config/firewall
+-rw-r--r-- root/root               484 2026-09-04 19:17 squashfs-root/etc/config/luci
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/etc/config/luci_plugins
+-rw-r--r-- root/root               426 2026-09-04 19:17 squashfs-root/etc/config/radius
+-rw------- root/root               167 2026-09-04 19:17 squashfs-root/etc/config/rpcd
+-rw-r--r-- root/root               478 2026-09-04 19:17 squashfs-root/etc/config/sqm
+-rw------- root/root              4546 2026-09-04 19:17 squashfs-root/etc/config/uhttpd
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/crontabs
+-rw-r--r-- root/root               123 2026-09-04 19:17 squashfs-root/etc/device_info
+-rw-r--r-- root/root               948 2026-09-04 19:17 squashfs-root/etc/diag.sh
+-rw------- root/root              1368 2026-09-04 19:17 squashfs-root/etc/dnsmasq.conf
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/dropbear
+-rw-r--r-- root/root               130 2026-09-04 19:17 squashfs-root/etc/ethers
+-rw-r--r-- root/root                61 2026-09-04 19:17 squashfs-root/etc/fstab
+-rw-r--r-- root/root               201 2026-09-04 19:17 squashfs-root/etc/group
+-rw-r--r-- root/root               110 2026-09-04 19:17 squashfs-root/etc/hosts
+-rw------- root/root               305 2026-09-04 19:17 squashfs-root/etc/hotplug-preinit.json
+drwxr-xr-x root/root               116 2026-09-04 19:17 squashfs-root/etc/hotplug.d
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/hotplug.d/dhcp
+drwxr-xr-x root/root                62 2026-09-04 19:17 squashfs-root/etc/hotplug.d/ieee80211
+-rw-r--r-- root/root               121 2026-09-04 19:17 squashfs-root/etc/hotplug.d/ieee80211/10-wifi-detect
+-rwxr-xr-x root/root               788 2026-09-04 19:17 squashfs-root/etc/hotplug.d/ieee80211/11-ath12k-trigger
+drwxr-xr-x root/root                67 2026-09-04 19:17 squashfs-root/etc/hotplug.d/iface
+-rw-r--r-- root/root               155 2026-09-04 19:17 squashfs-root/etc/hotplug.d/iface/00-netstate
+-rw------- root/root               921 2026-09-04 19:17 squashfs-root/etc/hotplug.d/iface/11-sqm
+-rw-r--r-- root/root               498 2026-09-04 19:17 squashfs-root/etc/hotplug.d/iface/20-firewall
+drwxr-xr-x root/root                30 2026-09-04 19:17 squashfs-root/etc/hotplug.d/leds
+-rw-r--r-- root/root                72 2026-09-04 19:17 squashfs-root/etc/hotplug.d/leds/00-init
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/hotplug.d/neigh
+drwxr-xr-x root/root                32 2026-09-04 19:17 squashfs-root/etc/hotplug.d/net
+-rw-r--r-- root/root               236 2026-09-04 19:17 squashfs-root/etc/hotplug.d/net/00-sysctl
+drwxr-xr-x root/root                36 2026-09-04 19:17 squashfs-root/etc/hotplug.d/ntp
+-rw-r--r-- root/root               277 2026-09-04 19:17 squashfs-root/etc/hotplug.d/ntp/25-dnsmasqsec
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/hotplug.d/tftp
+-rw------- root/root              1927 2026-09-04 19:17 squashfs-root/etc/hotplug.json
+drwxr-xr-x root/root               455 2026-09-04 19:17 squashfs-root/etc/init.d
+-rwxr-xr-x root/root              3251 2026-09-04 19:17 squashfs-root/etc/init.d/adblock
+-rwxr-xr-x root/root              1065 2026-09-04 19:17 squashfs-root/etc/init.d/airoha_fan
+-rwxr-xr-x root/root              1511 2026-09-04 19:17 squashfs-root/etc/init.d/boot
+-rwxr-xr-x root/root               846 2026-09-04 19:17 squashfs-root/etc/init.d/cron
+-rwxr-xr-x root/root             37459 2026-09-04 19:17 squashfs-root/etc/init.d/dnsmasq
+-rwxr-xr-x root/root               298 2026-09-04 19:17 squashfs-root/etc/init.d/done
+-rwxr-xr-x root/root             12937 2026-09-04 19:17 squashfs-root/etc/init.d/dropbear
+-rwxr-xr-x root/root               418 2026-09-04 19:17 squashfs-root/etc/init.d/firewall
+-rwxr-xr-x root/root              1379 2026-09-04 19:17 squashfs-root/etc/init.d/gpio_switch
+-rwxr-xr-x root/root              5853 2026-09-04 19:17 squashfs-root/etc/init.d/led
+-rwxr-xr-x root/root              2746 2026-09-04 19:17 squashfs-root/etc/init.d/log
+-rwxr-xr-x root/root              2995 2026-09-04 19:17 squashfs-root/etc/init.d/network
+-rwxr-xr-x root/root               310 2026-09-04 19:17 squashfs-root/etc/init.d/odhcpd
+-rwxr-xr-x root/root               682 2026-09-04 19:17 squashfs-root/etc/init.d/packet_steering
+-rwxr-xr-x root/root              1043 2026-09-04 19:17 squashfs-root/etc/init.d/radius
+-rwxr-xr-x root/root               393 2026-09-04 19:17 squashfs-root/etc/init.d/rpcd
+-rwxr-xr-x root/root               822 2026-09-04 19:17 squashfs-root/etc/init.d/softethervpnserver
+-rwxr-xr-x root/root               321 2026-09-04 19:17 squashfs-root/etc/init.d/sqm
+-rwxr-xr-x root/root              1212 2026-09-04 19:17 squashfs-root/etc/init.d/sysctl
+-rwxr-xr-x root/root               764 2026-09-04 19:17 squashfs-root/etc/init.d/sysfixtime
+-rwxr-xr-x root/root              3226 2026-09-04 19:17 squashfs-root/etc/init.d/sysntpd
+-rwxr-xr-x root/root              1012 2026-09-04 19:17 squashfs-root/etc/init.d/system
+-rwxr-xr-x root/root               548 2026-09-04 19:17 squashfs-root/etc/init.d/ubihealthd
+-rwxr-xr-x root/root              1582 2026-09-04 19:17 squashfs-root/etc/init.d/ucitrack
+-rwxr-xr-x root/root              7404 2026-09-04 19:17 squashfs-root/etc/init.d/uhttpd
+-rwxr-xr-x root/root               125 2026-09-04 19:17 squashfs-root/etc/init.d/umount
+-rwxr-xr-x root/root               239 2026-09-04 19:17 squashfs-root/etc/init.d/urandom_seed
+-rwxr-xr-x root/root               220 2026-09-04 19:17 squashfs-root/etc/init.d/urngd
+-rwxr-xr-x root/root              1262 2026-09-04 19:17 squashfs-root/etc/init.d/wpad
+-rw-r--r-- root/root               106 2026-09-04 19:17 squashfs-root/etc/inittab
+drwxr-xr-x root/root                67 2026-09-04 19:17 squashfs-root/etc/iproute2
+-rw-r--r-- root/root                81 2026-09-04 19:17 squashfs-root/etc/iproute2/ematch_map
+-rw-r--r-- root/root               152 2026-09-04 19:17 squashfs-root/etc/iproute2/rt_protos
+-rw-r--r-- root/root               100 2026-09-04 19:17 squashfs-root/etc/iproute2/rt_tables
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/localtime -> /tmp/localtime
+drwxr-xr-x root/root                35 2026-09-04 19:17 squashfs-root/etc/luci-uploads
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/etc/luci-uploads/.placeholder
+drwxr-xr-x root/root               173 2026-09-04 19:17 squashfs-root/etc/modules-boot.d
+lrwxrwxrwx root/root                27 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/02-crypto-hash -> ../modules.d/02-crypto-hash
+lrwxrwxrwx root/root                27 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/09-crypto-aead -> ../modules.d/09-crypto-aead
+lrwxrwxrwx root/root                30 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/09-crypto-manager -> ../modules.d/09-crypto-manager
+lrwxrwxrwx root/root                22 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/15-libphy -> ../modules.d/15-libphy
+lrwxrwxrwx root/root                27 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/18-phy-realtek -> ../modules.d/18-phy-realtek
+lrwxrwxrwx root/root                35 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/30-gpio-button-hotplug -> ../modules.d/30-gpio-button-hotplug
+lrwxrwxrwx root/root                25 2026-09-04 19:17 squashfs-root/etc/modules-boot.d/60-leds-gpio -> ../modules.d/60-leds-gpio
+-rw-r--r-- root/root                55 2026-09-04 19:17 squashfs-root/etc/modules.conf
+drwxr-xr-x root/root               808 2026-09-04 19:17 squashfs-root/etc/modules.d
+-rw-r--r-- root/root                12 2026-09-04 19:17 squashfs-root/etc/modules.d/02-crypto-hash
+-rw-r--r-- root/root                 5 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-aead
+-rw-r--r-- root/root                 4 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-ccm
+-rw-r--r-- root/root                 5 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-cmac
+-rw-r--r-- root/root                 4 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-ctr
+-rw-r--r-- root/root                 4 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-gcm
+-rw-r--r-- root/root                 6 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-geniv
+-rw-r--r-- root/root                 9 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-gf128
+-rw-r--r-- root/root                14 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-ghash
+-rw-r--r-- root/root                 5 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-hmac
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-manager
+-rw-r--r-- root/root                12 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-null
+-rw-r--r-- root/root                27 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-rng
+-rw-r--r-- root/root                 6 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-seqiv
+-rw-r--r-- root/root                13 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-sha3
+-rw-r--r-- root/root                 7 2026-09-04 19:17 squashfs-root/etc/modules.d/09-crypto-sha512
+-rw-r--r-- root/root                16 2026-09-04 19:17 squashfs-root/etc/modules.d/15-libphy
+-rw-r--r-- root/root                 8 2026-09-04 19:17 squashfs-root/etc/modules.d/18-phy-realtek
+-rw-r--r-- root/root                20 2026-09-04 19:17 squashfs-root/etc/modules.d/30-gpio-button-hotplug
+-rw-r--r-- root/root                 4 2026-09-04 19:17 squashfs-root/etc/modules.d/30-tun
+-rw-r--r-- root/root                14 2026-09-04 19:17 squashfs-root/etc/modules.d/34-ifb
+-rw-r--r-- root/root                17 2026-09-04 19:17 squashfs-root/etc/modules.d/51-i2c-core
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/etc/modules.d/60-leds-gpio
+-rw-r--r-- root/root               133 2026-09-04 19:17 squashfs-root/etc/modules.d/70-sched-core
+-rw-r--r-- root/root                 8 2026-09-04 19:17 squashfs-root/etc/modules.d/hwmon-nct7802
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/etc/modules.d/lib-crc-ccitt
+-rw-r--r-- root/root                 8 2026-09-04 19:17 squashfs-root/etc/modules.d/mt7996e
+-rw-r--r-- root/root                43 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-conntrack
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-flow
+-rw-r--r-- root/root                14 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-log
+-rw-r--r-- root/root                 7 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-nat
+-rw-r--r-- root/root                15 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-reject
+-rw-r--r-- root/root                15 2026-09-04 19:17 squashfs-root/etc/modules.d/nf-reject6
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/etc/modules.d/nfnetlink
+-rw-r--r-- root/root               134 2026-09-04 19:17 squashfs-root/etc/modules.d/nft-core
+-rw-r--r-- root/root                47 2026-09-04 19:17 squashfs-root/etc/modules.d/nft-fib
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/etc/modules.d/nft-nat
+-rw-r--r-- root/root                36 2026-09-04 19:17 squashfs-root/etc/modules.d/nft-offload
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/etc/modules.d/ppp
+-rw-r--r-- root/root                 6 2026-09-04 19:17 squashfs-root/etc/modules.d/pppoe
+-rw-r--r-- root/root                 9 2026-09-04 19:17 squashfs-root/etc/modules.d/sched-cake
+lrwxrwxrwx root/root                12 2026-09-04 19:17 squashfs-root/etc/mtab -> /proc/mounts
+drwxr-xr-x root/root                64 2026-09-04 19:17 squashfs-root/etc/nftables.d
+-rw-r--r-- root/root              1139 2026-09-04 19:17 squashfs-root/etc/nftables.d/10-custom-filter-chains.nft
+-rw-r--r-- root/root               197 2026-09-04 19:17 squashfs-root/etc/nftables.d/README
+-rw------- root/root                75 2026-09-04 19:17 squashfs-root/etc/odhcp6c.user
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/odhcp6c.user.d
+-rw-r--r-- root/root               235 2026-09-04 19:17 squashfs-root/etc/openwrt_release
+-rw-r--r-- root/root                20 2026-09-04 19:17 squashfs-root/etc/openwrt_version
+lrwxrwxrwx root/root                21 2026-09-04 19:17 squashfs-root/etc/os-release -> ../usr/lib/os-release
+-rw-r--r-- root/root               337 2026-09-04 19:17 squashfs-root/etc/passwd
+drwxr-xr-x root/root                83 2026-09-04 19:17 squashfs-root/etc/ppp
+-rw------- root/root                41 2026-09-04 19:17 squashfs-root/etc/ppp/chap-secrets
+-rw-r--r-- root/root               260 2026-09-04 19:17 squashfs-root/etc/ppp/filter
+-rw-r--r-- root/root                79 2026-09-04 19:17 squashfs-root/etc/ppp/options
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/etc/ppp/resolv.conf -> /tmp/resolv.conf.ppp
+-rwxr-xr-x root/root               609 2026-09-04 19:17 squashfs-root/etc/preinit
+-rw-r--r-- root/root               920 2026-09-04 19:17 squashfs-root/etc/profile
+drwxr-xr-x root/root                77 2026-09-04 19:17 squashfs-root/etc/profile.d
+-rw-r--r-- root/root               314 2026-09-04 19:17 squashfs-root/etc/profile.d/00-passwordless-root.sh
+-rwxr-xr-x root/root                43 2026-09-04 19:17 squashfs-root/etc/profile.d/busybox-history-file.sh
+-rw-r--r-- root/root              2541 2026-09-04 19:17 squashfs-root/etc/protocols
+drwxr-xr-x root/root                43 2026-09-04 19:17 squashfs-root/etc/radius
+-rw-r--r-- root/root                17 2026-09-04 19:17 squashfs-root/etc/radius/clients
+-rw-r--r-- root/root               127 2026-09-04 19:17 squashfs-root/etc/radius/users
+drwxr-xr-x root/root                96 2026-09-04 19:17 squashfs-root/etc/rc.button
+-rwxr-xr-x root/root                87 2026-09-04 19:17 squashfs-root/etc/rc.button/failsafe
+-rwxr-xr-x root/root                81 2026-09-04 19:17 squashfs-root/etc/rc.button/power
+-rwxr-xr-x root/root               134 2026-09-04 19:17 squashfs-root/etc/rc.button/reboot
+-rwxr-xr-x root/root               421 2026-09-04 19:17 squashfs-root/etc/rc.button/reset
+-rwxr-xr-x root/root               526 2026-09-04 19:17 squashfs-root/etc/rc.button/rfkill
+-rwxr-xr-x root/root               133 2026-09-04 19:17 squashfs-root/etc/rc.button/wps
+-rwxr-xr-x root/root              3522 2026-09-04 19:17 squashfs-root/etc/rc.common
+drwxr-xr-x root/root               695 2026-09-04 19:17 squashfs-root/etc/rc.d
+lrwxrwxrwx root/root                21 2026-09-04 19:17 squashfs-root/etc/rc.d/K10gpio_switch -> ../init.d/gpio_switch
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/K21wpad -> ../init.d/wpad
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/etc/rc.d/K50dropbear -> ../init.d/dropbear
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/K85odhcpd -> ../init.d/odhcpd
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/etc/rc.d/K89log -> ../init.d/log
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/K90boot -> ../init.d/boot
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/etc/rc.d/K90network -> ../init.d/network
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/etc/rc.d/K90sysfixtime -> ../init.d/sysfixtime
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/K90umount -> ../init.d/umount
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/etc/rc.d/S00sysfixtime -> ../init.d/sysfixtime
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/etc/rc.d/S00urngd -> ../init.d/urngd
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/S10boot -> ../init.d/boot
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/S10system -> ../init.d/system
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/S11sysctl -> ../init.d/sysctl
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/etc/rc.d/S12log -> ../init.d/log
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/S12rpcd -> ../init.d/rpcd
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/etc/rc.d/S19dnsmasq -> ../init.d/dnsmasq
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/etc/rc.d/S19dropbear -> ../init.d/dropbear
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/etc/rc.d/S19firewall -> ../init.d/firewall
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/S19wpad -> ../init.d/wpad
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/etc/rc.d/S20network -> ../init.d/network
+lrwxrwxrwx root/root                25 2026-09-04 19:17 squashfs-root/etc/rc.d/S25packet_steering -> ../init.d/packet_steering
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/etc/rc.d/S30adblock -> ../init.d/adblock
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/S30radius -> ../init.d/radius
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/S35odhcpd -> ../init.d/odhcpd
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/S50cron -> ../init.d/cron
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/etc/rc.d/S50sqm -> ../init.d/sqm
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/rc.d/S50uhttpd -> ../init.d/uhttpd
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/etc/rc.d/S80ucitrack -> ../init.d/ucitrack
+lrwxrwxrwx root/root                28 2026-09-04 19:17 squashfs-root/etc/rc.d/S91softethervpnserver -> ../init.d/softethervpnserver
+lrwxrwxrwx root/root                21 2026-09-04 19:17 squashfs-root/etc/rc.d/S94gpio_switch -> ../init.d/gpio_switch
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/etc/rc.d/S95done -> ../init.d/done
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/etc/rc.d/S96led -> ../init.d/led
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/etc/rc.d/S98sysntpd -> ../init.d/sysntpd
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/etc/rc.d/S99airoha_fan -> ../init.d/airoha_fan
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/etc/rc.d/S99ubihealthd -> ../init.d/ubihealthd
+lrwxrwxrwx root/root                22 2026-09-04 19:17 squashfs-root/etc/rc.d/S99urandom_seed -> ../init.d/urandom_seed
+-rw-r--r-- root/root               132 2026-09-04 19:17 squashfs-root/etc/rc.local
+drwxr-xr-x root/root                50 2026-09-04 19:17 squashfs-root/etc/rc.wps
+-rwxr-xr-x root/root               189 2026-09-04 19:17 squashfs-root/etc/rc.wps/40-wps_ap
+-rwxr-xr-x root/root              1571 2026-09-04 19:17 squashfs-root/etc/rc.wps/50-wps_sta
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/etc/resolv.conf -> /tmp/resolv.conf
+-rw-r--r-- root/root              3073 2026-09-04 19:17 squashfs-root/etc/services
+-rw------- root/root               183 2026-09-04 19:17 squashfs-root/etc/shadow
+-rw-r--r-- root/root                 9 2026-09-04 19:17 squashfs-root/etc/shells
+-rw-r--r-- root/root               475 2026-09-04 19:17 squashfs-root/etc/shinit
+drwxr-xr-x root/root                31 2026-09-04 19:17 squashfs-root/etc/sqm
+-rw-r--r-- root/root               166 2026-09-04 19:17 squashfs-root/etc/sqm/sqm.conf
+drwxr-xr-x root/root                59 2026-09-04 19:17 squashfs-root/etc/ssl
+lrwxrwxrwx root/root                34 2026-09-04 19:17 squashfs-root/etc/ssl/cert.pem -> /etc/ssl/certs/ca-certificates.crt
+drwxr-xr-x root/root                42 2026-09-04 19:17 squashfs-root/etc/ssl/certs
+-rw-r--r-- root/root            181603 2026-09-04 19:17 squashfs-root/etc/ssl/certs/ca-certificates.crt
+drwx------ root/root                 3 2026-09-04 19:17 squashfs-root/etc/ssl/private
+-rw-r--r-- root/root               154 2026-09-04 19:17 squashfs-root/etc/sysctl.conf
+drwxr-xr-x root/root                66 2026-09-04 19:17 squashfs-root/etc/sysctl.d
+-rw-r--r-- root/root               730 2026-09-04 19:17 squashfs-root/etc/sysctl.d/10-default.conf
+-rw-r--r-- root/root               342 2026-09-04 19:17 squashfs-root/etc/sysctl.d/11-nf-conntrack.conf
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/etc/syslog.conf
+-rw-r--r-- root/root               128 2026-09-04 19:17 squashfs-root/etc/sysupgrade.conf
+drwxr-xr-x root/root               605 2026-09-04 19:17 squashfs-root/etc/uci-defaults
+-rw-r--r-- root/root               251 2026-09-04 19:17 squashfs-root/etc/uci-defaults/00_uhttpd_ubus
+-rw-r--r-- root/root               395 2026-09-04 19:17 squashfs-root/etc/uci-defaults/10_migrate-shadow
+-rw-r--r-- root/root               997 2026-09-04 19:17 squashfs-root/etc/uci-defaults/11_network-migrate-bridges
+-rw-r--r-- root/root               228 2026-09-04 19:17 squashfs-root/etc/uci-defaults/12_network-generate-ula
+-rw-r--r-- root/root               425 2026-09-04 19:17 squashfs-root/etc/uci-defaults/14_migrate-dhcp-release
+-rw-r--r-- root/root               259 2026-09-04 19:17 squashfs-root/etc/uci-defaults/14_network-generate-duid
+-rw-r--r-- root/root               165 2026-09-04 19:17 squashfs-root/etc/uci-defaults/15_migrate-time-zonename
+-rwxr-xr-x root/root              2713 2026-09-04 19:17 squashfs-root/etc/uci-defaults/15_odhcpd
+-rwxr-xr-x root/root               483 2026-09-04 19:17 squashfs-root/etc/uci-defaults/30_luci-theme-bootstrap
+-rw-r--r-- root/root               416 2026-09-04 19:17 squashfs-root/etc/uci-defaults/30_uboot-envtools
+-rwxr-xr-x root/root               509 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50-dnsmasq-migrate-ipset.sh
+-rwxr-xr-x root/root               189 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50-dnsmasq-migrate-resolv-conf-auto.sh
+-rw-r--r-- root/root               556 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50-dropbear
+-rwxr-xr-x root/root               162 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50-migrate-rpcd-ubus-sock.sh
+-rw-r--r-- root/root               510 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50-root-passwd
+-rwxr-xr-x root/root               461 2026-09-04 19:17 squashfs-root/etc/uci-defaults/50_luci-mod-admin-full
+-rwxr-xr-x root/root              3338 2026-09-04 19:17 squashfs-root/etc/uci-defaults/95-adblock-housekeeping
+-rwxr-xr-x root/root               104 2026-09-04 19:17 squashfs-root/etc/uci-defaults/95-luci-app-adblock-housekeeping
+-rwxr-xr-x root/root              1516 2026-09-04 19:17 squashfs-root/etc/uci-defaults/99-w1700k-system-defaults
+-rw-r--r-- root/root               383 2026-09-04 19:17 squashfs-root/etc/uci-defaults/ubihealthd
+-rw-r--r-- root/root                70 2026-09-04 19:17 squashfs-root/etc/udhcpc.user
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/etc/udhcpc.user.d
+-rwxr-xr-x root/root               276 2026-09-04 19:17 squashfs-root/init
+drwxr-xr-x root/root               573 2026-09-04 19:17 squashfs-root/lib
+drwxr-xr-x root/root                53 2026-09-04 19:17 squashfs-root/lib/apk
+drwxr-xr-x root/root                70 2026-09-04 19:17 squashfs-root/lib/apk/db
+-rw-r--r-- root/root            147436 2026-09-04 19:17 squashfs-root/lib/apk/db/installed
+-rw-r--r-- root/root             14545 2026-09-04 19:17 squashfs-root/lib/apk/db/scripts.tar.gz
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/db/triggers
+drwxr-xr-x root/root              5984 2026-09-04 19:17 squashfs-root/lib/apk/packages
+-rw-r--r-- root/root               116 2026-09-04 19:17 squashfs-root/lib/apk/packages/adblock.conffiles
+-rw-r--r-- root/root               376 2026-09-04 19:17 squashfs-root/lib/apk/packages/adblock.conffiles_static
+-rw-r--r-- root/root               304 2026-09-04 19:17 squashfs-root/lib/apk/packages/adblock.list
+-rw-r--r-- root/root                96 2026-09-04 19:17 squashfs-root/lib/apk/packages/airoha-en7581-mt7996-npu-firmware.list
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/airoha-en7581-npu-firmware.list
+-rw-r--r-- root/root                41 2026-09-04 19:17 squashfs-root/lib/apk/packages/apk-mbedtls.conffiles
+-rw-r--r-- root/root               106 2026-09-04 19:17 squashfs-root/lib/apk/packages/apk-mbedtls.conffiles_static
+-rw-r--r-- root/root                54 2026-09-04 19:17 squashfs-root/lib/apk/packages/apk-mbedtls.list
+-rw-r--r-- root/root               305 2026-09-04 19:17 squashfs-root/lib/apk/packages/base-files.conffiles
+-rw-r--r-- root/root              1277 2026-09-04 19:17 squashfs-root/lib/apk/packages/base-files.conffiles_static
+-rw-r--r-- root/root              2625 2026-09-04 19:17 squashfs-root/lib/apk/packages/base-files.list
+-rw-r--r-- root/root                32 2026-09-04 19:17 squashfs-root/lib/apk/packages/busybox.conffiles
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/busybox.conffiles_static
+-rw-r--r-- root/root              1783 2026-09-04 19:17 squashfs-root/lib/apk/packages/busybox.list
+-rw-r--r-- root/root                16 2026-09-04 19:17 squashfs-root/lib/apk/packages/busybox.rusers
+-rw-r--r-- root/root                53 2026-09-04 19:17 squashfs-root/lib/apk/packages/ca-bundle.list
+-rw-r--r-- root/root               116 2026-09-04 19:17 squashfs-root/lib/apk/packages/cgi-io.list
+-rw-r--r-- root/root                46 2026-09-04 19:17 squashfs-root/lib/apk/packages/coreutils-sort.alternatives
+-rw-r--r-- root/root                74 2026-09-04 19:17 squashfs-root/lib/apk/packages/coreutils-sort.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/coreutils.list
+-rw-r--r-- root/root                51 2026-09-04 19:17 squashfs-root/lib/apk/packages/dnsmasq.conffiles
+-rw-r--r-- root/root               165 2026-09-04 19:17 squashfs-root/lib/apk/packages/dnsmasq.conffiles_static
+-rw-r--r-- root/root               410 2026-09-04 19:17 squashfs-root/lib/apk/packages/dnsmasq.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/dnsmasq.rusers
+-rw-r--r-- root/root               115 2026-09-04 19:17 squashfs-root/lib/apk/packages/dropbear.alternatives
+-rw-r--r-- root/root               165 2026-09-04 19:17 squashfs-root/lib/apk/packages/dropbear.conffiles
+-rw-r--r-- root/root                86 2026-09-04 19:17 squashfs-root/lib/apk/packages/dropbear.conffiles_static
+-rw-r--r-- root/root               236 2026-09-04 19:17 squashfs-root/lib/apk/packages/dropbear.list
+-rw-r--r-- root/root                38 2026-09-04 19:17 squashfs-root/lib/apk/packages/firewall4.conffiles
+-rw-r--r-- root/root                86 2026-09-04 19:17 squashfs-root/lib/apk/packages/firewall4.conffiles_static
+-rw-r--r-- root/root               798 2026-09-04 19:17 squashfs-root/lib/apk/packages/firewall4.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/fit-check-sign.list
+-rw-r--r-- root/root                37 2026-09-04 19:17 squashfs-root/lib/apk/packages/fitblk.list
+-rw-r--r-- root/root                88 2026-09-04 19:17 squashfs-root/lib/apk/packages/fstools.list
+-rw-r--r-- root/root                16 2026-09-04 19:17 squashfs-root/lib/apk/packages/fwtool.list
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/lib/apk/packages/gawk.alternatives
+-rw-r--r-- root/root              1177 2026-09-04 19:17 squashfs-root/lib/apk/packages/gawk.list
+-rw-r--r-- root/root                19 2026-09-04 19:17 squashfs-root/lib/apk/packages/getrandom.list
+-rw-r--r-- root/root               107 2026-09-04 19:17 squashfs-root/lib/apk/packages/hostapd-common.list
+-rw-r--r-- root/root                34 2026-09-04 19:17 squashfs-root/lib/apk/packages/ip-tiny.alternatives
+-rw-r--r-- root/root                60 2026-09-04 19:17 squashfs-root/lib/apk/packages/ip-tiny.list
+-rw-r--r-- root/root                13 2026-09-04 19:17 squashfs-root/lib/apk/packages/iw.list
+-rw-r--r-- root/root                55 2026-09-04 19:17 squashfs-root/lib/apk/packages/jansson4.list
+-rw-r--r-- root/root                41 2026-09-04 19:17 squashfs-root/lib/apk/packages/jshn.list
+-rw-r--r-- root/root                20 2026-09-04 19:17 squashfs-root/lib/apk/packages/jsonfilter.list
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/kernel.list
+-rw-r--r-- root/root                64 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-cfg80211.list
+-rw-r--r-- root/root                65 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-aead.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-ccm.list
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-cmac.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-ctr.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-gcm.list
+-rw-r--r-- root/root                61 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-geniv.list
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-gf128.list
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-ghash.list
+-rw-r--r-- root/root                65 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-hash.list
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-hmac.list
+-rw-r--r-- root/root                71 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-manager.list
+-rw-r--r-- root/root                30 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-null.list
+-rw-r--r-- root/root               100 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-rng.list
+-rw-r--r-- root/root                61 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-seqiv.list
+-rw-r--r-- root/root                67 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-sha3.list
+-rw-r--r-- root/root                97 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-crypto-sha512.list
+-rw-r--r-- root/root               125 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-gpio-button-hotplug.list
+-rw-r--r-- root/root                30 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-hwmon-core.list
+-rw-r--r-- root/root                61 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-hwmon-nct7802.list
+-rw-r--r-- root/root                27 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-i2c-core.list
+-rw-r--r-- root/root                50 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-ifb.list
+-rw-r--r-- root/root                95 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-leds-gpio.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-lib-crc-ccitt.list
+-rw-r--r-- root/root                55 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-libphy.list
+-rw-r--r-- root/root                33 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mac80211.list
+-rw-r--r-- root/root                40 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mt76-connac.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mt76-core.list
+-rw-r--r-- root/root                45 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mt7996-firmware-common.list
+-rw-r--r-- root/root               242 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mt7996-firmware.list
+-rw-r--r-- root/root                55 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-mt7996e.list
+-rw-r--r-- root/root               178 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-conntrack.list
+-rw-r--r-- root/root                61 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-flow.list
+-rw-r--r-- root/root                60 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-log.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-log6.list
+-rw-r--r-- root/root                53 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-nat.list
+-rw-r--r-- root/root                64 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-reject.list
+-rw-r--r-- root/root                65 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nf-reject6.list
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nfnetlink.list
+-rw-r--r-- root/root               446 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nft-core.list
+-rw-r--r-- root/root               166 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nft-fib.list
+-rw-r--r-- root/root               126 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nft-nat.list
+-rw-r--r-- root/root               111 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-nft-offload.list
+-rw-r--r-- root/root                97 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-phy-realtek.list
+-rw-r--r-- root/root                89 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-ppp.list
+-rw-r--r-- root/root                51 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-pppoe.list
+-rw-r--r-- root/root                30 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-pppox.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-regmap-core.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-regmap-i2c.list
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-sched-cake.list
+-rw-r--r-- root/root               498 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-sched-core.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-slhc.list
+-rw-r--r-- root/root                50 2026-09-04 19:17 squashfs-root/lib/apk/packages/kmod-tun.list
+-rw-r--r-- root/root                33 2026-09-04 19:17 squashfs-root/lib/apk/packages/libblobmsg-json20260721.list
+-rw-r--r-- root/root                52 2026-09-04 19:17 squashfs-root/lib/apk/packages/libc.list
+-rw-r--r-- root/root                19 2026-09-04 19:17 squashfs-root/lib/apk/packages/libgcc1.list
+-rw-r--r-- root/root                33 2026-09-04 19:17 squashfs-root/lib/apk/packages/libiwinfo-data.list
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/lib/apk/packages/libiwinfo20230701.list
+-rw-r--r-- root/root                52 2026-09-04 19:17 squashfs-root/lib/apk/packages/libjson-c5.list
+-rw-r--r-- root/root                32 2026-09-04 19:17 squashfs-root/lib/apk/packages/libjson-script20260721.list
+-rw-r--r-- root/root                27 2026-09-04 19:17 squashfs-root/lib/apk/packages/liblucihttp-ucode.list
+-rw-r--r-- root/root                54 2026-09-04 19:17 squashfs-root/lib/apk/packages/liblucihttp0.list
+-rw-r--r-- root/root               172 2026-09-04 19:17 squashfs-root/lib/apk/packages/libmbedtls21.list
+-rw-r--r-- root/root                46 2026-09-04 19:17 squashfs-root/lib/apk/packages/libmnl0.list
+-rw-r--r-- root/root               392 2026-09-04 19:17 squashfs-root/lib/apk/packages/libncurses6.list
+-rw-r--r-- root/root                52 2026-09-04 19:17 squashfs-root/lib/apk/packages/libnftnl11.list
+-rw-r--r-- root/root                25 2026-09-04 19:17 squashfs-root/lib/apk/packages/libnl-tiny1.list
+-rw-r--r-- root/root                45 2026-09-04 19:17 squashfs-root/lib/apk/packages/libopenssl3.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/libpthread.list
+-rw-r--r-- root/root               153 2026-09-04 19:17 squashfs-root/lib/apk/packages/libreadline8.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/librt.list
+-rw-r--r-- root/root                54 2026-09-04 19:17 squashfs-root/lib/apk/packages/libsodium.list
+-rw-r--r-- root/root                25 2026-09-04 19:17 squashfs-root/lib/apk/packages/libubox20260721.list
+-rw-r--r-- root/root                25 2026-09-04 19:17 squashfs-root/lib/apk/packages/libubus20260628.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/libuci20250120.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/libuclient20201210.list
+-rw-r--r-- root/root                30 2026-09-04 19:17 squashfs-root/lib/apk/packages/libucode20230711.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/libudebug.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/libustream-mbedtls20201210.list
+-rw-r--r-- root/root                44 2026-09-04 19:17 squashfs-root/lib/apk/packages/logd.alternatives
+-rw-r--r-- root/root               146 2026-09-04 19:17 squashfs-root/lib/apk/packages/logd.list
+-rw-r--r-- root/root                18 2026-09-04 19:17 squashfs-root/lib/apk/packages/logd.rusers
+-rw-r--r-- root/root               657 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-adblock.list
+-rw-r--r-- root/root               484 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-firewall.list
+-rw-r--r-- root/root               190 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-package-manager.list
+-rw-r--r-- root/root               128 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-sqm.list
+-rw-r--r-- root/root               148 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-w1700k-npu.list
+-rw-r--r-- root/root               189 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-app-w1700k-softether-server.list
+-rw-r--r-- root/root                35 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-base.conffiles
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-base.conffiles_static
+-rw-r--r-- root/root              3214 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-base.list
+-rw-r--r-- root/root                34 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-lib-uqr.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-light.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-mod-admin-full.list
+-rw-r--r-- root/root               972 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-mod-network.list
+-rw-r--r-- root/root              1642 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-mod-status.list
+-rw-r--r-- root/root              1262 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-mod-system.list
+-rw-r--r-- root/root               358 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-proto-ipv6.list
+-rw-r--r-- root/root               221 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-proto-ppp.list
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-ssl.list
+-rw-r--r-- root/root               639 2026-09-04 19:17 squashfs-root/lib/apk/packages/luci-theme-bootstrap.list
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/lib/apk/packages/mtd.list
+-rw-r--r-- root/root                37 2026-09-04 19:17 squashfs-root/lib/apk/packages/netifd.conffiles
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/netifd.conffiles_static
+-rw-r--r-- root/root               519 2026-09-04 19:17 squashfs-root/lib/apk/packages/netifd.list
+-rw-r--r-- root/root                94 2026-09-04 19:17 squashfs-root/lib/apk/packages/nftables-json.list
+-rw-r--r-- root/root                39 2026-09-04 19:17 squashfs-root/lib/apk/packages/odhcp6c.conffiles
+-rw-r--r-- root/root                83 2026-09-04 19:17 squashfs-root/lib/apk/packages/odhcp6c.conffiles_static
+-rw-r--r-- root/root               118 2026-09-04 19:17 squashfs-root/lib/apk/packages/odhcp6c.list
+-rw-r--r-- root/root                88 2026-09-04 19:17 squashfs-root/lib/apk/packages/odhcpd-ipv6only.list
+-rw-r--r-- root/root                36 2026-09-04 19:17 squashfs-root/lib/apk/packages/openwrt-keyring.list
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/ppp-mod-pppoe.list
+-rw-r--r-- root/root               123 2026-09-04 19:17 squashfs-root/lib/apk/packages/ppp.conffiles
+-rw-r--r-- root/root               250 2026-09-04 19:17 squashfs-root/lib/apk/packages/ppp.conffiles_static
+-rw-r--r-- root/root               200 2026-09-04 19:17 squashfs-root/lib/apk/packages/ppp.list
+-rw-r--r-- root/root                85 2026-09-04 19:17 squashfs-root/lib/apk/packages/procd-seccomp.list
+-rw-r--r-- root/root                12 2026-09-04 19:17 squashfs-root/lib/apk/packages/procd-ujail.list
+-rw-r--r-- root/root               222 2026-09-04 19:17 squashfs-root/lib/apk/packages/procd.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/procd.rusers
+-rw-r--r-- root/root                15 2026-09-04 19:17 squashfs-root/lib/apk/packages/px5g-mbedtls.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-file.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-iwinfo.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-luci.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-rpcsys.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-rrdns.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd-mod-ucode.list
+-rw-r--r-- root/root                17 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd.conffiles
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd.conffiles_static
+-rw-r--r-- root/root               135 2026-09-04 19:17 squashfs-root/lib/apk/packages/rpcd.list
+-rw-r--r-- root/root                54 2026-09-04 19:17 squashfs-root/lib/apk/packages/rtl826x-firmware.list
+-rw-r--r-- root/root               207 2026-09-04 19:17 squashfs-root/lib/apk/packages/softethervpn5-libs.list
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/softethervpn5-server.conffiles
+-rw-r--r-- root/root               109 2026-09-04 19:17 squashfs-root/lib/apk/packages/softethervpn5-server.conffiles_static
+-rw-r--r-- root/root               152 2026-09-04 19:17 squashfs-root/lib/apk/packages/softethervpn5-server.list
+-rw-r--r-- root/root                34 2026-09-04 19:17 squashfs-root/lib/apk/packages/sqm-scripts.conffiles
+-rw-r--r-- root/root               164 2026-09-04 19:17 squashfs-root/lib/apk/packages/sqm-scripts.conffiles_static
+-rw-r--r-- root/root               534 2026-09-04 19:17 squashfs-root/lib/apk/packages/sqm-scripts.list
+-rw-r--r-- root/root                34 2026-09-04 19:17 squashfs-root/lib/apk/packages/tc-tiny.alternatives
+-rw-r--r-- root/root                60 2026-09-04 19:17 squashfs-root/lib/apk/packages/tc-tiny.list
+-rw-r--r-- root/root               453 2026-09-04 19:17 squashfs-root/lib/apk/packages/terminfo.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubi-utils.conffiles
+-rw-r--r-- root/root               336 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubi-utils.list
+-rw-r--r-- root/root                62 2026-09-04 19:17 squashfs-root/lib/apk/packages/uboot-envtools.conffiles
+-rw-r--r-- root/root               227 2026-09-04 19:17 squashfs-root/lib/apk/packages/uboot-envtools.list
+-rw-r--r-- root/root               171 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubox.alternatives
+-rw-r--r-- root/root                18 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubox.conffiles
+-rw-r--r-- root/root                83 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubox.conffiles_static
+-rw-r--r-- root/root               111 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubox.list
+-rw-r--r-- root/root                10 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubus.list
+-rw-r--r-- root/root                43 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubusd.list
+-rw-r--r-- root/root                16 2026-09-04 19:17 squashfs-root/lib/apk/packages/ubusd.rusers
+-rw-r--r-- root/root                29 2026-09-04 19:17 squashfs-root/lib/apk/packages/uci.list
+-rw-r--r-- root/root                37 2026-09-04 19:17 squashfs-root/lib/apk/packages/uclient-fetch.alternatives
+-rw-r--r-- root/root                64 2026-09-04 19:17 squashfs-root/lib/apk/packages/uclient-fetch.list
+-rw-r--r-- root/root                25 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-digest.list
+-rw-r--r-- root/root                21 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-fs.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-html.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-log.list
+-rw-r--r-- root/root                26 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-nl80211.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-rtnl.list
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-ubus.list
+-rw-r--r-- root/root                22 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-uci.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode-mod-uloop.list
+-rw-r--r-- root/root                42 2026-09-04 19:17 squashfs-root/lib/apk/packages/ucode.list
+-rw-r--r-- root/root                57 2026-09-04 19:17 squashfs-root/lib/apk/packages/uhttpd-mod-ubus.list
+-rw-r--r-- root/root                51 2026-09-04 19:17 squashfs-root/lib/apk/packages/uhttpd.conffiles
+-rw-r--r-- root/root                84 2026-09-04 19:17 squashfs-root/lib/apk/packages/uhttpd.conffiles_static
+-rw-r--r-- root/root                82 2026-09-04 19:17 squashfs-root/lib/apk/packages/uhttpd.list
+-rw-r--r-- root/root                73 2026-09-04 19:17 squashfs-root/lib/apk/packages/urandom-seed.list
+-rw-r--r-- root/root                30 2026-09-04 19:17 squashfs-root/lib/apk/packages/urngd.list
+-rw-r--r-- root/root                32 2026-09-04 19:17 squashfs-root/lib/apk/packages/usign.list
+-rw-r--r-- root/root                65 2026-09-04 19:17 squashfs-root/lib/apk/packages/w1700k-npu-status.list
+-rw-r--r-- root/root                44 2026-09-04 19:17 squashfs-root/lib/apk/packages/w1700k-system-defaults.list
+-rw-r--r-- root/root               962 2026-09-04 19:17 squashfs-root/lib/apk/packages/wifi-scripts.list
+-rw-r--r-- root/root                28 2026-09-04 19:17 squashfs-root/lib/apk/packages/wireless-regdb.list
+-rw-r--r-- root/root                31 2026-09-04 19:17 squashfs-root/lib/apk/packages/wpad-mbedtls.conffiles
+-rw-r--r-- root/root                84 2026-09-04 19:17 squashfs-root/lib/apk/packages/wpad-mbedtls.conffiles_static
+-rw-r--r-- root/root               295 2026-09-04 19:17 squashfs-root/lib/apk/packages/wpad-mbedtls.list
+-rw-r--r-- root/root                24 2026-09-04 19:17 squashfs-root/lib/apk/packages/wpad-mbedtls.rusers
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/apk/packages/zlib.list
+drwxr-xr-x root/root                29 2026-09-04 19:17 squashfs-root/lib/config
+-rw-r--r-- root/root              4282 2026-09-04 19:17 squashfs-root/lib/config/uci.sh
+drwxr-xr-x root/root               106 2026-09-04 19:17 squashfs-root/lib/firmware
+drwxr-xr-x root/root               137 2026-09-04 19:17 squashfs-root/lib/firmware/airoha
+-rw-r--r-- root/root              3084 2026-09-04 19:17 squashfs-root/lib/firmware/airoha/en7581_MT7996_npu_data.bin
+-rw-r--r-- root/root            122336 2026-09-04 19:17 squashfs-root/lib/firmware/airoha/en7581_MT7996_npu_rv32.bin
+-rw-r--r-- root/root              3100 2026-09-04 19:17 squashfs-root/lib/firmware/airoha/en7581_npu_data.bin
+-rw-r--r-- root/root            120272 2026-09-04 19:17 squashfs-root/lib/firmware/airoha/en7581_npu_rv32.bin
+drwxr-xr-x root/root                29 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek
+drwxr-xr-x root/root               164 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996
+-rw-r--r-- root/root            192688 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_dsp.bin
+-rw-r--r-- root/root              7680 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_eeprom.bin
+-rw-r--r-- root/root              7680 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_eeprom_2i5i6i.bin
+-rw-r--r-- root/root             37216 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_rom_patch.bin
+-rw-r--r-- root/root            510000 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_wa.bin
+-rw-r--r-- root/root           2656440 2026-09-04 19:17 squashfs-root/lib/firmware/mediatek/mt7996/mt7996_wm.bin
+-rw-r--r-- root/root              6364 2026-09-04 19:17 squashfs-root/lib/firmware/regulatory.db
+-rw-r--r-- root/root             14370 2026-09-04 19:17 squashfs-root/lib/firmware/rtl8261n.bin
+-rw-r--r-- root/root             21700 2026-09-04 19:17 squashfs-root/lib/firmware/rtl8264b.bin
+drwxr-xr-x root/root               194 2026-09-04 19:17 squashfs-root/lib/functions
+-rw-r--r-- root/root              4852 2026-09-04 19:17 squashfs-root/lib/functions/caldata.sh
+-rw-r--r-- root/root              5573 2026-09-04 19:17 squashfs-root/lib/functions/ipv4.sh
+-rw-r--r-- root/root              2587 2026-09-04 19:17 squashfs-root/lib/functions/leds.sh
+-rw-r--r-- root/root              1456 2026-09-04 19:17 squashfs-root/lib/functions/migrations.sh
+-rw-r--r-- root/root              8718 2026-09-04 19:17 squashfs-root/lib/functions/network.sh
+-rw-r--r-- root/root              1812 2026-09-04 19:17 squashfs-root/lib/functions/preinit.sh
+-rw-r--r-- root/root             15126 2026-09-04 19:17 squashfs-root/lib/functions/procd.sh
+-rw-r--r-- root/root              2748 2026-09-04 19:17 squashfs-root/lib/functions/service.sh
+-rw-r--r-- root/root              7315 2026-09-04 19:17 squashfs-root/lib/functions/system.sh
+-rw-r--r-- root/root             16487 2026-09-04 19:17 squashfs-root/lib/functions/uci-defaults.sh
+-rw-r--r-- root/root             12546 2026-09-04 19:17 squashfs-root/lib/functions.sh
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/lib/ld-musl-aarch64.so.1 -> libc.so
+-rw-r--r-- root/root             12290 2026-09-04 19:17 squashfs-root/lib/libblobmsg_json.so.20260721
+-rwxr-xr-x root/root            590852 2026-09-04 19:17 squashfs-root/lib/libc.so
+-rw-r--r-- root/root             41466 2026-09-04 19:17 squashfs-root/lib/libfstools.so
+-rw-r--r-- root/root            131088 2026-09-04 19:17 squashfs-root/lib/libgcc_s.so.1
+-rw-r--r-- root/root             12305 2026-09-04 19:17 squashfs-root/lib/libjson_script.so.20260721
+-rw-r--r-- root/root             20482 2026-09-04 19:17 squashfs-root/lib/libpreload-seccomp.so
+-rw-r--r-- root/root              4098 2026-09-04 19:17 squashfs-root/lib/libpreload-trace.so
+-rw-r--r-- root/root              4098 2026-09-04 19:17 squashfs-root/lib/libsetlbf.so
+-rw-r--r-- root/root             69729 2026-09-04 19:17 squashfs-root/lib/libubox.so.20260721
+-rw-r--r-- root/root             28834 2026-09-04 19:17 squashfs-root/lib/libubus.so.20260628
+-rwxr-xr-x root/root             41050 2026-09-04 19:17 squashfs-root/lib/libuci.so.20250120
+-rw-r--r-- root/root             16386 2026-09-04 19:17 squashfs-root/lib/libustream-ssl.so
+-rw-r--r-- root/root             17522 2026-09-04 19:17 squashfs-root/lib/libvalidate.so
+drwxr-xr-x root/root                30 2026-09-04 19:17 squashfs-root/lib/modules
+drwxr-xr-x root/root              1525 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44
+-rw-r--r-- root/root             10840 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/act_gact.ko
+-rw-r--r-- root/root             18032 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/act_mirred.ko
+-rw-r--r-- root/root             12928 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/act_skbedit.ko
+-rw-r--r-- root/root            547320 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cfg80211.ko
+-rw-r--r-- root/root             12384 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_basic.ko
+-rw-r--r-- root/root             16368 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_flow.ko
+-rw-r--r-- root/root             12600 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_fw.ko
+-rw-r--r-- root/root             12592 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_matchall.ko
+-rw-r--r-- root/root             14472 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_route.ko
+-rw-r--r-- root/root             24872 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cls_u32.ko
+-rw-r--r-- root/root              6872 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/cmac.ko
+-rw-r--r-- root/root             15216 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/compat.ko
+-rw-r--r-- root/root             14960 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/drbg.ko
+-rw-r--r-- root/root              3736 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/em_u32.ko
+-rw-r--r-- root/root              5496 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/geniv.ko
+-rw-r--r-- root/root             18224 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/gpio-button-hotplug.ko
+-rw-r--r-- root/root             13656 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/hmac.ko
+-rw-r--r-- root/root             29024 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/hwmon.ko
+-rw-r--r-- root/root             11552 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/ifb.ko
+-rw-r--r-- root/root             13048 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/jitterentropy_rng.ko
+-rw-r--r-- root/root              9632 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/leds-gpio.ko
+-rw-r--r-- root/root             21672 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/libsha512.ko
+-rw-r--r-- root/root           1018088 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/mac80211.ko
+-rw-r--r-- root/root              2187 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/modules.builtin
+-rw-r--r-- root/root              6557 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/modules.builtin.modinfo
+-rw-r--r-- root/root             84016 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/mt76-connac-lib.ko
+-rw-r--r-- root/root            134336 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/mt76.ko
+-rw-r--r-- root/root            214832 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/mt7996e.ko
+-rw-r--r-- root/root             35304 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nct7802.ko
+-rw-r--r-- root/root            140792 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_conntrack.ko
+-rw-r--r-- root/root              6680 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_defrag_ipv4.ko
+-rw-r--r-- root/root             16704 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_defrag_ipv6.ko
+-rw-r--r-- root/root             47360 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_flow_table.ko
+-rw-r--r-- root/root              5512 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_flow_table_inet.ko
+-rw-r--r-- root/root             26072 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_log_syslog.ko
+-rw-r--r-- root/root             41096 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_nat.ko
+-rw-r--r-- root/root              8000 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_reject_ipv4.ko
+-rw-r--r-- root/root              8704 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_reject_ipv6.ko
+-rw-r--r-- root/root            296512 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nf_tables.ko
+-rw-r--r-- root/root             16280 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nfnetlink.ko
+-rw-r--r-- root/root              5760 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_chain_nat.ko
+-rw-r--r-- root/root             22216 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_ct.ko
+-rw-r--r-- root/root              5728 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_fib.ko
+-rw-r--r-- root/root              4976 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_fib_inet.ko
+-rw-r--r-- root/root              7664 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_fib_ipv4.ko
+-rw-r--r-- root/root              8648 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_fib_ipv6.ko
+-rw-r--r-- root/root              7424 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_flow_offload.ko
+-rw-r--r-- root/root              7320 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_hash.ko
+-rw-r--r-- root/root             10696 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_limit.ko
+-rw-r--r-- root/root              6912 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_log.ko
+-rw-r--r-- root/root              7888 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_masq.ko
+-rw-r--r-- root/root              7744 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_nat.ko
+-rw-r--r-- root/root              6520 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_numgen.ko
+-rw-r--r-- root/root              7200 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_quota.ko
+-rw-r--r-- root/root              7632 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_redir.ko
+-rw-r--r-- root/root              4992 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_reject.ko
+-rw-r--r-- root/root              5448 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_reject_inet.ko
+-rw-r--r-- root/root              4832 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_reject_ipv4.ko
+-rw-r--r-- root/root              4840 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/nft_reject_ipv6.ko
+-rw-r--r-- root/root             19184 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/ppp_async.ko
+-rw-r--r-- root/root             62808 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/ppp_generic.ko
+-rw-r--r-- root/root             23256 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/pppoe.ko
+-rw-r--r-- root/root              7168 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/pppox.ko
+-rw-r--r-- root/root             72928 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/realtek.ko
+-rw-r--r-- root/root             39008 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sch_cake.ko
+-rw-r--r-- root/root             25272 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sch_hfsc.ko
+-rw-r--r-- root/root             34232 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sch_htb.ko
+-rw-r--r-- root/root             15928 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sch_ingress.ko
+-rw-r--r-- root/root             14896 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sch_tbf.ko
+-rw-r--r-- root/root              5736 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/seqiv.ko
+-rw-r--r-- root/root              8800 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sha3_generic.ko
+-rw-r--r-- root/root             12032 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/sha512.ko
+-rw-r--r-- root/root              8632 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/slhc.ko
+-rw-r--r-- root/root             70264 2026-09-04 19:17 squashfs-root/lib/modules/6.18.44/tun.ko
+drwxr-xr-x root/root               373 2026-09-04 19:17 squashfs-root/lib/netifd
+-rwxr-xr-x root/root                47 2026-09-04 19:17 squashfs-root/lib/netifd/dhcp-get-server.sh
+-rwxr-xr-x root/root              3161 2026-09-04 19:17 squashfs-root/lib/netifd/dhcp.script
+-rwxr-xr-x root/root              7499 2026-09-04 19:17 squashfs-root/lib/netifd/dhcpv6.script
+-rw-r--r-- root/root             53930 2026-09-04 19:17 squashfs-root/lib/netifd/hostapd.sh
+-rw-r--r-- root/root              1936 2026-09-04 19:17 squashfs-root/lib/netifd/main.uc
+-rw-r--r-- root/root             10249 2026-09-04 19:17 squashfs-root/lib/netifd/netifd-proto.sh
+-rw-r--r-- root/root              8445 2026-09-04 19:17 squashfs-root/lib/netifd/netifd-wireless.sh
+-rwxr-xr-x root/root               238 2026-09-04 19:17 squashfs-root/lib/netifd/ppp-down
+-rwxr-xr-x root/root               551 2026-09-04 19:17 squashfs-root/lib/netifd/ppp-up
+-rwxr-xr-x root/root              1071 2026-09-04 19:17 squashfs-root/lib/netifd/ppp6-up
+drwxr-xr-x root/root                61 2026-09-04 19:17 squashfs-root/lib/netifd/proto
+-rwxr-xr-x root/root              4667 2026-09-04 19:17 squashfs-root/lib/netifd/proto/dhcp.sh
+-rwxr-xr-x root/root              7505 2026-09-04 19:17 squashfs-root/lib/netifd/proto/dhcpv6.sh
+-rwxr-xr-x root/root              8251 2026-09-04 19:17 squashfs-root/lib/netifd/proto/ppp.sh
+-rw-r--r-- root/root              2193 2026-09-04 19:17 squashfs-root/lib/netifd/proto-ucode.uc
+-rw-r--r-- root/root               956 2026-09-04 19:17 squashfs-root/lib/netifd/proto.uc
+-rw-r--r-- root/root               761 2026-09-04 19:17 squashfs-root/lib/netifd/utils.sh
+-rw-r--r-- root/root              2707 2026-09-04 19:17 squashfs-root/lib/netifd/utils.uc
+-rw-r--r-- root/root              2105 2026-09-04 19:17 squashfs-root/lib/netifd/w1700k-mlo.uc
+drwxr-xr-x root/root                34 2026-09-04 19:17 squashfs-root/lib/netifd/wireless
+-rwxr-xr-x root/root             10206 2026-09-04 19:17 squashfs-root/lib/netifd/wireless/mac80211.sh
+-rw-r--r-- root/root             12389 2026-09-04 19:17 squashfs-root/lib/netifd/wireless-device.uc
+-rw-r--r-- root/root             13027 2026-09-04 19:17 squashfs-root/lib/netifd/wireless.uc
+drwxr-xr-x root/root                32 2026-09-04 19:17 squashfs-root/lib/network
+-rwxr-xr-x root/root              1480 2026-09-04 19:17 squashfs-root/lib/network/config.sh
+drwxr-xr-x root/root               429 2026-09-04 19:17 squashfs-root/lib/preinit
+-rw-r--r-- root/root               338 2026-09-04 19:17 squashfs-root/lib/preinit/00_preinit.conf
+-rw-r--r-- root/root               100 2026-09-04 19:17 squashfs-root/lib/preinit/02_default_set_state
+-rw-r--r-- root/root               378 2026-09-04 19:17 squashfs-root/lib/preinit/02_sysinfo
+-rwxr-xr-x root/root               356 2026-09-04 19:17 squashfs-root/lib/preinit/04_set_netdev_label
+-rw-r--r-- root/root               615 2026-09-04 19:17 squashfs-root/lib/preinit/10_indicate_failsafe
+-rw-r--r-- root/root              4466 2026-09-04 19:17 squashfs-root/lib/preinit/10_indicate_preinit
+-rw-r--r-- root/root              2788 2026-09-04 19:17 squashfs-root/lib/preinit/30_failsafe_wait
+-rw-r--r-- root/root               370 2026-09-04 19:17 squashfs-root/lib/preinit/40_run_failsafe_hook
+-rw-r--r-- root/root               244 2026-09-04 19:17 squashfs-root/lib/preinit/50_indicate_regular_preinit
+-rw-r--r-- root/root               233 2026-09-04 19:17 squashfs-root/lib/preinit/70_initramfs_test
+-rw-r--r-- root/root              1485 2026-09-04 19:17 squashfs-root/lib/preinit/80_mount_root
+-rw-r--r-- root/root               691 2026-09-04 19:17 squashfs-root/lib/preinit/81_urandom_seed
+-rw-r--r-- root/root               481 2026-09-04 19:17 squashfs-root/lib/preinit/82_config_generate
+-rw-r--r-- root/root              1714 2026-09-04 19:17 squashfs-root/lib/preinit/99_10_failsafe_dropbear
+-rw-r--r-- root/root               749 2026-09-04 19:17 squashfs-root/lib/preinit/99_10_failsafe_login
+-rw-r--r-- root/root               152 2026-09-04 19:17 squashfs-root/lib/preinit/99_10_run_init
+-rw-r--r-- root/root              1894 2026-09-04 19:17 squashfs-root/lib/uboot-envtools.sh
+drwxr-xr-x root/root               168 2026-09-04 19:17 squashfs-root/lib/upgrade
+-rw-r--r-- root/root              7353 2026-09-04 19:17 squashfs-root/lib/upgrade/common.sh
+-rwxr-xr-x root/root               451 2026-09-04 19:17 squashfs-root/lib/upgrade/do_stage2
+-rw-r--r-- root/root              1768 2026-09-04 19:17 squashfs-root/lib/upgrade/fit.sh
+-rw-r--r-- root/root              4056 2026-09-04 19:17 squashfs-root/lib/upgrade/fwtool.sh
+drwxr-xr-x root/root               282 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d
+-rw-r--r-- root/root                67 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/base-files
+-rw-r--r-- root/root               170 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/base-files-essential
+-rw-r--r-- root/root                15 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/busybox
+-rw-r--r-- root/root                16 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/dnsmasq
+-rw-r--r-- root/root               144 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/dropbear
+-rw-r--r-- root/root                17 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/firewall4
+-rw-r--r-- root/root                18 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/luci-base
+-rw-r--r-- root/root                20 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/netifd
+-rw-r--r-- root/root                21 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/odhcp6c
+-rw-r--r-- root/root                68 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/ppp
+-rw-r--r-- root/root                38 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/softethervpn5-server
+-rw-r--r-- root/root                23 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/ubi-utils
+-rw-r--r-- root/root                59 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/uboot-envtools
+-rw-r--r-- root/root                32 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/uhttpd
+-rw-r--r-- root/root                12 2026-09-04 19:17 squashfs-root/lib/upgrade/keep.d/wpad-mbedtls
+-rw-r--r-- root/root             14368 2026-09-04 19:17 squashfs-root/lib/upgrade/nand.sh
+-rw-r--r-- root/root               797 2026-09-04 19:17 squashfs-root/lib/upgrade/platform.sh
+-rwxr-xr-x root/root              4167 2026-09-04 19:17 squashfs-root/lib/upgrade/stage2
+-rw-r--r-- root/root              2174 2026-09-04 19:17 squashfs-root/lib/upgrade/tar.sh
+drwxr-xr-x root/root                34 2026-09-04 19:17 squashfs-root/lib/wifi
+-rw-r--r-- root/root              3067 2026-09-04 19:17 squashfs-root/lib/wifi/mac80211.uc
+lrwxrwxrwx root/root                 3 2026-09-04 19:17 squashfs-root/lib64 -> lib
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/mnt
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/overlay
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/proc
+drwxr-xr-x root/root                27 2026-09-04 19:17 squashfs-root/rom
+-rw-r--r-- root/root               116 2026-09-04 19:17 squashfs-root/rom/note
+drwxr-x--- root/root                 3 2026-09-04 19:17 squashfs-root/root
+drwxr-xr-x root/root               880 2026-09-04 19:17 squashfs-root/sbin
+-rwxr-xr-x root/root              4098 2026-09-04 19:17 squashfs-root/sbin/askfirst
+-rwxr-xr-x root/root               200 2026-09-04 19:17 squashfs-root/sbin/devstatus
+-rwxr-xr-x root/root              8155 2026-09-04 19:17 squashfs-root/sbin/factoryreset
+-rwxr-xr-x root/root                33 2026-09-04 19:17 squashfs-root/sbin/firstboot
+lrwxrwxrwx root/root                 3 2026-09-04 19:17 squashfs-root/sbin/fw3 -> fw4
+-rwxr-xr-x root/root              2965 2026-09-04 19:17 squashfs-root/sbin/fw4
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/halt -> ../bin/busybox
+-rwxr-xr-x root/root               359 2026-09-04 19:17 squashfs-root/sbin/hotplug-call
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/hwclock -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/ifconfig -> ../bin/busybox
+lrwxrwxrwx root/root                 4 2026-09-04 19:17 squashfs-root/sbin/ifdown -> ifup
+-rwxr-xr-x root/root               273 2026-09-04 19:17 squashfs-root/sbin/ifstatus
+-rwxr-xr-x root/root               674 2026-09-04 19:17 squashfs-root/sbin/ifup
+-rwxr-xr-x root/root             16649 2026-09-04 19:17 squashfs-root/sbin/init
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/sbin/insmod -> /sbin/kmodloader
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/sbin/ip -> /usr/libexec/ip-tiny
+lrwxrwxrwx root/root                12 2026-09-04 19:17 squashfs-root/sbin/jffs2mark -> factoryreset
+lrwxrwxrwx root/root                12 2026-09-04 19:17 squashfs-root/sbin/jffs2reset -> factoryreset
+-rwxr-xr-x root/root             20545 2026-09-04 19:17 squashfs-root/sbin/kmodloader
+-rwxr-xr-x root/root               496 2026-09-04 19:17 squashfs-root/sbin/led.sh
+-rwxr-xr-x root/root             16905 2026-09-04 19:17 squashfs-root/sbin/logd
+lrwxrwxrwx root/root                25 2026-09-04 19:17 squashfs-root/sbin/logread -> /usr/libexec/logread-ubox
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/sbin/lsmod -> /sbin/kmodloader
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/mkswap -> ../bin/busybox
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/sbin/modinfo -> /sbin/kmodloader
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/sbin/modprobe -> /sbin/kmodloader
+-rwxr-xr-x root/root              8155 2026-09-04 19:17 squashfs-root/sbin/mount_root
+-rwxr-xr-x root/root             24604 2026-09-04 19:17 squashfs-root/sbin/mtd
+-rwxr-xr-x root/root            241075 2026-09-04 19:17 squashfs-root/sbin/netifd
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/pivot_root -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/poweroff -> ../bin/busybox
+-rwxr-xr-x root/root             97697 2026-09-04 19:17 squashfs-root/sbin/procd
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/reboot -> ../bin/busybox
+-rwxr-xr-x root/root               591 2026-09-04 19:17 squashfs-root/sbin/reload_config
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/sbin/rmmod -> /sbin/kmodloader
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/route -> ../bin/busybox
+-rwxr-xr-x root/root             62043 2026-09-04 19:17 squashfs-root/sbin/rpcd
+lrwxrwxrwx root/root                 6 2026-09-04 19:17 squashfs-root/sbin/seccomp-trace -> utrace
+-rwxr-xr-x root/root               716 2026-09-04 19:17 squashfs-root/sbin/service
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/start-stop-daemon -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/swapoff -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/swapon -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/switch_root -> ../bin/busybox
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/sysctl -> ../bin/busybox
+-rwxr-xr-x root/root             12500 2026-09-04 19:17 squashfs-root/sbin/sysupgrade
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/sbin/tc -> /usr/libexec/tc-tiny
+-rwxr-xr-x root/root             32962 2026-09-04 19:17 squashfs-root/sbin/ubusd
+-rwxr-xr-x root/root             16395 2026-09-04 19:17 squashfs-root/sbin/uci
+-rwxr-xr-x root/root              8194 2026-09-04 19:17 squashfs-root/sbin/udevtrigger
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/sbin/udhcpc -> ../bin/busybox
+-rwxr-xr-x root/root             95289 2026-09-04 19:17 squashfs-root/sbin/ujail
+-rwxr-xr-x root/root              8205 2026-09-04 19:17 squashfs-root/sbin/upgraded
+-rwxr-xr-x root/root               397 2026-09-04 19:17 squashfs-root/sbin/urandom_seed
+-rwxr-xr-x root/root             20443 2026-09-04 19:17 squashfs-root/sbin/urngd
+-rwxr-xr-x root/root             20482 2026-09-04 19:17 squashfs-root/sbin/utrace
+-rwxr-xr-x root/root              8155 2026-09-04 19:17 squashfs-root/sbin/validate_data
+-rwxr-xr-x root/root              1864 2026-09-04 19:17 squashfs-root/sbin/wifi
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/sys
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/tmp
+drwxr-xr-x root/root               114 2026-09-04 19:17 squashfs-root/usr
+drwxr-xr-x root/root               968 2026-09-04 19:17 squashfs-root/usr/bin
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/[ -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/[[ -> ../../bin/busybox
+-rwxr-xr-x root/root             86471 2026-09-04 19:17 squashfs-root/usr/bin/adblock.sh
+-rwxr-xr-x root/root            235539 2026-09-04 19:17 squashfs-root/usr/bin/apk
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/usr/bin/awk -> /usr/bin/gawk
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/basename -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/clear -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/cmp -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/crontab -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/cut -> ../../bin/busybox
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/bin/dbclient -> ../sbin/dropbear
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/dirname -> ../../bin/busybox
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/bin/dropbearkey -> ../sbin/dropbear
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/du -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/env -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/expr -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/find -> ../../bin/busybox
+-rwxr-xr-x root/root            187083 2026-09-04 19:17 squashfs-root/usr/bin/fit_check_sign
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/flock -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/free -> ../../bin/busybox
+-rwxr-xr-x root/root              8204 2026-09-04 19:17 squashfs-root/usr/bin/fwtool
+-rwxr-xr-x root/root            946832 2026-09-04 19:17 squashfs-root/usr/bin/gawk
+-rwxr-xr-x root/root              4059 2026-09-04 19:17 squashfs-root/usr/bin/getrandom
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/head -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/hexdump -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/id -> ../../bin/busybox
+-rwxr-xr-x root/root              6371 2026-09-04 19:17 squashfs-root/usr/bin/iwinfo
+-rwxr-xr-x root/root             12299 2026-09-04 19:17 squashfs-root/usr/bin/jshn
+-rwxr-xr-x root/root             24779 2026-09-04 19:17 squashfs-root/usr/bin/jsonfilter
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/killall -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/ldd -> ../../lib/libc.so
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/less -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/logger -> ../../bin/busybox
+-rwxr-xr-x root/root             16397 2026-09-04 19:17 squashfs-root/usr/bin/luci-bwc
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/md5sum -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/mkfifo -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/nc -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/nslookup -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/pgrep -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/printf -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/readlink -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/reset -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/resize -> ../../bin/busybox
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/bin/scp -> /usr/sbin/dropbear
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/seq -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/setsid -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/sha256sum -> ../../bin/busybox
+lrwxrwxrwx root/root                 5 2026-09-04 19:17 squashfs-root/usr/bin/signify -> usign
+lrwxrwxrwx root/root                27 2026-09-04 19:17 squashfs-root/usr/bin/sort -> /usr/libexec/sort-coreutils
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/bin/ssh -> /usr/sbin/dropbear
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/bin/ssh-keygen -> /usr/sbin/dropbear
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/strings -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/tail -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/taskset -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/tee -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/test -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/time -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/timeout -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/top -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/tr -> ../../bin/busybox
+lrwxrwxrwx root/root                 5 2026-09-04 19:17 squashfs-root/usr/bin/ucc -> ucode
+-rwxr-xr-x root/root             16347 2026-09-04 19:17 squashfs-root/usr/bin/ucode
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/uniq -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/uptime -> ../../bin/busybox
+-rwxr-xr-x root/root             20435 2026-09-04 19:17 squashfs-root/usr/bin/usign
+lrwxrwxrwx root/root                 5 2026-09-04 19:17 squashfs-root/usr/bin/utpl -> ucode
+lrwxrwxrwx root/root                42 2026-09-04 19:17 squashfs-root/usr/bin/vpncmd -> ../../usr/libexec/softethervpn/launcher.sh
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/wc -> ../../bin/busybox
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/bin/wget -> /bin/uclient-fetch
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/which -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/xargs -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/bin/yes -> ../../bin/busybox
+drwxr-xr-x root/root              1449 2026-09-04 19:17 squashfs-root/usr/lib
+drwxr-xr-x root/root                41 2026-09-04 19:17 squashfs-root/usr/lib/awk
+-rwxr-xr-x root/root              4059 2026-09-04 19:17 squashfs-root/usr/lib/awk/grcat
+-rwxr-xr-x root/root              4059 2026-09-04 19:17 squashfs-root/usr/lib/awk/pwcat
+drwxr-xr-x root/root                37 2026-09-04 19:17 squashfs-root/usr/lib/dnsmasq
+-rwxr-xr-x root/root              1157 2026-09-04 19:17 squashfs-root/usr/lib/dnsmasq/dhcp-script.sh
+drwxr-xr-x root/root                 3 2026-09-04 19:17 squashfs-root/usr/lib/engines-3
+drwxr-xr-x root/root               230 2026-09-04 19:17 squashfs-root/usr/lib/gawk
+-rwxr-xr-x root/root             20684 2026-09-04 19:17 squashfs-root/usr/lib/gawk/filefuncs.so
+-rwxr-xr-x root/root              8225 2026-09-04 19:17 squashfs-root/usr/lib/gawk/fnmatch.so
+-rwxr-xr-x root/root              8306 2026-09-04 19:17 squashfs-root/usr/lib/gawk/fork.so
+-rwxr-xr-x root/root              8305 2026-09-04 19:17 squashfs-root/usr/lib/gawk/inplace.so
+-rwxr-xr-x root/root              8225 2026-09-04 19:17 squashfs-root/usr/lib/gawk/intdiv.so
+-rwxr-xr-x root/root              8273 2026-09-04 19:17 squashfs-root/usr/lib/gawk/ordchr.so
+-rwxr-xr-x root/root              8218 2026-09-04 19:17 squashfs-root/usr/lib/gawk/readdir.so
+-rwxr-xr-x root/root              8257 2026-09-04 19:17 squashfs-root/usr/lib/gawk/readfile.so
+-rwxr-xr-x root/root              4122 2026-09-04 19:17 squashfs-root/usr/lib/gawk/revoutput.so
+-rwxr-xr-x root/root              8218 2026-09-04 19:17 squashfs-root/usr/lib/gawk/revtwoway.so
+-rwxr-xr-x root/root             12465 2026-09-04 19:17 squashfs-root/usr/lib/gawk/rwarray.so
+-rwxr-xr-x root/root              8321 2026-09-04 19:17 squashfs-root/usr/lib/gawk/time.so
+-rwxr-xr-x root/root           2086099 2026-09-04 19:17 squashfs-root/usr/lib/libcedar.so
+-rw-r--r-- root/root           4105160 2026-09-04 19:17 squashfs-root/usr/lib/libcrypto.so.3
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/usr/lib/libform.so.6 -> libformw.so.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libform.so.6.6 -> libformw.so.6.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libformw.so.6 -> libformw.so.6.6
+-rwxr-xr-x root/root             66586 2026-09-04 19:17 squashfs-root/usr/lib/libformw.so.6.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libhistory.so -> libhistory.so.8
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/lib/libhistory.so.8 -> libhistory.so.8.3
+-rwxr-xr-x root/root             40993 2026-09-04 19:17 squashfs-root/usr/lib/libhistory.so.8.3
+-rwxr-xr-x root/root             65589 2026-09-04 19:17 squashfs-root/usr/lib/libiwinfo.so.20230701
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/usr/lib/libjansson.so.4 -> libjansson.so.4.15.0
+-rw-r--r-- root/root             90203 2026-09-04 19:17 squashfs-root/usr/lib/libjansson.so.4.15.0
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/libjson-c.so.5 -> libjson-c.so.5.4.0
+-rw-r--r-- root/root             73782 2026-09-04 19:17 squashfs-root/usr/lib/libjson-c.so.5.4.0
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/liblucihttp.so.0 -> liblucihttp.so.0.1
+-rw-r--r-- root/root             16386 2026-09-04 19:17 squashfs-root/usr/lib/liblucihttp.so.0.1
+-rwxr-xr-x root/root            791315 2026-09-04 19:17 squashfs-root/usr/lib/libmayaqua.so
+lrwxrwxrwx root/root                22 2026-09-04 19:17 squashfs-root/usr/lib/libmbedcrypto.so.16 -> libmbedcrypto.so.3.6.7
+-rw-r--r-- root/root            463107 2026-09-04 19:17 squashfs-root/usr/lib/libmbedcrypto.so.3.6.7
+lrwxrwxrwx root/root                19 2026-09-04 19:17 squashfs-root/usr/lib/libmbedtls.so.21 -> libmbedtls.so.3.6.7
+-rw-r--r-- root/root            180227 2026-09-04 19:17 squashfs-root/usr/lib/libmbedtls.so.3.6.7
+-rw-r--r-- root/root             77827 2026-09-04 19:17 squashfs-root/usr/lib/libmbedx509.so.3.6.7
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/usr/lib/libmbedx509.so.7 -> libmbedx509.so.3.6.7
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/usr/lib/libmenu.so.6 -> libmenuw.so.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libmenu.so.6.6 -> libmenuw.so.6.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libmenuw.so.6 -> libmenuw.so.6.6
+-rwxr-xr-x root/root             28961 2026-09-04 19:17 squashfs-root/usr/lib/libmenuw.so.6.6
+lrwxrwxrwx root/root                15 2026-09-04 19:17 squashfs-root/usr/lib/libmnl.so.0 -> libmnl.so.0.2.0
+-rwxr-xr-x root/root             20482 2026-09-04 19:17 squashfs-root/usr/lib/libmnl.so.0.2.0
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/lib/libncurses.so.6 -> libncursesw.so.6
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/libncurses.so.6.6 -> libncursesw.so.6.6
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/libncursesw.so.6 -> libncursesw.so.6.6
+-rwxr-xr-x root/root            316529 2026-09-04 19:17 squashfs-root/usr/lib/libncursesw.so.6.6
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/usr/lib/libnftables.so -> libnftables.so.1.1.0
+lrwxrwxrwx root/root                20 2026-09-04 19:17 squashfs-root/usr/lib/libnftables.so.1 -> libnftables.so.1.1.0
+-rwxr-xr-x root/root            799699 2026-09-04 19:17 squashfs-root/usr/lib/libnftables.so.1.1.0
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/libnftnl.so.11 -> libnftnl.so.11.7.0
+-rwxr-xr-x root/root            202114 2026-09-04 19:17 squashfs-root/usr/lib/libnftnl.so.11.7.0
+-rw-r--r-- root/root             37450 2026-09-04 19:17 squashfs-root/usr/lib/libnl-tiny.so.1
+lrwxrwxrwx root/root                14 2026-09-04 19:17 squashfs-root/usr/lib/libpanel.so.6 -> libpanelw.so.6
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/lib/libpanel.so.6.6 -> libpanelw.so.6.6
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/lib/libpanelw.so.6 -> libpanelw.so.6.6
+-rwxr-xr-x root/root             12290 2026-09-04 19:17 squashfs-root/usr/lib/libpanelw.so.6.6
+lrwxrwxrwx root/root                16 2026-09-04 19:17 squashfs-root/usr/lib/libreadline.so -> libreadline.so.8
+lrwxrwxrwx root/root                18 2026-09-04 19:17 squashfs-root/usr/lib/libreadline.so.8 -> libreadline.so.8.3
+-rwxr-xr-x root/root            332771 2026-09-04 19:17 squashfs-root/usr/lib/libreadline.so.8.3
+lrwxrwxrwx root/root                19 2026-09-04 19:17 squashfs-root/usr/lib/libsodium.so.26 -> libsodium.so.26.2.0
+-rwxr-xr-x root/root            234923 2026-09-04 19:17 squashfs-root/usr/lib/libsodium.so.26.2.0
+-rw-r--r-- root/root            878372 2026-09-04 19:17 squashfs-root/usr/lib/libssl.so.3
+-rw-r--r-- root/root             24578 2026-09-04 19:17 squashfs-root/usr/lib/libuclient.so
+-rw-r--r-- root/root            176659 2026-09-04 19:17 squashfs-root/usr/lib/libucode.so.20230711
+-rw-r--r-- root/root             12337 2026-09-04 19:17 squashfs-root/usr/lib/libudebug.so
+lrwxrwxrwx root/root                 9 2026-09-04 19:17 squashfs-root/usr/lib/libz.so -> libz.so.1
+lrwxrwxrwx root/root                13 2026-09-04 19:17 squashfs-root/usr/lib/libz.so.1 -> libz.so.1.3.2
+-rw-r--r-- root/root             73731 2026-09-04 19:17 squashfs-root/usr/lib/libz.so.1.3.2
+-rw-r--r-- root/root               639 2026-09-04 19:17 squashfs-root/usr/lib/os-release
+drwxr-xr-x root/root                28 2026-09-04 19:17 squashfs-root/usr/lib/pppd
+drwxr-xr-x root/root                31 2026-09-04 19:17 squashfs-root/usr/lib/pppd/2.5.3
+-rwxr-xr-x root/root             29850 2026-09-04 19:17 squashfs-root/usr/lib/pppd/2.5.3/pppoe.so
+drwxr-xr-x root/root               111 2026-09-04 19:17 squashfs-root/usr/lib/rpcd
+-rwxr-xr-x root/root             20658 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/file.so
+-rwxr-xr-x root/root             20682 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/iwinfo.so
+-rwxr-xr-x root/root             33026 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/luci.so
+-rwxr-xr-x root/root             12586 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/rpcsys.so
+-rwxr-xr-x root/root             12466 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/rrdns.so
+-rwxr-xr-x root/root             20586 2026-09-04 19:17 squashfs-root/usr/lib/rpcd/ucode.so
+drwxr-xr-x root/root               375 2026-09-04 19:17 squashfs-root/usr/lib/sqm
+-rw-r--r-- root/root              4156 2026-09-04 19:17 squashfs-root/usr/lib/sqm/defaults.sh
+-rw-r--r-- root/root             28736 2026-09-04 19:17 squashfs-root/usr/lib/sqm/functions.sh
+-rw-r--r-- root/root              1726 2026-09-04 19:17 squashfs-root/usr/lib/sqm/layer_cake.qos
+-rw-r--r-- root/root               323 2026-09-04 19:17 squashfs-root/usr/lib/sqm/layer_cake.qos.help
+-rw-r--r-- root/root              1827 2026-09-04 19:17 squashfs-root/usr/lib/sqm/piece_of_cake.qos
+-rw-r--r-- root/root               343 2026-09-04 19:17 squashfs-root/usr/lib/sqm/piece_of_cake.qos.help
+-rwxr--r-- root/root              4531 2026-09-04 19:17 squashfs-root/usr/lib/sqm/run.sh
+-rw-r--r-- root/root             11027 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simple.qos
+-rw-r--r-- root/root                85 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simple.qos.help
+-rw-r--r-- root/root              4216 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simplest.qos
+-rw-r--r-- root/root                76 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simplest.qos.help
+-rw-r--r-- root/root              2967 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simplest_tbf.qos
+-rw-r--r-- root/root               210 2026-09-04 19:17 squashfs-root/usr/lib/sqm/simplest_tbf.qos.help
+-rwxr--r-- root/root              2226 2026-09-04 19:17 squashfs-root/usr/lib/sqm/start-sqm
+-rwxr--r-- root/root              1720 2026-09-04 19:17 squashfs-root/usr/lib/sqm/stop-sqm
+-rwxr--r-- root/root               370 2026-09-04 19:17 squashfs-root/usr/lib/sqm/update-available-qdiscs
+drwxr-xr-x root/root               183 2026-09-04 19:17 squashfs-root/usr/lib/ucode
+-rwxr-xr-x root/root             40969 2026-09-04 19:17 squashfs-root/usr/lib/ucode/digest.so
+-rwxr-xr-x root/root             36866 2026-09-04 19:17 squashfs-root/usr/lib/ucode/fs.so
+-rwxr-xr-x root/root             61442 2026-09-04 19:17 squashfs-root/usr/lib/ucode/html.so
+-rwxr-xr-x root/root             12290 2026-09-04 19:17 squashfs-root/usr/lib/ucode/log.so
+drwxr-xr-x root/root                30 2026-09-04 19:17 squashfs-root/usr/lib/ucode/luci
+-rwxr-xr-x root/root             20482 2026-09-04 19:17 squashfs-root/usr/lib/ucode/luci/core.so
+-rw-r--r-- root/root             12290 2026-09-04 19:17 squashfs-root/usr/lib/ucode/lucihttp.so
+-rwxr-xr-x root/root             65539 2026-09-04 19:17 squashfs-root/usr/lib/ucode/nl80211.so
+-rwxr-xr-x root/root             73731 2026-09-04 19:17 squashfs-root/usr/lib/ucode/rtnl.so
+-rwxr-xr-x root/root             45082 2026-09-04 19:17 squashfs-root/usr/lib/ucode/ubus.so
+-rwxr-xr-x root/root             20538 2026-09-04 19:17 squashfs-root/usr/lib/ucode/uci.so
+-rwxr-xr-x root/root             24578 2026-09-04 19:17 squashfs-root/usr/lib/ucode/uloop.so
+-rwxr-xr-x root/root             20562 2026-09-04 19:17 squashfs-root/usr/lib/uhttpd_ubus.so
+lrwxrwxrwx root/root                 3 2026-09-04 19:17 squashfs-root/usr/lib64 -> lib
+drwxr-xr-x root/root               309 2026-09-04 19:17 squashfs-root/usr/libexec
+-rwxr-xr-x root/root             20571 2026-09-04 19:17 squashfs-root/usr/libexec/cgi-io
+-rwxr-xr-x root/root              2442 2026-09-04 19:17 squashfs-root/usr/libexec/duid-generate
+-rwxr-xr-x root/root            362643 2026-09-04 19:17 squashfs-root/usr/libexec/ip-tiny
+-rwxr-xr-x root/root               290 2026-09-04 19:17 squashfs-root/usr/libexec/login.sh
+-rwxr-xr-x root/root             16393 2026-09-04 19:17 squashfs-root/usr/libexec/logread-ubox
+-rwxr-xr-x root/root              1365 2026-09-04 19:17 squashfs-root/usr/libexec/luci-peeraddr
+drwxr-xr-x root/root                41 2026-09-04 19:17 squashfs-root/usr/libexec/network
+-rwxr-xr-x root/root              5980 2026-09-04 19:17 squashfs-root/usr/libexec/network/packet-steering.uc
+-rwxr-xr-x root/root              2542 2026-09-04 19:17 squashfs-root/usr/libexec/package-manager-call
+drwxr-xr-x root/root               128 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn
+-rw-r--r-- root/root           5240178 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/hamcore.se2
+-rw-r--r-- root/root                 1 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/lang.config
+-rwxr-xr-x root/root                57 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/launcher.sh
+-rw-r--r-- root/root                 1 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/vpn_server.config
+-rwxr-xr-x root/root              3939 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/vpncmd
+-rwxr-xr-x root/root              4091 2026-09-04 19:17 squashfs-root/usr/libexec/softethervpn/vpnserver
+-rwxr-xr-x root/root            123251 2026-09-04 19:17 squashfs-root/usr/libexec/sort-coreutils
+-rwxr-xr-x root/root               267 2026-09-04 19:17 squashfs-root/usr/libexec/syslog-wrapper
+-rwxr-xr-x root/root            371143 2026-09-04 19:17 squashfs-root/usr/libexec/tc-tiny
+-rwxr-xr-x root/root              1647 2026-09-04 19:17 squashfs-root/usr/libexec/validate_firmware_image
+-rw-r--r-- root/root             10216 2026-09-04 19:17 squashfs-root/usr/libexec/w1700k-wireless-regulatory
+drwxr-xr-x root/root               767 2026-09-04 19:17 squashfs-root/usr/sbin
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/sbin/brctl -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/sbin/chroot -> ../../bin/busybox
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/sbin/crond -> ../../bin/busybox
+-rwxr-xr-x root/root            269305 2026-09-04 19:17 squashfs-root/usr/sbin/dnsmasq
+-rwxr-xr-x root/root            218083 2026-09-04 19:17 squashfs-root/usr/sbin/dropbear
+-rwxr-xr-x root/root              4059 2026-09-04 19:17 squashfs-root/usr/sbin/fitblk
+-rwxr-xr-x root/root               436 2026-09-04 19:17 squashfs-root/usr/sbin/fw_loadenv
+-rwxr-xr-x root/root             29355 2026-09-04 19:17 squashfs-root/usr/sbin/fw_printenv
+-rwxr-xr-x root/root                93 2026-09-04 19:17 squashfs-root/usr/sbin/fw_printsys
+lrwxrwxrwx root/root                11 2026-09-04 19:17 squashfs-root/usr/sbin/fw_setenv -> fw_printenv
+-rwxr-xr-x root/root                91 2026-09-04 19:17 squashfs-root/usr/sbin/fw_setsys
+lrwxrwxrwx root/root                 4 2026-09-04 19:17 squashfs-root/usr/sbin/hostapd -> wpad
+lrwxrwxrwx root/root                 7 2026-09-04 19:17 squashfs-root/usr/sbin/hostapd-radius -> hostapd
+-rwxr-xr-x root/root            135971 2026-09-04 19:17 squashfs-root/usr/sbin/iw
+-rwxr-xr-x root/root             12251 2026-09-04 19:17 squashfs-root/usr/sbin/nft
+lrwxrwxrwx root/root                17 2026-09-04 19:17 squashfs-root/usr/sbin/ntpd -> ../../bin/busybox
+-rwxr-xr-x root/root               265 2026-09-04 19:17 squashfs-root/usr/sbin/ntpd-hotplug
+-rwxr-xr-x root/root             71619 2026-09-04 19:17 squashfs-root/usr/sbin/odhcp6c
+-rwxr-xr-x root/root            111865 2026-09-04 19:17 squashfs-root/usr/sbin/odhcpd
+-rwxr-xr-x root/root               135 2026-09-04 19:17 squashfs-root/usr/sbin/odhcpd-update
+-rwxr-xr-x root/root            312364 2026-09-04 19:17 squashfs-root/usr/sbin/pppd
+-rwxr-xr-x root/root             16347 2026-09-04 19:17 squashfs-root/usr/sbin/px5g
+-rwxr-xr-x root/root             20488 2026-09-04 19:17 squashfs-root/usr/sbin/ubiattach
+-rwxr-xr-x root/root             16347 2026-09-04 19:17 squashfs-root/usr/sbin/ubiblock
+-rwxr-xr-x root/root              8147 2026-09-04 19:17 squashfs-root/usr/sbin/ubicrc32
+-rwxr-xr-x root/root             16392 2026-09-04 19:17 squashfs-root/usr/sbin/ubidetach
+-rwxr-xr-x root/root             49177 2026-09-04 19:17 squashfs-root/usr/sbin/ubiformat
+-rwxr-xr-x root/root             16395 2026-09-04 19:17 squashfs-root/usr/sbin/ubihealthd
+-rwxr-xr-x root/root             24597 2026-09-04 19:17 squashfs-root/usr/sbin/ubimkvol
+-rwxr-xr-x root/root             24584 2026-09-04 19:17 squashfs-root/usr/sbin/ubinfo
+-rwxr-xr-x root/root             28713 2026-09-04 19:17 squashfs-root/usr/sbin/ubinize
+-rwxr-xr-x root/root             16347 2026-09-04 19:17 squashfs-root/usr/sbin/ubirename
+-rwxr-xr-x root/root             20484 2026-09-04 19:17 squashfs-root/usr/sbin/ubirmvol
+-rwxr-xr-x root/root             20516 2026-09-04 19:17 squashfs-root/usr/sbin/ubirsvol
+-rwxr-xr-x root/root             20443 2026-09-04 19:17 squashfs-root/usr/sbin/ubiupdatevol
+-rwxr-xr-x root/root             58322 2026-09-04 19:17 squashfs-root/usr/sbin/uhttpd
+-rwxr-xr-x root/root              8148 2026-09-04 19:17 squashfs-root/usr/sbin/w1700k-radio-sanity
+-rwxr-xr-x root/root               950 2026-09-04 19:17 squashfs-root/usr/sbin/w1700k-wifi-capabilities
+-rwxr-xr-x root/root             17073 2026-09-04 19:17 squashfs-root/usr/sbin/w1700k-wireless-validate
+-rwxr-xr-x root/root              1953 2026-09-04 19:17 squashfs-root/usr/sbin/w1700k-wlan-npu-capture
+-rwxr-xr-x root/root             15258 2026-09-04 19:17 squashfs-root/usr/sbin/w1700k-wlan-npu-mode
+lrwxrwxrwx root/root                 4 2026-09-04 19:17 squashfs-root/usr/sbin/wpa_supplicant -> wpad
+-rwxr-xr-x root/root           1909623 2026-09-04 19:17 squashfs-root/usr/sbin/wpad
+drwxr-xr-x root/root               289 2026-09-04 19:17 squashfs-root/usr/share
+drwxr-xr-x root/root               116 2026-09-04 19:17 squashfs-root/usr/share/acl.d
+-rw-r--r-- root/root               217 2026-09-04 19:17 squashfs-root/usr/share/acl.d/dnsmasq_acl.json
+-rw-r--r-- root/root                43 2026-09-04 19:17 squashfs-root/usr/share/acl.d/logd.json
+-rw-r--r-- root/root                91 2026-09-04 19:17 squashfs-root/usr/share/acl.d/luci-base.json
+-rw-r--r-- root/root                84 2026-09-04 19:17 squashfs-root/usr/share/acl.d/ntpd.json
+-rw-r--r-- root/root               449 2026-09-04 19:17 squashfs-root/usr/share/acl.d/wpad_acl.json
+drwxr-xr-x root/root               573 2026-09-04 19:17 squashfs-root/usr/share/awk
+-rw-r--r-- root/root               531 2026-09-04 19:17 squashfs-root/usr/share/awk/assert.awk
+-rw-r--r-- root/root               482 2026-09-04 19:17 squashfs-root/usr/share/awk/bits2str.awk
+-rw-r--r-- root/root               456 2026-09-04 19:17 squashfs-root/usr/share/awk/cliff_rand.awk
+-rw-r--r-- root/root               383 2026-09-04 19:17 squashfs-root/usr/share/awk/ctime.awk
+-rw-r--r-- root/root               464 2026-09-04 19:17 squashfs-root/usr/share/awk/ftrans.awk
+-rw-r--r-- root/root              3419 2026-09-04 19:17 squashfs-root/usr/share/awk/getopt.awk
+-rw-r--r-- root/root              2638 2026-09-04 19:17 squashfs-root/usr/share/awk/gettime.awk
+-rw-r--r-- root/root              1910 2026-09-04 19:17 squashfs-root/usr/share/awk/group.awk
+-rw-r--r-- root/root               370 2026-09-04 19:17 squashfs-root/usr/share/awk/have_mpfr.awk
+-rw-r--r-- root/root              2413 2026-09-04 19:17 squashfs-root/usr/share/awk/inplace.awk
+-rw-r--r-- root/root               610 2026-09-04 19:17 squashfs-root/usr/share/awk/intdiv0.awk
+-rw-r--r-- root/root               432 2026-09-04 19:17 squashfs-root/usr/share/awk/isnumeric.awk
+-rw-r--r-- root/root               527 2026-09-04 19:17 squashfs-root/usr/share/awk/join.awk
+-rw-r--r-- root/root               386 2026-09-04 19:17 squashfs-root/usr/share/awk/libintl.awk
+-rw-r--r-- root/root               571 2026-09-04 19:17 squashfs-root/usr/share/awk/noassign.awk
+-rw-r--r-- root/root              1431 2026-09-04 19:17 squashfs-root/usr/share/awk/ns_passwd.awk
+-rw-r--r-- root/root              1086 2026-09-04 19:17 squashfs-root/usr/share/awk/ord.awk
+-rw-r--r-- root/root              1344 2026-09-04 19:17 squashfs-root/usr/share/awk/passwd.awk
+-rw-r--r-- root/root               503 2026-09-04 19:17 squashfs-root/usr/share/awk/processarray.awk
+-rw-r--r-- root/root              1180 2026-09-04 19:17 squashfs-root/usr/share/awk/quicksort.awk
+-rw-r--r-- root/root               638 2026-09-04 19:17 squashfs-root/usr/share/awk/readable.awk
+-rw-r--r-- root/root               414 2026-09-04 19:17 squashfs-root/usr/share/awk/readfile.awk
+-rw-r--r-- root/root               553 2026-09-04 19:17 squashfs-root/usr/share/awk/rewind.awk
+-rw-r--r-- root/root               810 2026-09-04 19:17 squashfs-root/usr/share/awk/round.awk
+-rw-r--r-- root/root               621 2026-09-04 19:17 squashfs-root/usr/share/awk/shellquote.awk
+-rw-r--r-- root/root              1602 2026-09-04 19:17 squashfs-root/usr/share/awk/strtonum.awk
+-rw-r--r-- root/root              1003 2026-09-04 19:17 squashfs-root/usr/share/awk/tocsv.awk
+-rw-r--r-- root/root               362 2026-09-04 19:17 squashfs-root/usr/share/awk/walkarray.awk
+-rw-r--r-- root/root               611 2026-09-04 19:17 squashfs-root/usr/share/awk/zerofile.awk
+drwxr-xr-x root/root                65 2026-09-04 19:17 squashfs-root/usr/share/dnsmasq
+-rw------- root/root               340 2026-09-04 19:17 squashfs-root/usr/share/dnsmasq/dhcpbogushostname.conf
+-rw------- root/root               311 2026-09-04 19:17 squashfs-root/usr/share/dnsmasq/rfc6761.conf
+drwxr-xr-x root/root                62 2026-09-04 19:17 squashfs-root/usr/share/firewall4
+-rw-r--r-- root/root              2195 2026-09-04 19:17 squashfs-root/usr/share/firewall4/helpers
+-rw-r--r-- root/root              3016 2026-09-04 19:17 squashfs-root/usr/share/firewall4/main.uc
+drwxr-xr-x root/root               246 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates
+-rw-r--r-- root/root              4343 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/mangle-rule.uc
+-rw-r--r-- root/root              4700 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/redirect.uc
+-rw-r--r-- root/root              5331 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/rule.uc
+-rw-r--r-- root/root             15037 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/ruleset.uc
+-rw-r--r-- root/root               614 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-drop-invalid.uc
+-rw-r--r-- root/root               360 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-jump.uc
+-rw-r--r-- root/root               933 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-masq.uc
+-rw-r--r-- root/root               856 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-match.uc
+-rw-r--r-- root/root               404 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-mssfix.uc
+-rw-r--r-- root/root               864 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-notrack.uc
+-rw-r--r-- root/root               907 2026-09-04 19:17 squashfs-root/usr/share/firewall4/templates/zone-verdict.uc
+drwxr-xr-x root/root               112 2026-09-04 19:17 squashfs-root/usr/share/hostap
+-rw-r--r-- root/root              9579 2026-09-04 19:17 squashfs-root/usr/share/hostap/common.uc
+-rw-r--r-- root/root             54826 2026-09-04 19:17 squashfs-root/usr/share/hostap/hostapd.uc
+-rw-r--r-- root/root              4008 2026-09-04 19:17 squashfs-root/usr/share/hostap/wdev.uc
+-rw-r--r-- root/root              5985 2026-09-04 19:17 squashfs-root/usr/share/hostap/wifi-detect.uc
+-rw-r--r-- root/root             24954 2026-09-04 19:17 squashfs-root/usr/share/hostap/wpa_supplicant.uc
+-rw-r--r-- root/root              5139 2026-09-04 19:17 squashfs-root/usr/share/iso3166.json
+drwxr-xr-x root/root                34 2026-09-04 19:17 squashfs-root/usr/share/libiwinfo
+-rw-r--r-- root/root             18231 2026-09-04 19:17 squashfs-root/usr/share/libiwinfo/devices.txt
+drwxr-xr-x root/root                30 2026-09-04 19:17 squashfs-root/usr/share/libubox
+-rw-r--r-- root/root              7569 2026-09-04 19:17 squashfs-root/usr/share/libubox/jshn.sh
+drwxr-xr-x root/root                29 2026-09-04 19:17 squashfs-root/usr/share/luci
+drwxr-xr-x root/root               320 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d
+-rw-r--r-- root/root              1243 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-adblock.json
+-rw-r--r-- root/root              1241 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-firewall.json
+-rw-r--r-- root/root               207 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-package-manager.json
+-rw-r--r-- root/root               179 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-sqm.json
+-rwxrwxrwx root/root               201 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-w1700k-npu.json
+-rwxrwxrwx root/root               250 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-app-w1700k-softether-server.json
+-rw-r--r-- root/root              2557 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-base.json
+-rw-r--r-- root/root              2435 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-mod-network.json
+-rw-r--r-- root/root              3323 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-mod-status.json
+-rw-r--r-- root/root              3218 2026-09-04 19:17 squashfs-root/usr/share/luci/menu.d/luci-mod-system.json
+drwxr-xr-x root/root                29 2026-09-04 19:17 squashfs-root/usr/share/nftables.d
+-rw-r--r-- root/root               991 2026-09-04 19:17 squashfs-root/usr/share/nftables.d/README
+drwxr-xr-x root/root                41 2026-09-04 19:17 squashfs-root/usr/share/rpcd
+drwxr-xr-x root/root               382 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d
+-rw-r--r-- root/root              1698 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-adblock.json
+-rw-r--r-- root/root               411 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-firewall.json
+-rw-r--r-- root/root              1279 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-package-manager.json
+-rw-r--r-- root/root               354 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-sqm.json
+-rwxrwxrwx root/root               270 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-w1700k-npu.json
+-rwxrwxrwx root/root               630 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-app-w1700k-softether-server.json
+-rw-r--r-- root/root              1014 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-base.json
+-rw-r--r-- root/root              2197 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-mod-network.json
+-rw-r--r-- root/root              1535 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-mod-status-index.json
+-rw-r--r-- root/root              2511 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-mod-status.json
+-rw-r--r-- root/root              5357 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/luci-mod-system.json
+-rw-r--r-- root/root               179 2026-09-04 19:17 squashfs-root/usr/share/rpcd/acl.d/unauthenticated.json
+drwxr-xr-x root/root                27 2026-09-04 19:17 squashfs-root/usr/share/rpcd/ucode
+-rw-r--r-- root/root             17924 2026-09-04 19:17 squashfs-root/usr/share/rpcd/ucode/luci
+drwxr-xr-x root/root               145 2026-09-04 19:17 squashfs-root/usr/share/schema
+-rw-r--r-- root/root             20815 2026-09-04 19:17 squashfs-root/usr/share/schema/wireless.wifi-device.json
+-rw-r--r-- root/root             31675 2026-09-04 19:17 squashfs-root/usr/share/schema/wireless.wifi-iface.json
+-rw-r--r-- root/root               685 2026-09-04 19:17 squashfs-root/usr/share/schema/wireless.wifi-station.json
+-rw-r--r-- root/root              1372 2026-09-04 19:17 squashfs-root/usr/share/schema/wireless.wifi-vlan.json
+drwxr-xr-x root/root                96 2026-09-04 19:17 squashfs-root/usr/share/terminfo
+drwxr-xr-x root/root                44 2026-09-04 19:17 squashfs-root/usr/share/terminfo/a
+-rw-r--r-- root/root              3812 2026-09-04 19:17 squashfs-root/usr/share/terminfo/a/alacritty
+-rw-r--r-- root/root              1481 2026-09-04 19:17 squashfs-root/usr/share/terminfo/a/ansi
+drwxr-xr-x root/root                27 2026-09-04 19:17 squashfs-root/usr/share/terminfo/d
+-rw-r--r-- root/root               308 2026-09-04 19:17 squashfs-root/usr/share/terminfo/d/dumb
+drwxr-xr-x root/root                27 2026-09-04 19:17 squashfs-root/usr/share/terminfo/f
+-rw-r--r-- root/root              3779 2026-09-04 19:17 squashfs-root/usr/share/terminfo/f/foot
+drwxr-xr-x root/root                28 2026-09-04 19:17 squashfs-root/usr/share/terminfo/l
+-rw-r--r-- root/root              1734 2026-09-04 19:17 squashfs-root/usr/share/terminfo/l/linux
+drwxr-xr-x root/root                27 2026-09-04 19:17 squashfs-root/usr/share/terminfo/r
+-rw-r--r-- root/root              2238 2026-09-04 19:17 squashfs-root/usr/share/terminfo/r/rxvt
+drwxr-xr-x root/root                52 2026-09-04 19:17 squashfs-root/usr/share/terminfo/s
+-rw-r--r-- root/root              1677 2026-09-04 19:17 squashfs-root/usr/share/terminfo/s/screen
+-rw-r--r-- root/root              1815 2026-09-04 19:17 squashfs-root/usr/share/terminfo/s/screen-256color
+drwxr-xr-x root/root                48 2026-09-04 19:17 squashfs-root/usr/share/terminfo/t
+-rw-r--r-- root/root              3327 2026-09-04 19:17 squashfs-root/usr/share/terminfo/t/tmux
+-rw-r--r-- root/root              3467 2026-09-04 19:17 squashfs-root/usr/share/terminfo/t/tmux-256color
+drwxr-xr-x root/root                41 2026-09-04 19:17 squashfs-root/usr/share/terminfo/v
+-rw-r--r-- root/root              1282 2026-09-04 19:17 squashfs-root/usr/share/terminfo/v/vt100
+-rw-r--r-- root/root              1276 2026-09-04 19:17 squashfs-root/usr/share/terminfo/v/vt102
+drwxr-xr-x root/root                69 2026-09-04 19:17 squashfs-root/usr/share/terminfo/x
+-rw-r--r-- root/root              4156 2026-09-04 19:17 squashfs-root/usr/share/terminfo/x/xterm
+-rw-r--r-- root/root              4242 2026-09-04 19:17 squashfs-root/usr/share/terminfo/x/xterm-256color
+-rw-r--r-- root/root              1564 2026-09-04 19:17 squashfs-root/usr/share/terminfo/x/xterm-color
+drwxr-xr-x root/root               303 2026-09-04 19:17 squashfs-root/usr/share/ucitrack
+-rw-r--r-- root/root               105 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-app-firewall.json
+-rw-r--r-- root/root                71 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-network-dnsmasq.json
+-rw-r--r-- root/root                72 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-network-interfaces.json
+-rw-r--r-- root/root                43 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-network-odhcpd.json
+-rw-r--r-- root/root                56 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-network-wireless.json
+-rw-r--r-- root/root                47 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-system-dropbear.json
+-rw-r--r-- root/root                53 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-system-mounts.json
+-rw-r--r-- root/root               123 2026-09-04 19:17 squashfs-root/usr/share/ucitrack/luci-mod-system-system.json
+drwxr-xr-x root/root                82 2026-09-04 19:17 squashfs-root/usr/share/ucode
+-rw-r--r-- root/root             79886 2026-09-04 19:17 squashfs-root/usr/share/ucode/fw4.uc
+-rw-r--r-- root/root             15984 2026-09-04 19:17 squashfs-root/usr/share/ucode/iwinfo.uc
+drwxr-xr-x root/root               227 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci
+-rw-r--r-- root/root             10911 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/authplugins.uc
+drwxr-xr-x root/root                28 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/controller
+drwxr-xr-x root/root                45 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/controller/admin
+-rw-r--r-- root/root              4033 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/controller/admin/index.uc
+-rw-r--r-- root/root              3304 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/controller/admin/uci.uc
+-rw-r--r-- root/root             25661 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/dispatcher.uc
+-rw-r--r-- root/root             14237 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/http.uc
+-rw-r--r-- root/root              1286 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/luciplugins.uc
+-rw-r--r-- root/root              4631 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/runtime.uc
+-rw-r--r-- root/root              3201 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/sys.uc
+drwxr-xr-x root/root               174 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template
+drwxr-xr-x root/root                31 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/admin_status
+-rw-r--r-- root/root              1608 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/admin_status/index.ut
+-rw-r--r-- root/root               692 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/csrftoken.ut
+-rw-r--r-- root/root               564 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/error404.ut
+-rw-r--r-- root/root              1204 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/error500.ut
+-rw-r--r-- root/root              1512 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/footer.ut
+-rw-r--r-- root/root              1604 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/header.ut
+-rw-r--r-- root/root              4196 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/sysauth.ut
+drwxr-xr-x root/root                77 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes
+drwxr-xr-x root/root                67 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap
+-rw-r--r-- root/root              1016 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap/footer.ut
+-rw-r--r-- root/root              4460 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap/header.ut
+-rw-r--r-- root/root              3316 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap/sysauth.ut
+lrwxrwxrwx root/root                 9 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap-dark -> bootstrap
+lrwxrwxrwx root/root                 9 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/themes/bootstrap-light -> bootstrap
+-rw-r--r-- root/root               388 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/template/view.ut
+-rw-r--r-- root/root               204 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/uhttpd.uc
+-rw-r--r-- root/root               106 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/version.uc
+-rw-r--r-- root/root             15918 2026-09-04 19:17 squashfs-root/usr/share/ucode/luci/zoneinfo.uc
+drwxr-xr-x root/root               152 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi
+-rw-r--r-- root/root             18115 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/ap.uc
+-rw-r--r-- root/root              3608 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/common.uc
+-rw-r--r-- root/root             33190 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/hostapd.uc
+-rw-r--r-- root/root              7448 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/iface.uc
+-rw-r--r-- root/root              1073 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/netifd.uc
+-rw-r--r-- root/root              9757 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/supplicant.uc
+-rw-r--r-- root/root              2724 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/utils.uc
+-rw-r--r-- root/root              2625 2026-09-04 19:17 squashfs-root/usr/share/ucode/wifi/validate.uc
+drwxr-xr-x root/root                37 2026-09-04 19:17 squashfs-root/usr/share/udhcpc
+-rwxr-xr-x root/root              1348 2026-09-04 19:17 squashfs-root/usr/share/udhcpc/default.script
+-rw-r--r-- root/root             19541 2026-09-04 19:17 squashfs-root/usr/share/wifi_devices.json
+lrwxrwxrwx root/root                 3 2026-09-04 19:17 squashfs-root/var -> tmp
+drwxr-xr-x root/root                67 2026-09-04 19:17 squashfs-root/www
+drwxr-xr-x root/root               114 2026-09-04 19:17 squashfs-root/www/cgi-bin
+-rwxr-xr-x root/root              5413 2026-09-04 19:17 squashfs-root/www/cgi-bin/adblock
+lrwxrwxrwx root/root                24 2026-09-04 19:17 squashfs-root/www/cgi-bin/cgi-backup -> ../../usr/libexec/cgi-io
+lrwxrwxrwx root/root                24 2026-09-04 19:17 squashfs-root/www/cgi-bin/cgi-download -> ../../usr/libexec/cgi-io
+lrwxrwxrwx root/root                24 2026-09-04 19:17 squashfs-root/www/cgi-bin/cgi-exec -> ../../usr/libexec/cgi-io
+lrwxrwxrwx root/root                24 2026-09-04 19:17 squashfs-root/www/cgi-bin/cgi-upload -> ../../usr/libexec/cgi-io
+-rwxr-xr-x root/root               660 2026-09-04 19:17 squashfs-root/www/cgi-bin/luci
+-rw-r--r-- root/root               664 2026-09-04 19:17 squashfs-root/www/index.html
+drwxr-xr-x root/root                94 2026-09-04 19:17 squashfs-root/www/luci-static
+drwxr-xr-x root/root                87 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap
+-rw-r--r-- root/root             44437 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap/cascade.css
+-rw-r--r-- root/root               536 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap/logo.svg
+-rw-r--r-- root/root              2337 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap/logo_48.png
+-rw-r--r-- root/root              7236 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap/mobile.css
+lrwxrwxrwx root/root                 9 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap-dark -> bootstrap
+lrwxrwxrwx root/root                 9 2026-09-04 19:17 squashfs-root/www/luci-static/bootstrap-light -> bootstrap
+drwxr-xr-x root/root               300 2026-09-04 19:17 squashfs-root/www/luci-static/resources
+drwxr-xr-x root/root                65 2026-09-04 19:17 squashfs-root/www/luci-static/resources/cbi
+-rw-r--r-- root/root               389 2026-09-04 19:17 squashfs-root/www/luci-static/resources/cbi/file.svg
+-rw-r--r-- root/root               415 2026-09-04 19:17 squashfs-root/www/luci-static/resources/cbi/folder.svg
+-rw-r--r-- root/root               444 2026-09-04 19:17 squashfs-root/www/luci-static/resources/cbi/link.svg
+-rw-r--r-- root/root             15036 2026-09-04 19:17 squashfs-root/www/luci-static/resources/cbi.js
+-rw-r--r-- root/root              9994 2026-09-04 19:17 squashfs-root/www/luci-static/resources/firewall.js
+-rw-r--r-- root/root             67781 2026-09-04 19:17 squashfs-root/www/luci-static/resources/form.js
+-rw-r--r-- root/root              3720 2026-09-04 19:17 squashfs-root/www/luci-static/resources/fs.js
+drwxr-xr-x root/root               674 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons
+-rw-r--r-- root/root             11047 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/alias.svg
+-rw-r--r-- root/root              8465 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/alias_disabled.svg
+-rw-r--r-- root/root             12668 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/bridge.svg
+-rw-r--r-- root/root              8591 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/bridge_disabled.svg
+-rw-r--r-- root/root              8877 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/ethernet.svg
+-rw-r--r-- root/root              6297 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/ethernet_disabled.svg
+-rw-r--r-- root/root               958 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/loading.svg
+-rw-r--r-- root/root              6297 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/port_down.svg
+-rw-r--r-- root/root              6501 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/port_pse_down.svg
+-rw-r--r-- root/root              6094 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/port_pse_up.svg
+-rw-r--r-- root/root              8877 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/port_up.svg
+-rw-r--r-- root/root              5857 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-000-000.svg
+-rw-r--r-- root/root              5935 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-000-025.svg
+-rw-r--r-- root/root              5975 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-025-050.svg
+-rw-r--r-- root/root              5935 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-050-075.svg
+-rw-r--r-- root/root              5860 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-075-100.svg
+-rw-r--r-- root/root              5313 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/signal-none.svg
+-rw-r--r-- root/root             14441 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/switch.svg
+-rw-r--r-- root/root             10715 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/switch_disabled.svg
+-rw-r--r-- root/root             26342 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/tunnel.svg
+-rw-r--r-- root/root             23465 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/tunnel_disabled.svg
+-rw-r--r-- root/root             22557 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/vlan.svg
+-rw-r--r-- root/root             23034 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/vlan_disabled.svg
+-rw-r--r-- root/root             13140 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/vrf.svg
+-rw-r--r-- root/root              9217 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/vrf_disabled.svg
+-rw-r--r-- root/root              4449 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/wifi.svg
+-rw-r--r-- root/root              2980 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/wifi_disabled.svg
+-rw-r--r-- root/root             15523 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/wireguard.svg
+-rw-r--r-- root/root             13378 2026-09-04 19:17 squashfs-root/www/luci-static/resources/icons/wireguard_disabled.svg
+-rw-r--r-- root/root             29634 2026-09-04 19:17 squashfs-root/www/luci-static/resources/luci.js
+-rw-r--r-- root/root              2162 2026-09-04 19:17 squashfs-root/www/luci-static/resources/menu-bootstrap.js
+-rw-r--r-- root/root             52510 2026-09-04 19:17 squashfs-root/www/luci-static/resources/network.js
+drwxr-xr-x root/root               264 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol
+-rw-r--r-- root/root              1001 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/464xlat.js
+-rw-r--r-- root/root              2738 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/6in4.js
+-rw-r--r-- root/root              1844 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/6rd.js
+-rw-r--r-- root/root              1141 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/6to4.js
+-rw-r--r-- root/root              1882 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/dhcp.js
+-rw-r--r-- root/root              2050 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/dhcpv6.js
+-rw-r--r-- root/root              1730 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/dslite.js
+-rw-r--r-- root/root              1964 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/ipip6.js
+-rw-r--r-- root/root              1310 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/l2tp.js
+-rw-r--r-- root/root              2463 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/map.js
+-rw-r--r-- root/root               116 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/none.js
+-rw-r--r-- root/root              3941 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/ppp.js
+-rw-r--r-- root/root              3639 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/pppoa.js
+-rw-r--r-- root/root              3626 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/pppoe.js
+-rw-r--r-- root/root              3254 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/pptp.js
+-rw-r--r-- root/root              5156 2026-09-04 19:17 squashfs-root/www/luci-static/resources/protocol/static.js
+-rw-r--r-- root/root              4089 2026-09-04 19:17 squashfs-root/www/luci-static/resources/rpc.js
+drwxr-xr-x root/root               143 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg
+-rw-r--r-- root/root              1065 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/bandwidth.svg
+-rw-r--r-- root/root              1677 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/channel_analysis.svg
+-rw-r--r-- root/root              1162 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/connections.svg
+-rw-r--r-- root/root              1187 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/load.svg
+-rw-r--r-- root/root               973 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/wifirate.svg
+-rw-r--r-- root/root              1066 2026-09-04 19:17 squashfs-root/www/luci-static/resources/svg/wireless.svg
+drwxr-xr-x root/root               169 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools
+-rw-r--r-- root/root              9220 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/bridgevlan.js
+-rw-r--r-- root/root              6546 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/dnsrecordhandlers.js
+-rw-r--r-- root/root             14332 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/firewall.js
+-rw-r--r-- root/root             43079 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/network.js
+-rw-r--r-- root/root               377 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/password.js
+-rw-r--r-- root/root              1275 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/prng.js
+-rw-r--r-- root/root              7075 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/views.js
+-rw-r--r-- root/root             16816 2026-09-04 19:17 squashfs-root/www/luci-static/resources/tools/widgets.js
+-rw-r--r-- root/root              8614 2026-09-04 19:17 squashfs-root/www/luci-static/resources/uci.js
+-rw-r--r-- root/root             85548 2026-09-04 19:17 squashfs-root/www/luci-static/resources/ui.js
+-rw-r--r-- root/root             12702 2026-09-04 19:17 squashfs-root/www/luci-static/resources/uqr.js
+-rw-r--r-- root/root             16817 2026-09-04 19:17 squashfs-root/www/luci-static/resources/validation.js
+drwxr-xr-x root/root               148 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view
+drwxr-xr-x root/root               202 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock
+-rw-r--r-- root/root              1909 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/allowlist.js
+-rw-r--r-- root/root              1909 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/blocklist.js
+-rw-r--r-- root/root               126 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/custom.css
+-rw-r--r-- root/root             18248 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/dnsreport.js
+-rw-r--r-- root/root              7595 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/feeds.js
+-rw-r--r-- root/root               112 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/logread.js
+-rw-r--r-- root/root              1425 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/logtemplate.js
+-rw-r--r-- root/root             12029 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/map.html
+-rw-r--r-- root/root             36099 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/overview.js
+-rw-r--r-- root/root             35896 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/adblock/world.json
+drwxr-xr-x root/root                33 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/bootstrap
+-rw-r--r-- root/root               616 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/bootstrap/sysauth.js
+drwxr-xr-x root/root               116 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall
+-rw-r--r-- root/root              1009 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/custom.js
+-rw-r--r-- root/root             12063 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/forwards.js
+-rw-r--r-- root/root              5100 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/ipsets.js
+-rw-r--r-- root/root             17005 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/rules.js
+-rw-r--r-- root/root             12443 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/snats.js
+-rw-r--r-- root/root             14004 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/firewall/zones.js
+drwxr-xr-x root/root               199 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network
+-rw-r--r-- root/root             33259 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/dhcp.js
+-rw-r--r-- root/root              4249 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/diagnostics.js
+-rw-r--r-- root/root             24840 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/dns.js
+-rw-r--r-- root/root             62808 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/interfaces.js
+-rw-r--r-- root/root              8756 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/routes.js
+-rw-r--r-- root/root              9180 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/sqm.js
+-rw-r--r-- root/root             12163 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/switch-vlan.css
+-rw-r--r-- root/root             27020 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/switch-vlan.js
+-rw-r--r-- root/root              8822 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/switch.js
+-rw-r--r-- root/root            134609 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/network/wireless.js
+-rw-r--r-- root/root             30851 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/package-manager.js
+drwxrwxrwx root/root                49 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/services
+-rw-r--r-- root/root              2245 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/services/w1700k-softether-server.js
+drwxr-xr-x root/root               275 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status
+-rw-r--r-- root/root              7304 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/bandwidth.js
+-rw-r--r-- root/root             12472 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/channel_analysis.js
+-rw-r--r-- root/root             13246 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/connections.js
+-rw-r--r-- root/root              6127 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/dmesg.js
+drwxr-xr-x root/root               169 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include
+-rw-r--r-- root/root              2061 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/10_system.js
+-rw-r--r-- root/root              1377 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/20_memory.js
+-rw-r--r-- root/root              1725 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/25_storage.js
+-rw-r--r-- root/root             11005 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/29_ports.js
+-rw-r--r-- root/root              3129 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/30_network.js
+-rw-r--r-- root/root              6166 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/40_dhcp.js
+-rw-r--r-- root/root              1162 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/50_dsl.js
+-rw-r--r-- root/root             18419 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/include/60_wifi.js
+-rw-r--r-- root/root              3524 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/index.js
+-rw-r--r-- root/root              9671 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/iptables.js
+-rw-r--r-- root/root              7171 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/load.js
+-rw-r--r-- root/root             20500 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/nftables.js
+-rw-r--r-- root/root              1909 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/processes.js
+-rw-r--r-- root/root              7479 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/routes.js
+-rw-r--r-- root/root              8945 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/routesj.js
+-rw-r--r-- root/root                90 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/syslog.js
+-rw-r--r-- root/root              8846 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/status/wireless.js
+drwxrwxrwx root/root               302 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system
+-rw-r--r-- root/root               975 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/crontab.js
+-rw-r--r-- root/root              1688 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/dropbear.js
+-rw-r--r-- root/root             14357 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/flash.js
+drwxr-xr-x root/root               104 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger
+-rw-r--r-- root/root               201 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger/default-on.js
+-rw-r--r-- root/root               560 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger/heartbeat.js
+-rw-r--r-- root/root               961 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger/netdev.js
+-rw-r--r-- root/root               460 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger/none.js
+-rw-r--r-- root/root               549 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/led-trigger/timer.js
+-rw-r--r-- root/root              2752 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/leds.js
+-rw-r--r-- root/root             10630 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/mounts.js
+-rw-r--r-- root/root              4773 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/password.js
+-rw-r--r-- root/root              3752 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/plugins.js
+-rw-r--r-- root/root              1027 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/pwpolicy.js
+-rw-r--r-- root/root              1301 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/reboot.js
+-rw-r--r-- root/root              6716 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/repokeys.js
+-rw-r--r-- root/root              6847 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/sshkeys.js
+-rw-r--r-- root/root              3964 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/startup.js
+-rw-r--r-- root/root              7569 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/system.js
+-rw-r--r-- root/root               640 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/uhttpd.js
+-rw-r--r-- root/root              9027 2026-09-04 19:17 squashfs-root/www/luci-static/resources/view/system/w1700k-npu.js
+-rw-r--r-- root/root                 0 2026-09-04 19:17 squashfs-root/www/luci-static/resources/xhr.js

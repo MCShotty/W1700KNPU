@@ -1,0 +1,224 @@
+{
+  "schema": 1,
+  "snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
+  "openwrt": {
+    "url": "https://github.com/openwrt/openwrt.git",
+    "base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
+    "local_head": "f3173f41940ab15d63a205f6d618e145d49ee58a",
+    "changed_files": [
+      {
+        "path": "package/kernel/mt76/Makefile",
+        "sha256": "7a87c1fc2c2a6cf4d340047d0683a94e183748682e6b10a462d5a89eb1f4027c",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
+        "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+        "mode": "0o755"
+      },
+      {
+        "path": "package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
+        "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+        "mode": "0o755"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh",
+        "sha256": "c4f63366a0b727e39990f949cc319b9d93f9ff47e0dd872a5b7321801564c42a",
+        "mode": "0o755"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json",
+        "sha256": "e806d42ac26225369e1d61ffa64e103fbdb42391b2ca5c540fa9e197d0d051d6",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json",
+        "sha256": "c626feccb4f5e7f309300754d9f8946d98133ecb744f2430d1324138ebd1e984",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc",
+        "sha256": "df64d12609c75e3d2e91dc7726dece3ea992a3a1d38149cb5eea98502e7d001f",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc",
+        "sha256": "e98fe256b00b03144d9a199f5dcdfd4296a98b548691f635b380e49481584796",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files/lib/netifd/wireless.uc",
+        "sha256": "9e23a875daedabad9343500671bea955d02f734677b04695bba21ee491959944",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh",
+        "sha256": "9b149311b7d285da6fa4beefa4907c6e6ab5f49319db9e5d2e1286c9dd7d6cd0",
+        "mode": "0o755"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files/usr/share/hostap/common.uc",
+        "sha256": "c0ff5780ba502d7d5781bad37f0ad8465ad17a5e2e2f25631696faf3adb1aeb5",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc",
+        "sha256": "0242798a85690302951dc69057d6d057105a6eed739c5f9f9f9345791943c213",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/services/hostapd/files/hostapd.uc",
+        "sha256": "1100002b6b1a4764e32bc3c87e75e8f63c79a08f1bb7e2691e1d6f516f164d9f",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-npu/Makefile",
+        "sha256": "8c3c83ba6863412b5d34b8488f11afccd6780049f7af86515a1a87ea81b6ca29",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js",
+        "sha256": "bba60db9b79ab9a81911f296eba641baa49b69e59908299837dd1db96821353c",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-npu/root/usr/share/luci/menu.d/luci-app-w1700k-npu.json",
+        "sha256": "9608ed5049bae80d47db9f41cf4f2bcf4c7d07f095c44b2fa564bf145e96fbfd",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-npu/root/usr/share/rpcd/acl.d/luci-app-w1700k-npu.json",
+        "sha256": "5fe17a7c0a3e641b243b274687f2bbd9b76b2b91c69a5c2a5ce96c9a98debeaf",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-softether-server/Makefile",
+        "sha256": "1f61ce68e17bb84f968dc1f3c0b83ec1e6d064a84343442f2896a6dee086075f",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-softether-server/htdocs/luci-static/resources/view/services/w1700k-softether-server.js",
+        "sha256": "1ddcf9c041eb3c83ee8e885c2bd4ce0e4f1dcc483cc138ec84bf741a088d6811",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-softether-server/root/usr/share/luci/menu.d/luci-app-w1700k-softether-server.json",
+        "sha256": "29588cf8aeb7f4eb5ee942c62361733801eb6a4d0cd6a8c050ba7f92b96b6a05",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/luci-app-w1700k-softether-server/root/usr/share/rpcd/acl.d/luci-app-w1700k-softether-server.json",
+        "sha256": "4be3ee0c9af9ee5cc927f813e0af837a5ea2205cd5df822a6df0a7d597b5d1f3",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/w1700k-npu-status/Makefile",
+        "sha256": "c46cb9c805d0cbf0bb6179d7672d3c5a40ff0c4e8f09c7f9005be6d6d1b32bb9",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/w1700k-npu-status/files/usr/sbin/w1700k-wlan-npu-capture",
+        "sha256": "fc80f6c1270848c0cd4f210e54542cc3b5cbe63eb89ec89b82c06564e25e5bf9",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/w1700k-npu-status/files/usr/sbin/w1700k-wlan-npu-mode",
+        "sha256": "96cd1c44ce18e8c56717169784fcb008cd93834df743f10bd471e37bd69afffe",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/w1700k-system-defaults/Makefile",
+        "sha256": "40659540c0dd4cd3b0707952f6cad7a3c988852cdf1dd6a4d6e39e8b139ed076",
+        "mode": "0o777"
+      },
+      {
+        "path": "package/w1700k/w1700k-system-defaults/files/etc/uci-defaults/99-w1700k-system-defaults",
+        "sha256": "52634d506491420f56b8dbb203fed94a5d82949d6b4bbcd8ca91839873585a9f",
+        "mode": "0o777"
+      },
+      {
+        "path": "target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory",
+        "sha256": "27075d0fe688df9e3405d03069fe48eb41389969409c008b5e2e8e1e7ff75708",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity",
+        "sha256": "cab4ae7d502c71c3b4dc8644aafb1a97cd3f825cb1fa737ee5be1d68205004b2",
+        "mode": "0o755"
+      },
+      {
+        "path": "target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities",
+        "sha256": "5c7a3878530a7cfee659578630a4103558c8ba7900a5deb050c7d647c0685c8a",
+        "mode": "0o755"
+      },
+      {
+        "path": "target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate",
+        "sha256": "861f6aac6bf8f3dc5022cbed67f0119c74d52189b9ae9bd19b5e1ef1c4261f87",
+        "mode": "0o755"
+      },
+      {
+        "path": "target/linux/airoha/image/an7581.mk",
+        "sha256": "b994596c539ad05b3015b2ea08a89b02b83485160bb68a698c4b97a34263ce37",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch",
+        "sha256": "c96f30fb04e6c82ae0f244e135cbbcab6fac889d578c000b4f37bfcb68a4b7e4",
+        "mode": "0o644"
+      }
+    ]
+  },
+  "luci": {
+    "url": "https://github.com/openwrt/luci.git",
+    "base": "506ca606d379dd69e9826b2a5e7e2ab90e6b89a5",
+    "local_head": "83073becd3e0e217a7e55f04ad71b32cfefaf26c",
+    "changed_files": [
+      {
+        "path": "modules/luci-base/htdocs/luci-static/resources/network.js",
+        "sha256": "b2414d4ad6b7c4d1d78b437cead1c1bed12200c0d88a3f6475997fe5fa15e5fa",
+        "mode": "0o644"
+      },
+      {
+        "path": "modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js",
+        "sha256": "9c644f19eb0aa15469343e53a92c09ee7b1a3f2bff3cd21ddd939f917512ffa5",
+        "mode": "0o644"
+      },
+      {
+        "path": "modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js",
+        "sha256": "d6a676f950b4ffc2700d6b6c3da8e119becc38835c838a1c3fc6a915a2be3cad",
+        "mode": "0o644"
+      }
+    ]
+  },
+  "feeds": {
+    "packages": {
+      "commit": "f3bc744d83800d067674e0c85bc00c6ae114e319",
+      "url": "https://git.openwrt.org/feed/packages.git",
+      "dirty": false
+    },
+    "video": {
+      "commit": "644a66261288b4a95dbc6e46fe805d33cb9f71d9",
+      "url": "https://github.com/openwrt/video.git",
+      "dirty": false
+    },
+    "routing": {
+      "commit": "4b9891b9136259f93294a424507ed24c5e8c1cbd",
+      "url": "https://git.openwrt.org/feed/routing.git",
+      "dirty": false
+    },
+    "luci": {
+      "commit": "83073becd3e0e217a7e55f04ad71b32cfefaf26c",
+      "url": "https://git.openwrt.org/project/luci.git",
+      "dirty": true
+    },
+    "telephony": {
+      "commit": "5d68d53c160a325ea9d03fce393e051573bcc736",
+      "url": "https://git.openwrt.org/feed/telephony.git",
+      "dirty": false
+    }
+  },
+  "mt76": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
+  "kernel": "6.18.44",
+  "board": "gemtek,w1700k-ubi",
+  "wlan_npu": "compiled out; Ethernet offload is separate"
+}

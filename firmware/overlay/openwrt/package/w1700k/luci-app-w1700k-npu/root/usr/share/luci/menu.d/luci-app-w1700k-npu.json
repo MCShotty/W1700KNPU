@@ -1,0 +1,13 @@
+{
+	"admin/system/w1700k-npu": {
+		"title": "W1700K NPU",
+		"order": 92,
+		"action": {
+			"type": "view",
+			"path": "system/w1700k-npu"
+		},
+		"depends": {
+			"acl": [ "luci-app-w1700k-npu" ]
+		}
+	}
+}

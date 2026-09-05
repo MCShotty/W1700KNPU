@@ -1,0 +1,642 @@
+diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
+index 8eda8da..13f8c59 100644
+--- a/package/kernel/mt76/Makefile
++++ b/package/kernel/mt76/Makefile
+@@ -500,14 +500,46 @@ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7921e
+   PKG_MAKE_FLAGS += CONFIG_MT7921E=m
+ endif
++
++MT76_NPU_ENABLED:=$(if $(and \
++	$(CONFIG_PACKAGE_kmod-mt7996e), \
++	$(CONFIG_TARGET_airoha_an7581_DEVICE_gemtek_w1700k-ubi)),y)
++MT76_NPU_KBUILD_FLAGS:=$(if $(MT76_NPU_ENABLED), \
++	CONFIG_MT76_NPU=y CONFIG_MT7996_NPU=y)
++MT76_NPU_CPPFLAGS:=$(if $(MT76_NPU_ENABLED), \
++	-DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU)
++
+ ifdef CONFIG_PACKAGE_kmod-mt7996e
+   PKG_MAKE_FLAGS += CONFIG_MT7996E=m
+-  ifdef CONFIG_TARGET_airoha_an7581_DEVICE_gemtek_w1700k-ubi
+-    PKG_MAKE_FLAGS += CONFIG_MT76_NPU=y
+-    PKG_MAKE_FLAGS += CONFIG_MT7996_NPU=y
+-    NOSTDINC_FLAGS += -DCONFIG_MT76_NPU
+-    NOSTDINC_FLAGS += -DCONFIG_MT7996_NPU
+-  endif
++endif
++
++PKG_MAKE_FLAGS += $(MT76_NPU_KBUILD_FLAGS)
++NOSTDINC_FLAGS += $(MT76_NPU_CPPFLAGS)
++
++MT76_NPU_COMMON_SELECTOR:=$(filter CONFIG_MT76_NPU=%,$(PKG_MAKE_FLAGS))
++MT76_NPU_DEVICE_SELECTOR:=$(filter CONFIG_MT7996_NPU=%,$(PKG_MAKE_FLAGS))
++MT76_NPU_COMMON_DEFINE:=$(filter -DCONFIG_MT76_NPU \
++	-DCONFIG_MT76_NPU=%,$(NOSTDINC_FLAGS))
++MT76_NPU_DEVICE_DEFINE:=$(filter -DCONFIG_MT7996_NPU \
++	-DCONFIG_MT7996_NPU=%,$(NOSTDINC_FLAGS))
++MT76_NPU_INVALID_SELECTORS:=$(filter-out CONFIG_MT76_NPU=y \
++	CONFIG_MT7996_NPU=y,$(MT76_NPU_COMMON_SELECTOR) \
++	$(MT76_NPU_DEVICE_SELECTOR))
++
++ifneq ($(MT76_NPU_INVALID_SELECTORS),)
++$(error mt76 NPU Kbuild component selectors only support paired y values)
++endif
++ifneq ($(if $(MT76_NPU_COMMON_SELECTOR),y),$(if $(MT76_NPU_COMMON_DEFINE),y))
++$(error CONFIG_MT76_NPU Kbuild selector and C define must be paired)
++endif
++ifneq ($(if $(MT76_NPU_DEVICE_SELECTOR),y),$(if $(MT76_NPU_DEVICE_DEFINE),y))
++$(error CONFIG_MT7996_NPU Kbuild selector and C define must be paired)
++endif
++ifneq ($(if $(MT76_NPU_COMMON_SELECTOR),y),$(if $(MT76_NPU_DEVICE_SELECTOR),y))
++$(error CONFIG_MT76_NPU and CONFIG_MT7996_NPU must share one package condition)
++endif
++ifneq ($(if $(MT76_NPU_COMMON_SELECTOR),y),$(MT76_NPU_ENABLED))
++$(error mt76 NPU selectors must derive from MT76_NPU_ENABLED)
+ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7925-common
+   PKG_MAKE_FLAGS += CONFIG_MT7925_COMMON=m
+diff --git a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+index 461d7ee..8862d96 100755
+--- a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
++++ b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+@@ -134,8 +134,10 @@ function setup_phy(phy, config, data) {
+ 	 * SET_WIPHY operation against sibling wdev creation. */
+ 	if (antenna_changed && !w1700kRadioMapActive)
+ 		system(`iw phy ${phy} set antenna ${config.txantenna} ${config.rxantenna}`);
+-	system(`iw phy ${phy} set distance ${config.distance}`);
+-	system(`iw phy ${phy} set txpower ${config.txpower}`);
++	if (!w1700kRadioMapActive) {
++		system(`iw phy ${phy} set distance ${config.distance}`);
++		system(`iw phy ${phy} set txpower ${config.txpower}`);
++	}
+ 
+ 	if (config.frag)
+ 		system(`iw phy ${phy} set frag ${config.frag}`);
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+index dd0ad0a..c2412d8 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+@@ -96,7 +96,7 @@ function mlo_same_common_config(a, b) {
+ }
+ 
+ function mlo_country(config) {
+-	let country = uc('' + (config.country ?? ''));
++	let country = uc('' + (config.country_code ?? config.country ?? ''));
+ 	return !country || country == '00' ? null : country;
+ }
+ 
+@@ -109,6 +109,8 @@ function mlo_validate_device(name, config) {
+ 		return `${name} requires a fixed channel for MLO`;
+ 	if (!match('' + (config.htmode ?? ''), /^EHT(20|40|80|160|320)$/))
+ 		return `${name} must use an EHT width for MLO; current mode is ${config.htmode ?? 'unset'}`;
++	if (mlo_radio_index(config.radio) == 0 && config.htmode != 'EHT20')
++		return `${name} must use EHT20 for a reliable 2.4GHz MLO link; this stack cannot recover an MLD from mandatory 20/40 coexistence fallback`;
+ }
+ 
+ function mlo_validate_iface(owner, config) {
+diff --git a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
+index fa2edbe..b9efae9 100644
+--- a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
++++ b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
+@@ -25,29 +25,54 @@ function wpad_update_mlo(service, mode)
+ 		if (data.mode != mode)
+ 			continue;
+ 
+-		data.phy = find_phy(data.radio_config[0], true);
++		let radio_config = data.radio_config;
++		if (type(radio_config) != "array" || type(radio_config[0]) != "object")
++			continue;
++
++		data.phy = find_phy(radio_config[0], true);
+ 		if (!data.phy)
+ 			continue;
+ 
+ 		config[ifname] = data;
+ 	}
+ 
+-	ubus.call({
++	return ubus.call({
+ 		object: service,
+ 		method: "mld_set",
+-		return: "ignore",
+ 		data: { config },
+ 	});
+ }
+ 
+ function hostapd_update_mlo()
+ {
+-	wpad_update_mlo("hostapd", "ap");
++	return wpad_update_mlo("hostapd", "ap");
+ }
+ 
+ function supplicant_update_mlo()
+ {
+-	wpad_update_mlo("wpa_supplicant", "sta");
++	return wpad_update_mlo("wpa_supplicant", "sta");
++}
++
++function config_device_list(dev_names, devices, radio_idx)
++{
++	let list = [];
++
++	for (let i = 0; i < length(dev_names); i++) {
++		let name = dev_names[i];
++		let dev = devices[name];
++		if (!dev || type(dev.config) != "object" || dev.config.disabled)
++			continue;
++
++		push(list, {
++			name,
++			dev,
++			config: dev.config,
++			radio: radio_idx[name],
++			config_index: i,
++		});
++	}
++
++	return list;
+ }
+ 
+ function mlo_vif_create(config, radio_config, vif_idx, mlo_vifs)
+@@ -69,15 +94,14 @@ function mlo_vif_create(config, radio_config, vif_idx, mlo_vifs)
+ 	return ifname;
+ }
+ 
+-function mlo_vif_macaddr(config, dev_names, dev_name)
++function mlo_vif_macaddr(config, dev_names, dev_name, config_index)
+ {
+ 	if (dev_name != dev_names[0])
+ 		delete config.macaddr;
+ 	if (!config.radio_macaddr)
+ 		return;
+ 
+-	let idx = index(dev_names, dev_name);
+-	let macaddr = idx >= 0 ? config.radio_macaddr[idx] : null;
++	let macaddr = config.radio_macaddr[config_index];
+ 	if (macaddr)
+ 		config.macaddr = macaddr;
+ }
+@@ -163,17 +187,23 @@ function config_init(uci)
+ 	for (let name, data in sections.iface) {
+ 		let dev_names = parse_array(data.device);
+ 		let mlo_vif = parse_bool(data.mlo);
+-		let radios = map(dev_names, (v) => radio_idx[v]);
++		let config_devices = config_device_list(dev_names, devices, radio_idx);
++		if (mlo_vif && !length(config_devices)) {
++			netifd.log(netifd.L_WARNING,
++				`wireless: Reject MLO interface ${name}: no valid wireless device\n`);
++			continue;
++		}
++
++		dev_names = map(config_devices, (v) => v.name);
++		let radios = map(config_devices, (v) => v.radio);
+ 		radios = filter(radios, (v) => v != null);
+-		let radio_config = map(dev_names, (v) => devices[v]?.config);
++		let radio_config = map(config_devices, (v) => v.config);
+ 		let ifname;
+ 		let mlo_created = false;
+ 
+-		for (let dev_name in dev_names) {
+-			let dev = devices[dev_name];
+-			if (!dev || dev.config.disabled)
+-				continue;
+-
++		for (let config_device in config_devices) {
++			let dev_name = config_device.name;
++			let dev = config_device.dev;
+ 			let handler = handlers[dev_name];
+ 			if (!handler)
+ 				continue;
+@@ -188,7 +218,7 @@ function config_init(uci)
+ 
+ 			if (ifname)
+ 				config.ifname = ifname;
+-			mlo_vif_macaddr(config, dev_names, dev_name);
++			mlo_vif_macaddr(config, dev_names, dev_name, config_device.config_index);
+ 
+ 			let vif = {
+ 				name, config,
+@@ -311,10 +341,17 @@ function config_init(uci)
+ 							continue;
+ 
+ 						let mlo_vif = parse_bool(config.mlo);
+-						let radios = map(devs, (v) => radio_idx[v]);
++						let config_devices = config_device_list(devs, devices, radio_idx);
++						if (mlo_vif && !length(config_devices)) {
++							netifd.log(netifd.L_WARNING,
++								`wireless: Reject MLO interface ${name}: no valid wireless device\n`);
++							continue;
++						}
++
++						devs = map(config_devices, (v) => v.name);
++						let radios = map(config_devices, (v) => v.radio);
+ 						radios = filter(radios, (v) => v != null);
+-						let radio_config = map(devs, (v) => devices[v]?.config);
+-						radio_config = filter(radio_config, (v) => v != null);
++						let radio_config = map(config_devices, (v) => v.config);
+ 						let ifname;
+ 
+ 						if (mlo_vif) {
+@@ -322,14 +359,13 @@ function config_init(uci)
+ 							mlo_vifs[ifname].radios = radios;
+ 						}
+ 
+-						for (let device in devs) {
+-							let dev = devices[device];
+-							if (!dev)
+-								continue;
+-
++						for (let config_device in config_devices) {
++							let device = config_device.name;
++							let dev = config_device.dev;
+ 							let vif_config = ifname ? { ...config, ifname, radios } : config;
+ 							if (ifname)
+-								mlo_vif_macaddr(vif_config, devs, device);
++								mlo_vif_macaddr(vif_config, devs, device,
++									config_device.config_index);
+ 
+ 							let vif_data = {
+ 								name, device, config: vif_config,
+diff --git a/package/network/services/hostapd/files/hostapd.uc b/package/network/services/hostapd/files/hostapd.uc
+index 7b40bcb..b47dd28 100644
+--- a/package/network/services/hostapd/files/hostapd.uc
++++ b/package/network/services/hostapd/files/hostapd.uc
+@@ -4,11 +4,40 @@ import { wdev_create, wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open
+ 
+ let ubus = libubus.connect(null, 60);
+ 
++function format_exception(e)
++{
++	let text;
++	if (type(e) == "object" && e.message != null) {
++		text = e.type ? `${e.type}: ${e.message}` : `${e.message}`;
++	} else if (type(e) == "object" || type(e) == "array") {
++		text = sprintf("%.J", e);
++	} else {
++		text = `${e}`;
++	}
++
++	let context = e?.stacktrace?.[0]?.context;
++	return context != null ? `${text}\n${context}` : text;
++}
++
++function log_exception(prefix, e)
++{
++	let text;
++	try {
++		text = format_exception(e);
++	} catch (format_error) {
++		text = "unprintable exception";
++	}
++
++	try {
++		for (let line in split(`${prefix}${text}`, '\n'))
++			hostapd.printf(line);
++	} catch (log_error) {
++	}
++}
++
+ function ex_handler(e)
+ {
+-	e = split(`${e}\n${e.stacktrace[0].context}`, '\n');
+-	for (let line in e)
+-		hostapd.printf(line);
++	log_exception("", e);
+ 	return libubus.STATUS_UNKNOWN_ERROR;
+ }
+ libubus.guard(ex_handler);
+@@ -285,8 +314,8 @@ function iface_pending_next(ret, data)
+ 				return;
+ 			}
+ 		} catch(e) {
+-			hostapd.printf(`Exception: ${e}\n${e.stacktrace[0].context}`);
+ 			this.result = false;
++			log_exception("Exception: ", e);
+ 			__iface_pending_next(cfg, "done");
+ 			return;
+ 		}
+@@ -942,7 +971,7 @@ function iface_set_config(name, config, complete, allow_mld_filter)
+ 			return config_valid ? 0 : false;
+ 		}
+ 	} catch (e) {
+-		hostapd.printf(`Error reloading config: ${e}\n${e.stacktrace[0].context}`);
++		log_exception("Error reloading config: ", e);
+ 	}
+ 
+ 	hostapd.printf(`Restart interface for phy ${name}`);
+@@ -1210,7 +1239,7 @@ function mld_reload_interfaces(reload_iface, complete, allow_mld_filter)
+ 		try {
+ 			mld_reload_interface(name, next, allow_mld_filter);
+ 		} catch (e) {
+-			hostapd.printf(`Exception reloading MLD interface ${name}: ${e}`);
++			log_exception(`Exception reloading MLD interface ${name}: `, e);
+ 			finish(false);
+ 		}
+ 	};
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+index ab07724..e77b53a 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+@@ -122,20 +122,29 @@ canonical_mlo_devices() {
+ 
+ ensure_mlo_fixed_channel() {
+ 	local dev="$1"
+-	local channel idx
++	local channel htmode idx
+ 
+ 	channel="$(uci -q get wireless."$dev".channel)"
++	idx="$(device_index "$dev")"
++
++	if [ "$idx" = "0" ]; then
++		case "$channel" in
++			""|auto) set_if_diff wireless."$dev".channel 6 ;;
++		esac
++		htmode="$(uci -q get wireless."$dev".htmode)"
++		if [ "$htmode" != "EHT20" ]; then
++			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			set_if_diff wireless."$dev".htmode EHT20
++		fi
++		return 0
++	fi
++
+ 	case "$channel" in
+ 		""|auto) ;;
+ 		*) return 0 ;;
+ 	esac
+ 
+-	idx="$(device_index "$dev")"
+ 	case "$idx" in
+-		0)
+-			set_if_diff wireless."$dev".channel 6
+-			set_if_diff wireless."$dev".htmode EHT40
+-			;;
+ 		1)
+ 			set_if_diff wireless."$dev".channel 36
+ 			set_if_diff wireless."$dev".htmode EHT80
+@@ -203,6 +212,28 @@ ensure_radio() {
+ 	fi
+ }
+ 
++repair_sta_network() {
++	local iface="$1"
++	local network="$2"
++	local item count=0 has_wwan=0 has_forbidden=0
++
++	for item in $network; do
++		count=$((count + 1))
++		case "$item" in
++			wwan) has_wwan=1 ;;
++			lan|wan|wan6) has_forbidden=1 ;;
++		esac
++	done
++
++	if [ "$count" -eq 0 ] || [ "$has_wwan" -eq 1 ] || [ "$has_forbidden" -eq 1 ]; then
++		[ "$network" = "wwan" ] || warn "$iface STA network binding '${network:-unset}' is unsafe; repairing it to wwan."
++		set_if_diff wireless."$iface".network wwan
++	elif [ "$count" -gt 1 ]; then
++		warn "$iface STA lists multiple client networks '$network'; disabling it until one dedicated client network is selected."
++		set_if_diff wireless."$iface".disabled 1
++	fi
++}
++
+ shared_country=
+ for country_dev in radio0 radio1 radio2; do
+ 	[ "$(uci -q get wireless."$country_dev")" = "wifi-device" ] || continue
+@@ -282,13 +313,7 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 			set_if_diff wireless."$iface".device "radio1"
+ 		fi
+ 
+-		case " $network " in
+-			*" wwan "*)
+-				case "$network" in
+-					*" "*) set_if_diff wireless."$iface".network "wwan" ;;
+-				esac
+-				;;
+-		esac
++		repair_sta_network "$iface" "$network"
+ 	fi
+ done
+ 
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+index d7f8af5..648cdec 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+@@ -444,6 +444,7 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 	disabled="$(uci -q get wireless."$iface".disabled)"
+ 	mlo="$(uci -q get wireless."$iface".mlo)"
+ 	devices="$(uci -q get wireless."$iface".device)"
++	network="$(uci -q get wireless."$iface".network)"
+ 	enc="$(uci -q get wireless."$iface".encryption)"
+ 	key="$(uci -q get wireless."$iface".key)"
+ 	pmf="$(uci -q get wireless."$iface".ieee80211w)"
+@@ -456,7 +457,10 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 	first_country=
+ 
+ 	[ "$disabled" = "1" ] && continue
+-	[ -n "$devices" ] || continue
++	if [ -z "$devices" ]; then
++		err "$iface is enabled but has no radio device."
++		continue
++	fi
+ 
+ 	case "$mlo" in
+ 		""|0|1) ;;
+@@ -505,6 +509,21 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 		err "$iface lists multiple radios but does not enable MLO."
+ 	fi
+ 
++	if [ "$mode" = "sta" ]; then
++		network_count=0
++		for net in $network; do
++			network_count=$((network_count + 1))
++			case "$net" in
++				lan|wan|wan6)
++					err "$iface STA cannot bind directly to $net; select one dedicated client network such as wwan."
++					;;
++			esac
++		done
++
++		[ "$network_count" -eq 1 ] || \
++			err "$iface STA must bind to exactly one dedicated client network; current value is '${network:-unset}'."
++	fi
++
+ 	if [ "$mlo" = "1" ]; then
+ 		[ "$mode" = "ap" ] || err "$iface uses MLO, but this W1700K build only supports MLO AP configuration."
+ 		canonical_devices="$(canonical_mlo_devices "$devices")"
+@@ -521,6 +540,9 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 				EHT20|EHT40|EHT80|EHT160|EHT320) ;;
+ 				*) err "$iface MLO requires an EHT width on $dev; current mode is ${htmode:-unset}." ;;
+ 			esac
++			if [ "$(device_index "$dev")" = "0" ] && [ "$htmode" != "EHT20" ]; then
++				err "$iface MLO requires EHT20 on 2.4GHz radio $dev because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			fi
+ 		done
+ 		security_valid_for_6g_or_mlo "$enc" || err "$iface MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security."
+ 		security_needs_key "$enc" && [ -z "$key" ] && err "$iface MLO uses SAE and requires a Wi-Fi key."
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wlan-npu-mode b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wlan-npu-mode
+index df9ed62..e9a001b 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wlan-npu-mode
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wlan-npu-mode
+@@ -160,7 +160,7 @@ mt7996e_param_default() {
+ 		npu_stock_group1_band_mask) echo 4 ;;
+ 		npu_rro_stop_max_polls) echo 600 ;;
+ 		npu_stock_ack_sn_ifindex) echo 1 ;;
+-		w1700k_mlo_tx_policy) echo 2 ;;
++		w1700k_mlo_tx_policy) echo 0 ;;
+ 		w1700k_stock_npu_tx_topology) echo 0 ;;
+ 		*) return 1 ;;
+ 	esac
+@@ -205,7 +205,7 @@ sanitize_mt7996e_param_value() {
+ 			;;
+ 		w1700k_mlo_tx_policy)
+ 			case "$value" in
+-				0|1|2) echo "$value" ;;
++				0|1|2) echo 0 ;;
+ 				*) return 1 ;;
+ 			esac
+ 			;;
+diff --git a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
+index 831bda4..8a0913d 100644
+--- a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
++++ b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
+@@ -42,7 +42,13 @@ uci_get_wireless() {
+ 		wireless.radio0.channel) echo 6 ;;
+ 		wireless.radio1.channel) echo 36 ;;
+ 		wireless.radio2.channel) echo 37 ;;
+-		wireless.radio0.htmode) echo EHT40 ;;
++		wireless.radio0.htmode)
++			if [ "$MOCK_2G_EHT40" = 1 ] || [ "$MOCK_CANONICAL" != 1 ]; then
++				echo EHT40
++			else
++				echo EHT20
++			fi
++			;;
+ 		wireless.radio1.htmode) echo EHT80 ;;
+ 		wireless.radio2.htmode) echo EHT160 ;;
+ 		wireless.radio0.he_twt_responder|wireless.radio1.he_twt_responder|wireless.radio2.he_twt_responder) echo 1 ;;
+diff --git a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
+index bddd0f9..5879913 100644
+--- a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
++++ b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
+@@ -30,7 +30,10 @@ uci_get_wireless() {
+ 		wireless.radio1.radio|wireless.radio1_alias.radio) echo 1 ;;
+ 		wireless.radio2.radio) echo 2 ;;
+ 		wireless.radio0.disabled|wireless.radio1.disabled) echo 0 ;;
+-		wireless.radio2.disabled|wireless.radio1_alias.disabled) echo 1 ;;
++		wireless.radio2.disabled)
++			case "$MOCK_CASE" in mlo_*) echo 0 ;; *) echo 1 ;; esac
++			;;
++		wireless.radio1_alias.disabled) echo 1 ;;
+ 		wireless.radio0.band) echo 2g ;;
+ 		wireless.radio1.band|wireless.radio1_alias.band) echo 5g ;;
+ 		wireless.radio2.band)
+@@ -47,9 +50,13 @@ uci_get_wireless() {
+ 				*) echo 37 ;;
+ 			esac
+ 			;;
+-		wireless.radio0.htmode) echo EHT40 ;;
++		wireless.radio0.htmode)
++			[ "$MOCK_CASE" = "mlo_2g_eht20" ] && echo EHT20 || echo EHT40
++			;;
+ 		wireless.radio1.htmode|wireless.radio1_alias.htmode) echo EHT80 ;;
+-		wireless.radio2.htmode) echo EHT160 ;;
++		wireless.radio2.htmode)
++			case "$MOCK_CASE" in mlo_*) echo EHT20 ;; *) echo EHT160 ;; esac
++			;;
+ 		wireless.radio0.country|wireless.radio1.country|wireless.radio1_alias.country) echo US ;;
+ 		wireless.radio2.country)
+ 			case "$MOCK_CASE" in
+@@ -61,10 +68,13 @@ uci_get_wireless() {
+ 		wireless.ap0.disabled)
+ 			[ "$MOCK_CASE" = "disabled_iface_reference" ] && echo 1 || echo 0
+ 			;;
+-		wireless.ap0.mlo) echo 0 ;;
++		wireless.ap0.mlo)
++			case "$MOCK_CASE" in mlo_*) echo 1 ;; *) echo 0 ;; esac
++			;;
+ 		wireless.ap0.device)
+ 			case "$MOCK_CASE" in
+ 				disabled_referenced|disabled_iface_reference) echo radio2 ;;
++				mlo_*) echo 'radio1 radio2 radio0' ;;
+ 				*) echo radio1 ;;
+ 			esac
+ 			;;
+diff --git a/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh b/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
+index e60daff..4ca7198 100644
+--- a/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
++++ b/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
+@@ -20,14 +20,27 @@ expect_validator() {
+ 	local name="$1"
+ 	local want="$2"
+ 	local pattern="${3:-}"
+-	local output rc
++	local output phy_info= rc
++
++	case "$name" in
++		mlo_*)
++			phy_info="$(printf '%s\n' \
++				'* 2437 MHz [6] (20.0 dBm)' \
++				'* 2457 MHz [10] (20.0 dBm)' \
++				'* 5180 MHz [36] (23.0 dBm)' \
++				'* 5200 MHz [40] (23.0 dBm)' \
++				'* 5220 MHz [44] (23.0 dBm)' \
++				'* 5240 MHz [48] (23.0 dBm)' \
++				'* 6135 MHz [37] (23.0 dBm)')"
++			;;
++	esac
+ 
+ 	output="$(
+ 		MOCK_CASE="$name" \
+ 		W1700K_FUNCTIONS_LIB="$validator_functions" \
+ 		W1700K_REG_HELPER="$reg_helper" \
+ 		W1700K_IW_PHY_INFO_LOADED=1 \
+-		W1700K_IW_PHY_INFO='' \
++		W1700K_IW_PHY_INFO="$phy_info" \
+ 		sh "$validator" 2>&1
+ 	)"
+ 	rc=$?
+@@ -226,10 +239,36 @@ expect_sanity_rejects_broken_security() {
+ 		fail "$security MLO security was silently rewritten: $(cat "$log")"
+ }
+ 
++expect_sanity_repairs_2g_mlo_width() {
++	local log="$tmpdir/sanity-2g-width.log"
++	local output rc
++
++	output="$(
++		MOCK_CANONICAL=1 \
++		MOCK_2G_EHT40=1 \
++		W1700K_FUNCTIONS_LIB="$sanity_functions" \
++		W1700K_REG_HELPER="$reg_helper" \
++		W1700K_IW_PHY_INFO_LOADED=1 \
++		W1700K_IW_PHY_INFO='' \
++		W1700K_MOCK_UCI_LOG="$log" \
++		sh "$sanity" 2>&1
++	)"
++	rc=$?
++	[ "$rc" -eq 0 ] || {
++		fail "radio sanity 2.4GHz MLO width repair failed, rc=$rc, output=$output"
++		return
++	}
++
++	grep -Fqx 'set wireless.radio0.htmode=EHT20' "$log" ||
++		fail "radio sanity did not repair 2.4GHz MLO to EHT20: $(cat "$log")"
++}
++
+ expect_validator disabled_stale pass
+ expect_validator disabled_iface_reference pass
+ expect_validator disabled_referenced fail 'radio2 is physical 6g; it cannot be configured as 5g.'
+ expect_validator disabled_duplicate fail 'radio1_alias duplicates physical radio index 1.'
++expect_validator mlo_2g_eht20 pass
++expect_validator mlo_2g_eht40 fail 'MLO requires EHT20 on 2.4GHz radio radio0'
+ 
+ . "$reg_helper"
+ write_sparse_map "$tmpdir/iw-sparse.txt"
+@@ -275,6 +314,7 @@ expect_sanity_canonical_noop
+ expect_sanity_legacy_scalar_repair
+ expect_sanity_rejects_broken_security invalid
+ expect_sanity_rejects_broken_security keyless
++expect_sanity_repairs_2g_mlo_width
+ 
+ [ "$failed" -eq 0 ] && echo 'PASS: W1700K backend adversarial fixtures'
+ exit "$failed"

@@ -1,0 +1,84 @@
+exit=0
+588a3e98ee05a0d8649c392c54c4e879ac74230c1ed34a2134f07649e2aa945c  /etc/config/wireless
+588a3e98ee05a0d8649c392c54c4e879ac74230c1ed34a2134f07649e2aa945c  /tmp/w1700k-synthetic-test/wireless.original
+80ce78f0543f1597681eb3c44822ad41d06a41a543ed6bfcbb3e5648c0d00ac3  /usr/share/ucode/wifi/hostapd.uc
+181218a365574874f989fbe4f9e317f7888d87cc73107d8c600580f53e4f7b53  /usr/sbin/w1700k-wireless-validate
+f5533958e789530880364f84462831a8c2627df191a67ed432c5244c8d7ac8f1  /usr/sbin/w1700k-radio-sanity
+__IW_DEV__
+__WIRELESS_STATUS__
+{
+	"radio0": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "2g",
+			"channel": "6",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT40",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 0
+		},
+		"interfaces": [
+			
+		]
+	},
+	"radio1": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "5g",
+			"channel": "36",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT80",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 1
+		},
+		"interfaces": [
+			
+		]
+	},
+	"radio2": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "6g",
+			"channel": "37",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT320",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 2
+		},
+		"interfaces": [
+			
+		]
+	}
+}
+__VALIDATOR__
+__WATCHDOGS__
+28377 ash -c set -u printf 'exit='; cat /tmp/w1700k-v687-installed-synthetic.exit sha256sum /etc/config/wireless /tmp/w1700k-synthetic-test/wireless.original /usr/share/ucode/wifi/hostapd.uc /usr/sbin/w1700k-wireless-validate /usr/sbin/w1700k-radio-sanity printf '%s\n' __IW_DEV__ iw dev printf '%s\n' __WIRELESS_STATUS__ ubus call network.wireless status printf '%s\n' __VALIDATOR__ /usr/sbin/w1700k-wireless-validate printf '%s\n' __WATCHDOGS__ pgrep -af 'w1700k-v687-installed|w1700k-synthetic|restore-watchdog' || true printf '%s\n' __MOUNTS__ mount | grep -E 'hostapd\.uc|w1700k-wireless-validate' || true printf '%s\n' __FATAL__ dmesg | grep -Ei 'WARNING: CPU|BUG:|Oops:|Unable to handle kernel|Call trace:|kernel panic|Fatal exception|KASAN:|UBSAN:|DMA-API:|Out of memory|oom-killer|watchdog.*(expired|timeout|lockup)|firmware crash|MCU.*(timeout|failed)|reset failed|I/O error|UBI error|quarantin' || true
+__MOUNTS__
+__FATAL__

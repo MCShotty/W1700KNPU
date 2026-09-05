@@ -1,0 +1,674 @@
+diff --git a/modules/luci-base/htdocs/luci-static/resources/network.js b/modules/luci-base/htdocs/luci-static/resources/network.js
+index 2b6793a..bfa78e1 100644
+--- a/modules/luci-base/htdocs/luci-static/resources/network.js
++++ b/modules/luci-base/htdocs/luci-static/resources/network.js
+@@ -185,12 +185,88 @@ function wifiFrequencyFromChannel(channel, band) {
+ 	return null;
+ }
+ 
++function wifiFrequencyMatchesBand(frequency, band) {
++	let mhz = +frequency;
++
++	if (!Number.isFinite(mhz) || mhz <= 0)
++		return false;
++	if (mhz < 100)
++		mhz *= 1000;
++
++	switch (band) {
++	case '2g': return mhz >= 2400 && mhz < 2500;
++	case '5g': return mhz >= 4900 && mhz < 5925;
++	case '6g': return mhz >= 5925 && mhz <= 7125;
++	}
++
++	return true;
++}
++
++function wifiChannelMatchesBand(channel, band) {
++	const n = +channel;
++
++	if (!Number.isInteger(n) || n <= 0)
++		return false;
++
++	switch (band) {
++	case '2g': return n >= 1 && n <= 14;
++	case '5g': return n >= 1 && n <= 200;
++	case '6g': return n == 2 || (n <= 233 && (n - 1) % 4 == 0);
++	}
++
++	return true;
++}
++
++function wifiRuntimeChannelFacts(network) {
++	const band = network.getRadioConfig('band');
++	// An MLD's shared interface iwinfo is not telemetry for each member radio.
++	const scope = network.isMultiRadio() ? 'dev' : 'net';
++	let channel = +network.ubus(scope, 'iwinfo', 'channel');
++	let frequency = +network.ubus(scope, 'iwinfo', 'frequency');
++	let bitrate = +network.ubus(scope, 'iwinfo', 'bitrate');
++	const unavailable = { channel: null, frequency: null, bitrate: null };
++
++	if (network.ubus('dev', 'up') === false)
++		return unavailable;
++
++	channel = Number.isInteger(channel) && channel > 0 ? channel : null;
++	frequency = Number.isFinite(frequency) && frequency > 0
++		? (frequency < 100 ? frequency * 1000 : frequency)
++		: null;
++
++	if (band && frequency != null && !wifiFrequencyMatchesBand(frequency, band))
++		return unavailable;
++	if (band && channel != null && !wifiChannelMatchesBand(channel, band))
++		return unavailable;
++
++	if (channel != null && band) {
++		const expected = wifiFrequencyFromChannel(channel, band);
++
++		if (expected != null && frequency != null && Math.abs(frequency - expected) > 2.5)
++			return unavailable;
++	}
++
++	bitrate = Number.isFinite(bitrate) && bitrate > 0 ? bitrate : null;
++	if (network.isMultiRadio() && frequency == null)
++		bitrate = null;
++
++	return { channel, frequency, bitrate };
++}
++
+ function getWifiStateBySid(sid) {
+ 	const s = uci.get('wireless', sid);
+ 
+ 	if (s != null && s['.type'] == 'wifi-iface') {
+-		for (let radioname in _state.radios) {
+-			for (let netstate of _state.radios[radioname].interfaces) {
++		const configured = wifiDeviceNamesOf(s);
++		const ordered = configured.concat(Object.keys(_state.radios).filter(function(radioname) {
++			return configured.indexOf(radioname) < 0;
++		}));
++
++		for (let radioname of ordered) {
++			if (!L.isObject(_state.radios[radioname]))
++				continue;
++
++			for (let netstate of L.toArray(_state.radios[radioname].interfaces)) {
+ 
+ 				if (typeof(netstate.section) != 'string')
+ 					continue;
+@@ -3880,7 +3956,7 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 		if (val != null && val !== '')
+ 			return val;
+ 
+-		return uci.get('wireless', this.getWifiDeviceName(), opt);
++		return uci.get('wireless', this.getLocalWifiDeviceName(), opt);
+ 	},
+ 
+ 	/**
+@@ -4029,6 +4105,20 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 		return this.getWifiDeviceNames()[0] || null;
+ 	},
+ 
++	/**
++	 * Get the physical radio represented by this runtime wrapper.
++	 *
++	 * This differs from {@link getWifiDeviceName} for MLO: the logical owner is
++	 * the first configured radio, while local telemetry belongs to the radio
++	 * which supplied this wrapper.
++	 *
++	 * @returns {null|string}
++	 * Returns the local runtime radio name, falling back to the logical owner.
++	 */
++	getLocalWifiDeviceName() {
++		return this.ubus('radio') || this.getWifiDeviceName();
++	},
++
+ 	/**
+ 	 * Get the names of the corresponding WiFi radio devices.
+ 	 *
+@@ -4040,18 +4130,18 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 		const radioname = this.ubus('radio');
+ 		const names = [];
+ 		const sources = [
+-			this.ubus('net', 'config'),
+-			uci.get('wireless', this.sid)
++			uci.get('wireless', this.sid),
++			this.ubus('net', 'config')
+ 		];
+ 
+-		if (radioname)
+-			names.push(radioname);
+-
+ 		for (const source of sources)
+ 			for (const name of wifiDeviceNamesOf(source))
+ 				if (names.indexOf(name) < 0)
+ 					names.push(name);
+ 
++		if (radioname && names.indexOf(radioname) < 0)
++			names.push(radioname);
++
+ 		return names;
+ 	},
+ 
+@@ -4427,20 +4517,10 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * available.
+ 	 */
+ 	getFrequency() {
+-		const fallback = wifiFrequencyFromChannel(
+-			this.getChannel(),
+-			this.getRadioConfig('band'));
+-
+-		if (this.isMultiRadio() && fallback != null)
+-			return '%.03f'.format(fallback / 1000);
++		const facts = wifiRuntimeChannelFacts(this);
+ 
+-		const freq = this.ubus('net', 'iwinfo', 'frequency');
+-
+-		if (freq != null && freq > 0)
+-			return '%.03f'.format(freq / 1000);
+-
+-		if (fallback != null)
+-			return '%.03f'.format(fallback / 1000);
++		if (facts.frequency != null)
++			return '%.03f'.format(facts.frequency / 1000);
+ 
+ 		return null;
+ 	},
+@@ -4455,7 +4535,7 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * is not available.
+ 	 */
+ 	getBitRate() {
+-		const rate = this.ubus('net', 'iwinfo', 'bitrate');
++		const rate = wifiRuntimeChannelFacts(this).bitrate;
+ 
+ 		if (rate != null && rate > 0)
+ 			return (rate / 1000);
+@@ -4471,14 +4551,7 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * or `null` if it cannot be determined.
+ 	 */
+ 	getChannel() {
+-		const radioChannel = this.getRadioConfig('channel');
+-
+-		if (this.isMultiRadio() && radioChannel != null && radioChannel !== '' && radioChannel != 'auto') {
+-			const n = +radioChannel;
+-			return (Number.isFinite(n) && n > 0) ? n : radioChannel;
+-		}
+-
+-		return this.ubus('net', 'iwinfo', 'channel') || radioChannel || this.get('channel');
++		return wifiRuntimeChannelFacts(this).channel;
+ 	},
+ 
+ 	/**
+diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+index 4fa6ca8..0787027 100644
+--- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
++++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+@@ -99,14 +99,7 @@ function w1700kRadioMapActive() {
+ }
+ 
+ function w1700kRadioIndex(section_id) {
+-	let idx = w1700kExplicitRadioIndex(section_id);
+-
+-	if (idx == null && w1700kRadioMapActive()) {
+-		const match = String(section_id).match(/^radio([0-2])$/);
+-		if (match)
+-			idx = match[1];
+-	}
+-
++	const idx = w1700kExplicitRadioIndex(section_id);
+ 	return W1700K_RADIO_INFO.hasOwnProperty(String(idx)) ? String(idx) : null;
+ }
+ 
+@@ -151,7 +144,7 @@ function w1700kMloAvailable() {
+ 
+ function w1700kRadioBand(section_id) {
+ 	const info = w1700kRadioInfo(section_id);
+-	return info ? info.band : null;
++	return info ? info.band : uci.get('wireless', section_id, 'band') || null;
+ }
+ 
+ function w1700kRadioLabel(section_id) {
+@@ -164,59 +157,64 @@ function w1700kRadioLabel(section_id) {
+ function w1700kRadioRuntimeFacts(radioDev, wifiNets) {
+ 	const radioName = typeof radioDev?.getName == 'function' ? radioDev.getName() : null;
+ 	const radioBand = w1700kRadioBand(radioName);
+-	const iwinfo = typeof radioDev?.ubus == 'function' ? (radioDev.ubus('dev', 'iwinfo') || {}) : {};
++	let iwinfo = typeof radioDev?.ubus == 'function' ? (radioDev.ubus('dev', 'iwinfo') || {}) : {};
++	const configuredChannel = +uci.get('wireless', radioName, 'channel');
++	const configuredFrequency = w1700kChannelFrequencyGHz(radioBand, configuredChannel);
++	let source = 'runtime';
++
++	// Only a local, single-radio interface can supply missing radio telemetry.
++	if (iwinfo.channel == null && iwinfo.frequency == null) {
++		for (const net of wifiNets || []) {
++			if (w1700kWifiNetDeviceNames(net).length != 1 || w1700kWifiLocalRadio(net) != radioName ||
++			    net.get?.('mlo') == '1' || net.ubus?.('net', 'config', 'mlo') == '1')
++				continue;
++			const local = net.ubus?.('net', 'iwinfo');
++			if (local && (local.channel != null || local.frequency != null)) {
++				iwinfo = local;
++				source = 'network';
++				break;
++			}
++		}
++	}
+ 	let channel = +iwinfo.channel;
+ 	let frequency = +iwinfo.frequency;
+ 	let bitrate = +iwinfo.bitrate;
+-	let source = 'runtime';
+ 
+-	channel = Number.isFinite(channel) && channel > 0 ? channel : null;
++	channel = Number.isInteger(channel) && channel > 0 ? channel : null;
+ 	frequency = Number.isFinite(frequency) && frequency > 0
+ 		? (frequency > 100 ? frequency / 1000 : frequency)
+ 		: null;
+ 	bitrate = Number.isFinite(bitrate) && bitrate > 0
+-		? (bitrate > 10000 ? bitrate / 1000 : bitrate)
++		? bitrate / 1000
+ 		: null;
+ 
+-	if (channel != null && radioBand && !w1700kChannelAllowed(radioName, channel))
+-		channel = null;
+-
+-	if (channel != null && radioBand && (!frequency || !w1700kFrequencyMatchesBand(radioBand, frequency)))
+-		frequency = w1700kChannelFrequencyGHz(radioBand, channel);
+-
+-	if (radioBand && !w1700kFrequencyMatchesBand(radioBand, frequency)) {
++	const expected = w1700kChannelFrequencyGHz(radioBand, channel);
++	const knownBand = [ '2g', '5g', '6g' ].includes(radioBand);
++	if (!radioDev?.isUp?.() ||
++	    (knownBand && frequency != null && !w1700kFrequencyMatchesBand(radioBand, frequency)) ||
++	    (knownBand && channel != null && expected == null) ||
++	    (radioBand == '6g' && channel != null && channel != 2 && (channel - 1) % 4 != 0) ||
++	    (expected != null && frequency != null && Math.abs(expected - frequency) > 0.0025)) {
+ 		channel = null;
+ 		frequency = null;
++		bitrate = null;
+ 	}
+ 
+-	if (channel == null && radioBand) {
+-		const configured = +uci.get('wireless', radioName, 'channel');
+-
+-		if (Number.isFinite(configured) && configured > 0) {
+-			const fallback = w1700kChannelFrequencyGHz(radioBand, configured);
+-
+-			if (!radioBand || w1700kFrequencyMatchesBand(radioBand, fallback)) {
+-				channel = configured;
+-				frequency = fallback;
+-				source = 'config';
+-			}
+-		}
+-	}
+-
+-	if (!radioBand) {
+-		for (const wifiNet of wifiNets || []) {
+-			channel = channel ?? wifiNet.getChannel();
+-			frequency = frequency ?? wifiNet.getFrequency();
+-			bitrate = bitrate ?? wifiNet.getBitRate();
+-		}
+-		if (channel != null)
+-			source = 'network';
+-	}
++	if (frequency == null && (w1700kRadioMapActive() ||
++	    (wifiNets || []).some(net => w1700kWifiNetDeviceNames(net).length > 1 || net.get?.('mlo') == '1')))
++		bitrate = null;
+ 
+ 	if (channel == null)
+ 		source = 'unavailable';
+ 
+-	return { channel, frequency, bitrate, source };
++	return {
++		channel,
++		frequency,
++		bitrate,
++		source,
++		configuredChannel: Number.isFinite(configuredChannel) && configuredChannel > 0 ? configuredChannel : null,
++		configuredFrequency: w1700kFrequencyMatchesBand(radioBand, configuredFrequency) ? configuredFrequency : null
++	};
+ }
+ 
+ function w1700kWifiNetDeviceNames(wifiNet) {
+@@ -445,11 +443,13 @@ function w1700kHtmodeAllowed(section_id, htmode, channel, apChannels) {
+ 	const info = w1700kRadioInfo(section_id);
+ 	let width, channels;
+ 
++	if (!info && w1700kRadioMapActive())
++		return false;
+ 	if (!info || !htmode)
+ 		return true;
+ 
+ 	if (htmode == 'NOHT')
+-		return info.band != '6g';
++		return info.band != '6g' && w1700kChannelAllowed(section_id, channel, apChannels);
+ 
+ 	switch (info.band) {
+ 	case '2g':
+@@ -630,6 +630,8 @@ function w1700kChannelAllowed(section_id, channel, apChannels) {
+ 	const country = w1700kDeviceCountry(section_id);
+ 	let n, max2g;
+ 
++	if (!info && w1700kRadioMapActive())
++		return false;
+ 	if (!info || channel == null || channel == '')
+ 		return true;
+ 	if (channel == 'auto')
+@@ -770,8 +772,16 @@ function w1700kScanOperationWidth(operation, fallback) {
+ 	return [ 20, 40, 80, 160, 320 ].indexOf(width) >= 0 ? width : fallback;
+ }
+ 
++function w1700kValidSsid(value) {
++	return typeof value == 'string' && value.length > 0 && new TextEncoder().encode(value).length <= 32;
++}
++
+ function w1700kScanJoinHtmode(radioDev, bss, currentHtmode) {
+ 	const radioName = radioDev?.getName?.();
++	if (!Number.isInteger(+bss?.channel) || +bss.channel <= 0 ||
++	    !w1700kScanResultMatchesRadio(radioDev, bss) ||
++	    !w1700kChannelAllowed(radioName, bss.channel))
++		return null;
+ 	const htmodes = L.toArray(radioDev?.getHTModes?.());
+ 	const current = String(currentHtmode || '');
+ 	const currentValid = /^(?:NOHT|(?:HT|VHT|HE|EHT)(?:20|40|80|160|320)(?:\+|-)?)$/.test(current) &&
+@@ -781,18 +791,13 @@ function w1700kScanJoinHtmode(radioDev, bss, currentHtmode) {
+ 		[ 'EHT', bss?.eht_operation, w1700kScanOperationWidth(bss?.eht_operation, 20), [ 320, 160, 80, 40, 20 ] ],
+ 		[ 'HE', bss?.he_operation, w1700kScanOperationWidth(bss?.he_operation, 20), [ 160, 80, 40, 20 ] ],
+ 		[ 'VHT', bss?.vht_operation, w1700kScanOperationWidth(bss?.vht_operation, 20), [ 160, 80, 40, 20 ] ],
+-		[ 'HT', bss?.ht_operation,
+-			bss?.ht_operation?.secondary_channel_offset == 'above' || bss?.ht_operation?.secondary_channel_offset == 'below' ? 40 : 20,
++		[ 'HT', bss?.ht_operation, w1700kScanOperationWidth(bss?.ht_operation, 20),
+ 			[ 40, 20 ] ]
+ 	];
+ 
+ 	for (const [ prefix, operation, maximumWidth, widths ] of operations) {
+ 		if (operation == null)
+ 			continue;
+-		if (prefix != 'HT' && ![ 20, 40, 80, 160, 320 ].includes(+(operation.channel_width)) &&
+-		    currentValid && current.indexOf(prefix) == 0)
+-			return current;
+-
+ 		for (const width of widths) {
+ 			const htmode = prefix + width;
+ 
+@@ -802,7 +807,7 @@ function w1700kScanJoinHtmode(radioDev, bss, currentHtmode) {
+ 		}
+ 	}
+ 
+-	if (currentValid)
++	if (currentValid && operations.every(function(entry) { return entry[1] == null; }))
+ 		return current;
+ 
+ 	return null;
+@@ -1069,8 +1074,10 @@ function w1700kValidateMloDevices(section_id, value, apChannelsByRadio) {
+ 			return _('Physical radio index %s is assigned to multiple sections: %s.').format(
+ 				idx, conflict.join(', '));
+ 
+-		if (w1700kRadioMapActive() && !info)
+-			return _('%s is not a supported W1700K physical radio.').format(dev);
++		if (idx == null || (w1700kRadioMapActive() && !info))
++			return idx == null
++				? _('%s has no explicit physical radio index. Every W1700K MLO radio requires option radio 0, 1, or 2.').format(dev)
++				: _('%s is not a supported W1700K physical radio.').format(dev);
+ 
+ 		if (info && band != info.band)
+ 			return _('%s is physical %s; it cannot be configured as %s.').format(
+@@ -1137,8 +1144,10 @@ function w1700kCurrentPuncturingState(deviceSection, deviceSectionId,
+ }
+ 
+ function w1700kSecureFor6gOrMlo(encryption) {
+-	encryption = String(encryption || '').replace(/\+.*$/, '');
+-	return encryption == 'sae' || encryption == 'owe' || encryption == 'wpa3' || encryption == 'wpa3-192';
++	const parts = String(encryption || '').toLowerCase().split('+');
++
++	return parts.indexOf('tkip') < 0 &&
++		(parts[0] == 'sae' || parts[0] == 'owe' || parts[0] == 'wpa3' || parts[0] == 'wpa3-192');
+ }
+ 
+ function w1700kModeIsApLike(mode) {
+@@ -1297,7 +1306,10 @@ function render_radio_status(radioDev, wifiNets) {
+ 
+ 	if (radioDev.isUp())
+ 		L.itemlist(node.lastElementChild, [
+-			_('Channel'), `${facts.channel ?? '?'} (${facts.frequency ?? '?'} ${_('GHz')})`,
++			_('Channel'), facts.channel != null && facts.frequency != null
++				? `${facts.channel} (${facts.frequency} ${_('GHz')})` : null,
++			_('Configured channel'), facts.channel == null && facts.configuredChannel != null && facts.configuredFrequency != null
++				? `${facts.configuredChannel} (${facts.configuredFrequency} ${_('GHz')})` : null,
+ 			_('Bitrate'), facts.bitrate != null ? `${facts.bitrate} ${_('Mbit/s')}` : null
+ 		], ' | ');
+ 	else
+@@ -1879,6 +1891,9 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 		const conflict = w1700kRadioIndexConflict(section_id);
+ 		value = L.toArray(value);
+ 
++		if (w1700kRadioMapActive() && w1700kExplicitRadioIndex(section_id) == null)
++			return _('%s has no explicit physical radio index. Set option radio to 0, 1, or 2 before applying this configuration.').format(section_id);
++
+ 		if (conflict)
+ 			return _('Physical radio index %s is assigned to multiple sections: %s.').format(
+ 				w1700kRadioIndex(section_id), conflict.join(', '));
+@@ -2910,6 +2925,9 @@ return view.extend({
+ 					const modeval = w1700kFormValue(this.section, section_id, 'mode');
+ 					const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
+ 
++					if (uses6gOrMlo && String(c || '').toLowerCase().split('+').includes('tkip'))
++						throw new Error(_('TKIP is not valid for 6 GHz or MLO.'));
++
+ 					if (value == 'wpa' || value == 'wpa2' || value == 'wpa3' || value == 'wpa3-mixed' || value == 'wpa3-192')
+ 						uci.unset('wireless', section_id, 'key');
+ 
+@@ -2940,6 +2958,15 @@ return view.extend({
+ 				o.value('gcmp256', _('Force GCMP-256 (AES)'));
+ 				o.value('tkip', _('Force TKIP'));
+ 				o.value('tkip+ccmp', _('Force TKIP and CCMP (AES)'));
++				o.validate = function(section_id, value) {
++					const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++					if (uses6gOrMlo &&
++					    String(value || '').toLowerCase().split('+').indexOf('tkip') >= 0)
++						return _('TKIP is not valid for 6 GHz or MLO. Select auto, CCMP, or GCMP.');
++
++					return true;
++				};
+ 				o.write = ss.children.filter(function(o) { return o.option == 'encryption'; })[0].write;
+ 
+ 				o.cfgvalue = function(section_id) {
+@@ -4023,9 +4050,25 @@ return view.extend({
+ 			const is_wep = (enc && Array.isArray(enc.wep));
+ 			const is_psk = (enc && Array.isArray(enc.wpa) && L.toArray(enc.authentication).some(a => a == 'psk'));
+ 			const is_sae = (enc && Array.isArray(enc.wpa) && L.toArray(enc.authentication).some(a => a == 'sae'));
++			const htmode = w1700kScanJoinHtmode(
++				radioDev, bss, uci.get('wireless', radioDev.getName(), 'htmode'));
++
++			if (nameval == null || (passopt && passval == null) ||
++			    ((ssidopt || !bss.ssid) && !w1700kValidSsid(ssidval)))
++				return;
++
++			if (w1700kRadioBand(radioDev.getName()) == '6g' &&
++			    L.toArray(enc?.ciphers).some(cipher => String(cipher).toLowerCase() == 'tkip')) {
++				ui.addNotification(null, E('p', _('TKIP is not valid for 6 GHz.')));
++				return;
++			}
+ 
+-			if (nameval == null || (passopt && passval == null))
++			if (!htmode) {
++				ui.addNotification(null, E('p', _(
++					'No regulatory-valid channel width could be selected for channel %s on %s. The wireless configuration was not changed.'
++				).format(bss.channel ?? _('unknown'), w1700kRadioLabel(radioDev.getName()))));
+ 				return;
++			}
+ 
+ 			let section_id = null;
+ 
+@@ -4046,12 +4089,7 @@ return view.extend({
+ 					uci.unset('wireless', radioDev.getName(), 'disabled');
+ 				}
+ 
+-				const htmode = w1700kScanJoinHtmode(
+-					radioDev, bss, uci.get('wireless', radioDev.getName(), 'htmode'));
+-
+-				if (htmode)
+-					uci.set('wireless', radioDev.getName(), 'htmode', htmode);
+-
++				uci.set('wireless', radioDev.getName(), 'htmode', htmode);
+ 				uci.set('wireless', radioDev.getName(), 'channel', bss.channel);
+ 
+ 				section_id = next_free_sid(wifi_sections.length);
+@@ -4121,6 +4159,9 @@ return view.extend({
+ 		};
+ 
+ 		s.handleJoin = function(radioDev, bss, ev) {
++			if (typeof(bss?.ssid) != 'string' || bss.ssid.length == 0)
++				bss = Object.assign({}, bss, { ssid: null });
++
+ 			if (!w1700kScanResultMatchesRadio(radioDev, bss)) {
+ 				const radioName = radioDev?.getName?.() || _('Selected radio');
+ 				const expected = w1700kRadioInfo(radioName)?.label || _('its configured band');
+@@ -4161,6 +4202,9 @@ return view.extend({
+ 			if (bss.ssid == null) {
+ 				name = s2.option(form.Value, 'ssid', _('Network SSID'), _('The correct SSID must be manually specified when joining a hidden wireless network'));
+ 				name.rmempty = false;
++				name.validate = function(section_id, value) {
++					return w1700kValidSsid(value) || _('SSID must contain between 1 and 32 bytes.');
++				};
+ 			}
+ 
+ 			replace = s2.option(form.Flag, 'replace', _('Replace wireless configuration'), _('Check this option to delete the existing networks from this radio.'));
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
+index b519d50..8e55b1f 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
+@@ -87,7 +87,7 @@ return baseclass.extend({
+ 
+ 	radioBand(radio) {
+ 		const name = radio.getName();
+-		const idx = uci.get('wireless', name, 'radio') || (String(name).match(/^radio([0-2])$/) || [])[1];
++		const idx = uci.get('wireless', name, 'radio');
+ 		const band = uci.get('wireless', name, 'band');
+ 		const idxBands = { '0': '2g', '1': '5g', '2': '6g' };
+ 
+@@ -213,65 +213,65 @@ return baseclass.extend({
+ 	radioRuntimeFacts(radio, networks) {
+ 		const radioName = radio.getName();
+ 		const radioBand = this.radioBand(radio);
+-		const iwinfo = typeof radio?.ubus == 'function' ? (radio.ubus('dev', 'iwinfo') || {}) : {};
++		let iwinfo = typeof radio?.ubus == 'function' ? (radio.ubus('dev', 'iwinfo') || {}) : {};
++		const configuredChannel = +uci.get('wireless', radioName, 'channel');
++		const configuredFrequency = this.channelFrequencyGHz(radioBand, configuredChannel);
++
++		// Do not use config-backed getters or a shared MLD's interface readings.
++		if (iwinfo.channel == null && iwinfo.frequency == null) {
++			for (const net of networks || []) {
++				if (this.wifiNetworkIsMlo(net) || this.wifiDeviceNames(net).length != 1 ||
++				    this.wifiNetworkRadioName(net) != radioName)
++					continue;
++				const local = net.ubus?.('net', 'iwinfo');
++				if (local && (local.channel != null || local.frequency != null)) {
++					iwinfo = local;
++					break;
++				}
++			}
++		}
+ 		let channel = +iwinfo.channel;
+ 		let frequency = +iwinfo.frequency;
+ 		let bitrate = +iwinfo.bitrate;
+ 
+-		channel = Number.isFinite(channel) && channel > 0 ? channel : null;
++		channel = Number.isInteger(channel) && channel > 0 ? channel : null;
+ 		frequency = Number.isFinite(frequency) && frequency > 0
+ 			? (frequency > 100 ? frequency / 1000 : frequency)
+ 			: null;
+ 		bitrate = Number.isFinite(bitrate) && bitrate > 0
+-			? (bitrate > 10000 ? bitrate / 1000 : bitrate)
++			? bitrate / 1000
+ 			: null;
+ 
+-		if (channel != null && radioBand && !this.channelMatchesBand(radioBand, channel))
+-			channel = null;
+-
+-		if (channel != null && radioBand &&
+-		    (frequency == null || !this.frequencyMatchesBand(radioBand, frequency)))
+-			frequency = this.channelFrequencyGHz(radioBand, channel);
+-
+-		if (radioBand && !this.frequencyMatchesBand(radioBand, frequency)) {
++		const expected = this.channelFrequencyGHz(radioBand, channel);
++		const knownBand = [ '2g', '5g', '6g' ].includes(radioBand);
++		const invalidSample = !radio.isUp() ||
++		    (knownBand && frequency != null && !this.frequencyMatchesBand(radioBand, frequency)) ||
++		    (knownBand && channel != null && !this.channelMatchesBand(radioBand, channel)) ||
++		    (expected != null && frequency != null && Math.abs(expected - frequency) > 0.0025);
++		if (invalidSample) {
+ 			channel = null;
+ 			frequency = null;
++			bitrate = null;
+ 		}
+ 
+-		if (channel == null) {
+-			const configured = +uci.get('wireless', radioName, 'channel');
+-
+-			if (Number.isFinite(configured) && configured > 0) {
+-				const fallback = this.channelFrequencyGHz(radioBand, configured);
+-
+-				if (!radioBand || this.frequencyMatchesBand(radioBand, fallback)) {
+-					channel = configured;
+-					frequency = fallback;
+-				}
+-			}
+-		}
+-
+-		for (const net of networks || []) {
+-			if (this.wifiNetworkIsMlo(net))
+-				continue;
+-
+-			if (channel == null || frequency == null) {
+-				const netFrequency = net.getFrequency();
+-
+-				if (!radioBand || this.frequencyMatchesBand(radioBand, netFrequency)) {
+-					channel = channel ?? net.getChannel();
+-					frequency = frequency ?? netFrequency;
+-				}
+-			}
+-
+-			bitrate = bitrate ?? net.getBitRate();
+-		}
+-
+-		const country = iwinfo.country || uci.get('wireless', radioName, 'country') || null;
+-		const noise = iwinfo.noise != null && Number.isFinite(+iwinfo.noise) ? +iwinfo.noise : null;
+-		const txPower = iwinfo.txpower != null && Number.isFinite(+iwinfo.txpower) ? +iwinfo.txpower : null;
+-
+-		return { channel, frequency, bitrate, country, noise, txPower };
++		if (frequency == null && (uci.get('wireless', radioName, 'radio') != null ||
++		    (networks || []).some(net => this.wifiNetworkIsMlo(net) || this.wifiDeviceNames(net).length > 1)))
++			bitrate = null;
++
++		const country = (!invalidSample && iwinfo.country) || uci.get('wireless', radioName, 'country') || null;
++		const noise = !invalidSample && iwinfo.noise != null && Number.isFinite(+iwinfo.noise) ? +iwinfo.noise : null;
++		const txPower = !invalidSample && iwinfo.txpower != null && Number.isFinite(+iwinfo.txpower) ? +iwinfo.txpower : null;
++
++		return {
++			channel,
++			frequency,
++			bitrate,
++			country,
++			noise,
++			txPower,
++			configuredChannel: Number.isFinite(configuredChannel) && configuredChannel > 0 ? configuredChannel : null,
++			configuredFrequency: this.frequencyMatchesBand(radioBand, configuredFrequency) ? configuredFrequency : null
++		};
+ 	},
+ 
+ 	wifiStationIdentityKeys(wifinet, station) {
+@@ -461,6 +461,8 @@ return baseclass.extend({
+ 					_('Bitrate'), facts.bitrate != null ? '%d %s'.format(facts.bitrate, _('Mbit/s')) : null,
+ 					_('Channel'), facts.channel != null && facts.frequency != null
+ 						? '%d (%.3f %s)'.format(facts.channel, facts.frequency, _('GHz')) : null,
++					_('Configured channel'), facts.channel == null && facts.configuredChannel != null && facts.configuredFrequency != null
++						? '%d (%.3f %s)'.format(facts.configuredChannel, facts.configuredFrequency, _('GHz')) : null,
+ 					_('Country Code'), facts.country,
+ 					_('Noise'), facts.noise != null ? '%.2f %s'.format(facts.noise, _('dBm')) : null,
+ 					_('TX Power'), facts.txPower != null ? '%.2f %s'.format(facts.txPower, _('dBm')): null,
+@@ -474,7 +476,7 @@ return baseclass.extend({
+ 
+ 	radioLabel(radio) {
+ 		const name = radio.getName();
+-		const idx = uci.get('wireless', name, 'radio') || (String(name).match(/^radio([0-2])$/) || [])[1];
++		const idx = uci.get('wireless', name, 'radio');
+ 		const band = this.radioBand(radio);
+ 		const labels = { '2g': '2.4 GHz', '5g': '5 GHz', '6g': '6 GHz' };
+ 

@@ -1,0 +1,453 @@
+#!/bin/sh
+
+set -u
+
+SYS_ROOT="${W1700K_NPU_SYS_ROOT:-/sys}"
+PROC_ROOT="${W1700K_NPU_PROC_ROOT:-/proc}"
+ETC_ROOT="${W1700K_NPU_ETC_ROOT:-/etc}"
+TMP_ROOT="${W1700K_NPU_TMP_ROOT:-/tmp}"
+DEBUG_ROOT="${W1700K_NPU_DEBUG_ROOT:-$SYS_ROOT/kernel/debug}"
+UCI_BIN="${W1700K_NPU_UCI_BIN:-uci}"
+BOARD_OVERRIDE="${W1700K_NPU_BOARD_NAME:-}"
+JSHN_LIB="${W1700K_NPU_JSHN_LIB:-/usr/share/libubox/jshn.sh}"
+
+OPENWRT_BASE_COMMIT="28ba2708f1f609bfd134975808b2bc6ed9dc9742"
+OPENWRT_CANDIDATE_COMMIT="@OPENWRT_CANDIDATE_COMMIT@"
+MT76_COMMIT="be5ce7910521492d4a2e4ce7ee3843680a46c047"
+SCHEMA_VERSION=2
+UNAVAILABLE="unavailable"
+
+read_one() {
+	local path="$1"
+	local value
+
+	if [ ! -r "$path" ]; then
+		printf '%s' "$UNAVAILABLE"
+		return
+	fi
+
+	IFS= read -r value < "$path" || value=""
+	[ -n "$value" ] && printf '%.128s' "$value" || printf '%s' "empty"
+}
+
+read_debug_value() {
+	local path="$1"
+	local key="$2"
+	local value
+
+	value="$(sed -n "s/^${key}: //p" "$path" 2>/dev/null | head -n 1)"
+	[ -n "$value" ] && printf '%.128s' "$value" || printf '%s' "$UNAVAILABLE"
+}
+
+path_bool() {
+	[ -e "$1" ] && printf 1 || printf 0
+}
+
+board_name_value() {
+	local value
+
+	if [ -n "$BOARD_OVERRIDE" ]; then
+		printf '%.128s' "$BOARD_OVERRIDE"
+		return
+	fi
+
+	if [ -r "$TMP_ROOT/sysinfo/board_name" ]; then
+		read_one "$TMP_ROOT/sysinfo/board_name"
+		return
+	fi
+
+	value="$(uname -n 2>/dev/null || true)"
+	[ -n "$value" ] && printf '%.128s' "$value" || printf '%s' "$UNAVAILABLE"
+}
+
+uci_read() {
+	local value
+
+	if ! command -v "$UCI_BIN" >/dev/null 2>&1; then
+		printf '%s' "$UNAVAILABLE"
+		return
+	fi
+
+	value="$($UCI_BIN -q get "$1" 2>/dev/null || true)"
+	[ -n "$value" ] && printf '%.128s' "$value" || printf '%s' "$UNAVAILABLE"
+}
+
+release_value() {
+	local key="$1"
+	local value
+
+	if [ ! -r "$ETC_ROOT/openwrt_release" ]; then
+		printf '%s' "$UNAVAILABLE"
+		return
+	fi
+
+	value="$(sed -n "s/^${key}=//p" "$ETC_ROOT/openwrt_release" 2>/dev/null | head -n 1)"
+	case "$value" in
+		\'*\') value="${value#\'}"; value="${value%\'}" ;;
+		\"*\") value="${value#\"}"; value="${value%\"}" ;;
+	esac
+	[ -n "$value" ] && printf '%.128s' "$value" || printf '%s' "$UNAVAILABLE"
+}
+
+load_json_api() {
+	if [ ! -r "$JSHN_LIB" ]; then
+		printf 'error: jshn library is unavailable: %s\n' "$JSHN_LIB" >&2
+		return 4
+	fi
+
+	. "$JSHN_LIB"
+	command -v json_init >/dev/null 2>&1 && command -v json_dump >/dev/null 2>&1
+}
+
+json_add_string_value() {
+	case "$2" in
+		"$UNAVAILABLE"|empty) json_add_null "$1" ;;
+		*) json_add_string "$1" "$2" ;;
+	esac
+}
+
+json_add_boolean_value() {
+	case "$2" in
+		1|true) json_add_boolean "$1" 1 ;;
+		0|false) json_add_boolean "$1" 0 ;;
+		*) json_add_null "$1" ;;
+	esac
+}
+
+json_add_integer_value() {
+	local digits="$2"
+
+	case "$digits" in
+		-*) digits="${digits#-}" ;;
+	esac
+	case "$digits" in
+		''|*[!0-9]*) json_add_null "$1" ;;
+		*) json_add_int "$1" "$2" ;;
+	esac
+}
+
+cpufreq_summary() {
+	local policy name governor minimum maximum current
+	local count=0
+	local summary=""
+
+	for policy in "$SYS_ROOT"/devices/system/cpu/cpufreq/policy*; do
+		[ -d "$policy" ] || continue
+		[ "$count" -lt 32 ] || break
+		count=$((count + 1))
+		name="${policy##*/}"
+		governor="$(read_one "$policy/scaling_governor")"
+		minimum="$(read_one "$policy/scaling_min_freq")"
+		maximum="$(read_one "$policy/scaling_max_freq")"
+		current="$(read_one "$policy/scaling_cur_freq")"
+		[ -z "$summary" ] || summary="$summary;"
+		summary="$summary$name:$governor:$minimum:$maximum:$current"
+	done
+
+	printf '%s|%s' "$count" "${summary:-$UNAVAILABLE}"
+}
+
+rps_queue_summary() {
+	local path relative value
+	local count=0
+	local summary=""
+
+	if [ ! -d "$SYS_ROOT/class/net" ]; then
+		printf '0|%s' "$UNAVAILABLE"
+		return
+	fi
+
+	for path in "$SYS_ROOT"/class/net/*/queues/rx-*/rps_cpus; do
+		[ -r "$path" ] || continue
+		[ "$count" -lt 64 ] || break
+		count=$((count + 1))
+		relative="${path#"$SYS_ROOT/class/net/"}"
+		value="$(read_one "$path")"
+		[ -z "$summary" ] || summary="$summary;"
+		summary="$summary$relative=$value"
+	done
+
+	printf '%s|%s' "$count" "${summary:-$UNAVAILABLE}"
+}
+
+collect_state() {
+	local path
+
+	BOARD_NAME="$(board_name_value)"
+	OPENWRT_BUILD_REVISION="$(release_value DISTRIB_REVISION)"
+	OPENWRT_BUILD_TARGET="$(release_value DISTRIB_TARGET)"
+	OPENWRT_BUILD_VERSION="$(read_one "$ETC_ROOT/openwrt_version")"
+	MT76_LOADED="$(path_bool "$SYS_ROOT/module/mt76")"
+	MT7996E_LOADED="$(path_bool "$SYS_ROOT/module/mt7996e")"
+	NPU_PROVIDER_PRESENT=0
+	PPE_PROVIDER_PRESENT=0
+	NPU_DEBUGFS_PATH="$UNAVAILABLE"
+	NPU_COMPILED="$UNAVAILABLE"
+	NPU_IMPLEMENTATION="unproven"
+	NPU_PROVIDER_ATTACHED="$UNAVAILABLE"
+	NPU_PPE_ATTACHED="$UNAVAILABLE"
+	NPU_HWRRO_MODE="$UNAVAILABLE"
+	NPU_RX_TOKEN_SIZE="$UNAVAILABLE"
+	NPU_TYPE="$UNAVAILABLE"
+
+	if [ -e "$SYS_ROOT/module/airoha_npu" ] || \
+	   [ -e "$SYS_ROOT/bus/platform/drivers/airoha-npu" ]; then
+		NPU_PROVIDER_PRESENT=1
+	fi
+	if [ -e "$SYS_ROOT/module/airoha_eth" ] || \
+	   [ -e "$SYS_ROOT/bus/platform/drivers/airoha-eth" ] || \
+	   [ -e "$SYS_ROOT/bus/platform/drivers/airoha_eth" ]; then
+		PPE_PROVIDER_PRESENT=1
+	fi
+
+	for path in "$DEBUG_ROOT"/ieee80211/phy*/mt76/npu_state; do
+		[ -r "$path" ] || continue
+		NPU_DEBUGFS_PATH="$(printf '%.128s' "$path")"
+		NPU_COMPILED="$(read_debug_value "$path" compiled_support)"
+		NPU_PROVIDER_ATTACHED="$(read_debug_value "$path" provider_attached)"
+		NPU_PPE_ATTACHED="$(read_debug_value "$path" ppe_attached)"
+		NPU_HWRRO_MODE="$(read_debug_value "$path" hwrro_mode)"
+		NPU_RX_TOKEN_SIZE="$(read_debug_value "$path" rx_token_size)"
+		NPU_TYPE="$(read_debug_value "$path" npu_type)"
+		break
+	done
+
+	# Only the explicit compile-gate marker distinguishes fallback from compiled-out.
+	case "$NPU_COMPILED" in
+		0|1) ;;
+		*) NPU_COMPILED="$UNAVAILABLE" ;;
+	esac
+	if [ "$NPU_COMPILED" = "1" ]; then
+		NPU_IMPLEMENTATION="automatic-provider-attach-with-early-attach-fallback"
+	fi
+
+	if [ "$MT7996E_LOADED" != "1" ]; then
+		NPU_IMPLEMENTATION="unproven"
+		NPU_RUNTIME_STATE="not-loaded"
+		NPU_RUNTIME_REASON="mt7996e is not loaded; WLAN NPU build policy is unproven"
+	elif [ "$NPU_COMPILED" = "0" ]; then
+		if [ "$NPU_PROVIDER_ATTACHED" = "0" ] && [ "$NPU_PPE_ATTACHED" = "0" ]; then
+			NPU_IMPLEMENTATION="compiled-out"
+			NPU_RUNTIME_STATE="compiled-out"
+			NPU_RUNTIME_REASON="mt7996 debugfs explicitly reports WLAN NPU compiled out and neither provider attached; normal DMA traffic health is not implied"
+		else
+			NPU_RUNTIME_STATE="unproven"
+			NPU_RUNTIME_REASON="mt7996 debugfs compilation and attachment evidence is incomplete or inconsistent"
+		fi
+	elif [ "$NPU_COMPILED" = "1" ] && \
+	     [ "$NPU_PROVIDER_ATTACHED" = "1" ] && [ "$NPU_PPE_ATTACHED" = "1" ]; then
+		NPU_RUNTIME_STATE="provider-attached"
+		NPU_RUNTIME_REASON="mt7996 debugfs reports both NPU and PPE providers attached; post-init traffic health is not implied"
+	elif [ "$NPU_COMPILED" = "1" ] && \
+	     [ "$NPU_PROVIDER_ATTACHED" = "0" ] && [ "$NPU_PPE_ATTACHED" = "0" ]; then
+		NPU_RUNTIME_STATE="normal-dma-fallback"
+		NPU_RUNTIME_REASON="mt7996 debugfs reports WLAN NPU compiled in but neither provider attached; fallback covers early attachment only, later initialization can fail probe and traffic health is not implied"
+	elif [ "$NPU_PROVIDER_ATTACHED" != "$UNAVAILABLE" ] || \
+	     [ "$NPU_PPE_ATTACHED" != "$UNAVAILABLE" ]; then
+		NPU_RUNTIME_STATE="unproven"
+		NPU_RUNTIME_REASON="mt7996 debugfs compilation or provider attachment evidence is incomplete or transitional"
+	else
+		NPU_RUNTIME_STATE="unproven"
+		NPU_RUNTIME_REASON="the read-only mt7996 NPU debugfs state is unavailable"
+	fi
+
+	WED_ENABLE="$(read_one "$SYS_ROOT/module/mt7996e/parameters/wed_enable")"
+	COREDUMP_MEMDUMP="$(read_one "$SYS_ROOT/module/mt7996e/parameters/coredump_memdump")"
+	SR_SCENE_DETECT="$(read_one "$SYS_ROOT/module/mt7996e/parameters/sr_scene_detect")"
+	CORE_PATTERN="$(read_one "$PROC_ROOT/sys/kernel/core_pattern")"
+	SUID_DUMPABLE="$(read_one "$PROC_ROOT/sys/fs/suid_dumpable")"
+	RPS_SOCK_FLOW_ENTRIES="$(read_one "$PROC_ROOT/sys/net/core/rps_sock_flow_entries")"
+	PACKET_STEERING="$(uci_read 'network.@globals[0].packet_steering')"
+	STEERING_FLOWS="$(uci_read 'network.@globals[0].steering_flows')"
+	CPUFREQ_RAW="$(cpufreq_summary)"
+	CPUFREQ_COUNT="${CPUFREQ_RAW%%|*}"
+	CPUFREQ_POLICIES="${CPUFREQ_RAW#*|}"
+	RPS_RAW="$(rps_queue_summary)"
+	RPS_QUEUE_COUNT="${RPS_RAW%%|*}"
+	RPS_QUEUES="${RPS_RAW#*|}"
+}
+
+show_json() (
+	# jshn uses unset dynamic variables; keep its shell options local to JSON output.
+	set +u
+	load_json_api || return
+	collect_state
+
+	json_init
+	json_add_int schema "$SCHEMA_VERSION"
+	json_add_string_value board "$BOARD_NAME"
+
+	json_add_object source
+	json_add_string openwrt_base_commit "$OPENWRT_BASE_COMMIT"
+	json_add_string openwrt_candidate_commit "$OPENWRT_CANDIDATE_COMMIT"
+	json_add_string_value openwrt_build_revision "$OPENWRT_BUILD_REVISION"
+	json_add_string_value openwrt_build_target "$OPENWRT_BUILD_TARGET"
+	json_add_string_value openwrt_build_version "$OPENWRT_BUILD_VERSION"
+	json_add_string mt76_commit "$MT76_COMMIT"
+	json_add_string classification "$NPU_IMPLEMENTATION"
+	json_close_object
+
+	json_add_object npu
+	json_add_string runtime_state "$NPU_RUNTIME_STATE"
+	json_add_string runtime_reason "$NPU_RUNTIME_REASON"
+	json_add_boolean_value mt76_loaded "$MT76_LOADED"
+	json_add_boolean_value mt7996e_loaded "$MT7996E_LOADED"
+	json_add_boolean_value npu_provider_present "$NPU_PROVIDER_PRESENT"
+	json_add_boolean_value ppe_provider_present "$PPE_PROVIDER_PRESENT"
+	json_add_string_value debugfs_path "$NPU_DEBUGFS_PATH"
+	json_add_boolean_value compiled_support "$NPU_COMPILED"
+	json_add_boolean_value provider_attached "$NPU_PROVIDER_ATTACHED"
+	json_add_boolean_value ppe_attached "$NPU_PPE_ATTACHED"
+	json_add_integer_value hwrro_mode "$NPU_HWRRO_MODE"
+	json_add_integer_value rx_token_size "$NPU_RX_TOKEN_SIZE"
+	json_add_integer_value npu_type "$NPU_TYPE"
+	json_add_boolean numeric_mode_api 0
+	json_add_boolean legacy_write_api 0
+	json_close_object
+
+	json_add_object module_parameters
+	json_add_string_value wed_enable "$WED_ENABLE"
+	json_add_string_value coredump_memdump "$COREDUMP_MEMDUMP"
+	json_add_string_value sr_scene_detect "$SR_SCENE_DETECT"
+	json_close_object
+
+	json_add_object rps
+	json_add_integer_value packet_steering "$PACKET_STEERING"
+	json_add_integer_value steering_flows "$STEERING_FLOWS"
+	json_add_integer_value rps_sock_flow_entries "$RPS_SOCK_FLOW_ENTRIES"
+	json_add_int observed_rx_queue_count "$RPS_QUEUE_COUNT"
+	json_add_string_value observed_rx_queues "$RPS_QUEUES"
+	json_close_object
+
+	json_add_object cpufreq
+	json_add_int policy_count "$CPUFREQ_COUNT"
+	json_add_string_value policies "$CPUFREQ_POLICIES"
+	json_add_string policy_format policy:governor:min_khz:max_khz:current_khz
+	json_close_object
+
+	json_add_object coredump
+	json_add_string_value core_pattern "$CORE_PATTERN"
+	json_add_integer_value suid_dumpable "$SUID_DUMPABLE"
+	json_add_string_value mt7996_memdump_enabled "$COREDUMP_MEMDUMP"
+	json_add_int mt7996_memdump_region_bytes 3850234
+	json_add_boolean userspace_core_policy_controls_devcoredump 0
+	json_close_object
+
+	json_add_object retired
+	json_add_string numeric_modes 0,1,2,3,4
+	json_add_string services w1700k_npu_ppe,w1700k_stock_boot_parity,w1700k_cpufreq
+	json_add_string reason "the current source has no corresponding mode or policy-write ABI"
+	json_close_object
+
+	json_dump
+)
+
+show_status() {
+	collect_state
+	cat <<EOF
+board: $BOARD_NAME
+source.openwrt_base: $OPENWRT_BASE_COMMIT
+source.openwrt_candidate: $OPENWRT_CANDIDATE_COMMIT
+source.openwrt_build_revision: $OPENWRT_BUILD_REVISION
+source.openwrt_build_target: $OPENWRT_BUILD_TARGET
+source.openwrt_build_version: $OPENWRT_BUILD_VERSION
+source.mt76: $MT76_COMMIT
+implementation: $NPU_IMPLEMENTATION
+runtime: $NPU_RUNTIME_STATE
+runtime_reason: $NPU_RUNTIME_REASON
+mt76_loaded: $MT76_LOADED
+mt7996e_loaded: $MT7996E_LOADED
+npu_provider_present: $NPU_PROVIDER_PRESENT
+ppe_provider_present: $PPE_PROVIDER_PRESENT
+debugfs_path: $NPU_DEBUGFS_PATH
+compiled_support: $NPU_COMPILED
+provider_attached: $NPU_PROVIDER_ATTACHED
+ppe_attached: $NPU_PPE_ATTACHED
+hwrro_mode: $NPU_HWRRO_MODE
+rx_token_size: $NPU_RX_TOKEN_SIZE
+npu_type: $NPU_TYPE
+numeric_mode_api: unavailable
+legacy_write_api: disabled
+wed_enable: $WED_ENABLE
+coredump_memdump: $COREDUMP_MEMDUMP
+sr_scene_detect: $SR_SCENE_DETECT
+packet_steering: $PACKET_STEERING
+steering_flows: $STEERING_FLOWS
+rps_sock_flow_entries: $RPS_SOCK_FLOW_ENTRIES
+rps_rx_queues: $RPS_QUEUE_COUNT
+cpufreq_policies: $CPUFREQ_COUNT
+cpufreq_summary: $CPUFREQ_POLICIES
+core_pattern: $CORE_PATTERN
+suid_dumpable: $SUID_DUMPABLE
+EOF
+}
+
+show_snapshot() {
+	printf '%s\n' 'W1700K_NPU_SNAPSHOT_V1'
+	printf 'captured_utc: %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || printf unavailable)"
+	show_status
+	printf '%s\n' 'runtime_claims: unproven'
+}
+
+show_list() {
+	cat <<'EOF'
+automatic-upstream-npu: automatic provider attachment when compiled in; attachment evidence is exported when debugfs is available; traffic and recovery health are unproven
+automatic-normal-dma-fallback: early provider/reserved-memory attachment failure leaves NPU detached; later hardware initialization can still fail probe
+compiled-out: requires explicit debugfs compiled_support: 0 and detached providers; not a selectable numeric mode
+unproven: missing or inconsistent debugfs evidence does not prove compiled-out or healthy fallback
+numeric-0: retired; no current mode parameter or disable control
+numeric-1: retired; no current directional TX-only implementation
+numeric-2: retired; no current RX-only implementation
+numeric-3: retired; old experimental stock reconstruction is absent
+numeric-4: retired; no current hybrid RX/TXDMA implementation
+EOF
+}
+
+deny_mutation() {
+	printf 'error: current-nightly helper is read-only; command is retired: %s\n' "$1" >&2
+	return 2
+}
+
+unavailable_legacy_read() {
+	printf 'error: legacy diagnostic surface is absent from current source: %s\n' "$1" >&2
+	return 3
+}
+
+usage() {
+	cat <<'EOF'
+Usage: w1700k-wlan-npu-mode {json|status|snapshot|list|help}
+
+This current-nightly helper is read-only. Numeric modes and policy writers are
+retired because the current mt76 implementation exposes no corresponding ABI.
+EOF
+}
+
+command="${1:-status}"
+case "$command" in
+	json)
+		show_json
+		;;
+	status|health)
+		show_status
+		;;
+	snapshot|diagnostic-snapshot|diagnostics|capture)
+		show_snapshot
+		;;
+	list)
+		show_list
+		;;
+	help|-h|--help)
+		usage
+		;;
+	npu-module-params-supported|module-support|verify|stock-verify|parity-verify|verify-full|stock-verify-full|parity-verify-full|legacy-verify|hostadpt-debug|hostadpt_debug|debug-hostadpt|trans-lifecycle|trans-verify|verify-trans)
+		unavailable_legacy_read "$command"
+		;;
+	set|rro-done-ifindex|set-rro-done-ifindex|ack-sn-ifindex|set-ack-sn-ifindex|force-to-cpu|set-force-to-cpu|fast-flag|set-fast-flag|wlan-fast-flag|bridge-control|bridge|npu-bridge|npu-bridge-cmd|ppe-param|set-ppe-param|apply-ppe|apply-ppe-policy|mt7996e-param|set-mt7996e-param|apply-mt7996e|apply-mt7996e-policy|mt76-param|set-mt76-param|apply-mt76|apply-mt76-policy|apply-rps|apply-rps-policy|stock-txrx-policy|apply-stock-txrx-policy|off|0|stock-rx|safe-rx|rx|2|stock|stock-full|stock-txrx|on|txrx|3|rx-txdma|hybrid|4|tx|1)
+		deny_mutation "$command"
+		;;
+	*)
+		printf 'error: unknown command: %s\n' "$command" >&2
+		usage >&2
+		exit 2
+		;;
+esac

@@ -1,0 +1,15 @@
+ M package/kernel/mt76/Makefile
+ M package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+ M package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+ M package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
+ M package/network/services/hostapd/files/hostapd.uc
+ M target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+ M target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+ M target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wlan-npu-mode
+ M target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
+ M target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
+ M target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
+?? package/kernel/mac80211/patches/subsys/999-wifi-mac80211-use-active-preferred-link-for-ancillary-mlo.patch
+?? package/kernel/mt76/patches/9999zzzzzzzzzzzz51a-mt76-complete-npu-provider-fallback-abi.patch
+?? package/kernel/mt76/patches/9999zzzzzzzzzzzz52-mt7996-default-upstream-mlo-tx-policy.patch
+?? package/network/utils/iwinfo/patches/103-nl80211-bounded-temp-scan-lifecycle.patch

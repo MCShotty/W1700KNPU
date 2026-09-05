@@ -1,0 +1,648 @@
+diff --git a/debugfs.c b/debugfs.c
+index b30e96318c91ede1da5cca06b99f618c0c157eaa..290a60b8ddcc678353c6a890dc0441e4e7662d1d 100644
+--- a/debugfs.c
++++ b/debugfs.c
+@@ -1077,9 +1077,9 @@ mt76_w1700k_stock_npu_parity_map_read(struct seq_file *s, void *data)
+ 	}
+ 	seq_puts(s, "\nstock_hostadpt_packet_ownership:\n");
+ 	seq_puts(s,
+-		 "stock_toHostadptPktHandle_hook=semantic-equivalent:mt76-npu-enqueue\n");
++		 "stock_toHostadptPktHandle_hook=semantic-map:mt76-npu-enqueue\n");
+ 	seq_puts(s,
+-		 "stock_fromHostadptPktHandle_hook=semantic-equivalent:mt76-npu-consumer\n");
++		 "stock_fromHostadptPktHandle_hook=semantic-map:mt76-npu-consumer\n");
+ 	seq_puts(s, "stock_toHostadpt_tx_descriptor_len=0x4c\n");
+ 	seq_puts(s, "stock_hostadpt_tx_ring_depth=0x400\n");
+ 	seq_puts(s, "stock_hostadpt_tx_desc_stride=0xd0\n");
+@@ -1101,18 +1101,20 @@ mt76_w1700k_stock_npu_parity_map_read(struct seq_file *s, void *data)
+ 	seq_puts(s, "stock_ra_sw_nat_hook_tx_proto=0x7274\n");
+ 	seq_puts(s, "stock_ppe_wifi_fasttx_actdp_ranges=6-13,15-22,0x86-0x8d\n");
+ 	seq_puts(s,
+-		 "stock_tx_token_release_before_hostadpt=disproven:stock-release-last\n");
++		 "stock_tx_token_release_before_hostadpt=observed:true\n");
+ 	seq_puts(s,
+-		 "stock_hostadpt_reclaim_dma_unmap_and_kfree=semantic-equivalent:txwi-complete\n");
++		 "stock_hostadpt_reclaim_dma_unmap_and_kfree=semantic-map:txwi-complete\n");
+ 	seq_puts(s, "tx_hostadpt_ring_geometry=implemented:depth-0x400,stride-0xd0\n");
+ 	seq_puts(s, "tx_hostadpt_register_banks=published-when-npu-active; see stock_option5_tx_topology\n");
++	seq_puts(s, "tx_dedicated_hostadpt_packet_ownership=");
++	seq_puts(s, "intentional-safer-divergence:qentry-release-last\n");
++	seq_puts(s, "stock_tx_doorbell_publish_barrier=not-recovered\n");
+ 	seq_puts(s,
+-		 "tx_dedicated_hostadpt_packet_ownership=implemented-equivalent:qentry-release-last\n");
+-	seq_puts(s, "stock_tx_doorbell_publish_barrier=dmb_oshst\n");
+-	seq_puts(s, "openwrt_tx_doorbell_publish_barrier=dsb_st\n");
+-	seq_puts(s, "tx_doorbell_ordering=proven_stronger_than_stock\n");
++		 "openwrt_tx_doorbell_publish_barrier=statically-observed:dsb-st\n");
++	seq_puts(s,
++		 "tx_doorbell_ordering=statically-stronger-than-recovered-stock\n");
+ 	seq_puts(s, "tx_doorbell_register_path=regmap_write_after_wmb\n");
+-	seq_puts(s, "tx_doorbell_instruction_proof=verified_at_build_time\n");
++	seq_puts(s, "tx_doorbell_instruction_evidence=build-disassembly\n");
+ 	seq_puts(s,
+ 		 "tx_doorbell_ownership=closed-static:host-publishes-selected-group-after-dma-barrier\n");
+ 	seq_puts(s,
+diff --git a/dma.c b/dma.c
+index c06bf5cec3877ec1b333a3d5aeb75da4af7b3341..20ca08c8e59fa3a90a558bfd8531f40bca1ef739 100644
+--- a/dma.c
++++ b/dma.c
+@@ -724,8 +724,8 @@ mt76_dma_tx_cleanup(struct mt76_dev *dev, struct mt76_queue *q, bool flush)
+ 	}
+ 
+ 	__mt76_dma_tx_cleanup(dev, q, flush, npu_queue ? &consumer : NULL);
+-	if (npu_queue && mt76_npu_completion_lease_release(dev, &consumer))
+-		mt76_npu_completion_fail_closed(dev);
++	if (npu_queue)
++		mt76_npu_completion_lease_release(dev, &consumer);
+ }
+ 
+ static void *
+@@ -744,6 +744,7 @@ mt76_dma_get_rxdmad_c_buf(struct mt76_dev *dev, struct mt76_queue *q,
+ 	u16 rx_token_id;
+ 	u8 ind_reason;
+ 	void *buf;
++	bool telemetry = mt76_w1700k_packet_telemetry_enabled();
+ 
+ 	rx_dma_addr = le32_to_cpu(dmad->data0);
+ #ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
+@@ -751,15 +752,20 @@ mt76_dma_get_rxdmad_c_buf(struct mt76_dev *dev, struct mt76_queue *q,
+ 		(dma_addr_t)FIELD_GET(RRO_RXDMAD_DATA1_SDP0_H_MASK, data1) << 32;
+ #endif
+ 	rx_token_id = FIELD_GET(RRO_RXDMAD_DATA2_RX_TOKEN_ID_MASK, data2);
+-	atomic64_inc(&state->rx_token_rxdmad_checked);
++	if (telemetry)
++		atomic64_inc(&state->rx_token_rxdmad_checked);
+ 	t = mt76_rx_token_release_checked(dev, rx_token_id, rx_dma_addr,
+ 					  ARRAY_SIZE(dev->q_rx), &token_check);
+-	atomic_set(&state->rx_token_rxdmad_last_status, token_check.status);
+-	atomic_set(&state->rx_token_rxdmad_last_token, rx_token_id);
+-	atomic_set(&state->rx_token_rxdmad_last_qid, token_check.qid);
+-	atomic64_set(&state->rx_token_rxdmad_last_expected_dma,
+-		     token_check.expected_dma);
+-	atomic64_set(&state->rx_token_rxdmad_last_reported_dma, rx_dma_addr);
++	if (unlikely(!t) || telemetry) {
++		atomic_set(&state->rx_token_rxdmad_last_status,
++			   token_check.status);
++		atomic_set(&state->rx_token_rxdmad_last_token, rx_token_id);
++		atomic_set(&state->rx_token_rxdmad_last_qid, token_check.qid);
++		atomic64_set(&state->rx_token_rxdmad_last_expected_dma,
++			     token_check.expected_dma);
++		atomic64_set(&state->rx_token_rxdmad_last_reported_dma,
++			     rx_dma_addr);
++	}
+ 	if (!t) {
+ 		switch (token_check.status) {
+ 		case MT76_RX_TOKEN_CHECK_MISSING:
+@@ -784,7 +790,8 @@ mt76_dma_get_rxdmad_c_buf(struct mt76_dev *dev, struct mt76_queue *q,
+ 					 -1, rx_token_id);
+ 		return ERR_PTR(-EAGAIN);
+ 	}
+-	atomic64_inc(&state->rx_token_rxdmad_accepted);
++	if (telemetry)
++		atomic64_inc(&state->rx_token_rxdmad_accepted);
+ 
+ 	q = &dev->q_rx[t->qid];
+ 	dma_sync_single_for_cpu(dev->dma_dev, t->dma_addr,
+@@ -1804,8 +1811,7 @@ int mt76_dma_rx_poll(struct napi_struct *napi, int budget)
+ 			mt76_npu_completion_fail_closed(dev);
+ 	}
+ release_lease:
+-	if (mt76_npu_completion_lease_release(dev, &lease))
+-		mt76_npu_completion_fail_closed(dev);
++	mt76_npu_completion_lease_release(dev, &lease);
+ 
+ 	return done;
+ }
+diff --git a/mt7996/debugfs.c b/mt7996/debugfs.c
+index edd51eaa79af04c9213067672340e0410ad48ede..e37ef2c8e8a5fb675a9a36ba1be346e1670de00c 100644
+--- a/mt7996/debugfs.c
++++ b/mt7996/debugfs.c
+@@ -384,7 +384,7 @@ mt7996_npu_transport_recycle(struct mt7996_dev *dev, unsigned int variant)
+ 	struct ieee80211_hw *hw = mt76_hw(dev);
+ 	struct mt76_npu_completion_lease debugfs;
+ 	u64 started;
+-	int ret, start_ret = 0;
++	int release_ret, ret, start_ret = 0;
+ 
+ 	if (!mt76_npu_device_active(&dev->mt76))
+ 		return -EOPNOTSUPP;
+@@ -420,7 +420,12 @@ mt7996_npu_transport_recycle(struct mt7996_dev *dev, unsigned int variant)
+ 		   MT7996_NPU_RECYCLE_QUIESCE);
+ 
+ 	ieee80211_stop_queues(hw);
+-	mt76_npu_completion_lease_release(&dev->mt76, &debugfs);
++	release_ret = mt76_npu_completion_lease_release(&dev->mt76,
++							&debugfs);
++	if (release_ret) {
++		ret = release_ret;
++		goto complete;
++	}
+ 
+ 	WRITE_ONCE(dev->recovery.npu_transport_recycle_stage,
+ 		   MT7996_NPU_RECYCLE_STOP);
+@@ -479,8 +484,9 @@ complete:
+ 	return ret;
+ 
+ release_debugfs:
+-	mt76_npu_completion_lease_release(&dev->mt76, &debugfs);
+-	return ret;
++	release_ret = mt76_npu_completion_lease_release(&dev->mt76,
++							&debugfs);
++	return ret ?: release_ret;
+ }
+ 
+ static ssize_t
+diff --git a/mt7996/dma.c b/mt7996/dma.c
+index 730308e19406701eee6480e28c9b2e0739e5831b..452ae0ecc3cba3a9f11f230ddea0e2e8153e672e 100644
+--- a/mt7996/dma.c
++++ b/mt7996/dma.c
+@@ -107,9 +107,7 @@ static int mt7996_poll_tx(struct napi_struct *napi, int budget)
+ 	}
+ release_lease:
+ 	end_error = mt76_npu_completion_lease_release(&dev->mt76, &lease);
+-	if (!error)
+-		error = end_error;
+-	if (error && error != -ESHUTDOWN)
++	if (!end_error && error && error != -ESHUTDOWN)
+ 		mt76_npu_completion_fail_closed(&dev->mt76);
+ 
+ 	return 0;
+diff --git a/mt7996/mac.c b/mt7996/mac.c
+index 23ba06a686022ee3642badb61396bc63a185bee5..87584ed8f3a3eac1d8ccf3278b2d4e074904ccf0 100644
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -2589,6 +2589,7 @@ mt7996_mac_tx_free_process(struct mt7996_dev *dev, void *data, int len,
+ {
+ 	struct mt76_npu_completion_lease consumer = {};
+ 	struct mt76_npu_completion_lease txfree = {};
++	bool release_failed = false;
+ 	int error;
+ 
+ 	error = mt76_npu_completion_lease_acquire_nested(
+@@ -2605,11 +2606,11 @@ mt7996_mac_tx_free_process(struct mt7996_dev *dev, void *data, int len,
+ 
+ 	__mt7996_mac_tx_free_process(dev, data, len, &txfree, &consumer);
+ 	if (mt76_npu_completion_lease_release(&dev->mt76, &consumer))
+-		error = -ESTALE;
++		release_failed = true;
+ release_txfree:
+ 	if (mt76_npu_completion_lease_release(&dev->mt76, &txfree))
+-		error = -ESTALE;
+-	if (error)
++		release_failed = true;
++	if (error && !release_failed)
+ 		mt76_npu_completion_fail_closed(&dev->mt76);
+ }
+ 
+diff --git a/mt7996/mmio.c b/mt7996/mmio.c
+index ee1831bc28788c6946ea34ada871fbc046a0c7f5..b202afdf607342175cf3aefdfa21f24c8a78a9a4 100644
+--- a/mt7996/mmio.c
++++ b/mt7996/mmio.c
+@@ -809,27 +809,27 @@ fail:
+ 	return error;
+ }
+ 
+-/* TODO: support 2/4/6/8 MSI-X vectors */
+-static void mt7996_irq_tasklet(struct tasklet_struct *t)
++static int mt7996_irq_tasklet_run(struct mt7996_dev *dev, u32 irq_mask)
+ {
+-	struct mt7996_dev *dev = from_tasklet(dev, t, mt76.irq_tasklet);
+ 	struct mt76_npu_completion_lease lease;
+ 	struct mtk_wed_device *wed = &dev->mt76.mmio.wed;
+ 	struct mtk_wed_device *wed_hif2 = &dev->mt76.mmio.wed_hif2;
+ 	u32 i, intr, mask, intr1 = 0;
++	int error;
+ 
+ 	if (unlikely(mt7996_is_tearing_down(dev)))
+-		return;
++		return -ESHUTDOWN;
+ 
+-	if (mt76_npu_completion_lease_acquire(&dev->mt76,
+-					      MT76_NPU_COMPLETION_SOURCE_IRQ_TASKLET,
+-					      &lease))
+-		return;
++	error = mt76_npu_completion_lease_acquire(&dev->mt76,
++						  MT76_NPU_COMPLETION_SOURCE_IRQ_TASKLET,
++						  &lease);
++	if (error)
++		return error;
+ 
+ 	if (dev->hif2 && mtk_wed_device_active(wed_hif2)) {
+ 		mtk_wed_device_irq_set_mask(wed_hif2, 0);
+ 		intr1 = mtk_wed_device_irq_get(wed_hif2,
+-					       dev->mt76.mmio.irqmask);
++					       irq_mask);
+ 		if (intr1 & MT_INT_RX_TXFREE_EXT)
+ 			napi_schedule(&dev->mt76.napi[MT_RXQ_TXFREE_BAND2]);
+ 
+@@ -842,7 +842,7 @@ static void mt7996_irq_tasklet(struct tasklet_struct *t)
+ 
+ 	if (mtk_wed_device_active(wed)) {
+ 		mtk_wed_device_irq_set_mask(wed, 0);
+-		intr = mtk_wed_device_irq_get(wed, dev->mt76.mmio.irqmask);
++		intr = mtk_wed_device_irq_get(wed, irq_mask);
+ 		intr |= (intr1 & ~MT_INT_TX_RX_DONE_EXT);
+ 	} else {
+ 		mt76_wr(dev, MT_INT_MASK_CSR, 0);
+@@ -850,17 +850,17 @@ static void mt7996_irq_tasklet(struct tasklet_struct *t)
+ 			mt76_wr(dev, MT_INT1_MASK_CSR, 0);
+ 
+ 		intr = mt76_rr(dev, MT_INT_SOURCE_CSR);
+-		intr &= dev->mt76.mmio.irqmask;
++		intr &= irq_mask;
+ 		mt76_wr(dev, MT_INT_SOURCE_CSR, intr);
+ 		if (dev->hif2) {
+ 			intr1 = mt76_rr(dev, MT_INT1_SOURCE_CSR);
+-			intr1 &= dev->mt76.mmio.irqmask;
++			intr1 &= irq_mask;
+ 			mt76_wr(dev, MT_INT1_SOURCE_CSR, intr1);
+ 			intr |= intr1;
+ 		}
+ 	}
+ 
+-	trace_dev_irq(&dev->mt76, intr, dev->mt76.mmio.irqmask);
++	trace_dev_irq(&dev->mt76, intr, irq_mask);
+ 
+ 	mask = intr & MT_INT_RX_DONE_ALL;
+ 	if (intr & MT_INT_TX_DONE_MCU)
+@@ -884,8 +884,29 @@ static void mt7996_irq_tasklet(struct tasklet_struct *t)
+ 			mt7996_reset(dev);
+ 		}
+ 	}
+-	if (mt76_npu_completion_lease_release(&dev->mt76, &lease))
+-		mt76_npu_completion_fail_closed(&dev->mt76);
++
++	return mt76_npu_completion_lease_release(&dev->mt76, &lease);
++}
++
++/* TODO: support 2/4/6/8 MSI-X vectors */
++static void mt7996_irq_tasklet(struct tasklet_struct *t)
++{
++	struct mt7996_dev *dev = from_tasklet(dev, t, mt76.irq_tasklet);
++
++	mt7996_irq_tasklet_run(dev, READ_ONCE(dev->mt76.mmio.irqmask));
++}
++
++int mt7996_irq_tasklet_replay(struct mt7996_dev *dev)
++{
++	struct mt7996_npu_lifecycle_coordinator *coordinator =
++		&dev->npu_lifecycle;
++
++	lockdep_assert_held(&coordinator->mutex);
++	if (!coordinator->physical_sources_disabled ||
++	    !coordinator->tasklet_disabled)
++		return -EPROTO;
++
++	return mt7996_irq_tasklet_run(dev, coordinator->irq_mask);
+ }
+ 
+ irqreturn_t mt7996_irq_handler(int irq, void *dev_instance)
+@@ -902,8 +923,7 @@ irqreturn_t mt7996_irq_handler(int irq, void *dev_instance)
+ 		return IRQ_HANDLED;
+ 
+ 	if (unlikely(mt7996_is_tearing_down(dev))) {
+-		if (mt76_npu_completion_lease_release(&dev->mt76, &lease))
+-			mt76_npu_completion_fail_closed(&dev->mt76);
++		mt76_npu_completion_lease_release(&dev->mt76, &lease);
+ 		return IRQ_HANDLED;
+ 	}
+ 
+@@ -920,14 +940,12 @@ irqreturn_t mt7996_irq_handler(int irq, void *dev_instance)
+ 	}
+ 
+ 	if (!test_bit(MT76_STATE_INITIALIZED, &dev->mphy.state)) {
+-		if (mt76_npu_completion_lease_release(&dev->mt76, &lease))
+-			mt76_npu_completion_fail_closed(&dev->mt76);
++		mt76_npu_completion_lease_release(&dev->mt76, &lease);
+ 		return IRQ_NONE;
+ 	}
+ 
+ 	tasklet_schedule(&dev->mt76.irq_tasklet);
+-	if (mt76_npu_completion_lease_release(&dev->mt76, &lease))
+-		mt76_npu_completion_fail_closed(&dev->mt76);
++	mt76_npu_completion_lease_release(&dev->mt76, &lease);
+ 
+ 	return IRQ_HANDLED;
+ }
+diff --git a/mt7996/mt7996.h b/mt7996/mt7996.h
+index 30d84629fb79bb67582f896e121b6a0fe754898a..3574d26029dd5d6ec45241e0834137d5cafd652f 100644
+--- a/mt7996/mt7996.h
++++ b/mt7996/mt7996.h
+@@ -1252,6 +1252,7 @@ void mt7996_rro_hw_init(struct mt7996_dev *dev);
+ void mt7996_wfsys_reset(struct mt7996_dev *dev);
+ bool mt7996_wed_rro_quarantine_empty(struct mt7996_dev *dev);
+ irqreturn_t mt7996_irq_handler(int irq, void *dev_instance);
++int mt7996_irq_tasklet_replay(struct mt7996_dev *dev);
+ void mt7996_pci_free_bus_irqs(struct mt7996_dev *dev);
+ u64 __mt7996_get_tsf(struct ieee80211_hw *hw, struct mt7996_vif_link *link);
+ int __must_check
+diff --git a/mt7996/npu.c b/mt7996/npu.c
+index 05281a9aab1af5f51839f57fa74a030313f33a9e..7a159d714ea8ddd66b67ce5d9f74b429e764b9e8 100644
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -1262,7 +1262,7 @@ int mt7996_npu_completion_consumers_restore(struct mt76_dev *mdev,
+ 	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
+ 	struct mt7996_npu_lifecycle_coordinator *coordinator =
+ 		&dev->npu_lifecycle;
+-	int i;
++	int i, ret;
+ 
+ 	lockdep_assert_held(&coordinator->mutex);
+ 	if (unlikely(mt7996_is_tearing_down(dev)))
+@@ -1294,11 +1294,29 @@ int mt7996_npu_completion_consumers_restore(struct mt76_dev *mdev,
+ 		napi_enable(&mdev->tx_napi);
+ 		mdev->tx_napi_disabled = false;
+ 	}
++
++	ret = mt7996_irq_tasklet_replay(dev);
++	if (ret)
++		goto disable_napi;
++
+ 	tasklet_enable(&mdev->irq_tasklet);
+ 	coordinator->tasklet_disabled = false;
+ 	coordinator->consumers_restored = true;
+ 
+ 	return 0;
++
++disable_napi:
++	if (coordinator->tx_napi_was_enabled && !mdev->tx_napi_disabled)
++		mt76_dma_disable_tx_napi(mdev);
++	mt76_for_each_q_rx(mdev, i) {
++		if (!(coordinator->napi_mask & BIT(i)) ||
++		    !mdev->q_rx[i].napi_enabled)
++			continue;
++		napi_disable(&mdev->napi[i]);
++		mdev->q_rx[i].napi_enabled = false;
++	}
++
++	return ret;
+ }
+ 
+ int mt7996_npu_completion_producers_restore(struct mt76_dev *mdev,
+@@ -1764,11 +1782,12 @@ int mt7996_npu_lifecycle_coordinate(struct mt7996_dev *dev,
+ 			ret = -EPROTO;
+ 			break;
+ 		}
+-		ret = mt7996_npu_completion_consumers_restore(&dev->mt76,
+-							      MT76_NPU_COMPLETION_SOURCE_ALL);
++		ret = mt76_npu_tx_operation_reopen_completions(&dev->mt76,
++							       &coordinator->permit);
+ 		if (ret)
+ 			goto resume_failed;
+-		ret = mt76_npu_tx_operation_reopen_completions(&dev->mt76, &coordinator->permit);
++		ret = mt7996_npu_completion_consumers_restore(&dev->mt76,
++							      MT76_NPU_COMPLETION_SOURCE_ALL);
+ 		if (ret)
+ 			goto resume_failed;
+ 		ret = mt7996_npu_completion_producers_restore(&dev->mt76,
+diff --git a/npu.c b/npu.c
+index 9b525865057aa8d236e6c1e2ac56efa97c6fc9d3..14a0b58ea2d8b6012f1e610e150c1a842c46f7ce 100644
+--- a/npu.c
++++ b/npu.c
+@@ -20,6 +20,7 @@
+ #define MT76_NPU_RX_SCATTER_RETRIES	3
+ #define MT76_NPU_RX_SCATTER_RETRY_US	1000
+ #define MT76_NPU_ADMIN_TIMEOUT		(30 * HZ)
++#define MT76_NPU_FATAL_MASK_MAX_ATTEMPTS	2
+ 
+ static bool npu_stock_copy_mode;
+ module_param(npu_stock_copy_mode, bool, 0644);
+@@ -1371,6 +1372,35 @@ mt76_npu_completion_publication_gate_valid_locked(
+ 	       mt76_npu_restore_authority_matches_locked(dev, authority);
+ }
+ 
++static bool
++mt76_npu_close_drain_publish_valid_locked(struct mt76_w1700k_npu_trans_lifecycle
++					  *state,
++	const struct mt76_npu_completion_lease *parent,
++	enum mt76_npu_completion_publish_op op)
++{
++	lockdep_assert_held(&state->completion_gate_lock);
++
++	/* Non-restore root leases can only be admitted while the gate is OPEN. */
++	return state->completion_gate_state == MT76_NPU_COMPLETION_GATE_CLOSING &&
++	       !parent->parent &&
++	       (op == MT76_NPU_COMPLETION_PUBLISH_RX_REFILL ||
++		op == MT76_NPU_COMPLETION_PUBLISH_IRQ_REARM);
++}
++
++static bool
++mt76_npu_publish_op_gate_valid_locked(struct mt76_dev *dev,
++				      struct mt76_w1700k_npu_trans_lifecycle *state,
++				      const struct mt76_npu_completion_lease *parent,
++				      enum mt76_npu_completion_publish_op op)
++{
++	if (mt76_npu_completion_publication_gate_valid_locked(dev, state, parent))
++		return true;
++	if (parent->source == MT76_NPU_COMPLETION_SOURCE_RESTORE)
++		return false;
++
++	return mt76_npu_close_drain_publish_valid_locked(state, parent, op);
++}
++
+ int mt76_npu_completion_publish_begin(
+ 	struct mt76_dev *dev, struct mt76_npu_completion_lease *parent,
+ 	enum mt76_npu_completion_publish_op op,
+@@ -1401,17 +1431,6 @@ int mt76_npu_completion_publish_begin(
+ 		error = -ESHUTDOWN;
+ 		goto out;
+ 	}
+-	if (state->completion_gate_state != MT76_NPU_COMPLETION_GATE_OPEN &&
+-	    parent->source != MT76_NPU_COMPLETION_SOURCE_RESTORE) {
+-		error = -ESHUTDOWN;
+-		goto out;
+-	}
+-	if (!mt76_npu_completion_publication_gate_valid_locked(dev, state,
+-							      parent)) {
+-		error = parent->source == MT76_NPU_COMPLETION_SOURCE_RESTORE ?
+-			-ESTALE : -ESHUTDOWN;
+-		goto out;
+-	}
+ 	if (!mt76_npu_completion_lease_registered_locked(state, parent) ||
+ 	    !parent->held || parent->owner != dev ||
+ 	    parent->source >= MT76_NPU_COMPLETION_SOURCE_COUNT ||
+@@ -1421,15 +1440,15 @@ int mt76_npu_completion_publish_begin(
+ 		error = -ESTALE;
+ 		goto out;
+ 	}
+-	if (!(state->completion_source_enabled_mask & BIT(parent->source)) &&
+-	    parent->source != MT76_NPU_COMPLETION_SOURCE_RESTORE) {
+-		error = -ESHUTDOWN;
+-		goto out;
+-	}
+ 	if (!mt76_npu_completion_publish_valid(parent->source, op)) {
+ 		error = -EPERM;
+ 		goto out;
+ 	}
++	if (!mt76_npu_publish_op_gate_valid_locked(dev, state, parent, op)) {
++		error = parent->source == MT76_NPU_COMPLETION_SOURCE_RESTORE ?
++			-ESTALE : -ESHUTDOWN;
++		goto out;
++	}
+ 	if (parent->publish_guards == U32_MAX) {
+ 		error = -EOVERFLOW;
+ 		goto out;
+@@ -1487,8 +1506,7 @@ mt76_npu_completion_publish_guard_validate_locked(
+ 	if (state->completion_fatal_latched ||
+ 	    READ_ONCE(state->tx_operation_quarantined) ||
+ 	    atomic_read(&state->tx_completion_quarantined) ||
+-	    !mt76_npu_completion_publication_gate_valid_locked(dev, state,
+-							      parent) ||
++	    !mt76_npu_publish_op_gate_valid_locked(dev, state, parent, op) ||
+ 	    guard->gate_epoch != state->completion_gate_epoch)
+ 		return -ESHUTDOWN;
+ 
+@@ -2131,8 +2149,12 @@ mt76_npu_completion_gate_fail_closed_locked(struct mt76_dev *dev)
+ 	state->quiescence_permit_live = false;
+ 	memset(&state->active_quiescence_permit, 0,
+ 	       sizeof(state->active_quiescence_permit));
+-	if (state->completion_fatal_mask_attempts != U32_MAX)
+-		state->completion_fatal_mask_attempts++;
++	if (state->completion_fatal_irqs_masked ||
++	    state->completion_fatal_mask_attempts >=
++		MT76_NPU_FATAL_MASK_MAX_ATTEMPTS)
++		return;
++
++	state->completion_fatal_mask_attempts++;
+ 	if (dev->drv && dev->drv->npu_completion_fatal_close)
+ 		error = dev->drv->npu_completion_fatal_close(dev);
+ 	else if (mt76_npu_device_active(dev))
+@@ -4005,6 +4027,7 @@ int mt76_npu_tx_queue_kick(struct mt76_dev *dev, struct mt76_queue *q)
+ 	u32 readback = U32_MAX;
+ 	u16 start, end;
+ 	int qid, error;
++	bool telemetry;
+ 	bool ledger;
+ 
+ 	lockdep_assert_held(&q->lock);
+@@ -4012,10 +4035,12 @@ int mt76_npu_tx_queue_kick(struct mt76_dev *dev, struct mt76_queue *q)
+ 	if (mt76_npu_queue_io_failed(q))
+ 		return READ_ONCE(q->npu_io_error) ?: -EIO;
+ 
++	telemetry = mt76_w1700k_packet_telemetry_enabled();
+ 	start = READ_ONCE(q->npu_published_head);
+ 	end = READ_ONCE(q->head);
+ 	if (start == end) {
+-		atomic64_inc(&lifecycle->tx_publication_empty_kick);
++		if (telemetry)
++			atomic64_inc(&lifecycle->tx_publication_empty_kick);
+ 		return 0;
+ 	}
+ 
+@@ -4070,7 +4095,8 @@ provider_done:
+ 	WRITE_ONCE(q->npu_published_head, end);
+ 	WRITE_ONCE(q->npu_io_readback, readback);
+ 	WRITE_ONCE(q->npu_commit_state, state);
+-	atomic64_inc(&lifecycle->tx_publication_committed);
++	if (telemetry)
++		atomic64_inc(&lifecycle->tx_publication_committed);
+ 	spin_unlock_irqrestore(&lifecycle->ownership_publish_lock, flags);
+ 
+ 	return 0;
+@@ -4560,9 +4586,12 @@ static bool mt76_npu_trans_irq_ready(struct mt76_dev *dev,
+ 	struct mt76_w1700k_npu_trans_slot *slot;
+ 	unsigned long flags;
+ 	bool ready = false;
+-
+-	atomic_set(&state->last_irq_slot, slot_id);
+-	atomic_set(&state->last_irq_qid, qid);
++	bool telemetry = mt76_w1700k_packet_telemetry_enabled();
++
++	if (telemetry) {
++		atomic_set(&state->last_irq_slot, slot_id);
++		atomic_set(&state->last_irq_qid, qid);
++	}
+ 
+ 	if (slot_id < 0 || slot_id >= MT76_NPU_TRANS_SLOTS ||
+ 	    !mt76_npu_trans_lifecycle_initialized(state)) {
+@@ -4578,7 +4607,8 @@ static bool mt76_npu_trans_irq_ready(struct mt76_dev *dev,
+ 		   slot->generation != state->generation) {
+ 		atomic64_inc(&state->irq_mismatch[slot_id]);
+ 	} else {
+-		atomic64_inc(&state->irq_valid[slot_id]);
++		if (telemetry)
++			atomic64_inc(&state->irq_valid[slot_id]);
+ 		ready = true;
+ 	}
+ 	spin_unlock_irqrestore(&state->lock, flags);
+@@ -4923,6 +4953,7 @@ mt76_npu_rx_preflight(struct mt76_dev *dev, struct mt76_queue *q,
+ 			    NPU_RX_DMA_CRSN_MASK |
+ 			    NPU_RX_DMA_FOE_ID_MASK;
+ 	u32 first_ctrl, first_info, first_data = 0;
++	bool telemetry = mt76_w1700k_packet_telemetry_enabled();
+ 	bool rv32_header_telemetry;
+ 	int i, index = q->tail;
+ 
+@@ -4933,13 +4964,14 @@ mt76_npu_rx_preflight(struct mt76_dev *dev, struct mt76_queue *q,
+ 
+ 	first_ctrl = READ_ONCE(desc[index].ctrl);
+ 	if (!FIELD_GET(NPU_RX_DMA_DESC_DONE_MASK, first_ctrl)) {
+-		atomic64_inc(&state->rx_desc_empty);
++		if (telemetry)
++			atomic64_inc(&state->rx_desc_empty);
+ 		return MT76_NPU_RX_PREFLIGHT_EMPTY;
+ 	}
+ 
+ 	dma_rmb();
+ 	first_info = READ_ONCE(desc[index].info);
+-	rv32_header_telemetry = mt76_w1700k_packet_telemetry_enabled();
++	rv32_header_telemetry = telemetry;
+ 	if (rv32_header_telemetry)
+ 		first_data = READ_ONCE(desc[index].data);
+ 	check->ctrl = first_ctrl;
+@@ -5055,12 +5087,15 @@ mt76_npu_rx_preflight(struct mt76_dev *dev, struct mt76_queue *q,
+ 				MT76_NPU_RX_SCATTER_FAULT_ACC_LENGTH,
+ 				&state->rx_desc_bad_scatter_acc_length);
+ 
+-		atomic64_inc(&state->rx_desc_scatter_packets);
+-		atomic64_add(check->nframes,
+-			     &state->rx_desc_scatter_fragments);
+-	}
+-
+-	atomic64_inc(&state->rx_desc_preflight_ok);
++		if (telemetry) {
++			atomic64_inc(&state->rx_desc_scatter_packets);
++			atomic64_add(check->nframes,
++				     &state->rx_desc_scatter_fragments);
++		}
++	}
++
++	if (telemetry)
++		atomic64_inc(&state->rx_desc_preflight_ok);
+ 	return MT76_NPU_RX_PREFLIGHT_READY;
+ }
+ 
+@@ -5633,8 +5668,7 @@ out:
+ 
+ 	rcu_read_unlock();
+ release_lease:
+-	if (mt76_npu_completion_lease_release(dev, &lease))
+-		mt76_npu_completion_fail_closed(dev);
++	mt76_npu_completion_lease_release(dev, &lease);
+ 
+ 	return done;
+ }
+@@ -5697,8 +5731,7 @@ static irqreturn_t mt76_npu_irq_handler(int irq, void *q_instance)
+ 	ret = IRQ_HANDLED;
+ out:
+ 	rcu_read_unlock();
+-	if (mt76_npu_completion_lease_release(dev, &lease))
+-		mt76_npu_completion_fail_closed(dev);
++	mt76_npu_completion_lease_release(dev, &lease);
+ 
+ 	return ret;
+ }
+diff --git a/tx.c b/tx.c
+index 82f5fcc97f5dc3d75da6e0b8b89671c268e6bf8d..8d060e59ddc36bea6c861924e5b2e67b70aee9eb 100644
+--- a/tx.c
++++ b/tx.c
+@@ -870,8 +870,7 @@ void mt76_tx_worker(struct mt76_worker *w)
+ 		return;
+ 	}
+ 	mt76_tx_worker_run(dev);
+-	if (mt76_npu_completion_lease_release(dev, &lease))
+-		mt76_npu_completion_fail_closed(dev);
++	mt76_npu_completion_lease_release(dev, &lease);
+ 	WARN_ON_ONCE(mt76_terminal_token_release(&token));
+ }
+ 

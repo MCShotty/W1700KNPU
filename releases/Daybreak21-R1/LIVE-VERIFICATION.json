@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-09-05T00:40:56.681Z",
+  "board": {
+    "kernel": "6.18.44",
+    "hostname": "OpenWrt",
+    "system": "ARMv8 Processor rev 4",
+    "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+    "board_name": "gemtek,w1700k-ubi",
+    "rootfs_type": "squashfs",
+    "release": {
+      "distribution": "OpenWrt",
+      "version": "SNAPSHOT",
+      "firmware_url": "https://downloads.openwrt.org/",
+      "revision": "r1001+23-c1992346fc",
+      "target": "airoha/an7581",
+      "description": "OpenWrt SNAPSHOT r1001+23-c1992346fc",
+      "builddate": "1788538639"
+    }
+  },
+  "boot_id": "0592e7df-2eda-46fc-8ae9-dba6696a0c7c",
+  "image_sha256": "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+  "factory_sha256": "c4f85d5f4abd6c65619c06612ce41861e5a819f89a190c632ef29366ecd3cbfd",
+  "wireless_sha256": "a87e59eb9c6314be153d8af85f88ebbe0438a1cfb6e0e0ee92ee1b5f200c416d",
+  "npu": {
+    "schema": 2,
+    "board": "gemtek,w1700k-ubi",
+    "source": {
+      "openwrt_base_commit": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
+      "openwrt_candidate_commit": "f3173f41940ab15d63a205f6d618e145d49ee58a",
+      "openwrt_build_revision": "r1001+23-c1992346fc",
+      "openwrt_build_target": "airoha/an7581",
+      "openwrt_build_version": "r1001+23-c1992346fc",
+      "mt76_commit": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
+      "classification": "compiled-out"
+    },
+    "npu": {
+      "runtime_state": "compiled-out",
+      "runtime_reason": "mt7996 debugfs explicitly reports WLAN NPU compiled out and neither provider attached; normal DMA traffic health is not implied",
+      "mt76_loaded": true,
+      "mt7996e_loaded": true,
+      "npu_provider_present": true,
+      "ppe_provider_present": true,
+      "debugfs_path": "/sys/kernel/debug/ieee80211/phy0/mt76/npu_state",
+      "compiled_support": false,
+      "provider_attached": false,
+      "ppe_attached": false,
+      "hwrro_mode": null,
+      "rx_token_size": null,
+      "npu_type": null,
+      "numeric_mode_api": false,
+      "legacy_write_api": false
+    },
+    "module_parameters": {
+      "wed_enable": "N",
+      "coredump_memdump": "N",
+      "sr_scene_detect": "Y"
+    },
+    "rps": {
+      "packet_steering": 1,
+      "steering_flows": 4096,
+      "rps_sock_flow_entries": null,
+      "observed_rx_queue_count": 64,
+      "observed_rx_queues": "br-lan/queues/rx-0/rps_cpus=0;eth0/queues/rx-0/rps_cpus=1;eth0/queues/rx-1/rps_cpus=1;eth0/queues/rx-10/rps_cpus=1;eth0/queues/rx-11/rps_cpus=1;eth0/queues/rx-12/rps_cpus=1;eth0/queues/rx-13/rps_cpus=1;eth0/queues/rx-14/rps_cpus=1;eth0/queues/rx-15/rps_cpus=1;eth0/queues/rx-16/rps_cpus=1;eth0/queues/rx-17/rps_cpus=1;eth0/queues/rx-18/rps_cpus=1;eth0/queues/rx-19/rps_cpus=1;eth0/queues/rx-2/rps_cpus=1;eth0/queues/rx-20/rps_cpus=1;eth0/queues/rx-21/rps_cpus=1;eth0/queues/rx-22/rps_cpus=1;eth0/queues/rx-23/rps_cpus=1;eth0/queues/rx-24/rps_cpus=1;eth0/queues/rx-25/rps_cpus=1;eth0/queues/rx-26/rps_cpus=1;eth0/queues/rx-27/rps_cpus=1;eth0/queues/rx-28/rps_cpus=1;eth0/queues/rx-29/rps_cpus=1;eth0/queues/rx-3/rps_cpus=1;eth0/queues/rx-30/rps_cpus=1;eth0/queues/rx-31/rps_cpus=1;eth0/queues/rx-4/rps_cpus=1;eth0/queues/rx-5/rps_cpus=1;eth0/queues/rx-6/rps_cpus=1;eth0/queues/rx-7/rps_cpus=1;eth0/queues/rx-8/rps_cpus=1;eth0/queues/rx-9/rps_cpus=1;lan2/queues/rx-0/rps_cpus=1;lan2/queues/rx-1/rps_cpus=1;lan2/queues/rx-10/rps_cpus=1;lan2/queues/rx-11/rps_cpus=1;lan2/queues/rx-12/rps_cpus=1;lan2/queues/rx-13/rps_cpus=1;lan2/queues/rx-14/rps_cpus=1;lan2/queues/rx-15/rps_cpus=1;lan2/queues/rx-16/rps_cpus=1;lan2/queues/rx-17/rps_cpus=1;lan2/queues/rx-18/rps_cpus=1;lan2/queues/rx-19/rps_cpus=1;lan2/queues/rx-2/rps_cpus=1;lan2/queues/rx-20/rps_cpus=1;lan2/queues/rx-21/rps_cpus=1;lan2/queues/rx-22/rps_cpus=1;lan2/queues/rx-23/rps_cpus=1;lan2/queues/rx-24/rps_cpus=1;lan2/queues/rx-25/rps_cpus=1;lan2/queues/rx-26/rps_cpus=1;lan2/queues/rx-27/rps_cpus=1;lan2/queues/rx-28/rps_cpus=1;lan2/queues/rx-29/rps_cpus=1;lan2/queues/rx-3/rps_cpus=1;lan2/queues/rx-30/rps_cpus=1;lan2/queues/rx-31/rps_cpus=1;lan2/queues/rx-4/rps_cpus=1;lan2/queues/rx-5/rps_cpus=1;lan2/queues/rx-6/rps_cpus=1;lan2/queues/rx-7/rps_cpus=1;lan2/queues/rx-8/rps_cpus=1"
+    },
+    "cpufreq": {
+      "policy_count": 0,
+      "policies": null,
+      "policy_format": "policy:governor:min_khz:max_khz:current_khz"
+    },
+    "coredump": {
+      "core_pattern": "/tmp/%e.%t.%p.%s.core",
+      "suid_dumpable": null,
+      "mt7996_memdump_enabled": "N",
+      "mt7996_memdump_region_bytes": 3850234,
+      "userspace_core_policy_controls_devcoredump": false
+    },
+    "retired": {
+      "numeric_modes": "0,1,2,3,4",
+      "services": "w1700k_npu_ppe,w1700k_stock_boot_parity,w1700k_cpufreq",
+      "reason": "the current source has no corresponding mode or policy-write ABI"
+    }
+  },
+  "memory": "MemTotal:        1868028 kB\nMemAvailable:    1653920 kB",
+  "radio_matrix": "PASS standalone ap_interfaces=3 mlo_links=0 frequencies=2437 5180 6115\nPASS scan-radio0 result_count=25\nPASS scan-radio1 result_count=27\nPASS scan-radio2 result_count=28\nPASS mlo-5-6 ap_interfaces=1 mlo_links=2 frequencies=5180 6115\nPASS mlo-tri ap_interfaces=1 mlo_links=3 frequencies=2437 5180 6115\nPASS invalid-radio0-5g rejected\nPASS invalid-radio0-80 rejected\nPASS invalid-radio1-320 rejected\nPASS invalid-mlo-wpa2 rejected\nPASS invalid-one-link-mlo rejected\nPASS_MATRIX all requested stages passed; restoring original configuration\nRESTORE hash=a87e59eb9c6314be153d8af85f88ebbe0438a1cfb6e0e0ee92ee1b5f200c416d status=0",
+  "fatal_pattern_matches": 0,
+  "original_runtime_no_interfaces_restored": true,
+  "client_association_tested": false,
+  "throughput_tested": false
+}

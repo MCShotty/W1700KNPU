@@ -1,0 +1,3595 @@
+diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
+index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ada4b3333c 100644
+--- a/package/kernel/mt76/Makefile
++++ b/package/kernel/mt76/Makefile
+@@ -17,6 +17,7 @@ PKG_USE_NINJA:=0
+ PKG_BUILD_PARALLEL:=1
+ 
+ PKG_CONFIG_DEPENDS += \
++	CONFIG_MT76_AIROHA_NPU \
+ 	CONFIG_PACKAGE_kmod-mt76-usb \
+ 	CONFIG_PACKAGE_kmod-mt76x02-common \
+ 	CONFIG_PACKAGE_kmod-mt76x0-common \
+@@ -331,6 +332,16 @@ define KernelPackage/mt7990-firmware
+   DEPENDS+=+kmod-mt7996e
+ endef
+ 
++define KernelPackage/mt7996e/config
++  config MT76_AIROHA_NPU
++    bool "Airoha WLAN NPU attachment"
++    depends on PACKAGE_kmod-mt7996e && TARGET_airoha_an7581
++    default y
++    help
++      Build the Airoha WLAN NPU path. Disable for a normal-DMA WLAN
++      diagnostic baseline. This does not disable Ethernet offload.
++endef
++
+ define KernelPackage/mt7992-firmware
+   $(KernelPackage/mt76-default)
+   TITLE:=MediaTek MT7992 firmware
+@@ -502,10 +513,12 @@ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7996e
+   PKG_MAKE_FLAGS += CONFIG_MT7996E=m
+   ifdef CONFIG_TARGET_airoha_an7581
+-    PKG_MAKE_FLAGS += CONFIG_MT76_NPU=y
+-    PKG_MAKE_FLAGS += CONFIG_MT7996_NPU=y
+-    NOSTDINC_FLAGS += -DCONFIG_MT76_NPU
+-    NOSTDINC_FLAGS += -DCONFIG_MT7996_NPU
++    ifeq ($(CONFIG_MT76_AIROHA_NPU),y)
++      PKG_MAKE_FLAGS += CONFIG_MT76_NPU=y
++      PKG_MAKE_FLAGS += CONFIG_MT7996_NPU=y
++      NOSTDINC_FLAGS += -DCONFIG_MT76_NPU
++      NOSTDINC_FLAGS += -DCONFIG_MT7996_NPU
++    endif
+   endif
+ endif
+ ifdef CONFIG_PACKAGE_kmod-mt7925-common
+diff --git a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd4683ac279a1 100755
+--- a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
++++ b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
+@@ -25,6 +25,35 @@ const mesh_param_list = [
+ 	"mesh_auto_open_plinks", "mesh_fwding", "mesh_nolearn", "mesh_power_mode"
+ ];
+ 
++const w1700kRadioMapActive =
++	trim(fs.readfile('/tmp/sysinfo/board_name') || '') == 'gemtek,w1700k-ubi';
++let w1700kRegdomainPrepared = false;
++
++function w1700k_validate_wireless(config) {
++	if (!w1700kRadioMapActive ||
++	    !fs.access('/usr/sbin/w1700k-wireless-validate', 'x'))
++		return true;
++
++	config.country_code = uc(config.country_code ?? config.country ?? 'US');
++	if (config.country_code == '00')
++		config.country_code = 'US';
++
++	if (!match(config.country_code, /^[A-Z0-9]{2}$/)) {
++		log(`W1700K wireless validation failed; invalid country code ${config.country_code}`);
++		netifd.set_retry(false);
++		return false;
++	}
++
++	if (!system('/usr/sbin/w1700k-wireless-validate --prepare-regdomain')) {
++		w1700kRegdomainPrepared = true;
++		return true;
++	}
++
++	log('W1700K wireless validation failed; refusing to apply impossible radio configuration');
++	netifd.set_retry(false);
++	return false;
++}
++
+ function phy_suffix(radio, sep) {
+ 	if (radio == null || radio < 0)
+ 		return "";
+@@ -70,7 +99,7 @@ function setup_phy(phy, config, data) {
+ 	config.channel = +config.channel;
+ 	config.frequency = get_channel_frequency(config.band, config.channel);
+ 
+-	if (config.country_code) {
++	if (config.country_code && !w1700kRegdomainPrepared) {
+ 		log(`Setting country code to ${config.country_code}`);
+ 		system(`iw reg set ${config.country_code}`);
+ 	}
+@@ -100,13 +129,18 @@ function setup_phy(phy, config, data) {
+ 	else
+ 		config.txpower = 'auto';
+ 
+-	log(`Configuring '${phy}' distance: ${config.distance}`);
+-	if (antenna_changed) {
+-		log(`Setting antenna for '${phy}' txantenna: ${config.txantenna}, rxantenna: ${config.rxantenna}`);
+-		system(`iw phy ${phy} set antenna ${config.txantenna} ${config.rxantenna} >/dev/null 2>&1`);
++	/* The W1700K has a fixed antenna topology shared by all three logical
++	 * radios. Keep the driver's full-chain default instead of racing a global
++	 * SET_WIPHY operation against sibling wdev creation. */
++	if (!w1700kRadioMapActive) {
++		log(`Configuring '${phy}' distance: ${config.distance}`);
++		if (antenna_changed) {
++			log(`Setting antenna for '${phy}' txantenna: ${config.txantenna}, rxantenna: ${config.rxantenna}`);
++			system(`iw phy ${phy} set antenna ${config.txantenna} ${config.rxantenna} >/dev/null 2>&1`);
++		}
++		system(`iw phy ${phy} set distance ${config.distance} >/dev/null 2>&1`);
++		system(`iw phy ${phy} set txpower ${config.txpower}`);
+ 	}
+-	system(`iw phy ${phy} set distance ${config.distance} >/dev/null 2>&1`);
+-	system(`iw phy ${phy} set txpower ${config.txpower}`);
+ 
+ 	if (config.frag)
+ 		system(`iw phy ${phy} set frag ${config.frag}`);
+@@ -134,6 +168,8 @@ function iw_htmode(config) {
+ 			return (+config.channel < 7) ? "HT40+" : "HT40-";
+ 		case "6g":
+ 			let ch = +config.channel;
++			if (ch < 1)
++				return null;
+ 			let c_base = int((ch - 1) / 8) * 8 + 1;
+ 			return "40 " + (5950 + (c_base + 2) * 5);
+ 		default:
+@@ -142,10 +178,13 @@ function iw_htmode(config) {
+ 	case "VHT80":
+ 	case "HE80":
+ 	case "EHT80":
++		return "80MHZ";
++	case "VHT160":
+ 	case "HE160":
+ 	case "EHT160":
++		return "160MHZ";
+ 	case "EHT320":
+-		return "80MHZ";
++		return "320MHZ";
+ 	case "NONE":
+ 	case "NOHT":
+ 		return "NOHT";
+@@ -166,6 +205,8 @@ function config_add_mesh_params(config, data) {
+ 
+ function setup() {
+ 	let data = json(ARGV[3]);
++	let mlo_snapshot = hostapd.mlo_setup_snapshot(data);
++	hostapd.validate_mlo_setup(mlo_snapshot);
+ 
+ 	data.phy = find_phy(data.config, true);
+ 	if (!data.phy) {
+@@ -179,10 +220,12 @@ function setup() {
+ 	if (!data.ifname_prefix)
+ 		data.ifname_prefix = data.phy + data.vif_phy_suffix + "-";
+ 	let active_ifnames = [];
++	let config = data.config;
+ 
+ 	log('Starting');
+ 
+-	let config = data.config;
++	if (!w1700k_validate_wireless(config))
++		return 1;
+ 
+ 	if (!config.band) {
+ 		switch (config.hwmode) {
+@@ -310,7 +353,7 @@ function setup() {
+ 		supplicant.setup(supplicant_data, data);
+ 
+ 	if (fs.access('/usr/sbin/hostapd', 'x'))
+-		hostapd.setup(data);
++		hostapd.setup(data, mlo_snapshot);
+ 
+ 	if (length(supplicant_data) > 0)
+ 		supplicant.start(data);
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
+index f6dac167aa2d68c5e7ae64f773b924edd6b58502..2ff0e89e42f90546b3bf59d0440a7d2bf8a625f8 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
+@@ -360,6 +360,17 @@
+ 				"type": "string"
+ 			}
+ 		},
++		"punct_bitmap": {
++			"description": "EHT preamble puncturing bitmap of disabled 20 MHz subchannels",
++			"type": "string",
++			"pattern": "^(0x[0-9a-fA-F]{1,4}|[0-9]+)$"
++		},
++		"punct_acs_threshold": {
++			"description": "EHT ACS puncturing threshold percentage",
++			"type": "number",
++			"minimum": 0,
++			"maximum": 100
++		},
+ 		"ht_coex": {
+ 			"description": "Disable honoring 40 MHz intolerance in coexistence flags of stations",
+ 			"type": "boolean",
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
+index 25e151fd88b8abde16a4043954aa429ad80c1b01..d32f2e315d96b7d997df1317416cae0972f47950 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
+@@ -918,7 +918,7 @@
+ 		"radios": {
+ 			"type": "array",
+ 			"items": {
+-				"type": "string"
++				"type": "number"
+ 			}
+ 		},
+ 		"radius_acct_interim_interval": {
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323e0af7d76 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+@@ -19,6 +19,410 @@ const WLAN_CIPHER_SUITE_GCMP_256 = 0x000fac09;
+ let phy_features = {};
+ let phy_capabilities = {};
+ 
++const mlo_link_local_fields = { macaddr: true };
++
++function mlo_enabled(value) {
++	return value === true || value === 1 || value === '1';
++}
++
++function mlo_radio_index(value) {
++	if (value == null || !match('' + value, /^(0|[1-9][0-9]*)$/))
++		return null;
++
++	value = +value;
++	return value <= 30 ? value : null;
++}
++
++function mlo_radio_list(config, owner) {
++	if (type(config.radios) != 'array')
++		return { error: `MLO owner ${owner} must declare a radio list` };
++
++	let radios = [];
++	let seen = {};
++	for (let value in config.radios) {
++		let radio = mlo_radio_index(value);
++		if (radio == null)
++			return { error: `MLO owner ${owner} has invalid radio index ${value}` };
++		if (seen[radio])
++			return { error: `MLO owner ${owner} declares radio index ${radio} more than once` };
++
++		seen[radio] = true;
++		push(radios, radio);
++	}
++
++	sort(radios, (a, b) => a - b);
++	if (length(radios) < 2)
++		return { error: `MLO owner ${owner} requires at least two unique radios` };
++
++	return { radios };
++}
++
++function mlo_same_value(a, b) {
++	let a_type = type(a);
++	if (a_type != type(b))
++		return false;
++
++	if (a_type == 'array') {
++		if (length(a) != length(b))
++			return false;
++		for (let i = 0; i < length(a); i++)
++			if (!mlo_same_value(a[i], b[i]))
++				return false;
++		return true;
++	}
++
++	if (a_type == 'object') {
++		let a_keys = keys(a);
++		let b_keys = keys(b);
++		if (length(a_keys) != length(b_keys))
++			return false;
++		for (let key in a_keys)
++			if (!exists(b, key) || !mlo_same_value(a[key], b[key]))
++				return false;
++		return true;
++	}
++
++	return a == b;
++}
++
++function mlo_same_common_config(a, b) {
++	let a_common = {};
++	let b_common = {};
++	for (let field, value in a)
++		if (!mlo_link_local_fields[field])
++			a_common[field] = value;
++	for (let field, value in b)
++		if (!mlo_link_local_fields[field])
++			b_common[field] = value;
++	return mlo_same_value(a_common, b_common);
++}
++
++function mlo_country(config) {
++	let country = uc('' + (config.country_code ?? config.country ?? ''));
++	return !country || country == '00' ? null : country;
++}
++
++function mlo_validate_device(name, config) {
++	if (mlo_enabled(config.disabled))
++		return `${name} is disabled`;
++	if (!mlo_country(config))
++		return `${name} requires an explicit regulatory country; world regdomain 00 is not valid for MLO`;
++	if (config.channel == null || config.channel == 'auto' || +config.channel <= 0)
++		return `${name} requires a fixed channel for MLO`;
++	if (!match('' + (config.htmode ?? ''), /^EHT(20|40|80|160|320)$/))
++		return `${name} must use an EHT width for MLO; current mode is ${config.htmode ?? 'unset'}`;
++	if (mlo_radio_index(config.radio) == 0 && config.htmode != 'EHT20')
++		return `${name} must use EHT20 for a reliable 2.4GHz MLO link; this stack cannot recover an MLD from mandatory 20/40 coexistence fallback`;
++}
++
++function mlo_validate_iface(owner, config) {
++	let ifname = config.ifname;
++	if (type(ifname) != 'string' || !length(ifname) || length(ifname) > 15)
++		return `MLO owner ${owner} requires one valid interface name of at most 15 bytes`;
++	if (type(config.ssid) != 'string' || !length(config.ssid) || length(config.ssid) > 32)
++		return `MLO owner ${owner} requires an SSID of 1 to 32 bytes`;
++
++	let encryption_parts = split(lc('' + (config.encryption ?? '')), '+');
++	let encryption = encryption_parts[0];
++	if (!(encryption in [ 'sae', 'owe', 'wpa3', 'wpa3-192' ]))
++		return `MLO owner ${owner} requires WPA3-SAE, OWE, or WPA3 Enterprise security`;
++	if ('tkip' in encryption_parts)
++		return `MLO owner ${owner} cannot use TKIP; MLO requires CCMP or GCMP`;
++	if (+config.ieee80211w != 2)
++		return `MLO owner ${owner} requires 802.11w management frame protection`;
++
++	if (encryption == 'sae') {
++		let key_len = type(config.key) == 'string' ? length(config.key) : 0;
++		if (!((key_len >= 8 && key_len <= 63) ||
++		      (key_len == 64 && match(config.key, /^[0-9A-Fa-f]{64}$/))))
++			return `MLO owner ${owner} requires a valid WPA3-SAE key`;
++	}
++}
++
++function mlo_status_inventory(status) {
++	if (type(status) != 'object')
++		return { error: 'network.wireless status is unavailable', retryable: true };
++
++	let inventory = {
++		radios: {},
++		claims_by_owner: {},
++		claims_by_radio: {},
++		ifname_owner: {}
++	};
++
++	for (let device, radio_data in status) {
++		let radio = mlo_radio_index(radio_data?.config?.radio);
++		if (radio == null)
++			continue;
++		if (inventory.radios[radio])
++			return { error: `physical radio index ${radio} is assigned to both ${inventory.radios[radio].name} and ${device}` };
++
++		inventory.radios[radio] = { name: device, data: radio_data };
++		if (type(radio_data.interfaces) != 'array')
++			return { error: `${device} has no inspectable interface inventory`, retryable: true };
++
++		for (let interface in radio_data.interfaces) {
++			let config = interface?.config;
++			let owner = interface.section;
++			let is_mlo = mlo_enabled(config?.mlo) && config.mode == 'ap';
++			let ifname = config?.ifname ?? interface?.ifname;
++			if (is_mlo && (type(owner) != 'string' || !length(owner)))
++				return { error: `${device} contains an MLO link without a logical owner` };
++			if (is_mlo && (type(ifname) != 'string' || !length(ifname)))
++				return { error: `MLO owner ${owner} has no shared interface name on ${device}` };
++			if (type(ifname) == 'string' && length(ifname)) {
++				let prior = inventory.ifname_owner[ifname];
++				if (prior && !(is_mlo && prior.mlo && prior.owner == owner)) {
++					if (is_mlo && prior.mlo)
++						return { error: `MLD interface ${ifname} is claimed by both ${prior.owner} and ${owner}` };
++					if (is_mlo || prior.mlo)
++						return {
++							error: `MLD interface ${ifname} conflicts with non-MLO interface ${prior.mlo ? owner : prior.owner}`,
++							retryable: prior.owner == owner
++						};
++					return { error: `interface ${ifname} is claimed by both ${prior.owner} and ${owner}` };
++				}
++
++				inventory.ifname_owner[ifname] ??= { owner, mlo: is_mlo };
++			}
++
++			if (!is_mlo)
++				continue;
++
++			let claim = { owner, ifname, radio, device, config };
++			inventory.claims_by_owner[owner] ??= [];
++			inventory.claims_by_radio[radio] ??= [];
++			push(inventory.claims_by_owner[owner], claim);
++			push(inventory.claims_by_radio[radio], claim);
++		}
++	}
++
++	for (let radio, claims in inventory.claims_by_radio) {
++		let owners = {};
++		for (let claim in claims) {
++			if (owners[claim.owner])
++				return { error: `MLO owner ${claim.owner} has duplicate link entries on radio index ${radio}` };
++			owners[claim.owner] = true;
++		}
++
++		let owner_names = keys(owners);
++		if (length(owner_names) > 1)
++			return { error: `radio index ${radio} is claimed by multiple MLO owners: ${join(', ', owner_names)}` };
++	}
++
++	return inventory;
++}
++
++function mlo_same_radio_set(a, b) {
++	return length(a) == length(b) && mlo_same_value(a, b);
++}
++
++function mlo_local_links(data) {
++	let local = [];
++	for (let key, interface in data?.interfaces ?? {}) {
++		let config = interface?.config;
++		if (!mlo_enabled(config?.mlo) || config.mode != 'ap')
++			continue;
++		push(local, { key, owner: interface.name, config });
++	}
++
++	return local;
++}
++
++export function mlo_status_generation_error(data, status) {
++	let local = mlo_local_links(data);
++	if (!length(local))
++		return null;
++
++	let current_radio = mlo_radio_index(data?.config?.radio);
++	if (current_radio == null)
++		return null;
++
++	let inventory = mlo_status_inventory(status);
++	if (inventory.error)
++		return inventory.retryable ? inventory.error : null;
++
++	let current_entry = inventory.radios[current_radio];
++	if (!current_entry)
++		return `current radio index ${current_radio} is absent from network.wireless status`;
++
++	let payload_country = mlo_country(data.config);
++	let status_country = mlo_country(current_entry.data.config);
++	if (+current_entry.data.config.channel != +data.config.channel ||
++	    current_entry.data.config.htmode != data.config.htmode ||
++	    (payload_country && status_country && payload_country != status_country))
++		return `current radio index ${current_radio} payload does not match network.wireless status`;
++
++	for (let local_link in local) {
++		let owner = local_link.owner;
++		if (type(owner) != 'string' || !length(owner))
++			continue;
++
++		let declared = mlo_radio_list(local_link.config, owner);
++		if (declared.error)
++			continue;
++
++		let claims = inventory.claims_by_owner[owner] ?? [];
++		let actual = map(claims, claim => claim.radio);
++		sort(actual, (a, b) => a - b);
++		if (!mlo_same_radio_set(declared.radios, actual))
++			return `MLO owner ${owner} link inventory is from another wireless configuration generation`;
++
++		for (let claim in claims) {
++			let claim_radios = mlo_radio_list(claim.config, owner);
++			if (!claim_radios.error && !mlo_same_radio_set(declared.radios, claim_radios.radios))
++				return `MLO owner ${owner} radio inventory is from another wireless configuration generation`;
++			if (claim.ifname != local_link.config.ifname ||
++			    !mlo_same_common_config(local_link.config, claim.config))
++				return `MLO owner ${owner} link settings are from another wireless configuration generation`;
++		}
++	}
++
++	return null;
++}
++
++export function validate_mlo_config(data, status) {
++	let local = mlo_local_links(data);
++
++	if (!length(local))
++		return null;
++
++	let current_radio = mlo_radio_index(data?.config?.radio);
++	if (current_radio == null)
++		return 'the current MLO link has no valid physical radio index';
++
++	let device_error = mlo_validate_device(`radio index ${current_radio}`, data.config);
++	if (device_error)
++		return device_error;
++
++	let local_owner = {};
++	let local_ifname = {};
++	for (let link in local) {
++		let owner = link.owner;
++		if (type(owner) != 'string' || !length(owner))
++			return `interface ${link.key} has no logical MLO owner`;
++		if (local_owner[owner])
++			return `MLO owner ${owner} has duplicate link entries on radio index ${current_radio}`;
++		local_owner[owner] = true;
++
++		let iface_error = mlo_validate_iface(owner, link.config);
++		if (iface_error)
++			return iface_error;
++
++		let radio_list = mlo_radio_list(link.config, owner);
++		if (radio_list.error)
++			return radio_list.error;
++		if (!(current_radio in radio_list.radios))
++			return `MLO owner ${owner} does not include current radio index ${current_radio}`;
++
++		let previous = local_ifname[link.config.ifname];
++		if (previous && previous != owner)
++			return `MLD interface ${link.config.ifname} is claimed by both ${previous} and ${owner}`;
++		local_ifname[link.config.ifname] = owner;
++	}
++
++	let owners = keys(local_owner);
++	if (length(owners) > 1)
++		return `radio index ${current_radio} is claimed by multiple MLO owners: ${join(', ', owners)}`;
++
++	let inventory = mlo_status_inventory(status);
++	if (inventory.error)
++		return inventory.error;
++	let current_entry = inventory.radios[current_radio];
++	if (!current_entry)
++		return `current radio index ${current_radio} is absent from network.wireless status`;
++	let status_error = mlo_validate_device(current_entry.name, current_entry.data.config);
++	if (status_error)
++		return status_error;
++	if (+current_entry.data.config.channel != +data.config.channel ||
++	    current_entry.data.config.htmode != data.config.htmode ||
++	    mlo_country(current_entry.data.config) != mlo_country(data.config))
++		return `current radio index ${current_radio} payload does not match network.wireless status`;
++
++	for (let local_link in local) {
++		let owner = local_link.owner;
++		let declared = mlo_radio_list(local_link.config, owner);
++		let claims = inventory.claims_by_owner[owner] ?? [];
++		let actual = map(claims, claim => claim.radio);
++		sort(actual, (a, b) => a - b);
++
++		if (!mlo_same_radio_set(declared.radios, actual))
++			return `MLO owner ${owner} declares radios ${join(',', declared.radios)} but has links on radios ${join(',', actual)}`;
++
++		let country;
++		for (let claim in claims) {
++			let radio_entry = inventory.radios[claim.radio];
++			if (!radio_entry)
++				return `MLO owner ${owner} references unavailable radio index ${claim.radio}`;
++			if (radio_entry.data.disabled || mlo_enabled(radio_entry.data.config?.disabled))
++				return `${radio_entry.name} is disabled and cannot be used by MLO owner ${owner}`;
++
++			let status_error = mlo_validate_device(radio_entry.name, radio_entry.data.config);
++			if (status_error)
++				return status_error;
++			let iface_error = mlo_validate_iface(owner, claim.config);
++			if (iface_error)
++				return iface_error;
++
++			let claim_radios = mlo_radio_list(claim.config, owner);
++			if (claim_radios.error)
++				return claim_radios.error;
++			if (!mlo_same_radio_set(declared.radios, claim_radios.radios))
++				return `MLO owner ${owner} has inconsistent radio lists across links`;
++
++			let link_country = mlo_country(radio_entry.data.config);
++			if (country && country != link_country)
++				return `MLO owner ${owner} mixes regulatory countries ${country} and ${link_country}`;
++			country = link_country;
++
++			if (claim.ifname != local_link.config.ifname)
++				return `MLO owner ${owner} has inconsistent MLD interface names across links`;
++			if (!mlo_same_common_config(local_link.config, claim.config))
++				return `MLO owner ${owner} has inconsistent SSID, security, or network configuration across links`;
++		}
++	}
++
++	return null;
++}
++
++export function mlo_setup_snapshot(data) {
++	if (!length(mlo_local_links(data)))
++		return null;
++
++	// Keep the raw netifd view: schema defaults and iface.prepare mutate setup data.
++	return json(sprintf('%J', { config: data.config, interfaces: data.interfaces }));
++}
++
++export function validate_mlo_setup(data) {
++	let has_mlo_ap = false;
++	for (let key, interface in data?.interfaces ?? {})
++		if (mlo_enabled(interface?.config?.mlo) && interface.config.mode == 'ap') {
++			has_mlo_ap = true;
++			break;
++		}
++
++	if (!has_mlo_ap)
++		return;
++
++	let status;
++	try {
++		status = global.ubus.call('network.wireless', 'status');
++	} catch (e) {
++		die('Deferred MLO setup: network.wireless status query failed');
++	}
++
++	let generation_error = mlo_status_generation_error(data, status);
++	if (generation_error)
++		die(`Deferred MLO setup: ${generation_error}`);
++
++	let error = validate_mlo_config(data, status);
++	if (!error)
++		return;
++
++	netifd.setup_failed('INVALID_MLO_CONFIG');
++	die(`Invalid MLO configuration: ${error}`);
++}
++
+ /* make sure old style UCI and hwmode and newer band properties are correctly resolved */
+ function set_device_defaults(config) {
+ 	/* validate the hw mode */
+@@ -279,7 +683,7 @@ function device_htmode_append(config) {
+ 					break;
+ 				}
+ 			config.op_class = 137;
+-			config.eht_oper_chwidth = 7;
++			config.eht_oper_chwidth = 9;
+ 
+ 			/*
+ 			 * Set HE operation values for 160MHz backward compatibility
+@@ -463,6 +867,13 @@ function device_htmode_append(config) {
+ 
+ 		if (config.hw_mode == 'a')
+ 			append_vars(config, [ 'eht_oper_chwidth', 'eht_oper_centr_freq_seg0_idx' ]);
++
++		if (config.band != '2g') {
++			if (config.punct_bitmap)
++				append_vars(config, [ 'punct_bitmap' ]);
++			if (config.channel == 'auto' && config.punct_acs_threshold)
++				append_vars(config, [ 'punct_acs_threshold' ]);
++		}
+ 	}
+ 
+ 	append_vars(config, [ 'tx_queue_data2_burst', 'stationary_ap' ]);
+@@ -566,9 +977,11 @@ function setup_interface(interface, data, config, vlans, stas, phy_features, fix
+ 	ap.generate(interface, data, config, vlans, stas, phy_features);
+ }
+ 
+-export function setup(data) {
++export function setup(data, mlo_snapshot) {
+ 	let file_name = `/var/run/hostapd-${data.phy}${data.vif_phy_suffix}.conf`;
+ 
++	validate_mlo_setup(mlo_snapshot ?? data);
++
+ 	flush_config();
+ 
+ 	if (fs.stat(file_name))
+diff --git a/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc b/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc
+new file mode 100644
+index 0000000000000000000000000000000000000000..0e46cbb3fe01b79b97f055409ff9c9bd5a552a4a
+--- /dev/null
++++ b/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc
+@@ -0,0 +1,66 @@
++'use strict';
++
++const radio_bands = {
++	'0': "2g",
++	'1': "5g",
++	'2': "6g",
++};
++
++export function validate_device_list(dev_names, devices, radio_idx)
++{
++	if (type(dev_names) != "array" || length(dev_names) < 2)
++		return "requires at least two declared radios";
++
++	let seen_names = {};
++	let seen_radios = {};
++	let country;
++
++	for (let name in dev_names) {
++		if (type(name) != "string" || !length(name))
++			return "contains an empty or malformed radio name";
++		if (seen_names[name])
++			return `declares radio ${name} more than once`;
++		seen_names[name] = true;
++
++		let dev = devices[name];
++		if (!dev)
++			return `references missing radio ${name}`;
++		if (type(dev.config) != "object")
++			return `references malformed radio ${name}`;
++		if (dev.config.disabled)
++			return `references disabled radio ${name}`;
++
++		let radio = radio_idx[name];
++		let expected_band = radio_bands[radio];
++		if (!expected_band)
++			return `${name} has unsupported physical radio index ${radio ?? "unset"}`;
++		if (seen_radios[radio])
++			return `${name} duplicates physical radio index ${radio}`;
++		seen_radios[radio] = true;
++
++		let band = '' + (dev.config.band ?? '');
++		if (band != expected_band)
++			return `${name} is physical ${expected_band}; it cannot be configured as ${band || "unset"}`;
++
++		let channel = '' + (dev.config.channel ?? '');
++		if (!length(channel) || channel == "auto")
++			return `${name} requires a fixed channel`;
++
++		let htmode = '' + (dev.config.htmode ?? '');
++		if (!match(htmode, /^EHT(20|40|80|160|320)$/))
++			return `${name} requires an EHT channel width`;
++		if (radio == 0 && htmode != "EHT20")
++			return `${name} requires EHT20 for a 2.4 GHz MLO link`;
++		if (radio == 1 && htmode == "EHT320")
++			return `${name} cannot use EHT320 on 5 GHz`;
++
++		let link_country = uc('' + (dev.config.country ?? ''));
++		if (!match(link_country, /^[A-Z]{2}$/) || link_country == "00")
++			return `${name} requires an explicit two-letter regulatory country`;
++		if (country && country != link_country)
++			return `${name} uses country ${link_country} while another MLO link uses ${country}`;
++		country = link_country;
++	}
++
++	return null;
++}
+diff --git a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
+index 17327213b838dc1887078fcee101e3c7ee75a873..1c2fd2a00a898dd2e2764a5729072ff2452a2788 100644
+--- a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
++++ b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
+@@ -9,6 +9,7 @@ import {
+ } from "./utils.uc";
+ import { find_phy } from "wifi.utils";
+ import * as wdev from "./wireless-device.uc";
++import { validate_device_list as validate_mlo_device_list } from "./w1700k-mlo.uc";
+ 
+ let wireless = netifd.wireless = {
+ 	handlers: {},
+@@ -25,7 +26,11 @@ function wpad_update_mlo(service, mode)
+ 		if (data.mode != mode)
+ 			continue;
+ 
+-		data.phy = find_phy(data.radio_config[0], true);
++		let radio_config = data.radio_config;
++		if (type(radio_config) != "array" || type(radio_config[0]) != "object")
++			continue;
++
++		data.phy = find_phy(radio_config[0], true);
+ 		if (!data.phy)
+ 			continue;
+ 
+@@ -34,22 +39,43 @@ function wpad_update_mlo(service, mode)
+ 		config[ifname] = entry;
+ 	}
+ 
+-	ubus.call({
++	return ubus.call({
+ 		object: service,
+ 		method: "mld_set",
+-		return: "ignore",
+ 		data: { config },
+ 	});
+ }
+ 
+ function hostapd_update_mlo()
+ {
+-	wpad_update_mlo("hostapd", "ap");
++	return wpad_update_mlo("hostapd", "ap");
+ }
+ 
+ function supplicant_update_mlo()
+ {
+-	wpad_update_mlo("wpa_supplicant", "sta");
++	return wpad_update_mlo("wpa_supplicant", "sta");
++}
++
++function config_device_list(dev_names, devices, radio_idx)
++{
++	let list = [];
++
++	for (let i = 0; i < length(dev_names); i++) {
++		let name = dev_names[i];
++		let dev = devices[name];
++		if (!dev || type(dev.config) != "object" || dev.config.disabled)
++			continue;
++
++		push(list, {
++			name,
++			dev,
++			config: dev.config,
++			radio: radio_idx[name],
++			config_index: i,
++		});
++	}
++
++	return list;
+ }
+ 
+ function mlo_vif_create(config, radio_config, vif_idx, mlo_vifs)
+@@ -71,15 +97,14 @@ function mlo_vif_create(config, radio_config, vif_idx, mlo_vifs)
+ 	return ifname;
+ }
+ 
+-function mlo_vif_macaddr(config, dev_names, dev_name)
++function mlo_vif_macaddr(config, dev_names, dev_name, config_index)
+ {
+ 	if (dev_name != dev_names[0])
+ 		delete config.macaddr;
+ 	if (!config.radio_macaddr)
+ 		return;
+ 
+-	let idx = index(dev_names, dev_name);
+-	let macaddr = idx >= 0 ? config.radio_macaddr[idx] : null;
++	let macaddr = config.radio_macaddr[config_index];
+ 	if (macaddr)
+ 		config.macaddr = macaddr;
+ }
+@@ -165,17 +190,29 @@ function config_init(uci)
+ 	for (let name, data in sections.iface) {
+ 		let dev_names = parse_array(data.device);
+ 		let mlo_vif = parse_bool(data.mlo);
+-		let radios = map(dev_names, (v) => radio_idx[v]);
++		let mlo_error = mlo_vif ? validate_mlo_device_list(dev_names, devices, radio_idx) : null;
++		if (mlo_error) {
++			netifd.log(netifd.L_WARNING,
++				`wireless: Reject MLO interface ${name}: ${mlo_error}\n`);
++			continue;
++		}
++		let config_devices = config_device_list(dev_names, devices, radio_idx);
++		if (mlo_vif && length(config_devices) != length(dev_names)) {
++			netifd.log(netifd.L_WARNING,
++				`wireless: Reject MLO interface ${name}: resolved radio set changed during validation\n`);
++			continue;
++		}
++
++		dev_names = map(config_devices, (v) => v.name);
++		let radios = map(config_devices, (v) => v.radio);
+ 		radios = filter(radios, (v) => v != null);
+-		let radio_config = map(dev_names, (v) => devices[v]?.config);
++		let radio_config = map(config_devices, (v) => v.config);
+ 		let ifname;
+ 		let mlo_created = false;
+ 
+-		for (let dev_name in dev_names) {
+-			let dev = devices[dev_name];
+-			if (!dev || dev.config.disabled)
+-				continue;
+-
++		for (let config_device in config_devices) {
++			let dev_name = config_device.name;
++			let dev = config_device.dev;
+ 			let handler = handlers[dev_name];
+ 			if (!handler)
+ 				continue;
+@@ -190,7 +227,7 @@ function config_init(uci)
+ 
+ 			if (ifname)
+ 				config.ifname = ifname;
+-			mlo_vif_macaddr(config, dev_names, dev_name);
++			mlo_vif_macaddr(config, dev_names, dev_name, config_device.config_index);
+ 
+ 			let vif = {
+ 				name, config,
+@@ -283,6 +320,8 @@ function config_init(uci)
+ 						vif: [],
+ 					};
+ 					handlers[radio] = handler;
++					if (config.radio != null)
++						radio_idx[radio] = +config.radio;
+ 				}
+ 			}
+ 		}
+@@ -313,10 +352,23 @@ function config_init(uci)
+ 							continue;
+ 
+ 						let mlo_vif = parse_bool(config.mlo);
+-						let radios = map(devs, (v) => radio_idx[v]);
++						let mlo_error = mlo_vif ? validate_mlo_device_list(devs, devices, radio_idx) : null;
++						if (mlo_error) {
++							netifd.log(netifd.L_WARNING,
++								`wireless: Reject MLO interface ${name}: ${mlo_error}\n`);
++							continue;
++						}
++						let config_devices = config_device_list(devs, devices, radio_idx);
++						if (mlo_vif && length(config_devices) != length(devs)) {
++							netifd.log(netifd.L_WARNING,
++								`wireless: Reject MLO interface ${name}: resolved radio set changed during validation\n`);
++							continue;
++						}
++
++						devs = map(config_devices, (v) => v.name);
++						let radios = map(config_devices, (v) => v.radio);
+ 						radios = filter(radios, (v) => v != null);
+-						let radio_config = map(devs, (v) => devices[v]?.config);
+-						radio_config = filter(radio_config, (v) => v != null);
++						let radio_config = map(config_devices, (v) => v.config);
+ 						let ifname;
+ 
+ 						if (mlo_vif) {
+@@ -324,14 +376,13 @@ function config_init(uci)
+ 							mlo_vifs[ifname].radios = radios;
+ 						}
+ 
+-						for (let device in devs) {
+-							let dev = devices[device];
+-							if (!dev)
+-								continue;
+-
++						for (let config_device in config_devices) {
++							let device = config_device.name;
++							let dev = config_device.dev;
+ 							let vif_config = ifname ? { ...config, ifname, radios } : config;
+ 							if (ifname)
+-								mlo_vif_macaddr(vif_config, devs, device);
++								mlo_vif_macaddr(vif_config, devs, device,
++									config_device.config_index);
+ 
+ 							let vif_data = {
+ 								name, device, config: vif_config,
+diff --git a/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
+index 2628fe52abdd66f3c1262c8b51832d3b5a45b432..ff9cf59efdbc8f392720c9a97f1f041f11fdda78 100755
+--- a/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
++++ b/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
+@@ -57,6 +57,7 @@ drv_mac80211_init_device_config() {
+ 		he_spr_sr_control \
+ 		he_spr_psr_enabled \
+ 		he_bss_color_enabled \
++		he_twt_responder \
+ 		he_twt_required
+ 	config_add_int \
+ 		beamformer_antennas \
+@@ -144,7 +145,7 @@ mac80211_hostapd_setup_base() {
+ 	[ -n "$acs_exclude_dfs" ] && [ "$acs_exclude_dfs" -gt 0 ] &&
+ 		append base_cfg "acs_exclude_dfs=1" "$N"
+ 
+-	json_get_vars noscan ht_coex min_tx_power:0 tx_burst
++	json_get_vars noscan ht_coex min_tx_power:0 tx_burst punct_bitmap punct_acs_threshold
+ 	json_get_values ht_capab_list ht_capab
+ 	json_get_values channel_list channels
+ 
+@@ -449,6 +450,7 @@ mac80211_hostapd_setup_base() {
+ 			he_su_beamformer:1 \
+ 			he_su_beamformee:1 \
+ 			he_mu_beamformer:1 \
++			he_twt_responder:1 \
+ 			he_twt_required:0 \
+ 			he_spr_sr_control:3 \
+ 			he_spr_psr_enabled:0 \
+@@ -471,6 +473,7 @@ mac80211_hostapd_setup_base() {
+ 			he_su_beamformer:${he_phy_cap:6:2}:0x80:$he_su_beamformer \
+ 			he_su_beamformee:${he_phy_cap:8:2}:0x1:$he_su_beamformee \
+ 			he_mu_beamformer:${he_phy_cap:8:2}:0x2:$he_mu_beamformer \
++			he_twt_responder:${he_mac_cap:0:2}:0x4:$he_twt_responder \
+ 			he_twt_required:${he_mac_cap:0:2}:0x6:$he_twt_required
+ 
+ 		if [ "$he_bss_color_enabled" -gt 0 ]; then
+@@ -521,6 +524,11 @@ mac80211_hostapd_setup_base() {
+ 			append base_cfg "eht_oper_chwidth=$eht_oper_chwidth" "$N"
+ 			append base_cfg "eht_oper_centr_freq_seg0_idx=$eht_center_seg0" "$N"
+ 		}
++		[ "$band" != "2g" ] && {
++			[ -n "$punct_bitmap" ] && append base_cfg "punct_bitmap=$punct_bitmap" "$N"
++			[ "$channel" = "acs_survey" ] && [ -n "$punct_acs_threshold" ] &&
++				append base_cfg "punct_acs_threshold=$punct_acs_threshold" "$N"
++		}
+ 	fi
+ 
+ 	hostapd_prepare_device_config "$hostapd_conf_file" nl80211
+@@ -1156,6 +1164,8 @@ mac80211_set_suffix() {
+ }
+ 
+ drv_mac80211_setup() {
++	local w1700k_shared_wiphy
++
+ 	json_select config
+ 	json_get_vars \
+ 		radio phy macaddr path \
+@@ -1183,6 +1193,18 @@ drv_mac80211_setup() {
+ 		return 1
+ 	}
+ 
++	if [ "$(cat /tmp/sysinfo/board_name 2>/dev/null)" = "gemtek,w1700k-ubi" ] &&
++	   [ -x /usr/sbin/w1700k-wireless-validate ]; then
++		w1700k_shared_wiphy=1
++		country="$(printf '%s' "${country:-US}" | tr '[:lower:]' '[:upper:]')"
++		[ "$country" = "00" ] && country=US
++		if ! /usr/sbin/w1700k-wireless-validate --prepare-regdomain; then
++			echo "W1700K wireless validation failed; refusing to apply impossible radio configuration"
++			wireless_set_retry 0
++			return 1
++		fi
++	fi
++
+ 	set_default ifname_prefix "$phy$vif_phy_suffix-"
+ 
+ 	local wdev
+@@ -1217,10 +1239,19 @@ drv_mac80211_setup() {
+ 	[ "$txantenna" = "all" ] && txantenna=0xffffffff
+ 	[ "$rxantenna" = "all" ] && rxantenna=0xffffffff
+ 
+-	[ "$rxantenna" = "$prev_rxantenna" -a "$txantenna" = "$prev_txantenna" ] || mac80211_reset_config "$phy"
++	antenna_changed=
++	[ "$rxantenna" = "$prev_rxantenna" -a "$txantenna" = "$prev_txantenna" ] || {
++		antenna_changed=1
++		mac80211_reset_config "$phy"
++	}
+ 	wireless_set_data phy="$phy" radio="$radio" txantenna="$txantenna" rxantenna="$rxantenna"
+ 
+-	iw phy "$phy" set antenna $txantenna $rxantenna >/dev/null 2>&1
++	# The W1700K has a fixed antenna topology shared by all three logical
++	# radios. Keep the driver's full-chain default instead of racing a global
++	# SET_WIPHY operation against sibling wdev creation.
++	if [ -n "$antenna_changed" ] && [ -z "$w1700k_shared_wiphy" ]; then
++		iw phy "$phy" set antenna $txantenna $rxantenna >/dev/null 2>&1
++	fi
+ 	iw phy "$phy" set distance "$distance" >/dev/null 2>&1
+ 
+ 	[ -n "$frag" ] && iw phy "$phy" set frag "${frag%%.*}"
+diff --git a/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc b/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
+index db9ad798d9e51965bbf1add16aeb63b71b37cc85..f0bb53b89ee6eb42db22f24d194fc495ba5b6405 100644
+--- a/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
++++ b/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
+@@ -156,7 +156,11 @@ function wdev_set_mesh_params(name, data)
+ 
+ function wdev_set_up(name, up)
+ {
+-	rtnl.request(rtnl.const.RTM_SETLINK, 0, { dev: name, change: 1, flags: up ? 1 : 0 });
++	return rtnl.request(rtnl.const.RTM_SETLINK, 0, {
++		dev: name,
++		change: 1,
++		flags: up ? 1 : 0,
++	}) != false;
+ }
+ 
+ function phy_sysfs_file(phy, name)
+diff --git a/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc b/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
+index 0b6d6d587bc09d9302db036e57fd9bcd0b2f9af6..ee9579deb9a283fe3879b37745ec28c3e58f6034 100644
+--- a/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
++++ b/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
+@@ -167,10 +167,10 @@ if (!phy_name || !command | !commands[command])
+ 
+ let phy_split = split(phy_name, ":");
+ phydev = phy_open(phy_split[0], phy_split[1]);
+-phy = phydev.phy;
+ if (!phydev) {
+ 	warn(`PHY ${phy_name} does not exist\n`);
+ 	exit(1);
+ }
++phy = phydev.phy;
+ 
+ commands[command](ARGV);
+diff --git a/package/network/services/hostapd/files/hostapd.uc b/package/network/services/hostapd/files/hostapd.uc
+index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a1285eaf865 100644
+--- a/package/network/services/hostapd/files/hostapd.uc
++++ b/package/network/services/hostapd/files/hostapd.uc
+@@ -1,15 +1,45 @@
+ let libubus = require("ubus");
+ import * as uloop from "uloop";
++import * as nl80211 from "nl80211";
+ import { open, readfile, access } from "fs";
+-import { wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open, wdev_set_radio_mask, wdev_set_up } from "common";
++import { wdev_create, wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open, wdev_set_radio_mask, wdev_set_up } from "common";
+ 
+ let ubus = libubus.connect(null, 60);
+ 
++function format_exception(e)
++{
++	let text;
++	if (type(e) == "object" && e.message != null) {
++		text = e.type ? `${e.type}: ${e.message}` : `${e.message}`;
++	} else if (type(e) == "object" || type(e) == "array") {
++		text = sprintf("%.J", e);
++	} else {
++		text = `${e}`;
++	}
++
++	let context = e?.stacktrace?.[0]?.context;
++	return context != null ? `${text}\n${context}` : text;
++}
++
++function log_exception(prefix, e)
++{
++	let text;
++	try {
++		text = format_exception(e);
++	} catch (format_error) {
++		text = "unprintable exception";
++	}
++
++	try {
++		for (let line in split(`${prefix}${text}`, '\n'))
++			hostapd.printf(line);
++	} catch (log_error) {
++	}
++}
++
+ function ex_handler(e)
+ {
+-	e = split(`${e}\n${e.stacktrace[0].context}`, '\n');
+-	for (let line in e)
+-		hostapd.printf(line);
++	log_exception("", e);
+ 	return libubus.STATUS_UNKNOWN_ERROR;
+ }
+ libubus.guard(ex_handler);
+@@ -64,6 +94,14 @@ hostapd.data.bss_info_fields = {
+ hostapd.data.mld = {};
+ hostapd.data.dpp_hooks = {};
+ 
++function phy_wdev_add(phydev, name, data)
++{
++	return wdev_create(phydev.phy, name, {
++		...data,
++		radio: phydev.radio,
++	});
++}
++
+ function iface_remove(cfg)
+ {
+ 	if (!cfg || !cfg.bss || !cfg.bss[0] || !cfg.bss[0].ifname)
+@@ -221,6 +259,17 @@ function iface_update_supplicant_macaddr(phydev)
+ 	});
+ }
+ 
++function iface_pending_complete(pending)
++{
++	if (hostapd.data.pending_config[pending.phy] == pending)
++		delete hostapd.data.pending_config[pending.phy];
++
++	let complete = pending.complete;
++	delete pending.complete;
++	if (complete)
++		complete(pending.result == true);
++}
++
+ function __iface_pending_next(pending, state, ret, data)
+ {
+ 	let config = pending.config;
+@@ -237,12 +286,12 @@ function __iface_pending_next(pending, state, ret, data)
+ 		return "create_bss";
+ 	case "create_bss":
+ 		if (!bss.mld_ap) {
+-			let err = phydev.wdev_add(bss.ifname, {
++			let err = phy_wdev_add(phydev, bss.ifname, {
+ 				mode: "ap",
+-				radio: phydev.radio,
+ 			});
+ 			if (err) {
+ 				hostapd.printf(`Failed to create ${bss.ifname} on phy ${phy}: ${err}`);
++				pending.result = false;
+ 				return null;
+ 			}
+ 		}
+@@ -255,8 +304,10 @@ function __iface_pending_next(pending, state, ret, data)
+ 	case "check_phy":
+ 		let phy_status = data;
+ 		if (phy_status && phy_status.state == "COMPLETED") {
+-			if (iface_add(phy, config, phy_status))
++			if (iface_add(phy, config, phy_status)) {
++				pending.result = true;
+ 				return "done";
++			}
+ 
+ 			hostapd.printf(`Failed to bring up phy ${phy} ifname=${bss.ifname} with supplicant provided frequency`);
+ 		}
+@@ -267,17 +318,20 @@ function __iface_pending_next(pending, state, ret, data)
+ 		});
+ 		return "wpas_stopped";
+ 	case "wpas_stopped":
+-		if (!iface_add(phy, config))
++		pending.result = iface_add(phy, config);
++		if (!pending.result)
+ 			hostapd.printf(`hostapd.add_iface failed for phy ${phy} ifname=${bss.ifname}`);
+ 		pending.call("wpa_supplicant", "phy_set_state", {
+ 			phy: phydev.phy,
+ 			radio: phydev.radio ?? -1,
+ 			stop: false
+ 		});
+-		return null;
++		return pending.complete ? "wpas_started" : null;
++	case "wpas_started":
++		return "done";
+ 	case "done":
+ 	default:
+-		delete hostapd.data.pending_config[phy];
++		iface_pending_complete(pending);
+ 		break;
+ 	}
+ }
+@@ -289,13 +343,18 @@ function iface_pending_next(ret, data)
+ 
+ 	while (pending) {
+ 		try {
+-			this.next_state = __iface_pending_next(cfg, this.next_state, ret, data);
++			let state = this.next_state;
++			this.next_state = __iface_pending_next(cfg, state, ret, data);
++			if (state == "done")
++				return;
+ 			if (!this.next_state) {
+ 				__iface_pending_next(cfg, "done");
+ 				return;
+ 			}
+ 		} catch(e) {
+-			hostapd.printf(`Exception: ${e}\n${e.stacktrace[0].context}`);
++			this.result = false;
++			log_exception("Exception: ", e);
++			__iface_pending_next(cfg, "done");
+ 			return;
+ 		}
+ 		pending = !this.defer;
+@@ -304,6 +363,7 @@ function iface_pending_next(ret, data)
+ 
+ function iface_pending_abort()
+ {
++	this.result = false;
+ 	this.next_state = "done";
+ 	this.next();
+ }
+@@ -321,7 +381,7 @@ const iface_pending_proto = {
+ 	abort: iface_pending_abort,
+ };
+ 
+-function iface_pending_init(phydev, config)
++function iface_pending_init(phydev, config, complete)
+ {
+ 	let phy = phydev.name;
+ 
+@@ -330,6 +390,7 @@ function iface_pending_init(phydev, config)
+ 		phydev: phydev,
+ 		phy: phy,
+ 		config: config,
++		complete: complete,
+ 		next: iface_pending_next,
+ 	}, iface_pending_proto);
+ 
+@@ -348,14 +409,15 @@ function iface_macaddr_init(phydev, config, macaddr_list)
+ 	return phydev.macaddr_init(macaddr_list, macaddr_data);
+ }
+ 
+-// The address of an MLD is also the address of one of its links.
+-// mld_add_bss() takes it from radio 0, so only a link on radio 0 can use it. A
+-// link on another radio must keep the reservation, because the two links would
++// The address of an MLD is also the address of its anchor link. A link on
++// another radio must keep the reservation, because the two links would
+ // otherwise use one address.
+ function bss_macaddr_next(phydev, macaddr_list, bss, idx)
+ {
+ 	let mld_addr = bss.mld_bssid;
+-	if (phydev.radio || macaddr_list[mld_addr] != -1)
++	if (bss.mld_anchor_radio == null ||
++	    phydev.radio != bss.mld_anchor_radio ||
++	    macaddr_list[mld_addr] != -1)
+ 		mld_addr = null;
+ 
+ 	return phydev.macaddr_next(idx, mld_addr);
+@@ -370,7 +432,7 @@ function csa_timer_cancel(name)
+ 	}
+ }
+ 
+-function iface_restart(phydev, config, old_config)
++function iface_restart(phydev, config, old_config, complete)
+ {
+ 	let phy = phydev.name;
+ 	let pending = hostapd.data.pending_config[phy];
+@@ -392,6 +454,8 @@ function iface_restart(phydev, config, old_config)
+ 
+ 	if (!config.bss || !config.bss[0]) {
+ 		hostapd.printf(`No bss for phy ${phy}`);
++		if (complete)
++			complete(false);
+ 		return;
+ 	}
+ 
+@@ -422,7 +486,9 @@ function iface_restart(phydev, config, old_config)
+ 			bss.bssid = bss_macaddr_next(phydev, macaddr_list, bss, i);
+ 	}
+ 
+-	iface_pending_init(phydev, config);
++	iface_pending_init(phydev, config, complete);
++	if (complete)
++		return true;
+ }
+ 
+ function array_to_obj(arr, key, start)
+@@ -1016,7 +1082,7 @@ function bss_check_mld(phydev, iface_name, bss)
+ 		return;
+ 
+ 	bss.mld_bssid = mld_data.macaddr;
+-	mld_data.iface[iface_name] = true;
++	bss.mld_anchor_radio = mld_data.anchor_radio;
+ 
+ 	if (!access('/sys/class/net/' + bss.ifname, 'x'))
+ 		mld_data.has_wdev = false;
+@@ -1025,15 +1091,20 @@ function bss_check_mld(phydev, iface_name, bss)
+ 		return true;
+ 
+ 	hostapd.printf(`Create MLD interface ${bss.ifname} on phy ${phydev.name}, radio mask: ${mld_data.radio_mask}`);
+-	let err = phydev.wdev_add(bss.ifname, {
++	let err = phy_wdev_add(phydev, bss.ifname, {
+ 		mode: "ap",
+ 		macaddr: mld_data.macaddr,
+ 		radio_mask: mld_data.radio_mask,
+ 	});
+-	wdev_set_up(bss.ifname, true);
+ 	if (err) {
+ 		hostapd.printf(`Failed to create MLD ${bss.ifname} on phy ${phydev.name}: ${err}`);
+-		delete mld_data.iface[iface_name];
++		return;
++	}
++
++	if (!wdev_set_up(bss.ifname, true)) {
++		hostapd.printf(`Failed to set MLD ${bss.ifname} up on phy ${phydev.name}`);
++		wdev_remove(bss.ifname);
++		delete mld_data.has_wdev;
+ 		return;
+ 	}
+ 
+@@ -1042,13 +1113,32 @@ function bss_check_mld(phydev, iface_name, bss)
+ 	return true;
+ }
+ 
++function mld_update_iface_refs(iface_name, active)
++{
++	for (let mld_name, mld_data in hostapd.data.mld) {
++		delete mld_data.iface[iface_name];
++		if (active[mld_name])
++			mld_data.iface[iface_name] = true;
++
++		if (length(mld_data.iface) > 0 || !mld_data.has_wdev)
++			continue;
++
++		hostapd.printf(`Remove unused MLD interface ${mld_name}`);
++		wdev_remove(mld_name);
++		delete mld_data.has_wdev;
++	}
++}
++
+ function iface_check_mld(phydev, name, config)
+ {
+ 	phydev = phy_open(phydev.phy);
++	if (!phydev) {
++		hostapd.printf(`Failed to open base phy for MLD config ${name}`);
++		return false;
++	}
+ 
+-	for (let mld_name, mld_data in hostapd.data.mld)
+-		delete mld_data.iface[name];
+-
++	let active = {};
++	let valid = true;
+ 	for (let i = 0; i < length(config.bss); i++) {
+ 		let bss = config.bss[i];
+ 		if (!bss.mld_ap)
+@@ -1057,64 +1147,77 @@ function iface_check_mld(phydev, name, config)
+ 		if (!bss_check_mld(phydev, name, bss)) {
+ 			hostapd.printf(`Skip MLD interface ${name} on phy ${phydev.name}`);
+ 			splice(config.bss, i--, 1);
++			valid = false;
++			continue;
+ 		}
++
++		active[bss.ifname] = true;
+ 	}
+ 
+-	for (let mld_name, mld_data in hostapd.data.mld) {
+-		if (length(mld_data.iface) > 0)
+-			continue;
++	mld_update_iface_refs(name, active);
+ 
+-		hostapd.printf(`Remove MLD interface ${mld_name}`);
+-		wdev_remove(mld_name);
+-		delete mld_data.has_wdev;
+-	}
++	return valid;
+ }
+ 
+ function iface_config_remove(name, old_config)
+ {
+ 	delete hostapd.data.apsta_freq[name];
+ 	hostapd.remove_iface(name);
++	mld_update_iface_refs(name, {});
+ 	return iface_remove(old_config);
+ }
+ 
+-function iface_set_config(name, config)
++function iface_set_config(name, config, complete, allow_mld_filter)
+ {
+ 	let old_config = hostapd.data.config[name];
+ 
+ 	if (!config) {
+ 		delete hostapd.data.config[name];
+-		return iface_config_remove(name, old_config);
++		let ret = iface_config_remove(name, old_config);
++		if (complete)
++			complete(true);
++		return ret;
+ 	}
+ 
+-	hostapd.data.config[name] = config;
+-
+ 	let phy = config.phy;
+ 	let phydev = phy_open(phy, config.radio_idx);
+ 	if (!phydev) {
+ 		hostapd.printf(`Failed to open phy ${phy}`);
++		if (complete)
++			complete(false);
+ 		return false;
+ 	}
+ 
+ 	config.orig_bss = [ ...config.bss ];
+-	iface_check_mld(phydev, name, config);
+-	if (!length(config.bss))
+-		return iface_config_remove(name, old_config);
++	let mld_valid = iface_check_mld(phydev, name, config);
++	let config_valid = mld_valid || allow_mld_filter;
++	hostapd.data.config[name] = config;
++	if (!length(config.bss)) {
++		let ret = iface_config_remove(name, old_config) ?? (config_valid ? 0 : false);
++		if (complete)
++			complete(config_valid);
++		return ret;
++	}
+ 
+ 	try {
+ 		let ret = iface_reload_config(name, phydev, config, old_config);
+ 		if (ret) {
+ 			iface_update_supplicant_macaddr(phydev);
+ 			hostapd.printf(`Reloaded settings for phy ${name}`);
+-			return 0;
++			if (complete)
++				complete(config_valid);
++			return config_valid ? 0 : false;
+ 		}
+ 	} catch (e) {
+-		hostapd.printf(`Error reloading config: ${e}\n${e.stacktrace[0].context}`);
++		log_exception("Error reloading config: ", e);
+ 	}
+ 
+ 	hostapd.printf(`Restart interface for phy ${name}`);
+-	let ret = iface_restart(phydev, config, old_config);
++	let ret = iface_restart(phydev, config, old_config, complete ? (valid) => {
++		complete(config_valid && valid);
++	} : null);
+ 
+-	return ret;
++	return config_valid ? ret : false;
+ }
+ 
+ function config_add_bss(config, name)
+@@ -1264,38 +1367,154 @@ function mld_rename_bss(data, name)
+ 	return false;
+ }
+ 
+-function mld_add_bss(name, data, phy_list, i)
++function mld_macaddr_canonical(addr)
+ {
+-	let config = data.config;
+-	if (!config.phy)
++	if (type(addr) != "string" || length(addr) != 17 ||
++	    !match(addr, /^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$/) ||
++	    (hex(substr(addr, 0, 2)) & 1))
++		return null;
++
++	addr = lc(addr);
++	return addr != "00:00:00:00:00:00" ? addr : null;
++}
++
++function mld_macaddr_reserve(state, addr, owner)
++{
++	addr = mld_macaddr_canonical(addr);
++	if (!addr)
+ 		return;
+ 
+-	hostapd.printf(`Add MLD interface ${name}`);
+-	wdev_remove(name);
+-	let phydev = phy_list[config.phy];
+-	if (!phydev) {
+-		phydev = phy_open(config.phy, 0);
+-		if (!phydev)
+-			return;
++	state.macaddr_list[addr] = -1;
++	state.owners[addr] ??= [];
++	push(state.owners[addr], owner);
++}
+ 
+-		iface_macaddr_init(phydev, data.config, phy_macaddr_list(config.phy));
++function mld_macaddr_state(old_mld)
++{
++	let state = { macaddr_list: {}, owners: {} };
++	for (let name, data in old_mld)
++		mld_macaddr_reserve(state, data.macaddr, name);
++
++	for (let iface, config in hostapd.data.config)
++		for (let bss in config.bss) {
++			let old = old_mld[bss.ifname];
++			let addr = mld_macaddr_canonical(bss.bssid);
++			let owner = bss.mld_ap && old && addr &&
++				addr == mld_macaddr_canonical(old.macaddr) ? bss.ifname : null;
++			mld_macaddr_reserve(state, addr, owner);
++		}
+ 
+-		phy_list[config.phy] = phydev;
++	// Dump all PHYs/radios, including wdevs outside this service's configuration.
++	let wdevs = nl80211.request(nl80211.const.NL80211_CMD_GET_INTERFACE,
++				    nl80211.const.NLM_F_DUMP, {});
++	if (type(wdevs) != "array")
++		return null;
++
++	for (let wdev in wdevs) {
++		let old = old_mld[wdev.ifname];
++		let addr = mld_macaddr_canonical(wdev.mac);
++		let owner = old && addr && addr == mld_macaddr_canonical(old.macaddr) ?
++			wdev.ifname : null;
++		mld_macaddr_reserve(state, addr, owner);
+ 	}
+ 
+-	data.macaddr = config.macaddr;
+-	if (!data.macaddr) {
+-		data.macaddr = phydev.macaddr_next();
+-		data.default_macaddr = true;
++	return state;
++}
++
++function mld_macaddr_available(state, addr, name)
++{
++	if (!addr)
++		return false;
++
++	for (let owner in state.owners[addr])
++		if (owner != name)
++			return false;
++
++	return true;
++}
++
++function mld_add_bss(name, data, phy_list, mac_state, old)
++{
++	let config = data.config;
++	if (!config.phy) {
++		hostapd.printf(`Cannot prepare MLD ${name}: missing phy`);
++		return false;
++	}
++	if (type(config.radios) != "array" || !length(config.radios)) {
++		hostapd.printf(`Cannot prepare MLD ${name}: missing radios`);
++		return false;
+ 	}
+ 
+ 	let radio_mask = 0;
+-	for (let r in config.radios)
+-		if (r != null)
+-			radio_mask |= 1 << r;
++	let anchor_radio = null;
++	for (let r in config.radios) {
++		if (r == null || r < 0 || r >= 32 || r != (r | 0)) {
++			hostapd.printf(`Cannot prepare MLD ${name}: invalid radio ${r}`);
++			return false;
++		}
++
++		if (anchor_radio == null)
++			anchor_radio = r;
++		radio_mask |= 1 << r;
++	}
++	if (anchor_radio == null || !radio_mask) {
++		hostapd.printf(`Cannot prepare MLD ${name}: empty radio mask`);
++		return false;
++	}
+ 
++	hostapd.printf(`Prepare MLD interface ${name}`);
++	let phy_state = phy_list[config.phy];
++	if (!phy_state) {
++		phy_state = {
++			allocators: {},
++		};
++		phy_list[config.phy] = phy_state;
++	}
++
++	let phy_key = phy_name(config.phy, anchor_radio);
++	let phydev = phy_state.allocators[anchor_radio];
++	if (!phydev) {
++		phydev = phy_open(config.phy, anchor_radio);
++		if (!phydev) {
++			hostapd.printf(`Cannot prepare MLD ${name}: failed to open phy ${phy_key}`);
++			return false;
++		}
++
++		phy_state.allocators[anchor_radio] = phydev;
++	}
++
++	// macaddr_init copies the ledger and adds live wdev reservations.
++	mac_state.macaddr_list = iface_macaddr_init(phydev, data.config, mac_state.macaddr_list);
++	for (let addr in mac_state.macaddr_list) {
++		let canonical = mld_macaddr_canonical(addr);
++		if (canonical && !mac_state.owners[canonical])
++			mld_macaddr_reserve(mac_state, canonical, null);
++	}
++
++	if (config.macaddr != null) {
++		data.macaddr = mld_macaddr_canonical(config.macaddr);
++	} else {
++		let prev = mld_macaddr_canonical(old?.macaddr);
++		if (old?.default_macaddr && old.config.phy == config.phy &&
++		    old.anchor_radio == anchor_radio &&
++		    mld_macaddr_available(mac_state, prev, name))
++			data.macaddr = prev;
++		else
++			data.macaddr = phydev.macaddr_next();
++		data.default_macaddr = true;
++	}
++	data.macaddr = mld_macaddr_canonical(data.macaddr);
++	if (!mld_macaddr_available(mac_state, data.macaddr, name)) {
++		hostapd.printf(`Cannot prepare MLD ${name}: invalid or conflicting MAC address`);
++		return false;
++	}
++	mld_macaddr_reserve(mac_state, data.macaddr, name);
++
++	data.anchor_radio = anchor_radio;
+ 	data.radio_mask = radio_mask;
+ 	data.ifname = name;
++
++	return true;
+ }
+ 
+ function mld_find_matching_config(list, config)
+@@ -1305,24 +1524,177 @@ function mld_find_matching_config(list, config)
+ 			return name;
+ }
+ 
+-function mld_reload_interface(name)
++function mld_reload_interface(name, complete, allow_mld_filter)
+ {
+ 	let config = hostapd.data.config[name];
+-	if (!config)
+-		return;
++	if (!config) {
++		if (complete)
++			complete(true);
++		return true;
++	}
+ 
+ 	config = { ...config };
+-	config.bss = config.orig_bss;
++	config.bss = [ ...(config.orig_bss ?? config.bss ?? []) ];
+ 
+-	iface_set_config(name, config);
++	return iface_set_config(name, config, complete, allow_mld_filter) !== false;
+ }
+ 
+-function mld_set_config(config)
++function mld_config_uses(config, mld_name)
+ {
+-	let prev_mld = { ...hostapd.data.mld };
++	for (let bss in config?.orig_bss ?? config?.bss ?? [])
++		if (bss.mld_ap && bss.ifname == mld_name)
++			return true;
++
++	return false;
++}
++
++function mld_collect_reload(reload_iface, name, data, include_config)
++{
++	for (let iface in data?.iface ?? {})
++		reload_iface[iface] = true;
++
++	for (let iface, bss_list in hostapd.bss)
++		if (bss_list[name])
++			reload_iface[iface] = true;
++
++	if (!include_config)
++		return;
++
++	for (let iface, iface_config in hostapd.data.config)
++		if (mld_config_uses(iface_config, name))
++			reload_iface[iface] = true;
++}
++
++function mld_reload_interfaces(reload_iface, complete, allow_mld_filter)
++{
++	let iface_list = keys(reload_iface);
++	let index = 0;
++	let finished = false;
++	let finish = (valid) => {
++		if (finished)
++			return;
++
++		finished = true;
++		if (complete)
++			complete(valid);
++	};
++	let next;
++	next = (valid) => {
++		if (finished)
++			return;
++
++		if (!valid || index >= length(iface_list)) {
++			finish(valid);
++			return;
++		}
++
++		let name = iface_list[index++];
++		try {
++			mld_reload_interface(name, next, allow_mld_filter);
++		} catch (e) {
++			log_exception(`Exception reloading MLD interface ${name}: `, e);
++			finish(false);
++		}
++	};
++
++	next(true);
++}
++
++function mld_transaction_finish(transaction, valid)
++{
++	if (hostapd.data.mld_transaction != transaction)
++		return;
++
++	delete hostapd.data.mld_transaction;
++	if (transaction.complete)
++		transaction.complete(valid);
++}
++
++function mld_reject_concurrent_mutation(operation)
++{
++	if (!hostapd.data.mld_transaction)
++		return false;
++
++	hostapd.printf(`Reject ${operation}: MLD transaction is still active`);
++	return true;
++}
++
++function mld_transaction_rollback(transaction, reload_iface)
++{
++	if (hostapd.data.mld_transaction != transaction)
++		return;
++
++	for (let name in transaction.new_entry) {
++		let data = transaction.new_mld[name];
++		if (data.has_wdev)
++			wdev_remove(name);
++		delete data.has_wdev;
++		data.iface = {};
++	}
++
++	hostapd.data.mld = transaction.old_mld;
++	mld_reload_interfaces(reload_iface, (restored) => {
++		if (!restored)
++			hostapd.printf(`Failed to restore previous MLD config after rollback`);
++		hostapd.printf(`Reject MLD config: failed to activate new interfaces`);
++		mld_transaction_finish(transaction, false);
++	}, true);
++}
++
++function mld_transaction_activate(transaction)
++{
++	if (hostapd.data.mld_transaction != transaction)
++		return;
++
++	for (let name, data in transaction.prev_mld) {
++		if (data.ifname)
++			hostapd.printf(`Remove MLD interface ${name}`);
++		wdev_remove(name);
++		delete data.has_wdev;
++		data.iface = {};
++	}
++
++	hostapd.data.mld = transaction.new_mld;
++	let add_reload = {};
++	let first_config = !length(transaction.old_mld) && length(transaction.new_mld);
++	if (first_config) {
++		hostapd.printf(`Reload all interfaces for initial MLD config`);
++		for (let name in hostapd.data.config)
++			add_reload[name] = true;
++	} else {
++		for (let name in transaction.new_entry)
++			mld_collect_reload(add_reload, name, transaction.new_mld[name], true);
++	}
++	transaction.add_reload = add_reload;
++
++	mld_reload_interfaces(add_reload, (valid) => {
++		if (valid) {
++			mld_transaction_finish(transaction, true);
++			return;
++		}
++
++		mld_transaction_rollback(transaction, {
++			...transaction.remove_reload,
++			...add_reload,
++		});
++	});
++}
++
++function mld_set_config(config, complete)
++{
++	if (mld_reject_concurrent_mutation('MLD config'))
++		return false;
++
++	let old_mld = hostapd.data.mld;
++	let prev_mld = { ...old_mld };
+ 	let new_mld = {};
++	let new_entry = {};
+ 	let phy_list = {};
+-	let new_config = !length(prev_mld) && length(config);
++	let mac_state = mld_macaddr_state(old_mld);
++	if (!mac_state) {
++		hostapd.printf('Reject MLD config: cannot enumerate live MAC addresses');
++		return false;
++	}
+ 
+ 	hostapd.printf(`Set MLD config: ${keys(config)}`);
+ 
+@@ -1332,53 +1704,92 @@ function mld_set_config(config)
+ 		if (prev) {
+ 			let data = prev_mld[prev];
+ 			if (mld_rename_bss(data, name)) {
++				let addr = mld_macaddr_canonical(data.macaddr);
++				if (!mld_macaddr_available(mac_state, addr, name))
++					return false;
++				mld_macaddr_reserve(mac_state, addr, name);
+ 				new_mld[name] = data;
+ 				delete prev_mld[prev];
+ 				continue;
+ 			}
+ 		}
+ 
+-		new_mld[name] = {
++		let entry = {
+ 			config: data,
+ 			iface: {},
+ 		};
++		if (!mld_add_bss(name, entry, phy_list, mac_state, old_mld[name])) {
++			hostapd.printf(`Reject MLD config: failed to prepare ${name}`);
++			return false;
++		}
++
++		new_mld[name] = entry;
++		new_entry[name] = true;
+ 	}
+ 
+-	let reload_iface = {};
+-	for (let name, data in prev_mld) {
+-		delete hostapd.data.mld[name];
++	let retained_mld = {};
++	for (let name, data in new_mld)
++		if (!new_entry[name])
++			retained_mld[name] = data;
++
++	let remove_reload = {};
++	for (let name, data in prev_mld)
++		mld_collect_reload(remove_reload, name, data, false);
++
++	let transaction = {
++		old_mld,
++		prev_mld,
++		new_mld,
++		new_entry,
++		remove_reload,
++		complete,
++	};
++	hostapd.data.mld_transaction = transaction;
+ 
+-		if (!data.ifname)
+-			continue;
++	if (!length(prev_mld)) {
++		mld_transaction_activate(transaction);
++		return true;
++	}
+ 
+-		for (let iface, bss_list in hostapd.bss) {
+-			if (!bss_list[name])
+-				continue;
+-			reload_iface[iface] = true;
++	hostapd.data.mld = retained_mld;
++	mld_reload_interfaces(remove_reload, (valid) => {
++		if (valid) {
++			mld_transaction_activate(transaction);
++			return;
+ 		}
+-	}
+ 
+-	for (let name in reload_iface)
+-		mld_reload_interface(name);
++		hostapd.printf(`Reject MLD config: failed to detach previous interfaces`);
++		mld_transaction_rollback(transaction, remove_reload);
++	}, true);
+ 
+-	for (let name, data in prev_mld) {
+-		if (data.ifname)
+-			hostapd.printf(`Remove MLD interface ${name}`);
+-		wdev_remove(name);
+-	}
++	return true;
++}
+ 
+-	// add new interfaces
+-	hostapd.data.mld = new_mld;
+-	for (let name, data in new_mld)
+-		if (!data.ifname)
+-			mld_add_bss(name, data, phy_list);
++function mld_set_request(req, config)
++{
++	let completed = false;
++	let deferred = false;
++	let valid = false;
++	let complete = (result) => {
++		completed = true;
++		valid = result;
++		if (!deferred)
++			return;
+ 
+-	if (!new_config)
+-		return;
++		if (valid)
++			req.reply({ pid: hostapd.getpid() });
++		else
++			req.reply({}, libubus.STATUS_UNKNOWN_ERROR);
++	};
+ 
+-	hostapd.printf(`Reload all interfaces`);
+-	for (let name in hostapd.data.config)
+-		mld_reload_interface(name);
++	if (!mld_set_config(config, complete))
++		return libubus.STATUS_UNKNOWN_ERROR;
++	if (completed)
++		return valid ? { pid: hostapd.getpid() } : libubus.STATUS_UNKNOWN_ERROR;
++
++	if (!req.defer())
++		return libubus.STATUS_UNKNOWN_ERROR;
++	deferred = true;
+ }
+ 
+ function dpp_find_bss(ifname)
+@@ -1485,6 +1896,9 @@ let main_obj = {
+ 			radio: 0,
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('hostapd reload'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			let phy_list = req.args.phy ? [ phy_name(req.args.phy, req.args.radio) ] : keys(hostapd.data.config);
+ 			for (let phy_name in phy_list) {
+ 				let phy = hostapd.data.config[phy_name];
+@@ -1507,6 +1921,9 @@ let main_obj = {
+ 			no_link: true,
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('AP/STA state change'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			let phy = phy_name(req.args.phy, req.args.radio);
+ 			if (req.args.up == null || !phy)
+ 				return libubus.STATUS_INVALID_ARGUMENT;
+@@ -1591,6 +2008,9 @@ let main_obj = {
+ 			center_freq2: 0,
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('channel switch'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			let phy = phy_name(req.args.phy, req.args.radio);
+ 			if (!req.args.frequency || !phy)
+ 				return libubus.STATUS_INVALID_ARGUMENT;
+@@ -1615,21 +2035,19 @@ let main_obj = {
+ 			if (!req.args.config)
+ 				return libubus.STATUS_INVALID_ARGUMENT;
+ 
+-			mld_set_config(req.args.config);
+-
+-			return {
+-				pid: hostapd.getpid()
+-			};
++			return mld_set_request(req, req.args.config);
+ 		}
+ 	},
+ 	config_reset: {
+ 		args: {
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('hostapd config reset'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			for (let name in hostapd.data.config)
+ 				iface_set_config(name);
+-			mld_set_config({});
+-			return 0;
++			return mld_set_request(req, {});
+ 		}
+ 	},
+ 	config_set: {
+@@ -1640,6 +2058,9 @@ let main_obj = {
+ 			prev_config: "",
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('hostapd config set'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			let phy = req.args.phy;
+ 			let radio = req.args.radio;
+ 			let name = phy_name(phy, radio);
+@@ -1675,6 +2096,9 @@ let main_obj = {
+ 			config: "",
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('hostapd config add'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			if (!req.args.iface || !req.args.config)
+ 				return libubus.STATUS_INVALID_ARGUMENT;
+ 
+@@ -1691,6 +2115,9 @@ let main_obj = {
+ 			iface: ""
+ 		},
+ 		call: function(req) {
++			if (mld_reject_concurrent_mutation('hostapd config remove'))
++				return libubus.STATUS_UNKNOWN_ERROR;
++
+ 			if (!req.args.iface)
+ 				return libubus.STATUS_INVALID_ARGUMENT;
+ 
+@@ -1742,6 +2169,7 @@ let main_obj = {
+ 					let entry = interfaces[ifname];
+ 
+ 					if (bss.mld_ap) {
++						let bss_running = !!hostapd.bss[phy_name]?.[ifname];
+ 						if (!entry) {
+ 							let mld = hostapd.data.mld[ifname];
+ 							entry = interfaces[ifname] = {
+@@ -1753,7 +2181,7 @@ let main_obj = {
+ 						entry.links[config.radio_idx ?? 0] = {
+ 							radio: config.radio_idx ?? 0,
+ 							macaddr: bss.bssid,
+-							running: is_running,
++							running: is_running && bss_running,
+ 							pending: is_pending,
+ 						};
+ 					} else {
+diff --git a/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory b/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory
+new file mode 100644
+index 0000000000000000000000000000000000000000..33b368ba25f6d582bca0ea5cdf4aeed4ecbded30
+--- /dev/null
++++ b/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory
+@@ -0,0 +1,456 @@
++#!/bin/sh
++
++# Shared W1700K channel and width policy. Prefer the live wiphy map and use
++# conservative static rules only before the wireless driver is available.
++
++is_uint() {
++	case "$1" in
++		""|*[!0-9]*) return 1 ;;
++	esac
++	return 0
++}
++
++in_list() {
++	local needle="$1"
++	local item
++	shift
++
++	for item in "$@"; do
++		[ "$item" = "$needle" ] && return 0
++	done
++	return 1
++}
++
++w1700k_normalize_country() {
++	local country
++
++	country="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
++	case "$country" in
++		""|00) echo US ;;
++		*) echo "$country" ;;
++	esac
++}
++
++w1700k_load_iw_phy_info() {
++	[ "${W1700K_IW_PHY_INFO_LOADED:-0}" = "1" ] && return
++	W1700K_IW_PHY_INFO_LOADED=1
++
++	if [ -n "${W1700K_IW_PHY_INFO_FILE:-}" ] && [ -r "$W1700K_IW_PHY_INFO_FILE" ]; then
++		W1700K_IW_PHY_INFO="$(cat "$W1700K_IW_PHY_INFO_FILE")"
++	elif command -v iw >/dev/null 2>&1; then
++		W1700K_IW_PHY_INFO="$(iw phy 2>/dev/null)"
++	else
++		W1700K_IW_PHY_INFO=
++	fi
++}
++
++w1700k_live_ap_channel_state() {
++	local band="$1"
++	local channel="$2"
++	local state
++
++	w1700k_load_iw_phy_info
++	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
++
++	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" -v target_channel="$channel" '
++		function channel_band(mhz) {
++			if (mhz >= 2400 && mhz < 2500) return "2g"
++			if (mhz >= 5000 && mhz < 5925) return "5g"
++			if (mhz >= 5925 && mhz <= 7125) return "6g"
++			return ""
++		}
++		$1 == "*" && $2 ~ /^[0-9]+$/ && $3 == "MHz" && $4 ~ /^\[[0-9]+\]$/ {
++			band = channel_band($2 + 0)
++			if (band != target_band) next
++			saw_band = 1
++			channel = $4
++			gsub(/[\[\]]/, "", channel)
++			if (channel != target_channel) next
++			saw_channel = 1
++			line = tolower($0)
++			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
++				usable = 1
++		}
++		END {
++			if (usable) print "usable"
++			else if (saw_band) print "blocked"
++			else print "unknown"
++		}
++	')"
++
++	case "$state" in
++		usable) return 0 ;;
++		blocked) return 1 ;;
++		*) return 2 ;;
++	esac
++}
++
++w1700k_live_band_has_ap_channel() {
++	local band="$1"
++	local state
++
++	w1700k_load_iw_phy_info
++	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
++
++	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" '
++		function channel_band(mhz) {
++			if (mhz >= 2400 && mhz < 2500) return "2g"
++			if (mhz >= 5000 && mhz < 5925) return "5g"
++			if (mhz >= 5925 && mhz <= 7125) return "6g"
++			return ""
++		}
++		$1 == "*" && $2 ~ /^[0-9]+$/ && $3 == "MHz" && channel_band($2 + 0) == target_band {
++			saw_band = 1
++			line = tolower($0)
++			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
++				usable = 1
++		}
++		END {
++			if (usable) print "usable"
++			else if (saw_band) print "blocked"
++			else print "unknown"
++		}
++	')"
++
++	case "$state" in
++		usable) return 0 ;;
++		blocked) return 1 ;;
++		*) return 2 ;;
++	esac
++}
++
++country_5g_channels() {
++	case "$(w1700k_normalize_country "$1")" in
++		US|SA)
++			echo "36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
++			;;
++		*)
++			# Safe startup fallback until the live regulatory map is available.
++			echo "36 40 44 48"
++			;;
++	esac
++}
++
++w1700k_static_channel_valid() {
++	local band="$1"
++	local channel="$2"
++	local country
++	local max2g
++
++	country="$(w1700k_normalize_country "$3")"
++
++	case "$band" in
++		2g)
++			case "$country" in
++				SA) max2g=13 ;;
++				JP) max2g=14 ;;
++				*) max2g=11 ;;
++			esac
++			[ "$channel" -ge 1 ] && [ "$channel" -le "$max2g" ]
++			;;
++		5g)
++			case " $(country_5g_channels "$country") " in
++				*" $channel "*) return 0 ;;
++				*) return 1 ;;
++			esac
++			;;
++		6g)
++			case "$country" in
++				US|SA) ;;
++				*) return 1 ;;
++			esac
++			[ "$channel" -eq 2 ] && return 0
++			[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] && [ $(((channel - 1) % 4)) -eq 0 ]
++			;;
++		*) return 1 ;;
++	esac
++}
++
++channel_valid() {
++	local band="$1"
++	local channel="$2"
++	local country
++	local live_rc
++
++	country="$(w1700k_normalize_country "$3")"
++
++	if [ "$channel" = "auto" ]; then
++		w1700k_live_band_has_ap_channel "$band"
++		live_rc=$?
++		if [ "$live_rc" -eq 2 ]; then
++			case "$band" in
++				2g) w1700k_static_channel_valid 2g 1 "$country" ;;
++				5g) w1700k_static_channel_valid 5g 36 "$country" ;;
++				6g) w1700k_static_channel_valid 6g 1 "$country" ;;
++				*) return 1 ;;
++			esac
++			return
++		fi
++		return "$live_rc"
++	fi
++
++	is_uint "$channel" || return 1
++	w1700k_live_ap_channel_state "$band" "$channel"
++	live_rc=$?
++	[ "$live_rc" -ne 2 ] && return "$live_rc"
++	w1700k_static_channel_valid "$band" "$channel" "$country"
++}
++
++htmode_width() {
++	case "$1" in
++		*320*) echo 320 ;;
++		*160*) echo 160 ;;
++		*80*) echo 80 ;;
++		*40*) echo 40 ;;
++		*) echo 20 ;;
++	esac
++}
++
++block_valid() {
++	local band="$1"
++	local country="$2"
++	local block="$3"
++	local ch
++
++	for ch in $block; do
++		channel_valid "$band" "$ch" "$country" || return 1
++	done
++	return 0
++}
++
++run_width_block_valid() {
++	local band="$1"
++	local country="$2"
++	local channel="$3"
++	local width="$4"
++	local run="$5"
++	local group pos count start end i ch
++
++	group=$((width / 20))
++	pos=-1
++	count=0
++	for ch in $run; do
++		[ "$ch" = "$channel" ] && pos="$count"
++		count=$((count + 1))
++	done
++
++	[ "$pos" -ge 0 ] || return 1
++	start=$(((pos / group) * group))
++	end=$((start + group - 1))
++	[ "$end" -lt "$count" ] || return 1
++
++	i=0
++	for ch in $run; do
++		if [ "$i" -ge "$start" ] && [ "$i" -le "$end" ]; then
++			channel_valid "$band" "$ch" "$country" || return 1
++		fi
++		i=$((i + 1))
++	done
++	return 0
++}
++
++run_has_valid_width_block() {
++	local band="$1"
++	local country="$2"
++	local width="$3"
++	local run="$4"
++	local group block="" count=0 ch
++
++	group=$((width / 20))
++	for ch in $run; do
++		block="${block:+$block }$ch"
++		count=$((count + 1))
++		if [ "$count" -eq "$group" ]; then
++			block_valid "$band" "$country" "$block" && return 0
++			block=""
++			count=0
++		fi
++	done
++
++	return 1
++}
++
++two_ghz_has_valid_40_block() {
++	local country="$1"
++	local channel
++
++	for channel in 1 2 3 4 5 6 7 8 9 10; do
++		block_valid 2g "$country" "$channel $((channel + 4))" && return 0
++	done
++
++	return 1
++}
++
++six_ghz_width_block() {
++	local width="$1"
++	local channel="$2"
++	local group index start end offset block=""
++
++	is_uint "$channel" || return 1
++	[ "$channel" -ne 2 ] || return 1
++	[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] || return 1
++	[ $(((channel - 1) % 4)) -eq 0 ] || return 1
++
++	group=$((width / 20))
++	case "$width" in
++		40|80|160)
++			index=$(((channel - 1) / 4))
++			start=$(((index / group) * group))
++			;;
++		320)
++			# hostapd uses three non-overlapping blocks followed by the
++			# overlapping center-191 block for primaries 193 through 221.
++			case "$channel" in
++				1|5|9|13|17|21|25|29|33|37|41|45|49|53|57|61) start=0 ;;
++				65|69|73|77|81|85|89|93|97|101|105|109|113|117|121|125) start=16 ;;
++				129|133|137|141|145|149|153|157|161|165|169|173|177|181|185|189) start=32 ;;
++				193|197|201|205|209|213|217|221) start=40 ;;
++				*) return 1 ;;
++			esac
++			;;
++		*) return 1 ;;
++	esac
++
++	end=$((start + group - 1))
++	[ "$end" -le 58 ] || return 1
++	offset=0
++	while [ "$offset" -lt "$group" ]; do
++		channel=$((1 + (start + offset) * 4))
++		block="${block:+$block }$channel"
++		offset=$((offset + 1))
++	done
++
++	echo "$block"
++}
++
++six_ghz_primary_bit() {
++	local width="$1"
++	local channel="$2"
++	local block ch bit=0
++
++	block="$(six_ghz_width_block "$width" "$channel")" || return 1
++	for ch in $block; do
++		if [ "$ch" = "$channel" ]; then
++			echo "$bit"
++			return 0
++		fi
++		bit=$((bit + 1))
++	done
++
++	return 1
++}
++
++six_ghz_has_valid_width_block() {
++	local country="$1"
++	local width="$2"
++	local group index=0 primary block
++
++	group=$((width / 20))
++	case "$width" in
++		40|80|160|320) ;;
++		*) return 1 ;;
++	esac
++
++	while [ $((index + group - 1)) -le 58 ]; do
++		primary=$((1 + index * 4))
++		block="$(six_ghz_width_block "$width" "$primary")" || return 1
++		block_valid 6g "$country" "$block" && return 0
++		index=$((index + group))
++	done
++
++	if [ "$width" -eq 320 ]; then
++		block="$(six_ghz_width_block 320 193)" || return 1
++		block_valid 6g "$country" "$block" && return 0
++	fi
++
++	return 1
++}
++
++auto_width_valid() {
++	local band="$1"
++	local country="$2"
++	local width="$3"
++
++	channel_valid "$band" auto "$country" || return 1
++	[ "$width" -le 20 ] && return 0
++
++	case "$band:$width" in
++		2g:40)
++			two_ghz_has_valid_40_block "$country"
++			;;
++		5g:40|5g:80)
++			run_has_valid_width_block 5g "$country" "$width" "36 40 44 48 52 56 60 64" ||
++				run_has_valid_width_block 5g "$country" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
++				run_has_valid_width_block 5g "$country" "$width" "149 153 157 161 165 169 173 177"
++			;;
++		6g:40|6g:80)
++			six_ghz_has_valid_width_block "$country" "$width"
++			;;
++		5g:160|6g:160|6g:320)
++			return 1
++			;;
++		*)
++			return 1
++			;;
++	esac
++}
++
++width_valid() {
++	local band="$1"
++	local htmode="$2"
++	local channel="$3"
++	local country
++	local width block
++
++	country="$(w1700k_normalize_country "$4")"
++
++	width="$(htmode_width "$htmode")"
++	if [ "$channel" = "auto" ]; then
++		auto_width_valid "$band" "$country" "$width"
++		return
++	fi
++
++	channel_valid "$band" "$channel" "$country" || return 1
++	[ "$width" -le 20 ] && return 0
++
++	case "$band:$width" in
++		2g:40)
++			block_valid 2g "$country" "$channel $((channel + 4))" ||
++				block_valid 2g "$country" "$channel $((channel - 4))"
++			;;
++		5g:40|5g:80|5g:160)
++			run_width_block_valid 5g "$country" "$channel" "$width" "36 40 44 48 52 56 60 64" ||
++				run_width_block_valid 5g "$country" "$channel" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
++				run_width_block_valid 5g "$country" "$channel" "$width" "149 153 157 161 165 169 173 177"
++			;;
++		6g:40|6g:80|6g:160|6g:320)
++			block="$(six_ghz_width_block "$width" "$channel")" || return 1
++			block_valid 6g "$country" "$block"
++			;;
++		*) return 1 ;;
++	esac
++}
++
++htmode_valid() {
++	local band="$1"
++	local htmode="$2"
++	local channel="$3"
++	local country
++
++	country="$(w1700k_normalize_country "$4")"
++
++	if [ "$band" = 2g ] && [ "$channel" = 14 ]; then
++		[ "$country" = JP ] && [ "$htmode" = NOHT ] &&
++			channel_valid 2g 14 "$country"
++		return
++	fi
++
++	case "$band:$htmode" in
++		2g:NOHT|2g:HT20|2g:HT40|2g:HE20|2g:HE40|2g:EHT20|2g:EHT40|\
++		5g:NOHT|5g:HT20|5g:HT40|5g:VHT20|5g:VHT40|5g:VHT80|5g:VHT160|5g:HE20|5g:HE40|5g:HE80|5g:HE160|5g:EHT20|5g:EHT40|5g:EHT80|5g:EHT160|\
++		6g:HE20|6g:HE40|6g:HE80|6g:HE160|6g:EHT20|6g:EHT40|6g:EHT80|6g:EHT160|6g:EHT320)
++			width_valid "$band" "$htmode" "$channel" "$country"
++			;;
++		*) return 1 ;;
++	esac
++}
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+new file mode 100755
+index 0000000000000000000000000000000000000000..74987d5f2a009319cdabe9b07369c2f990dd6074
+--- /dev/null
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+@@ -0,0 +1,328 @@
++#!/bin/sh
++
++. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
++. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
++
++[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
++
++changed=0
++radio0_old_band="$(uci -q get wireless.radio0.band)"
++
++warn() {
++	logger -t w1700k-radio-sanity -- "$*" 2>/dev/null ||
++		printf 'w1700k-radio-sanity: %s\n' "$*" >&2
++}
++
++set_if_diff() {
++	local key="$1"
++	local value="$2"
++	local cur
++
++	cur="$(uci -q get "$key")"
++	[ "$cur" = "$value" ] && return 0
++
++	uci set "$key=$value"
++	changed=1
++}
++
++set_list_if_diff() {
++	local key="$1"
++	local value="$2"
++	local cur expected item separator=""
++
++	cur="$(uci -q get "$key")"
++	[ -z "$cur$value" ] && return 0
++
++	expected="$key="
++	for item in $value; do
++		expected="$expected$separator'$item'"
++		separator=" "
++	done
++	if [ "$cur" = "$value" ] && [ "$(uci -q show "$key")" = "$expected" ]; then
++		return 0
++	fi
++
++	uci -q delete "$key"
++	for item in $value; do
++		uci add_list "$key=$item"
++	done
++	changed=1
++}
++
++set_if_missing() {
++	local key="$1"
++	local value="$2"
++
++	[ -n "$(uci -q get "$key")" ] && return 0
++	set_if_diff "$key" "$value"
++}
++
++security_valid_for_6g_or_mlo() {
++	local value="$1"
++	local enc="${value%%+*}"
++
++	case "$enc" in
++		sae|owe|wpa3|wpa3-192) ;;
++		*) return 1 ;;
++	esac
++
++	case "+$value+" in
++		*+[tT][kK][iI][pP]+*) return 1 ;;
++	esac
++
++	return 0
++}
++
++security_needs_key() {
++	local enc="${1%%+*}"
++
++	[ "$enc" = "sae" ]
++}
++
++device_index() {
++	local dev="$1"
++	local idx
++
++	idx="$(uci -q get wireless."$dev".radio)"
++	if [ -z "$idx" ]; then
++		case "$dev" in
++			radio0) idx=0 ;;
++			radio1) idx=1 ;;
++			radio2) idx=2 ;;
++		esac
++	fi
++
++	echo "$idx"
++}
++
++iface_uses_6g() {
++	local dev
++
++	for dev in $1; do
++		[ "$(device_index "$dev")" = "2" ] && return 0
++	done
++
++	return 1
++}
++
++canonical_mlo_devices() {
++	local devices="$*"
++	local dev wanted result=""
++
++	# Netifd uses the first device as the primary MLD PHY. Prefer the 5GHz
++	# link, then 6GHz, and keep 2.4GHz as the compatibility link.
++	for wanted in 1 2 0; do
++		for dev in $devices; do
++			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
++		done
++	done
++	for dev in $devices; do
++		case "$(device_index "$dev")" in
++			0|1|2) ;;
++			*) result="${result:+$result }$dev" ;;
++		esac
++	done
++
++	echo "$result"
++}
++
++ensure_mlo_fixed_channel() {
++	local dev="$1"
++	local channel htmode idx
++
++	channel="$(uci -q get wireless."$dev".channel)"
++	idx="$(device_index "$dev")"
++
++	if [ "$idx" = "0" ]; then
++		case "$channel" in
++			""|auto) set_if_diff wireless."$dev".channel 6 ;;
++		esac
++		htmode="$(uci -q get wireless."$dev".htmode)"
++		if [ "$htmode" != "EHT20" ]; then
++			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			set_if_diff wireless."$dev".htmode EHT20
++		fi
++		return 0
++	fi
++
++	case "$channel" in
++		""|auto) ;;
++		*) return 0 ;;
++	esac
++
++	case "$idx" in
++		1)
++			set_if_diff wireless."$dev".channel 36
++			set_if_diff wireless."$dev".htmode EHT80
++			;;
++		2)
++			set_if_diff wireless."$dev".channel 37
++			set_if_diff wireless."$dev".htmode EHT160
++			;;
++	esac
++}
++
++fresh_default_radio() {
++	local section="$1"
++	local iface seen
++
++	seen=0
++	for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
++		[ "$(uci -q get wireless."$iface".device)" = "$section" ] || continue
++		seen=1
++		[ "$(uci -q get wireless."$iface".mode)" = "ap" ] || return 1
++		[ "$(uci -q get wireless."$iface".ssid)" = "OpenWrt" ] || return 1
++		[ "$(uci -q get wireless."$iface".disabled)" = "1" ] || return 1
++	done
++
++	[ "$seen" = "1" ]
++}
++
++ensure_radio() {
++	local section="$1"
++	local idx="$2"
++	local band="$3"
++	local channel="$4"
++	local htmode="$5"
++	local country="$6"
++	local cur_channel cur_htmode
++
++	[ "$(uci -q get wireless."$section")" = "wifi-device" ] || return 0
++
++	set_if_diff wireless."$section".radio "$idx"
++	set_if_diff wireless."$section".band "$band"
++	set_if_diff wireless."$section".country "$country"
++
++	# Stock MT7990 profiles keep these Wi-Fi 6/7 capability knobs enabled.
++	# Hostapd still gates them on the actual driver capabilities.
++	set_if_missing wireless."$section".he_twt_responder "1"
++	set_if_missing wireless."$section".he_su_beamformer "1"
++	set_if_missing wireless."$section".he_su_beamformee "1"
++	set_if_missing wireless."$section".he_mu_beamformer "1"
++
++	if fresh_default_radio "$section"; then
++		set_if_diff wireless."$section".channel "$channel"
++		set_if_diff wireless."$section".htmode "$htmode"
++		return 0
++	fi
++
++	cur_channel="$(uci -q get wireless."$section".channel)"
++	if ! channel_valid "$band" "$cur_channel" "$country"; then
++		set_if_diff wireless."$section".channel "$channel"
++		cur_channel="$channel"
++	fi
++
++	cur_htmode="$(uci -q get wireless."$section".htmode)"
++	if ! htmode_valid "$band" "$cur_htmode" "$cur_channel" "$country"; then
++		set_if_diff wireless."$section".htmode "$htmode"
++	fi
++}
++
++repair_sta_network() {
++	local iface="$1"
++	local network="$2"
++	local item count=0 has_wwan=0 has_forbidden=0
++
++	for item in $network; do
++		count=$((count + 1))
++		case "$item" in
++			wwan) has_wwan=1 ;;
++			lan|wan|wan6) has_forbidden=1 ;;
++		esac
++	done
++
++	if [ "$count" -eq 0 ] || [ "$has_wwan" -eq 1 ] || [ "$has_forbidden" -eq 1 ]; then
++		[ "$network" = "wwan" ] || warn "$iface STA network binding '${network:-unset}' is unsafe; repairing it to wwan."
++		set_if_diff wireless."$iface".network wwan
++	elif [ "$count" -gt 1 ]; then
++		warn "$iface STA lists multiple client networks '$network'; disabling it until one dedicated client network is selected."
++		set_if_diff wireless."$iface".disabled 1
++	fi
++}
++
++shared_country=
++for country_dev in radio0 radio1 radio2; do
++	[ "$(uci -q get wireless."$country_dev")" = "wifi-device" ] || continue
++	raw_country="$(uci -q get wireless."$country_dev".country)"
++	case "$raw_country" in
++		""|00) continue ;;
++	esac
++	shared_country="$(w1700k_normalize_country "$raw_country")"
++	break
++done
++shared_country="${shared_country:-US}"
++
++ensure_radio radio0 0 2g 6 EHT40 "$shared_country"
++ensure_radio radio1 1 5g 36 EHT80 "$shared_country"
++ensure_radio radio2 2 6g 37 EHT320 "$shared_country"
++
++for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
++	mode="$(uci -q get wireless."$iface".mode)"
++	device="$(uci -q get wireless."$iface".device)"
++	network="$(uci -q get wireless."$iface".network)"
++	mlo="$(uci -q get wireless."$iface".mlo)"
++
++	if [ "$mode" = "ap" ] || [ "$mode" = "ap-wds" ]; then
++		if [ "$mlo" = "1" ]; then
++			canonical_devices="$(canonical_mlo_devices "$device")"
++			set_list_if_diff wireless."$iface".device "$canonical_devices"
++			device="$canonical_devices"
++		fi
++
++		if [ "$mlo" = "1" ] || iface_uses_6g "$device"; then
++			enc="$(uci -q get wireless."$iface".encryption)"
++			key="$(uci -q get wireless."$iface".key)"
++			security_error=
++			if ! security_valid_for_6g_or_mlo "$enc"; then
++				security_error="uses incompatible encryption '${enc:-unset}'"
++			elif security_needs_key "$enc" && [ -z "$key" ]; then
++				security_error="uses SAE without a Wi-Fi key"
++			fi
++
++			if [ -n "$security_error" ]; then
++				if [ "$(uci -q get wireless."$iface".disabled)" != "1" ]; then
++					warn "$iface $security_error; disabling the interface instead of inventing credentials."
++					set_if_diff wireless."$iface".disabled "1"
++				fi
++			else
++				set_if_diff wireless."$iface".ieee80211w "2"
++				set_if_diff wireless."$iface".rnr "1"
++				if security_needs_key "$enc"; then
++					set_if_diff wireless."$iface".sae_pwe "2"
++				fi
++			fi
++		fi
++
++		if [ "$mlo" = "1" ]; then
++			for mlo_dev in $device; do
++				ensure_mlo_fixed_channel "$mlo_dev"
++			done
++		fi
++
++		case "$(uci -q get wireless."$iface".encryption)" in
++			sae*|wpa3*) set_if_missing wireless."$iface".sae_pwe "2" ;;
++		esac
++
++		[ -n "$network" ] || set_if_diff wireless."$iface".network "lan"
++
++		case " $network " in
++			*" lan "*)
++				case " $network " in
++					*" wan "*|*" wan6 "*) set_if_diff wireless."$iface".network "lan" ;;
++				esac
++				;;
++		esac
++	fi
++
++	if [ "$mode" = "sta" ]; then
++		if [ "$radio0_old_band" = "5g" ] && [ "$device" = "radio0" ]; then
++			set_if_diff wireless."$iface".device "radio1"
++		fi
++
++		repair_sta_network "$iface" "$network"
++	fi
++done
++
++[ "$changed" = 1 ] && uci commit wireless
++
++exit 0
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities
+new file mode 100755
+index 0000000000000000000000000000000000000000..0883b7c2301c2f4ccbc75b8c5a08ca7b448be351
+--- /dev/null
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities
+@@ -0,0 +1,54 @@
++#!/bin/sh
++
++. /lib/functions.sh
++
++[ "$(board_name)" = "gemtek,w1700k-ubi" ] || {
++	echo '{}'
++	exit 0
++}
++
++phy="$1"
++case "$phy" in
++	phy[0-9]*)
++		phys="$phy"
++		;;
++	*)
++		phys="$(for p in /sys/class/ieee80211/phy*; do [ -e "$p" ] && basename "$p"; done)"
++		[ -n "$phys" ] || phys="phy0"
++		;;
++esac
++
++info="$(
++	for p in $phys; do
++		iw phy "$p" info 2>/dev/null
++	done
++)"
++
++has() {
++	printf '%s\n' "$info" | grep -Eiq "$1"
++}
++
++json_bool() {
++	if has "$1"; then
++		printf true
++	else
++		printf false
++	fi
++}
++
++printf '{'
++printf '"puncturing":'
++json_bool '\[ PUNCT \]'
++printf ',"eht4096qam":'
++json_bool 'MCS 12-13'
++printf ',"ehtNonOfdmaUlMuMimo":'
++json_bool 'Non-OFDMA UL MU-MIMO'
++printf ',"ehtMultiRu":'
++json_bool '(242-tone RU|less[ -]than[ -]242|RU.*wider)'
++printf ',"ehtWiderDlOfdma4096qam":'
++json_bool '(4096.*OFDMA|OFDMA.*4096)'
++printf ',"beamforming":'
++json_bool '(SU Beamformer|MU Beamformer|Beamformer)'
++printf ',"muMimo":'
++json_bool '(MU-MIMO|MU MIMO)'
++printf '}\n'
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+new file mode 100755
+index 0000000000000000000000000000000000000000..fc88f00a51ebea1728558894d76cafe71f2be326
+--- /dev/null
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+@@ -0,0 +1,630 @@
++#!/bin/sh
++
++. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
++. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
++
++[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
++
++failed=0
++
++err() {
++	echo "w1700k-wireless: $*" >&2
++	failed=1
++}
++
++expected_band() {
++	case "$1" in
++		0) echo 2g ;;
++		1) echo 5g ;;
++		2) echo 6g ;;
++	esac
++}
++
++device_index() {
++	local dev="$1"
++	local idx
++
++	idx="$(uci -q get wireless."$dev".radio)"
++	if [ -z "$idx" ] && [ "$radio_map_active" != "1" ]; then
++		case "$dev" in
++			radio0) idx=0 ;;
++			radio1) idx=1 ;;
++			radio2) idx=2 ;;
++		esac
++	fi
++
++	echo "$idx"
++}
++
++canonical_mlo_devices() {
++	local devices="$*"
++	local dev wanted result=""
++
++	for wanted in 1 2 0; do
++		for dev in $devices; do
++			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
++		done
++	done
++	for dev in $devices; do
++		case "$(device_index "$dev")" in
++			0|1|2) ;;
++			*) result="${result:+$result }$dev" ;;
++		esac
++	done
++
++	echo "$result"
++}
++
++device_exists() {
++	[ "$(uci -q get wireless."$1")" = "wifi-device" ]
++}
++
++device_disabled() {
++	[ "$(uci -q get wireless."$1".disabled)" = "1" ]
++}
++
++wireless_devices="$(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-device$/\1/p')"
++radio_map_active=0
++for dev in $wireless_devices; do
++	[ -n "$(uci -q get wireless."$dev".radio)" ] && radio_map_active=1
++done
++enabled_iface_devices=" "
++mlo_iface_devices=" "
++for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
++	[ "$(uci -q get wireless."$iface".disabled)" = "1" ] && continue
++	mlo="$(uci -q get wireless."$iface".mlo)"
++	for dev in $(uci -q get wireless."$iface".device); do
++		case "$enabled_iface_devices" in
++			*" $dev "*) ;;
++			*) enabled_iface_devices="$enabled_iface_devices$dev " ;;
++		esac
++		if [ "$mlo" = "1" ]; then
++			case "$mlo_iface_devices" in
++				*" $dev "*) ;;
++				*) mlo_iface_devices="$mlo_iface_devices$dev " ;;
++			esac
++		fi
++	done
++done
++
++device_requires_runtime_validation() {
++	local dev="$1"
++
++	device_disabled "$dev" || return 0
++	case "$enabled_iface_devices" in
++		*" $dev "*) return 0 ;;
++	esac
++
++	return 1
++}
++
++# Netifd builds its radio map from option radio, never from section names.
++# Reject incomplete maps before --prepare-regdomain can change runtime state.
++device_seen_indices=" "
++for dev in $wireless_devices; do
++	explicit_idx="$(uci -q get wireless."$dev".radio)"
++	if [ -z "$explicit_idx" ]; then
++		case "$mlo_iface_devices" in
++			*" $dev "*)
++				err "$dev is selected for MLO and requires an explicit physical radio index; set option radio to 0, 1, or 2."
++				continue
++				;;
++		esac
++		if [ "$radio_map_active" = "1" ]; then
++			err "$dev has no explicit physical radio index while another radio does; set option radio to 0, 1, or 2."
++			continue
++		fi
++	fi
++	idx="$(device_index "$dev")"
++	if [ -z "$(expected_band "$idx")" ]; then
++		err "$dev uses unsupported physical radio index ${idx:-unset}; W1700K supports only 0, 1, and 2."
++		continue
++	fi
++	case "$device_seen_indices" in
++		*" $idx "*) err "$dev duplicates physical radio index $idx." ;;
++	esac
++	device_seen_indices="$device_seen_indices$idx "
++done
++[ "$failed" -eq 0 ] || exit "$failed"
++
++device_country_raw() {
++	local country
++
++	country="$(uci -q get wireless."$1".country)"
++	printf '%s' "$country" | tr '[:lower:]' '[:upper:]'
++}
++
++device_country() {
++	w1700k_normalize_country "$(device_country_raw "$1")"
++}
++
++device_country_explicit() {
++	local country
++
++	country="$(device_country_raw "$1")"
++	case "$country" in
++		[A-Z][A-Z]) [ "$country" != "00" ] && echo "$country" ;;
++	esac
++}
++
++configured_country=
++configured_country_device=
++for dev in $wireless_devices; do
++	device_requires_runtime_validation "$dev" || continue
++	case "$mlo_iface_devices" in
++		*" $dev "*)
++			country="$(device_country_explicit "$dev")"
++			if [ -z "$country" ]; then
++				err "$dev is selected for MLO and requires an explicit two-letter regulatory country; world regdomain 00 is not valid."
++				continue
++			fi
++			;;
++		*) country="$(device_country "$dev")" ;;
++	esac
++	if [ -z "$configured_country" ]; then
++		configured_country="$country"
++		configured_country_device="$dev"
++	elif [ "$country" != "$configured_country" ]; then
++		err "$dev uses country $country while $configured_country_device uses $configured_country; all W1700K radios share one regulatory domain."
++	fi
++done
++
++if [ "$1" = "--prepare-regdomain" ] && [ "$failed" -eq 0 ] && [ -n "$configured_country" ]; then
++	if ! command -v iw >/dev/null 2>&1; then
++		err "cannot prepare regulatory domain $configured_country because iw is unavailable."
++	elif ! iw reg get 2>/dev/null | grep -q "country $configured_country:"; then
++		if ! iw reg set "$configured_country"; then
++			err "failed to apply regulatory domain $configured_country before wireless validation."
++		else
++			sleep 1
++			iw reg get 2>/dev/null | grep -q "country $configured_country:" ||
++				err "regulatory domain $configured_country did not become active before wireless validation."
++		fi
++	fi
++fi
++
++punct_driver_checked=0
++punct_driver_supported=0
++
++driver_supports_puncturing() {
++	[ "$punct_driver_checked" = "1" ] && [ "$punct_driver_supported" = "1" ] && return 0
++	[ "$punct_driver_checked" = "1" ] && return 1
++
++	punct_driver_checked=1
++
++	for phy in /sys/class/ieee80211/phy*; do
++		[ -e "$phy" ] || continue
++		phy="$(basename "$phy")"
++		if iw phy "$phy" info 2>/dev/null | sed -n '/Supported extended features:/,/Supported wiphy radios:/p' | grep -q '\[ PUNCT \]'; then
++			punct_driver_supported=1
++			return 0
++		fi
++	done
++
++	return 1
++}
++
++parse_punct_bitmap() {
++	local value="$1"
++
++	echo "$value" | grep -Eq '^(0[xX][0-9a-fA-F]+|[0-9]+)$' || return 1
++
++	case "$value" in
++		0[xX]*)
++			value="${value#0?}"
++			[ "${#value}" -le 4 ] || return 1
++			echo $((0x$value))
++			;;
++		*)
++			while [ "${value#0}" != "$value" ]; do
++				value="${value#0}"
++			done
++			[ -n "$value" ] || value=0
++			[ "${#value}" -le 5 ] || return 1
++			echo $((value))
++			;;
++	esac
++}
++
++punct_width_allowed() {
++	local band="$1"
++	local htmode="$2"
++	local width
++
++	case "$htmode" in
++		EHT*) ;;
++		*) return 1 ;;
++	esac
++
++	width="$(htmode_width "$htmode")"
++	case "$band:$width" in
++		5g:80|5g:160|6g:80|6g:160|6g:320) return 0 ;;
++	esac
++
++	return 1
++}
++
++punct_primary_bit() {
++	local band="$1"
++	local channel="$2"
++	local width="$3"
++	local blocks block ch bit
++
++	case "$band:$width" in
++		5g:80)
++			blocks='36 40 44 48|52 56 60 64|100 104 108 112|116 120 124 128|132 136 140 144|149 153 157 161|165 169 173 177'
++			;;
++		5g:160)
++			blocks='36 40 44 48 52 56 60 64|100 104 108 112 116 120 124 128|149 153 157 161 165 169 173 177'
++			;;
++		6g:80|6g:160|6g:320)
++			six_ghz_primary_bit "$width" "$channel"
++			return
++			;;
++		*)
++			return 1
++			;;
++	esac
++
++	IFS='|'
++	for block in $blocks; do
++		unset IFS
++		bit=0
++		for ch in $block; do
++			if [ "$ch" = "$channel" ]; then
++				echo "$bit"
++				return 0
++			fi
++			bit=$((bit + 1))
++		done
++		IFS='|'
++	done
++	unset IFS
++
++	return 1
++}
++
++punct_active_mask_valid() {
++	local width="$1"
++	local primary_bit="$2"
++	local punct="$3"
++	local mask valid active value
++
++	[ "$punct" -eq 0 ] && return 0
++
++	case "$width" in
++		80)
++			mask=0xf
++			valid='0xf 0xe 0xd 0xb 0x7'
++			;;
++		160)
++			mask=0xff
++			valid='0xff 0xfe 0xfd 0xfb 0xf7 0xef 0xdf 0xbf 0x7f 0xfc 0xf3 0xcf 0x3f'
++			;;
++		320)
++			mask=0xffff
++			valid='0xffff 0xfffc 0xfff3 0xffcf 0xff3f 0xfcff 0xf3ff 0xcfff 0x3fff 0xfff0 0xff0f 0xf0ff 0x0fff 0xffc0 0xff30 0xfcf0 0xf3f0 0xcff0 0x3ff0 0x0ffc 0x0ff3 0x0fcf 0x0f3f 0x0cff 0x03ff'
++			;;
++		*)
++			return 1
++			;;
++	esac
++
++	active=$(( (~punct) & mask ))
++	[ "$active" -ne 0 ] || return 1
++	[ $((active & (1 << primary_bit))) -ne 0 ] || return 1
++
++	for value in $valid; do
++		[ "$active" -eq $((value)) ] && return 0
++	done
++
++	return 1
++}
++
++validate_puncturing() {
++	local dev="$1"
++	local band="$2"
++	local htmode="$3"
++	local channel="$4"
++	local width bitmap bitmap_dec threshold primary_bit raw_opt
++
++	bitmap="$(uci -q get wireless."$dev".punct_bitmap)"
++	threshold="$(uci -q get wireless."$dev".punct_acs_threshold)"
++
++	for raw_opt in $(uci -q get wireless."$dev".hostapd_options); do
++		case "$raw_opt" in
++			punct_bitmap=*)
++				[ -n "$bitmap" ] && err "$dev defines punct_bitmap both directly and through hostapd_options."
++				bitmap="${raw_opt#*=}"
++				;;
++			punct_acs_threshold=*)
++				[ -n "$threshold" ] && err "$dev defines punct_acs_threshold both directly and through hostapd_options."
++				threshold="${raw_opt#*=}"
++				;;
++			eht_oper_puncturing_override=*)
++				err "$dev uses testing-only eht_oper_puncturing_override; use validated punct_bitmap instead."
++				;;
++		esac
++	done
++
++	[ -n "$bitmap$threshold" ] || return
++
++	if [ -n "$bitmap" ]; then
++		bitmap_dec="$(parse_punct_bitmap "$bitmap")" || {
++			err "$dev punct_bitmap must be decimal or hexadecimal."
++			bitmap_dec=0
++		}
++		if [ "$bitmap_dec" -lt 0 ] || [ "$bitmap_dec" -gt 65535 ]; then
++			err "$dev punct_bitmap must fit in 16 bits."
++			bitmap_dec=0
++		fi
++	else
++		bitmap_dec=0
++	fi
++
++	if [ -n "$threshold" ]; then
++		if ! is_uint "$threshold" || [ "$threshold" -gt 100 ]; then
++			err "$dev punct_acs_threshold must be between 0 and 100."
++			threshold=0
++		fi
++	else
++		threshold=0
++	fi
++
++	if [ "$bitmap_dec" -eq 0 ] && [ "$threshold" -eq 0 ]; then
++		return
++	fi
++
++	if [ "$bitmap_dec" -ne 0 ] && [ "$threshold" -ne 0 ]; then
++		err "$dev cannot use manual punct_bitmap and ACS puncturing threshold together."
++	fi
++
++	width="$(htmode_width "$htmode")"
++
++	if ! punct_width_allowed "$band" "$htmode"; then
++		err "$dev EHT puncturing requires 5GHz/6GHz EHT80 or wider; $band/$htmode is not valid."
++		return
++	fi
++
++	if ! driver_supports_puncturing; then
++		err "$dev EHT puncturing is not supported by the current mt7996 driver."
++		return
++	fi
++
++	if [ "$threshold" -gt 0 ] && [ "$channel" != "auto" ]; then
++		err "$dev punct_acs_threshold requires channel auto."
++	fi
++
++	if [ "$bitmap_dec" -ne 0 ]; then
++		if [ "$channel" = "auto" ]; then
++			err "$dev manual punct_bitmap requires a fixed channel."
++			return
++		fi
++
++		if ! is_uint "$channel"; then
++			err "$dev manual punct_bitmap requires a valid fixed channel."
++			return
++		fi
++
++		primary_bit="$(punct_primary_bit "$band" "$channel" "$width")" || {
++			err "$dev punct_bitmap cannot be mapped to channel $channel/$htmode."
++			return
++		}
++
++		punct_active_mask_valid "$width" "$primary_bit" "$bitmap_dec" ||
++			err "$dev punct_bitmap $bitmap is invalid for primary channel $channel and $htmode."
++	fi
++}
++
++security_valid_for_6g_or_mlo() {
++	local value="$1"
++	local enc="${value%%+*}"
++
++	case "$enc" in
++		sae|owe|wpa3|wpa3-192) ;;
++		*) return 1 ;;
++	esac
++
++	case "+$value+" in
++		*+[tT][kK][iI][pP]+*) return 1 ;;
++	esac
++
++	return 0
++}
++
++security_needs_key() {
++	local enc="${1%%+*}"
++
++	case "$enc" in
++		sae) return 0 ;;
++	esac
++
++	return 1
++}
++
++mlo_owner_0=
++mlo_owner_1=
++mlo_owner_2=
++
++claim_mlo_radio() {
++	local iface="$1"
++	local dev="$2"
++	local idx="$3"
++	local owner
++
++	case "$idx" in
++		0) owner="$mlo_owner_0" ;;
++		1) owner="$mlo_owner_1" ;;
++		2) owner="$mlo_owner_2" ;;
++		*) return ;;
++	esac
++
++	if [ -n "$owner" ] && [ "$owner" != "$iface" ]; then
++		err "$iface MLO cannot use $dev; physical radio index $idx is already owned by MLO interface $owner. Edit $owner instead."
++		return
++	fi
++
++	case "$idx" in
++		0) mlo_owner_0="$iface" ;;
++		1) mlo_owner_1="$iface" ;;
++		2) mlo_owner_2="$iface" ;;
++	esac
++}
++
++for dev in $wireless_devices; do
++	idx="$(device_index "$dev")"
++	band_expected="$(expected_band "$idx")"
++
++	device_requires_runtime_validation "$dev" || continue
++
++	band_actual="$(uci -q get wireless."$dev".band)"
++	channel="$(uci -q get wireless."$dev".channel)"
++	htmode="$(uci -q get wireless."$dev".htmode)"
++	country="$(device_country "$dev")"
++
++	if [ "$band_actual" != "$band_expected" ]; then
++		err "$dev is physical $band_expected; it cannot be configured as ${band_actual:-unset}. Use radio$idx/$band_expected instead."
++	fi
++
++	if ! channel_valid "$band_expected" "$channel" "$country"; then
++		err "$dev channel ${channel:-unset} is not valid for physical $band_expected country $country."
++	fi
++
++	if ! htmode_valid "$band_expected" "$htmode" "$channel" "$country"; then
++		err "$dev $band_expected ${htmode:-unset} is not valid on channel ${channel:-unset} for country $country with the current regulatory database."
++	fi
++
++	validate_puncturing "$dev" "$band_expected" "$htmode" "$channel"
++done
++
++for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
++	mode="$(uci -q get wireless."$iface".mode)"
++	disabled="$(uci -q get wireless."$iface".disabled)"
++	mlo="$(uci -q get wireless."$iface".mlo)"
++	devices="$(uci -q get wireless."$iface".device)"
++	network="$(uci -q get wireless."$iface".network)"
++	enc="$(uci -q get wireless."$iface".encryption)"
++	key="$(uci -q get wireless."$iface".key)"
++	pmf="$(uci -q get wireless."$iface".ieee80211w)"
++	rnr="$(uci -q get wireless."$iface".rnr)"
++	sae_pwe="$(uci -q get wireless."$iface".sae_pwe)"
++	seen=" "
++	seen_idx=" "
++	count=0
++	has_6g=0
++	first_country=
++
++	[ "$disabled" = "1" ] && continue
++	if [ -z "$devices" ]; then
++		err "$iface is enabled but has no radio device."
++		continue
++	fi
++
++	case "$mlo" in
++		""|0|1) ;;
++		*) err "$iface has invalid mlo value $mlo; use 0 or 1." ;;
++	esac
++
++	for dev in $devices; do
++		case "$seen" in
++			*" $dev "*) err "$iface lists $dev more than once." ;;
++		esac
++		seen="$seen$dev "
++		count=$((count + 1))
++
++		if ! device_exists "$dev"; then
++			err "$iface references missing wireless device $dev."
++			continue
++		fi
++
++		if [ "$mlo" = "1" ] && device_disabled "$dev"; then
++			err "$iface MLO cannot use disabled radio $dev."
++		fi
++
++		idx="$(device_index "$dev")"
++		band="$(expected_band "$idx")"
++		if [ "$mlo" = "1" ] && [ -z "$band" ]; then
++			err "$iface MLO references unsupported physical radio $dev."
++			continue
++		fi
++
++		case "$seen_idx" in
++			*" $idx "*) [ "$mlo" = "1" ] && err "$iface MLO maps more than one link to physical radio index $idx." ;;
++		esac
++		seen_idx="$seen_idx$idx "
++		[ "$mlo" = "1" ] && claim_mlo_radio "$iface" "$dev" "$idx"
++		[ "$band" = "6g" ] && has_6g=1
++
++		if [ "$mlo" = "1" ]; then
++			country="$(device_country_explicit "$dev")"
++			[ -n "$country" ] || continue
++		else
++			country="$(device_country "$dev")"
++		fi
++		if [ -z "$first_country" ]; then
++			first_country="$country"
++		elif [ "$country" != "$first_country" ]; then
++			err "$iface MLO radios must use one country; $dev uses $country while another link uses $first_country."
++		fi
++	done
++
++	if [ "$count" -gt 1 ] && [ "$mlo" != "1" ]; then
++		err "$iface lists multiple radios but does not enable MLO."
++	fi
++
++	if [ "$mode" = "sta" ]; then
++		network_count=0
++		for net in $network; do
++			network_count=$((network_count + 1))
++			case "$net" in
++				lan|wan|wan6)
++					err "$iface STA cannot bind directly to $net; select one dedicated client network such as wwan."
++					;;
++			esac
++		done
++
++		[ "$network_count" -eq 1 ] || \
++			err "$iface STA must bind to exactly one dedicated client network; current value is '${network:-unset}'."
++	fi
++
++	if [ "$mlo" = "1" ]; then
++		[ "$mode" = "ap" ] || err "$iface uses MLO, but this W1700K build only supports MLO AP configuration."
++		canonical_devices="$(canonical_mlo_devices "$devices")"
++		[ "$devices" = "$canonical_devices" ] || \
++			err "$iface MLO radios must be ordered as $canonical_devices (5GHz, 6GHz, then 2.4GHz primary-link preference)."
++		[ "$count" -ge 2 ] || err "$iface MLO needs at least two radios."
++		for dev in $devices; do
++			channel="$(uci -q get wireless."$dev".channel)"
++			htmode="$(uci -q get wireless."$dev".htmode)"
++			case "$channel" in
++				""|auto) err "$iface MLO requires a fixed channel on $dev; automatic channel selection cannot coordinate this shared W1700K PHY reliably." ;;
++			esac
++			case "$htmode" in
++				EHT20|EHT40|EHT80|EHT160|EHT320) ;;
++				*) err "$iface MLO requires an EHT width on $dev; current mode is ${htmode:-unset}." ;;
++			esac
++			if [ "$(device_index "$dev")" = "0" ] && [ "$htmode" != "EHT20" ]; then
++				err "$iface MLO requires EHT20 on 2.4GHz radio $dev because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			fi
++		done
++		security_valid_for_6g_or_mlo "$enc" || err "$iface MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security."
++		security_needs_key "$enc" && [ -z "$key" ] && err "$iface MLO uses SAE and requires a Wi-Fi key."
++		[ "$pmf" = "2" ] || err "$iface MLO requires 802.11w management frame protection set to Required."
++		[ "$rnr" = "1" ] || err "$iface MLO requires Reduced Neighbor Report enabled (rnr=1) for reliable link discovery."
++		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
++			err "$iface MLO SAE requires sae_pwe=2 for hash-to-element compatibility."
++		fi
++	fi
++
++	if [ "$mode" = "ap" ] && [ "$has_6g" = "1" ]; then
++		security_valid_for_6g_or_mlo "$enc" || err "$iface uses 6GHz and must use WPA3-SAE, OWE, or WPA3 Enterprise security."
++		security_needs_key "$enc" && [ -z "$key" ] && err "$iface uses 6GHz SAE and requires a Wi-Fi key."
++		[ "$pmf" = "2" ] || err "$iface uses 6GHz and requires 802.11w management frame protection set to Required."
++		[ "$rnr" = "1" ] || err "$iface uses 6GHz and requires Reduced Neighbor Report enabled (rnr=1) for reliable discovery."
++		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
++			err "$iface uses 6GHz SAE and requires sae_pwe=2 for hash-to-element compatibility."
++		fi
++	fi
++done
++
++exit "$failed"
+diff --git a/target/linux/airoha/image/an7581.mk b/target/linux/airoha/image/an7581.mk
+index 14e28682fd40fc7ac9bb87fcbe59617fd8a9ff78..636b2da0ec233b8d2e801765fb5fe50f093e534c 100644
+--- a/target/linux/airoha/image/an7581.mk
++++ b/target/linux/airoha/image/an7581.mk
+@@ -109,8 +109,14 @@ define Device/gemtek_w1700k-ubi
+        with the vendor bootloader with regard to the BMT/BBT partition at \
+        the end of flash. A reinstall including corrected chainloader is needed.
+   DEVICE_PACKAGES := airoha-en7581-mt7996-npu-firmware fitblk \
+-		    kmod-hwmon-nct7802 kmod-mt7996-firmware wpad-basic-mbedtls \
+-		    rtl826x-firmware
++		    kmod-hwmon-nct7802 kmod-mt7996-firmware rtl826x-firmware \
++		    wpad-mbedtls luci-ssl \
++		    luci-app-sqm sqm-scripts tc-tiny kmod-ifb \
++		    kmod-sched-core kmod-sched-cake \
++		    adblock luci-app-adblock \
++		    softethervpn5-server luci-app-w1700k-softether-server \
++		    w1700k-npu-status luci-app-w1700k-npu \
++		    w1700k-system-defaults
+   UBINIZE_OPTS := -E 5
+   BLOCKSIZE := 128k
+   PAGESIZE := 2048
+diff --git a/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch b/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..96f5ebed9d8317b3b4767ad282457af697af73b3
+--- /dev/null
++++ b/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch
+@@ -0,0 +1,34 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Codex <codex@openai.com>
++Date: Fri, 4 Sep 2026 17:25:00 +0300
++Subject: [PATCH] net: airoha: advertise the hardware GRO feature bit
++
++The HW-GRO open, fix-features, and set-features paths all test
++NETIF_F_GRO_HW. Device allocation instead advertises NETIF_F_LRO, which
++is a distinct feature bit and is not handled by those paths.
++
++Advertise NETIF_F_GRO_HW so the netdev feature contract matches the
++driver implementation. Keep the feature out of netdev->features so this
++does not change the existing default-disabled policy.
++
++Signed-off-by: Codex <codex@openai.com>
++---
++ drivers/net/ethernet/airoha/airoha_eth.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
++index b37b425..fc1ffdd 100644
++--- a/drivers/net/ethernet/airoha/airoha_eth.c
+++++ b/drivers/net/ethernet/airoha/airoha_eth.c
++@@ -3866,7 +3866,7 @@ static int airoha_alloc_gdm_device(struct airoha_eth *eth,
++ 	netdev->ethtool_ops = &airoha_ethtool_ops;
++ 	netdev->max_mtu = AIROHA_MAX_MTU;
++ 	netdev->watchdog_timeo = 5 * HZ;
++-	netdev->hw_features = AIROHA_HW_FEATURES | NETIF_F_LRO;
+++	netdev->hw_features = AIROHA_HW_FEATURES | NETIF_F_GRO_HW;
++ 	netdev->features |= AIROHA_HW_FEATURES;
++ 	netdev->vlan_features = AIROHA_HW_FEATURES;
++ 	SET_NETDEV_DEV(netdev, eth->dev);
++-- 
++2.51.0
++

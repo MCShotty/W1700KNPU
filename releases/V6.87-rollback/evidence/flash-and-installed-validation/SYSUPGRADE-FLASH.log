@@ -1,0 +1,44 @@
+Signature check OK
+Tue Sep  1 08:52:09 GMT 2026 upgrade: Saving config files...
+etc/config/adblock
+etc/config/dhcp
+etc/config/dropbear
+etc/config/firewall
+etc/config/luci
+etc/config/luci_plugins
+etc/config/network
+etc/config/radius
+etc/config/rpcd
+etc/config/sqm
+etc/config/system
+etc/config/ubihealthd
+etc/config/ubootenv
+etc/config/uhttpd
+etc/config/wireless
+etc/crontabs/root
+etc/dropbear/dropbear_ed25519_host_key
+etc/dropbear/dropbear_rsa_host_key
+etc/fw_env.config
+etc/group
+etc/hosts
+etc/inittab
+etc/luci-uploads/.placeholder
+etc/nftables.d/10-custom-filter-chains.nft
+etc/nftables.d/README
+etc/passwd
+etc/profile
+etc/profile.d/00-passwordless-root.sh
+etc/profile.d/busybox-history-file.sh
+etc/radius/clients
+etc/radius/users
+etc/rc.local
+etc/shadow
+etc/shells
+etc/shinit
+etc/sysctl.conf
+etc/uhttpd.crt
+etc/uhttpd.key
+usr/libexec/softethervpn/lang.config
+usr/libexec/softethervpn/vpn_server.config
+Tue Sep  1 08:52:10 GMT 2026 upgrade: Commencing upgrade. Closing all shell sessions.
+Command failed: ubus call system sysupgrade { "prefix": "\/tmp\/root", "path": "\/tmp\/w1700k-v687.itb", "backup": "\/tmp\/sysupgrade.tgz", "command": "\/lib\/upgrade\/do_stage2", "options": { "save_partitions": 1, "add_provisioning": 0 } } (Connection failed)

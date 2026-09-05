@@ -1,0 +1,13 @@
+PASS standalone ap_interfaces=3 mlo_links=0 frequencies=2437 5180 6115
+PASS scan-radio0 result_count=25
+PASS scan-radio1 result_count=27
+PASS scan-radio2 result_count=28
+PASS mlo-5-6 ap_interfaces=1 mlo_links=2 frequencies=5180 6115
+PASS mlo-tri ap_interfaces=1 mlo_links=3 frequencies=2437 5180 6115
+PASS invalid-radio0-5g rejected
+PASS invalid-radio0-80 rejected
+PASS invalid-radio1-320 rejected
+PASS invalid-mlo-wpa2 rejected
+PASS invalid-one-link-mlo rejected
+PASS_MATRIX all requested stages passed; restoring original configuration
+RESTORE hash=a87e59eb9c6314be153d8af85f88ebbe0438a1cfb6e0e0ee92ee1b5f200c416d status=0

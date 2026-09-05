@@ -1,0 +1,12 @@
+{
+	"luci-app-w1700k-npu": {
+		"description": "Read current W1700K NPU compatibility status",
+		"read": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/usr/sbin/w1700k-wlan-npu-mode json": [ "exec" ],
+				"/usr/sbin/w1700k-wlan-npu-mode snapshot": [ "exec" ]
+			}
+		}
+	}
+}

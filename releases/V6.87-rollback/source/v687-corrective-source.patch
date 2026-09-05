@@ -1,0 +1,273 @@
+diff --git a/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js b/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+index 32376e0..68e6e5e 100644
+--- a/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
++++ b/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+@@ -835,13 +835,14 @@ function w1700kAvailableMloDevices(section_id, current) {
+ }
+ 
+ const w1700kMloSafeRadioDefaults = {
+-	'0': { channel: '6', htmodes: [ 'EHT40', 'EHT20' ] },
++	'0': { channel: '6', htmodes: [ 'EHT20' ] },
+ 	'1': { channel: '36', htmodes: [ 'EHT80', 'EHT40', 'EHT20' ] },
+ 	'2': { channel: '37', htmodes: [ 'EHT160', 'EHT80', 'EHT40', 'EHT20' ] }
+ };
+ 
+ function w1700kMloRadioStateValid(dev, channel, htmode, apChannels) {
+-	return channel != null && channel != '' && channel != 'auto' &&
++	return (w1700kRadioIndex(dev) != '0' || htmode == 'EHT20') &&
++		channel != null && channel != '' && channel != 'auto' &&
+ 		/^EHT(?:20|40|80|160|320)$/.test(String(htmode || '')) &&
+ 		w1700kChannelAllowed(dev, channel, apChannels) &&
+ 		w1700kHtmodeAllowed(dev, htmode, channel, apChannels);
+@@ -985,6 +986,10 @@ function w1700kValidateMloDevices(section_id, value, apChannelsByRadio) {
+ 			return _('%s must use an EHT width for MLO; current mode is %s.').format(
+ 				w1700kRadioLabel(dev), htmode || _('unset'));
+ 
++		if (idx == '0' && htmode != 'EHT20')
++			return _('%s must use EHT20 for reliable MLO operation because 2.4GHz 20/40 coexistence fallback cannot update this MLD safely.').format(
++				w1700kRadioLabel(dev));
++
+ 		if (apChannelsByRadio && !apChannels)
+ 			return _('Could not load the live AP channel map for %s. Reload the page before saving.').format(
+ 				w1700kRadioLabel(dev));
+diff --git a/feeds/luci/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js b/feeds/luci/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
+index 33d62cc..5ca47cf 100644
+--- a/feeds/luci/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
++++ b/feeds/luci/modules/luci-mod-network/tests/w1700k-wireless-transitions.test.js
+@@ -314,10 +314,14 @@ const list = value => value == null ? [] : (Array.isArray(value) ? value : [ val
+ 	]);
+ 
+ 	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio0', 'radio1', 'radio2' ], maps), true);
+-	assert.deepEqual(radios.radio0, { band: '2g', channel: '6', htmode: 'EHT40' });
++	assert.deepEqual(radios.radio0, { band: '2g', channel: '6', htmode: 'EHT20' });
+ 	assert.deepEqual(radios.radio1, { band: '5g', channel: '36', htmode: 'EHT80' });
+ 	assert.deepEqual(radios.radio2, { band: '6g', channel: '37', htmode: 'EHT160' });
+ 
++	radios.radio0.htmode = 'EHT40';
++	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio0' ], maps), true);
++	assert.equal(radios.radio0.htmode, 'EHT20', '2.4GHz MLO is normalized away from unsafe 20/40 fallback');
++
+ 	radios.radio1.channel = '100';
+ 	radios.radio1.htmode = 'EHT160';
+ 	assert.equal(h.w1700kEnsureMloRadioDefaults([ 'radio1' ], maps), true);
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+index dd0ad0a..c2412d8 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+@@ -96,7 +96,7 @@ function mlo_same_common_config(a, b) {
+ }
+ 
+ function mlo_country(config) {
+-	let country = uc('' + (config.country ?? ''));
++	let country = uc('' + (config.country_code ?? config.country ?? ''));
+ 	return !country || country == '00' ? null : country;
+ }
+ 
+@@ -109,6 +109,8 @@ function mlo_validate_device(name, config) {
+ 		return `${name} requires a fixed channel for MLO`;
+ 	if (!match('' + (config.htmode ?? ''), /^EHT(20|40|80|160|320)$/))
+ 		return `${name} must use an EHT width for MLO; current mode is ${config.htmode ?? 'unset'}`;
++	if (mlo_radio_index(config.radio) == 0 && config.htmode != 'EHT20')
++		return `${name} must use EHT20 for a reliable 2.4GHz MLO link; this stack cannot recover an MLD from mandatory 20/40 coexistence fallback`;
+ }
+ 
+ function mlo_validate_iface(owner, config) {
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+index e8cf1be..e77b53a 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
+@@ -122,20 +122,29 @@ canonical_mlo_devices() {
+ 
+ ensure_mlo_fixed_channel() {
+ 	local dev="$1"
+-	local channel idx
++	local channel htmode idx
+ 
+ 	channel="$(uci -q get wireless."$dev".channel)"
++	idx="$(device_index "$dev")"
++
++	if [ "$idx" = "0" ]; then
++		case "$channel" in
++			""|auto) set_if_diff wireless."$dev".channel 6 ;;
++		esac
++		htmode="$(uci -q get wireless."$dev".htmode)"
++		if [ "$htmode" != "EHT20" ]; then
++			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			set_if_diff wireless."$dev".htmode EHT20
++		fi
++		return 0
++	fi
++
+ 	case "$channel" in
+ 		""|auto) ;;
+ 		*) return 0 ;;
+ 	esac
+ 
+-	idx="$(device_index "$dev")"
+ 	case "$idx" in
+-		0)
+-			set_if_diff wireless."$dev".channel 6
+-			set_if_diff wireless."$dev".htmode EHT40
+-			;;
+ 		1)
+ 			set_if_diff wireless."$dev".channel 36
+ 			set_if_diff wireless."$dev".htmode EHT80
+diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+index 0faeecc..648cdec 100755
+--- a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
++++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+@@ -540,6 +540,9 @@ for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$
+ 				EHT20|EHT40|EHT80|EHT160|EHT320) ;;
+ 				*) err "$iface MLO requires an EHT width on $dev; current mode is ${htmode:-unset}." ;;
+ 			esac
++			if [ "$(device_index "$dev")" = "0" ] && [ "$htmode" != "EHT20" ]; then
++				err "$iface MLO requires EHT20 on 2.4GHz radio $dev because mandatory 20/40 coexistence fallback cannot update this MLD safely."
++			fi
+ 		done
+ 		security_valid_for_6g_or_mlo "$enc" || err "$iface MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security."
+ 		security_needs_key "$enc" && [ -z "$key" ] && err "$iface MLO uses SAE and requires a Wi-Fi key."
+diff --git a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
+index 831bda4..8a0913d 100644
+--- a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
++++ b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-sanity-functions.sh
+@@ -42,7 +42,13 @@ uci_get_wireless() {
+ 		wireless.radio0.channel) echo 6 ;;
+ 		wireless.radio1.channel) echo 36 ;;
+ 		wireless.radio2.channel) echo 37 ;;
+-		wireless.radio0.htmode) echo EHT40 ;;
++		wireless.radio0.htmode)
++			if [ "$MOCK_2G_EHT40" = 1 ] || [ "$MOCK_CANONICAL" != 1 ]; then
++				echo EHT40
++			else
++				echo EHT20
++			fi
++			;;
+ 		wireless.radio1.htmode) echo EHT80 ;;
+ 		wireless.radio2.htmode) echo EHT160 ;;
+ 		wireless.radio0.he_twt_responder|wireless.radio1.he_twt_responder|wireless.radio2.he_twt_responder) echo 1 ;;
+diff --git a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
+index bddd0f9..5879913 100644
+--- a/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
++++ b/target/linux/airoha/an7581/tests/fixtures/w1700k-backend-validator-functions.sh
+@@ -30,7 +30,10 @@ uci_get_wireless() {
+ 		wireless.radio1.radio|wireless.radio1_alias.radio) echo 1 ;;
+ 		wireless.radio2.radio) echo 2 ;;
+ 		wireless.radio0.disabled|wireless.radio1.disabled) echo 0 ;;
+-		wireless.radio2.disabled|wireless.radio1_alias.disabled) echo 1 ;;
++		wireless.radio2.disabled)
++			case "$MOCK_CASE" in mlo_*) echo 0 ;; *) echo 1 ;; esac
++			;;
++		wireless.radio1_alias.disabled) echo 1 ;;
+ 		wireless.radio0.band) echo 2g ;;
+ 		wireless.radio1.band|wireless.radio1_alias.band) echo 5g ;;
+ 		wireless.radio2.band)
+@@ -47,9 +50,13 @@ uci_get_wireless() {
+ 				*) echo 37 ;;
+ 			esac
+ 			;;
+-		wireless.radio0.htmode) echo EHT40 ;;
++		wireless.radio0.htmode)
++			[ "$MOCK_CASE" = "mlo_2g_eht20" ] && echo EHT20 || echo EHT40
++			;;
+ 		wireless.radio1.htmode|wireless.radio1_alias.htmode) echo EHT80 ;;
+-		wireless.radio2.htmode) echo EHT160 ;;
++		wireless.radio2.htmode)
++			case "$MOCK_CASE" in mlo_*) echo EHT20 ;; *) echo EHT160 ;; esac
++			;;
+ 		wireless.radio0.country|wireless.radio1.country|wireless.radio1_alias.country) echo US ;;
+ 		wireless.radio2.country)
+ 			case "$MOCK_CASE" in
+@@ -61,10 +68,13 @@ uci_get_wireless() {
+ 		wireless.ap0.disabled)
+ 			[ "$MOCK_CASE" = "disabled_iface_reference" ] && echo 1 || echo 0
+ 			;;
+-		wireless.ap0.mlo) echo 0 ;;
++		wireless.ap0.mlo)
++			case "$MOCK_CASE" in mlo_*) echo 1 ;; *) echo 0 ;; esac
++			;;
+ 		wireless.ap0.device)
+ 			case "$MOCK_CASE" in
+ 				disabled_referenced|disabled_iface_reference) echo radio2 ;;
++				mlo_*) echo 'radio1 radio2 radio0' ;;
+ 				*) echo radio1 ;;
+ 			esac
+ 			;;
+diff --git a/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh b/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
+index e60daff..4ca7198 100644
+--- a/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
++++ b/target/linux/airoha/an7581/tests/w1700k-wireless-backend-adversarial.sh
+@@ -20,14 +20,27 @@ expect_validator() {
+ 	local name="$1"
+ 	local want="$2"
+ 	local pattern="${3:-}"
+-	local output rc
++	local output phy_info= rc
++
++	case "$name" in
++		mlo_*)
++			phy_info="$(printf '%s\n' \
++				'* 2437 MHz [6] (20.0 dBm)' \
++				'* 2457 MHz [10] (20.0 dBm)' \
++				'* 5180 MHz [36] (23.0 dBm)' \
++				'* 5200 MHz [40] (23.0 dBm)' \
++				'* 5220 MHz [44] (23.0 dBm)' \
++				'* 5240 MHz [48] (23.0 dBm)' \
++				'* 6135 MHz [37] (23.0 dBm)')"
++			;;
++	esac
+ 
+ 	output="$(
+ 		MOCK_CASE="$name" \
+ 		W1700K_FUNCTIONS_LIB="$validator_functions" \
+ 		W1700K_REG_HELPER="$reg_helper" \
+ 		W1700K_IW_PHY_INFO_LOADED=1 \
+-		W1700K_IW_PHY_INFO='' \
++		W1700K_IW_PHY_INFO="$phy_info" \
+ 		sh "$validator" 2>&1
+ 	)"
+ 	rc=$?
+@@ -226,10 +239,36 @@ expect_sanity_rejects_broken_security() {
+ 		fail "$security MLO security was silently rewritten: $(cat "$log")"
+ }
+ 
++expect_sanity_repairs_2g_mlo_width() {
++	local log="$tmpdir/sanity-2g-width.log"
++	local output rc
++
++	output="$(
++		MOCK_CANONICAL=1 \
++		MOCK_2G_EHT40=1 \
++		W1700K_FUNCTIONS_LIB="$sanity_functions" \
++		W1700K_REG_HELPER="$reg_helper" \
++		W1700K_IW_PHY_INFO_LOADED=1 \
++		W1700K_IW_PHY_INFO='' \
++		W1700K_MOCK_UCI_LOG="$log" \
++		sh "$sanity" 2>&1
++	)"
++	rc=$?
++	[ "$rc" -eq 0 ] || {
++		fail "radio sanity 2.4GHz MLO width repair failed, rc=$rc, output=$output"
++		return
++	}
++
++	grep -Fqx 'set wireless.radio0.htmode=EHT20' "$log" ||
++		fail "radio sanity did not repair 2.4GHz MLO to EHT20: $(cat "$log")"
++}
++
+ expect_validator disabled_stale pass
+ expect_validator disabled_iface_reference pass
+ expect_validator disabled_referenced fail 'radio2 is physical 6g; it cannot be configured as 5g.'
+ expect_validator disabled_duplicate fail 'radio1_alias duplicates physical radio index 1.'
++expect_validator mlo_2g_eht20 pass
++expect_validator mlo_2g_eht40 fail 'MLO requires EHT20 on 2.4GHz radio radio0'
+ 
+ . "$reg_helper"
+ write_sparse_map "$tmpdir/iw-sparse.txt"
+@@ -275,6 +314,7 @@ expect_sanity_canonical_noop
+ expect_sanity_legacy_scalar_repair
+ expect_sanity_rejects_broken_security invalid
+ expect_sanity_rejects_broken_security keyless
++expect_sanity_repairs_2g_mlo_width
+ 
+ [ "$failed" -eq 0 ] && echo 'PASS: W1700K backend adversarial fixtures'
+ exit "$failed"

@@ -1,0 +1,56 @@
+#!/bin/sh
+
+set -eu
+
+ETC_ROOT="${W1700K_DEFAULTS_ETC_ROOT:-/etc}"
+SYSTEM_LIB="${W1700K_DEFAULTS_SYSTEM_LIB:-/lib/functions/system.sh}"
+UCI_BIN="${W1700K_DEFAULTS_UCI_BIN:-uci}"
+BOARD_OVERRIDE="${W1700K_DEFAULTS_BOARD_NAME:-}"
+
+. "$SYSTEM_LIB"
+
+board="${BOARD_OVERRIDE:-$(board_name 2>/dev/null)}"
+[ "$board" = "gemtek,w1700k-ubi" ] || exit 0
+
+if [ "$($UCI_BIN -q get w1700k_defaults.main.version 2>/dev/null || printf 0)" = "1" ]; then
+	exit 0
+fi
+
+softether_init="$ETC_ROOT/init.d/softethervpnserver"
+[ -x "$softether_init" ] || {
+	printf '%s\n' 'w1700k defaults: SoftEther server init script is missing' >&2
+	exit 1
+}
+
+if "$softether_init" running >/dev/null 2>&1; then
+	"$softether_init" stop
+fi
+"$softether_init" disable
+
+$UCI_BIN -q get adblock.global >/dev/null
+
+set_default() {
+	local option="$1"
+	local value="$2"
+
+	$UCI_BIN -q get "$option" >/dev/null 2>&1 || $UCI_BIN -q set "$option=$value"
+}
+
+set_default adblock.global.adb_enabled 1
+set_default adblock.global.adb_dns dnsmasq
+set_default adblock.global.adb_trigger wan
+set_default adblock.global.adb_triggerdelay 10
+set_default adblock.global.adb_dnsflush 1
+$UCI_BIN -q commit adblock
+
+mkdir -p "$ETC_ROOT/crontabs"
+touch "$ETC_ROOT/crontabs/root"
+if ! grep -Fq 'w1700k-adblock-refresh' "$ETC_ROOT/crontabs/root"; then
+	printf '%s\n' '17 4 * * * /etc/init.d/adblock reload # w1700k-adblock-refresh' >>"$ETC_ROOT/crontabs/root"
+fi
+
+$UCI_BIN -q batch <<'EOF'
+set w1700k_defaults.main=defaults
+set w1700k_defaults.main.version='1'
+commit w1700k_defaults
+EOF

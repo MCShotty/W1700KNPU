@@ -1,0 +1,81 @@
+BOARD=gemtek,w1700k-ubi
+MODEL=Gemtek W1700K (OpenWrt U-Boot layout)
+BOOT=dd835200-6655-4368-aa7a-08637e158ce6
+REV=r0-73a8983
+RELEASE=OpenWrt SNAPSHOT r0-73a8983
+CONFIG_SHA=588a3e98ee05a0d8649c392c54c4e879ac74230c1ed34a2134f07649e2aa945c
+BACKUP_SHA=3c14eaacf9b91e2a978bef7a5fa5a59dd7f8fa5c984f52f4bcecdd254db46579
+MTD
+dev:    size   erasesize  name
+mtd0: 00600000 00020000 "vendor"
+mtd1: 00100000 00020000 "chainloader"
+mtd2: 1b700000 00020000 "ubi"
+mtd3: 04200000 00020000 "reserved_bmt"
+UBI
+UBI version:                    1
+Count of UBI devices:           1
+UBI control device major/minor: 10:256
+Present UBI devices:            ubi0
+
+ubi0
+Volumes count:                           5
+Logical eraseblock size:                 126976 bytes, 124.0 KiB
+Total amount of logical eraseblocks:     3512 (445939712 bytes, 425.2 MiB)
+Amount of available logical eraseblocks: 0 (0 bytes)
+Maximum count of volumes                 128
+Count of bad physical eraseblocks:       0
+Count of reserved physical eraseblocks:  80
+Current maximum erase counter value:     23
+Minimum input/output unit size:          2048 bytes
+Character device major/minor:            252:0
+Present volumes:                         0, 1, 2, 3, 4
+
+Volume ID:   0 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+State:       OK
+Name:        ubootenv
+Character device major/minor: 252:1
+-----------------------------------
+Volume ID:   1 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+State:       OK
+Name:        ubootenv2
+Character device major/minor: 252:2
+-----------------------------------
+Volume ID:   2 (on ubi0)
+Type:        static
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+Data bytes:  65536 bytes (64.0 KiB)
+State:       OK
+Name:        factory
+Character device major/minor: 252:3
+-----------------------------------
+Volume ID:   3 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        161 LEBs (20443136 bytes, 19.4 MiB)
+State:       OK
+Name:        fit
+Character device major/minor: 252:4
+-----------------------------------
+Volume ID:   4 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        3264 LEBs (414449664 bytes, 395.2 MiB)
+State:       OK
+Name:        rootfs_data
+Character device major/minor: 252:5
+NPU
+configured: mt7996e stock_eht_nsep=0 w1700k_mlo_tx_policy=0
+configured mt76: mt76 w1700k_packet_telemetry=0 npu_deep_trace=0 npu_stock_copy_mode=0
+loaded: mt7996e module present
+loaded: wlan_npu_mode=0
+-- mt7996e stock Wi-Fi parameters --
+npu_rro_done_ifindex: state=superseded configured=not-applicable runtime=superseded path=unavailable reason=Superseded by deferred bufid reset on reinit; the active driver sends completion only after teardown ownership is safe.
+stock_eht_nsep: state=reboot-only configured=0 runtime=N path=/sys/module/mt7996e/parameters/stock_eht_nsep reason=Exposed by mt7996e as a probe-time setting; a module reload or reboot is required.
+npu_stock_group1_band_mask: state=superseded configured=not-applicable runtime=superseded path=unavailable reason=Superseded by w1700k_stock_npu_tx_topology, which fixes 2.4/5 GHz to group0 and 6 GHz to group1.

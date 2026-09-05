@@ -1,0 +1,347 @@
+===== identity =====
+{
+	"kernel": "6.18.34",
+	"hostname": "OpenWrt",
+	"system": "ARMv8 Processor rev 4",
+	"model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+	"board_name": "gemtek,w1700k-ubi",
+	"rootfs_type": "squashfs",
+	"release": {
+		"distribution": "OpenWrt",
+		"version": "SNAPSHOT",
+		"firmware_url": "https://downloads.openwrt.org/",
+		"revision": "r0-73a8983",
+		"target": "airoha/an7581",
+		"description": "OpenWrt SNAPSHOT r0-73a8983",
+		"builddate": "1788249429"
+	}
+}
+boot_id=553b814f-2a64-4d49-a3bd-4f4dddd86ebe
+[    0.000000] Machine model: Gemtek W1700K (OpenWrt U-Boot layout)
+
+===== installed hashes =====
+80ce78f0543f1597681eb3c44822ad41d06a41a543ed6bfcbb3e5648c0d00ac3  /usr/share/ucode/wifi/hostapd.uc
+181218a365574874f989fbe4f9e317f7888d87cc73107d8c600580f53e4f7b53  /usr/sbin/w1700k-wireless-validate
+f5533958e789530880364f84462831a8c2627df191a67ed432c5244c8d7ac8f1  /usr/sbin/w1700k-radio-sanity
+588a3e98ee05a0d8649c392c54c4e879ac74230c1ed34a2134f07649e2aa945c  /etc/config/wireless
+
+===== V6.87 markers =====
+	let country = uc('' + (config.country_code ?? config.country ?? ''));
+/usr/share/ucode/wifi/hostapd.uc:		return `${name} must use EHT20 for a reliable 2.4GHz MLO link; this stack cannot recover an MLD from mandatory 20/40 coexistence fallback`;
+			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
+
+===== live FIT prefix =====
+502745127cae575e6442ed373e12ae1047dde016d34c3fce98e76e7fd26e5c56  -
+
+===== UBI =====
+UBI version:                    1
+Count of UBI devices:           1
+UBI control device major/minor: 10:256
+Present UBI devices:            ubi0
+
+ubi0
+Volumes count:                           5
+Logical eraseblock size:                 126976 bytes, 124.0 KiB
+Total amount of logical eraseblocks:     3512 (445939712 bytes, 425.2 MiB)
+Amount of available logical eraseblocks: 0 (0 bytes)
+Maximum count of volumes                 128
+Count of bad physical eraseblocks:       0
+Count of reserved physical eraseblocks:  80
+Current maximum erase counter value:     23
+Minimum input/output unit size:          2048 bytes
+Character device major/minor:            252:0
+Present volumes:                         0, 1, 2, 3, 4
+
+Volume ID:   0 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+State:       OK
+Name:        ubootenv
+Character device major/minor: 252:1
+-----------------------------------
+Volume ID:   1 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+State:       OK
+Name:        ubootenv2
+Character device major/minor: 252:2
+-----------------------------------
+Volume ID:   2 (on ubi0)
+Type:        static
+Alignment:   1
+Size:        1 LEBs (126976 bytes, 124.0 KiB)
+Data bytes:  65536 bytes (64.0 KiB)
+State:       OK
+Name:        factory
+Character device major/minor: 252:3
+-----------------------------------
+Volume ID:   3 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        161 LEBs (20443136 bytes, 19.4 MiB)
+State:       OK
+Name:        fit
+Character device major/minor: 252:4
+-----------------------------------
+Volume ID:   4 (on ubi0)
+Type:        dynamic
+Alignment:   1
+Size:        3264 LEBs (414449664 bytes, 395.2 MiB)
+State:       OK
+Name:        rootfs_data
+Character device major/minor: 252:5
+
+===== services =====
+uhttpd=running
+dnsmasq=running
+softethervpnserver=running
+adblock=running
+
+===== NPU mode =====
+configured: mt7996e stock_eht_nsep=0 w1700k_mlo_tx_policy=0
+configured mt76: mt76 w1700k_packet_telemetry=0 npu_deep_trace=0 npu_stock_copy_mode=0
+loaded: mt7996e module present
+loaded: wlan_npu_mode=0
+-- mt7996e stock Wi-Fi parameters --
+npu_rro_done_ifindex: state=superseded configured=not-applicable runtime=superseded path=unavailable reason=Superseded by deferred bufid reset on reinit; the active driver sends completion only after teardown ownership is safe.
+stock_eht_nsep: state=reboot-only configured=0 runtime=N path=/sys/module/mt7996e/parameters/stock_eht_nsep reason=Exposed by mt7996e as a probe-time setting; a module reload or reboot is required.
+npu_stock_group1_band_mask: state=superseded configured=not-applicable runtime=superseded path=unavailable reason=Superseded by w1700k_stock_npu_tx_topology, which fixes 2.4/5 GHz to group0 and 6 GHz to group1.
+npu_rro_stop_max_polls: state=superseded configured=not-applicable runtime=superseded path=unavailable reason=Superseded by a bounded recovery drain and a stock-like unbounded unregister drain; one global poll limit is unsafe.
+npu_stock_ack_sn_ifindex: state=reboot-only configured=1 runtime=1 path=/sys/module/mt7996e/parameters/npu_stock_ack_sn_ifindex reason=Exposed by mt7996e as a probe-time setting; a module reload or reboot is required.
+w1700k_mlo_tx_policy: state=runtime-writable configured=0 runtime=0 path=/sys/module/mt7996e/parameters/w1700k_mlo_tx_policy reason=Exposed by the loaded mt7996e module and writable at runtime.
+w1700k_stock_npu_tx_topology: state=reboot-only configured=0 runtime=N path=/sys/module/mt7996e/parameters/w1700k_stock_npu_tx_topology reason=Exposed by mt7996e as a probe-time setting; a module reload or reboot is required.
+-- stock mt76 hostadpt parity parameters --
+npu_stock_copy_mode: configured=0 runtime=N path=/sys/module/mt76/parameters/npu_stock_copy_mode
+w1700k_packet_telemetry: configured=0 runtime=N path=/sys/module/mt76/parameters/w1700k_packet_telemetry
+npu_deep_trace: configured=0 runtime=N path=/sys/module/mt76/parameters/npu_deep_trace
+-- airoha-npu wlan_force_to_cpu --
+source=WIFI_MAIL_API_SET_WAIT_IS_FORCE_TO_CPU
+stock_context=W1700K stock npu.ko runtime offload bypass
+stock_proc=/proc/tc3162/npu_wifi_eagle_rro_dbg
+wlan_force_to_cpu=0
+wlan_eagle_rro_dbg=0
+-- airoha-npu wlan_fast_flag --
+source=WIFI_MAIL_API_SET_WAIT_FAST_FLAG
+stock_context=W1700K stock tccicmd /proc/tc3162/npu_wifi_fast
+wlan_fast_flag=0
+-- airoha-npu bridge_control --
+source=stock W1700K npu_bridge_cmd Ghidra audit
+policy=whitelisted stock-equivalent bridge register writes only
+compat=accepts stock 'set test_*' command names and shorter aliases
+base_phys=0x1e900000
+bridge_cmd_selector phys=0x1ec0c1bc offset=0x30c1bc value=0xcccccccc
+ppe_bufid_isr_wifi_oq phys=0x1ec0c1b4 offset=0x30c1b4 value=0x00000000
+wifi_pkt_one_stream phys=0x1ec0c1ac offset=0x30c1ac value=0x00000000
+wifi_pkt_send_control phys=0x1ec0c1b0 offset=0x30c1b0 value=0x00000000
+oq_priority phys=0x1ec1201c offset=0x31201c value=0xdeadbeef
+rbus_burst_size phys=0x1ec12020 offset=0x312020 value=0xffff0107
+
+commands:
+  echo 'freeq_dump 0..7' > bridge_control          # selector = arg + 0x6e
+  echo 'channel_id 0..7' > bridge_control          # selector = arg + 0x50
+  echo 'modify_len 0..2' > bridge_control          # selector = arg + 0x28
+  echo 'register_write' > bridge_control           # selector = 0x27
+  echo 'register_read' > bridge_control            # selector = 0x26
+  echo 'rbus_burst_size 0..15' > bridge_control    # stock txmbi/rbus table, selector = 1
+  echo 'oq_pri 0..2' > bridge_control              # OQ priority register, selector = 0x25
+  echo 'mib' > bridge_control                      # selector = 0x24
+  echo 'sram' > bridge_control                     # selector = 0x23
+  echo 'wan_hwf' > bridge_control                  # selector = 0x2a
+  echo 'txmsg_nbq' > bridge_control                # selector = 0x22
+  echo 'txmsg_hwf 0..4' > bridge_control           # selector = stock HWF mapping
+  echo 'txmsg_co 0..2' > bridge_control            # selector = arg + 0x1d
+  echo 'rx_msg' > bridge_control                   # selector = 0x1c
+  echo 'hdr_buf_num' > bridge_control              # selector = 0x14
+  echo 'pkt_buf_num' > bridge_control              # selector = 0x0b
+  echo 'reset' > bridge_control                    # selector = 0x0a
+  echo 'hdr_unit 0..8' > bridge_control            # selector = arg + 0x0b
+  echo 'send_wifi_pkt_one_stream 0|1' > bridge_control
+  echo 'set_wifi_pkt_oq 0|1' > bridge_control
+  echo 'send_wifi_pkt <count>' > bridge_control    # stock count/control register
+  echo 'interrupt 0..8 0..7' > bridge_control      # interrupt bit, channel
+  echo 'egress_mode 1..9' > bridge_control         # selector = arg
+  echo 'bufctrl' > bridge_control                  # selector = 0x64
+-- stock WLAN PPE policy --
+stock_wlan_force_ring: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_wlan_force_ring
+stock_wlan_force_qos: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_wlan_force_qos
+stock_wlan_port_ag_3f: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_wlan_port_ag_3f
+stock_force_cpu_ring_commit: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_force_cpu_ring_commit
+stock_wlan_actdp: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_wlan_actdp
+stock_udp_bypass_ring: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_udp_bypass_ring
+stock_multicast_ratelimit_ring7: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_multicast_ratelimit_ring7
+stock_multicast_ratelimit_commit: configured=0 runtime=N path=/sys/module/airoha_eth/parameters/stock_multicast_ratelimit_commit
+-- stock WLAN RPS/RFS policy --
+stock_context: stock hw_nat.ko uses four per-CPU NAPI softqueues with offload_rps_cpu cpu/max controls and NAPI weight 0x10
+stock_offload_rps_cpu_default=-1
+stock_offload_rps_cpu_ct=1
+stock_offload_rps_max_queue=4000
+stock_softqueue_napi_weight=16
+stock_interface_classifier: stock kernel isWiFiInterface() returns true only for interface names beginning with ra
+stock_hw_nat_fastpath_contract: PpeWifiFastTxHandler/ecnt_wlan_force_to_cpu_handler order is static-rule validation, soft_ratelimit enqueue, toWlan5G hook, toWlan2G hook, then netdev xmit
+stock_hook_boundary: soft_ratelimit_* and toWlan* RPS hooks are stock built-in ECNT hook variables, not mt7996/hostadpt module exports
+openwrt_context: packet_steering=1, steering_flows=4096, per-queue rps_cpus/rps_flow_cnt, XPS, and net.core.rps_sock_flow_entries=32768 for Wi-Fi-like and Ethernet datapath netdevs
+openwrt_recommended_packet_steering=1
+openwrt_recommended_steering_flows=4096
+openwrt_recommended_rps_sock_flow_entries=32768
+explicit_queue_mask=f
+explicit_queue_targets=98
+target_netdevs=eth0,lan2,lan3,lan4,wan
+packet_steering=1
+steering_flows=4096
+rps_sock_flow_entries=32768
+netdev_budget=300
+netdev_budget_usecs=20000
+rx_queues_targeted: total=98 rps_cpus_nonzero=98 rps_flow_cnt_nonzero=98
+tx_queues_targeted: total=98 xps_cpus_nonzero=96
+system_queues: rx_total=100 tx_total=100
+-- stock force-to-CPU classifier --
+ppe_path=/sys/kernel/debug/ppe/wlan-summary
+stock_force_cpu_context: stock PpeHitBindForceToCpuHandler classifies FOE actdp/type into handler codes and can offload eligible IPv6 force-to-CPU packets into its RPS softqueue
+openwrt_force_cpu_policy: classify stock handler/ring choices and optionally commit reconstructed PpeSetRxForceRingIdx NBQ updates through the normal FOE SRAM-safe path
+wlan_force_cpu_classify: 0
+wlan_force_cpu_no_entry: 0
+wlan_force_cpu_unbound: 0
+wlan_force_cpu_unsupported_foe: 0
+wlan_force_cpu_unsupported: 0
+wlan_force_cpu_softqueue_candidate: 0
+wlan_force_cpu_stock_proto_7275: 0
+wlan_force_cpu_stock_ring_hint: 0
+wlan_force_cpu_stock_ring_unchanged: 0
+wlan_force_cpu_stock_ring_commit_success: 0
+wlan_force_cpu_stock_ring_commit_error: 0
+-- npu-runtime-health --
+status: limited
+coverage: compact
+note: legacy npu-health is absent; compact coverage does not claim hostadpt or RRO ownership parity
+lifecycle_status: inactive-clean
+npu_active: 0
+initialized: 0
+assigned_slots: 0
+assignment_balance_ok: 1
+irq_blocked: 0
+tx_linearize_failed: 0
+tx_desc_oversize_rejected: 0
+txfree_post_cleanup_calls: 0
+txfree_post_cleanup_reclaimed: 0
+channel_cleanup_calls: 0
+channel_cleanup_reclaimed: 0
+channel_mgmt_reconcile_checks: 0
+channel_mgmt_reconciled: 0
+channel_mgmt_token_present: 0
+channel_wait_timeouts: 0
+channel_wait_queue_timeouts: 0
+channel_wait_mgmt_timeouts: 0
+channel_wait_last_mgmt_pending: 0
+channel_wait_last_queue_pending: 0
+channel_mgmt_deferred: 0
+channel_mgmt_deferred_tokens: 0
+channel_mgmt_deferred_last_pending: 0
+channel_mgmt_deferred_last_tokens: 0
+-- npu-stock-rro-mib --
+stock_rro_mib_source=stock mt7990_dbg rro_mib passive register mirror
+stock_rro_mib_register_range=0xa180..0xa1ac
+stock_rro_mib_policy=read-only; no rro_dbg selector writes
+packet_mutation=0
+rro_ownership_mutation=0
+ba_session_mutation=0
+prephy_npu_activation=0
+status=live-mmio-read
+stock_rro_mib_step_one=0
+stock_rro_mib_repeat=0
+stock_rro_mib_oldpkt=0
+stock_rro_mib_within=0
+stock_rro_mib_surpass=0
+stock_rro_mib_bar=0
+stock_rro_mib_surpass_big_gap=0
+stock_rro_mib_disconnect=0
+stock_rro_mib_invalid=0
+stock_rro_mib_timeout_step_one=0
+stock_rro_mib_timeout_flush_all=0
+stock_rro_mib_buf_ran_out=0
+stock_rro_mib_hex=step_one:0x00000000 repeat:0x00000000 oldpkt:0x00000000 within:0x00000000 surpass:0x00000000 bar:0x00000000 big_gap:0x00000000 disconnect:0x00000000 invalid:0x00000000 timeout_step_one:0x00000000 timeout_flush_all:0x00000000 buf_ran_out:0x00000000
+
+===== memory =====
+              total        used        free      shared  buff/cache   available
+Mem:        1867960      132976     1689116        2980       45868     1685988
+Swap:             0           0           0
+
+===== wireless =====
+{
+	"radio0": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "2g",
+			"channel": "6",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT40",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 0
+		},
+		"interfaces": [
+			
+		]
+	},
+	"radio1": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "5g",
+			"channel": "36",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT80",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 1
+		},
+		"interfaces": [
+			
+		]
+	},
+	"radio2": {
+		"up": true,
+		"pending": false,
+		"autostart": true,
+		"disabled": false,
+		"retry_setup_failed": false,
+		"config": {
+			"type": "mac80211",
+			"band": "6g",
+			"channel": "37",
+			"country": "US",
+			"he_mu_beamformer": true,
+			"he_su_beamformee": true,
+			"he_su_beamformer": true,
+			"he_twt_responder": true,
+			"htmode": "EHT320",
+			"path": "soc/1fc00000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0",
+			"radio": 2
+		},
+		"interfaces": [
+			
+		]
+	}
+}
+
+===== temporary state =====
+ 6656 root      1348 S<   {w1700k-v687-pos} /bin/sh /tmp/w1700k-v687-postflash-baseline.sh
+
+===== fatal kernel diagnostics =====
+fatal_diagnostics=none

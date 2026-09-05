@@ -1,0 +1,13 @@
+{
+	"admin/services/w1700k-softether-server": {
+		"title": "SoftEther Server",
+		"order": 70,
+		"action": {
+			"type": "view",
+			"path": "services/w1700k-softether-server"
+		},
+		"depends": {
+			"acl": [ "luci-app-w1700k-softether-server" ]
+		}
+	}
+}

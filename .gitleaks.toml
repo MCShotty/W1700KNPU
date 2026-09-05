@@ -1,0 +1,9 @@
+title = "W1700KNPU credential screening"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Reviewed NPU buffer-lifecycle terminology, not an API credential"
+regexTarget = "secret"
+regexes = ['''^scatter/SKB/bufid$''']

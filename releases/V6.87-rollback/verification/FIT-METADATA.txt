@@ -1,0 +1,43 @@
+FIT description: ARM64 OpenWrt FIT (Flattened Image Tree)
+Created:         Tue Sep  1 10:57:09 2026
+ Image 0 (kernel-1)
+  Description:  ARM64 OpenWrt Linux-6.18.34
+  Created:      Tue Sep  1 10:57:09 2026
+  Type:         Kernel Image
+  Compression:  gzip compressed
+  Data Size:    5631073 Bytes = 5499.09 KiB = 5.37 MiB
+  Architecture: AArch64
+  OS:           Linux
+  Load Address: 0x80200000
+  Entry Point:  0x80200000
+  Hash algo:    crc32
+  Hash value:   b1293fa9
+  Hash algo:    sha1
+  Hash value:   00e158d1b3804a1d7542228f829f5f0a5a73525f
+ Image 1 (fdt-1)
+  Description:  ARM64 OpenWrt gemtek_w1700k-ubi device tree blob
+  Created:      Tue Sep  1 10:57:09 2026
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    22950 Bytes = 22.41 KiB = 0.02 MiB
+  Architecture: AArch64
+  Hash algo:    crc32
+  Hash value:   6ff15d66
+  Hash algo:    sha1
+  Hash value:   17d6a33aa0e58885a5e93fcf5e630c2aa0e0df70
+ Image 2 (rootfs-1)
+  Description:  ARM64 OpenWrt gemtek_w1700k-ubi rootfs
+  Created:      Tue Sep  1 10:57:09 2026
+  Type:         Filesystem Image
+  Compression:  uncompressed
+  Data Size:    14753792 Bytes = 14408.00 KiB = 14.07 MiB
+  Hash algo:    crc32
+  Hash value:   be94581f
+  Hash algo:    sha1
+  Hash value:   8a90d35767915b33222e70a3a18bc1777bd5e7ac
+ Default Configuration: 'config-1'
+ Configuration 0 (config-1)
+  Description:  OpenWrt gemtek_w1700k-ubi
+  Kernel:       kernel-1
+  FDT:          fdt-1
+  Loadables:    rootfs-1

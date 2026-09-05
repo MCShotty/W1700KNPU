@@ -1,0 +1,74 @@
+#!/bin/sh
+
+set -eu
+
+HELPER="${W1700K_NPU_HELPER:-/usr/sbin/w1700k-wlan-npu-mode}"
+PROC_ROOT="${W1700K_NPU_PROC_ROOT:-/proc}"
+DURATION="${1:-30}"
+INTERVAL="${2:-5}"
+MAX_DURATION=300
+MAX_INTERVAL=60
+
+is_uint() {
+	case "$1" in
+		0|[1-9]|[1-9][0-9]|[1-9][0-9][0-9]) return 0 ;;
+		*) return 1 ;;
+	esac
+}
+
+usage() {
+	cat <<'EOF'
+Usage: w1700k-wlan-npu-capture [duration_seconds] [interval_seconds]
+
+Bounds: duration 0..300, interval 1..60. Output is written to stdout only.
+The capture performs no debugfs/proc/sysfs writes and starts no background job.
+EOF
+}
+
+if [ "$DURATION" = "--help" ] || [ "$DURATION" = "-h" ]; then
+	usage
+	exit 0
+fi
+
+if ! is_uint "$DURATION" || [ "$DURATION" -gt "$MAX_DURATION" ]; then
+	printf 'error: duration must be an integer from 0 to %s\n' "$MAX_DURATION" >&2
+	exit 2
+fi
+if ! is_uint "$INTERVAL" || [ "$INTERVAL" -lt 1 ] || [ "$INTERVAL" -gt "$MAX_INTERVAL" ]; then
+	printf 'error: interval must be an integer from 1 to %s\n' "$MAX_INTERVAL" >&2
+	exit 2
+fi
+if [ ! -x "$HELPER" ]; then
+	printf 'error: helper is not executable: %s\n' "$HELPER" >&2
+	exit 3
+fi
+
+printf '%s\n' 'W1700K_NPU_CAPTURE_V1'
+printf 'duration_seconds: %s\ninterval_seconds: %s\n' "$DURATION" "$INTERVAL"
+printf '%s\n' 'runtime_claims: unproven'
+
+elapsed=0
+sample=0
+while :; do
+	sample=$((sample + 1))
+	printf '\n-- sample %s elapsed=%ss utc=%s --\n' \
+		"$sample" "$elapsed" "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || printf unavailable)"
+	"$HELPER" json
+
+	if [ -r "$PROC_ROOT/loadavg" ]; then
+		printf 'loadavg: '
+		cat "$PROC_ROOT/loadavg"
+	fi
+	if [ -r "$PROC_ROOT/meminfo" ]; then
+		sed -n -e '/^MemTotal:/p' -e '/^MemAvailable:/p' -e '/^Slab:/p' \
+			-e '/^SReclaimable:/p' -e '/^SUnreclaim:/p' "$PROC_ROOT/meminfo"
+	fi
+
+	[ "$elapsed" -ge "$DURATION" ] && break
+	delay="$INTERVAL"
+	remaining=$((DURATION - elapsed))
+	[ "$delay" -le "$remaining" ] || delay="$remaining"
+	[ "$delay" -gt 0 ] || break
+	sleep "$delay"
+	elapsed=$((elapsed + delay))
+done

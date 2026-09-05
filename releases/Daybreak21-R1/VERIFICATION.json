@@ -1,0 +1,108 @@
+{
+  "image": "/home/captain/w1700k-openwrt-build/openwrt-w1700k-daybreak20-20260904/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+  "bytes": 20439877,
+  "sha256": "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+  "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "compatible": [
+    "gemtek,w1700k-ubi",
+    "airoha,an7581",
+    "airoha,en7581"
+  ],
+  "FIT": {
+    "kernel": {
+      "node": "kernel-1",
+      "bytes": 5834318,
+      "sha256": "d8948b0dc0e6da998745e3b8fa4c7ab2afab6929418b72d655ed217bc265bf56",
+      "FIT_hashes": [
+        "crc32",
+        "sha1"
+      ]
+    },
+    "dtb": {
+      "node": "fdt-1",
+      "bytes": 22679,
+      "sha256": "565136de9144d0e366404d299933ebd8e58cedbfdb97c7b803749e0248eec596",
+      "FIT_hashes": [
+        "crc32",
+        "sha1"
+      ]
+    },
+    "rootfs": {
+      "node": "rootfs-1",
+      "bytes": 14573568,
+      "sha256": "6395478e1471af2c6b19d8d0675463e8ebb81be33a8413f270bcd236d3d3de2c",
+      "FIT_hashes": [
+        "crc32",
+        "sha1"
+      ]
+    }
+  },
+  "modules": {
+    "mt76.ko": {
+      "packaged_sha256": "877cfbe430f615a73abbe2b04ace38f5aaa277de4245143ffebd1c0e68e82ce4",
+      "audited_sha256": "38504280d5cd32c12fc6e2ddb8212fb50fa70e58e055a2323c63b1f0975774af",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "a9c0d3ed2c7b72c6dd1f3d9139da507c6945522753689e3c1af55c4eff3750db"
+      }
+    },
+    "mt76-connac-lib.ko": {
+      "packaged_sha256": "d9fa572315a14a5ce29805ae59524b28a07c90ac0667cbba3fd79c1718592d62",
+      "audited_sha256": "5b78a8b25f386798cf6bb373df8564f202f06ee8f242af1dac62985e8aa78c9e",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "3e076e886e97ad267858c94bf21719572ff8d28b72e7da2227853d816201ccf4",
+        ".text.unlikely": "b221e70b613cfbe0e3753ebc2c24f3e818233e44f9084f4856a6d0f870cd2461"
+      }
+    },
+    "mt7996e.ko": {
+      "packaged_sha256": "847c4732a13fa1e051dae85c4caca8dd51706b10a4d58f1467bcc0cba94e14c1",
+      "audited_sha256": "64c972c36246bd53d60406aed16eae4f423ac5966a2cad51a91b133d5afc0bd3",
+      "executable_sections": {
+        ".plt": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text.ftrace_trampoline": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        ".text": "ff8da133dd3067b03bb1926e4b9b06f7641e026db6a0868d5d46b512062e432d",
+        ".text.unlikely": "c7709c0148b92f7001815194787838abe63d8f3ef947f23fc14efe7297080d77",
+        ".init.text": "7c00c704cb6cf7065c42d24ffc3369ab2d6e984a65ea1548a55d53dcc2ddc5e3",
+        ".exit.text": "8b6daa6e30d7060a1d42250aca4ec708d6503cbb578f049491682131c96dea36"
+      }
+    }
+  },
+  "firmware": {
+    "en7581_MT7996_npu_rv32.bin": {
+      "bytes": 122336,
+      "sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643"
+    },
+    "en7581_MT7996_npu_data.bin": {
+      "bytes": 3084,
+      "sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1"
+    }
+  },
+  "luci": {
+    "www/luci-static/resources/network.js": "f81d2f3c0724e84eea73c92a40804eb1dc21b95e614a866996f31882dc517141",
+    "www/luci-static/resources/view/network/wireless.js": "fae4ff5a5bca4bb802183da4c8e16b247c00ee7512bd31d78e66a42a321d45d8",
+    "www/luci-static/resources/view/status/include/60_wifi.js": "6a2cb3820b66713ae52f0083f30422ebdbf5d3e66835b0ff44fbe7b0f4430a7a"
+  },
+  "policy": "WLAN NPU compiled out; Ethernet offload unchanged",
+  "runtime_acceptance": "Selected synthetic hardware gates passed on R1; see LIVE-VERIFICATION.json for scope and limits",
+  "metadata": {
+    "metadata_version": "1.1",
+    "compat_version": "2.0",
+    "compat_message": "Partition table has been changed to cooperate with the vendor bootloader with regard to the BMT/BBT partition at the end of flash. A reinstall including corrected chainloader is needed.",
+    "new_supported_devices": [
+      "gemtek,w1700k-ubi"
+    ],
+    "supported_devices": [
+      "gemtek,w1700k-ubi - Image version mismatch: image 2.0, device 1.0. Please wipe config during upgrade (force required) or reinstall. Reason: Partition table has been changed to cooperate with the vendor bootloader with regard to the BMT/BBT partition at the end of flash. A reinstall including corrected chainloader is needed."
+    ],
+    "version": {
+      "dist": "OpenWrt",
+      "version": "SNAPSHOT",
+      "revision": "r1001+23-c1992346fc",
+      "target": "airoha/an7581",
+      "board": "gemtek_w1700k-ubi"
+    }
+  }
+}

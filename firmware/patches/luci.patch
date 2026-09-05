@@ -1,0 +1,3437 @@
+diff --git a/modules/luci-base/htdocs/luci-static/resources/network.js b/modules/luci-base/htdocs/luci-static/resources/network.js
+index b5e4c2b13da7cbc3d26063615e552424ff4eba30..bfa78e1ef910531eec436adbcdffc1a60632424e 100644
+--- a/modules/luci-base/htdocs/luci-static/resources/network.js
++++ b/modules/luci-base/htdocs/luci-static/resources/network.js
+@@ -129,12 +129,144 @@ function getProtocolHandlers() {
+ 	});
+ }
+ 
++function wifiDeviceNamesOf(section) {
++	const value = section ? section.device : null;
++	const devices = Array.isArray(value) ? value :
++		(typeof(value) == 'string' ? [ value ] : L.toArray(value));
++	const rv = [];
++
++	for (let dev of devices) {
++		if (typeof(dev) != 'string')
++			continue;
++
++		for (const name of dev.trim().split(/\s+/))
++			if (name && rv.indexOf(name) < 0)
++				rv.push(name);
++	}
++
++	return rv;
++}
++
++function wifiPrimaryDeviceNameOf(section) {
++	return wifiDeviceNamesOf(section)[0] || null;
++}
++
++function wifiSectionUsesDevice(section, radioname) {
++	return wifiDeviceNamesOf(section).indexOf(radioname) >= 0;
++}
++
++function wifiFrequencyFromChannel(channel, band) {
++	const n = +channel;
++
++	if (!Number.isInteger(n))
++		return null;
++
++	switch (band) {
++	case '2g':
++		if (n == 14)
++			return 2484;
++		if (n >= 1 && n <= 13)
++			return 2407 + n * 5;
++		break;
++
++	case '5g':
++		if (n >= 1 && n <= 200)
++			return 5000 + n * 5;
++		break;
++
++	case '6g':
++		if (n == 2)
++			return 5935;
++		if (n >= 1 && n <= 233)
++			return 5950 + n * 5;
++		break;
++	}
++
++	return null;
++}
++
++function wifiFrequencyMatchesBand(frequency, band) {
++	let mhz = +frequency;
++
++	if (!Number.isFinite(mhz) || mhz <= 0)
++		return false;
++	if (mhz < 100)
++		mhz *= 1000;
++
++	switch (band) {
++	case '2g': return mhz >= 2400 && mhz < 2500;
++	case '5g': return mhz >= 4900 && mhz < 5925;
++	case '6g': return mhz >= 5925 && mhz <= 7125;
++	}
++
++	return true;
++}
++
++function wifiChannelMatchesBand(channel, band) {
++	const n = +channel;
++
++	if (!Number.isInteger(n) || n <= 0)
++		return false;
++
++	switch (band) {
++	case '2g': return n >= 1 && n <= 14;
++	case '5g': return n >= 1 && n <= 200;
++	case '6g': return n == 2 || (n <= 233 && (n - 1) % 4 == 0);
++	}
++
++	return true;
++}
++
++function wifiRuntimeChannelFacts(network) {
++	const band = network.getRadioConfig('band');
++	// An MLD's shared interface iwinfo is not telemetry for each member radio.
++	const scope = network.isMultiRadio() ? 'dev' : 'net';
++	let channel = +network.ubus(scope, 'iwinfo', 'channel');
++	let frequency = +network.ubus(scope, 'iwinfo', 'frequency');
++	let bitrate = +network.ubus(scope, 'iwinfo', 'bitrate');
++	const unavailable = { channel: null, frequency: null, bitrate: null };
++
++	if (network.ubus('dev', 'up') === false)
++		return unavailable;
++
++	channel = Number.isInteger(channel) && channel > 0 ? channel : null;
++	frequency = Number.isFinite(frequency) && frequency > 0
++		? (frequency < 100 ? frequency * 1000 : frequency)
++		: null;
++
++	if (band && frequency != null && !wifiFrequencyMatchesBand(frequency, band))
++		return unavailable;
++	if (band && channel != null && !wifiChannelMatchesBand(channel, band))
++		return unavailable;
++
++	if (channel != null && band) {
++		const expected = wifiFrequencyFromChannel(channel, band);
++
++		if (expected != null && frequency != null && Math.abs(frequency - expected) > 2.5)
++			return unavailable;
++	}
++
++	bitrate = Number.isFinite(bitrate) && bitrate > 0 ? bitrate : null;
++	if (network.isMultiRadio() && frequency == null)
++		bitrate = null;
++
++	return { channel, frequency, bitrate };
++}
++
+ function getWifiStateBySid(sid) {
+ 	const s = uci.get('wireless', sid);
+ 
+ 	if (s != null && s['.type'] == 'wifi-iface') {
+-		for (let radioname in _state.radios) {
+-			for (let netstate of _state.radios[radioname].interfaces) {
++		const configured = wifiDeviceNamesOf(s);
++		const ordered = configured.concat(Object.keys(_state.radios).filter(function(radioname) {
++			return configured.indexOf(radioname) < 0;
++		}));
++
++		for (let radioname of ordered) {
++			if (!L.isObject(_state.radios[radioname]))
++				continue;
++
++			for (let netstate of L.toArray(_state.radios[radioname].interfaces)) {
+ 
+ 				if (typeof(netstate.section) != 'string')
+ 					continue;
+@@ -183,7 +315,7 @@ function getWifiSidByNetid(netid) {
+ 		const sections = uci.sections('wireless', 'wifi-iface');
+ 		let n = 0;
+ 		for (let s of sections) {
+-			if (s.device != m[1])
++			if (!wifiSectionUsesDevice(s, m[1]))
+ 				continue;
+ 
+ 			if (++n == +m[2])
+@@ -211,22 +343,28 @@ function getWifiSidByIfname(ifname) {
+ function getWifiNetidBySid(sid) {
+ 	const s = uci.get('wireless', sid);
+ 	if (s != null && s['.type'] == 'wifi-iface') {
+-		const radioname = s.device;
+-		if (typeof(radioname) == 'string') {
+-			const sections = uci.sections('wireless', 'wifi-iface');
+-			let n = 0;
+-			for (let sec of sections) {
+-				if (sec.device != radioname)
+-					continue;
++		const radioname = wifiPrimaryDeviceNameOf(s);
++		if (radioname != null)
++			return getWifiNetidBySidForRadio(sid, radioname);
++	}
+ 
+-				n++;
++	return null;
++}
+ 
+-				if (sec['.name'] != s['.name'])
+-					continue;
++function getWifiNetidBySidForRadio(sid, radioname) {
++	const s = uci.get('wireless', sid);
++	if (s != null && s['.type'] == 'wifi-iface' && radioname != null) {
++		const sections = uci.sections('wireless', 'wifi-iface');
++		let n = 0;
+ 
+-				return [ '%s.network%d'.format(s.device, n), s.device ];
+-			}
++		for (let sec of sections) {
++			if (!wifiSectionUsesDevice(sec, radioname))
++				continue;
++
++			n++;
+ 
++			if (sec['.name'] == s['.name'])
++				return [ '%s.network%d'.format(radioname, n), radioname ];
+ 		}
+ 	}
+ 
+@@ -1292,12 +1430,14 @@ Network = baseclass.extend(/** @lends LuCI.network.prototype */ {
+ 			const networkCount = {};
+ 
+ 			for (let wf_if of uciWifiIfaces) {
+-				if (typeof(wf_if.device) != 'string')
++				const radioname = wifiPrimaryDeviceNameOf(wf_if);
++
++				if (radioname == null)
+ 					continue;
+ 
+-				networkCount[wf_if.device] = (networkCount[wf_if.device] || 0) + 1;
++				networkCount[radioname] = (networkCount[radioname] || 0) + 1;
+ 
+-				const netid = '%s.network%d'.format(wf_if.device, networkCount[wf_if.device]);
++				const netid = '%s.network%d'.format(radioname, networkCount[radioname]);
+ 
+ 				devices[netid] = this.instantiateDevice(netid);
+ 			}
+@@ -2989,7 +3129,7 @@ Device = baseclass.extend(/** @lends LuCI.network.Device.prototype */ {
+ 			return 'wireguard';
+ 		else if (_state.isTunnel[this.device])
+ 			return 'tunnel';
+-		else if (this.dev.devtype == 'vlan' || this.device.indexOf('.') > -1)
++		else if (this.dev.devtype == 'vlan' || (this.device != null && this.device.indexOf('.') > -1))
+ 			return 'vlan';
+ 		else if (this.dev.devtype == 'dsa' || _state.isSwitch[this.device])
+ 			return 'switch';
+@@ -3602,7 +3742,8 @@ WifiDevice = baseclass.extend(/** @lends LuCI.network.WifiDevice.prototype */ {
+ 		return Network.prototype.getWifiNetwork(network).then(L.bind(function(networkInstance) {
+ 			const uciWifiIface = (networkInstance.sid ? uci.get('wireless', networkInstance.sid) : null);
+ 
+-			if (uciWifiIface == null || uciWifiIface['.type'] != 'wifi-iface' || uciWifiIface.device != this.sid)
++			if (uciWifiIface == null || uciWifiIface['.type'] != 'wifi-iface' ||
++			    !wifiSectionUsesDevice(uciWifiIface, this.sid))
+ 				return Promise.reject();
+ 
+ 			return networkInstance;
+@@ -3618,12 +3759,41 @@ WifiDevice = baseclass.extend(/** @lends LuCI.network.WifiDevice.prototype */ {
+ 	 * radio device.
+ 	 */
+ 	getWifiNetworks() {
+-		return Network.prototype.getWifiNetworks().then(L.bind(function(networks) {
++		return initNetworkState().then(L.bind(function() {
+ 			const rv = [];
++			const seen = {};
++			const radioname = this.getName();
++			const radiostate = this.ubus('dev') || {};
+ 
+-			for (let n of networks)
+-				if (n.getWifiDeviceName() == this.getName())
+-					rv.push(n);
++			for (let netstate of L.toArray(radiostate.interfaces)) {
++				const section = uci.get('wireless', netstate.section);
++
++				if (section == null || section['.type'] != 'wifi-iface' || seen[section['.name']])
++					continue;
++
++				if (!wifiSectionUsesDevice(section, radioname))
++					continue;
++
++				const netid = L.toArray(getWifiNetidBySidForRadio(section['.name'], radioname))[0];
++				const hostapd = netstate.ifname && _state.hostapd ? _state.hostapd[netstate.ifname] : null;
++
++				seen[section['.name']] = true;
++				rv.push(new WifiNetwork(section['.name'], radioname, radiostate, netid, netstate, hostapd));
++			}
++
++			for (let section of uci.sections('wireless', 'wifi-iface')) {
++				if (seen[section['.name']] || !wifiSectionUsesDevice(section, radioname))
++					continue;
++
++				const netid = L.toArray(getWifiNetidBySidForRadio(section['.name'], radioname))[0];
++
++				seen[section['.name']] = true;
++				rv.push(new WifiNetwork(section['.name'], radioname, radiostate, netid, null, null));
++			}
++
++			rv.sort(function(a, b) {
++				return L.naturalCompare(a.getID(), b.getID());
++			});
+ 
+ 			return rv;
+ 		}, this));
+@@ -3679,7 +3849,7 @@ WifiDevice = baseclass.extend(/** @lends LuCI.network.WifiDevice.prototype */ {
+ 				sid = getWifiSidByIfname(network);
+ 		}
+ 
+-		if (sid == null || uci.get('wireless', sid, 'device') != this.sid)
++		if (sid == null || !wifiSectionUsesDevice(uci.get('wireless', sid), this.sid))
+ 			return Promise.resolve(false);
+ 
+ 		uci.remove('wireless', sid);
+@@ -3752,6 +3922,43 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 		return uci.set('wireless', this.sid, opt, value);
+ 	},
+ 
++	/**
++	 * Check whether this network spans multiple physical radios.
++	 *
++	 * MLO interfaces are exposed as a single Linux ifname, so shared iwinfo
++	 * values may describe only one link. Keep per-radio views anchored to the
++	 * wrapped radio whenever the UCI/runtime config lists multiple devices.
++	 *
++	 * @returns {boolean}
++	 * Returns `true` when the Wi-Fi interface references multiple radios.
++	 */
++	isMultiRadio() {
++		const cfg = this.ubus('net', 'config');
++		const uciCfg = uci.get('wireless', this.sid);
++
++		return wifiDeviceNamesOf(cfg).length > 1 ||
++			wifiDeviceNamesOf(uciCfg).length > 1 ||
++			L.toArray(this.ubus('net', 'config', 'radios')).length > 1;
++	},
++
++	/**
++	 * Read a runtime/config value from the physical radio backing this view.
++	 *
++	 * @param {string} opt
++	 * The radio option name to read.
++	 *
++	 * @returns {null|string|number|boolean}
++	 * Returns the radio-local value, or `null` when unavailable.
++	 */
++	getRadioConfig(opt) {
++		const val = this.ubus('dev', 'config', opt);
++
++		if (val != null && val !== '')
++			return val;
++
++		return uci.get('wireless', this.getLocalWifiDeviceName(), opt);
++	},
++
+ 	/**
+ 	 * Checks whether this wireless network is disabled.
+ 	 *
+@@ -3895,7 +4102,47 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * or `null` if it cannot be determined.
+ 	 */
+ 	getWifiDeviceName() {
+-		return this.ubus('radio') || this.get('device');
++		return this.getWifiDeviceNames()[0] || null;
++	},
++
++	/**
++	 * Get the physical radio represented by this runtime wrapper.
++	 *
++	 * This differs from {@link getWifiDeviceName} for MLO: the logical owner is
++	 * the first configured radio, while local telemetry belongs to the radio
++	 * which supplied this wrapper.
++	 *
++	 * @returns {null|string}
++	 * Returns the local runtime radio name, falling back to the logical owner.
++	 */
++	getLocalWifiDeviceName() {
++		return this.ubus('radio') || this.getWifiDeviceName();
++	},
++
++	/**
++	 * Get the names of the corresponding WiFi radio devices.
++	 *
++	 * @returns {string[]}
++	 * Returns one or more radio device names. MLO networks may legitimately
++	 * reference multiple radios through a UCI list-valued `device` option.
++	 */
++	getWifiDeviceNames() {
++		const radioname = this.ubus('radio');
++		const names = [];
++		const sources = [
++			uci.get('wireless', this.sid),
++			this.ubus('net', 'config')
++		];
++
++		for (const source of sources)
++			for (const name of wifiDeviceNamesOf(source))
++				if (names.indexOf(name) < 0)
++					names.push(name);
++
++		if (radioname && names.indexOf(radioname) < 0)
++			names.push(radioname);
++
++		return names;
+ 	},
+ 
+ 	/**
+@@ -4270,10 +4517,10 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * available.
+ 	 */
+ 	getFrequency() {
+-		const freq = this.ubus('net', 'iwinfo', 'frequency');
++		const facts = wifiRuntimeChannelFacts(this);
+ 
+-		if (freq != null && freq > 0)
+-			return '%.03f'.format(freq / 1000);
++		if (facts.frequency != null)
++			return '%.03f'.format(facts.frequency / 1000);
+ 
+ 		return null;
+ 	},
+@@ -4288,7 +4535,7 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * is not available.
+ 	 */
+ 	getBitRate() {
+-		const rate = this.ubus('net', 'iwinfo', 'bitrate');
++		const rate = wifiRuntimeChannelFacts(this).bitrate;
+ 
+ 		if (rate != null && rate > 0)
+ 			return (rate / 1000);
+@@ -4304,7 +4551,7 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * or `null` if it cannot be determined.
+ 	 */
+ 	getChannel() {
+-		return this.ubus('net', 'iwinfo', 'channel') || this.ubus('dev', 'config', 'channel') || this.get('channel');
++		return wifiRuntimeChannelFacts(this).channel;
+ 	},
+ 
+ 	/**
+@@ -4337,7 +4584,12 @@ WifiNetwork = baseclass.extend(/** @lends LuCI.network.WifiNetwork.prototype */
+ 	 * information or `00` if it cannot be determined.
+ 	 */
+ 	getCountryCode() {
+-		return this.ubus('net', 'iwinfo', 'country') || this.ubus('dev', 'config', 'country') || '00';
++		const radioCountry = this.getRadioConfig('country');
++
++		if (this.isMultiRadio() && radioCountry)
++			return radioCountry;
++
++		return this.ubus('net', 'iwinfo', 'country') || radioCountry || '00';
+ 	},
+ 
+ 	/**
+diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+index f0ac294d1198e2d60b9d29641ecc4fd097ad4b5f..07870279e3479dd2df961de437127bb760006486 100644
+--- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
++++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+@@ -14,6 +14,1180 @@
+ 
+ const isReadonlyView = !L.hasViewPermission();
+ 
++const W1700K_RADIO_INFO = {
++	'0': { band: '2g', label: '2.4 GHz', defaultHtmode: { '': 'HT20', n: 'HT40', ax: 'HE40', be: 'EHT40' } },
++	'1': { band: '5g', label: '5 GHz', defaultHtmode: { '': 'HT20', n: 'HT40', ac: 'VHT80', ax: 'HE80', be: 'EHT80' } },
++	'2': { band: '6g', label: '6 GHz', defaultHtmode: { ax: 'HE160', be: 'EHT320' } }
++};
++
++const W1700K_5G_CHANNEL_RUNS = [
++	[36, 40, 44, 48, 52, 56, 60, 64],
++	[100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144],
++	[149, 153, 157, 161, 165, 169, 173, 177]
++];
++
++const W1700K_5G_STATIC_AP_CHANNELS = [
++	36, 40, 44, 48,
++	52, 56, 60, 64,
++	100, 104, 108, 112,
++	116, 120, 124, 128,
++	132, 136, 140, 144,
++	149, 153, 157, 161,
++	165
++];
++
++const W1700K_PMF_ENCRYPTIONS = [
++	'owe', 'psk2', 'psk-mixed', 'sae', 'sae-mixed',
++	'wpa2', 'wpa3', 'wpa3-mixed', 'wpa3-192'
++];
++
++const W1700K_PUNCT_ACTIVE_MASKS = {
++	80: [ 0xf, 0xe, 0xd, 0xb, 0x7 ],
++	160: [ 0xff, 0xfe, 0xfd, 0xfb, 0xf7, 0xef, 0xdf, 0xbf, 0x7f, 0xfc, 0xf3, 0xcf, 0x3f ],
++	320: [
++		0xffff, 0xfffc, 0xfff3, 0xffcf, 0xff3f, 0xfcff, 0xf3ff, 0xcfff,
++		0x3fff, 0xfff0, 0xff0f, 0xf0ff, 0x0fff, 0xffc0, 0xff30, 0xfcf0,
++		0xf3f0, 0xcff0, 0x3ff0, 0x0ffc, 0x0ff3, 0x0fcf, 0x0f3f, 0x0cff,
++		0x03ff
++	]
++};
++
++let w1700kWifiCapabilitiesPromise = null;
++
++const callIwinfoFrequencyList = rpc.declare({
++	object: 'iwinfo',
++	method: 'freqlist',
++	params: [ 'device' ],
++	expect: { results: [] }
++});
++
++function w1700kLoadWifiCapabilities() {
++	if (!w1700kWifiCapabilitiesPromise)
++		w1700kWifiCapabilitiesPromise = L.resolveDefault(
++			fs.exec_direct('/usr/sbin/w1700k-wifi-capabilities', [], 'json'), {});
++
++	return w1700kWifiCapabilitiesPromise;
++}
++
++function w1700kDeviceNames(value) {
++	const values = Array.isArray(value) ? value :
++		(typeof(value) == 'string' ? [ value ] : L.toArray(value));
++	const names = [];
++
++	values.forEach(function(value) {
++		if (typeof(value) != 'string')
++			return;
++
++		value.trim().split(/\s+/).forEach(function(name) {
++			if (name && names.indexOf(name) < 0)
++				names.push(name);
++		});
++	});
++
++	return names;
++}
++
++function w1700kExplicitRadioIndex(section_id) {
++	const idx = uci.get('wireless', section_id, 'radio');
++	return W1700K_RADIO_INFO.hasOwnProperty(String(idx)) ? String(idx) : null;
++}
++
++function w1700kRadioMapActive() {
++	return uci.sections('wireless', 'wifi-device').some(function(dev) {
++		return w1700kExplicitRadioIndex(dev['.name']) != null;
++	});
++}
++
++function w1700kRadioIndex(section_id) {
++	const idx = w1700kExplicitRadioIndex(section_id);
++	return W1700K_RADIO_INFO.hasOwnProperty(String(idx)) ? String(idx) : null;
++}
++
++function w1700kRadioIndexOwners(idx) {
++	if (!w1700kRadioMapActive() || !W1700K_RADIO_INFO.hasOwnProperty(String(idx)))
++		return [];
++
++	return uci.sections('wireless', 'wifi-device').map(function(dev) {
++		return dev['.name'];
++	}).filter(function(name) {
++		return w1700kRadioIndex(name) == String(idx);
++	});
++}
++
++function w1700kRadioIndexConflict(section_id) {
++	const idx = w1700kRadioIndex(section_id);
++	const owners = (idx != null) ? w1700kRadioIndexOwners(idx) : [];
++
++	return owners.length > 1 ? owners : null;
++}
++
++function w1700kRadioInfo(section_id) {
++	const idx = w1700kRadioIndex(section_id);
++
++	if (!w1700kRadioMapActive() || idx == null || w1700kRadioIndexOwners(idx).length != 1)
++		return null;
++
++	return W1700K_RADIO_INFO[idx] || null;
++}
++
++function w1700kMappedRadioNames() {
++	return uci.sections('wireless', 'wifi-device').map(function(dev) {
++		return dev['.name'];
++	}).filter(function(name) {
++		return w1700kRadioInfo(name) != null;
++	});
++}
++
++function w1700kMloAvailable() {
++	return w1700kMappedRadioNames().length >= 2;
++}
++
++function w1700kRadioBand(section_id) {
++	const info = w1700kRadioInfo(section_id);
++	return info ? info.band : uci.get('wireless', section_id, 'band') || null;
++}
++
++function w1700kRadioLabel(section_id) {
++	const idx = w1700kRadioIndex(section_id);
++	const info = w1700kRadioInfo(section_id);
++
++	return info ? '%s / idx %s / %s'.format(section_id, idx, info.label) : section_id;
++}
++
++function w1700kRadioRuntimeFacts(radioDev, wifiNets) {
++	const radioName = typeof radioDev?.getName == 'function' ? radioDev.getName() : null;
++	const radioBand = w1700kRadioBand(radioName);
++	let iwinfo = typeof radioDev?.ubus == 'function' ? (radioDev.ubus('dev', 'iwinfo') || {}) : {};
++	const configuredChannel = +uci.get('wireless', radioName, 'channel');
++	const configuredFrequency = w1700kChannelFrequencyGHz(radioBand, configuredChannel);
++	let source = 'runtime';
++
++	// Only a local, single-radio interface can supply missing radio telemetry.
++	if (iwinfo.channel == null && iwinfo.frequency == null) {
++		for (const net of wifiNets || []) {
++			if (w1700kWifiNetDeviceNames(net).length != 1 || w1700kWifiLocalRadio(net) != radioName ||
++			    net.get?.('mlo') == '1' || net.ubus?.('net', 'config', 'mlo') == '1')
++				continue;
++			const local = net.ubus?.('net', 'iwinfo');
++			if (local && (local.channel != null || local.frequency != null)) {
++				iwinfo = local;
++				source = 'network';
++				break;
++			}
++		}
++	}
++	let channel = +iwinfo.channel;
++	let frequency = +iwinfo.frequency;
++	let bitrate = +iwinfo.bitrate;
++
++	channel = Number.isInteger(channel) && channel > 0 ? channel : null;
++	frequency = Number.isFinite(frequency) && frequency > 0
++		? (frequency > 100 ? frequency / 1000 : frequency)
++		: null;
++	bitrate = Number.isFinite(bitrate) && bitrate > 0
++		? bitrate / 1000
++		: null;
++
++	const expected = w1700kChannelFrequencyGHz(radioBand, channel);
++	const knownBand = [ '2g', '5g', '6g' ].includes(radioBand);
++	if (!radioDev?.isUp?.() ||
++	    (knownBand && frequency != null && !w1700kFrequencyMatchesBand(radioBand, frequency)) ||
++	    (knownBand && channel != null && expected == null) ||
++	    (radioBand == '6g' && channel != null && channel != 2 && (channel - 1) % 4 != 0) ||
++	    (expected != null && frequency != null && Math.abs(expected - frequency) > 0.0025)) {
++		channel = null;
++		frequency = null;
++		bitrate = null;
++	}
++
++	if (frequency == null && (w1700kRadioMapActive() ||
++	    (wifiNets || []).some(net => w1700kWifiNetDeviceNames(net).length > 1 || net.get?.('mlo') == '1')))
++		bitrate = null;
++
++	if (channel == null)
++		source = 'unavailable';
++
++	return {
++		channel,
++		frequency,
++		bitrate,
++		source,
++		configuredChannel: Number.isFinite(configuredChannel) && configuredChannel > 0 ? configuredChannel : null,
++		configuredFrequency: w1700kFrequencyMatchesBand(radioBand, configuredFrequency) ? configuredFrequency : null
++	};
++}
++
++function w1700kWifiNetDeviceNames(wifiNet) {
++	if (!wifiNet)
++		return [];
++	if (typeof wifiNet.getWifiDeviceNames == 'function')
++		return w1700kDeviceNames(wifiNet.getWifiDeviceNames());
++	if (typeof wifiNet.getWifiDeviceName == 'function')
++		return w1700kDeviceNames(wifiNet.getWifiDeviceName());
++	return [];
++}
++
++function w1700kWifiUsesRadio(wifiNet, radioname) {
++	return w1700kWifiNetDeviceNames(wifiNet).indexOf(radioname) >= 0;
++}
++
++function w1700kWifiPrimaryRadio(wifiNet) {
++	const section = wifiNet?.sid || (typeof wifiNet?.getName == 'function' ? wifiNet.getName() : null);
++	const configured = section
++		? w1700kDeviceNames(uci.get('wireless', section, 'device'))
++		: [];
++	const radios = w1700kWifiNetDeviceNames(wifiNet);
++
++	return configured[0] || (radios.length ? radios[0] : null);
++}
++
++function w1700kWifiLocalRadio(wifiNet) {
++	const runtime = typeof wifiNet?.ubus == 'function' ? wifiNet.ubus('radio') : null;
++
++	if (runtime)
++		return runtime;
++	if (typeof wifiNet?.getWifiDeviceName == 'function')
++		return wifiNet.getWifiDeviceName();
++
++	return w1700kWifiNetDeviceNames(wifiNet)[0] || null;
++}
++
++function w1700kUniqueWifiNetworks(networks) {
++	const seen = Object.create(null);
++	const unique = [];
++
++	for (let wifiNet of networks || []) {
++		if (!wifiNet)
++			continue;
++
++		const name = typeof wifiNet.getName == 'function' ? wifiNet.getName() : null;
++
++		if (!name) {
++			unique.push(wifiNet);
++			continue;
++		}
++
++		if (seen[name] == null) {
++			seen[name] = unique.length;
++			unique.push(wifiNet);
++			continue;
++		}
++
++		const index = seen[name];
++		const primary = w1700kWifiPrimaryRadio(wifiNet);
++		if (primary && w1700kWifiLocalRadio(wifiNet) == primary &&
++		    w1700kWifiLocalRadio(unique[index]) != primary)
++			unique[index] = wifiNet;
++	}
++
++	return unique;
++}
++
++function w1700kIfaceConfigUsesRadio(wifiIface, radioname) {
++	return w1700kDeviceNames(wifiIface?.device).indexOf(radioname) >= 0;
++}
++
++function w1700kRadioDisabled(radioname) {
++	return radioname && uci.get('wireless', radioname, 'disabled') == '1';
++}
++
++function w1700kHtmodeWidth(htmode) {
++	const match = String(htmode || '20').match(/(20|40|80|160|320)/);
++	return match ? +match[1] : 20;
++}
++
++function w1700kStaticApChannels(band) {
++	const rv = {};
++
++	switch (band) {
++	case '2g':
++		for (let i = 1; i <= 13; i++)
++			rv[i] = true;
++		break;
++	case '5g':
++		for (let ch of W1700K_5G_STATIC_AP_CHANNELS)
++			rv[ch] = true;
++		break;
++	case '6g':
++		rv[2] = true;
++		for (let i = 1; i <= 233; i += 4)
++			rv[i] = true;
++		break;
++	}
++
++	return rv;
++}
++
++function w1700kApChannelsForBand(band, apChannels) {
++	return (apChannels && apChannels[band]) || w1700kStaticApChannels(band);
++}
++
++function w1700kApChannelsFromFrequencyList(section_id, freqlist) {
++	const lockedBand = w1700kRadioBand(section_id);
++	const apChannels = { '2g': {}, '5g': {}, '6g': {}, '60g': {} };
++
++	for (const freq of freqlist || []) {
++		const band = freq.band ? String(freq.band) + 'g' : null;
++		const flags = Array.isArray(freq.flags) ? freq.flags : [];
++		const noIr = freq.no_ir || flags.indexOf('NO_IR') >= 0;
++
++		if (!band || !apChannels[band] || (lockedBand && band != lockedBand))
++			continue;
++		if (!freq.disabled && !noIr && w1700kChannelAllowed(section_id, freq.channel))
++			apChannels[band][freq.channel] = true;
++	}
++
++	return apChannels;
++}
++
++function w1700kLoadMloApChannels(devices) {
++	const tasks = w1700kDeviceNames(devices).map(function(dev) {
++		return L.resolveDefault(callIwinfoFrequencyList(dev), null).then(function(freqlist) {
++			return [ dev, Array.isArray(freqlist) && freqlist.length
++				? w1700kApChannelsFromFrequencyList(dev, freqlist)
++				: null ];
++		});
++	});
++
++	return Promise.all(tasks).then(function(entries) {
++		const maps = {};
++
++		for (const [ dev, channels ] of entries)
++			maps[dev] = channels;
++
++		return maps;
++	});
++}
++
++function w1700kChannelsUsable(channels, apChannels) {
++	if (!channels || !channels.length)
++		return false;
++
++	for (let ch of channels)
++		if (!apChannels[ch])
++			return false;
++
++	return true;
++}
++
++function w1700kRunWidthBlock(channel, width, runs) {
++	const groupSize = width / 20;
++
++	if (width <= 20)
++		return [ channel ];
++
++	for (let run of runs) {
++		const pos = run.indexOf(channel);
++
++		if (pos < 0)
++			continue;
++
++		const start = Math.floor(pos / groupSize) * groupSize;
++		const block = run.slice(start, start + groupSize);
++
++		return block.length == groupSize ? block : null;
++	}
++
++	return null;
++}
++
++function w1700k5gWidthBlock(channel, width) {
++	if (width != 20 && width != 40 && width != 80 && width != 160)
++		return null;
++
++	/*
++	 * The upper 149-177 run is modeled for future regulatory databases, but
++	 * every 20 MHz subchannel still has to be AP-usable in the live map.
++	 */
++	return w1700kRunWidthBlock(channel, width, W1700K_5G_CHANNEL_RUNS);
++}
++
++function w1700k6gWidthBlock(channel, width) {
++	if (channel == 2)
++		return width <= 20 ? [ channel ] : null;
++
++	if (channel < 1 || channel > 233 || ((channel - 1) % 4) != 0)
++		return null;
++	if ([ 20, 40, 80, 160, 320 ].indexOf(width) < 0)
++		return null;
++
++	if (width <= 20)
++		return [ channel ];
++
++	/* hostapd's fourth 320 MHz center (191) overlaps the third block. */
++	if (width == 320 && channel > 189 && channel <= 221) {
++		const block = [];
++
++		for (let ch = 161; ch <= 221; ch += 4)
++			block.push(ch);
++
++		return block;
++	}
++
++	const groupSize = width / 20;
++	const index = (channel - 1) / 4;
++	const start = Math.floor(index / groupSize) * groupSize;
++	const rv = [];
++
++	for (let i = 0; i < groupSize; i++) {
++		const ch = 1 + (start + i) * 4;
++		if (ch > 233)
++			return null;
++		rv.push(ch);
++	}
++
++	return rv;
++}
++
++function w1700kHtmodeAllowed(section_id, htmode, channel, apChannels) {
++	const info = w1700kRadioInfo(section_id);
++	let width, channels;
++
++	if (!info && w1700kRadioMapActive())
++		return false;
++	if (!info || !htmode)
++		return true;
++
++	if (htmode == 'NOHT')
++		return info.band != '6g' && w1700kChannelAllowed(section_id, channel, apChannels);
++
++	switch (info.band) {
++	case '2g':
++		if (!/^(HT|HE|EHT)(20|40)(\+|-)?$/.test(htmode))
++			return false;
++		break;
++	case '5g':
++		if (!/^(HT|VHT|HE|EHT)(20|40|80|160)(\+|-)?$/.test(htmode))
++			return false;
++		break;
++	case '6g':
++		if (!/^(HE|EHT)(20|40|80|160|320)$/.test(htmode))
++			return false;
++		break;
++	}
++
++	if (channel == null || channel == '')
++		return true;
++
++	channel = String(channel);
++	width = w1700kHtmodeWidth(htmode);
++
++	if (channel == 'auto') {
++		switch (info.band) {
++		case '5g':
++			if (width > 80)
++				return false;
++			break;
++		case '6g':
++			if (width > 80)
++				return false;
++			break;
++		}
++
++		const liveChannels = w1700kApChannelsForBand(info.band, apChannels);
++		return Object.keys(liveChannels).some(function(ch) {
++			return w1700kHtmodeAllowed(section_id, htmode, ch, apChannels);
++		});
++	}
++
++	channel = +channel;
++
++	if (!Number.isInteger(channel))
++		return false;
++	if (info.band == '2g' && channel == 14)
++		return w1700kDeviceCountry(section_id) == 'JP' && htmode == 'NOHT';
++
++	switch (info.band) {
++	case '2g':
++		if (width <= 20)
++			channels = [ channel ];
++		else
++			return w1700kChannelsUsable([ channel, channel + 4 ], w1700kApChannelsForBand('2g', apChannels)) ||
++				w1700kChannelsUsable([ channel, channel - 4 ], w1700kApChannelsForBand('2g', apChannels));
++		break;
++	case '5g':
++		channels = w1700k5gWidthBlock(channel, width);
++		break;
++	case '6g':
++		channels = w1700k6gWidthBlock(channel, width);
++		break;
++	}
++
++	return w1700kChannelsUsable(channels, w1700kApChannelsForBand(info.band, apChannels));
++}
++
++function w1700kChannelValuesForHtmode(section_id, channelValues, htmode, apChannels) {
++	const rv = [];
++
++	for (let i = 0; channelValues && i < channelValues.length; i += 3) {
++		const meta = Object.assign({}, channelValues[i + 2] || {});
++
++		meta.available = !!meta.available &&
++			(!htmode || w1700kHtmodeAllowed(section_id, htmode, channelValues[i], apChannels));
++
++		rv.push(channelValues[i], channelValues[i + 1], meta);
++	}
++
++	return rv;
++}
++
++function w1700kPunctWidthAllowed(section_id, htmode) {
++	const info = w1700kRadioInfo(section_id);
++	const width = w1700kHtmodeWidth(htmode);
++
++	if (!info || !/^EHT/.test(String(htmode || '')))
++		return false;
++
++	switch (info.band) {
++	case '5g':
++		return width == 80 || width == 160;
++	case '6g':
++		return width == 80 || width == 160 || width == 320;
++	}
++
++	return false;
++}
++
++function w1700kParsePunctBitmap(value) {
++	value = String(value || '').trim();
++
++	if (value == '')
++		return 0;
++
++	if (!/^(0x[0-9a-fA-F]+|[0-9]+)$/.test(value))
++		return null;
++
++	const n = value.slice(0, 2).toLowerCase() == '0x' ? parseInt(value, 16) : parseInt(value, 10);
++
++	return Number.isInteger(n) && n >= 0 && n <= 0xffff ? n : null;
++}
++
++function w1700kPunctPrimaryBit(section_id, channel, width) {
++	const info = w1700kRadioInfo(section_id);
++	let block;
++
++	channel = +channel;
++
++	if (!info || !Number.isInteger(channel))
++		return null;
++
++	if (info.band == '5g') {
++		block = w1700k5gWidthBlock(channel, width);
++		return block ? block.indexOf(channel) : null;
++	}
++	else if (info.band == '6g') {
++		block = w1700k6gWidthBlock(channel, width);
++		return block ? block.indexOf(channel) : null;
++	}
++
++	return null;
++}
++
++function w1700kValidatePunctBitmap(section_id, htmode, channel, value) {
++	const bitmap = w1700kParsePunctBitmap(value);
++	const width = w1700kHtmodeWidth(htmode);
++	const mask = width == 80 ? 0xf : width == 160 ? 0xff : width == 320 ? 0xffff : 0;
++	const valid = W1700K_PUNCT_ACTIVE_MASKS[width] || [];
++	let active, primaryBit;
++
++	if (bitmap == null)
++		return _('Use a decimal value or a hexadecimal value such as 0x0002.');
++
++	if (bitmap == 0)
++		return true;
++
++	if (!w1700kPunctWidthAllowed(section_id, htmode))
++		return _('EHT puncturing requires 5GHz or 6GHz EHT80 or wider.');
++
++	if (channel == null || channel == '' || channel == 'auto')
++		return _('Manual EHT puncturing requires a fixed channel.');
++
++	primaryBit = w1700kPunctPrimaryBit(section_id, channel, width);
++	if (primaryBit == null)
++		return _('The puncturing bitmap cannot be mapped to this channel width.');
++
++	active = (~bitmap) & mask;
++	if (!active)
++		return _('At least one 20 MHz subchannel must remain active.');
++
++	if ((active & (1 << primaryBit)) == 0)
++		return _('The primary 20 MHz subchannel cannot be punctured.');
++
++	if (valid.indexOf(active) < 0)
++		return _('This puncturing pattern is not valid for the selected channel width.');
++
++	return true;
++}
++
++function w1700kDefaultHtmode(section_id, mode) {
++	const info = w1700kRadioInfo(section_id);
++
++	return info ? (info.defaultHtmode[mode] || info.defaultHtmode.be || info.defaultHtmode.ax || 'NOHT') : null;
++}
++
++function w1700kChannelAllowed(section_id, channel, apChannels) {
++	const info = w1700kRadioInfo(section_id);
++	const country = w1700kDeviceCountry(section_id);
++	let n, max2g;
++
++	if (!info && w1700kRadioMapActive())
++		return false;
++	if (!info || channel == null || channel == '')
++		return true;
++	if (channel == 'auto')
++		return !apChannels?.[info.band] || Object.keys(apChannels[info.band]).length > 0;
++
++	n = +channel;
++	if (!Number.isInteger(n))
++		return false;
++
++	if (apChannels && apChannels[info.band])
++		return apChannels[info.band][n] === true;
++
++	switch (info.band) {
++	case '2g':
++		max2g = (country == 'US' || country == 'CA' || country == 'MX') ? 11 : 13;
++		return (n >= 1 && n <= max2g) || (country == 'JP' && n == 14);
++	case '5g':
++		return W1700K_5G_STATIC_AP_CHANNELS.indexOf(n) >= 0;
++	case '6g':
++		return n == 2 || (n >= 1 && n <= 233 && ((n - 1) % 4) == 0);
++	}
++
++	return true;
++}
++
++function w1700kDeviceDisabled(dev) {
++	return uci.get('wireless', dev, 'disabled') == '1';
++}
++
++function w1700kNormalizeCountry(country) {
++	country = String(country || '').toUpperCase();
++	return (!country || country == '00') ? 'US' : country;
++}
++
++function w1700kDeviceCountry(dev) {
++	return w1700kNormalizeCountry(uci.get('wireless', dev, 'country'));
++}
++
++function w1700kExplicitDeviceCountry(dev) {
++	const country = String(uci.get('wireless', dev, 'country') || '').toUpperCase();
++
++	return /^[A-Z]{2}$/.test(country) && country != '00' ? country : null;
++}
++
++function w1700kChannelFrequencyGHz(band, channel) {
++	channel = +channel;
++
++	if (!Number.isFinite(channel))
++		return null;
++
++	switch (band) {
++	case '2g':
++		if (channel == 14)
++			return 2.484;
++		if (channel >= 1 && channel <= 13)
++			return +(2.407 + channel * 0.005).toFixed(3);
++		break;
++	case '5g':
++		if (channel >= 1 && channel <= 177)
++			return +(5.0 + channel * 0.005).toFixed(3);
++		break;
++	case '6g':
++		if (channel == 2)
++			return 5.935;
++		if (channel >= 1 && channel <= 233)
++			return +(5.95 + channel * 0.005).toFixed(3);
++		break;
++	}
++
++	return null;
++}
++
++function w1700kFrequencyMatchesBand(band, frequency) {
++	frequency = +frequency;
++
++	if (!Number.isFinite(frequency))
++		return false;
++
++	switch (band) {
++	case '2g':
++		return frequency >= 2.4 && frequency < 2.5;
++	case '5g':
++		return frequency >= 5.0 && frequency < 5.925;
++	case '6g':
++		return frequency >= 5.925 && frequency <= 7.125;
++	}
++
++	return false;
++}
++
++function w1700kScanResultFrequencyGHz(result) {
++	const frequency = +(result?.mhz ?? result?.frequency);
++
++	if (!Number.isFinite(frequency) || frequency <= 0)
++		return null;
++
++	return frequency >= 1000 ? frequency / 1000 : frequency;
++}
++
++function w1700kScanResultBand(result) {
++	const frequency = w1700kScanResultFrequencyGHz(result);
++
++	if (frequency != null) {
++		for (let band of [ '2g', '5g', '6g' ])
++			if (w1700kFrequencyMatchesBand(band, frequency))
++				return band;
++	}
++
++	switch (String(result?.band ?? '').toLowerCase().replace(/\s+/g, '')) {
++	case '2':
++	case '2g':
++	case '2.4':
++	case '2.4g':
++	case '2.4ghz':
++		return '2g';
++	case '5':
++	case '5g':
++	case '5ghz':
++		return '5g';
++	case '6':
++	case '6g':
++	case '6ghz':
++		return '6g';
++	}
++
++	return null;
++}
++
++function w1700kScanResultMatchesRadio(radioDev, result) {
++	const expectedBand = w1700kRadioBand(radioDev?.getName?.());
++
++	return expectedBand == null || w1700kScanResultBand(result) == expectedBand;
++}
++
++function w1700kScanOperationWidth(operation, fallback) {
++	const width = +(operation?.channel_width);
++
++	return [ 20, 40, 80, 160, 320 ].indexOf(width) >= 0 ? width : fallback;
++}
++
++function w1700kValidSsid(value) {
++	return typeof value == 'string' && value.length > 0 && new TextEncoder().encode(value).length <= 32;
++}
++
++function w1700kScanJoinHtmode(radioDev, bss, currentHtmode) {
++	const radioName = radioDev?.getName?.();
++	if (!Number.isInteger(+bss?.channel) || +bss.channel <= 0 ||
++	    !w1700kScanResultMatchesRadio(radioDev, bss) ||
++	    !w1700kChannelAllowed(radioName, bss.channel))
++		return null;
++	const htmodes = L.toArray(radioDev?.getHTModes?.());
++	const current = String(currentHtmode || '');
++	const currentValid = /^(?:NOHT|(?:HT|VHT|HE|EHT)(?:20|40|80|160|320)(?:\+|-)?)$/.test(current) &&
++		(!htmodes.length || htmodes.indexOf(current) >= 0) &&
++		w1700kHtmodeAllowed(radioName, current, bss?.channel);
++	const operations = [
++		[ 'EHT', bss?.eht_operation, w1700kScanOperationWidth(bss?.eht_operation, 20), [ 320, 160, 80, 40, 20 ] ],
++		[ 'HE', bss?.he_operation, w1700kScanOperationWidth(bss?.he_operation, 20), [ 160, 80, 40, 20 ] ],
++		[ 'VHT', bss?.vht_operation, w1700kScanOperationWidth(bss?.vht_operation, 20), [ 160, 80, 40, 20 ] ],
++		[ 'HT', bss?.ht_operation, w1700kScanOperationWidth(bss?.ht_operation, 20),
++			[ 40, 20 ] ]
++	];
++
++	for (const [ prefix, operation, maximumWidth, widths ] of operations) {
++		if (operation == null)
++			continue;
++		for (const width of widths) {
++			const htmode = prefix + width;
++
++			if (width <= maximumWidth && htmodes.indexOf(htmode) >= 0 &&
++			    w1700kHtmodeAllowed(radioName, htmode, bss?.channel))
++				return htmode;
++		}
++	}
++
++	if (currentValid && operations.every(function(entry) { return entry[1] == null; }))
++		return current;
++
++	return null;
++}
++
++function w1700kDeviceIs6g(dev) {
++	return w1700kRadioBand(dev) == '6g';
++}
++
++function w1700kFormValue(section, section_id, option) {
++	const opt = section?.children?.filter(function(o) { return o.option == option; })[0];
++
++	if (opt && opt.isActive(section_id))
++		return opt.formvalue(section_id);
++
++	return uci.get('wireless', section_id, option);
++}
++
++function w1700kCurrentOptionValue(option, section_id, fallback) {
++	if (option?.getUIElement?.(section_id))
++		return option.formvalue(section_id);
++
++	return fallback;
++}
++
++function w1700kCurrentFrequencyValue(option, section_id) {
++	const fallback = [
++		uci.get('wireless', section_id, 'htmode'),
++		uci.get('wireless', section_id, 'hwmode') || uci.get('wireless', section_id, 'band'),
++		uci.get('wireless', section_id, 'channel')
++	];
++	const value = L.toArray(w1700kCurrentOptionValue(option, section_id, fallback));
++
++	return [ value[0] ?? fallback[0], value[1] ?? fallback[1], value[2] ?? fallback[2] ];
++}
++
++function w1700kFrequencyWidgetActive(ifaceSection, ifaceSectionId) {
++	return w1700kFormValue(ifaceSection, ifaceSectionId, 'mlo') != '1';
++}
++
++function w1700kSetFormValue(section, section_id, option, value) {
++	const opt = section?.children?.filter(function(o) { return o.option == option; })[0];
++	const elem = opt ? opt.getUIElement(section_id) : null;
++
++	uci.set('wireless', section_id, option, value);
++
++	if (elem && elem.setValue)
++		elem.setValue(value);
++}
++
++function w1700kNormalizeDeviceList(value, current) {
++	const seen = {};
++	const devices = [];
++
++	w1700kDeviceNames(value).forEach(function(dev) {
++		dev = (dev != null) ? String(dev) : '';
++
++		if (!dev || seen[dev])
++			return;
++
++		seen[dev] = true;
++		devices.push(dev);
++	});
++
++	if (current && !seen[current])
++		devices.unshift(current);
++
++	devices.sort(function(a, b) {
++		const ranks = { 1: 0, 2: 1, 0: 2 };
++		const aidx = w1700kRadioIndex(a);
++		const bidx = w1700kRadioIndex(b);
++		const arank = (ranks[aidx] != null) ? ranks[aidx] : 100 + aidx;
++		const brank = (ranks[bidx] != null) ? ranks[bidx] : 100 + bidx;
++
++		if (arank != brank)
++			return arank - brank;
++
++		return a.localeCompare(b);
++	});
++
++	return devices;
++}
++
++function w1700kMloRadioOwner(section_id, radioname) {
++	let owner = null;
++
++	uci.sections('wireless', 'wifi-iface').some(function(iface) {
++		if (iface['.name'] == section_id || iface.disabled == '1' || iface.mlo != '1')
++			return false;
++		if (w1700kDeviceNames(iface.device).indexOf(radioname) < 0)
++			return false;
++
++		owner = iface;
++		return true;
++	});
++
++	return owner;
++}
++
++function w1700kMloOwnerLabel(owner) {
++	if (!owner)
++		return '';
++
++	return owner.ssid || owner['.name'];
++}
++
++function w1700kAvailableMloDevices(section_id, current) {
++	const devices = [];
++
++	uci.sections('wireless', 'wifi-device')
++		.sort(function(a, b) { return w1700kRadioIndex(a['.name']) - w1700kRadioIndex(b['.name']); })
++		.forEach(function(dev) {
++			const name = dev['.name'];
++
++			if (w1700kRadioMapActive() && !w1700kRadioInfo(name))
++				return;
++			if (w1700kMloRadioOwner(section_id, name))
++				return;
++
++			devices.push(name);
++		});
++
++	return w1700kNormalizeDeviceList(devices, current);
++}
++
++const w1700kMloSafeRadioDefaults = {
++	'0': { channel: '6', htmodes: [ 'EHT20' ] },
++	'1': { channel: '36', htmodes: [ 'EHT80', 'EHT40', 'EHT20' ] },
++	'2': { channel: '37', htmodes: [ 'EHT160', 'EHT80', 'EHT40', 'EHT20' ] }
++};
++
++function w1700kMloRadioStateValid(dev, channel, htmode, apChannels) {
++	const idx = w1700kRadioIndex(dev);
++
++	return channel != null && channel != '' && channel != 'auto' &&
++		/^EHT(?:20|40|80|160|320)$/.test(String(htmode || '')) &&
++		(idx != '0' || htmode == 'EHT20') &&
++		(idx != '1' || htmode != 'EHT320') &&
++		w1700kChannelAllowed(dev, channel, apChannels) &&
++		w1700kHtmodeAllowed(dev, htmode, channel, apChannels);
++}
++
++function w1700kMloSafeRadioState(dev, apChannels) {
++	const defaults = w1700kMloSafeRadioDefaults[w1700kRadioIndex(dev)];
++	const band = w1700kRadioBand(dev);
++	const channels = [];
++
++	if (!defaults || !band)
++		return null;
++
++	channels.push(defaults.channel);
++	Object.keys(w1700kApChannelsForBand(band, apChannels))
++		.sort(function(a, b) { return +a - +b; })
++		.forEach(function(channel) {
++			if (channels.indexOf(String(channel)) < 0)
++				channels.push(String(channel));
++		});
++
++	for (const htmode of defaults.htmodes)
++		for (const channel of channels)
++			if (w1700kMloRadioStateValid(dev, channel, htmode, apChannels))
++				return { channel, htmode };
++
++	return null;
++}
++
++function w1700kEnsureMloRadioDefaults(devices, apChannelsByRadio) {
++	let complete = true;
++
++	w1700kDeviceNames(devices).forEach(function(dev) {
++		const channel = uci.get('wireless', dev, 'channel');
++		const htmode = uci.get('wireless', dev, 'htmode');
++		const apChannels = apChannelsByRadio?.[dev] || null;
++		const valid = w1700kMloRadioStateValid(dev, channel, htmode, apChannels);
++		const safe = valid ? null : w1700kMloSafeRadioState(dev, apChannels);
++
++		if (valid)
++			return;
++		if (!safe) {
++			complete = false;
++			return;
++		}
++
++		uci.set('wireless', dev, 'channel', safe.channel);
++		uci.set('wireless', dev, 'htmode', safe.htmode);
++	});
++
++	return complete;
++}
++
++function w1700kSelectVisibleModalTab(name) {
++	const tabs = document.querySelectorAll('ul.cbi-tabmenu > li[data-tab="%s"] > a'.format(name));
++
++	for (let tab of tabs) {
++		if (tab.offsetParent != null) {
++			tab.click();
++			return true;
++		}
++	}
++
++	return false;
++}
++
++function w1700kSelectedDevices(section, section_id, current) {
++	const opt = section?.children?.filter(function(o) { return o.option == '_mlo_devices'; })[0];
++	const raw = (opt && opt.isActive(section_id)) ? opt.formvalue(section_id) : uci.get('wireless', section_id, 'device');
++	const devices = w1700kNormalizeDeviceList(raw);
++
++	return devices.length ? devices : w1700kNormalizeDeviceList(current);
++}
++
++function w1700kMloChoiceState(device, selected) {
++	const disabled = String(device?.disabled || '') == '1';
++
++	return { disabled: disabled, visible: !disabled || selected };
++}
++
++function w1700kRefreshMloChoices(option, section_id) {
++	const elem = option?.getUIElement?.(section_id);
++	const values = [];
++	const labels = {};
++
++	if (!elem?.clearChoices || !elem?.addChoices)
++		return;
++
++	for (let i = 0; i < option.keylist.length; i++) {
++		const name = option.keylist[i];
++
++		if (w1700kDeviceDisabled(name))
++			continue;
++
++		values.push(name);
++		labels[name] = option.vallist[i];
++	}
++
++	elem.clearChoices(false);
++	elem.addChoices(values, labels);
++}
++
++function w1700kValidateMloDevices(section_id, value, apChannelsByRadio) {
++	const devices = w1700kNormalizeDeviceList(value);
++	const countries = {};
++	const indexes = {};
++
++	if (devices.length < 2)
++		return _('Select at least two radios for an MLO network.');
++
++	for (let dev of devices) {
++		const idx = w1700kRadioIndex(dev);
++		const info = w1700kRadioInfo(dev);
++		const conflict = w1700kRadioIndexConflict(dev);
++		const owner = w1700kMloRadioOwner(section_id, dev);
++		const band = uci.get('wireless', dev, 'band');
++		const channel = uci.get('wireless', dev, 'channel');
++		const htmode = uci.get('wireless', dev, 'htmode');
++		const country = w1700kExplicitDeviceCountry(dev);
++		const apChannels = apChannelsByRadio ? apChannelsByRadio[dev] : null;
++
++		if (owner)
++			return _('%s is already linked to MLO network %s. Edit that network instead.').format(
++				w1700kRadioLabel(dev), w1700kMloOwnerLabel(owner));
++
++		if (conflict)
++			return _('Physical radio index %s is assigned to multiple sections: %s.').format(
++				idx, conflict.join(', '));
++
++		if (idx == null || (w1700kRadioMapActive() && !info))
++			return idx == null
++				? _('%s has no explicit physical radio index. Every W1700K MLO radio requires option radio 0, 1, or 2.').format(dev)
++				: _('%s is not a supported W1700K physical radio.').format(dev);
++
++		if (info && band != info.band)
++			return _('%s is physical %s; it cannot be configured as %s.').format(
++				w1700kRadioLabel(dev), info.label, band || _('unset'));
++
++		if (indexes[idx])
++			return _('Multiple MLO links cannot use physical radio index %s.').format(idx);
++		indexes[idx] = true;
++
++		if (w1700kDeviceDisabled(dev))
++			return _('%s is disabled and cannot be used for MLO.').format(dev);
++
++		if (!channel || channel == 'auto')
++			return _('%s requires a fixed channel for MLO.').format(w1700kRadioLabel(dev));
++
++		if (!/^EHT(?:20|40|80|160|320)$/.test(String(htmode || '')))
++			return _('%s must use an EHT width for MLO; current mode is %s.').format(
++				w1700kRadioLabel(dev), htmode || _('unset'));
++
++		if (idx == '0' && htmode != 'EHT20')
++			return _('%s requires EHT20 when used by MLO.').format(w1700kRadioLabel(dev));
++
++		if (idx == '1' && htmode == 'EHT320')
++			return _('%s cannot use EHT320; 320 MHz is only available on the 6 GHz radio.').format(
++				w1700kRadioLabel(dev));
++
++		if (!country)
++			return _('%s requires an explicit two-letter regulatory country for MLO; world regdomain 00 is not valid.').format(
++				w1700kRadioLabel(dev));
++
++		if (apChannelsByRadio && !apChannels)
++			return _('Could not load the live AP channel map for %s. Reload the page before saving.').format(
++				w1700kRadioLabel(dev));
++
++		if (!w1700kChannelAllowed(dev, channel, apChannels))
++			return _('Channel %s is not AP-usable on %s.').format(channel, w1700kRadioLabel(dev));
++
++		if (!w1700kHtmodeAllowed(dev, htmode, channel, apChannels))
++			return _('%s is not valid on channel %s for %s.').format(
++				htmode, channel, w1700kRadioLabel(dev));
++
++		countries[country] = true;
++	}
++
++	if (Object.keys(countries).length > 1)
++		return _('All MLO radios must use the same country code.');
++
++	return true;
++}
++
++function w1700kCurrentPuncturingState(deviceSection, deviceSectionId,
++		ifaceSection, ifaceSectionId, frequencyOption, overrides) {
++	const frequency = w1700kCurrentFrequencyValue(frequencyOption, deviceSectionId);
++	const has = function(name) { return overrides && Object.prototype.hasOwnProperty.call(overrides, name); };
++
++	return {
++		htmode: frequency[0],
++		channel: frequency[2],
++		mlo: w1700kFormValue(ifaceSection, ifaceSectionId, 'mlo') == '1',
++		devices: w1700kSelectedDevices(ifaceSection, ifaceSectionId),
++		bitmap: has('bitmap') ? overrides.bitmap : w1700kFormValue(deviceSection, deviceSectionId, 'punct_bitmap'),
++		threshold: has('threshold') ? overrides.threshold : w1700kFormValue(deviceSection, deviceSectionId, 'punct_acs_threshold')
++	};
++}
++
++function w1700kSecureFor6gOrMlo(encryption) {
++	const parts = String(encryption || '').toLowerCase().split('+');
++
++	return parts.indexOf('tkip') < 0 &&
++		(parts[0] == 'sae' || parts[0] == 'owe' || parts[0] == 'wpa3' || parts[0] == 'wpa3-192');
++}
++
++function w1700kModeIsApLike(mode) {
++	return mode == 'ap' || mode == 'ap-wds';
++}
++
++function w1700kUses6gOrMlo(section, section_id, current) {
++	const mlo = w1700kFormValue(section, section_id, 'mlo') == '1';
++	const devices = w1700kSelectedDevices(section, section_id, current);
++
++	return devices.some(w1700kDeviceIs6g) || (mlo && devices.length > 1);
++}
++
++function w1700kEnsure6gMloApDefaults(section, section_id, apChannelsByRadio) {
++	const mode = w1700kFormValue(section, section_id, 'mode');
++	const mlo = w1700kFormValue(section, section_id, 'mlo') == '1';
++	const encryption = w1700kFormValue(section, section_id, 'encryption');
++	const effectiveEncryption = w1700kSecureFor6gOrMlo(encryption) ? encryption : 'sae';
++	const networks = L.toArray(w1700kFormValue(section, section_id, 'network'));
++	const devices = w1700kSelectedDevices(section, section_id);
++
++	if (!w1700kModeIsApLike(mode))
++		return;
++
++	if (mlo && devices.length > 1)
++		w1700kEnsureMloRadioDefaults(devices, apChannelsByRadio);
++
++	if (!w1700kSecureFor6gOrMlo(encryption))
++		w1700kSetFormValue(section, section_id, 'encryption', 'sae');
++
++	w1700kSetFormValue(section, section_id, 'ieee80211w', '2');
++	w1700kSetFormValue(section, section_id, 'rnr', '1');
++
++	if (String(effectiveEncryption || '').replace(/\+.*$/, '') == 'sae')
++		w1700kSetFormValue(section, section_id, 'sae_pwe', '2');
++
++	if (!networks.length || (networks.indexOf('lan') >= 0 && (networks.indexOf('wan') >= 0 || networks.indexOf('wan6') >= 0)))
++		w1700kSetFormValue(section, section_id, 'network', 'lan');
++}
++
+ function count_changes(section_id) {
+ 	const changes = ui.changes.changes?.wireless;
+ 	if (!Array.isArray(changes)) return 0;
+@@ -25,7 +1199,7 @@ function render_radio_badge(radioDev) {
+ 	return E('span', { 'class': 'ifacebadge' }, [
+ 		E('img', { 'src': L.resource('icons/wifi%s.svg').format(radioDev.isUp() ? '' : '_disabled') }),
+ 		' ',
+-		radioDev.getName()
++		w1700kRadioLabel(radioDev.getName())
+ 	]);
+ }
+ 
+@@ -115,26 +1289,28 @@ function render_signal_badge(signalPercent, signalValue, noiseValue, wrap, mode)
+ }
+ 
+ function render_network_badge(radioNet) {
++	const isUp = radioNet && radioNet.getDevice && radioNet.getIfname && radioNet.getIfname() != null && radioNet.isUp();
++
+ 	return render_signal_badge(
+-		radioNet.isUp() ? radioNet.getSignalPercent() : -1,
+-		radioNet.getSignal(), radioNet.getNoise(), false, radioNet.getMode());
++		isUp ? radioNet.getSignalPercent() : -1,
++		radioNet?.getSignal ? radioNet.getSignal() : 0,
++		radioNet?.getNoise ? radioNet.getNoise() : 0,
++		false,
++		radioNet?.getMode ? radioNet.getMode() : null);
+ }
+ 
+ function render_radio_status(radioDev, wifiNets) {
+ 	const name = radioDev.getI18n().replace(/ Wireless Controller .+$/, '');
+ 	const node = E('div', [ E('big', {}, E('strong', {}, name)), E('div') ]);
+-	let channel, frequency, bitrate;
+-
+-	wifiNets.forEach(wifiNet => {
+-		channel   = channel   ?? wifiNet.getChannel();
+-		frequency = frequency ?? wifiNet.getFrequency();
+-		bitrate   = bitrate   ?? wifiNet.getBitRate();
+-	});
++	const facts = w1700kRadioRuntimeFacts(radioDev, wifiNets);
+ 
+ 	if (radioDev.isUp())
+ 		L.itemlist(node.lastElementChild, [
+-			_('Channel'), `${channel || '?'} (${frequency || '?'} ${_('GHz')})`,
+-			_('Bitrate'), `${bitrate || '?'} ${_('Mbit/s')}`
++			_('Channel'), facts.channel != null && facts.frequency != null
++				? `${facts.channel} (${facts.frequency} ${_('GHz')})` : null,
++			_('Configured channel'), facts.channel == null && facts.configuredChannel != null && facts.configuredFrequency != null
++				? `${facts.configuredChannel} (${facts.configuredFrequency} ${_('GHz')})` : null,
++			_('Bitrate'), facts.bitrate != null ? `${facts.bitrate} ${_('Mbit/s')}` : null
+ 		], ' | ');
+ 	else
+ 		node.lastElementChild.appendChild(E('em', _('Device is not active')));
+@@ -143,10 +1319,14 @@ function render_radio_status(radioDev, wifiNets) {
+ }
+ 
+ function render_network_status(radioNet) {
++	if (!radioNet)
++		return E('em', _('Wireless network is unavailable'));
++
+ 	const mode = radioNet.getActiveMode();
+ 	const bssid = radioNet.getActiveBSSID();
+ 	const channel = radioNet.getChannel();
+-	const disabled = (radioNet.get('disabled') == '1' || uci.get('wireless', radioNet.getWifiDeviceName(), 'disabled') == '1');
++	const disabled = (radioNet.get('disabled') == '1' ||
++		w1700kWifiNetDeviceNames(radioNet).some(w1700kRadioDisabled));
+ 	const is_assoc = (bssid && bssid != '00:00:00:00:00:00' && channel && mode != 'Unknown' && !disabled);
+ 	const is_mesh = (radioNet.getMode() == 'mesh');
+ 	const changecount = count_changes(radioNet.getName());
+@@ -176,7 +1356,8 @@ function render_modal_status(node, radioNet) {
+ 	const noise = radioNet.getNoise();
+ 	const bssid = radioNet.getActiveBSSID();
+ 	const channel = radioNet.getChannel();
+-	const disabled = (radioNet.get('disabled') == '1');
++	const disabled = (radioNet.get('disabled') == '1' ||
++		w1700kWifiNetDeviceNames(radioNet).some(w1700kRadioDisabled));
+ 	const is_assoc = (bssid && bssid != '00:00:00:00:00:00' && channel && mode != 'Unknown' && !disabled);
+ 
+ 	if (node == null)
+@@ -246,27 +1427,35 @@ function radio_restart(id, ev) {
+ }
+ 
+ function network_updown(id, map, ev) {
+-	const radio = uci.get('wireless', id, 'device');
++	const radios = w1700kDeviceNames(uci.get('wireless', id, 'device'));
+ 	const disabled = (uci.get('wireless', id, 'disabled') == '1') ||
+-	               (uci.get('wireless', radio, 'disabled') == '1');
++		radios.some(w1700kRadioDisabled);
+ 
+ 	if (disabled) {
+ 		uci.unset('wireless', id, 'disabled');
+-		uci.unset('wireless', radio, 'disabled');
++		radios.forEach(function(radio) {
++			uci.unset('wireless', radio, 'disabled');
++		});
+ 	}
+ 	else {
+ 		uci.set('wireless', id, 'disabled', '1');
+ 
+-		let all_networks_disabled = true;
+ 		const wifi_ifaces = uci.sections('wireless', 'wifi-iface');
+ 
+-		wifi_ifaces.forEach(wifi_iface => {
+-			if (wifi_iface.device == radio && wifi_iface.disabled != '1')
+-				all_networks_disabled = false;
+-		});
++		radios.forEach(function(radio) {
++			let all_networks_disabled = true;
++
++			wifi_ifaces.forEach(function(wifi_iface) {
++				if (wifi_iface['.name'] == id)
++					return;
++				if (w1700kIfaceConfigUsesRadio(wifi_iface, radio) &&
++				    wifi_iface.disabled != '1')
++					all_networks_disabled = false;
++			});
+ 
+-		if (all_networks_disabled)
+-			uci.set('wireless', radio, 'disabled', '1');
++			if (all_networks_disabled)
++				uci.set('wireless', radio, 'disabled', '1');
++		});
+ 	}
+ 
+ 	return map.save().then(function() {
+@@ -322,46 +1511,63 @@ function eht_compat_default(section_id) {
+ // Define a class CBIWifiFrequencyValue that extends form.Value
+ var CBIWifiFrequencyValue = form.Value.extend({
+ 	// Declare an RPC method to get the frequency list for a given device
+-	callFrequencyList: rpc.declare({
+-		object: 'iwinfo',
+-		method: 'freqlist',
+-		params: [ 'device' ],
+-		expect: { results: [] }
+-	}),
++	callFrequencyList: callIwinfoFrequencyList,
+ 
+ 	// Load method to fetch WiFi device details and frequency list
+ 	load: function(section_id) {
++		this.ucisection = section_id;
++
+ 		return Promise.all([
+ 			network.getWifiDevice(section_id),
+ 			this.callFrequencyList(section_id)
+ 		]).then(L.bind(function(data) {
++			const wifidevs = data[0];
++			const freqlist = data[1];
++			const lockedBand = w1700kRadioBand(section_id);
++			const hasAcs = L.hasSystemFeature('hostapd', 'acs');
++
+ 			this.channels = {
+-				'2g': L.hasSystemFeature('hostapd', 'acs') ? [ 'auto', 'auto', { available: true } ] : [],
+-				'5g': L.hasSystemFeature('hostapd', 'acs') ? [ 'auto', 'auto', { available: true } ] : [],
+-				'6g': L.hasSystemFeature('hostapd', 'acs') ? [ 'auto', 'auto', { available: true } ] : [],
++				'2g': hasAcs ? [ 'auto', 'auto', { available: false } ] : [],
++				'5g': hasAcs ? [ 'auto', 'auto', { available: false } ] : [],
++				'6g': hasAcs ? [ 'auto', 'auto', { available: false } ] : [],
+ 				'60g': []
+ 			};
+-			const wifidevs = data[0];
+-			const freqlist = data[1];
++			this.apChannels = { '2g': {}, '5g': {}, '6g': {}, '60g': {} };
+ 
+ 			freqlist.forEach(freq => {
+ 				if (!freq.band)
+ 					return;
+ 
+ 				const band = '%dg'.format(freq.band);
+-				const available = !(freq.restricted && freq.flags.includes("no_ir"));
++				if (!this.channels[band])
++					return;
++				if (lockedBand && band != lockedBand)
++					return;
++
++				const flags = Array.isArray(freq.flags) ? freq.flags : [];
++				const no_ir = !!freq.no_ir || flags.some(flag => String(flag).toLowerCase() == 'no_ir');
++				const available = !freq.disabled && !(freq.restricted && no_ir) &&
++					w1700kChannelAllowed(section_id, freq.channel);
++
++				if (available)
++					this.apChannels[band][freq.channel] = true;
+ 
+ 				this.channels[band].push(
+ 					freq.channel,
+ 					'%d (%d Mhz)'.format(freq.channel, freq.mhz),
+ 					{
+ 						available: available,
++						no_ir: no_ir,
+ 						no_outdoor: freq.no_outdoor
+ 					}
+-					
+ 				);
+ 			});
+ 
++			for (let band in this.apChannels) {
++				if (hasAcs && this.channels[band].length >= 3)
++					this.channels[band][2].available = Object.keys(this.apChannels[band]).length > 0;
++			}
++
+ 			const hwmodelist = L.toArray(wifidevs ? wifidevs.getHWModes() : null)
+ 				.reduce(function(o, v) { o[v] = true; return o; }, {});
+ 
+@@ -381,54 +1587,57 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 			this.htmodes = {
+ 				'': [ '', '-', { available: true } ],
+ 				'n': [
+-					'HT20', '20 MHz', { available: htmodelist.HT20 },
+-					'HT40', '40 MHz', { available: htmodelist.HT40 }
++					'HT20', '20 MHz', { available: htmodelist.HT20 && w1700kHtmodeAllowed(section_id, 'HT20') },
++					'HT40', '40 MHz', { available: htmodelist.HT40 && w1700kHtmodeAllowed(section_id, 'HT40') }
+ 				],
+ 				'ac': [
+-					'VHT20', '20 MHz', { available: htmodelist.VHT20 },
+-					'VHT40', '40 MHz', { available: htmodelist.VHT40 },
+-					'VHT80', '80 MHz', { available: htmodelist.VHT80 },
+-					'VHT160', '160 MHz', { available: htmodelist.VHT160 }
++					'VHT20', '20 MHz', { available: htmodelist.VHT20 && w1700kHtmodeAllowed(section_id, 'VHT20') },
++					'VHT40', '40 MHz', { available: htmodelist.VHT40 && w1700kHtmodeAllowed(section_id, 'VHT40') },
++					'VHT80', '80 MHz', { available: htmodelist.VHT80 && w1700kHtmodeAllowed(section_id, 'VHT80') },
++					'VHT160', '160 MHz', { available: htmodelist.VHT160 && w1700kHtmodeAllowed(section_id, 'VHT160') }
+ 				],
+ 				'ax': [
+-					'HE20', '20 MHz', { available: htmodelist.HE20 },
+-					'HE40', '40 MHz', { available: htmodelist.HE40 },
+-					'HE80', '80 MHz', { available: htmodelist.HE80 },
+-					'HE160', '160 MHz', { available: htmodelist.HE160 }
++					'HE20', '20 MHz', { available: htmodelist.HE20 && w1700kHtmodeAllowed(section_id, 'HE20') },
++					'HE40', '40 MHz', { available: htmodelist.HE40 && w1700kHtmodeAllowed(section_id, 'HE40') },
++					'HE80', '80 MHz', { available: htmodelist.HE80 && w1700kHtmodeAllowed(section_id, 'HE80') },
++					'HE160', '160 MHz', { available: htmodelist.HE160 && w1700kHtmodeAllowed(section_id, 'HE160') }
+ 				],
+ 				'be': [
+-					'EHT20', '20 MHz', { available: htmodelist.EHT20 },
+-					'EHT40', '40 MHz', { available: htmodelist.EHT40 },
+-					'EHT80', '80 MHz', { available: htmodelist.EHT80 },
+-					'EHT160', '160 MHz', { available: htmodelist.EHT160 },
+-					'EHT320', '320 MHz', { available: htmodelist.EHT320 }
++					'EHT20', '20 MHz', { available: htmodelist.EHT20 && w1700kHtmodeAllowed(section_id, 'EHT20') },
++					'EHT40', '40 MHz', { available: htmodelist.EHT40 && w1700kHtmodeAllowed(section_id, 'EHT40') },
++					'EHT80', '80 MHz', { available: htmodelist.EHT80 && w1700kHtmodeAllowed(section_id, 'EHT80') },
++					'EHT160', '160 MHz', { available: htmodelist.EHT160 && w1700kHtmodeAllowed(section_id, 'EHT160') },
++					'EHT320', '320 MHz', { available: htmodelist.EHT320 && w1700kHtmodeAllowed(section_id, 'EHT320') }
+ 				]
+ 			};
+ 
+ 			// Define available bands for widget selection based on channel availability
+ 			// AX and BE are available on 2/5/6G bands
++			const bandAvailable = band => (!lockedBand || lockedBand == band) &&
++				Object.keys(this.apChannels[band]).length > 0;
++
+ 			this.bands = {
+ 				'': [
+-					'2g', '2.4 GHz', { available: this.channels['2g'].length > 3 },
+-					'5g', '5 GHz', { available: this.channels['5g'].length > 3 },
+-					'60g', '60 GHz', { available: this.channels['60g'].length > 0 }
++					'2g', '2.4 GHz', { available: bandAvailable('2g') },
++					'5g', '5 GHz', { available: bandAvailable('5g') },
++					'60g', '60 GHz', { available: (!lockedBand || lockedBand == '60g') && this.channels['60g'].length > 0 }
+ 				],
+ 				'n': [
+-					'2g', '2.4 GHz', { available: this.channels['2g'].length > 3 },
+-					'5g', '5 GHz', { available: this.channels['5g'].length > 3 }
++					'2g', '2.4 GHz', { available: bandAvailable('2g') },
++					'5g', '5 GHz', { available: bandAvailable('5g') }
+ 				],
+ 				'ac': [
+-					'5g', '5 GHz', { available: true }
++					'5g', '5 GHz', { available: bandAvailable('5g') }
+ 				],
+ 				'ax': [
+-					'2g', '2.4 GHz', { available: this.channels['2g'].length > 3 },
+-					'5g', '5 GHz', { available: this.channels['5g'].length > 3 },
+-					'6g', '6 GHz', { available: this.channels['6g'].length > 3 }
++					'2g', '2.4 GHz', { available: bandAvailable('2g') },
++					'5g', '5 GHz', { available: bandAvailable('5g') },
++					'6g', '6 GHz', { available: bandAvailable('6g') }
+ 				],
+ 				'be': [
+-					'2g', '2.4 GHz', { available: this.channels['2g'].length > 3 },
+-					'5g', '5 GHz', { available: this.channels['5g'].length > 3 },
+-					'6g', '6 GHz', { available: this.channels['6g'].length > 3 }
++					'2g', '2.4 GHz', { available: bandAvailable('2g') },
++					'5g', '5 GHz', { available: bandAvailable('5g') },
++					'6g', '6 GHz', { available: bandAvailable('6g') }
+ 				]
+ 			};
+ 		}, this));
+@@ -436,31 +1645,85 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 
+ 	// Set values in the select element
+ 	setValues: function(sel, vals) {
+-		if (sel.vals)
+-			sel.vals.selected = sel.selectedIndex;
++		const selectedValue = sel.value;
++		let matched = false;
+ 
+ 		sel.options.length = 0;
+ 
+ 		for (let i = 0; vals && i < vals.length; i += 3)
+-			if (vals[i+2]?.available)
+-				sel.add(E('option', { value: vals[i] }, [ vals[i+1] ]));
++			if (vals[i+2]?.available) {
++				const opt = E('option', { value: vals[i], 'data-index': i }, [ vals[i+1] ]);
++				sel.add(opt);
++				if (String(vals[i]) == String(selectedValue)) {
++					sel.selectedIndex = sel.options.length - 1;
++					matched = true;
++				}
++			}
+ 
+-		if (Number.isInteger(vals?.selected)) sel.selectedIndex = vals.selected;
++		if (!matched && Number.isInteger(vals?.selected) && vals.selected < sel.options.length)
++			sel.selectedIndex = vals.selected;
++		if (sel.selectedIndex < 0 && sel.options.length)
++			sel.selectedIndex = 0;
+ 
+ 		sel.parentNode.style.display = (sel.options.length <= 1) ? 'none' : '';
+ 		sel.vals = vals;
+ 	},
+ 
+-	toggleWifiMode: function(elem) {
+-		this.toggleWifiHTMode(elem);
+-		this.toggleWifiBand(elem);
++		channelsForHtmode: function(band, htmode) {
++			return w1700kChannelValuesForHtmode(this.ucisection, this.channels[band], htmode, this.apChannels);
++		},
++
++		toggleWifiMode: function(elem) {
++			this.toggleWifiBand(elem);
++			this.toggleWifiHTMode(elem);
++			this.toggleWifiChannelList(elem);
++		},
++
++		htmodesForChannel: function(mode, channel) {
++			const vals = this.htmodes[mode];
++			const rv = [];
++
++			for (let i = 0; vals && i < vals.length; i += 3) {
++				const meta = Object.assign({}, vals[i+2]);
++
++				meta.available = !!meta.available &&
++					w1700kHtmodeAllowed(this.ucisection, vals[i], channel, this.apChannels);
++
++				rv.push(vals[i], vals[i+1], meta);
++			}
++
++			return rv;
++		},
++
++		toggleWifiHTMode: function(elem) {
++			const mode = elem.querySelector('.mode');
++			const chan = elem.querySelector('.channel');
++			const bwdt = elem.querySelector('.htmode');
++			const fallback = w1700kDefaultHtmode(this.ucisection, mode.value);
++			const htmodes = this.htmodesForChannel(mode.value, chan.value);
++
++			this.setValues(bwdt, htmodes);
++
++			if (!w1700kHtmodeAllowed(this.ucisection, bwdt.value, chan.value, this.apChannels) || bwdt.selectedIndex < 0)
++				bwdt.value = w1700kHtmodeAllowed(this.ucisection, fallback, chan.value, this.apChannels) ? fallback : '';
++			if (bwdt.selectedIndex < 0 && bwdt.options.length)
++				bwdt.selectedIndex = 0;
+ 	},
+ 
+-	toggleWifiHTMode: function(elem) {
+-		const mode = elem.querySelector('.mode');
++	toggleWifiChannelList: function(elem) {
++		const band = elem.querySelector('.band');
++		const chan = elem.querySelector('.channel');
+ 		const bwdt = elem.querySelector('.htmode');
++		const htmode = bwdt ? bwdt.value : null;
++
++		this.setValues(chan, this.channelsForHtmode(band.value, htmode));
++	},
+ 
+-		this.setValues(bwdt, this.htmodes[mode.value]);
++	toggleWifiWidth: function(elem) {
++		this.toggleWifiChannelList(elem);
++		this.toggleWifiHTMode(elem);
++		this.map.checkDepends();
++		this.checkWifiChannelRestriction(elem);
+ 	},
+ 
+ 	toggleWifiBand: function(elem) {
+@@ -468,7 +1731,10 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 		const band = elem.querySelector('.band');
+ 
+ 		this.setValues(band, this.bands[mode.value]);
+-		this.toggleWifiChannel(elem);
++		this.setValues(elem.querySelector('.channel'), this.channels[band.value]);
++		this.toggleWifiHTMode(elem);
++		this.toggleWifiChannelList(elem);
++		this.toggleWifiHTMode(elem);
+ 
+ 		this.map.checkDepends();
+ 	},
+@@ -479,19 +1745,17 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 		const restricted_chan = elem.querySelector('.restricted_channel');
+ 		const channels = this.channels[band.value];
+ 
+-		if (chan.selectedIndex < 0)
++		if (!channels || chan.selectedIndex < 0)
+ 			return;
+ 
+-		const no_outdoor = channels[(chan.selectedIndex*3)+2].no_outdoor;
++		const index = +chan.options[chan.selectedIndex]?.getAttribute('data-index');
++		const channel = Number.isInteger(index) ? channels[index + 2] : null;
++		const no_outdoor = channel?.no_outdoor;
+ 		restricted_chan.style.display = no_outdoor ? '': 'none';
+ 	},
+ 
+ 	toggleWifiChannel: function(elem) {
+-		const band = elem.querySelector('.band');
+-		const chan = elem.querySelector('.channel');
+-
+-		this.setValues(chan, this.channels[band.value]);
+-
++		this.toggleWifiHTMode(elem);
+ 		this.map.checkDepends();
+ 		this.checkWifiChannelRestriction(elem);
+ 	},
+@@ -533,14 +1797,26 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 			band.value = bandval;
+ 		}
+ 
+-		this.toggleWifiBand(elem);
++			if (w1700kRadioBand(section_id))
++				band.value = w1700kRadioBand(section_id);
+ 
+-		bwdt.value = htval;
+-		chan.value = chval ?? (chan.options[0] ? chan.options[0].value : 'auto');
++			this.toggleWifiBand(elem);
+ 
+-		this.checkWifiChannelRestriction(elem);
++			chan.value = w1700kChannelAllowed(section_id, chval, this.apChannels) ? chval : (chan.options[0] ? chan.options[0].value : 'auto');
++			if (chan.selectedIndex < 0 && chan.options.length)
++				chan.selectedIndex = 0;
++
++			this.toggleWifiHTMode(elem);
++
++			bwdt.value = w1700kHtmodeAllowed(section_id, htval, chan.value, this.apChannels) ? htval : w1700kDefaultHtmode(section_id, mode.value);
++			if (!w1700kHtmodeAllowed(section_id, bwdt.value, chan.value, this.apChannels) || bwdt.selectedIndex < 0 && bwdt.options.length)
++				bwdt.selectedIndex = 0;
+ 
+-		return elem;
++			this.toggleWifiChannelList(elem);
++			this.toggleWifiHTMode(elem);
++			this.checkWifiChannelRestriction(elem);
++
++			return elem;
+ 	},
+ 
+ 	renderWidget: function(section_id, option_index, cfgvalue) {
+@@ -582,7 +1858,7 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 				E('select', {
+ 					'class': 'htmode',
+ 					'style': 'width:auto',
+-					'change': L.bind(this.map.checkDepends, this.map),
++					'change': L.bind(this.toggleWifiWidth, this, elem),
+ 					'disabled': (this.disabled != null) ? this.disabled : this.map.readonly
+ 				})
+ 			]),
+@@ -606,11 +1882,40 @@ var CBIWifiFrequencyValue = form.Value.extend({
+ 		return [
+ 		    node.querySelector('.htmode').value,
+ 		    node.querySelector('.band').value,
+- 			node.querySelector('.channel').value
++		    node.querySelector('.channel').value
+ 		];
+ 	},
+ 
++	validate: function(section_id, value) {
++		const band = w1700kRadioBand(section_id);
++		const conflict = w1700kRadioIndexConflict(section_id);
++		value = L.toArray(value);
++
++		if (w1700kRadioMapActive() && w1700kExplicitRadioIndex(section_id) == null)
++			return _('%s has no explicit physical radio index. Set option radio to 0, 1, or 2 before applying this configuration.').format(section_id);
++
++		if (conflict)
++			return _('Physical radio index %s is assigned to multiple sections: %s.').format(
++				w1700kRadioIndex(section_id), conflict.join(', '));
++
++		if (band && value[1] != band)
++			return _('%s is physical %s; use the matching radio for other bands.').format(section_id, band);
++
++		if (!w1700kHtmodeAllowed(section_id, value[0], value[2], this.apChannels))
++			return _('%s is not a valid width on channel %s for %s.').format(value[0], value[2], band || section_id);
++
++		if (!w1700kChannelAllowed(section_id, value[2], this.apChannels))
++			return _('Channel %s is outside the physical range for %s.').format(value[2], band || section_id);
++
++		return true;
++	},
++
+ 	write: function(section_id, value) {
++		const band = w1700kRadioBand(section_id);
++
++		if (band)
++			value[1] = band;
++
+ 		uci.set('wireless', section_id, 'htmode', value[0] || null);
+ 
+ 		this.useBandOption ?
+@@ -669,23 +1974,57 @@ var CBIWifiCountryValue = form.Value.extend({
+ 	load: function(section_id) {
+ 		return this.callCountryList(section_id).then(L.bind(function(countrylist) {
+ 			if (Array.isArray(countrylist) && countrylist.length > 0) {
+-				this.value('', _('driver default'));
++				if (!w1700kRadioInfo(section_id))
++					this.value('', _('driver default'));
+ 
+-				for (let c of countrylist)
++				for (let c of countrylist) {
++					if (w1700kRadioInfo(section_id) && c.iso3166 == '00')
++						continue;
+ 					this.value(c.iso3166, `${c.iso3166} - ${c.country}`);
++				}
+ 			}
+ 
+ 			return form.Value.prototype.load.apply(this, [section_id]);
+ 		}, this));
+ 	},
+ 
++	cfgvalue: function(section_id) {
++		const value = form.Value.prototype.cfgvalue.apply(this, [section_id]);
++		return w1700kRadioInfo(section_id) ? w1700kNormalizeCountry(value) : value;
++	},
++
+ 	validate: function(section_id, formvalue) {
++		if (w1700kRadioInfo(section_id))
++			formvalue = w1700kNormalizeCountry(formvalue);
++
+ 		if (formvalue != null && formvalue != '' && !/^[A-Z0-9][A-Z0-9]$/.test(formvalue))
+ 			return _('Use ISO/IEC 3166 alpha2 country codes.');
+ 
+ 		return true;
+ 	},
+ 
++	write: function(section_id, formvalue) {
++		if (w1700kRadioInfo(section_id)) {
++			const country = w1700kNormalizeCountry(formvalue);
++
++			for (let dev of w1700kMappedRadioNames())
++				uci.set('wireless', dev, 'country', country);
++			return;
++		}
++
++		return form.Value.prototype.write.apply(this, [section_id, formvalue]);
++	},
++
++	remove: function(section_id) {
++		if (w1700kRadioInfo(section_id)) {
++			for (let dev of w1700kMappedRadioNames())
++				uci.set('wireless', dev, 'country', 'US');
++			return;
++		}
++
++		return form.Value.prototype.remove.apply(this, [section_id]);
++	},
++
+ 	renderWidget: function(section_id, option_index, cfgvalue) {
+ 		const typeClass = (this.keylist && this.keylist.length) ? form.ListValue : form.Value;
+ 		return typeClass.prototype.renderWidget.apply(this, [section_id, option_index, cfgvalue]);
+@@ -700,16 +2039,18 @@ return view.extend({
+ 			const section_id = row.getAttribute('data-sid');
+ 			const radioDev = data[1].filter(function(d) { return d.getName() == section_id; })[0];
+ 			const radioNet = data[2].filter(function(n) { return n.getName() == section_id; })[0];
++			if (!row)
++				return;
+ 			const badge = row.querySelector('[data-name="_badge"] > div');
+ 			const stat = row.querySelector('[data-name="_stat"]');
+ 			const btns = row.querySelectorAll('.cbi-section-actions button');
+-			if (btns.length < 3) return;
++			if (!badge || !stat || btns.length < 3) return;
+ 			const busy = btns[0].classList.contains('spinning') || btns[1].classList.contains('spinning') || btns[2].classList.contains('spinning');
+ 
+-			if (radioDev) {
+-				dom.content(badge, render_radio_badge(radioDev));
+-				dom.content(stat, render_radio_status(radioDev, data[2].filter(function(n) { return n.getWifiDeviceName() == radioDev.getName(); })));
+-			}
++				if (radioDev) {
++					dom.content(badge, render_radio_badge(radioDev));
++					dom.content(stat, render_radio_status(radioDev, data[2].filter(function(n) { return w1700kWifiUsesRadio(n, radioDev.getName()); })));
++				}
+ 			else {
+ 				dom.content(badge, render_network_badge(radioNet));
+ 				dom.content(stat, render_network_status(radioNet));
+@@ -752,7 +2093,7 @@ return view.extend({
+ 				}, [
+ 					E('img', {
+ 						'src': L.resource('icons/wifi%s.svg').format(bss.network.isUp() ? '' : '_disabled'),
+-						'title': bss.radio.getI18n()
++						'title': bss.radio ? bss.radio.getI18n() : w1700kWifiNetDeviceNames(bss.network).join(', ')
+ 					}),
+ 					E('span', [
+ 						` ${bss.network.getShortName()} `,
+@@ -902,27 +2243,34 @@ return view.extend({
+ 
+ 				return Promise.all(tasks);
+ 			}, this)).then(L.bind(function(data) {
+-				this.wifis = [];
++				const wifis = [];
+ 
+ 				data.forEach(d => {
+-					this.wifis.push.apply(this.wifis, d);
++					wifis.push.apply(wifis, d);
+ 				});
++				this.wifis = w1700kUniqueWifiNetworks(wifis);
+ 			}, this));
+ 		};
+ 
+-		s.cfgsections = function() {
+-			const rv = [];
++			s.cfgsections = function() {
++				const rv = [];
++				const seenWifi = {};
+ 
+-			this.radios.forEach(radio => {
+-				rv.push(radio.getName());
++				this.radios.forEach(radio => {
++					rv.push(radio.getName());
+ 
+-				this.wifis.forEach(wifi => {
+-					if (wifi.getWifiDeviceName() == radio.getName())
+-						rv.push(wifi.getName());
++					this.wifis.forEach(wifi => {
++						const primary = w1700kWifiPrimaryRadio(wifi);
++						const belongs = primary ? primary == radio.getName() : w1700kWifiUsesRadio(wifi, radio.getName());
++
++						if (!seenWifi[wifi.getName()] && belongs) {
++							seenWifi[wifi.getName()] = true;
++							rv.push(wifi.getName());
++						}
++					});
+ 				});
+-			});
+ 
+-			return rv;
++				return rv;
+ 		};
+ 
+ 		s.modaltitle = function(section_id) {
+@@ -942,11 +2290,13 @@ return view.extend({
+ 			return null;
+ 		};
+ 
+-		s.renderRowActions = function(section_id) {
++			s.renderRowActions = function(section_id) {
+ 			const inst = this.lookupRadioOrNetwork(section_id);
+ 			let btns;
+ 
+ 			if (inst.getWifiNetworks) {
++					const mloOwner = w1700kRadioMapActive() ? w1700kMloRadioOwner(null, inst.getName()) : null;
++
+ 				btns = [
+ 					E('button', {
+ 						'class': 'cbi-button cbi-button-neutral',
+@@ -957,13 +2307,25 @@ return view.extend({
+ 						'class': 'cbi-button cbi-button-action important',
+ 						'title': _('Find and join network'),
+ 						'click': ui.createHandlerFn(this, 'handleScan', inst)
+-					}, _('Scan')),
++					}, _('Scan'))
++				];
++
++					if (mloOwner || w1700kMloAvailable())
++					btns.push(E('button', {
++						'class': 'cbi-button cbi-button-action',
++						'title': mloOwner ? _('Edit MLO network') : _('Create MLO network'),
++						'click': mloOwner
++							? ui.createHandlerFn(this, 'renderMoreOptionsModal', mloOwner['.name'])
++							: ui.createHandlerFn(this, 'handleAddMlo', inst)
++					}, mloOwner ? _('Edit MLO') : _('Add MLO')));
++
++				btns.push(
+ 					E('button', {
+ 						'class': 'cbi-button cbi-button-add',
+ 						'title': _('Provide new network'),
+ 						'click': ui.createHandlerFn(this, 'handleAdd', inst)
+ 					}, _('Add'))
+-				];
++				);
+ 			}
+ 			else {
+ 				const isDisabled = (inst.get('disabled') == '1' ||
+@@ -995,7 +2357,8 @@ return view.extend({
+ 			return network.getWifiNetwork(s.section).then(function(radioNet) {
+ 				const hwtype = uci.get('wireless', radioNet.getWifiDeviceName(), 'type');
+ 				const have_mesh = L.hasSystemFeature('hostapd', 'mesh') || L.hasSystemFeature('wpasupplicant', 'mesh');
+-				let o, ss;
++				let o, ss, frequencyOption, ifaceSection;
++				const ifaceSectionId = s.section;
+ 
+ 				o = s.option(form.SectionValue, '_device', form.NamedSection, radioNet.getWifiDeviceName(), 'wifi-device', _('Device Configuration'));
+ 				o.modalonly = true;
+@@ -1020,13 +2383,21 @@ return view.extend({
+ 
+ 				o = ss.taboption('general', CBIWifiFrequencyValue, '_freq', '<br />' + _('Operating frequency'), _('Some channels may be restricted to Indoor Only use by your Regulatory Domain. Make sure to follow this advice if a channel is reported as such.'));
+ 				o.ucisection = s.section;
++				frequencyOption = o;
++				const frequencyCheckDepends = o.checkDepends;
++				o.checkDepends = function(section_id) {
++					return frequencyCheckDepends.call(this, section_id) &&
++						w1700kFrequencyWidgetActive(ifaceSection, ifaceSectionId);
++				};
+ 
+ 				if (hwtype == 'mac80211') {
+ 					o = ss.taboption('general', form.Flag, 'legacy_rates', _('Allow legacy 802.11b rates'), _('Legacy or badly behaving devices may require legacy 802.11b rates to interoperate. Airtime efficiency may be significantly reduced where these are used. It is recommended to not allow 802.11b rates where possible.'));
+ 					o.depends({'_freq': '2g', '!contains': true});
+ 
+-					o = ss.taboption('general', CBIWifiTxPowerValue, 'txpower', _('Maximum transmit power'), _('Specifies the maximum transmit power the wireless radio may use. Depending on regulatory requirements and wireless usage, the actual transmit power may be reduced by the driver.'));
+-					o.wifiNetwork = radioNet;
++					if (!w1700kRadioMapActive()) {
++						o = ss.taboption('general', CBIWifiTxPowerValue, 'txpower', _('Maximum transmit power'), _('Specifies the maximum transmit power the wireless radio may use. Depending on regulatory requirements and wireless usage, the actual transmit power may be reduced by the driver.'));
++						o.wifiNetwork = radioNet;
++					}
+ 
+ 					o = ss.taboption('general', CBIWifiCountryValue, 'country', _('Country Code'));
+ 					o.wifiNetwork = radioNet;
+@@ -1037,9 +2408,11 @@ return view.extend({
+ 					o.value('2', _('High'));
+ 					o.value('3', _('Very High'));
+ 
+-					o = ss.taboption('advanced', form.Value, 'distance', _('Distance Optimization'), _('Distance to farthest network member in meters. Set only for distances above one kilometer; otherwise it is harmful.'));
+-					o.datatype = 'or(range(0,114750),"auto")';
+-					o.placeholder = 'auto';
++					if (!w1700kRadioMapActive()) {
++						o = ss.taboption('advanced', form.Value, 'distance', _('Distance Optimization'), _('Distance to farthest network member in meters. Set only for distances above one kilometer; otherwise it is harmful.'));
++						o.datatype = 'or(range(0,114750),"auto")';
++						o.placeholder = 'auto';
++					}
+ 
+ 					o = ss.taboption('advanced', form.Value, 'frag', _('Fragmentation Threshold'));
+ 					o.datatype = 'min(256)';
+@@ -1063,6 +2436,108 @@ return view.extend({
+ 					o = ss.taboption('advanced', form.Flag, 'ldpc', _('Tx LDPC'));
+ 					o.depends({'rxldpc': '1'});
+ 					o.default = '1';
++
++					o = ss.taboption('advanced', form.DummyValue, '_w1700k_eht_capabilities', _('Wi-Fi 7 capabilities'));
++					o.load = function(section_id) {
++						return w1700kLoadWifiCapabilities().then(L.bind(function(caps) {
++							this.w1700kCaps = caps || {};
++							return form.DummyValue.prototype.load.apply(this, [section_id]);
++						}, this));
++					};
++					o.cfgvalue = function() {
++						const caps = this.w1700kCaps || {};
++
++						return L.itemlist(E('div'), [
++							_('4096-QAM'), caps.eht4096qam ? _('advertised') : _('not advertised'),
++							_('EHT non-OFDMA UL MU-MIMO'), caps.ehtNonOfdmaUlMuMimo ? _('advertised') : _('not advertised'),
++							_('EHT Multi-RU/OFDMA RU'), caps.ehtMultiRu ? _('advertised') : _('not advertised'),
++							_('EHT puncturing'), caps.puncturing ? _('advertised') : _('not advertised'),
++							_('Beamforming'), caps.beamforming ? _('advertised') : _('not advertised'),
++							_('MU-MIMO'), caps.muMimo ? _('advertised') : _('not advertised')
++						], ' | ');
++					};
++					o.write = function() {};
++
++					if (w1700kRadioInfo(s.section)) {
++						o = ss.taboption('advanced', form.Value, 'punct_bitmap', _('EHT puncturing bitmap'),
++							_('Disabled 20 MHz subchannel bitmap, for example 0x0002.'));
++						o.placeholder = '0';
++						o.rmempty = true;
++						o.load = function(section_id) {
++							return w1700kLoadWifiCapabilities().then(L.bind(function(caps) {
++								this.w1700kCaps = caps || {};
++								return form.Value.prototype.load.apply(this, [section_id]);
++							}, this));
++						};
++						o.validate = function(section_id, value) {
++							const state = w1700kCurrentPuncturingState(
++								this.section, section_id, ifaceSection, ifaceSectionId,
++								frequencyOption, { bitmap: value });
++
++							const bitmap = w1700kParsePunctBitmap(value);
++							const threshold = +state.threshold || 0;
++							let rv;
++
++							if (bitmap == 0)
++								return true;
++
++							if (bitmap == null)
++								return _('Use a decimal value or a hexadecimal value such as 0x0002.');
++
++							if (!(this.w1700kCaps || {}).puncturing)
++								return _('EHT puncturing is not advertised by the current mt7996 driver.');
++
++							if (threshold > 0)
++								return _('Use either a manual puncturing bitmap or ACS puncturing threshold, not both.');
++
++							rv = w1700kValidatePunctBitmap(
++								section_id,
++								state.htmode,
++								state.channel,
++								value);
++
++							return rv;
++						};
++
++						o = ss.taboption('advanced', form.Value, 'punct_acs_threshold', _('EHT ACS puncturing threshold'),
++							_('Automatic puncturing threshold percentage used with auto channel selection.'));
++						o.placeholder = '0';
++						o.datatype = 'range(0,100)';
++						o.rmempty = true;
++						o.load = function(section_id) {
++							return w1700kLoadWifiCapabilities().then(L.bind(function(caps) {
++								this.w1700kCaps = caps || {};
++								return form.Value.prototype.load.apply(this, [section_id]);
++							}, this));
++						};
++						o.validate = function(section_id, value) {
++							const threshold = String(value || '').trim();
++							const state = w1700kCurrentPuncturingState(
++								this.section, section_id, ifaceSection, ifaceSectionId,
++								frequencyOption, { threshold: value });
++							const bitmap = w1700kParsePunctBitmap(state.bitmap);
++
++							if (threshold == '' || threshold == '0')
++								return true;
++
++							if (!/^[0-9]+$/.test(threshold) || +threshold > 100)
++								return _('Use a value between 0 and 100.');
++
++							if (!(this.w1700kCaps || {}).puncturing)
++								return _('EHT puncturing is not advertised by the current mt7996 driver.');
++
++							if (!w1700kPunctWidthAllowed(section_id, state.htmode))
++								return _('EHT ACS puncturing requires 5GHz or 6GHz EHT80 or wider.');
++
++							if (state.channel != 'auto')
++								return _('EHT ACS puncturing requires channel auto.');
++
++							if (bitmap > 0)
++								return _('Use either a manual puncturing bitmap or ACS puncturing threshold, not both.');
++
++							return true;
++						};
++					}
+ 				}
+ 
+ 
+@@ -1070,11 +2545,15 @@ return view.extend({
+ 				o.modalonly = true;
+ 
+ 				ss = o.subsection;
++				ifaceSection = ss;
+ 				ss.tab('general', _('General Setup'));
+ 				ss.tab('encryption', _('Wireless Security'));
+ 				ss.tab('macfilter', _('MAC-Filter'));
+ 				ss.tab('advanced', _('Advanced Settings'));
+ 				ss.tab('roaming', _('WLAN Roaming'), _('Settings for assisting wireless clients in roaming between multiple APs: 802.11r, 802.11k and 802.11v'));
++				if (w1700kMloAvailable())
++					ss.tab('mlo', _('MLO'));
++				const mloTab = w1700kMloAvailable() ? 'mlo' : 'advanced';
+ 
+ 				o = ss.taboption('general', form.ListValue, 'mode', _('Mode') , !have_mesh ? '<a id="installmesh" href="%s" target="_blank" rel="noreferrer">%s</a>'
+ 						.format(L.url('admin/system/package-manager') + '?query=wpad-mesh', _('802.11s? Install mesh wpad') ) : '');
+@@ -1238,6 +2717,120 @@ return view.extend({
+ 					o.depends('mode', 'ap-wds');
+ 					o.default = o.enabled;
+ 
++				o = ss.taboption(mloTab, form.Flag, 'mlo', _('Multi-Link Operation'));
++				o.depends('mode', 'ap');
++				o.rmempty = true;
++				o.validate = function(section_id, value) {
++					const owner = value == '1' ? w1700kMloRadioOwner(section_id, radioNet.getWifiDeviceName()) : null;
++
++					return owner
++						? _('%s is already linked to MLO network %s. Edit that network instead.').format(
++							w1700kRadioLabel(radioNet.getWifiDeviceName()), w1700kMloOwnerLabel(owner))
++						: true;
++				};
++					o.onchange = function(ev, section_id, value) {
++						if (value == '1') {
++							uci.set('wireless', section_id, 'mlo', '1');
++							w1700kEnsure6gMloApDefaults(this.section, section_id);
++						}
++						else {
++							uci.unset('wireless', section_id, 'mlo');
++						}
++
++						this.map.checkDepends();
++					};
++					o.write = function(section_id, value) {
++						if (value == '1') {
++							uci.set('wireless', section_id, 'mlo', '1');
++							w1700kEnsure6gMloApDefaults(this.section, section_id);
++						}
++						else {
++							uci.unset('wireless', section_id, 'mlo');
++						}
++					};
++
++				o = ss.taboption(mloTab, form.DummyValue, '_mlo_status', _('MLO capability'));
++				o.depends({ mode: 'ap', mlo: '1' });
++					o.cfgvalue = function() {
++						return L.hasSystemFeature('hostapd', '11be') ? _('Core 802.11be MLO available') : _('802.11be MLO support not detected');
++					};
++					o.write = function() {};
++
++				o = ss.taboption(mloTab, form.MultiValue, '_mlo_devices', _('MLO link radios'));
++					o.depends({ mode: 'ap', mlo: '1' });
++					o.placeholder = _('Select radios');
++					o.rmempty = true;
++					o.onchange = function(ev, section_id, value) {
++						const devices = w1700kNormalizeDeviceList(value);
++						const elem = this.getUIElement(section_id);
++
++						if (elem && elem.setValue)
++							elem.setValue(devices);
++						w1700kRefreshMloChoices(this, section_id);
++
++						w1700kEnsure6gMloApDefaults(this.section, section_id, this.apChannelsByRadio);
++						this.map.checkDepends();
++					};
++
++				uci.sections('wireless', 'wifi-device').forEach(function(dev) {
++					const name = dev['.name'];
++					const owner = w1700kMloRadioOwner(s.section, name);
++					const selected = w1700kDeviceNames(uci.get('wireless', s.section, 'device')).indexOf(name) >= 0;
++					const choice = w1700kMloChoiceState(dev, selected);
++					let label = w1700kRadioLabel(name);
++
++					if (w1700kRadioMapActive() && !w1700kRadioInfo(name))
++						return;
++
++					if (!choice.visible)
++						return;
++					if (owner && !selected)
++						return;
++					if (choice.disabled)
++						label += ' / ' + _('disabled - remove to save');
++					if (owner)
++						label += ' / ' + _('used by MLO network %s').format(w1700kMloOwnerLabel(owner));
++
++					o.value(name, label);
++				});
++
++				o.load = function(section_id) {
++					return w1700kLoadMloApChannels(w1700kMappedRadioNames()).then(L.bind(function(maps) {
++						this.apChannelsByRadio = maps;
++						return form.MultiValue.prototype.load.apply(this, [ section_id ]);
++					}, this));
++				};
++
++				o.cfgvalue = function(section_id) {
++						const current = radioNet.getWifiDeviceName();
++						const devices = w1700kNormalizeDeviceList(uci.get('wireless', section_id, 'device'));
++
++						return devices.length ? devices : [ current ];
++					};
++
++					o.validate = function(section_id, value) {
++						if (w1700kFormValue(this.section, section_id, 'mlo') != '1')
++							return true;
++
++					return w1700kValidateMloDevices(section_id, value, this.apChannelsByRadio || {});
++				};
++
++					o.write = function(section_id, value) {
++						const devices = w1700kNormalizeDeviceList(value);
++
++						uci.set('wireless', section_id, 'device', devices);
++
++						if (devices.length > 1) {
++							uci.set('wireless', section_id, 'mlo', '1');
++							w1700kEnsure6gMloApDefaults(this.section, section_id, this.apChannelsByRadio);
++						}
++					};
++
++					o.remove = function(section_id) {
++						uci.set('wireless', section_id, 'device', radioNet.getWifiDeviceName());
++						uci.unset('wireless', section_id, 'mlo');
++					};
++
+ 					/* https://w1.fi/cgit/hostap/commit/?id=34f7c699a6bcb5c45f82ceb6743354ad79296078  */
+ 					/* multicast_to_unicast https://github.com/openwrt/openwrt/commit/7babb978ad9d7fc29acb1ff86afb1eb343af303a */
+ 					o = ss.taboption('advanced', form.Flag, 'multicast_to_unicast_all', _('Multi To Unicast'), _('ARP, IPv4 and IPv6 (even 802.1Q) with multicast destination MACs are unicast to the STA MAC address. Note: This is not Directed Multicast Service (DMS) in 802.11v. Note: might break receiver STA multicast expectations.'));
+@@ -1312,10 +2905,28 @@ return view.extend({
+ 					return v;
+ 				};
+ 
++				o.validate = function(section_id, value) {
++					const modeval = w1700kFormValue(this.section, section_id, 'mode');
++					const mlo = w1700kFormValue(this.section, section_id, 'mlo') == '1';
++					const devices = w1700kSelectedDevices(this.section, section_id, radioNet.getWifiDeviceName());
++					const has6g = devices.some(w1700kDeviceIs6g);
++					const hasMloLinks = mlo && devices.length > 1;
++
++					if ((modeval == 'ap' || modeval == 'ap-wds') && (has6g || hasMloLinks) && !w1700kSecureFor6gOrMlo(value))
++						return _('6 GHz and MLO APs require WPA3-SAE, OWE, or WPA3 Enterprise security.');
++
++					return true;
++				};
++
+ 				o.write = function(section_id, value) {
+ 					let e = this.section.children.filter(function(o) { return o.option == 'encryption'; })[0].formvalue(section_id);
+ 					const co = this.section.children.filter(function(o) { return o.option == 'cipher'; })[0];
+ 					const c = co.formvalue(section_id);
++					const modeval = w1700kFormValue(this.section, section_id, 'mode');
++					const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++					if (uses6gOrMlo && String(c || '').toLowerCase().split('+').includes('tkip'))
++						throw new Error(_('TKIP is not valid for 6 GHz or MLO.'));
+ 
+ 					if (value == 'wpa' || value == 'wpa2' || value == 'wpa3' || value == 'wpa3-mixed' || value == 'wpa3-192')
+ 						uci.unset('wireless', section_id, 'key');
+@@ -1323,6 +2934,9 @@ return view.extend({
+ 					if (co.isActive(section_id) && e && (c == 'tkip' || c == 'ccmp' || c == 'ccmp256' || c == 'gcmp' || c == 'gcmp256' || c == 'tkip+ccmp'))
+ 						e += '+' + c;
+ 
++					if (w1700kModeIsApLike(modeval) && uses6gOrMlo && w1700kSecureFor6gOrMlo(e))
++						w1700kEnsure6gMloApDefaults(this.section, section_id);
++
+ 					uci.set('wireless', section_id, 'encryption', e);
+ 				};
+ 
+@@ -1344,6 +2958,15 @@ return view.extend({
+ 				o.value('gcmp256', _('Force GCMP-256 (AES)'));
+ 				o.value('tkip', _('Force TKIP'));
+ 				o.value('tkip+ccmp', _('Force TKIP and CCMP (AES)'));
++				o.validate = function(section_id, value) {
++					const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++					if (uses6gOrMlo &&
++					    String(value || '').toLowerCase().split('+').indexOf('tkip') >= 0)
++						return _('TKIP is not valid for 6 GHz or MLO. Select auto, CCMP, or GCMP.');
++
++					return true;
++				};
+ 				o.write = ss.children.filter(function(o) { return o.option == 'encryption'; })[0].write;
+ 
+ 				o.cfgvalue = function(section_id) {
+@@ -1481,8 +3104,14 @@ return view.extend({
+ 					encr.validate = function(section_id, value) {
+ 						const modeopt = this.section.children.filter(function(o) { return o.option == 'mode'; })[0];
+ 						const modeval = modeopt.formvalue(section_id);
+-						const modetitle = modeopt.vallist[modeopt.keylist.indexOf(modeval)];
+-						const enctitle = this.vallist[this.keylist.indexOf(value)];
++						const modeidx = (modeopt.keylist || []).indexOf(modeval);
++						const encidx = (this.keylist || []).indexOf(value);
++						const modetitle = (modeidx >= 0) ? modeopt.vallist[modeidx] : (modeval || _('unknown'));
++						const enctitle = (encidx >= 0) ? this.vallist[encidx] : (value || _('unknown'));
++						const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++						if (w1700kModeIsApLike(modeval) && uses6gOrMlo && !w1700kSecureFor6gOrMlo(value))
++							return _('6 GHz and MLO APs require WPA3-SAE, OWE, or WPA3 Enterprise security.');
+ 
+ 						if (value == 'none')
+ 							return true;
+@@ -1847,6 +3476,17 @@ return view.extend({
+ 				o.rmempty = true;
+ 				o.password = true;
+ 
++				o.validate = function(section_id, value) {
++					const mode = w1700kFormValue(this.section, section_id, 'mode');
++					const encryption = w1700kFormValue(this.section, section_id, 'encryption');
++					const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++					if (w1700kModeIsApLike(mode) && uses6gOrMlo && encryption == 'sae' && (!value || String(value).length == 0))
++						return _('MLO and 6 GHz WPA3-SAE networks require a Wi-Fi key.');
++
++					return form.Value.prototype.validate.apply(this, arguments);
++				};
++
+ 				o.cfgvalue = function(section_id) {
+ 					const key = uci.get('wireless', section_id, 'key');
+ 					return /^[1234]$/.test(key) ? null : key;
+@@ -2128,21 +3768,49 @@ return view.extend({
+ 						o.value('0', _('Disabled'));
+ 						o.value('1', _('Optional'));
+ 						o.value('2', _('Required'));
+-						add_dependency_permutations(o, { mode: ['ap', 'ap-wds', 'sta', 'sta-wds'], encryption: ['owe', 'psk2', 'psk-mixed', 'sae', 'sae-mixed', 'wpa2', 'wpa3', 'wpa3-mixed'] });
++						add_dependency_permutations(o, { mode: ['ap', 'ap-wds', 'sta', 'sta-wds'], encryption: W1700K_PMF_ENCRYPTIONS });
+ 
+ 						o.defaults = {
+-							'2': [{ encryption: 'sae' }, { encryption: 'owe' }, { encryption: 'wpa3' }, { encryption: 'wpa3-mixed' }],
++							'2': [{ encryption: 'sae' }, { encryption: 'owe' }, { encryption: 'wpa3' }, { encryption: 'wpa3-mixed' }, { encryption: 'wpa3-192' }],
+ 							'1': [{ encryption: 'sae-mixed'}],
+ 							'0': []
+ 						};
+ 
++						o.validate = function(section_id, value) {
++							const modeval = w1700kFormValue(this.section, section_id, 'mode');
++							const mlo = w1700kFormValue(this.section, section_id, 'mlo') == '1';
++							const devices = w1700kSelectedDevices(this.section, section_id, radioNet.getWifiDeviceName());
++							const has6g = devices.some(w1700kDeviceIs6g);
++							const hasMloLinks = mlo && devices.length > 1;
++
++							if ((modeval == 'ap' || modeval == 'ap-wds') && (has6g || hasMloLinks) && value != '2')
++								return _('6 GHz and MLO APs require management frame protection set to Required.');
++
++							return true;
++						};
++
+ 						o.write = function(section_id, value) {
+-							if (value != this.default)
++							const modeval = w1700kFormValue(this.section, section_id, 'mode');
++							const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++							if (w1700kModeIsApLike(modeval) && uses6gOrMlo && value == '2')
++								return form.ListValue.prototype.write.call(this, section_id, value);
++							else if (value != this.default)
+ 								return form.ListValue.prototype.write.call(this, section_id, value);
+ 							else
+ 								return form.ListValue.prototype.remove.call(this, section_id);
+ 						};
+ 
++						o.remove = function(section_id) {
++							const modeval = w1700kFormValue(this.section, section_id, 'mode');
++							const uses6gOrMlo = w1700kUses6gOrMlo(this.section, section_id, radioNet.getWifiDeviceName());
++
++							if (w1700kModeIsApLike(modeval) && uses6gOrMlo)
++								return form.ListValue.prototype.write.call(this, section_id, '2');
++
++							return form.ListValue.prototype.remove.call(this, section_id);
++						};
++
+ 						o = ss.taboption('encryption', form.Value, 'ieee80211w_max_timeout', _('802.11w maximum timeout'), _('802.11w Association SA Query maximum timeout'));
+ 						o.depends('ieee80211w', '1');
+ 						o.depends('ieee80211w', '2');
+@@ -2263,15 +3931,28 @@ return view.extend({
+ 		};
+ 
+ 		s.handleScanRefresh = function(radioDev, scanCache, table, stop) {
+-			return radioDev.getScanList().then(L.bind(function(results) {
++			return radioDev.getScanList().catch(L.bind(function(err) {
++				cbi_update_table(table, [], E('em', _('Wireless scan failed: %s').format(err?.message || err || _('unknown error'))));
++				stop.disabled = false;
++				stop.style.display = '';
++				stop.classList.remove('spinning');
++				return [];
++			}, this)).then(L.bind(function(results) {
+ 				const rows = [];
+ 
++				results = results.filter(function(result) {
++					return w1700kScanResultMatchesRadio(radioDev, result);
++				});
++
+ 				for (let r of results)
+ 					scanCache[r.bssid] = r;
+ 
+-				for (let k in scanCache)
+-					if (scanCache[k].stale)
++				for (let k in scanCache) {
++					if (!w1700kScanResultMatchesRadio(radioDev, scanCache[k]))
++						delete scanCache[k];
++					else if (scanCache[k].stale)
+ 						results.push(scanCache[k]);
++				}
+ 
+ 				results.sort(function(a, b) {
+ 					const diff = (b.quality - a.quality) || (a.channel - b.channel);
+@@ -2369,9 +4050,25 @@ return view.extend({
+ 			const is_wep = (enc && Array.isArray(enc.wep));
+ 			const is_psk = (enc && Array.isArray(enc.wpa) && L.toArray(enc.authentication).some(a => a == 'psk'));
+ 			const is_sae = (enc && Array.isArray(enc.wpa) && L.toArray(enc.authentication).some(a => a == 'sae'));
++			const htmode = w1700kScanJoinHtmode(
++				radioDev, bss, uci.get('wireless', radioDev.getName(), 'htmode'));
++
++			if (nameval == null || (passopt && passval == null) ||
++			    ((ssidopt || !bss.ssid) && !w1700kValidSsid(ssidval)))
++				return;
+ 
+-			if (nameval == null || (passopt && passval == null))
++			if (w1700kRadioBand(radioDev.getName()) == '6g' &&
++			    L.toArray(enc?.ciphers).some(cipher => String(cipher).toLowerCase() == 'tkip')) {
++				ui.addNotification(null, E('p', _('TKIP is not valid for 6 GHz.')));
+ 				return;
++			}
++
++			if (!htmode) {
++				ui.addNotification(null, E('p', _(
++					'No regulatory-valid channel width could be selected for channel %s on %s. The wireless configuration was not changed.'
++				).format(bss.channel ?? _('unknown'), w1700kRadioLabel(radioDev.getName()))));
++				return;
++			}
+ 
+ 			let section_id = null;
+ 
+@@ -2380,36 +4077,19 @@ return view.extend({
+ 
+ 				if (replopt.formvalue('_new_') == '1') {
+ 					for (let ws of wifi_sections)
+-						if (ws.device == radioDev.getName())
++						if (w1700kIfaceConfigUsesRadio(ws, radioDev.getName()))
+ 							uci.remove('wireless', ws['.name']);
+ 				}
+ 
+ 				if (uci.get('wireless', radioDev.getName(), 'disabled') == '1') {
+ 					for (let ws of wifi_sections)
+-						if (ws.device == radioDev.getName())
++						if (w1700kIfaceConfigUsesRadio(ws, radioDev.getName()))
+ 							uci.set('wireless', ws['.name'], 'disabled', '1');
+ 
+ 					uci.unset('wireless', radioDev.getName(), 'disabled');
+ 				}
+ 
+-				const htmodes = radioDev.getHTModes();
+-
+-				if (bss.vht_operation && htmodes && htmodes.indexOf('VHT20') !== -1) {
+-					for (let w = bss.vht_operation.channel_width; w >= 20; w /= 2) {
+-						if (htmodes.indexOf('VHT'+w) !== -1) {
+-							uci.set('wireless', radioDev.getName(), 'htmode', 'VHT'+w);
+-							break;
+-						}
+-					}
+-				}
+-				else if (bss.ht_operation && htmodes && htmodes.indexOf('HT20') !== -1) {
+-					const w = (bss.ht_operation.secondary_channel_offset == 'no secondary') ? 20 : 40;
+-					uci.set('wireless', radioDev.getName(), 'htmode', 'HT'+w);
+-				}
+-				else {
+-					uci.unset('wireless', radioDev.getName(), 'htmode');
+-				}
+-
++				uci.set('wireless', radioDev.getName(), 'htmode', htmode);
+ 				uci.set('wireless', radioDev.getName(), 'channel', bss.channel);
+ 
+ 				section_id = next_free_sid(wifi_sections.length);
+@@ -2479,6 +4159,21 @@ return view.extend({
+ 		};
+ 
+ 		s.handleJoin = function(radioDev, bss, ev) {
++			if (typeof(bss?.ssid) != 'string' || bss.ssid.length == 0)
++				bss = Object.assign({}, bss, { ssid: null });
++
++			if (!w1700kScanResultMatchesRadio(radioDev, bss)) {
++				const radioName = radioDev?.getName?.() || _('Selected radio');
++				const expected = w1700kRadioInfo(radioName)?.label || _('its configured band');
++				const actualBand = w1700kScanResultBand(bss);
++				const actual = (actualBand == '2g') ? _('2.4 GHz') :
++					(actualBand == '5g') ? _('5 GHz') :
++					(actualBand == '6g') ? _('6 GHz') : _('an unknown band');
++
++				ui.addNotification(null, E('p', _('%s is physical %s; it cannot join a %s scan result.').format(radioName, expected, actual)));
++				return;
++			}
++
+ 			if (this.pollFn)
+ 				poll.remove(this.pollFn);
+ 			const m2 = new form.Map('wireless');
+@@ -2507,6 +4202,9 @@ return view.extend({
+ 			if (bss.ssid == null) {
+ 				name = s2.option(form.Value, 'ssid', _('Network SSID'), _('The correct SSID must be manually specified when joining a hidden wireless network'));
+ 				name.rmempty = false;
++				name.validate = function(section_id, value) {
++					return w1700kValidSsid(value) || _('SSID must contain between 1 and 32 bytes.');
++				};
+ 			}
+ 
+ 			replace = s2.option(form.Flag, 'replace', _('Replace wireless configuration'), _('Check this option to delete the existing networks from this radio.'));
+@@ -2574,6 +4272,49 @@ return view.extend({
+ 			return this.renderMoreOptionsModal(section_id);
+ 		};
+ 
++		s.handleAddMlo = function(radioDev, ev) {
++			const owner = w1700kMloRadioOwner(null, radioDev.getName());
++			const section_id = next_free_sid(uci.sections('wireless', 'wifi-iface').length);
++			const devices = w1700kAvailableMloDevices(section_id, radioDev.getName());
++
++			if (owner)
++				return this.renderMoreOptionsModal(owner['.name']);
++
++			if (devices.length < 2) {
++				ui.addNotification(null, E('p', _('At least two unassigned radios are required for a new MLO network.')));
++				return;
++			}
++
++			devices.forEach(function(dev) {
++				uci.unset('wireless', dev, 'disabled');
++			});
++
++			uci.add('wireless', 'wifi-iface', section_id);
++			uci.set('wireless', section_id, 'device', devices);
++			uci.set('wireless', section_id, 'mode', 'ap');
++			uci.set('wireless', section_id, 'network', 'lan');
++			uci.set('wireless', section_id, 'ssid', 'OpenWrt MLO');
++			uci.set('wireless', section_id, 'encryption', 'sae');
++			uci.set('wireless', section_id, 'mlo', '1');
++			uci.set('wireless', section_id, 'ieee80211w', '2');
++			uci.set('wireless', section_id, 'rnr', '1');
++			uci.set('wireless', section_id, 'sae_pwe', '2');
++			w1700kEnsureMloRadioDefaults(devices);
++
++			m.addedSection = section_id;
++			return this.renderMoreOptionsModal(section_id).then(function(result) {
++				w1700kSelectVisibleModalTab('encryption');
++
++				const key = Array.from(document.querySelectorAll('[data-name="key"] input'))
++					.find(function(input) { return input.offsetParent != null; });
++
++				if (key)
++					key.focus();
++
++				return result;
++			});
++		};
++
+ 		o = s.option(form.DummyValue, '_badge');
+ 		o.modalonly = false;
+ 		o.textvalue = function(section_id) {
+@@ -2593,10 +4334,10 @@ return view.extend({
+ 		o.textvalue = function(section_id) {
+ 			const inst = this.section.lookupRadioOrNetwork(section_id);
+ 
+-			if (inst.getWifiNetworks)
+-				return render_radio_status(inst, this.section.wifis.filter(function(e) {
+-					return (e.getWifiDeviceName() == inst.getName());
+-				}));
++				if (inst.getWifiNetworks)
++					return render_radio_status(inst, this.section.wifis.filter(function(e) {
++						return w1700kWifiUsesRadio(e, inst.getName());
++					}));
+ 			else
+ 				return render_network_status(inst);
+ 		};
+@@ -2630,10 +4371,11 @@ return view.extend({
+ 						hosts_radios[1].forEach(r => tasks.push(r.getWifiNetworks()) );
+ 
+ 						return Promise.all(tasks).then(function(data) {
+-							hosts_radios[2] = [];
++							const wifis = [];
+ 
+ 							for (let d of data)
+-								hosts_radios[2].push.apply(hosts_radios[2], d);
++								wifis.push.apply(wifis, d);
++							hosts_radios[2] = w1700kUniqueWifiNetworks(wifis);
+ 
+ 							return hosts_radios;
+ 						});
+@@ -2648,7 +4390,9 @@ return view.extend({
+ 
+ 							for (let i = 0; i < data.length; i++) {
+ 								const wifiNetwork = hosts_radios_wifis[2][i];
+-								const radioDev = hosts_radios_wifis[1].filter(function(d) { return d.getName() == wifiNetwork.getWifiDeviceName(); })[0];
++								const primaryRadio = w1700kWifiPrimaryRadio(wifiNetwork);
++								const radioDev = hosts_radios_wifis[1].filter(function(d) { return d.getName() == primaryRadio; })[0] ||
++									hosts_radios_wifis[1].filter(function(d) { return w1700kWifiUsesRadio(wifiNetwork, d.getName()); })[0];
+ 
+ 								for (let dy of data[i])
+ 									hosts_radios_wifis[3].push(Object.assign({ radio: radioDev, network: wifiNetwork }, dy));
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
+index 8406a1a59d7d0b17ac4e8bd3297b11c837cc0905..8e55b1f8bd229f8d84403b714f751a4bdd417fc5 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
+@@ -18,6 +18,292 @@ return baseclass.extend({
+ 		Unknown: _('Unknown')
+ 	},
+ 
++	channelFrequencyGHz(band, channel) {
++		channel = +channel;
++
++		if (!Number.isFinite(channel))
++			return null;
++
++		switch (band) {
++		case '2g':
++			if (channel == 14)
++				return 2.484;
++			if (channel >= 1 && channel <= 13)
++				return +(2.407 + channel * 0.005).toFixed(3);
++			break;
++		case '5g':
++			if (channel >= 1 && channel <= 177)
++				return +(5.0 + channel * 0.005).toFixed(3);
++			break;
++		case '6g':
++			if (channel == 2)
++				return 5.935;
++			if (channel >= 1 && channel <= 233)
++				return +(5.95 + channel * 0.005).toFixed(3);
++			break;
++		}
++
++		return null;
++	},
++
++	frequencyMatchesBand(band, frequency) {
++		frequency = +frequency;
++
++		if (!Number.isFinite(frequency))
++			return false;
++
++		switch (band) {
++		case '2g':
++			return frequency >= 2.4 && frequency < 2.5;
++		case '5g':
++			return frequency >= 5.0 && frequency < 5.925;
++		case '6g':
++			return frequency >= 5.925 && frequency <= 7.125;
++		}
++
++		return false;
++	},
++
++	channelMatchesBand(band, channel) {
++		channel = +channel;
++
++		if (!Number.isInteger(channel))
++			return false;
++
++		switch (band) {
++		case '2g':
++			return channel >= 1 && channel <= 14;
++		case '5g':
++			return (channel >= 36 && channel <= 64 && channel % 4 == 0) ||
++				(channel >= 100 && channel <= 144 && channel % 4 == 0) ||
++				(channel >= 149 && channel <= 177 && (channel - 149) % 4 == 0);
++		case '6g':
++			return channel == 2 ||
++				(channel >= 1 && channel <= 233 && (channel - 1) % 4 == 0);
++		}
++
++		return false;
++	},
++
++	radioBand(radio) {
++		const name = radio.getName();
++		const idx = uci.get('wireless', name, 'radio');
++		const band = uci.get('wireless', name, 'band');
++		const idxBands = { '0': '2g', '1': '5g', '2': '6g' };
++
++		return idxBands[idx] || band || null;
++	},
++
++	normalizeDeviceNames(value) {
++		const names = [];
++
++		for (const item of L.toArray(value)) {
++			if (typeof item != 'string')
++				continue;
++
++			for (const name of item.trim().split(/\s+/))
++				if (name && names.indexOf(name) < 0)
++					names.push(name);
++		}
++
++		return names;
++	},
++
++	wifiDeviceNames(wifinet) {
++		if (!wifinet)
++			return [];
++		if (typeof wifinet.getWifiDeviceNames == 'function')
++			return this.normalizeDeviceNames(wifinet.getWifiDeviceNames());
++		if (typeof wifinet.getWifiDeviceName == 'function')
++			return this.normalizeDeviceNames(wifinet.getWifiDeviceName());
++		return [];
++	},
++
++	wifiNetworkSectionId(wifinet) {
++		if (!wifinet)
++			return null;
++
++		return wifinet.sid || (typeof wifinet.getName == 'function' ? wifinet.getName() : null);
++	},
++
++	wifiNetworkRadioName(wifinet) {
++		if (!wifinet)
++			return null;
++		if (typeof wifinet.ubus == 'function') {
++			const radioname = wifinet.ubus('radio');
++
++			if (radioname)
++				return radioname;
++		}
++		if (typeof wifinet.getWifiDeviceName == 'function')
++			return wifinet.getWifiDeviceName();
++
++		return this.wifiDeviceNames(wifinet)[0] || null;
++	},
++
++	wifiNetworkBelongsToRadio(wifinet, radioname) {
++		const owner = this.wifiNetworkRadioName(wifinet);
++
++		return owner ? owner == radioname : this.wifiDeviceNames(wifinet).indexOf(radioname) >= 0;
++	},
++
++	wifiNetworkIdentity(wifinet, radioname) {
++		const section = this.wifiNetworkSectionId(wifinet);
++		const ifname = typeof wifinet?.getIfname == 'function' ? wifinet.getIfname() : null;
++
++		if (section)
++			return '%s\u0000uci:%s'.format(radioname, section);
++		if (ifname)
++			return '%s\u0000ifname:%s'.format(radioname, ifname);
++
++		return null;
++	},
++
++	wifiNetworkMloIdentities(wifinet) {
++		if (!wifinet)
++			return [];
++
++		const section = this.wifiNetworkSectionId(wifinet);
++
++		if (!this.wifiNetworkIsMlo(wifinet))
++			return [];
++
++		const identities = [];
++		const ifname = typeof wifinet.getIfname == 'function' ? wifinet.getIfname() : null;
++
++		if (ifname)
++			identities.push('ifname:%s'.format(ifname));
++		if (section)
++			identities.push('uci:%s'.format(section));
++
++		return identities;
++	},
++
++	wifiNetworkIsMlo(wifinet) {
++		if (!wifinet)
++			return false;
++
++		const enabled = value => value === true || value == 1 || value == '1';
++		const section = this.wifiNetworkSectionId(wifinet);
++
++		return !!((typeof wifinet.get == 'function' && enabled(wifinet.get('mlo'))) ||
++			(typeof wifinet.ubus == 'function' && enabled(wifinet.ubus('net', 'config', 'mlo'))) ||
++			(section && enabled(uci.get('wireless', section, 'mlo'))));
++	},
++
++	wifiNetworkAggregateOwner(wifinet) {
++		if (!this.wifiNetworkIsMlo(wifinet))
++			return null;
++
++		const section = this.wifiNetworkSectionId(wifinet);
++		const configured = section
++			? this.normalizeDeviceNames(uci.get('wireless', section, 'device'))
++			: [];
++
++		return configured[0] || this.wifiDeviceNames(wifinet)[0] ||
++			this.wifiNetworkRadioName(wifinet);
++	},
++
++	wifiNetworkShowsAggregate(wifinet, radioname) {
++		const owner = this.wifiNetworkAggregateOwner(wifinet);
++
++		return owner == null || owner == radioname;
++	},
++
++	radioRuntimeFacts(radio, networks) {
++		const radioName = radio.getName();
++		const radioBand = this.radioBand(radio);
++		let iwinfo = typeof radio?.ubus == 'function' ? (radio.ubus('dev', 'iwinfo') || {}) : {};
++		const configuredChannel = +uci.get('wireless', radioName, 'channel');
++		const configuredFrequency = this.channelFrequencyGHz(radioBand, configuredChannel);
++
++		// Do not use config-backed getters or a shared MLD's interface readings.
++		if (iwinfo.channel == null && iwinfo.frequency == null) {
++			for (const net of networks || []) {
++				if (this.wifiNetworkIsMlo(net) || this.wifiDeviceNames(net).length != 1 ||
++				    this.wifiNetworkRadioName(net) != radioName)
++					continue;
++				const local = net.ubus?.('net', 'iwinfo');
++				if (local && (local.channel != null || local.frequency != null)) {
++					iwinfo = local;
++					break;
++				}
++			}
++		}
++		let channel = +iwinfo.channel;
++		let frequency = +iwinfo.frequency;
++		let bitrate = +iwinfo.bitrate;
++
++		channel = Number.isInteger(channel) && channel > 0 ? channel : null;
++		frequency = Number.isFinite(frequency) && frequency > 0
++			? (frequency > 100 ? frequency / 1000 : frequency)
++			: null;
++		bitrate = Number.isFinite(bitrate) && bitrate > 0
++			? bitrate / 1000
++			: null;
++
++		const expected = this.channelFrequencyGHz(radioBand, channel);
++		const knownBand = [ '2g', '5g', '6g' ].includes(radioBand);
++		const invalidSample = !radio.isUp() ||
++		    (knownBand && frequency != null && !this.frequencyMatchesBand(radioBand, frequency)) ||
++		    (knownBand && channel != null && !this.channelMatchesBand(radioBand, channel)) ||
++		    (expected != null && frequency != null && Math.abs(expected - frequency) > 0.0025);
++		if (invalidSample) {
++			channel = null;
++			frequency = null;
++			bitrate = null;
++		}
++
++		if (frequency == null && (uci.get('wireless', radioName, 'radio') != null ||
++		    (networks || []).some(net => this.wifiNetworkIsMlo(net) || this.wifiDeviceNames(net).length > 1)))
++			bitrate = null;
++
++		const country = (!invalidSample && iwinfo.country) || uci.get('wireless', radioName, 'country') || null;
++		const noise = !invalidSample && iwinfo.noise != null && Number.isFinite(+iwinfo.noise) ? +iwinfo.noise : null;
++		const txPower = !invalidSample && iwinfo.txpower != null && Number.isFinite(+iwinfo.txpower) ? +iwinfo.txpower : null;
++
++		return {
++			channel,
++			frequency,
++			bitrate,
++			country,
++			noise,
++			txPower,
++			configuredChannel: Number.isFinite(configuredChannel) && configuredChannel > 0 ? configuredChannel : null,
++			configuredFrequency: this.frequencyMatchesBand(radioBand, configuredFrequency) ? configuredFrequency : null
++		};
++	},
++
++	wifiStationIdentityKeys(wifinet, station) {
++		const stationAddress = station?.mld_addr || station?.mld_address ||
++			station?.mld_mac || station?.mac;
++		const mac = stationAddress ? String(stationAddress).toUpperCase() : null;
++		const mloIdentities = this.wifiNetworkMloIdentities(wifinet);
++
++		if (!mac)
++			return [];
++
++		if (mloIdentities.length)
++			return mloIdentities.map(identity => 'mlo:%s\u0000%s'.format(identity, mac));
++
++		return [ 'network:%s\u0000%s'.format(
++			this.wifiNetworkSectionId(wifinet) || wifinet?.getIfname?.() || '', mac) ];
++	},
++
++	wifiStationIsDuplicate(seenStations, wifinet, station) {
++		const identities = this.wifiStationIdentityKeys(wifinet, station);
++		let duplicate = false;
++
++		for (const identity of identities)
++			if (seenStations[identity])
++				duplicate = true;
++
++		for (const identity of identities)
++			seenStations[identity] = true;
++
++		return duplicate;
++	},
++
+ 	callSessionAccess: rpc.declare({
+ 		object: 'session',
+ 		method: 'access',
+@@ -104,21 +390,20 @@ return baseclass.extend({
+ 	},
+ 
+ 	renderbox(radio, networks) {
+-		let chan = null;
+-		let freq = null;
+-		let rate = null;
+-		let coco = null;
+-		let noise = null;
+-		let tx_power = null;
++		const radioName = radio.getName();
++		const facts = this.radioRuntimeFacts(radio, networks);
+ 		const badges = [];
+ 
+ 		for (let i = 0; i < networks.length; i++) {
+ 			const net = networks[i];
++			const isMlo = this.wifiNetworkIsMlo(net);
++			const aggregateOwner = this.wifiNetworkAggregateOwner(net);
++			const showAggregate = this.wifiNetworkShowsAggregate(net, radioName);
+ 			const is_assoc = (net.getBSSID() != '00:00:00:00:00:00' && net.getChannel() && !net.isDisabled());
+-			const quality = net.getSignalPercent();
++			const quality = showAggregate ? net.getSignalPercent() : -1;
+ 
+ 			let icon;
+-			if (net.isDisabled())
++			if (!showAggregate || net.isDisabled())
+ 				icon = L.resource('icons/signal-none.svg');
+ 			else if (quality <= 0)
+ 				icon = L.resource('icons/signal-000-000.svg');
+@@ -149,38 +434,38 @@ return baseclass.extend({
+ 
+ 			const badge = renderBadge(
+ 				icon,
+-				'%s: %d dBm / %s: %d%%'.format(_('Signal'), net.getSignal(), _('Quality'), quality),
++				showAggregate
++					? '%s: %d dBm / %s: %d%%'.format(_('Signal'), net.getSignal(), _('Quality'), quality)
++					: _('MLO link on %s; aggregate status is shown on %s').format(this.radioLabel(radio), aggregateOwner),
+ 				_('SSID'), net.getActiveSSID() || '?',
+ 				_('Mode'), net.getActiveMode(),
+-				_('BSSID'), is_assoc ? (net.getActiveBSSID() || '-') : null,
+-				_('Encryption'), is_assoc ? net.getActiveEncryption() : null,
+-				_('Associations'), is_assoc ? (net.assoclist.length || '-') : null,
+-				null, is_assoc ? null : E('em', net.isDisabled() ? _('Wireless is disabled') : _('Wireless is not associated')),
++				isMlo ? _('MLD BSSID') : _('BSSID'), showAggregate && is_assoc ? (net.getActiveBSSID() || '-') : null,
++				isMlo ? _('MLD encryption') : _('Encryption'), showAggregate && is_assoc ? net.getActiveEncryption() : null,
++				isMlo ? _('MLD associations') : _('Associations'), showAggregate && is_assoc ? (net.assoclist.length || '-') : null,
++				null, !showAggregate
++					? E('em', _('MLO link; aggregate details are shown on %s').format(aggregateOwner))
++					: (is_assoc ? null : E('em', net.isDisabled() ? _('Wireless is disabled') : _('Wireless is not associated'))),
+ 				_('WPS status'), this.WPSTranslateTbl[net.wps_status],
+ 				'', WPS_button
+ 			);
+ 
+ 			badges.push(badge);
+-
+-			chan = (chan != null) ? chan : net.getChannel();
+-			coco = (coco != null) ? coco : net.getCountryCode();
+-			freq = (freq != null) ? freq : net.getFrequency();
+-			rate = (rate != null) ? rate : net.getBitRate();
+-			noise = (noise != null) ? noise : net.getNoise();
+-			tx_power = (tx_power != null) ? tx_power : net.getTXPower();
+ 		}
+ 
+ 		return E('div', { class: 'ifacebox' }, [
+-			E('div', { class: 'ifacebox-head center ' + (radio.isUp() ? 'active' : '') },
+-				E('strong', radio.getName())),
++				E('div', { class: 'ifacebox-head center ' + (radio.isUp() ? 'active' : '') },
++					E('strong', this.radioLabel(radio))),
+ 			E('div', { class: 'ifacebox-body left' }, [
+ 				L.itemlist(E('span'), [
+ 					_('Type'), radio.getI18n().replace(/^Generic | Wireless Controller .+$/g, ''),
+-					_('Bitrate'), rate ? '%d %s'.format(rate, _('Mbit/s')) : null,
+-					_('Channel'), chan ? '%d (%.3f %s)'.format(chan, freq, _('GHz')) : null,
+-					_('Country Code'), coco ? '%s'.format(coco) : null,
+-					_('Noise'), noise ? '%.2f %s'.format(noise, _('dBm')) : null,
+-					_('TX Power'), tx_power ? '%.2f %s'.format(tx_power, _('dBm')): null,
++					_('Bitrate'), facts.bitrate != null ? '%d %s'.format(facts.bitrate, _('Mbit/s')) : null,
++					_('Channel'), facts.channel != null && facts.frequency != null
++						? '%d (%.3f %s)'.format(facts.channel, facts.frequency, _('GHz')) : null,
++					_('Configured channel'), facts.channel == null && facts.configuredChannel != null && facts.configuredFrequency != null
++						? '%d (%.3f %s)'.format(facts.configuredChannel, facts.configuredFrequency, _('GHz')) : null,
++					_('Country Code'), facts.country,
++					_('Noise'), facts.noise != null ? '%.2f %s'.format(facts.noise, _('dBm')) : null,
++					_('TX Power'), facts.txPower != null ? '%.2f %s'.format(facts.txPower, _('dBm')): null,
+ 				]),
+ 				E('div', {}, badges)
+ 			])
+@@ -189,10 +474,47 @@ return baseclass.extend({
+ 
+ 	isWPSEnabled: {},
+ 
++	radioLabel(radio) {
++		const name = radio.getName();
++		const idx = uci.get('wireless', name, 'radio');
++		const band = this.radioBand(radio);
++		const labels = { '2g': '2.4 GHz', '5g': '5 GHz', '6g': '6 GHz' };
++
++		return (idx != null && labels[band])
++			? '%s / idx %s / %s'.format(name, idx, labels[band])
++			: name;
++	},
++
++	getWifiNetworksByRadio(radios) {
++		const tasks = [];
++		const networks = [];
++		const seen = {};
++
++		for (const radio of radios) {
++			const radioname = radio.getName();
++
++			tasks.push(radio.getWifiNetworks().then((radio_networks) => {
++				for (const net of radio_networks) {
++					const key = this.wifiNetworkIdentity(net, radioname);
++
++					if (key && seen[key])
++						continue;
++
++					if (key)
++						seen[key] = true;
++
++					networks.push(net);
++				}
++			}));
++		}
++
++		return Promise.all(tasks).then(() => networks);
++	},
++
+ 	load() {
+ 		return Promise.all([
+ 			network.getWifiDevices(),
+-			network.getWifiNetworks(),
++			network.getWifiDevices().then((radios) => this.getWifiNetworksByRadio(radios)),
+ 			network.getHostHints(),
+ 			this.callSessionAccess('access-group', 'luci-mod-status-index-wifi', 'read'),
+ 			this.callSessionAccess('access-group', 'luci-mod-status-index-wifi', 'write'),
+@@ -202,9 +524,16 @@ return baseclass.extend({
+ 			const tasks = [];
+ 			const radios_networks_hints = data[1];
+ 			const hasWPS = L.hasSystemFeature('hostapd', 'wps');
++			const assocTasks = {};
+ 
+ 			for (let i = 0; i < radios_networks_hints.length; i++) {
+-				tasks.push(L.resolveDefault(radios_networks_hints[i].getAssocList(), []).then(L.bind((net, list) => {
++				const ifname = radios_networks_hints[i].getIfname();
++				const assocKey = ifname || this.wifiNetworkIdentity(
++					radios_networks_hints[i], this.wifiNetworkRadioName(radios_networks_hints[i])) ||
++					'network:%d'.format(i);
++
++				assocTasks[assocKey] ||= L.resolveDefault(radios_networks_hints[i].getAssocList(), []);
++				tasks.push(assocTasks[assocKey].then(L.bind((net, list) => {
+ 					net.assoclist = list.sort((a, b) => a.mac.localeCompare(b.mac));
+ 				}, this, radios_networks_hints[i])));
+ 
+@@ -235,7 +564,7 @@ return baseclass.extend({
+ 
+ 		for (let i = 0; i < radios.sort((a, b) => a.getName().localeCompare(b.getName())).length; i++)
+ 			table.appendChild(this.renderbox(radios[i],
+-				networks.filter(net => { return net.getWifiDeviceName() == radios[i].getName() })));
++				networks.filter(net => this.wifiNetworkBelongsToRadio(net, radios[i].getName()))));
+ 
+ 		if (!table.lastElementChild)
+ 			return null;
+@@ -251,6 +580,7 @@ return baseclass.extend({
+ 		]);
+ 
+ 		const rows = [];
++		const seenStations = Object.create(null);
+ 
+ 		for (let i = 0; i < networks.length; i++) {
+ 			const macfilter = uci.get('wireless', networks[i].sid, 'macfilter');
+@@ -266,6 +596,10 @@ return baseclass.extend({
+ 
+ 			for (let k = 0; k < networks[i].assoclist.length; k++) {
+ 				const bss = networks[i].assoclist[k];
++
++				if (this.wifiStationIsDuplicate(seenStations, networks[i], bss))
++					continue;
++
+ 				const name = hosthints.getHostnameByMACAddr(bss.mac);
+ 				const ipv4 = hosthints.getIPAddrByMACAddr(bss.mac);
+ 				const ipv6 = hosthints.getIP6AddrByMACAddr(bss.mac);

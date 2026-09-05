@@ -1,0 +1,844 @@
+board: gemtek,w1700k-ubi
+kernel: 6.18.34
+release: OpenWrt SNAPSHOT r0-73a8983
+watchdog_pid: 8427
+PASS: production NPU mode is 0
+PASS: mode 0 transport lifecycle is inactive and clean
+PASS: production NPU mode has baseline PPE policy
+
+===== 2g-eht40 =====
+PASS: 2g-eht40 AP bring-up with radios 0 and 2437:20,40
+PASS: 2g-eht40-radio0 LuCI radio scan completed and AP state recovered
+--- 2g-eht40: iw dev ---
+phy#0
+	Interface phy0.0-ap0
+		ifindex 13
+		wdev 0x1
+		addr e6:58:09:33:39:a8
+		ssid W1700K-2g-eht40-Synthetic
+		type AP
+		channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+		txpower 28.00 dBm
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		Radios: 0
+--- 2g-eht40: hostapd states ---
+[hostapd.phy0.0-ap0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:a8",
+	"ssid": "W1700K-2g-eht40-Synthetic",
+	"freq": 2437,
+	"channel": 6,
+	"op_class": 81,
+	"beacon_interval": 100,
+	"bss_color": 12,
+	"phy": "phy0.0",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 0,
+		"time_busy": 0,
+		"utilization": 0
+	},
+	"dfs": {
+		"cac_seconds": 0,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- 2g-eht40: recent log ---
+Tue Sep  1 08:39:42 2026 kern.warn kernel: [    4.814689] check access for rdinit=/init failed: -2, ignoring
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.333104] i2c-mt7621 1fbf8000.i2c0: clock 100 kHz
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.351577] mt7996e_hif 0002:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.358190] mt7996e 0000:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.466723] mt7996e 0000:01:00.0: HW/SW Version: 0x8a108a10, Build Time: 20260311120419a
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.834394] mt7996e 0000:01:00.0: WM Firmware Version: ____000000, Build Time: 20260311120504
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.880806] mt7996e 0000:01:00.0: DSP Firmware Version: ____000000, Build Time: 20260311120415
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.962824] mt7996e 0000:01:00.0: WA Firmware Version: ____000000, Build Time: 20260311120325
+Tue Sep  1 08:39:46 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:26 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.771553] mt7996e 0000:01:00.0 phy0.0-ap0: entered allmulticast mode
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.778318] mt7996e 0000:01:00.0 phy0.0-ap0: entered promiscuous mode
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: 20/40 MHz operation not permitted on channel pri=6 sec=10 based on overlapping BSSes
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Fallback to 20 MHz
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: AP-ENABLED
+Tue Sep  1 08:45:30 2026 user.warn kernel: [  366.280431] w1700k-luci-scan-2g-eht40-radio0-8409
+
+===== 5g-eht80 =====
+PASS: 5g-eht80 AP bring-up with radios 1 and 5180:80
+PASS: 5g-eht80-radio1 LuCI radio scan completed and AP state recovered
+--- 5g-eht80: iw dev ---
+phy#0
+	Interface phy0.1-ap0
+		ifindex 15
+		wdev 0x3
+		addr e6:58:09:33:39:a9
+		ssid W1700K-5g-eht80-Synthetic
+		type AP
+		channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+		txpower 23.00 dBm
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		Radios: 1
+--- 5g-eht80: hostapd states ---
+[hostapd.phy0.1-ap0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:a9",
+	"ssid": "W1700K-5g-eht80-Synthetic",
+	"freq": 5180,
+	"channel": 36,
+	"op_class": 128,
+	"beacon_interval": 100,
+	"bss_color": 29,
+	"phy": "phy0.1",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 0,
+		"time_busy": 0,
+		"utilization": 0
+	},
+	"dfs": {
+		"cac_seconds": 0,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- 5g-eht80: recent log ---
+Tue Sep  1 08:39:42 2026 kern.warn kernel: [    4.814689] check access for rdinit=/init failed: -2, ignoring
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.333104] i2c-mt7621 1fbf8000.i2c0: clock 100 kHz
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.351577] mt7996e_hif 0002:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.358190] mt7996e 0000:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.466723] mt7996e 0000:01:00.0: HW/SW Version: 0x8a108a10, Build Time: 20260311120419a
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.834394] mt7996e 0000:01:00.0: WM Firmware Version: ____000000, Build Time: 20260311120504
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.880806] mt7996e 0000:01:00.0: DSP Firmware Version: ____000000, Build Time: 20260311120415
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.962824] mt7996e 0000:01:00.0: WA Firmware Version: ____000000, Build Time: 20260311120325
+Tue Sep  1 08:39:46 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:26 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.771553] mt7996e 0000:01:00.0 phy0.0-ap0: entered allmulticast mode
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.778318] mt7996e 0000:01:00.0 phy0.0-ap0: entered promiscuous mode
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: 20/40 MHz operation not permitted on channel pri=6 sec=10 based on overlapping BSSes
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Fallback to 20 MHz
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: AP-ENABLED
+Tue Sep  1 08:45:30 2026 user.warn kernel: [  366.280431] w1700k-luci-scan-2g-eht40-radio0-8409
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Remove interface 'phy0.0'
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: AP-DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:33 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.0-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.398584] mt7996e 0000:01:00.0 phy0.0-ap0: left allmulticast mode
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.404968] mt7996e 0000:01:00.0 phy0.0-ap0: left promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.427248] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.434083] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:36 2026 user.warn kernel: [  371.678791] w1700k-luci-scan-5g-eht80-radio1-8409
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+
+===== 5g-eht160 =====
+PASS: 5g-eht160 AP bring-up with radios 1 and 5g160-us:160
+PASS: 5g-eht160-radio1 LuCI radio scan completed and AP state recovered
+--- 5g-eht160: iw dev ---
+phy#0
+	Interface phy0.1-ap0
+		ifindex 17
+		wdev 0x5
+		addr e6:58:09:33:39:a9
+		ssid W1700K-5g-eht160-Synthetic
+		type AP
+		channel 36 (5180 MHz), width: 160 MHz, center1: 5250 MHz
+		txpower 23.00 dBm
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		Radios: 1
+--- 5g-eht160: hostapd states ---
+[hostapd.phy0.1-ap0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:a9",
+	"ssid": "W1700K-5g-eht160-Synthetic",
+	"freq": 5180,
+	"channel": 36,
+	"op_class": 129,
+	"beacon_interval": 100,
+	"bss_color": 23,
+	"phy": "phy0.1",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 0,
+		"time_busy": 0,
+		"utilization": 0
+	},
+	"dfs": {
+		"cac_seconds": 60,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- 5g-eht160: recent log ---
+Tue Sep  1 08:39:42 2026 kern.warn kernel: [    4.814689] check access for rdinit=/init failed: -2, ignoring
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.333104] i2c-mt7621 1fbf8000.i2c0: clock 100 kHz
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.351577] mt7996e_hif 0002:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.358190] mt7996e 0000:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.466723] mt7996e 0000:01:00.0: HW/SW Version: 0x8a108a10, Build Time: 20260311120419a
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.834394] mt7996e 0000:01:00.0: WM Firmware Version: ____000000, Build Time: 20260311120504
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.880806] mt7996e 0000:01:00.0: DSP Firmware Version: ____000000, Build Time: 20260311120415
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.962824] mt7996e 0000:01:00.0: WA Firmware Version: ____000000, Build Time: 20260311120325
+Tue Sep  1 08:39:46 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:26 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.771553] mt7996e 0000:01:00.0 phy0.0-ap0: entered allmulticast mode
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.778318] mt7996e 0000:01:00.0 phy0.0-ap0: entered promiscuous mode
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: 20/40 MHz operation not permitted on channel pri=6 sec=10 based on overlapping BSSes
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Fallback to 20 MHz
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: AP-ENABLED
+Tue Sep  1 08:45:30 2026 user.warn kernel: [  366.280431] w1700k-luci-scan-2g-eht40-radio0-8409
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Remove interface 'phy0.0'
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: AP-DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:33 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.0-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.398584] mt7996e 0000:01:00.0 phy0.0-ap0: left allmulticast mode
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.404968] mt7996e 0000:01:00.0 phy0.0-ap0: left promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.427248] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.434083] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:36 2026 user.warn kernel: [  371.678791] w1700k-luci-scan-5g-eht80-radio1-8409
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:45:40 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: AP-DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:41 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.1-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.366334] mt7996e 0000:01:00.0 phy0.1-ap0: left allmulticast mode
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.372670] mt7996e 0000:01:00.0 phy0.1-ap0: left promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.717288] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.724150] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->DFS
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-START freq=5180 chan=36 sec_chan=1, width=2, seg0=50, seg1=0, cac_time=60s
+Tue Sep  1 08:46:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-COMPLETED success=1 freq=5180 ht_enabled=0 chan_offset=0 chan_width=5 cf1=5250 cf2=0 radar_detected=0
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5180 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5200 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5220 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5240 MHz
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: interface state DFS->ENABLED
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:46:44 2026 user.warn kernel: [  440.057093] w1700k-luci-scan-5g-eht160-radio1-8409
+
+===== 6g-eht320 =====
+PASS: 6g-eht320 AP bring-up with radios 2 and 6135:320
+PASS: 6g-eht320-radio2 LuCI radio scan completed and AP state recovered
+--- 6g-eht320: iw dev ---
+phy#0
+	Interface phy0.2-ap0
+		ifindex 19
+		wdev 0x7
+		addr e6:58:09:33:39:aa
+		ssid W1700K-6g-eht320-Synthetic
+		type AP
+		channel 37 (6135 MHz), width: 320 MHz, center1: 6105 MHz
+		txpower 12.00 dBm
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		Radios: 2
+--- 6g-eht320: hostapd states ---
+[hostapd.phy0.2-ap0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:aa",
+	"ssid": "W1700K-6g-eht320-Synthetic",
+	"freq": 6135,
+	"channel": 37,
+	"op_class": 137,
+	"beacon_interval": 100,
+	"bss_color": 12,
+	"phy": "phy0.2",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 1327,
+		"time_busy": 5,
+		"utilization": 0
+	},
+	"dfs": {
+		"cac_seconds": 0,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- 6g-eht320: recent log ---
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.358190] mt7996e 0000:01:00.0: enabling device (0000 -> 0002)
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.466723] mt7996e 0000:01:00.0: HW/SW Version: 0x8a108a10, Build Time: 20260311120419a
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.834394] mt7996e 0000:01:00.0: WM Firmware Version: ____000000, Build Time: 20260311120504
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.880806] mt7996e 0000:01:00.0: DSP Firmware Version: ____000000, Build Time: 20260311120415
+Tue Sep  1 08:39:42 2026 kern.info kernel: [   14.962824] mt7996e 0000:01:00.0: WA Firmware Version: ____000000, Build Time: 20260311120325
+Tue Sep  1 08:39:46 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:39:58 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:00 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:40:01 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:26 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.771553] mt7996e 0000:01:00.0 phy0.0-ap0: entered allmulticast mode
+Tue Sep  1 08:45:27 2026 kern.info kernel: [  362.778318] mt7996e 0000:01:00.0 phy0.0-ap0: entered promiscuous mode
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: phy0.0-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:27 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Set new config for phy phy0.2:
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: 20/40 MHz operation not permitted on channel pri=6 sec=10 based on overlapping BSSes
+Tue Sep  1 08:45:28 2026 daemon.notice hostapd: Fallback to 20 MHz
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:29 2026 daemon.notice hostapd: phy0.0-ap0: AP-ENABLED
+Tue Sep  1 08:45:30 2026 user.warn kernel: [  366.280431] w1700k-luci-scan-2g-eht40-radio0-8409
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: Remove interface 'phy0.0'
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: AP-DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:33 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.0-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.398584] mt7996e 0000:01:00.0 phy0.0-ap0: left allmulticast mode
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.404968] mt7996e 0000:01:00.0 phy0.0-ap0: left promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.427248] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.434083] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:36 2026 user.warn kernel: [  371.678791] w1700k-luci-scan-5g-eht80-radio1-8409
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:45:40 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: AP-DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:41 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.1-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.366334] mt7996e 0000:01:00.0 phy0.1-ap0: left allmulticast mode
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.372670] mt7996e 0000:01:00.0 phy0.1-ap0: left promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.717288] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.724150] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->DFS
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-START freq=5180 chan=36 sec_chan=1, width=2, seg0=50, seg1=0, cac_time=60s
+Tue Sep  1 08:46:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-COMPLETED success=1 freq=5180 ht_enabled=0 chan_offset=0 chan_width=5 cf1=5250 cf2=0 radar_detected=0
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5180 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5200 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5220 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5240 MHz
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: interface state DFS->ENABLED
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:46:44 2026 user.warn kernel: [  440.057093] w1700k-luci-scan-5g-eht160-radio1-8409
+Tue Sep  1 08:46:45 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: AP-DISABLED
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:46:46 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.1-ap0 disabled_11b_rates=0
+Tue Sep  1 08:46:46 2026 kern.info kernel: [  442.283154] mt7996e 0000:01:00.0 phy0.1-ap0: left allmulticast mode
+Tue Sep  1 08:46:46 2026 kern.info kernel: [  442.289481] mt7996e 0000:01:00.0 phy0.1-ap0: left promiscuous mode
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Set new config for phy phy0.2: /var/run/hostapd-phy0.2.conf
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Restart interface for phy phy0.2
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.2) --> new PHY
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:46:47 2026 kern.info kernel: [  443.568375] mt7996e 0000:01:00.0 phy0.2-ap0: entered allmulticast mode
+Tue Sep  1 08:46:47 2026 kern.info kernel: [  443.575180] mt7996e 0000:01:00.0 phy0.2-ap0: entered promiscuous mode
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: phy0.2-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:46:48 2026 daemon.notice hostapd: phy0.2-ap0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:46:48 2026 daemon.notice hostapd: phy0.2-ap0: AP-ENABLED
+Tue Sep  1 08:46:49 2026 user.warn kernel: [  445.566124] w1700k-luci-scan-6g-eht320-radio2-8409
+
+===== mlo-5g-6g =====
+PASS: mlo-5g-6g AP bring-up with radios 1 2 and 5180:80 6135:320
+PASS: mlo-5g-6g-radio1 LuCI radio scan completed and AP state recovered
+PASS: mlo-5g-6g-radio2 LuCI radio scan completed and AP state recovered
+--- mlo-5g-6g: iw dev ---
+phy#0
+	Interface ap-mld0
+		ifindex 21
+		wdev 0x9
+		addr e6:58:09:33:39:a8
+		ssid W1700K-mlo-5g-6g-Synthetic
+		type AP
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		MLD with links:
+		 - link ID  1 link addr e6:58:09:33:39:a9
+		   channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+		   txpower 12.00 dBm
+		 - link ID  2 link addr e6:58:09:33:39:aa
+		   channel 37 (6135 MHz), width: 320 MHz, center1: 6105 MHz
+		   txpower 12.00 dBm
+		Radios: 1 2
+--- mlo-5g-6g: hostapd states ---
+[hostapd.ap-mld0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:a9",
+	"ssid": "W1700K-mlo-5g-6g-Synthetic",
+	"freq": 5180,
+	"channel": 36,
+	"op_class": 128,
+	"beacon_interval": 100,
+	"bss_color": 37,
+	"phy": "phy0.1",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 88753,
+		"time_busy": 6098,
+		"utilization": 12
+	},
+	"dfs": {
+		"cac_seconds": 0,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- mlo-5g-6g: recent log ---
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: AP-DISABLED
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: phy0.0-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:33 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:33 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.0-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.398584] mt7996e 0000:01:00.0 phy0.0-ap0: left allmulticast mode
+Tue Sep  1 08:45:33 2026 kern.info kernel: [  369.404968] mt7996e 0000:01:00.0 phy0.0-ap0: left promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.427248] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:34 2026 kern.info kernel: [  370.434083] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:34 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:36 2026 user.warn kernel: [  371.678791] w1700k-luci-scan-5g-eht80-radio1-8409
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:45:36 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:45:40 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: AP-DISABLED
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: phy0.1-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:45:41 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:45:41 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.1-ap0 disabled_11b_rates=0
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.366334] mt7996e 0000:01:00.0 phy0.1-ap0: left allmulticast mode
+Tue Sep  1 08:45:41 2026 kern.info kernel: [  377.372670] mt7996e 0000:01:00.0 phy0.1-ap0: left promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.717288] mt7996e 0000:01:00.0 phy0.1-ap0: entered allmulticast mode
+Tue Sep  1 08:45:42 2026 kern.info kernel: [  377.724150] mt7996e 0000:01:00.0 phy0.1-ap0: entered promiscuous mode
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: interface state HT_SCAN->DFS
+Tue Sep  1 08:45:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-START freq=5180 chan=36 sec_chan=1, width=2, seg0=50, seg1=0, cac_time=60s
+Tue Sep  1 08:46:42 2026 daemon.notice hostapd: phy0.1-ap0: DFS-CAC-COMPLETED success=1 freq=5180 ht_enabled=0 chan_offset=0 chan_width=5 cf1=5250 cf2=0 radar_detected=0
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5180 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5200 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5220 MHz
+Tue Sep  1 08:46:42 2026 daemon.warn hostapd: Can't set DFS state for freq 5240 MHz
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: interface state DFS->ENABLED
+Tue Sep  1 08:46:43 2026 daemon.notice hostapd: phy0.1-ap0: AP-ENABLED
+Tue Sep  1 08:46:44 2026 user.warn kernel: [  440.057093] w1700k-luci-scan-5g-eht160-radio1-8409
+Tue Sep  1 08:46:45 2026 daemon.notice hostapd: Set MLD config: [ ]
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: Set new config for phy phy0.1:
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: AP-DISABLED
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: phy0.1-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:46:46 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:46:46 2026 daemon.notice hostapd: nl80211: deinit ifname=phy0.1-ap0 disabled_11b_rates=0
+Tue Sep  1 08:46:46 2026 kern.info kernel: [  442.283154] mt7996e 0000:01:00.0 phy0.1-ap0: left allmulticast mode
+Tue Sep  1 08:46:46 2026 kern.info kernel: [  442.289481] mt7996e 0000:01:00.0 phy0.1-ap0: left promiscuous mode
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Set new config for phy phy0.2: /var/run/hostapd-phy0.2.conf
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Restart interface for phy phy0.2
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.2) --> new PHY
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:46:47 2026 kern.info kernel: [  443.568375] mt7996e 0000:01:00.0 phy0.2-ap0: entered allmulticast mode
+Tue Sep  1 08:46:47 2026 kern.info kernel: [  443.575180] mt7996e 0000:01:00.0 phy0.2-ap0: entered promiscuous mode
+Tue Sep  1 08:46:47 2026 daemon.notice hostapd: phy0.2-ap0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:46:48 2026 daemon.notice hostapd: phy0.2-ap0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:46:48 2026 daemon.notice hostapd: phy0.2-ap0: AP-ENABLED
+Tue Sep  1 08:46:49 2026 user.warn kernel: [  445.566124] w1700k-luci-scan-6g-eht320-radio2-8409
+Tue Sep  1 08:46:59 2026 daemon.notice hostapd: Set MLD config: [ "ap-mld0" ]
+Tue Sep  1 08:46:59 2026 daemon.notice hostapd: Prepare MLD interface ap-mld0
+Tue Sep  1 08:46:59 2026 daemon.notice hostapd: Reload all interfaces for initial MLD config
+Tue Sep  1 08:46:59 2026 daemon.notice hostapd: Reloaded settings for phy phy0.2
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Create MLD interface ap-mld0 on phy phy0, radio mask: 6
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:00 2026 kern.info kernel: [  456.187326] mt7996e 0000:01:00.0 ap-mld0: entered allmulticast mode
+Tue Sep  1 08:47:00 2026 kern.info kernel: [  456.193881] mt7996e 0000:01:00.0 ap-mld0: entered promiscuous mode
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:00 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:47:01 2026 daemon.notice hostapd: ap-mld0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:47:01 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Set new config for phy phy0.2: /var/run/hostapd-phy0.2.conf
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Restart interface for phy phy0.2
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Remove interface 'phy0.2'
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: phy0.2-ap0: interface state ENABLED->DISABLED
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: phy0.2-ap0: AP-DISABLED
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: phy0.2-ap0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:47:02 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:47:02 2026 kern.info kernel: [  457.617365] mt7996e 0000:01:00.0 phy0.2-ap0: left allmulticast mode
+Tue Sep  1 08:47:02 2026 kern.info kernel: [  457.623696] mt7996e 0000:01:00.0 phy0.2-ap0: left promiscuous mode
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.2) --> new PHY
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:03 2026 user.warn kernel: [  459.340087] w1700k-luci-scan-mlo-5g-6g-radio1-8409
+Tue Sep  1 08:47:07 2026 user.warn kernel: [  463.372506] w1700k-luci-scan-mlo-5g-6g-radio2-8409
+
+===== mlo-tri-band =====
+PASS: mlo-tri-band AP bring-up with radios 0 1 2 and 2437:20 5180:80 6135:320
+PASS: mlo-tri-band-radio1 LuCI radio scan completed and AP state recovered
+PASS: mlo-tri-band-radio2 LuCI radio scan completed and AP state recovered
+PASS: mlo-tri-band-radio0 LuCI radio scan completed and AP state recovered
+--- mlo-tri-band: iw dev ---
+phy#0
+	Interface ap-mld0
+		ifindex 25
+		wdev 0xd
+		addr e6:58:09:33:39:a8
+		ssid W1700K-mlo-tri-band-Synthetic
+		type AP
+		multicast TXQ:
+			qsz-byt	qsz-pkt	flows	drops	marks	overlmt	hashcol	tx-bytes	tx-packets
+			0	0	0	0	0	0	0	0		0
+		MLD with links:
+		 - link ID  0 link addr e2:58:09:33:39:a8
+		   channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+		   txpower 28.00 dBm
+		 - link ID  1 link addr e6:58:09:33:39:a9
+		   channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+		   txpower 28.00 dBm
+		 - link ID  2 link addr e6:58:09:33:39:aa
+		   channel 37 (6135 MHz), width: 320 MHz, center1: 6105 MHz
+		   txpower 28.00 dBm
+		Radios: 0 1 2
+--- mlo-tri-band: hostapd states ---
+[hostapd.ap-mld0]
+{
+	"driver": "nl80211",
+	"status": "ENABLED",
+	"bssid": "e6:58:09:33:39:a9",
+	"ssid": "W1700K-mlo-tri-band-Synthetic",
+	"freq": 5180,
+	"channel": 36,
+	"op_class": 128,
+	"beacon_interval": 100,
+	"bss_color": 51,
+	"phy": "phy0.1",
+	"rrm": {
+		"neighbor_report_tx": 0
+	},
+	"wnm": {
+		"bss_transition_query_rx": 0,
+		"bss_transition_request_tx": 0,
+		"bss_transition_response_rx": 0
+	},
+	"airtime": {
+		"time": 111984,
+		"time_busy": 7214,
+		"utilization": 11
+	},
+	"dfs": {
+		"cac_seconds": 0,
+		"cac_active": false,
+		"cac_seconds_left": 0
+	}
+}
+--- mlo-tri-band: recent log ---
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:47:02 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:03 2026 user.warn kernel: [  459.340087] w1700k-luci-scan-mlo-5g-6g-radio1-8409
+Tue Sep  1 08:47:07 2026 user.warn kernel: [  463.372506] w1700k-luci-scan-mlo-5g-6g-radio2-8409
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Set MLD config: [ "ap-mld0" ]
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Prepare MLD interface ap-mld0
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Skip MLD interface phy0.1 on phy phy0
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Remove interface 'phy0.1'
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: interface state ENABLED->DISABLED
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: AP-DISABLED
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:47:17 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Skip MLD interface phy0.2 on phy phy0
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Remove interface 'phy0.2'
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: interface state ENABLED->DISABLED
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: AP-DISABLED
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: CTRL-EVENT-TERMINATING
+Tue Sep  1 08:47:17 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: nl80211: deinit ifname=ap-mld0 disabled_11b_rates=0
+Tue Sep  1 08:47:17 2026 daemon.err hostapd: rmdir[ctrl_interface=/var/run/hostapd]: Permission denied
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Remove MLD interface ap-mld0
+Tue Sep  1 08:47:17 2026 kern.info kernel: [  473.129945] mt7996e 0000:01:00.0 ap-mld0 (unregistering): left allmulticast mode
+Tue Sep  1 08:47:17 2026 kern.info kernel: [  473.137355] mt7996e 0000:01:00.0 ap-mld0 (unregistering): left promiscuous mode
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Create MLD interface ap-mld0 on phy phy0, radio mask: 7
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:17 2026 kern.info kernel: [  473.326711] mt7996e 0000:01:00.0 ap-mld0: entered allmulticast mode
+Tue Sep  1 08:47:17 2026 kern.info kernel: [  473.333208] mt7996e 0000:01:00.0 ap-mld0: entered promiscuous mode
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Restart interface for phy phy0.2
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.2) --> new PHY
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:17 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:18 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:47:18 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:18 2026 daemon.notice hostapd: ap-mld0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:47:18 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:19 2026 daemon.err hostapd: Failed to set beacon parameters
+Tue Sep  1 08:47:19 2026 daemon.err hostapd: Interface initialization failed
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->DISABLED
+Tue Sep  1 08:47:19 2026 daemon.notice hostapd: ap-mld0: AP-DISABLED
+Tue Sep  1 08:47:19 2026 daemon.err hostapd: ap-mld0: Unable to setup interface.
+Tue Sep  1 08:47:20 2026 daemon.notice hostapd: Set MLD config: [ "ap-mld0" ]
+Tue Sep  1 08:47:20 2026 daemon.notice hostapd: Prepare MLD interface ap-mld0
+Tue Sep  1 08:47:20 2026 daemon.notice hostapd: Reload all interfaces for initial MLD config
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Set new config for phy phy0.1: /var/run/hostapd-phy0.1.conf
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Create MLD interface ap-mld0 on phy phy0, radio mask: 7
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  476.929927] mt7996e 0000:01:00.0 ap-mld0 (unregistering): left allmulticast mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  476.937339] mt7996e 0000:01:00.0 ap-mld0 (unregistering): left promiscuous mode
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Restart interface for phy phy0.1
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.1) --> new PHY
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.043691] mt7996e 0000:01:00.0 ap-mld0: entered allmulticast mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.050197] mt7996e 0000:01:00.0 ap-mld0: entered promiscuous mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.115812] mt7996e 0000:01:00.0 ap-mld0: left allmulticast mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.121897] mt7996e 0000:01:00.0 ap-mld0: left promiscuous mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.154591] mt7996e 0000:01:00.0 ap-mld0: entered allmulticast mode
+Tue Sep  1 08:47:21 2026 kern.info kernel: [  477.161131] mt7996e 0000:01:00.0 ap-mld0: entered promiscuous mode
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:21 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->HT_SCAN
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: ap-mld0: interface state HT_SCAN->ENABLED
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: Set new config for phy phy0.2: /var/run/hostapd-phy0.2.conf
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: Restart interface for phy phy0.2
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.2) --> new PHY
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:22 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:23 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:47:23 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:23 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:47:23 2026 kern.info kernel: [  478.659397] mt7996e 0000:01:00.0 ap-mld0: left allmulticast mode
+Tue Sep  1 08:47:23 2026 kern.info kernel: [  478.665473] mt7996e 0000:01:00.0 ap-mld0: left promiscuous mode
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Set new config for phy phy0.0:
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Set new config for phy phy0.0: /var/run/hostapd-phy0.0.conf
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Restart interface for phy phy0.0
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Configuration file: <inline> (phy phy0.0) --> new PHY
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: Configuration file: Reading configuration file '<inline>'
+Tue Sep  1 08:47:24 2026 kern.info kernel: [  480.169456] mt7996e 0000:01:00.0 ap-mld0: entered allmulticast mode
+Tue Sep  1 08:47:24 2026 kern.info kernel: [  480.175967] mt7996e 0000:01:00.0 ap-mld0: entered promiscuous mode
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: ap-mld0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: ap-mld0: interface state COUNTRY_UPDATE->ENABLED
+Tue Sep  1 08:47:24 2026 daemon.notice hostapd: ap-mld0: AP-ENABLED
+Tue Sep  1 08:47:26 2026 user.warn kernel: [  482.200250] w1700k-luci-scan-mlo-tri-band-radio1-8409
+Tue Sep  1 08:47:30 2026 user.warn kernel: [  486.208498] w1700k-luci-scan-mlo-tri-band-radio2-8409
+Tue Sep  1 08:47:38 2026 user.warn kernel: [  494.224731] w1700k-luci-scan-mlo-tri-band-radio0-8409
+PASS: MLO reconfiguration avoided duplicate-interface ENFILE
+PASS: multi-radio setup avoided repeated unsupported antenna writes
+
+===== backend rejection tests =====
+PASS: 2.4GHz MLO using coexistence-unsafe EHT40 was rejected
+w1700k-wireless: codex_synth MLO requires EHT20 on 2.4GHz radio radio0 because mandatory 20/40 coexistence fallback cannot update this MLD safely.
+PASS: radio0 configured as 5GHz was rejected
+w1700k-wireless: radio0 is physical 2g; it cannot be configured as 5g. Use radio0/2g instead.
+PASS: radio1 configured for EHT320 was rejected
+w1700k-wireless: radio1 5g EHT320 is not valid on channel 36 for country US with the current regulatory database.
+PASS: unsupported physical radio index was rejected
+w1700k-wireless: radio0 uses unsupported physical radio index 99; W1700K supports only 0, 1, and 2.
+w1700k-wireless: codex_synth MLO references unsupported physical radio radio0.
+PASS: duplicate physical radio index was rejected
+w1700k-wireless: codex_alias duplicates physical radio index 1.
+PASS: single-link MLO was rejected
+w1700k-wireless: codex_synth MLO needs at least two radios.
+PASS: overlapping MLO radio ownership was rejected
+w1700k-wireless: codex_overlap MLO cannot use radio1; physical radio index 1 is already owned by MLO interface codex_synth. Edit codex_synth instead.
+w1700k-wireless: codex_overlap MLO cannot use radio2; physical radio index 2 is already owned by MLO interface codex_synth. Edit codex_synth instead.
+PASS: malformed MLO flag was rejected
+w1700k-wireless: codex_synth has invalid mlo value banana; use 0 or 1.
+w1700k-wireless: codex_synth lists multiple radios but does not enable MLO.
+PASS: 6GHz MLO with WPA2 and optional PMF was rejected
+w1700k-wireless: codex_synth MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security.
+w1700k-wireless: codex_synth MLO requires 802.11w management frame protection set to Required.
+w1700k-wireless: codex_synth uses 6GHz and must use WPA3-SAE, OWE, or WPA3 Enterprise security.
+w1700k-wireless: codex_synth uses 6GHz and requires 802.11w management frame protection set to Required.
+PASS: MLO member using automatic channel selection was rejected
+w1700k-wireless: codex_synth MLO requires a fixed channel on radio1; automatic channel selection cannot coordinate this shared W1700K PHY reliably.
+PASS: oversized EHT puncturing bitmap was rejected
+w1700k-wireless: radio1 punct_bitmap must be decimal or hexadecimal.
+
+===== service and kernel health =====
+PASS: uhttpd service running
+PASS: dnsmasq service running
+PASS: softethervpnserver service running
+PASS: adblock installed, enabled, and scheduled
+PASS: kernel log has no fatal diagnostics
+
+===== wireless restoration =====
+restored original wireless config
+PASS: original wireless configuration restored byte-for-byte
+PASS: restored runtime matches original wireless interface set
+
+tests: 38
+failures: 0

@@ -1,0 +1,169 @@
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[4]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux'
+make[5]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux/airoha'
+make[6]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux/airoha/image'
+make[6]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux/airoha/image'
+make[5]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux/airoha'
+make[4]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/target/linux'
+time: target/linux/prereq#0.13#0.08#0.21
+Checking 'python3-dev'... ok.
+Checking 'python3-setuptools'... ok.
+Checking 'swig'... ok.
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/kernel/mt76'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.08.01~b2704cf5
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mt76-core /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt76-core-6.18.34.2026.08.01~b2704cf5-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt76-core-6.18.34.2026.08.01~b2704cf5-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mt76-connac /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt76-connac-6.18.34.2026.08.01~b2704cf5-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt76-connac-6.18.34.2026.08.01~b2704cf5-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mt7996e /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996e-6.18.34.2026.08.01~b2704cf5-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996e-6.18.34.2026.08.01~b2704cf5-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mt7996-firmware-common /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996-firmware-common-6.18.34.2026.08.01~b2704cf5-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996-firmware-common-6.18.34.2026.08.01~b2704cf5-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mt7996-firmware /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996-firmware-6.18.34.2026.08.01~b2704cf5-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mt7996-firmware-6.18.34.2026.08.01~b2704cf5-r1.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.mt76_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/mt76.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/kernel/mt76'
+time: package/kernel/mt76/clean#0.67#0.35#1.08
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/kernel/mac80211'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mac80211-regular/backports-6.18.26
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-cfg80211 /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-cfg80211-6.18.34.6.18.26-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-cfg80211-6.18.34.6.18.26-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove kmod-mac80211 /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mac80211-6.18.34.6.18.26-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/kmod-mac80211-6.18.34.6.18.26-r1.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.mac80211.regular_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/mac80211.regular.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/kernel/mac80211'
+time: package/kernel/mac80211/regular/clean#0.79#0.44#1.29
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/utils/iwinfo'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/libiwinfo-2026.05.26~66bdd1a0
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove libiwinfo /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/libiwinfo-data-2026.05.26~66bdd1a0-r1.apk /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/libiwinfo20230701-2026.05.26~66bdd1a0-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/libiwinfo20230701-2026.05.26~66bdd1a0-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove libiwinfo-data /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/libiwinfo-data-2026.05.26~66bdd1a0-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/libiwinfo-data-2026.05.26~66bdd1a0-r1.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.iwinfo_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/iwinfo.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/utils/iwinfo'
+time: package/network/utils/iwinfo/clean#0.26#0.14#0.44
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/config/wifi-scripts'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/wifi-scripts-1.0
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove wifi-scripts /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/wifi-scripts-1.0-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/wifi-scripts-1.0-r1.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.wifi-scripts_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/wifi-scripts.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/config/wifi-scripts'
+time: package/network/config/wifi-scripts/clean#0.20#0.08#0.32
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/services/hostapd'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/hostapd-wpad-full-mbedtls/hostapd-2026.04.02~b004de0b
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove hostapd-common /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/hostapd-common-2026.04.02~b004de0b-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/hostapd-common-2026.04.02~b004de0b-r1.apk'
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove wpad /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/wpad-mbedtls-2026.04.02~b004de0b-r1.apk
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove wpad-mbedtls /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/wpad-mbedtls-2026.04.02~b004de0b-r1.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/base/wpad-mbedtls-2026.04.02~b004de0b-r1.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.hostapd.wpad-full-mbedtls_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/hostapd.wpad-full-mbedtls.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/network/services/hostapd'
+time: package/network/services/hostapd/wpad-full-mbedtls/clean#1.10#0.64#1.82
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/base-files'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/base-files
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove base-files /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/base-files-1~73a8983.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/targets/airoha/an7581/packages/base-files-1~73a8983.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.base-files_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/base-files.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/package/base-files'
+time: package/base-files/clean#0.22#0.14#0.40
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/modules/luci-base'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/luci-base
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove luci-base /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-base-26.244.28629~32ff41f.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-base-26.244.28629~32ff41f.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.luci-base_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/luci-base.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/modules/luci-base'
+time: package/feeds/luci/luci-base/clean#0.97#0.50#1.60
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/modules/luci-mod-network'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/luci-mod-network
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove luci-mod-network /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-mod-network-26.244.28629~32ff41f.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-mod-network-26.244.28629~32ff41f.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.luci-mod-network_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/luci-mod-network.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/modules/luci-mod-network'
+time: package/feeds/luci/luci-mod-network/clean#0.35#0.18#0.56
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+WARNING: Makefile 'package/feeds/video/sdl3/Makefile' has a build dependency on 'libwayland', which does not exist
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/config'
+make[1]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make[2]: Entering directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/applications/luci-app-w1700k-npu'
+rm -rf /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/build_dir/target-aarch64_cortex-a53_musl/luci-app-w1700k-npu
+/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/scripts/ipkg-remove luci-app-w1700k-npu /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-app-w1700k-npu-26.244.28629~32ff41f.apk
+removed '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/bin/packages/aarch64_cortex-a53/luci/luci-app-w1700k-npu-26.244.28629~32ff41f.apk'
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/stamp/.luci-app-w1700k-npu_installed
+rm -f /home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/staging_dir/target-aarch64_cortex-a53_musl/packages/luci-app-w1700k-npu.list
+make[2]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source/feeds/luci/applications/luci-app-w1700k-npu'
+time: package/feeds/luci/luci-app-w1700k-npu/clean#0.37#0.19#0.60
+make[1]: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
+make: Leaving directory '/home/captain/w1700k-openwrt-build/v686-release-73a8983-20260901/build-a-source'
