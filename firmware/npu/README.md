@@ -54,6 +54,12 @@ fails closed and requires independently contained cold initialization.
   and 19 negative controls. Scheduling is serialized; coordinator 0, helper
   returns and physical drains are modeled. See the `2026-09-05-npu-workers`
   checkpoint for exact scope and remaining reachability boundaries.
+- Coordinator admission now has two native detours and a strict mailbox-table
+  adapter. Eight saved contexts supply actual-code ACKs while control remains
+  available. Deferred IRQs, active-handler retention and fault propagation pass
+  1,667 native/RV32 pairs plus native-handler tests. Physical reclaim/restart
+  capabilities remain clear. See `ADMISSION_ABI.md`; no production integration
+  or automatic upgrade of legacy STOP/GET3 is claimed.
 
 The test linker addresses and state at `0x3e920000` are emulation fixtures, not
 validated production reservations. Do not append code at the original blob end:
@@ -70,14 +76,18 @@ PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_firmware_stop_irqs
 python3 tests/npu/verify_barrier_evidence.py
 PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_barrier_workers.py
 PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/verify_worker_evidence.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_firmware_mailbox_dispatch.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_admission_protocol.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_admission_native.py
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/verify_admission_evidence.py
 ```
 
 The runner accepts system `ld.lld`, otherwise the locally unpacked
 `.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld`. Proprietary inputs remain in
 the existing ignored `.local/npu-quiescence/firmware/` directory with SHA guards.
 
-Next: complete boot/helper/IRQ path closure; coordinator mailbox/IRQ admission;
-versioned host ABI; copy/PPE/tunnel/DMA drains; production SRAM/code and cache
+Next: complete boot/helper/IRQ path closure; physical copy/PPE/tunnel/DMA drains;
+production host integration; validated SRAM/code placement and cache
 validation; then common Linux L1/full-reset/probe-unwind/removal retention and
 late-completion generation checks. Full host-adapter parity and client Wi-Fi
 acceptance remain separate open requirements.

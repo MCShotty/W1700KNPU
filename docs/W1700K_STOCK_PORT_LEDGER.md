@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-05 (seven-worker barrier extension; unpromoted)
+Last updated: 2026-09-05 (coordinator admission candidate; unpromoted)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17537,3 +17537,37 @@ Status and boundary:
 - Report and replay: `research/checkpoints/2026-09-05-npu-workers/REPORT.md`.
   Reference/logging/remaining-work updated; proprietary inputs and generated
   binaries remain ignored. Historical workspace and protected backups untouched.
+
+## Coordinator Admission And Versioned Control Candidate - 2026-09-05
+
+- Added unpromoted `firmware/npu/admission.c/.h`: active IRQ/mailbox-handler
+  retention, deferred events, no idle ACK from IRQ admission, and common-barrier
+  fault propagation for mask/count errors and post-drain IRQs. Pending events
+  block refresh/open; retirement records require real platform witnesses.
+- Two test-only core-0 return/IRQ detours and mailbox-table rebinding block
+  original UART-write/PPE-free counterexamples after versioned stop, retaining
+  control status. The 64-byte NQC1/NQR1 envelope adds version/session/epoch
+  checks. Physical reclaim/restart bits remain clear and no wire operation can
+  fabricate drain bits. Strict static/no-wait rejection is not legacy parity.
+- 1,667 native/RV32 pairs, six mutation controls, mask-readback failures,
+  in-flight handler retention, five ABI cases and transport boundary cases pass.
+  Eight saved contexts supply every ACK through actual code in shared SRAM;
+  status reaches 0xff but cannot reclaim without physical witnesses. Prior
+  worker regressions also pass against the combined ELF, SHA256
+  `891af9bd8dbf0e551edac9f29cb57c52cc650977baff78419cab0e69b7b0481a`.
+- Seeded two missed mailbox callbacks, Wi-Fi `84003a9c` and tunnel `84003a86`:
+  427 discovered functions export without decompile failures. Native full-route
+  tests confirm zero-length dispatch, early no-wait DONE and function-12 static
+  registration overwriting the Wi-Fi callback. These are protocol/model
+  findings, not evidence that a live client triggered malformed commands.
+- Physical drains, complete boot/helper/IRQ closure, production memory/cache
+  and Linux recovery/removal remain open. Tests use modeled MMIO/IRQ invocation,
+  helper returns and retirement, not hardware trap/boot/coherency proof. The
+  host must not treat legacy STOP/GET3 or a successful probe as reclaim authority.
+- Source/config and patch 926 remain unchanged from `37a8352`; 34 OpenWrt and
+  three LuCI changed files reconstruct. No router contact, image build, flash,
+  association or configuration change. Both full goals remain active; R1 is
+  still the last router-tested WLAN-NPU-disabled baseline, not full stock parity.
+- Report: `research/checkpoints/2026-09-05-npu-admission/REPORT.md`; candidate
+  contract: `firmware/npu/ADMISSION_ABI.md`. Reference/logging/remaining-work
+  updated; private inputs, binaries, Ghidra projects and backups remain protected.

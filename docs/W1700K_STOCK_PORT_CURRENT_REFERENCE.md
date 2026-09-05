@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-05 (seven-worker barrier extension; packaged firmware/router unchanged)
+Last updated: 2026-09-05 (coordinator admission candidate; packaged firmware/router unchanged)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,29 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Seven-Worker Barrier Extension - 2026-09-05
+## Current Work - Coordinator Admission Candidate - 2026-09-05
+
+- Added unpromoted coordinator admission with active-handler retention,
+  deferred IRQs, fault propagation and a versioned 64-byte control envelope.
+  Original UART/PPE stop counterexamples are blocked by emulator adapters while
+  mailbox status remains available. Physical reclaim/restart capability bits
+  remain clear; no fake-drain wire operation or production host integration.
+- 1,667 native/RV32 call pairs and six mutation controls pass. Two native
+  core-0/IRQ detours plus mailbox-table rebinding pass in-flight, mask-failure,
+  ABI and strict-transport checks. All eight saved contexts acknowledge through
+  actual code; wire mask `0xff` without physical witnesses still cannot reclaim.
+  The combined ELF also passes the prior 20 worker-detour regressions.
+- New Ghidra seeding recovers missed Wi-Fi/tunnel mailbox callbacks: 427
+  discovered functions export without failure. Native tests confirm unchecked
+  payload length, early no-wait DONE and static-index callback-table overwrite.
+  These are protocol findings, not proved triggers of live client failures.
+- Packaged source/config and patch 926 are unchanged. No router, image or flash
+  action. Hardware drains, full boot/placement/cache proof, Linux recovery,
+  full NPU parity and actual-client Wi-Fi acceptance remain unfinished.
+- Evidence: `research/checkpoints/2026-09-05-npu-admission/REPORT.md` and
+  `firmware/npu/ADMISSION_ABI.md`.
+
+## Previous Work - Seven-Worker Barrier Extension - 2026-09-05
 
 - Combined emulator ELF now contains 20 detours for seven worker contexts:
   refill, fast/slow RX, TX done, both indirect parts and tunnel. It adds refill's

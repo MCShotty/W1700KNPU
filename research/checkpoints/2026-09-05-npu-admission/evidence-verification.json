@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "packaged_source_unchanged_from": "37a83526487c82682448864e9f6cad9aaf3bf8fa",
+  "source_lock_sha256": "139e8b45d60c634b5578ac6a818196bccc63a1ba7a673a69afa3d9b50fa3a203",
+  "result_files": {
+    "native-mailbox-dispatch.json": "56a6cfb6c3a84f36de5d3d99a36e4cab2c63c4a79383c79d69bc39594da3edbb",
+    "admission-protocol-tests.json": "a1102f8aa428e84142a2a077f762162b30ac861d04f5dbb3fa04eb97ad767c73",
+    "admission-native-tests.json": "6a5106f2bc0183c1603e51c1b62c37e58a0bd19a5faf504fe7d3b709993cb5b9"
+  },
+  "ghidra_export_sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+  "analysis_helpers": {
+    "SeedNpuMailboxCallbacks.java": "5470a8bd8b21db81527e445ab9c3cd61e10eb6c18803d8c194c9ace25bf1a249",
+    "run_admission_mailbox.ps1": "ae9580bbdc8076479735571bb6d6b9c4b31f5843c8f3a52352a8d2ffff451d4d",
+    "SetupCurrentNpuMap.java": "7c550a4009fff1ab5de1398bb714327a54b26f6b8356e99bbe75ba237c7c9cb3",
+    "ModelNpuConcurrency.java": "69dd23a156bf74e16d5646bc320a6bcde1785615b7aaaf2e98757656e68b514d",
+    "SeedNpuUartIrq.java": "478b5463a9a8540e628ccab77a48e08898e7cedc3bcd73ac2c3ffc83e28af577",
+    "ExportMailboxContract.java": "3d8d9e374043c4f8b1b328b413c1eb8743e2a877280b2044a6938a2da38364b0"
+  },
+  "discovered_functions": 427,
+  "failed_decompilations": 0,
+  "elf_allocated_sections": [
+    {
+      "name": ".text",
+      "start": 2214854656,
+      "end": 2214863430
+    }
+  ],
+  "verifier_sha256": "97b380d29241bb5db9549903dd91ffbbd728dbce742c7a536879cdc00617e7a0",
+  "scope": "Artifact provenance, native dispatch facts and recorded test inventory. Not independent full-path coverage, live hardware containment or production integration."
+}

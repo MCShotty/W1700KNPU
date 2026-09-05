@@ -6175,3 +6175,22 @@ Packaged source/config and patch 926 are unchanged. No router access, image or
 flash; R1 remains last router-tested, not stock parity or fresh client evidence.
 Report: `research/checkpoints/2026-09-05-npu-workers/REPORT.md`.
 Ledger/reference/remaining-work updated; both full project goals remain active.
+
+## Coordinator Admission Candidate - 2026-09-05
+
+Added active-handler retention, deferred coordinator IRQs and versioned control
+messages. Native UART/PPE stop counterexamples are blocked by emulator adapters,
+with mailbox status still available. All eight saved contexts acknowledge via
+RV32 code; 1,667 differential calls, six mutation controls, mask failures,
+in-flight/ABI/transport cases and combined worker regressions pass.
+
+Ghidra now recovers the two missed Wi-Fi/tunnel mailbox callbacks, exporting 427
+discovered functions. Native dispatch confirms ignored length, early no-wait
+DONE and static-index callback overwrite. These are protocol findings, not
+proved causes of live client failures. Physical reclaim/restart capabilities
+remain clear; hardware drains, complete boot/placement/cache proof, production
+host recovery, full parity and client Wi-Fi acceptance remain open.
+
+No packaged source/config, router, image, flash or association change. Evidence:
+`research/checkpoints/2026-09-05-npu-admission/REPORT.md` and
+`firmware/npu/ADMISSION_ABI.md`. Ledger/reference/remaining-work updated.

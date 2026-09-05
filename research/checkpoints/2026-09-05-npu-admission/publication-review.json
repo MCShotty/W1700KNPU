@@ -1,0 +1,35 @@
+{
+  "reviewed": true,
+  "packaged_firmware_changed": false,
+  "image_built": false,
+  "router_contacted": false,
+  "flashed": false,
+  "protected_backups_touched": false,
+  "execution_policy_changed": false,
+  "ghidra": {
+    "unsigned_powershell_wrapper_executed": false,
+    "installed_headless_cli_completed": true,
+    "discovered_functions": 427,
+    "decompilation_failures": 0,
+    "existing_user_tool_preference_warning_modified": false
+  },
+  "gitleaks": {
+    "firmware_npu_findings": 0,
+    "tests_npu_findings": 0,
+    "new_checkpoint_findings": 0,
+    "tools_ghidra_findings": 0,
+    "docs_findings": 3,
+    "docs_review": "All three are unchanged historical prose describing scatter/SKB/bufid lifecycle after the word token, not credentials.",
+    "docs_false_positive_locations": [
+      "docs/W1700K_STOCK_PORT_LEDGER.md:319",
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md:776",
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md:785"
+    ]
+  },
+  "source_export": {
+    "openwrt_changed_files_verified": 34,
+    "luci_changed_files_verified": 3,
+    "passed": true
+  },
+  "boundaries": "Unpromoted admission/control C and emulator-only platform bindings. Safe-reclaim/restart capability bits are clear. No physical drain, production placement/boot/coherency, host recovery or actual-client acceptance. No raw stock blobs, private keys, calibration or recovery data included."
+}
