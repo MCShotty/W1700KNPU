@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from native TX attachment callbacks and release
+Updated 2026-09-06 from native INODE contract evidence and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -80,6 +80,15 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   unresolved after a tool restriction; the blocked lane was not retried or
   rerouted. The two separate API21 allocator substitutions are eliminated.
   SKB reset has only modeled lock/storage proof, not physical quiescence.
+  INODE now has 16 exact native entry footprints, six complete selector2/7/4
+  calls, four controls and three strict denials. Five wrapper loads span24
+  bytes even for a 12-byte request; the retained provider allocation is256,
+  so this is not a physical allocation-overrun finding. These three selectors
+  ignore the extra stale arguments and have identical padded/unpadded memory
+  effects. Run flags precede ICV clear and are not initialization witnesses.
+  The provider-framing correction was interrupted by a tool restriction;
+  unfinished files are preserved outside the firmware overlay and no fix is
+  integrated. Do not retry or reroute that blocked operation.
   General mt76 commands remain closed. Close
   remaining callback consumers and failure-status propagation, full post-gate
   worker initialization, single-HIF TX1 publication, INODE 24-byte reads from
@@ -152,6 +161,7 @@ Current official snapshot comparison found no new relevant upstream fix;
 our local guard, memory and mailbox corrections remain required.
 
 Detailed evidence: `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`,
 `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md`,
 `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`,
 `research/checkpoints/2026-09-06-npu-startup/REPORT.md`,

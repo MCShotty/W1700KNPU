@@ -6374,3 +6374,22 @@ router-tested with WLAN NPU compiled out; protected recovery/private inputs
 untouched. Ledger/reference/remaining-work updated. Evidence:
 `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md` and
 `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`.
+
+## Native INODE Contract - 2026-09-06
+
+Six original selector2/7/4 calls complete after native core0 initialization;
+16 entry footprints, four controls and three strict denials pass. Five wrapper
+loads span24 bytes. A12-byte request consumes stale undeclared tail within the
+actual256-byte bounce allocation; these selectors ignore those arguments, so
+synthetic padding does not change their full-memory results. Run flags precede
+ICV clear and persist on modeled failure. No live failure causality is claimed.
+
+The provider-framing subagent was interrupted by a tool restriction. Unfinished
+patch/test/scratch files were preserved under ignored local storage outside
+the firmware overlay. No framing fix, compiled provider/native bridge or kernel
+build is claimed, and the blocked operation was not retried or rerouted.
+
+Ledger/reference/remaining-work updated. Firmware/config, strict admission,
+router, images and release remain unchanged. R1 remains last router-tested
+with WLAN NPU compiled out. Both full goals remain open. Evidence:
+`research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`.

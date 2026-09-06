@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (native TX attachment callbacks)
+Last updated: 2026-09-06 (native INODE contract)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,24 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Native TX Attachment Callbacks - 2026-09-06
+## Current Work - Native INODE Contract - 2026-09-06
+
+- Five original wrapper loads span24 bytes for all16 selectors. Six native
+  selector2/7/4 calls, four controls and three strict denials pass; complete
+  786432-byte memory images and exact write footprints verify.
+- The 12-byte request reads stale undeclared tail inside a256-byte provider
+  allocation. These selectors ignore the extra arguments; synthetic padding
+  gives identical memory results, not a proved live Wi-Fi failure fix.
+  Run flags precede the4104-byte ICV clear and survive its modeled failure.
+- Provider-framing work was interrupted by a tool restriction. Unfinished
+  files are preserved in ignored scratch outside the firmware overlay; no
+  framing fix was integrated and the blocked operation was not rerouted.
+- Firmware/config, strict admission, router, images and release are unchanged.
+  Full initialization/recovery/parity and actual-client acceptance remain open.
+  R1 remains last router-tested with WLAN NPU compiled out. Evidence:
+  `research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`.
+
+## Previous Work - Native TX Attachment Callbacks - 2026-09-06
 
 - Native SET19 selectors0/2, DESC10 and API21 selectors5/7/10/12 now complete
   their reached helpers. Combined tests pass 17 valid calls, 73 controls and seven

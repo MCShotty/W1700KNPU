@@ -1,0 +1,4607 @@
+{
+  "schema": 1,
+  "verdict": "PASS",
+  "inputs": {
+    "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    "code_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+    "ghidra_sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "self_sha256": "69740f2d4ffc7dce894925980911ccfd65b9546c4fb01879fcfad522aa3bc1ff"
+  },
+  "counts": {
+    "callback_entry_footprints": 16,
+    "native_complete": 6,
+    "negative_controls": 4,
+    "strict_denials": 3
+  },
+  "native_core0_icv": "0x3e8bc470",
+  "icv_bytes": 4104,
+  "valid_callbacks": [
+    {
+      "declared_bytes": 12,
+      "frame_hex": "120000001800000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        2,
+        0,
+        2779096485,
+        2779096485,
+        2779096485
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x12",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {
+        "0x840048f4": 2
+      },
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x840048f4": 2,
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x2",
+            "0x0",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "1c172d1ac651088e139ba571a2a55394cb411bc5e54a06dd75ea338a9c8055e5",
+        "aggregate_sha256": "052d9d3164ddd7dbf896083ac4115e18fddc56e1a4ec2335acc8ef52f27c0f95",
+        "read_count": 5,
+        "write_count": 1033,
+        "unique_memory_bytes_written": 4114,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd6c",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "091b3e297c85ba8528ba65265b3a41b01fb925587fd3e5ce905680fc64823564"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e172",
+            "access": "read",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e902ac0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3e8bc470",
+              "0x3e8bc470",
+              "0x3e8bc470",
+              "0x3e8bc470"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "316a7f4ca6dbdde8dad3f1f3b4cb6769342311808f43b32de03682857c426630"
+          },
+          {
+            "pc": "0x8400e178",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046ec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "2cf049ad341fe831c4f5b40b22d1093ab32ba3973c19b8e58a5f4ed9162af0be"
+          },
+          {
+            "pc": "0x8400e180",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "24cbe6fc9f8f91f28963fdaf024fe12ff2a96016dfb09aa1ccfbec13160d7f18"
+          },
+          {
+            "pc": "0x8400e18a",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "e59891816b3a7e51651049313a0d7017b50d8eaf7324e45499dc91f3d5f560b1"
+          },
+          {
+            "pc": "0x8400e196",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1026,
+            "address_runs": [
+              [
+                "0x3e8bc470",
+                1026,
+                4,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 1034,
+            "ordered_access_sha256": "7a0d75fac1ddba780a0ef26fbb65e4c2d59ab77e7db02b73ea7fdd24254c9bee"
+          },
+          {
+            "pc": "0x8400e1ac",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 1035,
+            "last_ordinal": 1035,
+            "ordered_access_sha256": "a9f658525903ee949ff2c7621c2d79d2681d592157e4dbea3670b8a7d92b228d"
+          },
+          {
+            "pc": "0x8400e1ae",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 1036,
+            "last_ordinal": 1036,
+            "ordered_access_sha256": "e44dd42a6133a60b25e9e63502652c33745746229cbda44aa1fc615c92944285"
+          },
+          {
+            "pc": "0x8400e1b4",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f7",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 1037,
+            "last_ordinal": 1037,
+            "ordered_access_sha256": "04df3f567882498aca7090e7982e886214aa3ab40e09767a0a7607a3deaa5924"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1038,
+            "last_ordinal": 1038,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if2-12-byte-stale-tail",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "6ec1f0291e9e36e8ec88ffc46791861b884f1e6e6cbb86b19f3683140306e210",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "a96fd84557831b50aa5cd8ccef388da4982e1e1ce4d7d4105a64defedb4db696"
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "120000001800000000000000000000000000000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x12",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {
+        "0x840048f4": 2
+      },
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x840048f4": 2,
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x2",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "1c172d1ac651088e139ba571a2a55394cb411bc5e54a06dd75ea338a9c8055e5",
+        "aggregate_sha256": "052d9d3164ddd7dbf896083ac4115e18fddc56e1a4ec2335acc8ef52f27c0f95",
+        "read_count": 5,
+        "write_count": 1033,
+        "unique_memory_bytes_written": 4114,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd6c",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "091b3e297c85ba8528ba65265b3a41b01fb925587fd3e5ce905680fc64823564"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e172",
+            "access": "read",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e902ac0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3e8bc470",
+              "0x3e8bc470",
+              "0x3e8bc470",
+              "0x3e8bc470"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "316a7f4ca6dbdde8dad3f1f3b4cb6769342311808f43b32de03682857c426630"
+          },
+          {
+            "pc": "0x8400e178",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046ec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "2cf049ad341fe831c4f5b40b22d1093ab32ba3973c19b8e58a5f4ed9162af0be"
+          },
+          {
+            "pc": "0x8400e180",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "24cbe6fc9f8f91f28963fdaf024fe12ff2a96016dfb09aa1ccfbec13160d7f18"
+          },
+          {
+            "pc": "0x8400e18a",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "e59891816b3a7e51651049313a0d7017b50d8eaf7324e45499dc91f3d5f560b1"
+          },
+          {
+            "pc": "0x8400e196",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1026,
+            "address_runs": [
+              [
+                "0x3e8bc470",
+                1026,
+                4,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 1034,
+            "ordered_access_sha256": "7a0d75fac1ddba780a0ef26fbb65e4c2d59ab77e7db02b73ea7fdd24254c9bee"
+          },
+          {
+            "pc": "0x8400e1ac",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 1035,
+            "last_ordinal": 1035,
+            "ordered_access_sha256": "a9f658525903ee949ff2c7621c2d79d2681d592157e4dbea3670b8a7d92b228d"
+          },
+          {
+            "pc": "0x8400e1ae",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 1036,
+            "last_ordinal": 1036,
+            "ordered_access_sha256": "e44dd42a6133a60b25e9e63502652c33745746229cbda44aa1fc615c92944285"
+          },
+          {
+            "pc": "0x8400e1b4",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f7",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 1037,
+            "last_ordinal": 1037,
+            "ordered_access_sha256": "04df3f567882498aca7090e7982e886214aa3ab40e09767a0a7607a3deaa5924"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1038,
+            "last_ordinal": 1038,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if2-24-byte",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "6ec1f0291e9e36e8ec88ffc46791861b884f1e6e6cbb86b19f3683140306e210",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "a96fd84557831b50aa5cd8ccef388da4982e1e1ce4d7d4105a64defedb4db696"
+      }
+    },
+    {
+      "declared_bytes": 12,
+      "frame_hex": "170000001800000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        7,
+        0,
+        2779096485,
+        2779096485,
+        2779096485
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x17",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x7",
+            "0x0",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "48a364fc885cfc1b69f40f3a766ffac1a63dbc917934fad6ca8fa56d45af9ba7",
+        "aggregate_sha256": "bca5ced6a8e832cbeba4beba2a19cacee673e4c8ad84ff512fff8ebe4d9feab6",
+        "read_count": 4,
+        "write_count": 9,
+        "unique_memory_bytes_written": 9,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd80",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff235c",
+              "0xffff235c",
+              "0xffff235c",
+              "0xffff235c"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "8dd392602f80a5708226449fe2b5900a88fdcdc1392d754abeba6dae8ba3e6a9"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e0c4",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f5",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "e812cb407892eaa409656404eded36b17453ff460cb9aadbd83406d3d5b9aa13"
+          },
+          {
+            "pc": "0x8400e0ce",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "40bee34e878feb02976fb66ea461b93e1d9cec791731423eb7738c1524b1c400"
+          },
+          {
+            "pc": "0x8400e0d8",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f9",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "1632eafcdce92fa9c690fa6f73556fc6f9d4c1a935b45682bccbb422875ed193"
+          },
+          {
+            "pc": "0x8400e0e0",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "2b1001f9fff0911155bcacf788c3501418eb11c91b3637823f333010b45eaf8f"
+          },
+          {
+            "pc": "0x8400e0e8",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046e1",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 9,
+            "ordered_access_sha256": "e743ec48db2a081caa446b483345269f76f31bd54de13558f5d2608ac8fe7c34"
+          },
+          {
+            "pc": "0x8400e0f0",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046e0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 10,
+            "last_ordinal": 10,
+            "ordered_access_sha256": "5f7a5ffbadb1d826d248537b96bc60844abeb30d6b084375af080ed22379ce8f"
+          },
+          {
+            "pc": "0x8400e0f4",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 11,
+            "last_ordinal": 11,
+            "ordered_access_sha256": "63eb9565f37a47707fb15e0f2a50dc74913fc43218ce10e373bf9f08b7c0d322"
+          },
+          {
+            "pc": "0x8400e0f6",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 12,
+            "last_ordinal": 12,
+            "ordered_access_sha256": "e17c1eef00b938d8d97ffa372a52edcc77c99b7359175ea5cffa9b14cc4792dd"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 13,
+            "last_ordinal": 13,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if7-12-byte-stale-tail",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "0e1712e3b4a8999e45f52787e953aa9aa4d7bb9b51f9c48cc659b5c97d64224e",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "ecaaf0d41fa11c1f55bfcd0b0aaa4232667d9e243b76d09574ff948c0f4fb49d"
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "170000001800000000000000000000000000000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x17",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x7",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "48a364fc885cfc1b69f40f3a766ffac1a63dbc917934fad6ca8fa56d45af9ba7",
+        "aggregate_sha256": "bca5ced6a8e832cbeba4beba2a19cacee673e4c8ad84ff512fff8ebe4d9feab6",
+        "read_count": 4,
+        "write_count": 9,
+        "unique_memory_bytes_written": 9,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd80",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff235c",
+              "0xffff235c",
+              "0xffff235c",
+              "0xffff235c"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "8dd392602f80a5708226449fe2b5900a88fdcdc1392d754abeba6dae8ba3e6a9"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e0c4",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f5",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "e812cb407892eaa409656404eded36b17453ff460cb9aadbd83406d3d5b9aa13"
+          },
+          {
+            "pc": "0x8400e0ce",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "40bee34e878feb02976fb66ea461b93e1d9cec791731423eb7738c1524b1c400"
+          },
+          {
+            "pc": "0x8400e0d8",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f9",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "1632eafcdce92fa9c690fa6f73556fc6f9d4c1a935b45682bccbb422875ed193"
+          },
+          {
+            "pc": "0x8400e0e0",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "2b1001f9fff0911155bcacf788c3501418eb11c91b3637823f333010b45eaf8f"
+          },
+          {
+            "pc": "0x8400e0e8",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046e1",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 9,
+            "ordered_access_sha256": "e743ec48db2a081caa446b483345269f76f31bd54de13558f5d2608ac8fe7c34"
+          },
+          {
+            "pc": "0x8400e0f0",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046e0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 10,
+            "last_ordinal": 10,
+            "ordered_access_sha256": "5f7a5ffbadb1d826d248537b96bc60844abeb30d6b084375af080ed22379ce8f"
+          },
+          {
+            "pc": "0x8400e0f4",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 11,
+            "last_ordinal": 11,
+            "ordered_access_sha256": "63eb9565f37a47707fb15e0f2a50dc74913fc43218ce10e373bf9f08b7c0d322"
+          },
+          {
+            "pc": "0x8400e0f6",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 12,
+            "last_ordinal": 12,
+            "ordered_access_sha256": "e17c1eef00b938d8d97ffa372a52edcc77c99b7359175ea5cffa9b14cc4792dd"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 13,
+            "last_ordinal": 13,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if7-24-byte",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "0e1712e3b4a8999e45f52787e953aa9aa4d7bb9b51f9c48cc659b5c97d64224e",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "ecaaf0d41fa11c1f55bfcd0b0aaa4232667d9e243b76d09574ff948c0f4fb49d"
+      }
+    },
+    {
+      "declared_bytes": 12,
+      "frame_hex": "140000001800000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        4,
+        0,
+        2779096485,
+        2779096485,
+        2779096485
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x14",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {
+        "0x840048f4": 1
+      },
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x840048f4": 1,
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x4",
+            "0x0",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5",
+            "0xa5a5a5a5"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "7cff6d50635d0d359c01fe274ba8e4b1d7f2a05bb3bd2f4555a7ef9bf37153cf",
+        "aggregate_sha256": "1d37cdc6a72f1ca1f67f41df6961f3ba36c682e9fb2b31403ff3a27562d74182",
+        "read_count": 4,
+        "write_count": 9,
+        "unique_memory_bytes_written": 12,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd74",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff24bc",
+              "0xffff24bc",
+              "0xffff24bc",
+              "0xffff24bc"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "8cb1eec5db37b5217f270710bc847a4fc7fa1de0a6ee8a6333be2443880e746a"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e232",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f5",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "b878dd1bfa882e00f3e092396ef11a2f8e2a786349f40f1bf97aa58e30093321"
+          },
+          {
+            "pc": "0x8400e23a",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046ec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "c68529ee7047b0442e52ef69ce32445a6bd374d9ddf8019e9345c976422ca89e"
+          },
+          {
+            "pc": "0x8400e242",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "5ef41470e18584eecb4407aba15bd9bef4ec7be9029e159f532ff484c42b337d"
+          },
+          {
+            "pc": "0x8400e24a",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f9",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "89f9a74704a5a31c1e34db4d923e466311dc33d97efdd8c92c874be24a19b668"
+          },
+          {
+            "pc": "0x8400e24e",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 9,
+            "ordered_access_sha256": "ea38e7ad24a950f50aa826ea90936e6b91635ce94cab16ba5eb9f565b314a8f1"
+          },
+          {
+            "pc": "0x8400e250",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 10,
+            "last_ordinal": 10,
+            "ordered_access_sha256": "92cc72a5a6825d264efff43364ecb798005af409f0f06f46cdcbbd862315c1af"
+          },
+          {
+            "pc": "0x8400e256",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 11,
+            "last_ordinal": 11,
+            "ordered_access_sha256": "0c73031a13fb4193f04d8546c886639ea47df56cdb6c347115486ec31b5cfb9a"
+          },
+          {
+            "pc": "0x8400e25e",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046fa",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 12,
+            "last_ordinal": 12,
+            "ordered_access_sha256": "625098d9729bbfb24bbda303f1fe97c03292f299dc0a8ba62cfad79c37db69bd"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 13,
+            "last_ordinal": 13,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if4-12-byte-stale-tail",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "d6bf8aedf90ee8d1500afc550ff6450d292abedd7d798b8405c25a71458e272a",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "ecaaf0d41fa11c1f55bfcd0b0aaa4232667d9e243b76d09574ff948c0f4fb49d"
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "140000001800000000000000000000000000000000000000",
+      "entry_only": false,
+      "callback_return": 1,
+      "arguments": [
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x14",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {
+        "0x840048f4": 1
+      },
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x840048f4": 1,
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x4",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "7cff6d50635d0d359c01fe274ba8e4b1d7f2a05bb3bd2f4555a7ef9bf37153cf",
+        "aggregate_sha256": "1d37cdc6a72f1ca1f67f41df6961f3ba36c682e9fb2b31403ff3a27562d74182",
+        "read_count": 4,
+        "write_count": 9,
+        "unique_memory_bytes_written": 12,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd74",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff24bc",
+              "0xffff24bc",
+              "0xffff24bc",
+              "0xffff24bc"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "8cb1eec5db37b5217f270710bc847a4fc7fa1de0a6ee8a6333be2443880e746a"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e232",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f5",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "b878dd1bfa882e00f3e092396ef11a2f8e2a786349f40f1bf97aa58e30093321"
+          },
+          {
+            "pc": "0x8400e23a",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046ec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "c68529ee7047b0442e52ef69ce32445a6bd374d9ddf8019e9345c976422ca89e"
+          },
+          {
+            "pc": "0x8400e242",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "5ef41470e18584eecb4407aba15bd9bef4ec7be9029e159f532ff484c42b337d"
+          },
+          {
+            "pc": "0x8400e24a",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f9",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "89f9a74704a5a31c1e34db4d923e466311dc33d97efdd8c92c874be24a19b668"
+          },
+          {
+            "pc": "0x8400e24e",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 9,
+            "last_ordinal": 9,
+            "ordered_access_sha256": "ea38e7ad24a950f50aa826ea90936e6b91635ce94cab16ba5eb9f565b314a8f1"
+          },
+          {
+            "pc": "0x8400e250",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 10,
+            "last_ordinal": 10,
+            "ordered_access_sha256": "92cc72a5a6825d264efff43364ecb798005af409f0f06f46cdcbbd862315c1af"
+          },
+          {
+            "pc": "0x8400e256",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 11,
+            "last_ordinal": 11,
+            "ordered_access_sha256": "0c73031a13fb4193f04d8546c886639ea47df56cdb6c347115486ec31b5cfb9a"
+          },
+          {
+            "pc": "0x8400e25e",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046fa",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x0",
+              "0x0",
+              "0x0",
+              "0x0"
+            ],
+            "first_ordinal": 12,
+            "last_ordinal": 12,
+            "ordered_access_sha256": "625098d9729bbfb24bbda303f1fe97c03292f299dc0a8ba62cfad79c37db69bd"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          },
+          {
+            "pc": "0x8400fc42",
+            "access": "read",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 13,
+            "last_ordinal": 13,
+            "ordered_access_sha256": "cacc83817b6c02c28cc5a8eba4fc8152ff83a4b918382b4162f2f753029c2a5b"
+          }
+        ]
+      },
+      "name": "if4-24-byte",
+      "full_memory_bytes_compared": 786432,
+      "memory_sha256": {
+        "0x3e900000": "d6bf8aedf90ee8d1500afc550ff6450d292abedd7d798b8405c25a71458e272a",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "ecaaf0d41fa11c1f55bfcd0b0aaa4232667d9e243b76d09574ff948c0f4fb49d"
+      }
+    }
+  ],
+  "entry_footprints": [
+    {
+      "declared_bytes": 24,
+      "frame_hex": "100000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x10",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "110000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x11",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "120000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x12",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "130000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x13",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "140000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x14",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "150000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x15",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "160000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x16",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "170000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x17",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "180000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x18",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "190000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x19",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1a0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1a",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1b0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1b",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1c0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1c",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1d0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        13,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1d",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1e0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        14,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1e",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    },
+    {
+      "declared_bytes": 24,
+      "frame_hex": "1f0000001800000000000000000000000000000000000000",
+      "entry_only": true,
+      "callback_return": null,
+      "arguments": [
+        15,
+        0,
+        0,
+        0,
+        0
+      ],
+      "error": null,
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x1f",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+        "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+        "read_count": 0,
+        "write_count": 1,
+        "unique_memory_bytes_written": 0,
+        "accesses": [
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "if2-declared-extent",
+      "declared_bytes": 12,
+      "frame_hex": "120000001800000000000000",
+      "entry_only": false,
+      "callback_return": null,
+      "arguments": null,
+      "error": "payload read 20+4 exceeds 12",
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x12",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "aggregate_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "read_count": 0,
+        "write_count": 0,
+        "unique_memory_bytes_written": 0,
+        "accesses": []
+      }
+    },
+    {
+      "name": "if7-declared-extent",
+      "declared_bytes": 12,
+      "frame_hex": "170000001800000000000000",
+      "entry_only": false,
+      "callback_return": null,
+      "arguments": null,
+      "error": "payload read 20+4 exceeds 12",
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x17",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "aggregate_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "read_count": 0,
+        "write_count": 0,
+        "unique_memory_bytes_written": 0,
+        "accesses": []
+      }
+    },
+    {
+      "name": "if4-declared-extent",
+      "declared_bytes": 12,
+      "frame_hex": "140000001800000000000000",
+      "entry_only": false,
+      "callback_return": null,
+      "arguments": null,
+      "error": "payload read 20+4 exceeds 12",
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x14",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0xa5a5a5a5",
+          "outside_declared": true
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "aggregate_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "read_count": 0,
+        "write_count": 0,
+        "unique_memory_bytes_written": 0,
+        "accesses": []
+      }
+    },
+    {
+      "name": "if2-missing-icv-run-flags-precede-failed-clear",
+      "declared_bytes": 24,
+      "frame_hex": "120000001800000000000000000000000000000000000000",
+      "entry_only": false,
+      "callback_return": null,
+      "arguments": null,
+      "error": "unmapped access=20 0x40000000/4 at 0x8400e196",
+      "payload_reads": [
+        {
+          "pc": "0x8400fc2c",
+          "offset": 0,
+          "size": 4,
+          "value": "0x12",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc2e",
+          "offset": 20,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc30",
+          "offset": 16,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc32",
+          "offset": 12,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        },
+        {
+          "pc": "0x8400fc34",
+          "offset": 8,
+          "size": 4,
+          "value": "0x0",
+          "outside_declared": false
+        }
+      ],
+      "mailbox_flags_untouched": 1,
+      "stubs": {},
+      "trace": {
+        "entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "all_function_entries": {
+          "0x8400e084": 1,
+          "0x8400fc2c": 1
+        },
+        "first_arguments": {
+          "0x8400e084": [
+            "0x2",
+            "0x0",
+            "0x0",
+            "0x0",
+            "0x0"
+          ],
+          "0x8400fc2c": [
+            "0x42000000",
+            "0x2",
+            "0x3e906100",
+            "0x1",
+            "0x3e903a96"
+          ]
+        },
+        "returns": {},
+        "inner_returns": [],
+        "all_ordered_access_sha256": "6801ac66b7bd97319bb5bbcbb50a6e46c6d7bc980a3794925eb73496f278a151",
+        "aggregate_sha256": "7fe0fb8effe4e4c0fdb04b76e96c242aa5a4ed2105688fd5ee4c6f4778da77f4",
+        "read_count": 2,
+        "write_count": 6,
+        "unique_memory_bytes_written": 9,
+        "accesses": [
+          {
+            "pc": "0x8400e096",
+            "access": "read",
+            "size": 4,
+            "space": "original-code-table",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x8401bd6c",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404",
+              "0xffff2404"
+            ],
+            "first_ordinal": 2,
+            "last_ordinal": 2,
+            "ordered_access_sha256": "091b3e297c85ba8528ba65265b3a41b01fb925587fd3e5ce905680fc64823564"
+          },
+          {
+            "pc": "0x8400e09a",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42",
+              "0x8400fc42"
+            ],
+            "first_ordinal": 3,
+            "last_ordinal": 3,
+            "ordered_access_sha256": "ba0ca4d756be0a4584165a42e3607f562bd5ffc5e10ae2f0640d98672c692858"
+          },
+          {
+            "pc": "0x8400e09c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021de8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x8",
+              "0x8",
+              "0x8",
+              "0x8"
+            ],
+            "first_ordinal": 4,
+            "last_ordinal": 4,
+            "ordered_access_sha256": "739da8656457f07dbb3a7fbfd8deb3221f319cf30f74acf598d01fd3425f120e"
+          },
+          {
+            "pc": "0x8400e172",
+            "access": "read",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e902ac0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x40000000",
+              "0x40000000",
+              "0x40000000",
+              "0x40000000"
+            ],
+            "first_ordinal": 5,
+            "last_ordinal": 5,
+            "ordered_access_sha256": "2ee2d7da926a481cfe953dd9be6ef18671e0c5704dc420d3e9f223fc2ff999ff"
+          },
+          {
+            "pc": "0x8400e178",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046ec",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 6,
+            "last_ordinal": 6,
+            "ordered_access_sha256": "2cf049ad341fe831c4f5b40b22d1093ab32ba3973c19b8e58a5f4ed9162af0be"
+          },
+          {
+            "pc": "0x8400e180",
+            "access": "write",
+            "size": 4,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f0",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x1",
+              "0x1",
+              "0x1",
+              "0x1"
+            ],
+            "first_ordinal": 7,
+            "last_ordinal": 7,
+            "ordered_access_sha256": "24cbe6fc9f8f91f28963fdaf024fe12ff2a96016dfb09aa1ccfbec13160d7f18"
+          },
+          {
+            "pc": "0x8400e18a",
+            "access": "write",
+            "size": 1,
+            "space": "memory",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x3e9046f8",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x3",
+              "0x3",
+              "0x3",
+              "0x3"
+            ],
+            "first_ordinal": 8,
+            "last_ordinal": 8,
+            "ordered_access_sha256": "e59891816b3a7e51651049313a0d7017b50d8eaf7324e45499dc91f3d5f560b1"
+          },
+          {
+            "pc": "0x8400fc3c",
+            "access": "write",
+            "size": 4,
+            "space": "stack",
+            "count": 1,
+            "address_runs": [
+              [
+                "0x84021dfc",
+                1,
+                0,
+                1
+              ]
+            ],
+            "values_first_last_min_max": [
+              "0x84200000",
+              "0x84200000",
+              "0x84200000",
+              "0x84200000"
+            ],
+            "first_ordinal": 1,
+            "last_ordinal": 1,
+            "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+          }
+        ]
+      }
+    }
+  ],
+  "strict_replies": [
+    {
+      "flags": 3,
+      "words": [
+        18,
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "callbacks": [],
+      "reads": []
+    },
+    {
+      "flags": 3,
+      "words": [
+        23,
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "callbacks": [],
+      "reads": []
+    },
+    {
+      "flags": 3,
+      "words": [
+        20,
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      "callbacks": [],
+      "reads": []
+    }
+  ],
+  "boundaries": [
+    "Original callback invocation after native core0 boot; strict IRQ registration is unchanged.",
+    "Five wrapper loads span 24 bytes; API word1 is read by the common Wi-Fi dispatcher.",
+    "The provider allocation is 256 bytes; stale undeclared reads are not a physical heap overrun.",
+    "Selectors2/7/4 ignore the stale arguments; no live Wi-Fi failure causality is established.",
+    "Selectors0/1/3/5/6/8..15 are stopped at helper entry, not claimed as consumer closure.",
+    "Run flags precede ICV initialization; no physical ready/drain/reclaim proof."
+  ]
+}

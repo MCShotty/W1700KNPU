@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (cold-start hart parking and native RX callbacks)
+Last updated: 2026-09-06 (native INODE contract)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17853,3 +17853,26 @@ Status and boundary:
   and private inputs untouched. Reference/logging/remaining-work updated.
   Evidence: `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md` and
   `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`.
+
+## 2026-09-06 - Native INODE Contract
+
+- All16 native selector entries perform five wrapper loads spanning24 bytes.
+  Selectors2/7/4 execute after native core0 boot for both a12-byte request with
+  poisoned retained tail and synthetic24-byte zero-padding. All786432 bytes
+  of RAM and exact write footprints match; these selectors ignore extra args.
+  This is an undeclared-read contract defect, not a physical256-byte allocation
+  overrun or a demonstrated live Wi-Fi failure cause.
+- Six full native calls, four controls and three strict denials pass. Selector2
+  clears1026 ICV words at its actual fixed allocation; run flags precede the
+  clear and remain set under an unavailable-ICV control. They are not readiness
+  proof. The other13 selectors stop at helper entry and are not consumer closure.
+- Provider correction was interrupted by a tool restriction. The unfinished
+  patch/test/scratch are preserved under ignored local storage outside the
+  firmware overlay; no provider correction or native/provider bridge is
+  integrated or claimed tested. That operation was not retried or rerouted.
+- No production firmware/config, source-lock/cumulative patch, shared ELF,
+  strict admission, router, image, flash or release change. R1 remains last
+  router-tested, WLAN NPU compiled out. Full goals and client acceptance remain
+  open; protected recovery/private data untouched. Reference/logging/remaining
+  work updated. Evidence:
+  `research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`.
