@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (Wi-Fi baseline and host queue publication)
+Last updated: 2026-09-06 (external blockers and L1 source review)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17914,3 +17914,19 @@ Status and boundary:
 - No firmware, config, provider/consumer restricted operation, shared build,
   image or flash change. Ledger/reference/logging/remaining work updated.
   Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.
+
+## 2026-09-06 - External Blockers And L1 Review
+
+- Current source still ignores NPU stop/init returns in L1 recovery, reclaims
+  tokens after the MCU condition and starts DMA before NPU reinitialization.
+  No return-check-only patch was treated as safe recovery: physical quiescence,
+  partial restart and repeated recovery/removal remain unresolved prerequisites.
+- The critical path now requires the intended AP configuration/current client
+  symptom and resolution of the NPU tool restrictions. The INODE restriction
+  remains unresolved over three goal continuations; neither it nor the earlier
+  native DESC5/6/7/8 restriction was retried or rerouted. No job remains running.
+- PowerShell collector runtime is separately unverified pending approved
+  execution. No policy, production code/config, shared harness, router, image
+  or flash changed. Full goals are not achieved; all substantive acceptance
+  gates remain open. Reference/logging/remaining-work updated.
+  Evidence: `research/checkpoints/2026-09-06-work-blockers/BLOCKERS.md`.

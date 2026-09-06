@@ -6428,3 +6428,19 @@ hardware, full-attach or current live-client root-cause claim follows.
 No production source/config, restricted operation, router mutation, image or
 flash change. Ledger/reference/remaining-work updated; both full goals stay
 open. Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.
+
+## External Blockers And L1 Review - 2026-09-06
+
+Pinned current mt76 source still ignores NPU stop/init returns, releases tokens
+before proven NPU quiescence and restarts DMA before NPU reinitialization. A
+return-check-only change was not promoted as safe recovery. No failure replay,
+production change, build, router action, unsigned script or restricted NPU
+operation was performed in this review.
+
+The critical path needs the intended AP configuration/current client symptom
+and resolution of the NPU tool restrictions. The INODE restriction remains
+unresolved across three goal continuations; no retry or alternate route was
+used. Optional collector execution also awaits approval. There is no live job
+to await, and neither full goal is achieved. Ledger/reference/remaining-work
+record the blockers without closing any implementation or acceptance gate.
+Evidence: `research/checkpoints/2026-09-06-work-blockers/BLOCKERS.md`.

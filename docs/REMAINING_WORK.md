@@ -7,6 +7,20 @@ publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
 kernel/ABI/Ghidra verification passed). The last
 router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 
+## Resume Blockers
+
+Work is blocked pending the intended AP configuration/current client symptom
+and resolution of the NPU tool restrictions. The provider INODE correction and
+native DESC5/6/7/8 operations have not been retried or rerouted. The optional
+PowerShell collector still awaits approved execution; direct SSH observations
+are already complete. Generic goal continuation does not resolve these inputs.
+
+A fresh L1 source review confirms ignored NPU stop/init returns and DMA restart
+before NPU reinitialization. A return-check-only change would not establish
+quiescence before token release or cover failed restart/removal, so none was
+promoted as a safe recovery fix. Outstanding implementation and acceptance
+items below remain open. See `research/checkpoints/2026-09-06-work-blockers/BLOCKERS.md`.
+
 ## Priority 1: Safe NPU Recovery
 
 - [x] Implement provider memory-layout preflight before WLAN initialization

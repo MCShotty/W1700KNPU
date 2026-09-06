@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (Wi-Fi baseline and host queue publication)
+Last updated: 2026-09-06 (external blockers and L1 source review)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,21 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Host Queue Publication - 2026-09-06
+## Current Status - External Blockers - 2026-09-06
+
+- Both full goals remain incomplete. Client reproduction needs the intended
+  AP configuration/current symptom; the latest live capture had no networks.
+  Core NPU tool restrictions remain unresolved across three goal continuations.
+  Restricted operations were not retried or rerouted, and no live job is pending.
+- Fresh L1 source review confirms ignored stop/init returns and DMA restart
+  before NPU reinitialization. Return checks alone would not prove quiescence
+  before reclaim or cover failed restart/removal; no partial fix was promoted.
+- The optional unsigned PowerShell collector remains runtime-unverified pending
+  approved execution. No policy change, router action, code/config, image or
+  flash change occurred. Resume after the external blockers are resolved.
+  Evidence: `research/checkpoints/2026-09-06-work-blockers/BLOCKERS.md`.
+
+## Previous Work - Host Queue Publication - 2026-09-06
 
 - Nineteen original host-C functions and two TX blocks execute through queue
   allocation, alias selection and ordered register writes. Twelve traces,
@@ -27,7 +41,7 @@ provider-guard/recovery checkpoint below; cleanup made no router changes.
   No restricted operation was retried; no production source/config changed.
   Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.
 
-## Current Work - Read-Only Wi-Fi Baseline - 2026-09-06
+## Previous Work - Read-Only Wi-Fi Baseline - 2026-09-06
 
 - Fresh pinned Ethernet reads confirm R1/W1700K/kernel 6.18.44 with WLAN NPU
   compiled out. There are three radio sections, but zero configured Wi-Fi
