@@ -1,0 +1,15 @@
+
+/home/captain/W1700KNPU/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin:     file format binary
+
+
+Disassembly of section .data:
+
+84000982 <.data+0x982>:
+84000982:	1fa5b7b7          	lui	a5,0x1fa5b
+84000986:	4607a023          	sw	zero,1120(a5) # 0x1fa5b460
+8400098a:	8082                	ret
+8400098c:	1fa5c7b7          	lui	a5,0x1fa5c
+84000990:	4607a023          	sw	zero,1120(a5) # 0x1fa5c460
+84000994:	8082                	ret
+84000996:	4509                	li	a0,2
+84000998:	6c50406f          	j	0x8400585c

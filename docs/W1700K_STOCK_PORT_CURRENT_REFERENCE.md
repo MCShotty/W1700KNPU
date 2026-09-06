@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (native core-0 Wi-Fi bootstrap and host sequence)
+Last updated: 2026-09-06 (cold-start hart parking and native RX callbacks)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,27 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Native Core-0 Wi-Fi Bootstrap - 2026-09-06
+## Current Work - Cold-Start Hart Parking And RX Callbacks - 2026-09-06
+
+- All eight harts now enter actual reset and reach the installed first startup
+  gates in 14 model scenarios. Seven missing-gate and six input controls pass.
+  Only each owner writes its parked slot, with local interrupts disabled.
+  Repeated STOP remains epoch1; ready/drain/release/arm remain zero.
+- Both flat and per-hart PLIC storage hypotheses are tested. Actual banking,
+  interrupt delivery and chip identity are unverified; neither is hardware proof.
+  Worker initialization after the first gates remains open. No initializer stub
+  or firmware change was used to obtain the parked acknowledgements.
+- Two native RX descriptor callbacks now complete with full-memory/footprint
+  checks: 2,560 descriptors/IDs, 21 negative controls and two strict denials.
+  Wrapper success still hides partial allocation failure. Eleven previous
+  callback cases remain pending; two others still use allocator substitutions.
+- Independent all-hart review and current-input verification pass. General
+  mt76 admission, physical loader/cache/containment, full initialization/recovery,
+  complete parity and client acceptance remain open. No firmware/config, router,
+  image or flash change; R1 remains last router-tested with WLAN NPU compiled out.
+  Evidence: `research/checkpoints/2026-09-06-npu-allhart/REPORT.md`.
+
+## Previous Work - Native Core-0 Wi-Fi Bootstrap - 2026-09-06
 
 - Original reset now reaches native core-0 Wi-Fi return and the candidate idle
   acknowledgement. Five schedules compare all 256 KiB of L2 and exact descriptor

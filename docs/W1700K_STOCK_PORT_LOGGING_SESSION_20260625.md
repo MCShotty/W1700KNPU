@@ -6331,3 +6331,25 @@ No firmware/config, router, image, flash or release change. R1 remains last
 router-tested with WLAN NPU compiled out; full Wi-Fi/NPU goals remain open.
 Ledger/reference/remaining-work updated. Evidence:
 `research/checkpoints/2026-09-06-npu-nativewifi/REPORT.md`.
+
+## Cold-Start Hart Parking And Native RX Callbacks - 2026-09-06
+
+Actual resets now reach all eight first startup gates with all 26 existing
+detours installed. Fourteen model scenarios, seven missing-gate controls and
+six input controls pass. Each owner writes its own parked slot with IRQs off;
+early contexts and stacks survive, and only core0 initializes candidate state.
+Strict STOP remains idempotent at unreleased epoch1. Ready/drain/release/arm stay
+zero. Flat/banked PLIC and chip inputs are explicit hypotheses, not hardware
+identity, interrupt delivery, physical containment or post-gate initialization.
+
+Two direct native DESC callbacks complete all helpers and initialize 2,560 RX
+descriptors/IDs. Whole-memory/footprint checks, 21 negatives and two strict
+denials pass; parent replay is byte-identical. Native wrapper success masks
+partial allocation failure. Eleven previous cases and two separately modeled
+allocator cases remain; general mt76 admission stays closed.
+
+Independent all-hart review and current-source evidence binding pass. No
+firmware/config, router, image, flash or release change. R1 remains the last
+router-tested baseline with WLAN NPU compiled out. Ledger/reference/remaining
+work updated; full goals remain open. Evidence:
+`research/checkpoints/2026-09-06-npu-allhart/REPORT.md`.

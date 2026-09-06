@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (native core-0 Wi-Fi bootstrap and host sequence)
+Last updated: 2026-09-06 (cold-start hart parking and native RX callbacks)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17779,3 +17779,42 @@ Status and boundary:
   WLAN NPU compiled out; protected recovery/private inputs untouched.
 - Evidence: `research/checkpoints/2026-09-06-npu-nativewifi/REPORT.md`.
   Reference/logging/remaining-work updated with the precise proof boundary.
+
+## 2026-09-06 - Cold-Start Hart Parking And Native RX Callbacks
+
+- Installed all 26 existing test detours before native execution: five prior
+  reset/coordinator/mailbox, twenty worker gates and the copy-helper guard.
+  Fourteen serialized actual-reset scenarios reach each hart's first startup
+  gate with native stacks and preserved early-wait contexts. Only core0 runs
+  the candidate initializers; each hart writes its own parked slot with IRQs off.
+- Strict control frames observe the growing eight-hart parked mask. Repeated
+  STOP is idempotent in unreleased epoch1; ready/drain/release/arm stay zero.
+  No Python protocol-state initialization, drain or release injection. The full
+  core0 L2 image remains unchanged. This does not complete post-gate initialization.
+- Seven missing-gate and six input/model controls pass. Synthetic chip profiles
+  exercise alternate module prologues, absent-peripheral sentinels and indirect
+  control writes. Twenty-five original Ghidra spans and three GNU-disassembled
+  tiny entry points are bound to the pinned CODE/DATA.
+- Flat and per-hart PLIC storage hypotheses both park the software workers;
+  flat storage clears core0 source8 enable, banked storage preserves it. Neither
+  establishes physical banking/IRQ delivery. Unknown-chip native reboot writes
+  fail closed in the model. Missing extension MHARTID modeling is a harness
+  control, not a firmware bug. Compiled ELF and all firmware bindings are unchanged.
+- Two direct native DESC callbacks now close selectors0/2 at sizes1536/1024:
+  2,560 RX descriptors and IDs, 1,024 slow records, 256 auxiliary records and
+  2,000 statistics bytes. Full-memory and exact write-footprint checks, 21 negative
+  controls and two strict API1 denials pass; independent parent replay is identical.
+- Native wrapper success can hide exhausted bufid ownership; zero/oversized
+  inputs and unchecked allocation extents expose further conditional failures.
+  These are not demonstrated live-client fault causes. Eleven prior callback
+  cases remain pending, plus two separately allocator-modeled cases; general
+  mt76 admission stays closed pending complete consumer/failure contracts.
+- Independent review replays flat and banked scenarios, validates owner writes,
+  contexts and final source hashes, and finds no actionable issue in first-gate
+  scope. Current-input verifier passes. Physical loader/cache/drains/containment,
+  full initialization/attach/recovery, datapath parity and client acceptance remain.
+- No firmware/config, router, image, flash or release change. R1 remains last
+  router-tested, WLAN NPU compiled out; protected/private inputs untouched.
+  Reference/logging/remaining-work updated. Evidence:
+  `research/checkpoints/2026-09-06-npu-allhart/REPORT.md` and
+  `research/checkpoints/2026-09-06-npu-attachrx/RX_CALLBACKS.md`.

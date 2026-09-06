@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from native core-0 bootstrap, host attachment and release
+Updated 2026-09-06 from cold-start hart parking, native RX callbacks and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -63,14 +63,21 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   sequence, and retains failed callback ownership. A late-cold-hart marker bug
   is fixed. Original core-0 L2/Wi-Fi initialization now executes through return
   and candidate idle ACK in five instruction schedules, with the entire 256 KiB
-  L2 image checked. Three missing-register controls fail closed. All other worker
-  and physical-drain ACKs remain zero; this is not hardware boot/containment proof.
+  L2 image checked. Three missing-register controls fail closed. A subsequent
+  actual-reset test reaches all eight first startup gates in 14 model schedules;
+  seven missing-gate and six input controls pass. Only each owner writes its
+  parked slot with IRQs disabled; STOP stays epoch1 while unreleased. Ready/drain/
+  release/arm remain zero. This is not hardware boot/containment proof; actual
+  chip inputs and PLIC banking are unverified and post-gate initialization remains.
   Native success also occurs under forced SKB exhaustion and malformed host-ring
   inputs. Do not treat completion flags or the version fallback as readiness.
   Pinned host traces cover 38 attachment messages; 164 host C and 149 bounded
-  callback cases pass, with thirteen paths deliberately stopped before unresolved
-  helpers. General mt76 commands remain closed. Close full callback consumers,
-  all-worker reset/boot, single-HIF TX1 publication, INODE 24-byte reads from
+  callback cases pass. Two native RX descriptor callbacks now execute all helpers
+  with 2,560 descriptor/ID and whole-memory checks, 21 negative controls and two
+  strict denials. Eleven prior cases remain pending; two separate API21 cases
+  still substitute allocator returns. General mt76 commands remain closed. Close
+  remaining callback consumers and failure-status propagation, full post-gate
+  worker initialization, single-HIF TX1 publication, INODE 24-byte reads from
   12-byte logical requests, descriptor fallback validation, partial-init owner
   retention and the production cold-loader/request/cache contract.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
