@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from cold-start hart parking, native RX callbacks and release
+Updated 2026-09-06 from native TX attachment callbacks and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -74,8 +74,13 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   Pinned host traces cover 38 attachment messages; 164 host C and 149 bounded
   callback cases pass. Two native RX descriptor callbacks now execute all helpers
   with 2,560 descriptor/ID and whole-memory checks, 21 negative controls and two
-  strict denials. Eleven prior cases remain pending; two separate API21 cases
-  still substitute allocator returns. General mt76 commands remain closed. Close
+  strict denials. Native TX setup/TXDONE and four API21 selectors now add 17
+  valid calls, 73 controls and seven strict denials; all reached allocation,
+  lookup, descriptor and SKB-reset helpers execute. Four DESC5/6/7/8 cases remain
+  unresolved after a tool restriction; the blocked lane was not retried or
+  rerouted. The two separate API21 allocator substitutions are eliminated.
+  SKB reset has only modeled lock/storage proof, not physical quiescence.
+  General mt76 commands remain closed. Close
   remaining callback consumers and failure-status propagation, full post-gate
   worker initialization, single-HIF TX1 publication, INODE 24-byte reads from
   12-byte logical requests, descriptor fallback validation, partial-init owner
@@ -147,6 +152,8 @@ Current official snapshot comparison found no new relevant upstream fix;
 our local guard, memory and mailbox corrections remain required.
 
 Detailed evidence: `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md`,
+`research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`,
 `research/checkpoints/2026-09-06-npu-startup/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`,

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (cold-start hart parking and native RX callbacks)
+Last updated: 2026-09-06 (native TX attachment callbacks)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,26 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Cold-Start Hart Parking And RX Callbacks - 2026-09-06
+## Current Work - Native TX Attachment Callbacks - 2026-09-06
+
+- Native SET19 selectors0/2, DESC10 and API21 selectors5/7/10/12 now complete
+  their reached helpers. Combined tests pass 17 valid calls, 73 controls and seven
+  strict denials. Full-memory/footprint checks cover TX setup, 512 TXFREE
+  descriptors, 8192 SKB states/queue entries, 1536 records and 1024 linked descriptors.
+- Native success still masks exhausted IDs, zero/oversized counts and missing
+  host-capacity validation. SKB reset executes under storage-only lock models;
+  it does not prove physical quiescence or authorize token reclamation.
+- Four previous DESC5/6/7/8 cases remain unresolved after a tool restriction;
+  that lane was not retried or rerouted. Two allocator-substituted API21 cases
+  are now replaced by native lookup/consumer execution. Strict admission remains
+  closed; complete host attachment and post-gate initialization remain open.
+- No firmware/config, router, image, flash or release change. Physical loader,
+  cache/containment, Linux recovery/removal, full parity and client acceptance
+  remain open. R1 remains last router-tested with WLAN NPU compiled out.
+  Evidence: `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md` and
+  `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`.
+
+## Previous Work - Cold-Start Hart Parking And RX Callbacks - 2026-09-06
 
 - All eight harts now enter actual reset and reach the installed first startup
   gates in 14 model scenarios. Seven missing-gate and six input controls pass.

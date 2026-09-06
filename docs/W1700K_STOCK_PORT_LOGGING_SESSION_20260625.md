@@ -6353,3 +6353,24 @@ firmware/config, router, image, flash or release change. R1 remains the last
 router-tested baseline with WLAN NPU compiled out. Ledger/reference/remaining
 work updated; full goals remain open. Evidence:
 `research/checkpoints/2026-09-06-npu-allhart/REPORT.md`.
+
+## Native TX Attachment Callbacks - 2026-09-06
+
+SET19 selectors0/2, DESC10 and API21 selectors5/7/10/12 now execute their full
+reached helper bodies on native core0 snapshots. Combined 17 valid calls, 73
+controls and seven strict denials pass. Source-table oracles check whole RAM,
+write footprints, 512 TXFREE descriptors, 8192 SKB-state/queue entries, 1536 records
+and 1024 linked descriptors. Partial allocation and absent host-capacity checks
+still permit native success; no readiness or hardware quiescence is inferred.
+
+Seven of the 11 prior pending labels and both separate allocator-substituted
+cases are closed. Four DESC5/6/7/8 cases remain unresolved after a tool restriction;
+the blocked lane was not retried or rerouted. General admission remains closed.
+Complete host sequence/worker boot, production loader/cache/containment,
+Linux recovery/removal and full hardware/client acceptance remain open.
+
+No firmware/config, router, image, flash or release change. R1 remains last
+router-tested with WLAN NPU compiled out; protected recovery/private inputs
+untouched. Ledger/reference/remaining-work updated. Evidence:
+`research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md` and
+`research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`.

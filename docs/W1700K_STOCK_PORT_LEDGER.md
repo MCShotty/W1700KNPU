@@ -17818,3 +17818,38 @@ Status and boundary:
   Reference/logging/remaining-work updated. Evidence:
   `research/checkpoints/2026-09-06-npu-allhart/REPORT.md` and
   `research/checkpoints/2026-09-06-npu-attachrx/RX_CALLBACKS.md`.
+
+## 2026-09-06 - Native TX Attachment Callbacks
+
+- Original SET19 selectors0/2 complete native subregion lookups and register
+  writes for all four port/HIF profiles. Twelve nominal calls and 22 controls
+  pass whole-memory/exact-write checks. Supplied pointers are stored but not
+  dereferenced here; zero/out-of-range pointers and missing arena can return1.
+  Register endpoint semantics remain unproved; arena-end values alone are not
+  an out-of-bounds consumer finding.
+- DESC10 fills 512 TXFREE descriptors and IDs, then runs the full native SKB
+  force-reset helper. The 8192-state/queue reconstruction, 2048 occupied IDs,
+  complete 856064-byte RAM images and exact write footprints match an independent
+  oracle. Sixteen controls cover partial ID exhaustion, invalid capacities,
+  missing prerequisites and reset-lock models; software reset is not a DMA drain.
+- API21 selectors5/7/10/12 execute all native lookups and consumers: 1536 full
+  records, 1024 linked descriptors, 35 controls and four strict denials. Exact
+  ordered writes/read footprints and whole-memory oracles pass; the parent
+  independently replays the receipt byte-for-byte. Pointer publication precedes
+  record initialization; missing host capacity is not validated by these callbacks.
+- Combined 17 valid calls, 73 controls and seven strict denials. Seven of the 11
+  previously pending labels and both separate allocator-substituted cases are
+  closed. Four DESC5/6/7/8 cases remain unresolved after a tool restriction;
+  that lane was not retried or rerouted. General mt76 admission stays closed.
+- Callback success/ready does not establish checked ownership, complete host
+  attachment, post-gate worker initialization, physical loader/cache/drains,
+  containment, Linux recovery/removal or full parity/client acceptance.
+- Independent review found no actionable issue in the bounded callback scope;
+  ten focused cases and seven strict denials pass. Both complete receipts replay
+  byte-for-byte, and the verifier binds 28 current inputs with shared helpers
+  and firmware unchanged.
+- No firmware/config, shared ELF rebuild, router, image, flash or release change.
+  R1 remains last router-tested with WLAN NPU compiled out; protected recovery
+  and private inputs untouched. Reference/logging/remaining-work updated.
+  Evidence: `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md` and
+  `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`.
