@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (MT7996 TX-check reservation source fix; no image/flash)
+Last updated: 2026-09-06 (provider memory preflight; kernel/binary checks pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17655,4 +17655,37 @@ Status and boundary:
   no MMIO/installation/workaround. Hardware drains/cache, Linux retention/restart,
   full NPU parity and actual-client acceptance remain open. Both goals stay active.
 - Report: `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`.
+  Reference/logging/remaining-work updated; protected recovery inputs untouched.
+
+## 2026-09-06 - Provider Reserved-Memory Preflight
+
+- Packaged patch 927 validates and snapshots every applicable WLAN reservation
+  before the first WLAN init command. Known MT7996 images require 56 KiB for
+  TX-check and their DRAM address window. Structural range and overlap checks
+  reject truncation and aliasing with the provider's loaded binary reservation.
+- The selected profile and original binary bounds live in a provider-private
+  wrapper; the public consumer structure is unchanged. Binary code capacity plus
+  published SRAM backup must fit before mapping/loading firmware. This is not
+  firmware authentication, complete buffer-footprint proof or hardware quiescence.
+- 109 compiled-C cases and eight real-DTB fixtures pass; all three old MT7996
+  DTBs are rejected before any WLAN init send, while corrected/generic cases
+  preserve wire behavior. Six compiling mutation controls fail as expected.
+  The old code reproduces unsafe table acceptance, partial sends before lookup
+  failure and undersized binary mapping. Existing 143 mailbox assertions pass.
+- Canonical reconstruction verifies 36 OpenWrt and three LuCI changed files.
+  Patch SHA256 `608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708`;
+  prepared provider SHA256
+  `8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f`.
+  Kernel preparation/compile exit0 with exact source and no compiler warnings;
+  ARM64 layout preserves all public offsets and the664-byte public size.
+  Ghidra exports24/24functions and confirms validation before mailbox sends.
+  Provider object SHA256
+  `74753cbc9f78ddb94190bb83a5d8a4319acff670a8ccc4ac9f9988457520c40d`.
+  The evidence verifier binds all inputs/results and passes.
+- Independent bounded review found no actionable regression; filename identity,
+  partial-send rollback and physical containment remain explicit limitations.
+  Complete startup, real DMA/cache drains, Linux recovery/removal and full
+  datapath parity/client acceptance remain open. No router, full image or flash action;
+  last router-tested R1 and WLAN-NPU-compiled-out build policy remain unchanged.
+- Evidence: `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`.
   Reference/logging/remaining-work updated; protected recovery inputs untouched.

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (MT7996 TX-check reservation source fix; no new image or flash)
+Last updated: 2026-09-06 (provider memory preflight; kernel/binary checks pass)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,24 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - TX-Check Reservation Fix - 2026-09-06
+## Current Work - Provider Memory Preflight - 2026-09-06
+
+- Patch 927 snapshots and validates WLAN reserved memory before any WLAN init
+  command. It rejects short MT7996 TX-check tables, invalid addresses and
+  overlaps; binary code/backup capacity is checked before mapping or copying.
+- Loaded profile and binary endpoints are private to the provider; the public
+  structure and valid wire sequence remain unchanged. 109 compiled-C cases,
+  eight actual-DTB cases, six mutants and 143 mailbox assertions pass. Source
+  reconstruction verifies 36 OpenWrt and three LuCI changed files.
+- Kernel preparation/compile pass; ARM64 probes preserve all public offsets.
+  Ghidra exports 24/24 functions and confirms the validation-before-send path.
+  No full firmware image, router contact or flash.
+- This is not full bootstrap, hardware containment/drain or failure rollback.
+  Linux recovery/removal, full datapath parity and actual-client acceptance
+  remain open. R1 remains last router-tested, with WLAN NPU compiled out.
+- Evidence: `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`.
+
+## Previous Work - TX-Check Reservation Fix - 2026-09-06
 
 - Native boot/mailbox tests confirm the selected MT7996 firmware clears 56 KiB
   into a 26 KiB TX-check reservation, overwriting 30 KiB of the next BA region.

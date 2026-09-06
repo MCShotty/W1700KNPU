@@ -1,0 +1,2431 @@
+program=airoha_npu.o
+sha256=74753cbc9f78ddb94190bb83a5d8a4319acff670a8ccc4ac9f9988457520c40d
+language=AARCH64:LE:64:v8A
+
+FUNCTION airoha_npu_wlan_queue_addr_get @ 00100000
+decompiled=true
+
+u32 airoha_npu_wlan_queue_addr_get(airoha_npu *npu,int qid,bool xmit)
+
+{
+  if (!xmit) {
+    return qid * 0x10 + 0x30d180;
+  }
+  return qid * 0x10 + 0x30d0a0;
+}
+
+
+ASSEMBLY
+00100000 tbnz w2,#0x0,0x00100014
+00100004 mov w0,#0xd180
+00100008 movk w0,#0x30, LSL #16
+0010000c add w0,w0,w1, LSL #0x4
+00100010 ret
+00100014 lsl w1,w1,#0x4
+00100018 add w0,w1,#0x30d, LSL #12
+0010001c add w0,w0,#0xa0
+00100020 ret
+
+FUNCTION airoha_npu_put @ 00100024
+decompiled=true
+
+void airoha_npu_put(airoha_npu *npu)
+
+{
+  module_put(0);
+  put_device(*(undefined8 *)npu);
+  return;
+}
+
+
+ASSEMBLY
+00100024 stp x29,x30,[sp, #-0x20]!
+00100028 mov x29,sp
+0010002c str x19,[sp, #0x10]
+00100030 mov x19,x0
+00100034 mov x0,#0x0
+00100038 bl 0x00102000
+0010003c ldr x0,[x19]
+00100040 bl 0x00102008
+00100044 ldr x19,[sp, #0x10]
+00100048 ldp x29,x30,[sp], #0x20
+0010004c ret
+
+FUNCTION airoha_npu_remove @ 00100050
+decompiled=true
+
+void airoha_npu_remove(platform_device *pdev)
+
+{
+  long lVar1;
+  long lVar2;
+  long lVar3;
+  
+                    /* Unresolved local var: airoha_npu * npu@[???]
+                       Unresolved local var: int i@[???] */
+  lVar3 = *(long *)(pdev + 0x88);
+  lVar2 = lVar3 + 0x20;
+  do {
+    lVar1 = lVar2 + 0x40;
+    cancel_work_sync(lVar2);
+    lVar2 = lVar1;
+  } while (lVar1 != lVar3 + 0x220);
+  return;
+}
+
+
+ASSEMBLY
+00100050 stp x29,x30,[sp, #-0x20]!
+00100054 mov x29,sp
+00100058 stp x19,x20,[sp, #0x10]
+0010005c ldr x20,[x0, #0x88]
+00100060 add x19,x20,#0x20
+00100064 add x20,x20,#0x220
+00100068 mov x0,x19
+0010006c add x19,x19,#0x40
+00100070 bl 0x00102018
+00100074 cmp x19,x20
+00100078 b.ne 0x00100068
+0010007c ldp x19,x20,[sp, #0x10]
+00100080 ldp x29,x30,[sp], #0x20
+00100084 ret
+
+FUNCTION airoha_npu_wlan_irq_status_set @ 00100088
+decompiled=true
+
+void airoha_npu_wlan_irq_status_set(airoha_npu *npu,u32 val)
+
+{
+  regmap_write(*(undefined8 *)(npu + 8),0x30d030,val);
+  return;
+}
+
+
+ASSEMBLY
+00100088 stp x29,x30,[sp, #-0x10]!
+0010008c mov w2,w1
+00100090 mov w1,#0xd030
+00100094 mov x29,sp
+00100098 movk w1,#0x30, LSL #16
+0010009c ldr x0,[x0, #0x8]
+001000a0 bl 0x00102020
+001000a4 ldp x29,x30,[sp], #0x10
+001000a8 ret
+
+FUNCTION airoha_npu_wdt_work @ 001000ac
+decompiled=true
+
+void airoha_npu_wdt_work(work_struct *work)
+
+{
+  char *__s;
+  undefined8 *puVar1;
+  u32 val [3];
+  
+                    /* Unresolved local var: airoha_npu_core * core@[???]
+                       Unresolved local var: airoha_npu * npu@[DW_OP_reg21(x21)]
+                       Unresolved local var: void * dump@[???]
+                       Unresolved local var: int c@[???]
+                       Unresolved local var: void * __mptr@[???] */
+                    /* Unresolved local var: void * _res@[???] */
+  puVar1 = *(undefined8 **)(work + -0x10);
+  __s = (char *)vzalloc_noprof(0x200);
+  if (__s != (char *)0x0) {
+    regmap_bulk_read(puVar1[1],
+                     ((int)((long)(work + (-0x10 - (long)(puVar1 + 2))) >> 6) + 0x3050) * 0x100,val,
+                     3);
+    snprintf(__s,0x200,"PC: %08x SP: %08x LR: %08x\n",(ulong)val[0],(ulong)val[1],(ulong)val[2]);
+    dev_coredumpv(*puVar1,__s,0x200,0xcc0);
+  }
+  return;
+}
+
+
+ASSEMBLY
+001000ac stp x29,x30,[sp, #-0x40]!
+001000b0 mov x1,x0
+001000b4 mov x0,#0x200
+001000b8 mov x29,sp
+001000bc stp x19,x20,[sp, #0x10]
+001000c0 sub x19,x1,#0x10
+001000c4 str x21,[sp, #0x20]
+001000c8 ldur x21,[x1, #-0x10]
+001000cc bl 0x00102028
+001000d0 cbz x0,0x00100130
+001000d4 mov x20,x0
+001000d8 add x0,x21,#0x10
+001000dc sub x1,x19,x0
+001000e0 mov w0,#0x3050
+001000e4 mov x3,#0x3
+001000e8 add x2,sp,#0x34
+001000ec asr x1,x1,#0x6
+001000f0 add w1,w1,w0
+001000f4 ldr x0,[x21, #0x8]
+001000f8 lsl w1,w1,#0x8
+001000fc bl 0x00102030
+00100100 ldr w5,[sp, #0x3c]
+00100104 ldp w3,w4,[sp, #0x34]
+00100108 mov x1,#0x200
+0010010c mov x0,x20
+00100110 adrp x2,0x101000
+00100114 add x2,x2,#0x620
+00100118 bl 0x00102038
+0010011c ldr x0,[x21]
+00100120 mov x1,x20
+00100124 mov w3,#0xcc0
+00100128 mov x2,#0x200
+0010012c bl 0x00102040
+00100130 ldr x21,[sp, #0x20]
+00100134 ldp x19,x20,[sp, #0x10]
+00100138 ldp x29,x30,[sp], #0x40
+0010013c ret
+
+FUNCTION airoha_npu_wlan_irq_status_get @ 00100140
+decompiled=true
+
+u32 airoha_npu_wlan_irq_status_get(airoha_npu *npu,int q)
+
+{
+  u32 val;
+  
+  regmap_read(*(undefined8 *)(npu + 8),0x30d030,&val);
+  return val;
+}
+
+
+ASSEMBLY
+00100140 stp x29,x30,[sp, #-0x20]!
+00100144 mov w1,#0xd030
+00100148 movk w1,#0x30, LSL #16
+0010014c mov x29,sp
+00100150 add x2,sp,#0x1c
+00100154 ldr x0,[x0, #0x8]
+00100158 bl 0x00102048
+0010015c ldr w0,[sp, #0x1c]
+00100160 ldp x29,x30,[sp], #0x20
+00100164 ret
+
+FUNCTION __airoha_npu_send_msg @ 00100168
+decompiled=true
+
+int __airoha_npu_send_msg(airoha_npu *npu,int func_id,void *data,int len,void *reply,u16 reply_len)
+
+{
+  airoha_npu *paVar1;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  int iVar5;
+  long lVar6;
+  long lVar7;
+  u32 val;
+  u32 sequence;
+  
+                    /* Unresolved local var: airoha_npu_core * core@[???]
+                       Unresolved local var: u32 offset@[???]
+                       Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+  if (0x100 < (uint)len) {
+    return -0x16;
+  }
+  if ((reply != (void *)0x0) && (len < (int)(uint)reply_len)) {
+    return -0x16;
+  }
+                    /* Unresolved local var: u32 pc@[DW_OP_reg0(x0)]
+                       Unresolved local var: ulong sp_el0@[???] */
+  lVar6 = sp_el0;
+  *(int *)(lVar6 + 0x10) = *(int *)(lVar6 + 0x10) + 0x200;
+                    /* Unresolved local var: int val@[???]
+                       Unresolved local var: int r@[???]
+                       Unresolved local var: int o@[???]
+                       Unresolved local var: int __ret@[???]
+                       Unresolved local var: ulong tmp@[???]
+                       Unresolved local var: u32 oldval@[???] */
+  paVar1 = npu + 0x18;
+  Hint_Prefetch(paVar1,2,0,1);
+  do {
+    iVar4 = *(int *)paVar1;
+    if (iVar4 != 0) break;
+    cVar2 = '\x01';
+    bVar3 = (bool)ExclusiveMonitorPass(paVar1,0x10);
+    if (bVar3) {
+      *(int *)paVar1 = 1;
+      cVar2 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar2 != '\0');
+  if (iVar4 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  if (((byte)npu[0x1c] & 1) != 0) {
+    iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+    if ((iVar4 != 0) || (iVar4 = -0x10, (val >> 1 & 1) == 0)) goto LAB_001002e0;
+    npu[0x1c] = (airoha_npu)0x0;
+  }
+  iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c038,&sequence);
+  if (iVar4 == 0) {
+                    /* Unresolved local var: size_t __fortify_size@[DW_OP_reg28(x28)]
+                       Unresolved local var: size_t __p_size@[???]
+                       Unresolved local var: size_t __q_size@[???]
+                       Unresolved local var: size_t __p_size_field@[???]
+                       Unresolved local var: size_t __q_size_field@[???]
+                       Unresolved local var: size_t __copy_size@[???] */
+    memcpy(*(void **)(npu + 0x40),data,(long)len);
+    iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c030,*(undefined4 *)(npu + 0x48));
+    if ((iVar4 == 0) && (iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c034,len), iVar4 == 0)) {
+      npu[0x1c] = (airoha_npu)0x1;
+      val = func_id << 0xb | 1;
+      iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c03c);
+      if ((iVar4 == 0) &&
+         (iVar4 = regmap_write(*(undefined8 *)(npu + 8),0x30c038,sequence + 1), iVar4 == 0)) {
+                    /* Unresolved local var: u64 __timeout_us@[???]
+                       Unresolved local var: ulong __delay_us@[???]
+                       Unresolved local var: ktime_t __timeout@[???]
+                       Unresolved local var: int __ret@[???] */
+        lVar6 = ktime_get();
+        iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+        iVar5 = iVar4;
+        if (iVar4 == 0) {
+          while ((val >> 1 & 1) == 0) {
+            lVar7 = ktime_get();
+            if (lVar6 + 100000000 < lVar7) {
+              iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+              if (iVar4 == 0) {
+                if ((val >> 1 & 1) != 0) break;
+                iVar4 = -0x6e;
+              }
+              goto LAB_001002e0;
+            }
+            __const_udelay(0x68dbc);
+            iVar4 = regmap_read(*(undefined8 *)(npu + 8),0x30c03c,&val);
+            iVar5 = iVar4;
+            if (iVar4 != 0) goto LAB_001002e0;
+          }
+          npu[0x1c] = (airoha_npu)0x0;
+          if ((val & 0x1c) == 4) {
+            iVar4 = iVar5;
+            if (reply != (void *)0x0) {
+                    /* Unresolved local var: size_t __fortify_size@[DW_OP_reg2(x2)]
+                       Unresolved local var: size_t __p_size@[???]
+                       Unresolved local var: size_t __q_size@[???]
+                       Unresolved local var: size_t __p_size_field@[???]
+                       Unresolved local var: size_t __q_size_field@[???]
+                       Unresolved local var: size_t __copy_size@[DW_OP_reg2(x2)] */
+              memcpy(reply,(void *)(*(long *)(npu + 0x40) + ((long)len - (ulong)reply_len)),
+                     (ulong)reply_len);
+            }
+          }
+          else {
+            iVar4 = -0x16;
+          }
+        }
+      }
+    }
+  }
+LAB_001002e0:
+                    /* Unresolved local var: u8 * __p@[???]
+                       Unresolved local var: anon_union_0_0_00000001 __u@[???] */
+  *(undefined4 *)(npu + 0x18) = 0;
+  __local_bh_enable_ip();
+  return iVar4;
+}
+
+
+ASSEMBLY
+00100168 stp x29,x30,[sp, #-0x70]!
+0010016c mov x29,sp
+00100170 stp x19,x20,[sp, #0x10]
+00100174 cmp w3,#0x100
+00100178 b.hi 0x001003c0
+0010017c stp x21,x22,[sp, #0x20]
+00100180 mov x19,x0
+00100184 mov w21,w3
+00100188 stp x23,x24,[sp, #0x30]
+0010018c mov x22,x4
+00100190 mov x23,x30
+00100194 stp x25,x26,[sp, #0x40]
+00100198 mov w24,w1
+0010019c mov x25,x2
+001001a0 and w26,w5,#0xffff
+001001a4 cbz x4,0x001001b0
+001001a8 cmp w26,w3
+001001ac b.gt 0x001003e0
+001001b0 stp x27,x28,[sp, #0x50]
+001001b4 mrs x1,sp_el0
+001001b8 ldr w0,[x1, #0x10]
+001001bc add w0,w0,#0x200
+001001c0 str w0,[x1, #0x10]
+001001c4 mov x3,#0x0
+001001c8 add x0,x19,#0x18
+001001cc mov w4,#0x1
+001001d0 prfm PSTL1STRM,[x0]
+001001d4 ldaxr w1,[x0]
+001001d8 eor w2,w1,w3
+001001dc cbnz w2,0x001001e8
+001001e0 stxr w2,w4,[x0]
+001001e4 cbnz w2,0x001001d4
+001001e8 cbnz w1,0x0010031c
+001001ec ldrb w0,[x19, #0x1c]
+001001f0 add x27,x19,#0x10
+001001f4 tbz w0,#0x0,0x00100224
+001001f8 ldr x0,[x19, #0x8]
+001001fc mov w1,#0xc03c
+00100200 add x2,sp,#0x68
+00100204 movk w1,#0x30, LSL #16
+00100208 bl 0x00102048
+0010020c mov w20,w0
+00100210 cbnz w0,0x001002e0
+00100214 ldr w0,[sp, #0x68]
+00100218 mov w20,#0xfffffff0
+0010021c tbz w0,#0x1,0x001002e0
+00100220 strb wzr,[x27, #0xc]
+00100224 ldr x0,[x19, #0x8]
+00100228 mov w1,#0xc038
+0010022c add x2,sp,#0x6c
+00100230 movk w1,#0x30, LSL #16
+00100234 bl 0x00102048
+00100238 mov w20,w0
+0010023c cbnz w0,0x001002e0
+00100240 ldr x0,[x27, #0x30]
+00100244 sxtw x28,w21
+00100248 mov x1,x25
+0010024c mov x2,x28
+00100250 bl 0x00102050
+00100254 ldr x0,[x19, #0x8]
+00100258 mov w1,#0xc030
+0010025c ldr w2,[x27, #0x38]
+00100260 movk w1,#0x30, LSL #16
+00100264 bl 0x00102020
+00100268 mov w20,w0
+0010026c cbnz w0,0x001002e0
+00100270 ldr x0,[x19, #0x8]
+00100274 mov w1,#0xc034
+00100278 mov w2,w21
+0010027c movk w1,#0x30, LSL #16
+00100280 bl 0x00102020
+00100284 mov w20,w0
+00100288 cbnz w0,0x001002e0
+0010028c mov w0,#0x1
+00100290 strb w0,[x27, #0xc]
+00100294 lsl w2,w24,#0xb
+00100298 mov w1,#0xc03c
+0010029c ldr x0,[x19, #0x8]
+001002a0 orr w2,w2,#0x1
+001002a4 movk w1,#0x30, LSL #16
+001002a8 str w2,[sp, #0x68]
+001002ac bl 0x00102020
+001002b0 mov w20,w0
+001002b4 cbnz w0,0x001002e0
+001002b8 ldr x0,[x19, #0x8]
+001002bc mov w1,#0xc038
+001002c0 ldr w2,[sp, #0x6c]
+001002c4 movk w1,#0x30, LSL #16
+001002c8 add w2,w2,#0x1
+001002cc bl 0x00102020
+001002d0 mov w20,w0
+001002d4 cbz w0,0x00100324
+001002d8 nop
+001002dc nop
+001002e0 add x0,x19,#0x18
+001002e4 stlrb wzr,[x0]
+001002e8 mov x30,x23
+001002ec xpaclri
+001002f0 mov w1,#0x200
+001002f4 mov x0,x30
+001002f8 bl 0x00102058
+001002fc ldp x21,x22,[sp, #0x20]
+00100300 ldp x23,x24,[sp, #0x30]
+00100304 ldp x25,x26,[sp, #0x40]
+00100308 ldp x27,x28,[sp, #0x50]
+0010030c mov w0,w20
+00100310 ldp x19,x20,[sp, #0x10]
+00100314 ldp x29,x30,[sp], #0x70
+00100318 ret
+0010031c bl 0x00102060
+00100320 b 0x001001ec
+00100324 bl 0x00102068
+00100328 add x2,sp,#0x68
+0010032c mov x1,#0xe100
+00100330 movk x1,#0x5f5, LSL #16
+00100334 add x21,x0,x1
+00100338 ldr x0,[x19, #0x8]
+0010033c mov w1,#0xc03c
+00100340 movk w1,#0x30, LSL #16
+00100344 bl 0x00102048
+00100348 mov w20,w0
+0010034c cbnz w0,0x001002e0
+00100350 ldr w1,[sp, #0x68]
+00100354 tbnz w1,#0x1,0x001003c8
+00100358 bl 0x00102068
+0010035c cmp x0,x21
+00100360 b.gt 0x00100390
+00100364 mov x0,#0x8dbc
+00100368 movk x0,#0x6, LSL #16
+0010036c bl 0x00102070
+00100370 ldr x0,[x19, #0x8]
+00100374 mov w1,#0xc03c
+00100378 add x2,sp,#0x68
+0010037c movk w1,#0x30, LSL #16
+00100380 bl 0x00102048
+00100384 mov w20,w0
+00100388 cbz w0,0x00100350
+0010038c b 0x001002e0
+00100390 ldr x0,[x19, #0x8]
+00100394 mov w1,#0xc03c
+00100398 add x2,sp,#0x68
+0010039c movk w1,#0x30, LSL #16
+001003a0 bl 0x00102048
+001003a4 cbnz w0,0x001003b8
+001003a8 ldr w1,[sp, #0x68]
+001003ac tbnz w1,#0x1,0x001003c8
+001003b0 mov w20,#0xffffff92
+001003b4 b 0x001002e0
+001003b8 mov w20,w0
+001003bc b 0x001002e0
+001003c0 mov w20,#0xffffffea
+001003c4 b 0x0010030c
+001003c8 and w1,w1,#0x1c
+001003cc strb wzr,[x27, #0xc]
+001003d0 cmp w1,#0x4
+001003d4 b.eq 0x001003f4
+001003d8 mov w20,#0xffffffea
+001003dc b 0x001002e0
+001003e0 ldp x21,x22,[sp, #0x20]
+001003e4 mov w20,#0xffffffea
+001003e8 ldp x23,x24,[sp, #0x30]
+001003ec ldp x25,x26,[sp, #0x40]
+001003f0 b 0x0010030c
+001003f4 cbz x22,0x001002e0
+001003f8 ldr x1,[x27, #0x30]
+001003fc mov w2,w26
+00100400 sub x28,x28,x2
+00100404 mov x0,x22
+00100408 add x1,x1,x28
+0010040c bl 0x00102050
+00100410 b 0x001002e0
+
+FUNCTION airoha_npu_wlan_msg_send @ 00100420
+decompiled=true
+
+int airoha_npu_wlan_msg_send
+              (airoha_npu *npu,int ifindex,airoha_npu_wlan_set_cmd func_id,void *data,int data_len,
+              gfp_t gfp)
+
+{
+  int iVar1;
+  byte *data_00;
+  undefined8 uVar2;
+  size_t __n;
+  int iVar3;
+  ulong uVar5;
+  undefined1 auVar6 [16];
+  ulong *puStack_58;
+  void *pvVar4;
+  
+                    /* Unresolved local var: wlan_mbox_data * wlan_data@[???]
+                       Unresolved local var: int err@[???]
+                       Unresolved local var: int len@[???] */
+  iVar1 = data_len + 8;
+                    /* Unresolved local var: void * _res@[???] */
+  uVar5 = (ulong)iVar1;
+  pvVar4 = data;
+  data_00 = (byte *)__kmalloc_noprof(uVar5,gfp | 0x100);
+  iVar3 = (int)pvVar4;
+  if (data_00 == (byte *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    if (uVar5 < 8) {
+      uVar5 = 8;
+    }
+                    /* Unresolved local var: size_t __fortify_size@[DW_OP_reg2(x2)]
+                       Unresolved local var: size_t __p_size@[???]
+                       Unresolved local var: size_t __q_size@[???]
+                       Unresolved local var: size_t __p_size_field@[???]
+                       Unresolved local var: size_t __q_size_field@[???]
+                       Unresolved local var: size_t __copy_size@[DW_OP_reg2(x2)] */
+    __n = (size_t)data_len;
+    *data_00 = (byte)ifindex & 0xf | 0x10;
+    *(airoha_npu_wlan_set_cmd *)(data_00 + 4) = func_id;
+                    /* Unresolved local var: bool __ret_do_once@[???] */
+    if (uVar5 - 8 < __n) {
+      auVar6 = __fortify_panic(0x11,uVar5 - 8);
+      uVar2 = auVar6._0_8_;
+      iVar1 = request_firmware_direct(&puStack_58,__n,uVar2);
+      if (iVar1 == 0) {
+        if ((ulong)(long)iVar3 < *puStack_58) {
+          iVar1 = -7;
+          _dev_err(uVar2,"%s: fw size too overlimit (%zu)\n",__n,*puStack_58);
+        }
+        else {
+          memcpy_toio(auVar6._8_8_,puStack_58[1]);
+          iVar1 = 0;
+        }
+        release_firmware(puStack_58);
+        return iVar1;
+      }
+      if (iVar1 == -2) {
+        iVar1 = -0x205;
+      }
+      iVar1 = dev_err_probe(uVar2,iVar1,"failed to load %s\n",__n);
+      return iVar1;
+    }
+    memcpy(data_00 + 8,data,__n);
+    iVar1 = __airoha_npu_send_msg(npu,0,data_00,iVar1,data_00,(u16)iVar1);
+    kfree(data_00);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100420 stp x29,x30,[sp, #-0x50]!
+00100424 mov x29,sp
+00100428 stp x23,x24,[sp, #0x30]
+0010042c add w24,w4,#0x8
+00100430 mov x23,x3
+00100434 stp x21,x22,[sp, #0x20]
+00100438 sxtw x21,w24
+0010043c mov x22,x0
+00100440 mov x0,x21
+00100444 stp x19,x20,[sp, #0x10]
+00100448 mov w19,w4
+0010044c stp x25,x26,[sp, #0x40]
+00100450 mov w26,w1
+00100454 mov w25,w2
+00100458 orr w1,w5,#0x100
+0010045c bl 0x00102078
+00100460 cbz x0,0x001004e4
+00100464 mov x20,x0
+00100468 cmp x21,#0x8
+0010046c mov x0,#0x8
+00100470 and w26,w26,#0xf
+00100474 csel x21,x21,x0,cs
+00100478 orr w26,w26,#0x10
+0010047c sxtw x2,w19
+00100480 sub x21,x21,#0x8
+00100484 strb w26,[x20]
+00100488 add x0,x20,x0
+0010048c str w25,[x20, #0x4]
+00100490 cmp x2,x21
+00100494 b.hi 0x001004ec
+00100498 mov x1,x23
+0010049c bl 0x00102050
+001004a0 mov w5,w24
+001004a4 mov x4,x20
+001004a8 mov w3,w24
+001004ac mov x2,x20
+001004b0 mov w1,#0x0
+001004b4 mov x0,x22
+001004b8 bl 0x00100168
+001004bc mov w19,w0
+001004c0 mov x0,x20
+001004c4 bl 0x00102080
+001004c8 mov w0,w19
+001004cc ldp x19,x20,[sp, #0x10]
+001004d0 ldp x21,x22,[sp, #0x20]
+001004d4 ldp x23,x24,[sp, #0x30]
+001004d8 ldp x25,x26,[sp, #0x40]
+001004dc ldp x29,x30,[sp], #0x50
+001004e0 ret
+001004e4 mov w19,#0xfffffff4
+001004e8 b 0x001004c8
+001004ec mov x1,x21
+001004f0 mov w0,#0x11
+001004f4 bl 0x00102088
+001004f8 nop
+001004fc nop
+
+FUNCTION airoha_npu_load_firmware @ 00100500
+decompiled=true
+
+int airoha_npu_load_firmware(device *dev,void *addr,char *fw_name,int fw_max_size)
+
+{
+  int iVar1;
+  firmware *fw;
+  
+                    /* Unresolved local var: int ret@[DW_OP_reg19(x19)] */
+  iVar1 = request_firmware_direct(&fw,fw_name,dev);
+  if (iVar1 == 0) {
+    if ((ulong)(long)fw_max_size < *(ulong *)fw) {
+      iVar1 = -7;
+      _dev_err(dev,"%s: fw size too overlimit (%zu)\n",fw_name,*(ulong *)fw);
+    }
+    else {
+      memcpy_toio(addr,*(undefined8 *)(fw + 8));
+      iVar1 = 0;
+    }
+    release_firmware(fw);
+    return iVar1;
+  }
+  if (iVar1 == -2) {
+    iVar1 = -0x205;
+  }
+  iVar1 = dev_err_probe(dev,iVar1,"failed to load %s\n",fw_name);
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100500 stp x29,x30,[sp, #-0x50]!
+00100504 mov x29,sp
+00100508 stp x21,x22,[sp, #0x20]
+0010050c mov x21,x2
+00100510 mov x22,x1
+00100514 mov x2,x0
+00100518 mov x1,x21
+0010051c stp x19,x20,[sp, #0x10]
+00100520 mov x20,x0
+00100524 add x0,sp,#0x48
+00100528 str x23,[sp, #0x30]
+0010052c mov w23,w3
+00100530 bl 0x00102090
+00100534 mov w19,w0
+00100538 cbnz w0,0x00100578
+0010053c ldr x0,[sp, #0x48]
+00100540 ldr x2,[x0]
+00100544 cmp x2,w23, SXTW 
+00100548 b.hi 0x001005b4
+0010054c ldr x1,[x0, #0x8]
+00100550 mov x0,x22
+00100554 bl 0x00102098
+00100558 ldr x0,[sp, #0x48]
+0010055c bl 0x001020a0
+00100560 ldr x23,[sp, #0x30]
+00100564 mov w0,w19
+00100568 ldp x19,x20,[sp, #0x10]
+0010056c ldp x21,x22,[sp, #0x20]
+00100570 ldp x29,x30,[sp], #0x50
+00100574 ret
+00100578 cmn w0,#0x2
+0010057c mov x3,x21
+00100580 mov x0,x20
+00100584 mov w1,#0xfffffdfb
+00100588 adrp x2,0x101000
+0010058c csel w1,w19,w1,ne
+00100590 add x2,x2,#0x640
+00100594 bl 0x001020a8
+00100598 mov w19,w0
+0010059c ldr x23,[sp, #0x30]
+001005a0 mov w0,w19
+001005a4 ldp x19,x20,[sp, #0x10]
+001005a8 ldp x21,x22,[sp, #0x20]
+001005ac ldp x29,x30,[sp], #0x50
+001005b0 ret
+001005b4 mov x3,x2
+001005b8 mov x0,x20
+001005bc mov x2,x21
+001005c0 adrp x1,0x101000
+001005c4 mov w19,#0xfffffff9
+001005c8 add x1,x1,#0x658
+001005cc bl 0x001020b0
+001005d0 b 0x00100558
+
+FUNCTION airoha_npu_get @ 001005e0
+decompiled=true
+
+airoha_npu * airoha_npu_get(device *dev)
+
+{
+  int iVar1;
+  long lVar2;
+  ulong uVar3;
+  long lVar4;
+  airoha_npu *paVar5;
+  of_phandle_args args;
+  
+                    /* Unresolved local var: platform_device * pdev@[DW_OP_reg20(x20)]
+                       Unresolved local var: device_node * np@[???]
+                       Unresolved local var: airoha_npu * npu@[DW_OP_reg21(x21)] */
+  iVar1 = __of_parse_phandle_with_args(*(undefined8 *)(dev + 600),"airoha,npu",0,0,0,&args);
+  if ((iVar1 == 0) && (_args != (undefined8 *)0x0)) {
+    lVar2 = of_find_device_by_node(_args);
+    if (lVar2 != 0) {
+      uVar3 = try_module_get(0);
+      if ((uVar3 & 1) == 0) {
+        paVar5 = (airoha_npu *)0xffffffffffffffed;
+        _dev_err(dev,"failed to get the device driver module\n");
+      }
+      else {
+        paVar5 = *(airoha_npu **)(lVar2 + 0x88);
+        if (paVar5 == (airoha_npu *)0x0) {
+          paVar5 = (airoha_npu *)0xffffffffffffffed;
+        }
+        else {
+          lVar4 = device_link_add(dev,lVar2 + 0x10,0x10);
+          if (lVar4 != 0) {
+            return paVar5;
+          }
+          lVar4 = *(long *)(dev + 0x50);
+          if (lVar4 == 0) {
+            lVar4 = *(long *)dev;
+          }
+          paVar5 = (airoha_npu *)0xffffffffffffffea;
+          _dev_err(lVar2 + 0x10,"failed to create device link to consumer %s\n",lVar4);
+        }
+        module_put(0);
+      }
+      platform_device_put(lVar2);
+      return paVar5;
+    }
+    _dev_err(dev,"cannot find device node %s\n",*_args);
+  }
+  return (airoha_npu *)0xffffffffffffffed;
+}
+
+
+ASSEMBLY
+001005e0 stp x29,x30,[sp, #-0x80]!
+001005e4 adrp x1,0x101000
+001005e8 mov w4,#0x0
+001005ec mov x29,sp
+001005f0 add x1,x1,#0x680
+001005f4 stp x19,x20,[sp, #0x10]
+001005f8 mov x19,x0
+001005fc add x5,sp,#0x30
+00100600 stp x21,x22,[sp, #0x20]
+00100604 mov w3,#0x0
+00100608 mov x2,#0x0
+0010060c ldr x0,[x0, #0x258]
+00100610 bl 0x001020c0
+00100614 cbnz w0,0x001006ac
+00100618 ldr x21,[sp, #0x30]
+0010061c cbz x21,0x001006ac
+00100620 mov x0,x21
+00100624 bl 0x001020c8
+00100628 mov x20,x0
+0010062c cbz x0,0x00100698
+00100630 mov x0,#0x0
+00100634 bl 0x001020d0
+00100638 tbz w0,#0x0,0x001006e4
+0010063c ldr x21,[x20, #0x88]
+00100640 add x22,x20,#0x10
+00100644 cbz x21,0x00100670
+00100648 mov x1,x22
+0010064c mov x0,x19
+00100650 mov w2,#0x10
+00100654 bl 0x001020d8
+00100658 cbz x0,0x001006c4
+0010065c ldp x19,x20,[sp, #0x10]
+00100660 mov x0,x21
+00100664 ldp x21,x22,[sp, #0x20]
+00100668 ldp x29,x30,[sp], #0x80
+0010066c ret
+00100670 mov x21,#-0x13
+00100674 mov x0,#0x0
+00100678 bl 0x00102000
+0010067c mov x0,x20
+00100680 bl 0x001020e0
+00100684 mov x0,x21
+00100688 ldp x19,x20,[sp, #0x10]
+0010068c ldp x21,x22,[sp, #0x20]
+00100690 ldp x29,x30,[sp], #0x80
+00100694 ret
+00100698 ldr x2,[x21]
+0010069c adrp x1,0x101000
+001006a0 mov x0,x19
+001006a4 add x1,x1,#0x690
+001006a8 bl 0x001020b0
+001006ac mov x21,#-0x13
+001006b0 mov x0,x21
+001006b4 ldp x19,x20,[sp, #0x10]
+001006b8 ldp x21,x22,[sp, #0x20]
+001006bc ldp x29,x30,[sp], #0x80
+001006c0 ret
+001006c4 ldr x2,[x19, #0x50]
+001006c8 cbz x2,0x001006fc
+001006cc mov x0,x22
+001006d0 adrp x1,0x101000
+001006d4 mov x21,#-0x16
+001006d8 add x1,x1,#0x6d8
+001006dc bl 0x001020b0
+001006e0 b 0x00100674
+001006e4 mov x0,x19
+001006e8 adrp x1,0x101000
+001006ec mov x21,#-0x13
+001006f0 add x1,x1,#0x6b0
+001006f4 bl 0x001020b0
+001006f8 b 0x0010067c
+001006fc ldr x2,[x19]
+00100700 b 0x001006cc
+
+FUNCTION airoha_npu_mbox_handler @ 00100704
+decompiled=true
+
+irqreturn_t airoha_npu_mbox_handler(int irq,void *npu_instance)
+
+{
+                    /* Unresolved local var: airoha_npu * npu@[???] */
+  regmap_write(*(undefined8 *)((long)npu_instance + 8),0x30c000,0x100);
+  regmap_update_bits_base(*(undefined8 *)((long)npu_instance + 8),0x30c0bc,0x1e,2,0,0,0);
+  return IRQ_HANDLED;
+}
+
+
+ASSEMBLY
+00100704 stp x29,x30,[sp, #-0x20]!
+00100708 mov w2,#0x100
+0010070c mov x29,sp
+00100710 str x19,[sp, #0x10]
+00100714 mov x19,x1
+00100718 mov w1,#0xc000
+0010071c movk w1,#0x30, LSL #16
+00100720 ldr x0,[x19, #0x8]
+00100724 bl 0x00102020
+00100728 mov w0,#0xc000
+0010072c mov w6,#0x0
+00100730 movk w0,#0x30, LSL #16
+00100734 add w1,w0,#0xbc
+00100738 ldr x0,[x19, #0x8]
+0010073c mov w5,#0x0
+00100740 mov x4,#0x0
+00100744 mov w3,#0x2
+00100748 mov w2,#0x1e
+0010074c bl 0x001020e8
+00100750 ldr x19,[sp, #0x10]
+00100754 mov w0,#0x1
+00100758 ldp x29,x30,[sp], #0x20
+0010075c ret
+
+FUNCTION airoha_npu_wlan_irq_disable @ 00100760
+decompiled=true
+
+void airoha_npu_wlan_irq_disable(airoha_npu *npu,int q)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0x10000;
+  if (q == 1) {
+    uVar1 = 0x20000;
+  }
+  regmap_update_bits_base(*(undefined8 *)(npu + 8),q * 4 + 0x30d034,uVar1,0,0,0,0);
+  return;
+}
+
+
+ASSEMBLY
+00100760 stp x29,x30,[sp, #-0x10]!
+00100764 cmp w1,#0x1
+00100768 mov w4,#0xd034
+0010076c mov x29,sp
+00100770 movk w4,#0x30, LSL #16
+00100774 ldr x0,[x0, #0x8]
+00100778 mov w3,#0x10000
+0010077c add w1,w4,w1, LSL #0x2
+00100780 mov w6,#0x0
+00100784 mov w5,#0x0
+00100788 mov x4,#0x0
+0010078c mov w2,#0x20000
+00100790 csel w2,w3,w2,ne
+00100794 mov w3,#0x0
+00100798 bl 0x001020e8
+0010079c ldp x29,x30,[sp], #0x10
+001007a0 ret
+
+FUNCTION airoha_npu_wdt_handler @ 001007a4
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+irqreturn_t airoha_npu_wdt_handler(int irq,void *core_instance)
+
+{
+  int iVar1;
+  long lVar2;
+  u32 val;
+  
+                    /* Unresolved local var: airoha_npu_core * core@[???]
+                       Unresolved local var: airoha_npu * npu@[DW_OP_reg21(x21)]
+                       Unresolved local var: int c@[???] */
+  lVar2 = *(long *)core_instance;
+  iVar1 = ((int)((long)core_instance - (lVar2 + 0x10) >> 6) + 0x3101) * 0x100;
+  regmap_update_bits_base(*(undefined8 *)(lVar2 + 8),iVar1,0x200000,0x200000,0,0,0);
+  iVar1 = regmap_read(*(undefined8 *)(lVar2 + 8),iVar1,&val);
+  if ((iVar1 == 0) && ((val >> 0x19 & 1) != 0)) {
+    queue_work_on(4,_system_percpu_wq,(long)core_instance + 0x10);
+    return IRQ_HANDLED;
+  }
+  return IRQ_HANDLED;
+}
+
+
+ASSEMBLY
+001007a4 stp x29,x30,[sp, #-0x40]!
+001007a8 mov w0,#0x3101
+001007ac mov w3,#0x200000
+001007b0 mov x29,sp
+001007b4 mov w2,w3
+001007b8 stp x19,x20,[sp, #0x10]
+001007bc mov w6,#0x0
+001007c0 mov x20,x1
+001007c4 str x21,[sp, #0x20]
+001007c8 mov w5,#0x0
+001007cc mov x4,#0x0
+001007d0 ldr x21,[x1]
+001007d4 add x19,x21,#0x10
+001007d8 sub x19,x1,x19
+001007dc asr x19,x19,#0x6
+001007e0 add w19,w19,w0
+001007e4 ldr x0,[x21, #0x8]
+001007e8 lsl w19,w19,#0x8
+001007ec mov w1,w19
+001007f0 bl 0x001020e8
+001007f4 add x2,sp,#0x3c
+001007f8 ldr x0,[x21, #0x8]
+001007fc mov w1,w19
+00100800 bl 0x00102048
+00100804 cbnz w0,0x00100810
+00100808 ldr w0,[sp, #0x3c]
+0010080c tbnz w0,#0x19,0x00100824
+00100810 ldr x21,[sp, #0x20]
+00100814 mov w0,#0x1
+00100818 ldp x19,x20,[sp, #0x10]
+0010081c ldp x29,x30,[sp], #0x40
+00100820 ret
+00100824 adrp x1,0x102000
+00100828 add x2,x20,#0x10
+0010082c mov w0,#0x4
+00100830 ldr x1,[x1, #0xf0]
+00100834 bl 0x001020f8
+00100838 ldr x21,[sp, #0x20]
+0010083c mov w0,#0x1
+00100840 ldp x19,x20,[sp, #0x10]
+00100844 ldp x29,x30,[sp], #0x40
+00100848 ret
+
+FUNCTION airoha_npu_wlan_irq_enable @ 0010084c
+decompiled=true
+
+void airoha_npu_wlan_irq_enable(airoha_npu *npu,int q)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0x10000;
+  if (q == 1) {
+    uVar1 = 0x20000;
+  }
+  regmap_update_bits_base(*(undefined8 *)(npu + 8),q * 4 + 0x30d034,uVar1,uVar1,0,0,0);
+  return;
+}
+
+
+ASSEMBLY
+0010084c stp x29,x30,[sp, #-0x10]!
+00100850 cmp w1,#0x1
+00100854 mov w2,#0x20000
+00100858 mov x29,sp
+0010085c mov w3,#0x10000
+00100860 ldr x0,[x0, #0x8]
+00100864 csel w3,w3,w2,ne
+00100868 mov w2,#0xd034
+0010086c mov w6,#0x0
+00100870 movk w2,#0x30, LSL #16
+00100874 mov w5,#0x0
+00100878 add w1,w2,w1, LSL #0x2
+0010087c mov x4,#0x0
+00100880 mov w2,w3
+00100884 bl 0x001020e8
+00100888 ldp x29,x30,[sp], #0x10
+0010088c ret
+
+FUNCTION airoha_npu_ppe_deinit @ 00100890
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_ppe_deinit(airoha_npu *npu)
+
+{
+  int iVar1;
+  undefined8 *data;
+  
+                    /* Unresolved local var: ppe_mbox_data * ppe_data@[???]
+                       Unresolved local var: int err@[???]
+                       Unresolved local var: void * _res@[???]
+                       Unresolved local var: uint index@[???] */
+  data = (undefined8 *)__kmalloc_cache_noprof(___devm_regmap_init_mmio_clk,0xdc0,0x1c);
+  if (data == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data = 0x200000001;
+    iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    kfree(data);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100890 stp x29,x30,[sp, #-0x20]!
+00100894 adrp x1,0x102000
+00100898 mov x2,#0x1c
+0010089c mov x29,sp
+001008a0 stp x19,x20,[sp, #0x10]
+001008a4 mov x20,x0
+001008a8 ldr x0,[x1, #0x128]
+001008ac mov w1,#0xdc0
+001008b0 bl 0x00102108
+001008b4 cbz x0,0x00100900
+001008b8 mov x19,x0
+001008bc mov x6,#0x1
+001008c0 movk x6,#0x2, LSL #32
+001008c4 mov x4,x19
+001008c8 mov x2,x19
+001008cc mov w5,#0x1c
+001008d0 str x6,[x19]
+001008d4 mov w3,#0x1c
+001008d8 mov w1,#0x5
+001008dc mov x0,x20
+001008e0 bl 0x00100168
+001008e4 mov w20,w0
+001008e8 mov x0,x19
+001008ec bl 0x00102080
+001008f0 mov w0,w20
+001008f4 ldp x19,x20,[sp, #0x10]
+001008f8 ldp x29,x30,[sp], #0x20
+001008fc ret
+00100900 mov w20,#0xfffffff4
+00100904 b 0x001008f0
+
+FUNCTION airoha_npu_ppe_init @ 00100908
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_ppe_init(airoha_npu *npu)
+
+{
+  int iVar1;
+  undefined8 *data;
+  
+                    /* Unresolved local var: ppe_mbox_data * ppe_data@[???]
+                       Unresolved local var: int err@[???]
+                       Unresolved local var: void * _res@[???]
+                       Unresolved local var: uint index@[???] */
+  data = (undefined8 *)__kmalloc_cache_noprof(___devm_regmap_init_mmio_clk,0xdc0,0x1c);
+  if (data == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data = 0x100000001;
+    data[2] = 0x100000003;
+    iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    kfree(data);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100908 stp x29,x30,[sp, #-0x20]!
+0010090c adrp x1,0x102000
+00100910 mov x2,#0x1c
+00100914 mov x29,sp
+00100918 stp x19,x20,[sp, #0x10]
+0010091c mov x20,x0
+00100920 ldr x0,[x1, #0x128]
+00100924 mov w1,#0xdc0
+00100928 bl 0x00102108
+0010092c cbz x0,0x00100980
+00100930 mov x19,x0
+00100934 mov x6,#0x100000001
+00100938 add x7,x6,#0x2
+0010093c mov w1,#0x5
+00100940 mov x4,x19
+00100944 mov x2,x19
+00100948 str x6,[x19]
+0010094c mov x0,x20
+00100950 str x7,[x19, #0x10]
+00100954 mov w5,#0x1c
+00100958 mov w3,#0x1c
+0010095c bl 0x00100168
+00100960 mov w1,w0
+00100964 mov x0,x19
+00100968 mov w19,w1
+0010096c bl 0x00102080
+00100970 mov w0,w19
+00100974 ldp x19,x20,[sp, #0x10]
+00100978 ldp x29,x30,[sp], #0x20
+0010097c ret
+00100980 mov w19,#0xfffffff4
+00100984 b 0x00100970
+
+FUNCTION airoha_npu_ppe_flush_sram_entries @ 00100988
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_ppe_flush_sram_entries(airoha_npu *npu,dma_addr_t foe_addr,int sram_num_entries)
+
+{
+  int iVar1;
+  undefined8 *data;
+  
+                    /* Unresolved local var: ppe_mbox_data * ppe_data@[???]
+                       Unresolved local var: int err@[???]
+                       Unresolved local var: void * _res@[???]
+                       Unresolved local var: uint index@[???] */
+  data = (undefined8 *)__kmalloc_cache_noprof(___devm_regmap_init_mmio_clk,0xdc0,0x1c);
+  if (data == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data = 0x300000001;
+    *(undefined4 *)(data + 1) = 3;
+    *(int *)((long)data + 0xc) = sram_num_entries;
+    *(int *)(data + 2) = (int)foe_addr;
+    iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    kfree(data);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100988 stp x29,x30,[sp, #-0x30]!
+0010098c adrp x4,0x102000
+00100990 mov x29,sp
+00100994 stp x21,x22,[sp, #0x20]
+00100998 mov x22,x0
+0010099c mov w21,w2
+001009a0 ldr x0,[x4, #0x128]
+001009a4 mov x2,#0x1c
+001009a8 stp x19,x20,[sp, #0x10]
+001009ac mov x20,x1
+001009b0 mov w1,#0xdc0
+001009b4 bl 0x00102108
+001009b8 cbz x0,0x00100a18
+001009bc mov x19,x0
+001009c0 mov x7,#0x1
+001009c4 movk x7,#0x3, LSL #32
+001009c8 mov w6,#0x3
+001009cc mov w1,#0x5
+001009d0 mov x4,x19
+001009d4 str x7,[x19]
+001009d8 mov x2,x19
+001009dc stp w6,w21,[x19, #0x8]
+001009e0 mov x0,x22
+001009e4 str w20,[x19, #0x10]
+001009e8 mov w5,#0x1c
+001009ec mov w3,#0x1c
+001009f0 bl 0x00100168
+001009f4 mov w1,w0
+001009f8 mov x0,x19
+001009fc mov w19,w1
+00100a00 bl 0x00102080
+00100a04 mov w0,w19
+00100a08 ldp x19,x20,[sp, #0x10]
+00100a0c ldp x21,x22,[sp, #0x20]
+00100a10 ldp x29,x30,[sp], #0x30
+00100a14 ret
+00100a18 mov w19,#0xfffffff4
+00100a1c b 0x00100a04
+
+FUNCTION airoha_npu_ppe_stats_setup @ 00100a20
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_ppe_stats_setup(airoha_npu *npu,dma_addr_t foe_stats_addr,u32 num_stats_entries)
+
+{
+  int iVar1;
+  undefined8 *data;
+  long lVar2;
+  
+                    /* Unresolved local var: int err@[DW_OP_reg20(x20)]
+                       Unresolved local var: int size@[???]
+                       Unresolved local var: ppe_mbox_data * ppe_data@[???]
+                       Unresolved local var: void * _res@[???]
+                       Unresolved local var: uint index@[???] */
+  data = (undefined8 *)__kmalloc_cache_noprof(___devm_regmap_init_mmio_clk,0x920,0x1c);
+  if (data == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data = 0x400000001;
+    *(int *)((long)data + 0xc) = (int)foe_stats_addr;
+    iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    if (iVar1 == 0) {
+      lVar2 = devm_ioremap(*(undefined8 *)npu,*(undefined4 *)(data + 1),
+                           (long)(int)(num_stats_entries << 3));
+      iVar1 = 0;
+      if (lVar2 == 0) {
+        iVar1 = -0xc;
+      }
+      *(long *)(npu + 0x228) = lVar2;
+    }
+    kfree(data);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100a20 stp x29,x30,[sp, #-0x30]!
+00100a24 adrp x3,0x102000
+00100a28 mov x29,sp
+00100a2c stp x21,x22,[sp, #0x20]
+00100a30 mov x21,x0
+00100a34 mov w22,w2
+00100a38 ldr x0,[x3, #0x128]
+00100a3c mov x2,#0x1c
+00100a40 stp x19,x20,[sp, #0x10]
+00100a44 mov x20,x1
+00100a48 mov w1,#0x920
+00100a4c bl 0x00102108
+00100a50 cbz x0,0x00100acc
+00100a54 mov x19,x0
+00100a58 mov x6,#0x1
+00100a5c movk x6,#0x4, LSL #32
+00100a60 mov x4,x0
+00100a64 mov x2,x0
+00100a68 mov w5,#0x1c
+00100a6c str x6,[x19]
+00100a70 mov x0,x21
+00100a74 str w20,[x19, #0xc]
+00100a78 mov w3,#0x1c
+00100a7c mov w1,#0x5
+00100a80 bl 0x00100168
+00100a84 mov w20,w0
+00100a88 cbnz w0,0x00100ab0
+00100a8c ldr x0,[x21]
+00100a90 lsl w2,w22,#0x3
+00100a94 ldr w1,[x19, #0x8]
+00100a98 mov w20,#0xfffffff4
+00100a9c sxtw x2,w2
+00100aa0 bl 0x00102110
+00100aa4 cmp x0,#0x0
+00100aa8 csel w20,wzr,w20,ne
+00100aac str x0,[x21, #0x228]
+00100ab0 mov x0,x19
+00100ab4 bl 0x00102080
+00100ab8 mov w0,w20
+00100abc ldp x19,x20,[sp, #0x10]
+00100ac0 ldp x21,x22,[sp, #0x20]
+00100ac4 ldp x29,x30,[sp], #0x30
+00100ac8 ret
+00100acc mov w20,#0xfffffff4
+00100ad0 b 0x00100ab8
+
+FUNCTION airoha_npu_foe_commit_entry @ 00100ae0
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_foe_commit_entry
+              (airoha_npu *npu,dma_addr_t foe_addr,u32 entry_size,u32 hash,bool ppe2)
+
+{
+  int iVar1;
+  undefined8 *data;
+  
+                    /* Unresolved local var: ppe_mbox_data * ppe_data@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)]
+                       Unresolved local var: void * _res@[???]
+                       Unresolved local var: uint index@[???] */
+  data = (undefined8 *)__kmalloc_cache_noprof(___devm_regmap_init_mmio_clk,0x920,0x1c);
+  if (data == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data = 0x300000001;
+    *(uint *)(data + 1) = ppe2 ^ 1;
+    *(u32 *)((long)data + 0xc) = entry_size;
+    *(int *)(data + 2) = (int)foe_addr;
+    iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    if (iVar1 == 0) {
+      *(u32 *)(data + 2) = hash;
+      data[1] = 0x400000002;
+      iVar1 = __airoha_npu_send_msg(npu,5,data,0x1c,data,0x1c);
+    }
+    kfree(data);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100ae0 stp x29,x30,[sp, #-0x40]!
+00100ae4 adrp x5,0x102000
+00100ae8 mov x29,sp
+00100aec stp x21,x22,[sp, #0x20]
+00100af0 mov x22,x0
+00100af4 and w21,w4,#0xff
+00100af8 ldr x0,[x5, #0x128]
+00100afc stp x19,x20,[sp, #0x10]
+00100b00 mov w20,w2
+00100b04 mov x2,#0x1c
+00100b08 stp x23,x24,[sp, #0x30]
+00100b0c mov x24,x1
+00100b10 mov w23,w3
+00100b14 mov w1,#0x920
+00100b18 bl 0x00102108
+00100b1c cbz x0,0x00100bb0
+00100b20 mov x19,x0
+00100b24 mov x6,#0x1
+00100b28 movk x6,#0x3, LSL #32
+00100b2c eor w21,w21,#0x1
+00100b30 mov x4,x0
+00100b34 mov x2,x0
+00100b38 str x6,[x19]
+00100b3c mov x0,x22
+00100b40 stp w21,w20,[x19, #0x8]
+00100b44 mov w5,#0x1c
+00100b48 str w24,[x19, #0x10]
+00100b4c mov w3,#0x1c
+00100b50 mov w1,#0x5
+00100b54 bl 0x00100168
+00100b58 mov w20,w0
+00100b5c cbnz w0,0x00100b90
+00100b60 mov x6,#0x2
+00100b64 str w23,[x19, #0x10]
+00100b68 movk x6,#0x4, LSL #32
+00100b6c str x6,[x19, #0x8]
+00100b70 mov x0,x22
+00100b74 mov x4,x19
+00100b78 mov x2,x19
+00100b7c mov w5,#0x1c
+00100b80 mov w3,#0x1c
+00100b84 mov w1,#0x5
+00100b88 bl 0x00100168
+00100b8c mov w20,w0
+00100b90 mov x0,x19
+00100b94 bl 0x00102080
+00100b98 mov w0,w20
+00100b9c ldp x19,x20,[sp, #0x10]
+00100ba0 ldp x21,x22,[sp, #0x20]
+00100ba4 ldp x23,x24,[sp, #0x30]
+00100ba8 ldp x29,x30,[sp], #0x40
+00100bac ret
+00100bb0 mov w20,#0xfffffff4
+00100bb4 b 0x00100b98
+
+FUNCTION airoha_npu_wlan_msg_get @ 00100bc0
+decompiled=true
+
+int airoha_npu_wlan_msg_get
+              (airoha_npu *npu,int ifindex,airoha_npu_wlan_get_cmd func_id,void *data,int data_len,
+              gfp_t gfp)
+
+{
+  int iVar1;
+  byte *data_00;
+  
+                    /* Unresolved local var: wlan_mbox_data * wlan_data@[???]
+                       Unresolved local var: int err@[DW_OP_reg19(x19)]
+                       Unresolved local var: int len@[DW_OP_reg25(x25)] */
+                    /* Unresolved local var: void * _res@[???] */
+  data_00 = (byte *)__kmalloc_noprof((long)(data_len + 8),gfp | 0x100);
+  if (data_00 == (byte *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *data_00 = (byte)ifindex & 0xf | 0x30;
+    *(airoha_npu_wlan_get_cmd *)(data_00 + 4) = func_id;
+    iVar1 = __airoha_npu_send_msg(npu,0,data_00,data_len + 8,data,(u16)data_len);
+    kfree(data_00);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100bc0 stp x29,x30,[sp, #-0x50]!
+00100bc4 mov x29,sp
+00100bc8 str x25,[sp, #0x40]
+00100bcc add w25,w4,#0x8
+00100bd0 stp x19,x20,[sp, #0x10]
+00100bd4 mov w20,w1
+00100bd8 orr w1,w5,#0x100
+00100bdc stp x21,x22,[sp, #0x20]
+00100be0 mov w21,w4
+00100be4 mov w22,w2
+00100be8 stp x23,x24,[sp, #0x30]
+00100bec mov x23,x0
+00100bf0 mov x24,x3
+00100bf4 sxtw x0,w25
+00100bf8 bl 0x00102078
+00100bfc cbz x0,0x00100c5c
+00100c00 mov x19,x0
+00100c04 and w20,w20,#0xf
+00100c08 orr w20,w20,#0x30
+00100c0c mov w1,#0x0
+00100c10 mov x2,x19
+00100c14 mov w5,w21
+00100c18 strb w20,[x19]
+00100c1c mov x4,x24
+00100c20 str w22,[x19, #0x4]
+00100c24 mov w3,w25
+00100c28 mov x0,x23
+00100c2c bl 0x00100168
+00100c30 mov w1,w0
+00100c34 mov x0,x19
+00100c38 mov w19,w1
+00100c3c bl 0x00102080
+00100c40 ldr x25,[sp, #0x40]
+00100c44 mov w0,w19
+00100c48 ldp x19,x20,[sp, #0x10]
+00100c4c ldp x21,x22,[sp, #0x20]
+00100c50 ldp x23,x24,[sp, #0x30]
+00100c54 ldp x29,x30,[sp], #0x50
+00100c58 ret
+00100c5c mov w19,#0xfffffff4
+00100c60 b 0x00100c40
+
+FUNCTION airoha_npu_probe @ 00100c64
+decompiled=true
+
+int airoha_npu_probe(platform_device *pdev)
+
+{
+  platform_device *ppVar1;
+  airoha_npu *paVar2;
+  uint uVar3;
+  int iVar4;
+  uint uVar5;
+  void *addr;
+  airoha_npu *npu;
+  ulong uVar6;
+  undefined8 *puVar7;
+  void *addr_00;
+  airoha_npu *paVar8;
+  int iVar9;
+  long lVar10;
+  device *pdVar11;
+  char *pcVar12;
+  u32 val;
+  undefined4 uStack_4c;
+  char *local_48;
+  resource res;
+  undefined4 uStack_3c;
+  ulong local_38;
+  
+                    /* Unresolved local var: device * dev@[???]
+                       Unresolved local var: airoha_npu_priv * priv@[???]
+                       Unresolved local var: airoha_npu * npu@[???]
+                       Unresolved local var: void * base@[DW_OP_reg24(x24)]
+                       Unresolved local var: int i@[DW_OP_reg20(x20)]
+                       Unresolved local var: int irq@[???]
+                       Unresolved local var: int err@[DW_OP_reg20(x20)] */
+  ppVar1 = pdev + 0x10;
+  addr = (void *)devm_platform_ioremap_resource(pdev,0);
+  addr_00 = (void *)((ulong)addr & 0xffffffff);
+  if (addr < (void *)0xfffffffffffff001) {
+    npu = (airoha_npu *)devm_kmalloc(ppVar1,0x2e0,0xdc0);
+    if (npu == (airoha_npu *)0x0) {
+LAB_00101108:
+      addr_00 = (void *)0xfffffff4;
+    }
+    else {
+      *(platform_device **)npu = ppVar1;
+      *(code **)(npu + 0x230) = airoha_npu_ppe_init;
+      *(code **)(npu + 0x238) = airoha_npu_ppe_deinit;
+      *(code **)(npu + 0x240) = airoha_npu_ppe_stats_setup;
+      *(code **)(npu + 0x248) = airoha_npu_ppe_flush_sram_entries;
+      *(code **)(npu + 0x250) = airoha_npu_foe_commit_entry;
+      *(code **)(npu + 600) = airoha_npu_wlan_init_memory;
+      *(code **)(npu + 0x260) = airoha_npu_wlan_msg_send;
+      *(code **)(npu + 0x268) = airoha_npu_wlan_msg_get;
+      *(undefined8 *)(npu + 0x270) = 0x100000;
+      *(code **)(npu + 0x278) = airoha_npu_wlan_irq_status_set;
+      *(code **)(npu + 0x280) = airoha_npu_wlan_irq_status_get;
+      *(code **)(npu + 0x288) = airoha_npu_wlan_irq_enable;
+      *(code **)(npu + 0x290) = airoha_npu_wlan_irq_disable;
+      addr_00 = (void *)__devm_regmap_init_mmio_clk(ppVar1,0,addr,&regmap_config,0,0);
+      *(void **)(npu + 8) = addr_00;
+      if (addr_00 < (void *)0xfffffffffffff001) {
+        uVar6 = of_reserved_mem_region_to_resource(*(undefined8 *)(pdev + 0x268),0,&res);
+        addr_00 = (void *)(uVar6 & 0xffffffff);
+        if ((int)uVar6 == 0) {
+          uVar6 = platform_get_irq(pdev,0);
+          addr_00 = (void *)(uVar6 & 0xffffffff);
+          if (-1 < (int)uVar6) {
+            uVar6 = devm_request_threaded_irq
+                              (ppVar1,uVar6 & 0xffffffff,airoha_npu_mbox_handler,0,0x200080,
+                               "airoha-npu-mbox",npu);
+            addr_00 = (void *)(uVar6 & 0xffffffff);
+            if ((int)uVar6 == 0) {
+                    /* Unresolved local var: airoha_npu_core * core@[???] */
+              paVar8 = npu + 0x10;
+              do {
+                *(airoha_npu **)paVar8 = npu;
+                uVar5 = (int)addr_00 + 1;
+                addr_00 = (void *)(ulong)uVar5;
+                *(undefined4 *)(paVar8 + 8) = 0;
+                uVar6 = platform_get_irq(pdev,addr_00);
+                if ((int)uVar6 < 0) {
+                  addr_00 = (void *)(uVar6 & 0xffffffff);
+                  goto LAB_00100d8c;
+                }
+                uVar3 = devm_request_threaded_irq
+                                  (ppVar1,uVar6 & 0xffffffff,airoha_npu_wdt_handler,0,0x200080,
+                                   "airoha-npu-wdt",paVar8);
+                    /* Unresolved local var: lock_class_key __key@[???] */
+                paVar2 = paVar8 + 0x18;
+                if (uVar3 != 0) {
+                  addr_00 = (void *)(ulong)uVar3;
+                  goto LAB_00100d8c;
+                }
+                *(undefined8 *)(paVar8 + 0x10) = 0xfffffffe00000;
+                *(airoha_npu **)paVar2 = paVar2;
+                *(airoha_npu **)(paVar8 + 0x20) = paVar2;
+                *(code **)(paVar8 + 0x28) = airoha_npu_wdt_work;
+                paVar8 = paVar8 + 0x40;
+              } while (uVar5 != 8);
+              lVar10 = 0;
+              do {
+                uVar6 = platform_get_irq(pdev,(int)lVar10 + 9);
+                addr_00 = (void *)(uVar6 & 0xffffffff);
+                if ((int)uVar6 < 0) goto LAB_00100d8c;
+                *(int *)(npu + lVar10 * 4 + 0x210) = (int)uVar6;
+                lVar10 = lVar10 + 1;
+              } while (lVar10 != 6);
+              uVar6 = dma_set_coherent_mask(ppVar1,0xffffffff);
+              addr_00 = (void *)(uVar6 & 0xffffffff);
+              if ((int)uVar6 == 0) {
+                paVar8 = npu + 0x48;
+                do {
+                    /* Unresolved local var: airoha_npu_core * core@[???] */
+                  lVar10 = dmam_alloc_attrs(ppVar1,0x100,paVar8,0xcc0,0);
+                  *(long *)(paVar8 + -8) = lVar10;
+                  paVar8 = paVar8 + 0x40;
+                  if (lVar10 == 0) goto LAB_00101108;
+                } while (paVar8 != npu + 0x248);
+                    /* Unresolved local var: device * dev@[DW_OP_reg23(x23)]
+                       Unresolved local var: airoha_npu_soc_data * soc@[DW_OP_reg21(x21)]
+                       Unresolved local var: void * addr@[DW_OP_reg20(x20)]
+                       Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+                pdVar11 = *(device **)npu;
+                puVar7 = (undefined8 *)of_device_get_match_data(pdVar11);
+                if (puVar7 == (undefined8 *)0x0) {
+                  addr_00 = (void *)0xffffffea;
+                }
+                else {
+                  uVar6 = CONCAT44(uStack_3c,_res);
+                  if ((((uVar6 == 0) || (local_38 < uVar6)) ||
+                      ((_res & 3) != 0 || (uVar6 | local_38) >> 0x20 != 0)) ||
+                     ((local_38 + 1) - uVar6 < 0x240000)) {
+                    uVar6 = dev_err_probe(pdVar11,0xffffffea,"invalid NPU firmware memory region\n")
+                    ;
+                    addr_00 = (void *)(uVar6 & 0xffffffff);
+                  }
+                  else {
+                    *(ulong *)(npu + 0x298) = uVar6;
+                    *(ulong *)(npu + 0x2a0) = local_38;
+                    *(undefined4 *)(npu + 0x2d8) = 0;
+                    addr_00 = (void *)devm_ioremap_resource(pdVar11,&res);
+                    if ((void *)0xfffffffffffff000 < addr_00) goto LAB_00100d8c;
+                    lVar10 = of_find_property(*(undefined8 *)(pdVar11 + 600),"firmware-name",0);
+                    if (lVar10 == 0) {
+                      pcVar12 = (char *)*puVar7;
+                      iVar4 = strcmp(pcVar12,"airoha/en7581_MT7996_npu_rv32.bin");
+                      if (iVar4 == 0) {
+                        *(undefined4 *)(npu + 0x2d8) = 0xe000;
+                        pcVar12 = (char *)*puVar7;
+                      }
+                      uVar5 = airoha_npu_load_firmware(pdVar11,addr_00,pcVar12,*(int *)(puVar7 + 1))
+                      ;
+                      addr_00 = (void *)(ulong)uVar5;
+                      if (uVar5 != 0) goto LAB_00100d8c;
+                      uVar5 = airoha_npu_load_firmware
+                                        (pdVar11,addr,(char *)puVar7[2],*(int *)(puVar7 + 3));
+                      addr_00 = (void *)(ulong)uVar5;
+                    }
+                    else {
+                    /* Unresolved local var: device * dev@[DW_OP_reg21(x21)]
+                       Unresolved local var: int ret@[DW_OP_reg20(x20)] */
+                      pdVar11 = *(device **)npu;
+                      iVar4 = of_property_read_string_helper
+                                        (*(undefined8 *)(pdVar11 + 600),"firmware-name",&val,2,0);
+                      if (iVar4 == 2) {
+                        pcVar12 = (char *)CONCAT44(uStack_4c,val);
+                        iVar4 = strcmp(pcVar12,"airoha/en7581_MT7996_npu_rv32.bin");
+                        if (iVar4 == 0) {
+                          *(undefined4 *)(npu + 0x2d8) = 0xe000;
+                        }
+                        uVar5 = airoha_npu_load_firmware(pdVar11,addr_00,pcVar12,0x200000);
+                        addr_00 = (void *)(ulong)uVar5;
+                        if (uVar5 != 0) goto LAB_00100d8c;
+                        uVar5 = airoha_npu_load_firmware(pdVar11,addr,local_48,0x10000);
+                        addr_00 = (void *)(ulong)uVar5;
+                      }
+                      else {
+                        uVar6 = dev_err_probe(pdVar11,0xffffffea,"invalid firmware-name property\n")
+                        ;
+                        addr_00 = (void *)(uVar6 & 0xffffffff);
+                      }
+                    }
+                  }
+                  if ((int)addr_00 == 0) {
+                    regmap_write(*(undefined8 *)(npu + 8),0x30c168,_res + 0x200000);
+                    regmap_write(*(undefined8 *)(npu + 8),0x30c16c,0x40000);
+                    regmap_write(*(undefined8 *)(npu + 8),0x30c170,0);
+                    regmap_write(*(undefined8 *)(npu + 8),0x30c194,1);
+                    msleep(100);
+                    iVar4 = 0x306020;
+                    do {
+                      iVar9 = iVar4;
+                      regmap_write(*(undefined8 *)(npu + 8),iVar9,_res);
+                      iVar4 = iVar9 + 4;
+                    } while (iVar9 + 4 != 0x306040);
+                    usleep_range_state(1000,2000,2);
+                    regmap_write(*(undefined8 *)(npu + 8),iVar9 + -0x38,0xff);
+                    regmap_write(*(undefined8 *)(npu + 8),iVar9 + -0x3c,1);
+                    msleep(100);
+                    iVar4 = airoha_npu_wlan_msg_get
+                                      (npu,0,WLAN_FUNC_GET_WAIT_NPU_VERSION,&val,4,0xcc0);
+                    if (iVar4 == 0) {
+                      _dev_info(ppVar1,"NPU fw version: %0d.%d\n",val >> 0x10,val & 0xffff);
+                    }
+                    *(airoha_npu **)(pdev + 0x88) = npu;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+LAB_00100d8c:
+  return (int)addr_00;
+}
+
+
+ASSEMBLY
+00100c64 stp x29,x30,[sp, #-0xb0]!
+00100c68 mov w1,#0x0
+00100c6c mov x29,sp
+00100c70 stp x19,x20,[sp, #0x10]
+00100c74 stp x21,x22,[sp, #0x20]
+00100c78 add x22,x0,#0x10
+00100c7c stp x23,x24,[sp, #0x30]
+00100c80 mov x23,x0
+00100c84 bl 0x00102118
+00100c88 mov x24,x0
+00100c8c mov w20,w0
+00100c90 cmn x0,#0x1, LSL #12
+00100c94 b.hi 0x00100d8c
+00100c98 mov x0,x22
+00100c9c mov w2,#0xdc0
+00100ca0 mov x1,#0x2e0
+00100ca4 bl 0x00102120
+00100ca8 mov x19,x0
+00100cac cbz x0,0x00101108
+00100cb0 add x17,x19,#0x230
+00100cb4 add x18,x19,#0x250
+00100cb8 add x20,x19,#0x270
+00100cbc str x22,[x19]
+00100cc0 adrp x1,0x100000
+00100cc4 adrp x0,0x100000
+00100cc8 add x1,x1,#0x908
+00100ccc add x0,x0,#0x890
+00100cd0 adrp x16,0x100000
+00100cd4 adrp x15,0x100000
+00100cd8 add x16,x16,#0xa20
+00100cdc add x15,x15,#0x988
+00100ce0 stp x1,x0,[x17]
+00100ce4 adrp x14,0x100000
+00100ce8 adrp x13,0x101000
+00100cec stp x16,x15,[x17, #0x10]
+00100cf0 add x14,x14,#0xae0
+00100cf4 add x13,x13,#0x1e0
+00100cf8 adrp x12,0x100000
+00100cfc adrp x11,0x100000
+00100d00 add x12,x12,#0x420
+00100d04 add x11,x11,#0xbc0
+00100d08 stp x14,x13,[x18]
+00100d0c adrp x10,0x100000
+00100d10 adrp x9,0x100000
+00100d14 stp x12,x11,[x18, #0x10]
+00100d18 add x10,x10,#0x0
+00100d1c add x9,x9,#0x88
+00100d20 adrp x8,0x100000
+00100d24 adrp x7,0x100000
+00100d28 add x8,x8,#0x140
+00100d2c add x7,x7,#0x84c
+00100d30 adrp x6,0x100000
+00100d34 add x6,x6,#0x760
+00100d38 stp x10,x9,[x20]
+00100d3c mov x2,x24
+00100d40 mov x0,x22
+00100d44 stp x8,x7,[x20, #0x10]
+00100d48 adrp x3,0x101000
+00100d4c mov x5,#0x0
+00100d50 str x6,[x19, #0x290]
+00100d54 add x3,x3,#0x978
+00100d58 mov x4,#0x0
+00100d5c mov x1,#0x0
+00100d60 bl 0x00102128
+00100d64 str x0,[x19, #0x8]
+00100d68 mov x20,x0
+00100d6c cmn x0,#0x1, LSL #12
+00100d70 b.hi 0x00100d8c
+00100d74 ldr x0,[x22, #0x258]
+00100d78 add x2,sp,#0x70
+00100d7c mov w1,#0x0
+00100d80 bl 0x00102130
+00100d84 mov w20,w0
+00100d88 cbz w0,0x00100da4
+00100d8c ldp x21,x22,[sp, #0x20]
+00100d90 mov w0,w20
+00100d94 ldp x19,x20,[sp, #0x10]
+00100d98 ldp x23,x24,[sp, #0x30]
+00100d9c ldp x29,x30,[sp], #0xb0
+00100da0 ret
+00100da4 mov x0,x23
+00100da8 mov w1,#0x0
+00100dac bl 0x00102138
+00100db0 mov w20,w0
+00100db4 tbnz w0,#0x1f,0x00100d8c
+00100db8 mov x4,#0x80
+00100dbc mov w1,w0
+00100dc0 mov x6,x19
+00100dc4 mov x0,x22
+00100dc8 movk x4,#0x20, LSL #16
+00100dcc adrp x5,0x101000
+00100dd0 adrp x2,0x100000
+00100dd4 add x5,x5,#0x708
+00100dd8 add x2,x2,#0x704
+00100ddc mov x3,#0x0
+00100de0 bl 0x00102140
+00100de4 mov w20,w0
+00100de8 cbnz w0,0x00100d8c
+00100dec add x21,x19,#0x10
+00100df0 stp x25,x26,[sp, #0x40]
+00100df4 adrp x26,0x101000
+00100df8 adrp x25,0x100000
+00100dfc add x26,x26,#0x718
+00100e00 add x25,x25,#0x7a4
+00100e04 str x19,[x21]
+00100e08 add w20,w20,#0x1
+00100e0c str wzr,[x21, #0x8]
+00100e10 mov w1,w20
+00100e14 mov x0,x23
+00100e18 bl 0x00102138
+00100e1c mov w1,w0
+00100e20 mov x4,#0x80
+00100e24 mov x6,x21
+00100e28 mov x5,x26
+00100e2c mov x2,x25
+00100e30 mov x0,x22
+00100e34 movk x4,#0x20, LSL #16
+00100e38 mov x3,#0x0
+00100e3c tbnz w1,#0x1f,0x0010103c
+00100e40 bl 0x00102140
+00100e44 adrp x2,0x100000
+00100e48 add x1,x21,#0x18
+00100e4c add x2,x2,#0xac
+00100e50 orr x3,xzr,#0xfffffffe00000
+00100e54 cbnz w0,0x00101048
+00100e58 str x3,[x21, #0x10]
+00100e5c add x21,x21,#0x40
+00100e60 str x1,[x1]
+00100e64 str x1,[x1, #0x8]
+00100e68 stur x2,[x21, #-0x18]
+00100e6c cmp w20,#0x8
+00100e70 b.ne 0x00100e04
+00100e74 add x25,x19,#0x210
+00100e78 mov x21,#0x0
+00100e7c add w1,w21,#0x9
+00100e80 mov x0,x23
+00100e84 bl 0x00102138
+00100e88 mov w20,w0
+00100e8c tbnz w0,#0x1f,0x00101034
+00100e90 str w0,[x25, x21, LSL #0x2]
+00100e94 add x21,x21,#0x1
+00100e98 cmp x21,#0x6
+00100e9c b.ne 0x00100e7c
+00100ea0 mov x0,x22
+00100ea4 orr x1,xzr,#0xffffffff
+00100ea8 bl 0x00102148
+00100eac mov w20,w0
+00100eb0 cbnz w0,0x00101034
+00100eb4 add x20,x19,#0x48
+00100eb8 add x21,x19,#0x248
+00100ebc nop
+00100ec0 mov x2,x20
+00100ec4 mov x0,x22
+00100ec8 mov x4,#0x0
+00100ecc mov w3,#0xcc0
+00100ed0 mov x1,#0x100
+00100ed4 bl 0x00102150
+00100ed8 stur x0,[x20, #-0x8]
+00100edc add x20,x20,#0x40
+00100ee0 cbz x0,0x00101104
+00100ee4 cmp x20,x21
+00100ee8 b.ne 0x00100ec0
+00100eec ldr x23,[x19]
+00100ef0 mov x0,x23
+00100ef4 bl 0x00102158
+00100ef8 mov x21,x0
+00100efc cbz x0,0x001011a8
+00100f00 ldr x2,[sp, #0x70]
+00100f04 cbz x2,0x00100f24
+00100f08 ldr x3,[sp, #0x78]
+00100f0c cmp x2,x3
+00100f10 b.hi 0x00100f24
+00100f14 orr x0,x2,x3
+00100f18 and x1,x2,#0x3
+00100f1c orr x0,x1,x0, LSR #0x20
+00100f20 cbz x0,0x00101054
+00100f24 mov x0,x23
+00100f28 adrp x2,0x101000
+00100f2c mov w1,#0xffffffea
+00100f30 add x2,x2,#0x728
+00100f34 bl 0x001020a8
+00100f38 mov w20,w0
+00100f3c cbnz w20,0x00101034
+00100f40 ldr x0,[x19, #0x8]
+00100f44 mov w1,#0xc168
+00100f48 ldr x2,[sp, #0x70]
+00100f4c movk w1,#0x30, LSL #16
+00100f50 mov w21,#0x6020
+00100f54 mov w23,#0x6040
+00100f58 add w2,w2,#0x200, LSL #12
+00100f5c bl 0x00102020
+00100f60 ldr x0,[x19, #0x8]
+00100f64 mov w1,#0xc16c
+00100f68 movk w1,#0x30, LSL #16
+00100f6c mov w2,#0x40000
+00100f70 movk w21,#0x30, LSL #16
+00100f74 movk w23,#0x30, LSL #16
+00100f78 bl 0x00102020
+00100f7c ldr x0,[x19, #0x8]
+00100f80 mov w1,#0xc170
+00100f84 movk w1,#0x30, LSL #16
+00100f88 mov w2,#0x0
+00100f8c bl 0x00102020
+00100f90 ldr x0,[x19, #0x8]
+00100f94 mov w1,#0xc194
+00100f98 movk w1,#0x30, LSL #16
+00100f9c mov w2,#0x1
+00100fa0 bl 0x00102020
+00100fa4 mov w0,#0x64
+00100fa8 bl 0x00102160
+00100fac ldr x0,[x19, #0x8]
+00100fb0 mov w1,w21
+00100fb4 ldr w2,[sp, #0x70]
+00100fb8 add w21,w21,#0x4
+00100fbc bl 0x00102020
+00100fc0 cmp w21,w23
+00100fc4 b.ne 0x00100fac
+00100fc8 mov w2,#0x2
+00100fcc mov x1,#0x7d0
+00100fd0 mov x0,#0x3e8
+00100fd4 bl 0x00102168
+00100fd8 ldr x0,[x19, #0x8]
+00100fdc sub w1,w21,#0x3c
+00100fe0 mov w2,#0xff
+00100fe4 str w1,[sp, #0x5c]
+00100fe8 bl 0x00102020
+00100fec ldr w0,[sp, #0x5c]
+00100ff0 mov w2,#0x1
+00100ff4 sub w1,w0,#0x4
+00100ff8 ldr x0,[x19, #0x8]
+00100ffc bl 0x00102020
+00101000 mov w0,#0x64
+00101004 bl 0x00102160
+00101008 mov x0,x19
+0010100c add x3,sp,#0x60
+00101010 mov w5,#0xcc0
+00101014 mov w4,#0x4
+00101018 mov w2,#0xa
+0010101c mov w1,#0x0
+00101020 bl 0x00100bc0
+00101024 cbz w0,0x001011b4
+00101028 str x19,[x22, #0x78]
+0010102c ldp x25,x26,[sp, #0x40]
+00101030 b 0x00100d8c
+00101034 ldp x25,x26,[sp, #0x40]
+00101038 b 0x00100d8c
+0010103c ldp x25,x26,[sp, #0x40]
+00101040 mov w20,w1
+00101044 b 0x00100d8c
+00101048 ldp x25,x26,[sp, #0x40]
+0010104c mov w20,w0
+00101050 b 0x00100d8c
+00101054 add x1,x3,#0x1
+00101058 mov w0,#0x23ffff
+0010105c sub x1,x1,x2
+00101060 cmp x1,x0
+00101064 b.ls 0x00100f24
+00101068 str x2,[x19, #0x298]
+0010106c add x1,sp,#0x70
+00101070 str x3,[x19, #0x2a0]
+00101074 mov x0,x23
+00101078 str wzr,[x19, #0x2d8]
+0010107c bl 0x00102170
+00101080 mov x20,x0
+00101084 cmn x0,#0x1, LSL #12
+00101088 b.hi 0x00101034
+0010108c ldr x0,[x23, #0x258]
+00101090 adrp x25,0x101000
+00101094 add x25,x25,#0x750
+00101098 mov x2,#0x0
+0010109c mov x1,x25
+001010a0 bl 0x00102178
+001010a4 cbnz x0,0x00101110
+001010a8 ldr x25,[x21]
+001010ac adrp x1,0x101000
+001010b0 add x1,x1,#0x780
+001010b4 mov x0,x25
+001010b8 bl 0x00102180
+001010bc cbnz w0,0x001010cc
+001010c0 mov w0,#0xe000
+001010c4 str w0,[x19, #0x2d8]
+001010c8 ldr x25,[x21]
+001010cc mov x1,x20
+001010d0 ldr w3,[x21, #0x8]
+001010d4 mov x2,x25
+001010d8 mov x0,x23
+001010dc bl 0x00100500
+001010e0 mov w20,w0
+001010e4 cbnz w0,0x00101034
+001010e8 ldr x2,[x21, #0x10]
+001010ec mov x1,x24
+001010f0 ldr w3,[x21, #0x18]
+001010f4 mov x0,x23
+001010f8 bl 0x00100500
+001010fc mov w20,w0
+00101100 b 0x00100f3c
+00101104 ldp x25,x26,[sp, #0x40]
+00101108 mov w20,#0xfffffff4
+0010110c b 0x00100d8c
+00101110 ldr x21,[x19]
+00101114 mov x1,x25
+00101118 add x2,sp,#0x60
+0010111c mov w4,#0x0
+00101120 mov x3,#0x2
+00101124 ldr x0,[x21, #0x258]
+00101128 bl 0x00102188
+0010112c cmp w0,#0x2
+00101130 b.ne 0x0010118c
+00101134 ldr x23,[sp, #0x60]
+00101138 adrp x1,0x101000
+0010113c add x1,x1,#0x780
+00101140 mov x0,x23
+00101144 bl 0x00102180
+00101148 cbnz w0,0x00101154
+0010114c mov w0,#0xe000
+00101150 str w0,[x19, #0x2d8]
+00101154 mov x1,x20
+00101158 mov x2,x23
+0010115c mov x0,x21
+00101160 mov w3,#0x200000
+00101164 bl 0x00100500
+00101168 mov w20,w0
+0010116c cbnz w0,0x00101034
+00101170 ldr x2,[sp, #0x68]
+00101174 mov x1,x24
+00101178 mov x0,x21
+0010117c mov w3,#0x10000
+00101180 bl 0x00100500
+00101184 mov w20,w0
+00101188 b 0x00100f3c
+0010118c mov x0,x21
+00101190 adrp x2,0x101000
+00101194 mov w1,#0xffffffea
+00101198 add x2,x2,#0x760
+0010119c bl 0x001020a8
+001011a0 mov w20,w0
+001011a4 b 0x00100f3c
+001011a8 ldp x25,x26,[sp, #0x40]
+001011ac mov w20,#0xffffffea
+001011b0 b 0x00100d8c
+001011b4 ldr w2,[sp, #0x60]
+001011b8 mov x0,x22
+001011bc adrp x1,0x101000
+001011c0 add x1,x1,#0x7a8
+001011c4 and w3,w2,#0xffff
+001011c8 lsr w2,w2,#0x10
+001011cc bl 0x00102190
+001011d0 b 0x00101028
+
+FUNCTION airoha_npu_wlan_init_memory @ 001011e0
+decompiled=true
+
+int airoha_npu_wlan_init_memory(airoha_npu *npu)
+
+{
+  airoha_npu_wlan_set_cmd *paVar1;
+  uint uVar2;
+  uint uVar3;
+  int iVar4;
+  anon_struct_80_3_b566cda6 *paVar5;
+  int iVar6;
+  undefined8 uVar7;
+  ulong uVar8;
+  char *pcVar9;
+  ulong uVar10;
+  ulong uVar11;
+  resource *prVar12;
+  long lVar13;
+  anon_struct_80_3_b566cda6 *__s;
+  u32 val;
+  anon_struct_80_3_b566cda6 memory [4];
+  
+                    /* Unresolved local var: airoha_npu_priv * priv@[???]
+                       Unresolved local var: device * dev@[DW_OP_reg24(x24)]
+                       Unresolved local var: uint i@[DW_OP_reg19(x19)]
+                       Unresolved local var: uint j@[DW_OP_reg1(x1)]
+                       Unresolved local var: uint count@[DW_OP_reg20(x20)]
+                       Unresolved local var: int err@[DW_OP_reg0(x0)] */
+  __s = memory;
+  lVar13 = *(long *)npu;
+  memset(__s,0,0x140);
+  uVar10 = *(ulong *)(npu + 0x298);
+  val = 0;
+  memory[0].name = "tx-bufid";
+  memory[0].cmd = WLAN_FUNC_SET_WAIT_TX_BUF_CHECK_ADDR;
+  memory[1].name = "pkt";
+  memory[1].cmd = WLAN_FUNC_SET_WAIT_PKT_BUF_ADDR;
+  memory[2].name = "tx-pkt";
+  iVar4 = -0x16;
+  memory[2].cmd = WLAN_FUNC_SET_WAIT_TX_PKT_BUF_ADDR;
+  memory[3].name = "ba";
+  memory[3].cmd = WLAN_FUNC_SET_WAIT_DRAM_BA_NODE_ADDR;
+  if (uVar10 != 0) {
+    if ((*(ulong *)(npu + 0x2a0) < uVar10) ||
+       ((uVar10 & 3) != 0 || (uVar10 | *(ulong *)(npu + 0x2a0)) >> 0x20 != 0)) {
+      return -0x16;
+    }
+    uVar10 = 0;
+    uVar3 = of_property_match_string(*(undefined8 *)(lVar13 + 600),"memory-region-names");
+    prVar12 = &memory[0].res;
+    uVar3 = 3 - ((int)~uVar3 >> 0x1f);
+LAB_001012bc:
+    do {
+                    /* Unresolved local var: resource * res@[???] */
+      iVar4 = of_reserved_mem_region_to_resource_byname
+                        (*(undefined8 *)(lVar13 + 600),
+                         ((anon_struct_80_3_b566cda6 *)(prVar12 + -0x10))->name,prVar12);
+      if (iVar4 != 0) {
+        return iVar4;
+      }
+      uVar8 = *(ulong *)prVar12;
+      if (((uVar8 == 0) || (uVar11 = *(ulong *)(prVar12 + 8), uVar11 < uVar8)) ||
+         ((uVar8 & 3) != 0 || (uVar8 | uVar11) >> 0x20 != 0)) {
+        pcVar9 = "invalid NPU %s memory region\n";
+        uVar7 = 0xffffffea;
+LAB_00101318:
+        iVar4 = dev_err_probe(lVar13,uVar7,pcVar9,__s[uVar10].name);
+        return iVar4;
+      }
+      if ((*(uint *)(npu + 0x2d8) != 0) && ((uVar8 < 0x80000000 || (0xbfffffff < uVar11)))) {
+        pcVar9 = "NPU %s memory outside firmware DRAM window\n";
+        uVar7 = 0xffffffde;
+        goto LAB_00101318;
+      }
+      if ((uVar8 <= *(ulong *)(npu + 0x2a0)) && (*(ulong *)(npu + 0x298) <= uVar11)) {
+        pcVar9 = "NPU %s memory overlaps firmware\n";
+        uVar7 = 0xffffffea;
+        goto LAB_00101318;
+      }
+      paVar5 = __s;
+      iVar4 = 0;
+      if ((int)uVar10 == 0) {
+        prVar12 = prVar12 + 0x50;
+        uVar10 = 1;
+        goto LAB_001012bc;
+      }
+      do {
+        iVar6 = iVar4;
+        iVar4 = iVar6 + 1;
+        if ((uVar8 <= *(ulong *)&paVar5->field_0x18) && (*(ulong *)&paVar5->res <= uVar11)) {
+          iVar4 = dev_err_probe(lVar13,0xffffffea,"overlapping NPU %s memory region\n",
+                                __s[uVar10].name);
+          return iVar4;
+        }
+        paVar5 = paVar5 + 1;
+      } while (iVar4 != (int)uVar10);
+      uVar2 = iVar6 + 2;
+      uVar10 = (ulong)uVar2;
+      prVar12 = prVar12 + 0x50;
+    } while (uVar3 != uVar2);
+    if ((ulong)((memory[0]._24_8_ + 1) - memory[0]._16_8_) < (ulong)*(uint *)(npu + 0x2d8)) {
+      iVar4 = dev_err_probe(lVar13,0xffffffea,"NPU tx-bufid memory region too small\n");
+    }
+    else {
+      iVar4 = airoha_npu_wlan_msg_send(npu,1,WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU,&val,4,0xcc0);
+      if (iVar4 != 0) {
+        return iVar4;
+      }
+      paVar5 = __s + uVar3;
+      do {
+        prVar12 = &__s->res;
+        paVar1 = &__s->cmd;
+        __s = __s + 1;
+        val = (u32)*(undefined8 *)prVar12;
+        iVar4 = airoha_npu_wlan_msg_send(npu,0,*paVar1,&val,4,0xcc0);
+        if (iVar4 != 0) {
+          return iVar4;
+        }
+      } while (__s != paVar5);
+      val = 0;
+      iVar4 = airoha_npu_wlan_msg_send(npu,0,WLAN_FUNC_SET_WAIT_IS_FORCE_TO_CPU,&val,4,0xcc0);
+    }
+  }
+  return iVar4;
+}
+
+
+ASSEMBLY
+001011e0 stp x29,x30,[sp, #-0x1a0]!
+001011e4 mov x2,#0x140
+001011e8 mov w1,#0x0
+001011ec mov x29,sp
+001011f0 stp x21,x22,[sp, #0x20]
+001011f4 mov x21,x0
+001011f8 add x22,sp,#0x60
+001011fc stp x23,x24,[sp, #0x30]
+00101200 mov x0,x22
+00101204 ldr x24,[x21]
+00101208 bl 0x00102198
+0010120c ldr x4,[x21, #0x298]
+00101210 adrp x3,0x101000
+00101214 mov w8,#0x20
+00101218 add x3,x3,#0x7c0
+0010121c adrp x1,0x101000
+00101220 mov w7,#0x8
+00101224 add x1,x1,#0x7d0
+00101228 adrp x0,0x101000
+0010122c mov w6,#0x17
+00101230 add x0,x0,#0x7d8
+00101234 mov w5,#0x7
+00101238 adrp x2,0x101000
+0010123c add x2,x2,#0x7e0
+00101240 str wzr,[sp, #0x5c]
+00101244 str x3,[sp, #0x60]
+00101248 str w8,[sp, #0x68]
+0010124c str x1,[sp, #0xb0]
+00101250 str w7,[sp, #0xb8]
+00101254 str x0,[sp, #0x100]
+00101258 mov w0,#0xffffffea
+0010125c str w6,[sp, #0x108]
+00101260 str x2,[sp, #0x150]
+00101264 str w5,[sp, #0x158]
+00101268 cbz x4,0x0010132c
+0010126c stp x25,x26,[sp, #0x40]
+00101270 mov w0,#0xffffffea
+00101274 add x26,x21,#0x298
+00101278 ldr x1,[x26, #0x8]
+0010127c cmp x4,x1
+00101280 b.hi 0x00101340
+00101284 orr x1,x4,x1
+00101288 stp x19,x20,[sp, #0x10]
+0010128c and x4,x4,#0x3
+00101290 orr x1,x4,x1, LSR #0x20
+00101294 cbnz x1,0x0010133c
+00101298 ldr x0,[x24, #0x258]
+0010129c adrp x1,0x101000
+001012a0 add x1,x1,#0x7e8
+001012a4 mov w19,#0x0
+001012a8 bl 0x001021a0
+001012ac mvn w20,w0
+001012b0 add x23,sp,#0x70
+001012b4 lsr w20,w20,#0x1f
+001012b8 add w20,w20,#0x3
+001012bc ldur x1,[x23, #-0x10]
+001012c0 mov x2,x23
+001012c4 ldr x0,[x24, #0x258]
+001012c8 bl 0x001021a8
+001012cc cbnz w0,0x0010133c
+001012d0 ldr x2,[x23]
+001012d4 cbz x2,0x00101300
+001012d8 ldr x4,[x23, #0x8]
+001012dc cmp x2,x4
+001012e0 b.hi 0x00101300
+001012e4 orr x0,x2,x4
+001012e8 and x1,x2,#0x3
+001012ec orr x0,x1,x0, LSR #0x20
+001012f0 cbz x0,0x00101354
+001012f4 nop
+001012f8 nop
+001012fc nop
+00101300 ubfiz x3,x19,#0x2,#0x20
+00101304 adrp x2,0x101000
+00101308 mov x0,x24
+0010130c add x3,x3,w19, UXTW 
+00101310 add x2,x2,#0x800
+00101314 mov w1,#0xffffffea
+00101318 lsl x3,x3,#0x4
+0010131c ldr x3,[x22, x3, LSL #0x0]
+00101320 bl 0x001020a8
+00101324 ldp x19,x20,[sp, #0x10]
+00101328 ldp x25,x26,[sp, #0x40]
+0010132c ldp x21,x22,[sp, #0x20]
+00101330 ldp x23,x24,[sp, #0x30]
+00101334 ldp x29,x30,[sp], #0x1a0
+00101338 ret
+0010133c ldp x19,x20,[sp, #0x10]
+00101340 ldp x25,x26,[sp, #0x40]
+00101344 ldp x21,x22,[sp, #0x20]
+00101348 ldp x23,x24,[sp, #0x30]
+0010134c ldp x29,x30,[sp], #0x1a0
+00101350 ret
+00101354 ldr w5,[x21, #0x2d8]
+00101358 cbnz w5,0x001014b0
+0010135c ldr x0,[x26, #0x8]
+00101360 cmp x0,x2
+00101364 b.cs 0x00101488
+00101368 mov x25,x22
+0010136c mov x0,x22
+00101370 mov w1,#0x0
+00101374 cbz w19,0x001014e4
+00101378 ldr x3,[x0, #0x18]
+0010137c add w1,w1,#0x1
+00101380 cmp x3,x2
+00101384 b.cc 0x001013d0
+00101388 ldr x3,[x0, #0x10]
+0010138c cmp x3,x4
+00101390 b.hi 0x001013d0
+00101394 ubfiz x1,x19,#0x2,#0x20
+00101398 mov x0,x24
+0010139c add x19,x1,w19, UXTW 
+001013a0 adrp x2,0x101000
+001013a4 mov w1,#0xffffffea
+001013a8 add x2,x2,#0x878
+001013ac lsl x19,x19,#0x4
+001013b0 ldr x3,[x22, x19, LSL #0x0]
+001013b4 bl 0x001020a8
+001013b8 ldp x19,x20,[sp, #0x10]
+001013bc ldp x25,x26,[sp, #0x40]
+001013c0 ldp x21,x22,[sp, #0x20]
+001013c4 ldp x23,x24,[sp, #0x30]
+001013c8 ldp x29,x30,[sp], #0x1a0
+001013cc ret
+001013d0 add x0,x0,#0x50
+001013d4 cmp w1,w19
+001013d8 b.ne 0x00101378
+001013dc add w19,w1,#0x1
+001013e0 add x23,x23,#0x50
+001013e4 cmp w20,w19
+001013e8 b.ne 0x001012bc
+001013ec ldp x1,x0,[sp, #0x70]
+001013f0 add x0,x0,#0x1
+001013f4 sub x0,x0,x1
+001013f8 cmp x0,w5, UXTW 
+001013fc b.cc 0x001014f0
+00101400 add x3,sp,#0x5c
+00101404 mov x0,x21
+00101408 mov w5,#0xcc0
+0010140c mov w4,#0x4
+00101410 mov w2,#0x12
+00101414 mov w1,#0x1
+00101418 bl 0x00100420
+0010141c cbnz w0,0x0010133c
+00101420 mov w0,#0x50
+00101424 umaddl x20,w20,w0,x22
+00101428 ldr x6,[x25, #0x10]
+0010142c add x3,sp,#0x5c
+00101430 ldr w2,[x25, #0x8]
+00101434 mov x0,x21
+00101438 add x25,x25,#0x50
+0010143c mov w5,#0xcc0
+00101440 mov w4,#0x4
+00101444 mov w1,#0x0
+00101448 str w6,[sp, #0x5c]
+0010144c bl 0x00100420
+00101450 cbnz w0,0x0010133c
+00101454 cmp x25,x20
+00101458 b.ne 0x00101428
+0010145c add x3,sp,#0x5c
+00101460 mov x0,x21
+00101464 mov w5,#0xcc0
+00101468 mov w4,#0x4
+0010146c mov w2,#0xc
+00101470 mov w1,#0x0
+00101474 str wzr,[sp, #0x5c]
+00101478 bl 0x00100420
+0010147c ldp x19,x20,[sp, #0x10]
+00101480 ldp x25,x26,[sp, #0x40]
+00101484 b 0x0010132c
+00101488 ldr x0,[x26]
+0010148c cmp x0,x4
+00101490 b.hi 0x00101368
+00101494 ubfiz x3,x19,#0x2,#0x20
+00101498 adrp x2,0x101000
+0010149c mov x0,x24
+001014a0 add x3,x3,w19, UXTW 
+001014a4 add x2,x2,#0x850
+001014a8 mov w1,#0xffffffea
+001014ac b 0x00101318
+001014b0 orr x0,xzr,#0x7fffffff
+001014b4 cmp x2,x0
+001014b8 b.ls 0x001014c8
+001014bc mov w0,#0xbfffffff
+001014c0 cmp x4,x0
+001014c4 b.ls 0x0010135c
+001014c8 ubfiz x3,x19,#0x2,#0x20
+001014cc adrp x2,0x101000
+001014d0 mov x0,x24
+001014d4 add x3,x3,w19, UXTW 
+001014d8 add x2,x2,#0x820
+001014dc mov w1,#0xffffffde
+001014e0 b 0x00101318
+001014e4 add x23,x23,#0x50
+001014e8 mov w19,#0x1
+001014ec b 0x001012bc
+001014f0 mov x0,x24
+001014f4 adrp x2,0x101000
+001014f8 mov w1,#0xffffffea
+001014fc add x2,x2,#0x8a0
+00101500 bl 0x001020a8
+00101504 ldp x19,x20,[sp, #0x10]
+00101508 ldp x25,x26,[sp, #0x40]
+0010150c b 0x0010132c
+
+FUNCTION airoha_npu_driver_init @ 001015fc
+decompiled=true
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+int airoha_npu_driver_init(void)
+
+{
+  int iVar1;
+  
+  iVar1 = __platform_driver_register(&airoha_npu_driver,0);
+  return iVar1;
+}
+
+
+ASSEMBLY
+001015fc stp x29,x30,[sp, #-0x10]!
+00101600 mov x1,#0x0
+00101604 adrp x0,0x101000
+00101608 mov x29,sp
+0010160c add x0,x0,#0x510
+00101610 bl 0x00102010
+00101614 ldp x29,x30,[sp], #0x10
+00101618 ret
+
+FUNCTION airoha_npu_driver_exit @ 0010195c
+decompiled=true
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+void airoha_npu_driver_exit(void)
+
+{
+  platform_driver_unregister(&airoha_npu_driver);
+  return;
+}
+
+
+ASSEMBLY
+0010195c stp x29,x30,[sp, #-0x10]!
+00101960 adrp x0,0x101000
+00101964 add x0,x0,#0x510
+00101968 mov x29,sp
+0010196c bl 0x001020b8
+00101970 ldp x29,x30,[sp], #0x10
+00101974 ret
+
+total_executable_functions=24
+exported_functions=24
+failed_decompilations=0

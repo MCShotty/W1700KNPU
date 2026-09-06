@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "command": [
+    "make",
+    "-C",
+    "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+    "M=/home/captain/W1700KNPU/.local/npu-preflight/layout",
+    "ARCH=arm64",
+    "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+    "airoha-layout.o"
+  ],
+  "public_baseline": [
+    64,
+    664,
+    8,
+    16,
+    48,
+    56,
+    528,
+    552,
+    560
+  ],
+  "public_current": [
+    64,
+    664,
+    8,
+    16,
+    48,
+    56,
+    528,
+    552,
+    560
+  ],
+  "private": {
+    "allocation_size": 736,
+    "public_offset": 0,
+    "firmware_offset": 664,
+    "minimum_offset": 728,
+    "resource_size": 64
+  },
+  "public_header_sha256": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+  "source_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+  "object_sha256": "caf1cc0aed2fd2b31496d7a78b777a833f582a0917e297d37971cb7a7a8a061d",
+  "limits": "ARM64 kernel compile and offsets, not runtime lifetime or concurrency proof."
+}

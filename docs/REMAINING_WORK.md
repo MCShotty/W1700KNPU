@@ -1,13 +1,19 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from the TX-check reservation correction, current reference and release
+Updated 2026-09-06 from provider memory preflight, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
-publication/timeout-ownership fix (patch 926). The last
+publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
+kernel/ABI/Ghidra verification passed). The last
 router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 
 ## Priority 1: Safe NPU Recovery
 
+- [x] Implement provider memory-layout preflight before WLAN initialization
+  messages. Actual-C and DTB tests reject stale short TX-check tables, invalid
+  addresses and overlaps; binary code/backup capacity is checked before copy.
+  Kernel/ABI/object validation passes. This does not prove all other buffer
+  capacities, hardware containment, complete bootstrap or send-failure rollback.
 - [x] Correct the MT7996 TX-check reservation: native initialization clears
   56 KiB, not the previously reserved 26 KiB. The MT7996 include now moves BA
   beyond the full table; three affected DTBs and a generic control verify.
@@ -109,7 +115,8 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`,
+Detailed evidence: `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-copy/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-layout/REPORT.md`,
 `research/checkpoints/2026-09-05-npu-admission/REPORT.md`,

@@ -6250,3 +6250,24 @@ no MMIO workaround, install, radio/config/association/module change or flash.
 R1 remains last router-tested; actual-client proof is pending. Evidence:
 `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`. Ledger/reference/remaining
 work updated; both full goals remain active.
+
+## Provider Reserved-Memory Preflight - 2026-09-06
+
+Patch 927 now validates/snapshots WLAN regions before the first WLAN init send
+and checks binary code/backup capacity before firmware mapping/loading. Loaded
+profile and binary bounds are provider-private; successful wire order and the
+public consumer structure are unchanged. Actual-C tests cover 109 cases plus
+eight actual-DTB fixtures, six mutation controls and three preimage defects.
+The existing mailbox suite retains 143 passing assertions. Source reconstruction
+verifies36OpenWrt/3LuCifiles; kernel preparation matches the candidate exactly.
+Full kernel compile exits0; ARM64 probes preserve all public sizes/offsets.
+Ghidra exports24/24functions and confirms preflight-before-send in the object;
+the combined evidence verifier passes. Tool/DWARF limits are recorded separately.
+
+This is startup layout validation, not contained initialization, physical drains,
+recovery/removal ownership or rollback after a partially accepted sequence. Full
+NPU datapath parity and actual-client acceptance remain unfinished. No router
+contact, full image, config, loaded-module, association or flash change; R1 remains last
+router-tested with WLAN NPU compiled out. Evidence:
+`research/checkpoints/2026-09-06-npu-preflight/REPORT.md`. Ledger/reference/remaining
+work updated; both project goals remain unfinished.

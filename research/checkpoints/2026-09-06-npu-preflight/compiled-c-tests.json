@@ -1,0 +1,434 @@
+{
+  "passed": true,
+  "type": "compiled actual provider C functions; stubbed OF/load/mailbox boundaries",
+  "cases": 109,
+  "case_names": [
+    "load profile=0 property=0 ba=0",
+    "wire profile=0 property=0 ba=0",
+    "load-addresses profile=0 property=0 ba=0",
+    "load profile=0 property=0 ba=1",
+    "wire profile=0 property=0 ba=1",
+    "load-addresses profile=0 property=0 ba=1",
+    "load profile=0 property=1 ba=0",
+    "wire profile=0 property=1 ba=0",
+    "load-addresses profile=0 property=1 ba=0",
+    "load profile=0 property=1 ba=1",
+    "wire profile=0 property=1 ba=1",
+    "load-addresses profile=0 property=1 ba=1",
+    "load profile=1 property=0 ba=0",
+    "wire profile=1 property=0 ba=0",
+    "load-addresses profile=1 property=0 ba=0",
+    "load profile=1 property=0 ba=1",
+    "wire profile=1 property=0 ba=1",
+    "load-addresses profile=1 property=0 ba=1",
+    "load profile=1 property=1 ba=0",
+    "wire profile=1 property=1 ba=0",
+    "load-addresses profile=1 property=1 ba=0",
+    "load profile=1 property=1 ba=1",
+    "wire profile=1 property=1 ba=1",
+    "load-addresses profile=1 property=1 ba=1",
+    "load profile=2 property=0 ba=0",
+    "wire profile=2 property=0 ba=0",
+    "load-addresses profile=2 property=0 ba=0",
+    "load profile=2 property=0 ba=1",
+    "wire profile=2 property=0 ba=1",
+    "load-addresses profile=2 property=0 ba=1",
+    "load profile=2 property=1 ba=0",
+    "wire profile=2 property=1 ba=0",
+    "load-addresses profile=2 property=1 ba=0",
+    "load profile=2 property=1 ba=1",
+    "wire profile=2 property=1 ba=1",
+    "load-addresses profile=2 property=1 ba=1",
+    "uninitialized-provider",
+    "missing-tx-bufid",
+    "missing-pkt",
+    "missing-tx-pkt",
+    "missing-ba",
+    "invalid-range-0-(0, 255)",
+    "invalid-range-0-(2415919108, 2415919107)",
+    "invalid-range-0-(2432696321, 2432696336)",
+    "invalid-range-0-(6723469312, 6723526655)",
+    "invalid-range-0-(4294963200, 4294971391)",
+    "invalid-range-1-(0, 255)",
+    "invalid-range-1-(2415919108, 2415919107)",
+    "invalid-range-1-(2432696321, 2432696336)",
+    "invalid-range-1-(6723469312, 6723526655)",
+    "invalid-range-1-(4294963200, 4294971391)",
+    "invalid-range-2-(0, 255)",
+    "invalid-range-2-(2415919108, 2415919107)",
+    "invalid-range-2-(2432696321, 2432696336)",
+    "invalid-range-2-(6723469312, 6723526655)",
+    "invalid-range-2-(4294963200, 4294971391)",
+    "invalid-range-3-(0, 255)",
+    "invalid-range-3-(2415919108, 2415919107)",
+    "invalid-range-3-(2432696321, 2432696336)",
+    "invalid-range-3-(6723469312, 6723526655)",
+    "invalid-range-3-(4294963200, 4294971391)",
+    "firmware-aperture-0-(1879048192, 1879113727)",
+    "firmware-aperture-0-(3221221376, 3221229567)",
+    "firmware-aperture-1-(1879048192, 1879113727)",
+    "firmware-aperture-1-(3221221376, 3221229567)",
+    "firmware-aperture-2-(1879048192, 1879113727)",
+    "firmware-aperture-2-(3221221376, 3221229567)",
+    "firmware-aperture-3-(1879048192, 1879113727)",
+    "firmware-aperture-3-(3221221376, 3221229567)",
+    "wlan-overlap-0-1",
+    "wlan-overlap-0-2",
+    "wlan-overlap-0-3",
+    "wlan-overlap-1-2",
+    "wlan-overlap-1-3",
+    "wlan-overlap-2-3",
+    "firmware-overlap-0",
+    "firmware-overlap-1",
+    "firmware-overlap-2",
+    "firmware-overlap-3",
+    "undersized-tx-check-1",
+    "undersized-tx-check-26624",
+    "undersized-tx-check-57343",
+    "one-byte-overlap",
+    "adjacent-regions-accepted",
+    "loaded-profile-cached",
+    "loaded-binary-region-cached",
+    "addresses-snapshotted-before-send",
+    "send-failure-1",
+    "send-failure-2",
+    "send-failure-3",
+    "send-failure-4",
+    "send-failure-5",
+    "send-failure-6",
+    "binary-pre-map-(0, 255)",
+    "binary-pre-map-(2415919108, 2415919107)",
+    "binary-pre-map-(2432696321, 2432696336)",
+    "binary-pre-map-(6723469312, 6723526655)",
+    "binary-pre-map-(4294963200, 4294971391)",
+    "binary-pre-map-(2214592512, 2216951806)",
+    "binary-exact-minimum",
+    "bad-property-count--22",
+    "bad-property-count-0",
+    "bad-property-count-1",
+    "missing-soc",
+    "map-error",
+    "load-error-1-0",
+    "load-error-1-1",
+    "load-error-2-0",
+    "load-error-2-1"
+  ],
+  "dtb_cases": [
+    {
+      "label": "baseline/an7581-w1700k-ubi",
+      "dtb_sha256": "3693c38a2c5ef40043e104e6e4a75ca44dda94b2a40d4ed3fecec6f7b7a2069c",
+      "ret": -22,
+      "wire": []
+    },
+    {
+      "label": "baseline/an7581-nokia-valyrian",
+      "dtb_sha256": "c937a07c1fdbb2eb88a70eda938d4e10530870c9b4a30e30df7d3c826511f1e6",
+      "ret": -22,
+      "wire": []
+    },
+    {
+      "label": "baseline/an7581-evb-emmc-eagle",
+      "dtb_sha256": "5bcbdb617701cd27ecaee2a7e63f188b1e5584f2ed736f817affd42bf3abb075",
+      "ret": -22,
+      "wire": []
+    },
+    {
+      "label": "baseline/an7581-evb",
+      "dtb_sha256": "07d084f0b326f21f549ff6edd58f69e529c1f42e936533e3f3fb0009a7e05e5e",
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428528640
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    },
+    {
+      "label": "candidate/an7581-w1700k-ubi",
+      "dtb_sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428559360
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    },
+    {
+      "label": "candidate/an7581-nokia-valyrian",
+      "dtb_sha256": "12616402b5e1e2e128226bd75241135e75589e1f1a2d22896fb02611cd8ef864",
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428559360
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    },
+    {
+      "label": "candidate/an7581-evb-emmc-eagle",
+      "dtb_sha256": "20861e369e9817bc9921324264978c3b656b91b09e6a08e3b7b3af71bcf8b601",
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428559360
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    },
+    {
+      "label": "candidate/an7581-evb",
+      "dtb_sha256": "07d084f0b326f21f549ff6edd58f69e529c1f42e936533e3f3fb0009a7e05e5e",
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428528640
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    }
+  ],
+  "source_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+  "preimage_sha256": "51cd396f8c141bbf6d425088ddbf39e8a59d4874fa529980332509ba3b52e1fa",
+  "header_sha256": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+  "mutations_killed": {
+    "omit-tx-minimum": "undersized-tx-check-1: metrics=[1, 2, 4, 6, 4, 57344] wire=[[1, 18, 0], [0, 32, 2428502016], [0, 8, 2315255808], [0, 23, 2361393152], [0, 7, 2428559360], [0, 12, 0]]",
+    "omit-overlap": "wlan-overlap-0-1: metrics=[1, 2, 4, 6, 4, 57344] wire=[[1, 18, 0], [0, 32, 2428502016], [0, 8, 2428502016], [0, 23, 2361393152], [0, 7, 2428559360], [0, 12, 0]]",
+    "omit-upper-bits": "invalid-range-0-(6723469312, 6723526655): metrics=[1, 2, 1, 0, -1, 57344] wire=[]",
+    "omit-binary-capacity": "binary-pre-map-(2214592512, 2216951806): metrics=[1, 2, 0, 0, -1, 57344] wire=[]",
+    "reread-profile": "loaded-profile-cached: metrics=[1, 2, 4, 6, 4, 0] wire=[[1, 18, 0], [0, 32, 2428502016], [0, 8, 2315255808], [0, 23, 2361393152], [0, 7, 2428559360], [0, 12, 0]]",
+    "publish-before-validation": "wire profile=0 property=0 ba=0: metrics=[1, 2, 3, 6, 0, 0] wire=[[1, 18, 0], [1, 18, 0], [0, 32, 2428502016], [0, 8, 2315255808], [0, 23, 2361393152], [0, 12, 0]]"
+  },
+  "preimage_counterexamples": {
+    "undersized_tx": {
+      "ret": 0,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ],
+        [
+          0,
+          7,
+          2428559360
+        ],
+        [
+          0,
+          12,
+          0
+        ]
+      ]
+    },
+    "missing_ba": {
+      "ret": -2,
+      "wire": [
+        [
+          1,
+          18,
+          0
+        ],
+        [
+          0,
+          32,
+          2428502016
+        ],
+        [
+          0,
+          8,
+          2315255808
+        ],
+        [
+          0,
+          23,
+          2361393152
+        ]
+      ]
+    },
+    "undersized_binary": {
+      "ret": 0,
+      "maps_loads": [
+        1,
+        2
+      ]
+    },
+    "valid_wire": [
+      [
+        1,
+        18,
+        0
+      ],
+      [
+        0,
+        32,
+        2428502016
+      ],
+      [
+        0,
+        8,
+        2315255808
+      ],
+      [
+        0,
+        23,
+        2361393152
+      ],
+      [
+        0,
+        7,
+        2428559360
+      ],
+      [
+        0,
+        12,
+        0
+      ]
+    ]
+  },
+  "limits": "Not kernel runtime, hardware containment/drain, firmware content attestation, hot DT overlay safety, or actual-client proof."
+}

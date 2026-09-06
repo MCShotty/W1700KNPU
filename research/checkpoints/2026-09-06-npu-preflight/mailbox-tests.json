@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "fixed": "PASS assertions=143",
+  "negative_controls": {
+    "order": "FAIL immediate-consumer completion must not be overwritten",
+    "timeout": "FAIL timed-out request buffer must not be overwritten"
+  },
+  "source_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+  "preimage_sha256": "c16c2fe02253a29c2ac7f7e2d6a6bae2f75a04fce950d2fb6e33281469f6cc1c",
+  "scope": "actual compiled mailbox function with adversarial MMIO stubs; not WLAN DMA quiescence or hardware proof"
+}

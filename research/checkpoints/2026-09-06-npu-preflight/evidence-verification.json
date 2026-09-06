@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "packaged_delta": "target/linux/airoha/patches-6.18/927-net-airoha-npu-validate-memory-before-wlan.patch",
+  "patch_sha256": "608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708",
+  "provider_source_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+  "provider_object_sha256": "74753cbc9f78ddb94190bb83a5d8a4319acff670a8ccc4ac9f9988457520c40d",
+  "public_header_sha256": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+  "ghidra_counts": {
+    "total_executable_functions": 24,
+    "exported_functions": 24
+  },
+  "compiled_c_cases": 109,
+  "dtb_cases": 8,
+  "mutations_killed": 6,
+  "mailbox_assertions": 143,
+  "inputs": {
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/build_preflight_layout.py": "27561d53dbe02d203156536ebc6ad66dec167804e29bdfa3f316603b9f5f39ae",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_mailbox_ownership.py": "44f85e3d4d6e0d52e1df7ae8946bb44016427af3afd29bc6f9f4f8b62c42e96c",
+    "tools/ghidra/run_preflight_provider.ps1": "61c7e529e76ae57c98782443b762b5b6c101192f28fc8094c66d68668d56291d",
+    "tools/ghidra/ExportMailboxContract.java": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd",
+    "tools/ghidra/all-functions.pattern": "64263feac7b00952e9ec3b6c1fd11316faa58ff673c6bd085fac9f6f8d8389f6",
+    "tools/migration/verify_source_export.py": "eb102acb1452261ca8ba808d3191f9b89753c69df49d571f07846e1d20b79b0d",
+    "firmware/source-lock.json": "46d69e60a43a793796691e2656d4376871274f8b20e637c40c0143fb0bc26c09",
+    "firmware/patches/openwrt.patch": "589481fde3271e88c83bab2cac87e56132f883ad40ac035135dd6423360d0a8d",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad"
+  },
+  "verifier_sha256": "4d04ab3a69208839709b936c8d8ac8c3f199a5f3bc6d5f50de1e7d2db4cbfbd5",
+  "scope": "Provider startup preflight: component tests and real ARM64 build/static analysis. No hardware containment, full recovery, new release image, flash or client proof."
+}

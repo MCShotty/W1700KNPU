@@ -1,0 +1,324 @@
+[
+  {
+    "label": "baseline/an7581-w1700k-ubi",
+    "profile": "an7581-w1700k-ubi",
+    "variant": "baseline",
+    "dtb_sha256": "3693c38a2c5ef40043e104e6e4a75ca44dda94b2a40d4ed3fecec6f7b7a2069c",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428528639,
+        "size": 26624
+      },
+      "ba": {
+        "start": 2428528640,
+        "end": 2430625791,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": false
+  },
+  {
+    "label": "baseline/an7581-nokia-valyrian",
+    "profile": "an7581-nokia-valyrian",
+    "variant": "baseline",
+    "dtb_sha256": "c937a07c1fdbb2eb88a70eda938d4e10530870c9b4a30e30df7d3c826511f1e6",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428528639,
+        "size": 26624
+      },
+      "ba": {
+        "start": 2428528640,
+        "end": 2430625791,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": false
+  },
+  {
+    "label": "baseline/an7581-evb-emmc-eagle",
+    "profile": "an7581-evb-emmc-eagle",
+    "variant": "baseline",
+    "dtb_sha256": "5bcbdb617701cd27ecaee2a7e63f188b1e5584f2ed736f817affd42bf3abb075",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428528639,
+        "size": 26624
+      },
+      "ba": {
+        "start": 2428528640,
+        "end": 2430625791,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": false
+  },
+  {
+    "label": "baseline/an7581-evb",
+    "profile": "an7581-evb",
+    "variant": "baseline",
+    "dtb_sha256": "07d084f0b326f21f549ff6edd58f69e529c1f42e936533e3f3fb0009a7e05e5e",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": null,
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428528639,
+        "size": 26624
+      },
+      "ba": {
+        "start": 2428528640,
+        "end": 2430625791,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": true
+  },
+  {
+    "label": "candidate/an7581-w1700k-ubi",
+    "profile": "an7581-w1700k-ubi",
+    "variant": "candidate",
+    "dtb_sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428559359,
+        "size": 57344
+      },
+      "ba": {
+        "start": 2428559360,
+        "end": 2430656511,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": true
+  },
+  {
+    "label": "candidate/an7581-nokia-valyrian",
+    "profile": "an7581-nokia-valyrian",
+    "variant": "candidate",
+    "dtb_sha256": "12616402b5e1e2e128226bd75241135e75589e1f1a2d22896fb02611cd8ef864",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428559359,
+        "size": 57344
+      },
+      "ba": {
+        "start": 2428559360,
+        "end": 2430656511,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": true
+  },
+  {
+    "label": "candidate/an7581-evb-emmc-eagle",
+    "profile": "an7581-evb-emmc-eagle",
+    "variant": "candidate",
+    "dtb_sha256": "20861e369e9817bc9921324264978c3b656b91b09e6a08e3b7b3af71bcf8b601",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": [
+      "airoha/en7581_MT7996_npu_rv32.bin",
+      "airoha/en7581_MT7996_npu_data.bin"
+    ],
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428559359,
+        "size": 57344
+      },
+      "ba": {
+        "start": 2428559360,
+        "end": 2430656511,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": true
+  },
+  {
+    "label": "candidate/an7581-evb",
+    "profile": "an7581-evb",
+    "variant": "candidate",
+    "dtb_sha256": "07d084f0b326f21f549ff6edd58f69e529c1f42e936533e3f3fb0009a7e05e5e",
+    "compatible": [
+      "airoha,en7581-npu"
+    ],
+    "firmware_names": null,
+    "resources": {
+      "binary": {
+        "start": 2214592512,
+        "end": 2225078271,
+        "size": 10485760
+      },
+      "pkt": {
+        "start": 2315255808,
+        "end": 2361393151,
+        "size": 46137344
+      },
+      "tx-pkt": {
+        "start": 2361393152,
+        "end": 2428502015,
+        "size": 67108864
+      },
+      "tx-bufid": {
+        "start": 2428502016,
+        "end": 2428528639,
+        "size": 26624
+      },
+      "ba": {
+        "start": 2428528640,
+        "end": 2430625791,
+        "size": 2097152
+      }
+    },
+    "expected_preflight_accept": true
+  }
+]

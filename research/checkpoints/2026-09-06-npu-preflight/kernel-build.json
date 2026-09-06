@@ -1,0 +1,26 @@
+[
+  {
+    "command": [
+      "make",
+      "-C",
+      "/home/captain/W1700KNPU/.build/openwrt",
+      "target/linux/prepare",
+      "V=s",
+      "-j1"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 42.747
+  },
+  {
+    "command": [
+      "make",
+      "-C",
+      "/home/captain/W1700KNPU/.build/openwrt",
+      "target/linux/compile",
+      "V=s",
+      "-j4"
+    ],
+    "exit_code": 0,
+    "duration_seconds": 728.737
+  }
+]
