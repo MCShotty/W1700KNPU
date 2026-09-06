@@ -6291,3 +6291,22 @@ physical loader containment/cache remain open, together with Linux recovery,
 full datapath parity and client Wi-Fi acceptance. No packaged source/config,
 router, flash or release change. Ledger/reference/remaining-work updated; see
 `research/checkpoints/2026-09-06-npu-startup/REPORT.md`.
+
+## Early Bootstrap Admission Candidate - 2026-09-06
+
+Corrected the late-cold-hart marker check and added unpromoted MT7996 provider
+bootstrap admission. A compiled source-8 registration detour precedes enable;
+the handler validates a declared request buffer and private snapshot, allows
+only version and six ordered memory commands, and retains failures. Sixteen
+late-hart schedules, 228 policy cases, 5,935 native/RV32 pairs, 14 mutants and 13
+original IRQ cases pass. Integrated native tests cover 35 invalid requests and
+seven controls. Startup/race and twelve existing suites replay; Ghidra exports
+11 selected functions from 62.
+
+Full Wi-Fi main/mt76 attachment is not implemented. Native L2 write `0x1ec0f200` is
+the next explicitly unmodeled boundary; version `0x457` is fallback, not readiness.
+Structural range checks do not prove all packet footprints or hardware owners.
+No packaged source/config, router, image, release or flash change. R1 remains
+last router-tested with WLAN NPU compiled out. Ledger/reference/remaining-work
+updated; full goals remain unfinished. Evidence:
+`research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`.

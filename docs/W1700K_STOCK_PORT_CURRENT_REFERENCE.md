@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (cold-start candidate and current OpenWrt snapshot audit)
+Last updated: 2026-09-06 (early bootstrap admission candidate)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,23 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Cold-Start Candidate And Snapshot Audit - 2026-09-06
+## Current Work - Early Bootstrap Admission Candidate - 2026-09-06
+
+- Fixed late cold workers rejecting the coordinator's normal boot-marker write.
+  Sixteen schedules pass; the old binding fails fourteen late-arrival schedules.
+- Added unpromoted, plan-bound MT7996 provider bootstrap with private request
+  snapshots and failure retention. A compiled detour installs strict IRQ8 before
+  source enable. Early version and six memory commands reach native TX-check
+  clear; 35 invalid requests and seven controls pass. General mt76 setup stays closed.
+- 228 policy scenarios, 5,935 native/RV32 pairs, 14 mutants, 13 original IRQ cases,
+  startup and twelve prior suites pass. Ghidra exports 11 selected functions from 62.
+- Full Wi-Fi/L2 initialization, host loader/cache/physical containment and full
+  attach/recovery/parity remain open. Version `0x457` is a fallback, not readiness.
+  No packaged source/config, router, flash or release change. R1 remains last
+  router-tested with WLAN NPU compiled out. Evidence:
+  `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`.
+
+## Previous Work - Cold-Start Candidate And Snapshot Audit - 2026-09-06
 
 - Official snapshot r36060-d6933d6aed retains our relevant kernel/mt76/NPU
   inputs and the old short TX-check reservation. No new reusable fix found;

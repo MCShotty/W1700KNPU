@@ -19,7 +19,8 @@ void npu_emulation_cold_start(uint32_t hart)
     struct npu_startup *startup = &npu_emulation_startup_state;
     struct npu_barrier *barrier = &npu_emulation_barrier_state;
     enum npu_startup_action action;
-    uint32_t warm = *(volatile uint32_t *)0x1ec0c140u == UINT32_MAX;
+    /* Core 0 sets this marker during cold boot, before late workers arrive. */
+    uint32_t warm = !hart && *(volatile uint32_t *)0x1ec0c140u == UINT32_MAX;
 
     action = npu_startup_arrive(startup, hart, warm);
     if (action == NPU_STARTUP_INITIALIZE) {

@@ -1,0 +1,23 @@
+{
+  "preimage": {
+    "publication": {
+      "phase_when_fault_latched": 1,
+      "publish_result": 1,
+      "poll_result": 2
+    },
+    "fault_after_ready_acquire": 2,
+    "instrumented_elf_sha256": "4c2fe8893d83e954e61bdf5a3793ef04d793467d8163fe01ade70915fd9f60b3"
+  },
+  "fixed": {
+    "publication": {
+      "phase_when_fault_latched": 3,
+      "publish_result": 0,
+      "poll_result": 3
+    },
+    "fault_after_ready_acquire": 3,
+    "instrumented_elf_sha256": "3e919410c57527037745357e4a151018f6acc18090f85a775482848692eed5ca"
+  },
+  "passed": true,
+  "source_sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+  "scope": "Three saved RV32 contexts; source with memory-clobber NOP pause labels and noinline on fault/poll helpers. No simultaneous-hardware/cache proof or instantaneous containment of a hart already past the gate."
+}

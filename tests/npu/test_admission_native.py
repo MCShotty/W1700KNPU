@@ -26,10 +26,16 @@ HOOKS = {0x840030b2: ('npu_emulation_irq_dispatch', '411122c4'),
 
 
 def build_platform(state_address=None, gdma_source=None, poll_limit=65536, gdma_binding=None,
-                   startup=False, startup_source=None, startup_binding=None):
+                   startup=False, startup_source=None, startup_binding=None, bootstrap_source=None):
     lld = shutil.which('ld.lld') or str(BUILD / 'lld/usr/lib/llvm-21/bin/ld.lld')
     tag = '' if state_address is None else '-' + hex(state_address)
     extra_sources = []
+    if bootstrap_source is not None:
+        assert startup, 'bootstrap binding requires cold initialization'
+        tag += '-bootstrap-' + bootstrap_source.stem
+        extra_sources += [str(bootstrap_source), '-DNPU_EMULATION_BOOTSTRAP',
+                          str(ROOT / 'tests/npu/bootstrap-platform-emulation.c'),
+                          str(ROOT / 'tests/npu/bootstrap-emulation.S')]
     if startup:
         tag += '-startup'
         if startup_source is not None:

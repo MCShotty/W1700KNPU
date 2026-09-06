@@ -1,0 +1,325 @@
+{
+  "passed": true,
+  "binding_sha256": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+  "test_sha256": "f4bca16070151145c82666f107439ef15e2167a91674ea0c1f35c331a3627568",
+  "elf_sha256": "b0ba74440d9b8c86f0643adf7038e82c68ea7b5436f5fb292e209040c88e8288",
+  "preimage_elf_sha256": "5fb3785f17f0af2ad379ff63bd20c794ed1a2d7e06a3c972a25845dc38005ffe",
+  "fixed_cases": [
+    {
+      "seed": 0,
+      "workers": [
+        5,
+        3,
+        2,
+        1,
+        6,
+        4,
+        7
+      ],
+      "preexisting_waiters": 0,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 1,
+      "workers": [
+        4,
+        7,
+        6,
+        3,
+        1,
+        5,
+        2
+      ],
+      "preexisting_waiters": 1,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 2,
+      "workers": [
+        3,
+        4,
+        2,
+        5,
+        6,
+        1,
+        7
+      ],
+      "preexisting_waiters": 2,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 3,
+      "workers": [
+        1,
+        3,
+        4,
+        7,
+        6,
+        5,
+        2
+      ],
+      "preexisting_waiters": 3,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 4,
+      "workers": [
+        6,
+        5,
+        7,
+        4,
+        1,
+        3,
+        2
+      ],
+      "preexisting_waiters": 4,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 5,
+      "workers": [
+        7,
+        4,
+        2,
+        1,
+        6,
+        3,
+        5
+      ],
+      "preexisting_waiters": 5,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 6,
+      "workers": [
+        3,
+        6,
+        2,
+        4,
+        1,
+        5,
+        7
+      ],
+      "preexisting_waiters": 6,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 7,
+      "workers": [
+        6,
+        7,
+        5,
+        1,
+        4,
+        2,
+        3
+      ],
+      "preexisting_waiters": 7,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 8,
+      "workers": [
+        5,
+        6,
+        1,
+        7,
+        4,
+        3,
+        2
+      ],
+      "preexisting_waiters": 0,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 9,
+      "workers": [
+        2,
+        7,
+        1,
+        6,
+        3,
+        5,
+        4
+      ],
+      "preexisting_waiters": 1,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 10,
+      "workers": [
+        2,
+        6,
+        3,
+        7,
+        4,
+        1,
+        5
+      ],
+      "preexisting_waiters": 2,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 11,
+      "workers": [
+        2,
+        1,
+        3,
+        6,
+        7,
+        5,
+        4
+      ],
+      "preexisting_waiters": 3,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 12,
+      "workers": [
+        7,
+        2,
+        1,
+        6,
+        5,
+        3,
+        4
+      ],
+      "preexisting_waiters": 4,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 13,
+      "workers": [
+        4,
+        1,
+        6,
+        5,
+        2,
+        7,
+        3
+      ],
+      "preexisting_waiters": 5,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 14,
+      "workers": [
+        7,
+        3,
+        4,
+        2,
+        6,
+        5,
+        1
+      ],
+      "preexisting_waiters": 6,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 15,
+      "workers": [
+        7,
+        3,
+        4,
+        6,
+        5,
+        1,
+        2
+      ],
+      "preexisting_waiters": 7,
+      "duplicate_rejected": true
+    }
+  ],
+  "preimage_cases": [
+    {
+      "seed": 0,
+      "falsely_rejected_late_hart": 5
+    },
+    {
+      "seed": 1,
+      "falsely_rejected_late_hart": 7
+    },
+    {
+      "seed": 2,
+      "falsely_rejected_late_hart": 2
+    },
+    {
+      "seed": 3,
+      "falsely_rejected_late_hart": 7
+    },
+    {
+      "seed": 4,
+      "falsely_rejected_late_hart": 1
+    },
+    {
+      "seed": 5,
+      "falsely_rejected_late_hart": 3
+    },
+    {
+      "seed": 6,
+      "falsely_rejected_late_hart": 7
+    },
+    {
+      "seed": 7,
+      "workers": [
+        6,
+        7,
+        5,
+        1,
+        4,
+        2,
+        3
+      ],
+      "preexisting_waiters": 7,
+      "duplicate_rejected": true
+    },
+    {
+      "seed": 8,
+      "falsely_rejected_late_hart": 5
+    },
+    {
+      "seed": 9,
+      "falsely_rejected_late_hart": 7
+    },
+    {
+      "seed": 10,
+      "falsely_rejected_late_hart": 3
+    },
+    {
+      "seed": 11,
+      "falsely_rejected_late_hart": 6
+    },
+    {
+      "seed": 12,
+      "falsely_rejected_late_hart": 5
+    },
+    {
+      "seed": 13,
+      "falsely_rejected_late_hart": 7
+    },
+    {
+      "seed": 14,
+      "falsely_rejected_late_hart": 1
+    },
+    {
+      "seed": 15,
+      "workers": [
+        7,
+        3,
+        4,
+        6,
+        5,
+        1,
+        2
+      ],
+      "preexisting_waiters": 7,
+      "duplicate_rejected": true
+    }
+  ],
+  "native_marker_store": "0x840043fc",
+  "modeled_helpers": [
+    "0x840032e2 IRQ setup",
+    "0x84004130 delay"
+  ],
+  "scope": "Original reset through cold marker store, with serialized hart contexts. Not complete native bootstrap or hardware proof."
+}

@@ -73,6 +73,15 @@ READY is not full bootstrap, all-hart acknowledgement or physical containment.
 Fault/publication races use one authoritative atomic phase; an already-passed
 gate is not instantaneously revoked. See the `2026-09-06-npu-startup` checkpoint.
 
+`bootstrap.c/.h` adds a separate MT7996-only, six-command reserved-memory gate
+and early version query. The test binding installs its mailbox handler through
+native IRQ registration before source 8 is enabled, uses a private validated
+payload and retains active/resource state after failure. Late cold workers no
+longer misread the coordinator's normal marker update as warm entry. General
+mt76 setup remains closed; this is not complete native boot or a physical
+ownership witness. See `BOOTSTRAP_CONTRACT.md` and the `2026-09-06-npu-bootstrap`
+checkpoint for the limited footprint checks and exact execution boundary.
+
 ## Replay
 
 From the repository in WSL, with clang 21, lld 21, Unicorn 2.1.4 and pyelftools:

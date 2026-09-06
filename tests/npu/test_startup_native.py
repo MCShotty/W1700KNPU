@@ -203,7 +203,12 @@ def rejection_cases(path):
         h = Startup(path)
         h.cpu.mem_write(BSS_START, b'\x96'*(BSS_END-BSS_START))
         h.put32(0x1ec0c140, 0xffffffff)
-        stop, _ = h.execute(hart)
+        stop, context = h.execute(hart)
+        if hart:
+            assert stop == 'npu_emulation_startup_wait'
+            assert h.get32(STARTUP+12) == 0 and not h.init_calls
+            assert h.execute(0)[0] == 'npu_emulation_startup_precheck_fault'
+            stop, _ = h.execute(hart, context)
         assert stop in ('npu_emulation_startup_precheck_fault', 'npu_emulation_startup_fault')
         assert not h.init_calls and not h.bss_writes
         results.append(f'warm-hart-{hart}')

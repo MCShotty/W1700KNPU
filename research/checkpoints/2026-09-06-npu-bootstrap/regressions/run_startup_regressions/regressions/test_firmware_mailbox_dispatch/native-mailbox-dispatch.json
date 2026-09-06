@@ -1,0 +1,338 @@
+{
+  "passed": true,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "registration": {
+    "wifi": "0x84003a9c",
+    "tunnel": "0x84003a86",
+    "tr471": "0x84001060",
+    "ppe": "0x840060a8"
+  },
+  "native_stop": {
+    "flags": 7,
+    "words": [
+      20,
+      24,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400fc2c",
+      "0x8400e084"
+    ],
+    "events": [
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 20,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 16,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 12,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 8,
+        "size": 4
+      },
+      {
+        "kind": "mailbox-flags-write",
+        "value": 7
+      }
+    ]
+  },
+  "native_idle_query": {
+    "flags": 7,
+    "words": [
+      51,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400ff9c",
+      "0x8400d7ca"
+    ],
+    "events": [
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "mailbox-flags-write",
+        "value": 7
+      }
+    ]
+  },
+  "native_restart": {
+    "flags": 7,
+    "words": [
+      18,
+      24,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400fc2c",
+      "0x8400e084"
+    ],
+    "events": [
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 20,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 16,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 12,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 8,
+        "size": 4
+      },
+      {
+        "kind": "mailbox-flags-write",
+        "value": 7
+      }
+    ]
+  },
+  "unsupported_info_selector15": {
+    "flags": 7,
+    "words": [
+      63,
+      0,
+      0,
+      1,
+      64,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400ff9c",
+      "0x8400d7ca"
+    ],
+    "events": [
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "mailbox-flags-write",
+        "value": 7
+      }
+    ]
+  },
+  "zero_length_still_dispatches": {
+    "flags": 7,
+    "words": [
+      20,
+      24,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400fc2c",
+      "0x8400e084"
+    ],
+    "events": [
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 20,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 16,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 12,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 8,
+        "size": 4
+      },
+      {
+        "kind": "mailbox-flags-write",
+        "value": 7
+      }
+    ]
+  },
+  "nowait_done_precedes_payload_read": {
+    "flags": 6,
+    "words": [
+      20,
+      24,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trace": [
+      "0x840030b2",
+      "0x84003cd6",
+      "0x84003a9c",
+      "0x8400fc2c",
+      "0x8400e084",
+      "0x84003c28"
+    ],
+    "events": [
+      {
+        "kind": "mailbox-flags-write",
+        "value": 6
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 20,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 16,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 12,
+        "size": 4
+      },
+      {
+        "kind": "payload-read",
+        "offset": 8,
+        "size": 4
+      }
+    ]
+  },
+  "static_function12_overwrites_wifi_callback": {
+    "before": "0x84003a9c",
+    "after": "0x2000000"
+  },
+  "scope": "Original common mailbox initialization, IRQ registration, ISR, Wi-Fi dispatcher and SET/GET callbacks. Modeled PLIC/mailbox W1C and coherent payload memory, stubbed printf/hart ID, modeled other-worker idle flags. The nowait case halts at host-notifier entry after callback. Demonstrates software paths, not physical mailbox/DMA timing or hardware exploitation."
+}

@@ -1,0 +1,97 @@
+{
+  "passed": true,
+  "code_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "export_sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+  "immediate_callers": {
+    "0x8400e87a": [
+      "0x8400eb32"
+    ],
+    "0x8400f0c4": [
+      "0x8400f198"
+    ],
+    "0x8400f528": [
+      "0x8400f58e"
+    ]
+  },
+  "known_root_routes": [
+    {
+      "hart": 2,
+      "route": [
+        {
+          "function": "0x840001a0",
+          "call": "0x840001b4",
+          "target": "0x8400ee0a"
+        },
+        {
+          "function": "0x8400ee0a",
+          "call": "0x8400ee0e",
+          "target": "0x8400ec48"
+        },
+        {
+          "function": "0x8400ec48",
+          "call": "0x8400ed20",
+          "target": "0x8400e87a"
+        },
+        {
+          "function": "0x8400e87a",
+          "call": "0x8400eb32",
+          "target": "0x840053a6"
+        }
+      ],
+      "immediate_caller": "0x8400e87a"
+    },
+    {
+      "hart": 3,
+      "route": [
+        {
+          "function": "0x840009bc",
+          "call": "0x84000a68",
+          "target": "0x8400e3fc"
+        },
+        {
+          "function": "0x8400e3fc",
+          "call": "0x8400e4e0",
+          "target": "0x8400f638"
+        },
+        {
+          "function": "0x8400f638",
+          "call": "0x8400f6cc",
+          "target": "0x8400f0c4"
+        },
+        {
+          "function": "0x8400f0c4",
+          "call": "0x8400f198",
+          "target": "0x840053a6"
+        }
+      ],
+      "immediate_caller": "0x8400f0c4"
+    },
+    {
+      "hart": 3,
+      "route": [
+        {
+          "function": "0x840009bc",
+          "call": "0x84000a68",
+          "target": "0x8400e3fc"
+        },
+        {
+          "function": "0x8400e3fc",
+          "call": "0x8400e6fa",
+          "target": "0x8400f8be"
+        },
+        {
+          "function": "0x8400f8be",
+          "call": "0x8400fa56",
+          "target": "0x8400f528"
+        },
+        {
+          "function": "0x8400f528",
+          "call": "0x8400f58e",
+          "target": "0x840053a6"
+        }
+      ],
+      "immediate_caller": "0x8400f528"
+    }
+  ],
+  "scope": "Direct calls/tail calls in 427 discovered functions only. Missing functions, computed MMIO, indirect callbacks and other masters are not excluded."
+}

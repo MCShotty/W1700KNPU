@@ -1,0 +1,84 @@
+{
+  "elf": ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+  "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+  "sections": [
+    {
+      "name": ".text",
+      "address": "0x84040000",
+      "bytes": 11784
+    },
+    {
+      "name": ".rodata",
+      "address": "0x84042e08",
+      "bytes": 128
+    }
+  ],
+  "seeds": [
+    {
+      "name": "npu_emulation_admission_init",
+      "start": "84041f60",
+      "end": "84041fcf",
+      "bytes": 112
+    },
+    {
+      "name": "npu_emulation_mailbox",
+      "start": "840420f2",
+      "end": "84042205",
+      "bytes": 276
+    },
+    {
+      "name": "npu_bootstrap_init",
+      "start": "8404233c",
+      "end": "8404242b",
+      "bytes": 240
+    },
+    {
+      "name": "npu_bootstrap_transport",
+      "start": "8404242c",
+      "end": "84042461",
+      "bytes": 54
+    },
+    {
+      "name": "npu_bootstrap_begin",
+      "start": "84042462",
+      "end": "84042563",
+      "bytes": 258
+    },
+    {
+      "name": "npu_bootstrap_finish",
+      "start": "84042564",
+      "end": "84042601",
+      "bytes": 158
+    },
+    {
+      "name": "npu_emulation_bootstrap_mailbox",
+      "start": "84042602",
+      "end": "84042731",
+      "bytes": 304
+    },
+    {
+      "name": "npu_emulation_mailbox_register",
+      "start": "84042732",
+      "end": "8404274d",
+      "bytes": 28
+    },
+    {
+      "name": "npu_emulation_cold_start",
+      "start": "84042aba",
+      "end": "84042b73",
+      "bytes": 186
+    },
+    {
+      "name": "npu_emulation_before_bss",
+      "start": "84042b74",
+      "end": "84042c2f",
+      "bytes": 188
+    },
+    {
+      "name": "npu_emulation_reset_gate",
+      "start": "84042c30",
+      "end": "84042cc7",
+      "bytes": 152
+    }
+  ]
+}

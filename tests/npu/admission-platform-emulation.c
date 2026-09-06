@@ -1,6 +1,12 @@
 /* Test-only RV32 platform binding. These addresses and the retirement callbacks
  * are not a production memory or device-drain contract. */
 #include "admission.h"
+#ifdef NPU_EMULATION_BOOTSTRAP
+#include "bootstrap.h"
+extern struct npu_bootstrap npu_emulation_bootstrap_state;
+extern const struct npu_bootstrap_plan npu_emulation_bootstrap_plan;
+extern uint32_t npu_emulation_bootstrap_mailbox(uint32_t address, uint32_t bytes);
+#endif
 
 extern struct npu_barrier npu_emulation_barrier_state;
 extern struct npu_admission npu_emulation_admission_state;
@@ -43,6 +49,10 @@ void npu_emulation_admission_init(void)
     for (i = 0; i < NPU_ADMISSION_IRQ_WORDS; i++)
         MASKED[i] = 0;
     npu_admission_init(ADMISSION);
+#ifdef NPU_EMULATION_BOOTSTRAP
+    if (!npu_bootstrap_init(&npu_emulation_bootstrap_state, &npu_emulation_bootstrap_plan))
+        npu_admission_fail(ADMISSION, BARRIER);
+#endif
 }
 
 void npu_emulation_irq_dispatch(uint32_t source)
@@ -97,14 +107,23 @@ void npu_emulation_mailbox(uint32_t source)
     if (function >= 8 || (flags & ~0x3801u) || !(flags & 1) ||
         !address || (address & 3) || length < 8 || length > 256)
         goto done;
+#ifdef NPU_EMULATION_BOOTSTRAP
+    if (!npu_bootstrap_transport(&npu_emulation_bootstrap_state, address, length, flags))
+        goto done;
+#endif
     packet = (struct npu_control_packet *)(uintptr_t)((address & 0x3fffffffu) | 0x40000000u);
     if (!function && npu_admission_control(ADMISSION, BARRIER, packet, length)) {
         result = 1;
+#ifdef NPU_EMULATION_BOOTSTRAP
+    } else {
+        result = npu_emulation_bootstrap_mailbox(address, length);
+#else
     } else if (CALLBACKS[function] && npu_admission_begin_legacy(ADMISSION, BARRIER)) {
         /* Individual legacy command payload contracts are not reimplemented
          * here. This is an admission adapter, not full legacy parser validation. */
         result = ((native_call)(uintptr_t)CALLBACKS[function])(address, length) & 7;
         npu_admission_leave(ADMISSION, BARRIER);
+#endif
     }
 done:
     fence();

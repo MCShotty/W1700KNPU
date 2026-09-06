@@ -4,12 +4,20 @@ PROVIDE(npu_emulation_barrier_state = 0x3e906000);
 PROVIDE(npu_emulation_admission_state = npu_emulation_barrier_state + 0x100);
 PROVIDE(npu_emulation_masked_state = npu_emulation_barrier_state + 0x140);
 PROVIDE(npu_emulation_startup_state = npu_emulation_barrier_state + 0x180);
+PROVIDE(npu_emulation_bootstrap_state = npu_emulation_barrier_state + 0x200);
+PROVIDE(npu_emulation_bootstrap_plan = npu_emulation_barrier_state + 0x300);
+original_mailbox_register = 0x84003254;
 original_reset_f4 = 0x840000f4;
 original_reset_78 = 0x84000078;
 ASSERT(!DEFINED(npu_emulation_reset_gate) ||
        (npu_emulation_startup_state == npu_emulation_barrier_state + 0x180 &&
         npu_emulation_startup_state + 64 <= 0x3e908000),
        "startup state outside conservative local SRAM or inconsistent with loader")
+ASSERT(!DEFINED(npu_emulation_mailbox_register) ||
+       (npu_emulation_bootstrap_state == npu_emulation_barrier_state + 0x200 &&
+        npu_emulation_bootstrap_plan == npu_emulation_barrier_state + 0x300 &&
+        npu_emulation_bootstrap_plan + 48 <= 0x3e908000),
+       "bootstrap state outside conservative local SRAM or inconsistent with loader")
 ASSERT((npu_emulation_barrier_state & 63) == 0 &&
        npu_emulation_barrier_state >= 0x3e904754 &&
        npu_emulation_barrier_state + 0x158 <= 0x3e908000,

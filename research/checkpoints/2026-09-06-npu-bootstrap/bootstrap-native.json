@@ -1,0 +1,631 @@
+{
+  "passed": true,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "elf": ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+  "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+  "dtb_sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+  "plan": [
+    [
+      2214592512,
+      10485760
+    ],
+    [
+      2428502016,
+      57344
+    ],
+    [
+      2315255808,
+      46137344
+    ],
+    [
+      2361393152,
+      67108864
+    ],
+    [
+      2428559360,
+      2097152
+    ],
+    [
+      2181038080,
+      256
+    ]
+  ],
+  "cold_data_bytes": 25392,
+  "cold_data_sha256": "5e37e4a19468019d7550ee44f59bb31aa93ffc3816056f4e4c3936a3b75c2272",
+  "integrated": {
+    "early_version": {
+      "flags": 7,
+      "words": [
+        48,
+        10,
+        1111
+      ],
+      "callbacks": [
+        "0x840101a6"
+      ],
+      "reads": [
+        {
+          "offset": 0,
+          "size": 4
+        },
+        {
+          "offset": 4,
+          "size": 4
+        },
+        {
+          "offset": 8,
+          "size": 4
+        }
+      ]
+    },
+    "provider_replies": [
+      {
+        "flags": 7,
+        "words": [
+          17,
+          18,
+          0
+        ],
+        "callbacks": [
+          "0x8400ff88"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      },
+      {
+        "flags": 7,
+        "words": [
+          16,
+          32,
+          2428502016
+        ],
+        "callbacks": [
+          "0x8400fb84"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      },
+      {
+        "flags": 7,
+        "words": [
+          16,
+          8,
+          2315255808
+        ],
+        "callbacks": [
+          "0x8400febe"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      },
+      {
+        "flags": 7,
+        "words": [
+          16,
+          23,
+          2361393152
+        ],
+        "callbacks": [
+          "0x8400fb2e"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      },
+      {
+        "flags": 7,
+        "words": [
+          16,
+          7,
+          2428559360
+        ],
+        "callbacks": [
+          "0x8400feac"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      },
+      {
+        "flags": 7,
+        "words": [
+          16,
+          12,
+          0
+        ],
+        "callbacks": [
+          "0x8400ff0c"
+        ],
+        "reads": [
+          {
+            "offset": 0,
+            "size": 4
+          },
+          {
+            "offset": 4,
+            "size": 4
+          },
+          {
+            "offset": 8,
+            "size": 4
+          }
+        ]
+      }
+    ],
+    "control_capabilities": 7,
+    "retained_mask": 30,
+    "cleared_bytes": 57344,
+    "core0_boundary": "0x8400e330",
+    "patches": [
+      {
+        "site": "0x84000074",
+        "name": "npu_emulation_before_bss",
+        "before": "b7c2c01e",
+        "after": "6f201430",
+        "target": "0x84042b74"
+      },
+      {
+        "site": "0x840000f0",
+        "name": "npu_emulation_reset_gate",
+        "before": "97000000",
+        "after": "6f201434",
+        "target": "0x84042c30"
+      },
+      {
+        "site": "0x840030b2",
+        "name": "npu_emulation_irq_dispatch",
+        "before": "411122c4",
+        "after": "6fe0f371",
+        "target": "0x84041fd0"
+      },
+      {
+        "site": "0x84000188",
+        "name": "npu_coordinator_main_return",
+        "before": "b2400145",
+        "after": "6f20441a",
+        "target": "0x8404232c"
+      },
+      {
+        "site": "0x84003f2e",
+        "name": "npu_emulation_mailbox_register",
+        "before": "eff06fb2",
+        "after": "6fe05300",
+        "target": "0x84042732"
+      }
+    ]
+  },
+  "rejected": {
+    "invalid_requests": [
+      {
+        "words": [
+          16,
+          32,
+          2428502016
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          16,
+          18,
+          0
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          17,
+          18,
+          1
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          48,
+          10,
+          1
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          49,
+          10,
+          0
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          18,
+          24,
+          0
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          16,
+          14,
+          0
+        ],
+        "payload_read_count": 3
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 0,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 4,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 8,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 11,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 13,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 16,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 63,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 65,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 256,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 257,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "length": 4294967295,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 0,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 3,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 33,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 2049,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 24577,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 24609,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 32769,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 65537,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "flags": 4294967295,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 0,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 2181038084,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 2181038076,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 3254779904,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 33554432,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 2214592512,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 2428502016,
+        "payload_read_count": 0
+      },
+      {
+        "words": [
+          48,
+          10,
+          0
+        ],
+        "address": 4294967295,
+        "payload_read_count": 0
+      }
+    ],
+    "duplicate_commands_rejected": 6,
+    "post_reservation_mt76_commands_still_closed": 4
+  },
+  "controls": [
+    {
+      "name": "missing-registration-detour",
+      "unaligned_out_of_order_address_accepted": true
+    },
+    {
+      "name": "missing-plan",
+      "rejected_before_native_irq_setup": true
+    },
+    {
+      "name": "short-txcheck",
+      "rejected_before_native_irq_setup": true
+    },
+    {
+      "name": "request-overlap",
+      "rejected_before_native_irq_setup": true
+    },
+    {
+      "name": "callback-table",
+      "retained_mask": 2,
+      "active": 1,
+      "status_available": true
+    },
+    {
+      "name": "callback-return",
+      "retained_mask": 2,
+      "active": 1,
+      "status_available": true
+    },
+    {
+      "name": "host-payload-mutation-after-validation",
+      "private_snapshot_used": true
+    }
+  ],
+  "scope": "Original reset/common initialization and TXcheck consumer with candidate cold/IRQ/bootstrap adapters. Stops before native Wi-Fi main initialization at 0x8400e330. Serialized IRQ frames and explicit MMIO models; no physical boot, containment, cache, IRQ delivery, full mt76 attach or packet-footprint proof.",
+  "source_sha256": {
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90"
+  }
+}

@@ -17719,3 +17719,31 @@ Status and boundary:
   new release or deployable firmware blob. R1 remains last router-tested.
 - Evidence: `research/checkpoints/2026-09-06-npu-startup/REPORT.md`.
   Reference/logging/remaining-work updated; protected recovery inputs untouched.
+
+## 2026-09-06 - Early Bootstrap Admission Candidate
+
+- Corrected late cold worker handling: native core 0 writes the all-ones marker
+  during normal initialization. Workers use validated phase and arrival state;
+  coordinator warm/pre-BSS and duplicate protections remain. Sixteen schedules
+  pass, with fourteen false rejections in the old binding and two all-early controls.
+- Added unpromoted MT7996-only bootstrap policy and compiled IRQ8 registration
+  detour. Exact pinned-buffer transport, private snapshots, ordered memory SETs
+  and early version GET work while general commands stay closed. Known binary,
+  TX-check and request extents and structural ranges are validated; other full
+  buffer footprints and physical containment are not established.
+- 228 scenarios, 5,935 native/RV32 pairs, 5,286 oracle checks and 14 compiling
+  mutants pass. Thirteen original IRQ scenarios and integrated native tests
+  cover 35 invalid requests, six duplicates, four later-command denials, seven
+  controls and the original 56 KiB TX-check clear. Prior startup/race and twelve
+  suites replay. Ghidra exports 11 selected functions from 62; ELF-derived spans
+  and explicit continuations verify. Final combined ELF SHA256:
+  `bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931`.
+  Out-of-ELF native jumps and the existing GUI XML warning remain disclosed.
+- Integrated execution stops at `0x8400e330`; the original probe stops at the
+  unmodeled L2-control write `0x8400d1c0 -> 0x1ec0f200`. Version `0x457` is native
+  fallback, not readiness. Full Wi-Fi bootstrap and mt76 attachment, loader/cache
+  and hardware containment, Linux recovery/removal and full parity remain open.
+- No packaged source/config/926/927, router, image, flash or release change.
+  R1 remains last router-tested, WLAN NPU compiled out. Reference/logging and
+  remaining-work updated; protected inputs untouched. Evidence:
+  `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`.

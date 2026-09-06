@@ -1,0 +1,157 @@
+{
+  "passed": true,
+  "elf_sha256": "8f0bad8779fcd08bfe7f37e39703609706bf262d093f1ab22647d391987cc79e",
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "irq_stop_resume": {
+    "uart_not_consumed_or_executed": true,
+    "ppe_entry_retained": true,
+    "mailbox_status_available": true,
+    "legacy_restart_denied_until_arm": true,
+    "masked_irqs_restored_after_modeled_retirement_and_arm": true,
+    "patches": [
+      {
+        "site": "0x840030b2",
+        "preimage": "411122c4",
+        "target": "0x84041f90",
+        "postimage": "6fe0f36d"
+      },
+      {
+        "site": "0x84000188",
+        "preimage": "b2400145",
+        "target": "0x8404231a",
+        "postimage": "6f202419"
+      }
+    ]
+  },
+  "inflight_irq": {
+    "native_ppe_handler_lease_held": true,
+    "ack_withheld": true,
+    "free_body_return_modeled": true,
+    "ack_after_handler_and_dispatch_return": true
+  },
+  "eight_shared_contexts": {
+    "native_worker_and_coordinator_contexts": 8,
+    "shared_sram": true,
+    "worker_ack_order": [
+      5,
+      2,
+      7,
+      1,
+      6,
+      4,
+      3
+    ],
+    "all_acks_via_actual_code": true,
+    "wire_status_parked_mask": 255,
+    "no_drain_witnesses": true,
+    "scope": "Serialized RV32 contexts at worker entries/core0 return; modeled helper returns, MMIO and IRQ function invocation, no physical simultaneous-core or boot proof."
+  },
+  "mask_readback_failures": [
+    {
+      "stuck_register": "0xc00200c",
+      "forced_readback": 1,
+      "barrier_faulted": true,
+      "status_remains_available": true
+    },
+    {
+      "stuck_register": "0xc00300c",
+      "forced_readback": 0,
+      "barrier_faulted": true,
+      "status_remains_available": true
+    }
+  ],
+  "irq_mask_boundary_sources": [
+    0,
+    31,
+    32,
+    63,
+    64,
+    95,
+    96,
+    159,
+    160,
+    191
+  ],
+  "static_registration_rejections": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "irq_abi_cases": [
+    {
+      "state": "running",
+      "source": 95,
+      "callee_saved_sp_gp_ra_preserved": true
+    },
+    {
+      "state": "running",
+      "source": 8,
+      "callee_saved_sp_gp_ra_preserved": true
+    },
+    {
+      "state": "closed",
+      "source": 95,
+      "callee_saved_sp_gp_ra_preserved": true
+    },
+    {
+      "state": "closed",
+      "source": 22,
+      "callee_saved_sp_gp_ra_preserved": true
+    },
+    {
+      "state": "closed",
+      "source": 8,
+      "callee_saved_sp_gp_ra_preserved": true
+    }
+  ],
+  "dirty_saved_masks_cleared_on_cold_init": true,
+  "combined_elf_worker_regressions": {
+    "new_worker_register_cases": 96,
+    "new_worker_stop_resume": 16,
+    "new_worker_inflight": 6,
+    "new_worker_interrupted_refresh": 6,
+    "core5_stop_resume": 4,
+    "core5_register_cases": 10,
+    "core5_inflight": true
+  },
+  "omitted_irq_admission": {
+    "rejected": true,
+    "assertion": "UART write admitted while stopped"
+  },
+  "invalid_lengths_rejected_before_read": [
+    0,
+    4,
+    257,
+    65536
+  ],
+  "nowait_rejected_before_callback": true,
+  "source_sha256": {
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90"
+  },
+  "scope": "Test-only core0 return/IRQ detours and mailbox IRQ table replacement, actual C admission and original UART/PPE/Wi-Fi callbacks. Eight saved contexts execute in the shared case; other cases model the seven workers. MMIO, IRQ function invocation, physical drain/retirement and in-flight bufid-free return are modeled. No full boot, hardware timing/coherency or deployable firmware proof."
+}
