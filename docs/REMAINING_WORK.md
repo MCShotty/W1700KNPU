@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from native INODE contract evidence and release
+Updated 2026-09-06 from Wi-Fi baseline/host queue evidence and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -94,6 +94,12 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   worker initialization, single-HIF TX1 publication, INODE 24-byte reads from
   12-byte logical requests, descriptor fallback validation, partial-init owner
   retention and the production cold-loader/request/cache contract.
+  Single-HIF TX publication now has executed host-C evidence: 19 functions,
+  two TX blocks, 12 traces, 60 controls and four mutants pass with explicit
+  framework models. Band1 aliases TX0 and has no assigned physical queue ID;
+  removing its alias alone selects ID 0. Resolve TX1 ownership and mapping as
+  well as allocation/publication. Framework registration can fail after dual-HIF
+  publication; this is not a ready/ownership-release certificate or live cause.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -128,6 +134,12 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   2.4/5/6 GHz, two-link and tri-band MLO, including the iPhone/laptop regressions.
   Test client-to-client and wired-to-WiFi directions separately, with repeatable
   channel/width, signal, negotiated rate, NPU state and CPU-load observations.
+  Fresh R1 readbacks on 2026-09-06 found zero configured Wi-Fi networks, zero
+  runtime interfaces and zero hostapd interfaces despite all radios reporting
+  up. Restore only the user's intended approved network configuration before
+  reproduction; it has been requested, not inferred. The new read-only baseline
+  collector and fixtures have syntax proof only: unsigned WSL-share execution
+  was blocked by RemoteSigned, and a process-only override is awaiting approval.
 - [ ] Long-running stability/memory/resource tests and fault recovery before any
   production-reliability claim. No current evidence establishes full stock parity.
 
@@ -161,6 +173,8 @@ Current official snapshot comparison found no new relevant upstream fix;
 our local guard, memory and mailbox corrections remain required.
 
 Detailed evidence: `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`,
+`research/checkpoints/2026-09-06-wifi-baseline/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`,
 `research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`,
 `research/checkpoints/2026-09-06-npu-attachtx/TX_CALLBACKS.md`,
 `research/checkpoints/2026-09-06-npu-attachtxbuf/TXBUF_CALLBACKS.md`,

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (native INODE contract)
+Last updated: 2026-09-06 (Wi-Fi baseline and host queue publication)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17876,3 +17876,41 @@ Status and boundary:
   open; protected recovery/private data untouched. Reference/logging/remaining
   work updated. Evidence:
   `research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`.
+
+## 2026-09-06 - Read-Only Wi-Fi Baseline
+
+- Pinned Ethernet readbacks confirm R1/W1700K/kernel 6.18.44, WLAN NPU compiled
+  out and no attachment. UCI has three radio sections but no Wi-Fi networks;
+  runtime wireless and hostapd interface lists are empty and no BSS object
+  exists. Radio-level up is not proof of a configured or working AP.
+- The intended network configuration and current client/band/symptom were
+  requested. No Wi-Fi configuration was restored or enabled. The current empty
+  baseline does not establish the cause of historical client failures.
+- Added a sanitized read-only collector candidate and five nominal/ten reject
+  fixtures. PowerShell parsing passes, but execution was blocked by RemoteSigned
+  on the unsigned WSL-share script. No policy change or alternate route was
+  used. A process-only override is awaiting approval; runtime tests are unrun.
+- Kernel country SA/DFS-ETSI and main/HIF PCI driver bindings were read without
+  changing regulatory settings or accessing raw MMIO. Driver binding is not
+  internal HIF pairing, active NPU or client acceptance proof. No packages,
+  modules, configuration, associations, firmware, images or flash changed.
+- Ledger/reference/logging/remaining work updated; both full goals remain open.
+  Evidence: `research/checkpoints/2026-09-06-wifi-baseline/REPORT.md`.
+
+## 2026-09-06 - Pinned Host TX Queue Publication
+
+- Executed 19 pinned host-C functions and two unchanged TX blocks, with explicit
+  connac/framework/provider/storage models. Twelve HIF/NPU/band traces, 60
+  controls and four mutants pass; 16 controls are counterfactual error propagation,
+  not reachable-failure findings. Parent replay is byte-identical.
+- Single-HIF NPU-active initialization allocates only TX0 and all bands alias
+  it; no TX1 base/size writes occur and stale seeded TX1 values survive. Simply
+  removing band1's alias would select unassigned physical queue ID 0. Deliberate
+  TX1 ownership/mapping/allocation/publication remains an implementation gate.
+- Dual-HIF publishes TX1 before a later modeled framework registration error
+  removes the PHY pointer; publication is not readiness or reclaim authority.
+  This does not execute full driver/RX startup, native firmware or hardware,
+  and is not evidence of the cause of current/historical R1 client failures.
+- No firmware, config, provider/consumer restricted operation, shared build,
+  image or flash change. Ledger/reference/logging/remaining work updated.
+  Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.

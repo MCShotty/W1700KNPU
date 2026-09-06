@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (native INODE contract)
+Last updated: 2026-09-06 (Wi-Fi baseline and host queue publication)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,41 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Native INODE Contract - 2026-09-06
+## Current Work - Host Queue Publication - 2026-09-06
+
+- Nineteen original host-C functions and two TX blocks execute through queue
+  allocation, alias selection and ordered register writes. Twelve traces,
+  60 controls (16 explicitly counterfactual) and four mutants pass. Parent
+  replay preserves exact harness, binary and receipt hashes.
+- Single-HIF active NPU publishes only TX0; all three bands share its queue.
+  Removing the band1 alias alone would choose its unassigned physical queue
+  ID 0. Dual-HIF publishes TX1 before a later framework registration failure
+  can occur. Neither nonzero registers nor publication proves readiness.
+- Framework/provider/storage models are explicit; this is not full kernel,
+  RX, native firmware, hardware or current-client failure proof. The TX1
+  ownership/mapping contract needs resolution before a production change.
+  No restricted operation was retried; no production source/config changed.
+  Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.
+
+## Current Work - Read-Only Wi-Fi Baseline - 2026-09-06
+
+- Fresh pinned Ethernet reads confirm R1/W1700K/kernel 6.18.44 with WLAN NPU
+  compiled out. There are three radio sections, but zero configured Wi-Fi
+  networks, zero runtime interfaces and zero hostapd interfaces/BSS objects.
+  Radio-level up is not working AP evidence. The intended network configuration
+  and current client/band/symptom were requested; nothing was restored or enabled.
+- This empty configuration is a current reproduction prerequisite, not the
+  established cause of earlier client failures. PCI main/HIF driver bindings
+  are present; internal pairing and active NPU behavior are not proved.
+- A sanitized read-only collector and fixture tests are candidates only.
+  Both parse, but Windows RemoteSigned blocked unsigned execution from WSL UNC.
+  No policy was changed or alternate execution route used; approval for a
+  process-only override was requested. Direct readbacks do not validate scripts.
+- No router config, radio, regulatory, association, module, firmware or image
+  change. Both full goals remain open. Evidence:
+  `research/checkpoints/2026-09-06-wifi-baseline/REPORT.md`.
+
+## Previous Work - Native INODE Contract - 2026-09-06
 
 - Five original wrapper loads span24 bytes for all16 selectors. Six native
   selector2/7/4 calls, four controls and three strict denials pass; complete

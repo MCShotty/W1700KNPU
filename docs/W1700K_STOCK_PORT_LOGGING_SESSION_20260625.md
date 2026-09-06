@@ -6393,3 +6393,38 @@ Ledger/reference/remaining-work updated. Firmware/config, strict admission,
 router, images and release remain unchanged. R1 remains last router-tested
 with WLAN NPU compiled out. Both full goals remain open. Evidence:
 `research/checkpoints/2026-09-06-npu-inode/INODE_CONTRACT.md`.
+
+## Read-Only Wi-Fi Baseline - 2026-09-06
+
+Pinned Ethernet reads confirm R1/W1700K with WLAN NPU compiled out. Three radios
+report up, but there are no configured Wi-Fi networks, runtime interfaces or
+hostapd interfaces/BSS objects. The user's intended network configuration and
+current failing client/band/symptom were requested. The current empty AP
+baseline is not the established cause of earlier client failures.
+
+Added a sanitized collector candidate and fixture tests. Both parse without
+syntax errors; unsigned execution on the WSL share was blocked by RemoteSigned.
+No policy change or alternate execution route was used. A process-only override was
+requested; collector runtime and fixture execution remain unverified.
+
+Kernel regulatory and main/HIF driver bindings were read without mutation.
+No Wi-Fi configuration, radio, association, module, firmware/image, flash or
+raw-MMIO change. Ledger/reference/remaining-work updated. Both full goals remain
+open. Evidence: `research/checkpoints/2026-09-06-wifi-baseline/REPORT.md`.
+
+## Pinned Host TX Queue Publication - 2026-09-06
+
+Nineteen original host-C functions and two TX blocks now execute with explicit
+framework/provider/storage models. Twelve traces, 60 controls and four mutants
+pass; 16 controls are counterfactual propagation tests, not reachable failures.
+Parent replay gives identical harness, binary and evidence hashes.
+
+Single-HIF active NPU shares TX0 across all bands and does not publish TX1.
+Removing the alias alone selects an unassigned band1 physical queue ID 0, so
+ownership/mapping needs resolution before a production correction. Dual-HIF
+publication can precede a later framework registration error. No readiness,
+hardware, full-attach or current live-client root-cause claim follows.
+
+No production source/config, restricted operation, router mutation, image or
+flash change. Ledger/reference/remaining-work updated; both full goals stay
+open. Evidence: `research/checkpoints/2026-09-06-npu-hostqueue/HOST_QUEUES.md`.
