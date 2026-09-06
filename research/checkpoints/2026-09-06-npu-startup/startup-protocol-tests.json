@@ -1,0 +1,17 @@
+{
+  "cases": 173,
+  "differential_calls": 2126,
+  "passed": true,
+  "source_sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+  "native_sha256": "d94ebb17608b032b57691141dcf08ec8938cc48fa064fbcacbf0d710d54fa2c3",
+  "elf_sha256": "9a573fa0b12d565cae6a2305056b35c373c9cc42836209a1e79243f35c7abbbe",
+  "mutations_killed": {
+    "missing-identity": "('bad header', 0, 0)",
+    "missing-warm-rejection": "('warm', 0, 1)",
+    "erase-entry-before-check": "('duplicate', 1)",
+    "wrong-initializer-owner": "('arrival', 0, 4)",
+    "missing-initialized-epoch": "('dirty initializer', 'b', 0)",
+    "missing-mask-clear-check": "('dirty initializer', 'm', 0)"
+  },
+  "scope": "Actual C and RV32 transitions; serialized instruction execution, not hardware atomics/cache/containment or complete boot."
+}

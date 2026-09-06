@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (provider memory preflight; kernel/binary checks pass)
+Last updated: 2026-09-06 (cold-start candidate and OpenWrt snapshot comparison)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17688,4 +17688,34 @@ Status and boundary:
   datapath parity/client acceptance remain open. No router, full image or flash action;
   last router-tested R1 and WLAN-NPU-compiled-out build policy remain unchanged.
 - Evidence: `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`.
+  Reference/logging/remaining-work updated; protected recovery inputs untouched.
+
+## 2026-09-06 - Cold-Start Candidate And Official Snapshot Comparison
+
+- Snapshot r36060-d6933d6aed/kernel6.18.44 retains mt76be5ce791 and NPU firmware
+  20260810-r1.18 relevant source comparisons and four payload comparisons match;
+  58 artifact hashes bind metadata, source and actual W1700K FIT/rootfs evidence.
+  No new reusable fix or reason to replace our corrected source. Detached
+  signatures not verified; official HTTPS/checksums used. No downloaded image flashed.
+- Added unpromoted startup.c/.h and two test-only reset detours. A fresh64-byte
+  loader header at3e906180 gates actual coordinator barrier/admission/mask init.
+  Early coordinator validation precedes BSS clear/stack use; common entry waits
+  for initialized state. Test DATA25024bytes preserves native3084-byte prefix.
+- 32 reset orders,32 register cases,30 rejected entries,173 native/RV32 cases,
+  2126 differential calls, six mutants and two missing-hook controls pass.
+  Fixed independently found READY-after-fault race; two instruction-paused
+  preimage/fixed schedules reproduce and reject it. Review addendum accepts fix.
+- Twelve existing suites and combined copy paths pass; two poll-limit builds
+  reproduce and default65536-poll late completions remain retained. Final ELF
+  SHA25616d330eb21f84e47a7bc9f0e5ff49d2c1552cef241455d48770768ded211850a.
+  Ghidra exports six selected functions from56; explicit seeding repairs missed/
+  split function spans. Out-of-ELF native continuation warnings are disclosed.
+- 218 original callback cases identify API32 and API23 waits, API18 no-op and
+  API12 routing behavior. Diagnostic messages do not reject bad setter values.
+  Complete bootstrap/IRQ negotiation is not implemented by the cold-start gate.
+- Physical loader containment/cache and full native startup remain unproved;
+  Linux recovery/removal, complete datapath parity and real-client acceptance
+  remain open. Packaged source/config/926/927 unchanged; no router or flash action,
+  new release or deployable firmware blob. R1 remains last router-tested.
+- Evidence: `research/checkpoints/2026-09-06-npu-startup/REPORT.md`.
   Reference/logging/remaining-work updated; protected recovery inputs untouched.

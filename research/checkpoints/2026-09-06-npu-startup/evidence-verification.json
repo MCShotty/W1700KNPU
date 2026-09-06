@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "base": "3e1f435d4e98e13e6230c94419073e69acb87698",
+  "packaged_source_unchanged": true,
+  "startup_source_sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+  "default_elf_sha256": "16d330eb21f84e47a7bc9f0e5ff49d2c1552cef241455d48770768ded211850a",
+  "elf_sections": [
+    {
+      "name": ".text",
+      "start": 2214854656,
+      "end": 2214865374
+    }
+  ],
+  "cold_data_bytes": 25024,
+  "native_reset_orders": 32,
+  "native_register_cases": 32,
+  "rejected_entries": 30,
+  "protocol_cases": 173,
+  "differential_calls": 2126,
+  "source_mutants": 6,
+  "race_controls": 2,
+  "callback_cases": 218,
+  "regression_suites": 12,
+  "snapshot_artifacts": 58,
+  "ghidra_functions": 6,
+  "ghidra_export_sha256": "7d0b633805ed41da4f6b9ec43480366df552739d28a248df99625d9a6f6c437b",
+  "helpers": {
+    "SetupStartupCandidateMap.java": "1d69d3ad77eec778607ce4c1c984ba194fd83c4181cd6159f1b5c2d967588a50",
+    "SeedStartupCandidate.java": "bcb96feffff54329fe6850b38ac4aa7576862d139949798a31b340673648a51b",
+    "startup-candidate.pattern": "c8a3f828ac8eaa12f2a257b4d7973a61c8a25bdd7e6298d2439f2cc480787bc8",
+    "run_startup_candidate.ps1": "b0260aecb50e7c9c0d9f9d18f6edf44ed89f87d902df9c0cbb8d7d22d46fad2f",
+    "ExportMailboxContract.java": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd"
+  },
+  "verifier_sha256": "184149a845e5a73e07cc27f6b38ec6af6e2f08032f2ffdb3067ee99940505414",
+  "scope": "Unpromoted reset/software contract and exact snapshot comparison. Not complete bootstrap, physical loader/cache/drain, Linux recovery, image acceptance or client proof."
+}

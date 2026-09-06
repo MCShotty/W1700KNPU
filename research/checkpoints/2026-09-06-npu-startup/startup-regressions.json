@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "suites": [
+    "test_firmware_memory_layout",
+    "test_firmware_gdma",
+    "test_firmware_stop_counterexample",
+    "test_firmware_stop_irqs",
+    "test_firmware_mailbox_dispatch",
+    "test_barrier_protocol",
+    "test_barrier_core5",
+    "test_barrier_workers",
+    "test_admission_protocol",
+    "test_admission_native",
+    "test_gdma_owner_routes",
+    "test_gdma_copy_guard"
+  ],
+  "combined_elf": ".local/npu-barrier/admission-platform-startup-gdma-gdma-64.elf",
+  "combined_elf_sha256": "9761be5edea3541cc5d74e58e4722f82ec322aefe8849b0f6c752000b449ba09",
+  "default_elf": ".local/npu-barrier/admission-platform-startup-gdma-gdma-65536.elf",
+  "default_elf_sha256": "16d330eb21f84e47a7bc9f0e5ff49d2c1552cef241455d48770768ded211850a",
+  "default_poll_limit": 65536,
+  "test_poll_limit": 64,
+  "reproducible_both_builds": true,
+  "default_late_completion_holds": 2,
+  "scope": "Combined software-instruction regressions; cold reset is tested separately. No physical drain/cache or complete bootstrap proof."
+}

@@ -25,16 +25,26 @@ HOOKS = {0x840030b2: ('npu_emulation_irq_dispatch', '411122c4'),
          0x84000188: ('npu_coordinator_main_return', 'b2400145')}
 
 
-def build_platform(state_address=None, gdma_source=None, poll_limit=65536, gdma_binding=None):
+def build_platform(state_address=None, gdma_source=None, poll_limit=65536, gdma_binding=None,
+                   startup=False, startup_source=None, startup_binding=None):
     lld = shutil.which('ld.lld') or str(BUILD / 'lld/usr/lib/llvm-21/bin/ld.lld')
     tag = '' if state_address is None else '-' + hex(state_address)
     extra_sources = []
+    if startup:
+        tag += '-startup'
+        if startup_source is not None:
+            tag += '-' + startup_source.stem
+        if startup_binding is not None:
+            tag += '-' + startup_binding.stem
+        extra_sources += [str(startup_source or ROOT / 'firmware/npu/startup.c'),
+                          str(startup_binding or ROOT / 'tests/npu/startup-platform-emulation.c'),
+                          str(ROOT / 'tests/npu/startup-emulation.S')]
     if gdma_source is not None:
         tag += '-gdma-' + gdma_source.stem + '-' + str(poll_limit)
         if gdma_binding is not None:
             tag += '-' + gdma_binding.stem
-        extra_sources = [str(gdma_source), str(gdma_binding or ROOT / 'tests/npu/gdma-platform-emulation.c'),
-                         '-DNPU_GDMA_POLL_LIMIT=' + str(poll_limit)]
+        extra_sources += [str(gdma_source), str(gdma_binding or ROOT / 'tests/npu/gdma-platform-emulation.c'),
+                          '-DNPU_GDMA_POLL_LIMIT=' + str(poll_limit)]
     path = BUILD / ('admission-platform' + tag + '.elf')
     extra = [] if state_address is None else [f'-Wl,--defsym=npu_emulation_barrier_state={state_address}']
     subprocess.run([shutil.which('clang'), '--target=riscv32', '-march=rv32imac_zicsr',

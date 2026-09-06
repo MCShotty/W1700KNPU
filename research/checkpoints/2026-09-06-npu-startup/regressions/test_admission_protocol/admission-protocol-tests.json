@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "native_rv32_call_pairs": 1667,
+  "irq_sources_checked": 192,
+  "wire_lengths_checked": 257,
+  "mutation_controls": {
+    "missing-active-check": {
+      "rejected": true,
+      "assertion": "active handler acknowledged idle"
+    },
+    "missing-closed-check": {
+      "rejected": true,
+      "assertion": "('a:begin_legacy', (), 1, 0)"
+    },
+    "missing-ready-pending-check": {
+      "rejected": true,
+      "assertion": "deferred IRQ incorrectly marked READY"
+    },
+    "missing-open-pending-check": {
+      "rejected": true,
+      "assertion": "('a:open', (), 1, 0)"
+    },
+    "missing-barrier-fault": {
+      "rejected": true,
+      "assertion": "('b:reclaimable', (2,), 1, 0)"
+    },
+    "missing-stop-session": {
+      "rejected": true,
+      "assertion": "unbound STOP accepted"
+    }
+  },
+  "source_sha256": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+  "header_sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+  "native_elf_sha256": "9237ce7efde14fc2e7547d53faf605815458587cdeb9f375c071c388fac89e19",
+  "rv32_elf_sha256": "30847ade45d2c41d1048b8945c26303c2f23b97ae891102d9a7ed5f5b208adf9",
+  "scope": "Actual C compiled natively and for RV32, serialized coordinator API schedules and modeled hardware drain/retirement witnesses. No native IRQ wrapper or physical device behavior in this suite."
+}

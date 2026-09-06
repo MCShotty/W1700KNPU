@@ -1,0 +1,750 @@
+{
+  "schema": 1,
+  "audit": "current-official-openwrt-airoha-an7581-snapshot",
+  "captured_utc": "2026-09-06T02:16:53.2052581+00:00",
+  "rechecked_utc": "2026-09-06T02:18:01.4305781+00:00",
+  "canonical_root": "/home/captain/W1700KNPU",
+  "artifact_root": "/home/captain/W1700KNPU/.local/npu-startup/snapshot-audit",
+  "scope": {
+    "mode": "report-only",
+    "tracked_writes": [
+      "/home/captain/W1700KNPU/research/checkpoints/2026-09-06-npu-startup/SNAPSHOT_COMPARISON.md",
+      "/home/captain/W1700KNPU/research/checkpoints/2026-09-06-npu-startup/snapshot-comparison.json"
+    ],
+    "subagents": false,
+    "kernel_build": false,
+    "bootstrap_implementation": false,
+    "source_lock_changed": false,
+    "build_tree_changed": false,
+    "staging_or_commits": false,
+    "router_or_hardware_actions": false,
+    "network_interface_changes": false,
+    "ledger_changed": false,
+    "network_policy": "Public official HTTPS with normal TLS/authentication verification."
+  },
+  "supplied_snapshot": {
+    "date": "2026-09-05",
+    "w1700k_sysupgrade_sha256": "9b1f93f78eeac42a2b3a033af91f7c49738d09fd68810244de3982b8df222f24",
+    "status": "Supplied reference only; already replaced in the rolling index when this audit began. Not fetched or identified as the current snapshot."
+  },
+  "current_snapshot": {
+    "index_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/",
+    "index_image_date": "2026-09-06 01:09:02",
+    "revision": "r36060-d6933d6aed",
+    "openwrt_commit": "d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd",
+    "kernel": "6.18.44",
+    "kernel_package": "6.18.44~bed7e2dec73efb4c3050bc8a8373af30-r1",
+    "mt76_commit": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
+    "mt76_source_date": "2026-09-01",
+    "mt76_package": "6.18.44.2026.09.01~be5ce791-r1",
+    "linux_firmware": "20260810-r1",
+    "npu_firmware_package": "airoha-en7581-mt7996-npu-firmware",
+    "npu_runtime_get_version": null,
+    "profile": "gemtek_w1700k-ubi",
+    "compatible": "gemtek,w1700k-ubi",
+    "fit_model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+    "image_bytes": 13513539,
+    "image_sha256": "990f955cfee3622752848ee1b737f89856763c67edf4765e92bab1e0eec994fc",
+    "source_date_epoch": 1788642692,
+    "official_npu_build_policy": "MT76_NPU and MT7996_NPU enabled by Airoha target condition; mt7996e.ko contains the init/stop functions. This is compiled presence, not runtime activation."
+  },
+  "canonical": {
+    "source_lock_snapshot": "post-Daybreak21-R1-NPU-memory-preflight-20260906",
+    "source_lock_sha256": "46d69e60a43a793796691e2656d4376871274f8b20e637c40c0143fb0bc26c09",
+    "openwrt_base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
+    "mt76_commit": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
+    "kernel": "6.18.44",
+    "wlan_npu": "compiled out; Ethernet offload separate",
+    "patch_926": "faa96f10049abc6edd9d3be973946cf4d4a81f178b56e3063e6c94b6f0de8d9c",
+    "patch_927": "608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708"
+  },
+  "comparison": {
+    "ahead_by": 14,
+    "behind_by": 0,
+    "merge_base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
+    "changed_paths": [
+      "package/boot/uboot-tools/Makefile",
+      "package/boot/uboot-tools/uboot-envtools/files/mpc85xx",
+      "target/linux/bcm27xx/patches-6.12/950-0054-Add-dwc_otg-driver.patch",
+      "target/linux/generic/backport-6.12/501-v7.1-ksmbd-harden-file-lifetime-during-session-teardown.patch",
+      "target/linux/generic/backport-6.12/894-v7.3-usb-xhci-handle-port-events-when-there-is-one-roothub.patch",
+      "target/linux/generic/hack-6.12/721-net-add-packet-mangeling.patch",
+      "target/linux/generic/kernel-6.12",
+      "target/linux/generic/pending-6.12/655-increase_skb_pad.patch",
+      "target/linux/generic/pending-6.12/701-netfilter-nf_tables-ignore-EOPNOTSUPP-on-flowtable-d.patch",
+      "target/linux/mpc85xx/base-files/etc/hotplug.d/ieee80211/10-fix-wifi-mac",
+      "target/linux/mpc85xx/files/arch/powerpc/boot/dts/red-15w-rev1.dts",
+      "target/linux/realtek/dts/rtl9302_zyxel_xgs1x10-12-common.dtsi",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/common.c",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/rtl-otto.h",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/rtl838x.c",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/rtl839x.c",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/rtl930x.c",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/rtl931x.c",
+      "target/linux/realtek/files-6.18/drivers/net/dsa/rtl83xx/tc.c",
+      "target/linux/realtek/files-6.18/drivers/net/pcs/pcs-rtl-otto.c",
+      "target/linux/realtek/patches-6.18/039-01-v7.4-gpio-realtek-otto-use-__raw_readl-writel-in-realtek_.patch",
+      "target/linux/realtek/patches-6.18/039-02-v7.4-gpio-realtek-otto-make-bank_read-write-overridable-b.patch"
+    ],
+    "commits": [
+      {
+        "commit": "0f948c5111d8b55732373a24630daf4311d2bf02",
+        "subject": "realtek: backport realtek-otto-gpio patches"
+      },
+      {
+        "commit": "2b263a3951b638f183caaf11bb918feaa4102872",
+        "subject": "realtek: extend Zyxel XGS1x10-12 SFP LED configuration for 100M/10M"
+      },
+      {
+        "commit": "db825a4e86e984a23a10be1f3a69c07c6e883b3e",
+        "subject": "realtek: pcs: make 10gr link helper generic to rtl93xx"
+      },
+      {
+        "commit": "8d14167c132899aed8a947fc7c5c793aae38cafb",
+        "subject": "realtek: pcs: split pcs_get_state link state sources"
+      },
+      {
+        "commit": "2a9f30361eba0eafd3cbe0c319b08e156b72015e",
+        "subject": "realtek: pcs: rtl931x: drop unused link status getter"
+      },
+      {
+        "commit": "e250cadb9d9be98e286e67cbbea64572ac1ea693",
+        "subject": "mpc85xx: red-15w: use nvmem for wifi MAC"
+      },
+      {
+        "commit": "3809dfe5c69b43bc9b39f7b75fa493bbc2ad57ac",
+        "subject": "packages: uboot-tools: add env config for Sophos RED 15w"
+      },
+      {
+        "commit": "a43f44ae3eab5e6c89fdc8b047c51747fa620b38",
+        "subject": "realtek: dsa: release the LAG table on error paths"
+      },
+      {
+        "commit": "ca7f2b898f8c34b2f64b33e3dcff06cf67e3d464",
+        "subject": "kernel: bump 6.12 to 6.12.108"
+      },
+      {
+        "commit": "addae4dbfb01a0d92fdfe146ec915b2fe13d9ef2",
+        "subject": "realtek: dsa: rtl930x: don't clobber adjacent LOG counter"
+      },
+      {
+        "commit": "27c185120e11e8eb7fbca594d9d629e9b6651024",
+        "subject": "realtek: dsa: rtl83xx: bound PIE rule search by the phase block range"
+      },
+      {
+        "commit": "d8693b19b4379ac0ab34338787e3e8781be7ac27",
+        "subject": "realtek: dsa: widen pie_rule.ethertype_m to u16"
+      },
+      {
+        "commit": "d51cfa41a6d6c9d3a395baaf9457b53a116ea0cb",
+        "subject": "realtek: dsa: rtl83xx: set fwd_sel for the tc flower TRAP action"
+      },
+      {
+        "commit": "d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd",
+        "subject": "realtek: dsa: rtl83xx: check L4 port and VLAN template fields"
+      }
+    ],
+    "individually_downloaded_openwrt_files_matching_pin": 18,
+    "new_reusable_upstream_fixes": [],
+    "findings": [
+      {
+        "id": "no-new-upstream-fix",
+        "status": "confirmed_source",
+        "summary": "The snapshot is 14 commits ahead of the canonical OpenWrt base; its 22 changed paths do not touch Airoha, Linux 6.18 generic/kernel inputs, mt76, or linux-firmware. All 18 individually downloaded relevant OpenWrt files equal git-archived pinned bytes. The mt76 source revision is exactly the same.",
+        "reusable_new_changes": []
+      },
+      {
+        "id": "mailbox-926-still-required",
+        "status": "confirmed_source",
+        "summary": "Snapshot provider copies into the coherent per-core buffer immediately, publishes producer counter before command flags, and releases its lock on timeout without a pending-owner guard. It does not supersede local patch 926.",
+        "evidence": [
+          {
+            "path": "kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+            "line_start": 169,
+            "line_end": 215
+          }
+        ],
+        "local_patch_sha256": "faa96f10049abc6edd9d3be973946cf4d4a81f178b56e3063e6c94b6f0de8d9c"
+      },
+      {
+        "id": "memory-927-and-dts-still-required",
+        "status": "confirmed_source_and_packaged_dtb",
+        "summary": "Snapshot WLAN memory init starts sending before validating every reservation; it truncates res.start to u32 and has no local profile/overlap/MT7996 minimum-size preflight. Source and actual packaged DTB retain a 0x6800-byte TX-check region at 0x90c00000 and BA at 0x90c06800. Canonical MT7996 include uses 0xe000 and BA at 0x90c0e000. Applying 927 without the canonical DTS correction intentionally rejects the snapshot's short reservation.",
+        "evidence": [
+          {
+            "path": "kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+            "line_start": 535,
+            "line_end": 590
+          },
+          {
+            "path": "openwrt/target/linux/airoha/dts/an7581-npu-wlan.dtsi",
+            "line_start": 25,
+            "line_end": 33
+          },
+          {
+            "path": "canonical-inputs/an7581-npu-mt7996.dtsi",
+            "line_start": 5,
+            "line_end": 16
+          }
+        ],
+        "local_patch_sha256": "608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708",
+        "hardware_overwrite_tested": false
+      },
+      {
+        "id": "bootstrap-and-stop-unchanged",
+        "status": "confirmed_source",
+        "summary": "Provider still programs boot addresses for all eight cores, triggers mask 0xff, waits a fixed interval, and treats firmware-version query failure as nonfatal. WLAN consumer still performs sequential offload/RXD/TXD/event/PCIe/TXDONE setup and enables IRQs only at the end. Stop still uses selector 4, ten GET3 polls, then selector 6; no all-worker generation/containment/drain handshake was added. No new bootstrap implementation was performed.",
+        "evidence": [
+          {
+            "path": "kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+            "line_start": 808,
+            "line_end": 836
+          },
+          {
+            "path": "mt76/mt7996/npu.c",
+            "line_start": 516,
+            "line_end": 556
+          },
+          {
+            "path": "mt76/mt7996/npu.c",
+            "line_start": 594,
+            "line_end": 630
+          }
+        ]
+      },
+      {
+        "id": "l1-errors-unchanged",
+        "status": "confirmed_source",
+        "summary": "L1 discards mt7996_npu_hw_stop() and __mt7996_npu_hw_init() return values; reset flags and NAPI are restored after the latter regardless of its return. There is no new recovery fix to cherry-pick.",
+        "evidence": [
+          {
+            "path": "mt76/mt7996/mac.c",
+            "line_start": 2575,
+            "line_end": 2576
+          },
+          {
+            "path": "mt76/mt7996/mac.c",
+            "line_start": 2647,
+            "line_end": 2667
+          }
+        ]
+      },
+      {
+        "id": "reset-removal-unchanged",
+        "status": "confirmed_source",
+        "summary": "Full reset releases/reinitializes TX tokens before forced DMA reset without an NPU stop in that path. Unregister still frees tokens before DMA cleanup. Provider remove only cancels watchdog work; mt76 NPU deinit drops provider/PPE references then cleans NPU queues, with no stop/drain handshake in that function. These remain open ownership contracts, not newly demonstrated live failures.",
+        "evidence": [
+          {
+            "path": "mt76/mt7996/mac.c",
+            "line_start": 2329,
+            "line_end": 2333
+          },
+          {
+            "path": "mt76/mt7996/init.c",
+            "line_start": 1828,
+            "line_end": 1848
+          },
+          {
+            "path": "mt76/npu.c",
+            "line_start": 500,
+            "line_end": 520
+          },
+          {
+            "path": "kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+            "line_start": 839,
+            "line_end": 845
+          }
+        ]
+      },
+      {
+        "id": "detached-provider-guard-still-local",
+        "status": "confirmed_source",
+        "summary": "Outer mt7996_npu_hw_init() still allocates its six MT7996 coherent buffers before the inner initializer tests for an attached provider. Local patch 003 adds the early active-provider test; snapshot has not incorporated it.",
+        "evidence": [
+          {
+            "path": "mt76/mt7996/npu.c",
+            "line_start": 559,
+            "line_end": 591
+          },
+          {
+            "path": "mt76/mt7996/npu.c",
+            "line_start": 521,
+            "line_end": 523
+          }
+        ],
+        "local_patch_sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092"
+      },
+      {
+        "id": "same-npu-payloads",
+        "status": "confirmed_packaged_bytes",
+        "summary": "Both MT7996-specific and generic EN7581 NPU data/RV32 blobs extracted from the hash-verified snapshot are byte-identical to the canonical linux-firmware-20260810 inputs. The snapshot provides no replacement NPU firmware fixing prior STOP/startup gaps. Firmware runtime GET version was not queried.",
+        "evidence": [
+          {
+            "path": "image/rootfs/lib/firmware/airoha"
+          },
+          {
+            "path": "image/rootfs/lib/apk/db/installed"
+          }
+        ]
+      }
+    ]
+  },
+  "already_present_upstream_changes": [
+    {
+      "change": "Coherent per-core mailbox DMA buffer with trailing reply copy",
+      "openwrt_commit": "9059c31bf5d245827574f6df24aa7ba797ba544b",
+      "latest_patch_path_commit": "da5a0577f5b86cb11654303b82bb9f51c605a2ea",
+      "path": "target/linux/airoha/patches-6.18/924-net-airoha-npu-use-coherent-mailbox-dma.patch",
+      "action": "Retain; already in both bases. Not a substitute for 926."
+    },
+    {
+      "change": "DTS-selected board-specific NPU firmware names",
+      "linux_commit": "3847173525e307ebcd23bd4863da943ea78b0057",
+      "path": "target/linux/airoha/patches-6.18/123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch",
+      "action": "Already included; do not reapply."
+    },
+    {
+      "change": "Optional BA memory command",
+      "linux_commit": "875a59c9a9e584d99d8e9e5aa8435ec9300bfe91",
+      "path": "target/linux/airoha/patches-6.18/121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch",
+      "action": "Already included; no capacity validation."
+    },
+    {
+      "change": "Direct firmware request without sysfs fallback, missing firmware defers probe",
+      "linux_commit": "a085e68b13906a6a4d8b16e3b763e13f05904cc8",
+      "path": "target/linux/airoha/patches-6.18/181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch",
+      "action": "Already included."
+    },
+    {
+      "change": "NPU generic-layer header ABI",
+      "linux_commit": "62f1347fa5bf6e6c9c054aedb9e87e7205fa12ac",
+      "action": "Already included as patch 111."
+    },
+    {
+      "change": "Wi-Fi-specific NPU reservations split from generic board DTS",
+      "openwrt_commit": "ab2dc6ab166a97d4e610ce6d1850ab8e66eabdd2",
+      "action": "Already included; preserve canonical MT7996 TX-check correction."
+    },
+    {
+      "change": "mt76 update to current pin",
+      "openwrt_commit": "a46721f04d7af3379d8142d5e9b8967c5a386bb3",
+      "action": "Already included; no driver revision delta."
+    },
+    {
+      "change": "linux-firmware 20260810 update",
+      "openwrt_commit": "452ec3a423c6c733299fccf503af0eeee33d56b1",
+      "action": "Already included; selected NPU payloads match."
+    }
+  ],
+  "packaged_dtb_reservations": [
+    {
+      "node": "npu-binary@84000000",
+      "start": "0x84000000",
+      "size": "0x00a00000"
+    },
+    {
+      "node": "npu-pkt@8a000000",
+      "start": "0x8a000000",
+      "size": "0x02c00000"
+    },
+    {
+      "node": "npu-txpkt@8cc00000",
+      "start": "0x8cc00000",
+      "size": "0x04000000"
+    },
+    {
+      "node": "npu-txbufid@90c00000",
+      "start": "0x90c00000",
+      "size": "0x00006800",
+      "canonical_size": "0x0000e000"
+    },
+    {
+      "node": "npu-ba@90c06800",
+      "start": "0x90c06800",
+      "size": "0x00200000",
+      "canonical_start": "0x90c0e000"
+    }
+  ],
+  "reconstruction": {
+    "kernel_archive": "/home/captain/W1700KNPU/.build/openwrt/dl/linux-6.18.44.tar.xz",
+    "kernel_archive_sha256": "0f72d938f06828e82c90405174fe572287db7bfe089e2fc46572a99a7f240d43",
+    "method": "Extracted only airoha_npu.c and airoha_offload.h from the verified existing Linux archive into audit scratch. Applied snapshot patches 102-02, 102-03, 118, 121, 123, 181 and 924 to provider C, and 111 plus 924 to header. Copied those scratch references and applied canonical 926/927. Both resulting files exactly match prepared canonical source; source patches also match source-lock hashes. No kernel make/preparation/build command was run.",
+    "snapshot_provider_sha256": "c16c2fe02253a29c2ac7f7e2d6a6bae2f75a04fce950d2fb6e33281469f6cc1c",
+    "canonical_provider_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    "snapshot_header_sha256": "f5da81e31395bde119bcb564503bd747e1c8c245c720b8cbf5de2f8e4182c5a4",
+    "canonical_header_sha256": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+    "prepared_source_matches": true
+  },
+  "validation": {
+    "six_metadata_files_match_sha256sums": true,
+    "image_matches_profiles_and_sha256sums": true,
+    "extracted_dtb_and_rootfs_match_fit_sha1": true,
+    "version_and_profiles_recheck_identical": true,
+    "canonical_source_lock_recheck_identical": true,
+    "npu_payloads_match_canonical_input": true,
+    "openwrt_file_hash_matches": 18,
+    "signature_verified": false,
+    "trust_basis": "Official HTTPS plus captured SHA256SUMS/profiles; detached signatures were not verified.",
+    "runtime_tested": false,
+    "hardware_proof": false,
+    "stock_parity_claim": false
+  },
+  "limitations": [
+    "Rolling index no longer serves the supplied September 5 image in this capture; no claim about that old image's exact revision.",
+    "The target-wide manifest is not the W1700K-specific package inventory; exact selected package versions came from the downloaded image's installed database.",
+    "Historical kmods directories retain multiple versions; package filenames there were not used alone to identify the image.",
+    "Reconstructed provider source, extracted binary presence, packaged firmware and DTB are source/artifact evidence only. No live NPU version, boot/containment/drain, DMA safety, restart, Wi-Fi clients or parity was tested.",
+    "No SDK, imagebuilder, toolchain or kernel-debug archive was downloaded.",
+    "Parent bootstrap work was neither implemented nor modified; stock-port ledger remains unchanged under this sidecar's explicit write restriction."
+  ],
+  "artifacts": [
+    {
+      "path": "metadata/config.buildinfo",
+      "bytes": 1714,
+      "sha256": "de2bbddf518b78b0a315d4444d7649b43cd4b9097f66ea5e070bd61ea3a979f3",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/config.buildinfo"
+    },
+    {
+      "path": "metadata/feeds.buildinfo",
+      "bytes": 487,
+      "sha256": "ae8f121bcb8fb540b61adfe8266408d2efb41539413d13c4cd99ef07b9128d7b",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/feeds.buildinfo"
+    },
+    {
+      "path": "metadata/openwrt-airoha-an7581.bom.cdx.json",
+      "bytes": 11214,
+      "sha256": "a6cae33df6914152184e785f14bde41519f7a883d9d4fe216ead64bf793a88b7",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/openwrt-airoha-an7581.bom.cdx.json"
+    },
+    {
+      "path": "metadata/openwrt-airoha-an7581.manifest",
+      "bytes": 2624,
+      "sha256": "73da8bfc90360129e43192c5c810eb1be6aaa99d409351c3cb5d84ff3ccd962e",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/openwrt-airoha-an7581.manifest"
+    },
+    {
+      "path": "metadata/openwrt-compare.json",
+      "bytes": 124799,
+      "sha256": "08bd6d490bacf549e397c3460c5a91a104c8f6eeecab148781a12ab27fb4f341",
+      "source_url": "https://api.github.com/repos/openwrt/openwrt/compare/28ba2708f1f609bfd134975808b2bc6ed9dc9742...d6933d6aed"
+    },
+    {
+      "path": "metadata/profiles.json",
+      "bytes": 11427,
+      "sha256": "8d2f07f3159c18e787117ccebd52de519889d66c2827679126754cdf7fe749d3",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/profiles.json"
+    },
+    {
+      "path": "metadata/sha256sums",
+      "bytes": 2539798,
+      "sha256": "a53490b1071e494729b1d18e195e052e1e7ea22b93a11a598dffc0f7282761a2",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/sha256sums"
+    },
+    {
+      "path": "metadata/snapshot-commit.json",
+      "bytes": 9992,
+      "sha256": "cff16d6e3e3b2c8defbe2ffe200b728e39c3957860a6d4110cb4d1196740d601",
+      "source_url": "https://api.github.com/repos/openwrt/openwrt/commits/d6933d6aed"
+    },
+    {
+      "path": "metadata/version.buildinfo",
+      "bytes": 18,
+      "sha256": "eb47ea687d304624f60432cdce1ae2aa6872d088569f7d058f929d0164e26242",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/version.buildinfo"
+    },
+    {
+      "path": "openwrt/package/kernel/mt76/Makefile",
+      "bytes": 23376,
+      "sha256": "d84714c20279d7805d251e19359ef8a0125c2d83f8759299214bd6ab798f832c",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/package/kernel/mt76/Makefile"
+    },
+    {
+      "path": "openwrt/package/firmware/linux-firmware/airoha.mk",
+      "bytes": 1865,
+      "sha256": "ee61cbc68db899adc836d0ecc6c892ccd50d8941b2633c73bcc88ef2a5f1f750",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/package/firmware/linux-firmware/airoha.mk"
+    },
+    {
+      "path": "openwrt/package/firmware/linux-firmware/Makefile",
+      "bytes": 890,
+      "sha256": "dc5ae1b0323462d55077ea13a326e4e7371b8ece3d3f433769b3ca06d1498721",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/package/firmware/linux-firmware/Makefile"
+    },
+    {
+      "path": "openwrt/target/linux/generic/kernel-6.18",
+      "bytes": 118,
+      "sha256": "51d0bba5dcf7951cd18a619ba28768a3458da592bfe5b385c3114960e8a15bad",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/generic/kernel-6.18"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/Makefile",
+      "bytes": 296,
+      "sha256": "4ac79de214648606491bc981b45f632486670424c609f100a06c27b4764e408f",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/Makefile"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/image/an7581.mk",
+      "bytes": 6956,
+      "sha256": "86a5e764d4e166e14295237945c22916103fb875a97e87050b17fc6524773aff",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/image/an7581.mk"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch",
+      "bytes": 3931,
+      "sha256": "7df48384f2cf1d2b58714bb7ff67651f9dd5065b8c0197dae9bf96ab0c9342a4",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch",
+      "bytes": 2140,
+      "sha256": "feb2ca570bacbf81214f662418ef78d66bcb453d1e91f485454157e870fbdbd2",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/111-v6.19-wifi-mt76-Introduce-the-NPU-generic-layer.patch",
+      "bytes": 1445,
+      "sha256": "94207a301b676a43199b15ddb722210515da0e810f5f272749ba4ee7418d93f9",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/111-v6.19-wifi-mt76-Introduce-the-NPU-generic-layer.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch",
+      "bytes": 1247,
+      "sha256": "dc3e9efc02ce838be587547f4c7ee0a41a43e21ed58e73a1c7c7c752497b60eb",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch",
+      "bytes": 1200,
+      "sha256": "e8cb79859f0df4b56c7edaccddf54983a16ef2f9a4aef3652184f43c3ed0487a",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch",
+      "bytes": 4209,
+      "sha256": "af63a2a170090b04b26cb10b2d56e67963119f4ccbdcd482f9d25e05069d8115",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch",
+      "bytes": 4885,
+      "sha256": "97e69321f1c8546fcff7180cd2dbe2be2711a8f814f4725551aad3c8689f932d",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/patches-6.18/924-net-airoha-npu-use-coherent-mailbox-dma.patch",
+      "bytes": 5992,
+      "sha256": "adfa35ee1001202b11c293a312ea7689177cc460af39f17a52219877127ed213",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/patches-6.18/924-net-airoha-npu-use-coherent-mailbox-dma.patch"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/dts/an7581-npu-mt7996.dtsi",
+      "bytes": 218,
+      "sha256": "a21725acd760ea85c4dbb4153a07ef189c37159a09a9c6f1c29fd7d60f055697",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/dts/an7581-npu-mt7996.dtsi"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/dts/an7581-npu-wlan.dtsi",
+      "bytes": 914,
+      "sha256": "7a68b1c073abbf443ed2f5ed986267dd6f5ed7aabceb496b6729f20ec25a9bf1",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/dts/an7581-npu-wlan.dtsi"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/dts/an7581-w1700k-ubi.dts",
+      "bytes": 7366,
+      "sha256": "2da1100cf2763d208fa4c98892498fed2741e91073db759ea4169385e382fa2e",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/dts/an7581-w1700k-ubi.dts"
+    },
+    {
+      "path": "openwrt/target/linux/airoha/dts/an7581.dtsi",
+      "bytes": 24525,
+      "sha256": "585b1d157683e9d45d155dac315712209745678cfb94312baaab5fbca5587e61",
+      "source_url": "https://raw.githubusercontent.com/openwrt/openwrt/d6933d6aedc8a8d5aff646ed3fe71135d5a46fcd/target/linux/airoha/dts/an7581.dtsi"
+    },
+    {
+      "path": "mt76/mmio.c",
+      "bytes": 2736,
+      "sha256": "6e5f8bc468fa9d44cc191101e722ac3efd3f1051544797347af2eda663317d06",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mmio.c"
+    },
+    {
+      "path": "mt76/mt76.h",
+      "bytes": 57502,
+      "sha256": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt76.h"
+    },
+    {
+      "path": "mt76/npu.c",
+      "bytes": 12143,
+      "sha256": "a156bad3b9cc8a4422444272c5247b1d17042f495a1698f2799d1d79434d0e6b",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/npu.c"
+    },
+    {
+      "path": "mt76/mt7996/dma.c",
+      "bytes": 32146,
+      "sha256": "b78f3fc83da48c7ab5d10ed2165b238517e3b784eec7e6ca288b5b20937cac50",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/dma.c"
+    },
+    {
+      "path": "mt76/mt7996/init.c",
+      "bytes": 53248,
+      "sha256": "8ee134431453c6ebf1d3edffcec94707ac6ebcf45edfcd09d3b0f292e95c4bce",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/init.c"
+    },
+    {
+      "path": "mt76/mt7996/mac.c",
+      "bytes": 86812,
+      "sha256": "57b077b5735a2917cefa3d30ede1dbe37d87511959a69911d57f72a9834dbd15",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/mac.c"
+    },
+    {
+      "path": "mt76/mt7996/mmio.c",
+      "bytes": 28632,
+      "sha256": "321f0dc14c6bf0d17b14af864634ef153ac1d48d575c3823130e2def6a0e655f",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/mmio.c"
+    },
+    {
+      "path": "mt76/mt7996/mt7996.h",
+      "bytes": 31164,
+      "sha256": "49e3ddc1f3f8e3cdf650cb1e6c9b2178149128bb3281787073f29eaa31e2e7dd",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/mt7996.h"
+    },
+    {
+      "path": "mt76/mt7996/npu.c",
+      "bytes": 15643,
+      "sha256": "d70dc1953576c134c8732edb92efd2a8d18e5dbba35435cb230f98ce448b6b5e",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/mt7996/npu.c"
+    },
+    {
+      "path": "kernel/include/linux/soc/airoha/airoha_offload.h",
+      "bytes": 8750,
+      "sha256": "f5da81e31395bde119bcb564503bd747e1c8c245c720b8cbf5de2f8e4182c5a4",
+      "source_url": null
+    },
+    {
+      "path": "kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+      "bytes": 22322,
+      "sha256": "c16c2fe02253a29c2ac7f7e2d6a6bae2f75a04fce950d2fb6e33281469f6cc1c",
+      "source_url": null
+    },
+    {
+      "path": "canonical-kernel/include/linux/soc/airoha/airoha_offload.h",
+      "bytes": 8830,
+      "sha256": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+      "source_url": null
+    },
+    {
+      "path": "canonical-kernel/drivers/net/ethernet/airoha/airoha_npu.c",
+      "bytes": 24996,
+      "sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+      "source_url": null
+    },
+    {
+      "path": "canonical-inputs/003-mt7996-skip-npu-buffers-without-provider.patch",
+      "bytes": 791,
+      "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+      "source_url": null
+    },
+    {
+      "path": "canonical-inputs/926-net-airoha-npu-protect-inflight-mailbox-buffer.patch",
+      "bytes": 3346,
+      "sha256": "faa96f10049abc6edd9d3be973946cf4d4a81f178b56e3063e6c94b6f0de8d9c",
+      "source_url": null
+    },
+    {
+      "path": "canonical-inputs/927-net-airoha-npu-validate-memory-before-wlan.patch",
+      "bytes": 8823,
+      "sha256": "608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708",
+      "source_url": null
+    },
+    {
+      "path": "canonical-inputs/an7581-npu-mt7996.dtsi",
+      "bytes": 482,
+      "sha256": "83cd7d8b494399ec218ce65810d8e17d08b930b9d1156a1591fef56f04d5a89d",
+      "source_url": null
+    },
+    {
+      "path": "canonical-inputs/source-lock.json",
+      "bytes": 10119,
+      "sha256": "46d69e60a43a793796691e2656d4376871274f8b20e637c40c0143fb0bc26c09",
+      "source_url": null
+    },
+    {
+      "path": "image/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "bytes": 13513539,
+      "sha256": "990f955cfee3622752848ee1b737f89856763c67edf4765e92bab1e0eec994fc",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb"
+    },
+    {
+      "path": "image/rootfs.squashfs",
+      "bytes": 7467008,
+      "sha256": "30ec67114f48ab76ef344b8460cbd4c3c375b84dd4a3795781d72e8a54607f5a",
+      "source_url": null
+    },
+    {
+      "path": "image/w1700k.dtb",
+      "bytes": 22679,
+      "sha256": "565136de9144d0e366404d299933ebd8e58cedbfdb97c7b803749e0248eec596",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/etc/openwrt_release",
+      "bytes": 225,
+      "sha256": "d72d94e7f5e8f10b330925577c19ea990902cca28c751dce06c32b01b404af15",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/modules/6.18.44/mt7996e.ko",
+      "bytes": 222704,
+      "sha256": "f78480905f7f59e1cbdcd1a36fc24e0a17510143fe8cc8b6821503ae27b081f4",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/firmware/airoha/en7581_MT7996_npu_data.bin",
+      "bytes": 3084,
+      "sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/firmware/airoha/en7581_MT7996_npu_rv32.bin",
+      "bytes": 122336,
+      "sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/firmware/airoha/en7581_npu_data.bin",
+      "bytes": 3100,
+      "sha256": "0e742e7bef0d8f4c1537d7c17de9b601274e42b18660dfde6deba81ac395c761",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/firmware/airoha/en7581_npu_rv32.bin",
+      "bytes": 120272,
+      "sha256": "6e7b9cb9769398d5c0a603d758626719ee83610e0dd2a5bc0b66258e2ad1057f",
+      "source_url": null
+    },
+    {
+      "path": "image/rootfs/lib/apk/db/installed",
+      "bytes": 97275,
+      "sha256": "6ce1ac0abf390bd33fcf744ace4cb2e1238cfbbe629f39ff1a6511bf84744494",
+      "source_url": null
+    },
+    {
+      "path": "metadata/recheck-profiles.json",
+      "bytes": 11427,
+      "sha256": "8d2f07f3159c18e787117ccebd52de519889d66c2827679126754cdf7fe749d3",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/profiles.json"
+    },
+    {
+      "path": "metadata/recheck-version.buildinfo",
+      "bytes": 18,
+      "sha256": "eb47ea687d304624f60432cdce1ae2aa6872d088569f7d058f929d0164e26242",
+      "source_url": "https://downloads.openwrt.org/snapshots/targets/airoha/an7581/version.buildinfo"
+    },
+    {
+      "path": "mt76/dma.c",
+      "bytes": 28159,
+      "sha256": "e07630bbc96b237c4696186b1e9ff30776404ac32401f8566c5165c9db61458e",
+      "source_url": "https://raw.githubusercontent.com/openwrt/mt76/be5ce7910521492d4a2e4ce7ee3843680a46c047/dma.c"
+    }
+  ]
+}

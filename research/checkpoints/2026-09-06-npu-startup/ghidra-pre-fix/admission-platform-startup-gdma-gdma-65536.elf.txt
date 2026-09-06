@@ -1,0 +1,575 @@
+program=admission-platform-startup-gdma-gdma-65536.elf
+sha256=f1aa374ac736ca5bef693f8d6f64815498553c81946afef2b20dab6dfb20f499
+language=RISCV:LE:32:W1700KNPU
+
+FUNCTION npu_startup_poll @ ram:8404232a
+decompiled=true
+
+undefined4 npu_startup_poll(int *param_1,uint param_2)
+
+{
+  fence();
+  if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40)) &&
+     ((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)))) {
+    fence();
+    if (((param_2 < 8) && ((param_1[0xf] == 0 && (fence(), param_1[4] == 0)))) &&
+       (fence(), param_1[param_2 + 5] == 1)) {
+      fence();
+      if (param_1[3] == 2) {
+        return 2;
+      }
+      if ((uint)param_1[3] < 2) {
+        return 0;
+      }
+    }
+  }
+  fence();
+  param_1[4] = 1;
+  fence();
+  param_1[3] = 3;
+  return 3;
+}
+
+
+ASSEMBLY
+ram:8404232a c.lw a2,0x0(a0)
+ram:8404232c lui a3,0x31535
+ram:84042330 addi a3,a3,0x4e
+ram:84042334 fence 0x2,0x3
+ram:84042338 bne a2,a3,0x84042366
+ram:8404233c c.lw a2,0x4(a0)
+ram:8404233e c.li a3,0x1
+ram:84042340 fence 0x2,0x3
+ram:84042344 bne a2,a3,0x84042366
+ram:84042348 c.lw a2,0x8(a0)
+ram:8404234a li a3,0x40
+ram:8404234e fence 0x2,0x3
+ram:84042352 bne a2,a3,0x84042366
+ram:84042356 c.lw a2,0x34(a0)
+ram:84042358 fence 0x2,0x3
+ram:8404235c c.bnez a2,0x84042366
+ram:8404235e c.lw a2,0x38(a0)
+ram:84042360 fence 0x2,0x3
+ram:84042364 c.beqz a2,0x8404237a
+ram:84042366 fence 0x3,0x1
+ram:8404236a c.li a1,0x1
+ram:8404236c c.sw a1,0x10(a0)
+ram:8404236e c.li a1,0x3
+ram:84042370 fence 0x3,0x1
+ram:84042374 c.sw a1,0xc(a0)
+ram:84042376 c.mv a0,a1
+ram:84042378 ret
+ram:8404237a c.lw a2,0x3c(a0)
+ram:8404237c c.li a3,0x7
+ram:8404237e fence 0x2,0x3
+ram:84042382 bltu a3,a1,0x84042366
+ram:84042386 c.bnez a2,0x84042366
+ram:84042388 c.lw a2,0x10(a0)
+ram:8404238a fence 0x2,0x3
+ram:8404238e c.bnez a2,0x84042366
+ram:84042390 c.slli a1,0x2
+ram:84042392 c.add a1,a0
+ram:84042394 c.lw a1,0x14(a1)
+ram:84042396 c.li a2,0x1
+ram:84042398 fence 0x2,0x3
+ram:8404239c bne a1,a2,0x84042366
+ram:840423a0 c.lw a2,0xc(a0)
+ram:840423a2 c.li a1,0x2
+ram:840423a4 fence 0x2,0x3
+ram:840423a8 beq a2,a1,0x84042376
+ram:840423ac c.li a1,0x2
+ram:840423ae bgeu a2,a1,0x84042366
+ram:840423b2 c.li a0,0x0
+ram:840423b4 ret
+
+FUNCTION npu_startup_arrive @ ram:840423b6
+decompiled=true
+
+undefined4 npu_startup_arrive(int *param_1,uint param_2,int param_3)
+
+{
+  int *piVar1;
+  
+  fence();
+  if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40)) &&
+     ((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)))) {
+    fence();
+    if ((param_2 < 8) && ((param_3 == 0 && param_1[0xf] == 0 && (fence(), param_1[4] == 0)))) {
+      piVar1 = param_1 + param_2 + 5;
+      if (*piVar1 != 0) {
+        fence();
+        param_1[4] = 1;
+        fence();
+        goto LAB_ram_84042400;
+      }
+      *piVar1 = 1;
+      if (param_2 == 0) {
+        if (param_1[3] == 0) {
+          param_1[3] = 1;
+          return 1;
+        }
+      }
+      else {
+        fence();
+        if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) &&
+            (fence(), param_1[2] == 0x40)) &&
+           (((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)) &&
+            ((fence(), param_1[0xf] == 0 && ((fence(), param_1[4] == 0 && (fence(), *piVar1 == 1))))
+            )))) {
+          fence();
+          if (param_1[3] == 2) {
+            return 2;
+          }
+          if ((uint)param_1[3] < 2) {
+            return 0;
+          }
+        }
+      }
+    }
+  }
+  fence();
+  param_1[4] = 1;
+  fence();
+LAB_ram_84042400:
+  param_1[3] = 3;
+  return 3;
+}
+
+
+ASSEMBLY
+ram:840423b6 c.lw a3,0x0(a0)
+ram:840423b8 lui a4,0x31535
+ram:840423bc addi a4,a4,0x4e
+ram:840423c0 fence 0x2,0x3
+ram:840423c4 bne a3,a4,0x840423f2
+ram:840423c8 c.lw a3,0x4(a0)
+ram:840423ca c.li a4,0x1
+ram:840423cc fence 0x2,0x3
+ram:840423d0 bne a3,a4,0x840423f2
+ram:840423d4 c.lw a3,0x8(a0)
+ram:840423d6 li a4,0x40
+ram:840423da fence 0x2,0x3
+ram:840423de bne a3,a4,0x840423f2
+ram:840423e2 c.lw a3,0x34(a0)
+ram:840423e4 fence 0x2,0x3
+ram:840423e8 c.bnez a3,0x840423f2
+ram:840423ea c.lw a3,0x38(a0)
+ram:840423ec fence 0x2,0x3
+ram:840423f0 c.beqz a3,0x84042406
+ram:840423f2 fence 0x3,0x1
+ram:840423f6 c.li a1,0x1
+ram:840423f8 c.sw a1,0x10(a0)
+ram:840423fa c.li a1,0x3
+ram:840423fc fence 0x3,0x1
+ram:84042400 c.sw a1,0xc(a0)
+ram:84042402 c.mv a0,a1
+ram:84042404 ret
+ram:84042406 c.lw a3,0x3c(a0)
+ram:84042408 c.li a4,0x7
+ram:8404240a fence 0x2,0x3
+ram:8404240e bltu a4,a1,0x840423f2
+ram:84042412 c.or a2,a3
+ram:84042414 c.bnez a2,0x840423f2
+ram:84042416 c.lw a2,0x10(a0)
+ram:84042418 fence 0x2,0x3
+ram:8404241c c.bnez a2,0x840423f2
+ram:8404241e slli a2,a1,0x2
+ram:84042422 c.add a2,a0
+ram:84042424 c.addi a2,0x14
+ram:84042426 c.li a3,0x1
+ram:84042428 lr.w.aq a4,(a2)
+ram:8404242c c.bnez a4,0x840424a4
+ram:8404242e sc.w.rl a5,a3,(a2)
+ram:84042432 c.bnez a5,0x84042428
+ram:84042434 c.beqz a1,0x840424b2
+ram:84042436 c.lw a1,0x0(a0)
+ram:84042438 lui a3,0x31535
+ram:8404243c addi a3,a3,0x4e
+ram:84042440 fence 0x2,0x3
+ram:84042444 bne a1,a3,0x840423f2
+ram:84042448 c.lw a1,0x4(a0)
+ram:8404244a c.li a3,0x1
+ram:8404244c fence 0x2,0x3
+ram:84042450 bne a1,a3,0x840423f2
+ram:84042454 c.lw a1,0x8(a0)
+ram:84042456 li a3,0x40
+ram:8404245a fence 0x2,0x3
+ram:8404245e bne a1,a3,0x840423f2
+ram:84042462 c.lw a1,0x34(a0)
+ram:84042464 fence 0x2,0x3
+ram:84042468 c.bnez a1,0x840423f2
+ram:8404246a c.lw a1,0x38(a0)
+ram:8404246c fence 0x2,0x3
+ram:84042470 c.bnez a1,0x840423f2
+ram:84042472 c.lw a1,0x3c(a0)
+ram:84042474 fence 0x2,0x3
+ram:84042478 c.bnez a1,0x840423f2
+ram:8404247a c.lw a1,0x10(a0)
+ram:8404247c fence 0x2,0x3
+ram:84042480 c.bnez a1,0x840423f2
+ram:84042482 c.lw a1,0x0(a2)
+ram:84042484 c.li a2,0x1
+ram:84042486 fence 0x2,0x3
+ram:8404248a bne a1,a2,0x840423f2
+ram:8404248e c.lw a2,0xc(a0)
+ram:84042490 c.li a1,0x2
+ram:84042492 fence 0x2,0x3
+ram:84042496 beq a2,a1,0x84042402
+ram:8404249a c.li a1,0x2
+ram:8404249c bgeu a2,a1,0x840423f2
+ram:840424a0 c.li a0,0x0
+ram:840424a2 ret
+ram:840424a4 fence 0x3,0x1
+ram:840424a8 c.sw a3,0x10(a0)
+ram:840424aa fence 0x3,0x1
+ram:840424ae c.li a1,0x3
+ram:840424b0 c.j 0x84042400
+ram:840424b2 addi a2,a0,0xc
+ram:840424b6 c.li a1,0x1
+ram:840424b8 lr.w.aq a3,(a2)
+ram:840424bc c.bnez a3,0x840423f2
+ram:840424be sc.w.rl a4,a1,(a2)
+ram:840424c2 c.bnez a4,0x840424b8
+ram:840424c4 c.bnez a3,0x840423f2
+ram:840424c6 c.j 0x84042402
+
+FUNCTION npu_startup_publish @ ram:840424c8
+decompiled=true
+
+undefined4 npu_startup_publish(int *param_1,int *param_2,int *param_3,int *param_4,int param_5)
+
+{
+  fence();
+  if (((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40))
+      && ((((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)) &&
+           ((fence(), param_5 == 0 && param_1[0xf] == 0 &&
+            ((fence(), param_1[4] == 0 && (fence(), param_1[5] == 1)))))) &&
+          ((fence(), *param_2 == 1 &&
+           ((((fence(), param_2[1] == 0 && (fence(), param_2[2] == 0)) && (fence(), param_2[3] == 0)
+             ) && ((fence(), param_2[4] == 0 && (*param_3 == 1)))))))))) &&
+     (((param_3[1] == 0 && ((param_3[2] == 0 && (param_3[3] == 0)))) &&
+      (((param_3[4] == 0 &&
+        ((((fence(), param_2[5] == 0 && (fence(), param_2[0xd] == 0)) && (fence(), param_2[6] == 0))
+         && (((fence(), param_2[0xe] == 0 && (fence(), param_2[7] == 0)) &&
+             ((fence(), param_2[0xf] == 0 &&
+              ((fence(), param_2[8] == 0 && (fence(), param_2[0x10] == 0)))))))))) &&
+       ((((fence(), param_2[9] == 0 &&
+          ((((((fence(), param_2[0x11] == 0 && (fence(), param_2[10] == 0)) &&
+              (fence(), param_2[0x12] == 0)) &&
+             (((fence(), param_2[0xb] == 0 && (fence(), param_2[0x13] == 0)) &&
+              ((fence(), param_2[0xc] == 0 &&
+               ((fence(), param_2[0x14] == 0 && (fence(), param_2[0x15] == 0)))))))) &&
+            (fence(), param_2[0x16] == 0)) &&
+           ((((((fence(), param_2[0x17] == 0 && (fence(), param_2[0x18] == 0)) &&
+               (fence(), param_2[0x19] == 0)) && ((param_3[5] == 0 && (*param_4 == 0)))) &&
+             (param_3[6] == 0)) && ((param_4[1] == 0 && (param_3[7] == 0)))))))) &&
+         (((param_4[2] == 0 && (((param_3[8] == 0 && (param_4[3] == 0)) && (param_3[9] == 0)))) &&
+          (((param_4[4] == 0 && (param_3[10] == 0)) && (param_4[5] == 0)))))) && (param_1[3] == 1)))
+       ))))) {
+    param_1[3] = 2;
+    return 1;
+  }
+  fence();
+  param_1[4] = 1;
+  fence();
+  param_1[3] = 3;
+  return 0;
+}
+
+
+ASSEMBLY
+ram:840424c8 lw a6,0x0(a0)
+ram:840424cc lui a5,0x31535
+ram:840424d0 addi a5,a5,0x4e
+ram:840424d4 fence 0x2,0x3
+ram:840424d8 bne a6,a5,0x8404266a
+ram:840424dc c.lw a5,0x4(a0)
+ram:840424de c.li a6,0x1
+ram:840424e0 fence 0x2,0x3
+ram:840424e4 bne a5,a6,0x8404266a
+ram:840424e8 c.lw a5,0x8(a0)
+ram:840424ea li a6,0x40
+ram:840424ee fence 0x2,0x3
+ram:840424f2 bne a5,a6,0x8404266a
+ram:840424f6 c.lw a5,0x34(a0)
+ram:840424f8 fence 0x2,0x3
+ram:840424fc bne a5,zero,0x8404266a
+ram:84042500 c.lw a5,0x38(a0)
+ram:84042502 fence 0x2,0x3
+ram:84042506 bne a5,zero,0x8404266a
+ram:8404250a c.lw a5,0x3c(a0)
+ram:8404250c c.or a4,a5
+ram:8404250e fence 0x2,0x3
+ram:84042512 bne a4,zero,0x8404266a
+ram:84042516 c.lw a4,0x10(a0)
+ram:84042518 fence 0x2,0x3
+ram:8404251c bne a4,zero,0x8404266a
+ram:84042520 c.lw a5,0x14(a0)
+ram:84042522 c.li a4,0x1
+ram:84042524 fence 0x2,0x3
+ram:84042528 bne a5,a4,0x8404266a
+ram:8404252c c.lw a5,0x0(a1)
+ram:8404252e fence 0x2,0x3
+ram:84042532 bne a5,a4,0x8404266a
+ram:84042536 c.lw a4,0x4(a1)
+ram:84042538 fence 0x2,0x3
+ram:8404253c bne a4,zero,0x8404266a
+ram:84042540 c.lw a4,0x8(a1)
+ram:84042542 fence 0x2,0x3
+ram:84042546 bne a4,zero,0x8404266a
+ram:8404254a c.lw a4,0xc(a1)
+ram:8404254c fence 0x2,0x3
+ram:84042550 bne a4,zero,0x8404266a
+ram:84042554 c.lw a4,0x10(a1)
+ram:84042556 fence 0x2,0x3
+ram:8404255a bne a4,zero,0x8404266a
+ram:8404255e c.lw a4,0x0(a2)
+ram:84042560 c.li a5,0x1
+ram:84042562 bne a4,a5,0x8404266a
+ram:84042566 c.lw a4,0x4(a2)
+ram:84042568 bne a4,zero,0x8404266a
+ram:8404256c c.lw a4,0x8(a2)
+ram:8404256e c.bnez a4,0x8404266a
+ram:84042570 c.lw a4,0xc(a2)
+ram:84042572 c.bnez a4,0x8404266a
+ram:84042574 c.lw a4,0x10(a2)
+ram:84042576 c.bnez a4,0x8404266a
+ram:84042578 c.lw a4,0x14(a1)
+ram:8404257a fence 0x2,0x3
+ram:8404257e c.bnez a4,0x8404266a
+ram:84042580 c.lw a4,0x34(a1)
+ram:84042582 fence 0x2,0x3
+ram:84042586 c.bnez a4,0x8404266a
+ram:84042588 c.lw a4,0x18(a1)
+ram:8404258a fence 0x2,0x3
+ram:8404258e c.bnez a4,0x8404266a
+ram:84042590 c.lw a4,0x38(a1)
+ram:84042592 fence 0x2,0x3
+ram:84042596 c.bnez a4,0x8404266a
+ram:84042598 c.lw a4,0x1c(a1)
+ram:8404259a fence 0x2,0x3
+ram:8404259e c.bnez a4,0x8404266a
+ram:840425a0 c.lw a4,0x3c(a1)
+ram:840425a2 fence 0x2,0x3
+ram:840425a6 c.bnez a4,0x8404266a
+ram:840425a8 c.lw a4,0x20(a1)
+ram:840425aa fence 0x2,0x3
+ram:840425ae c.bnez a4,0x8404266a
+ram:840425b0 c.lw a4,0x40(a1)
+ram:840425b2 fence 0x2,0x3
+ram:840425b6 c.bnez a4,0x8404266a
+ram:840425b8 c.lw a4,0x24(a1)
+ram:840425ba fence 0x2,0x3
+ram:840425be c.bnez a4,0x8404266a
+ram:840425c0 c.lw a4,0x44(a1)
+ram:840425c2 fence 0x2,0x3
+ram:840425c6 c.bnez a4,0x8404266a
+ram:840425c8 c.lw a4,0x28(a1)
+ram:840425ca fence 0x2,0x3
+ram:840425ce c.bnez a4,0x8404266a
+ram:840425d0 c.lw a4,0x48(a1)
+ram:840425d2 fence 0x2,0x3
+ram:840425d6 c.bnez a4,0x8404266a
+ram:840425d8 c.lw a4,0x2c(a1)
+ram:840425da fence 0x2,0x3
+ram:840425de c.bnez a4,0x8404266a
+ram:840425e0 c.lw a4,0x4c(a1)
+ram:840425e2 fence 0x2,0x3
+ram:840425e6 c.bnez a4,0x8404266a
+ram:840425e8 c.lw a4,0x30(a1)
+ram:840425ea fence 0x2,0x3
+ram:840425ee c.bnez a4,0x8404266a
+ram:840425f0 c.lw a4,0x50(a1)
+ram:840425f2 fence 0x2,0x3
+ram:840425f6 c.bnez a4,0x8404266a
+ram:840425f8 c.lw a4,0x54(a1)
+ram:840425fa fence 0x2,0x3
+ram:840425fe c.bnez a4,0x8404266a
+ram:84042600 c.lw a4,0x58(a1)
+ram:84042602 fence 0x2,0x3
+ram:84042606 c.bnez a4,0x8404266a
+ram:84042608 c.lw a4,0x5c(a1)
+ram:8404260a fence 0x2,0x3
+ram:8404260e c.bnez a4,0x8404266a
+ram:84042610 c.lw a4,0x60(a1)
+ram:84042612 fence 0x2,0x3
+ram:84042616 c.bnez a4,0x8404266a
+ram:84042618 c.lw a1,0x64(a1)
+ram:8404261a fence 0x2,0x3
+ram:8404261e c.bnez a1,0x8404266a
+ram:84042620 c.lw a1,0x14(a2)
+ram:84042622 c.bnez a1,0x8404266a
+ram:84042624 c.lw a1,0x0(a3)
+ram:84042626 c.bnez a1,0x8404266a
+ram:84042628 c.lw a1,0x18(a2)
+ram:8404262a c.bnez a1,0x8404266a
+ram:8404262c c.lw a1,0x4(a3)
+ram:8404262e c.bnez a1,0x8404266a
+ram:84042630 c.lw a1,0x1c(a2)
+ram:84042632 c.bnez a1,0x8404266a
+ram:84042634 c.lw a1,0x8(a3)
+ram:84042636 c.bnez a1,0x8404266a
+ram:84042638 c.lw a1,0x20(a2)
+ram:8404263a c.bnez a1,0x8404266a
+ram:8404263c c.lw a1,0xc(a3)
+ram:8404263e c.bnez a1,0x8404266a
+ram:84042640 c.lw a1,0x24(a2)
+ram:84042642 c.bnez a1,0x8404266a
+ram:84042644 c.lw a1,0x10(a3)
+ram:84042646 c.bnez a1,0x8404266a
+ram:84042648 c.lw a1,0x28(a2)
+ram:8404264a c.bnez a1,0x8404266a
+ram:8404264c c.lw a1,0x14(a3)
+ram:8404264e c.bnez a1,0x8404266a
+ram:84042650 addi a2,a0,0xc
+ram:84042654 c.li a3,0x2
+ram:84042656 c.li a1,0x1
+ram:84042658 lr.w.aq a4,(a2)
+ram:8404265c bne a4,a1,0x84042666
+ram:84042660 sc.w.rl a5,a3,(a2)
+ram:84042664 c.bnez a5,0x84042658
+ram:84042666 beq a4,a1,0x8404267c
+ram:8404266a c.li a1,0x0
+ram:8404266c fence 0x3,0x1
+ram:84042670 c.li a2,0x1
+ram:84042672 c.sw a2,0x10(a0)
+ram:84042674 c.li a2,0x3
+ram:84042676 fence 0x3,0x1
+ram:8404267a c.sw a2,0xc(a0)
+ram:8404267c c.mv a0,a1
+ram:8404267e ret
+
+FUNCTION npu_emulation_cold_start @ ram:84042680
+decompiled=true
+
+void npu_emulation_cold_start(undefined4 param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = DAT_ram_1ec0c140;
+  iVar1 = npu_startup_arrive(&npu_emulation_startup_state,param_1,iVar1 == -1);
+  if (iVar1 != 3) {
+    if (iVar1 == 1) {
+      npu_barrier_init(&npu_emulation_barrier_state);
+      npu_emulation_admission_init();
+      iVar1 = npu_startup_publish(&npu_emulation_startup_state,&npu_emulation_barrier_state,
+                                  &npu_emulation_admission_state,&npu_emulation_masked_state,param_1
+                                 );
+      if (iVar1 == 0) goto LAB_ram_840426f6;
+    }
+    while (iVar1 = npu_startup_poll(&npu_emulation_startup_state,param_1), iVar1 != 3) {
+      if (iVar1 == 2) {
+        return;
+      }
+    }
+  }
+LAB_ram_840426f6:
+  npu_barrier_fail(&npu_emulation_barrier_state);
+  do {
+                    /* WARNING: Do nothing block with infinite loop */
+  } while( true );
+}
+
+
+ASSEMBLY
+ram:84042680 c.addi sp,-0x10
+ram:84042682 c.swsp ra,0xc(sp)
+ram:84042684 c.swsp s0,0x8(sp)
+ram:84042686 c.swsp s1,0x4(sp)
+ram:84042688 c.mv s0,a0
+ram:8404268a lui a0,0x1ec0c
+ram:8404268e lw a0,0x140(a0)
+ram:84042692 c.addi a0,0x1
+ram:84042694 sltiu a2,a0,0x1
+ram:84042698 lui a0,0x3e906
+ram:8404269c addi a0,a0,0x180
+ram:840426a0 c.mv a1,s0
+ram:840426a2 auipc ra,0x0
+ram:840426a6 jalr ra,ra,-0x2ec
+ram:840426aa c.li a1,0x3
+ram:840426ac beq a0,a1,0x840426f6
+ram:840426b0 c.li a1,0x1
+ram:840426b2 bne a0,a1,0x8404270c
+ram:840426b6 lui s1,0x3e906
+ram:840426ba mv s1,s1
+ram:840426be c.mv a0,s1
+ram:840426c0 auipc ra,0xffffe
+ram:840426c4 jalr ra,ra,-0x6c0
+ram:840426c8 auipc ra,0x0
+ram:840426cc jalr ra,ra,-0x768
+ram:840426d0 lui a0,0x3e906
+ram:840426d4 addi a0,a0,0x180
+ram:840426d8 lui a2,0x3e906
+ram:840426dc addi a2,a2,0x100
+ram:840426e0 lui a3,0x3e906
+ram:840426e4 addi a3,a3,0x140
+ram:840426e8 c.mv a1,s1
+ram:840426ea c.mv a4,s0
+ram:840426ec auipc ra,0x0
+ram:840426f0 jalr ra,ra,-0x224
+ram:840426f4 c.bnez a0,0x8404270c
+ram:840426f6 lui a0,0x3e906
+ram:840426fa mv a0,a0
+ram:840426fe auipc ra,0xffffe
+ram:84042702 jalr ra,ra,-0x656
+ram:84042706 c.nop
+ram:84042708 c.j 0x84042706
+
+FUNCTION npu_emulation_reset_gate @ ram:840427e4
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_emulation_reset_gate(void)
+
+{
+  npu_emulation_cold_start(mhartid);
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+ASSEMBLY
+ram:840427e4 addi sp,sp,-0x40
+ram:840427e8 sw t0,0x0(sp)
+ram:840427ec sw t1,0x4(sp)
+ram:840427f0 sw t2,0x8(sp)
+ram:840427f4 sw t3,0xc(sp)
+ram:840427f8 sw t4,0x10(sp)
+ram:840427fc sw t5,0x14(sp)
+ram:84042800 sw t6,0x18(sp)
+ram:84042804 sw a0,0x1c(sp)
+ram:84042808 sw a1,0x20(sp)
+ram:8404280c sw a2,0x24(sp)
+ram:84042810 sw a3,0x28(sp)
+ram:84042814 sw a4,0x2c(sp)
+ram:84042818 sw a5,0x30(sp)
+ram:8404281c sw a6,0x34(sp)
+ram:84042820 sw a7,0x38(sp)
+ram:84042824 csrr a0,0x0f14
+ram:84042828 auipc ra,0x0
+ram:8404282c jalr ra,ra,-0x1a8
+ram:84042830 lw t0,0x0(sp)
+ram:84042834 lw t1,0x4(sp)
+ram:84042838 lw t2,0x8(sp)
+ram:8404283c lw t3,0xc(sp)
+ram:84042840 lw t4,0x10(sp)
+ram:84042844 lw t5,0x14(sp)
+ram:84042848 lw t6,0x18(sp)
+ram:8404284c lw a0,0x1c(sp)
+ram:84042850 lw a1,0x20(sp)
+ram:84042854 lw a2,0x24(sp)
+ram:84042858 lw a3,0x28(sp)
+ram:8404285c lw a4,0x2c(sp)
+ram:84042860 lw a5,0x30(sp)
+ram:84042864 lw a6,0x34(sp)
+ram:84042868 lw a7,0x38(sp)
+ram:8404286c addi sp,sp,0x40
+ram:84042870 lui ra,0x84000
+ram:84042874 addi ra,ra,0xf0
+ram:84042878 j 0x840000f4
+
+total_executable_functions=57
+exported_functions=5
+failed_decompilations=0

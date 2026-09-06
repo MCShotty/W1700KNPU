@@ -1,0 +1,1738 @@
+{
+  "passed": true,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "elf_sha256": "e6b76f7f718a6cf7954c6f07ce647a57b8317c790d6e53f3d684ab95a8bf8d1e",
+  "new_detours": [
+    {
+      "address": "0x8400ce1c",
+      "hart": 1,
+      "symbol": "gate_core1_startup",
+      "preimage": "9c4281cf",
+      "target": "0x84040806",
+      "postimage": "6f30b31e"
+    },
+    {
+      "address": "0x8400cf10",
+      "hart": 1,
+      "symbol": "gate_core1_outer",
+      "preimage": "1c4081ef",
+      "target": "0x84040912",
+      "postimage": "6f303320"
+    },
+    {
+      "address": "0x8400cf26",
+      "hart": 1,
+      "symbol": "gate_core1_idle",
+      "preimage": "1c40f5d7",
+      "target": "0x84040a82",
+      "postimage": "6f30d335"
+    },
+    {
+      "address": "0x8400ec7e",
+      "hart": 2,
+      "symbol": "gate_core2_startup",
+      "preimage": "1c43fddf",
+      "target": "0x84040bf2",
+      "postimage": "6f105377"
+    },
+    {
+      "address": "0x8400ecc2",
+      "hart": 2,
+      "symbol": "gate_core2_outer",
+      "preimage": "83470900",
+      "target": "0x84040d26",
+      "postimage": "6f204306"
+    },
+    {
+      "address": "0x8400ece6",
+      "hart": 2,
+      "symbol": "gate_core2_idle",
+      "preimage": "83470900",
+      "target": "0x84040e52",
+      "postimage": "6f20c316"
+    },
+    {
+      "address": "0x8400e440",
+      "hart": 3,
+      "symbol": "gate_core3_startup",
+      "preimage": "1c42e5db",
+      "target": "0x84040f7e",
+      "postimage": "6f20f333"
+    },
+    {
+      "address": "0x8400e4d4",
+      "hart": 3,
+      "symbol": "gate_core3_outer",
+      "preimage": "83c70700",
+      "target": "0x8404108a",
+      "postimage": "6f20733b"
+    },
+    {
+      "address": "0x8400d0ea",
+      "hart": 4,
+      "symbol": "gate_core4_startup",
+      "preimage": "83470400",
+      "target": "0x8404118e",
+      "postimage": "6f40430a"
+    },
+    {
+      "address": "0x8400d144",
+      "hart": 4,
+      "symbol": "gate_core4_outer",
+      "preimage": "83470400",
+      "target": "0x84041292",
+      "postimage": "6f40e314"
+    },
+    {
+      "address": "0x8400d160",
+      "hart": 4,
+      "symbol": "gate_core4_idle",
+      "preimage": "83470400",
+      "target": "0x84041396",
+      "postimage": "6f406323"
+    },
+    {
+      "address": "0x8400cd3e",
+      "hart": 6,
+      "symbol": "gate_core6_startup",
+      "preimage": "9c40fddf",
+      "target": "0x8404149a",
+      "postimage": "6f40c375"
+    },
+    {
+      "address": "0x8400cd8a",
+      "hart": 6,
+      "symbol": "gate_core6_outer",
+      "preimage": "9c4099cb",
+      "target": "0x840415a6",
+      "postimage": "6f40d301"
+    },
+    {
+      "address": "0x8400cd9e",
+      "hart": 6,
+      "symbol": "gate_core6_retry",
+      "preimage": "9c40fdf7",
+      "target": "0x840416b2",
+      "postimage": "6f405311"
+    },
+    {
+      "address": "0x84000b24",
+      "hart": 7,
+      "symbol": "gate_core7_startup",
+      "preimage": "ef00f014",
+      "target": "0x840417be",
+      "postimage": "6f00b449"
+    },
+    {
+      "address": "0x84000b36",
+      "hart": 7,
+      "symbol": "gate_core7_outer",
+      "preimage": "ef00100c",
+      "target": "0x840418c6",
+      "postimage": "6f001459"
+    }
+  ],
+  "stop_resume": [
+    {
+      "hart": 1,
+      "site": "0x8400ce1c",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83100c",
+          "phase": "resumed",
+          "pc": "0x8400cf44"
+        },
+        {
+          "address": "0x3e83110c",
+          "phase": "resumed",
+          "pc": "0x8400cf7e"
+        },
+        {
+          "address": "0x3e83120c",
+          "phase": "resumed",
+          "pc": "0x8400cfd4"
+        },
+        {
+          "address": "0x3e83130c",
+          "phase": "resumed",
+          "pc": "0x8400d012"
+        },
+        {
+          "address": "0x3e83140c",
+          "phase": "resumed",
+          "pc": "0x8400d050"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 1,
+      "site": "0x8400cf10",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83100c",
+          "phase": "resumed",
+          "pc": "0x8400cf44"
+        },
+        {
+          "address": "0x3e83110c",
+          "phase": "resumed",
+          "pc": "0x8400cf7e"
+        },
+        {
+          "address": "0x3e83120c",
+          "phase": "resumed",
+          "pc": "0x8400cfd4"
+        },
+        {
+          "address": "0x3e83130c",
+          "phase": "resumed",
+          "pc": "0x8400d012"
+        },
+        {
+          "address": "0x3e83140c",
+          "phase": "resumed",
+          "pc": "0x8400d050"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 1,
+      "site": "0x8400cf26",
+      "kind": "idle",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83100c",
+          "phase": "resumed",
+          "pc": "0x8400cf44"
+        },
+        {
+          "address": "0x3e83110c",
+          "phase": "resumed",
+          "pc": "0x8400cf7e"
+        },
+        {
+          "address": "0x3e83120c",
+          "phase": "resumed",
+          "pc": "0x8400cfd4"
+        },
+        {
+          "address": "0x3e83130c",
+          "phase": "resumed",
+          "pc": "0x8400d012"
+        },
+        {
+          "address": "0x3e83140c",
+          "phase": "resumed",
+          "pc": "0x8400d050"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 2,
+      "site": "0x8400ec7e",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83160c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040c82"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040c96"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "resumed",
+          "pc": "0x8400edfe"
+        },
+        {
+          "address": "0x3e83160c",
+          "phase": "resumed",
+          "pc": "0x8400edc6"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 2,
+      "site": "0x8400ecc2",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83160c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040db6"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040dca"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "resumed",
+          "pc": "0x8400edfe"
+        },
+        {
+          "address": "0x3e83160c",
+          "phase": "resumed",
+          "pc": "0x8400edc6"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 2,
+      "site": "0x8400ece6",
+      "kind": "idle",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [
+        {
+          "address": "0x3e83160c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040ee2"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "refresh-before-arm",
+          "pc": "0x84040ef6"
+        },
+        {
+          "address": "0x3e83170c",
+          "phase": "resumed",
+          "pc": "0x8400edfe"
+        },
+        {
+          "address": "0x3e83160c",
+          "phase": "resumed",
+          "pc": "0x8400edc6"
+        }
+      ],
+      "modeled_helpers": []
+    },
+    {
+      "hart": 3,
+      "site": "0x8400e440",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400f638",
+          "phase": "resumed",
+          "a0": 0
+        },
+        {
+          "address": "0x8400f638",
+          "phase": "resumed",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 3,
+      "site": "0x8400e4d4",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400f638",
+          "phase": "resumed",
+          "a0": 0
+        },
+        {
+          "address": "0x8400f638",
+          "phase": "resumed",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 4,
+      "site": "0x8400d0ea",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400b0a6",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 4,
+      "site": "0x8400d144",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400b0a6",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 4,
+      "site": "0x8400d160",
+      "kind": "idle",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400b0a6",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 6,
+      "site": "0x8400cd3e",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400c284",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 6,
+      "site": "0x8400cd8a",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400c284",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 6,
+      "site": "0x8400cd9e",
+      "kind": "retry",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x8400c284",
+          "phase": "bootstrap",
+          "a0": 0
+        },
+        {
+          "address": "0x8400c284",
+          "phase": "resumed",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 7,
+      "site": "0x84000b24",
+      "kind": "startup",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x84001472",
+          "phase": "resumed",
+          "a0": 65536
+        },
+        {
+          "address": "0x84001392",
+          "phase": "resumed",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 7,
+      "site": "0x84000b36",
+      "kind": "outer",
+      "park_mie_clear": true,
+      "no_work_before_arm": true,
+      "ring_reads": [],
+      "modeled_helpers": [
+        {
+          "address": "0x84001472",
+          "phase": "bootstrap",
+          "a0": 65536
+        },
+        {
+          "address": "0x84001392",
+          "phase": "bootstrap",
+          "a0": 0
+        }
+      ]
+    }
+  ],
+  "register_mstatus_differential": [
+    {
+      "site": "0x8400ce1c",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400ce1c",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400ce1c",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400ce1c",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400ce1c",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400ce1c",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf10",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400cf26",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400ec7e",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400ecc2",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400ece6",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400e440",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400e440",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400e440",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400e440",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400e440",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400e440",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400e4d4",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400d0ea",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400d144",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400d144",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400d144",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400d144",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400d144",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400d144",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400d160",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400d160",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400d160",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400d160",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400d160",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400d160",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd3e",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd8a",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x8400cd9e",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x84000b24",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x84000b24",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x84000b24",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x84000b24",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x84000b24",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x84000b24",
+      "value": 3,
+      "mie": true
+    },
+    {
+      "site": "0x84000b36",
+      "value": 0,
+      "mie": false
+    },
+    {
+      "site": "0x84000b36",
+      "value": 0,
+      "mie": true
+    },
+    {
+      "site": "0x84000b36",
+      "value": 1,
+      "mie": false
+    },
+    {
+      "site": "0x84000b36",
+      "value": 1,
+      "mie": true
+    },
+    {
+      "site": "0x84000b36",
+      "value": 3,
+      "mie": false
+    },
+    {
+      "site": "0x84000b36",
+      "value": 3,
+      "mie": true
+    }
+  ],
+  "inflight": [
+    {
+      "hart": 1,
+      "held_helper": "0x8400bd96",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x8400bd96",
+          "phase": "bootstrap",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 2,
+      "held_helper": "0x8400e87a",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x8400e87a",
+          "phase": "bootstrap",
+          "a0": 1
+        },
+        {
+          "address": "0x84009da4",
+          "phase": "bootstrap",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 3,
+      "held_helper": "0x8400f638",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x8400f638",
+          "phase": "bootstrap",
+          "a0": 0
+        },
+        {
+          "address": "0x8400f638",
+          "phase": "bootstrap",
+          "a0": 1
+        }
+      ]
+    },
+    {
+      "hart": 4,
+      "held_helper": "0x8400b0a6",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x8400b0a6",
+          "phase": "bootstrap",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 6,
+      "held_helper": "0x8400c284",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x8400c284",
+          "phase": "bootstrap",
+          "a0": 0
+        }
+      ]
+    },
+    {
+      "hart": 7,
+      "held_helper": "0x84001528",
+      "ack_withheld": true,
+      "ack_after_modeled_helper_and_native_iteration": true,
+      "helper_calls": [
+        {
+          "address": "0x84001472",
+          "phase": "bootstrap",
+          "a0": 65536
+        },
+        {
+          "address": "0x84001392",
+          "phase": "bootstrap",
+          "a0": 0
+        },
+        {
+          "address": "0x84001528",
+          "phase": "bootstrap",
+          "a0": 7
+        }
+      ]
+    }
+  ],
+  "mutation_controls": {
+    "0x8400cf26": {
+      "rejected": true,
+      "assertion": "(1, '0x8400cf24')"
+    },
+    "0x8400ece6": {
+      "rejected": true,
+      "assertion": "(2, '0x8400ecd8')"
+    },
+    "0x8400d160": {
+      "rejected": true,
+      "assertion": "(4, '0x8400d15a')"
+    },
+    "0x8400cd9e": {
+      "rejected": true,
+      "assertion": "(6, '0x8400cd98')"
+    },
+    "OMIT_REFILL_REFRESH": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83000c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83010c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83020c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83030c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83040c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "fb12b07e4f3dc3dfcb1bc66be44e75bb9eb7225c9063b64238bad89be5300482"
+    },
+    "OMIT_FAST_REFRESH": {
+      "rejected": true,
+      "assertion": "('unexpected-empty-ring-helper', 2, 'outer', [{'address': '0x8400e87a', 'phase': 'resumed', 'a0': 1}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 1}, {'address': '0x8400e87a', 'phase': 'resumed', 'a0': 0}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 0}])",
+      "elf_sha256": "a79ae86897b62a0fdc930e6739073e4ab1c1e0cfad40316960bfc35ae0a74885"
+    },
+    "OMIT_FAST_STARTUP": {
+      "rejected": true,
+      "assertion": "('unexpected-empty-ring-helper', 2, 'startup', [{'address': '0x8400e87a', 'phase': 'resumed', 'a0': 1}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 1}, {'address': '0x8400e87a', 'phase': 'resumed', 'a0': 0}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 0}])",
+      "elf_sha256": "0dca0dc17452ef03251946194fd5a78b7fbb41d7635a12bd3e936f3aeb570bf2"
+    },
+    "OMIT_REFILL_SLOT=0": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83000c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83110c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83120c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83130c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83140c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "362e86fb079b5be1276449a58de35df0a6d75fcef98c18a730a67ffb474055e4"
+    },
+    "OMIT_REFILL_SLOT=1": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83100c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83010c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83120c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83130c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83140c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "46ae506429e80fac9473e079242df6860899b55e3d8b76deedd57de3d2a58042"
+    },
+    "OMIT_REFILL_SLOT=2": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83100c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83110c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83020c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83130c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83140c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "fd97b74a8bf44a150b81eff8680789cd38686fc5528d81a4aed79a36aaf65612"
+    },
+    "OMIT_REFILL_SLOT=3": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83100c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83110c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83120c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83030c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83140c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "9f51a1e7d0c33b08bddc5f1a0b388e1f53b32de6e6f79c300d95417feae68ea8"
+    },
+    "OMIT_REFILL_SLOT=4": {
+      "rejected": true,
+      "assertion": "('old-ring-read', 1, 'outer', [{'address': '0x3e83100c', 'phase': 'resumed', 'pc': '0x8400cf44'}, {'address': '0x3e83110c', 'phase': 'resumed', 'pc': '0x8400cf7e'}, {'address': '0x3e83120c', 'phase': 'resumed', 'pc': '0x8400cfd4'}, {'address': '0x3e83130c', 'phase': 'resumed', 'pc': '0x8400d012'}, {'address': '0x3e83040c', 'phase': 'resumed', 'pc': '0x8400d050'}])",
+      "elf_sha256": "eb67d6bf9aa77825bd813ed09da3d73457a84652c8be2dbf14e1ccc01c04d9e9"
+    },
+    "OMIT_FAST_SLOT=0": {
+      "rejected": true,
+      "assertion": "('unexpected-empty-ring-helper', 2, 'outer', [{'address': '0x8400e87a', 'phase': 'resumed', 'a0': 0}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 0}])",
+      "elf_sha256": "0d9004dcc2671042b488d512b32fab94ac1d50e351f3d4f73b8e41daa6980df3"
+    },
+    "OMIT_FAST_SLOT=1": {
+      "rejected": true,
+      "assertion": "('unexpected-empty-ring-helper', 2, 'outer', [{'address': '0x8400e87a', 'phase': 'resumed', 'a0': 1}, {'address': '0x84009da4', 'phase': 'resumed', 'a0': 1}])",
+      "elf_sha256": "d82df1783045a3cbcab2b8f0420436183147e0baaf7c093a9090d35f775b9266"
+    },
+    "missing-startup-core1": {
+      "rejected": true,
+      "assertion": "(1, '0x8400ce4c')"
+    },
+    "missing-startup-core2": {
+      "rejected": true,
+      "assertion": "(2, '0x8400ec80')"
+    },
+    "missing-startup-core3": {
+      "rejected": true,
+      "assertion": "(3, '0x8400e438')"
+    },
+    "missing-startup-core4": {
+      "rejected": true,
+      "assertion": "(4, '0x8400d0ea')"
+    },
+    "missing-startup-core6": {
+      "rejected": true,
+      "assertion": "(6, '0x8400cd40')"
+    }
+  },
+  "missing_startup_dependencies": [
+    {
+      "hart": 1,
+      "missing_flag": "0x3e902a84",
+      "acknowledged": true
+    },
+    {
+      "hart": 1,
+      "missing_flag": "0x3e904588",
+      "acknowledged": true
+    },
+    {
+      "hart": 1,
+      "missing_flag": "0x3e901f44",
+      "acknowledged": true
+    },
+    {
+      "hart": 1,
+      "missing_flag": "0x3e903954",
+      "acknowledged": true
+    },
+    {
+      "hart": 1,
+      "missing_flag": "0x3e902ce8",
+      "acknowledged": true
+    },
+    {
+      "hart": 1,
+      "missing_flag": "0x3e9046ec",
+      "acknowledged": true
+    },
+    {
+      "hart": 2,
+      "missing_flag": "0x3e904708",
+      "acknowledged": true
+    },
+    {
+      "hart": 2,
+      "missing_flag": "0x3e9046fa",
+      "acknowledged": true
+    },
+    {
+      "hart": 2,
+      "missing_flag": "0x3e9046f9",
+      "acknowledged": true
+    },
+    {
+      "hart": 3,
+      "missing_flag": "0x3e904708",
+      "acknowledged": true
+    },
+    {
+      "hart": 3,
+      "missing_flag": "0x3e9046f8",
+      "acknowledged": true
+    },
+    {
+      "hart": 3,
+      "missing_flag": "0x3e9046f0",
+      "acknowledged": true
+    },
+    {
+      "hart": 4,
+      "missing_flag": "0x3e9046fa",
+      "acknowledged": true
+    },
+    {
+      "hart": 4,
+      "missing_flag": "0x3e904708",
+      "acknowledged": true
+    },
+    {
+      "hart": 4,
+      "missing_flag": "0x3e9046f9",
+      "acknowledged": true
+    },
+    {
+      "hart": 6,
+      "missing_flag": "0x3e9046f0",
+      "acknowledged": true
+    },
+    {
+      "hart": 6,
+      "missing_flag": "0x3e9046ec",
+      "acknowledged": true
+    }
+  ],
+  "seven_shared_workers": {
+    "shared_sram": true,
+    "cycles": [
+      {
+        "epoch": 2,
+        "actual_worker_ack_order": [
+          1,
+          4,
+          7,
+          3,
+          2,
+          6,
+          5
+        ],
+        "actual_worker_refresh_order": [
+          2,
+          7,
+          1,
+          3,
+          6,
+          4,
+          5
+        ],
+        "resource_base": "0x3e831000",
+        "ring_reads": [
+          {
+            "address": "0x3e83160c",
+            "phase": "bootstrap",
+            "pc": "0x84040db6"
+          },
+          {
+            "address": "0x3e83170c",
+            "phase": "bootstrap",
+            "pc": "0x84040dca"
+          },
+          {
+            "address": "0x3e83100c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf44"
+          },
+          {
+            "address": "0x3e83110c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf7e"
+          },
+          {
+            "address": "0x3e83120c",
+            "phase": "bootstrap",
+            "pc": "0x8400cfd4"
+          },
+          {
+            "address": "0x3e83130c",
+            "phase": "bootstrap",
+            "pc": "0x8400d012"
+          },
+          {
+            "address": "0x3e83140c",
+            "phase": "bootstrap",
+            "pc": "0x8400d050"
+          },
+          {
+            "address": "0x3e83170c",
+            "phase": "bootstrap",
+            "pc": "0x8400edfe"
+          },
+          {
+            "address": "0x3e83160c",
+            "phase": "bootstrap",
+            "pc": "0x8400edc6"
+          },
+          {
+            "address": "0x3e831870",
+            "phase": "bootstrap",
+            "pc": "0x8400cbd6"
+          }
+        ],
+        "missing_coordinator_rejected": true
+      },
+      {
+        "epoch": 3,
+        "actual_worker_ack_order": [
+          7,
+          1,
+          2,
+          6,
+          3,
+          5,
+          4
+        ],
+        "actual_worker_refresh_order": [
+          3,
+          5,
+          6,
+          4,
+          1,
+          7,
+          2
+        ],
+        "resource_base": "0x3e830000",
+        "ring_reads": [
+          {
+            "address": "0x3e83060c",
+            "phase": "bootstrap",
+            "pc": "0x84040db6"
+          },
+          {
+            "address": "0x3e83070c",
+            "phase": "bootstrap",
+            "pc": "0x84040dca"
+          },
+          {
+            "address": "0x3e83000c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf44"
+          },
+          {
+            "address": "0x3e83010c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf7e"
+          },
+          {
+            "address": "0x3e83020c",
+            "phase": "bootstrap",
+            "pc": "0x8400cfd4"
+          },
+          {
+            "address": "0x3e83030c",
+            "phase": "bootstrap",
+            "pc": "0x8400d012"
+          },
+          {
+            "address": "0x3e83040c",
+            "phase": "bootstrap",
+            "pc": "0x8400d050"
+          },
+          {
+            "address": "0x3e83070c",
+            "phase": "bootstrap",
+            "pc": "0x8400edfe"
+          },
+          {
+            "address": "0x3e83060c",
+            "phase": "bootstrap",
+            "pc": "0x8400edc6"
+          },
+          {
+            "address": "0x3e830870",
+            "phase": "bootstrap",
+            "pc": "0x8400cc18"
+          }
+        ],
+        "missing_coordinator_rejected": true
+      },
+      {
+        "epoch": 4,
+        "actual_worker_ack_order": [
+          6,
+          3,
+          4,
+          5,
+          2,
+          7,
+          1
+        ],
+        "actual_worker_refresh_order": [
+          1,
+          3,
+          6,
+          7,
+          5,
+          4,
+          2
+        ],
+        "resource_base": "0x3e831000",
+        "ring_reads": [
+          {
+            "address": "0x3e83160c",
+            "phase": "bootstrap",
+            "pc": "0x84040db6"
+          },
+          {
+            "address": "0x3e83170c",
+            "phase": "bootstrap",
+            "pc": "0x84040dca"
+          },
+          {
+            "address": "0x3e83100c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf44"
+          },
+          {
+            "address": "0x3e83110c",
+            "phase": "bootstrap",
+            "pc": "0x8400cf7e"
+          },
+          {
+            "address": "0x3e83120c",
+            "phase": "bootstrap",
+            "pc": "0x8400cfd4"
+          },
+          {
+            "address": "0x3e83130c",
+            "phase": "bootstrap",
+            "pc": "0x8400d012"
+          },
+          {
+            "address": "0x3e83140c",
+            "phase": "bootstrap",
+            "pc": "0x8400d050"
+          },
+          {
+            "address": "0x3e83170c",
+            "phase": "bootstrap",
+            "pc": "0x8400edfe"
+          },
+          {
+            "address": "0x3e83160c",
+            "phase": "bootstrap",
+            "pc": "0x8400edc6"
+          },
+          {
+            "address": "0x3e831870",
+            "phase": "bootstrap",
+            "pc": "0x8400cc18"
+          }
+        ],
+        "missing_coordinator_rejected": true
+      }
+    ],
+    "scope": "Serialized scheduling of seven saved RV32 worker contexts in one Unicorn memory image; coordinator0 acknowledgement and hardware domain witnesses modeled. Not simultaneous execution or physical coherency proof."
+  },
+  "actual_adapter_refresh_interrupted": [
+    {
+      "hart": 1,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    },
+    {
+      "hart": 2,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    },
+    {
+      "hart": 3,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    },
+    {
+      "hart": 4,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    },
+    {
+      "hart": 6,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    },
+    {
+      "hart": 7,
+      "interrupted_refresh_epoch": 2,
+      "parked_epoch": 3,
+      "stale_adapter_refresh_rejected": true
+    }
+  ],
+  "core5_combined_elf_regression": {
+    "cases": [
+      {
+        "site": "0x8400cb3e",
+        "old_ring_unchanged": true,
+        "consumer_reloaded": 7,
+        "new_enqueue": [
+          8738,
+          80,
+          0,
+          0,
+          1,
+          2
+        ],
+        "writes": [
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc4e",
+            "address": "0x3e9046e2",
+            "size": 2,
+            "value": 8
+          },
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc52",
+            "address": "0x3e811070",
+            "size": 4,
+            "value": 254
+          }
+        ]
+      },
+      {
+        "site": "0x8400cbbe",
+        "old_ring_unchanged": true,
+        "consumer_reloaded": 7,
+        "new_enqueue": [
+          8738,
+          80,
+          0,
+          0,
+          1,
+          2
+        ],
+        "writes": [
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc4e",
+            "address": "0x3e9046e2",
+            "size": 2,
+            "value": 8
+          },
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc52",
+            "address": "0x3e811070",
+            "size": 4,
+            "value": 254
+          }
+        ]
+      },
+      {
+        "site": "0x8400cbca",
+        "old_ring_unchanged": true,
+        "consumer_reloaded": 7,
+        "new_enqueue": [
+          8738,
+          80,
+          0,
+          0,
+          1,
+          2
+        ],
+        "writes": [
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc4e",
+            "address": "0x3e9046e2",
+            "size": 2,
+            "value": 8
+          },
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc52",
+            "address": "0x3e811070",
+            "size": 4,
+            "value": 254
+          }
+        ]
+      },
+      {
+        "site": "0x8400cc0c",
+        "old_ring_unchanged": true,
+        "consumer_reloaded": 7,
+        "new_enqueue": [
+          8738,
+          80,
+          0,
+          0,
+          1,
+          2
+        ],
+        "writes": [
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc4e",
+            "address": "0x3e9046e2",
+            "size": 2,
+            "value": 8
+          },
+          {
+            "phase": "new-generation-running",
+            "pc": "0x8400cc52",
+            "address": "0x3e811070",
+            "size": 4,
+            "value": 254
+          }
+        ]
+      }
+    ],
+    "inflight": {
+      "ack_withheld_until_helper_returns": true,
+      "helper_return_is_modeled": true,
+      "writes_before_stop": [
+        {
+          "phase": "active",
+          "pc": "0x8400cc4e",
+          "address": "0x3e9046e2",
+          "size": 2,
+          "value": 1
+        },
+        {
+          "phase": "active",
+          "pc": "0x8400cc52",
+          "address": "0x3e810000",
+          "size": 4,
+          "value": 254
+        }
+      ]
+    },
+    "preservation": [
+      {
+        "site": "0x8400cb3e",
+        "mie": false,
+        "startup_value": 0
+      },
+      {
+        "site": "0x8400cb3e",
+        "mie": false,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cb3e",
+        "mie": true,
+        "startup_value": 0
+      },
+      {
+        "site": "0x8400cb3e",
+        "mie": true,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cbbe",
+        "mie": false,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cbbe",
+        "mie": true,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cbca",
+        "mie": false,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cbca",
+        "mie": true,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cc0c",
+        "mie": false,
+        "startup_value": 1
+      },
+      {
+        "site": "0x8400cc0c",
+        "mie": true,
+        "startup_value": 1
+      }
+    ]
+  },
+  "source_sha256": {
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "e51ac1bb7185299fbcc5af401869162f50c6b94dc837f422f37d3e53ed670998",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3"
+  },
+  "scope": "16 new emulator-memory detours plus four prior core5 detours in one ELF. Original worker entry/loop instructions for harts1/2/3/4/6; original core7 wrapper and IRQ registration, modeled PLIC memory. Helper returns and other-hart/domain witnesses are modeled; coordinator0, hardware IRQ delivery, asynchronous DMA/cache/bus drain, all-path closure and production placement are NOT proved. No deployable firmware blob or router test."
+}

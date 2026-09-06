@@ -6271,3 +6271,23 @@ contact, full image, config, loaded-module, association or flash change; R1 rema
 router-tested with WLAN NPU compiled out. Evidence:
 `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`. Ledger/reference/remaining
 work updated; both project goals remain unfinished.
+
+## Cold-Start Candidate And Snapshot Audit - 2026-09-06
+
+Official snapshot r36060-d6933d6aed has unchanged relevant Airoha/mt76/NPU
+inputs, still with the old short reservation. Source and packaged payload/FIT
+comparisons verify; no useful new NPU correction was found to import.
+
+Unpromoted reset-entry gates now initialize candidate state via the native reset
+path, using a fresh loader header.32 start orders,32 register cases,30 rejection
+cases,173 C/RV32 cases and twelve combined suites pass. Independent review found
+a phase/fault publication race; phase-first ordering and a post-READY fault
+check fix it, with two instruction-paused counterexamples. Six final Ghidra
+exports verify startup instructions; external continuation limitations remain.
+
+218 native bootstrap callback cases identify API32/API23 release dependencies,
+API18 no-op and warning-only invalid setters. Complete bootstrap admission and
+physical loader containment/cache remain open, together with Linux recovery,
+full datapath parity and client Wi-Fi acceptance. No packaged source/config,
+router, flash or release change. Ledger/reference/remaining-work updated; see
+`research/checkpoints/2026-09-06-npu-startup/REPORT.md`.

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (provider memory preflight; kernel/binary checks pass)
+Last updated: 2026-09-06 (cold-start candidate and current OpenWrt snapshot audit)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,24 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Provider Memory Preflight - 2026-09-06
+## Current Work - Cold-Start Candidate And Snapshot Audit - 2026-09-06
+
+- Official snapshot r36060-d6933d6aed retains our relevant kernel/mt76/NPU
+  inputs and the old short TX-check reservation. No new reusable fix found;
+  retain local corrections. Snapshot source/payload/FIT comparisons verify.
+- Added unpromoted pre-BSS and common reset gates with actual coordinator state
+  initialization.32 reset orders,32 register cases,30 rejected entries,173 C/RV32
+  cases and twelve combined suites pass. Fixed an independently found phase/
+  fault race and reproduced both pre-fix failures with instruction-paused tests.
+- 218 native callback cases identify API32/API23 startup release dependencies,
+  API18 no-op and warning-only address setters. Complete bootstrap admission,
+  host containment/cache, Linux recovery/removal and full parity remain open.
+- No packaged source/config change, router action, flash or new release. The
+  candidate requires a fresh coherently loaded header; no hardware proof claimed.
+  R1 remains last router-tested, WLAN NPU compiled out. Evidence:
+  `research/checkpoints/2026-09-06-npu-startup/REPORT.md`.
+
+## Previous Work - Provider Memory Preflight - 2026-09-06
 
 - Patch 927 snapshots and validates WLAN reserved memory before any WLAN init
   command. It rejects short MT7996 TX-check tables, invalid addresses and

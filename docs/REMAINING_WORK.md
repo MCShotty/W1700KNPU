@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from provider memory preflight, current reference and release
+Updated 2026-09-06 from cold-start candidate/snapshot audit, current reference and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -52,6 +52,12 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   The native boot test proves core 0 waits for SET API 32 before main returns;
   do not close bootstrap commands prematurely. Explicit contained barrier-state
   initialization and complete startup/host-adapter negotiation remain required.
+  The unpromoted cold-loader/reset gate now initializes candidate state through
+  actual reset entry and rejects stale coordinator entries before BSS clear.
+  Its phase/fault race is corrected and tested; physical fresh-load containment,
+  complete native boot/IRQ callback installation and checked bootstrap admission
+  remain open. API32/API23 unblock initialization; API18 is a no-op. Do not
+  equate these callback replies or software READY with physical containment.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
@@ -115,7 +121,11 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
 - Current build toolchain and source needed to resume without reconstructing
   the whole environment. Clean reproducible caches and verified duplicates first.
 
-Detailed evidence: `research/checkpoints/2026-09-06-npu-preflight/REPORT.md`,
+Current official snapshot comparison found no new relevant upstream fix;
+our local guard, memory and mailbox corrections remain required.
+
+Detailed evidence: `research/checkpoints/2026-09-06-npu-startup/REPORT.md`,
+`research/checkpoints/2026-09-06-npu-preflight/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-bootmem/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-copy/REPORT.md`,
 `research/checkpoints/2026-09-06-npu-layout/REPORT.md`,

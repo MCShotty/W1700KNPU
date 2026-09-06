@@ -61,9 +61,17 @@ fails closed and requires independently contained cold initialization.
   capabilities remain clear. See `ADMISSION_ABI.md`; no production integration
   or automatic upgrade of legacy STOP/GET3 is claimed.
 
-The test linker addresses and state at `0x3e920000` are emulation fixtures, not
+The test linker addresses and state at `0x3e906000` are emulation fixtures, not
 validated production reservations. Do not append code at the original blob end:
 the next region contains hart stacks. No patched firmware binary is emitted.
+
+`startup.c/.h` adds a cold-loader header and coordinator initialization gate.
+Two native reset adapters reject stale entries before coordinator BSS clear and
+hold workers until candidate state initialization completes. The loader must
+independently contain prior users and upload the fresh template coherently.
+READY is not full bootstrap, all-hart acknowledgement or physical containment.
+Fault/publication races use one authoritative atomic phase; an already-passed
+gate is not instantaneously revoked. See the `2026-09-06-npu-startup` checkpoint.
 
 ## Replay
 

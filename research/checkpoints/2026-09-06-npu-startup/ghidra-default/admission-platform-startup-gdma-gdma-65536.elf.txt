@@ -1,0 +1,689 @@
+program=admission-platform-startup-gdma-gdma-65536.elf
+sha256=16d330eb21f84e47a7bc9f0e5ff49d2c1552cef241455d48770768ded211850a
+language=RISCV:LE:32:W1700KNPU
+
+FUNCTION npu_startup_poll @ ram:8404232a
+decompiled=true
+
+undefined4 npu_startup_poll(int *param_1,uint param_2)
+
+{
+  fence();
+  if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40)) &&
+     ((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)))) {
+    fence();
+    if (((param_2 < 8) && ((param_1[0xf] == 0 && (fence(), param_1[4] == 0)))) &&
+       (fence(), param_1[param_2 + 5] == 1)) {
+      fence();
+      if (param_1[3] == 2) {
+        fence();
+        if (param_1[4] == 0) {
+          return 2;
+        }
+      }
+      else if ((uint)param_1[3] < 2) {
+        return 0;
+      }
+    }
+  }
+  fence();
+  param_1[3] = 3;
+  fence();
+  param_1[4] = 1;
+  return 3;
+}
+
+
+ASSEMBLY
+ram:8404232a c.lw a2,0x0(a0)
+ram:8404232c lui a3,0x31535
+ram:84042330 addi a3,a3,0x4e
+ram:84042334 fence 0x2,0x3
+ram:84042338 bne a2,a3,0x84042366
+ram:8404233c c.lw a2,0x4(a0)
+ram:8404233e c.li a3,0x1
+ram:84042340 fence 0x2,0x3
+ram:84042344 bne a2,a3,0x84042366
+ram:84042348 c.lw a2,0x8(a0)
+ram:8404234a li a3,0x40
+ram:8404234e fence 0x2,0x3
+ram:84042352 bne a2,a3,0x84042366
+ram:84042356 c.lw a2,0x34(a0)
+ram:84042358 fence 0x2,0x3
+ram:8404235c c.bnez a2,0x84042366
+ram:8404235e c.lw a2,0x38(a0)
+ram:84042360 fence 0x2,0x3
+ram:84042364 c.beqz a2,0x8404237a
+ram:84042366 fence 0x3,0x1
+ram:8404236a c.li a1,0x3
+ram:8404236c c.li a2,0x1
+ram:8404236e c.sw a1,0xc(a0)
+ram:84042370 fence 0x3,0x1
+ram:84042374 c.sw a2,0x10(a0)
+ram:84042376 c.mv a0,a1
+ram:84042378 ret
+ram:8404237a c.lw a2,0x3c(a0)
+ram:8404237c c.li a3,0x7
+ram:8404237e fence 0x2,0x3
+ram:84042382 bltu a3,a1,0x84042366
+ram:84042386 c.bnez a2,0x84042366
+ram:84042388 c.lw a2,0x10(a0)
+ram:8404238a fence 0x2,0x3
+ram:8404238e c.bnez a2,0x84042366
+ram:84042390 c.slli a1,0x2
+ram:84042392 c.add a1,a0
+ram:84042394 c.lw a1,0x14(a1)
+ram:84042396 c.li a2,0x1
+ram:84042398 fence 0x2,0x3
+ram:8404239c bne a1,a2,0x84042366
+ram:840423a0 c.lw a2,0xc(a0)
+ram:840423a2 c.li a1,0x2
+ram:840423a4 fence 0x2,0x3
+ram:840423a8 bne a2,a1,0x840423b6
+ram:840423ac c.lw a2,0x10(a0)
+ram:840423ae fence 0x2,0x3
+ram:840423b2 c.bnez a2,0x84042366
+ram:840423b4 c.j 0x840423bc
+ram:840423b6 bgeu a2,a1,0x84042366
+ram:840423ba c.li a1,0x0
+ram:840423bc c.mv a0,a1
+ram:840423be ret
+
+FUNCTION npu_startup_arrive @ ram:840423c0
+decompiled=true
+
+undefined4 npu_startup_arrive(int *param_1,uint param_2,int param_3)
+
+{
+  int *piVar1;
+  
+  fence();
+  if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40)) &&
+     ((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)))) {
+    fence();
+    if ((param_2 < 8) && ((param_3 == 0 && param_1[0xf] == 0 && (fence(), param_1[4] == 0)))) {
+      piVar1 = param_1 + param_2 + 5;
+      if (*piVar1 != 0) {
+        fence();
+        param_1[3] = 3;
+        fence();
+        param_1[4] = 1;
+        return 3;
+      }
+      *piVar1 = 1;
+      if (param_2 == 0) {
+        if (param_1[3] == 0) {
+          param_1[3] = 1;
+          return 1;
+        }
+      }
+      else {
+        fence();
+        if ((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) &&
+            (fence(), param_1[2] == 0x40)) &&
+           (((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)) &&
+            ((fence(), param_1[0xf] == 0 && ((fence(), param_1[4] == 0 && (fence(), *piVar1 == 1))))
+            )))) {
+          fence();
+          if (param_1[3] == 2) {
+            fence();
+            if (param_1[4] == 0) {
+              return 2;
+            }
+          }
+          else if ((uint)param_1[3] < 2) {
+            return 0;
+          }
+        }
+      }
+    }
+  }
+  fence();
+  param_1[3] = 3;
+  fence();
+  param_1[4] = 1;
+  return 3;
+}
+
+
+ASSEMBLY
+ram:840423c0 c.lw a3,0x0(a0)
+ram:840423c2 lui a4,0x31535
+ram:840423c6 addi a4,a4,0x4e
+ram:840423ca fence 0x2,0x3
+ram:840423ce bne a3,a4,0x840423fc
+ram:840423d2 c.lw a3,0x4(a0)
+ram:840423d4 c.li a4,0x1
+ram:840423d6 fence 0x2,0x3
+ram:840423da bne a3,a4,0x840423fc
+ram:840423de c.lw a3,0x8(a0)
+ram:840423e0 li a4,0x40
+ram:840423e4 fence 0x2,0x3
+ram:840423e8 bne a3,a4,0x840423fc
+ram:840423ec c.lw a3,0x34(a0)
+ram:840423ee fence 0x2,0x3
+ram:840423f2 c.bnez a3,0x840423fc
+ram:840423f4 c.lw a3,0x38(a0)
+ram:840423f6 fence 0x2,0x3
+ram:840423fa c.beqz a3,0x84042410
+ram:840423fc fence 0x3,0x1
+ram:84042400 c.li a1,0x3
+ram:84042402 c.li a2,0x1
+ram:84042404 c.sw a1,0xc(a0)
+ram:84042406 fence 0x3,0x1
+ram:8404240a c.sw a2,0x10(a0)
+ram:8404240c c.mv a0,a1
+ram:8404240e ret
+ram:84042410 c.lw a3,0x3c(a0)
+ram:84042412 c.li a4,0x7
+ram:84042414 fence 0x2,0x3
+ram:84042418 bltu a4,a1,0x840423fc
+ram:8404241c c.or a2,a3
+ram:8404241e c.bnez a2,0x840423fc
+ram:84042420 c.lw a2,0x10(a0)
+ram:84042422 fence 0x2,0x3
+ram:84042426 c.bnez a2,0x840423fc
+ram:84042428 slli a2,a1,0x2
+ram:8404242c c.add a2,a0
+ram:8404242e c.addi a2,0x14
+ram:84042430 c.li a3,0x1
+ram:84042432 lr.w.aq a4,(a2)
+ram:84042436 c.bnez a4,0x840424ae
+ram:84042438 sc.w.rl a5,a3,(a2)
+ram:8404243c c.bnez a5,0x84042432
+ram:8404243e c.beqz a1,0x840424c0
+ram:84042440 c.lw a1,0x0(a0)
+ram:84042442 lui a3,0x31535
+ram:84042446 addi a3,a3,0x4e
+ram:8404244a fence 0x2,0x3
+ram:8404244e bne a1,a3,0x840423fc
+ram:84042452 c.lw a1,0x4(a0)
+ram:84042454 c.li a3,0x1
+ram:84042456 fence 0x2,0x3
+ram:8404245a bne a1,a3,0x840423fc
+ram:8404245e c.lw a1,0x8(a0)
+ram:84042460 li a3,0x40
+ram:84042464 fence 0x2,0x3
+ram:84042468 bne a1,a3,0x840423fc
+ram:8404246c c.lw a1,0x34(a0)
+ram:8404246e fence 0x2,0x3
+ram:84042472 c.bnez a1,0x840423fc
+ram:84042474 c.lw a1,0x38(a0)
+ram:84042476 fence 0x2,0x3
+ram:8404247a c.bnez a1,0x840423fc
+ram:8404247c c.lw a1,0x3c(a0)
+ram:8404247e fence 0x2,0x3
+ram:84042482 c.bnez a1,0x840423fc
+ram:84042484 c.lw a1,0x10(a0)
+ram:84042486 fence 0x2,0x3
+ram:8404248a c.bnez a1,0x840423fc
+ram:8404248c c.lw a1,0x0(a2)
+ram:8404248e c.li a2,0x1
+ram:84042490 fence 0x2,0x3
+ram:84042494 bne a1,a2,0x840423fc
+ram:84042498 c.lw a2,0xc(a0)
+ram:8404249a c.li a1,0x2
+ram:8404249c fence 0x2,0x3
+ram:840424a0 bne a2,a1,0x840424d6
+ram:840424a4 c.lw a2,0x10(a0)
+ram:840424a6 fence 0x2,0x3
+ram:840424aa c.bnez a2,0x840423fc
+ram:840424ac c.j 0x8404240c
+ram:840424ae fence 0x3,0x1
+ram:840424b2 c.li a1,0x3
+ram:840424b4 c.sw a1,0xc(a0)
+ram:840424b6 fence 0x3,0x1
+ram:840424ba c.sw a3,0x10(a0)
+ram:840424bc c.mv a0,a1
+ram:840424be ret
+ram:840424c0 addi a2,a0,0xc
+ram:840424c4 c.li a1,0x1
+ram:840424c6 lr.w.aq a3,(a2)
+ram:840424ca c.bnez a3,0x840423fc
+ram:840424cc sc.w.rl a4,a1,(a2)
+ram:840424d0 c.bnez a4,0x840424c6
+ram:840424d2 c.bnez a3,0x840423fc
+ram:840424d4 c.j 0x8404240c
+ram:840424d6 bgeu a2,a1,0x840423fc
+ram:840424da c.li a0,0x0
+ram:840424dc ret
+
+FUNCTION npu_startup_publish @ ram:840424de
+decompiled=true
+
+undefined4 npu_startup_publish(int *param_1,int *param_2,int *param_3,int *param_4,int param_5)
+
+{
+  fence();
+  if (((((*param_1 == 0x3153504e) && (fence(), param_1[1] == 1)) && (fence(), param_1[2] == 0x40))
+      && ((((fence(), param_1[0xd] == 0 && (fence(), param_1[0xe] == 0)) &&
+           ((fence(), param_5 == 0 && param_1[0xf] == 0 &&
+            ((fence(), param_1[4] == 0 && (fence(), param_1[5] == 1)))))) &&
+          ((fence(), *param_2 == 1 &&
+           ((((fence(), param_2[1] == 0 && (fence(), param_2[2] == 0)) && (fence(), param_2[3] == 0)
+             ) && ((fence(), param_2[4] == 0 && (*param_3 == 1)))))))))) &&
+     (((param_3[1] == 0 && ((param_3[2] == 0 && (param_3[3] == 0)))) &&
+      (((param_3[4] == 0 &&
+        ((((fence(), param_2[5] == 0 && (fence(), param_2[0xd] == 0)) && (fence(), param_2[6] == 0))
+         && (((fence(), param_2[0xe] == 0 && (fence(), param_2[7] == 0)) &&
+             ((fence(), param_2[0xf] == 0 &&
+              ((fence(), param_2[8] == 0 && (fence(), param_2[0x10] == 0)))))))))) &&
+       ((((fence(), param_2[9] == 0 &&
+          ((((((fence(), param_2[0x11] == 0 && (fence(), param_2[10] == 0)) &&
+              (fence(), param_2[0x12] == 0)) &&
+             (((fence(), param_2[0xb] == 0 && (fence(), param_2[0x13] == 0)) &&
+              ((fence(), param_2[0xc] == 0 &&
+               ((fence(), param_2[0x14] == 0 && (fence(), param_2[0x15] == 0)))))))) &&
+            (fence(), param_2[0x16] == 0)) &&
+           ((((((fence(), param_2[0x17] == 0 && (fence(), param_2[0x18] == 0)) &&
+               (fence(), param_2[0x19] == 0)) && ((param_3[5] == 0 && (*param_4 == 0)))) &&
+             (param_3[6] == 0)) && ((param_4[1] == 0 && (param_3[7] == 0)))))))) &&
+         (((param_4[2] == 0 && (((param_3[8] == 0 && (param_4[3] == 0)) && (param_3[9] == 0)))) &&
+          (((param_4[4] == 0 && (param_3[10] == 0)) && (param_4[5] == 0)))))) && (param_1[3] == 1)))
+       ))))) {
+    param_1[3] = 2;
+    return 1;
+  }
+  fence();
+  param_1[3] = 3;
+  fence();
+  param_1[4] = 1;
+  return 0;
+}
+
+
+ASSEMBLY
+ram:840424de lw a6,0x0(a0)
+ram:840424e2 lui a5,0x31535
+ram:840424e6 addi a5,a5,0x4e
+ram:840424ea fence 0x2,0x3
+ram:840424ee bne a6,a5,0x84042680
+ram:840424f2 c.lw a5,0x4(a0)
+ram:840424f4 c.li a6,0x1
+ram:840424f6 fence 0x2,0x3
+ram:840424fa bne a5,a6,0x84042680
+ram:840424fe c.lw a5,0x8(a0)
+ram:84042500 li a6,0x40
+ram:84042504 fence 0x2,0x3
+ram:84042508 bne a5,a6,0x84042680
+ram:8404250c c.lw a5,0x34(a0)
+ram:8404250e fence 0x2,0x3
+ram:84042512 bne a5,zero,0x84042680
+ram:84042516 c.lw a5,0x38(a0)
+ram:84042518 fence 0x2,0x3
+ram:8404251c bne a5,zero,0x84042680
+ram:84042520 c.lw a5,0x3c(a0)
+ram:84042522 c.or a4,a5
+ram:84042524 fence 0x2,0x3
+ram:84042528 bne a4,zero,0x84042680
+ram:8404252c c.lw a4,0x10(a0)
+ram:8404252e fence 0x2,0x3
+ram:84042532 bne a4,zero,0x84042680
+ram:84042536 c.lw a5,0x14(a0)
+ram:84042538 c.li a4,0x1
+ram:8404253a fence 0x2,0x3
+ram:8404253e bne a5,a4,0x84042680
+ram:84042542 c.lw a5,0x0(a1)
+ram:84042544 fence 0x2,0x3
+ram:84042548 bne a5,a4,0x84042680
+ram:8404254c c.lw a4,0x4(a1)
+ram:8404254e fence 0x2,0x3
+ram:84042552 bne a4,zero,0x84042680
+ram:84042556 c.lw a4,0x8(a1)
+ram:84042558 fence 0x2,0x3
+ram:8404255c bne a4,zero,0x84042680
+ram:84042560 c.lw a4,0xc(a1)
+ram:84042562 fence 0x2,0x3
+ram:84042566 bne a4,zero,0x84042680
+ram:8404256a c.lw a4,0x10(a1)
+ram:8404256c fence 0x2,0x3
+ram:84042570 bne a4,zero,0x84042680
+ram:84042574 c.lw a4,0x0(a2)
+ram:84042576 c.li a5,0x1
+ram:84042578 bne a4,a5,0x84042680
+ram:8404257c c.lw a4,0x4(a2)
+ram:8404257e bne a4,zero,0x84042680
+ram:84042582 c.lw a4,0x8(a2)
+ram:84042584 c.bnez a4,0x84042680
+ram:84042586 c.lw a4,0xc(a2)
+ram:84042588 c.bnez a4,0x84042680
+ram:8404258a c.lw a4,0x10(a2)
+ram:8404258c c.bnez a4,0x84042680
+ram:8404258e c.lw a4,0x14(a1)
+ram:84042590 fence 0x2,0x3
+ram:84042594 c.bnez a4,0x84042680
+ram:84042596 c.lw a4,0x34(a1)
+ram:84042598 fence 0x2,0x3
+ram:8404259c c.bnez a4,0x84042680
+ram:8404259e c.lw a4,0x18(a1)
+ram:840425a0 fence 0x2,0x3
+ram:840425a4 c.bnez a4,0x84042680
+ram:840425a6 c.lw a4,0x38(a1)
+ram:840425a8 fence 0x2,0x3
+ram:840425ac c.bnez a4,0x84042680
+ram:840425ae c.lw a4,0x1c(a1)
+ram:840425b0 fence 0x2,0x3
+ram:840425b4 c.bnez a4,0x84042680
+ram:840425b6 c.lw a4,0x3c(a1)
+ram:840425b8 fence 0x2,0x3
+ram:840425bc c.bnez a4,0x84042680
+ram:840425be c.lw a4,0x20(a1)
+ram:840425c0 fence 0x2,0x3
+ram:840425c4 c.bnez a4,0x84042680
+ram:840425c6 c.lw a4,0x40(a1)
+ram:840425c8 fence 0x2,0x3
+ram:840425cc c.bnez a4,0x84042680
+ram:840425ce c.lw a4,0x24(a1)
+ram:840425d0 fence 0x2,0x3
+ram:840425d4 c.bnez a4,0x84042680
+ram:840425d6 c.lw a4,0x44(a1)
+ram:840425d8 fence 0x2,0x3
+ram:840425dc c.bnez a4,0x84042680
+ram:840425de c.lw a4,0x28(a1)
+ram:840425e0 fence 0x2,0x3
+ram:840425e4 c.bnez a4,0x84042680
+ram:840425e6 c.lw a4,0x48(a1)
+ram:840425e8 fence 0x2,0x3
+ram:840425ec c.bnez a4,0x84042680
+ram:840425ee c.lw a4,0x2c(a1)
+ram:840425f0 fence 0x2,0x3
+ram:840425f4 c.bnez a4,0x84042680
+ram:840425f6 c.lw a4,0x4c(a1)
+ram:840425f8 fence 0x2,0x3
+ram:840425fc c.bnez a4,0x84042680
+ram:840425fe c.lw a4,0x30(a1)
+ram:84042600 fence 0x2,0x3
+ram:84042604 c.bnez a4,0x84042680
+ram:84042606 c.lw a4,0x50(a1)
+ram:84042608 fence 0x2,0x3
+ram:8404260c c.bnez a4,0x84042680
+ram:8404260e c.lw a4,0x54(a1)
+ram:84042610 fence 0x2,0x3
+ram:84042614 c.bnez a4,0x84042680
+ram:84042616 c.lw a4,0x58(a1)
+ram:84042618 fence 0x2,0x3
+ram:8404261c c.bnez a4,0x84042680
+ram:8404261e c.lw a4,0x5c(a1)
+ram:84042620 fence 0x2,0x3
+ram:84042624 c.bnez a4,0x84042680
+ram:84042626 c.lw a4,0x60(a1)
+ram:84042628 fence 0x2,0x3
+ram:8404262c c.bnez a4,0x84042680
+ram:8404262e c.lw a1,0x64(a1)
+ram:84042630 fence 0x2,0x3
+ram:84042634 c.bnez a1,0x84042680
+ram:84042636 c.lw a1,0x14(a2)
+ram:84042638 c.bnez a1,0x84042680
+ram:8404263a c.lw a1,0x0(a3)
+ram:8404263c c.bnez a1,0x84042680
+ram:8404263e c.lw a1,0x18(a2)
+ram:84042640 c.bnez a1,0x84042680
+ram:84042642 c.lw a1,0x4(a3)
+ram:84042644 c.bnez a1,0x84042680
+ram:84042646 c.lw a1,0x1c(a2)
+ram:84042648 c.bnez a1,0x84042680
+ram:8404264a c.lw a1,0x8(a3)
+ram:8404264c c.bnez a1,0x84042680
+ram:8404264e c.lw a1,0x20(a2)
+ram:84042650 c.bnez a1,0x84042680
+ram:84042652 c.lw a1,0xc(a3)
+ram:84042654 c.bnez a1,0x84042680
+ram:84042656 c.lw a1,0x24(a2)
+ram:84042658 c.bnez a1,0x84042680
+ram:8404265a c.lw a1,0x10(a3)
+ram:8404265c c.bnez a1,0x84042680
+ram:8404265e c.lw a1,0x28(a2)
+ram:84042660 c.bnez a1,0x84042680
+ram:84042662 c.lw a1,0x14(a3)
+ram:84042664 c.bnez a1,0x84042680
+ram:84042666 addi a2,a0,0xc
+ram:8404266a c.li a3,0x2
+ram:8404266c c.li a1,0x1
+ram:8404266e lr.w.aq a4,(a2)
+ram:84042672 bne a4,a1,0x8404267c
+ram:84042676 sc.w.rl a5,a3,(a2)
+ram:8404267a c.bnez a5,0x8404266e
+ram:8404267c beq a4,a1,0x84042692
+ram:84042680 c.li a1,0x0
+ram:84042682 fence 0x3,0x1
+ram:84042686 c.li a2,0x3
+ram:84042688 c.sw a2,0xc(a0)
+ram:8404268a c.li a2,0x1
+ram:8404268c fence 0x3,0x1
+ram:84042690 c.sw a2,0x10(a0)
+ram:84042692 c.mv a0,a1
+ram:84042694 ret
+
+FUNCTION npu_emulation_cold_start @ ram:84042696
+decompiled=true
+
+void npu_emulation_cold_start(undefined4 param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = UNK_ram_1ec0c140;
+  iVar1 = npu_startup_arrive(&npu_emulation_startup_state,param_1,iVar1 == -1);
+  if (iVar1 != 3) {
+    if (iVar1 == 1) {
+      npu_barrier_init(&npu_emulation_barrier_state);
+      npu_emulation_admission_init();
+      iVar1 = npu_startup_publish(&npu_emulation_startup_state,&npu_emulation_barrier_state,
+                                  &npu_emulation_admission_state,&npu_emulation_masked_state,param_1
+                                 );
+      if (iVar1 == 0) goto LAB_ram_8404270c;
+    }
+    while (iVar1 = npu_startup_poll(&npu_emulation_startup_state,param_1), iVar1 != 3) {
+      if (iVar1 == 2) {
+        return;
+      }
+    }
+  }
+LAB_ram_8404270c:
+  npu_barrier_fail(&npu_emulation_barrier_state);
+  do {
+                    /* WARNING: Do nothing block with infinite loop */
+  } while( true );
+}
+
+
+ASSEMBLY
+ram:84042696 c.addi sp,-0x10
+ram:84042698 c.swsp ra,0xc(sp)
+ram:8404269a c.swsp s0,0x8(sp)
+ram:8404269c c.swsp s1,0x4(sp)
+ram:8404269e c.mv s0,a0
+ram:840426a0 lui a0,0x1ec0c
+ram:840426a4 lw a0,0x140(a0)
+ram:840426a8 c.addi a0,0x1
+ram:840426aa sltiu a2,a0,0x1
+ram:840426ae lui a0,0x3e906
+ram:840426b2 addi a0,a0,0x180
+ram:840426b6 c.mv a1,s0
+ram:840426b8 auipc ra,0x0
+ram:840426bc jalr ra,ra,-0x2f8
+ram:840426c0 c.li a1,0x3
+ram:840426c2 beq a0,a1,0x8404270c
+ram:840426c6 c.li a1,0x1
+ram:840426c8 bne a0,a1,0x84042722
+ram:840426cc lui s1,0x3e906
+ram:840426d0 mv s1,s1
+ram:840426d4 c.mv a0,s1
+ram:840426d6 auipc ra,0xffffe
+ram:840426da jalr ra,ra,-0x6d6
+ram:840426de auipc ra,0x0
+ram:840426e2 jalr ra,ra,-0x77e
+ram:840426e6 lui a0,0x3e906
+ram:840426ea addi a0,a0,0x180
+ram:840426ee lui a2,0x3e906
+ram:840426f2 addi a2,a2,0x100
+ram:840426f6 lui a3,0x3e906
+ram:840426fa addi a3,a3,0x140
+ram:840426fe c.mv a1,s1
+ram:84042700 c.mv a4,s0
+ram:84042702 auipc ra,0x0
+ram:84042706 jalr ra,ra,-0x224
+ram:8404270a c.bnez a0,0x84042722
+ram:8404270c lui a0,0x3e906
+ram:84042710 mv a0,a0
+ram:84042714 auipc ra,0xffffe
+ram:84042718 jalr ra,ra,-0x66c
+ram:8404271c c.nop
+ram:8404271e c.j 0x8404271c
+ram:84042720 c.nop
+ram:84042722 lui a0,0x3e906
+ram:84042726 addi a0,a0,0x180
+ram:8404272a c.mv a1,s0
+ram:8404272c auipc ra,0x0
+ram:84042730 jalr ra,ra,-0x402
+ram:84042734 c.li a1,0x3
+ram:84042736 beq a0,a1,0x8404270c
+ram:8404273a c.li a1,0x2
+ram:8404273c bne a0,a1,0x84042720
+ram:84042740 c.lwsp ra,0xc(sp)
+ram:84042742 c.lwsp s0,0x8(sp)
+ram:84042744 c.lwsp s1,0x4(sp)
+ram:84042746 c.addi sp,0x10
+ram:84042748 ret
+
+FUNCTION npu_emulation_before_bss @ ram:8404274a
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_emulation_before_bss(void)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  if ((((((mhartid == 0) && (fence(), iVar1 = npu_emulation_startup_state, iVar1 == 0x3153504e)) &&
+        (iVar1 = UNK_ram_3e906184, iVar1 == 1)) &&
+       ((iVar1 = UNK_ram_3e906188, iVar1 == 0x40 && (iVar1 = UNK_ram_3e90618c, iVar1 == 0)))) &&
+      ((iVar1 = UNK_ram_3e906190, iVar1 == 0 &&
+       ((iVar1 = UNK_ram_3e906194, iVar1 == 0 &&
+        (iVar1 = UNK_ram_3e9061b4, iVar2 = UNK_ram_3e9061b8, iVar3 = UNK_ram_3e9061bc,
+        (iVar1 == 0 && iVar2 == 0) && iVar3 == 0)))))) && (iVar1 = UNK_ram_1ec0c140, iVar1 != -1)) {
+                    /* WARNING: Bad instruction - Truncating control flow here */
+    halt_baddata();
+  }
+  fence();
+  UNK_ram_3e90618c = 3;
+  fence();
+  UNK_ram_3e906190 = 1;
+  fence();
+  DAT_ram_3e906010 = 1;
+  fence();
+  do {
+                    /* WARNING: Do nothing block with infinite loop */
+  } while( true );
+}
+
+
+ASSEMBLY
+ram:8404274a csrr t0,0x0f14
+ram:8404274e bne t0,zero,0x840427ca
+ram:84042752 auipc t0,0xba8c4
+ram:84042756 addi t0,t0,-0x5d2
+ram:8404275a fence 0xf,0xf
+ram:8404275e lw t1,0x0(t0)
+ram:84042762 lui t2,0x31535
+ram:84042766 addi t2,t2,0x4e
+ram:8404276a bne t1,t2,0x840427ca
+ram:8404276e lw t1,0x4(t0)
+ram:84042772 li t2,0x1
+ram:84042776 bne t1,t2,0x840427ca
+ram:8404277a lw t1,0x8(t0)
+ram:8404277e li t2,0x40
+ram:84042782 bne t1,t2,0x840427ca
+ram:84042786 lw t1,0xc(t0)
+ram:8404278a bne t1,zero,0x840427ca
+ram:8404278e lw t1,0x10(t0)
+ram:84042792 bne t1,zero,0x840427ca
+ram:84042796 lw t1,0x14(t0)
+ram:8404279a bne t1,zero,0x840427ca
+ram:8404279e lw t1,0x34(t0)
+ram:840427a2 lw t2,0x38(t0)
+ram:840427a6 or t1,t1,t2
+ram:840427aa lw t2,0x3c(t0)
+ram:840427ae or t1,t1,t2
+ram:840427b2 bne t1,zero,0x840427ca
+ram:840427b6 lui t0,0x1ec0c
+ram:840427ba lw t1,0x140(t0)
+ram:840427be li t2,-0x1
+ram:840427c2 beq t1,t2,0x840427ca
+ram:840427c6 j 0x84000078
+ram:840427ca auipc t0,0xba8c4
+ram:840427ce addi t0,t0,-0x64a
+ram:840427d2 li t1,0x3
+ram:840427d6 fence 0x3,0x1
+ram:840427da sw t1,0xc(t0)
+ram:840427de li t1,0x1
+ram:840427e2 fence 0x3,0x1
+ram:840427e6 sw t1,0x10(t0)
+ram:840427ea auipc t0,0xba8c4
+ram:840427ee addi t0,t0,-0x7ea
+ram:840427f2 li t1,0x1
+ram:840427f6 fence 0x3,0x1
+ram:840427fa sw t1,0x10(t0)
+ram:840427fe fence 0xf,0xf
+ram:84042802 j 0x84042802
+
+FUNCTION npu_emulation_reset_gate @ ram:84042806
+decompiled=true
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void npu_emulation_reset_gate(void)
+
+{
+  npu_emulation_cold_start(mhartid);
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+
+
+ASSEMBLY
+ram:84042806 addi sp,sp,-0x40
+ram:8404280a sw t0,0x0(sp)
+ram:8404280e sw t1,0x4(sp)
+ram:84042812 sw t2,0x8(sp)
+ram:84042816 sw t3,0xc(sp)
+ram:8404281a sw t4,0x10(sp)
+ram:8404281e sw t5,0x14(sp)
+ram:84042822 sw t6,0x18(sp)
+ram:84042826 sw a0,0x1c(sp)
+ram:8404282a sw a1,0x20(sp)
+ram:8404282e sw a2,0x24(sp)
+ram:84042832 sw a3,0x28(sp)
+ram:84042836 sw a4,0x2c(sp)
+ram:8404283a sw a5,0x30(sp)
+ram:8404283e sw a6,0x34(sp)
+ram:84042842 sw a7,0x38(sp)
+ram:84042846 csrr a0,0x0f14
+ram:8404284a auipc ra,0x0
+ram:8404284e jalr ra,ra,-0x1b4
+ram:84042852 lw t0,0x0(sp)
+ram:84042856 lw t1,0x4(sp)
+ram:8404285a lw t2,0x8(sp)
+ram:8404285e lw t3,0xc(sp)
+ram:84042862 lw t4,0x10(sp)
+ram:84042866 lw t5,0x14(sp)
+ram:8404286a lw t6,0x18(sp)
+ram:8404286e lw a0,0x1c(sp)
+ram:84042872 lw a1,0x20(sp)
+ram:84042876 lw a2,0x24(sp)
+ram:8404287a lw a3,0x28(sp)
+ram:8404287e lw a4,0x2c(sp)
+ram:84042882 lw a5,0x30(sp)
+ram:84042886 lw a6,0x34(sp)
+ram:8404288a lw a7,0x38(sp)
+ram:8404288e addi sp,sp,0x40
+ram:84042892 lui ra,0x84000
+ram:84042896 addi ra,ra,0xf0
+ram:8404289a j 0x840000f4
+
+total_executable_functions=56
+exported_functions=6
+failed_decompilations=0

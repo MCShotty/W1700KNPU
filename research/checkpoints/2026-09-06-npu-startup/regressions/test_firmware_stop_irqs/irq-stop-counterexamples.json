@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "native_registration_slots": {
+    "uart_0x16": "0x3e9018a8",
+    "ppe_0x5f": "0x3e9019cc"
+  },
+  "uart_after_stop_get_zero": {
+    "read_no_mutation": true,
+    "invalid_command_no_mutation": true,
+    "write_changes_rx_gate_0_to_1": true
+  },
+  "ppe_after_stop_get_zero": {
+    "empty_no_free": true,
+    "bufid_free_argument": 4660
+  },
+  "scope": "Original RV32 registration, IRQ table dispatch, UART handler/parser and PPE handler execute in emulation. UART FIFO/PLIC/PPE registers are modeled, printf and hart-ID getter are stubbed, bufid release halts at entry. This proves conditional software reachability after STOP/GET0, not physical IRQ delivery or actual hardware buffer release. No router contact."
+}
