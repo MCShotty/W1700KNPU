@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (early bootstrap admission candidate)
+Last updated: 2026-09-06 (native core-0 Wi-Fi bootstrap and host sequence)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,25 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Work - Early Bootstrap Admission Candidate - 2026-09-06
+## Current Work - Native Core-0 Wi-Fi Bootstrap - 2026-09-06
+
+- Original reset now reaches native core-0 Wi-Fi return and the candidate idle
+  acknowledgement. Five schedules compare all 256 KiB of L2 and exact descriptor
+  footprints; three missing-register controls fail closed. Hardware is modeled.
+- Native initialization still returns success under forced SKB exhaustion and
+  malformed host-register inputs. These conditional controls are not live failure
+  causes or readiness evidence. Other worker/drain acknowledgements remain zero.
+- Pinned snapshot host C executes 38-message attachment traces in 164 cases;
+  149 bounded native callback cases and three mutants pass. Thirteen callback
+  paths remain explicitly pending. Single-HIF TX1 publication, 24-byte INODE
+  reads for 12-byte requests, and accepted descriptor fallback need closure.
+- General mt76 admission, full callback/all-worker boot, physical loader/cache/
+  containment, Linux recovery and full parity/client acceptance remain open.
+  No firmware/config, router, image or flash change. R1 remains last router-tested,
+  WLAN NPU compiled out. Evidence:
+  `research/checkpoints/2026-09-06-npu-nativewifi/REPORT.md`.
+
+## Previous Work - Early Bootstrap Admission Candidate - 2026-09-06
 
 - Fixed late cold workers rejecting the coordinator's normal boot-marker write.
   Sixteen schedules pass; the old binding fails fourteen late-arrival schedules.

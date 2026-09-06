@@ -6310,3 +6310,24 @@ No packaged source/config, router, image, release or flash change. R1 remains
 last router-tested with WLAN NPU compiled out. Ledger/reference/remaining-work
 updated; full goals remain unfinished. Evidence:
 `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`.
+
+## Native Core-0 Wi-Fi Bootstrap And Host Sequence - 2026-09-06
+
+Original reset now reaches native Wi-Fi return and candidate coordinator idle
+ACK. Five schedules check the full 256 KiB L2 image, RX/TX descriptors and ID
+table; three missing-register controls reject unmodeled access. Delayed API23
+and host ring bases exercise native waits. Other worker and drain ACKs stay zero.
+Explicit register storage, hart/printf/delay substitutions and synthetic host
+inputs do not prove physical L2/cache/DMA/IRQ behavior or complete all-hart boot.
+
+Forced SKB exhaustion and malformed host-ring inputs still return native success.
+Separate snapshot-host tests pass 164 compiled C cases, 149 bounded callbacks and
+three mutants, with thirteen callback paths honestly pending. The 38-command
+tail includes active initialization/publication, not merely passive setters.
+Single-HIF TX1 publication, INODE read length, descriptor fallback and complete
+consumer/partial-init ownership require closure before opening mt76 admission.
+
+No firmware/config, router, image, flash or release change. R1 remains last
+router-tested with WLAN NPU compiled out; full Wi-Fi/NPU goals remain open.
+Ledger/reference/remaining-work updated. Evidence:
+`research/checkpoints/2026-09-06-npu-nativewifi/REPORT.md`.

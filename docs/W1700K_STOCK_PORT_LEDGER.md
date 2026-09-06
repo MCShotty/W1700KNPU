@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-06 (cold-start candidate and OpenWrt snapshot comparison)
+Last updated: 2026-09-06 (native core-0 Wi-Fi bootstrap and host sequence)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -17747,3 +17747,35 @@ Status and boundary:
   R1 remains last router-tested, WLAN NPU compiled out. Reference/logging and
   remaining-work updated; protected inputs untouched. Evidence:
   `research/checkpoints/2026-09-06-npu-bootstrap/REPORT.md`.
+
+## 2026-09-06 - Native Core-0 Wi-Fi Bootstrap And Host Sequence
+
+- Extended the native instruction test from actual reset through all core-0
+  Wi-Fi helpers, return at `0x84000188` and candidate idle ACK. No new initializer
+  stubs or firmware detours. Explicit storage-only L2/Wi-Fi/host-input models
+  retain fail-closed handling for every other register.
+- Five schedules pass; 65,536 native stores clear 256 KiB of L2, and the full
+  final image matches 2,048 RX descriptors, two 1,024-entry TX rings and 8,192 IDs.
+  Initial TX pointers span 4 MiB within the 64 MiB reservation; packet backing
+  memory and later consumer extents are not tested. Three missing-model controls
+  stop at exact L2, DMA-control and host-base instructions.
+- Delayed API23 and two host-base publications exercise native waits before
+  core-0 completion. Only coordinator epoch1 ACK is set; other worker/ready/drain
+  slots remain zero. Rebuilt combined ELF matches the prior candidate exactly.
+- Forced 2,048 SKB allocation failures still publish CPU indexes/DMA enable and
+  return success. Malformed host-ring inputs also produce success. These are
+  conditional native counterexamples, not established live-client fault causes.
+- Separate pinned-snapshot host C executes 164 cases with 38 attachment messages,
+  then IRQ0/1 enable. 149 bounded native callback cases and three mutants pass;
+  thirteen helper paths remain pending with no fabricated completion. The host
+  trace uses synthetic replies and is not connected to the native boot trace.
+- Source single-HIF queue sharing does not establish TX1 base for the native
+  unconditional wait. INODE2/7 load 24 bytes for 12-byte logical requests; GET4
+  fallback `0x457` is accepted as a descriptor base. General mt76 admission stays
+  closed pending full consumer/length/readiness/partial-init ownership closure.
+- Physical loader/cache/containment, all-worker boot, Linux recovery/removal,
+  full datapath parity and real-client Wi-Fi acceptance remain open. No firmware,
+  config, router, image, flash or release change. R1 remains last router-tested,
+  WLAN NPU compiled out; protected recovery/private inputs untouched.
+- Evidence: `research/checkpoints/2026-09-06-npu-nativewifi/REPORT.md`.
+  Reference/logging/remaining-work updated with the precise proof boundary.

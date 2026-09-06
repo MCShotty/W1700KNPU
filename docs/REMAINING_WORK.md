@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-Updated 2026-09-06 from early bootstrap admission, current reference and release
+Updated 2026-09-06 from native core-0 bootstrap, host attachment and release
 manifest. This is the resume checklist, not an estimate of completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
@@ -61,10 +61,18 @@ router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
   The next candidate now installs strict IRQ8 through original registration,
   serves early version and an ordered, plan-bound six-command MT7996 memory
   sequence, and retains failed callback ownership. A late-cold-hart marker bug
-  is fixed. This does not complete bootstrap: native L2/Wi-Fi initialization,
-  core-0 return, all consumer footprints, full mt76 ring/PCIe/token setup and
-  production cold-loader/request ownership remain open. The native version
-  fallback `0x457` is not a readiness witness. General mt76 commands remain closed.
+  is fixed. Original core-0 L2/Wi-Fi initialization now executes through return
+  and candidate idle ACK in five instruction schedules, with the entire 256 KiB
+  L2 image checked. Three missing-register controls fail closed. All other worker
+  and physical-drain ACKs remain zero; this is not hardware boot/containment proof.
+  Native success also occurs under forced SKB exhaustion and malformed host-ring
+  inputs. Do not treat completion flags or the version fallback as readiness.
+  Pinned host traces cover 38 attachment messages; 164 host C and 149 bounded
+  callback cases pass, with thirteen paths deliberately stopped before unresolved
+  helpers. General mt76 commands remain closed. Close full callback consumers,
+  all-worker reset/boot, single-HIF TX1 publication, INODE 24-byte reads from
+  12-byte logical requests, descriptor fallback validation, partial-init owner
+  retention and the production cold-loader/request/cache contract.
 - [ ] Handle L1 stop and reinitialization failures without resuming an unsafe
   datapath. Current upstream discards both return values.
 - [ ] Correct full-reset ordering: do not release tokens or clean rings before
