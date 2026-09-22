@@ -1,0 +1,1022 @@
+{
+  "schema": 1,
+  "passed": true,
+  "source_path": "target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory",
+  "source_sha256": "04497f40bb5c774d985784ee920b682da16d6e8ae71d55778400477a7111b7d5",
+  "original_sha256": "27075d0fe688df9e3405d03069fe48eb41389969409c008b5e2e8e1e7ff75708",
+  "test_sha256": "a8adc3d1ec45bf4e2a70c1d9e74470344bc0bc8b5e403fa7d6f2255bba2cd906",
+  "counts": {
+    "cases": 80,
+    "reproduced_old_failures": 18,
+    "mutants_killed": 2
+  },
+  "cases": [
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        14,
+        "JP"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        52,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        56,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        161,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        35,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        161,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        2,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT20",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT40",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT160",
+        36,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        149,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        225,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT80",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-0",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0-blocked-2g",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0-blocked-5g",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0-blocked-6g",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-0-partial-320",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        14,
+        "JP"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        52,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        56,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        161,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        35,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        161,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        2,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT20",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT40",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT160",
+        36,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        149,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        225,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT80",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-1-blocked-2g",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1-blocked-5g",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1-blocked-6g",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-1-partial-320",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        14,
+        "JP"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        52,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        56,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        161,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        35,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        161,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        2,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT20",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "2g",
+        "EHT40",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT160",
+        36,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        149,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        225,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT80",
+        "auto",
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    },
+    {
+      "fixture": "decimal-3-blocked-2g",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3-blocked-5g",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3-blocked-6g",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        "auto",
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "decimal-3-partial-320",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        33,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 0
+    },
+    {
+      "fixture": "empty-map-fallback-unchanged",
+      "operation": "channel_valid",
+      "arguments": [
+        "2g",
+        6,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "empty-map-fallback-unchanged",
+      "operation": "channel_valid",
+      "arguments": [
+        "5g",
+        161,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "empty-map-fallback-unchanged",
+      "operation": "channel_valid",
+      "arguments": [
+        "6g",
+        33,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "empty-map-fallback-unchanged",
+      "operation": "htmode_valid",
+      "arguments": [
+        "5g",
+        "EHT80",
+        36,
+        "SA"
+      ],
+      "expected": 0,
+      "actual": 0,
+      "before": 0
+    },
+    {
+      "fixture": "empty-map-fallback-unchanged",
+      "operation": "htmode_valid",
+      "arguments": [
+        "6g",
+        "EHT320",
+        225,
+        "SA"
+      ],
+      "expected": 1,
+      "actual": 1,
+      "before": 1
+    }
+  ],
+  "mutants": [
+    {
+      "reverted_parser": 0,
+      "killed": true
+    },
+    {
+      "reverted_parser": 1,
+      "killed": true
+    }
+  ],
+  "scope": "Actual POSIX helper on synthetic iw maps; no router or RF activity",
+  "limits": [
+    "Static no-driver fallback policy is unchanged.",
+    "Channel admission is not beacon, association, traffic or regulatory certification."
+  ]
+}

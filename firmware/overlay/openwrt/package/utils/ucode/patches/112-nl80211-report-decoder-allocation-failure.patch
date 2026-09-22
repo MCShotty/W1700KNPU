@@ -1,0 +1,14 @@
+--- a/lib/nl80211.c
++++ b/lib/nl80211.c
+@@ -1255,8 +1255,10 @@
+ 
+ 	tb = calloc(maxattr + 1, sizeof(struct nlattr *));
+ 
+-	if (!tb)
++	if (!tb) {
++		set_error(NLE_NOMEM, NULL);
+ 		return false;
++	}
+ 
+ 	nla_for_each_attr(nla, buf + headsize, buflen - headsize, rem) {
+ 		type = nla_type(nla);

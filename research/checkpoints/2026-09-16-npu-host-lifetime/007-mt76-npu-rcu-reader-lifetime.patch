@@ -1,0 +1,37 @@
+From: W1700KNPU development <noreply@example.invalid>
+Subject: [CANDIDATE] wifi: mt76: drain NPU and PPE RCU readers before dropping references
+
+Unpromoted CPU callback/reference lifetime correction. Hardware
+DMA containment and safe buffer reclamation remain separate gates.
+
+---
+--- a/npu.c
++++ b/npu.c
+@@ -506,16 +506,18 @@
+ 
+ 	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
+ 				  lockdep_is_held(&dev->mutex));
++	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,
++				      lockdep_is_held(&dev->mutex));
++	if (npu || ppe_dev)
++		synchronize_rcu();
++
++	mutex_unlock(&dev->mutex);
++
++	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
++	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
++
+ 	if (npu)
+ 		airoha_npu_put(npu);
+-
+-	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,
+-				      lockdep_is_held(&dev->mutex));
+ 	if (ppe_dev)
+ 		airoha_ppe_put_dev(ppe_dev);
+-
+-	mutex_unlock(&dev->mutex);
+-
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
+-}
++}

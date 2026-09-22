@@ -1,0 +1,926 @@
+{
+  "schema": 1,
+  "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+  "test_sha256": "d770839bd44ef468f0288c711d870122bc36bf10619c25d8fefd1bda395546cb",
+  "assembly_sha256": "db30d981b1fe20cb24fc547a9f0478853941fda25fbcd5e45fbb0708a0e799ff",
+  "linker_sha256": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+  "compiled_guard": {
+    "command": [
+      "/usr/bin/clang",
+      "--target=riscv32",
+      "-march=rv32imac_zicsr",
+      "-mabi=ilp32",
+      "-nostdlib",
+      "-fno-stack-protector",
+      "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+      "/home/captain/W1700KNPU/tests/npu/bridge-startup-emulation.S",
+      "-Wl,-T,/home/captain/W1700KNPU/tests/npu/bridge-startup-emulation.ld",
+      "-Wl,--no-relax",
+      "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+      "-o",
+      "/home/captain/W1700KNPU/.local/npu-bridge-startup/bridge.elf"
+    ],
+    "elf_sha256": "d8bb6cac0ee49150878b0ed284e4dc368261c8a198fbda4c9fa0f637f953b8a4",
+    "sections": [
+      [
+        ".text",
+        2214887424,
+        80
+      ]
+    ]
+  },
+  "cases": [
+    {
+      "mask": 255,
+      "exhausted": false,
+      "timer": true,
+      "w1c": false,
+      "bad_owner": false,
+      "bridge_type": {
+        "type": 129,
+        "alignment_tag": 0,
+        "reserved": 0,
+        "value": 58879
+      },
+      "native_bridge_base": "0x3e8690e0",
+      "native_return_to_outer": true,
+      "guarded": false,
+      "installed_guards": [],
+      "fault_kind": null,
+      "final_pc": "0x84000b36",
+      "lock_result": "0x0",
+      "initial_mstatus": "0x8",
+      "bridge_writes": [
+        {
+          "address": "0x1ec12008",
+          "value": 512135392
+        },
+        {
+          "address": "0x1ec12010",
+          "value": 264192
+        },
+        {
+          "address": "0x1ec12018",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12210",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12220",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12230",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12240",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12250",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12260",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12270",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12280",
+          "value": 1
+        }
+      ],
+      "channel_failure_logs": 0,
+      "timer_reads": 5,
+      "allocator_before": {
+        "count": 6,
+        "used": 430288
+      },
+      "allocator_after": {
+        "count": 7,
+        "used": 489183
+      },
+      "allocations": [
+        {
+          "type": 129,
+          "return_pc": 2214597770,
+          "value": 1049006304
+        }
+      ],
+      "native_entries": {
+        "0x84001472": 1,
+        "0x84005200": 1,
+        "0x84004ff8": 1,
+        "0x840064b4": 1,
+        "0x8400651c": 1,
+        "0x84003712": 1,
+        "0x84001392": 1
+      },
+      "mmio": [
+        {
+          "step": 791994,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 791995,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 792129,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 792158,
+          "kind": "mmio-write",
+          "pc": "0x840014b2",
+          "hart": 7,
+          "address": "0x1ec12008",
+          "size": 4,
+          "value": 512135392,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792168,
+          "kind": "mmio-write",
+          "pc": "0x840014d2",
+          "hart": 7,
+          "address": "0x1ec12010",
+          "size": 4,
+          "value": 264192,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792170,
+          "kind": "mmio-write",
+          "pc": "0x840014d6",
+          "hart": 7,
+          "address": "0x1ec12018",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792190,
+          "kind": "mmio-read",
+          "pc": "0x84003748",
+          "hart": 7,
+          "address": "0x1ec10100",
+          "size": 4,
+          "value": 1,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 792196,
+          "kind": "mmio-read",
+          "pc": "0x84003758",
+          "hart": 7,
+          "address": "0x1ec10104",
+          "size": 4,
+          "value": 4294967295,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 792199,
+          "kind": "mmio-read",
+          "pc": "0x8400375e",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294901744,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792202,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294836208,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792218,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294770672,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792234,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294705136,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792250,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294639600,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792278,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792286,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792289,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792297,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792300,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792308,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792311,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792319,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792322,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792330,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792333,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792341,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792344,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792352,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792355,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792363,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        }
+      ],
+      "memory_before": {
+        "0x3e900000": "1b79775acb9027dbc9a9fff393f0e99d1f3e0232413f0e9c4b8c9b521768cb4e",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "0x84039e00": "876b14ceff8c66bd50df2c1dc7a6f66ac5cdf4c57cb02b0758405a499e0d0834",
+        "0x1ec12000": "419d511b8f8303f73750efa4971a8221da788f6e7e6b441c90f3fe70dbecec7d",
+        "0x1ec10000": "5138829ea661641a36391a9c84706847fd1d63647dcb6d715d2314a0f11699a6",
+        "0x1ec03000": "b4d6fd5f170f3ca0dd1e2bb356814e3a57d54ae41f5aebb0655912eecec22205"
+      },
+      "memory_after": {
+        "0x3e900000": "b8ab27ad45016794a0caa9c52731b35bf3b7489e26db03a6db6818ecafea3e5b",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "0x84039e00": "1d11256a48b6873824bed1feec969806cb5f34bbf45ebe8a9354f0503bed6bba",
+        "0x1ec12000": "7cadff9294d2db6c40462f72318035c5282d964656ca12f9a65316a061b84dfd",
+        "0x1ec10000": "55510a136f0a226b7eb00659487041eb61dcec49bed01de4a8cc0d3f3ef22492",
+        "0x1ec03000": "079c6c920bce38baac285adede88fb227dbba3b84bb33bfe1b4628075217696c"
+      },
+      "channel_final": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "whole_l2_unchanged_bytes": 262144,
+      "protocol_writes": [
+        {
+          "hart": 7,
+          "address": "0x3e906030",
+          "size": 4,
+          "value": 1,
+          "pc": "0x84040106"
+        }
+      ],
+      "native_initializer_allocator_delay_stubs": false,
+      "existing_stub_counts": {
+        "0x84004212": 2,
+        "0x840048f4": 11
+      },
+      "initial_gate_omitted_for_analysis": "0x84000b24",
+      "final_gate_retained": "0x84000b36",
+      "parked": 1,
+      "ready": 0,
+      "drains": 0,
+      "released": 0,
+      "armed": 0
+    }
+  ],
+  "guarded": [
+    {
+      "mask": 255,
+      "exhausted": false,
+      "timer": true,
+      "w1c": false,
+      "bad_owner": false,
+      "bridge_type": {
+        "type": 129,
+        "alignment_tag": 0,
+        "reserved": 0,
+        "value": 58879
+      },
+      "native_bridge_base": "0x3e8690e0",
+      "native_return_to_outer": true,
+      "guarded": true,
+      "installed_guards": [
+        {
+          "site": 2214597770,
+          "kind": "base",
+          "before": "aa87aa85",
+          "after": "6f607437",
+          "target": "0x84048000"
+        },
+        {
+          "site": 2214597888,
+          "kind": "channel",
+          "before": "91e35685",
+          "after": "6f60d432",
+          "target": "0x8404802c"
+        }
+      ],
+      "fault_kind": null,
+      "final_pc": "0x84000b36",
+      "lock_result": "0x0",
+      "initial_mstatus": "0x8",
+      "bridge_writes": [
+        {
+          "address": "0x1ec12008",
+          "value": 512135392
+        },
+        {
+          "address": "0x1ec12010",
+          "value": 264192
+        },
+        {
+          "address": "0x1ec12018",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12210",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12220",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12230",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12240",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12250",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12260",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12270",
+          "value": 1
+        },
+        {
+          "address": "0x1ec12280",
+          "value": 1
+        }
+      ],
+      "channel_failure_logs": 0,
+      "timer_reads": 5,
+      "allocator_before": {
+        "count": 6,
+        "used": 430288
+      },
+      "allocator_after": {
+        "count": 7,
+        "used": 489183
+      },
+      "allocations": [
+        {
+          "type": 129,
+          "return_pc": 2214597770,
+          "value": 1049006304
+        }
+      ],
+      "native_entries": {
+        "0x84001472": 1,
+        "0x84005200": 1,
+        "0x84004ff8": 1,
+        "0x840064b4": 1,
+        "0x8400651c": 1,
+        "0x84003712": 1,
+        "0x84001392": 1
+      },
+      "mmio": [
+        {
+          "step": 792524,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 792525,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 792659,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 792688,
+          "kind": "mmio-write",
+          "pc": "0x840014b2",
+          "hart": 7,
+          "address": "0x1ec12008",
+          "size": 4,
+          "value": 512135392,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792698,
+          "kind": "mmio-write",
+          "pc": "0x840014d2",
+          "hart": 7,
+          "address": "0x1ec12010",
+          "size": 4,
+          "value": 264192,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792700,
+          "kind": "mmio-write",
+          "pc": "0x840014d6",
+          "hart": 7,
+          "address": "0x1ec12018",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792720,
+          "kind": "mmio-read",
+          "pc": "0x84003748",
+          "hart": 7,
+          "address": "0x1ec10100",
+          "size": 4,
+          "value": 1,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 792726,
+          "kind": "mmio-read",
+          "pc": "0x84003758",
+          "hart": 7,
+          "address": "0x1ec10104",
+          "size": 4,
+          "value": 4294967295,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 792729,
+          "kind": "mmio-read",
+          "pc": "0x8400375e",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294901744,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792732,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294836208,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792748,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294770672,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792764,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294705136,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792780,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294639600,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 792808,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792816,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792819,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792827,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792830,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792838,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792841,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792849,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792852,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792860,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792863,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792871,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792874,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792882,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792885,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 792893,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        }
+      ],
+      "memory_before": {
+        "0x3e900000": "1b79775acb9027dbc9a9fff393f0e99d1f3e0232413f0e9c4b8c9b521768cb4e",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "0x84039e00": "876b14ceff8c66bd50df2c1dc7a6f66ac5cdf4c57cb02b0758405a499e0d0834",
+        "0x1ec12000": "419d511b8f8303f73750efa4971a8221da788f6e7e6b441c90f3fe70dbecec7d",
+        "0x1ec10000": "5138829ea661641a36391a9c84706847fd1d63647dcb6d715d2314a0f11699a6",
+        "0x1ec03000": "b4d6fd5f170f3ca0dd1e2bb356814e3a57d54ae41f5aebb0655912eecec22205"
+      },
+      "memory_after": {
+        "0x3e900000": "b8ab27ad45016794a0caa9c52731b35bf3b7489e26db03a6db6818ecafea3e5b",
+        "0x3e800000": "87a6828e63b5a6401ed1ca34acb2096068dc0a971a46f26299eaed10b4b4150a",
+        "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "0x84039e00": "1d11256a48b6873824bed1feec969806cb5f34bbf45ebe8a9354f0503bed6bba",
+        "0x1ec12000": "7cadff9294d2db6c40462f72318035c5282d964656ca12f9a65316a061b84dfd",
+        "0x1ec10000": "55510a136f0a226b7eb00659487041eb61dcec49bed01de4a8cc0d3f3ef22492",
+        "0x1ec03000": "079c6c920bce38baac285adede88fb227dbba3b84bb33bfe1b4628075217696c"
+      },
+      "channel_final": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "whole_l2_unchanged_bytes": 262144,
+      "protocol_writes": [
+        {
+          "hart": 7,
+          "address": "0x3e906030",
+          "size": 4,
+          "value": 1,
+          "pc": "0x84040106"
+        }
+      ],
+      "native_initializer_allocator_delay_stubs": false,
+      "existing_stub_counts": {
+        "0x84004212": 2,
+        "0x840048f4": 11
+      },
+      "initial_gate_omitted_for_analysis": "0x84000b24",
+      "final_gate_retained": "0x84000b36",
+      "parked": 1,
+      "ready": 0,
+      "drains": 0,
+      "released": 0,
+      "armed": 0
+    }
+  ],
+  "mutants": []
+}

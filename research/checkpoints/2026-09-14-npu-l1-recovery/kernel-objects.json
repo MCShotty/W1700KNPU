@@ -1,0 +1,544 @@
+{
+  "schema": 1,
+  "inputs_before_after": {
+    "tests/npu/test_l1_recovery.py": "c0dd7c0a743dde9fef141cefcd0684aeb7cbfb529de09696e0948a2e2e09ae60",
+    "tests/npu/l1-recovery-harness.c": "08cd36d1f53cbe86da6a368454839e09381c76081c652e7753718bbc42c2f486",
+    "research/checkpoints/2026-09-14-npu-l1-recovery/006-mt7996-npu-l1-failure-state.patch": "c2684e65d44d97c75ec26d6b053106299320048c71887b284647b93955f8ee0a",
+    "tests/npu/test_host_txfree.py": "622c0b9ad0d6522a315d16b910daff2d4f5beb0fdc0562df3e564d396fed1c18",
+    "tests/npu/test_host_tx_topology.py": "24d2b0068a5c3e7382680092d69cdadc75574960568030d6f5becdfd7580d3cf",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    ".build/openwrt/dl/mt76-2026.09.01~be5ce791.tar.zst": "d1d0f7588c5b9ceafcac341ce19dd206ed9ec106847e672ab77e48bacb57f81a",
+    "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+    "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+    "tests/npu/build_l1_recovery.py": "127eb8254b4a5893f400ce3e9125fef1f768746ddd0fc38d8a9f1b8b980a77ca",
+    "tests/npu/build_host_tx_topology.py": "7df26f8a55cae4a0e5b314b22992e4a5255acaeb6b921fedbc534ad773861bb3",
+    ".build/openwrt/.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/Module.symvers": "cf4f8a7fb6e965afc65951e36bf1403d6560d55a5916c2566304e83ce5e8a3b1",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/utsrelease.h": "3549c01a94d2155024b810c393a78912a2eb3dfbacec92ba9a6ab80e2313c763"
+  },
+  "variants": [
+    {
+      "phase": "before",
+      "npu_enabled": false,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Mon Sep 14 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "V=1",
+        "M=/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "mt7996/mt7996e.o"
+      ],
+      "patch_application": [
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
+          "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
+          "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
+          "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch",
+          "sha256": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+          "output": "patching file mt7996/dma.c\npatching file mt7996/init.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch",
+          "sha256": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+          "output": "patching file mt7996/npu.c\n"
+        }
+      ],
+      "objects": [
+        {
+          "name": "coredump.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/coredump.o",
+          "sha256": "275862b66c226d39c0b7709a4c21f30d32c56887e967f7c95097ddf02558f0bc",
+          "bytes": 51808
+        },
+        {
+          "name": "debugfs.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/debugfs.o",
+          "sha256": "8e8f8c929462fe0f46146663b1e76c3f095f8f86a0721a7a15f133b9db420412",
+          "bytes": 139144
+        },
+        {
+          "name": "dma.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/dma.o",
+          "sha256": "f9683910c7c3aa8907b021e3a0edae300b3fed69b0bf363b6b07b8d8844252bf",
+          "bytes": 98760
+        },
+        {
+          "name": "eeprom.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/eeprom.o",
+          "sha256": "2e093495f0febc2f6c4ee101f2af7a677b2ee27a040555f78defc529fdf8e7ff",
+          "bytes": 49752
+        },
+        {
+          "name": "init.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/init.o",
+          "sha256": "db7479733a9e1b7e9c8eee633f33a7e70d7786abab501895546179b7b86af14c",
+          "bytes": 163520
+        },
+        {
+          "name": "mac.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/mac.o",
+          "sha256": "cf6ff267a7a7101f7a0cbaee7008df692c5f40830506f461762a4f2b5f5a6346",
+          "bytes": 397416
+        },
+        {
+          "name": "main.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/main.o",
+          "sha256": "a0a832e4940866f5cfb1ddf6014be9b174600a682921da196e8b81439dc6e943",
+          "bytes": 223600
+        },
+        {
+          "name": "mcu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/mcu.o",
+          "sha256": "e6571252035563663264fc0721034073b69402a0d7927b9be2aa097ab8a4406a",
+          "bytes": 481184
+        },
+        {
+          "name": "mmio.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/mmio.o",
+          "sha256": "61db677bc3bfbe269e6b0a05936cc5bb0070e7eaa0744d92d6dc6381058dffda",
+          "bytes": 92272
+        },
+        {
+          "name": "mt7996e.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/mt7996e.o",
+          "sha256": "f0ab982174970d3adf1f7fca7b3edeaefd3c521340625db67dc1e85335fc2427",
+          "bytes": 1731312
+        },
+        {
+          "name": "pci.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-0/mt76-2026.09.01~be5ce791/mt7996/pci.o",
+          "sha256": "40ce57c004643d13f8634f2fb4437952556033a1923c00a9c67d02c738998ed1",
+          "bytes": 66784
+        }
+      ],
+      "log": "research/checkpoints/2026-09-14-npu-l1-recovery/objects-before-npu-0.log"
+    },
+    {
+      "phase": "before",
+      "npu_enabled": true,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Mon Sep 14 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "V=1",
+        "M=/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "CONFIG_MT76_NPU=y",
+        "CONFIG_MT7996_NPU=y",
+        "mt7996/mt7996e.o"
+      ],
+      "patch_application": [
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
+          "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
+          "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
+          "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch",
+          "sha256": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+          "output": "patching file mt7996/dma.c\npatching file mt7996/init.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch",
+          "sha256": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+          "output": "patching file mt7996/npu.c\n"
+        }
+      ],
+      "objects": [
+        {
+          "name": "coredump.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/coredump.o",
+          "sha256": "f176e0c57d60c6cf6e24cd105b9b91edc216895637b625c04ee5c2b58d47bfe8",
+          "bytes": 51808
+        },
+        {
+          "name": "debugfs.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/debugfs.o",
+          "sha256": "9e0183e8a8ef9d38152908f3d5077806c716eabad3bcabd038ec38e65e809f58",
+          "bytes": 140760
+        },
+        {
+          "name": "dma.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/dma.o",
+          "sha256": "eecf864fdfdcfb56e32935be0c422579e697a134863a8ad905d95dc1e002d42b",
+          "bytes": 98944
+        },
+        {
+          "name": "eeprom.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/eeprom.o",
+          "sha256": "6e7f8a6f7c77304f72513f2178753f4b75e702489130cd840db471ef5553de02",
+          "bytes": 49752
+        },
+        {
+          "name": "init.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/init.o",
+          "sha256": "b151b6d23801df47fe2a2e3160d0b5ec00f347ce8878e48e6a32dbecb4804418",
+          "bytes": 164080
+        },
+        {
+          "name": "mac.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/mac.o",
+          "sha256": "6bb880f9aefae951f4680eac47450498ceb64245248a35706b168b4b2b414640",
+          "bytes": 397576
+        },
+        {
+          "name": "main.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/main.o",
+          "sha256": "2f1193ed9dbfaffeb006b31d65a586d913f1363a67495a3f4de79781eb2f03fa",
+          "bytes": 225352
+        },
+        {
+          "name": "mcu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/mcu.o",
+          "sha256": "1c4e38def2df669f07300df236c21b24e66be1344daf541856940daa14777ce3",
+          "bytes": 481184
+        },
+        {
+          "name": "mmio.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/mmio.o",
+          "sha256": "69e12aba1866b2f9b2b9d9c18b83c57becc40c9a7f32b437bd42bb706ec4b1ba",
+          "bytes": 92272
+        },
+        {
+          "name": "mt7996e.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/mt7996e.o",
+          "sha256": "d880d120d1492942acd171f18f19cc10fec14cc112209a64b710783d7e7101ae",
+          "bytes": 1789512
+        },
+        {
+          "name": "npu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/npu.o",
+          "sha256": "8457c16f27e62ba7f2573f3486a962dd0bd6abf7d7452b5fb25ec91c8b6ae9ff",
+          "bytes": 56344
+        },
+        {
+          "name": "pci.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/before-npu-1/mt76-2026.09.01~be5ce791/mt7996/pci.o",
+          "sha256": "2d921e9e3a2bc73b1119dc89ccbb10c66b198ace62f0b193745b5a1b802f3dec",
+          "bytes": 66928
+        }
+      ],
+      "log": "research/checkpoints/2026-09-14-npu-l1-recovery/objects-before-npu-1.log"
+    },
+    {
+      "phase": "after",
+      "npu_enabled": false,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Mon Sep 14 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "V=1",
+        "M=/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "mt7996/mt7996e.o"
+      ],
+      "patch_application": [
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
+          "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
+          "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
+          "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch",
+          "sha256": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+          "output": "patching file mt7996/dma.c\npatching file mt7996/init.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch",
+          "sha256": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-14-npu-l1-recovery/006-mt7996-npu-l1-failure-state.patch",
+          "sha256": "c2684e65d44d97c75ec26d6b053106299320048c71887b284647b93955f8ee0a",
+          "output": "patching file mt7996/mt7996.h\npatching file mt7996/dma.c\npatching file mt7996/mac.c\n"
+        }
+      ],
+      "objects": [
+        {
+          "name": "coredump.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/coredump.o",
+          "sha256": "a9a38a706927450ca343bdad78b60d7a7500b27a68a868500b7beae5d31d789c",
+          "bytes": 51800
+        },
+        {
+          "name": "debugfs.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/debugfs.o",
+          "sha256": "a77142a2b5303ad98ba03c99194dea713cf53832948a157112fafa15438af39f",
+          "bytes": 139144
+        },
+        {
+          "name": "dma.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/dma.o",
+          "sha256": "4b2a7dee1045113fac75524b90f14466b23ea2c96f94159df9f285d9ed2e7175",
+          "bytes": 98752
+        },
+        {
+          "name": "eeprom.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/eeprom.o",
+          "sha256": "ac674c0cef14487472b4f58ff40ef7add2af324f408b526b3a4779c293feb580",
+          "bytes": 49744
+        },
+        {
+          "name": "init.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/init.o",
+          "sha256": "4e127def63a15c31f3a6ab55ede7b4bc532bfe50b3868066627bd3fc367379bc",
+          "bytes": 163512
+        },
+        {
+          "name": "mac.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/mac.o",
+          "sha256": "aa6cec827b8d569df864dad1afbec40e5c03f7800b1ffd681895faf38f76cbf2",
+          "bytes": 399200
+        },
+        {
+          "name": "main.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/main.o",
+          "sha256": "408412b845e16181ae802b07c44f1825a75bddeb61899fc0a3ab028ad441a6a4",
+          "bytes": 223600
+        },
+        {
+          "name": "mcu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/mcu.o",
+          "sha256": "d8e64d1c3a67d5fde676ad2a874e55c581b720fce4db0ad65bda9228bbb6d4ce",
+          "bytes": 481184
+        },
+        {
+          "name": "mmio.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/mmio.o",
+          "sha256": "7dfe14c49ffcde1e75f1cc0962b64a7661abf7bf5183c811c1a64bf27be9fdfd",
+          "bytes": 92272
+        },
+        {
+          "name": "mt7996e.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/mt7996e.o",
+          "sha256": "35ec4c5fc6a8d0d426136623063f87b317930c59284d2eaa225b7f90cfea4c84",
+          "bytes": 1733072
+        },
+        {
+          "name": "pci.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-0/mt76-2026.09.01~be5ce791/mt7996/pci.o",
+          "sha256": "ab491a1ecfcc80104ae4f3c3f48ba97a1ecbd6125eeadc2d7be34a16417af4b1",
+          "bytes": 66784
+        }
+      ],
+      "log": "research/checkpoints/2026-09-14-npu-l1-recovery/objects-after-npu-0.log"
+    },
+    {
+      "phase": "after",
+      "npu_enabled": true,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Mon Sep 14 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "V=1",
+        "M=/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "CONFIG_MT76_NPU=y",
+        "CONFIG_MT7996_NPU=y",
+        "mt7996/mt7996e.o"
+      ],
+      "patch_application": [
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
+          "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
+          "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+          "output": "patching file mt7996/debugfs.c\n"
+        },
+        {
+          "path": "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
+          "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch",
+          "sha256": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+          "output": "patching file mt7996/dma.c\npatching file mt7996/init.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch",
+          "sha256": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+          "output": "patching file mt7996/npu.c\n"
+        },
+        {
+          "path": "research/checkpoints/2026-09-14-npu-l1-recovery/006-mt7996-npu-l1-failure-state.patch",
+          "sha256": "c2684e65d44d97c75ec26d6b053106299320048c71887b284647b93955f8ee0a",
+          "output": "patching file mt7996/mt7996.h\npatching file mt7996/dma.c\npatching file mt7996/mac.c\n"
+        }
+      ],
+      "objects": [
+        {
+          "name": "coredump.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/coredump.o",
+          "sha256": "eb36a6dace4403d2c78e095d1c17cf38ddd157ca4271c8d797d728edf46f0f53",
+          "bytes": 51800
+        },
+        {
+          "name": "debugfs.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/debugfs.o",
+          "sha256": "89cdbd3c5c90cb2b3a756eb35ddd97c73256d3f87eac4059d5146398d380fbab",
+          "bytes": 140760
+        },
+        {
+          "name": "dma.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/dma.o",
+          "sha256": "d8f632304bf0bd20bd28f0aad4a584ba64629f68fcbae6f30061965883fd832a",
+          "bytes": 98944
+        },
+        {
+          "name": "eeprom.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/eeprom.o",
+          "sha256": "5536373b38317e0e5265addb363d57f2e8d74f8091c3d1b31cb92a25dea4197e",
+          "bytes": 49744
+        },
+        {
+          "name": "init.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/init.o",
+          "sha256": "2b46a12d38de209704df0e1347e620ce735e9fe099c5523a267cf372232ff921",
+          "bytes": 164080
+        },
+        {
+          "name": "mac.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/mac.o",
+          "sha256": "1a87e0814353735d3f1ad5ce49a80adccd51d8e77302bc746f7b39a4ed6cd66c",
+          "bytes": 399168
+        },
+        {
+          "name": "main.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/main.o",
+          "sha256": "3df4643e02b4e3e24a35f44ab1fad6a84d28d819433a709dc8fc0565f8284e52",
+          "bytes": 225352
+        },
+        {
+          "name": "mcu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/mcu.o",
+          "sha256": "46825b247b88519053714d122768d68ce5a90257df345866bdf37fe343176c6b",
+          "bytes": 481184
+        },
+        {
+          "name": "mmio.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/mmio.o",
+          "sha256": "80954788973235bc7675ce4b123950a0dfe87826172bc77934b0b2ee11e88637",
+          "bytes": 92272
+        },
+        {
+          "name": "mt7996e.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/mt7996e.o",
+          "sha256": "0c0af1d5cbebe12ac9f12fc6e72a6e93a0d7f474b3bd209dda9c91ceefc38465",
+          "bytes": 1791040
+        },
+        {
+          "name": "npu.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/npu.o",
+          "sha256": "e3d39155c2859b1e6bb6d02073c14a5d1c26668c1ae53dd3c91057148527272e",
+          "bytes": 56344
+        },
+        {
+          "name": "pci.o",
+          "path": ".local/npu-l1-recovery/kernel-objects/after-npu-1/mt76-2026.09.01~be5ce791/mt7996/pci.o",
+          "sha256": "c981d90c931e81c590a14050402433c17f904799e24309a15be855c9955874d2",
+          "bytes": 66928
+        }
+      ],
+      "log": "research/checkpoints/2026-09-14-npu-l1-recovery/objects-after-npu-1.log"
+    }
+  ],
+  "checkpatch": "total: 0 errors, 0 warnings, 0 checks, 99 lines checked\n\n/home/captain/W1700KNPU/research/checkpoints/2026-09-14-npu-l1-recovery/006-mt7996-npu-l1-failure-state.patch has no obvious style problems and is ready for submission.\n",
+  "staging_dir": "/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl",
+  "compiler": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r1001+23-c1992346fc) 14.4.0",
+  "limits": [
+    "All MT7996 compilation units and relocatable aggregation are compiled; this is not module load, runtime or an NPU-active image.",
+    "Linux/framework concurrency and independent NPU containment/drains remain unproved.",
+    "The source-lock, firmware overlays, kernel build configuration and existing images are unchanged."
+  ]
+}

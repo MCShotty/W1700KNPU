@@ -1,0 +1,197 @@
+{
+  "captured_at_utc": "2026-09-06T20:33:02.8928178Z",
+  "scope": "Native ARM64 process-local decoder fault tests with synthetic netlink messages, no kernel netlink requests",
+  "executable_hashes_verified": true,
+  "executable_hashes": [
+    {
+      "variant": "old",
+      "executable_sha256": "2b4779a24109fac8033b3380684da09e5e8305ad4563710e14d0cb6cc9f673a2"
+    },
+    {
+      "variant": "corrected",
+      "executable_sha256": "e96139013171214687882015a1d0d4585324081c8631119f4202212b9f5b6bbc"
+    }
+  ],
+  "old": [
+    {
+      "name": "empty",
+      "messages": 0,
+      "decoded": 0,
+      "result_is_null": true,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": null,
+      "error": null
+    },
+    {
+      "name": "single",
+      "messages": 1,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "single_oom",
+      "messages": 1,
+      "decoded": 0,
+      "result_is_null": true,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": null,
+      "error": null
+    },
+    {
+      "name": "two",
+      "messages": 2,
+      "decoded": 2,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        },
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "first_oom",
+      "messages": 2,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "last_oom",
+      "messages": 2,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    }
+  ],
+  "corrected": [
+    {
+      "name": "empty",
+      "messages": 0,
+      "decoded": 0,
+      "result_is_null": true,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": null,
+      "error": null
+    },
+    {
+      "name": "single",
+      "messages": 1,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "single_oom",
+      "messages": 1,
+      "decoded": 0,
+      "result_is_null": true,
+      "error_code": 5,
+      "error_cleared": true,
+      "result": null,
+      "error": "Out of memory"
+    },
+    {
+      "name": "two",
+      "messages": 2,
+      "decoded": 2,
+      "result_is_null": false,
+      "error_code": 0,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        },
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "first_oom",
+      "messages": 2,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 5,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": "Out of memory"
+    },
+    {
+      "name": "last_oom",
+      "messages": 2,
+      "decoded": 1,
+      "result_is_null": false,
+      "error_code": 5,
+      "error_cleared": true,
+      "result": [
+        {
+          "ifname": "external-fixture",
+          "mac": "02:00:00:00:00:42",
+          "wiphy": 42
+        }
+      ],
+      "error": "Out of memory"
+    }
+  ]
+}

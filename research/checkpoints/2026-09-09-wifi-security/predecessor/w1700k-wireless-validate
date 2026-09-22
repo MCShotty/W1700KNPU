@@ -1,0 +1,630 @@
+#!/bin/sh
+
+. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
+. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
+
+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
+
+failed=0
+
+err() {
+	echo "w1700k-wireless: $*" >&2
+	failed=1
+}
+
+expected_band() {
+	case "$1" in
+		0) echo 2g ;;
+		1) echo 5g ;;
+		2) echo 6g ;;
+	esac
+}
+
+device_index() {
+	local dev="$1"
+	local idx
+
+	idx="$(uci -q get wireless."$dev".radio)"
+	if [ -z "$idx" ] && [ "$radio_map_active" != "1" ]; then
+		case "$dev" in
+			radio0) idx=0 ;;
+			radio1) idx=1 ;;
+			radio2) idx=2 ;;
+		esac
+	fi
+
+	echo "$idx"
+}
+
+canonical_mlo_devices() {
+	local devices="$*"
+	local dev wanted result=""
+
+	for wanted in 1 2 0; do
+		for dev in $devices; do
+			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
+		done
+	done
+	for dev in $devices; do
+		case "$(device_index "$dev")" in
+			0|1|2) ;;
+			*) result="${result:+$result }$dev" ;;
+		esac
+	done
+
+	echo "$result"
+}
+
+device_exists() {
+	[ "$(uci -q get wireless."$1")" = "wifi-device" ]
+}
+
+device_disabled() {
+	[ "$(uci -q get wireless."$1".disabled)" = "1" ]
+}
+
+wireless_devices="$(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-device$/\1/p')"
+radio_map_active=0
+for dev in $wireless_devices; do
+	[ -n "$(uci -q get wireless."$dev".radio)" ] && radio_map_active=1
+done
+enabled_iface_devices=" "
+mlo_iface_devices=" "
+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
+	[ "$(uci -q get wireless."$iface".disabled)" = "1" ] && continue
+	mlo="$(uci -q get wireless."$iface".mlo)"
+	for dev in $(uci -q get wireless."$iface".device); do
+		case "$enabled_iface_devices" in
+			*" $dev "*) ;;
+			*) enabled_iface_devices="$enabled_iface_devices$dev " ;;
+		esac
+		if [ "$mlo" = "1" ]; then
+			case "$mlo_iface_devices" in
+				*" $dev "*) ;;
+				*) mlo_iface_devices="$mlo_iface_devices$dev " ;;
+			esac
+		fi
+	done
+done
+
+device_requires_runtime_validation() {
+	local dev="$1"
+
+	device_disabled "$dev" || return 0
+	case "$enabled_iface_devices" in
+		*" $dev "*) return 0 ;;
+	esac
+
+	return 1
+}
+
+# Netifd builds its radio map from option radio, never from section names.
+# Reject incomplete maps before --prepare-regdomain can change runtime state.
+device_seen_indices=" "
+for dev in $wireless_devices; do
+	explicit_idx="$(uci -q get wireless."$dev".radio)"
+	if [ -z "$explicit_idx" ]; then
+		case "$mlo_iface_devices" in
+			*" $dev "*)
+				err "$dev is selected for MLO and requires an explicit physical radio index; set option radio to 0, 1, or 2."
+				continue
+				;;
+		esac
+		if [ "$radio_map_active" = "1" ]; then
+			err "$dev has no explicit physical radio index while another radio does; set option radio to 0, 1, or 2."
+			continue
+		fi
+	fi
+	idx="$(device_index "$dev")"
+	if [ -z "$(expected_band "$idx")" ]; then
+		err "$dev uses unsupported physical radio index ${idx:-unset}; W1700K supports only 0, 1, and 2."
+		continue
+	fi
+	case "$device_seen_indices" in
+		*" $idx "*) err "$dev duplicates physical radio index $idx." ;;
+	esac
+	device_seen_indices="$device_seen_indices$idx "
+done
+[ "$failed" -eq 0 ] || exit "$failed"
+
+device_country_raw() {
+	local country
+
+	country="$(uci -q get wireless."$1".country)"
+	printf '%s' "$country" | tr '[:lower:]' '[:upper:]'
+}
+
+device_country() {
+	w1700k_normalize_country "$(device_country_raw "$1")"
+}
+
+device_country_explicit() {
+	local country
+
+	country="$(device_country_raw "$1")"
+	case "$country" in
+		[A-Z][A-Z]) [ "$country" != "00" ] && echo "$country" ;;
+	esac
+}
+
+configured_country=
+configured_country_device=
+for dev in $wireless_devices; do
+	device_requires_runtime_validation "$dev" || continue
+	case "$mlo_iface_devices" in
+		*" $dev "*)
+			country="$(device_country_explicit "$dev")"
+			if [ -z "$country" ]; then
+				err "$dev is selected for MLO and requires an explicit two-letter regulatory country; world regdomain 00 is not valid."
+				continue
+			fi
+			;;
+		*) country="$(device_country "$dev")" ;;
+	esac
+	if [ -z "$configured_country" ]; then
+		configured_country="$country"
+		configured_country_device="$dev"
+	elif [ "$country" != "$configured_country" ]; then
+		err "$dev uses country $country while $configured_country_device uses $configured_country; all W1700K radios share one regulatory domain."
+	fi
+done
+
+if [ "$1" = "--prepare-regdomain" ] && [ "$failed" -eq 0 ] && [ -n "$configured_country" ]; then
+	if ! command -v iw >/dev/null 2>&1; then
+		err "cannot prepare regulatory domain $configured_country because iw is unavailable."
+	elif ! iw reg get 2>/dev/null | grep -q "country $configured_country:"; then
+		if ! iw reg set "$configured_country"; then
+			err "failed to apply regulatory domain $configured_country before wireless validation."
+		else
+			sleep 1
+			iw reg get 2>/dev/null | grep -q "country $configured_country:" ||
+				err "regulatory domain $configured_country did not become active before wireless validation."
+		fi
+	fi
+fi
+
+punct_driver_checked=0
+punct_driver_supported=0
+
+driver_supports_puncturing() {
+	[ "$punct_driver_checked" = "1" ] && [ "$punct_driver_supported" = "1" ] && return 0
+	[ "$punct_driver_checked" = "1" ] && return 1
+
+	punct_driver_checked=1
+
+	for phy in /sys/class/ieee80211/phy*; do
+		[ -e "$phy" ] || continue
+		phy="$(basename "$phy")"
+		if iw phy "$phy" info 2>/dev/null | sed -n '/Supported extended features:/,/Supported wiphy radios:/p' | grep -q '\[ PUNCT \]'; then
+			punct_driver_supported=1
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+parse_punct_bitmap() {
+	local value="$1"
+
+	echo "$value" | grep -Eq '^(0[xX][0-9a-fA-F]+|[0-9]+)$' || return 1
+
+	case "$value" in
+		0[xX]*)
+			value="${value#0?}"
+			[ "${#value}" -le 4 ] || return 1
+			echo $((0x$value))
+			;;
+		*)
+			while [ "${value#0}" != "$value" ]; do
+				value="${value#0}"
+			done
+			[ -n "$value" ] || value=0
+			[ "${#value}" -le 5 ] || return 1
+			echo $((value))
+			;;
+	esac
+}
+
+punct_width_allowed() {
+	local band="$1"
+	local htmode="$2"
+	local width
+
+	case "$htmode" in
+		EHT*) ;;
+		*) return 1 ;;
+	esac
+
+	width="$(htmode_width "$htmode")"
+	case "$band:$width" in
+		5g:80|5g:160|6g:80|6g:160|6g:320) return 0 ;;
+	esac
+
+	return 1
+}
+
+punct_primary_bit() {
+	local band="$1"
+	local channel="$2"
+	local width="$3"
+	local blocks block ch bit
+
+	case "$band:$width" in
+		5g:80)
+			blocks='36 40 44 48|52 56 60 64|100 104 108 112|116 120 124 128|132 136 140 144|149 153 157 161|165 169 173 177'
+			;;
+		5g:160)
+			blocks='36 40 44 48 52 56 60 64|100 104 108 112 116 120 124 128|149 153 157 161 165 169 173 177'
+			;;
+		6g:80|6g:160|6g:320)
+			six_ghz_primary_bit "$width" "$channel"
+			return
+			;;
+		*)
+			return 1
+			;;
+	esac
+
+	IFS='|'
+	for block in $blocks; do
+		unset IFS
+		bit=0
+		for ch in $block; do
+			if [ "$ch" = "$channel" ]; then
+				echo "$bit"
+				return 0
+			fi
+			bit=$((bit + 1))
+		done
+		IFS='|'
+	done
+	unset IFS
+
+	return 1
+}
+
+punct_active_mask_valid() {
+	local width="$1"
+	local primary_bit="$2"
+	local punct="$3"
+	local mask valid active value
+
+	[ "$punct" -eq 0 ] && return 0
+
+	case "$width" in
+		80)
+			mask=0xf
+			valid='0xf 0xe 0xd 0xb 0x7'
+			;;
+		160)
+			mask=0xff
+			valid='0xff 0xfe 0xfd 0xfb 0xf7 0xef 0xdf 0xbf 0x7f 0xfc 0xf3 0xcf 0x3f'
+			;;
+		320)
+			mask=0xffff
+			valid='0xffff 0xfffc 0xfff3 0xffcf 0xff3f 0xfcff 0xf3ff 0xcfff 0x3fff 0xfff0 0xff0f 0xf0ff 0x0fff 0xffc0 0xff30 0xfcf0 0xf3f0 0xcff0 0x3ff0 0x0ffc 0x0ff3 0x0fcf 0x0f3f 0x0cff 0x03ff'
+			;;
+		*)
+			return 1
+			;;
+	esac
+
+	active=$(( (~punct) & mask ))
+	[ "$active" -ne 0 ] || return 1
+	[ $((active & (1 << primary_bit))) -ne 0 ] || return 1
+
+	for value in $valid; do
+		[ "$active" -eq $((value)) ] && return 0
+	done
+
+	return 1
+}
+
+validate_puncturing() {
+	local dev="$1"
+	local band="$2"
+	local htmode="$3"
+	local channel="$4"
+	local width bitmap bitmap_dec threshold primary_bit raw_opt
+
+	bitmap="$(uci -q get wireless."$dev".punct_bitmap)"
+	threshold="$(uci -q get wireless."$dev".punct_acs_threshold)"
+
+	for raw_opt in $(uci -q get wireless."$dev".hostapd_options); do
+		case "$raw_opt" in
+			punct_bitmap=*)
+				[ -n "$bitmap" ] && err "$dev defines punct_bitmap both directly and through hostapd_options."
+				bitmap="${raw_opt#*=}"
+				;;
+			punct_acs_threshold=*)
+				[ -n "$threshold" ] && err "$dev defines punct_acs_threshold both directly and through hostapd_options."
+				threshold="${raw_opt#*=}"
+				;;
+			eht_oper_puncturing_override=*)
+				err "$dev uses testing-only eht_oper_puncturing_override; use validated punct_bitmap instead."
+				;;
+		esac
+	done
+
+	[ -n "$bitmap$threshold" ] || return
+
+	if [ -n "$bitmap" ]; then
+		bitmap_dec="$(parse_punct_bitmap "$bitmap")" || {
+			err "$dev punct_bitmap must be decimal or hexadecimal."
+			bitmap_dec=0
+		}
+		if [ "$bitmap_dec" -lt 0 ] || [ "$bitmap_dec" -gt 65535 ]; then
+			err "$dev punct_bitmap must fit in 16 bits."
+			bitmap_dec=0
+		fi
+	else
+		bitmap_dec=0
+	fi
+
+	if [ -n "$threshold" ]; then
+		if ! is_uint "$threshold" || [ "$threshold" -gt 100 ]; then
+			err "$dev punct_acs_threshold must be between 0 and 100."
+			threshold=0
+		fi
+	else
+		threshold=0
+	fi
+
+	if [ "$bitmap_dec" -eq 0 ] && [ "$threshold" -eq 0 ]; then
+		return
+	fi
+
+	if [ "$bitmap_dec" -ne 0 ] && [ "$threshold" -ne 0 ]; then
+		err "$dev cannot use manual punct_bitmap and ACS puncturing threshold together."
+	fi
+
+	width="$(htmode_width "$htmode")"
+
+	if ! punct_width_allowed "$band" "$htmode"; then
+		err "$dev EHT puncturing requires 5GHz/6GHz EHT80 or wider; $band/$htmode is not valid."
+		return
+	fi
+
+	if ! driver_supports_puncturing; then
+		err "$dev EHT puncturing is not supported by the current mt7996 driver."
+		return
+	fi
+
+	if [ "$threshold" -gt 0 ] && [ "$channel" != "auto" ]; then
+		err "$dev punct_acs_threshold requires channel auto."
+	fi
+
+	if [ "$bitmap_dec" -ne 0 ]; then
+		if [ "$channel" = "auto" ]; then
+			err "$dev manual punct_bitmap requires a fixed channel."
+			return
+		fi
+
+		if ! is_uint "$channel"; then
+			err "$dev manual punct_bitmap requires a valid fixed channel."
+			return
+		fi
+
+		primary_bit="$(punct_primary_bit "$band" "$channel" "$width")" || {
+			err "$dev punct_bitmap cannot be mapped to channel $channel/$htmode."
+			return
+		}
+
+		punct_active_mask_valid "$width" "$primary_bit" "$bitmap_dec" ||
+			err "$dev punct_bitmap $bitmap is invalid for primary channel $channel and $htmode."
+	fi
+}
+
+security_valid_for_6g_or_mlo() {
+	local value="$1"
+	local enc="${value%%+*}"
+
+	case "$enc" in
+		sae|owe|wpa3|wpa3-192) ;;
+		*) return 1 ;;
+	esac
+
+	case "+$value+" in
+		*+[tT][kK][iI][pP]+*) return 1 ;;
+	esac
+
+	return 0
+}
+
+security_needs_key() {
+	local enc="${1%%+*}"
+
+	case "$enc" in
+		sae) return 0 ;;
+	esac
+
+	return 1
+}
+
+mlo_owner_0=
+mlo_owner_1=
+mlo_owner_2=
+
+claim_mlo_radio() {
+	local iface="$1"
+	local dev="$2"
+	local idx="$3"
+	local owner
+
+	case "$idx" in
+		0) owner="$mlo_owner_0" ;;
+		1) owner="$mlo_owner_1" ;;
+		2) owner="$mlo_owner_2" ;;
+		*) return ;;
+	esac
+
+	if [ -n "$owner" ] && [ "$owner" != "$iface" ]; then
+		err "$iface MLO cannot use $dev; physical radio index $idx is already owned by MLO interface $owner. Edit $owner instead."
+		return
+	fi
+
+	case "$idx" in
+		0) mlo_owner_0="$iface" ;;
+		1) mlo_owner_1="$iface" ;;
+		2) mlo_owner_2="$iface" ;;
+	esac
+}
+
+for dev in $wireless_devices; do
+	idx="$(device_index "$dev")"
+	band_expected="$(expected_band "$idx")"
+
+	device_requires_runtime_validation "$dev" || continue
+
+	band_actual="$(uci -q get wireless."$dev".band)"
+	channel="$(uci -q get wireless."$dev".channel)"
+	htmode="$(uci -q get wireless."$dev".htmode)"
+	country="$(device_country "$dev")"
+
+	if [ "$band_actual" != "$band_expected" ]; then
+		err "$dev is physical $band_expected; it cannot be configured as ${band_actual:-unset}. Use radio$idx/$band_expected instead."
+	fi
+
+	if ! channel_valid "$band_expected" "$channel" "$country"; then
+		err "$dev channel ${channel:-unset} is not valid for physical $band_expected country $country."
+	fi
+
+	if ! htmode_valid "$band_expected" "$htmode" "$channel" "$country"; then
+		err "$dev $band_expected ${htmode:-unset} is not valid on channel ${channel:-unset} for country $country with the current regulatory database."
+	fi
+
+	validate_puncturing "$dev" "$band_expected" "$htmode" "$channel"
+done
+
+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
+	mode="$(uci -q get wireless."$iface".mode)"
+	disabled="$(uci -q get wireless."$iface".disabled)"
+	mlo="$(uci -q get wireless."$iface".mlo)"
+	devices="$(uci -q get wireless."$iface".device)"
+	network="$(uci -q get wireless."$iface".network)"
+	enc="$(uci -q get wireless."$iface".encryption)"
+	key="$(uci -q get wireless."$iface".key)"
+	pmf="$(uci -q get wireless."$iface".ieee80211w)"
+	rnr="$(uci -q get wireless."$iface".rnr)"
+	sae_pwe="$(uci -q get wireless."$iface".sae_pwe)"
+	seen=" "
+	seen_idx=" "
+	count=0
+	has_6g=0
+	first_country=
+
+	[ "$disabled" = "1" ] && continue
+	if [ -z "$devices" ]; then
+		err "$iface is enabled but has no radio device."
+		continue
+	fi
+
+	case "$mlo" in
+		""|0|1) ;;
+		*) err "$iface has invalid mlo value $mlo; use 0 or 1." ;;
+	esac
+
+	for dev in $devices; do
+		case "$seen" in
+			*" $dev "*) err "$iface lists $dev more than once." ;;
+		esac
+		seen="$seen$dev "
+		count=$((count + 1))
+
+		if ! device_exists "$dev"; then
+			err "$iface references missing wireless device $dev."
+			continue
+		fi
+
+		if [ "$mlo" = "1" ] && device_disabled "$dev"; then
+			err "$iface MLO cannot use disabled radio $dev."
+		fi
+
+		idx="$(device_index "$dev")"
+		band="$(expected_band "$idx")"
+		if [ "$mlo" = "1" ] && [ -z "$band" ]; then
+			err "$iface MLO references unsupported physical radio $dev."
+			continue
+		fi
+
+		case "$seen_idx" in
+			*" $idx "*) [ "$mlo" = "1" ] && err "$iface MLO maps more than one link to physical radio index $idx." ;;
+		esac
+		seen_idx="$seen_idx$idx "
+		[ "$mlo" = "1" ] && claim_mlo_radio "$iface" "$dev" "$idx"
+		[ "$band" = "6g" ] && has_6g=1
+
+		if [ "$mlo" = "1" ]; then
+			country="$(device_country_explicit "$dev")"
+			[ -n "$country" ] || continue
+		else
+			country="$(device_country "$dev")"
+		fi
+		if [ -z "$first_country" ]; then
+			first_country="$country"
+		elif [ "$country" != "$first_country" ]; then
+			err "$iface MLO radios must use one country; $dev uses $country while another link uses $first_country."
+		fi
+	done
+
+	if [ "$count" -gt 1 ] && [ "$mlo" != "1" ]; then
+		err "$iface lists multiple radios but does not enable MLO."
+	fi
+
+	if [ "$mode" = "sta" ]; then
+		network_count=0
+		for net in $network; do
+			network_count=$((network_count + 1))
+			case "$net" in
+				lan|wan|wan6)
+					err "$iface STA cannot bind directly to $net; select one dedicated client network such as wwan."
+					;;
+			esac
+		done
+
+		[ "$network_count" -eq 1 ] || \
+			err "$iface STA must bind to exactly one dedicated client network; current value is '${network:-unset}'."
+	fi
+
+	if [ "$mlo" = "1" ]; then
+		[ "$mode" = "ap" ] || err "$iface uses MLO, but this W1700K build only supports MLO AP configuration."
+		canonical_devices="$(canonical_mlo_devices "$devices")"
+		[ "$devices" = "$canonical_devices" ] || \
+			err "$iface MLO radios must be ordered as $canonical_devices (5GHz, 6GHz, then 2.4GHz primary-link preference)."
+		[ "$count" -ge 2 ] || err "$iface MLO needs at least two radios."
+		for dev in $devices; do
+			channel="$(uci -q get wireless."$dev".channel)"
+			htmode="$(uci -q get wireless."$dev".htmode)"
+			case "$channel" in
+				""|auto) err "$iface MLO requires a fixed channel on $dev; automatic channel selection cannot coordinate this shared W1700K PHY reliably." ;;
+			esac
+			case "$htmode" in
+				EHT20|EHT40|EHT80|EHT160|EHT320) ;;
+				*) err "$iface MLO requires an EHT width on $dev; current mode is ${htmode:-unset}." ;;
+			esac
+			if [ "$(device_index "$dev")" = "0" ] && [ "$htmode" != "EHT20" ]; then
+				err "$iface MLO requires EHT20 on 2.4GHz radio $dev because mandatory 20/40 coexistence fallback cannot update this MLD safely."
+			fi
+		done
+		security_valid_for_6g_or_mlo "$enc" || err "$iface MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security."
+		security_needs_key "$enc" && [ -z "$key" ] && err "$iface MLO uses SAE and requires a Wi-Fi key."
+		[ "$pmf" = "2" ] || err "$iface MLO requires 802.11w management frame protection set to Required."
+		[ "$rnr" = "1" ] || err "$iface MLO requires Reduced Neighbor Report enabled (rnr=1) for reliable link discovery."
+		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
+			err "$iface MLO SAE requires sae_pwe=2 for hash-to-element compatibility."
+		fi
+	fi
+
+	if [ "$mode" = "ap" ] && [ "$has_6g" = "1" ]; then
+		security_valid_for_6g_or_mlo "$enc" || err "$iface uses 6GHz and must use WPA3-SAE, OWE, or WPA3 Enterprise security."
+		security_needs_key "$enc" && [ -z "$key" ] && err "$iface uses 6GHz SAE and requires a Wi-Fi key."
+		[ "$pmf" = "2" ] || err "$iface uses 6GHz and requires 802.11w management frame protection set to Required."
+		[ "$rnr" = "1" ] || err "$iface uses 6GHz and requires Reduced Neighbor Report enabled (rnr=1) for reliable discovery."
+		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
+			err "$iface uses 6GHz SAE and requires sae_pwe=2 for hash-to-element compatibility."
+		fi
+	fi
+done
+
+exit "$failed"

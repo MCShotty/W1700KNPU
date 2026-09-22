@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-06 (external blockers and L1 source review)
+Last updated: 2026-09-16 (NPU host IRQ/work and RCU reference lifetime)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,435 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Status - External Blockers - 2026-09-06
+## Current Status - Host Callback And Reference Lifetime - 2026-09-16
+
+- Two unpromoted candidates address provider watchdog-work publication/teardown
+  and mt76 reference ordering. Patch 929 initializes managed work before IRQ
+  registration and lets devres stop IRQ producers before work cancellation.
+  Patch 007 unpublishes both provider pointers, waits for RCU readers and retains
+  references through the caller's queue cleanup before dropping them.
+- 161 baseline/193 corrected provider cases, 24 RCU schedules per version and
+  four named mutation controls pass under ASan/UBSan. Twelve AArch64 kernel
+  objects, unchanged public layout and strict checkpatch pass. Independent
+  readback verifies 42 inputs, 40 derived files, eight executables and 12 objects.
+- This covers selected CPU ordering, not complete safe removal or recovery.
+  Higher-level token/ring releases precede this detach boundary; the model
+  deliberately retains active DMA through queue cleanup. Whole lifecycle,
+  consumer IRQ/NAPI shutdown, V2 integration and physical drains remain open.
+  No source-lock/overlay, image or router change. Evidence:
+  `research/checkpoints/2026-09-16-npu-host-lifetime/REPORT.md`.
+
+## Previous Status - V2 All-Hart Cold-Start Composition - 2026-09-16
+
+- The V2 bootstrap binding now composes with all 50 retained candidate detours,
+  installed before reset. Dependent components are relinked against the V2 base;
+  a deliberately V1-linked component is rejected before loading. Emulator code,
+  stacks, ring and state reservations have a checked nonoverlapping layout.
+- Four banked-PLIC profiles cover coordinator-first, workers-first, mixed and
+  late-binding startup. Original cold initialization reaches all eight initial
+  parking gates with exact V2 worker masks. Six cold rejections, three allocator
+  failures, seven missing-hook controls and a flat-PLIC limit control pass.
+- 209 host and 96 control differential comparisons pass. Independent readback
+  verifies 125 input fingerprints, one staged source, 12 binaries and both
+  private firmware hashes. No existing firmware C, runner, source lock or
+  packaged input changes; this is a new isolated composition harness.
+- Flat PLIC storage loses mailbox enable despite successful direct handler
+  calls. Physical interrupt delivery, real loader identity/publication and
+  placement, postgate boot, provider/mt76 lifetime and hardware drains remain
+  open. No release/arm/drain authority or image/router change. Evidence:
+  `research/checkpoints/2026-09-16-npu-bootstrap-composition/REPORT.md`.
+
+## Previous Status - V2 Cold-Bootstrap Admission - 2026-09-16
+
+- An unpromoted adapter admits exact pinned 12/80-byte requests, initializes
+  V2 identity through the native cold-start gate, and defers BIND until the six
+  selected setup commands finish. Early BIND consumes its sequence but leaves
+  admission unbound, allowing setup to finish without later replay activation.
+- Three reset-to-core0-boundary scenarios execute early version query, all six
+  original callbacks and the 56 KiB TX-check clear. Six early-BIND, six cold
+  identity/stale-session failures, six callback-error cases, 28 invalid native
+  transport cases and eight mutants pass. 786 nominal policy cases, 453
+  sanitizer assertions and standalone V2 regressions also pass.
+- 933 host, 55 bootstrap-control and 2,346 policy comparisons execute actual
+  compiled x86/AArch64/RV32 code as appropriate. Static analysis is clean;
+  64 input/derived-file fingerprints and 31 binaries independently verify.
+- This closes the tested core0 bootstrap envelope/order gap, not complete
+  all-hart/postgate composition, loader uniqueness/placement/publication,
+  provider/mt76 integration or physical drains/recovery. V1/V2 baselines and
+  packaged sources are unchanged; the new dispatch gate is a staged patch.
+  See `firmware/npu/BOOTSTRAP_V2_CONTRACT.md` and
+  `research/checkpoints/2026-09-16-npu-bootstrap-control/REPORT.md`.
+
+## Previous Status - V2 Control Identity And Provider Transport - 2026-09-16
+
+- New unpromoted V2 host/server code adds a nonwrapping wire sequence and a
+  loader-supplied boot identity to the 80-byte control envelope. STATUS checks
+  an actual session binding; failed BIND requests cannot become effective on
+  duplicate replay. Reclaim/restart capabilities remain absent.
+- 830 x86/AArch64 host and 254 x86/RV32 server comparisons pass, with 21
+  scenarios, 51 malformed/boundary cases, six mutants and eight saved worker
+  contexts. Original firmware and V1 endpoints reject V2 safely. The unchanged
+  V1 suite reproduces its earlier receipt exactly.
+- The existing provider GET helper discards outbound body data. Unpromoted
+  patch 928 adds a restricted bidirectional control entry without changing
+  public struct/ops layout. ASan/UBSan passes 290 assertions; six isolated
+  AArch64 kernel objects and strict checkpatch pass without diagnostics.
+- Fresh boot identity/placement, the existing 12/64-byte-only bootstrap gate,
+  mt76 integration, provider/callback lifetime and physical drains remain open.
+  Reusing an identity plus replaying an old BIND remains a retained negative
+  control. No source-lock, packaged image or router change. See
+  `firmware/npu/CONTROL_V2_CONTRACT.md` and
+  `research/checkpoints/2026-09-14-npu-control-v2/REPORT.md`.
+
+## Previous Status - Host Generation-Control Client - 2026-09-14
+
+- New unpromoted host C tracks DISCOVER/BIND/STOP/STATUS, validates exact V1
+  replies and stop epochs, and correlates one outstanding local ticket.
+  Transport/remote errors, exhausted generations/tickets and explicit abort
+  hold the client permanently. Late completions cannot clear that hold.
+- 6,443 native-x86/AArch64 comparisons, eleven round trips with eight saved
+  RV32 contexts, twelve firmware scenarios, ten mutants and ASan/UBSan pass.
+  Clang static analysis is clean. All-worker software parking is observable;
+  physical drain/reclaim/restart authority remains unavailable.
+- Two retained controls show V1 cannot detect same-epoch wire replay paired
+  with a new local ticket, or provider replacement from STATUS nonce echo.
+  Exact provider/transfer ownership, Linux integration, physical drains and
+  full boot/recovery remain open. No firmware ABI/source-lock/image/router
+  change. See `firmware/npu/CONTROL_CLIENT_CONTRACT.md` and
+  `research/checkpoints/2026-09-14-npu-control-client/REPORT.md`.
+
+## Previous Status - L1 Recovery Failure Handling - 2026-09-14
+
+- An unpromoted host patch checks NPU stop/setup results, attached-NPU MCU
+  recovery timeouts and provider detachment before cleanup. Failed recovery
+  keeps host reset/queue state held and latches an error that blocks repeated
+  NAPI disable and subsequent full-reset escalation through this worker.
+- NPU setup now precedes host data-DMA/WED restart. The nested reset-mode WED
+  start is also deferred for NPU-attached devices. Non-NPU behavior is retained.
+  Stop failures preserve the original resources; setup failures retain the
+  state reached after earlier reset/cleanup, not the original allocations.
+- 48 nominal host-C pairs, 240 failure pairs, twenty inactive controls and six
+  mutants pass under ASan/UBSan. All MT7996 units compile before/after with
+  NPU in/out: 46 AArch64 objects including four relocatable driver aggregates.
+  Strict checkpatch and final builds are warning-free.
+- A successful legacy STOP/GET still permits modeled reclamation without a
+  real drain witness. All-worker quiescence, physical containment, first-entry
+  full reset/removal, provider lifetime and safe rearming remain open. No
+  source-lock/overlay, image, router or restricted-selector change.
+  Evidence: `research/checkpoints/2026-09-14-npu-l1-recovery/`.
+
+## Previous Status - SRv6 Packet Extents - 2026-09-10
+
+- New unpromoted C preflight and two native adapters check complete source
+  extents and ordinary IPv6 payload-length arithmetic before packet writes
+  or command submission. The 318-byte component retains captured metadata.
+  Tail copies now start at descriptor + parsed L3 offset, fixing the native
+  four/eight extra inner bytes in the selected tagged-frame cases.
+- 2,037 C/RV32 comparisons, 33 accepted native flows, fourteen early rejections,
+  four controls, eight mutants and all 50 retained detours pass. The original
+  ingress reader, alias construction, descriptor reads and worker dispatch
+  execute against explicit FIFO/storage models. Packet byte assembly is a
+  separate model, not DMA execution.
+- MTU/content validity, normal rejection/backpressure, ownership/cache and
+  complete boot/recovery remain open. No admission, image or router change.
+  Evidence: `research/checkpoints/2026-09-10-npu-tunnel-packets/packet-extents.json`.
+
+## Previous Status - Egress Submission Guards - 2026-09-10
+
+- Three unpromoted native detours reject invalid egress channels, generic
+  builder length/offset truncation and 29-bit source-aperture crossing.
+  Unavailable command slots now fault and hold before further submission.
+  The 180-byte sidecar retains the failed request and already-issued prefix;
+  it does not submit a follow-up release or claim reclaimed ownership.
+- 136 successful native pairs, 13 malformed-input cases, 15 native failure
+  scenarios, eleven controls, eight mutants and all 48 retained detours pass.
+  Successful register/CSR, whole-memory and read/write effects match.
+  Evidence: `research/checkpoints/2026-09-10-npu-egress/egress-guards.json`.
+- Queue reservation/backpressure, other encoders' arithmetic, packet/MTU
+  validity, backing/ownership, cache/PMA and complete boot/recovery remain
+  open. This is a software fault hold, not physical containment or recovery.
+  No admission, firmware-image or router change.
+
+## Previous Status - Tunnel Header Bounds - 2026-09-10
+
+- New unpromoted C checks and five native adapters bound VXLAN/SRv6 header
+  slots, declared message lengths and nonempty consumer spans. Validated
+  indices/lengths are captured once, including across native consumer calls.
+- 5,370 helper comparisons, 46 native cases, ten mutants, eight ABI checks
+  and the all-45-detour retained-gate control pass. No repeat of unchanged
+  earlier suites is claimed. Evidence:
+  `research/checkpoints/2026-09-10-npu-tunnel-headers/header-bounds.json` and
+  `header-abi.json` in the same directory.
+- Actual backing/ownership, atomic configuration, packet-format/MTU checks,
+  engine failure propagation, cache/PMA and full boot/recovery remain open.
+  No image, router or admission change.
+
+## Previous Status - Native Command Ring Ordering - 2026-09-10
+
+- A 44-byte unpromoted sidecar adds four IORW fences through three native
+  detours, retaining the existing payload/status/index operations. Direct
+  call chains identify producer hart6 and consumer hart5; indirect aliases
+  and reentry remain open.
+- 96 herd/RVWMO cases exclude selected stale-payload and premature-reuse
+  outcomes with the required fences and admit normal handoffs. Producer
+  acquire alone is redundant in this specific coherent-memory projection.
+- 384 register/CSR pairs and 8,194 native queue pairs pass. All 40 detours
+  installed before reset retain every initial gate. The unfenced layout
+  regression and both byte-identical receipt replays pass.
+- Cache/PMA/alias, initialization visibility, full consumers/loader/lifecycle,
+  performance and physical boot/recovery remain open. No image or router
+  change. Evidence: `research/checkpoints/2026-09-09-npu-ring-order/REPORT.md`.
+
+## Previous Status - Full-Capacity Command Ring Placement - 2026-09-09
+
+- The checked allocator now supports immutable typed placements outside its
+  primary heap while retaining native metadata/cached lookup. An unpromoted
+  ELF profile relocates all 2,048 command-ring slots and keeps its extra
+  sixteen bytes. Descriptor and SKB capacity are not reduced.
+- Actual core0 startup and the 68 KiB bridge fit with 24,352 heap bytes left.
+  Four selected native header writes stay in the bridge; compiled subsequent
+  requests for types 2, 9 and 10 fit. Other allocation profiles remain open.
+- 2,362 allocator differential cases, 64,000 threaded calls, 8,194 native ring
+  pairs and 28 mutation controls pass. Startup failure/control regressions and
+  all 37 retained detours pass; three receipts replay byte-for-byte.
+- DRAM alias/cache/ordering, complete loader backing/placement, remaining
+  consumers and full boot/recovery remain open. Native ring consumers lack
+  publication fences; serialized tests cannot prove coherent relocation.
+  No packaged image or router change. Evidence:
+  `research/checkpoints/2026-09-09-npu-command-ring/REPORT.md`.
+
+## Previous Status - Bridge Allocation And Header Extents - 2026-09-09
+
+- Native bridge allocation is 58,879 bytes, but its header getter returns
+  base plus 65,536. In an ordered component scenario, four native header
+  stores overwrite a following descriptor allocation. After actual core0
+  startup, the first store attempts an address 4,352 bytes beyond the heap.
+- Eight primitive cases and two startup cases pass whole-memory/write checks
+  with byte-identical replay. A 68 KiB sizing hypothesis contains the selected
+  header stores in isolation but exceeds the startup budget by 8,448 bytes;
+  the checked allocator holds before bridge publication. It is not a fix.
+- The SKB initializer hard-codes 28,672 entries, so shrinking only its table
+  would be incorrect. Full capacity/initialization/host-count and consumer
+  contracts remain open. No firmware image or router change. Evidence:
+  `research/checkpoints/2026-09-09-npu-memory-budget/REPORT.md`.
+
+## Previous Status - Host TXFREE Allocation Boundary - 2026-09-09
+
+- An unpromoted host preflight checks the selected TXFREE queue's ownership,
+  pointers, 512-entry metadata and aligned/non-wrapping DMA address before
+  attachment helpers. Normal source requests 512 sixteen-byte descriptors;
+  malformed inputs are injected controls, not observed live allocation faults.
+- 152 host-C cases, nine mutants, 34 unchanged controls, ten AArch64 objects,
+  strict checkpatch and 22 native bridge cases pass. All three receipts replay
+  byte-for-byte. Native SET22 receives the recorded host allocation address
+  without a preseeded pointer; complete successful memory and write/lock checks
+  verify. All 83 preceding TXDONE-checkpoint inputs remain unchanged.
+- Forged queue count still permits an emulator-only backing failure. Three
+  timeout-delivery models reach native ready despite host failure, retaining
+  published memory. Actual DMA backing, stable ownership, full attachment,
+  containment and recovery/parity remain open. Strict API1 stays closed.
+  No package/source-lock/overlay, router/Wi-Fi, subagent or restricted-operation
+  change. Evidence: `research/checkpoints/2026-09-09-npu-txfree-host/REPORT.md`.
+
+## Previous Status - Checked Cold TXDONE Initialization - 2026-09-09
+
+- Six unpromoted emulator detours reject selected invalid cold TXDONE requests,
+  verify bufid/SKB lock ownership, retain partial failure state and propagate
+  callback failure before local-failure ready publication. The native SKB
+  temporary scan now reads its 2,048 gathered IDs rather than 8,192 halfwords
+  across a 4 KiB allocation. Normal descriptor/state/queue output is preserved.
+- Sixty-two native cases, eight mutation tests, four integration controls and
+  four missing-model controls pass. Whole 856,064-byte memory, exact write
+  extents and ordered lock operations verify. All 37 detours installed before
+  reset still park all eight harts. Strict API1 admission remains closed; RX
+  selectors 0/2 preserve their native behavior. Replay is byte-identical.
+- Short host-ring backing still causes an attempted access beyond the declared
+  fixture span; only the emulator catches it. Actual allocation backing,
+  arbitrary-state provenance, concurrent publication, physical containment/
+  locks/cache, full boot and recovery/parity remain open. No package/source-lock,
+  image, router, Wi-Fi, subagent or restricted-operation change. Evidence:
+  `research/checkpoints/2026-09-09-npu-txdone-init/REPORT.md`.
+
+## Previous Status - Checked Startup Allocation - 2026-09-09
+
+- Seven reviewed core0 calls and hart7's bridge call now use the checked
+  allocator in an unpromoted startup binding. Native traces verify every
+  core0 allocation occurs after strict IRQ8 installation with interrupts
+  enabled and no active callback. Failure can use the existing faulted idle
+  loop without returning to the failed initializer or freeing its storage.
+- Eighteen core0 failure/context cases pass. Thirteen retain control service
+  and complete 52 DISCOVER/STATUS/STOP replies; five invalid interrupt/active
+  contexts hold without claiming service. Five hart7 cases, eight mutants,
+  36 unchanged unrelated lookups, full metadata/L2 checks and the 31-detour
+  all-eight-hart retained-gate control pass. Replay is byte-identical.
+- Other native allocation callers remain unchecked. Active-callback failure,
+  IRQ repair, complete memory budgeting, hardware delivery/ownership/drains,
+  full post-gate boot and recovery/parity stay open. No new mailbox transport,
+  packaged patch/source-lock, image, router, Wi-Fi or restricted-operation change.
+  Evidence: `research/checkpoints/2026-09-09-npu-cold-allocator/REPORT.md`.
+
+## Previous Status - Cold-Reset Allocation Lifetime - 2026-09-09
+
+- Native reset allocates and publishes a persistent control word, then forgets
+  it by zeroing allocator count/cursor. The ID pool reuses that address; the
+  actual control writer changes its first two IDs. An unpromoted 20-byte reset
+  adapter plus two detours moves initialization before allocation and retains
+  the live record. Control word and pool now remain separate.
+- Original/corrected native primitives, four mutation controls, full core0
+  startup, four checked bridge cases and a subsequent control-word write pass.
+  Whole metadata, heap, ID pool and L2 checks apply. All 31 detours with the
+  initial gate retained keep all eight harts parked. Replay is byte-identical.
+- The retained word costs 32 aligned bytes, leaving 2,305 bytes after bridge
+  allocation. An original type-2 request on this corrected boot state exceeds
+  the declared heap by 3,864 bytes; checked C rejects it unchanged. Complete
+  memory budgeting, all-caller errors/ownership, physical cold-init/containment
+  and full recovery/parity remain open. No active reset, package/image, router,
+  Wi-Fi, subagent or restricted-operation change. Evidence:
+  `research/checkpoints/2026-09-09-npu-allocator-reset/REPORT.md`.
+
+## Previous Status - Checked NPU Allocator - 2026-09-09
+
+- Implemented an unpromoted checked allocator core and hart7 bridge call-site
+  binding. Failed lock ownership, malformed metadata, unknown definitions and
+  full-extent/cache-capacity failures cannot commit metadata. Bridge failure
+  holds before base publication; an allocation committed before a concurrent
+  barrier fault remains retained. Core0 and other callers are not redirected.
+- Same-C native/RV32 tests pass 1,367 pairs and eight mutants; eight pthreads
+  pass 32,000 calls under ASan/UBSan. Forty-eight original allocator comparisons,
+  four native counterexamples and eight bridge cases pass. All 29 detours with
+  the first gate retained still park every hart without bridge/allocator work.
+- Original type-2 allocation after core0 plus bridge exceeds the declared heap
+  by 3,832 bytes; the checked core rejects it. This is allocation extent proof,
+  not an observed DMA write. Full memory budgeting, the 58,879-byte/64 KiB bridge
+  discrepancy, all-caller integration, physical lock/cache ownership, complete
+  boot and recovery/parity remain open. No memory table or heap was resized.
+- Prior bridge behavior regresses identically, with three added provenance
+  inputs recorded separately. Both allocator receipts replay byte-for-byte.
+  No packaged patch/source-lock, router, Wi-Fi, subagent or restricted-operation
+  change. Evidence: `research/checkpoints/2026-09-09-npu-allocator/REPORT.md`.
+
+## Previous Status - Bridge Startup Failure Guards - 2026-09-09
+
+- Native hart7 post-gate startup continues after null allocation or failed
+  channel bits. Two unpromoted guards now hold those failures before null-base
+  publication or the failed channel's write-one. IRQ masking and an I/O fence
+  precede the atomic barrier fault; coordinator STATUS reports it without any
+  ready/drain/release acknowledgement. Partial hardware ownership is retained.
+- Fifty-two original/guarded native cases, seven mutation/installation controls,
+  four missing-model controls and18 late-ready holds pass. Whole local SRAM,
+  heap and L2 checks retain explicit storage/timer/lock hypotheses. With the
+  initial gate retained and all28 detours installed, all eight harts still park
+  without bridge access. No cold-init permission or hardware proof follows.
+- The allocator still ignores a failed lock-owner check; its58879-byte bridge
+  allocation also needs reconciliation with the printed64KiB window. Timer
+  wait, other post-gate workers, containment, recovery/removal and full parity
+  remain open. Guard code is an88-byte emulator sidecar, not a firmware image.
+  No router contact, Wi-Fi changes, subagents or restricted operations occurred.
+  Evidence: `research/checkpoints/2026-09-09-npu-bridge-startup/REPORT.md`.
+
+## Previous Status - NPU Host TX Topology Candidate - 2026-09-09
+
+- Active work is NPU-only in the codebase; physical testing is deferred. No
+  subagents, router contact or further Wi-Fi changes occurred in this pass.
+- An unpromoted two-branch mt76 correction gives single-HIF NPU operation two
+  TX queue owners and matching physical IDs. Host C reproduces the original
+  missing TX1 and double descriptor-base overwrite. Sixty before/after traces,
+  63 controls and four mutants pass; dual-HIF/non-NPU/MT7992 controls are equal.
+- Actual provider address C plus compiled DTB mapping bridge host TX writes
+  into native core0 bootstrap. Four cases/two controls pass; the single-HIF
+  missing-TX1 stall clears. Whole L2 and copied host fields verify. RX remains
+  synthetic; zero ring size still permits native return. This is not readiness.
+- Eight real AArch64 before/after objects compile with NPU enabled/disabled;
+  strict checkpatch passes. No linked module, package or image is claimed.
+  The candidate stays outside the overlay because failed attachment/registration
+  can retain published memory without proven containment. Other workers,
+  recovery/removal, hardware routing, full parity and restricted lanes stay open.
+  Evidence: `research/checkpoints/2026-09-09-npu-tx-topology/REPORT.md`.
+
+At this scope handoff, the source lock already includes the preceding SAE-file
+reload follow-up, receiver SHA256 `e9bdbed02f2072121083130d1de0dc91996c95217550fd5604fcc641d96e6338`.
+The NPU checkpoint records that baseline without a fresh physical readback.
+
+## Previous Status - MLO Security Defaults - 2026-09-09
+
+- Native hostapd readback confirms the predecessor omitted SAE-EXT-KEY and
+  GCMP-256 on all three default SAE MLO links despite driver cipher support.
+  Corrected MLO defaults now load both; non-MLO behavior and explicit overrides
+  remain intact. LuCI defaults agree. OWE transition on MLO/6GHz is rejected
+  before file mutation/commit/reload; no open AP was activated.
+- Generation284, shell63 and desktop/mobile default-handler checks pass, with
+  54/12 predecessor failures and three generation mutants detected. Five-stage
+  native before/after runs, rapid13/settled13 and credential/missing-marker
+  replays pass. Prior regressions pass. Both packages build;40 OpenWrt and3
+  LuCI export entries reconstruct. Five userspace files are installed with
+  predecessor copies retained; served JS matches the built payload.
+- Original config, zero APs/pending changes and mapped nl80211 hotfix verify.
+  No image/module/NPU-mode/regulatory/PC-association change. Actual clients,
+  authenticated UI, OWE/Enterprise runtime, other transitions and full NPU
+  parity remain open. Evidence:
+  `research/checkpoints/2026-09-09-wifi-security/REPORT.md`.
+
+## Previous Status - MLO Credential Reconfiguration - 2026-09-09
+
+- Reproduced stale same-SSID key files replacing all three native hostapd link
+  configs after a rekey. Shared-interface fingerprints now reject stale and
+  missing-generation files before mutation and filter cached activation.
+  Receiver, generator and helper are deployed; private rollback copies remain.
+- Forty-nine target-ucode checks pass with 13 predecessor failures and three
+  detected mutations. SSID90, membership24, enumeration25 and transaction32
+  scenarios pass. Both 13-stage rapid/settled sequences, two live key replays
+  and a missing-marker replay pass. wifi-scripts builds; all39 OpenWrt and3
+  LuCI source-export entries verify. No new firmware image is claimed.
+- Original config is restored with zero APs/pending changes. Two simultaneous
+  MLDs remain rejected by existing ownership policy before commit/reload; this
+  is an open support boundary, not proof of a hardware limit. Per-station and
+  unchanged-path file-content transitions, other security changes, clients and
+  authenticated UI remain open. WLAN NPU remains compiled out.
+- Evidence: `research/checkpoints/2026-09-09-wifi-credentials/REPORT.md`.
+
+## Previous Status - MLO Reconfiguration - 2026-09-07
+
+- Fixed cached BSS activation outside the new MLD mask and stale SSID reuse.
+  Incoming stale configs are rejected before altering the running AP. A failed
+  config-file open no longer removes a working interface. The combined script
+  is installed on R1;90 SSID/load checks,24 membership tests,25 enumeration
+  regressions and32 modeled transaction scenarios pass. No image/kernel-module
+  or NPU-mode change. Prior hotfixes and private rollback copies remain intact.
+- All13 rapid and13 settled stages pass on the combined script, including both
+  previously failing transitions. Six old-SSID replays and six missing-file
+  requests preserve daemon/kernel state. Original config is restored with zero
+  APs or pending changes. Multiple MLD groups, credential transitions, client
+  traffic and authenticated LuCI save/apply remain unverified.
+- Current evidence: `research/checkpoints/2026-09-07-wifi-transitions/REPORT.md`.
+
+## Previous Status - Wi-Fi Configuration Corrections - 2026-09-06
+
+- Temporary-AP testing reproduced and fixed two live blockers: integer-only
+  parsing of decimal iw frequencies, and hostapd rejecting a successful empty
+  nl80211 dump before the first MLD. Two LuCI channel-loader defects are also
+  corrected. Three scripts and a required nl80211 userspace library fix are
+  installed on R1 with retained originals. No image or kernel module changed.
+  The library reports decoder allocation failures; native fault tests reproduce
+  the review finding and prove that the paired hostapd guard rejects them.
+- Twenty-nine configurations reach daemon ENABLED: all independent-AP/MLO
+  band combinations, WPA2/mixed/SAE controls, widths through6GHz320MHz, ACS,
+  six BSS objects and mixed ordinary/MLO operation. Three cases also pass two
+  further reloads with stable addresses. Tested5/6GHz widths match kernel
+  readback;2.4GHz EHT40 operated at20MHz. This is not client proof.
+  After the decoder follow-up, seven AP/MLO cases and four further reload
+  stages also pass. Final readback verifies the library actually mapped by
+  hostapd, restored config, no pending UCI changes and no remaining AP.
+- Shell80, ucode25 and LuCI11 tests/49 row fixtures pass, plus six original/six
+  corrected native decoder cases. Actual-widget browser
+  fixtures pass desktop/mobile; the LuCI package builds and the deployed JS
+  hash matches over HTTP. Authenticated live LuCI save/apply remains unverified.
+- Original radio-only configuration is restored with no AP or pending UCI
+  change. Parked SA/5GHz161 is rejected for AP use and was not silently changed.
+  Regulatory/TX policy and computer Wi-Fi association are untouched. WLAN NPU
+  remains compiled out; full client/configuration/parity acceptance stays open.
+- Evidence: `research/checkpoints/2026-09-06-wifi-config/REPORT.md`.
+
+## Previous Status - External Blockers - 2026-09-06
 
 - Both full goals remain incomplete. Client reproduction needs the intended
   AP configuration/current symptom; the latest live capture had no networks.

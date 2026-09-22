@@ -1,0 +1,479 @@
+{
+  "scope": "Actual ucode parser/admission/cache, config_set dispatcher and wifi-scripts string encoder; framework I/O callbacks modeled; quoted/hex ssid2 and raw ssid syntax",
+  "source_sha256": "deab7d45c2866548b2c6dda99168d4e78c2d927e08a657faef6e2f4644729bae",
+  "harness_sha256": "8f5f3ffd3316baa002dcee82050226766b96b080dd93728b2fd64ae200cd7297",
+  "generator_sha256": "b58298dbf7305ad6c920bc935525ffaadf5ba2ecff7b12aed2b9219cf2ae42f0",
+  "runner_sha256": "bdb1d6cd04888636eafa40f261693d589d323d64d02d4219457c8cbe766cbe2c",
+  "ucode_sha256": "9ea69357b73b7c6d56cfc2f543644a9d47a2e973253c980b1e73325414698ab0",
+  "baseline_sha256": "017d7f9dd03f8fd24249ee6aa75eaa80b8a9b1fdd277311f5f3b3d2b46d87d2c",
+  "passed": 90,
+  "cases": [
+    {
+      "name": "parser-hex-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-raw-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-raw-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-raw-equals",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-raw-equals",
+      "pass": true
+    },
+    {
+      "name": "parser-raw-space",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-raw-space",
+      "pass": true
+    },
+    {
+      "name": "parser-hex-upper",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-upper",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-ascii",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-inner-quotes",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-inner-quotes",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-literal-slash",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-literal-slash",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-equals-space",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-equals-space",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-no-closing-quote",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-no-closing-quote",
+      "pass": true
+    },
+    {
+      "name": "parser-quoted-trailing-data",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-quoted-trailing-data",
+      "pass": true
+    },
+    {
+      "name": "parser-hex-binary",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-binary",
+      "pass": true
+    },
+    {
+      "name": "parser-hex-utf8",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-utf8",
+      "pass": true
+    },
+    {
+      "name": "parser-hex-max-length",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-max-length",
+      "pass": true
+    },
+    {
+      "name": "parser-last-definition-wins",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-last-definition-wins",
+      "pass": true
+    },
+    {
+      "name": "parser-last-raw-wins",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-last-raw-wins",
+      "pass": true
+    },
+    {
+      "name": "parser-odd-hex",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-odd-hex",
+      "pass": true
+    },
+    {
+      "name": "parser-non-hex",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-non-hex",
+      "pass": true
+    },
+    {
+      "name": "parser-hex-space-not-accepted-by-C",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-hex-space-not-accepted-by-C",
+      "pass": true
+    },
+    {
+      "name": "parser-missing-ssid",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-missing-ssid",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-4e6577",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-4e6577",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-20613d6220",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-20613d6220",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-612262",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-612262",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-615c62",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-615c62",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-d8b4d8a8d983d8a9",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-d8b4d8a8d983d8a9",
+      "pass": true
+    },
+    {
+      "name": "parser-actual-generator-610062ff",
+      "pass": true
+    },
+    {
+      "name": "parser-retains-data-actual-generator-610062ff",
+      "pass": true
+    },
+    {
+      "name": "parser-bss-boundaries",
+      "pass": true
+    },
+    {
+      "name": "nonempty-missing-path-reports-load-error",
+      "pass": true
+    },
+    {
+      "name": "failed-load-preserves-config-and-calls-failure",
+      "pass": true
+    },
+    {
+      "name": "empty-path-removal-contract-preserved",
+      "pass": true
+    },
+    {
+      "name": "admit-same",
+      "pass": true
+    },
+    {
+      "name": "set-result-same",
+      "pass": true
+    },
+    {
+      "name": "admit-stale",
+      "pass": true
+    },
+    {
+      "name": "set-result-stale",
+      "pass": true
+    },
+    {
+      "name": "set-preserves-state-stale",
+      "pass": true
+    },
+    {
+      "name": "admit-missing",
+      "pass": true
+    },
+    {
+      "name": "set-result-missing",
+      "pass": true
+    },
+    {
+      "name": "set-preserves-state-missing",
+      "pass": true
+    },
+    {
+      "name": "admit-untyped",
+      "pass": true
+    },
+    {
+      "name": "set-result-untyped",
+      "pass": true
+    },
+    {
+      "name": "set-preserves-state-untyped",
+      "pass": true
+    },
+    {
+      "name": "admit-legacy-descriptor",
+      "pass": true
+    },
+    {
+      "name": "set-result-legacy-descriptor",
+      "pass": true
+    },
+    {
+      "name": "admit-legacy-missing",
+      "pass": true
+    },
+    {
+      "name": "set-result-legacy-missing",
+      "pass": true
+    },
+    {
+      "name": "admit-binary-exact",
+      "pass": true
+    },
+    {
+      "name": "set-result-binary-exact",
+      "pass": true
+    },
+    {
+      "name": "admit-binary-nul-is-not-terminator",
+      "pass": true
+    },
+    {
+      "name": "set-result-binary-nul-is-not-terminator",
+      "pass": true
+    },
+    {
+      "name": "set-preserves-state-binary-nul-is-not-terminator",
+      "pass": true
+    },
+    {
+      "name": "admit-case-sensitive",
+      "pass": true
+    },
+    {
+      "name": "set-result-case-sensitive",
+      "pass": true
+    },
+    {
+      "name": "set-preserves-state-case-sensitive",
+      "pass": true
+    },
+    {
+      "name": "ordinary-bss-unaffected",
+      "pass": true
+    },
+    {
+      "name": "detach-with-absent-owner",
+      "pass": true
+    },
+    {
+      "name": "filter-mode-cannot-admit-stale-present-owner",
+      "pass": true
+    },
+    {
+      "name": "remove-unaffected",
+      "pass": true
+    },
+    {
+      "name": "cache-all-sources-New",
+      "pass": true
+    },
+    {
+      "name": "detach-keeps-old-refs-New",
+      "pass": true
+    },
+    {
+      "name": "cache-all-sources-Old",
+      "pass": true
+    },
+    {
+      "name": "detach-keeps-old-refs-Old",
+      "pass": true
+    },
+    {
+      "name": "request-file-open-failure-reports-invalid-argument",
+      "pass": true
+    },
+    {
+      "name": "stale-request-preserves-active-state-with-existing-pid-reply-contract",
+      "pass": true
+    },
+    {
+      "name": "explicit-empty-path-request-removal-still-works",
+      "pass": true
+    }
+  ],
+  "baseline_failures": [
+    "parser-hex-ascii",
+    "parser-raw-ascii",
+    "parser-raw-equals",
+    "parser-raw-space",
+    "parser-hex-upper",
+    "parser-quoted-ascii",
+    "parser-quoted-inner-quotes",
+    "parser-quoted-literal-slash",
+    "parser-quoted-equals-space",
+    "parser-hex-binary",
+    "parser-hex-utf8",
+    "parser-hex-max-length",
+    "parser-last-definition-wins",
+    "parser-last-raw-wins",
+    "parser-actual-generator-4e6577",
+    "parser-actual-generator-20613d6220",
+    "parser-actual-generator-612262",
+    "parser-actual-generator-615c62",
+    "parser-actual-generator-d8b4d8a8d983d8a9",
+    "parser-actual-generator-610062ff",
+    "parser-bss-boundaries",
+    "nonempty-missing-path-reports-load-error",
+    "failed-load-preserves-config-and-calls-failure",
+    "admit-stale",
+    "set-result-stale",
+    "set-preserves-state-stale",
+    "admit-missing",
+    "set-result-missing",
+    "set-preserves-state-missing",
+    "admit-untyped",
+    "set-result-untyped",
+    "set-preserves-state-untyped",
+    "admit-binary-nul-is-not-terminator",
+    "set-result-binary-nul-is-not-terminator",
+    "set-preserves-state-binary-nul-is-not-terminator",
+    "admit-case-sensitive",
+    "set-result-case-sensitive",
+    "set-preserves-state-case-sensitive",
+    "filter-mode-cannot-admit-stale-present-owner",
+    "cache-all-sources-New",
+    "cache-all-sources-Old"
+  ],
+  "killed_mutants": {
+    "remove-pre-mutation-guard": [
+      "set-result-stale",
+      "set-preserves-state-stale",
+      "set-result-missing",
+      "set-preserves-state-missing",
+      "set-result-untyped",
+      "set-preserves-state-untyped",
+      "set-result-binary-nul-is-not-terminator",
+      "set-preserves-state-binary-nul-is-not-terminator",
+      "set-result-case-sensitive",
+      "set-preserves-state-case-sensitive",
+      "filter-mode-cannot-admit-stale-present-owner",
+      "stale-request-preserves-active-state-with-existing-pid-reply-contract"
+    ],
+    "remove-bss-guard": [
+      "admit-stale",
+      "admit-missing",
+      "admit-untyped",
+      "admit-binary-nul-is-not-terminator",
+      "admit-case-sensitive"
+    ],
+    "remove-cache-ssid-filter": [
+      "cache-all-sources-New",
+      "cache-all-sources-Old"
+    ],
+    "ignore-missing-ssid": [
+      "admit-missing",
+      "set-result-missing",
+      "set-preserves-state-missing"
+    ],
+    "decode-hex-as-raw": [
+      "parser-hex-ascii",
+      "parser-hex-upper",
+      "parser-quoted-no-closing-quote",
+      "parser-quoted-trailing-data",
+      "parser-hex-binary",
+      "parser-hex-utf8",
+      "parser-hex-max-length",
+      "parser-last-definition-wins",
+      "parser-odd-hex",
+      "parser-non-hex",
+      "parser-hex-space-not-accepted-by-C",
+      "parser-actual-generator-d8b4d8a8d983d8a9",
+      "parser-actual-generator-610062ff",
+      "parser-bss-boundaries"
+    ],
+    "ignore-quoted-encoding": [
+      "parser-quoted-ascii",
+      "parser-quoted-inner-quotes",
+      "parser-quoted-literal-slash",
+      "parser-quoted-equals-space",
+      "parser-actual-generator-4e6577",
+      "parser-actual-generator-20613d6220",
+      "parser-actual-generator-612262",
+      "parser-actual-generator-615c62"
+    ],
+    "ignore-file-load-error": [
+      "failed-load-preserves-config-and-calls-failure"
+    ],
+    "ignore-request-file-load-error": [
+      "request-file-open-failure-reports-invalid-argument"
+    ]
+  }
+}

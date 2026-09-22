@@ -1,0 +1,44 @@
+[
+  {
+    "run": "before02",
+    "stages": 5,
+    "restored": true,
+    "independent_fields_in_live_log": false
+  },
+  {
+    "run": "after01",
+    "stages": 5,
+    "restored": true,
+    "independent_fields_in_live_log": false
+  },
+  {
+    "run": "after02",
+    "stages": 5,
+    "restored": true,
+    "independent_fields_in_live_log": true
+  },
+  {
+    "run": "rapid",
+    "stages": 13,
+    "coexistence_primary_swaps": 3,
+    "stale_ssid_rejections": 6,
+    "missing_file_rejections": 6,
+    "restored": true
+  },
+  {
+    "run": "settled",
+    "stages": 13,
+    "coexistence_primary_swaps": 0,
+    "stale_ssid_rejections": 6,
+    "missing_file_rejections": 6,
+    "restored": true
+  },
+  {
+    "run": "credential-live",
+    "passed": true
+  },
+  {
+    "run": "install",
+    "passed": true
+  }
+]

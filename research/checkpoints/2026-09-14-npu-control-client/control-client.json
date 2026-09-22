@@ -1,0 +1,460 @@
+{
+  "passed": true,
+  "protocol_cases": {
+    "mask_snapshots": 544,
+    "malformed": 58,
+    "transport": 25,
+    "ordering": 19,
+    "boundaries": 24,
+    "aborts": 10
+  },
+  "differential_calls": 6443,
+  "shared_eight_contexts": {
+    "round_trips": 11,
+    "worker_order": [
+      5,
+      2,
+      7,
+      1,
+      6,
+      4,
+      3
+    ],
+    "replies": [
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        0,
+        1,
+        826366246,
+        655894552,
+        0,
+        7,
+        255,
+        255,
+        31,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        1,
+        1,
+        826366246,
+        655894552,
+        0,
+        7,
+        255,
+        255,
+        31,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        2,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        32,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        36,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        164,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        166,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        230,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        246,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        254,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        2,
+        826366246,
+        655894552,
+        0,
+        7,
+        255,
+        0,
+        0,
+        1,
+        1
+      ]
+    ],
+    "final_client": [
+      4,
+      0,
+      826366246,
+      655894552,
+      11,
+      0,
+      3,
+      2,
+      1,
+      1,
+      255,
+      0,
+      0,
+      7
+    ],
+    "physical_drain_witnesses": 0,
+    "reclaimable": false,
+    "saved_rv32_contexts": 8
+  },
+  "firmware_cases": [
+    {
+      "case": "cold",
+      "final_client": [
+        4,
+        0,
+        826366246,
+        655894552,
+        6,
+        0,
+        3,
+        1,
+        0,
+        0,
+        255,
+        0,
+        31,
+        7
+      ]
+    },
+    {
+      "case": "running",
+      "final_client": [
+        4,
+        0,
+        826366246,
+        655894552,
+        6,
+        0,
+        3,
+        2,
+        1,
+        1,
+        255,
+        0,
+        31,
+        7
+      ]
+    },
+    {
+      "case": "remote-fault",
+      "stage": 0,
+      "status": 6
+    },
+    {
+      "case": "remote-fault",
+      "stage": 1,
+      "status": 6
+    },
+    {
+      "case": "remote-fault",
+      "stage": 2,
+      "status": 6
+    },
+    {
+      "case": "remote-fault",
+      "stage": 3,
+      "status": 6
+    },
+    {
+      "case": "another-session",
+      "status": 2
+    },
+    {
+      "case": "active-handler-bind",
+      "status": 5
+    },
+    {
+      "case": "external-epoch-change",
+      "status": 3
+    },
+    {
+      "case": "timeout",
+      "delivered_before_timeout": false,
+      "firmware_epoch": 2,
+      "host_phase": 5
+    },
+    {
+      "case": "timeout",
+      "delivered_before_timeout": true,
+      "firmware_epoch": 2,
+      "host_phase": 5
+    },
+    {
+      "case": "unmodified-firmware-probe",
+      "mailbox_flags": 7,
+      "reply_magic": 0
+    }
+  ],
+  "mutations": [
+    {
+      "name": "ticket",
+      "rejected_by_oracle": true,
+      "source_sha256": "4a38617440b7a3539ebed10b04a843913471aa63c59cec83876f36b43e80cfc4",
+      "native_sha256": "b9b093d821e520fce9d646dde8d8b5104d1f7c392493215a61e8d6f0402b3e25",
+      "aarch64_sha256": "638c6e8a9ce5f3e80adc773ec9c84af10c7cfd10d0fca173a883480756e448d9"
+    },
+    {
+      "name": "transport",
+      "rejected_by_oracle": true,
+      "source_sha256": "a770c60a12dfa7ddb3645dcb8754a259d3f06dff1635b29cf1be0c1fb87a2803",
+      "native_sha256": "497b3e1bde7fe520b8f53bea3fe00f55fb58b765d9f1813784dfddf9bb09e286",
+      "aarch64_sha256": "4ae77fbf9175c0e95000ee56b7fdffdf396f8567c431e7e075efa13ac93e4cc2"
+    },
+    {
+      "name": "magic",
+      "rejected_by_oracle": true,
+      "source_sha256": "b80072d21c79c6dbdc6b5b3fb9ef2a5e92db7d12e887be5318d3a4bf01633b61",
+      "native_sha256": "3b406e37d841fa58df14d42c34e35630d009da8b35831bd20ea218c31391e438",
+      "aarch64_sha256": "8f133a4fc008eb50c96e0f019bf75416a68044af42d4d1ec45715f6f0b51ed45"
+    },
+    {
+      "name": "nonce",
+      "rejected_by_oracle": true,
+      "source_sha256": "2dfd42b32575e3087046a94181b8171a598fe57440aa3b1325eefa3d39a1c657",
+      "native_sha256": "c445cc9f525dad27040bb07d6f45ab10a6aa4a5b7829d3bf3fdb3c79d58d1e6b",
+      "aarch64_sha256": "10002974fab4dbaa747e675e753d43badc0c8ca4f8dd024faf1ae235bc92bdcc"
+    },
+    {
+      "name": "epoch",
+      "rejected_by_oracle": true,
+      "source_sha256": "ffe1d321ef735d33b324fdb150ce8efb01c9b1c3e5f6a9178dfe38f1c0ed87b0",
+      "native_sha256": "41711157305457f26124175236771a2316fb43f47eba960708c2d380c655d094",
+      "aarch64_sha256": "668571d325d5e1b1a710e3cc98cce030b366a9606df75b74e0e2df7e5937d757"
+    },
+    {
+      "name": "capability",
+      "rejected_by_oracle": true,
+      "source_sha256": "bc1cb201f638af14604b4869f61b825036c4ce6695480fb8c0594e340ed014cc",
+      "native_sha256": "ff2b251278887bfdec9c58953473a8b75f7cd59b5fb5db50496e9c553fd9afef",
+      "aarch64_sha256": "f97f71d774ee2c0a3aa0491ad1b3cece958f65d5edf5a9cb0b062a10b894da9a"
+    },
+    {
+      "name": "parked",
+      "rejected_by_oracle": true,
+      "source_sha256": "dd6924b8b504e2583a6ecb78fb86811cb3b0678821378918d72a35506c3da7a3",
+      "native_sha256": "36e16a91ad2170f7e14211c76237bd1eace63121b71252500f5a2f005382e212",
+      "aarch64_sha256": "a4ea360eb1d84195a8a73153f81a32538e2194bd771ca20c9b7952c386482fa9"
+    },
+    {
+      "name": "released",
+      "rejected_by_oracle": true,
+      "source_sha256": "39e300c6d3bde1bca9a0ea92092f8a284b599d2079314664bb265ecb8be1c00f",
+      "native_sha256": "f6e5b5f31e38a4edbaa865e7e5420d49b05a47904172969b70243beef18b64bb",
+      "aarch64_sha256": "b41257be253e8ed3060b91252844d24efe71370fc3a51e677b5132b6ed56119c"
+    },
+    {
+      "name": "mask",
+      "rejected_by_oracle": true,
+      "source_sha256": "4a6528fd59b70a5475faf11ecb416f80843c830a4037213e83d64e32d2ec2cb5",
+      "native_sha256": "8228c5245f5e32517df554f8f991058f97f39f64558fed9a2f6d667910e541b7",
+      "aarch64_sha256": "d206105f53276b127337812a5fe48c06df700d2c6e1ab80eb15af42212674192"
+    },
+    {
+      "name": "monotonic",
+      "rejected_by_oracle": true,
+      "source_sha256": "6c5f2048970cc43b07092b1017a934ff7ca2f01368d51bd54b17b54ad046ee6d",
+      "native_sha256": "4cd4da323e29fddad80a4ca0f0b31b49d9cb60f34a2a69dd25b1d921b4e0d917",
+      "aarch64_sha256": "c64739b8e99a007e0861176920a84ba7f5d4a10fdc81a12a91a9ce02bd983b08"
+    }
+  ],
+  "wire_limit_controls": {
+    "same_epoch_wire_replay_with_new_local_ticket_detected": false,
+    "replacement_provider_from_status_echo_detected": false,
+    "safe_reclaim_capability": false,
+    "restart_capability": false,
+    "scope": "Deliberate contract-violation controls, not observed provider behavior. Client tickets require exact provider/transfer association; V1 STATUS echoes the request nonce without validating a bound session."
+  },
+  "sanitizer": {
+    "passed": true,
+    "boundary_cases": 259,
+    "native_round_trips": 4
+  },
+  "inputs": {
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "tests/npu/control-client-emulation.ld": "bfb517f6c8c5521b52153553ce01b8bdba67917078902d485929a2d7679e7507",
+    "tests/npu/control-client-sanitize.c": "824eb989668dfba6f7b94a2636fe161b2cc80167cdc7ec68c9b32276235737cf",
+    "tests/npu/test_control_client.py": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/ADMISSION_ABI.md": "9cff55d562d7263657ca4d1d9b1ae47072ca0c1337e2d3bc74414fa823853945",
+    "firmware/npu/CONTROL_CLIENT_CONTRACT.md": "d3c1113cec5d01825f07b8b920281e761b63b71b77db2ba8d1010eb1b6143cb5",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82"
+  },
+  "binaries": {
+    ".local/npu-control-client/client.so": "d1bafc18c5ea02de27581d02d28cbe0ce3168c1ebd9432f7cb584e06896470af",
+    ".local/npu-control-client/client.elf": "b7b1596018d7387ecb03ba129b32583daa66049de3db855a42b7e20b6a92448a",
+    ".local/npu-barrier/admission-platform.elf": "b462da805c9cfbf7cc21558553b4dd0815a10b8fe996617e6cdbb061caf21b38",
+    ".local/npu-control-client/client-sanitize": "0221f9db3d3f3b6a8951c97ac83df4f671a8f4cc60ce3ee5d0f03e8680e6a090"
+  },
+  "stock_firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "stock_data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "compiler": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+  "unicorn_version": "2.1.4",
+  "clang_static_analyzer": "passed without diagnostics",
+  "scope": "Unpromoted byte-codec/state client on native x86 and AArch64 instructions; actual RV32 admission/mailbox and eight serialized saved worker contexts. Existing modeled MMIO/IRQ invocation, helper returns, coherent storage, initial drain witnesses and transport delivery. No Linux provider binding, DMA lifetime/cache/physical drain certificate, full boot, image, restricted selector execution or router test."
+}

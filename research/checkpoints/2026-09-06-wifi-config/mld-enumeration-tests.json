@@ -1,0 +1,72 @@
+{
+  "scope": "Actual ucode guard functions; modeled nl80211 responses, not radio/client proof",
+  "source_sha256": "8736ac333c18c125ea31215c37174c40cbfa72a009dbc4c204bb900cf64104c7",
+  "old_source_sha256": "1100002b6b1a4764e32bc3c87e75e8f63c79a08f1bb7e2691e1d6f516f164d9f",
+  "harness_sha256": "cf9352520c94ecc8d02aab4b6e87ecd0d591df1a4c3928a104084d1e9d80a412",
+  "native_receipt_sha256": "5594c2ca40c478428a50e9215bd02d6f20fad8c00efa5260b91e0b06d263cb81",
+  "unpatched_decoder_failures": [
+    "native-single_oom",
+    "native-first_oom",
+    "native-last_oom"
+  ],
+  "ucode_sha256": "9ea69357b73b7c6d56cfc2f543644a9d47a2e973253c980b1e73325414698ab0",
+  "passed": 25,
+  "cases": [
+    "empty-null",
+    "empty-array",
+    "empty-after-stale-error",
+    "null-with-error",
+    "partial-array-with-error",
+    "invalid-result-0",
+    "invalid-result-1",
+    "invalid-result-2",
+    "invalid-result-3",
+    "invalid-result-4",
+    "invalid-result-5",
+    "invalid-result-6",
+    "external-live-owner",
+    "same-mld-live-owner",
+    "case-normalized-collision",
+    "old-owner-empty-dump",
+    "configured-ordinary-bss",
+    "configured-same-mld-bss",
+    "duplicate-external-live-address",
+    "native-empty",
+    "native-single",
+    "native-single_oom",
+    "native-two",
+    "native-first_oom",
+    "native-last_oom"
+  ],
+  "reproduced_old_failures": [
+    "empty-null",
+    "empty-after-stale-error",
+    "partial-array-with-error",
+    "old-owner-empty-dump",
+    "configured-ordinary-bss",
+    "configured-same-mld-bss",
+    "native-empty",
+    "native-first_oom",
+    "native-last_oom"
+  ],
+  "killed_mutants": {
+    "discard-enumeration-error": [
+      "null-with-error",
+      "partial-array-with-error",
+      "native-single_oom",
+      "native-first_oom",
+      "native-last_oom"
+    ],
+    "retain-stale-error": [
+      "empty-after-stale-error"
+    ],
+    "skip-live-address-reservation": [
+      "external-live-owner",
+      "case-normalized-collision",
+      "configured-ordinary-bss",
+      "duplicate-external-live-address",
+      "native-single",
+      "native-two"
+    ]
+  }
+}

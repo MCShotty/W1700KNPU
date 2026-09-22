@@ -1,0 +1,27 @@
+{
+  "generation_checks": 284,
+  "generation_predecessor_failures": 54,
+  "shell_checks": 63,
+  "shell_predecessor_failures": 12,
+  "generation_mutants_detected": 3,
+  "prior_ucode_checks": {
+    "credentials": 49,
+    "ssid": 90,
+    "membership": 24,
+    "enumeration": 25,
+    "transaction_scenarios": 32,
+    "transaction_assertions": 1195
+  },
+  "prior_luci_tests": 11,
+  "prior_luci_rows": 49,
+  "shellcheck_error_severity_passed": true,
+  "python_syntax_passed": true,
+  "no_subagents": true,
+  "full_goals_complete": false,
+  "aborted_preflight": {
+    "run": "before01",
+    "exit_code": 89,
+    "ap_or_config_changes": false,
+    "reason": "iw text omitted cipher list; actual nl80211 confirms support"
+  }
+}

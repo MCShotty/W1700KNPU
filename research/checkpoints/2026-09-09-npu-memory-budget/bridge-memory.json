@@ -1,0 +1,5352 @@
+{
+  "schema": 1,
+  "inputs_before_after": {
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    ".local/npu-reset/python-lib/unicorn/__init__.py": "9ad32123bca674cf205c308fd4d0d2a4db877c9dc2afac4feab7c84c8cf7043b",
+    ".local/npu-reset/python-lib/unicorn/arm64_const.py": "92f91a2b0a36cd34deee16db4f8da4ac0c9ae35c3ea1089296e5ef9d170a5be9",
+    ".local/npu-reset/python-lib/unicorn/arm_const.py": "44fdb7a9f7a9d8c62be07fefaf21e20060813b2a503b6228e378e6bbff7f7b41",
+    ".local/npu-reset/python-lib/unicorn/m68k_const.py": "7503e32454751bf66bdf1fcb19dd847537bcf6a5538e18125d8f53d8d448fed9",
+    ".local/npu-reset/python-lib/unicorn/mips_const.py": "3a04993d82610ea5f492af2d74fa79d849224a044ac0448281033ee331b58dac",
+    ".local/npu-reset/python-lib/unicorn/riscv_const.py": "278e10baf05cfb7c8675475081ae7f2d2037616c79cb907d51963aa2c5b490e4",
+    ".local/npu-reset/python-lib/unicorn/s390x_const.py": "54d7026dd70b5bfca1d02e00e7a58d652eaa974b9ea980ba49ed4b80911b9fde",
+    ".local/npu-reset/python-lib/unicorn/sparc_const.py": "bcdb0491b6e42c647b104ee53d61610504a97831302dd5280fd2123e05572e95",
+    ".local/npu-reset/python-lib/unicorn/tricore_const.py": "1b6005a147d77a3fc1ab5c81fc878eeac3b9bb0b68d518e4a4226830d1356c4c",
+    ".local/npu-reset/python-lib/unicorn/unicorn.py": "e823b17649d0610c6f52b665902ac9dc46962785feebcac8465a0d7c477f25b7",
+    ".local/npu-reset/python-lib/unicorn/unicorn_const.py": "556c6a27336dc6dd3e0d49348951bde17e1b0f69166f2217773e6b3a7199f45d",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/__init__.py": "ee70d3a7de9ea545406d727436ee835f9d644aeb7428f0e4f1510f9190b28726",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/types.py": "2e103854e371ef576680073f44ead45b8177a73c450a6125e609b7c54e0bc844",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/x86_const.py": "3b33c55b97503ab25e8ed8bbe576c1cee693f495df6785b04adc1c8ab47a79c4",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "797b502cb0d1d9f803934956122e459512433e7e83d10612200ae81d6c3110d8",
+    "firmware/npu/allocator.h": "922842faf3fccb7dd7d993a3e12fac5440c7d718d6ed470abe22ec7223fa8347",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-startup-emulation.S": "fa9442ac4a28b9ca1152b30a40f4cc790da1a57888ab60712cbed2b588d97230",
+    "tests/npu/allocator-startup-emulation.c": "c41ef09677b190c2051b272b75e013807681dbe2abfa0d7b93798317a274367c",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_protocol.py": "a3c45894c299ea54b5fe182fb05c0086c5cfd053c6cf3d64d562b941e0f38b66",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "cc1b4660ec7541846eb58eb23ef9e0e867322abbc1eca9843ffc9ac8008fe3a0",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bridge_memory_budget.py": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_mt7996_bootstrap_sequence.py": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tools/ghidra/allocation-consumers.pattern": "3d886056d6114db578af393b7456a56161afd4e903e4bddd5941c9176cff2c3f",
+    "tools/ghidra/reexport_allocation_consumers.ps1": "714da7f15557fac02a51af91b464a0e70d0bbbff27b2750cebf96a740f5404ad",
+    "tests/npu/allocator-emulation.ld": "ab6c13d09c0763fe64fc162c453c94bd38d197e0a26d24b9a8e66711d1c992c9",
+    "tests/npu/allocator-reset-emulation.ld": "cf3ac8ba7d426ce1d681d9384b5aae0c9ae0a8c64298b7e7e68b0f8c44c5fd08",
+    "tests/npu/allocator-startup-emulation.ld": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90",
+    "tests/npu/txdone-init-emulation.ld": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a"
+  },
+  "dynamic_definitions": [
+    [
+      [
+        138,
+        0,
+        0,
+        32768
+      ],
+      [
+        129,
+        0,
+        0,
+        58879
+      ],
+      [
+        132,
+        0,
+        0,
+        69632
+      ],
+      [
+        133,
+        0,
+        0,
+        69632
+      ],
+      [
+        130,
+        0,
+        0,
+        4
+      ],
+      [
+        137,
+        0,
+        0,
+        4
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        303168
+      ],
+      [
+        2,
+        0,
+        0,
+        6168
+      ],
+      [
+        3,
+        0,
+        0,
+        6168
+      ],
+      [
+        9,
+        0,
+        0,
+        1000
+      ],
+      [
+        10,
+        0,
+        0,
+        1000
+      ],
+      [
+        11,
+        0,
+        0,
+        120
+      ],
+      [
+        14,
+        0,
+        0,
+        1536
+      ],
+      [
+        15,
+        0,
+        0,
+        1536
+      ],
+      [
+        22,
+        0,
+        0,
+        4104
+      ],
+      [
+        25,
+        0,
+        0,
+        32784
+      ],
+      [
+        26,
+        0,
+        0,
+        16384
+      ],
+      [
+        30,
+        0,
+        0,
+        256
+      ],
+      [
+        18,
+        0,
+        0,
+        57344
+      ],
+      [
+        16,
+        0,
+        0,
+        8224
+      ],
+      [
+        17,
+        0,
+        0,
+        8224
+      ],
+      [
+        28,
+        0,
+        0,
+        57344
+      ],
+      [
+        29,
+        0,
+        0,
+        4096
+      ],
+      [
+        23,
+        0,
+        0,
+        2048
+      ]
+    ]
+  ],
+  "primitive_cases": [
+    {
+      "kind": "vxlan",
+      "index": 0,
+      "length": 50,
+      "bridge_allocation_bytes": 58879,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 58879,
+          "end": 1048634911
+        },
+        {
+          "type": 1,
+          "address": 1048634912,
+          "bytes": 303168,
+          "end": 1048938080
+        }
+      ],
+      "destination": "0x3e810020",
+      "end": "0x3e810052",
+      "header_write_owner_type": 1,
+      "inside_bridge_allocation": false,
+      "descriptor_allocation_changed": true,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 50,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048641568,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641569,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641570,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641571,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641572,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641573,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641574,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641575,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641576,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641577,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641578,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641579,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641580,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641581,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641582,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641583,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641584,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641585,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641586,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641587,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641588,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641589,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641590,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641591,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641592,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641593,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641594,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641595,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641596,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641597,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641598,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641599,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641600,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641601,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641602,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641603,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641604,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641605,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641606,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641607,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641608,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641609,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641610,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641611,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641612,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641613,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641614,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641615,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641616,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641617,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        }
+      ],
+      "heap_sha256": "af917fb7884a5a66fd8b4964073a72cdb37930b0b4051ddf4fdb0cec42113cc2"
+    },
+    {
+      "kind": "vxlan",
+      "index": 19,
+      "length": 50,
+      "bridge_allocation_bytes": 58879,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 58879,
+          "end": 1048634911
+        },
+        {
+          "type": 1,
+          "address": 1048634912,
+          "bytes": 303168,
+          "end": 1048938080
+        }
+      ],
+      "destination": "0x3e8109a0",
+      "end": "0x3e8109d2",
+      "header_write_owner_type": 1,
+      "inside_bridge_allocation": false,
+      "descriptor_allocation_changed": true,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 50,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048644000,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644001,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644002,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644003,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644004,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644005,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644006,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644007,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644008,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644009,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644010,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644011,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644012,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644013,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644014,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644015,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644016,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644017,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644018,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644019,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644020,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644021,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644022,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644023,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644024,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644025,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644026,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644027,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644028,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644029,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644030,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644031,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644032,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644033,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644034,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644035,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644036,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644037,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644038,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644039,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644040,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644041,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644042,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644043,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644044,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644045,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644046,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644047,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644048,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644049,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        }
+      ],
+      "heap_sha256": "ef21a5affa7f2db978b7cafdf36a77db27a56da2b5c9059213ec46677e516547"
+    },
+    {
+      "kind": "srv6",
+      "index": 0,
+      "length": 128,
+      "bridge_allocation_bytes": 58879,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 58879,
+          "end": 1048634911
+        },
+        {
+          "type": 1,
+          "address": 1048634912,
+          "bytes": 303168,
+          "end": 1048938080
+        }
+      ],
+      "destination": "0x3e810a20",
+      "end": "0x3e810aa0",
+      "header_write_owner_type": 1,
+      "inside_bridge_allocation": false,
+      "descriptor_allocation_changed": true,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 129,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048644128,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644129,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644130,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644131,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644132,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644133,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644134,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644135,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644136,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644137,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644138,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644139,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644140,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644141,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644142,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644143,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644144,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644145,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644146,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644147,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644148,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644149,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644150,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644151,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644152,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644153,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644154,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644155,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644156,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644157,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644158,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644159,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644160,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644161,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644162,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644163,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644164,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644165,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644166,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644167,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644168,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644169,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644170,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644171,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644172,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644173,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644174,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644175,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644176,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644177,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644178,
+          "size": 1,
+          "value": 85,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644179,
+          "size": 1,
+          "value": 102,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644180,
+          "size": 1,
+          "value": 119,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644181,
+          "size": 1,
+          "value": 136,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644182,
+          "size": 1,
+          "value": 153,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644183,
+          "size": 1,
+          "value": 170,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644184,
+          "size": 1,
+          "value": 187,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644185,
+          "size": 1,
+          "value": 204,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644186,
+          "size": 1,
+          "value": 221,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644187,
+          "size": 1,
+          "value": 238,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644188,
+          "size": 1,
+          "value": 255,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644189,
+          "size": 1,
+          "value": 16,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644190,
+          "size": 1,
+          "value": 33,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644191,
+          "size": 1,
+          "value": 50,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644192,
+          "size": 1,
+          "value": 67,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644193,
+          "size": 1,
+          "value": 84,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644194,
+          "size": 1,
+          "value": 101,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644195,
+          "size": 1,
+          "value": 118,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644196,
+          "size": 1,
+          "value": 135,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644197,
+          "size": 1,
+          "value": 152,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644198,
+          "size": 1,
+          "value": 169,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644199,
+          "size": 1,
+          "value": 186,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644200,
+          "size": 1,
+          "value": 203,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644201,
+          "size": 1,
+          "value": 220,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644202,
+          "size": 1,
+          "value": 237,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644203,
+          "size": 1,
+          "value": 254,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644204,
+          "size": 1,
+          "value": 15,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644205,
+          "size": 1,
+          "value": 32,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644206,
+          "size": 1,
+          "value": 49,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644207,
+          "size": 1,
+          "value": 66,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644208,
+          "size": 1,
+          "value": 83,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644209,
+          "size": 1,
+          "value": 100,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644210,
+          "size": 1,
+          "value": 117,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644211,
+          "size": 1,
+          "value": 134,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644212,
+          "size": 1,
+          "value": 151,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644213,
+          "size": 1,
+          "value": 168,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644214,
+          "size": 1,
+          "value": 185,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644215,
+          "size": 1,
+          "value": 202,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644216,
+          "size": 1,
+          "value": 219,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644217,
+          "size": 1,
+          "value": 236,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644218,
+          "size": 1,
+          "value": 253,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644219,
+          "size": 1,
+          "value": 14,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644220,
+          "size": 1,
+          "value": 31,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644221,
+          "size": 1,
+          "value": 48,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644222,
+          "size": 1,
+          "value": 65,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644223,
+          "size": 1,
+          "value": 82,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644224,
+          "size": 1,
+          "value": 99,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644225,
+          "size": 1,
+          "value": 116,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644226,
+          "size": 1,
+          "value": 133,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644227,
+          "size": 1,
+          "value": 150,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644228,
+          "size": 1,
+          "value": 167,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644229,
+          "size": 1,
+          "value": 184,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644230,
+          "size": 1,
+          "value": 201,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644231,
+          "size": 1,
+          "value": 218,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644232,
+          "size": 1,
+          "value": 235,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644233,
+          "size": 1,
+          "value": 252,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644234,
+          "size": 1,
+          "value": 13,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644235,
+          "size": 1,
+          "value": 30,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644236,
+          "size": 1,
+          "value": 47,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644237,
+          "size": 1,
+          "value": 64,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644238,
+          "size": 1,
+          "value": 81,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644239,
+          "size": 1,
+          "value": 98,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644240,
+          "size": 1,
+          "value": 115,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644241,
+          "size": 1,
+          "value": 132,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644242,
+          "size": 1,
+          "value": 149,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644243,
+          "size": 1,
+          "value": 166,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644244,
+          "size": 1,
+          "value": 183,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644245,
+          "size": 1,
+          "value": 200,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644246,
+          "size": 1,
+          "value": 217,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644247,
+          "size": 1,
+          "value": 234,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644248,
+          "size": 1,
+          "value": 251,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644249,
+          "size": 1,
+          "value": 12,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644250,
+          "size": 1,
+          "value": 29,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644251,
+          "size": 1,
+          "value": 46,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644252,
+          "size": 1,
+          "value": 63,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644253,
+          "size": 1,
+          "value": 80,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644254,
+          "size": 1,
+          "value": 97,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644255,
+          "size": 1,
+          "value": 114,
+          "pc": 2214658840
+        },
+        {
+          "address": 1049642576,
+          "size": 1,
+          "value": 128,
+          "pc": 2214616252
+        }
+      ],
+      "heap_sha256": "a162c1fdef474725ba0192ac4bcd9f0b139906527b0049ce80b40ce56b3be157"
+    },
+    {
+      "kind": "srv6",
+      "index": 7,
+      "length": 128,
+      "bridge_allocation_bytes": 58879,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 58879,
+          "end": 1048634911
+        },
+        {
+          "type": 1,
+          "address": 1048634912,
+          "bytes": 303168,
+          "end": 1048938080
+        }
+      ],
+      "destination": "0x3e810da0",
+      "end": "0x3e810e20",
+      "header_write_owner_type": 1,
+      "inside_bridge_allocation": false,
+      "descriptor_allocation_changed": true,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 129,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048645024,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645025,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645026,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645027,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645028,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645029,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645030,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645031,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645032,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645033,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645034,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645035,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645036,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645037,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645038,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645039,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645040,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645041,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645042,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645043,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645044,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645045,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645046,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645047,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645048,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645049,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645050,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645051,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645052,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645053,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645054,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645055,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645056,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645057,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645058,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645059,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645060,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645061,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645062,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645063,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645064,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645065,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645066,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645067,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645068,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645069,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645070,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645071,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645072,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645073,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645074,
+          "size": 1,
+          "value": 85,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645075,
+          "size": 1,
+          "value": 102,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645076,
+          "size": 1,
+          "value": 119,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645077,
+          "size": 1,
+          "value": 136,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645078,
+          "size": 1,
+          "value": 153,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645079,
+          "size": 1,
+          "value": 170,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645080,
+          "size": 1,
+          "value": 187,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645081,
+          "size": 1,
+          "value": 204,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645082,
+          "size": 1,
+          "value": 221,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645083,
+          "size": 1,
+          "value": 238,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645084,
+          "size": 1,
+          "value": 255,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645085,
+          "size": 1,
+          "value": 16,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645086,
+          "size": 1,
+          "value": 33,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645087,
+          "size": 1,
+          "value": 50,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645088,
+          "size": 1,
+          "value": 67,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645089,
+          "size": 1,
+          "value": 84,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645090,
+          "size": 1,
+          "value": 101,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645091,
+          "size": 1,
+          "value": 118,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645092,
+          "size": 1,
+          "value": 135,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645093,
+          "size": 1,
+          "value": 152,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645094,
+          "size": 1,
+          "value": 169,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645095,
+          "size": 1,
+          "value": 186,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645096,
+          "size": 1,
+          "value": 203,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645097,
+          "size": 1,
+          "value": 220,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645098,
+          "size": 1,
+          "value": 237,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645099,
+          "size": 1,
+          "value": 254,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645100,
+          "size": 1,
+          "value": 15,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645101,
+          "size": 1,
+          "value": 32,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645102,
+          "size": 1,
+          "value": 49,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645103,
+          "size": 1,
+          "value": 66,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645104,
+          "size": 1,
+          "value": 83,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645105,
+          "size": 1,
+          "value": 100,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645106,
+          "size": 1,
+          "value": 117,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645107,
+          "size": 1,
+          "value": 134,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645108,
+          "size": 1,
+          "value": 151,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645109,
+          "size": 1,
+          "value": 168,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645110,
+          "size": 1,
+          "value": 185,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645111,
+          "size": 1,
+          "value": 202,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645112,
+          "size": 1,
+          "value": 219,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645113,
+          "size": 1,
+          "value": 236,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645114,
+          "size": 1,
+          "value": 253,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645115,
+          "size": 1,
+          "value": 14,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645116,
+          "size": 1,
+          "value": 31,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645117,
+          "size": 1,
+          "value": 48,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645118,
+          "size": 1,
+          "value": 65,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645119,
+          "size": 1,
+          "value": 82,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645120,
+          "size": 1,
+          "value": 99,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645121,
+          "size": 1,
+          "value": 116,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645122,
+          "size": 1,
+          "value": 133,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645123,
+          "size": 1,
+          "value": 150,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645124,
+          "size": 1,
+          "value": 167,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645125,
+          "size": 1,
+          "value": 184,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645126,
+          "size": 1,
+          "value": 201,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645127,
+          "size": 1,
+          "value": 218,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645128,
+          "size": 1,
+          "value": 235,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645129,
+          "size": 1,
+          "value": 252,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645130,
+          "size": 1,
+          "value": 13,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645131,
+          "size": 1,
+          "value": 30,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645132,
+          "size": 1,
+          "value": 47,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645133,
+          "size": 1,
+          "value": 64,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645134,
+          "size": 1,
+          "value": 81,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645135,
+          "size": 1,
+          "value": 98,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645136,
+          "size": 1,
+          "value": 115,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645137,
+          "size": 1,
+          "value": 132,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645138,
+          "size": 1,
+          "value": 149,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645139,
+          "size": 1,
+          "value": 166,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645140,
+          "size": 1,
+          "value": 183,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645141,
+          "size": 1,
+          "value": 200,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645142,
+          "size": 1,
+          "value": 217,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645143,
+          "size": 1,
+          "value": 234,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645144,
+          "size": 1,
+          "value": 251,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645145,
+          "size": 1,
+          "value": 12,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645146,
+          "size": 1,
+          "value": 29,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645147,
+          "size": 1,
+          "value": 46,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645148,
+          "size": 1,
+          "value": 63,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645149,
+          "size": 1,
+          "value": 80,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645150,
+          "size": 1,
+          "value": 97,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645151,
+          "size": 1,
+          "value": 114,
+          "pc": 2214658840
+        },
+        {
+          "address": 1049642583,
+          "size": 1,
+          "value": 128,
+          "pc": 2214616252
+        }
+      ],
+      "heap_sha256": "a085eba95583495769e927fa506fdeddab1a3837f3213c1ee00af3bdf4cc6c4c"
+    },
+    {
+      "kind": "vxlan",
+      "index": 0,
+      "length": 50,
+      "bridge_allocation_bytes": 69632,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 69632,
+          "end": 1048645664
+        },
+        {
+          "type": 1,
+          "address": 1048645664,
+          "bytes": 303168,
+          "end": 1048948832
+        }
+      ],
+      "destination": "0x3e810020",
+      "end": "0x3e810052",
+      "header_write_owner_type": 129,
+      "inside_bridge_allocation": true,
+      "descriptor_allocation_changed": false,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 50,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048641568,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641569,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641570,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641571,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641572,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641573,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641574,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641575,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641576,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641577,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641578,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641579,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641580,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641581,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641582,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641583,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641584,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641585,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641586,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641587,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641588,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641589,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641590,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641591,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641592,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641593,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641594,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641595,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641596,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641597,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641598,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641599,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641600,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641601,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641602,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641603,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641604,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641605,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641606,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641607,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641608,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641609,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641610,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641611,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641612,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641613,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641614,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641615,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641616,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048641617,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        }
+      ],
+      "heap_sha256": "af917fb7884a5a66fd8b4964073a72cdb37930b0b4051ddf4fdb0cec42113cc2"
+    },
+    {
+      "kind": "vxlan",
+      "index": 19,
+      "length": 50,
+      "bridge_allocation_bytes": 69632,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 69632,
+          "end": 1048645664
+        },
+        {
+          "type": 1,
+          "address": 1048645664,
+          "bytes": 303168,
+          "end": 1048948832
+        }
+      ],
+      "destination": "0x3e8109a0",
+      "end": "0x3e8109d2",
+      "header_write_owner_type": 129,
+      "inside_bridge_allocation": true,
+      "descriptor_allocation_changed": false,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 50,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048644000,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644001,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644002,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644003,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644004,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644005,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644006,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644007,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644008,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644009,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644010,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644011,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644012,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644013,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644014,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644015,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644016,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644017,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644018,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644019,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644020,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644021,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644022,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644023,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644024,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644025,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644026,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644027,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644028,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644029,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644030,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644031,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644032,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644033,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644034,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644035,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644036,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644037,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644038,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644039,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644040,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644041,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644042,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644043,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644044,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644045,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644046,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644047,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644048,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644049,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        }
+      ],
+      "heap_sha256": "ef21a5affa7f2db978b7cafdf36a77db27a56da2b5c9059213ec46677e516547"
+    },
+    {
+      "kind": "srv6",
+      "index": 0,
+      "length": 128,
+      "bridge_allocation_bytes": 69632,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 69632,
+          "end": 1048645664
+        },
+        {
+          "type": 1,
+          "address": 1048645664,
+          "bytes": 303168,
+          "end": 1048948832
+        }
+      ],
+      "destination": "0x3e810a20",
+      "end": "0x3e810aa0",
+      "header_write_owner_type": 129,
+      "inside_bridge_allocation": true,
+      "descriptor_allocation_changed": false,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 129,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048644128,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644129,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644130,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644131,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644132,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644133,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644134,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644135,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644136,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644137,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644138,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644139,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644140,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644141,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644142,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644143,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644144,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644145,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644146,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644147,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644148,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644149,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644150,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644151,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644152,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644153,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644154,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644155,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644156,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644157,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644158,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644159,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644160,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644161,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644162,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644163,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644164,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644165,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644166,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644167,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644168,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644169,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644170,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644171,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644172,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644173,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644174,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644175,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644176,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644177,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644178,
+          "size": 1,
+          "value": 85,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644179,
+          "size": 1,
+          "value": 102,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644180,
+          "size": 1,
+          "value": 119,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644181,
+          "size": 1,
+          "value": 136,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644182,
+          "size": 1,
+          "value": 153,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644183,
+          "size": 1,
+          "value": 170,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644184,
+          "size": 1,
+          "value": 187,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644185,
+          "size": 1,
+          "value": 204,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644186,
+          "size": 1,
+          "value": 221,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644187,
+          "size": 1,
+          "value": 238,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644188,
+          "size": 1,
+          "value": 255,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644189,
+          "size": 1,
+          "value": 16,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644190,
+          "size": 1,
+          "value": 33,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644191,
+          "size": 1,
+          "value": 50,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644192,
+          "size": 1,
+          "value": 67,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644193,
+          "size": 1,
+          "value": 84,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644194,
+          "size": 1,
+          "value": 101,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644195,
+          "size": 1,
+          "value": 118,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644196,
+          "size": 1,
+          "value": 135,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644197,
+          "size": 1,
+          "value": 152,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644198,
+          "size": 1,
+          "value": 169,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644199,
+          "size": 1,
+          "value": 186,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644200,
+          "size": 1,
+          "value": 203,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644201,
+          "size": 1,
+          "value": 220,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644202,
+          "size": 1,
+          "value": 237,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644203,
+          "size": 1,
+          "value": 254,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644204,
+          "size": 1,
+          "value": 15,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644205,
+          "size": 1,
+          "value": 32,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644206,
+          "size": 1,
+          "value": 49,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644207,
+          "size": 1,
+          "value": 66,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644208,
+          "size": 1,
+          "value": 83,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644209,
+          "size": 1,
+          "value": 100,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644210,
+          "size": 1,
+          "value": 117,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644211,
+          "size": 1,
+          "value": 134,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644212,
+          "size": 1,
+          "value": 151,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644213,
+          "size": 1,
+          "value": 168,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644214,
+          "size": 1,
+          "value": 185,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644215,
+          "size": 1,
+          "value": 202,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644216,
+          "size": 1,
+          "value": 219,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644217,
+          "size": 1,
+          "value": 236,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644218,
+          "size": 1,
+          "value": 253,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644219,
+          "size": 1,
+          "value": 14,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644220,
+          "size": 1,
+          "value": 31,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644221,
+          "size": 1,
+          "value": 48,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644222,
+          "size": 1,
+          "value": 65,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644223,
+          "size": 1,
+          "value": 82,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644224,
+          "size": 1,
+          "value": 99,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644225,
+          "size": 1,
+          "value": 116,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644226,
+          "size": 1,
+          "value": 133,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644227,
+          "size": 1,
+          "value": 150,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644228,
+          "size": 1,
+          "value": 167,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644229,
+          "size": 1,
+          "value": 184,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644230,
+          "size": 1,
+          "value": 201,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644231,
+          "size": 1,
+          "value": 218,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644232,
+          "size": 1,
+          "value": 235,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644233,
+          "size": 1,
+          "value": 252,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644234,
+          "size": 1,
+          "value": 13,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644235,
+          "size": 1,
+          "value": 30,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644236,
+          "size": 1,
+          "value": 47,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644237,
+          "size": 1,
+          "value": 64,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644238,
+          "size": 1,
+          "value": 81,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644239,
+          "size": 1,
+          "value": 98,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644240,
+          "size": 1,
+          "value": 115,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644241,
+          "size": 1,
+          "value": 132,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644242,
+          "size": 1,
+          "value": 149,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644243,
+          "size": 1,
+          "value": 166,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644244,
+          "size": 1,
+          "value": 183,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644245,
+          "size": 1,
+          "value": 200,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644246,
+          "size": 1,
+          "value": 217,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644247,
+          "size": 1,
+          "value": 234,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644248,
+          "size": 1,
+          "value": 251,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644249,
+          "size": 1,
+          "value": 12,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644250,
+          "size": 1,
+          "value": 29,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644251,
+          "size": 1,
+          "value": 46,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644252,
+          "size": 1,
+          "value": 63,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644253,
+          "size": 1,
+          "value": 80,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644254,
+          "size": 1,
+          "value": 97,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048644255,
+          "size": 1,
+          "value": 114,
+          "pc": 2214658840
+        },
+        {
+          "address": 1049642576,
+          "size": 1,
+          "value": 128,
+          "pc": 2214616252
+        }
+      ],
+      "heap_sha256": "a162c1fdef474725ba0192ac4bcd9f0b139906527b0049ce80b40ce56b3be157"
+    },
+    {
+      "kind": "srv6",
+      "index": 7,
+      "length": 128,
+      "bridge_allocation_bytes": 69632,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 129,
+          "address": 1048576032,
+          "bytes": 69632,
+          "end": 1048645664
+        },
+        {
+          "type": 1,
+          "address": 1048645664,
+          "bytes": 303168,
+          "end": 1048948832
+        }
+      ],
+      "destination": "0x3e810da0",
+      "end": "0x3e810e20",
+      "header_write_owner_type": 129,
+      "inside_bridge_allocation": true,
+      "descriptor_allocation_changed": false,
+      "callback_result": 1,
+      "whole_memory_compared": 524288,
+      "exact_write_bytes": 129,
+      "native_copy_entries": 1,
+      "writes": [
+        {
+          "address": 1048645024,
+          "size": 1,
+          "value": 3,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645025,
+          "size": 1,
+          "value": 20,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645026,
+          "size": 1,
+          "value": 37,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645027,
+          "size": 1,
+          "value": 54,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645028,
+          "size": 1,
+          "value": 71,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645029,
+          "size": 1,
+          "value": 88,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645030,
+          "size": 1,
+          "value": 105,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645031,
+          "size": 1,
+          "value": 122,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645032,
+          "size": 1,
+          "value": 139,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645033,
+          "size": 1,
+          "value": 156,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645034,
+          "size": 1,
+          "value": 173,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645035,
+          "size": 1,
+          "value": 190,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645036,
+          "size": 1,
+          "value": 207,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645037,
+          "size": 1,
+          "value": 224,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645038,
+          "size": 1,
+          "value": 241,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645039,
+          "size": 1,
+          "value": 2,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645040,
+          "size": 1,
+          "value": 19,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645041,
+          "size": 1,
+          "value": 36,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645042,
+          "size": 1,
+          "value": 53,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645043,
+          "size": 1,
+          "value": 70,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645044,
+          "size": 1,
+          "value": 87,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645045,
+          "size": 1,
+          "value": 104,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645046,
+          "size": 1,
+          "value": 121,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645047,
+          "size": 1,
+          "value": 138,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645048,
+          "size": 1,
+          "value": 155,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645049,
+          "size": 1,
+          "value": 172,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645050,
+          "size": 1,
+          "value": 189,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645051,
+          "size": 1,
+          "value": 206,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645052,
+          "size": 1,
+          "value": 223,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645053,
+          "size": 1,
+          "value": 240,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645054,
+          "size": 1,
+          "value": 1,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645055,
+          "size": 1,
+          "value": 18,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645056,
+          "size": 1,
+          "value": 35,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645057,
+          "size": 1,
+          "value": 52,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645058,
+          "size": 1,
+          "value": 69,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645059,
+          "size": 1,
+          "value": 86,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645060,
+          "size": 1,
+          "value": 103,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645061,
+          "size": 1,
+          "value": 120,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645062,
+          "size": 1,
+          "value": 137,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645063,
+          "size": 1,
+          "value": 154,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645064,
+          "size": 1,
+          "value": 171,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645065,
+          "size": 1,
+          "value": 188,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645066,
+          "size": 1,
+          "value": 205,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645067,
+          "size": 1,
+          "value": 222,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645068,
+          "size": 1,
+          "value": 239,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645069,
+          "size": 1,
+          "value": 0,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645070,
+          "size": 1,
+          "value": 17,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645071,
+          "size": 1,
+          "value": 34,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645072,
+          "size": 1,
+          "value": 51,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645073,
+          "size": 1,
+          "value": 68,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645074,
+          "size": 1,
+          "value": 85,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645075,
+          "size": 1,
+          "value": 102,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645076,
+          "size": 1,
+          "value": 119,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645077,
+          "size": 1,
+          "value": 136,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645078,
+          "size": 1,
+          "value": 153,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645079,
+          "size": 1,
+          "value": 170,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645080,
+          "size": 1,
+          "value": 187,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645081,
+          "size": 1,
+          "value": 204,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645082,
+          "size": 1,
+          "value": 221,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645083,
+          "size": 1,
+          "value": 238,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645084,
+          "size": 1,
+          "value": 255,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645085,
+          "size": 1,
+          "value": 16,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645086,
+          "size": 1,
+          "value": 33,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645087,
+          "size": 1,
+          "value": 50,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645088,
+          "size": 1,
+          "value": 67,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645089,
+          "size": 1,
+          "value": 84,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645090,
+          "size": 1,
+          "value": 101,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645091,
+          "size": 1,
+          "value": 118,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645092,
+          "size": 1,
+          "value": 135,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645093,
+          "size": 1,
+          "value": 152,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645094,
+          "size": 1,
+          "value": 169,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645095,
+          "size": 1,
+          "value": 186,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645096,
+          "size": 1,
+          "value": 203,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645097,
+          "size": 1,
+          "value": 220,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645098,
+          "size": 1,
+          "value": 237,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645099,
+          "size": 1,
+          "value": 254,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645100,
+          "size": 1,
+          "value": 15,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645101,
+          "size": 1,
+          "value": 32,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645102,
+          "size": 1,
+          "value": 49,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645103,
+          "size": 1,
+          "value": 66,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645104,
+          "size": 1,
+          "value": 83,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645105,
+          "size": 1,
+          "value": 100,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645106,
+          "size": 1,
+          "value": 117,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645107,
+          "size": 1,
+          "value": 134,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645108,
+          "size": 1,
+          "value": 151,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645109,
+          "size": 1,
+          "value": 168,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645110,
+          "size": 1,
+          "value": 185,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645111,
+          "size": 1,
+          "value": 202,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645112,
+          "size": 1,
+          "value": 219,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645113,
+          "size": 1,
+          "value": 236,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645114,
+          "size": 1,
+          "value": 253,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645115,
+          "size": 1,
+          "value": 14,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645116,
+          "size": 1,
+          "value": 31,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645117,
+          "size": 1,
+          "value": 48,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645118,
+          "size": 1,
+          "value": 65,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645119,
+          "size": 1,
+          "value": 82,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645120,
+          "size": 1,
+          "value": 99,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645121,
+          "size": 1,
+          "value": 116,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645122,
+          "size": 1,
+          "value": 133,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645123,
+          "size": 1,
+          "value": 150,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645124,
+          "size": 1,
+          "value": 167,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645125,
+          "size": 1,
+          "value": 184,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645126,
+          "size": 1,
+          "value": 201,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645127,
+          "size": 1,
+          "value": 218,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645128,
+          "size": 1,
+          "value": 235,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645129,
+          "size": 1,
+          "value": 252,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645130,
+          "size": 1,
+          "value": 13,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645131,
+          "size": 1,
+          "value": 30,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645132,
+          "size": 1,
+          "value": 47,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645133,
+          "size": 1,
+          "value": 64,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645134,
+          "size": 1,
+          "value": 81,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645135,
+          "size": 1,
+          "value": 98,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645136,
+          "size": 1,
+          "value": 115,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645137,
+          "size": 1,
+          "value": 132,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645138,
+          "size": 1,
+          "value": 149,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645139,
+          "size": 1,
+          "value": 166,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645140,
+          "size": 1,
+          "value": 183,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645141,
+          "size": 1,
+          "value": 200,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645142,
+          "size": 1,
+          "value": 217,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645143,
+          "size": 1,
+          "value": 234,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645144,
+          "size": 1,
+          "value": 251,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645145,
+          "size": 1,
+          "value": 12,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645146,
+          "size": 1,
+          "value": 29,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645147,
+          "size": 1,
+          "value": 46,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645148,
+          "size": 1,
+          "value": 63,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645149,
+          "size": 1,
+          "value": 80,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645150,
+          "size": 1,
+          "value": 97,
+          "pc": 2214658840
+        },
+        {
+          "address": 1048645151,
+          "size": 1,
+          "value": 114,
+          "pc": 2214658840
+        },
+        {
+          "address": 1049642583,
+          "size": 1,
+          "value": 128,
+          "pc": 2214616252
+        }
+      ],
+      "heap_sha256": "a085eba95583495769e927fa506fdeddab1a3837f3213c1ee00af3bdf4cc6c4c"
+    }
+  ],
+  "startup_cases": [
+    {
+      "bridge_allocation_bytes": 58879,
+      "core0_allocations": 7,
+      "core0_used_bytes": 430320,
+      "planned_bridge_base": "0x3e869100",
+      "declared_heap_end": "0x3e878000",
+      "required_end": "0x3e8776ff",
+      "full_extent_deficit": 0,
+      "held_before_publication": false,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 138,
+          "address": 1048576032,
+          "bytes": 32768,
+          "end": 1048608800
+        },
+        {
+          "type": 18,
+          "address": 1048608800,
+          "bytes": 57344,
+          "end": 1048666144
+        },
+        {
+          "type": 29,
+          "address": 1048666144,
+          "bytes": 4096,
+          "end": 1048670240
+        },
+        {
+          "type": 1,
+          "address": 1048670240,
+          "bytes": 303168,
+          "end": 1048973408
+        },
+        {
+          "type": 11,
+          "address": 1048973408,
+          "bytes": 120,
+          "end": 1048973528
+        },
+        {
+          "type": 25,
+          "address": 1048973536,
+          "bytes": 32784,
+          "end": 1049006320
+        },
+        {
+          "type": 129,
+          "address": 1049006336,
+          "bytes": 58879,
+          "end": 1049065215
+        }
+      ],
+      "header_attempt": {
+        "address": "0x3e879100",
+        "pc": "0x84010318",
+        "outside_heap_by": 4352,
+        "stopped": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "native_callback_guard": false
+      }
+    },
+    {
+      "bridge_allocation_bytes": 69632,
+      "core0_allocations": 7,
+      "core0_used_bytes": 430320,
+      "planned_bridge_base": "0x3e869100",
+      "declared_heap_end": "0x3e878000",
+      "required_end": "0x3e87a100",
+      "full_extent_deficit": 8448,
+      "held_before_publication": true,
+      "allocations": [
+        {
+          "type": 137,
+          "address": 1048576000,
+          "bytes": 4,
+          "end": 1048576004
+        },
+        {
+          "type": 138,
+          "address": 1048576032,
+          "bytes": 32768,
+          "end": 1048608800
+        },
+        {
+          "type": 18,
+          "address": 1048608800,
+          "bytes": 57344,
+          "end": 1048666144
+        },
+        {
+          "type": 29,
+          "address": 1048666144,
+          "bytes": 4096,
+          "end": 1048670240
+        },
+        {
+          "type": 1,
+          "address": 1048670240,
+          "bytes": 303168,
+          "end": 1048973408
+        },
+        {
+          "type": 11,
+          "address": 1048973408,
+          "bytes": 120,
+          "end": 1048973528
+        },
+        {
+          "type": 25,
+          "address": 1048973536,
+          "bytes": 32784,
+          "end": 1049006320
+        }
+      ],
+      "header_attempt": null
+    }
+  ],
+  "static_calls": [
+    {
+      "target": "0x84005200",
+      "distinct_sites": 31,
+      "callers": [
+        {
+          "pc": "0x84001486",
+          "owners": [
+            {
+              "function": "0x84001472",
+              "name": "FUN_ram_84001472"
+            }
+          ]
+        },
+        {
+          "pc": "0x84004ec8",
+          "owners": [
+            {
+              "function": "0x84004e76",
+              "name": "FUN_ram_84004e76"
+            }
+          ]
+        },
+        {
+          "pc": "0x84004eec",
+          "owners": [
+            {
+              "function": "0x84004e76",
+              "name": "FUN_ram_84004e76"
+            }
+          ]
+        },
+        {
+          "pc": "0x84004f2a",
+          "owners": [
+            {
+              "function": "0x84004e76",
+              "name": "FUN_ram_84004e76"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400540c",
+          "owners": [
+            {
+              "function": "0x840053e4",
+              "name": "FUN_ram_840053e4"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005432",
+          "owners": [
+            {
+              "function": "0x840053e4",
+              "name": "FUN_ram_840053e4"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005446",
+          "owners": [
+            {
+              "function": "0x840053e4",
+              "name": "FUN_ram_840053e4"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005488",
+          "owners": [
+            {
+              "function": "0x84005458",
+              "name": "FUN_ram_84005458"
+            }
+          ]
+        },
+        {
+          "pc": "0x840054a2",
+          "owners": [
+            {
+              "function": "0x84005458",
+              "name": "FUN_ram_84005458"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005a30",
+          "owners": [
+            {
+              "function": "0x84005a28",
+              "name": "FUN_ram_84005a28"
+            }
+          ]
+        },
+        {
+          "pc": "0x84009736",
+          "owners": [
+            {
+              "function": "0x8400971c",
+              "name": "FUN_ram_8400971c"
+            }
+          ]
+        },
+        {
+          "pc": "0x84009826",
+          "owners": [
+            {
+              "function": "0x8400981c",
+              "name": "FUN_ram_8400981c"
+            }
+          ]
+        },
+        {
+          "pc": "0x84009ffa",
+          "owners": [
+            {
+              "function": "0x84009fc8",
+              "name": "FUN_ram_84009fc8"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a202",
+          "owners": [
+            {
+              "function": "0x8400a1c6",
+              "name": "FUN_ram_8400a1c6"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a372",
+          "owners": [
+            {
+              "function": "0x8400a364",
+              "name": "FUN_ram_8400a364"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a396",
+          "owners": [
+            {
+              "function": "0x8400a364",
+              "name": "FUN_ram_8400a364"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a3aa",
+          "owners": [
+            {
+              "function": "0x8400a364",
+              "name": "FUN_ram_8400a364"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a3c4",
+          "owners": [
+            {
+              "function": "0x8400a3bc",
+              "name": "FUN_ram_8400a3bc"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a63c",
+          "owners": [
+            {
+              "function": "0x8400a5fa",
+              "name": "FUN_ram_8400a5fa"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400a6b2",
+          "owners": [
+            {
+              "function": "0x8400a5fa",
+              "name": "FUN_ram_8400a5fa"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400b462",
+          "owners": [
+            {
+              "function": "0x8400b432",
+              "name": "FUN_ram_8400b432"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400b534",
+          "owners": [
+            {
+              "function": "0x8400b432",
+              "name": "FUN_ram_8400b432"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400b92e",
+          "owners": [
+            {
+              "function": "0x8400b928",
+              "name": "FUN_ram_8400b928"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400bab4",
+          "owners": [
+            {
+              "function": "0x8400baae",
+              "name": "FUN_ram_8400baae"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d2c2",
+          "owners": [
+            {
+              "function": "0x8400d1d4",
+              "name": "FUN_ram_8400d1d4"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d3c0",
+          "owners": [
+            {
+              "function": "0x8400d2d4",
+              "name": "FUN_ram_8400d2d4"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d3e0",
+          "owners": [
+            {
+              "function": "0x8400d2d4",
+              "name": "FUN_ram_8400d2d4"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d446",
+          "owners": [
+            {
+              "function": "0x8400d2d4",
+              "name": "FUN_ram_8400d2d4"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d466",
+          "owners": [
+            {
+              "function": "0x8400d2d4",
+              "name": "FUN_ram_8400d2d4"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d68c",
+          "owners": [
+            {
+              "function": "0x8400d67a",
+              "name": "FUN_ram_8400d67a"
+            }
+          ]
+        },
+        {
+          "pc": "0x8400d69c",
+          "owners": [
+            {
+              "function": "0x8400d67a",
+              "name": "FUN_ram_8400d67a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "0x84001466",
+      "distinct_sites": 9,
+      "callers": [
+        {
+          "pc": "0x84001ad8",
+          "owners": [
+            {
+              "function": "0x84001a28",
+              "name": "FUN_ram_84001a28"
+            }
+          ]
+        },
+        {
+          "pc": "0x84001ce6",
+          "owners": [
+            {
+              "function": "0x84001a28",
+              "name": "FUN_ram_84001a28"
+            }
+          ]
+        },
+        {
+          "pc": "0x84001e92",
+          "owners": [
+            {
+              "function": "0x84001e78",
+              "name": "FUN_ram_84001e78"
+            }
+          ]
+        },
+        {
+          "pc": "0x84001f6e",
+          "owners": [
+            {
+              "function": "0x84001a28",
+              "name": "FUN_ram_84001a28"
+            }
+          ]
+        },
+        {
+          "pc": "0x840023b6",
+          "owners": [
+            {
+              "function": "0x84002390",
+              "name": "FUN_ram_84002390"
+            }
+          ]
+        },
+        {
+          "pc": "0x84002e8e",
+          "owners": [
+            {
+              "function": "0x84002e72",
+              "name": "FUN_ram_84002e72"
+            }
+          ]
+        },
+        {
+          "pc": "0x84002f4c",
+          "owners": [
+            {
+              "function": "0x84002f30",
+              "name": "FUN_ram_84002f30"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005c40",
+          "owners": [
+            {
+              "function": "0x84005c30",
+              "name": "npu_table_0f4"
+            }
+          ]
+        },
+        {
+          "pc": "0x84005c96",
+          "owners": [
+            {
+              "function": "0x84005c82",
+              "name": "npu_table_100"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout_hypothesis": {
+    "packet_bytes": 65536,
+    "header_bytes": 4096,
+    "total_bytes": 69632
+  },
+  "limits": [
+    "Native selected bridge/tunnel callbacks only; strict admission is not expanded.",
+    "Primitive clock-divider register is fixed at zero with a decreasing synthetic timer counter.",
+    "Primitive bridge-before-descriptors is an ordered component scenario, not a proved stock scheduling order.",
+    "Core0-first case uses actual checked startup and native bridge initialization under existing MMIO/timer models.",
+    "69632-byte bridge size is an isolated ROM-table sizing hypothesis, not a promoted allocation or complete layout fix.",
+    "Existing header callback bounds, all consumers and complete memory/placement profiles are not yet closed.",
+    "No physical/router test, image, provider INODE correction or native DESC5/6/7/8 operation."
+  ]
+}

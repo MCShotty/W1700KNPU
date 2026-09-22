@@ -1,0 +1,19 @@
+RISCV RingReclamationSuccessM4
+{
+flag=4; token=51; command=68;
+0:x1=flag; 0:x2=token; 0:x3=command;
+1:x1=flag; 1:x2=token; 1:x3=command;
+}
+P0 | P1 ;
+lw x4,0(x1)                | lw x4,0(x1)                ;
+li x5,254                  | li x5,254                  ;
+bne x4,x5,P0done           | beq x4,x5,P1done           ;
+li x9,17                   | fence rw,rw                ;
+sw x9,0(x2)                | lw x8,0(x1)                ;
+li x9,136                  | lw x6,0(x2)                ;
+sw x9,0(x3)                | lw x7,0(x3)                ;
+li x9,4                    | li x9,254                  ;
+sw x9,0(x1)                | sw x9,0(x1)                ;
+P0done:                    | P1done:                    ;
+nop                        | nop                        ;
+exists (0:x4=254 /\ 1:x4=4 /\ 1:x8=4 /\ 1:x6=51 /\ 1:x7=68 /\ flag=4 /\ token=17 /\ command=136)

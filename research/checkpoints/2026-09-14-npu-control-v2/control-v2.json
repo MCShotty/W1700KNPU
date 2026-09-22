@@ -1,0 +1,561 @@
+{
+  "passed": true,
+  "host_differential_calls": 830,
+  "server_differential_calls": 254,
+  "cases": [
+    {
+      "case": "cold",
+      "client": [
+        4,
+        0,
+        826366246,
+        655894552,
+        4,
+        0,
+        3,
+        1,
+        0,
+        0,
+        255,
+        0,
+        0,
+        7,
+        305419896,
+        2596069104,
+        0
+      ]
+    },
+    {
+      "case": "running",
+      "client": [
+        4,
+        0,
+        826366246,
+        655894552,
+        4,
+        0,
+        3,
+        2,
+        1,
+        1,
+        255,
+        0,
+        0,
+        7,
+        305419896,
+        2596069104,
+        0
+      ]
+    },
+    {
+      "case": "partial-release",
+      "client": [
+        4,
+        0,
+        826366246,
+        655894552,
+        4,
+        0,
+        3,
+        2,
+        1,
+        0,
+        255,
+        0,
+        0,
+        7,
+        305419896,
+        2596069104,
+        0
+      ]
+    },
+    {
+      "case": "stale-wire-reply-new-ticket",
+      "rejected": true
+    },
+    {
+      "case": "replacement-provider",
+      "same_boot_identity": false,
+      "status": 7
+    },
+    {
+      "case": "replacement-provider",
+      "same_boot_identity": true,
+      "status": 2
+    },
+    {
+      "case": "old-bind-new-boot",
+      "status": 7
+    },
+    {
+      "case": "abandoned-busy-bind",
+      "duplicate_status": 8,
+      "bound": false
+    },
+    {
+      "case": "sequence-order-and-exhaustion",
+      "last_sequence": 4294967295
+    },
+    {
+      "case": "timeout",
+      "phase": 0,
+      "delivered": false
+    },
+    {
+      "case": "timeout",
+      "phase": 0,
+      "delivered": true
+    },
+    {
+      "case": "timeout",
+      "phase": 1,
+      "delivered": false
+    },
+    {
+      "case": "timeout",
+      "phase": 1,
+      "delivered": true
+    },
+    {
+      "case": "timeout",
+      "phase": 2,
+      "delivered": false
+    },
+    {
+      "case": "timeout",
+      "phase": 2,
+      "delivered": true
+    },
+    {
+      "case": "timeout",
+      "phase": 3,
+      "delivered": false
+    },
+    {
+      "case": "timeout",
+      "phase": 3,
+      "delivered": true
+    },
+    {
+      "case": "no-loader-identity",
+      "rejected": true
+    },
+    {
+      "case": "original-firmware-v2-probe",
+      "mailbox_flags": 7,
+      "reply_magic": 0
+    },
+    {
+      "case": "v1-endpoint-v2-probe",
+      "running": false,
+      "mailbox_flags": 3,
+      "barrier_unchanged": true
+    },
+    {
+      "case": "v1-endpoint-v2-probe",
+      "running": true,
+      "mailbox_flags": 7,
+      "barrier_unchanged": true
+    }
+  ],
+  "malformed": [
+    {
+      "kind": "reply",
+      "field": 0,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 0,
+      "value": 4294967295
+    },
+    {
+      "kind": "reply",
+      "field": 1,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 2,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 2,
+      "value": 827478350
+    },
+    {
+      "kind": "reply",
+      "field": 3,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 3,
+      "value": 3
+    },
+    {
+      "kind": "reply",
+      "field": 4,
+      "value": 64
+    },
+    {
+      "kind": "reply",
+      "field": 4,
+      "value": 81
+    },
+    {
+      "kind": "reply",
+      "field": 5,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 5,
+      "value": 2
+    },
+    {
+      "kind": "reply",
+      "field": 5,
+      "value": 4
+    },
+    {
+      "kind": "reply",
+      "field": 6,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 6,
+      "value": 2
+    },
+    {
+      "kind": "reply",
+      "field": 7,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 8,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 9,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 9,
+      "value": 6
+    },
+    {
+      "kind": "reply",
+      "field": 9,
+      "value": 8
+    },
+    {
+      "kind": "reply",
+      "field": 10,
+      "value": 7
+    },
+    {
+      "kind": "reply",
+      "field": 10,
+      "value": 47
+    },
+    {
+      "kind": "reply",
+      "field": 10,
+      "value": 55
+    },
+    {
+      "kind": "reply",
+      "field": 10,
+      "value": 63
+    },
+    {
+      "kind": "reply",
+      "field": 11,
+      "value": 256
+    },
+    {
+      "kind": "reply",
+      "field": 12,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 13,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 13,
+      "value": 32
+    },
+    {
+      "kind": "reply",
+      "field": 14,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 15,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 16,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 16,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 16,
+      "value": 4294967295
+    },
+    {
+      "kind": "reply",
+      "field": 17,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 17,
+      "value": 305419897
+    },
+    {
+      "kind": "reply",
+      "field": 18,
+      "value": 0
+    },
+    {
+      "kind": "reply",
+      "field": 18,
+      "value": 2596069105
+    },
+    {
+      "kind": "reply",
+      "field": 19,
+      "value": 1
+    },
+    {
+      "kind": "reply",
+      "field": 19,
+      "value": 4294967295
+    },
+    {
+      "kind": "request",
+      "field": 3,
+      "value": 1
+    },
+    {
+      "kind": "request",
+      "field": 4,
+      "value": 64
+    },
+    {
+      "kind": "request",
+      "field": 16,
+      "value": 0
+    },
+    {
+      "kind": "request",
+      "field": 19,
+      "value": 1
+    },
+    {
+      "kind": "request",
+      "field": 7,
+      "value": 0
+    },
+    {
+      "kind": "length",
+      "bytes": 0
+    },
+    {
+      "kind": "length",
+      "bytes": 1
+    },
+    {
+      "kind": "length",
+      "bytes": 63
+    },
+    {
+      "kind": "length",
+      "bytes": 64
+    },
+    {
+      "kind": "length",
+      "bytes": 79
+    },
+    {
+      "kind": "length",
+      "bytes": 81
+    },
+    {
+      "kind": "length",
+      "bytes": 256
+    },
+    {
+      "kind": "length",
+      "bytes": 4294967295
+    }
+  ],
+  "shared_workers": {
+    "saved_contexts": 8,
+    "round_trips": 11,
+    "masks": [
+      32,
+      36,
+      164,
+      166,
+      230,
+      246,
+      254,
+      255
+    ],
+    "epoch": 1,
+    "drain_mask": 0,
+    "host": [
+      4,
+      0,
+      826366246,
+      655894552,
+      11,
+      0,
+      3,
+      1,
+      0,
+      0,
+      255,
+      0,
+      0,
+      7,
+      305419896,
+      2596069104,
+      0
+    ],
+    "scope": "Cold worker entry/IRQ adapters on shared modeled SRAM; helper returns/MMIO/IRQ invocation are modeled, not full reset-to-postgate boot or physical quiescence."
+  },
+  "limit_control": {
+    "reused_boot_plus_replayed_bind_detected": false,
+    "scope": "Deliberate loader/transport contract violation: boot identities must never repeat; not proof of a fresh loader or physical provider identity."
+  },
+  "mutations": [
+    {
+      "name": "host-sequence",
+      "detected": true,
+      "source_sha256": "c434ec91d89956d7c93b6f4f41fa2690fb6dfe8c167145d618139d31b1f47fa4",
+      "binaries": {
+        ".local/npu-control-v2/host-sequence.so": "8f5ecc461edfb24157cf085df9f517d744709346c5cf8d2915ca8048984d125d",
+        ".local/npu-control-v2/host-sequence-arm.elf": "a3094dd98b883688453023aad01401a20cd549a0e1af70d8e38adb97d9ef35cc",
+        ".local/npu-control-v2/host-sequence-rv.elf": "9eb48d7cc32b744b31b20f0a99695a9bbc931d8b081041c7b0ec147fe7c03bad"
+      }
+    },
+    {
+      "name": "host-boot",
+      "detected": true,
+      "source_sha256": "3f81e83a3406c87f54e90b88817cf60d7d29c46f6daec332343f8fb7650c810d",
+      "binaries": {
+        ".local/npu-control-v2/host-boot.so": "f1c0dea17e031439c83667847459e15d019253d27518ecf4e6eefc89b7161340",
+        ".local/npu-control-v2/host-boot-arm.elf": "e2625e1d4c003233555cf374b3ab232636af3f5a9c3335136e8e1b9eaa4d6bc0",
+        ".local/npu-control-v2/host-boot-rv.elf": "9eb48d7cc32b744b31b20f0a99695a9bbc931d8b081041c7b0ec147fe7c03bad"
+      }
+    },
+    {
+      "name": "host-capability",
+      "detected": true,
+      "source_sha256": "066de1e88b1b8dcc01af33fb91b448596703cf252b3a018a5a7726f11dd4d312",
+      "binaries": {
+        ".local/npu-control-v2/host-capability.so": "093d4b370395f2be88c3171b61954de9652f9ac31b8baa6da4a89f2ce3123b31",
+        ".local/npu-control-v2/host-capability-arm.elf": "c497789598c38d8c4509cb0e6807750e603e68860433c27fee00cc6d22fa1293",
+        ".local/npu-control-v2/host-capability-rv.elf": "9eb48d7cc32b744b31b20f0a99695a9bbc931d8b081041c7b0ec147fe7c03bad"
+      }
+    },
+    {
+      "name": "server-sequence",
+      "detected": true,
+      "source_sha256": "4e8c4c0ef3952920422d63e7047d427edb7029026d1f30f33a4bbc241a0f6f0d",
+      "binaries": {
+        ".local/npu-control-v2/server-sequence.so": "8c383493ed702c7eb612780c814683e2a66f1ab76b9f79f1ae12d57e39d1db3d",
+        ".local/npu-control-v2/server-sequence-arm.elf": "b8b1ed976517df85d0aa581541a265ba0580c089b5239353eba425d6d83af04c",
+        ".local/npu-control-v2/server-sequence-rv.elf": "018f2ff36fbff14decc71522690c2b86fad5a54548fddcde0dce249c30693239"
+      }
+    },
+    {
+      "name": "server-boot",
+      "detected": true,
+      "source_sha256": "984900e1c2e3d211af28af496aa3f9202de9ef57558a365a6c7069a924a7d5aa",
+      "binaries": {
+        ".local/npu-control-v2/server-boot.so": "a994eb85a6abf0f70a7e73b7febbc3f981db812bb42b57ebcc22746c05d990a8",
+        ".local/npu-control-v2/server-boot-arm.elf": "b8b1ed976517df85d0aa581541a265ba0580c089b5239353eba425d6d83af04c",
+        ".local/npu-control-v2/server-boot-rv.elf": "209235dd6b6073307edef5a040ada7512d28cda1765b1eb7a0a7f99f1731a100"
+      }
+    },
+    {
+      "name": "status-binding",
+      "detected": true,
+      "source_sha256": "bafcc6091ba57a7de143dbde83d0c52733f5eef266900e714e70f4f87dcdb578",
+      "binaries": {
+        ".local/npu-control-v2/status-binding.so": "f0bc4154048e949dc495ed49580071abd8ef03a9d125d31224f291eb9f00d889",
+        ".local/npu-control-v2/status-binding-arm.elf": "b8b1ed976517df85d0aa581541a265ba0580c089b5239353eba425d6d83af04c",
+        ".local/npu-control-v2/status-binding-rv.elf": "45086c7f685d2828a1a4962acc3f2c1ec97d5cf30e2e0a46ee173b5e488f3a03"
+      }
+    }
+  ],
+  "inputs": {
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "tests/npu/control-client-emulation.ld": "bfb517f6c8c5521b52153553ce01b8bdba67917078902d485929a2d7679e7507",
+    "tests/npu/control-client-sanitize.c": "824eb989668dfba6f7b94a2636fe161b2cc80167cdc7ec68c9b32276235737cf",
+    "tests/npu/test_control_client.py": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/ADMISSION_ABI.md": "9cff55d562d7263657ca4d1d9b1ae47072ca0c1337e2d3bc74414fa823853945",
+    "firmware/npu/CONTROL_CLIENT_CONTRACT.md": "d3c1113cec5d01825f07b8b920281e761b63b71b77db2ba8d1010eb1b6143cb5",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "1806c7363efb2fb8c43034e95d5799b96e1b3da63b8ed9c192493ef29959b61a",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "tests/npu/control-v2-platform-emulation.c": "4fef70f27d0e9fc22bc51778158b6f5fc96ed576e097c657a422114d88de11a8",
+    "tests/npu/test_control_v2.py": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b",
+    "firmware/npu/CONTROL_V2_CONTRACT.md": "f4920e2c49a89f6492f3993fdaa559e9f7c647b3e13059b0cec0a8e5a3173dcb"
+  },
+  "binaries": {
+    ".local/npu-control-v2/v2.so": "5e1c1415713935dfb0019e3aee3fdd4629703252f9d77d65b4ba1f9c18a2ca37",
+    ".local/npu-control-v2/v2-arm.elf": "b8b1ed976517df85d0aa581541a265ba0580c089b5239353eba425d6d83af04c",
+    ".local/npu-control-v2/v2-rv.elf": "9eb48d7cc32b744b31b20f0a99695a9bbc931d8b081041c7b0ec147fe7c03bad"
+  },
+  "compiler": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+  "unicorn_version": "2.1.4",
+  "static_analyzer": "passed without diagnostics",
+  "stock_firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "stock_data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "scope": "Unpromoted V2 identity protocol on x86/AArch64 host code and x86/RV32 server code with actual strict mailbox and eight saved worker contexts. Loader identity/MMIO/cache/interrupt invocation/scheduling/drains are modeled. No complete loader/Linux recovery/physical containment or router validation."
+}

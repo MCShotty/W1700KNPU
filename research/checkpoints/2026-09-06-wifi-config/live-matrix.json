@@ -1,0 +1,2109 @@
+{
+  "scope": "Daemon ENABLED and kernel channel readback, not client traffic",
+  "private_credentials_ssids_addresses_omitted": true,
+  "cases": [
+    {
+      "profile": "ap2g",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap25",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 2,
+      "mlo_links": 0,
+      "unique_global_addresses": 2,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap26",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 2,
+      "mlo_links": 0,
+      "unique_global_addresses": 2,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap56",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz"
+      ],
+      "global_interfaces": 2,
+      "mlo_links": 0,
+      "unique_global_addresses": 2,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap256",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 3,
+      "mlo_links": 0,
+      "unique_global_addresses": 3,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo25",
+      "interfaces": [
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 0,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 1,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 2,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo26",
+      "interfaces": [
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 0,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 2,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 2,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo56",
+      "interfaces": [
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 1,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 2,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 2,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo256",
+      "interfaces": [
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 0,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 1,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 2,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 3,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap2g-legacy-wpa2",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "NOHT",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "psk2",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz (no HT), center1: 2437 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap2g-ht20-wpa2",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "HT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "psk2",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap2g-he20-mixed",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "HE20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae-mixed",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap2g-eht40",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT40",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g-vht20-wpa2",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "VHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "psk2",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 20 MHz, center1: 5180 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g-vht40-wpa2",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "VHT40",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "psk2",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": true,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 40 MHz, center1: 5190 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g-vht80-wpa2",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "VHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "psk2",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": true,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g-he80-mixed",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "HE80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae-mixed",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap5g-eht160",
+      "interfaces": [
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT160",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": []
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 160 MHz, center1: 5250 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-he20",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "HE20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 20 MHz, center1: 6135 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-he40",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "HE40",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 40 MHz, center1: 6125 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-he80",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "HE80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-he160",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "HE160",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 160 MHz, center1: 6185 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-eht320",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "33",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 33 (6115 MHz), width: 320 MHz, center1: 6105 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap6g-auto-eht80",
+      "interfaces": [
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio1",
+          "up": false,
+          "pending": false,
+          "disabled": true,
+          "band": "5g",
+          "channel": "161",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": []
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "auto",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 1 (5955 MHz), width: 80 MHz, center1: 5985 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 0,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "ap256dual",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.0-ap1",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.1-ap0",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.1-ap1",
+          "wiphy": "phy0",
+          "radio": 1,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.2-ap0",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "phy0.2-ap1",
+          "wiphy": "phy0",
+          "radio": 2,
+          "running": true,
+          "pending": false,
+          "links": []
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            },
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            },
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            },
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 6,
+      "mlo_links": 0,
+      "unique_global_addresses": 6,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo56ap2",
+      "interfaces": [
+        {
+          "name": "phy0.0-ap0",
+          "wiphy": "phy0",
+          "radio": 0,
+          "running": true,
+          "pending": false,
+          "links": []
+        },
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 1,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 2,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": null
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "channel 37 (6135 MHz), width: 80 MHz, center1: 6145 MHz",
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz"
+      ],
+      "global_interfaces": 2,
+      "mlo_links": 2,
+      "unique_global_addresses": 2,
+      "after_cleanup_global_interfaces": 0
+    },
+    {
+      "profile": "mlo256-reload",
+      "interfaces": [
+        {
+          "name": "ap-mld0",
+          "wiphy": "phy0",
+          "radio": null,
+          "running": null,
+          "pending": null,
+          "links": [
+            {
+              "radio": 0,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 1,
+              "running": true,
+              "pending": false
+            },
+            {
+              "radio": 2,
+              "running": true,
+              "pending": false
+            }
+          ]
+        }
+      ],
+      "radios": [
+        {
+          "name": "radio0",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "2g",
+          "channel": "6",
+          "htmode": "EHT20",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio1",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "5g",
+          "channel": "36",
+          "htmode": "EHT80",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        },
+        {
+          "name": "radio2",
+          "up": true,
+          "pending": false,
+          "disabled": false,
+          "band": "6g",
+          "channel": "37",
+          "htmode": "EHT320",
+          "country": "SA",
+          "networks": [
+            {
+              "mode": "ap",
+              "encryption": "sae",
+              "mlo": true
+            }
+          ]
+        }
+      ],
+      "channel_lines": [
+        "type AP",
+        "channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz",
+        "channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz",
+        "channel 37 (6135 MHz), width: 320 MHz, center1: 6105 MHz"
+      ],
+      "global_interfaces": 1,
+      "mlo_links": 3,
+      "unique_global_addresses": 1,
+      "after_cleanup_global_interfaces": 0
+    }
+  ]
+}

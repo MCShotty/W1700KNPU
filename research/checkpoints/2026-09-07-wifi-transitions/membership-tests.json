@@ -1,0 +1,202 @@
+{
+  "scope": "Actual ucode admission/reload-selection functions; modeled framework only",
+  "source_sha256": "c5db50945a641ab94a31ff11de143fa28d187b046fd4adb7bdb15ea3c0086212",
+  "harness_sha256": "90eb0526eabfab3014b5321d21aa8f7157539cfeee52d9b09973b74bbbca2073",
+  "passed": 24,
+  "cases": [
+    {
+      "name": "mask-3-radio-0",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-3-radio-1",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-3-radio-2",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "mask-5-radio-0",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-5-radio-1",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "mask-5-radio-2",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-6-radio-0",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "mask-6-radio-1",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-6-radio-2",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-7-radio-0",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-7-radio-1",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "mask-7-radio-2",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "wrong-phy-existing",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "wrong-phy-create",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "wrong-radio-create",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "right-radio-create",
+      "pass": true,
+      "accepted": true,
+      "operations": [
+        "create",
+        "up"
+      ]
+    },
+    {
+      "name": "legacy-default-radio-zero",
+      "pass": true,
+      "accepted": true,
+      "operations": []
+    },
+    {
+      "name": "negative-radio",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "fractional-radio",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "out-of-range-radio",
+      "pass": true,
+      "accepted": false,
+      "operations": []
+    },
+    {
+      "name": "reject-outside-mask-without-dropping-ordinary-bss",
+      "pass": true
+    },
+    {
+      "name": "activation-filters-all-candidate-sources",
+      "pass": true,
+      "actual": [
+        "phy0.0",
+        "phy0.1",
+        "previous_other_mld"
+      ]
+    },
+    {
+      "name": "activation-new-anchor-and-mask",
+      "pass": true,
+      "actual": [
+        "phy0.0",
+        "phy0.2",
+        "previous_other_mld"
+      ]
+    },
+    {
+      "name": "detach-preserves-all-old-references",
+      "pass": true,
+      "actual": [
+        "missing",
+        "phy0.0",
+        "phy0.1",
+        "phy0.2",
+        "phy9.1",
+        "previous_other_mld"
+      ]
+    }
+  ],
+  "baseline_failures": [
+    "mask-3-radio-2",
+    "mask-5-radio-1",
+    "mask-6-radio-0",
+    "wrong-phy-existing",
+    "wrong-phy-create",
+    "wrong-radio-create",
+    "negative-radio",
+    "fractional-radio",
+    "out-of-range-radio",
+    "reject-outside-mask-without-dropping-ordinary-bss",
+    "activation-filters-all-candidate-sources",
+    "activation-new-anchor-and-mask"
+  ],
+  "killed_mutants": {
+    "remove-admission-guard": [
+      "mask-3-radio-2",
+      "mask-5-radio-1",
+      "mask-6-radio-0",
+      "wrong-phy-existing",
+      "wrong-phy-create",
+      "wrong-radio-create",
+      "negative-radio",
+      "fractional-radio",
+      "out-of-range-radio",
+      "reject-outside-mask-without-dropping-ordinary-bss"
+    ],
+    "remove-reload-filter": [
+      "activation-filters-all-candidate-sources",
+      "activation-new-anchor-and-mask"
+    ],
+    "remove-phy-identity": [
+      "wrong-phy-existing",
+      "wrong-phy-create",
+      "activation-filters-all-candidate-sources"
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+From: W1700KNPU development <noreply@example.invalid>
+Subject: [CANDIDATE] wifi: mt76: validate NPU TXFREE backing before attachment
+
+The firmware initializes a 512-entry, 16-byte TXDONE ring and folds the DMA
+address into a 30-bit aperture, diagnosing inputs at or above 0xc0000000.
+Validate the selected host queue before
+the first attachment command can publish other resources. This does not
+establish hardware containment or safe reclaim after publication failure.
+
+Unpromoted: source/object/native-emulator verification only.
+
+---
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -7,6 +7,7 @@
+ #include <linux/soc/airoha/airoha_offload.h>
+ 
+ #include "mt7996.h"
++#include "../dma.h"
+ 
+ static int mt7992_npu_txrx_offload_init(struct mt7996_dev *dev,
+ 					struct airoha_npu *npu)
+@@ -399,6 +400,27 @@ static int mt7996_npu_txd_init(struct mt7996_dev *dev, struct airoha_npu *npu)
+ 	return 0;
+ }
+ 
++static int mt7996_npu_rx_event_validate(struct mt7996_dev *dev)
++{
++	int qid = is_mt7996(&dev->mt76) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;
++	struct mt76_queue *q = &dev->mt76.q_rx[qid];
++	u32 size = MT7996_RX_MCU_RING_SIZE * sizeof(*q->desc);
++
++	BUILD_BUG_ON(sizeof(*q->desc) != 16);
++
++	if (q->flags != MT_NPU_Q_TXFREE(0) || !q->desc || !q->entry ||
++	    q->ndesc != MT7996_RX_MCU_RING_SIZE)
++		return -EINVAL;
++
++	/* Native TXDONE uses an aligned, non-wrapping 30-bit address span. */
++	if (!IS_ALIGNED(q->desc_dma, 16) || upper_32_bits(q->desc_dma) ||
++	    (u32)q->desc_dma >= 0xc0000000U ||
++	    (q->desc_dma & GENMASK(29, 0)) > BIT(30) - size)
++		return -ERANGE;
++
++	return 0;
++}
++
+ static int mt7996_npu_rx_event_init(struct mt7996_dev *dev,
+ 				    struct airoha_npu *npu)
+ {
+@@ -522,6 +544,10 @@ int __mt7996_npu_hw_init(struct mt7996_dev *dev)
+ 	if (!npu)
+ 		return 0;
+ 
++	err = mt7996_npu_rx_event_validate(dev);
++	if (err)
++		return err;
++
+ 	err = mt7996_npu_offload_init(dev, npu);
+ 	if (err)
+ 		return err;

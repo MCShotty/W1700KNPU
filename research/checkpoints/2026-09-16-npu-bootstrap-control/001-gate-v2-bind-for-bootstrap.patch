@@ -1,0 +1,53 @@
+From: W1700K firmware work
+Subject: [PATCH] npu: consume deferred bootstrap bind requests without binding
+
+Let a bootstrap adapter defer BIND until its selected resource setup completes.
+Apply the policy after session reservation and sequence consumption so an old
+BUSY BIND cannot take effect when replayed after setup. Keep standalone V2
+dispatch behavior unchanged through the existing public entry point.
+
+This is an unpromoted source candidate, not a physical readiness certificate.
+
+---
+
+--- a/firmware/npu/control-v2.c
++++ b/firmware/npu/control-v2.c
+@@ -1,4 +1,4 @@
+-#include "control-v2.h"
++#include "bootstrap-v2.h"
+ 
+ _Static_assert(sizeof(struct npu_control_v2_packet) == NPU_CONTROL_V2_SIZE,
+                "V2 control layout changed");
+@@ -14,7 +14,8 @@
+-int npu_control_v2_dispatch(struct npu_control_v2_session *s,
++int npu_control_v2_dispatch_gate(struct npu_control_v2_session *s,
+                              struct npu_admission *a, struct npu_barrier *b,
+-                             struct npu_control_v2_packet *p, uint32_t bytes)
++                             struct npu_control_v2_packet *p, uint32_t bytes,
++                             enum npu_control_status bind_status)
+ {
+     uint32_t operation, status = NPU_CONTROL_OK;
+ 
+     if (bytes != sizeof(*p) || p->v1.header != NPU_CONTROL_HEADER ||
+@@ -55,6 +56,9 @@
+                 status = NPU_CONTROL_BAD_SESSION;
+         }
+     }
++
++    if (status == NPU_CONTROL_OK && operation == NPU_CONTROL_BIND)
++        status = bind_status;
+ 
+     /* Reuse the original serialized admission/barrier operation, not its wire
+      * admission. Rejected requests and discovery obtain only a STATUS snapshot. */
+@@ -75,4 +79,11 @@
+     p->boot_hi = s->boot_hi;
+     p->reserved = 0;
+     return 1;
+ }
++
++int npu_control_v2_dispatch(struct npu_control_v2_session *s,
++                             struct npu_admission *a, struct npu_barrier *b,
++                             struct npu_control_v2_packet *p, uint32_t bytes)
++{
++    return npu_control_v2_dispatch_gate(s, a, b, p, bytes, NPU_CONTROL_OK);
++}

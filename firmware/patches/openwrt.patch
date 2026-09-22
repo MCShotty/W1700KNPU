@@ -222,9 +222,18 @@ index f6dac167aa2d68c5e7ae64f773b924edd6b58502..2ff0e89e42f90546b3bf59d0440a7d2b
  			"description": "Disable honoring 40 MHz intolerance in coexistence flags of stations",
  			"type": "boolean",
 diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
-index 25e151fd88b8abde16a4043954aa429ad80c1b01..d32f2e315d96b7d997df1317416cae0972f47950 100644
+index 25e151fd88b8abde16a4043954aa429ad80c1b01..4a1cff65c32ca3db46086cad1f8cd487d7001167 100644
 --- a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
 +++ b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
+@@ -380,7 +380,7 @@
+ 			"type": "string"
+ 		},
+ 		"gcmp256": {
+-			"description": "Advertise the GCMP-256 pairwise cipher on HE/EHT BSSes (alongside CCMP for sae/sae-mixed, in the RSNE Override 2 element for sae-compat). Mandatory for EHT, recommended otherwise. Defaults off for sae and sae-mixed because some clients and chipsets misbehave when GCMP-256 is offered, and on for sae-compat BSSes using an EHT htmode (where GCMP-256 is mandatory), carried in a separate RSN Override element that legacy clients ignore. Only advertised when the driver supports the GCMP-256 cipher.",
++			"description": "Advertise GCMP-256 alongside CCMP, or in RSN Override 2 for sae-compat. Required for Wi-Fi 7 certification. Defaults on for MLO and for sae-compat using an EHT htmode, off otherwise for older-client compatibility. Explicit settings override this default. Automatic advertisement requires driver GCMP-256 support.",
+ 			"type": "boolean"
+ 		},
+ 		"hidden": {
 @@ -918,7 +918,7 @@
  		"radios": {
  			"type": "array",
@@ -234,11 +243,28 @@ index 25e151fd88b8abde16a4043954aa429ad80c1b01..d32f2e315d96b7d997df1317416cae09
  			}
  		},
  		"radius_acct_interim_interval": {
+@@ -993,7 +993,7 @@
+ 			"type": "boolean"
+ 		},
+ 		"sae_ext_key": {
+-			"description": "Advertise the SAE-EXT-KEY AKM (SAE using a group-dependent hash) alongside plain SAE. Mandatory for EHT, recommended otherwise. Defaults off for sae and sae-mixed because some clients misbehave when SAE-EXT-KEY is offered, and on for sae-compat BSSes using an EHT htmode (where SAE-EXT-KEY is mandatory), carried in a separate RSN Override element that legacy clients ignore.",
++			"description": "Advertise SAE-EXT-KEY (SAE using a group-dependent hash) alongside SAE, or in RSN Override for sae-compat. Required for Wi-Fi 7 personal-security certification. Defaults on for MLO and for sae-compat using an EHT htmode, off otherwise for older-client compatibility. Explicit settings override this default.",
+ 			"type": "boolean"
+ 		},
+ 		"sae_password_file": {
 diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
-index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323e0af7d76 100644
+index 8fa08e9986fae9ad2d887eced082683fd4235bb6..fdbd3ce6ee6ebec6153351bda9cb95342b9233c2 100644
 --- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
 +++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
-@@ -19,6 +19,410 @@ const WLAN_CIPHER_SUITE_GCMP_256 = 0x000fac09;
+@@ -10,6 +10,7 @@ import * as iface from 'wifi.iface';
+ import * as nl80211 from 'nl80211';
+ import * as ap from 'wifi.ap';
+ import * as fs from 'fs';
++import { mld_config_id } from 'wifi.mld-config';
+ 
+ const NL80211_EXT_FEATURE_ENABLE_FTM_RESPONDER = 33;
+ const NL80211_EXT_FEATURE_RADAR_BACKGROUND = 61;
+@@ -19,6 +20,428 @@ const WLAN_CIPHER_SUITE_GCMP_256 = 0x000fac09;
  let phy_features = {};
  let phy_capabilities = {};
  
@@ -616,7 +642,25 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323
 +	return json(sprintf('%J', { config: data.config, interfaces: data.interfaces }));
 +}
 +
++function validate_owe_transition(data) {
++	for (let key, interface in data?.interfaces ?? {}) {
++		let config = interface?.config;
++		if (config?.mode != 'ap' || split(config.encryption ?? '', '+')[0] != 'owe')
++			continue;
++		if (!mlo_enabled(config.mlo) && data.config.band != '6g')
++			continue;
++		if (!mlo_enabled(config.owe_transition) &&
++		    !config.owe_transition_ifname && !config.owe_transition_bssid)
++			continue;
++
++		netifd.setup_failed('INVALID_ENCRYPTION');
++		die(`OWE transition is not supported on MLO or 6 GHz AP ${key}`);
++	}
++}
++
 +export function validate_mlo_setup(data) {
++	validate_owe_transition(data);
++
 +	let has_mlo_ap = false;
 +	for (let key, interface in data?.interfaces ?? {})
 +		if (mlo_enabled(interface?.config?.mlo) && interface.config.mode == 'ap') {
@@ -649,7 +693,7 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323
  /* make sure old style UCI and hwmode and newer band properties are correctly resolved */
  function set_device_defaults(config) {
  	/* validate the hw mode */
-@@ -279,7 +683,7 @@ function device_htmode_append(config) {
+@@ -279,7 +702,7 @@ function device_htmode_append(config) {
  					break;
  				}
  			config.op_class = 137;
@@ -658,7 +702,7 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323
  
  			/*
  			 * Set HE operation values for 160MHz backward compatibility
-@@ -463,6 +867,13 @@ function device_htmode_append(config) {
+@@ -463,6 +886,13 @@ function device_htmode_append(config) {
  
  		if (config.hw_mode == 'a')
  			append_vars(config, [ 'eht_oper_chwidth', 'eht_oper_centr_freq_seg0_idx' ]);
@@ -672,7 +716,7 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323
  	}
  
  	append_vars(config, [ 'tx_queue_data2_burst', 'stationary_ap' ]);
-@@ -566,9 +977,11 @@ function setup_interface(interface, data, config, vlans, stas, phy_features, fix
+@@ -566,9 +996,12 @@ function setup_interface(interface, data, config, vlans, stas, phy_features, fix
  	ap.generate(interface, data, config, vlans, stas, phy_features);
  }
  
@@ -680,11 +724,21 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..19d77c7278497bf542cd97789747a323
 +export function setup(data, mlo_snapshot) {
  	let file_name = `/var/run/hostapd-${data.phy}${data.vif_phy_suffix}.conf`;
  
++	mlo_snapshot ??= mlo_setup_snapshot(data);
 +	validate_mlo_setup(mlo_snapshot ?? data);
 +
  	flush_config();
  
  	if (fs.stat(file_name))
+@@ -600,6 +1033,8 @@ export function setup(data) {
+ 		setup_interface(k, data, interface.config, interface.vlans, interface.stas, phy_features, owe ? 'owe' : null );
+ 		if (owe)
+ 			setup_interface(k, data, interface.config, interface.vlans, interface.stas, phy_features, 'owe-transition');
++		if (mlo_enabled(interface.config.mlo))
++			append('#mld_config_id', mld_config_id((mlo_snapshot ?? data).interfaces[k].config));
+ 		has_ap = true;
+ 	}
+ 
 diff --git a/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc b/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc
 new file mode 100644
 index 0000000000000000000000000000000000000000..0e46cbb3fe01b79b97f055409ff9c9bd5a552a4a
@@ -1083,15 +1137,16 @@ index 0b6d6d587bc09d9302db036e57fd9bcd0b2f9af6..ee9579deb9a283fe3879b37745ec28c3
  
  commands[command](ARGV);
 diff --git a/package/network/services/hostapd/files/hostapd.uc b/package/network/services/hostapd/files/hostapd.uc
-index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a1285eaf865 100644
+index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..9daf2027da3bf12576d3f6d1cd59efe45f2d8583 100644
 --- a/package/network/services/hostapd/files/hostapd.uc
 +++ b/package/network/services/hostapd/files/hostapd.uc
-@@ -1,15 +1,45 @@
+@@ -1,15 +1,46 @@
  let libubus = require("ubus");
  import * as uloop from "uloop";
 +import * as nl80211 from "nl80211";
  import { open, readfile, access } from "fs";
 -import { wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open, wdev_set_radio_mask, wdev_set_up } from "common";
++import { mld_config_id } from 'wifi.mld-config';
 +import { wdev_create, wdev_remove, is_equal, vlist_new, phy_is_fullmac, phy_open, wdev_set_radio_mask, wdev_set_up } from "common";
  
  let ubus = libubus.connect(null, 60);
@@ -1136,7 +1191,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  	return libubus.STATUS_UNKNOWN_ERROR;
  }
  libubus.guard(ex_handler);
-@@ -64,6 +94,14 @@ hostapd.data.bss_info_fields = {
+@@ -64,6 +95,14 @@ hostapd.data.bss_info_fields = {
  hostapd.data.mld = {};
  hostapd.data.dpp_hooks = {};
  
@@ -1151,7 +1206,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  function iface_remove(cfg)
  {
  	if (!cfg || !cfg.bss || !cfg.bss[0] || !cfg.bss[0].ifname)
-@@ -221,6 +259,17 @@ function iface_update_supplicant_macaddr(phydev)
+@@ -221,6 +260,17 @@ function iface_update_supplicant_macaddr(phydev)
  	});
  }
  
@@ -1169,7 +1224,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  function __iface_pending_next(pending, state, ret, data)
  {
  	let config = pending.config;
-@@ -237,12 +286,12 @@ function __iface_pending_next(pending, state, ret, data)
+@@ -237,12 +287,12 @@ function __iface_pending_next(pending, state, ret, data)
  		return "create_bss";
  	case "create_bss":
  		if (!bss.mld_ap) {
@@ -1184,7 +1239,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  				return null;
  			}
  		}
-@@ -255,8 +304,10 @@ function __iface_pending_next(pending, state, ret, data)
+@@ -255,8 +305,10 @@ function __iface_pending_next(pending, state, ret, data)
  	case "check_phy":
  		let phy_status = data;
  		if (phy_status && phy_status.state == "COMPLETED") {
@@ -1196,7 +1251,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  
  			hostapd.printf(`Failed to bring up phy ${phy} ifname=${bss.ifname} with supplicant provided frequency`);
  		}
-@@ -267,17 +318,20 @@ function __iface_pending_next(pending, state, ret, data)
+@@ -267,17 +319,20 @@ function __iface_pending_next(pending, state, ret, data)
  		});
  		return "wpas_stopped";
  	case "wpas_stopped":
@@ -1220,7 +1275,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		break;
  	}
  }
-@@ -289,13 +343,18 @@ function iface_pending_next(ret, data)
+@@ -289,13 +344,18 @@ function iface_pending_next(ret, data)
  
  	while (pending) {
  		try {
@@ -1241,7 +1296,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			return;
  		}
  		pending = !this.defer;
-@@ -304,6 +363,7 @@ function iface_pending_next(ret, data)
+@@ -304,6 +364,7 @@ function iface_pending_next(ret, data)
  
  function iface_pending_abort()
  {
@@ -1249,7 +1304,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  	this.next_state = "done";
  	this.next();
  }
-@@ -321,7 +381,7 @@ const iface_pending_proto = {
+@@ -321,7 +382,7 @@ const iface_pending_proto = {
  	abort: iface_pending_abort,
  };
  
@@ -1258,7 +1313,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  {
  	let phy = phydev.name;
  
-@@ -330,6 +390,7 @@ function iface_pending_init(phydev, config)
+@@ -330,6 +391,7 @@ function iface_pending_init(phydev, config)
  		phydev: phydev,
  		phy: phy,
  		config: config,
@@ -1266,7 +1321,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		next: iface_pending_next,
  	}, iface_pending_proto);
  
-@@ -348,14 +409,15 @@ function iface_macaddr_init(phydev, config, macaddr_list)
+@@ -348,14 +410,15 @@ function iface_macaddr_init(phydev, config, macaddr_list)
  	return phydev.macaddr_init(macaddr_list, macaddr_data);
  }
  
@@ -1286,7 +1341,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		mld_addr = null;
  
  	return phydev.macaddr_next(idx, mld_addr);
-@@ -370,7 +432,7 @@ function csa_timer_cancel(name)
+@@ -370,7 +433,7 @@ function csa_timer_cancel(name)
  	}
  }
  
@@ -1295,7 +1350,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  {
  	let phy = phydev.name;
  	let pending = hostapd.data.pending_config[phy];
-@@ -392,6 +454,8 @@ function iface_restart(phydev, config, old_config)
+@@ -392,6 +455,8 @@ function iface_restart(phydev, config, old_config)
  
  	if (!config.bss || !config.bss[0]) {
  		hostapd.printf(`No bss for phy ${phy}`);
@@ -1304,7 +1359,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		return;
  	}
  
-@@ -422,7 +486,9 @@ function iface_restart(phydev, config, old_config)
+@@ -422,7 +487,9 @@ function iface_restart(phydev, config, old_config)
  			bss.bssid = bss_macaddr_next(phydev, macaddr_list, bss, i);
  	}
  
@@ -1315,8 +1370,53 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  }
  
  function array_to_obj(arr, key, start)
-@@ -1016,7 +1082,7 @@ function bss_check_mld(phydev, iface_name, bss)
+@@ -539,8 +606,8 @@ function bss_remove_file_fields(config)
+ 	new_cfg.hash = {};
+ 	for (let key in config.hash)
+ 		new_cfg.hash[key] = config.hash[key];
++	// Native files-only reload handles PSK/VLAN, not parsed SAE passwords.
+ 	delete new_cfg.hash.wpa_psk_file;
+-	delete new_cfg.hash.sae_password_file;
+ 	delete new_cfg.hash.vlan_file;
+ 
+ 	return new_cfg;
+@@ -1006,7 +1073,27 @@ function iface_reload_config(name, phydev, config, old_config)
+ 	return true;
+ }
+ 
+-function bss_check_mld(phydev, iface_name, bss)
++function mld_radio_matches(data, phy, radio)
++{
++	radio ??= 0;
++	return data && data.config.phy == phy &&
++		radio >= 0 && radio < 32 && radio == (radio | 0) &&
++		!!(data.radio_mask & (1 << radio));
++}
++
++function mld_ssid_matches(data, bss)
++{
++	return type(data?.config?.ssid) != 'string' ||
++		(type(bss.ssid) == 'string' && bss.ssid == data.config.ssid);
++}
++
++function mld_config_matches(data, bss)
++{
++	return mld_ssid_matches(data, bss) &&
++		(!data?.config_id || bss.mld_config_id == data.config_id);
++}
++
++function bss_check_mld(phydev, iface_name, bss, radio)
+ {
+ 	if (!bss.ifname)
  		return;
+@@ -1014,9 +1101,13 @@ function bss_check_mld(phydev, iface_name, bss)
+ 	let mld_data = hostapd.data.mld[bss.ifname];
+ 	if (!mld_data || !mld_data.ifname || !mld_data.macaddr)
+ 		return;
++	if (!mld_radio_matches(mld_data, phydev.name, radio))
++		return;
++	if (!mld_config_matches(mld_data, bss))
++		return;
  
  	bss.mld_bssid = mld_data.macaddr;
 -	mld_data.iface[iface_name] = true;
@@ -1324,7 +1424,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  
  	if (!access('/sys/class/net/' + bss.ifname, 'x'))
  		mld_data.has_wdev = false;
-@@ -1025,15 +1091,20 @@ function bss_check_mld(phydev, iface_name, bss)
+@@ -1025,15 +1116,20 @@ function bss_check_mld(phydev, iface_name, bss)
  		return true;
  
  	hostapd.printf(`Create MLD interface ${bss.ifname} on phy ${phydev.name}, radio mask: ${mld_data.radio_mask}`);
@@ -1348,7 +1448,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		return;
  	}
  
-@@ -1042,13 +1113,32 @@ function bss_check_mld(phydev, iface_name, bss)
+@@ -1042,79 +1138,128 @@ function bss_check_mld(phydev, iface_name, bss)
  	return true;
  }
  
@@ -1384,8 +1484,10 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  	for (let i = 0; i < length(config.bss); i++) {
  		let bss = config.bss[i];
  		if (!bss.mld_ap)
-@@ -1057,64 +1147,77 @@ function iface_check_mld(phydev, name, config)
- 		if (!bss_check_mld(phydev, name, bss)) {
+ 			continue;
+ 
+-		if (!bss_check_mld(phydev, name, bss)) {
++		if (!bss_check_mld(phydev, name, bss, config.radio_idx)) {
  			hostapd.printf(`Skip MLD interface ${name} on phy ${phydev.name}`);
  			splice(config.bss, i--, 1);
 +			valid = false;
@@ -1420,6 +1522,12 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  {
  	let old_config = hostapd.data.config[name];
  
++	if (config?.load_error) {
++		if (complete)
++			complete(false);
++		return false;
++	}
++
  	if (!config) {
  		delete hostapd.data.config[name];
 -		return iface_config_remove(name, old_config);
@@ -1430,7 +1538,17 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  	}
  
 -	hostapd.data.config[name] = config;
--
++	// A late radio worker must not replace a newer MLD link configuration.
++	for (let bss in config.bss) {
++		if (!bss.mld_ap || mld_config_matches(hostapd.data.mld[bss.ifname], bss))
++			continue;
++
++		hostapd.printf(`Reject stale MLD interface config on phy ${name}`);
++		if (complete)
++			complete(false);
++		return false;
++	}
+ 
  	let phy = config.phy;
  	let phydev = phy_open(phy, config.radio_idx);
  	if (!phydev) {
@@ -1480,7 +1598,39 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  }
  
  function config_add_bss(config, name)
-@@ -1264,38 +1367,154 @@ function mld_rename_bss(data, name)
+@@ -1146,8 +1291,11 @@ function iface_load_config(phy, radio, filename)
+ 	};
+ 
+ 	let f = open(filename, "r");
+-	if (!f)
++	if (!f) {
++		if (filename)
++			config.load_error = true;
+ 		return config;
++	}
+ 
+ 	let bss;
+ 	let line;
+@@ -1212,6 +1360,18 @@ function iface_load_config(phy, radio, filename)
+ 
+ 		if (val[0] == "mld_ap")
+ 			bss[val[0]] = int(val[1]);
++		if (val[0] == "#mld_config_id")
++			bss.mld_config_id = val[1];
++
++		if (val[0] == "ssid")
++			bss.ssid = val[1];
++		if (val[0] == "ssid2") {
++			// wifi-scripts emits quoted printable strings or hexadecimal bytes.
++			let value = val[1];
++			bss.ssid = length(value) >= 2 && substr(value, 0, 1) == '"' &&
++				substr(value, length(value) - 1) == '"' ?
++				substr(value, 1, length(value) - 2) : hexdec(value, '');
++		}
+ 
+ 		if (val[0] == "bss") {
+ 			bss = config_add_bss(config, val[1]);
+@@ -1264,38 +1424,158 @@ function mld_rename_bss(data, name)
  	return false;
  }
  
@@ -1534,10 +1684,13 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  
 -		phy_list[config.phy] = phydev;
 +	// Dump all PHYs/radios, including wdevs outside this service's configuration.
++	nl80211.error();
 +	let wdevs = nl80211.request(nl80211.const.NL80211_CMD_GET_INTERFACE,
 +				    nl80211.const.NLM_F_DUMP, {});
-+	if (type(wdevs) != "array")
++	if (nl80211.error() != null || (wdevs != null && type(wdevs) != "array"))
 +		return null;
++	// A successful empty multipart dump has no result value in ucode-nl80211.
++	wdevs ??= [];
 +
 +	for (let wdev in wdevs) {
 +		let old = old_mld[wdev.ifname];
@@ -1588,7 +1741,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +			hostapd.printf(`Cannot prepare MLD ${name}: invalid radio ${r}`);
 +			return false;
 +		}
-+
+ 
 +		if (anchor_radio == null)
 +			anchor_radio = r;
 +		radio_mask |= 1 << r;
@@ -1597,7 +1750,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +		hostapd.printf(`Cannot prepare MLD ${name}: empty radio mask`);
 +		return false;
 +	}
- 
++
 +	hostapd.printf(`Prepare MLD interface ${name}`);
 +	let phy_state = phy_list[config.phy];
 +	if (!phy_state) {
@@ -1649,12 +1802,13 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +	data.anchor_radio = anchor_radio;
  	data.radio_mask = radio_mask;
  	data.ifname = name;
++	data.config_id = mld_config_id(config);
 +
 +	return true;
  }
  
  function mld_find_matching_config(list, config)
-@@ -1305,24 +1524,177 @@ function mld_find_matching_config(list, config)
+@@ -1305,24 +1585,185 @@ function mld_find_matching_config(list, config)
  			return name;
  }
  
@@ -1673,17 +1827,14 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  	config = { ...config };
 -	config.bss = config.orig_bss;
 +	config.bss = [ ...(config.orig_bss ?? config.bss ?? []) ];
- 
--	iface_set_config(name, config);
++
 +	return iface_set_config(name, config, complete, allow_mld_filter) !== false;
- }
- 
--function mld_set_config(config)
-+function mld_config_uses(config, mld_name)
- {
--	let prev_mld = { ...hostapd.data.mld };
++}
++
++function mld_config_uses(config, mld_name, data)
++{
 +	for (let bss in config?.orig_bss ?? config?.bss ?? [])
-+		if (bss.mld_ap && bss.ifname == mld_name)
++		if (bss.mld_ap && bss.ifname == mld_name && mld_config_matches(data, bss))
 +			return true;
 +
 +	return false;
@@ -1691,19 +1842,27 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +
 +function mld_collect_reload(reload_iface, name, data, include_config)
 +{
++	let candidates = {};
 +	for (let iface in data?.iface ?? {})
-+		reload_iface[iface] = true;
++		candidates[iface] = true;
 +
 +	for (let iface, bss_list in hostapd.bss)
 +		if (bss_list[name])
-+			reload_iface[iface] = true;
++			candidates[iface] = true;
 +
-+	if (!include_config)
-+		return;
++	if (include_config)
++		for (let iface, iface_config in hostapd.data.config)
++			if (mld_config_uses(iface_config, name))
++				candidates[iface] = true;
 +
-+	for (let iface, iface_config in hostapd.data.config)
-+		if (mld_config_uses(iface_config, name))
++	// Detach all old references, but reactivate only matching links in the new MLD.
++	for (let iface in candidates) {
++		let config = hostapd.data.config[iface];
++		if (!include_config || (config &&
++		    mld_radio_matches(data, config.phy, config.radio_idx) &&
++		    mld_config_uses(config, name, data)))
 +			reload_iface[iface] = true;
++	}
 +}
 +
 +function mld_reload_interfaces(reload_iface, complete, allow_mld_filter)
@@ -1740,7 +1899,8 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +
 +	next(true);
 +}
-+
+ 
+-	iface_set_config(name, config);
 +function mld_transaction_finish(transaction, valid)
 +{
 +	if (hostapd.data.mld_transaction != transaction)
@@ -1749,10 +1909,12 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
 +	delete hostapd.data.mld_transaction;
 +	if (transaction.complete)
 +		transaction.complete(valid);
-+}
-+
+ }
+ 
+-function mld_set_config(config)
 +function mld_reject_concurrent_mutation(operation)
-+{
+ {
+-	let prev_mld = { ...hostapd.data.mld };
 +	if (!hostapd.data.mld_transaction)
 +		return false;
 +
@@ -1840,7 +2002,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  
  	hostapd.printf(`Set MLD config: ${keys(config)}`);
  
-@@ -1332,53 +1704,92 @@ function mld_set_config(config)
+@@ -1332,53 +1773,92 @@ function mld_set_config(config)
  		if (prev) {
  			let data = prev_mld[prev];
  			if (mld_rename_bss(data, name)) {
@@ -1961,7 +2123,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  }
  
  function dpp_find_bss(ifname)
-@@ -1485,6 +1896,9 @@ let main_obj = {
+@@ -1485,6 +1965,9 @@ let main_obj = {
  			radio: 0,
  		},
  		call: function(req) {
@@ -1971,7 +2133,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			let phy_list = req.args.phy ? [ phy_name(req.args.phy, req.args.radio) ] : keys(hostapd.data.config);
  			for (let phy_name in phy_list) {
  				let phy = hostapd.data.config[phy_name];
-@@ -1507,6 +1921,9 @@ let main_obj = {
+@@ -1507,6 +1990,9 @@ let main_obj = {
  			no_link: true,
  		},
  		call: function(req) {
@@ -1981,7 +2143,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			let phy = phy_name(req.args.phy, req.args.radio);
  			if (req.args.up == null || !phy)
  				return libubus.STATUS_INVALID_ARGUMENT;
-@@ -1591,6 +2008,9 @@ let main_obj = {
+@@ -1591,6 +2077,9 @@ let main_obj = {
  			center_freq2: 0,
  		},
  		call: function(req) {
@@ -1991,7 +2153,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			let phy = phy_name(req.args.phy, req.args.radio);
  			if (!req.args.frequency || !phy)
  				return libubus.STATUS_INVALID_ARGUMENT;
-@@ -1615,21 +2035,19 @@ let main_obj = {
+@@ -1615,21 +2104,19 @@ let main_obj = {
  			if (!req.args.config)
  				return libubus.STATUS_INVALID_ARGUMENT;
  
@@ -2018,7 +2180,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  		}
  	},
  	config_set: {
-@@ -1640,6 +2058,9 @@ let main_obj = {
+@@ -1640,6 +2127,9 @@ let main_obj = {
  			prev_config: "",
  		},
  		call: function(req) {
@@ -2028,7 +2190,16 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			let phy = req.args.phy;
  			let radio = req.args.radio;
  			let name = phy_name(phy, radio);
-@@ -1675,6 +2096,9 @@ let main_obj = {
+@@ -1657,6 +2147,8 @@ let main_obj = {
+ 			}
+ 
+ 			let config = iface_load_config(phy, radio, file);
++			if (config.load_error)
++				return libubus.STATUS_INVALID_ARGUMENT;
+ 
+ 			hostapd.printf(`Set new config for phy ${name}: ${file}`);
+ 			iface_set_config(name, config);
+@@ -1675,6 +2167,9 @@ let main_obj = {
  			config: "",
  		},
  		call: function(req) {
@@ -2038,7 +2209,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			if (!req.args.iface || !req.args.config)
  				return libubus.STATUS_INVALID_ARGUMENT;
  
-@@ -1691,6 +2115,9 @@ let main_obj = {
+@@ -1691,6 +2186,9 @@ let main_obj = {
  			iface: ""
  		},
  		call: function(req) {
@@ -2048,7 +2219,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  			if (!req.args.iface)
  				return libubus.STATUS_INVALID_ARGUMENT;
  
-@@ -1742,6 +2169,7 @@ let main_obj = {
+@@ -1742,6 +2240,7 @@ let main_obj = {
  					let entry = interfaces[ifname];
  
  					if (bss.mld_ap) {
@@ -2056,7 +2227,7 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..f3166fdb43e6813317342a27dafc6a12
  						if (!entry) {
  							let mld = hostapd.data.mld[ifname];
  							entry = interfaces[ifname] = {
-@@ -1753,7 +2181,7 @@ let main_obj = {
+@@ -1753,7 +2252,7 @@ let main_obj = {
  						entry.links[config.radio_idx ?? 0] = {
  							radio: config.radio_idx ?? 0,
  							macaddr: bss.bssid,
@@ -2132,7 +2303,7 @@ index 0000000000000000000000000000000000000000..33b368ba25f6d582bca0ea5cdf4aeed4
 +			if (mhz >= 5925 && mhz <= 7125) return "6g"
 +			return ""
 +		}
-+		$1 == "*" && $2 ~ /^[0-9]+$/ && $3 == "MHz" && $4 ~ /^\[[0-9]+\]$/ {
++		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && $4 ~ /^\[[0-9]+\]$/ {
 +			band = channel_band($2 + 0)
 +			if (band != target_band) next
 +			saw_band = 1
@@ -2172,7 +2343,7 @@ index 0000000000000000000000000000000000000000..33b368ba25f6d582bca0ea5cdf4aeed4
 +			if (mhz >= 5925 && mhz <= 7125) return "6g"
 +			return ""
 +		}
-+		$1 == "*" && $2 ~ /^[0-9]+$/ && $3 == "MHz" && channel_band($2 + 0) == target_band {
++		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && channel_band($2 + 0) == target_band {
 +			saw_band = 1
 +			line = tolower($0)
 +			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
@@ -2923,10 +3094,10 @@ index 0000000000000000000000000000000000000000..0883b7c2301c2f4ccbc75b8c5a08ca7b
 +printf '}\n'
 diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
 new file mode 100755
-index 0000000000000000000000000000000000000000..fc88f00a51ebea1728558894d76cafe71f2be326
+index 0000000000000000000000000000000000000000..4781e36f4a06140ed06886f8e60855fc2beed993
 --- /dev/null
 +++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
-@@ -0,0 +1,630 @@
+@@ -0,0 +1,642 @@
 +#!/bin/sh
 +
 +. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
@@ -3437,6 +3608,9 @@ index 0000000000000000000000000000000000000000..fc88f00a51ebea1728558894d76cafe7
 +	pmf="$(uci -q get wireless."$iface".ieee80211w)"
 +	rnr="$(uci -q get wireless."$iface".rnr)"
 +	sae_pwe="$(uci -q get wireless."$iface".sae_pwe)"
++	owe_transition="$(uci -q get wireless."$iface".owe_transition)"
++	owe_transition_ifname="$(uci -q get wireless."$iface".owe_transition_ifname)"
++	owe_transition_bssid="$(uci -q get wireless."$iface".owe_transition_bssid)"
 +	seen=" "
 +	seen_idx=" "
 +	count=0
@@ -3499,6 +3673,15 @@ index 0000000000000000000000000000000000000000..fc88f00a51ebea1728558894d76cafe7
 +
 +	if [ "$count" -gt 1 ] && [ "$mlo" != "1" ]; then
 +		err "$iface lists multiple radios but does not enable MLO."
++	fi
++
++	if [ "$mode" = "ap" ] && [ "${enc%%+*}" = "owe" ] &&
++	   { [ "$mlo" = "1" ] || [ "$has_6g" = "1" ]; }; then
++		case "$owe_transition" in
++			1|on|true|yes|enabled) err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
++			*) [ -z "$owe_transition_ifname$owe_transition_bssid" ] ||
++				err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
++		esac
 +	fi
 +
 +	if [ "$mode" = "sta" ]; then
@@ -3618,3 +3801,72 @@ index 0000000000000000000000000000000000000000..96f5ebed9d8317b3b4767ad282457af6
 +-- 
 +2.51.0
 +
+diff --git a/package/utils/ucode/Makefile b/package/utils/ucode/Makefile
+index eb6abd6adb690670816b59fa813dde90ab2c3d0c..d05aaa40b66f836971d7bd6a53c46ec1eb0fe2ca 100644
+--- a/package/utils/ucode/Makefile
++++ b/package/utils/ucode/Makefile
+@@ -8,7 +8,7 @@
+ include $(TOPDIR)/rules.mk
+
+ PKG_NAME:=ucode
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_URL=https://github.com/jow-/ucode.git
+diff --git a/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc b/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc
+new file mode 100644
+index 0000000000000000000000000000000000000000..e8c2130a82c0007dfb6ee9d562ee2222c1b0ba3b
+--- /dev/null
++++ b/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc
+@@ -0,0 +1,21 @@
++import { sha256 } from 'digest';
++
++function canonical(value) {
++	if (type(value) == 'array')
++		return map(value, canonical);
++	if (type(value) != 'object')
++		return value;
++
++	let result = {};
++	for (let key in sort(keys(value)))
++		result[key] = canonical(value[key]);
++	return result;
++}
++
++export function mld_config_id(config) {
++	let common = { ...config };
++	// netifd adds these descriptor fields and assigns ifname/MAC per link.
++	for (let field in [ 'phy', 'radio_config', '4addr', 'ifname', 'macaddr' ])
++		delete common[field];
++	return sha256(sprintf('%J', canonical(common)));
++}
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
+index 919860ad57494f6031c2bb7a732914f6b07958de..4253cf3a123db5344d61687ff5d17c0fee8cf503 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
+@@ -19,18 +19,13 @@ export function parse_encryption(config, dev_config, phy_features) {
+ 
+ 	config.auth_type = encryption[0] ?? 'none';
+ 
+-	/*
+-	 * GCMP-256 and the SAE-EXT-KEY (SAE-GDH) AKM are only mandatory for
+-	 * EHT/MLO and break interoperability with many clients, so only default
+-	 * them on where they are both required and safe to offer: on Compatibility
+-	 * mode (sae-compat) BSSes that run an EHT htmode, which carry them in a
+-	 * separate RSN Override element that legacy clients ignore. They stay off
+-	 * for WPA3-Personal (sae) and Transition (sae-mixed) mode and on non-EHT
+-	 * BSSes. Explicit gcmp256 and sae_ext_key options override this per BSS.
+-	 */
++	// MLO needs the enhanced suites in its RSNE; sae-compat uses RSN Override.
++	// Preserve non-MLO defaults and explicit per-BSS compatibility overrides.
+ 	let compat = (config.auth_type == 'sae-compat');
+-	config.gcmp256 ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
+-	config.sae_ext_key ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
++	let mlo = config.mlo === true || config.mlo === 1 || config.mlo === '1';
++	let enhanced = mlo || (compat && wildcard(dev_config?.htmode ?? '', 'EHT*'));
++	config.gcmp256 ??= enhanced;
++	config.sae_ext_key ??= enhanced;
+ 
+ 	switch(config.auth_type) {
+ 	case 'owe':

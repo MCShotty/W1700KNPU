@@ -1,0 +1,1222 @@
+{
+  "schema": 1,
+  "inputs_before_after": {
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    ".local/npu-reset/python-lib/unicorn/__init__.py": "9ad32123bca674cf205c308fd4d0d2a4db877c9dc2afac4feab7c84c8cf7043b",
+    ".local/npu-reset/python-lib/unicorn/arm64_const.py": "92f91a2b0a36cd34deee16db4f8da4ac0c9ae35c3ea1089296e5ef9d170a5be9",
+    ".local/npu-reset/python-lib/unicorn/arm_const.py": "44fdb7a9f7a9d8c62be07fefaf21e20060813b2a503b6228e378e6bbff7f7b41",
+    ".local/npu-reset/python-lib/unicorn/m68k_const.py": "7503e32454751bf66bdf1fcb19dd847537bcf6a5538e18125d8f53d8d448fed9",
+    ".local/npu-reset/python-lib/unicorn/mips_const.py": "3a04993d82610ea5f492af2d74fa79d849224a044ac0448281033ee331b58dac",
+    ".local/npu-reset/python-lib/unicorn/riscv_const.py": "278e10baf05cfb7c8675475081ae7f2d2037616c79cb907d51963aa2c5b490e4",
+    ".local/npu-reset/python-lib/unicorn/s390x_const.py": "54d7026dd70b5bfca1d02e00e7a58d652eaa974b9ea980ba49ed4b80911b9fde",
+    ".local/npu-reset/python-lib/unicorn/sparc_const.py": "bcdb0491b6e42c647b104ee53d61610504a97831302dd5280fd2123e05572e95",
+    ".local/npu-reset/python-lib/unicorn/tricore_const.py": "1b6005a147d77a3fc1ab5c81fc878eeac3b9bb0b68d518e4a4226830d1356c4c",
+    ".local/npu-reset/python-lib/unicorn/unicorn.py": "e823b17649d0610c6f52b665902ac9dc46962785feebcac8465a0d7c477f25b7",
+    ".local/npu-reset/python-lib/unicorn/unicorn_const.py": "556c6a27336dc6dd3e0d49348951bde17e1b0f69166f2217773e6b3a7199f45d",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/__init__.py": "ee70d3a7de9ea545406d727436ee835f9d644aeb7428f0e4f1510f9190b28726",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/types.py": "2e103854e371ef576680073f44ead45b8177a73c450a6125e609b7c54e0bc844",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/x86_const.py": "3b33c55b97503ab25e8ed8bbe576c1cee693f495df6785b04adc1c8ab47a79c4",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-startup-emulation.S": "fa9442ac4a28b9ca1152b30a40f4cc790da1a57888ab60712cbed2b588d97230",
+    "tests/npu/allocator-startup-emulation.c": "9adc927bfd8e292be71aa5d90e51e2457f3abad85cc4af24429a4fe4ddc438f1",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/command-ring-order-emulation.S": "f3a8d2d60b46aa543ea200fc37e6725798415418bc2297a8f569f85f55afbed9",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_placement.py": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e",
+    "tests/npu/test_allocator_protocol.py": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "2533b85caf99ac3194a15c9ac99040a2d648357156981995b1566a686af833e4",
+    "tests/npu/test_attach_rx_callbacks.py": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100",
+    "tests/npu/test_attach_tx_callbacks.py": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bridge_memory_budget.py": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_command_ring_layout.py": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_mt7996_bootstrap_sequence.py": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_txdone_init.py": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tests/npu/allocator-test-binding.c": "2cd924cbf46ecb74b55237487191ca8b3d4ea4162a8864f9268e43b90656dfd5",
+    "tests/npu/allocator-startup-emulation.ld": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb",
+    "tests/npu/allocator-placement-emulation.ld": "c0aa6b388a88e3bb97b4af1441921030c2a5cd4e8fdd83bda2754d3227ee4f9d",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    "tests/npu/txdone-init-emulation.ld": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a"
+  },
+  "command": [
+    "/usr/bin/clang",
+    "--target=riscv32",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-O2",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-builtin",
+    "-nostdlib",
+    "-fno-stack-protector",
+    "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-I",
+    "/home/captain/W1700KNPU/firmware/npu",
+    "/home/captain/W1700KNPU/firmware/npu/allocator.c",
+    "/home/captain/W1700KNPU/tests/npu/allocator-startup-emulation.c",
+    "/home/captain/W1700KNPU/tests/npu/allocator-startup-emulation.S",
+    "-DNPU_EMULATION_COMMAND_RING=0x84060000",
+    "-Wl,-T,/home/captain/W1700KNPU/tests/npu/allocator-placement-emulation.ld",
+    "-Wl,--no-relax",
+    "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-cold-allocator/command-ring-placement.elf"
+  ],
+  "elf_sha256": "2f2ec443f6eae840fd837f2147ffb47466d3d6132d7fb219c72e5c11742d0781",
+  "static_references": [
+    {
+      "function": "0x8400baae",
+      "name": "FUN_ram_8400baae",
+      "line": 23080,
+      "direct_global_references": 1
+    },
+    {
+      "function": "0x8400c284",
+      "name": "FUN_ram_8400c284",
+      "line": 24244,
+      "direct_global_references": 1
+    },
+    {
+      "function": "0x8400cb0e",
+      "name": "worker_8400cb0e",
+      "line": 25413,
+      "direct_global_references": 2
+    }
+  ],
+  "layout": {
+    "section_address": "0x84060000",
+    "section_bytes": 32784,
+    "initialized_section_sha256": "05c49ce570906bdb1c6bc00c289d4f6dad41691964fd7ea4504b1b5048156770",
+    "occupied": [
+      {
+        "start": "0x8401de00",
+        "end": "0x8403de00",
+        "name": "native-hart-stack-envelope"
+      },
+      {
+        "start": "0x84200000",
+        "end": "0x84240000",
+        "name": "provider-backup"
+      },
+      {
+        "start": "0x84040000",
+        "end": "0x84042e08",
+        "name": "base.text"
+      },
+      {
+        "start": "0x84042e08",
+        "end": "0x84042e88",
+        "name": "base.rodata"
+      },
+      {
+        "start": "0x84048000",
+        "end": "0x84048058",
+        "name": "bridge.text"
+      },
+      {
+        "start": "0x8404c000",
+        "end": "0x8404c014",
+        "name": "reset.text"
+      },
+      {
+        "start": "0x8404e000",
+        "end": "0x8404e7ba",
+        "name": "allocator.text"
+      },
+      {
+        "start": "0x8404e7bc",
+        "end": "0x8404e7e4",
+        "name": "allocator.rodata"
+      },
+      {
+        "start": "0x84052000",
+        "end": "0x840526ca",
+        "name": "txdone.text"
+      }
+    ],
+    "provider_sha256": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    "board": {
+      "fit_sha256": "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+      "dtb_sha256": "565136de9144d0e366404d299933ebd8e58cedbfdb97c7b803749e0248eec596",
+      "reserved_memory": {
+        "atf@80000000": {
+          "start": 2147483648,
+          "size": 2097152
+        },
+        "npu-binary@84000000": {
+          "start": 2214592512,
+          "size": 10485760
+        },
+        "qdma0-buf@87000000": {
+          "start": 2264924160,
+          "size": 33554432
+        },
+        "qdma1-buf@89000000": {
+          "start": 2298478592,
+          "size": 16777216
+        },
+        "npu-pkt@8a000000": {
+          "start": 2315255808,
+          "size": 46137344
+        },
+        "npu-txpkt@8cc00000": {
+          "start": 2361393152,
+          "size": 67108864
+        },
+        "npu-txbufid@90c00000": {
+          "start": 2428502016,
+          "size": 26624
+        },
+        "npu-ba@90c06800": {
+          "start": 2428528640,
+          "size": 2097152
+        }
+      },
+      "npu_memory_region_order": [
+        "npu-binary@84000000",
+        "npu-pkt@8a000000",
+        "npu-txpkt@8cc00000",
+        "npu-txbufid@90c00000",
+        "npu-ba@90c06800"
+      ],
+      "native_bss": [
+        "0x3e900c10",
+        "0x3e904754"
+      ],
+      "candidate_state": [
+        "0x3e906000",
+        "0x3e906158"
+      ],
+      "local_sram_test_bound": 32768,
+      "reference_url": "https://github.com/merbanan/airoha_ml/blob/92f7959aa1750e428d10efbeb21360e0955c1895/en7581-base.dtsi",
+      "reference_sha256": "f471d76ee6db6289c2f24d4afe7d397f45bd1d0d9906b83d42689a09c5835f22",
+      "boundary": "DTB reg includes SRAM and registers; the 32KiB RAM bound comes from a separate reference DTS, not this board DTB or hardware."
+    },
+    "loader_boundary": "ELF fixture loads PROGBITS. No complete raw firmware image is emitted or uploaded."
+  },
+  "checked_cold_allocations": [
+    [
+      0,
+      1048576000
+    ],
+    [
+      0,
+      1048576032
+    ],
+    [
+      0,
+      1048608800
+    ],
+    [
+      0,
+      1048666144
+    ],
+    [
+      0,
+      1048670240
+    ],
+    [
+      0,
+      1048973408
+    ],
+    [
+      0,
+      2214985728
+    ]
+  ],
+  "native_initializer_writes": 2048,
+  "bridge": {
+    "mask": 255,
+    "exhausted": false,
+    "timer": true,
+    "w1c": false,
+    "bad_owner": false,
+    "bridge_type": {
+      "type": 129,
+      "alignment_tag": 0,
+      "reserved": 0,
+      "value": 69632
+    },
+    "native_bridge_base": "0x3e8610e0",
+    "native_return_to_outer": true,
+    "guarded": true,
+    "installed_guards": [
+      {
+        "site": 2214597770,
+        "kind": "base",
+        "before": "aa87aa85",
+        "after": "6f607437",
+        "target": "0x84048000"
+      },
+      {
+        "site": 2214597888,
+        "kind": "channel",
+        "before": "91e35685",
+        "after": "6f601433",
+        "target": "0x84048030"
+      }
+    ],
+    "fault_kind": null,
+    "final_pc": "0x84000b36",
+    "lock_result": "0x0",
+    "initial_mstatus": "0x8",
+    "guard_entries": {
+      "base": 1,
+      "channel": 8
+    },
+    "guard_io_fences": 0,
+    "late_ready_model": [],
+    "late_ready_did_not_resume": false,
+    "bridge_writes": [
+      {
+        "address": "0x1ec12008",
+        "value": 512102624
+      },
+      {
+        "address": "0x1ec12010",
+        "value": 264192
+      },
+      {
+        "address": "0x1ec12018",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12210",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12220",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12230",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12240",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12250",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12260",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12270",
+        "value": 1
+      },
+      {
+        "address": "0x1ec12280",
+        "value": 1
+      }
+    ],
+    "channel_failure_logs": 0,
+    "timer_reads": 5,
+    "allocator_before": {
+      "count": 7,
+      "used": 397528
+    },
+    "allocator_after": {
+      "count": 8,
+      "used": 467168
+    },
+    "allocations": [
+      {
+        "type": 129,
+        "return_pc": 2214597770,
+        "value": 1048973536
+      }
+    ],
+    "native_entries": {
+      "0x84001472": 1,
+      "0x84005200": 1,
+      "0x840064b4": 1,
+      "0x8400651c": 1,
+      "0x84003712": 1,
+      "0x84001392": 1
+    },
+    "mmio": [
+      {
+        "step": 800568,
+        "kind": "mmio-write",
+        "pc": "0x840064f2",
+        "hart": 7,
+        "address": "0x1ec031c8",
+        "size": 4,
+        "value": 1856,
+        "model": "single-hart mutex; owner readback fixed at 0x10000"
+      },
+      {
+        "step": 800569,
+        "kind": "mmio-read",
+        "pc": "0x840064f4",
+        "hart": 7,
+        "address": "0x1ec03c48",
+        "size": 4,
+        "value": 67328,
+        "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+      },
+      {
+        "step": 801319,
+        "kind": "mmio-write",
+        "pc": "0x84006554",
+        "hart": 7,
+        "address": "0x1ec03e48",
+        "size": 4,
+        "value": 1792,
+        "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+      },
+      {
+        "step": 801371,
+        "kind": "mmio-write",
+        "pc": "0x840014b2",
+        "hart": 7,
+        "address": "0x1ec12008",
+        "size": 4,
+        "value": 512102624,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801381,
+        "kind": "mmio-write",
+        "pc": "0x840014d2",
+        "hart": 7,
+        "address": "0x1ec12010",
+        "size": 4,
+        "value": 264192,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801383,
+        "kind": "mmio-write",
+        "pc": "0x840014d6",
+        "hart": 7,
+        "address": "0x1ec12018",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801403,
+        "kind": "mmio-read",
+        "pc": "0x84003748",
+        "hart": 7,
+        "address": "0x1ec10100",
+        "size": 4,
+        "value": 1,
+        "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+      },
+      {
+        "step": 801409,
+        "kind": "mmio-read",
+        "pc": "0x84003758",
+        "hart": 7,
+        "address": "0x1ec10104",
+        "size": 4,
+        "value": 4294967295,
+        "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+      },
+      {
+        "step": 801412,
+        "kind": "mmio-read",
+        "pc": "0x8400375e",
+        "hart": 7,
+        "address": "0x1ec10108",
+        "size": 4,
+        "value": 4294901744,
+        "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+      },
+      {
+        "step": 801415,
+        "kind": "mmio-read",
+        "pc": "0x8400377c",
+        "hart": 7,
+        "address": "0x1ec10108",
+        "size": 4,
+        "value": 4294836208,
+        "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+      },
+      {
+        "step": 801431,
+        "kind": "mmio-read",
+        "pc": "0x8400377c",
+        "hart": 7,
+        "address": "0x1ec10108",
+        "size": 4,
+        "value": 4294770672,
+        "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+      },
+      {
+        "step": 801447,
+        "kind": "mmio-read",
+        "pc": "0x8400377c",
+        "hart": 7,
+        "address": "0x1ec10108",
+        "size": 4,
+        "value": 4294705136,
+        "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+      },
+      {
+        "step": 801463,
+        "kind": "mmio-read",
+        "pc": "0x8400377c",
+        "hart": 7,
+        "address": "0x1ec10108",
+        "size": 4,
+        "value": 4294639600,
+        "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+      },
+      {
+        "step": 801491,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12210",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801501,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12210",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801504,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12220",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801514,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12220",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801517,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12230",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801527,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12230",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801530,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12240",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801540,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12240",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801543,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12250",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801553,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12250",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801556,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12260",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801566,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12260",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801569,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12270",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801579,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12270",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801582,
+        "kind": "mmio-read",
+        "pc": "0x840014f8",
+        "hart": 7,
+        "address": "0x1ec12280",
+        "size": 4,
+        "value": 2768240641,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      },
+      {
+        "step": 801592,
+        "kind": "mmio-write",
+        "pc": "0x8400150a",
+        "hart": 7,
+        "address": "0x1ec12280",
+        "size": 4,
+        "value": 1,
+        "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+      }
+    ],
+    "memory_before": {
+      "0x3e900000": "bb7c7a6497c370c3764b59c64afdf5769dfaf26d1d7f239d0bb2ece3a8c412ee",
+      "0x3e800000": "7b9b83e71f3a2c7b08746f492f64e82f74f09ae3b241faca1dcd8750f135961e",
+      "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+      "0x84039e00": "876b14ceff8c66bd50df2c1dc7a6f66ac5cdf4c57cb02b0758405a499e0d0834",
+      "0x1ec12000": "419d511b8f8303f73750efa4971a8221da788f6e7e6b441c90f3fe70dbecec7d",
+      "0x1ec10000": "5138829ea661641a36391a9c84706847fd1d63647dcb6d715d2314a0f11699a6",
+      "0x1ec03000": "b4d6fd5f170f3ca0dd1e2bb356814e3a57d54ae41f5aebb0655912eecec22205"
+    },
+    "memory_after": {
+      "0x3e900000": "1dd5b31174cca0453e46388d3dcaea0d1f4f1cdde8c9eabe0e1328344ecbeb07",
+      "0x3e800000": "7b9b83e71f3a2c7b08746f492f64e82f74f09ae3b241faca1dcd8750f135961e",
+      "0x3e880000": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+      "0x84039e00": "cc72702eed8cbe8a1d47c47c28e935908e9b78dcbc09bda1558df7bfc60dc46a",
+      "0x1ec12000": "23b33e0f978070ad739763083efa0dcc7e6dbfed28bd36ed1d3f19faabfd02d1",
+      "0x1ec10000": "55510a136f0a226b7eb00659487041eb61dcec49bed01de4a8cc0d3f3ef22492",
+      "0x1ec03000": "079c6c920bce38baac285adede88fb227dbba3b84bb33bfe1b4628075217696c"
+    },
+    "channel_final": [
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1"
+    ],
+    "whole_sram_compared_bytes": 32768,
+    "whole_heap_unchanged_bytes": 491520,
+    "whole_l2_unchanged_bytes": 262144,
+    "protocol_writes": [
+      {
+        "hart": 7,
+        "address": "0x3e906030",
+        "size": 4,
+        "value": 1,
+        "pc": "0x84040106",
+        "step": 801687
+      }
+    ],
+    "native_initializer_allocator_delay_stubs": false,
+    "existing_stub_counts": {
+      "0x84004212": 22,
+      "0x840048f4": 19
+    },
+    "initial_gate_omitted_for_analysis": "0x84000b24",
+    "final_gate_retained": "0x84000b36",
+    "parked": 1,
+    "ready": 0,
+    "drains": 0,
+    "released": 0,
+    "armed": 0,
+    "coordinator_status": [
+      63,
+      0,
+      827478350,
+      1,
+      64,
+      3,
+      1,
+      0,
+      0,
+      0,
+      7,
+      129,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "headers": [
+    {
+      "kind": "vxlan",
+      "index": 0,
+      "length": 50,
+      "destination": "0x3e8710e0",
+      "inside_bridge": true,
+      "exact_write_bytes": 50
+    },
+    {
+      "kind": "vxlan",
+      "index": 19,
+      "length": 50,
+      "destination": "0x3e871a60",
+      "inside_bridge": true,
+      "exact_write_bytes": 50
+    },
+    {
+      "kind": "srv6",
+      "index": 0,
+      "length": 128,
+      "destination": "0x3e871ae0",
+      "inside_bridge": true,
+      "exact_write_bytes": 129
+    },
+    {
+      "kind": "srv6",
+      "index": 7,
+      "length": 128,
+      "destination": "0x3e871e60",
+      "inside_bridge": true,
+      "exact_write_bytes": 129
+    }
+  ],
+  "unchanged_native_cached_lookups": 8,
+  "postboot_allocator_cases": [
+    {
+      "name": "postboot-2",
+      "result": [
+        0,
+        1049043168
+      ],
+      "lock_counts": [
+        1,
+        1
+      ],
+      "state_before_sha256": "c997213616597dd6cb66bea8de69424c77d88a048687d380e68665efbc66c80f",
+      "state_after_sha256": "2c3b86d17cfe2a3baff1af12e105f069538143ca2dba27aa994a0a3f6393d7da",
+      "metadata_unchanged": false
+    },
+    {
+      "name": "postboot-9",
+      "result": [
+        0,
+        1049049344
+      ],
+      "lock_counts": [
+        1,
+        1
+      ],
+      "state_before_sha256": "2c3b86d17cfe2a3baff1af12e105f069538143ca2dba27aa994a0a3f6393d7da",
+      "state_after_sha256": "89990ef38fc0c290e2c5464392d3071dbe072b77694fc8725b3f6c09b0b04575",
+      "metadata_unchanged": false
+    },
+    {
+      "name": "postboot-10",
+      "result": [
+        0,
+        1049050368
+      ],
+      "lock_counts": [
+        1,
+        1
+      ],
+      "state_before_sha256": "89990ef38fc0c290e2c5464392d3071dbe072b77694fc8725b3f6c09b0b04575",
+      "state_after_sha256": "0ec3a73ac880da49a32a55f5df687341b28d4f1658101098c1977fe52f3c9826",
+      "metadata_unchanged": false
+    }
+  ],
+  "remaining_after_postboot_types": 16152,
+  "ring_cycles": [
+    {
+      "base": "0x84060000",
+      "slot_count": 2048,
+      "producer_consumer_pairs": 2048,
+      "native_stats_initializer": "0x8400a364",
+      "native_stats_address": "0x3e8720e0",
+      "whole_heap_compared": 491520,
+      "whole_sram_compared": 32768,
+      "extra_unused_bytes": 16,
+      "exact_ordered_writes": 14336,
+      "writes_sha256": "d44bc46fcb25fc0ec7a80863a8caf68af681a6a2f7b3cbd634ca3d8a9cf65a7a",
+      "ring_sha256": "cc9d3772ebeb661b9e0cf45603c825b7ebed13c9de448b21a3459adae96e793b",
+      "index_wrap": true
+    },
+    {
+      "base": "0x3e8610e0",
+      "slot_count": 2048,
+      "producer_consumer_pairs": 2048,
+      "native_stats_initializer": "0x8400a364",
+      "native_stats_address": "0x3e869100",
+      "whole_heap_compared": 491520,
+      "whole_sram_compared": 32768,
+      "extra_unused_bytes": 16,
+      "exact_ordered_writes": 14336,
+      "writes_sha256": "f9ed79bdaccf6ac29e216bef037b2f295b2fd2b3b61ee0912842a5d2994bb859",
+      "ring_sha256": "cc9d3772ebeb661b9e0cf45603c825b7ebed13c9de448b21a3459adae96e793b",
+      "index_wrap": true
+    }
+  ],
+  "full_queues": [
+    {
+      "base": "0x84060000",
+      "simultaneously_owned_slots": 2048,
+      "producer_consumer_pairs": 2049,
+      "full_queue_did_not_overwrite": true,
+      "resumed_after_native_consumer": true,
+      "empty_queue_did_not_read_payload": true,
+      "exact_ordered_writes": 14344,
+      "whole_heap_compared": 491520,
+      "whole_sram_compared": 32768,
+      "ring_sha256": "e7e12903892d95aceb676283dd6615fc081caa1d923263d1770b2f7ef63a50ae",
+      "writes_sha256": "9bc374552ab252e3c9c3f33e7e82211abe60770687c4ff048089a0e59a9bc588"
+    },
+    {
+      "base": "0x3e8610e0",
+      "simultaneously_owned_slots": 2048,
+      "producer_consumer_pairs": 2049,
+      "full_queue_did_not_overwrite": true,
+      "resumed_after_native_consumer": true,
+      "empty_queue_did_not_read_payload": true,
+      "exact_ordered_writes": 14344,
+      "whole_heap_compared": 491520,
+      "whole_sram_compared": 32768,
+      "ring_sha256": "e7e12903892d95aceb676283dd6615fc081caa1d923263d1770b2f7ef63a50ae",
+      "writes_sha256": "8a0362292af31f8edeb10a8b94afe6e45440072141727acece6e0ff531b1be4b"
+    }
+  ],
+  "mutants": [
+    {
+      "name": "omit-publication",
+      "pc": "0x8400c976",
+      "bytes": 2,
+      "assertion": "producer-payload-or-ready",
+      "detected": true
+    },
+    {
+      "name": "omit-slot-return",
+      "pc": "0x8400cc52",
+      "bytes": 2,
+      "assertion": "consumer-slot-return",
+      "detected": true
+    },
+    {
+      "name": "omit-producer-wrap",
+      "pc": "0x8400c998",
+      "bytes": 4,
+      "assertion": "producer-index",
+      "detected": true
+    },
+    {
+      "name": "omit-consumer-wrap",
+      "pc": "0x8400cc42",
+      "bytes": 4,
+      "assertion": "consumer-index",
+      "detected": true
+    }
+  ],
+  "all37_retained_gate": {
+    "name": "all37-detours-installed-before-reset",
+    "harts_parked": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "patches": [
+      {
+        "site": "0x84000074",
+        "name": "npu_emulation_before_bss",
+        "before": "b7c2c01e",
+        "after": "6f201430",
+        "target": "0x84042b74"
+      },
+      {
+        "site": "0x840000f0",
+        "name": "npu_emulation_reset_gate",
+        "before": "97000000",
+        "after": "6f201434",
+        "target": "0x84042c30"
+      },
+      {
+        "site": "0x840030b2",
+        "name": "npu_emulation_irq_dispatch",
+        "before": "411122c4",
+        "after": "6fe0f371",
+        "target": "0x84041fd0"
+      },
+      {
+        "site": "0x84000188",
+        "name": "npu_coordinator_main_return",
+        "before": "b2400145",
+        "after": "6f20441a",
+        "target": "0x8404232c"
+      },
+      {
+        "site": "0x84003f2e",
+        "name": "npu_emulation_mailbox_register",
+        "before": "eff06fb2",
+        "after": "6fe05300",
+        "target": "0x84042732"
+      },
+      {
+        "site": "0x8400ce1c",
+        "name": "gate_core1_startup",
+        "before": "9c4281cf",
+        "after": "6f30d377",
+        "target": "0x84040d98"
+      },
+      {
+        "site": "0x8400cf10",
+        "name": "gate_core1_outer",
+        "before": "1c4081ef",
+        "after": "6f305379",
+        "target": "0x84040ea4"
+      },
+      {
+        "site": "0x8400cf26",
+        "name": "gate_core1_idle",
+        "before": "1c40f5d7",
+        "after": "6f40e30e",
+        "target": "0x84041014"
+      },
+      {
+        "site": "0x8400ec7e",
+        "name": "gate_core2_startup",
+        "before": "1c43fddf",
+        "after": "6f206350",
+        "target": "0x84041184"
+      },
+      {
+        "site": "0x8400ecc2",
+        "name": "gate_core2_outer",
+        "before": "83470900",
+        "after": "6f20635f",
+        "target": "0x840412b8"
+      },
+      {
+        "site": "0x8400ece6",
+        "name": "gate_core2_idle",
+        "before": "83470900",
+        "after": "6f20e36f",
+        "target": "0x840413e4"
+      },
+      {
+        "site": "0x8400e440",
+        "name": "gate_core3_startup",
+        "before": "1c42e5db",
+        "after": "6f30030d",
+        "target": "0x84041510"
+      },
+      {
+        "site": "0x8400e4d4",
+        "name": "gate_core3_outer",
+        "before": "83c70700",
+        "after": "6f308314",
+        "target": "0x8404161c"
+      },
+      {
+        "site": "0x8400d0ea",
+        "name": "gate_core4_startup",
+        "before": "83470400",
+        "after": "6f406363",
+        "target": "0x84041720"
+      },
+      {
+        "site": "0x8400d144",
+        "name": "gate_core4_outer",
+        "before": "83470400",
+        "after": "6f40036e",
+        "target": "0x84041824"
+      },
+      {
+        "site": "0x8400d160",
+        "name": "gate_core4_idle",
+        "before": "83470400",
+        "after": "6f40837c",
+        "target": "0x84041928"
+      },
+      {
+        "site": "0x8400cd3e",
+        "name": "gate_core6_startup",
+        "before": "9c40fddf",
+        "after": "6f40f34e",
+        "target": "0x84041a2c"
+      },
+      {
+        "site": "0x8400cd8a",
+        "name": "gate_core6_outer",
+        "before": "9c4099cb",
+        "after": "6f40f35a",
+        "target": "0x84041b38"
+      },
+      {
+        "site": "0x8400cd9e",
+        "name": "gate_core6_retry",
+        "before": "9c40fdf7",
+        "after": "6f40736a",
+        "target": "0x84041c44"
+      },
+      {
+        "site": "0x84000b24",
+        "name": "gate_core7_startup",
+        "before": "ef00f014",
+        "after": "6f10c422",
+        "target": "0x84041d50"
+      },
+      {
+        "site": "0x84000b36",
+        "name": "gate_core7_outer",
+        "before": "ef00100c",
+        "after": "6f102432",
+        "target": "0x84041e58"
+      },
+      {
+        "site": "0x8400cb3e",
+        "name": "gate_core5_startup",
+        "before": "1c43fddf",
+        "after": "6f30b36a",
+        "target": "0x840409e8"
+      },
+      {
+        "site": "0x8400cbbe",
+        "name": "gate_core5_outer",
+        "before": "83570a00",
+        "after": "6f307371",
+        "target": "0x84040ad4"
+      },
+      {
+        "site": "0x8400cbca",
+        "name": "gate_core5_empty_first",
+        "before": "83576100",
+        "after": "6f30737f",
+        "target": "0x84040bc0"
+      },
+      {
+        "site": "0x8400cc0c",
+        "name": "gate_core5_empty_repeat",
+        "before": "83576100",
+        "after": "6f40030a",
+        "target": "0x84040cac"
+      },
+      {
+        "site": "0x840053a6",
+        "name": "npu_emulation_gdma_copy",
+        "before": "93174500",
+        "after": "6fd0731e",
+        "target": "0x84042d8c"
+      },
+      {
+        "site": "0x840052ca",
+        "before": "efa09004",
+        "after": "ef607453",
+        "target": "0x8404c000"
+      },
+      {
+        "site": "0x840052d4",
+        "before": "97d78fba",
+        "after": "6f000001",
+        "target": "0x840052e4"
+      },
+      {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      },
+      {
+        "site": "0x8400fe34",
+        "before": "0c410845",
+        "after": "6f20a441",
+        "name": "npu_emulation_txdone_callback"
+      },
+      {
+        "site": "0x84004d92",
+        "before": "97d68fba",
+        "after": "6fd0847a",
+        "name": "npu_emulation_txdone_bufid_guard"
+      },
+      {
+        "site": "0x84004a28",
+        "before": "14c3c18f",
+        "after": "6fd03436",
+        "name": "npu_emulation_txdone_lock19_guard"
+      },
+      {
+        "site": "0x84004a3a",
+        "before": "97650100",
+        "after": "6fd0d43a",
+        "name": "npu_emulation_txdone_lock20_guard"
+      },
+      {
+        "site": "0x84004b08",
+        "before": "83170e00",
+        "after": "6fd03435",
+        "name": "npu_emulation_txdone_temp_guard"
+      },
+      {
+        "site": "0x8400b546",
+        "before": "97878fba",
+        "after": "6f704413",
+        "name": "npu_emulation_txdone_publish_guard"
+      }
+    ],
+    "bridge_sites": [
+      "0x8400148a",
+      "0x84001500"
+    ],
+    "barrier_words": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "legacy_txdone_ready": 0,
+    "bridge_allocation": false,
+    "physical_readiness_or_containment": false,
+    "bridge_definition_bytes": 69632
+  },
+  "limits": [
+    "Profile is unpromoted; all 2048 ring slots and 28672 native SKB entries retain original capacity.",
+    "Core0 uses native startup, actual checked allocation and native ring initialization under existing MMIO models.",
+    "Consumer/producer tests enter explicit instruction slices with caller registers supplied; downstream helpers and full worker reachability are not executed.",
+    "Serialized emulator memory does not prove cross-hart cache/coherency or ordering. Native consumers have no publication fences.",
+    "Direct decompiler references are not a complete pointer-alias closure proof.",
+    "Postboot types 2/9/10 use the compiled allocator on captured metadata; this is not complete native attachment or every firmware allocation profile.",
+    "No raw firmware package, image, router or physical test; full NPU boot and recovery remain incomplete."
+  ]
+}

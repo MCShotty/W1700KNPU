@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "inputs": {
+    "tests/npu/build_control_v2_provider.py": "91359781bc151adc77e64efe52a7b268c84722a397060fc3aced3016ebe8d7ba",
+    "research/checkpoints/2026-09-14-npu-control-v2/airoha-control.c": "dba40d396d1c7bc8cb3c6e6bd7645faa12c406811416edea71fb3ecc0b5fb62a",
+    "tests/npu/control-v2-provider-harness.c": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/soc/airoha/airoha_offload.h": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+    "research/checkpoints/2026-09-06-npu-preflight/abi-layout.json": "ba1de9100104afbd65840fcf11ec4b8427964d41dd16a40132d786594dde5510",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/build_host_tx_topology.py": "7df26f8a55cae4a0e5b314b22992e4a5255acaeb6b921fedbc534ad773861bb3",
+    "tests/npu/test_control_v2.py": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b",
+    "tests/npu/test_control_client.py": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/Module.symvers": "cf4f8a7fb6e965afc65951e36bf1403d6560d55a5916c2566304e83ce5e8a3b1",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/utsrelease.h": "3549c01a94d2155024b810c393a78912a2eb3dfbacec92ba9a6ab80e2313c763",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_eth.h": "167beaf676b4328c2618c9fce29b21675148de7e331a3316e25dbef62d5c0bf2",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_regs.h": "b7addc20502962dfe50c5040a85e79c9cf2e8f1f03ce1e0b661732136c3126ad",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "1806c7363efb2fb8c43034e95d5799b96e1b3da63b8ed9c192493ef29959b61a",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/CONTROL_V2_CONTRACT.md": "f4920e2c49a89f6492f3993fdaa559e9f7c647b3e13059b0cec0a8e5a3173dcb"
+  },
+  "patch_sha256": "d86fb0892c2945b0ad90647594b9bdf8160dbcf871c5807dc11dff6a127debc8",
+  "sanitizer": {
+    "result": {
+      "passed": true,
+      "assertions": 290,
+      "old_get_discards_body": true,
+      "bidirectional_round_trips": 8,
+      "register_error_cases": 8,
+      "timeout_cases": 2,
+      "physical_drains": false
+    },
+    "binary": ".local/npu-control-v2/provider/provider-sanitize",
+    "binary_sha256": "65ff873d827b59b883bc4770d94bdae1f105b7bb3ce3fdc3d383039991cebb82",
+    "extracted_sha256": "9077a194154dc59ed7055f51ed016d31d6d1b4b777fdf66cdb9eccc79daf9e61",
+    "functions": {
+      "__airoha_npu_send_msg": "e56b51b4fdb6130892bac3ef1b7dcd23e2cd90d4b2f05dc244d345e8e7f3f3d1",
+      "airoha_npu_wlan_msg_get": "6833ddb58fe5b70f12e5e0db5e54d568220eb7c24413d3c05f01121f578b366b",
+      "airoha_npu_wlan_control": "9ecb1d37f9cbed4fc717f067170c9e56200d1962bba6d10b983470e747b8ff20"
+    }
+  },
+  "builds": [
+    {
+      "phase": "before",
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "M=/home/captain/W1700KNPU/.local/npu-control-v2/provider/before",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "airoha_npu.o",
+        "probe-0.o",
+        "probe-1.o"
+      ],
+      "layout": {
+        "0": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "1": [
+          64,
+          664,
+          8,
+          16,
+          48,
+          56,
+          528,
+          552,
+          560
+        ]
+      },
+      "objects": {
+        ".local/npu-control-v2/provider/before/airoha_npu.o": "1f1aed9ab8ef8a281be008ff1aa51ad7e340940127dc5a46713ecd9c588d5207",
+        ".local/npu-control-v2/provider/before/probe-0.o": "e489c4410c1abd535ac9e8aa5125a804a575515d71dc093ebd86cebc9b12d61d",
+        ".local/npu-control-v2/provider/before/probe-1.o": "c7f7c74f43203236b53920652fa99008ee0c82d6f9d1130b5bdfec0e74c0c391"
+      }
+    },
+    {
+      "phase": "after",
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "M=/home/captain/W1700KNPU/.local/npu-control-v2/provider/after",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "airoha_npu.o",
+        "probe-0.o",
+        "probe-1.o"
+      ],
+      "layout": {
+        "0": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "1": [
+          64,
+          664,
+          8,
+          16,
+          48,
+          56,
+          528,
+          552,
+          560
+        ]
+      },
+      "objects": {
+        ".local/npu-control-v2/provider/after/airoha_npu.o": "6fc90f4eb950dfff62c884f83a51870fd5b732c2616fc41429bdaa7a4e821692",
+        ".local/npu-control-v2/provider/after/probe-0.o": "39d8d5cf3180ca838b37c6edab500abac808f6190b806c3b1ace6a4d083e98b2",
+        ".local/npu-control-v2/provider/after/probe-1.o": "b1ffdeb4c4ba297828a760b39275b14c7594d556898fc1898f1878260fd07472"
+      }
+    }
+  ],
+  "checkpatch": "total: 0 errors, 0 warnings, 0 checks, 55 lines checked\n\n/home/captain/W1700KNPU/research/checkpoints/2026-09-14-npu-control-v2/928-net-airoha-npu-bidirectional-control.patch has no obvious style problems and is ready for submission.\n",
+  "compiler": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r1001+23-c1992346fc) 14.4.0",
+  "scope": "Actual provider send/GET and candidate control functions with explicit regmap/DMA-storage/delivery models, actual V2 server/client C under ASan/UBSan, and six isolated AArch64 kernel-context objects. No live provider references, IRQ/RCU/removal proof, physical DMA/cache containment, module load, image or router validation."
+}

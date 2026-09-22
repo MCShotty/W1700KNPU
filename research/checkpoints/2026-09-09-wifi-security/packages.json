@@ -1,0 +1,32 @@
+{
+  "build_command": "make package/network/config/wifi-scripts/compile package/feeds/luci/luci-mod-network/compile -j2 V=s",
+  "observed_build_exit_code": 0,
+  "source_sha256": "d6f8c7b9e6a227ea23ebc5cbb2303244805e22ece50b0c2bb8bf569021a8f238",
+  "staged_inputs": [
+    {
+      "path": ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/wifi-scripts-1.0/.pkgdir/wifi-scripts/usr/share/ucode/wifi/iface.uc",
+      "sha256": "ef91cb5cb1e1c6c99d07c67d9dccdc4d846ed05a2c1f36afde9f49b2e9a79deb"
+    },
+    {
+      "path": ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/wifi-scripts-1.0/.pkgdir/wifi-scripts/usr/share/ucode/wifi/hostapd.uc",
+      "sha256": "79004ebbb01a637a824806c7254170d55ba7a418bb137f370a305b9b4c2a4a86"
+    },
+    {
+      "path": ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/luci-mod-network/.pkgdir/luci-mod-network/www/luci-static/resources/view/network/wireless.js",
+      "sha256": "92897bf26ad78dd3833418552f288460730baede09cc9aff152b05ef933a8e43"
+    }
+  ],
+  "packages": [
+    {
+      "path": ".build/openwrt/bin/packages/aarch64_cortex-a53/base/wifi-scripts-1.0-r2.apk",
+      "sha256": "150ab97ab13072496fb9a91299f60a6478cc4e2f676034aaa7572897fb022411"
+    },
+    {
+      "path": ".build/openwrt/bin/packages/aarch64_cortex-a53/luci/luci-mod-network-26.247.58947~83073be.apk",
+      "sha256": "023bb603ca35e1fd7e249be8254502c8cd221b7d84a7fcd47756126acfbe4cad"
+    }
+  ],
+  "exact_minification_before_and_after": true,
+  "node_syntax_passed": true,
+  "scope": "Built packages and exact staging inputs; installed only five selected userspace files, not whole packages or an image"
+}

@@ -1,0 +1,104 @@
+{
+  "scope": "Test-oracle controls only; no production or router execution",
+  "checker_sha256": "e8383f5d0b8e335b08db42e345623a47411400bd91cbcf6f3f063348ec4fc939",
+  "harness_sha256": "ecf921db5e383f21a733fe019ba9666548d8abc79c8915b0bc3b47a0f23ca4f3",
+  "cases": [
+    {
+      "name": "exact",
+      "passed": true,
+      "valid": true,
+      "exact": true
+    },
+    {
+      "name": "evidenced-swap",
+      "passed": true,
+      "valid": true,
+      "exact": false
+    },
+    {
+      "name": "swap-without-message",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "swap-with-stale-marker",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "swap-message-before-marker",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "wrong-partner-same-80-block",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "wrong-width",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "wrong-center",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "wrong-frequency",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "unchanged-primary-wrong-frequency",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "2g-swap-not-permitted",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "6g-swap-not-permitted",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "missing-radio",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "extra-radio",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "duplicate-band",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    },
+    {
+      "name": "empty-readback",
+      "passed": true,
+      "valid": false,
+      "exact": false
+    }
+  ],
+  "passed": 16
+}

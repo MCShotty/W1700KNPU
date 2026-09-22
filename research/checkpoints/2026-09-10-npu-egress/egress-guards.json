@@ -1,0 +1,5721 @@
+{
+  "schema": 1,
+  "inputs_before_after": {
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    ".local/npu-reset/python-lib/unicorn/__init__.py": "9ad32123bca674cf205c308fd4d0d2a4db877c9dc2afac4feab7c84c8cf7043b",
+    ".local/npu-reset/python-lib/unicorn/arm64_const.py": "92f91a2b0a36cd34deee16db4f8da4ac0c9ae35c3ea1089296e5ef9d170a5be9",
+    ".local/npu-reset/python-lib/unicorn/arm_const.py": "44fdb7a9f7a9d8c62be07fefaf21e20060813b2a503b6228e378e6bbff7f7b41",
+    ".local/npu-reset/python-lib/unicorn/m68k_const.py": "7503e32454751bf66bdf1fcb19dd847537bcf6a5538e18125d8f53d8d448fed9",
+    ".local/npu-reset/python-lib/unicorn/mips_const.py": "3a04993d82610ea5f492af2d74fa79d849224a044ac0448281033ee331b58dac",
+    ".local/npu-reset/python-lib/unicorn/riscv_const.py": "278e10baf05cfb7c8675475081ae7f2d2037616c79cb907d51963aa2c5b490e4",
+    ".local/npu-reset/python-lib/unicorn/s390x_const.py": "54d7026dd70b5bfca1d02e00e7a58d652eaa974b9ea980ba49ed4b80911b9fde",
+    ".local/npu-reset/python-lib/unicorn/sparc_const.py": "bcdb0491b6e42c647b104ee53d61610504a97831302dd5280fd2123e05572e95",
+    ".local/npu-reset/python-lib/unicorn/tricore_const.py": "1b6005a147d77a3fc1ab5c81fc878eeac3b9bb0b68d518e4a4226830d1356c4c",
+    ".local/npu-reset/python-lib/unicorn/unicorn.py": "e823b17649d0610c6f52b665902ac9dc46962785feebcac8465a0d7c477f25b7",
+    ".local/npu-reset/python-lib/unicorn/unicorn_const.py": "556c6a27336dc6dd3e0d49348951bde17e1b0f69166f2217773e6b3a7199f45d",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/__init__.py": "ee70d3a7de9ea545406d727436ee835f9d644aeb7428f0e4f1510f9190b28726",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/types.py": "2e103854e371ef576680073f44ead45b8177a73c450a6125e609b7c54e0bc844",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/x86_const.py": "3b33c55b97503ab25e8ed8bbe576c1cee693f495df6785b04adc1c8ab47a79c4",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-startup-emulation.S": "fa9442ac4a28b9ca1152b30a40f4cc790da1a57888ab60712cbed2b588d97230",
+    "tests/npu/allocator-startup-emulation.c": "9adc927bfd8e292be71aa5d90e51e2457f3abad85cc4af24429a4fe4ddc438f1",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/command-ring-order-emulation.S": "f3a8d2d60b46aa543ea200fc37e6725798415418bc2297a8f569f85f55afbed9",
+    "tests/npu/egress-emulation.S": "6204d49d0c0276e3b5bf685bb51d1434560c269bd893c6735126e6f65b8e91a7",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_placement.py": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e",
+    "tests/npu/test_allocator_protocol.py": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "2533b85caf99ac3194a15c9ac99040a2d648357156981995b1566a686af833e4",
+    "tests/npu/test_attach_rx_callbacks.py": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100",
+    "tests/npu/test_attach_tx_callbacks.py": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bridge_memory_budget.py": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_command_ring_layout.py": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48",
+    "tests/npu/test_command_ring_order.py": "9008a6f511144c22f5facd14e09b0bbcbf3dc3b0937169925c5b09ebbdfe2009",
+    "tests/npu/test_egress_guards.py": "77ce0dd487046e8dfade1bc946a22d1b3d9738936f0e0d3372d7a2b658b9d5d8",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_mt7996_bootstrap_sequence.py": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_tunnel_header_bounds.py": "669b5f35e5178b4ac20d6cca2e6a3c06efece54f63a3b11abe57e9d93cfce7ba",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_txdone_init.py": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2",
+    "tests/npu/tunnel-header-emulation.S": "fb73d9a39738a1170263a18418f90c7f342dcc71f67824352a0b4847cf073297",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tests/npu/egress-emulation.ld": "deff4a5da337633ee332f54b7c95543333a8965baeaa1ff0fd05969808a2eae6",
+    "tests/npu/tunnel-header-emulation.ld": "c477e930973c6bbad74e47970bf12f8568ebbab94085540cc2e904dd79833aff",
+    "tests/npu/allocator-placement-emulation.ld": "c0aa6b388a88e3bb97b4af1441921030c2a5cd4e8fdd83bda2754d3227ee4f9d",
+    "tests/npu/command-ring-order-emulation.ld": "0bb1ea12ccfbf7c74c43f9c3b3b93b06bd1ff800d4e041aa00218680e2017b6b",
+    "tests/npu/txdone-init-emulation.ld": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a"
+  },
+  "binary": {
+    "command": [
+      "/usr/bin/clang",
+      "--target=riscv32",
+      "-march=rv32imac_zicsr",
+      "-mabi=ilp32",
+      "-nostdlib",
+      "-g",
+      "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+      "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+      "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+      "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+      "-o",
+      "/home/captain/W1700KNPU/.local/npu-egress/egress.elf"
+    ],
+    "sections": [
+      {
+        "name": ".text",
+        "address": 2214952960,
+        "bytes": 180
+      }
+    ],
+    "sha256": "632b0b7f7a3aa6b36784ccb77639cf1f4174a9e093841bf0bf01ad0332305f39"
+  },
+  "patches": [
+    {
+      "site": "0x84001582",
+      "target": "0x84058000",
+      "name": "channel",
+      "before": "3723c11e",
+      "after": "6f60f527"
+    },
+    {
+      "site": "0x8400159e",
+      "target": "0x84058018",
+      "name": "slots",
+      "before": "63070e04",
+      "after": "6f60b527"
+    },
+    {
+      "site": "0x8400178e",
+      "target": "0x84058028",
+      "name": "extent",
+      "before": "4111c206",
+      "after": "6f60b509"
+    }
+  ],
+  "accepted_pairs": [
+    {
+      "entry": "0x84001582",
+      "args": [
+        0,
+        4096,
+        4194336,
+        3221225472,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          0,
+          4096,
+          4194336,
+          3221225472,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          0,
+          0,
+          0,
+          3305111552,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          0,
+          4096,
+          4294967295,
+          3305111552,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          0,
+          536870911,
+          65536,
+          3305111552,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          0,
+          536870911,
+          1,
+          3305111552,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        1,
+        4096,
+        4194336,
+        3221225473,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          1,
+          4096,
+          4194336,
+          3221225473,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          1,
+          0,
+          0,
+          3305111553,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          1,
+          4096,
+          4294967295,
+          3305111553,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          1,
+          536870911,
+          65536,
+          3305111553,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          1,
+          536870911,
+          1,
+          3305111553,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        2,
+        4096,
+        4194336,
+        3221225474,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          2,
+          4096,
+          4194336,
+          3221225474,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          2,
+          0,
+          0,
+          3305111554,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          2,
+          4096,
+          4294967295,
+          3305111554,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          2,
+          536870911,
+          65536,
+          3305111554,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          2,
+          536870911,
+          1,
+          3305111554,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        3,
+        4096,
+        4194336,
+        3221225475,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          3,
+          4096,
+          4194336,
+          3221225475,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          3,
+          0,
+          0,
+          3305111555,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          3,
+          4096,
+          4294967295,
+          3305111555,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          3,
+          536870911,
+          65536,
+          3305111555,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          3,
+          536870911,
+          1,
+          3305111555,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        4,
+        4096,
+        4194336,
+        3221225476,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          4,
+          4096,
+          4194336,
+          3221225476,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          4,
+          0,
+          0,
+          3305111556,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          4,
+          4096,
+          4294967295,
+          3305111556,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          4,
+          536870911,
+          65536,
+          3305111556,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          4,
+          536870911,
+          1,
+          3305111556,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        5,
+        4096,
+        4194336,
+        3221225477,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          5,
+          4096,
+          4194336,
+          3221225477,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          5,
+          0,
+          0,
+          3305111557,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          5,
+          4096,
+          4294967295,
+          3305111557,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          5,
+          536870911,
+          65536,
+          3305111557,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          5,
+          536870911,
+          1,
+          3305111557,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        6,
+        4096,
+        4194336,
+        3221225478,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          6,
+          4096,
+          4194336,
+          3221225478,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          6,
+          0,
+          0,
+          3305111558,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          6,
+          4096,
+          4294967295,
+          3305111558,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          6,
+          536870911,
+          65536,
+          3305111558,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          6,
+          536870911,
+          1,
+          3305111558,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x84001582",
+      "args": [
+        7,
+        4096,
+        4194336,
+        3221225479,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          7,
+          4096,
+          4194336,
+          3221225479,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        0,
+        0,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          7,
+          0,
+          0,
+          3305111559,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        4096,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          7,
+          4096,
+          4294967295,
+          3305111559,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        4294967295,
+        1,
+        0,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          7,
+          536870911,
+          65536,
+          3305111559,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        4294967295,
+        0,
+        1,
+        5,
+        1,
+        1,
+        11,
+        22,
+        33,
+        44
+      ],
+      "commands": [
+        [
+          7,
+          536870911,
+          1,
+          3305111559,
+          11,
+          22,
+          33,
+          44
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        2936024146,
+        20729,
+        5570,
+        4,
+        1,
+        0,
+        377195786,
+        3391215363,
+        739060317,
+        3564086858
+      ],
+      "commands": [
+        [
+          2,
+          251669586,
+          1358501314,
+          2214592514,
+          377195786,
+          3391215363,
+          739060317,
+          3564086858
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        381092123,
+        55956,
+        44551,
+        2,
+        1,
+        2,
+        782146475,
+        1821829460,
+        3361726930,
+        2478616651
+      ],
+      "commands": [
+        [
+          6,
+          381092123,
+          3667176967,
+          3254779910,
+          782146475,
+          1821829460,
+          3361726930,
+          2478616651
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        760744049,
+        10247,
+        39534,
+        1,
+        0,
+        1,
+        1709479994,
+        1656879594,
+        776028724,
+        1521687033
+      ],
+      "commands": [
+        [
+          2,
+          223873137,
+          671586926,
+          1090519042,
+          1709479994,
+          1656879594,
+          776028724,
+          1521687033
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        279298230,
+        52246,
+        2194,
+        7,
+        0,
+        2,
+        3833941236,
+        541051710,
+        3860713816,
+        978773569
+      ],
+      "commands": [
+        [
+          7,
+          279298230,
+          3423996050,
+          1191182343,
+          3833941236,
+          541051710,
+          3860713816,
+          978773569
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        2936323218,
+        11139,
+        33276,
+        5,
+        2,
+        1,
+        818976976,
+        234058429,
+        1988423304,
+        2047081462
+      ],
+      "commands": [
+        [
+          7,
+          251968658,
+          730038780,
+          3305111559,
+          818976976,
+          234058429,
+          1988423304,
+          2047081462
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        4121306228,
+        63571,
+        62025,
+        6,
+        1,
+        1,
+        2356773936,
+        1177832067,
+        3490782883,
+        2854678078
+      ],
+      "commands": [
+        [
+          6,
+          363209844,
+          4166251081,
+          3321888774,
+          2356773936,
+          1177832067,
+          3490782883,
+          2854678078
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        1940375328,
+        24281,
+        52384,
+        5,
+        1,
+        2,
+        2873582952,
+        4055989358,
+        3706837365,
+        3574062258
+      ],
+      "commands": [
+        [
+          3,
+          329762592,
+          1591332000,
+          3305111555,
+          2873582952,
+          4055989358,
+          3706837365,
+          3574062258
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        1697293084,
+        52246,
+        56069,
+        6,
+        2,
+        0,
+        3313361930,
+        2124624239,
+        484730646,
+        623164053
+      ],
+      "commands": [
+        [
+          5,
+          86680348,
+          3424049925,
+          2248146949,
+          3313361930,
+          2124624239,
+          484730646,
+          623164053
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        3806311137,
+        11983,
+        61065,
+        6,
+        1,
+        1,
+        1706899066,
+        3802936273,
+        2809166256,
+        3649723154
+      ],
+      "commands": [
+        [
+          3,
+          48214753,
+          785378953,
+          3321888771,
+          1706899066,
+          3802936273,
+          2809166256,
+          3649723154
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        1706222137,
+        2451,
+        13168,
+        3,
+        1,
+        2,
+        2435652107,
+        3101108264,
+        3284866501,
+        3154158865
+      ],
+      "commands": [
+        [
+          5,
+          95609401,
+          160641904,
+          3271557125,
+          2435652107,
+          3101108264,
+          3284866501,
+          3154158865
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        1557249299,
+        25688,
+        7471,
+        0,
+        0,
+        2,
+        1378320532,
+        3032556167,
+        77883738,
+        2479895188
+      ],
+      "commands": [
+        [
+          2,
+          483507475,
+          1683496239,
+          1073741826,
+          1378320532,
+          3032556167,
+          77883738,
+          2479895188
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        442429093,
+        27720,
+        4629,
+        3,
+        0,
+        2,
+        1745256087,
+        4062176719,
+        2909773676,
+        4021501826
+      ],
+      "commands": [
+        [
+          2,
+          442429093,
+          1816662549,
+          1124073474,
+          1745256087,
+          4062176719,
+          2909773676,
+          4021501826
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        625749624,
+        43277,
+        48826,
+        7,
+        2,
+        0,
+        149500170,
+        2183705610,
+        1310579260,
+        2679577670
+      ],
+      "commands": [
+        [
+          2,
+          88878712,
+          2836250298,
+          2264924162,
+          149500170,
+          2183705610,
+          1310579260,
+          2679577670
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        4038680690,
+        51769,
+        45287,
+        4,
+        2,
+        1,
+        3960823752,
+        3726514045,
+        2874988479,
+        1572024423
+      ],
+      "commands": [
+        [
+          2,
+          280584306,
+          3392778471,
+          3288334338,
+          3960823752,
+          3726514045,
+          2874988479,
+          1572024423
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        118176228,
+        51508,
+        61858,
+        1,
+        2,
+        1,
+        1569826259,
+        3611146963,
+        495059204,
+        3505601399
+      ],
+      "commands": [
+        [
+          4,
+          118176228,
+          3375690146,
+          3238002692,
+          1569826259,
+          3611146963,
+          495059204,
+          3505601399
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        698060284,
+        46349,
+        33962,
+        2,
+        0,
+        2,
+        3801508668,
+        2020366218,
+        2815198910,
+        2692127484
+      ],
+      "commands": [
+        [
+          5,
+          161189372,
+          3037562026,
+          1107296261,
+          3801508668,
+          2020366218,
+          2815198910,
+          2692127484
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        440048283,
+        63614,
+        31599,
+        7,
+        2,
+        0,
+        4251685255,
+        934983256,
+        2061492445,
+        2843452589
+      ],
+      "commands": [
+        [
+          6,
+          440048283,
+          4169038703,
+          2264924166,
+          4251685255,
+          934983256,
+          2061492445,
+          2843452589
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        2819708175,
+        57717,
+        22644,
+        6,
+        2,
+        2,
+        2376891995,
+        2895220933,
+        2485808917,
+        3244812447
+      ],
+      "commands": [
+        [
+          7,
+          135353615,
+          3782563956,
+          3321888775,
+          2376891995,
+          2895220933,
+          2485808917,
+          3244812447
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        848014320,
+        48414,
+        51996,
+        3,
+        0,
+        1,
+        4278859610,
+        2823086081,
+        1120010406,
+        978823055
+      ],
+      "commands": [
+        [
+          6,
+          311143408,
+          3172911900,
+          1124073478,
+          4278859610,
+          2823086081,
+          1120010406,
+          978823055
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2178037720,
+        49538,
+        63631,
+        0,
+        2,
+        2,
+        3729031444,
+        236184403,
+        35203154,
+        115689013
+      ],
+      "commands": [
+        [
+          3,
+          30554072,
+          3246585999,
+          3221225475,
+          3729031444,
+          236184403,
+          35203154,
+          115689013
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        2751506044,
+        9469,
+        19696,
+        4,
+        2,
+        0,
+        4126249015,
+        369028807,
+        2282691159,
+        3356242546
+      ],
+      "commands": [
+        [
+          2,
+          67151484,
+          620580080,
+          2214592514,
+          4126249015,
+          369028807,
+          2282691159,
+          3356242546
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        3907962275,
+        52976,
+        64444,
+        0,
+        2,
+        2,
+        872686846,
+        3789560842,
+        194750403,
+        498886813
+      ],
+      "commands": [
+        [
+          7,
+          149865891,
+          3471899580,
+          3221225479,
+          872686846,
+          3789560842,
+          194750403,
+          498886813
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        2244884305,
+        4126,
+        3926,
+        2,
+        1,
+        2,
+        1371275763,
+        1358831867,
+        2438521003,
+        672003046
+      ],
+      "commands": [
+        [
+          1,
+          97400657,
+          270405462,
+          3254779905,
+          1371275763,
+          1358831867,
+          2438521003,
+          672003046
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        335392814,
+        32677,
+        28986,
+        6,
+        2,
+        0,
+        621540665,
+        689640246,
+        3844500446,
+        4064811444
+      ],
+      "commands": [
+        [
+          5,
+          335392814,
+          2141548858,
+          2248146949,
+          621540665,
+          689640246,
+          3844500446,
+          4064811444
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2411107277,
+        49854,
+        16471,
+        7,
+        1,
+        0,
+        3827173740,
+        3471185587,
+        1871276159,
+        866174146
+      ],
+      "commands": [
+        [
+          3,
+          263623629,
+          3267248215,
+          2264924163,
+          3827173740,
+          3471185587,
+          1871276159,
+          866174146
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2913815971,
+        5775,
+        52266,
+        0,
+        1,
+        1,
+        2700324012,
+        2423043000,
+        3032076667,
+        1140449152
+      ],
+      "commands": [
+        [
+          3,
+          229461411,
+          378522666,
+          3221225475,
+          2700324012,
+          2423043000,
+          3032076667,
+          1140449152
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        411833594,
+        5748,
+        37338,
+        1,
+        0,
+        2,
+        2743592360,
+        416694523,
+        3691929384,
+        2809151044
+      ],
+      "commands": [
+        [
+          2,
+          411833594,
+          376738266,
+          1090519042,
+          2743592360,
+          416694523,
+          3691929384,
+          2809151044
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2255667939,
+        26913,
+        6829,
+        5,
+        2,
+        1,
+        4242479729,
+        2689192299,
+        3016128847,
+        3732154495
+      ],
+      "commands": [
+        [
+          3,
+          108184291,
+          1763777197,
+          3305111555,
+          4242479729,
+          2689192299,
+          3016128847,
+          3732154495
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        581470085,
+        30888,
+        29057,
+        0,
+        1,
+        2,
+        3717708732,
+        93022506,
+        994324476,
+        1800494924
+      ],
+      "commands": [
+        [
+          1,
+          44599173,
+          2024305025,
+          3221225473,
+          3717708732,
+          93022506,
+          994324476,
+          1800494924
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        399046492,
+        10788,
+        41145,
+        4,
+        0,
+        0,
+        1727068015,
+        2572694151,
+        3910025203,
+        3570446801
+      ],
+      "commands": [
+        [
+          4,
+          399046492,
+          707043513,
+          67108868,
+          1727068015,
+          2572694151,
+          3910025203,
+          3570446801
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        3788230091,
+        25863,
+        25698,
+        4,
+        1,
+        1,
+        3329228016,
+        3308197261,
+        3948460664,
+        3882591426
+      ],
+      "commands": [
+        [
+          6,
+          30133707,
+          1694983266,
+          3288334342,
+          3329228016,
+          3308197261,
+          3948460664,
+          3882591426
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        422809177,
+        41324,
+        16852,
+        5,
+        1,
+        1,
+        3276259144,
+        1436851585,
+        526858125,
+        3979100823
+      ],
+      "commands": [
+        [
+          3,
+          422809177,
+          2708226516,
+          3305111555,
+          3276259144,
+          1436851585,
+          526858125,
+          3979100823
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        1559165655,
+        55619,
+        15329,
+        6,
+        0,
+        1,
+        1929479235,
+        281373774,
+        307110299,
+        4078015268
+      ],
+      "commands": [
+        [
+          0,
+          485423831,
+          3645062113,
+          1174405120,
+          1929479235,
+          281373774,
+          307110299,
+          4078015268
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        1334268422,
+        8388,
+        38021,
+        2,
+        2,
+        2,
+        588195750,
+        1945882394,
+        1664908799,
+        632353884
+      ],
+      "commands": [
+        [
+          1,
+          260526598,
+          549753989,
+          3254779905,
+          588195750,
+          1945882394,
+          1664908799,
+          632353884
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        3304646257,
+        42674,
+        37826,
+        5,
+        1,
+        0,
+        2522209163,
+        252691685,
+        1004882118,
+        1364435248
+      ],
+      "commands": [
+        [
+          3,
+          83420785,
+          2796721090,
+          2231369731,
+          2522209163,
+          252691685,
+          1004882118,
+          1364435248
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        613776212,
+        115,
+        28788,
+        3,
+        2,
+        2,
+        1759992591,
+        2327864133,
+        2210172924,
+        1807192573
+      ],
+      "commands": [
+        [
+          1,
+          76905300,
+          7565428,
+          3271557121,
+          1759992591,
+          2327864133,
+          2210172924,
+          1807192573
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        2438510570,
+        4103,
+        44604,
+        2,
+        2,
+        0,
+        1334580972,
+        3604546949,
+        1252272068,
+        4169624355
+      ],
+      "commands": [
+        [
+          0,
+          291026922,
+          268938812,
+          2181038080,
+          1334580972,
+          3604546949,
+          1252272068,
+          4169624355
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        2590090069,
+        44707,
+        37894,
+        3,
+        2,
+        2,
+        4030673757,
+        572673996,
+        2082283209,
+        3906700127
+      ],
+      "commands": [
+        [
+          2,
+          442606421,
+          2929955846,
+          3271557122,
+          4030673757,
+          572673996,
+          2082283209,
+          3906700127
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        1697182052,
+        54483,
+        40820,
+        1,
+        1,
+        1,
+        625320559,
+        1972991239,
+        2688203937,
+        1861116734
+      ],
+      "commands": [
+        [
+          3,
+          86569316,
+          3570638708,
+          3238002691,
+          625320559,
+          1972991239,
+          2688203937,
+          1861116734
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        2477007769,
+        31992,
+        15087,
+        6,
+        1,
+        1,
+        1635342259,
+        281415081,
+        2118636686,
+        4174250023
+      ],
+      "commands": [
+        [
+          7,
+          329524121,
+          2096642799,
+          3321888775,
+          1635342259,
+          281415081,
+          2118636686,
+          4174250023
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        644245776,
+        42818,
+        4339,
+        5,
+        2,
+        0,
+        177610548,
+        770537541,
+        2764560530,
+        187168039
+      ],
+      "commands": [
+        [
+          7,
+          107374864,
+          2806124787,
+          2231369735,
+          177610548,
+          770537541,
+          2764560530,
+          187168039
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        699197834,
+        21673,
+        28528,
+        0,
+        0,
+        2,
+        2023606254,
+        2675525814,
+        71872356,
+        2516651237
+      ],
+      "commands": [
+        [
+          4,
+          162326922,
+          1420390256,
+          1073741828,
+          2023606254,
+          2675525814,
+          71872356,
+          2516651237
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        1414199399,
+        310,
+        5662,
+        6,
+        2,
+        0,
+        651190669,
+        3564083144,
+        3470700223,
+        89608360
+      ],
+      "commands": [
+        [
+          7,
+          340457575,
+          20321822,
+          2248146951,
+          651190669,
+          3564083144,
+          3470700223,
+          89608360
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        3952372675,
+        32843,
+        22676,
+        1,
+        2,
+        1,
+        1507679951,
+        2187304967,
+        2860252617,
+        2922454583
+      ],
+      "commands": [
+        [
+          3,
+          194276291,
+          2152421524,
+          3238002691,
+          1507679951,
+          2187304967,
+          2860252617,
+          2922454583
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        1535765430,
+        37278,
+        58023,
+        0,
+        0,
+        1,
+        113439077,
+        55758288,
+        3822051677,
+        783570346
+      ],
+      "commands": [
+        [
+          7,
+          462023606,
+          2443109031,
+          1073741831,
+          113439077,
+          55758288,
+          3822051677,
+          783570346
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2168729482,
+        59469,
+        37233,
+        7,
+        0,
+        2,
+        1960396824,
+        573384792,
+        3934758250,
+        431696419
+      ],
+      "commands": [
+        [
+          3,
+          21245834,
+          3897397617,
+          1191182339,
+          1960396824,
+          573384792,
+          3934758250,
+          431696419
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        2493352677,
+        28475,
+        5314,
+        7,
+        1,
+        1,
+        3015418114,
+        3849608563,
+        4147379243,
+        143176838
+      ],
+      "commands": [
+        [
+          5,
+          345869029,
+          1866142914,
+          3338665989,
+          3015418114,
+          3849608563,
+          4147379243,
+          143176838
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        1426989752,
+        2934,
+        46957,
+        5,
+        2,
+        1,
+        4184628031,
+        1110747582,
+        3375532369,
+        2831074882
+      ],
+      "commands": [
+        [
+          2,
+          353247928,
+          192329581,
+          3305111554,
+          4184628031,
+          1110747582,
+          3375532369,
+          2831074882
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        2726502389,
+        4953,
+        64087,
+        0,
+        2,
+        1,
+        2034909884,
+        2550315190,
+        3544678957,
+        1741817325
+      ],
+      "commands": [
+        [
+          0,
+          42147829,
+          324663895,
+          3221225472,
+          2034909884,
+          2550315190,
+          3544678957,
+          1741817325
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        3938940981,
+        64600,
+        28224,
+        0,
+        2,
+        0,
+        3113069610,
+        1988044771,
+        1562687399,
+        2582000554
+      ],
+      "commands": [
+        [
+          7,
+          180844597,
+          4233653824,
+          2147483655,
+          3113069610,
+          1988044771,
+          1562687399,
+          2582000554
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        3769149537,
+        30685,
+        6576,
+        6,
+        0,
+        2,
+        3613836628,
+        358035229,
+        1059687647,
+        2977135621
+      ],
+      "commands": [
+        [
+          3,
+          11053153,
+          2010978736,
+          1174405123,
+          3613836628,
+          358035229,
+          1059687647,
+          2977135621
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        2415389936,
+        3285,
+        57644,
+        7,
+        0,
+        0,
+        3700666177,
+        3992393795,
+        3245255767,
+        2520096618
+      ],
+      "commands": [
+        [
+          6,
+          267906288,
+          215343404,
+          117440518,
+          3700666177,
+          3992393795,
+          3245255767,
+          2520096618
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2329374193,
+        19861,
+        36963,
+        5,
+        1,
+        2,
+        3776405816,
+        1054011203,
+        3436514414,
+        1353077195
+      ],
+      "commands": [
+        [
+          3,
+          181890545,
+          1301647459,
+          3305111555,
+          3776405816,
+          1054011203,
+          3436514414,
+          1353077195
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        3878562129,
+        9709,
+        41699,
+        0,
+        0,
+        0,
+        2970758442,
+        2741609959,
+        418987775,
+        1411289571
+      ],
+      "commands": [
+        [
+          2,
+          120465745,
+          636330723,
+          2,
+          2970758442,
+          2741609959,
+          418987775,
+          1411289571
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        1714185560,
+        42199,
+        48223,
+        5,
+        0,
+        0,
+        603818521,
+        1134904680,
+        4284279617,
+        315779375
+      ],
+      "commands": [
+        [
+          2,
+          103572824,
+          2765601887,
+          83886082,
+          603818521,
+          1134904680,
+          4284279617,
+          315779375
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        1409092831,
+        51941,
+        35568,
+        4,
+        0,
+        2,
+        3856404966,
+        3157429542,
+        4257718091,
+        273874598
+      ],
+      "commands": [
+        [
+          1,
+          335351007,
+          3404040944,
+          1140850689,
+          3856404966,
+          3157429542,
+          4257718091,
+          273874598
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        2420658752,
+        65067,
+        13367,
+        2,
+        1,
+        0,
+        3067020149,
+        4250807470,
+        3258114435,
+        3192879068
+      ],
+      "commands": [
+        [
+          0,
+          273175104,
+          4264244279,
+          2181038080,
+          3067020149,
+          4250807470,
+          3258114435,
+          3192879068
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        4158854618,
+        20301,
+        10614,
+        2,
+        1,
+        0,
+        824370495,
+        223418613,
+        737641678,
+        3670512471
+      ],
+      "commands": [
+        [
+          5,
+          400758234,
+          1330456950,
+          2181038085,
+          824370495,
+          223418613,
+          737641678,
+          3670512471
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        2493635539,
+        17243,
+        13129,
+        0,
+        2,
+        0,
+        2602489480,
+        1713338441,
+        164564359,
+        3454199816
+      ],
+      "commands": [
+        [
+          3,
+          346151891,
+          1130050377,
+          2147483651,
+          2602489480,
+          1713338441,
+          164564359,
+          3454199816
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        281533449,
+        61033,
+        39217,
+        4,
+        0,
+        2,
+        2325303492,
+        1562631367,
+        2807179904,
+        3288478967
+      ],
+      "commands": [
+        [
+          7,
+          281533449,
+          3999897905,
+          1140850695,
+          2325303492,
+          1562631367,
+          2807179904,
+          3288478967
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        1181404423,
+        35442,
+        48287,
+        6,
+        2,
+        0,
+        845951869,
+        812472889,
+        2665566489,
+        2747615006
+      ],
+      "commands": [
+        [
+          1,
+          107662599,
+          2322775199,
+          2248146945,
+          845951869,
+          812472889,
+          2665566489,
+          2747615006
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        546207078,
+        19971,
+        38805,
+        2,
+        2,
+        2,
+        4167447963,
+        633411710,
+        1840842277,
+        1575160293
+      ],
+      "commands": [
+        [
+          5,
+          9336166,
+          1308858261,
+          3254779909,
+          4167447963,
+          633411710,
+          1840842277,
+          1575160293
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        2512073888,
+        24199,
+        20026,
+        4,
+        2,
+        2,
+        3953026862,
+        709037971,
+        1902219482,
+        2465824306
+      ],
+      "commands": [
+        [
+          1,
+          364590240,
+          1585925690,
+          3288334337,
+          3953026862,
+          709037971,
+          1902219482,
+          2465824306
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        816659919,
+        49159,
+        22964,
+        0,
+        2,
+        0,
+        1736670791,
+        4255563401,
+        1927565095,
+        2040880048
+      ],
+      "commands": [
+        [
+          7,
+          279789007,
+          3221707188,
+          2147483655,
+          1736670791,
+          4255563401,
+          1927565095,
+          2040880048
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        790726207,
+        783,
+        47220,
+        3,
+        0,
+        0,
+        3185208519,
+        774077049,
+        624896699,
+        1929490821
+      ],
+      "commands": [
+        [
+          2,
+          253855295,
+          51361908,
+          50331650,
+          3185208519,
+          774077049,
+          624896699,
+          1929490821
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        274551430,
+        8307,
+        61477,
+        6,
+        0,
+        0,
+        3481572388,
+        2448037072,
+        3150529673,
+        161675449
+      ],
+      "commands": [
+        [
+          7,
+          274551430,
+          544469029,
+          100663303,
+          3481572388,
+          2448037072,
+          3150529673,
+          161675449
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        706851538,
+        63101,
+        51111,
+        1,
+        0,
+        0,
+        3643775816,
+        278787165,
+        2217241993,
+        3384774009
+      ],
+      "commands": [
+        [
+          4,
+          169980626,
+          4135438247,
+          16777220,
+          3643775816,
+          278787165,
+          2217241993,
+          3384774009
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        3388947375,
+        45238,
+        45024,
+        1,
+        1,
+        0,
+        1175155050,
+        3748437608,
+        333145049,
+        3538658490
+      ],
+      "commands": [
+        [
+          7,
+          167721903,
+          2964762592,
+          2164260871,
+          1175155050,
+          3748437608,
+          333145049,
+          3538658490
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        3490132655,
+        25144,
+        47720,
+        1,
+        0,
+        1,
+        3693461951,
+        3735456937,
+        1525287107,
+        1898840516
+      ],
+      "commands": [
+        [
+          2,
+          268907183,
+          1647884904,
+          1090519042,
+          3693461951,
+          3735456937,
+          1525287107,
+          1898840516
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        1007990779,
+        54831,
+        58847,
+        6,
+        2,
+        1,
+        3652414964,
+        1580163773,
+        3442540637,
+        4075334106
+      ],
+      "commands": [
+        [
+          0,
+          471119867,
+          3593463263,
+          3321888768,
+          3652414964,
+          1580163773,
+          3442540637,
+          4075334106
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        726608439,
+        63472,
+        61554,
+        4,
+        1,
+        2,
+        3370414606,
+        3036312528,
+        4243164905,
+        4164623579
+      ],
+      "commands": [
+        [
+          1,
+          189737527,
+          4159762546,
+          3288334337,
+          3370414606,
+          3036312528,
+          4243164905,
+          4164623579
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        2523380558,
+        3557,
+        20830,
+        2,
+        1,
+        0,
+        965525075,
+        2669917732,
+        4189673623,
+        3339940154
+      ],
+      "commands": [
+        [
+          1,
+          375896910,
+          233132382,
+          2181038081,
+          965525075,
+          2669917732,
+          4189673623,
+          3339940154
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        1269884618,
+        26920,
+        2960,
+        3,
+        2,
+        2,
+        806760641,
+        2267109163,
+        3307034828,
+        955744197
+      ],
+      "commands": [
+        [
+          4,
+          196142794,
+          1764232080,
+          3271557124,
+          806760641,
+          2267109163,
+          3307034828,
+          955744197
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        2298618588,
+        8614,
+        13661,
+        2,
+        0,
+        1,
+        2157207740,
+        3435092689,
+        2174856187,
+        1445914586
+      ],
+      "commands": [
+        [
+          2,
+          151134940,
+          564540765,
+          1107296258,
+          2157207740,
+          3435092689,
+          2174856187,
+          1445914586
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        525126547,
+        57107,
+        24829,
+        1,
+        0,
+        1,
+        2501310340,
+        1600261932,
+        3183167153,
+        2489556288
+      ],
+      "commands": [
+        [
+          7,
+          525126547,
+          3742589181,
+          1090519047,
+          2501310340,
+          1600261932,
+          3183167153,
+          2489556288
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        3990116268,
+        28834,
+        3999,
+        7,
+        0,
+        2,
+        1299264448,
+        1394404490,
+        3559057881,
+        3582220388
+      ],
+      "commands": [
+        [
+          6,
+          232019884,
+          1889669023,
+          1191182342,
+          1299264448,
+          1394404490,
+          3559057881,
+          3582220388
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        1088814685,
+        925,
+        46299,
+        6,
+        0,
+        2,
+        1443988881,
+        4000226737,
+        1857150457,
+        823085111
+      ],
+      "commands": [
+        [
+          1,
+          15072861,
+          60667099,
+          1174405121,
+          1443988881,
+          4000226737,
+          1857150457,
+          823085111
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        316334270,
+        28623,
+        19314,
+        2,
+        2,
+        0,
+        801574329,
+        2744129314,
+        3924921717,
+        869193602
+      ],
+      "commands": [
+        [
+          3,
+          316334270,
+          1875856242,
+          2181038083,
+          801574329,
+          2744129314,
+          3924921717,
+          869193602
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        4,
+        1002215330,
+        55888,
+        23377,
+        6,
+        1,
+        1,
+        2263709272,
+        963170893,
+        3463760508,
+        3819332645
+      ],
+      "commands": [
+        [
+          4,
+          465344418,
+          3662699345,
+          3321888772,
+          2263709272,
+          963170893,
+          3463760508,
+          3819332645
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        1964561955,
+        56985,
+        56686,
+        4,
+        2,
+        1,
+        1053104783,
+        1615797154,
+        3221410483,
+        3214769785
+      ],
+      "commands": [
+        [
+          2,
+          353949219,
+          3734625646,
+          3288334338,
+          1053104783,
+          1615797154,
+          3221410483,
+          3214769785
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        1213460564,
+        47450,
+        13656,
+        6,
+        0,
+        2,
+        958254770,
+        1812099088,
+        3199514122,
+        2874517321
+      ],
+      "commands": [
+        [
+          2,
+          139718740,
+          3109696856,
+          1174405122,
+          958254770,
+          1812099088,
+          3199514122,
+          2874517321
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        2140869837,
+        1859,
+        26624,
+        5,
+        1,
+        1,
+        502040480,
+        62203780,
+        421623813,
+        901145681
+      ],
+      "commands": [
+        [
+          1,
+          530257101,
+          121858048,
+          3305111553,
+          502040480,
+          62203780,
+          421623813,
+          901145681
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        1811079021,
+        20566,
+        50264,
+        3,
+        2,
+        0,
+        3407152499,
+        416533673,
+        1314280871,
+        834586011
+      ],
+      "commands": [
+        [
+          6,
+          200466285,
+          1347863640,
+          2197815302,
+          3407152499,
+          416533673,
+          1314280871,
+          834586011
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        2834057879,
+        32474,
+        27283,
+        1,
+        1,
+        0,
+        2569142174,
+        3137310341,
+        1941570457,
+        3536286911
+      ],
+      "commands": [
+        [
+          5,
+          149703319,
+          2128243347,
+          2164260869,
+          2569142174,
+          3137310341,
+          1941570457,
+          3536286911
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        3736295797,
+        4205,
+        6638,
+        3,
+        0,
+        2,
+        205859452,
+        2099689292,
+        3193688262,
+        3085708669
+      ],
+      "commands": [
+        [
+          0,
+          515070325,
+          275585518,
+          1124073472,
+          205859452,
+          2099689292,
+          3193688262,
+          3085708669
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        3323022419,
+        14325,
+        52594,
+        0,
+        1,
+        0,
+        182476775,
+        4270653718,
+        1923847087,
+        1939262864
+      ],
+      "commands": [
+        [
+          3,
+          101796947,
+          938855794,
+          2147483651,
+          182476775,
+          4270653718,
+          1923847087,
+          1939262864
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        1350429964,
+        59221,
+        50674,
+        3,
+        1,
+        0,
+        2931491266,
+        1767724557,
+        3813744347,
+        18555510
+      ],
+      "commands": [
+        [
+          1,
+          276688140,
+          3881158130,
+          2197815297,
+          2931491266,
+          1767724557,
+          3813744347,
+          18555510
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        3,
+        1673179842,
+        2568,
+        65380,
+        5,
+        2,
+        2,
+        3980011658,
+        2610680189,
+        64676634,
+        144834538
+      ],
+      "commands": [
+        [
+          3,
+          62567106,
+          168361828,
+          3305111555,
+          3980011658,
+          2610680189,
+          64676634,
+          144834538
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        7,
+        3739269112,
+        16884,
+        20321,
+        0,
+        0,
+        0,
+        558618791,
+        752480224,
+        962883225,
+        2532934199
+      ],
+      "commands": [
+        [
+          7,
+          518043640,
+          1106530145,
+          7,
+          558618791,
+          752480224,
+          962883225,
+          2532934199
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        1152080422,
+        22433,
+        9841,
+        6,
+        1,
+        0,
+        327029112,
+        832893390,
+        791177401,
+        634648504
+      ],
+      "commands": [
+        [
+          6,
+          78338598,
+          1470178929,
+          2248146950,
+          327029112,
+          832893390,
+          791177401,
+          634648504
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        2,
+        2234194510,
+        22944,
+        12925,
+        4,
+        0,
+        2,
+        4055085839,
+        2729438605,
+        1946483350,
+        2848862991
+      ],
+      "commands": [
+        [
+          2,
+          86710862,
+          1503670909,
+          1140850690,
+          4055085839,
+          2729438605,
+          1946483350,
+          2848862991
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        5,
+        3089932532,
+        16712,
+        32232,
+        0,
+        2,
+        2,
+        6482830,
+        3217638520,
+        2072375788,
+        2946200958
+      ],
+      "commands": [
+        [
+          5,
+          405577972,
+          1095269864,
+          3221225477,
+          6482830,
+          3217638520,
+          2072375788,
+          2946200958
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        1,
+        3844610459,
+        18596,
+        719,
+        2,
+        0,
+        0,
+        2750633697,
+        2497994889,
+        2017054157,
+        2795068058
+      ],
+      "commands": [
+        [
+          1,
+          86514075,
+          1218708175,
+          33554433,
+          2750633697,
+          2497994889,
+          2017054157,
+          2795068058
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        3477896717,
+        3462,
+        64289,
+        4,
+        1,
+        1,
+        2607716475,
+        526923907,
+        277739547,
+        321852965
+      ],
+      "commands": [
+        [
+          6,
+          256671245,
+          226949921,
+          3288334342,
+          2607716475,
+          526923907,
+          277739547,
+          321852965
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        0,
+        2947658366,
+        34758,
+        58570,
+        2,
+        1,
+        0,
+        3766760581,
+        4159940014,
+        2504599501,
+        396939633
+      ],
+      "commands": [
+        [
+          0,
+          263303806,
+          2277958858,
+          2181038080,
+          3766760581,
+          4159940014,
+          2504599501,
+          396939633
+        ]
+      ],
+      "compared_bytes": 832528
+    },
+    {
+      "entry": "0x8400178e",
+      "args": [
+        6,
+        2211023620,
+        34157,
+        60084,
+        1,
+        1,
+        2,
+        1922451005,
+        2382198526,
+        2402120153,
+        4014312476
+      ],
+      "commands": [
+        [
+          6,
+          63539972,
+          2238573236,
+          3238002694,
+          1922451005,
+          2382198526,
+          2402120153,
+          4014312476
+        ]
+      ],
+      "compared_bytes": 832528
+    }
+  ],
+  "invalid_cases": [
+    {
+      "kind": "channel",
+      "value": 8,
+      "reason": 1,
+      "retained_request": [
+        8,
+        4096,
+        4194304,
+        3221225472,
+        11,
+        22,
+        33,
+        44,
+        2216689664,
+        1,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "channel",
+      "value": 9,
+      "reason": 1,
+      "retained_request": [
+        9,
+        4096,
+        4194304,
+        3221225472,
+        11,
+        22,
+        33,
+        44,
+        2216689664,
+        1,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "channel",
+      "value": 255,
+      "reason": 1,
+      "retained_request": [
+        255,
+        4096,
+        4194304,
+        3221225472,
+        11,
+        22,
+        33,
+        44,
+        2216689664,
+        1,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "channel",
+      "value": 1073741824,
+      "reason": 1,
+      "retained_request": [
+        1073741824,
+        4096,
+        4194304,
+        3221225472,
+        11,
+        22,
+        33,
+        44,
+        2216689664,
+        1,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "channel",
+      "value": 4294967295,
+      "reason": 1,
+      "retained_request": [
+        4294967295,
+        4096,
+        4194304,
+        3221225472,
+        11,
+        22,
+        33,
+        44,
+        2216689664,
+        1,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 65536,
+      "offset": 0,
+      "address": 4096,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4096,
+        65536,
+        0,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 4294967295,
+      "offset": 0,
+      "address": 4096,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4096,
+        4294967295,
+        0,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 32,
+      "offset": 65536,
+      "address": 4096,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4096,
+        32,
+        65536,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 32,
+      "offset": 4294967295,
+      "address": 4096,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4096,
+        32,
+        4294967295,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 2,
+      "offset": 0,
+      "address": 4294967295,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4294967295,
+        2,
+        0,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 1,
+      "offset": 1,
+      "address": 4294967295,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4294967295,
+        1,
+        1,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 0,
+      "offset": 2,
+      "address": 4294967295,
+      "reason": 3,
+      "retained_request": [
+        7,
+        4294967295,
+        0,
+        2,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "kind": "extent",
+      "length": 65535,
+      "offset": 65535,
+      "address": 536805376,
+      "reason": 3,
+      "retained_request": [
+        7,
+        536805376,
+        65535,
+        65535,
+        5,
+        1,
+        1,
+        11,
+        2216689664,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    }
+  ],
+  "native_chains": [
+    {
+      "name": "copy",
+      "failed_command": 0,
+      "original_return": 4294967295,
+      "original_submissions": 0,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        16777216,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "split-copy",
+      "failed_command": 0,
+      "original_return": 0,
+      "original_submissions": 1,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        2097152,
+        2164260871,
+        0,
+        0,
+        0,
+        0,
+        2214598270,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd70",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "split-copy",
+      "failed_command": 1,
+      "original_return": 0,
+      "original_submissions": 1,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        13762606,
+        1090519047,
+        0,
+        0,
+        0,
+        0,
+        2214598324,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd70",
+      "prefix_commands": 1,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "insert",
+      "failed_command": 0,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        2097152,
+        2164260871,
+        0,
+        0,
+        0,
+        0,
+        2214598420,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd60",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "insert",
+      "failed_command": 1,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        512168160,
+        3276800,
+        83886087,
+        11,
+        22,
+        33,
+        44,
+        2214598454,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd60",
+      "prefix_commands": 1,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "insert",
+      "failed_command": 2,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        13762606,
+        1090519047,
+        0,
+        0,
+        0,
+        0,
+        2214598514,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd60",
+      "prefix_commands": 2,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "encoded",
+      "failed_command": 0,
+      "original_return": 0,
+      "original_submissions": 0,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        4194336,
+        3238002695,
+        11,
+        22,
+        33,
+        44,
+        2214598610,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd80",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "drop",
+      "failed_command": 0,
+      "original_return": 4294967295,
+      "original_submissions": 0,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        16777216,
+        3254779911,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "rewrite",
+      "failed_command": 0,
+      "original_return": 0,
+      "original_submissions": 0,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        16777216,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2214600298,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd80",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "worker-srv6",
+      "failed_command": 0,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        2883584,
+        2164260871,
+        0,
+        0,
+        0,
+        0,
+        2214598610,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd50",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "worker-srv6",
+      "failed_command": 1,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        512170720,
+        7602188,
+        83886087,
+        3222412289,
+        0,
+        0,
+        0,
+        2214598610,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd50",
+      "prefix_commands": 1,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "worker-srv6",
+      "failed_command": 2,
+      "original_return": 0,
+      "original_submissions": 2,
+      "original_continued": true,
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        13762606,
+        1073741831,
+        0,
+        0,
+        0,
+        0,
+        2214598610,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd50",
+      "prefix_commands": 2,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "worker-drop-failure",
+      "reason": 2,
+      "retained_request": [
+        7,
+        402653184,
+        16777216,
+        3254779911,
+        0,
+        0,
+        0,
+        0,
+        2214595426,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "worker-tail-underflow",
+      "original_encoded_bytes": 65535,
+      "reason": 3,
+      "retained_request": [
+        7,
+        1476395008,
+        4294967295,
+        46,
+        0,
+        0,
+        1,
+        0,
+        2214600514,
+        3,
+        8,
+        0
+      ],
+      "frame": "0x8403dd60",
+      "prefix_commands": 2,
+      "slot_reads": [
+        [
+          515973228,
+          256
+        ],
+        [
+          515973228,
+          256
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "name": "preexisting-protocol-fields-retained",
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    }
+  ],
+  "controls": [
+    {
+      "status": 0,
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          0
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "status": 1,
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          1
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "status": 255,
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          255
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "status": 65536,
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          65536
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "status": 4294902015,
+      "reason": 2,
+      "retained_request": [
+        7,
+        4096,
+        4194304,
+        3221225479,
+        0,
+        0,
+        0,
+        0,
+        2216689664,
+        2,
+        8,
+        0
+      ],
+      "frame": "0x8403dd90",
+      "prefix_commands": 0,
+      "slot_reads": [
+        [
+          515973228,
+          4294902015
+        ]
+      ],
+      "irq_masked": true,
+      "late_ready_stays_held": true,
+      "whole_post_fault_memory_bytes": 832528
+    },
+    {
+      "status": 256,
+      "accepted": true
+    },
+    {
+      "status": 32768,
+      "accepted": true
+    },
+    {
+      "status": 65280,
+      "accepted": true
+    },
+    {
+      "status": 4294967295,
+      "accepted": true
+    },
+    {
+      "missing_model": "read 0x1ec1206c/4 at 0x84001590",
+      "interpreted_as_engine_failure": false
+    },
+    {
+      "declared_fixture_backing": 16,
+      "encoded_bytes": 64,
+      "actual_dma_executed": false,
+      "backing_proved": false,
+      "note": "Width/aperture checks still permit a command beyond a hypothetical short allocation."
+    }
+  ],
+  "mutants": [
+    {
+      "define": "OMIT_EGRESS_CHANNEL",
+      "detected": true,
+      "failure": "read 0x1ec12070/4 at 0x84001590",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_CHANNEL.elf",
+          "-DOMIT_EGRESS_CHANNEL"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "64931e63fa586b85d4e1bbddb00157c15f8219e7eda8f751e889daef6e30f7af"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_LENGTH",
+      "detected": true,
+      "failure": "fault-hold",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_LENGTH.elf",
+          "-DOMIT_EGRESS_LENGTH"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "2965ab77670d0c9fbe1c9ca091899a3d8021bd6aaa39b85b65a7c2ec754dec58"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_OFFSET",
+      "detected": true,
+      "failure": "fault-hold",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_OFFSET.elf",
+          "-DOMIT_EGRESS_OFFSET"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "ddc082ceff163af922041f93e58c8ef254a380e2e18cc9b688f785025f498f00"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_APERTURE",
+      "detected": true,
+      "failure": "fault-hold",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_APERTURE.elf",
+          "-DOMIT_EGRESS_APERTURE"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "c1f0417eca7c9a312e0132ce958d086f4ba7d6e629dd73ba974ff73f7c92f614"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_SLOTS",
+      "detected": true,
+      "failure": "fault-hold",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_SLOTS.elf",
+          "-DOMIT_EGRESS_SLOTS"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "73933b4baf1ed60712268adc58a76e4f13dac9dd3bc1eaf4c22ea36cf7451575"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_IRQ_MASK",
+      "detected": true,
+      "failure": "interrupt-mask",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_IRQ_MASK.elf",
+          "-DOMIT_EGRESS_IRQ_MASK"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 180
+          }
+        ],
+        "sha256": "0c187cc218d1b43c22a351011a528ab62072791e59a2a8422dffe796027f12f8"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_FENCE",
+      "detected": true,
+      "failure": "fault-publication",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_FENCE.elf",
+          "-DOMIT_EGRESS_FENCE"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 176
+          }
+        ],
+        "sha256": "959930f52bba4c77193b3b0567053d2a5a4a5c64870fcf3168fe9998b6dbdb14"
+      }
+    },
+    {
+      "define": "OMIT_EGRESS_FAULT",
+      "detected": true,
+      "failure": "fault-publication",
+      "binary": {
+        "command": [
+          "/usr/bin/clang",
+          "--target=riscv32",
+          "-march=rv32imac_zicsr",
+          "-mabi=ilp32",
+          "-nostdlib",
+          "-g",
+          "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+          "/home/captain/W1700KNPU/tests/npu/egress-emulation.S",
+          "-Wl,-T,/home/captain/W1700KNPU/tests/npu/egress-emulation.ld,--no-relax",
+          "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-egress/egress-OMIT_EGRESS_FAULT.elf",
+          "-DOMIT_EGRESS_FAULT"
+        ],
+        "sections": [
+          {
+            "name": ".text",
+            "address": 2214952960,
+            "bytes": 172
+          }
+        ],
+        "sha256": "e34a38c168c034b799ed6bb9e4855b74220d3f03c49242df3383dde25479351b"
+      }
+    }
+  ],
+  "retained_gate": {
+    "name": "all48-detours-installed-before-reset",
+    "harts_parked": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "patches": [
+      {
+        "site": "0x84000074",
+        "name": "npu_emulation_before_bss",
+        "before": "b7c2c01e",
+        "after": "6f201430",
+        "target": "0x84042b74"
+      },
+      {
+        "site": "0x840000f0",
+        "name": "npu_emulation_reset_gate",
+        "before": "97000000",
+        "after": "6f201434",
+        "target": "0x84042c30"
+      },
+      {
+        "site": "0x840030b2",
+        "name": "npu_emulation_irq_dispatch",
+        "before": "411122c4",
+        "after": "6fe0f371",
+        "target": "0x84041fd0"
+      },
+      {
+        "site": "0x84000188",
+        "name": "npu_coordinator_main_return",
+        "before": "b2400145",
+        "after": "6f20441a",
+        "target": "0x8404232c"
+      },
+      {
+        "site": "0x84003f2e",
+        "name": "npu_emulation_mailbox_register",
+        "before": "eff06fb2",
+        "after": "6fe05300",
+        "target": "0x84042732"
+      },
+      {
+        "site": "0x8400ce1c",
+        "name": "gate_core1_startup",
+        "before": "9c4281cf",
+        "after": "6f30d377",
+        "target": "0x84040d98"
+      },
+      {
+        "site": "0x8400cf10",
+        "name": "gate_core1_outer",
+        "before": "1c4081ef",
+        "after": "6f305379",
+        "target": "0x84040ea4"
+      },
+      {
+        "site": "0x8400cf26",
+        "name": "gate_core1_idle",
+        "before": "1c40f5d7",
+        "after": "6f40e30e",
+        "target": "0x84041014"
+      },
+      {
+        "site": "0x8400ec7e",
+        "name": "gate_core2_startup",
+        "before": "1c43fddf",
+        "after": "6f206350",
+        "target": "0x84041184"
+      },
+      {
+        "site": "0x8400ecc2",
+        "name": "gate_core2_outer",
+        "before": "83470900",
+        "after": "6f20635f",
+        "target": "0x840412b8"
+      },
+      {
+        "site": "0x8400ece6",
+        "name": "gate_core2_idle",
+        "before": "83470900",
+        "after": "6f20e36f",
+        "target": "0x840413e4"
+      },
+      {
+        "site": "0x8400e440",
+        "name": "gate_core3_startup",
+        "before": "1c42e5db",
+        "after": "6f30030d",
+        "target": "0x84041510"
+      },
+      {
+        "site": "0x8400e4d4",
+        "name": "gate_core3_outer",
+        "before": "83c70700",
+        "after": "6f308314",
+        "target": "0x8404161c"
+      },
+      {
+        "site": "0x8400d0ea",
+        "name": "gate_core4_startup",
+        "before": "83470400",
+        "after": "6f406363",
+        "target": "0x84041720"
+      },
+      {
+        "site": "0x8400d144",
+        "name": "gate_core4_outer",
+        "before": "83470400",
+        "after": "6f40036e",
+        "target": "0x84041824"
+      },
+      {
+        "site": "0x8400d160",
+        "name": "gate_core4_idle",
+        "before": "83470400",
+        "after": "6f40837c",
+        "target": "0x84041928"
+      },
+      {
+        "site": "0x8400cd3e",
+        "name": "gate_core6_startup",
+        "before": "9c40fddf",
+        "after": "6f40f34e",
+        "target": "0x84041a2c"
+      },
+      {
+        "site": "0x8400cd8a",
+        "name": "gate_core6_outer",
+        "before": "9c4099cb",
+        "after": "6f40f35a",
+        "target": "0x84041b38"
+      },
+      {
+        "site": "0x8400cd9e",
+        "name": "gate_core6_retry",
+        "before": "9c40fdf7",
+        "after": "6f40736a",
+        "target": "0x84041c44"
+      },
+      {
+        "site": "0x84000b24",
+        "name": "gate_core7_startup",
+        "before": "ef00f014",
+        "after": "6f10c422",
+        "target": "0x84041d50"
+      },
+      {
+        "site": "0x84000b36",
+        "name": "gate_core7_outer",
+        "before": "ef00100c",
+        "after": "6f102432",
+        "target": "0x84041e58"
+      },
+      {
+        "site": "0x8400cb3e",
+        "name": "gate_core5_startup",
+        "before": "1c43fddf",
+        "after": "6f30b36a",
+        "target": "0x840409e8"
+      },
+      {
+        "site": "0x8400cbbe",
+        "name": "gate_core5_outer",
+        "before": "83570a00",
+        "after": "6f307371",
+        "target": "0x84040ad4"
+      },
+      {
+        "site": "0x8400cbca",
+        "name": "gate_core5_empty_first",
+        "before": "83576100",
+        "after": "6f30737f",
+        "target": "0x84040bc0"
+      },
+      {
+        "site": "0x8400cc0c",
+        "name": "gate_core5_empty_repeat",
+        "before": "83576100",
+        "after": "6f40030a",
+        "target": "0x84040cac"
+      },
+      {
+        "site": "0x840053a6",
+        "name": "npu_emulation_gdma_copy",
+        "before": "93174500",
+        "after": "6fd0731e",
+        "target": "0x84042d8c"
+      },
+      {
+        "site": "0x840052ca",
+        "before": "efa09004",
+        "after": "ef607453",
+        "target": "0x8404c000"
+      },
+      {
+        "site": "0x840052d4",
+        "before": "97d78fba",
+        "after": "6f000001",
+        "target": "0x840052e4"
+      },
+      {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      },
+      {
+        "site": "0x8400fe34",
+        "before": "0c410845",
+        "after": "6f20a441",
+        "name": "npu_emulation_txdone_callback"
+      },
+      {
+        "site": "0x84004d92",
+        "before": "97d68fba",
+        "after": "6fd0847a",
+        "name": "npu_emulation_txdone_bufid_guard"
+      },
+      {
+        "site": "0x84004a28",
+        "before": "14c3c18f",
+        "after": "6fd03436",
+        "name": "npu_emulation_txdone_lock19_guard"
+      },
+      {
+        "site": "0x84004a3a",
+        "before": "97650100",
+        "after": "6fd0d43a",
+        "name": "npu_emulation_txdone_lock20_guard"
+      },
+      {
+        "site": "0x84004b08",
+        "before": "83170e00",
+        "after": "6fd03435",
+        "name": "npu_emulation_txdone_temp_guard"
+      },
+      {
+        "site": "0x8400b546",
+        "before": "97878fba",
+        "after": "6f704413",
+        "name": "npu_emulation_txdone_publish_guard"
+      },
+      {
+        "site": "0x8400c96c",
+        "name": "publish",
+        "before": "40c31cc7",
+        "after": "6f704469",
+        "target": "0x84054000",
+        "resume": "0x8400c970"
+      },
+      {
+        "site": "0x8400cc1e",
+        "name": "consumer_acquire",
+        "before": "03576100",
+        "after": "6f70643f",
+        "target": "0x84054014",
+        "resume": "0x8400cc22"
+      },
+      {
+        "site": "0x8400cc4e",
+        "name": "consumer_release",
+        "before": "231ce5a8",
+        "after": "6f70243d",
+        "target": "0x84054020",
+        "resume": "0x8400cc52"
+      },
+      {
+        "site": "0x84005c30",
+        "name": "vxlan_header",
+        "before": "411122c4",
+        "after": "6f00a546",
+        "target": "0x8405609a"
+      },
+      {
+        "site": "0x84005c82",
+        "name": "srv6_header",
+        "before": "411122c4",
+        "after": "6f000546",
+        "target": "0x840560e2"
+      },
+      {
+        "site": "0x84001e78",
+        "name": "srv6_consumer",
+        "before": "797106d6",
+        "after": "6f40e52b",
+        "target": "0x84056136"
+      },
+      {
+        "site": "0x84001eea",
+        "name": "srv6_size_a5",
+        "before": "83470900",
+        "after": "6f40452c",
+        "target": "0x840561ae"
+      },
+      {
+        "site": "0x84001f00",
+        "name": "srv6_size_a2",
+        "before": "03460900",
+        "after": "6f40652b",
+        "target": "0x840561b6"
+      },
+      {
+        "site": "0x84001582",
+        "target": "0x84058000",
+        "name": "channel",
+        "before": "3723c11e",
+        "after": "6f60f527"
+      },
+      {
+        "site": "0x8400159e",
+        "target": "0x84058018",
+        "name": "slots",
+        "before": "63070e04",
+        "after": "6f60b527"
+      },
+      {
+        "site": "0x8400178e",
+        "target": "0x84058028",
+        "name": "extent",
+        "before": "4111c206",
+        "after": "6f60b509"
+      }
+    ],
+    "bridge_sites": [
+      "0x8400148a",
+      "0x84001500"
+    ],
+    "barrier_words": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "legacy_txdone_ready": 0,
+    "bridge_allocation": false,
+    "physical_readiness_or_containment": false,
+    "bridge_definition_bytes": 69632
+  },
+  "limits": [
+    "Only the generic 178e builder gets pre-truncation length/offset/aperture checks; other encoders remain open.",
+    "Zero-length and upper source aliases retain native behavior; neither is physical validity proof.",
+    "Faults retain prior submissions and the failed call frame; no rollback, drain, reclamation or recovery is claimed.",
+    "Availability is an explicit per-read fixture model, not reservation, concurrency or DMA-completion proof.",
+    "Worker dispatch/drop instructions execute from the post-ingress slice; ingress ownership and full worker boot remain open.",
+    "Packet format, checksum/MTU arithmetic, source backing, cache/PMA and full NPU lifecycle/parity remain open.",
+    "No admission expansion, packaged firmware, router, Wi-Fi, protected-data or subagent change."
+  ]
+}

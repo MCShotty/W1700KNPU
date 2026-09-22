@@ -1,0 +1,125 @@
+From: W1700KNPU development <noreply@example.invalid>
+Subject: [CANDIDATE] wifi: mt76: retain failed NPU L1 recovery state
+
+Check NPU stop/setup and attached-NPU recovery handshakes.
+Latch errors before later requests can re-enter cleanup.
+Restart DMA/WED only after NPU setup succeeds.
+
+A successful legacy STOP/GET reply is not a drain witness.
+Full reset/removal, provider lifetime and hardware drains
+remain open. Unpromoted: source/model/object verification only.
+
+---
+--- a/mt7996/mt7996.h
++++ b/mt7996/mt7996.h
+@@ -489,6 +489,7 @@ struct mt7996_dev {
+ 		u32 state;
+ 		u32 wa_reset_count;
+ 		u32 wm_reset_count;
++		int npu_error;
+ 		bool hw_full_reset:1;
+ 		bool hw_init_done:1;
+ 		bool restart:1;
+--- a/mt7996/dma.c
++++ b/mt7996/dma.c
+@@ -350,7 +350,8 @@ void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset)
+ 		irq_mask |= MT_INT_BAND2_RX_DONE | MT_INT_TX_RX_DONE_EXT;
+ 
+-	if (mtk_wed_device_active(wed) && wed_reset) {
++	if (mtk_wed_device_active(wed) && wed_reset &&
++	    (!reset || !mt76_npu_device_active(&dev->mt76))) {
+ 		u32 wed_irq_mask = irq_mask;
+ 
+ 		wed_irq_mask |= MT_INT_TX_DONE_BAND0 | MT_INT_TX_DONE_BAND1;
+ 		mt76_wr(dev, MT_INT_MASK_CSR, wed_irq_mask);
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -2530,10 +2530,15 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 	struct ieee80211_hw *hw;
+ 	struct mt7996_dev *dev;
+ 	struct mt7996_phy *phy;
+-	int i;
++	bool npu_active;
++	int i, ret;
+ 
+ 	dev = container_of(work, struct mt7996_dev, reset_work);
++	/* Do not re-disable NAPI or escalate after a failed NPU recovery. */
++	if (READ_ONCE(dev->recovery.npu_error))
++		return;
++
+ 	hw = mt76_hw(dev);
+ 
+ 	/* chip full reset */
+ 	if (dev->recovery.restart) {
+@@ -2572,7 +2577,8 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+ 		mtk_wed_device_stop(&dev->mt76.mmio.wed);
+ 
+-	mt7996_npu_hw_stop(dev);
++	npu_active = mt76_npu_device_active(&dev->mt76);
++	ret = mt7996_npu_hw_stop(dev);
+ 	ieee80211_stop_queues(mt76_hw(dev));
+ 
+ 	set_bit(MT76_RESET, &dev->mphy.state);
+@@ -2607,6 +2613,12 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 	napi_disable(&dev->mt76.tx_napi);
+ 
++	if (!ret && npu_active && !mt76_npu_device_active(&dev->mt76))
++		ret = -ENODEV;
++
++	if (ret)
++		goto npu_recovery_failed;
++
+ 	mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_STOPPED);
+ 
+ 	if (mt7996_wait_reset_state(dev, MT_MCU_CMD_RESET_DONE)) {
+ 		mt7996_dma_reset(dev, false);
+@@ -2617,9 +2629,24 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 		mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_INIT);
+-		mt7996_wait_reset_state(dev, MT_MCU_CMD_RECOVERY_DONE);
++		if (!mt7996_wait_reset_state(dev, MT_MCU_CMD_RECOVERY_DONE) &&
++		    npu_active) {
++			ret = -ETIMEDOUT;
++			goto npu_recovery_failed;
++		}
++	} else if (npu_active) {
++		ret = -ETIMEDOUT;
++		goto npu_recovery_failed;
+ 	}
+ 
+ 	mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_RESET_DONE);
+-	mt7996_wait_reset_state(dev, MT_MCU_CMD_NORMAL_STATE);
++	if (!mt7996_wait_reset_state(dev, MT_MCU_CMD_NORMAL_STATE) &&
++	    npu_active) {
++		ret = -ETIMEDOUT;
++		goto npu_recovery_failed;
++	}
++
++	ret = __mt7996_npu_hw_init(dev);
++	if (ret)
++		goto npu_recovery_failed;
+ 
+ 	/* enable DMA Rx/Tx and interrupt */
+ 	mt7996_dma_start(dev, false, false);
+@@ -2645,7 +2672,5 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 	}
+ 
+-	__mt7996_npu_hw_init(dev);
+-
+ 	clear_bit(MT76_MCU_RESET, &dev->mphy.state);
+ 	mt7996_for_each_phy(dev, phy)
+ 		clear_bit(MT76_RESET, &phy->mt76->state);
+@@ -2688,5 +2713,13 @@ void mt7996_mac_reset_work(struct work_struct *work)
+ 	dev_info(dev->mt76.dev,"\n%s L1 SER recovery completed.",
+ 		 wiphy_name(dev->mt76.hw->wiphy));
++	return;
++
++npu_recovery_failed:
++	WRITE_ONCE(dev->recovery.npu_error, ret);
++	mt76_npu_disable_irqs(&dev->mt76);
++	mutex_unlock(&dev->mt76.mutex);
++	dev_err(dev->mt76.dev, "NPU L1 recovery failed: %d; resources retained\n",
++		ret);
+ }
+ 
+ /* firmware coredump */

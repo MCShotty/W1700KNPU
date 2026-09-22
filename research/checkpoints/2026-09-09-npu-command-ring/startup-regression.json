@@ -1,0 +1,2704 @@
+{
+  "schema": 1,
+  "command": [
+    "/usr/bin/clang",
+    "--target=riscv32",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-O2",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-builtin",
+    "-nostdlib",
+    "-fno-stack-protector",
+    "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-I",
+    "/home/captain/W1700KNPU/firmware/npu",
+    "/home/captain/W1700KNPU/firmware/npu/allocator.c",
+    "/home/captain/W1700KNPU/tests/npu/allocator-startup-emulation.c",
+    "/home/captain/W1700KNPU/tests/npu/allocator-startup-emulation.S",
+    "-Wl,-T,/home/captain/W1700KNPU/tests/npu/allocator-startup-emulation.ld",
+    "-Wl,--no-relax",
+    "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-cold-allocator/startup.elf"
+  ],
+  "elf_sha256": "ed6a66ca83fc76dd138946b672b19ca33f1b9cfcc2d973aa2ede822e5a0431b3",
+  "sections": [
+    [
+      ".text",
+      2214912000,
+      1978
+    ],
+    [
+      ".rodata",
+      2214913980,
+      32
+    ]
+  ],
+  "disassembly": "\n/home/captain/W1700KNPU/.local/npu-cold-allocator/startup.elf:     file format elf32-littleriscv\n\n\nDisassembly of section .text:\n\n8404e000 <npu_allocator_allocate>:\n8404e000:\t4781                \tli\ta5,0\n8404e002:\t4805                \tli\ta6,1\n8404e004:\tc949                \tbeqz\ta0,8404e096 <npu_allocator_allocate+0x96>\n8404e006:\tc9c1                \tbeqz\ta1,8404e096 <npu_allocator_allocate+0x96>\n8404e008:\tc659                \tbeqz\ta2,8404e096 <npu_allocator_allocate+0x96>\n8404e00a:\t00462883          \tlw\ta7,4(a2)\n8404e00e:\t08088363          \tbeqz\ta7,8404e094 <npu_allocator_allocate+0x94>\n8404e012:\t4805                \tli\ta6,1\n8404e014:\t4781                \tli\ta5,0\n8404e016:\t08e86063          \tbltu\ta6,a4,8404e096 <npu_allocator_allocate+0x96>\n8404e01a:\t711d                \taddi\tsp,sp,-96\n8404e01c:\tce86                \tsw\tra,92(sp)\n8404e01e:\tcca2                \tsw\ts0,88(sp)\n8404e020:\tcaa6                \tsw\ts1,84(sp)\n8404e022:\tc8ca                \tsw\ts2,80(sp)\n8404e024:\tc6ce                \tsw\ts3,76(sp)\n8404e026:\tc4d2                \tsw\ts4,72(sp)\n8404e028:\tc2d6                \tsw\ts5,68(sp)\n8404e02a:\tc0da                \tsw\ts6,64(sp)\n8404e02c:\t4604                \tlw\ts1,8(a2)\n8404e02e:\tc8a9                \tbeqz\ts1,8404e080 <npu_allocator_allocate+0x80>\n8404e030:\t0ff00493          \tli\ts1,255\n8404e034:\t4781                \tli\ta5,0\n8404e036:\t04d4e563          \tbltu\ts1,a3,8404e080 <npu_allocator_allocate+0x80>\n8404e03a:\t0816b493          \tsltiu\ts1,a3,129\n8404e03e:\t00e03433          \tsnez\ts0,a4\n8404e042:\t8c25                \txor\ts0,s0,s1\n8404e044:\tec15                \tbnez\ts0,8404e080 <npu_allocator_allocate+0x80>\n8404e046:\td802                \tsw\tzero,48(sp)\n8404e048:\tda02                \tsw\tzero,52(sp)\n8404e04a:\tdc02                \tsw\tzero,56(sp)\n8404e04c:\tde02                \tsw\tzero,60(sp)\n8404e04e:\t0005aa83          \tlw\ts5,0(a1)\n8404e052:\td002                \tsw\tzero,32(sp)\n8404e054:\td202                \tsw\tzero,36(sp)\n8404e056:\td402                \tsw\tzero,40(sp)\n8404e058:\td602                \tsw\tzero,44(sp)\n8404e05a:\t020a8163          \tbeqz\ts5,8404e07c <npu_allocator_allocate+0x7c>\n8404e05e:\t01faf793          \tandi\ta5,s5,31\n8404e062:\tef89                \tbnez\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e064:\t0045ae03          \tlw\tt3,4(a1)\n8404e068:\t41c007b3          \tneg\ta5,t3\n8404e06c:\t00faf863          \tbgeu\ts5,a5,8404e07c <npu_allocator_allocate+0x7c>\n8404e070:\t0105a803          \tlw\ta6,16(a1)\n8404e074:\t08000793          \tli\ta5,128\n8404e078:\t0307f263          \tbgeu\ta5,a6,8404e09c <npu_allocator_allocate+0x9c>\n8404e07c:\t4781                \tli\ta5,0\n8404e07e:\t4809                \tli\ta6,2\n8404e080:\t40f6                \tlw\tra,92(sp)\n8404e082:\t4466                \tlw\ts0,88(sp)\n8404e084:\t44d6                \tlw\ts1,84(sp)\n8404e086:\t4946                \tlw\ts2,80(sp)\n8404e088:\t49b6                \tlw\ts3,76(sp)\n8404e08a:\t4a26                \tlw\ts4,72(sp)\n8404e08c:\t4a96                \tlw\ts5,68(sp)\n8404e08e:\t4b06                \tlw\ts6,64(sp)\n8404e090:\t6125                \taddi\tsp,sp,96\n8404e092:\ta011                \tj\t8404e096 <npu_allocator_allocate+0x96>\n8404e094:\t4781                \tli\ta5,0\n8404e096:\t8542                \tmv\ta0,a6\n8404e098:\t85be                \tmv\ta1,a5\n8404e09a:\t8082                \tret\n8404e09c:\t00858293          \taddi\tt0,a1,8\n8404e0a0:\t06080063          \tbeqz\ta6,8404e100 <npu_allocator_allocate+0x100>\n8404e0a4:\t0002a483          \tlw\ts1,0(t0)\n8404e0a8:\td8f1                \tbeqz\ts1,8404e07c <npu_allocator_allocate+0x7c>\n8404e0aa:\t00448993          \taddi\ts3,s1,4\n8404e0ae:\tf8100313          \tli\tt1,-127\n8404e0b2:\t4e85                \tli\tt4,1\n8404e0b4:\t02010393          \taddi\tt2,sp,32\n8404e0b8:\t8f42                \tmv\tt5,a6\n8404e0ba:\tffc9df83          \tlhu\tt6,-4(s3)\n8404e0be:\tf00f8793          \taddi\ta5,t6,-256\n8404e0c2:\tfa67ede3          \tbltu\ta5,t1,8404e07c <npu_allocator_allocate+0x7c>\n8404e0c6:\tffe9c783          \tlbu\ta5,-2(s3)\n8404e0ca:\tfafee9e3          \tbltu\tt4,a5,8404e07c <npu_allocator_allocate+0x7c>\n8404e0ce:\tfff9c783          \tlbu\ta5,-1(s3)\n8404e0d2:\tf7cd                \tbnez\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e0d4:\t0009a783          \tlw\ta5,0(s3)\n8404e0d8:\td3d5                \tbeqz\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e0da:\t003fd793          \tsrli\ta5,t6,0x3\n8404e0de:\t9bf1                \tandi\ta5,a5,-4\n8404e0e0:\t00f38933          \tadd\ts2,t2,a5\n8404e0e4:\t00092483          \tlw\ts1,0(s2)\n8404e0e8:\t01fe9433          \tsll\ts0,t4,t6\n8404e0ec:\t0084f7b3          \tand\ta5,s1,s0\n8404e0f0:\tf7d1                \tbnez\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e0f2:\t8c45                \tor\ts0,s0,s1\n8404e0f4:\t1f7d                \taddi\tt5,t5,-1\n8404e0f6:\t00892023          \tsw\ts0,0(s2)\n8404e0fa:\t09a1                \taddi\ts3,s3,8\n8404e0fc:\tfa0f1fe3          \tbnez\tt5,8404e0ba <npu_allocator_allocate+0xba>\n8404e100:\t0145af03          \tlw\tt5,20(a1)\n8404e104:\t08000793          \tli\ta5,128\n8404e108:\tf7e7eae3          \tbltu\ta5,t5,8404e07c <npu_allocator_allocate+0x7c>\n8404e10c:\t040f0d63          \tbeqz\tt5,8404e166 <npu_allocator_allocate+0x166>\n8404e110:\t45c0                \tlw\ts0,12(a1)\n8404e112:\td42d                \tbeqz\ts0,8404e07c <npu_allocator_allocate+0x7c>\n8404e114:\t00440993          \taddi\ts3,s0,4\n8404e118:\t08000313          \tli\tt1,128\n8404e11c:\t4385                \tli\tt2,1\n8404e11e:\t02010e93          \taddi\tt4,sp,32\n8404e122:\t8ffa                \tmv\tt6,t5\n8404e124:\tffc9d783          \tlhu\ta5,-4(s3)\n8404e128:\tf4f36ae3          \tbltu\tt1,a5,8404e07c <npu_allocator_allocate+0x7c>\n8404e12c:\tffe9c483          \tlbu\ts1,-2(s3)\n8404e130:\tf493e6e3          \tbltu\tt2,s1,8404e07c <npu_allocator_allocate+0x7c>\n8404e134:\tfff9c483          \tlbu\ts1,-1(s3)\n8404e138:\tf0b1                \tbnez\ts1,8404e07c <npu_allocator_allocate+0x7c>\n8404e13a:\t0009a483          \tlw\ts1,0(s3)\n8404e13e:\tdc9d                \tbeqz\ts1,8404e07c <npu_allocator_allocate+0x7c>\n8404e140:\t0037d493          \tsrli\ts1,a5,0x3\n8404e144:\t98f1                \tandi\ts1,s1,-4\n8404e146:\t009e8933          \tadd\ts2,t4,s1\n8404e14a:\t00092483          \tlw\ts1,0(s2)\n8404e14e:\t00f39433          \tsll\ts0,t2,a5\n8404e152:\t0084f7b3          \tand\ta5,s1,s0\n8404e156:\tf39d                \tbnez\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e158:\t8c45                \tor\ts0,s0,s1\n8404e15a:\t1ffd                \taddi\tt6,t6,-1\n8404e15c:\t00892023          \tsw\ts0,0(s2)\n8404e160:\t09a1                \taddi\ts3,s3,8\n8404e162:\tfc0f91e3          \tbnez\tt6,8404e124 <npu_allocator_allocate+0x124>\n8404e166:\t010f67b3          \tor\ta5,t5,a6\n8404e16a:\tdb89                \tbeqz\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e16c:\t01c5a803          \tlw\ta6,28(a1)\n8404e170:\t06400793          \tli\ta5,100\n8404e174:\tf107e4e3          \tbltu\ta5,a6,8404e07c <npu_allocator_allocate+0x7c>\n8404e178:\t0c080c63          \tbeqz\ta6,8404e250 <npu_allocator_allocate+0x250>\n8404e17c:\t0185a303          \tlw\tt1,24(a1)\n8404e180:\tee030ee3          \tbeqz\tt1,8404e07c <npu_allocator_allocate+0x7c>\n8404e184:\t4381                \tli\tt2,0\n8404e186:\t9e56                \tadd\tt3,t3,s5\n8404e188:\t0ff00e93          \tli\tt4,255\n8404e18c:\t00339793          \tslli\ta5,t2,0x3\n8404e190:\t979a                \tadd\ta5,a5,t1\n8404e192:\t0007df03          \tlhu\tt5,0(a5)\n8404e196:\tefeee3e3          \tbltu\tt4,t5,8404e07c <npu_allocator_allocate+0x7c>\n8404e19a:\t0027d483          \tlhu\ts1,2(a5)\n8404e19e:\tec049fe3          \tbnez\ts1,8404e07c <npu_allocator_allocate+0x7c>\n8404e1a2:\t0047af83          \tlw\tt6,4(a5)\n8404e1a6:\tec0f8be3          \tbeqz\tt6,8404e07c <npu_allocator_allocate+0x7c>\n8404e1aa:\t081f3793          \tsltiu\ta5,t5,129\n8404e1ae:\t078a                \tslli\ta5,a5,0x2\n8404e1b0:\t00f58433          \tadd\ts0,a1,a5\n8404e1b4:\t4804                \tlw\ts1,16(s0)\n8404e1b6:\tec0483e3          \tbeqz\ts1,8404e07c <npu_allocator_allocate+0x7c>\n8404e1ba:\t9796                \tadd\ta5,a5,t0\n8404e1bc:\t4380                \tlw\ts0,0(a5)\n8404e1be:\t0409                \taddi\ts0,s0,2\n8404e1c0:\tffe45783          \tlhu\ta5,-2(s0)\n8404e1c4:\t00ff0663          \tbeq\tt5,a5,8404e1d0 <npu_allocator_allocate+0x1d0>\n8404e1c8:\t14fd                \taddi\ts1,s1,-1\n8404e1ca:\t0421                \taddi\ts0,s0,8\n8404e1cc:\tf8f5                \tbnez\ts1,8404e1c0 <npu_allocator_allocate+0x1c0>\n8404e1ce:\tb57d                \tj\t8404e07c <npu_allocator_allocate+0x7c>\n8404e1d0:\t00242903          \tlw\ts2,2(s0)\n8404e1d4:\tffffc793          \tnot\ta5,t6\n8404e1d8:\teb27e2e3          \tbltu\ta5,s2,8404e07c <npu_allocator_allocate+0x7c>\n8404e1dc:\t00044783          \tlbu\ta5,0(s0)\n8404e1e0:\tc399                \tbeqz\ta5,8404e1e6 <npu_allocator_allocate+0x1e6>\n8404e1e2:\t47bd                \tli\ta5,15\n8404e1e4:\ta011                \tj\t8404e1e8 <npu_allocator_allocate+0x1e8>\n8404e1e6:\t47fd                \tli\ta5,31\n8404e1e8:\t01f7f7b3          \tand\ta5,a5,t6\n8404e1ec:\te80798e3          \tbnez\ta5,8404e07c <npu_allocator_allocate+0x7c>\n8404e1f0:\t997e                \tadd\ts2,s2,t6\n8404e1f2:\t01cff463          \tbgeu\tt6,t3,8404e1fa <npu_allocator_allocate+0x1fa>\n8404e1f6:\te92ae3e3          \tbltu\ts5,s2,8404e07c <npu_allocator_allocate+0x7c>\n8404e1fa:\t04038863          \tbeqz\tt2,8404e24a <npu_allocator_allocate+0x24a>\n8404e1fe:\t4a01                \tli\ts4,0\n8404e200:\ta021                \tj\t8404e208 <npu_allocator_allocate+0x208>\n8404e202:\t0a05                \taddi\ts4,s4,1\n8404e204:\t047a0363          \tbeq\ts4,t2,8404e24a <npu_allocator_allocate+0x24a>\n8404e208:\t003a1993          \tslli\ts3,s4,0x3\n8404e20c:\t999a                \tadd\ts3,s3,t1\n8404e20e:\t0009db03          \tlhu\ts6,0(s3)\n8404e212:\t081b3493          \tsltiu\ts1,s6,129\n8404e216:\t048a                \tslli\ts1,s1,0x2\n8404e218:\t009587b3          \tadd\ta5,a1,s1\n8404e21c:\t4b9c                \tlw\ta5,16(a5)\n8404e21e:\tcb91                \tbeqz\ta5,8404e232 <npu_allocator_allocate+0x232>\n8404e220:\t9496                \tadd\ts1,s1,t0\n8404e222:\t4084                \tlw\ts1,0(s1)\n8404e224:\t0004d403          \tlhu\ts0,0(s1)\n8404e228:\t008b0663          \tbeq\ts6,s0,8404e234 <npu_allocator_allocate+0x234>\n8404e22c:\t17fd                \taddi\ta5,a5,-1\n8404e22e:\t04a1                \taddi\ts1,s1,8\n8404e230:\tfbf5                \tbnez\ta5,8404e224 <npu_allocator_allocate+0x224>\n8404e232:\t4481                \tli\ts1,0\n8404e234:\te56f04e3          \tbeq\tt5,s6,8404e07c <npu_allocator_allocate+0x7c>\n8404e238:\t0049a783          \tlw\ta5,4(s3)\n8404e23c:\tfd27f3e3          \tbgeu\ta5,s2,8404e202 <npu_allocator_allocate+0x202>\n8404e240:\t40c0                \tlw\ts0,4(s1)\n8404e242:\t97a2                \tadd\ta5,a5,s0\n8404e244:\tfaffffe3          \tbgeu\tt6,a5,8404e202 <npu_allocator_allocate+0x202>\n8404e248:\tbd15                \tj\t8404e07c <npu_allocator_allocate+0x7c>\n8404e24a:\t0385                \taddi\tt2,t2,1\n8404e24c:\tf50390e3          \tbne\tt2,a6,8404e18c <npu_allocator_allocate+0x18c>\n8404e250:\tca32                \tsw\ta2,20(sp)\n8404e252:\tc82a                \tsw\ta0,16(sp)\n8404e254:\t070a                \tslli\ta4,a4,0x2\n8404e256:\tc62e                \tsw\ta1,12(sp)\n8404e258:\t95ba                \tadd\ta1,a1,a4\n8404e25a:\t4988                \tlw\ta0,16(a1)\n8404e25c:\t480d                \tli\ta6,3\n8404e25e:\tcd09                \tbeqz\ta0,8404e278 <npu_allocator_allocate+0x278>\n8404e260:\t9716                \tadd\ta4,a4,t0\n8404e262:\t430c                \tlw\ta1,0(a4)\n8404e264:\t0005d603          \tlhu\ta2,0(a1)\n8404e268:\t00c68a63          \tbeq\ta3,a2,8404e27c <npu_allocator_allocate+0x27c>\n8404e26c:\t157d                \taddi\ta0,a0,-1\n8404e26e:\t05a1                \taddi\ta1,a1,8\n8404e270:\tf975                \tbnez\ta0,8404e264 <npu_allocator_allocate+0x264>\n8404e272:\t4781                \tli\ta5,0\n8404e274:\t480d                \tli\ta6,3\n8404e276:\tb529                \tj\t8404e080 <npu_allocator_allocate+0x80>\n8404e278:\t4781                \tli\ta5,0\n8404e27a:\tb519                \tj\t8404e080 <npu_allocator_allocate+0x80>\n8404e27c:\tc22e                \tsw\ta1,4(sp)\n8404e27e:\tc436                \tsw\ta3,8(sp)\n8404e280:\t4552                \tlw\ta0,20(sp)\n8404e282:\t4108                \tlw\ta0,0(a0)\n8404e284:\t9882                \tjalr\ta7\n8404e286:\tc501                \tbeqz\ta0,8404e28e <npu_allocator_allocate+0x28e>\n8404e288:\t4781                \tli\ta5,0\n8404e28a:\t4811                \tli\ta6,4\n8404e28c:\tbbd5                \tj\t8404e080 <npu_allocator_allocate+0x80>\n8404e28e:\t0ff0000f          \tfence\n8404e292:\t1014                \taddi\ta3,sp,32\n8404e294:\t4542                \tlw\ta0,16(sp)\n8404e296:\t45b2                \tlw\ta1,12(sp)\n8404e298:\t4622                \tlw\ta2,8(sp)\n8404e29a:\t00000097          \tauipc\tra,0x0\n8404e29e:\t082080e7          \tjalr\t130(ra) # 8404e31c <valid_state>\n8404e2a2:\tc511                \tbeqz\ta0,8404e2ae <npu_allocator_allocate+0x2ae>\n8404e2a4:\t5502                \tlw\ta0,32(sp)\n8404e2a6:\tc901                \tbeqz\ta0,8404e2b6 <npu_allocator_allocate+0x2b6>\n8404e2a8:\t842a                \tmv\ts0,a0\n8404e2aa:\tc002                \tsw\tzero,0(sp)\n8404e2ac:\ta8b9                \tj\t8404e30a <npu_allocator_allocate+0x30a>\n8404e2ae:\t4401                \tli\ts0,0\n8404e2b0:\t4515                \tli\ta0,5\n8404e2b2:\tc02a                \tsw\ta0,0(sp)\n8404e2b4:\ta899                \tj\t8404e30a <npu_allocator_allocate+0x30a>\n8404e2b6:\t4542                \tlw\ta0,16(sp)\n8404e2b8:\t4500                \tlw\ts0,8(a0)\n8404e2ba:\t06400593          \tli\ta1,100\n8404e2be:\t4519                \tli\ta0,6\n8404e2c0:\tc02a                \tsw\ta0,0(sp)\n8404e2c2:\t04b40363          \tbeq\ts0,a1,8404e308 <npu_allocator_allocate+0x308>\n8404e2c6:\t4542                \tlw\ta0,16(sp)\n8404e2c8:\t494c                \tlw\ta1,20(a0)\n8404e2ca:\t0874                \taddi\ta3,sp,28\n8404e2cc:\t0838                \taddi\ta4,sp,24\n8404e2ce:\t4532                \tlw\ta0,12(sp)\n8404e2d0:\t4612                \tlw\ta2,4(sp)\n8404e2d2:\t00000097          \tauipc\tra,0x0\n8404e2d6:\t16e080e7          \tjalr\t366(ra) # 8404e440 <extent>\n8404e2da:\tc51d                \tbeqz\ta0,8404e308 <npu_allocator_allocate+0x308>\n8404e2dc:\tc002                \tsw\tzero,0(sp)\n8404e2de:\t00341513          \tslli\ta0,s0,0x3\n8404e2e2:\t45f2                \tlw\ta1,28(sp)\n8404e2e4:\t4642                \tlw\ta2,16(sp)\n8404e2e6:\t4a14                \tlw\ta3,16(a2)\n8404e2e8:\t4762                \tlw\ta4,24(sp)\n8404e2ea:\t0405                \taddi\ts0,s0,1\n8404e2ec:\t00a607b3          \tadd\ta5,a2,a0\n8404e2f0:\t0685                \taddi\ta3,a3,1\n8404e2f2:\tc600                \tsw\ts0,8(a2)\n8404e2f4:\tca14                \tsw\ta3,16(a2)\n8404e2f6:\tca58                \tsw\ta4,20(a2)\n8404e2f8:\t4522                \tlw\ta0,8(sp)\n8404e2fa:\t00a79c23          \tsh\ta0,24(a5)\n8404e2fe:\t00079d23          \tsh\tzero,26(a5)\n8404e302:\t842e                \tmv\ts0,a1\n8404e304:\tcfcc                \tsw\ta1,28(a5)\n8404e306:\ta011                \tj\t8404e30a <npu_allocator_allocate+0x30a>\n8404e308:\t4401                \tli\ts0,0\n8404e30a:\t0ff0000f          \tfence\n8404e30e:\t45d2                \tlw\ta1,20(sp)\n8404e310:\t4188                \tlw\ta0,0(a1)\n8404e312:\t458c                \tlw\ta1,8(a1)\n8404e314:\t9582                \tjalr\ta1\n8404e316:\t4802                \tlw\ta6,0(sp)\n8404e318:\t87a2                \tmv\ta5,s0\n8404e31a:\tb39d                \tj\t8404e080 <npu_allocator_allocate+0x80>\n\n8404e31c <valid_state>:\n8404e31c:\t7179                \taddi\tsp,sp,-48\n8404e31e:\td622                \tsw\ts0,44(sp)\n8404e320:\td426                \tsw\ts1,40(sp)\n8404e322:\tcc02                \tsw\tzero,24(sp)\n8404e324:\tce02                \tsw\tzero,28(sp)\n8404e326:\td002                \tsw\tzero,32(sp)\n8404e328:\td202                \tsw\tzero,36(sp)\n8404e32a:\t4518                \tlw\ta4,8(a0)\n8404e32c:\t06400793          \tli\ta5,100\n8404e330:\tc402                \tsw\tzero,8(sp)\n8404e332:\tc602                \tsw\tzero,12(sp)\n8404e334:\tc802                \tsw\tzero,16(sp)\n8404e336:\tca02                \tsw\tzero,20(sp)\n8404e338:\t00e7e663          \tbltu\ta5,a4,8404e344 <valid_state+0x28>\n8404e33c:\t4958                \tlw\ta4,20(a0)\n8404e33e:\t41dc                \tlw\ta5,4(a1)\n8404e340:\t00e7f763          \tbgeu\ta5,a4,8404e34e <valid_state+0x32>\n8404e344:\t4501                \tli\ta0,0\n8404e346:\t5432                \tlw\ts0,44(sp)\n8404e348:\t54a2                \tlw\ts1,40(sp)\n8404e34a:\t6145                \taddi\tsp,sp,48\n8404e34c:\t8082                \tret\n8404e34e:\t0006a023          \tsw\tzero,0(a3)\n8404e352:\t00852803          \tlw\ta6,8(a0)\n8404e356:\t0c080e63          \tbeqz\ta6,8404e432 <valid_state+0x116>\n8404e35a:\t4e01                \tli\tt3,0\n8404e35c:\t4381                \tli\tt2,0\n8404e35e:\t0ff00893          \tli\ta7,255\n8404e362:\t4285                \tli\tt0,1\n8404e364:\t00810313          \taddi\tt1,sp,8\n8404e368:\t003e1e93          \tslli\tt4,t3,0x3\n8404e36c:\t9eaa                \tadd\tt4,t4,a0\n8404e36e:\t018edf83          \tlhu\tt6,24(t4)\n8404e372:\tfdf8e9e3          \tbltu\ta7,t6,8404e344 <valid_state+0x28>\n8404e376:\t01aed703          \tlhu\ta4,26(t4)\n8404e37a:\tf769                \tbnez\ta4,8404e344 <valid_state+0x28>\n8404e37c:\t003fd713          \tsrli\ta4,t6,0x3\n8404e380:\t9b71                \tandi\ta4,a4,-4\n8404e382:\t00e30f33          \tadd\tt5,t1,a4\n8404e386:\t000f2403          \tlw\ts0,0(t5)\n8404e38a:\t01f297b3          \tsll\ta5,t0,t6\n8404e38e:\t00f47733          \tand\ta4,s0,a5\n8404e392:\tfb4d                \tbnez\ta4,8404e344 <valid_state+0x28>\n8404e394:\t081fb713          \tsltiu\ta4,t6,129\n8404e398:\t070a                \tslli\ta4,a4,0x2\n8404e39a:\t00e584b3          \tadd\ts1,a1,a4\n8404e39e:\t4898                \tlw\ta4,16(s1)\n8404e3a0:\t8fc1                \tor\ta5,a5,s0\n8404e3a2:\t00ff2023          \tsw\ta5,0(t5)\n8404e3a6:\tdf59                \tbeqz\ta4,8404e344 <valid_state+0x28>\n8404e3a8:\t449c                \tlw\ta5,8(s1)\n8404e3aa:\t0789                \taddi\ta5,a5,2\n8404e3ac:\tffe7d483          \tlhu\ts1,-2(a5)\n8404e3b0:\t009f8663          \tbeq\tt6,s1,8404e3bc <valid_state+0xa0>\n8404e3b4:\t177d                \taddi\ta4,a4,-1\n8404e3b6:\t07a1                \taddi\ta5,a5,8\n8404e3b8:\tfb75                \tbnez\ta4,8404e3ac <valid_state+0x90>\n8404e3ba:\tb769                \tj\t8404e344 <valid_state+0x28>\n8404e3bc:\t0007c703          \tlbu\ta4,0(a5)\n8404e3c0:\tc709                \tbeqz\ta4,8404e3ca <valid_state+0xae>\n8404e3c2:\t4f3d                \tli\tt5,15\n8404e3c4:\t4dd8                \tlw\ta4,28(a1)\n8404e3c6:\te709                \tbnez\ta4,8404e3d0 <valid_state+0xb4>\n8404e3c8:\ta829                \tj\t8404e3e2 <valid_state+0xc6>\n8404e3ca:\t4f7d                \tli\tt5,31\n8404e3cc:\t4dd8                \tlw\ta4,28(a1)\n8404e3ce:\tcb11                \tbeqz\ta4,8404e3e2 <valid_state+0xc6>\n8404e3d0:\t4d80                \tlw\ts0,24(a1)\n8404e3d2:\t0411                \taddi\ts0,s0,4\n8404e3d4:\tffc45483          \tlhu\ts1,-4(s0)\n8404e3d8:\t03f48f63          \tbeq\ts1,t6,8404e416 <valid_state+0xfa>\n8404e3dc:\t177d                \taddi\ta4,a4,-1\n8404e3de:\t0421                \taddi\ts0,s0,8\n8404e3e0:\tfb75                \tbnez\ta4,8404e3d4 <valid_state+0xb8>\n8404e3e2:\t41c0                \tlw\ts0,4(a1)\n8404e3e4:\tf67460e3          \tbltu\ts0,t2,8404e344 <valid_state+0x28>\n8404e3e8:\t40700733          \tneg\ta4,t2\n8404e3ec:\t00ef7733          \tand\ta4,t5,a4\n8404e3f0:\t407404b3          \tsub\ts1,s0,t2\n8404e3f4:\tf4e4e8e3          \tbltu\ts1,a4,8404e344 <valid_state+0x28>\n8404e3f8:\t0027a783          \tlw\ta5,2(a5)\n8404e3fc:\t8c99                \tsub\ts1,s1,a4\n8404e3fe:\tf4f4e3e3          \tbltu\ts1,a5,8404e344 <valid_state+0x28>\n8404e402:\t4184                \tlw\ts1,0(a1)\n8404e404:\t93ba                \tadd\tt2,t2,a4\n8404e406:\t00748733          \tadd\ta4,s1,t2\n8404e40a:\t93be                \tadd\tt2,t2,a5\n8404e40c:\t01cea783          \tlw\ta5,28(t4)\n8404e410:\t00e78863          \tbeq\ta5,a4,8404e420 <valid_state+0x104>\n8404e414:\tbf05                \tj\t8404e344 <valid_state+0x28>\n8404e416:\t4018                \tlw\ta4,0(s0)\n8404e418:\t01cea783          \tlw\ta5,28(t4)\n8404e41c:\tf2e794e3          \tbne\ta5,a4,8404e344 <valid_state+0x28>\n8404e420:\t01f61563          \tbne\ta2,t6,8404e42a <valid_state+0x10e>\n8404e424:\tc298                \tsw\ta4,0(a3)\n8404e426:\t00852803          \tlw\ta6,8(a0)\n8404e42a:\t0e05                \taddi\tt3,t3,1\n8404e42c:\tf30e6ee3          \tbltu\tt3,a6,8404e368 <valid_state+0x4c>\n8404e430:\ta011                \tj\t8404e434 <valid_state+0x118>\n8404e432:\t4381                \tli\tt2,0\n8404e434:\t4948                \tlw\ta0,20(a0)\n8404e436:\t00a3c533          \txor\ta0,t2,a0\n8404e43a:\t00153513          \tseqz\ta0,a0\n8404e43e:\tb721                \tj\t8404e346 <valid_state+0x2a>\n\n8404e440 <extent>:\n8404e440:\t00264783          \tlbu\ta5,2(a2)\n8404e444:\tc799                \tbeqz\ta5,8404e452 <extent+0x12>\n8404e446:\t483d                \tli\ta6,15\n8404e448:\t01c52883          \tlw\ta7,28(a0)\n8404e44c:\t00089863          \tbnez\ta7,8404e45c <extent+0x1c>\n8404e450:\ta01d                \tj\t8404e476 <extent+0x36>\n8404e452:\t487d                \tli\ta6,31\n8404e454:\t01c52883          \tlw\ta7,28(a0)\n8404e458:\t00088f63          \tbeqz\ta7,8404e476 <extent+0x36>\n8404e45c:\t4d1c                \tlw\ta5,24(a0)\n8404e45e:\t00065283          \tlhu\tt0,0(a2)\n8404e462:\t00478313          \taddi\tt1,a5,4\n8404e466:\tffc35783          \tlhu\ta5,-4(t1)\n8404e46a:\t02578663          \tbeq\ta5,t0,8404e496 <extent+0x56>\n8404e46e:\t18fd                \taddi\ta7,a7,-1\n8404e470:\t0321                \taddi\tt1,t1,8\n8404e472:\tfe089ae3          \tbnez\ta7,8404e466 <extent+0x26>\n8404e476:\t00452883          \tlw\ta7,4(a0)\n8404e47a:\t00b8f463          \tbgeu\ta7,a1,8404e482 <extent+0x42>\n8404e47e:\t4501                \tli\ta0,0\n8404e480:\t8082                \tret\n8404e482:\t40b007b3          \tneg\ta5,a1\n8404e486:\t00f87833          \tand\ta6,a6,a5\n8404e48a:\t40b887b3          \tsub\ta5,a7,a1\n8404e48e:\t0107f863          \tbgeu\ta5,a6,8404e49e <extent+0x5e>\n8404e492:\t4501                \tli\ta0,0\n8404e494:\t8082                \tret\n8404e496:\t00032503          \tlw\ta0,0(t1)\n8404e49a:\tc288                \tsw\ta0,0(a3)\n8404e49c:\ta839                \tj\t8404e4ba <extent+0x7a>\n8404e49e:\t00462883          \tlw\ta7,4(a2)\n8404e4a2:\t410787b3          \tsub\ta5,a5,a6\n8404e4a6:\t0117f463          \tbgeu\ta5,a7,8404e4ae <extent+0x6e>\n8404e4aa:\t4501                \tli\ta0,0\n8404e4ac:\t8082                \tret\n8404e4ae:\t4108                \tlw\ta0,0(a0)\n8404e4b0:\t95c2                \tadd\ta1,a1,a6\n8404e4b2:\t952e                \tadd\ta0,a0,a1\n8404e4b4:\tc288                \tsw\ta0,0(a3)\n8404e4b6:\t4248                \tlw\ta0,4(a2)\n8404e4b8:\t95aa                \tadd\ta1,a1,a0\n8404e4ba:\tc30c                \tsw\ta1,0(a4)\n8404e4bc:\t4505                \tli\ta0,1\n8404e4be:\t8082                \tret\n\n8404e4c0 <npu_emulation_startup_allocate>:\n8404e4c0:\t7179                \taddi\tsp,sp,-48\n8404e4c2:\td606                \tsw\tra,44(sp)\n8404e4c4:\td422                \tsw\ts0,40(sp)\n8404e4c6:\td226                \tsw\ts1,36(sp)\n8404e4c8:\td04a                \tsw\ts2,32(sp)\n8404e4ca:\tce4e                \tsw\ts3,28(sp)\n8404e4cc:\tcc52                \tsw\ts4,24(sp)\n8404e4ce:\tca56                \tsw\ts5,20(sp)\n8404e4d0:\t8a2e                \tmv\ts4,a1\n8404e4d2:\t3e9025b7          \tlui\ta1,0x3e902\n8404e4d6:\t8404e637          \tlui\ta2,0x8404e\n8404e4da:\t6dc60613          \taddi\ta2,a2,1756 # 8404e6dc <acquire>\n8404e4de:\t8404e6b7          \tlui\ta3,0x8404e\n8404e4e2:\t6f268693          \taddi\ta3,a3,1778 # 8404e6f2 <release>\n8404e4e6:\t87058413          \taddi\ts0,a1,-1936 # 3e901870 <npu_emulation_barrier_state-0x4790>\n8404e4ea:\t35c40593          \taddi\ta1,s0,860\n8404e4ee:\tc42e                \tsw\ta1,8(sp)\n8404e4f0:\tc632                \tsw\ta2,12(sp)\n8404e4f2:\tc836                \tsw\ta3,16(sp)\n8404e4f4:\t30047973          \tcsrrci\ts2,mstatus,8\n8404e4f8:\t8aaa                \tmv\ts5,a0\n8404e4fa:\t84004537          \tlui\ta0,0x84004\n8404e4fe:\t21250513          \taddi\ta0,a0,530 # 84004212 <original_mailbox_register+0xfbe>\n8404e502:\t9502                \tjalr\ta0\n8404e504:\t84aa                \tmv\ts1,a0\n8404e506:\t4981                \tli\ts3,0\n8404e508:\t30402573          \tcsrr\ta0,mie\n8404e50c:\tec85                \tbnez\ts1,8404e544 <npu_emulation_startup_allocate+0x84>\n8404e50e:\t00897593          \tandi\ta1,s2,8\n8404e512:\tc98d                \tbeqz\ta1,8404e544 <npu_emulation_startup_allocate+0x84>\n8404e514:\t0552                \tslli\ta0,a0,0x14\n8404e516:\t4981                \tli\ts3,0\n8404e518:\t02055663          \tbgez\ta0,8404e544 <npu_emulation_startup_allocate+0x84>\n8404e51c:\t3e906537          \tlui\ta0,0x3e906\n8404e520:\t10452503          \tlw\ta0,260(a0) # 3e906104 <npu_emulation_admission_state+0x4>\n8404e524:\te105                \tbnez\ta0,8404e544 <npu_emulation_startup_allocate+0x84>\n8404e526:\t4008                \tlw\ta0,0(s0)\n8404e528:\t840425b7          \tlui\ta1,0x84042\n8404e52c:\t0f258593          \taddi\ta1,a1,242 # 840420f2 <npu_emulation_mailbox>\n8404e530:\t00b51963          \tbne\ta0,a1,8404e542 <npu_emulation_startup_allocate+0x82>\n8404e534:\t0c002537          \tlui\ta0,0xc002\n8404e538:\t4108                \tlw\ta0,0(a0)\n8404e53a:\t055a                \tslli\ta0,a0,0x16\n8404e53c:\t01f55993          \tsrli\ts3,a0,0x1f\n8404e540:\ta011                \tj\t8404e544 <npu_emulation_startup_allocate+0x84>\n8404e542:\t4981                \tli\ts3,0\n8404e544:\t0ff00513          \tli\ta0,255\n8404e548:\t19556363          \tbltu\ta0,s5,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e54c:\t557d                \tli\ta0,-1\n8404e54e:\tccf5                \tbeqz\ts1,8404e64a <npu_emulation_startup_allocate+0x18a>\n8404e550:\t459d                \tli\ta1,7\n8404e552:\t00b49d63          \tbne\ts1,a1,8404e56c <npu_emulation_startup_allocate+0xac>\n8404e556:\t84001537          \tlui\ta0,0x84001\n8404e55a:\t48a50513          \taddi\ta0,a0,1162 # 8400148a <original_1472+0x18>\n8404e55e:\t00aa4533          \txor\ta0,s4,a0\n8404e562:\t00153513          \tseqz\ta0,a0\n8404e566:\t157d                \taddi\ta0,a0,-1\n8404e568:\t08156513          \tori\ta0,a0,129\n8404e56c:\t17551163          \tbne\ta0,s5,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e570:\t3e906437          \tlui\ts0,0x3e906\n8404e574:\t00040413          \tmv\ts0,s0\n8404e578:\t4808                \tlw\ta0,16(s0)\n8404e57a:\t0230000f          \tfence\tr,rw\n8404e57e:\t14051863          \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e582:\t3e906537          \tlui\ta0,0x3e906\n8404e586:\t00052503          \tlw\ta0,0(a0) # 3e906000 <npu_emulation_barrier_state>\n8404e58a:\t4585                \tli\ta1,1\n8404e58c:\t0230000f          \tfence\tr,rw\n8404e590:\t12b51f63          \tbne\ta0,a1,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e594:\t4448                \tlw\ta0,12(s0)\n8404e596:\t0230000f          \tfence\tr,rw\n8404e59a:\t12051a63          \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e59e:\t4048                \tlw\ta0,4(s0)\n8404e5a0:\t0230000f          \tfence\tr,rw\n8404e5a4:\t12051563          \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5a8:\t4408                \tlw\ta0,8(s0)\n8404e5aa:\t0230000f          \tfence\tr,rw\n8404e5ae:\t12051063          \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5b2:\t3e906537          \tlui\ta0,0x3e906\n8404e5b6:\t10052583          \tlw\ta1,256(a0) # 3e906100 <npu_emulation_admission_state>\n8404e5ba:\t4605                \tli\ta2,1\n8404e5bc:\t10c59963          \tbne\ta1,a2,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5c0:\t10050513          \taddi\ta0,a0,256\n8404e5c4:\t414c                \tlw\ta1,4(a0)\n8404e5c6:\t10059463          \tbnez\ta1,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5ca:\t4508                \tlw\ta0,8(a0)\n8404e5cc:\t10051163          \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5d0:\t3e906537          \tlui\ta0,0x3e906\n8404e5d4:\t20052583          \tlw\ta1,512(a0) # 3e906200 <npu_emulation_bootstrap_state>\n8404e5d8:\t31505637          \tlui\ta2,0x31505\n8404e5dc:\t34260613          \taddi\ta2,a2,834 # 31505342 <npu_emulation_barrier_state-0xd400cbe>\n8404e5e0:\t0ec59763          \tbne\ta1,a2,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5e4:\t20050513          \taddi\ta0,a0,512\n8404e5e8:\t414c                \tlw\ta1,4(a0)\n8404e5ea:\te1f5                \tbnez\ta1,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5ec:\t4548                \tlw\ta0,12(a0)\n8404e5ee:\te165                \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5f0:\t00249513          \tslli\ta0,s1,0x2\n8404e5f4:\t9522                \tadd\ta0,a0,s0\n8404e5f6:\t4948                \tlw\ta0,20(a0)\n8404e5f8:\t0230000f          \tfence\tr,rw\n8404e5fc:\te969                \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e5fe:\t0134e533          \tor\ta0,s1,s3\n8404e602:\t00a03533          \tsnez\ta0,a0\n8404e606:\tc561                \tbeqz\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e608:\t081ab713          \tsltiu\ta4,s5,129\n8404e60c:\t8404e5b7          \tlui\ta1,0x8404e\n8404e610:\t7bc58593          \taddi\ta1,a1,1980 # 8404e7bc <layout>\n8404e614:\t3e902537          \tlui\ta0,0x3e902\n8404e618:\tbcc50513          \taddi\ta0,a0,-1076 # 3e901bcc <npu_emulation_barrier_state-0x4434>\n8404e61c:\t0030                \taddi\ta2,sp,8\n8404e61e:\t86d6                \tmv\ta3,s5\n8404e620:\t00000097          \tauipc\tra,0x0\n8404e624:\t9e0080e7          \tjalr\t-1568(ra) # 8404e000 <npu_allocator_allocate>\n8404e628:\te15d                \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e62a:\t4808                \tlw\ta0,16(s0)\n8404e62c:\t0230000f          \tfence\tr,rw\n8404e630:\ted59                \tbnez\ta0,8404e6ce <npu_emulation_startup_allocate+0x20e>\n8404e632:\t30091073          \tcsrw\tmstatus,s2\n8404e636:\t852e                \tmv\ta0,a1\n8404e638:\t50b2                \tlw\tra,44(sp)\n8404e63a:\t5422                \tlw\ts0,40(sp)\n8404e63c:\t5492                \tlw\ts1,36(sp)\n8404e63e:\t5902                \tlw\ts2,32(sp)\n8404e640:\t49f2                \tlw\ts3,28(sp)\n8404e642:\t4a62                \tlw\ts4,24(sp)\n8404e644:\t4ad2                \tlw\ts5,20(sp)\n8404e646:\t6145                \taddi\tsp,sp,48\n8404e648:\t8082                \tret\n8404e64a:\t840065b7          \tlui\ta1,0x84006\n8404e64e:\ta3358593          \taddi\ta1,a1,-1485 # 84005a33 <original_allocator_getter_5204+0x82f>\n8404e652:\t0345d663          \tbge\ta1,s4,8404e67e <npu_emulation_startup_allocate+0x1be>\n8404e656:\t8400c5b7          \tlui\ta1,0x8400c\n8404e65a:\t93158613          \taddi\ta2,a1,-1743 # 8400b931 <original_allocator_getter_5204+0x672d>\n8404e65e:\t05464263          \tblt\ta2,s4,8404e6a2 <npu_emulation_startup_allocate+0x1e2>\n8404e662:\t840065b7          \tlui\ta1,0x84006\n8404e666:\ta3458593          \taddi\ta1,a1,-1484 # 84005a34 <original_allocator_getter_5204+0x830>\n8404e66a:\t04ba0b63          \tbeq\ts4,a1,8404e6c0 <npu_emulation_startup_allocate+0x200>\n8404e66e:\t8400a5b7          \tlui\ta1,0x8400a\n8404e672:\t37658593          \taddi\ta1,a1,886 # 8400a376 <original_allocator_getter_5204+0x5172>\n8404e676:\teeba1be3          \tbne\ts4,a1,8404e56c <npu_emulation_startup_allocate+0xac>\n8404e67a:\t452d                \tli\ta0,11\n8404e67c:\tbdc5                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e67e:\t840055b7          \tlui\ta1,0x84005\n8404e682:\teca58613          \taddi\ta2,a1,-310 # 84004eca <original_mailbox_register+0x1c76>\n8404e686:\t02ca0a63          \tbeq\ts4,a2,8404e6ba <npu_emulation_startup_allocate+0x1fa>\n8404e68a:\teee58593          \taddi\ta1,a1,-274\n8404e68e:\t02ba0e63          \tbeq\ts4,a1,8404e6ca <npu_emulation_startup_allocate+0x20a>\n8404e692:\t840055b7          \tlui\ta1,0x84005\n8404e696:\tf2c58593          \taddi\ta1,a1,-212 # 84004f2c <original_mailbox_register+0x1cd8>\n8404e69a:\tecba19e3          \tbne\ts4,a1,8404e56c <npu_emulation_startup_allocate+0xac>\n8404e69e:\t4575                \tli\ta0,29\n8404e6a0:\tb5f1                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6a2:\t93258593          \taddi\ta1,a1,-1742\n8404e6a6:\t02ba0063          \tbeq\ts4,a1,8404e6c6 <npu_emulation_startup_allocate+0x206>\n8404e6aa:\t8400c5b7          \tlui\ta1,0x8400c\n8404e6ae:\tab858593          \taddi\ta1,a1,-1352 # 8400bab8 <original_allocator_getter_5204+0x68b4>\n8404e6b2:\teaba1de3          \tbne\ts4,a1,8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6b6:\t4565                \tli\ta0,25\n8404e6b8:\tbd55                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6ba:\t08a00513          \tli\ta0,138\n8404e6be:\tb57d                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6c0:\t08900513          \tli\ta0,137\n8404e6c4:\tb565                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6c6:\t4505                \tli\ta0,1\n8404e6c8:\tb555                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6ca:\t4549                \tli\ta0,18\n8404e6cc:\tb545                \tj\t8404e56c <npu_emulation_startup_allocate+0xac>\n8404e6ce:\t8526                \tmv\ta0,s1\n8404e6d0:\t85ca                \tmv\ta1,s2\n8404e6d2:\t864e                \tmv\ta2,s3\n8404e6d4:\t00000097          \tauipc\tra,0x0\n8404e6d8:\t028080e7          \tjalr\t40(ra) # 8404e6fc <fail>\n\n8404e6dc <acquire>:\n8404e6dc:\t410c                \tlw\ta1,0(a0)\n8404e6de:\t4649                \tli\ta2,18\n8404e6e0:\t00c59763          \tbne\ta1,a2,8404e6ee <acquire+0x12>\n8404e6e4:\t840065b7          \tlui\ta1,0x84006\n8404e6e8:\t4b458793          \taddi\ta5,a1,1204 # 840064b4 <original_allocator_getter_5204+0x12b0>\n8404e6ec:\t8782                \tjr\ta5\n8404e6ee:\t557d                \tli\ta0,-1\n8404e6f0:\t8082                \tret\n\n8404e6f2 <release>:\n8404e6f2:\t840065b7          \tlui\ta1,0x84006\n8404e6f6:\t51c58793          \taddi\ta5,a1,1308 # 8400651c <original_allocator_getter_5204+0x1318>\n8404e6fa:\t8782                \tjr\ta5\n\n8404e6fc <fail>:\n8404e6fc:\t1141                \taddi\tsp,sp,-16\n8404e6fe:\tc606                \tsw\tra,12(sp)\n8404e700:\tc422                \tsw\ts0,8(sp)\n8404e702:\tc226                \tsw\ts1,4(sp)\n8404e704:\t0ff0000f          \tfence\n8404e708:\tc911                \tbeqz\ta0,8404e71c <fail+0x20>\n8404e70a:\t3e906537          \tlui\ta0,0x3e906\n8404e70e:\t00050513          \tmv\ta0,a0\n8404e712:\tffff2097          \tauipc\tra,0xffff2\n8404e716:\t996080e7          \tjalr\t-1642(ra) # 840400a8 <npu_barrier_fail>\n8404e71a:\ta005                \tj\t8404e73a <npu_emulation_allocator_startup_hold>\n8404e71c:\t8432                \tmv\ts0,a2\n8404e71e:\t84ae                \tmv\ts1,a1\n8404e720:\t3e906537          \tlui\ta0,0x3e906\n8404e724:\t10050513          \taddi\ta0,a0,256 # 3e906100 <npu_emulation_admission_state>\n8404e728:\t3e9065b7          \tlui\ta1,0x3e906\n8404e72c:\t00058593          \tmv\ta1,a1\n8404e730:\tffff2097          \tauipc\tra,0xffff2\n8404e734:\td54080e7          \tjalr\t-684(ra) # 84040484 <npu_admission_fail>\n8404e738:\te019                \tbnez\ts0,8404e73e <npu_emulation_allocator_startup_hold+0x4>\n\n8404e73a <npu_emulation_allocator_startup_hold>:\n8404e73a:\t0001                \tnop\n8404e73c:\tbffd                \tj\t8404e73a <npu_emulation_allocator_startup_hold>\n8404e73e:\t30049073          \tcsrw\tmstatus,s1\n8404e742:\tffff4097          \tauipc\tra,0xffff4\n8404e746:\tbac080e7          \tjalr\t-1108(ra) # 840422ee <npu_emulation_idle>\n\n8404e74a <npu_emulation_allocator_startup_dispatch>:\n8404e74a:\t84006737          \tlui\ta4,0x84006\n8404e74e:\ta3470713          \taddi\ta4,a4,-1484 # 84005a34 <original_allocator_getter_5204+0x830>\n8404e752:\t06e08063          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e756:\t84005737          \tlui\ta4,0x84005\n8404e75a:\teca70713          \taddi\ta4,a4,-310 # 84004eca <original_mailbox_register+0x1c76>\n8404e75e:\t04e08a63          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e762:\t84005737          \tlui\ta4,0x84005\n8404e766:\teee70713          \taddi\ta4,a4,-274 # 84004eee <original_mailbox_register+0x1c9a>\n8404e76a:\t04e08463          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e76e:\t84005737          \tlui\ta4,0x84005\n8404e772:\tf2c70713          \taddi\ta4,a4,-212 # 84004f2c <original_mailbox_register+0x1cd8>\n8404e776:\t02e08e63          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e77a:\t8400c737          \tlui\ta4,0x8400c\n8404e77e:\t93270713          \taddi\ta4,a4,-1742 # 8400b932 <original_allocator_getter_5204+0x672e>\n8404e782:\t02e08863          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e786:\t8400a737          \tlui\ta4,0x8400a\n8404e78a:\t37670713          \taddi\ta4,a4,886 # 8400a376 <original_allocator_getter_5204+0x5172>\n8404e78e:\t02e08263          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e792:\t8400c737          \tlui\ta4,0x8400c\n8404e796:\tab870713          \taddi\ta4,a4,-1352 # 8400bab8 <original_allocator_getter_5204+0x68b4>\n8404e79a:\t00e08c63          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e79e:\t84001737          \tlui\ta4,0x84001\n8404e7a2:\t48a70713          \taddi\ta4,a4,1162 # 8400148a <original_1472+0x18>\n8404e7a6:\t00e08663          \tbeq\tra,a4,8404e7b2 <npu_emulation_allocator_startup_dispatch+0x68>\n8404e7aa:\t08000713          \tli\ta4,128\n8404e7ae:\ta57b606f          \tj\t84005204 <original_allocator_getter_5204>\n8404e7b2:\t00008593          \tmv\ta1,ra\n8404e7b6:\td0bff06f          \tj\t8404e4c0 <npu_emulation_startup_allocate>\n",
+  "healthy": {
+    "checked_allocations": [
+      [
+        0,
+        1048576000
+      ],
+      [
+        0,
+        1048576032
+      ],
+      [
+        0,
+        1048608800
+      ],
+      [
+        0,
+        1048666144
+      ],
+      [
+        0,
+        1048670240
+      ],
+      [
+        0,
+        1048973408
+      ],
+      [
+        0,
+        1048973536
+      ]
+    ],
+    "metadata_sha256": "09b2ac3fbf4206c8dd4830a15ec981bbe47ddb24987de2d0515064b970ba7d10",
+    "native_entries": [
+      {
+        "type": 137,
+        "caller": "0x84005a34",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 138,
+        "caller": "0x84004eca",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 18,
+        "caller": "0x84004eee",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 29,
+        "caller": "0x84004f2c",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 1,
+        "caller": "0x8400b932",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 11,
+        "caller": "0x8400a376",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      },
+      {
+        "type": 25,
+        "caller": "0x8400bab8",
+        "mstatus": 8,
+        "mie": 2048,
+        "irq8": "0x840420f2",
+        "active": 0,
+        "boot_magic": "0x31505342"
+      }
+    ],
+    "fixed_l2_footprint": {
+      "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+      "whole_l2_compared_bytes": 262144,
+      "id_table": {
+        "start": "0x3e8a9c70",
+        "entries": 8192,
+        "bytes": 16384
+      },
+      "rx_descriptors": {
+        "start": "0x3e880000",
+        "entries": 2048,
+        "stride": 32
+      },
+      "tx_descriptors": {
+        "start": "0x3e891000",
+        "rings": 2,
+        "entries_per_ring": 1024,
+        "stride": 32
+      },
+      "tx_packet_pointers": {
+        "first": "0x8cc00000",
+        "last_end": "0x8d000000",
+        "reservation_end": "0x90c00000",
+        "valid_entries": 2048,
+        "backing_packet_memory_accessed": false
+      },
+      "allocation_failures": 0,
+      "register_seed": "0x0",
+      "native_tx_count_register": "0x400"
+    },
+    "getter_dispatches": 11,
+    "core0_parked": 1
+  },
+  "original": {
+    "denied_type": "0x8a",
+    "original_initialization_returned": true,
+    "ignored_acquire_return": "0xffffffff",
+    "core0_parked": 1,
+    "fault": 0,
+    "metadata_sha256": "09b2ac3fbf4206c8dd4830a15ec981bbe47ddb24987de2d0515064b970ba7d10"
+  },
+  "failures": [
+    {
+      "mode": "denied",
+      "target": "0x89",
+      "caller": "0x84005a34",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "4e789c821118c7bf5ccd4400a8686c7bbae5a692cebde805f1516cf976c1a663",
+      "after_state_sha256": "4e789c821118c7bf5ccd4400a8686c7bbae5a692cebde805f1516cf976c1a663",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d60",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0x12",
+      "caller": "0x84004eee",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "d8716010afaa4d6beae90f8b9302d2a558ba1c14f1a8ab12b01bc2a0375ae01c",
+      "after_state_sha256": "d8716010afaa4d6beae90f8b9302d2a558ba1c14f1a8ab12b01bc2a0375ae01c",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0x1d",
+      "caller": "0x84004f2c",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "029f68c7023addc6c323496cbcc2091f23d36a36d3f84e95ffa378f6f82c8331",
+      "after_state_sha256": "029f68c7023addc6c323496cbcc2091f23d36a36d3f84e95ffa378f6f82c8331",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 29,
+          "caller": "0x84004f2c",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0x1",
+      "caller": "0x8400b932",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "df54175e71aba15a74f7703b12568dc2988371020154a31eebb94a1902b9a797",
+      "after_state_sha256": "df54175e71aba15a74f7703b12568dc2988371020154a31eebb94a1902b9a797",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d50",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 29,
+          "caller": "0x84004f2c",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 1,
+          "caller": "0x8400b932",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0xb",
+      "caller": "0x8400a376",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "f7766ba9a237ce5463c9c757009355cee00ff298aa85b03e60dc7a7233ecb5b2",
+      "after_state_sha256": "f7766ba9a237ce5463c9c757009355cee00ff298aa85b03e60dc7a7233ecb5b2",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d50",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 29,
+          "caller": "0x84004f2c",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 1,
+          "caller": "0x8400b932",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 11,
+          "caller": "0x8400a376",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "denied",
+      "target": "0x19",
+      "caller": "0x8400bab8",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "4e0e3371c142ddb75e506b198779d017c3d5e7408dfe601c3523f108e9418617",
+      "after_state_sha256": "4e0e3371c142ddb75e506b198779d017c3d5e7408dfe601c3523f108e9418617",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d50",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 29,
+          "caller": "0x84004f2c",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 1,
+          "caller": "0x8400b932",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 11,
+          "caller": "0x8400a376",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 25,
+          "caller": "0x8400bab8",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "corrupt",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": true,
+      "result": [
+        5,
+        0
+      ],
+      "lock_operations": [
+        1,
+        1
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "5938d7864b5718ac0cf2a0a62384a8541251bc87a0121fd583240a265623fa82",
+      "after_state_sha256": "5938d7864b5718ac0cf2a0a62384a8541251bc87a0121fd583240a265623fa82",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "capacity",
+      "target": "0x1",
+      "caller": "0x8400b932",
+      "service_available": true,
+      "result": [
+        6,
+        0
+      ],
+      "lock_operations": [
+        1,
+        1
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "a4e8e9668eca68e862ece9442e577182498ca65fd4731d6a0e33947d5c4725c6",
+      "after_state_sha256": "a4e8e9668eca68e862ece9442e577182498ca65fd4731d6a0e33947d5c4725c6",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d50",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 29,
+          "caller": "0x84004f2c",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 1,
+          "caller": "0x8400b932",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "bad-lock-id",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": true,
+      "result": [
+        4,
+        0
+      ],
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "7d113aef55392b76841acc8211b8a9b992d75fc68428db3e04ae63aa8b83044f",
+      "after_state_sha256": "7d113aef55392b76841acc8211b8a9b992d75fc68428db3e04ae63aa8b83044f",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "wrong-type",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": true,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "prior-fault",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": true,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "fault-at-release",
+      "target": "0x12",
+      "caller": "0x84004eee",
+      "service_available": true,
+      "result": [
+        0,
+        1048608800
+      ],
+      "lock_operations": [
+        1,
+        1
+      ],
+      "control_replies": [
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          0,
+          1,
+          270544960,
+          1348497536,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          2,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          827478350,
+          1,
+          64,
+          3,
+          1,
+          270544960,
+          1348497536,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": false,
+      "before_state_sha256": "d8716010afaa4d6beae90f8b9302d2a558ba1c14f1a8ab12b01bc2a0375ae01c",
+      "after_state_sha256": "029f68c7023addc6c323496cbcc2091f23d36a36d3f84e95ffa378f6f82c8331",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d70",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 18,
+          "caller": "0x84004eee",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "active-context",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": false,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 1,
+      "core0_parked": 0,
+      "stack": "0x84021d80",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "mie-off",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": false,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d80",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "external-irq-off",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": false,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d80",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "bad-irq8",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": false,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d80",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    },
+    {
+      "mode": "masked-mailbox",
+      "target": "0x8a",
+      "caller": "0x84004eca",
+      "service_available": false,
+      "result": null,
+      "lock_operations": [
+        0,
+        0
+      ],
+      "control_replies": [],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "whole_l2_unchanged": 262144,
+      "metadata_unchanged": true,
+      "before_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "after_state_sha256": "9994db318e09eee6399584790c719f5bc02248f472ae4076f00adb6640e6234b",
+      "retained_active": 0,
+      "core0_parked": 0,
+      "stack": "0x84021d80",
+      "original_allocation_entries": [
+        {
+          "type": 137,
+          "caller": "0x84005a34",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        },
+        {
+          "type": 138,
+          "caller": "0x84004eca",
+          "mstatus": 8,
+          "mie": 2048,
+          "irq8": "0x840420f2",
+          "active": 0,
+          "boot_magic": "0x31505342"
+        }
+      ],
+      "startup_patch": {
+        "site": "0x84005200",
+        "before": "13070008",
+        "after": "6f90a454",
+        "target": "0x8404e74a",
+        "installed": true
+      }
+    }
+  ],
+  "fallback": [
+    {
+      "group": "dynamic-high",
+      "type": 138,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-high",
+      "type": 129,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-high",
+      "type": 132,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-high",
+      "type": 133,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-high",
+      "type": 130,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-high",
+      "type": 137,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 1,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 2,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 3,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 9,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 10,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 11,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 14,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 15,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 22,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 25,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 26,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 30,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 18,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 16,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 17,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 28,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 29,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "dynamic-low",
+      "type": 23,
+      "address": "0x3e800000"
+    },
+    {
+      "group": "fixed-high",
+      "type": 385,
+      "address": "0x3e880000"
+    },
+    {
+      "group": "fixed-high",
+      "type": 386,
+      "address": "0x3e891000"
+    },
+    {
+      "group": "fixed-low",
+      "type": 256,
+      "address": "0x3e8a2000"
+    },
+    {
+      "group": "fixed-low",
+      "type": 257,
+      "address": "0x3e8a4020"
+    },
+    {
+      "group": "fixed-low",
+      "type": 258,
+      "address": "0x3e8a6040"
+    },
+    {
+      "group": "fixed-low",
+      "type": 259,
+      "address": "0x3e8a7858"
+    },
+    {
+      "group": "fixed-low",
+      "type": 260,
+      "address": "0x3e8a9070"
+    },
+    {
+      "group": "fixed-low",
+      "type": 261,
+      "address": "0x3e8a9670"
+    },
+    {
+      "group": "fixed-low",
+      "type": 262,
+      "address": "0x3e8a9c70"
+    },
+    {
+      "group": "fixed-low",
+      "type": 263,
+      "address": "0x3e8adc70"
+    },
+    {
+      "group": "fixed-low",
+      "type": 264,
+      "address": "0x3e8ae470"
+    },
+    {
+      "group": "fixed-low",
+      "type": 265,
+      "address": "0x3e8bc470"
+    }
+  ],
+  "bridge": [
+    {
+      "mode": "normal",
+      "result": [
+        0,
+        1049006336
+      ],
+      "held": false,
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        0,
+        7,
+        129,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lock_operations": [
+        1,
+        1
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "metadata_unchanged": false,
+      "existing_parked_slot_retained": false
+    },
+    {
+      "mode": "denied",
+      "result": [
+        4,
+        0
+      ],
+      "held": true,
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lock_operations": [
+        1,
+        0
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "metadata_unchanged": true,
+      "existing_parked_slot_retained": false
+    },
+    {
+      "mode": "corrupt",
+      "result": [
+        5,
+        0
+      ],
+      "held": true,
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lock_operations": [
+        1,
+        1
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "metadata_unchanged": true,
+      "existing_parked_slot_retained": false
+    },
+    {
+      "mode": "prior-fault",
+      "result": null,
+      "held": true,
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lock_operations": [
+        0,
+        0
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "metadata_unchanged": true,
+      "existing_parked_slot_retained": false
+    },
+    {
+      "mode": "already-parked",
+      "result": null,
+      "held": true,
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        129,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lock_operations": [
+        0,
+        0
+      ],
+      "whole_sram_compared": 32768,
+      "whole_heap_unchanged": 491520,
+      "metadata_unchanged": true,
+      "existing_parked_slot_retained": true
+    }
+  ],
+  "retained_gate": {
+    "installed_detours": 31,
+    "all_parked": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "initial_gate_retained": true,
+    "status": [
+      63,
+      0,
+      827478350,
+      1,
+      64,
+      3,
+      1,
+      0,
+      0,
+      0,
+      7,
+      255,
+      0,
+      0,
+      0,
+      0
+    ],
+    "no_hart7_bridge_or_allocator_execution": true,
+    "plic": "serialized banked storage model"
+  },
+  "mutants": [
+    {
+      "name": "ignore-allocation-failure",
+      "detected": true,
+      "assertion": "failed-startup-returned-to-native-caller",
+      "elf_sha256": "f23790d03f2749f3271be8ef82bd049705b9d6dd27f61eeb8bc34960cd8e581a"
+    },
+    {
+      "name": "omit-coordinator-fault",
+      "detected": true,
+      "assertion": "fault SRAM footprint",
+      "elf_sha256": "1dddd4902db483abcba348b0e9ac3bc093797c63c552e0cc973804564a4c68a2"
+    },
+    {
+      "name": "lose-control-interrupts",
+      "detected": true,
+      "assertion": "fault mailbox interrupts unavailable",
+      "elf_sha256": "f13fb90d6989bf1fdc818b66561b4dbf23a800124bd482c4e91e3d64cffda640"
+    },
+    {
+      "name": "drop-control-service",
+      "detected": true,
+      "assertion": "fault service boundary",
+      "elf_sha256": "990298c295c086eb5112418cd4a87e02e53d64838a7395aad5ccdeb5720c4f69"
+    },
+    {
+      "name": "allocate-after-prior-fault",
+      "detected": true,
+      "assertion": "unexpected allocation result",
+      "elf_sha256": "46eeee14f37bf5c4f73585dfd8ca8553932e8ea59717e4528d49a882fb872926"
+    },
+    {
+      "name": "missing-getter-hook",
+      "detected": true,
+      "assertion": "failed-startup-returned-to-native-caller"
+    },
+    {
+      "name": "changed-native-fallback",
+      "detected": true,
+      "assertion": "unrelated getter changed",
+      "elf_sha256": "4ceb72173a541d413b7075423b56f914d6bc657c04601c15273718fc489bd09b"
+    },
+    {
+      "name": "missing-control-word-caller",
+      "detected": true,
+      "assertion": "missing checked cold allocation",
+      "elf_sha256": "47e75d62a05d157911e8f70b8c8b3a97d084af9474e97b6717afe3a9ff219df0"
+    }
+  ],
+  "inputs_before_after": {
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    ".local/npu-reset/python-lib/unicorn/__init__.py": "9ad32123bca674cf205c308fd4d0d2a4db877c9dc2afac4feab7c84c8cf7043b",
+    ".local/npu-reset/python-lib/unicorn/arm64_const.py": "92f91a2b0a36cd34deee16db4f8da4ac0c9ae35c3ea1089296e5ef9d170a5be9",
+    ".local/npu-reset/python-lib/unicorn/arm_const.py": "44fdb7a9f7a9d8c62be07fefaf21e20060813b2a503b6228e378e6bbff7f7b41",
+    ".local/npu-reset/python-lib/unicorn/m68k_const.py": "7503e32454751bf66bdf1fcb19dd847537bcf6a5538e18125d8f53d8d448fed9",
+    ".local/npu-reset/python-lib/unicorn/mips_const.py": "3a04993d82610ea5f492af2d74fa79d849224a044ac0448281033ee331b58dac",
+    ".local/npu-reset/python-lib/unicorn/riscv_const.py": "278e10baf05cfb7c8675475081ae7f2d2037616c79cb907d51963aa2c5b490e4",
+    ".local/npu-reset/python-lib/unicorn/s390x_const.py": "54d7026dd70b5bfca1d02e00e7a58d652eaa974b9ea980ba49ed4b80911b9fde",
+    ".local/npu-reset/python-lib/unicorn/sparc_const.py": "bcdb0491b6e42c647b104ee53d61610504a97831302dd5280fd2123e05572e95",
+    ".local/npu-reset/python-lib/unicorn/tricore_const.py": "1b6005a147d77a3fc1ab5c81fc878eeac3b9bb0b68d518e4a4226830d1356c4c",
+    ".local/npu-reset/python-lib/unicorn/unicorn.py": "e823b17649d0610c6f52b665902ac9dc46962785feebcac8465a0d7c477f25b7",
+    ".local/npu-reset/python-lib/unicorn/unicorn_const.py": "556c6a27336dc6dd3e0d49348951bde17e1b0f69166f2217773e6b3a7199f45d",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/__init__.py": "ee70d3a7de9ea545406d727436ee835f9d644aeb7428f0e4f1510f9190b28726",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/types.py": "2e103854e371ef576680073f44ead45b8177a73c450a6125e609b7c54e0bc844",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/x86_const.py": "3b33c55b97503ab25e8ed8bbe576c1cee693f495df6785b04adc1c8ab47a79c4",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-startup-emulation.S": "fa9442ac4a28b9ca1152b30a40f4cc790da1a57888ab60712cbed2b588d97230",
+    "tests/npu/allocator-startup-emulation.c": "9adc927bfd8e292be71aa5d90e51e2457f3abad85cc4af24429a4fe4ddc438f1",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_protocol.py": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "2533b85caf99ac3194a15c9ac99040a2d648357156981995b1566a686af833e4",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tests/npu/allocator-startup-emulation.ld": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb",
+    "tests/npu/allocator-reset-emulation.ld": "cf3ac8ba7d426ce1d681d9384b5aae0c9ae0a8c64298b7e7e68b0f8c44c5fd08"
+  },
+  "limits": [
+    "Only seven core0 startup callers and the hart7 bridge caller are selected; other native callers stay unchanged.",
+    "Core0 control availability is verified only with no active callback and installed/enabled control IRQ.",
+    "IRQ dispatch, mailbox/PLIC/lock storage and host publication remain explicit models; no physical delivery/drain proof.",
+    "No router, image, INODE-provider correction or native DESC5/6/7/8 callback."
+  ]
+}

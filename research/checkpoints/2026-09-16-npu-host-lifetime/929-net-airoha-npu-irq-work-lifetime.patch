@@ -1,0 +1,73 @@
+From: W1700KNPU development <noreply@example.invalid>
+Subject: [CANDIDATE] net: airoha: order managed NPU watchdog work and IRQ lifetime
+
+Unpromoted CPU callback/reference lifetime correction. Hardware
+DMA containment and safe buffer reclamation remain separate gates.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/devcoredump.h>
++#include <linux/devm-helpers.h>
+ #include <linux/firmware.h>
+ #include <linux/ioport.h>
+ #include <linux/platform_device.h>
+@@ -853,6 +854,17 @@
+ 	if (err)
+ 		return err;
+ 
++	/* Register work cleanup before IRQs, so devres stops producers first. */
++	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
++		struct airoha_npu_core *core = &npu->cores[i];
++
++		spin_lock_init(&core->lock);
++		core->npu = npu;
++		err = devm_work_autocancel(dev, &core->wdt_work,
++					   airoha_npu_wdt_work);
++		if (err)
++			return err;
++	}
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
+@@ -865,9 +877,6 @@
+ 	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
+ 		struct airoha_npu_core *core = &npu->cores[i];
+ 
+-		spin_lock_init(&core->lock);
+-		core->npu = npu;
+-
+ 		irq = platform_get_irq(pdev, i + 1);
+ 		if (irq < 0)
+ 			return irq;
+@@ -876,8 +885,6 @@
+ 				       IRQF_SHARED, "airoha-npu-wdt", core);
+ 		if (err)
+ 			return err;
+-
+-		INIT_WORK(&core->wdt_work, airoha_npu_wdt_work);
+ 	}
+ 
+ 	/* wlan IRQ lines */
+@@ -933,18 +940,8 @@
+ 	return 0;
+ }
+ 
+-static void airoha_npu_remove(struct platform_device *pdev)
+-{
+-	struct airoha_npu *npu = platform_get_drvdata(pdev);
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(npu->cores); i++)
+-		cancel_work_sync(&npu->cores[i].wdt_work);
+-}
+-
+ static struct platform_driver airoha_npu_driver = {
+ 	.probe = airoha_npu_probe,
+-	.remove = airoha_npu_remove,
+ 	.driver = {
+ 		.name = "airoha-npu",
+ 		.of_match_table = of_airoha_npu_match,

@@ -1,0 +1,1013 @@
+{
+  "scope": "Actual native-ucode helper execution with modeled framework/driver I/O; no router/client proof",
+  "source_path": "package/network/services/hostapd/files/hostapd.uc",
+  "source_sha256": "c5db50945a641ab94a31ff11de143fa28d187b046fd4adb7bdb15ea3c0086212",
+  "source_lock_sha256": "19a041f1ef25c709fa3343137de02e8ea8af309d15854336545fb8e0f8282954",
+  "source_lock_expected_sha256": "c5db50945a641ab94a31ff11de143fa28d187b046fd4adb7bdb15ea3c0086212",
+  "source_lock_matches": true,
+  "source_lock_required": true,
+  "harness_sha256": "6f3e5ba28dbf259ac62c0d378cb60f313859f21fa1d262d0944ffad95d08f5fd",
+  "ucode_sha256": "9ea69357b73b7c6d56cfc2f543644a9d47a2e973253c980b1e73325414698ab0",
+  "generated_runner_sha256": "fe32815c62feaf83a0b7bc5b0de7f9766cf5fb0ec147d396125a3ff91e270084",
+  "functions": {
+    "mld_ssid_matches": "83bae2d0f68850c0696919a83f9a09e182c7a67a81eb6103e2024fe2f9d1654f",
+    "iface_pending_complete": "7d8bff9ea2d7df378cda57589cf9d12f57fc393a83075491d4dff5eb43cf61fe",
+    "iface_set_config": "a5f0287f6946db16c009766155f3c49f52defef07b8dc311e570c6e16c1f29c9",
+    "mld_find_matching_config": "f085472becf2147b1d07905b12c34dc5d8409fd4a5a049ebef5638e1796f01db",
+    "mld_reload_interface": "58191343cb226e7d22b113dba7403d9a2373ca6b1b0c0e3c75f6b436bc3708d6",
+    "mld_reload_interfaces": "614f87a0d12c3bb9ead94908dacc136b56b3a995b4328226283142754ea1401e",
+    "mld_transaction_finish": "d36cf3392dcf7452c86b86ce48cf1cb28a9bc2794542139c02af415a1fc38611",
+    "mld_reject_concurrent_mutation": "6cf2bf26c1c7cf5fa438c4618166cfbd83908645b7dfb11d16acbfa4204419c8",
+    "mld_transaction_rollback": "c094d682d92a7c3cdbbbc933758462eaf104c37e81bbcc725dd156932db330b2",
+    "mld_transaction_activate": "ed90c32648d4acf8e2bbcb7d9f2876a57b2b0d5b193483199b6dc925a73caafd",
+    "mld_set_config": "9e9f3a979260e2ac5c1d0ffcd268cf16b1bc5abac3f084fc31a165bfa5ec6e66",
+    "mld_set_request": "7477e00f6875e5a09f3cd461c21ac0f6a69444333bfb08e716bffb45f785dd99"
+  },
+  "passed": 32,
+  "assertions": 1195,
+  "killed_mutants": {
+    "remove-pending-one-shot": [
+      "reload-three-serial-async",
+      "reload-false-return-still-awaits-callback",
+      "request-initial-async",
+      "request-replace-serial-async",
+      "request-detach-first-failure-rollback",
+      "request-detach-last-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-activation-last-failure-rollback",
+      "request-rollback-union-distinct-targets",
+      "request-rollback-failure-reported",
+      "request-activation-false-return-awaits-rollback",
+      "request-initial-activation-failure-rollback",
+      "request-remove-all",
+      "request-defer-failure-no-unsolicited-reply",
+      "pending-old-completion-preserves-replacement"
+    ],
+    "ignore-pending-failure": [
+      "reload-async-failure-stops-series",
+      "request-detach-first-failure-rollback",
+      "request-detach-last-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-activation-last-failure-rollback",
+      "request-rollback-union-distinct-targets",
+      "request-rollback-failure-reported",
+      "request-initial-activation-failure-rollback",
+      "pending-old-completion-preserves-replacement"
+    ],
+    "remove-finish-owner-check": [
+      "request-initial-async",
+      "request-replace-serial-async",
+      "request-detach-first-failure-rollback",
+      "request-detach-last-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-activation-last-failure-rollback",
+      "request-rollback-union-distinct-targets",
+      "request-rollback-failure-reported",
+      "request-activation-false-return-awaits-rollback",
+      "request-initial-activation-failure-rollback",
+      "request-remove-all",
+      "transaction-stale-and-duplicate-finish"
+    ],
+    "forget-series-finished": [
+      "reload-three-serial-async",
+      "reload-mixed-sync-async",
+      "reload-async-failure-stops-series",
+      "request-detach-first-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-rollback-failure-reported",
+      "request-initial-activation-failure-rollback"
+    ],
+    "allow-concurrent-mutation": [
+      "request-initial-async",
+      "request-replace-serial-async",
+      "request-detach-first-failure-rollback",
+      "request-detach-last-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-activation-last-failure-rollback",
+      "request-rollback-union-distinct-targets",
+      "request-rollback-failure-reported",
+      "request-activation-false-return-awaits-rollback",
+      "request-initial-activation-failure-rollback",
+      "request-remove-all",
+      "request-defer-failure-no-unsolicited-reply"
+    ],
+    "omit-rollback-old-map": [
+      "request-detach-first-failure-rollback",
+      "request-detach-last-failure-rollback",
+      "request-activation-first-failure-rollback",
+      "request-activation-last-failure-rollback",
+      "request-rollback-union-distinct-targets",
+      "request-rollback-failure-reported",
+      "request-detach-sync-false-rollback",
+      "request-activation-false-return-awaits-rollback",
+      "request-initial-activation-failure-rollback"
+    ],
+    "omit-rollback-detach-targets": [
+      "request-rollback-union-distinct-targets"
+    ]
+  },
+  "cases": [
+    {
+      "name": "reload-empty",
+      "passed": true,
+      "failure": null,
+      "checks": 3,
+      "trace": [],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-missing-config",
+      "passed": true,
+      "failure": null,
+      "checks": 3,
+      "trace": [],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-three-serial-async",
+      "passed": true,
+      "failure": null,
+      "checks": 27,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.2",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "reload-three-sync",
+      "passed": true,
+      "failure": null,
+      "checks": 12,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.2",
+          "phase": "old",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-mixed-sync-async",
+      "passed": true,
+      "failure": null,
+      "checks": 19,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.2",
+          "phase": "old",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "reload-sync-false-no-phy",
+      "passed": true,
+      "failure": null,
+      "checks": 4,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "no_phy"
+        }
+      ],
+      "replies": [],
+      "results": [
+        false
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-sync-false-invalid",
+      "passed": true,
+      "failure": null,
+      "checks": 6,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [
+        null
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-false-return-still-awaits-callback",
+      "passed": true,
+      "failure": null,
+      "checks": 12,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [],
+      "results": [
+        null
+      ],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "reload-missing-direct-return",
+      "passed": true,
+      "failure": null,
+      "checks": 3,
+      "trace": [],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-empty-filter-refused",
+      "passed": true,
+      "failure": null,
+      "checks": 6,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "empty"
+        }
+      ],
+      "replies": [],
+      "results": [
+        null
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-empty-filter-allowed",
+      "passed": true,
+      "failure": null,
+      "checks": 9,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "empty"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [
+        true
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-exception-stops-series",
+      "passed": true,
+      "failure": null,
+      "checks": 4,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "throw"
+        }
+      ],
+      "replies": [],
+      "results": [
+        false
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "reload-async-failure-stops-series",
+      "passed": true,
+      "failure": null,
+      "checks": 12,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [],
+      "results": [
+        false
+      ],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "request-initial-async",
+      "passed": true,
+      "failure": null,
+      "checks": 49,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {
+            "pid": 4242
+          },
+          "status": 0
+        }
+      ],
+      "results": [],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "request-replace-serial-async",
+      "passed": true,
+      "failure": null,
+      "checks": 85,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {
+            "pid": 4242
+          },
+          "status": 0
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-replace-all-sync",
+      "passed": true,
+      "failure": null,
+      "checks": 24,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        }
+      ],
+      "max_pending": 0
+    },
+    {
+      "name": "request-detach-first-failure-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 68,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "request-detach-last-failure-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 86,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [],
+      "max_pending": 1
+    },
+    {
+      "name": "request-activation-first-failure-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 104,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        },
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-activation-last-failure-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 122,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        },
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-rollback-union-distinct-targets",
+      "passed": true,
+      "failure": null,
+      "checks": 87,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        },
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-rollback-failure-reported",
+      "passed": true,
+      "failure": null,
+      "checks": 87,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        },
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-detach-sync-false-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 20,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "no_phy"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "sync"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "sync"
+        }
+      ],
+      "replies": [],
+      "results": [],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "request-activation-false-return-awaits-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 104,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "old",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "old",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        },
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-initial-activation-failure-rollback",
+      "passed": true,
+      "failure": null,
+      "checks": 68,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {},
+          "status": 9
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "new"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-prepare-enumeration-rejected",
+      "passed": true,
+      "failure": null,
+      "checks": 10,
+      "trace": [],
+      "replies": [],
+      "results": [],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "request-prepare-entry-rejected",
+      "passed": true,
+      "failure": null,
+      "checks": 10,
+      "trace": [],
+      "replies": [],
+      "results": [],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "request-unchanged-no-reload",
+      "passed": true,
+      "failure": null,
+      "checks": 10,
+      "trace": [],
+      "replies": [],
+      "results": [],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "request-remove-all",
+      "passed": true,
+      "failure": null,
+      "checks": 49,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        }
+      ],
+      "replies": [
+        {
+          "data": {
+            "pid": 4242
+          },
+          "status": 0
+        }
+      ],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "request-defer-failure-no-unsolicited-reply",
+      "passed": true,
+      "failure": null,
+      "checks": 85,
+      "trace": [
+        {
+          "name": "phy0.0",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "detach",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.0",
+          "phase": "new",
+          "kind": "async"
+        },
+        {
+          "name": "phy0.1",
+          "phase": "new",
+          "kind": "async"
+        }
+      ],
+      "replies": [],
+      "results": [],
+      "removals": [
+        {
+          "name": "mld0",
+          "phase": "detach"
+        }
+      ],
+      "max_pending": 1
+    },
+    {
+      "name": "transaction-stale-and-duplicate-finish",
+      "passed": true,
+      "failure": null,
+      "checks": 4,
+      "trace": [],
+      "replies": [],
+      "results": [
+        false
+      ],
+      "removals": [],
+      "max_pending": 0
+    },
+    {
+      "name": "pending-old-completion-preserves-replacement",
+      "passed": true,
+      "failure": null,
+      "checks": 3,
+      "trace": [],
+      "replies": [],
+      "results": [
+        true,
+        false
+      ],
+      "removals": [],
+      "max_pending": 0
+    }
+  ],
+  "modeled": [
+    "driver/PHY results and asynchronous schedule",
+    "framework maps and request reply/defer",
+    "MLD address preparation and unchanged-config matching dependencies",
+    "reload target projection (membership policy intentionally excluded)",
+    "wdev removal storage effect, not kernel destruction"
+  ],
+  "boundaries": [
+    "No complete hostapd/ubus/netifd integration or runtime timeout proof",
+    "No missing callback injected after false return: caller still owes completion",
+    "In-flight duplicate callbacks enter actual iface_pending_complete one-shot guard",
+    "Raw callback redelivery tested only after series completion",
+    "No membership, driver, regulatory, client, router, image, build, flash or NPU work"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "snapshot": "post-Daybreak21-R1-NPU-memory-preflight-20260906",
+  "snapshot": "post-Daybreak21-R1-WiFi-SAE-file-reload-20260909",
   "last_router_tested_snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
   "openwrt": {
     "url": "https://github.com/openwrt/openwrt.git",
@@ -39,12 +39,17 @@
       },
       {
         "path": "package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json",
-        "sha256": "c626feccb4f5e7f309300754d9f8946d98133ecb744f2430d1324138ebd1e984",
+        "sha256": "a3291ac102b0b97cee5e57f128fc2b9b34b428f052b52f16c849e310b79866d0",
         "mode": "0o644"
       },
       {
         "path": "package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc",
-        "sha256": "df64d12609c75e3d2e91dc7726dece3ea992a3a1d38149cb5eea98502e7d001f",
+        "sha256": "79004ebbb01a637a824806c7254170d55ba7a418bb137f370a305b9b4c2a4a86",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc",
+        "sha256": "ef91cb5cb1e1c6c99d07c67d9dccdc4d846ed05a2c1f36afde9f49b2e9a79deb",
         "mode": "0o644"
       },
       {
@@ -73,8 +78,23 @@
         "mode": "0o644"
       },
       {
+        "path": "package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc",
+        "sha256": "16db8c275cd64607845ae9b7a6093d05e260dcad5266e3cd8b61d8918d1df1f2",
+        "mode": "0o644"
+      },
+      {
         "path": "package/network/services/hostapd/files/hostapd.uc",
-        "sha256": "1100002b6b1a4764e32bc3c87e75e8f63c79a08f1bb7e2691e1d6f516f164d9f",
+        "sha256": "e9bdbed02f2072121083130d1de0dc91996c95217550fd5604fcc641d96e6338",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/utils/ucode/Makefile",
+        "sha256": "0675c9241ae1e5a0d925f31650933cee0e0f4e4c65141baea44275916ab346cc",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/utils/ucode/patches/112-nl80211-report-decoder-allocation-failure.patch",
+        "sha256": "cde7d970a40624d2a0567b516588dab0f7ce5b5b4310c6bc9994be4e81706f39",
         "mode": "0o644"
       },
       {
@@ -144,7 +164,7 @@
       },
       {
         "path": "target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory",
-        "sha256": "27075d0fe688df9e3405d03069fe48eb41389969409c008b5e2e8e1e7ff75708",
+        "sha256": "04497f40bb5c774d985784ee920b682da16d6e8ae71d55778400477a7111b7d5",
         "mode": "0o644"
       },
       {
@@ -159,7 +179,7 @@
       },
       {
         "path": "target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate",
-        "sha256": "861f6aac6bf8f3dc5022cbed67f0119c74d52189b9ae9bd19b5e1ef1c4261f87",
+        "sha256": "8ad893d582ad04e3b93923747cf7aa52cf9a8a14ea5d8dd0d479cf6452a73604",
         "mode": "0o755"
       },
       {
@@ -201,7 +221,7 @@
       },
       {
         "path": "modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js",
-        "sha256": "9c644f19eb0aa15469343e53a92c09ee7b1a3f2bff3cd21ddd939f917512ffa5",
+        "sha256": "d6f8c7b9e6a227ea23ebc5cbb2303244805e22ece50b0c2bb8bf569021a8f238",
         "mode": "0o644"
       },
       {

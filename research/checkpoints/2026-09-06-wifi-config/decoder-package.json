@@ -1,0 +1,20 @@
+{
+  "package_target": "package/utils/ucode/compile -j4 V=s",
+  "build_exit_code": 0,
+  "package_release": 2,
+  "source_equals_native_test_input": true,
+  "source_sha256": "e6132b4ecf341908fab157ac98fbd30a7715241373c78d0ec896539cc5eb59f0",
+  "original_installed_sha256": "2a944ef99c0ebc55cdf5e7000b1b35b5c5d57923f7a44d7ebb1df60af1090608",
+  "deployed_payload_sha256": "6c2af55f71276895be7e906f67479339984affe10bf893b05ae3e74cb2cff92d",
+  "dependencies": [
+    "libnl-tiny.so.1",
+    "libubox.so.20260721",
+    "libgcc_s.so.1",
+    "libc.so"
+  ],
+  "deployment_scope": "One nl80211 userspace shared library; no kernel module or image",
+  "native_original_cases": 6,
+  "native_corrected_cases": 6,
+  "corrected_memory_errors_reported": 3,
+  "runtime_receipt_sha256": "5594c2ca40c478428a50e9215bd02d6f20fad8c00efa5260b91e0b06d263cb81"
+}

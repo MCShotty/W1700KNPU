@@ -1,0 +1,822 @@
+{
+  "cases": 284,
+  "failures": [],
+  "results": [
+    {
+      "profile": "2g-sae",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-sae-ft",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY FT-SAE FT-SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-owe",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-enterprise",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SHA256",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-enterprise192",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SUITE-B-192",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-sae-explicit-off",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-sae-forced-ccmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-sae-forced-gcmp256",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-sae-no-driver-gcmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-sae",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-sae-mixed",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-compat-eht",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": "GCMP-256",
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-compat-he",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-sae-explicit-on",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "2g-owe-transition",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "2g-owe-manual-ifname",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "2g-owe-manual-bssid",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "2g-ordinary-owe-transition",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "SyntheticOWE",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": "ordinary-open0"
+        },
+        {
+          "ifname": "ordinary-open0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "0",
+          "key_mgmt": null,
+          "pairwise": null,
+          "override_pairwise": null,
+          "transition_ifname": "ordinary0"
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-owe-manual-ifname",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": "ordinary-open0"
+        }
+      ]
+    },
+    {
+      "profile": "2g-ordinary-owe-manual-bssid",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae-ft",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY FT-SAE FT-SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-owe",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-enterprise",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SHA256",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-enterprise192",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SUITE-B-192",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae-explicit-off",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae-forced-ccmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae-forced-gcmp256",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-sae-no-driver-gcmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-sae",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-sae-mixed",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-compat-eht",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": "GCMP-256",
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-compat-he",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "WPA-PSK WPA-PSK-SHA256",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-sae-explicit-on",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "5g-owe-transition",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "5g-owe-manual-ifname",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "5g-owe-manual-bssid",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "5g-ordinary-owe-transition",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "SyntheticOWE",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": "ordinary-open0"
+        },
+        {
+          "ifname": "ordinary-open0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "0",
+          "key_mgmt": null,
+          "pairwise": null,
+          "override_pairwise": null,
+          "transition_ifname": "ordinary0"
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-owe-manual-ifname",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": "ordinary-open0"
+        }
+      ]
+    },
+    {
+      "profile": "5g-ordinary-owe-manual-bssid",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae-ft",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY FT-SAE FT-SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-owe",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "OWE",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-enterprise",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SHA256",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-enterprise192",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "WPA-EAP-SUITE-B-192",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae-explicit-off",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae-forced-ccmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae-forced-gcmp256",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-sae-no-driver-gcmp",
+      "bss": [
+        {
+          "ifname": "ap-mld0",
+          "ssid": "Synthetic",
+          "mld": true,
+          "fingerprint": true,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-ordinary-sae",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE",
+          "pairwise": "CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-ordinary-sae-explicit-on",
+      "bss": [
+        {
+          "ifname": "ordinary0",
+          "ssid": "Synthetic",
+          "mld": false,
+          "fingerprint": false,
+          "wpa": "2",
+          "key_mgmt": "SAE SAE-EXT-KEY",
+          "pairwise": "GCMP-256 CCMP",
+          "override_pairwise": null,
+          "transition_ifname": null
+        }
+      ]
+    },
+    {
+      "profile": "6g-owe-transition",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "6g-owe-manual-ifname",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "6g-owe-manual-bssid",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "6g-ordinary-owe-transition",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "6g-ordinary-owe-manual-ifname",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    },
+    {
+      "profile": "6g-ordinary-owe-manual-bssid",
+      "rejected": true,
+      "error": "OWE transition is not supported on MLO or 6 GHz AP test",
+      "writes": 0
+    }
+  ],
+  "scope": "Actual AP/security generation, full setup validation, parser and admission; ubus inventory, radio capabilities, I/O, schema defaults and MAC allocation modeled",
+  "radio_or_config_changes": false
+}

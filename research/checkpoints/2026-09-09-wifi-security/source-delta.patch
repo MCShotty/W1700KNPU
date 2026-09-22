@@ -1,0 +1,143 @@
+--- before/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
++++ after/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
+@@ -19,18 +19,13 @@
+ 
+ 	config.auth_type = encryption[0] ?? 'none';
+ 
+-	/*
+-	 * GCMP-256 and the SAE-EXT-KEY (SAE-GDH) AKM are only mandatory for
+-	 * EHT/MLO and break interoperability with many clients, so only default
+-	 * them on where they are both required and safe to offer: on Compatibility
+-	 * mode (sae-compat) BSSes that run an EHT htmode, which carry them in a
+-	 * separate RSN Override element that legacy clients ignore. They stay off
+-	 * for WPA3-Personal (sae) and Transition (sae-mixed) mode and on non-EHT
+-	 * BSSes. Explicit gcmp256 and sae_ext_key options override this per BSS.
+-	 */
++	// MLO needs the enhanced suites in its RSNE; sae-compat uses RSN Override.
++	// Preserve non-MLO defaults and explicit per-BSS compatibility overrides.
+ 	let compat = (config.auth_type == 'sae-compat');
+-	config.gcmp256 ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
+-	config.sae_ext_key ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
++	let mlo = config.mlo === true || config.mlo === 1 || config.mlo === '1';
++	let enhanced = mlo || (compat && wildcard(dev_config?.htmode ?? '', 'EHT*'));
++	config.gcmp256 ??= enhanced;
++	config.sae_ext_key ??= enhanced;
+ 
+ 	switch(config.auth_type) {
+ 	case 'owe':
+--- before/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
++++ after/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
+@@ -394,7 +394,25 @@
+ 	return json(sprintf('%J', { config: data.config, interfaces: data.interfaces }));
+ }
+ 
++function validate_owe_transition(data) {
++	for (let key, interface in data?.interfaces ?? {}) {
++		let config = interface?.config;
++		if (config?.mode != 'ap' || split(config.encryption ?? '', '+')[0] != 'owe')
++			continue;
++		if (!mlo_enabled(config.mlo) && data.config.band != '6g')
++			continue;
++		if (!mlo_enabled(config.owe_transition) &&
++		    !config.owe_transition_ifname && !config.owe_transition_bssid)
++			continue;
++
++		netifd.setup_failed('INVALID_ENCRYPTION');
++		die(`OWE transition is not supported on MLO or 6 GHz AP ${key}`);
++	}
++}
++
+ export function validate_mlo_setup(data) {
++	validate_owe_transition(data);
++
+ 	let has_mlo_ap = false;
+ 	for (let key, interface in data?.interfaces ?? {})
+ 		if (mlo_enabled(interface?.config?.mlo) && interface.config.mode == 'ap') {
+--- before/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
++++ after/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
+@@ -380,7 +380,7 @@
+ 			"type": "string"
+ 		},
+ 		"gcmp256": {
+-			"description": "Advertise the GCMP-256 pairwise cipher on HE/EHT BSSes (alongside CCMP for sae/sae-mixed, in the RSNE Override 2 element for sae-compat). Mandatory for EHT, recommended otherwise. Defaults off for sae and sae-mixed because some clients and chipsets misbehave when GCMP-256 is offered, and on for sae-compat BSSes using an EHT htmode (where GCMP-256 is mandatory), carried in a separate RSN Override element that legacy clients ignore. Only advertised when the driver supports the GCMP-256 cipher.",
++			"description": "Advertise GCMP-256 alongside CCMP, or in RSN Override 2 for sae-compat. Required for Wi-Fi 7 certification. Defaults on for MLO and for sae-compat using an EHT htmode, off otherwise for older-client compatibility. Explicit settings override this default. Automatic advertisement requires driver GCMP-256 support.",
+ 			"type": "boolean"
+ 		},
+ 		"hidden": {
+@@ -993,7 +993,7 @@
+ 			"type": "boolean"
+ 		},
+ 		"sae_ext_key": {
+-			"description": "Advertise the SAE-EXT-KEY AKM (SAE using a group-dependent hash) alongside plain SAE. Mandatory for EHT, recommended otherwise. Defaults off for sae and sae-mixed because some clients misbehave when SAE-EXT-KEY is offered, and on for sae-compat BSSes using an EHT htmode (where SAE-EXT-KEY is mandatory), carried in a separate RSN Override element that legacy clients ignore.",
++			"description": "Advertise SAE-EXT-KEY (SAE using a group-dependent hash) alongside SAE, or in RSN Override for sae-compat. Required for Wi-Fi 7 personal-security certification. Defaults on for MLO and for sae-compat using an EHT htmode, off otherwise for older-client compatibility. Explicit settings override this default.",
+ 			"type": "boolean"
+ 		},
+ 		"sae_password_file": {
+--- before/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
++++ after/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
+@@ -508,6 +508,9 @@
+ 	pmf="$(uci -q get wireless."$iface".ieee80211w)"
+ 	rnr="$(uci -q get wireless."$iface".rnr)"
+ 	sae_pwe="$(uci -q get wireless."$iface".sae_pwe)"
++	owe_transition="$(uci -q get wireless."$iface".owe_transition)"
++	owe_transition_ifname="$(uci -q get wireless."$iface".owe_transition_ifname)"
++	owe_transition_bssid="$(uci -q get wireless."$iface".owe_transition_bssid)"
+ 	seen=" "
+ 	seen_idx=" "
+ 	count=0
+@@ -570,6 +573,15 @@
+ 
+ 	if [ "$count" -gt 1 ] && [ "$mlo" != "1" ]; then
+ 		err "$iface lists multiple radios but does not enable MLO."
++	fi
++
++	if [ "$mode" = "ap" ] && [ "${enc%%+*}" = "owe" ] &&
++	   { [ "$mlo" = "1" ] || [ "$has_6g" = "1" ]; }; then
++		case "$owe_transition" in
++			1|on|true|yes|enabled) err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
++			*) [ -z "$owe_transition_ifname$owe_transition_bssid" ] ||
++				err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
++		esac
+ 	fi
+ 
+ 	if [ "$mode" = "sta" ]; then
+--- before/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
++++ after/feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
+@@ -1509,16 +1509,13 @@
+ 	res.forEach(dep => o.depends(dep));
+ }
+ 
+-// Default gcmp256/sae_ext_key like the wifi-scripts backend: on only for
+-// WPA3-Personal Compatibility Mode (sae-compat) on an EHT (Wi-Fi 7) radio, off
+-// otherwise. htmode is a radio property, not a wifi-iface one, so it cannot be a
+-// same-section o.defaults dependency. Read the currently selected htmode from the
+-// radio's frequency/width widget so the default reacts to changes made in the
+-// same modal, and only fall back to the saved config if that widget is not
+-// available. On EHT the base updateDefaultValue picks the default from the
+-// encryption mode (sae-compat -> on, sae/sae-mixed -> off); otherwise force off.
+-// Both paths go through the base method so the checkbox is updated reactively.
++// Match wifi-scripts defaults and use unsaved form values when available.
+ function eht_compat_default(section_id) {
++	if (w1700kFormValue(this.section, section_id, 'mlo') == '1') {
++		this.defaults = { '1': [] };
++		return form.Flag.prototype.updateDefaultValue.call(this, section_id);
++	}
++
+ 	const dev = uci.get('wireless', section_id, 'device');
+ 	let htmode = dev ? uci.get('wireless', dev, 'htmode') : null;
+ 
+@@ -3874,11 +3871,11 @@
+ 						o = ss.taboption('encryption', form.Flag, 'wpa_disable_eapol_key_retries', _('Enable key reinstallation (KRACK) countermeasures'), _('Complicates key reinstallation attacks on the client side by disabling retransmission of EAPOL-Key frames that are used to install keys. This workaround might cause interoperability issues and reduced robustness of key negotiation especially in environments with heavy traffic load.'));
+ 						add_dependency_permutations(o, { mode: ['ap', 'ap-wds'], encryption: ['psk2', 'psk-mixed', 'sae', 'sae-mixed', 'sae-compat', 'wpa2', 'wpa3', 'wpa3-mixed'] });
+ 
+-						o = ss.taboption('encryption', form.Flag, 'gcmp256', _('GCMP-256 pairwise cipher'), _('Advertise the GCMP-256 pairwise cipher. Mandatory for Wi-Fi 7 (EHT) and recommended otherwise, but some clients and chipsets fail to associate when it is offered. Enabled by default only in Compatibility Mode on a Wi-Fi 7 (EHT) radio, disabled otherwise.'));
+-						add_dependency_permutations(o, { mode: ['ap', 'ap-wds'], encryption: ['sae', 'sae-mixed', 'sae-compat'] });
++						o = ss.taboption('encryption', form.Flag, 'gcmp256', _('GCMP-256 pairwise cipher'), _('Advertise the GCMP-256 pairwise cipher. Required for Wi-Fi 7 certification, but some older clients and chipsets fail to associate when it is offered. Enabled by default for MLO and for Compatibility Mode on a Wi-Fi 7 (EHT) radio, disabled otherwise.'));
++						add_dependency_permutations(o, { mode: ['ap', 'ap-wds'], encryption: ['sae', 'sae-mixed', 'sae-compat', 'owe', 'wpa3'] });
+ 						o.updateDefaultValue = eht_compat_default;
+ 
+-						o = ss.taboption('encryption', form.Flag, 'sae_ext_key', _('SAE-EXT-KEY (SAE-GDH)'), _('Advertise the SAE-EXT-KEY AKM (SAE using a group-dependent hash). Mandatory for Wi-Fi 7 (EHT) and recommended otherwise, but some clients misbehave when it is offered, in particular together with 802.11r Fast Transition. Enabled by default only in Compatibility Mode on a Wi-Fi 7 (EHT) radio, disabled otherwise.'));
++						o = ss.taboption('encryption', form.Flag, 'sae_ext_key', _('SAE-EXT-KEY (SAE-GDH)'), _('Advertise the SAE-EXT-KEY AKM (SAE using a group-dependent hash). Required for Wi-Fi 7 personal-security certification, but some older clients misbehave when it is offered. Enabled by default for MLO and for Compatibility Mode on a Wi-Fi 7 (EHT) radio, disabled otherwise.'));
+ 						add_dependency_permutations(o, { mode: ['ap', 'ap-wds'], encryption: ['sae', 'sae-mixed', 'sae-compat'] });
+ 						o.updateDefaultValue = eht_compat_default;
+ 

@@ -1,0 +1,620 @@
+{
+  "schema": 1,
+  "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+  "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+  "host_receipt_sha256": "c6cde53615df04e484940916621232ee76c8256be43a2b2ea92fb2f5ea6c2eb7",
+  "test_sha256": "64a168fb5f0b0fb280664577bb94e192a72541d9c91e61224eab61120b423976",
+  "native_test_sha256": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+  "ghidra_sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+  "source_spans": [
+    {
+      "address": "0x84004c16",
+      "first_line": 10371,
+      "last_line": 10474,
+      "normalized_text_sha256": "f46cd7212b84c402dcb900cb0c1326d5484ce3df138a63164a9877a1ad1db416"
+    },
+    {
+      "address": "0x84005200",
+      "first_line": 11176,
+      "last_line": 11267,
+      "normalized_text_sha256": "e405d5a5d57fee7263c654102c8631ba6dd13cb5a91f121e7b86481902d100ea"
+    },
+    {
+      "address": "0x8400981c",
+      "first_line": 19368,
+      "last_line": 19476,
+      "normalized_text_sha256": "387ff4005907ebe20bbb7ba9417437139068dce1c4c5ea8d5a03644dcc82bf29"
+    },
+    {
+      "address": "0x84009fc8",
+      "first_line": 19974,
+      "last_line": 20171,
+      "normalized_text_sha256": "d5b33fb0948e22a515cbed439b5a9a7057eca8a6e83a29c1b3d98d1f1470d5ea"
+    },
+    {
+      "address": "0x8400a364",
+      "first_line": 20428,
+      "last_line": 20493,
+      "normalized_text_sha256": "8ae8ea3f8abe63b6e32d5bb26f274848f53c97c96781047497e5642b1cacb84b"
+    },
+    {
+      "address": "0x8400a3bc",
+      "first_line": 20494,
+      "last_line": 20537,
+      "normalized_text_sha256": "c4d84f54fce980b3649d266ba7743c99dd5ca2b810a321917e84dd28280aee7a"
+    },
+    {
+      "address": "0x8400b928",
+      "first_line": 22866,
+      "last_line": 22895,
+      "normalized_text_sha256": "ba25333b1c5f3731fe98f486c154f6c649fd360c9b33c96cf8d883b4f81f264d"
+    },
+    {
+      "address": "0x8400baae",
+      "first_line": 23080,
+      "last_line": 23116,
+      "normalized_text_sha256": "0a5042848be0dbff9ef490bab00615b4575070dccf65b6350f72efb0127d9be5"
+    },
+    {
+      "address": "0x8400d1a0",
+      "first_line": 26290,
+      "last_line": 26320,
+      "normalized_text_sha256": "4a614cfbb1892a0b8c027b67603195f606d4c5bd7ac4209c6e6a0c25cb382a2c"
+    },
+    {
+      "address": "0x8400d1d4",
+      "first_line": 26321,
+      "last_line": 26458,
+      "normalized_text_sha256": "72dadd0a2598fa85591a70fc05b6ba91e5f83e6d0b14e27f4393a89c5c2fd604"
+    },
+    {
+      "address": "0x8400e330",
+      "first_line": 29063,
+      "last_line": 29168,
+      "normalized_text_sha256": "0e1464d6d7f5d09c7f0dbea9262aca30151a7921ecea964c083cfae914f8b920"
+    },
+    {
+      "address": "0x8400f832",
+      "first_line": 32031,
+      "last_line": 32108,
+      "normalized_text_sha256": "aff0cc8791858e7f9e8c8f0732a9ef3dbc3a1919fa665bc21710c437ec8d9a4f"
+    },
+    {
+      "address": "0x8400fab2",
+      "first_line": 32349,
+      "last_line": 32426,
+      "normalized_text_sha256": "9d808520ec927d4ac3a3bfa328b57c247d94eb64adf1bdd092778d181796ab51"
+    }
+  ],
+  "mapping": {
+    "node": "/soc/npu@1e900000",
+    "resource": {
+      "start": 512753664,
+      "end": 515977215,
+      "size": 3223552
+    },
+    "dtb_sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+    "probe_sha256": "6fd3818a3d761916c3109b2d1be02e2b776d0d223f10c024a2149ef1b721c8f1",
+    "basis": "Compiled DTB reg/ranges and provider source binding; no physical MMIO execution."
+  },
+  "cases": [
+    {
+      "phase": "before",
+      "hif": 0,
+      "result": {
+        "native_return": false,
+        "stop_pc": "0x8400f836",
+        "polls": 8,
+        "writes": [
+          {
+            "address": "0x1ec0d0a8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0ac",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0a4",
+            "value": 1024
+          },
+          {
+            "address": "0x1ec0d0a0",
+            "value": 536870912
+          }
+        ],
+        "footprints": {
+          "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+          "whole_l2_compared_bytes": 262144,
+          "id_table": {
+            "start": "0x3e8a9c70",
+            "entries": 8192,
+            "bytes": 16384
+          },
+          "rx_descriptors": {
+            "start": "0x3e880000",
+            "entries": 2048,
+            "stride": 32
+          },
+          "tx_descriptors": {
+            "start": "0x3e891000",
+            "rings": 2,
+            "entries_per_ring": 1024,
+            "stride": 32
+          },
+          "tx_packet_pointers": {
+            "first": "0x8cc00000",
+            "last_end": "0x8d000000",
+            "reservation_end": "0x90c00000",
+            "valid_entries": 2048,
+            "backing_packet_memory_accessed": false
+          },
+          "allocation_failures": 0,
+          "register_seed": "0x0",
+          "native_tx_count_register": "0x400"
+        },
+        "zero_tx1": true
+      }
+    },
+    {
+      "phase": "before",
+      "hif": 1,
+      "result": {
+        "native_return": true,
+        "core0_idle_ack": 1,
+        "other_workers_parked": 0,
+        "physical_domains_drained": 0,
+        "release": 0,
+        "arm": 0,
+        "writes": [
+          {
+            "address": "0x1ec0d0a8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0ac",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0a4",
+            "value": 1024
+          },
+          {
+            "address": "0x1ec0d0a0",
+            "value": 536870912
+          },
+          {
+            "address": "0x1ec0d0b8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0bc",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0b4",
+            "value": 512
+          },
+          {
+            "address": "0x1ec0d0b0",
+            "value": 537919488
+          }
+        ],
+        "footprints": {
+          "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+          "whole_l2_compared_bytes": 262144,
+          "id_table": {
+            "start": "0x3e8a9c70",
+            "entries": 8192,
+            "bytes": 16384
+          },
+          "rx_descriptors": {
+            "start": "0x3e880000",
+            "entries": 2048,
+            "stride": 32
+          },
+          "tx_descriptors": {
+            "start": "0x3e891000",
+            "rings": 2,
+            "entries_per_ring": 1024,
+            "stride": 32
+          },
+          "tx_packet_pointers": {
+            "first": "0x8cc00000",
+            "last_end": "0x8d000000",
+            "reservation_end": "0x90c00000",
+            "valid_entries": 2048,
+            "backing_packet_memory_accessed": false
+          },
+          "allocation_failures": 0,
+          "register_seed": "0x0",
+          "native_tx_count_register": "0x400"
+        },
+        "host_fields": {
+          "0x1ec0d0a0": 536870912,
+          "0x1ec0d0a4": 1024,
+          "0x1ec0d0b0": 537919488,
+          "0x1ec0d0b4": 512,
+          "0x1ec0d180": 2166358016,
+          "0x1ec0d190": 2167406592
+        },
+        "synthetic_rx": [
+          "0x1ec0d180",
+          "0x1ec0d190"
+        ],
+        "zero_tx1_size": false,
+        "stub_counts": {
+          "mhartid-csr": 2052,
+          "0x84004212": 227,
+          "0x84004130": 4,
+          "0x8400452a": 1,
+          "0x840048f4": 12
+        },
+        "pc": "0x8404231c"
+      }
+    },
+    {
+      "phase": "after",
+      "hif": 0,
+      "result": {
+        "native_return": true,
+        "core0_idle_ack": 1,
+        "other_workers_parked": 0,
+        "physical_domains_drained": 0,
+        "release": 0,
+        "arm": 0,
+        "writes": [
+          {
+            "address": "0x1ec0d0a8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0ac",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0a4",
+            "value": 1024
+          },
+          {
+            "address": "0x1ec0d0a0",
+            "value": 536870912
+          },
+          {
+            "address": "0x1ec0d0b8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0bc",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0b4",
+            "value": 512
+          },
+          {
+            "address": "0x1ec0d0b0",
+            "value": 537919488
+          }
+        ],
+        "footprints": {
+          "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+          "whole_l2_compared_bytes": 262144,
+          "id_table": {
+            "start": "0x3e8a9c70",
+            "entries": 8192,
+            "bytes": 16384
+          },
+          "rx_descriptors": {
+            "start": "0x3e880000",
+            "entries": 2048,
+            "stride": 32
+          },
+          "tx_descriptors": {
+            "start": "0x3e891000",
+            "rings": 2,
+            "entries_per_ring": 1024,
+            "stride": 32
+          },
+          "tx_packet_pointers": {
+            "first": "0x8cc00000",
+            "last_end": "0x8d000000",
+            "reservation_end": "0x90c00000",
+            "valid_entries": 2048,
+            "backing_packet_memory_accessed": false
+          },
+          "allocation_failures": 0,
+          "register_seed": "0x0",
+          "native_tx_count_register": "0x400"
+        },
+        "host_fields": {
+          "0x1ec0d0a0": 536870912,
+          "0x1ec0d0a4": 1024,
+          "0x1ec0d0b0": 537919488,
+          "0x1ec0d0b4": 512,
+          "0x1ec0d180": 2166358016,
+          "0x1ec0d190": 2167406592
+        },
+        "synthetic_rx": [
+          "0x1ec0d180",
+          "0x1ec0d190"
+        ],
+        "zero_tx1_size": false,
+        "stub_counts": {
+          "mhartid-csr": 2052,
+          "0x84004212": 227,
+          "0x84004130": 4,
+          "0x8400452a": 1,
+          "0x840048f4": 12
+        },
+        "pc": "0x8404231c"
+      }
+    },
+    {
+      "phase": "after",
+      "hif": 1,
+      "result": {
+        "native_return": true,
+        "core0_idle_ack": 1,
+        "other_workers_parked": 0,
+        "physical_domains_drained": 0,
+        "release": 0,
+        "arm": 0,
+        "writes": [
+          {
+            "address": "0x1ec0d0a8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0ac",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0a4",
+            "value": 1024
+          },
+          {
+            "address": "0x1ec0d0a0",
+            "value": 536870912
+          },
+          {
+            "address": "0x1ec0d0b8",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0bc",
+            "value": 0
+          },
+          {
+            "address": "0x1ec0d0b4",
+            "value": 512
+          },
+          {
+            "address": "0x1ec0d0b0",
+            "value": 537919488
+          }
+        ],
+        "footprints": {
+          "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+          "whole_l2_compared_bytes": 262144,
+          "id_table": {
+            "start": "0x3e8a9c70",
+            "entries": 8192,
+            "bytes": 16384
+          },
+          "rx_descriptors": {
+            "start": "0x3e880000",
+            "entries": 2048,
+            "stride": 32
+          },
+          "tx_descriptors": {
+            "start": "0x3e891000",
+            "rings": 2,
+            "entries_per_ring": 1024,
+            "stride": 32
+          },
+          "tx_packet_pointers": {
+            "first": "0x8cc00000",
+            "last_end": "0x8d000000",
+            "reservation_end": "0x90c00000",
+            "valid_entries": 2048,
+            "backing_packet_memory_accessed": false
+          },
+          "allocation_failures": 0,
+          "register_seed": "0x0",
+          "native_tx_count_register": "0x400"
+        },
+        "host_fields": {
+          "0x1ec0d0a0": 536870912,
+          "0x1ec0d0a4": 1024,
+          "0x1ec0d0b0": 537919488,
+          "0x1ec0d0b4": 512,
+          "0x1ec0d180": 2166358016,
+          "0x1ec0d190": 2167406592
+        },
+        "synthetic_rx": [
+          "0x1ec0d180",
+          "0x1ec0d190"
+        ],
+        "zero_tx1_size": false,
+        "stub_counts": {
+          "mhartid-csr": 2052,
+          "0x84004212": 227,
+          "0x84004130": 4,
+          "0x8400452a": 1,
+          "0x840048f4": 12
+        },
+        "pc": "0x8404231c"
+      }
+    }
+  ],
+  "controls": {
+    "missing_tx1": {
+      "native_return": false,
+      "stop_pc": "0x8400f836",
+      "polls": 8,
+      "writes": [
+        {
+          "address": "0x1ec0d0a8",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0ac",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0a4",
+          "value": 1024
+        },
+        {
+          "address": "0x1ec0d0a0",
+          "value": 536870912
+        },
+        {
+          "address": "0x1ec0d0b8",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0bc",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0b4",
+          "value": 512
+        }
+      ],
+      "footprints": {
+        "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "whole_l2_compared_bytes": 262144,
+        "id_table": {
+          "start": "0x3e8a9c70",
+          "entries": 8192,
+          "bytes": 16384
+        },
+        "rx_descriptors": {
+          "start": "0x3e880000",
+          "entries": 2048,
+          "stride": 32
+        },
+        "tx_descriptors": {
+          "start": "0x3e891000",
+          "rings": 2,
+          "entries_per_ring": 1024,
+          "stride": 32
+        },
+        "tx_packet_pointers": {
+          "first": "0x8cc00000",
+          "last_end": "0x8d000000",
+          "reservation_end": "0x90c00000",
+          "valid_entries": 2048,
+          "backing_packet_memory_accessed": false
+        },
+        "allocation_failures": 0,
+        "register_seed": "0x0",
+        "native_tx_count_register": "0x400"
+      },
+      "zero_tx1": true
+    },
+    "zero_tx1_size": {
+      "native_return": true,
+      "core0_idle_ack": 1,
+      "other_workers_parked": 0,
+      "physical_domains_drained": 0,
+      "release": 0,
+      "arm": 0,
+      "writes": [
+        {
+          "address": "0x1ec0d0a8",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0ac",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0a4",
+          "value": 1024
+        },
+        {
+          "address": "0x1ec0d0a0",
+          "value": 536870912
+        },
+        {
+          "address": "0x1ec0d0b8",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0bc",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0b4",
+          "value": 0
+        },
+        {
+          "address": "0x1ec0d0b0",
+          "value": 537919488
+        }
+      ],
+      "footprints": {
+        "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+        "whole_l2_compared_bytes": 262144,
+        "id_table": {
+          "start": "0x3e8a9c70",
+          "entries": 8192,
+          "bytes": 16384
+        },
+        "rx_descriptors": {
+          "start": "0x3e880000",
+          "entries": 2048,
+          "stride": 32
+        },
+        "tx_descriptors": {
+          "start": "0x3e891000",
+          "rings": 2,
+          "entries_per_ring": 1024,
+          "stride": 32
+        },
+        "tx_packet_pointers": {
+          "first": "0x8cc00000",
+          "last_end": "0x8d000000",
+          "reservation_end": "0x90c00000",
+          "valid_entries": 2048,
+          "backing_packet_memory_accessed": false
+        },
+        "allocation_failures": 0,
+        "register_seed": "0x0",
+        "native_tx_count_register": "0x400"
+      },
+      "host_fields": {
+        "0x1ec0d0a0": 536870912,
+        "0x1ec0d0a4": 1024,
+        "0x1ec0d0b0": 537919488,
+        "0x1ec0d0b4": 0,
+        "0x1ec0d180": 2166358016,
+        "0x1ec0d190": 2167406592
+      },
+      "synthetic_rx": [
+        "0x1ec0d180",
+        "0x1ec0d190"
+      ],
+      "zero_tx1_size": true,
+      "stub_counts": {
+        "mhartid-csr": 2052,
+        "0x84004212": 227,
+        "0x84004130": 4,
+        "0x8400452a": 1,
+        "0x840048f4": 12
+      },
+      "pc": "0x8404231c"
+    }
+  },
+  "limits": [
+    "Only host TX register writes are bridged; RX pointers remain independent synthetic fixtures.",
+    "Physical MMIO, IRQs, caches, ownership barriers and all-hart initialization are not proved.",
+    "Native core-0 accepts zero TX1 size; completion is not a valid-ring/readiness certificate.",
+    "No native attachment callback, INODE or DESC5/6/7/8 path executes.",
+    "Candidate firmware ELF and stock bytes unchanged; no image or router operation."
+  ]
+}

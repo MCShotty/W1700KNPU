@@ -1,0 +1,77 @@
+From: W1700K firmware work
+Subject: [PATCH] net: airoha: add bidirectional NPU control transport
+
+The existing WLAN GET wrapper leaves its request body zeroed. Add a
+dedicated NQC2 request/reply path through the coherent mailbox bounce
+buffer, including its existing timeout ownership policy. Restrict
+the entry to the 80-byte control envelope; do not change legacy GET.
+
+This adds an exported entry without changing the public ops layout.
+The caller still needs a valid provider lifetime and must validate
+the structured response. No DMA drain or reclamation is implied.
+
+---
+
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -12,6 +12,7 @@
+ #include <linux/of_platform.h>
+ #include <linux/of_reserved_mem.h>
+ #include <linux/regmap.h>
++#include <linux/unaligned.h>
+ 
+ #include "airoha_eth.h"
+ 
+@@ -268,6 +269,29 @@
+ 	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
+ }
+ 
++int airoha_npu_wlan_control(struct airoha_npu *npu, void *data, int len)
++{
++	const u8 *bytes = data;
++
++	if (!npu)
++		return -ENODEV;
++	if (!data || len != 80)
++		return -EINVAL;
++	/* Dedicated NQC2 envelope: WLAN GET selector 15, API 0. */
++	if (get_unaligned_le32(bytes) != 0x3f ||
++	    get_unaligned_le32(bytes + 4) != 0 ||
++	    get_unaligned_le32(bytes + 8) != 0x3243514e ||
++	    get_unaligned_le32(bytes + 12) != 2 ||
++	    get_unaligned_le32(bytes + 16) != 80)
++		return -EINVAL;
++
++	/* The coherent bounce buffer, including timeout retention, owns the
++	 * firmware transaction. A successful reply is still not a drain witness.
++	 */
++	return __airoha_npu_send_msg(npu, NPU_FUNC_WIFI, data, len, data, len);
++}
++EXPORT_SYMBOL_GPL(airoha_npu_wlan_control);
++
+ static int airoha_npu_load_firmware(struct device *dev, void __iomem *addr,
+ 				    const char *fw_name, int fw_max_size)
+ {
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -216,6 +216,7 @@
+ #if (IS_BUILTIN(CONFIG_NET_AIROHA_NPU) || IS_MODULE(CONFIG_NET_AIROHA_NPU))
+ struct airoha_npu *airoha_npu_get(struct device *dev);
+ void airoha_npu_put(struct airoha_npu *npu);
++int airoha_npu_wlan_control(struct airoha_npu *npu, void *data, int len);
+ 
+ static inline int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *npu)
+ {
+@@ -273,6 +274,12 @@
+ {
+ }
+ 
++static inline int airoha_npu_wlan_control(struct airoha_npu *npu,
++					  void *data, int len)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *npu)
+ {
+ 	return -EOPNOTSUPP;

@@ -1,0 +1,2697 @@
+{
+  "schema": 1,
+  "source_sha256": "797b502cb0d1d9f803934956122e459512433e7e83d10612200ae81d6c3110d8",
+  "header_sha256": "922842faf3fccb7dd7d993a3e12fac5440c7d718d6ed470abe22ec7223fa8347",
+  "binding_sha256": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+  "test_sha256": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+  "bridge_guard_sha256": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+  "baseline_elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+  "candidate_elf_sha256": "6a07e4fe3669791edef614bf4071f7f7d469535c350d2fb7f9bd4ca063162304",
+  "command": [
+    "/usr/bin/clang",
+    "--target=riscv32",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-O2",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-builtin",
+    "-nostdlib",
+    "-fno-stack-protector",
+    "--ld-path=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-I",
+    "/home/captain/W1700KNPU/firmware/npu",
+    "/home/captain/W1700KNPU/firmware/npu/allocator.c",
+    "/home/captain/W1700KNPU/tests/npu/allocator-bridge-emulation.c",
+    "-Wl,-T,/home/captain/W1700KNPU/tests/npu/allocator-emulation.ld",
+    "-Wl,--no-relax",
+    "-Wl,-e,npu_emulation_bridge_allocate",
+    "-Wl,--just-symbols=/home/captain/W1700KNPU/.local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-allocator/allocator-bridge.elf"
+  ],
+  "original": {
+    "valid_comparisons": [
+      {
+        "type": 138,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "300381bbdc626a72cbd0da96a6856b5ce7c6eeba8db3af48210ff46e0db30737",
+        "state_after_sha256": "8564cf94d7f828f959439a33c44dcf409cebac063c93a71807fa826ab940b566"
+      },
+      {
+        "type": 138,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "8564cf94d7f828f959439a33c44dcf409cebac063c93a71807fa826ab940b566",
+        "state_after_sha256": "8564cf94d7f828f959439a33c44dcf409cebac063c93a71807fa826ab940b566"
+      },
+      {
+        "type": 129,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "e3aada25cf8b674765119145019de11f60065c53f2bc6b96a3dd65c4a3fbfbbc",
+        "state_after_sha256": "6935921ec9e0f3a96452d768d051cd8fadffb09cc130db90f69fce6db0aa17de"
+      },
+      {
+        "type": 129,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "6935921ec9e0f3a96452d768d051cd8fadffb09cc130db90f69fce6db0aa17de",
+        "state_after_sha256": "6935921ec9e0f3a96452d768d051cd8fadffb09cc130db90f69fce6db0aa17de"
+      },
+      {
+        "type": 132,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "2c31466ad8ebe1ece6a943dbf8117c39b1ad648fa80564e38ed545cf2ab06f93",
+        "state_after_sha256": "c935eb6bee9cf0a7c4ae5057fe634ce0a2e4fe03062da5420aa38e97fd72c085"
+      },
+      {
+        "type": 132,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "c935eb6bee9cf0a7c4ae5057fe634ce0a2e4fe03062da5420aa38e97fd72c085",
+        "state_after_sha256": "c935eb6bee9cf0a7c4ae5057fe634ce0a2e4fe03062da5420aa38e97fd72c085"
+      },
+      {
+        "type": 133,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "c3e668ca69d9bd64bdaa2ed0cdb4d7d2ff65229e276da6aef6ad2e21ac3809b6",
+        "state_after_sha256": "c3e868c8923ea16cc312bf25c2fe083435595055841984ff7359a17caec279ea"
+      },
+      {
+        "type": 133,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "c3e868c8923ea16cc312bf25c2fe083435595055841984ff7359a17caec279ea",
+        "state_after_sha256": "c3e868c8923ea16cc312bf25c2fe083435595055841984ff7359a17caec279ea"
+      },
+      {
+        "type": 130,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "c3e668ca69d9bd64bdaa2ed0cdb4d7d2ff65229e276da6aef6ad2e21ac3809b6",
+        "state_after_sha256": "86cb710830ca32a9256b38de1e52b4fdd1f9e779998d2011e410760c74ec8b24"
+      },
+      {
+        "type": 130,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "86cb710830ca32a9256b38de1e52b4fdd1f9e779998d2011e410760c74ec8b24",
+        "state_after_sha256": "86cb710830ca32a9256b38de1e52b4fdd1f9e779998d2011e410760c74ec8b24"
+      },
+      {
+        "type": 137,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "e3f4ead5fbfc3e051261a21c99d7112479633d2dbd642c4173796693c705d388",
+        "state_after_sha256": "1725e51179d12c21ba7a79f586cc13724bdb564f6efb8983d5a387d61f7c48d6"
+      },
+      {
+        "type": 137,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "1725e51179d12c21ba7a79f586cc13724bdb564f6efb8983d5a387d61f7c48d6",
+        "state_after_sha256": "1725e51179d12c21ba7a79f586cc13724bdb564f6efb8983d5a387d61f7c48d6"
+      },
+      {
+        "type": 1,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "e3f4ead5fbfc3e051261a21c99d7112479633d2dbd642c4173796693c705d388",
+        "state_after_sha256": "0294cd88a2d132780d2fe9a88bcba215a359d856d46b6cdf41f3a4b25e369bec"
+      },
+      {
+        "type": 1,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "0294cd88a2d132780d2fe9a88bcba215a359d856d46b6cdf41f3a4b25e369bec",
+        "state_after_sha256": "0294cd88a2d132780d2fe9a88bcba215a359d856d46b6cdf41f3a4b25e369bec"
+      },
+      {
+        "type": 2,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "860b6ca3c2d31a7c4dd8ea8b8a707f56e2720e1a5108af5afa22af2d94a3357b",
+        "state_after_sha256": "cbc6d217a0af21b6822963cc06eb00536511d9469cfc00a21a8459535be17985"
+      },
+      {
+        "type": 2,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "cbc6d217a0af21b6822963cc06eb00536511d9469cfc00a21a8459535be17985",
+        "state_after_sha256": "cbc6d217a0af21b6822963cc06eb00536511d9469cfc00a21a8459535be17985"
+      },
+      {
+        "type": 3,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "750c7b3d81ccabb8beb262776449a1fa2b2ca2b47561dfb7e21b506d5f1dc65c",
+        "state_after_sha256": "1b48c6b956ef9cc2d139db829b88b35fe4ee34e032bc6eea25822d888516759c"
+      },
+      {
+        "type": 3,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "1b48c6b956ef9cc2d139db829b88b35fe4ee34e032bc6eea25822d888516759c",
+        "state_after_sha256": "1b48c6b956ef9cc2d139db829b88b35fe4ee34e032bc6eea25822d888516759c"
+      },
+      {
+        "type": 9,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "750c7b3d81ccabb8beb262776449a1fa2b2ca2b47561dfb7e21b506d5f1dc65c",
+        "state_after_sha256": "4a8f06baba1f74976799590574780e961dd570320a7bb3b2f26bd8553260734c"
+      },
+      {
+        "type": 9,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "4a8f06baba1f74976799590574780e961dd570320a7bb3b2f26bd8553260734c",
+        "state_after_sha256": "4a8f06baba1f74976799590574780e961dd570320a7bb3b2f26bd8553260734c"
+      },
+      {
+        "type": 10,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "d91dad4012ccaa10e1c8beda1f18c3c3097e8dcc2e58fb6a15c25eee696aa743",
+        "state_after_sha256": "135bff0b619eabd7de460340f8f699e2997116490de18797f9088bab7ce89799"
+      },
+      {
+        "type": 10,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "135bff0b619eabd7de460340f8f699e2997116490de18797f9088bab7ce89799",
+        "state_after_sha256": "135bff0b619eabd7de460340f8f699e2997116490de18797f9088bab7ce89799"
+      },
+      {
+        "type": 11,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "d91dad4012ccaa10e1c8beda1f18c3c3097e8dcc2e58fb6a15c25eee696aa743",
+        "state_after_sha256": "cd69f8b049b59c3a0fbbf68337364212971ce8652123082be6004b4c8bd75fcc"
+      },
+      {
+        "type": 11,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "cd69f8b049b59c3a0fbbf68337364212971ce8652123082be6004b4c8bd75fcc",
+        "state_after_sha256": "cd69f8b049b59c3a0fbbf68337364212971ce8652123082be6004b4c8bd75fcc"
+      },
+      {
+        "type": 14,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "c487ce70a057bd65fba4f8b3f8cac8429d0694993f92232cb75aa6b75dfcf198",
+        "state_after_sha256": "e488c29f426557f5465347b33cf53b8aeb653496513e63bd42420fd8fa003612"
+      },
+      {
+        "type": 14,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "e488c29f426557f5465347b33cf53b8aeb653496513e63bd42420fd8fa003612",
+        "state_after_sha256": "e488c29f426557f5465347b33cf53b8aeb653496513e63bd42420fd8fa003612"
+      },
+      {
+        "type": 15,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "6261424aa9a3eac0c5481cfe740b41d076beeb7e673b80f9e9fd2be52fb4a942",
+        "state_after_sha256": "730cdf3b202b5d657486b4efa0f99b827bf6dc9b29759aff14493d94bc4a400a"
+      },
+      {
+        "type": 15,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "730cdf3b202b5d657486b4efa0f99b827bf6dc9b29759aff14493d94bc4a400a",
+        "state_after_sha256": "730cdf3b202b5d657486b4efa0f99b827bf6dc9b29759aff14493d94bc4a400a"
+      },
+      {
+        "type": 22,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "6261424aa9a3eac0c5481cfe740b41d076beeb7e673b80f9e9fd2be52fb4a942",
+        "state_after_sha256": "1e3288874eee8b36dcd5ff22bb208c2e52ccb7d5857830209fb6f8c1d8fbaef0"
+      },
+      {
+        "type": 22,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "1e3288874eee8b36dcd5ff22bb208c2e52ccb7d5857830209fb6f8c1d8fbaef0",
+        "state_after_sha256": "1e3288874eee8b36dcd5ff22bb208c2e52ccb7d5857830209fb6f8c1d8fbaef0"
+      },
+      {
+        "type": 25,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "a6376784c2d7ae6cc4db6175285494050410df8c59b431ad39ab4be5da2aa413",
+        "state_after_sha256": "ceba5ec0a2ea3a6ad5fae313a3151cc10aa8eb1e56c424421205fcb22f57dda7"
+      },
+      {
+        "type": 25,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "ceba5ec0a2ea3a6ad5fae313a3151cc10aa8eb1e56c424421205fcb22f57dda7",
+        "state_after_sha256": "ceba5ec0a2ea3a6ad5fae313a3151cc10aa8eb1e56c424421205fcb22f57dda7"
+      },
+      {
+        "type": 26,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "ab0c6ad4000796c2d336cc2d4cde018286e3c02bb3426ea5221a72de20bdda9f",
+        "state_after_sha256": "fd84a57b03c4fb97b2ecdddcaa7b7ee0a48d2d87d7185d0b380ffa25a285e550"
+      },
+      {
+        "type": 26,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "fd84a57b03c4fb97b2ecdddcaa7b7ee0a48d2d87d7185d0b380ffa25a285e550",
+        "state_after_sha256": "fd84a57b03c4fb97b2ecdddcaa7b7ee0a48d2d87d7185d0b380ffa25a285e550"
+      },
+      {
+        "type": 30,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "b773d34434bd2b20c23f7955646f21fdc67b5b55e963e32d410c5819dd09209e",
+        "state_after_sha256": "64e06a3dcba747170fa6abcd8917acdd5e40f1fb089dab05f6660bc521c32008"
+      },
+      {
+        "type": 30,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "64e06a3dcba747170fa6abcd8917acdd5e40f1fb089dab05f6660bc521c32008",
+        "state_after_sha256": "64e06a3dcba747170fa6abcd8917acdd5e40f1fb089dab05f6660bc521c32008"
+      },
+      {
+        "type": 18,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "21d902e0a2ae450cad34fbae7a401f46a94df007037448e546546ad1edd5ad66",
+        "state_after_sha256": "82fffdcf147eaf9d55330d106180e90686343ec39a88c473f358fe42b657a6dd"
+      },
+      {
+        "type": 18,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "82fffdcf147eaf9d55330d106180e90686343ec39a88c473f358fe42b657a6dd",
+        "state_after_sha256": "82fffdcf147eaf9d55330d106180e90686343ec39a88c473f358fe42b657a6dd"
+      },
+      {
+        "type": 16,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "61e2446522eaf7d12cfccd263b9de21c4ab985dd730d0e89a79648297a8675c3",
+        "state_after_sha256": "17c3f3cae97e425d05251d5b1cb2bb58832ebd68b7f568da17ecb9480c0c248a"
+      },
+      {
+        "type": 16,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "17c3f3cae97e425d05251d5b1cb2bb58832ebd68b7f568da17ecb9480c0c248a",
+        "state_after_sha256": "17c3f3cae97e425d05251d5b1cb2bb58832ebd68b7f568da17ecb9480c0c248a"
+      },
+      {
+        "type": 17,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "90dddf1dfa70597b3c6b750823a33d57ddf2b8b5588c28e5852e6227e8fa4ed6",
+        "state_after_sha256": "3859f2d9dedf2f5b637ae9497a49352b3ac803a1e6dcb4a58019ea68842842d0"
+      },
+      {
+        "type": 17,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "3859f2d9dedf2f5b637ae9497a49352b3ac803a1e6dcb4a58019ea68842842d0",
+        "state_after_sha256": "3859f2d9dedf2f5b637ae9497a49352b3ac803a1e6dcb4a58019ea68842842d0"
+      },
+      {
+        "type": 28,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "90dddf1dfa70597b3c6b750823a33d57ddf2b8b5588c28e5852e6227e8fa4ed6",
+        "state_after_sha256": "8f2fdb775253375bebf20057681958f24f6608d816c654291d983872931f9a70"
+      },
+      {
+        "type": 28,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "8f2fdb775253375bebf20057681958f24f6608d816c654291d983872931f9a70",
+        "state_after_sha256": "8f2fdb775253375bebf20057681958f24f6608d816c654291d983872931f9a70"
+      },
+      {
+        "type": 29,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "61e2446522eaf7d12cfccd263b9de21c4ab985dd730d0e89a79648297a8675c3",
+        "state_after_sha256": "422736c073be63af3f278c96b3d91806446e70ae658541d71a2f4c57289810de"
+      },
+      {
+        "type": 29,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "422736c073be63af3f278c96b3d91806446e70ae658541d71a2f4c57289810de",
+        "state_after_sha256": "422736c073be63af3f278c96b3d91806446e70ae658541d71a2f4c57289810de"
+      },
+      {
+        "type": 23,
+        "cached": false,
+        "address": "0x3e800000",
+        "state_before_sha256": "3cfdabf2fe522bbaa24d3f335b4ec459afb01656488bb96ad22829e13a6f670b",
+        "state_after_sha256": "f2088d56e6a4705ba3728abea9472f047fd345984f4079983ecec3966c37360f"
+      },
+      {
+        "type": 23,
+        "cached": true,
+        "address": "0x3e800000",
+        "state_before_sha256": "f2088d56e6a4705ba3728abea9472f047fd345984f4079983ecec3966c37360f",
+        "state_after_sha256": "f2088d56e6a4705ba3728abea9472f047fd345984f4079983ecec3966c37360f"
+      }
+    ],
+    "counterexamples": [
+      {
+        "name": "failed-lock-still-allocates-and-releases",
+        "value": "0x3e800000",
+        "state_before_sha256": "c9a47208542d5d3a57780c12b8d3a3b2890e6f16589afcf630687b754660c738",
+        "state_after_sha256": "e0948d9c7e0df004595e1c40ce54035ba9ddd20a735b30a9c4ae94d7c888a1ab",
+        "writes": [
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 1,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901be4",
+            "size": 2,
+            "value": 129,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901be8",
+            "size": 4,
+            "value": 1048576000,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 58879,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 1,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          }
+        ]
+      },
+      {
+        "name": "unknown-type-rewinds-cursor-and-overlaps",
+        "first": "0x3e800000",
+        "next": "0x3e800000",
+        "state_before_sha256": "2c158874d4189fdf7780360ef8594685a0d8ecb413af7c91be6b90d91f104db9",
+        "state_after_sha256": "8cef7db142aa250fb5e4b2a21fbb3ddfd29877db69ec6b39aa62425253992fca",
+        "writes": [
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 1,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901be4",
+            "size": 2,
+            "value": 1,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901be8",
+            "size": 4,
+            "value": 1048576000,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 303168,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 1,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 2,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901bec",
+            "size": 2,
+            "value": 128,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901bf0",
+            "size": 4,
+            "value": 0,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 0,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 2,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 3,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901bf4",
+            "size": 2,
+            "value": 138,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901bf8",
+            "size": 4,
+            "value": 1048576000,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 32768,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 3,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          }
+        ]
+      },
+      {
+        "name": "start-only-check-permits-extent-overrun",
+        "address": "0x3e8776e0",
+        "requested_end": "0x3e878ef8",
+        "heap_end": "0x3e878000",
+        "state_before_sha256": "52026ef76ea3ce40faba3cdcdaddce5776fa0443964218542fa18382e94b6a81",
+        "state_after_sha256": "21c3895082a3559e4958c2654312bd410bcb4c0eea64dc45a3ecb4006b9f5058",
+        "writes": [
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 1,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901be4",
+            "size": 2,
+            "value": 138,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901be8",
+            "size": 4,
+            "value": 1048576000,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 32768,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 1,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 2,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901bec",
+            "size": 2,
+            "value": 18,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901bf0",
+            "size": 4,
+            "value": 1048608768,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 90112,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 2,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 3,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901bf4",
+            "size": 2,
+            "value": 29,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901bf8",
+            "size": 4,
+            "value": 1048666112,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 94208,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 3,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 4,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901bfc",
+            "size": 2,
+            "value": 1,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901c00",
+            "size": 4,
+            "value": 1048670208,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 397376,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 4,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 5,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901c04",
+            "size": 2,
+            "value": 11,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901c08",
+            "size": 4,
+            "value": 1048973376,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 397496,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 5,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 6,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901c0c",
+            "size": 2,
+            "value": 25,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901c10",
+            "size": 4,
+            "value": 1048973504,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 430288,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 6,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 7,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901c14",
+            "size": 2,
+            "value": 129,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901c18",
+            "size": 4,
+            "value": 1049006304,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 489183,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 7,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          },
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 8,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901c1c",
+            "size": 2,
+            "value": 2,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901c20",
+            "size": 4,
+            "value": 1049065184,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 495352,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 8,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          }
+        ],
+        "scope": "Typed allocation sequence only; no native RX callback or DMA access."
+      },
+      {
+        "name": "corrupt-count-100-overwrites-following-globals",
+        "writes": [
+          {
+            "address": "0x1ec031c8",
+            "size": 4,
+            "value": 64,
+            "pc": "0x840064f2"
+          },
+          {
+            "address": "0x3e901bdc",
+            "size": 4,
+            "value": 1,
+            "pc": "0x84005080"
+          },
+          {
+            "address": "0x3e901f04",
+            "size": 2,
+            "value": 129,
+            "pc": "0x840050ba"
+          },
+          {
+            "address": "0x3e901f08",
+            "size": 4,
+            "value": 1048576000,
+            "pc": "0x840050be"
+          },
+          {
+            "address": "0x3e901be0",
+            "size": 4,
+            "value": 58879,
+            "pc": "0x840050cc"
+          },
+          {
+            "address": "0x3e901bd4",
+            "size": 4,
+            "value": 101,
+            "pc": "0x840050d4"
+          },
+          {
+            "address": "0x1ec03248",
+            "size": 4,
+            "value": 0,
+            "pc": "0x84006554"
+          }
+        ],
+        "scope": "Explicitly corrupted metadata, not a valid observed cold allocation sequence."
+      }
+    ]
+  },
+  "bridge": [
+    {
+      "name": "native-cold-state",
+      "result": [
+        0,
+        1049006304
+      ],
+      "held": false,
+      "lock_counts": [
+        1,
+        1
+      ],
+      "physical_lock_operations": [
+        1,
+        1
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": false,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "state_after_sha256": "ab19dae275db93b4e4391267a395adb9ce5d6c57dc5f4a386fc4e0cbb039a1f5",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        0,
+        7,
+        129,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 792591,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 792592,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 793205,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 793250,
+          "kind": "mmio-write",
+          "pc": "0x840014b2",
+          "hart": 7,
+          "address": "0x1ec12008",
+          "size": 4,
+          "value": 512135392,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793260,
+          "kind": "mmio-write",
+          "pc": "0x840014d2",
+          "hart": 7,
+          "address": "0x1ec12010",
+          "size": 4,
+          "value": 264192,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793262,
+          "kind": "mmio-write",
+          "pc": "0x840014d6",
+          "hart": 7,
+          "address": "0x1ec12018",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793282,
+          "kind": "mmio-read",
+          "pc": "0x84003748",
+          "hart": 7,
+          "address": "0x1ec10100",
+          "size": 4,
+          "value": 1,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 793288,
+          "kind": "mmio-read",
+          "pc": "0x84003758",
+          "hart": 7,
+          "address": "0x1ec10104",
+          "size": 4,
+          "value": 4294967295,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 793291,
+          "kind": "mmio-read",
+          "pc": "0x8400375e",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294901744,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 793294,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294836208,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 793310,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294770672,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 793326,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294705136,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 793342,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294639600,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 793370,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793380,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793383,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793393,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793396,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793406,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793409,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793419,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793422,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793432,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793435,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793445,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793448,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793458,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793461,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793471,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 793646,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 793647,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 793650,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 793651,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 793652,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 793841,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 793851,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 2,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "denied-owner",
+      "result": [
+        4,
+        0
+      ],
+      "held": true,
+      "lock_counts": [
+        1,
+        0
+      ],
+      "physical_lock_operations": [
+        1,
+        0
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "state_after_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 794514,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 794515,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 65536,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 794628,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 794629,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 794632,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 794633,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 794634,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 794820,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 794830,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 1,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "corrupt-cursor",
+      "result": [
+        5,
+        0
+      ],
+      "held": true,
+      "lock_counts": [
+        1,
+        1
+      ],
+      "physical_lock_operations": [
+        1,
+        1
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "fdd5dfd1b354bc0d645be500995d534a30a17178a324dba223de8e1388d88618",
+      "state_after_sha256": "fdd5dfd1b354bc0d645be500995d534a30a17178a324dba223de8e1388d88618",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 795493,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 795494,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 796064,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 796168,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 796169,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 796172,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 796173,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 796174,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 796360,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 796370,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 3,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "capacity",
+      "result": [
+        6,
+        0
+      ],
+      "held": true,
+      "lock_counts": [
+        1,
+        1
+      ],
+      "physical_lock_operations": [
+        1,
+        1
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "0cd39d78062d4add375b1f7d052a29d0eedc45ecba0dc149202bbeb9f3a23335",
+      "state_after_sha256": "0cd39d78062d4add375b1f7d052a29d0eedc45ecba0dc149202bbeb9f3a23335",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 797033,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 797034,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 797732,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 797836,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 797837,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 797840,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 797841,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 797842,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 798028,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 798038,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 3,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "external-fault-after-commit",
+      "result": [
+        0,
+        1049006304
+      ],
+      "held": true,
+      "lock_counts": [
+        1,
+        1
+      ],
+      "physical_lock_operations": [
+        1,
+        1
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": false,
+      "fault_injected_at_unlock": true,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "state_after_sha256": "ab19dae275db93b4e4391267a395adb9ce5d6c57dc5f4a386fc4e0cbb039a1f5",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 798701,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 798702,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 799315,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 799422,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 799423,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 799426,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 799427,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 799428,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 799614,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 799624,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 3,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "cached-bridge",
+      "result": [
+        0,
+        1049006304
+      ],
+      "held": false,
+      "lock_counts": [
+        1,
+        1
+      ],
+      "physical_lock_operations": [
+        1,
+        1
+      ],
+      "bad_lock_id": false,
+      "prior_fault": false,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "a77b2e6c2dda073d4d5665f4667aa2efcd7a950bb1aa2b81030fb0842fbac452",
+      "state_after_sha256": "a77b2e6c2dda073d4d5665f4667aa2efcd7a950bb1aa2b81030fb0842fbac452",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        0,
+        7,
+        129,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 800287,
+          "kind": "mmio-write",
+          "pc": "0x840064f2",
+          "hart": 7,
+          "address": "0x1ec031c8",
+          "size": 4,
+          "value": 1856,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        },
+        {
+          "step": 800288,
+          "kind": "mmio-read",
+          "pc": "0x840064f4",
+          "hart": 7,
+          "address": "0x1ec03c48",
+          "size": 4,
+          "value": 67328,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 800911,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 7,
+          "address": "0x1ec03e48",
+          "size": 4,
+          "value": 1792,
+          "model": "hart7 allocator mutex bank; synthetic owner readback, no contention/atomicity proof"
+        },
+        {
+          "step": 800956,
+          "kind": "mmio-write",
+          "pc": "0x840014b2",
+          "hart": 7,
+          "address": "0x1ec12008",
+          "size": 4,
+          "value": 512135392,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 800966,
+          "kind": "mmio-write",
+          "pc": "0x840014d2",
+          "hart": 7,
+          "address": "0x1ec12010",
+          "size": 4,
+          "value": 264192,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 800968,
+          "kind": "mmio-write",
+          "pc": "0x840014d6",
+          "hart": 7,
+          "address": "0x1ec12018",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 800988,
+          "kind": "mmio-read",
+          "pc": "0x84003748",
+          "hart": 7,
+          "address": "0x1ec10100",
+          "size": 4,
+          "value": 1,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 800994,
+          "kind": "mmio-read",
+          "pc": "0x84003758",
+          "hart": 7,
+          "address": "0x1ec10104",
+          "size": 4,
+          "value": 4294967295,
+          "model": "UART/timer configuration storage; no FIFO/timer IRQ"
+        },
+        {
+          "step": 800997,
+          "kind": "mmio-read",
+          "pc": "0x8400375e",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294901744,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 801000,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294836208,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 801016,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294770672,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 801032,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294705136,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 801048,
+          "kind": "mmio-read",
+          "pc": "0x8400377c",
+          "hart": 7,
+          "address": "0x1ec10108",
+          "size": 4,
+          "value": 4294639600,
+          "model": "synthetic decreasing timer counter; no real-time/clock-frequency proof"
+        },
+        {
+          "step": 801076,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801086,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12210",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801089,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801099,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12220",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801102,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801112,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12230",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801115,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801125,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12240",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801128,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801138,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12250",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801141,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801151,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12260",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801154,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801164,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12270",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801167,
+          "kind": "mmio-read",
+          "pc": "0x840014f8",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 2768240641,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801177,
+          "kind": "mmio-write",
+          "pc": "0x8400150a",
+          "hart": 7,
+          "address": "0x1ec12280",
+          "size": 4,
+          "value": 1,
+          "model": "bridge configuration/status storage hypothesis; no DMA, ingress, reset or completion proof"
+        },
+        {
+          "step": 801352,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 801353,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 801356,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 801357,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 801358,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 801547,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 801557,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 2,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "bad-lock-id",
+      "result": [
+        4,
+        0
+      ],
+      "held": true,
+      "lock_counts": [
+        1,
+        0
+      ],
+      "physical_lock_operations": [
+        0,
+        0
+      ],
+      "bad_lock_id": true,
+      "prior_fault": false,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "32b90455bc227fe0c4a1a8d3cbda5fd52aff89d44269fe16a2808dcde7345051",
+      "state_after_sha256": "32b90455bc227fe0c4a1a8d3cbda5fd52aff89d44269fe16a2808dcde7345051",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 802297,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 802298,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 802301,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802302,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802303,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802489,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802499,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 1,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "name": "prior-fault",
+      "result": null,
+      "held": true,
+      "lock_counts": [
+        0,
+        0
+      ],
+      "physical_lock_operations": [
+        0,
+        0
+      ],
+      "bad_lock_id": false,
+      "prior_fault": true,
+      "metadata_unchanged": true,
+      "fault_injected_at_unlock": false,
+      "whole_sram_compared_bytes": 32768,
+      "whole_heap_unchanged_bytes": 491520,
+      "state_before_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "state_after_sha256": "292f300734ff3b801d4e9485798cbada8d6ed8bfa4af57318c813bd6e78a5aa3",
+      "status": [
+        63,
+        0,
+        827478350,
+        1,
+        64,
+        3,
+        1,
+        0,
+        0,
+        6,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mmio": [
+        {
+          "step": 802637,
+          "kind": "mmio-write",
+          "pc": "0x84042118",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 802638,
+          "kind": "mmio-read",
+          "pc": "0x8404211a",
+          "hart": 0,
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0,
+          "model": "mailbox interrupt status; successful W1C readback"
+        },
+        {
+          "step": 802641,
+          "kind": "mmio-read",
+          "pc": "0x84042120",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802642,
+          "kind": "mmio-read",
+          "pc": "0x84042122",
+          "hart": 0,
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 64,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802643,
+          "kind": "mmio-read",
+          "pc": "0x84042126",
+          "hart": 0,
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802829,
+          "kind": "mmio-write",
+          "pc": "0x840421f4",
+          "hart": 0,
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7,
+          "model": "mailbox routing/control/MIB storage; no peripheral reset side effect"
+        },
+        {
+          "step": 802839,
+          "kind": "mmio-write",
+          "pc": "0x840030dc",
+          "hart": 0,
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9,
+          "model": "per-hart PLIC storage hypothesis; no physical banking/arbitration/delivery proof"
+        }
+      ],
+      "checked_fences": 1,
+      "initial_gate_omitted_for_analysis": true,
+      "base_elf_unchanged": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    }
+  ],
+  "call_patch": {
+    "site": "0x84001486",
+    "before": "ef30b057",
+    "after": "ef80b46b",
+    "target": "0x8404a340",
+    "link_register": 1
+  },
+  "retained_gate": {
+    "installed_detours": 29,
+    "initial_gate_retained": true,
+    "all_parked": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "status": [
+      63,
+      0,
+      827478350,
+      1,
+      64,
+      3,
+      1,
+      0,
+      0,
+      0,
+      7,
+      255,
+      0,
+      0,
+      0,
+      0
+    ],
+    "no_bridge_or_allocator_execution": true,
+    "plic": "banked storage hypothesis"
+  },
+  "inputs_before_after": {
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    ".local/npu-reset/python-lib/unicorn/__init__.py": "9ad32123bca674cf205c308fd4d0d2a4db877c9dc2afac4feab7c84c8cf7043b",
+    ".local/npu-reset/python-lib/unicorn/arm64_const.py": "92f91a2b0a36cd34deee16db4f8da4ac0c9ae35c3ea1089296e5ef9d170a5be9",
+    ".local/npu-reset/python-lib/unicorn/arm_const.py": "44fdb7a9f7a9d8c62be07fefaf21e20060813b2a503b6228e378e6bbff7f7b41",
+    ".local/npu-reset/python-lib/unicorn/m68k_const.py": "7503e32454751bf66bdf1fcb19dd847537bcf6a5538e18125d8f53d8d448fed9",
+    ".local/npu-reset/python-lib/unicorn/mips_const.py": "3a04993d82610ea5f492af2d74fa79d849224a044ac0448281033ee331b58dac",
+    ".local/npu-reset/python-lib/unicorn/riscv_const.py": "278e10baf05cfb7c8675475081ae7f2d2037616c79cb907d51963aa2c5b490e4",
+    ".local/npu-reset/python-lib/unicorn/s390x_const.py": "54d7026dd70b5bfca1d02e00e7a58d652eaa974b9ea980ba49ed4b80911b9fde",
+    ".local/npu-reset/python-lib/unicorn/sparc_const.py": "bcdb0491b6e42c647b104ee53d61610504a97831302dd5280fd2123e05572e95",
+    ".local/npu-reset/python-lib/unicorn/tricore_const.py": "1b6005a147d77a3fc1ab5c81fc878eeac3b9bb0b68d518e4a4226830d1356c4c",
+    ".local/npu-reset/python-lib/unicorn/unicorn.py": "e823b17649d0610c6f52b665902ac9dc46962785feebcac8465a0d7c477f25b7",
+    ".local/npu-reset/python-lib/unicorn/unicorn_const.py": "556c6a27336dc6dd3e0d49348951bde17e1b0f69166f2217773e6b3a7199f45d",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/__init__.py": "ee70d3a7de9ea545406d727436ee835f9d644aeb7428f0e4f1510f9190b28726",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/arch/types.py": "2e103854e371ef576680073f44ead45b8177a73c450a6125e609b7c54e0bc844",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/x86_const.py": "3b33c55b97503ab25e8ed8bbe576c1cee693f495df6785b04adc1c8ab47a79c4",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "797b502cb0d1d9f803934956122e459512433e7e83d10612200ae81d6c3110d8",
+    "firmware/npu/allocator.h": "922842faf3fccb7dd7d993a3e12fac5440c7d718d6ed470abe22ec7223fa8347",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_protocol.py": "a3c45894c299ea54b5fe182fb05c0086c5cfd053c6cf3d64d562b941e0f38b66",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "54fd846e16665d52cdcd79471bbac09e11b6e857ae0a717cb8c47f9698c93afd",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/allocator-emulation.ld": "ab6c13d09c0763fe64fc162c453c94bd38d197e0a26d24b9a8e66711d1c992c9"
+  },
+  "limits": [
+    "Only the hart7 bridge allocation call is redirected; core0/native other callers remain unchanged.",
+    "Metadata/lock/bounds checks are implemented, but physical lock/cache/heap geometry and global caller integration remain open.",
+    "No INODE or DESC5/6/7/8 callback, router access, image or hardware execution."
+  ]
+}
