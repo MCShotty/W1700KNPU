@@ -1,9 +1,10 @@
-# V2 Control Identity Candidate
+# V2 Control Identity
 
-Started 2026-09-14; verified checkpoint completed 2026-09-16. This is an
-**unpromoted protocol and transport candidate**, not safe active-NPU recovery.
-V1 sources and tests remain unchanged as the comparison baseline. No packaged
-firmware, source lock, production provider or mt76 recovery caller was changed.
+Started 2026-09-14; original checkpoint completed 2026-09-16. The 2026-09-23
+non-OC merge includes the provider transport and Linux client in the main
+driver build and folds the bootstrap gate into the canonical V2 server.
+V1 remains the comparison baseline. Real loader identity and mt76 recovery
+caller wiring remain unfinished; integration does not prove safe recovery.
 
 ## Wire Contract
 
@@ -76,13 +77,13 @@ after reply production. Real DMA/cache/bus completion, callback synchronization,
 physical engine drains and a generation-specific reclamation/restart contract
 remain outside this protocol. Neither counters nor nonces replace them.
 
-## Provider Transport Candidate
+## Provider Transport
 
 The pinned `airoha_npu_wlan_msg_get()` allocates a zeroed request and does not
 copy the caller's data into its body. That is unsuitable for this bidirectional
 control envelope; it is not changed for ordinary legacy GET callers.
 
-Unpromoted patch 928 adds the exported `airoha_npu_wlan_control()` entry and a
+Patch 928, now part of `999-w1700k-integrated-npu.patch`, adds the exported `airoha_npu_wlan_control()` entry and a
 disabled-NPU stub. It accepts only the complete 80-byte NQC2 prefix, uses the
 existing serialized coherent bounce buffer, and returns the complete reply.
 No public ops or device struct layout changes. The source fragment and generated
@@ -91,24 +92,27 @@ patch are in `research/checkpoints/2026-09-14-npu-control-v2/`.
 The caller must retain a valid provider and its own serialized client state.
 Transport success still requires the client's structured validation. The
 existing mailbox pending-buffer policy retains ambiguous/timed-out transactions;
-this candidate adds no new cancellation, provider-removal synchronization,
+this transport adds no new cancellation, provider-removal synchronization,
 DMA-unmap permission or proof of physical DONE/cache semantics.
 
-## Integration Still Open
+## Integration Status
 
-- The existing `npu_bootstrap_transport()` accepts only 12-byte bootstrap or
-  64-byte V1 requests. The new 80-byte frame is therefore not accepted through
-  the complete cold-bootstrap binding. The V2 tests use the standalone strict
-  mailbox adapter, not the full startup/bootstrap route.
+- The original `npu_bootstrap_transport()` remains V1-only. A subsequent V2
+  bootstrap implementation admits 12/80-byte requests and gates BIND after the six
+  setup commands. Its composition reaches all eight initial parking gates
+  with 50 retained detours. See `BOOTSTRAP_V2_CONTRACT.md`; this is not complete
+  postgate boot or a production loader.
 - The production loader does not yet supply the new boot identity or reserve
   its session storage. Full reset-to-postgate boot and all retained detour
   composition with this endpoint are not proved.
-- The host helper is not kernel-bound or connected to mt76 L1/full-reset/removal.
-  A kernel-context build of the provider function is not that integration or a
-  loadable module acceptance test.
+- `linux-control.c/.h` now provide a kernel-bound executor with host fault/race
+  tests and two linked AArch64 module profiles. The merged mt76 build compiles
+  these shared sources directly. It still requires a caller-
+  established cold provider lifetime and is not connected to actual mt76
+  setup/L1/full-reset/removal. See `LINUX_CONTROL_CONTRACT.md`.
 - Physical drains, ownership-safe cleanup/rearm, cache/PMA/alias correctness,
-  provider references and in-flight callback retirement remain required before
-  promotion. Hardware and client testing remain deferred.
+  provider references and in-flight callback retirement remain required for
+  complete recovery. Hardware and client testing remain unperformed.
 
 Replay commands and exact receipts are in the checkpoint `REPORT.md`. The
 software tests execute actual x86/AArch64 host code, x86/RV32 server code,

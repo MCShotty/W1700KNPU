@@ -1,0 +1,490 @@
+{
+  "schema": 1,
+  "protected_inputs_before_after": {
+    "tests/npu/test_npu_provider_kernel_link.py": "992228e4b3faf2c74a8dea7ead02e289655382e68704ce0392397f6076cab1e1",
+    "tests/npu/test_npu_linked_modules.py": "2dfa7f4f7fbbe6ef90a78fd4730c05bc1e1c30b60d88c5c78098f93d0e9c369c",
+    "research/checkpoints/2026-09-16-npu-host-lifetime/host-lifetime.json": "685a40fffe2f6e690784ae503b9a5b68717912dd5fc8730aa6b65d86d390e45f",
+    "research/checkpoints/2026-09-23-npu-linked-modules/linked-modules.json": "196e783e84c098068f504e49dd816bf1709f2145f02593dc5a216d28506dfe03",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/soc/airoha/airoha_offload.h": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/Module.symvers": "cf4f8a7fb6e965afc65951e36bf1403d6560d55a5916c2566304e83ce5e8a3b1",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/vmlinux": "add587745b5f8b7054e04760a29c2cc975f9a7c3aa479e38cafecb19f5416d5a",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/utsrelease.h": "3549c01a94d2155024b810c393a78912a2eb3dfbacec92ba9a6ab80e2313c763",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/devm-helpers.h": "4cd7d99c2c9e4047e010567d99af41db11e46517750a736d8a232a461856c1fb",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.o": "74753cbc9f78ddb94190bb83a5d8a4319acff670a8ccc4ac9f9988457520c40d"
+  },
+  "compiler": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r1001+23-c1992346fc) 14.4.0",
+  "resumed_build": true,
+  "preserved_initial_attempt": [
+    {
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-kernel-build.log",
+      "sha256": "b856c6a683a29f34bfd4dbc7996d2ca4776cca14fa4ae5c77f6b2db9cd9fd221",
+      "bytes": 50813
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/initial-runner.py",
+      "sha256": "0baf647a2b699bee77c1f071bf87d342a630e9fee6b5114ec67f9659a3f15652",
+      "bytes": 12919
+    },
+    {
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-mt76-build.log",
+      "sha256": "a218c4dd8ea476816ad23fe2bc23b2346dc5bc73a21493ca1cbba894f0ed6682",
+      "bytes": 1541
+    },
+    {
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-control-probe-build.log",
+      "sha256": "e2422f5e589814ca2794cbe778e3570e083602bbf78d49eac61766a7702069da",
+      "bytes": 695
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/second-runner.py",
+      "sha256": "e8d76807fc4c99584966ed39cbe33d3de49081a04764e83ba734dd48607abcd2",
+      "bytes": 14687
+    }
+  ],
+  "copy": {
+    "source": ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+    "destination": ".local/npu-provider-kernel-link/verified/linux-6.18.44",
+    "symlinks": {
+      "tools/include/linux/pci_ids.h": "../../../include/linux/pci_ids.h",
+      "tools/testing/selftests/bpf/json_writer.c": "../../../bpf/bpftool/json_writer.c",
+      "tools/testing/selftests/bpf/disasm.h": "../../../../kernel/bpf/disasm.h",
+      "tools/testing/selftests/bpf/disasm.c": "../../../../kernel/bpf/disasm.c",
+      "tools/testing/selftests/bpf/json_writer.h": "../../../bpf/bpftool/json_writer.h",
+      "tools/testing/selftests/vDSO/vdso_standalone_test_x86.c": "vdso_test_gettimeofday.c",
+      "tools/testing/selftests/powerpc/stringloops/memcmp_64.S": "../../../../../arch/powerpc/lib/memcmp_64.S",
+      "tools/testing/selftests/powerpc/stringloops/memcmp_32.S": "../../../../../arch/powerpc/lib/memcmp_32.S",
+      "tools/testing/selftests/powerpc/stringloops/strlen_32.S": "../../../../../arch/powerpc/lib/strlen_32.S",
+      "tools/testing/selftests/powerpc/nx-gzip/include/vas-api.h": "../../../../../../arch/powerpc/include/uapi/asm/vas-api.h",
+      "tools/testing/selftests/powerpc/vphn/vphn.c": "../../../../../arch/powerpc/platforms/pseries/vphn.c",
+      "tools/testing/selftests/powerpc/vphn/asm/vphn.h": "../../../../../../arch/powerpc/include/asm/vphn.h",
+      "tools/testing/selftests/powerpc/mce/vas-api.h": "../../../../../arch/powerpc/include/uapi/asm/vas-api.h",
+      "tools/testing/selftests/powerpc/copyloops/copyuser_power7.S": "../../../../../arch/powerpc/lib/copyuser_power7.S",
+      "tools/testing/selftests/powerpc/copyloops/mem_64.S": "../../../../../arch/powerpc/lib/mem_64.S",
+      "tools/testing/selftests/powerpc/copyloops/copyuser_64.S": "../../../../../arch/powerpc/lib/copyuser_64.S",
+      "tools/testing/selftests/powerpc/copyloops/memcpy_64.S": "../../../../../arch/powerpc/lib/memcpy_64.S",
+      "tools/testing/selftests/powerpc/copyloops/memcpy_power7.S": "../../../../../arch/powerpc/lib/memcpy_power7.S",
+      "tools/testing/selftests/powerpc/copyloops/copy_mc_64.S": "../../../../../arch/powerpc/lib/copy_mc_64.S",
+      "tools/testing/selftests/powerpc/primitives/word-at-a-time.h": "../../../../../arch/powerpc/include/asm/word-at-a-time.h",
+      "tools/testing/selftests/powerpc/primitives/asm/asm-compat.h": "../.././../../../../arch/powerpc/include/asm/asm-compat.h",
+      "tools/testing/selftests/powerpc/primitives/asm/extable.h": "../../../../../../arch/powerpc/include/asm/extable.h",
+      "tools/testing/selftests/powerpc/primitives/asm/ppc_asm.h": "../../../../../../arch/powerpc/include/asm/ppc_asm.h",
+      "tools/testing/selftests/powerpc/primitives/asm/asm-const.h": "../../../../../../arch/powerpc/include/asm/asm-const.h",
+      "tools/testing/selftests/powerpc/primitives/asm/feature-fixups.h": "../../../../../../arch/powerpc/include/asm/feature-fixups.h",
+      "tools/testing/selftests/powerpc/primitives/linux/wordpart.h": "../../../../../../include/linux/wordpart.h",
+      "tools/testing/selftests/drivers/net/dsa/bridge_locked_port.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/local_termination.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/bridge_mdb.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/no_forwarding.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/bridge_mld.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/bridge_vlan_aware.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/bridge_vlan_unaware.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/tc_taprio.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/tc_actions.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/dsa/bridge_vlan_mcast.sh": "run_net_forwarding_test.sh",
+      "tools/testing/selftests/drivers/net/mlxsw/spectrum-2/rif_counter_scale.sh": "../spectrum/rif_counter_scale.sh",
+      "tools/testing/selftests/drivers/net/mlxsw/spectrum-2/port_range_scale.sh": "../spectrum/port_range_scale.sh",
+      "tools/testing/selftests/net/tcp_ao/icmps-accept.c": "icmps-discard.c",
+      "tools/testing/selftests/vfio/lib/drivers/ioat/hw.h": "../../../../../../../drivers/dma/ioat/hw.h",
+      "tools/testing/selftests/vfio/lib/drivers/ioat/registers.h": "../../../../../../../drivers/dma/ioat/registers.h",
+      "tools/testing/selftests/vfio/lib/drivers/dsa/registers.h": "../../../../../../../drivers/dma/idxd/registers.h",
+      "tools/perf/pmu-events/arch/riscv/sifive/p550/firmware.json": "../bullet/firmware.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p550/instruction.json": "../bullet/instruction.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p550/microarch.json": "../bullet/microarch.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-07/firmware.json": "../bullet/firmware.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-07/instruction.json": "../bullet/instruction.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-07/memory.json": "../bullet/memory.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p650/cycle-and-instruction-count.json": "../bullet-07/cycle-and-instruction-count.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p650/firmware.json": "../bullet/firmware.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p650/watchpoint.json": "../bullet-07/watchpoint.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/p650/instruction.json": "../bullet/instruction.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-0d/cycle-and-instruction-count.json": "../bullet-07/cycle-and-instruction-count.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-0d/firmware.json": "../bullet/firmware.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-0d/watchpoint.json": "../bullet-07/watchpoint.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-0d/instruction.json": "../bullet/instruction.json",
+      "tools/perf/pmu-events/arch/riscv/sifive/bullet-0d/memory.json": "../bullet/memory.json",
+      "tools/perf/arch/arm64/entry/syscalls/syscall_64.tbl": "../../../../../scripts/syscall.tbl",
+      "Documentation/Changes": "process/changes.rst",
+      "include/dt-bindings/input/linux-event-codes.h": "../../uapi/linux/input-event-codes.h",
+      "include/dt-bindings/clock/qcom,dispcc-sm8350.h": "qcom,dispcc-sm8250.h",
+      "include/dt-bindings/clock/qcom,dispcc-sm8150.h": "qcom,dispcc-sm8250.h",
+      "include/dt-bindings/clock/qcom,sm8650-dispcc.h": "qcom,sm8550-dispcc.h",
+      "scripts/kernel-doc": "kernel-doc.py",
+      "scripts/dtc/include-prefixes/microblaze": "../../../arch/microblaze/boot/dts",
+      "scripts/dtc/include-prefixes/nios2": "../../../arch/nios2/boot/dts",
+      "scripts/dtc/include-prefixes/mips": "../../../arch/mips/boot/dts",
+      "scripts/dtc/include-prefixes/openrisc": "../../../arch/openrisc/boot/dts",
+      "scripts/dtc/include-prefixes/xtensa": "../../../arch/xtensa/boot/dts",
+      "scripts/dtc/include-prefixes/arm64": "../../../arch/arm64/boot/dts",
+      "scripts/dtc/include-prefixes/arc": "../../../arch/arc/boot/dts",
+      "scripts/dtc/include-prefixes/riscv": "../../../arch/riscv/boot/dts",
+      "scripts/dtc/include-prefixes/sh": "../../../arch/sh/boot/dts",
+      "scripts/dtc/include-prefixes/arm": "../../../arch/arm/boot/dts",
+      "scripts/dtc/include-prefixes/powerpc": "../../../arch/powerpc/boot/dts",
+      "scripts/dtc/include-prefixes/dt-bindings": "../../../include/dt-bindings",
+      "scripts/dummy-tools/nm": "ld",
+      "scripts/dummy-tools/objcopy": "ld",
+      "arch/arm64/tools/syscall_64.tbl": "../../../scripts/syscall.tbl",
+      "arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtso": "r9a07g044l2-smarc-cru-csi-ov5645.dtso",
+      "arch/arm/boot/dts/allwinner/sun8i-a23-ippo-q8h-v1.2.dts": "sun8i-a23-q8-tablet.dts",
+      "arch/arm/boot/dts/allwinner/sun8i-a33-et-q8-v1.6.dts": "sun8i-a33-q8-tablet.dts",
+      "arch/arm/boot/dts/allwinner/sun8i-a33-ippo-q8h-v1.2.dts": "sun8i-a33-q8-tablet.dts",
+      "arch/arm/boot/dts/allwinner/sun8i-a23-ippo-q8h-v5.dts": "sun8i-a23-q8-tablet.dts",
+      "arch/powerpc/configs/kvm_guest.config": "../../../kernel/configs/kvm_guest.config"
+    },
+    "method": "Independent copy2 files; symlinks preserved; prepared objects reused where Kbuild permits."
+  },
+  "patches": [
+    {
+      "path": "research/checkpoints/2026-09-14-npu-control-v2/928-net-airoha-npu-bidirectional-control.patch",
+      "sha256": "d86fb0892c2945b0ad90647594b9bdf8160dbcf871c5807dc11dff6a127debc8",
+      "bytes": 2550,
+      "application": "Existing copy; patched provider and header verified against the lifetime receipt."
+    },
+    {
+      "path": "research/checkpoints/2026-09-16-npu-host-lifetime/929-net-airoha-npu-irq-work-lifetime.patch",
+      "sha256": "876a8e547d370ae73afcdbc67a659c509ad7ed456df39e3cfe2c2cb81663e51b",
+      "bytes": 1894,
+      "application": "Existing copy; patched provider and header verified against the lifetime receipt."
+    }
+  ],
+  "builds": [
+    {
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j8",
+        "ARCH=arm64",
+        "CROSS_COMPILE=aarch64-openwrt-linux-musl-",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_VERSION=0",
+        "KBUILD_BUILD_TIMESTAMP=Fri Sep 4 16:17:19 2026",
+        "KBUILD_HAVE_NLS=no",
+        "KCFLAGS=-fmacro-prefix-map=/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl=target-aarch64_cortex-a53_musl -fno-caller-saves",
+        "KAFLAGS=-fmacro-prefix-map=/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl=target-aarch64_cortex-a53_musl",
+        "KBUILD_HOSTLDFLAGS=-L/home/captain/W1700KNPU/.build/openwrt/staging_dir/host/lib",
+        "V=0",
+        "vmlinux",
+        "modules"
+      ],
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/kernel-build.log",
+      "sha256": "48453cc93ea2e711804de1aa3b277e1d2680279533ba241d69638c8c3903ebc2",
+      "bytes": 246
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "M=/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "CONFIG_MT76_NPU=y",
+        "CONFIG_MT7996_NPU=y",
+        "KBUILD_EXTRA_SYMBOLS=/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/dependency-exports.symvers",
+        "modules"
+      ],
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/mt76-build.log",
+      "sha256": "e602527235b315827416e8b606f01c3a41725b81728e78f2d22718baf0e453b6",
+      "bytes": 450
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j8",
+        "ARCH=arm64",
+        "CROSS_COMPILE=aarch64-openwrt-linux-musl-",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_VERSION=0",
+        "KBUILD_BUILD_TIMESTAMP=Fri Sep 4 16:17:19 2026",
+        "KBUILD_HAVE_NLS=no",
+        "KCFLAGS=-fmacro-prefix-map=/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl=target-aarch64_cortex-a53_musl -fno-caller-saves",
+        "KAFLAGS=-fmacro-prefix-map=/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl=target-aarch64_cortex-a53_musl",
+        "KBUILD_HOSTLDFLAGS=-L/home/captain/W1700KNPU/.build/openwrt/staging_dir/host/lib",
+        "V=0",
+        "M=/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/control-link-probe",
+        "modules"
+      ],
+      "path": "research/checkpoints/2026-09-23-npu-provider-kernel-link/control-probe-build.log",
+      "sha256": "343bb7bd19eb6f647c0cc3aebc9d653a51298f316d69a6e464765d2fa1ce0828",
+      "bytes": 624
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c",
+      "sha256": "7f5c76f3e8a2cd0b689dda843603c7f4c536c9a2f9d8385db957c7e9201ee632",
+      "bytes": 25785
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/linux/soc/airoha/airoha_offload.h",
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0",
+      "bytes": 9024
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/.config",
+      "sha256": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+      "bytes": 132565
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/Module.symvers",
+      "sha256": "c4bf28ab442cc161bedb9f1be13aaa5fd6b3f5270248848f49733cbe7a13ab14",
+      "bytes": 513252
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/vmlinux",
+      "sha256": "85d33ff1ad893aba996ba92f1f374d3040c8254ed8e21d02f911be995f916eb1",
+      "bytes": 77434792
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/System.map",
+      "sha256": "3725f1d520649bd2b4e1271219962fb6433380ab38f0797722d9edc7c90919eb",
+      "bytes": 2265588
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/modules.order",
+      "sha256": "cfa4926371e63fd7cefea96795e62c5954e54929c3c154972c1f65d5e4844cff",
+      "bytes": 1639
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.o",
+      "sha256": "65fd8b9f8b34916b5c5a9a2c1c547f86ec87a4f03225b3800bf2468ad85d1a4e",
+      "bytes": 96728
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/dependency-exports.symvers",
+      "sha256": "88817b1ba189aa6d11a863be046f4965c563ce6d2a7583b3dd55d44480c1c1c2",
+      "bytes": 21755
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/control-link-probe/Makefile",
+      "sha256": "ec52dbd157ea599d5f759515982e70dc87cd97668ae60efae26d7ebafe08b8c9",
+      "bytes": 39
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/control-link-probe/provider-control-link-probe.c",
+      "sha256": "d007bc7dee32e348cd6767cd29197482dd9e3d564829000e7218be42bbcbe067",
+      "bytes": 364
+    }
+  ],
+  "dependencies": [
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/mac80211.ko",
+      "sha256": "8cbf2716cabcadb23f03755ce5b74ff63c1a3433261bd49b25047107950a0347",
+      "exports": 154,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    },
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/cfg80211.ko",
+      "sha256": "cfa1e6f2bb8b8400307122deea9a31fd23bb7d382ab5fe264d5b8be46b79309c",
+      "exports": 181,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    },
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/compat.ko",
+      "sha256": "67709c9c5625c6f760fd84b93bd69e6b93549cafe94cee6ce06bff32081ef6e9",
+      "exports": 16,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    }
+  ],
+  "export_count": 351,
+  "modules": [
+    {
+      "path": ".local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791/mt76.ko",
+      "sha256": "c0109ab02a198c2ba50aa53074127d6bc265cf9841a384edbfd0608ef4888bfe",
+      "bytes": 1329848,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mac80211,cfg80211",
+      "defined_symbols": 648,
+      "undefined_symbols": 188
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791/mt76-connac-lib.ko",
+      "sha256": "bec7037c9227f470bc02866e2878ae2b8eebaa9eaa5d1d2d4c8aad1fceda553d",
+      "bytes": 649808,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mt76,mac80211,cfg80211",
+      "defined_symbols": 429,
+      "undefined_symbols": 66
+    },
+    {
+      "path": ".local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791/mt7996/mt7996e.ko",
+      "sha256": "f783d8acd8c7a43a31f05a8fc8e5a30cd56bfd724249c7d54d53ee43b5dc5fcb",
+      "bytes": 1821864,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mt76,mac80211,cfg80211,mt76-connac-lib,hwmon",
+      "defined_symbols": 408,
+      "undefined_symbols": 279
+    }
+  ],
+  "control_export_probe": {
+    "path": ".local/npu-provider-kernel-link/verified/control-link-probe/provider-control-link-probe.ko",
+    "sha256": "4244faf84c15e5453684368628eb1b224b0b42d265ee1b3dbba3366c8832ab65",
+    "bytes": 36632,
+    "vermagic": "6.18.44 SMP mod_unload aarch64",
+    "depends": "",
+    "defined_symbols": 13,
+    "undefined_symbols": 2
+  },
+  "provider_exports": {
+    "airoha_npu_get": [
+      "0x00000000",
+      "airoha_npu_get",
+      "vmlinux",
+      "EXPORT_SYMBOL_GPL",
+      ""
+    ],
+    "airoha_npu_put": [
+      "0x00000000",
+      "airoha_npu_put",
+      "vmlinux",
+      "EXPORT_SYMBOL_GPL",
+      ""
+    ],
+    "airoha_npu_wlan_control": [
+      "0x00000000",
+      "airoha_npu_wlan_control",
+      "vmlinux",
+      "EXPORT_SYMBOL_GPL",
+      ""
+    ]
+  },
+  "provider_kernel_symbols": {
+    "airoha_npu_get": {
+      "address": 18446743800985283392,
+      "size": 292
+    },
+    "airoha_npu_put": {
+      "address": 18446743800985282724,
+      "size": 44
+    },
+    "airoha_npu_wlan_control": {
+      "address": 18446743800985282592,
+      "size": 132
+    }
+  },
+  "provider_lifetime_symbols": {
+    "devm_work_drop": true,
+    "airoha_npu_remove": false
+  },
+  "mt7996_to_mt76": [
+    "mt76_npu_check_ppe",
+    "mt76_npu_disable_irqs",
+    "mt76_npu_init",
+    "mt76_npu_net_setup_tc",
+    "mt76_npu_rx_queue_init",
+    "mt76_npu_send_txrx_addr"
+  ],
+  "diagnostics": {
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/kernel-build.log": [],
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/mt76-build.log": [],
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/control-probe-build.log": [
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in provider-control-link-probe.o"
+    ],
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-kernel-build.log": [
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/geniv.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/seqiv.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cmac.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/hmac.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/sha512.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/sha3_generic.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/drbg.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/jitterentropy_rng.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha512.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/leds-gpio.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/realtek/realtek.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ifb.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/tun.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/pppox.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/pppoe.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slhc.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/hwmon.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/nct7802.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_gact.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_mirred.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_skbedit.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_cake.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_route.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_flow.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_matchall.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nfnetlink.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_log_syslog.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_tables.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_numgen.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_ct.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_flow_offload.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_limit.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_nat.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_quota.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_reject.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_reject_inet.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_log.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_masq.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_redir.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_hash.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib_inet.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_chain_nat.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_flow_table.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_flow_table_inet.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nft_reject_ipv4.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nft_fib_ipv4.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nft_reject_ipv6.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nft_fib_ipv6.o"
+    ],
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-mt76-build.log": [
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in mt76-connac-lib.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in mt76.o",
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in mt7996/mt7996e.o"
+    ],
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/initial-control-probe-build.log": [
+      "WARNING: modpost: missing MODULE_DESCRIPTION() in provider-control-link-probe.o"
+    ]
+  },
+  "description_warnings": "CONFIG_MODULE_STRIPPED=y makes MODULE_DESCRIPTION expand to disabled metadata.",
+  "limits": [
+    "Incremental relink of a copied prepared target kernel, not a clean toolchain or full OpenWrt image build.",
+    "The mt76 candidate still uses provider get/put; only the unloaded probe imports the V2 control export.",
+    "External mac80211 symbol index is reconstructed from installed ELF exports with CONFIG_MODVERSIONS disabled.",
+    "No module load, firmware execution, board FIT/DTB validation, physical DMA/drains or lifecycle acceptance."
+  ]
+}

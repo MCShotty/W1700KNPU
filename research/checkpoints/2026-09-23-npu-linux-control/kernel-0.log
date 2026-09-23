@@ -1,0 +1,14 @@
+make: Entering directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44'
+make[1]: Entering directory '/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/kernel-0'
+  CC [M]  executor.o
+  CC [M]  control-client.o
+  CC [M]  control-v2-client.o
+  CC [M]  module.o
+  LD [M]  npu-control-linux-test.o
+  MODPOST Module.symvers
+  CC [M]  npu-control-linux-test.mod.o
+  CC [M]  .module-common.o
+  LD [M]  npu-control-linux-test.ko
+make[1]: Leaving directory '/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/kernel-0'
+make: Leaving directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44'
+WARNING: modpost: missing MODULE_DESCRIPTION() in npu-control-linux-test.o

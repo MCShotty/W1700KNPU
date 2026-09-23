@@ -1,0 +1,49 @@
+=================================================================
+==443==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x77d577be0010 at pc 0x6155f8e0529f bp 0x7fff9ff94190 sp 0x7fff9ff94188
+READ of size 4 at 0x77d577be0010 thread T0
+    #0 0x6155f8e0529e in mt7996_queue_rx_skb /home/captain/W1700KNPU/.local/npu-rx-parser/before/parser-functions.inc:942:9
+    #1 0x6155f8e0a40d in dispatch /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:286:2
+    #2 0x6155f8e06453 in truncations /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:360:5
+    #3 0x6155f8e06453 in main /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:444:50
+    #4 0x7bb57882a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #5 0x7bb57882a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #6 0x6155f8d18384 in _start (/home/captain/W1700KNPU/.local/npu-rx-parser/before/parser+0x2f384) (BuildId: 0af3074306c8b8aceb3754dfeab10bbe9b3463b3)
+
+0x77d577be0011 is located 0 bytes after 1-byte region [0x77d577be0010,0x77d577be0011)
+allocated by thread T0 here:
+    #0 0x6155f8dbd928 in malloc (/home/captain/W1700KNPU/.local/npu-rx-parser/before/parser+0xd4928) (BuildId: 0af3074306c8b8aceb3754dfeab10bbe9b3463b3)
+    #1 0x6155f8e0a178 in make_skb /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:196:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/captain/W1700KNPU/.local/npu-rx-parser/before/parser-functions.inc:942:9 in mt7996_queue_rx_skb
+Shadow bytes around the buggy address:
+  0x77d577bdfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x77d577bdfe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x77d577bdfe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x77d577bdff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x77d577bdff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x77d577be0000: fa fa[01]fa fa fa 01 fa fa fa fa fa fa fa fa fa
+  0x77d577be0080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x77d577be0100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x77d577be0180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x77d577be0200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x77d577be0280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==443==ABORTING

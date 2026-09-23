@@ -1,0 +1,39 @@
+{
+  "old_selected": 185,
+  "upstream_explicit": 71,
+  "final_selected": 227,
+  "missing_from_old": [
+    "airoha-en7581-npu-firmware",
+    "apk-mbedtls",
+    "libustream-mbedtls",
+    "luci-ssl",
+    "px5g-mbedtls",
+    "wpad-mbedtls"
+  ],
+  "missing_from_upstream": [],
+  "passed": true,
+  "substitutions": {
+    "airoha-en7581-npu-firmware": "airoha-en7581-mt7996-npu-firmware",
+    "apk-mbedtls": "apk-openssl",
+    "libustream-mbedtls": "libustream-openssl",
+    "luci-ssl": "luci-ssl-openssl",
+    "px5g-mbedtls": "openssl-util",
+    "wpad-mbedtls": "wpad-openssl"
+  },
+  "replacements_present_in_image": true,
+  "installed_replacements": [
+    "airoha-en7581-mt7996-npu-firmware",
+    "apk-openssl",
+    "libustream-openssl20201210",
+    "luci-ssl-openssl",
+    "openssl-util",
+    "wpad-openssl"
+  ],
+  "inputs": {
+    ".local/merge-nonoc-20260923/check_package_union.py": "4acbcfc952d854f8794d4679b933d904299d1227379e746bcfaffcb71f3944f1",
+    ".local/merge-nonoc-20260923/before/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".local/merge-nonoc-20260923/builder/user/ubi2/config.diff": "c7e4c29c38265cb1c80a60f9a04594d67c789c0193847a1b2f7dcb10b5e135a6",
+    "firmware/build.config": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6",
+    ".local/merge-nonoc-20260923/image-accepted/result.json": "cd12acc4ded085e55c174c4e8d54599c736f4bdf60013b4fa8e4450f391882a3"
+  }
+}

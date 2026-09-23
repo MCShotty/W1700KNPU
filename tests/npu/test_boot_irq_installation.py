@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import struct
@@ -209,13 +210,17 @@ class Installation(NativeMemory):
         self.stops = set(stops)
         self.stop = None
         self.skip_once = start if start in stops else None
+        timeout = int(os.environ.get('NPU_EMULATION_TIMEOUT_US', '10000000'))
+        assert 1000000 <= timeout <= 120000000
         try:
-            self.cpu.emu_start(start, END, count=3000000, timeout=10000000)
+            self.cpu.emu_start(start, END, count=3000000, timeout=timeout)
         except UcError as exc:
             if self.unmodeled:
                 raise UnmodeledAccess(self.unmodeled) from exc
             raise
         pc = self.cpu.reg_read(r.UC_RISCV_REG_PC)
+        if pc != END and pc not in stops and self.cpu.query(unicorn.UC_QUERY_TIMEOUT):
+            raise TimeoutError(f'Emulator wall budget exhausted at {pc:#x}; instruction/state gates unchanged')
         assert pc == END or pc in stops, hex(pc)
         return pc
 

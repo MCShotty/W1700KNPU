@@ -1,0 +1,328 @@
+#!/bin/sh
+
+. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
+. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
+
+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
+
+changed=0
+radio0_old_band="$(uci -q get wireless.radio0.band)"
+
+warn() {
+	logger -t w1700k-radio-sanity -- "$*" 2>/dev/null ||
+		printf 'w1700k-radio-sanity: %s\n' "$*" >&2
+}
+
+set_if_diff() {
+	local key="$1"
+	local value="$2"
+	local cur
+
+	cur="$(uci -q get "$key")"
+	[ "$cur" = "$value" ] && return 0
+
+	uci set "$key=$value"
+	changed=1
+}
+
+set_list_if_diff() {
+	local key="$1"
+	local value="$2"
+	local cur expected item separator=""
+
+	cur="$(uci -q get "$key")"
+	[ -z "$cur$value" ] && return 0
+
+	expected="$key="
+	for item in $value; do
+		expected="$expected$separator'$item'"
+		separator=" "
+	done
+	if [ "$cur" = "$value" ] && [ "$(uci -q show "$key")" = "$expected" ]; then
+		return 0
+	fi
+
+	uci -q delete "$key"
+	for item in $value; do
+		uci add_list "$key=$item"
+	done
+	changed=1
+}
+
+set_if_missing() {
+	local key="$1"
+	local value="$2"
+
+	[ -n "$(uci -q get "$key")" ] && return 0
+	set_if_diff "$key" "$value"
+}
+
+security_valid_for_6g_or_mlo() {
+	local value="$1"
+	local enc="${value%%+*}"
+
+	case "$enc" in
+		sae|owe|wpa3|wpa3-192) ;;
+		*) return 1 ;;
+	esac
+
+	case "+$value+" in
+		*+[tT][kK][iI][pP]+*) return 1 ;;
+	esac
+
+	return 0
+}
+
+security_needs_key() {
+	local enc="${1%%+*}"
+
+	[ "$enc" = "sae" ]
+}
+
+device_index() {
+	local dev="$1"
+	local idx
+
+	idx="$(uci -q get wireless."$dev".radio)"
+	if [ -z "$idx" ]; then
+		case "$dev" in
+			radio0) idx=0 ;;
+			radio1) idx=1 ;;
+			radio2) idx=2 ;;
+		esac
+	fi
+
+	echo "$idx"
+}
+
+iface_uses_6g() {
+	local dev
+
+	for dev in $1; do
+		[ "$(device_index "$dev")" = "2" ] && return 0
+	done
+
+	return 1
+}
+
+canonical_mlo_devices() {
+	local devices="$*"
+	local dev wanted result=""
+
+	# Netifd uses the first device as the primary MLD PHY. Prefer the 5GHz
+	# link, then 6GHz, and keep 2.4GHz as the compatibility link.
+	for wanted in 1 2 0; do
+		for dev in $devices; do
+			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
+		done
+	done
+	for dev in $devices; do
+		case "$(device_index "$dev")" in
+			0|1|2) ;;
+			*) result="${result:+$result }$dev" ;;
+		esac
+	done
+
+	echo "$result"
+}
+
+ensure_mlo_fixed_channel() {
+	local dev="$1"
+	local channel htmode idx
+
+	channel="$(uci -q get wireless."$dev".channel)"
+	idx="$(device_index "$dev")"
+
+	if [ "$idx" = "0" ]; then
+		case "$channel" in
+			""|auto) set_if_diff wireless."$dev".channel 6 ;;
+		esac
+		htmode="$(uci -q get wireless."$dev".htmode)"
+		if [ "$htmode" != "EHT20" ]; then
+			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
+			set_if_diff wireless."$dev".htmode EHT20
+		fi
+		return 0
+	fi
+
+	case "$channel" in
+		""|auto) ;;
+		*) return 0 ;;
+	esac
+
+	case "$idx" in
+		1)
+			set_if_diff wireless."$dev".channel 36
+			set_if_diff wireless."$dev".htmode EHT80
+			;;
+		2)
+			set_if_diff wireless."$dev".channel 37
+			set_if_diff wireless."$dev".htmode EHT160
+			;;
+	esac
+}
+
+fresh_default_radio() {
+	local section="$1"
+	local iface seen
+
+	seen=0
+	for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
+		[ "$(uci -q get wireless."$iface".device)" = "$section" ] || continue
+		seen=1
+		[ "$(uci -q get wireless."$iface".mode)" = "ap" ] || return 1
+		[ "$(uci -q get wireless."$iface".ssid)" = "OpenWrt" ] || return 1
+		[ "$(uci -q get wireless."$iface".disabled)" = "1" ] || return 1
+	done
+
+	[ "$seen" = "1" ]
+}
+
+ensure_radio() {
+	local section="$1"
+	local idx="$2"
+	local band="$3"
+	local channel="$4"
+	local htmode="$5"
+	local country="$6"
+	local cur_channel cur_htmode
+
+	[ "$(uci -q get wireless."$section")" = "wifi-device" ] || return 0
+
+	set_if_diff wireless."$section".radio "$idx"
+	set_if_diff wireless."$section".band "$band"
+	set_if_diff wireless."$section".country "$country"
+
+	# Stock MT7990 profiles keep these Wi-Fi 6/7 capability knobs enabled.
+	# Hostapd still gates them on the actual driver capabilities.
+	set_if_missing wireless."$section".he_twt_responder "1"
+	set_if_missing wireless."$section".he_su_beamformer "1"
+	set_if_missing wireless."$section".he_su_beamformee "1"
+	set_if_missing wireless."$section".he_mu_beamformer "1"
+
+	if fresh_default_radio "$section"; then
+		set_if_diff wireless."$section".channel "$channel"
+		set_if_diff wireless."$section".htmode "$htmode"
+		return 0
+	fi
+
+	cur_channel="$(uci -q get wireless."$section".channel)"
+	if ! channel_valid "$band" "$cur_channel" "$country"; then
+		set_if_diff wireless."$section".channel "$channel"
+		cur_channel="$channel"
+	fi
+
+	cur_htmode="$(uci -q get wireless."$section".htmode)"
+	if ! htmode_valid "$band" "$cur_htmode" "$cur_channel" "$country"; then
+		set_if_diff wireless."$section".htmode "$htmode"
+	fi
+}
+
+repair_sta_network() {
+	local iface="$1"
+	local network="$2"
+	local item count=0 has_wwan=0 has_forbidden=0
+
+	for item in $network; do
+		count=$((count + 1))
+		case "$item" in
+			wwan) has_wwan=1 ;;
+			lan|wan|wan6) has_forbidden=1 ;;
+		esac
+	done
+
+	if [ "$count" -eq 0 ] || [ "$has_wwan" -eq 1 ] || [ "$has_forbidden" -eq 1 ]; then
+		[ "$network" = "wwan" ] || warn "$iface STA network binding '${network:-unset}' is unsafe; repairing it to wwan."
+		set_if_diff wireless."$iface".network wwan
+	elif [ "$count" -gt 1 ]; then
+		warn "$iface STA lists multiple client networks '$network'; disabling it until one dedicated client network is selected."
+		set_if_diff wireless."$iface".disabled 1
+	fi
+}
+
+shared_country=
+for country_dev in radio0 radio1 radio2; do
+	[ "$(uci -q get wireless."$country_dev")" = "wifi-device" ] || continue
+	raw_country="$(uci -q get wireless."$country_dev".country)"
+	case "$raw_country" in
+		""|00) continue ;;
+	esac
+	shared_country="$(w1700k_normalize_country "$raw_country")"
+	break
+done
+shared_country="${shared_country:-US}"
+
+ensure_radio radio0 0 2g 6 EHT40 "$shared_country"
+ensure_radio radio1 1 5g 36 EHT80 "$shared_country"
+ensure_radio radio2 2 6g 37 EHT320 "$shared_country"
+
+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
+	mode="$(uci -q get wireless."$iface".mode)"
+	device="$(uci -q get wireless."$iface".device)"
+	network="$(uci -q get wireless."$iface".network)"
+	mlo="$(uci -q get wireless."$iface".mlo)"
+
+	if [ "$mode" = "ap" ] || [ "$mode" = "ap-wds" ]; then
+		if [ "$mlo" = "1" ]; then
+			canonical_devices="$(canonical_mlo_devices "$device")"
+			set_list_if_diff wireless."$iface".device "$canonical_devices"
+			device="$canonical_devices"
+		fi
+
+		if [ "$mlo" = "1" ] || iface_uses_6g "$device"; then
+			enc="$(uci -q get wireless."$iface".encryption)"
+			key="$(uci -q get wireless."$iface".key)"
+			security_error=
+			if ! security_valid_for_6g_or_mlo "$enc"; then
+				security_error="uses incompatible encryption '${enc:-unset}'"
+			elif security_needs_key "$enc" && [ -z "$key" ]; then
+				security_error="uses SAE without a Wi-Fi key"
+			fi
+
+			if [ -n "$security_error" ]; then
+				if [ "$(uci -q get wireless."$iface".disabled)" != "1" ]; then
+					warn "$iface $security_error; disabling the interface instead of inventing credentials."
+					set_if_diff wireless."$iface".disabled "1"
+				fi
+			else
+				set_if_diff wireless."$iface".ieee80211w "2"
+				set_if_diff wireless."$iface".rnr "1"
+				if security_needs_key "$enc"; then
+					set_if_diff wireless."$iface".sae_pwe "2"
+				fi
+			fi
+		fi
+
+		if [ "$mlo" = "1" ]; then
+			for mlo_dev in $device; do
+				ensure_mlo_fixed_channel "$mlo_dev"
+			done
+		fi
+
+		case "$(uci -q get wireless."$iface".encryption)" in
+			sae*|wpa3*) set_if_missing wireless."$iface".sae_pwe "2" ;;
+		esac
+
+		[ -n "$network" ] || set_if_diff wireless."$iface".network "lan"
+
+		case " $network " in
+			*" lan "*)
+				case " $network " in
+					*" wan "*|*" wan6 "*) set_if_diff wireless."$iface".network "lan" ;;
+				esac
+				;;
+		esac
+	fi
+
+	if [ "$mode" = "sta" ]; then
+		if [ "$radio0_old_band" = "5g" ] && [ "$device" = "radio0" ]; then
+			set_if_diff wireless."$iface".device "radio1"
+		fi
+
+		repair_sta_network "$iface" "$network"
+	fi
+done
+
+[ "$changed" = 1 ] && uci commit wireless
+
+exit 0

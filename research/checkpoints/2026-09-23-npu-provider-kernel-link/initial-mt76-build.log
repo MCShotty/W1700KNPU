@@ -1,0 +1,47 @@
+make: Entering directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44'
+make[1]: Entering directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791'
+  CC [M]  mmio.o
+  CC [M]  util.o
+  CC [M]  trace.o
+  CC [M]  dma.o
+  CC [M]  mac80211.o
+  CC [M]  debugfs.o
+  CC [M]  eeprom.o
+  CC [M]  tx.o
+  CC [M]  agg-rx.o
+  CC [M]  mcu.o
+  CC [M]  wed.o
+  CC [M]  scan.o
+  CC [M]  channel.o
+  CC [M]  npu.o
+  CC [M]  pci.o
+  CC [M]  mt76_connac_mcu.o
+  CC [M]  mt76_connac_mac.o
+  CC [M]  mt76_connac3_mac.o
+  CC [M]  mt7996/pci.o
+  LD [M]  mt76.o
+  LD [M]  mt76-connac-lib.o
+  CC [M]  mt7996/init.o
+  CC [M]  mt7996/dma.o
+  CC [M]  mt7996/eeprom.o
+  CC [M]  mt7996/main.o
+  CC [M]  mt7996/mcu.o
+  CC [M]  mt7996/mac.o
+  CC [M]  mt7996/debugfs.o
+  CC [M]  mt7996/mmio.o
+  CC [M]  mt7996/npu.o
+  CC [M]  mt7996/coredump.o
+  LD [M]  mt7996/mt7996e.o
+  MODPOST Module.symvers
+WARNING: modpost: missing MODULE_DESCRIPTION() in mt76.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mt76-connac-lib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mt7996/mt7996e.o
+  CC [M]  mt76.mod.o
+  CC [M]  .module-common.o
+  CC [M]  mt76-connac-lib.mod.o
+  CC [M]  mt7996/mt7996e.mod.o
+  LD [M]  mt76.ko
+  LD [M]  mt7996/mt7996e.ko
+  LD [M]  mt76-connac-lib.ko
+make[1]: Leaving directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/mt76-2026.09.01~be5ce791'
+make: Leaving directory '/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44'

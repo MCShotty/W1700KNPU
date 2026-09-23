@@ -1,7 +1,16 @@
-# Generation Barrier Candidate
+# Experimental NPU Components
 
-This code is **unpromoted**. It is not in the OpenWrt source lock, the packaged
-NPU blob, or a router image. Do not infer safe NPU recovery from these tests.
+The 2026-09-23 non-OC merge integrates the implemented host/provider patches
+and shared Linux control client into the main OpenWrt build. The canonical
+RV32 components build together through `Makefile`, including the V2 bootstrap
+dispatch gate. This is one experimental project, not a separate candidate track.
+
+The RV32 archive is not a bootable replacement for the supplied NPU blob.
+Real loader/caller/postgate integration and physical recovery remain unfinished.
+Do not infer safe NPU recovery from source integration or these tests. Current
+build and image evidence is in `docs/NONOC_MERGE.md`. Dated checkpoint scopes
+below preserve their original evidence limits; old "unpromoted" labels describe
+those checkpoints, not a policy of withholding implemented changes today.
 
 `barrier.c` implements the common protocol for eight harts, including the
 coordinator and tunnel hart. Generation-tagged worker and domain slots prevent
@@ -249,7 +258,7 @@ remains unpromoted. See `2026-09-09-npu-ring-order/REPORT.md`.
 
 ## Host Generation-Control Client
 
-`control-client.c/.h` adds an unpromoted host byte codec and serialized
+`control-client.c/.h` implements a host byte codec and serialized
 DISCOVER/BIND/STOP/STATUS client. It checks reply identity, exact stop epochs,
 snapshot consistency and one outstanding local completion ticket. Failure or
 abort is terminal; late completions cannot advance the client. No resource
@@ -264,7 +273,7 @@ checkpoint. This does not make existing L1 or full-reset cleanup safe.
 
 ## V2 Control Identity And Transport
 
-`control-v2.c/.h` and `control-v2-client.c` add an unpromoted 80-byte protocol
+`control-v2.c/.h` and `control-v2-client.c` implement an 80-byte protocol
 with a wire sequence, loader-supplied boot identity and checked STATUS binding.
 It reuses the existing admission/barrier and host epoch/mask checks without
 changing the V1 source or silently downgrading the wire protocol. Failed BIND
@@ -276,17 +285,18 @@ firmware and V1 endpoints reject the new probe; the V1 regression receipt is
 unchanged. A deliberately reused boot identity plus replayed old BIND remains
 accepted, preserving the real loader uniqueness obligation.
 
-Candidate provider patch 928 carries the complete request/reply through the
+Provider patch 928, now included in the integrated kernel patch, carries the complete request/reply through the
 existing coherent bounce buffer; legacy GET drops the request body and remains
 unchanged. 290 sanitizer assertions, six AArch64 kernel objects and strict
-checkpatch pass, with unchanged public layout. It is not applied to packaged
-sources. The real loader, 80-byte bootstrap gate, mt76 binding, provider lifetime
-and physical drains remain open. See `CONTROL_V2_CONTRACT.md` and
+checkpatch pass, with unchanged public layout. The source lock now includes
+the transport and the canonical firmware has the 80-byte bootstrap gate.
+Real loader identity, mt76 caller binding, complete provider lifetime and
+physical drains remain open. See `CONTROL_V2_CONTRACT.md` and
 `research/checkpoints/2026-09-14-npu-control-v2/REPORT.md`.
 
 ## V2 Cold-Bootstrap Admission
 
-`bootstrap-v2.c/.h` and the staged dispatch-gate patch join V2 control with the
+`bootstrap-v2.c/.h` and the canonical `control-v2.c` dispatch gate join V2 control with the
 existing cold-start/IRQ and six-command bootstrap binding. Requests stay at the
 exact pinned buffer and are either 12 or 80 bytes. Binding too early would
 invalidate the original bootstrap freshness predicate; the new gate consumes
@@ -298,7 +308,8 @@ boundary at 0x8400e330, including the 56 KiB TX-check clear. Three valid profile
 six early-BIND cases, six cold failures, six callback failures, 28 transport
 rejections, 786 policy cases, eight mutants and 453 sanitizer assertions pass.
 Standalone V2 regressions retain their prior behavior. The original V1/V2
-sources remain unchanged; the test builder applies the guard patch in isolation.
+sources were unchanged at that checkpoint; the merge now folds the guard into
+the canonical V2 server and tests that source directly.
 
 That first checkpoint did not cover all-hart/postgate or later-detour
 composition, a real loader-identity generator or physical containment/drain
@@ -318,12 +329,13 @@ selected, and no postgate packet sidecar executes.
 A flat-PLIC limit control loses mailbox enable despite successful direct
 handler calls. Initial parking composition is now covered; physical delivery,
 loader identity/coherency/placement, postgate boot, provider/mt76 integration
-and real drains/recovery remain open. No existing firmware C or packaged source
-is changed. See `research/checkpoints/2026-09-16-npu-bootstrap-composition/REPORT.md`.
+and real drains/recovery remain open. That checkpoint made no packaged source
+change; the current merge integrates the implemented components. See
+`research/checkpoints/2026-09-16-npu-bootstrap-composition/REPORT.md`.
 
 ## Host Callback And Reference Lifetime
 
-Two further unpromoted patches cover selected Linux CPU lifetime boundaries.
+Two patches, now part of the unified driver build, cover selected Linux CPU lifetime boundaries.
 Provider 929 initializes managed watchdog work before IRQ registration and
 cancels it after devres releases the IRQ producers, including probe failure.
 mt76 007 unpublishes both providers, waits for RCU readers, and retains references
@@ -336,6 +348,87 @@ against explicit framework models under ASan/UBSan. This is not a loaded-kernel
 or hardware test. Earlier token/ring cleanup, complete consumer IRQ/NAPI and
 device lifetime, V2 integration, physical drains and safe recovery remain open.
 See `research/checkpoints/2026-09-16-npu-host-lifetime/REPORT.md`.
+
+## Host RX Packet Ownership
+
+Patch 008, integrated after the host-lifetime correction, preflights complete RX
+packets before skb ownership transfer, snapshots descriptor metadata after DMA
+read barriers, bounds reported lengths by mapped spans, and retains incomplete
+or allocation-failed packets. Complete length/capacity drops count against NAPI
+budget; zero-budget polls do not refill page-pool buffers.
+
+3,228 baseline/3,376 corrected host cases, eleven mutants, six AArch64 kernel
+objects and strict checkpatch pass. Actual selected dequeue/poll/refill/cleanup
+C executes against modeled skb/page-pool/DMA/NAPI dependencies. Physical producer
+publication and complete ownership-safe teardown remain open, as do downstream
+RXD/header/group extents and nonlinear payload views. No packaged source or
+firmware image changes. See `research/checkpoints/2026-09-16-npu-rx-ownership/REPORT.md`.
+
+## Shared RX Header Views
+
+Unpromoted patch 009 follows the ownership fix into the shared MT7996 parser.
+It pulls required RXD/data-header prefixes before caching pointers, preserves
+fragmented data bodies, supplies flat control views, retains RX vectors across
+header edits and guards absent-station reconstruction. MAIN/NPU0/NPU1 host tests
+cover 7,680 baseline and 613,113 corrected executions, five baseline failures
+and eleven mutants. Four AArch64 driver objects, two target-layout probes and
+strict checkpatch pass. skb/framework dependencies remain explicit models.
+
+Firmware-event body/TLV validation, full control/PPE/network-stack semantics,
+real metadata/producer contracts, DMA and complete lifecycle remain open. No
+packaged source or image changes. See
+`research/checkpoints/2026-09-23-npu-rx-parser/REPORT.md`.
+
+## Linked Host Modules
+
+The retained mt76 candidates including RX patches 008/009 now link as
+`mt76.ko`, `mt76-connac-lib.ko` and `mt7996e.ko` in an isolated AArch64 build
+with NPU enabled. Six MT7996 NPU imports resolve to the linked mt76 module;
+mt76 imports get/put from the built-in provider. A temporary symbol index from
+installed mac80211/cfg80211/compat modules substitutes for the missing original
+external `Module.symvers`. Three existing module-description warnings remain.
+
+That first link check used the kernel before provider patches 928/929. Link
+success does not establish loading, physical DMA, complete boot or recovery.
+See `research/checkpoints/2026-09-23-npu-linked-modules/REPORT.md`.
+
+## Linked Provider Kernel
+
+Provider candidates 928/929 now rebuild and link inside an isolated prepared
+kernel. Its configuration is unchanged, and regenerated exports include
+get/put and `airoha_npu_wlan_control`. All three retained NPU-enabled mt76
+modules relink against this kernel; an unloaded GPL probe resolves the control
+API. Actual mt76 still calls only get/put, so V2 integration remains open.
+
+Independent readback matches 45 files. The initial builds retain 65 kernel,
+three mt76 and one probe description warnings under stripped-metadata
+configuration, with no compiler/unresolved-symbol errors. This is prepared-tree
+kernel/module composition, not loading, a packaged image, physical drains or
+whole-device lifecycle acceptance. See
+`research/checkpoints/2026-09-23-npu-provider-kernel-link/REPORT.md`.
+
+## Linux Control Executor
+
+The Linux control executor now binds the portable V2 client to a mutex and the
+candidate provider transport. It has once-only initialization, explicit
+operation checks, sticky errors and close joining active CPU calls. Forty-four
+host cases, six mutants, two unloaded AArch64 module profiles and 83-file
+independent readback pass. It is not yet called by mt76: fresh cold provider
+lifetime, loader identity and bootstrap order must be established first.
+See `LINUX_CONTROL_CONTRACT.md` and
+`research/checkpoints/2026-09-23-npu-linux-control/REPORT.md`.
+
+## Reset-Control Prerequisite
+
+The cold-provider review found shared reset callbacks that use an indeterminate
+write value and hide register errors. Candidate 930 preserves maps/polarity and
+returns failures. All 147 reset entries pass 23,088 host-model cases, four
+original controls, seven mutants and four AArch64 object builds. Each target
+variant executes 5,007 native-instruction cases; this compiler already produces
+matching nominal polarity but the original hides injected errors. Independent
+readback verifies 132 files. No provider reset wiring or physical containment
+is established. Loader identity/publication and V2 caller integration remain
+open. See `research/checkpoints/2026-09-23-npu-reset-control/REPORT.md`.
 
 ## Replay
 
@@ -358,6 +451,13 @@ PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/build_control
 PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_bootstrap_control_v2.py
 PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_bootstrap_v2_composition.py
 PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_npu_host_lifetime.py
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_npu_rx_ownership.py
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_npu_rx_parser.py
+python3 tests/npu/test_npu_linked_modules.py --build-name linked-replay
+python3 tests/npu/test_npu_provider_kernel_link.py --build-name provider-replay --output-dir .local/npu-provider-kernel-link/replay-evidence
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tests/npu/test_npu_linux_control.py --build-name linux-replay --output-dir .local/npu-linux-control/replay-evidence
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_npu_reset_control.py --build-name reset-replay --output-dir .local/npu-reset-control/replay-evidence
+PYTHONPATH=.local/npu-reset/python-lib python3 tests/npu/test_npu_reset_native.py --output-dir .local/npu-reset-control/native-replay
 ```
 
 The runner accepts system `ld.lld`, otherwise the locally unpacked

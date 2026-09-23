@@ -1,0 +1,51 @@
+=================================================================
+==535==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x79a7d88c4128 at pc 0x59a22461657f bp 0x7ffe81950250 sp 0x7ffe8194fa10
+READ of size 112 at 0x79a7d88c4128 thread T0
+    #0 0x59a22461657e in __asan_memcpy (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser+0xd257e) (BuildId: a9cce02c8b3adc76117cb1fda86eaaedab8dacea)
+    #1 0x59a2246602d4 in mt7996_mac_fill_rx /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser-functions.inc:897:4
+    #2 0x59a2246602d4 in mt7996_queue_rx_skb /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser-functions.inc:1063:8
+    #3 0x59a2246663fd in dispatch /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:286:2
+    #4 0x59a22466339d in nominal /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:335:7
+    #5 0x59a224661e82 in main /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c
+    #6 0x7d37d942a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #7 0x7d37d942a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #8 0x59a224573384 in _start (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser+0x2f384) (BuildId: a9cce02c8b3adc76117cb1fda86eaaedab8dacea)
+
+0x79a7d88c4128 is located 0 bytes after 72-byte region [0x79a7d88c40e0,0x79a7d88c4128)
+allocated by thread T0 here:
+    #0 0x59a224618928 in malloc (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser+0xd4928) (BuildId: a9cce02c8b3adc76117cb1fda86eaaedab8dacea)
+    #1 0x59a2246615de in pskb_may_pull /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:136:20
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-group5-size/parser+0xd257e) (BuildId: a9cce02c8b3adc76117cb1fda86eaaedab8dacea) in __asan_memcpy
+Shadow bytes around the buggy address:
+  0x79a7d88c3e80: fd fd fa fa fa fa fd fd fd fd fd fd fd fd fd fd
+  0x79a7d88c3f00: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fa fa
+  0x79a7d88c3f80: fa fa fd fd fd fd fd fd fd fd fd fd fa fa fa fa
+  0x79a7d88c4000: fd fd fd fd fd fd fd fd fd fd fa fa fa fa fd fd
+  0x79a7d88c4080: fd fd fd fd fd fd fd fd fa fa fa fa 00 00 00 00
+=>0x79a7d88c4100: 00 00 00 00 00[fa]fa fa fa fa fa fa fa fa fa fa
+  0x79a7d88c4180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79a7d88c4200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79a7d88c4280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79a7d88c4300: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79a7d88c4380: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==535==ABORTING

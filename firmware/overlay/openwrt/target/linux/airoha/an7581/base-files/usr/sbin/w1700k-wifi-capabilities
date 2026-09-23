@@ -1,0 +1,54 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || {
+	echo '{}'
+	exit 0
+}
+
+phy="$1"
+case "$phy" in
+	phy[0-9]*)
+		phys="$phy"
+		;;
+	*)
+		phys="$(for p in /sys/class/ieee80211/phy*; do [ -e "$p" ] && basename "$p"; done)"
+		[ -n "$phys" ] || phys="phy0"
+		;;
+esac
+
+info="$(
+	for p in $phys; do
+		iw phy "$p" info 2>/dev/null
+	done
+)"
+
+has() {
+	printf '%s\n' "$info" | grep -Eiq "$1"
+}
+
+json_bool() {
+	if has "$1"; then
+		printf true
+	else
+		printf false
+	fi
+}
+
+printf '{'
+printf '"puncturing":'
+json_bool '\[ PUNCT \]'
+printf ',"eht4096qam":'
+json_bool 'MCS 12-13'
+printf ',"ehtNonOfdmaUlMuMimo":'
+json_bool 'Non-OFDMA UL MU-MIMO'
+printf ',"ehtMultiRu":'
+json_bool '(242-tone RU|less[ -]than[ -]242|RU.*wider)'
+printf ',"ehtWiderDlOfdma4096qam":'
+json_bool '(4096.*OFDMA|OFDMA.*4096)'
+printf ',"beamforming":'
+json_bool '(SU Beamformer|MU Beamformer|Beamformer)'
+printf ',"muMimo":'
+json_bool '(MU-MIMO|MU MIMO)'
+printf '}\n'

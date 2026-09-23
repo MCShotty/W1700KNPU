@@ -3,6 +3,7 @@
 import ctypes
 import itertools
 import json
+import os
 from pathlib import Path
 import shutil
 import struct
@@ -29,15 +30,11 @@ REGS = [getattr(rv, 'UC_RISCV_REG_A' + str(i)) for i in range(8)]
 
 
 def stage_server():
-    before = json.loads((control.OUT / 'control-v2.json').read_text())['inputs']
     original = BASE / 'control-v2.c'
-    assert sha(original) == before[str(original.relative_to(ROOT))]
+    assert 'int npu_control_v2_dispatch_gate(' in original.read_text()
     target = BUILD / 'staged/firmware/npu/control-v2.c'
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(original.read_bytes())
-    result = subprocess.run(['patch', '--batch', '--forward', '--fuzz=0', '-p1', '-i', str(PATCH)],
-                            cwd=BUILD / 'staged', capture_output=True, text=True, timeout=30)
-    assert result.returncode == 0 and 'offset' not in result.stdout and 'fuzz' not in result.stdout, result.stdout + result.stderr
     return target
 
 
@@ -513,6 +510,7 @@ def main():
                   stock_firmware_sha256=native.CODE_SHA, stock_data_sha256=native.DATA_SHA,
                   compiler=execute([shutil.which('clang'), '--version']).splitlines()[0],
                   unicorn_version=control.unicorn.__version__, static_analysis='passed without diagnostics',
+                  emulator_wall_budget_us=int(os.environ.get('NPU_EMULATION_TIMEOUT_US', '10000000')),
                   scope='Unpromoted V2 bootstrap adapter through actual reset/IRQ registration and six original memory callbacks to the existing core0 boundary. Host x86/AArch64 and control x86/RV32 comparisons. Loader containment/identity generation, MMIO/IRQ delivery/cache, full postgate boot and physical drains remain unproved.')
     OUT.mkdir(parents=True, exist_ok=True)
     output = OUT / 'bootstrap-control-v2.json'

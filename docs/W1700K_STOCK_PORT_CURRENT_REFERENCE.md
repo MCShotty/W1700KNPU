@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-16 (NPU host IRQ/work and RCU reference lifetime)
+Last updated: 2026-09-23 (unified non-OC source/image build and offline checks pass)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,122 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Status - Host Callback And Reference Lifetime - 2026-09-16
+## Current Status - Unified Non-OC Merge - 2026-09-23
+
+- User-directed source integration now uses kernel 6.18.52, mt76 fork 01367e60
+  and LuCI d245681, with WLAN NPU enabled and implemented host/provider changes
+  in the main patch series. Shared Linux control sources compile as mt76 inputs;
+  the firmware bootstrap gate is folded into the canonical core source.
+- Full cross-toolchain/kernel/module/image build, focused prepared-driver tests,
+  bootstrap/all-hart emulation and synthetic updater checks pass. Final offline
+  verification covers 218 packages, 78 module ABIs, FIT hashes, board/layout,
+  NPU memory and non-OC OPP configuration. Sixty source files replay cleanly.
+- Image revision `r36536-merged-288d79449f`, SHA256
+  `132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
+  Receipts: `research/checkpoints/2026-09-23-nonoc-merge/`. No hardware acceptance
+  is claimed; no flash, commit or push occurred during this merge.
+- Loader/caller/postgate wiring, physical drains and full recovery/parity remain
+  implementation gaps, not a separate experimental source track. R1 remains the
+  last router-tested image. Current integration details: `docs/NONOC_MERGE.md`.
+
+## Previous Status - NPU Reset-Control Prerequisite - 2026-09-23
+
+- Unpromoted candidate 930 corrects the shared reset primitive's indeterminate
+  write value and ignored register errors. The actual prepared driver is
+  reproduced from the pinned kernel archive and eleven OpenWrt patches.
+- 23,088 ASan/UBSan cases cover all 147 mappings; four original-source failure
+  controls, seven mutants and four AArch64 object builds pass. Each compiled
+  variant also executes 5,007 instruction-level cases with modeled regmap.
+  This GCC binary's normal polarity already matches the correction, but the
+  original hides 3,087 injected errors. Independent readback verifies 132 files.
+- This is a software prerequisite, not physical NPU containment. Provider reset
+  wiring, domain/engine coverage, cold lifetime, loader identity/publication,
+  V2 caller integration and cleanup/rearm remain open. No packaged source,
+  image or router change. Evidence:
+  `research/checkpoints/2026-09-23-npu-reset-control/REPORT.md`.
+
+## Previous Status - Linux V2 Control Executor - 2026-09-23
+
+- A new unpromoted Linux executor connects the portable V2 client to the
+  provider transport with serialized exchanges, explicit operation checks,
+  permanent first-error retention and close joining active CPU calls.
+- Forty-four ASan/UBSan host cases, six named mutants and two AArch64 module
+  profiles pass. Four shared layouts match and 83 files independently verify.
+  Kernel mutex/regmap/storage/delivery dependencies are modeled; no module load
+  or physical drain claim. The disabled profile affects test headers only.
+- Fresh contained provider lifetime and loader identity remain prerequisites
+  for real caller initialization. Consumer attachment does not establish them;
+  mt76 wiring, bootstrap order, other provider users, postgate firmware and
+  whole lifecycle/recovery remain open. Evidence:
+  `research/checkpoints/2026-09-23-npu-linux-control/REPORT.md`.
+
+## Previous Status - Provider And Host Kernel Link - 2026-09-23
+
+- Provider patches 928/929 now rebuild and link into an isolated prepared
+  AArch64 kernel with unchanged configuration. The resulting relocatable
+  `vmlinux` exports get/put and `airoha_npu_wlan_control`; the provider object
+  contains the managed-work callback and lacks the old removal callback.
+- All three retained NPU-enabled mt76 modules relink. A separate unloaded
+  probe resolves the new control export; mt76 itself still calls only get/put.
+  The reconstructed external mac80211 symbol index remains in use.
+- Initial logs retain 65 kernel, three mt76 and one probe description warnings
+  under stripped-metadata configuration; no compiler/unresolved-symbol errors.
+  Independent readback verifies 45 files. V2 integration, loading, firmware
+  execution and physical DMA/drains/lifecycle remain open. No packaged source,
+  image or router change. Evidence:
+  `research/checkpoints/2026-09-23-npu-provider-kernel-link/REPORT.md`.
+
+## Previous Status - Linked NPU-Enabled MT76 Modules - 2026-09-23
+
+- Three isolated AArch64 modules now link with both RX candidates 008/009 and
+  the earlier mt76 host candidates: `mt76.ko`, `mt76-connac-lib.ko` and
+  `mt7996e.ko`. The NPU RX poll is present in mt76; MT7996 imports six
+  mt76 NPU functions; mt76 imports provider get/put from the prepared kernel.
+- The kernel lacks the original external mac80211 symbol index. A temporary
+  index was derived from 351 actual exports in the installed mac80211/cfg80211/
+  compat modules, with matching 6.18.44 vermagic. Linking succeeded with three
+  existing missing-description warnings and no unresolved symbols. Dependency
+  and module hashes independently match the receipt.
+- Provider candidates 928/929 are still outside the built-in target kernel.
+  No module load, firmware run, physical DMA validation or safe recovery is
+  established. Evidence:
+  `research/checkpoints/2026-09-23-npu-linked-modules/REPORT.md`.
+
+## Previous Status - MT7996 RX Header Views - 2026-09-23
+
+- Unpromoted patch 009 follows ownership patch 008 into the shared MT7996
+  parser. It prepares bounded RXD/data-header views before caching pointers,
+  preserves nonlinear data bodies, provides flat control-message views and
+  minimum dispatch headers, retains immutable RX-vector data across header
+  edits, and checks the station before reversed-translation dereference.
+- 7,680 baseline/613,113 corrected case executions, five baseline failure
+  controls, eleven mutants, four AArch64 driver objects and two layout probes
+  pass. Twenty-five structure/constant values match the actual build context;
+  strict checkpatch is clean and 176 unique files independently hash-verify.
+- This is shared receive code, tested on MAIN/NPU0/NPU1 with modeled skb and
+  framework dependencies. Firmware-event bodies/TLVs, full callback/network
+  semantics, real metadata/publication and physical DMA/lifecycle remain open.
+  No packaged source/image/router change. Evidence:
+  `research/checkpoints/2026-09-23-npu-rx-parser/REPORT.md`.
+
+## Previous Status - Host NPU RX Packet Ownership - 2026-09-23
+
+- Unpromoted patch 008 preflights a complete RX packet before transferring any
+  buffers, snapshots descriptor metadata after read barriers, checks mapped
+  lengths and retains incomplete/allocation-failed packets for retry. Complete
+  overlength/capacity drops consume NAPI budget; zero-budget polls do no refill.
+- The interrupted draft is now validated: 3,228 baseline/3,376 corrected host
+  cases, both RX queue IDs, real 512-entry geometry, eleven compiled mutants,
+  six AArch64 kernel objects and strict checkpatch pass. Independent readback
+  matches 127 input/output files. Actual selected driver C runs against explicit
+  page-pool/skb/DMA/NAPI models; physical publication is not established.
+- Downstream RXD/header/group parsing and nonlinear payload views remain open,
+  as do real DMA/coherency, concurrent refill/removal, IRQ/NAPI lifetime, complete
+  boot and recovery. Zero/short payload acceptance is not claimed safe. No
+  source-lock/overlay, image or router change. Evidence:
+  `research/checkpoints/2026-09-16-npu-rx-ownership/REPORT.md`.
+
+## Previous Status - Host Callback And Reference Lifetime - 2026-09-16
 
 - Two unpromoted candidates address provider watchdog-work publication/teardown
   and mt76 reference ordering. Patch 929 initializes managed work before IRQ

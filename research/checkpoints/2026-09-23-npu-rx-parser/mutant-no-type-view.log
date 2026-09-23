@@ -1,0 +1,49 @@
+=================================================================
+==517==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x743f97be0010 at pc 0x61b296f4c966 bp 0x7ffc1e3f6f70 sp 0x7ffc1e3f6f68
+READ of size 4 at 0x743f97be0010 thread T0
+    #0 0x61b296f4c965 in mt7996_queue_rx_skb /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-type-view/parser-functions.inc:1019:9
+    #1 0x61b296f523ed in dispatch /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:286:2
+    #2 0x61b296f4e165 in truncations /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:360:5
+    #3 0x61b296f4e165 in main /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:444:50
+    #4 0x781f9882a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #5 0x781f9882a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #6 0x61b296e5f384 in _start (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-type-view/parser+0x2f384) (BuildId: c9b00b2429b5aba78ad07ae2320ad878b772472e)
+
+0x743f97be0011 is located 0 bytes after 1-byte region [0x743f97be0010,0x743f97be0011)
+allocated by thread T0 here:
+    #0 0x61b296f04928 in malloc (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-type-view/parser+0xd4928) (BuildId: c9b00b2429b5aba78ad07ae2320ad878b772472e)
+    #1 0x61b296f52158 in make_skb /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:196:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-type-view/parser-functions.inc:1019:9 in mt7996_queue_rx_skb
+Shadow bytes around the buggy address:
+  0x743f97bdfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x743f97bdfe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x743f97bdfe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x743f97bdff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x743f97bdff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x743f97be0000: fa fa[01]fa fa fa 01 fa fa fa fa fa fa fa fa fa
+  0x743f97be0080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x743f97be0100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x743f97be0180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x743f97be0200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x743f97be0280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==517==ABORTING

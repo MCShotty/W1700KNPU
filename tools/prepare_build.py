@@ -31,6 +31,18 @@ def apply(label, dest, lock):
     overlay = ROOT / 'firmware/overlay' / label
     if overlay.exists():
         shutil.copytree(overlay, dest, dirs_exist_ok=True)
+    for component in lock.get('component_sources', []):
+        if component['tree'] != label:
+            continue
+        source = (ROOT / component['source']).resolve()
+        target = (dest / component['destination']).resolve()
+        if not source.is_relative_to((ROOT / 'firmware/npu').resolve()) or not target.is_relative_to(dest.resolve()):
+            raise RuntimeError('Component path escapes its source/build tree')
+        if hashlib.sha256(source.read_bytes()).hexdigest() != component['sha256']:
+            raise RuntimeError(f'Component source hash mismatch: {component["source"]}')
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        target.chmod(int(component['mode'], 8))
     for entry in lock[label]['changed_files']:
         path = dest / entry['path']
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry['sha256']:
@@ -40,15 +52,15 @@ def apply(label, dest, lock):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--destination', type=Path, default=ROOT / '.build/openwrt')
+    parser.add_argument('--destination', type=Path)
     args = parser.parse_args()
-    destination = args.destination.resolve()
+    lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
+    destination = (args.destination or ROOT / lock.get('build_directory', '.build/openwrt')).resolve()
     if not destination.is_relative_to((ROOT / '.build').resolve()):
         raise RuntimeError('Build workspace must remain beneath this repository/.build')
     fs = subprocess.check_output(['stat', '-f', '-c', '%T', str(ROOT)], text=True).strip()
     if fs in {'9p', 'drvfs', 'fuseblk', 'ntfs', 'ntfs3'}:
         raise RuntimeError('OpenWrt build requires native Linux filesystem, not NTFS/DrvFS')
-    lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
     checkout(lock['openwrt']['url'], lock['openwrt']['base'], destination)
     apply('openwrt', destination, lock)
     # Local LuCI commits are represented in the cumulative patch, not fetchable upstream.

@@ -1,0 +1,93 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\merge-nonoc-20260923\\jev-final-request.json",
+  "request_sha256": "fff50f52e4f125bd03cace821a37ba82058ee4a718ff91fd64517ba824be7b83",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "integrated_scope": {
+      "type": "choice",
+      "instructions": "Does state.build evidence support state.build.claim? Judge source/build integration separately from actual loader/caller wiring and hardware proof.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the evidence.",
+        "contradicted": "The evidence explicitly conflicts with the claim.",
+        "not_established": "A material part is not established and not explicitly contradicted."
+      }
+    },
+    "physical_recovery": {
+      "type": "choice",
+      "instructions": "Does state.tests.evidence establish state.tests.claim? Modeled dependencies, emulation and offline ABI checks are not physical hardware execution.",
+      "criteria": {
+        "supported": "The entire claim follows from the evidence.",
+        "contradicted": "The evidence demonstrates unsafe real physical recovery.",
+        "not_established": "Physical drain/recovery safety has not been established by the supplied tests."
+      }
+    },
+    "clock_scope": {
+      "type": "choice",
+      "instructions": "Does state.clock.evidence support the exact scope of state.clock.claim? Distinguish a device-tree configuration from a measured clock.",
+      "criteria": {
+        "supported": "The entire claim follows from the evidence.",
+        "contradicted": "The evidence explicitly conflicts with the claim.",
+        "not_established": "A material part lacks supporting evidence."
+      }
+    },
+    "updater_preservation": {
+      "type": "choice",
+      "instructions": "Does state.updater.evidence support state.updater.claim? Distinguish keeping configuration from keeping custom executable kernel and driver changes.",
+      "criteria": {
+        "supported": "Both settings and custom executable changes are preserved.",
+        "contradicted": "The evidence explicitly says the custom executable changes are replaced.",
+        "not_established": "Preservation or replacement cannot be determined."
+      }
+    }
+  },
+  "elapsed_ms": 2606,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "integrated_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.93,
+        "probabilities": {
+          "not_established": 0.04,
+          "contradicted": 0.01,
+          "supported": 0.95
+        }
+      },
+      "physical_recovery": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 1.0,
+          "contradicted": 0.0,
+          "supported": 0.0
+        }
+      },
+      "clock_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.92,
+        "probabilities": {
+          "not_established": 0.05,
+          "contradicted": 0.0,
+          "supported": 0.95
+        }
+      },
+      "updater_preservation": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "contradicted": 1.0,
+          "supported": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1417,
+      "output_tokens": 189
+    }
+  }
+}

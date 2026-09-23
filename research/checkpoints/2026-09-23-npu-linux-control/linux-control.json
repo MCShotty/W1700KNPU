@@ -1,0 +1,349 @@
+{
+  "schema": 1,
+  "inputs_before_after": {
+    "tests/npu/test_npu_linux_control.py": "5e6fba67cd22193675bc5438a4a3eafdc598ec411250448557bc175c202bd3e6",
+    "tests/npu/linux-control-harness.c": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce",
+    "tests/npu/control-v2-provider-harness.c": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409",
+    "tests/npu/build_control_v2_provider.py": "91359781bc151adc77e64efe52a7b268c84722a397060fc3aced3016ebe8d7ba",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/test_npu_linked_modules.py": "2dfa7f4f7fbbe6ef90a78fd4730c05bc1e1c30b60d88c5c78098f93d0e9c369c",
+    "research/checkpoints/2026-09-23-npu-provider-kernel-link/provider-kernel-link.json": "cdd3284695bcc9b02b5290a9a04b956db6dd3967625d24b831cbd0e0f2be0cd8",
+    "research/checkpoints/2026-09-14-npu-control-v2/control-v2-provider.json": "3f6d83ed12876dabef826361bd6257cbb707ca6ba9cd1c00e3a2b308d3e4d6c8",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "7f5c76f3e8a2cd0b689dda843603c7f4c536c9a2f9d8385db957c7e9201ee632",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/linux/soc/airoha/airoha_offload.h": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/Module.symvers": "c4bf28ab442cc161bedb9f1be13aaa5fd6b3f5270248848f49733cbe7a13ab14",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "1806c7363efb2fb8c43034e95d5799b96e1b3da63b8ed9c192493ef29959b61a",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/linux-control.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    "firmware/npu/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    "firmware/npu/kernel-include/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8"
+  },
+  "extracted_provider_functions": {
+    "__airoha_npu_send_msg": "e56b51b4fdb6130892bac3ef1b7dcd23e2cd90d4b2f05dc244d345e8e7f3f3d1",
+    "airoha_npu_wlan_msg_get": "6833ddb58fe5b70f12e5e0db5e54d568220eb7c24413d3c05f01121f578b366b",
+    "airoha_npu_wlan_control": "9ecb1d37f9cbed4fc717f067170c9e56200d1962bba6d10b983470e747b8ff20"
+  },
+  "derived": {
+    ".local/npu-linux-control/verified-2/control-v2-provider.inc": "9077a194154dc59ed7055f51ed016d31d6d1b4b777fdf66cdb9eccc79daf9e61",
+    ".local/npu-linux-control/verified-2/kernel-0/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    ".local/npu-linux-control/verified-2/kernel-0/npu-control-linux-test.mod.c": "818fc14cf18e3110e81ca2c594c1dcfc8659fc84d87b7bb6cddf8dc04c0b851a",
+    ".local/npu-linux-control/verified-2/kernel-0/disable-npu.h": "6c4d4d469618cb6bcefe91dce40052298eeee921e1471101673fd560a0757e2f",
+    ".local/npu-linux-control/verified-2/kernel-0/Makefile": "b534d03b3ec3a0bece02ebe5b759b841963c84d8df43df94f36b91bd50340965",
+    ".local/npu-linux-control/verified-2/kernel-0/module.c": "347a4775616a0529d719d352ebe4e5384066f74b5f48ecea34b01d229a81e3ec",
+    ".local/npu-linux-control/verified-2/kernel-0/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    ".local/npu-linux-control/verified-2/kernel-0/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    ".local/npu-linux-control/verified-2/kernel-0/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    ".local/npu-linux-control/verified-2/kernel-0/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    ".local/npu-linux-control/verified-2/kernel-0/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    ".local/npu-linux-control/verified-2/kernel-0/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    ".local/npu-linux-control/verified-2/kernel-0/executor.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    ".local/npu-linux-control/verified-2/kernel-1/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    ".local/npu-linux-control/verified-2/kernel-1/npu-control-linux-test.mod.c": "818fc14cf18e3110e81ca2c594c1dcfc8659fc84d87b7bb6cddf8dc04c0b851a",
+    ".local/npu-linux-control/verified-2/kernel-1/Makefile": "c97147afbd2095a745dcb5d791a51c2384d045e2fa2b795fc4abcb0b42a576a9",
+    ".local/npu-linux-control/verified-2/kernel-1/module.c": "347a4775616a0529d719d352ebe4e5384066f74b5f48ecea34b01d229a81e3ec",
+    ".local/npu-linux-control/verified-2/kernel-1/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    ".local/npu-linux-control/verified-2/kernel-1/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    ".local/npu-linux-control/verified-2/kernel-1/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    ".local/npu-linux-control/verified-2/kernel-1/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    ".local/npu-linux-control/verified-2/kernel-1/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    ".local/npu-linux-control/verified-2/kernel-1/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    ".local/npu-linux-control/verified-2/kernel-1/executor.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    ".local/npu-linux-control/verified-2/kernel-1/compat/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+    ".local/npu-linux-control/verified-2/kernel-0/compat/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+    ".local/npu-linux-control/verified-2/shims/linux/types.h": "6c3f7a14f538a25f913519cf5247052719f70eaaa15b9ab803c3bde0037b26ef",
+    ".local/npu-linux-control/verified-2/shims/linux/mutex.h": "25725102916c75163ada3249fcc6d9607aede725882e4424d2e2ba325d72d41a",
+    ".local/npu-linux-control/verified-2/shims/linux/soc/airoha/airoha_offload.h": "c106bad192d0ea470bcd404924b2d4471822ccfd153574e516e2b032ccd2bb29",
+    ".local/npu-linux-control/verified-2/mutants/ignore-reply-rejection/linux-control.c": "35ddca96a0c4475ae46f0a9c844da3f5bd4857bc17e30ea14b0e4fdb214e621d",
+    ".local/npu-linux-control/verified-2/mutants/close-without-join/linux-control.c": "97c78d7d9ef070118c2e27c71d78ef82936c6f7fe584141748704f3ecf932284",
+    ".local/npu-linux-control/verified-2/mutants/reinitialize/linux-control.c": "2ec85aa9a80c49f6ec3d5a63e48536b1dc0b88f11f356f265ef26bd083274896",
+    ".local/npu-linux-control/verified-2/mutants/wrong-operation/linux-control.c": "6a45171571c9f676e13238f44a217f94ca95d10c3ae728f3c77543e1a8ebfd55",
+    ".local/npu-linux-control/verified-2/mutants/positive-transport-error/linux-control.c": "aea1fa2dd122ac1bfdbb5bf0eca25ad82666b25b17c954b49cf3d7cbcacae35d",
+    ".local/npu-linux-control/verified-2/mutants/replace-first-error/linux-control.c": "1f44d52c2761b22072f9aac957398b55cd12812e1fc10ffe90114fb3adbecb3f"
+  },
+  "host": {
+    "command": [
+      "/usr/bin/clang",
+      "-std=gnu11",
+      "-O1",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pthread",
+      "-fsanitize=address,undefined",
+      "-fno-sanitize-recover=all",
+      "-I/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/shims",
+      "-I/home/captain/W1700KNPU/.local/npu-linux-control/verified-2",
+      "-I/home/captain/W1700KNPU/firmware/npu",
+      "-I/home/captain/W1700KNPU/tests/npu",
+      "/home/captain/W1700KNPU/tests/npu/linux-control-harness.c",
+      "/home/captain/W1700KNPU/firmware/npu/control-client.c",
+      "/home/captain/W1700KNPU/firmware/npu/control-v2-client.c",
+      "/home/captain/W1700KNPU/firmware/npu/control-v2.c",
+      "/home/captain/W1700KNPU/firmware/npu/admission.c",
+      "/home/captain/W1700KNPU/firmware/npu/barrier.c",
+      "/home/captain/W1700KNPU/firmware/npu/linux-control.c",
+      "-o",
+      "/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/linux-control-sanitize"
+    ],
+    "result": {
+      "passed": true,
+      "cases": 44,
+      "assertions": 367,
+      "provider_model_assertions": 606,
+      "physical_drains": false,
+      "layout": [
+        56,
+        68,
+        80,
+        56
+      ]
+    },
+    "binary": {
+      "path": ".local/npu-linux-control/verified-2/linux-control-sanitize",
+      "sha256": "e968593cfe486312eec0c44b569b283a699446db9fda889e5ce60f00fd63b8a3",
+      "bytes": 1919504
+    },
+    "build_log": {
+      "path": "research/checkpoints/2026-09-23-npu-linux-control/host-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "run_log": {
+      "path": "research/checkpoints/2026-09-23-npu-linux-control/host-run.log",
+      "sha256": "4dab870fa683c82b48f6b870ca0f88754e76073c7b57a8eb39c9ea8ee0093ece",
+      "bytes": 123
+    }
+  },
+  "mutants": [
+    {
+      "name": "reinitialize",
+      "case": "init",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/reinitialize/linux-control.c",
+        "sha256": "2ec85aa9a80c49f6ec3d5a63e48536b1dc0b88f11f356f265ef26bd083274896",
+        "bytes": 3267
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/reinitialize/test",
+        "sha256": "43e9051806939f3f7f4fe66a6a64fdc979ab718bd8fa0e0608f59d07298baa26",
+        "bytes": 1919584
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/reinitialize/run.log",
+        "sha256": "004f82770d3cd38b3370c7b9ecb1324f7219fa7e0972ea7aa4abed169724b3aa",
+        "bytes": 79
+      }
+    },
+    {
+      "name": "wrong-operation",
+      "case": "operation",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/wrong-operation/linux-control.c",
+        "sha256": "6a45171571c9f676e13238f44a217f94ca95d10c3ae728f3c77543e1a8ebfd55",
+        "bytes": 3339
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/wrong-operation/test",
+        "sha256": "baf0ee503036c48e4c677c46c446ee00d2232e81381fff4c746bf2d4d20167d7",
+        "bytes": 1919448
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/wrong-operation/run.log",
+        "sha256": "5fdd459dbf8474d10533cccbd8d97044cbf2480a7e737b1431cbc796ca8062a6",
+        "bytes": 106
+      }
+    },
+    {
+      "name": "ignore-reply-rejection",
+      "case": "protocol",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/ignore-reply-rejection/linux-control.c",
+        "sha256": "35ddca96a0c4475ae46f0a9c844da3f5bd4857bc17e30ea14b0e4fdb214e621d",
+        "bytes": 3313
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/ignore-reply-rejection/test",
+        "sha256": "685764f65a3a891a4bd3bcf1fdcaa645ae9ecd44d7da441d8900cedbd8d762ff",
+        "bytes": 1919680
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/ignore-reply-rejection/run.log",
+        "sha256": "2581aeba96742dacdcfe07ee3e4be7c0036028dfd3300ddca32d6a6797862d6c",
+        "bytes": 91
+      }
+    },
+    {
+      "name": "replace-first-error",
+      "case": "sticky",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/replace-first-error/linux-control.c",
+        "sha256": "1f44d52c2761b22072f9aac957398b55cd12812e1fc10ffe90114fb3adbecb3f",
+        "bytes": 3291
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/replace-first-error/test",
+        "sha256": "81f5ceae1fd366b44e6808db898a3f4b1b5cd6a27191d160bebcfe8864b7750f",
+        "bytes": 1919568
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/replace-first-error/run.log",
+        "sha256": "72019d16dad90b44dc4827dbff867d016e1193a2ba878ac7efdc834dfdbb6176",
+        "bytes": 60
+      }
+    },
+    {
+      "name": "positive-transport-error",
+      "case": "sticky",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/positive-transport-error/linux-control.c",
+        "sha256": "aea1fa2dd122ac1bfdbb5bf0eca25ad82666b25b17c954b49cf3d7cbcacae35d",
+        "bytes": 3295
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/positive-transport-error/test",
+        "sha256": "755c99bb844adb3ce683691d87ca851986e1e393d68ac90a8d194fcdae847185",
+        "bytes": 1919680
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/positive-transport-error/run.log",
+        "sha256": "d3aecaa301b5ca3620ff8890367d6c486d279ba379d190e51817c3b88b8c84e9",
+        "bytes": 90
+      }
+    },
+    {
+      "name": "close-without-join",
+      "case": "close",
+      "returncode": -6,
+      "source": {
+        "path": ".local/npu-linux-control/verified-2/mutants/close-without-join/linux-control.c",
+        "sha256": "97c78d7d9ef070118c2e27c71d78ef82936c6f7fe584141748704f3ecf932284",
+        "bytes": 3252
+      },
+      "binary": {
+        "path": ".local/npu-linux-control/verified-2/mutants/close-without-join/test",
+        "sha256": "84a3867f0f22cc374627daee19ba31a85073bb26b1d28f2b8988895d92713291",
+        "bytes": 1919600
+      },
+      "log": {
+        "path": ".local/npu-linux-control/verified-2/mutants/close-without-join/run.log",
+        "sha256": "6d39e03cce19e82ae30172f8bcb0c67fb95ad43def1c72741eb6e909e689eb78",
+        "bytes": 38
+      }
+    }
+  ],
+  "kernel_modules": [
+    {
+      "npu_enabled": 1,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_VERSION=0",
+        "KBUILD_BUILD_TIMESTAMP=Fri Sep 4 16:17:19 2026",
+        "V=0",
+        "M=/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/kernel-1",
+        "modules"
+      ],
+      "module": {
+        "path": ".local/npu-linux-control/verified-2/kernel-1/npu-control-linux-test.ko",
+        "sha256": "f21fd459b872ba07b3b7be7e1ac1b060fc851dd7a0d82323a2b3a6936e886425",
+        "bytes": 74792,
+        "vermagic": "6.18.44 SMP mod_unload aarch64",
+        "depends": "",
+        "defined_symbols": 30,
+        "undefined_symbols": 6
+      },
+      "layout": [
+        56,
+        68,
+        80,
+        56
+      ],
+      "provider_control_import": true,
+      "diagnostics": [
+        "WARNING: modpost: missing MODULE_DESCRIPTION() in npu-control-linux-test.o"
+      ],
+      "log": {
+        "path": "research/checkpoints/2026-09-23-npu-linux-control/kernel-1.log",
+        "sha256": "7a419915618e0bc70bedd229b9fe44602be38ae46471838569a15cc9991f51bc",
+        "bytes": 742
+      }
+    },
+    {
+      "npu_enabled": 0,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_VERSION=0",
+        "KBUILD_BUILD_TIMESTAMP=Fri Sep 4 16:17:19 2026",
+        "V=0",
+        "M=/home/captain/W1700KNPU/.local/npu-linux-control/verified-2/kernel-0",
+        "modules"
+      ],
+      "module": {
+        "path": ".local/npu-linux-control/verified-2/kernel-0/npu-control-linux-test.ko",
+        "sha256": "c36808bde84a19f50a0ffb69918a8b38bded50acbcba96f000671b6c0ac80860",
+        "bytes": 74680,
+        "vermagic": "6.18.44 SMP mod_unload aarch64",
+        "depends": "",
+        "defined_symbols": 30,
+        "undefined_symbols": 5
+      },
+      "layout": [
+        56,
+        68,
+        80,
+        56
+      ],
+      "provider_control_import": false,
+      "diagnostics": [
+        "WARNING: modpost: missing MODULE_DESCRIPTION() in npu-control-linux-test.o"
+      ],
+      "log": {
+        "path": "research/checkpoints/2026-09-23-npu-linux-control/kernel-0.log",
+        "sha256": "120e5e128f5c439f0d693e68bc91732d8b217a64923043ffe866d4f4f6c46c3d",
+        "bytes": 742
+      }
+    }
+  ],
+  "limits": [
+    "Kernel mutex behavior is modeled with pthreads; regmap, coherent storage and firmware delivery use the existing explicit provider model.",
+    "The real V2 client, server and selected provider C execute, but no physical DMA/cache/drain or live kernel execution is established.",
+    "The executor requires a caller-established cold provider lifetime and retained reference; automatic mt76 initialization and production loader identity remain unimplemented.",
+    "No resource cleanup, restart authority, restricted selector execution, packaged source promotion, router action or firmware image is introduced."
+  ]
+}

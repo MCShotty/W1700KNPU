@@ -1,0 +1,270 @@
+{
+  "passed": true,
+  "image_sha256": "132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670",
+  "native_receipt_rebinding": {
+    "bootstrap-results/bootstrap-control-v2.json": {
+      "checked_inputs": 55,
+      "executable_inputs_unchanged": true,
+      "later_host_metadata_changes": {
+        "firmware/build.config": {
+          "tested": "1a8fd5da5d6c070fbfd7fa7858365e6027ae3f102c5a3f516c89eaa0b9eec51a",
+          "final": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6"
+        },
+        "firmware/patches/luci.patch": {
+          "tested": "2c4254e21e776e0fd37ebf215cfd03c2f9076fa96171fe8e8b528861fc708736",
+          "final": "37d840e34424ecd8a1034d08226921c07467333e11abdaf2f872236b8840683f"
+        },
+        "firmware/patches/openwrt.patch": {
+          "tested": "ed2d4eb4cf2aed2d74202041eef979b1e07c1d69d5ef282e6b8496a5691c8c3f",
+          "final": "c6d55a3f84e1afa8bbb5dff24e886ffd0b75452b272bfc9f24752698c9269c77"
+        },
+        "firmware/source-lock.json": {
+          "tested": "ff547794d275144455a05ddf801b6bfc0aab996ab1042dfc4eeaa2cc5c71aafc",
+          "final": "1411822d0022b531f690eb8c28c1ca48e3d23985e1a9d8835bab7c6d6254176a"
+        }
+      }
+    },
+    "composition-results/bootstrap-composition.json": {
+      "checked_inputs": 128,
+      "executable_inputs_unchanged": true,
+      "later_host_metadata_changes": {
+        "firmware/build.config": {
+          "tested": "1a8fd5da5d6c070fbfd7fa7858365e6027ae3f102c5a3f516c89eaa0b9eec51a",
+          "final": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6"
+        },
+        "firmware/patches/luci.patch": {
+          "tested": "2c4254e21e776e0fd37ebf215cfd03c2f9076fa96171fe8e8b528861fc708736",
+          "final": "37d840e34424ecd8a1034d08226921c07467333e11abdaf2f872236b8840683f"
+        },
+        "firmware/patches/openwrt.patch": {
+          "tested": "ed2d4eb4cf2aed2d74202041eef979b1e07c1d69d5ef282e6b8496a5691c8c3f",
+          "final": "c6d55a3f84e1afa8bbb5dff24e886ffd0b75452b272bfc9f24752698c9269c77"
+        },
+        "firmware/source-lock.json": {
+          "tested": "ff547794d275144455a05ddf801b6bfc0aab996ab1042dfc4eeaa2cc5c71aafc",
+          "final": "1411822d0022b531f690eb8c28c1ca48e3d23985e1a9d8835bab7c6d6254176a"
+        }
+      }
+    }
+  },
+  "prepared_driver_bindings": 20,
+  "source_replay_files": 60,
+  "static_checks": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        ".",
+        ":!firmware/patches/*.patch"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/home/captain/W1700KNPU/.build/merged-openwrt",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/feeds/luci",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "shellcheck",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/files/usr/libexec/w1700k-release-helper",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/files/www/cgi-bin/github_check",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/files/www/cgi-bin/github_fetch"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/feeds/luci/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/home/captain/W1700KNPU/.build/merged-openwrt/feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "python_syntax_files": 13,
+  "builds": [
+    {
+      "pid": 404,
+      "process_group": 404,
+      "wrapper_pid": 320,
+      "command": [
+        "make",
+        "-j4",
+        "world",
+        "V=s"
+      ],
+      "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+      "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-final.log",
+      "started": 1790191307.7536836,
+      "exit_code": 0,
+      "finished": 1790191366.4701803,
+      "log_sha256": "ee2a16f602e2d72cf640f440c11a7ef0c05058bf0945daa445957f522fb90efa"
+    },
+    {
+      "pid": 437,
+      "process_group": 437,
+      "wrapper_pid": 319,
+      "command": [
+        "make",
+        "-j8",
+        "toolchain/install",
+        "V=s"
+      ],
+      "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+      "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-toolchain.log",
+      "started": 1790187316.5019474,
+      "exit_code": 0,
+      "finished": 1790188496.373707,
+      "log_sha256": "d87157f4fa8ac7d19d70647897b714f6d07bf031763881f0e59aea02f22c874d"
+    },
+    {
+      "pid": 760,
+      "process_group": 760,
+      "wrapper_pid": 752,
+      "command": [
+        "make",
+        "-j4",
+        "world",
+        "V=s"
+      ],
+      "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+      "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-versioned-apk.log",
+      "started": 1790191744.7008123,
+      "exit_code": 0,
+      "finished": 1790191795.043673,
+      "log_sha256": "1a6f1f8b54a3adb2bcd47eda66fa640b3ef9a8075b4e378f150e5858743f9770"
+    },
+    {
+      "pid": 570,
+      "process_group": 570,
+      "wrapper_pid": 568,
+      "command": [
+        "make",
+        "-j4",
+        "world",
+        "V=s"
+      ],
+      "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+      "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-versioned.log",
+      "started": 1790191528.6391337,
+      "exit_code": 2,
+      "finished": 1790191550.613996,
+      "log_sha256": "286a1f774f74e71a9fc67981d8586398f753132fae0da1bec82f78abcb7fd24b"
+    },
+    {
+      "pid": 411,
+      "process_group": 411,
+      "wrapper_pid": 328,
+      "command": [
+        "make",
+        "-j8",
+        "world",
+        "V=s"
+      ],
+      "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+      "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-world.log",
+      "started": 1790188578.5860467,
+      "exit_code": 0,
+      "finished": 1790190955.7990022,
+      "log_sha256": "9f6dd461d3e13d1c04098c46db596cf288fc7decc38c517d82549ba1488c9178"
+    }
+  ],
+  "inputs": {
+    "firmware/build.config": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6",
+    "firmware/npu/Makefile": "5cef1a7ea4be9441b75253e5491e188400b3b3ea0f1fede4e81746a3b877a16c",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap-v2.c": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/kernel-include/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+    "firmware/npu/linux-control.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    "firmware/npu/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/tunnel-packet.c": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "firmware/source-lock.json": "1411822d0022b531f690eb8c28c1ca48e3d23985e1a9d8835bab7c6d6254176a",
+    "tests/npu/run_nonoc_bootstrap.py": "8befdb9190f354965376a3f7e1c7222e667e91e9d6c708aff4b2165b6cb8f52d",
+    "tests/npu/test_boot_irq_installation.py": "bee0b9efc3ce52bbf0dd56ea7fcfb99bafc513fc2f58b90c6d03303628dd9062",
+    "tests/npu/test_bootstrap_control_v2.py": "b1b5af1ea2eb7bda05793a679be24cf0f1117369691eb0f8b198f32c2e6a1f74",
+    "tests/npu/test_bootstrap_v2_composition.py": "72e1aaef90ac8f6a020a778ad48f962679eb4d09af6f5f3e754427281685a02f",
+    "tests/npu/test_nonoc_merge.py": "9c9b09e1a7c392498b28afce4aa74edd3bbb400a2f334a9f0748a313ccfb1a69",
+    "tests/router/test_release_helper.py": "5e0869b23d7f9115441247dbd756d0aff3d5daa5778ef37e57dd73078d53c6ca",
+    "tests/test_prepared_sources.py": "9844b0e2abf5096ccd0a20c2fb4d3a88c9693221f5f4e4257bcd6ef9ea74d156",
+    "tools/build_firmware.py": "967e07b87898f9cd1e8ee9c2f777796eeb314a5f8e057daece25682dd30e0b9e",
+    "tools/export_merged_sources.py": "79dab552bbad875f9a066c9cf9d57b0313cfa260683139b58e35e1be37f530e2",
+    "tools/merge_nonoc_sources.py": "4e85e63d46fb8d4fe7039fc82370023ac5ef4da8f01fd7f057888b51abf46ca9",
+    "tools/prepare_build.py": "51250aa0e0f17b3d5704fafbefaa13d154588bd9abc62ee6df4d91da913e5e82",
+    "tools/record_nonoc_merge.py": "1cb96eba78d91b63a289451b2f6adf71a7ca564c6da59e632ff6329bf4fc78a2",
+    "tools/verify_merged_image.py": "a0bc85ea72313355ce1bad66af5ec5acafdd596a63ea216dff807daf08695735"
+  },
+  "artifacts": {
+    "boot-budget-check.json": "ab97082247acd894b4fc91285360f2ade34b40801cf4bfa06b8e274441ba749a",
+    "bootstrap-composition.json": "26f03c6b513bd76ca05e1e899e2bab939449594315d313f913379d5c35b5644b",
+    "bootstrap-control-v2.json": "9eb4fe2e66e559d8bff0faa90bb06dd28ce743b0f2332343ca0cbd6a6eb131bc",
+    "component-sources.json": "4746a8084fc9dd83e7a7737b3daa02caca3d7a6e9f4778a70e02f919a9fccfe4",
+    "feed-pins.json": "3e620d01b5caecdbc1cfba1601d04bbed7e7e630bfd53390a3c38945119cbd59",
+    "fit.txt": "40614a0947786c79c1afa2ec0753b366bf397ac1a2206a0cb9fbcdb3f3c58fc6",
+    "fwtool.json": "99a42365f40c57e1a7872b1eee99771fb0093d5832c0d76d5fe0adfc636bca7e",
+    "image.json": "cd12acc4ded085e55c174c4e8d54599c736f4bdf60013b4fa8e4450f391882a3",
+    "jev-final-request.json": "fff50f52e4f125bd03cace821a37ba82058ee4a718ff91fd64517ba824be7b83",
+    "jev-final-result.json": "553c16354f277db86b79673fac839e6da6e2b6d7941ead3f52279aacb1ed7482",
+    "prepared-driver-tests.json": "64e15512cc291ae4c90006f863d506124acd76553d9c6b93959786713b3d8c06",
+    "release-helper-tests.json": "59290ee9bf555770ebc3a728408cfc55e558137536fd43e370fab3b6c4e82090",
+    "source-export.json": "63f617615d95251ca27b14227aab79bcf8b90f8a294a8d3f183fe4d6ac9bf90b",
+    "source-replay.json": "548236696a5a9a10da32d2149f91b2ae77f9ba528cae29a5ea31a816c42290fb",
+    "source.json": "61741b578830a2763a4d8b9f822e75244737743898ac35bb9cb2c3b47907e681"
+  },
+  "limitations": [
+    "Offline image integrity/package/ABI checks only, not boot, throughput or physical recovery.",
+    "Linux V2 client is compiled into mt76, but production caller/cold-loader wiring remains incomplete.",
+    "The supplied NPU firmware remains the inspected legacy binary; no emulator image is substituted."
+  ],
+  "exceptions": [
+    "An initial bootstrap run stopped short of a native endpoint; its exact ELF passed an isolated replay. The full suite passed with a recorded 60s wall budget and unchanged 3M instruction/state checks.",
+    "A second bootstrap attempt was canceled after test inputs changed; it is not counted as a pass.",
+    "An intermediate version label was rejected by APK; the accepted revision retains the commit hash suffix.",
+    "Build logs and all failed/intermediate receipts remain local; protected backups and signing keys are excluded."
+  ]
+}

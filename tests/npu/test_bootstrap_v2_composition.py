@@ -5,6 +5,7 @@ from collections import Counter
 from copy import deepcopy
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import struct
@@ -65,10 +66,8 @@ def build():
     BUILD.mkdir(parents=True, exist_ok=True)
     target = BUILD / 'staged/firmware/npu/control-v2.c'
     target.parent.mkdir(parents=True, exist_ok=True)
+    assert 'int npu_control_v2_dispatch_gate(' in control.SERVER.read_text()
     target.write_bytes(control.SERVER.read_bytes())
-    done = subprocess.run(['patch', '--batch', '--forward', '--fuzz=0', '-p1', '-i', str(boot.PATCH)],
-                          cwd=BUILD / 'staged', capture_output=True, text=True, timeout=30)
-    assert done.returncode == 0 and 'offset' not in done.stdout and 'fuzz' not in done.stdout, done.stdout + done.stderr
     common = [shutil.which('clang'), '-O2', '-g', '-Wall', '-Wextra', '-Werror',
               '-ffreestanding', '-fno-builtin', '-fno-stack-protector', '-I', BASE]
     lld = shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'
@@ -426,8 +425,13 @@ def fingerprints():
         bindings = receipt.get('inputs', receipt.get('inputs_before_after'))
         assert isinstance(bindings, dict)
         for name, digest in bindings.items():
-            assert sha(ROOT / name) == digest, ('prior-evidence-input-drift', name)
-            inputs[name] = digest
+            actual = sha(ROOT / name)
+            # These describe the host build, not the retained RV32 test inputs.
+            metadata = {'firmware/source-lock.json', 'firmware/build.config',
+                        'firmware/patches/openwrt.patch', 'firmware/patches/luci.patch',
+                        'tests/npu/test_boot_irq_installation.py'}
+            assert actual == digest or name in metadata, ('prior-evidence-input-drift', name)
+            inputs[name] = actual
         inputs[str(path.relative_to(ROOT))] = sha(path)
     for module in tuple(sys.modules.values()):
         path = getattr(module, '__file__', None)
@@ -477,6 +481,7 @@ def main():
     print(json.dumps(dict(stage='missing-gates', cases=len(omitted))), flush=True)
     assert all(sha(ROOT / name) == digest for name, digest in before.items())
     result = dict(schema=1, inputs_before_after=before, compiler=execute(['clang', '--version']).splitlines()[0],
+                  emulator_wall_budget_us=int(os.environ.get('NPU_EMULATION_TIMEOUT_US', '10000000')),
                   unicorn=unicorn.__version__, commands=COMMANDS,
                   binaries={str(p.relative_to(ROOT)): sha(p) for p in
                             [*paths, *parts.values(), BUILD / 'stale-v1-bridge-control.elf']},

@@ -1,4 +1,4 @@
-#include "control-v2.h"
+#include "bootstrap-v2.h"
 
 _Static_assert(sizeof(struct npu_control_v2_packet) == NPU_CONTROL_V2_SIZE,
                "V2 control layout changed");
@@ -11,9 +11,10 @@ void npu_control_v2_init(struct npu_control_v2_session *s,
     s->nonce_lo = s->nonce_hi = s->last_sequence = 0;
 }
 
-int npu_control_v2_dispatch(struct npu_control_v2_session *s,
+int npu_control_v2_dispatch_gate(struct npu_control_v2_session *s,
                              struct npu_admission *a, struct npu_barrier *b,
-                             struct npu_control_v2_packet *p, uint32_t bytes)
+                             struct npu_control_v2_packet *p, uint32_t bytes,
+                             enum npu_control_status bind_status)
 {
     uint32_t operation, status = NPU_CONTROL_OK;
 
@@ -56,6 +57,9 @@ int npu_control_v2_dispatch(struct npu_control_v2_session *s,
         }
     }
 
+    if (status == NPU_CONTROL_OK && operation == NPU_CONTROL_BIND)
+        status = bind_status;
+
     /* Reuse the original serialized admission/barrier operation, not its wire
      * admission. Rejected requests and discovery obtain only a STATUS snapshot. */
     p->v1.magic = NPU_CONTROL_REQUEST;
@@ -75,4 +79,11 @@ int npu_control_v2_dispatch(struct npu_control_v2_session *s,
     p->boot_hi = s->boot_hi;
     p->reserved = 0;
     return 1;
+}
+
+int npu_control_v2_dispatch(struct npu_control_v2_session *s,
+                             struct npu_admission *a, struct npu_barrier *b,
+                             struct npu_control_v2_packet *p, uint32_t bytes)
+{
+    return npu_control_v2_dispatch_gate(s, a, b, p, bytes, NPU_CONTROL_OK);
 }

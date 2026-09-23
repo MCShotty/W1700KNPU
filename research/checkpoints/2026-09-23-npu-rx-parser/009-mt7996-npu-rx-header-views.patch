@@ -1,0 +1,211 @@
+From: W1700KNPU development <noreply@example.invalid>
+Subject: [CANDIDATE] wifi: mt7996: prepare bounded RX header views
+
+Pull only the required RXD and data header prefix before caching
+parser pointers. Retain non-linear packet bodies, snapshot RXV
+metadata across packet edits, and bound the common type dispatch.
+
+Unpromoted; firmware-event payload semantics and physical NPU
+publication/lifetime remain separate integration contracts.
+
+---
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/etherdevice.h>
++#include <linux/if_vlan.h>
+ #include <linux/timekeeping.h>
+ #include "coredump.h"
+ #include "mt7996.h"
+@@ -191,7 +192,7 @@
+ 	struct mt76_rx_status *status = (struct mt76_rx_status *)skb->cb;
+ 	struct ethhdr *eth_hdr = (struct ethhdr *)(skb->data + hdr_gap);
+ 	struct mt7996_sta_link *msta_link = (void *)status->wcid;
+-	struct mt7996_sta *msta = msta_link->sta;
++	struct mt7996_sta *msta;
+ 	struct ieee80211_bss_conf *link_conf;
+ 	__le32 *rxd = (__le32 *)skb->data;
+ 	struct ieee80211_sta *sta;
+@@ -206,6 +207,10 @@
+ 	if (!(le32_to_cpu(rxd[1]) & MT_RXD1_NORMAL_GROUP_4))
+ 		return -EINVAL;
+ 
++	if (!msta_link)
++		return -EINVAL;
++
++	msta = msta_link->sta;
+ 	if (!msta || !msta->vif)
+ 		return -EINVAL;
+ 
+@@ -411,6 +416,60 @@
+ 				 FIELD_GET(MT_DMA_PPE_ENTRY, info));
+ }
+ 
++static int mt7996_mac_rx_prepare(struct sk_buff *skb)
++{
++	u32 rxd0, rxd1, rxd2, rxd4;
++	unsigned int offset = 8 * sizeof(__le32), len;
++	__le16 fc, group_fc = 0;
++	bool is_mesh;
++
++	if (!pskb_may_pull(skb, offset))
++		return -EINVAL;
++	rxd0 = get_unaligned_le32(skb->data);
++	rxd1 = get_unaligned_le32(skb->data + 4);
++	rxd2 = get_unaligned_le32(skb->data + 8);
++	rxd4 = get_unaligned_le32(skb->data + 16);
++
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_4)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_1)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_2)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_3) {
++		offset += 4 * sizeof(__le32);
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_5)
++			offset += 24 * sizeof(__le32);
++	}
++	offset += 2 * FIELD_GET(MT_RXD2_NORMAL_HDR_OFFSET, rxd2);
++	if (!pskb_may_pull(skb, offset + sizeof(__le16)))
++		return -EINVAL;
++
++	if (rxd2 & MT_RXD2_NORMAL_HDR_TRANS) {
++		len = ETH_HLEN;
++		if (!pskb_may_pull(skb, offset + len))
++			return -EINVAL;
++		if ((rxd2 & MT_RXD2_NORMAL_HDR_TRANS_ERROR) &&
++		    get_unaligned_be16(skb->data + offset + 12) == ETH_P_8021Q)
++			len += VLAN_HLEN + 2;
++	} else {
++		fc = cpu_to_le16(get_unaligned_le16(skb->data + offset));
++		len = ieee80211_hdrlen(fc);
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_4) {
++			u32 v0 = get_unaligned_le32(skb->data + 32);
++
++			group_fc = cpu_to_le16(FIELD_GET(MT_RXD8_FRAME_CONTROL, v0));
++		}
++		is_mesh = (rxd0 & (MT_RXD0_MESH | MT_RXD0_MHCP)) ==
++			  (MT_RXD0_MESH | MT_RXD0_MHCP);
++		if (FIELD_GET(MT_RXD4_NORMAL_PAYLOAD_FORMAT, rxd4) &&
++		    !(ieee80211_has_a4(group_fc) && is_mesh))
++			len = max_t(unsigned int, len + 2, 10);
++	}
++
++	return pskb_may_pull(skb, offset + len) ? 0 : -EINVAL;
++}
++
+ static int
+ mt7996_mac_fill_rx(struct mt7996_dev *dev, enum mt76_rxq_id q,
+ 		   struct sk_buff *skb, u32 *info)
+@@ -419,17 +478,17 @@
+ 	struct mt76_phy *mphy = &dev->mt76.phy;
+ 	struct mt7996_phy *phy = &dev->phy;
+ 	struct ieee80211_supported_band *sband;
+-	__le32 *rxd = (__le32 *)skb->data;
++	__le32 *rxd, rxv_data[28];
+ 	__le32 *rxv = NULL;
+-	u32 rxd0 = le32_to_cpu(rxd[0]);
+-	u32 rxd1 = le32_to_cpu(rxd[1]);
+-	u32 rxd2 = le32_to_cpu(rxd[2]);
+-	u32 rxd3 = le32_to_cpu(rxd[3]);
+-	u32 rxd4 = le32_to_cpu(rxd[4]);
++	u32 rxd0;
++	u32 rxd1;
++	u32 rxd2;
++	u32 rxd3;
++	u32 rxd4;
+ 	u32 csum_mask = MT_RXD3_NORMAL_IP_SUM | MT_RXD3_NORMAL_UDP_TCP_SUM;
+ 	u32 csum_status = *(u32 *)skb->cb;
+ 	u32 mesh_mask = MT_RXD0_MESH | MT_RXD0_MHCP;
+-	bool is_mesh = (rxd0 & mesh_mask) == mesh_mask;
++	bool is_mesh;
+ 	bool unicast, insert_ccmp_hdr = false;
+ 	u8 remove_pad, amsdu_info, band_idx;
+ 	u8 mode = 0, qos_ctl = 0;
+@@ -440,6 +499,17 @@
+ 	int idx;
+ 	u8 hw_aggr = false;
+ 	struct mt7996_sta *msta = NULL;
++
++	if (mt7996_mac_rx_prepare(skb))
++		return -EINVAL;
++
++	rxd = (__le32 *)skb->data;
++	rxd0 = le32_to_cpu(rxd[0]);
++	rxd1 = le32_to_cpu(rxd[1]);
++	rxd2 = le32_to_cpu(rxd[2]);
++	rxd3 = le32_to_cpu(rxd[3]);
++	rxd4 = le32_to_cpu(rxd[4]);
++	is_mesh = (rxd0 & mesh_mask) == mesh_mask;
+ 
+ 	hw_aggr = status->aggr;
+ 	memset(status, 0, sizeof(*status));
+@@ -611,6 +681,14 @@
+ 		ret = mt7996_mac_fill_rx_rate(dev, status, sband, rxv, &mode);
+ 		if (ret < 0)
+ 			return ret;
++
++		/* Packet edits below can overwrite the consumed RX vector. */
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_5) {
++			memcpy(rxv_data, rxv, sizeof(rxv_data));
++			rxv = rxv_data;
++		} else {
++			rxv = NULL;
++		}
+ 	}
+ 
+ 	amsdu_info = FIELD_GET(MT_RXD4_NORMAL_PAYLOAD_FORMAT, rxd4);
+@@ -1692,10 +1770,13 @@
+ 			 struct sk_buff *skb, u32 *info)
+ {
+ 	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
+-	__le32 *rxd = (__le32 *)skb->data;
+-	__le32 *end = (__le32 *)&skb->data[skb->len];
++	__le32 *rxd, *end;
+ 	enum rx_pkt_type type;
+ 
++	if (!pskb_may_pull(skb, sizeof(*rxd)))
++		goto free_skb;
++
++	rxd = (__le32 *)skb->data;
+ 	type = le32_get_bits(rxd[0], MT_RXD0_PKT_TYPE);
+ 	if (type != PKT_TYPE_NORMAL) {
+ 		u32 sw_type = le32_get_bits(rxd[0], MT_RXD0_SW_PKT_TYPE_MASK);
+@@ -1704,6 +1785,10 @@
+ 			     MT_RXD0_SW_PKT_TYPE_FRAME))
+ 			type = PKT_TYPE_NORMAL;
+ 	}
++
++	/* Control handlers consume a flat data pointer and length. */
++	if (type != PKT_TYPE_NORMAL && !pskb_may_pull(skb, skb->len))
++		goto free_skb;
+ 
+ 	switch (type) {
+ 	case PKT_TYPE_TXRX_NOTIFY:
+@@ -1717,9 +1802,15 @@
+ 		napi_consume_skb(skb, 1);
+ 		break;
+ 	case PKT_TYPE_RX_EVENT:
++		if (skb->len < sizeof(struct mt7996_mcu_rxd))
++			goto free_skb;
+ 		mt7996_mcu_rx_event(dev, skb);
+ 		break;
+ 	case PKT_TYPE_TXS:
++		if (skb->len < MT_TXS_HDR_SIZE * sizeof(*rxd))
++			goto free_skb;
++		rxd = (__le32 *)skb->data;
++		end = (__le32 *)(skb->data + skb->len);
+ 		for (rxd += MT_TXS_HDR_SIZE; rxd + MT_TXS_SIZE <= end; rxd += MT_TXS_SIZE)
+ 			mt7996_mac_add_txs(dev, rxd);
+ 		dev_kfree_skb(skb);
+@@ -1735,6 +1826,7 @@
+ 		}
+ 		fallthrough;
+ 	default:
++free_skb:
+ 		dev_kfree_skb(skb);
+ 		break;
+ 	}

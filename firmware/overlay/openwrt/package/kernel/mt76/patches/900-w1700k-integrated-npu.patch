@@ -1,0 +1,646 @@
+Subject: [PATCH] W1700K: merge NPU ownership, recovery and control changes
+
+Rebased onto the pinned non-OC source. This is the experimental
+build input; compilation is not a physical drain or recovery proof.
+
+---
+--- a/Makefile
++++ b/Makefile
+@@ -14,6 +14,11 @@
+ 	tx.o agg-rx.o mcu.o wed.o scan.o channel.o
+ 
+ mt76-$(CONFIG_MT76_NPU) += npu.o
++mt76-$(CONFIG_MT76_NPU) += w1700k/control-client.o w1700k/control-v2-client.o \
++			 w1700k/linux-control.o
++CFLAGS_w1700k/control-client.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/control-v2-client.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/linux-control.o := -I$(src)/w1700k/kernel-include
+ mt76-$(CONFIG_PCI) += pci.o
+ mt76-$(CONFIG_NL80211_TESTMODE) += testmode.o
+ 
+--- a/mt7996/debugfs.c
++++ b/mt7996/debugfs.c
+@@ -967,6 +967,30 @@
+ 	return 0;
+ }
+ 
++static int mt7996_npu_state_show(struct seq_file *file, void *data)
++{
++#ifdef CONFIG_MT7996_NPU
++	struct mt7996_dev *dev = file->private;
++	struct mt76_dev *mdev = &dev->mt76;
++#endif
++
++	seq_printf(file, "compiled_support: %u\n", IS_ENABLED(CONFIG_MT7996_NPU));
++#ifdef CONFIG_MT7996_NPU
++	seq_printf(file, "provider_attached: %u\n",
++		   mt76_npu_device_active(mdev));
++	seq_printf(file, "ppe_attached: %u\n",
++		   mt76_ppe_device_active(mdev));
++	seq_printf(file, "hwrro_mode: %u\n", mdev->hwrro_mode);
++	seq_printf(file, "rx_token_size: %u\n", mdev->rx_token_size);
++	seq_printf(file, "npu_type: %d\n", mdev->mmio.npu_type);
++#else
++	seq_puts(file, "provider_attached: 0\nppe_attached: 0\n");
++#endif
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(mt7996_npu_state);
++
+ int mt7996_init_debugfs(struct mt7996_dev *dev)
+ {
+ 	struct dentry *dir;
+@@ -992,6 +1016,8 @@
+ 				    mt7996_twt_stats);
+ 	debugfs_create_file("rf_regval", 0600, dir, dev, &fops_rf_regval);
+ 	debugfs_create_file("vow_atf", 0600, dir, dev, &fops_vow_atf);
++	debugfs_create_file("npu_state", 0400, dir, dev,
++			    &mt7996_npu_state_fops);
+ 
+ 	debugfs_create_u32("dfs_hw_pattern", 0400, dir, &dev->hw_pattern);
+ 	debugfs_create_file("radar_trigger", 0200, dir, dev,
+--- a/mt7996/dma.c
++++ b/mt7996/dma.c
+@@ -128,23 +128,21 @@
+ 
+ 	/* data tx queue */
+ 	if (is_mt7996(&dev->mt76)) {
+-		if (dev->hif2) {
+-			if (mt76_npu_device_active(&dev->mt76)) {
+-				TXQ_CONFIG(0, WFDMA0, MT_INT_TX_DONE_BAND2,
+-					   MT7996_TXQ_BAND2);
+-				TXQ_CONFIG(1, WFDMA0, MT_INT_TX_DONE_BAND0,
+-					   MT7996_TXQ_BAND0);
+-				TXQ_CONFIG(2, WFDMA0, MT_INT_TX_DONE_BAND1,
+-					   MT7996_TXQ_BAND1);
+-			} else {
+-				/* default bn1:ring19 bn2:ring21 */
+-				TXQ_CONFIG(0, WFDMA0, MT_INT_TX_DONE_BAND0,
+-					   MT7996_TXQ_BAND0);
+-				TXQ_CONFIG(1, WFDMA0, MT_INT_TX_DONE_BAND1,
+-					   MT7996_TXQ_BAND1);
+-				TXQ_CONFIG(2, WFDMA0, MT_INT_TX_DONE_BAND2,
+-					   MT7996_TXQ_BAND2);
+-			}
++		if (mt76_npu_device_active(&dev->mt76)) {
++			TXQ_CONFIG(0, WFDMA0, MT_INT_TX_DONE_BAND2,
++				   MT7996_TXQ_BAND2);
++			TXQ_CONFIG(1, WFDMA0, MT_INT_TX_DONE_BAND0,
++				   MT7996_TXQ_BAND0);
++			TXQ_CONFIG(2, WFDMA0, MT_INT_TX_DONE_BAND1,
++				   MT7996_TXQ_BAND1);
++		} else if (dev->hif2) {
++			/* default bn1:ring19 bn2:ring21 */
++			TXQ_CONFIG(0, WFDMA0, MT_INT_TX_DONE_BAND0,
++				   MT7996_TXQ_BAND0);
++			TXQ_CONFIG(1, WFDMA0, MT_INT_TX_DONE_BAND1,
++				   MT7996_TXQ_BAND1);
++			TXQ_CONFIG(2, WFDMA0, MT_INT_TX_DONE_BAND2,
++				   MT7996_TXQ_BAND2);
+ 		} else {
+ 			/* single pcie bn0/1:ring18 bn2:ring19 */
+ 			TXQ_CONFIG(0, WFDMA0, MT_INT_TX_DONE_BAND0,
+@@ -351,7 +349,8 @@
+ 	if (mt7996_band_valid(dev, MT_BAND2))
+ 		irq_mask |= MT_INT_BAND2_RX_DONE | MT_INT_TX_RX_DONE_EXT;
+ 
+-	if (mtk_wed_device_active(wed) && wed_reset) {
++	if (mtk_wed_device_active(wed) && wed_reset &&
++	    (!reset || !mt76_npu_device_active(&dev->mt76))) {
+ 		u32 wed_irq_mask = irq_mask;
+ 
+ 		wed_irq_mask |= MT_INT_TX_DONE_BAND0 | MT_INT_TX_DONE_BAND1;
+--- a/mt7996/init.c
++++ b/mt7996/init.c
+@@ -772,7 +772,8 @@
+ 	mt7996_init_wiphy_band(mphy->hw, phy);
+ 
+ 	if (is_mt7996(&dev->mt76) &&
+-	    ((band == MT_BAND1 && !dev->hif2) ||
++	    ((band == MT_BAND1 && !dev->hif2 &&
++	      !mt76_npu_device_active(&dev->mt76)) ||
+ 	     (band == MT_BAND2 && mt76_npu_device_active(&dev->mt76)))) {
+ 		int i;
+ 
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/etherdevice.h>
++#include <linux/if_vlan.h>
+ #include <linux/timekeeping.h>
+ #include "coredump.h"
+ #include "mt7996.h"
+@@ -79,7 +80,7 @@
+ 	struct mt76_rx_status *status = (struct mt76_rx_status *)skb->cb;
+ 	struct ethhdr *eth_hdr = (struct ethhdr *)(skb->data + hdr_gap);
+ 	struct mt7996_sta_link *msta_link = (void *)status->wcid;
+-	struct mt7996_sta *msta = msta_link->sta;
++	struct mt7996_sta *msta;
+ 	struct ieee80211_bss_conf *link_conf;
+ 	__le32 *rxd = (__le32 *)skb->data;
+ 	struct ieee80211_sta *sta;
+@@ -94,6 +95,10 @@
+ 	if (!(le32_to_cpu(rxd[1]) & MT_RXD1_NORMAL_GROUP_4))
+ 		return -EINVAL;
+ 
++	if (!msta_link)
++		return -EINVAL;
++
++	msta = msta_link->sta;
+ 	if (!msta || !msta->vif)
+ 		return -EINVAL;
+ 
+@@ -299,6 +304,60 @@
+ 				 FIELD_GET(MT_DMA_PPE_ENTRY, info));
+ }
+ 
++static int mt7996_mac_rx_prepare(struct sk_buff *skb)
++{
++	u32 rxd0, rxd1, rxd2, rxd4;
++	unsigned int offset = 8 * sizeof(__le32), len;
++	__le16 fc, group_fc = 0;
++	bool is_mesh;
++
++	if (!pskb_may_pull(skb, offset))
++		return -EINVAL;
++	rxd0 = get_unaligned_le32(skb->data);
++	rxd1 = get_unaligned_le32(skb->data + 4);
++	rxd2 = get_unaligned_le32(skb->data + 8);
++	rxd4 = get_unaligned_le32(skb->data + 16);
++
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_4)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_1)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_2)
++		offset += 4 * sizeof(__le32);
++	if (rxd1 & MT_RXD1_NORMAL_GROUP_3) {
++		offset += 4 * sizeof(__le32);
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_5)
++			offset += 24 * sizeof(__le32);
++	}
++	offset += 2 * FIELD_GET(MT_RXD2_NORMAL_HDR_OFFSET, rxd2);
++	if (!pskb_may_pull(skb, offset + sizeof(__le16)))
++		return -EINVAL;
++
++	if (rxd2 & MT_RXD2_NORMAL_HDR_TRANS) {
++		len = ETH_HLEN;
++		if (!pskb_may_pull(skb, offset + len))
++			return -EINVAL;
++		if ((rxd2 & MT_RXD2_NORMAL_HDR_TRANS_ERROR) &&
++		    get_unaligned_be16(skb->data + offset + 12) == ETH_P_8021Q)
++			len += VLAN_HLEN + 2;
++	} else {
++		fc = cpu_to_le16(get_unaligned_le16(skb->data + offset));
++		len = ieee80211_hdrlen(fc);
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_4) {
++			u32 v0 = get_unaligned_le32(skb->data + 32);
++
++			group_fc = cpu_to_le16(FIELD_GET(MT_RXD8_FRAME_CONTROL, v0));
++		}
++		is_mesh = (rxd0 & (MT_RXD0_MESH | MT_RXD0_MHCP)) ==
++			  (MT_RXD0_MESH | MT_RXD0_MHCP);
++		if (FIELD_GET(MT_RXD4_NORMAL_PAYLOAD_FORMAT, rxd4) &&
++		    !(ieee80211_has_a4(group_fc) && is_mesh))
++			len = max_t(unsigned int, len + 2, 10);
++	}
++
++	return pskb_may_pull(skb, offset + len) ? 0 : -EINVAL;
++}
++
+ static int
+ mt7996_mac_fill_rx(struct mt7996_dev *dev, enum mt76_rxq_id q,
+ 		   struct sk_buff *skb, u32 *info)
+@@ -307,17 +366,17 @@
+ 	struct mt76_phy *mphy = &dev->mt76.phy;
+ 	struct mt7996_phy *phy = &dev->phy;
+ 	struct ieee80211_supported_band *sband;
+-	__le32 *rxd = (__le32 *)skb->data;
++	__le32 *rxd, rxv_data[28];
+ 	__le32 *rxv = NULL;
+-	u32 rxd0 = le32_to_cpu(rxd[0]);
+-	u32 rxd1 = le32_to_cpu(rxd[1]);
+-	u32 rxd2 = le32_to_cpu(rxd[2]);
+-	u32 rxd3 = le32_to_cpu(rxd[3]);
+-	u32 rxd4 = le32_to_cpu(rxd[4]);
++	u32 rxd0;
++	u32 rxd1;
++	u32 rxd2;
++	u32 rxd3;
++	u32 rxd4;
+ 	u32 csum_mask = MT_RXD3_NORMAL_IP_SUM | MT_RXD3_NORMAL_UDP_TCP_SUM;
+ 	u32 csum_status = *(u32 *)skb->cb;
+ 	u32 mesh_mask = MT_RXD0_MESH | MT_RXD0_MHCP;
+-	bool is_mesh = (rxd0 & mesh_mask) == mesh_mask;
++	bool is_mesh;
+ 	bool unicast, insert_ccmp_hdr = false;
+ 	u8 remove_pad, amsdu_info, band_idx;
+ 	u8 mode = 0, qos_ctl = 0;
+@@ -328,6 +387,17 @@
+ 	int idx;
+ 	u8 hw_aggr = false;
+ 	struct mt7996_sta *msta = NULL;
++
++	if (mt7996_mac_rx_prepare(skb))
++		return -EINVAL;
++
++	rxd = (__le32 *)skb->data;
++	rxd0 = le32_to_cpu(rxd[0]);
++	rxd1 = le32_to_cpu(rxd[1]);
++	rxd2 = le32_to_cpu(rxd[2]);
++	rxd3 = le32_to_cpu(rxd[3]);
++	rxd4 = le32_to_cpu(rxd[4]);
++	is_mesh = (rxd0 & mesh_mask) == mesh_mask;
+ 
+ 	hw_aggr = status->aggr;
+ 	memset(status, 0, sizeof(*status));
+@@ -498,6 +568,14 @@
+ 		ret = mt7996_mac_fill_rx_rate(dev, status, sband, rxv, &mode);
+ 		if (ret < 0)
+ 			return ret;
++
++		/* Packet edits below can overwrite the consumed RX vector. */
++		if (rxd1 & MT_RXD1_NORMAL_GROUP_5) {
++			memcpy(rxv_data, rxv, sizeof(rxv_data));
++			rxv = rxv_data;
++		} else {
++			rxv = NULL;
++		}
+ 	}
+ 
+ 	amsdu_info = FIELD_GET(MT_RXD4_NORMAL_PAYLOAD_FORMAT, rxd4);
+@@ -1551,10 +1629,13 @@
+ 			 struct sk_buff *skb, u32 *info)
+ {
+ 	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
+-	__le32 *rxd = (__le32 *)skb->data;
+-	__le32 *end = (__le32 *)&skb->data[skb->len];
++	__le32 *rxd, *end;
+ 	enum rx_pkt_type type;
+ 
++	if (!pskb_may_pull(skb, sizeof(*rxd)))
++		goto free_skb;
++
++	rxd = (__le32 *)skb->data;
+ 	type = le32_get_bits(rxd[0], MT_RXD0_PKT_TYPE);
+ 	if (type != PKT_TYPE_NORMAL) {
+ 		u32 sw_type = le32_get_bits(rxd[0], MT_RXD0_SW_PKT_TYPE_MASK);
+@@ -1563,6 +1644,10 @@
+ 			     MT_RXD0_SW_PKT_TYPE_FRAME))
+ 			type = PKT_TYPE_NORMAL;
+ 	}
++
++	/* Control handlers consume a flat data pointer and length. */
++	if (type != PKT_TYPE_NORMAL && !pskb_may_pull(skb, skb->len))
++		goto free_skb;
+ 
+ 	switch (type) {
+ 	case PKT_TYPE_TXRX_NOTIFY:
+@@ -1576,9 +1661,15 @@
+ 		napi_consume_skb(skb, 1);
+ 		break;
+ 	case PKT_TYPE_RX_EVENT:
++		if (skb->len < sizeof(struct mt7996_mcu_rxd))
++			goto free_skb;
+ 		mt7996_mcu_rx_event(dev, skb);
+ 		break;
+ 	case PKT_TYPE_TXS:
++		if (skb->len < MT_TXS_HDR_SIZE * sizeof(*rxd))
++			goto free_skb;
++		rxd = (__le32 *)skb->data;
++		end = (__le32 *)(skb->data + skb->len);
+ 		for (rxd += MT_TXS_HDR_SIZE; rxd + MT_TXS_SIZE <= end; rxd += MT_TXS_SIZE)
+ 			mt7996_mac_add_txs(dev, rxd);
+ 		dev_kfree_skb(skb);
+@@ -1594,6 +1685,7 @@
+ 		}
+ 		fallthrough;
+ 	default:
++free_skb:
+ 		dev_kfree_skb(skb);
+ 		break;
+ 	}
+@@ -2389,9 +2481,14 @@
+ 	struct ieee80211_hw *hw;
+ 	struct mt7996_dev *dev;
+ 	struct mt7996_phy *phy;
+-	int i;
++	bool npu_active;
++	int i, ret;
+ 
+ 	dev = container_of(work, struct mt7996_dev, reset_work);
++	/* Do not re-disable NAPI or escalate after a failed NPU recovery. */
++	if (READ_ONCE(dev->recovery.npu_error))
++		return;
++
+ 	hw = mt76_hw(dev);
+ 
+ 	/* chip full reset */
+@@ -2431,7 +2528,8 @@
+ 	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+ 		mtk_wed_device_stop(&dev->mt76.mmio.wed);
+ 
+-	mt7996_npu_hw_stop(dev);
++	npu_active = mt76_npu_device_active(&dev->mt76);
++	ret = mt7996_npu_hw_stop(dev);
+ 	ieee80211_stop_queues(mt76_hw(dev));
+ 
+ 	set_bit(MT76_RESET, &dev->mphy.state);
+@@ -2465,6 +2563,12 @@
+ 	}
+ 	napi_disable(&dev->mt76.tx_napi);
+ 
++	if (!ret && npu_active && !mt76_npu_device_active(&dev->mt76))
++		ret = -ENODEV;
++
++	if (ret)
++		goto npu_recovery_failed;
++
+ 	mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_STOPPED);
+ 
+ 	if (mt7996_wait_reset_state(dev, MT_MCU_CMD_RESET_DONE)) {
+@@ -2474,11 +2578,26 @@
+ 		idr_init(&dev->mt76.token);
+ 
+ 		mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_INIT);
+-		mt7996_wait_reset_state(dev, MT_MCU_CMD_RECOVERY_DONE);
++		if (!mt7996_wait_reset_state(dev, MT_MCU_CMD_RECOVERY_DONE) &&
++		    npu_active) {
++			ret = -ETIMEDOUT;
++			goto npu_recovery_failed;
++		}
++	} else if (npu_active) {
++		ret = -ETIMEDOUT;
++		goto npu_recovery_failed;
+ 	}
+ 
+ 	mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_RESET_DONE);
+-	mt7996_wait_reset_state(dev, MT_MCU_CMD_NORMAL_STATE);
++	if (!mt7996_wait_reset_state(dev, MT_MCU_CMD_NORMAL_STATE) &&
++	    npu_active) {
++		ret = -ETIMEDOUT;
++		goto npu_recovery_failed;
++	}
++
++	ret = __mt7996_npu_hw_init(dev);
++	if (ret)
++		goto npu_recovery_failed;
+ 
+ 	/* enable DMA Rx/Tx and interrupt */
+ 	mt7996_dma_start(dev, false, false);
+@@ -2503,8 +2622,6 @@
+ 				     MT_INT_TX_RX_DONE_EXT);
+ 	}
+ 
+-	__mt7996_npu_hw_init(dev);
+-
+ 	clear_bit(MT76_MCU_RESET, &dev->mphy.state);
+ 	mt7996_for_each_phy(dev, phy)
+ 		clear_bit(MT76_RESET, &phy->mt76->state);
+@@ -2546,6 +2663,14 @@
+ 					     MT7996_WATCHDOG_TIME);
+ 	dev_info(dev->mt76.dev,"\n%s L1 SER recovery completed.",
+ 		 wiphy_name(dev->mt76.hw->wiphy));
++	return;
++
++npu_recovery_failed:
++	WRITE_ONCE(dev->recovery.npu_error, ret);
++	mt76_npu_disable_irqs(&dev->mt76);
++	mutex_unlock(&dev->mt76.mutex);
++	dev_err(dev->mt76.dev, "NPU L1 recovery failed: %d; resources retained\n",
++		ret);
+ }
+ 
+ /* firmware coredump */
+--- a/mt7996/mt7996.h
++++ b/mt7996/mt7996.h
+@@ -490,6 +490,7 @@
+ 		u32 state;
+ 		u32 wa_reset_count;
+ 		u32 wm_reset_count;
++		int npu_error;
+ 		bool hw_full_reset:1;
+ 		bool hw_init_done:1;
+ 		bool restart:1;
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -7,6 +7,7 @@
+ #include <linux/soc/airoha/airoha_offload.h>
+ 
+ #include "mt7996.h"
++#include "../dma.h"
+ 
+ static int mt7992_npu_txrx_offload_init(struct mt7996_dev *dev,
+ 					struct airoha_npu *npu)
+@@ -399,6 +400,27 @@
+ 	return 0;
+ }
+ 
++static int mt7996_npu_rx_event_validate(struct mt7996_dev *dev)
++{
++	int qid = is_mt7996(&dev->mt76) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;
++	struct mt76_queue *q = &dev->mt76.q_rx[qid];
++	u32 size = MT7996_RX_MCU_RING_SIZE * sizeof(*q->desc);
++
++	BUILD_BUG_ON(sizeof(*q->desc) != 16);
++
++	if (q->flags != MT_NPU_Q_TXFREE(0) || !q->desc || !q->entry ||
++	    q->ndesc != MT7996_RX_MCU_RING_SIZE)
++		return -EINVAL;
++
++	/* Native TXDONE uses an aligned, non-wrapping 30-bit address span. */
++	if (!IS_ALIGNED(q->desc_dma, 16) || upper_32_bits(q->desc_dma) ||
++	    (u32)q->desc_dma >= 0xc0000000U ||
++	    (q->desc_dma & GENMASK(29, 0)) > BIT(30) - size)
++		return -ERANGE;
++
++	return 0;
++}
++
+ static int mt7996_npu_rx_event_init(struct mt7996_dev *dev,
+ 				    struct airoha_npu *npu)
+ {
+@@ -522,6 +544,10 @@
+ 	if (!npu)
+ 		return 0;
+ 
++	err = mt7996_npu_rx_event_validate(dev);
++	if (err)
++		return err;
++
+ 	err = mt7996_npu_offload_init(dev, npu);
+ 	if (err)
+ 		return err;
+@@ -559,6 +585,9 @@
+ int mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
+ 	int i, err;
++
++	if (!mt76_npu_device_active(&dev->mt76))
++		return 0;
+ 
+ 	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
+ 
+--- a/npu.c
++++ b/npu.c
+@@ -60,55 +60,82 @@
+ }
+ 
+ static struct sk_buff *mt76_npu_dequeue(struct mt76_dev *dev,
+-					struct mt76_queue *q,
+-					u32 *info)
++				      struct mt76_queue *q, u32 *info)
+ {
+ 	struct airoha_npu_rx_dma_desc *desc = (void *)q->desc;
+ 	int i, nframes, index = q->tail;
+ 	struct sk_buff *skb = NULL;
+-
+-	nframes = FIELD_GET(NPU_RX_DMA_PKT_COUNT_MASK, desc[index].info);
+-	nframes = max_t(int, nframes, 1);
+-
++	u16 lengths[16];
++	u32 ctrl, packet_info;
++	bool drop;
++
++	if (!desc || !q->entry || q->ndesc <= 0 || q->queued <= 0 ||
++	    q->queued > q->ndesc || index >= q->ndesc || q->buf_size <= 0 ||
++	    q->buf_size <= SKB_DATA_ALIGN(sizeof(struct skb_shared_info)))
++		return NULL;
++
++	ctrl = READ_ONCE(desc[index].ctrl);
++	if (!(ctrl & NPU_RX_DMA_DESC_DONE_MASK))
++		return NULL;
++	dma_rmb();
++	packet_info = READ_ONCE(desc[index].info);
++	nframes = max_t(int, FIELD_GET(NPU_RX_DMA_PKT_COUNT_MASK, packet_info), 1);
++	if (nframes > ARRAY_SIZE(lengths) || nframes > q->queued)
++		return NULL;
++	drop = nframes > MAX_SKB_FRAGS + 1;
++
++	/* Retain every buffer until the complete packet can be consumed. */
+ 	for (i = 0; i < nframes; i++) {
+ 		struct mt76_queue_entry *e = &q->entry[index];
+-		int len = FIELD_GET(NPU_RX_DMA_DESC_CUR_LEN_MASK,
+-				    desc[index].ctrl);
+-
+-		if (!FIELD_GET(NPU_RX_DMA_DESC_DONE_MASK, desc[index].ctrl)) {
+-			dev_kfree_skb(skb);
++
++		if (i) {
++			ctrl = READ_ONCE(desc[index].ctrl);
++			if (!(ctrl & NPU_RX_DMA_DESC_DONE_MASK))
++				return NULL;
++			dma_rmb();
++			packet_info = READ_ONCE(desc[index].info);
++		}
++		if (!e->buf || !e->dma_len[0] ||
++		    e->dma_len[0] > SKB_WITH_OVERHEAD(q->buf_size))
+ 			return NULL;
+-		}
++		lengths[i] = FIELD_GET(NPU_RX_DMA_DESC_CUR_LEN_MASK, ctrl);
++		drop |= lengths[i] > e->dma_len[0];
++		index = (index + 1) % q->ndesc;
++	}
++
++	index = q->tail;
++	for (i = 0; i < nframes; i++) {
++		struct mt76_queue_entry *e = &q->entry[index];
+ 
+ 		dma_sync_single_for_cpu(dev->dma_dev, e->dma_addr[0],
+ 					e->dma_len[0],
+ 					page_pool_get_dma_dir(q->page_pool));
+-
+-		if (!skb) {
++		if (drop) {
++			mt76_put_page_pool_buf(e->buf, false);
++		} else if (!i) {
+ 			skb = napi_build_skb(e->buf, q->buf_size);
+ 			if (!skb)
+ 				return NULL;
+-
+-			__skb_put(skb, len);
++			__skb_put(skb, lengths[i]);
+ 			skb_reset_mac_header(skb);
+ 			skb_mark_for_recycle(skb);
+ 		} else {
+-			struct skb_shared_info *shinfo = skb_shinfo(skb);
+ 			struct page *page = virt_to_head_page(e->buf);
+-			int nr_frags = shinfo->nr_frags;
+-
+-			if (nr_frags < ARRAY_SIZE(shinfo->frags))
+-				skb_add_rx_frag(skb, nr_frags, page,
+-						e->buf - page_address(page),
+-						len, q->buf_size);
++
++			skb_add_rx_frag(skb, i - 1, page,
++					e->buf - page_address(page),
++					lengths[i], q->buf_size);
+ 		}
+-
+-		*info = desc[index].info;
++		e->buf = NULL;
+ 		index = (index + 1) % q->ndesc;
+ 	}
+ 	q->tail = index;
+-	q->queued -= i;
++	q->queued -= nframes;
+ 	Q_WRITE(q, dma_idx, q->tail);
++
++	if (drop)
++		return ERR_PTR(-EINVAL);
++	*info = packet_info;
+ 
+ 	return skb;
+ }
+@@ -148,6 +175,9 @@
+ 	struct airoha_npu *npu;
+ 	int done = 0;
+ 
++	if (!budget)
++		return 0;
++
+ 	rcu_read_lock();
+ 
+ 	npu = rcu_dereference(dev->mmio.npu);
+@@ -161,6 +191,10 @@
+ 		skb = mt76_npu_dequeue(dev, &dev->q_rx[qid], &info);
+ 		if (!skb)
+ 			break;
++		if (IS_ERR(skb)) {
++			done++;
++			continue;
++		}
+ 
+ 		dev->drv->rx_skb(dev, qid, skb, &info);
+ 		mt76_rx_poll_complete(dev, qid, napi);
+@@ -506,16 +540,18 @@
+ 
+ 	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
+ 				  lockdep_is_held(&dev->mutex));
++	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,
++				      lockdep_is_held(&dev->mutex));
++	if (npu || ppe_dev)
++		synchronize_rcu();
++
++	mutex_unlock(&dev->mutex);
++
++	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
++	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
++
+ 	if (npu)
+ 		airoha_npu_put(npu);
+-
+-	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,
+-				      lockdep_is_held(&dev->mutex));
+ 	if (ppe_dev)
+ 		airoha_ppe_put_dev(ppe_dev);
+-
+-	mutex_unlock(&dev->mutex);
+-
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
+-}
++}

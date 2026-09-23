@@ -1,19 +1,109 @@
 # Remaining W1700K Work
 
-Updated 2026-09-16 from host CPU-lifetime fixes, V2 cold-start composition and
-earlier NPU/Wi-Fi evidence. This is the resume checklist, not a completion percentage.
+## Active Merge - 2026-09-23
+
+The current source lock now targets the unified experimental non-OC merge:
+kernel 6.18.52, mt76 fork 01367e60, WLAN NPU enabled and the implemented host/
+provider corrections included. See `docs/NONOC_MERGE.md`. The cross-toolchain,
+complete image, 60-file source replay, focused driver/emulation tests and offline
+FIT/board/package/module verification pass. The user's new instruction
+supersedes the former policy of leaving implemented candidates outside the
+build; historical checkpoint descriptions below retain their original scope.
+Physical testing remains deferred and the full NPU implementation is incomplete.
+The new local image is `r36536-merged-288d79449f`, SHA256
+`132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
+
+Updated 2026-09-23 from the reset-control prerequisite, Linux V2 executor, linked provider/host candidates, RX ownership,
+parser and CPU lifetime, V2
+composition and earlier NPU/Wi-Fi evidence. This is the resume checklist, not a completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
 kernel/ABI/Ghidra verification passed). The last
 router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
-The running router additionally has userspace script hotfixes and a companion
+The last recorded router state additionally has userspace script hotfixes and a companion
 nl80211 userspace library fix; this is not a new tested firmware image.
 
 ## Resume Blockers
 
-Active work is now NPU-only codebase work. Physical testing is deferred by the
-user, and no further Wi-Fi work or subagents are authorized for this pass.
-The project-wide Wi-Fi/service checks below remain tracked outside that scope.
+The merge includes the newer platform/Wi-Fi/userspace sources and all currently
+implemented host/provider corrections. It does not authorize router contact,
+flashing or subagents. Remaining NPU implementation priorities are:
+
+- Establish contained cold-provider/reset lifetime and complete engine coverage.
+- Implement fresh loader identity, storage reservation and publication.
+- Wire Linux executor initialization and actual setup/recovery callers with the
+  required DISCOVER/setup/BIND order and correct lifetime ownership.
+- Complete postgate/native hooks, physical drains, teardown and cleanup/rearm.
+- Perform separately authorized hardware and real-client acceptance. The new
+  image's static/build verification is not a substitute for these tests.
+
+## Pre-Merge Checkpoint Context
+
+The entries below retain the scope of their original checkpoints. Their
+"unpromoted" and isolated-build labels are historical; the implemented source
+changes are now in the unified build. The new full build uses its own mac80211
+symbol index, not the temporary reconstructed index described below.
+
+Tracing the cold-provider prerequisite found defects in the shared reset
+primitive. Unpromoted candidate 930 initializes the requested value and returns
+register read/write errors. The pinned driver reconstructs from the kernel
+archive and eleven source patches. All 147 reset mappings pass 23,088 host
+cases, four original failure controls, seven mutants and four AArch64 object
+builds. Native before/after callbacks each execute 5,007 cases: this target
+compiler happens to preserve normal polarity, but the original suppresses
+3,087 injected register errors. Independent readback verifies 132 files.
+Regmap/MMIO remains modeled. No provider reset wiring, physical containment,
+fresh loader identity/publication or cleanup permission is established; these
+remain prerequisites for V2 caller integration. See
+`research/checkpoints/2026-09-23-npu-reset-control/REPORT.md`.
+
+The new Linux V2 executor serializes full provider exchanges, checks intended
+operations, preserves the first error, rejects reinitialization and joins CPU
+calls on close. Forty-four ASan/UBSan host cases, six mutants and two linked
+AArch64 module profiles pass; four shared layout values match and 83 files
+independently hash-verify. Mutex/regmap/storage/delivery dependencies are modeled;
+the disabled profile changes test headers only. Initialization still requires a
+caller-established cold provider lifetime and fresh nonce. Consumer attachment
+does not prove that condition, so the executor is not yet wired into mt76.
+Loader identity/placement/publication, bootstrap ordering, provider/caller
+lifetime and physical drain/recovery remain open. See
+`research/checkpoints/2026-09-23-npu-linux-control/REPORT.md`.
+
+Provider candidates 928/929 now compile and link into an isolated copy of the
+prepared AArch64 kernel. Its configuration is unchanged; regenerated exports
+include get/put and `airoha_npu_wlan_control`. The three retained NPU-enabled
+mt76 modules relink against it, and an unloaded probe links the new control
+API. Actual mt76 still calls only get/put; V2 client integration remains open.
+The temporary 351-export mac80211 dependency index remains necessary. The
+build records 65 kernel, three mt76 and one probe description warnings under
+the target's stripped-metadata configuration, with no compiler/unresolved-symbol
+error. Independent readback matches 45 files. No candidate promotion, module
+load or image/runtime acceptance; physical DMA and full lifecycle/recovery
+remain open. See
+`research/checkpoints/2026-09-23-npu-provider-kernel-link/REPORT.md`.
+
+Unpromoted patch 009 now prepares bounded views in the shared MT7996 RX parser,
+retains nonlinear data bodies, snapshots RX-vector metadata across header edits,
+checks absent stations, and bounds common control dispatch headers. Actual
+selected parser/radiotap C passes 7,680 baseline/613,113 corrected executions,
+five original failure controls and eleven mutants. Four driver objects and two
+AArch64 layout probes pass with 25 matching values; 176 file hashes verify.
+These are modeled-dependency host tests and object builds, not complete receive
+or hardware acceptance. Firmware-event bodies/TLVs, callback/stack semantics,
+metadata provenance, physical DMA and full lifecycle remain open. See
+`research/checkpoints/2026-09-23-npu-rx-parser/REPORT.md`.
+
+The interrupted host RX ownership draft now has an unpromoted patch and passing
+receipt. Complete fragment readiness and mapped lengths are validated before
+skb ownership transfer; incomplete/allocation-failed packets retain their ring
+buffers. Complete rejected packets consume budget, and zero-budget polls avoid
+page-pool refill. 3,228 baseline/3,376 corrected host cases, eleven mutants, six
+AArch64 objects and strict checkpatch pass; 127 file hashes independently match.
+This is selected host C against explicit dependency models, not physical DMA
+or full RX parsing proof. Zero/short payloads, downstream RXD/header/group and
+nonlinear views, producer publication, concurrent refill/removal and full
+lifecycle/drain/rearm remain open. No packaged source or router change. See
+`research/checkpoints/2026-09-16-npu-rx-ownership/REPORT.md`.
 
 Two unpromoted host-lifetime candidates now initialize provider watchdog work
 before IRQ publication, order managed cancellation after IRQ teardown, and
@@ -506,6 +596,10 @@ items below remain open. See `research/checkpoints/2026-09-06-work-blockers/BLOC
   DMA handoff, delayed completion, wraparound and teardown/drain behavior.
 - [ ] Complete RX/refill and RRO/BA session/free-pool ownership, reset semantics,
   ping-pong packet fate and applicable PPE/FastTX paths.
+- [ ] Validate downstream MT7996 RXD/header/group extents and nonlinear skb
+  views end-to-end. Patch 009 covers selected shared header views/transforms;
+  firmware-event body/TLV, full callback/stack and real metadata validation
+  remain open. Neither host candidate certifies complete payload parsing.
 - [ ] Expose only controls/counters backed by implemented, validated driver ABI.
   Historical numeric NPU modes are currently retired; do not add cosmetic modes.
 
@@ -514,8 +608,10 @@ items below remain open. See `research/checkpoints/2026-09-06-work-blockers/BLOC
 - [ ] Extend actual-code fault tests to busy/timeout, partial initialization,
   late completion, reset, concurrent refill and removal. Separate models from
   kernel/runtime and hardware evidence.
-- [ ] Build and inspect an NPU-active image only after the recovery gates pass.
-  Verify full module/config consistency, FIT/DTB/layout and source provenance.
+- [ ] Build and inspect the unified experimental NPU-active image, as requested
+  on 2026-09-23. Verify full module/config consistency, FIT/DTB/layout and source
+  provenance. An experimental image is not recovery/hardware acceptance; the
+  outstanding physical gates remain prerequisites for those claims.
 - [ ] Run serial-backed synthetic boot, reload, scan, reset, memory and traffic
   tests with known-good rollback. Do not switch the Codex PC's WiFi uplink.
 - [ ] Obtain real-client association and throughput evidence for standalone

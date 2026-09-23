@@ -1,9 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
-Canonical private workspace for W1700K firmware development, WiFi/MLO fixes,
+Canonical workspace for W1700K firmware development, WiFi/MLO fixes,
 and stock host-adapter/NPU reverse engineering.
 
 ## Current State
+
+The active source is the **unified experimental non-OC merge**, pinned to
+OpenW1700k `288d79449f`, Linux **6.18.52**, and mt76 `01367e60`.
+Our provider/driver corrections and Linux control client are build inputs, with
+WLAN NPU enabled. The RV32 core has a normal build target. There is no separate
+release-ready versus experimental source track. Build and hardware verification
+remain distinct. The complete image builds and passes offline FIT/board/package/
+module checks as `r36536-merged-288d79449f`; it has not been flashed. See the
+[merge report](docs/NONOC_MERGE.md) for the image path, SHA256 and test receipts.
 
 The last router-tested image is **Daybreak21 WLAN-DMA R1 (2026-09-05)**,
 Linux 6.18.44, SHA256
@@ -41,14 +50,18 @@ Use WSL native ext4. The canonical local checkout is `/home/captain/W1700KNPU`.
 
 ```sh
 python3 tools/prepare_build.py
-cd .build/openwrt
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin make -j4
+python3 tools/build_firmware.py --name local-build
 ```
 
-The preparer refuses an existing destination and verifies every migrated
+The current destination is `.build/merged-openwrt`; the earlier `.build/openwrt`
+is retained as a rollback/evidence reference. The preparer refuses an existing destination and verifies every migrated
 changed source file. It does not flash a router. Image signing keys are not
 uploaded; fresh build keys must be generated or supplied locally.
 An existing imported build may instead be reused as recorded in migration docs.
+The combined builder also compiles the RV32 component library using a host
+Clang with RISC-V support and `ar`. That library is not yet a replacement
+bootable NPU image: production loader identity, placement and postgate wiring
+remain unfinished implementation work.
 
 Do not force old `ubi2` recipes onto current images: the latest board is
 `gemtek,w1700k-ubi`, with the OpenWrt U-Boot layout and compatibility metadata.

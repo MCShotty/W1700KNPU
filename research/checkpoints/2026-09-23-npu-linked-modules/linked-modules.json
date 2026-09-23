@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "inputs": {
+    "runner": "2dfa7f4f7fbbe6ef90a78fd4730c05bc1e1c30b60d88c5c78098f93d0e9c369c",
+    "parser_receipt": "1650e5f50ce6c188b48dcc62a649534ac5b3288df96a9ec98b1cc480bbafbff0",
+    "rx_receipt": "69645a636566569409b86049942b8f1c66f79fa1e5302c812d9cbdf09e6d5ed0",
+    "npu_source": "d8c7c2ffed8d202ca2129bfe88d1dd9edb0de2c8c5317c9b938aa8e80ee6778f",
+    "mac_source": "f94ad84278526c3b3f86855f1ea0e1b502fbff6b5445f80c5769b7759ebcd6d3",
+    "kernel_config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    "kernel_symvers": "cf4f8a7fb6e965afc65951e36bf1403d6560d55a5916c2566304e83ce5e8a3b1",
+    "generated_exports": "88817b1ba189aa6d11a863be046f4965c563ce6d2a7583b3dd55d44480c1c1c2"
+  },
+  "dependencies": [
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/mac80211.ko",
+      "sha256": "8cbf2716cabcadb23f03755ce5b74ff63c1a3433261bd49b25047107950a0347",
+      "exports": 154,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    },
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/cfg80211.ko",
+      "sha256": "cfa1e6f2bb8b8400307122deea9a31fd23bb7d382ab5fe264d5b8be46b79309c",
+      "exports": 181,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    },
+    {
+      "path": ".build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.44/compat.ko",
+      "sha256": "67709c9c5625c6f760fd84b93bd69e6b93549cafe94cee6ce06bff32081ef6e9",
+      "exports": 16,
+      "vermagic": "6.18.44 SMP mod_unload aarch64"
+    }
+  ],
+  "export_count": 351,
+  "command": [
+    "make",
+    "-C",
+    "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+    "-j2",
+    "ARCH=arm64",
+    "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+    "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+    "KERNELRELEASE=6.18.44",
+    "KBUILD_BUILD_USER=",
+    "KBUILD_BUILD_HOST=",
+    "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+    "KBUILD_BUILD_VERSION=0",
+    "M=/home/captain/W1700KNPU/.local/npu-linked-modules/verified-2/mt76-2026.09.01~be5ce791",
+    "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-linked-modules/verified-2/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+    "CONFIG_MT76_CONNAC_LIB=m",
+    "CONFIG_MT7996E=m",
+    "CONFIG_MT76_NPU=y",
+    "CONFIG_MT7996_NPU=y",
+    "KBUILD_EXTRA_SYMBOLS=/home/captain/W1700KNPU/.local/npu-linked-modules/verified-2/dependency-exports.symvers",
+    "modules"
+  ],
+  "build_log": "research/checkpoints/2026-09-23-npu-linked-modules/linked-module-build.log",
+  "build_log_sha256": "b04ad262d1a78dce77a5a37642de4976e7bbac2e9ae5beba9e84ca277b96972a",
+  "metadata_warnings": [
+    "WARNING: modpost: missing MODULE_DESCRIPTION() in mt76-connac-lib.o",
+    "WARNING: modpost: missing MODULE_DESCRIPTION() in mt76.o",
+    "WARNING: modpost: missing MODULE_DESCRIPTION() in mt7996/mt7996e.o"
+  ],
+  "modules": [
+    {
+      "path": ".local/npu-linked-modules/verified-2/mt76-2026.09.01~be5ce791/mt76.ko",
+      "sha256": "ff96182a9db00d1f7f4f268ef413c86e260352e26ae55c660c49510178cac93b",
+      "bytes": 1334400,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mac80211,cfg80211",
+      "defined_symbols": 648,
+      "undefined_symbols": 188
+    },
+    {
+      "path": ".local/npu-linked-modules/verified-2/mt76-2026.09.01~be5ce791/mt76-connac-lib.ko",
+      "sha256": "35b110ec658e50d6d4ca5257392e75064d63fb645e5db1363dc204c175eb9ea2",
+      "bytes": 651104,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mt76,mac80211,cfg80211",
+      "defined_symbols": 429,
+      "undefined_symbols": 66
+    },
+    {
+      "path": ".local/npu-linked-modules/verified-2/mt76-2026.09.01~be5ce791/mt7996/mt7996e.ko",
+      "sha256": "7c2f8edceabf544d324cafa25325b80dfb95340225dd22cdc205da972c1451c4",
+      "bytes": 1825360,
+      "vermagic": "6.18.44 SMP mod_unload aarch64",
+      "depends": "mt76,mac80211,cfg80211,mt76-connac-lib,hwmon",
+      "defined_symbols": 408,
+      "undefined_symbols": 279
+    }
+  ],
+  "link_graph": {
+    "mt7996e_to_mt76": [
+      "mt76_npu_check_ppe",
+      "mt76_npu_disable_irqs",
+      "mt76_npu_init",
+      "mt76_npu_net_setup_tc",
+      "mt76_npu_rx_queue_init",
+      "mt76_npu_send_txrx_addr"
+    ],
+    "mt76_to_builtin_provider": [
+      "airoha_npu_get",
+      "airoha_npu_put"
+    ]
+  },
+  "limits": [
+    "Original mac80211 Module.symvers is absent; this name/license/namespace index is reconstructed from installed ELF exports with CONFIG_MODVERSIONS disabled.",
+    "Target kernel provider is built in and does not contain unpromoted provider candidates 928/929.",
+    "Link success does not prove loading, physical DMA behavior, safe whole-device teardown/recovery or stock parity."
+  ]
+}

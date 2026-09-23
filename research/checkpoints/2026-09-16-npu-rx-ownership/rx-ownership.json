@@ -1,0 +1,941 @@
+{
+  "schema": 1,
+  "summary": {
+    "baseline_cases": 3228,
+    "corrected_cases": 3376,
+    "mutants": 11,
+    "kernel_objects": 6
+  },
+  "inputs_before_after": {
+    "tests/npu/test_l1_recovery.py": "c0dd7c0a743dde9fef141cefcd0684aeb7cbfb529de09696e0948a2e2e09ae60",
+    "tests/npu/l1-recovery-harness.c": "08cd36d1f53cbe86da6a368454839e09381c76081c652e7753718bbc42c2f486",
+    "research/checkpoints/2026-09-14-npu-l1-recovery/006-mt7996-npu-l1-failure-state.patch": "c2684e65d44d97c75ec26d6b053106299320048c71887b284647b93955f8ee0a",
+    "tests/npu/test_host_txfree.py": "622c0b9ad0d6522a315d16b910daff2d4f5beb0fdc0562df3e564d396fed1c18",
+    "tests/npu/test_host_tx_topology.py": "24d2b0068a5c3e7382680092d69cdadc75574960568030d6f5becdfd7580d3cf",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    ".build/openwrt/dl/mt76-2026.09.01~be5ce791.tar.zst": "d1d0f7588c5b9ceafcac341ce19dd206ed9ec106847e672ab77e48bacb57f81a",
+    "research/checkpoints/2026-09-09-npu-txfree-host/005-mt7996-npu-txfree-preflight.patch": "aaf72bef7df25d9bb1b2d282a1b0f32a3eacdfa1ef04c3bc687b76c6b1c0253d",
+    "research/checkpoints/2026-09-09-npu-tx-topology/004-mt7996-npu-tx-topology.patch": "8651a6905e84a8604177f992286f8b39039458f3176c7ea60a73229ecda6067a",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/patches/luci.patch": "f929d5099320a29bd1bd69bb307e3550a54d69f922b457fcdeff53cbb5423ad7",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+    "tests/npu/test_npu_host_lifetime.py": "37e45cd5b159f9a1c6e56f4b367687b081419244e30ee1e126d1d61fcf232281",
+    "research/checkpoints/2026-09-16-npu-host-lifetime/provider-core-init.c": "b3efba34d46a4176244784f00e35cb2ace7a75059bc4486574921a02f9af79e0",
+    "research/checkpoints/2026-09-16-npu-host-lifetime/mt76-deinit.c": "48c88ef10bcb1251be6d48a0dff8f004f84f4c0b19b094be5109e7f698f5471a",
+    "tests/npu/provider-lifetime-harness.c": "5a4f60711fe41708b3173e137bba047ab772adf288c6a54ef1d4bb20f25c77bc",
+    "tests/npu/npu-rcu-lifetime-harness.c": "cdd9e892a4ea5c7a14a3170c2bf8531a6387e45bbcec916b2e8fa7cf44ab3d76",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_npu.c": "8eed02dd963c9d80fcaf4f15368506f4a4720dd7be4f080c394a21bba7e1fe8f",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/soc/airoha/airoha_offload.h": "9359009a4161de572e7f44b41b172860bb6414b56332f16ed6ff8df972126364",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/devm-helpers.h": "4cd7d99c2c9e4047e010567d99af41db11e46517750a736d8a232a461856c1fb",
+    "research/checkpoints/2026-09-14-npu-control-v2/control-v2-provider.json": "3f6d83ed12876dabef826361bd6257cbb707ca6ba9cd1c00e3a2b308d3e4d6c8",
+    "research/checkpoints/2026-09-14-npu-control-v2/928-net-airoha-npu-bidirectional-control.patch": "d86fb0892c2945b0ad90647594b9bdf8160dbcf871c5807dc11dff6a127debc8",
+    ".build/openwrt/.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/Module.symvers": "cf4f8a7fb6e965afc65951e36bf1403d6560d55a5916c2566304e83ce5e8a3b1",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/generated/utsrelease.h": "3549c01a94d2155024b810c393a78912a2eb3dfbacec92ba9a6ab80e2313c763",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/base/devres.c": "5c2b58422bebe697e6b528d02bf1f9aea2a2d77c0ba47d8a44e190ee0bfb5a6b",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/kernel/irq/devres.c": "6d14378297fa53ea932184bf6b575c67c11b813ce559b2f706fbdc3df31e2f80",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/kernel/irq/manage.c": "2cfef95d0f8d7a9fde57f821d8a8c6bc0a0014157dc2bde4ae5ec1900f0f3d2e",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/rcupdate.h": "3162164dd021f8f3880de7c188cb5cde34908b1fcfeaebe9554b91b2622849a5",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/kernel/rcu/tree.c": "e44083c2f67df3a0de8f08a7a59d42c7d854d283c66b7e481b64a9fc36f2ef73",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/kernel/workqueue.c": "bf0289039704157176081b91d8e4e4315dd43af144c6d09c4d71ae35efe69556",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_eth.h": "167beaf676b4328c2618c9fce29b21675148de7e331a3316e25dbef62d5c0bf2",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/net/ethernet/airoha/airoha_regs.h": "b7addc20502962dfe50c5040a85e79c9cf2e8f1f03ce1e0b661732136c3126ad",
+    "tests/npu/build_control_v2_provider.py": "91359781bc151adc77e64efe52a7b268c84722a397060fc3aced3016ebe8d7ba",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/build_host_tx_topology.py": "7df26f8a55cae4a0e5b314b22992e4a5255acaeb6b921fedbc534ad773861bb3",
+    "tests/npu/test_npu_rx_ownership.py": "be9547faf80da745ab0c393bb3ab9aa49ede6161d083a71aebad46a98512459d",
+    "tests/npu/npu-rx-ownership-harness.c": "79051bd5148f86a313395cba0dc8a1ac667e795b044440bc432db76a9a542213",
+    "research/checkpoints/2026-09-16-npu-rx-ownership/mt76-npu-dequeue.c": "ce93c2e121c3ad56bc9a5cf4021a536543bfe0633ea4c59d1b7d02f5f743ead9",
+    "research/checkpoints/2026-09-16-npu-host-lifetime/host-lifetime.json": "685a40fffe2f6e690784ae503b9a5b68717912dd5fc8730aa6b65d86d390e45f",
+    ".local/npu-host-lifetime/kernel-mt76-after-1/mt76-2026.09.01~be5ce791/npu.c": "fc73562e417d61f5fb1391491e9f7b90536f074253f9cb196059e8cda203d0a9",
+    ".local/npu-host-lifetime/kernel-mt76-after-1/mt76-2026.09.01~be5ce791/mt76.h": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+    ".local/npu-host-lifetime/kernel-mt76-after-1/mt76-2026.09.01~be5ce791/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    ".local/npu-host-lifetime/kernel-mt76-after-1/mt76-2026.09.01~be5ce791/dma.h": "a566971580c731541a3d6a9dd278033d0367cab4b8c0160cc6cc6150bd9fb1c6",
+    ".local/npu-host-lifetime/kernel-mt76-after-1/mt76-2026.09.01~be5ce791/mt7996/mac.c": "fe9dfeee15ed4d8a76caa8d5074af476473bf6153f89f21c53a58aec1486a673",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/net/core/skbuff.c": "34f4233794f4c1df8e501b35aa1ff4e5332081cf123d802d632dc8384c0ca188",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/include/linux/skbuff.h": "c2ab60da35680200edf9bc312635b6433f9ec5cfdd459885ef430b7bb6d966fd",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/Documentation/networking/napi.rst": "05be99d3e379c41448f121e5471e80e59b18df31585eca51f88055e9124ef797"
+  },
+  "derived": {
+    ".local/npu-rx-ownership/staged/npu.c": "d8c7c2ffed8d202ca2129bfe88d1dd9edb0de2c8c5317c9b938aa8e80ee6778f",
+    ".local/npu-rx-ownership/before-frags-17/rx-driver.inc": "416205758ff3b9ec767dc1803601fa861b6e06e7902a9851dcaa03c607ff8752",
+    ".local/npu-rx-ownership/before-frags-17/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/before-frags-4/rx-driver.inc": "416205758ff3b9ec767dc1803601fa861b6e06e7902a9851dcaa03c607ff8752",
+    ".local/npu-rx-ownership/before-frags-4/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/after-frags-17/rx-driver.inc": "27ac2a822689541abb177ac9b2863f50eacaf20403ec1a23a43f437a4c366e32",
+    ".local/npu-rx-ownership/after-frags-17/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/after-frags-4/rx-driver.inc": "27ac2a822689541abb177ac9b2863f50eacaf20403ec1a23a43f437a4c366e32",
+    ".local/npu-rx-ownership/after-frags-4/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-eight-snapshots/rx-driver.inc": "86ebc24fd36fe799b188238bcdc944e8df3bffe255ef9af8df0156af6c7c5a02",
+    ".local/npu-rx-ownership/mutant-eight-snapshots/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-length-check/rx-driver.inc": "14b7811c59836092e55c06041c3c4ea848433910b588f53ca2c03e51de86709c",
+    ".local/npu-rx-ownership/mutant-no-length-check/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-capacity-not-mapped-length/rx-driver.inc": "b8c8428a1b3466deb8400f4266bf7933725e3fbf9746b1cccf9c4b8d029a5da0",
+    ".local/npu-rx-ownership/mutant-capacity-not-mapped-length/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-fragment-ready/rx-driver.inc": "6f9cbdf61917edb5f81d75bf2298aae5aad05df369c1ac4bc9e15436eb5381e0",
+    ".local/npu-rx-ownership/mutant-no-fragment-ready/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-negative-buffer-size/rx-driver.inc": "16d659de880330b966834513a5b35f6e970e5e1aa33c04bb56f763c6eb95bf6c",
+    ".local/npu-rx-ownership/mutant-negative-buffer-size/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-stale-entry/rx-driver.inc": "0c2b5e04e60064d630fa5b7027f4bfa59c4ebf4c34c04189b7c84abd3c35efbb",
+    ".local/npu-rx-ownership/mutant-stale-entry/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-drop-budget/rx-driver.inc": "ecbfa8ea406e5b1388573c56e6df165bd95b8f1054f5580355254312edaa4b9b",
+    ".local/npu-rx-ownership/mutant-no-drop-budget/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-zero-budget-refill/rx-driver.inc": "c9c1c332ed0410e14dc9a18dcfd27eab6693b7b5034cbb3799f8eefaecab2e12",
+    ".local/npu-rx-ownership/mutant-zero-budget-refill/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-queued-limit/rx-driver.inc": "8d8a2add32a90e21c53c808462a6de24023c61e7ab742ff80f91b08eaf478fb7",
+    ".local/npu-rx-ownership/mutant-no-queued-limit/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-capacity-check/rx-driver.inc": "155956638604c66832e701ec5cc60f27d1b8d087371e1d81746b9c3d5b258eef",
+    ".local/npu-rx-ownership/mutant-no-capacity-check/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/mutant-no-dma-barrier/rx-driver.inc": "79030f27583ef9e34b8bf8f13ab41af872901a914bd9199090df1d182959fca1",
+    ".local/npu-rx-ownership/mutant-no-dma-barrier/rx-definitions.inc": "31f519cf944a456d127ee07c273a086aecec7ba6ed44212b44e8151d9e754664",
+    ".local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791/npu.c": "fc73562e417d61f5fb1391491e9f7b90536f074253f9cb196059e8cda203d0a9",
+    ".local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791/mt76.h": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+    ".local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    ".local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791/mac80211.c": "801f859141c1754a44a0a8311edb98c041fc528a80c7349cd639d779dd5e0d9b",
+    ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/npu.c": "fc73562e417d61f5fb1391491e9f7b90536f074253f9cb196059e8cda203d0a9",
+    ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/mt76.h": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+    ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/mac80211.c": "801f859141c1754a44a0a8311edb98c041fc528a80c7349cd639d779dd5e0d9b",
+    ".local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791/npu.c": "d8c7c2ffed8d202ca2129bfe88d1dd9edb0de2c8c5317c9b938aa8e80ee6778f",
+    ".local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791/mt76.h": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+    ".local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    ".local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791/mac80211.c": "801f859141c1754a44a0a8311edb98c041fc528a80c7349cd639d779dd5e0d9b",
+    ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/npu.c": "d8c7c2ffed8d202ca2129bfe88d1dd9edb0de2c8c5317c9b938aa8e80ee6778f",
+    ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/mt76.h": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9",
+    ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/mac80211.c": "801f859141c1754a44a0a8311edb98c041fc528a80c7349cd639d779dd5e0d9b"
+  },
+  "profiles": [
+    {
+      "phase": "before",
+      "queue": "npu0",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-17",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-17/rx"
+        ],
+        "path": ".local/npu-rx-ownership/before-frags-17/rx",
+        "sha256": "a1d7d20df0b8670ad85c748441984bb0bf9d95b09739ffe027ae8516d700b2bc"
+      },
+      "result": {
+        "cases": 1234,
+        "assertions": 234805,
+        "valid": 880,
+        "partial": 210,
+        "malformed_lengths": 120,
+        "invalid_host": 0,
+        "max_skb_frags": 17,
+        "queue_id": 19,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "before",
+      "queue": "npu1",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-17",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-17/rx"
+        ],
+        "path": ".local/npu-rx-ownership/before-frags-17/rx",
+        "sha256": "a1d7d20df0b8670ad85c748441984bb0bf9d95b09739ffe027ae8516d700b2bc"
+      },
+      "result": {
+        "cases": 1234,
+        "assertions": 234805,
+        "valid": 880,
+        "partial": 210,
+        "malformed_lengths": 120,
+        "invalid_host": 0,
+        "max_skb_frags": 17,
+        "queue_id": 20,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "before",
+      "queue": "npu0",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=4",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-4",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-4/rx"
+        ],
+        "path": ".local/npu-rx-ownership/before-frags-4/rx",
+        "sha256": "9a4522e5bd2f088c956a896154ef42b8cba0e64f31a35ba7d6ed5bfa175f1be9"
+      },
+      "result": {
+        "cases": 380,
+        "assertions": 78496,
+        "valid": 330,
+        "partial": 20,
+        "malformed_lengths": 15,
+        "invalid_host": 0,
+        "max_skb_frags": 4,
+        "queue_id": 19,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "before",
+      "queue": "npu1",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=4",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-4",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/before-frags-4/rx"
+        ],
+        "path": ".local/npu-rx-ownership/before-frags-4/rx",
+        "sha256": "9a4522e5bd2f088c956a896154ef42b8cba0e64f31a35ba7d6ed5bfa175f1be9"
+      },
+      "result": {
+        "cases": 380,
+        "assertions": 78496,
+        "valid": 330,
+        "partial": 20,
+        "malformed_lengths": 15,
+        "invalid_host": 0,
+        "max_skb_frags": 4,
+        "queue_id": 20,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "after",
+      "queue": "npu0",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-17",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-17/rx"
+        ],
+        "path": ".local/npu-rx-ownership/after-frags-17/rx",
+        "sha256": "9cd43d7375b06d043d948780549226c9ea7fbc8c77bd2f601f7500181c3d5380"
+      },
+      "result": {
+        "cases": 1271,
+        "assertions": 251838,
+        "valid": 880,
+        "partial": 210,
+        "malformed_lengths": 120,
+        "invalid_host": 14,
+        "max_skb_frags": 17,
+        "queue_id": 19,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "after",
+      "queue": "npu1",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-17",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-17/rx"
+        ],
+        "path": ".local/npu-rx-ownership/after-frags-17/rx",
+        "sha256": "9cd43d7375b06d043d948780549226c9ea7fbc8c77bd2f601f7500181c3d5380"
+      },
+      "result": {
+        "cases": 1271,
+        "assertions": 251838,
+        "valid": 880,
+        "partial": 210,
+        "malformed_lengths": 120,
+        "invalid_host": 14,
+        "max_skb_frags": 17,
+        "queue_id": 20,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "after",
+      "queue": "npu0",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=4",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-4",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-4/rx"
+        ],
+        "path": ".local/npu-rx-ownership/after-frags-4/rx",
+        "sha256": "2ba7d6d5b55c054adab333cfd224c1dfd3f5df162a3c3e975b09ff9b6c95a9c1"
+      },
+      "result": {
+        "cases": 417,
+        "assertions": 83424,
+        "valid": 330,
+        "partial": 20,
+        "malformed_lengths": 15,
+        "invalid_host": 14,
+        "max_skb_frags": 4,
+        "queue_id": 19,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    },
+    {
+      "phase": "after",
+      "queue": "npu1",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=4",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-4",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/after-frags-4/rx"
+        ],
+        "path": ".local/npu-rx-ownership/after-frags-4/rx",
+        "sha256": "2ba7d6d5b55c054adab333cfd224c1dfd3f5df162a3c3e975b09ff9b6c95a9c1"
+      },
+      "result": {
+        "cases": 417,
+        "assertions": 83424,
+        "valid": 330,
+        "partial": 20,
+        "malformed_lengths": 15,
+        "invalid_host": 14,
+        "max_skb_frags": 4,
+        "queue_id": 20,
+        "page_pool_dma_napi": "models",
+        "passed": true
+      }
+    }
+  ],
+  "mutants": [
+    {
+      "name": "eight-snapshots",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-eight-snapshots",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-eight-snapshots/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-eight-snapshots/rx",
+        "sha256": "ecf4840e67277acfa9be354be5013687d19fcab818ce01e2503cb4195aaa5e96"
+      },
+      "oracle": "complete-delivery",
+      "failure": "oracle:complete-delivery case=9"
+    },
+    {
+      "name": "no-length-check",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-length-check",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-length-check/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-length-check/rx",
+        "sha256": "8c9e52b683fa1c00f46a16427599222c92467291027d324fef32dafad1ccea39"
+      },
+      "oracle": "length-drop",
+      "failure": "oracle:length-drop case=1105"
+    },
+    {
+      "name": "capacity-not-mapped-length",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-capacity-not-mapped-length",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-capacity-not-mapped-length/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-capacity-not-mapped-length/rx",
+        "sha256": "4319ef4c94ef27ad013cf8c0f9e28fda8a4a8b75ff1ff6f65669e109e2a37ce4"
+      },
+      "oracle": "mapped-length-bound",
+      "failure": "oracle:mapped-length-bound case=1269"
+    },
+    {
+      "name": "no-fragment-ready",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-fragment-ready",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-fragment-ready/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-fragment-ready/rx",
+        "sha256": "dcf49e0d379a0970dda208f8235534bcacd0706dec2ab8be8861990ae46219ed"
+      },
+      "oracle": "partial-retain",
+      "failure": "oracle:partial-retain case=880"
+    },
+    {
+      "name": "negative-buffer-size",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-negative-buffer-size",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-negative-buffer-size/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-negative-buffer-size/rx",
+        "sha256": "7805a5b3844ea8065d988d09c187d50256eb5628daf0047e5e72699bb4cbcd25"
+      },
+      "oracle": "invalid-host-hold",
+      "failure": "oracle:invalid-host-hold case=1234"
+    },
+    {
+      "name": "stale-entry",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-stale-entry",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-stale-entry/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-stale-entry/rx",
+        "sha256": "a195505f0920678e2a568500c687b3693c125bba02f782aa99f4f850079fc379"
+      },
+      "oracle": "consumed-entry-clear",
+      "failure": "oracle:consumed-entry-clear case=0"
+    },
+    {
+      "name": "no-drop-budget",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-drop-budget",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-drop-budget/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-drop-budget/rx",
+        "sha256": "471da7e5c22e4888b7c47675706a3436d1d291dda50e5049e096fb5ffe7a00ef"
+      },
+      "oracle": "drop-budget",
+      "failure": "oracle:drop-budget case=1244"
+    },
+    {
+      "name": "zero-budget-refill",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-zero-budget-refill",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-zero-budget-refill/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-zero-budget-refill/rx",
+        "sha256": "99764cfee53f743b39edece76625147277ed461c63245cf120650ab20ba47979"
+      },
+      "oracle": "zero-budget-page-pool",
+      "failure": "oracle:zero-budget-page-pool case=1243"
+    },
+    {
+      "name": "no-queued-limit",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-queued-limit",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-queued-limit/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-queued-limit/rx",
+        "sha256": "192e2e0229ffb310c966d9887a02bfde56c26af6a9c23d05ffc4b5686ed337be"
+      },
+      "oracle": "insufficient-queued",
+      "failure": "oracle:insufficient-queued case=1242"
+    },
+    {
+      "name": "no-capacity-check",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=4",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-capacity-check",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-capacity-check/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-capacity-check/rx",
+        "sha256": "d32f0417c741b885cb881a11dd1cb51fa8c5a80f4dd4c36a75300ddceed064f4"
+      },
+      "oracle": "fragment-capacity",
+      "failure": "oracle:fragment-capacity case=370"
+    },
+    {
+      "name": "no-dma-barrier",
+      "build": {
+        "command": [
+          "/usr/bin/clang",
+          "-std=gnu11",
+          "-O1",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Wno-unused-parameter",
+          "-Wno-unused-function",
+          "-Wno-sign-compare",
+          "-Wno-address-of-packed-member",
+          "-fsanitize=address,undefined",
+          "-fno-sanitize-recover=all",
+          "-DMAX_SKB_FRAGS=17",
+          "-I",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-dma-barrier",
+          "/home/captain/W1700KNPU/tests/npu/npu-rx-ownership-harness.c",
+          "-o",
+          "/home/captain/W1700KNPU/.local/npu-rx-ownership/mutant-no-dma-barrier/rx"
+        ],
+        "path": ".local/npu-rx-ownership/mutant-no-dma-barrier/rx",
+        "sha256": "ff7ec8223e9145c957ded1e25e24b4f567235a7b0e0d6340cf28e70129be0681"
+      },
+      "oracle": "publication-count",
+      "failure": "oracle:publication-count case=1239"
+    }
+  ],
+  "kernel_objects": [
+    {
+      "phase": "before",
+      "npu_enabled": 0,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "M=/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "mac80211.o"
+      ],
+      "objects": [
+        {
+          "path": ".local/npu-rx-ownership/kernel-before-0/mt76-2026.09.01~be5ce791/mac80211.o",
+          "sha256": "662ae71afcec490a11c35082b996eab8e085db4bb83490b53bafa371cfdbd74f",
+          "bytes": 303240
+        }
+      ],
+      "log": "research/checkpoints/2026-09-16-npu-rx-ownership/kernel-before-0.log",
+      "log_sha256": "a14982070d3db1356b82391b2682078da34eeebd683bbe7f23ed907da2a4e809"
+    },
+    {
+      "phase": "before",
+      "npu_enabled": 1,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "M=/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "CONFIG_MT76_NPU=y",
+        "CONFIG_MT7996_NPU=y",
+        "mac80211.o",
+        "npu.o"
+      ],
+      "objects": [
+        {
+          "path": ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/mac80211.o",
+          "sha256": "de683d9018a21bc6d32a71cc29802259449a7d3249d40f5cec504c1ea95bab43",
+          "bytes": 303296
+        },
+        {
+          "path": ".local/npu-rx-ownership/kernel-before-1/mt76-2026.09.01~be5ce791/npu.o",
+          "sha256": "a0a95761b4866e4aedd4b1e21bef8c44e5d4da42f4f418f8fddd16aad31d15df",
+          "bytes": 117560,
+          "rx_poll_dma_read_barriers": 0
+        }
+      ],
+      "log": "research/checkpoints/2026-09-16-npu-rx-ownership/kernel-before-1.log",
+      "log_sha256": "d421b5cc06ba743a80817c67718e5a7ee646e59a58bb6db792c87089a1e52d4e"
+    },
+    {
+      "phase": "after",
+      "npu_enabled": 0,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "M=/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "mac80211.o"
+      ],
+      "objects": [
+        {
+          "path": ".local/npu-rx-ownership/kernel-after-0/mt76-2026.09.01~be5ce791/mac80211.o",
+          "sha256": "2e40ddc499db115172ce3a210be6925192d81a13574af66b6bed796527a1659d",
+          "bytes": 303240
+        }
+      ],
+      "log": "research/checkpoints/2026-09-16-npu-rx-ownership/kernel-after-0.log",
+      "log_sha256": "6ce791879b33171491e456af66767591997d8e24e2087d83788b7ecda72f76ba"
+    },
+    {
+      "phase": "after",
+      "npu_enabled": 1,
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "KBUILD_BUILD_USER=",
+        "KBUILD_BUILD_HOST=",
+        "KBUILD_BUILD_TIMESTAMP=Wed Sep 23 00:00:00 2026",
+        "KBUILD_BUILD_VERSION=0",
+        "M=/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791",
+        "NOSTDINC_FLAGS=-nostdinc -isystem /home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/../lib/gcc/aarch64-openwrt-linux-musl/14.4.0/include -I/home/captain/W1700KNPU/.local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791 -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211-backport -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211/uapi -I/home/captain/W1700KNPU/.build/openwrt/staging_dir/target-aarch64_cortex-a53_musl/usr/include/mac80211 -include backport/autoconf.h -include backport/backport.h -DCONFIG_MAC80211_MESH -DCONFIG_MT76_NPU -DCONFIG_MT7996_NPU",
+        "CONFIG_MT76_CONNAC_LIB=m",
+        "CONFIG_MT7996E=m",
+        "CONFIG_MT76_NPU=y",
+        "CONFIG_MT7996_NPU=y",
+        "mac80211.o",
+        "npu.o"
+      ],
+      "objects": [
+        {
+          "path": ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/mac80211.o",
+          "sha256": "b0b27c344a822c5faf3bfc3c8c46eb564763ddb33b5943fc331b6cfc57874983",
+          "bytes": 303296
+        },
+        {
+          "path": ".local/npu-rx-ownership/kernel-after-1/mt76-2026.09.01~be5ce791/npu.o",
+          "sha256": "fec62384fe0b499365fd6d2eed1d925ea120fd4191c72d1600eb43e2eb7afb53",
+          "bytes": 111720,
+          "rx_poll_dma_read_barriers": 2
+        }
+      ],
+      "log": "research/checkpoints/2026-09-16-npu-rx-ownership/kernel-after-1.log",
+      "log_sha256": "afca29c5776246c8b8fc5c56b1f7ed1d0dd80fcc61bbda84231e66843fda3410"
+    }
+  ],
+  "patch": {
+    "path": "research/checkpoints/2026-09-16-npu-rx-ownership/008-mt76-npu-rx-packet-ownership.patch",
+    "sha256": "81f0b97536ff7242b9c5f58e12043b546afbd2c08f20796627d8e96242a23157"
+  },
+  "checkpatch": "total: 0 errors, 0 warnings, 0 checks, 127 lines checked\n\n/home/captain/W1700KNPU/research/checkpoints/2026-09-16-npu-rx-ownership/008-mt76-npu-rx-packet-ownership.patch has no obvious style problems and is ready for submission.\n",
+  "compilers": {
+    "native": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+    "kernel": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r1001+23-c1992346fc) 14.4.0"
+  },
+  "limits": [
+    "The actual selected driver functions execute against modeled page-pool, skb, DMA and NAPI dependencies.",
+    "Retained storage exposes logical duplicate release and bounds violations without executing a real UAF or overflow.",
+    "Capacity four is an artificial stress profile, not the target kernel configuration.",
+    "Zero/short payloads retain prior buffer-bound behavior; downstream RX header and protocol validation is not proven.",
+    "DMA publication, buffer identity/backing, cache coherence, producer recycling and complete teardown remain physical/integration contracts.",
+    "No native firmware descriptor callback, restricted lane, source-lock/overlay, image or router change."
+  ]
+}

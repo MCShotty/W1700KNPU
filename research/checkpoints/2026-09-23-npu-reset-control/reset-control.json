@@ -1,0 +1,897 @@
+{
+  "schema": 1,
+  "scope": "Shared reset-controller software prerequisite; not physical NPU containment.",
+  "inputs_before_after": {
+    "tests/npu/test_npu_reset_control.py": "a862790cc4ad7d83053e7c695fb1ebc4c1368c37a794998a044837fe8e65fcc7",
+    "tests/npu/reset-control-harness.c": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae",
+    "research/checkpoints/2026-09-23-npu-reset-control/930-clk-en7523-preserve-reset-errors.patch": "59a2c14ed7e8ba6f215bb4c4b8e649f8db3842a9d75d9486588d4875cd3fa1d5",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/test_npu_linked_modules.py": "2dfa7f4f7fbbe6ef90a78fd4730c05bc1e1c30b60d88c5c78098f93d0e9c369c",
+    "firmware/source-lock.json": "eaa7b7119ec7fdd7ab60a01ff3d3603946db1e72e66174725a2d59bb4f1d0e4b",
+    "firmware/patches/openwrt.patch": "12f7616a164c7aad2e43a950a283f8a398389b336a417bda1fc0b2339850ddb8",
+    "firmware/build.config": "fcc69ad5eb60843e58a66d592ef934c7bccaf6cbc7c3a433d9648408282009ad",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/drivers/clk/clk-en7523.c": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+    ".build/openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.44/drivers/clk/clk-en7523.c": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/.config": "d603529e15269b8d0d2f798fe8eec2d9c43d00bfe712c3f252b6b81b0156845d",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/Module.symvers": "c4bf28ab442cc161bedb9f1be13aaa5fd6b3f5270248848f49733cbe7a13ab14",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/generated/autoconf.h": "dc66f018d1e387997c717f5cd4e82f932e237617377fa9ad0dc508ed115aacb6",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/generated/utsrelease.h": "3549c01a94d2155024b810c393a78912a2eb3dfbacec92ba9a6ab80e2313c763",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/linux/regmap.h": "8c1ae5a41b700b820b6561ac8526ef71a415b741b64211588d80b9ef21bcabe3",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/dt-bindings/reset/airoha,en7523-reset.h": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/dt-bindings/reset/airoha,en7581-reset.h": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+    ".local/npu-provider-kernel-link/verified/linux-6.18.44/include/dt-bindings/reset/airoha,an7583-reset.h": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+    ".build/openwrt/target/linux/generic/kernel-6.18": "51d0bba5dcf7951cd18a619ba28768a3458da592bfe5b385c3114960e8a15bad",
+    ".build/openwrt/dl/linux-6.18.44.tar.xz": "0f72d938f06828e82c90405174fe572287db7bfe089e2fc46572a99a7f240d43",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch": "4e64214b99a373fb61a61b1672525ad15039534ecfa8c877b5985c8edf827102",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch": "83feae369728eeb5beb5f0ce5a5170c631c34bc89a565bc6d48437a2f661663d",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch": "ef7c3cc71dc2de28e1cde2d22e663200f191ccebe944d68475ecdaad24eadaaa",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch": "25671934f555c081db6784aecc4e103e3dc414ffd76a8739f206e6844a9e3463",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch": "78f78c939a36f2faf1e7c065afe7400a5bdbbb8f5019a1dec24ad651e694a262",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch": "8ffcd1742858b8587a6ef945ca2076acfbe2eb13ce59a602b015c0febe8a5bde",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch": "7e2abd9492f7aaf11c422f6d11fff76a1d071aadce427aeff66af968b37e7420",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch": "33654579906d36e677ce99dd3e1d45f9d4f351322ce9b329771ab742248cee71",
+    ".build/openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch": "047b4060b3db3eade09ff61020f2c829b154e18b666171763b7d11d52ef093a3",
+    ".build/openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch": "780bf520eec8415146a48153b1c2b4e3238842338a2de3addd56ef3062ad7433",
+    ".build/openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch": "99e3a676bc2b58ee7fd3e5576c9b3578183ffa30a4d616219d2987a83a027dec"
+  },
+  "provenance": {
+    "openwrt_head": "f3173f41940ab15d63a205f6d618e145d49ee58a",
+    "kernel_archive": {
+      "path": ".build/openwrt/dl/linux-6.18.44.tar.xz",
+      "sha256": "0f72d938f06828e82c90405174fe572287db7bfe089e2fc46572a99a7f240d43",
+      "bytes": 154583504
+    },
+    "baseline": {
+      "path": ".local/npu-reset-control/verified-three/baseline/drivers/clk/clk-en7523.c",
+      "sha256": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+      "bytes": 32413
+    },
+    "patches": [
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch",
+          "sha256": "4e64214b99a373fb61a61b1672525ad15039534ecfa8c877b5985c8edf827102",
+          "bytes": 11224
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-01-clk-en7523-convert-driver-to-regmap-API.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch",
+          "sha256": "83feae369728eeb5beb5f0ce5a5170c631c34bc89a565bc6d48437a2f661663d",
+          "bytes": 7407
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-02-clk-en7523-generalize-register-clocks-function.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch",
+          "sha256": "ef7c3cc71dc2de28e1cde2d22e663200f191ccebe944d68475ecdaad24eadaaa",
+          "bytes": 4051
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-03-clk-en7523-convert-to-full-clk_hw-implementation.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch",
+          "sha256": "25671934f555c081db6784aecc4e103e3dc414ffd76a8739f206e6844a9e3463",
+          "bytes": 4417
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-04-clk-en7523-add-support-for-.set_rate.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch",
+          "sha256": "78f78c939a36f2faf1e7c065afe7400a5bdbbb8f5019a1dec24ad651e694a262",
+          "bytes": 1320
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch",
+          "sha256": "8ffcd1742858b8587a6ef945ca2076acfbe2eb13ce59a602b015c0febe8a5bde",
+          "bytes": 1668
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-07-clk-en7523-reword-and-clean-clk_probe-variables.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch",
+          "sha256": "7e2abd9492f7aaf11c422f6d11fff76a1d071aadce427aeff66af968b37e7420",
+          "bytes": 1634
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-08-clk-en7523-add-support-for-probing-SCU-child.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch",
+          "sha256": "33654579906d36e677ce99dd3e1d45f9d4f351322ce9b329771ab742248cee71",
+          "bytes": 9414
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch",
+          "sha256": "047b4060b3db3eade09ff61020f2c829b154e18b666171763b7d11d52ef093a3",
+          "bytes": 6137
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch",
+          "sha256": "780bf520eec8415146a48153b1c2b4e3238842338a2de3addd56ef3062ad7433",
+          "bytes": 3489
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      },
+      {
+        "source": {
+          "path": ".build/openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch",
+          "sha256": "99e3a676bc2b58ee7fd3e5576c9b3578183ffa30a4d616219d2987a83a027dec",
+          "bytes": 874
+        },
+        "log": {
+          "path": "research/checkpoints/2026-09-23-npu-reset-control/reconstruct-913-clk-en7523-reset-PCIE-HB-on-init.log",
+          "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc",
+          "bytes": 91
+        }
+      }
+    ]
+  },
+  "patch": {
+    "path": "research/checkpoints/2026-09-23-npu-reset-control/930-clk-en7523-preserve-reset-errors.patch",
+    "sha256": "59a2c14ed7e8ba6f215bb4c4b8e649f8db3842a9d75d9486588d4875cd3fa1d5",
+    "bytes": 1705
+  },
+  "function_hashes": {
+    "before": {
+      "en7523_reset_update": "1c1707a7e97e43382659ed6a407ce2416b0a7bdc36c02fd7adb54ec91d39e358",
+      "en7523_reset_assert": "728bc101e4fc6786cbcf96f5f05982bb0cc1df1047968b00bcacc572c4d9d40e",
+      "en7523_reset_deassert": "10cd96e0492bc4e398f6e064b7d95082d6e53a0de8e6910efe5cc60beeec73df",
+      "en7523_reset_status": "9d46b207551999e3048544fb4bb8f1b0d33e2df0c879905ee491d18e401aaa81",
+      "en7523_reset_xlate": "69af110215b89067d4c26fd75bd31c7f0db74d4e6440ff91fc0e626ee6abbd45"
+    },
+    "after": {
+      "en7523_reset_update": "cf274af4580216f9c6108aad5d5361d0fe2a3e8ba1044e5e76efa6f08cff1e72",
+      "en7523_reset_assert": "728bc101e4fc6786cbcf96f5f05982bb0cc1df1047968b00bcacc572c4d9d40e",
+      "en7523_reset_deassert": "10cd96e0492bc4e398f6e064b7d95082d6e53a0de8e6910efe5cc60beeec73df",
+      "en7523_reset_status": "73f6835ef863282d88372262ad5416dee1dcae143450b59625d185518b6dc4a6",
+      "en7523_reset_xlate": "69af110215b89067d4c26fd75bd31c7f0db74d4e6440ff91fc0e626ee6abbd45"
+    }
+  },
+  "host": {
+    "cases": 23088,
+    "mapped_resets": 147,
+    "variants": 3,
+    "nominal": 19992,
+    "write_faults": 1764,
+    "read_faults": 1323,
+    "translation_rejections": 9
+  },
+  "baseline_controls": [
+    {
+      "case": "write-error",
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/host-before/write-error.log",
+        "sha256": "ff42e7311c2ee81e4efee8bac7f6eecc31ba868e8df92dfae7130d0885a15bce",
+        "bytes": 43
+      }
+    },
+    {
+      "case": "read-error",
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/host-before/read-error.log",
+        "sha256": "02fabd7a784fe2b4e073313d85c0767d7ecb9826694e66f2a273354cc19d2e79",
+        "bytes": 119
+      }
+    },
+    {
+      "case": "value-init",
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/host-before/value-init.log",
+        "sha256": "4a1bddf40fc667c926333a3bee01a9c5a7595c810623d6041e85cd3ea7da1448",
+        "bytes": 58
+      }
+    },
+    {
+      "case": "value-pcic",
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/host-before/value-pcic.log",
+        "sha256": "ac4818654723e425f3e3bc314c285fe8d18ac35ae1a854da77c3592ed8902c2b",
+        "bytes": 58
+      }
+    }
+  ],
+  "mutants": [
+    {
+      "name": "indeterminate-value",
+      "case": "value-init",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/test",
+        "sha256": "d7a55adb1de3f58584743b29ba6de474db4593b1d9aaec8dc1745c4d02f42be7",
+        "bytes": 1766576
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/run.log",
+        "sha256": "4a1bddf40fc667c926333a3bee01a9c5a7595c810623d6041e85cd3ea7da1448",
+        "bytes": 58
+      }
+    },
+    {
+      "name": "hide-write-error",
+      "case": "write-error",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/test",
+        "sha256": "7a983cda812b0959214fd572fe927d858d5c2f906313694242d1b88cb3b1e85e",
+        "bytes": 1766552
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/run.log",
+        "sha256": "ff42e7311c2ee81e4efee8bac7f6eecc31ba868e8df92dfae7130d0885a15bce",
+        "bytes": 43
+      }
+    },
+    {
+      "name": "hide-read-error",
+      "case": "read-error",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/test",
+        "sha256": "8b3ac89880620743a3ae85fdbb2166901f66ce51ec74e0a526e6ce5d45dea7f9",
+        "bytes": 1766496
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/run.log",
+        "sha256": "02fabd7a784fe2b4e073313d85c0767d7ecb9826694e66f2a273354cc19d2e79",
+        "bytes": 119
+      }
+    },
+    {
+      "name": "invert-pcic-polarity",
+      "case": "value-pcic",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/test",
+        "sha256": "fc3bb86378b449f61f5f422489993cac3900c518478de5a75f4b7184652314ef",
+        "bytes": 1766568
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/run.log",
+        "sha256": "ac4818654723e425f3e3bc314c285fe8d18ac35ae1a854da77c3592ed8902c2b",
+        "bytes": 58
+      }
+    },
+    {
+      "name": "wrong-mask",
+      "case": "nominal",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/test",
+        "sha256": "e34f61d9a394e22ef52e2ff3386a533b1821a671722521b05663283551759e1f",
+        "bytes": 1766552
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/run.log",
+        "sha256": "b0e62641da5e6f5ed904ff921df8e038492e564618c3fed458841b67d5e32979",
+        "bytes": 63
+      }
+    },
+    {
+      "name": "wrong-bank",
+      "case": "nominal",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/test",
+        "sha256": "e6a9d9cf240e740169f55e3221d8320e0ef07a3ddc575df57c0a018dc512f43b",
+        "bytes": 1766504
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/run.log",
+        "sha256": "b0e62641da5e6f5ed904ff921df8e038492e564618c3fed458841b67d5e32979",
+        "bytes": 63
+      }
+    },
+    {
+      "name": "repeat-failed-write",
+      "case": "write-error",
+      "binary": {
+        "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/test",
+        "sha256": "f963ec4a40b0cd73592fd979041dccf1002114dfb0b9889ee0173ae2de64bf78",
+        "bytes": 1766936
+      },
+      "log": {
+        "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/run.log",
+        "sha256": "1fc4aa57c864f83c85f4c72db1a48ac278adc99bcb04cbc2195e6c2d8b919de7",
+        "bytes": 57
+      }
+    }
+  ],
+  "kernel_objects": [
+    {
+      "profile": "before",
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "V=0",
+        "M=/home/captain/W1700KNPU/.local/npu-reset-control/verified-three/kernel-before",
+        "clk-en7523.o",
+        "layout.o"
+      ],
+      "layout": [
+        120,
+        0,
+        8,
+        16,
+        24,
+        88,
+        12,
+        42,
+        56,
+        49,
+        8,
+        2096,
+        32
+      ],
+      "object": {
+        "path": ".local/npu-reset-control/verified-three/kernel-before/clk-en7523.o",
+        "sha256": "6169271e2d50c6cecca82403fcd0cf695c93eb1d13e90aed6e7d452a202eb4c9",
+        "bytes": 57848
+      },
+      "probe": {
+        "path": ".local/npu-reset-control/verified-three/kernel-before/layout.o",
+        "sha256": "74a67f637ed5b5f8213e4f3ffddafb0a405259a415cb6568bb8cee381c0a8460",
+        "bytes": 56904
+      },
+      "log": {
+        "path": "research/checkpoints/2026-09-23-npu-reset-control/kernel-before.log",
+        "sha256": "61de9c75c9bedd919563e860beb650988c3f5786550f0d2771fa554de0424359",
+        "bytes": 468
+      },
+      "disassembly": {
+        "path": ".local/npu-reset-control/verified-three/kernel-before/disassembly.txt",
+        "sha256": "88ed0f7d31333baee810a3fd28d4b82f8c2cdcbb50b6863279a4942264fd1ec7",
+        "bytes": 45715
+      }
+    },
+    {
+      "profile": "after",
+      "command": [
+        "make",
+        "-C",
+        "/home/captain/W1700KNPU/.local/npu-provider-kernel-link/verified/linux-6.18.44",
+        "-j2",
+        "ARCH=arm64",
+        "CROSS_COMPILE=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-",
+        "CC=/home/captain/W1700KNPU/.build/openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc",
+        "KERNELRELEASE=6.18.44",
+        "V=0",
+        "M=/home/captain/W1700KNPU/.local/npu-reset-control/verified-three/kernel-after",
+        "clk-en7523.o",
+        "layout.o"
+      ],
+      "layout": [
+        120,
+        0,
+        8,
+        16,
+        24,
+        88,
+        12,
+        42,
+        56,
+        49,
+        8,
+        2096,
+        32
+      ],
+      "object": {
+        "path": ".local/npu-reset-control/verified-three/kernel-after/clk-en7523.o",
+        "sha256": "6554a6fe4961ca6e223019e257b59f061737f5846242e1583c683d60f6f693da",
+        "bytes": 57952
+      },
+      "probe": {
+        "path": ".local/npu-reset-control/verified-three/kernel-after/layout.o",
+        "sha256": "e985069bb774ea0ee7c6e66297f81cc2bb29bbc24fd9849a0dc5538891d5b3b1",
+        "bytes": 57000
+      },
+      "log": {
+        "path": "research/checkpoints/2026-09-23-npu-reset-control/kernel-after.log",
+        "sha256": "279cd0339cf8e36433eba7ca8d5e4bd083990ecfc027a0c75dc19f9a9eae87d7",
+        "bytes": 466
+      },
+      "disassembly": {
+        "path": ".local/npu-reset-control/verified-three/kernel-after/disassembly.txt",
+        "sha256": "dbc7adf85285fab0ca27021bec3ead1cbf0df0506c6cf809919c44c85c48d821",
+        "bytes": 45861
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".local/npu-reset-control/verified-three/baseline/drivers/clk/clk-en7523.c",
+      "sha256": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+      "bytes": 32413
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/candidate/drivers/clk/clk-en7523.c",
+      "sha256": "6b71e04cf775fed58e6bca6cef6bbd54d0dfc8a9a17154a8fe000efd5e5ca8b0",
+      "bytes": 32446
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/read-error.log",
+      "sha256": "18cf287f0c1abd17057c4937f943732622b9ae64551cfed5d37a45dfd1f80e5d",
+      "bytes": 36
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/reset-control.inc",
+      "sha256": "f0297a1207c9b390ec3ee2d29b837214589ceada7ec830763ea10eb38aa1b192",
+      "bytes": 7854
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/run.log",
+      "sha256": "e5037b91aabdf4bc74d51ec17d931ac276eaa5fa096404ec5b3f5d065fc32f55",
+      "bytes": 131
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/test",
+      "sha256": "e080e983b0427cc3aef170425cd53023922d3bce0035321d904331f2827404db",
+      "bytes": 1766560
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/value-init.log",
+      "sha256": "91c3b8153699d04fdd11f572108f9362564c07d97ee0ff7f29fbcc35a413c88d",
+      "bytes": 36
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/value-pcic.log",
+      "sha256": "44821a3b560fd9aece81d1dee9e1e4edcd5f52491867bb58b9d752aa95c6ce47",
+      "bytes": 36
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-after/write-error.log",
+      "sha256": "263a3930fe8bf096d4df94708aa02ad059025faa3a38bfb147458f35d65bbbba",
+      "bytes": 37
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/build.log",
+      "sha256": "b5395cd1673888cf1f72fbbfe22251025838e8cec241c06d789be12c13b9a128",
+      "bytes": 618
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/read-error.log",
+      "sha256": "02fabd7a784fe2b4e073313d85c0767d7ecb9826694e66f2a273354cc19d2e79",
+      "bytes": 119
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/reset-control.inc",
+      "sha256": "ac857542e62e6de1cacf6edb5dc537b27f2e6932756b0f3ec1ee4a4054f4b1ce",
+      "bytes": 7821
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/test",
+      "sha256": "a56efc159adf670556dd33b6dfdbe2bcc300bc47e723d7e3c0ca7baee8d73c63",
+      "bytes": 1766424
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/value-init.log",
+      "sha256": "4a1bddf40fc667c926333a3bee01a9c5a7595c810623d6041e85cd3ea7da1448",
+      "bytes": 58
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/value-pcic.log",
+      "sha256": "ac4818654723e425f3e3bc314c285fe8d18ac35ae1a854da77c3592ed8902c2b",
+      "bytes": 58
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/host-before/write-error.log",
+      "sha256": "ff42e7311c2ee81e4efee8bac7f6eecc31ba868e8df92dfae7130d0885a15bce",
+      "bytes": 43
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/Makefile",
+      "sha256": "b3f4078b18dc7bea46d0bb5f8edd895ce284041af1d875396aa1f50d4d2d4990",
+      "bytes": 31
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/clk-en7523.c",
+      "sha256": "6b71e04cf775fed58e6bca6cef6bbd54d0dfc8a9a17154a8fe000efd5e5ca8b0",
+      "bytes": 32446
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/clk-en7523.o",
+      "sha256": "6554a6fe4961ca6e223019e257b59f061737f5846242e1583c683d60f6f693da",
+      "bytes": 57952
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/disassembly.txt",
+      "sha256": "dbc7adf85285fab0ca27021bec3ead1cbf0df0506c6cf809919c44c85c48d821",
+      "bytes": 45861
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/layout.c",
+      "sha256": "1014fab4e1a6af58070745713540523c3a8c45e244b19b2602fbd8b810e72bcd",
+      "bytes": 490
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-after/layout.o",
+      "sha256": "e985069bb774ea0ee7c6e66297f81cc2bb29bbc24fd9849a0dc5538891d5b3b1",
+      "bytes": 57000
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/Makefile",
+      "sha256": "b3f4078b18dc7bea46d0bb5f8edd895ce284041af1d875396aa1f50d4d2d4990",
+      "bytes": 31
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/clk-en7523.c",
+      "sha256": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+      "bytes": 32413
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/clk-en7523.o",
+      "sha256": "6169271e2d50c6cecca82403fcd0cf695c93eb1d13e90aed6e7d452a202eb4c9",
+      "bytes": 57848
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/disassembly.txt",
+      "sha256": "88ed0f7d31333baee810a3fd28d4b82f8c2cdcbb50b6863279a4942264fd1ec7",
+      "bytes": 45715
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/layout.c",
+      "sha256": "1014fab4e1a6af58070745713540523c3a8c45e244b19b2602fbd8b810e72bcd",
+      "bytes": 490
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/kernel-before/layout.o",
+      "sha256": "74a67f637ed5b5f8213e4f3ffddafb0a405259a415cb6568bb8cee381c0a8460",
+      "bytes": 56904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/reset-control.inc",
+      "sha256": "e472b7693d14abe098bf35cf96b0d91dc41a0059f0a3374fe1d4781fb57804d0",
+      "bytes": 7842
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/run.log",
+      "sha256": "02fabd7a784fe2b4e073313d85c0767d7ecb9826694e66f2a273354cc19d2e79",
+      "bytes": 119
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-read-error/test",
+      "sha256": "8b3ac89880620743a3ae85fdbb2166901f66ce51ec74e0a526e6ce5d45dea7f9",
+      "bytes": 1766496
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/reset-control.inc",
+      "sha256": "d3a3a3827d42be732fd37ef337ee5cdf0c0a1881fcbe2637ea4ccf06f32965d0",
+      "bytes": 7852
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/run.log",
+      "sha256": "ff42e7311c2ee81e4efee8bac7f6eecc31ba868e8df92dfae7130d0885a15bce",
+      "bytes": 43
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-hide-write-error/test",
+      "sha256": "7a983cda812b0959214fd572fe927d858d5c2f906313694242d1b88cb3b1e85e",
+      "bytes": 1766552
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/build.log",
+      "sha256": "b045592dcd98e3bde18aa9a0d01025955be00816bbdde7aa314a0fc25e28f8f4",
+      "bytes": 648
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/reset-control.inc",
+      "sha256": "900e4fb3bc8e87e759f48d6cfd0a2d8bbf36856fd2f371f5987543f75c37d7b9",
+      "bytes": 7856
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/run.log",
+      "sha256": "4a1bddf40fc667c926333a3bee01a9c5a7595c810623d6041e85cd3ea7da1448",
+      "bytes": 58
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-indeterminate-value/test",
+      "sha256": "d7a55adb1de3f58584743b29ba6de474db4593b1d9aaec8dc1745c4d02f42be7",
+      "bytes": 1766576
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/reset-control.inc",
+      "sha256": "7f6c61aa0ef4260f5c2afd9015651da71af670f882d8040d10394d439178c357",
+      "bytes": 7854
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/run.log",
+      "sha256": "ac4818654723e425f3e3bc314c285fe8d18ac35ae1a854da77c3592ed8902c2b",
+      "bytes": 58
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-invert-pcic-polarity/test",
+      "sha256": "fc3bb86378b449f61f5f422489993cac3900c518478de5a75f4b7184652314ef",
+      "bytes": 1766568
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/reset-control.inc",
+      "sha256": "20af5e04c5b4abe879baaa8fe9c0dbb73f3f1aa9742e0d3d4406ab8570e4a7aa",
+      "bytes": 7928
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/run.log",
+      "sha256": "1fc4aa57c864f83c85f4c72db1a48ac278adc99bcb04cbc2195e6c2d8b919de7",
+      "bytes": 57
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-repeat-failed-write/test",
+      "sha256": "f963ec4a40b0cd73592fd979041dccf1002114dfb0b9889ee0173ae2de64bf78",
+      "bytes": 1766936
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/reset-control.inc",
+      "sha256": "ce5c9f3cf461c5c955f6d19919739d408a9e41b6a60b9eaa435b36b11c689fa1",
+      "bytes": 7835
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/run.log",
+      "sha256": "b0e62641da5e6f5ed904ff921df8e038492e564618c3fed458841b67d5e32979",
+      "bytes": 63
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-bank/test",
+      "sha256": "e6a9d9cf240e740169f55e3221d8320e0ef07a3ddc575df57c0a018dc512f43b",
+      "bytes": 1766504
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/airoha,an7583-reset.h",
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+      "bytes": 1904
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/airoha,en7523-reset.h",
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+      "bytes": 1816
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/airoha,en7581-reset.h",
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+      "bytes": 2102
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/reset-control.inc",
+      "sha256": "485d533c3b00721e81b74ae3e10b1848cbf00d461e63197537c270267db368f4",
+      "bytes": 7855
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/run.log",
+      "sha256": "b0e62641da5e6f5ed904ff921df8e038492e564618c3fed458841b67d5e32979",
+      "bytes": 63
+    },
+    {
+      "path": ".local/npu-reset-control/verified-three/mutant-wrong-mask/test",
+      "sha256": "e34f61d9a394e22ef52e2ff3386a533b1821a671722521b05663283551759e1f",
+      "bytes": 1766552
+    }
+  ],
+  "host_compiler": "Ubuntu clang version 21.1.8 (6ubuntu1)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/lib/llvm-21/bin\n",
+  "host_flags": [
+    "-std=gnu11",
+    "-O1",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-error=uninitialized",
+    "-ftrivial-auto-var-init=pattern",
+    "-fsanitize=address,undefined",
+    "-fno-sanitize-recover=all"
+  ],
+  "limits": [
+    "Regmap and device effects are explicitly modeled, including failed writes with and without side effects.",
+    "Pattern initialization is a test compiler option used to expose source indeterminacy; it is not the production kernel configuration.",
+    "Reset maps and polarity are preserved; translated IDs are assumed valid as supplied by the reset framework.",
+    "No NPU provider reset wiring, boot identity, firmware publication, physical drain or reset-domain coverage is established.",
+    "No packaged source, image, router, restricted INODE/DESC operation or resource-release authority changes."
+  ]
+}

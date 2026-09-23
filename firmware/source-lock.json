@@ -1,35 +1,116 @@
 {
-  "schema": 1,
-  "snapshot": "post-Daybreak21-R1-WiFi-SAE-file-reload-20260909",
+  "schema": 2,
+  "snapshot": "nonoc-merged-experimental-20260923",
   "last_router_tested_snapshot": "Daybreak21-WLAN-DMA-R1-20260905",
+  "build_directory": ".build/merged-openwrt",
   "openwrt": {
-    "url": "https://github.com/openwrt/openwrt.git",
-    "base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
-    "local_head": "f3173f41940ab15d63a205f6d618e145d49ee58a",
+    "url": "https://github.com/OpenWRT-fanboy/OpenW1700k.git",
+    "base": "288d79449f622a37c727cb12e81e85dba822aecb",
+    "local_head": "288d79449f622a37c727cb12e81e85dba822aecb",
     "changed_files": [
       {
+        "path": "files/etc/fe_debug_reg.sh",
+        "sha256": "35e59d47bb4824e52c60777ced9606587fde7e95ce650fac0e6a84fa8eb22615",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/etc/fe_reg.sh",
+        "sha256": "514c008a14adf322c1655617a7741272b3054e94efd487c0009c945b1a437063",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/etc/gsw_status.sh",
+        "sha256": "92fd8c625849b97b722db9cff2fcc2b8b7f6cc1cb18b8e653f44d4742efe0224",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/etc/md.sh",
+        "sha256": "e57c8c3fa7d8b8b493950649b5e82df4236986c38bf80a3d3237a6178dfa3721",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/etc/testgpio.sh",
+        "sha256": "bec2c6fba5ae9ca936f5f1597e57fed9c941ca1e19694b818d2e076ecc75eec0",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/etc/xsi_mac_dbg.sh",
+        "sha256": "817161ae569b00f3ac231f3f7e7b7368e2cc6c7ee3d48643a489a0561bd46483",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/usr/libexec/w1700k-release-helper",
+        "sha256": "26206c5b468e6899c04e4c06937e98e6cc3e52da81c386e14355a899faca971b",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/www/cgi-bin/github_check",
+        "sha256": "08dd9834725a8ddae60ae1cd977a31e389092162fe4cf26a6ab170cbf3f4b2e2",
+        "mode": "0o755"
+      },
+      {
+        "path": "files/www/cgi-bin/github_fetch",
+        "sha256": "372fc418c966d8500a7d35ca495dcc63f1066cef9bec6e53016fc0dca0128f54",
+        "mode": "0o755"
+      },
+      {
         "path": "package/kernel/mt76/Makefile",
-        "sha256": "7a87c1fc2c2a6cf4d340047d0683a94e183748682e6b10a462d5a89eb1f4027c",
+        "sha256": "d8b6afc42f70bed7ffdf9a79d07da7f71a29541e9aa794a0e166005bfa4d44fa",
         "mode": "0o644"
       },
       {
-        "path": "package/kernel/mt76/patches/001-mt7996-expose-read-only-npu-state.patch",
-        "sha256": "d1bd8be727fea2836ccbbe066f4e3a5847ea3c7227b77f26e1819eaaf195b8d1",
-        "mode": "0o755"
+        "path": "package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+        "sha256": "b7e284ba708fcb98321c606a62b9b141ae6613006257e7b7231d62518baae8dc",
+        "mode": "0o644"
       },
       {
-        "path": "package/kernel/mt76/patches/002-mt7996-report-compiled-npu-support.patch",
-        "sha256": "4bc23364afbe571e1e6154ba1fa833cb294068a4946dfd3130fe2e7c9c54e7f7",
-        "mode": "0o755"
+        "path": "package/kernel/mt76/w1700k/admission.h",
+        "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+        "mode": "0o644"
       },
       {
-        "path": "package/kernel/mt76/patches/003-mt7996-skip-npu-buffers-without-provider.patch",
-        "sha256": "6ffeb943a2eb91d67d8cc046f7ff49315b8afaedee361f51bc5d256e6e575092",
+        "path": "package/kernel/mt76/w1700k/barrier.h",
+        "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/control-client.c",
+        "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/control-client.h",
+        "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/control-v2-client.c",
+        "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/control-v2.h",
+        "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/kernel-include/stdint.h",
+        "sha256": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/linux-control.c",
+        "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/kernel/mt76/w1700k/linux-control.h",
+        "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
         "mode": "0o644"
       },
       {
         "path": "package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh",
-        "sha256": "c4f63366a0b727e39990f949cc319b9d93f9ff47e0dd872a5b7321801564c42a",
+        "sha256": "21eb1e6c95ddeb4a2639d3fe4ae21700677bd8ebd6ab7378ba2a5f9191f047b1",
         "mode": "0o755"
       },
       {
@@ -49,7 +130,7 @@
       },
       {
         "path": "package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc",
-        "sha256": "ef91cb5cb1e1c6c99d07c67d9dccdc4d846ed05a2c1f36afde9f49b2e9a79deb",
+        "sha256": "fa9fe210298d207d9b8aaa6133edbb9050fc447d747cdf53ea8435ad48e05aa9",
         "mode": "0o644"
       },
       {
@@ -189,31 +270,31 @@
       },
       {
         "path": "target/linux/airoha/image/an7581.mk",
-        "sha256": "b994596c539ad05b3015b2ea08a89b02b83485160bb68a698c4b97a34263ce37",
+        "sha256": "5efd5fa97abf812846b373d1ac90f714f0e6e0a4717552f4a81fb835e00266f2",
         "mode": "0o644"
       },
       {
-        "path": "target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch",
-        "sha256": "c96f30fb04e6c82ae0f244e135cbbcab6fac889d578c000b4f37bfcb68a4b7e4",
+        "path": "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+        "sha256": "7dc502f925411e1cde92b069fe83bc78bd58d1b9f9d4e37e01e07564b63648b9",
         "mode": "0o644"
       },
       {
-        "path": "target/linux/airoha/patches-6.18/926-net-airoha-npu-protect-inflight-mailbox-buffer.patch",
-        "sha256": "faa96f10049abc6edd9d3be973946cf4d4a81f178b56e3063e6c94b6f0de8d9c",
-        "mode": "0o644"
-      },
-      {
-        "path": "target/linux/airoha/patches-6.18/927-net-airoha-npu-validate-memory-before-wlan.patch",
-        "sha256": "608ce7728255d281714f982387f78bc9c1226e86e684c696b91a7f6500452708",
+        "path": "version",
+        "sha256": "6b502571e9516711d5f6a796663133f60dbf42207d0d5c7da1a7fd33ea384467",
         "mode": "0o644"
       }
     ]
   },
   "luci": {
     "url": "https://github.com/openwrt/luci.git",
-    "base": "506ca606d379dd69e9826b2a5e7e2ab90e6b89a5",
-    "local_head": "83073becd3e0e217a7e55f04ad71b32cfefaf26c",
+    "base": "d24568155976063c56ad001a0bd5d10ab4880f3e",
+    "local_head": "d24568155976063c56ad001a0bd5d10ab4880f3e",
     "changed_files": [
+      {
+        "path": "applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js",
+        "sha256": "6c669aaae16f481738905231f78d7b3143e52e5905ee700632b46e07f9148dce",
+        "mode": "0o644"
+      },
       {
         "path": "modules/luci-base/htdocs/luci-static/resources/network.js",
         "sha256": "b2414d4ad6b7c4d1d78b437cead1c1bed12200c0d88a3f6475997fe5fa15e5fa",
@@ -221,7 +302,12 @@
       },
       {
         "path": "modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js",
-        "sha256": "d6f8c7b9e6a227ea23ebc5cbb2303244805e22ece50b0c2bb8bf569021a8f238",
+        "sha256": "9241e0549738d693d4b47b0af7651891c4ca776b3975e20ecd3b34a10c983ea2",
+        "mode": "0o644"
+      },
+      {
+        "path": "modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js",
+        "sha256": "642589cc3c68bb422c4350b20e9b9c087225bbc5ccb61ce4c4ba0c35d00929d8",
         "mode": "0o644"
       },
       {
@@ -233,33 +319,101 @@
   },
   "feeds": {
     "packages": {
-      "commit": "f3bc744d83800d067674e0c85bc00c6ae114e319",
-      "url": "https://git.openwrt.org/feed/packages.git",
-      "dirty": false
-    },
-    "video": {
-      "commit": "644a66261288b4a95dbc6e46fe805d33cb9f71d9",
-      "url": "https://github.com/openwrt/video.git",
+      "url": "https://github.com/openwrt/packages.git",
+      "commit": "4acd6e13fdbe85a1d5163145b9afacab418f3b75",
       "dirty": false
     },
     "routing": {
+      "url": "https://github.com/openwrt/routing.git",
       "commit": "4b9891b9136259f93294a424507ed24c5e8c1cbd",
-      "url": "https://git.openwrt.org/feed/routing.git",
+      "dirty": false
+    },
+    "video": {
+      "url": "https://github.com/openwrt/video.git",
+      "commit": "11dae3ae499f100cd5c33bf31dd53d5707ebf21c",
+      "dirty": false
+    },
+    "telephony": {
+      "url": "https://github.com/openwrt/telephony.git",
+      "commit": "5d68d53c160a325ea9d03fce393e051573bcc736",
       "dirty": false
     },
     "luci": {
-      "commit": "83073becd3e0e217a7e55f04ad71b32cfefaf26c",
-      "url": "https://git.openwrt.org/project/luci.git",
+      "url": "https://github.com/openwrt/luci.git",
+      "commit": "d24568155976063c56ad001a0bd5d10ab4880f3e",
       "dirty": true
-    },
-    "telephony": {
-      "commit": "5d68d53c160a325ea9d03fce393e051573bcc736",
-      "url": "https://git.openwrt.org/feed/telephony.git",
-      "dirty": false
     }
   },
-  "mt76": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
-  "kernel": "6.18.44",
+  "component_sources": [
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/control-client.c",
+      "destination": "package/kernel/mt76/w1700k/control-client.c",
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/control-v2-client.c",
+      "destination": "package/kernel/mt76/w1700k/control-v2-client.c",
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/linux-control.c",
+      "destination": "package/kernel/mt76/w1700k/linux-control.c",
+      "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/control-client.h",
+      "destination": "package/kernel/mt76/w1700k/control-client.h",
+      "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/control-v2.h",
+      "destination": "package/kernel/mt76/w1700k/control-v2.h",
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/linux-control.h",
+      "destination": "package/kernel/mt76/w1700k/linux-control.h",
+      "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/admission.h",
+      "destination": "package/kernel/mt76/w1700k/admission.h",
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/barrier.h",
+      "destination": "package/kernel/mt76/w1700k/barrier.h",
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/kernel-include/stdint.h",
+      "destination": "package/kernel/mt76/w1700k/kernel-include/stdint.h",
+      "sha256": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+      "mode": "0o644"
+    }
+  ],
+  "mt76": "01367e60db433534ad0aa3d3b6c886de8cb7d44c",
+  "kernel": "6.18.52",
   "board": "gemtek,w1700k-ubi",
-  "wlan_npu": "compiled out; Ethernet offload is separate"
+  "wlan_npu": "enabled in unified experimental build; physical recovery and full parity remain unverified",
+  "upstream_release": "ubi2_2026.09.23_r36536-288d79449f",
+  "builder_commit": "9449e4ca242ab30278df20940d6654ddc1c102e8",
+  "firmware_core": "firmware/npu/Makefile builds the RV32 components; platform loader and postgate execution remain incomplete"
 }

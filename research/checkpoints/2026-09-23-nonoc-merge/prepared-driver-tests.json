@@ -1,0 +1,296 @@
+{
+  "memory_preflight_cases": [
+    "load profile=0 property=0 ba=0",
+    "wire profile=0 property=0 ba=0",
+    "load-addresses profile=0 property=0 ba=0",
+    "load profile=0 property=0 ba=1",
+    "wire profile=0 property=0 ba=1",
+    "load-addresses profile=0 property=0 ba=1",
+    "load profile=0 property=1 ba=0",
+    "wire profile=0 property=1 ba=0",
+    "load-addresses profile=0 property=1 ba=0",
+    "load profile=0 property=1 ba=1",
+    "wire profile=0 property=1 ba=1",
+    "load-addresses profile=0 property=1 ba=1",
+    "load profile=1 property=0 ba=0",
+    "wire profile=1 property=0 ba=0",
+    "load-addresses profile=1 property=0 ba=0",
+    "load profile=1 property=0 ba=1",
+    "wire profile=1 property=0 ba=1",
+    "load-addresses profile=1 property=0 ba=1",
+    "load profile=1 property=1 ba=0",
+    "wire profile=1 property=1 ba=0",
+    "load-addresses profile=1 property=1 ba=0",
+    "load profile=1 property=1 ba=1",
+    "wire profile=1 property=1 ba=1",
+    "load-addresses profile=1 property=1 ba=1",
+    "load profile=2 property=0 ba=0",
+    "wire profile=2 property=0 ba=0",
+    "load-addresses profile=2 property=0 ba=0",
+    "load profile=2 property=0 ba=1",
+    "wire profile=2 property=0 ba=1",
+    "load-addresses profile=2 property=0 ba=1",
+    "load profile=2 property=1 ba=0",
+    "wire profile=2 property=1 ba=0",
+    "load-addresses profile=2 property=1 ba=0",
+    "load profile=2 property=1 ba=1",
+    "wire profile=2 property=1 ba=1",
+    "load-addresses profile=2 property=1 ba=1",
+    "uninitialized-provider",
+    "missing-tx-bufid",
+    "missing-pkt",
+    "missing-tx-pkt",
+    "missing-ba",
+    "invalid-range-0-(0, 255)",
+    "invalid-range-0-(2415919108, 2415919107)",
+    "invalid-range-0-(2432696321, 2432696336)",
+    "invalid-range-0-(6723469312, 6723526655)",
+    "invalid-range-0-(4294963200, 4294971391)",
+    "invalid-range-1-(0, 255)",
+    "invalid-range-1-(2415919108, 2415919107)",
+    "invalid-range-1-(2432696321, 2432696336)",
+    "invalid-range-1-(6723469312, 6723526655)",
+    "invalid-range-1-(4294963200, 4294971391)",
+    "invalid-range-2-(0, 255)",
+    "invalid-range-2-(2415919108, 2415919107)",
+    "invalid-range-2-(2432696321, 2432696336)",
+    "invalid-range-2-(6723469312, 6723526655)",
+    "invalid-range-2-(4294963200, 4294971391)",
+    "invalid-range-3-(0, 255)",
+    "invalid-range-3-(2415919108, 2415919107)",
+    "invalid-range-3-(2432696321, 2432696336)",
+    "invalid-range-3-(6723469312, 6723526655)",
+    "invalid-range-3-(4294963200, 4294971391)",
+    "firmware-aperture-0-(1879048192, 1879113727)",
+    "firmware-aperture-0-(3221221376, 3221229567)",
+    "firmware-aperture-1-(1879048192, 1879113727)",
+    "firmware-aperture-1-(3221221376, 3221229567)",
+    "firmware-aperture-2-(1879048192, 1879113727)",
+    "firmware-aperture-2-(3221221376, 3221229567)",
+    "firmware-aperture-3-(1879048192, 1879113727)",
+    "firmware-aperture-3-(3221221376, 3221229567)",
+    "wlan-overlap-0-1",
+    "wlan-overlap-0-2",
+    "wlan-overlap-0-3",
+    "wlan-overlap-1-2",
+    "wlan-overlap-1-3",
+    "wlan-overlap-2-3",
+    "firmware-overlap-0",
+    "firmware-overlap-1",
+    "firmware-overlap-2",
+    "firmware-overlap-3",
+    "undersized-tx-check-1",
+    "undersized-tx-check-26624",
+    "undersized-tx-check-57343",
+    "one-byte-overlap",
+    "adjacent-regions-accepted",
+    "loaded-profile-cached",
+    "loaded-binary-region-cached",
+    "addresses-snapshotted-before-send",
+    "send-failure-1",
+    "send-failure-2",
+    "send-failure-3",
+    "send-failure-4",
+    "send-failure-5",
+    "send-failure-6",
+    "binary-pre-map-(0, 255)",
+    "binary-pre-map-(2415919108, 2415919107)",
+    "binary-pre-map-(2432696321, 2432696336)",
+    "binary-pre-map-(6723469312, 6723526655)",
+    "binary-pre-map-(4294963200, 4294971391)",
+    "binary-pre-map-(2214592512, 2216951806)",
+    "binary-exact-minimum",
+    "bad-property-count--22",
+    "bad-property-count-0",
+    "bad-property-count-1",
+    "missing-soc",
+    "map-error",
+    "load-error-1-0",
+    "load-error-1-1",
+    "load-error-2-0",
+    "load-error-2-1"
+  ],
+  "allocation_retry": {
+    "cases": 6174
+  },
+  "prepared_source_bindings": [
+    {
+      "staged": ".local/merge-nonoc-20260923/kernel-merged/drivers/clk/clk-en7523.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/clk/clk-en7523.c",
+      "sha256": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c",
+      "sha256": "6511daf3d74d3c0ea5b9369b4ee9dcb4b8911db4d5eec8d79e02f80f8605eca9"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h",
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/Makefile",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/Makefile",
+      "sha256": "1789e33ba2c413b6064bb0d0537d2c0c3322f46668b38233ff59efbb903b429b"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/debugfs.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/debugfs.c",
+      "sha256": "e6bc7350bcd0f3b71bcc1078db7d78acf7b36f15c68b7ada5250cdd4f42e4eb2"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/dma.c",
+      "sha256": "e565520865dd3b4d3b1bc270f3d4ebe88404eeda0def10f3f112ae655a7ed3d3"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/init.c",
+      "sha256": "e6f59c1f65de8e01a813a62fb8e4cea8e5cc86babbc8e7a80a49b07ed73b24eb"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/mac.c",
+      "sha256": "7243304001b6a315f3c724e725faa4bb851ed59a8a08fbc1695e8acc8ca7bad0"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/mt7996.h",
+      "sha256": "37421222ba80195825d4c694bc8a1ec920d63f1acf3b5905b4539fc538cfd1eb"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/mt7996/npu.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/npu.c",
+      "sha256": "6c38b869389c990e43521ff10a72ec7e153b7d56f28b834bc7909eec8c757a88"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/npu.c",
+      "sha256": "d8c7c2ffed8d202ca2129bfe88d1dd9edb0de2c8c5317c9b938aa8e80ee6778f"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/admission.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/admission.h",
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/barrier.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/barrier.h",
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/control-client.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-client.c",
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/control-client.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-client.h",
+      "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/control-v2-client.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-v2-client.c",
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/control-v2.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-v2.h",
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/kernel-include/stdint.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/kernel-include/stdint.h",
+      "sha256": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/linux-control.c",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/linux-control.c",
+      "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f"
+    },
+    {
+      "staged": ".local/merge-nonoc-20260923/mt76-merged/w1700k/linux-control.h",
+      "prepared": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/linux-control.h",
+      "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a"
+    }
+  ],
+  "mutants": [
+    "replay-timeout",
+    "lose-return",
+    "extra-attempt"
+  ],
+  "linux_executor": {
+    "passed": true,
+    "cases": 44,
+    "assertions": 367,
+    "provider_model_assertions": 606,
+    "physical_drains": false,
+    "layout": [
+      56,
+      68,
+      80,
+      56
+    ]
+  },
+  "inputs": {
+    "tests/npu/test_nonoc_merge.py": "9c9b09e1a7c392498b28afce4aa74edd3bbb400a2f334a9f0748a313ccfb1a69",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c": "6511daf3d74d3c0ea5b9369b4ee9dcb4b8911db4d5eec8d79e02f80f8605eca9",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0",
+    "tests/npu/linux-control-harness.c": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce",
+    "tests/npu/control-v2-provider-harness.c": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/.control-v2-client.o.cmd": "8a69db18b527fcf9fffa2ec20181dad4f04e53c34daff9d0f1f78466efbde888",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-v2-client.o": "1e5a7479d9f7e4f6f37d698438871cebefc1dce140999f540ed93935da4c3fb2",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-client.o": "8ec4fe4fe4df76e0b425738fc558ca999af7ab58885b180430a428ea47de02ad",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/linux-control.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/linux-control.o": "10dd9a07d97d82fb5021db0800b52a065bb9858fc6b712c87b5f958500d82e7d",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/.control-client.o.cmd": "5772765076918adb694157a2c7116574bb00cc873d785f8375b83151f0961a9e",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/.linux-control.o.cmd": "29c00f7fd5d567bf38ef6e7c4e3ec1b444c35d7ac9f63c20a55fd95f79c8d96b",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/w1700k/kernel-include/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8",
+    ".local/npu-linux-control/verified/shims/linux/types.h": "6c3f7a14f538a25f913519cf5247052719f70eaaa15b9ab803c3bde0037b26ef",
+    ".local/npu-linux-control/verified/shims/linux/mutex.h": "25725102916c75163ada3249fcc6d9607aede725882e4424d2e2ba325d72d41a",
+    ".local/npu-linux-control/verified/shims/linux/soc/airoha/airoha_offload.h": "c106bad192d0ea470bcd404924b2d4471822ccfd153574e516e2b032ccd2bb29",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/source-lock.json": "1411822d0022b531f690eb8c28c1ca48e3d23985e1a9d8835bab7c6d6254176a",
+    "firmware/build.config": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6"
+  },
+  "artifacts": {
+    ".local/merge-nonoc-20260923/tests-prepared-final/lose-return": "a8000830c0a05a8f520fb7eae5b04dcadfa22de6f53e6f86d2d204085318406b",
+    ".local/merge-nonoc-20260923/tests-prepared-final/extra-attempt": "1d38e6fd5945d0334253ed9ba72ecf70f785880b588212265d045ccc70ffb347",
+    ".local/merge-nonoc-20260923/tests-prepared-final/retry-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/merge-nonoc-20260923/tests-prepared-final/memory.so": "cf6e7a562e14cd81e5952a85ab0f3f39eaa4c39e68b40241b3ad2f48c6c112a9",
+    ".local/merge-nonoc-20260923/tests-prepared-final/memory.c": "a4291cfdae7e85ba0d13120b497d44e5606b01f92ec14ae18e972c531d351cde",
+    ".local/merge-nonoc-20260923/tests-prepared-final/retry": "df9df95866be19fd522663e104ab3b35eff7fa3886eaf73b9845e75ca6a0c9b2",
+    ".local/merge-nonoc-20260923/tests-prepared-final/lose-return-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/merge-nonoc-20260923/tests-prepared-final/replay-timeout.c": "fcf078be480459ec9671effbd065bc067e5e46fe071266088e426e07ed514e4f",
+    ".local/merge-nonoc-20260923/tests-prepared-final/extra-attempt-run.log": "df63949c005f9817e81b1a69ce8451250318d3a089bc2d34e1cc6a40ac2c1c1d",
+    ".local/merge-nonoc-20260923/tests-prepared-final/linux-control-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/merge-nonoc-20260923/tests-prepared-final/extra-attempt.c": "54604ef8d41af6dc548d542204557be78c84f48fc31d45d8628d99bfc0beb05b",
+    ".local/merge-nonoc-20260923/tests-prepared-final/retry-run.log": "b8fb680495fcdbcec9080b8d567f2631b63d03a81b1586af4c40a305272701a7",
+    ".local/merge-nonoc-20260923/tests-prepared-final/replay-timeout-run.log": "053ea4555a49525c6ab098eeb6290a770ccf7cab332ab796aad6f2f46af43a0f",
+    ".local/merge-nonoc-20260923/tests-prepared-final/retry.c": "9302d52f471fd4d6e186b96c4b58c78e635225f443b886cecbbbd6c4289c4013",
+    ".local/merge-nonoc-20260923/tests-prepared-final/replay-timeout-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/merge-nonoc-20260923/tests-prepared-final/linux-control": "d84a65252b6d8aa4ddfd950a35e7d3c8bb4502be31052bcc5699c2f55e6bfc8f",
+    ".local/merge-nonoc-20260923/tests-prepared-final/linux-control-run.log": "4dab870fa683c82b48f6b870ca0f88754e76073c7b57a8eb39c9ea8ee0093ece",
+    ".local/merge-nonoc-20260923/tests-prepared-final/lose-return-run.log": "0f77550b4d3dedb1306021e5adc41fe76fb8868da3fe3dea314bb91d97185d1a",
+    ".local/merge-nonoc-20260923/tests-prepared-final/replay-timeout": "05a9c669d17762870c1327ef3ce9d3ebeab3df8282627ba24b2a14d7d225bc73",
+    ".local/merge-nonoc-20260923/tests-prepared-final/extra-attempt-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/merge-nonoc-20260923/tests-prepared-final/lose-return.c": "f56fee58cca9a80eeccffc0e97d04e1dc9f04a70f1090bc10f23b6aeda1bea46",
+    ".local/merge-nonoc-20260923/tests-prepared-final/control-v2-provider.inc": "44526d95ca486e51fe80b6568e1fbc5027220a39258c221ead46036c3b234969"
+  },
+  "limits": [
+    "Actual merged provider/client C with modeled OF, load, regmap, firmware delivery and mutexes.",
+    "No physical boot, containment, DMA drains, module loading or runtime recovery proof."
+  ]
+}

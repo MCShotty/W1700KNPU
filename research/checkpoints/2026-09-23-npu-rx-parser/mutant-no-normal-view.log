@@ -1,0 +1,50 @@
+=================================================================
+==522==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x76e6ee7e0034 at pc 0x5742a81a9597 bp 0x7ffc1a08e0f0 sp 0x7ffc1a08e0e8
+READ of size 4 at 0x76e6ee7e0034 thread T0
+    #0 0x5742a81a9596 in mt7996_mac_fill_rx /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-normal-view/parser-functions.inc:717:9
+    #1 0x5742a81a9596 in mt7996_queue_rx_skb /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-normal-view/parser-functions.inc:1062:8
+    #2 0x5742a81aee0d in dispatch /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:286:2
+    #3 0x5742a81abdad in nominal /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:335:7
+    #4 0x5742a81aa892 in main /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c
+    #5 0x7ac6ef42a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #6 0x7ac6ef42a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #7 0x5742a80bc384 in _start (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-normal-view/parser+0x2f384) (BuildId: ea8565e741d5f09a540ac9d7ff0bba62e0f6c6ed)
+
+0x76e6ee7e0034 is located 0 bytes after 4-byte region [0x76e6ee7e0030,0x76e6ee7e0034)
+allocated by thread T0 here:
+    #0 0x5742a8161928 in malloc (/home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-normal-view/parser+0xd4928) (BuildId: ea8565e741d5f09a540ac9d7ff0bba62e0f6c6ed)
+    #1 0x5742a81a9fee in pskb_may_pull /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:136:20
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/captain/W1700KNPU/.local/npu-rx-parser/mutant-no-normal-view/parser-functions.inc:717:9 in mt7996_mac_fill_rx
+Shadow bytes around the buggy address:
+  0x76e6ee7dfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x76e6ee7dfe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x76e6ee7dfe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x76e6ee7dff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x76e6ee7dff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x76e6ee7e0000: fa fa fd fa fa fa[04]fa fa fa fa fa fa fa fa fa
+  0x76e6ee7e0080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x76e6ee7e0100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x76e6ee7e0180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x76e6ee7e0200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x76e6ee7e0280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==522==ABORTING

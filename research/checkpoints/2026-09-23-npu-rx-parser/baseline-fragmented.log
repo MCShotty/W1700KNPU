@@ -1,0 +1,49 @@
+=================================================================
+==445==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x79739f9e0010 at pc 0x5c9c15e4229f bp 0x7ffca088b8b0 sp 0x7ffca088b8a8
+READ of size 4 at 0x79739f9e0010 thread T0
+    #0 0x5c9c15e4229e in mt7996_queue_rx_skb /home/captain/W1700KNPU/.local/npu-rx-parser/before/parser-functions.inc:942:9
+    #1 0x5c9c15e4740d in dispatch /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:286:2
+    #2 0x5c9c15e443bf in nominal /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:335:7
+    #3 0x5c9c15e4317e in main /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c
+    #4 0x7d53a062a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #5 0x7d53a062a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 240c8909736b31f963346aca80667fd00c551e32)
+    #6 0x5c9c15d55384 in _start (/home/captain/W1700KNPU/.local/npu-rx-parser/before/parser+0x2f384) (BuildId: 0af3074306c8b8aceb3754dfeab10bbe9b3463b3)
+
+0x79739f9e0011 is located 0 bytes after 1-byte region [0x79739f9e0010,0x79739f9e0011)
+allocated by thread T0 here:
+    #0 0x5c9c15dfa928 in malloc (/home/captain/W1700KNPU/.local/npu-rx-parser/before/parser+0xd4928) (BuildId: 0af3074306c8b8aceb3754dfeab10bbe9b3463b3)
+    #1 0x5c9c15e47178 in make_skb /home/captain/W1700KNPU/tests/npu/npu-rx-parser-harness.c:196:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /home/captain/W1700KNPU/.local/npu-rx-parser/before/parser-functions.inc:942:9 in mt7996_queue_rx_skb
+Shadow bytes around the buggy address:
+  0x79739f9dfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x79739f9dfe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x79739f9dfe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x79739f9dff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x79739f9dff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x79739f9e0000: fa fa[01]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79739f9e0080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79739f9e0100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79739f9e0180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79739f9e0200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x79739f9e0280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==445==ABORTING

@@ -1,6 +1,6 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-09-16 (NPU host IRQ/work and RCU reference lifetime)
+Last updated: 2026-09-23 (unified non-OC merge; image build in progress)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
@@ -6944,3 +6944,166 @@ Full probe/unregister/reset ordering, consumer lifetime, V2 integration,
 postgate firmware boot and physical drains remain open. No source-lock/overlay,
 image, router, Wi-Fi configuration, restricted-lane or protected-data change;
 no subagents or commit/push. Ledger, resume references and README are updated.
+
+## Host NPU RX Packet Ownership - 2026-09-23
+
+The interrupted 2026-09-16 draft now has a validated, unpromoted patch 008.
+Extracted predecessor C reproduces prefix release followed by duplicate ring
+cleanup on an incomplete packet; no physical NPU failure is claimed. The new
+path validates all fragments and mapped lengths before skb ownership, snapshots
+metadata after read barriers, retains failed/incomplete packets, clears consumed
+entries and counts complete rejected packets against NAPI budget. Zero-budget
+RX polls no longer refill page-pool buffers. The initial draft's eight-entry
+snapshot and signed-size guard were corrected against the actual host headers.
+
+3,228 baseline/3,376 corrected cases, eleven compiled mutation controls, six
+AArch64 kernel objects and strict checkpatch pass. Both actual RX queue IDs,
+512-entry geometry, wrap/refill/cleanup and modeled publication controls are
+covered. Independent readback matches 127 unique files. Full receipt SHA256:
+`69645a636566569409b86049942b8f1c66f79fa1e5302c812d9cbdf09e6d5ed0`.
+Evidence: `research/checkpoints/2026-09-16-npu-rx-ownership/REPORT.md`.
+
+Page-pool/skb/DMA/NAPI helpers remain explicit models; object builds are not
+loaded modules. Downstream RX payload/header/group validation, real publication/
+cache/backing, concurrent refill/removal, physical drains and complete lifecycle
+remain open. The source lock, packaged overlays, images, router, Wi-Fi settings,
+protected data and restricted INODE/DESC lanes were unchanged. No subagent,
+deployment, flash or commit/push was performed. Trackers and README updated.
+
+## MT7996 RX Header Views - 2026-09-23
+
+Unpromoted patch 009 prepares required RXD/data-header prefixes before parser
+pointer caching while retaining fragmented data bodies. It linearizes control
+messages for flat-pointer handlers, checks minimum dispatch headers, retains
+RX-vector metadata across header edits, skips unavailable optional Group-5
+radiotap data and rejects absent stations before reversed-header dereference.
+This is shared MT7996 receive behavior, following NPU ownership patch 008.
+
+Actual selected C with modeled skb/framework dependencies passes 7,680 baseline
+and 613,113 corrected case executions across MAIN/NPU0/NPU1. Five original
+failure controls and eleven mutants validate the guards. Four AArch64 driver
+objects and two layout probes pass with 25 matching values and clean checkpatch.
+Independent readback matches 176 unique files. Receipt SHA256:
+`1650e5f50ce6c188b48dcc62a649534ac5b3288df96a9ec98b1cc480bbafbff0`.
+Evidence: `research/checkpoints/2026-09-23-npu-rx-parser/REPORT.md`.
+
+Short model head allocations expose logical bounds, not proven physical router
+corruption. Firmware-event bodies/TLVs, callback/stack semantics, real metadata,
+DMA/publication/lifecycle and full NPU acceptance remain open. No source-lock,
+packaged overlay, image, router, Wi-Fi settings, restricted lane, protected-data,
+subagent, deployment, flash or commit/push action occurred. Trackers updated.
+
+## Linked NPU-Enabled MT76 Modules - 2026-09-23
+
+From a hash-checked isolated source copy after patches 008/009, Kbuild produced
+linked AArch64 `mt76.ko`, `mt76-connac-lib.ko` and `mt7996e.ko` with NPU
+enabled. MT7996 imports six NPU functions defined by mt76, which imports
+provider get/put exported by the prepared kernel. These link symbols are
+recorded in the new receipt.
+
+The kernel's `Module.symvers` lacked external mac80211 exports. A temporary
+index from 351 exports in installed mac80211/cfg80211/compat ELF modules allowed
+modpost to finish. All dependency/module vermagic strings match 6.18.44.
+Three existing missing-description warnings remain; there were no unresolved
+symbols. Independent readback matched the module/dependency/build-log hashes.
+Receipt SHA256: `196e783e84c098068f504e49dd816bf1709f2145f02593dc5a216d28506dfe03`.
+Evidence: `research/checkpoints/2026-09-23-npu-linked-modules/REPORT.md`.
+
+Provider candidates 928/929 are not in the built-in target kernel. Module
+loading, physical DMA, full recovery and stock parity are not proven. No image,
+router, flash, Wi-Fi configuration, protected data, restricted NPU operation,
+subagent or commit/push action occurred. Trackers and README updated.
+
+## Provider And Host Kernel Link - 2026-09-23
+
+Provider patches 928/929 now rebuild and link into an isolated prepared kernel
+with unchanged configuration. Corrected source/header hashes match the earlier
+lifetime receipt. AArch64 `vmlinux` and regenerated exports contain get/put and
+`airoha_npu_wlan_control`; the provider retains the managed-work callback and
+has no old removal callback. The original build/source authority is unchanged.
+
+The three NPU-enabled mt76 modules relink against this kernel. A separate
+unloaded GPL probe links the new control API, while actual mt76 still imports
+only provider get/put. The reconstructed 351-export mac80211 index remains.
+Initial logs record 65 kernel, three mt76 and one probe description warnings
+under `CONFIG_MODULE_STRIPPED=y`, with no compiler/unresolved-symbol errors.
+Runner ELF/metadata expectations were corrected; initial logs were preserved.
+Independent Windows readback verifies all 45 referenced files.
+
+Receipt SHA256: `cdd3284695bcc9b02b5290a9a04b956db6dd3967625d24b831cbd0e0f2be0cd8`.
+Evidence: `research/checkpoints/2026-09-23-npu-provider-kernel-link/REPORT.md`.
+V2 client/binding, complete boot, loading, physical DMA/drains and safe full
+lifecycle remain open. No packaged source, image, router, Wi-Fi, protected-data,
+restricted-lane, subagent, deployment, flash or commit/push change.
+
+## Linux V2 Control Executor - 2026-09-23
+
+The portable V2 client now has an unpromoted Linux executor with full-exchange
+serialization, intended-operation checks, once-only initialization, sticky first
+error and close joining the active CPU call. It borrows a caller-retained
+provider reference; no cleanup/restart authority or automatic fresh-lifetime
+assumption is added. Actual mt76 wiring waits on the cold loader/owner contract.
+
+Forty-four ASan/UBSan host cases and six compiled mutants pass against actual
+executor/client/server/provider C with pthread/regmap/storage/delivery models.
+Two AArch64 modules link with the control API enabled and its header forced
+disabled; four shared layouts match. Both retain the known description warning.
+Independent readback verifies 83 files. Receipt SHA256:
+`f49e8df57aa1aef8e41073548cff48145ed245b36ec89bdae1a23c2d08226ff7`.
+Evidence: `research/checkpoints/2026-09-23-npu-linux-control/REPORT.md`.
+
+No native-bootstrap execution, physical DMA/drain, complete lifetime, module
+load or router acceptance is claimed. Loader identity/placement/publication and
+actual caller wiring remain open. No packaged image/source promotion, Wi-Fi,
+restricted-lane, protected-data, subagent, deployment, flash or commit/push action.
+
+## NPU Reset-Control Prerequisite - 2026-09-23
+
+Candidate 930 corrects the shared clock driver's reset-value initialization and
+register-error propagation. Its baseline reconstructs exactly from the pinned
+Linux archive and eleven OpenWrt patches. All 147 reset entries across three
+SoC maps pass 23,088 ASan/UBSan cases, four original-source controls, seven
+mutants and four AArch64 object builds. Strict checkpatch is clean.
+
+The actual target callbacks execute 5,007 cases per version with modeled regmap.
+Current GCC output has matching normal polarity despite the source's undefined
+local value, but suppresses 3,087 injected errors; corrected code returns them.
+No live polarity failure is claimed. Independent readback verifies 132 files.
+Evidence: `research/checkpoints/2026-09-23-npu-reset-control/REPORT.md`.
+Receipt SHA256 values:
+`c627c45569b2e142b635f68a6ced59460749232f184bc99fe5215bf672a60c7d` and
+`d0fe65272e356c397324ddd763416e5c5c80166f3ec13676503acc03e23779d9`.
+
+This is a software prerequisite for cold-provider work, not physical containment.
+Provider reset wiring, engine/reset coverage, loader identity/publication,
+V2 caller integration and complete drain/recovery remain open. No packaged
+source, image, router, Wi-Fi, restricted-lane, protected-data, subagent, flash
+or commit/push change. Ledger and resume references updated.
+
+## Unified Experimental Non-OC Merge - 2026-09-23
+
+The user explicitly requested one experimental source/build track. Active
+source now targets non-OC 288d79449f, kernel 6.18.52, mt76 01367e60 and LuCI
+d245681. Implemented provider/host changes and Linux control code are build
+inputs with WLAN NPU selected. The firmware bootstrap gate is in canonical
+source, and all ten RV32 core units compile. Old prepared/rollback material is
+preserved. Final source replay reconstructs all 60 changed files from clean bases.
+
+Merged provider/preflight/retry/client tests and authenticated updater fixtures
+pass against the actual prepared sources, with 20 exact source bindings. Host
+tools, cross-toolchain and full image builds pass. Offline image validation
+covers FIT hashes, board/layout, NPU memory, non-OC OPPs, 218 packages, 78 module
+ABIs and Wi-Fi firmware-source hashes. Final revision is
+`r36536-merged-288d79449f`; image SHA256:
+`132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
+
+The complete bootstrap and all-hart composition reruns pass with unchanged
+instruction/state gates and a recorded 60-second wall budget. The initial
+identical-ELF boundary failure and canceled attempt are retained but not counted
+as passing. Metadata/APK version formatting was corrected and the final image
+reverified. Compact receipts: `research/checkpoints/2026-09-23-nonoc-merge/`.
+No hardware acceptance is claimed.
+
+Current details and remaining loader/caller/postgate/drain implementation gaps:
+`docs/NONOC_MERGE.md`. No router, live Wi-Fi, protected-data, restricted-selector,
+subagent, flash or commit/push action.

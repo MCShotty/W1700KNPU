@@ -1,0 +1,456 @@
+#!/bin/sh
+
+# Shared W1700K channel and width policy. Prefer the live wiphy map and use
+# conservative static rules only before the wireless driver is available.
+
+is_uint() {
+	case "$1" in
+		""|*[!0-9]*) return 1 ;;
+	esac
+	return 0
+}
+
+in_list() {
+	local needle="$1"
+	local item
+	shift
+
+	for item in "$@"; do
+		[ "$item" = "$needle" ] && return 0
+	done
+	return 1
+}
+
+w1700k_normalize_country() {
+	local country
+
+	country="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
+	case "$country" in
+		""|00) echo US ;;
+		*) echo "$country" ;;
+	esac
+}
+
+w1700k_load_iw_phy_info() {
+	[ "${W1700K_IW_PHY_INFO_LOADED:-0}" = "1" ] && return
+	W1700K_IW_PHY_INFO_LOADED=1
+
+	if [ -n "${W1700K_IW_PHY_INFO_FILE:-}" ] && [ -r "$W1700K_IW_PHY_INFO_FILE" ]; then
+		W1700K_IW_PHY_INFO="$(cat "$W1700K_IW_PHY_INFO_FILE")"
+	elif command -v iw >/dev/null 2>&1; then
+		W1700K_IW_PHY_INFO="$(iw phy 2>/dev/null)"
+	else
+		W1700K_IW_PHY_INFO=
+	fi
+}
+
+w1700k_live_ap_channel_state() {
+	local band="$1"
+	local channel="$2"
+	local state
+
+	w1700k_load_iw_phy_info
+	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
+
+	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" -v target_channel="$channel" '
+		function channel_band(mhz) {
+			if (mhz >= 2400 && mhz < 2500) return "2g"
+			if (mhz >= 5000 && mhz < 5925) return "5g"
+			if (mhz >= 5925 && mhz <= 7125) return "6g"
+			return ""
+		}
+		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && $4 ~ /^\[[0-9]+\]$/ {
+			band = channel_band($2 + 0)
+			if (band != target_band) next
+			saw_band = 1
+			channel = $4
+			gsub(/[\[\]]/, "", channel)
+			if (channel != target_channel) next
+			saw_channel = 1
+			line = tolower($0)
+			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
+				usable = 1
+		}
+		END {
+			if (usable) print "usable"
+			else if (saw_band) print "blocked"
+			else print "unknown"
+		}
+	')"
+
+	case "$state" in
+		usable) return 0 ;;
+		blocked) return 1 ;;
+		*) return 2 ;;
+	esac
+}
+
+w1700k_live_band_has_ap_channel() {
+	local band="$1"
+	local state
+
+	w1700k_load_iw_phy_info
+	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
+
+	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" '
+		function channel_band(mhz) {
+			if (mhz >= 2400 && mhz < 2500) return "2g"
+			if (mhz >= 5000 && mhz < 5925) return "5g"
+			if (mhz >= 5925 && mhz <= 7125) return "6g"
+			return ""
+		}
+		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && channel_band($2 + 0) == target_band {
+			saw_band = 1
+			line = tolower($0)
+			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
+				usable = 1
+		}
+		END {
+			if (usable) print "usable"
+			else if (saw_band) print "blocked"
+			else print "unknown"
+		}
+	')"
+
+	case "$state" in
+		usable) return 0 ;;
+		blocked) return 1 ;;
+		*) return 2 ;;
+	esac
+}
+
+country_5g_channels() {
+	case "$(w1700k_normalize_country "$1")" in
+		US|SA)
+			echo "36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
+			;;
+		*)
+			# Safe startup fallback until the live regulatory map is available.
+			echo "36 40 44 48"
+			;;
+	esac
+}
+
+w1700k_static_channel_valid() {
+	local band="$1"
+	local channel="$2"
+	local country
+	local max2g
+
+	country="$(w1700k_normalize_country "$3")"
+
+	case "$band" in
+		2g)
+			case "$country" in
+				SA) max2g=13 ;;
+				JP) max2g=14 ;;
+				*) max2g=11 ;;
+			esac
+			[ "$channel" -ge 1 ] && [ "$channel" -le "$max2g" ]
+			;;
+		5g)
+			case " $(country_5g_channels "$country") " in
+				*" $channel "*) return 0 ;;
+				*) return 1 ;;
+			esac
+			;;
+		6g)
+			case "$country" in
+				US|SA) ;;
+				*) return 1 ;;
+			esac
+			[ "$channel" -eq 2 ] && return 0
+			[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] && [ $(((channel - 1) % 4)) -eq 0 ]
+			;;
+		*) return 1 ;;
+	esac
+}
+
+channel_valid() {
+	local band="$1"
+	local channel="$2"
+	local country
+	local live_rc
+
+	country="$(w1700k_normalize_country "$3")"
+
+	if [ "$channel" = "auto" ]; then
+		w1700k_live_band_has_ap_channel "$band"
+		live_rc=$?
+		if [ "$live_rc" -eq 2 ]; then
+			case "$band" in
+				2g) w1700k_static_channel_valid 2g 1 "$country" ;;
+				5g) w1700k_static_channel_valid 5g 36 "$country" ;;
+				6g) w1700k_static_channel_valid 6g 1 "$country" ;;
+				*) return 1 ;;
+			esac
+			return
+		fi
+		return "$live_rc"
+	fi
+
+	is_uint "$channel" || return 1
+	w1700k_live_ap_channel_state "$band" "$channel"
+	live_rc=$?
+	[ "$live_rc" -ne 2 ] && return "$live_rc"
+	w1700k_static_channel_valid "$band" "$channel" "$country"
+}
+
+htmode_width() {
+	case "$1" in
+		*320*) echo 320 ;;
+		*160*) echo 160 ;;
+		*80*) echo 80 ;;
+		*40*) echo 40 ;;
+		*) echo 20 ;;
+	esac
+}
+
+block_valid() {
+	local band="$1"
+	local country="$2"
+	local block="$3"
+	local ch
+
+	for ch in $block; do
+		channel_valid "$band" "$ch" "$country" || return 1
+	done
+	return 0
+}
+
+run_width_block_valid() {
+	local band="$1"
+	local country="$2"
+	local channel="$3"
+	local width="$4"
+	local run="$5"
+	local group pos count start end i ch
+
+	group=$((width / 20))
+	pos=-1
+	count=0
+	for ch in $run; do
+		[ "$ch" = "$channel" ] && pos="$count"
+		count=$((count + 1))
+	done
+
+	[ "$pos" -ge 0 ] || return 1
+	start=$(((pos / group) * group))
+	end=$((start + group - 1))
+	[ "$end" -lt "$count" ] || return 1
+
+	i=0
+	for ch in $run; do
+		if [ "$i" -ge "$start" ] && [ "$i" -le "$end" ]; then
+			channel_valid "$band" "$ch" "$country" || return 1
+		fi
+		i=$((i + 1))
+	done
+	return 0
+}
+
+run_has_valid_width_block() {
+	local band="$1"
+	local country="$2"
+	local width="$3"
+	local run="$4"
+	local group block="" count=0 ch
+
+	group=$((width / 20))
+	for ch in $run; do
+		block="${block:+$block }$ch"
+		count=$((count + 1))
+		if [ "$count" -eq "$group" ]; then
+			block_valid "$band" "$country" "$block" && return 0
+			block=""
+			count=0
+		fi
+	done
+
+	return 1
+}
+
+two_ghz_has_valid_40_block() {
+	local country="$1"
+	local channel
+
+	for channel in 1 2 3 4 5 6 7 8 9 10; do
+		block_valid 2g "$country" "$channel $((channel + 4))" && return 0
+	done
+
+	return 1
+}
+
+six_ghz_width_block() {
+	local width="$1"
+	local channel="$2"
+	local group index start end offset block=""
+
+	is_uint "$channel" || return 1
+	[ "$channel" -ne 2 ] || return 1
+	[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] || return 1
+	[ $(((channel - 1) % 4)) -eq 0 ] || return 1
+
+	group=$((width / 20))
+	case "$width" in
+		40|80|160)
+			index=$(((channel - 1) / 4))
+			start=$(((index / group) * group))
+			;;
+		320)
+			# hostapd uses three non-overlapping blocks followed by the
+			# overlapping center-191 block for primaries 193 through 221.
+			case "$channel" in
+				1|5|9|13|17|21|25|29|33|37|41|45|49|53|57|61) start=0 ;;
+				65|69|73|77|81|85|89|93|97|101|105|109|113|117|121|125) start=16 ;;
+				129|133|137|141|145|149|153|157|161|165|169|173|177|181|185|189) start=32 ;;
+				193|197|201|205|209|213|217|221) start=40 ;;
+				*) return 1 ;;
+			esac
+			;;
+		*) return 1 ;;
+	esac
+
+	end=$((start + group - 1))
+	[ "$end" -le 58 ] || return 1
+	offset=0
+	while [ "$offset" -lt "$group" ]; do
+		channel=$((1 + (start + offset) * 4))
+		block="${block:+$block }$channel"
+		offset=$((offset + 1))
+	done
+
+	echo "$block"
+}
+
+six_ghz_primary_bit() {
+	local width="$1"
+	local channel="$2"
+	local block ch bit=0
+
+	block="$(six_ghz_width_block "$width" "$channel")" || return 1
+	for ch in $block; do
+		if [ "$ch" = "$channel" ]; then
+			echo "$bit"
+			return 0
+		fi
+		bit=$((bit + 1))
+	done
+
+	return 1
+}
+
+six_ghz_has_valid_width_block() {
+	local country="$1"
+	local width="$2"
+	local group index=0 primary block
+
+	group=$((width / 20))
+	case "$width" in
+		40|80|160|320) ;;
+		*) return 1 ;;
+	esac
+
+	while [ $((index + group - 1)) -le 58 ]; do
+		primary=$((1 + index * 4))
+		block="$(six_ghz_width_block "$width" "$primary")" || return 1
+		block_valid 6g "$country" "$block" && return 0
+		index=$((index + group))
+	done
+
+	if [ "$width" -eq 320 ]; then
+		block="$(six_ghz_width_block 320 193)" || return 1
+		block_valid 6g "$country" "$block" && return 0
+	fi
+
+	return 1
+}
+
+auto_width_valid() {
+	local band="$1"
+	local country="$2"
+	local width="$3"
+
+	channel_valid "$band" auto "$country" || return 1
+	[ "$width" -le 20 ] && return 0
+
+	case "$band:$width" in
+		2g:40)
+			two_ghz_has_valid_40_block "$country"
+			;;
+		5g:40|5g:80)
+			run_has_valid_width_block 5g "$country" "$width" "36 40 44 48 52 56 60 64" ||
+				run_has_valid_width_block 5g "$country" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
+				run_has_valid_width_block 5g "$country" "$width" "149 153 157 161 165 169 173 177"
+			;;
+		6g:40|6g:80)
+			six_ghz_has_valid_width_block "$country" "$width"
+			;;
+		5g:160|6g:160|6g:320)
+			return 1
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
+width_valid() {
+	local band="$1"
+	local htmode="$2"
+	local channel="$3"
+	local country
+	local width block
+
+	country="$(w1700k_normalize_country "$4")"
+
+	width="$(htmode_width "$htmode")"
+	if [ "$channel" = "auto" ]; then
+		auto_width_valid "$band" "$country" "$width"
+		return
+	fi
+
+	channel_valid "$band" "$channel" "$country" || return 1
+	[ "$width" -le 20 ] && return 0
+
+	case "$band:$width" in
+		2g:40)
+			block_valid 2g "$country" "$channel $((channel + 4))" ||
+				block_valid 2g "$country" "$channel $((channel - 4))"
+			;;
+		5g:40|5g:80|5g:160)
+			run_width_block_valid 5g "$country" "$channel" "$width" "36 40 44 48 52 56 60 64" ||
+				run_width_block_valid 5g "$country" "$channel" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
+				run_width_block_valid 5g "$country" "$channel" "$width" "149 153 157 161 165 169 173 177"
+			;;
+		6g:40|6g:80|6g:160|6g:320)
+			block="$(six_ghz_width_block "$width" "$channel")" || return 1
+			block_valid 6g "$country" "$block"
+			;;
+		*) return 1 ;;
+	esac
+}
+
+htmode_valid() {
+	local band="$1"
+	local htmode="$2"
+	local channel="$3"
+	local country
+
+	country="$(w1700k_normalize_country "$4")"
+
+	if [ "$band" = 2g ] && [ "$channel" = 14 ]; then
+		[ "$country" = JP ] && [ "$htmode" = NOHT ] &&
+			channel_valid 2g 14 "$country"
+		return
+	fi
+
+	case "$band:$htmode" in
+		2g:NOHT|2g:HT20|2g:HT40|2g:HE20|2g:HE40|2g:EHT20|2g:EHT40|\
+		5g:NOHT|5g:HT20|5g:HT40|5g:VHT20|5g:VHT40|5g:VHT80|5g:VHT160|5g:HE20|5g:HE40|5g:HE80|5g:HE160|5g:EHT20|5g:EHT40|5g:EHT80|5g:EHT160|\
+		6g:HE20|6g:HE40|6g:HE80|6g:HE160|6g:EHT20|6g:EHT40|6g:EHT80|6g:EHT160|6g:EHT320)
+			width_valid "$band" "$htmode" "$channel" "$country"
+			;;
+		*) return 1 ;;
+	esac
+}

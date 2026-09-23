@@ -1,0 +1,96 @@
+#!/bin/sh
+
+headers() {
+	printf 'Content-Type: application/json\r\nCache-Control: no-store\r\n\r\n'
+}
+
+fail() {
+	printf 'Status: %s\r\n' "$1"
+	headers
+	jq -cn --arg error "$2" '{error: $error}'
+	exit 1
+}
+
+case "$1" in
+	check) permission='read'; method=GET ;;
+	fetch) permission='write'; method=POST ;;
+	*) fail '400 Bad Request' 'Invalid operation' ;;
+esac
+[ "$REQUEST_METHOD" = "$method" ] || fail '405 Method Not Allowed' 'Invalid request method'
+
+session=${HTTP_X_LUCI_SESSION:-}
+[ "${#session}" = 32 ] || fail '403 Forbidden' 'Authentication required'
+case "$session" in
+	*[!0-9a-f]*|00000000000000000000000000000000)
+		fail '403 Forbidden' 'Authentication required' ;;
+esac
+access=$(jq -cn --arg session "$session" --arg permission "$permission" \
+	'{ubus_rpc_session: $session, scope: "access-group", object: "luci-app-attendedsysupgrade", function: $permission}')
+ubus call session access "$access" 2>/dev/null | jq -e '.access == true' >/dev/null ||
+	fail '403 Forbidden' 'Upgrade permission required'
+
+asset=openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb
+api=https://api.github.com/repos/w1700k/builds/releases
+if [ "$1" = check ]; then
+	result=$(curl -fsS --connect-timeout 5 --max-time 30 "$api?per_page=10" |
+		jq -ce --arg asset "$asset" '[.[] | select(.draft == false and .prerelease == false) |
+			select(.tag_name | startswith("ubi2_")) | .tag_name as $tag |
+			.assets[] | select(.name == $asset) |
+			{tag: $tag, url: .browser_download_url, version: "gemtek_w1700k-ubi"}]') ||
+		fail '502 Bad Gateway' 'Could not read non-OC releases'
+	headers
+	printf '%s\n' "$result"
+	exit 0
+fi
+
+case "$QUERY_STRING" in
+	tag=ubi2_*) tag=${QUERY_STRING#tag=} ;;
+	*) fail '400 Bad Request' 'Invalid non-OC release tag' ;;
+esac
+[ "${#tag}" -le 128 ] || fail '400 Bad Request' 'Invalid release tag'
+case "$tag" in
+	*[!a-zA-Z0-9_.-]*) fail '400 Bad Request' 'Invalid release tag' ;;
+esac
+board=$(ubus call system board 2>/dev/null | jq -er '.board_name') ||
+	fail '500 Internal Server Error' 'Could not verify board identity'
+case "$board" in
+	gemtek,w1700k-ubi|gemtek_w1700k-ubi) ;;
+	*) fail '409 Conflict' 'This release does not match the board layout' ;;
+esac
+
+lock=/tmp/w1700k-github-fetch.lock
+mkdir "$lock" 2>/dev/null || fail '409 Conflict' 'Another firmware download is active'
+work=
+cleanup() {
+	if [ -n "$work" ]; then
+		rm -f "$work/release.json" "$work/image.itb"
+		rmdir "$work" 2>/dev/null || :
+	fi
+	rmdir "$lock" 2>/dev/null || :
+}
+trap cleanup EXIT
+trap 'exit 130' INT TERM
+work=$(mktemp -d /tmp/w1700k-github.XXXXXX) || fail '500 Internal Server Error' 'Temporary storage unavailable'
+curl -fsS --connect-timeout 5 --max-time 30 -o "$work/release.json" "$api/tags/$tag" ||
+	fail '502 Bad Gateway' 'Could not read release metadata'
+jq -e --arg tag "$tag" '.tag_name == $tag and .draft == false and .prerelease == false' \
+	"$work/release.json" >/dev/null || fail '502 Bad Gateway' 'Unexpected release metadata'
+selected=$(jq -ce --arg asset "$asset" '.assets | map(select(.name == $asset)) |
+	select(length == 1) | .[0]' "$work/release.json") ||
+	fail '502 Bad Gateway' 'Expected exactly one matching upgrade image'
+url=$(printf '%s' "$selected" | jq -er '.browser_download_url') ||
+	fail '502 Bad Gateway' 'Missing image URL'
+expected_url="https://github.com/w1700k/builds/releases/download/$tag/$asset"
+[ "$url" = "$expected_url" ] || fail '502 Bad Gateway' 'Unexpected image origin'
+digest=$(printf '%s' "$selected" | jq -er '.digest | select(test("^sha256:[0-9a-f]{64}$")) | ltrimstr("sha256:")') ||
+	fail '502 Bad Gateway' 'Missing image SHA256 digest'
+curl -fLsS --connect-timeout 5 --max-time 180 --max-filesize 67108864 \
+	-o "$work/image.itb" "$url" || fail '502 Bad Gateway' 'Firmware download failed'
+actual=$(sha256sum "$work/image.itb")
+actual=${actual%% *}
+[ "$actual" = "$digest" ] || fail '502 Bad Gateway' 'Firmware SHA256 mismatch'
+sysupgrade -T "$work/image.itb" >/dev/null 2>&1 ||
+	fail '409 Conflict' 'Firmware compatibility validation failed'
+mv -f "$work/image.itb" /tmp/firmware.bin || fail '500 Internal Server Error' 'Could not stage firmware'
+headers
+jq -cn --arg sha256 "$digest" '{success: true, path: "/tmp/firmware.bin", sha256: $sha256}'

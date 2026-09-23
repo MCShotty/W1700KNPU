@@ -1,0 +1,49 @@
+Subject: [PATCH] clk: en7523: initialize reset values and propagate regmap errors
+
+Reset writes must use the requested polarity, not an indeterminate local
+value. Return register-operation failures so a caller cannot mistake failed
+assertion or unreadable status for a successful reset operation. Preserve
+the shared EN7523/EN7581/AN7583 maps and the inverted PCIC polarity.
+
+This candidate does not establish the physical scope of any reset line or
+authorize NPU DMA resource reclamation.
+
+---
+--- a/drivers/clk/clk-en7523.c
++++ b/drivers/clk/clk-en7523.c
+@@ -1033,14 +1033,12 @@ static int en7523_reset_update(struct reset_controller_dev *rcdev,
+ 
+ 	/* For PCIC reset logic is inverted, 0:assert 1:deassert*/
+ 	if (addr == REG_NP_SCU_PCIC)
+-		val |= assert ? 0 : BIT(id % RST_NR_PER_BANK);
++		val = assert ? 0 : BIT(id % RST_NR_PER_BANK);
+ 	else
+-		val |= assert ? BIT(id % RST_NR_PER_BANK) : 0;
++		val = assert ? BIT(id % RST_NR_PER_BANK) : 0;
+ 
+-	regmap_update_bits(rst_data->map, addr, BIT(id % RST_NR_PER_BANK),
+-			   val);
+-
+-	return 0;
++	return regmap_update_bits(rst_data->map, addr, BIT(id % RST_NR_PER_BANK),
++				  val);
+ }
+ 
+ static int en7523_reset_assert(struct reset_controller_dev *rcdev,
+@@ -1062,13 +1060,16 @@ static int en7523_reset_status(struct reset_controller_dev *rcdev,
+ 	u32 addr = rst_data->bank_ofs[id / RST_NR_PER_BANK];
+ 	bool inverted = false;
+ 	u32 val;
++	int ret;
+ 
+ 	/* For PCIC reset logic is inverted, 0:assert 1:deassert*/
+ 	if (addr == REG_NP_SCU_PCIC)
+ 		inverted = true;
+ 
+-	regmap_read(rst_data->map, addr, &val);
++	ret = regmap_read(rst_data->map, addr, &val);
++	if (ret)
++		return ret;
+ 	val &= BIT(id % RST_NR_PER_BANK);
+ 	return inverted ? !val : !!val;
+ }

@@ -1,0 +1,117 @@
+{
+  "source_sha256": "26206c5b468e6899c04e4c06937e98e6cc3e52da81c386e14355a899faca971b",
+  "test_sha256": "5e0869b23d7f9115441247dbd756d0aff3d5daa5778ef37e57dd73078d53c6ca",
+  "cases": [
+    {
+      "mode": "missing-session",
+      "action": "fetch",
+      "status": 403,
+      "calls": 0
+    },
+    {
+      "mode": "anonymous",
+      "action": "fetch",
+      "status": 403,
+      "calls": 0
+    },
+    {
+      "mode": "bad-session",
+      "action": "fetch",
+      "status": 403,
+      "calls": 0
+    },
+    {
+      "mode": "denied",
+      "action": "fetch",
+      "status": 403,
+      "calls": 1
+    },
+    {
+      "mode": "wrong-method",
+      "action": "fetch",
+      "status": 405,
+      "calls": 0
+    },
+    {
+      "mode": "bad-tag",
+      "action": "fetch",
+      "status": 400,
+      "calls": 1
+    },
+    {
+      "mode": "oc-tag",
+      "action": "fetch",
+      "status": 400,
+      "calls": 1
+    },
+    {
+      "mode": "wrong-board",
+      "action": "fetch",
+      "status": 409,
+      "calls": 2
+    },
+    {
+      "mode": "locked",
+      "action": "fetch",
+      "status": 409,
+      "calls": 2
+    },
+    {
+      "mode": "network-failure",
+      "action": "fetch",
+      "status": 502,
+      "calls": 3
+    },
+    {
+      "mode": "duplicate-asset",
+      "action": "fetch",
+      "status": 502,
+      "calls": 3
+    },
+    {
+      "mode": "missing-digest",
+      "action": "fetch",
+      "status": 502,
+      "calls": 3
+    },
+    {
+      "mode": "wrong-origin",
+      "action": "fetch",
+      "status": 502,
+      "calls": 3
+    },
+    {
+      "mode": "bad-digest",
+      "action": "fetch",
+      "status": 502,
+      "calls": 4
+    },
+    {
+      "mode": "incompatible",
+      "action": "fetch",
+      "status": 409,
+      "calls": 5
+    },
+    {
+      "mode": "success",
+      "action": "fetch",
+      "status": 200,
+      "calls": 5
+    },
+    {
+      "mode": "list",
+      "action": "check",
+      "status": 200,
+      "calls": 2
+    },
+    {
+      "mode": "denied",
+      "action": "check",
+      "status": 403,
+      "calls": 1
+    }
+  ],
+  "network": false,
+  "flashed": false,
+  "limits": "Synthetic ubus, GitHub and compatibility-check responses; fixed /tmp paths mapped into private fixtures."
+}

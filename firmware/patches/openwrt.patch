@@ -1,33 +1,16 @@
-diff --git a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
-index 24585be6c1..94480acbd4 100644
---- a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
-+++ b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
-@@ -2,6 +2,20 @@
- 
- #include "an7581-npu-wlan.dtsi"
- 
-+/* MT7996 firmware initializes 0x7000 u16 TX buffer-check entries. */
-+&npu_txbufid {
-+	reg = <0x0 0x90c00000 0x0 0xe000>;
-+};
-+
-+&{/reserved-memory} {
-+	/delete-node/ npu-ba@90c06800;
-+
-+	npu_ba: npu-ba@90c0e000 {
-+		no-map;
-+		reg = <0x0 0x90c0e000 0x0 0x200000>;
-+	};
-+};
-+
- &npu {
- 	firmware-name = "airoha/en7581_MT7996_npu_rv32.bin",
-                         "airoha/en7581_MT7996_npu_data.bin";
 diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
-index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ada4b3333c 100644
+index 753a4b5..1a98c98 100644
 --- a/package/kernel/mt76/Makefile
 +++ b/package/kernel/mt76/Makefile
-@@ -17,6 +17,7 @@ PKG_USE_NINJA:=0
+@@ -10,13 +10,14 @@ PKG_SOURCE_URL:=https://github.com/OpenWRT-fanboy/mt76-firmware
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_DATE:=2026-09-01
+ PKG_SOURCE_VERSION:=01367e60db433534ad0aa3d3b6c886de8cb7d44c
+-PKG_MIRROR_HASH:=skip
++PKG_MIRROR_HASH:=983ba810fd6947c9c05bc3ce79ff8e383255115cd0273837d9f4a93f3cbd04da
+ 
+ PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
+ PKG_USE_NINJA:=0
  PKG_BUILD_PARALLEL:=1
  
  PKG_CONFIG_DEPENDS += \
@@ -35,7 +18,7 @@ index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ad
  	CONFIG_PACKAGE_kmod-mt76-usb \
  	CONFIG_PACKAGE_kmod-mt76x02-common \
  	CONFIG_PACKAGE_kmod-mt76x0-common \
-@@ -331,6 +332,16 @@ define KernelPackage/mt7990-firmware
+@@ -332,6 +333,16 @@ define KernelPackage/mt7990-firmware
    DEPENDS+=+kmod-mt7996e
  endef
  
@@ -52,7 +35,7 @@ index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ad
  define KernelPackage/mt7992-firmware
    $(KernelPackage/mt76-default)
    TITLE:=MediaTek MT7992 firmware
-@@ -502,10 +513,12 @@ endif
+@@ -503,10 +514,12 @@ endif
  ifdef CONFIG_PACKAGE_kmod-mt7996e
    PKG_MAKE_FLAGS += CONFIG_MT7996E=m
    ifdef CONFIG_TARGET_airoha_an7581
@@ -69,11 +52,23 @@ index b379ad09a5740990b3722cfbe6b20232db970767..ba7e025005d20a20acc757fa62ffc1ad
    endif
  endif
  ifdef CONFIG_PACKAGE_kmod-mt7925-common
+@@ -519,6 +532,11 @@ ifdef CONFIG_PACKAGE_kmod-mt7925e
+   PKG_MAKE_FLAGS += CONFIG_MT7925E=m
+ endif
+ 
++define Build/Prepare
++	$(call Build/Prepare/Default)
++	$(CP) ./w1700k $(PKG_BUILD_DIR)/
++endef
++
+ define Build/Compile
+ 	+$(KERNEL_MAKE) $(PKG_JOBS) \
+ 		$(PKG_MAKE_FLAGS) \
 diff --git a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
-index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd4683ac279a1 100755
+index 1a62aa9..c7db4e3 100755
 --- a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
 +++ b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
-@@ -25,6 +25,35 @@ const mesh_param_list = [
+@@ -29,6 +29,35 @@ const mesh_param_list = [
  	"mesh_auto_open_plinks", "mesh_fwding", "mesh_nolearn", "mesh_power_mode"
  ];
  
@@ -109,7 +104,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  function phy_suffix(radio, sep) {
  	if (radio == null || radio < 0)
  		return "";
-@@ -70,7 +99,7 @@ function setup_phy(phy, config, data) {
+@@ -87,7 +116,7 @@ function setup_phy(phy, config, data) {
  	config.channel = +config.channel;
  	config.frequency = get_channel_frequency(config.band, config.channel);
  
@@ -118,7 +113,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  		log(`Setting country code to ${config.country_code}`);
  		system(`iw reg set ${config.country_code}`);
  	}
-@@ -100,13 +129,18 @@ function setup_phy(phy, config, data) {
+@@ -117,14 +146,19 @@ function setup_phy(phy, config, data) {
  	else
  		config.txpower = 'auto';
  
@@ -136,14 +131,16 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
 +			system(`iw phy ${phy} set antenna ${config.txantenna} ${config.rxantenna} >/dev/null 2>&1`);
 +		}
 +		system(`iw phy ${phy} set distance ${config.distance} >/dev/null 2>&1`);
-+		system(`iw phy ${phy} set txpower ${config.txpower}`);
++		if (config.radio == null || config.radio < 0)
++			set_txpower([ 'iw', 'phy', phy, 'set', 'txpower' ], config.txpower);
  	}
 -	system(`iw phy ${phy} set distance ${config.distance} >/dev/null 2>&1`);
--	system(`iw phy ${phy} set txpower ${config.txpower}`);
+-	if (config.radio == null || config.radio < 0)
+-		set_txpower([ 'iw', 'phy', phy, 'set', 'txpower' ], config.txpower);
  
  	if (config.frag)
  		system(`iw phy ${phy} set frag ${config.frag}`);
-@@ -134,6 +168,8 @@ function iw_htmode(config) {
+@@ -285,6 +319,8 @@ function iw_htmode(config) {
  			return (+config.channel < 7) ? "HT40+" : "HT40-";
  		case "6g":
  			let ch = +config.channel;
@@ -152,7 +149,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  			let c_base = int((ch - 1) / 8) * 8 + 1;
  			return "40 " + (5950 + (c_base + 2) * 5);
  		default:
-@@ -142,10 +178,13 @@ function iw_htmode(config) {
+@@ -293,10 +329,13 @@ function iw_htmode(config) {
  	case "VHT80":
  	case "HE80":
  	case "EHT80":
@@ -167,7 +164,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  	case "NONE":
  	case "NOHT":
  		return "NOHT";
-@@ -166,6 +205,8 @@ function config_add_mesh_params(config, data) {
+@@ -317,6 +356,8 @@ function config_add_mesh_params(config, data) {
  
  function setup() {
  	let data = json(ARGV[3]);
@@ -176,7 +173,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  
  	data.phy = find_phy(data.config, true);
  	if (!data.phy) {
-@@ -179,10 +220,12 @@ function setup() {
+@@ -330,10 +371,12 @@ function setup() {
  	if (!data.ifname_prefix)
  		data.ifname_prefix = data.phy + data.vif_phy_suffix + "-";
  	let active_ifnames = [];
@@ -190,7 +187,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  
  	if (!config.band) {
  		switch (config.hwmode) {
-@@ -310,7 +353,7 @@ function setup() {
+@@ -461,7 +504,7 @@ function setup() {
  		supplicant.setup(supplicant_data, data);
  
  	if (fs.access('/usr/sbin/hostapd', 'x'))
@@ -200,7 +197,7 @@ index 6c4fd89fec8ff6c508631446d11b818d61fc2a7a..23ced383e4f17889620c32a7e4ffd468
  	if (length(supplicant_data) > 0)
  		supplicant.start(data);
 diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
-index f6dac167aa2d68c5e7ae64f773b924edd6b58502..2ff0e89e42f90546b3bf59d0440a7d2bf8a625f8 100644
+index f6dac16..2ff0e89 100644
 --- a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
 +++ b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json
 @@ -360,6 +360,17 @@
@@ -222,7 +219,7 @@ index f6dac167aa2d68c5e7ae64f773b924edd6b58502..2ff0e89e42f90546b3bf59d0440a7d2b
  			"description": "Disable honoring 40 MHz intolerance in coexistence flags of stations",
  			"type": "boolean",
 diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
-index 25e151fd88b8abde16a4043954aa429ad80c1b01..4a1cff65c32ca3db46086cad1f8cd487d7001167 100644
+index 25e151f..4a1cff6 100644
 --- a/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
 +++ b/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json
 @@ -380,7 +380,7 @@
@@ -253,7 +250,7 @@ index 25e151fd88b8abde16a4043954aa429ad80c1b01..4a1cff65c32ca3db46086cad1f8cd487
  		},
  		"sae_password_file": {
 diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
-index 8fa08e9986fae9ad2d887eced082683fd4235bb6..fdbd3ce6ee6ebec6153351bda9cb95342b9233c2 100644
+index 8fa08e9..fdbd3ce 100644
 --- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
 +++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc
 @@ -10,6 +10,7 @@ import * as iface from 'wifi.iface';
@@ -739,80 +736,37 @@ index 8fa08e9986fae9ad2d887eced082683fd4235bb6..fdbd3ce6ee6ebec6153351bda9cb9534
  		has_ap = true;
  	}
  
-diff --git a/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc b/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc
-new file mode 100644
-index 0000000000000000000000000000000000000000..0e46cbb3fe01b79b97f055409ff9c9bd5a552a4a
---- /dev/null
-+++ b/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc
-@@ -0,0 +1,66 @@
-+'use strict';
-+
-+const radio_bands = {
-+	'0': "2g",
-+	'1': "5g",
-+	'2': "6g",
-+};
-+
-+export function validate_device_list(dev_names, devices, radio_idx)
-+{
-+	if (type(dev_names) != "array" || length(dev_names) < 2)
-+		return "requires at least two declared radios";
-+
-+	let seen_names = {};
-+	let seen_radios = {};
-+	let country;
-+
-+	for (let name in dev_names) {
-+		if (type(name) != "string" || !length(name))
-+			return "contains an empty or malformed radio name";
-+		if (seen_names[name])
-+			return `declares radio ${name} more than once`;
-+		seen_names[name] = true;
-+
-+		let dev = devices[name];
-+		if (!dev)
-+			return `references missing radio ${name}`;
-+		if (type(dev.config) != "object")
-+			return `references malformed radio ${name}`;
-+		if (dev.config.disabled)
-+			return `references disabled radio ${name}`;
-+
-+		let radio = radio_idx[name];
-+		let expected_band = radio_bands[radio];
-+		if (!expected_band)
-+			return `${name} has unsupported physical radio index ${radio ?? "unset"}`;
-+		if (seen_radios[radio])
-+			return `${name} duplicates physical radio index ${radio}`;
-+		seen_radios[radio] = true;
-+
-+		let band = '' + (dev.config.band ?? '');
-+		if (band != expected_band)
-+			return `${name} is physical ${expected_band}; it cannot be configured as ${band || "unset"}`;
-+
-+		let channel = '' + (dev.config.channel ?? '');
-+		if (!length(channel) || channel == "auto")
-+			return `${name} requires a fixed channel`;
-+
-+		let htmode = '' + (dev.config.htmode ?? '');
-+		if (!match(htmode, /^EHT(20|40|80|160|320)$/))
-+			return `${name} requires an EHT channel width`;
-+		if (radio == 0 && htmode != "EHT20")
-+			return `${name} requires EHT20 for a 2.4 GHz MLO link`;
-+		if (radio == 1 && htmode == "EHT320")
-+			return `${name} cannot use EHT320 on 5 GHz`;
-+
-+		let link_country = uc('' + (dev.config.country ?? ''));
-+		if (!match(link_country, /^[A-Z]{2}$/) || link_country == "00")
-+			return `${name} requires an explicit two-letter regulatory country`;
-+		if (country && country != link_country)
-+			return `${name} uses country ${link_country} while another MLO link uses ${country}`;
-+		country = link_country;
-+	}
-+
-+	return null;
-+}
+diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
+index 7087095..491c41a 100644
+--- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
++++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
+@@ -19,18 +19,13 @@ export function parse_encryption(config, dev_config, phy_features) {
+ 
+ 	config.auth_type = encryption[0] ?? 'none';
+ 
+-	/*
+-	 * GCMP-256 and the SAE-EXT-KEY (SAE-GDH) AKM are only mandatory for
+-	 * EHT/MLO and break interoperability with many clients, so only default
+-	 * them on where they are both required and safe to offer: on Compatibility
+-	 * mode (sae-compat) BSSes that run an EHT htmode, which carry them in a
+-	 * separate RSN Override element that legacy clients ignore. They stay off
+-	 * for WPA3-Personal (sae) and Transition (sae-mixed) mode and on non-EHT
+-	 * BSSes. Explicit gcmp256 and sae_ext_key options override this per BSS.
+-	 */
++	// MLO needs the enhanced suites in its RSNE; sae-compat uses RSN Override.
++	// Preserve non-MLO defaults and explicit per-BSS compatibility overrides.
+ 	let compat = (config.auth_type == 'sae-compat');
+-	config.gcmp256 ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
+-	config.sae_ext_key ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
++	let mlo = config.mlo === true || config.mlo === 1 || config.mlo === '1';
++	let enhanced = mlo || (compat && wildcard(dev_config?.htmode ?? '', 'EHT*'));
++	config.gcmp256 ??= enhanced;
++	config.sae_ext_key ??= enhanced;
+ 
+ 	switch(config.auth_type) {
+ 	case 'owe':
 diff --git a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
-index 17327213b838dc1887078fcee101e3c7ee75a873..1c2fd2a00a898dd2e2764a5729072ff2452a2788 100644
+index 1732721..1c2fd2a 100644
 --- a/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
 +++ b/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc
 @@ -9,6 +9,7 @@ import {
@@ -1005,7 +959,7 @@ index 17327213b838dc1887078fcee101e3c7ee75a873..1c2fd2a00a898dd2e2764a5729072ff2
  							let vif_data = {
  								name, device, config: vif_config,
 diff --git a/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
-index 2628fe52abdd66f3c1262c8b51832d3b5a45b432..ff9cf59efdbc8f392720c9a97f1f041f11fdda78 100755
+index 2628fe5..ff9cf59 100755
 --- a/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
 +++ b/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh
 @@ -57,6 +57,7 @@ drv_mac80211_init_device_config() {
@@ -1104,7 +1058,7 @@ index 2628fe52abdd66f3c1262c8b51832d3b5a45b432..ff9cf59efdbc8f392720c9a97f1f041f
  
  	[ -n "$frag" ] && iw phy "$phy" set frag "${frag%%.*}"
 diff --git a/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc b/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
-index db9ad798d9e51965bbf1add16aeb63b71b37cc85..f0bb53b89ee6eb42db22f24d194fc495ba5b6405 100644
+index db9ad79..f0bb53b 100644
 --- a/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
 +++ b/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc
 @@ -156,7 +156,11 @@ function wdev_set_mesh_params(name, data)
@@ -1121,7 +1075,7 @@ index db9ad798d9e51965bbf1add16aeb63b71b37cc85..f0bb53b89ee6eb42db22f24d194fc495
  
  function phy_sysfs_file(phy, name)
 diff --git a/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc b/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
-index 0b6d6d587bc09d9302db036e57fd9bcd0b2f9af6..ee9579deb9a283fe3879b37745ec28c3e58f6034 100644
+index 0b6d6d5..ee9579d 100644
 --- a/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
 +++ b/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc
 @@ -167,10 +167,10 @@ if (!phy_name || !command | !commands[command])
@@ -1137,7 +1091,7 @@ index 0b6d6d587bc09d9302db036e57fd9bcd0b2f9af6..ee9579deb9a283fe3879b37745ec28c3
  
  commands[command](ARGV);
 diff --git a/package/network/services/hostapd/files/hostapd.uc b/package/network/services/hostapd/files/hostapd.uc
-index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..9daf2027da3bf12576d3f6d1cd59efe45f2d8583 100644
+index 218cad4..9daf202 100644
 --- a/package/network/services/hostapd/files/hostapd.uc
 +++ b/package/network/services/hostapd/files/hostapd.uc
 @@ -1,15 +1,46 @@
@@ -2236,1512 +2190,46 @@ index 218cad4b2df09e5932804a1f8cdabf4962c0bd67..9daf2027da3bf12576d3f6d1cd59efe4
  							pending: is_pending,
  						};
  					} else {
-diff --git a/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory b/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory
-new file mode 100644
-index 0000000000000000000000000000000000000000..33b368ba25f6d582bca0ea5cdf4aeed4ecbded30
---- /dev/null
-+++ b/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory
-@@ -0,0 +1,456 @@
-+#!/bin/sh
-+
-+# Shared W1700K channel and width policy. Prefer the live wiphy map and use
-+# conservative static rules only before the wireless driver is available.
-+
-+is_uint() {
-+	case "$1" in
-+		""|*[!0-9]*) return 1 ;;
-+	esac
-+	return 0
-+}
-+
-+in_list() {
-+	local needle="$1"
-+	local item
-+	shift
-+
-+	for item in "$@"; do
-+		[ "$item" = "$needle" ] && return 0
-+	done
-+	return 1
-+}
-+
-+w1700k_normalize_country() {
-+	local country
-+
-+	country="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
-+	case "$country" in
-+		""|00) echo US ;;
-+		*) echo "$country" ;;
-+	esac
-+}
-+
-+w1700k_load_iw_phy_info() {
-+	[ "${W1700K_IW_PHY_INFO_LOADED:-0}" = "1" ] && return
-+	W1700K_IW_PHY_INFO_LOADED=1
-+
-+	if [ -n "${W1700K_IW_PHY_INFO_FILE:-}" ] && [ -r "$W1700K_IW_PHY_INFO_FILE" ]; then
-+		W1700K_IW_PHY_INFO="$(cat "$W1700K_IW_PHY_INFO_FILE")"
-+	elif command -v iw >/dev/null 2>&1; then
-+		W1700K_IW_PHY_INFO="$(iw phy 2>/dev/null)"
-+	else
-+		W1700K_IW_PHY_INFO=
-+	fi
-+}
-+
-+w1700k_live_ap_channel_state() {
-+	local band="$1"
-+	local channel="$2"
-+	local state
-+
-+	w1700k_load_iw_phy_info
-+	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
-+
-+	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" -v target_channel="$channel" '
-+		function channel_band(mhz) {
-+			if (mhz >= 2400 && mhz < 2500) return "2g"
-+			if (mhz >= 5000 && mhz < 5925) return "5g"
-+			if (mhz >= 5925 && mhz <= 7125) return "6g"
-+			return ""
-+		}
-+		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && $4 ~ /^\[[0-9]+\]$/ {
-+			band = channel_band($2 + 0)
-+			if (band != target_band) next
-+			saw_band = 1
-+			channel = $4
-+			gsub(/[\[\]]/, "", channel)
-+			if (channel != target_channel) next
-+			saw_channel = 1
-+			line = tolower($0)
-+			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
-+				usable = 1
-+		}
-+		END {
-+			if (usable) print "usable"
-+			else if (saw_band) print "blocked"
-+			else print "unknown"
-+		}
-+	')"
-+
-+	case "$state" in
-+		usable) return 0 ;;
-+		blocked) return 1 ;;
-+		*) return 2 ;;
-+	esac
-+}
-+
-+w1700k_live_band_has_ap_channel() {
-+	local band="$1"
-+	local state
-+
-+	w1700k_load_iw_phy_info
-+	[ -n "$W1700K_IW_PHY_INFO" ] || return 2
-+
-+	state="$(printf '%s\n' "$W1700K_IW_PHY_INFO" | awk -v target_band="$band" '
-+		function channel_band(mhz) {
-+			if (mhz >= 2400 && mhz < 2500) return "2g"
-+			if (mhz >= 5000 && mhz < 5925) return "5g"
-+			if (mhz >= 5925 && mhz <= 7125) return "6g"
-+			return ""
-+		}
-+		$1 == "*" && $2 ~ /^[0-9]+([.][0-9]+)?$/ && $3 == "MHz" && channel_band($2 + 0) == target_band {
-+			saw_band = 1
-+			line = tolower($0)
-+			if (line !~ /\(disabled\)/ && line !~ /\(no ir\)/ && line !~ /no-ir/)
-+				usable = 1
-+		}
-+		END {
-+			if (usable) print "usable"
-+			else if (saw_band) print "blocked"
-+			else print "unknown"
-+		}
-+	')"
-+
-+	case "$state" in
-+		usable) return 0 ;;
-+		blocked) return 1 ;;
-+		*) return 2 ;;
-+	esac
-+}
-+
-+country_5g_channels() {
-+	case "$(w1700k_normalize_country "$1")" in
-+		US|SA)
-+			echo "36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
-+			;;
-+		*)
-+			# Safe startup fallback until the live regulatory map is available.
-+			echo "36 40 44 48"
-+			;;
-+	esac
-+}
-+
-+w1700k_static_channel_valid() {
-+	local band="$1"
-+	local channel="$2"
-+	local country
-+	local max2g
-+
-+	country="$(w1700k_normalize_country "$3")"
-+
-+	case "$band" in
-+		2g)
-+			case "$country" in
-+				SA) max2g=13 ;;
-+				JP) max2g=14 ;;
-+				*) max2g=11 ;;
-+			esac
-+			[ "$channel" -ge 1 ] && [ "$channel" -le "$max2g" ]
-+			;;
-+		5g)
-+			case " $(country_5g_channels "$country") " in
-+				*" $channel "*) return 0 ;;
-+				*) return 1 ;;
-+			esac
-+			;;
-+		6g)
-+			case "$country" in
-+				US|SA) ;;
-+				*) return 1 ;;
-+			esac
-+			[ "$channel" -eq 2 ] && return 0
-+			[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] && [ $(((channel - 1) % 4)) -eq 0 ]
-+			;;
-+		*) return 1 ;;
-+	esac
-+}
-+
-+channel_valid() {
-+	local band="$1"
-+	local channel="$2"
-+	local country
-+	local live_rc
-+
-+	country="$(w1700k_normalize_country "$3")"
-+
-+	if [ "$channel" = "auto" ]; then
-+		w1700k_live_band_has_ap_channel "$band"
-+		live_rc=$?
-+		if [ "$live_rc" -eq 2 ]; then
-+			case "$band" in
-+				2g) w1700k_static_channel_valid 2g 1 "$country" ;;
-+				5g) w1700k_static_channel_valid 5g 36 "$country" ;;
-+				6g) w1700k_static_channel_valid 6g 1 "$country" ;;
-+				*) return 1 ;;
-+			esac
-+			return
-+		fi
-+		return "$live_rc"
-+	fi
-+
-+	is_uint "$channel" || return 1
-+	w1700k_live_ap_channel_state "$band" "$channel"
-+	live_rc=$?
-+	[ "$live_rc" -ne 2 ] && return "$live_rc"
-+	w1700k_static_channel_valid "$band" "$channel" "$country"
-+}
-+
-+htmode_width() {
-+	case "$1" in
-+		*320*) echo 320 ;;
-+		*160*) echo 160 ;;
-+		*80*) echo 80 ;;
-+		*40*) echo 40 ;;
-+		*) echo 20 ;;
-+	esac
-+}
-+
-+block_valid() {
-+	local band="$1"
-+	local country="$2"
-+	local block="$3"
-+	local ch
-+
-+	for ch in $block; do
-+		channel_valid "$band" "$ch" "$country" || return 1
-+	done
-+	return 0
-+}
-+
-+run_width_block_valid() {
-+	local band="$1"
-+	local country="$2"
-+	local channel="$3"
-+	local width="$4"
-+	local run="$5"
-+	local group pos count start end i ch
-+
-+	group=$((width / 20))
-+	pos=-1
-+	count=0
-+	for ch in $run; do
-+		[ "$ch" = "$channel" ] && pos="$count"
-+		count=$((count + 1))
-+	done
-+
-+	[ "$pos" -ge 0 ] || return 1
-+	start=$(((pos / group) * group))
-+	end=$((start + group - 1))
-+	[ "$end" -lt "$count" ] || return 1
-+
-+	i=0
-+	for ch in $run; do
-+		if [ "$i" -ge "$start" ] && [ "$i" -le "$end" ]; then
-+			channel_valid "$band" "$ch" "$country" || return 1
-+		fi
-+		i=$((i + 1))
-+	done
-+	return 0
-+}
-+
-+run_has_valid_width_block() {
-+	local band="$1"
-+	local country="$2"
-+	local width="$3"
-+	local run="$4"
-+	local group block="" count=0 ch
-+
-+	group=$((width / 20))
-+	for ch in $run; do
-+		block="${block:+$block }$ch"
-+		count=$((count + 1))
-+		if [ "$count" -eq "$group" ]; then
-+			block_valid "$band" "$country" "$block" && return 0
-+			block=""
-+			count=0
-+		fi
-+	done
-+
-+	return 1
-+}
-+
-+two_ghz_has_valid_40_block() {
-+	local country="$1"
-+	local channel
-+
-+	for channel in 1 2 3 4 5 6 7 8 9 10; do
-+		block_valid 2g "$country" "$channel $((channel + 4))" && return 0
-+	done
-+
-+	return 1
-+}
-+
-+six_ghz_width_block() {
-+	local width="$1"
-+	local channel="$2"
-+	local group index start end offset block=""
-+
-+	is_uint "$channel" || return 1
-+	[ "$channel" -ne 2 ] || return 1
-+	[ "$channel" -ge 1 ] && [ "$channel" -le 233 ] || return 1
-+	[ $(((channel - 1) % 4)) -eq 0 ] || return 1
-+
-+	group=$((width / 20))
-+	case "$width" in
-+		40|80|160)
-+			index=$(((channel - 1) / 4))
-+			start=$(((index / group) * group))
-+			;;
-+		320)
-+			# hostapd uses three non-overlapping blocks followed by the
-+			# overlapping center-191 block for primaries 193 through 221.
-+			case "$channel" in
-+				1|5|9|13|17|21|25|29|33|37|41|45|49|53|57|61) start=0 ;;
-+				65|69|73|77|81|85|89|93|97|101|105|109|113|117|121|125) start=16 ;;
-+				129|133|137|141|145|149|153|157|161|165|169|173|177|181|185|189) start=32 ;;
-+				193|197|201|205|209|213|217|221) start=40 ;;
-+				*) return 1 ;;
-+			esac
-+			;;
-+		*) return 1 ;;
-+	esac
-+
-+	end=$((start + group - 1))
-+	[ "$end" -le 58 ] || return 1
-+	offset=0
-+	while [ "$offset" -lt "$group" ]; do
-+		channel=$((1 + (start + offset) * 4))
-+		block="${block:+$block }$channel"
-+		offset=$((offset + 1))
-+	done
-+
-+	echo "$block"
-+}
-+
-+six_ghz_primary_bit() {
-+	local width="$1"
-+	local channel="$2"
-+	local block ch bit=0
-+
-+	block="$(six_ghz_width_block "$width" "$channel")" || return 1
-+	for ch in $block; do
-+		if [ "$ch" = "$channel" ]; then
-+			echo "$bit"
-+			return 0
-+		fi
-+		bit=$((bit + 1))
-+	done
-+
-+	return 1
-+}
-+
-+six_ghz_has_valid_width_block() {
-+	local country="$1"
-+	local width="$2"
-+	local group index=0 primary block
-+
-+	group=$((width / 20))
-+	case "$width" in
-+		40|80|160|320) ;;
-+		*) return 1 ;;
-+	esac
-+
-+	while [ $((index + group - 1)) -le 58 ]; do
-+		primary=$((1 + index * 4))
-+		block="$(six_ghz_width_block "$width" "$primary")" || return 1
-+		block_valid 6g "$country" "$block" && return 0
-+		index=$((index + group))
-+	done
-+
-+	if [ "$width" -eq 320 ]; then
-+		block="$(six_ghz_width_block 320 193)" || return 1
-+		block_valid 6g "$country" "$block" && return 0
-+	fi
-+
-+	return 1
-+}
-+
-+auto_width_valid() {
-+	local band="$1"
-+	local country="$2"
-+	local width="$3"
-+
-+	channel_valid "$band" auto "$country" || return 1
-+	[ "$width" -le 20 ] && return 0
-+
-+	case "$band:$width" in
-+		2g:40)
-+			two_ghz_has_valid_40_block "$country"
-+			;;
-+		5g:40|5g:80)
-+			run_has_valid_width_block 5g "$country" "$width" "36 40 44 48 52 56 60 64" ||
-+				run_has_valid_width_block 5g "$country" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
-+				run_has_valid_width_block 5g "$country" "$width" "149 153 157 161 165 169 173 177"
-+			;;
-+		6g:40|6g:80)
-+			six_ghz_has_valid_width_block "$country" "$width"
-+			;;
-+		5g:160|6g:160|6g:320)
-+			return 1
-+			;;
-+		*)
-+			return 1
-+			;;
-+	esac
-+}
-+
-+width_valid() {
-+	local band="$1"
-+	local htmode="$2"
-+	local channel="$3"
-+	local country
-+	local width block
-+
-+	country="$(w1700k_normalize_country "$4")"
-+
-+	width="$(htmode_width "$htmode")"
-+	if [ "$channel" = "auto" ]; then
-+		auto_width_valid "$band" "$country" "$width"
-+		return
-+	fi
-+
-+	channel_valid "$band" "$channel" "$country" || return 1
-+	[ "$width" -le 20 ] && return 0
-+
-+	case "$band:$width" in
-+		2g:40)
-+			block_valid 2g "$country" "$channel $((channel + 4))" ||
-+				block_valid 2g "$country" "$channel $((channel - 4))"
-+			;;
-+		5g:40|5g:80|5g:160)
-+			run_width_block_valid 5g "$country" "$channel" "$width" "36 40 44 48 52 56 60 64" ||
-+				run_width_block_valid 5g "$country" "$channel" "$width" "100 104 108 112 116 120 124 128 132 136 140 144" ||
-+				run_width_block_valid 5g "$country" "$channel" "$width" "149 153 157 161 165 169 173 177"
-+			;;
-+		6g:40|6g:80|6g:160|6g:320)
-+			block="$(six_ghz_width_block "$width" "$channel")" || return 1
-+			block_valid 6g "$country" "$block"
-+			;;
-+		*) return 1 ;;
-+	esac
-+}
-+
-+htmode_valid() {
-+	local band="$1"
-+	local htmode="$2"
-+	local channel="$3"
-+	local country
-+
-+	country="$(w1700k_normalize_country "$4")"
-+
-+	if [ "$band" = 2g ] && [ "$channel" = 14 ]; then
-+		[ "$country" = JP ] && [ "$htmode" = NOHT ] &&
-+			channel_valid 2g 14 "$country"
-+		return
-+	fi
-+
-+	case "$band:$htmode" in
-+		2g:NOHT|2g:HT20|2g:HT40|2g:HE20|2g:HE40|2g:EHT20|2g:EHT40|\
-+		5g:NOHT|5g:HT20|5g:HT40|5g:VHT20|5g:VHT40|5g:VHT80|5g:VHT160|5g:HE20|5g:HE40|5g:HE80|5g:HE160|5g:EHT20|5g:EHT40|5g:EHT80|5g:EHT160|\
-+		6g:HE20|6g:HE40|6g:HE80|6g:HE160|6g:EHT20|6g:EHT40|6g:EHT80|6g:EHT160|6g:EHT320)
-+			width_valid "$band" "$htmode" "$channel" "$country"
-+			;;
-+		*) return 1 ;;
-+	esac
-+}
-diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
-new file mode 100755
-index 0000000000000000000000000000000000000000..74987d5f2a009319cdabe9b07369c2f990dd6074
---- /dev/null
-+++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity
-@@ -0,0 +1,328 @@
-+#!/bin/sh
-+
-+. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
-+. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
-+
-+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
-+
-+changed=0
-+radio0_old_band="$(uci -q get wireless.radio0.band)"
-+
-+warn() {
-+	logger -t w1700k-radio-sanity -- "$*" 2>/dev/null ||
-+		printf 'w1700k-radio-sanity: %s\n' "$*" >&2
-+}
-+
-+set_if_diff() {
-+	local key="$1"
-+	local value="$2"
-+	local cur
-+
-+	cur="$(uci -q get "$key")"
-+	[ "$cur" = "$value" ] && return 0
-+
-+	uci set "$key=$value"
-+	changed=1
-+}
-+
-+set_list_if_diff() {
-+	local key="$1"
-+	local value="$2"
-+	local cur expected item separator=""
-+
-+	cur="$(uci -q get "$key")"
-+	[ -z "$cur$value" ] && return 0
-+
-+	expected="$key="
-+	for item in $value; do
-+		expected="$expected$separator'$item'"
-+		separator=" "
-+	done
-+	if [ "$cur" = "$value" ] && [ "$(uci -q show "$key")" = "$expected" ]; then
-+		return 0
-+	fi
-+
-+	uci -q delete "$key"
-+	for item in $value; do
-+		uci add_list "$key=$item"
-+	done
-+	changed=1
-+}
-+
-+set_if_missing() {
-+	local key="$1"
-+	local value="$2"
-+
-+	[ -n "$(uci -q get "$key")" ] && return 0
-+	set_if_diff "$key" "$value"
-+}
-+
-+security_valid_for_6g_or_mlo() {
-+	local value="$1"
-+	local enc="${value%%+*}"
-+
-+	case "$enc" in
-+		sae|owe|wpa3|wpa3-192) ;;
-+		*) return 1 ;;
-+	esac
-+
-+	case "+$value+" in
-+		*+[tT][kK][iI][pP]+*) return 1 ;;
-+	esac
-+
-+	return 0
-+}
-+
-+security_needs_key() {
-+	local enc="${1%%+*}"
-+
-+	[ "$enc" = "sae" ]
-+}
-+
-+device_index() {
-+	local dev="$1"
-+	local idx
-+
-+	idx="$(uci -q get wireless."$dev".radio)"
-+	if [ -z "$idx" ]; then
-+		case "$dev" in
-+			radio0) idx=0 ;;
-+			radio1) idx=1 ;;
-+			radio2) idx=2 ;;
-+		esac
-+	fi
-+
-+	echo "$idx"
-+}
-+
-+iface_uses_6g() {
-+	local dev
-+
-+	for dev in $1; do
-+		[ "$(device_index "$dev")" = "2" ] && return 0
-+	done
-+
-+	return 1
-+}
-+
-+canonical_mlo_devices() {
-+	local devices="$*"
-+	local dev wanted result=""
-+
-+	# Netifd uses the first device as the primary MLD PHY. Prefer the 5GHz
-+	# link, then 6GHz, and keep 2.4GHz as the compatibility link.
-+	for wanted in 1 2 0; do
-+		for dev in $devices; do
-+			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
-+		done
-+	done
-+	for dev in $devices; do
-+		case "$(device_index "$dev")" in
-+			0|1|2) ;;
-+			*) result="${result:+$result }$dev" ;;
-+		esac
-+	done
-+
-+	echo "$result"
-+}
-+
-+ensure_mlo_fixed_channel() {
-+	local dev="$1"
-+	local channel htmode idx
-+
-+	channel="$(uci -q get wireless."$dev".channel)"
-+	idx="$(device_index "$dev")"
-+
-+	if [ "$idx" = "0" ]; then
-+		case "$channel" in
-+			""|auto) set_if_diff wireless."$dev".channel 6 ;;
-+		esac
-+		htmode="$(uci -q get wireless."$dev".htmode)"
-+		if [ "$htmode" != "EHT20" ]; then
-+			warn "$dev is a 2.4GHz MLO link using ${htmode:-unset}; repairing it to EHT20 because mandatory 20/40 coexistence fallback cannot update this MLD safely."
-+			set_if_diff wireless."$dev".htmode EHT20
-+		fi
-+		return 0
-+	fi
-+
-+	case "$channel" in
-+		""|auto) ;;
-+		*) return 0 ;;
-+	esac
-+
-+	case "$idx" in
-+		1)
-+			set_if_diff wireless."$dev".channel 36
-+			set_if_diff wireless."$dev".htmode EHT80
-+			;;
-+		2)
-+			set_if_diff wireless."$dev".channel 37
-+			set_if_diff wireless."$dev".htmode EHT160
-+			;;
-+	esac
-+}
-+
-+fresh_default_radio() {
-+	local section="$1"
-+	local iface seen
-+
-+	seen=0
-+	for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
-+		[ "$(uci -q get wireless."$iface".device)" = "$section" ] || continue
-+		seen=1
-+		[ "$(uci -q get wireless."$iface".mode)" = "ap" ] || return 1
-+		[ "$(uci -q get wireless."$iface".ssid)" = "OpenWrt" ] || return 1
-+		[ "$(uci -q get wireless."$iface".disabled)" = "1" ] || return 1
-+	done
-+
-+	[ "$seen" = "1" ]
-+}
-+
-+ensure_radio() {
-+	local section="$1"
-+	local idx="$2"
-+	local band="$3"
-+	local channel="$4"
-+	local htmode="$5"
-+	local country="$6"
-+	local cur_channel cur_htmode
-+
-+	[ "$(uci -q get wireless."$section")" = "wifi-device" ] || return 0
-+
-+	set_if_diff wireless."$section".radio "$idx"
-+	set_if_diff wireless."$section".band "$band"
-+	set_if_diff wireless."$section".country "$country"
-+
-+	# Stock MT7990 profiles keep these Wi-Fi 6/7 capability knobs enabled.
-+	# Hostapd still gates them on the actual driver capabilities.
-+	set_if_missing wireless."$section".he_twt_responder "1"
-+	set_if_missing wireless."$section".he_su_beamformer "1"
-+	set_if_missing wireless."$section".he_su_beamformee "1"
-+	set_if_missing wireless."$section".he_mu_beamformer "1"
-+
-+	if fresh_default_radio "$section"; then
-+		set_if_diff wireless."$section".channel "$channel"
-+		set_if_diff wireless."$section".htmode "$htmode"
-+		return 0
-+	fi
-+
-+	cur_channel="$(uci -q get wireless."$section".channel)"
-+	if ! channel_valid "$band" "$cur_channel" "$country"; then
-+		set_if_diff wireless."$section".channel "$channel"
-+		cur_channel="$channel"
-+	fi
-+
-+	cur_htmode="$(uci -q get wireless."$section".htmode)"
-+	if ! htmode_valid "$band" "$cur_htmode" "$cur_channel" "$country"; then
-+		set_if_diff wireless."$section".htmode "$htmode"
-+	fi
-+}
-+
-+repair_sta_network() {
-+	local iface="$1"
-+	local network="$2"
-+	local item count=0 has_wwan=0 has_forbidden=0
-+
-+	for item in $network; do
-+		count=$((count + 1))
-+		case "$item" in
-+			wwan) has_wwan=1 ;;
-+			lan|wan|wan6) has_forbidden=1 ;;
-+		esac
-+	done
-+
-+	if [ "$count" -eq 0 ] || [ "$has_wwan" -eq 1 ] || [ "$has_forbidden" -eq 1 ]; then
-+		[ "$network" = "wwan" ] || warn "$iface STA network binding '${network:-unset}' is unsafe; repairing it to wwan."
-+		set_if_diff wireless."$iface".network wwan
-+	elif [ "$count" -gt 1 ]; then
-+		warn "$iface STA lists multiple client networks '$network'; disabling it until one dedicated client network is selected."
-+		set_if_diff wireless."$iface".disabled 1
-+	fi
-+}
-+
-+shared_country=
-+for country_dev in radio0 radio1 radio2; do
-+	[ "$(uci -q get wireless."$country_dev")" = "wifi-device" ] || continue
-+	raw_country="$(uci -q get wireless."$country_dev".country)"
-+	case "$raw_country" in
-+		""|00) continue ;;
-+	esac
-+	shared_country="$(w1700k_normalize_country "$raw_country")"
-+	break
-+done
-+shared_country="${shared_country:-US}"
-+
-+ensure_radio radio0 0 2g 6 EHT40 "$shared_country"
-+ensure_radio radio1 1 5g 36 EHT80 "$shared_country"
-+ensure_radio radio2 2 6g 37 EHT320 "$shared_country"
-+
-+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
-+	mode="$(uci -q get wireless."$iface".mode)"
-+	device="$(uci -q get wireless."$iface".device)"
-+	network="$(uci -q get wireless."$iface".network)"
-+	mlo="$(uci -q get wireless."$iface".mlo)"
-+
-+	if [ "$mode" = "ap" ] || [ "$mode" = "ap-wds" ]; then
-+		if [ "$mlo" = "1" ]; then
-+			canonical_devices="$(canonical_mlo_devices "$device")"
-+			set_list_if_diff wireless."$iface".device "$canonical_devices"
-+			device="$canonical_devices"
-+		fi
-+
-+		if [ "$mlo" = "1" ] || iface_uses_6g "$device"; then
-+			enc="$(uci -q get wireless."$iface".encryption)"
-+			key="$(uci -q get wireless."$iface".key)"
-+			security_error=
-+			if ! security_valid_for_6g_or_mlo "$enc"; then
-+				security_error="uses incompatible encryption '${enc:-unset}'"
-+			elif security_needs_key "$enc" && [ -z "$key" ]; then
-+				security_error="uses SAE without a Wi-Fi key"
-+			fi
-+
-+			if [ -n "$security_error" ]; then
-+				if [ "$(uci -q get wireless."$iface".disabled)" != "1" ]; then
-+					warn "$iface $security_error; disabling the interface instead of inventing credentials."
-+					set_if_diff wireless."$iface".disabled "1"
-+				fi
-+			else
-+				set_if_diff wireless."$iface".ieee80211w "2"
-+				set_if_diff wireless."$iface".rnr "1"
-+				if security_needs_key "$enc"; then
-+					set_if_diff wireless."$iface".sae_pwe "2"
-+				fi
-+			fi
-+		fi
-+
-+		if [ "$mlo" = "1" ]; then
-+			for mlo_dev in $device; do
-+				ensure_mlo_fixed_channel "$mlo_dev"
-+			done
-+		fi
-+
-+		case "$(uci -q get wireless."$iface".encryption)" in
-+			sae*|wpa3*) set_if_missing wireless."$iface".sae_pwe "2" ;;
-+		esac
-+
-+		[ -n "$network" ] || set_if_diff wireless."$iface".network "lan"
-+
-+		case " $network " in
-+			*" lan "*)
-+				case " $network " in
-+					*" wan "*|*" wan6 "*) set_if_diff wireless."$iface".network "lan" ;;
-+				esac
-+				;;
-+		esac
-+	fi
-+
-+	if [ "$mode" = "sta" ]; then
-+		if [ "$radio0_old_band" = "5g" ] && [ "$device" = "radio0" ]; then
-+			set_if_diff wireless."$iface".device "radio1"
-+		fi
-+
-+		repair_sta_network "$iface" "$network"
-+	fi
-+done
-+
-+[ "$changed" = 1 ] && uci commit wireless
-+
-+exit 0
-diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities
-new file mode 100755
-index 0000000000000000000000000000000000000000..0883b7c2301c2f4ccbc75b8c5a08ca7b448be351
---- /dev/null
-+++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities
-@@ -0,0 +1,54 @@
-+#!/bin/sh
-+
-+. /lib/functions.sh
-+
-+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || {
-+	echo '{}'
-+	exit 0
-+}
-+
-+phy="$1"
-+case "$phy" in
-+	phy[0-9]*)
-+		phys="$phy"
-+		;;
-+	*)
-+		phys="$(for p in /sys/class/ieee80211/phy*; do [ -e "$p" ] && basename "$p"; done)"
-+		[ -n "$phys" ] || phys="phy0"
-+		;;
-+esac
-+
-+info="$(
-+	for p in $phys; do
-+		iw phy "$p" info 2>/dev/null
-+	done
-+)"
-+
-+has() {
-+	printf '%s\n' "$info" | grep -Eiq "$1"
-+}
-+
-+json_bool() {
-+	if has "$1"; then
-+		printf true
-+	else
-+		printf false
-+	fi
-+}
-+
-+printf '{'
-+printf '"puncturing":'
-+json_bool '\[ PUNCT \]'
-+printf ',"eht4096qam":'
-+json_bool 'MCS 12-13'
-+printf ',"ehtNonOfdmaUlMuMimo":'
-+json_bool 'Non-OFDMA UL MU-MIMO'
-+printf ',"ehtMultiRu":'
-+json_bool '(242-tone RU|less[ -]than[ -]242|RU.*wider)'
-+printf ',"ehtWiderDlOfdma4096qam":'
-+json_bool '(4096.*OFDMA|OFDMA.*4096)'
-+printf ',"beamforming":'
-+json_bool '(SU Beamformer|MU Beamformer|Beamformer)'
-+printf ',"muMimo":'
-+json_bool '(MU-MIMO|MU MIMO)'
-+printf '}\n'
-diff --git a/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
-new file mode 100755
-index 0000000000000000000000000000000000000000..4781e36f4a06140ed06886f8e60855fc2beed993
---- /dev/null
-+++ b/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate
-@@ -0,0 +1,642 @@
-+#!/bin/sh
-+
-+. "${W1700K_FUNCTIONS_LIB:-/lib/functions.sh}"
-+. "${W1700K_REG_HELPER:-/usr/libexec/w1700k-wireless-regulatory}"
-+
-+[ "$(board_name)" = "gemtek,w1700k-ubi" ] || exit 0
-+
-+failed=0
-+
-+err() {
-+	echo "w1700k-wireless: $*" >&2
-+	failed=1
-+}
-+
-+expected_band() {
-+	case "$1" in
-+		0) echo 2g ;;
-+		1) echo 5g ;;
-+		2) echo 6g ;;
-+	esac
-+}
-+
-+device_index() {
-+	local dev="$1"
-+	local idx
-+
-+	idx="$(uci -q get wireless."$dev".radio)"
-+	if [ -z "$idx" ] && [ "$radio_map_active" != "1" ]; then
-+		case "$dev" in
-+			radio0) idx=0 ;;
-+			radio1) idx=1 ;;
-+			radio2) idx=2 ;;
-+		esac
-+	fi
-+
-+	echo "$idx"
-+}
-+
-+canonical_mlo_devices() {
-+	local devices="$*"
-+	local dev wanted result=""
-+
-+	for wanted in 1 2 0; do
-+		for dev in $devices; do
-+			[ "$(device_index "$dev")" = "$wanted" ] && result="${result:+$result }$dev"
-+		done
-+	done
-+	for dev in $devices; do
-+		case "$(device_index "$dev")" in
-+			0|1|2) ;;
-+			*) result="${result:+$result }$dev" ;;
-+		esac
-+	done
-+
-+	echo "$result"
-+}
-+
-+device_exists() {
-+	[ "$(uci -q get wireless."$1")" = "wifi-device" ]
-+}
-+
-+device_disabled() {
-+	[ "$(uci -q get wireless."$1".disabled)" = "1" ]
-+}
-+
-+wireless_devices="$(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-device$/\1/p')"
-+radio_map_active=0
-+for dev in $wireless_devices; do
-+	[ -n "$(uci -q get wireless."$dev".radio)" ] && radio_map_active=1
-+done
-+enabled_iface_devices=" "
-+mlo_iface_devices=" "
-+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
-+	[ "$(uci -q get wireless."$iface".disabled)" = "1" ] && continue
-+	mlo="$(uci -q get wireless."$iface".mlo)"
-+	for dev in $(uci -q get wireless."$iface".device); do
-+		case "$enabled_iface_devices" in
-+			*" $dev "*) ;;
-+			*) enabled_iface_devices="$enabled_iface_devices$dev " ;;
-+		esac
-+		if [ "$mlo" = "1" ]; then
-+			case "$mlo_iface_devices" in
-+				*" $dev "*) ;;
-+				*) mlo_iface_devices="$mlo_iface_devices$dev " ;;
-+			esac
-+		fi
-+	done
-+done
-+
-+device_requires_runtime_validation() {
-+	local dev="$1"
-+
-+	device_disabled "$dev" || return 0
-+	case "$enabled_iface_devices" in
-+		*" $dev "*) return 0 ;;
-+	esac
-+
-+	return 1
-+}
-+
-+# Netifd builds its radio map from option radio, never from section names.
-+# Reject incomplete maps before --prepare-regdomain can change runtime state.
-+device_seen_indices=" "
-+for dev in $wireless_devices; do
-+	explicit_idx="$(uci -q get wireless."$dev".radio)"
-+	if [ -z "$explicit_idx" ]; then
-+		case "$mlo_iface_devices" in
-+			*" $dev "*)
-+				err "$dev is selected for MLO and requires an explicit physical radio index; set option radio to 0, 1, or 2."
-+				continue
-+				;;
-+		esac
-+		if [ "$radio_map_active" = "1" ]; then
-+			err "$dev has no explicit physical radio index while another radio does; set option radio to 0, 1, or 2."
-+			continue
-+		fi
-+	fi
-+	idx="$(device_index "$dev")"
-+	if [ -z "$(expected_band "$idx")" ]; then
-+		err "$dev uses unsupported physical radio index ${idx:-unset}; W1700K supports only 0, 1, and 2."
-+		continue
-+	fi
-+	case "$device_seen_indices" in
-+		*" $idx "*) err "$dev duplicates physical radio index $idx." ;;
-+	esac
-+	device_seen_indices="$device_seen_indices$idx "
-+done
-+[ "$failed" -eq 0 ] || exit "$failed"
-+
-+device_country_raw() {
-+	local country
-+
-+	country="$(uci -q get wireless."$1".country)"
-+	printf '%s' "$country" | tr '[:lower:]' '[:upper:]'
-+}
-+
-+device_country() {
-+	w1700k_normalize_country "$(device_country_raw "$1")"
-+}
-+
-+device_country_explicit() {
-+	local country
-+
-+	country="$(device_country_raw "$1")"
-+	case "$country" in
-+		[A-Z][A-Z]) [ "$country" != "00" ] && echo "$country" ;;
-+	esac
-+}
-+
-+configured_country=
-+configured_country_device=
-+for dev in $wireless_devices; do
-+	device_requires_runtime_validation "$dev" || continue
-+	case "$mlo_iface_devices" in
-+		*" $dev "*)
-+			country="$(device_country_explicit "$dev")"
-+			if [ -z "$country" ]; then
-+				err "$dev is selected for MLO and requires an explicit two-letter regulatory country; world regdomain 00 is not valid."
-+				continue
-+			fi
-+			;;
-+		*) country="$(device_country "$dev")" ;;
-+	esac
-+	if [ -z "$configured_country" ]; then
-+		configured_country="$country"
-+		configured_country_device="$dev"
-+	elif [ "$country" != "$configured_country" ]; then
-+		err "$dev uses country $country while $configured_country_device uses $configured_country; all W1700K radios share one regulatory domain."
-+	fi
-+done
-+
-+if [ "$1" = "--prepare-regdomain" ] && [ "$failed" -eq 0 ] && [ -n "$configured_country" ]; then
-+	if ! command -v iw >/dev/null 2>&1; then
-+		err "cannot prepare regulatory domain $configured_country because iw is unavailable."
-+	elif ! iw reg get 2>/dev/null | grep -q "country $configured_country:"; then
-+		if ! iw reg set "$configured_country"; then
-+			err "failed to apply regulatory domain $configured_country before wireless validation."
-+		else
-+			sleep 1
-+			iw reg get 2>/dev/null | grep -q "country $configured_country:" ||
-+				err "regulatory domain $configured_country did not become active before wireless validation."
-+		fi
-+	fi
-+fi
-+
-+punct_driver_checked=0
-+punct_driver_supported=0
-+
-+driver_supports_puncturing() {
-+	[ "$punct_driver_checked" = "1" ] && [ "$punct_driver_supported" = "1" ] && return 0
-+	[ "$punct_driver_checked" = "1" ] && return 1
-+
-+	punct_driver_checked=1
-+
-+	for phy in /sys/class/ieee80211/phy*; do
-+		[ -e "$phy" ] || continue
-+		phy="$(basename "$phy")"
-+		if iw phy "$phy" info 2>/dev/null | sed -n '/Supported extended features:/,/Supported wiphy radios:/p' | grep -q '\[ PUNCT \]'; then
-+			punct_driver_supported=1
-+			return 0
-+		fi
-+	done
-+
-+	return 1
-+}
-+
-+parse_punct_bitmap() {
-+	local value="$1"
-+
-+	echo "$value" | grep -Eq '^(0[xX][0-9a-fA-F]+|[0-9]+)$' || return 1
-+
-+	case "$value" in
-+		0[xX]*)
-+			value="${value#0?}"
-+			[ "${#value}" -le 4 ] || return 1
-+			echo $((0x$value))
-+			;;
-+		*)
-+			while [ "${value#0}" != "$value" ]; do
-+				value="${value#0}"
-+			done
-+			[ -n "$value" ] || value=0
-+			[ "${#value}" -le 5 ] || return 1
-+			echo $((value))
-+			;;
-+	esac
-+}
-+
-+punct_width_allowed() {
-+	local band="$1"
-+	local htmode="$2"
-+	local width
-+
-+	case "$htmode" in
-+		EHT*) ;;
-+		*) return 1 ;;
-+	esac
-+
-+	width="$(htmode_width "$htmode")"
-+	case "$band:$width" in
-+		5g:80|5g:160|6g:80|6g:160|6g:320) return 0 ;;
-+	esac
-+
-+	return 1
-+}
-+
-+punct_primary_bit() {
-+	local band="$1"
-+	local channel="$2"
-+	local width="$3"
-+	local blocks block ch bit
-+
-+	case "$band:$width" in
-+		5g:80)
-+			blocks='36 40 44 48|52 56 60 64|100 104 108 112|116 120 124 128|132 136 140 144|149 153 157 161|165 169 173 177'
-+			;;
-+		5g:160)
-+			blocks='36 40 44 48 52 56 60 64|100 104 108 112 116 120 124 128|149 153 157 161 165 169 173 177'
-+			;;
-+		6g:80|6g:160|6g:320)
-+			six_ghz_primary_bit "$width" "$channel"
-+			return
-+			;;
-+		*)
-+			return 1
-+			;;
-+	esac
-+
-+	IFS='|'
-+	for block in $blocks; do
-+		unset IFS
-+		bit=0
-+		for ch in $block; do
-+			if [ "$ch" = "$channel" ]; then
-+				echo "$bit"
-+				return 0
-+			fi
-+			bit=$((bit + 1))
-+		done
-+		IFS='|'
-+	done
-+	unset IFS
-+
-+	return 1
-+}
-+
-+punct_active_mask_valid() {
-+	local width="$1"
-+	local primary_bit="$2"
-+	local punct="$3"
-+	local mask valid active value
-+
-+	[ "$punct" -eq 0 ] && return 0
-+
-+	case "$width" in
-+		80)
-+			mask=0xf
-+			valid='0xf 0xe 0xd 0xb 0x7'
-+			;;
-+		160)
-+			mask=0xff
-+			valid='0xff 0xfe 0xfd 0xfb 0xf7 0xef 0xdf 0xbf 0x7f 0xfc 0xf3 0xcf 0x3f'
-+			;;
-+		320)
-+			mask=0xffff
-+			valid='0xffff 0xfffc 0xfff3 0xffcf 0xff3f 0xfcff 0xf3ff 0xcfff 0x3fff 0xfff0 0xff0f 0xf0ff 0x0fff 0xffc0 0xff30 0xfcf0 0xf3f0 0xcff0 0x3ff0 0x0ffc 0x0ff3 0x0fcf 0x0f3f 0x0cff 0x03ff'
-+			;;
-+		*)
-+			return 1
-+			;;
-+	esac
-+
-+	active=$(( (~punct) & mask ))
-+	[ "$active" -ne 0 ] || return 1
-+	[ $((active & (1 << primary_bit))) -ne 0 ] || return 1
-+
-+	for value in $valid; do
-+		[ "$active" -eq $((value)) ] && return 0
-+	done
-+
-+	return 1
-+}
-+
-+validate_puncturing() {
-+	local dev="$1"
-+	local band="$2"
-+	local htmode="$3"
-+	local channel="$4"
-+	local width bitmap bitmap_dec threshold primary_bit raw_opt
-+
-+	bitmap="$(uci -q get wireless."$dev".punct_bitmap)"
-+	threshold="$(uci -q get wireless."$dev".punct_acs_threshold)"
-+
-+	for raw_opt in $(uci -q get wireless."$dev".hostapd_options); do
-+		case "$raw_opt" in
-+			punct_bitmap=*)
-+				[ -n "$bitmap" ] && err "$dev defines punct_bitmap both directly and through hostapd_options."
-+				bitmap="${raw_opt#*=}"
-+				;;
-+			punct_acs_threshold=*)
-+				[ -n "$threshold" ] && err "$dev defines punct_acs_threshold both directly and through hostapd_options."
-+				threshold="${raw_opt#*=}"
-+				;;
-+			eht_oper_puncturing_override=*)
-+				err "$dev uses testing-only eht_oper_puncturing_override; use validated punct_bitmap instead."
-+				;;
-+		esac
-+	done
-+
-+	[ -n "$bitmap$threshold" ] || return
-+
-+	if [ -n "$bitmap" ]; then
-+		bitmap_dec="$(parse_punct_bitmap "$bitmap")" || {
-+			err "$dev punct_bitmap must be decimal or hexadecimal."
-+			bitmap_dec=0
-+		}
-+		if [ "$bitmap_dec" -lt 0 ] || [ "$bitmap_dec" -gt 65535 ]; then
-+			err "$dev punct_bitmap must fit in 16 bits."
-+			bitmap_dec=0
-+		fi
-+	else
-+		bitmap_dec=0
-+	fi
-+
-+	if [ -n "$threshold" ]; then
-+		if ! is_uint "$threshold" || [ "$threshold" -gt 100 ]; then
-+			err "$dev punct_acs_threshold must be between 0 and 100."
-+			threshold=0
-+		fi
-+	else
-+		threshold=0
-+	fi
-+
-+	if [ "$bitmap_dec" -eq 0 ] && [ "$threshold" -eq 0 ]; then
-+		return
-+	fi
-+
-+	if [ "$bitmap_dec" -ne 0 ] && [ "$threshold" -ne 0 ]; then
-+		err "$dev cannot use manual punct_bitmap and ACS puncturing threshold together."
-+	fi
-+
-+	width="$(htmode_width "$htmode")"
-+
-+	if ! punct_width_allowed "$band" "$htmode"; then
-+		err "$dev EHT puncturing requires 5GHz/6GHz EHT80 or wider; $band/$htmode is not valid."
-+		return
-+	fi
-+
-+	if ! driver_supports_puncturing; then
-+		err "$dev EHT puncturing is not supported by the current mt7996 driver."
-+		return
-+	fi
-+
-+	if [ "$threshold" -gt 0 ] && [ "$channel" != "auto" ]; then
-+		err "$dev punct_acs_threshold requires channel auto."
-+	fi
-+
-+	if [ "$bitmap_dec" -ne 0 ]; then
-+		if [ "$channel" = "auto" ]; then
-+			err "$dev manual punct_bitmap requires a fixed channel."
-+			return
-+		fi
-+
-+		if ! is_uint "$channel"; then
-+			err "$dev manual punct_bitmap requires a valid fixed channel."
-+			return
-+		fi
-+
-+		primary_bit="$(punct_primary_bit "$band" "$channel" "$width")" || {
-+			err "$dev punct_bitmap cannot be mapped to channel $channel/$htmode."
-+			return
-+		}
-+
-+		punct_active_mask_valid "$width" "$primary_bit" "$bitmap_dec" ||
-+			err "$dev punct_bitmap $bitmap is invalid for primary channel $channel and $htmode."
-+	fi
-+}
-+
-+security_valid_for_6g_or_mlo() {
-+	local value="$1"
-+	local enc="${value%%+*}"
-+
-+	case "$enc" in
-+		sae|owe|wpa3|wpa3-192) ;;
-+		*) return 1 ;;
-+	esac
-+
-+	case "+$value+" in
-+		*+[tT][kK][iI][pP]+*) return 1 ;;
-+	esac
-+
-+	return 0
-+}
-+
-+security_needs_key() {
-+	local enc="${1%%+*}"
-+
-+	case "$enc" in
-+		sae) return 0 ;;
-+	esac
-+
-+	return 1
-+}
-+
-+mlo_owner_0=
-+mlo_owner_1=
-+mlo_owner_2=
-+
-+claim_mlo_radio() {
-+	local iface="$1"
-+	local dev="$2"
-+	local idx="$3"
-+	local owner
-+
-+	case "$idx" in
-+		0) owner="$mlo_owner_0" ;;
-+		1) owner="$mlo_owner_1" ;;
-+		2) owner="$mlo_owner_2" ;;
-+		*) return ;;
-+	esac
-+
-+	if [ -n "$owner" ] && [ "$owner" != "$iface" ]; then
-+		err "$iface MLO cannot use $dev; physical radio index $idx is already owned by MLO interface $owner. Edit $owner instead."
-+		return
-+	fi
-+
-+	case "$idx" in
-+		0) mlo_owner_0="$iface" ;;
-+		1) mlo_owner_1="$iface" ;;
-+		2) mlo_owner_2="$iface" ;;
-+	esac
-+}
-+
-+for dev in $wireless_devices; do
-+	idx="$(device_index "$dev")"
-+	band_expected="$(expected_band "$idx")"
-+
-+	device_requires_runtime_validation "$dev" || continue
-+
-+	band_actual="$(uci -q get wireless."$dev".band)"
-+	channel="$(uci -q get wireless."$dev".channel)"
-+	htmode="$(uci -q get wireless."$dev".htmode)"
-+	country="$(device_country "$dev")"
-+
-+	if [ "$band_actual" != "$band_expected" ]; then
-+		err "$dev is physical $band_expected; it cannot be configured as ${band_actual:-unset}. Use radio$idx/$band_expected instead."
-+	fi
-+
-+	if ! channel_valid "$band_expected" "$channel" "$country"; then
-+		err "$dev channel ${channel:-unset} is not valid for physical $band_expected country $country."
-+	fi
-+
-+	if ! htmode_valid "$band_expected" "$htmode" "$channel" "$country"; then
-+		err "$dev $band_expected ${htmode:-unset} is not valid on channel ${channel:-unset} for country $country with the current regulatory database."
-+	fi
-+
-+	validate_puncturing "$dev" "$band_expected" "$htmode" "$channel"
-+done
-+
-+for iface in $(uci -q show wireless | sed -n 's/^wireless\.\([^=]*\)=wifi-iface$/\1/p'); do
-+	mode="$(uci -q get wireless."$iface".mode)"
-+	disabled="$(uci -q get wireless."$iface".disabled)"
-+	mlo="$(uci -q get wireless."$iface".mlo)"
-+	devices="$(uci -q get wireless."$iface".device)"
-+	network="$(uci -q get wireless."$iface".network)"
-+	enc="$(uci -q get wireless."$iface".encryption)"
-+	key="$(uci -q get wireless."$iface".key)"
-+	pmf="$(uci -q get wireless."$iface".ieee80211w)"
-+	rnr="$(uci -q get wireless."$iface".rnr)"
-+	sae_pwe="$(uci -q get wireless."$iface".sae_pwe)"
-+	owe_transition="$(uci -q get wireless."$iface".owe_transition)"
-+	owe_transition_ifname="$(uci -q get wireless."$iface".owe_transition_ifname)"
-+	owe_transition_bssid="$(uci -q get wireless."$iface".owe_transition_bssid)"
-+	seen=" "
-+	seen_idx=" "
-+	count=0
-+	has_6g=0
-+	first_country=
-+
-+	[ "$disabled" = "1" ] && continue
-+	if [ -z "$devices" ]; then
-+		err "$iface is enabled but has no radio device."
-+		continue
-+	fi
-+
-+	case "$mlo" in
-+		""|0|1) ;;
-+		*) err "$iface has invalid mlo value $mlo; use 0 or 1." ;;
-+	esac
-+
-+	for dev in $devices; do
-+		case "$seen" in
-+			*" $dev "*) err "$iface lists $dev more than once." ;;
-+		esac
-+		seen="$seen$dev "
-+		count=$((count + 1))
-+
-+		if ! device_exists "$dev"; then
-+			err "$iface references missing wireless device $dev."
-+			continue
-+		fi
-+
-+		if [ "$mlo" = "1" ] && device_disabled "$dev"; then
-+			err "$iface MLO cannot use disabled radio $dev."
-+		fi
-+
-+		idx="$(device_index "$dev")"
-+		band="$(expected_band "$idx")"
-+		if [ "$mlo" = "1" ] && [ -z "$band" ]; then
-+			err "$iface MLO references unsupported physical radio $dev."
-+			continue
-+		fi
-+
-+		case "$seen_idx" in
-+			*" $idx "*) [ "$mlo" = "1" ] && err "$iface MLO maps more than one link to physical radio index $idx." ;;
-+		esac
-+		seen_idx="$seen_idx$idx "
-+		[ "$mlo" = "1" ] && claim_mlo_radio "$iface" "$dev" "$idx"
-+		[ "$band" = "6g" ] && has_6g=1
-+
-+		if [ "$mlo" = "1" ]; then
-+			country="$(device_country_explicit "$dev")"
-+			[ -n "$country" ] || continue
-+		else
-+			country="$(device_country "$dev")"
-+		fi
-+		if [ -z "$first_country" ]; then
-+			first_country="$country"
-+		elif [ "$country" != "$first_country" ]; then
-+			err "$iface MLO radios must use one country; $dev uses $country while another link uses $first_country."
-+		fi
-+	done
-+
-+	if [ "$count" -gt 1 ] && [ "$mlo" != "1" ]; then
-+		err "$iface lists multiple radios but does not enable MLO."
-+	fi
-+
-+	if [ "$mode" = "ap" ] && [ "${enc%%+*}" = "owe" ] &&
-+	   { [ "$mlo" = "1" ] || [ "$has_6g" = "1" ]; }; then
-+		case "$owe_transition" in
-+			1|on|true|yes|enabled) err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
-+			*) [ -z "$owe_transition_ifname$owe_transition_bssid" ] ||
-+				err "$iface OWE transition is not supported on MLO or 6GHz APs." ;;
-+		esac
-+	fi
-+
-+	if [ "$mode" = "sta" ]; then
-+		network_count=0
-+		for net in $network; do
-+			network_count=$((network_count + 1))
-+			case "$net" in
-+				lan|wan|wan6)
-+					err "$iface STA cannot bind directly to $net; select one dedicated client network such as wwan."
-+					;;
-+			esac
-+		done
-+
-+		[ "$network_count" -eq 1 ] || \
-+			err "$iface STA must bind to exactly one dedicated client network; current value is '${network:-unset}'."
-+	fi
-+
-+	if [ "$mlo" = "1" ]; then
-+		[ "$mode" = "ap" ] || err "$iface uses MLO, but this W1700K build only supports MLO AP configuration."
-+		canonical_devices="$(canonical_mlo_devices "$devices")"
-+		[ "$devices" = "$canonical_devices" ] || \
-+			err "$iface MLO radios must be ordered as $canonical_devices (5GHz, 6GHz, then 2.4GHz primary-link preference)."
-+		[ "$count" -ge 2 ] || err "$iface MLO needs at least two radios."
-+		for dev in $devices; do
-+			channel="$(uci -q get wireless."$dev".channel)"
-+			htmode="$(uci -q get wireless."$dev".htmode)"
-+			case "$channel" in
-+				""|auto) err "$iface MLO requires a fixed channel on $dev; automatic channel selection cannot coordinate this shared W1700K PHY reliably." ;;
-+			esac
-+			case "$htmode" in
-+				EHT20|EHT40|EHT80|EHT160|EHT320) ;;
-+				*) err "$iface MLO requires an EHT width on $dev; current mode is ${htmode:-unset}." ;;
-+			esac
-+			if [ "$(device_index "$dev")" = "0" ] && [ "$htmode" != "EHT20" ]; then
-+				err "$iface MLO requires EHT20 on 2.4GHz radio $dev because mandatory 20/40 coexistence fallback cannot update this MLD safely."
-+			fi
-+		done
-+		security_valid_for_6g_or_mlo "$enc" || err "$iface MLO requires WPA3-SAE, OWE, or WPA3 Enterprise security."
-+		security_needs_key "$enc" && [ -z "$key" ] && err "$iface MLO uses SAE and requires a Wi-Fi key."
-+		[ "$pmf" = "2" ] || err "$iface MLO requires 802.11w management frame protection set to Required."
-+		[ "$rnr" = "1" ] || err "$iface MLO requires Reduced Neighbor Report enabled (rnr=1) for reliable link discovery."
-+		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
-+			err "$iface MLO SAE requires sae_pwe=2 for hash-to-element compatibility."
-+		fi
-+	fi
-+
-+	if [ "$mode" = "ap" ] && [ "$has_6g" = "1" ]; then
-+		security_valid_for_6g_or_mlo "$enc" || err "$iface uses 6GHz and must use WPA3-SAE, OWE, or WPA3 Enterprise security."
-+		security_needs_key "$enc" && [ -z "$key" ] && err "$iface uses 6GHz SAE and requires a Wi-Fi key."
-+		[ "$pmf" = "2" ] || err "$iface uses 6GHz and requires 802.11w management frame protection set to Required."
-+		[ "$rnr" = "1" ] || err "$iface uses 6GHz and requires Reduced Neighbor Report enabled (rnr=1) for reliable discovery."
-+		if security_needs_key "$enc" && [ "$sae_pwe" != "2" ]; then
-+			err "$iface uses 6GHz SAE and requires sae_pwe=2 for hash-to-element compatibility."
-+		fi
-+	fi
-+done
-+
-+exit "$failed"
+diff --git a/package/utils/ucode/Makefile b/package/utils/ucode/Makefile
+index eb6abd6..d05aaa4 100644
+--- a/package/utils/ucode/Makefile
++++ b/package/utils/ucode/Makefile
+@@ -8,7 +8,7 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=ucode
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ 
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_URL=https://github.com/jow-/ucode.git
+diff --git a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
+index 24585be..94480ac 100644
+--- a/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
++++ b/target/linux/airoha/dts/an7581-npu-mt7996.dtsi
+@@ -2,6 +2,20 @@
+ 
+ #include "an7581-npu-wlan.dtsi"
+ 
++/* MT7996 firmware initializes 0x7000 u16 TX buffer-check entries. */
++&npu_txbufid {
++	reg = <0x0 0x90c00000 0x0 0xe000>;
++};
++
++&{/reserved-memory} {
++	/delete-node/ npu-ba@90c06800;
++
++	npu_ba: npu-ba@90c0e000 {
++		no-map;
++		reg = <0x0 0x90c0e000 0x0 0x200000>;
++	};
++};
++
+ &npu {
+ 	firmware-name = "airoha/en7581_MT7996_npu_rv32.bin",
+                         "airoha/en7581_MT7996_npu_data.bin";
 diff --git a/target/linux/airoha/image/an7581.mk b/target/linux/airoha/image/an7581.mk
-index 14e28682fd40fc7ac9bb87fcbe59617fd8a9ff78..636b2da0ec233b8d2e801765fb5fe50f093e534c 100644
+index 8448ac4..feba9a2 100644
 --- a/target/linux/airoha/image/an7581.mk
 +++ b/target/linux/airoha/image/an7581.mk
 @@ -109,8 +109,14 @@ define Device/gemtek_w1700k-ubi
@@ -3749,9 +2237,9 @@ index 14e28682fd40fc7ac9bb87fcbe59617fd8a9ff78..636b2da0ec233b8d2e801765fb5fe50f
         the end of flash. A reinstall including corrected chainloader is needed.
    DEVICE_PACKAGES := airoha-en7581-mt7996-npu-firmware fitblk \
 -		    kmod-hwmon-nct7802 kmod-mt7996-firmware wpad-basic-mbedtls \
--		    rtl826x-firmware
+-		    rtl826x-firmware kmod-phy-rtl8261ce
 +		    kmod-hwmon-nct7802 kmod-mt7996-firmware rtl826x-firmware \
-+		    wpad-mbedtls luci-ssl \
++		    kmod-phy-rtl8261ce wpad-openssl luci-ssl-openssl \
 +		    luci-app-sqm sqm-scripts tc-tiny kmod-ifb \
 +		    kmod-sched-core kmod-sched-cake \
 +		    adblock luci-app-adblock \
@@ -3761,112 +2249,3 @@ index 14e28682fd40fc7ac9bb87fcbe59617fd8a9ff78..636b2da0ec233b8d2e801765fb5fe50f
    UBINIZE_OPTS := -E 5
    BLOCKSIZE := 128k
    PAGESIZE := 2048
-diff --git a/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch b/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..96f5ebed9d8317b3b4767ad282457af697af73b3
---- /dev/null
-+++ b/target/linux/airoha/patches-6.18/925-net-airoha-advertise-gro-hw.patch
-@@ -0,0 +1,34 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Codex <codex@openai.com>
-+Date: Fri, 4 Sep 2026 17:25:00 +0300
-+Subject: [PATCH] net: airoha: advertise the hardware GRO feature bit
-+
-+The HW-GRO open, fix-features, and set-features paths all test
-+NETIF_F_GRO_HW. Device allocation instead advertises NETIF_F_LRO, which
-+is a distinct feature bit and is not handled by those paths.
-+
-+Advertise NETIF_F_GRO_HW so the netdev feature contract matches the
-+driver implementation. Keep the feature out of netdev->features so this
-+does not change the existing default-disabled policy.
-+
-+Signed-off-by: Codex <codex@openai.com>
-+---
-+ drivers/net/ethernet/airoha/airoha_eth.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
-+index b37b425..fc1ffdd 100644
-+--- a/drivers/net/ethernet/airoha/airoha_eth.c
-++++ b/drivers/net/ethernet/airoha/airoha_eth.c
-+@@ -3866,7 +3866,7 @@ static int airoha_alloc_gdm_device(struct airoha_eth *eth,
-+ 	netdev->ethtool_ops = &airoha_ethtool_ops;
-+ 	netdev->max_mtu = AIROHA_MAX_MTU;
-+ 	netdev->watchdog_timeo = 5 * HZ;
-+-	netdev->hw_features = AIROHA_HW_FEATURES | NETIF_F_LRO;
-++	netdev->hw_features = AIROHA_HW_FEATURES | NETIF_F_GRO_HW;
-+ 	netdev->features |= AIROHA_HW_FEATURES;
-+ 	netdev->vlan_features = AIROHA_HW_FEATURES;
-+ 	SET_NETDEV_DEV(netdev, eth->dev);
-+-- 
-+2.51.0
-+
-diff --git a/package/utils/ucode/Makefile b/package/utils/ucode/Makefile
-index eb6abd6adb690670816b59fa813dde90ab2c3d0c..d05aaa40b66f836971d7bd6a53c46ec1eb0fe2ca 100644
---- a/package/utils/ucode/Makefile
-+++ b/package/utils/ucode/Makefile
-@@ -8,7 +8,7 @@
- include $(TOPDIR)/rules.mk
-
- PKG_NAME:=ucode
--PKG_RELEASE:=1
-+PKG_RELEASE:=2
-
- PKG_SOURCE_PROTO:=git
- PKG_SOURCE_URL=https://github.com/jow-/ucode.git
-diff --git a/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc b/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc
-new file mode 100644
-index 0000000000000000000000000000000000000000..e8c2130a82c0007dfb6ee9d562ee2222c1b0ba3b
---- /dev/null
-+++ b/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc
-@@ -0,0 +1,21 @@
-+import { sha256 } from 'digest';
-+
-+function canonical(value) {
-+	if (type(value) == 'array')
-+		return map(value, canonical);
-+	if (type(value) != 'object')
-+		return value;
-+
-+	let result = {};
-+	for (let key in sort(keys(value)))
-+		result[key] = canonical(value[key]);
-+	return result;
-+}
-+
-+export function mld_config_id(config) {
-+	let common = { ...config };
-+	// netifd adds these descriptor fields and assigns ifname/MAC per link.
-+	for (let field in [ 'phy', 'radio_config', '4addr', 'ifname', 'macaddr' ])
-+		delete common[field];
-+	return sha256(sprintf('%J', canonical(common)));
-+}
-diff --git a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
-index 919860ad57494f6031c2bb7a732914f6b07958de..4253cf3a123db5344d61687ff5d17c0fee8cf503 100644
---- a/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
-+++ b/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc
-@@ -19,18 +19,13 @@ export function parse_encryption(config, dev_config, phy_features) {
- 
- 	config.auth_type = encryption[0] ?? 'none';
- 
--	/*
--	 * GCMP-256 and the SAE-EXT-KEY (SAE-GDH) AKM are only mandatory for
--	 * EHT/MLO and break interoperability with many clients, so only default
--	 * them on where they are both required and safe to offer: on Compatibility
--	 * mode (sae-compat) BSSes that run an EHT htmode, which carry them in a
--	 * separate RSN Override element that legacy clients ignore. They stay off
--	 * for WPA3-Personal (sae) and Transition (sae-mixed) mode and on non-EHT
--	 * BSSes. Explicit gcmp256 and sae_ext_key options override this per BSS.
--	 */
-+	// MLO needs the enhanced suites in its RSNE; sae-compat uses RSN Override.
-+	// Preserve non-MLO defaults and explicit per-BSS compatibility overrides.
- 	let compat = (config.auth_type == 'sae-compat');
--	config.gcmp256 ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
--	config.sae_ext_key ??= compat && wildcard(dev_config?.htmode ?? '', 'EHT*');
-+	let mlo = config.mlo === true || config.mlo === 1 || config.mlo === '1';
-+	let enhanced = mlo || (compat && wildcard(dev_config?.htmode ?? '', 'EHT*'));
-+	config.gcmp256 ??= enhanced;
-+	config.sae_ext_key ??= enhanced;
- 
- 	switch(config.auth_type) {
- 	case 'owe':

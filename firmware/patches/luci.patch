@@ -1,5 +1,359 @@
+diff --git a/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js b/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js
+index fe0e08b..e537a82 100644
+--- a/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js
++++ b/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js
+@@ -51,6 +51,12 @@ const callUpgradeStart = rpc.declare({
+ 	params: ['keep'],
+ });
+ 
++const callFileExec = rpc.declare({
++	object: 'file',
++	method: 'exec',
++	params: ['command', 'params'],
++});
++
+ /**
+  * Returns the branch of a given version. This helps to offer upgrades
+  * for point releases (aka within the branch).
+@@ -160,27 +166,14 @@ return view.extend({
+ 				return (e.type == 'sysupgrade' || e.type == 'combined');
+ 			}
+ 		}
+-		let candidates = images.filter(filesystemFilter);
+-		let image = candidates.filter(typeFilter)[0];
+-
+-		if (!image) {
+-			/* Some devices ship a single image used for both factory
+-			 * install and sysupgrade under a device specific type, e.g.
+-			 * 'trx' on bcm53xx. Like owut, fall back to the remaining
+-			 * non-factory type if it is unambiguous. */
+-			let remaining = candidates.filter((e) => !e.type.includes('factory'));
+-			if (remaining.length && remaining.every((e) => e.type == remaining[0].type))
+-				image = remaining[0];
+-		}
+-
+-		return image;
++		return images.filter(filesystemFilter).filter(typeFilter)[0];
+ 	},
+ 
+ 	handle200: function (response, content, data, firmware) {
+ 		response = response.json();
+ 		let image = this.selectImage(response.images, data, firmware);
+ 
+-		if (image) {
++		if (image.name != undefined) {
+ 			this.sha256_unsigned = image.sha256_unsigned;
+ 			let sysupgrade_url = `${data.url}/store/${response.bin_dir}/${image.name}`;
+ 
+@@ -259,18 +252,6 @@ return view.extend({
+ 			if (data.rebuilder) {
+ 				this.handleRebuilder(content, data, firmware);
+ 			}
+-		} else {
+-			ui.showModal(_('No sysupgrade image found'), [
+-				E('p', _('The image builder did not return a usable sysupgrade image for this device (image types: %s).').format(
+-					response.images.map((i) => i.type).join(', '))),
+-				E('p', [
+-					_('Please report this in'), ' ',
+-					support_link, '.',
+-				]),
+-				E('div', { class: 'right' }, [
+-					E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
+-				]),
+-			]);
+ 		}
+ 	},
+ 
+@@ -308,9 +289,6 @@ return view.extend({
+ 			...firmware
+ 		};
+ 		const request_str = JSON.stringify(request_data, null, 4);
+-		if (typeof response.detail != "string") {
+-			response.detail = JSON.stringify(response.detail, null, 4);
+-		}
+ 		let body = [
+ 			E('p', {}, [
+ 				_('First, check'), ' ',
+@@ -420,9 +398,7 @@ return view.extend({
+ 							response = response.json();
+ 							let view = document.getElementById(server);
+ 							let image = this.selectImage(response.images, data, firmware);
+-							if (!image) {
+-								view.innerText = '⚠️ %s'.format(server);
+-							} else if (image.sha256_unsigned == this.sha256_unsigned) {
++							if (image.sha256_unsigned == this.sha256_unsigned) {
+ 								view.innerText = '✅ %s'.format(server);
+ 							} else {
+ 								view.innerHTML = `⚠️ ${server} (<a href="${server}/store/${
+@@ -486,7 +462,7 @@ return view.extend({
+ 				let form_data = new FormData();
+ 				form_data.append('sessionid', rpc.getSessionID());
+ 				form_data.append('filename', '/tmp/firmware.bin');
+-				form_data.append('filemode', 0o600);
++				form_data.append('filemode', 600);
+ 				form_data.append('filedata', response.blob());
+ 
+ 				ui.showModal(_('Uploading...'), [
+@@ -622,9 +598,9 @@ return view.extend({
+ 					'request',
+ 					'',
+ 					'',
+-					_('Use defaults for the safest update')
++					'Use defaults for the safest update'
+ 				);
+-				o = s.option(form.ListValue, 'version', _('Select firmware version'));
++				o = s.option(form.ListValue, 'version', 'Select firmware version');
+ 				for (let candidate of candidates) {
+ 					if (candidate[0] == version && candidate[1] == revision) {
+ 						o.value(
+@@ -724,10 +700,10 @@ return view.extend({
+ 		const data = {
+ 			system_board: promises[1],
+ 			advanced_mode: uci.get_first('attendedsysupgrade', 'client', 'advanced_mode') || 0,
+-			url: uci.get_first('attendedsysupgrade', 'server', 'url').replace(/\/+$/, ''),
++			url: (uci.get_first('attendedsysupgrade', 'server', 'url') || '').replace(/\/+$/, ''),
+ 			branch: get_branch(promises[1].release.version),
+ 			revision: promises[1].release.revision,
+-			efi: promises[2] != null,
++			efi: promises[2],
+ 			rebuilder: uci.get_first('attendedsysupgrade', 'server', 'rebuilder'),
+ 		};
+ 		const firmware = {
+@@ -772,16 +748,230 @@ return view.extend({
+ 					data.revision
+ 				)
+ 			),
++			E('p', { class: 'alert-message warning' },
++				_('Official and public GitHub images replace the custom W1700KNPU kernel and NPU changes. Keeping settings does not preserve those changes.')),
+ 			E(
+ 				'button',
+ 				{
+-					class: 'btn cbi-button cbi-button-positive important',
++					class: 'btn cbi-button cbi-button-action important',
+ 					click: ui.createHandlerFn(this, this.handleCheck, data, firmware),
+ 				},
+-				_('Search for firmware upgrade')
++				_('Search for official firmware upgrade')
++			),
++			' ',
++			E(
++				'button',
++				{
++					class: 'btn cbi-button cbi-button-positive important',
++					click: ui.createHandlerFn(this, this.handleGithubFirmware, firmware),
++				},
++				_('Check for GitHub firmware')
++			),
++		]);
++	},
++
++	handleGithubFirmware: function(firmware) {
++		ui.showModal(_('Fetching GitHub firmware info...'), [
++			E(
++				'p',
++				{ class: 'spinning' },
++				_('Fetching available firmware releases from GitHub')
++			),
++		]);
++
++		// Call the CGI script to get the list of available firmware releases
++		fetch('/cgi-bin/github_check', {
++			headers: { 'X-LuCI-Session': rpc.getSessionID() }
++		})
++			.then(response => response.json())
++			.then(data => {
++				if (data.error) {
++					ui.showModal(_('Error'), [
++						E('p', _('Error fetching firmware info: %s').format(data.error)),
++						E('div', { class: 'right' }, [
++							E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++						]),
++					]);
++					return;
++				}
++
++				// Check if data is an array (multiple releases) or single object
++				let releases = Array.isArray(data) ? data : [data];
++
++				if (releases.length === 0) {
++					ui.showModal(_('No releases found'), [
++						E('p', _('No firmware releases found on GitHub')),
++						E('div', { class: 'right' }, [
++							E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++						]),
++					]);
++					return;
++				}
++
++				// Create a dropdown to select the release
++				let releaseSelect = E('select', { 'class': 'cbi-input-select' });
++
++				// Populate the dropdown with available releases
++				releases.forEach((release, index) => {
++					let optionText = release.tag ? `${release.tag} (${release.version})` : release.version;
++					releaseSelect.appendChild(E('option', { 'value': index }, optionText));
++				});
++
++				let keep = E('input', { type: 'checkbox' });
++				keep.checked = true;
++
++				// Create element for the URL
++				const urlElement = E('td', { class: 'td left' });
++
++				// Function to update the URL based on selected release
++				const updateDetails = function() {
++					const selectedIndex = releaseSelect.value;
++					const selectedRelease = releases[selectedIndex];
++
++					if (selectedRelease) {
++						// Clear previous link and create a new one
++						urlElement.innerHTML = '';
++						urlElement.appendChild(E('a', { href: 'https://github.com/w1700k/builds/releases/tag/' + selectedRelease.tag, target: '_blank' }, _('View on GitHub')));
++					}
++				};
++
++				// Add event listener to update details when selection changes
++				releaseSelect.addEventListener('change', updateDetails);
++
++				let modal_body = [
++					E('p', _('Select a firmware release to install:')),
++					E('p', { class: 'alert-message warning' },
++						_('This installs the public non-OC build, not the merged W1700KNPU build. Custom kernel and NPU changes will be replaced.')),
++					E('div', { class: 'table' }, [
++						E('tr', { class: 'tr' }, [
++							E('td', { class: 'td left', width: '33%' }, _('Release')),
++							E('td', { class: 'td left' }, [releaseSelect])
++						])
++					]),
++					E('div', { class: 'table mt-2' }, [
++						E('tr', { class: 'tr' }, [
++							E('td', { class: 'td left', width: '33%' }, _('URL')),
++							urlElement
++						])
++					]),
++					E(
++						'p',
++						{ class: 'mt-2' },
++						E('label', { class: 'btn' }, [
++							keep,
++							' ',
++							_('Keep settings and retain the current configuration'),
++						])
++					),
++					E('div', { class: 'right' }, [
++						E('div', { class: 'btn', click: ui.hideModal }, _('Cancel')),
++						' ',
++						E(
++							'button',
++							{
++								class: 'btn cbi-button cbi-button-positive important',
++								click: ui.createHandlerFn(this, function () {
++									const selectedIndex = releaseSelect.value;
++									const selectedRelease = releases[selectedIndex];
++
++									if (selectedRelease && selectedRelease.tag) {
++										this.handleGithubInstall(selectedRelease.tag, keep.checked);
++									} else {
++										ui.showModal(_('Error'), [
++											E('p', _('Invalid release selected')),
++											E('div', { class: 'right' }, [
++												E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++											]),
++										]);
++									}
++								}),
++							},
++							_('Install selected firmware')
++						),
++					]),
++				];
++
++				// Initialize details for the initially selected release (first option)
++				updateDetails();
++
++				ui.showModal(_('Available GitHub Releases'), modal_body);
++			})
++			.catch(error => {
++				ui.showModal(_('Error'), [
++					E('p', _('Error fetching firmware info: %s').format(error.message)),
++					E('div', { class: 'right' }, [
++						E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++					]),
++				]);
++			});
++	},
++
++	handleGithubInstall: function(tag, keep) {
++		ui.showModal(_('Downloading from GitHub...'), [
++			E(
++				'p',
++				{ class: 'spinning' },
++				_('Downloading firmware from GitHub to device')
+ 			),
+ 		]);
++
++		// Call the CGI script to download the firmware to /tmp/firmware.bin
++		// Pass the selected tag as a parameter to the github_fetch script
++		fetch(`/cgi-bin/github_fetch?tag=${encodeURIComponent(tag)}`, {
++			method: 'POST',
++			headers: { 'X-LuCI-Session': rpc.getSessionID() }
++		})
++			.then(response => response.json())
++			.then(data => {
++				if (data.error) {
++					ui.showModal(_('Error'), [
++						E('p', _('Error downloading firmware: %s').format(data.error)),
++						E('div', { class: 'right' }, [
++							E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++						]),
++					]);
++					return;
++				}
++
++				if (data.success) {
++					// Firmware is already downloaded to the device and SHA256 verified by the CGI script
++					// Path returned by the CGI script: ${data.path || '/tmp/firmware.bin'}
++					ui.showModal(_('Installing...'), [
++						E('div', { class: 'spinning' }, [
++							E('p', _('Installing the sysupgrade image...')),
++							E('p',
++							_('Once the image is written, the system will reboot.')
++							+ ' ' +
++							_('This should take at least a minute, so please wait for the login screen.')
++							),
++							E('b', _('While you are waiting, do not unpower device!')),
++						]),
++					]);
++
++					L.resolveDefault(callUpgradeStart(keep), {}).then((response) => {
++						// Wait 10 seconds before we try to reconnect...
++						let hosts = keep ? [] : ['192.168.1.1', 'openwrt.lan'];
++						setTimeout(() => { ui.awaitReconnect(...hosts); }, 10000);
++					});
++				} else {
++					ui.showModal(_('Error'), [
++						E('p', _('Unexpected response from firmware download script')),
++						E('div', { class: 'right' }, [
++							E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++						]),
++					]);
++				}
++			})
++			.catch(error => {
++				ui.showModal(_('Download Error'), [
++					E('p', _('Error downloading firmware from GitHub: %s').format(error.message)),
++					E('div', { class: 'right' }, [
++						E('div', { class: 'btn', click: ui.hideModal }, _('Close')),
++					]),
++				]);
++			});
+ 	},
++
+ 	handleSaveApply: null,
+ 	handleSave: null,
+ 	handleReset: null,
 diff --git a/modules/luci-base/htdocs/luci-static/resources/network.js b/modules/luci-base/htdocs/luci-static/resources/network.js
-index b5e4c2b13da7cbc3d26063615e552424ff4eba30..bfa78e1ef910531eec436adbcdffc1a60632424e 100644
+index b5e4c2b..bfa78e1 100644
 --- a/modules/luci-base/htdocs/luci-static/resources/network.js
 +++ b/modules/luci-base/htdocs/luci-static/resources/network.js
 @@ -129,12 +129,144 @@ function getProtocolHandlers() {
@@ -431,7 +785,7 @@ index b5e4c2b13da7cbc3d26063615e552424ff4eba30..bfa78e1ef910531eec436adbcdffc1a6
  
  	/**
 diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
-index f0ac294d1198e2d60b9d29641ecc4fd097ad4b5f..b3123cd471a18e17051197a5b4aab20b734e8b2d 100644
+index c99fa07..45371fc 100644
 --- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
 +++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js
 @@ -14,6 +14,1205 @@
@@ -3019,8 +3373,90 @@ index f0ac294d1198e2d60b9d29641ecc4fd097ad4b5f..b3123cd471a18e17051197a5b4aab20b
  
  								for (let dy of data[i])
  									hosts_radios_wifis[3].push(Object.assign({ radio: radioDev, network: wifiNetwork }, dy));
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js
+index 30dc22f..cf3c06f 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js
+@@ -22,6 +22,13 @@ return view.extend({
+ 		expect: { }
+ 	}),
+ 
++	callScan: rpc.declare({
++		object: 'iwinfo',
++		method: 'scan',
++		params: [ 'device' ],
++		expect: { results: [] }
++	}),
++
+ 	render_signal_badge(signalPercent, signalValue) {
+ 		let icon, title, value;
+ 
+@@ -201,8 +208,8 @@ return view.extend({
+ 		let q;
+ 
+ 		return Promise.all([
+-			radio.dev.getScanList(),
+-			this.callInfo(radio.dev.getName())
++			this.callScan(radio.ifname),
++			this.callInfo(radio.ifname)
+ 		]).then(L.bind(function([results, local_wifi]) {
+ 			const table = radio.table;
+ 			const chan_analysis = radio.graph;
+@@ -413,12 +420,28 @@ return view.extend({
+ 				const tasks = [], ret = [];
+ 
+ 				for (let d of data) {
+-					ret[d.getName()] = { dev : d };
++					ret[d.getName()] = { dev : d, ifname : d.getName() };
+ 
+ 					tasks.push(this.callFrequencyList(d.getName())
+ 					.then(L.bind(function(radio, data) {
+ 						ret[radio.getName()].freq = data;
+ 					}, this, d)));
++
++					/* On single-wiphy multi-radio hardware (e.g. MT7996) iwinfo
++					   resolves the UCI radio name (radio0/1/2) to the wrong
++					   sub-interface for the info/scan methods, so address those
++					   by the radio's actual netdev ifname (e.g. phy0.1-ap0)
++					   instead. freqlist resolves per-radio correctly and is
++					   left on the radio name. */
++					tasks.push(d.getWifiNetworks().then(L.bind(function(radio, nets) {
++						for (let n of nets) {
++							const ifname = n.getIfname();
++							if (ifname) {
++								ret[radio.getName()].ifname = ifname;
++								break;
++							}
++						}
++					}, this, d)));
+ 				}
+ 
+ 				return Promise.all(tasks).then(function() { return ret; })
+@@ -455,6 +478,14 @@ return view.extend({
+ 				if (bands[band].channels.length == 0)
+ 					continue;
+ 
++				/* Single-wiphy multi-radio (e.g. MT7996): iwinfo's freqlist
++				   returns the whole wiphy's channels for every radio, so each
++				   radio would otherwise spawn a tab for all three bands. Build
++				   only this radio's own band. */
++				const devBand = wifiDevs[ifname].dev.get('band');
++				if (devBand && (band + 'g') != devBand)
++					continue;
++
+ 				const csvg = svg.cloneNode(true);
+ 				const table = E('table', { 'class': 'table' }, [
+ 					E('tr', { 'class': 'tr table-titles' }, [
+@@ -477,6 +508,7 @@ return view.extend({
+ 
+ 				this.radios[ifname+band] = {
+ 					dev: wifiDevs[ifname].dev,
++					ifname: wifiDevs[ifname].ifname,
+ 					band: band,
+ 					graph: graph_data,
+ 					table: table,
 diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
-index 8406a1a59d7d0b17ac4e8bd3297b11c837cc0905..8e55b1f8bd229f8d84403b714f751a4bdd417fc5 100644
+index 8406a1a..8e55b1f 100644
 --- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
 +++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js
 @@ -18,6 +18,292 @@ return baseclass.extend({
