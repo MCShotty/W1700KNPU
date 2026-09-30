@@ -1,0 +1,95 @@
+{
+  "captured_utc": "2026-09-23T20:58:56.539248+00:00",
+  "source_commit": "18eae4c7269bc753d8dd5e7bc47078593edfc171",
+  "image_sha256": "132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670",
+  "image_bytes": 26932042,
+  "fit_readback_matches": true,
+  "rollback_image_sha256": "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+  "board": "gemtek,w1700k-ubi",
+  "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "kernel": "6.18.52",
+  "revision": "r36536-merged-288d79449f",
+  "flash_method": "Pinned wired SSH, default settings-preserving sysupgrade, no force; COM3 serial capture.",
+  "write_scope": [
+    "ubi/fit",
+    "ubi/rootfs_data"
+  ],
+  "protected_hashes_unchanged": [
+    "vendor",
+    "chainloader",
+    "reserved_bmt",
+    "ubootenv",
+    "ubootenv2",
+    "factory"
+  ],
+  "private_settings_overlay_factory_environment_backups_verified": true,
+  "selected_settings_byte_identical": [
+    "network",
+    "wireless",
+    "dhcp",
+    "dropbear"
+  ],
+  "npu": {
+    "runtime_state": "provider-attached",
+    "compiled_support": true,
+    "npu_provider_attached": true,
+    "ppe_provider_attached": true,
+    "hwrro_mode": 1,
+    "rx_token_size": 32768
+  },
+  "installed_module_sha256": {
+    "mt76.ko": "9ef3d7c14b93a762a000154e7559c4f430bf8f90fbfa5fade8caedb95efd22f8",
+    "mt76-connac-lib.ko": "7fa29e6ff93e216ebedc038244e67e49f4b28a347d2829e1850effd262e26b20",
+    "mt7996e.ko": "678a4f350a7349ee28ef3585812381d106f0c31104634d2739b21cad75279ecd",
+    "airoha_npu.ko": "d69111e0be328369660b1a6619d18ae9a2e1b2f471245ffcb019410e26614e1d"
+  },
+  "wired_ping": {
+    "sent": 5,
+    "received": 5,
+    "lost": 0
+  },
+  "luci": {
+    "https_responds": true,
+    "http_status": 403,
+    "login_form_valid": true,
+    "authenticated_session_tested": false,
+    "self_signed_tls_check_bypassed_for_unauthenticated_probe": true
+  },
+  "idle_observation_uptimes_seconds": [
+    51.63,
+    81.8,
+    112.04,
+    142.28,
+    172.56
+  ],
+  "last_uptime_seconds": 478.52,
+  "kernel_panics_oops_or_call_traces_observed": false,
+  "unexpected_reboot_observed": false,
+  "health_commands_failed": 0,
+  "wifi_virtual_interfaces_active": 0,
+  "wireless_validation_passed": false,
+  "wireless_failure_preexisting": true,
+  "wireless_diagnostic_receipt": "wireless-diagnostic.json",
+  "cpufreq_driver_report": "policy0:ondemand:500000:1200000:1150000",
+  "boot_warnings": [
+    "Warning - bad CRC, using default environment",
+    "Cannot parse config file '/etc/fw_env.config'",
+    "Failed to find NVMEM device"
+  ],
+  "diagnostic_source_labels_stale": {
+    "reported_openwrt_base": "28ba2708f1f609bfd134975808b2bc6ed9dc9742",
+    "expected_openwrt_base": "288d79449f622a37c727cb12e81e85dba822aecb",
+    "reported_mt76": "be5ce7910521492d4a2e4ce7ee3843680a46c047",
+    "expected_mt76": "01367e60db433534ad0aa3d3b6c886de8cb7d44c",
+    "installed_modules_verified_against_image": true
+  },
+  "basic_boot_passed": true,
+  "full_npu_acceptance": false,
+  "limits": [
+    "No Wi-Fi association or transmit-power changes; no client throughput, offload traffic or recovery stress test.",
+    "Provider attachment is initialization evidence, not physical drain or complete lifecycle proof.",
+    "Cold loader/caller/postgate integration and full recovery remain unfinished.",
+    "Boot environment and NVMEM warnings are retained for follow-up; protected bytes were unchanged.",
+    "Raw serial/system logs and private configuration/calibration backups remain under ignored .local/flash-20260923."
+  ]
+}

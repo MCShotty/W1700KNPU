@@ -1,0 +1,37 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "captured_utc": "2026-09-23T21:03:37.537483+00:00",
+    "validator_exit": 1,
+    "diagnostics": [
+      "radio1 channel 161 is not valid for physical 5g country SA.",
+      "radio1 5g EHT80 is not valid on channel 161 for country SA with the current regulatory database."
+    ],
+    "same_errors_present_before_flash": true,
+    "selected_configuration_hashes_unchanged": true,
+    "active_wifi_virtual_interfaces": 0,
+    "settings_or_regulatory_changes_performed": false,
+    "client_traffic_tested": false,
+    "scope": "Pre-existing retained configuration is rejected by both old and new images; this does not prove a new Wi-Fi regression or working wireless traffic."
+  },
+  "questions": {
+    "new_regression": {
+      "type": "choice",
+      "instructions": "Does the supplied before/after evidence establish that this flash introduced the observed channel-validation failure? Judge only this specific failure, not every possible Wi-Fi behavior.",
+      "criteria": {
+        "introduced": "The observed rejection first appears after flashing.",
+        "preexisting": "The same rejection is explicitly present before flashing and retained configuration is unchanged.",
+        "unknown": "The evidence does not distinguish introduction from a pre-existing rejection."
+      }
+    },
+    "wireless_acceptance": {
+      "type": "choice",
+      "instructions": "What acceptance claim does this read-only wireless diagnostic establish?",
+      "criteria": {
+        "client_traffic_passed": "Actual client association and traffic passed.",
+        "blocked_by_configuration": "The validator rejects the retained settings and there are no active interfaces; client operation is not established.",
+        "unknown": "There is insufficient evidence to classify the diagnostic."
+      }
+    }
+  }
+}

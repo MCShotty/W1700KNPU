@@ -11,10 +11,14 @@ Our provider/driver corrections and Linux control client are build inputs, with
 WLAN NPU enabled. The RV32 core has a normal build target. There is no separate
 release-ready versus experimental source track. Build and hardware verification
 remain distinct. The complete image builds and passes offline FIT/board/package/
-module checks as `r36536-merged-288d79449f`; it has not been flashed. See the
+module checks as `r36536-merged-288d79449f`. A user-authorized flash now passes
+basic boot and wired management checks, with unchanged protected storage.
+Wi-Fi remains blocked by the same retained channel-161/SA validation error seen
+before flashing; client traffic and complete NPU recovery are not validated.
+See the [physical boot report](research/checkpoints/2026-09-23-nonoc-flash/REPORT.md) and the
 [merge report](docs/NONOC_MERGE.md) for the image path, SHA256 and test receipts.
 
-The last router-tested image is **Daybreak21 WLAN-DMA R1 (2026-09-05)**,
+The retained rollback baseline is **Daybreak21 WLAN-DMA R1 (2026-09-05)**,
 Linux 6.18.44, SHA256
 `0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f`.
 It deliberately compiles out WLAN NPU support; Ethernet offload is separate.

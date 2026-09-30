@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-23 (unified non-OC source/image build and offline checks pass)
+Last updated: 2026-09-24 (merged image flashed; basic boot passes, existing Wi-Fi configuration block remains)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,25 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Status - Unified Non-OC Merge - 2026-09-23
+## Current Status - Merged Image Physical Boot - 2026-09-24
+
+- User-authorized settings-preserving flash runs `r36536-merged-288d79449f`,
+  kernel 6.18.52, on the serial/SSH-verified W1700K. Flashed FIT readback matches
+  SHA256 `132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
+- Wired SSH, five lossless pings and the HTTPS LuCI login form pass. NPU/PPE
+  providers are attached; installed module hashes match the built image. The
+  observed idle window has no panic/oops/reboot. Protected partition/UBI-volume
+  and selected network/Wi-Fi/DHCP/SSH configuration hashes remain unchanged.
+- Wi-Fi does not start: the retained radio1 channel 161/EHT80 is rejected under
+  configured country SA. Identical errors occur before flashing. No radio or
+  host association settings were changed; wireless traffic remains untested.
+- Status source-version labels are stale; boot environment/NVMEM warnings also
+  need follow-up. Loader/caller/postgate and complete physical recovery remain
+  unfinished. R1 is retained for rollback. Raw backups/logs are private under
+  `.local/flash-20260923/`; sanitized evidence:
+  `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
+
+## Previous Status - Unified Non-OC Merge - 2026-09-23
 
 - User-directed source integration now uses kernel 6.18.52, mt76 fork 01367e60
   and LuCI d245681, with WLAN NPU enabled and implemented host/provider changes

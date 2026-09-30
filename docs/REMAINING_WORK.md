@@ -9,7 +9,9 @@ complete image, 60-file source replay, focused driver/emulation tests and offlin
 FIT/board/package/module verification pass. The user's new instruction
 supersedes the former policy of leaving implemented candidates outside the
 build; historical checkpoint descriptions below retain their original scope.
-Physical testing remains deferred and the full NPU implementation is incomplete.
+A subsequent user-authorized flash passes basic boot and wired management.
+Protected bytes and selected settings are unchanged, but the full NPU
+implementation and traffic/recovery acceptance remain incomplete.
 The new local image is `r36536-merged-288d79449f`, SHA256
 `132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
 
@@ -18,16 +20,26 @@ parser and CPU lifetime, V2
 composition and earlier NPU/Wi-Fi evidence. This is the resume checklist, not a completion percentage.
 The current source includes the detached-provider allocation guard and mailbox
 publication/timeout-ownership fix (patch 926) and memory preflight (patch 927,
-kernel/ABI/Ghidra verification passed). The last
-router-tested release is still Daybreak21 R1 with WLAN NPU compiled out.
-The last recorded router state additionally has userspace script hotfixes and a companion
-nl80211 userspace library fix; this is not a new tested firmware image.
+kernel/ABI/Ghidra verification passed). The merged 6.18.52 image now runs on the
+router with NPU/PPE providers attached. Daybreak21 R1 with WLAN NPU compiled out
+remains the protected rollback baseline. Basic flash evidence:
+`research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
 
 ## Resume Blockers
 
-The merge includes the newer platform/Wi-Fi/userspace sources and all currently
-implemented host/provider corrections. It does not authorize router contact,
-flashing or subagents. Remaining NPU implementation priorities are:
+The later flash request authorized the completed basic boot/management check,
+not arbitrary radio changes, subagents or recovery stress. Follow-ups from it:
+
+- Resolve the pre-existing retained radio1 channel 161/EHT80 validation failure
+  under configured country SA before wireless acceptance. The same failure is
+  present in pre-flash logs; no active Wi-Fi interfaces exist after boot. No
+  regulatory/channel/transmit-power setting was changed during the boot check.
+- Correct hard-coded old source-version labels in `w1700k-wlan-npu-mode`;
+  actual installed module hashes already match the new image.
+- Investigate boot environment CRC and early NVMEM/fw_env configuration
+  warnings, while preserving the unchanged protected data.
+
+Remaining NPU implementation priorities are:
 
 - Establish contained cold-provider/reset lifetime and complete engine coverage.
 - Implement fresh loader identity, storage reservation and publication.

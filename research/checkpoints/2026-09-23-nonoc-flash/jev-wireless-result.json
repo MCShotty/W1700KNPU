@@ -1,0 +1,55 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\flash-20260923\\jev-wireless-request.json",
+  "request_sha256": "a6a12a7db32ae8e5a19db7ad3522d44ed3d1987808e8dbb21a662f8e37b72bd0",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "new_regression": {
+      "type": "choice",
+      "instructions": "Does the supplied before/after evidence establish that this flash introduced the observed channel-validation failure? Judge only this specific failure, not every possible Wi-Fi behavior.",
+      "criteria": {
+        "introduced": "The observed rejection first appears after flashing.",
+        "preexisting": "The same rejection is explicitly present before flashing and retained configuration is unchanged.",
+        "unknown": "The evidence does not distinguish introduction from a pre-existing rejection."
+      }
+    },
+    "wireless_acceptance": {
+      "type": "choice",
+      "instructions": "What acceptance claim does this read-only wireless diagnostic establish?",
+      "criteria": {
+        "client_traffic_passed": "Actual client association and traffic passed.",
+        "blocked_by_configuration": "The validator rejects the retained settings and there are no active interfaces; client operation is not established.",
+        "unknown": "There is insufficient evidence to classify the diagnostic."
+      }
+    }
+  },
+  "elapsed_ms": 776,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "new_regression": {
+        "type": "choice",
+        "choice": "preexisting",
+        "confidence": 1.0,
+        "probabilities": {
+          "preexisting": 1.0,
+          "unknown": 0.0,
+          "introduced": 0.0
+        }
+      },
+      "wireless_acceptance": {
+        "type": "choice",
+        "choice": "blocked_by_configuration",
+        "confidence": 0.99,
+        "probabilities": {
+          "blocked_by_configuration": 1.0,
+          "client_traffic_passed": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 681,
+      "output_tokens": 95
+    }
+  }
+}

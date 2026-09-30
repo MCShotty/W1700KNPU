@@ -19190,3 +19190,52 @@ Status and boundary:
   This publication performs no rebuild, router contact or flashing. Historical
   merge-session statements that no commit/push had occurred describe that
   completed session, before this separately authorized publication.
+
+## 2026-09-24 - User-Authorized Merged Image Flash And Basic Boot
+
+- The later user request explicitly authorized flashing the merged image to
+  check whether it boots. Verified the exact W1700K using pinned wired SSH and
+  a matching COM3 console marker. The router was on kernel 6.18.44 beforehand.
+  Offline image checks and on-router `sysupgrade -T` passed without force.
+- Saved and hash-verified private settings, full overlay, factory and both
+  boot-environment backups before writing. Verified the retained R1 rollback
+  image. Normal settings-preserving sysupgrade replaced only `fit` and
+  `rootfs_data` in MTD `ubi` (0x00700000-0x1be00000), with serial capture.
+- The new physical boot reports Gemtek W1700K, kernel 6.18.52 and revision
+  `r36536-merged-288d79449f`. Reading 26,932,042 bytes back from the installed FIT
+  matches SHA256 `132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`.
+  Four installed NPU/mt76 module hashes match the accepted image.
+- Wired SSH, five lossless pings and the HTTPS LuCI login form pass. NPU/PPE
+  providers attach and MT7996 firmware initializes. Five monotonic uptime
+  samples span 120.93 seconds; later readback at 478.52 seconds remains online.
+  No kernel panic, oops, call trace or unexpected reboot was observed.
+- Byte hashes remain unchanged for vendor, chainloader, reserved_bmt, ubootenv,
+  ubootenv2 and factory. Network, wireless, DHCP and Dropbear configuration
+  hashes also match. No host Wi-Fi association, radio/channel/regulatory or
+  transmit-power setting was changed, and no rollback was required.
+- Wi-Fi is not operational: retained radio1 channel 161/EHT80 fails validation
+  for configured country SA, blocking all three setup attempts. The exact same
+  diagnostics are in the pre-flash logs. Configuration is unchanged; this is
+  a pre-existing block, not a new regression demonstrated by this flash.
+- Follow-ups: stale hard-coded source hashes in the NPU status script and boot
+  environment CRC/fw_env/NVMEM warnings. Protected bytes are unchanged. Basic
+  boot/provider attachment does not prove client throughput, physical drains,
+  cleanup/rearm or complete NPU recovery; loader/caller/postgate gaps remain.
+- Sanitized report: `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
+  Raw console/system logs and protected backups stay in ignored
+  `.local/flash-20260923/`. No new GitHub publication, raw protected-data upload,
+  bootloader/factory write, restricted INODE/DESC test or subagent occurred.
+
+## 2026-09-30 - Mainline Flash Checkpoint Publication
+
+- The user requested merging and committing any remaining work, then resuming
+  NPU implementation. A fresh fetch finds one worktree on `main`, matching
+  `origin/main` at `18eae4c`; no separate source branch remains to merge.
+- Publish the pending sanitized physical-boot checkpoint and six tracker/doc
+  updates. All seven checkpoint manifest entries match their recorded lengths
+  and SHA256 values; all checkpoint JSON parses and `git diff --check` passes.
+  Existing Jev boot and wireless judgments were reviewed against their unchanged
+  evidence. Raw private inputs and generated builds remain ignored.
+- Hardware observations retain their September 24 scope. No new hardware test
+  is implied by this publication. Resume at contained cold-provider lifetime,
+  loader identity/publication, caller integration and physical drain/rearm.

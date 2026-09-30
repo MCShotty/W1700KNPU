@@ -7107,3 +7107,25 @@ No hardware acceptance is claimed.
 Current details and remaining loader/caller/postgate/drain implementation gaps:
 `docs/NONOC_MERGE.md`. No router, live Wi-Fi, protected-data, restricted-selector,
 subagent, flash or commit/push action.
+
+## Merged Image Flash And Basic Boot - 2026-09-24
+
+The user's subsequent flash request superseded the earlier no-hardware scope
+for this basic boot check. Pinned wired SSH and a COM3 console marker verified
+the W1700K. The image hash, model/layout, private backups, rollback image and
+on-router compatibility check passed before settings-preserving sysupgrade.
+Only the FIT/data volumes inside `ubi` were replaced; no force option was used.
+
+Kernel 6.18.52 and `r36536-merged-288d79449f` boot successfully. FIT readback
+matches `132a35c746e008345032d1c862ea1ace1ef7a27d87a3fd363b8225045554e670`;
+four installed module hashes match the built image. Wired SSH, five pings and
+the HTTPS login form pass. NPU/PPE attach; no panic/oops/reboot is observed in
+the captured idle window. Protected storage and selected configuration hashes
+are unchanged; rollback was not needed.
+
+Wi-Fi remains blocked by retained radio1 channel 161/EHT80 under configured SA.
+Identical validator failures occur before flashing. No radio settings or host
+association were changed. Status source labels and boot environment/NVMEM
+warnings need follow-up. Client traffic and full NPU recovery remain untested.
+Sanitized report: `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
+Private logs/backups remain under ignored `.local/flash-20260923/`.

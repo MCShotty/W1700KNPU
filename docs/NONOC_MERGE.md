@@ -1,7 +1,11 @@
 # Unified Experimental Non-OC Merge
 
 Status: source merge, complete image build and offline image verification pass.
-No image has been flashed or hardware-tested in this merge.
+The subsequent user-authorized flash passes basic boot and wired management,
+with matching FIT readback and unchanged protected data. Wi-Fi remains blocked
+by a pre-existing retained channel-161/SA validation error. See
+`research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`; full hardware/NPU
+acceptance remains open.
 
 The user's 2026-09-23 instruction makes the current implemented changes one
 experimental source/build target. Earlier checkpoint labels such as
@@ -110,8 +114,10 @@ Local image:
 - Board: `gemtek,w1700k-ubi`; compatibility: `2.0`.
 - Source lock SHA256: `1411822d0022b531f690eb8c28c1ca48e3d23985e1a9d8835bab7c6d6254176a`.
 
-This is a locally built experimental image, not a flashed or router-accepted
-release. No commit or push was performed in this merge session.
+This is an experimental image with a subsequent basic physical boot check,
+not full router/client/recovery acceptance. The original merge session did not
+flash or publish; the separately requested GitHub commit and flash are recorded
+in the ledger and physical boot checkpoint.
 
 For a fresh build destination, run `tools/prepare_build.py`, then
 `tools/build_firmware.py --name new-build --jobs 4`. Existing destinations and
@@ -128,7 +134,8 @@ Physical ownership/drains, complete reset/removal/rearm and stock parity remain
 unverified. These are implementation gaps inside this unified experimental
 project, not changes withheld on the grounds that they are experimental.
 
-The last router-tested packaged baseline is still Daybreak21 R1 with WLAN NPU
-disabled. Existing protected recovery, calibration, credentials and rollback
-images are untouched. There has been no restricted INODE/DESC execution,
-subagent delegation, router contact or flashing.
+Daybreak21 R1 with WLAN NPU disabled remains the protected rollback baseline.
+The merged image is now running after the separately authorized basic flash
+test. Protected recovery, calibration, credentials and rollback images are
+unchanged. There was no restricted INODE/DESC execution, subagent delegation,
+radio configuration change or recovery stress test.
