@@ -1,0 +1,54 @@
+{
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "world",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-world-first.log",
+    "started": 1790771085.4316928,
+    "exit_code": 2,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790771750.5857592
+  },
+  "seconds": 665.154066324234,
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-world-first.json": {
+      "sha256": "f047f1c49f71be4df215398f201ef0ea383dd133ebb690ef7e64216003c74d33",
+      "bytes": 1519
+    },
+    ".local/merge-nonoc-20260923/build-cloud-world-first.log": {
+      "sha256": "45fa35c6a5d578f599a18ab33923d1e6226b9b05ba2dafe20fbb81be0874cc57",
+      "bytes": 502714
+    },
+    ".local/cloud-build-access/guard-cloud-world-first.json": {
+      "sha256": "a6900f4c321de9cfac324887cbb3f4f02245c658a1610165a3ba54fe41de8dd7",
+      "bytes": 5951
+    }
+  }
+}

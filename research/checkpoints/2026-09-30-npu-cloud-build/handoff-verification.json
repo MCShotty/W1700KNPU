@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "pages": 2,
+  "visual_review": "Both final page PNGs reviewed after identity caveat edit; readable text, complete hashes, no clipping or overlap.",
+  "a11y_issues": 0,
+  "files": {
+    ".local/cloud-deliverables/W1700K-physical-boot-handoff-20260930.docx": {
+      "bytes": 39604,
+      "sha256": "27850134adc878d33bffffd529c08f28c61bfb94886ae8244f75aa8581ed881b"
+    },
+    "research/checkpoints/2026-09-30-npu-cloud-build/PHYSICAL_BOOT_HANDOFF.md": {
+      "bytes": 6947,
+      "sha256": "424f9755263703471b00238049afe3d94bc4534e52e9e29c6e560b4c3d3cec59"
+    }
+  },
+  "critical_content_checks": [
+    "6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d",
+    "0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f",
+    "W1700K-NPU-candidate-20260930-sysupgrade.itb",
+    "CONFIG_TARGET_ROOTFS_INITRAMFS",
+    "device 1.0 versus image 2.0",
+    "sysupgrade -T",
+    "No new hardware test",
+    "r36536-merged-288d79449f",
+    "Those labels cannot identify this update",
+    "29a25d03b19e8927a230d5f82369325d26af064dd73b066761a9c35b52e6eed9",
+    "other three mt76 modules intentionally match"
+  ],
+  "device_operations": false,
+  "uploaded": false,
+  "other_repo_docs_edited": false
+}

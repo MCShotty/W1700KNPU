@@ -1,0 +1,56 @@
+{
+  "receipt_date": "2026-09-30",
+  "status": "passed",
+  "scope": "Workspace-local tooling installation and synthetic x86_64 ELF smoke only",
+  "ghidra": {
+    "version": "12.1.2",
+    "version_reason": "Matches repository tools/ghidra/*.ps1 and archived project evidence",
+    "release_url": "https://github.com/NationalSecurityAgency/ghidra/releases/tag/Ghidra_12.1.2_build",
+    "download_url": "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.1.2_build/ghidra_12.1.2_PUBLIC_20260605.zip",
+    "archive_sha256": "b62e81a0390618466c019c60d8c2f796ced2509c4c1aea4a37644a77272cf99d",
+    "archive_size": 572803866,
+    "verification": "Digest matched official NSA GitHub release asset digest and release body",
+    "required_java_min": 21,
+    "installation": ".local/cloud-tools/ghidra_12.1.2_PUBLIC"
+  },
+  "java": {
+    "vendor": "Eclipse Adoptium Temurin",
+    "version": "21.0.12.1+1",
+    "architecture": "x64",
+    "os": "linux",
+    "api_url": "https://api.adoptium.net/v3/assets/latest/21/hotspot?architecture=x64&image_type=jdk&os=linux&vendor=eclipse",
+    "download_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+    "archive_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+    "archive_size": 207473347,
+    "verification": "Digest matched official Adoptium API and release SHA256 file",
+    "installation": ".local/cloud-tools/jdk-21.0.12.1+1"
+  },
+  "launcher": ".local/cloud-tools/bin/analyzeHeadless",
+  "smoke": {
+    "input_sha256": "e8e93721cef0cde554940541ee1c5cb08788fed1b98fbdb38249d1a131d2833a",
+    "source_sha256": "c084e588a280cfaccfff61d4731cb4dde3eb20739bf98fd44da9591f9362e4c9",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "export_script": "tools/ghidra/ExportMailboxContract.java",
+    "export_script_sha256": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd",
+    "analysis": "passed",
+    "language": "x86:LE:64:default",
+    "executable_functions_analyzed": 10,
+    "functions_exported": 2,
+    "failed_decompilations": 0,
+    "known_loader_notice": "GNU hash table markup notice and unresolved external libc startup symbol; selected synthetic functions both decompile successfully; no external libraries imported"
+  },
+  "filesystem": {
+    "free_bytes_after": 24360529920,
+    "wrapper_and_evidence_ignored_by_git": true,
+    "free_bytes_after_reproduction": 24358137856
+  },
+  "limits": [
+    "Not NPU, AArch64, or RISC-V target validation",
+    "No firmware, private device binary, or old Ghidra project imported",
+    "No host package/security/APT settings changed",
+    "No runtime source edits, hardware changes, publication, or existing project upgrades",
+    "GUI not tested"
+  ],
+  "reproduce_command": "bash .local/cloud-build-access/ghidra/reproduce-smoke.sh",
+  "reproduction_script_validated": true
+}

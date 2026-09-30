@@ -21,7 +21,19 @@ leaves the ledger unchanged.
 
 ## Current Checkpoint - 2026-09-30
 
-- Source checkpoint `ac4c639` includes paired firmware preflight in the unified
+- Current cloud working source adds pre-copy MT7996 WLAN memory admission and
+  an immutable setup plan, with generic profiles keeping caller-local plans.
+  The canonical patch and source lock are updated. Portable actual-C replay
+  passes 273 loader/165 added load cases, three original controls, nine mutants,
+  6,174 retry and 44 V2 executor cases. The current AArch64 provider module
+  and ten RV32 components compile/link. The complete candidate image now
+  passes FIT/board/firmware/218-package/78-module checks; physical boot and
+  ownership/drain acceptance remain open. See the cloud-build report/handoff.
+  Evidence: `research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md`.
+- Geometry admission and successful image copies are not containment, exclusive
+  memory reservation or physical drain witnesses. The engine/reset matrix in
+  that checkpoint records the separate unresolved owner contracts.
+- Prior published source checkpoint `ac4c639` includes paired firmware preflight in the unified
   kernel patch on Linux 6.18.52 and mt76 `01367e60`. Both images validate before
   either copy; empty images fail and acquired firmware is released on error.
 - Evidence: `research/checkpoints/2026-09-30-npu-loader/REPORT.md`. Actual-C
@@ -39,7 +51,10 @@ leaves the ledger unchanged.
 
 - Work here, not in the superseded Windows task directory. Historical paths
   in evidence are provenance, not current workspace instructions.
-- The local source is WSL Ubuntu `/home/captain/W1700KNPU`, accessible from
+- Cloud continuation is in the transferred native-Linux checkout. Generated
+  WSL build trees, credentials and private device data were not transferred;
+  do not assume the historical `.build/` paths exist here.
+- The original local source is WSL Ubuntu `/home/captain/W1700KNPU`, accessible from
   Windows at `\\wsl.localhost\Ubuntu\home\captain\W1700KNPU`. The Ubuntu backing
   disk is under `D:\WSL\Ubuntu`. The prior `D:\W1700K-Recovery` snapshot path
   was absent on 2026-09-30; verify the current location of recovery material
@@ -48,7 +63,7 @@ leaves the ledger unchanged.
   synthetic-router-tested, and actual-client-tested behavior. Stock NPU parity
   remains incomplete. Never label the WLAN-NPU-disabled baseline stock parity.
 - Use `firmware/source-lock.json`, cumulative patches and overlays as source
-  authority. Build on WSL native ext4, never directly on NTFS. Generated builds
+  authority. Build on native Linux storage (including WSL ext4), never directly on NTFS. Generated builds
   and private inputs belong under ignored `.build/` and `.local/` paths.
 - Preserve bootloader, factory/calibration, known-good rollback, and private
   router backups. Never upload keys, credentials, or raw device backups.

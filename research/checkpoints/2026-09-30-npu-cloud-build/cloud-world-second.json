@@ -1,0 +1,54 @@
+{
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "world",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-world-second.log",
+    "started": 1790772191.4343436,
+    "exit_code": -15,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790773471.6090684
+  },
+  "scope": "Disk-guard interruption, not a passing world build",
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-world-second.json": {
+      "sha256": "f62b1209cb088c60f3d96de9a1d025dbda5c40c74c61a4f436e341df71b26a96",
+      "bytes": 1531
+    },
+    ".local/merge-nonoc-20260923/build-cloud-world-second.log": {
+      "sha256": "d6a4a857c4408863d742cb0c827a38c2bcd0706eea1db7ac34be58663118a0a1",
+      "bytes": 26985589
+    },
+    ".local/cloud-build-access/guard-cloud-world-second.json": {
+      "sha256": "9d42e06071bd708843e79343ba18dcb310a7ff29b297fee3113bac92417142fc",
+      "bytes": 10779
+    }
+  }
+}

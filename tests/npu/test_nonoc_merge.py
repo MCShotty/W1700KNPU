@@ -33,65 +33,8 @@ def run(command, log, env=None):
     return done.stdout
 
 
-def main():
-    global SOURCE, HEADER, CONTROL
-    args = argparse.ArgumentParser()
-    args.add_argument('--name', default='verified')
-    args.add_argument('--prepared', action='store_true', help='Test the actual sources used by the image build')
-    options = args.parse_args()
-    assert re.fullmatch('[a-z][a-z0-9-]*', options.name)
-    dest = WORK / ('tests-' + options.name)
-    assert not dest.exists()
-    dest.mkdir()
-    bindings = []
-    if options.prepared:
-        lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
-        build = ROOT / lock['build_directory']
-        linux = build / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581'
-        kernel = linux / ('linux-' + lock['kernel'])
-        matches = [path for path in linux.glob('mt76-*') if (path / 'npu.c').is_file()]
-        assert len(matches) == 1
-        mt76 = matches[0]
-        for label, tree in (('kernel', kernel), ('mt76', mt76)):
-            names = {row['path'] for row in json.loads((WORK / (label + '-merge.json')).read_text())}
-            if label == 'mt76':
-                names.add('Makefile')
-                names.update(str(path.relative_to(WORK / 'mt76-merged'))
-                             for path in (WORK / 'mt76-merged/w1700k').rglob('*') if path.is_file())
-            for name in sorted(names):
-                staged, actual = WORK / (label + '-merged') / name, tree / name
-                assert sha(staged) == sha(actual), ('prepared-source-drift', label, name)
-                bindings.append(dict(staged=str(staged.relative_to(ROOT)),
-                                     prepared=str(actual.relative_to(ROOT)), sha256=sha(actual)))
-        SOURCE = kernel / 'drivers/net/ethernet/airoha/airoha_npu.c'
-        HEADER = kernel / 'include/linux/soc/airoha/airoha_offload.h'
-        CONTROL = mt76 / 'w1700k'
-    source, header = SOURCE.read_text(), HEADER.read_text()
-    retry = extract.function(source, 'airoha_npu_wlan_cmd_with_retry')
-    preflight.HEADER = HEADER
-    if 'static int airoha_npu_request_firmware(' in source:
-        preflight.PREFIX = preflight.PREFIX.replace(
-            'static int airoha_npu_load_firmware(',
-            'static int airoha_npu_load_firmware_one(')
-        preflight.PREFIX += '''
-struct airoha_npu_soc_data;
-static int airoha_npu_load_firmware(struct device *, void *, void *,
-                                   const struct airoha_npu_soc_data *);
-'''
-        preflight.MIDDLE += '''
-static int airoha_npu_load_firmware(struct device *d, void *addr, void *base,
-                                   const struct airoha_npu_soc_data *images) {
-    int err = airoha_npu_load_firmware_one(d, addr, images->fw_rv32.name,
-                                          images->fw_rv32.max_size);
-    return err ? err : airoha_npu_load_firmware_one(d, base,
-                         images->fw_data.name, images->fw_data.max_size);
-}
-'''
-    preflight.MIDDLE += '\nstatic void mdelay(unsigned int msec) { (void)msec; }\n' + retry
-    lib = preflight.build(source, source, 'memory', dest)
-    cases = preflight.suite(lib)
-    print(json.dumps(dict(stage='memory-preflight', cases=len(cases))), flush=True)
-    retry_source = r'''
+def retry_harness(retry):
+    return r'''
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -145,6 +88,77 @@ int main(void) {
     return 0;
 }
 '''
+
+
+def main():
+    global SOURCE, HEADER, CONTROL
+    args = argparse.ArgumentParser()
+    args.add_argument('--name', default='verified')
+    args.add_argument('--prepared', action='store_true', help='Test the actual sources used by the image build')
+    options = args.parse_args()
+    assert re.fullmatch('[a-z][a-z0-9-]*', options.name)
+    dest = WORK / ('tests-' + options.name)
+    assert not dest.exists()
+    dest.mkdir()
+    bindings = []
+    if options.prepared:
+        lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
+        build = ROOT / lock['build_directory']
+        linux = build / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581'
+        kernel = linux / ('linux-' + lock['kernel'])
+        matches = [path for path in linux.glob('mt76-*') if (path / 'npu.c').is_file()]
+        assert len(matches) == 1
+        mt76 = matches[0]
+        for label, tree in (('kernel', kernel), ('mt76', mt76)):
+            names = {row['path'] for row in json.loads((WORK / (label + '-merge.json')).read_text())}
+            if label == 'mt76':
+                names.add('Makefile')
+                names.update(str(path.relative_to(WORK / 'mt76-merged'))
+                             for path in (WORK / 'mt76-merged/w1700k').rglob('*') if path.is_file())
+            for name in sorted(names):
+                staged, actual = WORK / (label + '-merged') / name, tree / name
+                assert sha(staged) == sha(actual), ('prepared-source-drift', label, name)
+                bindings.append(dict(staged=str(staged.relative_to(ROOT)),
+                                     prepared=str(actual.relative_to(ROOT)), sha256=sha(actual)))
+        SOURCE = kernel / 'drivers/net/ethernet/airoha/airoha_npu.c'
+        HEADER = kernel / 'include/linux/soc/airoha/airoha_offload.h'
+        CONTROL = mt76 / 'w1700k'
+    source, header = SOURCE.read_text(), HEADER.read_text()
+    retry = extract.function(source, 'airoha_npu_wlan_cmd_with_retry')
+    if 'static int airoha_npu_wlan_prepare_memory(' in source:
+        # The current loader captures MT7996 geometry before copies; the legacy
+        # setup-time suite intentionally tests the older admission boundary.
+        command = [sys.executable, ROOT / 'tests/npu/test_cold_memory_plan.py',
+                   '--name', 'merge-' + options.name, '--candidate-source', SOURCE]
+        output = run(command, dest / 'cold-memory-plan.log')
+        plan_result = json.loads(output.splitlines()[-1])
+        cases = plan_result['matrix']
+        print(json.dumps(dict(stage='memory-plan', result=plan_result)), flush=True)
+    else:
+        preflight.HEADER = HEADER
+        if 'static int airoha_npu_request_firmware(' in source:
+            preflight.PREFIX = preflight.PREFIX.replace(
+                'static int airoha_npu_load_firmware(',
+                'static int airoha_npu_load_firmware_one(')
+            preflight.PREFIX += '''
+    struct airoha_npu_soc_data;
+    static int airoha_npu_load_firmware(struct device *, void *, void *,
+                                       const struct airoha_npu_soc_data *);
+    '''
+            preflight.MIDDLE += '''
+    static int airoha_npu_load_firmware(struct device *d, void *addr, void *base,
+                                       const struct airoha_npu_soc_data *images) {
+        int err = airoha_npu_load_firmware_one(d, addr, images->fw_rv32.name,
+                                              images->fw_rv32.max_size);
+        return err ? err : airoha_npu_load_firmware_one(d, base,
+                             images->fw_data.name, images->fw_data.max_size);
+    }
+    '''
+        preflight.MIDDLE += '\nstatic void mdelay(unsigned int msec) { (void)msec; }\n' + retry
+        lib = preflight.build(source, source, 'memory', dest)
+        cases = preflight.suite(lib)
+        print(json.dumps(dict(stage='memory-preflight', cases=len(cases))), flush=True)
+    retry_source = retry_harness(retry)
     retry_path = dest / 'retry.c'
     retry_path.write_text(retry_source)
     compiler = shutil.which('clang')

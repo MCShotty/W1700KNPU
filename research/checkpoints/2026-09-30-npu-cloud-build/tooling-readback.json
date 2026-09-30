@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-09-30T11:51:34.788956+00:00",
+  "passed": true,
+  "scope": "Read-only tooling/provenance/documentation review followed by this authorized ignored receipt write; no compile, install, NPU test, hardware operation or running-build modification.",
+  "completed_readback": {
+    "directly_referenced_files": 83,
+    "directly_referenced_bytes": 1983317341,
+    "installed_file_symlink_archive_wrapper_entries": 1357,
+    "distinct_hashed_bytes_in_installed_pass": 1595919251,
+    "mismatches": [],
+    "large_files_rehashed_after_correction": false
+  },
+  "verified_claims": {
+    "saved_official_metadata_digest_matches": [
+      "Ghidra",
+      "Temurin",
+      "LLVM"
+    ],
+    "canonical_config_byte_identical": true,
+    "required_config_selections": 5,
+    "rv32_objects_matching_hashes_and_elf32_riscv_nonempty_text": 10,
+    "builder_default_fixed_path_unchanged": true,
+    "builder_and_test_match_saved_eight_case_receipt": true,
+    "new_tests_executed_by_this_review": false
+  },
+  "findings": [
+    {
+      "finding": "SWIG metadata HTTP status disagreed with retained log",
+      "status": "Corrected current receipt and documentation to HTTP 404; original receipt/note preserved and independently hash-checked",
+      "vendor_checksum_or_signature_verified": false
+    },
+    {
+      "finding": "Guard cannot guarantee terminating initial synchronous RV32 make",
+      "status": "Accurately documented as an initial-stage limitation; active OpenWrt-phase forwarding claim is scoped; running implementation unchanged"
+    }
+  ],
+  "remaining_limits": [
+    "Full target/provider/module/image build success remains pending and is not certified by this receipt.",
+    "No physical containment, DMA drain, reset or teardown evidence.",
+    "Python wheel hashes were rechecked; official PyPI verification is the producing receipt claim, not a fresh network verification by this review.",
+    "No whole-builder termination test was run; guard finding is static source review."
+  ],
+  "current_files": [
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/ghidra-tooling.json",
+      "bytes": 2930,
+      "sha256": "f4bab10c8eeec4265b3f63a994fab47e8f88868e4361bfd651e029dfcf752140"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/gnu-tooling.json",
+      "bytes": 17697,
+      "sha256": "359b6270553d64b0315777ebc60bca2255668e7918898082154c00191b3bb80b"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/llvm-tooling.json",
+      "bytes": 2341,
+      "sha256": "eece92af7cb1fdc5e8e6597393f8336cc9d8e1cd93e037d5f38509e05c9f0dd0"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/python-build-tooling.json",
+      "bytes": 493,
+      "sha256": "7b608e3e42475fc72b703795a9abcc1ea65ebce29bfa984c3efaefc08358bea2"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/python-tooling.json",
+      "bytes": 1112,
+      "sha256": "c2bd546e6cbaf6057d0933556fea431c3136e154968c0106f152e2005e6fe013"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/swig-tooling.json",
+      "bytes": 6842,
+      "sha256": "71c81c495f075f624cf3fb1709bedbb13eaaaed450b753b9fef6b1e31e09b7ff"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md",
+      "bytes": 9795,
+      "sha256": "f8cb562b47de298daf22caeeea044cbaac3cdb748ad6d839f3c80f5675d7458b"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/WORKSPACE_TOOLING.md",
+      "bytes": 6178,
+      "sha256": "aa1d82387a124d6a812ba83427fa1f989fe23824bdf01b50d3e00aa2580f50f8"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/configuration.json",
+      "bytes": 1472,
+      "sha256": "04f410ea2e113e63413e2b5771c1eb66a9276146bdcf1825d3b48eaf76d29b54"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/rv32-components.json",
+      "bytes": 2150,
+      "sha256": "06adb1e180d188c705c23b7f78e4acddca86aabfc6bd1183b4b8309b733ff706"
+    },
+    {
+      "path": "research/checkpoints/2026-09-30-npu-cloud-build/builder-host-tools-tests.json",
+      "bytes": 524,
+      "sha256": "92fcfe45dd649414a1db971bca03bc7a435a14b7ffd487d98677c8844be50508"
+    },
+    {
+      "path": "tools/build_firmware.py",
+      "bytes": 4525,
+      "sha256": "d3928d70c68d914792fa4fdd3ccc903286db9195a24fcadbec73cd16a8e7758f"
+    },
+    {
+      "path": "tests/test_build_firmware_host_tools.py",
+      "bytes": 8988,
+      "sha256": "de7370c2d5517dd1fb9cda35938b38176a5601ddd949cdbb1ee56b96217cee1f"
+    },
+    {
+      "path": ".local/cloud-build-access/run-guarded-build.py",
+      "bytes": 1378,
+      "sha256": "5ee6f33eb58e0c6293eee7e62e2ad8a1179c48f207d0e8d3695d7bcc2c2c9f2c"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/swig-receipt.json",
+      "bytes": 6842,
+      "sha256": "71c81c495f075f624cf3fb1709bedbb13eaaaed450b753b9fef6b1e31e09b7ff"
+    },
+    {
+      "path": "docs/W1700K_STOCK_PORT_LEDGER.md",
+      "bytes": 1330258,
+      "sha256": "f1fdb3e125c7440cd68e42c259dbd32889c901bf450679e9abff9348dd61ec3d"
+    },
+    {
+      "path": "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md",
+      "bytes": 437577,
+      "sha256": "e0bf9f1e82aab438ca4063eb60e90a57cefe464b74ddc065f8fb2a77bbc65faf"
+    }
+  ],
+  "corrected_evidence_readback": [
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/download-swig-metadata.log",
+      "bytes": 761,
+      "sha256": "e1a0810bebc05b795acbf4c4c95693f08b409b7a31ed0ff9f1b0c4dc47339788"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/SWIG.md",
+      "bytes": 1910,
+      "sha256": "e0593a64152a55ebf001c96ea9e0112521171e384562a1277ed8ce1363ced795"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/swig-receipt.initial.json",
+      "bytes": 5821,
+      "sha256": "4f84c04091cb960f4183ddbf7c1e06e3772ddcacb3e0bbf884c5ca749ba0c917"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/SWIG.initial.md",
+      "bytes": 1686,
+      "sha256": "f9f5a73e5134c99594f12cc7494f2705599b7d6a8bf82a6b73f8ade3dd7b7d6f"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/download-swig-metadata.log",
+      "bytes": 761,
+      "sha256": "e1a0810bebc05b795acbf4c4c95693f08b409b7a31ed0ff9f1b0c4dc47339788"
+    }
+  ]
+}

@@ -1,6 +1,18 @@
 # Remaining W1700K Work
 
-## Active Merge - 2026-09-23
+## Current Candidate And GitHub Review - 2026-09-30
+
+The current candidate SHA256 is
+`6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d`.
+Full cloud image verification passes; this candidate remains unbooted. Source
+publication is prepared on `codex/npu-cold-memory-cloud-validation-20260930` for a draft PR;
+check its actual remote head/tree and CI status rather than assuming a CI pass.
+The preserved Library patch predates publication-only documentation clarifications.
+Use `research/checkpoints/2026-09-30-npu-cloud-build/PHYSICAL_BOOT_HANDOFF.md`
+for the compatibility 2.0, current-layout, serial and known-good-rollback gates.
+The hardware statements in the September 23 section below are historical.
+
+## Active Merge And Historical Boot - 2026-09-23
 
 The current source lock now targets the unified experimental non-OC merge:
 kernel 6.18.52, mt76 fork 01367e60, WLAN NPU enabled and the implemented host/
@@ -30,6 +42,31 @@ before either copy, rejects empty images and checks acquired-object release.
 Actual-C faults, complete 6.18.52 provider objects and locked source replay pass;
 the September 23 flashed image predates this change. It does not establish cold
 containment or DMA drains. See `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
+
+The later cloud-source checkpoint validates and snapshots the MT7996 WLAN
+regions before either firmware copy; non-MT7996 setup retains a per-call plan.
+Failed/early image loads cannot admit setup. Portable actual-C tests pass 273
+loader cases, 165 added load scenarios, three original controls, nine mutants,
+6,174 retry and 44 V2 executor cases. Canonical provider replay and strict
+checkpatch pass. The subsequent cloud kernel/provider module build passes;
+complete image verification now passes, while hardware tests remain pending.
+Geometry does not establish exclusive reservation or reset/drain ownership.
+See `research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md` and its engine
+matrix. The pinned cloud toolchain and exact-image checks now pass; use the
+new physical handoff before any separately authorized device test.
+
+Additional cloud preparation now passes all 60 locked source files and current
+6.18.52 reset-map reconstruction; the current reset callbacks pass 23,088
+modeled-regmap host cases. Approved official workspace tooling now passes
+host prerequisite checks; ten RV32 components compile. Ghidra 12.1.2 and the
+pinned Python emulator environment pass synthetic smoke checks. The pinned
+OpenWrt host-tools and AArch64 GCC 14.4.0/musl toolchain stages pass; the
+full image now builds and passes FIT/board/firmware/218-package/78-module
+checks after the documented host packaging fixes and approved archive cleanup.
+APT restrictions remain binding and unchanged. Follow
+`research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md` without overwriting
+the already fetched pinned checkout. The candidate is not yet router-tested;
+current-device/layout, serial/rollback and physical ownership gates remain open.
 
 ## Resume Blockers
 

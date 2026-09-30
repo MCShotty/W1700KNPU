@@ -1,0 +1,1184 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Current-source reconstruction and reset-map comparison only; no physical containment or drain proof.",
+  "upstream_commit": "288d79449f622a37c727cb12e81e85dba822aecb",
+  "kernel": "6.18.52",
+  "kernel_version_file": {
+    "path": ".build/merged-openwrt/target/linux/generic/kernel-6.18",
+    "bytes": 118,
+    "sha256": "1f6d49907b5bd3e1714dc78f68587c98bbde0a148eac4923891c9e45d4cfefb7"
+  },
+  "kernel_archive": {
+    "path": ".build/merged-openwrt/dl/linux-6.18.52.tar.xz",
+    "bytes": 154741268,
+    "sha256": "2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8"
+  },
+  "archive_members": [
+    {
+      "archive_member": "linux-6.18.52/drivers/clk/clk-en7523.c",
+      "bytes": 19328,
+      "sha256": "37c592b22e4a2ea1f6fc0f1c614ddc252cb5775a973f431c7e0c055535955940"
+    },
+    {
+      "archive_member": "linux-6.18.52/include/dt-bindings/reset/airoha,en7581-reset.h",
+      "bytes": 1976,
+      "sha256": "ea4759ec79f4553e001a744930e61f5cc6ab0b5a832f2d70eb54393bbe6e6311"
+    }
+  ],
+  "input_before_after": {
+    "firmware/source-lock.json": {
+      "path": "firmware/source-lock.json",
+      "bytes": 16618,
+      "sha256": "6f814270a93b156fab0b3d71e46a4ff1a8bab18bd1c44c85c1aa71580d017aba"
+    },
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": {
+      "path": "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "bytes": 20235,
+      "sha256": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3"
+    }
+  },
+  "canonical_overlay_expected_sha256": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3",
+  "searched_patch_directories": [
+    "generic/backport-6.18",
+    "generic/pending-6.18",
+    "generic/hack-6.18",
+    "airoha/patches-6.18"
+  ],
+  "upstream_relevant_patch_count": 13,
+  "patches": [
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch",
+        "bytes": 11224,
+        "sha256": "4e64214b99a373fb61a61b1672525ad15039534ecfa8c877b5985c8edf827102"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/00-600-01-clk-en7523-convert-driver-to-regmap-API.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch",
+        "bytes": 7407,
+        "sha256": "83feae369728eeb5beb5f0ce5a5170c631c34bc89a565bc6d48437a2f661663d"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/01-600-02-clk-en7523-generalize-register-clocks-function.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch",
+        "bytes": 4051,
+        "sha256": "ef7c3cc71dc2de28e1cde2d22e663200f191ccebe944d68475ecdaad24eadaaa"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/02-600-03-clk-en7523-convert-to-full-clk_hw-implementation.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch",
+        "bytes": 4417,
+        "sha256": "25671934f555c081db6784aecc4e103e3dc414ffd76a8739f206e6844a9e3463"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/03-600-04-clk-en7523-add-support-for-.set_rate.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch",
+        "bytes": 1320,
+        "sha256": "78f78c939a36f2faf1e7c065afe7400a5bdbbb8f5019a1dec24ad651e694a262"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/04-600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch",
+        "bytes": 1668,
+        "sha256": "8ffcd1742858b8587a6ef945ca2076acfbe2eb13ce59a602b015c0febe8a5bde"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/05-600-07-clk-en7523-reword-and-clean-clk_probe-variables.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch",
+        "bytes": 1634,
+        "sha256": "7e2abd9492f7aaf11c422f6d11fff76a1d071aadce427aeff66af968b37e7420"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/06-600-08-clk-en7523-add-support-for-probing-SCU-child.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch",
+        "bytes": 9414,
+        "sha256": "33654579906d36e677ce99dd3e1d45f9d4f351322ce9b329771ab742248cee71"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/07-600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch",
+        "bytes": 6137,
+        "sha256": "047b4060b3db3eade09ff61020f2c829b154e18b666171763b7d11d52ef093a3"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/08-600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/609-01-dt-bindings-clock-airoha-Add-additional-reset-for-PC.patch",
+        "bytes": 905,
+        "sha256": "bc78c0ab08e72d6dbb8da8b1647efe0c34905f8a8e48af46a58b44a1b73e0417"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/09-609-01-dt-bindings-clock-airoha-Add-additional-reset-for-PC.log",
+        "bytes": 137,
+        "sha256": "fcf6de28f01b25f4866f9350cc936b2091ca6f6bd9ba518175b872e6c564e5dc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch",
+        "bytes": 3489,
+        "sha256": "780bf520eec8415146a48153b1c2b4e3238842338a2de3addd56ef3062ad7433"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/10-609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/910-02-usb-pcie.patch",
+        "bytes": 671,
+        "sha256": "eddb2ebc5bd4ccc191e5f857b9adfbd80f790dfb98ea055239d4c87c8dc947fc"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/11-910-02-usb-pcie.log",
+        "bytes": 91,
+        "sha256": "ce5de2b8898958b5f1b9bd7990d48d5dbdd6cf361509896e46cdc64aae3617cc"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "pinned-upstream-git",
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch",
+        "bytes": 874,
+        "sha256": "99e3a676bc2b58ee7fd3e5576c9b3578183ffa30a4d616219d2987a83a027dec"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/12-913-clk-en7523-reset-PCIE-HB-on-init.log",
+        "bytes": 134,
+        "sha256": "4ff1825a1aa52aaecb1a8c17971d61c6e76101187843cb1a5b80aa24d9c20c5d"
+      },
+      "exit_code": 0
+    },
+    {
+      "authority": "source-lock-canonical-overlay",
+      "input": {
+        "path": "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+        "bytes": 20235,
+        "sha256": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3"
+      },
+      "log": {
+        "path": ".local/cloud-build-access/reset-map/13-999-w1700k-integrated-npu.log",
+        "bytes": 208,
+        "sha256": "63b6d77791cb8c114ce3cac2ad915fc9dc0ab97c469216b651749cf04edb648e"
+      },
+      "exit_code": 0
+    }
+  ],
+  "source_before_canonical_overlay": [
+    {
+      "path": ".local/cloud-build-access/reset-map/upstream/drivers/clk/clk-en7523.c",
+      "bytes": 32465,
+      "sha256": "c7064d5dbcc5bf835fe852c0132a1e0ba245f168d416cf88763f74cd2922af74"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map/upstream/include/dt-bindings/reset/airoha,en7581-reset.h",
+      "bytes": 2102,
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a"
+    }
+  ],
+  "reconstructed_sources": [
+    {
+      "path": ".local/cloud-build-access/reset-map/source/drivers/clk/clk-en7523.c",
+      "bytes": 32498,
+      "sha256": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map/source/include/dt-bindings/reset/airoha,en7581-reset.h",
+      "bytes": 2102,
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a"
+    }
+  ],
+  "old_inventory_source": {
+    "kernel": "6.18.44",
+    "driver_sha256": "a4fc60fd9cbde304bf4e925c7de8c08becae8aa37837f76abfeed5d6d07e98ca",
+    "binding_sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a"
+  },
+  "constants": {
+    "RST_NR_PER_BANK": 32,
+    "REG_NP_SCU_PCIC": 136,
+    "REG_RST_CTRL2": 2096,
+    "REG_RST_CTRL1": 2100
+  },
+  "offset_names": [
+    "REG_RST_CTRL2",
+    "REG_RST_CTRL1",
+    "REG_NP_SCU_PCIC"
+  ],
+  "offset_table_line": 452,
+  "reset_map_line": 505,
+  "all_en7581_mappings": [
+    {
+      "symbol": "EN7581_XPON_PHY_RST",
+      "logical_id": 0,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 0,
+      "translated_id": 0,
+      "driver_line": 507,
+      "driver_expression": "0",
+      "binding_line": 11
+    },
+    {
+      "symbol": "EN7581_CPU_TIMER2_RST",
+      "logical_id": 1,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 2,
+      "translated_id": 2,
+      "driver_line": 508,
+      "driver_expression": "2",
+      "binding_line": 12
+    },
+    {
+      "symbol": "EN7581_HSUART_RST",
+      "logical_id": 2,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 3,
+      "translated_id": 3,
+      "driver_line": 509,
+      "driver_expression": "3",
+      "binding_line": 13
+    },
+    {
+      "symbol": "EN7581_UART4_RST",
+      "logical_id": 3,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 4,
+      "translated_id": 4,
+      "driver_line": 510,
+      "driver_expression": "4",
+      "binding_line": 14
+    },
+    {
+      "symbol": "EN7581_UART5_RST",
+      "logical_id": 4,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 5,
+      "translated_id": 5,
+      "driver_line": 511,
+      "driver_expression": "5",
+      "binding_line": 15
+    },
+    {
+      "symbol": "EN7581_I2C2_RST",
+      "logical_id": 5,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 6,
+      "translated_id": 6,
+      "driver_line": 512,
+      "driver_expression": "6",
+      "binding_line": 16
+    },
+    {
+      "symbol": "EN7581_XSI_MAC_RST",
+      "logical_id": 6,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 7,
+      "translated_id": 7,
+      "driver_line": 513,
+      "driver_expression": "7",
+      "binding_line": 17
+    },
+    {
+      "symbol": "EN7581_XSI_PHY_RST",
+      "logical_id": 7,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 8,
+      "translated_id": 8,
+      "driver_line": 514,
+      "driver_expression": "8",
+      "binding_line": 18
+    },
+    {
+      "symbol": "EN7581_NPU_RST",
+      "logical_id": 8,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 9,
+      "translated_id": 9,
+      "driver_line": 515,
+      "driver_expression": "9",
+      "binding_line": 19
+    },
+    {
+      "symbol": "EN7581_I2S_RST",
+      "logical_id": 9,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 10,
+      "translated_id": 10,
+      "driver_line": 516,
+      "driver_expression": "10",
+      "binding_line": 20
+    },
+    {
+      "symbol": "EN7581_TRNG_RST",
+      "logical_id": 10,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 11,
+      "translated_id": 11,
+      "driver_line": 517,
+      "driver_expression": "11",
+      "binding_line": 21
+    },
+    {
+      "symbol": "EN7581_TRNG_MSTART_RST",
+      "logical_id": 11,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 12,
+      "translated_id": 12,
+      "driver_line": 518,
+      "driver_expression": "12",
+      "binding_line": 22
+    },
+    {
+      "symbol": "EN7581_DUAL_HSI0_RST",
+      "logical_id": 12,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 13,
+      "translated_id": 13,
+      "driver_line": 519,
+      "driver_expression": "13",
+      "binding_line": 23
+    },
+    {
+      "symbol": "EN7581_DUAL_HSI1_RST",
+      "logical_id": 13,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 14,
+      "translated_id": 14,
+      "driver_line": 520,
+      "driver_expression": "14",
+      "binding_line": 24
+    },
+    {
+      "symbol": "EN7581_HSI_RST",
+      "logical_id": 14,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 15,
+      "translated_id": 15,
+      "driver_line": 521,
+      "driver_expression": "15",
+      "binding_line": 25
+    },
+    {
+      "symbol": "EN7581_DUAL_HSI0_MAC_RST",
+      "logical_id": 15,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 16,
+      "translated_id": 16,
+      "driver_line": 522,
+      "driver_expression": "16",
+      "binding_line": 26
+    },
+    {
+      "symbol": "EN7581_DUAL_HSI1_MAC_RST",
+      "logical_id": 16,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 17,
+      "translated_id": 17,
+      "driver_line": 523,
+      "driver_expression": "17",
+      "binding_line": 27
+    },
+    {
+      "symbol": "EN7581_HSI_MAC_RST",
+      "logical_id": 17,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 18,
+      "translated_id": 18,
+      "driver_line": 524,
+      "driver_expression": "18",
+      "binding_line": 28
+    },
+    {
+      "symbol": "EN7581_WDMA_RST",
+      "logical_id": 18,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 19,
+      "translated_id": 19,
+      "driver_line": 525,
+      "driver_expression": "19",
+      "binding_line": 29
+    },
+    {
+      "symbol": "EN7581_WOE0_RST",
+      "logical_id": 19,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 20,
+      "translated_id": 20,
+      "driver_line": 526,
+      "driver_expression": "20",
+      "binding_line": 30
+    },
+    {
+      "symbol": "EN7581_WOE1_RST",
+      "logical_id": 20,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 21,
+      "translated_id": 21,
+      "driver_line": 527,
+      "driver_expression": "21",
+      "binding_line": 31
+    },
+    {
+      "symbol": "EN7581_HSDMA_RST",
+      "logical_id": 21,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 22,
+      "translated_id": 22,
+      "driver_line": 528,
+      "driver_expression": "22",
+      "binding_line": 32
+    },
+    {
+      "symbol": "EN7581_TDMA_RST",
+      "logical_id": 22,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 24,
+      "translated_id": 24,
+      "driver_line": 529,
+      "driver_expression": "24",
+      "binding_line": 33
+    },
+    {
+      "symbol": "EN7581_EMMC_RST",
+      "logical_id": 23,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 25,
+      "translated_id": 25,
+      "driver_line": 530,
+      "driver_expression": "25",
+      "binding_line": 34
+    },
+    {
+      "symbol": "EN7581_SOE_RST",
+      "logical_id": 24,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 26,
+      "translated_id": 26,
+      "driver_line": 531,
+      "driver_expression": "26",
+      "binding_line": 35
+    },
+    {
+      "symbol": "EN7581_PCIE2_RST",
+      "logical_id": 25,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 27,
+      "translated_id": 27,
+      "driver_line": 532,
+      "driver_expression": "27",
+      "binding_line": 36
+    },
+    {
+      "symbol": "EN7581_XFP_MAC_RST",
+      "logical_id": 26,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 28,
+      "translated_id": 28,
+      "driver_line": 533,
+      "driver_expression": "28",
+      "binding_line": 37
+    },
+    {
+      "symbol": "EN7581_USB_HOST_P1_RST",
+      "logical_id": 27,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 29,
+      "translated_id": 29,
+      "driver_line": 534,
+      "driver_expression": "29",
+      "binding_line": 38
+    },
+    {
+      "symbol": "EN7581_USB_HOST_P1_U3_PHY_RST",
+      "logical_id": 28,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 30,
+      "translated_id": 30,
+      "driver_line": 535,
+      "driver_expression": "30",
+      "binding_line": 39
+    },
+    {
+      "symbol": "EN7581_PCM1_ZSI_ISI_RST",
+      "logical_id": 29,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 0,
+      "translated_id": 32,
+      "driver_line": 537,
+      "driver_expression": "RST_NR_PER_BANK + 0",
+      "binding_line": 41
+    },
+    {
+      "symbol": "EN7581_FE_PDMA_RST",
+      "logical_id": 30,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 1,
+      "translated_id": 33,
+      "driver_line": 538,
+      "driver_expression": "RST_NR_PER_BANK + 1",
+      "binding_line": 42
+    },
+    {
+      "symbol": "EN7581_FE_QDMA_RST",
+      "logical_id": 31,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 2,
+      "translated_id": 34,
+      "driver_line": 539,
+      "driver_expression": "RST_NR_PER_BANK + 2",
+      "binding_line": 43
+    },
+    {
+      "symbol": "EN7581_PCM_SPIWP_RST",
+      "logical_id": 32,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 4,
+      "translated_id": 36,
+      "driver_line": 540,
+      "driver_expression": "RST_NR_PER_BANK + 4",
+      "binding_line": 44
+    },
+    {
+      "symbol": "EN7581_CRYPTO_RST",
+      "logical_id": 33,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 6,
+      "translated_id": 38,
+      "driver_line": 541,
+      "driver_expression": "RST_NR_PER_BANK + 6",
+      "binding_line": 45
+    },
+    {
+      "symbol": "EN7581_TIMER_RST",
+      "logical_id": 34,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 8,
+      "translated_id": 40,
+      "driver_line": 542,
+      "driver_expression": "RST_NR_PER_BANK + 8",
+      "binding_line": 46
+    },
+    {
+      "symbol": "EN7581_PCM1_RST",
+      "logical_id": 35,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 11,
+      "translated_id": 43,
+      "driver_line": 543,
+      "driver_expression": "RST_NR_PER_BANK + 11",
+      "binding_line": 47
+    },
+    {
+      "symbol": "EN7581_UART_RST",
+      "logical_id": 36,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 12,
+      "translated_id": 44,
+      "driver_line": 544,
+      "driver_expression": "RST_NR_PER_BANK + 12",
+      "binding_line": 48
+    },
+    {
+      "symbol": "EN7581_GPIO_RST",
+      "logical_id": 37,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 13,
+      "translated_id": 45,
+      "driver_line": 545,
+      "driver_expression": "RST_NR_PER_BANK + 13",
+      "binding_line": 49
+    },
+    {
+      "symbol": "EN7581_GDMA_RST",
+      "logical_id": 38,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 14,
+      "translated_id": 46,
+      "driver_line": 546,
+      "driver_expression": "RST_NR_PER_BANK + 14",
+      "binding_line": 50
+    },
+    {
+      "symbol": "EN7581_I2C_MASTER_RST",
+      "logical_id": 39,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 16,
+      "translated_id": 48,
+      "driver_line": 547,
+      "driver_expression": "RST_NR_PER_BANK + 16",
+      "binding_line": 51
+    },
+    {
+      "symbol": "EN7581_PCM2_ZSI_ISI_RST",
+      "logical_id": 40,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 17,
+      "translated_id": 49,
+      "driver_line": 548,
+      "driver_expression": "RST_NR_PER_BANK + 17",
+      "binding_line": 52
+    },
+    {
+      "symbol": "EN7581_SFC_RST",
+      "logical_id": 41,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 18,
+      "translated_id": 50,
+      "driver_line": 549,
+      "driver_expression": "RST_NR_PER_BANK + 18",
+      "binding_line": 53
+    },
+    {
+      "symbol": "EN7581_UART2_RST",
+      "logical_id": 42,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 19,
+      "translated_id": 51,
+      "driver_line": 550,
+      "driver_expression": "RST_NR_PER_BANK + 19",
+      "binding_line": 54
+    },
+    {
+      "symbol": "EN7581_GDMP_RST",
+      "logical_id": 43,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 20,
+      "translated_id": 52,
+      "driver_line": 551,
+      "driver_expression": "RST_NR_PER_BANK + 20",
+      "binding_line": 55
+    },
+    {
+      "symbol": "EN7581_FE_RST",
+      "logical_id": 44,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 21,
+      "translated_id": 53,
+      "driver_line": 552,
+      "driver_expression": "RST_NR_PER_BANK + 21",
+      "binding_line": 56
+    },
+    {
+      "symbol": "EN7581_USB_HOST_P0_RST",
+      "logical_id": 45,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 22,
+      "translated_id": 54,
+      "driver_line": 553,
+      "driver_expression": "RST_NR_PER_BANK + 22",
+      "binding_line": 57
+    },
+    {
+      "symbol": "EN7581_GSW_RST",
+      "logical_id": 46,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 23,
+      "translated_id": 55,
+      "driver_line": 554,
+      "driver_expression": "RST_NR_PER_BANK + 23",
+      "binding_line": 58
+    },
+    {
+      "symbol": "EN7581_SFC2_PCM_RST",
+      "logical_id": 47,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 25,
+      "translated_id": 57,
+      "driver_line": 555,
+      "driver_expression": "RST_NR_PER_BANK + 25",
+      "binding_line": 59
+    },
+    {
+      "symbol": "EN7581_PCIE0_RST",
+      "logical_id": 48,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 26,
+      "translated_id": 58,
+      "driver_line": 556,
+      "driver_expression": "RST_NR_PER_BANK + 26",
+      "binding_line": 60
+    },
+    {
+      "symbol": "EN7581_PCIE1_RST",
+      "logical_id": 49,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 27,
+      "translated_id": 59,
+      "driver_line": 557,
+      "driver_expression": "RST_NR_PER_BANK + 27",
+      "binding_line": 61
+    },
+    {
+      "symbol": "EN7581_CPU_TIMER_RST",
+      "logical_id": 50,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 28,
+      "translated_id": 60,
+      "driver_line": 558,
+      "driver_expression": "RST_NR_PER_BANK + 28",
+      "binding_line": 62
+    },
+    {
+      "symbol": "EN7581_PCIE_HB_RST",
+      "logical_id": 51,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 29,
+      "translated_id": 61,
+      "driver_line": 559,
+      "driver_expression": "RST_NR_PER_BANK + 29",
+      "binding_line": 63
+    },
+    {
+      "symbol": "EN7581_XPON_MAC_RST",
+      "logical_id": 52,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 31,
+      "translated_id": 63,
+      "driver_line": 560,
+      "driver_expression": "RST_NR_PER_BANK + 31",
+      "binding_line": 64
+    },
+    {
+      "symbol": "EN7581_PCIC_PERSTOUT0_RST",
+      "logical_id": 53,
+      "offset": 136,
+      "offset_hex": "0x88",
+      "bank": 2,
+      "bit": 29,
+      "translated_id": 93,
+      "driver_line": 563,
+      "driver_expression": "2 * RST_NR_PER_BANK + 29",
+      "binding_line": 66
+    },
+    {
+      "symbol": "EN7581_PCIC_PERSTOUT1_RST",
+      "logical_id": 54,
+      "offset": 136,
+      "offset_hex": "0x88",
+      "bank": 2,
+      "bit": 26,
+      "translated_id": 90,
+      "driver_line": 564,
+      "driver_expression": "2 * RST_NR_PER_BANK + 26",
+      "binding_line": 67
+    },
+    {
+      "symbol": "EN7581_PCIC_PERSTOUT2_RST",
+      "logical_id": 55,
+      "offset": 136,
+      "offset_hex": "0x88",
+      "bank": 2,
+      "bit": 16,
+      "translated_id": 80,
+      "driver_line": 565,
+      "driver_expression": "2 * RST_NR_PER_BANK + 16",
+      "binding_line": 68
+    }
+  ],
+  "relevant_mapping_comparisons": [
+    {
+      "symbol": "EN7581_NPU_RST",
+      "logical_id": 8,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 9,
+      "translated_id": 9,
+      "driver_line": 515,
+      "driver_expression": "9",
+      "binding_line": 19,
+      "old_inventory": {
+        "logical_id": 8,
+        "offset": 2096,
+        "bit": 9
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_WDMA_RST",
+      "logical_id": 18,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 19,
+      "translated_id": 19,
+      "driver_line": 525,
+      "driver_expression": "19",
+      "binding_line": 29,
+      "old_inventory": {
+        "logical_id": 18,
+        "offset": 2096,
+        "bit": 19
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_WOE0_RST",
+      "logical_id": 19,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 20,
+      "translated_id": 20,
+      "driver_line": 526,
+      "driver_expression": "20",
+      "binding_line": 30,
+      "old_inventory": {
+        "logical_id": 19,
+        "offset": 2096,
+        "bit": 20
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_WOE1_RST",
+      "logical_id": 20,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 21,
+      "translated_id": 21,
+      "driver_line": 527,
+      "driver_expression": "21",
+      "binding_line": 31,
+      "old_inventory": {
+        "logical_id": 20,
+        "offset": 2096,
+        "bit": 21
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_HSDMA_RST",
+      "logical_id": 21,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 22,
+      "translated_id": 22,
+      "driver_line": 528,
+      "driver_expression": "22",
+      "binding_line": 32,
+      "old_inventory": {
+        "logical_id": 21,
+        "offset": 2096,
+        "bit": 22
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_TDMA_RST",
+      "logical_id": 22,
+      "offset": 2096,
+      "offset_hex": "0x830",
+      "bank": 0,
+      "bit": 24,
+      "translated_id": 24,
+      "driver_line": 529,
+      "driver_expression": "24",
+      "binding_line": 33,
+      "old_inventory": {
+        "logical_id": 22,
+        "offset": 2096,
+        "bit": 24
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_FE_PDMA_RST",
+      "logical_id": 30,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 1,
+      "translated_id": 33,
+      "driver_line": 538,
+      "driver_expression": "RST_NR_PER_BANK + 1",
+      "binding_line": 42,
+      "old_inventory": {
+        "logical_id": 30,
+        "offset": 2100,
+        "bit": 1
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_FE_QDMA_RST",
+      "logical_id": 31,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 2,
+      "translated_id": 34,
+      "driver_line": 539,
+      "driver_expression": "RST_NR_PER_BANK + 2",
+      "binding_line": 43,
+      "old_inventory": {
+        "logical_id": 31,
+        "offset": 2100,
+        "bit": 2
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_GDMA_RST",
+      "logical_id": 38,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 14,
+      "translated_id": 46,
+      "driver_line": 546,
+      "driver_expression": "RST_NR_PER_BANK + 14",
+      "binding_line": 50,
+      "old_inventory": {
+        "logical_id": 38,
+        "offset": 2100,
+        "bit": 14
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_GDMP_RST",
+      "logical_id": 43,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 20,
+      "translated_id": 52,
+      "driver_line": 551,
+      "driver_expression": "RST_NR_PER_BANK + 20",
+      "binding_line": 55,
+      "old_inventory": {
+        "logical_id": 43,
+        "offset": 2100,
+        "bit": 20
+      },
+      "unchanged": true
+    },
+    {
+      "symbol": "EN7581_FE_RST",
+      "logical_id": 44,
+      "offset": 2100,
+      "offset_hex": "0x834",
+      "bank": 1,
+      "bit": 21,
+      "translated_id": 53,
+      "driver_line": 552,
+      "driver_expression": "RST_NR_PER_BANK + 21",
+      "binding_line": 56,
+      "old_inventory": {
+        "logical_id": 44,
+        "offset": 2100,
+        "bit": 21
+      },
+      "unchanged": true
+    }
+  ],
+  "relevant_mapping_count": 11,
+  "all_relevant_mappings_unchanged": true,
+  "script": {
+    "path": ".local/cloud-build-access/reset-map/reconstruct.py",
+    "bytes": 9532,
+    "sha256": "f45d851ea3a787b9dea80fa4110728a57c2b0bfd06be4d09eca3a963e26d9b1b"
+  },
+  "limits": [
+    "No compiled callback or hardware execution.",
+    "No device-tree/runtime binding or engine reset coverage claim.",
+    "No INODE/provider-framing or DESC5-8 operation.",
+    "Only ignored reset-map evidence was written."
+  ],
+  "preservation_check": {
+    "method": "Reverse canonical overlay in a separate copy of final sources; both hashes equal the forward reconstruction pre-overlay snapshots.",
+    "log": {
+      "path": ".local/cloud-build-access/reset-map/preserve-pre-overlay-snapshot.log",
+      "bytes": 208,
+      "sha256": "63b6d77791cb8c114ce3cac2ad915fc9dc0ab97c469216b651749cf04edb648e"
+    }
+  }
+}

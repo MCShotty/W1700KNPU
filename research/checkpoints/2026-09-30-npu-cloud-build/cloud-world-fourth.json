@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "world",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-world-fourth.log",
+    "started": 1790775702.8105795,
+    "exit_code": 0,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790775736.9256177
+  },
+  "seconds": 34.1150381565094,
+  "required_environment": {
+    "FAKEROOTDONTTRYCHOWN": "1",
+    "CURL_OPTIONS": "-4 --connect-timeout 15"
+  },
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-world-fourth.json": {
+      "sha256": "d211276ce761f0001da597b6a43eccf8fc0b74430582189da8dc39c5a9e9d46e",
+      "bytes": 1529
+    },
+    ".local/merge-nonoc-20260923/build-cloud-world-fourth.log": {
+      "sha256": "62d0c1e0754ed4acbf551d6bdd861badafde15dee3a7d500738715eedff9466c",
+      "bytes": 195195
+    },
+    ".local/cloud-build-access/guard-cloud-world-fourth.json": {
+      "sha256": "91ce52226efe83a5414ee4b4a51186ca323e36ca451ad34f0e97912a5a92eec6",
+      "bytes": 984
+    }
+  }
+}

@@ -60,6 +60,8 @@ def fragment(source):
     names = list(FUNCTIONS)
     if 'static int airoha_npu_request_firmware(' in source:
         names.insert(1, 'airoha_npu_request_firmware')
+    if 'static int airoha_npu_wlan_prepare_memory(' in source:
+        names.insert(1, 'airoha_npu_wlan_prepare_memory')
     parts += [extract.function(source, name) for name in names]
     return '\n\n'.join(parts) + '\n'
 
@@ -107,6 +109,7 @@ def main():
     clang = shutil.which('clang')
     assert clang
     flags = [clang, '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror', '-Wno-sign-compare',
+             '-Wno-unused-function',
              '-fsanitize=address,undefined', '-fno-sanitize-recover=all']
     env = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:detect_stack_use_after_return=1')
 

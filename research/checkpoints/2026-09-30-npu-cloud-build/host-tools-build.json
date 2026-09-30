@@ -1,0 +1,58 @@
+{
+  "stage": "tools/install",
+  "passed": true,
+  "seconds": 1296.7569766044617,
+  "jobs": 4,
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "tools/install",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-tools-second.log",
+    "started": 1790768282.4845154,
+    "exit_code": 0,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790769579.241492
+  },
+  "scope": "Pinned OpenWrt host tools built; target cross-toolchain/provider/modules/image not complete",
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-tools-second.log": {
+      "sha256": "50bb87d29c07edbc75be406116ee038e6cf7cc38f1aa7d511f3bfb343a0de1bb",
+      "bytes": 10950867
+    },
+    ".local/merge-nonoc-20260923/build-cloud-tools-second.json": {
+      "sha256": "ec928d19ced1cbf28bb92a7ea1951dc5419a6d93e997d43e0b2feb8c5523a027",
+      "bytes": 1527
+    },
+    ".local/cloud-build-access/guard-cloud-tools-second.json": {
+      "sha256": "224daca1a182a929612137cd614569acc50278c4c23ba8be8a5caa12a136f446",
+      "bytes": 10906
+    }
+  }
+}

@@ -1,0 +1,210 @@
+Subject: [PATCH] net: airoha: preflight MT7996 memory before firmware copies
+
+Snapshot validated WLAN regions before loading the MT7996 image pair.
+Keep non-MT7996 profiles on the existing setup-time validation path.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -132,6 +132,9 @@
+ 	struct airoha_npu npu;
+ 	struct resource firmware_region;
+ 	u32 txbuf_min_size;
++	struct resource wlan_memory[4];
++	unsigned int wlan_memory_count;
++	bool firmware_loaded;
+ };
+ 
+ static bool airoha_npu_memory_valid(const struct resource *res)
+@@ -317,16 +320,29 @@
+ 	return 0;
+ }
+ 
+-static int airoha_npu_load_firmware(struct device *dev, void __iomem *addr,
++static int airoha_npu_wlan_prepare_memory(struct airoha_npu_priv *priv,
++					  struct resource *regions,
++					  unsigned int *region_count);
++
++static int airoha_npu_load_firmware(struct airoha_npu_priv *priv, void __iomem *addr,
+ 				    void __iomem *base,
+ 				    const struct airoha_npu_soc_data *images)
+ {
++	struct device *dev = priv->npu.dev;
+ 	const struct firmware *rv32, *data;
+ 	int ret;
+ 
++	/* MT7996 startup consumes these regions before normal WLAN setup. */
++	if (priv->txbuf_min_size) {
++		ret = airoha_npu_wlan_prepare_memory(priv, priv->wlan_memory,
++						     &priv->wlan_memory_count);
++		if (ret)
++			return ret;
++	}
++
+ 	ret = airoha_npu_request_firmware(dev, &images->fw_rv32, &rv32);
+ 	if (ret)
+-		return ret;
++		goto invalidate;
+ 
+ 	ret = airoha_npu_request_firmware(dev, &images->fw_data, &data);
+ 	if (ret)
+@@ -338,6 +354,11 @@
+ 	release_firmware(data);
+ release_rv32:
+ 	release_firmware(rv32);
++invalidate:
++	if (ret)
++		priv->wlan_memory_count = 0;
++	else
++		priv->firmware_loaded = true;
+ 
+ 	return ret;
+ }
+@@ -365,7 +386,7 @@
+ 	images.fw_data.name = fw_names[1];
+ 	images.fw_data.max_size = NPU_EN7581_FIRMWARE_DATA_MAX_SIZE;
+ 
+-	return airoha_npu_load_firmware(dev, addr, base, &images);
++	return airoha_npu_load_firmware(priv, addr, base, &images);
+ }
+ 
+ static int airoha_npu_run_firmware(struct airoha_npu_priv *priv, void __iomem *base,
+@@ -375,6 +396,8 @@
+ 	const struct airoha_npu_soc_data *soc;
+ 	void __iomem *addr;
+ 
++	priv->firmware_loaded = false;
++	priv->wlan_memory_count = 0;
+ 	soc = of_device_get_match_data(dev);
+ 	if (!soc)
+ 		return -EINVAL;
+@@ -400,7 +423,7 @@
+ 	if (!strcmp(soc->fw_rv32.name, NPU_EN7581_7996_FIRMWARE_RV32))
+ 		priv->txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;
+ 
+-	return airoha_npu_load_firmware(dev, addr, base, soc);
++	return airoha_npu_load_firmware(priv, addr, base, soc);
+ }
+ 
+ static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
+@@ -654,63 +677,93 @@
+ 	return err;
+ }
+ 
+-static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
+-{
+-	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
+-	struct device *dev = npu->dev;
+-	struct {
+-		const char *name;
+-		enum airoha_npu_wlan_set_cmd cmd;
+-		struct resource res;
+-	} memory[] = {
+-		{ .name = "tx-bufid", .cmd = WLAN_FUNC_SET_WAIT_TX_BUF_CHECK_ADDR },
+-		{ .name = "pkt", .cmd = WLAN_FUNC_SET_WAIT_PKT_BUF_ADDR },
+-		{ .name = "tx-pkt", .cmd = WLAN_FUNC_SET_WAIT_TX_PKT_BUF_ADDR },
+-		{ .name = "ba", .cmd = WLAN_FUNC_SET_WAIT_DRAM_BA_NODE_ADDR },
+-	};
++static int airoha_npu_wlan_prepare_memory(struct airoha_npu_priv *priv,
++					  struct resource *regions,
++					  unsigned int *region_count)
++{
++	static const char * const names[] = { "tx-bufid", "pkt", "tx-pkt", "ba" };
++	struct resource memory[ARRAY_SIZE(names)] = {};
++	struct device *dev = priv->npu.dev;
+ 	unsigned int i, j, count = ARRAY_SIZE(memory);
+-	u32 val = 0;
+ 	int err;
+ 
++	*region_count = 0;
+ 	if (!airoha_npu_memory_valid(&priv->firmware_region))
+ 		return -EINVAL;
+ 	if (of_property_match_string(dev->of_node, "memory-region-names", "ba") < 0)
+ 		count--;
+-	/* Snapshot every address before the first command can wake core 0. */
++	/* Commit a complete plan only after every region has passed preflight. */
+ 	for (i = 0; i < count; i++) {
+-		struct resource *res = &memory[i].res;
++		struct resource *res = &memory[i];
+ 
+ 		err = of_reserved_mem_region_to_resource_byname(dev->of_node,
+-								memory[i].name, res);
++								names[i], res);
+ 		if (err)
+ 			return err;
+ 		if (!airoha_npu_memory_valid(res))
+ 			return dev_err_probe(dev, -EINVAL,
+-					     "invalid NPU %s memory region\n", memory[i].name);
++					     "invalid NPU %s memory region\n", names[i]);
+ 		if (priv->txbuf_min_size &&
+ 		    (res->start < 0x80000000ULL || res->end >= 0xc0000000ULL))
+ 			return dev_err_probe(dev, -ERANGE,
+ 					     "NPU %s memory outside firmware DRAM window\n",
+-					     memory[i].name);
++					     names[i]);
+ 		if (resource_overlaps(res, &priv->firmware_region))
+ 			return dev_err_probe(dev, -EINVAL,
+-					     "NPU %s memory overlaps firmware\n", memory[i].name);
++					     "NPU %s memory overlaps firmware\n", names[i]);
+ 		for (j = 0; j < i; j++)
+-			if (resource_overlaps(res, &memory[j].res))
++			if (resource_overlaps(res, &memory[j]))
+ 				return dev_err_probe(dev, -EINVAL,
+ 						     "overlapping NPU %s memory region\n",
+-						     memory[i].name);
+-	}
+-	if (resource_size(&memory[0].res) < priv->txbuf_min_size)
++						     names[i]);
++	}
++	if (resource_size(&memory[0]) < priv->txbuf_min_size)
+ 		return dev_err_probe(dev, -EINVAL, "NPU tx-bufid memory region too small\n");
++
++	memcpy(regions, memory, sizeof(memory));
++	*region_count = count;
++
++	return 0;
++}
++
++static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
++{
++	static const enum airoha_npu_wlan_set_cmd commands[] = {
++		WLAN_FUNC_SET_WAIT_TX_BUF_CHECK_ADDR,
++		WLAN_FUNC_SET_WAIT_PKT_BUF_ADDR,
++		WLAN_FUNC_SET_WAIT_TX_PKT_BUF_ADDR,
++		WLAN_FUNC_SET_WAIT_DRAM_BA_NODE_ADDR,
++	};
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct resource local[ARRAY_SIZE(commands)];
++	const struct resource *memory = priv->wlan_memory;
++	unsigned int i, count = priv->wlan_memory_count;
++	u32 val = 0;
++	int err;
++
++	if (!priv->firmware_loaded)
++		return -EINVAL;
++
++	/* MT7996 uses the plan captured before either firmware image was copied.
++	 * Other profiles retain their setup-time validation and optional WLAN use.
++	 */
++	if (!priv->txbuf_min_size) {
++		err = airoha_npu_wlan_prepare_memory(priv, local, &count);
++		if (err)
++			return err;
++		memory = local;
++	}
++	if (!count)
++		return -EINVAL;
+ 
+ 	err = airoha_npu_wlan_cmd_with_retry(npu, 1,
+ 					    WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU, val);
+ 	if (err)
+ 		return err;
++
+ 	for (i = 0; i < count; i++) {
+-		val = memory[i].res.start;
+-		err = airoha_npu_wlan_cmd_with_retry(npu, 0, memory[i].cmd, val);
++		val = memory[i].start;
++		err = airoha_npu_wlan_cmd_with_retry(npu, 0, commands[i], val);
+ 		if (err)
+ 			return err;
+ 	}

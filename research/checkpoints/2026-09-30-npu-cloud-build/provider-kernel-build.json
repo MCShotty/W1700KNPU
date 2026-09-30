@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "kernel": "6.18.52",
+  "compiler": "Pinned OpenWrt GCC14.4.0/musl",
+  "objects": {
+    "airoha_npu.o": {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.o",
+      "sha256": "824c620355ec56d597989db149ec2be278106b62907d9d54b1237cdc6979a481",
+      "bytes": 101488,
+      "elf_machine": "EM_AARCH64",
+      "elf_class": 64,
+      "defined_npu_symbols": [
+        "airoha_npu_driver",
+        "airoha_npu_driver_exit",
+        "airoha_npu_driver_init",
+        "airoha_npu_foe_commit_entry",
+        "airoha_npu_get",
+        "airoha_npu_load_firmware",
+        "airoha_npu_mbox_handler",
+        "airoha_npu_ppe_deinit",
+        "airoha_npu_ppe_flush_sram_entries",
+        "airoha_npu_ppe_init",
+        "airoha_npu_ppe_stats_setup",
+        "airoha_npu_probe",
+        "airoha_npu_put",
+        "airoha_npu_request_firmware",
+        "airoha_npu_run_firmware",
+        "airoha_npu_wdt_handler",
+        "airoha_npu_wdt_work",
+        "airoha_npu_wlan_cmd_with_retry",
+        "airoha_npu_wlan_control",
+        "airoha_npu_wlan_init_memory",
+        "airoha_npu_wlan_irq_disable",
+        "airoha_npu_wlan_irq_enable",
+        "airoha_npu_wlan_irq_status_get",
+        "airoha_npu_wlan_irq_status_set",
+        "airoha_npu_wlan_msg_get",
+        "airoha_npu_wlan_msg_send",
+        "airoha_npu_wlan_prepare_memory",
+        "airoha_npu_wlan_queue_addr_get"
+      ],
+      "modinfo": [
+        "license=GPL"
+      ]
+    },
+    "airoha_npu.ko": {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.ko",
+      "sha256": "cee6f7735f0a0603c26be90f5f35af2e52143438d634ff3df112aeaf30f4ed20",
+      "bytes": 124776,
+      "elf_machine": "EM_AARCH64",
+      "elf_class": 64,
+      "defined_npu_symbols": [
+        "airoha_npu_driver",
+        "airoha_npu_driver_exit",
+        "airoha_npu_driver_init",
+        "airoha_npu_foe_commit_entry",
+        "airoha_npu_get",
+        "airoha_npu_load_firmware",
+        "airoha_npu_mbox_handler",
+        "airoha_npu_ppe_deinit",
+        "airoha_npu_ppe_flush_sram_entries",
+        "airoha_npu_ppe_init",
+        "airoha_npu_ppe_stats_setup",
+        "airoha_npu_probe",
+        "airoha_npu_put",
+        "airoha_npu_request_firmware",
+        "airoha_npu_run_firmware",
+        "airoha_npu_wdt_handler",
+        "airoha_npu_wdt_work",
+        "airoha_npu_wlan_cmd_with_retry",
+        "airoha_npu_wlan_control",
+        "airoha_npu_wlan_init_memory",
+        "airoha_npu_wlan_irq_disable",
+        "airoha_npu_wlan_irq_enable",
+        "airoha_npu_wlan_irq_status_get",
+        "airoha_npu_wlan_irq_status_set",
+        "airoha_npu_wlan_msg_get",
+        "airoha_npu_wlan_msg_send",
+        "airoha_npu_wlan_prepare_memory",
+        "airoha_npu_wlan_queue_addr_get"
+      ],
+      "modinfo": [
+        "license=GPL",
+        "depends=",
+        "vermagic=6.18.52 SMP mod_unload aarch64"
+      ]
+    }
+  },
+  "inputs_and_kernel_artifacts": [
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c",
+      "bytes": 28142,
+      "sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h",
+      "bytes": 9024,
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/clk/clk-en7523.c",
+      "bytes": 32498,
+      "sha256": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/.config",
+      "bytes": 119874,
+      "sha256": "a5e46337b07bfec2ef2aad3382a160516588bc95f25d21b3dff1224df9224362"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/generated/autoconf.h",
+      "bytes": 41370,
+      "sha256": "37ccafb07316d9969de50055602effed9e372a6dd794f76b316cc7a92f104fcf"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/Module.symvers",
+      "bytes": 489336,
+      "sha256": "636e38237ff569a00f7db0a780fb0c00cdb366ead0a385387d877c78eb88817f"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/arch/arm64/boot/Image",
+      "bytes": 13230088,
+      "sha256": "5c963aa79b297171c963ef87bda5d2c9068b18bac6c733886cb07ed69ff4febe"
+    }
+  ],
+  "prepared_source_binding": {
+    "passed": true,
+    "files": [
+      {
+        "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c",
+        "sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582",
+        "bytes": 28142
+      },
+      {
+        "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h",
+        "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0",
+        "bytes": 9024
+      },
+      {
+        "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/clk/clk-en7523.c",
+        "sha256": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7",
+        "bytes": 32498
+      }
+    ],
+    "scope": "Actual prepared Linux 6.18.52 NPU provider/public header/reset source matches canonical offline reconstruction; compiler still running"
+  },
+  "scope": "Actual prepared canonical provider compiled and linked as AArch64 module; kernel target compilation passed. Complete package/image build remains pending; no module loaded or physical test performed.",
+  "retained_diagnostics": "modpost warns the provider lacks MODULE_DESCRIPTION; this nonfatal metadata warning is not hidden."
+}

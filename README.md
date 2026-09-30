@@ -14,19 +14,35 @@ Our provider/driver corrections and Linux control client are build inputs, with
 WLAN NPU enabled. The RV32 core has a normal build target. There is no separate
 release-ready versus experimental source track. Build and hardware verification
 remain distinct. The complete image builds and passes offline FIT/board/package/
-module checks as `r36536-merged-288d79449f`. A user-authorized flash now passes
-basic boot and wired management checks, with unchanged protected storage.
-Wi-Fi remains blocked by the same retained channel-161/SA validation error seen
-before flashing; client traffic and complete NPU recovery are not validated.
+module checks as `r36536-merged-288d79449f`. The September 23 image passed a user-authorized flash, basic boot and wired
+management checks, with unchanged protected storage. At that checkpoint, Wi-Fi
+remained blocked by the retained channel-161/SA validation error seen before
+flashing. Current hardware state must be rechecked; client traffic and complete
+NPU recovery are not validated.
 See the [physical boot report](research/checkpoints/2026-09-23-nonoc-flash/REPORT.md) and the
 [merge report](docs/NONOC_MERGE.md) for the image path, SHA256 and test receipts.
 
-The latest source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
+The current cloud working source also validates and snapshots the MT7996 WLAN
+memory plan before either firmware copy. Generic/PPE-only profiles retain their
+optional WLAN behavior and caller-local setup plans. The new portable host-C
+replay passes 273 loader cases, 165 additional load scenarios, three original
+failure controls, nine rejected mutants, 6,174 retry cases and 44 V2 executor
+cases. This change is integrated in the canonical patch/source lock and now has
+a compiled/linked AArch64 provider module and ten RV32 objects;
+its full image passes offline FIT/board/firmware/218-package/78-module checks.
+The candidate has not been booted or flashed. See the
+[cold-memory checkpoint](research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md)
+and [completed cloud validation](research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md).
+
+The last published source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
 It preflights both NPU firmware images before either copy, rejects empty images
 and releases acquired firmware on error. The correction is included in the
 unified kernel patch and source lock. The earlier flashed image predates it.
 
-| Verification | Latest Evidence |
+The following target-object/source-tree evidence applies to that preceding
+paired-loader checkpoint, not the newer memory-plan change:
+
+| Verification | Paired-Loader Evidence |
 | --- | --- |
 | Firmware pair loader | 273 actual-C host cases, four original failure controls and six rejected mutants |
 | Provider build | Complete before/after AArch64 objects on Linux 6.18.52; strict checkpatch passes |
@@ -35,8 +51,9 @@ unified kernel patch and source lock. The earlier flashed image predates it.
 | Independent readback | 174 referenced files match their SHA256 fingerprints |
 
 The [loader checkpoint](research/checkpoints/2026-09-30-npu-loader/REPORT.md)
-records the software tests and reset-domain review. The paired-loader change
-has not yet been tested in a newly built or flashed firmware image.
+records the software tests and reset-domain review. The paired-loader change is also included in the September 30 cold-memory
+candidate, which now passes full offline image verification. That candidate
+has not been booted or flashed.
 
 The retained rollback baseline is **Daybreak21 WLAN-DMA R1 (2026-09-05)**,
 Linux 6.18.44, SHA256
@@ -82,7 +99,8 @@ the original file with end-to-end SHA256 verification.
 
 ## Build Preparation
 
-Use WSL native ext4. The canonical local checkout is `/home/captain/W1700KNPU`,
+Use a native Linux filesystem, including WSL ext4 or the authorized cloud
+checkout. The original local checkout is `/home/captain/W1700KNPU`,
 accessible in Explorer at `\\wsl.localhost\Ubuntu\home\captain\W1700KNPU`.
 The registered Ubuntu backing disk is under `D:\WSL\Ubuntu`.
 The earlier `D:\W1700K-Recovery` snapshot location was absent in the
@@ -96,18 +114,27 @@ python3 tools/prepare_build.py --destination .build/local-openwrt
 python3 tools/build_firmware.py --destination .build/local-openwrt --name local-build
 ```
 
-The current working build is `.build/merged-openwrt`; the earlier
+On the original WSL executor, the working build is `.build/merged-openwrt`; the earlier
 `.build/openwrt` is retained as a rollback/evidence reference. Use fresh
 destination and log names; the preparer refuses an existing destination and
 verifies every locked changed source file. It does not flash a router. Image
 signing keys are not uploaded; fresh build keys must be generated or supplied locally.
 An existing imported build may instead be reused as recorded in migration docs.
+The cloud transfer contains source/evidence, not the generated WSL build trees
+or credentials. Prepared-kernel commands require rebuilding that environment.
 The combined builder also compiles the RV32 component library using a host
 Clang with RISC-V support and `ar`. That library is not yet a replacement
 bootable NPU image: production loader identity, placement and postgate wiring
 remain unfinished implementation work.
 
-To replay the latest software checks, choose fresh result names:
+For the portable current provider/loader/retry/V2 host checks (GCC and Git):
+
+```sh
+python3 tests/npu/test_cold_memory_plan.py --name readme-cold-replay
+```
+
+The original prepared-kernel checks below require the pinned build environment.
+Choose fresh result names:
 
 ```sh
 python3 tests/npu/test_npu_firmware_loader.py --name readme-replay --output-dir .local/npu-loader-20260930/readme-replay-evidence

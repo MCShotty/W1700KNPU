@@ -1,0 +1,34 @@
+{
+  "feeds_index_exit": 0,
+  "feeds_install_exit": 0,
+  "defconfig_exit": 0,
+  "config_unchanged": true,
+  "config_sha256": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6",
+  "required_selections": [
+    "CONFIG_TARGET_airoha_an7581_DEVICE_gemtek_w1700k-ubi=y",
+    "CONFIG_PACKAGE_airoha-en7581-mt7996-npu-firmware=y",
+    "CONFIG_PACKAGE_kmod-airoha-npu=y",
+    "CONFIG_PACKAGE_kmod-mt7996e=y",
+    "CONFIG_PACKAGE_w1700k-npu-status=y"
+  ],
+  "configuration_diagnostics": "Upstream recursive dependency diagnostics for unselected librespeed-cli(-rust/common), luci-app-librespeed and squeezelite-custom retained; defconfig exits zero and canonical configuration is byte-identical. This is not a clean Kconfig log.",
+  "prerequisite_overrides": false,
+  "files": {
+    ".local/cloud-build-access/feeds-index-resumed.log": {
+      "sha256": "8f3f3736feb38f32f914ffa31a01c85faf6c30d2e60a8e3e0cac3f549dc1e0d1",
+      "bytes": 96333
+    },
+    ".local/cloud-build-access/feeds-install-resumed.log": {
+      "sha256": "1c82cce2faa376b550cf53a701e8676e9a63b992027cdda1c83e23180f9a0bd0",
+      "bytes": 81729
+    },
+    ".local/cloud-build-access/defconfig-resumed.log": {
+      "sha256": "c0a35859ddec2dedc229daa6c670402d84cce45af6a4fce4afb1ca30b80ae87f",
+      "bytes": 2775
+    },
+    ".build/merged-openwrt/staging_dir/host/.prereq-build": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  }
+}

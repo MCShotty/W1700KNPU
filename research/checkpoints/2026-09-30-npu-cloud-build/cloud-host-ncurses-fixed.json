@@ -1,0 +1,54 @@
+{
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "package/libs/ncurses/host/compile",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-host-ncurses-fixed.log",
+    "started": 1790772064.8855412,
+    "exit_code": 0,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790772123.4221818
+  },
+  "seconds": 58.536640644073486,
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-host-ncurses-fixed.json": {
+      "sha256": "d8eff7d507cb07002a90a224b4bc191dd234dead1f3dbb9d2743c4b4c337fda4",
+      "bytes": 1563
+    },
+    ".local/merge-nonoc-20260923/build-cloud-host-ncurses-fixed.log": {
+      "sha256": "a43de4d275e52b6d7032dbf8190e00e424f1ba90ac9ae4dc567a7dff7fb04b21",
+      "bytes": 325705
+    },
+    ".local/cloud-build-access/guard-cloud-host-ncurses-fixed.json": {
+      "sha256": "2986efa9fcf66b1c5e616992a8f48b6bc14cdaba63987ad90fff1f473e826f79",
+      "bytes": 1181
+    }
+  }
+}

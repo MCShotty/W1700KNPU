@@ -1,0 +1,119 @@
+{
+  "receipt_date": "2026-09-30",
+  "status": "passed_with_recorded_DWARF_limitations",
+  "scope": "Current public-source AArch64 provider module static import and selected decompilation",
+  "original_module": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.ko",
+  "module_sha256": "cee6f7735f0a0603c26be90f5f35af2e52143438d634ff3df112aeaf30f4ed20",
+  "module_size_bytes": 124776,
+  "source_sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582",
+  "copied_inputs": "Hash-verified snapshot taken before analysis to avoid concurrent build replacement",
+  "original_input_hashes_still_match": {
+    "module": true,
+    "source": true
+  },
+  "ghidra_version": "12.1.2",
+  "java_version": "Temurin 21.0.12.1+1",
+  "language": "AARCH64:LE:64:v8A",
+  "elf_type": "REL",
+  "compiler_from_DWARF": "GNU C11 14.4.0 -g -O2",
+  "analysis_limits": {
+    "max_cpu": 1,
+    "heap": "1G",
+    "ActiveProcessorCount": 1,
+    "ParallelGCThreads": 1,
+    "timeout_per_file_seconds": 240
+  },
+  "executable_functions_analyzed": 29,
+  "functions_exported": 6,
+  "failed_decompilations": 0,
+  "analysis_timeout": false,
+  "additional_files_imported": 0,
+  "export_script": "tools/ghidra/ExportMailboxContract.java",
+  "export_script_sha256": "3e460078d086af1847ed05f162613473d44828b6e4bfc84c31d23674931d6bcd",
+  "export_sha256": "ab6310863e9343c516ad58c5864a74b61cf4c674a315418c52e46e0e6ff1f146",
+  "functions": [
+    {
+      "name": "airoha_npu_request_firmware",
+      "ghidra_address": "0x001005c0",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x0000000000000580",
+      "size_bytes": 208,
+      "binding": "LOCAL",
+      "decompiled": true
+    },
+    {
+      "name": "airoha_npu_wlan_prepare_memory",
+      "ghidra_address": "0x00100de4",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x0000000000000da4",
+      "size_bytes": 644,
+      "binding": "LOCAL",
+      "decompiled": true
+    },
+    {
+      "name": "airoha_npu_wlan_init_memory",
+      "ghidra_address": "0x00101068",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x0000000000001028",
+      "size_bytes": 240,
+      "binding": "LOCAL",
+      "decompiled": true
+    },
+    {
+      "name": "airoha_npu_load_firmware",
+      "ghidra_address": "0x00101160",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x0000000000001120",
+      "size_bytes": 236,
+      "binding": "LOCAL",
+      "decompiled": true
+    },
+    {
+      "name": "airoha_npu_run_firmware",
+      "ghidra_address": "0x0010124c",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x000000000000120c",
+      "size_bytes": 444,
+      "binding": "LOCAL",
+      "decompiled": true
+    },
+    {
+      "name": "airoha_npu_probe",
+      "ghidra_address": "0x00101408",
+      "elf_section": "8",
+      "elf_section_relative_value": "0x00000000000013c8",
+      "size_bytes": 1124,
+      "binding": "LOCAL",
+      "decompiled": true
+    }
+  ],
+  "inline_helpers": [
+    {
+      "name": "airoha_npu_memory_valid",
+      "standalone_FUNC_symbol": false,
+      "dwarf_inline": true,
+      "inline_instances": 3,
+      "abstract_die": "0x3b1b"
+    },
+    {
+      "name": "airoha_npu_load_firmware_from_dts",
+      "standalone_FUNC_symbol": false,
+      "dwarf_inline": true,
+      "inline_instances": 1,
+      "abstract_die": "0x3038"
+    }
+  ],
+  "warnings": [
+    "Three generated __addressable metadata variables lack DWARF addresses",
+    "Optimized register-location expressions are not fully recovered; pseudocode contains unresolved locals and incomplete structure/type/prototype information",
+    "Empty .note.GNU-stack and .bss sections skipped; symbol associated with skipped .note.GNU-stack not placed"
+  ],
+  "limits": [
+    "Import/decompilation evidence, not proven source/binary semantic equivalence",
+    "Ghidra addresses are relocation-assigned analysis addresses, not runtime module addresses",
+    "No module execution, emulation, C compilation, private input or old-project import",
+    "No source/tool/build edits, hardware changes or publication",
+    "No runtime containment, physical DMA drain, boot or stock-parity claim"
+  ],
+  "free_bytes_after": 9614901248
+}
