@@ -19263,3 +19263,20 @@ Status and boundary:
   loader identity/placement/publication, real V2 caller wiring, postgate boot
   and physical recovery remain open. This source/object checkpoint produces no
   new firmware image and performs no router operation.
+
+## 2026-09-30 - README And Agent Resume Instructions
+
+- The user requested updating both root documents after the mainline checkpoint.
+  README now identifies the full objective, source versus flashed-image status,
+  verification scope, remaining NPU work and active/recovery local paths.
+- AGENTS now carries the unified experimental source policy, current loader
+  checkpoint, resume priorities and installed Jev credential/workflow guidance.
+  Source-lock authority, protected data and hardware evidence distinctions remain
+  part of the working instructions.
+- Current path checks confirm the source UNC path and Ubuntu registration at
+  `D:\WSL\Ubuntu`. The earlier `D:\W1700K-Recovery` directory is absent; the
+  documents label it historical rather than promising an available snapshot.
+- Fresh-build commands pass the same explicit destination to preparation and
+  building; software replay examples use fresh names. Documentation checks cover
+  local references, CLI options and consistency with the checkpoint evidence.
+  This documentation update changes no firmware, build result or router state.
