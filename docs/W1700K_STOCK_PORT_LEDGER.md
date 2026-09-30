@@ -19239,3 +19239,27 @@ Status and boundary:
 - Hardware observations retain their September 24 scope. No new hardware test
   is implied by this publication. Resume at contained cold-provider lifetime,
   loader identity/publication, caller integration and physical drain/rearm.
+
+## 2026-09-30 - Paired Firmware Loader And Reset-Domain Review
+
+- Completed the requested mainline publication: Windows native Git pushed
+  `ec39858` after WSL lacked push credentials. Both a fresh fetch/ls-remote and
+  the GitHub connector confirm the main ref; the checkout was clean afterward.
+- Continued the full NPU objective at cold-provider initialization. Current
+  code could copy RV32 firmware before rejecting a missing/oversized data file,
+  and accepted empty images. Both DTS and default profiles now request and
+  validate the pair before either copy, with exact acquired-object release.
+- Included the correction in the unified kernel patch and source lock.
+  Actual provider C passes 273 ASan/UBSan cases, four original failure controls,
+  six compiled mutants and strict checkpatch. Complete before/after AArch64
+  objects compile on 6.18.52 without diagnostics. Existing regressions pass
+  109 memory, 6,174 retry and 44 V2 executor cases; 60 source files replay.
+- Read-only Ghidra export covers 40 stock-kernel functions/direct callers.
+  Separate NPU/GDMA reset registers and the lack of a stock GDMA probe/remove
+  drain operation are established statically. The current watchdog only dumps;
+  the stock core on/off helper is a separate path. These do not certify cold
+  hardware containment, bus completion or whole-engine ownership closure.
+- Report: `research/checkpoints/2026-09-30-npu-loader/REPORT.md`. Full cold reset,
+  loader identity/placement/publication, real V2 caller wiring, postgate boot
+  and physical recovery remain open. This source/object checkpoint produces no
+  new firmware image and performs no router operation.

@@ -25,6 +25,12 @@ router with NPU/PPE providers attached. Daybreak21 R1 with WLAN NPU compiled out
 remains the protected rollback baseline. Basic flash evidence:
 `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
 
+The 2026-09-30 source update obtains and validates the complete firmware pair
+before either copy, rejects empty images and checks acquired-object release.
+Actual-C faults, complete 6.18.52 provider objects and locked source replay pass;
+the September 23 flashed image predates this change. It does not establish cold
+containment or DMA drains. See `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
+
 ## Resume Blockers
 
 The later flash request authorized the completed basic boot/management check,

@@ -69,6 +69,24 @@ def main():
     source, header = SOURCE.read_text(), HEADER.read_text()
     retry = extract.function(source, 'airoha_npu_wlan_cmd_with_retry')
     preflight.HEADER = HEADER
+    if 'static int airoha_npu_request_firmware(' in source:
+        preflight.PREFIX = preflight.PREFIX.replace(
+            'static int airoha_npu_load_firmware(',
+            'static int airoha_npu_load_firmware_one(')
+        preflight.PREFIX += '''
+struct airoha_npu_soc_data;
+static int airoha_npu_load_firmware(struct device *, void *, void *,
+                                   const struct airoha_npu_soc_data *);
+'''
+        preflight.MIDDLE += '''
+static int airoha_npu_load_firmware(struct device *d, void *addr, void *base,
+                                   const struct airoha_npu_soc_data *images) {
+    int err = airoha_npu_load_firmware_one(d, addr, images->fw_rv32.name,
+                                          images->fw_rv32.max_size);
+    return err ? err : airoha_npu_load_firmware_one(d, base,
+                         images->fw_data.name, images->fw_data.max_size);
+}
+'''
     preflight.MIDDLE += '\nstatic void mdelay(unsigned int msec) { (void)msec; }\n' + retry
     lib = preflight.build(source, source, 'memory', dest)
     cases = preflight.suite(lib)

@@ -1,0 +1,79 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-loader-20260930\\jev-loader-request.json",
+  "request_sha256": "df552b2286a7cb2598c56d6db096ddd4a071cc09c79c41ed7a2a389b4039c457",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "pair_preflight": {
+      "type": "noul",
+      "instructions": "Do state.load_one and state.load_pair establish that both images are obtained and size-validated before the first firmware memory write?"
+    },
+    "data_failure_effect": {
+      "type": "choice",
+      "instructions": "After successful code loading, what effect is established if the second firmware request fails or its size exceeds the maximum? Use state.load_one and state.load_pair.",
+      "criteria": {
+        "code_already_written": "The first code image has already been copied even though the second image fails.",
+        "no_firmware_written": "Both images were validated before either copy.",
+        "unknown": "The supplied code does not establish the write order."
+      }
+    },
+    "empty_image": {
+      "type": "noul",
+      "instructions": "Does state.load_one explicitly reject a successfully requested image with size zero before returning success?"
+    },
+    "watchdog_restart": {
+      "type": "noul",
+      "instructions": "Does state.watchdog_work perform a core reset or firmware restart? Treat dump capture as a diagnostic action."
+    },
+    "physical_coverage": {
+      "type": "choice",
+      "instructions": "Does state.reset_mappings together with state.existing_evidence prove that asserting only the NPU reset drains all GDMA bus work?",
+      "criteria": {
+        "proved": "Physical reset and bus-drain evidence establishes the assertion for every GDMA user.",
+        "not_established": "Separate register mappings and modeled callbacks do not establish physical whole-engine drain semantics.",
+        "unknown": "The evidence cannot be interpreted."
+      }
+    }
+  },
+  "elapsed_ms": 1300,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "pair_preflight": {
+        "type": "noul",
+        "noul": 0.55
+      },
+      "data_failure_effect": {
+        "type": "choice",
+        "choice": "code_already_written",
+        "confidence": 0.98,
+        "probabilities": {
+          "code_already_written": 0.98,
+          "unknown": 0.01,
+          "no_firmware_written": 0.01
+        }
+      },
+      "empty_image": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "watchdog_restart": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "physical_coverage": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "unknown": 0.0,
+          "proved": 0.0,
+          "not_established": 1.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 996,
+      "output_tokens": 151
+    }
+  }
+}

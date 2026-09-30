@@ -18,6 +18,11 @@ before flashing; client traffic and complete NPU recovery are not validated.
 See the [physical boot report](research/checkpoints/2026-09-23-nonoc-flash/REPORT.md) and the
 [merge report](docs/NONOC_MERGE.md) for the image path, SHA256 and test receipts.
 
+The latest source update preflights both NPU firmware images before either
+copy. Fault tests, 6.18.52 provider objects and source replay pass; the flashed
+September 23 image predates this correction. See the
+[loader checkpoint](research/checkpoints/2026-09-30-npu-loader/REPORT.md).
+
 The retained rollback baseline is **Daybreak21 WLAN-DMA R1 (2026-09-05)**,
 Linux 6.18.44, SHA256
 `0788f405337ceb030d873463bbf278497dcd9b86e8f75a1a3f57fd318eda195f`.

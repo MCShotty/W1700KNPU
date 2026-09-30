@@ -7129,3 +7129,20 @@ association were changed. Status source labels and boot environment/NVMEM
 warnings need follow-up. Client traffic and full NPU recovery remain untested.
 Sanitized report: `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`.
 Private logs/backups remain under ignored `.local/flash-20260923/`.
+
+## NPU Paired Firmware Loader - 2026-09-30
+
+Published the pending physical-boot documentation as `ec39858` on GitHub main.
+Continued at the cold-loader prerequisite and corrected the partial-image
+request/validation failure path in the integrated kernel source. Both images
+are validated before either copy; empty inputs fail and acquired handles release.
+273 actual-C cases, four original controls, six mutants, two complete 6.18.52
+provider objects, strict checkpatch and existing memory/retry/V2 tests pass.
+Locked OpenWrt/LuCI replay verifies all 60 files, and the kernel patch reproduces
+the actual tested provider exactly.
+
+Read-only Ghidra review of 40 selected stock functions/direct callers confirms
+separate NPU/GDMA reset mappings and no GDMA probe/remove drain operation.
+Physical containment, loader identity and publication, V2 caller wiring,
+postgate execution and recovery remain open. The source change is not a new
+flashed image. See `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.

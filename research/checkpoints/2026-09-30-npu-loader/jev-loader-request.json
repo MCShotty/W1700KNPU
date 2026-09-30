@@ -1,0 +1,18 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "source": "Prepared merged Linux 6.18.52 drivers/net/ethernet/airoha/airoha_npu.c",
+    "load_one": "ret = request_firmware_direct(&fw, fw_name, dev); if (ret) return dev_err_probe(dev, ret == -ENOENT ? -EPROBE_DEFER : ret, ...); if (fw->size > fw_max_size) { ret = -E2BIG; goto out; } memcpy_toio(addr, fw->data, fw->size); out: release_firmware(fw); return ret;",
+    "load_pair": "ret = airoha_npu_load_firmware(dev, addr, fw_names[0], NPU_EN7581_FIRMWARE_RV32_MAX_SIZE); if (ret) return ret; return airoha_npu_load_firmware(dev, base + REG_NPU_LOCAL_SRAM, fw_names[1], NPU_EN7581_FIRMWARE_DATA_MAX_SIZE);",
+    "watchdog_work": "dump = vzalloc(NPU_DUMP_SIZE); if (!dump) return; c = core - &npu->cores[0]; regmap_bulk_read(npu->regmap, REG_PC_DBG(c), val, ARRAY_SIZE(val)); snprintf(dump, NPU_DUMP_SIZE, ...); dev_coredumpv(npu->dev, dump, NPU_DUMP_SIZE, GFP_KERNEL);",
+    "reset_mappings": {"NPU": "logical ID 8 -> bank 0 bit 9", "GDMA": "logical ID 38 -> bank 1 bit 14"},
+    "existing_evidence": "The reset-controller map and callback tests execute modeled regmap. Stock GDMA instruction tests model register status and bus work. Neither executes real hardware resets or bus drains."
+  },
+  "questions": {
+    "pair_preflight": {"type": "noul", "instructions": "Do state.load_one and state.load_pair establish that both images are obtained and size-validated before the first firmware memory write?"},
+    "data_failure_effect": {"type": "choice", "instructions": "After successful code loading, what effect is established if the second firmware request fails or its size exceeds the maximum? Use state.load_one and state.load_pair.", "criteria": {"code_already_written": "The first code image has already been copied even though the second image fails.", "no_firmware_written": "Both images were validated before either copy.", "unknown": "The supplied code does not establish the write order."}},
+    "empty_image": {"type": "noul", "instructions": "Does state.load_one explicitly reject a successfully requested image with size zero before returning success?"},
+    "watchdog_restart": {"type": "noul", "instructions": "Does state.watchdog_work perform a core reset or firmware restart? Treat dump capture as a diagnostic action."},
+    "physical_coverage": {"type": "choice", "instructions": "Does state.reset_mappings together with state.existing_evidence prove that asserting only the NPU reset drains all GDMA bus work?", "criteria": {"proved": "Physical reset and bus-drain evidence establishes the assertion for every GDMA user.", "not_established": "Separate register mappings and modeled callbacks do not establish physical whole-engine drain semantics.", "unknown": "The evidence cannot be interpreted."}}
+  }
+}

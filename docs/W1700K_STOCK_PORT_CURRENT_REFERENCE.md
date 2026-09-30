@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-24 (merged image flashed; basic boot passes, existing Wi-Fi configuration block remains)
+Last updated: 2026-09-30 (paired firmware preflight integrated and object-tested; physical cold lifetime remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,24 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Status - Merged Image Physical Boot - 2026-09-24
+## Current Status - NPU Firmware Pair Preflight - 2026-09-30
+
+- Flash documentation is published on GitHub `main` at `ec39858`; Windows Git
+  credentials worked after the WSL push failed. The remote ref was verified.
+- The provider now validates both code/data files before copying either and
+  rejects empty images. Request/size failures preserve both destinations and
+  release acquired firmware. The change is in the integrated main kernel patch
+  and source lock, not a separate implementation track.
+- 273 actual-C host cases, four original controls, six mutants, two complete
+  Linux 6.18.52 AArch64 provider objects and strict checkpatch pass. Existing
+  memory/retry/V2 executor regressions and all 60 source replay files pass.
+- Reset review confirms separate NPU/GDMA reset mappings; stock probe/removal
+  and boot-trigger helpers supply no complete physical drain proof. Cold
+  containment, loader identity/publication, V2 callers and drain/rearm remain
+  open. No new image or hardware test occurred. Evidence:
+  `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
+
+## Previous Status - Merged Image Physical Boot - 2026-09-24
 
 - User-authorized settings-preserving flash runs `r36536-merged-288d79449f`,
   kernel 6.18.52, on the serial/SSH-verified W1700K. Flashed FIT readback matches

@@ -7,6 +7,12 @@ by a pre-existing retained channel-161/SA validation error. See
 `research/checkpoints/2026-09-23-nonoc-flash/REPORT.md`; full hardware/NPU
 acceptance remains open.
 
+The 2026-09-30 provider update validates both firmware images before either
+copy and rejects empty files. It is included in the main kernel patch/source
+lock and passes fault tests, complete provider object builds and source replay.
+The September 23 flashed image predates this change. Details:
+`research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
+
 The user's 2026-09-23 instruction makes the current implemented changes one
 experimental source/build target. Earlier checkpoint labels such as
 "unpromoted" describe historical state, not a separate current source track.

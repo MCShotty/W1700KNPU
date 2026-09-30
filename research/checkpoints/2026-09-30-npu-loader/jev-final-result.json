@@ -1,0 +1,95 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-loader-20260930\\jev-final-request.json",
+  "request_sha256": "66a9f2b9ed1f2dff4bab237e2599fa2765a5b5b78985496356de050d3342bf74",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "request_failure_preflight": {
+      "type": "choice",
+      "instructions": "Does state.loader and state.tests support this specific claim: a request failure or empty/oversized image is rejected before either firmware memory copy?",
+      "criteria": {
+        "supported": "The pair validates both requests before its first copy, and the scoped tests check failure leaves both destinations unchanged.",
+        "contradicted": "A copy occurs before a possible request or size rejection.",
+        "not_established": "The supplied evidence is insufficient for the scoped software claim."
+      }
+    },
+    "resource_release": {
+      "type": "choice",
+      "instructions": "Does state.loader and state.tests establish that every successfully acquired firmware object is released once on the covered success/error paths?",
+      "criteria": {
+        "supported": "The explicit paths and modeled object ownership checks cover this software claim.",
+        "contradicted": "An object is leaked or released twice on a described path.",
+        "not_established": "The paths or tests do not establish the scoped claim."
+      }
+    },
+    "integration": {
+      "type": "choice",
+      "instructions": "Which status is established by state.integration and state.tests?",
+      "criteria": {
+        "main_build_input_and_object_tested": "The change is in the locked main build input and its provider objects compile; no new flashed image is established.",
+        "flashed_runtime_tested": "A new image containing this change was flashed and tested on hardware.",
+        "isolated_only": "The implementation exists only in a test and is absent from the locked build input.",
+        "unknown": "The state does not establish an integration status."
+      }
+    },
+    "cold_containment": {
+      "type": "choice",
+      "instructions": "Does state.reset_evidence together with the paired-loader change establish contained physical cold reset and complete DMA drain?",
+      "criteria": {
+        "supported": "Hardware reset and all-master drain are established.",
+        "not_established": "Static register maps, scoped decompilation and request/copy preflight leave physical reset and DMA drain unproved.",
+        "contradicted": "The evidence establishes that no such reset could ever contain DMA."
+      }
+    }
+  },
+  "elapsed_ms": 1550,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "request_failure_preflight": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.99,
+        "probabilities": {
+          "contradicted": 0.0,
+          "not_established": 0.0,
+          "supported": 1.0
+        }
+      },
+      "resource_release": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.38,
+        "probabilities": {
+          "contradicted": 0.1,
+          "not_established": 0.31,
+          "supported": 0.59
+        }
+      },
+      "integration": {
+        "type": "choice",
+        "choice": "main_build_input_and_object_tested",
+        "confidence": 1.0,
+        "probabilities": {
+          "isolated_only": 0.0,
+          "main_build_input_and_object_tested": 1.0,
+          "flashed_runtime_tested": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "cold_containment": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "contradicted": 0.0,
+          "not_established": 1.0,
+          "supported": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1254,
+      "output_tokens": 202
+    }
+  }
+}

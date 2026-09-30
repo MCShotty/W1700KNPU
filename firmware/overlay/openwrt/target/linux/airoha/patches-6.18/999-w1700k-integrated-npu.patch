@@ -167,11 +167,12 @@ build input; compilation is not a physical drain or recovery proof.
  	spin_unlock_bh(&core->lock);
  
  	return ret;
-@@ -220,6 +269,29 @@
- {
+@@ -221,36 +270,85 @@
  	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
  }
-+
+ 
+-static int airoha_npu_load_firmware(struct device *dev, void __iomem *addr,
+-				    const char *fw_name, int fw_max_size)
 +int airoha_npu_wlan_control(struct airoha_npu *npu, void *data, int len)
 +{
 +	const u8 *bytes = data;
@@ -194,10 +195,67 @@ build input; compilation is not a physical drain or recovery proof.
 +	return __airoha_npu_send_msg(npu, NPU_FUNC_WIFI, data, len, data, len);
 +}
 +EXPORT_SYMBOL_GPL(airoha_npu_wlan_control);
++
++static int airoha_npu_request_firmware(struct device *dev,
++				       const struct airoha_npu_fw *image,
++				       const struct firmware **result)
+ {
+ 	const struct firmware *fw;
+ 	int ret;
  
- static int airoha_npu_load_firmware(struct device *dev, void __iomem *addr,
- 				    const char *fw_name, int fw_max_size)
-@@ -247,9 +319,10 @@
+-	ret = request_firmware_direct(&fw, fw_name, dev);
++	ret = request_firmware_direct(&fw, image->name, dev);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret == -ENOENT ? -EPROBE_DEFER : ret,
+-				     "failed to load %s\n", fw_name);
+-
+-	if (fw->size > fw_max_size) {
+-		dev_err(dev, "%s: fw size too overlimit (%zu)\n",
+-			fw_name, fw->size);
+-		ret = -E2BIG;
+-		goto out;
+-	}
+-
+-	memcpy_toio(addr, fw->data, fw->size);
+-out:
+-	release_firmware(fw);
++				     "failed to load %s\n", image->name);
++
++	if (!fw->size || fw->size > image->max_size) {
++		dev_err(dev, "%s: invalid fw size (%zu)\n",
++			image->name, fw->size);
++		ret = fw->size ? -E2BIG : -EINVAL;
++		release_firmware(fw);
++		return ret;
++	}
++
++	*result = fw;
++	return 0;
++}
++
++static int airoha_npu_load_firmware(struct device *dev, void __iomem *addr,
++				    void __iomem *base,
++				    const struct airoha_npu_soc_data *images)
++{
++	const struct firmware *rv32, *data;
++	int ret;
++
++	ret = airoha_npu_request_firmware(dev, &images->fw_rv32, &rv32);
++	if (ret)
++		return ret;
++
++	ret = airoha_npu_request_firmware(dev, &images->fw_data, &data);
++	if (ret)
++		goto release_rv32;
++
++	/* A deferred or invalid second image must not replace just the code. */
++	memcpy_toio(addr, rv32->data, rv32->size);
++	memcpy_toio(base + REG_NPU_LOCAL_SRAM, data->data, data->size);
++	release_firmware(data);
++release_rv32:
++	release_firmware(rv32);
+ 
+ 	return ret;
  }
  
  static int
@@ -207,31 +265,44 @@ build input; compilation is not a physical drain or recovery proof.
  {
 +	struct device *dev = priv->npu.dev;
  	const char *fw_names[2];
++	struct airoha_npu_soc_data images;
  	int ret;
  
-@@ -259,6 +332,9 @@
+ 	ret = of_property_read_string_array(dev->of_node, "firmware-name",
+@@ -259,26 +357,35 @@
  		return dev_err_probe(dev, -EINVAL,
  				     "invalid firmware-name property\n");
  
+-	ret = airoha_npu_load_firmware(dev, addr, fw_names[0],
+-				       NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
+-	if (ret)
+-		return ret;
+-
+-	return airoha_npu_load_firmware(dev, base + REG_NPU_LOCAL_SRAM,
+-					fw_names[1],
+-					NPU_EN7581_FIRMWARE_DATA_MAX_SIZE);
+-}
+-
+-static int airoha_npu_run_firmware(struct device *dev, void __iomem *base,
 +	if (!strcmp(fw_names[0], NPU_EN7581_7996_FIRMWARE_RV32))
 +		priv->txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;
 +
- 	ret = airoha_npu_load_firmware(dev, addr, fw_names[0],
- 				       NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
- 	if (ret)
-@@ -269,9 +345,10 @@
- 					NPU_EN7581_FIRMWARE_DATA_MAX_SIZE);
- }
- 
--static int airoha_npu_run_firmware(struct device *dev, void __iomem *base,
++	images.fw_rv32.name = fw_names[0];
++	images.fw_rv32.max_size = NPU_EN7581_FIRMWARE_RV32_MAX_SIZE;
++	images.fw_data.name = fw_names[1];
++	images.fw_data.max_size = NPU_EN7581_FIRMWARE_DATA_MAX_SIZE;
++
++	return airoha_npu_load_firmware(dev, addr, base, &images);
++}
++
 +static int airoha_npu_run_firmware(struct airoha_npu_priv *priv, void __iomem *base,
  				   struct resource *res)
  {
 +	struct device *dev = priv->npu.dev;
  	const struct airoha_npu_soc_data *soc;
  	void __iomem *addr;
- 	int ret;
-@@ -279,6 +356,14 @@
+-	int ret;
+ 
  	soc = of_device_get_match_data(dev);
  	if (!soc)
  		return -EINVAL;
@@ -246,19 +317,32 @@ build input; compilation is not a physical drain or recovery proof.
  
  	addr = devm_ioremap_resource(dev, res);
  	if (IS_ERR(addr))
-@@ -288,7 +373,10 @@
+@@ -288,18 +395,12 @@
  	 * dts if available.
  	 */
  	if (of_find_property(dev->of_node, "firmware-name", NULL))
 -		return airoha_npu_load_firmware_from_dts(dev, addr, base);
+-
+-	/* Load rv32 npu firmware */
+-	ret = airoha_npu_load_firmware(dev, addr, soc->fw_rv32.name,
+-				       soc->fw_rv32.max_size);
+-	if (ret)
+-		return ret;
+-
+-	/* Load data npu firmware */
+-	return airoha_npu_load_firmware(dev, base + REG_NPU_LOCAL_SRAM,
+-					soc->fw_data.name,
+-					soc->fw_data.max_size);
 +		return airoha_npu_load_firmware_from_dts(priv, addr, base);
 +
 +	if (!strcmp(soc->fw_rv32.name, NPU_EN7581_7996_FIRMWARE_RV32))
 +		priv->txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;
++
++	return airoha_npu_load_firmware(dev, addr, base, soc);
+ }
  
- 	/* Load rv32 npu firmware */
- 	ret = airoha_npu_load_firmware(dev, addr, soc->fw_rv32.name,
-@@ -531,89 +619,92 @@
+ static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
+@@ -531,89 +632,92 @@
  	return err;
  }
  
@@ -427,7 +511,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -745,6 +836,7 @@
+@@ -745,6 +849,7 @@
  static int airoha_npu_probe(struct platform_device *pdev)
  {
  	struct device *dev = &pdev->dev;
@@ -435,7 +519,7 @@ build input; compilation is not a physical drain or recovery proof.
  	struct airoha_npu *npu;
  	struct resource res;
  	void __iomem *base;
-@@ -755,9 +847,10 @@
+@@ -755,9 +860,10 @@
  	if (IS_ERR(base))
  		return PTR_ERR(base);
  
@@ -448,7 +532,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -782,6 +875,17 @@
+@@ -782,6 +888,17 @@
  	if (err)
  		return err;
  
@@ -466,7 +550,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -794,9 +898,6 @@
+@@ -794,9 +911,6 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  
@@ -476,7 +560,7 @@ build input; compilation is not a physical drain or recovery proof.
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
  			return irq;
-@@ -805,8 +906,6 @@
+@@ -805,8 +919,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -485,7 +569,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -831,13 +930,13 @@
+@@ -831,13 +943,13 @@
  			return -ENOMEM;
  	}
  
@@ -501,7 +585,7 @@ build input; compilation is not a physical drain or recovery proof.
  	regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
  	regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
  	msleep(100);
-@@ -862,18 +961,8 @@
+@@ -862,18 +974,8 @@
  	return 0;
  }
  
