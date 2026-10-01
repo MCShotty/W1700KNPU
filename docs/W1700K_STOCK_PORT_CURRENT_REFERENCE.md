@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-30 (paired firmware preflight integrated and object-tested; physical cold lifetime remains open)
+Last updated: 2026-09-30 (pre-copy MT7996 memory plan integrated; exact cloud image verified; physical boot/cold lifetime remain open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,49 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
 provider-guard/recovery checkpoint below; cleanup made no router changes.
 
-## Current Status - NPU Firmware Pair Preflight - 2026-09-30
+## GitHub Review Preparation - 2026-09-30
+
+The intended draft-review branch is `codex/npu-cold-memory-cloud-validation-20260930`,
+based on remote-verified `59e75a8`. Source publication is user-authorized; verify
+the actual PR head/tree and check status on GitHub. The tested runtime source
+and candidate image are unchanged by publication-only documentation corrections.
+This does not authorize merging, booting or flashing. Physical gates remain open.
+
+## Current Validation - Cloud Image Verified - 2026-09-30
+
+- All 60 source-lock files now replay from fresh pinned worktrees. Linux
+  6.18.52 reset source/mappings reconstruct, and 23,088 current-reset host cases
+  pass against modeled regmap dependencies. The runtime source is unchanged.
+- Cloud installation is approved. Official workspace-local Clang, GNU
+  prerequisites, pinned Python packages and Ghidra now pass tooling checks;
+  host APT remains restricted and unchanged. Ten current RV32 objects compile.
+  Pinned host tools and the AArch64 GCC 14.4.0/musl cross-toolchain now pass;
+  the current kernel and NPU provider module also compile/link. A host ncurses
+  wrapper-precedence conflict was corrected and upstream fakeroot simulation
+  handles packaging without real owner changes. The exact image passes all
+  FIT/board/firmware/218-package/78-module checks; no physical test occurred. See
+  `research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md`.
+
+## Current Source - Pre-Copy MT7996 Memory Plan - 2026-09-30
+
+- Canonical source now snapshots valid MT7996 WLAN memory geometry before
+  either image copy. Setup consumes that plan; other profiles retain optional
+  WLAN use and caller-local setup snapshots. Failed loads cannot admit setup.
+- Portable GCC ASan/UBSan tests pass 273 loader cases, 165 added load scenarios,
+  three original-source controls, nine mutants, 6,174 retry and 44 V2 executor
+  cases. Exact provider-file replay and strict checkpatch pass. LeakSanitizer's
+  environment-dependent check is disabled and not claimed as passed.
+- At the initial memory-plan checkpoint, the cloud checkout lacked its target
+  toolchain. The validation section above records subsequent source replay and
+  workspace tooling progress. Earlier build/flash receipts still apply only
+  to their earlier source. The newer candidate image passes offline checks
+  but is not yet router-tested; its physical handoff requires fresh verification.
+- Separate engine/reset ownership and physical witnesses remain unresolved;
+  no reset line or resource-reclamation path is changed. Fresh identity,
+  publication, callers, postgate execution and drain/rearm remain open.
+  Evidence: `research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md`.
+
+## Previous Status - NPU Firmware Pair Preflight - 2026-09-30
 
 - Flash documentation is published on GitHub `main` at `ec39858`; Windows Git
   credentials worked after the WSL push failed. The remote ref was verified.
