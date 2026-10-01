@@ -1,0 +1,74 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\github-sync-20261001\\jev-sync-request.json",
+  "request_sha256": "16265d4b723b8e704f184ac4d960cd1d77f67031da872a160d27df68dd1d24be",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "loaded_flag": {
+      "type": "choice",
+      "instructions": "What does priv->firmware_loaded establish in state.provider_copy_success?",
+      "criteria": {
+        "copy_complete": "Successful image validation/copy before the later processor boot sequence.",
+        "processors_ready": "All processors have booted and responded to readiness checks.",
+        "unknown": "The supplied order is insufficient to distinguish the claim."
+      }
+    },
+    "ownership": {
+      "type": "choice",
+      "instructions": "Does state.memory_plan establish exclusive physical ownership and completed DMA drains?",
+      "criteria": {
+        "not_established": "The geometry snapshot supplies neither exclusive physical ownership nor observed bus completion.",
+        "established": "The function includes the ownership and physical drain operations needed for that claim.",
+        "unknown": "The supplied state cannot be interpreted."
+      }
+    },
+    "status_scope": {
+      "type": "choice",
+      "instructions": "Does state.proposed_status accurately preserve the boundaries of state.local_evidence?",
+      "criteria": {
+        "supported": "The status distinguishes local software/image checks, a separately identified local FIT and outstanding hardware/full implementation work.",
+        "overclaim": "The status implies a flashed image, physical drain, client acceptance or completion that was not observed.",
+        "unknown": "A material part of the status lacks evidence."
+      }
+    }
+  },
+  "elapsed_ms": 1395,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "loaded_flag": {
+        "type": "choice",
+        "choice": "copy_complete",
+        "confidence": 1.0,
+        "probabilities": {
+          "processors_ready": 0.0,
+          "unknown": 0.0,
+          "copy_complete": 1.0
+        }
+      },
+      "ownership": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "established": 0.0,
+          "not_established": 1.0,
+          "unknown": 0.0
+        }
+      },
+      "status_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.88,
+        "probabilities": {
+          "unknown": 0.05,
+          "overclaim": 0.02,
+          "supported": 0.93
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 934,
+      "output_tokens": 126
+    }
+  }
+}

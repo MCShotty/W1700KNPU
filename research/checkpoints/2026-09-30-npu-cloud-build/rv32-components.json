@@ -1,0 +1,61 @@
+{
+  "compiler": "LLVM Clang 22.1.3",
+  "objects": [
+    {
+      "path": ".build/merged-openwrt/bin/npu/admission.o",
+      "sha256": "15427c184f8aeaf395e8bb929f499409fba787e83c1f4ab285d828f9b1e8f630",
+      "bytes": 4392
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/allocator.o",
+      "sha256": "f530b2a3d25a19c373912458814effaf2f1a2b568be60f80df6fa2997b8af216",
+      "bytes": 4068
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/barrier.o",
+      "sha256": "77dc036b36b38801611432798e048960939038977189d5824ae4bd4147e2e912",
+      "bytes": 2868
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap-v2.o",
+      "sha256": "da8f7bb2f0c386005d3d259800ec4e6bf213e9f605b6221426c06662de5239b8",
+      "bytes": 2124
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap.o",
+      "sha256": "c505f78e39db5441ea1649d00cd864cc5b6b288372f57ca75b009ac7a94e6b8f",
+      "bytes": 2988
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/control-v2.o",
+      "sha256": "c842e8e4b42106e87252eebcd6e2d48b534fff33ce43cf53294d3447849b4e5a",
+      "bytes": 2320
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/gdma.o",
+      "sha256": "ab9213edfa5b3de85ce66de0e0146819df2200532e5724fbb484656eae1c0298",
+      "bytes": 1312
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/startup.o",
+      "sha256": "b3c07202cb03ba45644aaec2adf2ddc76d187fe4aaf2924b76a4e76d2b31fb55",
+      "bytes": 2544
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-header.o",
+      "sha256": "d584362d9cee192aa427e1e4fd28cd686fa9fa3ae19ab1e62e631c3a15e9988e",
+      "bytes": 1272
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-packet.o",
+      "sha256": "33bb98f8887044ab4177789bdc489b23f87f16b4a997e322b7e36d0371c98fa2",
+      "bytes": 1196
+    }
+  ],
+  "archive": {
+    "path": ".build/merged-openwrt/bin/npu/libw1700k-npu.a",
+    "bytes": 26756,
+    "sha256": "2763ff7289fdc50e3d8a98efae5edf55c8b3a9fad2fc335ce46ed9657d31c3a2"
+  },
+  "scope": "Current ten RV32 component objects compiled, ELF architecture and nonempty text verified; not a bootable loader or hardware execution"
+}

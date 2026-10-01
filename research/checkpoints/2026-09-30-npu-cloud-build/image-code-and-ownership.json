@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "module_binding": "All retained allocated file-backed provider sections match between current compiled module and stripped module extracted from the exact image",
+  "sections": [
+    {
+      "name": "__ksymtab_gpl",
+      "bytes": 36,
+      "sha256": "6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e"
+    },
+    {
+      "name": ".plt",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "name": ".init.plt",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "name": ".text.ftrace_trampoline",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "name": ".init.text.ftrace_trampoline",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "name": ".text",
+      "bytes": 6188,
+      "sha256": "690cd29ec1c577754db47a8e40820cd289832025d47ad7ca4be186c4e3c8ad08"
+    },
+    {
+      "name": ".data",
+      "bytes": 200,
+      "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+    },
+    {
+      "name": ".init.text",
+      "bytes": 36,
+      "sha256": "920c3160ecd60a6ea1181c0ba8fbf28dd1e3dab2eaac2be375486cbc3a13b08b"
+    },
+    {
+      "name": ".rodata.str1.8",
+      "bytes": 835,
+      "sha256": "10aa0f41ed587ac7b1ecfa9cc15ef124e6bbfd1462752a360fc2dd410aaf06cc"
+    },
+    {
+      "name": ".exit.text",
+      "bytes": 28,
+      "sha256": "f3b7744ce73bcee6aa250cb45d303f551cd6341a79650f9a8c5240a9b99d09f6"
+    },
+    {
+      "name": ".rodata",
+      "bytes": 1024,
+      "sha256": "fdd3b53abfd4d339e7a9834d2c6bec18e9b4283b4477ea0648b41260e8f5ee0a"
+    },
+    {
+      "name": ".exit.data",
+      "bytes": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "name": ".init.data",
+      "bytes": 8,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "name": ".modinfo",
+      "bytes": 218,
+      "sha256": "6a55396785350d65123dcc2e4c0edfa486d730b7a023fe7cf29092d47f09c3ec"
+    },
+    {
+      "name": "__ksymtab_strings",
+      "bytes": 57,
+      "sha256": "11037cdb04dd396353ce7cc4f8d98790b15b7373b9b327cf54b32da3c586ff44"
+    },
+    {
+      "name": ".gnu.linkonce.this_module",
+      "bytes": 704,
+      "sha256": "5faac852212a71c3c504ac2c5ff141e8f2612c4566e9c7a49add090ae9c7bdde"
+    },
+    {
+      "name": ".note.Linux",
+      "bytes": 48,
+      "sha256": "9eaee5ea5e5544e6132fa275cdb07ebdb072cbef6755b11ec50c8ed71b0800ba"
+    }
+  ],
+  "removed_metadata_sections": [
+    ".note.gnu.build-id"
+  ],
+  "compiled_module_sha256": "cee6f7735f0a0603c26be90f5f35af2e52143438d634ff3df112aeaf30f4ed20",
+  "packaged_module_sha256": "29a25d03b19e8927a230d5f82369325d26af064dd73b066761a9c35b52e6eed9",
+  "rootfs_numeric_owner_entries": 1951,
+  "rootfs_owners": [
+    [
+      "0",
+      "0"
+    ]
+  ],
+  "rootfs_listing_sha256": "8d9197f5313585f0f207041628883bec869a391e49debd5a6eff1004a48b2beb",
+  "apk_installation": "218 packages, zero ownership-preservation warnings",
+  "scope": "Offline file/code/ownership readback, not module execution or physical validation",
+  "normalized_allocated_relocations": 247,
+  "relocation_semantics_sha256": "7cb5de5bb5176816af6a6e6ff7bcf4af64b1d88f9652328697b77f3c68b75a0a",
+  "zero_fill_sections_match": [
+    [
+      ".bss",
+      0
+    ]
+  ],
+  "strip_recipe": ".build/merged-openwrt/scripts/strip-kmod.sh"
+}

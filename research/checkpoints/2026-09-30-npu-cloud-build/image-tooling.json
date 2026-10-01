@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "scope": "Workspace offline image-inspection tools; synthetic DTB/FIT/squashfs round trips only",
+  "dtc_download": {
+    "url": "https://cdn.kernel.org/pub/software/utils/dtc/dtc-1.8.1.tar.gz",
+    "sha256": "454e5cce748ce957c91e7f45e66da2cff5100ddb52155d7a909c43cbeaf1bcb0",
+    "bytes": 225915,
+    "verified_against": ".build/merged-openwrt/package/utils/dtc/Makefile",
+    "source_pin_changed": false
+  },
+  "dtc_build": "Pinned 1.8.1; Meson static libraries; tests/python/yaml/valgrind disabled; ninja -j4; separate workspace CCACHE_DIR",
+  "tools": {
+    "dtc": {
+      "path": ".local/cloud-tools/image/bin/dtc",
+      "resolved": ".local/cloud-tools/image/bin/dtc",
+      "bytes": 325000,
+      "sha256": "700f81ce36117e21b960037321f654930a88e511c9b8f2e64607ad9490bed3d7"
+    },
+    "fdtget": {
+      "path": ".local/cloud-tools/image/bin/fdtget",
+      "resolved": ".local/cloud-tools/image/bin/fdtget",
+      "bytes": 79760,
+      "sha256": "879c51a5ee4de299f7159ef951f5a085e2a94fe244a32a54554baf155364fd0e"
+    },
+    "dumpimage": {
+      "path": ".local/cloud-tools/image/bin/dumpimage",
+      "resolved": ".build/merged-openwrt/build_dir/host/u-boot-2026.07/tools/dumpimage",
+      "bytes": 280904,
+      "sha256": "1c1d3e68824f45167db2bf6137456a9ea049c0611f56b97da274aafa2a8fb01a"
+    },
+    "unsquashfs": {
+      "path": ".local/cloud-tools/image/bin/unsquashfs",
+      "resolved": ".build/merged-openwrt/staging_dir/host/bin/unsquashfs4",
+      "bytes": 405888,
+      "sha256": "63b3e9a7e6a0e6dbd4923300f27b47121dfc3d178a51d569c5a24a7447620106"
+    }
+  },
+  "files": {
+    ".local/cloud-build-access/image-tools/build-local-cache.log": {
+      "sha256": "3faad5f609c55fdeef9e40f74eb3f072c4f778d3e3ab61bb9e95d0cd78b19a7a",
+      "bytes": 2163
+    },
+    ".local/cloud-build-access/image-tools/build.log": {
+      "sha256": "06f1d4371dca2a6c0fa0b04889f0bbeb2d75c540cbfd04359ef4e8f41ba1135d",
+      "bytes": 2376
+    },
+    ".local/cloud-build-access/image-tools/configure-meson-py.log": {
+      "sha256": "d2d021a446eecb4a28b0e246202cb2cb273f8458e98f4a7bd626a4b77b82c7f1",
+      "bytes": 2509
+    },
+    ".local/cloud-build-access/image-tools/configure.log": {
+      "sha256": "a02ead6eaba39d03932171b66e421ac6800f5dfdc8450370d84ffe6986361442",
+      "bytes": 44
+    },
+    ".local/cloud-build-access/image-tools/download.json": {
+      "sha256": "2da29047396f8de9e2307b11071ab1749cc987913116411e0893c11881042aeb",
+      "bytes": 282
+    },
+    ".local/cloud-build-access/image-tools/dtc-1.8.1.tar.gz": {
+      "sha256": "454e5cce748ce957c91e7f45e66da2cff5100ddb52155d7a909c43cbeaf1bcb0",
+      "bytes": 225915
+    },
+    ".local/cloud-build-access/image-tools/extracted.bin": {
+      "sha256": "c930e2362f9691664ee2047cdd84f3e1ccf1d28877ec98729f5835b1d48aefd0",
+      "bytes": 34
+    },
+    ".local/cloud-build-access/image-tools/fit-build.log": {
+      "sha256": "a57cbc906e554d5e20dd54faac8628d97206bf49a7da58a3dc333eb8193bed87",
+      "bytes": 602
+    },
+    ".local/cloud-build-access/image-tools/fit-extract.log": {
+      "sha256": "612557a476c0a118045d126bcc8279bad430de40c6a79d58d95f69b70181778c",
+      "bytes": 389
+    },
+    ".local/cloud-build-access/image-tools/fit-list.log": {
+      "sha256": "a57cbc906e554d5e20dd54faac8628d97206bf49a7da58a3dc333eb8193bed87",
+      "bytes": 602
+    },
+    ".local/cloud-build-access/image-tools/install.log": {
+      "sha256": "83b5ce5e37061867d9632779cf194bd2fc9fe7ca732eea121fc20e947d2a3d69",
+      "bytes": 1669
+    },
+    ".local/cloud-build-access/image-tools/payload.bin": {
+      "sha256": "c930e2362f9691664ee2047cdd84f3e1ccf1d28877ec98729f5835b1d48aefd0",
+      "bytes": 34
+    },
+    ".local/cloud-build-access/image-tools/smoke.dtb": {
+      "sha256": "0520b6ce22bd29d8bf11049d65d535205f65c493191fa28f1e12c77db5b6ddb5",
+      "bytes": 136
+    },
+    ".local/cloud-build-access/image-tools/smoke.dts": {
+      "sha256": "0693b2b85daa2886d6f1231afe7cad45cd12558d46e8dd1b1a536fe08c90f2dc",
+      "bytes": 61
+    },
+    ".local/cloud-build-access/image-tools/smoke.itb": {
+      "sha256": "093607d7d8e3d688a8f03c78884de2fc3f8b47d033e65e8159808735f636a8b4",
+      "bytes": 628
+    },
+    ".local/cloud-build-access/image-tools/smoke.its": {
+      "sha256": "09a85f3ee175b6fb26d29c379c00f5e0b71c15ed0cd1652223dc883b3e114a92",
+      "bytes": 338
+    },
+    ".local/cloud-build-access/image-tools/smoke.squashfs": {
+      "sha256": "78d84ce3d5cfe61042aa8f7170ecdbe28c6408d2f9da598fa19b7e90f8dd240e",
+      "bytes": 4096
+    },
+    ".local/cloud-build-access/image-tools/squash-build.log": {
+      "sha256": "d44605a4d2f275bfc074d3ca9a09d8918e864b92b6d48f7c11c729e33463a875",
+      "bytes": 917
+    },
+    ".local/cloud-build-access/image-tools/squash-extract.log": {
+      "sha256": "082f0e82e9d4a8f99999b584d1d1115a97964c688023a3870a39a5e6e94794af",
+      "bytes": 197
+    }
+  },
+  "setup_failures_retained": [
+    "Initial meson command name absent: use built meson.py",
+    "First native ninja invocation selected ccache default outside workspace; rerun supplied separate writable workspace CCACHE_DIR",
+    "unsquashfs -version prints version 4.7.5 and exits 1; actual extraction round trip exits zero"
+  ]
+}

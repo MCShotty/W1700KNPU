@@ -1,0 +1,33 @@
+{
+  "reason": "Initial leading -I fallback headers shadowed the package ncurses headers; use -idirafter and place fallback -L after caller arguments",
+  "old_prefix_retained": ".local/cloud-tools/host-wrappers",
+  "new_prefix": ".local/cloud-tools/host-wrappers-v2",
+  "failed_generated_tree_preserved": ".local/cloud-build-access/host-wrapper-v2/failed-ncurses-first-tree",
+  "wrappers": [
+    {
+      "path": ".local/cloud-tools/host-wrappers-v2/bin/g++",
+      "sha256": "7f405d6e891e3636207a66c470cb51319e0502c767183266786cc4ab76156f4a"
+    },
+    {
+      "path": ".local/cloud-tools/host-wrappers-v2/bin/gcc",
+      "sha256": "c0c87770fac72d413d49a5a48e5e6ab370953068b7a4d42a4898de80b7f02872"
+    },
+    {
+      "path": ".local/cloud-tools/host-wrappers-v2/bin/python3.13",
+      "sha256": "53cdbfda9f0a32777819808ac680212c63869215400db0934efac0ebdb4d2800"
+    }
+  ],
+  "regression_controls": [
+    {
+      "wrapper": "host-wrappers",
+      "header_compile_exit": 1,
+      "explicit_library_run_exit": 1
+    },
+    {
+      "wrapper": "host-wrappers-v2",
+      "header_compile_exit": 0,
+      "explicit_library_run_exit": 0
+    }
+  ],
+  "scope": "Corrected host fallback include and library precedence; initial wrappers fail both controls, v2 passes both; target compiler unchanged"
+}

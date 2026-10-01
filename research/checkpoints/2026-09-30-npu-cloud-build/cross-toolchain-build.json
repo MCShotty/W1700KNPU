@@ -1,0 +1,64 @@
+{
+  "stage": "toolchain/install",
+  "passed": true,
+  "seconds": 1015.8632280826569,
+  "jobs": 4,
+  "state": {
+    "pid": 7,
+    "process_group": 7,
+    "wrapper_pid": 5,
+    "command": [
+      "make",
+      "-j4",
+      "toolchain/install",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-toolchain-first.log",
+    "started": 1790769673.9625142,
+    "exit_code": 0,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790770689.8257422
+  },
+  "download_options": "CURL_OPTIONS=-4 --connect-timeout 15; per-process options only, certificate verification unchanged",
+  "compiler_version": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r36536-merged-288d79449f) 14.4.0",
+  "compiler_target": "aarch64-openwrt-linux-musl",
+  "files": {
+    ".build/merged-openwrt/staging_dir/toolchain-aarch64_cortex-a53_gcc-14.4.0_musl/bin/aarch64-openwrt-linux-musl-gcc": {
+      "sha256": "92b55a4ca3e831f61fb939cbe9ad24c478384b657146ef3dbe7a7e4a3f7b57f3",
+      "bytes": 2120080
+    },
+    ".local/merge-nonoc-20260923/build-cloud-toolchain-first.log": {
+      "sha256": "0063bb39a6a9566f7b944b1e9670850955b3e34403d57e471b10315d6e5c1e1c",
+      "bytes": 15076879
+    },
+    ".local/merge-nonoc-20260923/build-cloud-toolchain-first.json": {
+      "sha256": "17023c6eb2c487c6d80fcfd2e39c039a38e74e3b0cdcb99e9ae02db19cdded75",
+      "bytes": 1535
+    },
+    ".local/cloud-build-access/guard-cloud-toolchain-first.json": {
+      "sha256": "c78678a4bb91af6c9e55b0e5c55fa0dce8a05387683275d4c17bd2001601707c",
+      "bytes": 8721
+    }
+  }
+}

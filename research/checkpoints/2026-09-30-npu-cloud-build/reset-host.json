@@ -1,0 +1,289 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Actual extracted Linux 6.18.52 reset C against the unchanged existing modeled host harness; no physical MMIO.",
+  "upstream_commit": "288d79449f622a37c727cb12e81e85dba822aecb",
+  "kernel_archive": {
+    "path": ".build/merged-openwrt/dl/linux-6.18.52.tar.xz",
+    "bytes": 154741268,
+    "sha256": "2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8"
+  },
+  "protected_inputs_before_after": [
+    {
+      "path": ".local/cloud-build-access/reset-map/receipt.json",
+      "bytes": 32492,
+      "sha256": "6edacccd853ac24545778e999f0ac14fb8571caac3afe4d0f27136d060733af5"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map/source/drivers/clk/clk-en7523.c",
+      "bytes": 32498,
+      "sha256": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map/source/include/dt-bindings/reset/airoha,en7581-reset.h",
+      "bytes": 2102,
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a"
+    },
+    {
+      "path": "tests/npu/reset-control-harness.c",
+      "bytes": 6687,
+      "sha256": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae"
+    },
+    {
+      "path": "tests/npu/test_npu_reset_control.py",
+      "bytes": 14816,
+      "sha256": "a862790cc4ad7d83053e7c695fb1ebc4c1368c37a794998a044837fe8e65fcc7"
+    },
+    {
+      "path": "tests/npu/test_host_queue_publication.py",
+      "bytes": 27063,
+      "sha256": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+    }
+  ],
+  "archive_members": [
+    {
+      "archive_member": "linux-6.18.52/include/dt-bindings/reset/airoha,en7523-reset.h",
+      "present": false
+    },
+    {
+      "archive_member": "linux-6.18.52/include/dt-bindings/reset/airoha,an7583-reset.h",
+      "present": false
+    }
+  ],
+  "binding_patch_count": 2,
+  "binding_patches": [
+    {
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-09-dt-bindings-clock-airoha-Document-support-for-AN7583.patch",
+        "bytes": 3895,
+        "sha256": "5d7eded812f1f331ae31b14ba0e926d4cd8594db4fc7d1133b81bf87ea90a7a3"
+      },
+      "command": [
+        "git",
+        "apply",
+        "--verbose",
+        "--include=include/dt-bindings/reset/airoha,en7523-reset.h",
+        "--include=include/dt-bindings/reset/airoha,an7583-reset.h",
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt/target/linux/airoha/patches-6.18/600-09-dt-bindings-clock-airoha-Document-support-for-AN7583.patch"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/600-09-dt-bindings-clock-airoha-Document-support-for-AN7583.log",
+        "bytes": 193,
+        "sha256": "a9280f9548446c9e941e1834bced133eb36b6df2003561074913e7a03b934a42"
+      },
+      "exit_code": 0
+    },
+    {
+      "input": {
+        "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-11-dt-bindings-clock-airoha-Add-reset-support-to-EN7523.patch",
+        "bytes": 3118,
+        "sha256": "121e60620d67e2ed7f7ca2fd5a97105e8a158034df94d2d76b083866a8d1f420"
+      },
+      "command": [
+        "git",
+        "apply",
+        "--verbose",
+        "--include=include/dt-bindings/reset/airoha,en7523-reset.h",
+        "--include=include/dt-bindings/reset/airoha,an7583-reset.h",
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt/target/linux/airoha/patches-6.18/600-11-dt-bindings-clock-airoha-Add-reset-support-to-EN7523.patch"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/600-11-dt-bindings-clock-airoha-Add-reset-support-to-EN7523.log",
+        "bytes": 217,
+        "sha256": "648d502576c5e4a8f21f30d38acd9784179fc5d752f7f25db93bb0f073b7afad"
+      },
+      "exit_code": 0
+    }
+  ],
+  "bindings": [
+    {
+      "path": ".local/cloud-build-access/reset-map-host/host/airoha,en7523-reset.h",
+      "bytes": 1816,
+      "sha256": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map-host/host/airoha,en7581-reset.h",
+      "bytes": 2102,
+      "sha256": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a"
+    },
+    {
+      "path": ".local/cloud-build-access/reset-map-host/host/airoha,an7583-reset.h",
+      "bytes": 1904,
+      "sha256": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9"
+    }
+  ],
+  "compiler": {
+    "path": "/usr/bin/gcc",
+    "version": "gcc (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "command": [
+      "/usr/bin/gcc",
+      "--version"
+    ],
+    "log": {
+      "path": ".local/cloud-build-access/reset-map-host/compiler.log",
+      "bytes": 232,
+      "sha256": "4dc9a4e32fd9e06d42fb307688c59d6d889f0ff90ce034cbefed21b0d451fd81"
+    },
+    "exit_code": 0
+  },
+  "compiler_flags": [
+    "-std=gnu11",
+    "-O1",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsanitize=address,undefined",
+    "-fno-sanitize-recover=all",
+    "-fno-pie",
+    "-no-pie"
+  ],
+  "sanitizer_environment": {
+    "ASAN_OPTIONS": "detect_leaks=0:detect_stack_use_after_return=1:halt_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1"
+  },
+  "compile": {
+    "command": [
+      "/usr/bin/gcc",
+      "-std=gnu11",
+      "-O1",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fsanitize=address,undefined",
+      "-fno-sanitize-recover=all",
+      "-fno-pie",
+      "-no-pie",
+      "-I/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host",
+      "/workspace/scratch/2c9d7a095839/W1700KNPU/tests/npu/reset-control-harness.c",
+      "-o",
+      "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test"
+    ],
+    "log": {
+      "path": ".local/cloud-build-access/reset-map-host/compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "exit_code": 0
+  },
+  "fragment": {
+    "path": ".local/cloud-build-access/reset-map-host/host/reset-control.inc",
+    "bytes": 7854,
+    "sha256": "f0297a1207c9b390ec3ee2d29b837214589ceada7ec830763ea10eb38aa1b192"
+  },
+  "binary": {
+    "path": ".local/cloud-build-access/reset-map-host/host/reset-control-test",
+    "bytes": 97160,
+    "sha256": "e0b90e93c0f7913a8dc9e1ad41aebb6be6a1791818bad2c4818fa486090d4247"
+  },
+  "function_sha256": {
+    "en7523_reset_update": "cf274af4580216f9c6108aad5d5361d0fe2a3e8ba1044e5e76efa6f08cff1e72",
+    "en7523_reset_assert": "728bc101e4fc6786cbcf96f5f05982bb0cc1df1047968b00bcacc572c4d9d40e",
+    "en7523_reset_deassert": "10cd96e0492bc4e398f6e064b7d95082d6e53a0de8e6910efe5cc60beeec73df",
+    "en7523_reset_status": "73f6835ef863282d88372262ad5416dee1dcae143450b59625d185518b6dc4a6",
+    "en7523_reset_xlate": "69af110215b89067d4c26fd75bd31c7f0db74d4e6440ff91fc0e626ee6abbd45"
+  },
+  "matrix": {
+    "result": {
+      "cases": 23088,
+      "mapped_resets": 147,
+      "variants": 3,
+      "nominal": 19992,
+      "write_faults": 1764,
+      "read_faults": 1323,
+      "translation_rejections": 9
+    },
+    "command": [
+      "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test"
+    ],
+    "log": {
+      "path": ".local/cloud-build-access/reset-map-host/matrix.log",
+      "bytes": 131,
+      "sha256": "e5037b91aabdf4bc74d51ec17d931ac276eaa5fa096404ec5b3f5d065fc32f55"
+    },
+    "exit_code": 0
+  },
+  "corrected_named_cases": [
+    {
+      "case": "write-error",
+      "result": {
+        "case": "write-error",
+        "passed": true
+      },
+      "command": [
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test",
+        "write-error"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/write-error.log",
+        "bytes": 37,
+        "sha256": "263a3930fe8bf096d4df94708aa02ad059025faa3a38bfb147458f35d65bbbba"
+      },
+      "exit_code": 0
+    },
+    {
+      "case": "read-error",
+      "result": {
+        "case": "read-error",
+        "passed": true
+      },
+      "command": [
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test",
+        "read-error"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/read-error.log",
+        "bytes": 36,
+        "sha256": "18cf287f0c1abd17057c4937f943732622b9ae64551cfed5d37a45dfd1f80e5d"
+      },
+      "exit_code": 0
+    },
+    {
+      "case": "value-init",
+      "result": {
+        "case": "value-init",
+        "passed": true
+      },
+      "command": [
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test",
+        "value-init"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/value-init.log",
+        "bytes": 36,
+        "sha256": "91c3b8153699d04fdd11f572108f9362564c07d97ee0ff7f29fbcc35a413c88d"
+      },
+      "exit_code": 0
+    },
+    {
+      "case": "value-pcic",
+      "result": {
+        "case": "value-pcic",
+        "passed": true
+      },
+      "command": [
+        "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/reset-map-host/host/reset-control-test",
+        "value-pcic"
+      ],
+      "log": {
+        "path": ".local/cloud-build-access/reset-map-host/value-pcic.log",
+        "bytes": 36,
+        "sha256": "44821a3b560fd9aece81d1dee9e1e4edcd5f52491867bb58b9d752aa95c6ce47"
+      },
+      "exit_code": 0
+    }
+  ],
+  "script": {
+    "path": ".local/cloud-build-access/reset-map-host/run.py",
+    "bytes": 9399,
+    "sha256": "bb50e6676b633e6fe67d16e247b2bb546fec86e7cbea7c638434995d4296faba"
+  },
+  "limits": [
+    "Regmap and framework structures are the explicit existing harness models.",
+    "LeakSanitizer disabled for this execution environment; ASan and UBSan enabled.",
+    "No baseline counterexamples, mutants, AArch64 kernel objects or target instruction tests rerun.",
+    "No physical reset/domain/drain, runtime binding or resource-reclamation proof.",
+    "No packages installed; no restricted native operations."
+  ]
+}

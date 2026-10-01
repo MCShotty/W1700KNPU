@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "Workspace official-source SWIG host prerequisite only.",
+  "version": "4.5.1",
+  "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+  "official_download_page": "https://www.swig.org/download.html",
+  "official_archive_url": "https://prdownloads.sourceforge.net/swig/swig-4.5.1.tar.gz",
+  "archive": {
+    "path": ".local/cloud-build-access/host-prereqs/downloads/swig-4.5.1.tar.gz",
+    "bytes": 9191718,
+    "sha256": "7fec50b27deddab5455a9633780b6341eddfb96215a7619e93a76eb27178f653"
+  },
+  "official_page_capture": {
+    "path": ".local/cloud-build-access/host-prereqs/downloads/swig-official-download.html",
+    "bytes": 6139,
+    "sha256": "6de9b180d7783ccc45877b231db0568f9cad2d8af02dfb6e15bae909bf465582"
+  },
+  "download_log": {
+    "path": ".local/cloud-build-access/host-prereqs/logs/download-swig.log",
+    "bytes": 2080,
+    "sha256": "d77a1da2012e961f2ac0887d8f00e8598a8e2554d807cfb0c07441775f5718c9"
+  },
+  "verification": {
+    "published_checksum_verified": false,
+    "signature_verified": false,
+    "reason": "Official download page advertises no detached signature; SourceForge file checksum metadata returned HTTP 404. SHA256 is a measured fingerprint of the official HTTPS release download.",
+    "metadata_attempt_log": {
+      "path": ".local/cloud-build-access/host-prereqs/logs/download-swig-metadata.log",
+      "bytes": 761,
+      "sha256": "e1a0810bebc05b795acbf4c4c95693f08b409b7a31ed0ff9f1b0c4dc47339788"
+    },
+    "metadata_http_status": 404
+  },
+  "configure_command": [
+    "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/host-prereqs/source/swig-4.5.1/configure",
+    "--prefix=/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+    "--without-alllang"
+  ],
+  "configure_cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/host-prereqs/build/swig",
+  "configure_environment": {
+    "CC": "/usr/bin/gcc",
+    "CXX": "/usr/bin/g++"
+  },
+  "build_command": [
+    "make",
+    "-j4"
+  ],
+  "install_command": [
+    "make",
+    "install"
+  ],
+  "existing_pcre2_version": "10.46",
+  "logs": [
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/configure-help-swig.log",
+      "bytes": 9710,
+      "sha256": "e30eaa98829c5a7de74081d7ff86b442f642f4fccd91b099467e5ed43a0f7986"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/configure-swig.log",
+      "bytes": 8692,
+      "sha256": "29a762b6d2e46755b29ae0e40123a2b2a4083145b8b7b02cf827a90cbbfcecd3"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/make-swig.log",
+      "bytes": 86456,
+      "sha256": "81192290761922f57bd34fb206b047a0d0f4da2bcbaf473719d3297e12b21c5f"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/install-swig.log",
+      "bytes": 97245,
+      "sha256": "0a5b1cede463a024a44ae91dbbc8a5a5ef6f1e77faf8f36a3902d520ab4c2151"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/version-swig.log",
+      "bytes": 173,
+      "sha256": "d683d537e84df77ab5aa89c8941d441901dc6212085e4ea54bc9cb16a4b8a4d5"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/swiglib.log",
+      "bytes": 83,
+      "sha256": "5e4c45ffa81ac85b004a54f0f72f546371d3ad48d63b928d7b6122478f84fbbd"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/smoke-swig-generation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/cloud-build-access/host-prereqs/logs/smoke-swig-check.log",
+      "bytes": 124,
+      "sha256": "288098aeca9ef8d51ecd94067eb5f34ec2fedae2129a30fc295f8d8a75a555b0"
+    }
+  ],
+  "compiler_warnings": [],
+  "installed_manifest": {
+    "path": ".local/cloud-build-access/host-prereqs/swig-installed-manifest.json",
+    "bytes": 189439,
+    "sha256": "042d5ef6efa7826c6fc45e3c3ff457404feab37f8ac6034bba86595da4000929"
+  },
+  "added_installed_entries": 841,
+  "earlier_installed_entries_unchanged": 97,
+  "earlier_receipt": {
+    "path": ".local/cloud-build-access/host-prereqs/receipt.json",
+    "bytes": 17697,
+    "sha256": "359b6270553d64b0315777ebc60bca2255668e7918898082154c00191b3bb80b"
+  },
+  "readme": {
+    "path": ".local/cloud-build-access/host-prereqs/SWIG.md",
+    "bytes": 1910,
+    "sha256": "e0593a64152a55ebf001c96ea9e0112521171e384562a1277ed8ce1363ced795"
+  },
+  "smoke": {
+    "passed": true,
+    "command": [
+      "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin/swig",
+      "-python",
+      "-o",
+      "host_prereq_smoke_wrap.c",
+      "host_prereq_smoke.i"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-build-access/host-prereqs/smoke/swig",
+    "inputs_outputs": [
+      {
+        "path": ".local/cloud-build-access/host-prereqs/smoke/swig/host_prereq_smoke.i",
+        "bytes": 80,
+        "sha256": "38ced15e7ee14a34f9d0564556a4b7974b32b42927b57aa7821ed0259f2ebca7"
+      },
+      {
+        "path": ".local/cloud-build-access/host-prereqs/smoke/swig/host_prereq_smoke_wrap.c",
+        "bytes": 126982,
+        "sha256": "ac56bfb2b99247000e2d10b1a9c2d7a8ba7bf7fd750e9fde57c52f25529aaf61"
+      },
+      {
+        "path": ".local/cloud-build-access/host-prereqs/smoke/swig/host_prereq_smoke.py",
+        "bytes": 1740,
+        "sha256": "341d494aec478cb0798458c0f70795da9239937aa9e92986b1eec523d268cf63"
+      }
+    ],
+    "python_syntax_checked": true,
+    "extension_compiled_or_imported": false
+  },
+  "limits": [
+    "No independent published checksum/signature verification for SWIG is claimed.",
+    "Smoke checks only, not a complete upstream test suite or generated-extension runtime test.",
+    "No APT/system configuration/security change, canonical source-pin change, or hardware/restricted native operation."
+  ],
+  "evidence_correction": {
+    "reason": "The initial receipt/note incorrectly reported HTTP 403. The referenced unchanged curl log explicitly reports HTTP 404; no separate 403 is evidenced or claimed.",
+    "initial_receipt": {
+      "path": ".local/cloud-build-access/host-prereqs/swig-receipt.initial.json",
+      "bytes": 5821,
+      "sha256": "4f84c04091cb960f4183ddbf7c1e06e3772ddcacb3e0bbf884c5ca749ba0c917"
+    },
+    "initial_note": {
+      "path": ".local/cloud-build-access/host-prereqs/SWIG.initial.md",
+      "bytes": 1686,
+      "sha256": "f9f5a73e5134c99594f12cc7494f2705599b7d6a8bf82a6b73f8ade3dd7b7d6f"
+    },
+    "unchanged_download_log": {
+      "path": ".local/cloud-build-access/host-prereqs/logs/download-swig-metadata.log",
+      "bytes": 761,
+      "sha256": "e1a0810bebc05b795acbf4c4c95693f08b409b7a31ed0ff9f1b0c4dc47339788"
+    },
+    "scope": "Only current receipt and note corrected; original bytes preserved. No download log or installed tool modified."
+  }
+}

@@ -1,0 +1,705 @@
+{
+  "passed": true,
+  "staged_candidate": false,
+  "tested_provider": {
+    "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/replayed/drivers/net/ethernet/airoha/airoha_npu.c",
+    "bytes": 28142,
+    "sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582"
+  },
+  "canonical_replay": {
+    "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/replayed/drivers/net/ethernet/airoha/airoha_npu.c",
+    "bytes": 28142,
+    "sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582"
+  },
+  "prior_provider": {
+    "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/prior/drivers/net/ethernet/airoha/airoha_npu.c",
+    "bytes": 26766,
+    "sha256": "8dc8545d3b5ea776820f2d75ed0795fee0ca8f93a12bb9e0708169320425f052"
+  },
+  "matrix": [
+    {
+      "cases": 273,
+      "requests": 0,
+      "copies": 0
+    },
+    {
+      "loader_cases": 273,
+      "additional_load_cases": 165,
+      "passed": true
+    }
+  ],
+  "original_failure_controls": [
+    "invalid-before-load",
+    "snapshot-reuse",
+    "failed-load-unbound"
+  ],
+  "rejected_mutants": [
+    "omit-precopy-preflight",
+    "reread-after-load",
+    "admit-failed-load",
+    "keep-plan-on-early-run-failure",
+    "accept-undersized-tx",
+    "omit-snapshot-copy",
+    "omit-region-overlap",
+    "force-wlan-on-generic-probe",
+    "share-generic-plan-between-callers"
+  ],
+  "retry_regression": {
+    "cases": 6174
+  },
+  "linux_control_regression": {
+    "passed": true,
+    "cases": 44,
+    "assertions": 367,
+    "provider_model_assertions": 606,
+    "physical_drains": false,
+    "layout": [
+      56,
+      68,
+      80,
+      56
+    ]
+  },
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true
+  },
+  "inputs": [
+    {
+      "path": "tests/npu/test_cold_memory_plan.py",
+      "bytes": 12204,
+      "sha256": "a5f83fd6bb11668fd84df913d7c007dd4ebfcb93f35f9151c75ada3c1b0455c5"
+    },
+    {
+      "path": "tests/npu/cold-memory-plan-harness.c",
+      "bytes": 7721,
+      "sha256": "986aae8d186c8df3b79cff2f5afe0e74819f46977620c2206ef4c9c82a3d921e"
+    },
+    {
+      "path": "tests/npu/firmware-loader-harness.c",
+      "bytes": 10640,
+      "sha256": "552ffc0ac40c493857c98c3d5d5f88c7174591613b06777eae2a423f80752bf9"
+    },
+    {
+      "path": "tests/npu/test_npu_firmware_loader.py",
+      "bytes": 10715,
+      "sha256": "4d6c3e6ec8fa6c7633e59bd30b53d9f897446b00b6759fa38481490bb9975dc8"
+    },
+    {
+      "path": "tests/npu/test_host_queue_publication.py",
+      "bytes": 27063,
+      "sha256": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+    },
+    {
+      "path": "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "bytes": 20235,
+      "sha256": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3"
+    },
+    {
+      "path": "firmware/source-lock.json",
+      "bytes": 16618,
+      "sha256": "6f814270a93b156fab0b3d71e46a4ff1a8bab18bd1c44c85c1aa71580d017aba"
+    },
+    {
+      "path": "tests/npu/test_nonoc_merge.py",
+      "bytes": 11252,
+      "sha256": "e0822d28cf804bccd1c0fa10ef42db254bd513ad6cfd5d9cfeae58abc27f8933"
+    },
+    {
+      "path": "tests/npu/linux-control-harness.c",
+      "bytes": 12641,
+      "sha256": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce"
+    },
+    {
+      "path": "tests/npu/control-v2-provider-harness.c",
+      "bytes": 7792,
+      "sha256": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409"
+    },
+    {
+      "path": "firmware/npu/admission.c",
+      "bytes": 6604,
+      "sha256": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2"
+    },
+    {
+      "path": "firmware/npu/admission.h",
+      "bytes": 3207,
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f"
+    },
+    {
+      "path": "firmware/npu/allocator.c",
+      "bytes": 6610,
+      "sha256": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5"
+    },
+    {
+      "path": "firmware/npu/allocator.h",
+      "bytes": 2260,
+      "sha256": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec"
+    },
+    {
+      "path": "firmware/npu/barrier.c",
+      "bytes": 4642,
+      "sha256": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3"
+    },
+    {
+      "path": "firmware/npu/barrier.h",
+      "bytes": 1861,
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640"
+    },
+    {
+      "path": "firmware/npu/bootstrap-v2.c",
+      "bytes": 2711,
+      "sha256": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4"
+    },
+    {
+      "path": "firmware/npu/bootstrap-v2.h",
+      "bytes": 1583,
+      "sha256": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39"
+    },
+    {
+      "path": "firmware/npu/bootstrap.c",
+      "bytes": 4421,
+      "sha256": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9"
+    },
+    {
+      "path": "firmware/npu/bootstrap.h",
+      "bytes": 1771,
+      "sha256": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80"
+    },
+    {
+      "path": "firmware/npu/control-client.c",
+      "bytes": 6289,
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023"
+    },
+    {
+      "path": "firmware/npu/control-client.h",
+      "bytes": 2421,
+      "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed"
+    },
+    {
+      "path": "firmware/npu/control-v2-client.c",
+      "bytes": 3849,
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df"
+    },
+    {
+      "path": "firmware/npu/control-v2.c",
+      "bytes": 3742,
+      "sha256": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017"
+    },
+    {
+      "path": "firmware/npu/control-v2.h",
+      "bytes": 2222,
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be"
+    },
+    {
+      "path": "firmware/npu/gdma.c",
+      "bytes": 1853,
+      "sha256": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63"
+    },
+    {
+      "path": "firmware/npu/gdma.h",
+      "bytes": 692,
+      "sha256": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038"
+    },
+    {
+      "path": "firmware/npu/linux-control.c",
+      "bytes": 3314,
+      "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f"
+    },
+    {
+      "path": "firmware/npu/linux-control.h",
+      "bytes": 1269,
+      "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a"
+    },
+    {
+      "path": "firmware/npu/startup.c",
+      "bytes": 3301,
+      "sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6"
+    },
+    {
+      "path": "firmware/npu/startup.h",
+      "bytes": 1240,
+      "sha256": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302"
+    },
+    {
+      "path": "firmware/npu/tunnel-header.c",
+      "bytes": 1462,
+      "sha256": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213"
+    },
+    {
+      "path": "firmware/npu/tunnel-header.h",
+      "bytes": 957,
+      "sha256": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65"
+    },
+    {
+      "path": "firmware/npu/tunnel-packet.c",
+      "bytes": 1079,
+      "sha256": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0"
+    },
+    {
+      "path": "firmware/npu/tunnel-packet.h",
+      "bytes": 553,
+      "sha256": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/airoha_offload.h",
+      "bytes": 9024,
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/provenance.json",
+      "bytes": 5028,
+      "sha256": "78989ad6c9aeb38f4f9137bee826bc4ffdc7af171dc6702e9961da1c3d42b8a0"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/provider-upstream.c",
+      "bytes": 22903,
+      "sha256": "37bf128e7cd7c212e9a30c8b76f031522dede2059b4709e97805b648e01193d9"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/failed-load-unbound.log",
+      "bytes": 48,
+      "sha256": "66c1bca2507e6224c7100fd3fc307af5cd4e6a26c2e0f37252b8afaed2b4f072"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/firmware-loader.inc",
+      "bytes": 6605,
+      "sha256": "e339342febd0345a4c7abcfdabc6f3204f85b94d863bdf0cfdee396d79c3385f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/invalid-before-load.log",
+      "bytes": 48,
+      "sha256": "f9303406dc99be3ddadb02298c93fd77428115551e0461a92fb53c739f0d5660"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/matrix.log",
+      "bytes": 101,
+      "sha256": "24cd00b806dc68ab75cca23c6a0d33a77248da4ed14bd6ee43c37cfba8248c77"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/snapshot-reuse.log",
+      "bytes": 43,
+      "sha256": "de457cc2d8002847b28c7a7f8921f3a578c1e38dec6d30ddf6a41416b5bf721c"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/test",
+      "bytes": 191960,
+      "sha256": "484e7c8870fe40e780b6e13c1c1a8495fd4c738e57f700531263a047ccb37613"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/after/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/failed-load-unbound.log",
+      "bytes": 85,
+      "sha256": "9dfb741826b8331de7bc835c1d1ce639a9828db5d07a4a0f28caeacfd15597d4"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/firmware-loader.inc",
+      "bytes": 4382,
+      "sha256": "13270c6a1e09efb4ff5d29e7f57e51cb17d8a9a2a14007254ce51c24a78de65c"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/invalid-before-load.log",
+      "bytes": 55,
+      "sha256": "8ef4cd8f24c07b240590980ada29dbda633ba55ed1bdd59aa6e297e3f1eed3fe"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/snapshot-reuse.log",
+      "bytes": 74,
+      "sha256": "c3abe47b6a20ea7b91d14e6ea8614772af268f2da0bd33ae15e936026abbce7f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/test",
+      "bytes": 184224,
+      "sha256": "a2576e0958b284d75aa10bd57b2f6149369d679b10203692e289ae8610cd38c9"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/before/wlan-memory.inc",
+      "bytes": 2843,
+      "sha256": "121d657935000dee0dbc23aeefe87cb12c8ffee0cca8cb6a9e4a8f7cb9b6fe03"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/control-v2-provider.inc",
+      "bytes": 4134,
+      "sha256": "44526d95ca486e51fe80b6568e1fbc5027220a39258c221ead46036c3b234969"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/linux-control",
+      "bytes": 267128,
+      "sha256": "f6d8257796ba556e61659874f4fb3ed01fcd46a13ba252858771b5bd3b96c0c5"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/linux-control-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/linux-control-run.log",
+      "bytes": 123,
+      "sha256": "4dab870fa683c82b48f6b870ca0f88754e76073c7b57a8eb39c9ea8ee0093ece"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/firmware-loader.inc",
+      "bytes": 6562,
+      "sha256": "15457c133d160a328d42e1cb49ec6c9c11bff4c3c831c0ce596a02e5708e2ebd"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/matrix.log",
+      "bytes": 90,
+      "sha256": "590e3f27e0d1c70ab2d838847bfe0024bc09f2a2746ecf3b24a2e3cf476e2f1d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/test",
+      "bytes": 191696,
+      "sha256": "f8fc2bf97ef89e6e3a21c9f8865404548620236db0704f9e4dbf11dceb069139"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-accept-undersized-tx/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/firmware-loader.inc",
+      "bytes": 6605,
+      "sha256": "e339342febd0345a4c7abcfdabc6f3204f85b94d863bdf0cfdee396d79c3385f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/matrix.log",
+      "bytes": 140,
+      "sha256": "0c5de00018013bfc22c05a491916e12f7b578149c8e64449c243ca9f4a5a1900"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/test",
+      "bytes": 191744,
+      "sha256": "e8a327b4e928ec6b3c434aebd69cabdba8016863c2d9fb01c5c5f5a35fc2d3db"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-admit-failed-load/wlan-memory.inc",
+      "bytes": 1807,
+      "sha256": "cfcdf5ca784f05e7e9c659d04e18331bd4d393da17c52269606282b99717942f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/firmware-loader.inc",
+      "bytes": 6589,
+      "sha256": "38e88888174f74c41bc8b127ab386749b985b37b1fcdd9f61a026ca1eccd7900"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/matrix.log",
+      "bytes": 116,
+      "sha256": "ca979f9121a9f1afe6bcad78ee326224ce047ac9dc3da787d5466685b619268d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/test",
+      "bytes": 191624,
+      "sha256": "3a5df0a656f40be49d271c677481110a4ab3333c7167385eb998c08570ed0af9"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-force-wlan-on-generic-probe/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/firmware-loader.inc",
+      "bytes": 6543,
+      "sha256": "7fa6e2b6e14d413ab6483cb3dea9b950d5e3c33373eebbdd3463e722da1db513"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/matrix.log",
+      "bytes": 140,
+      "sha256": "0c5de00018013bfc22c05a491916e12f7b578149c8e64449c243ca9f4a5a1900"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/test",
+      "bytes": 192216,
+      "sha256": "61a523655a74ff0d295e9ba8d93a3fe07f0ad8fade92ba09793f0f4fb198ef76"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-keep-plan-on-early-run-failure/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/firmware-loader.inc",
+      "bytes": 6590,
+      "sha256": "503775f8583f457b131d90dd1c4cd73c863bf5d23241979436ec633b1c9ab3f8"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/matrix.log",
+      "bytes": 116,
+      "sha256": "ca979f9121a9f1afe6bcad78ee326224ce047ac9dc3da787d5466685b619268d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/test",
+      "bytes": 186952,
+      "sha256": "8ec9c2a21a5d2b3c3e36700efb2532ec4e58c9ea083079304091f9a39c4687a3"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-precopy-preflight/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/firmware-loader.inc",
+      "bytes": 6623,
+      "sha256": "c102eb1f23f8995d2c4a5fbe5c31bcefaae21bda484f60a52271f835861f80b3"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/matrix.log",
+      "bytes": 90,
+      "sha256": "590e3f27e0d1c70ab2d838847bfe0024bc09f2a2746ecf3b24a2e3cf476e2f1d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/test",
+      "bytes": 184792,
+      "sha256": "f33d94e81ecba233dac1e27a9abc3c3ef4635d756764f52476de528b3f9a3347"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-region-overlap/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/firmware-loader.inc",
+      "bytes": 6579,
+      "sha256": "bcfc5bc7a7eea7993502b56b45605f664b283292db3f0ca62c9040f362179286"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/matrix.log",
+      "bytes": 126,
+      "sha256": "bf41063629533a6769ad5f76f5e4d102e7e781a6c3f89ebdb7d1fe612409ed1b"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/test",
+      "bytes": 191512,
+      "sha256": "9408ff9eb2f7f0ade52f70eb535f704b13eb81b65e8432f35cd0bb0f0118d0f3"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-omit-snapshot-copy/wlan-memory.inc",
+      "bytes": 1854,
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/firmware-loader.inc",
+      "bytes": 6605,
+      "sha256": "e339342febd0345a4c7abcfdabc6f3204f85b94d863bdf0cfdee396d79c3385f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/matrix.log",
+      "bytes": 95,
+      "sha256": "37621a4b727db9713aa917cb49b7aa2ae9b0de315021975c97e171412abf8a31"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/test",
+      "bytes": 192008,
+      "sha256": "8925a0056c4df73862fa125e61d971176c33e1563e55633d593c1134049fc9b6"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-reread-after-load/wlan-memory.inc",
+      "bytes": 1837,
+      "sha256": "46fd80d845863665214d0512e5f1a2c1ecfc023e61de8cded913ec0aa69bb0ef"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/firmware-loader.inc",
+      "bytes": 6605,
+      "sha256": "e339342febd0345a4c7abcfdabc6f3204f85b94d863bdf0cfdee396d79c3385f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/matrix.log",
+      "bytes": 91,
+      "sha256": "d839f33254ef393621f0e83ae54aa0cfbfe5922c6618849f9ca2a1661adfa0ac"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/test",
+      "bytes": 192104,
+      "sha256": "47a7a4cb67c187aab64d07b67f6782f2339f78dbf57bcef7b8e534ad02126a62"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/wlan-enum.inc",
+      "bytes": 1254,
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/mutant-share-generic-plan-between-callers/wlan-memory.inc",
+      "bytes": 1960,
+      "sha256": "2c0014a36a42d58770bd050c52b65e09e6cecff6a235e5fb82220834f0f39ef8"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/prior/drivers/net/ethernet/airoha/airoha_npu.c",
+      "bytes": 26766,
+      "sha256": "8dc8545d3b5ea776820f2d75ed0795fee0ca8f93a12bb9e0708169320425f052"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/prior-apply.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/prior.patch",
+      "bytes": 18771,
+      "sha256": "4d05518f5c9ce842c1a22b8d18e2472f3e1710d2aa8613c8adffe77879c322ae"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/replayed/drivers/net/ethernet/airoha/airoha_npu.c",
+      "bytes": 28142,
+      "sha256": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/retry",
+      "bytes": 46464,
+      "sha256": "8de7ab371e34b94aeabdcd4f8fb3860d4e46077aa9b116d548e26c3d30ad5d60"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/retry-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/retry-run.log",
+      "bytes": 15,
+      "sha256": "b8fb680495fcdbcec9080b8d567f2631b63d03a81b1586af4c40a305272701a7"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/retry.c",
+      "bytes": 2668,
+      "sha256": "9302d52f471fd4d6e186b96c4b58c78e635225f443b886cecbbbd6c4289c4013"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/shims/linux/mutex.h",
+      "bytes": 480,
+      "sha256": "25725102916c75163ada3249fcc6d9607aede725882e4424d2e2ba325d72d41a"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/shims/linux/soc/airoha/airoha_offload.h",
+      "bytes": 93,
+      "sha256": "c106bad192d0ea470bcd404924b2d4471822ccfd153574e516e2b032ccd2bb29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/shims/linux/types.h",
+      "bytes": 182,
+      "sha256": "6c3f7a14f538a25f913519cf5247052719f70eaaa15b9ab803c3bde0037b26ef"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/wsl-sync-lsan-20261001/source-apply.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limits": [
+    "Actual selected provider C on x86-64 with GCC ASan/UBSan; OF, I/O, firmware and mailbox dependencies modeled.",
+    "LeakSanitizer is enabled for this host run; fixture storage remains modeled.",
+    "No complete kernel/target object build, NPU execution, module load, hardware access or flash.",
+    "Geometry/snapshot admission is not physical containment, exclusive reservation, DMA drain or safe live reset.",
+    "The source replay covers this provider file, not the full 60-file OpenWrt/LuCI source tree."
+  ]
+}

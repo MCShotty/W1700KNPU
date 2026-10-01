@@ -1,10 +1,23 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-09-23 (unified non-OC merge; image build in progress)
+Last updated: 2026-09-30 (pre-copy MT7996 memory plan integrated; exact cloud image verified; physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
-## Current Live Anchor
+## Current Source And Last Recorded Hardware Evidence - 2026-09-30
+
+- The current cold-memory candidate passes the full offline build/image checks.
+  SHA256: `6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d`.
+  It has not been booted or flashed. Board compatibility is 2.0; use the current
+  cloud-build report and physical handoff before separately authorized testing.
+- The last recorded physical boot is the September 23 merged image, not the
+  current candidate. It passed basic boot and wired management; current device
+  identity/layout/settings and recovery availability must be freshly verified.
+  Daybreak21 R1 remains the protected rollback image, with WLAN NPU disabled.
+- Full NPU ownership/drains, teardown/rearm and actual-client acceptance remain
+  open. The older anchor below is retained only as historical evidence.
+
+## Historical Live Anchor - September 6-9, Superseded
 
 - Active work is NPU-only and codebase-only; no fresh physical readback is
   claimed. The source lock retains the preceding SAE-file-reload receiver
@@ -7146,3 +7159,178 @@ separate NPU/GDMA reset mappings and no GDMA probe/remove drain operation.
 Physical containment, loader identity and publication, V2 caller wiring,
 postgate execution and recovery remain open. The source change is not a new
 flashed image. See `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
+
+## 2026-09-30 - Cloud Pre-Copy MT7996 Memory Plan
+
+- Continued from the clean transferred main checkout at `59e75a8`. Official
+  Linux 6.18.52 and nine pinned OpenW1700k patches reconstruct the prior upstream
+  provider exactly; replaying `ac4c639` reproduces its retained provider hash.
+- Integrated pre-copy MT7996 WLAN geometry admission and immutable plan into
+  the canonical kernel patch/source lock. Generic/PPE-only loads remain optional
+  WLAN users; generic setup keeps per-call scratch storage. Run-entry/failed
+  image paths invalidate setup admission. No public provider ABI change.
+- Portable actual-C GCC ASan/UBSan evidence passes 273 original loader cases,
+  165 added load scenarios and associated lifecycle/reentry assertions; three
+  original-source controls and nine mutants fail their named oracles. Existing
+  retry6174 and Linux executor44 cases pass. Strict checkpatch is clean and
+  canonical provider-file replay passes. LeakSanitizer cannot run under this
+  environment's tracing constraints and is explicitly disabled, not passed.
+- A review-found generic shared-plan draft regression was corrected before
+  integration and retained as a reentry oracle/mutant. Software copies and
+  geometry checks remain distinct from containment or exclusive reservation.
+- Engine inventory confirms separate named reset domains and distinct copy-
+  GDMA versus FE/PPE mechanisms. Expanded map review retains its hash-matched
+  6.18.44 prerequisite scope; complete 6.18.52 reset mapping is not newly proved.
+- The cloud checkout lacks prepared kernel/cross-toolchain, Clang and installed
+  TypeSafe/Jev access. No full target object/link/image/source-tree replay or
+  new Jev probability is claimed. The source update remains locally uncommitted;
+  no remote publication, router operation, flash or restricted INODE/DESC action.
+- Report: `research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md`.
+  No physical action is needed for this bounded checkpoint. Target build/image
+  checks and separately authorized serial-backed boot remain next validation
+  gates; reset/drain stress also requires an evidence-backed owner/retention
+  design. Fresh identity/storage publication, actual V2 callers, postgate work,
+  physical drains, teardown/rearm and full NPU/client acceptance remain open.
+
+## 2026-09-30 - Cloud Build Preparation And Source/Reset Replay
+
+- Preserved the preceding pre-copy checkpoint in a readback-verified Library
+  patch bundle before additional work; no further runtime source change.
+- Fetched exact OpenWrt/feed pins and verified the Linux 6.18.52 archive. All
+  60 locked OpenWrt/LuCI files now replay from clean worktrees. Current clock/
+  reset source reconstructs from 13 pinned upstream patches plus the canonical
+  overlay; all 56 EN7581 entries parse and 11 relevant mappings match history.
+- Actual current reset C passes 23,088 GCC ASan/UBSan cases over all 147 mappings
+  and four corrected named controls. Regmap is modeled; no new target objects
+  or physical reset/drain claim. LeakSanitizer remains explicitly disabled.
+- Fresh preparation stops at actual missing ncurses, rsync and GNU awk checks.
+  Host-package and pinned workspace Python installation approval is pending;
+  no installation, prerequisite override or denied-read bypass occurred.
+- Report: `research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md`. Resume
+  dependency setup and the documented remaining preparation/build operations
+  after approval. No flash, router, protected-data or remote-publication action.
+
+## 2026-09-30 - Approved Cloud Tooling And Build Resumption
+
+- User approved cloud-only software installation. Supported APT elevation still
+  fails at restricted configuration/state; no bypass or host configuration
+  change. Independent official-source tools are installed inside the workspace.
+- Official Ghidra 12.1.2/Temurin 21 and LLVM 22.1.3 archives pass published digest
+  checks. Synthetic Ghidra export/decompilation and Clang sanitizer/cross-object
+  smoke checks pass. GNU awk/ncurses/rsync sources have verified signatures;
+  SWIG 4.5.1 is built from its official linked source and passes wrapper smoke.
+  SWIG has measured provenance but no independently obtained vendor SHA-256.
+- Exact Unicorn/pyelftools pins pass a synthetic AArch64 smoke; local native
+  Python 3.13 gains feed-matching setuptools 84.0.0. No host site-package edits.
+- Builder gains explicit repeatable workspace --host-tools prefixes; default
+  fixed PATH is preserved and eight focused tests pass. No ambient PATH leak.
+- Real host prerequisites pass. Canonical board/NPU configuration is unchanged;
+  upstream recursive-dependency diagnostics for unselected feed packages remain
+  disclosed. Ten current RV32 ELF objects/archive compile. The OpenWrt tools
+  stage is retrying at four jobs after SWIG/setuptools were supplied, with a
+  3 GiB free-space guard for the active OpenWrt phase. Initial synchronous
+  RV32-stage termination is not covered. AArch64 provider/module/image remains open.
+- Continued report: `research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md`.
+  No flash, router operation, restricted INODE/DESC execution or publication.
+
+- Subsequent cloud build update: complete host tools and pinned AArch64 GCC
+  14.4.0/musl cross-toolchain stages pass at four jobs. Full world/image build
+  is running with about 16 GiB free at launch. Pinned DTC and existing built
+  FIT/squashfs tools pass separate synthetic round trips; actual image checks
+  remain pending. See the cloud-build report and stage receipts.
+
+- Kernel/provider continuation: Linux 6.18.52 target compilation and the current
+  AArch64 NPU provider module link pass. Prepared provider/header/reset hashes
+  match the canonical reconstruction. First world attempt failed later on a
+  workspace host-wrapper ncurses precedence bug. The original wrapper/tree are
+  preserved; fallback -idirafter and trailing -L in host-wrappers-v2 pass two
+  old-failing controls, and the real host ncurses package now builds. World
+  retry is active; no runtime source/configuration change was needed.
+- Ghidra 12.1.2 imports the exact current provider module, analyzes 29 executable
+  functions and exports all six selected functions with zero decompilation
+  failures. DWARF/type recovery limitations are retained. This static result
+  adds no physical containment, reset, DMA-drain or semantic-equivalence proof.
+
+- Capacity stop: the second world attempt was interrupted by its 3 GiB guard
+  (builder child -15, shell 241). No full image success is claimed. Incremental
+  state and all inputs are retained; deletion approval is pending for exactly
+  three newly downloaded LLVM/Ghidra/Temurin archives, 2,720,251,113 bytes. No
+  deletion occurred. Physical validation is not requested from this state.
+
+- Approved capacity recovery: reverified and removed only the three named
+  LLVM/Ghidra/Temurin download archives (2,720,251,113 bytes); installed tool
+  fingerprints are unchanged and recovery URLs/digests are retained. Free
+  space rose to about 5.5 GiB. Third guarded four-job world attempt resumed;
+  no source/user-input/signing-key deletion, flash or publication occurred.
+
+- Third world attempt: all target packages (including mt76/MT7996) compiled,
+  but APK rootfs installation failed on owner preservation under default
+  fakeroot. Pinned upstream simulation-only FAKEROOTDONTTRYCHOWN=1 passes four
+  actual-library/sentinel controls: correct fake file/symlink owners and zero
+  real ownership-call attempts; real uid/gid unchanged. Fourth world retry
+  uses that supported per-process option, retaining APK checks and source pins.
+
+## 2026-09-30 - Full Cloud Image Verification Complete
+
+- Fourth world attempt passes with upstream fakeroot simulation-only mode;
+  all 218 packages install without owner-preservation warnings. Exact candidate
+  image is 26,932,042 bytes, SHA256
+  6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d.
+- FIT hashes, gemtek,w1700k-ubi/compat2.0 metadata, NPU layout, firmware identities,
+  218 packages and 78 module ABI checks pass. Seventeen retained provider
+  allocated sections match the compiled module; expected build-ID-note removal
+  is documented. All 1,951 squashfs ownership entries are root/root.
+- Final 273/165 loader-memory replay, three original controls, nine mutants,
+  6,174 retry and 44 V2 cases pass again; eight builder tests, Python syntax and
+  Git whitespace checks pass. Current reset/Ghidra/source replay evidence keeps
+  its stated modeled/static scope. TypeSafe/Jev remains unavailable, no new score.
+- Physical validation is now the next candidate acceptance gate: require fresh
+  device/board/layout/compatibility checks, working serial recovery, locally
+  accessible verified rollback/backups and separate explicit authorization.
+  No initramfs artifact exists; do not assume RAM boot or force a layout mismatch.
+  No flash/router change, reset/drain stress or remote source publication occurred.
+- Full NPU loader/caller/postgate, physical ownership/drain/teardown/rearm and
+  real client acceptance remain incomplete. Report/handoff:
+  research/checkpoints/2026-09-30-npu-cloud-build/.
+
+## 2026-09-30 - GitHub Review Preparation
+
+- User authorized GitHub work. Remote `main` was checked at `59e75a8`, matching
+  the transferred base; no newer remote changes were overwritten. The intended
+  dedicated review branch is `codex/npu-cold-memory-cloud-validation-20260930`.
+- Preserved the tested 72-file checkpoint in the existing checksum-verified
+  Library bundle before these publication-only documentation clarifications.
+  Runtime source, firmware pins and the verified candidate image are unchanged.
+- Fresh actual-C 273/165 loader-memory cases, three original controls, nine
+  mutants, 6,174 retry and 44 V2 cases pass; eight builder tests pass again.
+  Source/test/evidence files are screened for publication; generated binaries,
+  private data, credentials and build trees are excluded from this change.
+- This entry records preparation, not a claimed remote write or CI pass. Verify
+  the actual draft PR head/tree and its check status on GitHub. No merge, flash
+  or other hardware operation is authorized by source publication. Physical
+  readiness, compatibility 2.0 and the serial/rollback handoff gates stay open.
+- The full staged whitespace check flags only two preserved raw evidence files:
+  the Ghidra export and the standalone patch (whose context prefixes are valid
+  patch syntax). Source, tests and documentation pass the check with those two
+  hash-preserved artifacts excluded; no raw evidence bytes were normalized.
+
+## GitHub Sync And WSL Validation - 2026-10-01
+
+Restored PR #1's cloud source/evidence and its deferred history documents into
+the canonical local checkout. The complete restored tree matches the cloud
+record exactly (`f2a52b2c27e21021e8c36d4b30a25e37565827c2`, commit `e095420`).
+The local prepared patch was synchronized and the full WSL image rebuilt after
+preserving the previously flashed image.
+
+The local candidate is 26,932,042 bytes, SHA256
+`277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+FIT/board/firmware/218-package/78-module checks pass; its packaged provider
+matches the cloud provider. The full local FIT has its own identity.
+Host replay now passes with LeakSanitizer enabled alongside ASan/UBSan:
+273 loader/165 additional load cases, three controls, nine mutants, 6,174 retry
+and 44 V2 cases. The runner records its sanitizer selection and exposes an
+explicit opt-out for restricted hosts. Eight builder tests also pass.
+
+Ethernet management is unavailable, so no new device operation or flash ran.
+Cold containment, loader/caller/postgate integration and physical recovery
+remain unfinished. See `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.

@@ -1,0 +1,54 @@
+{
+  "state": {
+    "pid": 9,
+    "process_group": 9,
+    "wrapper_pid": 7,
+    "command": [
+      "make",
+      "-j4",
+      "world",
+      "V=s"
+    ],
+    "cwd": "/workspace/scratch/2c9d7a095839/W1700KNPU/.build/merged-openwrt",
+    "log": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/merge-nonoc-20260923/build-cloud-world-third.log",
+    "started": 1790775240.5755816,
+    "exit_code": 2,
+    "tool_provenance": {
+      "host_tools": [
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin"
+        },
+        {
+          "prefix": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64",
+          "bin": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin"
+        }
+      ],
+      "path": "/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host-wrappers-v2/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/host/bin:/workspace/scratch/2c9d7a095839/W1700KNPU/.local/cloud-tools/LLVM-22.1.3-Linux-X64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "make": {
+        "path": "/usr/bin/make",
+        "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+      }
+    },
+    "finished": 1790775330.264832
+  },
+  "scope": "All target packages compiled; rootfs APK installation failed on ownership reporting under default fakeroot. Not a passing world build.",
+  "files": {
+    ".local/merge-nonoc-20260923/build-cloud-world-third.json": {
+      "sha256": "c7d8ef5cdb25cee99e62fc7bac63bf23dd09df9bdedc503b39cbc9b688e14038",
+      "bytes": 1527
+    },
+    ".local/merge-nonoc-20260923/build-cloud-world-third.log": {
+      "sha256": "d2a286657068493edc2aecdf19199f29f92d979cee18c8cb4e2671076d029408",
+      "bytes": 424791
+    },
+    ".local/cloud-build-access/guard-cloud-world-third.json": {
+      "sha256": "591aacc81f3541d202bebbffb7864a60e03df9062684a7da0560a4798e4db493",
+      "bytes": 1375
+    }
+  }
+}

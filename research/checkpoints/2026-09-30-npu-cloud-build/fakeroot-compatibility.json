@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "mode": "baseline",
+      "kind": "regular",
+      "result": {
+        "result": -1,
+        "errno": 13,
+        "simulated_uid": 123,
+        "simulated_gid": 456,
+        "real_call_attempts": 1
+      },
+      "real_owner_unchanged": [
+        1000,
+        1000
+      ]
+    },
+    {
+      "mode": "baseline",
+      "kind": "symlink",
+      "result": {
+        "result": -1,
+        "errno": 13,
+        "simulated_uid": 123,
+        "simulated_gid": 456,
+        "real_call_attempts": 1
+      },
+      "real_owner_unchanged": [
+        1000,
+        1000
+      ]
+    },
+    {
+      "mode": "simulated-only",
+      "kind": "regular",
+      "result": {
+        "result": 0,
+        "errno": 0,
+        "simulated_uid": 123,
+        "simulated_gid": 456,
+        "real_call_attempts": 0
+      },
+      "real_owner_unchanged": [
+        1000,
+        1000
+      ]
+    },
+    {
+      "mode": "simulated-only",
+      "kind": "symlink",
+      "result": {
+        "result": 0,
+        "errno": 0,
+        "simulated_uid": 123,
+        "simulated_gid": 456,
+        "real_call_attempts": 0
+      },
+      "real_owner_unchanged": [
+        1000,
+        1000
+      ]
+    }
+  ],
+  "scope": "Actual built fakeroot with sentinel rejecting would-be real fchownat calls, so neither control can change real ownership. Supported mode records simulated ownership and makes zero real ownership-call attempts. The baseline reproduces APK-compatible failure under modeled EACCES; actual prior host errno was not traced.",
+  "supported_mode": "FAKEROOTDONTTRYCHOWN=1",
+  "files": {
+    ".local/cloud-build-access/fakeroot-compat/baseline-regular": "3eb3ea0f8082c8043842d78abdb7f4b5f3d9d867350af174ac4bb27d7021eb41",
+    ".local/cloud-build-access/fakeroot-compat/baseline-regular.log": "2d090fb11134ab18cd059b5a1235977f1d331f7828b1de280611936076f821c4",
+    ".local/cloud-build-access/fakeroot-compat/baseline-symlink.log": "2d090fb11134ab18cd059b5a1235977f1d331f7828b1de280611936076f821c4",
+    ".local/cloud-build-access/fakeroot-compat/deny-real-chown.c": "3f8cf0eefecbc65a7e06ea59fb283a8bb54b3654745b1c2fb2edb614e96dfb90",
+    ".local/cloud-build-access/fakeroot-compat/deny-real-chown.so": "ba47ac5cf32ac85995cad18c25d69b261ac984b0c6f6fd963ec01f2f4d23c499",
+    ".local/cloud-build-access/fakeroot-compat/probe": "59f8e267b146db5cf8f73e675d72b23e41c1e1df242c6786d97ad98a81f7e959",
+    ".local/cloud-build-access/fakeroot-compat/probe.c": "89428ac433ef108163e8a8686e122a6f0400e708169c9d623fcc16f6b6349f76",
+    ".local/cloud-build-access/fakeroot-compat/simulated-only-regular": "3eb3ea0f8082c8043842d78abdb7f4b5f3d9d867350af174ac4bb27d7021eb41",
+    ".local/cloud-build-access/fakeroot-compat/simulated-only-regular.log": "b6c1b721c7dc4aea68738cea01cbc42dab32a47baaef74aaf6ea9fd2d93750e8",
+    ".local/cloud-build-access/fakeroot-compat/simulated-only-symlink.log": "b6c1b721c7dc4aea68738cea01cbc42dab32a47baaef74aaf6ea9fd2d93750e8"
+  }
+}

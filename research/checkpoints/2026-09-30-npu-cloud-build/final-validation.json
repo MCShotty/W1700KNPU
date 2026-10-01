@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "image_sha256": "6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d",
+  "image_bytes": 26932042,
+  "checks": {
+    "canonical_source_replay": 60,
+    "loader_cases": 273,
+    "additional_load_cases": 165,
+    "original_controls": 3,
+    "rejected_mutants": 9,
+    "allocation_retry_cases": 6174,
+    "linux_v2_cases": 44,
+    "reset_host_cases": 23088,
+    "reset_named_controls": 4,
+    "rv32_objects": 10,
+    "ghidra_selected_decompilations": 6,
+    "packages": 218,
+    "module_abi_checks": 78,
+    "matching_provider_allocated_sections": 17,
+    "rootfs_numeric_ownership_entries": 1951,
+    "builder_path_tests": 8,
+    "normalized_provider_relocations": 247
+  },
+  "limits": [
+    "Offline software/image validation only",
+    "No new device boot, module load, flash, radio operation or physical drain/reset/rearm proof",
+    "LSan disabled explicitly; ASan/UBSan active in covered host suites",
+    "No TypeSafe/Jev credential or result available in this cloud work",
+    "Existing firmware/cold-loader/caller/postgate and physical ownership work remains incomplete"
+  ],
+  "files": {
+    "firmware/source-lock.json": {
+      "bytes": 16618,
+      "sha256": "6f814270a93b156fab0b3d71e46a4ff1a8bab18bd1c44c85c1aa71580d017aba"
+    },
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": {
+      "bytes": 20235,
+      "sha256": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3"
+    },
+    "tools/build_firmware.py": {
+      "bytes": 4525,
+      "sha256": "d3928d70c68d914792fa4fdd3ccc903286db9195a24fcadbec73cd16a8e7758f"
+    },
+    "tests/test_build_firmware_host_tools.py": {
+      "bytes": 8988,
+      "sha256": "de7370c2d5517dd1fb9cda35938b38176a5601ddd949cdbb1ee56b96217cee1f"
+    },
+    ".local/cloud-build-access/final-cold-memory.log": {
+      "bytes": 509,
+      "sha256": "764b455e3533a50561ae896432361aab3a548baa666c5a71ef41f48ccc6265b8"
+    },
+    ".local/cloud-build-access/final-builder-tests.log": {
+      "bytes": 1108,
+      "sha256": "cacb26d7f1215eb90f50de4a0692b118280c2cf723f1d4f346faf67aa30b062b"
+    },
+    "research/checkpoints/2026-09-30-npu-cloud-build/image-verification.json": {
+      "bytes": 18120,
+      "sha256": "d414f10076e3d4c420b0a7149d26e42b7b37f60a903279b951ce22adbd8ebb44"
+    },
+    "research/checkpoints/2026-09-30-npu-cloud-build/image-code-and-ownership.json": {
+      "bytes": 3579,
+      "sha256": "28da2a26723551ded9150f1739eb3babf345039a593908fcaab497546c2be214"
+    },
+    "research/checkpoints/2026-09-30-npu-cloud-build/final-cold-memory.json": {
+      "bytes": 27601,
+      "sha256": "3289bd62a06c58e749728ef615ad2c03d9509351a9318b7654c87d1d11514ff8"
+    },
+    "research/checkpoints/2026-09-30-npu-cloud-build/cloud-world-fourth.json": {
+      "bytes": 2326,
+      "sha256": "b4a4597434864a7906478d8f41db03a1953fd87b968a66df1190ef2fe3b00105"
+    }
+  }
+}

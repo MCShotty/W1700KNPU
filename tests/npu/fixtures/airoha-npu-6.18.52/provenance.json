@@ -1,0 +1,81 @@
+{
+  "kernel": "6.18.52",
+  "openwrt_base": "288d79449f622a37c727cb12e81e85dba822aecb",
+  "inputs": [
+    {
+      "name": "base",
+      "encoding": "utf-8",
+      "sha": "ddc5a6a7681b1366cdb319cb707e9f267be42edc",
+      "display_url": "https://github.com/gregkh/linux/blob/v6.18.52/drivers/net/ethernet/airoha/airoha_npu.c",
+      "display_title": "airoha_npu.c"
+    },
+    {
+      "name": "102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch",
+      "encoding": "utf-8",
+      "sha": "d2ddaf93625588c02ed5d718e6654cb4cbd33d62",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch",
+      "display_title": "102-02-v6.19-net-airoha-npu-Add-airoha_npu_soc_data-struct.patch"
+    },
+    {
+      "name": "102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch",
+      "encoding": "utf-8",
+      "sha": "9147279582368c55f16547ff41f59f6f3ce34086",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch",
+      "display_title": "102-03-v6.19-net-airoha-npu-Add-7583-SoC-support.patch"
+    },
+    {
+      "name": "117-03-airoha_npu_eagle_add_ser.patch",
+      "encoding": "utf-8",
+      "sha": "7ef0f05c39e6647117c719321d7bd1deb161a9d8",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/117-03-airoha_npu_eagle_add_ser.patch",
+      "display_title": "117-03-airoha_npu_eagle_add_ser.patch"
+    },
+    {
+      "name": "118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch",
+      "encoding": "utf-8",
+      "sha": "1086474dd3bba5f11890c2b90f4f19a96bf1374e",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch",
+      "display_title": "118-v7.0-net-airoha-npu-Dump-fw-version-during-probe.patch"
+    },
+    {
+      "name": "121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch",
+      "encoding": "utf-8",
+      "sha": "9283e18de6b3bbcaece516bba68e4a27912e6db0",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch",
+      "display_title": "121-v7.0-net-airoha-npu-Init-BA-memory-region-if-provided-via.patch"
+    },
+    {
+      "name": "123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch",
+      "encoding": "utf-8",
+      "sha": "678e6432d28b5d688478d5b2aa316ee8f14f3137",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch",
+      "display_title": "123-v7.0-net-airoha-npu-Add-the-capability-to-read-firmware-n.patch"
+    },
+    {
+      "name": "181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch",
+      "encoding": "utf-8",
+      "sha": "3313b4056940a58961577e37f9e34a1d395fba0f",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch",
+      "display_title": "181-v7.3-net-airoha-npu-load-the-firmware-without-the-sysfs-fall.patch"
+    },
+    {
+      "name": "924-net-airoha-npu-use-coherent-mailbox-dma.patch",
+      "encoding": "utf-8",
+      "sha": "1cec50f46191588dbc534baee123914e526482fc",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/924-net-airoha-npu-use-coherent-mailbox-dma.patch",
+      "display_title": "924-net-airoha-npu-use-coherent-mailbox-dma.patch"
+    },
+    {
+      "name": "992-21-net-airoha-npu-init-stability.patch",
+      "encoding": "utf-8",
+      "sha": "fd9ffdaaf7541ab50bc7576da0bfe4277ffe1cc2",
+      "display_url": "https://github.com/OpenWRT-fanboy/OpenW1700k/blob/288d79449f622a37c727cb12e81e85dba822aecb/target/linux/airoha/patches-6.18/992-21-net-airoha-npu-init-stability.patch",
+      "display_title": "992-21-net-airoha-npu-init-stability.patch"
+    }
+  ],
+  "files": {
+    "provider-upstream.c": "37bf128e7cd7c212e9a30c8b76f031522dede2059b4709e97805b648e01193d9",
+    "airoha_offload.h": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+  },
+  "authority": "provider-upstream.c matches prior loader receipt kernel-upstream SHA; header matches unified merge prepared-driver-tests input SHA. Apply the source-lock-checked canonical kernel patch to the upstream provider for current source. The header already contains the unchanged unified header additions."
+}

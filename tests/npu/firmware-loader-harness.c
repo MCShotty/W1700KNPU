@@ -45,6 +45,26 @@ static int request_errors[2], acquired[2], released[2];
 static int requests, copies, events[8], event_count, property, property_count;
 static int map_error, match_missing;
 static unsigned cases;
+static struct resource wlan_regions[4];
+static int has_ba, region_missing, region_lookups, send_calls, send_error;
+static u32 sent[8][3];
+static const char * const region_names[] = { "tx-bufid", "pkt", "tx-pkt", "ba" };
+
+static bool resource_overlaps(const struct resource *a, const struct resource *b) {
+    return a->start <= b->end && a->end >= b->start;
+}
+static int of_property_match_string(struct device_node *n, const char *p, const char *s) {
+    (void)n; (void)p; (void)s; return has_ba ? 3 : -EINVAL;
+}
+static int of_reserved_mem_region_to_resource_byname(struct device_node *n,
+                                                     const char *name, struct resource *r) {
+    (void)n; region_lookups++;
+    for (int i = 0; i < 4; i++) if (!strcmp(name, region_names[i])) {
+        if (region_missing == i) return -ENOENT;
+        *r = wlan_regions[i]; return 0;
+    }
+    return -EINVAL;
+}
 
 static void event(int value) { CHECK(event_count < 8); events[event_count++] = value; }
 static uint64_t resource_size(const struct resource *r) { return r->end - r->start + 1; }
@@ -106,6 +126,12 @@ static void setup(int profile, int dts, size_t code_size, size_t data_size) {
     memset(request_errors, 0, sizeof(request_errors));
     memset(acquired, 0, sizeof(acquired)); memset(released, 0, sizeof(released));
     memset(events, 0, sizeof(events)); requests = copies = event_count = 0;
+    wlan_regions[0] = (struct resource){0x90c00000, 0x90c0dfff};
+    wlan_regions[1] = (struct resource){0x8a000000, 0x8cbfffff};
+    wlan_regions[2] = (struct resource){0x8cc00000, 0x90bfffff};
+    wlan_regions[3] = (struct resource){0x90c0e000, 0x90e0dfff};
+    has_ba = 1; region_missing = -1; region_lookups = send_calls = send_error = 0;
+    memset(sent, 0, sizeof(sent));
     property = dts; property_count = 2; map_error = match_missing = 0;
     expected_names[0] = profile == 1 ? NPU_EN7581_7996_FIRMWARE_RV32 :
                          profile == 2 ? NPU_AN7583_FIRMWARE_RV32 : NPU_EN7581_FIRMWARE_RV32;

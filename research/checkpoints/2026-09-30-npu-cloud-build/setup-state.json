@@ -1,0 +1,77 @@
+{
+  "source_replay": {
+    "passed": true,
+    "files": 60,
+    "receipt": ".local/merge-nonoc-20260923/cloud-source-replay/result.json",
+    "sha256": "d4081195bea02c583759a76212bd91822d7fe02461e822f81bab3bce4e517ad9"
+  },
+  "kernel_archive": {
+    "path": ".build/merged-openwrt/dl/linux-6.18.52.tar.xz",
+    "bytes": 154741268,
+    "sha256": "2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8",
+    "verified": true
+  },
+  "preparation": {
+    "status": "host prerequisites pass; canonical configuration unchanged; upstream unselected-package recursive warnings retained",
+    "required_now": [
+      "libncurses-dev",
+      "rsync",
+      "gawk"
+    ],
+    "overridden": false,
+    "log": ".local/cloud-build-access/prepare.log"
+  },
+  "host_command_paths": {
+    "clang": null,
+    "flex": null,
+    "bison": null,
+    "gawk": null,
+    "rsync": null,
+    "swig": null,
+    "gettext": null,
+    "msgfmt": null,
+    "bc": null,
+    "cpio": null,
+    "shellcheck": null
+  },
+  "capacity": {
+    "free_bytes": 5363871744,
+    "filesystem_bytes": 33770192896,
+    "host_reported_cpus": 9,
+    "nproc_available": 9
+  },
+  "installation_approval": "received",
+  "build_started": true,
+  "image_created": true,
+  "hardware_accessed": false,
+  "source_lock_sha256": "6f814270a93b156fab0b3d71e46a4ff1a8bab18bd1c44c85c1aa71580d017aba",
+  "build_jobs_planned": 4,
+  "historical_stage_seconds": {
+    "toolchain_install_j8": 1179.87,
+    "world_j8": 2377.21
+  },
+  "historical_timings_are_cloud_eta": false,
+  "host_installation": {
+    "action": "apt-get update && apt-get install --no-install-recommends --no-upgrade --no-remove -y clang flex bison gawk rsync libncurses-dev libelf-dev python3-dev swig gettext bc cpio shellcheck",
+    "supported_elevation_requested": true,
+    "exit_code": 100,
+    "result": "APT configured retry file permission denied; /var/lib/apt/lists/partial missing; no packages installed",
+    "host_configuration_changed": false
+  },
+  "workspace_installation": {
+    "python": "passed exact pins and synthetic AArch64 emulator smoke",
+    "python_receipt": ".local/cloud-build-access/python-wheels/receipt.json",
+    "native_tools": "official LLVM and GNU prerequisites installed with selected smoke checks; SWIG source provenance fingerprinted"
+  },
+  "build_state": "complete world and exact image validation passed",
+  "build_guard": "stop current builder at less than 3 GiB free",
+  "current_rv32_objects": 10,
+  "host_tools_build_passed": true,
+  "next_stage_download_options": "CURL_OPTIONS=-4 --connect-timeout 15; per-process IPv4/timeout only, TLS verification retained",
+  "cross_toolchain_build_passed": true,
+  "provider_kernel_module_passed": true,
+  "provider_ghidra_passed": true,
+  "archive_cleanup_approval": "received",
+  "archives_deleted": true,
+  "image_verified": true
+}

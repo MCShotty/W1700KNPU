@@ -19,9 +19,37 @@ leaves the ledger unchanged.
   checkpoint closes only its documented scope. Full NPU completion requires
   actual firmware/host behavior, physical ownership/drains and client evidence.
 
-## Current Checkpoint - 2026-09-30
+## Current Checkpoint - 2026-10-01
 
-- Source checkpoint `ac4c639` includes paired firmware preflight in the unified
+- GitHub PR #1 source and its deferred history documents are now synchronized
+  into the canonical WSL checkout. The reconstructed cloud snapshot matches
+  tree `f2a52b2c27e21021e8c36d4b30a25e37565827c2` at commit `e095420`.
+- A full local build and FIT/board/218-package/78-module checks pass. The local
+  FIT SHA256 is `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+  Its packaged provider matches the cloud module, but the full image hash is
+  distinct. Evidence: `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+- The portable memory-plan runner now enables LeakSanitizer by default and
+  records the selected sanitizers. The full host suite passes with leak checks
+  enabled here; use `--disable-leak-check` only when needed and disclose it.
+- The wired management interface was unavailable, so no new hardware check or
+  flash occurred. Continue the remaining cold-lifetime, loader/caller/postgate
+  and physical drain/rearm work; full NPU acceptance remains incomplete.
+
+## Previous Cloud Checkpoint - 2026-09-30
+
+- Current cloud working source adds pre-copy MT7996 WLAN memory admission and
+  an immutable setup plan, with generic profiles keeping caller-local plans.
+  The canonical patch and source lock are updated. Portable actual-C replay
+  passes 273 loader/165 added load cases, three original controls, nine mutants,
+  6,174 retry and 44 V2 executor cases. The current AArch64 provider module
+  and ten RV32 components compile/link. The complete candidate image now
+  passes FIT/board/firmware/218-package/78-module checks; physical boot and
+  ownership/drain acceptance remain open. See the cloud-build report/handoff.
+  Evidence: `research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md`.
+- Geometry admission and successful image copies are not containment, exclusive
+  memory reservation or physical drain witnesses. The engine/reset matrix in
+  that checkpoint records the separate unresolved owner contracts.
+- Prior published source checkpoint `ac4c639` includes paired firmware preflight in the unified
   kernel patch on Linux 6.18.52 and mt76 `01367e60`. Both images validate before
   either copy; empty images fail and acquired firmware is released on error.
 - Evidence: `research/checkpoints/2026-09-30-npu-loader/REPORT.md`. Actual-C
@@ -39,6 +67,9 @@ leaves the ledger unchanged.
 
 - Work here, not in the superseded Windows task directory. Historical paths
   in evidence are provenance, not current workspace instructions.
+- Current continuation is back in the canonical WSL checkout with its local
+  prepared build and private inputs. Cloud receipt paths describe that earlier
+  executor; verify local state before reusing environment-specific assumptions.
 - The local source is WSL Ubuntu `/home/captain/W1700KNPU`, accessible from
   Windows at `\\wsl.localhost\Ubuntu\home\captain\W1700KNPU`. The Ubuntu backing
   disk is under `D:\WSL\Ubuntu`. The prior `D:\W1700K-Recovery` snapshot path
@@ -48,7 +79,7 @@ leaves the ledger unchanged.
   synthetic-router-tested, and actual-client-tested behavior. Stock NPU parity
   remains incomplete. Never label the WLAN-NPU-disabled baseline stock parity.
 - Use `firmware/source-lock.json`, cumulative patches and overlays as source
-  authority. Build on WSL native ext4, never directly on NTFS. Generated builds
+  authority. Build on native Linux storage (including WSL ext4), never directly on NTFS. Generated builds
   and private inputs belong under ignored `.build/` and `.local/` paths.
 - Preserve bootloader, factory/calibration, known-good rollback, and private
   router backups. Never upload keys, credentials, or raw device backups.
