@@ -90,3 +90,43 @@ Publication is authorized on a new draft PR branch, without merge or flash.
 Verify the remote commit and CI after publication; local checks are not CI or
 physical proof. Eight build-runner tests pass. Raw API JSON retains its original
 CRLF bytes; whitespace validation uses Git's cr-at-eol setting for those receipts.
+
+## Mainline follow-up - 2026-10-01
+
+The user subsequently requested merging all outstanding source work into `main`.
+That supersedes the earlier draft-only publication authorization above; it does
+not authorize flashing or change any implementation/physical acceptance boundary.
+The older cloud-validation branch is already contained in pre-merge main
+`eabfedb`; the cold-page PR and final runner edit are the remaining source delta.
+
+The final runner adds `--core-object PATH`, validates a repository-local file,
+links that exact object into the RV32 probe, and records its path/hash in the
+receipt. Host C, sanitizer and deliberate-mutant checks remain source-built.
+Fresh source (`core-final.json`) and archive-member (`archive-member.json`) runs
+each pass 5,702 differential calls, 5,376 nominal claims, 294 controls and ten
+mutants with ASan/UBSan/LeakSanitizer. Both late-fault injections retain the
+claim; their distinct PCs are recorded rather than assumed identical.
+
+Tested built object and independently extracted `cold-page.o` both have SHA256
+`bb93ef158f30c90fbb63bfb4bbb5b5a5d2d61d029710d957a8270d1f176ffd2d`.
+Fresh offline verification (`image-final.json`) passes the unchanged FIT,
+board, 218-package and 78-module checks with eleven RV32 components. Eight
+build-runner unit tests also pass. The earlier successful full-world build
+receipt is preserved; no new full-world build was required for this test-only
+change. `mainline-validation.json` records independent receipt/input/artifact
+hash readback and the archive-member comparison. Original checkpoint receipts
+remain historical; current runner hashes are in the new final receipts.
+
+Ledger, session log, current reference, remaining work, both READMEs and AGENTS
+are updated. Only source, documentation and text receipts are publication inputs;
+generated binaries, ignored local/private data and protected backups are excluded.
+Native caller wiring, strict setup, physical backing/exclusion/publication,
+drains/recovery and actual clients remain open. No flash or hardware operation.
+
+Final semantic review uses official `jev-1.13.0`; request/result are
+`jev-mainline-request.json` and `jev-mainline-result.json`. It classifies the
+local edit as test-harness-only (confidence 1.0), gives source-based host checks
+Noul 0.96 and explicit unresolved physical scope Noul 0.98. The validation claim
+is supported with probability 0.84/confidence 0.76; reported counts, sanitizer
+results, image checks and hashes were separately checked deterministically.
+These are semantic scope judgments, not merge authorization or runtime proof.

@@ -1,5 +1,16 @@
 # Remaining W1700K Work
 
+## 2026-10-01 - Mainline Follow-Up
+
+The user authorized merging all outstanding source work into `main`, including
+the final `--core-object` test-runner option and its fresh exact-object receipt.
+Source and archive-member replay each pass 5,702 calls/294 controls/ten mutants;
+eight build-runner tests and unchanged-image offline checks pass. Evidence:
+`research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+This closes the unpublished test-runner follow-up, not native caller integration,
+strict setup, physical backing/publication/drains, recovery or client acceptance.
+Ignored build/private data stays local; no flash or hardware change occurred.
+
 ## 2026-10-01 - Checked Cold Page Ownership Core
 
 - Preserved pending work after remote-verified `eabfedb`; completed the shared

@@ -43,14 +43,15 @@ def run(command, dest, name, fail=False):
     return result
 
 
-def build(dest, source=SOURCE):
+def build(dest, source=SOURCE, core_object=None):
     dest.mkdir()
     common = ['-std=c11', '-O2', '-g', '-Wall', '-Wextra', '-Werror',
               '-fno-builtin', '-I' + str(SOURCE.parent), source]
     lib, elf, sanitizer = (dest / name for name in ('host.so', 'rv32.elf', 'sanitize'))
     run(['clang', *common, PROBE, '-shared', '-fPIC', '-o', lib], dest, 'host-build')
     lld = shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'
-    run(['clang', *common, PROBE, '--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32',
+    rv_common = [*common[:-1], core_object or source]
+    run(['clang', *rv_common, PROBE, '--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32',
          '-nostdlib', '-fno-stack-protector', '--ld-path=' + str(lld),
          '-Wl,-T,' + str(LINKER) + ',--no-relax', '-o', elf], dest, 'rv32-build')
     run(['gcc', *common, SANITIZE, '-fno-pie', '-no-pie', '-fsanitize=address,undefined',
@@ -268,12 +269,17 @@ def late_fault(pair):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', required=True)
+    parser.add_argument('--core-object', type=Path,
+                        help='Execute the built archive member instead of recompiling the RV32 core')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     dest = ROOT / '.local/npu-cold-page-20261001' / args.name
     assert not dest.exists(), 'Choose a fresh result name'
     dest.mkdir(parents=True)
-    paths = build(dest / 'baseline')
+    core_object = args.core_object.resolve() if args.core_object else None
+    if core_object:
+        assert core_object.is_relative_to(ROOT) and core_object.is_file()
+    paths = build(dest / 'baseline', core_object=core_object)
     sanitized = run([paths[2]], dest / 'baseline', 'sanitize')
     assert 'PASS cold-page sanitizer' in sanitized.stdout
     pair = Pair(paths)
@@ -312,6 +318,9 @@ def main():
                   limits=['Shared cold ownership core, not a wired native callback or physical page-pool proof.',
                           'Queue snapshot validity, exclusion, storage and native-head publication remain caller contracts.',
                           'RV32 late-fault injection proves retained core state,not physical drain/reclaim/readiness.'])
+    if core_object:
+        result['built_rv32_member'] = dict(path=str(core_object.relative_to(ROOT)), sha256=sha(core_object))
+        result['inputs'][str(core_object.relative_to(ROOT))] = sha(core_object)
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result | {'inputs': len(result['inputs']), 'artifacts': len(result['artifacts'])}))
 

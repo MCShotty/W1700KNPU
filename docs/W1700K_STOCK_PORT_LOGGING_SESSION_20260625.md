@@ -7415,3 +7415,16 @@ See `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
   Full native ownership/error/publication, strict callers, loader,
   physical drains/recovery and clients remain open. No flash or hardware changes.
   Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+
+## 2026-10-01 - Mainline And Exact-Object Follow-Up
+
+User authorized merging all outstanding work into main; the earlier draft-only
+PR #2 restriction is superseded. The older cloud branch is already an ancestor
+of main. Fresh source and exact compiled-member cold-page replay each pass
+5,702 calls/294 controls/ten mutants with all three sanitizers. The tested object
+hash equals the extracted archive member. Eight build-runner tests and fresh
+offline FIT/board/218-package/78-module checks pass; the FIT is unchanged.
+Added final replay/image receipts and updated all resume documents and READMEs.
+Generated/private inputs remain ignored and local. No flash or physical target
+change; full native caller/ownership/drain/recovery/client acceptance stays open.
+Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.

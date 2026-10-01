@@ -1,0 +1,708 @@
+{
+  "date": "2026-10-01",
+  "passed": true,
+  "pre_merge_main": "eabfedbfb39fd387677a71fd71d6747d55aaed87",
+  "review_commit": "177073c1d2840c11b26f320d3a4dbd9075492fa2",
+  "fresh_receipts": {
+    "core-final.json": ".local/npu-cold-page-20261001/mainline-core-20261001/result.json",
+    "archive-member.json": ".local/npu-cold-page-20261001/mainline-member-20261001/result.json",
+    "image-final.json": ".local/merge-nonoc-20260923/mainline-merge-20261001/result.json"
+  },
+  "verified_hashes": [
+    {
+      "path": "firmware/npu/cold-page.c",
+      "sha256": "b4e82745cfb7ec0c2acca14a7e87b950a20679726173195244f6cb629a3c2ecb"
+    },
+    {
+      "path": "firmware/npu/cold-page.h",
+      "sha256": "70672b261f16859049f5d313a6164eaba0b6f07bbdd46205f50c8af01660d1b3"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.c",
+      "sha256": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.ld",
+      "sha256": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408"
+    },
+    {
+      "path": "tests/npu/cold-page-sanitize.c",
+      "sha256": "dc12897d2b963de20ce77e85d3ed3fce464431a51f5eb9b09e431300c28b7091"
+    },
+    {
+      "path": "tests/npu/test_cold_page.py",
+      "sha256": "4f12fa9c3a0af11adc8d67a8d4d951456fca6bc5912258b3378851c0797dae1a"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/host-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/host-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/host.so",
+      "sha256": "d648775e75d64890a6749ddf7076c246e1f579e2a6715b47464c3dca0bceae0c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/rv32-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/rv32-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/rv32.elf",
+      "sha256": "e2dda405229e9551e9adc0315c908a12325f4bcec8d179d40af2264259f783fe"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/sanitize",
+      "sha256": "f11c0a02cc69412c6fddbdb36f98959663c4908bb6483b95cb55b45f3421c11b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/sanitize.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/sanitize.stdout",
+      "sha256": "fa55593ca5c7dd7d950f5fb45e393256e27c1d8640241936b25225d47355af7b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/sanitizer-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/baseline/sanitizer-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/cold-page.c",
+      "sha256": "e96afe734a8ef82a8a6ca08afa833658a1e937852dd69120b308588b08abdd92"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/reject.stderr",
+      "sha256": "4b8014b646496d2b5add023aeef15de93a87c444203912aff8994f9316ac0562"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/clear-fault/sanitize",
+      "sha256": "a9172020d2724c39cea0dfbcb65e616f8805a85b9b09a647e42168514f5f94fc"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/cold-page.c",
+      "sha256": "d386b911558858d5b9b8644fa859c8a9d796d897a0f5eebb7b38a3061dfd0666"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/reject.stderr",
+      "sha256": "116a5ece6d1b13e622204287bbdc54c6f5da37fdf74eee8adb3fd3e4179afa7c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-backing-end/sanitize",
+      "sha256": "1c9c45525ee18c33a8b2c82504f42da74525b246e9ed1fbbe0665d8db26e41d3"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/cold-page.c",
+      "sha256": "ba57de338639fb26b3aa37b69df81e3addf00bf444ad67561a94e026e152cd70"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/reject.stderr",
+      "sha256": "cccce9595abf439537b641b06941f5c3aadf06ef93dcd117fc7a9f3b867de29b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-claim-record/sanitize",
+      "sha256": "5b9619d94f8ebf10c12f14209b49431e4ca54e1ec03be2bb05a35b7cc27d9186"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/cold-page.c",
+      "sha256": "62abd6d1b2fb0278906df9027805a617ae5cffef957817d163fb85746cb0b269"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-cursor-history/sanitize",
+      "sha256": "0ba56cc95a5f29dab336e7cac96b2615f372b60eeb1566d8a032317626d2c9af"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/cold-page.c",
+      "sha256": "e38ca6f490d130fe7f6d05f418a258c38bc8ab1ca31c7cec2826de64bd4f02ed"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-duplicate/sanitize",
+      "sha256": "801b82eefb3395a3d3254f4c2cd1735384b3562c230018febcd31649c266732a"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/cold-page.c",
+      "sha256": "8816a591ff33bd5c0b4c350d559a199f12ec18fe9021c5e358daee2e015d0612"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-epoch/sanitize",
+      "sha256": "90e52870759bf7d97ae3de59ab09436a2f6440da9fd592bb0d391aa535e6de19"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/cold-page.c",
+      "sha256": "f833be13fd320af6257ddc105be43db1d9036208dc75e13ceb9d2f749f52ce3e"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-head-match/sanitize",
+      "sha256": "b033d636a42c885e5ee5ba09d7268d2caa81cbc478e4de625d1ab6ffe2c076b5"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/cold-page.c",
+      "sha256": "6f30e8d9be5626181801613e034c49d692cf08bf18c26ecb080ef7d33fe52bf2"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/reject.stderr",
+      "sha256": "8c5134c846056921404699cedc4e9952b37972d52d0246b36a954d697be2e258"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-id-bound/sanitize",
+      "sha256": "e2e01206ccfe4eb1a357929ab1ab8d17f5de4be24e9ee0285bb4bbd845e73625"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/cold-page.c",
+      "sha256": "3b717f6bbdda84a68151b2c5778b6627c9e056588de32b193d98a8842d017a54"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-population/sanitize",
+      "sha256": "523ca889cf750ccfb497538d75356787d5825cc25dfa8e2e95fdc31c3f4c0fa4"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/cold-page.c",
+      "sha256": "f477db76e72a0df0531652c030243b7305cc4cac257e0c119d86290af0fc2dbd"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/reject.stderr",
+      "sha256": "902cffbbb4ec76a9eb2c87fc48143b42bee9e51498666d1f5f59a3ecca94eabc"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-core-20261001/omit-reinit-metadata/sanitize",
+      "sha256": "0d5cbe66123415caaf3f7f5310be80e3103ef61febcc374f2841b48a4a2941cf"
+    },
+    {
+      "path": "firmware/npu/cold-page.c",
+      "sha256": "b4e82745cfb7ec0c2acca14a7e87b950a20679726173195244f6cb629a3c2ecb"
+    },
+    {
+      "path": "firmware/npu/cold-page.h",
+      "sha256": "70672b261f16859049f5d313a6164eaba0b6f07bbdd46205f50c8af01660d1b3"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.c",
+      "sha256": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.ld",
+      "sha256": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408"
+    },
+    {
+      "path": "tests/npu/cold-page-sanitize.c",
+      "sha256": "dc12897d2b963de20ce77e85d3ed3fce464431a51f5eb9b09e431300c28b7091"
+    },
+    {
+      "path": "tests/npu/test_cold_page.py",
+      "sha256": "4f12fa9c3a0af11adc8d67a8d4d951456fca6bc5912258b3378851c0797dae1a"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/cold-page.o",
+      "sha256": "bb93ef158f30c90fbb63bfb4bbb5b5a5d2d61d029710d957a8270d1f176ffd2d"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/host-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/host-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/host.so",
+      "sha256": "d648775e75d64890a6749ddf7076c246e1f579e2a6715b47464c3dca0bceae0c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/rv32-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/rv32-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/rv32.elf",
+      "sha256": "442911d77751b4f607551096635a94454630892469e80e1dc6657fd6496d5c85"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/sanitize",
+      "sha256": "f11c0a02cc69412c6fddbdb36f98959663c4908bb6483b95cb55b45f3421c11b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/sanitize.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/sanitize.stdout",
+      "sha256": "fa55593ca5c7dd7d950f5fb45e393256e27c1d8640241936b25225d47355af7b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/sanitizer-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/baseline/sanitizer-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/cold-page.c",
+      "sha256": "e96afe734a8ef82a8a6ca08afa833658a1e937852dd69120b308588b08abdd92"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/reject.stderr",
+      "sha256": "4b8014b646496d2b5add023aeef15de93a87c444203912aff8994f9316ac0562"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/clear-fault/sanitize",
+      "sha256": "63b34b44eb75562560dca60fa49d502b356046911a7116148e10ea1bcc049cee"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/cold-page.c",
+      "sha256": "d386b911558858d5b9b8644fa859c8a9d796d897a0f5eebb7b38a3061dfd0666"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/reject.stderr",
+      "sha256": "116a5ece6d1b13e622204287bbdc54c6f5da37fdf74eee8adb3fd3e4179afa7c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-backing-end/sanitize",
+      "sha256": "a14f1666c1d6987e0ce567eb38be0b0b45c122784651851efdf16d9a1d1027dc"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/cold-page.c",
+      "sha256": "ba57de338639fb26b3aa37b69df81e3addf00bf444ad67561a94e026e152cd70"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/reject.stderr",
+      "sha256": "cccce9595abf439537b641b06941f5c3aadf06ef93dcd117fc7a9f3b867de29b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-claim-record/sanitize",
+      "sha256": "675e5302398a65b316c6ceb7ae4b79cbb229fdb298fc1b21ae71ff294663196c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/cold-page.c",
+      "sha256": "62abd6d1b2fb0278906df9027805a617ae5cffef957817d163fb85746cb0b269"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-cursor-history/sanitize",
+      "sha256": "c97fbcaf7f4cad299e4b2da224e80ba987d9f95b62f9f39d971725ea08eb990c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/cold-page.c",
+      "sha256": "e38ca6f490d130fe7f6d05f418a258c38bc8ab1ca31c7cec2826de64bd4f02ed"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-duplicate/sanitize",
+      "sha256": "863c968be041112242d03c2375a0e44ea5d59ba8c6b8f8cfac376ff59d01a926"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/cold-page.c",
+      "sha256": "8816a591ff33bd5c0b4c350d559a199f12ec18fe9021c5e358daee2e015d0612"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-epoch/sanitize",
+      "sha256": "8e12f6822629d3dbba8082800730428894a666efe055c7e9e4fdbd6f805cf043"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/cold-page.c",
+      "sha256": "f833be13fd320af6257ddc105be43db1d9036208dc75e13ceb9d2f749f52ce3e"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-head-match/sanitize",
+      "sha256": "e69fc4e96de2192396db073f3739b4a0d136166bd3bc19ba0634e14ee41e3e5e"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/cold-page.c",
+      "sha256": "6f30e8d9be5626181801613e034c49d692cf08bf18c26ecb080ef7d33fe52bf2"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/reject.stderr",
+      "sha256": "ce3180ee77fe20b2518b6fdc78217b5e1589b13397a9d7000b315b928f4b5678"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-id-bound/sanitize",
+      "sha256": "c4de86cfc54a1d3faac4e51b7406753446f8dee9b5ad48fa8572f5fb351f2bb7"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/cold-page.c",
+      "sha256": "3b717f6bbdda84a68151b2c5778b6627c9e056588de32b193d98a8842d017a54"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-population/sanitize",
+      "sha256": "8ee509716005d68ee172d689326ec15cec8579dce48f0bb88f062da527d74575"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/cold-page.c",
+      "sha256": "f477db76e72a0df0531652c030243b7305cc4cac257e0c119d86290af0fc2dbd"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/reject.stderr",
+      "sha256": "902cffbbb4ec76a9eb2c87fc48143b42bee9e51498666d1f5f59a3ecca94eabc"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/mainline-member-20261001/omit-reinit-metadata/sanitize",
+      "sha256": "aab4c88e725ce312935ca4f71ab36714c8a14110769468410160176f80100335"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "sha256": "230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe"
+    },
+    {
+      "path": "firmware/source-lock.json",
+      "sha256": "638e91b47ed75eb1241066e74b6da0e7d6b671cf10af0eb1402c4fefb8646cd9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/libw1700k-npu.a",
+      "sha256": "b2aeca03129484e7ae243cf9a2e9658b45d99fa8863b8b15b207b8dd2c151721"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/control-v2.o",
+      "sha256": "c2309e607269b40a46b8e36c1488c04aa7a12ffec60b7aa40150adb6d59b89b9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/startup.o",
+      "sha256": "373bdc6f344d5a1488fdbf6b8a2a0527170642a1ded9d7ee7404559f3d82a2c5"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-packet.o",
+      "sha256": "e47d179214c4fe6d76c52b537fd6822ab92f3b60bcb6bd270d992f9004c26056"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap-v2.o",
+      "sha256": "b5f0f1af83926e4fbb73966bffac2ca599ff350f59422f1ddb01bd2d76d26657"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-header.o",
+      "sha256": "4b15f9b8037f022b43da29dad1c05248091f82f70df5f74d841c440ce5721fce"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/cold-page.o",
+      "sha256": "bb93ef158f30c90fbb63bfb4bbb5b5a5d2d61d029710d957a8270d1f176ffd2d"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/admission.o",
+      "sha256": "b50cc86a065400046d4fad61976d1fc6e0b2bba89f2b718adff34078ad6b8c54"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/allocator.o",
+      "sha256": "645996bd99e0e363d9eabffc1d8ec29f55291a03ae6b821457ef92b457184de6"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/barrier.o",
+      "sha256": "f1063096f6a26dc0c4685d855a2276f030f2de5de3b73d131a949b13f488d2a9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap.o",
+      "sha256": "f55bdca75d1b4a55edefb0b0b07eea78e9d6ed3fe7efb5548483f57362f08a94"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/gdma.o",
+      "sha256": "0b925f0acb21ed0c6a47e955f901676092a6e036221d394933548aa5e5c76240"
+    }
+  ],
+  "archive_member": {
+    "path": ".build/merged-openwrt/bin/npu/cold-page.o",
+    "sha256": "bb93ef158f30c90fbb63bfb4bbb5b5a5d2d61d029710d957a8270d1f176ffd2d",
+    "extracted_member_matches_tested_object": true
+  },
+  "build_runner_tests": {
+    "command": "python3 -m unittest discover -s tests -p test_build_firmware_host_tools.py",
+    "passed": 8
+  },
+  "prior_world_build": {
+    "receipt": ".local/merge-nonoc-20260923/build-cold-page-final-20261001.json",
+    "exit_code": 0,
+    "fresh_world_build_required": false
+  },
+  "limits": [
+    "No physical NPU acceptance, flash or hardware changes.",
+    "The compiled ownership core is not wired into native callers.",
+    "Generated binaries, private inputs and backups are excluded from publication."
+  ]
+}

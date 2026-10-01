@@ -1,5 +1,18 @@
 # W1700KNPU Workspace
 
+## 2026-10-01 - Mainline Follow-Up
+
+- The user explicitly authorized merging all outstanding source work into `main`.
+  This supersedes the cold-page checkpoint's earlier draft-PR-only restriction;
+  it does not authorize a flash or establish hardware acceptance.
+- The final test runner supports `--core-object` for exact built RV32 replay.
+  Fresh source and archive-member runs each pass 5,702 calls, 294 controls and
+  ten mutants with address/undefined/leak sanitizers. Eight build-runner tests
+  and unchanged-FIT offline image verification pass. Final receipts and scope:
+  `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+- Keep ignored builds, private inputs and protected backups local. Native caller
+  integration, physical ownership/drains and actual clients remain open.
+
 ## 2026-10-01 - Checked Cold Page Ownership Core
 
 - Preserved pending work after remote-verified `eabfedb`; completed the shared

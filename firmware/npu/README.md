@@ -1,5 +1,16 @@
 # Experimental NPU Components
 
+## 2026-10-01 - Exact Built-Object Replay
+
+The final cold-page test runner accepts `--core-object` to link the RV32 probe
+against an existing archive member while retaining source-built host/sanitizer
+checks. The receipt records the supplied object's path and SHA256. Fresh source
+and built-object runs each pass 5,702 calls, 294 controls and ten mutants;
+the object hash matches `cold-page.o` extracted from `libw1700k-npu.a`.
+The user authorized this follow-up and the cold-page work for `main` integration.
+See `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md` for final receipts.
+This does not install the core into the vendor blob or prove physical ownership.
+
 ## 2026-10-01 - Checked Cold Page Ownership Core
 
 - Preserved pending work after remote-verified `eabfedb`; completed the shared

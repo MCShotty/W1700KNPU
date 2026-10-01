@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-01 - Mainline Follow-Up
+
+The user authorized merging the cold-page work and final test-runner change
+into `main`. The runner now accepts the exact compiled RV32 core object and
+records its path/hash. Fresh source and archive-member replay each pass 5,702
+calls, 294 controls and ten mutants with sanitizers; eight build-runner tests
+and offline image verification also pass. See the final receipts in
+`research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+The core remains unwired to native callers; physical acceptance is still open.
+No flash or hardware change accompanies this source integration.
+
 ## 2026-10-01 - Checked Cold Page Ownership Core
 
 - Preserved pending work after remote-verified `eabfedb`; completed the shared

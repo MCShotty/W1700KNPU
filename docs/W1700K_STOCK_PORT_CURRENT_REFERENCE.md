@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-01 - Mainline Follow-Up
+
+The user authorized merging PR #2 and the final test-runner follow-up into
+`main`, superseding the earlier draft-only publication restriction. The final
+runner supports exact compiled-object replay and records the object identity.
+Fresh source and archive-member runs each pass 5,702 calls, 294 controls and
+ten mutants with sanitizers; eight build-runner tests and unchanged-FIT offline
+image checks pass. Final receipts are linked in
+`research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+Native caller/physical ownership/drain/client gates remain open; no flash.
+
 ## 2026-10-01 - Checked Cold Page Ownership Core
 
 - Preserved pending work after remote-verified `eabfedb`; completed the shared
@@ -22,7 +33,7 @@
 
 
 
-Last updated: 2026-10-01 (cold ownership core validated; native caller wiring and hardware acceptance remain open)
+Last updated: 2026-10-01 (mainline follow-up authorized and exact archive member validated; native caller/hardware acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
