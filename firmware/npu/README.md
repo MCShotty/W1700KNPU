@@ -7,6 +7,17 @@ dispatch gate. This is one experimental project, not a separate candidate track.
 
 The RV32 archive is not a bootable replacement for the supplied NPU blob.
 Real loader/caller/postgate integration and physical recovery remain unfinished.
+
+The 2026-10-01 native composition replay extends the initial parking checkpoint:
+hart7 reaches its bridge outer loop with all 50 detours installed. Its shared
+startup allocation binding now recognizes that selected first-epoch post-gate
+caller and retains a committed allocation after a concurrent stop. Nineteen
+guard cases/nine mutants and the wider allocator regression pass. Other harts
+still await later host setup; direct SET19 analysis does not open strict
+transport, and drains remain modeled. This binding is not in the vendor blob
+or the RV32 component archive. See
+`research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
+
 Do not infer safe NPU recovery from source integration or these tests. Current
 build and image evidence is in `docs/NONOC_MERGE.md`. Dated checkpoint scopes
 below preserve their original evidence limits; old "unpromoted" labels describe

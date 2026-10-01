@@ -1,0 +1,101 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "passed": true,
+    "guard_count": 19,
+    "mutant_count": 9,
+    "original": "fault-hold",
+    "harts": [
+      {
+        "hart": 7,
+        "outcome": "outer-boundary",
+        "stopped": "0x84000b36"
+      },
+      {
+        "hart": 3,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400e440"
+      },
+      {
+        "hart": 1,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400ce1c"
+      },
+      {
+        "hart": 2,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400ec7e"
+      },
+      {
+        "hart": 4,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400d0ea"
+      },
+      {
+        "hart": 5,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400cb3e"
+      },
+      {
+        "hart": 6,
+        "outcome": "native-startup-wait",
+        "stopped": "0x8400cd3e"
+      }
+    ],
+    "late_stop": [
+      {
+        "case": "late-stop",
+        "held": true,
+        "metadata_changed": true,
+        "committed_allocation_retained": true,
+        "bridge_unpublished": true
+      }
+    ],
+    "limits": [
+      "Only hart7 reaches its outer loop. Other workers still need later host setup.",
+      "Two SET19 callbacks execute directly; strict transport still rejects them.",
+      "No INODE/provider framing change or DESC5/6/7/8 callback executes.",
+      "Drain completions, timer, PCIe indexes, PLIC, locks and placement are modeled.",
+      "No bootable replacement, image, router access or physical recovery proof."
+    ],
+    "bridge_base": "0x3e8610e0",
+    "binding_source": "/* Unpromoted cold-start binding. Active callback failure handling and physical\n * containment are separate contracts, not supplied by the coordinator idle. */\n#include \"allocator.h\"\n#include \"admission.h\"\n#include \"bootstrap.h\"\n\nextern struct npu_barrier npu_emulation_barrier_state;\nextern struct npu_admission npu_emulation_admission_state;\nextern struct npu_bootstrap npu_emulation_bootstrap_state;\nextern void npu_emulation_mailbox(uint32_t source);\nextern void npu_emulation_idle(void) __attribute__((noreturn));\n\n#define BARRIER (&npu_emulation_barrier_state)\n#define ADMISSION (&npu_emulation_admission_state)\n#define BOOTSTRAP (&npu_emulation_bootstrap_state)\n\ntypedef uint32_t (*native_hart_id)(void);\ntypedef int (*native_lock)(uint32_t *lock_id);\n\n#ifdef NPU_EMULATION_COMMAND_RING\n__attribute__((section(\".command_ring\")))\nuint32_t npu_emulation_command_ring[0x8010 / sizeof(uint32_t)] = {0xfe};\n\nstatic const struct npu_allocator_entry placements[] = {\n    {0x19, 0, NPU_EMULATION_COMMAND_RING},\n};\n#endif\n\nstatic const struct npu_allocator_layout layout = {\n    .base = 0x3e800000u,\n    .bytes = 0x78000u,\n    .tables = {\n        (const struct npu_allocator_definition *)(uintptr_t)0x8401b224u,\n        (const struct npu_allocator_definition *)(uintptr_t)0x8401cfc8u,\n    },\n    .lengths = {6, 18},\n#ifdef NPU_EMULATION_COMMAND_RING\n    .placements = placements,\n    .placement_count = sizeof(placements) / sizeof(placements[0]),\n#endif\n};\n\nstatic uint32_t load(const uint32_t *word)\n{\n    return __atomic_load_n(word, __ATOMIC_ACQUIRE);\n}\n\nstatic uint32_t expected_type(uint32_t hart, uint32_t caller)\n{\n    if (hart == 7)\n        return caller == 0x8400148au ? 0x81u : UINT32_MAX;\n    if (hart)\n        return UINT32_MAX;\n    switch (caller) {\n    case 0x84005a34u: return 0x89u;\n    case 0x84004ecau: return 0x8au;\n    case 0x84004eeeu: return 0x12u;\n    case 0x84004f2cu: return 0x1du;\n    case 0x8400b932u: return 1u;\n    case 0x8400a376u: return 0x0bu;\n    case 0x8400bab8u: return 0x19u;\n    default: return UINT32_MAX;\n    }\n}\n\nstatic int acquire(void *context)\n{\n    struct npu_allocator_state *state = context;\n\n    if (state->lock_id != 18)\n        return -1;\n    return ((native_lock)(uintptr_t)0x840064b4u)(&state->lock_id);\n}\n\nstatic void release(void *context)\n{\n    struct npu_allocator_state *state = context;\n\n    ((native_lock)(uintptr_t)0x8400651cu)(&state->lock_id);\n}\n\nstatic int control_available(uint32_t hart, uint32_t status)\n{\n    uint32_t mie;\n\n    __asm__ volatile (\"csrr %0, mie\" : \"=r\"(mie));\n    return !hart && (status & 8) && (mie & 0x800) && !ADMISSION->active &&\n           *(const volatile uint32_t *)(uintptr_t)0x3e901870u ==\n               (uint32_t)(uintptr_t)npu_emulation_mailbox &&\n           (*(const volatile uint32_t *)(uintptr_t)0x0c002000u & (1u << 9));\n}\n\n__attribute__((noreturn, noinline)) static void fail(uint32_t hart, uint32_t status,\n                                                    int service)\n{\n    __asm__ volatile (\"fence iorw, iorw\" ::: \"memory\");\n    if (!hart) {\n        npu_admission_fail(ADMISSION, BARRIER);\n        if (service) {\n            __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n            npu_emulation_idle();\n        }\n    } else {\n        npu_barrier_fail(BARRIER);\n    }\n    for (;;) {\n        __asm__ volatile (\".global npu_emulation_allocator_startup_hold\\n\"\n                          \"npu_emulation_allocator_startup_hold:\\n nop\" ::: \"memory\");\n    }\n}\n\nstatic int startup_lifetime(uint32_t hart)\n{\n    if (load(&BARRIER->fault) || load(&BARRIER->request) != 1)\n        return 0;\n    if (ADMISSION->closed != 1 || ADMISSION->active || ADMISSION->fault ||\n        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight)\n        return 0;\n    if (!load(&BARRIER->prepared) && !load(&BARRIER->released) &&\n        !load(&BARRIER->armed) && !load(&BARRIER->parked[hart]))\n        return 1;\n    /* Hart7 calls the bridge initializer after its initial worker gate. Other\n     * cold callers remain pre-gate; no later recovery epoch may allocate here.\n     * Admission stays closed until this first-boot initialization is complete.\n     */\n    return hart == 7 && load(&BARRIER->prepared) == 1 &&\n           load(&BARRIER->released) == 1 && load(&BARRIER->armed) == 1 &&\n           load(&BARRIER->parked[7]) == 1 && load(&BARRIER->ready[7]) == 1 &&\n           BOOTSTRAP->step == NPU_BOOTSTRAP_STEPS && BOOTSTRAP->retained_mask == 0x1e &&\n           load(&BARRIER->request) == 1;\n}\n\nuint32_t npu_emulation_startup_allocate(uint32_t type, uint32_t caller)\n{\n    struct npu_allocator_state *state = (void *)(uintptr_t)0x3e901bccu;\n    const struct npu_allocator_lock lock = {state, acquire, release};\n    struct npu_allocator_result result;\n    uint32_t status, hart;\n    int service;\n\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    hart = ((native_hart_id)(uintptr_t)0x84004212u)();\n    service = control_available(hart, status);\n    if (type >= NPU_ALLOCATOR_TYPES || expected_type(hart, caller) != type ||\n        !startup_lifetime(hart) ||\n        (!hart && !service))\n        fail(hart, status, service);\n    result = npu_allocator_allocate(state, &layout, &lock, type, type < 0x81);\n    if (result.status != NPU_ALLOCATOR_OK || !startup_lifetime(hart))\n        fail(hart, status, service);\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result.address;\n}\n"
+  },
+  "questions": {
+    "boot_scope": {
+      "type": "choice",
+      "instructions": "What startup scope is established by state.harts and the explicit limits?",
+      "criteria": {
+        "hart7_native_modeled": "Hart7 reaches its native outer loop under models; other worker startup and hardware remain incomplete.",
+        "complete_boot": "All harts completed native startup and the firmware is ready for hardware deployment.",
+        "unknown": "Neither description is supported."
+      }
+    },
+    "epoch_guard": {
+      "type": "noul",
+      "instructions": "Does state.binding_source restrict the added post-gate allocation allowance to the selected hart7 caller during the first prepared/released/armed lifetime, rather than allowing later recovery epochs?",
+      "criteria": {
+        "true": "The source retains caller/type checks and requires epoch 1 plus the named first-boot state.",
+        "false": "The new post-gate path lacks those source restrictions."
+      }
+    },
+    "late_stop": {
+      "type": "choice",
+      "instructions": "What does state.late_stop establish about the injected stop at unlock?",
+      "criteria": {
+        "retained_unpublished": "The modeled test retains a committed allocation and does not publish bridge state.",
+        "freed": "The modeled test frees or reuses the committed allocation.",
+        "physical_drain": "The test establishes physical DMA retirement.",
+        "unknown": "The supplied receipt cannot distinguish these."
+      }
+    },
+    "strict_transport": {
+      "type": "noul",
+      "instructions": "Do state.limits establish that real strict host-to-firmware SET19 transport integration is complete?",
+      "criteria": {
+        "true": "SET19 has passed the actual strict transport and real hardware path.",
+        "false": "Only direct native callback execution is covered; strict transport remains denied."
+      }
+    }
+  }
+}

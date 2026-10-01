@@ -109,6 +109,27 @@ __attribute__((noreturn, noinline)) static void fail(uint32_t hart, uint32_t sta
     }
 }
 
+static int startup_lifetime(uint32_t hart)
+{
+    if (load(&BARRIER->fault) || load(&BARRIER->request) != 1)
+        return 0;
+    if (ADMISSION->closed != 1 || ADMISSION->active || ADMISSION->fault ||
+        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight)
+        return 0;
+    if (!load(&BARRIER->prepared) && !load(&BARRIER->released) &&
+        !load(&BARRIER->armed) && !load(&BARRIER->parked[hart]))
+        return 1;
+    /* Hart7 calls the bridge initializer after its initial worker gate. Other
+     * cold callers remain pre-gate; no later recovery epoch may allocate here.
+     * Admission stays closed until this first-boot initialization is complete.
+     */
+    return hart == 7 && load(&BARRIER->prepared) == 1 &&
+           load(&BARRIER->released) == 1 && load(&BARRIER->armed) == 1 &&
+           load(&BARRIER->parked[7]) == 1 && load(&BARRIER->ready[7]) == 1 &&
+           BOOTSTRAP->step == NPU_BOOTSTRAP_STEPS && BOOTSTRAP->retained_mask == 0x1e &&
+           load(&BARRIER->request) == 1;
+}
+
 uint32_t npu_emulation_startup_allocate(uint32_t type, uint32_t caller)
 {
     struct npu_allocator_state *state = (void *)(uintptr_t)0x3e901bccu;
@@ -121,14 +142,11 @@ uint32_t npu_emulation_startup_allocate(uint32_t type, uint32_t caller)
     hart = ((native_hart_id)(uintptr_t)0x84004212u)();
     service = control_available(hart, status);
     if (type >= NPU_ALLOCATOR_TYPES || expected_type(hart, caller) != type ||
-        load(&BARRIER->fault) || load(&BARRIER->request) != 1 ||
-        load(&BARRIER->prepared) || load(&BARRIER->released) || load(&BARRIER->armed) ||
-        ADMISSION->closed != 1 || ADMISSION->active || ADMISSION->fault ||
-        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight ||
-        load(&BARRIER->parked[hart]) || (!hart && !service))
+        !startup_lifetime(hart) ||
+        (!hart && !service))
         fail(hart, status, service);
     result = npu_allocator_allocate(state, &layout, &lock, type, type < 0x81);
-    if (result.status != NPU_ALLOCATOR_OK || load(&BARRIER->fault))
+    if (result.status != NPU_ALLOCATOR_OK || !startup_lifetime(hart))
         fail(hart, status, service);
     __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
     return result.address;

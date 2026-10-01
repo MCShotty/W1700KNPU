@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## Native Postgate Progress - 2026-10-01
+
+The shared native startup binding now permits hart7's selected bridge allocation
+in the initial prepared/released/armed epoch while admission remains closed.
+The all-50-detour replay reaches its outer loop after direct native SET19
+publication and explicitly modeled drains. Nineteen guard cases, nine mutants
+and the wider allocator regression pass. Harts 1-6 still wait for later host
+setup; strict SET19 transport remains unimplemented. See
+`research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
+
+This is a native binding/composition correction, not an updated vendor blob,
+image or hardware result. Actual loader identity/storage, complete host setup,
+other postgate paths and physical containment/drain/rearm remain required.
+
 ## Current Local Candidate - 2026-10-01
 
 PR #1 source and its deferred history are synchronized to WSL. A complete local

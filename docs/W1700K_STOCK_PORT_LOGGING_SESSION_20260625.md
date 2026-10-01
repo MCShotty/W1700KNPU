@@ -7334,3 +7334,19 @@ explicit opt-out for restricted hosts. Eight builder tests also pass.
 Ethernet management is unavailable, so no new device operation or flash ran.
 Cold containment, loader/caller/postgate integration and physical recovery
 remain unfinished. See `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+
+## Native Bridge Postgate - 2026-10-01
+
+Continued from merged main `eb31bae`. The native all-50-detour replay first
+identified missing later host PCIe pointer publication in the test setup.
+After composing two original SET19 callbacks with current host-C addresses,
+the genuine next failure was hart7's allocator rejecting the post-gate phase.
+Corrected only the selected first-epoch binding and added a post-allocation
+lifetime recheck. A late stop retains committed metadata without publication.
+
+Hart7 now reaches its outer loop. Harts 1-6 still wait for later host setup;
+strict SET19 transport remains closed. Nineteen new guard cases/nine mutants
+and the existing allocator regression pass. Hardware dependencies are modeled;
+the packaged image and router remain unchanged. Full loader/caller/postgate,
+physical ownership/recovery and client acceptance are still required. See
+`research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.

@@ -42,6 +42,13 @@ FIT has its own SHA256:
 The host suite also passes with LeakSanitizer enabled. See the
 [WSL sync checkpoint](research/checkpoints/2026-10-01-wsl-sync/REPORT.md).
 
+Native startup continuation fixes hart7's first-boot allocation phase mismatch
+in the shared replay binding. With all 50 detours installed, hart7 now reaches
+its outer loop under explicit host-publication and hardware models; other
+workers still await later host setup. This is not a new packaged firmware or
+physical boot claim. See the
+[postgate checkpoint](research/checkpoints/2026-10-01-npu-postgate/REPORT.md).
+
 The preceding paired-loader source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
 It preflights both NPU firmware images before either copy, rejects empty images
 and releases acquired firmware on error. The correction is included in the

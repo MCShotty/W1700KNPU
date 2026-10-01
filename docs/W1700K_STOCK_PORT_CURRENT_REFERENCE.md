@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-10-01 (GitHub source synchronized to WSL; local full image and leak-enabled host checks pass)
+Last updated: 2026-10-01 (native hart7 postgate allocation phase corrected; full firmware/hardware integration remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,20 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Use the newest status entry and
 remaining-work checklist for current work; cleanup made no router changes.
 
-## Current Status - WSL Sync And Build - 2026-10-01
+## Current Status - Native Bridge Postgate - 2026-10-01
+
+- All-50-detour native replay now reaches hart7's bridge outer loop. Corrected
+  the shared startup binding's pre-gate-only allocation predicate for the
+  selected first-epoch hart7 caller, keeping admission closed and rechecking
+  lifetime after allocation. A late stop retains the committed allocation.
+- Nineteen guard cases/nine mutants and the wider allocator regression pass.
+  Native SET19 direct callbacks supply current host-C PCIe addresses; strict
+  transport still denies them. Harts 1-6 still await later host setup.
+- This does not update the vendor blob, source lock or FIT. Physical drains,
+  loader/caller integration and full postgate/client acceptance remain open.
+  Evidence: `research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
+
+## Previous Status - WSL Sync And Build - 2026-10-01
 
 - Retrieved PR #1 at `9218506`; completed the three deferred history documents
   and reproduced the recorded full cloud tree exactly in `e095420`.

@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\research\\checkpoints\\2026-10-01-npu-postgate\\jev-request.json",
+  "request_sha256": "d582c0e3dccd765ebb57e04fc05d70fb94c09b15ddab230ae92643d19bde2487",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "boot_scope": {
+      "type": "choice",
+      "instructions": "What startup scope is established by state.harts and the explicit limits?",
+      "criteria": {
+        "hart7_native_modeled": "Hart7 reaches its native outer loop under models; other worker startup and hardware remain incomplete.",
+        "complete_boot": "All harts completed native startup and the firmware is ready for hardware deployment.",
+        "unknown": "Neither description is supported."
+      }
+    },
+    "epoch_guard": {
+      "type": "noul",
+      "instructions": "Does state.binding_source restrict the added post-gate allocation allowance to the selected hart7 caller during the first prepared/released/armed lifetime, rather than allowing later recovery epochs?",
+      "criteria": {
+        "true": "The source retains caller/type checks and requires epoch 1 plus the named first-boot state.",
+        "false": "The new post-gate path lacks those source restrictions."
+      }
+    },
+    "late_stop": {
+      "type": "choice",
+      "instructions": "What does state.late_stop establish about the injected stop at unlock?",
+      "criteria": {
+        "retained_unpublished": "The modeled test retains a committed allocation and does not publish bridge state.",
+        "freed": "The modeled test frees or reuses the committed allocation.",
+        "physical_drain": "The test establishes physical DMA retirement.",
+        "unknown": "The supplied receipt cannot distinguish these."
+      }
+    },
+    "strict_transport": {
+      "type": "noul",
+      "instructions": "Do state.limits establish that real strict host-to-firmware SET19 transport integration is complete?",
+      "criteria": {
+        "true": "SET19 has passed the actual strict transport and real hardware path.",
+        "false": "Only direct native callback execution is covered; strict transport remains denied."
+      }
+    }
+  },
+  "elapsed_ms": 770,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "boot_scope": {
+        "type": "choice",
+        "choice": "hart7_native_modeled",
+        "confidence": 1.0,
+        "probabilities": {
+          "hart7_native_modeled": 1.0,
+          "unknown": 0.0,
+          "complete_boot": 0.0
+        }
+      },
+      "epoch_guard": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "late_stop": {
+        "type": "choice",
+        "choice": "retained_unpublished",
+        "confidence": 1.0,
+        "probabilities": {
+          "physical_drain": 0.0,
+          "freed": 0.0,
+          "unknown": 0.0,
+          "retained_unpublished": 1.0
+        }
+      },
+      "strict_transport": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 2894,
+      "output_tokens": 139
+    }
+  }
+}

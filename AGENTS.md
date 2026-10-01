@@ -21,6 +21,13 @@ leaves the ledger unchanged.
 
 ## Current Checkpoint - 2026-10-01
 
+- Native postgate continuation now fixes hart7's first-boot allocator phase
+  mismatch. All 50 detours remain installed; hart7 reaches its outer loop in
+  emulation after explicit host-pointer publication and modeled release.
+  Nineteen guard cases/nine mutants and the wider allocator regression pass.
+  Harts 1-6 still await later host setup. This changes the shared native replay
+  binding, not the vendor blob or built FIT. Evidence:
+  `research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
 - GitHub PR #1 source and its deferred history documents are now synchronized
   into the canonical WSL checkout. The reconstructed cloud snapshot matches
   tree `f2a52b2c27e21021e8c36d4b30a25e37565827c2` at commit `e095420`.

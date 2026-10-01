@@ -394,7 +394,7 @@ def mutations(path, reset_path):
     irq_restore = '''            __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
             npu_emulation_idle();'''
     for name, old, new, mode, expected in (
-        ('ignore-allocation-failure', 'if (result.status != NPU_ALLOCATOR_OK || load(&BARRIER->fault))',
+        ('ignore-allocation-failure', 'if (result.status != NPU_ALLOCATOR_OK || !startup_lifetime(hart))',
          'if (0)', 'denied', 'failed-startup-returned-to-native-caller'),
         ('omit-coordinator-fault', 'npu_admission_fail(ADMISSION, BARRIER);',
          'npu_barrier_fail(BARRIER);', 'denied', 'fault SRAM footprint'),
@@ -402,8 +402,8 @@ def mutations(path, reset_path):
          'denied', 'fault mailbox interrupts unavailable'),
         ('drop-control-service', 'if (service) {', 'if (service && 0) {',
          'denied', 'fault service boundary'),
-        ('allocate-after-prior-fault', 'load(&BARRIER->fault) || load(&BARRIER->request) != 1',
-         'load(&BARRIER->request) != 1', 'prior-fault', 'unexpected allocation result'),
+        ('allocate-after-prior-fault', '        !startup_lifetime(hart) ||',
+         '', 'prior-fault', 'unexpected allocation result'),
     ):
         assert source.count(old) == 1
         mutant = BUILD/(name+'.c')

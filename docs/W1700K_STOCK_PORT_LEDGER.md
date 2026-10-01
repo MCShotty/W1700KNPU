@@ -19458,3 +19458,26 @@ Status and boundary:
   connection, flash or physical test occurred. Full cold lifetime, fresh loader
   identity/publication, real callers, postgate and recovery remain open.
   Evidence: `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+
+## 2026-10-01 - Native Bridge Postgate Allocation Phase
+
+- Continued from synchronized main `eb31bae`. A first exploratory release
+  lacked later host TX-register publication; its null access was an incomplete
+  test precondition, not a proved correctly prepared-boot defect.
+- Compiled current MT7996 host setup C and passed its two selected SET19 values
+  into original RV32 callbacks. Strict transport still rejects those requests;
+  direct invocation does not close host/caller integration.
+- Found and corrected a real composition mismatch: hart7 allocates its bridge
+  after the initial gate, while the binding admitted only pre-gate allocation.
+  The selected first-epoch caller now proceeds with admission closed, complete
+  bootstrap and prepared/released/armed/parked/refreshed state. Other cold
+  callers retain their old phase; lifetime is rechecked after allocation.
+- All 50 detours remain installed. Hart7 reaches `0x84000b36`; harts 1-6 remain
+  at observed native startup waits. Nineteen guard cases/nine mutants pass,
+  including committed-allocation retention on a stop at unlock. The broader
+  regression passes seven allocations, 18 failure cases, 36 fallback cases,
+  five bridge cases and eight mutants.
+- MMIO, drains, locks, timer and placement remain modeled. No restricted
+  callback/provider-framing work, vendor blob, source lock, image or router
+  changed. Full NPU implementation remains open. Evidence:
+  `research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
