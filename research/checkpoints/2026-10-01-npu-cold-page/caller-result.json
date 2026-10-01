@@ -1,0 +1,466 @@
+{
+  "passed": true,
+  "unreviewed_allocator_fallback_observed": true,
+  "hooks": 50,
+  "all_harts_parked": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "workers": [
+    {
+      "hart": 1,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x84025cc0",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400ce1c",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x84000190",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400cdc6",
+        "0x8400e3f4"
+      ]
+    },
+    {
+      "hart": 2,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x84029cf0",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400ec7e",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x840001a0",
+        "0x84003106",
+        "0x84003200",
+        "0x84003254",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400ec48",
+        "0x8400ee0a"
+      ]
+    },
+    {
+      "hart": 3,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x8402dcd0",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400e440",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x840001c0",
+        "0x840009bc",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400e3fc",
+        "0x840103aa"
+      ]
+    },
+    {
+      "hart": 4,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x84031d10",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400d0ea",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x84000a82",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400d0ae",
+        "0x8400e7f0"
+      ]
+    },
+    {
+      "hart": 5,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x84035d20",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400cb3e",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x84000aa6",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400cb0e",
+        "0x8400e7f8"
+      ]
+    },
+    {
+      "hart": 6,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x84039d10",
+      "entry_from_early_wait": false,
+      "startup_site": "0x8400cd3e",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x84000aca",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400cd1a",
+        "0x8400e800"
+      ]
+    },
+    {
+      "hart": 7,
+      "parked": 1,
+      "pc": "0x840400b2",
+      "sp": "0x8403dd40",
+      "entry_from_early_wait": false,
+      "startup_site": "0x84000b24",
+      "native_entry_sites_observed": [
+        "0x84000000",
+        "0x84000104",
+        "0x84000aee",
+        "0x84003106",
+        "0x84003200",
+        "0x84003254",
+        "0x8400326a",
+        "0x840032e2",
+        "0x84004348",
+        "0x8400e808"
+      ]
+    }
+  ],
+  "getter_entries": [
+    {
+      "type": 258,
+      "caller": "0x8400d3c4",
+      "mstatus": 0,
+      "active": 1
+    },
+    {
+      "type": 260,
+      "caller": "0x8400d3e4",
+      "mstatus": 0,
+      "active": 1
+    },
+    {
+      "type": 10,
+      "caller": "0x8400a3ae",
+      "mstatus": 0,
+      "active": 1
+    },
+    {
+      "type": 259,
+      "caller": "0x8400d44a",
+      "mstatus": 0,
+      "active": 1
+    },
+    {
+      "type": 261,
+      "caller": "0x8400d46a",
+      "mstatus": 0,
+      "active": 1
+    },
+    {
+      "type": 9,
+      "caller": "0x8400a39a",
+      "mstatus": 0,
+      "active": 1
+    }
+  ],
+  "fallback_entries": [
+    {
+      "type": 258,
+      "caller": "0x8400d3c4"
+    },
+    {
+      "type": 260,
+      "caller": "0x8400d3e4"
+    },
+    {
+      "type": 10,
+      "caller": "0x8400a3ae"
+    },
+    {
+      "type": 259,
+      "caller": "0x8400d44a"
+    },
+    {
+      "type": 261,
+      "caller": "0x8400d46a"
+    },
+    {
+      "type": 9,
+      "caller": "0x8400a39a"
+    }
+  ],
+  "callbacks": [
+    {
+      "selector": 0,
+      "count": 1536,
+      "result": 1,
+      "ready": "0x3e902a84"
+    },
+    {
+      "selector": 2,
+      "count": 1024,
+      "result": 1,
+      "ready": "0x3e904588"
+    }
+  ],
+  "active_lease_retained": true,
+  "allocator_records_added": 2,
+  "strict_denial": {
+    "flags": 3,
+    "words": [
+      16,
+      1,
+      1536
+    ],
+    "callbacks": [],
+    "reads": [
+      {
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "offset": 8,
+        "size": 4
+      }
+    ]
+  },
+  "boot_footprint": {
+    "l2_sha256": "76717ae9c218b9c0624320319f811670abe6e3961c3ee8021383fe5c384c6757",
+    "whole_l2_compared_bytes": 262144,
+    "id_table": {
+      "start": "0x3e8a9c70",
+      "entries": 8192,
+      "bytes": 16384
+    },
+    "rx_descriptors": {
+      "start": "0x3e880000",
+      "entries": 2048,
+      "stride": 32
+    },
+    "tx_descriptors": {
+      "start": "0x3e891000",
+      "rings": 2,
+      "entries_per_ring": 1024,
+      "stride": 32
+    },
+    "tx_packet_pointers": {
+      "first": "0x8cc00000",
+      "last_end": "0x8d000000",
+      "reservation_end": "0x90c00000",
+      "valid_entries": 2048,
+      "backing_packet_memory_accessed": false
+    },
+    "allocation_failures": 0,
+    "register_seed": "0x0",
+    "native_tx_count_register": "0x400"
+  },
+  "composition_layout": {
+    "occupied": [
+      {
+        "component": "base",
+        "section": ".text",
+        "start": 2214854656,
+        "end": 2214867492,
+        "sha256": "87fa50dc1fbddcc91edec3e67a69742fab5cf749e6d9046291afcc7775563d53"
+      },
+      {
+        "component": "base",
+        "section": ".rodata",
+        "start": 2214867492,
+        "end": 2214867620,
+        "sha256": "7680dc0f034423969a8e3a15a41addcb044a57ab299c83fae814dda3594ef249"
+      },
+      {
+        "component": "bridge",
+        "section": ".text",
+        "start": 2214887424,
+        "end": 2214887512,
+        "sha256": "d71b6c528536b2bf7f3fbc1e2ebf043a386cd0a2c5a83e58a94a13919dbcd3ca"
+      },
+      {
+        "component": "reset",
+        "section": ".text",
+        "start": 2214903808,
+        "end": 2214903828,
+        "sha256": "3025aa46921bfd8ceca53ae24f1c8311501c934002fb11e5a126f17f936e596a"
+      },
+      {
+        "component": "allocator",
+        "section": ".text",
+        "start": 2214912000,
+        "end": 2214914102,
+        "sha256": "f52d059de3d7488bf2eaf24559d80a00d09732ad24252c0b4d5c9c7796eddf31"
+      },
+      {
+        "component": "allocator",
+        "section": ".rodata",
+        "start": 2214914104,
+        "end": 2214914144,
+        "sha256": "641b5f7ff56a5c4ef06976a221fb26f48c8b7b9e9439afd5869ac7398d589268"
+      },
+      {
+        "component": "allocator",
+        "section": ".command_ring",
+        "start": 2214985728,
+        "end": 2215018512,
+        "sha256": "05c49ce570906bdb1c6bc00c289d4f6dad41691964fd7ea4504b1b5048156770"
+      },
+      {
+        "component": "txdone",
+        "section": ".text",
+        "start": 2214928384,
+        "end": 2214930122,
+        "sha256": "fdb95687c93119835b3bf822998b4ac6b6867e8423e5bd1b732c4a28b0f0191d"
+      },
+      {
+        "component": "order",
+        "section": ".text",
+        "start": 2214936576,
+        "end": 2214936620,
+        "sha256": "9cb570408f077564c486e5d3e54b9ef9f959e096cb0740164c58949baf196209"
+      },
+      {
+        "component": "headers",
+        "section": ".text",
+        "start": 2214944768,
+        "end": 2214945214,
+        "sha256": "4d1306018187feb1e4aef951aba51306629d8aa0849fb8c04ef58203576b9cca"
+      },
+      {
+        "component": "egress",
+        "section": ".text",
+        "start": 2214952960,
+        "end": 2214953140,
+        "sha256": "5e88f48b14d0a68d996fca3eff3fafced375eef9a43c0e596348889e1c7b8d80"
+      },
+      {
+        "component": "packets",
+        "section": ".text",
+        "start": 2214961152,
+        "end": 2214961470,
+        "sha256": "9b8b957619afb4dde9be7ada5388a59c13b45cd6d9fa9631922b5a28177018a7"
+      },
+      {
+        "component": "original-code",
+        "start": 2214592512,
+        "end": 2214714848
+      },
+      {
+        "component": "native-stacks",
+        "start": 2214714880,
+        "end": 2214845952
+      },
+      {
+        "component": "provider-backup",
+        "start": 2216689664,
+        "end": 2216951808
+      },
+      {
+        "component": "native-sram",
+        "start": 1049624576,
+        "end": 1049642836
+      },
+      {
+        "component": "barrier",
+        "start": 1049649152,
+        "end": 1049649256
+      },
+      {
+        "component": "admission",
+        "start": 1049649408,
+        "end": 1049649452
+      },
+      {
+        "component": "saved-mask",
+        "start": 1049649472,
+        "end": 1049649496
+      },
+      {
+        "component": "startup",
+        "start": 1049649536,
+        "end": 1049649600
+      },
+      {
+        "component": "bootstrap",
+        "start": 1049649664,
+        "end": 1049649744
+      },
+      {
+        "component": "plan",
+        "start": 1049649920,
+        "end": 1049649968
+      },
+      {
+        "component": "session",
+        "start": 1049650048,
+        "end": 1049650068
+      },
+      {
+        "component": "loader-identity",
+        "start": 1049650080,
+        "end": 1049650088
+      }
+    ],
+    "stale_v1_import_control": {
+      "npu_emulation_mailbox": {
+        "old": "0x840420f2",
+        "new": "0x84041678"
+      },
+      "npu_emulation_idle": {
+        "old": "0x840422ee",
+        "new": "0x84041884"
+      }
+    },
+    "production_loader_or_physical_backing_proved": false
+  },
+  "inputs": {
+    "tests/npu/allocator-startup-emulation.c": "3f18b1b1cad259d56571a1b174b272f122d5da416a3ebebf32d73c24571edf5e",
+    "tests/npu/allocator-startup-emulation.S": "fa9442ac4a28b9ca1152b30a40f4cc790da1a57888ab60712cbed2b588d97230",
+    "tests/npu/test_bootstrap_v2_composition.py": "72e1aaef90ac8f6a020a778ad48f962679eb4d09af6f5f3e754427281685a02f",
+    "tests/npu/test_cold_page_caller.py": "42233ddefea12ff61a61a802134330429c2a3f7def20026670af5778421b1876"
+  },
+  "binaries": {
+    ".local/npu-bootstrap-v2-composition/control.so": "30ccc8d8060b449a868ade57c18f3cf594eeeeb4b7cba2b8308350bb7c9fab6f",
+    ".local/npu-bootstrap-v2-composition/host-arm.elf": "05ea4a7480ddb652224dadfe8e892b7ed29a55405eda493e5f0dc2707f2323fc",
+    ".local/npu-bootstrap-v2-composition/base-rv.elf": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b",
+    ".local/npu-bootstrap-v2-composition/bridge.elf": "7441b1130eef7fb6ddf93c0d12bf517a640ad19fafc0e92500cd07ca2e9d485a",
+    ".local/npu-bootstrap-v2-composition/reset.elf": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b",
+    ".local/npu-bootstrap-v2-composition/allocator.elf": "4c479ff67a30a88f27d75befb48d23e54fcd8e9935b1a53544b8a5aaf206a318",
+    ".local/npu-bootstrap-v2-composition/txdone.elf": "3d6bcb6a71435f0048ffcd5060c9e88bae6e4b6646c35309a5e558d8d138a205",
+    ".local/npu-bootstrap-v2-composition/order.elf": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7",
+    ".local/npu-bootstrap-v2-composition/headers.elf": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3",
+    ".local/npu-bootstrap-v2-composition/egress.elf": "2a519b6b1b372cd63a4a7406440fe3f0d59a0ee06db2829b563f228f456f3ac2",
+    ".local/npu-bootstrap-v2-composition/packets.elf": "bc2529ac4f03c5dcda4ecf8936dab05b318eebed341e7c0062cfa5d44cc5e2a6"
+  },
+  "scope": "Actual current 50-hook native cold boot,explicit direct RX0/RX2 caller lease;not complete host transport.",
+  "limits": [
+    "No native helper return substitution;later statistics allocations use the original unchecked fallback.",
+    "All-hart parking is native-code evidence with modeled platform inputs,not physical containment.",
+    "New cold ownership core is not substituted into this native caller probe."
+  ]
+}

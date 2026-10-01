@@ -1,0 +1,98 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\research\\checkpoints\\2026-10-01-npu-cold-page\\jev-request.json",
+  "request_sha256": "236a5762523eb99f75e26923c2e726107978da91e6f073b7ba2da6e624f985c9",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "reinit": {
+      "type": "noul",
+      "instructions": "Does state.source reject initialization over any existing state header or claimed owner bit without clearing that state?",
+      "criteria": {
+        "true": "Existing nonzero lifetime or claim state returns REINITIALIZE and is preserved.",
+        "false": "Initialization clears or accepts existing live claim state."
+      }
+    },
+    "duplicate": {
+      "type": "noul",
+      "instructions": "Does state.source refuse a second claim of an already claimed ID and retain the existing ownership rather than freeing it?",
+      "criteria": {
+        "true": "Duplicate detection faults the lifetime without clearing the bitmap/head/count.",
+        "false": "A duplicate is accepted or the prior owner record is cleared."
+      }
+    },
+    "late_fault": {
+      "type": "choice",
+      "instructions": "Which meaning does state.core.late_fault establish?",
+      "criteria": {
+        "not_established": "Neither meaning follows from the receipt.",
+        "retained_core_commit": "A committed software ownership record is retained with FAULT status;native queue publication and physical ownership are not proved.",
+        "physical_drain": "A physical DMA drain completes and resources can be reclaimed."
+      }
+    },
+    "caller": {
+      "type": "choice",
+      "instructions": "What does state.caller establish about the RX statistics allocations?",
+      "criteria": {
+        "new_core_wired": "The new cold ownership core handles the original callbacks end to end.",
+        "not_established": "Neither follows.",
+        "original_fallback": "The two direct native RX callbacks complete through the original allocator fallback;the new cold ownership core is not wired into them."
+      }
+    },
+    "scope": {
+      "type": "choice",
+      "instructions": "Which implementation scope is supported by state.source,state.contract,state.build and the test limits?",
+      "criteria": {
+        "not_established": "Neither description is supported.",
+        "component_pending_callers": "A compiled/tested shared cold ownership component with caller/exclusion/storage/publication contracts still requiring integration and physical proof.",
+        "complete_npu": "Full NPU lifecycle,host transport and physical/client acceptance are complete."
+      }
+    }
+  },
+  "elapsed_ms": 968,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "reinit": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "duplicate": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "late_fault": {
+        "type": "choice",
+        "choice": "retained_core_commit",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "physical_drain": 0.0,
+          "retained_core_commit": 1.0
+        }
+      },
+      "caller": {
+        "type": "choice",
+        "choice": "original_fallback",
+        "confidence": 1.0,
+        "probabilities": {
+          "original_fallback": 1.0,
+          "not_established": 0.0,
+          "new_core_wired": 0.0
+        }
+      },
+      "scope": {
+        "type": "choice",
+        "choice": "component_pending_callers",
+        "confidence": 1.0,
+        "probabilities": {
+          "component_pending_callers": 1.0,
+          "not_established": 0.0,
+          "complete_npu": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 3420,
+      "output_tokens": 179
+    }
+  }
+}

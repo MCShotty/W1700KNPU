@@ -19537,3 +19537,22 @@ Status and boundary:
 - Full native valid-count ownership/error propagation, strict caller setup,
   loader/postgate,physical drains/recovery and client acceptance remain open.
   Evidence: `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+
+## 2026-10-01 - Checked Cold Page Ownership Core
+
+- Preserved pending work after remote-verified `eabfedb`; completed the shared
+  cold-page ownership core and added cursor/claim-history consistency validation.
+  Claims and late-fault committed resources remain retained; no recycle/reset
+  reclamation is implemented. The core is compiled, not wired into native callers.
+- 5,702 host/RV32 calls, 294 controls, ten mutants and address/undefined/leak
+  sanitizers pass. Existing 273/165 loader-memory, nine mutants, 6,174 retry and
+  44 V2 cases pass. Eleven RV32 components and offline image checks pass; unchanged
+  FIT `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+- Corrected native 50-hook caller replay shows direct RX0/RX2 statistics callers
+  use original unchecked type-10/type-9 allocator fallback, adding two records.
+  Strict setup remains denied; an earlier expected-hold assertion was incorrect.
+- TypeSafe receipts retain the five initial semantic checks and three approved
+  claim checks; exact models/probabilities are recorded in the report.
+  Full native ownership/error/publication, strict callers, loader,
+  physical drains/recovery and clients remain open. No flash or hardware changes.
+  Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.

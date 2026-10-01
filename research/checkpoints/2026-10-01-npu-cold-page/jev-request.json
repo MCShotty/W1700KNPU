@@ -1,0 +1,130 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "source": "#include \"cold-page.h\"\n\n_Static_assert(sizeof(struct npu_cold_page_state) == 1052, \"cold page state changed\");\n_Static_assert(sizeof(struct npu_cold_page_plan) == 8, \"cold page plan changed\");\n_Static_assert(sizeof(struct npu_cold_page_result) == 20, \"cold page result changed\");\n\nstatic uint32_t faulted(const struct npu_cold_page_state *s)\n{\n    return __atomic_load_n(&s->fault, __ATOMIC_ACQUIRE);\n}\n\nvoid npu_cold_page_fault(struct npu_cold_page_state *s)\n{\n    if (s)\n        __atomic_store_n(&s->fault, 1, __ATOMIC_RELEASE);\n}\n\nstatic int plan_valid(const struct npu_cold_page_plan *p)\n{\n    return p->packet_base >= 0x80000000u && p->packet_base < 0xc0000000u &&\n           !(p->packet_base & (NPU_COLD_PAGE_BYTES - 1)) &&\n           p->packet_bytes >= NPU_COLD_PAGE_IDS * NPU_COLD_PAGE_BYTES &&\n           p->packet_bytes <= 0xc0000000u - p->packet_base;\n}\n\nstatic uint32_t population(uint32_t word)\n{\n    word -= (word >> 1) & 0x55555555u;\n    word = (word & 0x33333333u) + ((word >> 2) & 0x33333333u);\n    word = (word + (word >> 4)) & 0x0f0f0f0fu;\n    return (word * 0x01010101u) >> 24;\n}\n\nuint32_t npu_cold_page_init(struct npu_cold_page_state *s,\n                           const struct npu_cold_page_plan *p, uint32_t epoch)\n{\n    uint32_t i;\n\n    if (!s || !p)\n        return NPU_COLD_PAGE_ARGUMENT;\n    if (s->magic || s->epoch || faulted(s) || s->head || s->count ||\n        s->packet_base || s->packet_bytes)\n        return NPU_COLD_PAGE_REINITIALIZE;\n    for (i = 0; i < NPU_COLD_PAGE_WORDS; i++)\n        if (s->claimed[i])\n            return NPU_COLD_PAGE_REINITIALIZE;\n    if (!epoch || !plan_valid(p)) {\n        npu_cold_page_fault(s);\n        return NPU_COLD_PAGE_PLAN;\n    }\n    s->epoch = epoch;\n    s->packet_base = p->packet_base;\n    s->packet_bytes = p->packet_bytes;\n    __atomic_store_n(&s->magic, NPU_COLD_PAGE_MAGIC, __ATOMIC_RELEASE);\n    return faulted(s) ? NPU_COLD_PAGE_FAULT : NPU_COLD_PAGE_OK;\n}\n\nstatic struct npu_cold_page_result fail(struct npu_cold_page_state *s, uint32_t status)\n{\n    struct npu_cold_page_result result = {status, UINT32_MAX, 0, UINT32_MAX, 0};\n\n    npu_cold_page_fault(s);\n    return result;\n}\n\nstruct npu_cold_page_result npu_cold_page_take(\n    struct npu_cold_page_state *s, const struct npu_cold_page_plan *p,\n    uint32_t epoch, uint32_t head, uint32_t tail, uint32_t id)\n{\n    struct npu_cold_page_result result = {NPU_COLD_PAGE_ARGUMENT, UINT32_MAX, 0, UINT32_MAX, 0};\n    uint32_t i, owned = 0, next, bit;\n\n    if (!s || !p)\n        return result;\n    if (__atomic_load_n(&s->magic, __ATOMIC_ACQUIRE) != NPU_COLD_PAGE_MAGIC || faulted(s))\n        return fail(s, NPU_COLD_PAGE_FAULT);\n    if (!s->epoch)\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    if (!epoch || epoch != s->epoch) {\n        result.status = NPU_COLD_PAGE_STALE;\n        return result;\n    }\n    if (!plan_valid(p) || s->packet_base != p->packet_base || s->packet_bytes != p->packet_bytes ||\n        head >= NPU_COLD_PAGE_IDS || tail >= NPU_COLD_PAGE_IDS || s->head != head ||\n        s->count > NPU_COLD_PAGE_IDS ||\n        s->head != (s->count & (NPU_COLD_PAGE_IDS - 1)))\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    for (i = 0; i < NPU_COLD_PAGE_WORDS; i++)\n        owned += population(s->claimed[i]);\n    if (owned != s->count)\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    next = (head + 1) & (NPU_COLD_PAGE_IDS - 1);\n    if (next == tail)\n        return fail(s, NPU_COLD_PAGE_EMPTY);\n    if (id >= NPU_COLD_PAGE_IDS)\n        return fail(s, NPU_COLD_PAGE_ID);\n    bit = 1u << (id & 31);\n    if (s->claimed[id >> 5] & bit)\n        return fail(s, NPU_COLD_PAGE_DUPLICATE);\n    if (faulted(s))\n        return fail(s, NPU_COLD_PAGE_FAULT);\n\n    /* Claim before native head publication. An interrupted caller retains this\n     * record instead of letting another setup retry reuse the same page. */\n    s->claimed[id >> 5] |= bit;\n    s->head = next;\n    s->count++;\n    __atomic_thread_fence(__ATOMIC_RELEASE);\n    result.id = id;\n    result.address = p->packet_base + id * NPU_COLD_PAGE_BYTES;\n    result.next_head = next;\n    result.committed = 1;\n    result.status = faulted(s) ? NPU_COLD_PAGE_FAULT : NPU_COLD_PAGE_OK;\n    return result;\n}\n",
+    "contract": "#ifndef W1700K_NPU_COLD_PAGE_H\n#define W1700K_NPU_COLD_PAGE_H\n\n#include <stdint.h>\n\n#define NPU_COLD_PAGE_MAGIC 0x31475043u\n#define NPU_COLD_PAGE_IDS 8192u\n#define NPU_COLD_PAGE_BYTES 128u\n#define NPU_COLD_PAGE_WORDS (NPU_COLD_PAGE_IDS / 32u)\n\nstruct npu_cold_page_plan {\n    uint32_t packet_base;\n    uint32_t packet_bytes;\n};\n\nstruct npu_cold_page_state {\n    uint32_t magic;\n    uint32_t epoch;\n    uint32_t fault;\n    uint32_t head;\n    uint32_t count;\n    uint32_t packet_base;\n    uint32_t packet_bytes;\n    uint32_t claimed[NPU_COLD_PAGE_WORDS];\n};\n\nenum npu_cold_page_status {\n    NPU_COLD_PAGE_OK,\n    NPU_COLD_PAGE_ARGUMENT,\n    NPU_COLD_PAGE_PLAN,\n    NPU_COLD_PAGE_REINITIALIZE,\n    NPU_COLD_PAGE_FAULT,\n    NPU_COLD_PAGE_STALE,\n    NPU_COLD_PAGE_CORRUPT,\n    NPU_COLD_PAGE_EMPTY,\n    NPU_COLD_PAGE_ID,\n    NPU_COLD_PAGE_DUPLICATE,\n};\n\nstruct npu_cold_page_result {\n    uint32_t status;\n    uint32_t id;\n    uint32_t address;\n    uint32_t next_head;\n    uint32_t committed;\n};\n\n/* Selected cold initialization only, not the running page recycle protocol.\n * The caller independently contains prior users, supplies fresh zeroed coherent\n * storage and a fresh epoch, and serializes every ownership/queue metadata user.\n * The immutable plan describes real reserved backing in one address namespace;\n * geometry checks do not establish that reservation or physical containment.\n * No API releases claims, clears faults or reinitializes an existing lifetime.\n */\nuint32_t npu_cold_page_init(struct npu_cold_page_state *state,\n                           const struct npu_cold_page_plan *plan, uint32_t epoch);\n\n/* head/tail/id are a caller-validated native queue snapshot. On OK the caller\n * commits next_head to the native queue before exposing a descriptor. All users\n * must honor the same serialization. A committed result remains owned even if\n * a concurrent fault changes its status to FAULT; never roll it back or retry\n * over it. If native-head publication cannot finish, hold the entire lifetime\n * faulted with its storage retained. The caller rechecks the actual lifetime\n * and retains resources/denies readiness on failure. OK is an ownership claim,\n * not permission to admit workers, publish readiness or reclaim storage.\n */\nstruct npu_cold_page_result npu_cold_page_take(\n    struct npu_cold_page_state *state, const struct npu_cold_page_plan *plan,\n    uint32_t epoch, uint32_t head, uint32_t tail, uint32_t id);\n\n/* May be called concurrently to close this lifetime, never to reclaim it. */\nvoid npu_cold_page_fault(struct npu_cold_page_state *state);\n\n#endif\n",
+    "core": {
+      "passed": true,
+      "differential_calls": 5702,
+      "controls": 294,
+      "late_fault": {
+        "passed": true,
+        "injected": [
+          {
+            "pc": "0x8407423e",
+            "address": "0x3e906010"
+          }
+        ],
+        "status": 4,
+        "result": [
+          4,
+          37,
+          2428564096,
+          1,
+          1
+        ],
+        "ownership_retained": true,
+        "native_queue_commit_or_readiness_proved": false
+      },
+      "limits": [
+        "Shared cold ownership core, not a wired native callback or physical page-pool proof.",
+        "Queue snapshot validity, exclusion, storage and native-head publication remain caller contracts.",
+        "RV32 late-fault injection proves retained core state,not physical drain/reclaim/readiness."
+      ]
+    },
+    "caller": {
+      "passed": true,
+      "fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae"
+        },
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a"
+        }
+      ],
+      "callbacks": [
+        {
+          "selector": 0,
+          "count": 1536,
+          "result": 1,
+          "ready": "0x3e902a84"
+        },
+        {
+          "selector": 2,
+          "count": 1024,
+          "result": 1,
+          "ready": "0x3e904588"
+        }
+      ],
+      "limits": [
+        "No native helper return substitution;later statistics allocations use the original unchecked fallback.",
+        "All-hart parking is native-code evidence with modeled platform inputs,not physical containment.",
+        "New cold ownership core is not substituted into this native caller probe."
+      ]
+    },
+    "build": "Full world and offline image checks pass with eleven RV32 objects,including cold-page;FIT SHA230e03a7 is unchanged and contains the original vendor NPU blob. No router/flash operation."
+  },
+  "questions": {
+    "reinit": {
+      "type": "noul",
+      "instructions": "Does state.source reject initialization over any existing state header or claimed owner bit without clearing that state?",
+      "criteria": {
+        "true": "Existing nonzero lifetime or claim state returns REINITIALIZE and is preserved.",
+        "false": "Initialization clears or accepts existing live claim state."
+      }
+    },
+    "duplicate": {
+      "type": "noul",
+      "instructions": "Does state.source refuse a second claim of an already claimed ID and retain the existing ownership rather than freeing it?",
+      "criteria": {
+        "true": "Duplicate detection faults the lifetime without clearing the bitmap/head/count.",
+        "false": "A duplicate is accepted or the prior owner record is cleared."
+      }
+    },
+    "late_fault": {
+      "type": "choice",
+      "instructions": "Which meaning does state.core.late_fault establish?",
+      "criteria": {
+        "not_established": "Neither meaning follows from the receipt.",
+        "retained_core_commit": "A committed software ownership record is retained with FAULT status;native queue publication and physical ownership are not proved.",
+        "physical_drain": "A physical DMA drain completes and resources can be reclaimed."
+      }
+    },
+    "caller": {
+      "type": "choice",
+      "instructions": "What does state.caller establish about the RX statistics allocations?",
+      "criteria": {
+        "new_core_wired": "The new cold ownership core handles the original callbacks end to end.",
+        "not_established": "Neither follows.",
+        "original_fallback": "The two direct native RX callbacks complete through the original allocator fallback;the new cold ownership core is not wired into them."
+      }
+    },
+    "scope": {
+      "type": "choice",
+      "instructions": "Which implementation scope is supported by state.source,state.contract,state.build and the test limits?",
+      "criteria": {
+        "not_established": "Neither description is supported.",
+        "component_pending_callers": "A compiled/tested shared cold ownership component with caller/exclusion/storage/publication contracts still requiring integration and physical proof.",
+        "complete_npu": "Full NPU lifecycle,host transport and physical/client acceptance are complete."
+      }
+    }
+  }
+}
