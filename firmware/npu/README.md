@@ -8,6 +8,15 @@ dispatch gate. This is one experimental project, not a separate candidate track.
 The RV32 archive is not a bootable replacement for the supplied NPU blob.
 Real loader/caller/postgate integration and physical recovery remain unfinished.
 
+The 2026-10-01 production provider framing correction now sends at least 24
+bytes for short MT7996 INODE requests, covering the original wrapper's reads.
+It is integrated in the canonical kernel patch/source lock and rebuilt image,
+not the RV32 component archive. Actual C and packaged AArch64 sender replay
+each pass 1,056 frames/30 controls; 16 original native entries and five mutants
+pass their expected controls. Native replay stops at selector helper entry;
+it does not establish full setup, physical mailbox delivery or recovery.
+See `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+
 The 2026-10-01 native composition replay extends the initial parking checkpoint:
 hart7 reaches its bridge outer loop with all 50 detours installed. Its shared
 startup allocation binding now recognizes that selected first-epoch post-gate

@@ -19481,3 +19481,31 @@ Status and boundary:
   callback/provider-framing work, vendor blob, source lock, image or router
   changed. Full NPU implementation remains open. Evidence:
   `research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
+
+## 2026-10-01 - Production INODE Provider Framing
+
+- Continued from main `a6105f3`. The mt76 one-word INODE frame declared 12
+  bytes while the original wrapper reads a 24-byte extent. Its bounce buffer
+  is 256 bytes, so this is stale undeclared tail consumption, not a demonstrated
+  allocation overflow or proved Wi-Fi root cause.
+- Integrated short MT7996 command-24 zero-extension into the canonical kernel
+  patch/source lock. Caller bytes and valid other profile/command lengths are
+  preserved; negative/oversize/NULL-positive-data fail before allocation/copy.
+  Exact replay confirms only the sender and size constant change at runtime.
+- Actual provider C and the packaged AArch64 sender each pass 1,056 frame
+  cases/30 controls. All 16 original RV32 wrapper entries cover the corrected
+  emitted extent; 16 old short-frame controls and five mutants fail as expected.
+  Native runs stop at helper entry; allocation/mailbox dependencies are modeled.
+- Full world build, FIT/board/firmware/218-package/78-module checks, 60 source
+  files and memory/retry/V2 regression pass with leak checks. Strict delta
+  checkpatch reports zero errors/warnings/checks, with no fabricated DCO signoff.
+- New local FIT SHA256:
+  `031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+  Packaged provider SHA256:
+  `e6dd312bbc13b5f9842a652e4e79078bb819fef1578f2bd610ea6857222dd325`.
+  Preceding `277abd0b...` FIT and R1 remain preserved. No flash/router operation.
+- Updated the ledger, session log, reference, remaining-work checklist, root/
+  NPU READMEs and AGENTS.md. Jev semantic review preserves the software/hardware
+  boundaries. Full loader/caller/native readiness, physical ownership/drains/
+  recovery and client acceptance remain open. Text evidence:
+  `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.

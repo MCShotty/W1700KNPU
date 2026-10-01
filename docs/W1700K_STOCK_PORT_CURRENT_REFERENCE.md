@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-10-01 (native hart7 postgate allocation phase corrected; full firmware/hardware integration remains open)
+Last updated: 2026-10-01 (production MT7996 INODE framing rebuilt and verified; full firmware/hardware integration remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,25 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Use the newest status entry and
 remaining-work checklist for current work; cleanup made no router changes.
 
-## Current Status - Native Bridge Postgate - 2026-10-01
+## Current Status - INODE Provider Framing - 2026-10-01
+
+- Canonical provider/source lock now zero-extends short MT7996 INODE payloads
+  to the original wrapper's 24-byte total read span. Other valid commands and
+  profiles keep their frame lengths; invalid lengths/NULL-positive-data fail
+  before allocation/copy. Only the selected sender and size constant change.
+- Actual provider C and packaged AArch64 instructions each pass 1,056 frames
+  and 30 controls. All 16 original RV32 wrapper entries consume actual emitted
+  frames within the declared extent; 16 original short controls and five
+  mutants fail as expected. Kernel/mailbox dependencies remain modeled, and
+  native execution stops at helper entry rather than proving readiness.
+- Full world build, FIT/board/firmware/218-package/78-module checks, all 60
+  source files and the memory/retry/V2 regression pass. Current local FIT:
+  `031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+  The preceding `277abd0b...` FIT is preserved. No flash or hardware test ran;
+  full containment/loader/caller/postgate/drain/rearm/client work remains open.
+  Evidence: `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+
+## Previous Status - Native Bridge Postgate - 2026-10-01
 
 - All-50-detour native replay now reaches hart7's bridge outer loop. Corrected
   the shared startup binding's pre-gate-only allocation predicate for the

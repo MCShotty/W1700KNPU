@@ -7350,3 +7350,27 @@ and the existing allocator regression pass. Hardware dependencies are modeled;
 the packaged image and router remain unchanged. Full loader/caller/postgate,
 physical ownership/recovery and client acceptance are still required. See
 `research/checkpoints/2026-10-01-npu-postgate/REPORT.md`.
+
+## Production INODE Framing - 2026-10-01
+
+Continued from `a6105f3`, implementing the provider framing gap documented in
+the historical INODE contract. Original native wrapper entry reads 24 bytes
+from the former 12-byte declared frame; the retained bounce allocation is
+256 bytes. The canonical sender now zero-extends only short selected MT7996
+INODE requests, preserves caller bytes and other valid lengths, and rejects
+invalid input before allocation/copy. Source-lock/runtime replay matches.
+
+Actual provider C and the packaged AArch64 function each pass 1,056 frame
+cases/30 controls. All 16 original RV32 wrapper entries consume actual emitted
+bytes within their declared extent; 16 short originals and five mutants fail
+as expected. Target/kernel transport is modeled, and selector bodies are not
+executed. Full world/image checks, all 60 locked files and the leak-enabled
+memory/retry/V2 regression pass. Strict corrective checkpatch is clean.
+
+Current FIT is 26,932,042 bytes, SHA256
+`031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`;
+packaged provider is `e6dd312bbc13b5f9842a652e4e79078bb819fef1578f2bd610ea6857222dd325`.
+The earlier local image and R1 are preserved; no router/flash operation ran.
+Resume documents and both READMEs are refreshed. Jev checked claim boundaries;
+full NPU lifecycle, native readiness and physical/client acceptance remain open.
+See `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.

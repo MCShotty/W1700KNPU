@@ -21,6 +21,17 @@ leaves the ledger unchanged.
 
 ## Current Checkpoint - 2026-10-01
 
+- The production MT7996 INODE sender now zero-extends short payloads to the
+  native wrapper's 24-byte total span and rejects invalid input before copy.
+  Other valid profiles/commands keep their framing lengths. Actual provider C
+  and the packaged AArch64 sender each pass 1,056 frames/30 controls; all 16
+  original RV32 wrapper entries consume corrected bytes within the declared
+  extent. Five mutants, the memory/retry/V2 regression, all 60 source files and
+  the full image checks pass. Current FIT SHA256:
+  `031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+  Evidence: `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+  This closes the provider-framing gap, not selector helper readiness, physical
+  transport/drains or full NPU acceptance. No new flash occurred.
 - Native postgate continuation now fixes hart7's first-boot allocator phase
   mismatch. All 50 detours remain installed; hart7 reaches its outer loop in
   emulation after explicit host-pointer publication and modeled release.
@@ -31,7 +42,7 @@ leaves the ledger unchanged.
 - GitHub PR #1 source and its deferred history documents are now synchronized
   into the canonical WSL checkout. The reconstructed cloud snapshot matches
   tree `f2a52b2c27e21021e8c36d4b30a25e37565827c2` at commit `e095420`.
-- A full local build and FIT/board/218-package/78-module checks pass. The local
+- The preceding local build passed FIT/board/218-package/78-module checks. Its
   FIT SHA256 is `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
   Its packaged provider matches the cloud module, but the full image hash is
   distinct. Evidence: `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.

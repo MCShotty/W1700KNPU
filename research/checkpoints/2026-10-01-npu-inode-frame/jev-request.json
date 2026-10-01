@@ -1,0 +1,57 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "source_change": "The provider validates data_len in [0,248] and rejects positive-length NULL data before allocation. For the selected MT7996 profile only (txbuf_min_size == 0xe000), command WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR (24) gets at least 16 zero-initialized payload bytes plus its 8-byte header. It copies only caller data_len bytes. Other valid profiles/commands keep the original 8+data_len length; full INODE payloads retain all caller bytes. GET and native helper bodies are unchanged.",
+    "framing_evidence": "Compiled actual provider C emits 1056 matching frames across three profiles, two commands, all16 selectors and11 lengths. Thirty validation/allocation/transport controls pass with ASan/UBSan/LeakSanitizer. Five mutants are rejected. All16 original native wrapper entries reject the old declared12-byte frame; all16 corrected24-byte frames cover original reads at offsets0,20,16,12,8 and reach the helper entry with zero extra words. These runs stop BEFORE executing the selector helper.",
+    "binary_evidence": "The rebuilt image's actual packaged AArch64 sender executes 1056 matching frames and30 controls under Unicorn. The original target instructions execute, while kmalloc/memcpy/kfree/fortify and internal mailbox transport are modeled. No physical mailbox, DMA, IRQ completion or coherent reservation is exercised.",
+    "build_evidence": "Full Linux6.18.52 world build exits0. Offline FIT/board/firmware checks,218 packages,78 module ABIs and60 source-lock files pass. Current image SHA256031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc. No new flash or hardware test occurred.",
+    "limits": "The original bounce allocation is256 bytes, so the old mismatch is an undeclared stale-tail read, not a demonstrated physical allocation overflow. Earlier selectors2/7/4 ignored extra words. Padding alone is not an established Wi-Fi root cause or readiness fix. Full cold containment, loader identity/storage/publication, real callers, native postgate, DMA drains/teardown/rearm and actual-client acceptance remain incomplete."
+  },
+  "questions": {
+    "framing_scope": {
+      "type": "choice",
+      "instructions": "Which claim is supported by state.framing_evidence and state.limits?",
+      "criteria": {
+        "declared_extent_fixed": "The emitted MT7996 INODE frames now cover all original wrapper-entry reads, without establishing selector helper readiness or Wi-Fi root cause.",
+        "wifi_root_cause_fixed": "Padding is proved to fix the observed hardware Wi-Fi failure.",
+        "not_established": "Neither claim is established."
+      }
+    },
+    "compatibility_scope": {
+      "type": "choice",
+      "instructions": "Which compatibility statement accurately describes state.source_change?",
+      "criteria": {
+        "valid_other_lengths_unchanged": "Valid other profile/command framing lengths are unchanged; invalid-length and NULL-positive-data rejection is intentionally added.",
+        "all_behavior_unchanged": "Every other input's behavior, including invalid inputs, is unchanged.",
+        "not_established": "Neither statement describes the supplied change."
+      }
+    },
+    "target_scope": {
+      "type": "choice",
+      "instructions": "Which execution scope is established by state.binary_evidence?",
+      "criteria": {
+        "actual_binary_modeled_dependencies": "Actual packaged sender instructions execute, with kernel and transport dependencies modeled.",
+        "hardware_transport_validated": "Physical mailbox/DMA delivery has been validated.",
+        "source_only": "Only recompiled host C was tested; no packaged sender instructions execute.",
+        "not_established": "None of these descriptions is supported."
+      }
+    },
+    "native_readiness": {
+      "type": "noul",
+      "instructions": "Does state.framing_evidence establish successful completion of all native INODE selector helpers?",
+      "criteria": {
+        "true": "Selector helpers actually complete and establish readiness.",
+        "false": "Only wrapper entry and declared read extent are exercised; execution stops before selector helper bodies."
+      }
+    },
+    "acceptance": {
+      "type": "choice",
+      "instructions": "Which project acceptance claim follows from state.build_evidence and state.limits?",
+      "criteria": {
+        "offline_candidate_only": "The updated image builds and passes offline checks; complete NPU and hardware/client acceptance remain open.",
+        "full_npu_complete": "The NPU implementation and physical/client acceptance are complete.",
+        "not_established": "Neither claim follows."
+      }
+    }
+  }
+}

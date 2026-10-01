@@ -1,0 +1,107 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\research\\checkpoints\\2026-10-01-npu-inode-frame\\jev-request.json",
+  "request_sha256": "f687da467bd470dd48f7bfb71f975bcd32a5a4cdd4a4b7f24a1aff1602706cb9",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "framing_scope": {
+      "type": "choice",
+      "instructions": "Which claim is supported by state.framing_evidence and state.limits?",
+      "criteria": {
+        "declared_extent_fixed": "The emitted MT7996 INODE frames now cover all original wrapper-entry reads, without establishing selector helper readiness or Wi-Fi root cause.",
+        "wifi_root_cause_fixed": "Padding is proved to fix the observed hardware Wi-Fi failure.",
+        "not_established": "Neither claim is established."
+      }
+    },
+    "compatibility_scope": {
+      "type": "choice",
+      "instructions": "Which compatibility statement accurately describes state.source_change?",
+      "criteria": {
+        "valid_other_lengths_unchanged": "Valid other profile/command framing lengths are unchanged; invalid-length and NULL-positive-data rejection is intentionally added.",
+        "all_behavior_unchanged": "Every other input's behavior, including invalid inputs, is unchanged.",
+        "not_established": "Neither statement describes the supplied change."
+      }
+    },
+    "target_scope": {
+      "type": "choice",
+      "instructions": "Which execution scope is established by state.binary_evidence?",
+      "criteria": {
+        "actual_binary_modeled_dependencies": "Actual packaged sender instructions execute, with kernel and transport dependencies modeled.",
+        "hardware_transport_validated": "Physical mailbox/DMA delivery has been validated.",
+        "source_only": "Only recompiled host C was tested; no packaged sender instructions execute.",
+        "not_established": "None of these descriptions is supported."
+      }
+    },
+    "native_readiness": {
+      "type": "noul",
+      "instructions": "Does state.framing_evidence establish successful completion of all native INODE selector helpers?",
+      "criteria": {
+        "true": "Selector helpers actually complete and establish readiness.",
+        "false": "Only wrapper entry and declared read extent are exercised; execution stops before selector helper bodies."
+      }
+    },
+    "acceptance": {
+      "type": "choice",
+      "instructions": "Which project acceptance claim follows from state.build_evidence and state.limits?",
+      "criteria": {
+        "offline_candidate_only": "The updated image builds and passes offline checks; complete NPU and hardware/client acceptance remain open.",
+        "full_npu_complete": "The NPU implementation and physical/client acceptance are complete.",
+        "not_established": "Neither claim follows."
+      }
+    }
+  },
+  "elapsed_ms": 886,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "framing_scope": {
+        "type": "choice",
+        "choice": "declared_extent_fixed",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "declared_extent_fixed": 1.0,
+          "wifi_root_cause_fixed": 0.0
+        }
+      },
+      "compatibility_scope": {
+        "type": "choice",
+        "choice": "valid_other_lengths_unchanged",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "all_behavior_unchanged": 0.0,
+          "valid_other_lengths_unchanged": 1.0
+        }
+      },
+      "target_scope": {
+        "type": "choice",
+        "choice": "actual_binary_modeled_dependencies",
+        "confidence": 1.0,
+        "probabilities": {
+          "actual_binary_modeled_dependencies": 1.0,
+          "hardware_transport_validated": 0.0,
+          "not_established": 0.0,
+          "source_only": 0.0
+        }
+      },
+      "native_readiness": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "acceptance": {
+        "type": "choice",
+        "choice": "offline_candidate_only",
+        "confidence": 0.99,
+        "probabilities": {
+          "offline_candidate_only": 0.99,
+          "not_established": 0.01,
+          "full_npu_complete": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1352,
+      "output_tokens": 238
+    }
+  }
+}

@@ -61,16 +61,17 @@ build input; compilation is not a physical drain or recovery proof.
  
  #include "airoha_eth.h"
  
-@@ -22,6 +25,8 @@
+@@ -22,6 +25,9 @@
  #define NPU_AN7583_FIRMWARE_RV32		"airoha/an7583_npu_rv32.bin"
  #define NPU_EN7581_FIRMWARE_RV32_MAX_SIZE	0x200000
  #define NPU_EN7581_FIRMWARE_DATA_MAX_SIZE	0x10000
 +#define NPU_SRAM_BACKUP_SIZE		0x40000
 +#define NPU_EN7581_7996_TX_CHECK_SIZE	(0x7000 * sizeof(u16))
++#define NPU_EN7581_7996_INODE_DATA_SIZE	(4 * sizeof(u32))
  #define NPU_DUMP_SIZE				512
  /*
   * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
-@@ -122,6 +127,22 @@
+@@ -122,6 +128,22 @@
  	struct airoha_npu_fw fw_rv32;
  	struct airoha_npu_fw fw_data;
  };
@@ -93,7 +94,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #define MBOX_MSG_FUNC_ID	GENMASK(14, 11)
  #define MBOX_MSG_STATIC_BUF	BIT(5)
-@@ -171,10 +192,10 @@
+@@ -171,10 +193,10 @@
  				 u16 reply_len)
  {
  	struct airoha_npu_core *core = &npu->cores[0]; /* FIXME: core */
@@ -106,7 +107,7 @@ build input; compilation is not a physical drain or recovery proof.
  		return -EINVAL;
  
  	if (reply && reply_len > len)
-@@ -190,26 +211,57 @@
+@@ -190,26 +212,57 @@
  	 */
  	spin_lock_bh(&core->lock);
  
@@ -170,7 +171,7 @@ build input; compilation is not a physical drain or recovery proof.
  	spin_unlock_bh(&core->lock);
  
  	return ret;
-@@ -221,36 +273,103 @@
+@@ -221,36 +274,103 @@
  	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
  }
  
@@ -290,7 +291,7 @@ build input; compilation is not a physical drain or recovery proof.
  	int ret;
  
  	ret = of_property_read_string_array(dev->of_node, "firmware-name",
-@@ -259,26 +378,37 @@
+@@ -259,26 +379,37 @@
  		return dev_err_probe(dev, -EINVAL,
  				     "invalid firmware-name property\n");
  
@@ -341,7 +342,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	addr = devm_ioremap_resource(dev, res);
  	if (IS_ERR(addr))
-@@ -288,18 +418,12 @@
+@@ -288,18 +419,12 @@
  	 * dts if available.
  	 */
  	if (of_find_property(dev->of_node, "firmware-name", NULL))
@@ -366,7 +367,78 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
-@@ -531,89 +655,122 @@
+@@ -489,6 +614,40 @@
+ 				    enum airoha_npu_wlan_set_cmd func_id,
+ 				    void *data, int data_len, gfp_t gfp)
+ {
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct wlan_mbox_data *wlan_data;
++	int err, len;
++
++	if (data_len < 0 || data_len > AIROHA_NPU_MBOX_SIZE - sizeof(*wlan_data) ||
++	    (data_len && !data))
++		return -EINVAL;
++
++	len = sizeof(*wlan_data) + data_len;
++	/* The MT7996 INODE wrapper reads four payload words unconditionally. */
++	if (priv->txbuf_min_size == NPU_EN7581_7996_TX_CHECK_SIZE &&
++	    func_id == WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR &&
++	    data_len < NPU_EN7581_7996_INODE_DATA_SIZE)
++		len = sizeof(*wlan_data) + NPU_EN7581_7996_INODE_DATA_SIZE;
++	wlan_data = kzalloc(len, gfp);
++	if (!wlan_data)
++		return -ENOMEM;
++
++	wlan_data->ifindex = ifindex;
++	wlan_data->func_type = NPU_OP_SET;
++	wlan_data->func_id = func_id;
++	if (data_len)
++		memcpy(wlan_data->d, data, data_len);
++
++	err = airoha_npu_send_msg(npu, NPU_FUNC_WIFI, wlan_data, len);
++	kfree(wlan_data);
++
++	return err;
++}
++
++static int airoha_npu_wlan_msg_get(struct airoha_npu *npu, int ifindex,
++				   enum airoha_npu_wlan_get_cmd func_id,
++				   void *data, int data_len, gfp_t gfp)
++{
+ 	struct wlan_mbox_data *wlan_data;
+ 	int err, len;
+ 
+@@ -498,29 +657,6 @@
+ 		return -ENOMEM;
+ 
+ 	wlan_data->ifindex = ifindex;
+-	wlan_data->func_type = NPU_OP_SET;
+-	wlan_data->func_id = func_id;
+-	memcpy(wlan_data->d, data, data_len);
+-
+-	err = airoha_npu_send_msg(npu, NPU_FUNC_WIFI, wlan_data, len);
+-	kfree(wlan_data);
+-
+-	return err;
+-}
+-
+-static int airoha_npu_wlan_msg_get(struct airoha_npu *npu, int ifindex,
+-				   enum airoha_npu_wlan_get_cmd func_id,
+-				   void *data, int data_len, gfp_t gfp)
+-{
+-	struct wlan_mbox_data *wlan_data;
+-	int err, len;
+-
+-	len = sizeof(*wlan_data) + data_len;
+-	wlan_data = kzalloc(len, gfp);
+-	if (!wlan_data)
+-		return -ENOMEM;
+-
+-	wlan_data->ifindex = ifindex;
+ 	wlan_data->func_type = NPU_OP_GET;
+ 	wlan_data->func_id = func_id;
+ 
+@@ -531,89 +667,122 @@
  	return err;
  }
  
@@ -486,7 +558,7 @@ build input; compilation is not a physical drain or recovery proof.
 +					    WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU, val);
  	if (err)
  		return err;
-
+ 
 -	val = res.start;
 -	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, &val,
 -					sizeof(val), GFP_KERNEL);
@@ -565,7 +637,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -745,6 +902,7 @@
+@@ -745,6 +914,7 @@
  static int airoha_npu_probe(struct platform_device *pdev)
  {
  	struct device *dev = &pdev->dev;
@@ -573,7 +645,7 @@ build input; compilation is not a physical drain or recovery proof.
  	struct airoha_npu *npu;
  	struct resource res;
  	void __iomem *base;
-@@ -755,9 +913,10 @@
+@@ -755,9 +925,10 @@
  	if (IS_ERR(base))
  		return PTR_ERR(base);
  
@@ -586,7 +658,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -782,6 +941,17 @@
+@@ -782,6 +953,17 @@
  	if (err)
  		return err;
  
@@ -604,7 +676,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -794,9 +964,6 @@
+@@ -794,9 +976,6 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  
@@ -614,7 +686,7 @@ build input; compilation is not a physical drain or recovery proof.
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
  			return irq;
-@@ -805,8 +972,6 @@
+@@ -805,8 +984,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -623,7 +695,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -831,13 +996,13 @@
+@@ -831,13 +1008,13 @@
  			return -ENOMEM;
  	}
  
@@ -639,7 +711,7 @@ build input; compilation is not a physical drain or recovery proof.
  	regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
  	regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
  	msleep(100);
-@@ -862,18 +1027,8 @@
+@@ -862,18 +1039,8 @@
  	return 0;
  }
  

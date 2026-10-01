@@ -1,0 +1,48 @@
+Subject: [PATCH] net: airoha: cover the MT7996 INODE payload span
+
+The selected native wrapper reads four payload words. Zero-extend short
+MT7996 INODE requests while preserving caller bytes and valid lengths for
+other profiles and commands. Validate the bounded mailbox payload first.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -27,6 +27,7 @@
+ #define NPU_EN7581_FIRMWARE_DATA_MAX_SIZE	0x10000
+ #define NPU_SRAM_BACKUP_SIZE		0x40000
+ #define NPU_EN7581_7996_TX_CHECK_SIZE	(0x7000 * sizeof(u16))
++#define NPU_EN7581_7996_INODE_DATA_SIZE	(4 * sizeof(u32))
+ #define NPU_DUMP_SIZE				512
+ /*
+  * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
+@@ -613,10 +614,20 @@
+ 				    enum airoha_npu_wlan_set_cmd func_id,
+ 				    void *data, int data_len, gfp_t gfp)
+ {
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
+ 	struct wlan_mbox_data *wlan_data;
+ 	int err, len;
+ 
++	if (data_len < 0 || data_len > AIROHA_NPU_MBOX_SIZE - sizeof(*wlan_data) ||
++	    (data_len && !data))
++		return -EINVAL;
++
+ 	len = sizeof(*wlan_data) + data_len;
++	/* The MT7996 INODE wrapper reads four payload words unconditionally. */
++	if (priv->txbuf_min_size == NPU_EN7581_7996_TX_CHECK_SIZE &&
++	    func_id == WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR &&
++	    data_len < NPU_EN7581_7996_INODE_DATA_SIZE)
++		len = sizeof(*wlan_data) + NPU_EN7581_7996_INODE_DATA_SIZE;
+ 	wlan_data = kzalloc(len, gfp);
+ 	if (!wlan_data)
+ 		return -ENOMEM;
+@@ -624,7 +635,8 @@
+ 	wlan_data->ifindex = ifindex;
+ 	wlan_data->func_type = NPU_OP_SET;
+ 	wlan_data->func_id = func_id;
+-	memcpy(wlan_data->d, data, data_len);
++	if (data_len)
++		memcpy(wlan_data->d, data, data_len);
+ 
+ 	err = airoha_npu_send_msg(npu, NPU_FUNC_WIFI, wlan_data, len);
+ 	kfree(wlan_data);

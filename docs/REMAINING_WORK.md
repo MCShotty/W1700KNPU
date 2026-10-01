@@ -1,5 +1,18 @@
 # Remaining W1700K Work
 
+## INODE Provider Framing Resolved - 2026-10-01
+
+The canonical MT7996 provider now zero-extends short INODE requests to 24
+total bytes, covering every original native wrapper-entry read. It preserves
+caller bytes and other valid profile/command lengths, and rejects invalid
+input before allocation/copy. Actual C and the shipped AArch64 sender each
+pass 1,056 frames/30 controls. All 16 original RV32 entries consume emitted
+corrected frames within the declared span; 16 original short controls and
+five mutants fail as expected. This closes the historical provider-framing
+gap. Native selector bodies/readiness and strict complete host setup remain
+unproved; padding is not an established Wi-Fi root-cause correction. See
+`research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+
 ## Native Postgate Progress - 2026-10-01
 
 The shared native startup binding now permits hart7's selected bridge allocation
@@ -16,16 +29,20 @@ other postgate paths and physical containment/drain/rearm remain required.
 
 ## Current Local Candidate - 2026-10-01
 
-PR #1 source and its deferred history are synchronized to WSL. A complete local
-build passes offline FIT/board/firmware/218-package/78-module verification.
+PR #1 source and its deferred history are synchronized to WSL. The production
+INODE correction is now included in a complete local build that passes offline
+FIT/board/firmware/218-package/78-module verification and all 60 source files.
 The current local FIT SHA256 is
-`277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
-The packaged provider matches the cloud build, but the complete images have
-different hashes. Full host replay passes with LeakSanitizer enabled. See
-`research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+`031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+Its packaged provider SHA256 is
+`e6dd312bbc13b5f9842a652e4e79078bb819fef1578f2bd610ea6857222dd325`.
+The preceding local FIT `277abd0b...` is preserved; only that earlier provider
+matched the cloud module. Full memory/retry/V2 replay still passes with leak
+checks. See `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
 
-No new hardware check or flash occurred: the pinned Ethernet management path
-is currently unavailable. Current target/serial/backups and physical acceptance
+No new hardware check or flash occurred. The pinned Ethernet management path
+was unavailable at the preceding sync check and was not rechecked here.
+Current target/serial/backups and physical acceptance
 remain to be verified when it is connected. The NPU implementation priorities
 below are unchanged; memory geometry/copy success is not physical containment.
 
@@ -501,10 +518,11 @@ four further reload stages pass; final readback has no AP or pending UCI change.
 Real-client authentication/traffic and authenticated LuCI save/apply remain
 unverified. See `research/checkpoints/2026-09-06-wifi-config/REPORT.md`.
 
-Core NPU work still requires resolution of the tool restrictions. The provider INODE correction and
-native DESC5/6/7/8 operations have not been retried or rerouted. The optional
-PowerShell collector still awaits approved execution; direct SSH observations
-are already complete. Generic goal continuation does not resolve those restrictions.
+At that historical September 6 checkpoint, tool restrictions interrupted the
+provider INODE correction and native DESC5/6/7/8 operations. The October 1
+checkpoint above now integrates and validates provider framing plus original
+wrapper-entry reads; it does not execute those DESC5/6/7/8 operations. The old
+collector/tool status is historical, not a fresh runtime observation.
 
 A fresh L1 source review confirms ignored NPU stop/init returns and DMA restart
 before NPU reinitialization. A return-check-only change would not establish
@@ -613,13 +631,14 @@ items below remain open. See `research/checkpoints/2026-09-06-work-blockers/BLOC
   so this is not a physical allocation-overrun finding. These three selectors
   ignore the extra stale arguments and have identical padded/unpadded memory
   effects. Run flags precede ICV clear and are not initialization witnesses.
-  The provider-framing correction was interrupted by a tool restriction;
-  unfinished files are preserved outside the firmware overlay and no fix is
-  integrated. Do not retry or reroute that blocked operation.
+  That historical provider-framing correction was interrupted; the later
+  October 1 checkpoint now integrates it and validates actual emitted frames
+  against all 16 wrapper entries. This closes declared-span coverage only,
+  not helper readiness or the other unfinished callbacks.
   General mt76 commands remain closed. Close
   remaining callback consumers and failure-status propagation, full post-gate
-  worker initialization, production TX-queue integration, INODE 24-byte reads from
-  12-byte logical requests, descriptor fallback validation, partial-init owner
+  worker initialization, production TX-queue integration, native INODE selector
+  readiness, descriptor fallback validation, partial-init owner
   retention and the production cold-loader/request/cache contract.
   The prior host-C baseline proved band1 aliases TX0 with no physical ID in
   single-HIF mode. A two-branch source candidate now allocates independent TX0/

@@ -34,8 +34,8 @@ The candidate has not been booted or flashed. See the
 [cold-memory checkpoint](research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md)
 and [completed cloud validation](research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md).
 
-That source and its deferred history documents are now synchronized back to
-the local WSL checkout. A full local build passes the same offline checks;
+That source and its deferred history documents were synchronized back to
+the local WSL checkout. The preceding full local build passed the same offline checks;
 the packaged NPU provider matches the cloud module byte-for-byte. The local
 FIT has its own SHA256:
 `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
@@ -48,6 +48,19 @@ its outer loop under explicit host-publication and hardware models; other
 workers still await later host setup. This is not a new packaged firmware or
 physical boot claim. See the
 [postgate checkpoint](research/checkpoints/2026-10-01-npu-postgate/REPORT.md).
+
+The latest production correction covers the MT7996 INODE wrapper's 24-byte
+read span with zero-extended short requests. Other valid profile/command frame
+lengths and caller bytes are preserved; invalid lengths and NULL-positive-data
+are rejected before allocation/copy. Actual provider C and the packaged
+AArch64 sender each pass 1,056 frame cases and 30 controls. All 16 original
+RV32 wrapper entries accept those emitted bytes within their declared extent;
+five mutants are rejected. The full image and 60-file source replay pass.
+Current local FIT SHA256:
+`031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+This image has not been flashed. Native selector readiness, physical delivery
+and complete recovery remain open; padding is not a proved Wi-Fi root-cause
+fix. See the [INODE framing checkpoint](research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md).
 
 The preceding paired-loader source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
 It preflights both NPU firmware images before either copy, rejects empty images
