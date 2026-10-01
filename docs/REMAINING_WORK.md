@@ -1,6 +1,21 @@
 # Remaining W1700K Work
 
-## Current Candidate And GitHub Review - 2026-09-30
+## Current Local Candidate - 2026-10-01
+
+PR #1 source and its deferred history are synchronized to WSL. A complete local
+build passes offline FIT/board/firmware/218-package/78-module verification.
+The current local FIT SHA256 is
+`277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+The packaged provider matches the cloud build, but the complete images have
+different hashes. Full host replay passes with LeakSanitizer enabled. See
+`research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+
+No new hardware check or flash occurred: the pinned Ethernet management path
+is currently unavailable. Current target/serial/backups and physical acceptance
+remain to be verified when it is connected. The NPU implementation priorities
+below are unchanged; memory geometry/copy success is not physical containment.
+
+## Earlier Cloud Candidate And GitHub Review - 2026-09-30
 
 The current candidate SHA256 is
 `6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d`.

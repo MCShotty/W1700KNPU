@@ -19,7 +19,23 @@ leaves the ledger unchanged.
   checkpoint closes only its documented scope. Full NPU completion requires
   actual firmware/host behavior, physical ownership/drains and client evidence.
 
-## Current Checkpoint - 2026-09-30
+## Current Checkpoint - 2026-10-01
+
+- GitHub PR #1 source and its deferred history documents are now synchronized
+  into the canonical WSL checkout. The reconstructed cloud snapshot matches
+  tree `f2a52b2c27e21021e8c36d4b30a25e37565827c2` at commit `e095420`.
+- A full local build and FIT/board/218-package/78-module checks pass. The local
+  FIT SHA256 is `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+  Its packaged provider matches the cloud module, but the full image hash is
+  distinct. Evidence: `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+- The portable memory-plan runner now enables LeakSanitizer by default and
+  records the selected sanitizers. The full host suite passes with leak checks
+  enabled here; use `--disable-leak-check` only when needed and disclose it.
+- The wired management interface was unavailable, so no new hardware check or
+  flash occurred. Continue the remaining cold-lifetime, loader/caller/postgate
+  and physical drain/rearm work; full NPU acceptance remains incomplete.
+
+## Previous Cloud Checkpoint - 2026-09-30
 
 - Current cloud working source adds pre-copy MT7996 WLAN memory admission and
   an immutable setup plan, with generic profiles keeping caller-local plans.
@@ -51,10 +67,10 @@ leaves the ledger unchanged.
 
 - Work here, not in the superseded Windows task directory. Historical paths
   in evidence are provenance, not current workspace instructions.
-- Cloud continuation is in the transferred native-Linux checkout. Generated
-  WSL build trees, credentials and private device data were not transferred;
-  do not assume the historical `.build/` paths exist here.
-- The original local source is WSL Ubuntu `/home/captain/W1700KNPU`, accessible from
+- Current continuation is back in the canonical WSL checkout with its local
+  prepared build and private inputs. Cloud receipt paths describe that earlier
+  executor; verify local state before reusing environment-specific assumptions.
+- The local source is WSL Ubuntu `/home/captain/W1700KNPU`, accessible from
   Windows at `\\wsl.localhost\Ubuntu\home\captain\W1700KNPU`. The Ubuntu backing
   disk is under `D:\WSL\Ubuntu`. The prior `D:\W1700K-Recovery` snapshot path
   was absent on 2026-09-30; verify the current location of recovery material

@@ -7313,3 +7313,24 @@ flashed image. See `research/checkpoints/2026-09-30-npu-loader/REPORT.md`.
   the Ghidra export and the standalone patch (whose context prefixes are valid
   patch syntax). Source, tests and documentation pass the check with those two
   hash-preserved artifacts excluded; no raw evidence bytes were normalized.
+
+## GitHub Sync And WSL Validation - 2026-10-01
+
+Restored PR #1's cloud source/evidence and its deferred history documents into
+the canonical local checkout. The complete restored tree matches the cloud
+record exactly (`f2a52b2c27e21021e8c36d4b30a25e37565827c2`, commit `e095420`).
+The local prepared patch was synchronized and the full WSL image rebuilt after
+preserving the previously flashed image.
+
+The local candidate is 26,932,042 bytes, SHA256
+`277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+FIT/board/firmware/218-package/78-module checks pass; its packaged provider
+matches the cloud provider. The full local FIT has its own identity.
+Host replay now passes with LeakSanitizer enabled alongside ASan/UBSan:
+273 loader/165 additional load cases, three controls, nine mutants, 6,174 retry
+and 44 V2 cases. The runner records its sanitizer selection and exposes an
+explicit opt-out for restricted hosts. Eight builder tests also pass.
+
+Ethernet management is unavailable, so no new device operation or flash ran.
+Cold containment, loader/caller/postgate integration and physical recovery
+remain unfinished. See `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-09-30 (pre-copy MT7996 memory plan integrated; exact cloud image verified; physical boot/cold lifetime remain open)
+Last updated: 2026-10-01 (GitHub source synchronized to WSL; local full image and leak-enabled host checks pass)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -8,10 +8,28 @@ validation, service and release gates. Update it along with the ledger.
 Storage maintenance completed 2026-09-05: C: 59.96 GiB free, D: 38.34 GiB free.
 Inactive v689 prepared source/binaries are now in a verified local archive;
 current source/build and all protected recovery data remain intact. See
-`docs/maintenance/cleanup-20260905/REPORT.md`. Resume firmware work from the
-provider-guard/recovery checkpoint below; cleanup made no router changes.
+`docs/maintenance/cleanup-20260905/REPORT.md`. Use the newest status entry and
+remaining-work checklist for current work; cleanup made no router changes.
 
-## GitHub Review Preparation - 2026-09-30
+## Current Status - WSL Sync And Build - 2026-10-01
+
+- Retrieved PR #1 at `9218506`; completed the three deferred history documents
+  and reproduced the recorded full cloud tree exactly in `e095420`.
+- Synced the local prepared NPU patch and completed the full WSL world build.
+  FIT/board/firmware checks, 218 packages, 78 module ABIs and ten RV32 components
+  pass. Local FIT SHA256:
+  `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+  The packaged provider is byte-identical to the cloud provider; the full local
+  FIT is a separately identified artifact. The old flashed FIT is preserved.
+- The portable host runner now enables LeakSanitizer by default. A full local
+  273/165 loader-memory run, three controls, nine mutants, 6,174 retry and 44
+  V2 cases pass with address/undefined/leak sanitizers. Eight builder tests pass.
+- The pinned wired management address is unavailable; no new router contact or
+  flash occurred. Full cold containment, identity/publication, real V2 callers,
+  postgate execution and physical recovery remain open. Evidence:
+  `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.
+
+## Previous GitHub Review Preparation - 2026-09-30
 
 The intended draft-review branch is `codex/npu-cold-memory-cloud-validation-20260930`,
 based on remote-verified `59e75a8`. Source publication is user-authorized; verify

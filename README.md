@@ -5,7 +5,7 @@ and stock host-adapter/NPU reverse engineering.
 
 ## Current State
 
-Updated 2026-09-30. The objective is complete stock-NPU reverse engineering and
+Updated 2026-10-01. The objective is complete stock-NPU reverse engineering and
 implementation, including host/firmware integration and hardware validation.
 
 The active source is the **unified experimental non-OC merge**, pinned to
@@ -22,7 +22,7 @@ NPU recovery are not validated.
 See the [physical boot report](research/checkpoints/2026-09-23-nonoc-flash/REPORT.md) and the
 [merge report](docs/NONOC_MERGE.md) for the image path, SHA256 and test receipts.
 
-The current cloud working source also validates and snapshots the MT7996 WLAN
+The current source also validates and snapshots the MT7996 WLAN
 memory plan before either firmware copy. Generic/PPE-only profiles retain their
 optional WLAN behavior and caller-local setup plans. The new portable host-C
 replay passes 273 loader cases, 165 additional load scenarios, three original
@@ -34,7 +34,15 @@ The candidate has not been booted or flashed. See the
 [cold-memory checkpoint](research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md)
 and [completed cloud validation](research/checkpoints/2026-09-30-npu-cloud-build/REPORT.md).
 
-The last published source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
+That source and its deferred history documents are now synchronized back to
+the local WSL checkout. A full local build passes the same offline checks;
+the packaged NPU provider matches the cloud module byte-for-byte. The local
+FIT has its own SHA256:
+`277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+The host suite also passes with LeakSanitizer enabled. See the
+[WSL sync checkpoint](research/checkpoints/2026-10-01-wsl-sync/REPORT.md).
+
+The preceding paired-loader source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
 It preflights both NPU firmware images before either copy, rejects empty images
 and releases acquired firmware on error. The correction is included in the
 unified kernel patch and source lock. The earlier flashed image predates it.
@@ -100,7 +108,7 @@ the original file with end-to-end SHA256 verification.
 ## Build Preparation
 
 Use a native Linux filesystem, including WSL ext4 or the authorized cloud
-checkout. The original local checkout is `/home/captain/W1700KNPU`,
+checkout. The current local checkout is `/home/captain/W1700KNPU`,
 accessible in Explorer at `\\wsl.localhost\Ubuntu\home\captain\W1700KNPU`.
 The registered Ubuntu backing disk is under `D:\WSL\Ubuntu`.
 The earlier `D:\W1700K-Recovery` snapshot location was absent in the
@@ -114,14 +122,15 @@ python3 tools/prepare_build.py --destination .build/local-openwrt
 python3 tools/build_firmware.py --destination .build/local-openwrt --name local-build
 ```
 
-On the original WSL executor, the working build is `.build/merged-openwrt`; the earlier
+On this WSL executor, the working build is `.build/merged-openwrt`; the earlier
 `.build/openwrt` is retained as a rollback/evidence reference. Use fresh
 destination and log names; the preparer refuses an existing destination and
 verifies every locked changed source file. It does not flash a router. Image
 signing keys are not uploaded; fresh build keys must be generated or supplied locally.
 An existing imported build may instead be reused as recorded in migration docs.
-The cloud transfer contains source/evidence, not the generated WSL build trees
-or credentials. Prepared-kernel commands require rebuilding that environment.
+The cloud transfer contains source/evidence. This computer's existing WSL build
+was refreshed and rebuilt after synchronization; other executors must prepare
+their own build trees and local credentials.
 The combined builder also compiles the RV32 component library using a host
 Clang with RISC-V support and `ar`. That library is not yet a replacement
 bootable NPU image: production loader identity, placement and postgate wiring
@@ -133,14 +142,21 @@ For the portable current provider/loader/retry/V2 host checks (GCC and Git):
 python3 tests/npu/test_cold_memory_plan.py --name readme-cold-replay
 ```
 
-The original prepared-kernel checks below require the pinned build environment.
-Choose fresh result names:
+Address, undefined-behavior and leak checks are enabled by default. Hosts that
+cannot run LeakSanitizer can explicitly use `--disable-leak-check`; the receipt
+records the reduced coverage.
+
+With the pinned build and Python ELF tooling available, verify current source
+replay and the built image using fresh result names:
 
 ```sh
-python3 tests/npu/test_npu_firmware_loader.py --name readme-replay --output-dir .local/npu-loader-20260930/readme-replay-evidence
-python3 tests/npu/test_nonoc_merge.py --prepared --name readme-replay
 python3 tests/test_prepared_sources.py --name source-readme-replay
+PYTHONPATH=.local/npu-reset/python-lib python3 tools/verify_merged_image.py --name readme-image-check
 ```
+
+Older paired-loader/prepared-driver runners use checkpoint-specific `.local/`
+snapshots. Their reports identify the source context needed to replay them;
+the portable memory-plan suite above covers the current provider.
 
 Do not force old `ubi2` recipes onto current images: the latest board is
 `gemtek,w1700k-ubi`, with the OpenWrt U-Boot layout and compatibility metadata.

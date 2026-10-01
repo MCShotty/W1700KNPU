@@ -19434,3 +19434,27 @@ Status and boundary:
   the Ghidra export and the standalone patch (whose context prefixes are valid
   patch syntax). Source, tests and documentation pass the check with those two
   hash-preserved artifacts excluded; no raw evidence bytes were normalized.
+
+## 2026-10-01 - GitHub Source Sync And Local Firmware Build
+
+- The user requested a GitHub refresh, local synchronization and continuation.
+  Main was current at `59e75a8`; new source/evidence was PR #1 at `9218506`.
+  Retrieved that branch and applied its three deferred history documents.
+  Removing the supplemental patch reproduced full tree
+  `f2a52b2c27e21021e8c36d4b30a25e37565827c2`, committed as `e095420`.
+- Updated the one differing prepared build input, the integrated NPU patch,
+  after preserving and rehashing the old flashed image. The full WSL world
+  build and offline FIT/board/firmware/218-package/78-module checks pass.
+  Local image SHA256 is
+  `277abd0b754200a0b330a35d4c759f264f918ec182cddc6c650fb734f46b4e4b`.
+  The packaged provider matches the cloud provider exactly. Full image hashes
+  differ, so local and cloud artifacts remain separately identified.
+- Continued validation by enabling LeakSanitizer in the portable host runner
+  by default, adding an explicit opt-out and recording actual sanitizer use.
+  A fresh address/undefined/leak-enabled run passes 273/165 loader-memory
+  cases, three controls, nine mutants, 6,174 retry and 44 V2 cases. Eight
+  builder tests pass. Software evidence remains distinct from physical drains.
+- The verified wired management path's configured IPv4 address is absent. No router
+  connection, flash or physical test occurred. Full cold lifetime, fresh loader
+  identity/publication, real callers, postgate and recovery remain open.
+  Evidence: `research/checkpoints/2026-10-01-wsl-sync/REPORT.md`.

@@ -25,6 +25,7 @@ FIXTURES = ROOT / 'tests/npu/fixtures/airoha-npu-6.18.52'
 DRIVER = 'drivers/net/ethernet/airoha/airoha_npu.c'
 PATCH = ROOT / 'firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch'
 PRIOR_SHA = '8dc8545d3b5ea776820f2d75ed0795fee0ca8f93a12bb9e0708169320425f052'
+LEAK_CHECK = True
 
 
 def sha(path):
@@ -41,7 +42,7 @@ def run(command, log, *, cwd=None, expected=0):
     done = subprocess.run([str(x) for x in command], cwd=cwd, capture_output=True,
                           text=True, timeout=120, preexec_fn=no_core,
                           env=dict(os.environ, GIT_CEILING_DIRECTORIES=str(cwd.parent if cwd else ROOT),
-                                   ASAN_OPTIONS='detect_leaks=0:detect_stack_use_after_return=1'))
+                                   ASAN_OPTIONS=f'detect_leaks={int(LEAK_CHECK)}:detect_stack_use_after_return=1'))
     log.write_text(done.stdout + done.stderr)
     assert done.returncode == expected, (command, done.returncode, log.read_text()[-4000:])
     return done
@@ -53,11 +54,15 @@ def once(source, old, new):
 
 
 def main():
+    global LEAK_CHECK
     args = argparse.ArgumentParser()
     args.add_argument('--name', required=True)
+    args.add_argument('--disable-leak-check', action='store_true',
+                      help='Explicitly disable LeakSanitizer when the host cannot run it')
     args.add_argument('--candidate-source', type=Path,
                       help='Test an explicitly staged source before integrating the canonical patch')
     options = args.parse_args()
+    LEAK_CHECK = not options.disable_leak_check
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', options.name)
     dest = ROOT / '.local/npu-cold-memory-plan' / options.name
     assert not dest.exists(), 'Choose a fresh result name'
@@ -182,10 +187,12 @@ def main():
                    original_failure_controls=controls, rejected_mutants=rejected,
                    retry_regression=retry_result, linux_control_regression=control_result,
                    compiler=subprocess.check_output([compiler, '--version'], text=True).splitlines()[0],
+                   sanitizers=dict(address=True, undefined=True, leak=LEAK_CHECK),
                    inputs=[record(p) for p in inputs],
                    artifacts=[record(p) for p in sorted(dest.rglob('*')) if p.is_file()],
                    limits=['Actual selected provider C on x86-64 with GCC ASan/UBSan; OF, I/O, firmware and mailbox dependencies modeled.',
-                           'LeakSanitizer is disabled because this managed execution environment rejects its ptrace-based check; fixture storage is static.',
+                           ('LeakSanitizer is enabled for this host run; fixture storage remains modeled.'
+                            if LEAK_CHECK else 'LeakSanitizer was explicitly disabled; no leak-check coverage is claimed.'),
                            'No complete kernel/target object build, NPU execution, module load, hardware access or flash.',
                            'Geometry/snapshot admission is not physical containment, exclusive reservation, DMA drain or safe live reset.',
                            'The source replay covers this provider file, not the full 60-file OpenWrt/LuCI source tree.'])
