@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## Page-Ring Consumers And Count Guard - 2026-10-01
+
+The four formerly entry-only DESC5/6/7/8 callbacks now execute all reached
+original helper bodies after native core0/RX0/RX2. Four nominal cases, 48
+controls, five native mutants and four strict denials pass independent whole-
+RAM/ordered-write checks. Counts above the actual 256/512/1024/1536 capacities
+can overwrite neighboring rings or metadata: DESC6(513) changes the arena
+pointer despite a success reply. The canonical MT7996 provider now rejects
+short/zero/oversize requests before allocation/transport, using the actual
+four-bit selector. Actual C and shipped AArch64 instructions/table each pass
+12,096 cases/384 rejections, with six provider mutants rejected. See
+`research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+
+Next implement native checked page-ID ownership and reliable error propagation:
+valid-count pool exhaustion still retains consumed IDs/partial descriptors,
+leaves ready clear, and returns outer success. The provider count guard does
+not solve that condition or open complete strict attachment. Physical page
+backing/coherency and complete host/native/postgate integration remain open.
+
 ## INODE Provider Framing Resolved - 2026-10-01
 
 The canonical MT7996 provider now zero-extends short INODE requests to 24
@@ -30,15 +49,15 @@ other postgate paths and physical containment/drain/rearm remain required.
 ## Current Local Candidate - 2026-10-01
 
 PR #1 source and its deferred history are synchronized to WSL. The production
-INODE correction is now included in a complete local build that passes offline
+INODE correction and selected page-count guard are included in a full build that passes offline
 FIT/board/firmware/218-package/78-module verification and all 60 source files.
 The current local FIT SHA256 is
-`031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
+`230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
 Its packaged provider SHA256 is
-`e6dd312bbc13b5f9842a652e4e79078bb819fef1578f2bd610ea6857222dd325`.
-The preceding local FIT `277abd0b...` is preserved; only that earlier provider
+`f5fad954b96db5c4fb932969359d2019de3b966c53cfb52ef725fa99af494ce6`.
+Preceding local FITs `031f7bd2...` and `277abd0b...` are preserved; only the earlier `277abd0b...` provider
 matched the cloud module. Full memory/retry/V2 replay still passes with leak
-checks. See `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+checks. See `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
 
 No new hardware check or flash occurred. The pinned Ethernet management path
 was unavailable at the preceding sync check and was not rechecked here.
@@ -519,10 +538,11 @@ Real-client authentication/traffic and authenticated LuCI save/apply remain
 unverified. See `research/checkpoints/2026-09-06-wifi-config/REPORT.md`.
 
 At that historical September 6 checkpoint, tool restrictions interrupted the
-provider INODE correction and native DESC5/6/7/8 operations. The October 1
-checkpoint above now integrates and validates provider framing plus original
-wrapper-entry reads; it does not execute those DESC5/6/7/8 operations. The old
-collector/tool status is historical, not a fresh runtime observation.
+provider INODE correction and native DESC5/6/7/8 operations. The later October 1
+checkpoints now integrate provider framing/count admission and execute all four
+selected DESC helper paths. Their native failure/ownership contracts still
+need implementation. The old collector/tool status is historical, not a fresh
+runtime observation.
 
 A fresh L1 source review confirms ignored NPU stop/init returns and DMA restart
 before NPU reinitialization. A return-check-only change would not establish
@@ -615,9 +635,11 @@ items below remain open. See `research/checkpoints/2026-09-06-work-blockers/BLOC
   with 2,560 descriptor/ID and whole-memory checks, 21 negative controls and two
   strict denials. Native TX setup/TXDONE and four API21 selectors now add 17
   valid calls, 73 controls and seven strict denials; all reached allocation,
-  lookup, descriptor and SKB-reset helpers execute. Four DESC5/6/7/8 cases remain
-  unresolved after a tool restriction; the blocked lane was not retried or
-  rerouted. The two separate API21 allocator substitutions are eliminated.
+  lookup, descriptor and SKB-reset helpers execute. The four DESC5/6/7/8 cases
+  were unresolved at that historical checkpoint. October 1 now executes their
+  complete helper paths and guards malformed provider counts; checked native
+  allocation/error/ownership handling remains open. The two separate API21
+  allocator substitutions are eliminated.
   SKB reset has only modeled lock/storage proof, not physical quiescence.
   A subsequent selected cold-TXDONE candidate adds count/status, lock-owner,
   metadata and temporary-read guards. Sixty-two native cases, eight mutants,

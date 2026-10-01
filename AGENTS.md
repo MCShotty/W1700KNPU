@@ -21,13 +21,26 @@ leaves the ledger unchanged.
 
 ## Current Checkpoint - 2026-10-01
 
+- DESC5/6/7/8 now have full original helper-body execution after native core0
+  and RX0/RX2 initialization: four nominal cases, 48 controls, five native
+  mutants and four strict denials pass. DESC6 count 513 corrupts the published
+  arena pointer. The production MT7996 sender now rejects short/zero/oversize
+  requests using verified capacities 256/512/1024/1536 and native selector bits.
+  Actual C and packaged AArch64 sender/table replay each pass 12,096 cases,
+  384 pretransport rejections and six provider mutants. Full build/image,
+  source replay, INODE and memory/retry/V2 regressions pass. Current FIT:
+  `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+  Evidence: `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+  Native valid-count allocation failures still report outer success; partial
+  IDs are retained. Checked native ownership/error handling and full strict
+  attachment remain open. No flash or physical acceptance occurred.
 - The production MT7996 INODE sender now zero-extends short payloads to the
   native wrapper's 24-byte total span and rejects invalid input before copy.
   Other valid profiles/commands keep their framing lengths. Actual provider C
   and the packaged AArch64 sender each pass 1,056 frames/30 controls; all 16
   original RV32 wrapper entries consume corrected bytes within the declared
   extent. Five mutants, the memory/retry/V2 regression, all 60 source files and
-  the full image checks pass. Current FIT SHA256:
+  the full image checks pass. Preceding FIT SHA256:
   `031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
   Evidence: `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
   This closes the provider-framing gap, not selector helper readiness, physical

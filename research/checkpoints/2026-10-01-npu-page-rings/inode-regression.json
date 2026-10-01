@@ -1,0 +1,1863 @@
+{
+  "passed": true,
+  "staged_candidate": false,
+  "cases": 1056,
+  "auxiliary_cases": 30,
+  "profiles": 3,
+  "original_controls": 16,
+  "native": {
+    "entry_cases": [
+      {
+        "declared_bytes": 24,
+        "frame_hex": "100000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          0,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x10",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "110000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          1,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x11",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "120000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          2,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x12",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "130000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          3,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x13",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "140000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          4,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x14",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "150000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          5,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x15",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "160000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          6,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x16",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "170000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          7,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x17",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "180000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          8,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x18",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "190000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          9,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x19",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1a0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          10,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1a",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1b0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          11,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1b",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1c0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          12,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1c",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1d0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          13,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1d",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1e0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          14,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1e",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      },
+      {
+        "declared_bytes": 24,
+        "frame_hex": "1f0000001800000071727374000000000000000000000000",
+        "entry_only": true,
+        "callback_return": null,
+        "arguments": [
+          15,
+          1953722993,
+          0,
+          0,
+          0
+        ],
+        "error": null,
+        "payload_reads": [
+          {
+            "pc": "0x8400fc2c",
+            "offset": 0,
+            "size": 4,
+            "value": "0x1f",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc2e",
+            "offset": 20,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc30",
+            "offset": 16,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc32",
+            "offset": 12,
+            "size": 4,
+            "value": "0x0",
+            "outside_declared": false
+          },
+          {
+            "pc": "0x8400fc34",
+            "offset": 8,
+            "size": 4,
+            "value": "0x74737271",
+            "outside_declared": false
+          }
+        ],
+        "mailbox_flags_untouched": 1,
+        "stubs": {},
+        "trace": {
+          "entries": {
+            "0x8400fc2c": 1
+          },
+          "all_function_entries": {
+            "0x8400fc2c": 1
+          },
+          "first_arguments": {
+            "0x8400fc2c": [
+              "0x42000000",
+              "0x2",
+              "0x3e906100",
+              "0x1",
+              "0x3e903a96"
+            ]
+          },
+          "returns": {},
+          "inner_returns": [],
+          "all_ordered_access_sha256": "52e18d61877d68c6a1f21156b7424722557aa1093c2e5db2d0a2a6e982e9a894",
+          "aggregate_sha256": "2a499b526f6abbdfa5af792a63e5b96b242c8866c407fa025d799d09ccc0beab",
+          "read_count": 0,
+          "write_count": 1,
+          "unique_memory_bytes_written": 0,
+          "accesses": [
+            {
+              "pc": "0x8400fc3c",
+              "access": "write",
+              "size": 4,
+              "space": "stack",
+              "count": 1,
+              "address_runs": [
+                [
+                  "0x84021dfc",
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "values_first_last_min_max": [
+                "0x84200000",
+                "0x84200000",
+                "0x84200000",
+                "0x84200000"
+              ],
+              "first_ordinal": 1,
+              "last_ordinal": 1,
+              "ordered_access_sha256": "e085cd0da63c8c16366724fe78c38ef50f730943f5b50af38b5ac06ce59bd825"
+            }
+          ]
+        }
+      }
+    ],
+    "original_short_controls": [
+      {
+        "selector": 0,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 1,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 2,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 3,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 4,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 5,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 6,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 7,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 8,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 9,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 10,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 11,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 12,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 13,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 14,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      },
+      {
+        "selector": 15,
+        "error": "payload read 20+4 exceeds 12",
+        "declared_bytes": 12
+      }
+    ],
+    "firmware_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+    "ghidra_sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    "elf_sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    "scope": "Original wrapper stops at helper entry; no new selector helper execution or readiness claim."
+  },
+  "target": {
+    "passed": true,
+    "cases": 1056,
+    "controls": 30,
+    "module_sha256": "f5fad954b96db5c4fb932969359d2019de3b966c53cfb52ef725fa99af494ce6",
+    "function_offset": "0x8c0",
+    "function_bytes": 376,
+    "observed_profile_load_offset": 728,
+    "modeled_imports": [
+      "__fortify_panic",
+      "__kmalloc_noprof",
+      "kfree",
+      "memcpy"
+    ],
+    "modeled_internal_transport": [
+      "0x70"
+    ],
+    "readonly_sections": [
+      {
+        "name": ".rodata",
+        "bytes": 1040,
+        "sha256": "2b1ab28f9264fa485180e0edaec3b28cda06b274c9c1e593c2c60b1e526b05f1"
+      }
+    ],
+    "scope": "Actual packaged AArch64 instructions; kernel allocation, memcpy, mailbox transport and free modeled."
+  },
+  "rejected_mutants": [
+    "short-native-span",
+    "omit-profile-padding",
+    "pad-other-commands",
+    "pad-other-profiles",
+    "copy-padded-length"
+  ],
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true
+  },
+  "inputs": {
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/replayed/drivers/net/ethernet/airoha/airoha_npu.c": "94dd99b750c047cf0ee14d12b3cd97ad397821e0e01936ca223c3c68cd46b2f6",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/original/drivers/net/ethernet/airoha/airoha_npu.c": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582",
+    "tests/npu/inode-frame-harness.c": "93ff4e4b15c796e80d66ebab72a23668446daab661da33ceac392cfd0d26318c",
+    "tests/npu/test_inode_provider_frame.py": "34ab2ce923e3e4b734836cdddcb58a9df1540b56cb39838f25d3404c719caa21",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "af6444c3573a8fddb7515f8b5678d24796d420946c496fb64489fba91f8b040d",
+    "firmware/source-lock.json": "638e91b47ed75eb1241066e74b6da0e7d6b671cf10af0eb1402c4fefb8646cd9",
+    "tests/npu/fixtures/airoha-npu-6.18.52/provenance.json": "78989ad6c9aeb38f4f9137bee826bc4ffdc7af171dc6702e9961da1c3d42b8a0",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931",
+    "tests/npu/test_inode_native_contract.py": "69740f2d4ffc7dce894925980911ccfd65b9546c4fb01879fcfad522aa3bc1ff",
+    ".local/merge-nonoc-20260923/page-count-verified-20261001/rootfs/lib/modules/6.18.52/airoha_npu.ko": "f5fad954b96db5c4fb932969359d2019de3b966c53cfb52ef725fa99af494ce6",
+    "tests/npu/inode_frame_target.py": "7365c911d80e1f58f89df26f09235b3f6b70622d85b304564fc9b48b50f86e4d"
+  },
+  "artifacts": {
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/frame-send.inc": "4eabf904fc1eab5c5ff5cff47765443d364ddd8329af1cc9bc9a9d3b1051b00e",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/frame-types.inc": "514bac8e8525e23fea629e4a940d6e5512235613850c5f83dc4bc27117da4861",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/frames.stderr": "ba9e0d2e24af9f75c6e2f37d5b3e91c6b0e9163c52943b605979af13885da836",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/frames.stdout": "15cf4478448d2bf9790fc1468a6f69e2f9bcb8b05f2c660ff7b190edf21412d6",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/after/test": "42007d6c5bf55c57ce91dd862ffeccf00b0cfd4de63ae133c17ceaa73913ff52",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/frame-send.inc": "edeec47b3450ff894e1696e288849687b55c0c8744dd51a5fac48069eb1eebb6",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/frame-types.inc": "fac4298559f47b14711057f10c474b12453b8cf3d1e3e1729a0895b3fa705b4c",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/frames.stderr": "51182034585258bb120f773f4e5f86f5bb50cd5463e54fa62c210fd3109b3cc3",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/frames.stdout": "aecc2ccb50d498e58154553aa233c8c576de5a4995fd07c82f20e2bc567ad760",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/before/test": "332fa1f11feced9fa54a56b3970ed65830ff83448b32d81dba6428b3c650051c",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/frame-send.inc": "c7c998145b9e66d7e79209ed074f538d11c7cf9dc3e9286829a924b888cc1e2c",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/frame-types.inc": "514bac8e8525e23fea629e4a940d6e5512235613850c5f83dc4bc27117da4861",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/frames.stderr": "00e62abbd41079114a5a864225b908d1f67df38596c7abc00d389ab3aeb9106b",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/frames.stdout": "1c2ae188ab6bed6aca50c60a2cb363acfb420f54d61749f62188d71fb017d86d",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/copy-padded-length/test": "1bf8d42bc5679d95d80997ccaf0943eaff5ddd51148929f9fb43f6103ef2ff6d",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/frame-send.inc": "e2883b7c742956f2202e4e893dd815177030c451bd05b0211fc3c41ed2ba934a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/frame-types.inc": "514bac8e8525e23fea629e4a940d6e5512235613850c5f83dc4bc27117da4861",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/frames.stderr": "6e101a64ad07a4daa5e5dce56314fae8c75b4b27a7b2cb19042f2eb1049fb90a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/frames.stdout": "1c2ae188ab6bed6aca50c60a2cb363acfb420f54d61749f62188d71fb017d86d",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/omit-profile-padding/test": "b2c5c5732f26119d755f800395dcdf61eec8e64a432a4030beba55af39ae8b69",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/original/apply.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/original/apply.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/original/drivers/net/ethernet/airoha/airoha_npu.c": "026789bacd65b4a8c6ff25317c4ba8b33acfd52dde66c7c455758812ce8fe582",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/original.patch": "75f25c3ddf4726f71e8d275337be7bb12e24527bd6416d971ee748b15aaffba3",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/frame-send.inc": "28d368949107996545297101834769ea6445aedbc623a3a84e49efe3ef2cea6a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/frame-types.inc": "514bac8e8525e23fea629e4a940d6e5512235613850c5f83dc4bc27117da4861",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/frames.stderr": "6e101a64ad07a4daa5e5dce56314fae8c75b4b27a7b2cb19042f2eb1049fb90a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/frames.stdout": "a306c1580d9893959bf432ded8b2bfada5a7a003859e43feef16d517d51e2977",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-commands/test": "595dc10fa82ebed32288aca907443a041030b9bc6a8c1ecea885cb14d4a89f67",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/frame-send.inc": "081f6df187238b11b5e6d3f00111ad813a2c404a967b1c0a565eb474d1d55883",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/frame-types.inc": "514bac8e8525e23fea629e4a940d6e5512235613850c5f83dc4bc27117da4861",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/frames.stderr": "6e101a64ad07a4daa5e5dce56314fae8c75b4b27a7b2cb19042f2eb1049fb90a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/frames.stdout": "a2f8b72e7d3a55e2f5de5951a87bde5398a289766f3e2e57fc34b579f30ec55d",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/pad-other-profiles/test": "57540fc69e98f71f5ec9f05c9016c5ba5b0e8034574eb4606679454c91876f4c",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/replayed/apply.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/replayed/apply.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/replayed/drivers/net/ethernet/airoha/airoha_npu.c": "94dd99b750c047cf0ee14d12b3cd97ad397821e0e01936ca223c3c68cd46b2f6",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/build.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/frame-send.inc": "4eabf904fc1eab5c5ff5cff47765443d364ddd8329af1cc9bc9a9d3b1051b00e",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/frame-types.inc": "d30403e09987ff2c531d439ce224a7f0fa21144c4da1cf22e9f501416b505efa",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/frames.stderr": "6e101a64ad07a4daa5e5dce56314fae8c75b4b27a7b2cb19042f2eb1049fb90a",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/frames.stdout": "1c2ae188ab6bed6aca50c60a2cb363acfb420f54d61749f62188d71fb017d86d",
+    ".local/npu-inode-frame-20261001/page-count-inode-regression/short-native-span/test": "d5d44d73f99fbc62003431caf735de0ea35565da758c123f83f9c9ceac75522c"
+  },
+  "limits": [
+    "Provider send C runs with modeled allocator and mailbox transport.",
+    "The actual original wrapper consumes emitted provider bytes; helper bodies are not run.",
+    "MT7996 short INODE payloads are zero-extended; other profiles/commands retain their lengths.",
+    "No physical coherent storage, mailbox completion, full attachment, image or router proof."
+  ]
+}

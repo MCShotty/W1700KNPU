@@ -5,11 +5,12 @@ import struct
 
 from elftools.elf.elffile import ELFFile
 from elftools.elf.enums import ENUM_RELOC_TYPE_AARCH64
-from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE
+from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE, UC_HOOK_MEM_READ
 from unicorn import arm64_const as a
 
 CODE, NPU, INPUT, BUFFER, STACK = 0x10000000, 0x20000000, 0x20010000, 0x20020000, 0x20030000
 END, STUB = CODE + 0x20000, CODE + 0x20100
+RODATA = CODE + 0x24000
 ARGS = [getattr(a, 'UC_ARM64_REG_X' + str(i)) for i in range(6)]
 
 
@@ -28,6 +29,7 @@ class Sender:
         self.text = bytearray(section.data())
         assert len(self.text) < 0x20000 and self.size and self.size % 4 == 0
         self.imports = {}
+        self.readonly = {}
         relocation_offsets = set()
         for relocations in elf.iter_sections():
             if relocations['sh_type'] != 'SHT_RELA' or relocations['sh_info'] != section_index:
@@ -37,15 +39,41 @@ class Sender:
                 offset = reloc['r_offset']
                 if not self.entry <= offset < self.entry + self.size:
                     continue
-                assert reloc['r_info_type'] == ENUM_RELOC_TYPE_AARCH64['R_AARCH64_CALL26']
-                name = table.get_symbol(reloc['r_info_sym']).name
-                assert name in ('__kmalloc_noprof', 'memcpy', 'kfree', '__fortify_panic'), name
-                address = STUB + 16 * len(self.imports)
-                self.imports[address] = name
-                distance = address - (CODE + offset)
-                assert distance % 4 == 0 and abs(distance) < 1 << 27
-                struct.pack_into('<I', self.text, offset, 0x94000000 | ((distance >> 2) & 0x3ffffff))
-                relocation_offsets.add(offset)
+                selected_symbol = table.get_symbol(reloc['r_info_sym'])
+                kind = reloc['r_info_type']
+                if kind == ENUM_RELOC_TYPE_AARCH64['R_AARCH64_CALL26']:
+                    name = selected_symbol.name
+                    assert name in ('__kmalloc_noprof', 'memcpy', 'kfree', '__fortify_panic'), name
+                    address = STUB + 16 * len(self.imports)
+                    self.imports[address] = name
+                    distance = address - (CODE + offset)
+                    assert distance % 4 == 0 and abs(distance) < 1 << 27
+                    struct.pack_into('<I', self.text, offset, 0x94000000 | ((distance >> 2) & 0x3ffffff))
+                    relocation_offsets.add(offset)
+                    continue
+                assert kind in (ENUM_RELOC_TYPE_AARCH64['R_AARCH64_ADR_PREL_PG_HI21'],
+                                ENUM_RELOC_TYPE_AARCH64['R_AARCH64_ADD_ABS_LO12_NC'])
+                target_index = selected_symbol['st_shndx']
+                assert isinstance(target_index, int)
+                target_section = elf.get_section(target_index)
+                assert target_section['sh_flags'] & 2 and not target_section['sh_flags'] & 1
+                if target_index not in self.readonly:
+                    address = RODATA + 4096 * len(self.readonly)
+                    data = target_section.data()
+                    assert len(data) <= 4096 and address + len(data) <= CODE + 0x30000
+                    self.readonly[target_index] = (address, data, target_section.name)
+                address = self.readonly[target_index][0] + selected_symbol['st_value'] + reloc['r_addend']
+                word = struct.unpack_from('<I', self.text, offset)[0]
+                if kind == ENUM_RELOC_TYPE_AARCH64['R_AARCH64_ADR_PREL_PG_HI21']:
+                    assert word & 0x9f000000 == 0x90000000
+                    pages = (address >> 12) - ((CODE + offset) >> 12)
+                    assert -(1 << 20) <= pages < 1 << 20
+                    immediate = pages & 0x1fffff
+                    word = (word & ~0x60ffffe0) | ((immediate & 3) << 29) | ((immediate >> 2) << 5)
+                else:
+                    assert word & 0x7f000000 == 0x11000000 and not word & (1 << 22)
+                    word = (word & ~0x003ffc00) | ((address & 4095) << 10)
+                struct.pack_into('<I', self.text, offset, word)
         assert set(self.imports.values()) == {'__kmalloc_noprof', 'memcpy', 'kfree', '__fortify_panic'}
         self.transport = []
         loads = []
@@ -64,9 +92,12 @@ class Sender:
         self.cpu = Uc(UC_ARCH_ARM64, UC_MODE_ARM)
         self.cpu.mem_map(CODE, 0x30000)
         self.cpu.mem_write(CODE, bytes(self.text))
+        for address, data, _ in self.readonly.values():
+            self.cpu.mem_write(address, data)
         for base in (NPU, INPUT, BUFFER, STACK):
             self.cpu.mem_map(base, 0x10000)
         self.cpu.hook_add(UC_HOOK_CODE, self.hook)
+        self.cpu.hook_add(UC_HOOK_MEM_READ, self.read)
         self.fresh = self.cpu.context_save()
 
     def hook(self, cpu, pc, size, _):
@@ -80,7 +111,7 @@ class Sender:
                 self.capacity = values[0]
                 result = 0 if self.deny_allocation else BUFFER
             elif name == 'memcpy':
-                assert values[0] == BUFFER + 8 and values[1] == INPUT
+                assert values[0] == BUFFER + 8 and values[1] == self.input_address
                 assert values[2] <= self.input_length and 8 + values[2] <= self.capacity
                 cpu.mem_write(values[0], bytes(cpu.mem_read(values[1], values[2])))
                 result = values[0]
@@ -97,23 +128,30 @@ class Sender:
             self.packet = bytes(cpu.mem_read(BUFFER, values[3]))
             result = self.transport_error & 0xffffffff
         else:
+            assert CODE + self.entry <= pc < CODE + self.entry + self.size, hex(pc)
             return
         cpu.reg_write(a.UC_ARM64_REG_X0, result)
         cpu.reg_write(a.UC_ARM64_REG_PC, cpu.reg_read(a.UC_ARM64_REG_X30))
 
+    def read(self, cpu, access, address, size, value, _):
+        if INPUT <= address < INPUT + 0x10000:
+            assert self.input_address <= address and address + size <= self.input_address + self.input_length
+
     def call(self, profile, api, selector, payload, *, declared=None, null=False,
-             deny_allocation=False, transport_error=0):
+             deny_allocation=False, transport_error=0, input_offset=0):
         self.cpu.context_restore(self.fresh)
         self.cpu.mem_write(NPU, bytes(4096))
         self.cpu.mem_write(NPU + self.profile_offset, struct.pack('<I', (0, 0xe000, 0x10000)[profile]))
-        self.cpu.mem_write(INPUT, payload or b'\xa5')
+        assert 0 <= input_offset <= 4096
+        self.input_address = INPUT + input_offset
+        self.cpu.mem_write(self.input_address, payload or b'\xa5')
         self.cpu.mem_write(BUFFER, b'\xa5' * 256)
         self.allocations = self.frees = self.sends = self.capacity = 0
         self.packet = b''
         self.deny_allocation, self.transport_error = deny_allocation, transport_error
         self.input_length = len(payload)
         length = len(payload) if declared is None else declared
-        values = [NPU, selector, api, 0 if null else INPUT, length & 0xffffffff, 7]
+        values = [NPU, selector, api, 0 if null else self.input_address, length & 0xffffffff, 7]
         for reg, value in zip(ARGS, values):
             self.cpu.reg_write(reg, value)
         self.cpu.reg_write(a.UC_ARM64_REG_SP, STACK + 0x10000)
@@ -158,4 +196,6 @@ def verify(module, frames):
                 observed_profile_load_offset=sender.profile_offset,
                 modeled_imports=sorted(sender.imports.values()),
                 modeled_internal_transport=[hex(x - CODE) for x in sender.transport],
+                readonly_sections=[dict(name=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+                                   for _, data, name in sender.readonly.values()],
                 scope='Actual packaged AArch64 instructions; kernel allocation, memcpy, mailbox transport and free modeled.')

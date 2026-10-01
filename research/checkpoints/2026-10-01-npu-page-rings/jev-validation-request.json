@@ -1,0 +1,55 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "native": "All four original DESC5/6/7/8 callbacks execute actual lookup/page-ID/helper bodies after original initialized core0 and native RX0(1536)/RX2(1024). Four nominal cases,48 distinct controls and five broken-native-instruction mutants are checked against independent whole-RAM and ordered-write oracles. Callback printf alone is substituted; earlier boot has documented platform/hart/timer models. Strict general API1 admission remains closed in four denial controls. DESC6 count513 changes the arena pointer from0x3e817000 to0x3e810300 but outer callback still returns1. All three page selectors return outer1 on partial17-ID exhaustion, leaving ready0 and consumed IDs retained.",
+    "provider": "The selected MT7996 sender now checks API1 native selector (ifindex&15). DESC5/6/7/8 counts must be nonzero and at most256/512/1024/1536 respectively, with at least4 caller payload bytes. Invalid requests return EINVAL before allocation/copy/send. Other selectors, valid other profiles/commands and the existing INODE24-byte extension retain their behavior. No native blob is modified.",
+    "tests": "Actual provider C and actual packaged AArch64 sender each pass12096 cases,384 pretransport rejections,unaligned caller data,short payloads,selector aliases and unaffected selectors/profiles/commands. Six provider mutations fail. Allocation/copy/transport/free are modeled; actual target instructions and its ELF readonly count table execute. Memory/retry/V2 regressions,all60 locked files and strict checkpatch pass.",
+    "image": "Full Linux6.18.52 world build exits0. Offline FIT/model/firmware,218 packages and78 module ABIs pass. New FIT SHA230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe. No flash,router operation or physical recovery/client test occurred.",
+    "remaining": "Valid-count native allocation failure still lacks reliable outer error propagation and exclusive physical page-pool ownership. Need checked native initialization,complete strict host setup,full loader identity/storage/publication,postgate worker readiness,DMA drains/teardown/rearm and actual-client acceptance. Test capacity stops are emulator contracts,not native rollback. The provider gate prevents covered malformed requests through this sender,not arbitrary direct native calls."
+  },
+  "questions": {
+    "closure": {
+      "type": "choice",
+      "instructions": "Which claim is established by state.native?",
+      "criteria": {
+        "four_native_consumers_exercised": "The four formerly entry-only native consumers now have full helper-body execution and covered failure-state evidence,without general admission or hardware acceptance.",
+        "complete_attachment": "Complete production host attachment and physical ownership are validated.",
+        "not_established": "Neither claim follows."
+      }
+    },
+    "guard_scope": {
+      "type": "choice",
+      "instructions": "Which fix scope follows from state.provider,state.tests and state.remaining?",
+      "criteria": {
+        "sender_blocks_bad_counts": "The selected sender blocks covered malformed page/indication requests before transport; native code remains unchanged and valid-count failure handling is still required.",
+        "native_failure_fixed": "Native allocation failures and rollback are fixed for all callers.",
+        "not_established": "Neither scope follows."
+      }
+    },
+    "partial_ownership": {
+      "type": "noul",
+      "instructions": "Does state.native show automatic rollback of the17 IDs consumed before injected pool exhaustion?",
+      "criteria": {
+        "true": "All consumed IDs and descriptors are undone.",
+        "false": "The partial initialized state and consumed IDs remain,with ready0 despite outer success."
+      }
+    },
+    "binary_scope": {
+      "type": "choice",
+      "instructions": "Which execution scope is supported by state.tests?",
+      "criteria": {
+        "binary_and_table_modeled_dependencies": "Actual shipped instructions and readonly table execute,while kernel/transport dependencies are modeled.",
+        "physical_delivery": "Physical mailbox and DMA delivery execute and complete.",
+        "not_established": "Neither description is established."
+      }
+    },
+    "goal_scope": {
+      "type": "noul",
+      "instructions": "Do state.image and state.remaining establish full NPU implementation and hardware/client acceptance?",
+      "criteria": {
+        "true": "The complete requested implementation and physical/client acceptance are demonstrated.",
+        "false": "Only a built/offline-verified source correction and modeled native/binary coverage are demonstrated;the named full-goal work remains."
+      }
+    }
+  }
+}

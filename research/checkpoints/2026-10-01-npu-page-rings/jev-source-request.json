@@ -1,0 +1,45 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "outer_wrapper": "API1 wrapper at8400fe34 calls FUN8400dd82(payload_word,header&15), then sets return A0=1 unconditionally. Dispatcher calls bc02 for selectors5/6/7 and bae6 for8; it does not convert their result into an outer failure.",
+    "page_helper": "bc02 checks if count-1<1536; otherwise it logs a count error but still loops when count!=0. Each iteration calls bb9c to acquire a page ID. If ID==-1, it logs and returns1 before final flag writes. Earlier ID consumption and completed descriptors are not undone. If the loop finishes or count is0, it sets selector-specific ready flag=1 and resets counters, then returns0.",
+    "indication_helper": "bae6 logs count outside1..1536 but loops for nonzero count anyway. It ORs0xe0000000 into the second word of each8-byte indication record, preserving its first word. It resets a counter and byte, returns0, and has no page-ID allocator call.",
+    "address_contract": "dd82 finds selector-specific subregion pointers by adding fixed native table offsets to SRAM arena pointer, and publishes the pointer before the helper initializes records. The page helper masks page_base+ID*128 into a CPU view without dereferencing backing packet data. No memory extent or reservation check is present in this source excerpt."
+  },
+  "questions": {
+    "outer_failure": {
+      "type": "choice",
+      "instructions": "What does state.outer_wrapper establish about mailbox success after page allocation failure?",
+      "criteria": {
+        "failure_not_propagated": "Outer return1 cannot distinguish inner failure from initialization success.",
+        "failure_propagated": "Inner page allocation failure is propagated as outer failure.",
+        "not_established": "Neither statement is supported."
+      }
+    },
+    "size_gate": {
+      "type": "noul",
+      "instructions": "Do state.page_helper and state.indication_helper implement a rejecting size gate for counts outside1..1536?",
+      "criteria": {
+        "true": "Invalid counts return failure without initialization or readiness publication.",
+        "false": "The diagnostic permits nonzero invalid counts to continue and zero counts to reach final state."
+      }
+    },
+    "failure_ownership": {
+      "type": "choice",
+      "instructions": "What ownership state follows from the described partial-failure path in state.page_helper?",
+      "criteria": {
+        "partial_resources_retained": "Earlier consumed IDs/descriptors remain without rollback and without final ready publication.",
+        "all_rolled_back": "All consumed IDs/descriptors are reverted on failure.",
+        "not_established": "Neither description is supported."
+      }
+    },
+    "physical_scope": {
+      "type": "noul",
+      "instructions": "Does state.address_contract establish physical packet storage ownership and coherent DMA retirement?",
+      "criteria": {
+        "true": "The source establishes backing ownership and physical drain witnesses.",
+        "false": "It supplies unchecked address publication/arithmetic, not physical ownership or drains."
+      }
+    }
+  }
+}

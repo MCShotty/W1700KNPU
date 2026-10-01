@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-Last updated: 2026-10-01 (production MT7996 INODE framing rebuilt and verified; full firmware/hardware integration remains open)
+Last updated: 2026-10-01 (native page rings traced and production count guard rebuilt/verified; full firmware/hardware integration remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.
@@ -11,7 +11,27 @@ current source/build and all protected recovery data remain intact. See
 `docs/maintenance/cleanup-20260905/REPORT.md`. Use the newest status entry and
 remaining-work checklist for current work; cleanup made no router changes.
 
-## Current Status - INODE Provider Framing - 2026-10-01
+## Current Status - Native Page Rings And Provider Guard - 2026-10-01
+
+- Original DESC5/6/7/8 now execute all reached lookup/page-ID/helper bodies
+  after native core0 and RX0/RX2. Four nominal cases, 48 controls, five native
+  mutants and four strict denials pass whole-RAM/ordered-write checks.
+- Verified capacities are 256/512/1024 page descriptors and 1536 indication
+  entries. DESC6(513) corrupts the published arena pointer while returning
+  outer success. Canonical MT7996 sender now rejects short/zero/oversize
+  selected requests before allocation/transport; other valid cases are intact.
+- Actual provider C and packaged AArch64 instructions/readonly table each
+  pass 12,096 cases and 384 rejections; six provider mutants fail. Full world,
+  FIT/board/firmware/218-package/78-module, 60-file replay, INODE and memory/
+  retry/V2 checks pass. Latest local FIT SHA256:
+  `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+- Valid-count allocation failure still retains partial IDs and reports outer
+  success. Native checked ownership/error handling, full strict attachment,
+  loader/postgate, physical drains/recovery and clients remain open. No flash
+  or hardware operation occurred; earlier images and R1 are preserved. See
+  `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+
+## Previous Status - INODE Provider Framing - 2026-10-01
 
 - Canonical provider/source lock now zero-extends short MT7996 INODE payloads
   to the original wrapper's 24-byte total read span. Other valid commands and

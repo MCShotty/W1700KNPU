@@ -56,11 +56,23 @@ are rejected before allocation/copy. Actual provider C and the packaged
 AArch64 sender each pass 1,056 frame cases and 30 controls. All 16 original
 RV32 wrapper entries accept those emitted bytes within their declared extent;
 five mutants are rejected. The full image and 60-file source replay pass.
-Current local FIT SHA256:
+Preceding local FIT SHA256:
 `031f7bd2b28e0507ddfe810602a7edef71c63900244935e7d460ab58ab35a0cc`.
 This image has not been flashed. Native selector readiness, physical delivery
 and complete recovery remain open; padding is not a proved Wi-Fi root-cause
 fix. See the [INODE framing checkpoint](research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md).
+
+The formerly entry-only DESC5/6/7/8 consumers now execute their complete native
+helper paths after RX0/RX2 initialization. Four nominal cases, 48 controls and
+five native mutants establish their descriptor/ID footprints and failure state.
+A DESC6 count of 513 corrupts the arena pointer despite an outer success reply.
+The production provider now bounds the selected MT7996 page/indication requests
+before transport; actual C and packaged AArch64 instructions/table each pass
+12,096 cases and 384 rejections, with six provider mutants rejected. The full
+build, image/source checks and INODE/memory regressions pass. Latest FIT SHA256:
+`230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+This is not a native allocation-failure, full attachment or physical acceptance
+fix. See the [page-ring checkpoint](research/checkpoints/2026-10-01-npu-page-rings/REPORT.md).
 
 The preceding paired-loader source checkpoint is [`ac4c639`](https://github.com/MCShotty/W1700KNPU/commit/ac4c6390f070d5f5e0e4e7365e96cbaa89c99d89).
 It preflights both NPU firmware images before either copy, rejects empty images

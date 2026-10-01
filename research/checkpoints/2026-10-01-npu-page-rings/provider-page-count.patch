@@ -1,0 +1,49 @@
+Subject: [PATCH] net: airoha: bound MT7996 page ring requests
+
+Reject zero and oversize selected page/indication counts before native
+metadata publication. Other valid profile/command framing is unchanged.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -616,11 +616,40 @@
+ {
+ 	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
+ 	struct wlan_mbox_data *wlan_data;
++	u32 ring_size, limit = 0;
+ 	int err, len;
+ 
+ 	if (data_len < 0 || data_len > AIROHA_NPU_MBOX_SIZE - sizeof(*wlan_data) ||
+ 	    (data_len && !data))
+ 		return -EINVAL;
++
++	/* These native page/indication rings have fixed descriptor and ID spans. */
++	if (priv->txbuf_min_size == NPU_EN7581_7996_TX_CHECK_SIZE &&
++	    func_id == WLAN_FUNC_SET_WAIT_DESC) {
++		switch (ifindex & 0xf) {
++		case 5:
++			limit = 256;
++			break;
++		case 6:
++			limit = 512;
++			break;
++		case 7:
++			limit = 1024;
++			break;
++		case 8:
++			limit = 1536;
++			break;
++		default:
++			break;
++		}
++		if (limit) {
++			if (data_len < sizeof(ring_size))
++				return -EINVAL;
++			memcpy(&ring_size, data, sizeof(ring_size));
++			if (!ring_size || ring_size > limit)
++				return -EINVAL;
++		}
++	}
+ 
+ 	len = sizeof(*wlan_data) + data_len;
+ 	/* The MT7996 INODE wrapper reads four payload words unconditionally. */

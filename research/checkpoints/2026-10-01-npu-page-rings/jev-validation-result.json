@@ -1,0 +1,98 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\research\\checkpoints\\2026-10-01-npu-page-rings\\jev-validation-request.json",
+  "request_sha256": "f0054ee616532a75cb62f7d78c77f74ef90a9635495e638396c710099effb907",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "closure": {
+      "type": "choice",
+      "instructions": "Which claim is established by state.native?",
+      "criteria": {
+        "four_native_consumers_exercised": "The four formerly entry-only native consumers now have full helper-body execution and covered failure-state evidence,without general admission or hardware acceptance.",
+        "complete_attachment": "Complete production host attachment and physical ownership are validated.",
+        "not_established": "Neither claim follows."
+      }
+    },
+    "guard_scope": {
+      "type": "choice",
+      "instructions": "Which fix scope follows from state.provider,state.tests and state.remaining?",
+      "criteria": {
+        "sender_blocks_bad_counts": "The selected sender blocks covered malformed page/indication requests before transport; native code remains unchanged and valid-count failure handling is still required.",
+        "native_failure_fixed": "Native allocation failures and rollback are fixed for all callers.",
+        "not_established": "Neither scope follows."
+      }
+    },
+    "partial_ownership": {
+      "type": "noul",
+      "instructions": "Does state.native show automatic rollback of the17 IDs consumed before injected pool exhaustion?",
+      "criteria": {
+        "true": "All consumed IDs and descriptors are undone.",
+        "false": "The partial initialized state and consumed IDs remain,with ready0 despite outer success."
+      }
+    },
+    "binary_scope": {
+      "type": "choice",
+      "instructions": "Which execution scope is supported by state.tests?",
+      "criteria": {
+        "binary_and_table_modeled_dependencies": "Actual shipped instructions and readonly table execute,while kernel/transport dependencies are modeled.",
+        "physical_delivery": "Physical mailbox and DMA delivery execute and complete.",
+        "not_established": "Neither description is established."
+      }
+    },
+    "goal_scope": {
+      "type": "noul",
+      "instructions": "Do state.image and state.remaining establish full NPU implementation and hardware/client acceptance?",
+      "criteria": {
+        "true": "The complete requested implementation and physical/client acceptance are demonstrated.",
+        "false": "Only a built/offline-verified source correction and modeled native/binary coverage are demonstrated;the named full-goal work remains."
+      }
+    }
+  },
+  "elapsed_ms": 1154,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "closure": {
+        "type": "choice",
+        "choice": "four_native_consumers_exercised",
+        "confidence": 0.98,
+        "probabilities": {
+          "complete_attachment": 0.0,
+          "not_established": 0.01,
+          "four_native_consumers_exercised": 0.99
+        }
+      },
+      "guard_scope": {
+        "type": "choice",
+        "choice": "sender_blocks_bad_counts",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "native_failure_fixed": 0.0,
+          "sender_blocks_bad_counts": 1.0
+        }
+      },
+      "partial_ownership": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "binary_scope": {
+        "type": "choice",
+        "choice": "binary_and_table_modeled_dependencies",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_established": 0.0,
+          "binary_and_table_modeled_dependencies": 1.0,
+          "physical_delivery": 0.0
+        }
+      },
+      "goal_scope": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1320,
+      "output_tokens": 194
+    }
+  }
+}

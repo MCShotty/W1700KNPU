@@ -19509,3 +19509,31 @@ Status and boundary:
   boundaries. Full loader/caller/native readiness, physical ownership/drains/
   recovery and client acceptance remain open. Text evidence:
   `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+
+## 2026-10-01 - Native Page Rings And Production Count Guard
+
+- Continued from `f4db59f`. DESC5/6/7/8 now execute all reached original helper
+  bodies after native core0/RX0/RX2, replacing four historical entry-only cases.
+  Four nominal cases,48 controls,five native mutants and four strict denials
+  pass independent whole-RAM/ordered-write checks. Physical dependencies and
+  containment remain modeled; full38-message setup is not established.
+- Native table offsets confirm256/512/1024 page and1536 indication capacities.
+  DESC6(513) overwrites SRAM+30fc, changing the arena pointer from3e817000 to
+  3e810300 while outer success remains1. Zero counts publish page readiness;
+  partial17-ID exhaustion retains state/IDs with ready0 and outer success1.
+- Integrated selected MT7996 API1 count/length validation into the canonical
+  provider/source lock, using actual low selector bits and unaligned-safe copy.
+  Other valid selectors/profiles/commands and INODE framing remain intact.
+  Actual C and packaged376-byte AArch64 sender/table each pass12,096 cases and
+  384 pretransport rejections; six provider mutants fail.
+- Full world/FIT/board/firmware/218-package/78-module,60 source replay, INODE,
+  memory/retry/V2 and strict checkpatch pass. Latest FIT SHA256:
+  `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+  Packaged provider SHA256:
+  `f5fad954b96db5c4fb932969359d2019de3b966c53cfb52ef725fa99af494ce6`.
+- Preserved the prior031 FIT before rebuilding; earlier277/flashed132 images,
+  R1 and private data remain unchanged. No flash/router operation. Updated all
+  resume documents and READMEs. Jev checked the source/claim boundaries.
+- Full native valid-count ownership/error propagation, strict caller setup,
+  loader/postgate,physical drains/recovery and client acceptance remain open.
+  Evidence: `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.

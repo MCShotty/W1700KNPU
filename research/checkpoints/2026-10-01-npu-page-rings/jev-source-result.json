@@ -1,0 +1,79 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\research\\checkpoints\\2026-10-01-npu-page-rings\\jev-source-request.json",
+  "request_sha256": "fa7ba41801d784dee698d819b4e8dd99699df6ebd684e12923d34b8565c6595a",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "outer_failure": {
+      "type": "choice",
+      "instructions": "What does state.outer_wrapper establish about mailbox success after page allocation failure?",
+      "criteria": {
+        "failure_not_propagated": "Outer return1 cannot distinguish inner failure from initialization success.",
+        "failure_propagated": "Inner page allocation failure is propagated as outer failure.",
+        "not_established": "Neither statement is supported."
+      }
+    },
+    "size_gate": {
+      "type": "noul",
+      "instructions": "Do state.page_helper and state.indication_helper implement a rejecting size gate for counts outside1..1536?",
+      "criteria": {
+        "true": "Invalid counts return failure without initialization or readiness publication.",
+        "false": "The diagnostic permits nonzero invalid counts to continue and zero counts to reach final state."
+      }
+    },
+    "failure_ownership": {
+      "type": "choice",
+      "instructions": "What ownership state follows from the described partial-failure path in state.page_helper?",
+      "criteria": {
+        "partial_resources_retained": "Earlier consumed IDs/descriptors remain without rollback and without final ready publication.",
+        "all_rolled_back": "All consumed IDs/descriptors are reverted on failure.",
+        "not_established": "Neither description is supported."
+      }
+    },
+    "physical_scope": {
+      "type": "noul",
+      "instructions": "Does state.address_contract establish physical packet storage ownership and coherent DMA retirement?",
+      "criteria": {
+        "true": "The source establishes backing ownership and physical drain witnesses.",
+        "false": "It supplies unchecked address publication/arithmetic, not physical ownership or drains."
+      }
+    }
+  },
+  "elapsed_ms": 753,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "outer_failure": {
+        "type": "choice",
+        "choice": "failure_not_propagated",
+        "confidence": 0.99,
+        "probabilities": {
+          "not_established": 0.0,
+          "failure_propagated": 0.0,
+          "failure_not_propagated": 1.0
+        }
+      },
+      "size_gate": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "failure_ownership": {
+        "type": "choice",
+        "choice": "partial_resources_retained",
+        "confidence": 1.0,
+        "probabilities": {
+          "partial_resources_retained": 1.0,
+          "not_established": 0.0,
+          "all_rolled_back": 0.0
+        }
+      },
+      "physical_scope": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 936,
+      "output_tokens": 142
+    }
+  }
+}

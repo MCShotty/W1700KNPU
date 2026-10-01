@@ -8,6 +8,16 @@ dispatch gate. This is one experimental project, not a separate candidate track.
 The RV32 archive is not a bootable replacement for the supplied NPU blob.
 Real loader/caller/postgate integration and physical recovery remain unfinished.
 
+The latest 2026-10-01 page-ring checkpoint executes original DESC5/6/7/8 helper
+bodies after the complete native RX prefix, checking whole RAM and ordered
+writes. Four nominal cases/48 controls/five native mutants pass. Verified
+capacities now guard selected MT7996 provider requests in the canonical kernel
+patch and image; actual C/packaged AArch64 each pass 12,096 cases/384 rejections.
+Valid-count allocation failures still leave partial ownership and an outer
+success reply. Native error/ownership integration, strict full setup and
+physical acceptance remain open. No native blob or RV32 core change is claimed.
+See `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+
 The 2026-10-01 production provider framing correction now sends at least 24
 bytes for short MT7996 INODE requests, covering the original wrapper's reads.
 It is integrated in the canonical kernel patch/source lock and rebuilt image,

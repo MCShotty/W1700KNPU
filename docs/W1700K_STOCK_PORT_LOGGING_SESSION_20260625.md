@@ -7374,3 +7374,25 @@ The earlier local image and R1 are preserved; no router/flash operation ran.
 Resume documents and both READMEs are refreshed. Jev checked claim boundaries;
 full NPU lifecycle, native readiness and physical/client acceptance remain open.
 See `research/checkpoints/2026-10-01-npu-inode-frame/REPORT.md`.
+
+## Native Page Rings And Provider Count Admission - 2026-10-01
+
+Continued from `f4db59f`. Full original DESC5/6/7/8 helpers now run after native
+core0 and RX0/RX2. Four nominal cases/48 controls/five native mutants/four strict
+denials pass independent whole-memory and ordered-write checks. The native
+page-ID pool is separate from earlier packet IDs; nominal calls consume0..1791.
+Capacity+1 DESC6 corrupts the arena pointer. Zero counts publish page ready;
+partial17-ID exhaustion retains partial ownership while outer return still says1.
+
+Added selected MT7996 count/short-payload rejection to the canonical provider
+and source lock. Actual C and packaged AArch64 sender/readonly table each pass
+12,096 cases/384 rejections, with six provider mutants. Full build/image/source,
+INODE and leak-enabled memory/retry/V2 regressions pass; strict checkpatch is clean.
+Current FIT is `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+The preceding031 FIT and protected recovery/rollback data are preserved.
+
+Updated the ledger, current reference, remaining-work list, both READMEs and
+AGENTS.md. Jev source/post-checks retain the tested-scope distinctions. No native
+blob, physical target, router or flash changes. Native failure/ownership handling,
+full host transport/loader/postgate, DMA recovery and real clients remain open.
+See `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
