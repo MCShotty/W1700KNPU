@@ -1,5 +1,36 @@
 # Experimental NPU Components
 
+## 2026-10-01 - Exact Built-Object Replay
+
+The final cold-page test runner accepts `--core-object` to link the RV32 probe
+against an existing archive member while retaining source-built host/sanitizer
+checks. The receipt records the supplied object's path and SHA256. Fresh source
+and built-object runs each pass 5,702 calls, 294 controls and ten mutants;
+the object hash matches `cold-page.o` extracted from `libw1700k-npu.a`.
+The user authorized this follow-up and the cold-page work for `main` integration.
+See `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md` for final receipts.
+This does not install the core into the vendor blob or prove physical ownership.
+
+## 2026-10-01 - Checked Cold Page Ownership Core
+
+- Preserved pending work after remote-verified `eabfedb`; completed the shared
+  cold-page ownership core and added cursor/claim-history consistency validation.
+  Claims and late-fault committed resources remain retained; no recycle/reset
+  reclamation is implemented. The core is compiled, not wired into native callers.
+- 5,702 host/RV32 calls, 294 controls, ten mutants and address/undefined/leak
+  sanitizers pass. Existing 273/165 loader-memory, nine mutants, 6,174 retry and
+  44 V2 cases pass. Eleven RV32 components and offline image checks pass; unchanged
+  FIT `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+- Corrected native 50-hook caller replay shows direct RX0/RX2 statistics callers
+  use original unchecked type-10/type-9 allocator fallback, adding two records.
+  Strict setup remains denied; an earlier expected-hold assertion was incorrect.
+- TypeSafe receipts retain the five initial semantic checks and three approved
+  claim checks; exact models/probabilities are recorded in the report.
+  Full native ownership/error/publication, strict callers, loader,
+  physical drains/recovery and clients remain open. No flash or hardware changes.
+  Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+
+
 The 2026-09-23 non-OC merge integrates the implemented host/provider patches
 and shared Linux control client into the main OpenWrt build. The canonical
 RV32 components build together through `Makefile`, including the V2 bootstrap

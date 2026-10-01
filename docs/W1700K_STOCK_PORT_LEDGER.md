@@ -19537,3 +19537,40 @@ Status and boundary:
 - Full native valid-count ownership/error propagation, strict caller setup,
   loader/postgate,physical drains/recovery and client acceptance remain open.
   Evidence: `research/checkpoints/2026-10-01-npu-page-rings/REPORT.md`.
+
+## 2026-10-01 - Checked Cold Page Ownership Core
+
+- Preserved pending work after remote-verified `eabfedb`; completed the shared
+  cold-page ownership core and added cursor/claim-history consistency validation.
+  Claims and late-fault committed resources remain retained; no recycle/reset
+  reclamation is implemented. The core is compiled, not wired into native callers.
+- 5,702 host/RV32 calls, 294 controls, ten mutants and address/undefined/leak
+  sanitizers pass. Existing 273/165 loader-memory, nine mutants, 6,174 retry and
+  44 V2 cases pass. Eleven RV32 components and offline image checks pass; unchanged
+  FIT `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+- Corrected native 50-hook caller replay shows direct RX0/RX2 statistics callers
+  use original unchecked type-10/type-9 allocator fallback, adding two records.
+  Strict setup remains denied; an earlier expected-hold assertion was incorrect.
+- TypeSafe receipts retain the five initial semantic checks and three approved
+  claim checks; exact models/probabilities are recorded in the report.
+  Full native ownership/error/publication, strict callers, loader,
+  physical drains/recovery and clients remain open. No flash or hardware changes.
+  Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+
+## 2026-10-01 - Mainline And Exact-Object Follow-Up
+
+- User explicitly authorized merging all outstanding source work into `main`,
+  superseding the earlier draft-only PR #2 publication scope. The older cloud
+  branch is already contained in pre-merge main `eabfedb`; no separate changes
+  remain there. Preserve ignored builds, private inputs and protected backups.
+- Final `--core-object` runner links the RV32 probe against the actual compiled
+  archive member and records its path/hash. Fresh source and member runs each
+  pass 5,702 calls, 294 controls and ten mutants with ASan/UBSan/LeakSanitizer.
+  Late-fault retention passes; extracted archive member and tested object match
+  SHA256 `bb93ef158f30c90fbb63bfb4bbb5b5a5d2d61d029710d957a8270d1f176ffd2d`.
+- Eight build-runner tests pass. Fresh FIT/board/218-package/78-module offline
+  checks pass with unchanged FIT `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+  Ledger, session log, resume documents and READMEs now record this follow-up.
+- No flash or hardware change. Core wiring, strict setup, physical backing,
+  ownership/publication/drains, recovery and real clients remain open.
+  Fresh receipts: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
