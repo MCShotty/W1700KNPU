@@ -82,6 +82,60 @@ int main(void)
     result = npu_cold_page_take(NULL, &plan, 1, 0, 0, 0);
     assert(result.status == NPU_COLD_PAGE_ARGUMENT && !result.committed);
     npu_cold_page_fault(NULL);
+    uint16_t *ids = calloc(NPU_COLD_PAGE_IDS, sizeof(*ids));
+    uint16_t head = 0, tail = 0;
+    struct npu_cold_page_queue queue = {&head, &tail, ids, NPU_COLD_PAGE_IDS};
+    struct npu_cold_page_queue_result queued;
+    assert(ids);
+    for (unsigned i = 0; i < NPU_COLD_PAGE_IDS; i++)
+        ids[i] = i;
+    fresh(s);
+    for (unsigned i = 0; i < 17; i++) {
+        queued = npu_cold_page_queue_take(s, &plan, 1, &queue);
+        assert(queued.page.status == NPU_COLD_PAGE_OK && queued.published);
+        assert(queued.page.id == i && head == i + 1 && s->count == i + 1);
+    }
+    before = *s;
+    queue.ids = (const volatile uint16_t *)(uintptr_t)1;
+    queued = npu_cold_page_queue_take(s, &plan, 2, &queue);
+    assert(queued.page.status == NPU_COLD_PAGE_STALE && !queued.published);
+    assert(!memcmp(s, &before, sizeof(*s)));
+    queue.ids = ids;
+    for (unsigned scenario = 0; scenario < 7; scenario++) {
+        fresh(s);
+        head = tail = 0;
+        ids[0] = 0;
+        queue.capacity = NPU_COLD_PAGE_IDS;
+        unsigned expected = NPU_COLD_PAGE_CORRUPT;
+        switch (scenario) {
+        case 0: tail = 1; expected = NPU_COLD_PAGE_EMPTY; break;
+        case 1: head = NPU_COLD_PAGE_IDS; break;
+        case 2: tail = NPU_COLD_PAGE_IDS; break;
+        case 3: ids[0] = NPU_COLD_PAGE_IDS; expected = NPU_COLD_PAGE_ID; break;
+        case 4: queue.capacity--; break;
+        case 5: queue.ids = NULL; break;
+        case 6:
+            queued = npu_cold_page_queue_take(s, &plan, 1, &queue);
+            assert(queued.published);
+            ids[1] = 0;
+            expected = NPU_COLD_PAGE_DUPLICATE;
+            break;
+        }
+        before = *s;
+        uint16_t saved_head = head;
+        queued = npu_cold_page_queue_take(s, &plan, 1, &queue);
+        assert(queued.page.status == expected && !queued.page.committed && !queued.published);
+        assert(head == saved_head && s->count == before.count && s->fault == 1);
+        assert(!memcmp(s->claimed, before.claimed, sizeof(s->claimed)));
+        queue.ids = ids;
+    }
+    queued = npu_cold_page_queue_take(NULL, &plan, 1, &queue);
+    assert(queued.page.status == NPU_COLD_PAGE_ARGUMENT && !queued.published);
+    queued = npu_cold_page_queue_take(s, NULL, 1, &queue);
+    assert(queued.page.status == NPU_COLD_PAGE_ARGUMENT && !queued.published);
+    queued = npu_cold_page_queue_take(s, &plan, 1, NULL);
+    assert(queued.page.status == NPU_COLD_PAGE_ARGUMENT && !queued.published);
+    free(ids);
     free(s);
     puts("PASS cold-page sanitizer ownership/argument/lifetime cases");
     return 0;

@@ -1,5 +1,15 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Native Queue Publication
+
+`npu_cold_page_queue_take()` composes retained claims with snapshot verification,
+ordered native-head publication/readback and late-fault checks. Queue pointers,
+backing and exclusion are platform contracts; no release/reclaim API is added.
+The normal archive includes this extension without undefined runtime helpers.
+DESC5/6/7 native instruction composition and fault/mutant proof are recorded in
+`research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+The binding is not installed in the vendor blob or physical loader.
+
 ## 2026-10-01 - Exact Built-Object Replay
 
 The final cold-page test runner accepts `--core-object` to link the RV32 probe

@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Native Page Caller Composition
+
+Checked DESC5/6/7 now compose with original native initializers under the explicit
+held-lease/parked-worker emulation contract. The shared core publishes verified
+native queue heads and retains late-fault claims. Three nominal rings/1,792
+claims, 48 controls and six binding mutants pass with 54 installed sites.
+Exact archive/sanitizer, original page-ring, full-build/source/image checks pass.
+FIT remains `230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe`.
+No vendor-blob installation, flash or physical ownership/client acceptance.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
 ## 2026-10-01 - Mainline Follow-Up
 
 The user authorized merging PR #2 and the final test-runner follow-up into
@@ -33,7 +44,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-01 (mainline follow-up authorized and exact archive member validated; native caller/hardware acceptance remains open)
+Last updated: 2026-10-10 (selected native page caller composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

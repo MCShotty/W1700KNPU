@@ -7428,3 +7428,16 @@ Added final replay/image receipts and updated all resume documents and READMEs.
 Generated/private inputs remain ignored and local. No flash or physical target
 change; full native caller/ownership/drain/recovery/client acceptance stays open.
 Evidence: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+
+## 2026-10-10 - Native Cold Page Caller Composition
+
+Continued from merged main87a8a2e. The shared core now verifies/publishes native
+queue heads and retains committed faults. Original DESC5/6/7 initialization
+composes with the checked caller/getter/readiness binding: 54 sites, 1,792 nominal
+claims, 48 controls and six rejected mutants. Partial/late failures keep owners
+and leases while denying readiness and false outer success. Exact archive/core
+sanitizers, original page regression, full world/source/image and build-runner
+checks pass. The FIT is unchanged. Jev checks the semantic scope separately.
+No vendor-blob patch or flash/hardware change; strict real-loader/lifecycle/
+worker/physical recovery/client gates remain open. Resume docs and READMEs are
+updated. Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.

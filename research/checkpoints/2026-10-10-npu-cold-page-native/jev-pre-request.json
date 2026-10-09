@@ -1,0 +1,39 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "native_page_getter": "Original 0x8400bb9c reads 16-bit head at SRAM+0x3950 and tail at +0x1f40, returns -1 on next_head==tail, reads a signed ID from the pool pointer at +0x4634 and then publishes next_head. Original pool is 8192 halfword IDs at fixed type0x106 address 0x3e8a9c70.",
+    "native_page_initializer": "Original DESC5/6/7 helper 0x8400bc02 calls this getter, writes ID and four-word descriptor per successful ID, and finally sets a selected ready flag. It returns 1 on allocation failure and 0 on completion. Original outer callback 0x8400fe34 overwrites this return with 1.",
+    "backing": "The original descriptor pointer derives from SRAM+0x2ce4, populated from validated bootstrap BA region 0x90c0e000/2097152 bytes. This is not the 2048-byte packet buffer-ID allocator.",
+    "core_contract": "The compiled cold ownership core retains claims, rejects duplicate/bad IDs and corrupt cursors, and returns committed=1 after a late fault. The caller must publish next_head under serialization before descriptor exposure. No claim release or reset/reclaim API exists.",
+    "candidate_scope": "Compose the actual core and validated native queue publication with original selected native initializers in instruction emulation. Check the explicitly held coordinator callback lease, all workers parked, immutable backing/pool snapshots, and ready/error publication. Other selectors keep the existing binding. This is not vendor-blob installation, hardware DMA containment or complete strict mailbox setup."
+  },
+  "questions": {
+    "next_gate": {
+      "type": "choice",
+      "instructions": "Which unresolved condition is most directly addressed by the candidate_scope, given the core_contract and native_page_getter?",
+      "criteria": {
+        "native_claim_publication": "Retained claim composition with native queue head publication and selected native callers.",
+        "physical_dma": "Actual hardware DMA drain and exclusive physical ownership.",
+        "hot_recycle": "Running hot-page recycle protocol.",
+        "not_established": "No condition is addressed by the stated candidate scope."
+      }
+    },
+    "outer_failure": {
+      "type": "noul",
+      "instructions": "Does native_page_initializer describe a callback that reports success even when the inner allocation fails?"
+    },
+    "lifetime_boundary": {
+      "type": "noul",
+      "instructions": "Does core_contract require retained resources rather than clearing a committed claim on a late fault?"
+    },
+    "backing_match": {
+      "type": "choice",
+      "instructions": "Which supplied backing contract should the selected page descriptor path use, based on backing?",
+      "criteria": {
+        "ba_page_backing": "The validated BA region supplied to SRAM+0x2ce4.",
+        "packet_bufid": "The earlier 2048-byte packet buffer-ID pool.",
+        "unknown": "The supplied evidence does not identify the relevant backing."
+      }
+    }
+  }
+}

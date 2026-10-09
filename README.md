@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Native Page Ownership Composition
+
+The shared ownership core now publishes validated native queue heads. Checked
+DESC5/6/7 caller composition runs original initializer instructions and prevents
+false outer success/readiness after allocation or late-publication faults.
+The 54-site replay passes 1,792 claims, 48 controls and six binding mutants;
+exact archive replay, sanitizers, full build and offline image checks pass.
+This is native-emulated caller integration, not a replacement vendor blob or
+hardware acceptance. Remaining gates and receipts are in
+`research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
 ## 2026-10-01 - Mainline Follow-Up
 
 The user authorized merging the cold-page work and final test-runner change

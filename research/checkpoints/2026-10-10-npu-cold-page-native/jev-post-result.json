@@ -1,0 +1,62 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-page-native-20261010\\jev-post-request.json",
+  "request_sha256": "4fd2a143ef2bdce6be4479aab3a485a5d93d1664dbd56fd83a4d2d6818fe2c23",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "partial_ownership": {
+      "type": "noul",
+      "instructions": "Do selected_controls show that partial exhaustion returns callback failure while retaining the consumed IDs and native head, rather than clearing or reusing those claims?"
+    },
+    "committed_late_fault": {
+      "type": "noul",
+      "instructions": "Do the claim-fault and published-core-fault entries in selected_controls demonstrate a retained committed claim and published native head without exposing a descriptor or readiness for that claim?"
+    },
+    "other_selectors": {
+      "type": "noul",
+      "instructions": "Does binding delegate selectors outside 5/6/7 to the existing callback binding rather than open them through the new page path?"
+    },
+    "acceptance_scope": {
+      "type": "choice",
+      "instructions": "Which acceptance scope is established by the supplied native receipts and limits?",
+      "criteria": {
+        "native_emulated_composition": "Original selected native initializer instructions composed with checked core/caller code under explicit modeled storage, parked workers and a held direct lease.",
+        "physical_complete": "Actual hardware-exclusive ownership, drains and full client acceptance.",
+        "strict_setup_complete": "Complete strict mailbox DISCOVER/setup/BIND implementation.",
+        "not_established": "The receipts do not establish the selected native-emulation composition."
+      }
+    }
+  },
+  "elapsed_ms": 1136,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "partial_ownership": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "committed_late_fault": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "other_selectors": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "acceptance_scope": {
+        "type": "choice",
+        "choice": "native_emulated_composition",
+        "confidence": 0.84,
+        "probabilities": {
+          "native_emulated_composition": 0.88,
+          "physical_complete": 0.0,
+          "strict_setup_complete": 0.0,
+          "not_established": 0.12
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 8525,
+      "output_tokens": 126
+    }
+  }
+}

@@ -19574,3 +19574,25 @@ Status and boundary:
 - No flash or hardware change. Core wiring, strict setup, physical backing,
   ownership/publication/drains, recovery and real clients remain open.
   Fresh receipts: `research/checkpoints/2026-10-01-npu-cold-page/REPORT.md`.
+
+## 2026-10-10 - Native Cold Page Claim And Publication
+
+- Refreshed GitHub/local main `87a8a2e`; preserved private/build/rollback data.
+  Extended the shared cold core with verified queue snapshot/head publication,
+  late-fault retention and no reclamation. The ownership-state ABI is unchanged.
+- Selected DESC5/6/7 compose with original native initializer instructions in
+  a 54-site binding: 1,792 nominal claims, 48 controls and six mutants pass.
+  Partial exhaustion retains 17 claims/descriptors/head17 with outer failure;
+  committed late faults retain a claim/head1 without descriptor/readiness.
+  Other selectors retain the existing callback route. Actual vendor/loader
+  installation, strict complete setup and physical exclusion remain open.
+- Exact built core passes 5,702 calls/294 controls/ten core mutants plus queue
+  sanitizer cases. Original page rings pass four nominal/48 controls/five mutants
+  and four strict denials. Full world, 60-file replay, eight build-runner tests
+  and FIT/board/218-package/78-module verification pass. FIT remains `230e03a7...`.
+  Fixed the harness installation error and compiler-emitted freestanding memcpy
+  before final proof; exploratory failed outputs are not acceptance receipts.
+- Updated ledger, session log, all resume documents and READMEs. No flash or
+  hardware change. Loader/storage, strict setup, hot lifecycle, worker/postgate,
+  physical backing/coherency/drains/recovery and real clients remain unfinished.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.

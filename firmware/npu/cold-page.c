@@ -63,6 +63,71 @@ static struct npu_cold_page_result fail(struct npu_cold_page_state *s, uint32_t 
     return result;
 }
 
+struct npu_cold_page_queue_result npu_cold_page_queue_take(
+    struct npu_cold_page_state *s, const struct npu_cold_page_plan *p,
+    uint32_t epoch, const struct npu_cold_page_queue *q)
+{
+    struct npu_cold_page_queue_result result;
+    uint32_t head, tail, id;
+
+    /* Field initialization avoids a -Os freestanding memcpy dependency. */
+    result.page.status = NPU_COLD_PAGE_ARGUMENT;
+    result.page.id = UINT32_MAX;
+    result.page.address = 0;
+    result.page.next_head = UINT32_MAX;
+    result.page.committed = 0;
+    result.published = 0;
+    if (!s || !p || !q)
+        return result;
+    if (__atomic_load_n(&s->magic, __ATOMIC_ACQUIRE) != NPU_COLD_PAGE_MAGIC || faulted(s)) {
+        result.page = fail(s, NPU_COLD_PAGE_FAULT);
+        return result;
+    }
+    if (!s->epoch) {
+        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);
+        return result;
+    }
+    if (!epoch || epoch != s->epoch) {
+        result.page.status = NPU_COLD_PAGE_STALE;
+        return result;
+    }
+    if (!q->head || !q->tail || !q->ids || q->capacity != NPU_COLD_PAGE_IDS ||
+        ((uintptr_t)q->head & 1) || ((uintptr_t)q->tail & 1) || ((uintptr_t)q->ids & 1)) {
+        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);
+        return result;
+    }
+    head = *q->head;
+    tail = *q->tail;
+    if (head >= NPU_COLD_PAGE_IDS || tail >= NPU_COLD_PAGE_IDS) {
+        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);
+        return result;
+    }
+    id = q->ids[head];
+    result.page = npu_cold_page_take(s, p, epoch, head, tail, id);
+    if (!result.page.committed)
+        return result;
+
+    /* Retain the private claim even when the native snapshot can no longer be
+     * published. Never reset either cursor or give the claimed ID back. */
+    if (*q->head != head || *q->tail != tail || q->ids[head] != id) {
+        npu_cold_page_fault(s);
+        result.page.status = NPU_COLD_PAGE_CORRUPT;
+        return result;
+    }
+    __atomic_thread_fence(__ATOMIC_RELEASE);
+    *q->head = (uint16_t)result.page.next_head;
+    __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    if (*q->head != result.page.next_head) {
+        npu_cold_page_fault(s);
+        result.page.status = NPU_COLD_PAGE_CORRUPT;
+        return result;
+    }
+    result.published = 1;
+    if (faulted(s))
+        result.page.status = NPU_COLD_PAGE_FAULT;
+    return result;
+}
+
 struct npu_cold_page_result npu_cold_page_take(
     struct npu_cold_page_state *s, const struct npu_cold_page_plan *p,
     uint32_t epoch, uint32_t head, uint32_t tail, uint32_t id)

@@ -45,6 +45,18 @@ struct npu_cold_page_result {
     uint32_t committed;
 };
 
+struct npu_cold_page_queue {
+    volatile uint16_t *head;
+    const volatile uint16_t *tail;
+    const volatile uint16_t *ids;
+    uint32_t capacity;
+};
+
+struct npu_cold_page_queue_result {
+    struct npu_cold_page_result page;
+    uint32_t published;
+};
+
 /* Selected cold initialization only, not the running page recycle protocol.
  * The caller independently contains prior users, supplies fresh zeroed coherent
  * storage and a fresh epoch, and serializes every ownership/queue metadata user.
@@ -67,6 +79,17 @@ uint32_t npu_cold_page_init(struct npu_cold_page_state *state,
 struct npu_cold_page_result npu_cold_page_take(
     struct npu_cold_page_state *state, const struct npu_cold_page_plan *plan,
     uint32_t epoch, uint32_t head, uint32_t tail, uint32_t id);
+
+/* The platform validates these queue pointers and the complete ID-array backing
+ * before calling, and excludes every producer/consumer for the whole call.
+ * A changed snapshot or failed head readback faults the lifetime but never
+ * releases a committed claim. A committed late-fault claim still advances the
+ * unchanged native head; the caller must deny descriptor/readiness publication.
+ * published reports the verified native head store, not worker admission.
+ */
+struct npu_cold_page_queue_result npu_cold_page_queue_take(
+    struct npu_cold_page_state *state, const struct npu_cold_page_plan *plan,
+    uint32_t epoch, const struct npu_cold_page_queue *queue);
 
 /* May be called concurrently to close this lifetime, never to reclaim it. */
 void npu_cold_page_fault(struct npu_cold_page_state *state);

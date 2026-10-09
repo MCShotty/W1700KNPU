@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Native Page Caller Progress
+
+Checked DESC5/6/7 instruction composition now retains page claims, verifies and
+publishes the native queue head, propagates inner failure, and guards readiness.
+Three nominal rings/1,792 claims, 48 controls and six binding mutants pass with
+54 installed sites. Exact core/archive, sanitizer, original page-ring and full
+build/source/image checks pass. This supersedes the earlier unwired-component
+status only for the selected native-emulation composition, not physical firmware.
+Next complete the actual loader/storage and strict DISCOVER/setup/BIND lane,
+remaining RX statistics allocation paths, hot lifecycle and worker/postgate
+consumers. Physical backing/exclusion/coherency, drains/recovery and clients
+remain unproved. No flash. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
 ## 2026-10-01 - Mainline Follow-Up
 
 The user authorized merging all outstanding source work into `main`, including

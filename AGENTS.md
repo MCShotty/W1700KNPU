@@ -1,5 +1,18 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Native Cold Page Composition
+
+- The shared core now validates/publishes a native queue snapshot while retaining
+  committed claims on failure. DESC5/6/7 compose with original initializer code
+  in a 54-site native replay: 1,792 claims, 48 controls and six binding mutants
+  pass. Partial/late failures deny outer success and readiness, retaining leases.
+- Exact built RV32/core sanitizer replay, original page-ring regression, full
+  world build, 60-file replay and offline image checks pass. FIT stays `230e03a7...`.
+- This wires selected callers in native instruction emulation, not the vendor
+  blob or physical loader. Strict setup, hot lifecycle, workers/drains/recovery
+  and real-client acceptance remain open. No flash or hardware changes.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
 ## 2026-10-01 - Mainline Follow-Up
 
 - The user explicitly authorized merging all outstanding source work into `main`.

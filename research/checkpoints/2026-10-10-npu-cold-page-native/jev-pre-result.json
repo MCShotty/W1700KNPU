@@ -1,0 +1,73 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-page-native-20261010\\jev-pre-request.json",
+  "request_sha256": "376af7878664e770b159e28d2631e6c1ddf8d7d07564d8cc48315899d67907a3",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "next_gate": {
+      "type": "choice",
+      "instructions": "Which unresolved condition is most directly addressed by the candidate_scope, given the core_contract and native_page_getter?",
+      "criteria": {
+        "native_claim_publication": "Retained claim composition with native queue head publication and selected native callers.",
+        "physical_dma": "Actual hardware DMA drain and exclusive physical ownership.",
+        "hot_recycle": "Running hot-page recycle protocol.",
+        "not_established": "No condition is addressed by the stated candidate scope."
+      }
+    },
+    "outer_failure": {
+      "type": "noul",
+      "instructions": "Does native_page_initializer describe a callback that reports success even when the inner allocation fails?"
+    },
+    "lifetime_boundary": {
+      "type": "noul",
+      "instructions": "Does core_contract require retained resources rather than clearing a committed claim on a late fault?"
+    },
+    "backing_match": {
+      "type": "choice",
+      "instructions": "Which supplied backing contract should the selected page descriptor path use, based on backing?",
+      "criteria": {
+        "ba_page_backing": "The validated BA region supplied to SRAM+0x2ce4.",
+        "packet_bufid": "The earlier 2048-byte packet buffer-ID pool.",
+        "unknown": "The supplied evidence does not identify the relevant backing."
+      }
+    }
+  },
+  "elapsed_ms": 955,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "next_gate": {
+        "type": "choice",
+        "choice": "native_claim_publication",
+        "confidence": 1.0,
+        "probabilities": {
+          "native_claim_publication": 1.0,
+          "physical_dma": 0.0,
+          "hot_recycle": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "outer_failure": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "lifetime_boundary": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "backing_match": {
+        "type": "choice",
+        "choice": "ba_page_backing",
+        "confidence": 1.0,
+        "probabilities": {
+          "ba_page_backing": 1.0,
+          "packet_bufid": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 947,
+      "output_tokens": 147
+    }
+  }
+}

@@ -1,0 +1,1414 @@
+{
+  "date": "2026-10-10",
+  "passed": true,
+  "base_commit": "87a8a2eab65f25d25f0dfe9cbae9b6e3694565c2",
+  "fresh_receipts": {
+    "native-result.json": ".local/npu-cold-page-native-20261010/native-final-20261010/result.json",
+    "archive-result.json": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/result.json",
+    "page-regression.json": ".local/npu-page-rings-20261001/native-page-regression-20261010/result.json",
+    "memory-regression.json": ".local/npu-cold-memory-plan/native-page-regression-20261010/result.json",
+    "source-result.json": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/result.json",
+    "image-result.json": ".local/merge-nonoc-20260923/cold-page-native-final-20261010/result.json",
+    "world-result.json": ".local/merge-nonoc-20260923/build-cold-page-native-final-world-20261010.json",
+    "jev-pre-request.json": ".local/npu-cold-page-native-20261010/jev-pre-request.json",
+    "jev-pre-result.json": ".local/npu-cold-page-native-20261010/jev-pre-result.json",
+    "jev-post-request.json": ".local/npu-cold-page-native-20261010/jev-post-request.json",
+    "jev-post-result.json": ".local/npu-cold-page-native-20261010/jev-post-result.json"
+  },
+  "verified_hashes": [
+    {
+      "path": "firmware/npu/cold-page.c",
+      "sha256": "7f6b40888433ad7cfc2d9fcf2ce2f771540cdca753394014d014c5533f0ada21"
+    },
+    {
+      "path": "firmware/npu/cold-page.h",
+      "sha256": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67"
+    },
+    {
+      "path": "tests/npu/cold-page-native-emulation.c",
+      "sha256": "88309124e7ca0ace8e58328c0087eafb364ef1def2c119c073ebfcbef4222eb6"
+    },
+    {
+      "path": "tests/npu/cold-page-native-emulation.S",
+      "sha256": "6160f4537144c934a24dba739e9a79d75661fa45058529eaafdfe500dcd0c74f"
+    },
+    {
+      "path": "tests/npu/cold-page-native-emulation.ld",
+      "sha256": "77c4263fc856bda9d0d0acbdc9f2cd3c32ad249e8bea6a03b3a3da20c4d12404"
+    },
+    {
+      "path": "tests/npu/test_cold_page_native.py",
+      "sha256": "260cafb1afd7dcd1715569a4f323c2543ae59ef7c32943ee3f535bd7dddbe958"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/control.so",
+      "sha256": "30ccc8d8060b449a868ade57c18f3cf594eeeeb4b7cba2b8308350bb7c9fab6f"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/host-arm.elf",
+      "sha256": "05ea4a7480ddb652224dadfe8e892b7ed29a55405eda493e5f0dc2707f2323fc"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/base-rv.elf",
+      "sha256": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/bridge.elf",
+      "sha256": "7441b1130eef7fb6ddf93c0d12bf517a640ad19fafc0e92500cd07ca2e9d485a"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/reset.elf",
+      "sha256": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/allocator.elf",
+      "sha256": "4c479ff67a30a88f27d75befb48d23e54fcd8e9935b1a53544b8a5aaf206a318"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/txdone.elf",
+      "sha256": "3d6bcb6a71435f0048ffcd5060c9e88bae6e4b6646c35309a5e558d8d138a205"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/order.elf",
+      "sha256": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/headers.elf",
+      "sha256": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/egress.elf",
+      "sha256": "2a519b6b1b372cd63a4a7406440fe3f0d59a0ee06db2829b563f228f456f3ac2"
+    },
+    {
+      "path": ".local/npu-bootstrap-v2-composition/packets.elf",
+      "sha256": "bc2529ac4f03c5dcda4ecf8936dab05b318eebed341e7c0062cfa5d44cc5e2a6"
+    },
+    {
+      "path": ".local/npu-cold-page-native-20261010/native-final-20261010/native-page.elf",
+      "sha256": "6f17f8a6243b8e17c3bfb6a7567c600f877f17c0f5c05f7a88b139900f02fbf4"
+    },
+    {
+      "path": "firmware/npu/cold-page.c",
+      "sha256": "7f6b40888433ad7cfc2d9fcf2ce2f771540cdca753394014d014c5533f0ada21"
+    },
+    {
+      "path": "firmware/npu/cold-page.h",
+      "sha256": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.c",
+      "sha256": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31"
+    },
+    {
+      "path": "tests/npu/cold-page-probe.ld",
+      "sha256": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408"
+    },
+    {
+      "path": "tests/npu/cold-page-sanitize.c",
+      "sha256": "31109fdf98f92dc2102d8a2f90050b5ddc8a8c9d5af8b2523c933168d8eebcf0"
+    },
+    {
+      "path": "tests/npu/test_cold_page.py",
+      "sha256": "4f12fa9c3a0af11adc8d67a8d4d951456fca6bc5912258b3378851c0797dae1a"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/cold-page.o",
+      "sha256": "ad56a45923b200fd048bdebe31f2d3e238951acf86b9b164c667e081ffae0772"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/host-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/host-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/host.so",
+      "sha256": "eda7d70c3f78d0e8ae114d49f4f5e26c9b37fee1a804a8200c9d936a7fe0b04f"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/rv32-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/rv32-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/rv32.elf",
+      "sha256": "53ba2ca957f2f46925a528fae18f902f154a85af5f8423f94b075ea16273f2fe"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/sanitize",
+      "sha256": "e96a0d108b700c9e7cfa7f1fff71d3859e4bcdf883e813eba58fea6cb01724f7"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/sanitize.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/sanitize.stdout",
+      "sha256": "fa55593ca5c7dd7d950f5fb45e393256e27c1d8640241936b25225d47355af7b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/sanitizer-build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/baseline/sanitizer-build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/cold-page.c",
+      "sha256": "50386759a4ad0f15ccc2d10e5d00ce401ff815b08e7eba473f4916ff4ed04b2a"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/reject.stderr",
+      "sha256": "4b8014b646496d2b5add023aeef15de93a87c444203912aff8994f9316ac0562"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/clear-fault/sanitize",
+      "sha256": "077271294aa6cc33df903f45e510c9d9b8d0e814bcb12f5040073fe1e2e25f3f"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/cold-page.c",
+      "sha256": "c6490089013962355f0cdad4248a6cf3ae8a5163731a7d71aa3d695d9e77c491"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/reject.stderr",
+      "sha256": "116a5ece6d1b13e622204287bbdc54c6f5da37fdf74eee8adb3fd3e4179afa7c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-backing-end/sanitize",
+      "sha256": "b6a38ef68501bf2815b8a8ed94ad6bff13671c889ff36d6551413226c61c5422"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/cold-page.c",
+      "sha256": "d745ccee3d15b382f869d1c2878f7c469f1ae3680cfd6a826e24f295454b7aa4"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/reject.stderr",
+      "sha256": "cccce9595abf439537b641b06941f5c3aadf06ef93dcd117fc7a9f3b867de29b"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-claim-record/sanitize",
+      "sha256": "d9c3202d3aad71b4d6a904e776bb9e6ec59abc23c5939195129e2ddffead5acf"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/cold-page.c",
+      "sha256": "6796590fc82be1217bac94fe1fc0cfe4a07d88a8124eb1083e074de1732f2d39"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-cursor-history/sanitize",
+      "sha256": "d9599cd057a033713ca7adc494f5b22c767cca5931552a8b86bf5ef18fe9782c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/cold-page.c",
+      "sha256": "7ee5b3e9f45ecfdac44d28e5784f739a649b6d476e4b1397911504635bfc21f8"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-duplicate/sanitize",
+      "sha256": "dcd2f1c8867457cf76844e02d06a04be9a09234d9da7677e1765be8bb01ff634"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/cold-page.c",
+      "sha256": "a58ce295f0c49ebf0bea3865b4c759cea148c84d39ad429eb461e4c864e4a54a"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-epoch/sanitize",
+      "sha256": "4e4bde0a40aa782fbe8e5d2644ae08012b579ca2bbdc9d1c31bf902ea7eded1f"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/cold-page.c",
+      "sha256": "cf7cd1b57a02c114c43084d67dc721466ab92a57cf9560c279e486e5a94d933a"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-head-match/sanitize",
+      "sha256": "487677811ff78b02b1450334b96bb4dfee2764fcfb2a1c17a765d7f55ec119f4"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/cold-page.c",
+      "sha256": "7193bd7009dd294c9253efbe77bfca618a639ed7bc99dae50e12082c4b97faba"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/reject.stderr",
+      "sha256": "605c42d6192722a48ffec9cdc79d349450194cd3204d96c281de74f7ee96c44d"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-id-bound/sanitize",
+      "sha256": "ac29b6a278572599976c45a84be9784e22ad93042e2866ebaf9ffebfa0d1f49c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/cold-page.c",
+      "sha256": "003743a2055d1a3fbb41c9e46ba767d218fde34f83d09aa224e21d5ec6c1547c"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/reject.stderr",
+      "sha256": "8b51b40a708720d7273d8dbca4c85d76fc8aed57762635afc29053671056b038"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-population/sanitize",
+      "sha256": "8c93966873d9a0ef36bdeff646a0aeb65d48fd23e8f972920c00cb0bfe43c687"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/build.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/build.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/cold-page.c",
+      "sha256": "3aee009eb894ff1e3bb6a54f28c7e1b816987833180acd26ca87dd8670d79eae"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/reject.stderr",
+      "sha256": "902cffbbb4ec76a9eb2c87fc48143b42bee9e51498666d1f5f59a3ecca94eabc"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/reject.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-page-20261001/queue-member-fixed-20261010/omit-reinit-metadata/sanitize",
+      "sha256": "8aac891ebe9fba40d193f086ee10b9bc6e07c94869a5a711a8f551aedfe91915"
+    },
+    {
+      "path": "tests/npu/test_page_ring_callbacks.py",
+      "sha256": "bed0544ee66ac73e94ba7c169a25a03c1e2b43bb647de5c5c6fd2ada458d7c07"
+    },
+    {
+      "path": ".local/npu-barrier/admission-platform-bootstrap-bootstrap-startup-gdma-gdma-65536.elf",
+      "sha256": "bdb64d12d738bdef85a747d0b638e6b148c1c534410fd893348fbaf5908e2931"
+    },
+    {
+      "path": "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt",
+      "sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca"
+    },
+    {
+      "path": ".local/npu-bootmem/candidate/an7581-w1700k-ubi.dtb",
+      "sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344"
+    },
+    {
+      "path": "tests/npu/emulation_layout.py",
+      "sha256": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887"
+    },
+    {
+      "path": "tests/npu/test_firmware_stop_counterexample.py",
+      "sha256": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3"
+    },
+    {
+      "path": "tests/npu/test_firmware_memory_layout.py",
+      "sha256": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077"
+    },
+    {
+      "path": "tests/npu/test_barrier_protocol.py",
+      "sha256": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887"
+    },
+    {
+      "path": "tests/npu/test_firmware_stop_irqs.py",
+      "sha256": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8"
+    },
+    {
+      "path": "tests/npu/test_firmware_mailbox_dispatch.py",
+      "sha256": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28"
+    },
+    {
+      "path": "tests/npu/test_boot_irq_installation.py",
+      "sha256": "bee0b9efc3ce52bbf0dd56ea7fcfb99bafc513fc2f58b90c6d03303628dd9062"
+    },
+    {
+      "path": "tests/npu/test_admission_protocol.py",
+      "sha256": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347"
+    },
+    {
+      "path": "tests/npu/test_barrier_core5.py",
+      "sha256": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a"
+    },
+    {
+      "path": "tests/npu/test_barrier_workers.py",
+      "sha256": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8"
+    },
+    {
+      "path": "tests/npu/test_admission_native.py",
+      "sha256": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6"
+    },
+    {
+      "path": "tests/npu/test_startup_native.py",
+      "sha256": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb"
+    },
+    {
+      "path": "tests/npu/test_txbuf_dtbs.py",
+      "sha256": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99"
+    },
+    {
+      "path": "tests/npu/preflight_dtb_cases.py",
+      "sha256": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a"
+    },
+    {
+      "path": "tests/npu/test_bootstrap_native.py",
+      "sha256": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843"
+    },
+    {
+      "path": "tests/npu/test_native_wifi_boot.py",
+      "sha256": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340"
+    },
+    {
+      "path": "tests/npu/test_mt7996_bootstrap_sequence.py",
+      "sha256": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd"
+    },
+    {
+      "path": "tests/npu/test_attach_rx_callbacks.py",
+      "sha256": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100"
+    },
+    {
+      "path": "tests/npu/test_control_client.py",
+      "sha256": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea"
+    },
+    {
+      "path": "tests/npu/test_control_v2.py",
+      "sha256": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b"
+    },
+    {
+      "path": "tests/npu/test_bootstrap_control_v2.py",
+      "sha256": "b1b5af1ea2eb7bda05793a679be24cf0f1117369691eb0f8b198f32c2e6a1f74"
+    },
+    {
+      "path": "tests/npu/test_allocator_protocol.py",
+      "sha256": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d"
+    },
+    {
+      "path": "tests/npu/test_allocator_placement.py",
+      "sha256": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e"
+    },
+    {
+      "path": "tests/npu/test_multihart_cold_boot.py",
+      "sha256": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85"
+    },
+    {
+      "path": "tests/npu/test_bridge_startup.py",
+      "sha256": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e"
+    },
+    {
+      "path": "tests/npu/test_allocator_native.py",
+      "sha256": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91"
+    },
+    {
+      "path": "tests/npu/test_allocator_reset.py",
+      "sha256": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9"
+    },
+    {
+      "path": "tests/npu/test_allocator_startup.py",
+      "sha256": "8b5f32379c41566504c65010697aa9dcfcb540becac818bd6f5b467698e8e4fd"
+    },
+    {
+      "path": "tests/npu/test_attach_tx_callbacks.py",
+      "sha256": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6"
+    },
+    {
+      "path": "tests/npu/test_txdone_init.py",
+      "sha256": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2"
+    },
+    {
+      "path": "tests/npu/test_bridge_memory_budget.py",
+      "sha256": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799"
+    },
+    {
+      "path": "tests/npu/test_command_ring_layout.py",
+      "sha256": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48"
+    },
+    {
+      "path": "tests/npu/test_command_ring_order.py",
+      "sha256": "9008a6f511144c22f5facd14e09b0bbcbf3dc3b0937169925c5b09ebbdfe2009"
+    },
+    {
+      "path": "tests/npu/test_tunnel_header_bounds.py",
+      "sha256": "669b5f35e5178b4ac20d6cca2e6a3c06efece54f63a3b11abe57e9d93cfce7ba"
+    },
+    {
+      "path": "tests/npu/test_egress_guards.py",
+      "sha256": "77ce0dd487046e8dfade1bc946a22d1b3d9738936f0e0d3372d7a2b658b9d5d8"
+    },
+    {
+      "path": "tests/npu/test_tunnel_packet_extents.py",
+      "sha256": "f2efa4f57c1887e2349904318d106f046d0a6ca26cedf430e689ec40c0698460"
+    },
+    {
+      "path": "tests/npu/test_bootstrap_v2_composition.py",
+      "sha256": "72e1aaef90ac8f6a020a778ad48f962679eb4d09af6f5f3e754427281685a02f"
+    },
+    {
+      "path": "tests/npu/test_host_queue_publication.py",
+      "sha256": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+    },
+    {
+      "path": "tests/npu/test_bootstrap_postgate.py",
+      "sha256": "58fdcb3a0d7c3b786510789d8a105bfc7f5b08e193f7d2370aa037b8a4dd0188"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/npu.c",
+      "sha256": "6c38b869389c990e43521ff10a72ec7e153b7d56f28b834bc7909eec8c757a88"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt76.h",
+      "sha256": "07ac4d6ecf3332fadd3bb19b5750950d7178c69ba150bc937acc6145da4c01f9"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/regs.h",
+      "sha256": "55f08a5dc6ea586e9a50c07f8932f2316e0e888ef9aa3e4125e1f25cccba20a7"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/mt7996/mt7996.h",
+      "sha256": "37421222ba80195825d4c694bc8a1ec920d63f1acf3b5905b4539fc538cfd1eb"
+    },
+    {
+      "path": ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h",
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+    },
+    {
+      "path": "tests/npu/test_cold_memory_plan.py",
+      "sha256": "a5f83fd6bb11668fd84df913d7c007dd4ebfcb93f35f9151c75ada3c1b0455c5"
+    },
+    {
+      "path": "tests/npu/cold-memory-plan-harness.c",
+      "sha256": "986aae8d186c8df3b79cff2f5afe0e74819f46977620c2206ef4c9c82a3d921e"
+    },
+    {
+      "path": "tests/npu/firmware-loader-harness.c",
+      "sha256": "552ffc0ac40c493857c98c3d5d5f88c7174591613b06777eae2a423f80752bf9"
+    },
+    {
+      "path": "tests/npu/test_npu_firmware_loader.py",
+      "sha256": "4d6c3e6ec8fa6c7633e59bd30b53d9f897446b00b6759fa38481490bb9975dc8"
+    },
+    {
+      "path": "tests/npu/test_host_queue_publication.py",
+      "sha256": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+    },
+    {
+      "path": "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "sha256": "af6444c3573a8fddb7515f8b5678d24796d420946c496fb64489fba91f8b040d"
+    },
+    {
+      "path": "firmware/source-lock.json",
+      "sha256": "638e91b47ed75eb1241066e74b6da0e7d6b671cf10af0eb1402c4fefb8646cd9"
+    },
+    {
+      "path": "tests/npu/test_nonoc_merge.py",
+      "sha256": "e0822d28cf804bccd1c0fa10ef42db254bd513ad6cfd5d9cfeae58abc27f8933"
+    },
+    {
+      "path": "tests/npu/linux-control-harness.c",
+      "sha256": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce"
+    },
+    {
+      "path": "tests/npu/control-v2-provider-harness.c",
+      "sha256": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409"
+    },
+    {
+      "path": "firmware/npu/admission.c",
+      "sha256": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2"
+    },
+    {
+      "path": "firmware/npu/admission.h",
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f"
+    },
+    {
+      "path": "firmware/npu/allocator.c",
+      "sha256": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5"
+    },
+    {
+      "path": "firmware/npu/allocator.h",
+      "sha256": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec"
+    },
+    {
+      "path": "firmware/npu/barrier.c",
+      "sha256": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3"
+    },
+    {
+      "path": "firmware/npu/barrier.h",
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640"
+    },
+    {
+      "path": "firmware/npu/bootstrap-v2.c",
+      "sha256": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4"
+    },
+    {
+      "path": "firmware/npu/bootstrap-v2.h",
+      "sha256": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39"
+    },
+    {
+      "path": "firmware/npu/bootstrap.c",
+      "sha256": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9"
+    },
+    {
+      "path": "firmware/npu/bootstrap.h",
+      "sha256": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80"
+    },
+    {
+      "path": "firmware/npu/cold-page.c",
+      "sha256": "7f6b40888433ad7cfc2d9fcf2ce2f771540cdca753394014d014c5533f0ada21"
+    },
+    {
+      "path": "firmware/npu/cold-page.h",
+      "sha256": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67"
+    },
+    {
+      "path": "firmware/npu/control-client.c",
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023"
+    },
+    {
+      "path": "firmware/npu/control-client.h",
+      "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed"
+    },
+    {
+      "path": "firmware/npu/control-v2-client.c",
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df"
+    },
+    {
+      "path": "firmware/npu/control-v2.c",
+      "sha256": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017"
+    },
+    {
+      "path": "firmware/npu/control-v2.h",
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be"
+    },
+    {
+      "path": "firmware/npu/gdma.c",
+      "sha256": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63"
+    },
+    {
+      "path": "firmware/npu/gdma.h",
+      "sha256": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038"
+    },
+    {
+      "path": "firmware/npu/linux-control.c",
+      "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f"
+    },
+    {
+      "path": "firmware/npu/linux-control.h",
+      "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a"
+    },
+    {
+      "path": "firmware/npu/startup.c",
+      "sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6"
+    },
+    {
+      "path": "firmware/npu/startup.h",
+      "sha256": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302"
+    },
+    {
+      "path": "firmware/npu/tunnel-header.c",
+      "sha256": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213"
+    },
+    {
+      "path": "firmware/npu/tunnel-header.h",
+      "sha256": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65"
+    },
+    {
+      "path": "firmware/npu/tunnel-packet.c",
+      "sha256": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0"
+    },
+    {
+      "path": "firmware/npu/tunnel-packet.h",
+      "sha256": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/airoha_offload.h",
+      "sha256": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/provenance.json",
+      "sha256": "78989ad6c9aeb38f4f9137bee826bc4ffdc7af171dc6702e9961da1c3d42b8a0"
+    },
+    {
+      "path": "tests/npu/fixtures/airoha-npu-6.18.52/provider-upstream.c",
+      "sha256": "37bf128e7cd7c212e9a30c8b76f031522dede2059b4709e97805b648e01193d9"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/failed-load-unbound.log",
+      "sha256": "66c1bca2507e6224c7100fd3fc307af5cd4e6a26c2e0f37252b8afaed2b4f072"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/firmware-loader.inc",
+      "sha256": "819f1baf3e4ff3648b94c48b9f47676d1a000755d6d9183071cfa8eaf324c9dc"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/invalid-before-load.log",
+      "sha256": "f9303406dc99be3ddadb02298c93fd77428115551e0461a92fb53c739f0d5660"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/matrix.log",
+      "sha256": "24cd00b806dc68ab75cca23c6a0d33a77248da4ed14bd6ee43c37cfba8248c77"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/snapshot-reuse.log",
+      "sha256": "de457cc2d8002847b28c7a7f8921f3a578c1e38dec6d30ddf6a41416b5bf721c"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/test",
+      "sha256": "de4ff9b0a9a158414740904e129e84977cdb26c32304f70eb4e4f7d5bd0c2604"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/after/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/failed-load-unbound.log",
+      "sha256": "9dfb741826b8331de7bc835c1d1ce639a9828db5d07a4a0f28caeacfd15597d4"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/firmware-loader.inc",
+      "sha256": "13270c6a1e09efb4ff5d29e7f57e51cb17d8a9a2a14007254ce51c24a78de65c"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/invalid-before-load.log",
+      "sha256": "8ef4cd8f24c07b240590980ada29dbda633ba55ed1bdd59aa6e297e3f1eed3fe"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/snapshot-reuse.log",
+      "sha256": "c3abe47b6a20ea7b91d14e6ea8614772af268f2da0bd33ae15e936026abbce7f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/test",
+      "sha256": "0618b77dbe3bffb7850f2851ae0cee4f267aedd74ecdd414550dd7f03869224f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/before/wlan-memory.inc",
+      "sha256": "121d657935000dee0dbc23aeefe87cb12c8ffee0cca8cb6a9e4a8f7cb9b6fe03"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/control-v2-provider.inc",
+      "sha256": "44526d95ca486e51fe80b6568e1fbc5027220a39258c221ead46036c3b234969"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/linux-control",
+      "sha256": "2f2395635c98a1c55e96acbcf8509bdad1124eeb196c9090ce9053e003dece6a"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/linux-control-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/linux-control-run.log",
+      "sha256": "4dab870fa683c82b48f6b870ca0f88754e76073c7b57a8eb39c9ea8ee0093ece"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/firmware-loader.inc",
+      "sha256": "5a353751d7fc95132c1450dae58e7c8d2956b6eb75c8e643e0d18896866dc38f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/matrix.log",
+      "sha256": "590e3f27e0d1c70ab2d838847bfe0024bc09f2a2746ecf3b24a2e3cf476e2f1d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/test",
+      "sha256": "b59e7e508bfd9b22707b1bb51fd663a8214e90260ad887dbe0847348b650c57b"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-accept-undersized-tx/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/firmware-loader.inc",
+      "sha256": "819f1baf3e4ff3648b94c48b9f47676d1a000755d6d9183071cfa8eaf324c9dc"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/matrix.log",
+      "sha256": "0c5de00018013bfc22c05a491916e12f7b578149c8e64449c243ca9f4a5a1900"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/test",
+      "sha256": "540fef2371c070af7ad245a4ac3c10b1a66f6b94343f5067c598ebdb0d0206ba"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-admit-failed-load/wlan-memory.inc",
+      "sha256": "cfcdf5ca784f05e7e9c659d04e18331bd4d393da17c52269606282b99717942f"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/firmware-loader.inc",
+      "sha256": "b397f5c0eacef7058b8bfba4eeea46464f0955b499712dad2c9ca7d269ef71ef"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/matrix.log",
+      "sha256": "ca979f9121a9f1afe6bcad78ee326224ce047ac9dc3da787d5466685b619268d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/test",
+      "sha256": "330c8bba80f72687c71c1cb58fb229d006ee099d191aa60268ea26a754c753f1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-force-wlan-on-generic-probe/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/firmware-loader.inc",
+      "sha256": "1d10a87dd5c8dc7b117f9696738a0f1a8f871174e8b35e4b7fdf74a659bb6e69"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/matrix.log",
+      "sha256": "0c5de00018013bfc22c05a491916e12f7b578149c8e64449c243ca9f4a5a1900"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/test",
+      "sha256": "14e06d94dceceae7e60e476372036048411df09a2f9311f676ccc6502bf34a22"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-keep-plan-on-early-run-failure/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/firmware-loader.inc",
+      "sha256": "c2343ced24557f4c48d9d97b98422eb7de5ba8d4189a4934a0164b73926d215a"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/matrix.log",
+      "sha256": "ca979f9121a9f1afe6bcad78ee326224ce047ac9dc3da787d5466685b619268d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/test",
+      "sha256": "6edc0576ef522cec49149d22c7669941c5ca3fc0852d3d7269dd02c1f4a0d612"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-precopy-preflight/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/firmware-loader.inc",
+      "sha256": "cc6a718d6ee3d154d4648d7f005f72bd7c44c285eeb36d4ebc38bccfcfacdb67"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/matrix.log",
+      "sha256": "590e3f27e0d1c70ab2d838847bfe0024bc09f2a2746ecf3b24a2e3cf476e2f1d"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/test",
+      "sha256": "bfd8bbc4c9fe8a6e0230207bbcb806f12dc2ac59929bd5bda38b0edbc60e3bc5"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-region-overlap/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/firmware-loader.inc",
+      "sha256": "960b53da32558b69520211dc56315d9dd56f5c45139a69fd186ea0e8c657cfdb"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/matrix.log",
+      "sha256": "bf41063629533a6769ad5f76f5e4d102e7e781a6c3f89ebdb7d1fe612409ed1b"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/test",
+      "sha256": "37739e8464bb63ee2ab002bda26f8fd8212c91dedc6aed53a27ba874755599ae"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-omit-snapshot-copy/wlan-memory.inc",
+      "sha256": "7768ada534474ded06821c3a085779efee97e1563df9f8f387c8b7043c30a8d1"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/firmware-loader.inc",
+      "sha256": "819f1baf3e4ff3648b94c48b9f47676d1a000755d6d9183071cfa8eaf324c9dc"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/matrix.log",
+      "sha256": "37621a4b727db9713aa917cb49b7aa2ae9b0de315021975c97e171412abf8a31"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/test",
+      "sha256": "ccd9ce019ef3f366d43af0bbdbf099629c3a1c5a624b3e4f7e9bfa5e2dd308c0"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-reread-after-load/wlan-memory.inc",
+      "sha256": "46fd80d845863665214d0512e5f1a2c1ecfc023e61de8cded913ec0aa69bb0ef"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/firmware-loader.inc",
+      "sha256": "819f1baf3e4ff3648b94c48b9f47676d1a000755d6d9183071cfa8eaf324c9dc"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/matrix.log",
+      "sha256": "d839f33254ef393621f0e83ae54aa0cfbfe5922c6618849f9ca2a1661adfa0ac"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/test",
+      "sha256": "af3c470bcc5a52f4dbe712af0a7bc60c2258b057b9d12d28a72609cfa786230e"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/wlan-enum.inc",
+      "sha256": "49dc13b54ab0ee37ce291fa3d11b7c550751d78643844afe1b0e775e81ddcc29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/mutant-share-generic-plan-between-callers/wlan-memory.inc",
+      "sha256": "2c0014a36a42d58770bd050c52b65e09e6cecff6a235e5fb82220834f0f39ef8"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/prior/drivers/net/ethernet/airoha/airoha_npu.c",
+      "sha256": "8dc8545d3b5ea776820f2d75ed0795fee0ca8f93a12bb9e0708169320425f052"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/prior-apply.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/prior.patch",
+      "sha256": "4d05518f5c9ce842c1a22b8d18e2472f3e1710d2aa8613c8adffe77879c322ae"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/replayed/drivers/net/ethernet/airoha/airoha_npu.c",
+      "sha256": "94dd99b750c047cf0ee14d12b3cd97ad397821e0e01936ca223c3c68cd46b2f6"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/retry",
+      "sha256": "48ed925d00a017b2d714a1ea765c5b16938976ee0c8a927f34286f26ae65997a"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/retry-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/retry-run.log",
+      "sha256": "b8fb680495fcdbcec9080b8d567f2631b63d03a81b1586af4c40a305272701a7"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/retry.c",
+      "sha256": "9302d52f471fd4d6e186b96c4b58c78e635225f443b886cecbbbd6c4289c4013"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/shims/linux/mutex.h",
+      "sha256": "25725102916c75163ada3249fcc6d9607aede725882e4424d2e2ba325d72d41a"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/shims/linux/soc/airoha/airoha_offload.h",
+      "sha256": "c106bad192d0ea470bcd404924b2d4471822ccfd153574e516e2b032ccd2bb29"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/shims/linux/types.h",
+      "sha256": "6c3f7a14f538a25f913519cf5247052719f70eaaa15b9ab803c3bde0037b26ef"
+    },
+    {
+      "path": ".local/npu-cold-memory-plan/native-page-regression-20261010/source-apply.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/fe_debug_reg.sh",
+      "sha256": "35e59d47bb4824e52c60777ced9606587fde7e95ce650fac0e6a84fa8eb22615"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/fe_reg.sh",
+      "sha256": "514c008a14adf322c1655617a7741272b3054e94efd487c0009c945b1a437063"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/gsw_status.sh",
+      "sha256": "92fd8c625849b97b722db9cff2fcc2b8b7f6cc1cb18b8e653f44d4742efe0224"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/md.sh",
+      "sha256": "e57c8c3fa7d8b8b493950649b5e82df4236986c38bf80a3d3237a6178dfa3721"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/testgpio.sh",
+      "sha256": "bec2c6fba5ae9ca936f5f1597e57fed9c941ca1e19694b818d2e076ecc75eec0"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/etc/xsi_mac_dbg.sh",
+      "sha256": "817161ae569b00f3ac231f3f7e7b7368e2cc6c7ee3d48643a489a0561bd46483"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/usr/libexec/w1700k-release-helper",
+      "sha256": "26206c5b468e6899c04e4c06937e98e6cc3e52da81c386e14355a899faca971b"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/www/cgi-bin/github_check",
+      "sha256": "08dd9834725a8ddae60ae1cd977a31e389092162fe4cf26a6ab170cbf3f4b2e2"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/files/www/cgi-bin/github_fetch",
+      "sha256": "372fc418c966d8500a7d35ca495dcc63f1066cef9bec6e53016fc0dca0128f54"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/Makefile",
+      "sha256": "d8b6afc42f70bed7ffdf9a79d07da7f71a29541e9aa794a0e166005bfa4d44fa"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "sha256": "b7e284ba708fcb98321c606a62b9b141ae6613006257e7b7231d62518baae8dc"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/admission.h",
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/barrier.h",
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/control-client.c",
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/control-client.h",
+      "sha256": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/control-v2-client.c",
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/control-v2.h",
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/kernel-include/stdint.h",
+      "sha256": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/linux-control.c",
+      "sha256": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/kernel/mt76/w1700k/linux-control.h",
+      "sha256": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh",
+      "sha256": "21eb1e6c95ddeb4a2639d3fe4ae21700677bd8ebd6ab7378ba2a5f9191f047b1"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-device.json",
+      "sha256": "e806d42ac26225369e1d61ffa64e103fbdb42391b2ca5c540fa9e197d0d051d6"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files-ucode/usr/share/schema/wireless.wifi-iface.json",
+      "sha256": "a3291ac102b0b97cee5e57f128fc2b9b34b428f052b52f16c849e310b79866d0"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/hostapd.uc",
+      "sha256": "79004ebbb01a637a824806c7254170d55ba7a418bb137f370a305b9b4c2a4a86"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files-ucode/usr/share/ucode/wifi/iface.uc",
+      "sha256": "fa9fe210298d207d9b8aaa6133edbb9050fc447d747cdf53ea8435ad48e05aa9"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/lib/netifd/w1700k-mlo.uc",
+      "sha256": "e98fe256b00b03144d9a199f5dcdfd4296a98b548691f635b380e49481584796"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/lib/netifd/wireless.uc",
+      "sha256": "9e23a875daedabad9343500671bea955d02f734677b04695bba21ee491959944"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/lib/netifd/wireless/mac80211.sh",
+      "sha256": "9b149311b7d285da6fa4beefa4907c6e6ab5f49319db9e5d2e1286c9dd7d6cd0"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/usr/share/hostap/common.uc",
+      "sha256": "c0ff5780ba502d7d5781bad37f0ad8465ad17a5e2e2f25631696faf3adb1aeb5"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/usr/share/hostap/wdev.uc",
+      "sha256": "0242798a85690302951dc69057d6d057105a6eed739c5f9f9f9345791943c213"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/config/wifi-scripts/files/usr/share/ucode/wifi/mld-config.uc",
+      "sha256": "16db8c275cd64607845ae9b7a6093d05e260dcad5266e3cd8b61d8918d1df1f2"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/network/services/hostapd/files/hostapd.uc",
+      "sha256": "e9bdbed02f2072121083130d1de0dc91996c95217550fd5604fcc641d96e6338"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/utils/ucode/Makefile",
+      "sha256": "0675c9241ae1e5a0d925f31650933cee0e0f4e4c65141baea44275916ab346cc"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/utils/ucode/patches/112-nl80211-report-decoder-allocation-failure.patch",
+      "sha256": "cde7d970a40624d2a0567b516588dab0f7ce5b5b4310c6bc9994be4e81706f39"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-npu/Makefile",
+      "sha256": "8c3c83ba6863412b5d34b8488f11afccd6780049f7af86515a1a87ea81b6ca29"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-npu/htdocs/luci-static/resources/view/system/w1700k-npu.js",
+      "sha256": "bba60db9b79ab9a81911f296eba641baa49b69e59908299837dd1db96821353c"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-npu/root/usr/share/luci/menu.d/luci-app-w1700k-npu.json",
+      "sha256": "9608ed5049bae80d47db9f41cf4f2bcf4c7d07f095c44b2fa564bf145e96fbfd"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-npu/root/usr/share/rpcd/acl.d/luci-app-w1700k-npu.json",
+      "sha256": "5fe17a7c0a3e641b243b274687f2bbd9b76b2b91c69a5c2a5ce96c9a98debeaf"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-softether-server/Makefile",
+      "sha256": "1f61ce68e17bb84f968dc1f3c0b83ec1e6d064a84343442f2896a6dee086075f"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-softether-server/htdocs/luci-static/resources/view/services/w1700k-softether-server.js",
+      "sha256": "1ddcf9c041eb3c83ee8e885c2bd4ce0e4f1dcc483cc138ec84bf741a088d6811"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-softether-server/root/usr/share/luci/menu.d/luci-app-w1700k-softether-server.json",
+      "sha256": "29588cf8aeb7f4eb5ee942c62361733801eb6a4d0cd6a8c050ba7f92b96b6a05"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/luci-app-w1700k-softether-server/root/usr/share/rpcd/acl.d/luci-app-w1700k-softether-server.json",
+      "sha256": "4be3ee0c9af9ee5cc927f813e0af837a5ea2205cd5df822a6df0a7d597b5d1f3"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/w1700k-npu-status/Makefile",
+      "sha256": "c46cb9c805d0cbf0bb6179d7672d3c5a40ff0c4e8f09c7f9005be6d6d1b32bb9"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/w1700k-npu-status/files/usr/sbin/w1700k-wlan-npu-capture",
+      "sha256": "fc80f6c1270848c0cd4f210e54542cc3b5cbe63eb89ec89b82c06564e25e5bf9"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/w1700k-npu-status/files/usr/sbin/w1700k-wlan-npu-mode",
+      "sha256": "96cd1c44ce18e8c56717169784fcb008cd93834df743f10bd471e37bd69afffe"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/w1700k-system-defaults/Makefile",
+      "sha256": "40659540c0dd4cd3b0707952f6cad7a3c988852cdf1dd6a4d6e39e8b139ed076"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/package/w1700k/w1700k-system-defaults/files/etc/uci-defaults/99-w1700k-system-defaults",
+      "sha256": "52634d506491420f56b8dbb203fed94a5d82949d6b4bbcd8ca91839873585a9f"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/an7581/base-files/usr/libexec/w1700k-wireless-regulatory",
+      "sha256": "04497f40bb5c774d985784ee920b682da16d6e8ae71d55778400477a7111b7d5"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-radio-sanity",
+      "sha256": "cab4ae7d502c71c3b4dc8644aafb1a97cd3f825cb1fa737ee5be1d68205004b2"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wifi-capabilities",
+      "sha256": "5c7a3878530a7cfee659578630a4103558c8ba7900a5deb050c7d647c0685c8a"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/an7581/base-files/usr/sbin/w1700k-wireless-validate",
+      "sha256": "8ad893d582ad04e3b93923747cf7aa52cf9a8a14ea5d8dd0d479cf6452a73604"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/dts/an7581-npu-mt7996.dtsi",
+      "sha256": "83cd7d8b494399ec218ce65810d8e17d08b930b9d1156a1591fef56f04d5a89d"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/image/an7581.mk",
+      "sha256": "5efd5fa97abf812846b373d1ac90f714f0e6e0a4717552f4a81fb835e00266f2"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "sha256": "af6444c3573a8fddb7515f8b5678d24796d420946c496fb64489fba91f8b040d"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/openwrt/version",
+      "sha256": "6b502571e9516711d5f6a796663133f60dbf42207d0d5c7da1a7fd33ea384467"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/luci/applications/luci-app-attendedsysupgrade/htdocs/luci-static/resources/view/attendedsysupgrade/overview.js",
+      "sha256": "6c669aaae16f481738905231f78d7b3143e52e5905ee700632b46e07f9148dce"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/luci/modules/luci-base/htdocs/luci-static/resources/network.js",
+      "sha256": "b2414d4ad6b7c4d1d78b437cead1c1bed12200c0d88a3f6475997fe5fa15e5fa"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js",
+      "sha256": "9241e0549738d693d4b47b0af7651891c4ca776b3975e20ecd3b34a10c983ea2"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/channel_analysis.js",
+      "sha256": "642589cc3c68bb422c4350b20e9b9c087225bbc5ccb61ce4c4ba0c35d00929d8"
+    },
+    {
+      "path": ".local/merge-nonoc-20260923/cold-page-native-source-20261010/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/60_wifi.js",
+      "sha256": "d6a676f950b4ffc2700d6b6c3da8e119becc38835c838a1c3fc6a915a2be3cad"
+    },
+    {
+      "path": "firmware/source-lock.json",
+      "sha256": "638e91b47ed75eb1241066e74b6da0e7d6b671cf10af0eb1402c4fefb8646cd9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "sha256": "230e03a7b87cb9e14e0464b53d324bb2c4eb650b3c9a64a63514b30dde4458fe"
+    },
+    {
+      "path": "firmware/source-lock.json",
+      "sha256": "638e91b47ed75eb1241066e74b6da0e7d6b671cf10af0eb1402c4fefb8646cd9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/libw1700k-npu.a",
+      "sha256": "0839ac4b12445e7ab2e5b55347cb01ecdd86b26f46cdd4b8695251b3d5e57045"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/control-v2.o",
+      "sha256": "c2309e607269b40a46b8e36c1488c04aa7a12ffec60b7aa40150adb6d59b89b9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/startup.o",
+      "sha256": "373bdc6f344d5a1488fdbf6b8a2a0527170642a1ded9d7ee7404559f3d82a2c5"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-packet.o",
+      "sha256": "e47d179214c4fe6d76c52b537fd6822ab92f3b60bcb6bd270d992f9004c26056"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap-v2.o",
+      "sha256": "b5f0f1af83926e4fbb73966bffac2ca599ff350f59422f1ddb01bd2d76d26657"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/tunnel-header.o",
+      "sha256": "4b15f9b8037f022b43da29dad1c05248091f82f70df5f74d841c440ce5721fce"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/cold-page.o",
+      "sha256": "ad56a45923b200fd048bdebe31f2d3e238951acf86b9b164c667e081ffae0772"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/admission.o",
+      "sha256": "b50cc86a065400046d4fad61976d1fc6e0b2bba89f2b718adff34078ad6b8c54"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/allocator.o",
+      "sha256": "645996bd99e0e363d9eabffc1d8ec29f55291a03ae6b821457ef92b457184de6"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/barrier.o",
+      "sha256": "f1063096f6a26dc0c4685d855a2276f030f2de5de3b73d131a949b13f488d2a9"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/bootstrap.o",
+      "sha256": "f55bdca75d1b4a55edefb0b0b07eea78e9d6ed3fe7efb5548483f57362f08a94"
+    },
+    {
+      "path": ".build/merged-openwrt/bin/npu/gdma.o",
+      "sha256": "0b925f0acb21ed0c6a47e955f901676092a6e036221d394933548aa5e5c76240"
+    }
+  ],
+  "archive_member_sha256": "ad56a45923b200fd048bdebe31f2d3e238951acf86b9b164c667e081ffae0772",
+  "member_matches_archive": true,
+  "undefined_core_helpers": [],
+  "build_runner_tests": 8,
+  "physical_acceptance": false,
+  "strict_complete_setup": false,
+  "limits": [
+    "Native selected-caller instruction composition with modeled storage/exclusion and held direct lease.",
+    "No vendor-blob installation,flash or physical target changes."
+  ]
+}

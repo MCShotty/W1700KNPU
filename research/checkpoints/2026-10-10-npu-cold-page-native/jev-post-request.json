@@ -1,0 +1,715 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "binding": "/* Native instruction composition, not a production loader/storage contract. */\n#include \"cold-page.h\"\n#include \"bootstrap.h\"\n\nextern struct npu_barrier npu_emulation_barrier_state;\nextern struct npu_admission npu_emulation_admission_state;\nextern struct npu_bootstrap npu_emulation_bootstrap_state;\nextern uint32_t npu_emulation_txdone_callback(const struct npu_bootstrap_packet *);\nextern uint32_t npu_original_page_dispatch(uint32_t count, uint32_t selector);\n\nstruct npu_cold_page_state npu_emulation_page_state;\nstruct npu_cold_page_plan npu_emulation_page_plan;\nstruct npu_cold_page_queue_result npu_emulation_page_last;\nstatic uint32_t busy;\nstatic uint32_t arena_snapshot;\n\n#define BARRIER (&npu_emulation_barrier_state)\n#define ADMISSION (&npu_emulation_admission_state)\n#define BOOT (&npu_emulation_bootstrap_state)\n#define HEAD 0x3e903950u\n#define TAIL 0x3e901f40u\n#define POOL 0x3e8a9c70u\n\nstatic uint32_t word(uint32_t address)\n{\n    return *(const volatile uint32_t *)(uintptr_t)address;\n}\n\nstatic uint32_t load(const uint32_t *address)\n{\n    return __atomic_load_n(address, __ATOMIC_ACQUIRE);\n}\n\nstatic int live(void)\n{\n    uint32_t i, stats = word(0x3e901f08u), arena = word(0x3e9030fcu);\n\n    if (((uint32_t (*)(void))(uintptr_t)0x84004212u)() ||\n        load(&BARRIER->request) != 1 || load(&BARRIER->fault) ||\n        load(&BARRIER->prepared) || load(&BARRIER->released) || load(&BARRIER->armed) ||\n        load(&ADMISSION->closed) != 1 || load(&ADMISSION->fault) ||\n        load(&ADMISSION->active) != 1 || BOOT->magic != NPU_BOOTSTRAP_MAGIC ||\n        BOOT->failed || BOOT->step != NPU_BOOTSTRAP_STEPS ||\n        (arena & 31) || arena < 0x3e800000u || arena > 0x3e878000u - 303168u ||\n        (arena_snapshot && arena_snapshot != arena) ||\n        (stats && ((stats & 3) || stats < 0x3e800000u || stats > 0x3e878000u - 0x4c)) ||\n        word(0x3e904634u) != POOL ||\n        word(0x3e902ce4u) != BOOT->plan.region[NPU_BOOT_BA].base)\n        return 0;\n    for (i = 0; i < NPU_BARRIER_WORKERS; i++)\n        if (load(&BARRIER->parked[i]) != 1)\n            return 0;\n    return 1;\n}\n\nstatic void statistic(uint32_t offset)\n{\n    uint32_t stats = word(0x3e901f08u);\n\n    if (stats && !(stats & 3) && stats >= 0x3e800000u && stats <= 0x3e878000u - 0x4c) {\n        volatile uint32_t *value = (volatile uint32_t *)(uintptr_t)(stats + offset);\n\n        *value = *value + 1;\n    }\n}\n\nstatic void fail(void)\n{\n    npu_cold_page_fault(&npu_emulation_page_state);\n    npu_admission_fail(ADMISSION, BARRIER);\n}\n\nuint32_t npu_emulation_page_init(void)\n{\n    const struct npu_bootstrap_range *ba = &BOOT->plan.region[NPU_BOOT_BA];\n    struct npu_cold_page_plan plan = {ba->base, ba->bytes};\n    uint32_t status;\n\n    if (!live() || *(const volatile uint16_t *)(uintptr_t)HEAD ||\n        *(const volatile uint16_t *)(uintptr_t)TAIL)\n        return NPU_COLD_PAGE_CORRUPT;\n    status = npu_cold_page_init(&npu_emulation_page_state, &plan, 1);\n    if (status == NPU_COLD_PAGE_OK || status == NPU_COLD_PAGE_FAULT) {\n        npu_emulation_page_plan = plan;\n        arena_snapshot = word(0x3e9030fcu);\n    }\n    return status;\n}\n\nuint32_t npu_emulation_page_get(void)\n{\n    const struct npu_cold_page_queue queue = {\n        (volatile uint16_t *)(uintptr_t)HEAD,\n        (const volatile uint16_t *)(uintptr_t)TAIL,\n        (const volatile uint16_t *)(uintptr_t)POOL,\n        NPU_COLD_PAGE_IDS\n    };\n\n    if (!busy || !live() || npu_emulation_page_plan.packet_base != BOOT->plan.region[NPU_BOOT_BA].base ||\n        npu_emulation_page_plan.packet_bytes != BOOT->plan.region[NPU_BOOT_BA].bytes) {\n        fail();\n        return UINT32_MAX;\n    }\n    npu_emulation_page_last = npu_cold_page_queue_take(\n        &npu_emulation_page_state, &npu_emulation_page_plan, 1, &queue);\n    if (npu_emulation_page_last.page.status != NPU_COLD_PAGE_OK ||\n        !npu_emulation_page_last.published || !live()) {\n        statistic(0x44);\n        fail();\n        return UINT32_MAX;\n    }\n    statistic(0x48);\n    return npu_emulation_page_last.page.id;\n}\n\nuint32_t npu_emulation_page_ready(void)\n{\n    if (!busy || !live() || load(&npu_emulation_page_state.fault)) {\n        fail();\n        return 0;\n    }\n    return 1;\n}\n\nuint32_t npu_emulation_page_callback(const struct npu_bootstrap_packet *packet)\n{\n    uint32_t selector = packet->header & 15, status, result = 0, ready;\n    struct npu_bootstrap_packet snapshot;\n    static const uint32_t limits[3] = {256, 512, 1024};\n    static const uint32_t flags[3] = {0x3e901f44u, 0x3e903954u, 0x3e902ce8u};\n\n    if (selector < 5 || selector > 7)\n        return npu_emulation_txdone_callback(packet);\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    snapshot = *packet;\n    ready = flags[selector - 5];\n    if (snapshot.header != (0x10u | selector) || snapshot.api != 1 ||\n        !snapshot.value || snapshot.value > limits[selector - 5] || busy ||\n        !live() || word(ready) || load(&npu_emulation_page_state.fault) ||\n        load(&npu_emulation_page_state.magic) != NPU_COLD_PAGE_MAGIC) {\n        fail();\n        goto done;\n    }\n    busy = 1;\n    result = !npu_original_page_dispatch(snapshot.value, selector);\n    if (!result || !live() || load(&npu_emulation_page_state.fault) || word(ready) != 1) {\n        fail();\n        *(volatile uint32_t *)(uintptr_t)ready = 0;\n        result = 0;\n    }\n    busy = 0;\ndone:\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result;\n}\n",
+    "shared_core": "#include \"cold-page.h\"\n\n_Static_assert(sizeof(struct npu_cold_page_state) == 1052, \"cold page state changed\");\n_Static_assert(sizeof(struct npu_cold_page_plan) == 8, \"cold page plan changed\");\n_Static_assert(sizeof(struct npu_cold_page_result) == 20, \"cold page result changed\");\n\nstatic uint32_t faulted(const struct npu_cold_page_state *s)\n{\n    return __atomic_load_n(&s->fault, __ATOMIC_ACQUIRE);\n}\n\nvoid npu_cold_page_fault(struct npu_cold_page_state *s)\n{\n    if (s)\n        __atomic_store_n(&s->fault, 1, __ATOMIC_RELEASE);\n}\n\nstatic int plan_valid(const struct npu_cold_page_plan *p)\n{\n    return p->packet_base >= 0x80000000u && p->packet_base < 0xc0000000u &&\n           !(p->packet_base & (NPU_COLD_PAGE_BYTES - 1)) &&\n           p->packet_bytes >= NPU_COLD_PAGE_IDS * NPU_COLD_PAGE_BYTES &&\n           p->packet_bytes <= 0xc0000000u - p->packet_base;\n}\n\nstatic uint32_t population(uint32_t word)\n{\n    word -= (word >> 1) & 0x55555555u;\n    word = (word & 0x33333333u) + ((word >> 2) & 0x33333333u);\n    word = (word + (word >> 4)) & 0x0f0f0f0fu;\n    return (word * 0x01010101u) >> 24;\n}\n\nuint32_t npu_cold_page_init(struct npu_cold_page_state *s,\n                           const struct npu_cold_page_plan *p, uint32_t epoch)\n{\n    uint32_t i;\n\n    if (!s || !p)\n        return NPU_COLD_PAGE_ARGUMENT;\n    if (s->magic || s->epoch || faulted(s) || s->head || s->count ||\n        s->packet_base || s->packet_bytes)\n        return NPU_COLD_PAGE_REINITIALIZE;\n    for (i = 0; i < NPU_COLD_PAGE_WORDS; i++)\n        if (s->claimed[i])\n            return NPU_COLD_PAGE_REINITIALIZE;\n    if (!epoch || !plan_valid(p)) {\n        npu_cold_page_fault(s);\n        return NPU_COLD_PAGE_PLAN;\n    }\n    s->epoch = epoch;\n    s->packet_base = p->packet_base;\n    s->packet_bytes = p->packet_bytes;\n    __atomic_store_n(&s->magic, NPU_COLD_PAGE_MAGIC, __ATOMIC_RELEASE);\n    return faulted(s) ? NPU_COLD_PAGE_FAULT : NPU_COLD_PAGE_OK;\n}\n\nstatic struct npu_cold_page_result fail(struct npu_cold_page_state *s, uint32_t status)\n{\n    struct npu_cold_page_result result = {status, UINT32_MAX, 0, UINT32_MAX, 0};\n\n    npu_cold_page_fault(s);\n    return result;\n}\n\nstruct npu_cold_page_queue_result npu_cold_page_queue_take(\n    struct npu_cold_page_state *s, const struct npu_cold_page_plan *p,\n    uint32_t epoch, const struct npu_cold_page_queue *q)\n{\n    struct npu_cold_page_queue_result result;\n    uint32_t head, tail, id;\n\n    /* Field initialization avoids a -Os freestanding memcpy dependency. */\n    result.page.status = NPU_COLD_PAGE_ARGUMENT;\n    result.page.id = UINT32_MAX;\n    result.page.address = 0;\n    result.page.next_head = UINT32_MAX;\n    result.page.committed = 0;\n    result.published = 0;\n    if (!s || !p || !q)\n        return result;\n    if (__atomic_load_n(&s->magic, __ATOMIC_ACQUIRE) != NPU_COLD_PAGE_MAGIC || faulted(s)) {\n        result.page = fail(s, NPU_COLD_PAGE_FAULT);\n        return result;\n    }\n    if (!s->epoch) {\n        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);\n        return result;\n    }\n    if (!epoch || epoch != s->epoch) {\n        result.page.status = NPU_COLD_PAGE_STALE;\n        return result;\n    }\n    if (!q->head || !q->tail || !q->ids || q->capacity != NPU_COLD_PAGE_IDS ||\n        ((uintptr_t)q->head & 1) || ((uintptr_t)q->tail & 1) || ((uintptr_t)q->ids & 1)) {\n        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);\n        return result;\n    }\n    head = *q->head;\n    tail = *q->tail;\n    if (head >= NPU_COLD_PAGE_IDS || tail >= NPU_COLD_PAGE_IDS) {\n        result.page = fail(s, NPU_COLD_PAGE_CORRUPT);\n        return result;\n    }\n    id = q->ids[head];\n    result.page = npu_cold_page_take(s, p, epoch, head, tail, id);\n    if (!result.page.committed)\n        return result;\n\n    /* Retain the private claim even when the native snapshot can no longer be\n     * published. Never reset either cursor or give the claimed ID back. */\n    if (*q->head != head || *q->tail != tail || q->ids[head] != id) {\n        npu_cold_page_fault(s);\n        result.page.status = NPU_COLD_PAGE_CORRUPT;\n        return result;\n    }\n    __atomic_thread_fence(__ATOMIC_RELEASE);\n    *q->head = (uint16_t)result.page.next_head;\n    __atomic_thread_fence(__ATOMIC_SEQ_CST);\n    if (*q->head != result.page.next_head) {\n        npu_cold_page_fault(s);\n        result.page.status = NPU_COLD_PAGE_CORRUPT;\n        return result;\n    }\n    result.published = 1;\n    if (faulted(s))\n        result.page.status = NPU_COLD_PAGE_FAULT;\n    return result;\n}\n\nstruct npu_cold_page_result npu_cold_page_take(\n    struct npu_cold_page_state *s, const struct npu_cold_page_plan *p,\n    uint32_t epoch, uint32_t head, uint32_t tail, uint32_t id)\n{\n    struct npu_cold_page_result result = {NPU_COLD_PAGE_ARGUMENT, UINT32_MAX, 0, UINT32_MAX, 0};\n    uint32_t i, owned = 0, next, bit;\n\n    if (!s || !p)\n        return result;\n    if (__atomic_load_n(&s->magic, __ATOMIC_ACQUIRE) != NPU_COLD_PAGE_MAGIC || faulted(s))\n        return fail(s, NPU_COLD_PAGE_FAULT);\n    if (!s->epoch)\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    if (!epoch || epoch != s->epoch) {\n        result.status = NPU_COLD_PAGE_STALE;\n        return result;\n    }\n    if (!plan_valid(p) || s->packet_base != p->packet_base || s->packet_bytes != p->packet_bytes ||\n        head >= NPU_COLD_PAGE_IDS || tail >= NPU_COLD_PAGE_IDS || s->head != head ||\n        s->count > NPU_COLD_PAGE_IDS ||\n        s->head != (s->count & (NPU_COLD_PAGE_IDS - 1)))\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    for (i = 0; i < NPU_COLD_PAGE_WORDS; i++)\n        owned += population(s->claimed[i]);\n    if (owned != s->count)\n        return fail(s, NPU_COLD_PAGE_CORRUPT);\n    next = (head + 1) & (NPU_COLD_PAGE_IDS - 1);\n    if (next == tail)\n        return fail(s, NPU_COLD_PAGE_EMPTY);\n    if (id >= NPU_COLD_PAGE_IDS)\n        return fail(s, NPU_COLD_PAGE_ID);\n    bit = 1u << (id & 31);\n    if (s->claimed[id >> 5] & bit)\n        return fail(s, NPU_COLD_PAGE_DUPLICATE);\n    if (faulted(s))\n        return fail(s, NPU_COLD_PAGE_FAULT);\n\n    /* Claim before native head publication. An interrupted caller retains this\n     * record instead of letting another setup retry reuse the same page. */\n    s->claimed[id >> 5] |= bit;\n    s->head = next;\n    s->count++;\n    __atomic_thread_fence(__ATOMIC_RELEASE);\n    result.id = id;\n    result.address = p->packet_base + id * NPU_COLD_PAGE_BYTES;\n    result.next_head = next;\n    result.committed = 1;\n    result.status = faulted(s) ? NPU_COLD_PAGE_FAULT : NPU_COLD_PAGE_OK;\n    return result;\n}\n",
+    "nominal": [
+      {
+        "selector": 5,
+        "requested": 256,
+        "returned": 1,
+        "claimed": 256,
+        "private_head": 256,
+        "fault": 0,
+        "native_head": 256,
+        "bitmap_population": 256,
+        "success_statistics_delta": 256,
+        "descriptors": 256,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          255,
+          2428592000,
+          256,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048772660,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "selector": 6,
+        "requested": 512,
+        "returned": 1,
+        "claimed": 768,
+        "private_head": 768,
+        "fault": 0,
+        "native_head": 768,
+        "bitmap_population": 768,
+        "success_statistics_delta": 512,
+        "descriptors": 512,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          767,
+          2428657536,
+          768,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048772672,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048772676,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048780852,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "selector": 7,
+        "requested": 1024,
+        "returned": 1,
+        "claimed": 1792,
+        "private_head": 1792,
+        "fault": 0,
+        "native_head": 1792,
+        "bitmap_population": 1792,
+        "success_statistics_delta": 1024,
+        "descriptors": 1024,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          1791,
+          2428788608,
+          1792,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048780864,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048780868,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048797236,
+            4,
+            8388864
+          ]
+        ]
+      }
+    ],
+    "selected_controls": [
+      {
+        "name": "empty",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          7,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "partial",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 17,
+        "private_head": 17,
+        "fault": 1,
+        "native_head": 17,
+        "bitmap_population": 17,
+        "success_statistics_delta": 17,
+        "descriptors": 17,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          7,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048768836,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "name": "duplicate",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 1,
+        "bitmap_population": 1,
+        "success_statistics_delta": 1,
+        "descriptors": 1,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          9,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "name": "invalid-id",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          8,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "bad-count",
+        "selector": 5,
+        "requested": 257,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 0,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "claim-fault",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 1,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          4,
+          0,
+          2428559360,
+          1,
+          1,
+          1
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "head-changed",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 37,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          6,
+          0,
+          2428559360,
+          1,
+          1,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "tail-changed",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          6,
+          0,
+          2428559360,
+          1,
+          1,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "id-changed",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          6,
+          0,
+          2428559360,
+          1,
+          1,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "published-core-fault",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 1,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          4,
+          0,
+          2428559360,
+          1,
+          1,
+          1
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "published-barrier-fault",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 1,
+        "private_head": 1,
+        "fault": 1,
+        "native_head": 1,
+        "bitmap_population": 1,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          2428559360,
+          1,
+          1,
+          1
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "before-ready",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 32,
+        "private_head": 32,
+        "fault": 1,
+        "native_head": 32,
+        "bitmap_population": 32,
+        "success_statistics_delta": 32,
+        "descriptors": 32,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          31,
+          2428563328,
+          32,
+          1,
+          1
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 1048768576,
+        "injected": true,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048769076,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "name": "changed-arena",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 0,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "changed-backing",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 0,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "missing-parked-worker",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 0,
+        "injected": false,
+        "descriptor_first_last": []
+      },
+      {
+        "name": "stale-epoch",
+        "selector": 5,
+        "requested": 32,
+        "returned": 0,
+        "claimed": 0,
+        "private_head": 0,
+        "fault": 1,
+        "native_head": 0,
+        "bitmap_population": 0,
+        "success_statistics_delta": 0,
+        "descriptors": 0,
+        "ready": 0,
+        "ready_one_writes": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "barrier_fault": 1,
+        "active": 1,
+        "admission_fault": 1,
+        "ring": 0,
+        "injected": false,
+        "descriptor_first_last": []
+      }
+    ],
+    "mutants": [
+      {
+        "name": "omit-head-store",
+        "rejected_by": "callback-result"
+      },
+      {
+        "name": "omit-snapshot-recheck",
+        "rejected_by": "callback-result"
+      },
+      {
+        "name": "omit-late-fault-check",
+        "rejected_by": "publication"
+      },
+      {
+        "name": "omit-getter-lifetime-recheck",
+        "rejected_by": "publication"
+      },
+      {
+        "name": "always-success-wrapper",
+        "rejected_by": "callback-result"
+      },
+      {
+        "name": "omit-ready-fault-branch",
+        "rejected_by": "ready-gate"
+      }
+    ],
+    "strict_denial": {
+      "flags": 3,
+      "words": [
+        21,
+        1,
+        256
+      ],
+      "callbacks": [],
+      "reads": [
+        {
+          "offset": 0,
+          "size": 4
+        },
+        {
+          "offset": 4,
+          "size": 4
+        },
+        {
+          "offset": 8,
+          "size": 4
+        }
+      ]
+    },
+    "limits": [
+      "Original selected native initializer/dispatcher instructions plus checked C binding,not a modified vendor blob.",
+      "Explicit held direct callback lease and modeled all-hart parking;strict mailbox setup remains closed.",
+      "Emulator pool/backing/storage/exclusion contracts are not physical containment,coherency,drain or client acceptance."
+    ]
+  },
+  "questions": {
+    "partial_ownership": {
+      "type": "noul",
+      "instructions": "Do selected_controls show that partial exhaustion returns callback failure while retaining the consumed IDs and native head, rather than clearing or reusing those claims?"
+    },
+    "committed_late_fault": {
+      "type": "noul",
+      "instructions": "Do the claim-fault and published-core-fault entries in selected_controls demonstrate a retained committed claim and published native head without exposing a descriptor or readiness for that claim?"
+    },
+    "other_selectors": {
+      "type": "noul",
+      "instructions": "Does binding delegate selectors outside 5/6/7 to the existing callback binding rather than open them through the new page path?"
+    },
+    "acceptance_scope": {
+      "type": "choice",
+      "instructions": "Which acceptance scope is established by the supplied native receipts and limits?",
+      "criteria": {
+        "native_emulated_composition": "Original selected native initializer instructions composed with checked core/caller code under explicit modeled storage, parked workers and a held direct lease.",
+        "physical_complete": "Actual hardware-exclusive ownership, drains and full client acceptance.",
+        "strict_setup_complete": "Complete strict mailbox DISCOVER/setup/BIND implementation.",
+        "not_established": "The receipts do not establish the selected native-emulation composition."
+      }
+    }
+  }
+}
