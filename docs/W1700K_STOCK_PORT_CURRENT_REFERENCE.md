@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Shared Cold RX/TXDONE Ownership
+
+TXDONE now shares the retained PKT state with RX0/RX2. Its wrapper and publication
+guard retain late-fault claims and validate plan/history/bitmap before readiness.
+The 61-site full prefix/ring retains 3,072 PKT IDs; exact native RAM/SKB/ordered
+locks, 25 controls/six mutants, full RX/page regression and unchanged-image checks
+pass. No core/archive/provider/vendor/FIT change or fresh world build/flash.
+The real recipe still copies vendor CODE/DATA; loader/session/identity/strict
+caller installation remains open. The measured test storage offsets0x6380/0x63a0
+are not initialized by the 3,084-byte vendor DATA image. Other owners, hot lifecycle,
+postgate and physical recovery/clients remain unfinished. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md` and `INSTALL_TRACE.md`.
+
 ## 2026-10-10 - Checked Cold RX Packet Ownership
 
 Distinct 16,384-ID/2,048-byte packet ownership now composes with original RX0/RX2
@@ -69,7 +82,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (selected cold RX packet composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
+Last updated: 2026-10-10 (selected shared RX/TXDONE composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

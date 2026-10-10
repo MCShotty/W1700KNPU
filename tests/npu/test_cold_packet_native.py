@@ -25,7 +25,9 @@ GETTER, EXTRA, EXTRA_BYTES = 0x84004d80, 0x84080000, 0x4000
 SITES = {GETTER: 'npu_emulation_packet_entry',
          0x84004d92: 'npu_emulation_packet_guard',
          0x8400b7c8: 'npu_emulation_packet_ready0',
-         0x8400b8f6: 'npu_emulation_packet_ready2'}
+         0x8400b8f6: 'npu_emulation_packet_ready2',
+         0x8400fe34: 'npu_emulation_packet_callback',
+         0x8400b546: 'npu_emulation_packet_txdone_publish'}
 
 
 def build(dest, parts, rx_path, *, source=None, assembly=None):
@@ -42,6 +44,12 @@ def build(dest, parts, rx_path, *, source=None, assembly=None):
                '-Wl,--just-symbols=' + str(parts['allocator']),
                '-Wl,--defsym=npu_emulation_rx_dispatch_live=' +
                hex(composition.symbols(rx_path)['npu_emulation_rx_dispatch_live']),
+               '-Wl,--defsym=npu_emulation_rx_stats_callback=' +
+               hex(composition.symbols(rx_path)['npu_emulation_rx_stats_callback']),
+               '-Wl,--defsym=npu_previous_txdone_callback=' +
+               hex(composition.symbols(parts['txdone'])['npu_emulation_txdone_callback']),
+               '-Wl,--defsym=npu_previous_txdone_publish_guard=' +
+               hex(composition.symbols(parts['txdone'])['npu_emulation_txdone_publish_guard']),
                '-Wl,--defsym=npu_previous_txdone_bufid_guard=' +
                hex(composition.symbols(parts['txdone'])['npu_emulation_txdone_bufid_guard']),
                '-o', path]
@@ -163,9 +171,10 @@ class NativePackets(stats.RxStats):
                     self.cpu.mem_write(POOL + 2 * self.head_before, struct.pack('<H', 42))
                     # The whole-heap oracle includes this explicit external fault
                     # injection, not an additional write by the native consumer.
-                    heap = bytearray(self.at_allocator['heap'])
-                    struct.pack_into('<H', heap, POOL - HEAP + 2 * self.head_before, 42)
-                    self.at_allocator['heap'] = bytes(heap)
+                    if self.at_allocator:
+                        heap = bytearray(self.at_allocator['heap'])
+                        struct.pack_into('<H', heap, POOL - HEAP + 2 * self.head_before, 42)
+                        self.at_allocator['heap'] = bytes(heap)
                 else:
                     super().write_hook(cpu, access, address, size, value, data)
                     return

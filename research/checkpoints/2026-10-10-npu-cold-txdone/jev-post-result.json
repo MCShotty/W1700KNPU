@@ -1,0 +1,84 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-txdone-20261010\\jev-post-request.json",
+  "request_sha256": "25c786f5cfb927b48c84c1dd4ddef9cfbffcbea9febe404d0594e68648a2beb6",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "shared_claims": {
+      "type": "noul",
+      "instructions": "Do nominal and prefix_claims describe TXDONE adding to the retained RX PKT ownership total, rather than a second independent PKT bitmap?"
+    },
+    "partial_retention": {
+      "type": "noul",
+      "instructions": "Using controls.partial-pool and definitions, does partial exhaustion retain its new packet claims/descriptors while denying callback success and readiness publication?"
+    },
+    "skb_failure": {
+      "type": "noul",
+      "instructions": "Using controls.denied-skb19, controls.denied-skb20 and controls.during-skb-reset, are previously committed PKT claims retained despite failure of the later SKB step?"
+    },
+    "packet_fault_publication": {
+      "type": "noul",
+      "instructions": "Does controls.before-ready-packet-fault show no readiness-one write when private packet ownership faults before TXDONE publication?"
+    },
+    "history_publication": {
+      "type": "noul",
+      "instructions": "Do controls.before-ready-head and controls.before-ready-bitmap show readiness denied for corrupted ownership history?"
+    },
+    "plan_publication": {
+      "type": "noul",
+      "instructions": "Does controls.before-ready-plan show readiness denied after the private packet plan changes?"
+    },
+    "installed_scope": {
+      "type": "choice",
+      "instructions": "Which current installation scope follows from install?",
+      "criteria": {
+        "compiled_emulated": "The revised native owner binding is compiled/emulated, not installed by the production vendor-pair recipe.",
+        "installed": "The changed owner binding is installed in production CODE/DATA.",
+        "unknown": "Neither is established."
+      }
+    }
+  },
+  "elapsed_ms": 1168,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "shared_claims": {
+        "type": "noul",
+        "noul": 0.64
+      },
+      "partial_retention": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "skb_failure": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "packet_fault_publication": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "history_publication": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "plan_publication": {
+        "type": "noul",
+        "noul": 0.57
+      },
+      "installed_scope": {
+        "type": "choice",
+        "choice": "compiled_emulated",
+        "confidence": 0.94,
+        "probabilities": {
+          "compiled_emulated": 0.96,
+          "installed": 0.02,
+          "unknown": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1711,
+      "output_tokens": 159
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "passed": true,
+  "source_hashes": {
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c": "94dd99b750c047cf0ee14d12b3cd97ad397821e0e01936ca223c3c68cd46b2f6",
+    ".build/merged-openwrt/package/firmware/linux-firmware/airoha.mk": "ee61cbc68db899adc836d0ecc6c892ccd50d8941b2633c73bcc88ef2a5f1f750",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_data.bin": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+    ".local/npu-bootstrap-v2-composition/base-rv.elf": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b",
+    "firmware/npu/Makefile": "c59510296c26943ba6011e1ab351956363f17622177bdccf93b7a57121ef2bbc",
+    "tools/build_firmware.py": "d3928d70c68d914792fa4fdd3ccc903286db9195a24fcadbec73cd16a8e7758f"
+  },
+  "driver_limits": {
+    "code_bytes": 2097152,
+    "data_bytes": 65536,
+    "backup_bytes": 262144
+  },
+  "original_sizes": {
+    "code": 122336,
+    "data": 3084
+  },
+  "compiled_sections": [
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/base-rv.elf",
+      "section": ".text",
+      "address": 2214854656,
+      "end": 2214867492,
+      "zero_fill": false,
+      "sha256": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/base-rv.elf",
+      "section": ".rodata",
+      "address": 2214867492,
+      "end": 2214867620,
+      "zero_fill": false,
+      "sha256": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/bridge.elf",
+      "section": ".text",
+      "address": 2214887424,
+      "end": 2214887512,
+      "zero_fill": false,
+      "sha256": "7441b1130eef7fb6ddf93c0d12bf517a640ad19fafc0e92500cd07ca2e9d485a"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/reset.elf",
+      "section": ".text",
+      "address": 2214903808,
+      "end": 2214903828,
+      "zero_fill": false,
+      "sha256": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/allocator.elf",
+      "section": ".text",
+      "address": 2214912000,
+      "end": 2214914708,
+      "zero_fill": false,
+      "sha256": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/allocator.elf",
+      "section": ".rodata",
+      "address": 2214914708,
+      "end": 2214914748,
+      "zero_fill": false,
+      "sha256": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/allocator.elf",
+      "section": ".bss",
+      "address": 2214914748,
+      "end": 2214914752,
+      "zero_fill": true,
+      "sha256": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/allocator.elf",
+      "section": ".command_ring",
+      "address": 2214985728,
+      "end": 2215018512,
+      "zero_fill": false,
+      "sha256": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/txdone.elf",
+      "section": ".text",
+      "address": 2214928384,
+      "end": 2214930122,
+      "zero_fill": false,
+      "sha256": "3d6bcb6a71435f0048ffcd5060c9e88bae6e4b6646c35309a5e558d8d138a205"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/order.elf",
+      "section": ".text",
+      "address": 2214936576,
+      "end": 2214936620,
+      "zero_fill": false,
+      "sha256": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/headers.elf",
+      "section": ".text",
+      "address": 2214944768,
+      "end": 2214945214,
+      "zero_fill": false,
+      "sha256": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/egress.elf",
+      "section": ".text",
+      "address": 2214952960,
+      "end": 2214953140,
+      "zero_fill": false,
+      "sha256": "2a519b6b1b372cd63a4a7406440fe3f0d59a0ee06db2829b563f228f456f3ac2"
+    },
+    {
+      "binary": ".local/npu-bootstrap-v2-composition/packets.elf",
+      "section": ".text",
+      "address": 2214961152,
+      "end": 2214961470,
+      "zero_fill": false,
+      "sha256": "bc2529ac4f03c5dcda4ecf8936dab05b318eebed341e7c0062cfa5d44cc5e2a6"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/page-component/native-page.elf",
+      "section": ".text",
+      "address": 2215084032,
+      "end": 2215086448,
+      "zero_fill": false,
+      "sha256": "1a36cef8936cb8a49f79509b6b32e6d09627b2919a4306b7ef904c369245eab6"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/page-component/native-page.elf",
+      "section": ".rodata",
+      "address": 2215086448,
+      "end": 2215086488,
+      "zero_fill": false,
+      "sha256": "1a36cef8936cb8a49f79509b6b32e6d09627b2919a4306b7ef904c369245eab6"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/page-component/native-page.elf",
+      "section": ".bss",
+      "address": 2215086488,
+      "end": 2215087580,
+      "zero_fill": true,
+      "sha256": "1a36cef8936cb8a49f79509b6b32e6d09627b2919a4306b7ef904c369245eab6"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/rx-component/rx-stats.elf",
+      "section": ".text",
+      "address": 2215100416,
+      "end": 2215101430,
+      "zero_fill": false,
+      "sha256": "f77e4db60cafcd17cd16d5c5bd02af1c89db674368f842e3cb1abdfed47564eb"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/native-packet.elf",
+      "section": ".text",
+      "address": 2215116800,
+      "end": 2215119718,
+      "zero_fill": false,
+      "sha256": "ceb3fd1520263e69643a11ed21d3e940665b5ad975c40681a8f40d103e956920"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/native-packet.elf",
+      "section": ".rodata",
+      "address": 2215119720,
+      "end": 2215119724,
+      "zero_fill": false,
+      "sha256": "ceb3fd1520263e69643a11ed21d3e940665b5ad975c40681a8f40d103e956920"
+    },
+    {
+      "binary": ".local/npu-cold-packet-native-20261010/txdone-rx-smoke-20261010/native-packet.elf",
+      "section": ".bss",
+      "address": 2215119728,
+      "end": 2215121848,
+      "zero_fill": true,
+      "sha256": "ceb3fd1520263e69643a11ed21d3e940665b5ad975c40681a8f40d103e956920"
+    }
+  ],
+  "modeled_code_extent": 529336,
+  "modeled_storage": {
+    "identity_address": 1049650080,
+    "identity_sram_offset": 25504,
+    "identity_bytes": 8,
+    "session_address": 1049650048,
+    "session_bytes": 20
+  },
+  "original_data_reaches_identity": false,
+  "package_installs_vendor_pair": true,
+  "package_links_component_archive": false,
+  "physical_storage_reservation_proved": false,
+  "physical_cold_containment_proved": false,
+  "limits": [
+    "Range fit is not a hardware reservation or prior-user containment proof.",
+    "Existing provider copies CODE/DATA before core boot registers; new boot/session publication is absent from this path.",
+    "The sampled compiled sections belong to the current RX/TXDONE-capable smoke composition, not an installed image."
+  ]
+}

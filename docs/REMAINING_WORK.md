@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - TXDONE Shares The Cold PKT Lifetime
+
+Selected RX0/RX2/TXDONE now share retained claims in 61-site native instruction
+composition. Full RX prefix plus TXDONE512 retains 3,072 PKT IDs; exact RAM/SKB,
+ordered locks, readiness-last, 25 controls/six mutants and full RX/page regression
+pass. Late SKB/publication failures deny success/readiness without reclaiming.
+The core/archive/vendor pair/FIT are unchanged; no new world build or flash.
+
+Next produce and replay the complete paired raw CODE/DATA artifact, implement
+real cold-provider/storage/fresh-identity publication and Linux strict setup
+callers, then finish other owners, hot lifecycle and postgate integration.
+The current recipe only copies vendor blobs; modeled session/identity offsets
+0x6380/0x63a0 are beyond vendor DATA. Code/data aperture fit is not a physical
+reservation or prior-user containment certificate. Physical drains/recovery and
+actual clients remain required. Evidence and source-derived installer boundary:
+`research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md` and `INSTALL_TRACE.md`.
+
 ## 2026-10-10 - Selected Cold RX Packet Claims
 
 The distinct cold packet profile and selected RX0/RX2 lock/claim/readiness

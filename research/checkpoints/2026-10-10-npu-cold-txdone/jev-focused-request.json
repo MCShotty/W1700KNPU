@@ -1,0 +1,66 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "shared_route": "Original getter return PCs RX0=0x8400b76a, RX2=0x8400b898, TXDONE=0x8400b4e4 all enter the same assembly branch calling npu_emulation_packet_take. That function passes &npu_emulation_packet_state to npu_cold_packet_queue_take. One global state is declared; no independent TXDONE PKT state is declared.",
+    "head": {
+      "injection": "After all claims, private and native head are both incremented once, without changing count/bitmap. This makes head/history inconsistent while native/private heads match.",
+      "source_predicate": "state->head != (state->count & (NPU_COLD_PACKET_IDS - 1)) rejects publication.",
+      "result": {
+        "returned": 0,
+        "private_head": 2593,
+        "claimed": 2592,
+        "ready_one_stores": 0
+      },
+      "mutant": {
+        "name": "omit-ready-count-consistency",
+        "rejected_by": "failed-publication"
+      }
+    },
+    "bitmap": {
+      "injection": "An extra bit is set in bitmap word511 after claims, without increasing count.",
+      "source_predicate": "The publication helper sums population of all512 words and rejects population != state->count.",
+      "result": {
+        "returned": 0,
+        "population": 2593,
+        "claimed": 2592,
+        "ready_one_stores": 0
+      },
+      "mutant": {
+        "name": "omit-ready-bitmap-population",
+        "rejected_by": "failed-publication"
+      }
+    },
+    "plan": {
+      "injection": "Only private plan.packet_base is increased by2048 just before publication; owned state and bootstrap bases remain original.",
+      "source_predicate": "state->packet_base != npu_emulation_packet_plan.packet_base rejects publication.",
+      "result": {
+        "returned": 0,
+        "claimed": 2592,
+        "ready_one_stores": 0
+      },
+      "mutant": {
+        "name": "omit-ready-plan-identity",
+        "rejected_by": "failed-publication"
+      }
+    },
+    "definitions": "returned0 is failure. ready_one_stores0 means no value1 publication, even transiently. Evidence scope is actual compiled C/native instructions with modeled platform inputs, not physical acceptance."
+  },
+  "questions": {
+    "shared": {
+      "type": "noul",
+      "instructions": "Does shared_route use one retained PKT ownership state for the selected RX and TXDONE getters?"
+    },
+    "head": {
+      "type": "noul",
+      "instructions": "Do head.injection, head.source_predicate, head.result and head.mutant demonstrate denial of readiness for the injected inconsistent ownership history in this native emulation?"
+    },
+    "bitmap": {
+      "type": "noul",
+      "instructions": "Do bitmap.injection, bitmap.source_predicate, bitmap.result and bitmap.mutant demonstrate denial of readiness for the injected extra ownership bit in this native emulation?"
+    },
+    "plan": {
+      "type": "noul",
+      "instructions": "Do plan.injection, plan.source_predicate, plan.result and plan.mutant demonstrate denial of readiness for the injected private-plan change in this native emulation?"
+    }
+  }
+}

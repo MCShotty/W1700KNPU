@@ -1,5 +1,18 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Shared Cold TXDONE Binding
+
+Selected RX0/RX2/TXDONE packet getters now share the retained PKT state in native
+instruction composition. A guarded TXDONE wrapper and publication path retain
+claims after SKB failure and validate immutable plan, head/count history and
+bitmap population before readiness. Exact full-prefix/native RAM/SKB/lock proof,
+25 controls/six mutants and full RX/page regression pass. The portable core and
+normal twelve-object archive are unchanged; this binding is not installed CODE.
+Actual packaging/provider/identity publication boundaries are documented in
+`research/checkpoints/2026-10-10-npu-cold-txdone/INSTALL_TRACE.md`.
+Complete raw pair, real loader/storage/strict setup, other owners/hot lifecycle
+and physical drain/recovery/client acceptance remain required.
+
 ## 2026-10-10 - Cold Packet Profile And Locked RX Binding
 
 `cold-packet.c/.h` specializes the retained-claim algorithm for 16,384 packet IDs

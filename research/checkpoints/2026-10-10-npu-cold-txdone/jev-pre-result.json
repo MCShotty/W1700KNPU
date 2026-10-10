@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-txdone-20261010\\jev-pre-request.json",
+  "request_sha256": "289b28a05c53adb907bf77ecb814175d4ec4c89cb4abf9c83001d8c434e3ef56",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "owner_state": {
+      "type": "choice",
+      "instructions": "Which ownership state should packet_getter's TXDONE caller use under contract?",
+      "criteria": {
+        "shared_packet": "The same retained PKT ownership state used by RX0/RX2.",
+        "separate_bitmap": "A new independent bitmap for the same PKT IDs.",
+        "page": "The separate BA-page bitmap.",
+        "unknown": "The supplied pool identity is insufficient."
+      }
+    },
+    "late_failure": {
+      "type": "noul",
+      "instructions": "Does contract require retaining TXDONE's committed PKT claims even when its subsequent skb_reset fails?"
+    },
+    "publication": {
+      "type": "noul",
+      "instructions": "Does contract require checking PKT ownership/lifetime before TXDONE readiness publication, in addition to the earlier geometry guard?"
+    },
+    "skb_is_release": {
+      "type": "noul",
+      "instructions": "Does skb_reset describe PKT claim release or reclamation?"
+    },
+    "installed_scope": {
+      "type": "choice",
+      "instructions": "What installation scope does build_evidence establish?",
+      "criteria": {
+        "compiled_emulated": "Compiled components and native test composition, not production CODE installation.",
+        "installed": "The revised owner guards are already installed in packaged CODE.",
+        "unknown": "Neither is established."
+      }
+    }
+  },
+  "elapsed_ms": 1498,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "owner_state": {
+        "type": "choice",
+        "choice": "shared_packet",
+        "confidence": 0.89,
+        "probabilities": {
+          "shared_packet": 0.92,
+          "separate_bitmap": 0.06,
+          "page": 0.01,
+          "unknown": 0.01
+        }
+      },
+      "late_failure": {
+        "type": "noul",
+        "noul": 0.79
+      },
+      "publication": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "skb_is_release": {
+        "type": "noul",
+        "noul": 0.23
+      },
+      "installed_scope": {
+        "type": "choice",
+        "choice": "compiled_emulated",
+        "confidence": 1.0,
+        "probabilities": {
+          "compiled_emulated": 1.0,
+          "installed": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 880,
+      "output_tokens": 142
+    }
+  }
+}

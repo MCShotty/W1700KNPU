@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Shared RX/TXDONE Packet Claims
+
+TXDONE now uses the same retained packet state as RX0/RX2 in native instruction
+composition. The full prefix/ring retains 3,072 claims; complete native RAM/SKB,
+ordered locks, 25 controls and six mutants pass. Full RX/page regression and
+unchanged-image checks also pass. Readiness now rejects late plan/history/bitmap
+corruption without reclaiming resources. The real loader still installs the
+vendor pair, not these linked hooks. Evidence and the exact installation gap:
+`research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md` and `INSTALL_TRACE.md`
+in that directory. Real loader/strict setup/hot lifecycle/physical gates remain.
+
 ## 2026-10-10 - Cold RX Packet Ownership
 
 The normal RV32 archive now includes a distinct cold packet ownership profile.

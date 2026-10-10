@@ -19642,3 +19642,27 @@ Status and boundary:
   owners, strict full setup, hot lifecycle, worker/postgate and physical backing/
   coherency/drain/recovery/client gates remain open. Evidence:
   `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
+## 2026-10-10 - Shared Cold TXDONE Claims And Publication
+
+- Refreshed main510b7b7; extended the selected native binding so RX0/RX2/TXDONE
+  use one retained PKT state. The guarded TXDONE wrapper and original lock/SKB/
+  publication code keep claims and leases after failure; no reclaim/reset API.
+- Publication now checks private/BOOT plan identity, count/head history and
+  bitmap population. Full prefix plus TXDONE512 retains 3,072 claims. Exact
+  native RAM/SKB/bitmap, ordered locks and readiness-last checks pass, with
+  25 controls and six mutants whose named writable state preserves RX history.
+  The wrong descriptor-store observation PC was corrected before final proof.
+- Full RX/page regression passes 2,560 PKT and 1,792 BA claims, 50 controls and
+  six mutants. Eight build-runner and fresh offline image checks pass. Core,
+  archive, provider, vendor pair/source lock and FIT remain unchanged. No fresh
+  world build, flash or hardware operation is claimed.
+- Traced actual package/provider installation: vendor pair is copied directly,
+  CODE/DATA limits are2MiB/64KiB plus256KiB backup, and all8 boot bases/trigger
+  follow paired copy. Test session/identity offsets0x6380/0x63a0 lie beyond the
+  vendor DATA3084 bytes. Numeric fit does not approve storage or cold containment.
+- Updated ledger/session/resume/README/AGENTS and sealed scoped proof. Jev's
+  uncertain history/plan batch was followed by source/injection/mutant evidence;
+  raw results retain all probabilities. Real paired-image/loader/strict caller
+  wiring, other owners/hot lifecycle, postgate/physical recovery/clients remain.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md`.

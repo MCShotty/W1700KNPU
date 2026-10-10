@@ -7,6 +7,8 @@ npu_emulation_packet_entry:
     beq ra, t0, .Lentry_rx
     li t0, 0x8400b898
     beq ra, t0, .Lentry_rx
+    li t0, 0x8400b4e4
+    beq ra, t0, .Lentry_rx
     /* Replay the two displaced instructions for unrelated native users. */
     addi sp, sp, -16
     li a0, 0x3e901d82
@@ -31,6 +33,8 @@ npu_emulation_packet_guard:
     li t1, 0x8400b76a
     beq t0, t1, .Lrx
     li t1, 0x8400b898
+    beq t0, t1, .Lrx
+    li t1, 0x8400b4e4
     bne t0, t1, npu_previous_txdone_bufid_guard
 .Lrx:
     addi sp, sp, -16
@@ -64,3 +68,13 @@ npu_emulation_packet_guard:
     .endm
     ready npu_emulation_packet_ready0, 0, 0x3e902a84, original_rx_b7cc, original_rx_b7ce
     ready npu_emulation_packet_ready2, 2, 0x3e904588, original_rx_b8fa, original_rx_b8fc
+
+    .global npu_emulation_packet_txdone_publish
+npu_emulation_packet_txdone_publish:
+    addi sp, sp, -16
+    sw ra, 12(sp)
+    call npu_emulation_packet_txdone_ready
+    lw ra, 12(sp)
+    addi sp, sp, 16
+    /* The earlier native guard supplies the original unwind on latched fault. */
+    j npu_previous_txdone_publish_guard

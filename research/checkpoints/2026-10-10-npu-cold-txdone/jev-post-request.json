@@ -1,0 +1,188 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "scope": [
+      "Selected shared cold RX/TXDONE instruction composition; modeled backing/grants and held lease.",
+      "No physical loader installation,hot recycle,drain/recovery or actual-client acceptance."
+    ],
+    "prefix_claims": 2560,
+    "nominal": [
+      {
+        "requested": 1,
+        "claimed": 2561,
+        "population": 2561,
+        "ready_one_stores": 1
+      },
+      {
+        "requested": 512,
+        "claimed": 3072,
+        "population": 3072,
+        "ready_one_stores": 1
+      }
+    ],
+    "controls": {
+      "partial-pool": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 17,
+        "claimed": 2577,
+        "population": 2577,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2577,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "denied-skb19": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "denied-skb20": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "during-skb-reset": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "before-ready-packet-fault": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "before-ready-head": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2593,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "before-ready-bitmap": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2593,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      },
+      "before-ready-plan": {
+        "returned": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "descriptor_stores": 32,
+        "claimed": 2592,
+        "population": 2592,
+        "packet_fault": 1,
+        "active": 1,
+        "guarded": 0,
+        "buffer_head": 2592,
+        "admission_fault": 1,
+        "barrier_fault": 1
+      }
+    },
+    "definitions": {
+      "returned": "0 means callback failure, 1 success.",
+      "ready_one_stores": "Observed writes of readiness value1, including transient ones.",
+      "claimed": "Total retained packet ownership records, including the preceding RX claims."
+    },
+    "install": {
+      "package_installs_vendor_pair": true,
+      "package_links_component_archive": false,
+      "original_data_reaches_identity": false,
+      "limits": [
+        "Range fit is not a hardware reservation or prior-user containment proof.",
+        "Existing provider copies CODE/DATA before core boot registers; new boot/session publication is absent from this path.",
+        "The sampled compiled sections belong to the current RX/TXDONE-capable smoke composition, not an installed image."
+      ]
+    }
+  },
+  "questions": {
+    "shared_claims": {
+      "type": "noul",
+      "instructions": "Do nominal and prefix_claims describe TXDONE adding to the retained RX PKT ownership total, rather than a second independent PKT bitmap?"
+    },
+    "partial_retention": {
+      "type": "noul",
+      "instructions": "Using controls.partial-pool and definitions, does partial exhaustion retain its new packet claims/descriptors while denying callback success and readiness publication?"
+    },
+    "skb_failure": {
+      "type": "noul",
+      "instructions": "Using controls.denied-skb19, controls.denied-skb20 and controls.during-skb-reset, are previously committed PKT claims retained despite failure of the later SKB step?"
+    },
+    "packet_fault_publication": {
+      "type": "noul",
+      "instructions": "Does controls.before-ready-packet-fault show no readiness-one write when private packet ownership faults before TXDONE publication?"
+    },
+    "history_publication": {
+      "type": "noul",
+      "instructions": "Do controls.before-ready-head and controls.before-ready-bitmap show readiness denied for corrupted ownership history?"
+    },
+    "plan_publication": {
+      "type": "noul",
+      "instructions": "Does controls.before-ready-plan show readiness denied after the private packet plan changes?"
+    },
+    "installed_scope": {
+      "type": "choice",
+      "instructions": "Which current installation scope follows from install?",
+      "criteria": {
+        "compiled_emulated": "The revised native owner binding is compiled/emulated, not installed by the production vendor-pair recipe.",
+        "installed": "The changed owner binding is installed in production CODE/DATA.",
+        "unknown": "Neither is established."
+      }
+    }
+  }
+}

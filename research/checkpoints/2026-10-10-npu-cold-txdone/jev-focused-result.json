@@ -1,0 +1,49 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-txdone-20261010\\jev-focused-request.json",
+  "request_sha256": "27becc73d7bb2dd581f700222b92351ca13832ed81a53355169410ab866e9398",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "shared": {
+      "type": "noul",
+      "instructions": "Does shared_route use one retained PKT ownership state for the selected RX and TXDONE getters?"
+    },
+    "head": {
+      "type": "noul",
+      "instructions": "Do head.injection, head.source_predicate, head.result and head.mutant demonstrate denial of readiness for the injected inconsistent ownership history in this native emulation?"
+    },
+    "bitmap": {
+      "type": "noul",
+      "instructions": "Do bitmap.injection, bitmap.source_predicate, bitmap.result and bitmap.mutant demonstrate denial of readiness for the injected extra ownership bit in this native emulation?"
+    },
+    "plan": {
+      "type": "noul",
+      "instructions": "Do plan.injection, plan.source_predicate, plan.result and plan.mutant demonstrate denial of readiness for the injected private-plan change in this native emulation?"
+    }
+  },
+  "elapsed_ms": 613,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "shared": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "head": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "bitmap": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "plan": {
+        "type": "noul",
+        "noul": 0.94
+      }
+    },
+    "usage": {
+      "input_tokens": 981,
+      "output_tokens": 68
+    }
+  }
+}

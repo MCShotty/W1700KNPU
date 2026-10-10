@@ -1,0 +1,47 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "packet_getter": {
+      "native_entry": "0x84004d80",
+      "pool": "The 16384-ID PKT pool at SRAM pointer 0x3e901b88, allocated as type0x8a, with 2048-byte slots and common head/tail.",
+      "callers": ["RX0 return PC0x8400b76a", "RX2 return PC0x8400b898", "TXDONE return PC0x8400b4e4"]
+    },
+    "skb_reset": "The subsequent TXDONE SKB reset scans the two TXDMA descriptor rings using the separate TXPKT backing and TXCHECK state. It does not release PKT IDs consumed for TXDONE descriptors.",
+    "contract": "All selected cold PKT consumers must retain committed claims and published head on later failure. Failed grants never claim/release; callback/readiness success is denied when ownership or common lifetime fails. No hot recycle or reset API exists.",
+    "routes": "Current packet binding recognizes RX0/RX2 only. The RX statistics wrapper delegates other selectors through page then TXDONE wrappers. TXDONE's current bufid guard checks geometry but does not claim the shared bitmap.",
+    "build_evidence": "The normal RV32 archive is compiled, but packaged CODE/DATA hashes remain the original vendor pair. Native hook installation currently happens in the test composition, not the production loader."
+  },
+  "questions": {
+    "owner_state": {
+      "type": "choice",
+      "instructions": "Which ownership state should packet_getter's TXDONE caller use under contract?",
+      "criteria": {
+        "shared_packet": "The same retained PKT ownership state used by RX0/RX2.",
+        "separate_bitmap": "A new independent bitmap for the same PKT IDs.",
+        "page": "The separate BA-page bitmap.",
+        "unknown": "The supplied pool identity is insufficient."
+      }
+    },
+    "late_failure": {
+      "type": "noul",
+      "instructions": "Does contract require retaining TXDONE's committed PKT claims even when its subsequent skb_reset fails?"
+    },
+    "publication": {
+      "type": "noul",
+      "instructions": "Does contract require checking PKT ownership/lifetime before TXDONE readiness publication, in addition to the earlier geometry guard?"
+    },
+    "skb_is_release": {
+      "type": "noul",
+      "instructions": "Does skb_reset describe PKT claim release or reclamation?"
+    },
+    "installed_scope": {
+      "type": "choice",
+      "instructions": "What installation scope does build_evidence establish?",
+      "criteria": {
+        "compiled_emulated": "Compiled components and native test composition, not production CODE installation.",
+        "installed": "The revised owner guards are already installed in packaged CODE.",
+        "unknown": "Neither is established."
+      }
+    }
+  }
+}

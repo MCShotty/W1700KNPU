@@ -1,6 +1,6 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (selected cold RX packet ownership composed; real loader/strict setup/physical gates open)
+Last updated: 2026-10-10 (selected shared RX/TXDONE ownership composed; real loader/strict setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
@@ -7472,3 +7472,18 @@ and READMEs; retained both broad uncertain and focused Jev receipts. No flash or
 hardware change. Full loader/strict setup, other packet owners/hot lifecycle and
 physical backing/coherency/drains/recovery/client acceptance remain open.
 Evidence: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
+## 2026-10-10 - Shared RX/TXDONE PKT Claims
+
+From main510b7b7, routed selected TXDONE packet takes through the same retained
+state as RX and added guarded callback/publication lifetime checks. Full prefix
+and TXDONE512 retain3,072 claims; exact native RAM/SKB/bitmap, ordered locks and
+readiness-last proof,25 controls/six mutants pass. Full RX/page regression passes
+50 controls/six mutants and1,792 independent BA claims. Core/archive/provider,
+source lock/vendor pair/FIT are unchanged; no fresh world build or hardware work.
+Traced the real copy recipe/provider to identify missing paired-image, storage,
+identity and strict caller installation. Updated all resume records and retained
+focused/broad Jev evidence with its uncertainty. Hot lifecycle/other owners,
+postgate and physical drain/recovery/client acceptance remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md` and
+`research/checkpoints/2026-10-10-npu-cold-txdone/INSTALL_TRACE.md`.

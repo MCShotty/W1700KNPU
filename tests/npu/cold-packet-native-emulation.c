@@ -1,4 +1,4 @@
-/* Selected locked RX packet getter; backing/grant/drain are platform contracts. */
+/* Selected locked cold packet users; backing/grant/drain are platform contracts. */
 #include "cold-packet.h"
 #include "bootstrap.h"
 #include "allocator.h"
@@ -6,6 +6,8 @@
 extern uint32_t npu_emulation_callback_guarded;
 extern uint32_t npu_emulation_callback_lifetime(void);
 extern uint32_t npu_emulation_rx_dispatch_live(uint32_t selector);
+extern uint32_t npu_emulation_rx_stats_callback(const struct npu_bootstrap_packet *);
+extern uint32_t npu_previous_txdone_callback(const struct npu_bootstrap_packet *);
 extern struct npu_bootstrap npu_emulation_bootstrap_state;
 extern struct npu_admission npu_emulation_admission_state;
 extern struct npu_barrier npu_emulation_barrier_state;
@@ -145,14 +147,80 @@ done:
     return id;
 }
 
-uint32_t npu_emulation_packet_ready(uint32_t selector)
+uint32_t npu_emulation_packet_live(void)
 {
+    const struct npu_cold_packet_state *state = &npu_emulation_packet_state;
+    uint32_t i, population = 0;
+
     if (!context() || load(&npu_emulation_packet_state.magic) != NPU_COLD_PACKET_MAGIC ||
         load(&npu_emulation_packet_state.fault) || npu_emulation_packet_state.epoch != 1 ||
         npu_emulation_packet_state.head != *(const volatile uint16_t *)(uintptr_t)HEAD ||
-        !npu_emulation_rx_dispatch_live(selector)) {
+        state->count > NPU_COLD_PACKET_IDS ||
+        state->head != (state->count & (NPU_COLD_PACKET_IDS - 1)) ||
+        state->packet_base != npu_emulation_packet_plan.packet_base ||
+        state->packet_bytes != npu_emulation_packet_plan.packet_bytes ||
+        state->packet_base != BOOT->plan.region[NPU_BOOT_PKT].base ||
+        state->packet_bytes != BOOT->plan.region[NPU_BOOT_PKT].bytes)
+        goto fault;
+    for (i = 0; i < NPU_COLD_PACKET_WORDS; i++) {
+        uint32_t bits = state->claimed[i];
+
+        bits -= (bits >> 1) & 0x55555555u;
+        bits = (bits & 0x33333333u) + ((bits >> 2) & 0x33333333u);
+        bits = (bits + (bits >> 4)) & 0x0f0f0f0fu;
+        population += (bits * 0x01010101u) >> 24;
+    }
+    if (population != state->count)
+        goto fault;
+    return 1;
+fault:
+    fail();
+    return 0;
+}
+
+uint32_t npu_emulation_packet_ready(uint32_t selector)
+{
+    if (!npu_emulation_packet_live() || !npu_emulation_rx_dispatch_live(selector)) {
         fail();
         return 0;
     }
     return 1;
+}
+
+uint32_t npu_emulation_packet_txdone_ready(void)
+{
+    if (!npu_emulation_callback_guarded || !npu_emulation_packet_live()) {
+        fail();
+        return 0;
+    }
+    return 1;
+}
+
+uint32_t npu_emulation_packet_callback(const struct npu_bootstrap_packet *packet)
+{
+    struct npu_bootstrap_packet snapshot;
+    volatile uint8_t *ready = (volatile uint8_t *)(uintptr_t)0x3e9046fau;
+    uint32_t status, result = 0;
+
+    if ((packet->header & 15) != 10)
+        return npu_emulation_rx_stats_callback(packet);
+    __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");
+    snapshot = *packet;
+    if (snapshot.header != 0x1a || snapshot.api != 1 || !snapshot.value ||
+        snapshot.value > 512 || npu_emulation_callback_guarded || *ready ||
+        !npu_emulation_packet_live()) {
+        fail();
+        goto done;
+    }
+    npu_emulation_callback_guarded = 1;
+    result = npu_previous_txdone_callback(&snapshot);
+    if (!result || !npu_emulation_packet_live() || *ready != 1) {
+        fail();
+        *ready = 0;
+        result = 0;
+    }
+    npu_emulation_callback_guarded = 0;
+done:
+    __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
+    return result;
 }

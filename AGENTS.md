@@ -1,5 +1,22 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Shared RX And TXDONE Packet Ownership
+
+- The 61-site native binding now routes TXDONE through the same retained PKT
+  state as RX0/RX2. Publication rechecks immutable plan, head/count history and
+  bitmap population. SKB failure retains prior claims; no recycle/reset is added.
+- Full RX prefix plus TXDONE512 retains 3,072 PKT claims. Exact native RAM/SKB,
+  packet state, ordered locks and readiness-last checks pass; 25 controls and
+  six symbol-restored mutants pass. Full RX/page regression passes 50 controls/
+  six mutants and 1,792 independent BA claims. Offline image/eight runner checks
+  pass; core/archive/provider/vendor/FIT remain unchanged. No fresh world build.
+- Real installation is still absent. The current loader copies the vendor pair;
+  test session/identity offsets0x6380/0x63a0 are beyond its 3,084-byte DATA image.
+  Do not treat range fit as approved storage/containment or the archive as CODE.
+- Continue paired raw-image/real-loader storage/identity and Linux strict caller
+  wiring, other owners/hot lifecycle, postgate and physical drain/recovery/clients.
+  Evidence and exact boundary: `research/checkpoints/2026-10-10-npu-cold-txdone/`.
+
 ## 2026-10-10 - Checked Cold RX Packet Ownership
 
 - The normal archive now has a distinct 16,384-ID/2,048-byte packet profile;
