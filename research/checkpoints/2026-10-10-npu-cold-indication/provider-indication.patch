@@ -1,0 +1,50 @@
+Subject: [PATCH] net: airoha: route checked cold indication and ACK metadata
+
+Retain the current session and deny unsupported TX programming.
+No physical containment or complete offload is implied.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -944,7 +944,7 @@
+ }
+ 
+ static int airoha_npu_wlan_bind_endpoint_session(struct airoha_npu *npu, u64 base,
+-					u64 bytes, int type)
++						 u64 bytes, int type)
+ {
+ 	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
+ 	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
+@@ -1029,9 +1029,10 @@
+ 
+ 	if (priv->checked_pair &&
+ 	    ((ifindex == 0 && func_id == WLAN_FUNC_SET_WAIT_PCIE_PORT_TYPE) ||
+-	     ((ifindex == 0 || ifindex == 2 || (ifindex >= 5 && ifindex <= 7)) &&
++	     ((ifindex == 0 || ifindex == 2 || (ifindex >= 5 && ifindex <= 8)) &&
+ 	      func_id == WLAN_FUNC_SET_WAIT_DESC) ||
+-	     (ifindex >= 5 && ifindex <= 7 && func_id == WLAN_FUNC_SET_WAIT_PCIE_ADDR)))
++	     (ifindex >= 5 && ifindex <= 8 && func_id == WLAN_FUNC_SET_WAIT_PCIE_ADDR) ||
++	     (ifindex == 3 && func_id == WLAN_FUNC_SET_WAIT_TX_RING_PCIE_ADDR)))
+ 		return airoha_npu_wlan_cold_command(npu, 0x10 | ifindex, func_id,
+ 						  data, data_len);
+ 	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, data, data_len, gfp);
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -226,7 +226,7 @@
+ }
+ 
+ static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
+-					      u64 base, u64 bytes, int type)
++						u64 base, u64 bytes, int type)
+ {
+ 	return npu->ops.wlan_bind_endpoint(npu, base, bytes, type);
+ }
+@@ -294,7 +294,7 @@
+ }
+ 
+ static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
+-					      u64 base, u64 bytes, int type)
++						u64 base, u64 bytes, int type)
+ {
+ 	return -EOPNOTSUPP;
+ }

@@ -187,7 +187,7 @@ def main():
     assert bytes(h.cpu.mem_read(image.CODE, 0x1dde0)) == (pair / 'CODE.bin').read_bytes()[:0x1dde0]
     assert all(composition.sha(ROOT / path) == digest for path, digest in inputs.items()), 'inputs-changed-during-replay'
     result = dict(passed=True, full_nominal=not args.quick, raw_pair=True, post_load_elf_injection=False,
-                  hooks=61, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
+                  hooks=63, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
                   independent_pages=page_rows, boot_controls=early_controls, controls=controls,
                   strict_denial=denied, pair_manifest_sha256=image.sha((pair / 'manifest.json').read_bytes()),
                   inputs=inputs,

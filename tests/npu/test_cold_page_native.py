@@ -33,6 +33,8 @@ SLOTS = {5: 0x3e902a94, 6: 0x3e902aa4, 7: 0x3e904638}
 SITES = {0x8400fe34: 'npu_emulation_page_callback', GETTER: 'npu_emulation_page_get_dispatch',
          0x8400bd62: 'npu_emulation_page_ready5', 0x8400bd86: 'npu_emulation_page_ready6',
          0x8400bd48: 'npu_emulation_page_ready7'}
+SITES.update({0x8400bb10: 'npu_emulation_indication_read',
+              0x8400bb1a: 'npu_emulation_indication_store'})
 EXTRA_START, EXTRA_BYTES = 0x84078000, 0x4000
 
 
@@ -43,6 +45,8 @@ def build(dest, parts, *, core=None, binding=None, assembly=None):
                '-fno-stack-protector', '-nostdlib', '-I' + str(CORE),
                core or CORE / 'cold-page.c', binding or TESTS / 'cold-page-native-emulation.c',
                assembly or TESTS / 'cold-page-native-emulation.S',
+               CORE / 'cold-indication.c', TESTS / 'cold-indication-native-emulation.c',
+               TESTS / 'cold-indication-native-emulation.S',
                '--ld-path=' + str(shutil.which('ld.lld') or
                                   ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'),
                '-Wl,-T,' + str(TESTS / 'cold-page-native-emulation.ld') + ',--no-relax',
@@ -82,7 +86,7 @@ class NativePages(Caller):
                 self.install_site(site, target, self.code[site - composition.CODE:site - composition.CODE + 4].hex())
         self.cpu.ctl_remove_cache(composition.CODE, composition.CODE + 0x201000)
         self.check_hooks()
-        assert len(self.patches) == 54
+        assert len(self.patches) == 56
 
     def code_hook(self, cpu, pc, size, data):
         if self.tracking and self.inject == 'before-ready' and not self.injected and pc in (
@@ -91,7 +95,7 @@ class NativePages(Caller):
                 self.binding.symbols['npu_emulation_page_ready7']):
             self.put32(STATE + 16, 1)
             self.injected = True
-        if self.probing and pc == 0x8400dd82 and cpu.reg_read(r.UC_RISCV_REG_A1) in FLAGS:
+        if self.probing and pc == 0x8400dd82 and cpu.reg_read(r.UC_RISCV_REG_A1) in (*FLAGS, 8):
             self.executions[pc] += 1
             super(composition.Composed, self).code_hook(cpu, pc, size, data)
             return
@@ -333,7 +337,7 @@ def main():
             raise AssertionError(('surviving-native-binding-mutant', name))
     sources = [CORE / 'cold-page.c', CORE / 'cold-page.h', TESTS / 'cold-page-native-emulation.c',
                TESTS / 'cold-page-native-emulation.S', TESTS / 'cold-page-native-emulation.ld', Path(__file__)]
-    result = dict(passed=True, hooks=54, nominal=valid, controls=controls, rejected_mutants=mutants, workers=workers,
+    result = dict(passed=True, hooks=56, nominal=valid, controls=controls, rejected_mutants=mutants, workers=workers,
                   strict_denial=denied, total_nominal_claims=total,
                   inputs={str(p.relative_to(ROOT)): composition.sha(p) for p in sources},
                   binaries={str(p.relative_to(ROOT)): composition.sha(p) for p in [*paths, *parts.values(), path]},
@@ -341,7 +345,7 @@ def main():
                           'Explicit held direct callback lease and modeled all-hart parking;strict mailbox setup remains closed.',
                           'Emulator pool/backing/storage/exclusion contracts are not physical containment,coherency,drain or client acceptance.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, hooks=54, claims=total, controls=len(controls), receipt=str(dest / 'result.json'))))
+    print(json.dumps(dict(passed=True, hooks=56, claims=total, controls=len(controls), receipt=str(dest / 'result.json'))))
 
 
 if __name__ == '__main__':

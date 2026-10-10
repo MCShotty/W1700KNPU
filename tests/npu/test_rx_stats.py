@@ -75,7 +75,7 @@ class RxStats(pages.NativePages):
                 self.install_site(site, target, self.code[site - composition.CODE:site - composition.CODE + 4].hex())
         self.cpu.ctl_remove_cache(composition.CODE, composition.CODE + 0x201000)
         self.check_hooks()
-        assert len(self.patches) == 60
+        assert len(self.patches) == 62
 
     def code_hook(self, cpu, pc, size, data):
         if self.rx_tracking:
@@ -310,7 +310,7 @@ def main():
                TESTS / 'allocator-startup-emulation.c', TESTS / 'allocator-startup-emulation.S',
                TESTS / 'rx-stats-emulation.c', TESTS / 'rx-stats-emulation.S',
                TESTS / 'rx-stats-emulation.ld', Path(__file__)]
-    result = dict(passed=True, hooks=60, nominal=valid, controls=controls,
+    result = dict(passed=True, hooks=62, nominal=valid, controls=controls,
                   rejected_mutants=mutants, strict_denial=denied,
                   inputs={str(p.relative_to(ROOT)): composition.sha(p) for p in sources},
                   binaries={str(p.relative_to(ROOT)): composition.sha(p) for p in [*paths, *parts.values(), page_path, path]},
@@ -318,7 +318,7 @@ def main():
                           'Explicit held direct callback lease and modeled storage/parked workers;strict full setup remains closed.',
                           'Packet-ID exclusive ownership,hot lifecycle,physical backing/coherency/drains and client acceptance remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, hooks=60, nominal=2, controls=len(controls), receipt=str(dest / 'result.json'))))
+    print(json.dumps(dict(passed=True, hooks=62, nominal=2, controls=len(controls), receipt=str(dest / 'result.json'))))
 
 
 if __name__ == '__main__':

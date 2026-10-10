@@ -6,6 +6,50 @@ Purpose: one durable reference for what has been patched, implemented, reconstru
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
 
+## 2026-10-10 - Retained Indication And ACK Prefix
+
+- Implemented `cold-indication.c/.h` as the14th portable object:32-byte one-shot
+  state,1536 eight-byte records,12288-byte retained span, sequential committed/
+  published prefixes and full-span readback. It never stores records itself,
+  resets claims or retires the arena. The native hooks guard original accesses.
+- Original allocator lock18 covers unique type1 WLAN-arena/type6 subregion
+  selection and initialization. Metadata/session identity and parked/ready/
+  drain/deferred state are rechecked at guarded accesses. Failed acquisition
+  never unlocks; owned faults retain claims and active/inflight outer state.
+- Private cold history grows64 to104 bytes, with full RX0/RX2/page5/6/7 count
+  snapshots before indication. The80-byte wire, existing provider boot/nonce
+  and V2 sequence remain unchanged. Indication address is BAR0+0xa040; ACK is
+  BAR0+0xa050. API19 selector3 only stores ACK metadata at0x3e904610.
+- Exact compiled indication object passes12,322 host/RV32 calls,3,095 controls
+  and seven mutants. Provider C545/nine, cold C425/thirteen, six BAR mutants,
+  three publication cases and34 native indication controls pass. Nominal actual
+  sender retains2,560 PKT/1,792 BA claims and completes indication1536/ACK,
+  then stops at TX0/API19. Negative snapshots restore private CODE history for
+  test isolation; they are not a production reset or active-grant API.
+- Raw later/full replay passes3,072 PKT/1,792 BA claims and six boot/eight TXDONE
+  controls, still with an explicitly modeled direct later lease. Parser, boot,
+  lifetime, probe, request, memory/retry/V2 regressions pass. Full world,
+  Ghidra54, source66+nested12/components13,16 assembly groups and FIT/218-package/
+  78-module checks pass. Driver delta has zero strict-checkpatch findings.
+- All five end-to-end native cases pass: nominal, wrong boot identity and first
+  PKT/BA/indication-store faults. The indication fault retains one committed/
+  zero published record,2,560 PKT/1,792 BA claims and active/inflight1, without
+  rollback, retry, new session or retirement. Broad/focused semantic reviews
+  retain their uncertain/contradicted labels; exact source and model tests are
+  the acceptance evidence, not an inferred unanimous Jev approval.
+- FIT SHA256:
+  `8dd1f2f4d62fbc9f8cf8061ead435527e01d85bcf90d0b05f3f6e4da0b1f16d9`.
+  Previous `5c94b20d...` and seven companion files are hash-verified in ignored
+  `.local/npu-cold-indication-20261010/pre-world-image/`; earlier/R1 and private
+  calibration/recovery/bootloader backups remain protected. No flash or contact.
+- Remaining: checked TX0/TX2 register programming and full TX/INODE/TXDONE setup,
+  other owners/hot/postgate, independent physical exclusion/backing/coherency,
+  drains/retirement/teardown/rearm/recovery, exact-image boot and actual clients.
+  World still has upstream/package warnings and an ignored U-Boot install error;
+  image verification is separate, not a claim of a warning-free build.
+  Full NPU objective stays open. Scope and receipts:
+  `research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
+
 ## 2026-10-10 - Bound PCI BAR And Strict Page Prefix
 
 - Actual PCI caller passes BAR0 start/length, and the checked provider completes

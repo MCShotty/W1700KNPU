@@ -54,7 +54,7 @@ def prepare(directory, text, header):
 
 
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
-                cold_failure=False, page_failure=False, host_sender=None):
+                cold_failure=False, page_failure=False, indication_failure=False, host_sender=None):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -82,6 +82,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     lib.npu_test_reset.argtypes = [ctypes.c_uint64, ctypes.c_uint32]
     lib.npu_test_memory.argtypes = [ctypes.c_uint, ctypes.c_uint32, ctypes.c_uint32]
     lib.npu_test_reset(identity ^ int(wrong_identity), request)
+    lib.npu_test_native_plan.argtypes = [ctypes.c_uint, ctypes.c_uint32, ctypes.c_uint32]
+    for i, (base, extent) in enumerate(plan):
+        lib.npu_test_native_plan(i, base, extent)
     for i in range(4):
         lib.npu_test_memory(i, *plan[i + 1])
     frames, failures, workers = [], [], []
@@ -139,8 +142,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         if cold_commands:
             packet_state = h.packet.symbols['npu_emulation_packet_state']
             page_state = h.binding.symbols['npu_emulation_page_state']
+            indication_state = h.binding.symbols['npu_emulation_indication_state']
             cold_state = h.rv.symbols['npu_emulation_cold_setup_state']
-            assert h.get32(packet_state) == h.get32(page_state) == h.get32(ADM + 4) == 0
+            assert h.get32(packet_state) == h.get32(page_state) == h.get32(indication_state) == h.get32(ADM + 4) == 0
             leases = []
             def observe_lease(cpu, access, address, size, value, data):
                 assert size == 4
@@ -159,14 +163,26 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     (0x15, 0, 0x200d45a0), (0x15, 1, 256),
                     (0x16, 0, 0x200d45b0), (0x16, 1, 512),
                     (0x17, 0, 0x200d45c0), (0x17, 1, 1024)]
-            page_total, packet_before_pages = 0, None
+                if not page_failure:
+                    sequence += [(0x18, 0, 0x2000a040), (0x18, 1, 1536)]
+                    if not indication_failure:
+                        sequence += [(0x13, 19, 0x2000a050)]
+            page_total, packet_before_pages, page_before_indication = 0, None, None
+            indication_before, indication_controls = None, []
             def issue(header, api, value):
-                nonlocal page_total, packet_before_pages
+                nonlocal page_total, packet_before_pages, page_before_indication, indication_before
                 if header == 0x15 and api == 0:
                     packet_before_pages = bytes(h.cpu.mem_read(packet_state, 2076))
                 if page_failure and header == 0x15 and api == 1:
                     h.tracking, h.inject, h.injected = True, 'claim-fault', False
                     h.claim_trigger, h.head_before, h.writes = 1, 0, []
+                if header == 0x18 and api == 0:
+                    page_before_indication = bytes(h.cpu.mem_read(page_state, 1052))
+                    assert h.get32(indication_state) == 0
+                if indication_failure and header == 0x18 and api == 1:
+                    h.indication_fault = True
+                if not indication_failure and header == 0x18 and api == 1:
+                    indication_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, 104)))]
                 if cold_failure and api == 1:
                     h.packet_tracking = True
                     h.packet_mode = 'claim-fault'
@@ -179,12 +195,29 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 output = ctypes.c_uint32(0xabcdef01)
                 error = lib.npu_test_command(header, api, value, ctypes.byref(output))
                 assert not failures, failures
-                if header == 0x18:
-                    assert api == 0 and error == -22
+                if header == 0x10 and api == 19:
+                    assert error == -22
                     assert frames[-1]['reply']['flags'] == 3 and not frames[-1]['reply']['callbacks']
-                    assert h.get32(cold_state + 8) == 2047 and h.get32(ADM + 4) == 0
+                    assert h.get32(cold_state + 8) == 16383 and h.get32(ADM + 4) == 0
                     cold.append(dict(header=header, api=api, value=value, error=error,
                                      next_unsupported=True, reply=frames[-1]))
+                    return error
+                if indication_failure and header == 0x18 and api == 1:
+                    h.indication_fault = False
+                    base = h.get32(indication_state + 24)
+                    assert h.indication_injected and error == -71
+                    assert h.get32(base + 4) == 0xe0000000
+                    assert h.get32(indication_state + 8) == h.get32(indication_state + 12) == 1
+                    assert h.get32(indication_state + 16) == 1 and h.get32(indication_state + 20) == 0
+                    assert h.get32(ADM + 4) == h.get32(cold_state + 4) == 1
+                    assert h.get32(ADM + 8) == h.get32(STATE + 16) == h.get32(cold_state) == 1
+                    assert h.get32(cold_state + 8) == 4095 and frames[-1]['reply']['words'][14] == 7
+                    assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
+                    assert bytes(h.cpu.mem_read(page_state, 1052)) == page_before_indication
+                    cold.append(dict(header=header, api=api, value=value, error=error,
+                        indication_committed=1, indication_published=0, retained_active=1,
+                        retained_inflight=1, retained_packet_claims=2560, retained_ba_claims=1792,
+                        fault_injection='barrier fault during first original indication status store', reply=frames[-1]))
                     return error
                 if page_failure and header == 0x15 and api == 1:
                     h.tracking = False
@@ -227,14 +260,35 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         assert h.get32(page_state + 16) == page_total
                         assert h.get32({5: 0x3e901f44, 6: 0x3e903954, 7: 0x3e902ce8}[selector]) == 1
                     assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
+                if header == 0x18:
+                    if api == 0:
+                        assert h.get32(0x3e902a9c) == value
+                    else:
+                        base = h.get32(indication_state + 24)
+                        state = list(struct.unpack('<8I', h.cpu.mem_read(indication_state, 32)))
+                        assert state == [0x31444e49, 1, 0, 0, 1536, 1536, base, 1536]
+                        assert base == h.get32(0x3e9030fc) + 0x1f020 == h.get32(0x3e902aa0)
+                        assert list(struct.unpack('<3072I', h.cpu.mem_read(base, 12288))) == [0, 0xe0000000] * 1536
+                        assert h.get32(0x3e901fd4) == 0 and bytes(h.cpu.mem_read(0x3e904590, 1)) == b'\0'
+                        from indication_native_controls import check
+                        lease_end = len(leases)
+                        indication_controls.extend(check(h, indication_before, frames[-1]['request']))
+                        del leases[lease_end:]
+                        print(json.dumps(dict(native_indication_controls=len(indication_controls), passed=True)), flush=True)
+                    assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
+                    assert bytes(h.cpu.mem_read(page_state, 1052)) == page_before_indication
+                if header == 0x13 and api == 19:
+                    assert h.get32(0x3e904610) == value
                 cold.append(dict(header=header, api=api, value=value, output=output.value,
                                  packet_claims=h.get32(packet_state + 16),
                                  page_claims=h.get32(page_state + 16),
+                                 indication_committed=h.get32(indication_state + 16),
+                                 indication_published=h.get32(indication_state + 20),
                                  completed=h.get32(cold_state + 8), reply=frames[-1]))
                 print(json.dumps(dict(native_command=[header, api, value],
                     packet_claims=h.get32(packet_state + 16), ba_claims=h.get32(page_state + 16))), flush=True)
                 return 0
-            if host_sender and not cold_failure and not page_failure:
+            if host_sender and not cold_failure and not page_failure and not indication_failure:
                 for command in sequence[:2]:
                     assert issue(*command) == 0
                 peer_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint)
@@ -253,26 +307,34 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 for command in sequence:
                     if issue(*command):
                         break
-            assert leases == ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else [1, 0] * 12)
+            assert leases == ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
+                             [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15)
             assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
-            assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 2047)
+            assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else 16383)
             assert h.get32(page_state + 16) == (0 if cold_failure else 1 if page_failure else 1792)
             assert h.get32(STATE + 4) == h.get32(STATE + 8) == 0
             cold.append(dict(native_lease_writes=leases, test_active_writes=False,
                              test_packet_init=False, test_page_init=False,
+                             test_indication_init=False,
+                             indication_committed=0 if cold_failure or page_failure else 1 if indication_failure else 1536,
+                             indication_published=0 if cold_failure or page_failure or indication_failure else 1536,
                              retained_claims=1 if cold_failure else 2560,
                              retained_ba_claims=0 if cold_failure else 1 if page_failure else 1792))
+            if indication_controls:
+                cold.append(dict(indication_native_controls=indication_controls,
+                                 negative_snapshot_restores=True, production_reset=False))
             old_calls = lib.npu_test_calls()
         strict = [h.message(words) for words in ([0x10, 1, 1536], [0x12, 1, 1024], [0x1a, 1, 512])]
         assert all(row['flags'] == 3 and not row['callbacks'] for row in strict)
     h.check_hooks()
     lib.npu_test_close()
-    assert lib.npu_test_run() == (expected if expected else -71 if cold_failure or page_failure else -108) and lib.npu_test_calls() == old_calls
+    assert lib.npu_test_run() == (expected if expected else -71 if cold_failure or page_failure or indication_failure else -108) and lib.npu_test_calls() == old_calls
     return dict(passed=True, wrong_identity=wrong_identity, cold_failure=cold_failure, page_failure=page_failure,
+                indication_failure=indication_failure,
                 result=result, frames=frames, cold=cold,
                 workers=workers, strict_denials=strict, initial_held=True,
                 actual_c_linux_setup=True, actual_c_publication_readback=True,
-                actual_c_txrx_sender=bool(host_sender and not wrong_identity and not cold_failure and not page_failure),
+                actual_c_txrx_sender=bool(host_sender and not wrong_identity and not cold_failure and not page_failure and not indication_failure),
                 synthetic_plan_identity_writes=False, post_load_elf_injection=False,
                 inputs=manifest['inputs'] | {str(p.relative_to(ROOT)): loader.sha(p) for p in
                     (code_path, data_path, pair / 'manifest.json', binary)})
@@ -288,9 +350,13 @@ def main():
     parser.add_argument('--publication', type=Path)
     parser.add_argument('--cold-commands', action='store_true')
     parser.add_argument('--host-sender-receipt', type=Path)
+    parser.add_argument('--native-case', choices=('all', 'nominal', 'wrong-boot', 'packet-fault',
+                        'page-fault', 'indication-fault'), default='all',
+                        help='Focused native diagnostics; only all covers the complete native suite')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     assert bool(args.pair) == bool(args.publication)
+    assert args.native_case == 'all' or (args.pair and args.cold_commands)
     source = args.source.resolve()
     dest = ROOT / '.local/npu-provider-session-20261010' / args.name
     assert source.is_relative_to(ROOT) and not dest.exists()
@@ -300,7 +366,8 @@ def main():
         header = args.header.resolve()
         assert header.is_relative_to(ROOT)
     inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in
-              (source, header, HARNESS, Path(__file__), Path(loader.__file__), Path(loader.extract.__file__))}
+              (source, header, HARNESS, Path(__file__), Path(loader.__file__), Path(loader.extract.__file__),
+               ROOT / 'tests/npu/indication_native_controls.py')}
     inputs |= {str(path.relative_to(ROOT)): loader.sha(path) for path in SOURCE.rglob('*') if path.is_file()}
     host_sender = None
     if args.host_sender_receipt:
@@ -349,14 +416,13 @@ def main():
         shared = dest / 'host/provider-session.so'
         command = prepare(dest / 'native', text, htext)
         loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'native/build.log')
-        native = [native_peer(shared, args.pair.resolve(), args.publication.resolve(), wrong_identity=wrong,
-                              cold_commands=args.cold_commands, host_sender=host_sender)
-                  for wrong in (False, True)]
+        cases = [('nominal', {}), ('wrong-boot', dict(wrong_identity=True))]
         if args.cold_commands:
-            native.append(native_peer(shared, args.pair.resolve(), args.publication.resolve(),
-                                      cold_commands=True, cold_failure=True))
-            native.append(native_peer(shared, args.pair.resolve(), args.publication.resolve(),
-                                      cold_commands=True, page_failure=True))
+            cases += [('packet-fault', dict(cold_failure=True)), ('page-fault', dict(page_failure=True)),
+                      ('indication-fault', dict(indication_failure=True))]
+        native = [native_peer(shared, args.pair.resolve(), args.publication.resolve(),
+                              cold_commands=args.cold_commands, host_sender=host_sender, **keywords)
+                  for case, keywords in cases if args.native_case in ('all', case)]
         print(json.dumps(dict(stage='native', cases=len(native), passed=True)), flush=True)
     assert all(loader.sha(ROOT / path) == digest for path, digest in inputs.items())
     probe = loader.extract.function(text, 'airoha_npu_probe')
@@ -364,10 +430,11 @@ def main():
     assert 'npu->ops.wlan_bind_endpoint = airoha_npu_wlan_bind_endpoint_session;' in probe
     assert probe.index('airoha_npu_start_firmware') < probe.index('devm_add_action_or_reset(dev, airoha_npu_wlan_session_close') < probe.index('platform_set_drvdata')
     result = dict(passed=True, matrix=matrix, mutants=rejected, native=native, inputs=inputs,
+                  native_case=args.native_case, complete_cold_native_suite=bool(args.pair and args.cold_commands and args.native_case == 'all'),
                   sanitizers=['address', 'undefined', 'leak'],
                   limits=['Real provider once-owned setup, Linux executor/client and native portable bootstrap server C; pthread/kernel/RNG/OF/transport dependencies modeled.',
                           'Optional raw RV32 peer uses actual-C publication bytes and Linux requests, but models backing, delivery, host pointer publication and worker scheduling.',
-                          'Initial epoch stays held. Page5/6/7 prefix is covered, not indication/INODE/TXDONE complete setup, physical containment/drains, reclaim/rearm, recovery or clients.'])
+                          'Initial epoch stays held. RX/page/indication/ACK prefix is covered, not TX programming/INODE/TXDONE complete setup, physical containment/drains, reclaim/rearm, recovery or clients.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected), native_cases=len(native))))
 

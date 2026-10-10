@@ -1,7 +1,7 @@
 #include "cold-setup.h"
 
 _Static_assert(sizeof(struct npu_cold_packet) == NPU_COLD_SIZE, "cold wire changed");
-_Static_assert(sizeof(struct npu_cold_setup) == 64, "cold owner changed");
+_Static_assert(sizeof(struct npu_cold_setup) == 104, "cold owner changed");
 
 static uint32_t load(const uint32_t *word)
 {
@@ -56,7 +56,10 @@ static int window(uint32_t base, uint32_t bytes, const struct npu_bootstrap *boo
 
 static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *boot)
 {
-    static const uint32_t prefixes[] = {0, 8, 24, 25, 27, 31, 63, 127, 255, 511, 1023, 2047};
+    static const uint32_t prefixes[] = {0, 8, 24, 25, 27, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383};
+    static const uint32_t bits[NPU_COLD_COUNTS] = {NPU_COLD_RX0, NPU_COLD_RX2,
+        NPU_COLD_PAGE5, NPU_COLD_PAGE6, NPU_COLD_PAGE7};
+    static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
     uint32_t i;
 
     for (i = 0; i < sizeof(prefixes) / sizeof(prefixes[0]); i++)
@@ -64,6 +67,15 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
             break;
     if (i == sizeof(prefixes) / sizeof(prefixes[0]))
         return 0;
+    for (i = 0; i < NPU_COLD_COUNTS; i++) {
+        if (s->completed & bits[i]) {
+            if (!s->counts[i] || s->counts[i] > limits[i] ||
+                ((s->completed & NPU_COLD_ADDR8) && s->counts[i] != limits[i]))
+                return 0;
+        } else if (s->counts[i]) {
+            return 0;
+        }
+    }
     if (!(s->completed & NPU_COLD_ENDPOINT_BASE))
         return !s->endpoint_base && !s->endpoint_bytes;
     if (!s->endpoint_base || (s->endpoint_base & 4095u) || s->endpoint_base >= 0xc0000000u)
@@ -99,6 +111,16 @@ static uint32_t command_bit(const struct npu_bootstrap_packet *p,
         if (p->api == 1 && p->value && p->value <= limits[i])
             return NPU_COLD_PAGE5 << (i * 2);
     }
+    if (p->header == 0x18 && p->api == 0 &&
+        window(s->endpoint_base, s->endpoint_bytes, boot) &&
+        p->value == s->endpoint_base + NPU_COLD_IND_REG)
+        return NPU_COLD_ADDR8;
+    if (p->header == 0x18 && p->api == 1 && p->value == 1536)
+        return NPU_COLD_INDICATION;
+    if (p->header == 0x13 && p->api == 19 &&
+        window(s->endpoint_base, s->endpoint_bytes, boot) &&
+        p->value == s->endpoint_base + NPU_COLD_ACK_REG)
+        return NPU_COLD_ACK;
     return 0;
 }
 
@@ -120,6 +142,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     const struct npu_cold_packet *packet, uint32_t bytes)
 {
     struct npu_cold_packet p;
+    static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
     uint32_t i, bit;
 
     if (!packet || bytes != sizeof(p))
@@ -151,6 +174,11 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
         return fail(s, a, b, NPU_COLD_UNSUPPORTED);
     if (bit && s->completed != prior(bit))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
+    for (i = 0; i < NPU_COLD_COUNTS; i++) {
+        if (bit == NPU_COLD_ADDR8 && s->counts[i] != limits[i])
+            return fail(s, a, b, NPU_COLD_BAD_STATE);
+        s->prior_counts[i] = s->counts[i];
+    }
     s->command = p.command;
     s->sequence = p.sequence;
     s->boot_lo = p.boot_lo;
@@ -169,7 +197,13 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
     struct npu_barrier *b, const struct npu_bootstrap *boot,
     uint32_t result, const struct npu_bootstrap_packet *reply)
 {
-    uint32_t bit = command_bit(&s->command, s, boot);
+    static const uint32_t bits[NPU_COLD_COUNTS] = {NPU_COLD_RX0, NPU_COLD_RX2,
+        NPU_COLD_PAGE5, NPU_COLD_PAGE6, NPU_COLD_PAGE7};
+    uint32_t bit = command_bit(&s->command, s, boot), i;
+
+    for (i = 0; i < NPU_COLD_COUNTS; i++)
+        if (s->counts[i] != s->prior_counts[i])
+            return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
 
     if (s->failed || s->inflight != 1 || !held(a, b, boot, 1) ||
         session->last_sequence != s->sequence ||
@@ -188,6 +222,9 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         s->endpoint_base = s->command.value;
     if (bit == NPU_COLD_ENDPOINT_BYTES)
         s->endpoint_bytes = s->command.value;
+    for (i = 0; i < NPU_COLD_COUNTS; i++)
+        if (bit == bits[i])
+            s->counts[i] = s->command.value;
     s->completed |= bit;
     s->inflight = a->active = 0;
     return NPU_COLD_OK;

@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Retained Indication And ACK Prefix
+
+- First authenticated DESC8 initializes the one-shot 1,536-record owner under
+  original allocator lock18. It pins the unique type1 arena/type6 span, reserves
+  before original read/store and rechecks held state, metadata and readback.
+  Faults retain claims/reservation/outer lease; no reset/retirement API exists.
+- Private cold history is104 bytes with five RX/page count snapshots. Full
+  profile precedes indication setup. The80-byte wire and existing nonce/identity
+  remain unchanged. API19 selector3 only records ACK metadata; selectors0/2
+  program TX registers and remain unsupported in the strict lane.
+- Exact-object12,322 calls/3,095 controls/seven mutants, nominal actual-C/native
+  setup and34 native negative controls pass. Snapshot restores are test-only
+  and include private CODE history, not a production reset or active grant.
+- World/Ghidra54/source66+nested12/components13/assembly/image218+78 pass.
+  Latest FIT `8dd1f2f4...`; old `5c94b20d...`/R1 preserved. No hardware action.
+  Driver delta now passes strict checkpatch with zero errors/warnings/checks.
+- Continue strict TX0/TX2 programming and remaining TX/INODE/TXDONE setup,
+  owners/workers/hot/postgate, independent physical backing/exclusion/coherency,
+  drains/retirement/recovery and clients. Later/full raw TXDONE still uses a
+  modeled direct lease. Full goal stays open. Scope and sealed receipts:
+  `research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
+
 ## 2026-10-10 - Session-Bound BAR And Page Prefix
 
 - Real mt7996 BAR0 start/length binds through two metadata commands before mt76

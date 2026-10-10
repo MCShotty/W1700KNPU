@@ -225,6 +225,13 @@ void npu_test_memory(unsigned index, uint32_t base, uint32_t bytes)
     priv.native_plan[index + 1][1] = bytes;
 }
 
+void npu_test_native_plan(unsigned index, uint32_t base, uint32_t bytes)
+{
+    check(index < NPU_EN7581_7996_PLAN_REGIONS && bytes, "fixture native snapshot");
+    priv.native_plan[index][0] = base;
+    priv.native_plan[index][1] = bytes;
+}
+
 int npu_test_run(void) { return airoha_npu_wlan_init_session(&priv.npu); }
 int npu_test_endpoint(uint64_t base, uint64_t bytes, int type)
 {

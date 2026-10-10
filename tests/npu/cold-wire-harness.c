@@ -87,7 +87,8 @@ static const struct npu_bootstrap_packet commands[] = {
     {0x30, 10, 0}, {0x10, 14, 2}, {0x10, 1, 1536}, {0x12, 1, 1024},
     {0x15, 0, 0x200d45a0}, {0x15, 1, 256},
     {0x16, 0, 0x200d45b0}, {0x16, 1, 512},
-    {0x17, 0, 0x200d45c0}, {0x17, 1, 1024}
+    {0x17, 0, 0x200d45c0}, {0x17, 1, 1024},
+    {0x18, 0, 0x2000a040}, {0x18, 1, 1536}, {0x13, 19, 0x2000a050}
 };
 
 static const struct npu_bootstrap_packet anchor[] = {
@@ -128,7 +129,7 @@ int main(void)
         check(value == (i ? commands[i].value : 0x457));
         check(!setup.inflight && !admission.active && !setup.failed);
     }
-    check(setup.completed == 2047 && session.last_sequence == control.client.base.serial);
+    check(setup.completed == 16383 && session.last_sequence == control.client.base.serial);
     check(!npu_linux_control_exchange(&control, NPU_CONTROL_STATUS));
     check(session.last_sequence == control.client.base.serial && !barrier.released && !barrier.armed);
     for (unsigned word = 0; word < 20; word++) {
@@ -171,10 +172,19 @@ int main(void)
         check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) == NPU_COLD_BAD_STATE);
         check(setup.failed && admission.fault && barrier.fault);
     }
-    for (unsigned field = 0; field < 14; field++) {
+    for (unsigned field = 0; field < 19; field++) {
         fresh();
+        unsigned next = 1;
+        if (field >= 14) {
+            const unsigned selected[] = {2, 3, 5, 7, 9};
+            uint32_t value;
+            next = selected[field - 14] + 1;
+            for (unsigned index = 1; index < next; index++)
+                check(!npu_linux_control_cold_exchange(&control, &commands[index], &value));
+        }
+        unsigned before_completed = setup.completed;
         struct npu_cold_packet p;
-        envelope(&p, 1);
+        envelope(&p, next);
         check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
         struct npu_bootstrap_packet reply = setup.command;
         switch (field) {
@@ -192,10 +202,11 @@ int main(void)
         case 11: callback_error = 1; break;
         case 12: setup.endpoint_base += 4096; break;
         case 13: setup.endpoint_bytes += 4096; break;
+        default: setup.counts[field - 14]--; break;
         }
         check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot,
                                    callback_error ? 0 : 1, &reply) == NPU_COLD_CALLBACK_FAILED);
-        check(setup.inflight == 1 && admission.active && setup.failed && setup.completed == (field == 6 ? 25u : 24u));
+        check(setup.inflight == 1 && admission.active && setup.failed && setup.completed == (field == 6 ? 25u : before_completed));
     }
     for (unsigned word = 0; word < 20; word++) {
         fresh(); corrupt = 1; corrupt_word = word;
@@ -266,7 +277,7 @@ int main(void)
             } else if (kind == 3) {
                 command.value = command.api == 0 ? command.value + 16 : command.value + 1;
             } else if (kind == 4) {
-                command.header = 0x18; /* Indication owner remains unimplemented. */
+                command.header = 0x19; /* Selector9 remains unimplemented. */
             } else {
                 command.header = 0x1f; command.api = 0; /* Native selector15 writes saved bases. */
             }
@@ -274,11 +285,23 @@ int main(void)
             check(setup.failed && !setup.inflight && !admission.active && admission.fault && barrier.fault);
             order_cases++;
         }
+    for (unsigned changed = 0; changed < 5; changed++) {
+        fresh();
+        uint32_t value = 0;
+        const unsigned selected[] = {2, 3, 5, 7, 9};
+        for (unsigned index = 1; index < 10; index++) {
+            struct npu_bootstrap_packet command = commands[index];
+            if (index == selected[changed]) command.value--;
+            check(!npu_linux_control_cold_exchange(&control, &command, &value));
+        }
+        check(npu_linux_control_cold_exchange(&control, &commands[10], &value) == -EPROTO);
+        check(setup.completed == 2047 && setup.failed && !setup.inflight && !admission.active);
+    }
     unsigned total = cases;
     npu_linux_control_close(&control);
     check(!pthread_mutex_destroy(&control.mutex.native));
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
-           "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":14,\"transport_faults\":8,"
-           "\"geometry_cases\":%u,\"order_cases\":%u}\n", total, geometry_cases, order_cases);
+           "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
+           "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5}\n", total, geometry_cases, order_cases);
     return 0;
 }

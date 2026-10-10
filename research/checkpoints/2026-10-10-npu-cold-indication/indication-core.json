@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "host_rv32_calls": 12322,
+  "controls": 3095,
+  "sanitizer": {
+    "passed": true,
+    "cases": 3100,
+    "fresh_word_controls": 3072
+  },
+  "mutants": [
+    {
+      "name": "skip-freshness",
+      "sha256": "52baad4b2f00e814975a8f50c24733878d2b05f4c4a83a47875b23dad5932ed6"
+    },
+    {
+      "name": "allow-pending-reserve",
+      "sha256": "71d6d69e1479fdc9916d138ff310c35d7518429905fea1301a5b863c4baa6fb2"
+    },
+    {
+      "name": "allow-wrong-value",
+      "sha256": "813fc1e27b274950ed2116b86d76060cba4e2c483bd26f602701fa88cd6f6b0f"
+    },
+    {
+      "name": "skip-readback",
+      "sha256": "7ea09c878b16176081332d99709af152b569d0d90854c2649ecafec975b21be3"
+    },
+    {
+      "name": "clear-committed-fault",
+      "sha256": "b86c02f7e4dc4636a65784b0698a5e6e645b46e80dc97163aff5e25b8c4fe881"
+    },
+    {
+      "name": "allow-partial-finish",
+      "sha256": "5bbc060214b415a4e08eeacfef295c5632a62b2489833a276297196bbc92c7fa"
+    },
+    {
+      "name": "skip-complete-span",
+      "sha256": "d3409d829cb286247818b25cf9af9f83a63df9bd781dd00893497aef79869087"
+    }
+  ],
+  "inputs": {
+    "firmware/npu/cold-indication.c": "923b9d5ffac630e03423139c05b3e11004ad55f49977aa0d671cd46e497e4bad",
+    "firmware/npu/cold-indication.h": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa",
+    "tests/npu/cold-indication-sanitize.c": "d68171ff10a2dd96ea2c15150193b872ae7d8fbb9f22eda9ca85ed9c24a89d97",
+    "tests/npu/cold-indication-probe.ld": "7f095cfdb399dcd398879200dd554e914420d472f88b0ce8f51351d3ef175bb6",
+    "tests/npu/test_cold_indication.py": "cb9e4591b755e4313b9228b406ba4c6602bb4bf8c5c31eef2424e853c6583ca6",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    ".build/merged-openwrt/bin/npu/cold-indication.o": "65c81d63f03aaceb6d27bc432596a51f3ca8598e2b717fc55771e94619a89ca0"
+  },
+  "exact_core_object": true,
+  "rv32_elf_sha256": "3118ec68b7b1d1a8320990524986f50ab85affef5b7072d5188de10bc0f5207f",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual ownership core C on host and RV32 against an independent oracle; backing/platform stores modeled.",
+    "Native caller integration and physical exclusion/coherency/drains are separate contracts. No reset/retirement API exists."
+  ]
+}

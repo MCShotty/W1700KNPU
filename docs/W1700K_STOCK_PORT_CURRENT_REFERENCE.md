@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Retained Indication And ACK Metadata
+
+The checked provider now routes indication address/DESC and ACK selector3/API19
+through the existing cold session. Private history is104 bytes with full RX/page
+counts; the wire remains80 bytes. The native owner retains a1536-record span
+under original allocator lock18 and guards original reads/stores and readback.
+There is no reset/retirement API or new physical authority.
+
+Exact-object12,322 host/RV32 calls,3,095 controls/seven mutants, nominal actual-C
+sender and34 native adapter controls pass. World,54-function Ghidra,66 top-level/
+12 nested source files,13 components,16 assembly groups and FIT/218-package/
+78-module checks pass. Latest FIT:
+`8dd1f2f4d62fbc9f8cf8061ead435527e01d85bcf90d0b05f3f6e4da0b1f16d9`.
+Prior `5c94b20d...`/R1 preserved. No flash/reset/router contact. Strict driver
+checkpatch now has zero errors/warnings/checks; world still has upstream warnings
+and an ignored U-Boot install error, so it is not a warning-free build.
+
+The actual sender next stops at TX0/API19, whose original body also programs
+native DMA base registers. Implement that contract and remaining strict TX/
+INODE/TXDONE setup, owners/hot/postgate and independent physical exclusion/
+backing/coherency, drains/retirement/recovery and clients. Modeled later/full
+raw TXDONE does not complete the strict lane. Full objective remains open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
+
 ## 2026-10-10 - Bound PCI BAR And Strict Page Prefix
 
 The real mt7996 PCI BAR0 start/length reaches a checked provider binding before

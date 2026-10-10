@@ -1,5 +1,25 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Retained Indication And ACK Prefix
+
+The checked cold path now initializes all 1,536 indication records under a
+one-shot retained owner, then records the ACK address. Original allocator lock18,
+unique arena/subregion identity, full RX/page count history and per-record
+held-state checks guard the native read/store hooks. No reset or retirement API
+was added; the existing 80-byte wire/session is unchanged.
+
+The exact 14th core object passes 12,322 host/RV32 calls, 3,095 controls and seven
+mutants. Actual-C nominal setup and 34 native negative controls pass without a
+synthetic active grant or direct owner initializer. The actual txrx sender now
+stops at TX0/API19, which programs native DMA registers, not at selector8.
+
+World, 54-function packaged-provider Ghidra, 66 top-level/12 nested source files,
+13 provider components, assembly and FIT/218-package/78-module checks pass.
+Latest FIT `8dd1f2f4...`; prior `5c94b20d...`/R1 preserved. No flash or router
+contact. Full strict TX/INODE/TXDONE, remaining owners/hot/postgate and physical
+containment/coherency/drains/recovery/clients remain open. Evidence and limits:
+`research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
+
 ## 2026-10-10 - Bound PCI BAR And Cold Page Rings
 
 The real mt7996 PCI caller now passes BAR0 start/length to the checked provider

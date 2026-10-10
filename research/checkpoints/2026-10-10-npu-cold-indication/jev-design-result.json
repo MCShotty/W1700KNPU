@@ -1,0 +1,94 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-indication-20261010\\jev-design.json",
+  "request_sha256": "c855ad291b913d71c093994aa460d6d1edcb38676dc3f3cac37f15d1902e1223",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "owner_kind": {
+      "type": "choice",
+      "instructions": "In indication_body, which resource is being initialized? Classify the shown writes, not the function name.",
+      "criteria": {
+        "indication_records": "8-byte indication records have their status word ORed with0xe0000000; no buffer-ID pool is dequeued.",
+        "ba_pages": "BA page IDs are dequeued and allocated.",
+        "packet_pool": "Packet IDs are dequeued and allocated.",
+        "unknown": "The supplied body does not establish a resource class."
+      }
+    },
+    "geometry_not_ownership": {
+      "type": "noul",
+      "instructions": "Does a count bound alone establish the immutable indication span and its retained cold owner, according to project_contract and proposed_indication_owner?"
+    },
+    "failure_policy": {
+      "type": "choice",
+      "instructions": "Under project_contract, what should proposed_indication_owner do after an ambiguous failure following a committed indication write?",
+      "criteria": {
+        "retain_no_reset": "Latch fault and retain committed words/reservation/lease; deny outer success without a reset or rollback API.",
+        "clear_restart": "Clear the initialized prefix and restart.",
+        "free": "Retire the arena when the CPU callback returns.",
+        "unknown": "The contract does not establish a policy."
+      }
+    },
+    "tx_side_effects": {
+      "type": "choice",
+      "instructions": "Does tx_initializer only store host-address metadata or also program native hardware base registers?",
+      "criteria": {
+        "base_register_writes": "The shown body writes native1fc... base registers as part of TX initialization.",
+        "metadata_only": "It only stores SRAM address metadata.",
+        "unknown": "The shown body does not establish side effects."
+      }
+    },
+    "separate_physical_claim": {
+      "type": "noul",
+      "instructions": "Would proposed_indication_owner by itself prove physical prior-user exclusion, DMA/cache coherency or retirement, when project_contract explicitly lacks those witnesses?"
+    }
+  },
+  "elapsed_ms": 1041,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "owner_kind": {
+        "type": "choice",
+        "choice": "indication_records",
+        "confidence": 1.0,
+        "probabilities": {
+          "indication_records": 1.0,
+          "ba_pages": 0.0,
+          "packet_pool": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "geometry_not_ownership": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "failure_policy": {
+        "type": "choice",
+        "choice": "retain_no_reset",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain_no_reset": 1.0,
+          "clear_restart": 0.0,
+          "free": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "tx_side_effects": {
+        "type": "choice",
+        "choice": "base_register_writes",
+        "confidence": 0.48,
+        "probabilities": {
+          "base_register_writes": 0.65,
+          "metadata_only": 0.33,
+          "unknown": 0.02
+        }
+      },
+      "separate_physical_claim": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 2622,
+      "output_tokens": 190
+    }
+  }
+}

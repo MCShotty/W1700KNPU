@@ -73,7 +73,7 @@ static int airoha_npu_wlan_send_msg(struct airoha_npu *p, int index,
     u32 value; memcpy(&value, data, sizeof(value)); command_count++;
     if (peer) return peer(0x10 | index, api, value);
     printf("{\"header\":%u,\"api\":%u,\"value\":%u}\n", 0x10 | index, api, value);
-    return index == 8 ? -EOPNOTSUPP : 0;
+    return index == 0 && api == WLAN_FUNC_SET_WAIT_TX_RING_PCIE_ADDR ? -EOPNOTSUPP : 0;
 }
 '''
 ENTRY = r'''
@@ -105,7 +105,7 @@ int main(void) {
                dev.mmio.npu == &npu && dev.mmio.ppe_dev == &ppe &&
                dev.mmio.phy_addr == 0x20000000 && dev.hwrro_mode == MT76_HWRRO_V3);
     }
-    assert(npu_host_txrx(0x20000000, 0, 0, NULL) == -EOPNOTSUPP && command_count == 9);
+    assert(npu_host_txrx(0x20000000, 0, 0, NULL) == -EOPNOTSUPP && command_count == 12);
     return 0;
 }
 '''
@@ -150,8 +150,9 @@ def main():
     rows = [json.loads(line) for line in done.stdout.splitlines()]
     prefix = [dict(header=header, api=api, value=value) for header, api, value in (
         (0x10, 1, 1536), (0x12, 1, 1024), (0x15, 0, 0x200d45a0), (0x15, 1, 256),
-        (0x16, 0, 0x200d45b0), (0x16, 1, 512), (0x17, 0, 0x200d45c0), (0x17, 1, 1024))]
-    assert rows[:-1] == prefix and rows[-1]['header'] == 0x18 and rows[-1]['api'] == 0
+        (0x16, 0, 0x200d45b0), (0x16, 1, 512), (0x17, 0, 0x200d45c0), (0x17, 1, 1024),
+        (0x18, 0, 0x2000a040), (0x18, 1, 1536), (0x13, 19, 0x2000a050))]
+    assert rows[:-1] == prefix and rows[-1] == dict(header=0x10, api=19, value=0x200d4420)
     loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'shared-build.log')
     assert all(loader.sha(ROOT / p) == digest for p, digest in inputs.items())
     result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=rows[-1],
@@ -161,7 +162,8 @@ def main():
                           'Current DMA configuration is source-checked to WFDMA0 for all three page bands, not physically executed.',
                           'Binding-before-publication is CPU ordering, not prior-user exclusion or a physical DMA grant.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, publication_cases=3, prefix_commands=8, first_unsupported_selector=8)))
+    print(json.dumps(dict(passed=True, publication_cases=3, prefix_commands=11,
+                          first_unsupported=dict(selector=0, api=19))))
 
 
 if __name__ == '__main__':

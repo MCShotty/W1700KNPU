@@ -21,7 +21,13 @@
 #define NPU_COLD_PAGE6 256u
 #define NPU_COLD_ADDR7 512u
 #define NPU_COLD_PAGE7 1024u
-#define NPU_COLD_COMPLETED_MASK 2047u
+#define NPU_COLD_ADDR8 2048u
+#define NPU_COLD_INDICATION 4096u
+#define NPU_COLD_ACK 8192u
+#define NPU_COLD_COMPLETED_MASK 16383u
+#define NPU_COLD_COUNTS 5u
+#define NPU_COLD_IND_REG 0xa040u
+#define NPU_COLD_ACK_REG 0xa050u
 #define NPU_COLD_BIND_HEADER 0x1fu
 #define NPU_COLD_BIND_BASE_API 0x100u
 #define NPU_COLD_BIND_BYTES_API 0x101u
@@ -75,6 +81,7 @@ struct npu_cold_setup {
     uint32_t boot_lo, boot_hi, nonce_lo, nonce_hi, prior_completed;
     struct npu_bootstrap_packet command;
     uint32_t endpoint_base, endpoint_bytes, prior_base, prior_bytes;
+    uint32_t counts[NPU_COLD_COUNTS], prior_counts[NPU_COLD_COUNTS];
 };
 
 enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *setup,

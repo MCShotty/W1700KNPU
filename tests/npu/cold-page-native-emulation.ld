@@ -6,6 +6,8 @@ original_page_return_bd12 = 0x8400bd12;
 original_page_bd66 = 0x8400bd66;
 original_page_bd8a = 0x8400bd8a;
 original_page_bd4c = 0x8400bd4c;
+original_indication_bb14 = 0x8400bb14;
+original_indication_bb1e = 0x8400bb1e;
 SECTIONS {
     . = 0x84078000;
     .text : { *(.text*) }

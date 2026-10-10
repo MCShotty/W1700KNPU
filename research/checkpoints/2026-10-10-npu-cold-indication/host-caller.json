@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "publication_cases": 3,
+  "prefix": [
+    {
+      "header": 16,
+      "api": 1,
+      "value": 1536
+    },
+    {
+      "header": 18,
+      "api": 1,
+      "value": 1024
+    },
+    {
+      "header": 21,
+      "api": 0,
+      "value": 537740704
+    },
+    {
+      "header": 21,
+      "api": 1,
+      "value": 256
+    },
+    {
+      "header": 22,
+      "api": 0,
+      "value": 537740720
+    },
+    {
+      "header": 22,
+      "api": 1,
+      "value": 512
+    },
+    {
+      "header": 23,
+      "api": 0,
+      "value": 537740736
+    },
+    {
+      "header": 23,
+      "api": 1,
+      "value": 1024
+    },
+    {
+      "header": 24,
+      "api": 0,
+      "value": 536911936
+    },
+    {
+      "header": 24,
+      "api": 1,
+      "value": 1536
+    },
+    {
+      "header": 19,
+      "api": 19,
+      "value": 536911952
+    }
+  ],
+  "unsupported_next": {
+    "header": 16,
+    "api": 19,
+    "value": 537740320
+  },
+  "inputs": {
+    ".local/merge-nonoc-20260923/mt76-merged/npu.c": "b4e92a0458381a40c9e8586a3e66ca10ee323f556242f282c9135a1ddeb5d644",
+    ".local/merge-nonoc-20260923/mt76-merged/mt76.h": "d49628d3f229488f006afd29c299e674a4da8ac5abc9fef892056e4dba8f0229",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/npu.c": "6c38b869389c990e43521ff10a72ec7e153b7d56f28b834bc7909eec8c757a88",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/pci.c": "713cf61d0fabe889eb1fb77912c7f767854cd7738da7db30497610c5f1ff6b3d",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c": "e565520865dd3b4d3b1bc270f3d4ebe88404eeda0def10f3f112ae655a7ed3d3",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/regs.h": "55f08a5dc6ea586e9a50c07f8932f2316e0e888ef9aa3e4125e1f25cccba20a7",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h": "37421222ba80195825d4c694bc8a1ec920d63f1acf3b5905b4539fc538cfd1eb",
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h": "fa839a17f9d8c6d7fdb42e37897c4bba631854f514745521529e97dbd87a27bf",
+    "tests/npu/test_cold_host_prefix.py": "72bf4ec055bd7a7cb49dcd07b4d75dd5d0e6db5fc7fa7a63a58dcc6ad4ab705d",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+  },
+  "shared": ".local/npu-cold-pages-wire-20261010/indication-host-final/host-sender.so",
+  "shared_sha256": "4f819c76aecb0e7c6d274c46bb1772af0b9f80e331215850de79461b7be4b9e0",
+  "binary_sha256": "6f4c463c2ca4dda6f1e6f0d30696237f7479321b3b99b6601872dba9540dad1a",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual mt76 initialization and mt7996 txrx sender C; kernel references/RCU and queue state modeled.",
+    "Current DMA configuration is source-checked to WFDMA0 for all three page bands, not physically executed.",
+    "Binding-before-publication is CPU ordering, not prior-user exclusion or a physical DMA grant."
+  ]
+}

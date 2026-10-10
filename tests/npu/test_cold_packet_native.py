@@ -94,7 +94,7 @@ class NativePackets(stats.RxStats):
             self.cpu.mem_write(site, after)
         self.cpu.ctl_remove_cache(composition.CODE, composition.CODE + 0x201000)
         self.check_hooks()
-        assert len(self.patches) == 61
+        assert len(self.patches) == 63
 
     def snapshot(self):
         return super().snapshot() + [(EXTRA, bytes(self.cpu.mem_read(EXTRA, EXTRA_BYTES)))]
@@ -407,7 +407,7 @@ def main():
                ROOT / 'firmware/npu/cold-packet.h', TESTS / 'cold-packet-native-emulation.c',
                TESTS / 'cold-packet-native-emulation.S', TESTS / 'cold-packet-native-emulation.ld',
                TESTS / 'test_rx_stats.py', Path(__file__)]
-    result = dict(passed=True, full_nominal=not args.quick, hooks=61, nominal=valid, controls=controls, rejected_mutants=mutants,
+    result = dict(passed=True, full_nominal=not args.quick, hooks=63, nominal=valid, controls=controls, rejected_mutants=mutants,
                   independent_pages=page_rows, unrelated_getter_return=other,
                   strict_denial=denied, composition_layout=layout,
                   inputs={str(p.relative_to(ROOT)): composition.sha(p) for p in sources},
@@ -416,7 +416,7 @@ def main():
                           'No hot release/recycle,real loader/vendor-blob installation,physical backing/coherency/drain or client proof.',
                           'Full strict setup is still denied; other packet users retain the existing TXDONE route.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, hooks=61, nominal=2, controls=len(controls), mutants=len(mutants), receipt=str(dest / 'result.json'))))
+    print(json.dumps(dict(passed=True, hooks=63, nominal=2, controls=len(controls), mutants=len(mutants), receipt=str(dest / 'result.json'))))
 
 
 if __name__ == '__main__':

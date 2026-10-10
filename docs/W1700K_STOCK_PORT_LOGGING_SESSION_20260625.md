@@ -1,8 +1,27 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (bound BAR and strict page prefix implemented; full setup/physical gates open)
+Last updated: 2026-10-10 (indication/ACK prefix implemented; strict TX and physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Retained Indication And ACK Prefix
+
+- Added a one-shot1536-record owner as the14th portable object. Original lock18,
+  unique arena/subregion, full RX/page count history and per-record native checks
+  guard reads/stores/readback. The104-byte private history retains the existing
+  80-byte wire/session. Failures retain claims and outer lease; no retirement.
+- Exact-object12,322 calls/3,095 controls/seven mutants, C545/nine and C425/
+  thirteen, nominal actual-C/native setup and34 native controls pass. World,
+  Ghidra54, source66+nested12/components13, assembly/image218+78 and wider
+  parser/boot/lifetime/request/memory/retry/raw regressions pass.
+- Latest FIT:
+  `8dd1f2f4d62fbc9f8cf8061ead435527e01d85bcf90d0b05f3f6e4da0b1f16d9`.
+  Prior `5c94b20d...`/R1 preserved. No flash, reset or router contact. The actual
+  sender next stops at TX0/API19, which programs DMA registers, not metadata.
+  Full strict TX/INODE/TXDONE, other owners/hot/postgate and physical containment/
+  coherency/drains/recovery/clients remain open. Checkpatch debt is cleared;
+  upstream/package warnings and ignored U-Boot install error remain in world.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
 
 ## 2026-10-10 - Bound BAR And Cold Page Prefix
 

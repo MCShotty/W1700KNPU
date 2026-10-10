@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "matrix": {
+    "passed": true,
+    "cases": 248,
+    "write_faults": 224,
+    "nominal_writes": 14,
+    "nominal_events": 18
+  },
+  "rejected_mutants": [
+    {
+      "name": "ignore-first-write-error",
+      "binary_sha256": "6be97467cfb02ee2ed7b0eb6f1de5f5aeadde1b274803271c315db6097f7f8a1"
+    },
+    {
+      "name": "omit-boot-attempt-latch",
+      "binary_sha256": "6e15f729977cfdc14b51b1bf35dfbfc476a838eb85121fb1ae3920c50a7eb044"
+    },
+    {
+      "name": "allow-second-launch",
+      "binary_sha256": "91f47789f3dcf0b208b44b589a68fea1c83dd627eafad3047b392e28cb5e7ced"
+    },
+    {
+      "name": "ignore-version-transport",
+      "binary_sha256": "f07b7f48743afa9549cedf076900a193190ff158d320dd0fc7d594a26bb40604"
+    },
+    {
+      "name": "accept-wrong-checked-version",
+      "binary_sha256": "bc9a51b34c1ce9cb74a37a01795eaa37aa91ae340201d844be67a950e3418923"
+    },
+    {
+      "name": "wrong-backup-address",
+      "binary_sha256": "62d67351237425e4a14a3515137d8f8be8e41db53a36b9252d8f9135f09abea3"
+    },
+    {
+      "name": "wrong-core-boot-base",
+      "binary_sha256": "cdc89185f7a06b53f36469c3241a06f05f1a6c5af0fbca1c2232ec6c51022943"
+    },
+    {
+      "name": "ignore-error-mib21",
+      "binary_sha256": "7d3403eab20863363839875729abfc2156ebc3b7b6882b6ce659c7bd1349b74b"
+    },
+    {
+      "name": "ignore-error-boot_config",
+      "binary_sha256": "6692a90cb8a6b6fe1d07ab084b24fd34a3dc9eb392e6022dc64a3fa2886e70e5"
+    },
+    {
+      "name": "ignore-error-boot_trigger",
+      "binary_sha256": "10a157093f41c7c7bbe5f5a8f28ec7f4c9570caa6c1023bab91d05d23386a28d"
+    }
+  ],
+  "inputs": {
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": "fe641f2921ffaa1bc60faa02be07ef8bf5478a50aefc17c4620cd85783209c1c",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h": "fa839a17f9d8c6d7fdb42e37897c4bba631854f514745521529e97dbd87a27bf",
+    "tests/npu/boot-launch-harness.c": "d6e17774ddeafe20625954be42b87507f626d2147fb08ccd8091fe1b65c6c967",
+    "tests/npu/test_boot_launch.py": "91749382a8ca10ac99f790e7a1ff6b902ff8c1a2e5b6e6d14b9939b6d4297696",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+  },
+  "binary_sha256": "9c092d9a225bcb53c38428327efdf7e30fc818e365c41f2faca23c1c06101d3e",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual Linux boot sequencer C; register/timing/version responses are modeled.",
+    "Expected version response is not all-hart startup,physical containment,drains or complete NPU/client acceptance."
+  ]
+}

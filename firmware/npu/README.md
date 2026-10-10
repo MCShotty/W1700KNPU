@@ -1,5 +1,28 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Retained Indication Initialization
+
+`cold-indication.c/.h` adds the one-shot1536-record indication owner as the14th
+archive object. It reserves each original8-byte record before read/store, checks
+publication readback and validates the complete span before outer success. Faults
+retain the span and committed/published prefix, with no reset/retirement API.
+
+The native adapter acquires original allocator lock18 and pins its unique type1
+WLAN arena and type6 subregion, count/used metadata, bound session/identity and
+held epoch. Every guarded record rechecks parked/ready/drain/deferred state. First
+authenticated DESC8 initializes ownership; hooks precede original record reads
+and stores. Other packet/BA owners are unchanged. Cold104-byte private history
+now records all five RX/page counts and requires their full profile before
+indication setup. The80-byte wire format is unchanged.
+
+The checked provider also routes indication address/DESC and metadata-only ACK
+address commands. The next TX0/type19 operation programs DMA base registers and
+is not yet integrated into the strict path. Remaining TX/INODE/TXDONE setup,
+other owners/hot/postgate and physical containment/coherency/drains/recovery/
+clients remain open. Validation scope is recorded in
+`research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`; no hardware action
+or flash is part of this checkpoint.
+
 ## 2026-10-10 - Session-Bound BAR And Page Setup
 
 The checked provider binds PCI BAR0 start/length from the real mt7996 PCI caller

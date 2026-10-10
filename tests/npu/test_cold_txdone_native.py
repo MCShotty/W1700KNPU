@@ -421,7 +421,7 @@ def main():
                                         'cold-page-native-emulation.c', 'cold-page-native-emulation.S',
                                         'cold-page-native-emulation.ld', 'txdone-init-emulation.c',
                                         'txdone-init-emulation.S', 'txdone-init-emulation.ld')}
-    result = dict(passed=True, full_nominal=not args.quick, hooks=61, nominal=valid, prefix=prefix,
+    result = dict(passed=True, full_nominal=not args.quick, hooks=63, nominal=valid, prefix=prefix,
                   controls=controls, rejected_mutants=mutants,
                   strict_denial=denied, packet_state_fields=list(fields),
                   inputs={str(p.relative_to(ROOT)): composition.sha(p) for p in sorted(sources)},

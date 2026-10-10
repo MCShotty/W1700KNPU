@@ -1,0 +1,95 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "indication_body": "decompiled=true\n\nundefined4 FUN_ram_8400bae6(uint param_1)\n\n{\n  int iVar1;\n  uint uVar2;\n  int iVar3;\n  \n  if ((param_1 - 1 < 0x600) ||\n     (FUN_ram_840048f4(\"ERROR! rx_ring_size = %d\\n\",param_1), param_1 != 0)) {\n    iVar1 = DAT_ram_3e902aa0;\n    uVar2 = 0;\n    do {\n      iVar3 = uVar2 * 8 + iVar1;\n      uVar2 = (int)((uVar2 + 1) * 0x10000) >> 0x10;\n      *(uint *)(iVar3 + 4) = *(uint *)(iVar3 + 4) | 0xe0000000;\n    } while (uVar2 < param_1);\n  }\n  DAT_ram_3e901fd4 = 0;\n  DAT_ram_3e904590 = 0;\n  return 0;\n}\n\n",
+    "dispatcher": "decompiled=true\n\nvoid FUN_ram_8400dd82(undefined4 param_1,int param_2)\n\n{\n  uint uVar1;\n  undefined4 uVar2;\n  \n  switch(param_2) {\n  case 0:\n    FUN_ram_8400d2d4(0);\n    FUN_ram_8400b6ba(param_1,0);\n    return;\n  case 1:\n  case 3:\n  case 4:\n  case 9:\n  case 0xb:\n    FUN_ram_840048f4(\"%s() wrong input val:%d \\n\",\"npu_mbox_init_rxd_wrapper\",param_2);\n    return;\n  case 2:\n    FUN_ram_8400d2d4(2);\n    FUN_ram_8400b7e8(param_1,1);\n    return;\n  case 5:\n  case 6:\n  case 7:\n    break;\n  case 8:\n    uVar2 = DAT_ram_3e9030fc;\n    uVar2 = FUN_ram_8400fab2(uVar2,1,6);\n    DAT_ram_3e902aa0 = uVar2;\n    FUN_ram_8400bae6(param_1);\n    return;\n  case 10:\n    FUN_ram_8400b432();\n    return;\n  case 0xc:\n    FUN_ram_840048f4(\"[NPU] ignore tx done ring1 currently because of no use\\n\");\n    return;\n  default:\n    FUN_ram_840048f4(\"%s() wrong input val:%d \\n\",\"npu_mbox_init_rxd_wrapper\",param_2);\n    return;\n  }\n  uVar1 = param_2 - 5U & 0xff;\n  uVar2 = DAT_ram_3e9030fc;\n  if (uVar1 == 1) {\n    uVar2 = FUN_ram_8400fab2(uVar2,1,8);\n    DAT_ram_3e902aa4 = uVar2;\n  }\n  else if (uVar1 == 2) {\n    uVar2 = FUN_ram_8400fab2(uVar2,1,9);\n    DAT_ram_3e904638 = uVar2;\n  }\n  else {\n    uVar2 = FUN_ram_8400fab2(uVar2,1,7);\n    DAT_ram_3e902a94 = uVar2;\n  }\n  FUN_ram_8400bc02(param_1,uVar1);\n  return;\n}\n\n",
+    "tx_initializer": "decompiled=true\n\n/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */\n\nvoid FUN_ram_8400d490(int param_1)\n\n{\n  undefined4 uVar1;\n  undefined1 uVar2;\n  char cVar3;\n  uint uVar4;\n  uint uVar5;\n  uint uVar6;\n  \n  uVar2 = DAT_ram_3e90390e;\n  FUN_ram_840048f4(\"NPU tx init. band:%d Version: NPU_%s pcie_type:%d\\n\",param_1,&DAT_ram_8401c778,\n                   uVar2);\n  DAT_ram_3e903978 = 0;\n  DAT_ram_3e9021f4 = 0;\n  if (param_1 == 2) {\n    FUN_ram_840048f4(\"%s() special handling: band is changed to BAND1\\n\",\"npu_eagle_tx_init\");\n    param_1 = 1;\n  }\n  uVar1 = DAT_ram_3e9030fc;\n  uVar5 = FUN_ram_8400fab2(uVar1,1,2);\n  uVar1 = DAT_ram_3e9030fc;\n  uVar4 = uVar5 + 0x28020;\n  uVar6 = FUN_ram_8400fab2(uVar1,1,1);\n  cVar3 = DAT_ram_3e90390e;\n  if (cVar3 != '\\x01') {\n    if (cVar3 != '\\0') {\n      if (cVar3 == '\\x02') {\n        if (param_1 == 0) {\n          _DAT_ram_1fc08030 = uVar6 & 0x1fffffff;\n          _DAT_ram_1fc08034 = uVar6 + 0x22020 & 0x1fffffff;\n        }\n        else {\n          _DAT_ram_1fc48030 = uVar5 & 0x1fffffff;\n          _DAT_ram_1fc48034 = uVar4 & 0x1fffffff;\n        }\n      }\n      else if (cVar3 == '\\x03') {\n        if (param_1 == 0) {\n          _DAT_ram_1fc28030 = uVar6 & 0x1fffffff;\n          _DAT_ram_1fc28034 = uVar6 + 0x22020 & 0x1fffffff;\n        }\n        else {\n          _DAT_ram_1fc08030 = uVar5 & 0x1fffffff;\n          _DAT_ram_1fc08034 = uVar4 & 0x1fffffff;\n        }\n      }\n      return;\n    }\n    _DAT_ram_1fc08030 = uVar6 & 0x1fffffff;\n    _DAT_ram_1fc08034 = uVar4 & 0x1fffffff;\n    return;\n  }\n  _DAT_ram_1fc28030 = uVar6 & 0x1fffffff;\n  _DAT_ram_1fc28034 = uVar4 & 0x1fffffff;\n  return;\n}\n\n",
+    "arena_subregions": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        139296
+      ],
+      [
+        3,
+        24608
+      ],
+      [
+        4,
+        155712
+      ],
+      [
+        6,
+        127008
+      ],
+      [
+        7,
+        98336
+      ],
+      [
+        8,
+        102432
+      ],
+      [
+        9,
+        110624
+      ],
+      [
+        10,
+        32800
+      ],
+      [
+        11,
+        172096
+      ],
+      [
+        65535,
+        0
+      ]
+    ],
+    "project_contract": "The existing epoch1 cold callback checks bound nonce/identity/sequence, parked workers and no deferred IRQ/release/arm/drain. Any committed claim/write and software lease must remain retained after ambiguous late failure. No physical exclusion/coherency/drain is proven, and there is no retirement/reset API.",
+    "proposed_indication_owner": "A one-shot private owner captures the existing allocator type1 WLAN-arena reservation and its type6 indication span. Preflight requires fresh zero records and exact geometry. Hooks reserve/record each original status-word write and deny false outer success after a partial or late failure, without clearing committed words or other packet/BA owners."
+  },
+  "questions": {
+    "owner_kind": {
+      "type": "choice",
+      "instructions": "In indication_body, which resource is being initialized? Classify the shown writes, not the function name.",
+      "criteria": {
+        "indication_records": "8-byte indication records have their status word ORed with0xe0000000; no buffer-ID pool is dequeued.",
+        "ba_pages": "BA page IDs are dequeued and allocated.",
+        "packet_pool": "Packet IDs are dequeued and allocated.",
+        "unknown": "The supplied body does not establish a resource class."
+      }
+    },
+    "geometry_not_ownership": {
+      "type": "noul",
+      "instructions": "Does a count bound alone establish the immutable indication span and its retained cold owner, according to project_contract and proposed_indication_owner?"
+    },
+    "failure_policy": {
+      "type": "choice",
+      "instructions": "Under project_contract, what should proposed_indication_owner do after an ambiguous failure following a committed indication write?",
+      "criteria": {
+        "retain_no_reset": "Latch fault and retain committed words/reservation/lease; deny outer success without a reset or rollback API.",
+        "clear_restart": "Clear the initialized prefix and restart.",
+        "free": "Retire the arena when the CPU callback returns.",
+        "unknown": "The contract does not establish a policy."
+      }
+    },
+    "tx_side_effects": {
+      "type": "choice",
+      "instructions": "Does tx_initializer only store host-address metadata or also program native hardware base registers?",
+      "criteria": {
+        "base_register_writes": "The shown body writes native1fc... base registers as part of TX initialization.",
+        "metadata_only": "It only stores SRAM address metadata.",
+        "unknown": "The shown body does not establish side effects."
+      }
+    },
+    "separate_physical_claim": {
+      "type": "noul",
+      "instructions": "Would proposed_indication_owner by itself prove physical prior-user exclusion, DMA/cache coherency or retirement, when project_contract explicitly lacks those witnesses?"
+    }
+  }
+}

@@ -103,9 +103,11 @@ The Linux cold exchange is serialized by the executor mutex; provider callback
 wrappers also hold the setup mutex so CPU close joins this path.
 
 The implemented commands are the post-BIND version query, two BAR0 metadata
-bindings, port type2, checked RX0/RX2 DESC, then page5/6/7 address/DESC pairs.
+bindings, port type2, checked RX0/RX2 DESC, page5/6/7 address/DESC pairs, indication
+address/DESC and the metadata-only ACK address.
 Version can be queried again; mutating commands are ordered and one-shot. The
-64-byte native cold owner stores the bound window and exact completed prefix.
+104-byte native cold owner stores the bound window, exact completed prefix,
+five completed RX/page counts and their callback snapshots.
 The real mt7996 PCI caller passes BAR0 start and length to mt76 initialization;
 the provider sends both metadata commands before mt76 publishes NPU/PPE pointers.
 Wrong port type, truncation, alignment/span or bootstrap-region overlap rejects
@@ -114,9 +116,14 @@ before host transport. Native checks independently repeat geometry and ordering.
 RX0 permits1..1536 descriptors; RX2 permits1..1024. Their first authenticated
 callback initializes packet ownership from the pinned plan. Page5/6/7 addresses
 must match BAR0+0xd45a0/0xd45b0/0xd45c0, and DESC limits are256/512/1024. First
-authenticated DESC5 initializes BA ownership. Tests do not seed active or call
-either initializer for this lane. The actual txrx sender reaches unsupported
-indication selector8 next; INODE/TXDONE/full setup remains incomplete. BAR bounds
+authenticated DESC5 initializes BA ownership. Before indication setup, all five
+completed counts must match their full profile. Indication requires BAR0+0xa040
+and DESC1536; its separate owner captures the allocator type1/type6 reserved span,
+checks fresh records and guards each original read/store/publication. ACK selector3
+requires BAR0+0xa050 and only stores metadata. Tests do not seed active or call
+any ownership initializer directly for this lane. The actual txrx sender reaches
+TX0/type19 DMA-base programming next, which remains denied; INODE/TXDONE/full
+setup remains incomplete. BAR bounds
 are software geometry, not proof of physical PCI ownership or DMA visibility.
 
 Native begin verifies the pinned transport/envelope and copies a private packet

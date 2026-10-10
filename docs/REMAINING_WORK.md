@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Indication And ACK Prefix Wired
+
+The strict path now covers all 1,536 indication records and ACK-address metadata.
+The one-shot owner, original allocator lock18, unique arena/subregion identity,
+full RX/page count history and native reserve/pending/readback hooks retain
+claims on faults. Nominal actual-C/native setup, 34 adapter controls, portable
+core/mutants and world/source/Ghidra/image checks pass. Latest FIT `8dd1f2f4...`;
+old `5c94b20d...`/R1 preserved. No flash/reset/router contact.
+
+Next implement TX0/TX2 address/register programming and its ownership contract,
+then remaining TX-token/RX-address/INODE/TXDONE and final register/IRQ setup.
+The actual sender stops at TX0/API19: it resets native indices and writes DMA
+base registers, unlike the admitted metadata-only ACK selector3. Full strict
+setup is not complete. Other owners/workers/hot/postgate, real prior-user
+exclusion/exclusive backing/cache/DMA visibility, physical drains/retirement/
+teardown/rearm/recovery, exact-image boot and actual clients remain required.
+The separate later/full raw replay still uses a modeled direct lease. Driver
+alignment debt from the previous checkpoint is cleared. Evidence and scope:
+`research/checkpoints/2026-10-10-npu-cold-indication/REPORT.md`.
+
 ## 2026-10-10 - Cold Page Prefix Wired
 
 BAR0 start/length now binds in the provider session before mt76 publication.
