@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Checked Loader Publication And Mainline Packaging
+
+Actual Linux C now validates the checked pair/zero loader slots, obtains a
+nonzero runtime random identity, copies CODE/DATA, publishes the private native
+plan/identity and verifies SRAM readback. Exposed coherent mailboxes are retained
+on failure/detach; repeat load and retained same-device rebind deny. The module
+remains pinned until real physical retirement is implemented.
+
+The normal MT7996 package contains the raw pair and manifest; explicit package
+dependencies fix stale incremental metadata. Actual-C fault/mutant and native
+C-publication/all-hart tests, full raw RX/TXDONE/BA replay, assembly, memory/
+retry/V2, 62-file source replay and complete world/image checks pass. Latest FIT:
+`05ca2802ec5c9149b2c1a928f829a61d666edb00d8a37316493689c28990001a`.
+Prior images and R1 are preserved. No flash, router contact or physical proof.
+Cold containment/exclusive backing/coherency, real strict callers, other owners/
+hot/postgate and physical retirement/recovery/clients remain open. Readback,
+format flags and retained buffers are not containment witnesses. Evidence:
+`research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
 ## 2026-10-10 - Provider Native Request Preparation
 
 The canonical loader now validates the MT7996 coherent core0 request and prepares
@@ -108,7 +127,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (private provider native plan and raw bootstrap pass; actual publication/containment/strict setup/lifecycle/hardware acceptance remains open)
+Last updated: 2026-10-10 (actual publication/retention and raw pair packaging pass; physical containment/strict setup/lifecycle/client acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

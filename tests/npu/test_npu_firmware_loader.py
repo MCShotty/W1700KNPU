@@ -57,6 +57,8 @@ def fragment(source):
                            source, re.M)
     parts = constants + [extract.declaration(source, 'struct', name) for name in
                           ('airoha_npu_fw', 'airoha_npu_soc_data', 'airoha_npu_priv')]
+    if 'struct airoha_npu_dma_lifetime {' in source:
+        parts.insert(len(constants) + 2, extract.declaration(source, 'struct', 'airoha_npu_dma_lifetime'))
     names = list(FUNCTIONS)
     if 'static int airoha_npu_request_firmware(' in source:
         names.insert(1, 'airoha_npu_request_firmware')
@@ -64,6 +66,9 @@ def fragment(source):
         names.insert(1, 'airoha_npu_wlan_prepare_memory')
     if 'static int airoha_npu_wlan_prepare_request(' in source:
         names.insert(2, 'airoha_npu_wlan_prepare_request')
+    if 'static int airoha_npu_checked_pair(' in source:
+        names[0:0] = ['airoha_npu_firmware_expose', 'airoha_npu_checked_pair',
+                      'airoha_npu_native_identity', 'airoha_npu_native_publish']
     parts += [extract.function(source, name) for name in names]
     return '\n\n'.join(parts) + '\n'
 
@@ -120,7 +125,7 @@ def main():
         directory.mkdir()
         (directory / 'firmware-loader.inc').write_text(fragment(contents))
         binary = directory / 'test'
-        run(flags + ['-I' + str(directory), HARNESS, '-o', binary], directory / 'build.log')
+        run(flags + ['-I' + str(directory), HARNESS, '-o', binary, '-lcrypto'], directory / 'build.log')
         return directory, binary
 
     before_dir, before_binary = host('host-before', before)

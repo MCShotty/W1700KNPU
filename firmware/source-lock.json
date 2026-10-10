@@ -54,6 +54,16 @@
         "mode": "0o755"
       },
       {
+        "path": "package/firmware/linux-firmware/Makefile",
+        "sha256": "1578c1ca50dc849af97320bc25d55bee665d46f248028db82e99be207068231a",
+        "mode": "0o644"
+      },
+      {
+        "path": "package/firmware/linux-firmware/airoha.mk",
+        "sha256": "08a315f156ae91df61e8fcf50a2129553eec4178a06241b646217818ae2c777f",
+        "mode": "0o644"
+      },
+      {
         "path": "package/kernel/mt76/Makefile",
         "sha256": "d8b6afc42f70bed7ffdf9a79d07da7f71a29541e9aa794a0e166005bfa4d44fa",
         "mode": "0o644"
@@ -275,7 +285,7 @@
       },
       {
         "path": "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
-        "sha256": "3c75d1c139b430e2f7e683c9f866b3d880f64808a9fb7665adbea8fbd351002b",
+        "sha256": "7dabb25a81d70c7f4ae9a289df34a08df9dbd5dc50f3bf14cc19f6b8a491ca4f",
         "mode": "0o644"
       },
       {
@@ -415,5 +425,5 @@
   "wlan_npu": "enabled in unified experimental build; physical recovery and full parity remain unverified",
   "upstream_release": "ubi2_2026.09.23_r36536-288d79449f",
   "builder_commit": "9449e4ca242ab30278df20940d6654ddc1c102e8",
-  "firmware_core": "firmware/npu/Makefile builds the RV32 components; platform loader and postgate execution remain incomplete"
+  "firmware_core": "RV32 components and checked MT7996 raw pair are built and packaged by tools/build_firmware.py; actual provider publication/retention is implemented, but physical containment/retirement,strict full setup and postgate remain incomplete"
 }

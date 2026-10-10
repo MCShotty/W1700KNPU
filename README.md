@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Checked Loader And Mainline Pair Packaging
+
+The normal experimental image now packages the checked MT7996 CODE/DATA pair.
+The actual Linux loader checks its ABI/digests and zero session storage, obtains
+a nonzero runtime random identity, publishes the real private memory/request
+plan and identity, and checks SRAM readback. Exposed DMA mailboxes are retained;
+same-instance reload and retained-device rebind are rejected. Retirement is not
+implemented, so the module remains pinned after exposure.
+
+Actual-C fault/mutant tests, all-hart native boot from C-published bytes, full raw
+RX/TXDONE/BA replay, independent assembly, two package builds and incremental
+manifest refresh pass. Latest offline-verified FIT: `05ca2802...`; previous images
+are preserved. No flash or router contact. Physical cold containment, complete
+strict setup, other owners/hot lifecycle, drains/recovery and clients remain open.
+The newest entry defines current state; older dated entries retain their original
+scope. Details: `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
 ## 2026-10-10 - Provider Request Plan Bridge
 
 The actual MT7996 provider now preflights its coherent mailbox before copying
@@ -101,7 +118,7 @@ and stock host-adapter/NPU reverse engineering.
 
 ## Current State
 
-Updated 2026-10-01. The objective is complete stock-NPU reverse engineering and
+Updated 2026-10-10. The objective is complete stock-NPU reverse engineering and
 implementation, including host/firmware integration and hardware validation.
 
 The active source is the **unified experimental non-OC merge**, pinned to
@@ -247,7 +264,9 @@ For a fresh destination:
 
 ```sh
 python3 tools/prepare_build.py --destination .build/local-openwrt
-python3 tools/build_firmware.py --destination .build/local-openwrt --name local-build
+python3 tools/build_firmware.py --destination .build/local-openwrt --target tools/install --name local-tools
+make -C .build/local-openwrt package/firmware/linux-firmware/prepare V=s
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu python3 tools/build_firmware.py --destination .build/local-openwrt --name local-build
 ```
 
 On this WSL executor, the working build is `.build/merged-openwrt`; the earlier
@@ -259,10 +278,15 @@ An existing imported build may instead be reused as recorded in migration docs.
 The cloud transfer contains source/evidence. This computer's existing WSL build
 was refreshed and rebuilt after synchronization; other executors must prepare
 their own build trees and local credentials.
-The combined builder also compiles the RV32 component library using a host
-Clang with RISC-V support and `ar`. That library is not yet a replacement
-bootable NPU image: production loader identity, placement and postgate wiring
-remain unfinished implementation work.
+The combined builder compiles the RV32 archive and checked raw pair using host
+Clang/LLD with RISC-V support and `ar`. Python needs Unicorn, Capstone and
+pyelftools; the local dependency directory above supplies the existing tested
+versions. The hash-pinned original pair comes from prepared linux-firmware, or
+an explicit workspace `--npu-firmware-directory`. Pair staging is validated
+before package installation, and all three staged files are package dependencies.
+The archive itself is not raw CODE. Runtime loader publication is implemented;
+physical cold containment/retirement, complete strict setup and postgate remain
+unfinished. The builder and verifier never contact a router.
 
 For the portable current provider/loader/retry/V2 host checks (GCC and Git):
 

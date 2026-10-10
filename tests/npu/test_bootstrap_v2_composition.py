@@ -62,7 +62,7 @@ def check_imports(path, imports):
     assert not differences, ('stale-imported-symbol', differences)
 
 
-def build(*, destination=BUILD):
+def build(*, destination=BUILD, negative_controls=True):
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / 'staged/firmware/npu/control-v2.c'
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -107,17 +107,18 @@ def build(*, destination=BUILD):
     parts['headers'] = component('headers', [headers.SOURCE, headers.ASM], headers.LINKER)
     parts['egress'] = component('egress', [egress.ASM], egress.LINKER, paths[2])
     parts['packets'] = component('packets', [packets.SOURCE, packets.ASM], packets.LINKER, parts['egress'])
-    stale = component('stale-v1-bridge-control', [bridge.ASM], bridge.LINKER, bridge.ELF)
-    try:
-        check_imports(stale, paths[2])
-    except AssertionError as error:
-        assert error.args[0][0] == 'stale-imported-symbol'
-    else:
-        raise AssertionError('stale-link-control-not-rejected')
+    if negative_controls:
+        stale = component('stale-v1-bridge-control', [bridge.ASM], bridge.LINKER, bridge.ELF)
+        try:
+            check_imports(stale, paths[2])
+        except AssertionError as error:
+            assert error.args[0][0] == 'stale-imported-symbol'
+        else:
+            raise AssertionError('stale-link-control-not-rejected')
     return paths, parts
 
 
-def memory_layout(parts):
+def memory_layout(parts, *, original_code_bytes=None, negative_controls=True):
     sections = []
     for name, path in parts.items():
         for s in elf(path).iter_sections():
@@ -125,7 +126,7 @@ def memory_layout(parts):
                 sections.append(dict(component=name, section=s.name, start=s['sh_addr'],
                                      end=s['sh_addr'] + s['sh_size'], sha256=packets.headers.sha(s.data())))
     occupied = sections + [dict(component=name, start=start, end=end) for name, start, end in (
-        ('original-code', CODE, CODE + CODE_INPUT.stat().st_size),
+        ('original-code', CODE, CODE + (CODE_INPUT.stat().st_size if original_code_bytes is None else original_code_bytes)),
         ('native-stacks', STACK_TOPS[0] - 0x4000, STACK_TOPS[-1]),
         ('provider-backup', 0x84200000, 0x84240000),
         ('native-sram', SRAM, SRAM + 0x4754),
@@ -140,11 +141,13 @@ def memory_layout(parts):
     assert all(CODE + 0x40000 <= s['start'] < s['end'] <= CODE + 0x200000 for s in sections)
     ring = next(s for s in sections if s['section'] == '.command_ring')
     assert ring['start'] == layout.RING and ring['end'] - ring['start'] == layout.RING_BYTES
-    old, new = symbols(bridge.ELF), symbols(parts['base'])
-    changed = {name: dict(old=hex(old[name]), new=hex(new[name])) for name in
-               ('npu_barrier_fail', 'npu_admission_fail', 'npu_emulation_mailbox', 'npu_emulation_idle')
-               if old[name] != new[name]}
-    assert changed, 'old-symbol-control-did-not-differ'
+    changed = None
+    if negative_controls:
+        old, new = symbols(bridge.ELF), symbols(parts['base'])
+        changed = {name: dict(old=hex(old[name]), new=hex(new[name])) for name in
+                   ('npu_barrier_fail', 'npu_admission_fail', 'npu_emulation_mailbox', 'npu_emulation_idle')
+                   if old[name] != new[name]}
+        assert changed, 'old-symbol-control-did-not-differ'
     return dict(occupied=occupied, stale_v1_import_control=changed,
                 production_loader_or_physical_backing_proved=False)
 

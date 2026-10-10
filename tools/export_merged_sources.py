@@ -100,7 +100,7 @@ def main():
                 board='gemtek,w1700k-ubi',
                 wlan_npu='enabled in unified experimental build; physical recovery and full parity remain unverified',
                 upstream_release=source['release'], builder_commit='9449e4ca242ab30278df20940d6654ddc1c102e8',
-                firmware_core='firmware/npu/Makefile builds the RV32 components; platform loader and postgate execution remain incomplete')
+                firmware_core='RV32 components and checked MT7996 raw pair are built and packaged by tools/build_firmware.py; actual provider publication/retention is implemented, but physical containment/retirement,strict full setup and postgate remain incomplete')
     (ROOT / 'firmware/source-lock.json').write_text(json.dumps(lock, indent=2) + '\n')
     shutil.copy2(DEST / '.config', ROOT / 'firmware/build.config')
     record = dict(authority={str(p.relative_to(ROOT)): sha(p) for p in protected},

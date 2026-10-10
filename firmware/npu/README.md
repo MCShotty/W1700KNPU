@@ -1,5 +1,28 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Checked Runtime Loader ABI And Packaging
+
+The normal world build now stages/packages the checked raw MT7996 pair and
+manifest; the archive remains a separate component library, not raw CODE.
+CODE tag at0x3f000 and DATA descriptor at0x6400 carry the versioned ABI and
+CODE/DATA-payload SHA256. Stored plan0x6300/session0x6380/identity0x63a0 remain
+zero. The cold-format flag is a format contract, not a containment witness.
+
+Actual Linux loader checks both tags/digests/zero slots before copies, obtains
+a nonzero runtime random identity and publishes/readbacks the private native
+plan and identity. After first exposure it retains coherent mailboxes, device
+reference and module pin; error/detach cannot free them. Repeat load and retained
+same-device rebind deny. There is no retirement/reclaim/hot-rearm API yet.
+The host RNG fixture is deterministic; that is not proof of physical entropy.
+
+Actual-C fault/mutant tests, raw native boot using actual C-published bytes and
+all-hart parking, full raw RX/TXDONE/BA replay, assembly, complete world and
+incremental package freshness pass. Latest FIT `05ca2802...`; no flash/contact.
+Full strict setup still denies. Physical cold exclusion/reservation/coherency,
+real strict callers, other owners/hot/postgate and drains/recovery/clients remain
+required. Older dated entries retain their original scope. Reproduction and
+sealed receipts: `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
 ## 2026-10-10 - Linux Producer Of The Native Plan
 
 The canonical provider now prepares the48-byte plan from reserved memory and its

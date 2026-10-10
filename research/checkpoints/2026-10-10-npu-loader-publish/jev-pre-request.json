@@ -1,0 +1,15 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "format": "The checked raw CODE will contain a fixed nonexecuting WNP2 marker in its gap after native stacks and before linked modules. DATA will contain a versioned fixed-layout descriptor after plan/session/identity storage, with SHA256 of complete CODE and DATA payload before the descriptor. Either marker triggers checked-pair validation; both must match, sizes/offsets must match the known ABI and both digests must validate before copies. This is pair integrity, not authentication or physical containment.",
+    "publication": "For a valid checked pair, the provider must use its private six-region plan with core0 coherent DMA address, obtain a fresh nonzero random boot identity before copies, copy both artifacts, publish the plan and identity, and verify readback before startup. Artifact session/identity slots remain zero. No fixed test identity/request value is baked into the artifact.",
+    "lifetime": "Current probe uses dmam_alloc_coherent; returning an error after copying/publication can trigger devres buffer frees even if a device has observed addresses or a transaction remains ambiguous. A retained lease must keep allocated coherent buffers/device lifetime after exposure until independent retirement is proven. Neither register readback, software parking nor a format flag proves physical retirement. Real prior-user containment/physical backing remains unfinished and no hardware operation is authorized by this semantic review.",
+    "questions_scope": "Judge the stated format/lifetime contracts, not plans, code generation, arithmetic or permissions."
+  },
+  "questions": {
+    "pair_scope": {"type": "choice", "instructions": "What guarantee does format establish when both markers/digests validate?", "criteria": {"integrity": "Content/layout/pair integrity within the specified ABI.", "physical": "Prior-user containment and DMA retirement.", "authenticated": "A trusted publisher signature.", "unknown": "No relevant guarantee is stated."}},
+    "ambiguous_failure": {"type": "choice", "instructions": "Which lifetime behavior follows for device-visible coherent buffers after a possible publication?", "criteria": {"retain": "Keep them until independent retirement/containment is proven.", "free_on_error": "Free automatically because the operation returned an error.", "unknown": "The lifetime contract is not stated."}},
+    "artifact_identity": {"type": "noul", "instructions": "Does publication require runtime fresh identity rather than storing a fixed synthetic identity in DATA?"},
+    "source_readback_scope": {"type": "noul", "instructions": "Does lifetime explicitly state that successful metadata readback is insufficient to establish physical retirement?"}
+  }
+}

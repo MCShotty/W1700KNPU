@@ -69,13 +69,20 @@ def hook_plan(code, components):
     return sorted(hooks.values(), key=lambda row: row['site'])
 
 
-def build(destination):
+def build(destination, *, firmware_directory=None):
     destination = destination.resolve()
     image.require(any(destination.is_relative_to(ROOT / name) for name in ('.local', '.build')), 'output-outside-build-storage')
     image.require(not destination.exists(), 'output-exists')
+    firmware_directory = (firmware_directory or composition.CODE_INPUT.parent).resolve()
+    code_input, data_input = [firmware_directory / name for name in
+                             ('en7581_MT7996_npu_rv32.bin', 'en7581_MT7996_npu_data.bin')]
+    image.require(firmware_directory.is_relative_to(ROOT), 'input-outside-workspace')
+    original_code, original_data = code_input.read_bytes(), data_input.read_bytes()
+    image.require((image.sha(original_code), image.sha(original_data)) == (image.CODE_SHA, image.DATA_SHA),
+                  'wrong-original-pair')
     destination.mkdir(parents=True)
     inputs = source_inputs()
-    paths, parts = composition.build(destination=destination / 'components')
+    paths, parts = composition.build(destination=destination / 'components', negative_controls=False)
     page_dir, rx_dir, packet_dir = [destination / name for name in ('page', 'rx', 'packet')]
     for path in (page_dir, rx_dir, packet_dir):
         path.mkdir()
@@ -83,9 +90,7 @@ def build(destination):
     rx_path = stats.build(rx_dir, parts, page_path)
     packet_path = packets.build(packet_dir, parts, rx_path)
     components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path}
-    layout = composition.memory_layout(components)
-    original_code = composition.CODE_INPUT.read_bytes()
-    original_data = composition.CODE_INPUT.with_name('en7581_MT7996_npu_data.bin').read_bytes()
+    layout = composition.memory_layout(components, original_code_bytes=len(original_code), negative_controls=False)
     hooks = hook_plan(original_code, components)
     edits = [dict(site=0x8401b230, before=struct.pack('<I', 58879).hex(),
                   after=struct.pack('<I', composition.layout.LAYOUT_HYPOTHESIS).hex(), purpose='checked bridge extent')]
@@ -96,8 +101,8 @@ def build(destination):
              dict(address=composition.boot.LOADER, bytes=8, purpose='fresh per-boot identity')]
     code, data, manifest = image.assemble(original_code, original_data, components, hooks, edits, initializers, slots)
     image.require(source_inputs() == inputs, 'sources-changed-during-build')
-    manifest['inputs'] = inputs | {str(composition.CODE_INPUT.relative_to(ROOT)): image.sha(original_code),
-                         str(composition.CODE_INPUT.with_name('en7581_MT7996_npu_data.bin').relative_to(ROOT)): image.sha(original_data)}
+    manifest['inputs'] = inputs | {str(code_input.relative_to(ROOT)): image.sha(original_code),
+                                  str(data_input.relative_to(ROOT)): image.sha(original_data)}
     manifest['memory_layout'] = layout
     manifest['host_inputs'] = {str(path.relative_to(ROOT)): image.sha(path.read_bytes()) for path in paths[:2]}
     manifest['symbol_files'] = {name: str(path.relative_to(ROOT)) for name, path in components.items()}
@@ -111,8 +116,10 @@ def build(destination):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--firmware-directory', type=Path,
+                        help='Pinned original MT7996 pair directory inside the workspace')
     args = parser.parse_args()
-    path, manifest = build(args.output)
+    path, manifest = build(args.output, firmware_directory=args.firmware_directory)
     print(json.dumps(dict(output=str(path), code=manifest['code'], data=manifest['data'], hooks=len(manifest['hooks']),
                           loader_provisioned=False)))
 

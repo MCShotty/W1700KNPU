@@ -136,10 +136,22 @@ int main(int argc, char **argv) {
         /* Failed repeat admission must not expose a prior plan. No live reset is modeled. */
         setup(1, dts, 256, 128); verify(0, &binary);
         memset(wlan_regions, 0, sizeof(wlan_regions));
+#ifdef NPU_EN7581_DMA_LIFETIME
+        CHECK(airoha_npu_run_firmware(&priv, data_memory + GUARD, &binary) == -EBUSY);
+        CHECK(priv.firmware_loaded && priv.native_plan_ready && priv.dma_lifetime->exposed);
+#else
         CHECK(airoha_npu_run_firmware(&priv, data_memory + GUARD, &binary) == -EINVAL);
         CHECK(airoha_npu_wlan_init_memory(&priv.npu) == -EINVAL && send_calls == 0);
+#endif
         for (int failure = 0; failure < 3; failure++) {
-            setup(1, dts, 256, 128); verify(0, &binary);
+            setup(1, dts, 256, 128);
+#ifdef NPU_EN7581_DMA_LIFETIME
+            /* Poison only unpublished fixture metadata, not an owned lifetime. */
+            priv.firmware_loaded = true; priv.wlan_memory_count = 4;
+            priv.native_plan_ready = priv.wlan_request_valid = true;
+#else
+            verify(0, &binary);
+#endif
             if (failure == 0) match_missing = 1;
             if (failure == 1) map_error = -EBUSY;
             struct resource again = failure == 2 ? (struct resource){0, 1} : binary;

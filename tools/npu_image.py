@@ -27,6 +27,10 @@ STARTUP_ADDRESS = SRAM + 0x6180
 STARTUP_BYTES = struct.pack('<16I', 0x3153504e, 1, 64, *([0] * 13))
 BRIDGE_EDIT = dict(site=CODE + 0x1b230, before=struct.pack('<I', 58879).hex(),
                    after=struct.pack('<I', 69632).hex())
+PAIR_MAGIC, PAIR_VERSION, PAIR_PROFILE, PAIR_FLAGS = 0x32504e57, 1, 0x7996, 1
+CODE_TAG_OFFSET, DESCRIPTOR_OFFSET, DESCRIPTOR_BYTES = 0x3f000, 0x6400, 128
+CODE_TAG = struct.pack('<8I', PAIR_MAGIC, PAIR_VERSION, 32, PAIR_PROFILE,
+                       DESCRIPTOR_OFFSET, DESCRIPTOR_BYTES, PAIR_FLAGS, 0)
 
 
 def sha(data):
@@ -76,6 +80,14 @@ def overlaps(left, right):
     return left[0] < right[1] and right[0] < left[1]
 
 
+def descriptor(code, payload):
+    require(len(payload) == DESCRIPTOR_OFFSET, 'descriptor-payload-size')
+    fields = (PAIR_MAGIC, PAIR_VERSION, DESCRIPTOR_BYTES, PAIR_PROFILE, PAIR_FLAGS,
+              CODE, len(code), DESCRIPTOR_OFFSET + DESCRIPTOR_BYTES, SRAM,
+              0x6300, 0x6380, 20, 0x63a0, 8, 256, DESCRIPTOR_OFFSET)
+    return struct.pack('<16I', *fields) + hashlib.sha256(code).digest() + hashlib.sha256(payload).digest()
+
+
 def profile(hooks, edits, initializers, slots):
     require(len(hooks) == len(HOOK_SITES) and {p['site'] for p in hooks} == HOOK_SITES, 'incomplete-hook-set')
     for patch in hooks:
@@ -121,6 +133,7 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
     require(sections, 'missing-components')
     output_code = bytearray(max(row['end'] for row, _ in sections) - CODE)
     output_code[:len(code)] = code
+    output_code[CODE_TAG_OFFSET:CODE_TAG_OFFSET + len(CODE_TAG)] = CODE_TAG
     for row, payload in sections:
         output_code[row['start'] - CODE:row['end'] - CODE] = payload
     changed = []
@@ -149,7 +162,7 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
         require(not any(overlaps(span, previous) for previous in changed), 'edit-overlap')
         changed.append(span)
         output_code[site - CODE:site - CODE + len(after)] = after
-    length = max([len(data)] + [row['address'] - SRAM + len(bytes.fromhex(row['bytes'])) for row in initializers] +
+    length = max([len(data), DESCRIPTOR_OFFSET] + [row['address'] - SRAM + len(bytes.fromhex(row['bytes'])) for row in initializers] +
                  [row['address'] - SRAM + row['bytes'] for row in loader_slots])
     require(len(data) <= length <= DATA_LIMIT, 'data-aperture')
     output_data = bytearray(length)
@@ -169,12 +182,16 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
         require(not any(overlaps(span, old) for old in spans), 'loader-slot-overlap')
         spans.append(span)
         require(output_data[address - SRAM:address - SRAM + size] == bytes(size), 'provisioned-loader-slot')
-    manifest = dict(format='w1700k-npu-pair-v1', profile='mt7996-native-cold-v2',
+    require(length == DESCRIPTOR_OFFSET, 'descriptor-overlap')
+    output_data.extend(descriptor(output_code, output_data))
+    manifest = dict(format='w1700k-npu-pair-v2', profile='mt7996-native-cold-v2',
         original=dict(code_sha256=CODE_SHA, data_sha256=DATA_SHA),
         code=dict(base=CODE, bytes=len(output_code), sha256=sha(output_code)),
         data=dict(base=SRAM, bytes=len(output_data), sha256=sha(output_data)),
         components=provenance, sections=[row for row, _ in sections], hooks=patches, edits=list(edits),
         initializers=list(initializers), loader_slots=list(loader_slots),
+        loader_abi=dict(version=PAIR_VERSION, flags=PAIR_FLAGS, code_tag_offset=CODE_TAG_OFFSET,
+                        descriptor_offset=DESCRIPTOR_OFFSET, descriptor_bytes=DESCRIPTOR_BYTES),
         loader_provisioned=False, physical_storage_or_containment_proved=False)
     validate(bytes(output_code), bytes(output_data), manifest)
     return bytes(output_code), bytes(output_data), manifest
@@ -182,7 +199,9 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
 
 def validate(code, data, manifest):
     """Check byte/manifest consistency, not authenticity or physical suitability."""
-    require(manifest['format'] == 'w1700k-npu-pair-v1' and manifest['profile'] == 'mt7996-native-cold-v2', 'wrong-profile')
+    require(manifest['format'] == 'w1700k-npu-pair-v2' and manifest['profile'] == 'mt7996-native-cold-v2', 'wrong-profile')
+    require(manifest['loader_abi'] == dict(version=PAIR_VERSION, flags=PAIR_FLAGS, code_tag_offset=CODE_TAG_OFFSET,
+            descriptor_offset=DESCRIPTOR_OFFSET, descriptor_bytes=DESCRIPTOR_BYTES), 'wrong-loader-abi')
     require(manifest['loader_provisioned'] is False and manifest['physical_storage_or_containment_proved'] is False,
             'unsupported-acceptance-claim')
     require(manifest['original'] == dict(code_sha256=CODE_SHA, data_sha256=DATA_SHA), 'wrong-original-identity')
@@ -208,6 +227,8 @@ def validate(code, data, manifest):
     require(sha(original) == CODE_SHA and sha(data[:ORIGINAL_DATA_BYTES]) == DATA_SHA, 'original-prefix-readback')
     expected_code = bytearray(len(code))
     expected_code[:ORIGINAL_CODE_BYTES] = code[:ORIGINAL_CODE_BYTES]
+    require(code[CODE_TAG_OFFSET:CODE_TAG_OFFSET + len(CODE_TAG)] == CODE_TAG, 'code-tag-readback')
+    expected_code[CODE_TAG_OFFSET:CODE_TAG_OFFSET + len(CODE_TAG)] = CODE_TAG
     occupied, found = [], set()
     for row in manifest['sections']:
         start, end = row['start'], row['end']
@@ -222,10 +243,11 @@ def validate(code, data, manifest):
     require(found == set(manifest['components']) == COMPONENTS, 'incomplete-components')
     require(code == expected_code and len(code) == max(row['end'] for row in manifest['sections']) - CODE,
             'unaccounted-code')
-    expected_data = bytearray(max(address + size for address, size in LOADER_SLOTS.items()) - SRAM)
+    expected_data = bytearray(DESCRIPTOR_OFFSET)
     expected_data[:ORIGINAL_DATA_BYTES] = data[:ORIGINAL_DATA_BYTES]
     expected_data[STARTUP_ADDRESS - SRAM:STARTUP_ADDRESS - SRAM + len(STARTUP_BYTES)] = STARTUP_BYTES
     for slot in slots:
         offset = slot['address'] - SRAM
         require(data[offset:offset + slot['bytes']] == bytes(slot['bytes']), 'provisioned-loader-slot')
-    require(data == expected_data, 'unaccounted-data')
+    require(data[:DESCRIPTOR_OFFSET] == expected_data, 'unaccounted-data')
+    require(data[DESCRIPTOR_OFFSET:] == descriptor(code, expected_data), 'loader-descriptor-readback')

@@ -1,0 +1,73 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-loader-publish-20261010\\jev-pre-request.json",
+  "request_sha256": "c19a14dfcb4e8fedc0053377ebd40d32185f8ce60e4f024d890b6795f16d7c08",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "pair_scope": {
+      "type": "choice",
+      "instructions": "What guarantee does format establish when both markers/digests validate?",
+      "criteria": {
+        "integrity": "Content/layout/pair integrity within the specified ABI.",
+        "physical": "Prior-user containment and DMA retirement.",
+        "authenticated": "A trusted publisher signature.",
+        "unknown": "No relevant guarantee is stated."
+      }
+    },
+    "ambiguous_failure": {
+      "type": "choice",
+      "instructions": "Which lifetime behavior follows for device-visible coherent buffers after a possible publication?",
+      "criteria": {
+        "retain": "Keep them until independent retirement/containment is proven.",
+        "free_on_error": "Free automatically because the operation returned an error.",
+        "unknown": "The lifetime contract is not stated."
+      }
+    },
+    "artifact_identity": {
+      "type": "noul",
+      "instructions": "Does publication require runtime fresh identity rather than storing a fixed synthetic identity in DATA?"
+    },
+    "source_readback_scope": {
+      "type": "noul",
+      "instructions": "Does lifetime explicitly state that successful metadata readback is insufficient to establish physical retirement?"
+    }
+  },
+  "elapsed_ms": 4062,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "pair_scope": {
+        "type": "choice",
+        "choice": "integrity",
+        "confidence": 1.0,
+        "probabilities": {
+          "integrity": 1.0,
+          "physical": 0.0,
+          "authenticated": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "ambiguous_failure": {
+        "type": "choice",
+        "choice": "retain",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain": 1.0,
+          "free_on_error": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "artifact_identity": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "source_readback_scope": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 813,
+      "output_tokens": 128
+    }
+  }
+}

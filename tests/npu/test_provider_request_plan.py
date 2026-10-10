@@ -47,7 +47,7 @@ def main():
         fragment.write_text(loader.fragment(contents))
         binary = directory / 'test'
         loader.run([compiler, *flags, '-I' + str(directory), '-I' + str(ROOT / 'tests/npu'),
-                    HARNESS, '-o', binary], directory / 'build.log')
+                    HARNESS, '-o', binary, '-lcrypto'], directory / 'build.log')
         return directory, binary
 
     nominal_dir, nominal = build('nominal', text)

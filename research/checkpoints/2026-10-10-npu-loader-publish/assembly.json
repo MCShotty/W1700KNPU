@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "test_groups": 16,
+  "skipped": 0,
+  "repeat_build": true,
+  "failures": 0,
+  "errors": 0,
+  "source_inputs": {
+    "tests/npu/test_npu_image.py": "5e5e83473d78388d155d96b5b74c286ede9a7deb44a024cce8b8b7627e35277f",
+    "tools/npu_image.py": "93e1ba0b7a2a34924e17e06c28096f54df016b4a373d496b37b0b0bdf40594ef"
+  },
+  "pairs": {
+    ".build/merged-openwrt/bin/npu-pair-checked-loader-incremental-20261010": {
+      "CODE.bin": "bc15190ead08ebb44a6feba439f39ae8e7bcbaf9e5ce5851a3e2146ebd1893a5",
+      "DATA.bin": "5311ef172aec19164723a273230d47fb147b7bee8e522f13a86580ce87c58d75",
+      "manifest.json": "5e991752cb8c4a7eb13f917c63edd1cfac77ae613633bc1d3ba3229afa966267"
+    },
+    ".local/npu-loader-publish-20261010/pair-repeat": {
+      "CODE.bin": "bc15190ead08ebb44a6feba439f39ae8e7bcbaf9e5ce5851a3e2146ebd1893a5",
+      "DATA.bin": "5311ef172aec19164723a273230d47fb147b7bee8e522f13a86580ce87c58d75",
+      "manifest.json": "a6ebeaa028242d117405a6add8c627d381a0ce0511c2319e66e47680c4f74c50"
+    }
+  }
+}

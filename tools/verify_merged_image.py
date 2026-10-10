@@ -10,6 +10,7 @@ import re
 import subprocess
 
 from elftools.elf.elffile import ELFFile
+import npu_image
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / '.build/merged-openwrt'
@@ -154,8 +155,15 @@ def main():
     assert sha(helper) == sha(BUILD / 'files/usr/libexec/w1700k-release-helper')
     assert helper.stat().st_mode & 0o111 and not helper.stat().st_mode & 0o022
     fw = root / 'lib/firmware/airoha'
-    assert sha(fw / 'en7581_MT7996_npu_rv32.bin') == 'e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643'
-    assert sha(fw / 'en7581_MT7996_npu_data.bin') == '61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1'
+    pair_manifest = json.loads((fw / 'w1700k-npu-pair.json').read_bytes())
+    npu_image.validate((fw / 'en7581_MT7996_npu_rv32.bin').read_bytes(),
+                       (fw / 'en7581_MT7996_npu_data.bin').read_bytes(), pair_manifest)
+    staged = BUILD / 'bin/npu-checked'
+    for name in ('en7581_MT7996_npu_rv32.bin', 'en7581_MT7996_npu_data.bin', 'w1700k-npu-pair.json'):
+        assert sha(fw / name) == sha(staged / name)
+    for name, digest in pair_manifest['inputs'].items():
+        source = (ROOT / name).resolve()
+        assert source.is_relative_to(ROOT) and sha(source) == digest, ('changed-pair-input', name)
     wifi_sources = BUILD / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/mt76-2026.09.01~01367e60/firmware/mt7996'
     wifi_firmware = {}
     for path in (root / 'lib/firmware/mediatek/mt7996').glob('*.bin'):
@@ -188,11 +196,15 @@ def main():
                    wifi_firmware_sha256=wifi_firmware,
                    rv32_core=dict(objects=core_objects, archive_sha256=sha(archive),
                                   bootable_replacement=False),
+                   checked_npu_pair=dict(code=pair_manifest['code'], data=pair_manifest['data'],
+                                         manifest_sha256=sha(fw / 'w1700k-npu-pair.json'),
+                                         hooks=len(pair_manifest['hooks']), loader_provisioned=False,
+                                         physical_acceptance=False),
                    selected_modules=modules, all_module_abi_checks=len(module_paths),
                    source_lock_sha256=sha(ROOT / 'firmware/source-lock.json'),
                    limits=['Offline image integrity/package/ABI checks only, not boot, throughput or physical recovery.',
                            'Linux V2 client is compiled into mt76, but production caller/cold-loader wiring remains incomplete.',
-                           'The supplied NPU firmware remains the inspected legacy binary; no emulator image is substituted.'])
+                           'The checked experimental raw CODE/DATA pair is packaged; physical cold containment,strict full setup and retirement remain incomplete.'])
     path = OUT / 'result.json'
     path.write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps(dict(passed=True, image_sha256=image_hash, bytes=receipt['bytes'],

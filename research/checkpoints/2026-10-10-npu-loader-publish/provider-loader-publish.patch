@@ -1,0 +1,310 @@
+Subject: [PATCH] net: airoha: validate and publish the checked NPU pair
+
+Validate pair identity before copies, publish runtime plan/identity and
+retain exposed coherent buffers until physical retirement is implemented.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -8,12 +8,15 @@
+ #include <linux/devm-helpers.h>
+ #include <linux/firmware.h>
+ #include <linux/ioport.h>
++#include <linux/mutex.h>
+ #include <linux/platform_device.h>
+ #include <linux/of_net.h>
+ #include <linux/of_platform.h>
+ #include <linux/of_reserved_mem.h>
+ #include <linux/regmap.h>
++#include <linux/random.h>
+ #include <linux/unaligned.h>
++#include <crypto/sha2.h>
+ 
+ #include "airoha_eth.h"
+ 
+@@ -29,6 +32,14 @@
+ #define NPU_EN7581_7996_TX_CHECK_SIZE	(0x7000 * sizeof(u16))
+ #define NPU_EN7581_7996_INODE_DATA_SIZE	(4 * sizeof(u32))
+ #define NPU_EN7581_7996_PLAN_REGIONS	6
++#define NPU_EN7581_DMA_LIFETIME		1
++#define NPU_EN7581_PAIR_MAGIC		0x32504e57
++#define NPU_EN7581_CODE_TAG		0x3f000
++#define NPU_EN7581_DATA_DESCRIPTOR	0x6400
++#define NPU_EN7581_DESCRIPTOR_SIZE	128
++#define NPU_EN7581_NATIVE_PLAN		0x6300
++#define NPU_EN7581_NATIVE_SESSION		0x6380
++#define NPU_EN7581_NATIVE_IDENTITY	0x63a0
+ #define NPU_DUMP_SIZE				512
+ /*
+  * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
+@@ -130,8 +141,38 @@
+ 	struct airoha_npu_fw fw_data;
+ };
+ 
++struct airoha_npu_dma_lifetime {
++	struct device *dev;
++	struct list_head retained;
++	struct {
++		void *buf;
++		dma_addr_t addr;
++	} buffers[NPU_NUM_CORES];
++	bool exposed;
++};
++
++static LIST_HEAD(airoha_npu_retained_dma);
++static DEFINE_MUTEX(airoha_npu_retained_lock);
++
++static bool airoha_npu_dma_retained(struct device *dev)
++{
++	struct airoha_npu_dma_lifetime *life;
++	bool retained = false;
++
++	mutex_lock(&airoha_npu_retained_lock);
++	list_for_each_entry(life, &airoha_npu_retained_dma, retained)
++		if (life->dev == dev) {
++			retained = true;
++			break;
++		}
++	mutex_unlock(&airoha_npu_retained_lock);
++
++	return retained;
++}
++
+ struct airoha_npu_priv {
+ 	struct airoha_npu npu;
++	struct airoha_npu_dma_lifetime *dma_lifetime;
+ 	struct resource firmware_region;
+ 	u32 txbuf_min_size;
+ 	struct resource wlan_memory[4];
+@@ -140,8 +181,51 @@
+ 	u32 native_plan[NPU_EN7581_7996_PLAN_REGIONS][2];
+ 	bool wlan_request_valid;
+ 	bool native_plan_ready;
++	bool checked_pair;
++	bool native_published;
++	u64 boot_identity;
+ 	bool firmware_loaded;
+ };
++
++static void airoha_npu_dma_cleanup(void *data)
++{
++	struct airoha_npu_dma_lifetime *life = data;
++	unsigned int i;
++
++	/* No physical retirement witness exists yet. Publication errors, detach
++	 * and software parking must not release possibly device-owned mailboxes.
++	 */
++	if (life->exposed) {
++		mutex_lock(&airoha_npu_retained_lock);
++		list_add_tail(&life->retained, &airoha_npu_retained_dma);
++		mutex_unlock(&airoha_npu_retained_lock);
++		dev_warn(life->dev, "retaining NPU DMA mailboxes pending retirement proof\n");
++		return;
++	}
++	for (i = 0; i < ARRAY_SIZE(life->buffers); i++)
++		if (life->buffers[i].buf)
++			dma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,
++					  life->buffers[i].buf, life->buffers[i].addr);
++	put_device(life->dev);
++	kfree(life);
++}
++
++static int airoha_npu_firmware_expose(struct airoha_npu_priv *priv)
++{
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	unsigned int i;
++
++	if (!life || life->exposed)
++		return -EBUSY;
++	for (i = 0; i < ARRAY_SIZE(life->buffers); i++)
++		if (!life->buffers[i].buf)
++			return -EINVAL;
++	/* Latch before the first copy: a failed write need not have no effect. */
++	life->exposed = true;
++	__module_get(THIS_MODULE);
++
++	return 0;
++}
+ 
+ static bool airoha_npu_memory_valid(const struct resource *res)
+ {
+@@ -331,6 +415,99 @@
+ 					  unsigned int *region_count);
+ static int airoha_npu_wlan_prepare_request(struct airoha_npu_priv *priv);
+ 
++static int airoha_npu_checked_pair(struct airoha_npu_priv *priv,
++				   const struct firmware *code,
++				   const struct firmware *data)
++{
++	static const u32 tag[] = { NPU_EN7581_PAIR_MAGIC, 1, 32, 0x7996,
++		NPU_EN7581_DATA_DESCRIPTOR, NPU_EN7581_DESCRIPTOR_SIZE, 1, 0 };
++	u32 header[] = { NPU_EN7581_PAIR_MAGIC, 1, NPU_EN7581_DESCRIPTOR_SIZE,
++		0x7996, 1, 0x84000000, code->size,
++		NPU_EN7581_DATA_DESCRIPTOR + NPU_EN7581_DESCRIPTOR_SIZE, 0x3e900000,
++		NPU_EN7581_NATIVE_PLAN, NPU_EN7581_NATIVE_SESSION, 20,
++		NPU_EN7581_NATIVE_IDENTITY, 8, AIROHA_NPU_MBOX_SIZE,
++		NPU_EN7581_DATA_DESCRIPTOR };
++	u8 digest[SHA256_DIGEST_SIZE];
++	const u8 *descriptor;
++	unsigned int i;
++	bool marked_code, marked_data;
++
++	marked_code = code->size >= NPU_EN7581_CODE_TAG + sizeof(tag) &&
++		get_unaligned_le32(code->data + NPU_EN7581_CODE_TAG) == NPU_EN7581_PAIR_MAGIC;
++	marked_data = data->size >= NPU_EN7581_DATA_DESCRIPTOR + sizeof(u32) &&
++		get_unaligned_le32(data->data + NPU_EN7581_DATA_DESCRIPTOR) ==
++		NPU_EN7581_PAIR_MAGIC;
++	if (!marked_code && !marked_data &&
++	    !(priv->txbuf_min_size && (code->size >= 0x40000 || data->size >= 0x6000)))
++		return 0;
++	if (!marked_code || !marked_data || !priv->native_plan_ready ||
++	    data->size != NPU_EN7581_DATA_DESCRIPTOR + NPU_EN7581_DESCRIPTOR_SIZE)
++		return -EINVAL;
++	descriptor = data->data + NPU_EN7581_DATA_DESCRIPTOR;
++	for (i = 0; i < ARRAY_SIZE(tag); i++)
++		if (get_unaligned_le32(code->data + NPU_EN7581_CODE_TAG + 4 * i) != tag[i])
++			return -EINVAL;
++	for (i = 0; i < ARRAY_SIZE(header); i++)
++		if (get_unaligned_le32(descriptor + 4 * i) != header[i])
++			return -EINVAL;
++	if (memchr_inv(data->data + NPU_EN7581_NATIVE_PLAN, 0, 48) ||
++	    memchr_inv(data->data + NPU_EN7581_NATIVE_SESSION, 0, 20) ||
++	    memchr_inv(data->data + NPU_EN7581_NATIVE_IDENTITY, 0, 8))
++		return -EINVAL;
++	sha256(code->data, code->size, digest);
++	if (memcmp(digest, descriptor + 64, sizeof(digest)))
++		return -EINVAL;
++	sha256(data->data, NPU_EN7581_DATA_DESCRIPTOR, digest);
++	if (memcmp(digest, descriptor + 96, sizeof(digest)))
++		return -EINVAL;
++
++	return 1;
++}
++
++static int airoha_npu_native_identity(struct airoha_npu_priv *priv)
++{
++	unsigned int i;
++	int ret;
++	u64 identity;
++
++	for (i = 0; i < 3; i++) {
++		ret = get_random_bytes_wait(&identity, sizeof(identity));
++		if (ret)
++			return ret;
++		if (identity) {
++			priv->boot_identity = identity;
++			return 0;
++		}
++	}
++
++	return -EAGAIN;
++}
++
++static int airoha_npu_native_publish(struct airoha_npu_priv *priv, void __iomem *base)
++{
++	unsigned int i;
++	u32 identity[] = { lower_32_bits(priv->boot_identity), upper_32_bits(priv->boot_identity) };
++
++	for (i = 0; i < 12; i++)
++		writel(priv->native_plan[i / 2][i % 2],
++		       base + NPU_EN7581_NATIVE_PLAN + i * sizeof(u32));
++	for (i = 0; i < ARRAY_SIZE(identity); i++)
++		writel(identity[i], base + NPU_EN7581_NATIVE_IDENTITY + i * sizeof(u32));
++	for (i = 0; i < 12; i++)
++		if (readl(base + NPU_EN7581_NATIVE_PLAN + i * sizeof(u32)) !=
++		    priv->native_plan[i / 2][i % 2])
++			return -EIO;
++	for (i = 0; i < ARRAY_SIZE(identity); i++)
++		if (readl(base + NPU_EN7581_NATIVE_IDENTITY + i * sizeof(u32)) != identity[i])
++			return -EIO;
++	for (i = 0; i < 5; i++)
++		if (readl(base + NPU_EN7581_NATIVE_SESSION + i * sizeof(u32)))
++			return -EIO;
++	priv->native_published = true;
++
++	return 0;
++}
++
+ static int airoha_npu_load_firmware(struct airoha_npu_priv *priv, void __iomem *addr,
+ 				    void __iomem *base,
+ 				    const struct airoha_npu_soc_data *images)
+@@ -357,10 +534,25 @@
+ 	ret = airoha_npu_request_firmware(dev, &images->fw_data, &data);
+ 	if (ret)
+ 		goto release_rv32;
++	ret = airoha_npu_checked_pair(priv, rv32, data);
++	if (ret < 0)
++		goto release_data;
++	priv->checked_pair = ret == 1;
++	if (priv->checked_pair) {
++		ret = airoha_npu_native_identity(priv);
++		if (ret)
++			goto release_data;
++	}
++	ret = airoha_npu_firmware_expose(priv);
++	if (ret)
++		goto release_data;
+ 
+ 	/* A deferred or invalid second image must not replace just the code. */
+ 	memcpy_toio(addr, rv32->data, rv32->size);
+ 	memcpy_toio(base + REG_NPU_LOCAL_SRAM, data->data, data->size);
++	if (priv->checked_pair)
++		ret = airoha_npu_native_publish(priv, base);
++release_data:
+ 	release_firmware(data);
+ release_rv32:
+ 	release_firmware(rv32);
+@@ -411,7 +603,12 @@
+ 	const struct airoha_npu_soc_data *soc;
+ 	void __iomem *addr;
+ 
++	if (priv->dma_lifetime && priv->dma_lifetime->exposed)
++		return -EBUSY;
+ 	priv->firmware_loaded = false;
++	priv->checked_pair = false;
++	priv->native_published = false;
++	priv->boot_identity = 0;
+ 	priv->wlan_memory_count = 0;
+ 	priv->wlan_request_valid = false;
+ 	priv->native_plan_ready = false;
+@@ -1043,6 +1240,15 @@
+ 	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
+ 	if (IS_ERR(npu->regmap))
+ 		return PTR_ERR(npu->regmap);
++	if (airoha_npu_dma_retained(dev))
++		return dev_err_probe(dev, -EBUSY, "NPU DMA retirement pending\n");
++	priv->dma_lifetime = kzalloc(sizeof(*priv->dma_lifetime), GFP_KERNEL);
++	if (!priv->dma_lifetime)
++		return -ENOMEM;
++	priv->dma_lifetime->dev = get_device(dev);
++	err = devm_add_action_or_reset(dev, airoha_npu_dma_cleanup, priv->dma_lifetime);
++	if (err)
++		return err;
+ 
+ 	err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
+ 	if (err)
+@@ -1097,10 +1303,12 @@
+ 	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
+ 		struct airoha_npu_core *core = &npu->cores[i];
+ 
+-		core->buf = dmam_alloc_coherent(dev, AIROHA_NPU_MBOX_SIZE,
+-						&core->addr, GFP_KERNEL);
++		core->buf = dma_alloc_coherent(dev, AIROHA_NPU_MBOX_SIZE,
++					       &core->addr, GFP_KERNEL);
+ 		if (!core->buf)
+ 			return -ENOMEM;
++		priv->dma_lifetime->buffers[i].buf = core->buf;
++		priv->dma_lifetime->buffers[i].addr = core->addr;
+ 	}
+ 
+ 	err = airoha_npu_run_firmware(priv, base, &res);
+--- a/drivers/net/ethernet/airoha/Kconfig
++++ b/drivers/net/ethernet/airoha/Kconfig
+@@ -9,6 +9,7 @@
+ 
+ config NET_AIROHA_NPU
+ 	tristate "Airoha NPU support"
++	select CRYPTO_LIB_SHA256
+ 	select WANT_DEV_COREDUMP
+ 	select REGMAP_MMIO
+ 	help

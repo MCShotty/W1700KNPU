@@ -1,10 +1,41 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-09-30 (pre-copy MT7996 memory plan integrated; exact cloud image verified; physical gates open)
+Last updated: 2026-10-10 (actual loader publication/retention and checked pair packaging verified; physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Checked Pair Loader Publication And Packaging
+
+- Canonical provider validates a versioned CODE tag/DATA descriptor, exact
+  offsets/lengths, CODE/DATA SHA256 and zero plan/session/identity slots before
+  either copy. Runtime nonzero random identity and the private coherent-address
+  plan are published/readback-checked after copies, before the boot trigger.
+- Bare coherent mailbox allocations have a retained lease, device reference
+  and module pin after exposure. Failed publication/detach cannot reclaim them;
+  repeat loads and ordinary retained-device rebind deny. Pre-exposure failures
+  free only allocated buffers after CPU IRQ/work producers stop. No retirement,
+  physical reset/exclusion certificate or hot-rearm implementation is claimed.
+- The normal MT7996 package installs checked raw CODE/DATA and manifest. The
+  builder validates/stages them before world; all three files are dependency
+  inputs. The audit caught stale cached metadata, and a second unchanged-source
+  incremental build proves the dependency correction. Other profiles unchanged.
+- Actual-C parser/publication passes60 cases/eight mutants; lease13/four and
+  probe205/two cases/mutants pass with sanitizers. Request310/nine, memory273/159
+  plus nine mutants, retry6,174 and V2 44 regressions pass. Actual C-published
+  bytes boot/park eight harts in native emulation without metadata rewrites.
+  Full raw replay retains3,072 PKT/1,792 BA claims with six boot/eight TXDONE
+  controls. Full strict RX/TXDONE setup still denies; modeled held leases remain.
+- Sixteen assembly groups, 13/four builder/source-verifier unit tests, all62
+  locked files, full world and FIT/218-package/78-module checks pass. Latest FIT
+  SHA256: `05ca2802ec5c9149b2c1a928f829a61d666edb00d8a37316493689c28990001a`.
+  CODE `bc15190e...`/DATA `5311ef17...`; prior FITs/R1 protected. No flash/contact.
+- Physical cold containment/exclusive backing/coherency, full real strict setup,
+  other owners/workers/hot/postgate, retirement/drains/recovery and actual clients
+  remain open. Integrity is not authentication; format/readback/retention is not
+  physical acceptance. Exact inputs and receipts:
+  `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
 
 ## 2026-07-18 09:44 +03:00 - V6.28 Dormant QDMA-to-WiFi FastTX Consumer
 

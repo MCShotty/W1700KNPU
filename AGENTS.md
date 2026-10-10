@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Checked Pair Loader And Packaging
+
+- The main world build packages checked MT7996 CODE/DATA plus manifest; all
+  three staged files are package dependencies. An unchanged-source incremental
+  build refreshes the manifest correctly. Other firmware profiles are unchanged.
+- Actual provider C validates ABI/digests/zero slots before copies, obtains a
+  nonzero runtime random identity, publishes plan/identity and checks readback.
+  A pre-copy exposure latch retains all coherent mailboxes/device/module lifetime
+  after ambiguous failure or detach. Same-instance reload and retained-device
+  rebind deny; no physical retirement/reclaim or hot-rearm API exists yet.
+- Actual-C 60/eight parser/publication mutants, 13/four lease and 205/two probe
+  cases/mutants pass, alongside 310/nine request, 273/159 memory, nine memory
+  mutants, 6,174 retry and 44 V2 cases. Native boot consumes C-published bytes
+  without synthetic metadata writes; eight harts park, strict setup still denies.
+  Full raw replay retains 3,072 PKT/1,792 BA claims with failure controls.
+- Sixteen assembly groups, 62-file replay, 13/four builder/verifier unit tests,
+  complete world and FIT/218-package/78-module checks pass. Latest FIT
+  `05ca2802...`; prior images/R1 are preserved. No flash/router/hardware contact.
+- Continue physical cold containment/reservation/coherency, strict real Linux
+  setup callers, remaining owners/hot/postgate and drains/recovery/clients.
+  Do not treat the cold-format flag, strong-RNG API, readback or retained buffers
+  as physical proof. The module is intentionally pinned after exposure.
+  Evidence: `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
 ## 2026-10-10 - Provider Native Request Plan
 
 - Canonical MT7996 loader now validates/snapshots the actual coherent core0

@@ -108,7 +108,7 @@ def main():
         (directory / 'wlan-memory.inc').write_text('\n\n'.join(extract.function(source, n) for n in
             ('airoha_npu_wlan_cmd_with_retry', 'airoha_npu_wlan_init_memory')))
         binary = directory / 'test'
-        run(flags + ['-I' + str(directory), ROOT / 'tests/npu/cold-memory-plan-harness.c', '-o', binary],
+        run(flags + ['-I' + str(directory), ROOT / 'tests/npu/cold-memory-plan-harness.c', '-o', binary, '-lcrypto'],
             directory / 'build.log')
         return directory, binary
 

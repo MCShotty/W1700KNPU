@@ -192,6 +192,21 @@ class ImageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, reason):
                 image.validate(bytes(value), self.raw_data, m)
 
+    def test_loader_descriptor_and_tag(self):
+        self.assertEqual(self.raw_code[image.CODE_TAG_OFFSET:image.CODE_TAG_OFFSET + 32], image.CODE_TAG)
+        self.assertEqual(self.raw_data[image.DESCRIPTOR_OFFSET:], image.descriptor(self.raw_code, self.raw_data[:image.DESCRIPTOR_OFFSET]))
+        for name, offset, reason in (('code', image.CODE_TAG_OFFSET, 'code-tag-readback'),
+                                    ('data', image.DESCRIPTOR_OFFSET, 'loader-descriptor-readback'),
+                                    ('data', image.DESCRIPTOR_OFFSET + 64, 'loader-descriptor-readback'),
+                                    ('data', image.DESCRIPTOR_OFFSET + 96, 'loader-descriptor-readback')):
+            m = deepcopy(self.manifest)
+            value = bytearray(self.raw_code if name == 'code' else self.raw_data)
+            value[offset] ^= 1
+            m[name]['sha256'] = image.sha(value)
+            code, data = (bytes(value), self.raw_data) if name == 'code' else (self.raw_code, bytes(value))
+            with self.assertRaisesRegex(ValueError, reason):
+                image.validate(code, data, m)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

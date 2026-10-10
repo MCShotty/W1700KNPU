@@ -14,6 +14,7 @@ import uuid
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
 BUILDER = ROOT / 'tools/build_firmware.py'
 spec = importlib.util.spec_from_file_location('build_firmware', BUILDER)
 builder = importlib.util.module_from_spec(spec)
@@ -58,7 +59,7 @@ class HostToolsTests(unittest.TestCase):
         executable.chmod(0o755)
         return prefix
 
-    def invoke(self, prefixes, *, code=0):
+    def invoke(self, prefixes, *, code=0, target='tools/compile'):
         name = 'host-tools-test-' + uuid.uuid4().hex
         log_dir = ROOT / '.local/merge-nonoc-20260923'
         for suffix in ('.log', '.json'):
@@ -70,7 +71,7 @@ class HostToolsTests(unittest.TestCase):
                    CPPFLAGS='-I/workspace/include-test', LDFLAGS='-L/workspace/lib-test',
                    LIBRARY_PATH='/workspace/library-test')
         command = [sys.executable, str(BUILDER), '--destination', str(self.destination),
-                   '--target', 'tools/compile', '--jobs', '2', '--name', name]
+                   '--target', target, '--jobs', '2', '--name', name]
         for prefix in prefixes:
             command += ['--host-tools', str(prefix)]
         result = subprocess.run(command, cwd=ROOT, env=env, text=True,
@@ -114,6 +115,7 @@ class HostToolsTests(unittest.TestCase):
         self.assertEqual(trace[1]['cwd'], str(self.destination))
         info = json.loads(state.read_text())
         self.assertEqual(info['exit_code'], code)
+        self.assertIsNone(info['checked_npu_pair'])
         self.assertIn('finished', info)
         provenance = info['tool_provenance']
         self.assertEqual(provenance['path'], expected_path)
@@ -175,6 +177,72 @@ class HostToolsTests(unittest.TestCase):
                 self.assertFalse(state.exists())
                 self.assertFalse(self.trace.exists())
                 self.assertFalse((self.destination / '.codex-build.lock').exists())
+
+    def test_pair_required_for_world_and_package_install(self):
+        for target in ('world', 'package/install', 'package/firmware/linux-firmware/compile', 'target/install', 'target/linux/install'):
+            self.assertTrue(builder.pair_required(target), target)
+        for target in ('tools/compile', 'toolchain/compile', 'target/linux/compile'):
+            self.assertFalse(builder.pair_required(target), target)
+
+    def test_package_depends_on_all_staged_pair_files_before_package_rules(self):
+        patch = (ROOT / 'firmware/patches/openwrt.patch').read_text()
+        name = 'package/firmware/linux-firmware/Makefile'
+        delta = patch.split('diff --git a/' + name + ' b/' + name + '\n', 1)[1].split('\ndiff --git ', 1)[0]
+        self.assertIn('+PKG_FILE_DEPENDS +=', delta)
+        for name in ('en7581_MT7996_npu_rv32.bin', 'en7581_MT7996_npu_data.bin', 'w1700k-npu-pair.json'):
+            self.assertIn('+\t$(TOPDIR)/bin/npu-checked/' + name, delta)
+        self.assertLess(delta.index('+PKG_FILE_DEPENDS +='), delta.index(' include $(INCLUDE_DIR)/package.mk'))
+
+    def staged_fixture(self, suffix):
+        pair = self.destination / 'bin' / ('pair-' + suffix)
+        pair.mkdir(parents=True)
+        source = self.local / ('source-' + suffix)
+        source.write_bytes(b'fixture source')
+        (pair / 'CODE.bin').write_bytes(b'fixture code')
+        (pair / 'DATA.bin').write_bytes(b'fixture data')
+        manifest = dict(inputs={str(source.relative_to(ROOT)): hashlib.sha256(source.read_bytes()).hexdigest()},
+                        code=dict(bytes=12), data=dict(bytes=12))
+        (pair / 'manifest.json').write_text(json.dumps(manifest))
+        return pair, source, manifest
+
+    def test_atomic_staging_validates_and_preserves_previous_pair(self):
+        import npu_image
+        first, _, manifest = self.staged_fixture('first')
+        with mock.patch.object(npu_image, 'validate') as validate:
+            receipt = builder.stage_checked_pair(self.destination, first, 'first')
+            validate.assert_called_once_with(b'fixture code', b'fixture data', manifest)
+        link = self.destination / 'bin/npu-checked'
+        self.assertEqual(link.resolve(), first / 'package')
+        self.assertFalse(receipt['loader_provisioned'])
+        self.assertFalse(receipt['physical_acceptance'])
+        second, _, _ = self.staged_fixture('second')
+        with mock.patch.object(npu_image, 'validate'):
+            builder.stage_checked_pair(self.destination, second, 'second')
+        self.assertEqual(link.resolve(), second / 'package')
+        self.assertEqual((first / 'package/en7581_MT7996_npu_rv32.bin').read_bytes(), b'fixture code')
+        self.assertEqual((link / 'w1700k-npu-pair.json').read_bytes(), (second / 'manifest.json').read_bytes())
+
+    def test_failed_validation_or_stale_input_never_changes_package_link(self):
+        import npu_image
+        pair, source, _ = self.staged_fixture('invalid')
+        link = self.destination / 'bin/npu-checked'
+        with mock.patch.object(npu_image, 'validate', side_effect=ValueError('invalid pair')):
+            with self.assertRaisesRegex(ValueError, 'invalid pair'):
+                builder.stage_checked_pair(self.destination, pair, 'invalid')
+        self.assertFalse(link.exists())
+        source.write_bytes(b'changed source')
+        with mock.patch.object(npu_image, 'validate'):
+            with self.assertRaisesRegex(ValueError, 'input has changed'):
+                builder.stage_checked_pair(self.destination, pair, 'stale')
+        self.assertFalse(link.exists())
+
+    def test_world_without_pinned_originals_never_starts_openwrt(self):
+        result, state, _ = self.invoke([self.prefix(self.local)], target='world')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('hash-pinned original NPU pair is required', result.stderr)
+        trace = [json.loads(line) for line in self.trace.read_text().splitlines()]
+        self.assertEqual([entry['stage'] for entry in trace], ['npu'])
+        self.assertFalse(state.exists())
 
 
 if __name__ == '__main__':

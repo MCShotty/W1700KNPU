@@ -68,7 +68,14 @@ int main(int argc, char **argv)
         CHECK(requests == 2 && copies == 2 && event_count == 6);
         CHECK(!memcmp(events, order, sizeof(order)) && priv.firmware_loaded);
         CHECK(!memcmp(code_memory + GUARD, code_payload, code_bytes));
-        CHECK(!memcmp(data_memory + GUARD, data_payload, data_bytes));
+        CHECK(priv.checked_pair && priv.native_published && fake_lifetime.exposed);
+        CHECK(io_writes == 14 && io_reads == 19 && module_pins == 1 && random_calls == 1);
+        CHECK(!memcmp(data_memory + GUARD + NPU_EN7581_NATIVE_PLAN, priv.native_plan, 48));
+        CHECK(!memcmp(data_memory + GUARD + NPU_EN7581_NATIVE_IDENTITY, &random_identity, 8));
+        for (size_t i = 0; i < data_bytes; i++)
+            if (!(i >= NPU_EN7581_NATIVE_PLAN && i < NPU_EN7581_NATIVE_PLAN + 48) &&
+                !(i >= NPU_EN7581_NATIVE_IDENTITY && i < NPU_EN7581_NATIVE_IDENTITY + 8))
+                CHECK(data_memory[GUARD + i] == data_payload[i]);
         for (size_t i = 0; i < sizeof(code_memory); i++)
             if (i < GUARD || i >= GUARD + code_bytes)
                 CHECK(code_memory[i] == 0xa5);

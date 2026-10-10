@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "suites": [
+    {
+      "name": "build-runner",
+      "tests": 13,
+      "passed": true,
+      "log_sha256": "2d6a97e04a0cc31cb15c331eaba0012db785071453cf9a085eda7a72e942fc31"
+    },
+    {
+      "name": "source-verifier",
+      "tests": 4,
+      "passed": true,
+      "log_sha256": "168006f66255b20d3faafe7f1a8c34c9f25bef7b7d283e2a25bc07e180f50647"
+    }
+  ],
+  "inputs": {
+    "tools/build_firmware.py": "e899ca5a27d80e3207750d48fd1c070f9d8c7e55665367605896540e4da4996e",
+    "tools/build_npu_pair.py": "24670ad08eab3c496723af1426a00b728a14c50f63a17df77f2140aa9892dd1a",
+    "tools/npu_image.py": "93e1ba0b7a2a34924e17e06c28096f54df016b4a373d496b37b0b0bdf40594ef",
+    "tools/export_merged_sources.py": "672eb20d15e4273432635f14b8f5ab977722afb0c8106c49447a4d8d1a29bda8",
+    "tools/verify_merged_image.py": "1df5b5040b14596b4017630bb314f8e2a0095e3c7afa2c315c4e4eac560deb72",
+    "tools/migration/verify_source_export.py": "2aea28deb039bfa4ab834ca07c2c2cbe4534f11145e34552e5a035ff02891d2c",
+    "tests/test_build_firmware_host_tools.py": "cc2260f277790418c58aff869e4c5f314bc57ae6f5752975747afa4e0c95bdcc",
+    "tests/test_verify_source_export.py": "238c422fdcf41c467f4368ea25ccf0be936508da548470179e4dc68979b3eaae"
+  },
+  "limits": [
+    "Runner staging tests model parser validation; actual pair/parser validation is tested separately.",
+    "Unit tests do not build or run a physical router."
+  ]
+}

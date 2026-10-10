@@ -1,5 +1,29 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Runtime Publication And Pair Packaging Implemented
+
+The normal image now contains the checked MT7996 raw pair and its manifest.
+Actual Linux C validates the pair, generates a nonzero runtime identity and
+publishes/readbacks the native private plan/identity. DMA exposure now retains
+mailboxes/device/module lifetime on error or detach; repeat load and retained
+same-device rebind deny. This closes software publication/retention and paired
+packaging, including an independently tested incremental manifest refresh.
+
+Actual-C fault/mutant, native C-publication boot/all-hart parking, full raw
+3,072 PKT/1,792 BA replay, assembly, memory/retry/V2, complete world, 62-file
+source replay and image checks pass. Latest FIT `05ca2802...`; no flash/contact.
+Evidence: `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
+Next establish actual prior-user cold containment and exclusive backing/cache
+contracts, then complete real strict Linux DISCOVER/setup/BIND caller wiring.
+Full RX0/RX2/TXDONE strict transport still denies; the full ownership replay
+uses an explicit modeled callback lease, not that missing real setup lane.
+Remaining owners, workers/hot lifecycle/postgate, physical drains/retirement,
+teardown/rearm/recovery and real clients remain required. Retention is currently
+permanent after exposure and pins the module; parking/readback is not permission
+to reclaim. The per-device rebind guard does not prove all earlier physical
+users were contained. Older dated entries retain their checkpoint scope.
+
 ## 2026-10-10 - Private Provider Plan Prepared
 
 The MT7996 provider now preflights/snapshots its coherent request before copies.

@@ -20,10 +20,19 @@ from test_mt7996_bootstrap_sequence import SET_CALLBACKS, expected, TXFREE
 from unicorn import riscv_const as r
 
 
-def load(pair, *, factory=tx.TxPackets):
+def load(pair, *, factory=tx.TxPackets, published=None):
     manifest = json.loads((pair / 'manifest.json').read_bytes())
     code, data = (pair / 'CODE.bin').read_bytes(), (pair / 'DATA.bin').read_bytes()
     image.validate(code, data, manifest)
+    if published is not None:
+        copied_code, published_data = published
+        assert copied_code == code and len(published_data) == len(data)
+        expected = bytearray(data)
+        for offset, size in ((0x6300, 48), (0x63a0, 8)):
+            expected[offset:offset + size] = published_data[offset:offset + size]
+        assert bytes(expected) == published_data, 'unexpected-runtime-publication'
+        assert any(published_data[0x63a0:0x63a8])
+        data = published_data
     files = {key: (ROOT / value).resolve() for key, value in manifest['symbol_files'].items()}
     host_files = [(ROOT / value).resolve() for value in manifest['host_files']]
     assert all(path.is_relative_to(pair.resolve()) for path in [*files.values(), *host_files])
@@ -48,7 +57,7 @@ def load(pair, *, factory=tx.TxPackets):
         assert image.sha(bytes(h.cpu.mem_read(row['start'], row['end'] - row['start']))) == row['sha256']
     h.check_hooks()
     assert all(bytes(h.cpu.mem_read(slot['address'], slot['bytes'])) == bytes(slot['bytes'])
-               for slot in manifest['loader_slots'])
+               for slot in manifest['loader_slots'] if published is None or slot['address'] == image.SRAM + 0x6380)
     return h, paths, files, manifest
 
 

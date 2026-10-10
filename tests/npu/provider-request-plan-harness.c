@@ -130,6 +130,8 @@ int main(int argc, char **argv)
         selected_profile = 1;
         setup(1, 1, 256, 128);
         verify(0, &binary);
+        u32 saved_plan[12];
+        memcpy(saved_plan, priv.native_plan, sizeof(saved_plan));
         requests = copies = event_count = 0;
         memset(acquired, 0, sizeof(acquired));
         memset(released, 0, sizeof(released));
@@ -138,7 +140,23 @@ int main(int argc, char **argv)
         if (defect == 2) priv.npu.cores[0].addr = 0;
         if (defect == 3) request_errors[0] = -ENOMEM;
         if (defect == 4) request_errors[1] = -ENOMEM;
-        CHECK(airoha_npu_run_firmware(&priv, data_memory + GUARD, &binary) < 0);
+        int repeat = airoha_npu_run_firmware(&priv, data_memory + GUARD, &binary);
+#ifdef NPU_EN7581_DMA_LIFETIME
+        CHECK(repeat == -EBUSY && !requests && !copies);
+        CHECK(priv.wlan_request_valid && priv.native_plan_ready && priv.firmware_loaded);
+        CHECK(!memcmp(saved_plan, priv.native_plan, sizeof(saved_plan)));
+#else
+        CHECK(repeat < 0);
+        invalidated();
+#endif
+        request_cases++;
+    }
+    for (int which = 0; which < 2; which++) {
+        selected_profile = 1;
+        setup(1, 1, 256, 128);
+        request_errors[which] = -ENOMEM;
+        struct resource binary = valid_region();
+        verify(-ENOMEM, &binary);
         invalidated();
         request_cases++;
     }

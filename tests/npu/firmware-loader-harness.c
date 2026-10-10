@@ -6,9 +6,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <openssl/sha.h>
 
 typedef uint32_t u32;
 typedef uint16_t u16;
+typedef uint8_t u8;
+typedef uint64_t u64;
+typedef uint64_t dma_addr_t;
+#define NPU_NUM_CORES 8
+#define SHA256_DIGEST_SIZE 32
+#define THIS_MODULE NULL
+#define lower_32_bits(a) ((uint32_t)(a))
 #define __iomem
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #define upper_32_bits(a) ((uint64_t)(a) >> 32)
@@ -46,6 +54,10 @@ static int request_errors[2], acquired[2], released[2];
 static int requests, copies, events[8], event_count, property, property_count;
 static int map_error, match_missing;
 static unsigned cases;
+struct list_head { struct list_head *next, *prev; };
+static unsigned module_pins, random_calls, io_writes, io_reads;
+static int random_error, io_fault;
+static uint64_t random_identity = 0x9abcdef012345678ULL;
 static struct resource wlan_regions[4];
 static int has_ba, region_missing, region_lookups, send_calls, send_error;
 static u32 sent[8][3];
@@ -113,10 +125,43 @@ static void memcpy_toio(void *dest, const void *src, size_t bytes) {
     copies++; event(20 + which); memcpy(dest, src, bytes);
 }
 
+static void __module_get(void *module) { (void)module; module_pins++; }
+static uint32_t get_unaligned_le32(const void *p) {
+    const unsigned char *b = p;
+    return b[0] | (uint32_t)b[1] << 8 | (uint32_t)b[2] << 16 | (uint32_t)b[3] << 24;
+}
+static void *memchr_inv(const void *p, int value, size_t size) {
+    const unsigned char *b = p;
+    for (size_t i = 0; i < size; i++) if (b[i] != (unsigned char)value) return (void *)(b + i);
+    return NULL;
+}
+static void sha256(const unsigned char *data, size_t size, unsigned char *out) {
+    CHECK(SHA256(data, size, out) == out);
+}
+static int get_random_bytes_wait(void *out, size_t size) {
+    CHECK(size == sizeof(random_identity)); random_calls++;
+    if (random_error) return random_error;
+    memcpy(out, &random_identity, size); return 0;
+}
+static void writel(uint32_t value, void *p) {
+    CHECK((unsigned char *)p >= data_memory + GUARD &&
+          (unsigned char *)p + 4 <= data_memory + GUARD + DATA_LIMIT);
+    memcpy(p, &value, 4); io_writes++;
+}
+static uint32_t readl(const void *p) {
+    CHECK((const unsigned char *)p >= data_memory + GUARD &&
+          (const unsigned char *)p + 4 <= data_memory + GUARD + DATA_LIMIT);
+    uint32_t value; memcpy(&value, p, 4); io_reads++;
+    return value ^ (io_fault == (int)io_reads);
+}
+
 #include "firmware-loader.inc"
 
 static struct airoha_npu_soc_data soc;
 static struct airoha_npu_priv priv;
+#ifdef NPU_EN7581_DMA_LIFETIME
+static struct airoha_npu_dma_lifetime fake_lifetime;
+#endif
 static const struct airoha_npu_soc_data *of_device_get_match_data(struct device *d) {
     CHECK(d == &dev); return match_missing ? NULL : &soc;
 }
@@ -125,6 +170,18 @@ static void setup(int profile, int dts, size_t code_size, size_t data_size) {
     memset(&priv, 0, sizeof(priv)); priv.npu.dev = &dev;
     priv.npu.cores[0].buf = code_payload;
     priv.npu.cores[0].addr = 0x83000000;
+#ifdef NPU_EN7581_DMA_LIFETIME
+    memset(&fake_lifetime, 0, sizeof(fake_lifetime));
+    fake_lifetime.dev = &dev;
+    for (unsigned i = 0; i < NPU_NUM_CORES; i++) {
+        fake_lifetime.buffers[i].buf = code_payload;
+        fake_lifetime.buffers[i].addr = 0x83000000 + 256 * i;
+    }
+    priv.dma_lifetime = &fake_lifetime;
+#endif
+    module_pins = random_calls = io_writes = io_reads = 0;
+    random_error = io_fault = 0;
+    random_identity = 0x9abcdef012345678ULL;
     memset(code_memory, 0xa5, sizeof(code_memory));
     memset(data_memory, 0xa5, sizeof(data_memory));
     memset(code_payload, 0x3c, sizeof(code_payload));
@@ -203,6 +260,10 @@ int main(int argc, char **argv) {
                 setup(profile, dts, code_sizes[c], data_sizes[d]);
                 int expected = !code_sizes[c] ? -EINVAL : code_sizes[c] > CODE_LIMIT ? -E2BIG :
                                !data_sizes[d] ? -EINVAL : data_sizes[d] > DATA_LIMIT ? -E2BIG : 0;
+#ifdef NPU_EN7581_PAIR_MAGIC
+                if (!expected && profile == 1 && (code_sizes[c] >= 0x40000 || data_sizes[d] >= 0x6000))
+                    expected = -EINVAL;
+#endif
                 verify(expected, &res);
             }
             for (int which = 0; which < 2; which++)

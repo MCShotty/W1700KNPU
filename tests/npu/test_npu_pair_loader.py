@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import struct
 import sys
 
 sys.dont_write_bytecode = True
@@ -55,7 +56,7 @@ def main():
     flags = ['-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror', '-Wno-sign-compare',
              '-Wno-unused-function', '-fno-pie', '-no-pie', '-fsanitize=address,undefined', '-fno-sanitize-recover=all']
     binary = dest / 'loader'
-    loader.run([compiler, *flags, '-I' + str(dest), '-I' + str(ROOT / 'tests/npu'), harness, '-o', binary], dest / 'build.log')
+    loader.run([compiler, *flags, '-I' + str(dest), '-I' + str(ROOT / 'tests/npu'), harness, '-o', binary, '-lcrypto'], dest / 'build.log')
     env = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:detect_stack_use_after_return=1')
     matrix = json.loads(loader.run([binary], dest / 'matrix.log', env=env).stdout)
     rows = []
@@ -66,6 +67,12 @@ def main():
                                     directory / 'run.log', env=env).stdout)
         for name, payload, capacity in (('code', code, image.CODE_LIMIT), ('data', data, image.DATA_LIMIT)):
             readback = (directory / (name + '-memory.bin')).read_bytes()
+            if name == 'data' and mode == 'nominal':
+                payload = bytearray(payload)
+                payload[0x6300:0x6330] = struct.pack('<12I', 0x84000000, 0xa00000,
+                    0x90c00000, 0xe000, 0x8a000000, 0x2c00000, 0x8cc00000, 0x4000000,
+                    0x90c0e000, 0x200000, 0x83000000, 256)
+                payload[0x63a0:0x63a8] = struct.pack('<Q', 0x9abcdef012345678)
             expected = bytes([0xa5]) * 16 + payload + bytes([0xa5]) * (capacity - len(payload) + 16)
             assert readback == (expected if mode == 'nominal' else bytes([0xa5]) * (capacity + 32))
             row[name + '_readback_sha256'] = image.sha(readback)
@@ -76,8 +83,8 @@ def main():
     result = dict(passed=True, actual_provider_c=True, matrix=matrix, pair_cases=rows, inputs=inputs,
                   binary_sha256=loader.sha(binary), fragment_sha256=loader.sha(fragment),
                   sanitizers=['address', 'undefined', 'leak'],
-                  limits=['Actual current provider C copies the exact raw pair; requests/resources/mapping/memcpy_toio remain modeled.',
-                          'No probe boot trigger,per-boot loader publication,live replacement containment or physical cache/DMA proof.'])
+                  limits=['Actual current provider C copies/publishes the exact raw pair; requests/resources/RNG/mapping/I/O remain modeled.',
+                          'No physical probe boot trigger,live replacement containment or cache/DMA retirement proof.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, matrix_cases=matrix['cases'], exact_pair_cases=len(rows))))
 

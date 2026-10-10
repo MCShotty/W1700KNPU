@@ -1,10 +1,27 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (selected shared RX/TXDONE ownership composed; real loader/strict setup/physical gates open)
+Last updated: 2026-10-10 (runtime loader publication/retention and pair packaging verified; strict setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
-## Current Source And Last Recorded Hardware Evidence - 2026-09-30
+## 2026-10-10 - Actual Publication And Paired Packaging
+
+- Checked raw MT7996 pair/manifest now ships in the main experimental image.
+  Actual provider validates before copies, generates runtime identity, publishes
+  plan/identity, checks readback and retains exposed coherent mailboxes. Repeat
+  load/rebind deny; the module stays pinned without a retirement implementation.
+- Actual-C/mutant and native C-publication/all-hart tests pass. Full raw replay
+  retains 3,072 PKT/1,792 BA claims; assembly, memory/retry/V2, two package worlds,
+  incremental freshness, 62-file replay and offline image checks pass. Latest FIT:
+  `05ca2802ec5c9149b2c1a928f829a61d666edb00d8a37316493689c28990001a`.
+- Previous verified FITs are preserved locally. No router/hardware contact or
+  flash; last physical evidence remains September 23. Full cold containment,
+  exclusive backing/coherency, strict real callers, other owners/hot/postgate,
+  retirement/drains/recovery and clients remain open. Source/readback/retention
+  must not be reported as physical acceptance. Scope and receipts:
+  `research/checkpoints/2026-10-10-npu-loader-publish/REPORT.md`.
+
+## Previous Source And Last Recorded Hardware Evidence - 2026-09-30
 
 - The current cold-memory candidate passes the full offline build/image checks.
   SHA256: `6abd366c08b5ad1609c4333cb2c1a9a52a212522a9be0951f71d137f82615c0d`.

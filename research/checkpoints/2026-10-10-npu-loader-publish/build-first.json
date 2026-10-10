@@ -1,0 +1,40 @@
+{
+  "pid": 833,
+  "process_group": 833,
+  "wrapper_pid": 584,
+  "command": [
+    "make",
+    "-j4",
+    "world",
+    "V=s"
+  ],
+  "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+  "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-checked-loader-package-20261010.log",
+  "started": 1791629520.0931904,
+  "exit_code": 0,
+  "tool_provenance": {
+    "host_tools": [],
+    "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "make": {
+      "path": "/usr/bin/make",
+      "sha256": "27c9f6d806aee15882b01c2c61848f7aa75caa14bc7b6f608ba422f9e46a7d49"
+    }
+  },
+  "checked_npu_pair": {
+    "directory": ".build/merged-openwrt/bin/npu-pair-checked-loader-package-20261010",
+    "manifest_sha256": "34a8955f7bd4c584e9a984fd372c0cdd5cb33fd07dafedf3aa271d39ee694414",
+    "code": {
+      "base": 2214592512,
+      "bytes": 529336,
+      "sha256": "bc15190ead08ebb44a6feba439f39ae8e7bcbaf9e5ce5851a3e2146ebd1893a5"
+    },
+    "data": {
+      "base": 1049624576,
+      "bytes": 25728,
+      "sha256": "5311ef172aec19164723a273230d47fb147b7bee8e522f13a86580ce87c58d75"
+    },
+    "loader_provisioned": false,
+    "physical_acceptance": false
+  },
+  "finished": 1791629581.3767385
+}
