@@ -1,0 +1,56 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "launch": "static int airoha_npu_start_firmware(struct airoha_npu_priv *priv,\n\t\t\t\t     const struct resource *res)\n{\n\tstruct airoha_npu *npu = &priv->npu;\n\tunsigned int i;\n\tu32 val;\n\tint err;\n\n\tif (priv->boot_attempted)\n\t\treturn -EBUSY;\n\tif (!priv->firmware_loaded || !priv->dma_lifetime ||\n\t    !priv->dma_lifetime->exposed)\n\t\treturn -EINVAL;\n\tif (priv->checked_pair && (!priv->native_published || !priv->boot_identity))\n\t\treturn -EINVAL;\n\n\t/* Failed writes may have effects. Do not retry or retire exposed storage. */\n\tpriv->boot_attempted = true;\n\terr = regmap_write(npu->regmap, REG_CR_NPU_MIB(10),\n\t\t\t   res->start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);\n\tif (err)\n\t\treturn err;\n\terr = regmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);\n\tif (err)\n\t\treturn err;\n\terr = regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);\n\tif (err)\n\t\treturn err;\n\terr = regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);\n\tif (err)\n\t\treturn err;\n\tmsleep(100);\n\n\tfor (i = 0; i < NPU_NUM_CORES; i++) {\n\t\terr = regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res->start);\n\t\tif (err)\n\t\t\treturn err;\n\t}\n\tusleep_range(1000, 2000);\n\n\terr = regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);\n\tif (err)\n\t\treturn err;\n\terr = regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);\n\tif (err)\n\t\treturn err;\n\tmsleep(100);\n\n\terr = airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,\n\t\t\t\t      &val, sizeof(val), GFP_KERNEL);\n\tif (err)\n\t\treturn priv->checked_pair ? err : 0;\n\tif (priv->checked_pair && val != NPU_EN7581_NATIVE_VERSION)\n\t\treturn -EPROTO;\n\tdev_info(npu->dev, \"NPU fw version: %0d.%d\\n\",\n\t\t (val >> 16) & 0xffff, val & 0xffff);\n\n\treturn 0;\n}",
+    "probe_tail": "(priv, base, &res);\n\tif (err)\n\t\treturn err;\n\n\terr = airoha_npu_start_firmware(priv, &res);\n\tif (err)\n\t\treturn err;\n\n\tplatform_set_drvdata(pdev, npu);\n\n\treturn 0;\n}",
+    "proof": "Actual-C boot sequence passes248 cases/ten compiled mutants. Probe/IRQ/work/lease code passes265 cases,three mutants and one original-source control exposing false publication after a launch error. Exact packaged AArch64 provider is imported into Ghidra,full auto-analysis completes,its one selected probe function decompiles with zero failures and contains the inlined error/version/latch checks. Native raw boot from C-published bytes accepts version before DISCOVER with nonce slots still zero,then parks eight harts. Complete world/offline image and raw ownership tests pass with external kernel/native dependencies modeled.",
+    "reset": "Current6.18.52 reset source exactly reconstructs. All147 IDs,23,088 host and5,007 target-compiled AArch64 callback cases pass with modeled regmap. NPU8 maps bank0x830/bit9. Other GDMA/WDMA/WOE/HSDMA/TDMA/FE-related entries remain separate. NPU DTS still has no reset binding. No physical assertion,drain,router contact,flash or client test occurred.",
+    "retention": "The existing exposure latch retains all coherent mailboxes/device/module lifetime after any potentially visible copy or launch operation. Boot errors do not add retry,reset,rollback or free. A successful version reply does not certify prior-user exclusion or all physical owners."
+  },
+  "questions": {
+    "launch_errors": {
+      "type": "noul",
+      "instructions": "Does launch return immediately on the first failed existing boot-register write rather than continuing programming?"
+    },
+    "checked_getter": {
+      "type": "noul",
+      "instructions": "Do launch and probe_tail reject checked-profile version transport failure or mismatch before provider publication?"
+    },
+    "legacy_scope": {
+      "type": "noul",
+      "instructions": "Does launch preserve optional legacy version reporting while keeping common write failures fatal?"
+    },
+    "one_attempt": {
+      "type": "noul",
+      "instructions": "Does launch latch the attempt before any boot write and reject a later launch without I/O?"
+    },
+    "failure_resources": {
+      "type": "choice",
+      "instructions": "What resource behavior does retention describe after a possibly visible launch error?",
+      "criteria": {
+        "retained": "Exposed mailboxes/device/module remain retained.",
+        "reclaimed": "Error permits immediate reclaim.",
+        "reset": "Automatic reset/rollback then free.",
+        "unknown": "No behavior specified."
+      }
+    },
+    "binary_scope": {
+      "type": "choice",
+      "instructions": "Which new packaged-binary observation is supported by proof?",
+      "criteria": {
+        "ghidra": "Exact packaged probe/inlined launch analyzed and decompiled; hardware not run.",
+        "physical": "Real router boot/retirement accepted.",
+        "clients": "Actual client throughput accepted.",
+        "unknown": "No relevant observation."
+      }
+    },
+    "reset_coverage": {
+      "type": "noul",
+      "instructions": "Does reset prove physical exclusion and retirement of every independent NPU/DMA owner?"
+    },
+    "whole_goal": {
+      "type": "noul",
+      "instructions": "Do proof,reset and retention establish complete NPU implementation and physical/client acceptance?"
+    }
+  }
+}

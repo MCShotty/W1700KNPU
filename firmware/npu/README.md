@@ -1,5 +1,19 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Checked Linux Boot Launch
+
+The normal provider now checks14 existing boot writes and allows one launch
+attempt. First errors stop programming before provider publication; exposed
+buffers/module/device references remain retained. Checked pairs require a
+successful native0x457 version reply; legacy version reporting remains optional.
+Neither the reply nor register success certifies physical cold containment.
+
+Actual-C/fault/mutant/probe checks, native version before DISCOVER and current
+6.18.52 reset reconstruction/host/AArch64 replay pass. World/source/image checks
+pass; FIT `b0400eaa...`, previous image preserved. No flash/contact. Strict real
+setup, other owners/hot/postgate and physical recovery/clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+
 ## 2026-10-10 - Checked Runtime Loader ABI And Packaging
 
 The normal world build now stages/packages the checked raw MT7996 pair and

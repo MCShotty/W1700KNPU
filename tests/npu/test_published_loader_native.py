@@ -43,6 +43,11 @@ def main():
     assert h.reset() == 0x8400420a
     assert bytes(h.cpu.mem_read(BOOT + 32, 48)) == plan
     assert bytes(h.cpu.mem_read(raw.composition.boot.SESSION, 8)) == identity
+    # Linux probe queries version before creating a V2 host session.
+    early_version = h.message([0x30, 10, 0])
+    assert early_version['flags'] == 7 and early_version['words'][2] == 0x457
+    assert h.get32(raw.composition.boot.SESSION + 8) == 0
+    assert h.get32(raw.composition.boot.SESSION + 12) == 0
     denied = h.message([0x30, 10, 0], address=raw.composition.native.REQUEST)
     assert denied['flags'] == 3 and not denied['reads'] and not denied['callbacks']
     host = raw.composition.control.Host(paths)
@@ -67,6 +72,7 @@ def main():
     result = dict(passed=True, actual_c_publication_readback=True, synthetic_plan_identity_writes=False,
                   raw_pair=True, post_load_elf_injection=False, request_base=hex(request), identity_hex=identity.hex(),
                   setup=setup, workers=workers, parked=parked, fixture_denial=denied, strict_denials=strict, inputs=inputs,
+                  version_before_discover=early_version,
                   limits=['Actual C-copy/publication bytes feed native raw startup; no post-loader ELF or synthetic metadata overwrite.',
                           'Linux firmware/OF/RNG/I/O/allocation and native backing/IRQ inputs remain modeled; not physical containment or full strict setup.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')

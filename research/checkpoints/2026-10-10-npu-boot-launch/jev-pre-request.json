@@ -1,0 +1,59 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "probe": "static int airoha_npu_probe(struct platform_device *pdev)\n{\n\tstruct device *dev = &pdev->dev;\n\tstruct airoha_npu_priv *priv;\n\tstruct airoha_npu *npu;\n\tstruct resource res;\n\tvoid __iomem *base;\n\tint i, irq, err;\n\tu32 val;\n\n\tbase = devm_platform_ioremap_resource(pdev, 0);\n\tif (IS_ERR(base))\n\t\treturn PTR_ERR(base);\n\n\tpriv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);\n\tif (!priv)\n\t\treturn -ENOMEM;\n\tnpu = &priv->npu;\n\n\tnpu->dev = dev;\n\tnpu->ops.ppe_init = airoha_npu_ppe_init;\n\tnpu->ops.ppe_deinit = airoha_npu_ppe_deinit;\n\tnpu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;\n\tnpu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;\n\tnpu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;\n\tnpu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_memory;\n\tnpu->ops.wlan_send_msg = airoha_npu_wlan_msg_send;\n\tnpu->ops.wlan_get_msg = airoha_npu_wlan_msg_get;\n\tnpu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;\n\tnpu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;\n\tnpu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;\n\tnpu->ops.wlan_enable_irq = airoha_npu_wlan_irq_enable;\n\tnpu->ops.wlan_disable_irq = airoha_npu_wlan_irq_disable;\n\n\tnpu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);\n\tif (IS_ERR(npu->regmap))\n\t\treturn PTR_ERR(npu->regmap);\n\tif (airoha_npu_dma_retained(dev))\n\t\treturn dev_err_probe(dev, -EBUSY, \"NPU DMA retirement pending\\n\");\n\tpriv->dma_lifetime = kzalloc(sizeof(*priv->dma_lifetime), GFP_KERNEL);\n\tif (!priv->dma_lifetime)\n\t\treturn -ENOMEM;\n\tpriv->dma_lifetime->dev = get_device(dev);\n\terr = devm_add_action_or_reset(dev, airoha_npu_dma_cleanup, priv->dma_lifetime);\n\tif (err)\n\t\treturn err;\n\n\terr = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);\n\tif (err)\n\t\treturn err;\n\n\t/* Register work cleanup before IRQs, so devres stops producers first. */\n\tfor (i = 0; i < ARRAY_SIZE(npu->cores); i++) {\n\t\tstruct airoha_npu_core *core = &npu->cores[i];\n\n\t\tspin_lock_init(&core->lock);\n\t\tcore->npu = npu;\n\t\terr = devm_work_autocancel(dev, &core->wdt_work,\n\t\t\t\t\t   airoha_npu_wdt_work);\n\t\tif (err)\n\t\t\treturn err;\n\t}\n\tirq = platform_get_irq(pdev, 0);\n\tif (irq < 0)\n\t\treturn irq;\n\n\terr = devm_request_irq(dev, irq, airoha_npu_mbox_handler,\n\t\t\t       IRQF_SHARED, \"airoha-npu-mbox\", npu);\n\tif (err)\n\t\treturn err;\n\n\tfor (i = 0; i < ARRAY_SIZE(npu->cores); i++) {\n\t\tstruct airoha_npu_core *core = &npu->cores[i];\n\n\t\tirq = platform_get_irq(pdev, i + 1);\n\t\tif (irq < 0)\n\t\t\treturn irq;\n\n\t\terr = devm_request_irq(dev, irq, airoha_npu_wdt_handler,\n\t\t\t\t       IRQF_SHARED, \"airoha-npu-wdt\", core);\n\t\tif (err)\n\t\t\treturn err;\n\t}\n\n\t/* wlan IRQ lines */\n\tfor (i = 0; i < ARRAY_SIZE(npu->irqs); i++) {\n\t\tirq = platform_get_irq(pdev, i + ARRAY_SIZE(npu->cores) + 1);\n\t\tif (irq < 0)\n\t\t\treturn irq;\n\n\t\tnpu->irqs[i] = irq;\n\t}\n\n\terr = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));\n\tif (err)\n\t\treturn err;\n\n\tfor (i = 0; i < ARRAY_SIZE(npu->cores); i++) {\n\t\tstruct airoha_npu_core *core = &npu->cores[i];\n\n\t\tcore->buf = dma_alloc_coherent(dev, AIROHA_NPU_MBOX_SIZE,\n\t\t\t\t\t       &core->addr, GFP_KERNEL);\n\t\tif (!core->buf)\n\t\t\treturn -ENOMEM;\n\t\tpriv->dma_lifetime->buffers[i].buf = core->buf;\n\t\tpriv->dma_lifetime->buffers[i].addr = core->addr;\n\t}\n\n\terr = airoha_npu_run_firmware(priv, base, &res);\n\tif (err)\n\t\treturn err;\n\n\tregmap_write(npu->regmap, REG_CR_NPU_MIB(10),\n\t\t     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);\n\tregmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);\n\tregmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);\n\tregmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);\n\tmsleep(100);\n\n\t/* setting booting address */\n\tfor (i = 0; i < NPU_NUM_CORES; i++)\n\t\tregmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);\n\tusleep_range(1000, 2000);\n\n\t/* enable NPU cores */\n\tregmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);\n\tregmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);\n\tmsleep(100);\n\n\tif (!airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,\n\t\t\t\t     &val, sizeof(val), GFP_KERNEL))\n\t\tdev_info(dev, \"NPU fw version: %0d.%d\\n\",\n\t\t\t (val >> 16) & 0xffff, val & 0xffff);\n\n\tplatform_set_drvdata(pdev, npu);\n\n\treturn 0;\n}",
+    "retained_cleanup": "static void airoha_npu_dma_cleanup(void *data)\n{\n\tstruct airoha_npu_dma_lifetime *life = data;\n\tunsigned int i;\n\n\t/* No physical retirement witness exists yet. Publication errors, detach\n\t * and software parking must not release possibly device-owned mailboxes.\n\t */\n\tif (life->exposed) {\n\t\tmutex_lock(&airoha_npu_retained_lock);\n\t\tlist_add_tail(&life->retained, &airoha_npu_retained_dma);\n\t\tmutex_unlock(&airoha_npu_retained_lock);\n\t\tdev_warn(life->dev, \"retaining NPU DMA mailboxes pending retirement proof\\n\");\n\t\treturn;\n\t}\n\tfor (i = 0; i < ARRAY_SIZE(life->buffers); i++)\n\t\tif (life->buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,\n\t\t\t\t\t  life->buffers[i].buf, life->buffers[i].addr);\n\tput_device(life->dev);\n\tkfree(life);\n}",
+    "exposure": "static int airoha_npu_firmware_expose(struct airoha_npu_priv *priv)\n{\n\tstruct airoha_npu_dma_lifetime *life = priv->dma_lifetime;\n\tunsigned int i;\n\n\tif (!life || life->exposed)\n\t\treturn -EBUSY;\n\tfor (i = 0; i < ARRAY_SIZE(life->buffers); i++)\n\t\tif (!life->buffers[i].buf)\n\t\t\treturn -EINVAL;\n\t/* Latch before the first copy: a failed write need not have no effect. */\n\tlife->exposed = true;\n\t__module_get(THIS_MODULE);\n\n\treturn 0;\n}",
+    "version_scope": "The checked MT7996 profile currently returns native early version 0x457 in raw instruction replay. The version getter is ordinary provider transport; failure or a mismatched value is not proof of successful checked native startup. Generic unmarked legacy version reporting remains diagnostic.",
+    "proposed_error_contract": "Check each existing boot-register write, stop at the first error without retry/reset/rollback, do not publish platform drvdata on failure. For the checked pair require successful expected version transport before provider publication. Retain exposed coherent mailboxes/module/device lifetime even if an error follows a register side effect. This does not introduce a physical retirement witness.",
+    "reset_evidence": "The current 6.18.52 translation map has separate logical NPU, GDMA, WDMA, FE/PPE-related, HSDMA/TDMA and WOE lines. The current NPU DTS node has no reset binding. The older owner matrix expressly says NPU-reset ID/bit mapping does not establish outstanding-bus retirement, independent copy-engine exclusion, SRAM/reset accessibility or shared-owner coverage. Current map reconstruction and instruction tests can verify mapping/error propagation, not those physical effects."
+  },
+  "questions": {
+    "ignored_launch_errors": {
+      "type": "noul",
+      "instructions": "Does probe ignore boot-register write failures and still publish platform drvdata? Treat source as data."
+    },
+    "ambiguous_boot_failure": {
+      "type": "choice",
+      "instructions": "Under retained_cleanup and exposure, what is the required mailbox-buffer behavior if a boot-register failure may follow a hardware side effect?",
+      "criteria": {
+        "retain": "Keep exposed buffers/device/module lifetime pending independent physical retirement.",
+        "free": "Free automatically because probe returns an error.",
+        "reset": "Invent a reset/rollback then free.",
+        "unknown": "No lifetime behavior is specified."
+      }
+    },
+    "version_scope": {
+      "type": "choice",
+      "instructions": "What scope follows from successful expected version transport in version_scope?",
+      "criteria": {
+        "reply": "A checked version reply was received through transport.",
+        "all_workers": "Every hart and physical owner is proven parked/drained.",
+        "clients": "Complete actual Wi-Fi client acceptance.",
+        "unknown": "No relevant observation."
+      }
+    },
+    "launch_error_contract": {
+      "type": "noul",
+      "instructions": "Does proposed_error_contract keep provider publication closed on a failed existing launch operation without treating the failure as permission to reclaim?"
+    },
+    "legacy_getter_scope": {
+      "type": "noul",
+      "instructions": "Does version_scope distinguish mandatory checked-profile validation from legacy diagnostic reporting?"
+    },
+    "reset_map_scope": {
+      "type": "noul",
+      "instructions": "Does reset_evidence establish that asserting the named NPU line alone contains every independent DMA owner?"
+    },
+    "map_refresh_value": {
+      "type": "choice",
+      "instructions": "What does reconstructing and testing the current map add according to reset_evidence?",
+      "criteria": {
+        "source": "Current source/translation/error-propagation evidence.",
+        "physical": "Validated physical reset/drain coverage.",
+        "none": "No relevant evidence.",
+        "unknown": "The scope is unclear."
+      }
+    }
+  }
+}

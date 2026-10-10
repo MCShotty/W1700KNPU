@@ -1,0 +1,130 @@
+Subject: [PATCH] net: airoha: check each NPU launch operation
+
+Propagate existing register errors without retry or reclamation.
+Validate checked-profile version transport before publishing the provider.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -40,6 +40,7 @@
+ #define NPU_EN7581_NATIVE_PLAN		0x6300
+ #define NPU_EN7581_NATIVE_SESSION		0x6380
+ #define NPU_EN7581_NATIVE_IDENTITY	0x63a0
++#define NPU_EN7581_NATIVE_VERSION		0x457
+ #define NPU_DUMP_SIZE				512
+ /*
+  * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
+@@ -185,6 +186,7 @@
+ 	bool native_published;
+ 	u64 boot_identity;
+ 	bool firmware_loaded;
++	bool boot_attempted;
+ };
+ 
+ static void airoha_npu_dma_cleanup(void *data)
+@@ -1203,6 +1205,66 @@
+ 	.disable_locking	= true,
+ };
+ 
++static int airoha_npu_start_firmware(struct airoha_npu_priv *priv,
++				     const struct resource *res)
++{
++	struct airoha_npu *npu = &priv->npu;
++	unsigned int i;
++	u32 val;
++	int err;
++
++	if (priv->boot_attempted)
++		return -EBUSY;
++	if (!priv->firmware_loaded || !priv->dma_lifetime ||
++	    !priv->dma_lifetime->exposed)
++		return -EINVAL;
++	if (priv->checked_pair && (!priv->native_published || !priv->boot_identity))
++		return -EINVAL;
++
++	/* Failed writes may have effects. Do not retry or retire exposed storage. */
++	priv->boot_attempted = true;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
++			   res->start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
++	if (err)
++		return err;
++	msleep(100);
++
++	for (i = 0; i < NPU_NUM_CORES; i++) {
++		err = regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res->start);
++		if (err)
++			return err;
++	}
++	usleep_range(1000, 2000);
++
++	err = regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
++	if (err)
++		return err;
++	msleep(100);
++
++	err = airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,
++				      &val, sizeof(val), GFP_KERNEL);
++	if (err)
++		return priv->checked_pair ? err : 0;
++	if (priv->checked_pair && val != NPU_EN7581_NATIVE_VERSION)
++		return -EPROTO;
++	dev_info(npu->dev, "NPU fw version: %0d.%d\n",
++		 (val >> 16) & 0xffff, val & 0xffff);
++
++	return 0;
++}
++
+ static int airoha_npu_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1211,7 +1273,6 @@
+ 	struct resource res;
+ 	void __iomem *base;
+ 	int i, irq, err;
+-	u32 val;
+ 
+ 	base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(base))
+@@ -1315,27 +1376,9 @@
+ 	if (err)
+ 		return err;
+ 
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
+-		     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
+-	msleep(100);
+-
+-	/* setting booting address */
+-	for (i = 0; i < NPU_NUM_CORES; i++)
+-		regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);
+-	usleep_range(1000, 2000);
+-
+-	/* enable NPU cores */
+-	regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);
+-	regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
+-	msleep(100);
+-
+-	if (!airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,
+-				     &val, sizeof(val), GFP_KERNEL))
+-		dev_info(dev, "NPU fw version: %0d.%d\n",
+-			 (val >> 16) & 0xffff, val & 0xffff);
++	err = airoha_npu_start_firmware(priv, &res);
++	if (err)
++		return err;
+ 
+ 	platform_set_drvdata(pdev, npu);
+ 

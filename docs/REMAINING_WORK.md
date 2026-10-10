@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Boot Launch Errors Now Propagate
+
+The provider no longer publishes after an ignored boot-write failure. One-shot
+launch and checked-profile expected version checks retain exposed resources on
+error. Actual C/fault/mutant/probe controls and native early-version ordering
+pass. Current6.18.52 reset source/maps/error behavior are freshly reconstructed
+and executed in host/AArch64 models. Full build/source/image checks pass; FIT
+`b0400eaa...`, preceding `05ca2802...` preserved. No flash or hardware contact.
+Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+
+Next close actual prior-user exclusion and exclusive backing/cache contracts,
+then wire the real strict DISCOVER/setup/BIND host lane. No reset binding or
+physical drain witness was invented. Successful version transport does not
+prove all harts, independent engines or clients. Other owners, workers/hot
+lifecycle/postgate, physical retirement/teardown/rearm/recovery and clients
+remain required; boot errors never authorize release of exposed memory.
+
 ## 2026-10-10 - Runtime Publication And Pair Packaging Implemented
 
 The normal image now contains the checked MT7996 raw pair and its manifest.

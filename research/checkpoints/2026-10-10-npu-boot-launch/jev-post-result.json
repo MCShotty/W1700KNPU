@@ -1,0 +1,107 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-boot-launch-20261010\\jev-post-request.json",
+  "request_sha256": "fe92088c12294ff1e0e0db2d6b049aab98a53fcdd0b4484c5672916cebcffce0",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "launch_errors": {
+      "type": "noul",
+      "instructions": "Does launch return immediately on the first failed existing boot-register write rather than continuing programming?"
+    },
+    "checked_getter": {
+      "type": "noul",
+      "instructions": "Do launch and probe_tail reject checked-profile version transport failure or mismatch before provider publication?"
+    },
+    "legacy_scope": {
+      "type": "noul",
+      "instructions": "Does launch preserve optional legacy version reporting while keeping common write failures fatal?"
+    },
+    "one_attempt": {
+      "type": "noul",
+      "instructions": "Does launch latch the attempt before any boot write and reject a later launch without I/O?"
+    },
+    "failure_resources": {
+      "type": "choice",
+      "instructions": "What resource behavior does retention describe after a possibly visible launch error?",
+      "criteria": {
+        "retained": "Exposed mailboxes/device/module remain retained.",
+        "reclaimed": "Error permits immediate reclaim.",
+        "reset": "Automatic reset/rollback then free.",
+        "unknown": "No behavior specified."
+      }
+    },
+    "binary_scope": {
+      "type": "choice",
+      "instructions": "Which new packaged-binary observation is supported by proof?",
+      "criteria": {
+        "ghidra": "Exact packaged probe/inlined launch analyzed and decompiled; hardware not run.",
+        "physical": "Real router boot/retirement accepted.",
+        "clients": "Actual client throughput accepted.",
+        "unknown": "No relevant observation."
+      }
+    },
+    "reset_coverage": {
+      "type": "noul",
+      "instructions": "Does reset prove physical exclusion and retirement of every independent NPU/DMA owner?"
+    },
+    "whole_goal": {
+      "type": "noul",
+      "instructions": "Do proof,reset and retention establish complete NPU implementation and physical/client acceptance?"
+    }
+  },
+  "elapsed_ms": 844,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "launch_errors": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "checked_getter": {
+        "type": "noul",
+        "noul": 0.43
+      },
+      "legacy_scope": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "one_attempt": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "failure_resources": {
+        "type": "choice",
+        "choice": "retained",
+        "confidence": 1.0,
+        "probabilities": {
+          "retained": 1.0,
+          "reclaimed": 0.0,
+          "reset": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "binary_scope": {
+        "type": "choice",
+        "choice": "ghidra",
+        "confidence": 1.0,
+        "probabilities": {
+          "ghidra": 1.0,
+          "physical": 0.0,
+          "clients": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "reset_coverage": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "whole_goal": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 1578,
+      "output_tokens": 204
+    }
+  }
+}

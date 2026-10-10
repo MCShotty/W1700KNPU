@@ -1,8 +1,23 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (runtime loader publication/retention and pair packaging verified; strict setup/physical gates open)
+Last updated: 2026-10-10 (checked boot launch and current reset map verified; strict setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Checked Boot Launch
+
+- Existing boot writes now propagate the first error, launch is one-shot and
+  checked-pair version transport is required before provider publication.
+  Exposed memory/module/device lifetime remains retained; no retry/reclaim/reset.
+- Actual-C248/ten and probe265/three cases/mutants plus original-source control
+  pass. Native expected version before DISCOVER and all-hart bootstrap pass.
+  Current6.18.52 reset source/147-ID maps,23,088 host/5,007 AArch64 cases pass.
+- Complete world/source/image checks pass; FIT
+  `b0400eaa873beeb309fc10e7376255f89cefb7c1f986096863916f5a4ee222b6`.
+  Previous `05ca2802...` and R1 preserved. No flash/router contact; physical
+  evidence remains September23. Full cold exclusion/backing/coherency, strict
+  real callers, other owners/hot/postgate and retirement/recovery/clients remain.
+  Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
 
 ## 2026-10-10 - Actual Publication And Paired Packaging
 

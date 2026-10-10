@@ -1,0 +1,643 @@
+{
+  "passed": true,
+  "kernel": "6.18.52",
+  "source_replay_equal": true,
+  "patches": [
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch",
+      "sha256": "4e64214b99a373fb61a61b1672525ad15039534ecfa8c877b5985c8edf827102",
+      "bytes": 11224
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch",
+      "sha256": "83feae369728eeb5beb5f0ce5a5170c631c34bc89a565bc6d48437a2f661663d",
+      "bytes": 7407
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch",
+      "sha256": "ef7c3cc71dc2de28e1cde2d22e663200f191ccebe944d68475ecdaad24eadaaa",
+      "bytes": 4051
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch",
+      "sha256": "25671934f555c081db6784aecc4e103e3dc414ffd76a8739f206e6844a9e3463",
+      "bytes": 4417
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch",
+      "sha256": "78f78c939a36f2faf1e7c065afe7400a5bdbbb8f5019a1dec24ad651e694a262",
+      "bytes": 1320
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch",
+      "sha256": "8ffcd1742858b8587a6ef945ca2076acfbe2eb13ce59a602b015c0febe8a5bde",
+      "bytes": 1668
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch",
+      "sha256": "7e2abd9492f7aaf11c422f6d11fff76a1d071aadce427aeff66af968b37e7420",
+      "bytes": 1634
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch",
+      "sha256": "33654579906d36e677ce99dd3e1d45f9d4f351322ce9b329771ab742248cee71",
+      "bytes": 9414
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch",
+      "sha256": "047b4060b3db3eade09ff61020f2c829b154e18b666171763b7d11d52ef093a3",
+      "bytes": 6137
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch",
+      "sha256": "780bf520eec8415146a48153b1c2b4e3238842338a2de3addd56ef3062ad7433",
+      "bytes": 3489
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/910-02-usb-pcie.patch",
+      "sha256": "eddb2ebc5bd4ccc191e5f857b9adfbd80f790dfb98ea055239d4c87c8dc947fc",
+      "bytes": 671
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch",
+      "sha256": "99e3a676bc2b58ee7fd3e5576c9b3578183ffa30a4d616219d2987a83a027dec",
+      "bytes": 874
+    },
+    {
+      "path": ".build/merged-openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "sha256": "3bfbe94be831a5a5b78b407b441321355be879f55ebc0dec3d27d0cdc3d936a9",
+      "bytes": 35251
+    }
+  ],
+  "host_matrix": {
+    "cases": 23088,
+    "mapped_resets": 147,
+    "variants": 3,
+    "nominal": 19992,
+    "write_faults": 1764,
+    "read_faults": 1323,
+    "translation_rejections": 9
+  },
+  "compiled": {
+    "profile": "current",
+    "object": {
+      "path": ".local/npu-boot-launch-20261010/reset-map-final/target/clk-en7523.o",
+      "sha256": "366ffa1c66744d6ca85c547c2e6b3878e3cbf567b85380854622831b4e2fbbe4",
+      "bytes": 58312
+    },
+    "layout": [
+      120,
+      0,
+      8,
+      16,
+      24,
+      88,
+      12,
+      42,
+      56,
+      49,
+      8,
+      2096,
+      32
+    ]
+  },
+  "native": {
+    "executions": 5007,
+    "faults": 3087,
+    "observations_sha256": "cb12a1dada91efc22e99b269476b9594098eb7d8881449c455f3d0ee1b72afbe"
+  },
+  "maps": {
+    "en7581_rst_ofs": [
+      2096,
+      2100,
+      136
+    ],
+    "en7523_rst_map": [
+      0,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      32,
+      33,
+      34,
+      36,
+      38,
+      40,
+      43,
+      44,
+      45,
+      46,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      57,
+      58,
+      59,
+      61,
+      63
+    ],
+    "en7581_rst_map": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      32,
+      33,
+      34,
+      36,
+      38,
+      40,
+      43,
+      44,
+      45,
+      46,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      57,
+      58,
+      59,
+      60,
+      61,
+      63,
+      93,
+      90,
+      80
+    ],
+    "an7583_rst_map": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      19,
+      20,
+      22,
+      24,
+      25,
+      26,
+      28,
+      30,
+      31,
+      32,
+      33,
+      34,
+      36,
+      38,
+      40,
+      43,
+      44,
+      45,
+      46,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      57,
+      58,
+      59,
+      60,
+      61,
+      63
+    ]
+  },
+  "translation": [
+    {
+      "name": "EN7581_XPON_PHY_RST",
+      "logical": 0,
+      "bank_offset": 2096,
+      "bit": 0
+    },
+    {
+      "name": "EN7581_CPU_TIMER2_RST",
+      "logical": 1,
+      "bank_offset": 2096,
+      "bit": 2
+    },
+    {
+      "name": "EN7581_HSUART_RST",
+      "logical": 2,
+      "bank_offset": 2096,
+      "bit": 3
+    },
+    {
+      "name": "EN7581_UART4_RST",
+      "logical": 3,
+      "bank_offset": 2096,
+      "bit": 4
+    },
+    {
+      "name": "EN7581_UART5_RST",
+      "logical": 4,
+      "bank_offset": 2096,
+      "bit": 5
+    },
+    {
+      "name": "EN7581_I2C2_RST",
+      "logical": 5,
+      "bank_offset": 2096,
+      "bit": 6
+    },
+    {
+      "name": "EN7581_XSI_MAC_RST",
+      "logical": 6,
+      "bank_offset": 2096,
+      "bit": 7
+    },
+    {
+      "name": "EN7581_XSI_PHY_RST",
+      "logical": 7,
+      "bank_offset": 2096,
+      "bit": 8
+    },
+    {
+      "name": "EN7581_NPU_RST",
+      "logical": 8,
+      "bank_offset": 2096,
+      "bit": 9
+    },
+    {
+      "name": "EN7581_I2S_RST",
+      "logical": 9,
+      "bank_offset": 2096,
+      "bit": 10
+    },
+    {
+      "name": "EN7581_TRNG_RST",
+      "logical": 10,
+      "bank_offset": 2096,
+      "bit": 11
+    },
+    {
+      "name": "EN7581_TRNG_MSTART_RST",
+      "logical": 11,
+      "bank_offset": 2096,
+      "bit": 12
+    },
+    {
+      "name": "EN7581_DUAL_HSI0_RST",
+      "logical": 12,
+      "bank_offset": 2096,
+      "bit": 13
+    },
+    {
+      "name": "EN7581_DUAL_HSI1_RST",
+      "logical": 13,
+      "bank_offset": 2096,
+      "bit": 14
+    },
+    {
+      "name": "EN7581_HSI_RST",
+      "logical": 14,
+      "bank_offset": 2096,
+      "bit": 15
+    },
+    {
+      "name": "EN7581_DUAL_HSI0_MAC_RST",
+      "logical": 15,
+      "bank_offset": 2096,
+      "bit": 16
+    },
+    {
+      "name": "EN7581_DUAL_HSI1_MAC_RST",
+      "logical": 16,
+      "bank_offset": 2096,
+      "bit": 17
+    },
+    {
+      "name": "EN7581_HSI_MAC_RST",
+      "logical": 17,
+      "bank_offset": 2096,
+      "bit": 18
+    },
+    {
+      "name": "EN7581_WDMA_RST",
+      "logical": 18,
+      "bank_offset": 2096,
+      "bit": 19
+    },
+    {
+      "name": "EN7581_WOE0_RST",
+      "logical": 19,
+      "bank_offset": 2096,
+      "bit": 20
+    },
+    {
+      "name": "EN7581_WOE1_RST",
+      "logical": 20,
+      "bank_offset": 2096,
+      "bit": 21
+    },
+    {
+      "name": "EN7581_HSDMA_RST",
+      "logical": 21,
+      "bank_offset": 2096,
+      "bit": 22
+    },
+    {
+      "name": "EN7581_TDMA_RST",
+      "logical": 22,
+      "bank_offset": 2096,
+      "bit": 24
+    },
+    {
+      "name": "EN7581_EMMC_RST",
+      "logical": 23,
+      "bank_offset": 2096,
+      "bit": 25
+    },
+    {
+      "name": "EN7581_SOE_RST",
+      "logical": 24,
+      "bank_offset": 2096,
+      "bit": 26
+    },
+    {
+      "name": "EN7581_PCIE2_RST",
+      "logical": 25,
+      "bank_offset": 2096,
+      "bit": 27
+    },
+    {
+      "name": "EN7581_XFP_MAC_RST",
+      "logical": 26,
+      "bank_offset": 2096,
+      "bit": 28
+    },
+    {
+      "name": "EN7581_USB_HOST_P1_RST",
+      "logical": 27,
+      "bank_offset": 2096,
+      "bit": 29
+    },
+    {
+      "name": "EN7581_USB_HOST_P1_U3_PHY_RST",
+      "logical": 28,
+      "bank_offset": 2096,
+      "bit": 30
+    },
+    {
+      "name": "EN7581_PCM1_ZSI_ISI_RST",
+      "logical": 29,
+      "bank_offset": 2100,
+      "bit": 0
+    },
+    {
+      "name": "EN7581_FE_PDMA_RST",
+      "logical": 30,
+      "bank_offset": 2100,
+      "bit": 1
+    },
+    {
+      "name": "EN7581_FE_QDMA_RST",
+      "logical": 31,
+      "bank_offset": 2100,
+      "bit": 2
+    },
+    {
+      "name": "EN7581_PCM_SPIWP_RST",
+      "logical": 32,
+      "bank_offset": 2100,
+      "bit": 4
+    },
+    {
+      "name": "EN7581_CRYPTO_RST",
+      "logical": 33,
+      "bank_offset": 2100,
+      "bit": 6
+    },
+    {
+      "name": "EN7581_TIMER_RST",
+      "logical": 34,
+      "bank_offset": 2100,
+      "bit": 8
+    },
+    {
+      "name": "EN7581_PCM1_RST",
+      "logical": 35,
+      "bank_offset": 2100,
+      "bit": 11
+    },
+    {
+      "name": "EN7581_UART_RST",
+      "logical": 36,
+      "bank_offset": 2100,
+      "bit": 12
+    },
+    {
+      "name": "EN7581_GPIO_RST",
+      "logical": 37,
+      "bank_offset": 2100,
+      "bit": 13
+    },
+    {
+      "name": "EN7581_GDMA_RST",
+      "logical": 38,
+      "bank_offset": 2100,
+      "bit": 14
+    },
+    {
+      "name": "EN7581_I2C_MASTER_RST",
+      "logical": 39,
+      "bank_offset": 2100,
+      "bit": 16
+    },
+    {
+      "name": "EN7581_PCM2_ZSI_ISI_RST",
+      "logical": 40,
+      "bank_offset": 2100,
+      "bit": 17
+    },
+    {
+      "name": "EN7581_SFC_RST",
+      "logical": 41,
+      "bank_offset": 2100,
+      "bit": 18
+    },
+    {
+      "name": "EN7581_UART2_RST",
+      "logical": 42,
+      "bank_offset": 2100,
+      "bit": 19
+    },
+    {
+      "name": "EN7581_GDMP_RST",
+      "logical": 43,
+      "bank_offset": 2100,
+      "bit": 20
+    },
+    {
+      "name": "EN7581_FE_RST",
+      "logical": 44,
+      "bank_offset": 2100,
+      "bit": 21
+    },
+    {
+      "name": "EN7581_USB_HOST_P0_RST",
+      "logical": 45,
+      "bank_offset": 2100,
+      "bit": 22
+    },
+    {
+      "name": "EN7581_GSW_RST",
+      "logical": 46,
+      "bank_offset": 2100,
+      "bit": 23
+    },
+    {
+      "name": "EN7581_SFC2_PCM_RST",
+      "logical": 47,
+      "bank_offset": 2100,
+      "bit": 25
+    },
+    {
+      "name": "EN7581_PCIE0_RST",
+      "logical": 48,
+      "bank_offset": 2100,
+      "bit": 26
+    },
+    {
+      "name": "EN7581_PCIE1_RST",
+      "logical": 49,
+      "bank_offset": 2100,
+      "bit": 27
+    },
+    {
+      "name": "EN7581_CPU_TIMER_RST",
+      "logical": 50,
+      "bank_offset": 2100,
+      "bit": 28
+    },
+    {
+      "name": "EN7581_PCIE_HB_RST",
+      "logical": 51,
+      "bank_offset": 2100,
+      "bit": 29
+    },
+    {
+      "name": "EN7581_XPON_MAC_RST",
+      "logical": 52,
+      "bank_offset": 2100,
+      "bit": 31
+    },
+    {
+      "name": "EN7581_PCIC_PERSTOUT0_RST",
+      "logical": 53,
+      "bank_offset": 136,
+      "bit": 29
+    },
+    {
+      "name": "EN7581_PCIC_PERSTOUT1_RST",
+      "logical": 54,
+      "bank_offset": 136,
+      "bit": 26
+    },
+    {
+      "name": "EN7581_PCIC_PERSTOUT2_RST",
+      "logical": 55,
+      "bank_offset": 136,
+      "bit": 16
+    }
+  ],
+  "inputs": {
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/clk/clk-en7523.c": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7",
+    ".build/merged-openwrt/target/linux/generic/kernel-6.18": "1f6d49907b5bd3e1714dc78f68587c98bbde0a148eac4923891c9e45d4cfefb7",
+    ".build/merged-openwrt/dl/linux-6.18.52.tar.xz": "2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8",
+    "firmware/source-lock.json": "af81c3c101b6f30cc227bc6be287df88148000c1cc85400df3206a7f4dd73fd8",
+    "tests/npu/test_current_reset_map.py": "87d0f02a4f2f20fbf57dec07dd24d1a6e0cccf659506655ea0b291d41848b899",
+    "tests/npu/reset-control-harness.c": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae",
+    "tests/npu/test_npu_reset_control.py": "a862790cc4ad7d83053e7c695fb1ebc4c1368c37a794998a044837fe8e65fcc7",
+    "tests/npu/test_npu_reset_native.py": "d501c5ccb5a7741c51ff4e6f550ca0b4ff4138ed94e98298223f847d1aa895f6",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_memory_preflight.py": "5f6cbb482db517592e120f451cafb0b7d7133626c790d397741f0398f7acf183",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/dt-bindings/reset/airoha,en7523-reset.h": "8020810a03ebd2f04872269c34157a3afa94df849787a41638297e61ce9925bd",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/dt-bindings/reset/airoha,en7581-reset.h": "1ca2aec7c4fd3cd05466c8a38bab96ddd5c930abb41988386a58536d60cd3f2a",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/dt-bindings/reset/airoha,an7583-reset.h": "f4afa32bb54c1de84d07ab17dba1ed6f21825db3231f83af4cb349b5291273b9",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/.config": "e6fee1dd3dd98757e104798fd4c8301a752d01ce9604e2583683b0586adcc4e3",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/Module.symvers": "636e38237ff569a00f7db0a780fb0c00cdb366ead0a385387d877c78eb88817f",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/generated/autoconf.h": "13bf85e8551fa411d7456f82b5ebacf04e1809c962f4bd71dc7b0ab0fef988ae",
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/generated/utsrelease.h": "dad3b036650c8ad0b163837463638567a467c9b78232b82ff716dcff4a4bd233",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-01-clk-en7523-convert-driver-to-regmap-API.patch": "4e64214b99a373fb61a61b1672525ad15039534ecfa8c877b5985c8edf827102",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-02-clk-en7523-generalize-register-clocks-function.patch": "83feae369728eeb5beb5f0ce5a5170c631c34bc89a565bc6d48437a2f661663d",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-03-clk-en7523-convert-to-full-clk_hw-implementation.patch": "ef7c3cc71dc2de28e1cde2d22e663200f191ccebe944d68475ecdaad24eadaaa",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-04-clk-en7523-add-support-for-.set_rate.patch": "25671934f555c081db6784aecc4e103e3dc414ffd76a8739f206e6844a9e3463",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-05-clk-en7523-permit-to-reference-Chip-SCU-from-phandle.patch": "78f78c939a36f2faf1e7c065afe7400a5bdbbb8f5019a1dec24ad651e694a262",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-07-clk-en7523-reword-and-clean-clk_probe-variables.patch": "8ffcd1742858b8587a6ef945ca2076acfbe2eb13ce59a602b015c0febe8a5bde",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-08-clk-en7523-add-support-for-probing-SCU-child.patch": "7e2abd9492f7aaf11c422f6d11fff76a1d071aadce427aeff66af968b37e7420",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-10-clk-en7523-add-support-for-Airoha-AN7583-clock.patch": "33654579906d36e677ce99dd3e1d45f9d4f351322ce9b329771ab742248cee71",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/600-12-v6.19-clk-en7523-Add-reset-controller-support-for-EN7523-S.patch": "047b4060b3db3eade09ff61020f2c829b154e18b666171763b7d11d52ef093a3",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/609-02-clk-en7523-add-support-for-dedicated-PCIe-PERSTOUT-r.patch": "780bf520eec8415146a48153b1c2b4e3238842338a2de3addd56ef3062ad7433",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/910-02-usb-pcie.patch": "eddb2ebc5bd4ccc191e5f857b9adfbd80f790dfb98ea055239d4c87c8dc947fc",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/913-clk-en7523-reset-PCIE-HB-on-init.patch": "99e3a676bc2b58ee7fd3e5576c9b3578183ffa30a4d616219d2987a83a027dec",
+    ".build/merged-openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "3bfbe94be831a5a5b78b407b441321355be879f55ebc0dec3d27d0cdc3d936a9"
+  },
+  "limits": [
+    "Current full reset driver/layout compile and native callback instructions with modeled regmap.",
+    "No reset line is asserted on hardware; translated names/bits do not establish physical engine coverage or drains."
+  ]
+}

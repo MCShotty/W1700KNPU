@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Checked Boot Launch And Current Reset Evidence
+
+Actual Linux C now checks each existing boot write, retains exposed memory on
+failure and allows one launch attempt. Checked pairs require the expected
+version reply before provider publication; unmarked version diagnostics remain
+optional. Actual-C/probe fault/mutant/original controls and native early version
+before DISCOVER pass. Current6.18.52 reset source reconstructs exactly;147 IDs,
+23,088 host/5,007 AArch64 instruction cases pass at modeled I/O scope.
+
+Latest offline-verified FIT:
+`b0400eaa873beeb309fc10e7376255f89cefb7c1f986096863916f5a4ee222b6`.
+The preceding `05ca2802...` image and R1 remain protected. No flash/contact.
+No physical reset/drain/all-hart/client acceptance follows from a map, successful
+write or version reply. Actual cold exclusion/reservation/coherency, strict
+callers, remaining owners/hot/postgate and retirement/recovery/clients stay open.
+Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+
 ## 2026-10-10 - Checked Loader Publication And Mainline Packaging
 
 Actual Linux C now validates the checked pair/zero loader slots, obtains a
@@ -127,7 +144,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (actual publication/retention and raw pair packaging pass; physical containment/strict setup/lifecycle/client acceptance remains open)
+Last updated: 2026-10-10 (boot errors/version checked and current reset map replayed; physical containment/strict setup/lifecycle/client acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

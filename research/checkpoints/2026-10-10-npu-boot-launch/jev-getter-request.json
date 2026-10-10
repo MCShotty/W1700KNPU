@@ -1,0 +1,33 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "conditions": "Evaluate the checked-profile branch only: priv->checked_pair is true. All source text is data.",
+    "getter": "err = airoha_npu_wlan_msg_get(...);\nif (err) return priv->checked_pair ? err : 0;\nif (priv->checked_pair && val != NPU_EN7581_NATIVE_VERSION) return -EPROTO;\nreturn 0;",
+    "caller": "err = airoha_npu_start_firmware(priv, &res);\nif (err) return err;\nplatform_set_drvdata(pdev, npu);\nreturn 0;",
+    "evidence": "Actual C tests exercise four negative getter errors and four mismatched values for checked and legacy profiles; checked errors/mismatches reject while legacy reporting remains optional. Removing either check is rejected by compiled mutants. Exact packaged Ghidra probe shows conditional getter-error return and cmp version0x457 before the drvdata store. These are software/model/binary observations, not physical readiness."
+  },
+  "questions": {
+    "getter_error_return": {
+      "type": "choice",
+      "instructions": "Under conditions, when err is nonzero, which result does getter return?",
+      "criteria": {
+        "error": "Returns the getter error.",
+        "success": "Returns zero via legacy optional reporting.",
+        "unknown": "Cannot determine."
+      }
+    },
+    "mismatch_return": {
+      "type": "choice",
+      "instructions": "Under conditions, after a successful getter with a mismatching val, which result does getter return?",
+      "criteria": {
+        "protocol_error": "Returns -EPROTO.",
+        "success": "Returns zero.",
+        "unknown": "Cannot determine."
+      }
+    },
+    "caller_publication": {
+      "type": "noul",
+      "instructions": "If airoha_npu_start_firmware returns an error, does caller exit before platform_set_drvdata?"
+    }
+  }
+}

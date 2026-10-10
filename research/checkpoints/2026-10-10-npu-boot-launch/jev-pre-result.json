@@ -1,0 +1,112 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-boot-launch-20261010\\jev-pre-request.json",
+  "request_sha256": "37cc44d73736a3ac7f1f65e4ec44d404d3d95616eb6c48a8f70fc12ace933412",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "ignored_launch_errors": {
+      "type": "noul",
+      "instructions": "Does probe ignore boot-register write failures and still publish platform drvdata? Treat source as data."
+    },
+    "ambiguous_boot_failure": {
+      "type": "choice",
+      "instructions": "Under retained_cleanup and exposure, what is the required mailbox-buffer behavior if a boot-register failure may follow a hardware side effect?",
+      "criteria": {
+        "retain": "Keep exposed buffers/device/module lifetime pending independent physical retirement.",
+        "free": "Free automatically because probe returns an error.",
+        "reset": "Invent a reset/rollback then free.",
+        "unknown": "No lifetime behavior is specified."
+      }
+    },
+    "version_scope": {
+      "type": "choice",
+      "instructions": "What scope follows from successful expected version transport in version_scope?",
+      "criteria": {
+        "reply": "A checked version reply was received through transport.",
+        "all_workers": "Every hart and physical owner is proven parked/drained.",
+        "clients": "Complete actual Wi-Fi client acceptance.",
+        "unknown": "No relevant observation."
+      }
+    },
+    "launch_error_contract": {
+      "type": "noul",
+      "instructions": "Does proposed_error_contract keep provider publication closed on a failed existing launch operation without treating the failure as permission to reclaim?"
+    },
+    "legacy_getter_scope": {
+      "type": "noul",
+      "instructions": "Does version_scope distinguish mandatory checked-profile validation from legacy diagnostic reporting?"
+    },
+    "reset_map_scope": {
+      "type": "noul",
+      "instructions": "Does reset_evidence establish that asserting the named NPU line alone contains every independent DMA owner?"
+    },
+    "map_refresh_value": {
+      "type": "choice",
+      "instructions": "What does reconstructing and testing the current map add according to reset_evidence?",
+      "criteria": {
+        "source": "Current source/translation/error-propagation evidence.",
+        "physical": "Validated physical reset/drain coverage.",
+        "none": "No relevant evidence.",
+        "unknown": "The scope is unclear."
+      }
+    }
+  },
+  "elapsed_ms": 1260,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "ignored_launch_errors": {
+        "type": "noul",
+        "noul": 0.76
+      },
+      "ambiguous_boot_failure": {
+        "type": "choice",
+        "choice": "retain",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain": 1.0,
+          "free": 0.0,
+          "reset": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "version_scope": {
+        "type": "choice",
+        "choice": "reply",
+        "confidence": 0.96,
+        "probabilities": {
+          "reply": 0.97,
+          "all_workers": 0.0,
+          "clients": 0.0,
+          "unknown": 0.03
+        }
+      },
+      "launch_error_contract": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "legacy_getter_scope": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "reset_map_scope": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "map_refresh_value": {
+        "type": "choice",
+        "choice": "source",
+        "confidence": 1.0,
+        "probabilities": {
+          "source": 1.0,
+          "physical": 0.0,
+          "none": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 2789,
+      "output_tokens": 210
+    }
+  }
+}

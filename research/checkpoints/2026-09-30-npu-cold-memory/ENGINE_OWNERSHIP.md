@@ -1,5 +1,22 @@
 # NPU Engine Ownership And Reset Evidence
 
+## 2026-10-10 - Current Reset-Map Refresh
+
+The active Linux6.18.52 clock/reset source now reconstructs exactly from its
+pinned archive and patch stack. Its147 logical IDs pass23,088 actual-C host
+cases and5,007 target-compiled AArch64 callback/translation executions, including
+3,087 injected faults. Current NPU/GDMA/WDMA/WOE/HSDMA/TDMA/FE-related translations
+agree with the named inventory below; the active NPU DTS still has no reset
+binding. This supersedes the older-map-only limitation for source translation,
+not physical coverage. No hardware line was asserted or status bit read.
+
+The provider boot sequence also now propagates write errors and requires the
+checked version reply while retaining exposed buffers. Expected version,
+register success and reset translation still do not certify prior-user exclusion,
+outstanding bus retirement or shared effects. Fresh scoped evidence:
+`research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+The dated September30 observations below retain their original scope.
+
 Reviewed 2026-09-30. This is a source-bound inventory and a checklist for a
 future physical investigation, **not a reset procedure or authorization to run
 one**. Complete stock-NPU ownership, containment, teardown and rearm remain open.

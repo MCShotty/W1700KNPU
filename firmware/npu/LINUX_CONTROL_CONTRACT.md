@@ -5,11 +5,14 @@ provider's `airoha_npu_wlan_control()` transport. The 2026-09-23 unified merge
 compiles these canonical sources into mt76. Cold-session initialization and
 actual setup/recovery callers are not yet implemented.
 
-The 2026-10-10 provider prepares a private native memory/request plan using its
-coherent core0 DMA address before firmware copies. It does not publish the plan
-or fresh boot identity to SRAM, or anchor a contained lifetime for this executor.
-See `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md` for the software
-bridge and the remaining actual-loader/caller/physical contracts.
+The 2026-10-10 provider validates the checked pair, publishes its private native
+memory/request plan and fresh runtime identity to SRAM, and retains exposed
+mailboxes/device/module lifetime. Boot writes and checked version replies now
+gate provider publication, with one launch attempt and no failed-operation retry
+or reclamation. This is software publication/retention, not independently proven
+physical cold containment or a completed executor/session owner contract.
+See `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md` and the preceding
+loader-publication checkpoint. Real strict setup callers remain unwired.
 
 ## Ownership
 
@@ -17,7 +20,8 @@ The caller must initialize an unpublished, zeroed executor exactly once for an
 independently contained cold provider lifetime, using a fresh nonzero nonce.
 Initialization must not race other operations. A new mt76 attachment alone does
 not establish that lifetime, and this API does not fabricate a boot identity.
-The production loader and the owner that anchors this state remain open work.
+The software loader identity/publication now exists; the independently contained
+owner that anchors this executor and its real callers remains open work.
 
 The caller already owns the provider reference. It must retain it until close
 returns, and retain the executor allocation until every API caller retires.

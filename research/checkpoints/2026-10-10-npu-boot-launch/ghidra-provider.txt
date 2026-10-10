@@ -1,0 +1,622 @@
+program=airoha_npu.ko
+sha256=64229ba1fc646463516ea411eb410466ecb495eceb9bb8aec10de3c1db19ad56
+language=AARCH64:LE:64:v8A
+
+FUNCTION airoha_npu_probe @ 00101d10
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+ulong airoha_npu_probe(long param_1)
+
+{
+  int iVar1;
+  undefined *puVar2;
+  long *plVar3;
+  uint uVar4;
+  ulong uVar5;
+  long *plVar6;
+  ulong uVar7;
+  undefined8 *puVar8;
+  undefined8 uVar9;
+  undefined **ppuVar10;
+  long lVar11;
+  int iVar12;
+  long lVar13;
+  long *plVar14;
+  uint local_44;
+  int local_40 [16];
+  
+  puVar2 = (undefined *)(param_1 + 0x10);
+  uVar5 = devm_platform_ioremap_resource(param_1,0);
+  if (0xfffffffffffff000 < uVar5) {
+    return uVar5 & 0xffffffff;
+  }
+  plVar6 = (long *)devm_kmalloc(puVar2,0x478,0xdc0);
+  if (plVar6 != (long *)0x0) {
+    *plVar6 = (long)puVar2;
+    plVar6[0x46] = (long)airoha_npu_ppe_init;
+    plVar6[0x47] = (long)airoha_npu_ppe_deinit;
+    plVar6[0x48] = (long)airoha_npu_ppe_stats_setup;
+    plVar6[0x49] = (long)airoha_npu_ppe_flush_sram_entries;
+    plVar6[0x4a] = (long)airoha_npu_foe_commit_entry;
+    plVar6[0x4b] = (long)airoha_npu_wlan_init_memory;
+    plVar6[0x4c] = (long)airoha_npu_wlan_msg_send;
+    plVar6[0x4d] = (long)airoha_npu_wlan_msg_get;
+    plVar6[0x4e] = (long)airoha_npu_wlan_queue_addr_get;
+    plVar6[0x4f] = (long)airoha_npu_wlan_irq_status_set;
+    plVar6[0x50] = (long)airoha_npu_wlan_irq_status_get;
+    plVar6[0x51] = (long)airoha_npu_wlan_irq_enable;
+    plVar6[0x52] = (long)airoha_npu_wlan_irq_disable;
+    uVar7 = __devm_regmap_init_mmio_clk(puVar2,0,uVar5,&PTR_DAT_00102890,0,0);
+    plVar6[1] = uVar7;
+    if (0xfffffffffffff000 < uVar7) {
+LAB_00101e84:
+      return uVar7 & 0xffffffff;
+    }
+    mutex_lock(&DAT_00102408);
+    ppuVar10 = (undefined **)PTR_LOOP_00102428;
+    if ((undefined **)PTR_LOOP_00102428 == &PTR_LOOP_00102428) {
+      mutex_unlock(&DAT_00102408);
+    }
+    else {
+      do {
+        if (puVar2 == ppuVar10[-1]) {
+          mutex_unlock(&DAT_00102408);
+          uVar7 = dev_err_probe(puVar2,0xfffffff0,"NPU DMA retirement pending\n");
+          goto LAB_00101e84;
+        }
+        ppuVar10 = (undefined **)*ppuVar10;
+      } while (ppuVar10 != &PTR_LOOP_00102428);
+      mutex_unlock(&DAT_00102408);
+    }
+    puVar8 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104228,0xdc0,0xa0);
+    plVar6[0x53] = (long)puVar8;
+    if (puVar8 != (undefined8 *)0x0) {
+      uVar9 = get_device(puVar2);
+      lVar13 = plVar6[0x53];
+      *puVar8 = uVar9;
+      uVar4 = __devm_add_action(puVar2,airoha_npu_dma_cleanup,lVar13,"airoha_npu_dma_cleanup");
+      if (uVar4 != 0) {
+        airoha_npu_dma_cleanup(lVar13);
+        return (ulong)uVar4;
+      }
+      uVar4 = of_reserved_mem_region_to_resource(*(undefined8 *)(param_1 + 0x268),0,local_40);
+      if (uVar4 != 0) {
+        return (ulong)uVar4;
+      }
+      plVar14 = plVar6 + 4;
+      do {
+        plVar14[-2] = (long)plVar6;
+        *(undefined4 *)(plVar14 + -1) = 0;
+        *plVar14 = 0xfffffffe00000;
+        plVar14[3] = (long)airoha_npu_wdt_work;
+        plVar14[1] = (long)(plVar14 + 1);
+        plVar14[2] = (long)(plVar14 + 1);
+        plVar3 = plVar14 + 8;
+        uVar4 = __devm_add_action(puVar2,devm_work_drop,plVar14,"devm_work_drop");
+        if (uVar4 != 0) {
+          return (ulong)uVar4;
+        }
+        plVar14 = plVar3;
+      } while (plVar3 != plVar6 + 0x44);
+      uVar4 = platform_get_irq(param_1,0);
+      uVar7 = (ulong)uVar4;
+      if (-1 < (int)uVar4) {
+        uVar4 = devm_request_threaded_irq
+                          (puVar2,uVar4,airoha_npu_mbox_handler,0,0x200080,"airoha-npu-mbox",plVar6)
+        ;
+        uVar7 = (ulong)uVar4;
+        if (uVar4 == 0) {
+          plVar14 = plVar6 + 2;
+          iVar12 = 0;
+          do {
+            iVar12 = iVar12 + 1;
+            uVar4 = platform_get_irq(param_1,iVar12);
+            if ((int)uVar4 < 0) {
+              return (ulong)uVar4;
+            }
+            uVar4 = devm_request_threaded_irq
+                              (puVar2,uVar4,airoha_npu_wdt_handler,0,0x200080,"airoha-npu-wdt",
+                               plVar14);
+            if (uVar4 != 0) goto LAB_001022a8;
+            plVar14 = plVar14 + 8;
+          } while (iVar12 != 8);
+          lVar13 = 0;
+          do {
+            uVar4 = platform_get_irq(param_1,(int)lVar13 + 9);
+            if ((int)uVar4 < 0) {
+              return (ulong)uVar4;
+            }
+            *(uint *)((long)plVar6 + lVar13 * 4 + 0x210) = uVar4;
+            lVar13 = lVar13 + 1;
+          } while (lVar13 != 6);
+          uVar4 = dma_set_mask(puVar2,0xffffffff);
+          uVar7 = (ulong)uVar4;
+          if (uVar4 == 0) {
+            dma_set_coherent_mask(puVar2,0xffffffff);
+            iVar12 = 0;
+            plVar14 = plVar6 + 9;
+            do {
+              lVar13 = dma_alloc_attrs(puVar2,0x100,plVar14,0xcc0,0);
+              plVar14[-1] = lVar13;
+              lVar11 = (long)iVar12;
+              iVar12 = iVar12 + 1;
+              if (lVar13 == 0) {
+                return 0xfffffff4;
+              }
+              *(long *)(plVar6[0x53] + (lVar11 + 1) * 0x10 + 8) = lVar13;
+              *(long *)(plVar6[0x53] + (lVar11 + 1) * 0x10 + 0x10) = *plVar14;
+              plVar14 = plVar14 + 8;
+            } while (iVar12 != 8);
+            uVar4 = FUN_00101b00(plVar6,uVar5,local_40);
+            uVar7 = (ulong)uVar4;
+            if (uVar4 == 0) {
+              if ((*(byte *)((long)plVar6 + 0x471) & 1) != 0) {
+                return 0xfffffff0;
+              }
+              if (((((*(byte *)(plVar6 + 0x8e) & 1) == 0) || (plVar6[0x53] == 0)) ||
+                  ((*(byte *)(plVar6[0x53] + 0x98) & 1) == 0)) ||
+                 (((*(byte *)((long)plVar6 + 0x462) & 1) != 0 &&
+                  (((*(byte *)((long)plVar6 + 0x463) & 1) == 0 || (plVar6[0x8d] == 0)))))) {
+                return 0xffffffea;
+              }
+              *(undefined1 *)((long)plVar6 + 0x471) = 1;
+              uVar4 = regmap_write(plVar6[1],0x30c168,local_40[0] + 0x200000);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              uVar4 = regmap_write(plVar6[1],0x30c16c,0x40000);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              uVar4 = regmap_write(plVar6[1],0x30c170,0);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              uVar4 = regmap_write(plVar6[1],0x30c194,1);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              msleep(100);
+              iVar12 = 0x306020;
+              do {
+                iVar1 = iVar12 + 4;
+                uVar4 = regmap_write(plVar6[1],iVar12,local_40[0]);
+                if (uVar4 != 0) {
+                  return (ulong)uVar4;
+                }
+                iVar12 = iVar1;
+              } while (iVar1 != 0x306040);
+              usleep_range_state(1000,2000,2);
+              uVar4 = regmap_write(plVar6[1],0x306004,0xff);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              uVar4 = regmap_write(plVar6[1],0x306000,1);
+              if (uVar4 != 0) {
+                return (ulong)uVar4;
+              }
+              msleep(100);
+              uVar4 = airoha_npu_wlan_msg_get(plVar6,0,10,&local_44,4,0xcc0);
+              if (uVar4 == 0) {
+                if (((*(byte *)((long)plVar6 + 0x462) & 1) != 0) && (local_44 != 0x457)) {
+                  return 0xffffffb9;
+                }
+                _dev_info(*plVar6,"NPU fw version: %0d.%d\n",local_44 >> 0x10,local_44 & 0xffff);
+              }
+              else if ((*(byte *)((long)plVar6 + 0x462) & 1) != 0) {
+LAB_001022a8:
+                return (ulong)uVar4;
+              }
+              *(long **)(param_1 + 0x88) = plVar6;
+              return 0;
+            }
+          }
+        }
+      }
+      return uVar7;
+    }
+  }
+  return 0xfffffff4;
+}
+
+
+ASSEMBLY
+00101d10 stp x29,x30,[sp, #-0xc0]!
+00101d14 mov w1,#0x0
+00101d18 mov x29,sp
+00101d1c stp x19,x20,[sp, #0x10]
+00101d20 stp x21,x22,[sp, #0x20]
+00101d24 add x21,x0,#0x10
+00101d28 stp x23,x24,[sp, #0x30]
+00101d2c mov x24,x0
+00101d30 bl 0x00104010
+00101d34 mov x23,x0
+00101d38 mov w20,w0
+00101d3c cmn x0,#0x1, LSL #12
+00101d40 b.hi 0x00101e88
+00101d44 mov x0,x21
+00101d48 mov w2,#0xdc0
+00101d4c mov x1,#0x478
+00101d50 bl 0x00104038
+00101d54 mov x19,x0
+00101d58 cbz x0,0x001022d0
+00101d5c add x16,x19,#0x230
+00101d60 add x17,x19,#0x250
+00101d64 add x18,x19,#0x270
+00101d68 str x21,[x19]
+00101d6c adrp x2,0x100000
+00101d70 adrp x1,0x100000
+00101d74 add x2,x2,#0xf0c
+00101d78 add x1,x1,#0xc70
+00101d7c adrp x0,0x101000
+00101d80 adrp x15,0x100000
+00101d84 add x0,x0,#0x24
+00101d88 add x15,x15,#0xf8c
+00101d8c stp x2,x1,[x16]
+00101d90 adrp x14,0x101000
+00101d94 adrp x13,0x101000
+00101d98 stp x0,x15,[x16, #0x10]
+00101d9c add x14,x14,#0xe0
+00101da0 add x13,x13,#0x4ec
+00101da4 adrp x12,0x100000
+00101da8 adrp x11,0x101000
+00101dac add x12,x12,#0xce8
+00101db0 add x11,x11,#0x1c0
+00101db4 stp x14,x13,[x17]
+00101db8 adrp x10,0x100000
+00101dbc adrp x9,0x100000
+00101dc0 stp x12,x11,[x17, #0x10]
+00101dc4 add x10,x10,#0x60
+00101dc8 add x9,x9,#0xac
+00101dcc adrp x8,0x100000
+00101dd0 adrp x7,0x100000
+00101dd4 add x8,x8,#0x84
+00101dd8 add x7,x7,#0xc2c
+00101ddc adrp x6,0x100000
+00101de0 add x6,x6,#0xb40
+00101de4 stp x10,x9,[x18]
+00101de8 adrp x3,0x102000
+00101dec add x3,x3,#0x830
+00101df0 stp x8,x7,[x18, #0x10]
+00101df4 add x3,x3,#0x60
+00101df8 mov x2,x23
+00101dfc str x6,[x19, #0x290]
+00101e00 mov x0,x21
+00101e04 mov x5,#0x0
+00101e08 mov x4,#0x0
+00101e0c mov x1,#0x0
+00101e10 bl 0x00104148
+00101e14 str x0,[x19, #0x8]
+00101e18 cmn x0,#0x1, LSL #12
+00101e1c b.hi 0x00101e84
+00101e20 adrp x20,0x102000
+00101e24 add x20,x20,#0x340
+00101e28 add x22,x20,#0xc8
+00101e2c mov x0,x22
+00101e30 bl 0x00104108
+00101e34 mov x2,x20
+00101e38 ldr x1,[x2, #0xe8]!
+00101e3c sub x0,x1,#0x8
+00101e40 cmp x1,x2
+00101e44 b.ne 0x00101e5c
+00101e48 b 0x0010229c
+00101e4c ldr x1,[x0, #0x8]
+00101e50 sub x0,x1,#0x8
+00101e54 cmp x1,x2
+00101e58 b.eq 0x00101ea0
+00101e5c ldr x1,[x0]
+00101e60 cmp x21,x1
+00101e64 b.ne 0x00101e4c
+00101e68 add x0,x20,#0xc8
+00101e6c bl 0x00104180
+00101e70 adrp x2,0x102000
+00101e74 mov x0,x21
+00101e78 add x2,x2,#0x740
+00101e7c mov w1,#0xfffffff0
+00101e80 bl 0x001041e0
+00101e84 mov w20,w0
+00101e88 ldp x21,x22,[sp, #0x20]
+00101e8c mov w0,w20
+00101e90 ldp x19,x20,[sp, #0x10]
+00101e94 ldp x23,x24,[sp, #0x30]
+00101e98 ldp x29,x30,[sp], #0xc0
+00101e9c ret
+00101ea0 add x0,x20,#0xc8
+00101ea4 bl 0x00104180
+00101ea8 adrp x0,0x104000
+00101eac mov x2,#0xa0
+00101eb0 mov w1,#0xdc0
+00101eb4 ldr x0,[x0, #0x228]
+00101eb8 bl 0x00104198
+00101ebc str x0,[x19, #0x298]
+00101ec0 mov x20,x0
+00101ec4 cbz x0,0x001022d0
+00101ec8 mov x0,x21
+00101ecc bl 0x001040a8
+00101ed0 ldr x22,[x19, #0x298]
+00101ed4 mov x4,x0
+00101ed8 str x4,[x20]
+00101edc mov x0,x21
+00101ee0 mov x2,x22
+00101ee4 adrp x3,0x102000
+00101ee8 adrp x1,0x100000
+00101eec add x3,x3,#0x6e0
+00101ef0 add x1,x1,#0xa04
+00101ef4 bl 0x001041e8
+00101ef8 mov w20,w0
+00101efc cbnz w0,0x0010225c
+00101f00 ldr x0,[x21, #0x258]
+00101f04 add x2,sp,#0x80
+00101f08 mov w1,#0x0
+00101f0c bl 0x00104040
+00101f10 mov w20,w0
+00101f14 cbnz w0,0x00101e88
+00101f18 add x22,x19,#0x20
+00101f1c stp x25,x26,[sp, #0x40]
+00101f20 adrp x26,0x100000
+00101f24 adrp x25,0x102000
+00101f28 add x26,x26,#0x440
+00101f2c add x25,x25,#0x6f8
+00101f30 stp x27,x28,[sp, #0x50]
+00101f34 add x28,x19,#0x220
+00101f38 adrp x0,0x100000
+00101f3c orr x27,xzr,#0xfffffffe00000
+00101f40 add x0,x0,#0x4e0
+00101f44 str x0,[sp, #0x68]
+00101f48 mov x4,x22
+00101f4c stur x19,[x22, #-0x10]
+00101f50 stur wzr,[x22, #-0x8]
+00101f54 mov x2,x22
+00101f58 ldr x1,[sp, #0x68]
+00101f5c str x27,[x4], #0x8
+00101f60 str x26,[x22, #0x18]
+00101f64 mov x3,x25
+00101f68 str x4,[x22, #0x8]
+00101f6c mov x0,x21
+00101f70 str x4,[x22, #0x10]
+00101f74 add x22,x22,#0x40
+00101f78 bl 0x001041e8
+00101f7c mov w20,w0
+00101f80 cbnz w0,0x0010227c
+00101f84 cmp x22,x28
+00101f88 b.ne 0x00101f48
+00101f8c mov x0,x24
+00101f90 mov w1,#0x0
+00101f94 bl 0x00104060
+00101f98 mov w20,w0
+00101f9c tbnz w0,#0x1f,0x0010227c
+00101fa0 mov x4,#0x80
+00101fa4 mov w1,w0
+00101fa8 mov x6,x19
+00101fac mov x0,x21
+00101fb0 movk x4,#0x20, LSL #16
+00101fb4 adrp x5,0x102000
+00101fb8 adrp x2,0x100000
+00101fbc add x5,x5,#0x708
+00101fc0 add x2,x2,#0xae0
+00101fc4 mov x3,#0x0
+00101fc8 bl 0x00104030
+00101fcc mov w20,w0
+00101fd0 cbnz w0,0x0010227c
+00101fd4 adrp x26,0x102000
+00101fd8 adrp x25,0x100000
+00101fdc add x26,x26,#0x718
+00101fe0 add x25,x25,#0xb84
+00101fe4 add x22,x19,#0x10
+00101fe8 add w20,w20,#0x1
+00101fec mov x0,x24
+00101ff0 mov w1,w20
+00101ff4 bl 0x00104060
+00101ff8 mov x4,#0x80
+00101ffc mov w1,w0
+00102000 mov x6,x22
+00102004 mov x5,x26
+00102008 mov x2,x25
+0010200c mov x0,x21
+00102010 movk x4,#0x20, LSL #16
+00102014 mov x3,#0x0
+00102018 tbnz w1,#0x1f,0x001022b8
+0010201c bl 0x00104030
+00102020 cbnz w0,0x001022a8
+00102024 add x22,x22,#0x40
+00102028 cmp w20,#0x8
+0010202c b.ne 0x00101fe8
+00102030 add x25,x19,#0x210
+00102034 mov x22,#0x0
+00102038 add w1,w22,#0x9
+0010203c mov x0,x24
+00102040 bl 0x00104060
+00102044 mov w20,w0
+00102048 tbnz w0,#0x1f,0x0010227c
+0010204c str w0,[x25, x22, LSL #0x2]
+00102050 add x22,x22,#0x1
+00102054 cmp x22,#0x6
+00102058 b.ne 0x00102038
+0010205c mov x0,x21
+00102060 orr x1,xzr,#0xffffffff
+00102064 bl 0x001041c8
+00102068 mov w20,w0
+0010206c cbnz w0,0x0010227c
+00102070 add x22,x19,#0x48
+00102074 mov x0,x21
+00102078 orr x1,xzr,#0xffffffff
+0010207c bl 0x00104160
+00102080 mov x1,#0x100
+00102084 mov x2,x22
+00102088 mov x0,x21
+0010208c mov x4,#0x0
+00102090 mov w3,#0xcc0
+00102094 bl 0x00104110
+00102098 stur x0,[x22, #-0x8]
+0010209c sxtw x1,w20
+001020a0 add x1,x1,#0x1
+001020a4 add w20,w20,#0x1
+001020a8 cbz x0,0x001022c8
+001020ac ldr x2,[x19, #0x298]
+001020b0 add x2,x2,x1, LSL #0x4
+001020b4 str x0,[x2, #0x8]
+001020b8 ldr x2,[x19, #0x298]
+001020bc ldr x0,[x22], #0x40
+001020c0 add x1,x2,x1, LSL #0x4
+001020c4 str x0,[x1, #0x10]
+001020c8 cmp w20,#0x8
+001020cc b.ne 0x00102080
+001020d0 add x2,sp,#0x80
+001020d4 mov x1,x23
+001020d8 mov x0,x19
+001020dc bl 0x00101b00
+001020e0 mov w20,w0
+001020e4 cbnz w0,0x0010227c
+001020e8 ldrb w0,[x19, #0x471]
+001020ec tbnz w0,#0x0,0x001022d8
+001020f0 ldrb w0,[x19, #0x470]
+001020f4 tbz w0,#0x0,0x001022e8
+001020f8 ldr x0,[x19, #0x298]
+001020fc cbz x0,0x001022e8
+00102100 ldrb w0,[x0, #0x98]
+00102104 tbz w0,#0x0,0x001022e8
+00102108 ldrb w0,[x19, #0x462]
+0010210c tbz w0,#0x0,0x00102120
+00102110 ldrb w0,[x19, #0x463]
+00102114 tbz w0,#0x0,0x001022e8
+00102118 ldr x0,[x19, #0x468]
+0010211c cbz x0,0x001022e8
+00102120 ldr x0,[x19, #0x8]
+00102124 mov w3,#0x1
+00102128 ldr x2,[sp, #0x80]
+0010212c strb w3,[x19, #0x471]
+00102130 mov w1,#0xc168
+00102134 add w2,w2,#0x200, LSL #12
+00102138 movk w1,#0x30, LSL #16
+0010213c bl 0x00104028
+00102140 mov w20,w0
+00102144 cbnz w0,0x0010227c
+00102148 ldr x0,[x19, #0x8]
+0010214c mov w1,#0xc16c
+00102150 movk w1,#0x30, LSL #16
+00102154 mov w2,#0x40000
+00102158 bl 0x00104028
+0010215c mov w20,w0
+00102160 cbnz w0,0x0010227c
+00102164 ldr x0,[x19, #0x8]
+00102168 mov w1,#0xc170
+0010216c movk w1,#0x30, LSL #16
+00102170 mov w2,#0x0
+00102174 bl 0x00104028
+00102178 mov w20,w0
+0010217c cbnz w0,0x0010227c
+00102180 ldr x0,[x19, #0x8]
+00102184 mov w1,#0xc194
+00102188 movk w1,#0x30, LSL #16
+0010218c mov w2,#0x1
+00102190 bl 0x00104028
+00102194 mov w20,w0
+00102198 cbnz w0,0x0010227c
+0010219c mov w22,#0x6020
+001021a0 mov w23,#0x6040
+001021a4 movk w22,#0x30, LSL #16
+001021a8 movk w23,#0x30, LSL #16
+001021ac mov w0,#0x64
+001021b0 bl 0x00104210
+001021b4 ldr x0,[x19, #0x8]
+001021b8 mov w1,w22
+001021bc ldr w2,[sp, #0x80]
+001021c0 add w22,w22,#0x4
+001021c4 bl 0x00104028
+001021c8 mov w20,w0
+001021cc cbnz w0,0x0010227c
+001021d0 cmp w22,w23
+001021d4 b.ne 0x001021b4
+001021d8 mov w2,#0x2
+001021dc mov x1,#0x7d0
+001021e0 mov x0,#0x3e8
+001021e4 bl 0x00104098
+001021e8 ldr x0,[x19, #0x8]
+001021ec mov w1,#0x6004
+001021f0 movk w1,#0x30, LSL #16
+001021f4 mov w2,#0xff
+001021f8 bl 0x00104028
+001021fc mov w20,w0
+00102200 cbnz w0,0x0010227c
+00102204 add w1,w0,#0x306, LSL #12
+00102208 mov w2,#0x1
+0010220c ldr x0,[x19, #0x8]
+00102210 bl 0x00104028
+00102214 mov w20,w0
+00102218 cbnz w0,0x0010227c
+0010221c mov w0,#0x64
+00102220 bl 0x00104210
+00102224 mov w1,#0x0
+00102228 add x3,sp,#0x7c
+0010222c mov x0,x19
+00102230 mov w5,#0xcc0
+00102234 mov w4,#0x4
+00102238 mov w2,#0xa
+0010223c bl 0x001011c0
+00102240 ldrb w1,[x19, #0x462]
+00102244 cbz w0,0x001022f8
+00102248 tbnz w1,#0x0,0x001022a8
+0010224c str x19,[x21, #0x78]
+00102250 ldp x25,x26,[sp, #0x40]
+00102254 ldp x27,x28,[sp, #0x50]
+00102258 b 0x00101e88
+0010225c mov x0,x22
+00102260 bl 0x00100a04
+00102264 mov w0,w20
+00102268 ldp x19,x20,[sp, #0x10]
+0010226c ldp x21,x22,[sp, #0x20]
+00102270 ldp x23,x24,[sp, #0x30]
+00102274 ldp x29,x30,[sp], #0xc0
+00102278 ret
+0010227c ldp x25,x26,[sp, #0x40]
+00102280 mov w0,w20
+00102284 ldp x27,x28,[sp, #0x50]
+00102288 ldp x19,x20,[sp, #0x10]
+0010228c ldp x21,x22,[sp, #0x20]
+00102290 ldp x23,x24,[sp, #0x30]
+00102294 ldp x29,x30,[sp], #0xc0
+00102298 ret
+0010229c mov x0,x22
+001022a0 bl 0x00104180
+001022a4 b 0x00101ea8
+001022a8 ldp x25,x26,[sp, #0x40]
+001022ac mov w20,w0
+001022b0 ldp x27,x28,[sp, #0x50]
+001022b4 b 0x00101e88
+001022b8 ldp x25,x26,[sp, #0x40]
+001022bc mov w20,w1
+001022c0 ldp x27,x28,[sp, #0x50]
+001022c4 b 0x00101e88
+001022c8 ldp x25,x26,[sp, #0x40]
+001022cc ldp x27,x28,[sp, #0x50]
+001022d0 mov w20,#0xfffffff4
+001022d4 b 0x00101e88
+001022d8 ldp x25,x26,[sp, #0x40]
+001022dc mov w20,#0xfffffff0
+001022e0 ldp x27,x28,[sp, #0x50]
+001022e4 b 0x00101e88
+001022e8 ldp x25,x26,[sp, #0x40]
+001022ec mov w20,#0xffffffea
+001022f0 ldp x27,x28,[sp, #0x50]
+001022f4 b 0x00101e88
+001022f8 ldr w2,[sp, #0x7c]
+001022fc tbz w1,#0x0,0x00102318
+00102300 cmp w2,#0x457
+00102304 b.eq 0x00102318
+00102308 ldp x25,x26,[sp, #0x40]
+0010230c mov w20,#0xffffffb9
+00102310 ldp x27,x28,[sp, #0x50]
+00102314 b 0x00101e88
+00102318 ldr x0,[x19]
+0010231c and w3,w2,#0xffff
+00102320 adrp x1,0x102000
+00102324 lsr w2,w2,#0x10
+00102328 add x1,x1,#0x728
+0010232c bl 0x001040d8
+00102330 b 0x0010224c
+
+total_executable_functions=33
+exported_functions=1
+failed_decompilations=0

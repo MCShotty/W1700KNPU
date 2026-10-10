@@ -1,0 +1,63 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-boot-launch-20261010\\jev-getter-request.json",
+  "request_sha256": "2c39eaa538a0dda4ddc3fbe3eeae6b79439b03d43189652f189abe5d22eab58d",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "getter_error_return": {
+      "type": "choice",
+      "instructions": "Under conditions, when err is nonzero, which result does getter return?",
+      "criteria": {
+        "error": "Returns the getter error.",
+        "success": "Returns zero via legacy optional reporting.",
+        "unknown": "Cannot determine."
+      }
+    },
+    "mismatch_return": {
+      "type": "choice",
+      "instructions": "Under conditions, after a successful getter with a mismatching val, which result does getter return?",
+      "criteria": {
+        "protocol_error": "Returns -EPROTO.",
+        "success": "Returns zero.",
+        "unknown": "Cannot determine."
+      }
+    },
+    "caller_publication": {
+      "type": "noul",
+      "instructions": "If airoha_npu_start_firmware returns an error, does caller exit before platform_set_drvdata?"
+    }
+  },
+  "elapsed_ms": 1809,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "getter_error_return": {
+        "type": "choice",
+        "choice": "error",
+        "confidence": 1.0,
+        "probabilities": {
+          "error": 1.0,
+          "success": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "mismatch_return": {
+        "type": "choice",
+        "choice": "protocol_error",
+        "confidence": 1.0,
+        "probabilities": {
+          "protocol_error": 1.0,
+          "success": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "caller_publication": {
+        "type": "noul",
+        "noul": 0.96
+      }
+    },
+    "usage": {
+      "input_tokens": 674,
+      "output_tokens": 102
+    }
+  }
+}

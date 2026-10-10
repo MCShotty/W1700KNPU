@@ -74,7 +74,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #include "airoha_eth.h"
  
-@@ -22,6 +28,18 @@
+@@ -22,6 +28,19 @@
  #define NPU_AN7583_FIRMWARE_RV32		"airoha/an7583_npu_rv32.bin"
  #define NPU_EN7581_FIRMWARE_RV32_MAX_SIZE	0x200000
  #define NPU_EN7581_FIRMWARE_DATA_MAX_SIZE	0x10000
@@ -90,10 +90,11 @@ build input; compilation is not a physical drain or recovery proof.
 +#define NPU_EN7581_NATIVE_PLAN		0x6300
 +#define NPU_EN7581_NATIVE_SESSION		0x6380
 +#define NPU_EN7581_NATIVE_IDENTITY	0x63a0
++#define NPU_EN7581_NATIVE_VERSION		0x457
  #define NPU_DUMP_SIZE				512
  /*
   * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
-@@ -122,6 +140,99 @@
+@@ -122,6 +141,100 @@
  	struct airoha_npu_fw fw_rv32;
  	struct airoha_npu_fw fw_data;
  };
@@ -142,6 +143,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	bool native_published;
 +	u64 boot_identity;
 +	bool firmware_loaded;
++	bool boot_attempted;
 +};
 +
 +static void airoha_npu_dma_cleanup(void *data)
@@ -193,7 +195,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #define MBOX_MSG_FUNC_ID	GENMASK(14, 11)
  #define MBOX_MSG_STATIC_BUF	BIT(5)
-@@ -171,10 +282,10 @@
+@@ -171,10 +284,10 @@
  				 u16 reply_len)
  {
  	struct airoha_npu_core *core = &npu->cores[0]; /* FIXME: core */
@@ -206,7 +208,7 @@ build input; compilation is not a physical drain or recovery proof.
  		return -EINVAL;
  
  	if (reply && reply_len > len)
-@@ -190,26 +301,57 @@
+@@ -190,26 +303,57 @@
  	 */
  	spin_lock_bh(&core->lock);
  
@@ -270,7 +272,7 @@ build input; compilation is not a physical drain or recovery proof.
  	spin_unlock_bh(&core->lock);
  
  	return ret;
-@@ -221,36 +363,220 @@
+@@ -221,36 +365,220 @@
  	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
  }
  
@@ -507,7 +509,7 @@ build input; compilation is not a physical drain or recovery proof.
  	int ret;
  
  	ret = of_property_read_string_array(dev->of_node, "firmware-name",
-@@ -259,26 +585,46 @@
+@@ -259,26 +587,46 @@
  		return dev_err_probe(dev, -EINVAL,
  				     "invalid firmware-name property\n");
  
@@ -567,7 +569,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	addr = devm_ioremap_resource(dev, res);
  	if (IS_ERR(addr))
-@@ -288,18 +634,12 @@
+@@ -288,18 +636,12 @@
  	 * dts if available.
  	 */
  	if (of_find_property(dev->of_node, "firmware-name", NULL))
@@ -592,7 +594,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
-@@ -489,6 +829,69 @@
+@@ -489,6 +831,69 @@
  				    enum airoha_npu_wlan_set_cmd func_id,
  				    void *data, int data_len, gfp_t gfp)
  {
@@ -662,7 +664,7 @@ build input; compilation is not a physical drain or recovery proof.
  	struct wlan_mbox_data *wlan_data;
  	int err, len;
  
-@@ -498,29 +901,6 @@
+@@ -498,29 +903,6 @@
  		return -ENOMEM;
  
  	wlan_data->ifindex = ifindex;
@@ -692,7 +694,7 @@ build input; compilation is not a physical drain or recovery proof.
  	wlan_data->func_type = NPU_OP_GET;
  	wlan_data->func_id = func_id;
  
-@@ -531,89 +911,170 @@
+@@ -531,89 +913,170 @@
  	return err;
  }
  
@@ -738,6 +740,37 @@ build input; compilation is not a physical drain or recovery proof.
 -
 -	err = of_reserved_mem_region_to_resource_byname(dev->of_node, name,
 -							&res);
+-	if (err)
+-		return err;
+-
+-	val = res.start;
+-	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, &val,
+-					sizeof(val), GFP_KERNEL);
+-}
+-
+-static int airoha_npu_wlan_cmd_with_retry(struct airoha_npu *npu, int ifindex,
+-					  enum airoha_npu_wlan_set_cmd cmd,
+-					  const char *name, int is_msg_send,
+-					  u32 *val)
+-{
+-	int err = 0, retry_cnt = 3;
+-
+-	while (retry_cnt) {
+-		if (is_msg_send)
+-			err = airoha_npu_wlan_msg_send(npu, ifindex, cmd, val,
+-						       sizeof(*val),
+-						       GFP_KERNEL);
+-		else
+-			err = airoha_npu_wlan_set_reserved_memory(npu, ifindex,
+-								  name, cmd);
+-		if (!err)
+-			break;
+-		mdelay(10);
+-		retry_cnt--;
+-	}
+-	mdelay(10);
+-	if (!retry_cnt)
+-		return err;
 +
 +	*region_count = 0;
 +	if (!airoha_npu_memory_valid(&priv->firmware_region))
@@ -775,9 +808,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	memcpy(regions, memory, sizeof(memory));
 +	*region_count = count;
 +
-+	return 0;
-+}
-+
+ 	return 0;
+ }
+ 
 +static int airoha_npu_wlan_prepare_request(struct airoha_npu_priv *priv)
 +{
 +	struct airoha_npu_core *core = &priv->npu.cores[0];
@@ -826,8 +859,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	return 0;
 +}
 +
-+static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
-+{
+ static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
+ {
+-	enum airoha_npu_wlan_set_cmd cmd = WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU;
 +	static const enum airoha_npu_wlan_set_cmd commands[] = {
 +		WLAN_FUNC_SET_WAIT_TX_BUF_CHECK_ADDR,
 +		WLAN_FUNC_SET_WAIT_PKT_BUF_ADDR,
@@ -838,66 +872,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	struct resource local[ARRAY_SIZE(commands)];
 +	const struct resource *memory = priv->wlan_memory;
 +	unsigned int i, count = priv->wlan_memory_count;
-+	u32 val = 0;
-+	int err;
-+
-+	if (!priv->firmware_loaded)
-+		return -EINVAL;
-+
-+	/* MT7996 uses the plan captured before either firmware image was copied.
-+	 * Other profiles retain their setup-time validation and optional WLAN use.
-+	 */
-+	if (!priv->txbuf_min_size) {
-+		err = airoha_npu_wlan_prepare_memory(priv, local, &count);
-+		if (err)
-+			return err;
-+		memory = local;
-+	}
-+	if (!count)
-+		return -EINVAL;
-+
-+	err = airoha_npu_wlan_cmd_with_retry(npu, 1,
-+					    WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU, val);
- 	if (err)
- 		return err;
+ 	u32 val = 0;
+ 	int err;
  
--	val = res.start;
--	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, &val,
--					sizeof(val), GFP_KERNEL);
--}
--
--static int airoha_npu_wlan_cmd_with_retry(struct airoha_npu *npu, int ifindex,
--					  enum airoha_npu_wlan_set_cmd cmd,
--					  const char *name, int is_msg_send,
--					  u32 *val)
--{
--	int err = 0, retry_cnt = 3;
--
--	while (retry_cnt) {
--		if (is_msg_send)
--			err = airoha_npu_wlan_msg_send(npu, ifindex, cmd, val,
--						       sizeof(*val),
--						       GFP_KERNEL);
--		else
--			err = airoha_npu_wlan_set_reserved_memory(npu, ifindex,
--								  name, cmd);
--		if (!err)
--			break;
--		mdelay(10);
--		retry_cnt--;
--	}
--	mdelay(10);
--	if (!retry_cnt)
--		return err;
--	return 0;
--}
--
--static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
--{
--	enum airoha_npu_wlan_set_cmd cmd = WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU;
--	u32 val = 0;
--	int err;
--
 -	err = airoha_npu_wlan_cmd_with_retry(npu, 1, cmd, "band0_oncpu", 1,
 -					    &val);
 -	if (err)
@@ -922,16 +899,37 @@ build input; compilation is not a physical drain or recovery proof.
 -				     "ba") >= 0) {
 -		cmd = WLAN_FUNC_SET_WAIT_DRAM_BA_NODE_ADDR;
 -		err = airoha_npu_wlan_set_reserved_memory(npu, 0, "ba", cmd);
-+	for (i = 0; i < count; i++) {
-+		val = memory[i].start;
-+		err = airoha_npu_wlan_cmd_with_retry(npu, 0, commands[i], val);
++	if (!priv->firmware_loaded)
++		return -EINVAL;
++
++	/* MT7996 uses the plan captured before either firmware image was copied.
++	 * Other profiles retain their setup-time validation and optional WLAN use.
++	 */
++	if (!priv->txbuf_min_size) {
++		err = airoha_npu_wlan_prepare_memory(priv, local, &count);
  		if (err)
  			return err;
- 	}
+-	}
 -
 -	cmd = WLAN_FUNC_SET_WAIT_IS_FORCE_TO_CPU;
 -	return airoha_npu_wlan_cmd_with_retry(npu, 0, cmd, "force_to_cpu", 1,
 -					      &val);
++		memory = local;
++	}
++	if (!count)
++		return -EINVAL;
++
++	err = airoha_npu_wlan_cmd_with_retry(npu, 1,
++					    WLAN_FUNC_SET_WAIT_NPU_BAND0_ONCPU, val);
++	if (err)
++		return err;
++
++	for (i = 0; i < count; i++) {
++		val = memory[i].start;
++		err = airoha_npu_wlan_cmd_with_retry(npu, 0, commands[i], val);
++		if (err)
++			return err;
++	}
 +	val = 0;
 +
 +	return airoha_npu_wlan_cmd_with_retry(npu, 0,
@@ -939,7 +937,70 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -745,6 +1206,7 @@
+@@ -742,22 +1205,83 @@
+ 	.disable_locking	= true,
+ };
+ 
++static int airoha_npu_start_firmware(struct airoha_npu_priv *priv,
++				     const struct resource *res)
++{
++	struct airoha_npu *npu = &priv->npu;
++	unsigned int i;
++	u32 val;
++	int err;
++
++	if (priv->boot_attempted)
++		return -EBUSY;
++	if (!priv->firmware_loaded || !priv->dma_lifetime ||
++	    !priv->dma_lifetime->exposed)
++		return -EINVAL;
++	if (priv->checked_pair && (!priv->native_published || !priv->boot_identity))
++		return -EINVAL;
++
++	/* Failed writes may have effects. Do not retry or retire exposed storage. */
++	priv->boot_attempted = true;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
++			   res->start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
++	if (err)
++		return err;
++	msleep(100);
++
++	for (i = 0; i < NPU_NUM_CORES; i++) {
++		err = regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res->start);
++		if (err)
++			return err;
++	}
++	usleep_range(1000, 2000);
++
++	err = regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);
++	if (err)
++		return err;
++	err = regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
++	if (err)
++		return err;
++	msleep(100);
++
++	err = airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,
++				      &val, sizeof(val), GFP_KERNEL);
++	if (err)
++		return priv->checked_pair ? err : 0;
++	if (priv->checked_pair && val != NPU_EN7581_NATIVE_VERSION)
++		return -EPROTO;
++	dev_info(npu->dev, "NPU fw version: %0d.%d\n",
++		 (val >> 16) & 0xffff, val & 0xffff);
++
++	return 0;
++}
++
  static int airoha_npu_probe(struct platform_device *pdev)
  {
  	struct device *dev = &pdev->dev;
@@ -947,7 +1008,10 @@ build input; compilation is not a physical drain or recovery proof.
  	struct airoha_npu *npu;
  	struct resource res;
  	void __iomem *base;
-@@ -755,9 +1217,10 @@
+ 	int i, irq, err;
+-	u32 val;
+ 
+ 	base = devm_platform_ioremap_resource(pdev, 0);
  	if (IS_ERR(base))
  		return PTR_ERR(base);
  
@@ -960,7 +1024,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -777,11 +1240,31 @@
+@@ -777,11 +1301,31 @@
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -992,17 +1056,17 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -794,9 +1277,6 @@
+@@ -793,9 +1337,6 @@
+ 
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
- 
+-
 -		spin_lock_init(&core->lock);
 -		core->npu = npu;
--
+ 
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
- 			return irq;
-@@ -805,8 +1285,6 @@
+@@ -805,8 +1346,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1011,7 +1075,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,19 +1303,21 @@
+@@ -825,55 +1364,29 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  
@@ -1032,17 +1096,36 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		return err;
  
- 	regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
- 		     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
+-		     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
 -	regmap_write(npu->regmap, REG_CR_NPU_MIB(11), 0x40000); /* SRAM 256K */
-+	regmap_write(npu->regmap, REG_CR_NPU_MIB(11), NPU_SRAM_BACKUP_SIZE);
- 	regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
- 	regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
- 	msleep(100);
-@@ -862,18 +1342,8 @@
- 	return 0;
- }
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
+-	regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
+-	msleep(100);
+-
+-	/* setting booting address */
+-	for (i = 0; i < NPU_NUM_CORES; i++)
+-		regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);
+-	usleep_range(1000, 2000);
+-
+-	/* enable NPU cores */
+-	regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xff);
+-	regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
+-	msleep(100);
+-
+-	if (!airoha_npu_wlan_msg_get(npu, 0, WLAN_FUNC_GET_WAIT_NPU_VERSION,
+-				     &val, sizeof(val), GFP_KERNEL))
+-		dev_info(dev, "NPU fw version: %0d.%d\n",
+-			 (val >> 16) & 0xffff, val & 0xffff);
++	err = airoha_npu_start_firmware(priv, &res);
++	if (err)
++		return err;
  
+ 	platform_set_drvdata(pdev, npu);
+ 
+ 	return 0;
+-}
+-
 -static void airoha_npu_remove(struct platform_device *pdev)
 -{
 -	struct airoha_npu *npu = platform_get_drvdata(pdev);
@@ -1050,8 +1133,8 @@ build input; compilation is not a physical drain or recovery proof.
 -
 -	for (i = 0; i < ARRAY_SIZE(npu->cores); i++)
 -		cancel_work_sync(&npu->cores[i].wdt_work);
--}
--
+ }
+ 
  static struct platform_driver airoha_npu_driver = {
  	.probe = airoha_npu_probe,
 -	.remove = airoha_npu_remove,

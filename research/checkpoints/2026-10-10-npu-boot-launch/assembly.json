@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "test_groups": 16,
+  "skipped": 0,
+  "repeat_build": true,
+  "failures": 0,
+  "errors": 0,
+  "source_inputs": {
+    "tests/npu/test_npu_image.py": "5e5e83473d78388d155d96b5b74c286ede9a7deb44a024cce8b8b7627e35277f",
+    "tools/npu_image.py": "93e1ba0b7a2a34924e17e06c28096f54df016b4a373d496b37b0b0bdf40594ef"
+  },
+  "pairs": {
+    ".build/merged-openwrt/bin/npu-pair-boot-launch-20261010": {
+      "CODE.bin": "bc15190ead08ebb44a6feba439f39ae8e7bcbaf9e5ce5851a3e2146ebd1893a5",
+      "DATA.bin": "5311ef172aec19164723a273230d47fb147b7bee8e522f13a86580ce87c58d75",
+      "manifest.json": "49bff093bc38f26dcdeed1fc930a439a3467f8aae8971edaa4cd8a85e1e8eb9e"
+    },
+    ".local/npu-boot-launch-20261010/pair-repeat": {
+      "CODE.bin": "bc15190ead08ebb44a6feba439f39ae8e7bcbaf9e5ce5851a3e2146ebd1893a5",
+      "DATA.bin": "5311ef172aec19164723a273230d47fb147b7bee8e522f13a86580ce87c58d75",
+      "manifest.json": "a5c7de669e718f804ba7a0e33923ca1c4665c6b5d86b04febd034cc81fa58735"
+    }
+  }
+}

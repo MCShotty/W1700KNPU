@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Checked Boot Launch
+
+The actual provider now checks every existing boot-register write, stops on the
+first error without retry/reclamation, and permits only one launch attempt.
+Checked MT7996 pairs also require the expected version reply before provider
+publication; legacy version reporting stays diagnostic. Actual-C 248 cases/ten
+mutants and 265 probe cases/three mutants/one original-source control pass.
+Native early version succeeds before DISCOVER, matching Linux probe order.
+
+The current6.18.52 reset map now reconstructs exactly and passes147 IDs/23,088
+host and5,007 AArch64 instruction cases. Its independent-engine coverage is
+still not a physical containment certificate. Full world/source/image checks
+pass; latest FIT `b0400eaa...`, previous `05ca2802...` preserved. No flash/contact.
+Full strict setup, physical containment/retirement and clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+
 ## 2026-10-10 - Checked Loader And Mainline Pair Packaging
 
 The normal experimental image now packages the checked MT7996 CODE/DATA pair.

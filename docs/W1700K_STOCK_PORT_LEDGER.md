@@ -1,10 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (actual loader publication/retention and checked pair packaging verified; physical gates open)
+Last updated: 2026-10-10 (checked boot launch and current reset map verified; physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Checked Boot Launch And Current Reset Map
+
+- Canonical provider now checks all14 existing backup/core/config/trigger writes
+  and stops at the first error. A launch-attempt latch blocks repeat launch;
+  checked-profile version errors/mismatch prevent provider publication. Legacy
+  diagnostics stay optional. Failed writes may have effects: no reset, retry,
+  rollback or release of exposed coherent mailboxes is performed.
+- Actual boot C passes248 cases/ten compiled mutants; complete probe/IRQ/work/
+  lease C passes265 cases/three mutants and one original-source false-success
+  control. Actual C-published raw boot confirms version before DISCOVER without
+  a nonce/metadata overwrite, then completes all-hart parking under models.
+- Active Linux6.18.52 clock/reset source now reconstructs from its pinned archive
+  and patches. All147 IDs/23,088 host and5,007 actual AArch64 callback executions,
+  including3,087 injected faults, pass. Logical NPU8 still maps0x830/bit9; GDMA,
+  WDMA/WOE, HSDMA/TDMA and FE-related lines remain distinct. The active NPU DTS
+  has no reset binding. Mapping/error propagation is not physical domain proof.
+- World,62-file replay,16 assembly groups and FIT/218-package/78-module checks
+  pass. Latest FIT SHA256:
+  `b0400eaa873beeb309fc10e7376255f89cefb7c1f986096863916f5a4ee222b6`.
+  CODE/DATA/core unchanged; `05ca2802...`/R1 and protected data preserved.
+  No router/hardware contact or flash. Exact receipts:
+  `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+- Full cold containment/exclusive backing/coherency, strict real setup, remaining
+  owners/hot/postgate, physical drains/retirement/recovery and clients stay open.
+  Expected version is transport evidence only, not whole-device readiness.
 
 ## 2026-10-10 - Checked Pair Loader Publication And Packaging
 

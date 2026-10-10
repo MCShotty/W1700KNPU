@@ -37,6 +37,15 @@ def model_harness(original):
          node = node->next)
 #include "types.inc"''')
     text = once(text, 'WORK_RESOURCE, DMA_RESOURCE', 'WORK_RESOURCE, DMA_RESOURCE, LEASE_RESOURCE')
+    text = once(text, '''    if (!m->alive || !private_alive)
+        dead_access++;
+    return 0;''', '''    if (!m->alive || !private_alive)
+        dead_access++;
+    bool boot = reg == REG_CR_BOOT_TRIGGER || reg == REG_CR_BOOT_CONFIG ||
+        (reg >= REG_CR_BOOT_BASE(0) && reg <= REG_CR_BOOT_BASE(7)) ||
+        reg == REG_CR_NPU_MIB(10) || reg == REG_CR_NPU_MIB(11) ||
+        reg == REG_CR_NPU_MIB(12) || reg == REG_CR_NPU_MIB(21);
+    return boot && fail() ? -EIO : 0;''')
     text = once(text, 'static int model_firmware(void) { return fail() ? -EINVAL : 0; }', '''
 static struct airoha_npu_dma_lifetime *life_model;
 static unsigned bare_allocated, bare_freed, lease_freed, module_pins;
@@ -76,6 +85,8 @@ static void dma_free_coherent(struct device *dev, size_t bytes, void *buf, dma_a
 }''')
     text = once(text, 'case WORK_RESOURCE:\n', 'case LEASE_RESOURCE:\n        case WORK_RESOURCE:\n')
     text = once(text, 'struct platform_device pdev = {0};', 'struct platform_device pdev = {0};\n    pdev.dev.refs = 1;')
+    text = once(text, '        check(ret < 0 && pdev.data == NULL);',
+                '        assert(ret < 0 && pdev.data == NULL && "probe-error-not-published");')
     text = once(text, 'allocation = NULL;\n    map.alive',
                 'allocation = NULL;\n    bare_allocated = bare_freed = lease_freed = module_pins = 0;\n    check(!life_model);\n    map.alive')
     text = once(text, '    release_resources();', '''    bool exposed = life_model && life_model->exposed;
@@ -121,6 +132,8 @@ def fragments(source, header, helper, directory):
               'REG_CR_NPU_MIB', 'REG_PC_DBG', 'NPU_TIMER_BASE_ADDR', 'REG_WDT_TIMER_CTRL',
               'WDT_EN_MASK', 'WDT_INTR_MASK', 'MBOX_MSG_STATUS', 'MBOX_MSG_DONE',
               'NPU_EN7581_7996_PLAN_REGIONS')
+    if 'static int airoha_npu_start_firmware(' in source:
+        macros += ('NPU_EN7581_NATIVE_VERSION',)
     (directory / 'constants.inc').write_text('\n'.join(q.macro(source, name) for name in macros) + '\n')
     types = [q.declaration(header, 'enum', name) for name in ('airoha_npu_wlan_set_cmd', 'airoha_npu_wlan_get_cmd')]
     types += [q.declaration(header, 'struct', 'airoha_npu')]
@@ -133,13 +146,28 @@ def fragments(source, header, helper, directory):
     probe = q.function(source, 'airoha_npu_probe')
     for name in re.findall(r'npu->ops\.\w+ = (\w+);', probe):
         signature = q.function(source, name).split('{', 1)[0]
-        parts.append(signature + '{ ' + ('' if re.match(r'(?:static\s+)?void\s', signature) else 'return 0; ') + '}')
+        if name == 'airoha_npu_wlan_msg_get':
+            parts.append(signature + '''{
+    check(ifindex == 0 && func_id == WLAN_FUNC_GET_WAIT_NPU_VERSION && data_len == 4);
+    if (fail()) return -EIO;
+    *(u32 *)data = 0x457;
+    return 0;
+}''')
+        else:
+            parts.append(signature + '{ ' + ('' if re.match(r'(?:static\s+)?void\s', signature) else 'return 0; ') + '}')
+    if 'static int airoha_npu_start_firmware(' in source:
+        parts.append(q.function(source, 'airoha_npu_start_firmware'))
     parts += ['''static int airoha_npu_run_firmware(struct airoha_npu_priv *priv, void *base, struct resource *res)
 {
     if (fail()) return -EINVAL;
     int ret = airoha_npu_firmware_expose(priv);
     if (ret) return ret;
-    return fail() ? -EIO : 0;
+    if (fail()) return -EIO;
+    priv->firmware_loaded = true;
+    priv->checked_pair = true;
+    priv->native_published = true;
+    priv->boot_identity = 1;
+    return 0;
 }''', probe, 'static void model_remove(struct platform_device *pdev) { (void)pdev; }']
     (directory / 'driver.inc').write_text('\n\n'.join(parts) + '\n')
 
@@ -148,6 +176,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--name', required=True)
+    parser.add_argument('--baseline-source', type=Path,
+                        help='Optional pre-correction source for an original launch-failure control')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     source = args.source.resolve()
@@ -164,6 +194,14 @@ def main():
     variants = [('nominal', text, 0),
                 ('free-exposed-mailboxes', loader.once(text, 'if (life->exposed) {', 'if (false) {'), -6),
                 ('allow-retained-reprobe', loader.once(text, 'retained = true;', 'retained = false;'), -6)]
+    if 'static int airoha_npu_start_firmware(' in text:
+        old = '\terr = airoha_npu_start_firmware(priv, &res);\n\tif (err)\n\t\treturn err;'
+        variants.append(('ignore-launch-error', loader.once(text, old, '\terr = airoha_npu_start_firmware(priv, &res);\n\t(void)err;'), -6))
+    if args.baseline_source:
+        baseline = args.baseline_source.resolve()
+        assert baseline.is_relative_to(ROOT)
+        inputs[str(baseline.relative_to(ROOT))] = loader.sha(baseline)
+        variants.append(('original-launch-control', baseline.read_text(), -6))
     rows = []
     for name, contents, expected in variants:
         directory = dest / name
@@ -178,17 +216,22 @@ def main():
                     harness, '-o', binary], directory / 'build.log')
         done = loader.run([binary, 'after'], directory / 'run.log', accepted=expected,
                           env=dict(os.environ, ASAN_OPTIONS='detect_leaks=1:detect_stack_use_after_return=1'))
+        if name in ('ignore-launch-error', 'original-launch-control'):
+            assert 'probe-error-not-published' in done.stderr and 'AddressSanitizer' not in done.stderr
         rows.append(dict(name=name, exit_code=done.returncode, binary_sha256=loader.sha(binary)))
         if not expected:
             matrix = json.loads(done.stdout)
     assert all(loader.sha(ROOT / path) == digest for path, digest in inputs.items())
     result = dict(passed=True, cases=len(matrix['cases']), matrix=matrix, variants=rows, inputs=inputs,
+                  rejected_mutants=len(rows) - 1 - bool(args.baseline_source),
+                  original_controls=int(bool(args.baseline_source)),
                   sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual current probe,IRQ/work,lease/exposure/cleanup and devm work-helper C; kernel dependencies are modeled.',
                           'Firmware validation/publication is replaced only at its caller boundary to inject pre/post-exposure faults.',
                           'Fixture retirement is only test teardown; no physical containment,drain,reclaim or hot-rearm implementation is proved.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, cases=result['cases'], mutants=len(rows) - 1)))
+    print(json.dumps(dict(passed=True, cases=result['cases'], mutants=result['rejected_mutants'],
+                          original_controls=result['original_controls'])))
 
 
 if __name__ == '__main__':

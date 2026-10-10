@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Boot Launch Error Closure
+
+- Actual provider now checks14 existing boot writes, latches one launch attempt,
+  propagates the first error without retry/reset/free, and requires expected
+  checked-profile version transport before `platform_set_drvdata`. Generic
+  unmarked version reporting remains diagnostic; common write errors reject.
+- Actual-C248/ten boot cases/mutants and265 probe cases/three mutants plus one
+  original-source false-success control pass. Native version before DISCOVER
+  succeeds from actual C-published DATA, then bootstrap parks eight harts.
+- Current6.18.52 clock/reset source reconstructs exactly,147 IDs/23,088 host
+  and5,007 actual AArch64 cases pass. The NPU DTS still has no reset binding;
+  mapping/readback/version do not certify independent DMA coverage or retirement.
+- World,62-file replay,16 assembly groups and FIT/218-package/78-module checks
+  pass. FIT `b0400eaa...`; old `05ca2802...`/R1 preserved. No flash/router contact.
+  Continue real cold exclusion/backing/coherency and strict host setup, remaining
+  owners/hot/postgate and physical recovery/clients. Full objective stays open.
+  Evidence: `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md`.
+
 ## 2026-10-10 - Checked Pair Loader And Packaging
 
 - The main world build packages checked MT7996 CODE/DATA plus manifest; all
