@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Session-Bound Initial Cold Commands
+
+- Distinct80-byte NCS2/NCR2 commands reuse the provider boot/nonce and existing
+  V2 sequence. Native begin checks the held epoch, bootstrap, parked workers,
+  deferred IRQs and completed history before granting a software callback lease.
+  Native failure retains active/inflight/claims; no resource retirement exists.
+- Real provider ops route post-BIND version, port type2 and checked RX0/RX2 DESC
+  commands to that lane. Early probe version and unmarked/raw callbacks retain
+  their dispatch. Authenticated first RX0 initializes packet ownership itself;
+  native replay uses no test-written active lease or packet-init call.
+- Cold C229/eight and initial-session C279/nine cases/mutants, native full RX
+  prefix/partial-fault controls,53-function packaged-provider Ghidra, full world,
+  66-file source replay and offline image/module checks pass. FIT `7622acf9...`;
+  prior `6a7dc41e...`/R1 preserved. No flash or hardware contact.
+- Continue later strict PCIe/page/INODE/TXDONE setup, other owners/hot/postgate,
+  independent physical containment/backing/coherency, drains/retirement/recovery
+  and clients. Do not describe the initial RX prefix as full setup or the
+  software lease as physical drain authority. Full objective stays open.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
+
 ## 2026-10-10 - Provider-Owned Initial Session
 
 - The checked provider owns one executor/setup attempt under its own mutex.

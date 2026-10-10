@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "matrix": {
+    "passed": true,
+    "cases": 13,
+    "exposed_frees": 0,
+    "module_pins": 1
+  },
+  "rejected_mutants": [
+    "free-exposed-mailboxes",
+    "omit-exposure-latch",
+    "omit-module-pin",
+    "allow-retained-reprobe"
+  ],
+  "inputs": {
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c": "796c0e1c9db9c3f37f5a6ae9dc151c2a2aba8a3d38503ea569ae522460ae8d7c",
+    "tests/npu/dma-lifetime-harness.c": "d01f99d7582be90549ea5c4ffb2c52fa7e1d7c18025ff3c77939cac27df21fa9",
+    "tests/npu/test_dma_lifetime.py": "fd397eea07ff66839249d8d9fe3fca7005f63db34ec2be43c00b05a7f05c9fd0",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+  },
+  "binary_sha256": "26ba7e58a086fede27f68b33aa37f3792cfb1e722b6e225ddf535b5b20a47b5a",
+  "cleanup_before_cpu_producers": true,
+  "limits": [
+    "Actual cleanup/exposure C; allocation/refs/list/devres and retirement are modeled.",
+    "Post-exposure retention is conservative and permanent until real retirement work exists; not containment/drain proof."
+  ]
+}

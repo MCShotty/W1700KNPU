@@ -44,7 +44,7 @@ def build(server, source=SOURCE, tag='bootstrap-v2'):
     common = [shutil.which('clang'), '-std=c11', '-O2', '-Wall', '-Wextra', '-Werror',
               '-ffreestanding', '-fno-builtin', '-fno-stack-protector', '-I', BASE]
     host_sources = [BASE / 'control-client.c', BASE / 'control-v2-client.c']
-    sources = [BASE / 'barrier.c', BASE / 'admission.c', BASE / 'bootstrap.c', server, source]
+    sources = [BASE / 'barrier.c', BASE / 'admission.c', BASE / 'bootstrap.c', BASE / 'cold-setup.c', server, source]
     paths = [BUILD / (tag + suffix) for suffix in ('.so', '-arm.elf', '-rv.elf')]
     execute([*common, *sources, *host_sources, '-shared', '-fPIC', '-o', paths[0]])
     execute([*common, *host_sources, '--target=aarch64-none-elf', '-mgeneral-regs-only', '-nostdlib',
@@ -52,7 +52,7 @@ def build(server, source=SOURCE, tag='bootstrap-v2'):
     execute([*common, *sources, BASE / 'startup.c', '--target=riscv32', '-march=rv32imac_zicsr',
              '-mabi=ilp32', '-nostdlib', f'--ld-path={lld}', '-DNPU_EMULATION_BOOTSTRAP', PLATFORM,
              *[ROOT / 'tests/npu' / name for name in (
-                 'startup-platform-emulation.c', 'bootstrap-platform-emulation.c',
+                 'startup-platform-emulation.c', 'bootstrap-platform-emulation.c', 'cold-setup-platform-emulation.c',
                  'startup-emulation.S', 'bootstrap-emulation.S', 'admission-emulation.S',
                  'barrier-core5-emulation.S', 'barrier-workers-emulation.S')],
              f'-Wl,-T,{ROOT}/tests/npu/barrier-workers-emulation.ld,--no-relax',

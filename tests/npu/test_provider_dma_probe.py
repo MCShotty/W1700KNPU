@@ -149,7 +149,10 @@ def fragments(source, header, helper, directory):
               'airoha_npu_firmware_expose', 'airoha_npu_mbox_handler', 'airoha_npu_wdt_work', 'airoha_npu_wdt_handler')]
     parts += [q.function(helper, name) for name in ('devm_work_drop', 'devm_work_autocancel')]
     probe = q.function(source, 'airoha_npu_probe')
-    for name in re.findall(r'npu->ops\.\w+ = (\w+);', probe):
+    callbacks = re.findall(r'npu->ops\.\w+ = (\w+);', probe)
+    if 'static int airoha_npu_start_firmware(' in source and 'airoha_npu_wlan_msg_get' not in callbacks:
+        callbacks.append('airoha_npu_wlan_msg_get')
+    for name in callbacks:
         signature = q.function(source, name).split('{', 1)[0]
         if name == 'airoha_npu_wlan_msg_get':
             parts.append(signature + '''{

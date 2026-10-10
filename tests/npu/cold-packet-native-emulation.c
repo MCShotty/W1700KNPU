@@ -202,6 +202,13 @@ uint32_t npu_emulation_packet_callback(const struct npu_bootstrap_packet *packet
     volatile uint8_t *ready = (volatile uint8_t *)(uintptr_t)0x3e9046fau;
     uint32_t status, result = 0;
 
+    if (packet->header == 0x10 && packet->api == 1 && packet->value &&
+        packet->value <= 1536 && !load(&npu_emulation_packet_state.magic)) {
+        if (npu_emulation_packet_init() != NPU_COLD_PACKET_OK) {
+            fail();
+            return 0;
+        }
+    }
     if ((packet->header & 15) != 10)
         return npu_emulation_rx_stats_callback(packet);
     __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");

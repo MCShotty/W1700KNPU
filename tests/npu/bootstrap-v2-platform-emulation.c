@@ -1,5 +1,7 @@
 /* Test-only composition with the original cold-start and six-command binding. */
 #include "bootstrap-v2.h"
+#include "cold-setup.h"
+extern int npu_emulation_cold_mailbox(struct npu_cold_packet *, uint32_t);
 
 #ifndef NPU_EMULATION_BOOTSTRAP
 #error "V2 bootstrap binding requires the cold-bootstrap profile"
@@ -21,6 +23,9 @@ static int bootstrap_control(struct npu_control_v2_session *session,
                               struct npu_barrier *barrier,
                               struct npu_control_v2_packet *packet, uint32_t bytes)
 {
+    if (bytes == NPU_COLD_SIZE && packet->v1.header == NPU_CONTROL_HEADER &&
+        packet->v1.api == NPU_COLD_API && packet->v1.magic == NPU_COLD_REQUEST)
+        return npu_emulation_cold_mailbox((struct npu_cold_packet *)packet, bytes);
     return npu_bootstrap_v2_control(&npu_emulation_bootstrap_state, session,
                                     admission, barrier, packet, bytes);
 }

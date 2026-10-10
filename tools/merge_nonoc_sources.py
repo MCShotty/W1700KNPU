@@ -296,7 +296,8 @@ def main():
             names.add('drivers/net/ethernet/airoha/Makefile')
             control = ('control-client.c', 'control-v2-client.c', 'linux-control.c',
                        'control-client.h', 'control-v2.h', 'linux-control.h',
-                       'admission.h', 'barrier.h', 'kernel-include/stdint.h', 'provider-main.c')
+                       'admission.h', 'barrier.h', 'kernel-include/stdint.h', 'provider-main.c',
+                       'cold-client.c', 'cold-setup.h', 'bootstrap.h')
             component_sources = []
             for name in control:
                 destination = 'target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/' + name

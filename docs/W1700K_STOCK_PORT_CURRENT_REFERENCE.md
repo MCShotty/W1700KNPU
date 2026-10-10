@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Initial Strict Cold RX Wire Path
+
+The checked provider now uses a distinct session-bound cold envelope for its
+post-BIND version query, port type2 and RX0/RX2 DESC setup. It shares the existing
+V2 sequence/nonce/boot identity and never creates a new session. Native begin
+derives a software callback lease from the checked held epoch; authenticated RX0
+initializes packet ownership. Failure retains claims and active/inflight state.
+
+Actual cold C229/eight mutants and initial-session C279/nine pass. Native full
+RX0/RX2 retains2,560 claims without injected active state or a test init call;
+the partial-fault control retains its first committed claim/lease. All53 packaged
+provider functions decompile; full world,66-file replay, assembly and offline
+FIT/218-package/78-module checks pass. Latest FIT:
+`7622acf9d0926c89849a06b130de8ae9a382048c7eaf32bcaee08649e12ee02d`.
+Prior `6a7dc41e...`/R1 preserved. No flash/reset/router contact.
+
+Later strict PCIe/page/INODE/TXDONE setup and other owners/hot/postgate remain
+unfinished, alongside independent physical exclusion/backing/coherency, drains/
+retirement/rearm/recovery and actual clients. This is initial cold RX wiring,
+not full offload or a physical containment certificate. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
+
 ## 2026-10-10 - Provider-Owned Initial Held Session
 
 The real checked reserved-memory callback now executes DISCOVER, validates the

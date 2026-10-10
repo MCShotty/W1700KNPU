@@ -107,6 +107,44 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 	return 0;
 }
 
+int npu_linux_control_cold_exchange(struct npu_linux_control *control,
+				    const struct npu_bootstrap_packet *command,
+				    u32 *value)
+{
+	struct npu_bootstrap_packet snapshot;
+	struct npu_cold_packet packet;
+	enum npu_client_result result;
+	u32 ticket;
+	int error;
+
+	if (!control || !control->initialized || !command || !value)
+		return -EINVAL;
+	mutex_lock(&control->mutex);
+	if (control->error) {
+		error = control->error;
+		goto unlock;
+	}
+	if (control->closed || !control->provider) {
+		error = hold(control, -ESHUTDOWN);
+		goto unlock;
+	}
+	snapshot = *command;
+	ticket = npu_cold_client_request(&control->client, &packet,
+					 sizeof(packet), &snapshot);
+	if (!ticket) {
+		error = hold(control, -EPROTO);
+		goto unlock;
+	}
+	error = airoha_npu_wlan_control(control->provider, &packet, sizeof(packet));
+	result = npu_cold_client_complete(&control->client, ticket, error,
+					  &packet, sizeof(packet), &snapshot, value);
+	if (error || result != NPU_CLIENT_ACCEPTED)
+		error = hold(control, error < 0 ? error : error ? -EIO : -EPROTO);
+unlock:
+	mutex_unlock(&control->mutex);
+	return error;
+}
+
 void npu_linux_control_close(struct npu_linux_control *control)
 {
 	if (!control || !control->initialized)

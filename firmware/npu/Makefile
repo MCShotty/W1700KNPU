@@ -4,7 +4,7 @@ OUT ?= ../../.local/npu-core
 PYTHON ?= python3
 PAIR_OUT ?= ../../.local/npu-pair
 
-SOURCES := barrier.c admission.c control-v2.c bootstrap.c bootstrap-v2.c \
+SOURCES := barrier.c admission.c control-v2.c bootstrap.c bootstrap-v2.c cold-setup.c \
 	startup.c allocator.c cold-page.c cold-packet.c gdma.c tunnel-header.c tunnel-packet.c
 OBJECTS := $(SOURCES:%.c=$(OUT)/%.o)
 HEADERS := $(wildcard *.h)

@@ -1,8 +1,24 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (provider-owned initial session wired; strict full setup/physical gates open)
+Last updated: 2026-10-10 (initial strict cold RX wire path implemented; later setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Initial Strict Cold RX Wire
+
+- Real provider callbacks now use session-bound cold version/port/RX0/RX2
+  commands. Native checks acquire the software lease and initialize packet
+  ownership. Full RX prefix and retained partial-fault tests use no synthetic
+  active-state grant or direct test initializer; failures retain claims/lease.
+- Actual cold C229/eight and session C279/nine cases/mutants, native controls,
+  wider regressions and53-function Ghidra pass. Full world,66-file replay,
+  assembly/FIT/218-package/78-module checks pass. Latest FIT:
+  `7622acf9d0926c89849a06b130de8ae9a382048c7eaf32bcaee08649e12ee02d`.
+- Previous `6a7dc41e...`/R1 preserved. No flash, reset or router contact; last
+  physical evidence remains September23. Later strict setup/other owners/hot/
+  postgate and physical containment/backing/coherency/retirement/recovery/clients
+  remain unfinished. Full NPU objective stays open. Evidence:
+  `research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
 
 ## 2026-10-10 - Provider-Owned Initial Session
 

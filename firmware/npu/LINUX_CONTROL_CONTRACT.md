@@ -94,13 +94,45 @@ other users of the provider or establish device drain/containment.
 The snapshot function copies the complete client/error/closed state under the
 mutex. It returns no provider pointer or resource-release permission.
 
+## Initial Cold Commands
+
+`cold-setup.h` defines a distinct80-byte NCS2/NCR2 envelope on GET-selector15,
+API1. It reuses the already-bound provider nonce, loader boot identity, epoch1
+and the same client ticket/server sequence, never a new attachment session.
+The Linux cold exchange is serialized by the executor mutex; provider callback
+wrappers also hold the setup mutex so CPU close joins this path.
+
+The implemented commands are the post-BIND version query, port type2, then
+checked RX0/RX2 descriptor setup. Version can be queried again; mutating commands
+are ordered and one-shot. RX0 permits1..1536 descriptors; RX2 permits1..1024.
+Their first authenticated callback initializes packet ownership from the pinned
+plan. Tests do not seed the active lease or call that initializer for this lane.
+Other full setup commands remain on the denied legacy path until integrated.
+
+Native begin verifies the pinned transport/envelope and copies a private packet
+snapshot. Binding, sequence, completed bootstrap and held initial barrier state
+must agree, including no active callback, fault, deferred IRQ, release, arm,
+ready or drain observation. Only then does it acquire the software callback
+lease. Valid bound sequences are reserved before command/platform checks; an
+abandoned rejected request cannot become effective when replayed later.
+
+Completion revalidates the identity, nonce, sequence, held state and immutable
+command/history. Successful callbacks return their software lease to zero;
+ambiguous failure retains active/inflight ownership and faults admission.
+Neither outcome permits physical resource release, DMA retirement or rearm.
+Client errors stay sticky and reply errors do not modify the caller's output.
+Fresh zero native cold-owner storage belongs to the checked provider boot; no
+reset/reinitialization API exists. Old checked firmware without this endpoint
+rejects the envelope, and the new host holds rather than falling back to an
+unbound callback. Unmarked provider callbacks preserve their raw dispatch.
+
 ## Kernel Build
 
 The existing portable protocol sources remain unchanged. For the selected
 kernel objects only, `kernel-include/stdint.h` supplies the kernel's fixed-width
 types and limit macro. It must not be placed on an unrelated or userspace include
 path. The provider links the executor, `control-client.c` and
-`control-v2-client.c` together. A small `provider-main.c` translation-unit wrapper
+`control-v2-client.c` and `cold-client.c` together. A small `provider-main.c` translation-unit wrapper
 preserves the established `airoha_npu.c` source path and module filename while
 allowing Kbuild to link the separate protocol objects. They are no longer linked
 into each mt76 consumer. Canonical source-lock mappings copy the exact sources

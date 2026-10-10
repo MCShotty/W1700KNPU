@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "exact_raw_functions_unchanged": {
+    "airoha_npu_wlan_msg_get": true,
+    "airoha_npu_wlan_msg_send": true,
+    "airoha_npu_wlan_init_memory": true
+  },
+  "early_probe_calls_raw_directly": true,
+  "checked_ops_use_cold_after_attempt": true,
+  "limits": [
+    "Source dispatch/boot order plus actual boot regression, not physical version transport or legacy hardware acceptance."
+  ]
+}

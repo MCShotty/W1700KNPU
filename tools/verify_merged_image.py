@@ -50,7 +50,8 @@ def module(path):
 def verify_control_ownership(name, defined, imports):
     control = {'npu_linux_control_init', 'npu_linux_control_exchange',
                'npu_linux_control_close', 'npu_linux_control_snapshot',
-               'npu_client_v2_request', 'npu_client_v2_complete'}
+               'npu_client_v2_request', 'npu_client_v2_complete',
+               'npu_linux_control_cold_exchange', 'npu_cold_client_request', 'npu_cold_client_complete'}
     if name == 'mt76.ko':
         assert not control & defined, 'Control state belongs to the provider, not each consumer'
         assert 'airoha_npu_wlan_control' not in imports
@@ -186,7 +187,7 @@ def main():
         assert elf.get_section_by_name('.text')['sh_size'] > 0
         core_objects[path.name] = sha(path)
     assert set(core_objects) == {name + '.o' for name in (
-        'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2',
+        'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
         'startup', 'allocator', 'cold-page', 'cold-packet', 'gdma', 'tunnel-header', 'tunnel-packet')}
     archive = core / 'libw1700k-npu.a'
     metadata = OUT / 'fwtool.json'

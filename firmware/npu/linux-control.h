@@ -4,6 +4,7 @@
 #include <linux/mutex.h>
 #include <linux/types.h>
 #include "control-v2.h"
+#include "cold-setup.h"
 
 struct airoha_npu;
 
@@ -37,6 +38,9 @@ int npu_linux_control_exchange(struct npu_linux_control *control,
 			       enum npu_control_operation operation);
 int npu_linux_control_snapshot(struct npu_linux_control *control,
 			       struct npu_linux_control_snapshot *snapshot);
+int npu_linux_control_cold_exchange(struct npu_linux_control *control,
+				    const struct npu_bootstrap_packet *command,
+				    u32 *value);
 void npu_linux_control_close(struct npu_linux_control *control);
 
 #endif

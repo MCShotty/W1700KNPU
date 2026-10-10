@@ -9,6 +9,7 @@
 #include "bootstrap-v2.h"
 
 typedef uint64_t dma_addr_t;
+typedef int gfp_t;
 struct device { unsigned unused; };
 struct list_head { struct list_head *next, *prev; };
 struct resource { uint64_t start, end; };
@@ -20,7 +21,11 @@ struct airoha_npu { unsigned unused; };
 #define GFP_KERNEL 0
 #define NPU_EN7581_7996_PLAN_REGIONS 6
 #define NPU_NUM_CORES 8
+#define READ_ONCE(value) (value)
 #include "provider-session-types.inc"
+
+static uint32_t get_unaligned_le32(const void *p) { uint32_t value; memcpy(&value, p, 4); return value; }
+static void put_unaligned_le32(uint32_t value, void *p) { memcpy(p, &value, 4); }
 
 static struct airoha_npu_priv priv;
 static struct airoha_npu_dma_lifetime life;
@@ -134,6 +139,17 @@ static int airoha_npu_wlan_prepare_memory(struct airoha_npu_priv *p,
     return 0;
 }
 
+static int airoha_npu_wlan_msg_get(struct airoha_npu *npu, int index,
+                                 enum airoha_npu_wlan_get_cmd command,
+                                 void *data, int bytes, int flags)
+{
+    check(npu == &priv.npu && bytes == 4 && flags == GFP_KERNEL, "legacy get");
+    uint32_t packet[] = {0x30u | (unsigned)index, command, 0};
+    int error = transaction(packet, sizeof(packet));
+    if (!error) put_unaligned_le32(packet[2], data);
+    return error;
+}
+
 #include "provider-session.inc"
 
 void npu_test_reset(uint64_t identity, uint32_t request)
@@ -191,6 +207,14 @@ void npu_test_memory(unsigned index, uint32_t base, uint32_t bytes)
 }
 
 int npu_test_run(void) { return airoha_npu_wlan_init_session(&priv.npu); }
+int npu_test_command(unsigned header, unsigned api, unsigned value, uint32_t *output)
+{
+    int error = header == 0x30 ?
+        airoha_npu_wlan_msg_get_session(&priv.npu, 0, api, &value, 4, GFP_KERNEL) :
+        airoha_npu_wlan_msg_send_session(&priv.npu, header & 15, api, &value, 4, GFP_KERNEL);
+    *output = value;
+    return error;
+}
 void npu_test_close(void) { airoha_npu_wlan_session_close(&priv); }
 unsigned npu_test_calls(void) { return calls; }
 unsigned npu_test_ticks(void) { return ticks; }

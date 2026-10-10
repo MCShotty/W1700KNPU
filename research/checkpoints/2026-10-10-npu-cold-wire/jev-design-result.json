@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-wire-20261010\\jev-design.json",
+  "request_sha256": "3929afc47b7978b9c9abb56dd098dbbecb5ae1edf64eabd7320f6a0a377d2fea",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "lease_source": {
+      "type": "choice",
+      "instructions": "According to proposal, how is the native callback software lease established?",
+      "criteria": {
+        "checked_wire": "A validated session-bound wire command derives it after held-state checks.",
+        "test_injection": "The test directly writes active=1 as the acceptance mechanism.",
+        "physical_drain": "A physical DMA retirement certificate grants it.",
+        "unknown": "No mechanism is established."
+      }
+    },
+    "physical_authority": {
+      "type": "noul",
+      "instructions": "Does proposal claim that a parked epoch or successful cold command proves physical DMA retirement or permits reclaim/rearm?"
+    },
+    "ownership_retention": {
+      "type": "noul",
+      "instructions": "Does proposal explicitly retain active/inflight ownership after an ambiguous native callback failure rather than using an error as cleanup permission?"
+    },
+    "same_session": {
+      "type": "noul",
+      "instructions": "Do proposal and sequence bind cold commands to the existing provider session instead of minting a fresh attachment session?"
+    },
+    "full_scope": {
+      "type": "choice",
+      "instructions": "What does scope say about completion of the full NPU objective?",
+      "criteria": {
+        "complete": "All later setup, physical and hot/client gates are complete.",
+        "partial_progress": "A real missing transport is implemented, while listed full-objective gates remain open.",
+        "unknown": "The scope is unspecified."
+      }
+    }
+  },
+  "elapsed_ms": 853,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "lease_source": {
+        "type": "choice",
+        "choice": "checked_wire",
+        "confidence": 1.0,
+        "probabilities": {
+          "checked_wire": 1.0,
+          "test_injection": 0.0,
+          "physical_drain": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "physical_authority": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "ownership_retention": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "same_session": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "full_scope": {
+        "type": "choice",
+        "choice": "partial_progress",
+        "confidence": 1.0,
+        "probabilities": {
+          "complete": 0.0,
+          "partial_progress": 1.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 951,
+      "output_tokens": 146
+    }
+  }
+}

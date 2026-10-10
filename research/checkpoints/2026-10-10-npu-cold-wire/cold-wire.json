@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "matrix": {
+    "passed": true,
+    "cases": 229,
+    "request_fields": 20,
+    "reply_fields": 20,
+    "bad_lengths": 128,
+    "held_controls": 38,
+    "late_controls": 12,
+    "transport_faults": 8
+  },
+  "mutants": [
+    {
+      "name": "skip-held-workers",
+      "binary_sha256": "7de20311b9aef0529055e11c9dcf7da381612ea97307e5af23a531164e83c28f",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-deferred-irq",
+      "binary_sha256": "c46f47923ac2fd8798576cdbcbc2ae09eccf3a66738c8aedbeadf07afaf1ee60",
+      "exit_code": -6
+    },
+    {
+      "name": "allow-replay",
+      "binary_sha256": "7260340761213ff52ca82098886231e83f1ec7d72efab1cf2aac45dde9f9041a",
+      "exit_code": -6
+    },
+    {
+      "name": "ignore-late-identity",
+      "binary_sha256": "ce7c157d9972d54e3ed72d43860ce27c01bf5279b7a5846b47aa59d37166c7d3",
+      "exit_code": -6
+    },
+    {
+      "name": "release-failed-lease",
+      "binary_sha256": "42f32620df0602a9dfe8c177c0e0dd35a68487a1966ff45eab2b99a67413e767",
+      "exit_code": -6
+    },
+    {
+      "name": "ignore-callback-result",
+      "binary_sha256": "a7e35671f7011355bafa015bc840dbcbb318dec09b4571d0e124aa6f0f140a83",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-reply-ticket",
+      "binary_sha256": "5892ba5fb1a0edb72b275213af71e6ecb28777843ac229a594d398c0f0a8fb6b",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-reply-reserved",
+      "binary_sha256": "d59de7b2cbc9a7cd9da2425b3b110a06fbd9aaaed561e104ae783f7c1237b19a",
+      "exit_code": -6
+    }
+  ],
+  "inputs": {
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": "796c0e1c9db9c3f37f5a6ae9dc151c2a2aba8a3d38503ea569ae522460ae8d7c",
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h": "b33a814650dac669b826016cf4201301913f766dbc882a248abb63e6fe013ee0",
+    "tests/npu/cold-wire-harness.c": "72c01cebe9720548d930915c252e6653bd2d0e2a88d54fa0e19d71c4711b72d6",
+    "tests/npu/test_cold_wire.py": "dbea01d18ed3a64f0ab1140ae426d38e2335a6c303850fc18c6767df3d95e2d1",
+    "tests/npu/test_provider_session.py": "2c3a4a843bb77aecc4fcbad13324d51c5129935d15c146f6ca12c4d8236c8093",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/cold-setup.c": "78d648f0141dea86feec1161e973f50bb5e3c4ff970a912abea46efb2fe844aa",
+    "firmware/npu/LINUX_CONTROL_CONTRACT.md": "da1e22e54cd7bc0e339dd18b9671abf6bc8bdbee25c764b57bc4474b8265fd19",
+    "firmware/npu/provider-main.c": "761e768002464ac966016e2b4e580b61e07af264d437605bc46533d36258081a",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/cold-client.c": "2482ef7e3fc97909565711a4c0868fbc332afcd8e1f6aade82d80f4a41e261fc",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/Makefile": "a56f5f0c8c40b92f7bce6b5020aa73e7988ecd5313b53bd7dd73617f8a56afb1",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/tunnel-packet.c": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/linux-control.h": "d1d0a4de4f9a79e1afb71d7011f9e549ff78e674ec6b142b3f830cf6fa6c5aca",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/BOOTSTRAP_CONTRACT.md": "1eb10b688bdafba256cced878402ee95a2f338c2e8fa3c7762cffc9099dafab3",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/linux-control.c": "467c67dc436a7e95a03ea59bb1cedb0a61f22cb7b91cd4bd3f23d8008853be0a",
+    "firmware/npu/BOOTSTRAP_V2_CONTRACT.md": "0fc03d8072961b3ed832700a4c2fbb02c270e73acce62fd4a12dd0ecaf182762",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/ADMISSION_ABI.md": "9cff55d562d7263657ca4d1d9b1ae47072ca0c1337e2d3bc74414fa823853945",
+    "firmware/npu/CONTROL_V2_CONTRACT.md": "84edfab15bc615263d4587b3ce40f68639235b4f473bc552860e4256520d369c",
+    "firmware/npu/README.md": "d3a10ac63b35642f667a3dd2084740f0675e2369779031c3c3e9d28d879bcee0",
+    "firmware/npu/control-client.h": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/cold-setup.h": "ab20d323fab87d783a4e78f9a9cc9928bbcc2eed96c4d2c215786dfe4367eca7",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/bootstrap-v2.c": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/CONTROL_CLIENT_CONTRACT.md": "d3c1113cec5d01825f07b8b920281e761b63b71b77db2ba8d1010eb1b6143cb5",
+    "firmware/npu/kernel-include/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8"
+  },
+  "binary_sha256": "bfe00c38624c88e0fb3b907391567113aca9b1044fd247980ed9e336115c67c2",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.",
+    "Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.",
+    "Only post-bind version,port and RX0/RX2 DESC commands are implemented. Later full setup and all physical/hot/client gates remain open."
+  ]
+}

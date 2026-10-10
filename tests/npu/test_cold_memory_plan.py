@@ -165,9 +165,9 @@ def main():
               extract.declaration(after, 'struct', 'wlan_mbox_data')]
     parts += [extract.function(after, name) for name in
               ('__airoha_npu_send_msg', 'airoha_npu_wlan_msg_get', 'airoha_npu_wlan_control')]
-    (dest / 'control-v2-provider.inc').write_text('\n\n'.join(parts) + '\n')
+    (dest / 'control-v2-provider.inc').write_text('#include "cold-setup.h"\n' + '\n\n'.join(parts) + '\n')
     core = ROOT / 'firmware/npu'
-    component_names = ('control-client.c', 'control-v2-client.c', 'linux-control.c',
+    component_names = ('control-client.c', 'control-v2-client.c', 'cold-client.c', 'linux-control.c',
                        'control-v2.c', 'admission.c', 'barrier.c')
     command = flags + ['-pthread', '-I' + str(dest / 'shims'), '-I' + str(dest),
                        '-I' + str(core), '-I' + str(ROOT / 'tests/npu'),

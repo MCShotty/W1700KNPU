@@ -67,7 +67,8 @@ def main():
         assert sha(path) == next(row['sha256'] for row in previous['artifacts'] if row['path'] == relative(path))
     names = ('barrier.h', 'admission.h', 'control-client.h', 'control-v2.h',
              'control-client.c', 'control-v2-client.c', 'control-v2.c', 'admission.c', 'barrier.c',
-             'linux-control.c', 'linux-control.h', 'kernel-include/stdint.h')
+             'linux-control.c', 'linux-control.h', 'cold-client.c', 'cold-setup.h',
+             'bootstrap.h', 'kernel-include/stdint.h')
     inputs = [Path(__file__), HARNESS, ROOT / 'tests/npu/control-v2-provider-harness.c',
               Path(provider.__file__), Path(provider.extract.__file__), Path(provider.preflight.__file__),
               Path(modules.__file__), PREVIOUS, provider.OUT / 'control-v2-provider.json',
@@ -105,7 +106,7 @@ def main():
                '-fsanitize=address,undefined', '-fno-sanitize-recover=all',
                '-I' + str(dest / 'shims'), '-I' + str(dest), '-I' + str(SOURCE),
                '-I' + str(ROOT / 'tests/npu'), str(HARNESS)]
-    command += [str(SOURCE / name) for name in ('control-client.c', 'control-v2-client.c',
+    command += [str(SOURCE / name) for name in ('control-client.c', 'control-v2-client.c', 'cold-client.c',
                 'control-v2.c', 'admission.c', 'barrier.c')]
     binary = dest / 'linux-control-sanitize'
     build_log = out / 'host-build.log'
@@ -116,15 +117,19 @@ def main():
     result = json.loads(execute([binary], run_log, env=env, timeout=30).stdout)
     print(json.dumps(dict(stage='host', **result)), flush=True)
     original = (SOURCE / 'linux-control.c').read_text()
+    exchange_prefix, cold_anchor, cold_tail = original.partition('int npu_linux_control_cold_exchange(')
+    assert cold_anchor
+    def exchange_once(old, new):
+        return once(exchange_prefix, old, new) + cold_anchor + cold_tail
     mutations = {
         'reinitialize': ('init', once(original, '\tif (control->initialized)\n\t\treturn -EALREADY;\n', '')),
         'wrong-operation': ('operation', once(original, 'next_operation(control) != (int)operation',
                                               'next_operation(control) != (int)operation && (int)operation == -99')),
-        'ignore-reply-rejection': ('protocol', once(original, 'result != NPU_CLIENT_ACCEPTED',
+        'ignore-reply-rejection': ('protocol', exchange_once('result != NPU_CLIENT_ACCEPTED',
                                                    'result == NPU_CLIENT_IGNORED')),
         'replace-first-error': ('sticky', once(original, '\tif (!control->error)\n\t\tcontrol->error = error;',
                                               '\tcontrol->error = error;')),
-        'positive-transport-error': ('sticky', once(original, 'error < 0 ? error : error ? -EIO : -EPROTO',
+        'positive-transport-error': ('sticky', exchange_once('error < 0 ? error : error ? -EIO : -EPROTO',
                                                    'error ? error : -EPROTO')),
     }
     prefix, anchor, close = original.partition('void npu_linux_control_close(')
@@ -155,7 +160,8 @@ def main():
         directory = dest / ('kernel-' + str(enabled))
         directory.mkdir()
         for name in ('barrier.h', 'admission.h', 'control-client.h', 'control-v2.h',
-                     'control-client.c', 'control-v2-client.c', 'linux-control.h'):
+                     'control-client.c', 'control-v2-client.c', 'linux-control.h',
+                     'cold-client.c', 'cold-setup.h', 'bootstrap.h'):
             shutil.copy2(SOURCE / name, directory / name)
         shutil.copy2(SOURCE / 'linux-control.c', directory / 'executor.c')
         (directory / 'compat').mkdir()
@@ -166,7 +172,7 @@ def main():
             'sizeof(struct npu_control_v2_packet), offsetof(struct npu_control_v2_client, boot_lo) };\n'
             'MODULE_LICENSE("GPL");\nMODULE_DESCRIPTION("Unloaded Linux NPU control executor");\n')
         makefile = ('obj-m += npu-control-linux-test.o\n'
-                    'npu-control-linux-test-y := executor.o control-client.o control-v2-client.o module.o\n'
+                    'npu-control-linux-test-y := executor.o control-client.o control-v2-client.o cold-client.o module.o\n'
                     'ccflags-y += -I$(src)/compat\n')
         if not enabled:
             (directory / 'disable-npu.h').write_text('#include <linux/kconfig.h>\n#undef CONFIG_NET_AIROHA_NPU\n#undef CONFIG_NET_AIROHA_NPU_MODULE\n')

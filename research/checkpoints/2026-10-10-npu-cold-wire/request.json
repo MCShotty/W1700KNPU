@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "actual_provider_c": true,
+  "matrix": {
+    "request_cases": 310,
+    "before_copy_checks": 476,
+    "passed": true
+  },
+  "rejected_mutants": [
+    "accept-unaligned-request",
+    "accept-outside-request-window",
+    "accept-binary-overlap",
+    "accept-wlan-overlap",
+    "accept-pending-mailbox",
+    "pin-fixture-address",
+    "accept-incomplete-ba-plan",
+    "accept-relocated-native-code",
+    "retain-plan-after-load-failure"
+  ],
+  "inputs": {
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c": "796c0e1c9db9c3f37f5a6ae9dc151c2a2aba8a3d38503ea569ae522460ae8d7c",
+    "tests/npu/provider-request-plan-harness.c": "b5ee26ec5f5948aa54d59acafb7a77a1ad844ba078f1fdc9a0afba59c0c12783",
+    "tests/npu/firmware-loader-harness.c": "8cd283be7823a56134e5ef9f2d281da8f2df01c48b8e1a980b03a117a373247b",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_provider_request_plan.py": "3dc09d7c0b63a676ec417fa6168aa62eb92d422db5bdef615b988c1783f76626"
+  },
+  "plan": {
+    "path": ".local/npu-provider-plan-20261010/cold-wire-request/nominal/plan.bin",
+    "sha256": "051e7669bf75a33ea870d5b769296409e032a30b4ee3673ed6a3bf2675e2364f"
+  },
+  "binary_sha256": "a38f252ef4a5dcdebea2c0ef844fa5c276907444a886894135ac4aa853fbd9a0",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Private native-plan/request snapshot from actual provider C; allocations/OF/I/O remain modeled.",
+    "No SRAM publication,boot identity,reset containment,physical drains,hardware or clients."
+  ]
+}

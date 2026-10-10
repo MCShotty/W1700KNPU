@@ -1,0 +1,42 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "existing": "The checked provider owns one Linux V2 client. DISCOVER/six reserved commands/BIND/STOP/STATUS leave initial epoch1 closed and all eight workers parked. Strict legacy full setup denies. Existing full RX native tests inject admission.active=1 and initialize packet ownership directly.",
+    "proposal": "Add a distinct fixed80-byte session-bound cold command envelope. It uses the same provider nonce, loader boot identity and monotonic V2 sequence, not a new attachment session. Validate pinned request address, complete envelope and a private snapshot before native callback. The first implementation supports the post-BIND version query, known port-type setter and checked RX0/RX2 DESC callbacks; other full setup operations remain denied until their contracts are integrated. Native begin derives active=1 from a valid bound initial held epoch with all workers parked, no active transaction/fault/deferred IRQ/release/arm/ready/drain and completed bootstrap. Completion revalidates this state; successful callbacks return the software lease to zero. Ambiguous failure faults and retains the active/inflight state and resources. No reset/recycle/rearm or physical drain flag is introduced. The first authenticated RX0 callback initializes the packet ownership state once from the existing immutable plan; tests no longer inject active or initialize it for this lane.",
+    "scope": "Implement actual Linux/provider and assembled native transport, with native instruction replay. Physical backing/grants/cache/DMA retirement and full later setup/hot/client acceptance remain independent open requirements. This is progress toward full implementation, not completion of the full objective.",
+    "sequence": "The cold codec consumes the same V2 client serial/pending ticket and server last_sequence. An unsupported authenticated command also consumes its sequence, preventing an abandoned request from becoming valid if replayed. Fresh invalid identity/session requests do not gain a callback lease."
+  },
+  "questions": {
+    "lease_source": {
+      "type": "choice",
+      "instructions": "According to proposal, how is the native callback software lease established?",
+      "criteria": {
+        "checked_wire": "A validated session-bound wire command derives it after held-state checks.",
+        "test_injection": "The test directly writes active=1 as the acceptance mechanism.",
+        "physical_drain": "A physical DMA retirement certificate grants it.",
+        "unknown": "No mechanism is established."
+      }
+    },
+    "physical_authority": {
+      "type": "noul",
+      "instructions": "Does proposal claim that a parked epoch or successful cold command proves physical DMA retirement or permits reclaim/rearm?"
+    },
+    "ownership_retention": {
+      "type": "noul",
+      "instructions": "Does proposal explicitly retain active/inflight ownership after an ambiguous native callback failure rather than using an error as cleanup permission?"
+    },
+    "same_session": {
+      "type": "noul",
+      "instructions": "Do proposal and sequence bind cold commands to the existing provider session instead of minting a fresh attachment session?"
+    },
+    "full_scope": {
+      "type": "choice",
+      "instructions": "What does scope say about completion of the full NPU objective?",
+      "criteria": {
+        "complete": "All later setup, physical and hot/client gates are complete.",
+        "partial_progress": "A real missing transport is implemented, while listed full-objective gates remain open.",
+        "unknown": "The scope is unspecified."
+      }
+    }
+  }
+}

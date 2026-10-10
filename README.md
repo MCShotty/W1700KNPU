@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Session-Bound Cold RX Commands
+
+The real checked provider now sends the post-BIND version query, port type and
+RX0/RX2 descriptor setup through a distinct session-bound cold envelope. Native
+code validates the existing nonce/boot identity/sequence and held epoch before
+granting the callback lease. Packet ownership initializes in that authenticated
+path; the native tests do not inject an active lease or call its initializer.
+
+Cold C/codec/executor tests, native full RX prefix and retained-fault controls,
+packaged-module Ghidra, full world/66-file replay and offline image checks pass.
+Latest FIT `7622acf9...`; previous `6a7dc41e...`/R1 preserved. No flash/contact.
+This is the initial strict RX prefix, not full offload: later PCIe/page/INODE/
+TXDONE setup, physical containment/coherency/retirement and clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
+
 ## 2026-10-10 - Provider-Owned Initial Session
 
 The real reserved-memory callback now owns one checked V2 session in the NPU

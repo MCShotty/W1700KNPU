@@ -14,6 +14,7 @@ import re
 import shutil
 import struct
 import sys
+import traceback
 
 sys.dont_write_bytecode = True
 import test_npu_firmware_loader as loader
@@ -23,8 +24,9 @@ SOURCE = ROOT / 'firmware/npu'
 HARNESS = ROOT / 'tests/npu/provider-session-harness.c'
 FUNCTIONS = ('airoha_npu_wlan_cmd_with_retry', 'airoha_npu_wlan_init_memory',
              'airoha_npu_wlan_session_snapshot', 'airoha_npu_wlan_session_close',
-             'airoha_npu_wlan_init_session')
-CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c')
+             'airoha_npu_wlan_init_session', 'airoha_npu_wlan_cold_command',
+             'airoha_npu_wlan_msg_send_session', 'airoha_npu_wlan_msg_get_session')
+CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c', 'cold-client.c')
 SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c')
 
 
@@ -40,7 +42,8 @@ def prepare(directory, text, header):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(contents)
     q = loader.extract
-    declarations = [q.declaration(header, 'enum', 'airoha_npu_wlan_set_cmd')]
+    declarations = [q.declaration(header, 'enum', name) for name in
+                    ('airoha_npu_wlan_set_cmd', 'airoha_npu_wlan_get_cmd')]
     declarations += [q.declaration(text, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv')]
     (directory / 'provider-session-types.inc').write_text('\n'.join(declarations) + '\n')
     (directory / 'provider-session.inc').write_text('\n\n'.join(q.function(text, name) for name in FUNCTIONS) + '\n')
@@ -49,12 +52,14 @@ def prepare(directory, text, header):
             HARNESS, *[SOURCE / name for name in (*CLIENTS, *SERVERS)]]
 
 
-def native_peer(binary, pair, publication, *, wrong_identity=False):
+def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
+                cold_failure=False):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
     from emulation_layout import STATE
     from unicorn import riscv_const as r
+    from unicorn import UC_HOOK_MEM_WRITE
 
     code_path, data_path = publication / 'CODE-copied.bin', publication / 'DATA-published.bin'
     code, data = code_path.read_bytes(), data_path.read_bytes()
@@ -62,7 +67,11 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
     identity = struct.unpack('<Q', data[0x63a0:0x63a8])[0]
     request, size = plan[-1]
     assert size == 256 and identity
-    h, _, _, manifest = raw.load(pair, factory=partial(ProviderRequest, request=request), published=(code, data))
+    factory = ProviderRequest
+    if cold_commands:
+        from cold_wire_native import ColdProviderRequest
+        factory = ColdProviderRequest
+    h, _, _, manifest = raw.load(pair, factory=partial(factory, request=request), published=(code, data))
     h.hart = 0
     h.cpu.context_restore(h.fresh)
     assert h.reset() == 0x8400420a
@@ -92,7 +101,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
                 assert h.clear_count == 0x7000
             return 0
         except Exception as error:
-            failures.append(str(error))
+            failures.append(traceback.format_exc())
             return -5
 
     @tick
@@ -105,7 +114,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
                 workers.extend(h.worker(hart) for hart in range(1, 8))
                 h.on_core0()
         except Exception as error:
-            failures.append(str(error))
+            failures.append(traceback.format_exc())
 
     lib.npu_test_callbacks.argtypes = [wire, tick]
     lib.npu_test_callbacks(transport, advance_workers)
@@ -116,6 +125,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
     old_calls = lib.npu_test_calls()
     assert lib.npu_test_run() == (expected if expected else -16)
     assert lib.npu_test_calls() == old_calls and lib.npu_test_rng_calls() == 1
+    cold = []
     if wrong_identity:
         assert len(frames) == 1 and h.get32(BOOT + 8) == 0
         strict = []
@@ -125,12 +135,63 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
         assert h.get32(BOOT + 8) == 6 and h.get32(ADM + 4) == 0
         assert [h.get32(STATE + 20 + 4 * hart) for hart in range(8)] == [1] * 8
         assert [h.get32(STATE + 4 * index) for index in (1, 2, 3)] == [0, 0, 0]
+        if cold_commands:
+            packet_state = h.packet.symbols['npu_emulation_packet_state']
+            cold_state = h.rv.symbols['npu_emulation_cold_setup_state']
+            assert h.get32(packet_state) == 0 and h.get32(ADM + 4) == 0
+            leases = []
+            def observe_lease(cpu, access, address, size, value, data):
+                assert size == 4
+                leases.append(value)
+            h.cpu.hook_add(UC_HOOK_MEM_WRITE, observe_lease, begin=ADM + 4, end=ADM + 7)
+            lib.npu_test_command.argtypes = [ctypes.c_uint, ctypes.c_uint, ctypes.c_uint,
+                                            ctypes.POINTER(ctypes.c_uint32)]
+            sequence = [(0x30, 10, 0), (0x10, 14, 2)]
+            sequence += [(0x10, 1, 16)] if cold_failure else [(0x10, 1, 1536), (0x12, 1, 1024)]
+            for header, api, value in sequence:
+                if cold_failure and api == 1:
+                    h.packet_tracking = True
+                    h.packet_mode = 'claim-fault'
+                    h.packet_changed = False
+                    h.packet_writes = []
+                    h.getter_calls = 0
+                    h.claim_trigger = 1
+                    h.requested = value
+                    h.head_before = 0
+                output = ctypes.c_uint32(0xabcdef01)
+                error = lib.npu_test_command(header, api, value, ctypes.byref(output))
+                assert not failures, failures
+                if cold_failure and api == 1:
+                    h.packet_tracking = False
+                    assert error == -71 and h.get32(packet_state + 16) == 1
+                    assert h.get32(ADM + 4) == h.get32(cold_state + 4) == 1
+                    assert h.get32(ADM + 8) == h.get32(STATE + 16) == h.get32(cold_state) == 1
+                    assert h.get32(0x3e902a84) == 0 and frames[-1]['reply']['words'][14] == 7
+                    cold.append(dict(header=header, api=api, value=value, error=error,
+                                     retained_claims=1, retained_active=1, retained_inflight=1,
+                                     fault_injection='packet owner fault after first committed claim',
+                                     reply=frames[-1]))
+                    break
+                assert error == 0, (header, api, value, error, frames[-1:])
+                assert output.value == (0x457 if header == 0x30 else value)
+                assert h.get32(ADM + 4) == h.get32(cold_state + 4) == 0
+                cold.append(dict(header=header, api=api, value=value, output=output.value,
+                                 packet_claims=h.get32(packet_state + 16),
+                                 completed=h.get32(cold_state + 8), reply=frames[-1]))
+            assert leases == ([1, 0, 1, 0, 1] if cold_failure else [1, 0] * 4)
+            assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
+            assert h.get32(cold_state + 8) == (1 if cold_failure else 7)
+            assert h.get32(STATE + 4) == h.get32(STATE + 8) == 0
+            cold.append(dict(native_lease_writes=leases, test_active_writes=False,
+                             test_packet_init=False, retained_claims=1 if cold_failure else 2560))
+            old_calls = lib.npu_test_calls()
         strict = [h.message(words) for words in ([0x10, 1, 1536], [0x12, 1, 1024], [0x1a, 1, 512])]
         assert all(row['flags'] == 3 and not row['callbacks'] for row in strict)
     h.check_hooks()
     lib.npu_test_close()
-    assert lib.npu_test_run() == (expected if expected else -108) and lib.npu_test_calls() == old_calls
-    return dict(passed=True, wrong_identity=wrong_identity, result=result, frames=frames,
+    assert lib.npu_test_run() == (expected if expected else -71 if cold_failure else -108) and lib.npu_test_calls() == old_calls
+    return dict(passed=True, wrong_identity=wrong_identity, cold_failure=cold_failure,
+                result=result, frames=frames, cold=cold,
                 workers=workers, strict_denials=strict, initial_held=True,
                 actual_c_linux_setup=True, actual_c_publication_readback=True,
                 synthetic_plan_identity_writes=False, post_load_elf_injection=False,
@@ -141,9 +202,12 @@ def native_peer(binary, pair, publication, *, wrong_identity=False):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, required=True)
+    parser.add_argument('--header', type=Path,
+                        help='Immutable current provider header for replay while world replaces its prepared tree')
     parser.add_argument('--name', required=True)
     parser.add_argument('--pair', type=Path)
     parser.add_argument('--publication', type=Path)
+    parser.add_argument('--cold-commands', action='store_true')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     assert bool(args.pair) == bool(args.publication)
@@ -152,6 +216,9 @@ def main():
     assert source.is_relative_to(ROOT) and not dest.exists()
     dest.mkdir(parents=True)
     header = ROOT / '.build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/include/linux/soc/airoha/airoha_offload.h'
+    if args.header:
+        header = args.header.resolve()
+        assert header.is_relative_to(ROOT)
     inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in
               (source, header, HARNESS, Path(__file__), Path(loader.__file__), Path(loader.extract.__file__))}
     inputs |= {str(path.relative_to(ROOT)): loader.sha(path) for path in SOURCE.rglob('*') if path.is_file()}
@@ -193,8 +260,12 @@ def main():
         shared = dest / 'host/provider-session.so'
         command = prepare(dest / 'native', text, htext)
         loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'native/build.log')
-        native = [native_peer(shared, args.pair.resolve(), args.publication.resolve(), wrong_identity=wrong)
+        native = [native_peer(shared, args.pair.resolve(), args.publication.resolve(), wrong_identity=wrong,
+                              cold_commands=args.cold_commands)
                   for wrong in (False, True)]
+        if args.cold_commands:
+            native.append(native_peer(shared, args.pair.resolve(), args.publication.resolve(),
+                                      cold_commands=True, cold_failure=True))
         print(json.dumps(dict(stage='native', cases=len(native), passed=True)), flush=True)
     assert all(loader.sha(ROOT / path) == digest for path, digest in inputs.items())
     probe = loader.extract.function(text, 'airoha_npu_probe')

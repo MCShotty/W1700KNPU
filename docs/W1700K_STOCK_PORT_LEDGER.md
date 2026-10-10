@@ -1,10 +1,38 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (provider-owned initial session wired; strict full setup/physical gates open)
+Last updated: 2026-10-10 (initial strict cold RX wire path implemented; later setup/physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Session-Bound Initial Cold RX Wire
+
+- Distinct80-byte NCS2/NCR2 requests reuse the provider's bound identity/nonce,
+  epoch1 and V2 monotonic sequence. Native begin checks complete bootstrap,
+  held/parked state, no active/fault/deferred IRQ/release/arm/ready/drain and
+  ordered one-shot history before acquiring a software callback lease. Complete
+  rechecks identity/history/state; ambiguous failure retains active/inflight.
+- Actual provider ops route post-BIND version, port type2 and checked RX0/RX2
+  DESC. First authenticated RX0 initializes the packet owner; no test lease or
+  explicit test initializer is used in the new native lane. Early probe version
+  and unmarked raw paths are preserved. Later setup commands remain denied.
+- Actual cold server/codec/Linux executor C passes229 cases/eight mutants;
+  initial-session C279/nine still passes. Native full RX prefix retains2,560
+  packet claims, wrong boot identity denies before setup, and a fault after the
+  first committed claim retains ownership plus active/inflight. Wider parser,
+  boot/lease/probe/request/memory/retry/V2/raw regressions also pass.
+- All53 packaged provider functions decompile. Sixteen assembly groups/two
+  byte-identical raw builds, world,66-file replay and FIT/218-package/78-module
+  checks pass. Latest FIT SHA256:
+  `7622acf9d0926c89849a06b130de8ae9a382048c7eaf32bcaee08649e12ee02d`.
+  CODE/DATA and13-object core now include cold wiring. Previous `6a7dc41e...`/R1
+  and protected calibration/bootloader/backups are preserved. No hardware action.
+- Full Linux setup still stops at later PCIe/page/INODE/TXDONE commands. Other
+  owners/hot/postgate and independent physical containment/backing/coherency,
+  drains/retirement/recovery and clients remain required. Software lease/parking
+  is not resource-release authority. Evidence:
+  `research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
 
 ## 2026-10-10 - Provider-Owned Initial Held Session
 

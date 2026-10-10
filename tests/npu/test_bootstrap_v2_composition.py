@@ -72,8 +72,8 @@ def build(*, destination=BUILD, negative_controls=True):
               '-ffreestanding', '-fno-builtin', '-fno-stack-protector', '-I', BASE]
     lld = shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'
     rv = ['--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32', '-nostdlib', f'--ld-path={lld}']
-    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'bootstrap-v2.c')]
-    host = [BASE / 'control-client.c', BASE / 'control-v2-client.c']
+    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'bootstrap-v2.c', 'cold-setup.c')]
+    host = [BASE / 'control-client.c', BASE / 'control-v2-client.c', BASE / 'cold-client.c']
     paths = [destination / name for name in ('control.so', 'host-arm.elf', 'base-rv.elf')]
     run([*common, '-std=c11', *sources, target, *host, '-shared', '-fPIC', '-o', paths[0]])
     run([*common, '-std=c11', *host, '--target=aarch64-none-elf', '-mgeneral-regs-only', '-nostdlib',
@@ -81,7 +81,7 @@ def build(*, destination=BUILD, negative_controls=True):
     run([*common, *rv, *sources, target, BASE / 'startup.c', BASE / 'gdma.c',
          '-DNPU_EMULATION_BOOTSTRAP', '-DNPU_GDMA_POLL_LIMIT=65536', boot.PLATFORM,
          *[TESTS / name for name in ('startup-platform-emulation.c', 'bootstrap-platform-emulation.c',
-             'gdma-platform-emulation.c', 'startup-emulation.S', 'bootstrap-emulation.S',
+             'gdma-platform-emulation.c', 'cold-setup-platform-emulation.c', 'startup-emulation.S', 'bootstrap-emulation.S',
              'admission-emulation.S', 'barrier-core5-emulation.S', 'barrier-workers-emulation.S')],
          f'-Wl,-T,{TESTS}/barrier-workers-emulation.ld,--no-relax', f'-Wl,-T,{boot.LINKER}',
          '-Wl,--defsym=original_irq_30b6=0x840030b6',

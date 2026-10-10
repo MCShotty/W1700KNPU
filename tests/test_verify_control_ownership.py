@@ -10,7 +10,8 @@ class ControlOwnershipTests(unittest.TestCase):
     def setUp(self):
         self.control = {'npu_linux_control_init', 'npu_linux_control_exchange',
                         'npu_linux_control_close', 'npu_linux_control_snapshot',
-                        'npu_client_v2_request', 'npu_client_v2_complete'}
+                        'npu_client_v2_request', 'npu_client_v2_complete',
+                        'npu_linux_control_cold_exchange', 'npu_cold_client_request', 'npu_cold_client_complete'}
         self.provider = self.control | {'airoha_npu_wlan_control'}
 
     def test_provider_links_all_control_symbols(self):

@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Initial Cold RX Commands Wired
+
+Post-BIND version, port type2 and RX0/RX2 DESC now use the real provider's
+session-bound cold envelope. Native authentication/held-state checks acquire the
+callback lease; first RX0 initializes its packet owner. Full native prefix and
+partial-fault retention pass without test-written active state or packet init.
+Actual cold/initial-session C/mutants, Ghidra, world/66-file replay and image
+checks pass. FIT `7622acf9...`; previous images/R1 preserved. No flash/contact.
+
+Next extend the checked wire path through real PCIe-address, page/indication,
+INODE and TXDONE setup and their ownership/parameter contracts. The existing
+full Linux setup still stops at later denied legacy commands. Complete remaining
+owners/workers/hot/postgate and independent physical exclusion/backing/cache/DMA
+visibility, drains/retirement/teardown/rearm/recovery, exact-image boot and real
+clients. Neither the software lease nor retained RX claims prove those gates.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-wire/REPORT.md`.
+
 ## 2026-10-10 - Initial Linux Session Wired
 
 The real checked provider reserved-memory path now performs identity-checked
