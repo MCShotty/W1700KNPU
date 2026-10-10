@@ -1,0 +1,73 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-packet-20261010\\jev-pre-request.json",
+  "request_sha256": "526be3f0a71018bd91c1a0a987e429b2e0dac2869d225f7c74f92693e818ac36",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "geometry": {
+      "type": "choice",
+      "instructions": "Which supplied pool geometry applies to native_contract's packet getter?",
+      "criteria": {
+        "packet": "The 16384-ID,2048-byte PKT pool.",
+        "page": "The 8192-ID,128-byte BA pool.",
+        "unknown": "The evidence does not identify the pool."
+      }
+    },
+    "grant_boundary": {
+      "type": "noul",
+      "instructions": "Does integration_scope require rejecting the selected packet take before metadata mutation when the native lock acquisition fails?"
+    },
+    "identity": {
+      "type": "noul",
+      "instructions": "Would using the existing page bitmap/geometry directly for packet_pool preserve the distinct pool identity and capacity?"
+    },
+    "fault_contract": {
+      "type": "choice",
+      "instructions": "Which behavior does ownership_contract require after a claim is committed and a later fault prevents a successful caller return?",
+      "criteria": {
+        "retain": "Retain the claim and any published queue head,deny readiness,close the lifetime.",
+        "release": "Remove the claim and retry.",
+        "continue": "Expose the descriptor and readiness despite the fault.",
+        "unknown": "The supplied contract is insufficient."
+      }
+    }
+  },
+  "elapsed_ms": 1285,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "geometry": {
+        "type": "choice",
+        "choice": "packet",
+        "confidence": 1.0,
+        "probabilities": {
+          "packet": 1.0,
+          "page": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "grant_boundary": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "identity": {
+        "type": "noul",
+        "noul": 0.24
+      },
+      "fault_contract": {
+        "type": "choice",
+        "choice": "retain",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain": 1.0,
+          "release": 0.0,
+          "continue": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 863,
+      "output_tokens": 114
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-packet-20261010\\jev-post-focused-request.json",
+  "request_sha256": "e31f5ec797abfe0d118087712a1d166635b50399bf1630a10178881da1736c30",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "denied_lock": {
+      "type": "noul",
+      "instructions": "Using controls.denied and definitions, is the modeled denied acquisition rejected without packet claim, descriptor, readiness-one write or lock28 release request?"
+    },
+    "late_retention": {
+      "type": "noul",
+      "instructions": "Using controls.claim-fault and controls.release-fault plus their injections, do the committed claims remain owned after the fault? This asks about retained ownership, not physical DMA containment."
+    },
+    "late_exposure": {
+      "type": "noul",
+      "instructions": "Using controls.claim-fault and controls.release-fault and definitions, is native descriptor/readiness exposure denied for those late-fault callbacks?"
+    },
+    "snapshot": {
+      "type": "noul",
+      "instructions": "Does controls.head-changed show retention of the private claim while the externally changed head stays 37 rather than being silently repaired?"
+    },
+    "private_release": {
+      "type": "noul",
+      "instructions": "Do controls.lock-changed-after-grant, injections.lock_changed_after_grant, private_release_source and mutable_release_mutant support constant lock28 release identity despite the public lock field changing?"
+    },
+    "physical_scope": {
+      "type": "noul",
+      "instructions": "Does scope establish physical DMA ownership, drains and client acceptance for the complete W1700K NPU?"
+    }
+  },
+  "elapsed_ms": 975,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "denied_lock": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "late_retention": {
+        "type": "noul",
+        "noul": 0.82
+      },
+      "late_exposure": {
+        "type": "noul",
+        "noul": 0.82
+      },
+      "snapshot": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "private_release": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "physical_scope": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1617,
+      "output_tokens": 110
+    }
+  }
+}

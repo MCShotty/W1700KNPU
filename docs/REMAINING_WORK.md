@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Selected Cold RX Packet Claims
+
+The distinct cold packet profile and selected RX0/RX2 lock/claim/readiness
+binding now pass native instruction composition: 2,560 packet claims, 50 controls
+and six initialized mutants with 61 installed sites. BA replay adds 1,792 claims
+without changing packet state; unrelated getters keep their earlier route.
+Exact packet/page-core and statistics regressions, sanitizers, full world/source,
+build-runner and offline image checks pass. FIT stays `230e03a7...`; no flash.
+
+Next extend checked ownership to the other packet users, including TXDONE, and
+complete the real loader/storage and strict DISCOVER/setup/BIND lane. Hot recycle,
+worker/postgate consumers, physical exclusion/backing/coherency/drains/recovery
+and actual clients remain required. This does not establish shared ownership
+for every packet caller or physical acceptance. Details:
+`research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
 ## 2026-10-10 - RX Statistics Prerequisite
 
 The previously unchecked RX0/type10 and RX2/type9 statistics calls are now

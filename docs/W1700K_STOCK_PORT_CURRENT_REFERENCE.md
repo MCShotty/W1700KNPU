@@ -1,5 +1,19 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Checked Cold RX Packet Ownership
+
+Distinct 16,384-ID/2,048-byte packet ownership now composes with original RX0/RX2
+and lock28 instructions in emulation. The binding validates the allocator's
+type-0x8a table identity, retains claims/head publication on late failure, and
+guards release/readiness. Sixty-one sites, 2,560 packet claims, 50 controls and
+six initialized mutants pass. Separate BA replay retains 1,792 claims without
+changing packet state. Exact packet/page-core and RX-statistics regressions,
+sanitizers, full world/60-file replay/eight build-runner/offline image checks pass.
+The normal archive has twelve objects; page ABI/object and FIT are unchanged.
+No real-loader/vendor installation or flash/hardware change. Other packet users,
+strict setup, hot lifecycle, workers and physical recovery/clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
 ## 2026-10-10 - Checked RX Statistics Composition
 
 RX0/type10 and RX2/type9 now use checked allocation in the held cold callback
@@ -55,7 +69,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (selected native page caller composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
+Last updated: 2026-10-10 (selected cold RX packet composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

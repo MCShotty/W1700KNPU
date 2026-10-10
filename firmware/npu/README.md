@@ -1,5 +1,22 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Cold Packet Profile And Locked RX Binding
+
+`cold-packet.c/.h` specializes the retained-claim algorithm for 16,384 packet IDs
+and 2,048-byte slots, separate from 8,192 BA pages/128-byte slots. Its distinct
+state is 2,076 bytes. Page ABI and compiled object remain byte-identical.
+Neither profile has a release/reset/recycle API; storage, exclusion and physical
+backing are platform contracts. The normal archive now builds twelve objects.
+
+The native test binding validates the checked allocator's type-0x8a table record
+and immutable pointer, executes original lock28 acquire/release, retains late
+claims/head publication and denies failed descriptor/readiness exposure.
+Selected RX0/RX2 instruction composition passes 2,560 claims, 50 controls and
+six initialized mutants; BA replay and original statistics compatibility pass.
+Exact compiled packet replay passes 8,243 calls/546 controls/five mutants with
+sanitizers. This binding is not installed in the supplied vendor blob or loader.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
 ## 2026-10-10 - Active Statistics Allocation Binding
 
 The reviewed type9/type10 native callers now use the shared checked allocator

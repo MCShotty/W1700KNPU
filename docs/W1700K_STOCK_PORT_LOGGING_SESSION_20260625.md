@@ -1,6 +1,6 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-09-30 (pre-copy MT7996 memory plan integrated; exact cloud image verified; physical gates open)
+Last updated: 2026-10-10 (selected cold RX packet ownership composed; real loader/strict setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
@@ -7455,3 +7455,20 @@ resume documents and READMEs. Shared core, source lock, vendor blobs and FIT sta
 unchanged; no flash or hardware changes. Full loader/strict setup, packet lifecycle
 and physical recovery/client acceptance remain open.
 Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
+## 2026-10-10 - Cold RX Packet Ownership And Native Lock Composition
+
+From main59d9202, added the distinct packet profile to the normal twelve-object
+archive while retaining the page ABI/object. Exact packet replay passes 8,243
+calls/546 controls/five sanitizer mutants. Original RX0/RX2 and lock28 instructions
+compose with checked type-0x8a table identity, retained claims, immutable release
+ID and guarded readiness: 61 sites, 2,560 packet claims, 50 controls and six
+initialized mutants pass. BA replay adds 1,792 claims without changing packet
+state; unrelated getter routing and original statistics behavior are preserved.
+Full world, 60-file replay, eight build-runner and offline image checks pass.
+FIT stays unchanged. Corrected the exploratory pointer/type assumptions, counter
+oracle and mutant initialization before final proof. Updated all resume documents
+and READMEs; retained both broad uncertain and focused Jev receipts. No flash or
+hardware change. Full loader/strict setup, other packet owners/hot lifecycle and
+physical backing/coherency/drains/recovery/client acceptance remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.

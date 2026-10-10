@@ -1,0 +1,50 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "page_pool": {
+      "ids": 8192,
+      "bytes_per_id": 128,
+      "state_bytes": 1052,
+      "backing_region": "BA"
+    },
+    "packet_pool": {
+      "ids": 16384,
+      "bytes_per_id": 2048,
+      "backing_region": "PKT",
+      "native_getter": "0x84004d80",
+      "after_acquire": "0x84004d92"
+    },
+    "native_contract": "Packet getter acquires lock28, then reads pool head/tail/ID, advances head and updates allocation counters before releasing the lock. Original code ignores the acquire return. Selected RX return PCs are 0x8400b76a and 0x8400b898; unrelated users already have a TXDONE binding.",
+    "ownership_contract": "Fresh cold epoch and bitmap state, immutable backing geometry, no duplicate/bad IDs, retained committed claims after late faults, checked native-head publication before descriptors, no release or reinitialize API.",
+    "integration_scope": "Fixed packet geometry specializes the same tested C implementation while preserving page ABI and behavior. Compose the packet take only on an actual successful native lock grant and reviewed cold RX callers. Keep the lock through claim/head/counter publication, release an acquired lock once, then recheck lifetime. No physical grant/drain/coherency proof is implied."
+  },
+  "questions": {
+    "geometry": {
+      "type": "choice",
+      "instructions": "Which supplied pool geometry applies to native_contract's packet getter?",
+      "criteria": {
+        "packet": "The 16384-ID,2048-byte PKT pool.",
+        "page": "The 8192-ID,128-byte BA pool.",
+        "unknown": "The evidence does not identify the pool."
+      }
+    },
+    "grant_boundary": {
+      "type": "noul",
+      "instructions": "Does integration_scope require rejecting the selected packet take before metadata mutation when the native lock acquisition fails?"
+    },
+    "identity": {
+      "type": "noul",
+      "instructions": "Would using the existing page bitmap/geometry directly for packet_pool preserve the distinct pool identity and capacity?"
+    },
+    "fault_contract": {
+      "type": "choice",
+      "instructions": "Which behavior does ownership_contract require after a claim is committed and a later fault prevents a successful caller return?",
+      "criteria": {
+        "retain": "Retain the claim and any published queue head,deny readiness,close the lifetime.",
+        "release": "Remove the claim and retry.",
+        "continue": "Expose the descriptor and readiness despite the fault.",
+        "unknown": "The supplied contract is insufficient."
+      }
+    }
+  }
+}

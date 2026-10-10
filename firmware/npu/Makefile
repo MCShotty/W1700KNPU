@@ -3,7 +3,7 @@ AR ?= ar
 OUT ?= ../../.local/npu-core
 
 SOURCES := barrier.c admission.c control-v2.c bootstrap.c bootstrap-v2.c \
-	startup.c allocator.c cold-page.c gdma.c tunnel-header.c tunnel-packet.c
+	startup.c allocator.c cold-page.c cold-packet.c gdma.c tunnel-header.c tunnel-packet.c
 OBJECTS := $(SOURCES:%.c=$(OUT)/%.o)
 HEADERS := $(wildcard *.h)
 CFLAGS := --target=riscv32 -march=rv32imac_zicsr -mabi=ilp32 -std=c11 \
@@ -17,6 +17,8 @@ $(OUT):
 
 $(OUT)/%.o: %.c $(HEADERS) | $(OUT)
 	$(CLANG) $(CFLAGS) -c $< -o $@
+
+$(OUT)/cold-packet.o: cold-page.c
 
 $(OUT)/libw1700k-npu.a: $(OBJECTS)
 	$(AR) rcsD $@ $(OBJECTS)

@@ -1,6 +1,37 @@
+/* Two fixed geometries share the same retained-claim implementation. */
+#ifdef NPU_COLD_PACKET_BUILD
+#include "cold-packet.h"
+#define npu_cold_page_state npu_cold_packet_state
+#define npu_cold_page_plan npu_cold_packet_plan
+#define npu_cold_page_result npu_cold_packet_result
+#define npu_cold_page_queue npu_cold_packet_queue
+#define npu_cold_page_queue_result npu_cold_packet_queue_result
+#define npu_cold_page_init npu_cold_packet_init
+#define npu_cold_page_take npu_cold_packet_take
+#define npu_cold_page_queue_take npu_cold_packet_queue_take
+#define npu_cold_page_fault npu_cold_packet_fault
+#define NPU_COLD_PAGE_MAGIC NPU_COLD_PACKET_MAGIC
+#define NPU_COLD_PAGE_IDS NPU_COLD_PACKET_IDS
+#define NPU_COLD_PAGE_BYTES NPU_COLD_PACKET_BYTES
+#define NPU_COLD_PAGE_WORDS NPU_COLD_PACKET_WORDS
+#define NPU_COLD_PAGE_OK NPU_COLD_PACKET_OK
+#define NPU_COLD_PAGE_ARGUMENT NPU_COLD_PACKET_ARGUMENT
+#define NPU_COLD_PAGE_PLAN NPU_COLD_PACKET_PLAN
+#define NPU_COLD_PAGE_REINITIALIZE NPU_COLD_PACKET_REINITIALIZE
+#define NPU_COLD_PAGE_FAULT NPU_COLD_PACKET_FAULT
+#define NPU_COLD_PAGE_STALE NPU_COLD_PACKET_STALE
+#define NPU_COLD_PAGE_CORRUPT NPU_COLD_PACKET_CORRUPT
+#define NPU_COLD_PAGE_EMPTY NPU_COLD_PACKET_EMPTY
+#define NPU_COLD_PAGE_ID NPU_COLD_PACKET_ID
+#define NPU_COLD_PAGE_DUPLICATE NPU_COLD_PACKET_DUPLICATE
+#define page packet
+#define COLD_STATE_BYTES 2076
+#else
 #include "cold-page.h"
+#define COLD_STATE_BYTES 1052
+#endif
 
-_Static_assert(sizeof(struct npu_cold_page_state) == 1052, "cold page state changed");
+_Static_assert(sizeof(struct npu_cold_page_state) == COLD_STATE_BYTES, "cold pool state changed");
 _Static_assert(sizeof(struct npu_cold_page_plan) == 8, "cold page plan changed");
 _Static_assert(sizeof(struct npu_cold_page_result) == 20, "cold page result changed");
 

@@ -1,0 +1,5084 @@
+{
+  "passed": true,
+  "full_nominal": true,
+  "hooks": 61,
+  "nominal": [
+    {
+      "selector": 0,
+      "count": 1536,
+      "mode": null,
+      "returned": 1,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 1536,
+      "ready": 1,
+      "ready_one_stores": 1,
+      "active": 1,
+      "admission_fault": 0,
+      "barrier_fault": 0,
+      "buffer_head": 1536,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1536,
+      "private_head": 1536,
+      "packet_fault": 0,
+      "population": 1536,
+      "last": [
+        0,
+        1535,
+        2318399488,
+        1536,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1536,
+      "success_delta": 1536,
+      "failure_delta": 0,
+      "acquire_requests": 1536,
+      "release_requests": 1536,
+      "head_publications": 1536,
+      "getter_calls": 1536,
+      "injected": false,
+      "packet_mode": null,
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1536
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 1024,
+      "mode": null,
+      "returned": 1,
+      "record_count": 9,
+      "records_before": 8,
+      "records_added": 1,
+      "statistics_address": 1048974560,
+      "clear_stores": 250,
+      "descriptor_stores": 1024,
+      "ready": 1,
+      "ready_one_stores": 1,
+      "active": 1,
+      "admission_fault": 0,
+      "barrier_fault": 0,
+      "buffer_head": 2560,
+      "guarded": 0,
+      "metadata_sha256": "de7bd67dab73a39120b9e09a6e02be0215e4ec03d59673e60700b75717b944cf",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048974560,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048975556,
+          4,
+          0
+        ]
+      ],
+      "claimed": 2560,
+      "private_head": 2560,
+      "packet_fault": 0,
+      "population": 2560,
+      "last": [
+        0,
+        2559,
+        2320496640,
+        2560,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1024,
+      "success_delta": 1024,
+      "failure_delta": 0,
+      "acquire_requests": 1024,
+      "release_requests": 1024,
+      "head_publications": 1024,
+      "getter_calls": 1024,
+      "injected": false,
+      "packet_mode": null,
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1537
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          2560
+        ]
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "denied",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-lock",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-pool",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-packet-base",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-16384",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-32768",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-65535",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 1,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        9,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 2,
+      "release_requests": 2,
+      "head_publications": 1,
+      "getter_calls": 2,
+      "injected": false,
+      "packet_mode": "duplicate",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 17,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 17,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 17,
+      "private_head": 17,
+      "packet_fault": 1,
+      "population": 17,
+      "last": [
+        7,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 17,
+      "success_delta": 17,
+      "failure_delta": 1,
+      "acquire_requests": 18,
+      "release_requests": 18,
+      "head_publications": 17,
+      "getter_calls": 18,
+      "injected": false,
+      "packet_mode": "partial-pool",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          17
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        4,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "claim-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 37,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "head-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "tail-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "id-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        0,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "published-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        0,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "release-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "lock-changed-after-grant",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 32,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 32,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 32,
+      "private_head": 32,
+      "packet_fault": 1,
+      "population": 32,
+      "last": [
+        0,
+        31,
+        2315319296,
+        32,
+        1,
+        1
+      ],
+      "packet_counter_delta": 32,
+      "success_delta": 32,
+      "failure_delta": 0,
+      "acquire_requests": 32,
+      "release_requests": 32,
+      "head_publications": 32,
+      "getter_calls": 32,
+      "injected": true,
+      "packet_mode": "before-ready",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          32
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 16384,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        6,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-native-head",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        6,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-native-tail",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-private-plan",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-magic",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "worker-unparked",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "epoch-at-entry",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "guard-cleared",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "c168e743b2eee4cf32a05d1af3375980095fb8cdc9b9ea43da626d8e4cd0a942",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "pool-record-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "denied",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-lock",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-pool",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-packet-base",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-16384",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-32768",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        8,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-id-65535",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 1,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        9,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 2,
+      "release_requests": 2,
+      "head_publications": 1,
+      "getter_calls": 2,
+      "injected": false,
+      "packet_mode": "duplicate",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 17,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 17,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 17,
+      "private_head": 17,
+      "packet_fault": 1,
+      "population": 17,
+      "last": [
+        7,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 17,
+      "success_delta": 17,
+      "failure_delta": 1,
+      "acquire_requests": 18,
+      "release_requests": 18,
+      "head_publications": 17,
+      "getter_calls": 18,
+      "injected": false,
+      "packet_mode": "partial-pool",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          17
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        4,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "claim-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 37,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "head-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "tail-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        6,
+        0,
+        2315255808,
+        1,
+        1,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "id-changed",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        0,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "published-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 1,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 1,
+      "private_head": 1,
+      "packet_fault": 1,
+      "population": 1,
+      "last": [
+        0,
+        0,
+        2315255808,
+        1,
+        1,
+        1
+      ],
+      "packet_counter_delta": 1,
+      "success_delta": 1,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 1,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "release-fault",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": true,
+      "packet_mode": "lock-changed-after-grant",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 32,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 32,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 32,
+      "private_head": 32,
+      "packet_fault": 1,
+      "population": 32,
+      "last": [
+        0,
+        31,
+        2315319296,
+        32,
+        1,
+        1
+      ],
+      "packet_counter_delta": 32,
+      "success_delta": 32,
+      "failure_delta": 0,
+      "acquire_requests": 32,
+      "release_requests": 32,
+      "head_publications": 32,
+      "getter_calls": 32,
+      "injected": true,
+      "packet_mode": "before-ready",
+      "head_write_first_last": [
+        [
+          2215117226,
+          1049631652,
+          2,
+          1
+        ],
+        [
+          2215117226,
+          1049631652,
+          2,
+          32
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 16384,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        6,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-native-head",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        6,
+        4294967295,
+        0,
+        4294967295,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 1,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-native-tail",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 1,
+      "release_requests": 1,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-private-plan",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "bad-magic",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "worker-unparked",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "epoch-at-entry",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "guard-cleared",
+      "head_write_first_last": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": null,
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "ddfe9f7e190b4c090a84e1e8557ed497a365251b25a2694a821e758a900da634",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ],
+      "claimed": 0,
+      "private_head": 0,
+      "packet_fault": 1,
+      "population": 0,
+      "last": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "packet_counter_delta": 0,
+      "success_delta": 0,
+      "failure_delta": 0,
+      "acquire_requests": 0,
+      "release_requests": 0,
+      "head_publications": 0,
+      "getter_calls": 1,
+      "injected": false,
+      "packet_mode": "pool-record-changed",
+      "head_write_first_last": []
+    }
+  ],
+  "rejected_mutants": [
+    {
+      "name": "omit-lock-denial",
+      "rejected_by": "outer-status"
+    },
+    {
+      "name": "omit-pool-identity",
+      "rejected_by": "outer-status"
+    },
+    {
+      "name": "omit-post-release-fault",
+      "rejected_by": "native-writes"
+    },
+    {
+      "name": "omit-ready-gate",
+      "rejected_by": "ready-status"
+    },
+    {
+      "name": "omit-entry-gate",
+      "rejected_by": "packet-lock"
+    },
+    {
+      "name": "release-mutable-lock",
+      "rejected_by": "wrong-lock-release-mmio"
+    }
+  ],
+  "independent_pages": [
+    {
+      "selector": 5,
+      "requested": 256,
+      "returned": 1,
+      "claimed": 256,
+      "private_head": 256,
+      "fault": 0,
+      "native_head": 256,
+      "bitmap_population": 256,
+      "success_statistics_delta": 256,
+      "descriptors": 256,
+      "ready": 1,
+      "ready_one_writes": 1,
+      "last": [
+        0,
+        255,
+        2428592000,
+        256,
+        1,
+        1
+      ],
+      "barrier_fault": 0,
+      "active": 1,
+      "admission_fault": 0,
+      "ring": 1048768576,
+      "injected": false,
+      "descriptor_first_last": [
+        [
+          2214640796,
+          1048768580,
+          4,
+          8388864
+        ],
+        [
+          2214640796,
+          1048772660,
+          4,
+          8388864
+        ]
+      ]
+    },
+    {
+      "selector": 6,
+      "requested": 512,
+      "returned": 1,
+      "claimed": 768,
+      "private_head": 768,
+      "fault": 0,
+      "native_head": 768,
+      "bitmap_population": 768,
+      "success_statistics_delta": 512,
+      "descriptors": 512,
+      "ready": 1,
+      "ready_one_writes": 1,
+      "last": [
+        0,
+        767,
+        2428657536,
+        768,
+        1,
+        1
+      ],
+      "barrier_fault": 0,
+      "active": 1,
+      "admission_fault": 0,
+      "ring": 1048772672,
+      "injected": false,
+      "descriptor_first_last": [
+        [
+          2214640796,
+          1048772676,
+          4,
+          8388864
+        ],
+        [
+          2214640796,
+          1048780852,
+          4,
+          8388864
+        ]
+      ]
+    },
+    {
+      "selector": 7,
+      "requested": 1024,
+      "returned": 1,
+      "claimed": 1792,
+      "private_head": 1792,
+      "fault": 0,
+      "native_head": 1792,
+      "bitmap_population": 1792,
+      "success_statistics_delta": 1024,
+      "descriptors": 1024,
+      "ready": 1,
+      "ready_one_writes": 1,
+      "last": [
+        0,
+        1791,
+        2428788608,
+        1792,
+        1,
+        1
+      ],
+      "barrier_fault": 0,
+      "active": 1,
+      "admission_fault": 0,
+      "ring": 1048780864,
+      "injected": false,
+      "descriptor_first_last": [
+        [
+          2214640796,
+          1048780868,
+          4,
+          8388864
+        ],
+        [
+          2214640796,
+          1048797236,
+          4,
+          8388864
+        ]
+      ]
+    }
+  ],
+  "unrelated_getter_return": 0,
+  "strict_denial": {
+    "flags": 3,
+    "words": [
+      16,
+      1,
+      1536
+    ],
+    "callbacks": [],
+    "reads": [
+      {
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "offset": 8,
+        "size": 4
+      }
+    ]
+  },
+  "composition_layout": {
+    "occupied": [
+      {
+        "component": "base",
+        "section": ".text",
+        "start": 2214854656,
+        "end": 2214867492,
+        "sha256": "87fa50dc1fbddcc91edec3e67a69742fab5cf749e6d9046291afcc7775563d53"
+      },
+      {
+        "component": "base",
+        "section": ".rodata",
+        "start": 2214867492,
+        "end": 2214867620,
+        "sha256": "7680dc0f034423969a8e3a15a41addcb044a57ab299c83fae814dda3594ef249"
+      },
+      {
+        "component": "bridge",
+        "section": ".text",
+        "start": 2214887424,
+        "end": 2214887512,
+        "sha256": "d71b6c528536b2bf7f3fbc1e2ebf043a386cd0a2c5a83e58a94a13919dbcd3ca"
+      },
+      {
+        "component": "reset",
+        "section": ".text",
+        "start": 2214903808,
+        "end": 2214903828,
+        "sha256": "3025aa46921bfd8ceca53ae24f1c8311501c934002fb11e5a126f17f936e596a"
+      },
+      {
+        "component": "allocator",
+        "section": ".text",
+        "start": 2214912000,
+        "end": 2214914708,
+        "sha256": "202cf6965f46f7a0687bd0c193c306d19c9ec90d6211b9b2e5fd3821638c0eb3"
+      },
+      {
+        "component": "allocator",
+        "section": ".rodata",
+        "start": 2214914708,
+        "end": 2214914748,
+        "sha256": "8aaa21725a904d4f6e791fab496e4a4cc296be02f37aca38c1ce8d1760e8637f"
+      },
+      {
+        "component": "allocator",
+        "section": ".bss",
+        "start": 2214914748,
+        "end": 2214914752,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      {
+        "component": "allocator",
+        "section": ".command_ring",
+        "start": 2214985728,
+        "end": 2215018512,
+        "sha256": "05c49ce570906bdb1c6bc00c289d4f6dad41691964fd7ea4504b1b5048156770"
+      },
+      {
+        "component": "txdone",
+        "section": ".text",
+        "start": 2214928384,
+        "end": 2214930122,
+        "sha256": "fdb95687c93119835b3bf822998b4ac6b6867e8423e5bd1b732c4a28b0f0191d"
+      },
+      {
+        "component": "order",
+        "section": ".text",
+        "start": 2214936576,
+        "end": 2214936620,
+        "sha256": "9cb570408f077564c486e5d3e54b9ef9f959e096cb0740164c58949baf196209"
+      },
+      {
+        "component": "headers",
+        "section": ".text",
+        "start": 2214944768,
+        "end": 2214945214,
+        "sha256": "4d1306018187feb1e4aef951aba51306629d8aa0849fb8c04ef58203576b9cca"
+      },
+      {
+        "component": "egress",
+        "section": ".text",
+        "start": 2214952960,
+        "end": 2214953140,
+        "sha256": "5e88f48b14d0a68d996fca3eff3fafced375eef9a43c0e596348889e1c7b8d80"
+      },
+      {
+        "component": "packets",
+        "section": ".text",
+        "start": 2214961152,
+        "end": 2214961470,
+        "sha256": "9b8b957619afb4dde9be7ada5388a59c13b45cd6d9fa9631922b5a28177018a7"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".text",
+        "start": 2215084032,
+        "end": 2215086448,
+        "sha256": "c65e48a6763df26336b94d632b91fb78b6533e75aa346f026fbfb7b3763d279c"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".rodata",
+        "start": 2215086448,
+        "end": 2215086488,
+        "sha256": "909ae8c51eda8201b9bcde915f33c75a180d23a1a3e5d5aade257955883e1f07"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".bss",
+        "start": 2215086488,
+        "end": 2215087580,
+        "sha256": "f7ec4d08c90f5b50f1f30152df1641a2e411b8714623dee9004a813246261d0f"
+      },
+      {
+        "component": "rx-stats",
+        "section": ".text",
+        "start": 2215100416,
+        "end": 2215101430,
+        "sha256": "370470d48a375516a16db71da3d2fe45c72eb22dc0cfc65237f8b771a71e52ca"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".text",
+        "start": 2215116800,
+        "end": 2215119076,
+        "sha256": "5d186d159014037dba5581eeb238a3b53d687831c696aed9b689355159f0db10"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".rodata",
+        "start": 2215119076,
+        "end": 2215119080,
+        "sha256": "b01099398ce27bbcb7ed256854acc338ba75af739e9d73d741dcb13dc4cbfb56"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".bss",
+        "start": 2215119080,
+        "end": 2215121200,
+        "sha256": "c1448b9e612668eedc320cc285053fcee62dc9afb40e435c70948441d486b8e2"
+      },
+      {
+        "component": "original-code",
+        "start": 2214592512,
+        "end": 2214714848
+      },
+      {
+        "component": "native-stacks",
+        "start": 2214714880,
+        "end": 2214845952
+      },
+      {
+        "component": "provider-backup",
+        "start": 2216689664,
+        "end": 2216951808
+      },
+      {
+        "component": "native-sram",
+        "start": 1049624576,
+        "end": 1049642836
+      },
+      {
+        "component": "barrier",
+        "start": 1049649152,
+        "end": 1049649256
+      },
+      {
+        "component": "admission",
+        "start": 1049649408,
+        "end": 1049649452
+      },
+      {
+        "component": "saved-mask",
+        "start": 1049649472,
+        "end": 1049649496
+      },
+      {
+        "component": "startup",
+        "start": 1049649536,
+        "end": 1049649600
+      },
+      {
+        "component": "bootstrap",
+        "start": 1049649664,
+        "end": 1049649744
+      },
+      {
+        "component": "plan",
+        "start": 1049649920,
+        "end": 1049649968
+      },
+      {
+        "component": "session",
+        "start": 1049650048,
+        "end": 1049650068
+      },
+      {
+        "component": "loader-identity",
+        "start": 1049650080,
+        "end": 1049650088
+      }
+    ],
+    "stale_v1_import_control": {
+      "npu_emulation_mailbox": {
+        "old": "0x840420f2",
+        "new": "0x84041678"
+      },
+      "npu_emulation_idle": {
+        "old": "0x840422ee",
+        "new": "0x84041884"
+      }
+    },
+    "production_loader_or_physical_backing_proved": false
+  },
+  "inputs": {
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "tests/npu/cold-packet-native-emulation.c": "a21e63a302a0635e286e2557dae15d851ce617c2601a6dde0c6283c813205d60",
+    "tests/npu/cold-packet-native-emulation.S": "3130ea000f9555f5464560d4cb1444a38133e2b5d97a7331a3c3d767a8ec0af6",
+    "tests/npu/cold-packet-native-emulation.ld": "94d860ff3aceb3ff6e894e2153e77bc5e32e3e5c63da61baf065fc957464e542",
+    "tests/npu/test_rx_stats.py": "f0391ccdb078b9539346833d72491aa4508efb3c3bc1b03fc0aa5aa6e463c612",
+    "tests/npu/test_cold_packet_native.py": "96ae8ddb159ff54b46058732880a2b85655ee73f8a848abffb0684815c169ae7"
+  },
+  "binaries": {
+    ".local/npu-bootstrap-v2-composition/control.so": "30ccc8d8060b449a868ade57c18f3cf594eeeeb4b7cba2b8308350bb7c9fab6f",
+    ".local/npu-bootstrap-v2-composition/host-arm.elf": "05ea4a7480ddb652224dadfe8e892b7ed29a55405eda493e5f0dc2707f2323fc",
+    ".local/npu-bootstrap-v2-composition/base-rv.elf": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b",
+    ".local/npu-bootstrap-v2-composition/bridge.elf": "7441b1130eef7fb6ddf93c0d12bf517a640ad19fafc0e92500cd07ca2e9d485a",
+    ".local/npu-bootstrap-v2-composition/reset.elf": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b",
+    ".local/npu-bootstrap-v2-composition/allocator.elf": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08",
+    ".local/npu-bootstrap-v2-composition/txdone.elf": "3d6bcb6a71435f0048ffcd5060c9e88bae6e4b6646c35309a5e558d8d138a205",
+    ".local/npu-bootstrap-v2-composition/order.elf": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7",
+    ".local/npu-bootstrap-v2-composition/headers.elf": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3",
+    ".local/npu-bootstrap-v2-composition/egress.elf": "2a519b6b1b372cd63a4a7406440fe3f0d59a0ee06db2829b563f228f456f3ac2",
+    ".local/npu-bootstrap-v2-composition/packets.elf": "bc2529ac4f03c5dcda4ecf8936dab05b318eebed341e7c0062cfa5d44cc5e2a6",
+    ".local/npu-cold-packet-native-20261010/final-native-20261010/page-component/native-page.elf": "1a36cef8936cb8a49f79509b6b32e6d09627b2919a4306b7ef904c369245eab6",
+    ".local/npu-cold-packet-native-20261010/final-native-20261010/rx-component/rx-stats.elf": "f77e4db60cafcd17cd16d5c5bd02af1c89db674368f842e3cb1abdfed47564eb",
+    ".local/npu-cold-packet-native-20261010/final-native-20261010/native-packet.elf": "f3bd08eb99330ee7fc211d14755cfa4a8941ba45371cfaa3683f3fda1515d2a2"
+  },
+  "limits": [
+    "Original RX/lock instructions with retained cold packet claims; explicit modeled grant/storage and held lease.",
+    "No hot release/recycle,real loader/vendor-blob installation,physical backing/coherency/drain or client proof.",
+    "Full strict setup is still denied; other packet users retain the existing TXDONE route."
+  ]
+}

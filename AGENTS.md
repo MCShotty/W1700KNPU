@@ -1,5 +1,22 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Checked Cold RX Packet Ownership
+
+- The normal archive now has a distinct 16,384-ID/2,048-byte packet profile;
+  ownership state is 2,076 bytes. It shares the retained-claim algorithm without
+  changing the page ABI or compiled page object. No release/recycle API exists.
+- Selected original RX0/RX2 and lock28 instructions compose with claim, immutable
+  table identity, release and readiness guards: 61 sites, 2,560 packet claims,
+  50 controls and six initialized mutants pass. Separate BA replay adds 1,792
+  claims without changing packet state. Unrelated getter routing is preserved.
+- Exact packet-object replay passes 8,243 calls/546 controls/five mutants with
+  sanitizers; page-core and RX-statistics regressions, full world, 60-file source
+  replay, eight build-runner tests and offline image checks pass. Twelve objects;
+  FIT remains `230e03a7...`. No blob installation, flash or hardware change.
+- Full ownership for other packet users, real loader/strict setup, hot lifecycle,
+  workers/physical backing/coherency/drains/recovery and clients remain open.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
 ## 2026-10-10 - Checked RX Statistics
 
 - RX0/type10 and RX2/type9 now use the actual checked allocator in the held

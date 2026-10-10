@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Cold RX Packet Ownership
+
+The normal RV32 archive now includes a distinct cold packet ownership profile.
+Selected RX0/RX2 callers execute original lock/initializer instructions with
+retained claims, immutable table identity and guarded release/readiness.
+The 61-site composition passes 2,560 packet claims, 50 controls and six mutants;
+1,792 separate BA-page claims leave packet state unchanged. Exact core/sanitizer,
+page/statistics regression, full build/source and offline image checks pass.
+This is native-emulated integration, not a replacement vendor blob or physical
+acceptance. Full setup, other owners, hot lifecycle and hardware gates remain.
+Evidence and remaining work: `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.
+
 ## 2026-10-10 - Checked RX Statistics Callers
 
 Original RX0/RX2 statistics allocation now uses the checked active-callback

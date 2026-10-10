@@ -1,0 +1,150 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-packet-20261010\\jev-post-request.json",
+  "request_sha256": "7565e3de043847c0eac9ede31087e3add9962aebcfad26626e7d78c408629c7a",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "denied_lock": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: A failed original lock acquisition produces no packet claim, descriptor, readiness or lock-release request in the selected native emulation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "late_retention": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: Selected committed late-fault controls retain packet ownership even when outer callback success and readiness are denied.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "snapshot": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The changed queue snapshot controls retain the claim and do not silently repair a changed native head.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "private_release": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The lock-changed-after-grant control releases with the private constant lock ID rather than the changed public field.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "distinct_pools": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The independent BA page replay leaves the earlier packet ownership state unchanged; it is not packet-ID reclamation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "physical_claim": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: This checkpoint establishes physical DMA ownership, drain and client acceptance for the complete W1700K NPU implementation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "scope": {
+      "type": "choice",
+      "instructions": "Which validation scope does the supplied evidence establish?",
+      "criteria": {
+        "native_emulation": "Selected compiled C plus original native instruction composition with modeled platform contracts.",
+        "physical_complete": "Complete physically installed and client-validated firmware implementation.",
+        "unknown": "Neither description is established."
+      }
+    }
+  },
+  "elapsed_ms": 1345,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "denied_lock": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.27,
+        "probabilities": {
+          "supported": 0.51,
+          "contradicted": 0.36,
+          "not_established": 0.13
+        }
+      },
+      "late_retention": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.35,
+        "probabilities": {
+          "supported": 0.2,
+          "contradicted": 0.23,
+          "not_established": 0.57
+        }
+      },
+      "snapshot": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.41,
+        "probabilities": {
+          "supported": 0.32,
+          "contradicted": 0.07,
+          "not_established": 0.61
+        }
+      },
+      "private_release": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.45,
+        "probabilities": {
+          "supported": 0.3,
+          "contradicted": 0.07,
+          "not_established": 0.63
+        }
+      },
+      "distinct_pools": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.79,
+        "probabilities": {
+          "supported": 0.86,
+          "contradicted": 0.02,
+          "not_established": 0.12
+        }
+      },
+      "physical_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.48,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.65,
+          "not_established": 0.35
+        }
+      },
+      "scope": {
+        "type": "choice",
+        "choice": "native_emulation",
+        "confidence": 0.88,
+        "probabilities": {
+          "native_emulation": 0.92,
+          "physical_complete": 0.0,
+          "unknown": 0.08
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 7459,
+      "output_tokens": 321
+    }
+  }
+}

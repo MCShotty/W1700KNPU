@@ -19615,3 +19615,30 @@ Status and boundary:
   vendor blob, image, flash or hardware change. Strict setup/real loader, packet
   ownership/hot lifecycle, full worker/physical drain/recovery/client gates remain.
   Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
+## 2026-10-10 - Retained Cold RX Packet Claims And Native Locks
+
+- Continued from main59d9202; refreshed GitHub and confirmed both older source
+  branches are already ancestors of main. Preserved protected/local data.
+- Added the distinct 16,384-ID/2,048-byte packet profile to the normal archive;
+  2,076-byte ownership state, no release/recycle API. The page ABI/object remains
+  unchanged. Exact built packet replay passes 8,243 calls, 546 controls and five
+  mutants with ASan/UBSan/leak checks; page-core regression still passes.
+- Selected original RX0/RX2 plus lock28 instructions now compose with retained
+  claims, immutable type-0x8a table identity, private constant release ID and
+  fail-closed readiness. The 61-site replay passes 2,560 packet claims, 50 controls
+  and six initialized mutants. Separate BA replay adds 1,792 claims without
+  changing packet state; unrelated getter routing is preserved. Partial failure
+  retains 17 claims/head/descriptors and returns outer failure with no readiness.
+- Corrected exploratory fixed-address/type assumptions, exact failure-counter
+  heap prediction, mutant compile hygiene and mutant BSS initialization before
+  final proof. Fresh original RX-statistics regression passes 26 controls/six
+  mutants. Twelve-object/full-world/60-file source replay, eight build-runner
+  tests and FIT/board/218-package/78-module offline checks pass; FIT unchanged.
+- Updated ledger, session log, READMEs, AGENTS and resume documents. Jev's broad
+  claim check was uncertain; focused follow-up retains exact probabilities and
+  scope limits. Deterministic tests and source review provide the covered proof.
+- No vendor-blob/real-loader installation, flash or hardware change. Other packet
+  owners, strict full setup, hot lifecycle, worker/postgate and physical backing/
+  coherency/drain/recovery/client gates remain open. Evidence:
+  `research/checkpoints/2026-10-10-npu-cold-packet/REPORT.md`.

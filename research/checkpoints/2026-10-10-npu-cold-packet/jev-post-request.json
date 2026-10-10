@@ -1,0 +1,812 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "scope": [
+      "Original RX/lock instructions with retained cold packet claims; explicit modeled grant/storage and held lease.",
+      "No hot release/recycle,real loader/vendor-blob installation,physical backing/coherency/drain or client proof.",
+      "Full strict setup is still denied; other packet users retain the existing TXDONE route."
+    ],
+    "controls": {
+      "denied": {
+        "packet_mode": "denied",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bad-lock": {
+        "packet_mode": "bad-lock",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bad-pool": {
+        "packet_mode": "bad-pool",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bad-packet-base": {
+        "packet_mode": "bad-packet-base",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bad-id-16384": {
+        "packet_mode": "bad-id-16384",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          8,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "bad-id-32768": {
+        "packet_mode": "bad-id-32768",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          8,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "bad-id-65535": {
+        "packet_mode": "bad-id-65535",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          8,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "duplicate": {
+        "packet_mode": "duplicate",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 1,
+        "ready_one_stores": 0,
+        "acquire_requests": 2,
+        "release_requests": 2,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          9,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "partial-pool": {
+        "packet_mode": "partial-pool",
+        "returned": 0,
+        "claimed": 17,
+        "population": 17,
+        "buffer_head": 17,
+        "private_head": 17,
+        "descriptor_stores": 17,
+        "ready_one_stores": 0,
+        "acquire_requests": 18,
+        "release_requests": 18,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 17,
+        "packet_counter_delta": 17,
+        "last": [
+          7,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "claim-fault": {
+        "packet_mode": "claim-fault",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          4,
+          0,
+          2315255808,
+          1,
+          1,
+          1
+        ]
+      },
+      "head-changed": {
+        "packet_mode": "head-changed",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 37,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          0,
+          2315255808,
+          1,
+          1,
+          0
+        ]
+      },
+      "tail-changed": {
+        "packet_mode": "tail-changed",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 0,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          0,
+          2315255808,
+          1,
+          1,
+          0
+        ]
+      },
+      "id-changed": {
+        "packet_mode": "id-changed",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 0,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          0,
+          2315255808,
+          1,
+          1,
+          0
+        ]
+      },
+      "published-fault": {
+        "packet_mode": "published-fault",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          0,
+          0,
+          2315255808,
+          1,
+          1,
+          1
+        ]
+      },
+      "release-fault": {
+        "packet_mode": "release-fault",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          0,
+          0,
+          2315255808,
+          1,
+          1,
+          1
+        ]
+      },
+      "lock-changed-after-grant": {
+        "packet_mode": "lock-changed-after-grant",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "before-ready": {
+        "packet_mode": "before-ready",
+        "returned": 0,
+        "claimed": 32,
+        "population": 32,
+        "buffer_head": 32,
+        "private_head": 32,
+        "descriptor_stores": 32,
+        "ready_one_stores": 0,
+        "acquire_requests": 32,
+        "release_requests": 32,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 32,
+        "packet_counter_delta": 32,
+        "last": [
+          0,
+          31,
+          2315319296,
+          32,
+          1,
+          1
+        ]
+      },
+      "bad-native-head": {
+        "packet_mode": "bad-native-head",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 16384,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "bad-native-tail": {
+        "packet_mode": "bad-native-tail",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          4294967295,
+          0,
+          4294967295,
+          0,
+          0
+        ]
+      },
+      "bad-private-plan": {
+        "packet_mode": "bad-private-plan",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bad-magic": {
+        "packet_mode": "bad-magic",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "worker-unparked": {
+        "packet_mode": "worker-unparked",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "epoch-at-entry": {
+        "packet_mode": "epoch-at-entry",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "guard-cleared": {
+        "packet_mode": "guard-cleared",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "pool-record-changed": {
+        "packet_mode": "pool-record-changed",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 0,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "independent_pages": [
+      {
+        "selector": 5,
+        "requested": 256,
+        "returned": 1,
+        "claimed": 256,
+        "private_head": 256,
+        "fault": 0,
+        "native_head": 256,
+        "bitmap_population": 256,
+        "success_statistics_delta": 256,
+        "descriptors": 256,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          255,
+          2428592000,
+          256,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048768576,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048768580,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048772660,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "selector": 6,
+        "requested": 512,
+        "returned": 1,
+        "claimed": 768,
+        "private_head": 768,
+        "fault": 0,
+        "native_head": 768,
+        "bitmap_population": 768,
+        "success_statistics_delta": 512,
+        "descriptors": 512,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          767,
+          2428657536,
+          768,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048772672,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048772676,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048780852,
+            4,
+            8388864
+          ]
+        ]
+      },
+      {
+        "selector": 7,
+        "requested": 1024,
+        "returned": 1,
+        "claimed": 1792,
+        "private_head": 1792,
+        "fault": 0,
+        "native_head": 1792,
+        "bitmap_population": 1792,
+        "success_statistics_delta": 1024,
+        "descriptors": 1024,
+        "ready": 1,
+        "ready_one_writes": 1,
+        "last": [
+          0,
+          1791,
+          2428788608,
+          1792,
+          1,
+          1
+        ],
+        "barrier_fault": 0,
+        "active": 1,
+        "admission_fault": 0,
+        "ring": 1048780864,
+        "injected": false,
+        "descriptor_first_last": [
+          [
+            2214640796,
+            1048780868,
+            4,
+            8388864
+          ],
+          [
+            2214640796,
+            1048797236,
+            4,
+            8388864
+          ]
+        ]
+      }
+    ],
+    "unrelated_getter_return": 0,
+    "strict_denial": {
+      "flags": 3,
+      "callbacks": []
+    },
+    "binding_source": "/* Selected locked RX packet getter; backing/grant/drain are platform contracts. */\n#include \"cold-packet.h\"\n#include \"bootstrap.h\"\n#include \"allocator.h\"\n\nextern uint32_t npu_emulation_callback_guarded;\nextern uint32_t npu_emulation_callback_lifetime(void);\nextern uint32_t npu_emulation_rx_dispatch_live(uint32_t selector);\nextern struct npu_bootstrap npu_emulation_bootstrap_state;\nextern struct npu_admission npu_emulation_admission_state;\nextern struct npu_barrier npu_emulation_barrier_state;\n\nstruct npu_cold_packet_state npu_emulation_packet_state;\nstruct npu_cold_packet_plan npu_emulation_packet_plan;\nstruct npu_cold_packet_queue_result npu_emulation_packet_last;\nconst uint32_t npu_emulation_packet_lock_id = 28;\nstatic uint32_t pool_snapshot;\n\n#define BOOT (&npu_emulation_bootstrap_state)\n#define LOCK 0x3e901b9cu\n#define HEAD 0x3e901ba4u\n#define TAIL 0x3e901b80u\n#define POOL 0x3e800000u\n\nstatic uint32_t word(uint32_t address)\n{\n    return *(const volatile uint32_t *)(uintptr_t)address;\n}\n\nstatic uint32_t load(const uint32_t *address)\n{\n    return __atomic_load_n(address, __ATOMIC_ACQUIRE);\n}\n\nstatic void fail(void)\n{\n    __asm__ volatile (\"csrci mstatus, 8\\n fence iorw, iorw\" ::: \"memory\");\n    npu_cold_packet_fault(&npu_emulation_packet_state);\n    npu_admission_fail(&npu_emulation_admission_state, &npu_emulation_barrier_state);\n}\n\nstatic int valid_pool(uint32_t pool)\n{\n    const struct npu_allocator_state *state = (const void *)(uintptr_t)0x3e901bccu;\n    uint32_t i;\n\n    if ((pool & 31) || pool < POOL || pool > POOL + 0x78000u - 32768 ||\n        state->count > NPU_ALLOCATOR_ENTRIES)\n        return 0;\n    for (i = 0; i < state->count; i++)\n        if (state->entries[i].type == 0x8a && !state->entries[i].reserved &&\n            state->entries[i].address == pool)\n            return 1;\n    return 0;\n}\n\nstatic int context(void)\n{\n    uint32_t status, stats = word(0x3e901f08u), pool = word(0x3e901b88u);\n\n    __asm__ volatile (\"csrr %0, mstatus\" : \"=r\"(status));\n    return !(status & 8) && npu_emulation_callback_lifetime() && word(LOCK) == 28 &&\n           valid_pool(pool) && (!pool_snapshot || pool == pool_snapshot) &&\n           word(0x3e90396cu) == BOOT->plan.region[NPU_BOOT_PKT].base &&\n           (!stats || (!(stats & 3) && stats >= POOL && stats <= POOL + 0x78000u - 112));\n}\n\nuint32_t npu_emulation_packet_begin(void)\n{\n    if (!npu_emulation_callback_guarded || !context() ||\n        load(&npu_emulation_packet_state.magic) != NPU_COLD_PACKET_MAGIC ||\n        load(&npu_emulation_packet_state.fault)) {\n        fail();\n        return 0;\n    }\n    return 1;\n}\n\nuint32_t npu_emulation_packet_init(void)\n{\n    const struct npu_bootstrap_range *pkt = &BOOT->plan.region[NPU_BOOT_PKT];\n    const struct npu_cold_packet_plan plan = {pkt->base, pkt->bytes};\n    uint32_t status;\n\n    if (!context() || *(const volatile uint16_t *)(uintptr_t)HEAD ||\n        *(const volatile uint16_t *)(uintptr_t)TAIL)\n        return NPU_COLD_PACKET_CORRUPT;\n    status = npu_cold_packet_init(&npu_emulation_packet_state, &plan, 1);\n    if (status == NPU_COLD_PACKET_OK || status == NPU_COLD_PACKET_FAULT) {\n        npu_emulation_packet_plan = plan;\n        pool_snapshot = word(0x3e901b88u);\n    }\n    return status;\n}\n\nstatic void statistic(uint32_t offset)\n{\n    uint32_t stats = word(0x3e901f08u);\n\n    if (stats && !(stats & 3) && stats >= POOL && stats <= POOL + 0x78000u - 112) {\n        volatile uint32_t *value = (volatile uint32_t *)(uintptr_t)(stats + offset);\n\n        *value = *value + 1;\n    }\n}\n\nuint32_t npu_emulation_packet_take(uint32_t acquired)\n{\n    const struct npu_cold_packet_queue queue = {\n        (volatile uint16_t *)(uintptr_t)HEAD,\n        (const volatile uint16_t *)(uintptr_t)TAIL,\n        (const volatile uint16_t *)(uintptr_t)pool_snapshot,\n        NPU_COLD_PACKET_IDS\n    };\n    uint32_t id = UINT32_MAX;\n\n    if (acquired) {\n        fail();\n        return UINT32_MAX;\n    }\n    if (!npu_emulation_callback_guarded || !context() ||\n        npu_emulation_packet_plan.packet_base != BOOT->plan.region[NPU_BOOT_PKT].base ||\n        npu_emulation_packet_plan.packet_bytes != BOOT->plan.region[NPU_BOOT_PKT].bytes)\n        goto done;\n    npu_emulation_packet_last = npu_cold_packet_queue_take(\n        &npu_emulation_packet_state, &npu_emulation_packet_plan, 1, &queue);\n    if (npu_emulation_packet_last.published) {\n        volatile uint32_t *attempts = (volatile uint32_t *)(uintptr_t)0x3e901b90u;\n\n        *attempts = *attempts + 1;\n        statistic(0x1c);\n    }\n    if (npu_emulation_packet_last.packet.status == NPU_COLD_PACKET_OK &&\n        npu_emulation_packet_last.published && context())\n        id = npu_emulation_packet_last.packet.id;\n    else\n        statistic(0x20);\ndone:\n    __asm__ volatile (\"fence iorw, iorw\" ::: \"memory\");\n    ((void (*)(const uint32_t *))(uintptr_t)0x8400651cu)(&npu_emulation_packet_lock_id);\n    if (id == UINT32_MAX || load(&npu_emulation_packet_state.fault) || !context()) {\n        fail();\n        return UINT32_MAX;\n    }\n    return id;\n}\n\nuint32_t npu_emulation_packet_ready(uint32_t selector)\n{\n    if (!context() || load(&npu_emulation_packet_state.magic) != NPU_COLD_PACKET_MAGIC ||\n        load(&npu_emulation_packet_state.fault) || npu_emulation_packet_state.epoch != 1 ||\n        npu_emulation_packet_state.head != *(const volatile uint16_t *)(uintptr_t)HEAD ||\n        !npu_emulation_rx_dispatch_live(selector)) {\n        fail();\n        return 0;\n    }\n    return 1;\n}\n",
+    "independence_test": {
+      "passed": true,
+      "assertion_excerpt": "    page_rows = []\n    packet_before_pages = bytes(h.cpu.mem_read(h.packet.symbols['npu_emulation_packet_state'], 2076))\n    assert h.direct(h.binding.symbols['npu_emulation_page_init']) == 0\n    page_total = 0\n    for selector, count in pages.COUNTS.items():\n        if args.quick:\n            count = 16\n        page_total += count\n        row = h.invoke(selector, count)\n        pages.check(row, 1, page_total, count, page_total)\n        page_rows.append(row)\n    assert bytes(h.cpu.mem_read(h.packet.symbols['npu_emulation_packet_state'], 2076)) == packet_before_pages\n    print(json.dumps(dict(independent_ba_claims=page_total, packet_state_unchanged=True)), flush=True)\n"
+    }
+  },
+  "questions": {
+    "denied_lock": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: A failed original lock acquisition produces no packet claim, descriptor, readiness or lock-release request in the selected native emulation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "late_retention": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: Selected committed late-fault controls retain packet ownership even when outer callback success and readiness are denied.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "snapshot": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The changed queue snapshot controls retain the claim and do not silently repair a changed native head.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "private_release": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The lock-changed-after-grant control releases with the private constant lock ID rather than the changed public field.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "distinct_pools": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: The independent BA page replay leaves the earlier packet ownership state unchanged; it is not packet-ID reclamation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "physical_claim": {
+      "type": "choice",
+      "instructions": "Evaluate this claim against state: This checkpoint establishes physical DMA ownership, drain and client acceptance for the complete W1700K NPU implementation.",
+      "criteria": {
+        "supported": "The entire scoped claim follows from the supplied source and covered test evidence.",
+        "contradicted": "Evidence explicitly contradicts the same scoped claim.",
+        "not_established": "A material part of the claim has no supplied evidence."
+      }
+    },
+    "scope": {
+      "type": "choice",
+      "instructions": "Which validation scope does the supplied evidence establish?",
+      "criteria": {
+        "native_emulation": "Selected compiled C plus original native instruction composition with modeled platform contracts.",
+        "physical_complete": "Complete physically installed and client-validated firmware implementation.",
+        "unknown": "Neither description is established."
+      }
+    }
+  }
+}

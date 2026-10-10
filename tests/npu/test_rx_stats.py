@@ -118,6 +118,11 @@ class RxStats(pages.NativePages):
                 self.changed = True
         super().write_hook(cpu, access, address, size, value, data)
 
+    def cleared_heap(self, address):
+        heap = bytearray(self.at_allocator['heap'])
+        heap[address - HEAP:address - HEAP + 1000] = bytes(1000)
+        return heap
+
     def invoke_rx(self, selector, count, mode=None):
         self.mode, self.changed = mode, False
         self.at_allocator = None
@@ -168,9 +173,7 @@ class RxStats(pages.NativePages):
         if self.at_allocator and not clears:
             assert bytes(self.cpu.mem_read(HEAP, HEAP_BYTES)) == self.at_allocator['heap'], 'failed-statistics-caller-wrote-heap'
         if self.at_allocator and clears and not descriptors:
-            heap = bytearray(self.at_allocator['heap'])
-            heap[address - HEAP:address - HEAP + 1000] = bytes(1000)
-            assert bytes(self.cpu.mem_read(HEAP, HEAP_BYTES)) == heap, ('statistics-only-heap-footprint', mode)
+            assert bytes(self.cpu.mem_read(HEAP, HEAP_BYTES)) == self.cleared_heap(address), ('statistics-only-heap-footprint', mode)
         self.check_hooks()
         return dict(selector=selector, count=count, mode=mode, returned=returned,
                     record_count=self.get32(META + 8), records_before=count_before,

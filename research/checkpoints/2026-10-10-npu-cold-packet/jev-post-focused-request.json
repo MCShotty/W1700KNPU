@@ -1,0 +1,177 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "controls": {
+      "denied": {
+        "packet_mode": "denied",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 0,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "claim-fault": {
+        "packet_mode": "claim-fault",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          4,
+          0,
+          2315255808,
+          1,
+          1,
+          1
+        ]
+      },
+      "release-fault": {
+        "packet_mode": "release-fault",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 1,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 1,
+        "packet_counter_delta": 1,
+        "last": [
+          0,
+          0,
+          2315255808,
+          1,
+          1,
+          1
+        ]
+      },
+      "head-changed": {
+        "packet_mode": "head-changed",
+        "returned": 0,
+        "claimed": 1,
+        "population": 1,
+        "buffer_head": 37,
+        "private_head": 1,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          6,
+          0,
+          2315255808,
+          1,
+          1,
+          0
+        ]
+      },
+      "lock-changed-after-grant": {
+        "packet_mode": "lock-changed-after-grant",
+        "returned": 0,
+        "claimed": 0,
+        "population": 0,
+        "buffer_head": 0,
+        "private_head": 0,
+        "descriptor_stores": 0,
+        "ready_one_stores": 0,
+        "acquire_requests": 1,
+        "release_requests": 1,
+        "packet_fault": 1,
+        "active": 1,
+        "head_publications": 0,
+        "packet_counter_delta": 0,
+        "last": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "definitions": {
+      "returned": "0 is outer callback failure; 1 is success.",
+      "claimed": "Retained private packet ownership count after this callback.",
+      "population": "Count of set ownership bits after this callback.",
+      "ready_one_stores": "Observed native writes of value 1 to selected readiness flag.",
+      "release_requests": "Observed writes to original lock28 release MMIO 0x1ec03270, not a physical release proof."
+    },
+    "injections": {
+      "denied": "Original lock28 acquire reads modeled denial; native acquire return is nonzero.",
+      "claim_fault": "Fault latched at the committed count store, before native head publication.",
+      "release_fault": "Barrier fault injected upon original packet lock release, after claim/publication.",
+      "head_changed": "External head changed to 37 at committed count store; initial head was zero.",
+      "lock_changed_after_grant": "Public lock ID at 0x3e901b9c changed from 28 to 27 after acquire, before packet_take."
+    },
+    "private_release_source": "const uint32_t npu_emulation_packet_lock_id = 28;\n((void (*)(const uint32_t *))(uintptr_t)0x8400651cu)(&npu_emulation_packet_lock_id);",
+    "mutable_release_mutant": {
+      "name": "release-mutable-lock",
+      "rejected_by": "wrong-lock-release-mmio"
+    },
+    "scope": [
+      "Original RX/lock instructions with retained cold packet claims; explicit modeled grant/storage and held lease.",
+      "No hot release/recycle,real loader/vendor-blob installation,physical backing/coherency/drain or client proof.",
+      "Full strict setup is still denied; other packet users retain the existing TXDONE route."
+    ]
+  },
+  "questions": {
+    "denied_lock": {
+      "type": "noul",
+      "instructions": "Using controls.denied and definitions, is the modeled denied acquisition rejected without packet claim, descriptor, readiness-one write or lock28 release request?"
+    },
+    "late_retention": {
+      "type": "noul",
+      "instructions": "Using controls.claim-fault and controls.release-fault plus their injections, do the committed claims remain owned after the fault? This asks about retained ownership, not physical DMA containment."
+    },
+    "late_exposure": {
+      "type": "noul",
+      "instructions": "Using controls.claim-fault and controls.release-fault and definitions, is native descriptor/readiness exposure denied for those late-fault callbacks?"
+    },
+    "snapshot": {
+      "type": "noul",
+      "instructions": "Does controls.head-changed show retention of the private claim while the externally changed head stays 37 rather than being silently repaired?"
+    },
+    "private_release": {
+      "type": "noul",
+      "instructions": "Do controls.lock-changed-after-grant, injections.lock_changed_after_grant, private_release_source and mutable_release_mutant support constant lock28 release identity despite the public lock field changing?"
+    },
+    "physical_scope": {
+      "type": "noul",
+      "instructions": "Does scope establish physical DMA ownership, drains and client acceptance for the complete W1700K NPU?"
+    }
+  }
+}
