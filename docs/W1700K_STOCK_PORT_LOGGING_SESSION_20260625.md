@@ -7487,3 +7487,20 @@ focused/broad Jev evidence with its uncertainty. Hot lifecycle/other owners,
 postgate and physical drain/recovery/client acceptance remain open.
 Evidence: `research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md` and
 `research/checkpoints/2026-10-10-npu-cold-txdone/INSTALL_TRACE.md`.
+
+## 2026-10-10 - Paired Raw CODE/DATA
+
+From main629a650, added isolated canonical pair builds with checked allocated
+sections/NOBITS,61 final detours and unprovisioned loader storage. Independent
+builds produce identical bytes;15 assembly groups pass. Full raw-only native
+startup/RX/TXDONE/BA replay passes3,072 PKT/1,792 BA claims, all-hart parking,
+six loader/eight TXDONE controls with no post-load ELF byte injection. Actual
+reviewed provider C passes273 matrix/seven exact-pair copy cases with sanitizers.
+Fresh normal object payloads match the packaged12; archive order is recorded.
+Eight build-runner/offline image checks pass, with unchanged vendor pair/FIT.
+Corrected exploratory identity/control and staging assumptions before sealing
+proof; all scoped Jev results and probabilities are retained. Updated ledger,
+README/AGENTS/current-reference/remaining-work documents. No fresh world build,
+flash or hardware change. Next real cold-provider/storage/identity-plan and
+paired packaging/strict callers; hot/postgate/physical recovery/clients remain.
+Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.

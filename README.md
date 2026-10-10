@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Paired Raw NPU Build
+
+The checked native composition now builds a complete raw CODE/DATA pair through
+the canonical `pair` target. Independent builds are byte-identical. Fifteen
+assembly groups, full raw-only replay with3,072 packet/1,792 page claims and
+failure controls, plus actual-provider-C exact-pair copy tests pass. No ELF bytes
+are injected after raw loading. Eight build-runner/offline image checks pass.
+This is an assembled artifact with modeled platform inputs, not a flashed or
+physically accepted replacement. Real loader/storage/identity-plan publication,
+strict setup and full lifecycle/physical gates remain. Reproduction and receipts:
+`research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
 ## 2026-10-10 - Shared RX/TXDONE Packet Claims
 
 TXDONE now uses the same retained packet state as RX0/RX2 in native instruction

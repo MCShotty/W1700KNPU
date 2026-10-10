@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Paired Raw NPU Build
+
+- `make -C firmware/npu pair` now assembles the complete checked raw CODE/DATA
+  in fresh ignored storage, with61 hooks, explicit NOBITS and unprovisioned
+  loader plan/session/identity. `pair-check` validates the assembly/readback.
+- Two builds are byte-identical;15 assembly groups pass. Full raw-only native
+  replay passes3,072 PKT/1,792 BA claims, all-hart parking, six loader/eight
+  TXDONE controls. Actual current provider C passes273 matrix/seven exact-pair
+  cases with sanitizers. Eight build-runner/offline image checks pass.
+- This artifact is not packaged/flashed. Native execution still requires
+  modeled provider publication, backing/grants/IRQ scheduling and a held direct
+  lease. Unprovisioned boot faults before IRQ setup. Do not bake fixture values
+  into DATA or infer physical containment from copy success/aperture fit.
+- Continue real cold-provider/storage/identity-plan publication and packaging,
+  strict Linux setup callers, other owners/hot/postgate and physical recovery/
+  clients. Scope, reproduction and sealed proof:
+  `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
 ## 2026-10-10 - Shared RX And TXDONE Packet Ownership
 
 - The 61-site native binding now routes TXDONE through the same retained PKT

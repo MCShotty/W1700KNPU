@@ -1,0 +1,114 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-raw-pair-20261010\\jev-post-request.json",
+  "request_sha256": "1544548d44d86097f04ca2dbaa535ad0934e8c815501c518a6cd5b43de8f91a9",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "raw_claim": {
+      "type": "choice",
+      "instructions": "Does replay directly support the entire claims.raw statement?",
+      "criteria": {
+        "supported": "Every part is supported at the stated modeled scope.",
+        "contradicted": "An explicit incompatible fact is given.",
+        "not_established": "A material part lacks evidence."
+      }
+    },
+    "unbaked_identity": {
+      "type": "choice",
+      "instructions": "Do assembly and replay directly support claims.immutable? Treat runtime synthetic publication as different from stored artifact initialization.",
+      "criteria": {
+        "supported": "The claim follows for stored bytes, not runtime state.",
+        "contradicted": "Fixture identity/request/lease is encoded in stored DATA.",
+        "not_established": "Stored-versus-runtime evidence is insufficient."
+      }
+    },
+    "provider_scope": {
+      "type": "choice",
+      "instructions": "Does provider directly support claims.copy at its explicit actual-C/modeled-I/O scope?",
+      "criteria": {
+        "supported": "The stated scope is fully supported.",
+        "contradicted": "Explicit provider evidence conflicts.",
+        "not_established": "A material part lacks evidence."
+      }
+    },
+    "physical_acceptance": {
+      "type": "choice",
+      "instructions": "Does deployment support claims.physical?",
+      "criteria": {
+        "supported": "Physical replacement and all NPU acceptance are established.",
+        "contradicted": "Explicit deployment evidence denies that scope.",
+        "not_established": "Physical evidence is simply absent."
+      }
+    },
+    "next_boundary": {
+      "type": "choice",
+      "instructions": "Which missing boundary in deployment must be resolved before describing this raw artifact as actually installed and booted by the provider?",
+      "criteria": {
+        "real_loader": "Real containment/storage/identity-plan publication, packaging and provider startup wiring.",
+        "more_snapshot_dumps": "Additional mutable emulator dumps.",
+        "already_installed": "Installation/boot already established.",
+        "unknown": "No relevant boundary stated."
+      }
+    }
+  },
+  "elapsed_ms": 812,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "raw_claim": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.95,
+        "probabilities": {
+          "supported": 0.97,
+          "contradicted": 0.0,
+          "not_established": 0.03
+        }
+      },
+      "unbaked_identity": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.89,
+        "probabilities": {
+          "supported": 0.93,
+          "contradicted": 0.01,
+          "not_established": 0.06
+        }
+      },
+      "provider_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.99,
+          "contradicted": 0.0,
+          "not_established": 0.01
+        }
+      },
+      "physical_acceptance": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.97,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.98,
+          "not_established": 0.02
+        }
+      },
+      "next_boundary": {
+        "type": "choice",
+        "choice": "real_loader",
+        "confidence": 1.0,
+        "probabilities": {
+          "real_loader": 1.0,
+          "more_snapshot_dumps": 0.0,
+          "already_installed": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1338,
+      "output_tokens": 232
+    }
+  }
+}

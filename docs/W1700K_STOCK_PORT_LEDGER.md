@@ -19666,3 +19666,29 @@ Status and boundary:
   raw results retain all probabilities. Real paired-image/loader/strict caller
   wiring, other owners/hot lifecycle, postgate/physical recovery/clients remain.
   Evidence: `research/checkpoints/2026-10-10-npu-cold-txdone/REPORT.md`.
+
+## 2026-10-10 - Complete Paired Raw Build And Replay
+
+- From main629a650, added the canonical raw-pair target, checked assembly and
+  byte readback. Twelve linked components/twenty allocated sections/three
+  explicit NOBITS sections compose with61 final detours and unprovisioned DATA
+  plan/session/identity storage. Outputs are isolated, fresh and local.
+- Independent builds are byte-identical;15 assembly test groups pass. Full
+  raw-only native replay passes3,072 PKT/1,792 independent BA claims, native
+  all-hart parking, six early loader and eight retained TXDONE fault controls.
+  Constructor CODE/SRAM effects are erased before raw copies; no later ELF
+  bytes are injected. Platform inputs/publication/direct lease remain modeled.
+- Actual reviewed provider C passes273 loader matrix/seven exact-pair cases
+  with address/undefined/leak sanitizers. Exact copy order/readback and preserved
+  failed destinations pass. Fresh normal build object payloads match all12
+  packaged core objects; container member order is separately recorded.
+  Eight build-runner and offline FIT/board/package/module checks pass. Packaged
+  archive/vendor pair/source lock/FIT unchanged; no fresh world build or flash.
+- Corrected exploratory missing-identity expectations and stale staging-source
+  comparison before proof. Updated all resume/README/AGENTS documents and sealed
+  scoped receipts. Jev's supported raw/copy claims retain actual probabilities;
+  it explicitly rejects physical acceptance and selects real-loader integration.
+- Continue actual cold-provider/storage/identity-plan publication and packaging,
+  strict setup callers, other owners/hot lifecycle/postgate and physical backing/
+  coherency/drain/recovery/client acceptance. Protected material was untouched.
+  Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.

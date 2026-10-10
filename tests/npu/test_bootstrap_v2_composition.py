@@ -62,9 +62,9 @@ def check_imports(path, imports):
     assert not differences, ('stale-imported-symbol', differences)
 
 
-def build():
-    BUILD.mkdir(parents=True, exist_ok=True)
-    target = BUILD / 'staged/firmware/npu/control-v2.c'
+def build(*, destination=BUILD):
+    destination.mkdir(parents=True, exist_ok=True)
+    target = destination / 'staged/firmware/npu/control-v2.c'
     target.parent.mkdir(parents=True, exist_ok=True)
     assert 'int npu_control_v2_dispatch_gate(' in control.SERVER.read_text()
     target.write_bytes(control.SERVER.read_bytes())
@@ -74,7 +74,7 @@ def build():
     rv = ['--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32', '-nostdlib', f'--ld-path={lld}']
     sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'bootstrap-v2.c')]
     host = [BASE / 'control-client.c', BASE / 'control-v2-client.c']
-    paths = [BUILD / name for name in ('control.so', 'host-arm.elf', 'base-rv.elf')]
+    paths = [destination / name for name in ('control.so', 'host-arm.elf', 'base-rv.elf')]
     run([*common, '-std=c11', *sources, target, *host, '-shared', '-fPIC', '-o', paths[0]])
     run([*common, '-std=c11', *host, '--target=aarch64-none-elf', '-mgeneral-regs-only', '-nostdlib',
          f'--ld-path={lld}', f'-Wl,-T,{control.v1.LINKER}', '-o', paths[1]])
@@ -89,7 +89,7 @@ def build():
          f'-Wl,--defsym=npu_emulation_control_v2_boot={boot.LOADER}', '-o', paths[2]])
 
     def component(name, sources, linker, imports=None, defines=()):
-        path = BUILD / (name + '.elf')
+        path = destination / (name + '.elf')
         run([*common, *rv, *sources, *['-D' + x for x in defines],
              f'-Wl,-T,{linker},--no-relax',
              *([f'-Wl,--just-symbols={imports}'] if imports else []), '-o', path])

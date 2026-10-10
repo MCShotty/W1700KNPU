@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Complete Paired Raw Artifact
+
+The canonical `pair` target now builds checked raw CODE/DATA with61 final hooks,
+explicit NOBITS and zero/unprovisioned loader storage. Independent builds produce
+identical bytes. Fifteen assembly groups and full raw-only native replay pass:
+3,072 retained PKT/1,792 separate BA claims, all-hart parking, six loader/eight
+TXDONE controls. Actual current provider C passes273 matrix/seven exact-pair
+cases with sanitizers. Build-runner/offline image checks pass; FIT unchanged.
+This artifact is not packaged/flashed. Real cold-provider containment/storage/
+identity-plan publication, strict callers, remaining owners/hot/postgate and
+physical recovery/clients remain open. No fresh world build or hardware change.
+Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
 ## 2026-10-10 - Shared Cold RX/TXDONE Ownership
 
 TXDONE now shares the retained PKT state with RX0/RX2. Its wrapper and publication

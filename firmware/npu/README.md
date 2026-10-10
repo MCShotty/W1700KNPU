@@ -1,5 +1,23 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Complete Raw Pair Target
+
+`make pair PAIR_OUT=../../.local/npu-pair-fresh` compiles the twelve linked native
+components into isolated output and assembles checked CODE/DATA with61 final
+hooks, explicit NOBITS zero-fill and fresh startup metadata. `make pair-check`
+checks the selected `PAIR_OUT`. Run from this directory with the repository's
+Python dependencies available; output must be fresh under ignored build storage.
+Normal `make all` still builds the component archive.
+
+The raw DATA leaves the plan/session/boot-identity slots zero. Do not substitute
+fixture identity, request addresses or a held lease for real provider publication.
+Raw-only full instruction replay and actual current provider-C copy/failure tests
+pass at their modeled scope. Neither this target nor range fit installs firmware,
+proves prior-user containment or permits live/hot replacement. The production
+package still uses vendor blobs. Actual loader/caller/physical contracts remain.
+Full commands, hashes, controls and receipts:
+`research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
 ## 2026-10-10 - Shared Cold TXDONE Binding
 
 Selected RX0/RX2/TXDONE packet getters now share the retained PKT state in native

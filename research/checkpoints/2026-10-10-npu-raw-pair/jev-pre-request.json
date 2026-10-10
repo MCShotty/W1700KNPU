@@ -1,0 +1,15 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "requirement": "Build a deterministic paired raw CODE/DATA artifact from the checked original pair, linked sections and61 reviewed final hook sites. Encode fresh initialization, including NOBITS, without copying emulator runtime snapshots. Replay the produced bytes, with separately labeled modeled loader publication. Real provider containment and hardware acceptance remain open.",
+    "identity": "The real loader must provide a fresh nonzero boot identity and actual request-buffer identity. Existing tests use fixture values; the current production loader does not publish them.",
+    "sections": "Allocated ELF sections include executable/read-only bytes, writable command ring data and zero-initialized private BSS. ELF file bytes also contain debug/symbol tables that are not loadable firmware data.",
+    "scope": "Aperture limits and non-overlap checks establish software geometry, not physical storage reservation, cache correctness, engine containment or client acceptance."
+  },
+  "questions": {
+    "assembly_source": {"type":"choice","instructions":"Which image source satisfies requirement and sections?","criteria":{"sections":"Checked allocated sections plus explicit initializations and original-byte edits.","snapshot":"A dump of mutable emulator runtime memory including fixture values.","elf_concat":"Concatenate complete ELF files.","unknown":"Insufficient evidence."}},
+    "zero_fill": {"type":"noul","instructions":"Does sections require deliberately encoding fresh BSS initialization in the raw artifact?"},
+    "fixture_identity": {"type":"noul","instructions":"Does identity justify baking the tests' fixed boot identity/request address into the real raw artifact?"},
+    "scope": {"type":"choice","instructions":"What would successful raw artifact replay establish under scope?","criteria":{"raw_emulation":"Assembled-byte native replay with modeled platform inputs.","physical":"Physical reservation/drain and client acceptance.","unknown":"Neither is established."}}
+  }
+}

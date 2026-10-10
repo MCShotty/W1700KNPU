@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Raw Pair Assembled And Replayed
+
+The complete paired raw CODE/DATA prerequisite now passes: independent builds
+are byte-identical,15 assembly/readback groups pass, and full raw-only native
+startup/RX/TXDONE/BA replay passes3,072 PKT/1,792 BA claims, six loader/eight
+TXDONE controls. Actual current provider C passes273 matrix/seven exact-pair
+copy cases with sanitizers. Build-runner/offline image checks pass; no flash.
+
+Next implement actual cold-provider containment/storage and fresh identity/plan
+publication, integrate paired packaging, and wire strict Linux DISCOVER/setup/
+BIND callers. The production loader still copies vendor blobs and publishes none
+of the new storage. Unprovisioned raw boot faults before IRQ setup; test-only
+publication and a held direct callback lease must not be described as real setup.
+Other owners/hot lifecycle/postgate and physical backing/coherency/drain/recovery/
+client gates remain required. No fresh world build or hardware operation occurred.
+Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
 ## 2026-10-10 - TXDONE Shares The Cold PKT Lifetime
 
 Selected RX0/RX2/TXDONE now share retained claims in 61-site native instruction

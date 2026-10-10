@@ -1,0 +1,73 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-raw-pair-20261010\\jev-pre-request.json",
+  "request_sha256": "741fc54d27d0bea2656b7c34eeb15956b4caf176fe89afa674dbfb2a1b38d86d",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "assembly_source": {
+      "type": "choice",
+      "instructions": "Which image source satisfies requirement and sections?",
+      "criteria": {
+        "sections": "Checked allocated sections plus explicit initializations and original-byte edits.",
+        "snapshot": "A dump of mutable emulator runtime memory including fixture values.",
+        "elf_concat": "Concatenate complete ELF files.",
+        "unknown": "Insufficient evidence."
+      }
+    },
+    "zero_fill": {
+      "type": "noul",
+      "instructions": "Does sections require deliberately encoding fresh BSS initialization in the raw artifact?"
+    },
+    "fixture_identity": {
+      "type": "noul",
+      "instructions": "Does identity justify baking the tests' fixed boot identity/request address into the real raw artifact?"
+    },
+    "scope": {
+      "type": "choice",
+      "instructions": "What would successful raw artifact replay establish under scope?",
+      "criteria": {
+        "raw_emulation": "Assembled-byte native replay with modeled platform inputs.",
+        "physical": "Physical reservation/drain and client acceptance.",
+        "unknown": "Neither is established."
+      }
+    }
+  },
+  "elapsed_ms": 887,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "assembly_source": {
+        "type": "choice",
+        "choice": "sections",
+        "confidence": 0.95,
+        "probabilities": {
+          "sections": 0.96,
+          "snapshot": 0.0,
+          "elf_concat": 0.0,
+          "unknown": 0.04
+        }
+      },
+      "zero_fill": {
+        "type": "noul",
+        "noul": 0.76
+      },
+      "fixture_identity": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "scope": {
+        "type": "choice",
+        "choice": "raw_emulation",
+        "confidence": 0.85,
+        "probabilities": {
+          "raw_emulation": 0.9,
+          "physical": 0.0,
+          "unknown": 0.1
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 692,
+      "output_tokens": 122
+    }
+  }
+}
