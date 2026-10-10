@@ -4,20 +4,6 @@ Rebased onto the pinned non-OC source. This is the experimental
 build input; compilation is not a physical drain or recovery proof.
 
 ---
---- a/Makefile
-+++ b/Makefile
-@@ -14,6 +14,11 @@
- 	tx.o agg-rx.o mcu.o wed.o scan.o channel.o
- 
- mt76-$(CONFIG_MT76_NPU) += npu.o
-+mt76-$(CONFIG_MT76_NPU) += w1700k/control-client.o w1700k/control-v2-client.o \
-+			 w1700k/linux-control.o
-+CFLAGS_w1700k/control-client.o := -I$(src)/w1700k/kernel-include
-+CFLAGS_w1700k/control-v2-client.o := -I$(src)/w1700k/kernel-include
-+CFLAGS_w1700k/linux-control.o := -I$(src)/w1700k/kernel-include
- mt76-$(CONFIG_PCI) += pci.o
- mt76-$(CONFIG_NL80211_TESTMODE) += testmode.o
- 
 --- a/mt7996/debugfs.c
 +++ b/mt7996/debugfs.c
 @@ -967,6 +967,30 @@

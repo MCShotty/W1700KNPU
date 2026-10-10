@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Provider-Owned Initial Session
+
+The real reserved-memory callback now owns one checked V2 session in the NPU
+provider, not per mt76 attachment. It verifies the loader's boot identity before
+setup, sends the existing six-command prefix, binds and polls the held initial
+epoch. Failure stays sticky; reattachment cannot create another nonce or replay
+setup. Close joins this CPU path without releasing exposed DMA storage.
+
+Actual C passes279 cases/nine mutants; the Linux client completes the prefix
+against assembled RV32 firmware using C-published DATA, and a wrong identity
+stops before setup. Packaged-module Ghidra, full raw ownership regression,
+world/63-file replay and FIT/218-package/78-module checks pass. Latest FIT:
+`6a7dc41e...`; previous `b0400eaa...` and R1 are preserved. No flash/contact.
+Full strict RX/TXDONE setup, physical containment/retirement and clients remain
+open. Evidence: `research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
+
 ## 2026-10-10 - Checked Boot Launch
 
 The actual provider now checks every existing boot-register write, stops on the

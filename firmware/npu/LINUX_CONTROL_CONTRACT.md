@@ -1,29 +1,47 @@
 # Linux V2 Control Executor
 
 `linux-control.c/.h` bind the existing V2 client to a Linux mutex and the
-provider's `airoha_npu_wlan_control()` transport. The 2026-09-23 unified merge
-compiles these canonical sources into mt76. Cold-session initialization and
-actual setup/recovery callers are not yet implemented.
+provider's `airoha_npu_wlan_control()` transport. The 2026-10-10 provider-session
+change moves these canonical objects from mt76 into `airoha_npu.ko`. The checked
+provider now owns one executor and its existing reserved-memory callback invokes
+the initial held-session sequence. Recovery and full strict RX/TXDONE setup are
+not implemented.
 
 The 2026-10-10 provider validates the checked pair, publishes its private native
 memory/request plan and fresh runtime identity to SRAM, and retains exposed
 mailboxes/device/module lifetime. Boot writes and checked version replies now
 gate provider publication, with one launch attempt and no failed-operation retry
 or reclamation. This is software publication/retention, not independently proven
-physical cold containment or a completed executor/session owner contract.
+physical cold containment. The provider-session checkpoint adds the CPU/wire
+owner described below, without supplying the separate physical contract.
 See `research/checkpoints/2026-10-10-npu-boot-launch/REPORT.md` and the preceding
-loader-publication checkpoint. Real strict setup callers remain unwired.
+loader-publication checkpoint. The reserved prefix is now wired; full strict
+native setup remains denied.
 
 ## Ownership
 
-The caller must initialize an unpublished, zeroed executor exactly once for an
-independently contained cold provider lifetime, using a fresh nonzero nonce.
-Initialization must not race other operations. A new mt76 attachment alone does
-not establish that lifetime, and this API does not fabricate a boot identity.
-The software loader identity/publication now exists; the independently contained
-owner that anchors this executor and its real callers remains open work.
+The caller must initialize an unpublished, zeroed executor exactly once, using a
+fresh nonzero nonce. Initialization must not race other operations. This enrolls
+a CPU/wire client only. Earlier initializer comments bundled enrollment with the
+independent physical cold-containment prerequisite; that requirement remains for
+hardware setup and any eventual release/rearm, but initialization does not prove
+or perform it. A new mt76 attachment never establishes a new provider boot.
 
-The caller already owns the provider reference. It must retain it until close
+The checked provider embeds the executor and serializes its entire setup attempt,
+nonce generation and close under a separate setup mutex. It consumes the attempt
+before RNG or transport. DISCOVER must match the loader's published boot identity
+and initial held epoch before any reserved-memory command is sent. The six
+existing commands run between DISCOVER and BIND, then STOP and at most 100 STATUS
+polls require all eight software workers parked in epoch 1 with release, arm,
+ready and drain fields zero. A final snapshot accepts parking on the last poll.
+
+The first failed attempt is permanent and retains its error. A repeat call after
+success returns `-EBUSY`; it cannot mint another nonce or repeat setup. Provider
+devres closes this CPU session before its IRQ/work/lease cleanup. It does not
+reset or free exposed mailboxes. Existing consumer references/device links still
+own the wider CPU lifetime; this mutex is not a join for every independent user.
+
+An external caller already owns the provider reference. It must retain it until close
 returns, and retain the executor allocation until every API caller retires.
 The executor neither gets nor puts a provider reference. Its fields are private
 to these functions; callers inspect state through the snapshot function.
@@ -45,7 +63,9 @@ existing client's next operation before creating any request:
 This preserves the current client contract. It does not add running-state
 STATUS, restart or arm operations. In the bootstrap profile the caller must
 complete the required setup between DISCOVER and BIND; this executor does not
-perform that setup or bypass the firmware BIND gate.
+perform that setup or bypass the firmware BIND gate. The provider-owned wrapper
+now performs the exact reserved prefix; the executor's operation contract is
+unchanged.
 
 One mutex covers operation selection, ticket creation, the synchronous provider
 call and complete reply validation. A repeated BIND therefore cannot silently
@@ -79,15 +99,20 @@ mutex. It returns no provider pointer or resource-release permission.
 The existing portable protocol sources remain unchanged. For the selected
 kernel objects only, `kernel-include/stdint.h` supplies the kernel's fixed-width
 types and limit macro. It must not be placed on an unrelated or userspace include
-path. The caller must link the executor, `control-client.c` and
-`control-v2-client.c` together with the provider export available. The unified
-OpenWrt patch series and source-lock component mappings perform this build.
+path. The provider links the executor, `control-client.c` and
+`control-v2-client.c` together. A small `provider-main.c` translation-unit wrapper
+preserves the established `airoha_npu.c` source path and module filename while
+allowing Kbuild to link the separate protocol objects. They are no longer linked
+into each mt76 consumer. Canonical source-lock mappings copy the exact sources
+into the selected target's kernel files overlay.
 
 Evidence and exact replay instructions are in
 `research/checkpoints/2026-09-23-npu-linux-control/REPORT.md`. The host tests use
 pthreads for kernel mutexes and modeled regmap/coherent storage/delivery. Their
 server is standalone V2, not the native cold-bootstrap binding. Two AArch64
 modules check the enabled provider API and a forced-disabled header profile;
-neither module is loaded. Production initialization/loader identity, mt76
-caller wiring, native bootstrap composition, full lifecycle and physical
-drain/recovery remain required for complete NPU recovery.
+neither module is loaded. The newer provider-session tests execute the real
+Linux setup/executor against the native assembled pair and C-published DATA.
+Backing, delivery, host pointer publication and worker scheduling remain modeled.
+Full strict callbacks, wider lifecycle and physical containment/drain/recovery
+remain required for complete NPU recovery.

@@ -7,8 +7,11 @@
 
 struct airoha_npu;
 
-/* Initialize once before publishing a zeroed instance, only for an independently
- * contained cold provider lifetime and fresh nonce. The caller retains its
+/* Initialize once before publishing a zeroed instance with a fresh nonce.
+ * This enrolls a CPU/wire client, not a physical cold-containment witness.
+ * Never recreate it for a new consumer of the same provider boot. Retain the
+ * independent containment requirement for hardware setup/release/rearm.
+ * The caller retains its
  * provider reference until close returns, and this allocation until all callers
  * retire. Close joins CPU calls; it does not retire device-visible storage.
  * Client state is private to these functions, including after failure/close.

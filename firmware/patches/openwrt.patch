@@ -31,7 +31,7 @@ index 856f9c2..4e17373 100644
  endef
  
 diff --git a/package/kernel/mt76/Makefile b/package/kernel/mt76/Makefile
-index 753a4b5..1a98c98 100644
+index 753a4b5..d5ac622 100644
 --- a/package/kernel/mt76/Makefile
 +++ b/package/kernel/mt76/Makefile
 @@ -10,13 +10,14 @@ PKG_SOURCE_URL:=https://github.com/OpenWRT-fanboy/mt76-firmware
@@ -84,18 +84,6 @@ index 753a4b5..1a98c98 100644
    endif
  endif
  ifdef CONFIG_PACKAGE_kmod-mt7925-common
-@@ -519,6 +532,11 @@ ifdef CONFIG_PACKAGE_kmod-mt7925e
-   PKG_MAKE_FLAGS += CONFIG_MT7925E=m
- endif
- 
-+define Build/Prepare
-+	$(call Build/Prepare/Default)
-+	$(CP) ./w1700k $(PKG_BUILD_DIR)/
-+endef
-+
- define Build/Compile
- 	+$(KERNEL_MAKE) $(PKG_JOBS) \
- 		$(PKG_MAKE_FLAGS) \
 diff --git a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh b/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh
 index 1a62aa9..c7db4e3 100755
 --- a/package/network/config/wifi-scripts/files-ucode/lib/netifd/wireless/mac80211.sh

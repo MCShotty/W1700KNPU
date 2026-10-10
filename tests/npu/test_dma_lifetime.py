@@ -26,7 +26,7 @@ def main():
     dest.mkdir(parents=True)
     text = source.read_text()
     q = loader.extract
-    declarations = [q.declaration(text, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv')]
+    declarations = [loader.unused_session_types(text)] + [q.declaration(text, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv')]
     globals_text = 'static LIST_HEAD(airoha_npu_retained_dma);\nstatic DEFINE_MUTEX(airoha_npu_retained_lock);\n'
     functions = [q.function(text, name) for name in ('airoha_npu_dma_retained', 'airoha_npu_dma_cleanup', 'airoha_npu_firmware_expose')]
     contents = '\n\n'.join(declarations) + '\n' + globals_text + '\n\n'.join(functions)

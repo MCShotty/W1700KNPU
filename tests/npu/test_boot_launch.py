@@ -36,7 +36,7 @@ def main():
         'NPU_EN7581_7996_PLAN_REGIONS', 'NPU_EN7581_FIRMWARE_RV32_MAX_SIZE', 'NPU_SRAM_BACKUP_SIZE',
         'NPU_EN7581_NATIVE_VERSION', 'NPU_CLUSTER_BASE_ADDR', 'REG_CR_BOOT_TRIGGER', 'REG_CR_BOOT_CONFIG',
         'REG_CR_BOOT_BASE', 'NPU_MBOX_BASE_ADDR', 'REG_CR_NPU_MIB'))
-    types = q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_get_cmd')
+    types = loader.unused_session_types(text) + q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_get_cmd')
     types += '\n' + '\n'.join(q.declaration(text, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv'))
     inputs = {str(p.relative_to(ROOT)): loader.sha(p) for p in (source, header, harness, Path(__file__),
               Path(loader.__file__), Path(q.__file__))}

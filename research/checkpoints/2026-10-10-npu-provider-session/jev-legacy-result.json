@@ -1,0 +1,36 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-provider-session-20261010\\jev-legacy.json",
+  "request_sha256": "3af6beccda0556ebb1a27c9e4784093f7e0b8939f782bbb6cd2ae8d27ce6b00f",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "legacy_dispatch": {
+      "type": "choice",
+      "instructions": "Does the evidence support the narrow claim that an unmarked provider delegates directly to the unchanged legacy reserved-memory initializer without creating a V2 executor?",
+      "criteria": {
+        "supported": "The first branch directly returns the unchanged legacy initializer.",
+        "contradicted": "It instead runs V2 initialization or changes the legacy initializer.",
+        "not_established": "The dispatch branch or function comparison does not establish the call path."
+      }
+    }
+  },
+  "elapsed_ms": 7714,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "legacy_dispatch": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.49,
+        "probabilities": {
+          "supported": 0.66,
+          "contradicted": 0.04,
+          "not_established": 0.3
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 547,
+      "output_tokens": 46
+    }
+  }
+}

@@ -284,20 +284,6 @@ def main():
         kind = args.phase.removeprefix('export-')
         base, merged = WORK / (kind + '-upstream'), WORK / (kind + '-merged')
         if kind == 'mt76':
-            control = ('control-client.c', 'control-v2-client.c', 'linux-control.c',
-                       'control-client.h', 'control-v2.h', 'linux-control.h',
-                       'admission.h', 'barrier.h', 'kernel-include/stdint.h')
-            component_sources = []
-            for name in control:
-                path = merged / 'w1700k' / name
-                path.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(ROOT / 'firmware/npu' / name, path)
-                packaged = DEST / 'package/kernel/mt76/w1700k' / name
-                packaged.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(path, packaged)
-                component_sources.append(dict(tree='openwrt', source='firmware/npu/' + name,
-                    destination='package/kernel/mt76/w1700k/' + name, sha256=sha(path), mode='0o644'))
-            (WORK / 'component-sources.json').write_text(json.dumps(component_sources, indent=2) + '\n')
             names = {r['path'] for r in json.loads((WORK / 'mt76-merge.json').read_text())}
             names.add('Makefile')
             patch = DEST / 'package/kernel/mt76/patches/900-w1700k-integrated-npu.patch'
@@ -307,6 +293,29 @@ def main():
                 shutil.move(old, saved)
         else:
             names = {r['path'] for r in json.loads((WORK / 'kernel-merge.json').read_text())}
+            names.add('drivers/net/ethernet/airoha/Makefile')
+            control = ('control-client.c', 'control-v2-client.c', 'linux-control.c',
+                       'control-client.h', 'control-v2.h', 'linux-control.h',
+                       'admission.h', 'barrier.h', 'kernel-include/stdint.h', 'provider-main.c')
+            component_sources = []
+            for name in control:
+                destination = 'target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/' + name
+                packaged = DEST / destination
+                packaged.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / 'firmware/npu' / name, packaged)
+                component_sources.append(dict(tree='openwrt', source='firmware/npu/' + name,
+                    destination=destination, sha256=sha(packaged), mode='0o644'))
+            # Remove only the exact obsolete source copies after checking their
+            # recorded hashes. The provider, not each mt76 consumer, owns V2.
+            previous_components = json.loads((WORK / 'component-sources.json').read_text())
+            for row in previous_components:
+                if not row['destination'].startswith('package/kernel/mt76/w1700k/'):
+                    continue
+                old = DEST / row['destination']
+                assert old.resolve().is_relative_to((DEST / 'package/kernel/mt76/w1700k').resolve())
+                assert old.is_file() and not old.is_symlink() and sha(old) == row['sha256'], old
+                old.unlink()
+            (WORK / 'component-sources.json').write_text(json.dumps(component_sources, indent=2) + '\n')
             patch = DEST / 'target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch'
         result = ['Subject: [PATCH] W1700K: merge NPU ownership, recovery and control changes\n\n',
                   'Rebased onto the pinned non-OC source. This is the experimental\n',

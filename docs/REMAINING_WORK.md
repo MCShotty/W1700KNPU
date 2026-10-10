@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Initial Linux Session Wired
+
+The real checked provider reserved-memory path now performs identity-checked
+DISCOVER, six-command setup and BIND/STOP/STATUS. Its executor lives in the
+provider, not per mt76 consumer. One attempt, sticky errors and CPU close prevent
+reattachment from inventing a new boot/nonce. Initial epoch1 remains held, with
+no release/arm/drain permission. Unmarked source dispatch stays unchanged.
+
+Actual-C279/nine mutants, two Linux-to-native session cases, packaged-module
+Ghidra, full raw ownership regression, world/63-file replay/16 assembly groups
+and offline image checks pass. FIT `6a7dc41e...`; prior images/R1 preserved.
+No flash or router contact. Scope and receipts:
+`research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
+
+Next implement the real strict held cold RX/TXDONE setup transport/callers,
+without fabricating an active callback lease or physical retirement witness.
+The current legacy transport still denies those operations. Independently prove
+prior-user exclusion, exact backing/cache/DMA contracts, complete remaining
+owners/workers/hot/postgate and physical drains/retirement/teardown/rearm/recovery.
+Actual boot/recovery and client acceptance are still required. A successful
+initial session cannot authorize freeing exposed mailboxes or rings/tokens.
+
 ## 2026-10-10 - Boot Launch Errors Now Propagate
 
 The provider no longer publishes after an ignored boot-write failure. One-shot

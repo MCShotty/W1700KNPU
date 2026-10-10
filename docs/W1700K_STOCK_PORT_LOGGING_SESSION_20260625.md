@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (checked boot launch and current reset map verified; strict setup/physical gates open)
+Last updated: 2026-10-10 (provider-owned initial session wired; strict full setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Provider-Owned Initial Session
+
+- Actual checked reserved-memory setup now invokes identity-checked DISCOVER,
+  six existing commands, BIND/STOP and bounded STATUS under a once-owned provider
+  mutex/executor. Reattach cannot make a new boot/nonce; failure stays sticky.
+  The initial epoch remains held and CPU close never releases exposed DMA.
+- Client objects now belong to the provider module, not each mt76 consumer.
+  Actual-C279/nine mutants, two Linux-to-native cases,48-function Ghidra and
+  wider parser/boot/lease/probe/request/memory/retry/V2/raw regressions pass.
+  World,63-file replay,16 assembly groups and offline image/module checks pass.
+- FIT SHA256:
+  `6a7dc41ebcec3070231764e8ba226cef29b7b5383ba1ed5e5b7c9cf0e639461a`.
+  Previous `b0400eaa...`/R1 preserved. No hardware/router contact or flash;
+  physical evidence remains September23. Full strict RX/TXDONE transport,
+  containment/backing/coherency, other owners/hot/postgate, physical retirement/
+  recovery and actual clients remain required. Full objective is still open.
+  Evidence: `research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
 
 ## 2026-10-10 - Checked Boot Launch
 

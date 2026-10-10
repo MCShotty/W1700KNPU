@@ -51,6 +51,9 @@ static struct airoha_npu_dma_lifetime *life_model;
 static unsigned bare_allocated, bare_freed, lease_freed, module_pins;
 static void mutex_lock(int *lock) { check(!*lock); *lock = 1; }
 static void mutex_unlock(int *lock) { check(*lock); *lock = 0; }
+#ifdef NPU_TEST_SESSION_TYPES
+static void mutex_init(struct mutex *lock) { lock->opaque = 0; }
+#endif
 static void list_add_tail(struct list_head *node, struct list_head *head) {
     node->prev = head->prev; node->next = head;
     head->prev->next = node; head->prev = node;
@@ -135,11 +138,13 @@ def fragments(source, header, helper, directory):
     if 'static int airoha_npu_start_firmware(' in source:
         macros += ('NPU_EN7581_NATIVE_VERSION',)
     (directory / 'constants.inc').write_text('\n'.join(q.macro(source, name) for name in macros) + '\n')
-    types = [q.declaration(header, 'enum', name) for name in ('airoha_npu_wlan_set_cmd', 'airoha_npu_wlan_get_cmd')]
+    types = [loader.unused_session_types(source)] + [q.declaration(header, 'enum', name) for name in ('airoha_npu_wlan_set_cmd', 'airoha_npu_wlan_get_cmd')]
     types += [q.declaration(header, 'struct', 'airoha_npu')]
     types += [q.declaration(source, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv')]
     (directory / 'types.inc').write_text('\n'.join(types) + '\n')
     parts = ['static LIST_HEAD(airoha_npu_retained_dma);\nstatic DEFINE_MUTEX(airoha_npu_retained_lock);']
+    if 'struct npu_linux_control wlan_control;' in source:
+        parts.append('static void airoha_npu_wlan_session_close(void *data) { (void)data; }')
     parts += [c_function(source, name) for name in ('airoha_npu_dma_retained', 'airoha_npu_dma_cleanup',
               'airoha_npu_firmware_expose', 'airoha_npu_mbox_handler', 'airoha_npu_wdt_work', 'airoha_npu_wdt_handler')]
     parts += [q.function(helper, name) for name in ('devm_work_drop', 'devm_work_autocancel')]
@@ -227,7 +232,7 @@ def main():
                   original_controls=int(bool(args.baseline_source)),
                   sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual current probe,IRQ/work,lease/exposure/cleanup and devm work-helper C; kernel dependencies are modeled.',
-                          'Firmware validation/publication is replaced only at its caller boundary to inject pre/post-exposure faults.',
+                          'Firmware validation/publication is replaced only at its caller boundary to inject pre/post-exposure faults. Session ops/close are modeled here; the separate session runner executes them.',
                           'Fixture retirement is only test teardown; no physical containment,drain,reclaim or hot-rearm implementation is proved.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=result['cases'], mutants=result['rejected_mutants'],

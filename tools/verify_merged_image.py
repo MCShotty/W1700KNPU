@@ -47,6 +47,18 @@ def module(path):
                 npu_imports=sorted(s for s in imports if 'npu' in s)), defined, imports
 
 
+def verify_control_ownership(name, defined, imports):
+    control = {'npu_linux_control_init', 'npu_linux_control_exchange',
+               'npu_linux_control_close', 'npu_linux_control_snapshot',
+               'npu_client_v2_request', 'npu_client_v2_complete'}
+    if name == 'mt76.ko':
+        assert not control & defined, 'Control state belongs to the provider, not each consumer'
+        assert 'airoha_npu_wlan_control' not in imports
+    if name == 'airoha_npu.ko':
+        assert control | {'airoha_npu_wlan_control'} <= defined
+        assert not control & imports, 'The provider must link its own control implementation'
+
+
 def board_configuration(dtb):
     regions = {'npu-binary@84000000': (0x84000000, 0xa00000),
                'npu-pkt@8a000000': (0x8a000000, 0x2c00000),
@@ -140,11 +152,7 @@ def main():
         path = root / 'lib/modules/6.18.52' / name
         row, defined, imports = module(path)
         modules[name] = row
-        if name == 'mt76.ko':
-            assert {'npu_linux_control_init', 'npu_linux_control_exchange', 'npu_linux_control_close'} <= defined
-            assert 'airoha_npu_wlan_control' in imports
-        if name == 'airoha_npu.ko':
-            assert 'airoha_npu_wlan_control' in defined
+        verify_control_ownership(name, defined, imports)
         if name == 'mt7996e.ko':
             assert 'mt76_npu_init' in imports
     module_paths = list((root / 'lib/modules').glob('*/*.ko'))
@@ -203,7 +211,7 @@ def main():
                    selected_modules=modules, all_module_abi_checks=len(module_paths),
                    source_lock_sha256=sha(ROOT / 'firmware/source-lock.json'),
                    limits=['Offline image integrity/package/ABI checks only, not boot, throughput or physical recovery.',
-                           'Linux V2 client is compiled into mt76, but production caller/cold-loader wiring remains incomplete.',
+                           'Linux V2 client and once-owned initial setup are compiled into the provider; full strict setup and physical cold-lifetime proof remain incomplete.',
                            'The checked experimental raw CODE/DATA pair is packaged; physical cold containment,strict full setup and retirement remain incomplete.'])
     path = OUT / 'result.json'
     path.write_text(json.dumps(receipt, indent=2) + '\n')

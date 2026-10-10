@@ -1,0 +1,190 @@
+Subject: [PATCH] net: airoha: own the initial held WLAN control session
+
+Bind the Linux client to the loader identity and existing bootstrap prefix.
+Consume one attempt without authorizing physical drain, release or rearm.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -19,6 +19,7 @@
+ #include <crypto/sha2.h>
+ 
+ #include "airoha_eth.h"
++#include "w1700k/linux-control.h"
+ 
+ #define NPU_EN7581_FIRMWARE_DATA		"airoha/en7581_npu_data.bin"
+ #define NPU_EN7581_FIRMWARE_RV32		"airoha/en7581_npu_rv32.bin"
+@@ -187,6 +188,10 @@
+ 	u64 boot_identity;
+ 	bool firmware_loaded;
+ 	bool boot_attempted;
++	struct mutex wlan_session_lock; /* Serializes setup, reattach and CPU close. */
++	struct npu_linux_control wlan_control;
++	bool wlan_session_attempted;
++	int wlan_session_error;
+ };
+ 
+ static void airoha_npu_dma_cleanup(void *data)
+@@ -1079,6 +1084,122 @@
+ 					     WLAN_FUNC_SET_WAIT_IS_FORCE_TO_CPU, val);
+ }
+ 
++static int airoha_npu_wlan_session_snapshot(struct airoha_npu_priv *priv,
++					    bool parked)
++{
++	struct npu_linux_control_snapshot snapshot;
++	struct npu_control_client *client = &snapshot.client.base;
++	int err;
++
++	err = npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (err)
++		return err;
++	if (snapshot.error || snapshot.closed ||
++	    snapshot.client.boot_lo != lower_32_bits(priv->boot_identity) ||
++	    snapshot.client.boot_hi != upper_32_bits(priv->boot_identity) ||
++	    client->epoch != 1 || client->released || client->armed ||
++	    client->ready_mask || client->drain_mask)
++		return -EPROTO;
++	if (parked && (client->phase != NPU_CLIENT_PARKED ||
++		       client->parked_mask != 0xff))
++		return -EAGAIN;
++
++	return 0;
++}
++
++static void airoha_npu_wlan_session_close(void *data)
++{
++	struct airoha_npu_priv *priv = data;
++
++	/* Join this setup's CPU calls, not independent users or physical DMA. */
++	mutex_lock(&priv->wlan_session_lock);
++	priv->wlan_session_attempted = true;
++	if (!priv->wlan_session_error)
++		priv->wlan_session_error = -ESHUTDOWN;
++	npu_linux_control_close(&priv->wlan_control);
++	mutex_unlock(&priv->wlan_session_lock);
++}
++
++static int airoha_npu_wlan_init_session(struct airoha_npu *npu)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	u64 nonce = 0;
++	int err, attempt;
++
++	if (!priv->checked_pair)
++		return airoha_npu_wlan_init_memory(npu);
++
++	mutex_lock(&priv->wlan_session_lock);
++	if (priv->wlan_session_attempted) {
++		err = priv->wlan_session_error ?: -EBUSY;
++		goto unlock;
++	}
++	/* A new consumer is not a new boot. Consume this lane before any action. */
++	priv->wlan_session_attempted = true;
++	if (!priv->firmware_loaded || !priv->boot_attempted ||
++	    !priv->native_plan_ready || !priv->native_published ||
++	    !priv->boot_identity || !priv->dma_lifetime ||
++	    !priv->dma_lifetime->exposed || priv->wlan_memory_count != 4) {
++		err = -EINVAL;
++		goto hold;
++	}
++	for (attempt = 0; attempt < 3 && !nonce; attempt++) {
++		err = get_random_bytes_wait(&nonce, sizeof(nonce));
++		if (err)
++			goto hold;
++	}
++	if (!nonce) {
++		err = -EAGAIN;
++		goto hold;
++	}
++	err = npu_linux_control_init(&priv->wlan_control, npu,
++				     lower_32_bits(nonce), upper_32_bits(nonce));
++	if (err)
++		goto hold;
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_DISCOVER);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_session_snapshot(priv, false);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_init_memory(npu);
++	if (err)
++		goto hold;
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_BIND);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_session_snapshot(priv, false);
++	if (err)
++		goto hold;
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STOP);
++	if (err)
++		goto hold;
++	for (attempt = 0; attempt < 100; attempt++) {
++		err = airoha_npu_wlan_session_snapshot(priv, true);
++		if (!err)
++			goto unlock;
++		if (err != -EAGAIN)
++			goto hold;
++		usleep_range(1000, 2000);
++		err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
++		if (err)
++			goto hold;
++	}
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err == -EAGAIN)
++		err = -ETIMEDOUT;
++	if (!err)
++		goto unlock;
++hold:
++	priv->wlan_session_error = err < 0 ? err : -EIO;
++	npu_linux_control_close(&priv->wlan_control);
++	err = priv->wlan_session_error;
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++
++	return err;
++}
++
+ static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
+ 					  bool xmit)
+ {
+@@ -1282,6 +1403,7 @@
+ 	if (!priv)
+ 		return -ENOMEM;
+ 	npu = &priv->npu;
++	mutex_init(&priv->wlan_session_lock);
+ 
+ 	npu->dev = dev;
+ 	npu->ops.ppe_init = airoha_npu_ppe_init;
+@@ -1289,7 +1411,7 @@
+ 	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
+ 	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
+ 	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
+-	npu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_memory;
++	npu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_session;
+ 	npu->ops.wlan_send_msg = airoha_npu_wlan_msg_send;
+ 	npu->ops.wlan_get_msg = airoha_npu_wlan_msg_get;
+ 	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
+@@ -1380,6 +1502,10 @@
+ 	if (err)
+ 		return err;
+ 
++	err = devm_add_action_or_reset(dev, airoha_npu_wlan_session_close, priv);
++	if (err)
++		return err;
++
+ 	platform_set_drvdata(pdev, npu);
+ 
+ 	return 0;
+--- a/drivers/net/ethernet/airoha/Makefile
++++ b/drivers/net/ethernet/airoha/Makefile
+@@ -7,3 +7,9 @@
+ airoha-eth-y := airoha_eth.o airoha_ppe.o
+ airoha-eth-$(CONFIG_DEBUG_FS) += airoha_ppe_debugfs.o
+ obj-$(CONFIG_NET_AIROHA_NPU) += airoha_npu.o
++airoha_npu-y := w1700k/provider-main.o w1700k/control-client.o \
++		w1700k/control-v2-client.o w1700k/linux-control.o
++CFLAGS_w1700k/provider-main.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/control-client.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/control-v2-client.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/linux-control.o := -I$(src)/w1700k/kernel-include

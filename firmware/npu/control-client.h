@@ -31,8 +31,10 @@ enum npu_client_result {
     NPU_CLIENT_REJECTED,
 };
 
-/* One serialized client per provider lifetime. Initialize only after independent
- * cold containment, with a fresh nonzero nonce. No API frees or rearms anything.
+/* One serialized CPU/wire client per provider boot, with a fresh nonzero nonce.
+ * Enrollment does not establish independent physical cold containment, which
+ * remains required for hardware setup and any eventual release or rearm.
+ * No API frees or rearms anything.
  * PARKED is a software observation, not a durable ownership/drain certificate. */
 struct npu_control_client {
     uint32_t phase;

@@ -1,0 +1,110 @@
+2026-10-10 15:23:02 INFO  (LoggingInitialization) Using log config file: jar:file:/C:/Tools/ghidra_12.1.2_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml  
+2026-10-10 15:23:02 INFO  (LoggingInitialization) Using log file: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-provider-session-20261010\ghidra-full\analysis.log  
+2026-10-10 15:23:02 DEBUG (GhidraObjectInputFilter) Including serial input filter: FileSystem/data/client.rmi.serial.filter  
+2026-10-10 15:23:02 INFO  (Preferences) Loading user preferences: C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\preferences  
+2026-10-10 15:23:02 INFO  (ClassSearcher) Searching for classes...  
+2026-10-10 15:23:03 INFO  (ClassSearcher) Class search complete (1298 ms)  
+2026-10-10 15:23:04 INFO  (DefaultSSLContextInitializer) Initializing SSL Context  
+2026-10-10 15:23:04 INFO  (SecureRandomFactory) Initializing Random Number Generator...  
+2026-10-10 15:23:04 INFO  (SecureRandomFactory) Random Number Generator initialization complete: SHA1PRNG  
+2026-10-10 15:23:04 INFO  (DefaultTrustManagerFactory) Trust manager disabled, cacerts have not been set  
+2026-10-10 15:23:04 INFO  (AnalyzeHeadless) Headless startup complete (3873 ms)  
+2026-10-10 15:23:04 INFO  (ClassSearcher) Class searcher loaded 60 extension points (20 false positives)  
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer) HEADLESS Script Paths:
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\captain\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts  
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer) HEADLESS: execution starts  
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer) Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-provider-session-20261010-full/ProviderSession  
+2026-10-10 15:23:05 INFO  (DefaultProject) Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-provider-session-20261010-full/ProviderSession  
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer) REPORT: Processing input files:   
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer)      project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-provider-session-20261010-full/ProviderSession  
+2026-10-10 15:23:05 INFO  (HeadlessAnalyzer) IMPORTING: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko  
+2026-10-10 15:23:08 INFO  (ProgramLoader) Using Loader: Executable and Linking Format (ELF)  
+2026-10-10 15:23:08 INFO  (ProgramLoader) Using Language/Compiler: AARCH64:LE:64:v8A:default  
+2026-10-10 15:23:08 INFO  (ProgramLoader) Using Library Search Path: [., C:\Windows\SysWOW64, C:\Program Files\Java\jdk-24\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell, C:\Users\captain\.codex\tmp\arg0\codex-arg0A1TeOC, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\libheif\libheif\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\jxrlib\jxrlib\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\override, C:\Program Files\Common Files\Oracle\Java\javapath, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Program Files\nodejs\, C:\Program Files\dotnet\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files (x86)\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\180\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\DTS\Binn\, C:\Program Files\PuTTY\, C:\Program Files\Git\cmd, C:\Users\captain\AppData\Local\Programs\Python\Python314\Scripts\, C:\Users\captain\AppData\Local\Programs\Python\Python314\, C:\Users\captain\AppData\Local\Programs\Python\Launcher\, C:\Users\captain\AppData\Local\Microsoft\WindowsApps, C:\Users\captain\AppData\Roaming\npm, C:\Users\captain\.dotnet\tools, C:\Users\captain\AppData\Local\Programs\cursor\resources\app\bin, C:\Users\captain\Documents\Projects\Flutter\flutter\bin, C:\Users\captain\bin, C:\Program Files\ExtraPuTTY\Bin, C:\Tools\apache-maven-3.9.16\bin, C:\Users\captain\AppData\Local\Microsoft\WinGet\Packages\ar51an.iPerf3_Microsoft.Winget.Source_8wekyb3d8bbwe, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\26f5cb65bac96647, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\5ea220ae823df3d7]  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf symbol table section .symtab linked to string table section .strtab  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela__ksymtab_gpl linked to symbol table section .symtab affecting __ksymtab_gpl  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.altinstructions linked to symbol table section .symtab affecting .altinstructions  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.text linked to symbol table section .symtab affecting .text  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.rodata linked to symbol table section .symtab affecting .rodata  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.data linked to symbol table section .symtab affecting .data  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.init.text linked to symbol table section .symtab affecting .init.text  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.exit.text linked to symbol table section .symtab affecting .exit.text  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.exit.data linked to symbol table section .symtab affecting .exit.data  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.init.data linked to symbol table section .symtab affecting .init.data  
+2026-10-10 15:23:08 DEBUG (ElfHeader) Elf relocation table section .rela.gnu.linkonce.this_module linked to symbol table section .symtab affecting .gnu.linkonce.this_module  
+2026-10-10 15:23:09 INFO  (ProgramLoader) Additional info:
+Loading file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko?MD5=e1b501572f9e819787335452ef465a32...
+Skipping section [.bss] with invalid size 0x0
+------------------------------------------------
+
+  
+2026-10-10 15:23:09 INFO  (HeadlessAnalyzer) IMPORTING: Loaded 0 additional files  
+2026-10-10 15:23:09 INFO  (HeadlessAnalyzer) ANALYZING all memory and code: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko  
+2026-10-10 15:23:10 DEBUG (FidAnalyzer) No FID Libraries apply for language AARCH64:LE:64:v8A  
+2026-10-10 15:23:10 INFO  (PackedDatabaseCache) Packed database cache: C:\Users\captain\AppData\Local\ghidra\packed-db-cache  
+2026-10-10 15:23:10 DEBUG (PackedDatabaseCache) Using cached packed database: C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\data\typeinfo\generic\generic_clib_64.gdt  
+2026-10-10 15:23:11 INFO  (ApplyDataArchiveAnalyzer) Applied data type archive: generic_clib_64  
+2026-10-10 15:23:12 INFO  (AutoAnalysisManager) -----------------------------------------------------
+    AARCH64 ELF PLT Thunks                     0.001 secs
+    ASCII Strings                              0.460 secs
+    Apply Data Archives                        0.989 secs
+    Basic Constant Reference Analyzer          0.391 secs
+    Call Convention ID                         0.003 secs
+    Call-Fixup Installer                       0.005 secs
+    Create Address Tables                      0.014 secs
+    Create Address Tables - One Time           0.006 secs
+    Create Function                            0.063 secs
+    Data Reference                             0.014 secs
+    Decompiler Switch Analysis                 0.007 secs
+    Demangler GNU                              0.070 secs
+    Disassemble                                0.003 secs
+    Disassemble Entry Points                   0.450 secs
+    Embedded Media                             0.010 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.153 secs
+    Function Start Search                      0.040 secs
+    Function Start Search After Code           0.016 secs
+    Function Start Search After Data           0.019 secs
+    Function Start Search delayed - One Time   0.001 secs
+    Non-Returning Functions - Discovered       0.028 secs
+    Non-Returning Functions - Known            0.017 secs
+    Reference                                  0.026 secs
+    Shared Return Calls                        0.021 secs
+    Stack                                      0.413 secs
+    Subroutine References                      0.012 secs
+-----------------------------------------------------
+     Total Time   3 secs
+-----------------------------------------------------
+  
+2026-10-10 15:23:12 INFO  (HeadlessAnalyzer) REPORT: Analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko  
+2026-10-10 15:23:12 INFO  (HeadlessAnalyzer) REPORT: Execute script: ExportMailboxContract.java '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-provider-session-20261010\ghidra-full' '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-provider-session-20261010\all.pattern'   
+2026-10-10 15:23:13 INFO  (HeadlessAnalyzer) SCRIPT: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\ExportMailboxContract.java  
+2026-10-10 15:23:14 INFO  (GhidraScript) ExportMailboxContract.java> MAILBOX_CONTRACT_PASS functions=48 analyzed=48  
+2026-10-10 15:23:14 INFO  (HeadlessAnalyzer) ANALYZING changes made by post scripts: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko  
+2026-10-10 15:23:14 INFO  (HeadlessAnalyzer) REPORT: Post-analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/provider-session-20261010-offline-final/rootfs/lib/modules/6.18.52/airoha_npu.ko  
+2026-10-10 15:23:14 INFO  (LocalFileSystem) /airoha_npu.ko: file created (captain)  
+2026-10-10 15:23:14 INFO  (HeadlessAnalyzer) REPORT: Save succeeded for: /airoha_npu.ko (ProviderSession:/airoha_npu.ko)  
+2026-10-10 15:23:14 INFO  (HeadlessAnalyzer) REPORT: Import succeeded  

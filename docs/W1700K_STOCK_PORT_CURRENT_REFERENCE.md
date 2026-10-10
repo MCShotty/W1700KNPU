@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Provider-Owned Initial Held Session
+
+The real checked reserved-memory callback now executes DISCOVER, validates the
+loader boot identity, sends the six existing commands, then BIND/STOP and bounded
+STATUS. One provider-owned executor/attempt remains sticky across new mt76
+attachments. Initial epoch1 must stay held with release/arm/ready/drain zero;
+all-hart PARKED is a software observation only. CPU close never retires DMA.
+
+Actual-C279/nine mutants and two Linux-to-raw-RV32 session cases pass, including
+wrong identity rejection before setup. The actual packaged provider exports the
+client objects; mt76 no longer contains them. All48 executable provider functions
+decompile, and full raw ownership regression/world/63-file replay/16 assembly
+groups/FIT/218-package/78-module checks pass. Latest offline-verified FIT:
+`6a7dc41ebcec3070231764e8ba226cef29b7b5383ba1ed5e5b7c9cf0e639461a`.
+The previous `b0400eaa...` image and R1 remain protected. No flash/contact.
+
+Full strict RX/TXDONE commands still deny. Actual prior-user physical exclusion,
+exclusive backing/cache/DMA coherency, other owners/workers/hot/postgate,
+retirement/teardown/rearm/recovery and real clients remain required. Do not equate
+CPU/wire enrollment or a matching boot identity with independent containment.
+Evidence: `research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
+
 ## 2026-10-10 - Checked Boot Launch And Current Reset Evidence
 
 Actual Linux C now checks each existing boot write, retains exposed memory on

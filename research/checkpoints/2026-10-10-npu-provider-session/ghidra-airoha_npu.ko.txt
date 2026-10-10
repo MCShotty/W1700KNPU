@@ -1,0 +1,5523 @@
+program=airoha_npu.ko
+sha256=f8dfc82e86ae5cca751ed3e7b7073d41cd4af28deee0fce13f05f618c91db13f
+language=AARCH64:LE:64:v8A
+
+FUNCTION airoha_npu_wlan_queue_addr_get @ 00100060
+decompiled=true
+
+int airoha_npu_wlan_queue_addr_get(undefined8 param_1,int param_2,uint param_3)
+
+{
+  if ((param_3 & 1) == 0) {
+    return param_2 * 0x10 + 0x30d180;
+  }
+  return param_2 * 0x10 + 0x30d0a0;
+}
+
+
+ASSEMBLY
+00100060 tbnz w2,#0x0,0x00100074
+00100064 mov w0,#0xd180
+00100068 movk w0,#0x30, LSL #16
+0010006c add w0,w0,w1, LSL #0x4
+00100070 ret
+00100074 lsl w1,w1,#0x4
+00100078 add w0,w1,#0x30d, LSL #12
+0010007c add w0,w0,#0xa0
+00100080 ret
+
+FUNCTION airoha_npu_wlan_irq_status_get @ 00100084
+decompiled=true
+
+undefined4 airoha_npu_wlan_irq_status_get(long param_1)
+
+{
+  undefined4 local_4;
+  
+  regmap_read(*(undefined8 *)(param_1 + 8),0x30d030,&local_4);
+  return local_4;
+}
+
+
+ASSEMBLY
+00100084 stp x29,x30,[sp, #-0x20]!
+00100088 mov w1,#0xd030
+0010008c movk w1,#0x30, LSL #16
+00100090 mov x29,sp
+00100094 add x2,sp,#0x1c
+00100098 ldr x0,[x0, #0x8]
+0010009c bl 0x00104180
+001000a0 ldr w0,[sp, #0x1c]
+001000a4 ldp x29,x30,[sp], #0x20
+001000a8 ret
+
+FUNCTION airoha_npu_wlan_irq_status_set @ 001000ac
+decompiled=true
+
+void airoha_npu_wlan_irq_status_set(long param_1,undefined4 param_2)
+
+{
+  regmap_write(*(undefined8 *)(param_1 + 8),0x30d030,param_2);
+  return;
+}
+
+
+ASSEMBLY
+001000ac stp x29,x30,[sp, #-0x10]!
+001000b0 mov w2,w1
+001000b4 mov w1,#0xd030
+001000b8 mov x29,sp
+001000bc movk w1,#0x30, LSL #16
+001000c0 ldr x0,[x0, #0x8]
+001000c4 bl 0x00104028
+001000c8 ldp x29,x30,[sp], #0x10
+001000cc ret
+
+FUNCTION FUN_001000d0 @ 001000d0
+decompiled=true
+
+int FUN_001000d0(long param_1,int param_2,void *param_3,uint param_4,void *param_5,uint param_6)
+
+{
+  int *piVar1;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  long lVar5;
+  long lVar6;
+  int iVar7;
+  uint local_8;
+  int local_4;
+  
+  if (0x100 < param_4) {
+    return -0x16;
+  }
+  param_6 = param_6 & 0xffff;
+  if ((param_5 != (void *)0x0) && ((int)param_4 < (int)param_6)) {
+    return -0x16;
+  }
+  lVar5 = sp_el0;
+  *(int *)(lVar5 + 0x10) = *(int *)(lVar5 + 0x10) + 0x200;
+  piVar1 = (int *)(param_1 + 0x18);
+  Hint_Prefetch(piVar1,2,0,1);
+  do {
+    iVar4 = *piVar1;
+    if (iVar4 != 0) break;
+    cVar2 = '\x01';
+    bVar3 = (bool)ExclusiveMonitorPass(piVar1,0x10);
+    if (bVar3) {
+      *piVar1 = 1;
+      cVar2 = ExclusiveMonitorsStatus();
+    }
+  } while (cVar2 != '\0');
+  if (iVar4 != 0) {
+    queued_spin_lock_slowpath();
+  }
+  if ((*(byte *)(param_1 + 0x1c) & 1) != 0) {
+    iVar4 = regmap_read(*(undefined8 *)(param_1 + 8),0x30c03c,&local_8);
+    if ((iVar4 != 0) || (iVar4 = -0x10, (local_8 >> 1 & 1) == 0)) goto LAB_00100240;
+    *(undefined1 *)(param_1 + 0x1c) = 0;
+  }
+  iVar4 = regmap_read(*(undefined8 *)(param_1 + 8),0x30c038,&local_4);
+  if (iVar4 == 0) {
+    memcpy(*(void **)(param_1 + 0x40),param_3,(long)(int)param_4);
+    iVar4 = regmap_write(*(undefined8 *)(param_1 + 8),0x30c030,*(undefined4 *)(param_1 + 0x48));
+    if ((iVar4 == 0) &&
+       (iVar4 = regmap_write(*(undefined8 *)(param_1 + 8),0x30c034,param_4), iVar4 == 0)) {
+      *(undefined1 *)(param_1 + 0x1c) = 1;
+      local_8 = param_2 << 0xb | 1;
+      iVar4 = regmap_write(*(undefined8 *)(param_1 + 8),0x30c03c);
+      if ((iVar4 == 0) &&
+         (iVar4 = regmap_write(*(undefined8 *)(param_1 + 8),0x30c038,local_4 + 1), iVar4 == 0)) {
+        lVar5 = ktime_get();
+        iVar4 = regmap_read(*(undefined8 *)(param_1 + 8),0x30c03c,&local_8);
+        iVar7 = iVar4;
+        if (iVar4 == 0) {
+          while ((local_8 >> 1 & 1) == 0) {
+            lVar6 = ktime_get();
+            if (lVar5 + 500000000 < lVar6) {
+              iVar4 = regmap_read(*(undefined8 *)(param_1 + 8),0x30c03c,&local_8);
+              if (iVar4 == 0) {
+                if ((local_8 >> 1 & 1) != 0) break;
+                iVar4 = -0x6e;
+              }
+              goto LAB_00100240;
+            }
+            __const_udelay(0x68dbc);
+            iVar4 = regmap_read(*(undefined8 *)(param_1 + 8),0x30c03c,&local_8);
+            iVar7 = iVar4;
+            if (iVar4 != 0) goto LAB_00100240;
+          }
+          *(undefined1 *)(param_1 + 0x1c) = 0;
+          if ((local_8 & 0x1c) == 4) {
+            iVar4 = iVar7;
+            if (param_5 != (void *)0x0) {
+              memcpy(param_5,(void *)(*(long *)(param_1 + 0x40) +
+                                     ((long)(int)param_4 - (ulong)param_6)),(ulong)param_6);
+            }
+          }
+          else {
+            iVar4 = -0x16;
+          }
+        }
+      }
+    }
+  }
+LAB_00100240:
+  *(undefined4 *)(param_1 + 0x18) = 0;
+  __local_bh_enable_ip();
+  return iVar4;
+}
+
+
+ASSEMBLY
+001000d0 stp x29,x30,[sp, #-0x70]!
+001000d4 mov x29,sp
+001000d8 stp x19,x20,[sp, #0x10]
+001000dc cmp w3,#0x100
+001000e0 b.hi 0x00100320
+001000e4 stp x21,x22,[sp, #0x20]
+001000e8 mov x19,x0
+001000ec mov w21,w3
+001000f0 stp x23,x24,[sp, #0x30]
+001000f4 mov x22,x4
+001000f8 mov x23,x30
+001000fc stp x25,x26,[sp, #0x40]
+00100100 mov w24,w1
+00100104 mov x25,x2
+00100108 and w26,w5,#0xffff
+0010010c cbz x4,0x00100118
+00100110 cmp w26,w3
+00100114 b.gt 0x00100340
+00100118 stp x27,x28,[sp, #0x50]
+0010011c mrs x1,sp_el0
+00100120 ldr w0,[x1, #0x10]
+00100124 add w0,w0,#0x200
+00100128 str w0,[x1, #0x10]
+0010012c mov x3,#0x0
+00100130 add x0,x19,#0x18
+00100134 mov w4,#0x1
+00100138 prfm PSTL1STRM,[x0]
+0010013c ldaxr w1,[x0]
+00100140 eor w2,w1,w3
+00100144 cbnz w2,0x00100150
+00100148 stxr w2,w4,[x0]
+0010014c cbnz w2,0x0010013c
+00100150 cbnz w1,0x0010027c
+00100154 ldrb w0,[x19, #0x1c]
+00100158 add x27,x19,#0x10
+0010015c tbz w0,#0x0,0x0010018c
+00100160 ldr x0,[x19, #0x8]
+00100164 mov w1,#0xc03c
+00100168 add x2,sp,#0x68
+0010016c movk w1,#0x30, LSL #16
+00100170 bl 0x00104180
+00100174 mov w20,w0
+00100178 cbnz w0,0x00100240
+0010017c ldr w0,[sp, #0x68]
+00100180 mov w20,#0xfffffff0
+00100184 tbz w0,#0x1,0x00100240
+00100188 strb wzr,[x27, #0xc]
+0010018c ldr x0,[x19, #0x8]
+00100190 mov w1,#0xc038
+00100194 add x2,sp,#0x6c
+00100198 movk w1,#0x30, LSL #16
+0010019c bl 0x00104180
+001001a0 mov w20,w0
+001001a4 cbnz w0,0x00100240
+001001a8 ldr x0,[x27, #0x30]
+001001ac sxtw x28,w21
+001001b0 mov x1,x25
+001001b4 mov x2,x28
+001001b8 bl 0x00104088
+001001bc ldr x0,[x19, #0x8]
+001001c0 mov w1,#0xc030
+001001c4 ldr w2,[x27, #0x38]
+001001c8 movk w1,#0x30, LSL #16
+001001cc bl 0x00104028
+001001d0 mov w20,w0
+001001d4 cbnz w0,0x00100240
+001001d8 ldr x0,[x19, #0x8]
+001001dc mov w1,#0xc034
+001001e0 mov w2,w21
+001001e4 movk w1,#0x30, LSL #16
+001001e8 bl 0x00104028
+001001ec mov w20,w0
+001001f0 cbnz w0,0x00100240
+001001f4 mov w0,#0x1
+001001f8 strb w0,[x27, #0xc]
+001001fc lsl w2,w24,#0xb
+00100200 mov w1,#0xc03c
+00100204 ldr x0,[x19, #0x8]
+00100208 orr w2,w2,#0x1
+0010020c movk w1,#0x30, LSL #16
+00100210 str w2,[sp, #0x68]
+00100214 bl 0x00104028
+00100218 mov w20,w0
+0010021c cbnz w0,0x00100240
+00100220 ldr x0,[x19, #0x8]
+00100224 mov w1,#0xc038
+00100228 ldr w2,[sp, #0x6c]
+0010022c movk w1,#0x30, LSL #16
+00100230 add w2,w2,#0x1
+00100234 bl 0x00104028
+00100238 mov w20,w0
+0010023c cbz w0,0x00100284
+00100240 add x0,x19,#0x18
+00100244 stlrb wzr,[x0]
+00100248 mov x30,x23
+0010024c xpaclri
+00100250 mov w1,#0x200
+00100254 mov x0,x30
+00100258 bl 0x00104120
+0010025c ldp x21,x22,[sp, #0x20]
+00100260 ldp x23,x24,[sp, #0x30]
+00100264 ldp x25,x26,[sp, #0x40]
+00100268 ldp x27,x28,[sp, #0x50]
+0010026c mov w0,w20
+00100270 ldp x19,x20,[sp, #0x10]
+00100274 ldp x29,x30,[sp], #0x70
+00100278 ret
+0010027c bl 0x001040c8
+00100280 b 0x00100154
+00100284 bl 0x001041b0
+00100288 add x2,sp,#0x68
+0010028c mov x1,#0x6500
+00100290 movk x1,#0x1dcd, LSL #16
+00100294 add x21,x0,x1
+00100298 ldr x0,[x19, #0x8]
+0010029c mov w1,#0xc03c
+001002a0 movk w1,#0x30, LSL #16
+001002a4 bl 0x00104180
+001002a8 mov w20,w0
+001002ac cbnz w0,0x00100240
+001002b0 ldr w1,[sp, #0x68]
+001002b4 tbnz w1,#0x1,0x00100328
+001002b8 bl 0x001041b0
+001002bc cmp x0,x21
+001002c0 b.gt 0x001002f0
+001002c4 mov x0,#0x8dbc
+001002c8 movk x0,#0x6, LSL #16
+001002cc bl 0x00104190
+001002d0 ldr x0,[x19, #0x8]
+001002d4 mov w1,#0xc03c
+001002d8 add x2,sp,#0x68
+001002dc movk w1,#0x30, LSL #16
+001002e0 bl 0x00104180
+001002e4 mov w20,w0
+001002e8 cbz w0,0x001002b0
+001002ec b 0x00100240
+001002f0 ldr x0,[x19, #0x8]
+001002f4 mov w1,#0xc03c
+001002f8 add x2,sp,#0x68
+001002fc movk w1,#0x30, LSL #16
+00100300 bl 0x00104180
+00100304 cbnz w0,0x00100318
+00100308 ldr w1,[sp, #0x68]
+0010030c tbnz w1,#0x1,0x00100328
+00100310 mov w20,#0xffffff92
+00100314 b 0x00100240
+00100318 mov w20,w0
+0010031c b 0x00100240
+00100320 mov w20,#0xffffffea
+00100324 b 0x0010026c
+00100328 and w1,w1,#0x1c
+0010032c strb wzr,[x27, #0xc]
+00100330 cmp w1,#0x4
+00100334 b.eq 0x00100354
+00100338 mov w20,#0xffffffea
+0010033c b 0x00100240
+00100340 ldp x21,x22,[sp, #0x20]
+00100344 mov w20,#0xffffffea
+00100348 ldp x23,x24,[sp, #0x30]
+0010034c ldp x25,x26,[sp, #0x40]
+00100350 b 0x0010026c
+00100354 cbz x22,0x00100240
+00100358 ldr x1,[x27, #0x30]
+0010035c mov w2,w26
+00100360 sub x28,x28,x2
+00100364 mov x0,x22
+00100368 add x1,x1,x28
+0010036c bl 0x00104088
+00100370 b 0x00100240
+
+FUNCTION airoha_npu_wlan_control @ 00100380
+decompiled=true
+
+undefined8 airoha_npu_wlan_control(long param_1,int *param_2,int param_3)
+
+{
+  undefined8 uVar1;
+  
+  if (param_1 == 0) {
+    return 0xffffffed;
+  }
+  if ((((param_3 == 0x50 && param_2 != (int *)0x0) && (*param_2 == 0x3f)) && (param_2[1] == 0)) &&
+     (((param_2[2] == 0x3243514e && (param_2[3] == 2)) && (param_2[4] == 0x50)))) {
+    uVar1 = FUN_001000d0(param_1,0,param_2,0x50,param_2,0x50);
+    return uVar1;
+  }
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+00100380 cbz x0,0x001003fc
+00100384 cmp w2,#0x50
+00100388 mov x4,x1
+0010038c ccmp x1,#0x0,#0x4,eq
+00100390 b.eq 0x001003f4
+00100394 ldr w1,[x1]
+00100398 cmp w1,#0x3f
+0010039c b.ne 0x001003f4
+001003a0 ldr w1,[x4, #0x4]
+001003a4 cbnz w1,0x001003f4
+001003a8 ldr w2,[x4, #0x8]
+001003ac mov w1,#0x514e
+001003b0 movk w1,#0x3243, LSL #16
+001003b4 cmp w2,w1
+001003b8 b.ne 0x001003f4
+001003bc ldr w1,[x4, #0xc]
+001003c0 cmp w1,#0x2
+001003c4 b.ne 0x001003f4
+001003c8 ldr w3,[x4, #0x10]
+001003cc cmp w3,#0x50
+001003d0 b.ne 0x001003f4
+001003d4 stp x29,x30,[sp, #-0x10]!
+001003d8 mov w5,w3
+001003dc mov x2,x4
+001003e0 mov x29,sp
+001003e4 mov w1,#0x0
+001003e8 bl 0x001000d0
+001003ec ldp x29,x30,[sp], #0x10
+001003f0 ret
+001003f4 mov w0,#0xffffffea
+001003f8 ret
+001003fc mov w0,#0xffffffed
+00100400 ret
+
+FUNCTION airoha_npu_put @ 00100404
+decompiled=true
+
+void airoha_npu_put(undefined8 *param_1)
+
+{
+  module_put(&__this_module);
+  put_device(*param_1);
+  return;
+}
+
+
+ASSEMBLY
+00100404 stp x29,x30,[sp, #-0x20]!
+00100408 adrp x1,0x103000
+0010040c mov x29,sp
+00100410 str x19,[sp, #0x10]
+00100414 mov x19,x0
+00100418 add x0,x1,#0xc80
+0010041c bl 0x001040e0
+00100420 ldr x0,[x19]
+00100424 bl 0x001040d0
+00100428 ldr x19,[sp, #0x10]
+0010042c ldp x29,x30,[sp], #0x20
+00100430 ret
+
+FUNCTION airoha_npu_wlan_session_close @ 00100440
+decompiled=true
+
+void airoha_npu_wlan_session_close(long param_1)
+
+{
+  mutex_lock(param_1 + 0x478);
+  *(undefined1 *)(param_1 + 0x510) = 1;
+  if (*(int *)(param_1 + 0x514) == 0) {
+    *(undefined4 *)(param_1 + 0x514) = 0xffffff94;
+  }
+  npu_linux_control_close(param_1 + 0x498);
+  mutex_unlock(param_1 + 0x478);
+  return;
+}
+
+
+ASSEMBLY
+00100440 stp x29,x30,[sp, #-0x20]!
+00100444 mov x29,sp
+00100448 stp x19,x20,[sp, #0x10]
+0010044c mov x19,x0
+00100450 add x20,x0,#0x478
+00100454 mov x0,x20
+00100458 bl 0x00104108
+0010045c ldr w0,[x19, #0x514]
+00100460 mov w1,#0x1
+00100464 strb w1,[x19, #0x510]
+00100468 cbnz w0,0x00100474
+0010046c mov w0,#0xffffff94
+00100470 str w0,[x19, #0x514]
+00100474 add x0,x19,#0x498
+00100478 bl 0x00103144
+0010047c mov x0,x20
+00100480 bl 0x00104188
+00100484 ldp x19,x20,[sp, #0x10]
+00100488 ldp x29,x30,[sp], #0x20
+0010048c ret
+
+FUNCTION airoha_npu_wdt_work @ 00100490
+decompiled=true
+
+void airoha_npu_wdt_work(long param_1)
+
+{
+  char *__s;
+  undefined8 *puVar1;
+  uint local_c;
+  uint uStack_8;
+  uint local_4;
+  
+  puVar1 = *(undefined8 **)(param_1 + -0x10);
+  __s = (char *)vzalloc_noprof(0x200);
+  if (__s != (char *)0x0) {
+    regmap_bulk_read(puVar1[1],((int)((param_1 + -0x10) - (long)(puVar1 + 2) >> 6) + 0x3050) * 0x100
+                     ,&local_c,3);
+    snprintf(__s,0x200,"PC: %08x SP: %08x LR: %08x\n",(ulong)local_c,(ulong)uStack_8,(ulong)local_4)
+    ;
+    dev_coredumpv(*puVar1,__s,0x200,0xcc0);
+  }
+  return;
+}
+
+
+ASSEMBLY
+00100490 stp x29,x30,[sp, #-0x40]!
+00100494 mov x1,x0
+00100498 mov x0,#0x200
+0010049c mov x29,sp
+001004a0 stp x19,x20,[sp, #0x10]
+001004a4 sub x19,x1,#0x10
+001004a8 str x21,[sp, #0x20]
+001004ac ldur x21,[x1, #-0x10]
+001004b0 bl 0x001041b8
+001004b4 cbz x0,0x00100514
+001004b8 mov x20,x0
+001004bc add x0,x21,#0x10
+001004c0 sub x1,x19,x0
+001004c4 mov w0,#0x3050
+001004c8 mov x3,#0x3
+001004cc add x2,sp,#0x34
+001004d0 asr x1,x1,#0x6
+001004d4 add w1,w1,w0
+001004d8 ldr x0,[x21, #0x8]
+001004dc lsl w1,w1,#0x8
+001004e0 bl 0x001041c8
+001004e4 ldr w5,[sp, #0x3c]
+001004e8 ldp w3,w4,[sp, #0x34]
+001004ec mov x1,#0x200
+001004f0 mov x0,x20
+001004f4 adrp x2,0x103000
+001004f8 add x2,x2,#0x730
+001004fc bl 0x00104070
+00100500 ldr x0,[x21]
+00100504 mov x1,x20
+00100508 mov w3,#0xcc0
+0010050c mov x2,#0x200
+00100510 bl 0x00104128
+00100514 ldr x21,[sp, #0x20]
+00100518 ldp x19,x20,[sp, #0x10]
+0010051c ldp x29,x30,[sp], #0x40
+00100520 ret
+
+FUNCTION FUN_00100524 @ 00100524
+decompiled=true
+
+ulong FUN_00100524(long param_1,uint param_2)
+
+{
+  uint uVar1;
+  ulong uVar2;
+  int local_4c [7];
+  int local_30;
+  int local_2c;
+  int iStack_28;
+  int local_24;
+  int local_20;
+  int iStack_1c;
+  int local_14;
+  int local_10;
+  int local_8;
+  byte local_4;
+  
+  uVar2 = npu_linux_control_snapshot(param_1 + 0x498,local_4c);
+  if ((int)uVar2 == 0) {
+    if ((((local_8 == 0) && ((local_4 & 1) == 0)) &&
+        (local_14 == (int)*(undefined8 *)(param_1 + 0x468))) &&
+       (((local_10 == (int)((ulong)*(undefined8 *)(param_1 + 0x468) >> 0x20) && (local_30 == 1)) &&
+        ((local_20 == 0 && iStack_1c == 0) && (local_2c == 0 && iStack_28 == 0))))) {
+      uVar2 = 0;
+      if ((param_2 & 1) != 0) {
+        if (local_4c[0] == 4) {
+          uVar1 = 0;
+          if (local_24 != 0xff) {
+            uVar1 = 0xfffffff5;
+          }
+          uVar2 = (ulong)uVar1;
+        }
+        else {
+          uVar2 = 0xfffffff5;
+        }
+      }
+    }
+    else {
+      uVar2 = 0xffffffb9;
+    }
+  }
+  return uVar2;
+}
+
+
+ASSEMBLY
+00100524 stp x29,x30,[sp, #-0x70]!
+00100528 mov x29,sp
+0010052c stp x19,x20,[sp, #0x10]
+00100530 and w20,w1,#0xff
+00100534 mov x19,x0
+00100538 add x1,sp,#0x24
+0010053c add x0,x0,#0x498
+00100540 bl 0x001030b0
+00100544 cbnz w0,0x001005bc
+00100548 ldr w0,[sp, #0x68]
+0010054c cbnz w0,0x001005c8
+00100550 ldrb w1,[sp, #0x6c]
+00100554 tbnz w1,#0x0,0x001005c8
+00100558 ldr x1,[x19, #0x468]
+0010055c ldr w2,[sp, #0x5c]
+00100560 cmp w2,w1
+00100564 b.ne 0x001005c8
+00100568 ldr w2,[sp, #0x60]
+0010056c lsr x1,x1,#0x20
+00100570 cmp w2,w1
+00100574 b.ne 0x001005c8
+00100578 ldr w1,[sp, #0x40]
+0010057c cmp w1,#0x1
+00100580 b.ne 0x001005c8
+00100584 ldp w2,w4,[sp, #0x44]
+00100588 ldp w1,w3,[sp, #0x50]
+0010058c orr w2,w2,w4
+00100590 orr w1,w1,w3
+00100594 orr w1,w1,w2
+00100598 cbnz w1,0x001005c8
+0010059c tbz w20,#0x0,0x001005bc
+001005a0 ldr w0,[sp, #0x24]
+001005a4 cmp w0,#0x4
+001005a8 b.ne 0x001005d0
+001005ac ldr w1,[sp, #0x4c]
+001005b0 mov w0,#0xfffffff5
+001005b4 cmp w1,#0xff
+001005b8 csel w0,wzr,w0,eq
+001005bc ldp x19,x20,[sp, #0x10]
+001005c0 ldp x29,x30,[sp], #0x70
+001005c4 ret
+001005c8 mov w0,#0xffffffb9
+001005cc b 0x001005bc
+001005d0 mov w0,#0xfffffff5
+001005d4 b 0x001005bc
+
+FUNCTION devm_work_drop @ 001005e0
+decompiled=true
+
+void devm_work_drop(void)
+
+{
+  cancel_work_sync();
+  return;
+}
+
+
+ASSEMBLY
+001005e0 stp x29,x30,[sp, #-0x10]!
+001005e4 mov x29,sp
+001005e8 bl 0x001041c0
+001005ec ldp x29,x30,[sp], #0x10
+001005f0 ret
+
+FUNCTION FUN_00100600 @ 00100600
+decompiled=true
+
+undefined4 FUN_00100600(undefined8 param_1,undefined8 *param_2,undefined8 *param_3)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  ulong *local_8;
+  
+  iVar1 = request_firmware_direct(&local_8,*param_2,param_1);
+  if (iVar1 == 0) {
+    if ((*local_8 == 0) || ((ulong)(long)*(int *)(param_2 + 1) < *local_8)) {
+      _dev_err(param_1,"%s: invalid fw size (%zu)\n",*param_2);
+      uVar2 = 0xffffffea;
+      if (*local_8 != 0) {
+        uVar2 = 0xfffffff9;
+      }
+      release_firmware();
+    }
+    else {
+      *param_3 = local_8;
+      uVar2 = 0;
+    }
+    return uVar2;
+  }
+  if (iVar1 == -2) {
+    iVar1 = -0x205;
+  }
+  uVar2 = dev_err_probe(param_1,iVar1,"failed to load %s\n",*param_2);
+  return uVar2;
+}
+
+
+ASSEMBLY
+00100600 stp x29,x30,[sp, #-0x40]!
+00100604 mov x29,sp
+00100608 stp x19,x20,[sp, #0x10]
+0010060c mov x20,x1
+00100610 stp x21,x22,[sp, #0x20]
+00100614 mov x21,x0
+00100618 mov x22,x2
+0010061c ldr x1,[x1]
+00100620 add x0,sp,#0x38
+00100624 mov x2,x21
+00100628 bl 0x001040b0
+0010062c mov w19,w0
+00100630 cbnz w0,0x00100664
+00100634 ldr x0,[sp, #0x38]
+00100638 ldr x3,[x0]
+0010063c cbz x3,0x0010069c
+00100640 ldrsw x1,[x20, #0x8]
+00100644 cmp x3,x1
+00100648 b.hi 0x0010069c
+0010064c str x0,[x22]
+00100650 ldp x21,x22,[sp, #0x20]
+00100654 mov w0,w19
+00100658 ldp x19,x20,[sp, #0x10]
+0010065c ldp x29,x30,[sp], #0x40
+00100660 ret
+00100664 ldr x3,[x20]
+00100668 cmn w0,#0x2
+0010066c mov w1,#0xfffffdfb
+00100670 mov x0,x21
+00100674 csel w1,w19,w1,ne
+00100678 adrp x2,0x103000
+0010067c add x2,x2,#0x750
+00100680 bl 0x001041e8
+00100684 mov w19,w0
+00100688 ldp x21,x22,[sp, #0x20]
+0010068c mov w0,w19
+00100690 ldp x19,x20,[sp, #0x10]
+00100694 ldp x29,x30,[sp], #0x40
+00100698 ret
+0010069c ldr x2,[x20]
+001006a0 mov x0,x21
+001006a4 adrp x1,0x103000
+001006a8 add x1,x1,#0x768
+001006ac mov w19,#0xffffffea
+001006b0 bl 0x001040e8
+001006b4 ldr x0,[sp, #0x38]
+001006b8 mov w1,#0xfffffff9
+001006bc ldr x2,[x0]
+001006c0 cmp x2,#0x0
+001006c4 csel w19,w19,w1,eq
+001006c8 bl 0x00104018
+001006cc b 0x00100650
+
+FUNCTION FUN_001006d0 @ 001006d0
+decompiled=true
+
+void FUN_001006d0(long param_1,ulong *param_2,ulong *param_3)
+
+{
+  long lVar1;
+  undefined8 uVar2;
+  long lVar3;
+  ulong uVar4;
+  ulong uVar5;
+  int aiStack_9c [17];
+  long local_58;
+  long local_50;
+  long local_48;
+  long local_40;
+  long local_38;
+  
+  lVar3 = sp_el0;
+  local_38 = *(long *)(lVar3 + 0x4c8);
+  uVar5 = *param_2;
+  aiStack_9c[1] = 0x32504e57;
+  aiStack_9c[2] = 1;
+  aiStack_9c[3] = 0x80;
+  aiStack_9c[4] = 0x7996;
+  aiStack_9c[7] = (int)uVar5;
+  aiStack_9c[8] = 0x6480;
+  aiStack_9c[9] = 0x3e900000;
+  aiStack_9c[10] = 0x6300;
+  aiStack_9c[0xb] = 0x6380;
+  aiStack_9c[0xc] = 0x14;
+  aiStack_9c[0xd] = 0x63a0;
+  aiStack_9c[0xe] = 8;
+  aiStack_9c[0xf] = 0x100;
+  aiStack_9c[0x10] = 0x6400;
+  aiStack_9c[5] = 1;
+  aiStack_9c[6] = -0x7c000000;
+  uVar4 = *param_3;
+  if ((uVar5 < 0x3f020) || (*(int *)(param_2[1] + 0x3f000) != 0x32504e57)) {
+    if (uVar4 < 0x6404) {
+      uVar2 = 0;
+      if ((*(int *)(param_1 + 0x2e0) == 0) || (uVar4 < 0x6000 && uVar5 < 0x40000))
+      goto LAB_001007c4;
+    }
+    else if ((*(int *)(param_3[1] + 0x6400) != 0x32504e57) &&
+            (uVar2 = 0, *(int *)(param_1 + 0x2e0) == 0)) goto LAB_001007c4;
+  }
+  else if (((0x6403 < uVar4) && (uVar5 = param_3[1], *(int *)(uVar5 + 0x6400) == 0x32504e57)) &&
+          (uVar4 == 0x6480 && ((*(byte *)(param_1 + 0x461) ^ 1) & 1) == 0)) {
+    lVar3 = 0;
+    do {
+      if (*(int *)((long)&DAT_001031b0 + lVar3) != *(int *)(param_2[1] + 0x3f000 + lVar3))
+      goto LAB_001007c0;
+      lVar3 = lVar3 + 4;
+    } while (lVar3 != 0x20);
+    lVar3 = 1;
+    do {
+      if (aiStack_9c[lVar3] != *(int *)(uVar5 + 0x63fc + lVar3 * 4)) goto LAB_001007c0;
+      lVar3 = lVar3 + 1;
+    } while (lVar3 != 0x11);
+    lVar3 = memchr_inv(uVar5 + 0x6300,0,0x30);
+    if (((((lVar3 == 0) && (lVar3 = memchr_inv(param_3[1] + 0x6380,0,0x14), lVar3 == 0)) &&
+         ((lVar3 = memchr_inv(param_3[1] + 0x63a0,0,8), lVar3 == 0 &&
+          ((sha256(param_2[1],*param_2,&local_58), local_58 == *(long *)(uVar5 + 0x6440) &&
+           (local_50 == *(long *)(uVar5 + 0x6448))))))) && (local_48 == *(long *)(uVar5 + 0x6450)))
+       && ((((local_40 == *(long *)(uVar5 + 0x6458) &&
+             (sha256(param_3[1],0x6400,&local_58), local_58 == *(long *)(uVar5 + 0x6460))) &&
+            (local_50 == *(long *)(uVar5 + 0x6468))) &&
+           ((local_48 == *(long *)(uVar5 + 0x6470) && (local_40 == *(long *)(uVar5 + 0x6478))))))) {
+      uVar2 = 1;
+      goto LAB_001007c4;
+    }
+  }
+LAB_001007c0:
+  uVar2 = 0xffffffea;
+LAB_001007c4:
+  lVar1 = sp_el0;
+  lVar3 = local_38 - *(long *)(lVar1 + 0x4c8);
+  if (lVar3 == 0) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(uVar2,lVar1,0,lVar3);
+}
+
+
+ASSEMBLY
+001006d0 sub sp,sp,#0xa0
+001006d4 mov x9,#0x4e57
+001006d8 movk x9,#0x3250, LSL #16
+001006dc mov x8,#0x80
+001006e0 mov x6,#0x3e900000
+001006e4 mov x5,#0x6380
+001006e8 stp x29,x30,[sp, #0x70]
+001006ec add x29,sp,#0x70
+001006f0 mov x4,#0x63a0
+001006f4 movk x9,#0x1, LSL #32
+001006f8 movk x8,#0x7996, LSL #32
+001006fc stp x19,x20,[sp, #0x80]
+00100700 mov x20,x1
+00100704 mrs x1,sp_el0
+00100708 mov x19,x2
+0010070c ldr x2,[x1, #0x4c8]
+00100710 str x2,[sp, #0x68]
+00100714 mov x2,#0x0
+00100718 ldr x3,[x20]
+0010071c mov x2,#0x1
+00100720 mov x1,#0x100
+00100724 movk x2,#0x8400, LSL #48
+00100728 movk x1,#0x6400, LSL #32
+0010072c mov w7,#0x6480
+00100730 movk x6,#0x6300, LSL #32
+00100734 movk x5,#0x14, LSL #32
+00100738 movk x4,#0x8, LSL #32
+0010073c stp x9,x8,[sp, #0x8]
+00100740 stp w3,w7,[sp, #0x20]
+00100744 stp x6,x5,[sp, #0x28]
+00100748 stp x4,x1,[sp, #0x38]
+0010074c str x2,[sp, #0x18]
+00100750 mov x2,#0xf01f
+00100754 ldr x1,[x19]
+00100758 movk x2,#0x3, LSL #16
+0010075c cmp x3,x2
+00100760 b.ls 0x00100780
+00100764 ldr x2,[x20, #0x8]
+00100768 mov w5,#0x4e57
+0010076c movk w5,#0x3250, LSL #16
+00100770 add x4,x2,#0x3c, LSL #12
+00100774 ldr w4,[x4, #0x3000]
+00100778 cmp w4,w5
+0010077c b.eq 0x00100810
+00100780 mov x2,#0x6403
+00100784 cmp x1,x2
+00100788 b.ls 0x001007ec
+0010078c ldr x1,[x19, #0x8]
+00100790 mov w2,#0x4e57
+00100794 movk w2,#0x3250, LSL #16
+00100798 add x1,x1,#0x4, LSL #12
+0010079c ldr w1,[x1, #0x2400]
+001007a0 cmp w1,w2
+001007a4 b.eq 0x001007c0
+001007a8 ldr w1,[x0, #0x2e0]
+001007ac mov w0,#0x0
+001007b0 cbz w1,0x001007c4
+001007b4 nop
+001007b8 nop
+001007bc nop
+001007c0 mov w0,#0xffffffea
+001007c4 mrs x1,sp_el0
+001007c8 ldr x3,[sp, #0x68]
+001007cc ldr x2,[x1, #0x4c8]
+001007d0 subs x3,x3,x2
+001007d4 mov x2,#0x0
+001007d8 b.ne 0x001009c4
+001007dc ldp x29,x30,[sp, #0x70]
+001007e0 ldp x19,x20,[sp, #0x80]
+001007e4 add sp,sp,#0xa0
+001007e8 ret
+001007ec ldr w2,[x0, #0x2e0]
+001007f0 mov w0,#0x0
+001007f4 cbz w2,0x001007c4
+001007f8 mov x2,#0x5fff
+001007fc cmp x1,x2
+00100800 orr x1,xzr,#0x3ffff
+00100804 ccmp x3,x1,#0x2,ls
+00100808 b.ls 0x001007c4
+0010080c b 0x001007c0
+00100810 mov x3,#0x6403
+00100814 cmp x1,x3
+00100818 b.ls 0x001007c0
+0010081c str x21,[sp, #0x90]
+00100820 ldr x21,[x19, #0x8]
+00100824 add x3,x21,#0x4, LSL #12
+00100828 ldr w3,[x3, #0x2400]
+0010082c cmp w3,w4
+00100830 b.eq 0x00100848
+00100834 nop
+00100838 nop
+0010083c nop
+00100840 ldr x21,[sp, #0x90]
+00100844 b 0x001007c0
+00100848 ldrb w0,[x0, #0x461]
+0010084c mov x3,#0x6480
+00100850 cmp x1,x3
+00100854 eor w1,w0,#0x1
+00100858 cset w0,ne
+0010085c orr w0,w0,w1
+00100860 tbnz w0,#0x0,0x00100840
+00100864 adrp x4,0x103000
+00100868 add x2,x2,#0x3f, LSL #12
+0010086c add x4,x4,#0x1b0
+00100870 mov x0,#0x0
+00100874 nop
+00100878 nop
+0010087c nop
+00100880 ldr w1,[x4, x0, LSL #0x0]
+00100884 ldr w3,[x2, x0, LSL #0x0]
+00100888 cmp w1,w3
+0010088c b.ne 0x00100840
+00100890 add x0,x0,#0x4
+00100894 cmp x0,#0x20
+00100898 b.ne 0x00100880
+0010089c mov x6,#0x63fc
+001008a0 add x2,sp,#0x8
+001008a4 add x1,x21,x6
+001008a8 mov x0,#0x1
+001008ac add x3,x2,x0, LSL #0x2
+001008b0 ldr w4,[x1, x0, LSL #0x2]
+001008b4 ldur w3,[x3, #-0x4]
+001008b8 cmp w3,w4
+001008bc b.ne 0x00100840
+001008c0 add x0,x0,#0x1
+001008c4 cmp x0,#0x11
+001008c8 b.ne 0x001008ac
+001008cc mov x5,#0x6300
+001008d0 mov x2,#0x30
+001008d4 add x0,x21,x5
+001008d8 mov w1,#0x0
+001008dc bl 0x001040f0
+001008e0 cbnz x0,0x00100840
+001008e4 ldr x0,[x19, #0x8]
+001008e8 mov x4,#0x6380
+001008ec mov x2,#0x14
+001008f0 mov w1,#0x0
+001008f4 add x0,x0,x4
+001008f8 bl 0x001040f0
+001008fc cbnz x0,0x00100840
+00100900 ldr x0,[x19, #0x8]
+00100904 mov x3,#0x63a0
+00100908 mov x2,#0x8
+0010090c mov w1,#0x0
+00100910 add x0,x0,x3
+00100914 bl 0x001040f0
+00100918 cbnz x0,0x00100840
+0010091c ldp x1,x0,[x20]
+00100920 add x2,sp,#0x48
+00100924 bl 0x001041a0
+00100928 ldr x1,[sp, #0x48]
+0010092c ldr x0,[x21, #0x6440]
+00100930 cmp x1,x0
+00100934 b.ne 0x00100840
+00100938 ldr x1,[sp, #0x50]
+0010093c ldr x0,[x21, #0x6448]
+00100940 cmp x1,x0
+00100944 b.ne 0x00100840
+00100948 ldr x1,[sp, #0x58]
+0010094c ldr x0,[x21, #0x6450]
+00100950 cmp x1,x0
+00100954 b.ne 0x00100840
+00100958 ldr x1,[sp, #0x60]
+0010095c ldr x0,[x21, #0x6458]
+00100960 cmp x1,x0
+00100964 b.ne 0x00100840
+00100968 ldr x0,[x19, #0x8]
+0010096c mov x1,#0x6400
+00100970 add x2,sp,#0x48
+00100974 bl 0x001041a0
+00100978 ldr x1,[sp, #0x48]
+0010097c ldr x0,[x21, #0x6460]
+00100980 cmp x1,x0
+00100984 b.ne 0x00100840
+00100988 ldr x1,[sp, #0x50]
+0010098c ldr x0,[x21, #0x6468]
+00100990 cmp x1,x0
+00100994 b.ne 0x00100840
+00100998 ldr x1,[sp, #0x58]
+0010099c ldr x0,[x21, #0x6470]
+001009a0 cmp x1,x0
+001009a4 b.ne 0x00100840
+001009a8 ldr x1,[sp, #0x60]
+001009ac ldr x0,[x21, #0x6478]
+001009b0 cmp x1,x0
+001009b4 b.ne 0x00100840
+001009b8 ldr x21,[sp, #0x90]
+001009bc mov w0,#0x1
+001009c0 b 0x001007c4
+001009c4 str x21,[sp, #0x90]
+001009c8 bl 0x001040c0
+
+FUNCTION airoha_npu_get @ 001009cc
+decompiled=true
+
+long airoha_npu_get(long *param_1)
+
+{
+  int iVar1;
+  long lVar2;
+  ulong uVar3;
+  long lVar4;
+  long lVar5;
+  undefined8 *local_50 [10];
+  
+  iVar1 = __of_parse_phandle_with_args(param_1[0x4b],"airoha,npu",0,0,0,local_50);
+  if ((iVar1 == 0) && (local_50[0] != (undefined8 *)0x0)) {
+    lVar2 = of_find_device_by_node(local_50[0]);
+    if (lVar2 != 0) {
+      uVar3 = try_module_get(&__this_module);
+      if ((uVar3 & 1) == 0) {
+        lVar5 = -0x13;
+        _dev_err(param_1,"failed to get the device driver module\n");
+      }
+      else {
+        lVar5 = *(long *)(lVar2 + 0x88);
+        if (lVar5 == 0) {
+          lVar5 = -0x13;
+        }
+        else {
+          lVar4 = device_link_add(param_1,lVar2 + 0x10,0x10);
+          if (lVar4 != 0) {
+            return lVar5;
+          }
+          lVar4 = param_1[10];
+          if (lVar4 == 0) {
+            lVar4 = *param_1;
+          }
+          lVar5 = -0x16;
+          _dev_err(lVar2 + 0x10,"failed to create device link to consumer %s\n",lVar4);
+        }
+        module_put(&__this_module);
+      }
+      platform_device_put(lVar2);
+      return lVar5;
+    }
+    _dev_err(param_1,"cannot find device node %s\n",*local_50[0]);
+  }
+  return -0x13;
+}
+
+
+ASSEMBLY
+001009cc stp x29,x30,[sp, #-0x90]!
+001009d0 adrp x1,0x103000
+001009d4 mov w4,#0x0
+001009d8 mov x29,sp
+001009dc add x1,x1,#0x788
+001009e0 stp x19,x20,[sp, #0x10]
+001009e4 mov x19,x0
+001009e8 add x5,sp,#0x40
+001009ec stp x21,x22,[sp, #0x20]
+001009f0 mov w3,#0x0
+001009f4 mov x2,#0x0
+001009f8 ldr x0,[x0, #0x258]
+001009fc bl 0x001040f8
+00100a00 cbnz w0,0x00100aac
+00100a04 ldr x21,[sp, #0x40]
+00100a08 cbz x21,0x00100aac
+00100a0c mov x0,x21
+00100a10 bl 0x00104058
+00100a14 mov x20,x0
+00100a18 cbz x0,0x00100a98
+00100a1c adrp x21,0x103000
+00100a20 add x21,x21,#0xc80
+00100a24 mov x0,x21
+00100a28 bl 0x00104008
+00100a2c tbz w0,#0x0,0x00100ae4
+00100a30 str x23,[sp, #0x30]
+00100a34 add x23,x20,#0x10
+00100a38 ldr x22,[x23, #0x78]
+00100a3c cbz x22,0x00100a6c
+00100a40 mov x1,x23
+00100a44 mov x0,x19
+00100a48 mov w2,#0x10
+00100a4c bl 0x00104208
+00100a50 cbz x0,0x00100ac4
+00100a54 ldr x23,[sp, #0x30]
+00100a58 mov x0,x22
+00100a5c ldp x19,x20,[sp, #0x10]
+00100a60 ldp x21,x22,[sp, #0x20]
+00100a64 ldp x29,x30,[sp], #0x90
+00100a68 ret
+00100a6c mov x22,#-0x13
+00100a70 mov x0,x21
+00100a74 bl 0x001040e0
+00100a78 ldr x23,[sp, #0x30]
+00100a7c mov x0,x20
+00100a80 bl 0x00104000
+00100a84 mov x0,x22
+00100a88 ldp x19,x20,[sp, #0x10]
+00100a8c ldp x21,x22,[sp, #0x20]
+00100a90 ldp x29,x30,[sp], #0x90
+00100a94 ret
+00100a98 ldr x2,[x21]
+00100a9c adrp x1,0x103000
+00100aa0 mov x0,x19
+00100aa4 add x1,x1,#0x798
+00100aa8 bl 0x001040e8
+00100aac mov x22,#-0x13
+00100ab0 mov x0,x22
+00100ab4 ldp x19,x20,[sp, #0x10]
+00100ab8 ldp x21,x22,[sp, #0x20]
+00100abc ldp x29,x30,[sp], #0x90
+00100ac0 ret
+00100ac4 ldr x2,[x19, #0x50]
+00100ac8 cbz x2,0x00100afc
+00100acc mov x0,x23
+00100ad0 adrp x1,0x103000
+00100ad4 mov x22,#-0x16
+00100ad8 add x1,x1,#0x7e0
+00100adc bl 0x001040e8
+00100ae0 b 0x00100a70
+00100ae4 mov x0,x19
+00100ae8 adrp x1,0x103000
+00100aec mov x22,#-0x13
+00100af0 add x1,x1,#0x7b8
+00100af4 bl 0x001040e8
+00100af8 b 0x00100a7c
+00100afc ldr x2,[x19]
+00100b00 b 0x00100acc
+
+FUNCTION airoha_npu_dma_cleanup @ 00100b04
+decompiled=true
+
+void airoha_npu_dma_cleanup(undefined8 *param_1)
+
+{
+  undefined **ppuVar1;
+  undefined *puVar2;
+  long *plVar3;
+  
+  if ((*(byte *)(param_1 + 0x13) & 1) == 0) {
+    plVar3 = param_1 + 3;
+    do {
+      if (*plVar3 != 0) {
+        dma_free_attrs(*param_1,0x100,*plVar3,plVar3[1],0);
+      }
+      plVar3 = plVar3 + 2;
+    } while (plVar3 != param_1 + 0x13);
+    put_device(*param_1);
+    kfree(param_1);
+  }
+  else {
+    mutex_lock(&DAT_001036d8);
+    puVar2 = PTR_LOOP_00103700;
+    ppuVar1 = (undefined **)(param_1 + 1);
+    if ((*(undefined ***)PTR_LOOP_00103700 == &PTR_LOOP_001036f8) &&
+       (ppuVar1 != (undefined **)PTR_LOOP_00103700 && ppuVar1 != &PTR_LOOP_001036f8)) {
+      PTR_LOOP_00103700 = (undefined *)ppuVar1;
+      param_1[1] = &PTR_LOOP_001036f8;
+      param_1[2] = puVar2;
+      *(undefined ***)puVar2 = ppuVar1;
+    }
+    else {
+      __list_add_valid_or_report(ppuVar1,PTR_LOOP_00103700,&PTR_LOOP_001036f8);
+    }
+    mutex_unlock(&DAT_001036d8);
+    _dev_warn(*param_1,"retaining NPU DMA mailboxes pending retirement proof\n");
+  }
+  return;
+}
+
+
+ASSEMBLY
+00100b04 stp x29,x30,[sp, #-0x30]!
+00100b08 mov x29,sp
+00100b0c stp x19,x20,[sp, #0x10]
+00100b10 mov x20,x0
+00100b14 ldrb w0,[x0, #0x98]
+00100b18 tbnz w0,#0x0,0x00100b70
+00100b1c add x19,x20,#0x18
+00100b20 str x21,[sp, #0x20]
+00100b24 add x21,x20,#0x98
+00100b28 ldr x2,[x19]
+00100b2c mov x4,#0x0
+00100b30 mov x1,#0x100
+00100b34 cbz x2,0x00100b44
+00100b38 ldr x0,[x20]
+00100b3c ldr x3,[x19, #0x8]
+00100b40 bl 0x00104178
+00100b44 add x19,x19,#0x10
+00100b48 cmp x19,x21
+00100b4c b.ne 0x00100b28
+00100b50 ldr x0,[x20]
+00100b54 bl 0x001040d0
+00100b58 mov x0,x20
+00100b5c bl 0x00104090
+00100b60 ldr x21,[sp, #0x20]
+00100b64 ldp x19,x20,[sp, #0x10]
+00100b68 ldp x29,x30,[sp], #0x30
+00100b6c ret
+00100b70 adrp x19,0x103000
+00100b74 add x19,x19,#0x610
+00100b78 add x0,x19,#0xc8
+00100b7c bl 0x00104108
+00100b80 add x3,x19,#0xe8
+00100b84 add x0,x20,#0x8
+00100b88 ldr x1,[x19, #0xf0]
+00100b8c ldr x2,[x1]
+00100b90 cmp x2,x3
+00100b94 b.ne 0x00100bcc
+00100b98 cmp x0,x1
+00100b9c ccmp x0,x2,#0x4,ne
+00100ba0 b.eq 0x00100bcc
+00100ba4 str x0,[x19, #0xf0]
+00100ba8 stp x2,x1,[x20, #0x8]
+00100bac str x0,[x1]
+00100bb0 add x0,x19,#0xc8
+00100bb4 bl 0x00104188
+00100bb8 ldr x0,[x20]
+00100bbc adrp x1,0x103000
+00100bc0 add x1,x1,#0x810
+00100bc4 bl 0x00104148
+00100bc8 b 0x00100b64
+00100bcc add x2,x19,#0xe8
+00100bd0 bl 0x00104020
+00100bd4 b 0x00100bb0
+
+FUNCTION airoha_npu_mbox_handler @ 00100be0
+decompiled=true
+
+undefined8 airoha_npu_mbox_handler(undefined8 param_1,long param_2)
+
+{
+  regmap_write(*(undefined8 *)(param_2 + 8),0x30c000,0x100);
+  regmap_update_bits_base(*(undefined8 *)(param_2 + 8),0x30c0bc,0x1e,2,0,0,0);
+  return 1;
+}
+
+
+ASSEMBLY
+00100be0 stp x29,x30,[sp, #-0x20]!
+00100be4 mov w2,#0x100
+00100be8 mov x29,sp
+00100bec str x19,[sp, #0x10]
+00100bf0 mov x19,x1
+00100bf4 mov w1,#0xc000
+00100bf8 movk w1,#0x30, LSL #16
+00100bfc ldr x0,[x19, #0x8]
+00100c00 bl 0x00104028
+00100c04 mov w0,#0xc000
+00100c08 mov w6,#0x0
+00100c0c movk w0,#0x30, LSL #16
+00100c10 add w1,w0,#0xbc
+00100c14 ldr x0,[x19, #0x8]
+00100c18 mov w5,#0x0
+00100c1c mov x4,#0x0
+00100c20 mov w3,#0x2
+00100c24 mov w2,#0x1e
+00100c28 bl 0x001041e0
+00100c2c ldr x19,[sp, #0x10]
+00100c30 mov w0,#0x1
+00100c34 ldp x29,x30,[sp], #0x20
+00100c38 ret
+
+FUNCTION FUN_00100c3c @ 00100c3c
+decompiled=true
+
+void FUN_00100c3c(long param_1,int param_2)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0x10000;
+  if (param_2 == 1) {
+    uVar1 = 0x20000;
+  }
+  regmap_update_bits_base(*(undefined8 *)(param_1 + 8),param_2 * 4 + 0x30d034,uVar1,0,0,0,0);
+  return;
+}
+
+
+ASSEMBLY
+00100c3c nop
+
+FUNCTION airoha_npu_wlan_irq_disable @ 00100c40
+decompiled=true
+
+void airoha_npu_wlan_irq_disable(long param_1,int param_2)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0x10000;
+  if (param_2 == 1) {
+    uVar1 = 0x20000;
+  }
+  regmap_update_bits_base(*(undefined8 *)(param_1 + 8),param_2 * 4 + 0x30d034,uVar1,0,0,0,0);
+  return;
+}
+
+
+ASSEMBLY
+00100c40 stp x29,x30,[sp, #-0x10]!
+00100c44 cmp w1,#0x1
+00100c48 mov w4,#0xd034
+00100c4c mov x29,sp
+00100c50 movk w4,#0x30, LSL #16
+00100c54 ldr x0,[x0, #0x8]
+00100c58 mov w3,#0x10000
+00100c5c add w1,w4,w1, LSL #0x2
+00100c60 mov w6,#0x0
+00100c64 mov w5,#0x0
+00100c68 mov x4,#0x0
+00100c6c mov w2,#0x20000
+00100c70 csel w2,w3,w2,ne
+00100c74 mov w3,#0x0
+00100c78 bl 0x001041e0
+00100c7c ldp x29,x30,[sp], #0x10
+00100c80 ret
+
+FUNCTION airoha_npu_wdt_handler @ 00100c84
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined8 airoha_npu_wdt_handler(undefined8 param_1,long *param_2)
+
+{
+  int iVar1;
+  long lVar2;
+  uint local_4;
+  
+  lVar2 = *param_2;
+  iVar1 = ((int)((long)param_2 - (lVar2 + 0x10) >> 6) + 0x3101) * 0x100;
+  regmap_update_bits_base(*(undefined8 *)(lVar2 + 8),iVar1,0x200000,0x200000,0,0,0);
+  iVar1 = regmap_read(*(undefined8 *)(lVar2 + 8),iVar1,&local_4);
+  if ((iVar1 == 0) && ((local_4 >> 0x19 & 1) != 0)) {
+    queue_work_on(4,_system_percpu_wq,param_2 + 2);
+    return 1;
+  }
+  return 1;
+}
+
+
+ASSEMBLY
+00100c84 stp x29,x30,[sp, #-0x40]!
+00100c88 mov w0,#0x3101
+00100c8c mov w3,#0x200000
+00100c90 mov x29,sp
+00100c94 mov w2,w3
+00100c98 stp x19,x20,[sp, #0x10]
+00100c9c mov w6,#0x0
+00100ca0 mov x20,x1
+00100ca4 str x21,[sp, #0x20]
+00100ca8 mov w5,#0x0
+00100cac mov x4,#0x0
+00100cb0 ldr x21,[x1]
+00100cb4 add x19,x21,#0x10
+00100cb8 sub x19,x1,x19
+00100cbc asr x19,x19,#0x6
+00100cc0 add w19,w19,w0
+00100cc4 ldr x0,[x21, #0x8]
+00100cc8 lsl w19,w19,#0x8
+00100ccc mov w1,w19
+00100cd0 bl 0x001041e0
+00100cd4 add x2,sp,#0x3c
+00100cd8 ldr x0,[x21, #0x8]
+00100cdc mov w1,w19
+00100ce0 bl 0x00104180
+00100ce4 cbnz w0,0x00100cf0
+00100ce8 ldr w0,[sp, #0x3c]
+00100cec tbnz w0,#0x19,0x00100d04
+00100cf0 ldr x21,[sp, #0x20]
+00100cf4 mov w0,#0x1
+00100cf8 ldp x19,x20,[sp, #0x10]
+00100cfc ldp x29,x30,[sp], #0x40
+00100d00 ret
+00100d04 adrp x1,0x104000
+00100d08 add x2,x20,#0x10
+00100d0c mov w0,#0x4
+00100d10 ldr x1,[x1, #0x100]
+00100d14 bl 0x00104078
+00100d18 ldr x21,[sp, #0x20]
+00100d1c mov w0,#0x1
+00100d20 ldp x19,x20,[sp, #0x10]
+00100d24 ldp x29,x30,[sp], #0x40
+00100d28 ret
+
+FUNCTION airoha_npu_wlan_irq_enable @ 00100d2c
+decompiled=true
+
+void airoha_npu_wlan_irq_enable(long param_1,int param_2)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = 0x10000;
+  if (param_2 == 1) {
+    uVar1 = 0x20000;
+  }
+  regmap_update_bits_base(*(undefined8 *)(param_1 + 8),param_2 * 4 + 0x30d034,uVar1,uVar1,0,0,0);
+  return;
+}
+
+
+ASSEMBLY
+00100d2c stp x29,x30,[sp, #-0x10]!
+00100d30 cmp w1,#0x1
+00100d34 mov w2,#0x20000
+00100d38 mov x29,sp
+00100d3c mov w3,#0x10000
+00100d40 ldr x0,[x0, #0x8]
+00100d44 csel w3,w3,w2,ne
+00100d48 mov w2,#0xd034
+00100d4c mov w6,#0x0
+00100d50 movk w2,#0x30, LSL #16
+00100d54 mov w5,#0x0
+00100d58 add w1,w2,w1, LSL #0x2
+00100d5c mov x4,#0x0
+00100d60 mov w2,w3
+00100d64 bl 0x001041e0
+00100d68 ldp x29,x30,[sp], #0x10
+00100d6c ret
+
+FUNCTION airoha_npu_ppe_deinit @ 00100d70
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 airoha_npu_ppe_deinit(undefined8 param_1)
+
+{
+  undefined4 uVar1;
+  undefined8 *puVar2;
+  
+  puVar2 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104248,0xdc0,0x1c);
+  if (puVar2 == (undefined8 *)0x0) {
+    uVar1 = 0xfffffff4;
+  }
+  else {
+    *puVar2 = 0x200000001;
+    uVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    kfree(puVar2);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+00100d70 stp x29,x30,[sp, #-0x20]!
+00100d74 adrp x1,0x104000
+00100d78 mov x2,#0x1c
+00100d7c mov x29,sp
+00100d80 stp x19,x20,[sp, #0x10]
+00100d84 mov x20,x0
+00100d88 ldr x0,[x1, #0x248]
+00100d8c mov w1,#0xdc0
+00100d90 bl 0x001041a8
+00100d94 cbz x0,0x00100de0
+00100d98 mov x19,x0
+00100d9c mov x6,#0x1
+00100da0 movk x6,#0x2, LSL #32
+00100da4 mov x4,x19
+00100da8 mov x2,x19
+00100dac mov w5,#0x1c
+00100db0 str x6,[x19]
+00100db4 mov w3,#0x1c
+00100db8 mov w1,#0x5
+00100dbc mov x0,x20
+00100dc0 bl 0x001000d0
+00100dc4 mov w20,w0
+00100dc8 mov x0,x19
+00100dcc bl 0x00104090
+00100dd0 mov w0,w20
+00100dd4 ldp x19,x20,[sp, #0x10]
+00100dd8 ldp x29,x30,[sp], #0x20
+00100ddc ret
+00100de0 mov w20,#0xfffffff4
+00100de4 b 0x00100dd0
+
+FUNCTION airoha_npu_wlan_msg_send @ 00100de8
+decompiled=true
+
+int airoha_npu_wlan_msg_send
+              (long param_1,uint param_2,int param_3,int *param_4,uint param_5,uint param_6,
+              undefined8 param_7,undefined8 param_8)
+
+{
+  uint uVar1;
+  int iVar2;
+  int iVar3;
+  undefined1 *puVar4;
+  ulong __n;
+  int *piVar5;
+  ulong uVar6;
+  long lVar7;
+  ulong uVar8;
+  ulong uVar9;
+  undefined1 auVar10 [16];
+  undefined1 *puVar11;
+  code *pcVar12;
+  undefined4 uStack_54;
+  
+  puVar11 = &stack0xffffffffffffffb0;
+  if (0xf8 < param_5) {
+    return -0x16;
+  }
+  uVar6 = (ulong)param_5;
+  if (param_5 != 0 && param_4 == (int *)0x0) {
+    return -0x16;
+  }
+  if (*(int *)(param_1 + 0x2e0) == 0xe000) {
+    if (param_3 == 1) {
+      uVar1 = (param_2 & 0xf) - 5;
+      if ((uVar1 < 4) &&
+         ((param_5 < 4 || (*(uint *)(&DAT_001031d0 + (ulong)uVar1 * 4) <= *param_4 - 1U)))) {
+        return -0x16;
+      }
+    }
+    else {
+      uVar9 = 0x18;
+      iVar2 = 0x18;
+      if (param_3 == 0x18 && param_5 < 0x10) goto LAB_00100e3c;
+    }
+  }
+  iVar2 = param_5 + 8;
+  uVar9 = (ulong)(param_5 + 8);
+LAB_00100e3c:
+  piVar5 = param_4;
+  puVar4 = (undefined1 *)__kmalloc_noprof(uVar9,param_6 | 0x100);
+  uStack_54 = SUB84(piVar5,0);
+  if (puVar4 == (undefined1 *)0x0) {
+    iVar2 = -0xc;
+  }
+  else {
+    *(int *)(puVar4 + 4) = param_3;
+    uVar1 = param_2 & 0xf | 0x10;
+    uVar8 = (ulong)uVar1;
+    *puVar4 = (char)uVar1;
+    if (param_5 != 0) {
+      __n = (ulong)(int)param_5;
+      if (uVar9 - 8 < __n) {
+        auVar10 = __fortify_panic(0x11,uVar9 - 8);
+        pcVar12 = FUN_00100f64;
+        iVar2 = 0;
+        while( true ) {
+          iVar3 = airoha_npu_wlan_msg_send
+                            (auVar10._0_8_,auVar10._8_8_ & 0xffffffff,__n & 0xffffffff,&uStack_54,4,
+                             0xcc0,param_7,param_8,puVar11,pcVar12,uVar6,puVar4,uVar8,param_1,
+                             param_4);
+          if (iVar3 == 0) {
+            lVar7 = 10;
+            do {
+              __const_udelay(0x418958);
+              lVar7 = lVar7 + -1;
+            } while (lVar7 != 0);
+            return 0;
+          }
+          if (iVar2 == 2 || iVar3 != -0xc) break;
+          lVar7 = 10;
+          do {
+            __const_udelay(0x418958);
+            lVar7 = lVar7 + -1;
+          } while (lVar7 != 0);
+          iVar2 = iVar2 + 1;
+        }
+        return iVar3;
+      }
+      memcpy(puVar4 + 8,param_4,__n);
+    }
+    iVar2 = FUN_001000d0(param_1,0,puVar4,iVar2,puVar4,iVar2);
+    kfree(puVar4);
+  }
+  return iVar2;
+}
+
+
+ASSEMBLY
+00100de8 stp x29,x30,[sp, #-0x50]!
+00100dec mov x29,sp
+00100df0 stp x19,x20,[sp, #0x10]
+00100df4 cmp w4,#0xf8
+00100df8 b.hi 0x00100f30
+00100dfc stp x23,x24,[sp, #0x30]
+00100e00 cmp w4,#0x0
+00100e04 mov w19,w4
+00100e08 mov x23,x3
+00100e0c ccmp x3,#0x0,#0x0,ne
+00100e10 b.eq 0x00100f38
+00100e14 stp x21,x22,[sp, #0x20]
+00100e18 mov x22,x0
+00100e1c mov w21,w1
+00100e20 stp x25,x26,[sp, #0x40]
+00100e24 mov w26,w2
+00100e28 ldr w0,[x0, #0x2e0]
+00100e2c cmp w0,#0xe, LSL #12
+00100e30 b.eq 0x00100ec4
+00100e34 add w24,w19,#0x8
+00100e38 add w25,w19,#0x8
+00100e3c orr w1,w5,#0x100
+00100e40 mov x0,x25
+00100e44 bl 0x00104048
+00100e48 mov x20,x0
+00100e4c cbz x0,0x00100f44
+00100e50 and w21,w21,#0xf
+00100e54 str w26,[x0, #0x4]
+00100e58 orr w21,w21,#0x10
+00100e5c strb w21,[x0]
+00100e60 cbz w19,0x00100e80
+00100e64 sxtw x2,w19
+00100e68 sub x25,x25,#0x8
+00100e6c add x0,x0,#0x8
+00100e70 cmp x25,x2
+00100e74 b.cc 0x00100f58
+00100e78 mov x1,x23
+00100e7c bl 0x00104088
+00100e80 mov w5,w24
+00100e84 mov w3,w24
+00100e88 mov x4,x20
+00100e8c mov x2,x20
+00100e90 mov w1,#0x0
+00100e94 mov x0,x22
+00100e98 bl 0x001000d0
+00100e9c mov w19,w0
+00100ea0 mov x0,x20
+00100ea4 bl 0x00104090
+00100ea8 ldp x21,x22,[sp, #0x20]
+00100eac ldp x23,x24,[sp, #0x30]
+00100eb0 ldp x25,x26,[sp, #0x40]
+00100eb4 mov w0,w19
+00100eb8 ldp x19,x20,[sp, #0x10]
+00100ebc ldp x29,x30,[sp], #0x50
+00100ec0 ret
+00100ec4 cmp w2,#0x1
+00100ec8 b.eq 0x00100ee4
+00100ecc cmp w2,#0x18
+00100ed0 mov x25,#0x18
+00100ed4 ccmp w4,#0xf,#0x2,eq
+00100ed8 mov w24,w25
+00100edc b.ls 0x00100e3c
+00100ee0 b 0x00100e34
+00100ee4 and w0,w1,#0xf
+00100ee8 sub w0,w0,#0x5
+00100eec cmp w0,#0x3
+00100ef0 b.hi 0x00100e34
+00100ef4 adrp x1,0x103000
+00100ef8 add x1,x1,#0x1b0
+00100efc add x0,x1,w0, UXTW  #0x2
+00100f00 ldr w1,[x0, #0x20]
+00100f04 cmp w4,#0x3
+00100f08 b.ls 0x00100f1c
+00100f0c ldr w0,[x3]
+00100f10 sub w0,w0,#0x1
+00100f14 cmp w1,w0
+00100f18 b.hi 0x00100e34
+00100f1c ldp x21,x22,[sp, #0x20]
+00100f20 mov w19,#0xffffffea
+00100f24 ldp x23,x24,[sp, #0x30]
+00100f28 ldp x25,x26,[sp, #0x40]
+00100f2c b 0x00100eb4
+00100f30 mov w19,#0xffffffea
+00100f34 b 0x00100eb4
+00100f38 ldp x23,x24,[sp, #0x30]
+00100f3c mov w19,#0xffffffea
+00100f40 b 0x00100eb4
+00100f44 ldp x21,x22,[sp, #0x20]
+00100f48 mov w19,#0xfffffff4
+00100f4c ldp x23,x24,[sp, #0x30]
+00100f50 ldp x25,x26,[sp, #0x40]
+00100f54 b 0x00100eb4
+00100f58 mov x1,x25
+00100f5c mov w0,#0x11
+00100f60 bl 0x00104138
+
+FUNCTION FUN_00100f64 @ 00100f64
+decompiled=true
+
+int FUN_00100f64(undefined8 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  int iVar1;
+  long lVar2;
+  int iVar3;
+  undefined4 local_4;
+  
+  iVar3 = 0;
+  local_4 = param_4;
+  while( true ) {
+    iVar1 = airoha_npu_wlan_msg_send(param_1,param_2,param_3,&local_4,4,0xcc0);
+    if (iVar1 == 0) {
+      lVar2 = 10;
+      do {
+        __const_udelay(0x418958);
+        lVar2 = lVar2 + -1;
+      } while (lVar2 != 0);
+      return 0;
+    }
+    if (iVar3 == 2 || iVar1 != -0xc) break;
+    lVar2 = 10;
+    do {
+      __const_udelay(0x418958);
+      lVar2 = lVar2 + -1;
+    } while (lVar2 != 0);
+    iVar3 = iVar3 + 1;
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00100f64 stp x29,x30,[sp, #-0x50]!
+00100f68 mov x29,sp
+00100f6c stp x21,x22,[sp, #0x20]
+00100f70 mov w22,w1
+00100f74 mov w21,w2
+00100f78 str x23,[sp, #0x30]
+00100f7c mov x23,x0
+00100f80 stp x19,x20,[sp, #0x10]
+00100f84 mov w20,#0x0
+00100f88 str w3,[sp, #0x4c]
+00100f8c add x3,sp,#0x4c
+00100f90 mov w2,w21
+00100f94 mov w1,w22
+00100f98 mov x0,x23
+00100f9c mov w5,#0xcc0
+00100fa0 mov w4,#0x4
+00100fa4 bl 0x00100de8
+00100fa8 mov w19,w0
+00100fac cbz w0,0x00100fdc
+00100fb0 cmp w20,#0x2
+00100fb4 ccmn w19,#0xc,#0x0,ne
+00100fb8 b.ne 0x00100ff4
+00100fbc mov x19,#0xa
+00100fc0 mov x0,#0x8958
+00100fc4 movk x0,#0x41, LSL #16
+00100fc8 bl 0x00104190
+00100fcc subs x19,x19,#0x1
+00100fd0 b.ne 0x00100fc0
+00100fd4 add w20,w20,#0x1
+00100fd8 b 0x00100f8c
+00100fdc mov x20,#0xa
+00100fe0 mov x0,#0x8958
+00100fe4 movk x0,#0x41, LSL #16
+00100fe8 bl 0x00104190
+00100fec subs x20,x20,#0x1
+00100ff0 b.ne 0x00100fe0
+00100ff4 ldr x23,[sp, #0x30]
+00100ff8 mov w0,w19
+00100ffc ldp x19,x20,[sp, #0x10]
+00101000 ldp x21,x22,[sp, #0x20]
+00101004 ldp x29,x30,[sp], #0x50
+00101008 ret
+
+FUNCTION airoha_npu_ppe_init @ 0010100c
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 airoha_npu_ppe_init(undefined8 param_1)
+
+{
+  undefined4 uVar1;
+  undefined8 *puVar2;
+  
+  puVar2 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104248,0xdc0,0x1c);
+  if (puVar2 == (undefined8 *)0x0) {
+    uVar1 = 0xfffffff4;
+  }
+  else {
+    *puVar2 = 0x100000001;
+    puVar2[2] = 0x100000003;
+    uVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    kfree(puVar2);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+0010100c stp x29,x30,[sp, #-0x20]!
+00101010 adrp x1,0x104000
+00101014 mov x2,#0x1c
+00101018 mov x29,sp
+0010101c stp x19,x20,[sp, #0x10]
+00101020 mov x20,x0
+00101024 ldr x0,[x1, #0x248]
+00101028 mov w1,#0xdc0
+0010102c bl 0x001041a8
+00101030 cbz x0,0x00101084
+00101034 mov x19,x0
+00101038 mov x6,#0x100000001
+0010103c add x7,x6,#0x2
+00101040 mov w1,#0x5
+00101044 mov x4,x19
+00101048 mov x2,x19
+0010104c str x6,[x19]
+00101050 mov x0,x20
+00101054 str x7,[x19, #0x10]
+00101058 mov w5,#0x1c
+0010105c mov w3,#0x1c
+00101060 bl 0x001000d0
+00101064 mov w1,w0
+00101068 mov x0,x19
+0010106c mov w19,w1
+00101070 bl 0x00104090
+00101074 mov w0,w19
+00101078 ldp x19,x20,[sp, #0x10]
+0010107c ldp x29,x30,[sp], #0x20
+00101080 ret
+00101084 mov w19,#0xfffffff4
+00101088 b 0x00101074
+
+FUNCTION airoha_npu_ppe_flush_sram_entries @ 0010108c
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4
+airoha_npu_ppe_flush_sram_entries(undefined8 param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  undefined4 uVar1;
+  undefined8 *puVar2;
+  
+  puVar2 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104248,0xdc0,0x1c);
+  if (puVar2 == (undefined8 *)0x0) {
+    uVar1 = 0xfffffff4;
+  }
+  else {
+    *puVar2 = 0x300000001;
+    *(undefined4 *)(puVar2 + 1) = 3;
+    *(undefined4 *)((long)puVar2 + 0xc) = param_3;
+    *(undefined4 *)(puVar2 + 2) = param_2;
+    uVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    kfree(puVar2);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+0010108c stp x29,x30,[sp, #-0x30]!
+00101090 adrp x4,0x104000
+00101094 mov x29,sp
+00101098 stp x21,x22,[sp, #0x20]
+0010109c mov x22,x0
+001010a0 mov w21,w2
+001010a4 ldr x0,[x4, #0x248]
+001010a8 mov x2,#0x1c
+001010ac stp x19,x20,[sp, #0x10]
+001010b0 mov x20,x1
+001010b4 mov w1,#0xdc0
+001010b8 bl 0x001041a8
+001010bc cbz x0,0x0010111c
+001010c0 mov x19,x0
+001010c4 mov x7,#0x1
+001010c8 movk x7,#0x3, LSL #32
+001010cc mov w6,#0x3
+001010d0 mov w1,#0x5
+001010d4 mov x4,x19
+001010d8 str x7,[x19]
+001010dc mov x2,x19
+001010e0 stp w6,w21,[x19, #0x8]
+001010e4 mov x0,x22
+001010e8 str w20,[x19, #0x10]
+001010ec mov w5,#0x1c
+001010f0 mov w3,#0x1c
+001010f4 bl 0x001000d0
+001010f8 mov w1,w0
+001010fc mov x0,x19
+00101100 mov w19,w1
+00101104 bl 0x00104090
+00101108 mov w0,w19
+0010110c ldp x19,x20,[sp, #0x10]
+00101110 ldp x21,x22,[sp, #0x20]
+00101114 ldp x29,x30,[sp], #0x30
+00101118 ret
+0010111c mov w19,#0xfffffff4
+00101120 b 0x00101108
+
+FUNCTION airoha_npu_ppe_stats_setup @ 00101124
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_ppe_stats_setup(undefined8 *param_1,undefined4 param_2,int param_3)
+
+{
+  int iVar1;
+  undefined8 *puVar2;
+  long lVar3;
+  
+  puVar2 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104248,0x920,0x1c);
+  if (puVar2 == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *puVar2 = 0x400000001;
+    *(undefined4 *)((long)puVar2 + 0xc) = param_2;
+    iVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    if (iVar1 == 0) {
+      lVar3 = devm_ioremap(*param_1,*(undefined4 *)(puVar2 + 1),(long)(param_3 << 3));
+      iVar1 = 0;
+      if (lVar3 == 0) {
+        iVar1 = -0xc;
+      }
+      param_1[0x45] = lVar3;
+    }
+    kfree(puVar2);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+00101124 stp x29,x30,[sp, #-0x30]!
+00101128 adrp x3,0x104000
+0010112c mov x29,sp
+00101130 stp x21,x22,[sp, #0x20]
+00101134 mov x21,x0
+00101138 mov w22,w2
+0010113c ldr x0,[x3, #0x248]
+00101140 mov x2,#0x1c
+00101144 stp x19,x20,[sp, #0x10]
+00101148 mov x20,x1
+0010114c mov w1,#0x920
+00101150 bl 0x001041a8
+00101154 cbz x0,0x001011d0
+00101158 mov x19,x0
+0010115c mov x6,#0x1
+00101160 movk x6,#0x4, LSL #32
+00101164 mov x4,x0
+00101168 mov x2,x0
+0010116c mov w5,#0x1c
+00101170 str x6,[x19]
+00101174 mov x0,x21
+00101178 str w20,[x19, #0xc]
+0010117c mov w3,#0x1c
+00101180 mov w1,#0x5
+00101184 bl 0x001000d0
+00101188 mov w20,w0
+0010118c cbnz w0,0x001011b4
+00101190 ldr x0,[x21]
+00101194 lsl w2,w22,#0x3
+00101198 ldr w1,[x19, #0x8]
+0010119c mov w20,#0xfffffff4
+001011a0 sxtw x2,w2
+001011a4 bl 0x00104080
+001011a8 cmp x0,#0x0
+001011ac csel w20,wzr,w20,ne
+001011b0 str x0,[x21, #0x228]
+001011b4 mov x0,x19
+001011b8 bl 0x00104090
+001011bc mov w0,w20
+001011c0 ldp x19,x20,[sp, #0x10]
+001011c4 ldp x21,x22,[sp, #0x20]
+001011c8 ldp x29,x30,[sp], #0x30
+001011cc ret
+001011d0 mov w20,#0xfffffff4
+001011d4 b 0x001011bc
+
+FUNCTION airoha_npu_foe_commit_entry @ 001011e0
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int airoha_npu_foe_commit_entry
+              (undefined8 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
+              uint param_5)
+
+{
+  int iVar1;
+  undefined8 *puVar2;
+  
+  puVar2 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104248,0x920,0x1c);
+  if (puVar2 == (undefined8 *)0x0) {
+    iVar1 = -0xc;
+  }
+  else {
+    *puVar2 = 0x300000001;
+    *(uint *)(puVar2 + 1) = param_5 & 0xff ^ 1;
+    *(undefined4 *)((long)puVar2 + 0xc) = param_3;
+    *(undefined4 *)(puVar2 + 2) = param_2;
+    iVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    if (iVar1 == 0) {
+      *(undefined4 *)(puVar2 + 2) = param_4;
+      puVar2[1] = 0x400000002;
+      iVar1 = FUN_001000d0(param_1,5,puVar2,0x1c,puVar2,0x1c);
+    }
+    kfree(puVar2);
+  }
+  return iVar1;
+}
+
+
+ASSEMBLY
+001011e0 stp x29,x30,[sp, #-0x40]!
+001011e4 adrp x5,0x104000
+001011e8 mov x29,sp
+001011ec stp x21,x22,[sp, #0x20]
+001011f0 mov x22,x0
+001011f4 and w21,w4,#0xff
+001011f8 ldr x0,[x5, #0x248]
+001011fc stp x19,x20,[sp, #0x10]
+00101200 mov w20,w2
+00101204 mov x2,#0x1c
+00101208 stp x23,x24,[sp, #0x30]
+0010120c mov x24,x1
+00101210 mov w23,w3
+00101214 mov w1,#0x920
+00101218 bl 0x001041a8
+0010121c cbz x0,0x001012b0
+00101220 mov x19,x0
+00101224 mov x6,#0x1
+00101228 movk x6,#0x3, LSL #32
+0010122c eor w21,w21,#0x1
+00101230 mov x4,x0
+00101234 mov x2,x0
+00101238 str x6,[x19]
+0010123c mov x0,x22
+00101240 stp w21,w20,[x19, #0x8]
+00101244 mov w5,#0x1c
+00101248 str w24,[x19, #0x10]
+0010124c mov w3,#0x1c
+00101250 mov w1,#0x5
+00101254 bl 0x001000d0
+00101258 mov w20,w0
+0010125c cbnz w0,0x00101290
+00101260 mov x6,#0x2
+00101264 str w23,[x19, #0x10]
+00101268 movk x6,#0x4, LSL #32
+0010126c str x6,[x19, #0x8]
+00101270 mov x0,x22
+00101274 mov x4,x19
+00101278 mov x2,x19
+0010127c mov w5,#0x1c
+00101280 mov w3,#0x1c
+00101284 mov w1,#0x5
+00101288 bl 0x001000d0
+0010128c mov w20,w0
+00101290 mov x0,x19
+00101294 bl 0x00104090
+00101298 mov w0,w20
+0010129c ldp x19,x20,[sp, #0x10]
+001012a0 ldp x21,x22,[sp, #0x20]
+001012a4 ldp x23,x24,[sp, #0x30]
+001012a8 ldp x29,x30,[sp], #0x40
+001012ac ret
+001012b0 mov w20,#0xfffffff4
+001012b4 b 0x00101298
+
+FUNCTION airoha_npu_wlan_msg_get @ 001012c0
+decompiled=true
+
+undefined4
+airoha_npu_wlan_msg_get
+          (undefined8 param_1,byte param_2,undefined4 param_3,undefined8 param_4,int param_5,
+          uint param_6)
+
+{
+  undefined4 uVar1;
+  byte *pbVar2;
+  
+  pbVar2 = (byte *)__kmalloc_noprof((long)(param_5 + 8),param_6 | 0x100);
+  if (pbVar2 == (byte *)0x0) {
+    uVar1 = 0xfffffff4;
+  }
+  else {
+    *pbVar2 = param_2 & 0xf | 0x30;
+    *(undefined4 *)(pbVar2 + 4) = param_3;
+    uVar1 = FUN_001000d0(param_1,0,pbVar2,param_5 + 8,param_4,param_5);
+    kfree(pbVar2);
+  }
+  return uVar1;
+}
+
+
+ASSEMBLY
+001012c0 stp x29,x30,[sp, #-0x50]!
+001012c4 mov x29,sp
+001012c8 str x25,[sp, #0x40]
+001012cc add w25,w4,#0x8
+001012d0 stp x19,x20,[sp, #0x10]
+001012d4 mov w20,w1
+001012d8 orr w1,w5,#0x100
+001012dc stp x21,x22,[sp, #0x20]
+001012e0 mov w21,w4
+001012e4 mov w22,w2
+001012e8 stp x23,x24,[sp, #0x30]
+001012ec mov x23,x0
+001012f0 mov x24,x3
+001012f4 sxtw x0,w25
+001012f8 bl 0x00104048
+001012fc cbz x0,0x0010135c
+00101300 mov x19,x0
+00101304 and w20,w20,#0xf
+00101308 orr w20,w20,#0x30
+0010130c mov w1,#0x0
+00101310 mov x2,x19
+00101314 mov w5,w21
+00101318 strb w20,[x19]
+0010131c mov x4,x24
+00101320 str w22,[x19, #0x4]
+00101324 mov w3,w25
+00101328 mov x0,x23
+0010132c bl 0x001000d0
+00101330 mov w1,w0
+00101334 mov x0,x19
+00101338 mov w19,w1
+0010133c bl 0x00104090
+00101340 ldr x25,[sp, #0x40]
+00101344 mov w0,w19
+00101348 ldp x19,x20,[sp, #0x10]
+0010134c ldp x21,x22,[sp, #0x20]
+00101350 ldp x23,x24,[sp, #0x30]
+00101354 ldp x29,x30,[sp], #0x50
+00101358 ret
+0010135c mov w19,#0xfffffff4
+00101360 b 0x00101340
+
+FUNCTION FUN_00101364 @ 00101364
+decompiled=true
+
+int FUN_00101364(long *param_1,void *param_2,uint *param_3)
+
+{
+  uint uVar1;
+  int iVar2;
+  ulong uVar3;
+  ulong *puVar4;
+  ulong uVar5;
+  ulong *puVar6;
+  long lVar7;
+  long lVar8;
+  undefined *puVar9;
+  ulong local_100;
+  long local_f8;
+  
+  iVar2 = -0x16;
+  memset(&local_100,0,0x100);
+  lVar7 = *param_1;
+  *param_3 = 0;
+  uVar3 = param_1[0x54];
+  if (uVar3 != 0) {
+    if (((ulong)param_1[0x55] < uVar3) || ((uVar3 & 3) != 0 || (uVar3 | param_1[0x55]) >> 0x20 != 0)
+       ) {
+      return -0x16;
+    }
+    uVar1 = of_property_match_string
+                      (*(undefined8 *)(lVar7 + 600),"memory-region-names",&DAT_00103848);
+    puVar6 = &local_100;
+    uVar1 = 3 - ((int)~uVar1 >> 0x1f);
+    lVar8 = 0;
+    do {
+      puVar9 = (&PTR_s_tx_bufid_001031e0)[lVar8];
+      iVar2 = of_reserved_mem_region_to_resource_byname(*(undefined8 *)(lVar7 + 600),puVar9,puVar6);
+      if (iVar2 != 0) {
+        return iVar2;
+      }
+      uVar3 = *puVar6;
+      if (((uVar3 == 0) || (uVar5 = puVar6[1], uVar5 < uVar3)) ||
+         ((uVar3 & 3) != 0 || (uVar3 | uVar5) >> 0x20 != 0)) {
+        iVar2 = dev_err_probe(lVar7,0xffffffea,"invalid NPU %s memory region\n",puVar9);
+        return iVar2;
+      }
+      if ((*(uint *)(param_1 + 0x5c) != 0) && ((uVar3 < 0x80000000 || (0xbfffffff < uVar5)))) {
+        iVar2 = dev_err_probe(lVar7,0xffffffde,"NPU %s memory outside firmware DRAM window\n",puVar9
+                             );
+        return iVar2;
+      }
+      if ((uVar3 <= (ulong)param_1[0x55]) && ((ulong)param_1[0x54] <= uVar5)) {
+        iVar2 = dev_err_probe(lVar7,0xffffffea,"NPU %s memory overlaps firmware\n",puVar9);
+        return iVar2;
+      }
+      puVar4 = &local_100;
+      if (lVar8 != 0) {
+        do {
+          if ((uVar3 <= puVar4[1]) && (*puVar4 <= uVar5)) {
+            iVar2 = dev_err_probe(lVar7,0xffffffea,"overlapping NPU %s memory region\n",puVar9);
+            return iVar2;
+          }
+          puVar4 = puVar4 + 8;
+        } while (puVar4 != puVar6);
+      }
+      lVar8 = lVar8 + 1;
+      puVar6 = puVar6 + 8;
+    } while ((uint)lVar8 < uVar1);
+    if ((local_f8 + 1) - local_100 < (ulong)*(uint *)(param_1 + 0x5c)) {
+      iVar2 = dev_err_probe(lVar7,0xffffffea,"NPU tx-bufid memory region too small\n");
+    }
+    else {
+      memcpy(param_2,&local_100,0x100);
+      *param_3 = uVar1;
+      iVar2 = 0;
+    }
+  }
+  return iVar2;
+}
+
+
+ASSEMBLY
+00101364 stp x29,x30,[sp, #-0x170]!
+00101368 mov x29,sp
+0010136c stp x21,x22,[sp, #0x20]
+00101370 mov x21,x0
+00101374 add x0,sp,#0x70
+00101378 stp x27,x28,[sp, #0x50]
+0010137c mov x27,x2
+00101380 mov x2,#0x100
+00101384 stp x19,x20,[sp, #0x10]
+00101388 mov w19,#0xffffffea
+0010138c stp x23,x24,[sp, #0x30]
+00101390 str x1,[sp, #0x68]
+00101394 mov w1,#0x0
+00101398 bl 0x00104140
+0010139c ldr x24,[x21]
+001013a0 str wzr,[x27]
+001013a4 ldr x0,[x21, #0x2a0]
+001013a8 cbz x0,0x0010149c
+001013ac add x28,x21,#0x2a0
+001013b0 stp x25,x26,[sp, #0x40]
+001013b4 mov w19,#0xffffffea
+001013b8 ldr x25,[x28, #0x8]
+001013bc cmp x0,x25
+001013c0 b.hi 0x001014b8
+001013c4 orr x25,x0,x25
+001013c8 and x0,x0,#0x3
+001013cc orr x25,x0,x25, LSR #0x20
+001013d0 cbnz x25,0x001014b8
+001013d4 ldr x0,[x24, #0x258]
+001013d8 adrp x2,0x103000
+001013dc adrp x1,0x103000
+001013e0 add x2,x2,#0x848
+001013e4 add x1,x1,#0x850
+001013e8 adrp x22,0x103000
+001013ec bl 0x00104068
+001013f0 mvn w20,w0
+001013f4 add x22,x22,#0x1b0
+001013f8 add x23,sp,#0x70
+001013fc lsr w20,w20,#0x1f
+00101400 add x22,x22,#0x30
+00101404 add w20,w20,#0x3
+00101408 ldr x0,[x24, #0x258]
+0010140c mov x2,x23
+00101410 ldr x26,[x22, x25, LSL #0x3]
+00101414 mov x1,x26
+00101418 bl 0x00104170
+0010141c mov w19,w0
+00101420 cbnz w0,0x001014b8
+00101424 ldr x1,[x23]
+00101428 cbz x1,0x001014d8
+0010142c ldr x3,[x23, #0x8]
+00101430 cmp x1,x3
+00101434 b.hi 0x001014d8
+00101438 orr x0,x1,x3
+0010143c and x2,x1,#0x3
+00101440 orr x0,x2,x0, LSR #0x20
+00101444 cbnz x0,0x001014d8
+00101448 ldr w4,[x21, #0x2e0]
+0010144c cbnz w4,0x00101590
+00101450 ldr x0,[x28, #0x8]
+00101454 cmp x0,x1
+00101458 b.cs 0x00101560
+0010145c add x0,sp,#0x70
+00101460 cbz x25,0x00101520
+00101464 ldr x2,[x0, #0x8]
+00101468 cmp x2,x1
+0010146c b.cc 0x00101514
+00101470 ldr x2,[x0]
+00101474 cmp x2,x3
+00101478 b.hi 0x00101514
+0010147c mov x3,x26
+00101480 mov x0,x24
+00101484 adrp x2,0x103000
+00101488 mov w1,#0xffffffea
+0010148c add x2,x2,#0x8e0
+00101490 bl 0x001041e8
+00101494 ldp x25,x26,[sp, #0x40]
+00101498 mov w19,w0
+0010149c ldp x21,x22,[sp, #0x20]
+001014a0 mov w0,w19
+001014a4 ldp x19,x20,[sp, #0x10]
+001014a8 ldp x23,x24,[sp, #0x30]
+001014ac ldp x27,x28,[sp, #0x50]
+001014b0 ldp x29,x30,[sp], #0x170
+001014b4 ret
+001014b8 ldp x25,x26,[sp, #0x40]
+001014bc mov w0,w19
+001014c0 ldp x19,x20,[sp, #0x10]
+001014c4 ldp x21,x22,[sp, #0x20]
+001014c8 ldp x23,x24,[sp, #0x30]
+001014cc ldp x27,x28,[sp, #0x50]
+001014d0 ldp x29,x30,[sp], #0x170
+001014d4 ret
+001014d8 mov x3,x26
+001014dc mov x0,x24
+001014e0 mov w1,#0xffffffea
+001014e4 adrp x2,0x103000
+001014e8 add x2,x2,#0x868
+001014ec bl 0x001041e8
+001014f0 mov w19,w0
+001014f4 ldp x25,x26,[sp, #0x40]
+001014f8 mov w0,w19
+001014fc ldp x19,x20,[sp, #0x10]
+00101500 ldp x21,x22,[sp, #0x20]
+00101504 ldp x23,x24,[sp, #0x30]
+00101508 ldp x27,x28,[sp, #0x50]
+0010150c ldp x29,x30,[sp], #0x170
+00101510 ret
+00101514 add x0,x0,#0x40
+00101518 cmp x0,x23
+0010151c b.ne 0x00101464
+00101520 add x25,x25,#0x1
+00101524 add x23,x23,#0x40
+00101528 cmp w20,w25
+0010152c b.hi 0x00101408
+00101530 ldp x1,x0,[sp, #0x70]
+00101534 add x0,x0,#0x1
+00101538 sub x0,x0,x1
+0010153c cmp x0,w4, UXTW 
+00101540 b.cc 0x001015cc
+00101544 ldr x0,[sp, #0x68]
+00101548 add x1,sp,#0x70
+0010154c mov x2,#0x100
+00101550 bl 0x00104088
+00101554 str w20,[x27]
+00101558 ldp x25,x26,[sp, #0x40]
+0010155c b 0x0010149c
+00101560 ldr x0,[x28]
+00101564 cmp x0,x3
+00101568 b.hi 0x0010145c
+0010156c mov x3,x26
+00101570 mov x0,x24
+00101574 adrp x2,0x103000
+00101578 mov w1,#0xffffffea
+0010157c add x2,x2,#0x8b8
+00101580 bl 0x001041e8
+00101584 ldp x25,x26,[sp, #0x40]
+00101588 mov w19,w0
+0010158c b 0x0010149c
+00101590 orr x0,xzr,#0x7fffffff
+00101594 cmp x1,x0
+00101598 b.ls 0x001015a8
+0010159c mov w0,#0xbfffffff
+001015a0 cmp x3,x0
+001015a4 b.ls 0x00101450
+001015a8 mov x3,x26
+001015ac mov x0,x24
+001015b0 adrp x2,0x103000
+001015b4 mov w1,#0xffffffde
+001015b8 add x2,x2,#0x888
+001015bc bl 0x001041e8
+001015c0 ldp x25,x26,[sp, #0x40]
+001015c4 mov w19,w0
+001015c8 b 0x0010149c
+001015cc mov x0,x24
+001015d0 adrp x2,0x103000
+001015d4 mov w1,#0xffffffea
+001015d8 add x2,x2,#0x908
+001015dc bl 0x001041e8
+001015e0 mov w19,w0
+001015e4 ldp x25,x26,[sp, #0x40]
+001015e8 b 0x0010149c
+
+FUNCTION FUN_001015ec @ 001015ec
+decompiled=true
+
+undefined8 FUN_001015ec(long param_1)
+
+{
+  undefined4 *puVar1;
+  ulong uVar2;
+  uint uVar3;
+  undefined8 uVar4;
+  ulong uVar5;
+  undefined1 *puVar6;
+  uint local_104;
+  undefined1 auStack_100 [256];
+  
+  local_104 = *(uint *)(param_1 + 1000);
+  if ((*(byte *)(param_1 + 0x470) & 1) != 0) {
+    puVar6 = (undefined1 *)(param_1 + 0x2e8);
+    if (*(int *)(param_1 + 0x2e0) == 0) {
+      uVar4 = FUN_00101364(param_1,auStack_100,&local_104);
+      if ((int)uVar4 != 0) {
+        return uVar4;
+      }
+      puVar6 = auStack_100;
+    }
+    uVar3 = local_104;
+    if (local_104 != 0) {
+      uVar4 = FUN_00100f64(param_1,1,0x12,0);
+      if ((int)uVar4 != 0) {
+        return uVar4;
+      }
+      uVar5 = 0;
+      do {
+        uVar2 = uVar5 & 0xffffffff;
+        puVar1 = &DAT_00103200 + uVar5;
+        uVar5 = uVar5 + 1;
+        uVar4 = FUN_00100f64(param_1,0,*puVar1,*(undefined4 *)(puVar6 + uVar2 * 0x40));
+        if ((int)uVar4 != 0) {
+          return uVar4;
+        }
+      } while ((uint)uVar5 < uVar3);
+      uVar4 = FUN_00100f64(param_1,0,0xc,0);
+      return uVar4;
+    }
+  }
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+001015ec stp x29,x30,[sp, #-0x150]!
+001015f0 mov x29,sp
+001015f4 stp x21,x22,[sp, #0x20]
+001015f8 ldrb w1,[x0, #0x470]
+001015fc ldr w22,[x0, #0x3e8]
+00101600 str w22,[sp, #0x4c]
+00101604 tbz w1,#0x0,0x001016d4
+00101608 stp x19,x20,[sp, #0x10]
+0010160c mov x20,x0
+00101610 str x23,[sp, #0x30]
+00101614 add x23,x0,#0x2e8
+00101618 ldr w1,[x0, #0x2e0]
+0010161c cbz w1,0x001016b0
+00101620 cbz w22,0x001016cc
+00101624 mov x0,x20
+00101628 mov w3,#0x0
+0010162c mov w2,#0x12
+00101630 mov w1,#0x1
+00101634 bl 0x00100f64
+00101638 cbnz w0,0x0010169c
+0010163c adrp x21,0x103000
+00101640 add x21,x21,#0x1b0
+00101644 add x21,x21,#0x50
+00101648 mov x19,#0x0
+0010164c ubfiz x3,x19,#0x6,#0x20
+00101650 ldr w2,[x21, x19, LSL #0x2]
+00101654 mov x0,x20
+00101658 mov w1,#0x0
+0010165c add x19,x19,#0x1
+00101660 ldr w3,[x23, x3, LSL #0x0]
+00101664 bl 0x00100f64
+00101668 cbnz w0,0x0010169c
+0010166c cmp w22,w19
+00101670 b.hi 0x0010164c
+00101674 mov x0,x20
+00101678 mov w3,#0x0
+0010167c mov w2,#0xc
+00101680 mov w1,#0x0
+00101684 bl 0x00100f64
+00101688 ldr x23,[sp, #0x30]
+0010168c ldp x19,x20,[sp, #0x10]
+00101690 ldp x21,x22,[sp, #0x20]
+00101694 ldp x29,x30,[sp], #0x150
+00101698 ret
+0010169c ldp x19,x20,[sp, #0x10]
+001016a0 ldr x23,[sp, #0x30]
+001016a4 ldp x21,x22,[sp, #0x20]
+001016a8 ldp x29,x30,[sp], #0x150
+001016ac ret
+001016b0 add x2,sp,#0x4c
+001016b4 add x1,sp,#0x50
+001016b8 bl 0x00101364
+001016bc cbnz w0,0x0010169c
+001016c0 ldr w22,[sp, #0x4c]
+001016c4 add x23,sp,#0x50
+001016c8 b 0x00101620
+001016cc ldp x19,x20,[sp, #0x10]
+001016d0 ldr x23,[sp, #0x30]
+001016d4 mov w0,#0xffffffea
+001016d8 b 0x001016a4
+
+FUNCTION FUN_001016dc @ 001016dc
+decompiled=true
+
+int FUN_001016dc(long param_1)
+
+{
+  long lVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  ulong uStack_8;
+  
+  uStack_8 = 0;
+  if ((*(byte *)(param_1 + 0x462) & 1) == 0) {
+    iVar3 = FUN_001015ec();
+    return iVar3;
+  }
+  mutex_lock(param_1 + 0x478);
+  if ((*(byte *)(param_1 + 0x510) & 1) != 0) {
+    iVar3 = *(int *)(param_1 + 0x514);
+    if (iVar3 == 0) {
+      iVar3 = -0x10;
+    }
+    goto LAB_001017c4;
+  }
+  *(undefined1 *)(param_1 + 0x510) = 1;
+  if (((((*(byte *)(param_1 + 0x470) & 1) == 0) || ((*(byte *)(param_1 + 0x471) & 1) == 0)) ||
+      ((*(byte *)(param_1 + 0x461) & 1) == 0)) ||
+     ((((*(byte *)(param_1 + 0x463) & 1) == 0 || (*(long *)(param_1 + 0x468) == 0)) ||
+      ((*(long *)(param_1 + 0x298) == 0 ||
+       (((*(byte *)(*(long *)(param_1 + 0x298) + 0x98) & 1) == 0 || (*(int *)(param_1 + 1000) != 4))
+       )))))) {
+    iVar2 = -0x16;
+  }
+  else {
+    if (uStack_8 == 0) {
+      iVar3 = 0;
+      do {
+        iVar2 = wait_for_random_bytes();
+        iVar3 = iVar3 + 1;
+        get_random_bytes(&uStack_8,8);
+        if (iVar2 != 0) goto LAB_001017a4;
+      } while (uStack_8 == 0 && iVar3 != 3);
+      iVar2 = -0xb;
+      if (uStack_8 == 0) goto LAB_001017e8;
+    }
+    lVar1 = param_1 + 0x498;
+    iVar2 = npu_linux_control_init(lVar1,param_1,uStack_8,uStack_8 >> 0x20);
+    if (((((iVar2 == 0) && (iVar2 = npu_linux_control_exchange(lVar1,0), iVar2 == 0)) &&
+         (iVar2 = FUN_00100524(param_1,0), iVar2 == 0)) &&
+        ((iVar2 = FUN_001015ec(param_1), iVar2 == 0 &&
+         (iVar2 = npu_linux_control_exchange(lVar1,1), iVar2 == 0)))) &&
+       ((iVar2 = FUN_00100524(param_1,0), iVar2 == 0 &&
+        (iVar2 = npu_linux_control_exchange(lVar1,2), iVar2 == 0)))) {
+      iVar4 = 100;
+      do {
+        iVar2 = FUN_00100524(param_1,1);
+        iVar3 = 0;
+        if (iVar2 == 0) goto LAB_001017c4;
+        if (iVar2 != -0xb) goto LAB_001017a4;
+        usleep_range_state(1000,2000,2);
+        iVar2 = npu_linux_control_exchange(lVar1,3);
+        iVar4 = iVar4 + -1;
+        if (iVar2 != 0) goto LAB_001017a4;
+      } while (iVar4 != 0);
+      iVar2 = FUN_00100524(param_1,1);
+      if (iVar2 == -0xb) {
+        iVar2 = -0x6e;
+        goto LAB_001017e8;
+      }
+      if (iVar2 == 0) goto LAB_001017c4;
+    }
+LAB_001017a4:
+    if (-1 < iVar2) {
+      iVar2 = -5;
+    }
+  }
+LAB_001017e8:
+  *(int *)(param_1 + 0x514) = iVar2;
+  npu_linux_control_close(param_1 + 0x498);
+  iVar3 = *(int *)(param_1 + 0x514);
+LAB_001017c4:
+  mutex_unlock(param_1 + 0x478);
+  return iVar3;
+}
+
+
+ASSEMBLY
+001016dc nop
+
+FUNCTION airoha_npu_wlan_init_session @ 001016e0
+decompiled=true
+
+int airoha_npu_wlan_init_session(long param_1)
+
+{
+  long lVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  ulong local_8;
+  
+  local_8 = 0;
+  if ((*(byte *)(param_1 + 0x462) & 1) == 0) {
+    iVar3 = FUN_001015ec();
+    return iVar3;
+  }
+  mutex_lock(param_1 + 0x478);
+  if ((*(byte *)(param_1 + 0x510) & 1) != 0) {
+    iVar3 = *(int *)(param_1 + 0x514);
+    if (iVar3 == 0) {
+      iVar3 = -0x10;
+    }
+    goto LAB_001017c4;
+  }
+  *(undefined1 *)(param_1 + 0x510) = 1;
+  if (((((*(byte *)(param_1 + 0x470) & 1) == 0) || ((*(byte *)(param_1 + 0x471) & 1) == 0)) ||
+      ((*(byte *)(param_1 + 0x461) & 1) == 0)) ||
+     ((((*(byte *)(param_1 + 0x463) & 1) == 0 || (*(long *)(param_1 + 0x468) == 0)) ||
+      ((*(long *)(param_1 + 0x298) == 0 ||
+       (((*(byte *)(*(long *)(param_1 + 0x298) + 0x98) & 1) == 0 || (*(int *)(param_1 + 1000) != 4))
+       )))))) {
+    iVar2 = -0x16;
+  }
+  else {
+    if (local_8 == 0) {
+      iVar3 = 0;
+      do {
+        iVar2 = wait_for_random_bytes();
+        iVar3 = iVar3 + 1;
+        get_random_bytes(&local_8,8);
+        if (iVar2 != 0) goto LAB_001017a4;
+      } while (local_8 == 0 && iVar3 != 3);
+      iVar2 = -0xb;
+      if (local_8 == 0) goto LAB_001017e8;
+    }
+    lVar1 = param_1 + 0x498;
+    iVar2 = npu_linux_control_init(lVar1,param_1,local_8,local_8 >> 0x20);
+    if (((((iVar2 == 0) && (iVar2 = npu_linux_control_exchange(lVar1,0), iVar2 == 0)) &&
+         (iVar2 = FUN_00100524(param_1,0), iVar2 == 0)) &&
+        ((iVar2 = FUN_001015ec(param_1), iVar2 == 0 &&
+         (iVar2 = npu_linux_control_exchange(lVar1,1), iVar2 == 0)))) &&
+       ((iVar2 = FUN_00100524(param_1,0), iVar2 == 0 &&
+        (iVar2 = npu_linux_control_exchange(lVar1,2), iVar2 == 0)))) {
+      iVar4 = 100;
+      do {
+        iVar2 = FUN_00100524(param_1,1);
+        iVar3 = 0;
+        if (iVar2 == 0) goto LAB_001017c4;
+        if (iVar2 != -0xb) goto LAB_001017a4;
+        usleep_range_state(1000,2000,2);
+        iVar2 = npu_linux_control_exchange(lVar1,3);
+        iVar4 = iVar4 + -1;
+        if (iVar2 != 0) goto LAB_001017a4;
+      } while (iVar4 != 0);
+      iVar2 = FUN_00100524(param_1,1);
+      if (iVar2 == -0xb) {
+        iVar2 = -0x6e;
+        goto LAB_001017e8;
+      }
+      if (iVar2 == 0) goto LAB_001017c4;
+    }
+LAB_001017a4:
+    if (-1 < iVar2) {
+      iVar2 = -5;
+    }
+  }
+LAB_001017e8:
+  *(int *)(param_1 + 0x514) = iVar2;
+  npu_linux_control_close(param_1 + 0x498);
+  iVar3 = *(int *)(param_1 + 0x514);
+LAB_001017c4:
+  mutex_unlock(param_1 + 0x478);
+  return iVar3;
+}
+
+
+ASSEMBLY
+001016e0 stp x29,x30,[sp, #-0x50]!
+001016e4 mov x29,sp
+001016e8 stp x19,x20,[sp, #0x10]
+001016ec ldrb w1,[x0, #0x462]
+001016f0 str xzr,[sp, #0x48]
+001016f4 tbz w1,#0x0,0x00101800
+001016f8 mov x19,x0
+001016fc stp x21,x22,[sp, #0x20]
+00101700 add x21,x0,#0x478
+00101704 mov x0,x21
+00101708 bl 0x00104108
+0010170c ldrb w0,[x19, #0x510]
+00101710 tbnz w0,#0x0,0x001017b4
+00101714 stp x23,x24,[sp, #0x30]
+00101718 mov w1,#0x1
+0010171c ldrb w0,[x19, #0x470]
+00101720 strb w1,[x19, #0x510]
+00101724 tbz w0,#0x0,0x001017e0
+00101728 ldrb w0,[x19, #0x471]
+0010172c tbz w0,#0x0,0x001017e0
+00101730 ldrb w0,[x19, #0x461]
+00101734 tbz w0,#0x0,0x001017e0
+00101738 ldrb w0,[x19, #0x463]
+0010173c tbz w0,#0x0,0x001017e0
+00101740 ldr x0,[x19, #0x468]
+00101744 cbz x0,0x001017e0
+00101748 ldr x0,[x19, #0x298]
+0010174c cbz x0,0x001017e0
+00101750 ldrb w0,[x0, #0x98]
+00101754 tbz w0,#0x0,0x001017e0
+00101758 ldr w0,[x19, #0x3e8]
+0010175c cmp w0,#0x4
+00101760 b.ne 0x001017e0
+00101764 ldr x2,[sp, #0x48]
+00101768 cbnz x2,0x00101824
+0010176c mov w20,#0x0
+00101770 b 0x00101784
+00101774 ldr x2,[sp, #0x48]
+00101778 cmp x2,#0x0
+0010177c ccmp w20,#0x3,#0x4,eq
+00101780 b.eq 0x00101818
+00101784 bl 0x001041f8
+00101788 add w20,w20,#0x1
+0010178c mov w22,w0
+00101790 mov x1,#0x8
+00101794 add x0,sp,#0x48
+00101798 bl 0x001041d8
+0010179c cbz w22,0x00101774
+001017a0 add x23,x19,#0x498
+001017a4 cmp w22,#0x0
+001017a8 mov w0,#0xfffffffb
+001017ac csel w22,w22,w0,lt
+001017b0 b 0x001017e8
+001017b4 ldr w20,[x19, #0x514]
+001017b8 mov w0,#0xfffffff0
+001017bc cmp w20,#0x0
+001017c0 csel w20,w20,w0,ne
+001017c4 mov x0,x21
+001017c8 bl 0x00104188
+001017cc mov w0,w20
+001017d0 ldp x21,x22,[sp, #0x20]
+001017d4 ldp x19,x20,[sp, #0x10]
+001017d8 ldp x29,x30,[sp], #0x50
+001017dc ret
+001017e0 add x23,x19,#0x498
+001017e4 mov w22,#0xffffffea
+001017e8 str w22,[x19, #0x514]
+001017ec mov x0,x23
+001017f0 bl 0x00103144
+001017f4 ldr w20,[x19, #0x514]
+001017f8 ldp x23,x24,[sp, #0x30]
+001017fc b 0x001017c4
+00101800 bl 0x001015ec
+00101804 mov w20,w0
+00101808 mov w0,w20
+0010180c ldp x19,x20,[sp, #0x10]
+00101810 ldp x29,x30,[sp], #0x50
+00101814 ret
+00101818 add x23,x19,#0x498
+0010181c mov w22,#0xfffffff5
+00101820 cbz x2,0x001017e8
+00101824 add x23,x19,#0x498
+00101828 lsr x3,x2,#0x20
+0010182c mov x0,x23
+00101830 mov x1,x19
+00101834 bl 0x00102e60
+00101838 mov w22,w0
+0010183c cbnz w0,0x001017a4
+00101840 mov x0,x23
+00101844 mov w1,#0x0
+00101848 bl 0x00102f44
+0010184c mov w22,w0
+00101850 cbnz w0,0x001017a4
+00101854 mov x0,x19
+00101858 mov w1,#0x0
+0010185c bl 0x00100524
+00101860 mov w22,w0
+00101864 cbnz w0,0x001017a4
+00101868 mov x0,x19
+0010186c bl 0x001015ec
+00101870 mov w22,w0
+00101874 cbnz w0,0x001017a4
+00101878 mov x0,x23
+0010187c mov w1,#0x1
+00101880 bl 0x00102f44
+00101884 mov w22,w0
+00101888 cbnz w0,0x001017a4
+0010188c mov x0,x19
+00101890 mov w1,#0x0
+00101894 bl 0x00100524
+00101898 mov w22,w0
+0010189c cbnz w0,0x001017a4
+001018a0 mov x0,x23
+001018a4 mov w1,#0x2
+001018a8 bl 0x00102f44
+001018ac mov w20,w0
+001018b0 cbnz w0,0x0010190c
+001018b4 mov w24,#0x64
+001018b8 b 0x001018e4
+001018bc cmn w22,#0xb
+001018c0 b.ne 0x001017a4
+001018c4 bl 0x00104098
+001018c8 mov x0,x23
+001018cc mov w1,#0x3
+001018d0 bl 0x00102f44
+001018d4 mov w22,w0
+001018d8 subs w24,w24,#0x1
+001018dc cbnz w0,0x001017a4
+001018e0 b.eq 0x00101914
+001018e4 mov w1,#0x1
+001018e8 mov x0,x19
+001018ec bl 0x00100524
+001018f0 mov w22,w0
+001018f4 mov w2,#0x2
+001018f8 mov x1,#0x7d0
+001018fc mov x0,#0x3e8
+00101900 cbnz w22,0x001018bc
+00101904 ldp x23,x24,[sp, #0x30]
+00101908 b 0x001017c4
+0010190c mov w22,w0
+00101910 b 0x001017a4
+00101914 mov x0,x19
+00101918 mov w1,#0x1
+0010191c bl 0x00100524
+00101920 mov w22,w0
+00101924 cmn w0,#0xb
+00101928 b.eq 0x00101938
+0010192c cbnz w0,0x001017a4
+00101930 ldp x23,x24,[sp, #0x30]
+00101934 b 0x001017c4
+00101938 mov w22,#0xffffff92
+0010193c b 0x001017e8
+
+FUNCTION FUN_00101940 @ 00101940
+decompiled=true
+
+int FUN_00101940(undefined8 *param_1,undefined8 param_2,long param_3,long param_4)
+
+{
+  uint uVar1;
+  int iVar2;
+  ulong uVar3;
+  ulong uVar4;
+  int *piVar5;
+  int *piVar6;
+  long lVar7;
+  long *plVar8;
+  undefined8 *puVar9;
+  ulong uVar10;
+  int iVar11;
+  undefined8 uVar12;
+  undefined8 *local_50;
+  undefined8 *local_48;
+  undefined8 local_40;
+  ulong uStack_38;
+  undefined8 local_30;
+  undefined8 uStack_28;
+  undefined8 local_20;
+  undefined8 uStack_18;
+  undefined8 local_10;
+  undefined8 uStack_8;
+  
+  uVar12 = *param_1;
+  if (*(int *)(param_1 + 0x5c) == 0) {
+LAB_001019c8:
+    iVar2 = FUN_00100600(uVar12,param_4,&local_50);
+    if (iVar2 == 0) {
+      iVar2 = FUN_00100600(uVar12,param_4 + 0x10,&local_48);
+      if (iVar2 == 0) {
+        iVar2 = FUN_001006d0(param_1,local_50,local_48);
+        if (iVar2 < 0) {
+          iVar2 = -0x16;
+          release_firmware(local_48);
+          release_firmware(local_50);
+        }
+        else {
+          *(byte *)((long)param_1 + 0x462) = (byte)iVar2 & 1;
+          if (iVar2 == 1) {
+            iVar11 = 3;
+            do {
+              iVar2 = wait_for_random_bytes();
+              get_random_bytes(&local_40,8);
+              if (iVar2 != 0) goto LAB_00101db8;
+              if (local_40 != 0) {
+                param_1[0x8d] = local_40;
+                goto LAB_00101b94;
+              }
+              iVar11 = iVar11 + -1;
+            } while (iVar11 != 0);
+            iVar2 = -0xb;
+LAB_00101db8:
+            release_firmware(local_48);
+            release_firmware(local_50);
+          }
+          else {
+LAB_00101b94:
+            lVar7 = param_1[0x53];
+            if ((lVar7 != 0) && ((*(byte *)(lVar7 + 0x98) & 1) == 0)) {
+              plVar8 = (long *)(lVar7 + 0x18);
+              do {
+                if (*plVar8 == 0) {
+                  iVar2 = -0x16;
+                  goto LAB_00101dd4;
+                }
+                plVar8 = plVar8 + 2;
+              } while ((long *)(lVar7 + 0x98) != plVar8);
+              *(undefined1 *)(lVar7 + 0x98) = 1;
+              __module_get(&__this_module);
+              memcpy_toio(param_2,local_50[1],*local_50);
+              memcpy_toio(param_3,local_48[1],*local_48);
+              if ((*(byte *)((long)param_1 + 0x462) & 1) == 0) {
+                release_firmware(local_48);
+                release_firmware(local_50);
+              }
+              else {
+                piVar6 = (int *)(param_3 + 0x6300);
+                local_40 = param_1[0x8d];
+                uVar4 = 0;
+                uVar3 = local_40;
+                piVar5 = piVar6;
+                do {
+                  DataMemoryBarrier(0,2);
+                  *piVar5 = *(int *)((long)param_1 + (uVar4 + 0x10c) * 4);
+                  uVar1 = (int)uVar4 + 1;
+                  uVar4 = (ulong)uVar1;
+                  piVar5 = piVar5 + 1;
+                } while (uVar1 != 0xc);
+                piVar5 = (int *)(param_3 + 0x63a0);
+                DataMemoryBarrier(0,2);
+                *piVar5 = (int)local_40;
+                local_40._4_4_ = (undefined4)(local_40 >> 0x20);
+                DataMemoryBarrier(0,2);
+                *(undefined4 *)(param_3 + 0x63a4) = local_40._4_4_;
+                uVar4 = 0;
+                do {
+                  DataMemoryBarrier(0,1);
+                  local_40 = uVar3;
+                  if (*(int *)((long)param_1 + (uVar4 + 0x10c) * 4) != *piVar6) goto LAB_00101e24;
+                  uVar1 = (int)uVar4 + 1;
+                  uVar4 = (ulong)uVar1;
+                  piVar6 = piVar6 + 1;
+                } while (uVar1 != 0xc);
+                piVar6 = (int *)&local_40;
+                do {
+                  DataMemoryBarrier(0,1);
+                  if (*piVar6 != *piVar5) goto LAB_00101e24;
+                  piVar5 = piVar5 + 1;
+                  piVar6 = piVar6 + 1;
+                } while (piVar5 != (int *)(param_3 + 0x63a8));
+                piVar5 = (int *)(param_3 + 0x6380);
+                do {
+                  DataMemoryBarrier(0,1);
+                  if (*piVar5 != 0) goto LAB_00101e24;
+                  piVar5 = piVar5 + 1;
+                } while (piVar5 != (int *)(param_3 + 0x6394));
+                *(undefined1 *)((long)param_1 + 0x463) = 1;
+                release_firmware(local_48);
+                release_firmware(local_50);
+              }
+              *(undefined1 *)(param_1 + 0x8e) = 1;
+              return 0;
+            }
+            iVar2 = -0x10;
+LAB_00101dd4:
+            release_firmware(local_48);
+            release_firmware(local_50);
+          }
+        }
+      }
+      else {
+        release_firmware(local_50);
+      }
+    }
+  }
+  else {
+    iVar2 = FUN_00101364(param_1,param_1 + 0x5d,param_1 + 0x7d);
+    if (iVar2 != 0) goto LAB_00101984;
+    local_30 = 0;
+    uStack_28 = 0;
+    local_20 = 0;
+    uStack_18 = 0;
+    local_10 = 0;
+    uStack_8 = 0;
+    if (param_1[8] != 0) {
+      iVar2 = -0x10;
+      if ((*(byte *)((long)param_1 + 0x1c) & 1) != 0) goto LAB_00101984;
+      uVar3 = param_1[9];
+      if ((uVar3 & 3) == 0) {
+        if (0x3fffff00 < uVar3 - 0x80000000) {
+          iVar2 = -0x22;
+          goto LAB_00101984;
+        }
+        uVar10 = param_1[0x55];
+        uVar4 = uVar3 + 0xff;
+        if ((uVar10 < uVar3) || (uVar4 < (ulong)param_1[0x54])) {
+          uVar1 = *(uint *)(param_1 + 0x7d);
+          if (uVar1 == 0) {
+            param_1[0x7e] = uVar3;
+            param_1[0x7f] = uVar4;
+            param_1[0x80] = 0;
+            param_1[0x81] = 0;
+            param_1[0x82] = 0;
+            param_1[0x83] = 0;
+            param_1[0x84] = 0;
+            param_1[0x85] = 0;
+            *(undefined1 *)(param_1 + 0x8c) = 1;
+            local_40 = uVar3;
+            uStack_38 = uVar4;
+          }
+          else {
+            puVar9 = param_1;
+            do {
+              if ((uVar3 <= (ulong)puVar9[0x5e]) && ((ulong)puVar9[0x5d] <= uVar4))
+              goto LAB_00101b6c;
+              puVar9 = puVar9 + 8;
+            } while (puVar9 != param_1 + (ulong)uVar1 * 8);
+            param_1[0x7e] = uVar3;
+            param_1[0x7f] = uVar4;
+            param_1[0x80] = 0;
+            param_1[0x81] = 0;
+            param_1[0x82] = 0;
+            param_1[0x83] = 0;
+            param_1[0x84] = 0;
+            param_1[0x85] = 0;
+            *(undefined1 *)(param_1 + 0x8c) = 1;
+            local_40 = uVar3;
+            uStack_38 = uVar4;
+            if (((uVar1 == 4) && (param_1[0x54] == 0x84000000)) && (uVar10 < 0xc0000000)) {
+              *(undefined4 *)(param_1 + 0x86) = 0x84000000;
+              *(int *)((long)param_1 + 0x434) = (int)uVar10 + 0x7c000001;
+              piVar5 = (int *)(param_1 + 0x87);
+              do {
+                iVar2 = (int)*(undefined8 *)((long)param_1 * -7 + -0x1ed8 + (long)piVar5 * 8);
+                *piVar5 = iVar2;
+                piVar6 = piVar5 + 2;
+                piVar5[1] = ((int)*(undefined8 *)((long)param_1 * -7 + -0x1ed0 + (long)piVar5 * 8) +
+                            1) - iVar2;
+                piVar5 = piVar6;
+              } while ((int *)(param_1 + 0x8b) != piVar6);
+              *(int *)(param_1 + 0x8b) = (int)uVar3;
+              *(undefined4 *)((long)param_1 + 0x45c) = 0x100;
+              *(undefined1 *)((long)param_1 + 0x461) = 1;
+            }
+          }
+          goto LAB_001019c8;
+        }
+      }
+    }
+LAB_00101b6c:
+    iVar2 = -0x16;
+  }
+LAB_00101984:
+  *(undefined4 *)(param_1 + 0x7d) = 0;
+  *(undefined2 *)(param_1 + 0x8c) = 0;
+  memset(param_1 + 0x7e,0,0x40);
+  param_1[0x86] = 0;
+  param_1[0x87] = 0;
+  param_1[0x88] = 0;
+  param_1[0x89] = 0;
+  param_1[0x8a] = 0;
+  param_1[0x8b] = 0;
+  return iVar2;
+LAB_00101e24:
+  iVar2 = -5;
+  release_firmware(local_48);
+  release_firmware(local_50);
+  goto LAB_00101984;
+}
+
+
+ASSEMBLY
+00101940 stp x29,x30,[sp, #-0xa0]!
+00101944 mov x29,sp
+00101948 stp x19,x20,[sp, #0x10]
+0010194c mov x19,x0
+00101950 stp x21,x22,[sp, #0x20]
+00101954 mov x21,x1
+00101958 mov x22,x2
+0010195c stp x23,x24,[sp, #0x30]
+00101960 mov x23,x3
+00101964 ldr w4,[x0, #0x2e0]
+00101968 ldr x24,[x0]
+0010196c cbz w4,0x001019c8
+00101970 add x2,x0,#0x3e8
+00101974 add x1,x0,#0x2e8
+00101978 bl 0x00101364
+0010197c mov w20,w0
+00101980 cbz w0,0x00101a08
+00101984 add x0,x19,#0x3f0
+00101988 add x19,x19,#0x430
+0010198c stur wzr,[x19, #-0x48]
+00101990 mov x2,#0x40
+00101994 strh wzr,[x19, #0x30]
+00101998 mov w1,#0x0
+0010199c bl 0x00104140
+001019a0 stp xzr,xzr,[x19]
+001019a4 mov w0,w20
+001019a8 stp xzr,xzr,[x19, #0x10]
+001019ac stp xzr,xzr,[x19, #0x20]
+001019b0 ldp x19,x20,[sp, #0x10]
+001019b4 ldp x21,x22,[sp, #0x20]
+001019b8 ldp x23,x24,[sp, #0x30]
+001019bc ldp x29,x30,[sp], #0xa0
+001019c0 ret
+001019c4 ldr x25,[sp, #0x40]
+001019c8 add x2,sp,#0x50
+001019cc mov x1,x23
+001019d0 mov x0,x24
+001019d4 bl 0x00100600
+001019d8 mov w20,w0
+001019dc cbnz w0,0x00101984
+001019e0 add x1,x23,#0x10
+001019e4 mov x0,x24
+001019e8 add x2,sp,#0x58
+001019ec bl 0x00100600
+001019f0 ldr x1,[sp, #0x50]
+001019f4 mov w20,w0
+001019f8 cbz w0,0x00101b74
+001019fc mov x0,x1
+00101a00 bl 0x00104018
+00101a04 b 0x00101984
+00101a08 ldr x1,[x19, #0x40]
+00101a0c stp xzr,xzr,[sp, #0x70]
+00101a10 add x0,x19,#0x10
+00101a14 stp xzr,xzr,[sp, #0x80]
+00101a18 stp xzr,xzr,[sp, #0x90]
+00101a1c cbz x1,0x00101b6c
+00101a20 ldrb w1,[x0, #0xc]
+00101a24 mov w20,#0xfffffff0
+00101a28 tbnz w1,#0x0,0x00101984
+00101a2c ldr x0,[x0, #0x38]
+00101a30 tst x0,#0x3
+00101a34 b.ne 0x00101b6c
+00101a38 orr x1,xzr,#-0x80000000
+00101a3c add x1,x0,x1
+00101a40 orr x2,xzr,#0x3fffff00
+00101a44 cmp x1,x2
+00101a48 b.hi 0x00101e50
+00101a4c ldr x6,[x19, #0x2a8]
+00101a50 add x3,x0,#0xff
+00101a54 cmp x0,x6
+00101a58 b.ls 0x00101b60
+00101a5c ldr w5,[x19, #0x3e8]
+00101a60 cbz w5,0x00101de8
+00101a64 mov w2,#0x40
+00101a68 mov x4,x19
+00101a6c umaddl x2,w5,w2,x19
+00101a70 ldr x1,[x4, #0x2f0]
+00101a74 cmp x0,x1
+00101a78 b.hi 0x00101a88
+00101a7c ldr x1,[x4, #0x2e8]
+00101a80 cmp x3,x1
+00101a84 b.cs 0x00101b6c
+00101a88 add x4,x4,#0x40
+00101a8c cmp x4,x2
+00101a90 b.ne 0x00101a70
+00101a94 add x1,x19,#0x3f0
+00101a98 stp x0,x3,[sp, #0x60]
+00101a9c mov w4,#0x1
+00101aa0 ldp x2,x3,[sp, #0x60]
+00101aa4 str x25,[sp, #0x40]
+00101aa8 stp x2,x3,[x1]
+00101aac ldp x2,x3,[sp, #0x70]
+00101ab0 stp x2,x3,[x1, #0x10]
+00101ab4 ldp x2,x3,[sp, #0x80]
+00101ab8 stp x2,x3,[x1, #0x20]
+00101abc ldp x2,x3,[sp, #0x90]
+00101ac0 stp x2,x3,[x1, #0x30]
+00101ac4 strb w4,[x19, #0x460]
+00101ac8 cmp w5,#0x4
+00101acc b.ne 0x001019c4
+00101ad0 ldr x2,[x19, #0x2a0]
+00101ad4 mov x1,#0x84000000
+00101ad8 cmp x2,x1
+00101adc b.ne 0x001019c4
+00101ae0 mov w1,#0xbfffffff
+00101ae4 cmp x6,x1
+00101ae8 b.hi 0x001019c4
+00101aec sub x4,x19,x19, LSL #0x3
+00101af0 mov x7,#-0x1ed8
+00101af4 mov x8,#-0x1ed0
+00101af8 add x7,x4,x7
+00101afc mov x3,#-0xffff
+00101b00 add x1,x19,#0x438
+00101b04 add x4,x4,x8
+00101b08 add x5,x19,#0x458
+00101b0c movk x3,#0x7c00, LSL #16
+00101b10 mov w2,#0x84000000
+00101b14 add x6,x6,x3
+00101b18 str w2,[x19, #0x430]
+00101b1c str w6,[x19, #0x434]
+00101b20 ldr x3,[x7, x1, LSL #0x3]
+00101b24 str w3,[x1]
+00101b28 ldr x2,[x4, x1, LSL #0x3]
+00101b2c add x1,x1,#0x8
+00101b30 add x2,x2,#0x1
+00101b34 sub x2,x2,x3
+00101b38 stur w2,[x1, #-0x4]
+00101b3c cmp x5,x1
+00101b40 b.ne 0x00101b20
+00101b44 mov w2,#0x100
+00101b48 mov w1,#0x1
+00101b4c str w0,[x19, #0x458]
+00101b50 str w2,[x19, #0x45c]
+00101b54 strb w1,[x19, #0x461]
+00101b58 ldr x25,[sp, #0x40]
+00101b5c b 0x001019c8
+00101b60 ldr x1,[x19, #0x2a0]
+00101b64 cmp x3,x1
+00101b68 b.cc 0x00101a5c
+00101b6c mov w20,#0xffffffea
+00101b70 b 0x00101984
+00101b74 ldr x2,[sp, #0x58]
+00101b78 mov x0,x19
+00101b7c bl 0x001006d0
+00101b80 tbnz w0,#0x1f,0x00101d68
+00101b84 and w1,w0,#0x1
+00101b88 strb w1,[x19, #0x462]
+00101b8c cmp w0,#0x1
+00101b90 b.eq 0x00101d80
+00101b94 ldr x2,[x19, #0x298]
+00101b98 cbz x2,0x00101e58
+00101b9c ldrb w0,[x2, #0x98]
+00101ba0 tbnz w0,#0x0,0x00101e58
+00101ba4 add x3,x2,#0x18
+00101ba8 add x1,x2,#0x98
+00101bac ldr x0,[x3]
+00101bb0 cbz x0,0x00101dd0
+00101bb4 add x3,x3,#0x10
+00101bb8 cmp x1,x3
+00101bbc b.ne 0x00101bac
+00101bc0 mov w0,#0x1
+00101bc4 strb w0,[x2, #0x98]
+00101bc8 adrp x0,0x103000
+00101bcc add x0,x0,#0xc80
+00101bd0 bl 0x001040a0
+00101bd4 ldr x1,[sp, #0x50]
+00101bd8 mov x0,x21
+00101bdc ldp x2,x1,[x1]
+00101be0 bl 0x001040b8
+00101be4 ldr x1,[sp, #0x58]
+00101be8 mov x0,x22
+00101bec ldp x2,x1,[x1]
+00101bf0 bl 0x001040b8
+00101bf4 ldrb w0,[x19, #0x462]
+00101bf8 tbnz w0,#0x0,0x00101c2c
+00101bfc ldr x0,[sp, #0x58]
+00101c00 bl 0x00104018
+00101c04 ldr x0,[sp, #0x50]
+00101c08 bl 0x00104018
+00101c0c mov w0,#0x1
+00101c10 strb w0,[x19, #0x470]
+00101c14 mov w0,w20
+00101c18 ldp x19,x20,[sp, #0x10]
+00101c1c ldp x21,x22,[sp, #0x20]
+00101c20 ldp x23,x24,[sp, #0x30]
+00101c24 ldp x29,x30,[sp], #0xa0
+00101c28 ret
+00101c2c mov x6,#0x6300
+00101c30 add x3,x22,x6
+00101c34 ldr x1,[x19, #0x468]
+00101c38 mov x2,x3
+00101c3c mov w0,#0x0
+00101c40 str x1,[sp, #0x60]
+00101c44 mov w1,w0
+00101c48 add x1,x1,#0x10c
+00101c4c ldr w1,[x19, x1, LSL #0x2]
+00101c50 dmb OSHST
+00101c54 str w1,[x2]
+00101c58 add w0,w0,#0x1
+00101c5c add x2,x2,#0x4
+00101c60 cmp w0,#0xc
+00101c64 b.ne 0x00101c44
+00101c68 mov x4,#0x63a0
+00101c6c ldr w0,[sp, #0x60]
+00101c70 add x4,x22,x4
+00101c74 dmb OSHST
+00101c78 str w0,[x4]
+00101c7c mov x5,#0x63a4
+00101c80 ldr w1,[sp, #0x64]
+00101c84 add x0,x22,x5
+00101c88 dmb OSHST
+00101c8c str w1,[x0]
+00101c90 mov w1,#0x0
+00101c94 nop
+00101c98 nop
+00101c9c nop
+00101ca0 ldr w2,[x3]
+00101ca4 dmb OSHLD
+00101ca8 mov w0,w2
+00101cac eor x0,x0,x0
+00101cb0 cbnz x0,0x00101cb0
+00101cb4 mov w0,w1
+00101cb8 add x0,x0,#0x10c
+00101cbc ldr w0,[x19, x0, LSL #0x2]
+00101cc0 cmp w0,w2
+00101cc4 b.ne 0x00101e24
+00101cc8 add w1,w1,#0x1
+00101ccc add x3,x3,#0x4
+00101cd0 cmp w1,#0xc
+00101cd4 b.ne 0x00101ca0
+00101cd8 mov x0,x4
+00101cdc mov x2,#0x63a8
+00101ce0 add x1,sp,#0x60
+00101ce4 add x4,x22,x2
+00101ce8 ldr w2,[x0]
+00101cec dmb OSHLD
+00101cf0 mov w3,w2
+00101cf4 eor x3,x3,x3
+00101cf8 cbnz x3,0x00101cf8
+00101cfc ldr w3,[x1]
+00101d00 cmp w3,w2
+00101d04 b.ne 0x00101e24
+00101d08 add x0,x0,#0x4
+00101d0c add x1,x1,#0x4
+00101d10 cmp x0,x4
+00101d14 b.ne 0x00101ce8
+00101d18 mov x0,#0x6380
+00101d1c mov x1,#0x6394
+00101d20 add x0,x22,x0
+00101d24 add x2,x22,x1
+00101d28 ldr w1,[x0]
+00101d2c dmb OSHLD
+00101d30 mov w3,w1
+00101d34 eor x3,x3,x3
+00101d38 cbnz x3,0x00101d38
+00101d3c cbnz w1,0x00101e24
+00101d40 add x0,x0,#0x4
+00101d44 cmp x0,x2
+00101d48 b.ne 0x00101d28
+00101d4c ldr x0,[sp, #0x58]
+00101d50 mov w1,#0x1
+00101d54 strb w1,[x19, #0x463]
+00101d58 bl 0x00104018
+00101d5c ldr x0,[sp, #0x50]
+00101d60 bl 0x00104018
+00101d64 b 0x00101c0c
+00101d68 ldr x0,[sp, #0x58]
+00101d6c mov w20,#0xffffffea
+00101d70 bl 0x00104018
+00101d74 ldr x0,[sp, #0x50]
+00101d78 bl 0x00104018
+00101d7c b 0x00101984
+00101d80 str x25,[sp, #0x40]
+00101d84 add x25,sp,#0x60
+00101d88 mov w24,#0x3
+00101d8c bl 0x001041f8
+00101d90 mov w23,w0
+00101d94 mov x1,#0x8
+00101d98 mov x0,x25
+00101d9c bl 0x001041d8
+00101da0 cbnz w23,0x00101e3c
+00101da4 ldr x0,[sp, #0x60]
+00101da8 cbnz x0,0x00101e44
+00101dac subs w24,w24,#0x1
+00101db0 b.ne 0x00101d8c
+00101db4 mov w20,#0xfffffff5
+00101db8 ldr x0,[sp, #0x58]
+00101dbc bl 0x00104018
+00101dc0 ldr x0,[sp, #0x50]
+00101dc4 bl 0x00104018
+00101dc8 ldr x25,[sp, #0x40]
+00101dcc b 0x00101984
+00101dd0 mov w20,#0xffffffea
+00101dd4 ldr x0,[sp, #0x58]
+00101dd8 bl 0x00104018
+00101ddc ldr x0,[sp, #0x50]
+00101de0 bl 0x00104018
+00101de4 b 0x00101984
+00101de8 add x1,x19,#0x3f0
+00101dec stp x0,x3,[sp, #0x60]
+00101df0 mov w0,#0x1
+00101df4 ldp x2,x3,[sp, #0x60]
+00101df8 str x25,[sp, #0x40]
+00101dfc stp x2,x3,[x1]
+00101e00 ldp x2,x3,[sp, #0x70]
+00101e04 stp x2,x3,[x1, #0x10]
+00101e08 ldp x2,x3,[sp, #0x80]
+00101e0c stp x2,x3,[x1, #0x20]
+00101e10 ldp x2,x3,[sp, #0x90]
+00101e14 stp x2,x3,[x1, #0x30]
+00101e18 strb w0,[x19, #0x460]
+00101e1c ldr x25,[sp, #0x40]
+00101e20 b 0x001019c8
+00101e24 ldr x0,[sp, #0x58]
+00101e28 mov w20,#0xfffffffb
+00101e2c bl 0x00104018
+00101e30 ldr x0,[sp, #0x50]
+00101e34 bl 0x00104018
+00101e38 b 0x00101984
+00101e3c mov w20,w23
+00101e40 b 0x00101db8
+00101e44 str x0,[x19, #0x468]
+00101e48 ldr x25,[sp, #0x40]
+00101e4c b 0x00101b94
+00101e50 mov w20,#0xffffffde
+00101e54 b 0x00101984
+00101e58 mov w20,#0xfffffff0
+00101e5c b 0x00101dd4
+
+FUNCTION FUN_00101e60 @ 00101e60
+decompiled=true
+
+ulong FUN_00101e60(long *param_1,undefined8 param_2,ulong *param_3)
+
+{
+  int iVar1;
+  undefined8 *puVar2;
+  ulong uVar3;
+  ulong uVar4;
+  long lVar5;
+  char *local_30;
+  undefined8 local_28;
+  char *local_20;
+  undefined4 local_18;
+  undefined8 local_10;
+  undefined4 local_8;
+  
+  lVar5 = *param_1;
+  if ((param_1[0x53] == 0) || ((*(byte *)(param_1[0x53] + 0x98) & 1) == 0)) {
+    *(undefined4 *)(param_1 + 0x7d) = 0;
+    *(undefined4 *)(param_1 + 0x8c) = 0;
+    param_1[0x8d] = 0;
+    *(undefined1 *)(param_1 + 0x8e) = 0;
+    memset(param_1 + 0x7e,0,0x40);
+    param_1[0x86] = 0;
+    param_1[0x87] = 0;
+    param_1[0x88] = 0;
+    param_1[0x89] = 0;
+    param_1[0x8a] = 0;
+    param_1[0x8b] = 0;
+    puVar2 = (undefined8 *)of_device_get_match_data(lVar5);
+    if (puVar2 == (undefined8 *)0x0) {
+      uVar3 = 0xffffffea;
+    }
+    else {
+      uVar3 = *param_3;
+      if ((((uVar3 == 0) || (uVar4 = param_3[1], uVar4 < uVar3)) ||
+          ((uVar3 & 3) != 0 || (uVar3 | uVar4) >> 0x20 != 0)) || ((uVar4 + 1) - uVar3 < 0x240000)) {
+        uVar3 = dev_err_probe(lVar5,0xffffffea,"invalid NPU firmware memory region\n");
+      }
+      else {
+        param_1[0x54] = uVar3;
+        param_1[0x55] = param_3[1];
+        *(undefined4 *)(param_1 + 0x5c) = 0;
+        uVar3 = devm_ioremap_resource(lVar5,param_3);
+        if (uVar3 < 0xfffffffffffff001) {
+          lVar5 = of_find_property(*(undefined8 *)(lVar5 + 600),"firmware-name",0);
+          if (lVar5 == 0) {
+            iVar1 = strcmp((char *)*puVar2,"airoha/en7581_MT7996_npu_rv32.bin");
+            if (iVar1 == 0) {
+              *(undefined4 *)(param_1 + 0x5c) = 0xe000;
+            }
+            uVar3 = FUN_00101940(param_1,uVar3,param_2,puVar2);
+            return uVar3;
+          }
+          lVar5 = *param_1;
+          iVar1 = of_property_read_string_helper
+                            (*(undefined8 *)(lVar5 + 600),"firmware-name",&local_30,2,0);
+          if (iVar1 == 2) {
+            iVar1 = strcmp(local_30,"airoha/en7581_MT7996_npu_rv32.bin");
+            if (iVar1 == 0) {
+              *(undefined4 *)(param_1 + 0x5c) = 0xe000;
+            }
+            local_20 = local_30;
+            local_18 = 0x200000;
+            local_10 = local_28;
+            local_8 = 0x10000;
+            uVar3 = FUN_00101940(param_1,uVar3,param_2,&local_20);
+          }
+          else {
+            uVar3 = dev_err_probe(lVar5,0xffffffea,"invalid firmware-name property\n");
+          }
+        }
+      }
+    }
+  }
+  else {
+    uVar3 = 0xfffffff0;
+  }
+  return uVar3;
+}
+
+
+ASSEMBLY
+00101e60 stp x29,x30,[sp, #-0x70]!
+00101e64 mov x29,sp
+00101e68 stp x19,x20,[sp, #0x10]
+00101e6c mov x19,x0
+00101e70 mov x20,x2
+00101e74 stp x21,x22,[sp, #0x20]
+00101e78 mov x22,x1
+00101e7c ldr x0,[x0, #0x298]
+00101e80 ldr x21,[x19]
+00101e84 cbz x0,0x00101e90
+00101e88 ldrb w0,[x0, #0x98]
+00101e8c tbnz w0,#0x0,0x0010205c
+00101e90 str x23,[sp, #0x30]
+00101e94 mov x2,#0x40
+00101e98 str wzr,[x19, #0x3e8]
+00101e9c mov w1,#0x0
+00101ea0 str wzr,[x19, #0x460]
+00101ea4 add x0,x19,#0x3f0
+00101ea8 str xzr,[x19, #0x468]
+00101eac strb wzr,[x19, #0x470]
+00101eb0 bl 0x00104140
+00101eb4 add x3,x19,#0x430
+00101eb8 mov x0,x21
+00101ebc stp xzr,xzr,[x3]
+00101ec0 stp xzr,xzr,[x3, #0x10]
+00101ec4 stp xzr,xzr,[x3, #0x20]
+00101ec8 bl 0x00104200
+00101ecc mov x23,x0
+00101ed0 cbz x0,0x00102064
+00101ed4 ldr x0,[x20]
+00101ed8 cbz x0,0x00101f94
+00101edc ldr x4,[x20, #0x8]
+00101ee0 cmp x0,x4
+00101ee4 b.hi 0x00101f94
+00101ee8 orr x1,x0,x4
+00101eec and x2,x0,#0x3
+00101ef0 orr x1,x2,x1, LSR #0x20
+00101ef4 cbnz x1,0x00101f94
+00101ef8 add x4,x4,#0x1
+00101efc mov w1,#0x23ffff
+00101f00 sub x4,x4,x0
+00101f04 cmp x4,x1
+00101f08 b.ls 0x00101f94
+00101f0c str x0,[x19, #0x2a0]
+00101f10 mov x1,x20
+00101f14 mov x0,x21
+00101f18 ldr x2,[x20, #0x8]
+00101f1c str x2,[x19, #0x2a8]
+00101f20 str wzr,[x19, #0x2e0]
+00101f24 bl 0x00104198
+00101f28 mov x20,x0
+00101f2c cmn x0,#0x1, LSL #12
+00101f30 b.hi 0x00102054
+00101f34 ldr x0,[x21, #0x258]
+00101f38 adrp x21,0x103000
+00101f3c add x21,x21,#0x958
+00101f40 mov x2,#0x0
+00101f44 mov x1,x21
+00101f48 bl 0x00104118
+00101f4c cbnz x0,0x00101fbc
+00101f50 ldr x0,[x23]
+00101f54 adrp x1,0x103000
+00101f58 add x1,x1,#0x988
+00101f5c bl 0x00104158
+00101f60 cbnz w0,0x00101f6c
+00101f64 mov w0,#0xe000
+00101f68 str w0,[x19, #0x2e0]
+00101f6c mov x3,x23
+00101f70 mov x2,x22
+00101f74 mov x1,x20
+00101f78 mov x0,x19
+00101f7c bl 0x00101940
+00101f80 ldr x23,[sp, #0x30]
+00101f84 ldp x19,x20,[sp, #0x10]
+00101f88 ldp x21,x22,[sp, #0x20]
+00101f8c ldp x29,x30,[sp], #0x70
+00101f90 ret
+00101f94 mov x0,x21
+00101f98 adrp x2,0x103000
+00101f9c mov w1,#0xffffffea
+00101fa0 add x2,x2,#0x930
+00101fa4 bl 0x001041e8
+00101fa8 ldr x23,[sp, #0x30]
+00101fac ldp x19,x20,[sp, #0x10]
+00101fb0 ldp x21,x22,[sp, #0x20]
+00101fb4 ldp x29,x30,[sp], #0x70
+00101fb8 ret
+00101fbc ldr x23,[x19]
+00101fc0 mov x1,x21
+00101fc4 add x2,sp,#0x40
+00101fc8 mov w4,#0x0
+00101fcc mov x3,#0x2
+00101fd0 ldr x0,[x23, #0x258]
+00101fd4 bl 0x00104210
+00101fd8 cmp w0,#0x2
+00101fdc b.ne 0x00102038
+00101fe0 ldr x21,[sp, #0x40]
+00101fe4 adrp x1,0x103000
+00101fe8 add x1,x1,#0x988
+00101fec mov x0,x21
+00101ff0 bl 0x00104158
+00101ff4 cbnz w0,0x00102000
+00101ff8 mov w0,#0xe000
+00101ffc str w0,[x19, #0x2e0]
+00102000 ldr x5,[sp, #0x48]
+00102004 mov w6,#0x200000
+00102008 mov w4,#0x10000
+0010200c mov x2,x22
+00102010 mov x1,x20
+00102014 mov x0,x19
+00102018 add x3,sp,#0x50
+0010201c str x21,[sp, #0x50]
+00102020 str w6,[sp, #0x58]
+00102024 str x5,[sp, #0x60]
+00102028 str w4,[sp, #0x68]
+0010202c bl 0x00101940
+00102030 ldr x23,[sp, #0x30]
+00102034 b 0x00101fac
+00102038 mov x0,x23
+0010203c adrp x2,0x103000
+00102040 mov w1,#0xffffffea
+00102044 add x2,x2,#0x968
+00102048 bl 0x001041e8
+0010204c ldr x23,[sp, #0x30]
+00102050 b 0x00101fac
+00102054 ldr x23,[sp, #0x30]
+00102058 b 0x00101fac
+0010205c mov w0,#0xfffffff0
+00102060 b 0x00101fac
+00102064 ldr x23,[sp, #0x30]
+00102068 mov w0,#0xffffffea
+0010206c b 0x00101fac
+
+FUNCTION airoha_npu_probe @ 00102070
+decompiled=true
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+ulong airoha_npu_probe(long param_1)
+
+{
+  int iVar1;
+  undefined *puVar2;
+  long *plVar3;
+  long *plVar4;
+  uint uVar5;
+  ulong uVar6;
+  long *plVar7;
+  undefined8 *puVar8;
+  undefined8 uVar9;
+  undefined **ppuVar10;
+  long lVar11;
+  ulong uVar12;
+  int iVar13;
+  long lVar14;
+  long *plVar15;
+  uint local_44;
+  int local_40 [16];
+  
+  puVar2 = (undefined *)(param_1 + 0x10);
+  uVar6 = devm_platform_ioremap_resource(param_1,0);
+  uVar12 = uVar6 & 0xffffffff;
+  if (uVar6 < 0xfffffffffffff001) {
+    plVar7 = (long *)devm_kmalloc(puVar2,0x518,0xdc0);
+    if (plVar7 == (long *)0x0) {
+LAB_001026a8:
+      uVar12 = 0xfffffff4;
+    }
+    else {
+      plVar3 = plVar7 + 0x8f;
+      __mutex_init(plVar3,"&priv->wlan_session_lock",0x100000);
+      *plVar7 = (long)puVar2;
+      plVar7[0x46] = (long)airoha_npu_ppe_init;
+      plVar7[0x47] = (long)airoha_npu_ppe_deinit;
+      plVar7[0x48] = (long)airoha_npu_ppe_stats_setup;
+      plVar7[0x49] = (long)airoha_npu_ppe_flush_sram_entries;
+      plVar7[0x4a] = (long)airoha_npu_foe_commit_entry;
+      plVar7[0x4b] = (long)airoha_npu_wlan_init_session;
+      plVar7[0x4c] = (long)airoha_npu_wlan_msg_send;
+      plVar7[0x4d] = (long)airoha_npu_wlan_msg_get;
+      plVar7[0x4e] = (long)airoha_npu_wlan_queue_addr_get;
+      plVar7[0x4f] = (long)airoha_npu_wlan_irq_status_set;
+      plVar7[0x50] = (long)airoha_npu_wlan_irq_status_get;
+      plVar7[0x51] = (long)airoha_npu_wlan_irq_enable;
+      plVar7[0x52] = (long)airoha_npu_wlan_irq_disable;
+      uVar12 = __devm_regmap_init_mmio_clk(puVar2,0,uVar6,&PTR_DAT_00103210,0,0);
+      plVar7[1] = uVar12;
+      if (uVar12 < 0xfffffffffffff001) {
+        mutex_lock(&DAT_001036d8);
+        ppuVar10 = (undefined **)PTR_LOOP_001036f8;
+        if ((undefined **)PTR_LOOP_001036f8 == &PTR_LOOP_001036f8) {
+          mutex_unlock(&DAT_001036d8);
+        }
+        else {
+          do {
+            if (puVar2 == ppuVar10[-1]) {
+              mutex_unlock(&DAT_001036d8);
+              uVar12 = dev_err_probe(puVar2,0xfffffff0,"NPU DMA retirement pending\n");
+              goto LAB_00102208;
+            }
+            ppuVar10 = (undefined **)*ppuVar10;
+          } while (ppuVar10 != &PTR_LOOP_001036f8);
+          mutex_unlock(&DAT_001036d8);
+        }
+        puVar8 = (undefined8 *)__kmalloc_cache_noprof(_DAT_00104230,0xdc0,0xa0);
+        plVar7[0x53] = (long)puVar8;
+        if (puVar8 == (undefined8 *)0x0) {
+          return 0xfffffff4;
+        }
+        uVar9 = get_device(puVar2);
+        lVar14 = plVar7[0x53];
+        *puVar8 = uVar9;
+        uVar5 = __devm_add_action(puVar2,airoha_npu_dma_cleanup,lVar14,"airoha_npu_dma_cleanup");
+        if (uVar5 != 0) {
+          airoha_npu_dma_cleanup(lVar14);
+          return (ulong)uVar5;
+        }
+        uVar12 = of_reserved_mem_region_to_resource(*(undefined8 *)(param_1 + 0x268),0,local_40);
+        if ((int)uVar12 == 0) {
+          plVar15 = plVar7 + 4;
+          do {
+            plVar15[-2] = (long)plVar7;
+            *(undefined4 *)(plVar15 + -1) = 0;
+            *plVar15 = 0xfffffffe00000;
+            plVar4 = plVar15 + 8;
+            plVar15[3] = (long)airoha_npu_wdt_work;
+            plVar15[1] = (long)(plVar15 + 1);
+            plVar15[2] = (long)(plVar15 + 1);
+            uVar5 = __devm_add_action(puVar2,devm_work_drop,plVar15,"devm_work_drop");
+            if (uVar5 != 0) {
+              return (ulong)uVar5;
+            }
+            plVar15 = plVar4;
+          } while (plVar4 != plVar7 + 0x44);
+          uVar5 = platform_get_irq(param_1,0);
+          uVar12 = (ulong)uVar5;
+          if (-1 < (int)uVar5) {
+            uVar5 = devm_request_threaded_irq
+                              (puVar2,uVar5,airoha_npu_mbox_handler,0,0x200080,"airoha-npu-mbox",
+                               plVar7);
+            uVar12 = (ulong)uVar5;
+            if (uVar5 == 0) {
+              plVar15 = plVar7 + 2;
+              iVar13 = 0;
+              do {
+                iVar13 = iVar13 + 1;
+                uVar5 = platform_get_irq(param_1,iVar13);
+                if ((int)uVar5 < 0) {
+                  return (ulong)uVar5;
+                }
+                uVar5 = devm_request_threaded_irq
+                                  (puVar2,uVar5,airoha_npu_wdt_handler,0,0x200080,"airoha-npu-wdt",
+                                   plVar15);
+                if (uVar5 != 0) {
+                  return (ulong)uVar5;
+                }
+                plVar15 = plVar15 + 8;
+              } while (iVar13 != 8);
+              lVar14 = 0;
+              do {
+                uVar5 = platform_get_irq(param_1,(int)lVar14 + 9);
+                if ((int)uVar5 < 0) {
+                  return (ulong)uVar5;
+                }
+                *(uint *)((long)plVar7 + lVar14 * 4 + 0x210) = uVar5;
+                lVar14 = lVar14 + 1;
+              } while (lVar14 != 6);
+              uVar5 = dma_set_mask(puVar2,0xffffffff);
+              uVar12 = (ulong)uVar5;
+              if (uVar5 == 0) {
+                dma_set_coherent_mask(puVar2,0xffffffff);
+                iVar13 = 0;
+                plVar15 = plVar7 + 9;
+                do {
+                  lVar14 = dma_alloc_attrs(puVar2,0x100,plVar15,0xcc0,0);
+                  plVar15[-1] = lVar14;
+                  lVar11 = (long)iVar13;
+                  iVar13 = iVar13 + 1;
+                  if (lVar14 == 0) goto LAB_001026a8;
+                  *(long *)(plVar7[0x53] + (lVar11 + 1) * 0x10 + 8) = lVar14;
+                  *(long *)(plVar7[0x53] + (lVar11 + 1) * 0x10 + 0x10) = *plVar15;
+                  plVar15 = plVar15 + 8;
+                } while (iVar13 != 8);
+                uVar5 = FUN_00101e60(plVar7,uVar6,local_40);
+                uVar12 = (ulong)uVar5;
+                if (uVar5 == 0) {
+                  if ((*(byte *)((long)plVar7 + 0x471) & 1) != 0) {
+                    return 0xfffffff0;
+                  }
+                  if (((((*(byte *)(plVar7 + 0x8e) & 1) == 0) || (plVar7[0x53] == 0)) ||
+                      ((*(byte *)(plVar7[0x53] + 0x98) & 1) == 0)) ||
+                     (((*(byte *)((long)plVar7 + 0x462) & 1) != 0 &&
+                      (((*(byte *)((long)plVar7 + 0x463) & 1) == 0 || (plVar7[0x8d] == 0)))))) {
+                    return 0xffffffea;
+                  }
+                  *(undefined1 *)((long)plVar7 + 0x471) = 1;
+                  uVar5 = regmap_write(plVar7[1],0x30c168,local_40[0] + 0x200000);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  uVar5 = regmap_write(plVar7[1],0x30c16c,0x40000);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  uVar5 = regmap_write(plVar7[1],0x30c170,0);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  uVar5 = regmap_write(plVar7[1],0x30c194,1);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  msleep(100);
+                  iVar13 = 0x306020;
+                  do {
+                    iVar1 = iVar13 + 4;
+                    uVar5 = regmap_write(plVar7[1],iVar13,local_40[0]);
+                    if (uVar5 != 0) {
+                      return (ulong)uVar5;
+                    }
+                    iVar13 = iVar1;
+                  } while (iVar1 != 0x306040);
+                  usleep_range_state(1000,2000,2);
+                  uVar5 = regmap_write(plVar7[1],0x306004,0xff);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  uVar5 = regmap_write(plVar7[1],0x306000,1);
+                  if (uVar5 != 0) {
+                    return (ulong)uVar5;
+                  }
+                  msleep(100);
+                  uVar5 = airoha_npu_wlan_msg_get(plVar7,0,10,&local_44,4,0xcc0);
+                  if (uVar5 == 0) {
+                    if (((*(byte *)((long)plVar7 + 0x462) & 1) != 0) && (local_44 != 0x457)) {
+                      return 0xffffffb9;
+                    }
+                    _dev_info(*plVar7,"NPU fw version: %0d.%d\n",local_44 >> 0x10,local_44 & 0xffff)
+                    ;
+                  }
+                  else if ((*(byte *)((long)plVar7 + 0x462) & 1) != 0) {
+                    return (ulong)uVar5;
+                  }
+                  uVar5 = __devm_add_action(puVar2,airoha_npu_wlan_session_close,plVar7,
+                                            "airoha_npu_wlan_session_close");
+                  if (uVar5 != 0) {
+                    mutex_lock(plVar3);
+                    *(undefined1 *)(plVar7 + 0xa2) = 1;
+                    if (*(int *)((long)plVar7 + 0x514) == 0) {
+                      *(undefined4 *)((long)plVar7 + 0x514) = 0xffffff94;
+                    }
+                    npu_linux_control_close(plVar7 + 0x93);
+                    mutex_unlock(plVar3);
+                    return (ulong)uVar5;
+                  }
+                  *(long **)(param_1 + 0x88) = plVar7;
+                  return 0;
+                }
+              }
+            }
+          }
+          return uVar12;
+        }
+      }
+LAB_00102208:
+      uVar12 = uVar12 & 0xffffffff;
+    }
+  }
+  return uVar12;
+}
+
+
+ASSEMBLY
+00102070 stp x29,x30,[sp, #-0xc0]!
+00102074 mov w1,#0x0
+00102078 mov x29,sp
+0010207c stp x19,x20,[sp, #0x10]
+00102080 stp x21,x22,[sp, #0x20]
+00102084 add x21,x0,#0x10
+00102088 stp x23,x24,[sp, #0x30]
+0010208c mov x24,x0
+00102090 bl 0x00104010
+00102094 mov x23,x0
+00102098 mov w20,w0
+0010209c cmn x0,#0x1, LSL #12
+001020a0 b.hi 0x0010220c
+001020a4 mov x0,x21
+001020a8 mov w2,#0xdc0
+001020ac mov x1,#0x518
+001020b0 bl 0x00104038
+001020b4 mov x19,x0
+001020b8 cbz x0,0x001026a8
+001020bc stp x25,x26,[sp, #0x40]
+001020c0 add x25,x0,#0x478
+001020c4 mov x0,x25
+001020c8 adrp x2,0x100000
+001020cc adrp x1,0x103000
+001020d0 add x2,x2,#0x0
+001020d4 add x1,x1,#0x9b0
+001020d8 bl 0x00104130
+001020dc str x21,[x19]
+001020e0 add x15,x19,#0x230
+001020e4 add x16,x19,#0x250
+001020e8 add x17,x19,#0x270
+001020ec adrp x0,0x101000
+001020f0 adrp x5,0x100000
+001020f4 add x0,x0,#0xc
+001020f8 add x5,x5,#0xd70
+001020fc adrp x4,0x101000
+00102100 adrp x1,0x101000
+00102104 add x4,x4,#0x124
+00102108 add x1,x1,#0x8c
+0010210c stp x0,x5,[x15]
+00102110 adrp x14,0x101000
+00102114 stp x4,x1,[x15, #0x10]
+00102118 add x14,x14,#0x1e0
+0010211c adrp x13,0x101000
+00102120 adrp x12,0x100000
+00102124 add x13,x13,#0x6e0
+00102128 add x12,x12,#0xde8
+0010212c adrp x11,0x101000
+00102130 add x11,x11,#0x2c0
+00102134 stp x14,x13,[x16]
+00102138 adrp x10,0x100000
+0010213c stp x12,x11,[x16, #0x10]
+00102140 add x10,x10,#0x60
+00102144 adrp x9,0x100000
+00102148 adrp x8,0x100000
+0010214c add x9,x9,#0xac
+00102150 add x8,x8,#0x84
+00102154 adrp x7,0x100000
+00102158 adrp x6,0x100000
+0010215c add x7,x7,#0xd2c
+00102160 add x6,x6,#0xc40
+00102164 stp x10,x9,[x17]
+00102168 adrp x3,0x103000
+0010216c stp x8,x7,[x17, #0x10]
+00102170 add x3,x3,#0x1b0
+00102174 mov x2,x23
+00102178 str x6,[x19, #0x290]
+0010217c add x3,x3,#0x60
+00102180 mov x0,x21
+00102184 mov x5,#0x0
+00102188 mov x4,#0x0
+0010218c mov x1,#0x0
+00102190 bl 0x00104150
+00102194 str x0,[x19, #0x8]
+00102198 cmn x0,#0x1, LSL #12
+0010219c b.hi 0x00102204
+001021a0 adrp x20,0x103000
+001021a4 add x20,x20,#0x610
+001021a8 add x22,x20,#0xc8
+001021ac mov x0,x22
+001021b0 bl 0x00104108
+001021b4 mov x2,x20
+001021b8 ldr x1,[x2, #0xe8]!
+001021bc sub x0,x1,#0x8
+001021c0 cmp x1,x2
+001021c4 b.ne 0x001021dc
+001021c8 b 0x00102674
+001021cc ldr x1,[x0, #0x8]
+001021d0 sub x0,x1,#0x8
+001021d4 cmp x1,x2
+001021d8 b.eq 0x00102224
+001021dc ldr x1,[x0]
+001021e0 cmp x21,x1
+001021e4 b.ne 0x001021cc
+001021e8 add x0,x20,#0xc8
+001021ec bl 0x00104188
+001021f0 adrp x2,0x103000
+001021f4 mov x0,x21
+001021f8 add x2,x2,#0xa50
+001021fc mov w1,#0xfffffff0
+00102200 bl 0x001041e8
+00102204 mov w20,w0
+00102208 ldp x25,x26,[sp, #0x40]
+0010220c mov w0,w20
+00102210 ldp x19,x20,[sp, #0x10]
+00102214 ldp x21,x22,[sp, #0x20]
+00102218 ldp x23,x24,[sp, #0x30]
+0010221c ldp x29,x30,[sp], #0xc0
+00102220 ret
+00102224 add x0,x20,#0xc8
+00102228 bl 0x00104188
+0010222c adrp x0,0x104000
+00102230 mov x2,#0xa0
+00102234 mov w1,#0xdc0
+00102238 ldr x0,[x0, #0x230]
+0010223c bl 0x001041a8
+00102240 str x0,[x19, #0x298]
+00102244 mov x20,x0
+00102248 cbz x0,0x001026e0
+0010224c mov x0,x21
+00102250 bl 0x001040a8
+00102254 ldr x22,[x19, #0x298]
+00102258 mov x4,x0
+0010225c str x4,[x20]
+00102260 mov x0,x21
+00102264 mov x2,x22
+00102268 adrp x3,0x103000
+0010226c adrp x1,0x100000
+00102270 add x3,x3,#0x9d0
+00102274 add x1,x1,#0xb04
+00102278 bl 0x001041f0
+0010227c mov w20,w0
+00102280 cbnz w0,0x00102630
+00102284 ldr x0,[x21, #0x258]
+00102288 add x2,sp,#0x80
+0010228c mov w1,#0x0
+00102290 bl 0x00104040
+00102294 mov w20,w0
+00102298 cbnz w0,0x00102208
+0010229c adrp x26,0x100000
+001022a0 adrp x0,0x103000
+001022a4 add x26,x26,#0x490
+001022a8 add x0,x0,#0x9e8
+001022ac add x22,x19,#0x20
+001022b0 stp x27,x28,[sp, #0x50]
+001022b4 add x28,x19,#0x220
+001022b8 orr x27,xzr,#0xfffffffe00000
+001022bc str x0,[sp, #0x60]
+001022c0 adrp x0,0x100000
+001022c4 add x0,x0,#0x5e0
+001022c8 str x0,[sp, #0x68]
+001022cc mov x4,x22
+001022d0 mov x2,x22
+001022d4 ldp x3,x1,[sp, #0x60]
+001022d8 stur x19,[x22, #-0x10]
+001022dc stur wzr,[x22, #-0x8]
+001022e0 mov x0,x21
+001022e4 str x27,[x4], #0x8
+001022e8 add x22,x22,#0x40
+001022ec stur x26,[x22, #-0x28]
+001022f0 stur x4,[x22, #-0x38]
+001022f4 stur x4,[x22, #-0x30]
+001022f8 bl 0x001041f0
+001022fc mov w20,w0
+00102300 cbnz w0,0x00102654
+00102304 cmp x22,x28
+00102308 b.ne 0x001022cc
+0010230c mov x0,x24
+00102310 mov w1,#0x0
+00102314 bl 0x00104060
+00102318 mov w20,w0
+0010231c tbnz w0,#0x1f,0x00102654
+00102320 mov x4,#0x80
+00102324 mov w1,w0
+00102328 mov x6,x19
+0010232c mov x0,x21
+00102330 movk x4,#0x20, LSL #16
+00102334 adrp x5,0x103000
+00102338 adrp x2,0x100000
+0010233c add x5,x5,#0x9f8
+00102340 add x2,x2,#0xbe0
+00102344 mov x3,#0x0
+00102348 bl 0x00104030
+0010234c mov w20,w0
+00102350 cbnz w0,0x00102654
+00102354 adrp x27,0x103000
+00102358 adrp x26,0x100000
+0010235c add x27,x27,#0xa08
+00102360 add x26,x26,#0xc84
+00102364 add x22,x19,#0x10
+00102368 add w20,w20,#0x1
+0010236c mov x0,x24
+00102370 mov w1,w20
+00102374 bl 0x00104060
+00102378 mov x4,#0x80
+0010237c mov w1,w0
+00102380 mov x6,x22
+00102384 mov x5,x27
+00102388 mov x2,x26
+0010238c mov x0,x21
+00102390 movk x4,#0x20, LSL #16
+00102394 mov x3,#0x0
+00102398 tbnz w1,#0x1f,0x00102690
+0010239c bl 0x00104030
+001023a0 cbnz w0,0x00102680
+001023a4 add x22,x22,#0x40
+001023a8 cmp w20,#0x8
+001023ac b.ne 0x00102368
+001023b0 add x26,x19,#0x210
+001023b4 mov x22,#0x0
+001023b8 add w1,w22,#0x9
+001023bc mov x0,x24
+001023c0 bl 0x00104060
+001023c4 mov w20,w0
+001023c8 tbnz w0,#0x1f,0x00102654
+001023cc str w0,[x26, x22, LSL #0x2]
+001023d0 add x22,x22,#0x1
+001023d4 cmp x22,#0x6
+001023d8 b.ne 0x001023b8
+001023dc mov x0,x21
+001023e0 orr x1,xzr,#0xffffffff
+001023e4 bl 0x001041d0
+001023e8 mov w20,w0
+001023ec cbnz w0,0x00102654
+001023f0 add x22,x19,#0x48
+001023f4 mov x0,x21
+001023f8 orr x1,xzr,#0xffffffff
+001023fc bl 0x00104168
+00102400 mov x1,#0x100
+00102404 mov x2,x22
+00102408 mov x0,x21
+0010240c mov x4,#0x0
+00102410 mov w3,#0xcc0
+00102414 bl 0x00104110
+00102418 stur x0,[x22, #-0x8]
+0010241c sxtw x1,w20
+00102420 add x1,x1,#0x1
+00102424 add w20,w20,#0x1
+00102428 cbz x0,0x001026a0
+0010242c ldr x2,[x19, #0x298]
+00102430 add x2,x2,x1, LSL #0x4
+00102434 str x0,[x2, #0x8]
+00102438 ldr x2,[x19, #0x298]
+0010243c ldr x0,[x22], #0x40
+00102440 add x1,x2,x1, LSL #0x4
+00102444 str x0,[x1, #0x10]
+00102448 cmp w20,#0x8
+0010244c b.ne 0x00102400
+00102450 add x2,sp,#0x80
+00102454 mov x1,x23
+00102458 mov x0,x19
+0010245c bl 0x00101e60
+00102460 mov w20,w0
+00102464 cbnz w0,0x00102654
+00102468 ldrb w0,[x19, #0x471]
+0010246c tbnz w0,#0x0,0x001026fc
+00102470 ldrb w0,[x19, #0x470]
+00102474 tbz w0,#0x0,0x001026ec
+00102478 ldr x0,[x19, #0x298]
+0010247c cbz x0,0x001026ec
+00102480 ldrb w0,[x0, #0x98]
+00102484 tbz w0,#0x0,0x001026ec
+00102488 ldrb w0,[x19, #0x462]
+0010248c tbz w0,#0x0,0x001024a0
+00102490 ldrb w0,[x19, #0x463]
+00102494 tbz w0,#0x0,0x001026ec
+00102498 ldr x0,[x19, #0x468]
+0010249c cbz x0,0x001026ec
+001024a0 ldr x0,[x19, #0x8]
+001024a4 mov w3,#0x1
+001024a8 ldr x2,[sp, #0x80]
+001024ac strb w3,[x19, #0x471]
+001024b0 mov w1,#0xc168
+001024b4 add w2,w2,#0x200, LSL #12
+001024b8 movk w1,#0x30, LSL #16
+001024bc bl 0x00104028
+001024c0 mov w20,w0
+001024c4 cbnz w0,0x00102654
+001024c8 ldr x0,[x19, #0x8]
+001024cc mov w1,#0xc16c
+001024d0 movk w1,#0x30, LSL #16
+001024d4 mov w2,#0x40000
+001024d8 bl 0x00104028
+001024dc mov w20,w0
+001024e0 cbnz w0,0x00102654
+001024e4 ldr x0,[x19, #0x8]
+001024e8 mov w1,#0xc170
+001024ec movk w1,#0x30, LSL #16
+001024f0 mov w2,#0x0
+001024f4 bl 0x00104028
+001024f8 mov w20,w0
+001024fc cbnz w0,0x00102654
+00102500 ldr x0,[x19, #0x8]
+00102504 mov w1,#0xc194
+00102508 movk w1,#0x30, LSL #16
+0010250c mov w2,#0x1
+00102510 bl 0x00104028
+00102514 mov w20,w0
+00102518 cbnz w0,0x00102654
+0010251c mov w22,#0x6020
+00102520 mov w23,#0x6040
+00102524 movk w22,#0x30, LSL #16
+00102528 movk w23,#0x30, LSL #16
+0010252c mov w0,#0x64
+00102530 bl 0x00104218
+00102534 ldr x0,[x19, #0x8]
+00102538 mov w1,w22
+0010253c ldr w2,[sp, #0x80]
+00102540 add w22,w22,#0x4
+00102544 bl 0x00104028
+00102548 mov w20,w0
+0010254c cbnz w0,0x00102654
+00102550 cmp w22,w23
+00102554 b.ne 0x00102534
+00102558 mov w2,#0x2
+0010255c mov x1,#0x7d0
+00102560 mov x0,#0x3e8
+00102564 bl 0x00104098
+00102568 ldr x0,[x19, #0x8]
+0010256c mov w1,#0x6004
+00102570 movk w1,#0x30, LSL #16
+00102574 mov w2,#0xff
+00102578 bl 0x00104028
+0010257c mov w20,w0
+00102580 cbnz w0,0x00102654
+00102584 add w1,w0,#0x306, LSL #12
+00102588 mov w2,#0x1
+0010258c ldr x0,[x19, #0x8]
+00102590 bl 0x00104028
+00102594 mov w20,w0
+00102598 cbnz w0,0x00102654
+0010259c mov w0,#0x64
+001025a0 bl 0x00104218
+001025a4 mov x0,x19
+001025a8 add x3,sp,#0x7c
+001025ac mov w5,#0xcc0
+001025b0 mov w4,#0x4
+001025b4 mov w2,#0xa
+001025b8 mov w1,#0x0
+001025bc bl 0x001012c0
+001025c0 mov w20,w0
+001025c4 ldrb w0,[x19, #0x462]
+001025c8 cbz w20,0x001026c0
+001025cc tbnz w0,#0x0,0x00102654
+001025d0 mov x2,x19
+001025d4 mov x0,x21
+001025d8 adrp x3,0x103000
+001025dc adrp x1,0x100000
+001025e0 add x3,x3,#0xa30
+001025e4 add x1,x1,#0x440
+001025e8 bl 0x001041f0
+001025ec mov w20,w0
+001025f0 cbz w0,0x001026b0
+001025f4 mov x0,x25
+001025f8 bl 0x00104108
+001025fc ldr w0,[x19, #0x514]
+00102600 mov w1,#0x1
+00102604 strb w1,[x19, #0x510]
+00102608 cbnz w0,0x00102614
+0010260c mov w0,#0xffffff94
+00102610 str w0,[x19, #0x514]
+00102614 add x0,x19,#0x498
+00102618 bl 0x00103144
+0010261c mov x0,x25
+00102620 bl 0x00104188
+00102624 ldp x25,x26,[sp, #0x40]
+00102628 ldp x27,x28,[sp, #0x50]
+0010262c b 0x0010220c
+00102630 mov x0,x22
+00102634 bl 0x00100b04
+00102638 mov w0,w20
+0010263c ldp x25,x26,[sp, #0x40]
+00102640 ldp x19,x20,[sp, #0x10]
+00102644 ldp x21,x22,[sp, #0x20]
+00102648 ldp x23,x24,[sp, #0x30]
+0010264c ldp x29,x30,[sp], #0xc0
+00102650 ret
+00102654 ldp x25,x26,[sp, #0x40]
+00102658 mov w0,w20
+0010265c ldp x27,x28,[sp, #0x50]
+00102660 ldp x19,x20,[sp, #0x10]
+00102664 ldp x21,x22,[sp, #0x20]
+00102668 ldp x23,x24,[sp, #0x30]
+0010266c ldp x29,x30,[sp], #0xc0
+00102670 ret
+00102674 mov x0,x22
+00102678 bl 0x00104188
+0010267c b 0x0010222c
+00102680 ldp x25,x26,[sp, #0x40]
+00102684 mov w20,w0
+00102688 ldp x27,x28,[sp, #0x50]
+0010268c b 0x0010220c
+00102690 ldp x25,x26,[sp, #0x40]
+00102694 mov w20,w1
+00102698 ldp x27,x28,[sp, #0x50]
+0010269c b 0x0010220c
+001026a0 ldp x25,x26,[sp, #0x40]
+001026a4 ldp x27,x28,[sp, #0x50]
+001026a8 mov w20,#0xfffffff4
+001026ac b 0x0010220c
+001026b0 str x19,[x21, #0x78]
+001026b4 ldp x25,x26,[sp, #0x40]
+001026b8 ldp x27,x28,[sp, #0x50]
+001026bc b 0x0010220c
+001026c0 ldr w2,[sp, #0x7c]
+001026c4 tbz w0,#0x0,0x0010270c
+001026c8 cmp w2,#0x457
+001026cc b.eq 0x0010270c
+001026d0 ldp x25,x26,[sp, #0x40]
+001026d4 mov w20,#0xffffffb9
+001026d8 ldp x27,x28,[sp, #0x50]
+001026dc b 0x0010220c
+001026e0 ldp x25,x26,[sp, #0x40]
+001026e4 mov w20,#0xfffffff4
+001026e8 b 0x0010220c
+001026ec ldp x25,x26,[sp, #0x40]
+001026f0 mov w20,#0xffffffea
+001026f4 ldp x27,x28,[sp, #0x50]
+001026f8 b 0x0010220c
+001026fc ldp x25,x26,[sp, #0x40]
+00102700 mov w20,#0xfffffff0
+00102704 ldp x27,x28,[sp, #0x50]
+00102708 b 0x0010220c
+0010270c ldr x0,[x19]
+00102710 and w3,w2,#0xffff
+00102714 adrp x1,0x103000
+00102718 lsr w2,w2,#0x10
+0010271c add x1,x1,#0xa18
+00102720 bl 0x001040d8
+00102724 b 0x001025d0
+
+FUNCTION npu_client_init @ 00102740
+decompiled=true
+
+void npu_client_init(undefined8 *param_1,int param_2,int param_3)
+
+{
+  undefined8 uVar1;
+  
+  uVar1 = 0x100000005;
+  if (param_2 != 0 || param_3 != 0) {
+    uVar1 = 0;
+  }
+  *param_1 = uVar1;
+  *(int *)(param_1 + 1) = param_2;
+  *(int *)((long)param_1 + 0xc) = param_3;
+  param_1[2] = 0;
+  param_1[3] = 0;
+  param_1[4] = 0;
+  param_1[5] = 0;
+  param_1[6] = 0;
+  return;
+}
+
+
+ASSEMBLY
+00102740 orr w4,w1,w2
+00102744 mov x3,#0x5
+00102748 cmp w4,#0x0
+0010274c movk x3,#0x1, LSL #32
+00102750 csel x3,x3,xzr,eq
+00102754 str x3,[x0]
+00102758 stp w1,w2,[x0, #0x8]
+0010275c stp xzr,xzr,[x0, #0x10]
+00102760 stp xzr,xzr,[x0, #0x20]
+00102764 str xzr,[x0, #0x30]
+00102768 ret
+
+FUNCTION npu_client_abort @ 0010276c
+decompiled=true
+
+void npu_client_abort(int *param_1)
+
+{
+  if (*param_1 != 5) {
+    param_1[5] = 0;
+    param_1[0] = 5;
+    param_1[1] = 9;
+  }
+  return;
+}
+
+
+ASSEMBLY
+0010276c ldr w1,[x0]
+00102770 cmp w1,#0x5
+00102774 b.eq 0x00102788
+00102778 mov x1,#0x5
+0010277c str wzr,[x0, #0x14]
+00102780 movk x1,#0x9, LSL #32
+00102784 str x1,[x0]
+00102788 ret
+
+FUNCTION npu_client_request @ 0010278c
+decompiled=true
+
+uint npu_client_request(uint *param_1,undefined8 *param_2,int param_3)
+
+{
+  undefined8 *puVar1;
+  uint uVar2;
+  undefined8 *puVar3;
+  
+  uVar2 = *param_1;
+  if ((uVar2 != 5) && (param_1[5] == 0)) {
+    if ((param_3 == 0x40 && param_2 != (undefined8 *)0x0) && (uVar2 < 5)) {
+      if ((param_1[4] != 0xffffffff) &&
+         (((uVar2 = *(uint *)(&DAT_001035e0 + (ulong)uVar2 * 4), uVar2 != 2 ||
+           (param_1[7] != 0xffffffff)) || (param_1[8] != 0xffffffff)))) {
+        puVar3 = param_2;
+        do {
+          puVar1 = (undefined8 *)((long)puVar3 + 4);
+          *(undefined1 *)puVar3 = 0;
+          *(undefined1 *)((long)puVar3 + 1) = 0;
+          *(undefined1 *)((long)puVar3 + 2) = 0;
+          *(undefined1 *)((long)puVar3 + 3) = 0;
+          puVar3 = puVar1;
+        } while (param_2 + 8 != puVar1);
+        *param_2 = 0x3f;
+        param_2[1] = 0x13143514e;
+        *(undefined4 *)(param_2 + 2) = 0x40;
+        *(char *)((long)param_2 + 0x14) = (char)uVar2;
+        *(undefined2 *)((long)param_2 + 0x15) = 0;
+        *(undefined1 *)((long)param_2 + 0x17) = 0;
+        *(uint *)(param_2 + 3) = param_1[7];
+        *(uint *)((long)param_2 + 0x1c) = param_1[2];
+        *(uint *)(param_2 + 4) = param_1[3];
+        param_1[6] = uVar2;
+        uVar2 = param_1[4] + 1;
+        param_1[4] = uVar2;
+        param_1[5] = uVar2;
+        return uVar2;
+      }
+      param_1[5] = 0;
+      param_1[0] = 5;
+      param_1[1] = 8;
+    }
+    else {
+      param_1[0] = 5;
+      param_1[1] = 1;
+    }
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+0010278c mov x3,x0
+00102790 ldr w0,[x0]
+00102794 cmp w0,#0x5
+00102798 b.eq 0x0010285c
+0010279c ldr w4,[x3, #0x14]
+001027a0 cbnz w4,0x0010285c
+001027a4 cmp w2,#0x40
+001027a8 ccmp x1,#0x0,#0x4,eq
+001027ac b.eq 0x00102850
+001027b0 cmp w0,#0x4
+001027b4 b.hi 0x00102850
+001027b8 ldr w2,[x3, #0x10]
+001027bc cmn w2,#0x1
+001027c0 b.eq 0x00102880
+001027c4 adrp x2,0x103000
+001027c8 add x2,x2,#0x5e0
+001027cc ldr w4,[x2, w0, UXTW #0x2]
+001027d0 cmp w4,#0x2
+001027d4 b.eq 0x00102864
+001027d8 mov x2,x1
+001027dc add x0,x1,#0x40
+001027e0 add x2,x2,#0x4
+001027e4 sturb wzr,[x2, #-0x4]
+001027e8 sturb wzr,[x2, #-0x3]
+001027ec sturb wzr,[x2, #-0x2]
+001027f0 sturb wzr,[x2, #-0x1]
+001027f4 cmp x0,x2
+001027f8 b.ne 0x001027e0
+001027fc mov x5,#0x514e
+00102800 mov x2,#0x3f
+00102804 movk x5,#0x3143, LSL #16
+00102808 mov w0,#0x40
+0010280c movk x5,#0x1, LSL #32
+00102810 stp x2,x5,[x1]
+00102814 str w0,[x1, #0x10]
+00102818 strb w4,[x1, #0x14]
+0010281c sturh wzr,[x1, #0x15]
+00102820 strb wzr,[x1, #0x17]
+00102824 ldr w0,[x3, #0x1c]
+00102828 str w0,[x1, #0x18]
+0010282c ldr w0,[x3, #0x8]
+00102830 str w0,[x1, #0x1c]
+00102834 ldr w0,[x3, #0xc]
+00102838 str w0,[x1, #0x20]
+0010283c str w4,[x3, #0x18]
+00102840 ldr w0,[x3, #0x10]
+00102844 add w0,w0,#0x1
+00102848 stp w0,w0,[x3, #0x10]
+0010284c ret
+00102850 mov x0,#0x5
+00102854 movk x0,#0x1, LSL #32
+00102858 str x0,[x3]
+0010285c mov w0,#0x0
+00102860 ret
+00102864 ldr w0,[x3, #0x1c]
+00102868 cmn w0,#0x1
+0010286c b.ne 0x001027d8
+00102870 ldr w0,[x3, #0x20]
+00102874 cmn w0,#0x1
+00102878 b.ne 0x001027d8
+0010287c nop
+00102880 mov x0,#0x5
+00102884 str wzr,[x3, #0x14]
+00102888 movk x0,#0x8, LSL #32
+0010288c str x0,[x3]
+00102890 mov w0,#0x0
+00102894 b 0x00102860
+
+FUNCTION npu_client_complete @ 001028a0
+decompiled=true
+
+undefined8 npu_client_complete(int *param_1,int param_2,int param_3,int *param_4,int param_5)
+
+{
+  uint uVar1;
+  uint uVar2;
+  uint uVar3;
+  uint uVar4;
+  uint uVar5;
+  int iVar6;
+  uint uVar7;
+  
+  if (((param_2 == 0) || (param_1[5] == 0 || param_1[5] != param_2)) || (*param_1 == 5)) {
+    return 0;
+  }
+  if (param_3 != 0) {
+    param_1[5] = 0;
+    param_1[0] = 5;
+    param_1[1] = 2;
+    return 2;
+  }
+  if (param_5 != 0x40 || param_4 == (int *)0x0) {
+    param_1[5] = 0;
+    param_1[0] = 5;
+    param_1[1] = 1;
+    return 2;
+  }
+  if (((((*param_4 != 0x3f) || (param_4[1] != 0)) ||
+       ((param_4[2] != 0x3152514e || ((param_4[3] != 1 || (param_4[4] != 0x40)))))) ||
+      (iVar6 = param_1[6], iVar6 != param_4[5])) ||
+     ((param_1[2] != param_4[7] || (param_1[3] != param_4[8])))) {
+    param_1[5] = 0;
+    param_1[0] = 5;
+    param_1[1] = 3;
+    return 2;
+  }
+  if (param_4[10] != 7) {
+    param_1[5] = 0;
+    param_1[0] = 5;
+    param_1[1] = 4;
+    return 2;
+  }
+  if (param_4[9] != 0) {
+    *param_1 = 5;
+    param_1[1] = 5;
+    param_1[5] = 0;
+    return 2;
+  }
+  uVar4 = param_4[6];
+  uVar7 = param_1[7];
+  if (iVar6 == 2) {
+    if (param_1[8] == uVar7) {
+      uVar7 = uVar7 + 1;
+    }
+    if (uVar4 == 0) goto LAB_00102ac8;
+LAB_00102ac0:
+    if (uVar4 != uVar7) {
+LAB_00102ac8:
+      param_1[5] = 0;
+      param_1[0] = 5;
+      param_1[1] = 6;
+      return 2;
+    }
+  }
+  else {
+    if (uVar4 == 0) goto LAB_00102ac8;
+    if (iVar6 != 0) goto LAB_00102ac0;
+  }
+  uVar7 = param_4[0xb];
+  uVar2 = param_4[0xc];
+  if ((uVar2 | uVar7) < 0x100) {
+    uVar1 = param_4[0xd];
+    uVar3 = param_4[0xe];
+    uVar5 = param_4[0xf];
+    if (((((uVar1 < 0x20 && uVar3 <= uVar4) && uVar5 <= uVar3) && (uVar2 == 0 || uVar3 == uVar4)) &&
+        (uVar7 == 0xff || uVar1 == 0)) && (uVar2 == 0xff || uVar5 != uVar4)) {
+      if (iVar6 - 2U < 2) {
+        if ((uVar2 != 0 || uVar3 == uVar4) ||
+           ((iVar6 == 3 &&
+            (((param_1[8] != uVar3 || (param_1[9] != uVar5)) ||
+             (((param_1[10] & (uVar7 ^ 0xffffffff)) != 0 ||
+              ((param_1[0xc] & (uVar1 ^ 0xffffffff)) != 0)))))))) goto LAB_00102a98;
+        iVar6 = (uVar7 == 0xff) + 3;
+      }
+      else {
+        iVar6 = (iVar6 != 0) + 1;
+      }
+      *param_1 = iVar6;
+      param_1[7] = uVar4;
+      param_1[8] = uVar3;
+      param_1[9] = uVar5;
+      param_1[10] = uVar7;
+      param_1[0xb] = uVar2;
+      param_1[0xc] = uVar1;
+      iVar6 = param_4[10];
+      param_1[5] = 0;
+      param_1[0xd] = iVar6;
+      return 1;
+    }
+  }
+LAB_00102a98:
+  param_1[5] = 0;
+  param_1[0] = 5;
+  param_1[1] = 7;
+  return 2;
+}
+
+
+ASSEMBLY
+001028a0 mov x5,x0
+001028a4 mov w0,#0x0
+001028a8 cbz w1,0x001028c0
+001028ac ldr w6,[x5, #0x14]
+001028b0 mov w0,#0x0
+001028b4 cmp w6,#0x0
+001028b8 ccmp w6,w1,#0x0,ne
+001028bc b.eq 0x001028c4
+001028c0 ret
+001028c4 ldr w1,[x5]
+001028c8 cmp w1,#0x5
+001028cc b.eq 0x001028c0
+001028d0 cbnz w2,0x00102a20
+001028d4 cmp w4,#0x40
+001028d8 ccmp x3,#0x0,#0x4,eq
+001028dc b.eq 0x00102a38
+001028e0 ldr w0,[x3]
+001028e4 cmp w0,#0x3f
+001028e8 b.ne 0x00102a08
+001028ec ldr w0,[x3, #0x4]
+001028f0 cbnz w0,0x00102a08
+001028f4 ldr w1,[x3, #0x8]
+001028f8 mov w0,#0x514e
+001028fc movk w0,#0x3152, LSL #16
+00102900 cmp w1,w0
+00102904 b.ne 0x00102a08
+00102908 ldr w0,[x3, #0xc]
+0010290c cmp w0,#0x1
+00102910 b.ne 0x00102a08
+00102914 ldr w1,[x3, #0x10]
+00102918 cmp w1,#0x40
+0010291c b.ne 0x00102a08
+00102920 ldr w2,[x3, #0x14]
+00102924 ldr w1,[x5, #0x18]
+00102928 cmp w1,w2
+0010292c b.ne 0x00102a08
+00102930 ldr w2,[x3, #0x1c]
+00102934 ldr w4,[x5, #0x8]
+00102938 cmp w4,w2
+0010293c b.ne 0x00102a08
+00102940 ldr w2,[x3, #0x20]
+00102944 ldr w4,[x5, #0xc]
+00102948 cmp w4,w2
+0010294c b.ne 0x00102a08
+00102950 ldr w2,[x3, #0x28]
+00102954 cmp w2,#0x7
+00102958 b.ne 0x00102a50
+0010295c ldr w2,[x3, #0x24]
+00102960 cbnz w2,0x00102aec
+00102964 ldr w2,[x3, #0x18]
+00102968 ldr w4,[x5, #0x1c]
+0010296c cmp w1,#0x2
+00102970 b.eq 0x00102ab0
+00102974 cbz w2,0x00102ac8
+00102978 cbnz w1,0x00102ac0
+0010297c ldp w6,w7,[x3, #0x2c]
+00102980 orr w4,w7,w6
+00102984 cmp w4,#0xff
+00102988 b.hi 0x00102a98
+0010298c ldp w8,w4,[x3, #0x34]
+00102990 ldr w9,[x3, #0x3c]
+00102994 cmp w8,#0x1f
+00102998 ccmp w4,w2,#0x2,ls
+0010299c ccmp w9,w4,#0x2,ls
+001029a0 b.hi 0x00102a98
+001029a4 cmp w7,#0x0
+001029a8 cset w10,ne
+001029ac cmp w10,#0x0
+001029b0 ccmp w4,w2,#0x4,ne
+001029b4 b.ne 0x00102a98
+001029b8 cmp w6,#0xff
+001029bc ccmp w8,#0x0,#0x4,ne
+001029c0 b.ne 0x00102a98
+001029c4 cmp w7,#0xff
+001029c8 ccmp w9,w2,#0x0,ne
+001029cc b.eq 0x00102a98
+001029d0 sub w11,w1,#0x2
+001029d4 cmp w11,#0x1
+001029d8 b.ls 0x00102b00
+001029dc cmp w1,#0x0
+001029e0 cset w1,ne
+001029e4 add w1,w1,#0x1
+001029e8 str w1,[x5]
+001029ec stp w2,w4,[x5, #0x1c]
+001029f0 stp w9,w6,[x5, #0x24]
+001029f4 stp w7,w8,[x5, #0x2c]
+001029f8 ldr w1,[x3, #0x28]
+001029fc str wzr,[x5, #0x14]
+00102a00 str w1,[x5, #0x34]
+00102a04 ret
+00102a08 mov x0,#0x5
+00102a0c str wzr,[x5, #0x14]
+00102a10 movk x0,#0x3, LSL #32
+00102a14 str x0,[x5]
+00102a18 mov w0,#0x2
+00102a1c ret
+00102a20 mov x0,#0x5
+00102a24 str wzr,[x5, #0x14]
+00102a28 movk x0,#0x2, LSL #32
+00102a2c str x0,[x5]
+00102a30 mov w0,#0x2
+00102a34 b 0x00102a1c
+00102a38 mov x0,#0x5
+00102a3c str wzr,[x5, #0x14]
+00102a40 movk x0,#0x1, LSL #32
+00102a44 str x0,[x5]
+00102a48 mov w0,#0x2
+00102a4c b 0x00102a1c
+00102a50 mov x0,#0x5
+00102a54 str wzr,[x5, #0x14]
+00102a58 movk x0,#0x4, LSL #32
+00102a5c str x0,[x5]
+00102a60 mov w0,#0x2
+00102a64 b 0x00102a1c
+00102a68 ldr w1,[x5, #0x20]
+00102a6c cmp w1,w4
+00102a70 b.ne 0x00102a98
+00102a74 ldr w1,[x5, #0x24]
+00102a78 cmp w1,w9
+00102a7c b.ne 0x00102a98
+00102a80 ldr w1,[x5, #0x28]
+00102a84 bics wzr,w1,w6
+00102a88 b.ne 0x00102a98
+00102a8c ldr w1,[x5, #0x30]
+00102a90 bics wzr,w1,w8
+00102a94 b.eq 0x00102b14
+00102a98 mov x0,#0x5
+00102a9c str wzr,[x5, #0x14]
+00102aa0 movk x0,#0x7, LSL #32
+00102aa4 str x0,[x5]
+00102aa8 mov w0,#0x2
+00102aac b 0x00102a1c
+00102ab0 ldr w6,[x5, #0x20]
+00102ab4 cmp w6,w4
+00102ab8 b.eq 0x00102ae0
+00102abc cbz w2,0x00102ac8
+00102ac0 cmp w2,w4
+00102ac4 b.eq 0x0010297c
+00102ac8 mov x0,#0x5
+00102acc str wzr,[x5, #0x14]
+00102ad0 movk x0,#0x6, LSL #32
+00102ad4 str x0,[x5]
+00102ad8 mov w0,#0x2
+00102adc b 0x00102a1c
+00102ae0 add w4,w4,#0x1
+00102ae4 cbnz w2,0x00102ac0
+00102ae8 b 0x00102ac8
+00102aec mov w0,#0x5
+00102af0 stp w0,w0,[x5]
+00102af4 mov w0,#0x2
+00102af8 str wzr,[x5, #0x14]
+00102afc b 0x00102a1c
+00102b00 cmp w10,#0x0
+00102b04 ccmp w4,w2,#0x4,eq
+00102b08 b.eq 0x00102a98
+00102b0c cmp w1,#0x3
+00102b10 b.eq 0x00102a68
+00102b14 cmp w6,#0xff
+00102b18 cset w1,eq
+00102b1c add w1,w1,#0x3
+00102b20 b 0x001029e8
+
+FUNCTION npu_client_v2_init @ 00102b40
+decompiled=true
+
+void npu_client_v2_init(long param_1)
+
+{
+  npu_client_init();
+  *(undefined8 *)(param_1 + 0x38) = 0;
+  *(undefined4 *)(param_1 + 0x40) = 0;
+  return;
+}
+
+
+ASSEMBLY
+00102b40 stp x29,x30,[sp, #-0x20]!
+00102b44 mov x29,sp
+00102b48 str x19,[sp, #0x10]
+00102b4c mov x19,x0
+00102b50 bl 0x00102740
+00102b54 str xzr,[x19, #0x38]
+00102b58 str wzr,[x19, #0x40]
+00102b5c ldr x19,[sp, #0x10]
+00102b60 ldp x29,x30,[sp], #0x20
+00102b64 ret
+
+FUNCTION npu_client_v2_abort @ 00102b68
+decompiled=true
+
+void npu_client_v2_abort(void)
+
+{
+  npu_client_abort();
+  return;
+}
+
+
+ASSEMBLY
+00102b68 stp x29,x30,[sp, #-0x10]!
+00102b6c mov x29,sp
+00102b70 bl 0x0010276c
+00102b74 ldp x29,x30,[sp], #0x10
+00102b78 ret
+
+FUNCTION npu_client_v2_request @ 00102b80
+decompiled=true
+
+undefined8 npu_client_v2_request(int *param_1,long param_2,int param_3)
+
+{
+  undefined8 uVar1;
+  
+  if (*param_1 == 5) {
+    return 0;
+  }
+  if (param_1[5] == 0) {
+    if (param_3 == 0x50 && param_2 != 0) {
+      uVar1 = npu_client_request(param_1,param_2,0x40);
+      if ((int)uVar1 != 0) {
+        *(undefined4 *)(param_2 + 0x10) = 0x50;
+        *(undefined8 *)(param_2 + 8) = 0x23243514e;
+        *(int *)(param_2 + 0x40) = (int)uVar1;
+        *(int *)(param_2 + 0x44) = param_1[0xe];
+        *(int *)(param_2 + 0x48) = param_1[0xf];
+        *(undefined4 *)(param_2 + 0x4c) = 0;
+      }
+      return uVar1;
+    }
+    param_1[0x10] = 1;
+    npu_client_abort();
+  }
+  return 0;
+}
+
+
+ASSEMBLY
+00102b80 ldr w3,[x0]
+00102b84 cmp w3,#0x5
+00102b88 b.eq 0x00102c14
+00102b8c stp x29,x30,[sp, #-0x20]!
+00102b90 mov x29,sp
+00102b94 stp x19,x20,[sp, #0x10]
+00102b98 mov x19,x0
+00102b9c ldr w3,[x0, #0x14]
+00102ba0 cbnz w3,0x00102c04
+00102ba4 cmp w2,#0x50
+00102ba8 mov x20,x1
+00102bac ccmp x1,#0x0,#0x4,eq
+00102bb0 b.eq 0x00102bf8
+00102bb4 mov w2,#0x40
+00102bb8 bl 0x0010278c
+00102bbc cbz w0,0x00102bec
+00102bc0 mov x2,#0x514e
+00102bc4 mov w1,#0x50
+00102bc8 movk x2,#0x3243, LSL #16
+00102bcc str w1,[x20, #0x10]
+00102bd0 movk x2,#0x2, LSL #32
+00102bd4 str x2,[x20, #0x8]
+00102bd8 str w0,[x20, #0x40]
+00102bdc ldr w1,[x19, #0x38]
+00102be0 str w1,[x20, #0x44]
+00102be4 ldr w1,[x19, #0x3c]
+00102be8 stp w1,wzr,[x20, #0x48]
+00102bec ldp x19,x20,[sp, #0x10]
+00102bf0 ldp x29,x30,[sp], #0x20
+00102bf4 ret
+00102bf8 mov w1,#0x1
+00102bfc str w1,[x0, #0x40]
+00102c00 bl 0x0010276c
+00102c04 ldp x19,x20,[sp, #0x10]
+00102c08 mov w0,#0x0
+00102c0c ldp x29,x30,[sp], #0x20
+00102c10 ret
+00102c14 mov w0,#0x0
+00102c18 ret
+
+FUNCTION npu_client_v2_complete @ 00102c20
+decompiled=true
+
+int npu_client_v2_complete(int *param_1,int param_2,int param_3,undefined4 *param_4,int param_5)
+
+{
+  long *plVar1;
+  int iVar2;
+  int iVar3;
+  undefined4 uVar4;
+  long lVar5;
+  long lVar6;
+  int iVar7;
+  long *plVar8;
+  undefined8 local_78;
+  undefined8 local_70;
+  undefined4 local_68;
+  undefined4 local_50;
+  long local_38;
+  
+  lVar5 = sp_el0;
+  iVar7 = 0;
+  local_38 = *(long *)(lVar5 + 0x4c8);
+  if (((param_2 != 0) && (param_1[5] != 0 && param_1[5] == param_2)) && (*param_1 != 5)) {
+    if (param_3 == 0) {
+      if (param_5 == 0x50 && param_4 != (undefined4 *)0x0) {
+        if (((param_4[2] == 0x3252514e) && (param_4[3] == 2)) &&
+           ((param_4[4] == 0x50 && (param_4[0x13] == 0)))) {
+          if (param_2 == param_4[0x10]) {
+            iVar2 = param_4[0x11];
+            iVar3 = param_4[0x12];
+            if ((iVar3 == 0 && iVar2 == 0) ||
+               ((param_1[6] != 0 && ((param_1[0xe] != iVar2 || (param_1[0xf] != iVar3)))))) {
+              param_1[0x10] = 4;
+              npu_client_abort(param_1);
+            }
+            else {
+              if (param_4[10] == 0x27) {
+                plVar8 = &local_78;
+                do {
+                  uVar4 = *param_4;
+                  plVar1 = (long *)((long)plVar8 + 4);
+                  *(char *)plVar8 = (char)uVar4;
+                  *(char *)((long)plVar8 + 1) = (char)((uint)uVar4 >> 8);
+                  *(char *)((long)plVar8 + 2) = (char)((uint)uVar4 >> 0x10);
+                  *(char *)((long)plVar8 + 3) = (char)((uint)uVar4 >> 0x18);
+                  plVar8 = plVar1;
+                  param_4 = param_4 + 1;
+                } while (&local_38 != plVar1);
+                local_70 = 0x13152514e;
+                local_68 = 0x40;
+                local_50 = 7;
+                iVar7 = npu_client_complete(param_1,param_2,0,&local_78);
+                if (iVar7 == 1) {
+                  param_1[0xe] = iVar2;
+                  param_1[0xf] = iVar3;
+                }
+                goto LAB_00102c64;
+              }
+              param_1[0x10] = 5;
+              npu_client_abort(param_1);
+            }
+          }
+          else {
+            param_1[0x10] = 3;
+            npu_client_abort(param_1);
+          }
+        }
+        else {
+          param_1[0x10] = 2;
+          npu_client_abort(param_1);
+        }
+      }
+      else {
+        param_1[0x10] = 1;
+        npu_client_abort();
+      }
+      iVar7 = 2;
+    }
+    else {
+      iVar7 = npu_client_complete();
+    }
+  }
+LAB_00102c64:
+  lVar6 = sp_el0;
+  lVar5 = local_38 - *(long *)(lVar6 + 0x4c8);
+  if (lVar5 == 0) {
+    return iVar7;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail(lVar6,0,lVar5);
+}
+
+
+ASSEMBLY
+00102c20 sub sp,sp,#0x80
+00102c24 mrs x5,sp_el0
+00102c28 mov w7,#0x0
+00102c2c stp x29,x30,[sp, #0x50]
+00102c30 add x29,sp,#0x50
+00102c34 ldr x6,[x5, #0x4c8]
+00102c38 str x6,[sp, #0x48]
+00102c3c mov x6,#0x0
+00102c40 cbz w1,0x00102c64
+00102c44 stp x19,x20,[sp, #0x60]
+00102c48 mov w5,w1
+00102c4c mov x19,x0
+00102c50 ldr w8,[x0, #0x14]
+00102c54 cmp w8,#0x0
+00102c58 ccmp w8,w1,#0x0,ne
+00102c5c b.eq 0x00102c8c
+00102c60 ldp x19,x20,[sp, #0x60]
+00102c64 mrs x0,sp_el0
+00102c68 ldr x2,[sp, #0x48]
+00102c6c ldr x1,[x0, #0x4c8]
+00102c70 subs x2,x2,x1
+00102c74 mov x1,#0x0
+00102c78 b.ne 0x00102e3c
+00102c7c ldp x29,x30,[sp, #0x50]
+00102c80 mov w0,w7
+00102c84 add sp,sp,#0x80
+00102c88 ret
+00102c8c ldr w8,[x0]
+00102c90 cmp w8,#0x5
+00102c94 b.eq 0x00102c60
+00102c98 cbnz w2,0x00102dc0
+00102c9c cmp w4,#0x50
+00102ca0 ccmp x3,#0x0,#0x4,eq
+00102ca4 b.eq 0x00102dd8
+00102ca8 ldr w1,[x3, #0x8]
+00102cac mov w0,#0x514e
+00102cb0 movk w0,#0x3252, LSL #16
+00102cb4 cmp w1,w0
+00102cb8 b.ne 0x00102da4
+00102cbc ldr w0,[x3, #0xc]
+00102cc0 cmp w0,#0x2
+00102cc4 b.ne 0x00102da4
+00102cc8 ldr w0,[x3, #0x10]
+00102ccc cmp w0,#0x50
+00102cd0 b.ne 0x00102da4
+00102cd4 ldr w0,[x3, #0x4c]
+00102cd8 cbnz w0,0x00102da4
+00102cdc ldr w0,[x3, #0x40]
+00102ce0 cmp w5,w0
+00102ce4 b.ne 0x00102e00
+00102ce8 str x21,[sp, #0x70]
+00102cec ldp w20,w21,[x3, #0x44]
+00102cf0 orr w0,w21,w20
+00102cf4 cbz w0,0x00102de8
+00102cf8 ldr w0,[x19, #0x18]
+00102cfc cbz w0,0x00102d18
+00102d00 ldr w0,[x19, #0x38]
+00102d04 cmp w0,w20
+00102d08 b.ne 0x00102de8
+00102d0c ldr w0,[x19, #0x3c]
+00102d10 cmp w0,w21
+00102d14 b.ne 0x00102de8
+00102d18 ldr w0,[x3, #0x28]
+00102d1c cmp w0,#0x27
+00102d20 b.ne 0x00102e24
+00102d24 add x0,sp,#0x8
+00102d28 add x6,sp,#0x48
+00102d2c ldr w1,[x3], #0x4
+00102d30 add x0,x0,#0x4
+00102d34 sturb w1,[x0, #-0x4]
+00102d38 lsr w4,w1,#0x8
+00102d3c lsr w2,w1,#0x10
+00102d40 lsr w1,w1,#0x18
+00102d44 sturb w4,[x0, #-0x3]
+00102d48 sturb w2,[x0, #-0x2]
+00102d4c sturb w1,[x0, #-0x1]
+00102d50 cmp x6,x0
+00102d54 b.ne 0x00102d2c
+00102d58 mov x6,#0x514e
+00102d5c mov w1,w5
+00102d60 movk x6,#0x3152, LSL #16
+00102d64 mov w5,#0x7
+00102d68 movk x6,#0x1, LSL #32
+00102d6c mov w4,#0x40
+00102d70 add x3,sp,#0x8
+00102d74 mov x0,x19
+00102d78 mov w2,#0x0
+00102d7c str x6,[sp, #0x10]
+00102d80 str w4,[sp, #0x18]
+00102d84 str w5,[sp, #0x30]
+00102d88 bl 0x001028a0
+00102d8c mov w7,w0
+00102d90 cmp w0,#0x1
+00102d94 b.eq 0x00102e14
+00102d98 ldr x21,[sp, #0x70]
+00102d9c ldp x19,x20,[sp, #0x60]
+00102da0 b 0x00102c64
+00102da4 mov w0,#0x2
+00102da8 str w0,[x19, #0x40]
+00102dac mov x0,x19
+00102db0 bl 0x0010276c
+00102db4 ldp x19,x20,[sp, #0x60]
+00102db8 mov w7,#0x2
+00102dbc b 0x00102c64
+00102dc0 mov w4,#0x0
+00102dc4 mov x3,#0x0
+00102dc8 bl 0x001028a0
+00102dcc mov w7,w0
+00102dd0 ldp x19,x20,[sp, #0x60]
+00102dd4 b 0x00102c64
+00102dd8 mov w1,#0x1
+00102ddc str w1,[x0, #0x40]
+00102de0 bl 0x0010276c
+00102de4 b 0x00102db4
+00102de8 mov w0,#0x4
+00102dec str w0,[x19, #0x40]
+00102df0 mov x0,x19
+00102df4 bl 0x0010276c
+00102df8 ldr x21,[sp, #0x70]
+00102dfc b 0x00102db4
+00102e00 mov w0,#0x3
+00102e04 str w0,[x19, #0x40]
+00102e08 mov x0,x19
+00102e0c bl 0x0010276c
+00102e10 b 0x00102db4
+00102e14 stp w20,w21,[x19, #0x38]
+00102e18 ldr x21,[sp, #0x70]
+00102e1c ldp x19,x20,[sp, #0x60]
+00102e20 b 0x00102c64
+00102e24 mov w0,#0x5
+00102e28 str w0,[x19, #0x40]
+00102e2c mov x0,x19
+00102e30 bl 0x0010276c
+00102e34 ldr x21,[sp, #0x70]
+00102e38 b 0x00102db4
+00102e3c stp x19,x20,[sp, #0x60]
+00102e40 str x21,[sp, #0x70]
+00102e44 bl 0x001040c0
+
+FUNCTION npu_linux_control_init @ 00102e60
+decompiled=true
+
+undefined4 npu_linux_control_init(long param_1,long param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  undefined4 uVar1;
+  
+  if (param_1 == 0) {
+    return 0xffffffea;
+  }
+  if ((*(byte *)(param_1 + 0x70) & 1) == 0) {
+    __mutex_init(param_1,"&control->mutex",0x100000);
+    *(long *)(param_1 + 0x20) = param_2;
+    *(undefined4 *)(param_1 + 0x6c) = 0;
+    *(undefined1 *)(param_1 + 0x71) = 0;
+    npu_client_v2_init(param_1 + 0x28,param_3,param_4);
+    *(undefined1 *)(param_1 + 0x70) = 1;
+    if (param_2 == 0) {
+      uVar1 = 0xffffffed;
+    }
+    else {
+      uVar1 = 0xffffffea;
+      if (*(int *)(param_1 + 0x28) != 5) {
+        return 0;
+      }
+    }
+    *(undefined8 *)(param_1 + 0x20) = 0;
+    *(undefined1 *)(param_1 + 0x71) = 1;
+    if (*(int *)(param_1 + 0x6c) == 0) {
+      *(undefined4 *)(param_1 + 0x6c) = uVar1;
+    }
+    npu_client_v2_abort(param_1 + 0x28);
+    return *(undefined4 *)(param_1 + 0x6c);
+  }
+  return 0xffffff8e;
+}
+
+
+ASSEMBLY
+00102e60 cbz x0,0x00102f3c
+00102e64 stp x29,x30,[sp, #-0x40]!
+00102e68 mov x29,sp
+00102e6c stp x19,x20,[sp, #0x10]
+00102e70 mov x19,x0
+00102e74 str x23,[sp, #0x30]
+00102e78 mov x23,x1
+00102e7c ldrb w1,[x0, #0x70]
+00102e80 tbnz w1,#0x0,0x00102f34
+00102e84 mov w20,w2
+00102e88 adrp x1,0x103000
+00102e8c adrp x2,0x100000
+00102e90 add x1,x1,#0xb28
+00102e94 add x2,x2,#0x0
+00102e98 stp x21,x22,[sp, #0x20]
+00102e9c mov w21,w3
+00102ea0 bl 0x00104130
+00102ea4 str x23,[x19, #0x20]
+00102ea8 str wzr,[x19, #0x6c]
+00102eac add x22,x19,#0x28
+00102eb0 strb wzr,[x19, #0x71]
+00102eb4 mov x0,x22
+00102eb8 mov w2,w21
+00102ebc mov w1,w20
+00102ec0 bl 0x00102b40
+00102ec4 mov w0,#0x1
+00102ec8 strb w0,[x19, #0x70]
+00102ecc cbz x23,0x00102ef8
+00102ed0 ldr w1,[x19, #0x28]
+00102ed4 mov w0,#0x0
+00102ed8 mov w2,#0xffffffea
+00102edc cmp w1,#0x5
+00102ee0 b.eq 0x00102efc
+00102ee4 ldp x21,x22,[sp, #0x20]
+00102ee8 ldr x23,[sp, #0x30]
+00102eec ldp x19,x20,[sp, #0x10]
+00102ef0 ldp x29,x30,[sp], #0x40
+00102ef4 ret
+00102ef8 mov w2,#0xffffffed
+00102efc ldr w0,[x19, #0x6c]
+00102f00 mov w1,#0x1
+00102f04 str xzr,[x19, #0x20]
+00102f08 strb w1,[x19, #0x71]
+00102f0c cbnz w0,0x00102f14
+00102f10 str w2,[x19, #0x6c]
+00102f14 mov x0,x22
+00102f18 bl 0x00102b68
+00102f1c ldr x23,[sp, #0x30]
+00102f20 ldr w0,[x19, #0x6c]
+00102f24 ldp x21,x22,[sp, #0x20]
+00102f28 ldp x19,x20,[sp, #0x10]
+00102f2c ldp x29,x30,[sp], #0x40
+00102f30 ret
+00102f34 mov w0,#0xffffff8e
+00102f38 b 0x00102ee8
+00102f3c mov w0,#0xffffffea
+00102f40 ret
+
+FUNCTION npu_linux_control_exchange @ 00102f44
+decompiled=true
+
+int npu_linux_control_exchange(long param_1,int param_2)
+
+{
+  long lVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  undefined1 auStack_50 [80];
+  
+  if (param_1 == 0) {
+    return -0x16;
+  }
+  if ((*(byte *)(param_1 + 0x70) & 1) == 0) {
+    return -0x16;
+  }
+  mutex_lock();
+  iVar4 = *(int *)(param_1 + 0x6c);
+  if (iVar4 == 0) {
+    if (((*(byte *)(param_1 + 0x71) & 1) == 0) && (*(long *)(param_1 + 0x20) != 0)) {
+      if (*(uint *)(param_1 + 0x28) < 5) {
+        iVar2 = *(int *)(&DAT_001035f8 + (ulong)*(uint *)(param_1 + 0x28) * 4);
+      }
+      else {
+        iVar2 = -0x16;
+      }
+      if (param_2 == iVar2) {
+        lVar1 = param_1 + 0x28;
+        iVar2 = npu_client_v2_request(lVar1,auStack_50,0x50);
+        if (iVar2 == 0) {
+          if (*(int *)(param_1 + 0x6c) == 0) {
+            *(undefined4 *)(param_1 + 0x6c) = 0xffffffb9;
+          }
+        }
+        else {
+          iVar3 = airoha_npu_wlan_control(*(undefined8 *)(param_1 + 0x20),auStack_50,0x50);
+          iVar2 = npu_client_v2_complete(lVar1,iVar2,iVar3,auStack_50,0x50);
+          if (iVar3 == 0 && iVar2 == 1) goto LAB_00102fb8;
+          iVar4 = -5;
+          if (iVar3 == 0) {
+            iVar4 = -0x47;
+          }
+          if (iVar3 < 0) {
+            iVar4 = iVar3;
+          }
+          if (*(int *)(param_1 + 0x6c) == 0) {
+            *(int *)(param_1 + 0x6c) = iVar4;
+          }
+        }
+        npu_client_v2_abort(lVar1);
+        iVar4 = *(int *)(param_1 + 0x6c);
+      }
+      else {
+        *(undefined4 *)(param_1 + 0x6c) = 0xffffffea;
+        npu_client_v2_abort(param_1 + 0x28);
+        iVar4 = *(int *)(param_1 + 0x6c);
+      }
+    }
+    else {
+      *(undefined4 *)(param_1 + 0x6c) = 0xffffff94;
+      npu_client_v2_abort(param_1 + 0x28);
+      iVar4 = *(int *)(param_1 + 0x6c);
+    }
+  }
+LAB_00102fb8:
+  mutex_unlock(param_1);
+  return iVar4;
+}
+
+
+ASSEMBLY
+00102f44 stp x29,x30,[sp, #-0x90]!
+00102f48 mov x29,sp
+00102f4c stp x19,x20,[sp, #0x10]
+00102f50 cbz x0,0x001030a8
+00102f54 stp x21,x22,[sp, #0x20]
+00102f58 mov w21,w1
+00102f5c mov x19,x0
+00102f60 ldrb w1,[x0, #0x70]
+00102f64 tbz w1,#0x0,0x00103094
+00102f68 bl 0x00104108
+00102f6c ldr w20,[x19, #0x6c]
+00102f70 cbnz w20,0x00102fb8
+00102f74 ldrb w0,[x19, #0x71]
+00102f78 tbnz w0,#0x0,0x00102fd4
+00102f7c ldr x0,[x19, #0x20]
+00102f80 cbz x0,0x00102fd4
+00102f84 ldr w1,[x19, #0x28]
+00102f88 cmp w1,#0x4
+00102f8c b.hi 0x001030a0
+00102f90 adrp x0,0x103000
+00102f94 add x0,x0,#0x5f8
+00102f98 ldr w0,[x0, w1, UXTW #0x2]
+00102f9c cmp w21,w0
+00102fa0 b.eq 0x00102fec
+00102fa4 mov w0,#0xffffffea
+00102fa8 str w0,[x19, #0x6c]
+00102fac add x0,x19,#0x28
+00102fb0 bl 0x00102b68
+00102fb4 ldr w20,[x19, #0x6c]
+00102fb8 mov x0,x19
+00102fbc bl 0x00104188
+00102fc0 ldp x21,x22,[sp, #0x20]
+00102fc4 mov w0,w20
+00102fc8 ldp x19,x20,[sp, #0x10]
+00102fcc ldp x29,x30,[sp], #0x90
+00102fd0 ret
+00102fd4 mov w0,#0xffffff94
+00102fd8 str w0,[x19, #0x6c]
+00102fdc add x0,x19,#0x28
+00102fe0 bl 0x00102b68
+00102fe4 ldr w20,[x19, #0x6c]
+00102fe8 b 0x00102fb8
+00102fec str x23,[sp, #0x30]
+00102ff0 add x23,x19,#0x28
+00102ff4 add x1,sp,#0x40
+00102ff8 mov x0,x23
+00102ffc mov w2,#0x50
+00103000 bl 0x00102b80
+00103004 mov w21,w0
+00103008 cbnz w0,0x00103030
+0010300c ldr w0,[x19, #0x6c]
+00103010 cbnz w0,0x0010301c
+00103014 mov w0,#0xffffffb9
+00103018 str w0,[x19, #0x6c]
+0010301c mov x0,x23
+00103020 bl 0x00102b68
+00103024 ldr x23,[sp, #0x30]
+00103028 ldr w20,[x19, #0x6c]
+0010302c b 0x00102fb8
+00103030 ldr x0,[x19, #0x20]
+00103034 add x1,sp,#0x40
+00103038 mov w2,#0x50
+0010303c bl 0x00100380
+00103040 mov w22,w0
+00103044 mov w2,w0
+00103048 add x3,sp,#0x40
+0010304c mov w1,w21
+00103050 mov x0,x23
+00103054 mov w4,#0x50
+00103058 bl 0x00102c20
+0010305c cmp w22,#0x0
+00103060 ccmp w0,#0x1,#0x0,eq
+00103064 b.eq 0x0010308c
+00103068 ldr w1,[x19, #0x6c]
+0010306c cmp w22,#0x0
+00103070 mov w2,#0xffffffb9
+00103074 mov w0,#0xfffffffb
+00103078 csel w0,w0,w2,ne
+0010307c csel w22,w0,w22,ge
+00103080 cbnz w1,0x0010301c
+00103084 str w22,[x19, #0x6c]
+00103088 b 0x0010301c
+0010308c ldr x23,[sp, #0x30]
+00103090 b 0x00102fb8
+00103094 ldp x21,x22,[sp, #0x20]
+00103098 mov w20,#0xffffffea
+0010309c b 0x00102fc4
+001030a0 mov w0,#0xffffffea
+001030a4 b 0x00102f9c
+001030a8 mov w20,#0xffffffea
+001030ac b 0x00102fc4
+
+FUNCTION npu_linux_control_snapshot @ 001030b0
+decompiled=true
+
+undefined8 npu_linux_control_snapshot(long param_1,undefined8 *param_2)
+
+{
+  undefined8 uVar1;
+  undefined8 uVar2;
+  undefined8 uVar3;
+  undefined8 uVar4;
+  undefined8 uVar5;
+  undefined8 uVar6;
+  undefined4 uVar7;
+  undefined8 uVar8;
+  
+  if (param_1 != 0) {
+    if (param_2 == (undefined8 *)0x0 || ((*(byte *)(param_1 + 0x70) ^ 1) & 1) != 0) {
+      uVar8 = 0xffffffea;
+    }
+    else {
+      mutex_lock();
+      uVar3 = *(undefined8 *)(param_1 + 0x30);
+      uVar8 = *(undefined8 *)(param_1 + 0x38);
+      uVar4 = *(undefined8 *)(param_1 + 0x40);
+      uVar1 = *(undefined8 *)(param_1 + 0x48);
+      uVar5 = *(undefined8 *)(param_1 + 0x50);
+      uVar2 = *(undefined8 *)(param_1 + 0x58);
+      uVar6 = *(undefined8 *)(param_1 + 0x60);
+      uVar7 = *(undefined4 *)(param_1 + 0x68);
+      *param_2 = *(undefined8 *)(param_1 + 0x28);
+      param_2[1] = uVar3;
+      param_2[2] = uVar8;
+      param_2[3] = uVar4;
+      param_2[4] = uVar1;
+      param_2[5] = uVar5;
+      param_2[6] = uVar2;
+      param_2[7] = uVar6;
+      *(undefined4 *)(param_2 + 8) = uVar7;
+      *(undefined4 *)((long)param_2 + 0x44) = *(undefined4 *)(param_1 + 0x6c);
+      *(undefined1 *)(param_2 + 9) = *(undefined1 *)(param_1 + 0x71);
+      mutex_unlock(param_1);
+      uVar8 = 0;
+    }
+    return uVar8;
+  }
+  return 0xffffffea;
+}
+
+
+ASSEMBLY
+001030b0 cbz x0,0x0010313c
+001030b4 stp x29,x30,[sp, #-0x20]!
+001030b8 cmp x1,#0x0
+001030bc mov x29,sp
+001030c0 stp x19,x20,[sp, #0x10]
+001030c4 mov x19,x1
+001030c8 cset w1,eq
+001030cc ldrb w2,[x0, #0x70]
+001030d0 mov x20,x0
+001030d4 eor w2,w2,#0x1
+001030d8 orr w1,w1,w2
+001030dc tbnz w1,#0x0,0x00103134
+001030e0 bl 0x00104108
+001030e4 ldp x4,x5,[x20, #0x28]
+001030e8 mov x0,x20
+001030ec ldp x8,x9,[x20, #0x38]
+001030f0 ldp x6,x7,[x20, #0x48]
+001030f4 ldp x2,x3,[x20, #0x58]
+001030f8 ldr w1,[x20, #0x68]
+001030fc stp x4,x5,[x19]
+00103100 stp x8,x9,[x19, #0x10]
+00103104 stp x6,x7,[x19, #0x20]
+00103108 stp x2,x3,[x19, #0x30]
+0010310c str w1,[x19, #0x40]
+00103110 ldr w1,[x20, #0x6c]
+00103114 str w1,[x19, #0x44]
+00103118 ldrb w1,[x20, #0x71]
+0010311c strb w1,[x19, #0x48]
+00103120 bl 0x00104188
+00103124 mov w0,#0x0
+00103128 ldp x19,x20,[sp, #0x10]
+0010312c ldp x29,x30,[sp], #0x20
+00103130 ret
+00103134 mov w0,#0xffffffea
+00103138 b 0x00103128
+0010313c mov w0,#0xffffffea
+00103140 ret
+
+FUNCTION npu_linux_control_close @ 00103144
+decompiled=true
+
+void npu_linux_control_close(long param_1)
+
+{
+  if (param_1 == 0) {
+    return;
+  }
+  if ((*(byte *)(param_1 + 0x70) & 1) == 0) {
+    return;
+  }
+  mutex_lock();
+  if (*(int *)(param_1 + 0x6c) == 0) {
+    *(undefined4 *)(param_1 + 0x6c) = 0xffffff94;
+  }
+  npu_client_v2_abort(param_1 + 0x28);
+  *(undefined8 *)(param_1 + 0x20) = 0;
+  *(undefined1 *)(param_1 + 0x71) = 1;
+  mutex_unlock(param_1);
+  return;
+}
+
+
+ASSEMBLY
+00103144 cbz x0,0x001031a8
+00103148 stp x29,x30,[sp, #-0x20]!
+0010314c mov x29,sp
+00103150 str x19,[sp, #0x10]
+00103154 mov x19,x0
+00103158 ldrb w1,[x0, #0x70]
+0010315c tbnz w1,#0x0,0x0010316c
+00103160 ldr x19,[sp, #0x10]
+00103164 ldp x29,x30,[sp], #0x20
+00103168 ret
+0010316c bl 0x00104108
+00103170 ldr w0,[x19, #0x6c]
+00103174 cbnz w0,0x00103180
+00103178 mov w0,#0xffffff94
+0010317c str w0,[x19, #0x6c]
+00103180 add x0,x19,#0x28
+00103184 bl 0x00102b68
+00103188 mov w0,#0x1
+0010318c str xzr,[x19, #0x20]
+00103190 strb w0,[x19, #0x71]
+00103194 mov x0,x19
+00103198 bl 0x00104188
+0010319c ldr x19,[sp, #0x10]
+001031a0 ldp x29,x30,[sp], #0x20
+001031a4 ret
+001031a8 ret
+
+FUNCTION init_module @ 00103708
+decompiled=true
+
+void init_module(void)
+
+{
+  __platform_driver_register(&PTR_airoha_npu_probe_00103610,&__this_module);
+  return;
+}
+
+
+ASSEMBLY
+00103708 stp x29,x30,[sp, #-0x10]!
+0010370c adrp x1,0x103000
+00103710 adrp x0,0x103000
+00103714 mov x29,sp
+00103718 add x1,x1,#0xc80
+0010371c add x0,x0,#0x610
+00103720 bl 0x00104160
+00103724 ldp x29,x30,[sp], #0x10
+00103728 ret
+
+FUNCTION cleanup_module @ 00103b38
+decompiled=true
+
+void cleanup_module(void)
+
+{
+  platform_driver_unregister(&PTR_airoha_npu_probe_00103610);
+  return;
+}
+
+
+ASSEMBLY
+00103b38 stp x29,x30,[sp, #-0x10]!
+00103b3c adrp x0,0x103000
+00103b40 add x0,x0,#0x610
+00103b44 mov x29,sp
+00103b48 bl 0x00104050
+00103b4c ldp x29,x30,[sp], #0x10
+00103b50 ret
+
+total_executable_functions=48
+exported_functions=48
+failed_decompilations=0

@@ -1,0 +1,23 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "wrapper_prefix": "static int airoha_npu_wlan_init_session(struct airoha_npu *npu)\n{\n\tstruct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);\n\tu64 nonce = 0;\n\tint err, attempt;\n\n\tif (!priv->checked_pair)\n\t\treturn airoha_npu_wlan_init_memory(npu);\n\n\t",
+    "exact_comparison": {
+      "airoha_npu_wlan_init_memory": true,
+      "airoha_npu_wlan_cmd_with_retry": true,
+      "airoha_npu_wlan_msg_send": true
+    },
+    "previous_scope": "Preservation of the source call path for unmarked providers, not hardware acceptance."
+  },
+  "questions": {
+    "legacy_dispatch": {
+      "type": "choice",
+      "instructions": "Does the evidence support the narrow claim that an unmarked provider delegates directly to the unchanged legacy reserved-memory initializer without creating a V2 executor?",
+      "criteria": {
+        "supported": "The first branch directly returns the unchanged legacy initializer.",
+        "contradicted": "It instead runs V2 initialization or changes the legacy initializer.",
+        "not_established": "The dispatch branch or function comparison does not establish the call path."
+      }
+    }
+  }
+}

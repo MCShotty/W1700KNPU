@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (checked boot launch and current reset map verified; physical gates open)
+Last updated: 2026-10-10 (provider-owned initial session wired; strict full setup/physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Provider-Owned Initial Held Session
+
+- The actual checked provider callback now serializes and consumes one attempt
+  before RNG/transport. DISCOVER must match the loader's boot identity before
+  the existing six reserved-memory commands. BIND/STOP and at most100 STATUS
+  polls require initial epoch1 held/parked with release/arm/ready/drain zero.
+  The last poll is checked. First failure stays sticky; successful reattach
+  returns EBUSY without a new nonce/transaction. CPU close does not retire DMA.
+- Canonical protocol/executor objects move from mt76 into `airoha_npu.ko`.
+  Source mappings, Kbuild wrapper, cumulative patches and module ownership
+  verifier agree. The legacy initializer/retry/framing functions are exactly
+  unchanged; the unmarked dispatch still directly returns that initializer.
+- Actual-C279 cases/nine mutants cover80 transaction faults,80 reply-field
+  corruptions,101 polling boundaries, preconditions/RNG and two thread cases.
+  Two real Linux-to-raw-RV32 session cases consume C-published DATA; wrong boot
+  identity stops after DISCOVER, nominal setup parks eight harts. Strict RX/
+  TXDONE remains denied. All48 packaged provider functions decompile in Ghidra.
+- Parser/publication60/eight, boot248/ten, lease13/four, probe269/three and
+  request310/nine cases/mutants pass; memory273/159, retry6,174/V2 44 regressions
+  pass. Full raw replay retains3,072 PKT/1,792 BA claims with six loader/eight
+  TXDONE controls. Sixteen assembly groups, world,63-file source replay and
+  FIT/218-package/78-module checks pass. Latest FIT SHA256:
+  `6a7dc41ebcec3070231764e8ba226cef29b7b5383ba1ed5e5b7c9cf0e639461a`.
+  CODE/DATA/core unchanged. Previous `b0400eaa...`/R1 and protected data preserved.
+- No flash, reset or router contact. CPU/wire enrollment is not independent
+  physical cold containment; backing/cache/DMA evidence, real strict callbacks,
+  other owners/workers/hot/postgate, retirement/recovery and clients stay open.
+  Evidence: `research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
 
 ## 2026-10-10 - Checked Boot Launch And Current Reset Map
 

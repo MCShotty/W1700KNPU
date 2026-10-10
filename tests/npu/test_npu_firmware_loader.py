@@ -52,13 +52,20 @@ def once(text, old, new):
     return text.replace(old, new)
 
 
+def unused_session_types(source):
+    # These focused loader/lease models do not execute or assert executor layout.
+    # The session runner compiles its real header and tests the separate path.
+    return ('#define NPU_TEST_SESSION_TYPES 1\nstruct mutex { int opaque; };\nstruct npu_linux_control { int opaque; };\n'
+            if 'struct npu_linux_control wlan_control;' in source else '')
+
+
 def fragment(source):
     constants = re.findall(r'^#define (?:NPU_(?:EN7581|AN7583)\S*|NPU_SRAM_BACKUP_SIZE|REG_NPU_LOCAL_SRAM|AIROHA_NPU_MBOX_SIZE)\s+[^\n]+',
                            source, re.M)
-    parts = constants + [extract.declaration(source, 'struct', name) for name in
+    parts = constants + [unused_session_types(source)] + [extract.declaration(source, 'struct', name) for name in
                           ('airoha_npu_fw', 'airoha_npu_soc_data', 'airoha_npu_priv')]
     if 'struct airoha_npu_dma_lifetime {' in source:
-        parts.insert(len(constants) + 2, extract.declaration(source, 'struct', 'airoha_npu_dma_lifetime'))
+        parts.insert(len(constants) + 3, extract.declaration(source, 'struct', 'airoha_npu_dma_lifetime'))
     names = list(FUNCTIONS)
     if 'static int airoha_npu_request_firmware(' in source:
         names.insert(1, 'airoha_npu_request_firmware')

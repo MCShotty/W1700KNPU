@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Provider-Owned Initial Session
+
+- The checked provider owns one executor/setup attempt under its own mutex.
+  DISCOVER must match the loader identity before the six existing commands;
+  BIND, STOP and bounded STATUS require initial epoch1 held/parked, never release
+  or arm. Failure closes CPU control with the first error; reattach cannot reset
+  it. Exposed DMA lifetime stays retained. Unmarked source dispatch is preserved.
+- Canonical client objects now link into `airoha_npu.ko`, not mt76. A small
+  translation-unit wrapper preserves the driver path/module name. The exact
+  component mapping, cumulative patches and image ownership verifier are updated.
+- Actual-C279/nine mutants, two Linux-to-raw-RV32 session cases,48-function
+  packaged-module Ghidra and full raw ownership regression pass. World,63-file
+  replay,16 assembly groups and FIT/218-package/78-module checks pass. Latest FIT
+  `6a7dc41e...`; prior `b0400eaa...`/R1 preserved. No flash or hardware contact.
+- Continue strict cold RX/TXDONE transport/callers, actual prior-user exclusion,
+  exclusive backing/coherency, other owners/hot/postgate, physical retirement/
+  recovery and clients. CPU/wire enrollment is not cold-containment proof, and
+  this held handshake does not authorize DMA cleanup/rearm. Full goal stays open.
+  Evidence: `research/checkpoints/2026-10-10-npu-provider-session/REPORT.md`.
+
 ## 2026-10-10 - Boot Launch Error Closure
 
 - Actual provider now checks14 existing boot writes, latches one launch attempt,
