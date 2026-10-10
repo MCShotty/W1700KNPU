@@ -19596,3 +19596,22 @@ Status and boundary:
   hardware change. Loader/storage, strict setup, hot lifecycle, worker/postgate,
   physical backing/coherency/drains/recovery and real clients remain unfinished.
   Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
+## 2026-10-10 - Checked Active RX Statistics Callers
+
+- Continued from main5816c6d. Routed reviewed type10/type9 statistics callers
+  through the actual checked allocator; added native clear/dispatcher/readiness
+  unwind guards and outer failure propagation with retained records/leases.
+- 60-site instruction composition passes 1,536/1,024 RX descriptors, exact
+  250-word statistics clears and full metadata predictions, 26 isolated controls
+  and six mutants. The default 50-site caller no longer takes the unchecked
+  statistics fallback. No NULL is returned to an unguarded native clear.
+- Startup passes seven allocations/18 failures/36 fallbacks/five bridge cases/
+  eight mutants; page composition passes 1,792 claims/48 controls/six mutants;
+  postgate passes 19 guards/nine mutants. Eight build-runner tests pass. Corrected
+  bound-nonce phase assumptions and fault-injection isolation before final proof.
+  Historical postgate C/assembly are paired; startup mutation scope is bounded.
+- Updated all resume/README/AGENTS records. No shared allocator/kernel/provider,
+  vendor blob, image, flash or hardware change. Strict setup/real loader, packet
+  ownership/hot lifecycle, full worker/physical drain/recovery/client gates remain.
+  Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.

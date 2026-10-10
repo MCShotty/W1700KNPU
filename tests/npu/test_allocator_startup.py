@@ -390,7 +390,8 @@ def retained_gate(path, reset_path):
 
 def mutations(path, reset_path):
     rows = []
-    source = SOURCE.read_text()
+    source, boundary, callback_source = SOURCE.read_text().partition('\nuint32_t npu_emulation_callback_lifetime(')
+    assert boundary, 'missing active-callback source boundary'
     irq_restore = '''            __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
             npu_emulation_idle();'''
     for name, old, new, mode, expected in (
@@ -407,7 +408,7 @@ def mutations(path, reset_path):
     ):
         assert source.count(old) == 1
         mutant = BUILD/(name+'.c')
-        mutant.write_text(source.replace(old, new, 1))
+        mutant.write_text(source.replace(old, new, 1) + boundary + callback_source)
         candidate, _ = build(mutant, name)
         try:
             fault_case(candidate, reset_path, mode)
@@ -456,10 +457,12 @@ def main():
         elf = ELFFile(stream)
         sections = [(s.name, s['sh_addr'], s['sh_size']) for s in elf.iter_sections()
                     if s['sh_flags'] & 2 and s['sh_size']]
-    assert [name for name, _, _ in sections] == ['.text', '.rodata']
+    assert [name for name, _, _ in sections] == ['.text', '.rodata', '.bss']
     assert sections[0][1] == 0x8404e000 and sections[0][2] > 0
     assert sections[1][1] == (sum(sections[0][1:])+3) & ~3
     assert sections[1][2] == 32 and sum(sections[1][1:]) <= 0x84050000
+    assert sections[2][1] >= sum(sections[1][1:]) and sections[2][2] == 4
+    assert sum(sections[2][1:]) <= 0x84050000
     reset_path, _ = build_reset()
     healthy = success(path, reset_path)
     original = baseline(path, reset_path)
@@ -482,7 +485,7 @@ def main():
                   healthy=healthy, original=original, failures=rows, fallback=preserved,
                   bridge=bridge, retained_gate=gate, mutants=mutants,
                   inputs_before_after=inputs,
-                  limits=['Only seven core0 startup callers and the hart7 bridge caller are selected; other native callers stay unchanged.',
+                  limits=['Seven core0 startup callers and the hart7 bridge caller retain their checked startup behavior; active RX statistics have a separate guarded-callback lane.',
                           'Core0 control availability is verified only with no active callback and installed/enabled control IRQ.',
                           'IRQ dispatch, mailbox/PLIC/lock storage and host publication remain explicit models; no physical delivery/drain proof.',
                           'No router, image, INODE-provider correction or native DESC5/6/7/8 callback.'])

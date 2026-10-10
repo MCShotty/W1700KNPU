@@ -1,5 +1,14 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Active Statistics Allocation Binding
+
+The reviewed type9/type10 native callers now use the shared checked allocator
+under a held cold callback lease. Statistics identity, native unwind and RX
+readiness guards prevent failed allocations from reaching a NULL clear or false
+outer success. The core ABI/code is unchanged; 60-site instruction composition
+and compatibility proofs are in `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+Real loader/strict setup, packet ownership and physical acceptance remain open.
+
 ## 2026-10-10 - Native Queue Publication
 
 `npu_cold_page_queue_take()` composes retained claims with snapshot verification,

@@ -7441,3 +7441,17 @@ checks pass. The FIT is unchanged. Jev checks the semantic scope separately.
 No vendor-blob patch or flash/hardware change; strict real-loader/lifecycle/
 worker/physical recovery/client gates remain open. Resume docs and READMEs are
 updated. Evidence: `research/checkpoints/2026-10-10-npu-cold-page-native/REPORT.md`.
+
+## 2026-10-10 - Guarded RX Statistics Allocation
+
+Reviewed active type9/type10 callers now use checked allocation and native
+clear/dispatcher/readiness unwind guards. Two full nominal RX rings, 26 controls
+and six mutants pass with exact statistics/descriptor/metadata checks. Late faults
+retain committed records/leases; default caller traces no unchecked statistics
+fallback. Startup, unrelated fallback, page and postgate regressions pass.
+Corrected the V2 bound-nonce phase assumption and isolated modeled lock readbacks;
+paired the historical postgate baseline and scoped startup mutants. Updated all
+resume documents and READMEs. Shared core, source lock, vendor blobs and FIT stay
+unchanged; no flash or hardware changes. Full loader/strict setup, packet lifecycle
+and physical recovery/client acceptance remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.

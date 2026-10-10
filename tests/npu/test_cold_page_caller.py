@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Trace native host statistics allocator routing in the current 50-hook boot."""
+"""Trace reviewed native statistics allocation in the current 50-hook boot."""
 import argparse
 import json
 from pathlib import Path
@@ -99,15 +99,16 @@ def main():
     assert h.get32(ADM + 4) == 1
     assert all(any(row['type'] == kind and row['caller'] == caller for row in h.getters)
                for kind, caller in ((10, '0x8400a3ae'), (9, '0x8400a39a'))), h.getters
-    assert all(any(row['type'] == kind and row['caller'] == caller for row in h.fallbacks)
-               for kind, caller in ((10, '0x8400a3ae'), (9, '0x8400a39a'))), h.fallbacks
+    assert not any(row['type'] in (9, 10) and row['caller'] in ('0x8400a3ae', '0x8400a39a')
+                   for row in h.fallbacks), h.fallbacks
     assert h.get32(0x3e901bd4) == before_count + 2
     h.check_hooks()
     assert len(h.patches) == 50
     sources = [ROOT / 'tests/npu/allocator-startup-emulation.c',
                ROOT / 'tests/npu/allocator-startup-emulation.S',
                ROOT / 'tests/npu/test_bootstrap_v2_composition.py', Path(__file__)]
-    result = dict(passed=True, unreviewed_allocator_fallback_observed=True, hooks=50,
+    result = dict(passed=True, unreviewed_allocator_fallback_observed=False,
+                  checked_statistics_allocations=True, hooks=50,
                   all_harts_parked=[h.get32(STATE + 20 + 4 * i) for i in range(8)],
                   workers=workers, getter_entries=h.getters, fallback_entries=h.fallbacks,
                   callbacks=callbacks, active_lease_retained=True,
@@ -116,12 +117,12 @@ def main():
                   inputs={str(p.relative_to(ROOT)): composition.sha(p) for p in sources},
                   binaries={str(p.relative_to(ROOT)): composition.sha(p) for p in [*paths, *parts.values()]},
                   scope='Actual current 50-hook native cold boot,explicit direct RX0/RX2 caller lease;not complete host transport.',
-                  limits=['No native helper return substitution;later statistics allocations use the original unchecked fallback.',
+                  limits=['No native helper return substitution;statistics allocations use the checked active-callback path.',
                           'All-hart parking is native-code evidence with modeled platform inputs,not physical containment.',
                           'New cold ownership core is not substituted into this native caller probe.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, hooks=50, callbacks=callbacks, allocator_records_added=2,
-                          statistics_fallback=True, receipt=str((dest / 'result.json').relative_to(ROOT)))))
+                          statistics_fallback=False, receipt=str((dest / 'result.json').relative_to(ROOT)))))
 
 
 if __name__ == '__main__':

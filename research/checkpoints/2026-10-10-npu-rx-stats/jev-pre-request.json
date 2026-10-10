@@ -1,0 +1,54 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "callers": [
+      {
+        "selector": 0,
+        "type": 10,
+        "return_pc": "0x8400a3ae",
+        "bytes": 1000,
+        "active_lease": 1
+      },
+      {
+        "selector": 2,
+        "type": 9,
+        "return_pc": "0x8400a39a",
+        "bytes": 1000,
+        "active_lease": 1
+      }
+    ],
+    "existing_binding": "Reviewed startup whitelist excludes both statistics return PCs. Its startup lifetime rejects any active callback and faults by nonreturning hold. Unlisted callers replay original unchecked getter.",
+    "native_continuation": "Both statistics return sites publish a0 to a statistics slot and clear 250 32-bit words starting at a0. No NULL test is present. Dispatcher then enters the RX initializer. Native RX helper returns 1 on failure but the original outer wrapper always returns 1.",
+    "desired_contract": "Reviewed coordinator first-epoch parked-worker callbacks hold the active lease. Use the actual checked allocator; retain a committed record after a late fault. Stop before statistics clear or RX descriptor/ready writes on failure, report outer failure, and keep the failed lease/storage retained. Do not open strict setup or claim hardware containment."
+  },
+  "questions": {
+    "caller_lane": {
+      "type": "choice",
+      "instructions": "Which described lifetime lane applies to callers, given their active_lease and native_continuation?",
+      "criteria": {
+        "active_cold_callback": "Coordinator cold initialization inside an active callback lease.",
+        "idle_startup": "Pre-callback startup with no active lease.",
+        "hot_traffic": "Unrestricted running traffic processing.",
+        "unknown": "The evidence does not identify the lane."
+      }
+    },
+    "null_safe": {
+      "type": "noul",
+      "instructions": "Would returning NULL alone safely stop native_continuation before memory writes?"
+    },
+    "required_boundary": {
+      "type": "choice",
+      "instructions": "Which boundary is needed to meet desired_contract after an allocator failure?",
+      "criteria": {
+        "native_unwind": "Guard and unwind the statistics/dispatcher continuation before its clear, descriptor and readiness writes, and propagate outer failure.",
+        "native_resume": "Resume the unmodified statistics clear with a NULL result.",
+        "release_retry": "Release the retained allocation and retry initialization.",
+        "not_established": "The stated contract does not identify a failure boundary."
+      }
+    },
+    "retained_commit": {
+      "type": "noul",
+      "instructions": "Does desired_contract require keeping a newly committed allocator record when a late fault closes the lifetime?"
+    }
+  }
+}

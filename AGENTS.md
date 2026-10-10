@@ -1,5 +1,18 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Checked RX Statistics
+
+- RX0/type10 and RX2/type9 now use the actual checked allocator in the held
+  cold callback context, including an already-bound V2 coordinator nonce.
+  Guarded native clear/dispatcher/readiness and outer failure propagation pass
+  in 60-site composition: 2,560 descriptors, 26 controls and six mutants.
+- Allocation metadata and exact 1,000-byte clears/descriptor bytes are verified;
+  late faults retain committed records and leases. Startup/page/postgate and
+  unrelated-getter regressions pass. No shared core/kernel/image or hardware change.
+- Strict setup, real loader, packet-ID ownership/hot lifecycle and physical
+  drain/recovery/client acceptance remain open. Evidence:
+  `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
 ## 2026-10-10 - Native Cold Page Composition
 
 - The shared core now validates/publishes a native queue snapshot while retaining

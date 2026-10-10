@@ -1,0 +1,75 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-stats-20261010\\jev-pre-request.json",
+  "request_sha256": "fb78f356c918f847156e5359a3f69415fee871bdc94be2e0ef61046f2fe58660",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "caller_lane": {
+      "type": "choice",
+      "instructions": "Which described lifetime lane applies to callers, given their active_lease and native_continuation?",
+      "criteria": {
+        "active_cold_callback": "Coordinator cold initialization inside an active callback lease.",
+        "idle_startup": "Pre-callback startup with no active lease.",
+        "hot_traffic": "Unrestricted running traffic processing.",
+        "unknown": "The evidence does not identify the lane."
+      }
+    },
+    "null_safe": {
+      "type": "noul",
+      "instructions": "Would returning NULL alone safely stop native_continuation before memory writes?"
+    },
+    "required_boundary": {
+      "type": "choice",
+      "instructions": "Which boundary is needed to meet desired_contract after an allocator failure?",
+      "criteria": {
+        "native_unwind": "Guard and unwind the statistics/dispatcher continuation before its clear, descriptor and readiness writes, and propagate outer failure.",
+        "native_resume": "Resume the unmodified statistics clear with a NULL result.",
+        "release_retry": "Release the retained allocation and retry initialization.",
+        "not_established": "The stated contract does not identify a failure boundary."
+      }
+    },
+    "retained_commit": {
+      "type": "noul",
+      "instructions": "Does desired_contract require keeping a newly committed allocator record when a late fault closes the lifetime?"
+    }
+  },
+  "elapsed_ms": 1038,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "caller_lane": {
+        "type": "choice",
+        "choice": "active_cold_callback",
+        "confidence": 0.95,
+        "probabilities": {
+          "active_cold_callback": 0.96,
+          "idle_startup": 0.01,
+          "hot_traffic": 0.01,
+          "unknown": 0.02
+        }
+      },
+      "null_safe": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "required_boundary": {
+        "type": "choice",
+        "choice": "native_unwind",
+        "confidence": 1.0,
+        "probabilities": {
+          "native_unwind": 1.0,
+          "native_resume": 0.0,
+          "release_retry": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "retained_commit": {
+        "type": "noul",
+        "noul": 0.93
+      }
+    },
+    "usage": {
+      "input_tokens": 848,
+      "output_tokens": 146
+    }
+  }
+}

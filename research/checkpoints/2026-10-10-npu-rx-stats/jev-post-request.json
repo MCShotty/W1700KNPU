@@ -1,0 +1,520 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "allocator_binding": "/* Reviewed first-epoch native binding. Physical containment remains a platform\n * contract; an active statistics callback requires installed unwind guards. */\n#include \"allocator.h\"\n#include \"admission.h\"\n#include \"bootstrap.h\"\n\nextern struct npu_barrier npu_emulation_barrier_state;\nextern struct npu_admission npu_emulation_admission_state;\nextern struct npu_bootstrap npu_emulation_bootstrap_state;\nextern void npu_emulation_mailbox(uint32_t source);\nextern void npu_emulation_idle(void) __attribute__((noreturn));\n\n#define BARRIER (&npu_emulation_barrier_state)\n#define ADMISSION (&npu_emulation_admission_state)\n#define BOOTSTRAP (&npu_emulation_bootstrap_state)\n\nuint32_t npu_emulation_callback_guarded;\n\ntypedef uint32_t (*native_hart_id)(void);\ntypedef int (*native_lock)(uint32_t *lock_id);\n\n#ifdef NPU_EMULATION_COMMAND_RING\n__attribute__((section(\".command_ring\")))\nuint32_t npu_emulation_command_ring[0x8010 / sizeof(uint32_t)] = {0xfe};\n\nstatic const struct npu_allocator_entry placements[] = {\n    {0x19, 0, NPU_EMULATION_COMMAND_RING},\n};\n#endif\n\nstatic const struct npu_allocator_layout layout = {\n    .base = 0x3e800000u,\n    .bytes = 0x78000u,\n    .tables = {\n        (const struct npu_allocator_definition *)(uintptr_t)0x8401b224u,\n        (const struct npu_allocator_definition *)(uintptr_t)0x8401cfc8u,\n    },\n    .lengths = {6, 18},\n#ifdef NPU_EMULATION_COMMAND_RING\n    .placements = placements,\n    .placement_count = sizeof(placements) / sizeof(placements[0]),\n#endif\n};\n\nstatic uint32_t load(const uint32_t *word)\n{\n    return __atomic_load_n(word, __ATOMIC_ACQUIRE);\n}\n\nstatic uint32_t expected_type(uint32_t hart, uint32_t caller)\n{\n    if (hart == 7)\n        return caller == 0x8400148au ? 0x81u : UINT32_MAX;\n    if (hart)\n        return UINT32_MAX;\n    switch (caller) {\n    case 0x84005a34u: return 0x89u;\n    case 0x84004ecau: return 0x8au;\n    case 0x84004eeeu: return 0x12u;\n    case 0x84004f2cu: return 0x1du;\n    case 0x8400b932u: return 1u;\n    case 0x8400a376u: return 0x0bu;\n    case 0x8400bab8u: return 0x19u;\n    default: return UINT32_MAX;\n    }\n}\n\nstatic int acquire(void *context)\n{\n    struct npu_allocator_state *state = context;\n\n    if (state->lock_id != 18)\n        return -1;\n    return ((native_lock)(uintptr_t)0x840064b4u)(&state->lock_id);\n}\n\nstatic void release(void *context)\n{\n    struct npu_allocator_state *state = context;\n\n    ((native_lock)(uintptr_t)0x8400651cu)(&state->lock_id);\n}\n\nstatic int control_available(uint32_t hart, uint32_t status)\n{\n    uint32_t mie;\n\n    __asm__ volatile (\"csrr %0, mie\" : \"=r\"(mie));\n    return !hart && (status & 8) && (mie & 0x800) && !ADMISSION->active &&\n           *(const volatile uint32_t *)(uintptr_t)0x3e901870u ==\n               (uint32_t)(uintptr_t)npu_emulation_mailbox &&\n           (*(const volatile uint32_t *)(uintptr_t)0x0c002000u & (1u << 9));\n}\n\n__attribute__((noreturn, noinline)) static void fail(uint32_t hart, uint32_t status,\n                                                    int service)\n{\n    __asm__ volatile (\"fence iorw, iorw\" ::: \"memory\");\n    if (!hart) {\n        npu_admission_fail(ADMISSION, BARRIER);\n        if (service) {\n            __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n            npu_emulation_idle();\n        }\n    } else {\n        npu_barrier_fail(BARRIER);\n    }\n    for (;;) {\n        __asm__ volatile (\".global npu_emulation_allocator_startup_hold\\n\"\n                          \"npu_emulation_allocator_startup_hold:\\n nop\" ::: \"memory\");\n    }\n}\n\nstatic int startup_lifetime(uint32_t hart)\n{\n    if (load(&BARRIER->fault) || load(&BARRIER->request) != 1)\n        return 0;\n    if (ADMISSION->closed != 1 || ADMISSION->active || ADMISSION->fault ||\n        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight)\n        return 0;\n    if (!load(&BARRIER->prepared) && !load(&BARRIER->released) &&\n        !load(&BARRIER->armed) && !load(&BARRIER->parked[hart]))\n        return 1;\n    /* Hart7 calls the bridge initializer after its initial worker gate. Other\n     * cold callers remain pre-gate; no later recovery epoch may allocate here.\n     * Admission stays closed until this first-boot initialization is complete.\n     */\n    return hart == 7 && load(&BARRIER->prepared) == 1 &&\n           load(&BARRIER->released) == 1 && load(&BARRIER->armed) == 1 &&\n           load(&BARRIER->parked[7]) == 1 && load(&BARRIER->ready[7]) == 1 &&\n           BOOTSTRAP->step == NPU_BOOTSTRAP_STEPS && BOOTSTRAP->retained_mask == 0x1e &&\n           load(&BARRIER->request) == 1;\n}\n\nuint32_t npu_emulation_startup_allocate(uint32_t type, uint32_t caller)\n{\n    struct npu_allocator_state *state = (void *)(uintptr_t)0x3e901bccu;\n    const struct npu_allocator_lock lock = {state, acquire, release};\n    struct npu_allocator_result result;\n    uint32_t status, hart;\n    int service;\n\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    hart = ((native_hart_id)(uintptr_t)0x84004212u)();\n    service = control_available(hart, status);\n    if (type >= NPU_ALLOCATOR_TYPES || expected_type(hart, caller) != type ||\n        !startup_lifetime(hart) ||\n        (!hart && !service))\n        fail(hart, status, service);\n    result = npu_allocator_allocate(state, &layout, &lock, type, type < 0x81);\n    if (result.status != NPU_ALLOCATOR_OK || !startup_lifetime(hart))\n        fail(hart, status, service);\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result.address;\n}\n\nuint32_t npu_emulation_callback_lifetime(void)\n{\n    uint32_t i;\n\n    if (((native_hart_id)(uintptr_t)0x84004212u)() ||\n        load(&BARRIER->request) != 1 || load(&BARRIER->fault) ||\n        load(&BARRIER->prepared) || load(&BARRIER->released) || load(&BARRIER->armed) ||\n        ADMISSION->closed != 1 || ADMISSION->active != 1 || ADMISSION->fault ||\n        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight ||\n        BOOTSTRAP->step != NPU_BOOTSTRAP_STEPS || BOOTSTRAP->retained_mask != 0x1e)\n        return 0;\n    for (i = 0; i < NPU_BARRIER_WORKERS; i++)\n        if (load(&BARRIER->parked[i]) != 1 || load(&BARRIER->ready[i]))\n            return 0;\n    return 1;\n}\n\nuint32_t npu_emulation_callback_allocate(uint32_t type, uint32_t caller)\n{\n    struct npu_allocator_state *state = (void *)(uintptr_t)0x3e901bccu;\n    const struct npu_allocator_lock lock = {state, acquire, release};\n    struct npu_allocator_result result;\n    uint32_t status, hart;\n\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    hart = ((native_hart_id)(uintptr_t)0x84004212u)();\n    if ((status & 8) || !npu_emulation_callback_lifetime() ||\n        !((type == 10 && caller == 0x8400a3aeu) || (type == 9 && caller == 0x8400a39au)))\n        goto fault;\n    result = npu_allocator_allocate(state, &layout, &lock, type, 1);\n    if (result.status != NPU_ALLOCATOR_OK || !npu_emulation_callback_lifetime())\n        goto fault;\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result.address;\nfault:\n    /* NULL may return only to the installed guarded statistics initializer.\n     * Otherwise stop here: the original native continuation clears through a0.\n     * Already committed metadata remains owned in both failure paths. */\n    if (!npu_emulation_callback_guarded)\n        fail(hart, 0, 0);\n    if (!hart)\n        npu_admission_fail(ADMISSION, BARRIER);\n    else\n        npu_barrier_fail(BARRIER);\n    return 0;\n}\n",
+    "rx_binding": "/* Guarded original RX statistics/initializer composition; no physical proof. */\n#include \"allocator.h\"\n#include \"bootstrap.h\"\n\nextern uint32_t npu_emulation_callback_guarded;\nextern uint32_t npu_emulation_callback_lifetime(void);\nextern struct npu_barrier npu_emulation_barrier_state;\nextern struct npu_admission npu_emulation_admission_state;\nextern uint32_t npu_emulation_page_callback(const struct npu_bootstrap_packet *);\nextern uint32_t npu_original_rx_dispatch(uint32_t count, uint32_t selector);\n\nstatic uint32_t word(uint32_t address)\n{\n    return *(const volatile uint32_t *)(uintptr_t)address;\n}\n\nstatic void fail(void)\n{\n    npu_admission_fail(&npu_emulation_admission_state, &npu_emulation_barrier_state);\n}\n\nuint32_t npu_emulation_rx_stats_valid(uint32_t address, uint32_t type)\n{\n    const struct npu_allocator_state *state = (const void *)(uintptr_t)0x3e901bccu;\n    uint32_t i;\n\n    if (!npu_emulation_callback_lifetime() || (type != 9 && type != 10) ||\n        !address || (address & 31) || address < 0x3e800000u ||\n        address > 0x3e878000u - 1000 || state->count > NPU_ALLOCATOR_ENTRIES)\n        goto fault;\n    for (i = 0; i < state->count; i++)\n        if (state->entries[i].type == type && !state->entries[i].reserved &&\n            state->entries[i].address == address)\n            return 1;\nfault:\n    fail();\n    return 0;\n}\n\nuint32_t npu_emulation_rx_dispatch_live(uint32_t selector)\n{\n    uint32_t type = selector ? 9 : 10;\n\n    return npu_emulation_rx_stats_valid(word(selector ? 0x3e901f18u : 0x3e901f04u), type);\n}\n\nuint32_t npu_emulation_rx_stats_callback(const struct npu_bootstrap_packet *packet)\n{\n    struct npu_bootstrap_packet snapshot;\n    uint32_t selector = packet->header & 15, status, result = 0, ready;\n\n    if (selector != 0 && selector != 2)\n        return npu_emulation_page_callback(packet);\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    snapshot = *packet;\n    ready = selector ? 0x3e904588u : 0x3e902a84u;\n    if (snapshot.header != (0x10u | selector) || snapshot.api != 1 || !snapshot.value ||\n        snapshot.value > (selector ? 1024u : 1536u) || npu_emulation_callback_guarded ||\n        !npu_emulation_callback_lifetime() || word(ready)) {\n        fail();\n        goto done;\n    }\n    npu_emulation_callback_guarded = 1;\n    result = !npu_original_rx_dispatch(snapshot.value, selector);\n    if (!result || !npu_emulation_rx_dispatch_live(selector) || word(ready) != 1) {\n        fail();\n        *(volatile uint32_t *)(uintptr_t)ready = 0;\n        result = 0;\n    }\n    npu_emulation_callback_guarded = 0;\ndone:\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result;\n}\n",
+    "nominal": [
+      {
+        "selector": 0,
+        "count": 1536,
+        "mode": null,
+        "returned": 1,
+        "record_count": 8,
+        "records_before": 7,
+        "records_added": 1,
+        "statistics_address": 1048973536,
+        "clear_stores": 250,
+        "descriptor_stores": 1536,
+        "ready": 1,
+        "ready_one_stores": 1,
+        "active": 1,
+        "admission_fault": 0,
+        "barrier_fault": 0,
+        "buffer_head": 1536,
+        "guarded": 0,
+        "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": [
+          [
+            2214634372,
+            1048973536,
+            4,
+            0
+          ],
+          [
+            2214634372,
+            1048974532,
+            4,
+            0
+          ]
+        ]
+      },
+      {
+        "selector": 2,
+        "count": 1024,
+        "mode": null,
+        "returned": 1,
+        "record_count": 9,
+        "records_before": 8,
+        "records_added": 1,
+        "statistics_address": 1048974560,
+        "clear_stores": 250,
+        "descriptor_stores": 1024,
+        "ready": 1,
+        "ready_one_stores": 1,
+        "active": 1,
+        "admission_fault": 0,
+        "barrier_fault": 0,
+        "buffer_head": 2560,
+        "guarded": 0,
+        "metadata_sha256": "de7bd67dab73a39120b9e09a6e02be0215e4ec03d59673e60700b75717b944cf",
+        "checked_getter_entries": [
+          {
+            "type": 259,
+            "caller": "0x8400d44a",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 261,
+            "caller": "0x8400d46a",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 9,
+            "caller": "0x8400a39a",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 259,
+            "caller": "0x8400d44a"
+          },
+          {
+            "type": 261,
+            "caller": "0x8400d46a"
+          }
+        ],
+        "first_last_clear": [
+          [
+            2214634372,
+            1048974560,
+            4,
+            0
+          ],
+          [
+            2214634372,
+            1048975556,
+            4,
+            0
+          ]
+        ]
+      }
+    ],
+    "controls": [
+      {
+        "selector": 0,
+        "count": 32,
+        "mode": "denied",
+        "returned": 0,
+        "record_count": 7,
+        "records_before": 7,
+        "records_added": 0,
+        "statistics_address": 0,
+        "clear_stores": 0,
+        "descriptor_stores": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "active": 1,
+        "admission_fault": 1,
+        "barrier_fault": 1,
+        "buffer_head": 0,
+        "guarded": 0,
+        "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": []
+      },
+      {
+        "selector": 0,
+        "count": 32,
+        "mode": "release-fault",
+        "returned": 0,
+        "record_count": 8,
+        "records_before": 7,
+        "records_added": 1,
+        "statistics_address": 0,
+        "clear_stores": 0,
+        "descriptor_stores": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "active": 1,
+        "admission_fault": 1,
+        "barrier_fault": 1,
+        "buffer_head": 0,
+        "guarded": 0,
+        "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": []
+      },
+      {
+        "selector": 0,
+        "count": 32,
+        "mode": "during-clear",
+        "returned": 0,
+        "record_count": 8,
+        "records_before": 7,
+        "records_added": 1,
+        "statistics_address": 1048973536,
+        "clear_stores": 250,
+        "descriptor_stores": 0,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "active": 1,
+        "admission_fault": 1,
+        "barrier_fault": 1,
+        "buffer_head": 0,
+        "guarded": 0,
+        "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": [
+          [
+            2214634372,
+            1048973536,
+            4,
+            0
+          ],
+          [
+            2214634372,
+            1048974532,
+            4,
+            0
+          ]
+        ]
+      },
+      {
+        "selector": 0,
+        "count": 32,
+        "mode": "before-ready",
+        "returned": 0,
+        "record_count": 8,
+        "records_before": 7,
+        "records_added": 1,
+        "statistics_address": 1048973536,
+        "clear_stores": 250,
+        "descriptor_stores": 32,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "active": 1,
+        "admission_fault": 1,
+        "barrier_fault": 1,
+        "buffer_head": 32,
+        "guarded": 0,
+        "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": [
+          [
+            2214634372,
+            1048973536,
+            4,
+            0
+          ],
+          [
+            2214634372,
+            1048974532,
+            4,
+            0
+          ]
+        ]
+      },
+      {
+        "selector": 0,
+        "count": 32,
+        "mode": "partial-pool",
+        "returned": 0,
+        "record_count": 8,
+        "records_before": 7,
+        "records_added": 1,
+        "statistics_address": 1048973536,
+        "clear_stores": 250,
+        "descriptor_stores": 17,
+        "ready": 0,
+        "ready_one_stores": 0,
+        "active": 1,
+        "admission_fault": 1,
+        "barrier_fault": 1,
+        "buffer_head": 17,
+        "guarded": 0,
+        "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+        "checked_getter_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4",
+            "mstatus": 0,
+            "active": 1
+          },
+          {
+            "type": 10,
+            "caller": "0x8400a3ae",
+            "mstatus": 0,
+            "active": 1
+          }
+        ],
+        "unchecked_fallback_entries": [
+          {
+            "type": 258,
+            "caller": "0x8400d3c4"
+          },
+          {
+            "type": 260,
+            "caller": "0x8400d3e4"
+          }
+        ],
+        "first_last_clear": [
+          [
+            2214634372,
+            1048973536,
+            4,
+            0
+          ],
+          [
+            2214634372,
+            1048974532,
+            4,
+            0
+          ]
+        ]
+      }
+    ],
+    "mutants": [
+      {
+        "name": "omit-statistics-unwind",
+        "rejected_by": "native-null-clear"
+      },
+      {
+        "name": "omit-dispatcher-lifetime-guard",
+        "rejected_by": "native-writes"
+      },
+      {
+        "name": "omit-ready-lifetime-guard",
+        "rejected_by": "ready-status"
+      },
+      {
+        "name": "always-success-wrapper",
+        "rejected_by": "outer-status"
+      },
+      {
+        "name": "omit-allocation-identity",
+        "rejected_by": "outer-status"
+      },
+      {
+        "name": "omit-count-limit",
+        "rejected_by": "outer-status"
+      }
+    ],
+    "limits": [
+      "Original statistics clear and RX initializer instructions with checked active allocation and unwind/readiness guards.",
+      "Explicit held direct callback lease and modeled storage/parked workers;strict full setup remains closed.",
+      "Packet-ID exclusive ownership,hot lifecycle,physical backing/coherency/drains and client acceptance remain open."
+    ],
+    "strict_denial": {
+      "flags": 3,
+      "words": [
+        16,
+        1,
+        1536
+      ],
+      "callbacks": [],
+      "reads": [
+        {
+          "offset": 0,
+          "size": 4
+        },
+        {
+          "offset": 4,
+          "size": 4
+        },
+        {
+          "offset": 8,
+          "size": 4
+        }
+      ]
+    }
+  },
+  "questions": {
+    "allocation_route": {
+      "type": "choice",
+      "instructions": "For nominal RX0/RX2 statistics calls at 0x8400a3ae and 0x8400a39a, which allocation route do allocator_binding and nominal establish? Ignore unrelated fixed-table lookups.",
+      "criteria": {
+        "checked_active": "Reviewed active-callback use of the actual checked allocator.",
+        "original_unchecked": "Original unchecked dynamic allocation fallback.",
+        "unknown": "The supplied code/receipts do not establish the route."
+      }
+    },
+    "retained_late_record": {
+      "type": "noul",
+      "instructions": "Do release-fault entries in controls retain the newly committed statistics allocation record while producing no native statistics clear, RX descriptors or readiness?"
+    },
+    "mid_clear_boundary": {
+      "type": "noul",
+      "instructions": "Does during-clear in controls complete writes only to the retained statistics allocation and stop before any RX descriptor or readiness publication?"
+    },
+    "null_unwind": {
+      "type": "noul",
+      "instructions": "Do rx_binding and mutants demonstrate that returning a failed allocation to an unguarded native clear is unsafe and that the installed unwind guards stop that continuation?"
+    },
+    "proof_scope": {
+      "type": "choice",
+      "instructions": "Which completion scope is supported by limits, strict_denial, code and receipts?",
+      "criteria": {
+        "native_stats_composition": "Checked statistics allocation and guarded original RX initializer composition in native instruction emulation.",
+        "full_strict_setup": "Complete strict host setup and production loader wiring.",
+        "physical_npu_complete": "Full physical NPU ownership/drain/hot-lifecycle/client acceptance.",
+        "not_established": "Even the bounded native statistics composition is not established."
+      }
+    }
+  }
+}

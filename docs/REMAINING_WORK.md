@@ -1,5 +1,17 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - RX Statistics Prerequisite
+
+The previously unchecked RX0/type10 and RX2/type9 statistics calls are now
+checked in native instruction composition, with allocation-identity, clear/
+dispatcher/readiness guards and proper outer failure. Two nominal rings,
+26 controls/six mutants and startup/page/postgate regressions pass; late faults
+retain records/leases. This closes that selected native-emulation prerequisite,
+not the full strict setup lane or real firmware loader. Packet-ID exclusive
+ownership, hot lifecycle, worker/postgate consumers and physical drains/recovery/
+clients remain required. No flash or shared core/kernel/image change.
+Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
 ## 2026-10-10 - Native Page Caller Progress
 
 Checked DESC5/6/7 instruction composition now retains page claims, verifies and

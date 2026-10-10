@@ -345,8 +345,12 @@ def baseline(h, saved, dest, parts, command):
     source = dest / 'baseline-allocator.c'
     source.write_bytes(subprocess.check_output([
         'git', '-C', ROOT, 'show', 'eb31bae:tests/npu/allocator-startup-emulation.c']))
+    assembly = source.with_suffix('.S')
+    assembly.write_bytes(subprocess.check_output([
+        'git', '-C', ROOT, 'show', 'eb31bae:tests/npu/allocator-startup-emulation.S']))
     binary = source.with_suffix('.elf')
-    args = [str(source) if x == str(composition.allocator.SOURCE) else x for x in command]
+    args = [str(source) if x == str(composition.allocator.SOURCE) else
+            str(assembly) if x == str(composition.allocator.ASM) else x for x in command]
     args[args.index('-o') + 1] = str(binary)
     composition.execute(args)
     composition.check_imports(binary, parts['base'])
@@ -360,7 +364,8 @@ def baseline(h, saved, dest, parts, command):
     assert row['outcome'] == 'fault-hold' and row['fault'] == 1
     assert composition.allocator.state(h) == before and h.get32(SRAM + 0x184c) == 0
     assert not any(BRIDGE <= int(event['address'], 16) < BRIDGE + 0x1000 for event in h.mmio)
-    row.update(source_sha256=composition.sha(source), elf_sha256=composition.sha(binary),
+    row.update(source_sha256=composition.sha(source), assembly_sha256=composition.sha(assembly),
+               elf_sha256=composition.sha(binary),
                allocation_unchanged=True, bridge_unpublished=True)
     h.restore(saved)
     h.allocator_rv = Rv32(parts['allocator'], h.cpu)

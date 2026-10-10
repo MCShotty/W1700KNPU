@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Checked RX Statistics Callers
+
+Original RX0/RX2 statistics allocation now uses the checked active-callback
+path in native instruction composition. Guards stop failed statistics clears,
+RX initialization and readiness while retaining resources. Two nominal rings,
+26 controls/six mutants and startup/page/postgate regressions pass. No vendor
+blob, loader or physical acceptance is implied. Details and next gates:
+`research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
 ## 2026-10-10 - Native Page Ownership Composition
 
 The shared ownership core now publishes validated native queue heads. Checked

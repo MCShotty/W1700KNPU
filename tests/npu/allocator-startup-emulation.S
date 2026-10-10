@@ -4,6 +4,10 @@
     .global npu_emulation_allocator_startup_dispatch
     .type npu_emulation_allocator_startup_dispatch, @function
 npu_emulation_allocator_startup_dispatch:
+    li a4, 0x8400a3ae
+    beq ra, a4, .Lcallback
+    li a4, 0x8400a39a
+    beq ra, a4, .Lcallback
     .macro caller address
     li a4, \address
     beq ra, a4, .Lchecked
@@ -22,4 +26,7 @@ npu_emulation_allocator_startup_dispatch:
 .Lchecked:
     mv a1, ra
     j npu_emulation_startup_allocate
+.Lcallback:
+    mv a1, ra
+    j npu_emulation_callback_allocate
     .size npu_emulation_allocator_startup_dispatch, .-npu_emulation_allocator_startup_dispatch

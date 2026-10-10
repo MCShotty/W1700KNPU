@@ -1,0 +1,1507 @@
+{
+  "passed": true,
+  "hooks": 60,
+  "nominal": [
+    {
+      "selector": 0,
+      "count": 1536,
+      "mode": null,
+      "returned": 1,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 1536,
+      "ready": 1,
+      "ready_one_stores": 1,
+      "active": 1,
+      "admission_fault": 0,
+      "barrier_fault": 0,
+      "buffer_head": 1536,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 1024,
+      "mode": null,
+      "returned": 1,
+      "record_count": 9,
+      "records_before": 8,
+      "records_added": 1,
+      "statistics_address": 1048974560,
+      "clear_stores": 250,
+      "descriptor_stores": 1024,
+      "ready": 1,
+      "ready_one_stores": 1,
+      "active": 1,
+      "admission_fault": 0,
+      "barrier_fault": 0,
+      "buffer_head": 2560,
+      "guarded": 0,
+      "metadata_sha256": "de7bd67dab73a39120b9e09a6e02be0215e4ec03d59673e60700b75717b944cf",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048974560,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048975556,
+          4,
+          0
+        ]
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "denied",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "corrupt-count",
+      "returned": 0,
+      "record_count": 101,
+      "records_before": 7,
+      "records_added": 94,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "d6dc5c039a90677f22dcbca696a6989146865a9be021411e054bcd68eee3a131",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "bad-lock",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5f70aebb7788f301545ab77e660dad80fc3c38bb58bf782b5a537d398ed5a74f",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "wrong-type",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 8,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "epoch-at-getter",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "release-fault",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "before-clear",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "during-clear",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "before-ready",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 32,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 32,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "partial-pool",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 17,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 17,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 0,
+      "count": 32,
+      "mode": "corrupt-result",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "cad254439de618baa51933795f99adb29a7ccecd4e5754d53ed858718a55230d",
+      "checked_getter_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 10,
+          "caller": "0x8400a3ae",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 258,
+          "caller": "0x8400d3c4"
+        },
+        {
+          "type": 260,
+          "caller": "0x8400d3e4"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 0,
+      "mode": "zero-count",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [],
+      "unchecked_fallback_entries": [],
+      "first_last_clear": []
+    },
+    {
+      "selector": 0,
+      "count": 1537,
+      "mode": "oversize-count",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [],
+      "unchecked_fallback_entries": [],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "denied",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "corrupt-count",
+      "returned": 0,
+      "record_count": 101,
+      "records_before": 7,
+      "records_added": 94,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "d6dc5c039a90677f22dcbca696a6989146865a9be021411e054bcd68eee3a131",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "bad-lock",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5f70aebb7788f301545ab77e660dad80fc3c38bb58bf782b5a537d398ed5a74f",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "wrong-type",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 8,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "epoch-at-getter",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "release-fault",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "before-clear",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "during-clear",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "before-ready",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 32,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 32,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "partial-pool",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 1048973536,
+      "clear_stores": 250,
+      "descriptor_stores": 17,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 17,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": [
+        [
+          2214634372,
+          1048973536,
+          4,
+          0
+        ],
+        [
+          2214634372,
+          1048974532,
+          4,
+          0
+        ]
+      ]
+    },
+    {
+      "selector": 2,
+      "count": 32,
+      "mode": "corrupt-result",
+      "returned": 0,
+      "record_count": 8,
+      "records_before": 7,
+      "records_added": 1,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "8b4d25f4a02a39ee242abf647df581534b123e4f3ef1d8f715683dc4ef648f21",
+      "checked_getter_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a",
+          "mstatus": 0,
+          "active": 1
+        },
+        {
+          "type": 9,
+          "caller": "0x8400a39a",
+          "mstatus": 0,
+          "active": 1
+        }
+      ],
+      "unchecked_fallback_entries": [
+        {
+          "type": 259,
+          "caller": "0x8400d44a"
+        },
+        {
+          "type": 261,
+          "caller": "0x8400d46a"
+        }
+      ],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 0,
+      "mode": "zero-count",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [],
+      "unchecked_fallback_entries": [],
+      "first_last_clear": []
+    },
+    {
+      "selector": 2,
+      "count": 1025,
+      "mode": "oversize-count",
+      "returned": 0,
+      "record_count": 7,
+      "records_before": 7,
+      "records_added": 0,
+      "statistics_address": 0,
+      "clear_stores": 0,
+      "descriptor_stores": 0,
+      "ready": 0,
+      "ready_one_stores": 0,
+      "active": 1,
+      "admission_fault": 1,
+      "barrier_fault": 1,
+      "buffer_head": 0,
+      "guarded": 0,
+      "metadata_sha256": "5ca973707b621a3c59a4b0874c14d9193804342407f59ce5ec59a1b4f72b563c",
+      "checked_getter_entries": [],
+      "unchecked_fallback_entries": [],
+      "first_last_clear": []
+    }
+  ],
+  "rejected_mutants": [
+    {
+      "name": "omit-statistics-unwind",
+      "rejected_by": "native-null-clear"
+    },
+    {
+      "name": "omit-dispatcher-lifetime-guard",
+      "rejected_by": "native-writes"
+    },
+    {
+      "name": "omit-ready-lifetime-guard",
+      "rejected_by": "ready-status"
+    },
+    {
+      "name": "always-success-wrapper",
+      "rejected_by": "outer-status"
+    },
+    {
+      "name": "omit-allocation-identity",
+      "rejected_by": "outer-status"
+    },
+    {
+      "name": "omit-count-limit",
+      "rejected_by": "outer-status"
+    }
+  ],
+  "strict_denial": {
+    "flags": 3,
+    "words": [
+      16,
+      1,
+      1536
+    ],
+    "callbacks": [],
+    "reads": [
+      {
+        "offset": 0,
+        "size": 4
+      },
+      {
+        "offset": 4,
+        "size": 4
+      },
+      {
+        "offset": 8,
+        "size": 4
+      }
+    ]
+  },
+  "inputs": {
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "tests/npu/allocator-startup-emulation.c": "f335907de92bf71df0cb7454be42c8834bc32a6f797215cd5087b967311f15f7",
+    "tests/npu/allocator-startup-emulation.S": "60241564eba40309c079be36fda0bd8f82b6c3444691189d5c4ae68579247e7f",
+    "tests/npu/rx-stats-emulation.c": "989f90cdb8a6c0bf0dd737668fb738d3a60015e3c7ee592f0092e9457361157b",
+    "tests/npu/rx-stats-emulation.S": "f5e1d675cc2b5103643fe3cfaede6307d061475f6e8ad07fb868f7146d09f18f",
+    "tests/npu/rx-stats-emulation.ld": "c09ac6c27bf89a649e972d7d28957067c7e65e329247a984d609b4d8c4f9c920",
+    "tests/npu/test_rx_stats.py": "c44fac42f5433374c7041c910a2283e86f8d480b9ecc24a2c41b1d93bc540f02"
+  },
+  "binaries": {
+    ".local/npu-bootstrap-v2-composition/control.so": "30ccc8d8060b449a868ade57c18f3cf594eeeeb4b7cba2b8308350bb7c9fab6f",
+    ".local/npu-bootstrap-v2-composition/host-arm.elf": "05ea4a7480ddb652224dadfe8e892b7ed29a55405eda493e5f0dc2707f2323fc",
+    ".local/npu-bootstrap-v2-composition/base-rv.elf": "ec5a63e8a8ea6b43836f4cd813a49a7f2e53c093f52eb06204e326ebdb01024b",
+    ".local/npu-bootstrap-v2-composition/bridge.elf": "7441b1130eef7fb6ddf93c0d12bf517a640ad19fafc0e92500cd07ca2e9d485a",
+    ".local/npu-bootstrap-v2-composition/reset.elf": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b",
+    ".local/npu-bootstrap-v2-composition/allocator.elf": "d0f7bbb522c099fd45f2bb9277035455f01c7acd793ece58507b5d6558ceeb08",
+    ".local/npu-bootstrap-v2-composition/txdone.elf": "3d6bcb6a71435f0048ffcd5060c9e88bae6e4b6646c35309a5e558d8d138a205",
+    ".local/npu-bootstrap-v2-composition/order.elf": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7",
+    ".local/npu-bootstrap-v2-composition/headers.elf": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3",
+    ".local/npu-bootstrap-v2-composition/egress.elf": "2a519b6b1b372cd63a4a7406440fe3f0d59a0ee06db2829b563f228f456f3ac2",
+    ".local/npu-bootstrap-v2-composition/packets.elf": "bc2529ac4f03c5dcda4ecf8936dab05b318eebed341e7c0062cfa5d44cc5e2a6",
+    ".local/npu-rx-stats-20261010/final-extents-20261010/page-component/native-page.elf": "6f17f8a6243b8e17c3bfb6a7567c600f877f17c0f5c05f7a88b139900f02fbf4",
+    ".local/npu-rx-stats-20261010/final-extents-20261010/rx-stats.elf": "f77e4db60cafcd17cd16d5c5bd02af1c89db674368f842e3cb1abdfed47564eb"
+  },
+  "limits": [
+    "Original statistics clear and RX initializer instructions with checked active allocation and unwind/readiness guards.",
+    "Explicit held direct callback lease and modeled storage/parked workers;strict full setup remains closed.",
+    "Packet-ID exclusive ownership,hot lifecycle,physical backing/coherency/drains and client acceptance remain open."
+  ]
+}

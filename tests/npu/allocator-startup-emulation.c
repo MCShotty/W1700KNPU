@@ -1,5 +1,5 @@
-/* Unpromoted cold-start binding. Active callback failure handling and physical
- * containment are separate contracts, not supplied by the coordinator idle. */
+/* Reviewed first-epoch native binding. Physical containment remains a platform
+ * contract; an active statistics callback requires installed unwind guards. */
 #include "allocator.h"
 #include "admission.h"
 #include "bootstrap.h"
@@ -13,6 +13,8 @@ extern void npu_emulation_idle(void) __attribute__((noreturn));
 #define BARRIER (&npu_emulation_barrier_state)
 #define ADMISSION (&npu_emulation_admission_state)
 #define BOOTSTRAP (&npu_emulation_bootstrap_state)
+
+uint32_t npu_emulation_callback_guarded;
 
 typedef uint32_t (*native_hart_id)(void);
 typedef int (*native_lock)(uint32_t *lock_id);
@@ -150,4 +152,51 @@ uint32_t npu_emulation_startup_allocate(uint32_t type, uint32_t caller)
         fail(hart, status, service);
     __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
     return result.address;
+}
+
+uint32_t npu_emulation_callback_lifetime(void)
+{
+    uint32_t i;
+
+    if (((native_hart_id)(uintptr_t)0x84004212u)() ||
+        load(&BARRIER->request) != 1 || load(&BARRIER->fault) ||
+        load(&BARRIER->prepared) || load(&BARRIER->released) || load(&BARRIER->armed) ||
+        ADMISSION->closed != 1 || ADMISSION->active != 1 || ADMISSION->fault ||
+        BOOTSTRAP->magic != NPU_BOOTSTRAP_MAGIC || BOOTSTRAP->failed || BOOTSTRAP->inflight ||
+        BOOTSTRAP->step != NPU_BOOTSTRAP_STEPS || BOOTSTRAP->retained_mask != 0x1e)
+        return 0;
+    for (i = 0; i < NPU_BARRIER_WORKERS; i++)
+        if (load(&BARRIER->parked[i]) != 1 || load(&BARRIER->ready[i]))
+            return 0;
+    return 1;
+}
+
+uint32_t npu_emulation_callback_allocate(uint32_t type, uint32_t caller)
+{
+    struct npu_allocator_state *state = (void *)(uintptr_t)0x3e901bccu;
+    const struct npu_allocator_lock lock = {state, acquire, release};
+    struct npu_allocator_result result;
+    uint32_t status, hart;
+
+    __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");
+    hart = ((native_hart_id)(uintptr_t)0x84004212u)();
+    if ((status & 8) || !npu_emulation_callback_lifetime() ||
+        !((type == 10 && caller == 0x8400a3aeu) || (type == 9 && caller == 0x8400a39au)))
+        goto fault;
+    result = npu_allocator_allocate(state, &layout, &lock, type, 1);
+    if (result.status != NPU_ALLOCATOR_OK || !npu_emulation_callback_lifetime())
+        goto fault;
+    __asm__ volatile ("csrw mstatus, %0" :: "r"(status) : "memory");
+    return result.address;
+fault:
+    /* NULL may return only to the installed guarded statistics initializer.
+     * Otherwise stop here: the original native continuation clears through a0.
+     * Already committed metadata remains owned in both failure paths. */
+    if (!npu_emulation_callback_guarded)
+        fail(hart, 0, 0);
+    if (!hart)
+        npu_admission_fail(ADMISSION, BARRIER);
+    else
+        npu_barrier_fail(BARRIER);
+    return 0;
 }

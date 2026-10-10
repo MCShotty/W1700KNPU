@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Checked RX Statistics Composition
+
+RX0/type10 and RX2/type9 now use checked allocation in the held cold callback
+context. Native clear/dispatcher/readiness guards retain failed allocations and
+leases without false outer success. Two nominal rings/2,560 descriptors,
+26 controls/six mutants and startup/page/postgate compatibility checks pass.
+The active lane accepts the already-bound V2 nonce; it is not idle bootstrap.
+No vendor/core/kernel/image or hardware change. Strict real setup/loader,
+packet ownership/hot lifecycle, physical recovery and clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-rx-stats/REPORT.md`.
+
 ## 2026-10-10 - Native Page Caller Composition
 
 Checked DESC5/6/7 now compose with original native initializers under the explicit

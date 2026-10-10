@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-stats-20261010\\jev-post-request.json",
+  "request_sha256": "621a1b220bf8ae1f44fc1bbcd03dd8b0c5d814260c336777dc609bbd898ebb5b",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "allocation_route": {
+      "type": "choice",
+      "instructions": "For nominal RX0/RX2 statistics calls at 0x8400a3ae and 0x8400a39a, which allocation route do allocator_binding and nominal establish? Ignore unrelated fixed-table lookups.",
+      "criteria": {
+        "checked_active": "Reviewed active-callback use of the actual checked allocator.",
+        "original_unchecked": "Original unchecked dynamic allocation fallback.",
+        "unknown": "The supplied code/receipts do not establish the route."
+      }
+    },
+    "retained_late_record": {
+      "type": "noul",
+      "instructions": "Do release-fault entries in controls retain the newly committed statistics allocation record while producing no native statistics clear, RX descriptors or readiness?"
+    },
+    "mid_clear_boundary": {
+      "type": "noul",
+      "instructions": "Does during-clear in controls complete writes only to the retained statistics allocation and stop before any RX descriptor or readiness publication?"
+    },
+    "null_unwind": {
+      "type": "noul",
+      "instructions": "Do rx_binding and mutants demonstrate that returning a failed allocation to an unguarded native clear is unsafe and that the installed unwind guards stop that continuation?"
+    },
+    "proof_scope": {
+      "type": "choice",
+      "instructions": "Which completion scope is supported by limits, strict_denial, code and receipts?",
+      "criteria": {
+        "native_stats_composition": "Checked statistics allocation and guarded original RX initializer composition in native instruction emulation.",
+        "full_strict_setup": "Complete strict host setup and production loader wiring.",
+        "physical_npu_complete": "Full physical NPU ownership/drain/hot-lifecycle/client acceptance.",
+        "not_established": "Even the bounded native statistics composition is not established."
+      }
+    }
+  },
+  "elapsed_ms": 1228,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "allocation_route": {
+        "type": "choice",
+        "choice": "checked_active",
+        "confidence": 1.0,
+        "probabilities": {
+          "checked_active": 1.0,
+          "original_unchecked": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "retained_late_record": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "mid_clear_boundary": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "null_unwind": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "proof_scope": {
+        "type": "choice",
+        "choice": "native_stats_composition",
+        "confidence": 0.99,
+        "probabilities": {
+          "native_stats_composition": 0.99,
+          "full_strict_setup": 0.0,
+          "physical_npu_complete": 0.0,
+          "not_established": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 7357,
+      "output_tokens": 164
+    }
+  }
+}
