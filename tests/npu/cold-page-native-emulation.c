@@ -134,6 +134,13 @@ uint32_t npu_emulation_page_callback(const struct npu_bootstrap_packet *packet)
     __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");
     snapshot = *packet;
     ready = flags[selector - 5];
+    if (selector == 5 && snapshot.header == 0x15 && snapshot.api == 1 &&
+        snapshot.value && snapshot.value <= limits[0] &&
+        !load(&npu_emulation_page_state.magic) &&
+        npu_emulation_page_init() != NPU_COLD_PAGE_OK) {
+        fail();
+        goto done;
+    }
     if (snapshot.header != (0x10u | selector) || snapshot.api != 1 ||
         !snapshot.value || snapshot.value > limits[selector - 5] || busy ||
         !live() || word(ready) || load(&npu_emulation_page_state.fault) ||

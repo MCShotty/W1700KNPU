@@ -1,0 +1,24 @@
+CHECK: Alignment should match open parenthesis
+#14: FILE: drivers/net/ethernet/airoha/airoha_npu.c:947:
++static int airoha_npu_wlan_bind_endpoint_session(struct airoha_npu *npu, u64 base,
++					u64 bytes, int type)
+
+CHECK: Alignment should match open parenthesis
+#96: FILE: include/linux/soc/airoha/airoha_offload.h:229:
++static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++					      u64 base, u64 bytes, int type)
+
+CHECK: Alignment should match open parenthesis
+#109: FILE: include/linux/soc/airoha/airoha_offload.h:297:
++static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++					      u64 base, u64 bytes, int type)
+
+total: 0 errors, 0 warnings, 3 checks, 100 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+/home/captain/W1700KNPU/.local/npu-cold-pages-wire-20261010/provider-page-binding.patch has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.

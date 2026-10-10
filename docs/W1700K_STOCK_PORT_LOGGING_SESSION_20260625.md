@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (initial strict cold RX wire path implemented; later setup/physical gates open)
+Last updated: 2026-10-10 (bound BAR and strict page prefix implemented; full setup/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Bound BAR And Cold Page Prefix
+
+- Real PCI BAR0 start/length binds before mt76 NPU/PPE publication. Session-bound
+  native window/history checks gate port/RX and page5/6/7 address/DESC setup.
+  First authenticated DESC5 initializes BA ownership; no reset/new nonce exists.
+- Actual provider C545/nine and cold C397/eleven cases/mutants, six BAR mutants,
+  three publication-order cases and actual txrx/provider/raw-RV32 full prefix
+  pass. Native2,560 PKT/1,792 BA claims require no test lease or init calls.
+  All54 packaged provider functions decompile. World,66 top-level/12 nested
+  file replay,13 components and assembly/FIT/218-package/78-module checks pass.
+- Latest FIT:
+  `5c94b20d3dbcf37fafa4b2bce129671933cff4d61a582c636223061b69cfb43e`.
+  Previous `7622acf9...`/R1 preserved. No flash, reset or router contact; physical
+  evidence remains September23. Indication selector8 is the next denied command.
+  Full strict setup, other owners/hot/postgate and physical containment/coherency/
+  drains/recovery/clients stay open. Evidence:
+  `research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
 
 ## 2026-10-10 - Initial Strict Cold RX Wire
 

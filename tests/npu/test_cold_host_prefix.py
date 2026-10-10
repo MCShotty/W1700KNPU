@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+"""Current mt76 publication order and actual mt7996 cold sender C.
+
+Kernel references and queue configuration are explicitly modeled. The shared
+sender can forward its actual calls to the provider/native replay.
+"""
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import sys
+
+sys.dont_write_bytecode = True
+import test_npu_firmware_loader as loader
+
+ROOT = loader.ROOT
+MODEL = r'''
+#include <assert.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+typedef uint32_t u32;
+typedef uint64_t u64;
+typedef uint64_t phys_addr_t;
+typedef int gfp_t;
+#define GFP_KERNEL 0
+#define dev_warn(...) ((void)0)
+#define IS_ERR(p) ((uintptr_t)(p) > UINTPTR_MAX - 4095)
+#define PTR_ERR(p) ((int)(intptr_t)(p))
+#define ERR_PTR(e) ((void *)(intptr_t)(e))
+#define MT76_HWRRO_V3 3
+#define MT76_HWRRO_V3_1 4
+'''
+STRUCTS = r'''
+struct airoha_npu { void *dev; };
+struct airoha_ppe_dev { unsigned unused; };
+struct mt76_dev {
+    struct { struct airoha_npu *npu; struct airoha_ppe_dev *ppe_dev;
+             phys_addr_t phy_addr; int npu_type; } mmio;
+    void *dev, *dma_dev;
+    int mutex, hwrro_mode, rx_token_size;
+};
+struct mt7996_dev { struct mt76_dev mt76; void *hif2; u32 q_wfdma_mask; };
+static struct airoha_npu npu;
+static struct airoha_ppe_dev ppe;
+static unsigned events[16], event_count, fault_stage, command_count;
+static int (*peer)(unsigned, unsigned, unsigned);
+static void event(unsigned id) { assert(event_count < 16); events[event_count++] = id; }
+static bool is_mt7996(struct mt76_dev *dev) { return true; }
+static void mutex_lock(int *lock) { assert(!*lock); *lock = 1; event(1); }
+static void mutex_unlock(int *lock) { assert(*lock); *lock = 0; event(8); }
+static struct airoha_npu *airoha_npu_get(void *dev) { event(2); return &npu; }
+static struct airoha_ppe_dev *airoha_ppe_get_dev(void *dev) { event(3); return &ppe; }
+static void request_module(const char *name) { assert(false); }
+static void airoha_npu_put(struct airoha_npu *p) { assert(p == &npu); event(10); }
+static void airoha_ppe_put_dev(struct airoha_ppe_dev *p) { assert(p == &ppe); event(9); }
+static int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *p) {
+    assert(p == &npu); event(4); return fault_stage == 4 ? -EIO : 0;
+}
+static int airoha_npu_wlan_bind_endpoint(struct airoha_npu *p, u64 base, u64 bytes, int type) {
+    assert(p == &npu && base == 0x20000000 && bytes == 0x100000 && type == 2);
+    event(5); return fault_stage == 5 ? -EIO : 0;
+}
+#define rcu_assign_pointer(target, value) do { event(6); (target) = (value); } while (0)
+static void synchronize_rcu(void) { event(7); }
+static int airoha_npu_wlan_send_msg(struct airoha_npu *p, int index,
+    enum airoha_npu_wlan_set_cmd api, void *data, int bytes, gfp_t gfp) {
+    assert(p == &npu && bytes == 4 && gfp == GFP_KERNEL);
+    u32 value; memcpy(&value, data, sizeof(value)); command_count++;
+    if (peer) return peer(0x10 | index, api, value);
+    printf("{\"header\":%u,\"api\":%u,\"value\":%u}\n", 0x10 | index, api, value);
+    return index == 8 ? -EOPNOTSUPP : 0;
+}
+'''
+ENTRY = r'''
+int npu_host_txrx(u64 base, unsigned hif2, u32 mask,
+                  int (*transport)(unsigned, unsigned, unsigned)) {
+    struct mt7996_dev dev = {0};
+    dev.mt76.mmio.phy_addr = base;
+    dev.hif2 = hif2 ? &npu : NULL;
+    dev.q_wfdma_mask = mask;
+    peer = transport; command_count = 0;
+    int error = mt7996_npu_txrx_offload_init(&dev, &npu);
+    peer = NULL;
+    return error;
+}
+int main(void) {
+    const unsigned nominal[] = {1, 2, 3, 4, 5, 6, 6, 7, 8};
+    const unsigned fail_init[] = {1, 2, 3, 4, 9, 10, 8};
+    const unsigned fail_bind[] = {1, 2, 3, 4, 5, 9, 10, 8};
+    for (unsigned stage = 0; stage < 3; stage++) {
+        struct mt76_dev dev = {0};
+        event_count = 0; fault_stage = stage ? stage + 3 : 0;
+        int error = mt76_npu_init(&dev, 0x20000000, 0x100000, 2);
+        const unsigned *expected = stage == 1 ? fail_init : stage == 2 ? fail_bind : nominal;
+        unsigned count = stage == 1 ? 7 : stage == 2 ? 8 : 9;
+        assert(error == (stage ? -EIO : 0) && event_count == count);
+        assert(!memcmp(events, expected, count * sizeof(*expected)));
+        assert(!dev.mutex);
+        assert(stage ? !dev.mmio.npu && !dev.mmio.ppe_dev && !dev.dma_dev :
+               dev.mmio.npu == &npu && dev.mmio.ppe_dev == &ppe &&
+               dev.mmio.phy_addr == 0x20000000 && dev.hwrro_mode == MT76_HWRRO_V3);
+    }
+    assert(npu_host_txrx(0x20000000, 0, 0, NULL) == -EOPNOTSUPP && command_count == 9);
+    return 0;
+}
+'''
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mt76', type=Path, required=True)
+    parser.add_argument('--name', required=True)
+    args = parser.parse_args()
+    assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
+    tree = args.mt76.resolve()
+    header = ROOT / '.local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h'
+    dest = ROOT / '.local/npu-cold-pages-wire-20261010' / args.name
+    assert tree.is_relative_to(ROOT) and not dest.exists()
+    dest.mkdir(parents=True)
+    files = [tree / name for name in ('npu.c', 'mt76.h', 'mt7996/npu.c', 'mt7996/pci.c',
+                                      'mt7996/dma.c', 'mt7996/regs.h', 'mt7996/mt7996.h')]
+    inputs = {str(p.relative_to(ROOT)): loader.sha(p) for p in
+              (*files, header, Path(__file__), Path(loader.__file__), Path(loader.extract.__file__))}
+    text = {p.relative_to(tree).as_posix(): p.read_text() for p in files}
+    q = loader.extract
+    config = q.function(text['mt7996/dma.c'], 'mt7996_dma_config')
+    for band in range(3):
+        assert re.search(r'RXQ_CONFIG\(MT_RXQ_MSDU_PAGE_BAND' + str(band) + r',\s*WFDMA0,', config)
+    assert 'pci_resource_start(pdev, 0),\n\t\t      pci_resource_len(pdev, 0),' in text['mt7996/pci.c']
+    common = text['mt76.h']
+    program = [MODEL, q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_set_cmd')]
+    program += [q.declaration(common, 'enum', name) for name in ('mt76_mcuq_id', 'mt76_rxq_id', 'mt76_band_id')]
+    program += [text['mt7996/regs.h']]
+    program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE')]
+    program += [STRUCTS, q.function(common, 'mt76_npu_send_msg'),
+                q.function(text['npu.c'], 'mt76_npu_init'),
+                q.function(text['mt7996/npu.c'], 'mt7996_npu_txrx_offload_init'), ENTRY]
+    source = dest / 'host.c'
+    source.write_text('\n\n'.join(program) + '\n')
+    command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
+               '-Wno-unused-parameter', '-Wno-unused-function', '-Wno-sign-compare', source]
+    binary, shared = dest / 'host-test', dest / 'host-sender.so'
+    loader.run(command + ['-fsanitize=address,undefined', '-fno-sanitize-recover=all', '-o', binary], dest / 'build.log')
+    done = loader.run([binary], dest / 'run.log', env=dict(os.environ, ASAN_OPTIONS='detect_leaks=1'))
+    rows = [json.loads(line) for line in done.stdout.splitlines()]
+    prefix = [dict(header=header, api=api, value=value) for header, api, value in (
+        (0x10, 1, 1536), (0x12, 1, 1024), (0x15, 0, 0x200d45a0), (0x15, 1, 256),
+        (0x16, 0, 0x200d45b0), (0x16, 1, 512), (0x17, 0, 0x200d45c0), (0x17, 1, 1024))]
+    assert rows[:-1] == prefix and rows[-1]['header'] == 0x18 and rows[-1]['api'] == 0
+    loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'shared-build.log')
+    assert all(loader.sha(ROOT / p) == digest for p, digest in inputs.items())
+    result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=rows[-1],
+                  inputs=inputs, shared=str(shared.relative_to(ROOT)), shared_sha256=loader.sha(shared),
+                  binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
+                  limits=['Actual mt76 initialization and mt7996 txrx sender C; kernel references/RCU and queue state modeled.',
+                          'Current DMA configuration is source-checked to WFDMA0 for all three page bands, not physically executed.',
+                          'Binding-before-publication is CPU ordering, not prior-user exclusion or a physical DMA grant.'])
+    (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(dict(passed=True, publication_cases=3, prefix_commands=8, first_unsupported_selector=8)))
+
+
+if __name__ == '__main__':
+    main()

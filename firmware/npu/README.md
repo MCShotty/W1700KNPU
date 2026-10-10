@@ -1,5 +1,25 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Session-Bound BAR And Page Setup
+
+The checked provider binds PCI BAR0 start/length from the real mt7996 PCI caller
+before mt76 publishes its NPU/PPE pointers. Binding uses two cold-envelope
+metadata commands in the existing provider session. The native64-byte owner
+retains the window and exact completed prefix; no new nonce or reset is added.
+
+Port/RX0/RX2 setup now requires that window. Page5/6/7 address commands must match
+BAR0+0xd45a0/0xd45b0/0xd45c0 exactly, fit the aligned below-0xc0000000 window,
+and avoid the six retained bootstrap regions. DESC limits remain256/512/1024.
+Authenticated first DESC5 initializes BA ownership; late failure retains claims
+and active/inflight state. These are software geometry/ordering contracts, not
+physical PCI ownership, prior-user exclusion, cache coherency or drain proof.
+
+The current host sender still stops at unsupported indication selector8. INODE,
+TXDONE/full setup, other owners/workers/hot/postgate, physical retirement/rearm/
+recovery and actual clients remain open. No flash/reset/contact is part of this
+checkpoint. Validation scope and reproduction are recorded in
+`research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
+
 ## 2026-10-10 - Checked Linux Boot Launch
 
 The normal provider now checks14 existing boot writes and allows one launch

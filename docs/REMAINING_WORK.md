@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Cold Page Prefix Wired
+
+BAR0 start/length now binds in the provider session before mt76 publication.
+Page5/6/7 address/DESC pairs are checked for exact offsets, window/overlap,
+one-shot order and held identity. First authenticated DESC5 initializes BA
+ownership. The actual txrx sender reaches2,560 PKT/1,792 BA claims through the
+provider/raw native pair without test-written leases or direct init calls.
+Host/fault/mutant, Ghidra, assembly, world/source/image checks pass. Latest FIT
+`5c94b20d...`; prior `7622acf9...`/R1 preserved. No flash/reset/router contact.
+
+Next implement the indication selector8 owner/address/DESC contract, then
+INODE/TXDONE and remaining strict setup. The actual sender still stops at that
+selector; this is not full offload. Other owners/workers/hot/postgate and real
+prior-user exclusion/exclusive backing/cache/DMA visibility, physical drains/
+retirement/teardown/rearm/recovery, exact-image boot and actual clients remain.
+Three strict-checkpatch alignment checks remain; no errors or warnings there.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
+
 ## 2026-10-10 - Initial Cold RX Commands Wired
 
 Post-BIND version, port type2 and RX0/RX2 DESC now use the real provider's

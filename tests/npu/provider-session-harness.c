@@ -33,6 +33,7 @@ static struct npu_bootstrap bootstrap;
 static struct npu_control_v2_session session;
 static struct npu_admission admission;
 static struct npu_barrier barrier;
+static struct npu_cold_setup cold;
 static unsigned calls, ticks, rng_calls, case_count;
 static unsigned fault_at, effect_fault, mutate_at, mutate_word, mutate_value;
 static int fault_error, rng_error;
@@ -98,10 +99,24 @@ static int transaction(void *packet, unsigned bytes)
         error = external_transport(packet, bytes);
     } else if (bytes == 80) {
         struct npu_control_v2_packet *p = packet;
-        if (p->v1.operation == NPU_CONTROL_STOP && !park_after)
-            park();
-        if (!npu_bootstrap_v2_control(&bootstrap, &session, &admission, &barrier, p, bytes))
-            error = -EPROTO;
+        if (p->v1.magic == NPU_COLD_REQUEST) {
+            struct npu_cold_packet *c = packet;
+            enum npu_cold_status status = npu_cold_setup_begin(&cold, &session,
+                &admission, &barrier, &bootstrap, c, bytes);
+            if (!status) {
+                struct npu_bootstrap_packet reply = cold.command;
+                if (reply.header == 0x30) reply.value = 0x457;
+                status = npu_cold_setup_finish(&cold, &session, &admission, &barrier,
+                                               &bootstrap, 1, &reply);
+                if (!status) c->command = reply;
+            }
+            c->status = status; c->magic = NPU_COLD_REPLY;
+        } else {
+            if (p->v1.operation == NPU_CONTROL_STOP && !park_after)
+                park();
+            if (!npu_bootstrap_v2_control(&bootstrap, &session, &admission, &barrier, p, bytes))
+                error = -EPROTO;
+        }
     } else {
         if (!npu_bootstrap_begin(&bootstrap, &admission, &barrier, packet, bytes))
             error = -EINVAL;
@@ -165,6 +180,7 @@ void npu_test_reset(uint64_t identity, uint32_t request)
     memset(&life, 0, sizeof(life));
     memset(&bootstrap, 0, sizeof(bootstrap));
     memset(&session, 0, sizeof(session));
+    memset(&cold, 0, sizeof(cold));
     npu_barrier_init(&barrier);
     npu_admission_init(&admission);
     const struct npu_bootstrap_plan plan = {.region = {
@@ -174,6 +190,7 @@ void npu_test_reset(uint64_t identity, uint32_t request)
     check(npu_bootstrap_init(&bootstrap, &plan), "server plan");
     check(npu_bootstrap_v2_session_init(&session, &admission, &barrier,
                                       lower_32_bits(identity), upper_32_bits(identity)), "server identity");
+    memcpy(priv.native_plan, plan.region, sizeof(priv.native_plan));
     for (unsigned i = 0; i < 4; i++) {
         priv.wlan_memory[i].start = plan.region[i + 1].base;
         priv.wlan_memory[i].end = plan.region[i + 1].base + plan.region[i + 1].bytes - 1;
@@ -204,9 +221,15 @@ void npu_test_memory(unsigned index, uint32_t base, uint32_t bytes)
     check(index < 4 && bytes, "fixture memory");
     priv.wlan_memory[index].start = base;
     priv.wlan_memory[index].end = (uint64_t)base + bytes - 1;
+    priv.native_plan[index + 1][0] = base;
+    priv.native_plan[index + 1][1] = bytes;
 }
 
 int npu_test_run(void) { return airoha_npu_wlan_init_session(&priv.npu); }
+int npu_test_endpoint(uint64_t base, uint64_t bytes, int type)
+{
+    return airoha_npu_wlan_bind_endpoint_session(&priv.npu, base, bytes, type);
+}
 int npu_test_command(unsigned header, unsigned api, unsigned value, uint32_t *output)
 {
     int error = header == 0x30 ?
@@ -349,12 +372,62 @@ int main(void)
     fresh(); npu_test_close();
     check(npu_test_run() == -ESHUTDOWN && !calls && !rng_calls, "close before first consumer");
     threads(false); threads(true);
+    fresh();
+    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EINVAL && !calls, "binding before setup denies");
+    check(!npu_test_run() && !npu_test_endpoint(0x20000000, 0x100000, 2), "actual provider binding");
+    check(calls == 11 && cold.completed == 24 && !admission.active && !cold.inflight, "bound held window");
+    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 12, "no second endpoint enrollment");
+    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 12, "sticky endpoint failure");
+    retained(-EPROTO);
+    const uint64_t bases[] = {0, 1, 0x20000000, 0x80000000, 0x81000000,
+                              0x81200000, 0x81400000, 0x81600000, 0x83000000,
+                              0xbff00000, 0xbffff000, 0xc0000000, UINT64_C(0x120000000)};
+    const uint64_t sizes[] = {0, 1, 0xd4000, 0xd5000, 0x100000, 0x100001,
+                              0x40000000, UINT64_C(0x100100000)};
+    unsigned endpoint_cases = 0;
+    for (unsigned i = 0; i < ARRAY_SIZE(bases); i++)
+        for (unsigned j = 0; j < ARRAY_SIZE(sizes); j++)
+            for (int type = 2; type <= 3; type++) {
+                fresh();
+                check(!npu_test_run(), "endpoint matrix setup");
+                int valid = type == 2 && bases[i] <= UINT32_MAX && sizes[j] <= UINT32_MAX &&
+                            npu_cold_endpoint_valid(bases[i], sizes[j]);
+                for (unsigned k = 0; k < 6; k++)
+                    if (bases[i] < (uint64_t)priv.native_plan[k][0] + priv.native_plan[k][1] &&
+                        priv.native_plan[k][0] < bases[i] + sizes[j]) valid = 0;
+                check(npu_test_endpoint(bases[i], sizes[j], type) == (valid ? 0 : -EINVAL), "endpoint geometry oracle");
+                check(calls == (valid ? 11u : 9u), "invalid endpoint has no wire effects");
+                check(cold.completed == (valid ? 24u : 0u) && !admission.active && !cold.inflight, "endpoint geometry retained");
+                retained(-EBUSY); endpoint_cases++;
+            }
+    for (unsigned slot = 10; slot <= 11; slot++)
+        for (unsigned effect = 0; effect < 2; effect++)
+            for (unsigned kind = 0; kind < 4; kind++) {
+                fresh(); check(!npu_test_run(), "endpoint fault setup");
+                fault_at = slot; effect_fault = effect;
+                fault_error = kind == 0 ? -ETIMEDOUT : kind == 1 ? -EBUSY : kind == 2 ? -EIO : 7;
+                int expected = fault_error < 0 ? fault_error : -EIO;
+                check(npu_test_endpoint(0x20000000, 0x100000, 2) == expected && calls == slot, "endpoint transport fault");
+                check(npu_test_endpoint(0x20000000, 0x100000, 2) == expected && calls == slot, "endpoint fault sticky");
+                retained(expected);
+            }
+    for (unsigned slot = 10; slot <= 11; slot++)
+        for (unsigned word = 0; word < 20; word++) {
+            fresh(); check(!npu_test_run(), "endpoint corrupt setup");
+            mutate_at = slot; mutate_word = word;
+            mutate_value = word == 1 ? 2 : word == 9 || word == 14 || word >= 15 ? 1 : 0;
+            check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == slot, "endpoint malformed reply");
+            retained(-EPROTO);
+        }
+    fresh(); priv.checked_pair = false;
+    check(!npu_test_endpoint(UINT64_MAX, UINT64_MAX, 3) && !calls, "unmarked profiles remain raw");
     unsigned total = case_count;
     npu_test_reset(UINT64_C(0x1122334455667788), 0x83000000);
     npu_test_close();
     check(!pthread_mutex_destroy(&priv.wlan_session_lock.native), "final fixture destroy");
     allocated = false;
     printf("{\"passed\":true,\"cases\":%u,\"transaction_faults\":80,"
-           "\"malformed_replies\":80,\"poll_boundaries\":101,\"thread_cases\":2}\n", total);
+           "\"malformed_replies\":120,\"poll_boundaries\":101,\"thread_cases\":2,"
+           "\"endpoint_geometry_cases\":%u,\"endpoint_transport_faults\":16}\n", total, endpoint_cases);
     return 0;
 }

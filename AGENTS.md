@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Session-Bound BAR And Page Prefix
+
+- Real mt7996 BAR0 start/length binds through two metadata commands before mt76
+  publishes NPU/PPE pointers. Native64-byte cold owner checks exact window,
+  bootstrap overlap, completed prefix and existing identity/sequence/held epoch.
+  Page5/6/7 addresses must be BAR0+0xd45a0/b0/c0; limits remain256/512/1024.
+- Authenticated first DESC5 initializes BA ownership. Actual txrx sender through
+  the provider/native raw pair retains2,560 PKT/1,792 BA claims without test
+  active/init writes. It stops next at unsupported selector8, not full setup.
+- Provider C545/nine and cold C397/eleven cases/mutants plus six BAR mutants,
+  54-function Ghidra, world,66 top-level/12 nested file replay,13 components,
+  assembly/FIT/218-package/78-module checks pass. FIT `5c94b20d...`; preceding
+  `7622acf9...`/R1 preserved. No flash/reset/router contact.
+- Continue indication/INODE/TXDONE strict setup and remaining owners/hot/postgate,
+  independent physical exclusion/backing/coherency, drains/retirement/recovery
+  and clients. BAR geometry/lease/parking is not physical authority. Full goal
+  stays open. Scope: `research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
+
 ## 2026-10-10 - Session-Bound Initial Cold Commands
 
 - Distinct80-byte NCS2/NCR2 commands reuse the provider boot/nonce and existing

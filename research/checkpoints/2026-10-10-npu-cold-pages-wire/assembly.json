@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "test_groups": 16,
+  "skipped": 0,
+  "repeat_build": true,
+  "failures": 0,
+  "errors": 0,
+  "source_inputs": {
+    "tests/npu/test_npu_image.py": "c6e14f376e968ba12b00e32d312b6be47f591858757085030d9ad8b7e37b2ca4",
+    "tools/npu_image.py": "93e1ba0b7a2a34924e17e06c28096f54df016b4a373d496b37b0b0bdf40594ef"
+  },
+  "pairs": {
+    ".local/npu-cold-pages-wire-20261010/pair-frozen": {
+      "CODE.bin": "313e08130c5a6df5aaa0ac6f3e90b8d5598e4f8fab9ee310c7d64c408a1ee93e",
+      "DATA.bin": "481827ab57cd46eb499cd06c1ec91ba6d11e3127b4e53160c288133a15a36014",
+      "manifest.json": "44c7c96cc6f622f191c08ab5bf769f21b34234088d2a1fb182b4d7a21d810fbc"
+    },
+    ".build/merged-openwrt/bin/npu-pair-npu-cold-pages-wire-fixed-20261010": {
+      "CODE.bin": "313e08130c5a6df5aaa0ac6f3e90b8d5598e4f8fab9ee310c7d64c408a1ee93e",
+      "DATA.bin": "481827ab57cd46eb499cd06c1ec91ba6d11e3127b4e53160c288133a15a36014",
+      "manifest.json": "3362edbda2dd866d767bf6fc686aadd319e6c74636c109bef578ed0bdd70bbf1"
+    }
+  }
+}

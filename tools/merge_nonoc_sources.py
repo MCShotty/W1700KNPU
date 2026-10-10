@@ -286,6 +286,7 @@ def main():
         if kind == 'mt76':
             names = {r['path'] for r in json.loads((WORK / 'mt76-merge.json').read_text())}
             names.add('Makefile')
+            names.update(('mt76.h', 'mt7996/pci.c'))
             patch = DEST / 'package/kernel/mt76/patches/900-w1700k-integrated-npu.patch'
             for old in sorted(patch.parent.glob('00[123]-*.patch')):
                 saved = WORK / 'merged-original-patches' / old.name

@@ -102,12 +102,22 @@ and the same client ticket/server sequence, never a new attachment session.
 The Linux cold exchange is serialized by the executor mutex; provider callback
 wrappers also hold the setup mutex so CPU close joins this path.
 
-The implemented commands are the post-BIND version query, port type2, then
-checked RX0/RX2 descriptor setup. Version can be queried again; mutating commands
-are ordered and one-shot. RX0 permits1..1536 descriptors; RX2 permits1..1024.
-Their first authenticated callback initializes packet ownership from the pinned
-plan. Tests do not seed the active lease or call that initializer for this lane.
-Other full setup commands remain on the denied legacy path until integrated.
+The implemented commands are the post-BIND version query, two BAR0 metadata
+bindings, port type2, checked RX0/RX2 DESC, then page5/6/7 address/DESC pairs.
+Version can be queried again; mutating commands are ordered and one-shot. The
+64-byte native cold owner stores the bound window and exact completed prefix.
+The real mt7996 PCI caller passes BAR0 start and length to mt76 initialization;
+the provider sends both metadata commands before mt76 publishes NPU/PPE pointers.
+Wrong port type, truncation, alignment/span or bootstrap-region overlap rejects
+before host transport. Native checks independently repeat geometry and ordering.
+
+RX0 permits1..1536 descriptors; RX2 permits1..1024. Their first authenticated
+callback initializes packet ownership from the pinned plan. Page5/6/7 addresses
+must match BAR0+0xd45a0/0xd45b0/0xd45c0, and DESC limits are256/512/1024. First
+authenticated DESC5 initializes BA ownership. Tests do not seed active or call
+either initializer for this lane. The actual txrx sender reaches unsupported
+indication selector8 next; INODE/TXDONE/full setup remains incomplete. BAR bounds
+are software geometry, not proof of physical PCI ownership or DMA visibility.
 
 Native begin verifies the pinned transport/envelope and copies a private packet
 snapshot. Binding, sequence, completed bootstrap and held initial barrier state
@@ -116,8 +126,8 @@ ready or drain observation. Only then does it acquire the software callback
 lease. Valid bound sequences are reserved before command/platform checks; an
 abandoned rejected request cannot become effective when replayed later.
 
-Completion revalidates the identity, nonce, sequence, held state and immutable
-command/history. Successful callbacks return their software lease to zero;
+Completion revalidates the identity, nonce, sequence, held state, bound window
+and immutable command/history. Successful callbacks return their software lease to zero;
 ambiguous failure retains active/inflight ownership and faults admission.
 Neither outcome permits physical resource release, DMA retirement or rearm.
 Client errors stay sticky and reply errors do not modify the caller's output.

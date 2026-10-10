@@ -36,7 +36,6 @@ def main():
         directory = dest / name
         command = parent.prepare(directory, source.read_text(), header.read_text())
         command = [HARNESS if item == parent.HARNESS else item for item in command]
-        command.append(SOURCE / 'cold-setup.c')
         for original, changed in (replacements or {}).items():
             path = directory / original.name
             path.write_text(changed)
@@ -60,6 +59,9 @@ def main():
         'ignore-callback-result': {server: loader.once(original, '!reply || result != 1 || reply->header', '!reply || (result != 1 && result == 99) || reply->header')},
         'skip-reply-ticket': {client: loader.once(codec, 'read_word(packet, 6) != ticket ||', '')},
         'skip-reply-reserved': {client: loader.once(codec, 'if (read_word(packet, i))', 'if (0 && read_word(packet, i))')},
+        'skip-bar-overlap': {server: loader.once(original, 'if (r->bytes && base < r->base + r->bytes && r->base < base + bytes)', 'if (0 && r->bytes && base < r->base + r->bytes && r->base < base + bytes)')},
+        'skip-page-offset': {server: loader.once(original, 'p->value == s->endpoint_base + NPU_COLD_PAGE_REG0 + 0x10u * i', 'p->value != 0')},
+        'skip-late-bar': {server: loader.once(original, 's->endpoint_base != s->prior_base ||', '')},
     }
     rejected = []
     for name, replacements in mutations.items():
@@ -71,7 +73,7 @@ def main():
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
-                          'Only post-bind version,port and RX0/RX2 DESC commands are implemented. Later full setup and all physical/hot/client gates remain open.'])
+                          'Version/BAR metadata/port/RX0/RX2 and page5/6/7 address/DESC commands are implemented. Indication/INODE/TXDONE full setup and physical/hot/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

@@ -1,0 +1,116 @@
+Subject: [PATCH] net: airoha: bind a checked cold PCI endpoint
+
+Bind the actual BAR window in the retained session before publication.
+No physical DMA retirement or complete offload is implied.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -943,6 +943,51 @@
+ 	return err;
+ }
+ 
++static int airoha_npu_wlan_bind_endpoint_session(struct airoha_npu *npu, u64 base,
++					u64 bytes, int type)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
++	u32 value;
++	unsigned int i;
++	int err;
++
++	if (!priv->checked_pair)
++		return 0;
++	if (type != 2 || upper_32_bits(base) || upper_32_bits(bytes) ||
++	    !npu_cold_endpoint_valid(base, bytes))
++		return -EINVAL;
++	for (i = 0; i < NPU_EN7581_7996_PLAN_REGIONS; i++)
++		if (base < (u64)priv->native_plan[i][0] + priv->native_plan[i][1] &&
++		    priv->native_plan[i][0] < base + bytes)
++			return -EINVAL;
++
++	mutex_lock(&priv->wlan_session_lock);
++	if (priv->wlan_session_error) {
++		err = priv->wlan_session_error;
++		goto unlock;
++	}
++	if (!priv->wlan_session_attempted || !priv->wlan_control.initialized) {
++		err = -EINVAL;
++		goto unlock;
++	}
++	command.api = NPU_COLD_BIND_BASE_API;
++	command.value = base;
++	err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++	if (!err) {
++		command.api = NPU_COLD_BIND_BYTES_API;
++		command.value = bytes;
++		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++	}
++	if (err) {
++		priv->wlan_session_error = err;
++		npu_linux_control_close(&priv->wlan_control);
++	}
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++	return err;
++}
++
+ static int airoha_npu_wlan_cold_command(struct airoha_npu *npu, u32 header,
+ 					u32 api, void *data, int len)
+ {
+@@ -984,7 +1029,9 @@
+ 
+ 	if (priv->checked_pair &&
+ 	    ((ifindex == 0 && func_id == WLAN_FUNC_SET_WAIT_PCIE_PORT_TYPE) ||
+-	     ((ifindex == 0 || ifindex == 2) && func_id == WLAN_FUNC_SET_WAIT_DESC)))
++	     ((ifindex == 0 || ifindex == 2 || (ifindex >= 5 && ifindex <= 7)) &&
++	      func_id == WLAN_FUNC_SET_WAIT_DESC) ||
++	     (ifindex >= 5 && ifindex <= 7 && func_id == WLAN_FUNC_SET_WAIT_PCIE_ADDR)))
+ 		return airoha_npu_wlan_cold_command(npu, 0x10 | ifindex, func_id,
+ 						  data, data_len);
+ 	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, data, data_len, gfp);
+@@ -1475,6 +1522,7 @@
+ 	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
+ 	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
+ 	npu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_session;
++	npu->ops.wlan_bind_endpoint = airoha_npu_wlan_bind_endpoint_session;
+ 	npu->ops.wlan_send_msg = airoha_npu_wlan_msg_send_session;
+ 	npu->ops.wlan_get_msg = airoha_npu_wlan_msg_get_session;
+ 	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -197,6 +197,8 @@
+ 					    u32 entry_size, u32 hash,
+ 					    bool ppe2);
+ 		int (*wlan_init_reserved_memory)(struct airoha_npu *npu);
++		int (*wlan_bind_endpoint)(struct airoha_npu *npu, u64 base,
++					  u64 bytes, int type);
+ 		int (*wlan_send_msg)(struct airoha_npu *npu, int ifindex,
+ 				     enum airoha_npu_wlan_set_cmd func_id,
+ 				     void *data, int data_len, gfp_t gfp);
+@@ -223,6 +225,12 @@
+ 	return npu->ops.wlan_init_reserved_memory(npu);
+ }
+ 
++static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++					      u64 base, u64 bytes, int type)
++{
++	return npu->ops.wlan_bind_endpoint(npu, base, bytes, type);
++}
++
+ static inline int airoha_npu_wlan_send_msg(struct airoha_npu *npu,
+ 					   int ifindex,
+ 					   enum airoha_npu_wlan_set_cmd cmd,
+@@ -285,6 +293,12 @@
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++					      u64 base, u64 bytes, int type)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int airoha_npu_wlan_send_msg(struct airoha_npu *npu,
+ 					   int ifindex,
+ 					   enum airoha_npu_wlan_set_cmd cmd,

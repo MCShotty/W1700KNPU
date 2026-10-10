@@ -52,7 +52,7 @@ int airoha_npu_wlan_control(struct airoha_npu *npu, void *packet, int bytes)
     return transport_error;
 }
 
-static void fresh(void)
+static void empty(void)
 {
     if (cases) {
         npu_linux_control_close(&control);
@@ -68,6 +68,11 @@ static void fresh(void)
     boot.magic = NPU_BOOTSTRAP_MAGIC;
     boot.step = NPU_BOOTSTRAP_STEPS;
     boot.retained_mask = 0x1e;
+    const struct npu_bootstrap_plan plan = {.region = {
+        {0x80000000, 0x240000}, {0x81000000, 0xe000}, {0x81200000, 0x100000},
+        {0x81400000, 0x100000}, {0x81600000, 0x100000}, {0x83000000, 256}
+    }};
+    boot.plan = plan;
     npu_control_v2_init(&session, 1, 2);
     transport_error = after_effect = corrupt = callback_error = 0;
     calls = 0;
@@ -79,8 +84,25 @@ static void fresh(void)
 }
 
 static const struct npu_bootstrap_packet commands[] = {
-    {0x30, 10, 0}, {0x10, 14, 2}, {0x10, 1, 1536}, {0x12, 1, 1024}
+    {0x30, 10, 0}, {0x10, 14, 2}, {0x10, 1, 1536}, {0x12, 1, 1024},
+    {0x15, 0, 0x200d45a0}, {0x15, 1, 256},
+    {0x16, 0, 0x200d45b0}, {0x16, 1, 512},
+    {0x17, 0, 0x200d45c0}, {0x17, 1, 1024}
 };
+
+static const struct npu_bootstrap_packet anchor[] = {
+    {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_BASE_API, 0x20000000},
+    {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_BYTES_API, 0x100000}
+};
+
+static void fresh(void)
+{
+    empty();
+    uint32_t value;
+    for (unsigned i = 0; i < 2; i++)
+        check(!npu_linux_control_cold_exchange(&control, &anchor[i], &value));
+    check(setup.completed == 24 && calls == 5);
+}
 
 static void envelope(struct npu_cold_packet *p, unsigned command)
 {
@@ -100,13 +122,13 @@ static void sticky(int error, unsigned old_calls)
 int main(void)
 {
     fresh();
-    for (unsigned i = 0; i < 4; i++) {
+    for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;
         check(!npu_linux_control_cold_exchange(&control, &commands[i], &value));
         check(value == (i ? commands[i].value : 0x457));
         check(!setup.inflight && !admission.active && !setup.failed);
     }
-    check(setup.completed == 7 && session.last_sequence == control.client.base.serial);
+    check(setup.completed == 2047 && session.last_sequence == control.client.base.serial);
     check(!npu_linux_control_exchange(&control, NPU_CONTROL_STATUS));
     check(session.last_sequence == control.client.base.serial && !barrier.released && !barrier.armed);
     for (unsigned word = 0; word < 20; word++) {
@@ -116,7 +138,7 @@ int main(void)
         ((uint32_t *)&p)[word] ^= 1;
         if (word == 6) p.sequence = session.last_sequence;
         check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) != NPU_COLD_OK);
-        check(!setup.inflight && !admission.active && !setup.completed);
+        check(!setup.inflight && !admission.active && setup.completed == 24);
     }
     for (unsigned bytes = 0; bytes <= 128; bytes++) {
         if (bytes == 80) continue;
@@ -149,7 +171,7 @@ int main(void)
         check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) == NPU_COLD_BAD_STATE);
         check(setup.failed && admission.fault && barrier.fault);
     }
-    for (unsigned field = 0; field < 12; field++) {
+    for (unsigned field = 0; field < 14; field++) {
         fresh();
         struct npu_cold_packet p;
         envelope(&p, 1);
@@ -162,16 +184,18 @@ int main(void)
         case 3: session.nonce_hi++; admission.nonce_hi++; break;
         case 4: session.last_sequence++; break;
         case 5: barrier.parked[7] = 0; break;
-        case 6: setup.completed = 1; break;
+        case 6: setup.completed = 25; break;
         case 7: admission.active = 2; break;
         case 8: reply.header++; break;
         case 9: reply.api++; break;
         case 10: reply.value++; break;
         case 11: callback_error = 1; break;
+        case 12: setup.endpoint_base += 4096; break;
+        case 13: setup.endpoint_bytes += 4096; break;
         }
         check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot,
                                    callback_error ? 0 : 1, &reply) == NPU_COLD_CALLBACK_FAILED);
-        check(setup.inflight == 1 && admission.active && setup.failed && setup.completed == (field == 6 ? 1u : 0u));
+        check(setup.inflight == 1 && admission.active && setup.failed && setup.completed == (field == 6 ? 25u : 24u));
     }
     for (unsigned word = 0; word < 20; word++) {
         fresh(); corrupt = 1; corrupt_word = word;
@@ -200,10 +224,61 @@ int main(void)
     fresh(); envelope(&p, 2);
     check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) == NPU_COLD_BAD_STATE);
     check(session.last_sequence == p.sequence && !admission.active);
+    const uint32_t bases[] = {0, 1, 0x1fffffff, 0x20000000, 0x80000000, 0x81000000,
+                              0x81200000, 0x81400000, 0x81600000, 0x83000000,
+                              0xbff00000, 0xbffff000, 0xc0000000, 0xfffff000};
+    const uint32_t lengths[] = {0, 1, 0xd4000, 0xd5000, 0x100000, 0x100001, 0x40000000, 0xfffff000};
+    unsigned geometry_cases = 0, order_cases = 0;
+    for (unsigned i = 0; i < sizeof(bases) / sizeof(bases[0]); i++)
+        for (unsigned j = 0; j < sizeof(lengths) / sizeof(lengths[0]); j++) {
+            empty();
+            uint32_t value = 0xabcdef01;
+            struct npu_bootstrap_packet command = anchor[0];
+            command.value = bases[i];
+            int base_ok = bases[i] && !(bases[i] & 4095u) && bases[i] < 0xc0000000u;
+            check(npu_linux_control_cold_exchange(&control, &command, &value) == (base_ok ? 0 : -EPROTO));
+            if (base_ok) {
+                command = anchor[1]; command.value = lengths[j];
+                int valid = npu_cold_endpoint_valid(bases[i], lengths[j]);
+                for (unsigned k = 0; k < 6; k++)
+                    if ((uint64_t)bases[i] < (uint64_t)boot.plan.region[k].base + boot.plan.region[k].bytes &&
+                        boot.plan.region[k].base < (uint64_t)bases[i] + lengths[j]) valid = 0;
+                check(npu_linux_control_cold_exchange(&control, &command, &value) == (valid ? 0 : -EPROTO));
+                check(setup.completed == (valid ? 24u : 8u));
+            }
+            check(!setup.inflight && !admission.active);
+            geometry_cases++;
+        }
+    for (unsigned index = 1; index < sizeof(commands) / sizeof(commands[0]); index++)
+        for (unsigned kind = 0; kind < 6; kind++) {
+            fresh();
+            uint32_t value = 0;
+            for (unsigned before = 1; before < index; before++)
+                check(!npu_linux_control_cold_exchange(&control, &commands[before], &value));
+            struct npu_bootstrap_packet command = commands[index];
+            if (kind == 0) {
+                check(!npu_linux_control_cold_exchange(&control, &command, &value));
+                /* Every state-changing command is one shot. */
+            } else if (kind == 1) {
+                setup.completed ^= 1;
+            } else if (kind == 2) {
+                command.value = 0;
+            } else if (kind == 3) {
+                command.value = command.api == 0 ? command.value + 16 : command.value + 1;
+            } else if (kind == 4) {
+                command.header = 0x18; /* Indication owner remains unimplemented. */
+            } else {
+                command.header = 0x1f; command.api = 0; /* Native selector15 writes saved bases. */
+            }
+            check(npu_linux_control_cold_exchange(&control, &command, &value) == -EPROTO);
+            check(setup.failed && !setup.inflight && !admission.active && admission.fault && barrier.fault);
+            order_cases++;
+        }
     unsigned total = cases;
     npu_linux_control_close(&control);
     check(!pthread_mutex_destroy(&control.mutex.native));
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
-           "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":12,\"transport_faults\":8}\n", total);
+           "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":14,\"transport_faults\":8,"
+           "\"geometry_cases\":%u,\"order_cases\":%u}\n", total, geometry_cases, order_cases);
     return 0;
 }

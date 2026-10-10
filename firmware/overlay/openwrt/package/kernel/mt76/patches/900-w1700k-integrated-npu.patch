@@ -4,6 +4,26 @@ Rebased onto the pinned non-OC source. This is the experimental
 build input; compilation is not a physical drain or recovery proof.
 
 ---
+--- a/mt76.h
++++ b/mt76.h
+@@ -1680,7 +1680,7 @@
+ int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
+ void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
+ void mt76_npu_disable_irqs(struct mt76_dev *dev);
+-int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, int type);
++int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
+ void mt76_npu_deinit(struct mt76_dev *dev);
+ void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
+ void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
+@@ -1721,7 +1721,7 @@
+ }
+ 
+ static inline int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr,
+-				int type)
++				u64 bar_bytes, int type)
+ {
+ 	return 0;
+ }
 --- a/mt7996/debugfs.c
 +++ b/mt7996/debugfs.c
 @@ -967,6 +967,30 @@
@@ -470,6 +490,16 @@ build input; compilation is not a physical drain or recovery proof.
  
  	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
  
+--- a/mt7996/pci.c
++++ b/mt7996/pci.c
+@@ -141,6 +141,7 @@
+ 	dev->hif2 = hif2;
+ 
+ 	mt76_npu_init(mdev, pci_resource_start(pdev, 0),
++		      pci_resource_len(pdev, 0),
+ 		      pci_domain_nr(pdev->bus) ? 3 : 2);
+ 
+ 	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
 --- a/npu.c
 +++ b/npu.c
 @@ -60,55 +60,82 @@
@@ -602,7 +632,26 @@ build input; compilation is not a physical drain or recovery proof.
  
  		dev->drv->rx_skb(dev, qid, skb, &info);
  		mt76_rx_poll_complete(dev, qid, napi);
-@@ -506,16 +540,18 @@
+@@ -437,7 +471,7 @@
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_disable_irqs);
+ 
+-int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, int type)
++int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type)
+ {
+ 	struct airoha_ppe_dev *ppe_dev;
+ 	struct airoha_npu *npu;
+@@ -468,6 +502,9 @@
+ 	}
+ 
+ 	err = airoha_npu_wlan_init_reserved_memory(npu);
++	if (err)
++		goto error_ppe_put;
++	err = airoha_npu_wlan_bind_endpoint(npu, phy_addr, bar_bytes, type);
+ 	if (err)
+ 		goto error_ppe_put;
+ 
+@@ -506,16 +543,18 @@
  
  	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
  				  lockdep_is_held(&dev->mutex));

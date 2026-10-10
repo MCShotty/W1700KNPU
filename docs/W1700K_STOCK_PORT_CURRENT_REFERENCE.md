@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Bound PCI BAR And Strict Page Prefix
+
+The real mt7996 PCI BAR0 start/length reaches a checked provider binding before
+mt76 NPU/PPE publication. Two metadata commands reuse the existing cold session.
+Native geometry/overlap and exact completed-history checks gate port/RX and
+page5/6/7 address/DESC commands; first authenticated DESC5 initializes BA ownership.
+
+Actual C545/nine, cold C397/eleven cases/mutants and six BAR mutants pass.
+The actual txrx sender through provider/raw native code retains2,560 packet and
+1,792 BA claims without test-written active/init state, then stops at unsupported
+indication selector8. All54 packaged provider functions decompile; world,
+66 top-level/12 nested file replay,13 components, assembly and offline FIT/
+218-package/78-module checks pass. Latest FIT:
+`5c94b20d3dbcf37fafa4b2bce129671933cff4d61a582c636223061b69cfb43e`.
+Previous `7622acf9...`/R1 preserved. No flash/reset/router contact.
+
+Continue indication/INODE/TXDONE and remaining strict setup, owners/hot/postgate,
+physical exclusion/backing/coherency, drains/retirement/recovery and actual clients.
+Window/parking/lease checks are software contracts, not physical containment or
+resource-release permission. Full objective remains open. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
+
 ## 2026-10-10 - Initial Strict Cold RX Wire Path
 
 The checked provider now uses a distinct session-bound cold envelope for its

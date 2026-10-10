@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-pages-wire-20261010\\jev-design.json",
+  "request_sha256": "5a29f651ceee244108b4f8d6223c9d22323b05fb89d9813ef802d33c04e1e070",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "anchor_authority": {
+      "type": "choice",
+      "instructions": "What does proposal establish by binding the actual PCI resource?",
+      "criteria": {
+        "geometry_anchor": "A once-owned source/address/extent anchor for later checks, not physical DMA retirement.",
+        "physical_retirement": "A physical proof that all prior DMA users are retired.",
+        "rearm_authority": "Permission to release or rearm the device.",
+        "unknown": "Not established."
+      }
+    },
+    "selector15_scope": {
+      "type": "noul",
+      "instructions": "Does native_evidence describe selector15 as an operation that writes through multiple saved endpoint addresses, rather than only recording one scalar address?"
+    },
+    "private_init": {
+      "type": "noul",
+      "instructions": "Does proposal move first BA-owner initialization into an authenticated native DESC5 callback instead of relying on a direct test initializer?"
+    },
+    "failure_retention": {
+      "type": "noul",
+      "instructions": "Does proposal explicitly retain ambiguous failure ownership and omit reset/release/rearm/retirement?"
+    },
+    "full_objective": {
+      "type": "choice",
+      "instructions": "According to scope, is the full NPU objective complete?",
+      "criteria": {
+        "not_complete": "Further setup, physical and client gates remain open.",
+        "complete": "All requirements have verified completion.",
+        "unknown": "Completion is unspecified."
+      }
+    }
+  },
+  "elapsed_ms": 829,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "anchor_authority": {
+        "type": "choice",
+        "choice": "geometry_anchor",
+        "confidence": 1.0,
+        "probabilities": {
+          "geometry_anchor": 1.0,
+          "physical_retirement": 0.0,
+          "rearm_authority": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "selector15_scope": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "private_init": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "failure_retention": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "full_objective": {
+        "type": "choice",
+        "choice": "not_complete",
+        "confidence": 1.0,
+        "probabilities": {
+          "not_complete": 1.0,
+          "complete": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 962,
+      "output_tokens": 152
+    }
+  }
+}

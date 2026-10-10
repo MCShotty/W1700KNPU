@@ -1,10 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (initial strict cold RX wire path implemented; later setup/physical gates open)
+Last updated: 2026-10-10 (bound BAR and strict page prefix implemented; full setup/physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Bound PCI BAR And Strict Page Prefix
+
+- Actual PCI caller passes BAR0 start/length, and the checked provider completes
+  two session-bound metadata commands before mt76 NPU/PPE pointer publication.
+  Invalid type/truncation/alignment/span/retained-region overlap has no host wire
+  effects. Native64-byte owner independently checks geometry and exact history.
+- Page5/6/7 address/DESC pairs require BAR0+0xd45a0/0xd45b0/0xd45c0, ordered
+  prefixes and existing identity/nonce/sequence/held epoch. Counts are bounded
+  at256/512/1024. Authenticated first DESC5 initializes the retained BA owner.
+  Callback failure retains committed claims and active/inflight, never resets.
+- Actual provider C545/nine and cold C397/eleven cases/mutants, six BAR mutants
+  and three mt76 publication-order cases pass. Actual txrx sender-to-provider-to-
+  raw-RV32 replay retains2,560 packet/1,792 BA claims without test active/init
+  writes, then stops at unsupported indication selector8. Wider regressions pass.
+- All54 packaged provider functions decompile. World,66 top-level/12 nested file
+  reconstruction,13 canonical components,16 assembly groups and FIT/218-package/
+  78-module checks pass. FIT SHA256:
+  `5c94b20d3dbcf37fafa4b2bce129671933cff4d61a582c636223061b69cfb43e`.
+  Previous `7622acf9...`/R1 and protected calibration/bootloader/backups preserved.
+  No flash, reset, router or physical hardware action.
+- Indication/INODE/TXDONE/full strict setup, remaining owners/hot/postgate and
+  independent physical exclusion/backing/coherency/drains/retirement/recovery/
+  client gates remain required. No BAR geometry or software lease proves them.
+  Full objective stays open. Evidence:
+  `research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
 
 ## 2026-10-10 - Session-Bound Initial Cold RX Wire
 

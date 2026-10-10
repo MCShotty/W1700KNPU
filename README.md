@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Bound PCI BAR And Cold Page Rings
+
+The real mt7996 PCI caller now passes BAR0 start/length to the checked provider
+before mt76 publishes its NPU/PPE pointers. Session-bound metadata and exact
+native history gate port/RX and page5/6/7 address/DESC commands. First authenticated
+DESC5 initializes BA ownership; no new session, retirement or reset API is added.
+
+Actual host/provider C, geometry/fault/mutant tests, sender-to-provider-to-raw-RV32
+replay of2,560 packet/1,792 BA claims,54-function packaged-module Ghidra and
+world/source/image checks pass. FIT `5c94b20d...`; previous `7622acf9...`/R1
+preserved. No flash, reset or router contact. The actual txrx sender next stops
+at unsupported indication selector8. INODE/TXDONE/full setup, other owners/hot/
+postgate and physical containment/coherency/drains/recovery/clients remain open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-pages-wire/REPORT.md`.
+
 ## 2026-10-10 - Session-Bound Cold RX Commands
 
 The real checked provider now sends the post-BIND version query, port type and

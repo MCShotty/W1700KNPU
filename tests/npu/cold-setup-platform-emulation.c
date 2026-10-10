@@ -27,14 +27,18 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
         command.header = s->command.header;
         command.api = s->command.api;
         command.value = s->command.value;
-        if (command.header == 0x30) {
+        if (command.header == NPU_COLD_BIND_HEADER) {
+            result = 1;
+            slot = callback = 0;
+        } else if (command.header == 0x30) {
             slot = 0x3e900170u;
             callback = 0x840101a6u;
         } else {
             slot = 0x3e900178u + command.api * 4;
-            callback = command.api == 14 ? 0x8400ff34u : 0x8400fe34u;
+            callback = command.api == 14 ? 0x8400ff34u :
+                       command.api == 0 ? 0x8400fdc4u : 0x8400fe34u;
         }
-        if (*(const volatile uint32_t *)(uintptr_t)slot == callback)
+        if (slot && *(const volatile uint32_t *)(uintptr_t)slot == callback)
             result = ((native_callback)(uintptr_t)callback)(&command);
         status = npu_cold_setup_finish(s, &npu_emulation_control_v2_state,
             &npu_emulation_admission_state, &npu_emulation_barrier_state,

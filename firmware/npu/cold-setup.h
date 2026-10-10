@@ -13,6 +13,27 @@
 #define NPU_COLD_PORT 1u
 #define NPU_COLD_RX0 2u
 #define NPU_COLD_RX2 4u
+#define NPU_COLD_ENDPOINT_BASE 8u
+#define NPU_COLD_ENDPOINT_BYTES 16u
+#define NPU_COLD_ADDR5 32u
+#define NPU_COLD_PAGE5 64u
+#define NPU_COLD_ADDR6 128u
+#define NPU_COLD_PAGE6 256u
+#define NPU_COLD_ADDR7 512u
+#define NPU_COLD_PAGE7 1024u
+#define NPU_COLD_COMPLETED_MASK 2047u
+#define NPU_COLD_BIND_HEADER 0x1fu
+#define NPU_COLD_BIND_BASE_API 0x100u
+#define NPU_COLD_BIND_BYTES_API 0x101u
+#define NPU_COLD_PAGE_REG0 0xd45a0u
+#define NPU_COLD_ENDPOINT_MIN_BYTES (NPU_COLD_PAGE_REG0 + 0x20u + 12u)
+
+static inline int npu_cold_endpoint_valid(uint32_t base, uint32_t bytes)
+{
+    return base && !(base & 4095u) && base < 0xc0000000u &&
+           bytes >= NPU_COLD_ENDPOINT_MIN_BYTES && !(bytes & 4095u) &&
+           bytes <= 0xc0000000u - base;
+}
 
 enum npu_cold_status {
     NPU_COLD_OK,
@@ -53,6 +74,7 @@ struct npu_cold_setup {
     uint32_t failed, inflight, completed, sequence;
     uint32_t boot_lo, boot_hi, nonce_lo, nonce_hi, prior_completed;
     struct npu_bootstrap_packet command;
+    uint32_t endpoint_base, endpoint_bytes, prior_base, prior_bytes;
 };
 
 enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *setup,
