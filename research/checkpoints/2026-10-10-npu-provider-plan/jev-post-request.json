@@ -1,0 +1,26 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "source_relationship": {
+      "linux_selection": "struct airoha_npu_core *core = &npu->cores[0]; memcpy(core->buf, data, len); regmap_write(npu->regmap, REG_CR_MBQ0_CTRL(0), core->addr);",
+      "linux_plan": "struct airoha_npu_core *core = &priv->npu.cores[0]; request.start = core->addr; request.end = request.start + AIROHA_NPU_MBOX_SIZE - 1; priv->native_plan[5][0] = request.start; priv->native_plan[5][1] = AIROHA_NPU_MBOX_SIZE;",
+      "native_reader": "address = read32(MBOX + 0x30); npu_bootstrap_v2_transport checks address == state->plan.region[NPU_BOOT_REQUEST].base; only afterward does the native mailbox dereference (address & 0x3fffffff) | 0x40000000.",
+      "native_trace": "Actual provider C emits a 48-byte plan from modeled allocation/OF inputs, with core0 DMA request base 0x83000000. The raw native firmware consumes exactly those bytes, admits that dynamic request base through DISCOVER/version/six bootstrap commands/BIND/STATUS and parks all eight harts. The old 0x82000000 fixture, an offset, CPU alias, binary base, zero and all-ones addresses are rejected before payload reads. No ELF bytes are injected after raw loading. SRAM/identity publication is explicitly modeled in this test, not performed by Linux."
+    },
+    "guards": "Canonical current provider MT7996 path checks core0 buffer presence, pending transaction, alignment/window and overlap with firmware/WLAN regions before firmware acquisition and before either copy. It snapshots all six native regions only with BA present and fixed 0x84000000 CODE placement. Optional-BA legacy profiles remain usable but do not mark a full native plan ready. Generic profiles are unchanged. Failure invalidates private request/plan metadata, not native resource ownership. Actual-C tests pass 308 cases/476 pre-copy checks and nine mutants, plus earlier 273/165 memory, nine mutants,6174 retry and44 Linux-control cases.",
+    "build": "The new provider is integrated into the canonical kernel patch/source lock. Full world and offline Gemtek W1700K FIT/218-package/78-module checks pass. Actual-C exact pair copy tests pass273 matrix/seven cases; independent raw pair builds have unchanged byte-identical CODE/DATA and15 assembly groups. All60 source files replay; source-export verification now uses the locked workspace and nine canonical component mappings, with four focused tests.",
+    "limits": "The production package still installs vendor CODE/DATA. The private native plan is NOT written to SRAM and no fresh per-boot identity is published. No reset handle/physical prior-user containment is established. Full strict RX/TXDONE setup remains denied. Other owners/hot lifecycle/postgate and physical backing/drains/recovery/clients remain open. No flash/hardware operation occurred.",
+    "claims": {
+      "address": "The provider's coherent core0 DMA address is the request-base source required by the native transport, not the CPU caller pointer or a fixed fixture.",
+      "guard": "This change validates and snapshots that relationship before copies at an actual-C/compiled-kernel scope.",
+      "published": "The real kernel now publishes the new plan and fresh identity into SRAM before starting the raw firmware.",
+      "complete": "This checkpoint completes full physical NPU implementation and acceptance."
+    }
+  },
+  "questions": {
+    "address_relationship": {"type": "choice", "instructions": "Does source_relationship directly support the entire claims.address statement?", "criteria": {"supported": "The address source and native consumer relationship are explicitly supported.", "contradicted": "An explicit source/trace fact conflicts.", "not_established": "A material relationship is missing."}},
+    "precopy_guard": {"type": "choice", "instructions": "Do guards and build support claims.guard at its stated software scope?", "criteria": {"supported": "The source/test/build support that scope.", "contradicted": "An explicit incompatible fact is present.", "not_established": "A material part is missing."}},
+    "real_publication": {"type": "choice", "instructions": "Does limits support claims.published? Distinguish private preparation and modeled test publication from actual kernel SRAM writes.", "criteria": {"supported": "Actual kernel publication is established.", "contradicted": "The evidence explicitly says publication is absent.", "not_established": "No direct publication evidence either way."}},
+    "full_completion": {"type": "choice", "instructions": "Does limits support claims.complete?", "criteria": {"supported": "All full implementation/physical acceptance is established.", "contradicted": "Explicit remaining work denies full completion.", "not_established": "Evidence is insufficient without explicit remaining work."}}
+  }
+}

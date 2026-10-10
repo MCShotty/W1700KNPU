@@ -1,0 +1,93 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-provider-plan-20261010\\jev-post-request.json",
+  "request_sha256": "89b14f8bd2e9a6b24e8fb5799f220f595ec7342a2f4ab263be54c0e150d8f0b3",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "address_relationship": {
+      "type": "choice",
+      "instructions": "Does source_relationship directly support the entire claims.address statement?",
+      "criteria": {
+        "supported": "The address source and native consumer relationship are explicitly supported.",
+        "contradicted": "An explicit source/trace fact conflicts.",
+        "not_established": "A material relationship is missing."
+      }
+    },
+    "precopy_guard": {
+      "type": "choice",
+      "instructions": "Do guards and build support claims.guard at its stated software scope?",
+      "criteria": {
+        "supported": "The source/test/build support that scope.",
+        "contradicted": "An explicit incompatible fact is present.",
+        "not_established": "A material part is missing."
+      }
+    },
+    "real_publication": {
+      "type": "choice",
+      "instructions": "Does limits support claims.published? Distinguish private preparation and modeled test publication from actual kernel SRAM writes.",
+      "criteria": {
+        "supported": "Actual kernel publication is established.",
+        "contradicted": "The evidence explicitly says publication is absent.",
+        "not_established": "No direct publication evidence either way."
+      }
+    },
+    "full_completion": {
+      "type": "choice",
+      "instructions": "Does limits support claims.complete?",
+      "criteria": {
+        "supported": "All full implementation/physical acceptance is established.",
+        "contradicted": "Explicit remaining work denies full completion.",
+        "not_established": "Evidence is insufficient without explicit remaining work."
+      }
+    }
+  },
+  "elapsed_ms": 1027,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "address_relationship": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.56,
+        "probabilities": {
+          "supported": 0.71,
+          "contradicted": 0.03,
+          "not_established": 0.26
+        }
+      },
+      "precopy_guard": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.31,
+        "probabilities": {
+          "supported": 0.54,
+          "contradicted": 0.34,
+          "not_established": 0.11
+        }
+      },
+      "real_publication": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "full_completion": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1458,
+      "output_tokens": 185
+    }
+  }
+}

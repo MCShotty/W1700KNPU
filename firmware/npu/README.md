@@ -1,5 +1,15 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Linux Producer Of The Native Plan
+
+The canonical provider now prepares the48-byte plan from reserved memory and its
+actual coherent core0 DMA address before copying firmware. Raw native bootstrap
+accepts the emitted dynamic address and rejects the old fixture; plan bytes and
+all-hart parking are checked. The firmware core/raw bytes are unchanged.
+This is private software preparation, not actual SRAM/boot-identity publication
+or a physical containment contract. Full strict setup remains denied. New kernel/
+image and scoped proof: `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.
+
 ## 2026-10-10 - Complete Raw Pair Target
 
 `make pair PAIR_OUT=../../.local/npu-pair-fresh` compiles the twelve linked native

@@ -1,0 +1,30 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "airoha_npu_load_firmware": "static int airoha_npu_load_firmware(struct airoha_npu_priv *priv, void __iomem *addr,\n\t\t\t\t    void __iomem *base,\n\t\t\t\t    const struct airoha_npu_soc_data *images)\n{\n\tstruct device *dev = priv->npu.dev;\n\tconst struct firmware *rv32, *data;\n\tint ret;\n\n\t/* MT7996 startup consumes these regions before normal WLAN setup. */\n\tif (priv->txbuf_min_size) {\n\t\tret = airoha_npu_wlan_prepare_memory(priv, priv->wlan_memory,\n\t\t\t\t\t\t     &priv->wlan_memory_count);\n\t\tif (ret)\n\t\t\tgoto invalidate;\n\t\tret = airoha_npu_wlan_prepare_request(priv);\n\t\tif (ret)\n\t\t\tgoto invalidate;\n\t}\n\n\tret = airoha_npu_request_firmware(dev, &images->fw_rv32, &rv32);\n\tif (ret)\n\t\tgoto invalidate;\n\n\tret = airoha_npu_request_firmware(dev, &images->fw_data, &data);\n\tif (ret)\n\t\tgoto release_rv32;\n\n\t/* A deferred or invalid second image must not replace just the code. */\n\tmemcpy_toio(addr, rv32->data, rv32->size);\n\tmemcpy_toio(base + REG_NPU_LOCAL_SRAM, data->data, data->size);\n\trelease_firmware(data);\nrelease_rv32:\n\trelease_firmware(rv32);\ninvalidate:\n\tif (ret) {\n\t\tpriv->wlan_memory_count = 0;\n\t\tpriv->wlan_request_valid = false;\n\t\tpriv->native_plan_ready = false;\n\t\tmemset(&priv->wlan_request, 0, sizeof(priv->wlan_request));\n\t\tmemset(priv->native_plan, 0, sizeof(priv->native_plan));\n\t} else {\n\t\tpriv->firmware_loaded = true;\n\t}\n\n\treturn ret;\n}",
+    "airoha_npu_wlan_prepare_request": "static int airoha_npu_wlan_prepare_request(struct airoha_npu_priv *priv)\n{\n\tstruct airoha_npu_core *core = &priv->npu.cores[0];\n\tstruct resource request = {};\n\tunsigned int i;\n\n\t/* The native transport pins the coherent mailbox's DMA address, not\n\t * the source pointer or a test fixture. Geometry is not containment.\n\t */\n\tif (!core->buf)\n\t\treturn -EINVAL;\n\tif (core->mbox_pending)\n\t\treturn -EBUSY;\n\tif (!IS_ALIGNED(core->addr, sizeof(u32)))\n\t\treturn -EINVAL;\n\tif (core->addr < 0x80000000ULL ||\n\t    core->addr > 0xc0000000ULL - AIROHA_NPU_MBOX_SIZE)\n\t\treturn -ERANGE;\n\trequest.start = core->addr;\n\trequest.end = request.start + AIROHA_NPU_MBOX_SIZE - 1;\n\tif (resource_overlaps(&request, &priv->firmware_region))\n\t\treturn -EINVAL;\n\tfor (i = 0; i < priv->wlan_memory_count; i++)\n\t\tif (resource_overlaps(&request, &priv->wlan_memory[i]))\n\t\t\treturn -EINVAL;\n\n\tpriv->wlan_request = request;\n\tpriv->wlan_request_valid = true;\n\t/* Optional-BA legacy profiles cannot supply the six-region native ABI.\n\t * This private snapshot is not yet an SRAM/boot-identity publication.\n\t */\n\tif (priv->wlan_memory_count != 4 ||\n\t    priv->firmware_region.start != 0x84000000ULL ||\n\t    priv->firmware_region.end >= 0xc0000000ULL)\n\t\treturn 0;\n\tpriv->native_plan[0][0] = priv->firmware_region.start;\n\tpriv->native_plan[0][1] = resource_size(&priv->firmware_region);\n\tfor (i = 0; i < priv->wlan_memory_count; i++) {\n\t\tpriv->native_plan[i + 1][0] = priv->wlan_memory[i].start;\n\t\tpriv->native_plan[i + 1][1] = resource_size(&priv->wlan_memory[i]);\n\t}\n\tpriv->native_plan[5][0] = request.start;\n\tpriv->native_plan[5][1] = AIROHA_NPU_MBOX_SIZE;\n\tpriv->native_plan_ready = true;\n\n\treturn 0;\n}",
+    "airoha_npu_run_firmware": "static int airoha_npu_run_firmware(struct airoha_npu_priv *priv, void __iomem *base,\n\t\t\t\t   struct resource *res)\n{\n\tstruct device *dev = priv->npu.dev;\n\tconst struct airoha_npu_soc_data *soc;\n\tvoid __iomem *addr;\n\n\tpriv->firmware_loaded = false;\n\tpriv->wlan_memory_count = 0;\n\tpriv->wlan_request_valid = false;\n\tpriv->native_plan_ready = false;\n\tmemset(&priv->wlan_request, 0, sizeof(priv->wlan_request));\n\tmemset(priv->native_plan, 0, sizeof(priv->native_plan));\n\tsoc = of_device_get_match_data(dev);\n\tif (!soc)\n\t\treturn -EINVAL;\n\n\t/* The probe publishes the backup address immediately after the code area. */\n\tif (!airoha_npu_memory_valid(res) ||\n\t    resource_size(res) < NPU_EN7581_FIRMWARE_RV32_MAX_SIZE + NPU_SRAM_BACKUP_SIZE)\n\t\treturn dev_err_probe(dev, -EINVAL, \"invalid NPU firmware memory region\\n\");\n\tpriv->firmware_region.start = res->start;\n\tpriv->firmware_region.end = res->end;\n\tpriv->txbuf_min_size = 0;\n\n\taddr = devm_ioremap_resource(dev, res);\n\tif (IS_ERR(addr))\n\t\treturn PTR_ERR(addr);\n\n\t/* Try to load firmware images using the firmware names provided via\n\t * dts if available.\n\t */\n\tif (of_find_property(dev->of_node, \"firmware-name\", NULL))\n\t\treturn airoha_npu_load_firmware_from_dts(priv, addr, base);\n\n\tif (!strcmp(soc->fw_rv32.name, NPU_EN7581_7996_FIRMWARE_RV32))\n\t\tpriv->txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;\n\n\treturn airoha_npu_load_firmware(priv, addr, base, soc);\n}"
+  },
+  "questions": {
+    "precopy_order": {
+      "type": "noul",
+      "instructions": "For the selected txbuf_min_size branch in airoha_npu_load_firmware, is airoha_npu_wlan_prepare_request checked for failure before either firmware request and before either memcpy_toio?"
+    },
+    "request_field": {
+      "type": "noul",
+      "instructions": "Does airoha_npu_wlan_prepare_request derive request.start and native_plan[5][0] from priv->npu.cores[0].addr rather than a fixed fixture or the virtual core->buf pointer?"
+    },
+    "incomplete_plan": {
+      "type": "noul",
+      "instructions": "Considering airoha_npu_run_firmware resets native_plan_ready, does a run with wlan_memory_count != 4 keep native_plan_ready false through airoha_npu_wlan_prepare_request?"
+    },
+    "physical_drain": {
+      "type": "noul",
+      "instructions": "Does airoha_npu_wlan_prepare_request itself perform any physical engine reset or DMA drain, instead of only checking geometry and storing private metadata?"
+    },
+    "failed_load_plan": {
+      "type": "noul",
+      "instructions": "Does the invalidate path in airoha_npu_load_firmware clear the private request/plan validity flags and private metadata when ret is nonzero?"
+    }
+  }
+}

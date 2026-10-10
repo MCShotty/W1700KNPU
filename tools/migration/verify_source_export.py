@@ -9,8 +9,9 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = Path('/home/captain/w1700k-openwrt-build/openwrt-w1700k-daybreak20-20260904')
 lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
+SOURCE = ROOT / lock['build_directory']
+components = {(row['tree'], row['destination']): row for row in lock.get('component_sources', [])}
 results = []
 for label, source in [('openwrt', SOURCE), ('luci', SOURCE / 'feeds/luci')]:
     with tempfile.TemporaryDirectory(prefix='export-check-', dir=ROOT / '.migration') as tmp:
@@ -22,6 +23,11 @@ for label, source in [('openwrt', SOURCE), ('luci', SOURCE / 'feeds/luci')]:
         for entry in lock[label]['changed_files']:
             name = entry['path']
             extra = ROOT / 'firmware/overlay' / label / name
+            component = components.get((label, name))
+            if component:
+                if component['sha256'] != entry['sha256']:
+                    raise RuntimeError(f'Component metadata mismatch: {label}/{name}')
+                extra = ROOT / component['source']
             data = extra.read_bytes() if extra.is_file() else git('show', ':' + name)
             if hashlib.sha256(data).hexdigest() != entry['sha256']:
                 raise RuntimeError(f'Export mismatch: {label}/{name}')

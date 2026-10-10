@@ -1,5 +1,20 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - Private Provider Plan Prepared
+
+The MT7996 provider now preflights/snapshots its coherent request before copies.
+Actual C passes308 cases/nine mutants and existing memory/retry/V2/exact-pair
+regressions. Raw bootstrap consumes the emitted dynamic-address plan and parks
+all eight harts; the old fixture is rejected. Full world/source/image checks
+pass. Latest FIT `8efb19fb...`; old `230e03a7...` image is preserved; no flash.
+
+This closes private plan/request preparation, not real SRAM/fresh-identity
+publication or reset containment. Next complete actual cold-provider/storage/
+retained lifetime and publication, paired packaging, then strict Linux setup
+callers. Full native RX/TXDONE transport remains denied. Other owners/hot/postgate
+and physical backing/coherency/drains/recovery/client gates remain required.
+Evidence: `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.
+
 ## 2026-10-10 - Raw Pair Assembled And Replayed
 
 The complete paired raw CODE/DATA prerequisite now passes: independent builds

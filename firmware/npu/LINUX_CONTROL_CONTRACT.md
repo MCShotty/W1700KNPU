@@ -5,6 +5,12 @@ provider's `airoha_npu_wlan_control()` transport. The 2026-09-23 unified merge
 compiles these canonical sources into mt76. Cold-session initialization and
 actual setup/recovery callers are not yet implemented.
 
+The 2026-10-10 provider prepares a private native memory/request plan using its
+coherent core0 DMA address before firmware copies. It does not publish the plan
+or fresh boot identity to SRAM, or anchor a contained lifetime for this executor.
+See `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md` for the software
+bridge and the remaining actual-loader/caller/physical contracts.
+
 ## Ownership
 
 The caller must initialize an unpublished, zeroed executor exactly once for an

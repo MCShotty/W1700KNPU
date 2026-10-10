@@ -1,0 +1,1216 @@
+{
+  "format": "w1700k-npu-pair-v1",
+  "profile": "mt7996-native-cold-v2",
+  "original": {
+    "code_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    "data_sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1"
+  },
+  "code": {
+    "base": 2214592512,
+    "bytes": 529336,
+    "sha256": "2c73c38a406c514220ec3c4c9ceb9a7e1c530b3c218e494c50f3f3405f58744e"
+  },
+  "data": {
+    "base": 1049624576,
+    "bytes": 25512,
+    "sha256": "44e907a4535cf40f999041acfc820000db9fe7c0822ad4c0166bfd8587648566"
+  },
+  "components": {
+    "base": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/base-rv.elf",
+      "sha256": "9c46626e1e56517f40d07ecb68103fa1c06ed765b3db2b67ed94f1f7869217a5"
+    },
+    "bridge": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/bridge.elf",
+      "sha256": "283bd83330704c743c0efbf29234cff84e080199927eb409884803babbe63e9b"
+    },
+    "reset": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/reset.elf",
+      "sha256": "f541a628420199a4b1acd45b6a16843fb43ab468e9c80cd616a5a26535a0421b"
+    },
+    "allocator": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/allocator.elf",
+      "sha256": "04744944c595772114d9605f0dcbf17cf81290d260a5425768c9e64d41b08d8d"
+    },
+    "txdone": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/txdone.elf",
+      "sha256": "01886d8e2f7f3a27fcbf89c7a5f05d4460e320fd880fa965088e1ae17ba19b9d"
+    },
+    "order": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/order.elf",
+      "sha256": "99515c31abf83b30e4b7d171f717a5536d6a5e4011e3c6107364ddc53c3e46b7"
+    },
+    "headers": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/headers.elf",
+      "sha256": "f85af3ce8ecdbb346b50bbefaef56e33583c44087413a38e9bb7a613454dd9b3"
+    },
+    "egress": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/egress.elf",
+      "sha256": "7a05c62f1f418d90cd03edeb5e51284a9e968df69f6cc1046ec0f822a22690ba"
+    },
+    "packets": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/components/packets.elf",
+      "sha256": "d40059f31cdd4619a7ac7c5e2fefa50e16b0def8c4de57fee8d2ace7c5bb1cbf"
+    },
+    "cold-pages": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/page/native-page.elf",
+      "sha256": "546a4404fa87c80e52ccd5f226a1df5e1355ae2553bf2c0cd699c2e82ac3aefd"
+    },
+    "rx-stats": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/rx/rx-stats.elf",
+      "sha256": "349d71e5c5d488fad0a5517a8fb113c2f738de116d13aeab595ab3cad7f81876"
+    },
+    "cold-packets": {
+      "path": "/home/captain/W1700KNPU/.local/npu-provider-plan-20261010/pair-final/packet/native-packet.elf",
+      "sha256": "496db73322ee04c7fd29872adc2d609d0cf310edb2bf6fa4e693d39861185f6c"
+    }
+  },
+  "sections": [
+    {
+      "component": "base",
+      "section": ".text",
+      "start": 2214854656,
+      "end": 2214867492,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "87fa50dc1fbddcc91edec3e67a69742fab5cf749e6d9046291afcc7775563d53"
+    },
+    {
+      "component": "base",
+      "section": ".rodata",
+      "start": 2214867492,
+      "end": 2214867620,
+      "zero_fill": false,
+      "flags": 2,
+      "sha256": "7680dc0f034423969a8e3a15a41addcb044a57ab299c83fae814dda3594ef249"
+    },
+    {
+      "component": "bridge",
+      "section": ".text",
+      "start": 2214887424,
+      "end": 2214887512,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "d71b6c528536b2bf7f3fbc1e2ebf043a386cd0a2c5a83e58a94a13919dbcd3ca"
+    },
+    {
+      "component": "reset",
+      "section": ".text",
+      "start": 2214903808,
+      "end": 2214903828,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "3025aa46921bfd8ceca53ae24f1c8311501c934002fb11e5a126f17f936e596a"
+    },
+    {
+      "component": "allocator",
+      "section": ".text",
+      "start": 2214912000,
+      "end": 2214914708,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "202cf6965f46f7a0687bd0c193c306d19c9ec90d6211b9b2e5fd3821638c0eb3"
+    },
+    {
+      "component": "allocator",
+      "section": ".rodata",
+      "start": 2214914708,
+      "end": 2214914748,
+      "zero_fill": false,
+      "flags": 2,
+      "sha256": "8aaa21725a904d4f6e791fab496e4a4cc296be02f37aca38c1ce8d1760e8637f"
+    },
+    {
+      "component": "allocator",
+      "section": ".bss",
+      "start": 2214914748,
+      "end": 2214914752,
+      "zero_fill": true,
+      "flags": 3,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "component": "allocator",
+      "section": ".command_ring",
+      "start": 2214985728,
+      "end": 2215018512,
+      "zero_fill": false,
+      "flags": 3,
+      "sha256": "05c49ce570906bdb1c6bc00c289d4f6dad41691964fd7ea4504b1b5048156770"
+    },
+    {
+      "component": "txdone",
+      "section": ".text",
+      "start": 2214928384,
+      "end": 2214930122,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "fdb95687c93119835b3bf822998b4ac6b6867e8423e5bd1b732c4a28b0f0191d"
+    },
+    {
+      "component": "order",
+      "section": ".text",
+      "start": 2214936576,
+      "end": 2214936620,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "9cb570408f077564c486e5d3e54b9ef9f959e096cb0740164c58949baf196209"
+    },
+    {
+      "component": "headers",
+      "section": ".text",
+      "start": 2214944768,
+      "end": 2214945214,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "4d1306018187feb1e4aef951aba51306629d8aa0849fb8c04ef58203576b9cca"
+    },
+    {
+      "component": "egress",
+      "section": ".text",
+      "start": 2214952960,
+      "end": 2214953140,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "5e88f48b14d0a68d996fca3eff3fafced375eef9a43c0e596348889e1c7b8d80"
+    },
+    {
+      "component": "packets",
+      "section": ".text",
+      "start": 2214961152,
+      "end": 2214961470,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "9b8b957619afb4dde9be7ada5388a59c13b45cd6d9fa9631922b5a28177018a7"
+    },
+    {
+      "component": "cold-pages",
+      "section": ".text",
+      "start": 2215084032,
+      "end": 2215086448,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "c65e48a6763df26336b94d632b91fb78b6533e75aa346f026fbfb7b3763d279c"
+    },
+    {
+      "component": "cold-pages",
+      "section": ".rodata",
+      "start": 2215086448,
+      "end": 2215086488,
+      "zero_fill": false,
+      "flags": 18,
+      "sha256": "909ae8c51eda8201b9bcde915f33c75a180d23a1a3e5d5aade257955883e1f07"
+    },
+    {
+      "component": "cold-pages",
+      "section": ".bss",
+      "start": 2215086488,
+      "end": 2215087580,
+      "zero_fill": true,
+      "flags": 3,
+      "sha256": "f7ec4d08c90f5b50f1f30152df1641a2e411b8714623dee9004a813246261d0f"
+    },
+    {
+      "component": "rx-stats",
+      "section": ".text",
+      "start": 2215100416,
+      "end": 2215101430,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "370470d48a375516a16db71da3d2fe45c72eb22dc0cfc65237f8b771a71e52ca"
+    },
+    {
+      "component": "cold-packets",
+      "section": ".text",
+      "start": 2215116800,
+      "end": 2215119718,
+      "zero_fill": false,
+      "flags": 6,
+      "sha256": "6c74f18c2b421d9d2a113fd56a2eb9000cf74ed7ed57e8010f9dc8fd1f8eb437"
+    },
+    {
+      "component": "cold-packets",
+      "section": ".rodata",
+      "start": 2215119720,
+      "end": 2215119724,
+      "zero_fill": false,
+      "flags": 2,
+      "sha256": "b01099398ce27bbcb7ed256854acc338ba75af739e9d73d741dcb13dc4cbfb56"
+    },
+    {
+      "component": "cold-packets",
+      "section": ".bss",
+      "start": 2215119728,
+      "end": 2215121848,
+      "zero_fill": true,
+      "flags": 3,
+      "sha256": "c1448b9e612668eedc320cc285053fcee62dc9afb40e435c70948441d486b8e2"
+    }
+  ],
+  "hooks": [
+    {
+      "site": 2214592628,
+      "component": "base",
+      "symbol": "npu_emulation_before_bss",
+      "before": "b7c2c01e",
+      "target": 2214861600,
+      "rd": 0,
+      "after": "6f10d42a"
+    },
+    {
+      "site": 2214592752,
+      "component": "base",
+      "symbol": "npu_emulation_reset_gate",
+      "before": "97000000",
+      "target": 2214861788,
+      "rd": 0,
+      "after": "6f10d42e"
+    },
+    {
+      "site": 2214592904,
+      "component": "base",
+      "symbol": "npu_coordinator_main_return",
+      "before": "b2400145",
+      "target": 2214861980,
+      "rd": 0,
+      "after": "6f105431"
+    },
+    {
+      "site": 2214595364,
+      "component": "base",
+      "symbol": "gate_core7_startup",
+      "before": "ef00f014",
+      "target": 2214866964,
+      "rd": 0,
+      "after": "6f20044f"
+    },
+    {
+      "site": 2214595382,
+      "component": "base",
+      "symbol": "gate_core7_outer",
+      "before": "ef00100c",
+      "target": 2214867228,
+      "rd": 0,
+      "after": "6f20645e"
+    },
+    {
+      "site": 2214597770,
+      "component": "bridge",
+      "symbol": "npu_emulation_bridge_base_guard",
+      "before": "aa87aa85",
+      "target": 2214887424,
+      "rd": 0,
+      "after": "6f607437"
+    },
+    {
+      "site": 2214597888,
+      "component": "bridge",
+      "symbol": "npu_emulation_bridge_channel_guard",
+      "before": "91e35685",
+      "target": 2214887472,
+      "rd": 0,
+      "after": "6f601433"
+    },
+    {
+      "site": 2214598018,
+      "component": "egress",
+      "symbol": "npu_emulation_egress_channel",
+      "before": "3723c11e",
+      "target": 2214952960,
+      "rd": 0,
+      "after": "6f60f527"
+    },
+    {
+      "site": 2214598046,
+      "component": "egress",
+      "symbol": "npu_emulation_egress_slots",
+      "before": "63070e04",
+      "target": 2214952984,
+      "rd": 0,
+      "after": "6f60b527"
+    },
+    {
+      "site": 2214598542,
+      "component": "egress",
+      "symbol": "npu_emulation_egress_extent",
+      "before": "4111c206",
+      "target": 2214953000,
+      "rd": 0,
+      "after": "6f60b509"
+    },
+    {
+      "site": 2214600312,
+      "component": "headers",
+      "symbol": "npu_emulation_srv6_consumer",
+      "before": "797106d6",
+      "target": 2214945078,
+      "rd": 0,
+      "after": "6f40e52b"
+    },
+    {
+      "site": 2214600338,
+      "component": "packets",
+      "symbol": "npu_emulation_srv6_preflight",
+      "before": "eff04fdd",
+      "target": 2214961330,
+      "rd": 0,
+      "after": "6f800522"
+    },
+    {
+      "site": 2214600426,
+      "component": "headers",
+      "symbol": "npu_emulation_srv6_size_a5",
+      "before": "83470900",
+      "target": 2214945198,
+      "rd": 0,
+      "after": "6f40452c"
+    },
+    {
+      "site": 2214600448,
+      "component": "headers",
+      "symbol": "npu_emulation_srv6_size_a2",
+      "before": "03460900",
+      "target": 2214945206,
+      "rd": 0,
+      "after": "6f40652b"
+    },
+    {
+      "site": 2214600506,
+      "component": "packets",
+      "symbol": "npu_emulation_srv6_tail",
+      "before": "9306e002",
+      "target": 2214961458,
+      "rd": 0,
+      "after": "6f80851f"
+    },
+    {
+      "site": 2214604978,
+      "component": "base",
+      "symbol": "npu_emulation_irq_dispatch",
+      "before": "411122c4",
+      "target": 2214860118,
+      "rd": 0,
+      "after": "6fe0434a"
+    },
+    {
+      "site": 2214608686,
+      "component": "base",
+      "symbol": "npu_emulation_mailbox_register",
+      "before": "eff06fb2",
+      "target": 2214861940,
+      "rd": 0,
+      "after": "6fd07354"
+    },
+    {
+      "site": 2214611496,
+      "component": "txdone",
+      "symbol": "npu_emulation_txdone_lock19_guard",
+      "before": "14c3c18f",
+      "target": 2214929802,
+      "rd": 0,
+      "after": "6fd03436"
+    },
+    {
+      "site": 2214611514,
+      "component": "txdone",
+      "symbol": "npu_emulation_txdone_lock20_guard",
+      "before": "97650100",
+      "target": 2214929894,
+      "rd": 0,
+      "after": "6fd0d43a"
+    },
+    {
+      "site": 2214611720,
+      "component": "txdone",
+      "symbol": "npu_emulation_txdone_temp_guard",
+      "before": "83170e00",
+      "target": 2214930010,
+      "rd": 0,
+      "after": "6fd03435"
+    },
+    {
+      "site": 2214612352,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_entry",
+      "before": "411117d58fba",
+      "target": 2215119374,
+      "rd": 0,
+      "after": "6fb0f7480100"
+    },
+    {
+      "site": 2214612370,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_guard",
+      "before": "97d68fba",
+      "target": 2215119478,
+      "rd": 0,
+      "after": "6fb0574e"
+    },
+    {
+      "site": 2214613504,
+      "component": "allocator",
+      "symbol": "npu_emulation_allocator_startup_dispatch",
+      "before": "13070008",
+      "target": 2214914564,
+      "rd": 0,
+      "after": "6f905400"
+    },
+    {
+      "site": 2214613706,
+      "component": "reset",
+      "symbol": "npu_emulation_allocator_reset_prepare",
+      "before": "efa09004",
+      "target": 2214903808,
+      "rd": 1,
+      "after": "ef607453"
+    },
+    {
+      "site": 2214613716,
+      "component": "reset",
+      "symbol": null,
+      "before": "97d78fba",
+      "target": 2214613732,
+      "rd": 0,
+      "after": "6f000001"
+    },
+    {
+      "site": 2214613926,
+      "component": "base",
+      "symbol": "npu_emulation_gdma_copy",
+      "before": "93174500",
+      "target": 2214861472,
+      "rd": 0,
+      "after": "6fc0a36f"
+    },
+    {
+      "site": 2214616112,
+      "component": "headers",
+      "symbol": "npu_emulation_vxlan_header",
+      "before": "411122c4",
+      "target": 2214944922,
+      "rd": 0,
+      "after": "6f00a546"
+    },
+    {
+      "site": 2214616194,
+      "component": "headers",
+      "symbol": "npu_emulation_srv6_header",
+      "before": "411122c4",
+      "target": 2214944994,
+      "rd": 0,
+      "after": "6f000546"
+    },
+    {
+      "site": 2214634394,
+      "component": "rx-stats",
+      "symbol": "npu_emulation_rx_stats2",
+      "before": "97878fba",
+      "target": 2215101086,
+      "rd": 0,
+      "after": "6f105770"
+    },
+    {
+      "site": 2214634414,
+      "component": "rx-stats",
+      "symbol": "npu_emulation_rx_stats0",
+      "before": "97878fba",
+      "target": 2215101014,
+      "rd": 0,
+      "after": "6f10976a"
+    },
+    {
+      "site": 2214638918,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_txdone_publish",
+      "before": "97878fba",
+      "target": 2215119690,
+      "rd": 0,
+      "after": "6f504760"
+    },
+    {
+      "site": 2214639560,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_ready0",
+      "before": "2320f72c",
+      "target": 2215119562,
+      "rd": 0,
+      "after": "6f502730"
+    },
+    {
+      "site": 2214639862,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_ready2",
+      "before": "232bf7c8",
+      "target": 2215119626,
+      "rd": 0,
+      "after": "6f504721"
+    },
+    {
+      "site": 2214640540,
+      "component": "cold-pages",
+      "symbol": "npu_emulation_page_get_dispatch",
+      "before": "97868fba",
+      "target": 2215086240,
+      "rd": 0,
+      "after": "6fc05650"
+    },
+    {
+      "site": 2214640968,
+      "component": "cold-pages",
+      "symbol": "npu_emulation_page_ready7",
+      "before": "2322f7fa",
+      "target": 2215086388,
+      "rd": 0,
+      "after": "6fc0d63e"
+    },
+    {
+      "site": 2214640994,
+      "component": "cold-pages",
+      "symbol": "npu_emulation_page_ready5",
+      "before": "2323f71e",
+      "target": 2215086268,
+      "rd": 0,
+      "after": "6fc0b635"
+    },
+    {
+      "site": 2214641030,
+      "component": "cold-pages",
+      "symbol": "npu_emulation_page_ready6",
+      "before": "23a997bd",
+      "target": 2215086328,
+      "rd": 0,
+      "after": "6fc03637"
+    },
+    {
+      "site": 2214644076,
+      "component": "order",
+      "symbol": "npu_emulation_ring_publish",
+      "before": "40c31cc7",
+      "target": 2214936576,
+      "rd": 0,
+      "after": "6f704469"
+    },
+    {
+      "site": 2214644542,
+      "component": "base",
+      "symbol": "gate_core5_startup",
+      "before": "1c43fddf",
+      "target": 2214861996,
+      "rd": 0,
+      "after": "6f50e316"
+    },
+    {
+      "site": 2214644670,
+      "component": "base",
+      "symbol": "gate_core5_outer",
+      "before": "83570a00",
+      "target": 2214862232,
+      "rd": 0,
+      "after": "6f50a31d"
+    },
+    {
+      "site": 2214644682,
+      "component": "base",
+      "symbol": "gate_core5_empty_first",
+      "before": "83576100",
+      "target": 2214862468,
+      "rd": 0,
+      "after": "6f50a32b"
+    },
+    {
+      "site": 2214644748,
+      "component": "base",
+      "symbol": "gate_core5_empty_repeat",
+      "before": "83576100",
+      "target": 2214862704,
+      "rd": 0,
+      "after": "6f504336"
+    },
+    {
+      "site": 2214644766,
+      "component": "order",
+      "symbol": "npu_emulation_ring_consumer_acquire",
+      "before": "03576100",
+      "target": 2214936596,
+      "rd": 0,
+      "after": "6f70643f"
+    },
+    {
+      "site": 2214644814,
+      "component": "order",
+      "symbol": "npu_emulation_ring_consumer_release",
+      "before": "231ce5a8",
+      "target": 2214936608,
+      "rd": 0,
+      "after": "6f70243d"
+    },
+    {
+      "site": 2214645054,
+      "component": "base",
+      "symbol": "gate_core6_startup",
+      "before": "9c40fddf",
+      "target": 2214866160,
+      "rd": 0,
+      "after": "6f50337b"
+    },
+    {
+      "site": 2214645130,
+      "component": "base",
+      "symbol": "gate_core6_outer",
+      "before": "9c4099cb",
+      "target": 2214866428,
+      "rd": 0,
+      "after": "6f602307"
+    },
+    {
+      "site": 2214645150,
+      "component": "base",
+      "symbol": "gate_core6_retry",
+      "before": "9c40fdf7",
+      "target": 2214866696,
+      "rd": 0,
+      "after": "6f60a316"
+    },
+    {
+      "site": 2214645276,
+      "component": "base",
+      "symbol": "gate_core1_startup",
+      "before": "9c4281cf",
+      "target": 2214862940,
+      "rd": 0,
+      "after": "6f500324"
+    },
+    {
+      "site": 2214645520,
+      "component": "base",
+      "symbol": "gate_core1_outer",
+      "before": "1c4081ef",
+      "target": 2214863208,
+      "rd": 0,
+      "after": "6f508325"
+    },
+    {
+      "site": 2214645542,
+      "component": "base",
+      "symbol": "gate_core1_idle",
+      "before": "1c40f5d7",
+      "target": 2214863576,
+      "rd": 0,
+      "after": "6f50233b"
+    },
+    {
+      "site": 2214645994,
+      "component": "base",
+      "symbol": "gate_core4_startup",
+      "before": "83470400",
+      "target": 2214865380,
+      "rd": 0,
+      "after": "6f50b30f"
+    },
+    {
+      "site": 2214646084,
+      "component": "base",
+      "symbol": "gate_core4_outer",
+      "before": "83470400",
+      "target": 2214865640,
+      "rd": 0,
+      "after": "6f50531a"
+    },
+    {
+      "site": 2214646112,
+      "component": "base",
+      "symbol": "gate_core4_idle",
+      "before": "83470400",
+      "target": 2214865900,
+      "rd": 0,
+      "after": "6f50d328"
+    },
+    {
+      "site": 2214649280,
+      "component": "rx-stats",
+      "symbol": "npu_emulation_rx_dispatch0",
+      "before": "22852244",
+      "target": 2215101158,
+      "rd": 0,
+      "after": "6fe06652"
+    },
+    {
+      "site": 2214649302,
+      "component": "rx-stats",
+      "symbol": "npu_emulation_rx_dispatch2",
+      "before": "22852244",
+      "target": 2215101230,
+      "rd": 0,
+      "after": "6fe08655"
+    },
+    {
+      "site": 2214650944,
+      "component": "base",
+      "symbol": "gate_core3_startup",
+      "before": "1c42e5db",
+      "target": 2214864852,
+      "rd": 0,
+      "after": "6f404339"
+    },
+    {
+      "site": 2214651092,
+      "component": "base",
+      "symbol": "gate_core3_outer",
+      "before": "83c70700",
+      "target": 2214865120,
+      "rd": 0,
+      "after": "6f40c340"
+    },
+    {
+      "site": 2214653054,
+      "component": "base",
+      "symbol": "gate_core2_startup",
+      "before": "1c43fddf",
+      "target": 2214863944,
+      "rd": 0,
+      "after": "6f30a37c"
+    },
+    {
+      "site": 2214653122,
+      "component": "base",
+      "symbol": "gate_core2_outer",
+      "before": "83470900",
+      "target": 2214864252,
+      "rd": 0,
+      "after": "6f30b30b"
+    },
+    {
+      "site": 2214653158,
+      "component": "base",
+      "symbol": "gate_core2_idle",
+      "before": "83470900",
+      "target": 2214864552,
+      "rd": 0,
+      "after": "6f30331c"
+    },
+    {
+      "site": 2214657588,
+      "component": "cold-packets",
+      "symbol": "npu_emulation_packet_callback",
+      "before": "0c410845",
+      "target": 2215119100,
+      "rd": 0,
+      "after": "6f00972c"
+    }
+  ],
+  "edits": [
+    {
+      "site": 2214703664,
+      "before": "ffe50000",
+      "after": "00100100",
+      "purpose": "checked bridge extent"
+    }
+  ],
+  "initializers": [
+    {
+      "address": 1049649536,
+      "bytes": "4e505331010000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "purpose": "fresh startup descriptor"
+    }
+  ],
+  "loader_slots": [
+    {
+      "address": 1049649920,
+      "bytes": 48,
+      "purpose": "validated real loader memory/request plan"
+    },
+    {
+      "address": 1049650048,
+      "bytes": 20,
+      "purpose": "fresh V2 session storage"
+    },
+    {
+      "address": 1049650080,
+      "bytes": 8,
+      "purpose": "fresh per-boot identity"
+    }
+  ],
+  "loader_provisioned": false,
+  "physical_storage_or_containment_proved": false,
+  "inputs": {
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap-v2.c": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "8c3e9719c079fb41558394a8644644e60d2d1be16ba37fddcfa60e85e34c78ed",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/linux-control.c": "27344e0d4cae54edda40193316c8ce1d297b529797999bc3310a9d242c988f8f",
+    "firmware/npu/linux-control.h": "3082418929d820e3abf4e3405c089b5f03a645b8bdbe23bd02cf6c71a0f5712a",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/tunnel-packet.c": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-concurrency.c": "0cc1d0c119b30324688b76547c501cc9baf724dc491356bd9494a2000768a43a",
+    "tests/npu/allocator-emulation.ld": "ab6c13d09c0763fe64fc162c453c94bd38d197e0a26d24b9a8e66711d1c992c9",
+    "tests/npu/allocator-placement-emulation.ld": "c0aa6b388a88e3bb97b4af1441921030c2a5cd4e8fdd83bda2754d3227ee4f9d",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-reset-emulation.ld": "cf3ac8ba7d426ce1d681d9384b5aae0c9ae0a8c64298b7e7e68b0f8c44c5fd08",
+    "tests/npu/allocator-startup-emulation.S": "60241564eba40309c079be36fda0bd8f82b6c3444691189d5c4ae68579247e7f",
+    "tests/npu/allocator-startup-emulation.c": "f335907de92bf71df0cb7454be42c8834bc32a6f797215cd5087b967311f15f7",
+    "tests/npu/allocator-startup-emulation.ld": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb",
+    "tests/npu/allocator-test-binding.c": "2cd924cbf46ecb74b55237487191ca8b3d4ea4162a8864f9268e43b90656dfd5",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bootstrap-v2-emulation.ld": "6be0605087b8384691e333ee71e550b4badc1903b5ef57f2c812923ccad83437",
+    "tests/npu/bootstrap-v2-platform-emulation.c": "88d13caae6e499b3740fbd8ea76efd106376fa7b7498b8c4a99c26c47b64dc89",
+    "tests/npu/bootstrap-v2-sanitize.c": "91c6d074473c2fed80ef9af8a9e73d57cbba0d56ddcba383fa29df54709b3964",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/cold-memory-plan-harness.c": "986aae8d186c8df3b79cff2f5afe0e74819f46977620c2206ef4c9c82a3d921e",
+    "tests/npu/cold-packet-native-emulation.S": "27d1b68aa815401f1bfbb02ed24a56361c7b101a79d59c766371d3f7359522ff",
+    "tests/npu/cold-packet-native-emulation.c": "50d8c1a86f9ca2ce00615b632ec9e658529d0014c63a0ceef56a0cb1bddded0e",
+    "tests/npu/cold-packet-native-emulation.ld": "94d860ff3aceb3ff6e894e2153e77bc5e32e3e5c63da61baf065fc957464e542",
+    "tests/npu/cold-packet-probe.c": "c613aa5c645056bee181e984481cf8e204e30c9ae0dd2504ab380154c64da275",
+    "tests/npu/cold-packet-sanitize.c": "8e7680ae7d2eebc49db07bb8e670fc59bdea0af42c1c17675e2a4966a908326c",
+    "tests/npu/cold-page-native-emulation.S": "6160f4537144c934a24dba739e9a79d75661fa45058529eaafdfe500dcd0c74f",
+    "tests/npu/cold-page-native-emulation.c": "88309124e7ca0ace8e58328c0087eafb364ef1def2c119c073ebfcbef4222eb6",
+    "tests/npu/cold-page-native-emulation.ld": "77c4263fc856bda9d0d0acbdc9f2cd3c32ad249e8bea6a03b3a3da20c4d12404",
+    "tests/npu/cold-page-probe.c": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31",
+    "tests/npu/cold-page-probe.ld": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408",
+    "tests/npu/cold-page-sanitize.c": "31109fdf98f92dc2102d8a2f90050b5ddc8a8c9d5af8b2523c933168d8eebcf0",
+    "tests/npu/command-ring-order-emulation.S": "f3a8d2d60b46aa543ea200fc37e6725798415418bc2297a8f569f85f55afbed9",
+    "tests/npu/command-ring-order-emulation.ld": "0bb1ea12ccfbf7c74c43f9c3b3b93b06bd1ff800d4e041aa00218680e2017b6b",
+    "tests/npu/control-client-emulation.ld": "bfb517f6c8c5521b52153553ce01b8bdba67917078902d485929a2d7679e7507",
+    "tests/npu/control-client-sanitize.c": "824eb989668dfba6f7b94a2636fe161b2cc80167cdc7ec68c9b32276235737cf",
+    "tests/npu/control-v2-platform-emulation.c": "4fef70f27d0e9fc22bc51778158b6f5fc96ed576e097c657a422114d88de11a8",
+    "tests/npu/control-v2-provider-harness.c": "283210f076213a9ae7b7b1e4e62c34b1eeb02daf74b1fb247711cd43388f3409",
+    "tests/npu/egress-emulation.S": "6204d49d0c0276e3b5bf685bb51d1434560c269bd893c6735126e6f65b8e91a7",
+    "tests/npu/egress-emulation.ld": "deff4a5da337633ee332f54b7c95543333a8965baeaa1ff0fd05969808a2eae6",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/firmware-loader-harness.c": "e0a6b92a67da97505d0717a910dbc286041445c2f19c96bb21ec2e05c944aa6e",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/inode-frame-harness.c": "93ff4e4b15c796e80d66ebab72a23668446daab661da33ceac392cfd0d26318c",
+    "tests/npu/l1-recovery-harness.c": "08cd36d1f53cbe86da6a368454839e09381c76081c652e7753718bbc42c2f486",
+    "tests/npu/linux-control-harness.c": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce",
+    "tests/npu/npu-rcu-lifetime-harness.c": "cdd9e892a4ea5c7a14a3170c2bf8531a6387e45bbcec916b2e8fa7cf44ab3d76",
+    "tests/npu/npu-rx-ownership-harness.c": "79051bd5148f86a313395cba0dc8a1ac667e795b044440bc432db76a9a542213",
+    "tests/npu/npu-rx-parser-harness.c": "df421dc157c004627a7e5e8055acf25aa68e540fad00f4903ffe843e776fcf41",
+    "tests/npu/page-request-harness.c": "adfd86fd992ee081643b7054e135b6f7f0d35d5b6b91d64a89db52fd20418a33",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/provider-lifetime-harness.c": "5a4f60711fe41708b3173e137bba047ab772adf288c6a54ef1d4bb20f25c77bc",
+    "tests/npu/provider-request-plan-harness.c": "979e7675aca233b9455daabc24874696cd74bb201217723239857dab52a4fcce",
+    "tests/npu/raw-pair-loader-harness.c": "b41a9117c0f54326c3b3cbff223590f082b0f3d95e623d40bd4853cc52d3f816",
+    "tests/npu/reset-control-harness.c": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae",
+    "tests/npu/rx-stats-emulation.S": "f5e1d675cc2b5103643fe3cfaede6307d061475f6e8ad07fb868f7146d09f18f",
+    "tests/npu/rx-stats-emulation.c": "989f90cdb8a6c0bf0dd737668fb738d3a60015e3c7ee592f0092e9457361157b",
+    "tests/npu/rx-stats-emulation.ld": "c09ac6c27bf89a649e972d7d28957067c7e65e329247a984d609b4d8c4f9c920",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_placement.py": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e",
+    "tests/npu/test_allocator_protocol.py": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "9fd4df8e6550bfb66a407129df4ddde720f4fe9281056a5f9d37858fa43e62e6",
+    "tests/npu/test_attach_rx_callbacks.py": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100",
+    "tests/npu/test_attach_tx_callbacks.py": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "bee0b9efc3ce52bbf0dd56ea7fcfb99bafc513fc2f58b90c6d03303628dd9062",
+    "tests/npu/test_bootstrap_control_v2.py": "b1b5af1ea2eb7bda05793a679be24cf0f1117369691eb0f8b198f32c2e6a1f74",
+    "tests/npu/test_bootstrap_native.py": "8c78809cc82352c0b2b49de4cd7caee773228d77440bef479fc92bc0141cc843",
+    "tests/npu/test_bootstrap_v2_composition.py": "e9d59d17bd3097909587b0d014b8bcfbe71d4b8429585cee81d8e47c82cf99aa",
+    "tests/npu/test_bridge_memory_budget.py": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_cold_packet_native.py": "e5dfb1e223856f86a0865e233eaf198fa437fe63a766f317499553f324c1e977",
+    "tests/npu/test_cold_page_caller.py": "f07d682c8635ccca524b4206e1ebf794dd89ffc79c4625f8344fce2961644771",
+    "tests/npu/test_cold_page_native.py": "260cafb1afd7dcd1715569a4f323c2543ae59ef7c32943ee3f535bd7dddbe958",
+    "tests/npu/test_command_ring_layout.py": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48",
+    "tests/npu/test_command_ring_order.py": "9008a6f511144c22f5facd14e09b0bbcbf3dc3b0937169925c5b09ebbdfe2009",
+    "tests/npu/test_control_client.py": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea",
+    "tests/npu/test_control_v2.py": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b",
+    "tests/npu/test_egress_guards.py": "77ce0dd487046e8dfade1bc946a22d1b3d9738936f0e0d3372d7a2b658b9d5d8",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_mt7996_bootstrap_sequence.py": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_rx_stats.py": "f0391ccdb078b9539346833d72491aa4508efb3c3bc1b03fc0aa5aa6e463c612",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_tunnel_header_bounds.py": "669b5f35e5178b4ac20d6cca2e6a3c06efece54f63a3b11abe57e9d93cfce7ba",
+    "tests/npu/test_tunnel_packet_extents.py": "f2efa4f57c1887e2349904318d106f046d0a6ca26cedf430e689ec40c0698460",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_txdone_init.py": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2",
+    "tests/npu/tunnel-header-emulation.S": "fb73d9a39738a1170263a18418f90c7f342dcc71f67824352a0b4847cf073297",
+    "tests/npu/tunnel-header-emulation.ld": "c477e930973c6bbad74e47970bf12f8568ebbab94085540cc2e904dd79833aff",
+    "tests/npu/tunnel-packet-emulation.S": "a2c99b7551880ce5443b608797679277ad9a4d4203a3d318b0b0b4b60fd74815",
+    "tests/npu/tunnel-packet-emulation.ld": "28b98a6fc2f561d163a88918703eff4f7a03dc71151ddc285003d251683a15dc",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tests/npu/txdone-init-emulation.ld": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a",
+    "tools/build_npu_pair.py": "e1d2f068966202004f966ce0a7f6f4ec350a2807160a2fe0e3a3fc08ff01fdb4",
+    "tools/npu_image.py": "be0f41de3095f7414d049d13c30fdde2cb0a2010e7293413feadded1ed9e818a",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_data.bin": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1"
+  },
+  "memory_layout": {
+    "occupied": [
+      {
+        "component": "base",
+        "section": ".text",
+        "start": 2214854656,
+        "end": 2214867492,
+        "sha256": "87fa50dc1fbddcc91edec3e67a69742fab5cf749e6d9046291afcc7775563d53"
+      },
+      {
+        "component": "base",
+        "section": ".rodata",
+        "start": 2214867492,
+        "end": 2214867620,
+        "sha256": "7680dc0f034423969a8e3a15a41addcb044a57ab299c83fae814dda3594ef249"
+      },
+      {
+        "component": "bridge",
+        "section": ".text",
+        "start": 2214887424,
+        "end": 2214887512,
+        "sha256": "d71b6c528536b2bf7f3fbc1e2ebf043a386cd0a2c5a83e58a94a13919dbcd3ca"
+      },
+      {
+        "component": "reset",
+        "section": ".text",
+        "start": 2214903808,
+        "end": 2214903828,
+        "sha256": "3025aa46921bfd8ceca53ae24f1c8311501c934002fb11e5a126f17f936e596a"
+      },
+      {
+        "component": "allocator",
+        "section": ".text",
+        "start": 2214912000,
+        "end": 2214914708,
+        "sha256": "202cf6965f46f7a0687bd0c193c306d19c9ec90d6211b9b2e5fd3821638c0eb3"
+      },
+      {
+        "component": "allocator",
+        "section": ".rodata",
+        "start": 2214914708,
+        "end": 2214914748,
+        "sha256": "8aaa21725a904d4f6e791fab496e4a4cc296be02f37aca38c1ce8d1760e8637f"
+      },
+      {
+        "component": "allocator",
+        "section": ".bss",
+        "start": 2214914748,
+        "end": 2214914752,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      {
+        "component": "allocator",
+        "section": ".command_ring",
+        "start": 2214985728,
+        "end": 2215018512,
+        "sha256": "05c49ce570906bdb1c6bc00c289d4f6dad41691964fd7ea4504b1b5048156770"
+      },
+      {
+        "component": "txdone",
+        "section": ".text",
+        "start": 2214928384,
+        "end": 2214930122,
+        "sha256": "fdb95687c93119835b3bf822998b4ac6b6867e8423e5bd1b732c4a28b0f0191d"
+      },
+      {
+        "component": "order",
+        "section": ".text",
+        "start": 2214936576,
+        "end": 2214936620,
+        "sha256": "9cb570408f077564c486e5d3e54b9ef9f959e096cb0740164c58949baf196209"
+      },
+      {
+        "component": "headers",
+        "section": ".text",
+        "start": 2214944768,
+        "end": 2214945214,
+        "sha256": "4d1306018187feb1e4aef951aba51306629d8aa0849fb8c04ef58203576b9cca"
+      },
+      {
+        "component": "egress",
+        "section": ".text",
+        "start": 2214952960,
+        "end": 2214953140,
+        "sha256": "5e88f48b14d0a68d996fca3eff3fafced375eef9a43c0e596348889e1c7b8d80"
+      },
+      {
+        "component": "packets",
+        "section": ".text",
+        "start": 2214961152,
+        "end": 2214961470,
+        "sha256": "9b8b957619afb4dde9be7ada5388a59c13b45cd6d9fa9631922b5a28177018a7"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".text",
+        "start": 2215084032,
+        "end": 2215086448,
+        "sha256": "c65e48a6763df26336b94d632b91fb78b6533e75aa346f026fbfb7b3763d279c"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".rodata",
+        "start": 2215086448,
+        "end": 2215086488,
+        "sha256": "909ae8c51eda8201b9bcde915f33c75a180d23a1a3e5d5aade257955883e1f07"
+      },
+      {
+        "component": "cold-pages",
+        "section": ".bss",
+        "start": 2215086488,
+        "end": 2215087580,
+        "sha256": "f7ec4d08c90f5b50f1f30152df1641a2e411b8714623dee9004a813246261d0f"
+      },
+      {
+        "component": "rx-stats",
+        "section": ".text",
+        "start": 2215100416,
+        "end": 2215101430,
+        "sha256": "370470d48a375516a16db71da3d2fe45c72eb22dc0cfc65237f8b771a71e52ca"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".text",
+        "start": 2215116800,
+        "end": 2215119718,
+        "sha256": "6c74f18c2b421d9d2a113fd56a2eb9000cf74ed7ed57e8010f9dc8fd1f8eb437"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".rodata",
+        "start": 2215119720,
+        "end": 2215119724,
+        "sha256": "b01099398ce27bbcb7ed256854acc338ba75af739e9d73d741dcb13dc4cbfb56"
+      },
+      {
+        "component": "cold-packets",
+        "section": ".bss",
+        "start": 2215119728,
+        "end": 2215121848,
+        "sha256": "c1448b9e612668eedc320cc285053fcee62dc9afb40e435c70948441d486b8e2"
+      },
+      {
+        "component": "original-code",
+        "start": 2214592512,
+        "end": 2214714848
+      },
+      {
+        "component": "native-stacks",
+        "start": 2214714880,
+        "end": 2214845952
+      },
+      {
+        "component": "provider-backup",
+        "start": 2216689664,
+        "end": 2216951808
+      },
+      {
+        "component": "native-sram",
+        "start": 1049624576,
+        "end": 1049642836
+      },
+      {
+        "component": "barrier",
+        "start": 1049649152,
+        "end": 1049649256
+      },
+      {
+        "component": "admission",
+        "start": 1049649408,
+        "end": 1049649452
+      },
+      {
+        "component": "saved-mask",
+        "start": 1049649472,
+        "end": 1049649496
+      },
+      {
+        "component": "startup",
+        "start": 1049649536,
+        "end": 1049649600
+      },
+      {
+        "component": "bootstrap",
+        "start": 1049649664,
+        "end": 1049649744
+      },
+      {
+        "component": "plan",
+        "start": 1049649920,
+        "end": 1049649968
+      },
+      {
+        "component": "session",
+        "start": 1049650048,
+        "end": 1049650068
+      },
+      {
+        "component": "loader-identity",
+        "start": 1049650080,
+        "end": 1049650088
+      }
+    ],
+    "stale_v1_import_control": {
+      "npu_emulation_mailbox": {
+        "old": "0x840420f2",
+        "new": "0x84041678"
+      },
+      "npu_emulation_idle": {
+        "old": "0x840422ee",
+        "new": "0x84041884"
+      }
+    },
+    "production_loader_or_physical_backing_proved": false
+  },
+  "host_inputs": {
+    ".local/npu-provider-plan-20261010/pair-final/components/control.so": "de9f785da08858637a4a192d65113cb97e554952b33d043ea64bebee22b978c3",
+    ".local/npu-provider-plan-20261010/pair-final/components/host-arm.elf": "05ea4a7480ddb652224dadfe8e892b7ed29a55405eda493e5f0dc2707f2323fc"
+  },
+  "symbol_files": {
+    "base": ".local/npu-provider-plan-20261010/pair-final/components/base-rv.elf",
+    "bridge": ".local/npu-provider-plan-20261010/pair-final/components/bridge.elf",
+    "reset": ".local/npu-provider-plan-20261010/pair-final/components/reset.elf",
+    "allocator": ".local/npu-provider-plan-20261010/pair-final/components/allocator.elf",
+    "txdone": ".local/npu-provider-plan-20261010/pair-final/components/txdone.elf",
+    "order": ".local/npu-provider-plan-20261010/pair-final/components/order.elf",
+    "headers": ".local/npu-provider-plan-20261010/pair-final/components/headers.elf",
+    "egress": ".local/npu-provider-plan-20261010/pair-final/components/egress.elf",
+    "packets": ".local/npu-provider-plan-20261010/pair-final/components/packets.elf",
+    "cold-pages": ".local/npu-provider-plan-20261010/pair-final/page/native-page.elf",
+    "rx-stats": ".local/npu-provider-plan-20261010/pair-final/rx/rx-stats.elf",
+    "cold-packets": ".local/npu-provider-plan-20261010/pair-final/packet/native-packet.elf"
+  },
+  "host_files": [
+    ".local/npu-provider-plan-20261010/pair-final/components/control.so",
+    ".local/npu-provider-plan-20261010/pair-final/components/host-arm.elf"
+  ]
+}

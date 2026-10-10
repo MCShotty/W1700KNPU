@@ -1,0 +1,132 @@
+Subject: [PATCH] net: airoha: validate and snapshot the native request plan
+
+Validate the coherent core-zero request region before acquiring or
+copying firmware, and retain the complete native geometry snapshot.
+Preserve legacy profiles; this adds no reset or drain authority.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -28,6 +28,7 @@
+ #define NPU_SRAM_BACKUP_SIZE		0x40000
+ #define NPU_EN7581_7996_TX_CHECK_SIZE	(0x7000 * sizeof(u16))
+ #define NPU_EN7581_7996_INODE_DATA_SIZE	(4 * sizeof(u32))
++#define NPU_EN7581_7996_PLAN_REGIONS	6
+ #define NPU_DUMP_SIZE				512
+ /*
+  * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
+@@ -135,6 +136,10 @@
+ 	u32 txbuf_min_size;
+ 	struct resource wlan_memory[4];
+ 	unsigned int wlan_memory_count;
++	struct resource wlan_request;
++	u32 native_plan[NPU_EN7581_7996_PLAN_REGIONS][2];
++	bool wlan_request_valid;
++	bool native_plan_ready;
+ 	bool firmware_loaded;
+ };
+ 
+@@ -324,6 +329,7 @@
+ static int airoha_npu_wlan_prepare_memory(struct airoha_npu_priv *priv,
+ 					  struct resource *regions,
+ 					  unsigned int *region_count);
++static int airoha_npu_wlan_prepare_request(struct airoha_npu_priv *priv);
+ 
+ static int airoha_npu_load_firmware(struct airoha_npu_priv *priv, void __iomem *addr,
+ 				    void __iomem *base,
+@@ -338,7 +344,10 @@
+ 		ret = airoha_npu_wlan_prepare_memory(priv, priv->wlan_memory,
+ 						     &priv->wlan_memory_count);
+ 		if (ret)
+-			return ret;
++			goto invalidate;
++		ret = airoha_npu_wlan_prepare_request(priv);
++		if (ret)
++			goto invalidate;
+ 	}
+ 
+ 	ret = airoha_npu_request_firmware(dev, &images->fw_rv32, &rv32);
+@@ -356,10 +365,15 @@
+ release_rv32:
+ 	release_firmware(rv32);
+ invalidate:
+-	if (ret)
++	if (ret) {
+ 		priv->wlan_memory_count = 0;
+-	else
++		priv->wlan_request_valid = false;
++		priv->native_plan_ready = false;
++		memset(&priv->wlan_request, 0, sizeof(priv->wlan_request));
++		memset(priv->native_plan, 0, sizeof(priv->native_plan));
++	} else {
+ 		priv->firmware_loaded = true;
++	}
+ 
+ 	return ret;
+ }
+@@ -399,6 +413,10 @@
+ 
+ 	priv->firmware_loaded = false;
+ 	priv->wlan_memory_count = 0;
++	priv->wlan_request_valid = false;
++	priv->native_plan_ready = false;
++	memset(&priv->wlan_request, 0, sizeof(priv->wlan_request));
++	memset(priv->native_plan, 0, sizeof(priv->native_plan));
+ 	soc = of_device_get_match_data(dev);
+ 	if (!soc)
+ 		return -EINVAL;
+@@ -767,6 +785,54 @@
+ 	return 0;
+ }
+ 
++static int airoha_npu_wlan_prepare_request(struct airoha_npu_priv *priv)
++{
++	struct airoha_npu_core *core = &priv->npu.cores[0];
++	struct resource request = {};
++	unsigned int i;
++
++	/* The native transport pins the coherent mailbox's DMA address, not
++	 * the source pointer or a test fixture. Geometry is not containment.
++	 */
++	if (!core->buf)
++		return -EINVAL;
++	if (core->mbox_pending)
++		return -EBUSY;
++	if (!IS_ALIGNED(core->addr, sizeof(u32)))
++		return -EINVAL;
++	if (core->addr < 0x80000000ULL ||
++	    core->addr > 0xc0000000ULL - AIROHA_NPU_MBOX_SIZE)
++		return -ERANGE;
++	request.start = core->addr;
++	request.end = request.start + AIROHA_NPU_MBOX_SIZE - 1;
++	if (resource_overlaps(&request, &priv->firmware_region))
++		return -EINVAL;
++	for (i = 0; i < priv->wlan_memory_count; i++)
++		if (resource_overlaps(&request, &priv->wlan_memory[i]))
++			return -EINVAL;
++
++	priv->wlan_request = request;
++	priv->wlan_request_valid = true;
++	/* Optional-BA legacy profiles cannot supply the six-region native ABI.
++	 * This private snapshot is not yet an SRAM/boot-identity publication.
++	 */
++	if (priv->wlan_memory_count != 4 ||
++	    priv->firmware_region.start != 0x84000000ULL ||
++	    priv->firmware_region.end >= 0xc0000000ULL)
++		return 0;
++	priv->native_plan[0][0] = priv->firmware_region.start;
++	priv->native_plan[0][1] = resource_size(&priv->firmware_region);
++	for (i = 0; i < priv->wlan_memory_count; i++) {
++		priv->native_plan[i + 1][0] = priv->wlan_memory[i].start;
++		priv->native_plan[i + 1][1] = resource_size(&priv->wlan_memory[i]);
++	}
++	priv->native_plan[5][0] = request.start;
++	priv->native_plan[5][1] = AIROHA_NPU_MBOX_SIZE;
++	priv->native_plan_ready = true;
++
++	return 0;
++}
++
+ static int airoha_npu_wlan_init_memory(struct airoha_npu *npu)
+ {
+ 	static const enum airoha_npu_wlan_set_cmd commands[] = {

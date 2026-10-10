@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Provider Native Request Preparation
+
+The canonical loader now validates the MT7996 coherent core0 request and prepares
+a private six-region native snapshot before either image acquisition/copy.
+Actual-C request/mutant and compatibility tests, raw-native dynamic-address
+bootstrap, full world/60-file replay and offline image checks pass. Latest FIT:
+`8efb19fb491f2446c50a367708c22a6882486c11f7b0ea03d41e99e37df239c5`.
+The previous `230e03a7...` image is preserved; vendor pair/core remain unchanged.
+No flash/hardware contact. Actual SRAM/identity publication, containment/retained
+lifetime, paired packaging, strict callers and full lifecycle/physical/client
+acceptance remain open. Private readiness is not physical readiness. Evidence:
+`research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.
+
 ## 2026-10-10 - Complete Paired Raw Artifact
 
 The canonical `pair` target now builds checked raw CODE/DATA with61 final hooks,
@@ -95,7 +108,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (selected shared RX/TXDONE composition passes; real loader/strict setup/lifecycle/hardware acceptance remains open)
+Last updated: 2026-10-10 (private provider native plan and raw bootstrap pass; actual publication/containment/strict setup/lifecycle/hardware acceptance remains open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

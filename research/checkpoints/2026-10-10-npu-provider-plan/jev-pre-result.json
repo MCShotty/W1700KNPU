@@ -1,0 +1,75 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-provider-plan-20261010\\jev-pre-request.json",
+  "request_sha256": "e0470e613ebe62baa5ed17b762741dc8b137ed01846f9b9b3d769949c1bc70ec",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "request_source": {
+      "type": "choice",
+      "instructions": "Which request-base source in provider/native satisfies the exact provider-to-native address relationship?",
+      "criteria": {
+        "coherent_mailbox": "The actual DMA address in provider core0->addr.",
+        "fixture": "Always the test's 0x82000000 address.",
+        "caller_pointer": "The CPU caller's source pointer.",
+        "unknown": "Evidence does not identify the source."
+      }
+    },
+    "snapshot_scope": {
+      "type": "choice",
+      "instructions": "What can the preparation in requirements establish?",
+      "criteria": {
+        "software_geometry": "Native ABI geometry and the pinned provider-request relationship.",
+        "physical_containment": "All previous actors and DMA are physically retired.",
+        "complete_loader": "The raw pair is installed and physically accepted.",
+        "unknown": "No relevant fact can be established."
+      }
+    },
+    "compatibility": {
+      "type": "noul",
+      "instructions": "Does requirements call for retaining optional-BA legacy behavior instead of pretending an incomplete five-region plan is ready for six-region native publication?"
+    },
+    "publication_gap": {
+      "type": "noul",
+      "instructions": "Do provider and native show that preparing a private six-region plan alone still leaves actual SRAM/identity publication and containment unfinished?"
+    }
+  },
+  "elapsed_ms": 940,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "request_source": {
+        "type": "choice",
+        "choice": "unknown",
+        "confidence": 0.37,
+        "probabilities": {
+          "coherent_mailbox": 0.44,
+          "fixture": 0.03,
+          "caller_pointer": 0.0,
+          "unknown": 0.53
+        }
+      },
+      "snapshot_scope": {
+        "type": "choice",
+        "choice": "software_geometry",
+        "confidence": 1.0,
+        "probabilities": {
+          "software_geometry": 1.0,
+          "physical_containment": 0.0,
+          "complete_loader": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "compatibility": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "publication_gap": {
+        "type": "noul",
+        "noul": 0.92
+      }
+    },
+    "usage": {
+      "input_tokens": 865,
+      "output_tokens": 138
+    }
+  }
+}

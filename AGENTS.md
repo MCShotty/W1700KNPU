@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Provider Native Request Plan
+
+- Canonical MT7996 loader now validates/snapshots the actual coherent core0
+  request before either firmware acquisition/copy. Private48-byte native plan
+  requires full BA and fixed CODE placement; generic/optional-BA legacy behavior
+  is preserved. Failed loads clear private metadata, not native owned resources.
+- Actual C passes308 request cases/nine mutants, memory/retry/V2 and exact-pair
+  regressions. Raw native bootstrap uses the emitted dynamic-address plan and
+  rejects the old fixture address; all eight harts park, strict full setup is
+  still denied. Publication/identity/backing in that test remain modeled.
+- Full world,15 assembly groups,60-file replay, four source-verifier/eight
+  build-runner/offline image checks pass. FIT now `8efb19fb...`; packaged vendor
+  pair/core unchanged, previous `230e03a7...` FIT preserved. No flash/hardware.
+- Private `native_plan_ready` is geometry only, not SRAM publication or physical
+  containment. Continue real cold-provider/identity/publication/retention and
+  paired packaging, strict callers and full lifecycle/physical/client gates.
+  Scope and exact receipts: `research/checkpoints/2026-10-10-npu-provider-plan/`.
+
 ## 2026-10-10 - Paired Raw NPU Build
 
 - `make -C firmware/npu pair` now assembles the complete checked raw CODE/DATA

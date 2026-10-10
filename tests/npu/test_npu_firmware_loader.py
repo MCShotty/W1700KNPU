@@ -53,7 +53,7 @@ def once(text, old, new):
 
 
 def fragment(source):
-    constants = re.findall(r'^#define (?:NPU_(?:EN7581|AN7583)\S*|NPU_SRAM_BACKUP_SIZE|REG_NPU_LOCAL_SRAM)\s+[^\n]+',
+    constants = re.findall(r'^#define (?:NPU_(?:EN7581|AN7583)\S*|NPU_SRAM_BACKUP_SIZE|REG_NPU_LOCAL_SRAM|AIROHA_NPU_MBOX_SIZE)\s+[^\n]+',
                            source, re.M)
     parts = constants + [extract.declaration(source, 'struct', name) for name in
                           ('airoha_npu_fw', 'airoha_npu_soc_data', 'airoha_npu_priv')]
@@ -62,6 +62,8 @@ def fragment(source):
         names.insert(1, 'airoha_npu_request_firmware')
     if 'static int airoha_npu_wlan_prepare_memory(' in source:
         names.insert(1, 'airoha_npu_wlan_prepare_memory')
+    if 'static int airoha_npu_wlan_prepare_request(' in source:
+        names.insert(2, 'airoha_npu_wlan_prepare_request')
     parts += [extract.function(source, name) for name in names]
     return '\n\n'.join(parts) + '\n'
 

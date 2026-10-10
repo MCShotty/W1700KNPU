@@ -31,11 +31,20 @@ def main():
     lock = ROOT / 'firmware/source-lock.json'
     build = ROOT / json.loads(lock.read_text())['build_directory']
     source = build / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52' / loader.DRIVER
-    reference = ROOT / 'research/checkpoints/2026-10-10-npu-cold-txdone/install-trace.json'
-    expected_source = json.loads(reference.read_text())['source_hashes'][str(source.relative_to(ROOT))]
-    assert loader.sha(source) == expected_source, 'prepared-provider-differs-from-reviewed-source'
+    fixtures = ROOT / 'tests/npu/fixtures/airoha-npu-6.18.52'
+    reference = fixtures / 'provenance.json'
+    upstream = fixtures / 'provider-upstream.c'
+    assert loader.sha(upstream) == json.loads(reference.read_text())['files']['provider-upstream.c']
+    replay = dest / 'replayed'
+    replay_source = replay / loader.DRIVER
+    replay_source.parent.mkdir(parents=True)
+    shutil.copy2(upstream, replay_source)
+    loader.run(['git', 'apply', '--include=' + loader.DRIVER, ROOT / loader.BASE_PATCH],
+               dest / 'replay.log', cwd=replay,
+               env=dict(os.environ, GIT_CEILING_DIRECTORIES=str(replay.parent)))
+    assert source.read_bytes() == replay_source.read_bytes(), 'prepared-provider-differs-from-canonical-patch'
     harness = ROOT / 'tests/npu/raw-pair-loader-harness.c'
-    paths = [source, reference, lock, ROOT / loader.BASE_PATCH, harness, loader.HARNESS, Path(loader.__file__),
+    paths = [source, reference, upstream, lock, ROOT / loader.BASE_PATCH, harness, loader.HARNESS, Path(loader.__file__),
              Path(loader.extract.__file__), ROOT / 'tools/npu_image.py', Path(__file__),
              *[pair / name for name in ('CODE.bin', 'DATA.bin', 'manifest.json')]]
     inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in paths}

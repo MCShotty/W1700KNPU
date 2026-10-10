@@ -20,7 +20,7 @@ from test_mt7996_bootstrap_sequence import SET_CALLBACKS, expected, TXFREE
 from unicorn import riscv_const as r
 
 
-def load(pair):
+def load(pair, *, factory=tx.TxPackets):
     manifest = json.loads((pair / 'manifest.json').read_bytes())
     code, data = (pair / 'CODE.bin').read_bytes(), (pair / 'DATA.bin').read_bytes()
     image.validate(code, data, manifest)
@@ -31,7 +31,7 @@ def load(pair):
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
     parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets')}
-    h = tx.TxPackets(paths, parts)
+    h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
     h.install_packet(files['cold-packets'])

@@ -1,0 +1,57 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-provider-plan-20261010\\jev-focus-request.json",
+  "request_sha256": "d1f55fff05aedb314b7d3f088277d46527ba834480ecb7fea3bb067d8dffe6f6",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "precopy_order": {
+      "type": "noul",
+      "instructions": "For the selected txbuf_min_size branch in airoha_npu_load_firmware, is airoha_npu_wlan_prepare_request checked for failure before either firmware request and before either memcpy_toio?"
+    },
+    "request_field": {
+      "type": "noul",
+      "instructions": "Does airoha_npu_wlan_prepare_request derive request.start and native_plan[5][0] from priv->npu.cores[0].addr rather than a fixed fixture or the virtual core->buf pointer?"
+    },
+    "incomplete_plan": {
+      "type": "noul",
+      "instructions": "Considering airoha_npu_run_firmware resets native_plan_ready, does a run with wlan_memory_count != 4 keep native_plan_ready false through airoha_npu_wlan_prepare_request?"
+    },
+    "physical_drain": {
+      "type": "noul",
+      "instructions": "Does airoha_npu_wlan_prepare_request itself perform any physical engine reset or DMA drain, instead of only checking geometry and storing private metadata?"
+    },
+    "failed_load_plan": {
+      "type": "noul",
+      "instructions": "Does the invalidate path in airoha_npu_load_firmware clear the private request/plan validity flags and private metadata when ret is nonzero?"
+    }
+  },
+  "elapsed_ms": 647,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "precopy_order": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "request_field": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "incomplete_plan": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "physical_drain": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "failed_load_plan": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 1888,
+      "output_tokens": 94
+    }
+  }
+}

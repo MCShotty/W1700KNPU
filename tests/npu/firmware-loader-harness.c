@@ -29,7 +29,8 @@ static const char *current_case;
 struct resource { uint64_t start, end; };
 struct device_node { int unused; };
 struct device { struct device_node *of_node; };
-struct airoha_npu { struct device *dev; };
+struct airoha_npu_core { void *buf; uint64_t addr; bool mbox_pending; };
+struct airoha_npu { struct device *dev; struct airoha_npu_core cores[8]; };
 struct firmware { size_t size; const unsigned char *data; };
 struct airoha_npu_soc_data;
 static const struct airoha_npu_soc_data *of_device_get_match_data(struct device *);
@@ -106,6 +107,9 @@ static void memcpy_toio(void *dest, const void *src, size_t bytes) {
     CHECK(which >= 0 && acquired[which] && !released[which]);
     CHECK(src == images[which].data && bytes == images[which].size);
     CHECK(bytes > 0 && bytes <= (which ? DATA_LIMIT : CODE_LIMIT));
+#ifdef NPU_TEST_BEFORE_COPY
+    NPU_TEST_BEFORE_COPY();
+#endif
     copies++; event(20 + which); memcpy(dest, src, bytes);
 }
 
@@ -119,6 +123,8 @@ static const struct airoha_npu_soc_data *of_device_get_match_data(struct device 
 
 static void setup(int profile, int dts, size_t code_size, size_t data_size) {
     memset(&priv, 0, sizeof(priv)); priv.npu.dev = &dev;
+    priv.npu.cores[0].buf = code_payload;
+    priv.npu.cores[0].addr = 0x83000000;
     memset(code_memory, 0xa5, sizeof(code_memory));
     memset(data_memory, 0xa5, sizeof(data_memory));
     memset(code_payload, 0x3c, sizeof(code_payload));

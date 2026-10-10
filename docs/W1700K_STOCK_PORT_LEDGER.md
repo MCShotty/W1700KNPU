@@ -19692,3 +19692,28 @@ Status and boundary:
   strict setup callers, other owners/hot lifecycle/postgate and physical backing/
   coherency/drain/recovery/client acceptance. Protected material was untouched.
   Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
+## 2026-10-10 - Provider Native Request Preparation
+
+- From mainef29c39, integrated coherent core0 request geometry before MT7996
+  firmware acquisition/copies and a private48-byte native plan from actual
+  reserved/DMA inputs. Full plan requires BA/fixed CODE; generic and optional-BA
+  legacy behavior is retained. Failures clear private metadata, not native claims.
+- Actual C passes308 request cases/476 before-copy checks/nine mutants, plus
+  273/165 memory cases/nine mutants,6,174 retry/44 V2 cases and273/seven exact-pair
+  copy cases. Raw native code consumes emitted dynamic0x83000000 plan, rejects
+  old fixture/offset/alias/invalid addresses before reads and parks all eight
+  harts. Test publication/backing/IRQ remain modeled; strict full setup denied.
+- Corrected source-export verification to use locked canonical checkout and
+  component mappings; four focused/eight build-runner tests and all60 source
+  files pass. Re-anchored stale local metadata only after mainline readback and
+  preserved its prior record. Scoped strict checkpatch and15 assembly groups pass.
+- Full world/offline FIT/board/218-package/78-module checks pass. New FIT
+  `8efb19fb491f2446c50a367708c22a6882486c11f7b0ea03d41e99e37df239c5`;
+  preceding230 image hash-preserved. Vendor CODE/DATA, raw pair bytes and normal
+  core remain unchanged. Upstream/package warnings are not a warning-free claim.
+- Updated all resume/README/AGENTS/contract records and sealed proof, retaining
+  broad uncertain and focused Jev evidence. No flash, hardware contact or protected
+  backup/calibration/key change. Actual SRAM/fresh-identity publication/containment,
+  paired packaging/strict callers and full hot/postgate/physical/client gates
+  remain open. Evidence: `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.

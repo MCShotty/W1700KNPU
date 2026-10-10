@@ -7504,3 +7504,19 @@ README/AGENTS/current-reference/remaining-work documents. No fresh world build,
 flash or hardware change. Next real cold-provider/storage/identity-plan and
 paired packaging/strict callers; hot/postgate/physical recovery/clients remain.
 Evidence: `research/checkpoints/2026-10-10-npu-raw-pair/REPORT.md`.
+
+## 2026-10-10 - Provider Native Request Plan
+
+From mainef29c39, the canonical MT7996 loader now checks its coherent core0
+request before copies and prepares the private native plan.308 cases/476 copy
+checks/nine mutants and memory/retry/V2/exact-pair regressions pass. Raw bootstrap
+uses emitted dynamic-address bytes, rejects old fixture/bad addresses before
+payload reads and parks all eight harts. Strict full setup remains denied; test
+publication/backing/IRQ are modeled. Fixed obsolete source-export path/component
+handling, verified all60 files and four focused/eight build-runner tests. Scoped
+checkpatch,15 assembly groups, full world and offline image checks pass. New FIT
+`8efb19fb...`; prior230 image preserved; vendor/core/raw bytes unchanged. Updated
+all resume records and retained uncertain/focused Jev results. No flash or hardware
+operation. Actual containment/storage/identity publication/retention, paired
+packaging/strict callers, hot/postgate and physical recovery/clients remain.
+Evidence: `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.

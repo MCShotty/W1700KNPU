@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Provider Request Plan Bridge
+
+The actual MT7996 provider now preflights its coherent mailbox before copying
+firmware and prepares the native six-region private snapshot. Actual-C guards/
+mutants and raw-native dynamic-address bootstrap pass. Full world/60-file replay/
+offline image checks pass; the new FIT is `8efb19fb...`. The previous image is
+preserved. This does not publish SRAM/identity, establish reset containment or
+install the raw pair. Full strict setup, lifecycle and physical acceptance remain
+open. Details: `research/checkpoints/2026-10-10-npu-provider-plan/REPORT.md`.
+
 ## 2026-10-10 - Paired Raw NPU Build
 
 The checked native composition now builds a complete raw CODE/DATA pair through

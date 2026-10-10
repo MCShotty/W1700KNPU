@@ -1,0 +1,14 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "provider": "Linux __airoha_npu_send_msg selects npu->cores[0], copies into core->buf, and publishes core->addr plus length to mailbox0. Probe allocates each core->buf with dmam_alloc_coherent and stores the returned DMA address in core->addr before loading either firmware image. MT7996 currently preflights/snapshots four reserved WLAN regions before either copy. No reset handle, prior-user containment or fresh boot identity publication exists in this driver.",
+    "native": "The native bootstrap plan has six ordered base/bytes regions: binary, TXCHECK, PKT, TXPKT, BA, request. Request must be aligned, lie in the 0x80000000..0xbfffffff window, have 256 bytes and not overlap another region. V2 transport admits only exactly that request base. Current raw artifacts contain zero/unprovisioned plan/session/identity; test code separately seeds a synthetic request base 0x82000000.",
+    "requirements": "Prepare the native six-region plan from actual immutable provider reserved-memory and coherent-mailbox inputs before copies. Reject invalid or overlapping request geometry before firmware acquisition or mailbox publication. Preserve non-MT7996 behavior and MT7996 optional-BA legacy behavior. This preparation is a software prerequisite, not a physical containment witness or completed loader installation."
+  },
+  "questions": {
+    "request_source": {"type": "choice", "instructions": "Which request-base source in provider/native satisfies the exact provider-to-native address relationship?", "criteria": {"coherent_mailbox": "The actual DMA address in provider core0->addr.", "fixture": "Always the test's 0x82000000 address.", "caller_pointer": "The CPU caller's source pointer.", "unknown": "Evidence does not identify the source."}},
+    "snapshot_scope": {"type": "choice", "instructions": "What can the preparation in requirements establish?", "criteria": {"software_geometry": "Native ABI geometry and the pinned provider-request relationship.", "physical_containment": "All previous actors and DMA are physically retired.", "complete_loader": "The raw pair is installed and physically accepted.", "unknown": "No relevant fact can be established."}},
+    "compatibility": {"type": "noul", "instructions": "Does requirements call for retaining optional-BA legacy behavior instead of pretending an incomplete five-region plan is ready for six-region native publication?"},
+    "publication_gap": {"type": "noul", "instructions": "Do provider and native show that preparing a private six-region plan alone still leaves actual SRAM/identity publication and containment unfinished?"}
+  }
+}

@@ -122,12 +122,13 @@ def main():
         controls.append(name)
     done = run([new_binary], new_dir / 'matrix.log')
     matrix = [json.loads(line) for line in done.stdout.splitlines()]
+    reset_block = extract.function(after, 'airoha_npu_run_firmware').split('\tsoc =', 1)[0]
+    reset_block = '\tpriv->firmware_loaded = false;' + reset_block.split('\tpriv->firmware_loaded = false;', 1)[1]
     mutants = {
         'omit-precopy-preflight': once(after, 'if (priv->txbuf_min_size) {', 'if (false) {'),
         'reread-after-load': once(after, 'if (!priv->txbuf_min_size) {', 'if (true) {'),
         'admit-failed-load': once(after, '\tif (!priv->firmware_loaded)\n\t\treturn -EINVAL;\n', ''),
-        'keep-plan-on-early-run-failure': once(after,
-            '\tpriv->firmware_loaded = false;\n\tpriv->wlan_memory_count = 0;\n\tsoc =', '\tsoc ='),
+        'keep-plan-on-early-run-failure': once(after, reset_block + '\tsoc =', '\tsoc ='),
         'accept-undersized-tx': once(after, 'resource_size(&memory[0]) < priv->txbuf_min_size', 'false'),
         'omit-snapshot-copy': once(after, '\tmemcpy(regions, memory, sizeof(memory));', '\t(void)regions;'),
         'omit-region-overlap': after.replace('if (resource_overlaps(res,', 'if (false && resource_overlaps(res,'),
