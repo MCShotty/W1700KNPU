@@ -1,0 +1,91 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-tx-20261010\\jev-review.json",
+  "request_sha256": "7771f51a3e3eb168f8678a033b97203c809f0f277c03f06e76ac39a928c8c1ae",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "reserve_before_store": {
+      "type": "noul",
+      "instructions": "Does reserve.assembly call reserve.native/core successfully before its original field store? Do not infer physical exclusivity from software ownership."
+    },
+    "readback_before_publish": {
+      "type": "noul",
+      "instructions": "Does publish.native read the allowed target and require pinned ownership, while publish.core checks the expected address/width/value before advancing published?"
+    },
+    "retained_failure": {
+      "type": "choice",
+      "instructions": "According to retained.callback and retained.native_fault/core_fault, what happens to partial progress on failure?",
+      "criteria": {
+        "retain_and_deny": "Latch faults, keep partial TX counters/claims and deny callback success.",
+        "rollback": "Restore original values and reset TX counters.",
+        "retire": "Free/reclaim committed resources.",
+        "not_established": "The supplied source does not establish the policy."
+      }
+    },
+    "preimage_policy": {
+      "type": "choice",
+      "instructions": "In retained.callback, what precondition is used for native register preimages?",
+      "criteria": {
+        "captured": "Capture the four existing native register values into the pinned plan.",
+        "forced_zero": "Require those four registers to start at zero.",
+        "unvalidated": "Do not capture or validate preimages.",
+        "unknown": "Not established."
+      }
+    },
+    "retirement_api": {
+      "type": "noul",
+      "instructions": "Does retained.api expose a function to reset/reinitialize a used owner or retire/reclaim its committed resources? Initial begin on fresh zero storage is not such a reset API."
+    },
+    "physical_claim": {
+      "type": "noul",
+      "instructions": "Do requirements claim modeled readback or software pinned ownership establishes physical DMA exclusion, coherency or drain proof?"
+    }
+  },
+  "elapsed_ms": 917,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "reserve_before_store": {
+        "type": "noul",
+        "noul": 0.67
+      },
+      "readback_before_publish": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "retained_failure": {
+        "type": "choice",
+        "choice": "retain_and_deny",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain_and_deny": 1.0,
+          "rollback": 0.0,
+          "retire": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "preimage_policy": {
+        "type": "choice",
+        "choice": "captured",
+        "confidence": 1.0,
+        "probabilities": {
+          "captured": 1.0,
+          "forced_zero": 0.0,
+          "unvalidated": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "retirement_api": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "physical_claim": {
+        "type": "noul",
+        "noul": 0.07
+      }
+    },
+    "usage": {
+      "input_tokens": 3319,
+      "output_tokens": 182
+    }
+  }
+}

@@ -1,10 +1,48 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (bound BAR and strict page prefix implemented; full setup/physical gates open)
+Last updated: 2026-10-10 (TX0/TX2/token prefix implemented; remaining full setup/physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-10 - Retained TX0/TX2 And Token Prefix
+
+- Implemented the15th portable object:80-byte one-shot state/44-byte pinned plan,
+  11 guarded original metadata/index/CSR/token stores,5/10/11 committed/published
+  boundaries. Faults retain progress, arena claims and active/inflight lease;
+  no reset/reclaim/retirement API. Original register preimages are captured,
+  not assumed zero. Original lock18 and exact allocator/session/history remain
+  pinned; native +0x4a040 one-past end arithmetic is not engine-coverage proof.
+- Real checked provider admits API19 selectors0/2 and API33 selector0 through
+  the existing80-byte cold envelope/private104-byte history. Host TX0 offset is
+  BAR0+d4420; TX2 d4450/d8450 with full12-byte HIF2 span check; token8192.
+  Separate raw native component13 adds11 hooks, for74. Archive15/raw13/Linux
+  component mappings13 are different sets; all source remains on mainline.
+- Exact-world525 calls/205 controls/six mutants, wire459/16 with16 TX geometry
+  cases, C545/nine, three real mt76 publication cases, actual mt7996 offload C,
+  nominal/HIF2 and27 TX/34 indication controls pass. All seven native cases pass;
+  register/token faults retain4/3 and11/10 committed/published progress with
+  active/inflight1 and2,560 PKT/1,792 BA claims, without rollback or reclamation.
+- Full raw replay now authenticates initial18 cold commands through actual C,
+  with no test active/init writes. Later TXDONE alone retains a modeled direct
+  lease/ring metadata. Full3,072 PKT/1,792 BA, six boot/eight TXDONE controls,
+  parser/boot/lifetime/probe/request/memory/retry/V2 regressions pass. World,
+  source66+nested12/components13,16 assembly groups, FIT218+78 and all54 Ghidra
+  provider functions pass. Driver delta has zero strict-checkpatch findings;
+  upstream/package warnings and ignored U-Boot install error remain in world.
+- FIT SHA256:
+  `4da01cfe0136b72014b71f3220323a38ee9e5b3987396b69f55fba6cf8afae84`.
+  Previous `8dd1f2f4...` plus seven companions were hash-verified/preserved in
+  `.local/npu-cold-tx-20261010/pre-world-image/`. Older/R1, calibration, bootloader,
+  recovery and private backups remain protected. No flash/reset/router contact.
+- Next GET0/API4 stays denied. Original RX selectors read pointers, TX5/7 write
+  descriptor status and unsupported callbacks return success with0x457. Continue
+  selector-specific RXDESC/host/TX-buffer/INODE/TXDONE/final IRQ setup, all owners/
+  hot/postgate and independent physical exclusion/backing/coherency/drains/
+  retirement/teardown/rearm/recovery/boot/clients. Full objective remains open.
+  Actual Jev probabilities/uncertainty, source and scoped proofs are retained:
+  `research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md` and `NEXT_SETUP_TRACE.md`.
 
 ## 2026-10-10 - Retained Indication And ACK Prefix
 

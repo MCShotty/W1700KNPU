@@ -104,7 +104,7 @@ wrappers also hold the setup mutex so CPU close joins this path.
 
 The implemented commands are the post-BIND version query, two BAR0 metadata
 bindings, port type2, checked RX0/RX2 DESC, page5/6/7 address/DESC pairs, indication
-address/DESC and the metadata-only ACK address.
+address/DESC, metadata-only ACK address, TX0/TX2 programming and token limit.
 Version can be queried again; mutating commands are ordered and one-shot. The
 104-byte native cold owner stores the bound window, exact completed prefix,
 five completed RX/page counts and their callback snapshots.
@@ -121,9 +121,16 @@ completed counts must match their full profile. Indication requires BAR0+0xa040
 and DESC1536; its separate owner captures the allocator type1/type6 reserved span,
 checks fresh records and guards each original read/store/publication. ACK selector3
 requires BAR0+0xa050 and only stores metadata. Tests do not seed active or call
-any ownership initializer directly for this lane. The actual txrx sender reaches
-TX0/type19 DMA-base programming next, which remains denied; INODE/TXDONE/full
-setup remains incomplete. BAR bounds
+any ownership initializer directly for this lane. TX0/type19 requires BAR0+0xd4420;
+TX2 requires BAR0+0xd4450 or the HIF2 +0xd8450 variant with its12-byte span inside
+the window. API33/selector0 requires8192. The separate80-byte TX owner reserves
+11 ordered original metadata/index/CSR/token writes before publication readback.
+Original lock18 pins the unique type1 arena and allocator/session snapshots.
+Partial failure retains committed/published progress and the outer lease; no
+rollback/reset/retirement exists. The original one-past arena end register value
+is preserved, not evidence of engine coverage. The actual offload initializer
+now completes this prefix; subsequent RX-address/INODE/TXDONE/final IRQ setup
+remains denied. BAR bounds and modeled CSR readback
 are software geometry, not proof of physical PCI ownership or DMA visibility.
 
 Native begin verifies the pinned transport/envelope and copies a private packet

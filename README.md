@@ -1,5 +1,27 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-10 - Authenticated TX0/TX2 And Token Prefix
+
+The checked mainline now completes the real mt7996 offload initializer through
+TX0, TX2 and token-limit publication. A retained80-byte owner reserves11 original
+metadata/index/CSR/token writes under pinned allocator/session state; partial
+faults retain progress and the outer lease. There is no reset/reclamation API.
+
+Exact world-object525 calls/205 controls/six mutants, wire459/16, nominal and
+HIF2 actual-C/native replay with27 TX/34 indication controls, full raw3,072 PKT/
+1,792 BA regression, world/source/Ghidra54/FIT218+78 and16 assembly groups pass.
+All seven native cases, including register/token partial faults, pass.
+Latest unflashed FIT `4da01cfe...`; previous `8dd1f2f4...` and older/R1 preserved.
+Initial raw setup uses the actual cold-client C, with no test active/init writes.
+Only later TXDONE still uses directly modeled lease/ring metadata.
+
+Next is RXDESC-base GET-selector0/API4, which remains denied, followed by the
+remaining host/TX-buffer/INODE/TXDONE/final IRQ setup. Other owners/hot/postgate,
+physical exclusion/backing/coherency/drains/recovery and actual clients remain
+open. No flash or router contact occurred. Full NPU goal stays open. Scope:
+[TX checkpoint](research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md) and
+[next setup trace](research/checkpoints/2026-10-10-npu-cold-tx/NEXT_SETUP_TRACE.md).
+
 ## 2026-10-10 - Retained Indication And ACK Prefix
 
 The checked cold path now initializes all 1,536 indication records under a
@@ -219,11 +241,11 @@ See the [physical boot report](research/checkpoints/2026-09-23-nonoc-flash/REPOR
 
 The current source also validates and snapshots the MT7996 WLAN
 memory plan before either firmware copy. Generic/PPE-only profiles retain their
-optional WLAN behavior and caller-local setup plans. The new portable host-C
+optional WLAN behavior and caller-local setup plans. The September30 host-C
 replay passes 273 loader cases, 165 additional load scenarios, three original
 failure controls, nine rejected mutants, 6,174 retry cases and 44 V2 executor
 cases. This change is integrated in the canonical patch/source lock and now has
-a compiled/linked AArch64 provider module and ten RV32 objects;
+a compiled/linked AArch64 provider module and ten RV32 objects at that checkpoint;
 its full image passes offline FIT/board/firmware/218-package/78-module checks.
 The candidate has not been booted or flashed. See the
 [cold-memory checkpoint](research/checkpoints/2026-09-30-npu-cold-memory/REPORT.md)
@@ -305,8 +327,10 @@ The [remaining-work checklist](docs/REMAINING_WORK.md) is the resume plan.
 ## Remaining NPU Work
 
 - Establish contained cold-provider reset and ownership of every affected engine.
-- Supply fresh loader identity, reserved storage and coherent publication.
-- Connect actual Linux/mt76 setup and recovery callers in DISCOVER/setup/BIND order.
+- Independently prove physical backing/cache/DMA contracts; software loader
+  identity/publication and initial DISCOVER/setup/BIND are implemented.
+- Complete strict RXDESC/host/TX-buffer/INODE/TXDONE/final IRQ setup and recovery
+  callers; initial RX/page/indication/ACK/TX0/TX2/token setup is implemented.
 - Complete native postgate execution, physical DMA drains, teardown and rearm.
 - Validate sustained traffic, recovery and actual Wi-Fi/MLO clients on hardware.
 

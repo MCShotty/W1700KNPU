@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-10 - Retained TX0/TX2 And Token Prefix
+
+- The15th archive object owns11 ordered original metadata/index/CSR/token
+  writes in80-byte one-shot state. Original lock18 pins the unique type1 arena,
+  allocator count/used, BAR, identity/sequence and full RX/page/indication state.
+  Faults retain claims/progress/outer lease; no rollback/reset/retirement API.
+- API19 selectors0/2 and API33 selector0 now use the authenticated cold lane.
+  Wire80/private history104 stay unchanged. Host offsets are BAR0+d4420,
+  d4450/d8450 with HIF2 full-span check, then token8192. The separate13th raw
+  component adds11 hooks, for74; canonical Linux component mappings stay13.
+- Exact-world525 calls/205 controls/six mutants, wire459/16, nominal/HIF2 with
+  27 TX/34 indication controls and full raw3,072 PKT/1,792 BA pass. All seven
+  native cases pass; register/token faults retain4/3 and11/10 progress. World,
+  Ghidra54/source66+nested12/assembly/FIT218+78 pass; FIT `4da01cfe...` unflashed.
+- Initial raw setup now uses actual cold-client C, never test active/init writes.
+  Later TXDONE lease/ring metadata stay modeled. Next denied GET0/API4 has mixed
+  selector effects: RX pointer lookup, TX5/7 descriptor-status stores, and an
+  unsupported0x457 success sentinel. Do not blindly whitelist all getters.
+- Continue remaining strict host/INODE/TXDONE/final IRQ setup, owners/hot/postgate,
+  physical exclusion/backing/coherency/drains/retirement/recovery and clients.
+  No hardware action. Full goal stays open. Scope/next source trace:
+  `research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md` and `NEXT_SETUP_TRACE.md`.
+
 ## 2026-10-10 - Retained Indication And ACK Prefix
 
 - First authenticated DESC8 initializes the one-shot 1,536-record owner under

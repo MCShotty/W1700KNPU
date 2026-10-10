@@ -14,6 +14,8 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_getters = 0
         self.cold_count = 0
         self.indication_fault = self.indication_injected = False
+        self.tx_fault = None
+        self.tx_injected = False
         super().__init__(*args, **kwargs)
 
     def message(self, words, **kwargs):
@@ -40,6 +42,10 @@ class ColdProviderRequest(ProviderRequest):
         super().code_hook(cpu, pc, size, data)
 
     def write_hook(self, cpu, access, address, size, value, data):
+        if not self.tx_injected and ((self.tx_fault == 'register' and address == 0x1fc08030) or
+                                     (self.tx_fault == 'token' and address == 0x3e900bc0)):
+            self.tx_injected = True
+            self.put32(STATE + 16, 1)
         if self.indication_fault and not self.indication_injected:
             plan = self.binding.symbols['npu_emulation_indication_plan']
             if address == self.get32(plan) + 4 and size == 4 and value == 0xe0000000:
@@ -50,7 +56,7 @@ class ColdProviderRequest(ProviderRequest):
     def native_callback(self, cpu, pc, size, data):
         if not self.cold_request:
             return super().native_callback(cpu, pc, size, data)
-        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16):
+        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16, 0x8400fdda):
             return
         self.callback_entries.append(hex(pc))
         snapshot = cpu.reg_read(r.UC_RISCV_REG_A0)

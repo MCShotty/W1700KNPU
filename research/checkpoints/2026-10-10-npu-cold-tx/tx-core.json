@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "host_rv32_calls": 525,
+  "controls": 205,
+  "mutants": [
+    {
+      "name": "skip-freshness",
+      "sha256": "d24249e6b5dbb1b4a93415c46f08df397c73488597d6c3b23629daf332071697"
+    },
+    {
+      "name": "skip-plan-pin",
+      "sha256": "8063a9f03ff142625ff7b8b2e81d4d34db2d0b7ab3fd3591c094385c93e54de7"
+    },
+    {
+      "name": "skip-preimage",
+      "sha256": "23f13a15cd87c2d3a41948efaa2af0f16d0dc8c2c9e79df3bd033dbbc6cf7503"
+    },
+    {
+      "name": "skip-readback",
+      "sha256": "3ab04071f2cd9e7c339e505b760c641479e9405811755ef24cf8d726623db13f"
+    },
+    {
+      "name": "allow-pending-claim",
+      "sha256": "9d28645478ff5d3b5b504e9d2a630743920d9eca5ea4fd69bfda908de54d78ac"
+    },
+    {
+      "name": "clear-committed-fault",
+      "sha256": "27ac122e49e997f2ca6af04fe05b40ed8b35d01fe68e5a1cea8f23ac92ecf8a2"
+    }
+  ],
+  "sanitizer": {
+    "passed": true,
+    "cases": 32
+  },
+  "exact_core_object": true,
+  "inputs": {
+    "firmware/npu/cold-tx.c": "176fb608da32c7636057f0640acb7a1ae40233aeb4851b89fb2e5a595e8c7f9c",
+    "firmware/npu/cold-tx.h": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+    "tests/npu/cold-tx-sanitize.c": "73dc83a14e1e603f477fec5686a9e7a30fd84efe209a8ad631aabe6ae96d0b7f",
+    "tests/npu/cold-tx-probe.ld": "01f5ab6d1c27cc46df2beed2a2095ec031012f3de90492667ba3bda3451cce91",
+    "tests/npu/test_cold_tx.py": "a10c5c816ae6a94ec78680b75cc5288960eb1177633f3c03721607b2608935ec",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    ".build/merged-openwrt/bin/npu/cold-tx.o": "09190243b40c1d58bd9174b334b3989b1cc6a9e2b513615c2a7b9c3ffc22dfea"
+  },
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Portable ownership C with an independent host/RV32 oracle; observations/stores/backing are modeled.",
+    "No physical register semantics, prior-user exclusion, DMA/coherency, retirement, recovery or clients are proved."
+  ]
+}

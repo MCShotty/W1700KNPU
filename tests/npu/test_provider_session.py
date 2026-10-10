@@ -54,7 +54,8 @@ def prepare(directory, text, header):
 
 
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
-                cold_failure=False, page_failure=False, indication_failure=False, host_sender=None):
+                cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
+                token_failure=False, host_sender=None, hif2=False):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -143,6 +144,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             packet_state = h.packet.symbols['npu_emulation_packet_state']
             page_state = h.binding.symbols['npu_emulation_page_state']
             indication_state = h.binding.symbols['npu_emulation_indication_state']
+            tx_state = h.tx.symbols['npu_emulation_tx_state']
             cold_state = h.rv.symbols['npu_emulation_cold_setup_state']
             assert h.get32(packet_state) == h.get32(page_state) == h.get32(indication_state) == h.get32(ADM + 4) == 0
             leases = []
@@ -167,10 +169,14 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     sequence += [(0x18, 0, 0x2000a040), (0x18, 1, 1536)]
                     if not indication_failure:
                         sequence += [(0x13, 19, 0x2000a050)]
+                        sequence += [(0x10, 19, 0x200d4420)]
+                        if not tx_failure:
+                            sequence += [(0x12, 19, 0x200d8450 if hif2 else 0x200d4450), (0x10, 33, 8192)]
             page_total, packet_before_pages, page_before_indication = 0, None, None
             indication_before, indication_controls = None, []
+            tx_before, tx_controls = None, []
             def issue(header, api, value):
-                nonlocal page_total, packet_before_pages, page_before_indication, indication_before
+                nonlocal page_total, packet_before_pages, page_before_indication, indication_before, tx_before
                 if header == 0x15 and api == 0:
                     packet_before_pages = bytes(h.cpu.mem_read(packet_state, 2076))
                 if page_failure and header == 0x15 and api == 1:
@@ -181,8 +187,14 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     assert h.get32(indication_state) == 0
                 if indication_failure and header == 0x18 and api == 1:
                     h.indication_fault = True
+                if (tx_failure and header == 0x10 and api == 19) or (token_failure and api == 33):
+                    h.tx_fault = 'token' if token_failure else 'register'
                 if not indication_failure and header == 0x18 and api == 1:
                     indication_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, 104)))]
+                if not tx_failure and header == 0x10 and api == 19:
+                    from tx_native_controls import REGS
+                    tx_before = dict(memory=h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, 104)))],
+                                     registers=[h.get32(address) for address in REGS])
                 if cold_failure and api == 1:
                     h.packet_tracking = True
                     h.packet_mode = 'claim-fault'
@@ -195,12 +207,28 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 output = ctypes.c_uint32(0xabcdef01)
                 error = lib.npu_test_command(header, api, value, ctypes.byref(output))
                 assert not failures, failures
-                if header == 0x10 and api == 19:
+                if header == 0x30 and api == 4:
                     assert error == -22
                     assert frames[-1]['reply']['flags'] == 3 and not frames[-1]['reply']['callbacks']
-                    assert h.get32(cold_state + 8) == 16383 and h.get32(ADM + 4) == 0
+                    assert h.get32(cold_state + 8) == 131071 and h.get32(ADM + 4) == 0
                     cold.append(dict(header=header, api=api, value=value, error=error,
                                      next_unsupported=True, reply=frames[-1]))
+                    return error
+                if (tx_failure and header == 0x10 and api == 19) or (token_failure and api == 33):
+                    assert h.tx_injected and error == -71
+                    committed, published = (11, 10) if token_failure else (4, 3)
+                    assert h.get32(tx_state + 8) == h.get32(tx_state + 12) == 1
+                    assert h.get32(tx_state + 24) == committed and h.get32(tx_state + 28) == published
+                    assert h.get32(ADM + 4) == h.get32(cold_state + 4) == 1
+                    assert h.get32(ADM + 8) == h.get32(STATE + 16) == h.get32(cold_state) == 1
+                    assert h.get32(cold_state + 8) == (65535 if token_failure else 16383)
+                    assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
+                    assert bytes(h.cpu.mem_read(page_state, 1052)) == page_before_indication
+                    cold.append(dict(header=header, api=api, value=value, error=error,
+                        tx_committed=committed, tx_published=published, retained_active=1,
+                        retained_inflight=1, retained_packet_claims=2560, retained_ba_claims=1792,
+                        fault_injection='barrier fault during original token store' if token_failure else
+                                        'barrier fault during first original native TX register store', reply=frames[-1]))
                     return error
                 if indication_failure and header == 0x18 and api == 1:
                     h.indication_fault = False
@@ -279,6 +307,23 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     assert bytes(h.cpu.mem_read(page_state, 1052)) == page_before_indication
                 if header == 0x13 and api == 19:
                     assert h.get32(0x3e904610) == value
+                if api == 19 and header in (0x10, 0x12):
+                    assert h.get32({0x10: 0x3e904700, 0x12: 0x3e9046fc}[header]) == value
+                    arena = h.get32(0x3e9030fc)
+                    base, offsets, total = (0x1fc08030, (0, 0x22020), 5) if header == 0x10 else (0x1fc48030, (0x22020, 0x4a040), 10)
+                    assert [h.get32(base), h.get32(base + 4)] == [(arena + offset) & 0x1fffffff for offset in offsets]
+                    assert h.get32(tx_state + 24) == h.get32(tx_state + 28) == total and h.get32(tx_state + 12) == 0
+                    assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
+                    assert bytes(h.cpu.mem_read(page_state, 1052)) == page_before_indication
+                    if header == 0x10:
+                        from tx_native_controls import check
+                        lease_end = len(leases)
+                        tx_controls.extend(check(h, tx_before, frames[-1]['request']))
+                        del leases[lease_end:]
+                        print(json.dumps(dict(native_tx_controls=len(tx_controls), passed=True)), flush=True)
+                if api == 33:
+                    assert h.get32(0x3e900bc0) == 8192 and h.get32(tx_state + 16) == h.get32(tx_state + 20) == 7
+                    assert h.get32(tx_state + 24) == h.get32(tx_state + 28) == 11 and h.get32(tx_state + 12) == 0
                 cold.append(dict(header=header, api=api, value=value, output=output.value,
                                  packet_claims=h.get32(packet_state + 16),
                                  page_claims=h.get32(page_state + 16),
@@ -288,29 +333,33 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 print(json.dumps(dict(native_command=[header, api, value],
                     packet_claims=h.get32(packet_state + 16), ba_claims=h.get32(page_state + 16))), flush=True)
                 return 0
-            if host_sender and not cold_failure and not page_failure and not indication_failure:
-                for command in sequence[:2]:
-                    assert issue(*command) == 0
-                peer_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint)
+            if host_sender and not cold_failure and not page_failure and not indication_failure and not tx_failure and not token_failure:
+                peer_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint, ctypes.POINTER(ctypes.c_uint32))
                 @peer_type
-                def send(header, api, value):
+                def send(header, api, value, output):
                     try:
-                        return issue(header, api, value)
+                        result = issue(header, api, value)
+                        if not result:
+                            output[0] = 0x457 if header == 0x30 and api == 10 else value
+                        return result
                     except Exception:
                         failures.append(traceback.format_exc())
                         return -5
                 sender = ctypes.CDLL(str(host_sender))
-                sender.npu_host_txrx.argtypes = [ctypes.c_uint64, ctypes.c_uint, ctypes.c_uint, peer_type]
-                assert sender.npu_host_txrx(0x20000000, 0, 0, send) == -22 and not failures, failures
+                sender.npu_host_offload.argtypes = [ctypes.c_uint64, ctypes.c_uint, ctypes.c_uint, peer_type]
+                assert sender.npu_host_offload(0x20000000, int(hif2), 0, send) == 0 and not failures, failures
+                assert issue(0x30, 4, 0) == -22
                 assert [(row['header'], row['api'], row['value']) for row in cold[:-1]] == sequence
             else:
                 for command in sequence:
                     if issue(*command):
                         break
             assert leases == ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
-                             [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15)
+                             [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15 + [1] if tx_failure else
+                             [1, 0] * 17 + [1] if token_failure else [1, 0] * 18)
             assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
-            assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else 16383)
+            assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else
+                                            16383 if tx_failure else 65535 if token_failure else 131071)
             assert h.get32(page_state + 16) == (0 if cold_failure else 1 if page_failure else 1792)
             assert h.get32(STATE + 4) == h.get32(STATE + 8) == 0
             cold.append(dict(native_lease_writes=leases, test_active_writes=False,
@@ -323,18 +372,22 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             if indication_controls:
                 cold.append(dict(indication_native_controls=indication_controls,
                                  negative_snapshot_restores=True, production_reset=False))
+            if tx_controls:
+                cold.append(dict(tx_native_controls=tx_controls,
+                                 negative_snapshot_restores=True, production_reset=False))
             old_calls = lib.npu_test_calls()
         strict = [h.message(words) for words in ([0x10, 1, 1536], [0x12, 1, 1024], [0x1a, 1, 512])]
         assert all(row['flags'] == 3 and not row['callbacks'] for row in strict)
     h.check_hooks()
     lib.npu_test_close()
-    assert lib.npu_test_run() == (expected if expected else -71 if cold_failure or page_failure or indication_failure else -108) and lib.npu_test_calls() == old_calls
+    assert lib.npu_test_run() == (expected if expected else -71 if cold_failure or page_failure or indication_failure or tx_failure or token_failure else -108) and lib.npu_test_calls() == old_calls
     return dict(passed=True, wrong_identity=wrong_identity, cold_failure=cold_failure, page_failure=page_failure,
                 indication_failure=indication_failure,
+                tx_failure=tx_failure, token_failure=token_failure, hif2=hif2,
                 result=result, frames=frames, cold=cold,
                 workers=workers, strict_denials=strict, initial_held=True,
                 actual_c_linux_setup=True, actual_c_publication_readback=True,
-                actual_c_txrx_sender=bool(host_sender and not wrong_identity and not cold_failure and not page_failure and not indication_failure),
+                actual_c_txrx_sender=bool(host_sender and not wrong_identity and not cold_failure and not page_failure and not indication_failure and not tx_failure and not token_failure),
                 synthetic_plan_identity_writes=False, post_load_elf_injection=False,
                 inputs=manifest['inputs'] | {str(p.relative_to(ROOT)): loader.sha(p) for p in
                     (code_path, data_path, pair / 'manifest.json', binary)})
@@ -350,8 +403,9 @@ def main():
     parser.add_argument('--publication', type=Path)
     parser.add_argument('--cold-commands', action='store_true')
     parser.add_argument('--host-sender-receipt', type=Path)
+    parser.add_argument('--hif2', action='store_true')
     parser.add_argument('--native-case', choices=('all', 'nominal', 'wrong-boot', 'packet-fault',
-                        'page-fault', 'indication-fault'), default='all',
+                        'page-fault', 'indication-fault', 'tx-fault', 'token-fault'), default='all',
                         help='Focused native diagnostics; only all covers the complete native suite')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
@@ -367,7 +421,8 @@ def main():
         assert header.is_relative_to(ROOT)
     inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in
               (source, header, HARNESS, Path(__file__), Path(loader.__file__), Path(loader.extract.__file__),
-               ROOT / 'tests/npu/indication_native_controls.py')}
+               ROOT / 'tests/npu/indication_native_controls.py',
+               ROOT / 'tests/npu/tx_native_controls.py')}
     inputs |= {str(path.relative_to(ROOT)): loader.sha(path) for path in SOURCE.rglob('*') if path.is_file()}
     host_sender = None
     if args.host_sender_receipt:
@@ -419,9 +474,10 @@ def main():
         cases = [('nominal', {}), ('wrong-boot', dict(wrong_identity=True))]
         if args.cold_commands:
             cases += [('packet-fault', dict(cold_failure=True)), ('page-fault', dict(page_failure=True)),
-                      ('indication-fault', dict(indication_failure=True))]
+                      ('indication-fault', dict(indication_failure=True)), ('tx-fault', dict(tx_failure=True)),
+                      ('token-fault', dict(token_failure=True))]
         native = [native_peer(shared, args.pair.resolve(), args.publication.resolve(),
-                              cold_commands=args.cold_commands, host_sender=host_sender, **keywords)
+                              cold_commands=args.cold_commands, host_sender=host_sender, hif2=args.hif2, **keywords)
                   for case, keywords in cases if args.native_case in ('all', case)]
         print(json.dumps(dict(stage='native', cases=len(native), passed=True)), flush=True)
     assert all(loader.sha(ROOT / path) == digest for path, digest in inputs.items())
@@ -434,7 +490,7 @@ def main():
                   sanitizers=['address', 'undefined', 'leak'],
                   limits=['Real provider once-owned setup, Linux executor/client and native portable bootstrap server C; pthread/kernel/RNG/OF/transport dependencies modeled.',
                           'Optional raw RV32 peer uses actual-C publication bytes and Linux requests, but models backing, delivery, host pointer publication and worker scheduling.',
-                          'Initial epoch stays held. RX/page/indication/ACK prefix is covered, not TX programming/INODE/TXDONE complete setup, physical containment/drains, reclaim/rearm, recovery or clients.'])
+                          'Initial epoch stays held. RX/page/indication/ACK/TX0/TX2/token prefix is covered; remaining RX-address/INODE/TXDONE/final IRQ setup and physical lifecycle/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected), native_cases=len(native))))
 

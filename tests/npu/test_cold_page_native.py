@@ -146,7 +146,7 @@ class NativePages(Caller):
         assert self.run(target, []) == END
         return self.cpu.reg_read(r.UC_RISCV_REG_A0)
 
-    def invoke(self, selector, count, *, inject=None):
+    def invoke(self, selector, count, *, inject=None, transport=None):
         self.inject, self.injected = inject, False
         core = self.binding.symbols['npu_emulation_page_state']
         self.claim_trigger = self.get32(core + 16) + 1
@@ -154,19 +154,24 @@ class NativePages(Caller):
         self.writes = []
         stats = self.get32(0x3e901f08)
         stats_before = self.get32(stats + 0x48) if stats else 0
-        self.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10 | selector, 1, count))
-        for register, value in ((r.UC_RISCV_REG_SP, STACK_TOPS[0]),
-                                (r.UC_RISCV_REG_RA, END), (r.UC_RISCV_REG_A0, PAYLOAD),
-                                (r.UC_RISCV_REG_MSTATUS, 0)):
-            self.cpu.reg_write(register, value)
+        if transport is None:
+            self.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10 | selector, 1, count))
+            for register, value in ((r.UC_RISCV_REG_SP, STACK_TOPS[0]),
+                                    (r.UC_RISCV_REG_RA, END), (r.UC_RISCV_REG_A0, PAYLOAD),
+                                    (r.UC_RISCV_REG_MSTATUS, 0)):
+                self.cpu.reg_write(register, value)
         self.probing = self.tracking = True
         try:
-            pc, steps = 0x8400fe34, 0
-            while pc != END:
-                pc = self.run(pc, [GETTER])
-                steps += 1
-                assert steps <= count + 2
-            value = self.cpu.reg_read(r.UC_RISCV_REG_A0)
+            if transport is None:
+                pc, steps = 0x8400fe34, 0
+                while pc != END:
+                    pc = self.run(pc, [GETTER])
+                    steps += 1
+                    assert steps <= count + 2
+                value = self.cpu.reg_read(r.UC_RISCV_REG_A0)
+            else:
+                transport()
+                value = 1
         finally:
             self.probing = self.tracking = False
         state = struct.unpack('<263I', self.cpu.mem_read(core, 1052))
@@ -214,12 +219,12 @@ def prepared(paths, parts):
     return h, workers, denied
 
 
-def check(row, returned, claims, descriptors, head, *, injected=False):
+def check(row, returned, claims, descriptors, head, *, injected=False, expected_active=1):
     assert row['returned'] == returned, ('callback-result', row)
     assert row['claimed'] == row['bitmap_population'] == claims, ('retained-claims', row)
     assert row['descriptors'] == descriptors and row['native_head'] == head, ('publication', row)
     assert row['ready'] == returned and row['ready_one_writes'] == returned, ('ready-gate', row)
-    assert row['active'] == 1 and row['injected'] == injected, ('caller-lease', row)
+    assert row['active'] == expected_active and row['injected'] == injected, ('caller-lease', row)
     assert (row['fault'], row['barrier_fault'], row['admission_fault']) == ((0, 0, 0) if returned else (1, 1, 1))
 
 

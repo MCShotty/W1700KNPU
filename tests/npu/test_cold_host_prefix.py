@@ -29,6 +29,7 @@ typedef uint64_t phys_addr_t;
 typedef int gfp_t;
 #define GFP_KERNEL 0
 #define dev_warn(...) ((void)0)
+#define dev_info(...) ((void)0)
 #define IS_ERR(p) ((uintptr_t)(p) > UINTPTR_MAX - 4095)
 #define PTR_ERR(p) ((int)(intptr_t)(p))
 #define ERR_PTR(e) ((void *)(intptr_t)(e))
@@ -43,14 +44,17 @@ struct mt76_dev {
              phys_addr_t phy_addr; int npu_type; } mmio;
     void *dev, *dma_dev;
     int mutex, hwrro_mode, rx_token_size;
+    u32 token_start;
 };
 struct mt7996_dev { struct mt76_dev mt76; void *hif2; u32 q_wfdma_mask; };
 static struct airoha_npu npu;
 static struct airoha_ppe_dev ppe;
 static unsigned events[16], event_count, fault_stage, command_count;
 static int (*peer)(unsigned, unsigned, unsigned);
+static int (*peer4)(unsigned, unsigned, unsigned, u32 *);
 static void event(unsigned id) { assert(event_count < 16); events[event_count++] = id; }
 static bool is_mt7996(struct mt76_dev *dev) { return true; }
+static int mt7992_npu_txrx_offload_init(struct mt7996_dev *d, struct airoha_npu *p) { assert(false); return -EINVAL; }
 static void mutex_lock(int *lock) { assert(!*lock); *lock = 1; event(1); }
 static void mutex_unlock(int *lock) { assert(*lock); *lock = 0; event(8); }
 static struct airoha_npu *airoha_npu_get(void *dev) { event(2); return &npu; }
@@ -71,9 +75,18 @@ static int airoha_npu_wlan_send_msg(struct airoha_npu *p, int index,
     enum airoha_npu_wlan_set_cmd api, void *data, int bytes, gfp_t gfp) {
     assert(p == &npu && bytes == 4 && gfp == GFP_KERNEL);
     u32 value; memcpy(&value, data, sizeof(value)); command_count++;
+    if (peer4) { u32 result; return peer4(0x10 | index, api, value, &result); }
     if (peer) return peer(0x10 | index, api, value);
     printf("{\"header\":%u,\"api\":%u,\"value\":%u}\n", 0x10 | index, api, value);
-    return index == 0 && api == WLAN_FUNC_SET_WAIT_TX_RING_PCIE_ADDR ? -EOPNOTSUPP : 0;
+    return 0;
+}
+static int airoha_npu_wlan_get_msg(struct airoha_npu *p, int index,
+    enum airoha_npu_wlan_get_cmd api, void *data, int bytes, gfp_t gfp) {
+    assert(p == &npu && bytes == 4 && gfp == GFP_KERNEL); command_count++;
+    if (peer4) return peer4(0x30 | index, api, 0, data);
+    printf("{\"header\":%u,\"api\":%u,\"value\":0}\n", 0x30 | index, api);
+    *(u32 *)data = 0x457;
+    return 0;
 }
 '''
 ENTRY = r'''
@@ -86,6 +99,18 @@ int npu_host_txrx(u64 base, unsigned hif2, u32 mask,
     peer = transport; command_count = 0;
     int error = mt7996_npu_txrx_offload_init(&dev, &npu);
     peer = NULL;
+    return error;
+}
+int npu_host_offload(u64 base, unsigned hif2, u32 mask,
+                     int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
+    struct mt7996_dev dev = {0};
+    dev.mt76.mmio.phy_addr = base;
+    dev.mt76.mmio.npu_type = 2;
+    dev.hif2 = hif2 ? &npu : NULL;
+    dev.q_wfdma_mask = mask;
+    peer4 = transport; command_count = 0;
+    int error = mt7996_npu_offload_init(&dev, &npu);
+    peer4 = NULL;
     return error;
 }
 int main(void) {
@@ -105,7 +130,7 @@ int main(void) {
                dev.mmio.npu == &npu && dev.mmio.ppe_dev == &ppe &&
                dev.mmio.phy_addr == 0x20000000 && dev.hwrro_mode == MT76_HWRRO_V3);
     }
-    assert(npu_host_txrx(0x20000000, 0, 0, NULL) == -EOPNOTSUPP && command_count == 12);
+    assert(npu_host_offload(0x20000000, 0, 0, NULL) == 0 && command_count == 16);
     return 0;
 }
 '''
@@ -131,15 +156,19 @@ def main():
     config = q.function(text['mt7996/dma.c'], 'mt7996_dma_config')
     for band in range(3):
         assert re.search(r'RXQ_CONFIG\(MT_RXQ_MSDU_PAGE_BAND' + str(band) + r',\s*WFDMA0,', config)
+        assert re.search(r'TXQ_CONFIG\(' + str(band) + r',\s*WFDMA0,', config)
     assert 'pci_resource_start(pdev, 0),\n\t\t      pci_resource_len(pdev, 0),' in text['mt7996/pci.c']
     common = text['mt76.h']
     program = [MODEL, q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_set_cmd')]
+    program += [q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_get_cmd')]
     program += [q.declaration(common, 'enum', name) for name in ('mt76_mcuq_id', 'mt76_rxq_id', 'mt76_band_id')]
     program += [text['mt7996/regs.h']]
-    program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE')]
+    program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE', 'MT7996_HW_TOKEN_SIZE')]
     program += [STRUCTS, q.function(common, 'mt76_npu_send_msg'),
+                q.function(common, 'mt76_npu_get_msg'),
                 q.function(text['npu.c'], 'mt76_npu_init'),
-                q.function(text['mt7996/npu.c'], 'mt7996_npu_txrx_offload_init'), ENTRY]
+                q.function(text['mt7996/npu.c'], 'mt7996_npu_txrx_offload_init'),
+                q.function(text['mt7996/npu.c'], 'mt7996_npu_offload_init'), ENTRY]
     source = dest / 'host.c'
     source.write_text('\n\n'.join(program) + '\n')
     command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
@@ -149,21 +178,22 @@ def main():
     done = loader.run([binary], dest / 'run.log', env=dict(os.environ, ASAN_OPTIONS='detect_leaks=1'))
     rows = [json.loads(line) for line in done.stdout.splitlines()]
     prefix = [dict(header=header, api=api, value=value) for header, api, value in (
+        (0x30, 10, 0), (0x10, 14, 2),
         (0x10, 1, 1536), (0x12, 1, 1024), (0x15, 0, 0x200d45a0), (0x15, 1, 256),
         (0x16, 0, 0x200d45b0), (0x16, 1, 512), (0x17, 0, 0x200d45c0), (0x17, 1, 1024),
-        (0x18, 0, 0x2000a040), (0x18, 1, 1536), (0x13, 19, 0x2000a050))]
-    assert rows[:-1] == prefix and rows[-1] == dict(header=0x10, api=19, value=0x200d4420)
+        (0x18, 0, 0x2000a040), (0x18, 1, 1536), (0x13, 19, 0x2000a050),
+        (0x10, 19, 0x200d4420), (0x12, 19, 0x200d4450), (0x10, 33, 8192))]
+    assert rows == prefix
     loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'shared-build.log')
     assert all(loader.sha(ROOT / p) == digest for p, digest in inputs.items())
-    result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=rows[-1],
+    result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=None, completed_offload=True,
                   inputs=inputs, shared=str(shared.relative_to(ROOT)), shared_sha256=loader.sha(shared),
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
-                  limits=['Actual mt76 initialization and mt7996 txrx sender C; kernel references/RCU and queue state modeled.',
-                          'Current DMA configuration is source-checked to WFDMA0 for all three page bands, not physically executed.',
+                  limits=['Actual mt76 initialization and complete mt7996 offload sender C; kernel references/RCU and queue state modeled.',
+                          'Current DMA configuration is source-checked to WFDMA0 for page/TX bands, not physically executed.',
                           'Binding-before-publication is CPU ordering, not prior-user exclusion or a physical DMA grant.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps(dict(passed=True, publication_cases=3, prefix_commands=11,
-                          first_unsupported=dict(selector=0, api=19))))
+    print(json.dumps(dict(passed=True, publication_cases=3, prefix_commands=len(prefix), completed_offload=True)))
 
 
 if __name__ == '__main__':

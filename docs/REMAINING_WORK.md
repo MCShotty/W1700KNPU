@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-10 - TX0/TX2 And Token Prefix Wired
+
+The real offload initializer now completes authenticated TX0/TX2/token setup,
+with11 original stores reserved/readback-published under retained ownership.
+Exact-object525/205/six, wire459/16, nominal/HIF2 with27 TX/34 indication controls,
+full raw3,072 PKT/1,792 BA and world/source/Ghidra/image checks pass. All seven
+native cases pass, including retained register/token faults. FIT `4da01cfe...`;
+old `8dd1f2f4...`/R1 preserved. No router contact, flash or reset.
+
+Next implement selector-specific RXDESC-base GET/host descriptor publication,
+then TX buffer addresses, PCIe-address/INODE/TXDONE and final IRQ setup. API4
+is not uniformly read-only: TX5/7 write descriptor status; unsupported callbacks
+return success with0x457. Require exact pointer provenance/span/ownership and
+propagate rejection before host endpoint writes. Full goal is not complete.
+Other owners/workers/hot/postgate, physical prior-user exclusion/backing/cache/
+DMA visibility, drains/retirement/teardown/rearm/recovery, exact-image boot and
+actual clients remain required. Initial raw setup is now authenticated; only
+later TXDONE lease/ring metadata remain directly modeled. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md` and `NEXT_SETUP_TRACE.md`.
+
 ## 2026-10-10 - Indication And ACK Prefix Wired
 
 The strict path now covers all 1,536 indication records and ACK-address metadata.

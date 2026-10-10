@@ -1,0 +1,117 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-tx-20261010\\jev-design.json",
+  "request_sha256": "26b72c15e63e3465a2c9436c7d0f9ba32b725ef960d26d4982e0b09c235521e2",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "tx_effect_class": {
+      "type": "choice",
+      "instructions": "In tx_address and tx_programming, what kind of operation do selectors0/2 perform?",
+      "criteria": {
+        "metadata_and_native_programming": "Store host metadata, reset shared indices and program native base registers.",
+        "metadata_only": "Only store host metadata.",
+        "allocate_buffers": "Allocate buffer IDs or new backing.",
+        "unknown": "The supplied bodies do not establish the effect class."
+      }
+    },
+    "token_effect_class": {
+      "type": "choice",
+      "instructions": "Classify token_limit by its shown side effects.",
+      "criteria": {
+        "metadata_publication": "Store the supplied token limit in native shared state.",
+        "new_allocation": "Allocate new token storage or dequeue tokens.",
+        "release": "Retire existing token resources.",
+        "unknown": "The supplied body does not establish the effect class."
+      }
+    },
+    "getter_ownership": {
+      "type": "noul",
+      "instructions": "Does subregion_getter establish exclusive ownership or allocate backing by itself, according to its body and contract?"
+    },
+    "partial_failure_policy": {
+      "type": "choice",
+      "instructions": "Under contract, after an original native-register store becomes visible and a later guard fails, which policy should proposed_owner follow?",
+      "criteria": {
+        "retain_and_deny": "Latch fault, retain reservation/progress/outer lease and deny outer success.",
+        "rollback": "Restore preimages and reset ownership.",
+        "release": "Release the resource when the CPU callback returns.",
+        "unknown": "The contract does not establish the policy."
+      }
+    },
+    "readback_physical_claim": {
+      "type": "noul",
+      "instructions": "Would successful modeled register readback alone prove physical DMA exclusion, delivery, coherency or retirement under contract?"
+    },
+    "source_value_class": {
+      "type": "choice",
+      "instructions": "In tx_programming, where do the values written to native base registers come from?",
+      "criteria": {
+        "local_arena_subregions": "Original subregion lookups within the existing WLAN arena plus fixed offsets, masked into the native address namespace.",
+        "host_bar_argument": "Directly from the supplied host BAR address argument.",
+        "fresh_dma_allocation": "From a new DMA allocation made in this routine.",
+        "unknown": "The source does not establish the provenance."
+      }
+    }
+  },
+  "elapsed_ms": 875,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "tx_effect_class": {
+        "type": "choice",
+        "choice": "metadata_and_native_programming",
+        "confidence": 0.89,
+        "probabilities": {
+          "metadata_and_native_programming": 0.92,
+          "metadata_only": 0.03,
+          "allocate_buffers": 0.01,
+          "unknown": 0.04
+        }
+      },
+      "token_effect_class": {
+        "type": "choice",
+        "choice": "metadata_publication",
+        "confidence": 1.0,
+        "probabilities": {
+          "metadata_publication": 1.0,
+          "new_allocation": 0.0,
+          "release": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "getter_ownership": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "partial_failure_policy": {
+        "type": "choice",
+        "choice": "retain_and_deny",
+        "confidence": 1.0,
+        "probabilities": {
+          "retain_and_deny": 1.0,
+          "rollback": 0.0,
+          "release": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "readback_physical_claim": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "source_value_class": {
+        "type": "choice",
+        "choice": "local_arena_subregions",
+        "confidence": 0.96,
+        "probabilities": {
+          "local_arena_subregions": 0.97,
+          "host_bar_argument": 0.0,
+          "fresh_dma_allocation": 0.0,
+          "unknown": 0.03
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 2559,
+      "output_tokens": 264
+    }
+  }
+}

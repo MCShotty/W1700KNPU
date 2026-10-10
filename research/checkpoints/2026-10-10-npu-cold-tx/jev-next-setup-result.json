@@ -1,0 +1,88 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-tx-20261010\\jev-next-setup.json",
+  "request_sha256": "d1d58d88ef01bbe022f60781b2322e46e98a2d17e61763da0fa9ea2d283c39c5",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "all_read_only": {
+      "type": "noul",
+      "instructions": "Does helper only read metadata and never write descriptor memory for every supported selector? Classify actual shown stores, not the GET name."
+    },
+    "rx_effect": {
+      "type": "choice",
+      "instructions": "For selectors0/2/8/10/11/12 used by rx_caller, what does helper do?",
+      "criteria": {
+        "pointer_lookup": "Read stored ring pointers and mask their value; no shown allocation or descriptor write for these selectors.",
+        "descriptor_initialize": "Write descriptor status fields.",
+        "fresh_allocate": "Allocate new backing.",
+        "unknown": "Not established by the shown body."
+      }
+    },
+    "tx_effect": {
+      "type": "choice",
+      "instructions": "For selectors5/7 used by tx_caller, what effect does helper have?",
+      "criteria": {
+        "descriptor_status_initialize": "After reading a nonzero ring pointer, write status0x80000000 through its descriptor span before returning.",
+        "read_only": "Only return an existing pointer.",
+        "retire": "Reclaim the old ring.",
+        "unknown": "Not established by the shown body."
+      }
+    },
+    "fallback": {
+      "type": "choice",
+      "instructions": "When helper returns0, how does callback encode that outcome?",
+      "criteria": {
+        "success_sentinel": "Store0x457 in the reply value and return1, so transport success alone does not establish a valid ring address.",
+        "error_status": "Return a failure status without changing the reply value.",
+        "zero_pointer": "Return success with a zero pointer.",
+        "unknown": "Not established by the shown body."
+      }
+    }
+  },
+  "elapsed_ms": 897,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "all_read_only": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "rx_effect": {
+        "type": "choice",
+        "choice": "pointer_lookup",
+        "confidence": 1.0,
+        "probabilities": {
+          "pointer_lookup": 1.0,
+          "descriptor_initialize": 0.0,
+          "fresh_allocate": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "tx_effect": {
+        "type": "choice",
+        "choice": "descriptor_status_initialize",
+        "confidence": 1.0,
+        "probabilities": {
+          "descriptor_status_initialize": 1.0,
+          "read_only": 0.0,
+          "retire": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "fallback": {
+        "type": "choice",
+        "choice": "success_sentinel",
+        "confidence": 1.0,
+        "probabilities": {
+          "success_sentinel": 1.0,
+          "error_status": 0.0,
+          "zero_pointer": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 2765,
+      "output_tokens": 167
+    }
+  }
+}

@@ -1,5 +1,29 @@
 # Experimental NPU Components
 
+## 2026-10-10 - Retained TX0/TX2 And Token Programming
+
+`cold-tx.c/.h` is the15th archive object. Its80-byte one-shot owner pins the
+44-byte plan and reserves11 writes before original metadata/index/CSR/token
+stores. Original allocator lock18 pins the unique type1 arena, count/used,
+identity/sequence and full RX/page/indication prefix. TX0 precedes TX2, then
+the original32-bit token-limit store. Readback gates publication and outer
+completion; failures retain claims and the callback lease. No reset/reclaim API.
+
+The separate13th raw native component installs11 operand-preserving hooks.
+API19 selectors0/2 and API33 selector0 now use the authenticated cold lane.
+Host pointer values must match bound BAR0+0xd4420 and +0xd4450/+0xd8450;
+the complete12-byte HIF2 register span must fit. Native CSR values retain the
+original arena subregion arithmetic, including the one-past end value. Modeled
+readback does not establish register side effects, physical engine coverage,
+exclusive backing/cache visibility or DMA drains. The80-byte wire is unchanged.
+
+Initial raw regression now uses actual cold-client C, not a test-written active
+lease or direct owner initializer. Later TXDONE still uses a modeled lease and
+ring metadata. Remaining RX-address/INODE/TXDONE/final IRQ setup, other owners,
+hot/postgate and physical recovery/client acceptance remain open. No hardware
+operation is authorized by this work. Current qualification is recorded in
+`research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md`.
+
 ## 2026-10-10 - Retained Indication Initialization
 
 `cold-indication.c/.h` adds the one-shot1536-record indication owner as the14th

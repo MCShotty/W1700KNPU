@@ -123,7 +123,7 @@ class RxStats(pages.NativePages):
         heap[address - HEAP:address - HEAP + 1000] = bytes(1000)
         return heap
 
-    def invoke_rx(self, selector, count, mode=None):
+    def invoke_rx(self, selector, count, mode=None, *, transport=None):
         self.mode, self.changed = mode, False
         self.at_allocator = None
         self.rx_writes = []
@@ -131,17 +131,22 @@ class RxStats(pages.NativePages):
         self.put32(0x1ec03048, 0x10000)
         self.unmodeled = None
         count_before = self.get32(META + 8)
-        self.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10 | selector, 1, count))
-        for register, value in ((r.UC_RISCV_REG_SP, STACK_TOPS[0]),
-                                (r.UC_RISCV_REG_RA, END), (r.UC_RISCV_REG_A0, PAYLOAD),
-                                (r.UC_RISCV_REG_MSTATUS, 0)):
-            self.cpu.reg_write(register, value)
+        if transport is None:
+            self.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10 | selector, 1, count))
+            for register, value in ((r.UC_RISCV_REG_SP, STACK_TOPS[0]),
+                                    (r.UC_RISCV_REG_RA, END), (r.UC_RISCV_REG_A0, PAYLOAD),
+                                    (r.UC_RISCV_REG_MSTATUS, 0)):
+                self.cpu.reg_write(register, value)
         self.rx_tracking = self.probing = True
         hold = self.allocator_rv.symbols['npu_emulation_allocator_startup_hold']
         try:
-            stop = self.run(0x8400fe34, [hold])
-            assert stop == END, ('unexpected-statistics-hold', hex(stop))
-            returned = self.cpu.reg_read(r.UC_RISCV_REG_A0)
+            if transport is None:
+                stop = self.run(0x8400fe34, [hold])
+                assert stop == END, ('unexpected-statistics-hold', hex(stop))
+                returned = self.cpu.reg_read(r.UC_RISCV_REG_A0)
+            else:
+                transport()
+                returned = 1
         finally:
             self.rx_tracking = self.probing = False
         address = self.get32(SLOTS[selector])
@@ -208,12 +213,12 @@ def prepare(paths, parts):
     return h, denied
 
 
-def expected(row, success, descriptors, records, clears):
+def expected(row, success, descriptors, records, clears, *, expected_active=1):
     assert row['returned'] == success, ('outer-status', row)
     assert row['ready'] == row['ready_one_stores'] == success, ('ready-status', row)
     assert row['descriptor_stores'] == descriptors and row['clear_stores'] == clears, ('native-writes', row)
     assert row['records_added'] == records, ('allocation-retention', row)
-    assert row['active'] == 1 and row['guarded'] == 0, ('lease-retention', row)
+    assert row['active'] == expected_active and row['guarded'] == 0, ('lease-retention', row)
     assert (row['admission_fault'], row['barrier_fault']) == ((0, 0) if success else (1, 1))
     assert not any(entry['caller'] in ('0x8400a3ae', '0x8400a39a')
                    for entry in row['unchecked_fallback_entries']), ('unchecked-statistics-fallback', row)

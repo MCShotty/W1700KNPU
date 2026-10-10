@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Native execution from assembled CODE/DATA, without post-load ELF injection."""
 import argparse
+from functools import partial
 import json
 from pathlib import Path
 import re
@@ -13,6 +14,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 import npu_image as image
 import test_cold_txdone_native as tx
 import test_bootstrap_v2_composition as composition
+import tx_wire_native as tx_wire
 from test_bootstrap_native import Bootstrap, ADM, PLAN
 from test_firmware_memory_layout import STACK_TOPS
 from test_firmware_mailbox_dispatch import PAYLOAD
@@ -39,11 +41,12 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     assert all(composition.sha(path) == manifest['components'][name]['sha256'] for name, path in files.items())
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
-    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets')}
+    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx')}
     h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
     h.install_packet(files['cold-packets'])
+    tx_wire.install(h, files['cold-tx'])
     # Erase all ELF-loader effects, fixture plans and fixture identity before the
     # two raw copies. Retained Python objects supply only observer/symbol metadata.
     h.cpu.mem_write(image.CODE, b'\xcc' * image.CODE_LIMIT)
@@ -61,9 +64,11 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     return h, paths, files, manifest
 
 
-def provision(h, identity):
+def provision(h, identity, request=None):
     # Explicit synthetic provider publication, separate from the stored artifact.
     plan = composition.native.plan()
+    if request is not None:
+        plan[-1] = (request, 256)
     h.cpu.mem_write(PLAN, struct.pack('<12I', *[word for row in plan for word in row]))
     h.cpu.mem_write(composition.boot.LOADER, struct.pack('<2I', *identity))
     return dict(modeled=True, identity=list(identity), plan=plan, request_buffer=plan[-1])
@@ -109,7 +114,10 @@ def main():
     dest.mkdir(parents=True)
     pair = args.pair.resolve()
     early_controls = boot_controls(pair)
-    h, paths, files, manifest = load(pair)
+    from cold_wire_native import ColdProviderRequest
+    from cold_client_native import exchange as cold_exchange
+    request = 0x83000000
+    h, paths, files, manifest = load(pair, factory=partial(ColdProviderRequest, request=request))
     sources = {Path(__file__), ROOT / 'tools/npu_image.py', ROOT / 'tools/build_npu_pair.py'}
     sources.update(Path(module.__file__).resolve() for module in list(sys.modules.values())
                    if getattr(module, '__file__', None) and Path(module.__file__).resolve().is_relative_to(ROOT / 'tests/npu'))
@@ -118,7 +126,7 @@ def main():
                (pair / 'CODE.bin', pair / 'DATA.bin', pair / 'manifest.json', *paths, *files.values())}
     assert all(composition.sha(ROOT / path) == digest for path, digest in inputs.items()), 'stale-build-input'
     identity = composition.control.BOOT
-    loader = provision(h, identity)
+    loader = provision(h, identity, request=request)
     h.hart = 0
     h.cpu.context_restore(h.fresh)
     assert h.reset() == 0x8400420a
@@ -129,24 +137,29 @@ def main():
     h.finish_coordinator()
     workers = [h.worker(hart) for hart in range(1, 8)]
     h.on_core0()
-    denied = Bootstrap.message(h, [0x1a, 1, 512])
+    assert composition.control.exchange(host, h)[0] == composition.control.ACCEPTED
+    denied = h.message([0x1a, 1, 512])
     assert denied['flags'] == 3 and not denied['callbacks']
-    h.put32(ADM + 4, 1)
-    assert h.direct(h.packet.symbols['npu_emulation_packet_init']) == 0
+    frames = []
+    def command(*words):
+        row = cold_exchange(host, h, words)
+        frames.append(row)
+        return row
+    for words in ((0x1f, 0x100, 0x20000000), (0x1f, 0x101, 0x100000), (0x30, 10, 0), (0x10, 14, 2)):
+        command(*words)
     prefix = []
-    for selector, count in ((0, 32), (2, 32)) if args.quick else ((0, 1536), (2, 1024)):
-        row = h.invoke_packet(selector, count)
-        tx.stats.expected(row, 1, count, 1, 250)
+    for selector, count in ((0, 1536), (2, 1024)):
+        row = h.invoke_packet(selector, count, transport=lambda: command(0x10 | selector, 1, count))
+        tx.stats.expected(row, 1, count, 1, 250, expected_active=0)
         prefix.append(row)
         print(json.dumps(dict(raw_rx=selector, claimed=row['claimed'])), flush=True)
     packet_before = bytes(h.cpu.mem_read(h.packet.symbols['npu_emulation_packet_state'], 2076))
-    assert h.direct(h.binding.symbols['npu_emulation_page_init']) == 0
     page_rows, page_total = [], 0
     for selector, count in tx.pages.COUNTS.items():
-        count = 16 if args.quick else count
         page_total += count
-        row = h.invoke(selector, count)
-        tx.pages.check(row, 1, page_total, count, page_total)
+        command(0x10 | selector, 0, 0x200d45a0 + (selector - 5) * 16)
+        row = h.invoke(selector, count, transport=lambda: command(0x10 | selector, 1, count))
+        tx.pages.check(row, 1, page_total, count, page_total, expected_active=0)
         for index in range(count):
             ident = page_total - count + index
             assert struct.unpack('<4I', h.cpu.mem_read(row['ring'] + index * 16, 16)) == (
@@ -154,12 +167,16 @@ def main():
         page_rows.append(row)
     assert bytes(h.cpu.mem_read(h.packet.symbols['npu_emulation_packet_state'], 2076)) == packet_before
     print(json.dumps(dict(raw_ba_claims=page_total, packet_state_unchanged=True)), flush=True)
-    calls = [[0x10, 14, 2]]
-    calls += [[m['word0'], 19, m['value']] for m in expected(0, 2) if m.get('api') == 19]
-    calls += [[0x10, 33, 8192], [0x10, 22, TXFREE]]
-    for words in calls:
-        h.cpu.mem_write(PAYLOAD, struct.pack('<3I', *words) + bytes(12))
-        assert h.direct(SET_CALLBACKS[words[1]], PAYLOAD) == 1
+    for words in ((0x18, 0, 0x2000a040), (0x18, 1, 1536), (0x13, 19, 0x2000a050),
+                  (0x10, 19, 0x200d4420), (0x12, 19, 0x200d4450), (0x10, 33, 8192)):
+        command(*words)
+    assert h.get32(h.rv.symbols['npu_emulation_cold_setup_state'] + 8) == 131071
+    assert h.get32(h.tx.symbols['npu_emulation_tx_state'] + 24) == 11 and h.get32(ADM + 4) == 0
+    # Later TXDONE is still a separately declared modeled lease until its full
+    # host/INODE/physical contract is implemented. It cannot reinitialize TX.
+    h.put32(ADM + 4, 1)
+    h.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10, 22, TXFREE) + bytes(12))
+    assert h.direct(SET_CALLBACKS[22], PAYLOAD) == 1
     h.put32(tx.SRAM + 0x3974, 0x87654321)
     core = h.packet.symbols['npu_emulation_packet_state']
     before = list(struct.unpack('<519I', h.cpu.mem_read(core, 2076)))
@@ -187,12 +204,15 @@ def main():
     assert bytes(h.cpu.mem_read(image.CODE, 0x1dde0)) == (pair / 'CODE.bin').read_bytes()[:0x1dde0]
     assert all(composition.sha(ROOT / path) == digest for path, digest in inputs.items()), 'inputs-changed-during-replay'
     result = dict(passed=True, full_nominal=not args.quick, raw_pair=True, post_load_elf_injection=False,
-                  hooks=63, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
+                  hooks=74, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
+                  authenticated_cold_prefix=frames, initial_test_active_writes=False,
+                  initial_direct_owner_init=False, later_txdone_lease_modeled=True,
                   independent_pages=page_rows, boot_controls=early_controls, controls=controls,
                   strict_denial=denied, pair_manifest_sha256=image.sha((pair / 'manifest.json').read_bytes()),
                   inputs=inputs,
                   limits=['Actual raw CODE/DATA copies, native reset/all-hart parking and selected RX/TXDONE bodies.',
-                          'Provider identity/plan, grants/backing/IRQ scheduling and held direct callback lease remain modeled.',
+                          'Initial setup uses the actual cold-client protocol; provider publication/backing/grants/delivery remain modeled.',
+                          'Only the later TXDONE lease/ring metadata are directly modeled; complete strict host/INODE setup remains open.',
                           'Strict full setup, real loader publication, hot lifecycle and physical drains/clients remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, full_nominal=not args.quick, claims=nominal['claimed'], raw_pair=True,

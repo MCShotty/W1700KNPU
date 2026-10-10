@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "jobs": [
+    {
+      "name": "endpoint",
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_endpoint_binding.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "tx-endpoint-qualification"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-endpoint.log",
+      "exit_code": 0
+    },
+    {
+      "name": "lease",
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_dma_lifetime.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "tx-lease-qualification"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-lease.log",
+      "exit_code": 0
+    },
+    {
+      "name": "request",
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_provider_request_plan.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "tx-request-qualification"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-request.log",
+      "exit_code": 0
+    },
+    {
+      "name": "probe",
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_provider_dma_probe.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "tx-probe-qualification"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-probe.log",
+      "exit_code": 0
+    },
+    {
+      "name": "memory",
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_cold_memory_plan.py",
+        "--name",
+        "tx-memory-qualification"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-memory.log",
+      "exit_code": 0
+    },
+    {
+      "name": "source",
+      "command": [
+        "/usr/bin/python3",
+        "tools/migration/verify_source_export.py",
+        "--output",
+        "/home/captain/W1700KNPU/.local/npu-cold-tx-20261010/source-replay-final.json"
+      ],
+      "log": ".local/npu-cold-tx-20261010/regression-source.log",
+      "exit_code": 0
+    }
+  ]
+}

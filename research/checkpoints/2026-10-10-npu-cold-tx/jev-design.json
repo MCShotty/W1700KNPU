@@ -1,0 +1,107 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "tx_address": "decompiled=true\n\nvoid FUN_ram_8400d5da(uint param_1,int param_2)\n\n{\n  if (0xbfffffff < param_1) {\n    FUN_ram_840048f4(\"********** ERROR ***************\\n\");\n    FUN_ram_840048f4(\"%s() ERROR !!! out of available range:%x \\n\",\n                     \"npu_set_pcie_base_for_tx_ring_eagle\",param_1);\n  }\n  if (param_2 == 0) {\n    DAT_ram_3e904700 = param_1;\n    FUN_ram_8400d490(0);\n    return;\n  }\n  if (param_2 == 2) {\n    DAT_ram_3e9046fc = param_1;\n    FUN_ram_8400d490(2);\n    return;\n  }\n  if (param_2 == 3) {\n    DAT_ram_3e904610 = param_1;\n    return;\n  }\n  FUN_ram_840048f4(\"%s() wrong input value. addr:%d band:%d\\n\",\"npu_set_pcie_base_for_tx_ring_eagle\"\n                   ,param_1,param_2);\n  return;\n}\n\n",
+    "tx_programming": "decompiled=true\n\n/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */\n\nvoid FUN_ram_8400d490(int param_1)\n\n{\n  undefined4 uVar1;\n  undefined1 uVar2;\n  char cVar3;\n  uint uVar4;\n  uint uVar5;\n  uint uVar6;\n  \n  uVar2 = DAT_ram_3e90390e;\n  FUN_ram_840048f4(\"NPU tx init. band:%d Version: NPU_%s pcie_type:%d\\n\",param_1,&DAT_ram_8401c778,\n                   uVar2);\n  DAT_ram_3e903978 = 0;\n  DAT_ram_3e9021f4 = 0;\n  if (param_1 == 2) {\n    FUN_ram_840048f4(\"%s() special handling: band is changed to BAND1\\n\",\"npu_eagle_tx_init\");\n    param_1 = 1;\n  }\n  uVar1 = DAT_ram_3e9030fc;\n  uVar5 = FUN_ram_8400fab2(uVar1,1,2);\n  uVar1 = DAT_ram_3e9030fc;\n  uVar4 = uVar5 + 0x28020;\n  uVar6 = FUN_ram_8400fab2(uVar1,1,1);\n  cVar3 = DAT_ram_3e90390e;\n  if (cVar3 != '\\x01') {\n    if (cVar3 != '\\0') {\n      if (cVar3 == '\\x02') {\n        if (param_1 == 0) {\n          _DAT_ram_1fc08030 = uVar6 & 0x1fffffff;\n          _DAT_ram_1fc08034 = uVar6 + 0x22020 & 0x1fffffff;\n        }\n        else {\n          _DAT_ram_1fc48030 = uVar5 & 0x1fffffff;\n          _DAT_ram_1fc48034 = uVar4 & 0x1fffffff;\n        }\n      }\n      else if (cVar3 == '\\x03') {\n        if (param_1 == 0) {\n          _DAT_ram_1fc28030 = uVar6 & 0x1fffffff;\n          _DAT_ram_1fc28034 = uVar6 + 0x22020 & 0x1fffffff;\n        }\n        else {\n          _DAT_ram_1fc08030 = uVar5 & 0x1fffffff;\n          _DAT_ram_1fc08034 = uVar4 & 0x1fffffff;\n        }\n      }\n      return;\n    }\n    _DAT_ram_1fc08030 = uVar6 & 0x1fffffff;\n    _DAT_ram_1fc08034 = uVar4 & 0x1fffffff;\n    return;\n  }\n  _DAT_ram_1fc28030 = uVar6 & 0x1fffffff;\n  _DAT_ram_1fc28034 = uVar4 & 0x1fffffff;\n  return;\n}\n\n",
+    "token_limit": "decompiled=true\n\nvoid FUN_ram_8400dfb0(undefined4 param_1)\n\n{\n  FUN_ram_840048f4(\"[NPU] %s, token_size=%lx \\n\",\"npu_set_token_size\",param_1);\n  *(undefined4 *)(gp + -0x7e8) = param_1;\n  return;\n}\n\n",
+    "subregion_getter": "decompiled=true\n\nint FUN_ram_8400fab2(int param_1,int param_2,uint param_3)\n\n{\n  int iVar1;\n  uint uVar2;\n  uint uVar3;\n  int *piVar4;\n  bool bVar5;\n  \n  iVar1 = 0;\n  if (param_2 == 1) {\n    bVar5 = false;\n    iVar1 = 0;\n    uVar2 = 1;\n    uVar3 = 2;\n    piVar4 = &DAT_ram_8401cf1c;\n    while( true ) {\n      if (uVar2 == param_3) {\n        bVar5 = true;\n        iVar1 = *piVar4 + param_1;\n      }\n      if (uVar3 == 0xffff) break;\n      uVar2 = uVar3;\n      uVar3 = (uint)*(ushort *)(piVar4 + 3);\n      piVar4 = piVar4 + 2;\n    }\n    if (!bVar5) {\n      FUN_ram_840048f4(\"not support type[wificase:%d,wifisubcase:%d]\\n\",1);\n      return iVar1;\n    }\n  }\n  return iVar1;\n}\n\n",
+    "subregions": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        139296
+      ],
+      [
+        3,
+        24608
+      ],
+      [
+        4,
+        155712
+      ],
+      [
+        6,
+        127008
+      ],
+      [
+        7,
+        98336
+      ],
+      [
+        8,
+        102432
+      ],
+      [
+        9,
+        110624
+      ],
+      [
+        10,
+        32800
+      ],
+      [
+        11,
+        172096
+      ],
+      [
+        65535,
+        0
+      ]
+    ],
+    "contract": "The existing cold epoch is held and authenticated by boot/nonce/sequence. Software ownership must precede original side effects and persist after ambiguous partial failure. Mutex ownership/readback, table geometry and modeled registers are not physical DMA exclusion/coherency/retirement evidence. No rollback/reset/reclaim API exists.",
+    "proposed_owner": "Capture the unique existing type1 WLAN-arena reservation under original allocator lock18. Retain host metadata, shared-index and native-register write progress for both TX bands, plus the fixed token-limit publication, without clearing claims on failure. Original writes must pass per-write identity/order/value guards and readback. Use authenticated cold commands in the main raw setup regression; its later direct TXDONE lease remains explicitly modeled."
+  },
+  "questions": {
+    "tx_effect_class": {
+      "type": "choice",
+      "instructions": "In tx_address and tx_programming, what kind of operation do selectors0/2 perform?",
+      "criteria": {
+        "metadata_and_native_programming": "Store host metadata, reset shared indices and program native base registers.",
+        "metadata_only": "Only store host metadata.",
+        "allocate_buffers": "Allocate buffer IDs or new backing.",
+        "unknown": "The supplied bodies do not establish the effect class."
+      }
+    },
+    "token_effect_class": {
+      "type": "choice",
+      "instructions": "Classify token_limit by its shown side effects.",
+      "criteria": {
+        "metadata_publication": "Store the supplied token limit in native shared state.",
+        "new_allocation": "Allocate new token storage or dequeue tokens.",
+        "release": "Retire existing token resources.",
+        "unknown": "The supplied body does not establish the effect class."
+      }
+    },
+    "getter_ownership": {
+      "type": "noul",
+      "instructions": "Does subregion_getter establish exclusive ownership or allocate backing by itself, according to its body and contract?"
+    },
+    "partial_failure_policy": {
+      "type": "choice",
+      "instructions": "Under contract, after an original native-register store becomes visible and a later guard fails, which policy should proposed_owner follow?",
+      "criteria": {
+        "retain_and_deny": "Latch fault, retain reservation/progress/outer lease and deny outer success.",
+        "rollback": "Restore preimages and reset ownership.",
+        "release": "Release the resource when the CPU callback returns.",
+        "unknown": "The contract does not establish the policy."
+      }
+    },
+    "readback_physical_claim": {
+      "type": "noul",
+      "instructions": "Would successful modeled register readback alone prove physical DMA exclusion, delivery, coherency or retirement under contract?"
+    },
+    "source_value_class": {
+      "type": "choice",
+      "instructions": "In tx_programming, where do the values written to native base registers come from?",
+      "criteria": {
+        "local_arena_subregions": "Original subregion lookups within the existing WLAN arena plus fixed offsets, masked into the native address namespace.",
+        "host_bar_argument": "Directly from the supplied host BAR address argument.",
+        "fresh_dma_allocation": "From a new DMA allocation made in this routine.",
+        "unknown": "The source does not establish the provenance."
+      }
+    }
+  }
+}

@@ -200,7 +200,7 @@ class NativePackets(stats.RxStats):
                 struct.pack_into('<I', heap, position, (old + increment) & 0xffffffff)
         return heap
 
-    def invoke_packet(self, selector, count, mode=None):
+    def invoke_packet(self, selector, count, mode=None, *, transport=None):
         self.requested, self.packet_mode, self.packet_changed = count, mode, False
         self.packet_writes, self.getter_calls = [], 0
         core = self.packet.symbols['npu_emulation_packet_state']
@@ -212,7 +212,7 @@ class NativePackets(stats.RxStats):
         before = [self.get32(statistic + offset) if statistic else 0 for offset in (0x1c, 0x20)]
         self.packet_tracking = True
         try:
-            row = self.invoke_rx(selector, count)
+            row = self.invoke_rx(selector, count, transport=transport)
         finally:
             self.packet_tracking = False
         state = struct.unpack('<519I', self.cpu.mem_read(core, 2076))

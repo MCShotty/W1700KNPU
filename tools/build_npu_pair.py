@@ -14,6 +14,7 @@ import test_bootstrap_v2_composition as composition
 import test_cold_page_native as pages
 import test_rx_stats as stats
 import test_cold_packet_native as packets
+import tx_wire_native as tx
 import test_startup_native as startup
 import test_admission_native as admission
 from test_barrier_workers import SITES as WORKER_SITES
@@ -63,7 +64,8 @@ def hook_plan(code, components):
         put(site, 'egress', 'npu_emulation_egress_' + name)
     for site, name in composition.packets.SITES.items():
         put(site, 'packets', 'npu_emulation_srv6_' + name)
-    for component, sites in (('cold-pages', pages.SITES), ('rx-stats', stats.SITES), ('cold-packets', packets.SITES)):
+    for component, sites in (('cold-pages', pages.SITES), ('rx-stats', stats.SITES),
+                             ('cold-packets', packets.SITES), ('cold-tx', tx.SITES)):
         for site, name in sites.items():
             put(site, component, name, length=6 if site == packets.GETTER else 4)
     return sorted(hooks.values(), key=lambda row: row['site'])
@@ -83,13 +85,14 @@ def build(destination, *, firmware_directory=None):
     destination.mkdir(parents=True)
     inputs = source_inputs()
     paths, parts = composition.build(destination=destination / 'components', negative_controls=False)
-    page_dir, rx_dir, packet_dir = [destination / name for name in ('page', 'rx', 'packet')]
-    for path in (page_dir, rx_dir, packet_dir):
+    page_dir, rx_dir, packet_dir, tx_dir = [destination / name for name in ('page', 'rx', 'packet', 'tx')]
+    for path in (page_dir, rx_dir, packet_dir, tx_dir):
         path.mkdir()
     page_path = pages.build(page_dir, parts)
     rx_path = stats.build(rx_dir, parts, page_path)
     packet_path = packets.build(packet_dir, parts, rx_path)
-    components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path}
+    tx_path = tx.build(tx_dir, parts, page_path)
+    components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path, 'cold-tx': tx_path}
     layout = composition.memory_layout(components, original_code_bytes=len(original_code), negative_controls=False)
     hooks = hook_plan(original_code, components)
     edits = [dict(site=0x8401b230, before=struct.pack('<I', 58879).hex(),

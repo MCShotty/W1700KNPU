@@ -1,0 +1,18 @@
+Subject: [PATCH] net: airoha: route retained cold TX and token setup
+
+Extend the existing checked session without physical retirement claims.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -1032,7 +1032,9 @@
+ 	     ((ifindex == 0 || ifindex == 2 || (ifindex >= 5 && ifindex <= 8)) &&
+ 	      func_id == WLAN_FUNC_SET_WAIT_DESC) ||
+ 	     (ifindex >= 5 && ifindex <= 8 && func_id == WLAN_FUNC_SET_WAIT_PCIE_ADDR) ||
+-	     (ifindex == 3 && func_id == WLAN_FUNC_SET_WAIT_TX_RING_PCIE_ADDR)))
++	     ((ifindex == 0 || ifindex == 2 || ifindex == 3) &&
++	      func_id == WLAN_FUNC_SET_WAIT_TX_RING_PCIE_ADDR) ||
++	     (ifindex == 0 && func_id == WLAN_FUNC_SET_WAIT_TOKEN_ID_SIZE)))
+ 		return airoha_npu_wlan_cold_command(npu, 0x10 | ifindex, func_id,
+ 						  data, data_len);
+ 	return airoha_npu_wlan_msg_send(npu, ifindex, func_id, data, data_len, gfp);

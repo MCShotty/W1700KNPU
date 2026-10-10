@@ -52,8 +52,8 @@ class TxPackets(packets.NativePackets):
         return super().is_memory(address, size)
 
     def register_model(self, address, write):
-        if address in REGS and write:
-            return 'Original TX setup register storage; no DMA proof'
+        if address in REGS:
+            return 'Original TX setup register read/write storage; no DMA proof'
         if address in (0x1ec031cc, 0x1ec0324c, 0x1ec031d0, 0x1ec03250) and write:
             return 'Original SKB lock19/20 request/release storage; no physical grant'
         if address in (0x1ec0304c, 0x1ec03050) and not write:
@@ -114,8 +114,9 @@ class TxPackets(packets.NativePackets):
         super().write_hook(cpu, access, address, size, value, data)
 
     def snapshot(self):
-        return super().snapshot() + [(HOST, bytes(self.cpu.mem_read(HOST, HOST_BYTES))),
-                                   (SKB_STATE, bytes(self.cpu.mem_read(SKB_STATE, SKB_BYTES)))]
+        extra = [(0x84084000, bytes(self.cpu.mem_read(0x84084000, 0x4000)))] if hasattr(self, 'tx') else []
+        return super().snapshot() + extra + [(HOST, bytes(self.cpu.mem_read(HOST, HOST_BYTES))),
+                                            (SKB_STATE, bytes(self.cpu.mem_read(SKB_STATE, SKB_BYTES)))]
 
     def restore(self, saved):
         self.done_tracking = False

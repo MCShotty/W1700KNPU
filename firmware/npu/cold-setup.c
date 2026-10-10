@@ -56,7 +56,8 @@ static int window(uint32_t base, uint32_t bytes, const struct npu_bootstrap *boo
 
 static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *boot)
 {
-    static const uint32_t prefixes[] = {0, 8, 24, 25, 27, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383};
+    static const uint32_t prefixes[] = {0, 8, 24, 25, 27, 31, 63, 127, 255, 511,
+        1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071};
     static const uint32_t bits[NPU_COLD_COUNTS] = {NPU_COLD_RX0, NPU_COLD_RX2,
         NPU_COLD_PAGE5, NPU_COLD_PAGE6, NPU_COLD_PAGE7};
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
@@ -121,6 +122,17 @@ static uint32_t command_bit(const struct npu_bootstrap_packet *p,
         window(s->endpoint_base, s->endpoint_bytes, boot) &&
         p->value == s->endpoint_base + NPU_COLD_ACK_REG)
         return NPU_COLD_ACK;
+    if (p->api == 19 && window(s->endpoint_base, s->endpoint_bytes, boot)) {
+        if (p->header == 0x10 && p->value == s->endpoint_base + NPU_COLD_TX_REG0)
+            return NPU_COLD_TX0;
+        if (p->header == 0x12 &&
+            (p->value == s->endpoint_base + NPU_COLD_TX_REG2 ||
+             p->value == s->endpoint_base + NPU_COLD_TX_REG2 + NPU_COLD_TX_HIF2) &&
+            p->value - s->endpoint_base <= s->endpoint_bytes - 12)
+            return NPU_COLD_TX2;
+    }
+    if (p->header == 0x10 && p->api == 33 && p->value == 8192)
+        return NPU_COLD_TOKEN;
     return 0;
 }
 

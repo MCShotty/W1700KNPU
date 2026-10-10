@@ -64,6 +64,9 @@ def main():
         'skip-late-bar': {server: loader.once(original, 's->endpoint_base != s->prior_base ||', '')},
         'skip-full-prefix': {server: loader.once(original, 'if (bit == NPU_COLD_ADDR8 && s->counts[i] != limits[i])', 'if (0 && bit == NPU_COLD_ADDR8 && s->counts[i] != limits[i])')},
         'skip-late-counts': {server: loader.once(original, 'if (s->counts[i] != s->prior_counts[i])', 'if (0 && s->counts[i] != s->prior_counts[i])')},
+        'skip-tx2-offset': {server: loader.once(original, '(p->value == s->endpoint_base + NPU_COLD_TX_REG2 ||\n             p->value == s->endpoint_base + NPU_COLD_TX_REG2 + NPU_COLD_TX_HIF2)', '(p->value != 0)')},
+        'skip-tx2-window': {server: loader.once(original, 'p->value - s->endpoint_base <= s->endpoint_bytes - 12', '(1)')},
+        'relax-token-limit': {server: loader.once(original, 'p->api == 33 && p->value == 8192', 'p->api == 33 && p->value <= 8193')},
     }
     rejected = []
     for name, replacements in mutations.items():
@@ -75,7 +78,7 @@ def main():
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
-                          'Version/BAR/port/RX/page/indication and ACK-address commands are implemented. TX register programming/INODE/TXDONE complete host setup and physical/hot/client gates remain open.'])
+                          'Version/BAR/port/RX/page/indication/ACK/TX0/TX2/token commands are covered. Remaining RX-address/INODE/TXDONE/final IRQ setup and physical/hot/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

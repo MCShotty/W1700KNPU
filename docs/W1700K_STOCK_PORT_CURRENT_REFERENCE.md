@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-10 - Authenticated TX0/TX2 And Token Prefix
+
+The normal experimental mainline completes actual mt7996 offload C through
+TX0/TX2/token. The80-byte one-shot TX owner pins a44-byte plan and reserves11
+original metadata/index/native-CSR/token stores under original allocator lock18.
+Readback and pinned session/arena/history gate publication; faults retain
+progress/outer lease and never reset, roll back or retire exposed resources.
+Wire80/private cold history104 and the existing boot/nonce remain unchanged.
+
+Exact-world525/205/six, wire459/16, nominal/HIF2 with27 TX/34 indication controls,
+full raw3,072 PKT/1,792 BA and world/Ghidra54/source66+nested12/components13/
+assembly16/FIT218+78 pass. Seven native cases pass, including4/3 register and
+11/10 token fault progress with active/inflight1 retained.
+Raw components13/archive objects15/hooks74 are distinct sets. Initial raw setup
+uses actual cold-client C; only later TXDONE lease/ring metadata remain modeled.
+FIT SHA256:
+`4da01cfe0136b72014b71f3220323a38ee9e5b3987396b69f55fba6cf8afae84`.
+Previous `8dd1f2f4...`/older/R1 and private backups are protected. No flash/contact.
+
+Next denied operation is GET0/API4, followed by remaining RXDESC/host/TX-buffer/
+INODE/TXDONE/final IRQ setup. Getter selectors have different side effects and
+unsupported0x457 success is not a valid pointer. Remaining owners/hot/postgate,
+independent physical exclusion/backing/coherency/drains/retirement/recovery,
+exact-image boot and clients remain open. Scope and next static trace:
+`research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md` and `NEXT_SETUP_TRACE.md`.
+
 ## 2026-10-10 - Retained Indication And ACK Metadata
 
 The checked provider now routes indication address/DESC and ACK selector3/API19
@@ -234,7 +260,7 @@ Native caller/physical ownership/drain/client gates remain open; no flash.
 
 
 
-Last updated: 2026-10-10 (boot errors/version checked and current reset map replayed; physical containment/strict setup/lifecycle/client acceptance remains open)
+Last updated: 2026-10-10 (TX0/TX2/token prefix implemented; remaining full setup/physical/lifecycle/client gates open)
 
 Resume checklist: `docs/REMAINING_WORK.md` lists all currently open implementation,
 validation, service and release gates. Update it along with the ledger.

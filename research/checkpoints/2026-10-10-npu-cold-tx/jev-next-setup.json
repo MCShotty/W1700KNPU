@@ -1,0 +1,46 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "callback": "decompiled=true\n\nundefined4 npu_table_158(uint *param_1)\n\n{\n  uint uVar1;\n  \n  uVar1 = FUN_ram_8400d836(*param_1 & 0xf);\n  if (uVar1 != 0) {\n    param_1[2] = uVar1;\n    return 1;\n  }\n  FUN_ram_840048f4(\"%s: not support\\n\",\"wifi_mail_get_wait_rxdesc_base\");\n  param_1[2] = 0x457;\n  return 1;\n}\n\n",
+    "helper": "decompiled=true\n\nuint FUN_ram_8400d836(undefined4 param_1)\n\n{\n  uint uVar1;\n  int iVar2;\n  int iVar3;\n  \n  switch(param_1) {\n  case 0:\n    uVar1 = DAT_ram_3e902ab0;\n    return uVar1 & 0x1fffffff;\n  default:\n    FUN_ram_840048f4(\"[ERROR]%s() wrong input value %d\\n\",\"npu_mbox_get_wait_rxdesc_base_wrapper\",\n                     param_1);\n    return 0;\n  case 2:\n    uVar1 = DAT_ram_3e902ce0;\n    return uVar1 & 0x1fffffff;\n  case 5:\n    uVar1 = DAT_ram_3e9021ec;\n    if (uVar1 == 0) {\n      FUN_ram_840048f4(\"[NPU][ERROR] wrong tx ring desc pase !!  band_idx=%d \\n\",0);\n      return 0;\n    }\n    FUN_ram_840048f4(\"[NPU] txring_desc_phy_base addr=%x band_idx=%d \\n\",uVar1,0);\n    iVar3 = DAT_ram_3e9021ec;\n    iVar2 = iVar3 + 0x2000;\n    do {\n      *(undefined4 *)(iVar3 + 4) = 0x80000000;\n      iVar3 = iVar3 + 0x10;\n    } while (iVar2 != iVar3);\n    break;\n  case 7:\n    uVar1 = DAT_ram_3e90459c;\n    if (uVar1 == 0) {\n      FUN_ram_840048f4(\"[NPU][ERROR] wrong tx ring desc pase !!  band_idx=%d \\n\",2);\n      return 0;\n    }\n    FUN_ram_840048f4(\"[NPU] txring_desc_phy_base addr=%x band_idx=%d \\n\",uVar1,2);\n    iVar3 = DAT_ram_3e90459c;\n    iVar2 = iVar3 + 0x4000;\n    do {\n      *(undefined4 *)(iVar3 + 4) = 0x80000000;\n      iVar3 = iVar3 + 0x10;\n    } while (iVar3 != iVar2);\n    break;\n  case 8:\n    uVar1 = DAT_ram_3e902aa0;\n    return uVar1 & 0x1fffffff;\n  case 10:\n    uVar1 = DAT_ram_3e902a94;\n    return uVar1 & 0x1fffffff;\n  case 0xb:\n    uVar1 = DAT_ram_3e902aa4;\n    break;\n  case 0xc:\n    uVar1 = DAT_ram_3e904638;\n    return uVar1 & 0x1fffffff;\n  }\n  return uVar1 & 0x1fffffff;\n}\n\n",
+    "rx_caller": "static int mt7996_npu_rxd_init(struct mt7996_dev *dev, struct airoha_npu *npu)\n{\n\tu32 val;\n\tint err;\n\n\terr = mt76_npu_get_msg(npu, 0, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan rx ring0 addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_RRO_BAND0].regs->desc_base);\n\n\terr = mt76_npu_get_msg(npu, 2, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan rx ring2 addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_RRO_BAND2].regs->desc_base);\n\n\t/* msdu pg ring */\n\terr = mt76_npu_get_msg(npu, 10, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan msdu pg ring addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_MSDU_PAGE_BAND0].regs->desc_base);\n\n\terr = mt76_npu_get_msg(npu, 11, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan msdu pg ring addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_MSDU_PAGE_BAND1].regs->desc_base);\n\n\terr = mt76_npu_get_msg(npu, 12, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan msdu pg ring addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_MSDU_PAGE_BAND2].regs->desc_base);\n\n\t/* ind_cmd ring */\n\terr = mt76_npu_get_msg(npu, 8, WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t       &val, GFP_KERNEL);\n\tif (err) {\n\t\tdev_warn(dev->mt76.dev,\n\t\t\t \"failed retriving NPU wlan ind_cmd ring addr\\n\");\n\t\treturn err;\n\t}\n\twritel(val, &dev->mt76.q_rx[MT_RXQ_RRO_IND].regs->desc_base);\n\n\treturn 0;\n}",
+    "tx_caller": "static int mt7996_npu_txd_init(struct mt7996_dev *dev, struct airoha_npu *npu)\n{\n\tconst enum mt76_band_id band_list[] = {\n\t\tMT_BAND0,\n\t\tis_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND1,\n\t};\n\tint i, index = 0;\n\n\tBUILD_BUG_ON(ARRAY_SIZE(band_list) * 3 !=\n\t\t     ARRAY_SIZE(dev->npu_txd_addr));\n\n\tfor (i = 0; i < ARRAY_SIZE(band_list); i++) {\n\t\tint err, band = band_list[i], phy_id;\n\t\tu32 val;\n\n\t\terr = mt76_npu_get_msg(npu, band + 5,\n\t\t\t\t       WLAN_FUNC_GET_WAIT_RXDESC_BASE,\n\t\t\t\t       &val, GFP_KERNEL);\n\t\tif (err) {\n\t\t\tdev_warn(dev->mt76.dev,\n\t\t\t\t \"failed retrieving NPU wlan tx ring addr\\n\");\n\t\t\treturn err;\n\t\t}\n\n\t\tphy_id = is_mt7996(&dev->mt76) ? band == MT_BAND0 ? 1 : 0\n\t\t\t\t\t       : band;\n\t\twritel(val, &dev->mt76.phys[phy_id]->q_tx[0]->regs->desc_base);\n\n\t\terr = mt76_npu_send_msg(npu, band,\n\t\t\t\t\tWLAN_FUNC_SET_WAIT_TX_BUF_SPACE_HW_BASE,\n\t\t\t\t\tdev->npu_txd_addr[index++], GFP_KERNEL);\n\t\tif (err) {\n\t\t\tdev_warn(dev->mt76.dev,\n\t\t\t\t \"failed setting NPU wlan queue buf addr\\n\");\n\t\t\treturn err;\n\t\t}\n\n\t\terr = mt76_npu_send_msg(npu, band + 5,\n\t\t\t\t\tWLAN_FUNC_SET_WAIT_TX_BUF_SPACE_HW_BASE,\n\t\t\t\t\tdev->npu_txd_addr[index++],\n\t\t\t\t\tGFP_KERNEL);\n\t\tif (err) {\n\t\t\tdev_warn(dev->mt76.dev,\n\t\t\t\t \"failed setting NPU wlan tx buf addr\\n\");\n\t\t\treturn err;\n\t\t}\n\n\t\terr = mt76_npu_send_msg(npu, band + 10,\n\t\t\t\t\tWLAN_FUNC_SET_WAIT_TX_BUF_SPACE_HW_BASE,\n\t\t\t\t\tdev->npu_txd_addr[index++],\n\t\t\t\t\tGFP_KERNEL);\n\t\tif (err) {\n\t\t\tdev_warn(dev->mt76.dev,\n\t\t\t\t \"failed setting NPU wlan tx buf base\\n\");\n\t\t\treturn err;\n\t\t}\n\t}\n\n\treturn 0;\n}",
+    "scope": "Static source classification only. No new GET transport, TX descriptor owner, physical backing, DMA visibility, drains or hardware acceptance is implemented by this review."
+  },
+  "questions": {
+    "all_read_only": {
+      "type": "noul",
+      "instructions": "Does helper only read metadata and never write descriptor memory for every supported selector? Classify actual shown stores, not the GET name."
+    },
+    "rx_effect": {
+      "type": "choice",
+      "instructions": "For selectors0/2/8/10/11/12 used by rx_caller, what does helper do?",
+      "criteria": {
+        "pointer_lookup": "Read stored ring pointers and mask their value; no shown allocation or descriptor write for these selectors.",
+        "descriptor_initialize": "Write descriptor status fields.",
+        "fresh_allocate": "Allocate new backing.",
+        "unknown": "Not established by the shown body."
+      }
+    },
+    "tx_effect": {
+      "type": "choice",
+      "instructions": "For selectors5/7 used by tx_caller, what effect does helper have?",
+      "criteria": {
+        "descriptor_status_initialize": "After reading a nonzero ring pointer, write status0x80000000 through its descriptor span before returning.",
+        "read_only": "Only return an existing pointer.",
+        "retire": "Reclaim the old ring.",
+        "unknown": "Not established by the shown body."
+      }
+    },
+    "fallback": {
+      "type": "choice",
+      "instructions": "When helper returns0, how does callback encode that outcome?",
+      "criteria": {
+        "success_sentinel": "Store0x457 in the reply value and return1, so transport success alone does not establish a valid ring address.",
+        "error_status": "Return a failure status without changing the reply value.",
+        "zero_pointer": "Return success with a zero pointer.",
+        "unknown": "Not established by the shown body."
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+test_atomic_staging_validates_and_preserves_previous_pair (test_build_firmware_host_tools.HostToolsTests.test_atomic_staging_validates_and_preserves_previous_pair) ... ok
+test_build_prefix_reaches_both_stages_and_state (test_build_firmware_host_tools.HostToolsTests.test_build_prefix_reaches_both_stages_and_state) ... ok
+test_default_path_is_unchanged_and_ignores_ambient_path (test_build_firmware_host_tools.HostToolsTests.test_default_path_is_unchanged_and_ignores_ambient_path) ... ok
+test_failed_openwrt_stage_retains_tool_provenance (test_build_firmware_host_tools.HostToolsTests.test_failed_openwrt_stage_retains_tool_provenance) ... ok
+test_failed_validation_or_stale_input_never_changes_package_link (test_build_firmware_host_tools.HostToolsTests.test_failed_validation_or_stale_input_never_changes_package_link) ... ok
+test_invalid_cli_prefix_exits_before_any_build (test_build_firmware_host_tools.HostToolsTests.test_invalid_cli_prefix_exits_before_any_build) ... ok
+test_invalid_prefixes_are_rejected (test_build_firmware_host_tools.HostToolsTests.test_invalid_prefixes_are_rejected) ... ok
+test_local_prefix_reaches_both_stages_and_state (test_build_firmware_host_tools.HostToolsTests.test_local_prefix_reaches_both_stages_and_state) ... ok
+test_package_depends_on_all_staged_pair_files_before_package_rules (test_build_firmware_host_tools.HostToolsTests.test_package_depends_on_all_staged_pair_files_before_package_rules) ... ok
+test_pair_required_for_world_and_package_install (test_build_firmware_host_tools.HostToolsTests.test_pair_required_for_world_and_package_install) ... ok
+test_repeatable_prefix_order_is_preserved (test_build_firmware_host_tools.HostToolsTests.test_repeatable_prefix_order_is_preserved) ... ok
+test_resolved_in_workspace_symlink_is_accepted (test_build_firmware_host_tools.HostToolsTests.test_resolved_in_workspace_symlink_is_accepted) ... ok
+test_world_without_pinned_originals_never_starts_openwrt (test_build_firmware_host_tools.HostToolsTests.test_world_without_pinned_originals_never_starts_openwrt) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.011s
+
+OK

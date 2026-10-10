@@ -1,8 +1,29 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (indication/ACK prefix implemented; strict TX and physical gates open)
+Last updated: 2026-10-10 (TX0/TX2/token prefix implemented; remaining setup and physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-10 - Retained TX0/TX2 And Token Prefix
+
+- Added80-byte one-shot TX ownership with44-byte pinned plan and11 reserved/
+  readback-published original metadata/index/CSR/token stores. Original lock18,
+  unique type1 arena, allocator/session/held state and full prior prefix gate
+  the native binding. Failures retain progress/lease; no rollback/reclamation.
+- Exact-world525/205/six, wire459/16, nominal/HIF2 and27 TX/34 indication controls,
+  actual offload sender, full raw3,072 PKT/1,792 BA and world/source/Ghidra54/
+  assembly/FIT218+78 and all seven native cases pass, including retained partial
+  register/token faults. Fresh sealed receipts preserve that exact scope.
+  Initial raw setup is authenticated; only later TXDONE lease/ring metadata is
+  directly modeled. Scope is15 archive objects/13 raw components/74 hooks.
+- Latest FIT:
+  `4da01cfe0136b72014b71f3220323a38ee9e5b3987396b69f55fba6cf8afae84`.
+  Previous `8dd1f2f4...`/R1 and private backups preserved. No flash/contact/reset.
+  Next GET0/API4 remains denied; selector-specific pointer/descriptor/fallback
+  contracts and remaining host/INODE/TXDONE/IRQ, owners/hot/postgate, physical
+  containment/coherency/drains/recovery/clients remain open. Full goal stays open.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-tx/REPORT.md` and
+  `NEXT_SETUP_TRACE.md`.
 
 ## 2026-10-10 - Retained Indication And ACK Prefix
 

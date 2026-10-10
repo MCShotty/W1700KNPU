@@ -88,7 +88,8 @@ static const struct npu_bootstrap_packet commands[] = {
     {0x15, 0, 0x200d45a0}, {0x15, 1, 256},
     {0x16, 0, 0x200d45b0}, {0x16, 1, 512},
     {0x17, 0, 0x200d45c0}, {0x17, 1, 1024},
-    {0x18, 0, 0x2000a040}, {0x18, 1, 1536}, {0x13, 19, 0x2000a050}
+    {0x18, 0, 0x2000a040}, {0x18, 1, 1536}, {0x13, 19, 0x2000a050},
+    {0x10, 19, 0x200d4420}, {0x12, 19, 0x200d4450}, {0x10, 33, 8192}
 };
 
 static const struct npu_bootstrap_packet anchor[] = {
@@ -129,7 +130,7 @@ int main(void)
         check(value == (i ? commands[i].value : 0x457));
         check(!setup.inflight && !admission.active && !setup.failed);
     }
-    check(setup.completed == 16383 && session.last_sequence == control.client.base.serial);
+    check(setup.completed == 131071 && session.last_sequence == control.client.base.serial);
     check(!npu_linux_control_exchange(&control, NPU_CONTROL_STATUS));
     check(session.last_sequence == control.client.base.serial && !barrier.released && !barrier.armed);
     for (unsigned word = 0; word < 20; word++) {
@@ -297,11 +298,36 @@ int main(void)
         check(npu_linux_control_cold_exchange(&control, &commands[10], &value) == -EPROTO);
         check(setup.completed == 2047 && setup.failed && !setup.inflight && !admission.active);
     }
+    const uint32_t tx_lengths[] = {0xd5000, 0xd8000, 0xd9000, 0x100000};
+    const uint32_t tx_offsets[] = {0xd4450, 0xd8450, 0xd4454, 0xd8454};
+    unsigned tx_geometry_cases = 0;
+    for (unsigned length = 0; length < 4; length++)
+        for (unsigned offset = 0; offset < 4; offset++) {
+            empty();
+            uint32_t value = 0;
+            struct npu_bootstrap_packet command = anchor[1];
+            command.value = tx_lengths[length];
+            check(!npu_linux_control_cold_exchange(&control, &anchor[0], &value));
+            check(!npu_linux_control_cold_exchange(&control, &command, &value));
+            for (unsigned index = 1; index < 14; index++)
+                check(!npu_linux_control_cold_exchange(&control, &commands[index], &value));
+            command = commands[14]; command.value = 0x20000000 + tx_offsets[offset];
+            int valid = offset < 2 && tx_offsets[offset] + 12 <= tx_lengths[length];
+            check(npu_linux_control_cold_exchange(&control, &command, &value) == (valid ? 0 : -EPROTO));
+            check(setup.completed == (valid ? 65535u : 32767u));
+            check(!setup.inflight && !admission.active);
+            if (valid) {
+                check(!npu_linux_control_cold_exchange(&control, &commands[15], &value));
+                check(setup.completed == 131071 && !setup.failed);
+            } else check(setup.failed && admission.fault && barrier.fault);
+            tx_geometry_cases++;
+        }
     unsigned total = cases;
     npu_linux_control_close(&control);
     check(!pthread_mutex_destroy(&control.mutex.native));
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
            "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
-           "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5}\n", total, geometry_cases, order_cases);
+           "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5,"
+           "\"tx_geometry_cases\":%u}\n", total, geometry_cases, order_cases, tx_geometry_cases);
     return 0;
 }
