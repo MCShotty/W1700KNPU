@@ -1,5 +1,25 @@
 # Experimental NPU Components
 
+## 2026-10-11 - Ordered Descriptor Lookup
+
+`cold-descriptor.c/.h` is the16th archive object. A6188-byte retained one-shot
+state owns GET selectors0,2,10,11,12,8,5,7 and1536 original TX status stores.
+Component14 adds three native hooks, for77. Original lock18 and exact arena,
+allocator/subregion/slot/session/held/earlier-owner checks cover each access.
+Reserve precedes original store; readback precedes publication. Faults retain
+claims and partial progress; there is no reset, rollback or retirement API.
+
+Wire80 is unchanged; server history120 records getter count/arena preimages.
+Stateless codec checks pointer geometry; Linux additionally pins order and arena
+before caller output. Unsupported0x457 success is never accepted as an address.
+Callback cleanup uses a per-invocation acquisition flag, so a rejected reentrant
+callback cannot release an earlier invocation's lock. This also applies to the
+indication and TX bindings. Actual TX setup stops
+at denied API21 after GET5; manual GET7 is diagnostic. Host DMA lifetime and
+remaining setup/physical/client gates remain open. No hardware action.
+Current qualification and scoped evidence:
+`research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+
 ## 2026-10-10 - Retained TX0/TX2 And Token Programming
 
 `cold-tx.c/.h` is the15th archive object. Its80-byte one-shot owner pins the

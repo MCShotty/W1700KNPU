@@ -134,7 +134,7 @@ static uint32_t callback(const struct npu_bootstrap_packet *packet, uint32_t sel
 {
     struct npu_bootstrap_packet snapshot;
     static const uint32_t registers[] = {0x1fc08030, 0x1fc08034, 0x1fc48030, 0x1fc48034};
-    uint32_t status, result = 0, matches = 0, i, values[5];
+    uint32_t status, result = 0, matches = 0, i, values[5], acquired = 0;
 
     __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");
     snapshot = *packet;
@@ -146,6 +146,7 @@ static uint32_t callback(const struct npu_bootstrap_packet *packet, uint32_t sel
     if (((int (*)(const uint32_t *))(uintptr_t)0x840064b4u)(&lock_id))
         goto fault;
     lock_owned = 1;
+    acquired = 1;
     allocation_count = METADATA->count;
     allocation_used = METADATA->used;
     for (i = 0; i < METADATA->count; i++) {
@@ -195,7 +196,7 @@ static uint32_t callback(const struct npu_bootstrap_packet *packet, uint32_t sel
 fault:
     result = fail();
 done:
-    if (lock_owned) {
+    if (acquired) {
         __asm__ volatile ("fence iorw, iorw" ::: "memory");
         ((void (*)(const uint32_t *))(uintptr_t)0x8400651cu)(&lock_id);
         lock_owned = 0;

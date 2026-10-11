@@ -1,0 +1,14 @@
+{
+  "model":"jev-1.13.0",
+  "state":{
+    "contract":"One mutex covers operation selection, ticket creation, the synchronous provider call and complete reply validation. Unexpected operations permanently hold the instance. Transport and protocol failures also hold it; positive transport errors are normalized to -EIO, and the first error remains visible after close. Client errors stay sticky and reply errors do not modify caller output.",
+    "provider_preflight":"airoha_npu_wlan_cold_command rejects null data or a length other than4 with -EINVAL before taking the session mutex or invoking the Linux executor. The checked GET wrapper similarly rejects an invalid selector with -EINVAL before invoking cold_command. It does not invoke transport, consume a sequence, alter output or change wlan_session_error.",
+    "issued_command_failure":"For an issued cold command, any Linux executor error is copied to wlan_session_error and closes that executor. Subsequent valid cold calls return the stored error.",
+    "review_claim":"The contract explicitly requires an invalid provider-only GET-selector argument that never reaches the executor to poison the whole provider session."
+  },
+  "questions":{
+    "explicit_requirement":{"type":"choice","instructions":"Does contract explicitly establish review_claim, distinguishing provider argument preflight from executor operations and transport/protocol failures?","criteria":{"supported":"The quoted contract explicitly requires this provider-only argument rejection to poison the session.","contradicted":"The contract explicitly says such rejections must not poison it.","not_established":"The contract does not explicitly decide this provider-preflight behavior."}},
+    "has_native_effect":{"type":"noul","instructions":"Does the rejected selector path in provider_preflight perform a native callback or an ambiguous transport publication?"},
+    "failure_kind":{"type":"choice","instructions":"Which category describes the rejected selector path in provider_preflight?","criteria":{"argument_preflight":"Rejected before executor or transport.","transport_failure":"Transport attempted and failed.","protocol_reply":"A transported reply was rejected.","unknown":"The supplied facts do not determine the category."}}
+  }
+}

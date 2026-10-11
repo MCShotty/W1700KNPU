@@ -10,7 +10,7 @@ REGS = (0x1fc08030, 0x1fc08034, 0x1fc48030, 0x1fc48034)
 
 def check(h, before, request):
     cold = h.rv.symbols['npu_emulation_cold_setup_state']
-    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, 104)))]
+    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, 120)))]
     registers_after = [h.get32(address) for address in REGS]
     core = h.tx.symbols['npu_emulation_tx_state']
     plan = h.tx.symbols['npu_emulation_tx_plan']
@@ -38,6 +38,7 @@ def check(h, before, request):
             h.cpu.mem_write(entries + count * 8, struct.pack('<HHI', 1, 0, arena))
             h.put32(metadata + 8, count + 1)
         pre = [
+            ('preowned-lock', set_word(h.tx.symbols['lock_owned'], 1)),
             ('wrong-lock', set_word(metadata, 17)),
             ('denied-lock', set_word(0x1ec03048, 0x10100)),
             ('oversize-metadata', set_word(metadata + 8, 101)),
@@ -87,6 +88,10 @@ def check(h, before, request):
                 assert h.get32(core + 24) == h.get32(core + 28) == (3 if phase == 'late' else 0)
                 stores = [row for row in h.mmio[first:] if row['kind'] == 'mmio-write' and int(row['address'],16) in REGS]
                 assert not stores, ('denied-native-register-store', name)
+                if name == 'preowned-lock':
+                    assert h.get32(h.tx.symbols['lock_owned']) == 1
+                    assert not [row for row in h.mmio[first:] if row['kind'] == 'mmio-write'
+                                and row['address'] in ('0x1ec031c8', '0x1ec03248')]
                 for address, value in protected.items():
                     if address != induction or name not in ('indication-fault', 'indication-incomplete', 'late-indication'):
                         assert bytes(h.cpu.mem_read(address,len(value))) == value

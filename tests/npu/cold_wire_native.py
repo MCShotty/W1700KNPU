@@ -16,6 +16,7 @@ class ColdProviderRequest(ProviderRequest):
         self.indication_fault = self.indication_injected = False
         self.tx_fault = None
         self.tx_injected = False
+        self.descriptor_fault = self.descriptor_injected = False
         super().__init__(*args, **kwargs)
 
     def message(self, words, **kwargs):
@@ -23,6 +24,10 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_count = words[13] if self.cold_request and words[12] == 1 and words[11] in (0x10, 0x12, 0x15, 0x16, 0x17, 0x18) else 0
         self.cold_getter = 0x8400bb10 if self.cold_request and words[11] == 0x18 else (
             PAGE_GETTER if self.cold_request and words[11] in (0x15, 0x16, 0x17) else GETTER)
+        if self.cold_request and words[12] == 4 and words[11] in (0x35, 0x37):
+            self.cold_count = 512 if words[11] == 0x35 else 1024
+            self.cold_getter = self.descriptor.symbols[
+                'npu_emulation_descriptor_status0' if words[11] == 0x35 else 'npu_emulation_descriptor_status2']
         self.cold_getters = 0
         previous_probe = self.probing
         # This selects the existing RX observer, not a native admission bypass.
@@ -42,6 +47,11 @@ class ColdProviderRequest(ProviderRequest):
         super().code_hook(cpu, pc, size, data)
 
     def write_hook(self, cpu, access, address, size, value, data):
+        if self.descriptor_fault and not self.descriptor_injected and self.cold_request:
+            offset = 0x26044 if self.descriptor_fault == 7 else 0x6024
+            if address == self.get32(0x3e9030fc) + offset and size == 4 and value == 0x80000000:
+                self.descriptor_injected = True
+                self.put32(STATE + 16, 1)
         if not self.tx_injected and ((self.tx_fault == 'register' and address == 0x1fc08030) or
                                      (self.tx_fault == 'token' and address == 0x3e900bc0)):
             self.tx_injected = True
@@ -56,7 +66,7 @@ class ColdProviderRequest(ProviderRequest):
     def native_callback(self, cpu, pc, size, data):
         if not self.cold_request:
             return super().native_callback(cpu, pc, size, data)
-        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16, 0x8400fdda):
+        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16, 0x8400fdda, 0x84010164):
             return
         self.callback_entries.append(hex(pc))
         snapshot = cpu.reg_read(r.UC_RISCV_REG_A0)

@@ -1,0 +1,52 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-rejection-review.json",
+  "request_sha256": "db4f76486f5df34e3388914d23e810fbb9610d36e622e276d3666e0b28121aef",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "old_expectation": {
+      "type": "choice",
+      "instructions": "Does old_assertion correctly describe host_preflight under requirement?",
+      "criteria": {
+        "supported": "Entire assertion follows from the evidence.",
+        "contradicted": "It demands firmware effects even though the request is never transported.",
+        "not_established": "Evidence is insufficient."
+      }
+    },
+    "split_preserves_requirement": {
+      "type": "noul",
+      "instructions": "Does proposed_assertion preserve the requirement for host-preflight rejection, including unchanged output and sticky failure, without claiming a firmware fault?"
+    },
+    "physical_claim": {
+      "type": "noul",
+      "instructions": "Does scope establish physical NPU ownership or successful hardware boot?"
+    }
+  },
+  "elapsed_ms": 1068,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "old_expectation": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "split_preserves_requirement": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "physical_claim": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 659,
+      "output_tokens": 91
+    }
+  }
+}

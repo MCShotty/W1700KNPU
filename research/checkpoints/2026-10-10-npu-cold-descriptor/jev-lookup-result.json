@@ -1,0 +1,60 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-lookup-review.json",
+  "request_sha256": "3350878be6cc49bcb83799fdac97612d32bf27c1fc843a75bc9935641ac3e629",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "type100_route": {
+      "type": "choice",
+      "instructions": "Which lookup_source path applies specifically to types0x100 and0x101?",
+      "criteria": {
+        "static_table": "Select and return a pointer from the static CODE table without dynamic allocation.",
+        "dynamic_allocator": "Call FUN_84004ff8 to create a dynamic allocation.",
+        "not_established": "The supplied source does not determine the route."
+      }
+    },
+    "lookup_pointer_admission": {
+      "type": "noul",
+      "instructions": "Do lookup_source and lookup_observations establish that the original type100/type101 lookup rejects unaligned or out-of-backing pointers before returning them?"
+    },
+    "mailboxes_retain_endpoint_buffers": {
+      "type": "noul",
+      "instructions": "Does the existing provider mailbox retention described in host_lifetime also retain the six separately managed endpoint TX allocations against detach cleanup?"
+    },
+    "physical_acceptance": {
+      "type": "noul",
+      "instructions": "Do lookup_observations establish physical L2 exclusion, coherent DMA ownership or successful complete API21 host initialization?"
+    }
+  },
+  "elapsed_ms": 1231,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "type100_route": {
+        "type": "choice",
+        "choice": "static_table",
+        "confidence": 1.0,
+        "probabilities": {
+          "static_table": 1.0,
+          "dynamic_allocator": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "lookup_pointer_admission": {
+        "type": "noul",
+        "noul": 0.21
+      },
+      "mailboxes_retain_endpoint_buffers": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "physical_acceptance": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 785,
+      "output_tokens": 111
+    }
+  }
+}

@@ -1,0 +1,100 @@
+INFO  Using log config file: jar:file:/C:/Tools/ghidra_12.1.2_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-cold-descriptor-20261010\ghidra-full-second\analysis.log (LoggingInitialization)  
+INFO  Loading user preferences: C:\Users\captain\AppData\Roaming\ghidra\ghidra_12.1.2_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (1262 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Headless startup complete (3745 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 60 extension points (20 false positives) (ClassSearcher)  
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldOffset has been called by org.apache.felix.framework.util.SecureAction (file:/C:/Tools/ghidra_12.1.2_PUBLIC/Ghidra/Features/Base/lib/org.apache.felix.framework-7.0.5.jar)
+WARNING: Please consider reporting this to the maintainers of class org.apache.felix.framework.util.SecureAction
+WARNING: sun.misc.Unsafe::staticFieldOffset will be removed in a future release
+INFO  HEADLESS Script Paths:
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\captain\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Tools\ghidra_12.1.2_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-cold-descriptor-20261011/provider/DescriptorProvider (HeadlessAnalyzer)  
+INFO  Creating project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-cold-descriptor-20261011/provider/DescriptorProvider (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: //wsl.localhost/Ubuntu/home/captain/W1700KNPU/scratch/npu-cold-descriptor-20261011/provider/DescriptorProvider (HeadlessAnalyzer)  
+INFO  IMPORTING: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko (HeadlessAnalyzer)  
+INFO  Using Loader: Executable and Linking Format (ELF) (ProgramLoader)  
+INFO  Using Language/Compiler: AARCH64:LE:64:v8A:default (ProgramLoader)  
+INFO  Using Library Search Path: [., C:\Windows\SysWOW64, C:\Program Files\Java\jdk-24\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell, C:\Users\captain\.codex\tmp\arg0\codex-arg0N0lzG3, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\libheif\libheif\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\jxrlib\jxrlib\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\override, C:\Program Files\Common Files\Oracle\Java\javapath, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Program Files\nodejs\, C:\Program Files\dotnet\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files (x86)\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\Tools\Binn\, C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\180\Tools\Binn\, C:\Program Files\Microsoft SQL Server\170\DTS\Binn\, C:\Program Files\PuTTY\, C:\Program Files\Git\cmd, C:\Users\captain\AppData\Local\Programs\Python\Python314\Scripts\, C:\Users\captain\AppData\Local\Programs\Python\Python314\, C:\Users\captain\AppData\Local\Programs\Python\Launcher\, C:\Users\captain\AppData\Local\Microsoft\WindowsApps, C:\Users\captain\AppData\Roaming\npm, C:\Users\captain\.dotnet\tools, C:\Users\captain\AppData\Local\Programs\cursor\resources\app\bin, C:\Users\captain\Documents\Projects\Flutter\flutter\bin, C:\Users\captain\bin, C:\Program Files\ExtraPuTTY\Bin, C:\Tools\apache-maven-3.9.16\bin, C:\Users\captain\AppData\Local\Microsoft\WinGet\Packages\ar51an.iPerf3_Microsoft.Winget.Source_8wekyb3d8bbwe, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin, C:\Users\captain\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\9a7ba4b9ea0c44a3, C:\Users\captain\AppData\Local\OpenAI\Codex\bin\2e5e00daee91c61d] (ProgramLoader)  
+INFO  Additional info:
+Loading file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko?MD5=af023f3bff3540db1699865d51aad672...
+Skipping section [.bss] with invalid size 0x0
+------------------------------------------------
+
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko (HeadlessAnalyzer)  
+INFO  Packed database cache: C:\Users\captain\AppData\Local\ghidra\packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib_64 (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    AARCH64 ELF PLT Thunks                     0.001 secs
+    ASCII Strings                              0.481 secs
+    Apply Data Archives                        1.006 secs
+    Basic Constant Reference Analyzer          0.630 secs
+    Call Convention ID                         0.003 secs
+    Call-Fixup Installer                       0.005 secs
+    Create Address Tables                      0.012 secs
+    Create Address Tables - One Time           0.005 secs
+    Create Function                            0.073 secs
+    Data Reference                             0.018 secs
+    Decompiler Switch Analysis                 0.014 secs
+    Demangler GNU                              0.168 secs
+    Disassemble                                0.002 secs
+    Disassemble Entry Points                   0.554 secs
+    Embedded Media                             0.008 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.265 secs
+    Function Start Search                      0.045 secs
+    Function Start Search After Code           0.010 secs
+    Function Start Search After Data           0.013 secs
+    Function Start Search delayed - One Time   0.001 secs
+    Non-Returning Functions - Discovered       0.034 secs
+    Non-Returning Functions - Known            0.036 secs
+    Reference                                  0.034 secs
+    Shared Return Calls                        0.026 secs
+    Stack                                      0.353 secs
+    Subroutine References                      0.023 secs
+-----------------------------------------------------
+     Total Time   3 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: ExportMailboxContract.java '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\.local\npu-cold-descriptor-20261010\ghidra-full-second' '\\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\all-functions.pattern'  (HeadlessAnalyzer)  
+INFO  SCRIPT: \\wsl.localhost\Ubuntu\home\captain\W1700KNPU\tools\ghidra\ExportMailboxContract.java (HeadlessAnalyzer)  
+INFO  ExportMailboxContract.java> MAILBOX_CONTRACT_PASS functions=54 analyzed=54 (GhidraScript)  
+INFO  ANALYZING changes made by post scripts: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: file:////wsl.localhost/Ubuntu/home/captain/W1700KNPU/.local/merge-nonoc-20260923/cold-descriptor-20261011-offline/rootfs/lib/modules/6.18.52/airoha_npu.ko (HeadlessAnalyzer)  
+INFO  /airoha_npu.ko: file created (captain) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /airoha_npu.ko (DescriptorProvider:/airoha_npu.ko) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

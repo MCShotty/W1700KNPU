@@ -1,0 +1,155 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-branches-review.json",
+  "request_sha256": "c7807b7ebdc0aabff75bba6a7228b425771dc1ae1032b1ac545b491e6c06164c",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "selector_0": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.0. The return ends this branch; effects of other branches do not apply. Which documented effect matches its actual statements?"
+    },
+    "selector_2": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.2. The return ends this branch; effects of other branches do not apply. Which documented effect matches its actual statements?"
+    },
+    "selector_5": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.5. This branch breaks into shared_internal_loop; it does not call header_helper. Which documented effect matches its actual statements?"
+    },
+    "selector_7": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.7. This branch breaks into shared_internal_loop; it does not call header_helper. Which documented effect matches its actual statements?"
+    },
+    "selector_10": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.10. This branch calls header_helper before returning. Which documented effect matches its actual statements?"
+    },
+    "selector_12": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.12. This branch calls header_helper before returning. Which documented effect matches its actual statements?"
+    }
+  },
+  "elapsed_ms": 708,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "selector_0": {
+        "type": "choice",
+        "choice": "metadata",
+        "confidence": 0.99,
+        "probabilities": {
+          "metadata": 0.99,
+          "internal_headers": 0.0,
+          "allocated_descriptors": 0.0,
+          "unsupported": 0.0,
+          "unknown": 0.01
+        }
+      },
+      "selector_2": {
+        "type": "choice",
+        "choice": "metadata",
+        "confidence": 0.99,
+        "probabilities": {
+          "metadata": 0.99,
+          "internal_headers": 0.0,
+          "allocated_descriptors": 0.01,
+          "unsupported": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "selector_5": {
+        "type": "choice",
+        "choice": "internal_headers",
+        "confidence": 0.42,
+        "probabilities": {
+          "metadata": 0.37,
+          "internal_headers": 0.54,
+          "allocated_descriptors": 0.06,
+          "unsupported": 0.0,
+          "unknown": 0.03
+        }
+      },
+      "selector_7": {
+        "type": "choice",
+        "choice": "internal_headers",
+        "confidence": 0.85,
+        "probabilities": {
+          "metadata": 0.1,
+          "internal_headers": 0.88,
+          "allocated_descriptors": 0.01,
+          "unsupported": 0.0,
+          "unknown": 0.01
+        }
+      },
+      "selector_10": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.96,
+        "probabilities": {
+          "metadata": 0.0,
+          "internal_headers": 0.03,
+          "allocated_descriptors": 0.97,
+          "unsupported": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "selector_12": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.99,
+        "probabilities": {
+          "metadata": 0.0,
+          "internal_headers": 0.01,
+          "allocated_descriptors": 0.99,
+          "unsupported": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 3210,
+      "output_tokens": 343
+    }
+  }
+}

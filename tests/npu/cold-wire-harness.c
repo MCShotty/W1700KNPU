@@ -17,11 +17,16 @@ static struct npu_linux_control control;
 static unsigned calls, cases;
 static int transport_error, after_effect;
 static unsigned corrupt_word, corrupt, callback_error;
+static unsigned bad_pointer, late_getter;
 
-static void check(int condition)
+static void check_at(int condition, unsigned line)
 {
+    if (!condition)
+        fprintf(stderr, "cold-wire failure line=%u case=%u prefix=%u gets=%u\n",
+                line, cases, setup.completed, setup.descriptor_gets);
     assert(condition);
 }
+#define check(condition) check_at((condition), __LINE__)
 
 int airoha_npu_wlan_control(struct airoha_npu *npu, void *packet, int bytes)
 {
@@ -38,7 +43,14 @@ int airoha_npu_wlan_control(struct airoha_npu *npu, void *packet, int bytes)
             &admission, &barrier, &boot, p, bytes);
         if (status == NPU_COLD_OK) {
             struct npu_bootstrap_packet reply = setup.command;
-            if (reply.header == 0x30)
+            uint32_t getter = npu_cold_descriptor_command_step(&reply);
+            if (getter < 8) {
+                reply.value = 0x1e810000 + npu_cold_descriptor_offset(getter);
+                if (late_getter == 1) setup.descriptor_gets++;
+                if (late_getter == 2) setup.descriptor_arena += 32;
+                if (late_getter == 3) setup.prior_descriptor_gets++;
+                if (late_getter == 4) setup.prior_descriptor_arena += 32;
+            } else if (reply.header == 0x30)
                 reply.value = 0x457;
             status = npu_cold_setup_finish(&setup, &session, &admission, &barrier,
                                           &boot, callback_error ? 0 : 1, &reply);
@@ -47,6 +59,15 @@ int airoha_npu_wlan_control(struct airoha_npu *npu, void *packet, int bytes)
         }
         p->status = status;
         p->magic = NPU_COLD_REPLY;
+    }
+    if (bad_pointer && words[2] == NPU_COLD_REPLY && words[12] == 4) {
+        switch (bad_pointer) {
+        case 1: words[13] = 0x457; break;
+        case 2: words[13] = 0; break;
+        case 3: words[13]++; break;
+        case 4: words[13] = 0x1e900000; break;
+        case 5: words[13] += 32; break;
+        }
     }
     if (corrupt) words[corrupt_word] ^= 1;
     return transport_error;
@@ -75,6 +96,7 @@ static void empty(void)
     boot.plan = plan;
     npu_control_v2_init(&session, 1, 2);
     transport_error = after_effect = corrupt = callback_error = 0;
+    bad_pointer = late_getter = 0;
     calls = 0;
     check(!npu_linux_control_init(&control, &provider, 3, 4));
     check(!npu_linux_control_exchange(&control, NPU_CONTROL_DISCOVER));
@@ -89,7 +111,8 @@ static const struct npu_bootstrap_packet commands[] = {
     {0x16, 0, 0x200d45b0}, {0x16, 1, 512},
     {0x17, 0, 0x200d45c0}, {0x17, 1, 1024},
     {0x18, 0, 0x2000a040}, {0x18, 1, 1536}, {0x13, 19, 0x2000a050},
-    {0x10, 19, 0x200d4420}, {0x12, 19, 0x200d4450}, {0x10, 33, 8192}
+    {0x10, 19, 0x200d4420}, {0x12, 19, 0x200d4450}, {0x10, 33, 8192},
+    {0x30,4,0}, {0x32,4,0}, {0x3a,4,0}, {0x3b,4,0}, {0x3c,4,0}, {0x38,4,0}, {0x35,4,0}, {0x37,4,0}
 };
 
 static const struct npu_bootstrap_packet anchor[] = {
@@ -127,10 +150,12 @@ int main(void)
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;
         check(!npu_linux_control_cold_exchange(&control, &commands[i], &value));
-        check(value == (i ? commands[i].value : 0x457));
+        check(value == (i >= 16 ? 0x1e810000 + npu_cold_descriptor_offset(i - 16) : i ? commands[i].value : 0x457));
         check(!setup.inflight && !admission.active && !setup.failed);
     }
     check(setup.completed == 131071 && session.last_sequence == control.client.base.serial);
+    check(setup.descriptor_gets == 8 && setup.descriptor_arena == 0x3e810000);
+    check(control.descriptor_gets == 8 && control.descriptor_arena == 0x3e810000);
     check(!npu_linux_control_exchange(&control, NPU_CONTROL_STATUS));
     check(session.last_sequence == control.client.base.serial && !barrier.released && !barrier.armed);
     for (unsigned word = 0; word < 20; word++) {
@@ -274,7 +299,7 @@ int main(void)
             } else if (kind == 1) {
                 setup.completed ^= 1;
             } else if (kind == 2) {
-                command.value = 0;
+                command.value = index >= 16 ? 1 : 0;
             } else if (kind == 3) {
                 command.value = command.api == 0 ? command.value + 16 : command.value + 1;
             } else if (kind == 4) {
@@ -282,8 +307,19 @@ int main(void)
             } else {
                 command.header = 0x1f; command.api = 0; /* Native selector15 writes saved bases. */
             }
+            unsigned before_calls = calls;
+            unsigned before_gets = setup.descriptor_gets;
+            value = 0xabcdef01;
             check(npu_linux_control_cold_exchange(&control, &command, &value) == -EPROTO);
-            check(setup.failed && !setup.inflight && !admission.active && admission.fault && barrier.fault);
+            check(value == 0xabcdef01 && !setup.inflight && !admission.active);
+            if (index >= 16 && kind == 0) {
+                /* Host preflight rejects a repeated GET before transport. */
+                check(calls == before_calls && setup.descriptor_gets == before_gets);
+                check(!setup.failed && !admission.fault && !barrier.fault);
+            } else {
+                check(calls == before_calls + 1 && setup.failed && admission.fault && barrier.fault);
+            }
+            sticky(-EPROTO, calls);
             order_cases++;
         }
     for (unsigned changed = 0; changed < 5; changed++) {
@@ -322,12 +358,92 @@ int main(void)
             } else check(setup.failed && admission.fault && barrier.fault);
             tx_geometry_cases++;
         }
+    unsigned getter_reply_cases = 0;
+    for (unsigned getter = 0; getter < 8; getter++)
+        for (unsigned fault = 1; fault <= 9; fault++) {
+            if (getter == 0 && fault == 5) continue;
+            fresh();
+            uint32_t value = 0;
+            for (unsigned index = 1; index < 16 + getter; index++)
+                check(!npu_linux_control_cold_exchange(&control,&commands[index],&value));
+            if (fault <= 5) bad_pointer = fault;
+            else late_getter = fault - 5;
+            value = 0xabcdef01;
+            check(npu_linux_control_cold_exchange(&control,&commands[16 + getter],&value) == -EPROTO);
+            check(value == 0xabcdef01 && control.descriptor_gets == getter);
+            if (fault <= 5) check(!setup.inflight && !admission.active && setup.descriptor_gets == getter + 1);
+            else check(setup.inflight == 1 && admission.active == 1 && setup.failed);
+            sticky(-EPROTO,calls);
+            getter_reply_cases++;
+        }
+    unsigned getter_server_cases = 0;
+    for (unsigned getter = 0; getter < 8; getter++) {
+        fresh();
+        uint32_t value = 0;
+        for (unsigned index = 1; index < 16 + getter; index++)
+            check(!npu_linux_control_cold_exchange(&control, &commands[index], &value));
+        unsigned wrong = getter == 7 ? 6 : getter + 1;
+        envelope(&p, 16 + wrong);
+        check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                                  &p, sizeof(p)) == NPU_COLD_BAD_STATE);
+        check(setup.failed && !setup.inflight && !admission.active);
+        check(setup.descriptor_gets == getter && admission.fault && barrier.fault);
+        getter_server_cases++;
+        for (unsigned fault = 1; fault <= 5; fault++) {
+            if (!getter && fault == 5) continue;
+            fresh();
+            for (unsigned index = 1; index < 16 + getter; index++)
+                check(!npu_linux_control_cold_exchange(&control, &commands[index], &value));
+            envelope(&p, 16 + getter);
+            check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                                        &p, sizeof(p)));
+            reply = setup.command;
+            reply.value = 0x1e810000 + npu_cold_descriptor_offset(getter);
+            if (fault == 1) reply.value = 0x457;
+            if (fault == 2) reply.value = 0;
+            if (fault == 3) reply.value++;
+            if (fault == 4) reply.value = 0x1e900000;
+            if (fault == 5) reply.value += 32;
+            check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot,
+                                       1, &reply) == NPU_COLD_CALLBACK_FAILED);
+            check(setup.failed && setup.inflight == 1 && admission.active == 1);
+            check(setup.descriptor_gets == getter && setup.completed == 131071);
+            check(admission.fault && barrier.fault);
+            getter_server_cases++;
+        }
+    }
+    unsigned getter_codec_cases = 0;
+    for (unsigned getter = 0; getter < 8; getter++)
+        for (unsigned fault = 1; fault <= 4; fault++) {
+            fresh();
+            uint32_t value = 0;
+            for (unsigned index = 1; index < 16 + getter; index++)
+                check(!npu_linux_control_cold_exchange(&control, &commands[index], &value));
+            envelope(&p, 16 + getter);
+            check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                                        &p, sizeof(p)));
+            reply = setup.command;
+            reply.value = 0x1e810000 + npu_cold_descriptor_offset(getter);
+            check(!npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &reply));
+            p.command = reply; p.magic = NPU_COLD_REPLY; p.status = NPU_COLD_OK;
+            if (fault == 1) p.command.value = 0x457;
+            if (fault == 2) p.command.value = 0;
+            if (fault == 3) p.command.value++;
+            if (fault == 4) p.command.value = 0x1e900000;
+            value = 0xabcdef01;
+            check(npu_cold_client_complete(&control.client, p.sequence, 0, &p, sizeof(p),
+                                          &commands[16 + getter], &value) == NPU_CLIENT_REJECTED);
+            check(value == 0xabcdef01 && control.client.base.phase == NPU_CLIENT_FAILED);
+            check(setup.descriptor_gets == getter + 1 && !setup.failed && !setup.inflight && !admission.active);
+            getter_codec_cases++;
+        }
     unsigned total = cases;
     npu_linux_control_close(&control);
     check(!pthread_mutex_destroy(&control.mutex.native));
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
            "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
            "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5,"
-           "\"tx_geometry_cases\":%u}\n", total, geometry_cases, order_cases, tx_geometry_cases);
+           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u}\n",
+           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases);
     return 0;
 }

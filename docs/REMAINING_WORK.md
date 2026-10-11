@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-11 - Descriptor Prefix Qualified
+
+Eight selector-specific GETs and retained TX5/7 status ownership are implemented.
+Core5732/1592/five, wire657/23, all nine native cases/HIF2, 35 indication/28 TX/
+28 descriptor controls, raw/world/source/Ghidra54 and image checks pass.
+The nominal actual-C/native path covers eight getters, six RX writes and one TX
+write. The actual TX caller then stops at denied API21; GET7 afterward is only
+diagnostic. TX5/7 faults retain1/0 and513/512 committed/published status words.
+Invocation-local cleanup now preserves another callback's preowned lock.
+
+Next retain host TX DMA buffer lifetime before API21 publication. Current managed
+allocations may be released on detach; pointer range/readback cannot replace
+that ownership contract. API21 types0x100/0x101 select fixed L2 pointers, not
+dynamic allocations; six original RV32 controls expose unchecked table returns.
+Guard full record/metadata spans and the existing TXPKT wait prerequisite.
+Then finish PCIe/INODE/TXDONE/final IRQ, remaining
+owners/workers/hot/postgate, physical exclusion/backing/coherency/drains/
+retirement/recovery, exact-image boot and clients. Full goal remains open.
+Current offline-qualified FIT3951dc7c is unflashed; old4da01cfe/R1 preserved.
+No flash/reset/contact. Evidence:
+`research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+
 ## 2026-10-10 - TX0/TX2 And Token Prefix Wired
 
 The real offload initializer now completes authenticated TX0/TX2/token setup,

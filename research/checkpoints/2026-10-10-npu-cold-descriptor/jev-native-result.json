@@ -1,0 +1,84 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-native-review.json",
+  "request_sha256": "92d009903c4714b8139781779eb0ec05e9dd2b63020b1490a078eb2edde06458",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "reservation_order": {
+      "type": "noul",
+      "instructions": "In store_trampolines and native_binding, is a successful reservation required before the original descriptor status store executes?"
+    },
+    "publication_readback": {
+      "type": "noul",
+      "instructions": "In store_trampolines, native_binding and portable_owner, is actual descriptor readback checked before published progress advances?"
+    },
+    "fault_retention": {
+      "type": "noul",
+      "instructions": "In portable_owner and native_binding, do late faults retain committed/published counts and captured ownership instead of resetting or rolling back them?"
+    },
+    "failed_lock": {
+      "type": "noul",
+      "instructions": "In native_binding, can a failed attempt to acquire original lock18 reach the unlock function with lock_owned true?"
+    },
+    "late_test_scope": {
+      "type": "noul",
+      "instructions": "Does negative_controls inject late faults before the first TX5 status store and verify no status-ring change, rather than claiming to test failures after a committed status store?"
+    },
+    "full_host_claim": {
+      "type": "choice",
+      "instructions": "Does scope establish that the complete actual host TX initializer succeeded?",
+      "criteria": {
+        "supported": "The complete initializer succeeded.",
+        "contradicted": "The initializer explicitly stopped at a rejected API21 command.",
+        "not_established": "No relevant result is supplied."
+      }
+    },
+    "physical_proof": {
+      "type": "noul",
+      "instructions": "Does scope or any supplied implementation/test independently prove physical prior-user exclusion, DMA coherency, or resource retirement?"
+    }
+  },
+  "elapsed_ms": 1005,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "reservation_order": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "publication_readback": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "fault_retention": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "failed_lock": {
+        "type": "noul",
+        "noul": 0.26
+      },
+      "late_test_scope": {
+        "type": "noul",
+        "noul": 0.69
+      },
+      "full_host_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "physical_proof": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 8077,
+      "output_tokens": 159
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "pid": 859,
+  "process_group": 859,
+  "wrapper_pid": 498,
+  "command": [
+    "make",
+    "-j8",
+    "world",
+    "V=s"
+  ],
+  "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+  "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-npu-cold-descriptor-20261011.log",
+  "started": 1791677777.9724565,
+  "exit_code": 0,
+  "tool_provenance": {
+    "host_tools": [],
+    "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "make": {
+      "path": "/usr/bin/make",
+      "sha256": "27c9f6d806aee15882b01c2c61848f7aa75caa14bc7b6f608ba422f9e46a7d49"
+    }
+  },
+  "checked_npu_pair": {
+    "directory": ".build/merged-openwrt/bin/npu-pair-npu-cold-descriptor-20261011",
+    "manifest_sha256": "dc2c6056a3a91366c0c0c8033f0bdf419222c9347ef1d12e7d500e49e55e163f",
+    "code": {
+      "base": 2214592512,
+      "bytes": 567972,
+      "sha256": "11151179c3bad61b563d1c14703fb886945de036669edf589f376880bcc872e0"
+    },
+    "data": {
+      "base": 1049624576,
+      "bytes": 25728,
+      "sha256": "20e416709d1534c72752626e15fa67f75cb99ef7c16cce4256d117e376e9a619"
+    },
+    "loader_provisioned": false,
+    "physical_acceptance": false
+  },
+  "finished": 1791677945.1307032
+}

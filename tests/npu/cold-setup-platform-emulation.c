@@ -30,9 +30,9 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
         if (command.header == NPU_COLD_BIND_HEADER) {
             result = 1;
             slot = callback = 0;
-        } else if (command.header == 0x30) {
-            slot = 0x3e900170u;
-            callback = 0x840101a6u;
+        } else if ((command.header & ~15u) == 0x30u) {
+            slot = 0x3e900148u + command.api * 4;
+            callback = command.api == 4 ? 0x84010164u : 0x840101a6u;
         } else {
             slot = 0x3e900178u + command.api * 4;
             callback = command.api == 14 ? 0x8400ff34u :

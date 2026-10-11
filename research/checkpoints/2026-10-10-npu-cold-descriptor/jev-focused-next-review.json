@@ -1,0 +1,138 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "native_publish": "uint32_t npu_emulation_descriptor_publish(uint32_t address)\n{\n    if (!owned() || !field(address, OWNER->published) ||\n        npu_cold_descriptor_publish(OWNER, native_arena, 1, address, word(address)) || !owned())\n        return fail();\n    return 1;\n}\n\n",
+    "owner_publish": "uint32_t npu_cold_descriptor_publish(struct npu_cold_descriptor_state *s, uint32_t arena,\n    uint32_t epoch, uint32_t destination, uint32_t readback)\n{\n    uint32_t status = valid(s, arena, epoch, 1);\n\n    if (status)\n        return status;\n    if (s->next < 6 || s->committed != s->published + 1 || s->published == upper(s->next) ||\n        destination != address(s, s->published) || readback != NPU_COLD_DESCRIPTOR_STATUS)\n        return fail(s, NPU_COLD_DESCRIPTOR_PUBLISH);\n    __atomic_store_n(&s->published, s->published + 1, __ATOMIC_RELEASE);\n    return load(&s->fault) ? NPU_COLD_DESCRIPTOR_FAULT : NPU_COLD_DESCRIPTOR_OK;\n}\n\n",
+    "owner_fault": "void npu_cold_descriptor_fault(struct npu_cold_descriptor_state *s)\n{\n    if (s)\n        __atomic_store_n(&s->fault, 1, __ATOMIC_RELEASE);\n}\n\nstatic uint32_t fail(struct npu_cold_descriptor_state *s, uint32_t status)\n{\n    npu_cold_descriptor_fault(s);\n    return status;\n}\n\n",
+    "lock_cleanup": "uint32_t npu_emulation_descriptor_callback(struct npu_bootstrap_packet *packet)\n{\n    struct npu_bootstrap_packet snapshot;\n    const volatile uint32_t *descriptors;\n    uint32_t status, i, matches = 0, result = 0, acquired = 0;\n\n    __asm__ volatile (\"csrrci %0, mstatus, 8\" : \"=r\"(status) :: \"memory\");\n    snapshot = *packet;\n    getter_step = npu_cold_descriptor_command_step(&snapshot);\n    if (lock_owned || !context())\n        goto fault;\n    if (((int (*)(const uint32_t *))(uintptr_t)0x840064b4u)(&lock_id))\n        goto fault;\n    lock_owned = 1;\n    acquired = 1;\n    if (!getter_step) {\n        native_arena = word(0x3e9030fcu);\n        allocation_count = METADATA->count;\n        allocation_used = METADATA->used;\n        for (i = 0; i < METADATA->count; i++) {\n            const struct npu_allocator_entry *entry = &METADATA->entries[i];\n\n            if (entry->type == 1 && !entry->reserved && entry->address == native_arena) {\n                record_index = i;\n                matches++;\n            }\n        }\n        if (matches != 1)\n            goto fault;\n        for (i = 0; i < 8; i++)\n            slots[i] = word(slot(i));\n    }\n    identity[0] = SETUP->sequence;\n    identity[1] = SETUP->boot_lo;\n    identity[2] = SETUP->boot_hi;\n    identity[3] = SETUP->nonce_lo;\n    identity[4] = SETUP->nonce_hi;\n    if (!owned())\n        goto fault;\n    descriptors = getter_step >= 6 ? (const volatile void *)(uintptr_t)slots[getter_step] : 0;\n    if (npu_cold_descriptor_begin(OWNER, native_arena, 1, snapshot.header & 15, descriptors) || !owned())\n        goto fault;\n    result = npu_original_descriptor_callback(&snapshot);\n    if (result != 1 || !owned() ||\n        npu_cold_descriptor_finish(OWNER, native_arena, 1, snapshot.value, descriptors))\n        goto fault;\n    goto done;\nfault:\n    result = fail();\ndone:\n    if (acquired) {\n        __asm__ volatile (\"fence iorw, iorw\" ::: \"memory\");\n        ((void (*)(const uint32_t *))(uintptr_t)0x8400651cu)(&lock_id);\n        lock_owned = 0;\n        if (!pinned())\n            result = fail();\n    }\n    if (result == 1)\n        packet->value = snapshot.value;\n    __asm__ volatile (\"csrw mstatus, %0\" :: \"r\"(status) : \"memory\");\n    return result;\n}",
+    "lock_regression": {
+      "passed": true,
+      "counterexample": false,
+      "cases": [
+        {
+          "component": "cold-pages",
+          "lock_preserved": true,
+          "unlock_writes": [],
+          "callback_rejected": true
+        },
+        {
+          "component": "cold-tx",
+          "lock_preserved": true,
+          "unlock_writes": [],
+          "callback_rejected": true
+        },
+        {
+          "component": "cold-descriptor",
+          "lock_preserved": true,
+          "unlock_writes": [],
+          "callback_rejected": true
+        }
+      ],
+      "inputs": {
+        "tests/npu/test_native_lock_ownership.py": "f3e10ae927a04002051eea1d88a214c366895fa8452c755d9ca212812d64ba00",
+        ".local/npu-cold-descriptor-20261010/pair-qualification/CODE.bin": "11151179c3bad61b563d1c14703fb886945de036669edf589f376880bcc872e0",
+        ".local/npu-cold-descriptor-20261010/pair-qualification/DATA.bin": "20e416709d1534c72752626e15fa67f75cb99ef7c16cce4256d117e376e9a619",
+        ".local/npu-cold-descriptor-20261010/pair-qualification/manifest.json": "d1fcc505d5deabe9035ba9a63dc656f65a5a62aecac5153b85e8a5951bfe27e7"
+      },
+      "limits": [
+        "Direct rejected native callbacks with test-seeded preowned flags and modeled I/O.",
+        "No physical lock ownership, full setup, DMA drain or hardware acceptance proof."
+      ]
+    },
+    "API21_callback": "FUNCTION npu_table_1cc @ ram:8400fbca\ndecompiled=true\n\nundefined4 npu_table_1cc(uint *param_1)\n\n{\n  thunk_FUN_ram_8400ef36(param_1[2],*param_1 & 0xf);\n  return 1;\n}\n\n",
+    "API21_helper": "FUNCTION FUN_ram_8400ef36 @ ram:8400ef36\ndecompiled=true\n\nvoid FUN_ram_8400ef36(uint param_1,undefined4 param_2)\n\n{\n  undefined4 *puVar1;\n  undefined4 *puVar2;\n  undefined4 uVar3;\n  int iVar4;\n  undefined4 *puVar5;\n  \n  if (0xbfffffff < param_1) {\n    FUN_ram_840048f4(\"********** ERROR ***************\\n\");\n    FUN_ram_840048f4(\"%s() ERROR !!! out of available range:%x \\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_1);\n  }\n  switch(param_2) {\n  case 0:\n    DAT_ram_3e902cf8 = param_1 & 0x3fffffff | 0x40000000;\n    return;\n  default:\n    FUN_ram_840048f4(\"[error]%s wrong band index:%d !!!!!\\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_2);\n    return;\n  case 2:\n    DAT_ram_3e902ab4 = param_1 & 0x3fffffff | 0x40000000;\n    return;\n  case 5:\n    uVar3 = DAT_ram_3e9030fc;\n    uVar3 = FUN_ram_8400fab2(uVar3,1,10);\n    DAT_ram_3e901f38 = uVar3;\n    FUN_ram_840048f4(\"%s, fp addr=%lx, uncache=%lx band_idx=%d \\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_1,uVar3,5);\n    puVar1 = (undefined4 *)DAT_ram_3e901f38;\n    iVar4 = 0x200;\n    break;\n  case 7:\n    uVar3 = DAT_ram_3e9030fc;\n    uVar3 = FUN_ram_8400fab2(uVar3,1,0xb);\n    DAT_ram_3e902abc = uVar3;\n    FUN_ram_840048f4(\"%s, fp addr=%lx, uncache=%lx band_idx=%d \\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_1,uVar3,7);\n    puVar1 = (undefined4 *)DAT_ram_3e902abc;\n    iVar4 = 0x400;\n    break;\n  case 10:\n    DAT_ram_3e903960 = param_1 & 0x3fffffff | 0x40000000;\n    FUN_ram_8400a5fa(0);\n    return;\n  case 0xc:\n    DAT_ram_3e902a88 = param_1 & 0x3fffffff | 0x40000000;\n    FUN_ram_8400a5fa(1);\n    return;\n  }\n  if (iVar4 != 0) {\n    puVar2 = puVar1;\n    puVar5 = puVar1 + 0x20;\n    while( true ) {\n      *puVar2 = 0x100000;\n      puVar2[1] = 0;\n      puVar2[2] = 0;\n      puVar2[3] = 0;\n      puVar2[4] = 0;\n      puVar2[5] = 0;\n      puVar2[6] = 0;\n      puVar2[7] = 0;\n      puVar2[8] = 0;\n      puVar2[9] = 0;\n      puVar2[10] = 0;\n      puVar2[0xb] = 0;\n      puVar2[0xc] = 0;\n      puVar2[0xd] = 0;\n      puVar2[0xe] = 0;\n      puVar2[0xf] = 0;\n      puVar2[0x10] = 0;\n      puVar2[0x11] = 0;\n      puVar2[0x12] = 0;\n      puVar2[0x13] = 0;\n      puVar2[0x14] = 0;\n      puVar2[0x15] = 0;\n      puVar2[0x16] = 0;\n      puVar2[0x17] = 0;\n      puVar2[0x18] = 0;\n      puVar2[0x19] = 0;\n      puVar2[0x1a] = 0;\n      puVar2[0x1b] = 0;\n      puVar2[0x1c] = 0;\n      puVar2[0x1d] = 0;\n      puVar2[0x1e] = 0;\n      puVar2[0x1f] = 0x10000;\n      if (puVar5 == puVar1 + 0x20 + (iVar4 - 1U & 0xffff) * 0x20) break;\n      puVar2 = puVar5;\n      puVar5 = puVar5 + 0x20;\n    }\n  }\n  return;\n}\n\n",
+    "header_helper": "FUNCTION FUN_ram_8400a5fa @ ram:8400a5fa\ndecompiled=true\n\nvoid FUN_ram_8400a5fa(int param_1)\n\n{\n  int iVar1;\n  uint uVar2;\n  int iVar3;\n  int iVar4;\n  int iVar5;\n  uint *puVar6;\n  \n  iVar4 = DAT_ram_3e902ab8;\n  while (iVar4 == 0) {\n    FUN_ram_8400420a(100);\n    iVar4 = DAT_ram_3e902ab8;\n  }\n  if (param_1 == 0) {\n    uVar2 = DAT_ram_3e903960;\n    DAT_ram_3e90462c = 0;\n    DAT_ram_3e90395a = 0;\n    iVar3 = FUN_ram_84005200(0x100);\n    DAT_ram_3e902acc = iVar3;\n    iVar4 = DAT_ram_3e9021e8;\n  }\n  else {\n    uVar2 = DAT_ram_3e902a88;\n    DAT_ram_3e902a8c = 0;\n    DAT_ram_3e90390c = 0;\n    iVar4 = FUN_ram_84005200(0x101);\n    iVar3 = DAT_ram_3e902acc;\n    DAT_ram_3e9021e8 = iVar4;\n  }\n  iVar5 = 0;\n  do {\n    iVar1 = iVar4;\n    if (param_1 == 0) {\n      iVar1 = iVar3;\n    }\n    puVar6 = (uint *)(iVar1 + iVar5);\n    *puVar6 = uVar2 & 0x3fffffff | 0x80000000;\n    puVar6[1] = 0;\n    puVar6[2] = 0;\n    *(undefined1 *)(puVar6 + 3) = 0;\n    iVar5 = iVar5 + 0x10;\n    uVar2 = uVar2 + 0x100;\n  } while (iVar5 != 0x2000);\n  return;\n}\n\n",
+    "source_authority": {
+      "path": "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt",
+      "sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca"
+    }
+  },
+  "questions": {
+    "readback_argument": {
+      "type": "noul",
+      "instructions": "Does native_publish pass the destination memory read word(address) as the actual readback argument to the portable owner, rather than the requested constant?"
+    },
+    "readback_before_publish": {
+      "type": "noul",
+      "instructions": "Does owner_publish reject a readback unequal to NPU_COLD_DESCRIPTOR_STATUS before advancing published?"
+    },
+    "fault_no_rollback": {
+      "type": "noul",
+      "instructions": "Does owner_fault only latch fault, without resetting committed/published/ownership fields?"
+    },
+    "current_lock_cleanup": {
+      "type": "noul",
+      "instructions": "In lock_cleanup, is acquired initialized to zero, set only after this callback acquires lock18, and required to enter unlock cleanup?"
+    },
+    "old_lock_regression_scope": {
+      "type": "noul",
+      "instructions": "Does lock_regression claim full physical lock ownership or complete host initialization, rather than only rejected direct callbacks with modeled I/O?"
+    },
+    "API21_selector_0": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 0 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_2": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 2 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_5": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 5 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_7": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 7 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_10": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 10 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_12": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 12 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    }
+  }
+}

@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-11 - Retained Descriptor GETs
+
+Current source implements eight ordered descriptor GETs with retained TX5/7
+status ownership. Wire80 remains unchanged; private history120 and Linux cached
+arena/order protect caller output. Core5732/1592/five and wire657/23 pass.
+All nine exact-input native cases and HIF2 pass, with35 indication/28 TX/28 GET
+controls. TX5/7 faults retain1/0 and513/512 committed/published status words.
+Raw/world/source67+nested12/components14/Ghidra54/FIT218+78 checks pass.
+The invocation-local lock cleanup fix is covered by old/fixed counterexamples,
+plus56 release observations. Additional40 pointer/nine TX-caller/nine provider
+argument controls pass; successful API21 in the standalone caller test is modeled.
+
+Actual RX setup publishes six endpoint descriptors; actual TX setup reaches
+GET5 then denied API21. Manual GET7 coverage is not complete host initialization.
+Retain host TX DMA buffer lifetime before that exposure, then finish remaining
+strict setup/lifecycle/physical/client gates. API21 type100/101 uses static L2
+lookup, not dynamic allocation; six original RV32 controls expose unchecked
+pointer returns. Current offline-qualified, unflashed FIT:
+`3951dc7c9160f5adbde30285c0a70cdf1cd36685b2c7222498977caddad9bdec`.
+Previous4da01cfe and seven companions are hash-verified in pre-world storage.
+Protected images/backups unchanged; no router contact or reset. Full goal open.
+Evidence: `research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+
 ## 2026-10-10 - Authenticated TX0/TX2 And Token Prefix
 
 The normal experimental mainline completes actual mt7996 offload C through

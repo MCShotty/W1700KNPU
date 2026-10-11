@@ -25,6 +25,7 @@ int npu_linux_control_init(struct npu_linux_control *control,
 	control->provider = provider;
 	control->error = 0;
 	control->closed = false;
+	control->descriptor_gets = control->descriptor_arena = 0;
 	npu_client_v2_init(&control->client, nonce_lo, nonce_hi);
 	control->initialized = true;
 	if (!provider || control->client.base.phase == NPU_CLIENT_FAILED) {
@@ -101,6 +102,8 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 		return -EINVAL;
 	mutex_lock(&control->mutex);
 	snapshot->client = control->client;
+	snapshot->descriptor_gets = control->descriptor_gets;
+	snapshot->descriptor_arena = control->descriptor_arena;
 	snapshot->error = control->error;
 	snapshot->closed = control->closed;
 	mutex_unlock(&control->mutex);
@@ -114,7 +117,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	struct npu_bootstrap_packet snapshot;
 	struct npu_cold_packet packet;
 	enum npu_client_result result;
-	u32 ticket;
+	u32 ticket, output, descriptor, arena;
 	int error;
 
 	if (!control || !control->initialized || !command || !value)
@@ -129,6 +132,11 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 		goto unlock;
 	}
 	snapshot = *command;
+	descriptor = npu_cold_descriptor_command_step(&snapshot);
+	if (descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets) {
+		error = hold(control, -EPROTO);
+		goto unlock;
+	}
 	ticket = npu_cold_client_request(&control->client, &packet,
 					 sizeof(packet), &snapshot);
 	if (!ticket) {
@@ -137,9 +145,21 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	}
 	error = airoha_npu_wlan_control(control->provider, &packet, sizeof(packet));
 	result = npu_cold_client_complete(&control->client, ticket, error,
-					  &packet, sizeof(packet), &snapshot, value);
+					  &packet, sizeof(packet), &snapshot, &output);
 	if (error || result != NPU_CLIENT_ACCEPTED)
 		error = hold(control, error < 0 ? error : error ? -EIO : -EPROTO);
+	else {
+		if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
+			arena = npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena);
+			if (!arena) {
+				error = hold(control, -EPROTO);
+				goto unlock;
+			}
+			control->descriptor_arena = arena;
+			control->descriptor_gets++;
+		}
+		*value = output;
+	}
 unlock:
 	mutex_unlock(&control->mutex);
 	return error;

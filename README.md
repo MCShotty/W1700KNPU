@@ -1,5 +1,27 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-11 - Retained Descriptor GETs
+
+Mainline source now admits eight ordered descriptor GETs with a retained owner
+for the512/1024 TX-status writes. The wire stays80 bytes; private history is120.
+The Linux executor pins getter order and arena before publishing caller output.
+The portable core passes5732 host/RV32 comparisons,1592 controls/five mutants;
+the expanded wire suite passes657 cases/23 mutants, including independent host,
+server and codec rejection checks. All nine native cases and HIF2 pass, with
+35 indication/28 TX/28 descriptor controls and retained partial status faults.
+Full raw replay, world/source/Ghidra54 and FIT/218-package/78-module checks pass.
+The invocation-local lock cleanup fix prevents rejected callbacks from releasing
+an earlier owner's lock; three old-code counterexamples and fixed controls pass.
+
+The actual RX caller completes six endpoint writes. The TX caller completes GET5
+then stops at denied API21; GET7 afterward is diagnostic, not full host setup.
+Retained host TX-buffer lifetime and remaining PCIe/INODE/TXDONE/IRQ, hot and
+physical/client gates remain open. API21 types0x100/0x101 use static L2 pointer
+lookups, not dynamic allocations; six original RV32 controls expose unchecked
+pointer returns. Current offline-qualified, unflashed FIT is `3951dc7c...`;
+previous `4da01cfe...` and older/R1 are preserved. No hardware contact. Scope:
+`research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+
 ## 2026-10-10 - Authenticated TX0/TX2 And Token Prefix
 
 The checked mainline now completes the real mt7996 offload initializer through

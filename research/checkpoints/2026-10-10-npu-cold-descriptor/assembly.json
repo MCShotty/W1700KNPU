@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "test_groups": 16,
+  "skipped": 0,
+  "repeat_build": true,
+  "failures": 0,
+  "errors": 0,
+  "source_inputs": {
+    "tests/npu/test_npu_image.py": "25bd77673d4520d81d413bd55e803c2c740ca3c28aa272c5e3e9940396fe837e",
+    "tools/npu_image.py": "a45ccb517fc0c478341fa9336facea5e02d11676439f890f27a96afac1639288"
+  },
+  "pairs": {
+    ".local/npu-cold-descriptor-20261010/pair-qualification": {
+      "CODE.bin": "11151179c3bad61b563d1c14703fb886945de036669edf589f376880bcc872e0",
+      "DATA.bin": "20e416709d1534c72752626e15fa67f75cb99ef7c16cce4256d117e376e9a619",
+      "manifest.json": "d1fcc505d5deabe9035ba9a63dc656f65a5a62aecac5153b85e8a5951bfe27e7"
+    },
+    ".local/npu-cold-descriptor-20261010/pair-repeat": {
+      "CODE.bin": "11151179c3bad61b563d1c14703fb886945de036669edf589f376880bcc872e0",
+      "DATA.bin": "20e416709d1534c72752626e15fa67f75cb99ef7c16cce4256d117e376e9a619",
+      "manifest.json": "b0d90bc3d36e9155fa199ff673162b876ab08bddf75b7445ed15fc2595057a81"
+    }
+  }
+}

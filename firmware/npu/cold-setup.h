@@ -3,6 +3,7 @@
 
 #include "bootstrap.h"
 #include "control-v2.h"
+#include "cold-descriptor.h"
 
 #define NPU_COLD_REQUEST 0x3253434eu /* NCS2 */
 #define NPU_COLD_REPLY 0x3252434eu /* NCR2 */
@@ -88,7 +89,15 @@ struct npu_cold_setup {
     struct npu_bootstrap_packet command;
     uint32_t endpoint_base, endpoint_bytes, prior_base, prior_bytes;
     uint32_t counts[NPU_COLD_COUNTS], prior_counts[NPU_COLD_COUNTS];
+    uint32_t descriptor_gets, descriptor_arena, prior_descriptor_gets, prior_descriptor_arena;
 };
+
+static inline uint32_t npu_cold_descriptor_command_step(const struct npu_bootstrap_packet *p)
+{
+    if (p->api != 4 || p->value || (p->header & ~15u) != 0x30u)
+        return NPU_COLD_DESCRIPTOR_STEPS;
+    return npu_cold_descriptor_step(p->header & 15u);
+}
 
 enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *setup,
     struct npu_control_v2_session *session, struct npu_admission *admission,

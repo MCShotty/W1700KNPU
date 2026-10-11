@@ -49,7 +49,8 @@ def main():
     matrix = json.loads(done.stdout)
     print(json.dumps(dict(stage='host', **matrix)), flush=True)
     server, client = SOURCE / 'cold-setup.c', SOURCE / 'cold-client.c'
-    original, codec = server.read_text(), client.read_text()
+    executor = SOURCE / 'linux-control.c'
+    original, codec, linux = server.read_text(), client.read_text(), executor.read_text()
     mutations = {
         'skip-held-workers': {server: loader.once(original, 'load(&b->parked[i]) != 1 || load(&b->ready[i])', 'load(&b->ready[i])')},
         'skip-deferred-irq': {server: loader.once(original, 'if (a->deferred[i])', 'if (0 && a->deferred[i])')},
@@ -67,6 +68,13 @@ def main():
         'skip-tx2-offset': {server: loader.once(original, '(p->value == s->endpoint_base + NPU_COLD_TX_REG2 ||\n             p->value == s->endpoint_base + NPU_COLD_TX_REG2 + NPU_COLD_TX_HIF2)', '(p->value != 0)')},
         'skip-tx2-window': {server: loader.once(original, 'p->value - s->endpoint_base <= s->endpoint_bytes - 12', '(1)')},
         'relax-token-limit': {server: loader.once(original, 'p->api == 33 && p->value == 8192', 'p->api == 33 && p->value <= 8193')},
+        'skip-getter-order': {server: loader.once(original, '(s->completed != NPU_COLD_COMPLETED_MASK || descriptor != s->descriptor_gets)', '(s->completed != NPU_COLD_COMPLETED_MASK)')},
+        'skip-late-getter-count': {server: loader.once(original, 's->descriptor_gets != s->prior_descriptor_gets ||', '')},
+        'skip-late-getter-arena': {server: loader.once(original, 's->descriptor_arena != s->prior_descriptor_arena ||', '')},
+        'skip-server-getter-pointer': {server: loader.once(original, 's->completed != NPU_COLD_COMPLETED_MASK || !arena)', 's->completed != NPU_COLD_COMPLETED_MASK)')},
+        'skip-codec-getter-pointer': {client: loader.once(codec, '!npu_cold_descriptor_reply_arena(descriptor, result, 0) :', '(0 && !npu_cold_descriptor_reply_arena(descriptor, result, 0)) :')},
+        'skip-host-getter-order': {executor: loader.once(linux, 'descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets', '0 && descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets')},
+        'skip-host-exact-arena': {executor: loader.once(linux, 'npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena)', 'npu_cold_descriptor_reply_arena(descriptor, output, 0)')},
     }
     rejected = []
     for name, replacements in mutations.items():
@@ -78,7 +86,7 @@ def main():
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
-                          'Version/BAR/port/RX/page/indication/ACK/TX0/TX2/token commands are covered. Remaining RX-address/INODE/TXDONE/final IRQ setup and physical/hot/client gates remain open.'])
+                          'Version/BAR/port/RX/page/indication/ACK/TX0/TX2/token and eight ordered descriptor GETs are covered. TX-buffer/INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

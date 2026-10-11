@@ -1,0 +1,87 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "branches": {
+      "0": "  case 0:\n    DAT_ram_3e902cf8 = param_1 & 0x3fffffff | 0x40000000;\n    return;\n",
+      "2": "  case 2:\n    DAT_ram_3e902ab4 = param_1 & 0x3fffffff | 0x40000000;\n    return;\n",
+      "5": "  case 5:\n    uVar3 = DAT_ram_3e9030fc;\n    uVar3 = FUN_ram_8400fab2(uVar3,1,10);\n    DAT_ram_3e901f38 = uVar3;\n    FUN_ram_840048f4(\"%s, fp addr=%lx, uncache=%lx band_idx=%d \\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_1,uVar3,5);\n    puVar1 = (undefined4 *)DAT_ram_3e901f38;\n    iVar4 = 0x200;\n    break;\n",
+      "7": "  case 7:\n    uVar3 = DAT_ram_3e9030fc;\n    uVar3 = FUN_ram_8400fab2(uVar3,1,0xb);\n    DAT_ram_3e902abc = uVar3;\n    FUN_ram_840048f4(\"%s, fp addr=%lx, uncache=%lx band_idx=%d \\n\",\n                     \"npu_set_tx_ring_buf_space_phy_base_eagle\",param_1,uVar3,7);\n    puVar1 = (undefined4 *)DAT_ram_3e902abc;\n    iVar4 = 0x400;\n    break;\n",
+      "10": "  case 10:\n    DAT_ram_3e903960 = param_1 & 0x3fffffff | 0x40000000;\n    FUN_ram_8400a5fa(0);\n    return;\n",
+      "12": "  case 0xc:\n    DAT_ram_3e902a88 = param_1 & 0x3fffffff | 0x40000000;\n    FUN_ram_8400a5fa(1);\n    return;"
+    },
+    "shared_internal_loop": "  if (iVar4 != 0) {\n    puVar2 = puVar1;\n    puVar5 = puVar1 + 0x20;\n    while( true ) {\n      *puVar2 = 0x100000;\n      puVar2[1] = 0;\n      puVar2[2] = 0;\n      puVar2[3] = 0;\n      puVar2[4] = 0;\n      puVar2[5] = 0;\n      puVar2[6] = 0;\n      puVar2[7] = 0;\n      puVar2[8] = 0;\n      puVar2[9] = 0;\n      puVar2[10] = 0;\n      puVar2[0xb] = 0;\n      puVar2[0xc] = 0;\n      puVar2[0xd] = 0;\n      puVar2[0xe] = 0;\n      puVar2[0xf] = 0;\n      puVar2[0x10] = 0;\n      puVar2[0x11] = 0;\n      puVar2[0x12] = 0;\n      puVar2[0x13] = 0;\n      puVar2[0x14] = 0;\n      puVar2[0x15] = 0;\n      puVar2[0x16] = 0;\n      puVar2[0x17] = 0;\n      puVar2[0x18] = 0;\n      puVar2[0x19] = 0;\n      puVar2[0x1a] = 0;\n      puVar2[0x1b] = 0;\n      puVar2[0x1c] = 0;\n      puVar2[0x1d] = 0;\n      puVar2[0x1e] = 0;\n      puVar2[0x1f] = 0x10000;\n      if (puVar5 == puVar1 + 0x20 + (iVar4 - 1U & 0xffff) * 0x20) break;\n      puVar2 = puVar5;\n      puVar5 = puVar5 + 0x20;\n    }\n  }\n  return;\n}\n\n",
+    "header_helper": "FUNCTION FUN_ram_8400a5fa @ ram:8400a5fa\ndecompiled=true\n\nvoid FUN_ram_8400a5fa(int param_1)\n\n{\n  int iVar1;\n  uint uVar2;\n  int iVar3;\n  int iVar4;\n  int iVar5;\n  uint *puVar6;\n  \n  iVar4 = DAT_ram_3e902ab8;\n  while (iVar4 == 0) {\n    FUN_ram_8400420a(100);\n    iVar4 = DAT_ram_3e902ab8;\n  }\n  if (param_1 == 0) {\n    uVar2 = DAT_ram_3e903960;\n    DAT_ram_3e90462c = 0;\n    DAT_ram_3e90395a = 0;\n    iVar3 = FUN_ram_84005200(0x100);\n    DAT_ram_3e902acc = iVar3;\n    iVar4 = DAT_ram_3e9021e8;\n  }\n  else {\n    uVar2 = DAT_ram_3e902a88;\n    DAT_ram_3e902a8c = 0;\n    DAT_ram_3e90390c = 0;\n    iVar4 = FUN_ram_84005200(0x101);\n    iVar3 = DAT_ram_3e902acc;\n    DAT_ram_3e9021e8 = iVar4;\n  }\n  iVar5 = 0;\n  do {\n    iVar1 = iVar4;\n    if (param_1 == 0) {\n      iVar1 = iVar3;\n    }\n    puVar6 = (uint *)(iVar1 + iVar5);\n    *puVar6 = uVar2 & 0x3fffffff | 0x80000000;\n    puVar6[1] = 0;\n    puVar6[2] = 0;\n    *(undefined1 *)(puVar6 + 3) = 0;\n    iVar5 = iVar5 + 0x10;\n    uVar2 = uVar2 + 0x100;\n  } while (iVar5 != 0x2000);\n  return;\n}\n\n",
+    "source_authority": {
+      "path": "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt",
+      "sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca"
+    }
+  },
+  "questions": {
+    "selector_0": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.0. The return ends this branch; effects of other branches do not apply. Which documented effect matches its actual statements?"
+    },
+    "selector_2": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.2. The return ends this branch; effects of other branches do not apply. Which documented effect matches its actual statements?"
+    },
+    "selector_5": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.5. This branch breaks into shared_internal_loop; it does not call header_helper. Which documented effect matches its actual statements?"
+    },
+    "selector_7": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.7. This branch breaks into shared_internal_loop; it does not call header_helper. Which documented effect matches its actual statements?"
+    },
+    "selector_10": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.10. This branch calls header_helper before returning. Which documented effect matches its actual statements?"
+    },
+    "selector_12": {
+      "type": "choice",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      },
+      "instructions": "Classify only branches.12. This branch calls header_helper before returning. Which documented effect matches its actual statements?"
+    }
+  }
+}

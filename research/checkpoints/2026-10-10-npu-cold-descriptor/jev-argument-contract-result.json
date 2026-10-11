@@ -1,0 +1,65 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-argument-contract.json",
+  "request_sha256": "7a50a7ffec6565238c673d5fc58406404698f47c2ecbe17b8d644014a36874ed",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "explicit_requirement": {
+      "type": "choice",
+      "instructions": "Does contract explicitly establish review_claim, distinguishing provider argument preflight from executor operations and transport/protocol failures?",
+      "criteria": {
+        "supported": "The quoted contract explicitly requires this provider-only argument rejection to poison the session.",
+        "contradicted": "The contract explicitly says such rejections must not poison it.",
+        "not_established": "The contract does not explicitly decide this provider-preflight behavior."
+      }
+    },
+    "has_native_effect": {
+      "type": "noul",
+      "instructions": "Does the rejected selector path in provider_preflight perform a native callback or an ambiguous transport publication?"
+    },
+    "failure_kind": {
+      "type": "choice",
+      "instructions": "Which category describes the rejected selector path in provider_preflight?",
+      "criteria": {
+        "argument_preflight": "Rejected before executor or transport.",
+        "transport_failure": "Transport attempted and failed.",
+        "protocol_reply": "A transported reply was rejected.",
+        "unknown": "The supplied facts do not determine the category."
+      }
+    }
+  },
+  "elapsed_ms": 719,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "explicit_requirement": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.4,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.4,
+          "not_established": 0.6
+        }
+      },
+      "has_native_effect": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "failure_kind": {
+        "type": "choice",
+        "choice": "argument_preflight",
+        "confidence": 1.0,
+        "probabilities": {
+          "argument_preflight": 1.0,
+          "transport_failure": 0.0,
+          "protocol_reply": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 732,
+      "output_tokens": 121
+    }
+  }
+}

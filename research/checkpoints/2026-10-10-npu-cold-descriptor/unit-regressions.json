@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "groups": [
+    {
+      "name": "test_build_firmware_host_tools.py",
+      "passed": true,
+      "tests": 13,
+      "log": ".local/npu-cold-descriptor-20261010/unit-test_build_firmware_host_tools.log"
+    },
+    {
+      "name": "test_verify_source_export.py",
+      "passed": true,
+      "tests": 4,
+      "log": ".local/npu-cold-descriptor-20261010/unit-test_verify_source_export.log"
+    },
+    {
+      "name": "test_verify_control_ownership.py",
+      "passed": true,
+      "tests": 4,
+      "log": ".local/npu-cold-descriptor-20261010/unit-test_verify_control_ownership.log"
+    }
+  ],
+  "tests": 21,
+  "inputs": {
+    ".local/npu-cold-descriptor-20261010/run-unit-regressions.py": "1e4792c04848b6cce3c96cf49cef2ff42550302425a9d303d5441d055b257e16",
+    "tests/test_build_firmware_host_tools.py": "cc2260f277790418c58aff869e4c5f314bc57ae6f5752975747afa4e0c95bdcc",
+    "tests/test_verify_source_export.py": "238c422fdcf41c467f4368ea25ccf0be936508da548470179e4dc68979b3eaae",
+    "tests/test_verify_control_ownership.py": "a1e1ef303d12323a08874530827aa39dff3bb41839b652b8ab0e0ed5fdfca3c3"
+  }
+}

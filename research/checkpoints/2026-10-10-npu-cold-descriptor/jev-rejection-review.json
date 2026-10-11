@@ -1,0 +1,15 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "requirement": "Malformed and repeated descriptor GETs must fail without overwriting caller output. Host preflight rejection does not invoke firmware. Firmware rejection faults admission, while late native faults retain the active lease and committed resources.",
+    "host_preflight": "descriptor = npu_cold_descriptor_command_step(&snapshot); if (descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets) { error = hold(control, -EPROTO); goto unlock; } transport occurs afterward. hold stores a sticky error and aborts the host client.",
+    "old_assertion": "Every rejected request must set firmware setup.failed, admission.fault and barrier.fault.",
+    "proposed_assertion": "For duplicate descriptor GETs assert transport-call count unchanged, firmware getter count unchanged, firmware faults still zero, caller output unchanged, and sticky host rejection on retry. For requests sent to firmware assert one transport call and firmware faults. For late callback faults assert active/inflight retained.",
+    "scope": "Host C with modeled transport and actual cold server; native RV32 emulation is separate. No physical hardware test."
+  },
+  "questions": {
+    "old_expectation": {"type":"choice","instructions":"Does old_assertion correctly describe host_preflight under requirement?","criteria":{"supported":"Entire assertion follows from the evidence.","contradicted":"It demands firmware effects even though the request is never transported.","not_established":"Evidence is insufficient."}},
+    "split_preserves_requirement": {"type":"noul","instructions":"Does proposed_assertion preserve the requirement for host-preflight rejection, including unchanged output and sticky failure, without claiming a firmware fault?"},
+    "physical_claim": {"type":"noul","instructions":"Does scope establish physical NPU ownership or successful hardware boot?"}
+  }
+}

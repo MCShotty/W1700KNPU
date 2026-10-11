@@ -101,7 +101,7 @@ uint32_t npu_emulation_indication_publish(uint32_t address)
 uint32_t npu_emulation_indication_callback(const struct npu_bootstrap_packet *packet)
 {
     struct npu_bootstrap_packet snapshot;
-    uint32_t status, result = 0, matches = 0, i;
+    uint32_t status, result = 0, matches = 0, i, acquired = 0;
 
     __asm__ volatile ("csrrci %0, mstatus, 8" : "=r"(status) :: "memory");
     snapshot = *packet;
@@ -113,6 +113,7 @@ uint32_t npu_emulation_indication_callback(const struct npu_bootstrap_packet *pa
     if (((int (*)(const uint32_t *))(uintptr_t)0x840064b4u)(&lock_id))
         goto fault;
     lock_owned = 1;
+    acquired = 1;
     arena = word(0x3e9030fcu);
     allocation_count = METADATA->count;
     allocation_used = METADATA->used;
@@ -144,7 +145,7 @@ uint32_t npu_emulation_indication_callback(const struct npu_bootstrap_packet *pa
 fault:
     result = fail();
 done:
-    if (lock_owned) {
+    if (acquired) {
         __asm__ volatile ("fence iorw, iorw" ::: "memory");
         ((void (*)(const uint32_t *))(uintptr_t)0x8400651cu)(&lock_id);
         lock_owned = 0;

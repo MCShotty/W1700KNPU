@@ -66,7 +66,7 @@ enum npu_client_result npu_cold_client_complete(struct npu_control_v2_client *s,
     uint32_t ticket, int error, const void *packet, uint32_t bytes,
     const struct npu_bootstrap_packet *command, uint32_t *value)
 {
-    uint32_t i, result;
+    uint32_t i, result, descriptor;
 
     if (!ticket || ticket != s->base.pending || s->base.phase == NPU_CLIENT_FAILED)
         return NPU_CLIENT_IGNORED;
@@ -87,7 +87,10 @@ enum npu_client_result npu_cold_client_complete(struct npu_control_v2_client *s,
         if (read_word(packet, i))
             return fail(s, NPU_CLIENT_V2_ENVELOPE);
     result = read_word(packet, 13);
-    if (result != (command->header == 0x30 && command->api == 10 ? 0x457u : command->value))
+    descriptor = npu_cold_descriptor_command_step(command);
+    if (descriptor < NPU_COLD_DESCRIPTOR_STEPS ?
+        !npu_cold_descriptor_reply_arena(descriptor, result, 0) :
+        result != (command->header == 0x30 && command->api == 10 ? 0x457u : command->value))
         return fail(s, NPU_CLIENT_V2_ENVELOPE);
     s->base.pending = 0;
     *value = result;

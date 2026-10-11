@@ -239,8 +239,8 @@ int npu_test_endpoint(uint64_t base, uint64_t bytes, int type)
 }
 int npu_test_command(unsigned header, unsigned api, unsigned value, uint32_t *output)
 {
-    int error = header == 0x30 ?
-        airoha_npu_wlan_msg_get_session(&priv.npu, 0, api, &value, 4, GFP_KERNEL) :
+    int error = (header & ~15u) == 0x30 ?
+        airoha_npu_wlan_msg_get_session(&priv.npu, header & 15, api, &value, 4, GFP_KERNEL) :
         airoha_npu_wlan_msg_send_session(&priv.npu, header & 15, api, &value, 4, GFP_KERNEL);
     *output = value;
     return error;

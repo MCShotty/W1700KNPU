@@ -1,8 +1,30 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-10 (TX0/TX2/token prefix implemented; remaining setup and physical gates open)
+Last updated: 2026-10-11 (descriptor checkpoint qualified; API21 lifetime/records next; full goal open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-11 - Descriptor Qualification
+
+- Descriptor core5732/1592/five and expanded wire657/23 pass. Added independent
+  server ordering/pointer and stateless codec controls, plus saved-history
+  corruption. Host-preflight duplicates correctly require no firmware effects.
+- All nine exact-input native cases/HIF2 pass, with35 indication/28 TX/28 GET
+  controls and retained TX5/7 fault progress1/0 and513/512. Six actual RX and
+  one TX endpoint writes are covered; actual TX then stops at API21. Diagnostic
+  GET7 is not a completed host initializer. Raw/world/source67+nested12/Ghidra54/
+  FIT218+78 checks pass. Later TXDONE lease/ring metadata remain modeled.
+- Invocation-local cleanup fixes the preowned-lock release bug. Old/fixed
+  controls plus40 pointer/nine TX-caller/56 release/nine provider argument checks
+  pass. API21 success in the isolated TX-caller test is synthetic, not admission.
+- Current offline-qualified FIT3951dc7c is unflashed; old4da01cfe and seven
+  companions are hash-verified/preserved. Protected private backups unchanged,
+  no flash/reset/contact. Continue retained host DMA lifetime and remaining
+  strict setup/owners/hot/physical/recovery/client gates. Full goal stays open.
+  Scope: `research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+- Six original RV32 lookup controls establish that API21 type100/101 uses static
+  L2 pointers without validation, not new dynamic allocation. The next trace
+  records counter/pointer/byte-width effects and managed host-DMA lifetime.
 
 ## 2026-10-10 - Retained TX0/TX2 And Token Prefix
 

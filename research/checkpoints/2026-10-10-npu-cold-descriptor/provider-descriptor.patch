@@ -1,0 +1,40 @@
+Subject: [PATCH] net: airoha: bind ordered cold descriptor replies
+
+Reject invalid pointers before publishing host output.
+No physical retirement claim.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -998,7 +998,7 @@
+ 
+ 	if (!data || len != sizeof(value))
+ 		return -EINVAL;
+-	if (header != 0x30)
++	if ((header & ~0xfU) != 0x30)
+ 		command.value = get_unaligned_le32(data);
+ 	mutex_lock(&priv->wlan_session_lock);
+ 	if (priv->wlan_session_error) {
+@@ -1013,7 +1013,7 @@
+ 	if (err) {
+ 		priv->wlan_session_error = err;
+ 		npu_linux_control_close(&priv->wlan_control);
+-	} else if (header == 0x30) {
++	} else if ((header & ~0xfU) == 0x30) {
+ 		put_unaligned_le32(value, data);
+ 	}
+ unlock:
+@@ -1050,6 +1050,13 @@
+ 	if (priv->checked_pair && READ_ONCE(priv->wlan_session_attempted) &&
+ 	    ifindex == 0 && func_id == WLAN_FUNC_GET_WAIT_NPU_VERSION)
+ 		return airoha_npu_wlan_cold_command(npu, 0x30, func_id, data, data_len);
++	if (priv->checked_pair && func_id == WLAN_FUNC_GET_WAIT_RXDESC_BASE) {
++		if (ifindex < 0 || ifindex > 15 ||
++		    npu_cold_descriptor_step(ifindex) == NPU_COLD_DESCRIPTOR_STEPS)
++			return -EINVAL;
++		return airoha_npu_wlan_cold_command(npu, 0x30 | ifindex, func_id,
++						  data, data_len);
++	}
+ 	return airoha_npu_wlan_msg_get(npu, ifindex, func_id, data, data_len, gfp);
+ }
+ 

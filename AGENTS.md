@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-11 - Retained Descriptor GETs
+
+- Descriptor source adds the16th archive object and14th raw component/77 hooks.
+  The6188-byte one-shot state retains eight ordered GETs, arbitrary TX preimages
+  and1536 status reservations/publications under original lock18 and pinned
+  allocator/slot/session/earlier-owner state. No rollback/reset/retirement API.
+- Wire80 stays unchanged; private cold history120 and Linux cached getter order/
+  arena reject fallback0x457 and pointer substitution before caller output.
+  Core5732/1592/five and wire657/23 pass. All nine exact-input native cases/HIF2,
+  35 indication/28 TX/28 descriptor controls, raw/world/source/Ghidra54/image
+  checks pass. TX5/7 faults retain1/0 and513/512 committed/published status words.
+  Invocation-local cleanup fixes the preowned-lock release bug in all three
+  bindings. Freeze consumed firmware and test files during replay/builds.
+- Actual RX caller completes six endpoint writes. Actual TX caller reaches GET5
+  then denied API21; later GET7 is diagnostic. Next retain host managed TX DMA
+  buffers before API21 exposure, then remaining strict setup/lifecycle/physical/
+  clients. API21 types0x100/0x101 are static L2 lookups, not dynamic allocations;
+  guard exact table/record/metadata spans and the existing TXPKT prerequisite.
+  Current offline-qualified FIT3951dc7c is unflashed; old4da01cfe/R1 preserved.
+  No hardware action. Full goal open.
+  Evidence: `research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+
 ## 2026-10-10 - Retained TX0/TX2 And Token Prefix
 
 - The15th archive object owns11 ordered original metadata/index/CSR/token
@@ -398,6 +420,9 @@ leaves the ledger unchanged.
 - Use bounded standalone prompts for authorized subagents; do not fork this
   accumulated task history by default. Keep large evidence in files and return
   concise summaries/hashes so duplicate histories do not exhaust the drives.
+- Use GPT-6 Luna with max reasoning for subagents. Prefer the requested v2 flow;
+  the user authorized the exposed v1 interface for read-only reviews on
+  2026-10-11. Do not substitute user-owned chats for subagents.
 - Use the authorized GitHub connector if native Git authentication is absent;
   do not extract connector credentials. Existing Windows Git authentication
   pushed successfully when WSL lacked push credentials. Reuse configured

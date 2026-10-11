@@ -35,8 +35,13 @@ typedef int gfp_t;
 #define ERR_PTR(e) ((void *)(intptr_t)(e))
 #define MT76_HWRRO_V3 3
 #define MT76_HWRRO_V3_1 4
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+#define BUILD_BUG_ON(c) _Static_assert(!(c), "array contract")
 '''
 STRUCTS = r'''
+struct mt76_queue_regs { u32 desc_base; };
+struct mt76_queue { struct mt76_queue_regs *regs; };
+struct mt76_phy { struct mt76_queue *q_tx[1]; };
 struct airoha_npu { void *dev; };
 struct airoha_ppe_dev { unsigned unused; };
 struct mt76_dev {
@@ -45,8 +50,13 @@ struct mt76_dev {
     void *dev, *dma_dev;
     int mutex, hwrro_mode, rx_token_size;
     u32 token_start;
+    struct mt76_queue q_rx[__MT_RXQ_MAX];
+    struct mt76_phy *phys[2];
 };
-struct mt7996_dev { struct mt76_dev mt76; void *hif2; u32 q_wfdma_mask; };
+struct mt7996_dev { struct mt76_dev mt76; void *hif2; u32 q_wfdma_mask; u32 npu_txd_addr[6]; };
+static struct mt76_queue_regs rx_regs[__MT_RXQ_MAX], tx_regs[2];
+static unsigned register_writes;
+static void writel(u32 value, u32 *target) { *target = value; register_writes++; }
 static struct airoha_npu npu;
 static struct airoha_ppe_dev ppe;
 static unsigned events[16], event_count, fault_stage, command_count;
@@ -90,6 +100,41 @@ static int airoha_npu_wlan_get_msg(struct airoha_npu *p, int index,
 }
 '''
 ENTRY = r'''
+int npu_host_rxdesc(int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
+    struct mt7996_dev dev = {0};
+    for (unsigned i = 0; i < __MT_RXQ_MAX; i++) {
+        rx_regs[i].desc_base = 0xabcdef01;
+        dev.mt76.q_rx[i].regs = &rx_regs[i];
+    }
+    peer4 = transport; register_writes = 0;
+    int result = mt7996_npu_rxd_init(&dev, &npu);
+    peer4 = NULL;
+    return result;
+}
+int npu_host_txdesc(int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
+    struct mt7996_dev dev = {0};
+    struct mt76_queue queues[2]; struct mt76_phy phys[2] = {0};
+    for (unsigned i = 0; i < 2; i++) {
+        tx_regs[i].desc_base = 0xabcdef01; queues[i].regs = &tx_regs[i];
+        phys[i].q_tx[0] = &queues[i]; dev.mt76.phys[i] = &phys[i];
+    }
+    for (unsigned i = 0; i < 6; i++) dev.npu_txd_addr[i] = 0x90001000 + i * 0x1000;
+    peer4 = transport; register_writes = 0;
+    int result = mt7996_npu_txd_init(&dev, &npu);
+    peer4 = NULL;
+    return result;
+}
+u32 npu_host_rxdesc_value(unsigned i) { assert(i < __MT_RXQ_MAX); return rx_regs[i].desc_base; }
+u32 npu_host_txdesc_value(unsigned i) { assert(i < 2); return tx_regs[i].desc_base; }
+unsigned npu_host_register_writes(void) { return register_writes; }
+static unsigned getter_calls, getter_failure;
+static int getter_peer(unsigned header, unsigned api, unsigned value, u32 *output) {
+    static const unsigned selectors[] = {0, 2, 10, 11, 12, 8};
+    assert(api == 4 && value == 0 && header == (0x30 | selectors[getter_calls]));
+    if (getter_calls++ == getter_failure) return -EPROTO;
+    *output = 0x1e810000 + getter_calls * 32;
+    return 0;
+}
 int npu_host_txrx(u64 base, unsigned hif2, u32 mask,
                   int (*transport)(unsigned, unsigned, unsigned)) {
     struct mt7996_dev dev = {0};
@@ -131,6 +176,12 @@ int main(void) {
                dev.mmio.phy_addr == 0x20000000 && dev.hwrro_mode == MT76_HWRRO_V3);
     }
     assert(npu_host_offload(0x20000000, 0, 0, NULL) == 0 && command_count == 16);
+    for (getter_failure = 0; getter_failure <= 6; getter_failure++) {
+        getter_calls = 0;
+        assert(npu_host_rxdesc(getter_peer) == (getter_failure == 6 ? 0 : -EPROTO));
+        assert(register_writes == getter_failure);
+        assert(getter_calls == (getter_failure == 6 ? 6 : getter_failure + 1));
+    }
     return 0;
 }
 '''
@@ -169,6 +220,8 @@ def main():
                 q.function(text['npu.c'], 'mt76_npu_init'),
                 q.function(text['mt7996/npu.c'], 'mt7996_npu_txrx_offload_init'),
                 q.function(text['mt7996/npu.c'], 'mt7996_npu_offload_init'), ENTRY]
+    program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_rxd_init'))
+    program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_txd_init'))
     source = dest / 'host.c'
     source.write_text('\n\n'.join(program) + '\n')
     command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
@@ -187,6 +240,7 @@ def main():
     loader.run(command + ['-shared', '-fPIC', '-o', shared], dest / 'shared-build.log')
     assert all(loader.sha(ROOT / p) == digest for p, digest in inputs.items())
     result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=None, completed_offload=True,
+                  rx_getter_failure_cases=7,
                   inputs=inputs, shared=str(shared.relative_to(ROOT)), shared_sha256=loader.sha(shared),
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual mt76 initialization and complete mt7996 offload sender C; kernel references/RCU and queue state modeled.',

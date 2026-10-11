@@ -41,12 +41,14 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     assert all(composition.sha(path) == manifest['components'][name]['sha256'] for name, path in files.items())
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
-    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx')}
+    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor')}
     h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
     h.install_packet(files['cold-packets'])
     tx_wire.install(h, files['cold-tx'])
+    import descriptor_wire_native
+    descriptor_wire_native.install(h, files['cold-descriptor'])
     # Erase all ELF-loader effects, fixture plans and fixture identity before the
     # two raw copies. Retained Python objects supply only observer/symbol metadata.
     h.cpu.mem_write(image.CODE, b'\xcc' * image.CODE_LIMIT)
@@ -141,8 +143,8 @@ def main():
     denied = h.message([0x1a, 1, 512])
     assert denied['flags'] == 3 and not denied['callbacks']
     frames = []
-    def command(*words):
-        row = cold_exchange(host, h, words)
+    def command(*words, expected_output=None):
+        row = cold_exchange(host, h, words, expected_output=expected_output)
         frames.append(row)
         return row
     for words in ((0x1f, 0x100, 0x20000000), (0x1f, 0x101, 0x100000), (0x30, 10, 0), (0x10, 14, 2)):
@@ -172,6 +174,20 @@ def main():
         command(*words)
     assert h.get32(h.rv.symbols['npu_emulation_cold_setup_state'] + 8) == 131071
     assert h.get32(h.tx.symbols['npu_emulation_tx_state'] + 24) == 11 and h.get32(ADM + 4) == 0
+    arena = h.get32(0x3e9030fc)
+    offsets = (0, 0x22020, 0x18020, 0x19020, 0x1b020, 0x1f020, 0x6020, 0x26040)
+    for step, selector in enumerate((0, 2, 10, 11, 12, 8, 5, 7)):
+        command(0x30 | selector, 4, 0, expected_output=(arena + offsets[step]) & 0x1fffffff)
+        owner = h.descriptor.symbols['npu_emulation_descriptor_state']
+        assert h.get32(owner + 16) == step + 1 and h.get32(owner + 20) == (1 << (step + 1)) - 1
+        assert h.get32(owner + 8) == h.get32(owner + 12) == 0
+        if step >= 6:
+            count = 512 if step == 6 else 1024
+            words = struct.unpack('<' + str(count * 4) + 'I', h.cpu.mem_read(arena + offsets[step], count * 16))
+            assert words[1::4] == (0x80000000,) * count
+            assert h.get32(owner + 36) == h.get32(owner + 40) == (512 if step == 6 else 1536)
+    assert h.get32(h.rv.symbols['npu_emulation_cold_setup_state'] + 104) == 8
+    assert h.get32(ADM + 4) == 0 and len(frames) == 26
     # Later TXDONE is still a separately declared modeled lease until its full
     # host/INODE/physical contract is implemented. It cannot reinitialize TX.
     h.put32(ADM + 4, 1)
@@ -204,7 +220,7 @@ def main():
     assert bytes(h.cpu.mem_read(image.CODE, 0x1dde0)) == (pair / 'CODE.bin').read_bytes()[:0x1dde0]
     assert all(composition.sha(ROOT / path) == digest for path, digest in inputs.items()), 'inputs-changed-during-replay'
     result = dict(passed=True, full_nominal=not args.quick, raw_pair=True, post_load_elf_injection=False,
-                  hooks=74, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
+                  hooks=77, loader_publication=loader, workers=workers, prefix=prefix, txdone=nominal,
                   authenticated_cold_prefix=frames, initial_test_active_writes=False,
                   initial_direct_owner_init=False, later_txdone_lease_modeled=True,
                   independent_pages=page_rows, boot_controls=early_controls, controls=controls,
@@ -213,6 +229,7 @@ def main():
                   limits=['Actual raw CODE/DATA copies, native reset/all-hart parking and selected RX/TXDONE bodies.',
                           'Initial setup uses the actual cold-client protocol; provider publication/backing/grants/delivery remain modeled.',
                           'Only the later TXDONE lease/ring metadata are directly modeled; complete strict host/INODE setup remains open.',
+                          'Eight ordered descriptor getters execute, including 512/1024 TX-status stores; host endpoint writes are not exercised here.',
                           'Strict full setup, real loader publication, hot lifecycle and physical drains/clients remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, full_nominal=not args.quick, claims=nominal['claimed'], raw_pair=True,

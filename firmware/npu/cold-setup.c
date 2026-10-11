@@ -1,7 +1,7 @@
 #include "cold-setup.h"
 
 _Static_assert(sizeof(struct npu_cold_packet) == NPU_COLD_SIZE, "cold wire changed");
-_Static_assert(sizeof(struct npu_cold_setup) == 104, "cold owner changed");
+_Static_assert(sizeof(struct npu_cold_setup) == 120, "cold owner changed");
 
 static uint32_t load(const uint32_t *word)
 {
@@ -63,6 +63,10 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
     uint32_t i;
 
+    if (s->descriptor_gets > NPU_COLD_DESCRIPTOR_STEPS ||
+        (s->descriptor_gets ? s->completed != NPU_COLD_COMPLETED_MASK ||
+         !npu_cold_descriptor_arena_valid(s->descriptor_arena) : !!s->descriptor_arena))
+        return 0;
     for (i = 0; i < sizeof(prefixes) / sizeof(prefixes[0]); i++)
         if (s->completed == prefixes[i])
             break;
@@ -155,7 +159,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
 {
     struct npu_cold_packet p;
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
-    uint32_t i, bit;
+    uint32_t i, bit, descriptor;
 
     if (!packet || bytes != sizeof(p))
         return NPU_COLD_BAD_MESSAGE;
@@ -182,8 +186,13 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
         p.epoch != 1 || !held(a, b, boot, 0))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     bit = command_bit(&p.command, s, boot);
-    if (!bit && !(p.command.header == 0x30 && p.command.api == 10 && !p.command.value))
+    descriptor = npu_cold_descriptor_command_step(&p.command);
+    if (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS &&
+        !(p.command.header == 0x30 && p.command.api == 10 && !p.command.value))
         return fail(s, a, b, NPU_COLD_UNSUPPORTED);
+    if (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
+        (s->completed != NPU_COLD_COMPLETED_MASK || descriptor != s->descriptor_gets))
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (bit && s->completed != prior(bit))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     for (i = 0; i < NPU_COLD_COUNTS; i++) {
@@ -200,6 +209,8 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     s->prior_completed = s->completed;
     s->prior_base = s->endpoint_base;
     s->prior_bytes = s->endpoint_bytes;
+    s->prior_descriptor_gets = s->descriptor_gets;
+    s->prior_descriptor_arena = s->descriptor_arena;
     s->inflight = a->active = 1;
     return NPU_COLD_OK;
 }
@@ -212,6 +223,10 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
     static const uint32_t bits[NPU_COLD_COUNTS] = {NPU_COLD_RX0, NPU_COLD_RX2,
         NPU_COLD_PAGE5, NPU_COLD_PAGE6, NPU_COLD_PAGE7};
     uint32_t bit = command_bit(&s->command, s, boot), i;
+    uint32_t descriptor = npu_cold_descriptor_command_step(&s->command), arena = 0;
+
+    if (reply && descriptor < NPU_COLD_DESCRIPTOR_STEPS)
+        arena = npu_cold_descriptor_reply_arena(descriptor, reply->value, s->descriptor_arena);
 
     for (i = 0; i < NPU_COLD_COUNTS; i++)
         if (s->counts[i] != s->prior_counts[i])
@@ -223,13 +238,22 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         session->nonce_lo != s->nonce_lo || session->nonce_hi != s->nonce_hi ||
         a->nonce_lo != s->nonce_lo || a->nonce_hi != s->nonce_hi ||
         s->completed != s->prior_completed || s->endpoint_base != s->prior_base ||
+        s->descriptor_gets != s->prior_descriptor_gets ||
+        s->descriptor_arena != s->prior_descriptor_arena ||
         s->endpoint_bytes != s->prior_bytes || !history(s, boot) ||
         (bit && s->completed != prior(bit)) ||
-        (!bit && !(s->command.header == 0x30 && s->command.api == 10 && !s->command.value)) ||
+        (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
+         (descriptor != s->descriptor_gets || s->completed != NPU_COLD_COMPLETED_MASK || !arena)) ||
+        (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS &&
+         !(s->command.header == 0x30 && s->command.api == 10 && !s->command.value)) ||
         !reply || result != 1 || reply->header != s->command.header ||
         reply->api != s->command.api ||
-        reply->value != (bit ? s->command.value : 0x457u))
+        (descriptor == NPU_COLD_DESCRIPTOR_STEPS && reply->value != (bit ? s->command.value : 0x457u)))
         return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
+    if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
+        s->descriptor_arena = arena;
+        s->descriptor_gets++;
+    }
     if (bit == NPU_COLD_ENDPOINT_BASE)
         s->endpoint_base = s->command.value;
     if (bit == NPU_COLD_ENDPOINT_BYTES)

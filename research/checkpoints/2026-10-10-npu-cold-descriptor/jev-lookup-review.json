@@ -1,0 +1,31 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "lookup_source": "FUN_84005200: types below0x81 or0x81..0xff call FUN_84004ff8. Types0x100..0x180 instead scan eight-byte static CODE entries until type match or0xffff, then return the stored pointer without inspecting the pointed-to memory. For types0x100/0x101, CODE contains pointers0x3e8a2000/0x3e8a4020.",
+    "lookup_observations": "Six actual original RV32 lookup executions with synthetic CODE/stack: both normal pointers returned, missing table returned0 for both types, a changed type100 entry returned unaligned1, a changed type101 entry returned0xffffffff. None executed FUN_84004ff8 or wrote memory. No full API21 helper or physical hardware executed.",
+    "host_lifetime": "Actual mt7996_npu_hw_init allocates six buffers with dmam_alloc_coherent on the endpoint DMA device, retaining only DMA addresses in dev->npu_txd_addr. Kernel managed release calls dma_free_attrs on detach. The provider's retained DMA lifetime covers its own four mailbox buffers, not these endpoint allocations. The current strict TX caller stops at API21 before native publication of these six addresses."
+  },
+  "questions": {
+    "type100_route": {
+      "type": "choice",
+      "instructions": "Which lookup_source path applies specifically to types0x100 and0x101?",
+      "criteria": {
+        "static_table": "Select and return a pointer from the static CODE table without dynamic allocation.",
+        "dynamic_allocator": "Call FUN_84004ff8 to create a dynamic allocation.",
+        "not_established": "The supplied source does not determine the route."
+      }
+    },
+    "lookup_pointer_admission": {
+      "type": "noul",
+      "instructions": "Do lookup_source and lookup_observations establish that the original type100/type101 lookup rejects unaligned or out-of-backing pointers before returning them?"
+    },
+    "mailboxes_retain_endpoint_buffers": {
+      "type": "noul",
+      "instructions": "Does the existing provider mailbox retention described in host_lifetime also retain the six separately managed endpoint TX allocations against detach cleanup?"
+    },
+    "physical_acceptance": {
+      "type": "noul",
+      "instructions": "Do lookup_observations establish physical L2 exclusion, coherent DMA ownership or successful complete API21 host initialization?"
+    }
+  }
+}

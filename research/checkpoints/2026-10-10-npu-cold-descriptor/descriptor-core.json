@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "host_rv32_calls": 5732,
+  "controls": 1592,
+  "mutants": [
+    {
+      "name": "skip-plan-pin",
+      "rejected": true,
+      "binary_sha256": "a08c0fbd2c6587fcb8f9f5d817aa054be6c73195d55798cb4b56f739676b9136"
+    },
+    {
+      "name": "skip-preimage",
+      "rejected": true,
+      "binary_sha256": "500f00f61b2bb377b02b68cd36b8a7553d3ba9208ea3e495496f63154fdd5839"
+    },
+    {
+      "name": "skip-address",
+      "rejected": true,
+      "binary_sha256": "190ff9c6ede16c072fbf6329bbccd6f85cab0128fc0cab7395f07ebe06b3179b"
+    },
+    {
+      "name": "skip-readback",
+      "rejected": true,
+      "binary_sha256": "87abe298e52548b722d6f1c8e6ddf7f068cd73e3e79863706663a55623a1fe65"
+    },
+    {
+      "name": "skip-full-span",
+      "rejected": true,
+      "binary_sha256": "7f405dd7113f0d46bbc5dbe2e721aeddec0150a6471e105eee20f84b14477461"
+    }
+  ],
+  "exact_core_object": true,
+  "inputs": {
+    "firmware/npu/cold-descriptor.c": "8b1fb816b8a67303d8e981c1aee3d5ce921bf65ac10bd211e121725221e327ed",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "tests/npu/cold-descriptor-sanitize.c": "cbd7c2ae7d2fe8ea00715bfa7899d4b6cfad4ede5c6c7b3411be4073034641dd",
+    "tests/npu/cold-descriptor-probe.ld": "abf6cfddf459db73e0d13723e34ee34009e9b9e0ad58b3be77e6e521adfad54f",
+    "tests/npu/test_cold_descriptor.py": "6eb4c8481c520b8ef3f3c4f4d2cbe02f52c790cf516c8761c5ea79e0b863583b",
+    ".build/merged-openwrt/bin/npu/cold-descriptor.o": "a85f50aa5c9e571f7aed518c732e8e158af6e38ec8048664ca70e84ae6261b1f"
+  },
+  "sanitizer": {
+    "passed": true,
+    "steps": 8,
+    "status_writes": 1536,
+    "retirement": false
+  },
+  "binary_sha256": "25a195e5d35cd4d6095ef4eed2d336c643f1a6fd751e9052394809cbf339f5b0",
+  "limits": [
+    "Actual portable C with independent oracle and synthetic descriptor backing; native binding/physical ownership are separate."
+  ]
+}

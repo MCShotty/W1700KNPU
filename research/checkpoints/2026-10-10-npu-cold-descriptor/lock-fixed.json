@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "counterexample": false,
+  "cases": [
+    {
+      "component": "cold-pages",
+      "lock_preserved": true,
+      "unlock_writes": [],
+      "callback_rejected": true
+    },
+    {
+      "component": "cold-tx",
+      "lock_preserved": true,
+      "unlock_writes": [],
+      "callback_rejected": true
+    },
+    {
+      "component": "cold-descriptor",
+      "lock_preserved": true,
+      "unlock_writes": [],
+      "callback_rejected": true
+    }
+  ],
+  "inputs": {
+    "tests/npu/test_native_lock_ownership.py": "f3e10ae927a04002051eea1d88a214c366895fa8452c755d9ca212812d64ba00",
+    ".local/npu-cold-descriptor-20261010/pair-qualification/CODE.bin": "11151179c3bad61b563d1c14703fb886945de036669edf589f376880bcc872e0",
+    ".local/npu-cold-descriptor-20261010/pair-qualification/DATA.bin": "20e416709d1534c72752626e15fa67f75cb99ef7c16cce4256d117e376e9a619",
+    ".local/npu-cold-descriptor-20261010/pair-qualification/manifest.json": "d1fcc505d5deabe9035ba9a63dc656f65a5a62aecac5153b85e8a5951bfe27e7"
+  },
+  "limits": [
+    "Direct rejected native callbacks with test-seeded preowned flags and modeled I/O.",
+    "No physical lock ownership, full setup, DMA drain or hardware acceptance proof."
+  ]
+}

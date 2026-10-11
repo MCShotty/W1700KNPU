@@ -20,6 +20,18 @@ native setup remains denied.
 
 ## Ownership
 
+Descriptor GETs use the existing80-byte cold envelope and the same provider
+boot/nonce/sequence. The executor privately retains getter count and the first
+validated arena. It rejects out-of-order GETs before transport, without pretending
+that firmware fault state changed. Replies decode into a temporary value; pointer
+geometry and exact cached arena must pass before caller output changes. Failure
+aborts this client permanently. Server callback history is120 bytes and snapshots
+getter count/arena as well as prior setup. Late failure retains the outer lease.
+Selectors5/7 write512/1024 original TX status words under the native retained
+descriptor owner; they are not read-only getters. This software ownership does
+not prove physical exclusion, backing/coherency or permission to free resources.
+
+
 The caller must initialize an unpublished, zeroed executor exactly once, using a
 fresh nonzero nonce. Initialization must not race other operations. This enrolls
 a CPU/wire client only. Earlier initializer comments bundled enrollment with the
@@ -70,7 +82,10 @@ unchanged.
 One mutex covers operation selection, ticket creation, the synchronous provider
 call and complete reply validation. A repeated BIND therefore cannot silently
 execute the client's next STOP. Unexpected operations permanently hold the
-instance. Transport and protocol failures also hold it; positive transport
+instance. Provider-only argument preflight (such as an invalid GET selector or
+data length) rejects before executor/transport and leaves caller output and the
+session unchanged. Such argument errors do not imply an ambiguous publication.
+Transport and protocol failures also hold it; positive transport
 errors are normalized to `-EIO`, and the first error remains visible after close.
 
 The 80-byte stack packet is copied into the provider's coherent buffer before
@@ -104,10 +119,11 @@ wrappers also hold the setup mutex so CPU close joins this path.
 
 The implemented commands are the post-BIND version query, two BAR0 metadata
 bindings, port type2, checked RX0/RX2 DESC, page5/6/7 address/DESC pairs, indication
-address/DESC, metadata-only ACK address, TX0/TX2 programming and token limit.
-Version can be queried again; mutating commands are ordered and one-shot. The
-104-byte native cold owner stores the bound window, exact completed prefix,
-five completed RX/page counts and their callback snapshots.
+address/DESC, metadata-only ACK address, TX0/TX2 programming, token limit and
+descriptor GET selectors0,2,10,11,12,8,5,7. Version can be queried again;
+mutating commands and descriptor GETs are ordered and one-shot. The120-byte
+native cold owner stores the window, completed prefix, five RX/page counts and
+getter count/arena, with callback snapshots of each.
 The real mt7996 PCI caller passes BAR0 start and length to mt76 initialization;
 the provider sends both metadata commands before mt76 publishes NPU/PPE pointers.
 Wrong port type, truncation, alignment/span or bootstrap-region overlap rejects
@@ -129,8 +145,11 @@ Original lock18 pins the unique type1 arena and allocator/session snapshots.
 Partial failure retains committed/published progress and the outer lease; no
 rollback/reset/retirement exists. The original one-past arena end register value
 is preserved, not evidence of engine coverage. The actual offload initializer
-now completes this prefix; subsequent RX-address/INODE/TXDONE/final IRQ setup
-remains denied. BAR bounds and modeled CSR readback
+now completes this prefix and the actual RX descriptor caller completes all six
+GETs. The actual TX caller completes GET5 and its first endpoint descriptor
+write, then stops at API21. Later GET7 is diagnostic, not a completed actual TX
+initializer. Remaining TX-buffer/INODE/TXDONE/final IRQ setup remains denied.
+BAR bounds and modeled CSR readback
 are software geometry, not proof of physical PCI ownership or DMA visibility.
 
 Native begin verifies the pinned transport/envelope and copies a private packet

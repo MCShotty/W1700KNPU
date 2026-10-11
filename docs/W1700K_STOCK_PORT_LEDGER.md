@@ -1,10 +1,52 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-10 (TX0/TX2/token prefix implemented; remaining full setup/physical gates open)
+Last updated: 2026-10-11 (descriptor checkpoint qualified; API21 lifetime/record work next; full goal open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-11 - Retained Descriptor Ownership Qualified
+
+- Added16th portable object with6188-byte one-shot descriptor state, eight
+  ordered lookups and1536 guarded TX status stores. Native component14 adds
+  three operand-preserving hooks, for77; private native BSS6264 bytes. Failure
+  retains claims/progress/outer lease and never resets, rolls back or retires.
+- Wire80 is unchanged; private history120 and Linux getter order/arena pinning
+  prevent0x457 fallback or a changed arena from becoming caller output. Kernel
+  export now includes the required geometry header as component mapping14.
+- Exact world object5732 host/RV32 calls/1592 controls/five mutants, expanded
+  wire657/23 and parser60/eight pass. Actual RX caller covers seven rejection
+  positions with no corresponding endpoint write. Fixed raw pairs are identical;
+  all16 assembly groups pass without skips. Source67+nested12/components14,
+  world/FIT218+78 and exact-provider Ghidra54 pass. All nine exact-input native
+  cases/HIF2 pass, with35 indication/28 TX/28 GET controls. TX5/7 partial faults
+  retain1/0 and513/512 committed/published status words and outer active/inflight1.
+  Raw initial26 commands authenticate through actual C without test active/init
+  writes; later TXDONE lease/ring metadata remain modeled. Full3,072 PKT/1,792 BA,
+  six boot/eight TXDONE controls pass. Case collection is explicitly independent,
+  not a claim that the interrupted serial invocation completed.
+- Fixed reentrant cleanup in descriptor/TX/indication bindings: local acquisition
+  guards unlock. Three old-code direct counterexamples and three fixed native
+  controls prove the rejected preowned-flag path, at modeled I/O scope.
+  Forty pointer/nine actual TX-caller/fifty-six release/nine provider argument
+  controls pass. Provider-only preflight stays nonsticky/no-effect; issued
+  transport/protocol failures stay sticky. The contract states this distinction.
+- New offline-verified, unflashed candidate FIT is `3951dc7c...`; previous
+  `4da01cfe...` and seven companions are hash-verified in ignored pre-world storage.
+  Endpoint/lifetime/request/probe/boot/memory and21 unit regressions pass.
+  Next retain host TX-buffer/API21 exposure,
+  PCIe/INODE/TXDONE/IRQ, owners/hot/postgate and all physical/recovery/client gates.
+  Protected images, calibration/bootloader/recovery/private backups are unchanged.
+  Full goal stays open. Scope:
+  `research/checkpoints/2026-10-10-npu-cold-descriptor/REPORT.md`.
+- Six original RV32 type100/101 lookup controls correct the next trace: static
+  CODE entries return L2 pointers3e8a2000/3e8a4020 without dynamic allocation or
+  pointer/extent validation. Missing/corrupted entries demonstrate that gap.
+  API21 also clears16-bit counters, publishes pointers and writes only byte12
+  of the last descriptor word. Exact fixed-record/table/metadata ownership and
+  host managed-DMA retention remain prerequisites, not a blanket whitelist.
+  Actual Jev reviews/probabilities and Luna/max review resolutions are retained.
 
 ## 2026-10-10 - Retained TX0/TX2 And Token Prefix
 

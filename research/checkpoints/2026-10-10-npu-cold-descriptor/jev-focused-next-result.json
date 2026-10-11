@@ -1,0 +1,195 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-focused-next-review.json",
+  "request_sha256": "4b510634d60bf1ac3c95263fb163649938e33d5d670b1aea1f1b4031db958ede",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "readback_argument": {
+      "type": "noul",
+      "instructions": "Does native_publish pass the destination memory read word(address) as the actual readback argument to the portable owner, rather than the requested constant?"
+    },
+    "readback_before_publish": {
+      "type": "noul",
+      "instructions": "Does owner_publish reject a readback unequal to NPU_COLD_DESCRIPTOR_STATUS before advancing published?"
+    },
+    "fault_no_rollback": {
+      "type": "noul",
+      "instructions": "Does owner_fault only latch fault, without resetting committed/published/ownership fields?"
+    },
+    "current_lock_cleanup": {
+      "type": "noul",
+      "instructions": "In lock_cleanup, is acquired initialized to zero, set only after this callback acquires lock18, and required to enter unlock cleanup?"
+    },
+    "old_lock_regression_scope": {
+      "type": "noul",
+      "instructions": "Does lock_regression claim full physical lock ownership or complete host initialization, rather than only rejected direct callbacks with modeled I/O?"
+    },
+    "API21_selector_0": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 0 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_2": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 2 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_5": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 5 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_7": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 7 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_10": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 10 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    },
+    "API21_selector_12": {
+      "type": "choice",
+      "instructions": "Which effect best matches selector 12 in API21_helper, using header_helper when called?",
+      "criteria": {
+        "metadata": "Stores a transformed host address in a native pointer field only.",
+        "internal_headers": "Selects a native arena subregion and initializes 512 or 1024 internal 128-byte records; supplied host address is not used as the destination.",
+        "allocated_descriptors": "Stores a transformed host address, then calls a helper that waits for shared initialization, allocates a typed ring and initializes descriptors.",
+        "unsupported": "Only logs unsupported selector.",
+        "unknown": "The supplied evidence does not identify the behavior."
+      }
+    }
+  },
+  "elapsed_ms": 1044,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "readback_argument": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "readback_before_publish": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "fault_no_rollback": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "current_lock_cleanup": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "old_lock_regression_scope": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "API21_selector_0": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.86,
+        "probabilities": {
+          "metadata": 0.09,
+          "internal_headers": 0.02,
+          "allocated_descriptors": 0.89,
+          "unsupported": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "API21_selector_2": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.54,
+        "probabilities": {
+          "metadata": 0.21,
+          "internal_headers": 0.09,
+          "allocated_descriptors": 0.63,
+          "unsupported": 0.06,
+          "unknown": 0.01
+        }
+      },
+      "API21_selector_5": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.65,
+        "probabilities": {
+          "metadata": 0.02,
+          "internal_headers": 0.26,
+          "allocated_descriptors": 0.72,
+          "unsupported": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "API21_selector_7": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.71,
+        "probabilities": {
+          "metadata": 0.01,
+          "internal_headers": 0.21,
+          "allocated_descriptors": 0.77,
+          "unsupported": 0.01,
+          "unknown": 0.0
+        }
+      },
+      "API21_selector_10": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.8,
+        "probabilities": {
+          "metadata": 0.12,
+          "internal_headers": 0.02,
+          "allocated_descriptors": 0.84,
+          "unsupported": 0.01,
+          "unknown": 0.01
+        }
+      },
+      "API21_selector_12": {
+        "type": "choice",
+        "choice": "allocated_descriptors",
+        "confidence": 0.91,
+        "probabilities": {
+          "metadata": 0.02,
+          "internal_headers": 0.03,
+          "allocated_descriptors": 0.93,
+          "unsupported": 0.02,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 5143,
+      "output_tokens": 467
+    }
+  }
+}

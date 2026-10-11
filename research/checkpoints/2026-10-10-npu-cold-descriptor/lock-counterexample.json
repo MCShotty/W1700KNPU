@@ -1,0 +1,67 @@
+{
+  "passed": false,
+  "counterexample": true,
+  "cases": [
+    {
+      "component": "cold-pages",
+      "lock_preserved": false,
+      "unlock_writes": [
+        {
+          "step": 80,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 0,
+          "address": "0x1ec03248",
+          "size": 4,
+          "value": 0,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        }
+      ],
+      "callback_rejected": true
+    },
+    {
+      "component": "cold-tx",
+      "lock_preserved": false,
+      "unlock_writes": [
+        {
+          "step": 89,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 0,
+          "address": "0x1ec03248",
+          "size": 4,
+          "value": 0,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        }
+      ],
+      "callback_rejected": true
+    },
+    {
+      "component": "cold-descriptor",
+      "lock_preserved": false,
+      "unlock_writes": [
+        {
+          "step": 92,
+          "kind": "mmio-write",
+          "pc": "0x84006554",
+          "hart": 0,
+          "address": "0x1ec03248",
+          "size": 4,
+          "value": 0,
+          "model": "single-hart mutex; owner readback fixed at 0x10000"
+        }
+      ],
+      "callback_rejected": true
+    }
+  ],
+  "inputs": {
+    "tests/npu/test_native_lock_ownership.py": "f3e10ae927a04002051eea1d88a214c366895fa8452c755d9ca212812d64ba00",
+    ".local/npu-cold-descriptor-20261010/pair-fifth/CODE.bin": "18d2cbd2a035d6e419502e3628da3a72015132ae9b80ec3e8bab04317f7acac1",
+    ".local/npu-cold-descriptor-20261010/pair-fifth/DATA.bin": "f4157668515b2df5b65b1906681306994a3487cf43d0d2b338bbd034d95a1bdf",
+    ".local/npu-cold-descriptor-20261010/pair-fifth/manifest.json": "c652aa76aeee33f89baac5adefe0fa0ff3f35d0020cec7e39f3e0f10b28d69b5"
+  },
+  "limits": [
+    "Direct rejected native callbacks with test-seeded preowned flags and modeled I/O.",
+    "No physical lock ownership, full setup, DMA drain or hardware acceptance proof."
+  ]
+}

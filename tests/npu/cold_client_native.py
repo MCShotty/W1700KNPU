@@ -2,7 +2,7 @@
 import ctypes
 
 
-def exchange(host, peer, words):
+def exchange(host, peer, words, *, expected_output=None):
     command = (ctypes.c_uint32 * 3)(*words)
     packet = (ctypes.c_uint32 * 20)()
     output = ctypes.c_uint32(0xabcdef01)
@@ -20,5 +20,6 @@ def exchange(host, peer, words):
     assert reply['flags'] == 7 and reply['words'][14] == 0, (words, reply)
     packet[:] = reply['words']
     assert complete(host.state, ticket, 0, packet, 80, command, ctypes.byref(output)) == 1
-    assert output.value == (0x457 if words[:2] == (0x30, 10) else words[2])
+    expected = expected_output if expected_output is not None else 0x457 if words[:2] == (0x30, 10) else words[2]
+    assert output.value == expected
     return dict(request=request_words, reply=reply, output=output.value)

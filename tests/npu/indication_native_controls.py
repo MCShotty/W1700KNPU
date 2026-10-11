@@ -10,7 +10,7 @@ def check(h, before, request):
     core = h.binding.symbols['npu_emulation_indication_state']
     plan = h.binding.symbols['npu_emulation_indication_plan']
     cold = h.rv.symbols['npu_emulation_cold_setup_state']
-    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, 104)))]
+    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, 120)))]
     packet = h.packet.symbols['npu_emulation_packet_state']
     page = h.binding.symbols['npu_emulation_page_state']
     rows = []
@@ -39,6 +39,7 @@ def check(h, before, request):
             h.put32(metadata + 8, count + 1)
 
         pre = [
+            ('preowned-lock', word(h.binding.symbols['lock_owned'], 1)),
             ('wrong-lock-id', word(metadata, 17)),
             ('denied-lock18', word(0x1ec03048, 0x10100)),
             ('metadata-over-capacity', word(metadata + 8, 101)),
@@ -116,6 +117,8 @@ def check(h, before, request):
                      'dirty-first-header', 'dirty-first-status', 'dirty-last-header',
                      'dirty-last-status', 'preseeded-owner') else [])
                 assert locks == expected_locks, ('native-lock18-footprint', name, locks)
+                if name == 'preowned-lock':
+                    assert h.get32(h.binding.symbols['lock_owned']) == 1
                 assert phase == 'pre' or injected
                 rows.append(dict(name=name, phase=phase, retained_claims=int(phase == 'late'),
                                  published=0, original_record_store=False, locks=locks,

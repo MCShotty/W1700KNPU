@@ -1,0 +1,91 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-cold-descriptor-20261010\\jev-review.json",
+  "request_sha256": "9add7c95512be6b1ea5f2ac5144473869178ab42fd47d9841864277beba646bf",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "reserve_progress": {
+      "type": "noul",
+      "instructions": "Does reserve increment committed only after checking the expected destination/value/preimage and while committed equals published?"
+    },
+    "publish_readback": {
+      "type": "noul",
+      "instructions": "Does publish require one outstanding reservation, the expected destination and status readback before incrementing published?"
+    },
+    "retain_failure": {
+      "type": "choice",
+      "instructions": "What does fault/finish do to partial committed/published progress on validation failure?",
+      "criteria": {
+        "retain_and_deny": "Latch fault and deny success without resetting progress or reclaiming the ring.",
+        "rollback": "Restore/reset old progress.",
+        "retire": "Free/reclaim the ring.",
+        "not_established": "Not established."
+      }
+    },
+    "output_on_failure": {
+      "type": "noul",
+      "instructions": "Does host leave the caller value unchanged when transport/codec validation or exact arena binding fails? Check where output is written versus hold/goto unlock."
+    },
+    "reply_binding": {
+      "type": "choice",
+      "instructions": "Which best describes codec versus host getter reply binding, using geometry and scope?",
+      "criteria": {
+        "codec_range_host_exact": "Codec checks pointer geometry; host additionally pins getter order and the captured arena before exposing the output.",
+        "both_range_only": "Neither pins the arena/order.",
+        "both_exact_cached": "Both independently retain a cached arena/order.",
+        "unknown": "Not established."
+      }
+    },
+    "physical_proof": {
+      "type": "noul",
+      "instructions": "Do begin preimage capture or pointer geometry alone establish physical DMA exclusion/coherency/retirement according to scope?"
+    }
+  },
+  "elapsed_ms": 970,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "reserve_progress": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "publish_readback": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "retain_failure": {
+        "type": "choice",
+        "choice": "retain_and_deny",
+        "confidence": 0.99,
+        "probabilities": {
+          "retain_and_deny": 0.99,
+          "rollback": 0.0,
+          "retire": 0.0,
+          "not_established": 0.01
+        }
+      },
+      "output_on_failure": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "reply_binding": {
+        "type": "choice",
+        "choice": "codec_range_host_exact",
+        "confidence": 0.96,
+        "probabilities": {
+          "codec_range_host_exact": 0.97,
+          "both_range_only": 0.01,
+          "both_exact_cached": 0.01,
+          "unknown": 0.01
+        }
+      },
+      "physical_proof": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 3537,
+      "output_tokens": 183
+    }
+  }
+}
