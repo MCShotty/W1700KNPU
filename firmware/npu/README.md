@@ -1,5 +1,18 @@
 # Experimental NPU Components
 
+## 2026-10-13 - Original API21 Callbacks Bound
+
+The17th portable object now has a native binding in raw component15, with47
+new hooks/124 total and213200-byte retained state in CODE storage. Original
+metadata/internal/static-L2 effects use exact operands, preimages, readback,
+tables/TXPKT/prior-owner/held/lock/IRQ checks. Private cold history is368 bytes;
+the80-byte wire carries enrolled handles in actual GET/SET order. Portable/wire/
+raw-image tests pass. Actual allocator/caller/raw-native covers six phases/53260
+byte effects/76 controls; source/world/Ghidra59/FIT218+78 pass. FIT9d1fa30d is
+unflashed; previous images and companions are preserved. RX-event/lifecycle,
+broader native controls and physical/client gates remain. No hardware claim.
+Scope: `research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
+
 ## 2026-10-11 - Ordered Descriptor Lookup
 
 `cold-descriptor.c/.h` is the16th archive object. A6188-byte retained one-shot

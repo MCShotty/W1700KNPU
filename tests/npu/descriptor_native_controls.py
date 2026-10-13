@@ -9,7 +9,9 @@ from emulation_layout import STATE
 def check(h, before, request, *, tx=False):
     cold = h.rv.symbols['npu_emulation_cold_setup_state']
     owner = h.descriptor.symbols['npu_emulation_descriptor_state']
-    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, 120)))]
+    cold_bytes = h.rv.elf.get_section_by_name('.symtab').get_symbol_by_name(
+        'npu_emulation_cold_setup_state')[0]['st_size']
+    after = h.snapshot() + [(cold, bytes(h.cpu.mem_read(cold, cold_bytes)))]
     metadata, rows = 0x3e901bcc, []
     packet = h.packet.symbols['npu_emulation_packet_state']
     page = h.binding.symbols['npu_emulation_page_state']

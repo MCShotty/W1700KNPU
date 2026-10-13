@@ -117,6 +117,8 @@ class TxPackets(packets.NativePackets):
         extra = [(0x84084000, bytes(self.cpu.mem_read(0x84084000, 0x4000)))] if hasattr(self, 'tx') else []
         if hasattr(self, 'descriptor'):
             extra.append((0x84088000, bytes(self.cpu.mem_read(0x84088000, 0x4000))))
+        if hasattr(self, 'txbuf'):
+            extra.append((0x84090000, bytes(self.cpu.mem_read(0x84090000, 0x40000))))
         return super().snapshot() + extra + [(HOST, bytes(self.cpu.mem_read(HOST, HOST_BYTES))),
                                             (SKB_STATE, bytes(self.cpu.mem_read(SKB_STATE, SKB_BYTES)))]
 

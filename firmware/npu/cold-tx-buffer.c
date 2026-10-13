@@ -22,7 +22,7 @@ static uint32_t fail(struct npu_cold_txbuf_state *s, uint32_t status)
 
 uint32_t npu_cold_txbuf_selector(uint32_t step)
 {
-    static const uint32_t values[] = {0, 5, 10, 2, 7, 12};
+    static const uint32_t values[] = NPU_COLD_TXBUF_SELECTORS;
 
     return step < NPU_COLD_TXBUF_STEPS ? values[step] : UINT32_MAX;
 }

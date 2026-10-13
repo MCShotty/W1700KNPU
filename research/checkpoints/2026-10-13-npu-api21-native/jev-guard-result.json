@@ -1,0 +1,49 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-tx-native-20261013\\jev-guard-review.json",
+  "request_sha256": "d7c83fd28f1ba75c109a02a52960d1cbe8026884635a43554157116b563aca1b",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "unowned_read_guard": {
+      "type": "noul",
+      "instructions": "Does state.store_guard establish that a mismatching computed store address is rejected before reserve/publish read that supplied address? Judge this narrow ordering only, not physical memory ownership or correctness of all prerequisites."
+    },
+    "early_handle_test_gap": {
+      "type": "noul",
+      "instructions": "Does state.wire_wrong_handle_test show a gap in proving rejection before callback entry, despite proving eventual rejection and unchanged step/output?"
+    },
+    "snapshot_new_owner_gap": {
+      "type": "noul",
+      "instructions": "Does state.snapshot_definition leave the new API21 owner and mutable binding globals unrestored between negative cases?"
+    },
+    "ignored_helper_fault_propagates": {
+      "type": "noul",
+      "instructions": "Does state.callback_failure_propagation describe an independent sticky fault check that makes the binder reject a store-hook failure even when the original wrapper returns1? Judge the described control flow, not unprovided runtime evidence."
+    }
+  },
+  "elapsed_ms": 1356,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "unowned_read_guard": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "early_handle_test_gap": {
+        "type": "noul",
+        "noul": 0.86
+      },
+      "snapshot_new_owner_gap": {
+        "type": "noul",
+        "noul": 0.3
+      },
+      "ignored_helper_fault_propagates": {
+        "type": "noul",
+        "noul": 0.89
+      }
+    },
+    "usage": {
+      "input_tokens": 899,
+      "output_tokens": 83
+    }
+  }
+}

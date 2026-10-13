@@ -100,6 +100,8 @@ static int airoha_npu_wlan_get_msg(struct airoha_npu *p, int index,
 }
 '''
 ENTRY = r'''
+static u32 tx_dma[6] = {0x96000000,0x96100000,0x96200000,0x96300000,0x96400000,0x96500000};
+void npu_host_tx_dma(const u32 *values) { memcpy(tx_dma, values, sizeof(tx_dma)); }
 int npu_host_rxdesc(int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
     struct mt7996_dev dev = {0};
     for (unsigned i = 0; i < __MT_RXQ_MAX; i++) {
@@ -118,7 +120,7 @@ int npu_host_txdesc(int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
         tx_regs[i].desc_base = 0xabcdef01; queues[i].regs = &tx_regs[i];
         phys[i].q_tx[0] = &queues[i]; dev.mt76.phys[i] = &phys[i];
     }
-    for (unsigned i = 0; i < 6; i++) dev.npu_txd_addr[i] = 0x90001000 + i * 0x1000;
+    for (unsigned i = 0; i < 6; i++) dev.npu_txd_addr[i] = tx_dma[i];
     peer4 = transport; register_writes = 0;
     int result = mt7996_npu_txd_init(&dev, &npu);
     peer4 = NULL;

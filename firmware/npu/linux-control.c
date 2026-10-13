@@ -27,6 +27,7 @@ int npu_linux_control_init(struct npu_linux_control *control,
 	control->closed = false;
 	control->descriptor_gets = control->descriptor_arena = 0;
 	control->txbuf_enrolled = 0;
+	control->txbuf_steps = 0;
 	npu_client_v2_init(&control->client, nonce_lo, nonce_hi);
 	control->initialized = true;
 	if (!provider || control->client.base.phase == NPU_CLIENT_FAILED) {
@@ -106,6 +107,7 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 	snapshot->descriptor_gets = control->descriptor_gets;
 	snapshot->descriptor_arena = control->descriptor_arena;
 	snapshot->txbuf_enrolled = control->txbuf_enrolled;
+	snapshot->txbuf_steps = control->txbuf_steps;
 	snapshot->error = control->error;
 	snapshot->closed = control->closed;
 	mutex_unlock(&control->mutex);
@@ -119,7 +121,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	struct npu_bootstrap_packet snapshot;
 	struct npu_cold_packet packet;
 	enum npu_client_result result;
-	u32 ticket, output, descriptor, arena, enrollment;
+	u32 ticket, output, descriptor, arena, enrollment, txbuf;
 	int error;
 
 	if (!control || !control->initialized || !command || !value)
@@ -142,6 +144,15 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 		goto unlock;
 	}
 	descriptor = npu_cold_descriptor_command_step(&snapshot);
+	txbuf = npu_cold_txbuf_command_step(&snapshot);
+	if ((txbuf < NPU_COLD_TXBUF_STEPS &&
+	     (txbuf != control->txbuf_steps || control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
+	      control->descriptor_gets != (txbuf < 3 ? 7u : 8u))) ||
+	    (descriptor == 7 && control->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&
+	     control->txbuf_steps != 3)) {
+		error = hold(control, -EPROTO);
+		goto unlock;
+	}
 	if (descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets) {
 		error = hold(control, -EPROTO);
 		goto unlock;
@@ -160,6 +171,8 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	else {
 		if (enrollment < NPU_COLD_TXBUF_RECORDS)
 			control->txbuf_enrolled++;
+		if (txbuf < NPU_COLD_TXBUF_STEPS)
+			control->txbuf_steps++;
 		if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
 			arena = npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena);
 			if (!arena) {

@@ -211,6 +211,83 @@ static void dma_enrollment_suite(void)
     }
 }
 
+static struct npu_bootstrap_packet txbuf_command(unsigned step)
+{
+    struct npu_bootstrap_packet command = {0x10 | npu_cold_txbuf_selector(step), 21,
+                                          0x96000000 + step * 0x100000};
+
+    return command;
+}
+
+static void txbuf_prefix(unsigned count)
+{
+    uint32_t value;
+
+    dma_prefix(14);
+    for (unsigned i = 1; i < 23; i++)
+        check(!npu_linux_control_cold_exchange(&control, &commands[i], &value));
+    for (unsigned i = 0; i < count; i++) {
+        if (i == 3)
+            check(!npu_linux_control_cold_exchange(&control, &commands[23], &value));
+        struct npu_bootstrap_packet command = txbuf_command(i);
+        check(!npu_linux_control_cold_exchange(&control, &command, &value) && value == command.value);
+    }
+    if (count == 3)
+        check(!npu_linux_control_cold_exchange(&control, &commands[23], &value));
+    check(control.txbuf_steps == count && setup.txbuf_steps == count);
+}
+
+static void txbuf_suite(void)
+{
+    txbuf_prefix(6);
+    check(control.descriptor_gets == 8 && setup.descriptor_gets == 8);
+    for (unsigned step = 0; step < 6; step++) {
+        txbuf_prefix(step);
+        struct npu_bootstrap_packet command = txbuf_command(step);
+        uint32_t output = 0xabcdef01;
+        command.value ^= 256;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.txbuf_steps == step && control.txbuf_steps == step);
+        check(!setup.inflight && !admission.active);
+        txbuf_prefix(step);
+        command = txbuf_command((step + 1) % 6);
+        unsigned before = calls;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO && calls == before);
+        for (unsigned after = 0; after < 2; after++) {
+            txbuf_prefix(step); command = txbuf_command(step);
+            transport_error = -ETIMEDOUT; after_effect = after;
+            output = 0xabcdef01; before = calls;
+            check(npu_linux_control_cold_exchange(&control, &command, &output) == -ETIMEDOUT &&
+                  output == 0xabcdef01 && calls == before + 1 &&
+                  setup.txbuf_steps == step + after && control.txbuf_steps == step);
+        }
+        for (unsigned field = 0; field < 3; field++) {
+            txbuf_prefix(step); command = txbuf_command(step);
+            struct npu_cold_packet packet;
+            check(npu_cold_client_request(&control.client, &packet, sizeof(packet), &command));
+            check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &packet, sizeof(packet)));
+            if (field == 0) setup.txbuf_steps++;
+            if (field == 1) setup.prior_txbuf_steps++;
+            if (field == 2) setup.txbuf.host[step] ^= 256;
+            check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &command) == NPU_COLD_CALLBACK_FAILED);
+            check(setup.inflight && admission.active && setup.failed);
+        }
+    }
+    for (unsigned step = 0; step < 3; step++) {
+        txbuf_prefix(step);
+        uint32_t output;
+        unsigned before = calls;
+        check(npu_linux_control_cold_exchange(&control, &commands[23], &output) == -EPROTO && calls == before);
+    }
+    txbuf_prefix(0);
+    setup.descriptor_gets = 8;
+    struct npu_cold_packet packet;
+    check(npu_cold_client_request(&control.client, &packet, sizeof(packet), &commands[0]));
+    check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                              &packet, sizeof(packet)) == NPU_COLD_BAD_STATE);
+    check(!setup.inflight && !admission.active);
+}
+
 static void envelope(struct npu_cold_packet *p, unsigned command)
 {
     check(npu_cold_client_request(&control.client, p, sizeof(*p), &commands[command]));
@@ -229,6 +306,7 @@ static void sticky(int error, unsigned old_calls)
 int main(void)
 {
     dma_enrollment_suite();
+    txbuf_suite();
     fresh();
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;

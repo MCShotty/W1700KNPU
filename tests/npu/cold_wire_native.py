@@ -6,6 +6,8 @@ from test_cold_page_native import GETTER as PAGE_GETTER
 from test_bootstrap_native import ADM
 from emulation_layout import STATE
 from test_firmware_memory_layout import STACK_TOPS
+from emulation_layout import CODE
+from unicorn import UC_HOOK_CODE
 
 
 class ColdProviderRequest(ProviderRequest):
@@ -13,6 +15,7 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_request = False
         self.cold_getters = 0
         self.cold_count = 0
+        self.cold_txbuf = False
         self.indication_fault = self.indication_injected = False
         self.tx_fault = None
         self.tx_injected = False
@@ -21,6 +24,7 @@ class ColdProviderRequest(ProviderRequest):
 
     def message(self, words, **kwargs):
         self.cold_request = len(words) == 20 and words[2] == 0x3253434e
+        self.cold_txbuf = self.cold_request and words[12] == 21
         self.cold_count = words[13] if self.cold_request and words[12] == 1 and words[11] in (0x10, 0x12, 0x15, 0x16, 0x17, 0x18) else 0
         self.cold_getter = 0x8400bb10 if self.cold_request and words[11] == 0x18 else (
             PAGE_GETTER if self.cold_request and words[11] in (0x15, 0x16, 0x17) else GETTER)
@@ -28,14 +32,35 @@ class ColdProviderRequest(ProviderRequest):
             self.cold_count = 512 if words[11] == 0x35 else 1024
             self.cold_getter = self.descriptor.symbols[
                 'npu_emulation_descriptor_status0' if words[11] == 0x35 else 'npu_emulation_descriptor_status2']
+        if self.cold_txbuf:
+            self.cold_count = 8 * 53260
+            self.cold_getter = self.rv.symbols['npu_cold_txbuf_recipe']
         self.cold_getters = 0
         previous_probe = self.probing
         # This selects the existing RX observer, not a native admission bypass.
-        self.probing = bool(self.cold_count)
+        self.probing = bool(self.cold_count) and not self.cold_txbuf
+        observers = []
+        if self.cold_txbuf:
+            self.cpu.hook_del(self.instruction_hook)
+            self.cpu.hook_del(self.callback_hook)
+            observers = [
+                self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=CODE, end=CODE + len(self.code) - 1),
+                self.cpu.hook_add(UC_HOOK_CODE, self.native_callback, begin=CODE, end=CODE + len(self.code) - 1),
+                self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=self.cold_getter, end=self.cold_getter),
+            ]
         try:
-            return super().message(words, **kwargs)
+            reply = super().message(words, **kwargs)
+            if self.cold_txbuf:
+                reply['api21_recipe_entries'] = self.cold_getters
+            return reply
         finally:
+            if observers:
+                for hook in observers:
+                    self.cpu.hook_del(hook)
+                self.instruction_hook = self.cpu.hook_add(UC_HOOK_CODE, self.code_hook)
+                self.callback_hook = self.cpu.hook_add(UC_HOOK_CODE, self.native_callback)
             self.cold_request = False
+            self.cold_txbuf = False
             self.probing = previous_probe
 
     def code_hook(self, cpu, pc, size, data):
@@ -66,7 +91,7 @@ class ColdProviderRequest(ProviderRequest):
     def native_callback(self, cpu, pc, size, data):
         if not self.cold_request:
             return super().native_callback(cpu, pc, size, data)
-        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16, 0x8400fdda, 0x84010164):
+        if pc not in (0x840101a6, 0x8400ff34, 0x8400fe34, 0x8400fdc4, 0x8400fc16, 0x8400fdda, 0x84010164, 0x8400fbca):
             return
         self.callback_entries.append(hex(pc))
         snapshot = cpu.reg_read(r.UC_RISCV_REG_A0)
@@ -77,7 +102,7 @@ class ColdProviderRequest(ProviderRequest):
         assert self.get32(state + 4) == self.get32(ADM + 4) == 1
 
     def run(self, start, stops):
-        if not self.cold_request or not 1 <= self.cold_count <= 1536:
+        if not self.cold_request or not self.cold_count or (self.cold_count > 1536 and not self.cold_txbuf):
             return super().run(start, stops)
         pc, chunks = start, 0
         while True:

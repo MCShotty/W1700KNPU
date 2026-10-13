@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-13 - Original API21 Callbacks Bound
+
+- Continue the actual six-callback/53260-store native binding, not a blanket
+  API21 whitelist. Raw15/124, private368 and retained213200-byte CODE owner are
+  integrated into canonical export and the normal world/image.
+- Wire1250/29, portable owner106640/80/seven and identical raw builds/all16 image
+  groups pass. Actual allocator/caller/raw-native covers all six phases/53260
+  effects/76 controls and46 lease pairs; world/Ghidra59/source68/FIT218+78 pass.
+  Full current-input raw3072 PKT/1792 BA/six boot/eight TXDONE controls pass;
+  later TXDONE lease/ring metadata remain modeled, not full strict setup.
+  Never treat an output directory as a receipt. Dependency hashes are recorded;
+  extend neighbor/native-mutant/HIF2 and wider native-fault coverage.
+- Snapshot restores must include the new84090000/40000 binding window and the
+  complete ELF-derived cold state. API21 uses bounded recipe-entry checkpoints;
+  sparse CSR observation does not bypass native guards or original instructions.
+- Latest unflashed FIT9d1fa30d;69257a6b/6c76e14a plus seven companions each are
+  preserved. API22 original64 vectors accept zero/unaligned values after aliasing;
+  next retain RX-event queue lifetime and wire owned API22/DESC10/PCIe setup.
+  See NEXT_RX_EVENT.md. No physical proof or hardware action.
+  Freeze consumed sources/tests; no subagents. Full goal stays open. Scope:
+  `research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
+
 ## 2026-10-13 - Native TX Enrollment Qualified
 
 - Actual allocator enrolls eight mailbox/six TX records before output under the

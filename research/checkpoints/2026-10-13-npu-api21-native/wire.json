@@ -1,0 +1,238 @@
+{
+  "passed": true,
+  "matrix": {
+    "passed": true,
+    "cases": 1250,
+    "request_fields": 20,
+    "reply_fields": 20,
+    "bad_lengths": 128,
+    "held_controls": 38,
+    "late_controls": 19,
+    "transport_faults": 8,
+    "geometry_cases": 112,
+    "order_cases": 138,
+    "partial_prefix_controls": 5,
+    "tx_geometry_cases": 16,
+    "getter_reply_cases": 71,
+    "getter_server_cases": 47,
+    "getter_codec_cases": 32
+  },
+  "mutants": [
+    {
+      "name": "skip-held-workers",
+      "binary_sha256": "b3904078561c1c7a4867a61bdc8a4ad55d2b145a29def7f8242a37145b82f09d",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-deferred-irq",
+      "binary_sha256": "60a1a87e91e6fb7a104dd12832dc1d6248e449309e1dfd5bfe5708e0256f06fb",
+      "exit_code": -6
+    },
+    {
+      "name": "allow-replay",
+      "binary_sha256": "5a5e4933376a182ed9e6d0d71b9a0a36b02d5af1a6bb2c7de55aab4bace3d907",
+      "exit_code": -6
+    },
+    {
+      "name": "ignore-late-identity",
+      "binary_sha256": "dcec008a7031e49327a7df74c135ecd7abccde81ed4630d993f00fa3d1c12c45",
+      "exit_code": -6
+    },
+    {
+      "name": "release-failed-lease",
+      "binary_sha256": "7f60687fe36da8efe832bbf12207c61a2f6be28cfa68c38478448d9faedfca07",
+      "exit_code": -6
+    },
+    {
+      "name": "ignore-callback-result",
+      "binary_sha256": "01d667f1260287efb87a444385db2813f7b9bc67b9ab678ee5e9205f6c20faec",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-reply-ticket",
+      "binary_sha256": "77b5e341eaaad527494f2be22d7d46a3e9659f77e97cf688903576a669eaa9a0",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-reply-reserved",
+      "binary_sha256": "7ae649cfdef66bfd03bc352ac24f63eb30373389a7123e0f994654f976c79e50",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-bar-overlap",
+      "binary_sha256": "c50a4c09aa61c46127207d47b0edcfbf148d67a7ee82aa896fbc7ad5b52f7994",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-page-offset",
+      "binary_sha256": "15e176d46f4341fc942aaa6c49cc827e78ed24925eedf0b5ba43509f060aba57",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-late-bar",
+      "binary_sha256": "abdaa9c0cdb7081ba5902ed186bd1fd449feaa8c33528ab7a6524678a7c77ca7",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-full-prefix",
+      "binary_sha256": "dfebdb0a1187cdea478b7f3697155e3c141918a915d455679d3f0d3e44c3f584",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-late-counts",
+      "binary_sha256": "0c231da3225852493adf7024964ce5c1dc2198e9c8bdd548ec214988d1850368",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-tx2-offset",
+      "binary_sha256": "b4f4e64af982226d47b7061e3f24173bda7992961b8073f9805d660cd8a68b1e",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-tx2-window",
+      "binary_sha256": "782f23fb208f81efa763e4f2619286f7c6cadbe7b54bad180621ed501db0385f",
+      "exit_code": -6
+    },
+    {
+      "name": "relax-token-limit",
+      "binary_sha256": "2a37198f10c260aced93fbf13c65e2e4a0ebf7f3657c63f0349fdd231ecdf4d4",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-getter-order",
+      "binary_sha256": "367919312e44e8374c71df61cf93bde88b94f91c9e0588c4fb8e1e0c34f93888",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-late-getter-count",
+      "binary_sha256": "d0c7d903e62de299ca834ddbdca764906f5c8f7cbade94e0d117ef9bbe21e280",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-late-getter-arena",
+      "binary_sha256": "dbae0bfb7e06f2eec1183d609f450116b4607bbbd6fe043e510bc8058d3e1c90",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-server-getter-pointer",
+      "binary_sha256": "9e93de090e333f4102e690b31ba2054e537da8bb6d6ec4b37adbb31221f1bae8",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-codec-getter-pointer",
+      "binary_sha256": "c94b2d1c419dae809d0100f7841cdfca9bc88d29346d9dabf6e8cb94f8b8597c",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-host-getter-order",
+      "binary_sha256": "5ad89f4d886e93e854c039ca091b0368805064ac8ab95b03a787ce35b85def6b",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-host-exact-arena",
+      "binary_sha256": "e09122ae36c40618225f12c09c8bde1c3a05fe5157d274f27bcf6e7e424d941c",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-pending-plan-pin",
+      "binary_sha256": "c9dbc8aba28f2e37681d9ad80670d1812f94ed78bc021f315e53a253fee5dce1",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-host-enrollment-order",
+      "binary_sha256": "1827ea37b80fb02f8308906b396174f4ebe5ea02eb1bf9f2028c6efeaf1cd2e9",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-host-txbuf-order",
+      "binary_sha256": "51271933a831377fb5343cf861e2b84cde8b254e5c28f385e26b0e877ffa9136",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-txbuf-handle",
+      "binary_sha256": "a75aa9988bf4f139eb869d98118145dbda1c5819e7ab7dd05a878a74a9028d0e",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-late-txbuf-steps",
+      "binary_sha256": "8db643db6ff73f44b0ea7b01f3059b4a03d07bbc9135a4c50e19d32364eb6633",
+      "exit_code": -6
+    },
+    {
+      "name": "skip-enrolled-get7-history",
+      "binary_sha256": "31b2f0fe265a3341baa4f3a6dcc3d094e576b89866c686f5bf1a58816b225d1b",
+      "exit_code": -6
+    }
+  ],
+  "inputs": {
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": "eafc47a4dc19db305976e054409a5c3fea8cae4dd2d057e3b701ff26065439df",
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h": "46c06e66d2023f554eb2425099ffe37769b5abf935251b963faf8cfa403b0b9c",
+    "tests/npu/cold-wire-harness.c": "9defa439de7f815890f3bf6b71b2086180982976467928c86017ad36741fc264",
+    "tests/npu/test_cold_wire.py": "cb06854df05495adf844a10be9692039dce57e340e6387dbf9f522ddb53062aa",
+    "tests/npu/test_provider_session.py": "abc6bc782192e88f4d6e9ecf00515b0392870716a104108616210e263a0cb6a9",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/cold-setup.c": "91b051588a6a76f1c2b0bdf1068436aaa62e0a3678f63f29b272921339514cd7",
+    "firmware/npu/LINUX_CONTROL_CONTRACT.md": "8cb856defdd402f9a63cf88861517221df3c846fff43b09ea5196f404a0c32cc",
+    "firmware/npu/cold-tx-buffer.c": "2657742489291bcc24f3434f7dfe3745b43fb7327b3679c9796767087914ba18",
+    "firmware/npu/provider-main.c": "761e768002464ac966016e2b4e580b61e07af264d437605bc46533d36258081a",
+    "firmware/npu/cold-tx.h": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/cold-indication.h": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa",
+    "firmware/npu/cold-client.c": "a344c82672564bc49fc8e2f2ab741972447170109f79e73101224a36dddd6afd",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/cold-tx.c": "176fb608da32c7636057f0640acb7a1ae40233aeb4851b89fb2e5a595e8c7f9c",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/Makefile": "16c78181e85728a6e75d976c6a49cdbd014f3512eaf51d1f14be70c49e62f664",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/tunnel-packet.c": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/cold-indication.c": "923b9d5ffac630e03423139c05b3e11004ad55f49977aa0d671cd46e497e4bad",
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/linux-control.h": "3ec1171d20ecc19baf80219a6703dbab6b793eb2f394c67d5bf1d4e86cd154cf",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/BOOTSTRAP_CONTRACT.md": "1eb10b688bdafba256cced878402ee95a2f338c2e8fa3c7762cffc9099dafab3",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/linux-control.c": "8112ef584288968a02402fa6ec47c3d015b2825eedda3b3e552fcfa850344b8f",
+    "firmware/npu/BOOTSTRAP_V2_CONTRACT.md": "0fc03d8072961b3ed832700a4c2fbb02c270e73acce62fd4a12dd0ecaf182762",
+    "firmware/npu/cold-descriptor.c": "8b1fb816b8a67303d8e981c1aee3d5ce921bf65ac10bd211e121725221e327ed",
+    "firmware/npu/cold-tx-buffer.h": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/ADMISSION_ABI.md": "9cff55d562d7263657ca4d1d9b1ae47072ca0c1337e2d3bc74414fa823853945",
+    "firmware/npu/CONTROL_V2_CONTRACT.md": "84edfab15bc615263d4587b3ce40f68639235b4f473bc552860e4256520d369c",
+    "firmware/npu/README.md": "82b9bfc73f648e90da8a3cc31f7d621a6218b9352f16604112cd74c2f253b187",
+    "firmware/npu/control-client.h": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/cold-setup.h": "ab701d78b6259e1d14a9db8fdb6137abb81f974727ad76a36f643b8c6466a22b",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/bootstrap-v2.c": "a91f067d25dac86386b636ba731c8557bfc66b1b8d0b8add34027a2d83ceb9f4",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/CONTROL_CLIENT_CONTRACT.md": "d3c1113cec5d01825f07b8b920281e761b63b71b77db2ba8d1010eb1b6143cb5",
+    "firmware/npu/kernel-include/stdint.h": "bf2b7136fbfab5b69926a652c8b1f684108db36af35fb3880413136635d197a8"
+  },
+  "binary_sha256": "a1c2e8a5c5f52df03c8bf6acf6ed0644a108e83f3f0a31e7608fa5ba4e982431",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.",
+    "Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.",
+    "Fourteen ordered mailbox/TX records, lost replies and pending-plan mutations join the existing cold prefix/getters.",
+    "Native API21 store correctness is outside this host fixture proof; INODE/TXDONE/final IRQ and physical/hot/client gates remain open."
+  ]
+}

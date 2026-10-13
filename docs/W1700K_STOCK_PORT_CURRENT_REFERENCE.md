@@ -1,5 +1,21 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-13 - Original API21 Callbacks Bound
+
+Working-tree API21 now uses retained native store ownership with actual six-step
+GET/SET interleaving. Raw15/124/private368 and213200-byte owner compile; wire1250/
+29, portable106640/80/seven and independent identical raw builds/all16 image
+groups pass. Actual allocator/caller/raw-native passes all six phases/53260
+effects/76 controls and46 lease pairs. Source68/world/Ghidra59/FIT218+78 pass.
+FIT9d1fa30d is unflashed;69257a6b/6c76e14a and companions are preserved.
+Full current-input raw3072 PKT/1792 BA/six boot/eight TXDONE controls pass;
+later TXDONE lease/ring metadata remain modeled. Neighbor/native-mutant/HIF2/
+wider-fault coverage remains; next retain
+RX-event queue lifetime and implement API22/DESC10/PCIe. Original API22 accepts
+zero/unaligned values. Remaining setup/hot/physical/recovery/clients keep the
+full goal open. No hardware action.
+Scope: `research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
+
 ## 2026-10-13 - Native TX Enrollment Qualified
 
 Actual allocator binds eight mailbox/six TX records to native boot/nonce/held

@@ -1,0 +1,35 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "native_receipt": {
+      "passed": true,
+      "selectors": [0, 5, 10, 2, 7, 12],
+      "stores": 53260,
+      "controls": 76,
+      "effects": "Each phase matched the independent original-store oracle over complete heap, protected DATA and L2 bytes, including untouched neighbors/tails. First/middle/last store faults retained committed/published prefixes. Unmapped computed operands and both framed/leaf failure paths returned failure without unmapped access. All 14 records came from the actual allocator/client C, followed by real offload/RX/TX sender C and original RV32 callbacks. The TX caller completed both endpoint descriptor publications."
+    },
+    "limits": "DMA backing/device references/delivery/scheduling are modeled. No physical buffer consumption, exclusion/coherency/drain, boot or real-client acceptance. Only offload, RX descriptor and TX descriptor caller functions were replayed; RX-event, PCIe, INODE, final TXDONE/IRQ and hot/physical lifecycle remain open. No hardware contact or flash occurred.",
+    "api22_original": "64 original callback vectors across selectors0..15 and values0,1,96000001,ffffffff. Selectors0/5/6/7 each performed one metadata store and returned1 for every value, including zero and unaligned. Unsupported selectors returned1 without stores. Observed outputs match masked30bit OR40000000. Other DATA bytes and CODE stayed unchanged, no allocator or lock called. Backing is synthetic; candidate API22 admission and host queue lifetime are not implemented by this receipt."
+  },
+  "questions": {
+    "guarded_native_scope": {
+      "type": "choice",
+      "instructions": "Does state.native_receipt support the claim: All six API21 phases completed with retained store ownership and exact expected protected-byte effects in this actual-C/raw-RV32 replay? Limit this claim to the modeled replay, not hardware or unprovided mutation coverage.",
+      "criteria": {"supported": "Entire scoped replay claim follows.", "contradicted": "Evidence explicitly contradicts the same replay claim.", "not_established": "A material part lacks evidence."}
+    },
+    "full_initializer_scope": {
+      "type": "choice",
+      "instructions": "Do state.native_receipt and state.limits establish that the complete MT7996 NPU hardware initializer is implemented and validated? Missing later caller functions mean not established; do not confuse completing both TX bands with completing all initialization.",
+      "criteria": {"supported": "All initialization stages have direct evidence.", "contradicted": "Evidence proves the initializer cannot work in any environment.", "not_established": "Later initialization or required evidence is missing."}
+    },
+    "physical_scope": {
+      "type": "choice",
+      "instructions": "Does the supplied state establish actual physical DMA ownership, drain/retirement, boot and client acceptance? Modeled backing and offline image/native replay checks do not establish physical results.",
+      "criteria": {"supported": "Required physical runtime evidence is present.", "contradicted": "Physical runtime tests explicitly demonstrate failure.", "not_established": "Physical runtime evidence is absent or only modeled."}
+    },
+    "api22_admission_scope": {
+      "type": "noul",
+      "instructions": "Do state.api22_original observations alone establish safe admission of a host RX-event queue's DMA address and lifetime? Original callback acceptance of zero/unaligned values and a metadata store are not queue extent or lifetime validation."
+    }
+  }
+}

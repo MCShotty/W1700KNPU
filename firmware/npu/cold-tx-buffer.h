@@ -9,6 +9,18 @@
 #define NPU_COLD_TXBUF_MAILBOXES 8u
 #define NPU_COLD_TXBUF_STORES 53260u
 #define NPU_COLD_TXBUF_RECORDS (NPU_COLD_TXBUF_MAILBOXES + NPU_COLD_TXBUF_STEPS)
+#define NPU_COLD_TXBUF_SELECTORS {0, 5, 10, 2, 7, 12}
+
+static inline uint32_t npu_cold_txbuf_step(uint32_t selector)
+{
+    static const uint32_t values[] = NPU_COLD_TXBUF_SELECTORS;
+    uint32_t i;
+
+    for (i = 0; i < NPU_COLD_TXBUF_STEPS; i++)
+        if (values[i] == selector)
+            break;
+    return i;
+}
 
 struct npu_cold_txbuf_plan {
     uint32_t arena, endpoint_base, endpoint_bytes;

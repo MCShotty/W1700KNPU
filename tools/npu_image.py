@@ -13,7 +13,7 @@ CODE_SHA = 'e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643'
 DATA_SHA = '61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1'
 ORIGINAL_CODE_BYTES, ORIGINAL_DATA_BYTES = 122336, 3084
 COMPONENTS = frozenset(('base', 'bridge', 'reset', 'allocator', 'txdone', 'order', 'headers',
-                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor'))
+                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer'))
 HOOK_SITES = frozenset(CODE + offset for offset in (
     0x74, 0xf0, 0x188, 0xb24, 0xb36, 0x148a, 0x1500, 0x1582, 0x159e, 0x178e,
     0x1e78, 0x1e92, 0x1eea, 0x1f00, 0x1f3a, 0x30b2, 0x3f2e, 0x4a28, 0x4a3a,
@@ -23,7 +23,11 @@ HOOK_SITES = frozenset(CODE + offset for offset in (
     0xcd9e, 0xce1c, 0xcf10, 0xcf26, 0xd0ea, 0xd144, 0xd160, 0xddc0, 0xddd6,
     0xe440, 0xe4d4, 0xec7e, 0xecc2, 0xece6, 0xfe34,
     0xfc16, 0xfdda, 0xd638, 0xd66c, 0xd4be, 0xd4c6, 0xd584, 0xd588, 0xd5b8, 0xd5be, 0xdfd0,
-    0x10164, 0xd8cc, 0xd8fc))
+    0x10164, 0xd8cc, 0xd8fc, 0xfbca,
+    0xef98, 0xefba, 0xefd8, 0xf014, 0xf062, 0xf092,
+    0xa630, 0xa638, 0xa644, 0xa6a6, 0xa6ae, 0xa6c6,
+    0xeeb2, *range(0xeeb8, 0xef2c, 4), 0xef2c, 0xa672, 0xa678, 0xa67c))
+HOOK_WIDTHS = {CODE + 0x4d80: 6, CODE + 0xeeb2: 6, CODE + 0xa672: 6}
 LOADER_SLOTS = {SRAM + 0x6300: 48, SRAM + 0x6380: 20, SRAM + 0x63a0: 8}
 STARTUP_ADDRESS = SRAM + 0x6180
 STARTUP_BYTES = struct.pack('<16I', 0x3153504e, 1, 64, *([0] * 13))
@@ -93,7 +97,7 @@ def descriptor(code, payload):
 def profile(hooks, edits, initializers, slots):
     require(len(hooks) == len(HOOK_SITES) and {p['site'] for p in hooks} == HOOK_SITES, 'incomplete-hook-set')
     for patch in hooks:
-        require(len(bytes.fromhex(patch['before'])) == (6 if patch['site'] == CODE + 0x4d80 else 4), 'hook-width')
+        require(len(bytes.fromhex(patch['before'])) == HOOK_WIDTHS.get(patch['site'], 4), 'hook-width')
         require(patch.get('rd', 0) == (1 if patch['site'] == CODE + 0x52ca else 0), 'hook-link-register')
     require(len(edits) == 1 and all(edits[0].get(k) == v for k, v in BRIDGE_EDIT.items()), 'wrong-data-edit')
     require(len(initializers) == 1 and initializers[0]['address'] == STARTUP_ADDRESS and

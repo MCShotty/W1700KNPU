@@ -1,7 +1,7 @@
 #include "cold-setup.h"
 
 _Static_assert(sizeof(struct npu_cold_packet) == NPU_COLD_SIZE, "cold wire changed");
-_Static_assert(sizeof(struct npu_cold_setup) == 360, "cold owner changed");
+_Static_assert(sizeof(struct npu_cold_setup) == 368, "cold owner changed");
 
 static uint32_t load(const uint32_t *word)
 {
@@ -112,7 +112,14 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
     uint32_t i;
 
-    if (!txbuf_history(s, boot) || s->descriptor_gets > NPU_COLD_DESCRIPTOR_STEPS ||
+    if (!txbuf_history(s, boot) || s->txbuf_steps > NPU_COLD_TXBUF_STEPS ||
+        (s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&
+         s->descriptor_gets == 8 && s->txbuf_steps < 3) ||
+        (s->txbuf_steps && (s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
+         s->completed != NPU_COLD_COMPLETED_MASK ||
+         (s->txbuf_steps < 3 ? s->descriptor_gets != 7 :
+          s->txbuf_steps == 3 ? s->descriptor_gets != 7 && s->descriptor_gets != 8 :
+          s->descriptor_gets != 8))) || s->descriptor_gets > NPU_COLD_DESCRIPTOR_STEPS ||
         (s->descriptor_gets ? s->completed != NPU_COLD_COMPLETED_MASK ||
          !npu_cold_descriptor_arena_valid(s->descriptor_arena) : !!s->descriptor_arena))
         return 0;
@@ -209,7 +216,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     struct npu_cold_packet p;
     struct npu_cold_txbuf_plan candidate;
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
-    uint32_t i, bit, descriptor, enrollment;
+    uint32_t i, bit, descriptor, enrollment, txbuf;
 
     if (!packet || bytes != sizeof(p))
         return NPU_COLD_BAD_MESSAGE;
@@ -238,6 +245,14 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     bit = command_bit(&p.command, s, boot);
     descriptor = npu_cold_descriptor_command_step(&p.command);
     enrollment = npu_cold_txbuf_enrollment_step(&p.command);
+    txbuf = npu_cold_txbuf_command_step(&p.command);
+    if (txbuf < NPU_COLD_TXBUF_STEPS &&
+        (s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || txbuf != s->txbuf_steps ||
+         s->descriptor_gets != (txbuf < 3 ? 7u : 8u) ||
+         p.command.value != s->txbuf.host[txbuf]))
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
+    if (descriptor == 7 && s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS && s->txbuf_steps != 3)
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (s->txbuf_enrolled && s->txbuf_enrolled < NPU_COLD_TXBUF_RECORDS &&
         enrollment == NPU_COLD_TXBUF_RECORDS)
         return fail(s, a, b, NPU_COLD_BAD_STATE);
@@ -245,6 +260,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
         !txbuf_candidate(s, boot, &p.command, &candidate))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
+        txbuf == NPU_COLD_TXBUF_STEPS &&
         !(p.command.header == 0x30 && p.command.api == 10 && !p.command.value))
         return fail(s, a, b, NPU_COLD_UNSUPPORTED);
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
@@ -269,6 +285,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     s->prior_descriptor_gets = s->descriptor_gets;
     s->prior_descriptor_arena = s->descriptor_arena;
     s->prior_txbuf_enrolled = s->txbuf_enrolled;
+    s->prior_txbuf_steps = s->txbuf_steps;
     npu_cold_txbuf_plan_copy(&s->pending_txbuf,
         enrollment < NPU_COLD_TXBUF_RECORDS ? &candidate : &s->txbuf);
     s->inflight = a->active = 1;
@@ -285,9 +302,15 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
     uint32_t bit = command_bit(&s->command, s, boot), i;
     uint32_t descriptor = npu_cold_descriptor_command_step(&s->command), arena = 0;
     uint32_t enrollment = npu_cold_txbuf_enrollment_step(&s->command);
+    uint32_t txbuf = npu_cold_txbuf_command_step(&s->command);
     struct npu_cold_txbuf_plan candidate;
 
-    if (s->txbuf_enrolled != s->prior_txbuf_enrolled ||
+    if (s->txbuf_steps != s->prior_txbuf_steps ||
+        (txbuf < NPU_COLD_TXBUF_STEPS &&
+         (txbuf != s->txbuf_steps || s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
+          s->descriptor_gets != (txbuf < 3 ? 7u : 8u) ||
+          s->command.value != s->txbuf.host[txbuf])) ||
+        s->txbuf_enrolled != s->prior_txbuf_enrolled ||
         (enrollment < NPU_COLD_TXBUF_RECORDS ?
          !txbuf_candidate(s, boot, &s->command, &candidate) ||
          !npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf) :
@@ -314,16 +337,20 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
          (descriptor != s->descriptor_gets || s->completed != NPU_COLD_COMPLETED_MASK || !arena)) ||
         (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
+         txbuf == NPU_COLD_TXBUF_STEPS &&
          !(s->command.header == 0x30 && s->command.api == 10 && !s->command.value)) ||
         !reply || result != 1 || reply->header != s->command.header ||
         reply->api != s->command.api ||
         (descriptor == NPU_COLD_DESCRIPTOR_STEPS && reply->value !=
-         (bit || enrollment < NPU_COLD_TXBUF_RECORDS ? s->command.value : 0x457u)))
+         (bit || enrollment < NPU_COLD_TXBUF_RECORDS || txbuf < NPU_COLD_TXBUF_STEPS ?
+          s->command.value : 0x457u)))
         return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
     if (enrollment < NPU_COLD_TXBUF_RECORDS) {
         npu_cold_txbuf_plan_copy(&s->txbuf, &s->pending_txbuf);
         s->txbuf_enrolled++;
     }
+    if (txbuf < NPU_COLD_TXBUF_STEPS)
+        s->txbuf_steps++;
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
         s->descriptor_arena = arena;
         s->descriptor_gets++;

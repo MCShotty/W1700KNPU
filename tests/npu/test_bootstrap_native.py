@@ -77,7 +77,7 @@ class Bootstrap(Installation):
         self.fail_api = None
         self.strict_callback_witness = omit != 0x84003f2e
         self.cpu.hook_add(UC_HOOK_MEM_READ, self.request_read, begin=PAYLOAD, end=PAYLOAD+255)
-        self.cpu.hook_add(UC_HOOK_CODE, self.native_callback)
+        self.callback_hook = self.cpu.hook_add(UC_HOOK_CODE, self.native_callback)
 
     def request_read(self, cpu, access, address, size, value, data):
         self.payload_reads.append({'offset': address-PAYLOAD, 'size': size})

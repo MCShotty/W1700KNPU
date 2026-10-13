@@ -69,7 +69,7 @@ class Installation(NativeMemory):
         self.put32(MBOX + 0x194, 0x13572468)
         for offset in range(0, 28, 4):
             self.put32(0x0c002000 + offset, enable_seed)
-        self.cpu.hook_add(UC_HOOK_CODE, self.code_hook)
+        self.instruction_hook = self.cpu.hook_add(UC_HOOK_CODE, self.code_hook)
         self.cpu.hook_add(UC_HOOK_MEM_READ, self.read_hook)
         self.cpu.hook_add(UC_HOOK_MEM_WRITE, self.write_hook)
         self.cpu.hook_add(UC_HOOK_MEM_INVALID, self.invalid_hook)

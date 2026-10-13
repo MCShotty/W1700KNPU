@@ -1,10 +1,43 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-13 (native TX records enrolled; original API21 store binding next; full goal open)
+Last updated: 2026-10-13 (API21 bound and scoped native/full-raw/image checks pass; RX-event/lifecycle/physical work remains)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-13 - Original API21 Callbacks Bound
+
+- Implemented exact enrolled-handle/GET-SET admission and original metadata,
+  internal-record/static-L2 store ownership in the working tree. Wire80 is
+  unchanged; private368 and native213200-byte CODE owner are retained on faults.
+  Raw component15 adds47 hooks, for124. Provider routing, canonical patch/source
+  lock and the complete normal image are integrated.
+- Wire1250/29 mutants, portable106640 calls/80 controls/seven mutants, two
+  identical raw builds and16 image groups pass. Loader60/eight and actual-C
+  caller publication/offload prefix also pass. Actual allocator/caller/raw-native
+  passes six phases/53260 byte effects/76 controls and46 lease pairs, plus earlier
+  35 indication/28 TX/28 GET controls. Full current-input raw3072 PKT/1792 BA/
+  six boot/eight TXDONE controls pass; later TXDONE lease/ring metadata stay
+  modeled. Wider native cases and complete strict setup remain open.
+- Tightened early handle rejection tests and enrolled GET7 history, complete
+  native snapshot coverage and ELF-derived cold-state capture. Added full
+  protected-byte oracle and native guard/retained-fault controls. Sparse CSR
+  sampling/checkpoints leave native instructions/guards intact. Jev uncertainty
+  was resolved through source inspection; no subagents were used.
+- Source68/world/Ghidra59 (all42 named ELF functions)/FIT218+78, strict61-line
+  Linux delta,21 units and fresh endpoint/request/probe/boot/memory/lifetime/
+  provider regressions pass. FIT9d1fa30d is unflashed;69257a6b/6c76e14a and seven
+  companions each are preserved. No router/flash/reset/Wi-Fi/power or private
+  backup change. Verification records256 hashes; final sealing rechecks858 input
+  references and explicitly qualifies one documentation-only README update.
+  All other recorded inputs match. Jev's broad claim was uncertain;
+  finite cases rely on deterministic byte/state checks, not its vote.
+- Original API22 passes64 vectors and accepts zero/unaligned addresses after
+  aliasing without allocator/lock. Retain RX-event queue lifetime before owned
+  API22/DESC10/PCIe admission. Counter-neighbor/native-mutant/HIF2/wider-fault and
+  remaining setup/owners/hot/physical/recovery/clients keep the full goal open.
+  Scope: `research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
 
 ## 2026-10-13 - Native TX Record Enrollment
 

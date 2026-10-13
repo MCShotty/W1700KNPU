@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-13 - Original API21 Callbacks Bound
+
+All six original callbacks/stores are now bound in the working tree, with exact
+enrolled handles/interleaving, typed tables/native spans/TXPKT/prior-owner/lock/
+IRQ checks. Raw15/124/private368, wire1250/29, owner106640/80/seven and identical
+raw builds/all16 image groups pass. Actual allocator/caller/raw-native passes
+six phases/53260 effects/76 controls; source68/world/Ghidra59/FIT218+78 pass.
+FIT9d1fa30d is unflashed;69257a6b/6c76e14a and companions are preserved.
+Full current-input raw3072 PKT/1792 BA/six boot/eight TXDONE controls pass;
+later TXDONE lease/ring metadata remain modeled. Extend counter-neighbor/
+native-mutant/HIF2 and wider native-fault coverage. Retain RX-event queue lifetime and
+wire API22/DESC10/PCIe;64 original API22 vectors expose unchecked aliasing.
+See NEXT_RX_EVENT.md. Full RX-event/PCIe/INODE/TXDONE/
+IRQ/owners/hot/physical/recovery/boot/client objective remains open. No hardware
+contact. Scope: `research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
+
 ## 2026-10-13 - Native TX Enrollment Qualified
 
 Eight mailbox/six TX records now reach native held state before initializer

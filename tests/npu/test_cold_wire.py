@@ -77,6 +77,12 @@ def main():
         'skip-host-exact-arena': {executor: loader.once(linux, 'npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena)', 'npu_cold_descriptor_reply_arena(descriptor, output, 0)')},
         'skip-pending-plan-pin': {server: loader.once(original, '!npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf)', '(0 && !npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf))')},
         'skip-host-enrollment-order': {executor: loader.once(linux, 'enrollment != control->txbuf_enrolled)', '(0 && enrollment != control->txbuf_enrolled))')},
+        'skip-host-txbuf-order': {executor: loader.once(linux, 'txbuf != control->txbuf_steps ||', '(0 && txbuf != control->txbuf_steps) ||')},
+        'skip-txbuf-handle': {server: loader.once(original, 'p.command.value != s->txbuf.host[txbuf]', '(0 && p.command.value != s->txbuf.host[txbuf])')},
+        'skip-late-txbuf-steps': {server: loader.once(original, 's->txbuf_steps != s->prior_txbuf_steps ||', '(0 && s->txbuf_steps != s->prior_txbuf_steps) ||')},
+        'skip-enrolled-get7-history': {server: loader.once(original,
+            '(s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&\n         s->descriptor_gets == 8 && s->txbuf_steps < 3)',
+            '(0 && s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&\n         s->descriptor_gets == 8 && s->txbuf_steps < 3)')},
     }
     rejected = []
     for name, replacements in mutations.items():
@@ -89,7 +95,7 @@ def main():
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
                           'Fourteen ordered mailbox/TX records, lost replies and pending-plan mutations join the existing cold prefix/getters.',
-                          'API21 store binding, INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
+                          'Native API21 store correctness is outside this host fixture proof; INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

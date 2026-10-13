@@ -34,19 +34,19 @@ def metadata_count(step):
     return 4 if step in (2, 5) else 1
 
 
-def original(step, index):
+def original(step, index, profile=PROFILE):
     slots = (0x3e902cf8, 0x3e901f38, 0x3e903960, 0x3e902ab4, 0x3e902abc, 0x3e902a88)
     counters = ((0x3e90462c, 0x3e90395a, 0x3e902acc), (0x3e902a8c, 0x3e90390c, 0x3e9021e8))
     band, internal = int(step >= 3), step in (1, 4)
-    base = PROFILE[0] + (0x2a040 if band else 0x8020) if internal else (0x3e8a4020 if band else 0x3e8a2000)
+    base = profile[0] + (0x2a040 if band else 0x8020) if internal else (0x3e8a4020 if band else 0x3e8a2000)
     if index == 0:
-        return slots[step], 4, base if internal else (PROFILE[3 + step] & 0x3fffffff) | 0x40000000
+        return slots[step], 4, base if internal else (profile[3 + step] & 0x3fffffff) | 0x40000000
     if index < metadata_count(step):
         return counters[band][index - 1], 2 if index < 3 else 4, 0 if index < 3 else base
     word = index - metadata_count(step)
     if internal:
         return base + 4 * word, 4, 0x100000 if word % 32 == 0 else 0x10000 if word % 32 == 31 else 0
-    return base + 4 * word, 1 if word % 4 == 3 else 4, 0 if word % 4 else ((PROFILE[3 + step] + word // 4 * 256) & 0x3fffffff) | 0x80000000
+    return base + 4 * word, 1 if word % 4 == 3 else 4, 0 if word % 4 else ((profile[3 + step] + word // 4 * 256) & 0x3fffffff) | 0x80000000
 
 
 class Pair:

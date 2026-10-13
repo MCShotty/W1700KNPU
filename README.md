@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-13 - Original API21 Callbacks Bound
+
+Mainline source now binds all six original API21 callbacks and53260 stores
+to retained ownership, with exact enrolled handles and GET/SET interleaving.
+Raw composition is15 components/124 hooks; private cold history is368 bytes.
+Actual allocator/caller/raw-native replay passes both TX bands, exact protected
+bytes and76 fault/guard controls. Wire1250/29, packaged owner106640/80/seven,
+world/Ghidra59/source68/FIT218+78 and all16 image groups pass. Full current-input
+raw3072 PKT/1792 BA/six boot/eight TXDONE controls pass with later lease/ring
+metadata modeled. Latest FIT9d1fa30d
+is unflashed;69257a6b/6c76e14a and companions are protected. Wider native/HIF2/
+neighbor/mutant, RX-event/lifecycle/physical/client work remains open. No hardware
+action or full parity claim.
+Current scope and next work:
+`research/checkpoints/2026-10-13-npu-api21-native/REPORT.md`.
+
 ## 2026-10-13 - Native TX Records Enrolled
 
 The retained allocator binds eight mailbox and six TX DMA records into native

@@ -51,7 +51,7 @@ static uint32_t fail(void)
     return 0;
 }
 
-static int context(void)
+static int prior_context(void)
 {
     static const uint32_t profile[] = {1536, 1024, 256, 512, 1024};
     static const uint32_t types[] = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 65535};
@@ -59,12 +59,9 @@ static int context(void)
                                       0x18020, 0x19020, 0x1b020, 0x8020, 0x2a040, 0};
     uint32_t i;
 
-    if (getter_step >= 8 || !npu_emulation_cold_arena_live() || SETUP->failed || SETUP->inflight != 1 ||
+    if (!npu_emulation_cold_arena_live() || SETUP->failed || SETUP->inflight != 1 ||
         SETUP->completed != NPU_COLD_COMPLETED_MASK || SETUP->prior_completed != NPU_COLD_COMPLETED_MASK ||
-        SETUP->descriptor_gets != getter_step || SETUP->prior_descriptor_gets != getter_step ||
         SETUP->descriptor_arena != SETUP->prior_descriptor_arena ||
-        SETUP->command.header != (0x30u | npu_cold_descriptor_selector(getter_step)) ||
-        SETUP->command.api != 4 || SETUP->command.value ||
         SETUP->endpoint_base != SETUP->prior_base || SETUP->endpoint_bytes != SETUP->prior_bytes ||
         *(const volatile uint8_t *)(uintptr_t)0x3e90390eu != 2 ||
         METADATA->lock_id != 18 || METADATA->count > NPU_ALLOCATOR_ENTRIES ||
@@ -99,18 +96,23 @@ static int context(void)
     return 1;
 }
 
-static int pinned(void)
+static int context(void)
+{
+    return getter_step < 8 && SETUP->descriptor_gets == getter_step &&
+           SETUP->prior_descriptor_gets == getter_step &&
+           SETUP->command.header == (0x30u | npu_cold_descriptor_selector(getter_step)) &&
+           SETUP->command.api == 4 && !SETUP->command.value && prior_context();
+}
+
+static int arena_pinned(void)
 {
     const struct npu_allocator_entry *entry;
     uint32_t i;
 
-    if (!context() || !npu_cold_descriptor_arena_valid(native_arena) ||
+    if (!npu_cold_descriptor_arena_valid(native_arena) ||
         word(0x3e9030fcu) != native_arena ||
-        (getter_step ? SETUP->descriptor_arena != native_arena : !!SETUP->descriptor_arena) ||
         METADATA->count != allocation_count || METADATA->used != allocation_used ||
-        record_index >= METADATA->count || SETUP->sequence != identity[0] ||
-        SETUP->boot_lo != identity[1] || SETUP->boot_hi != identity[2] ||
-        SETUP->nonce_lo != identity[3] || SETUP->nonce_hi != identity[4])
+        record_index >= METADATA->count)
         return 0;
     entry = &METADATA->entries[record_index];
     if (entry->type != 1 || entry->reserved || entry->address != native_arena)
@@ -124,6 +126,29 @@ static int pinned(void)
            word(0x1fc08034u) == ((native_arena + 0x22020u) & 0x1fffffffu) &&
            word(0x1fc48030u) == ((native_arena + 0x22020u) & 0x1fffffffu) &&
            word(0x1fc48034u) == ((native_arena + 0x4a040u) & 0x1fffffffu);
+}
+
+static int pinned(void)
+{
+    return context() && arena_pinned() &&
+           (getter_step ? SETUP->descriptor_arena == native_arena : !SETUP->descriptor_arena) &&
+           SETUP->sequence == identity[0] && SETUP->boot_lo == identity[1] &&
+           SETUP->boot_hi == identity[2] && SETUP->nonce_lo == identity[3] && SETUP->nonce_hi == identity[4];
+}
+
+int npu_emulation_descriptor_prior_live(uint32_t gets)
+{
+    uint32_t count = gets == 7 ? 512 : 1536, tx = gets == 7 ? 1 : 3;
+
+    return (gets == 7 || gets == 8) && prior_context() && arena_pinned() &&
+           SETUP->descriptor_gets == gets && SETUP->prior_descriptor_gets == gets &&
+           SETUP->descriptor_arena == native_arena &&
+           SETUP->boot_lo == identity[1] && SETUP->boot_hi == identity[2] &&
+           SETUP->nonce_lo == identity[3] && SETUP->nonce_hi == identity[4] &&
+           OWNER->magic == NPU_COLD_DESCRIPTOR_MAGIC && OWNER->epoch == 1 && !OWNER->fault &&
+           !OWNER->active && OWNER->next == gets && OWNER->completed == (1u << gets) - 1 &&
+           OWNER->arena == native_arena && OWNER->reserved_tx == tx && OWNER->completed_tx == tx &&
+           OWNER->committed == count && OWNER->published == count;
 }
 
 static int owned(void)

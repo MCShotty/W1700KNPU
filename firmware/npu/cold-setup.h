@@ -94,7 +94,14 @@ struct npu_cold_setup {
     uint32_t descriptor_gets, descriptor_arena, prior_descriptor_gets, prior_descriptor_arena;
     uint32_t txbuf_enrolled, prior_txbuf_enrolled;
     struct npu_cold_txbuf_plan txbuf, pending_txbuf;
+    uint32_t txbuf_steps, prior_txbuf_steps;
 };
+
+static inline uint32_t npu_cold_txbuf_command_step(const struct npu_bootstrap_packet *p)
+{
+    return p->api == 21 && (p->header & ~15u) == 0x10u ?
+           npu_cold_txbuf_step(p->header & 15u) : NPU_COLD_TXBUF_STEPS;
+}
 
 static inline uint32_t npu_cold_txbuf_enrollment_step(const struct npu_bootstrap_packet *p)
 {

@@ -240,6 +240,25 @@ int npu_test_endpoint(uint64_t base, uint64_t bytes, int type)
 {
     return airoha_npu_wlan_bind_endpoint_session(&priv.npu, &endpoint_device, base, bytes, type);
 }
+int npu_test_model_tx_enroll(void)
+{
+    struct npu_bootstrap_packet command = {.header = NPU_COLD_BIND_HEADER};
+    uint32_t output;
+
+    for (unsigned i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) {
+        command.api = NPU_COLD_BIND_DMA_API + i;
+        command.value = i < 8 ? priv.native_plan[5][0] + i * 256 :
+                        0x96000000 + (i - 8) * 0x100000;
+        int error = npu_linux_control_cold_exchange(&priv.wlan_control, &command, &output);
+        if (error) return error;
+    }
+    return 0;
+}
+uint32_t npu_test_tx_dma_addr(unsigned i)
+{
+    check(i < 6, "TX record index");
+    return life.tx_published ? life.tx_buffers[i].addr : 0x96000000 + i * 0x100000;
+}
 int npu_test_command(unsigned header, unsigned api, unsigned value, uint32_t *output)
 {
     int error = (header & ~15u) == 0x30 ?

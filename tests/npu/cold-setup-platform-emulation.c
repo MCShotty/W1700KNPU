@@ -38,6 +38,7 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
             callback = command.api == 14 ? 0x8400ff34u :
                        command.api == 0 ? 0x8400fdc4u :
                        command.api == 19 ? 0x8400fc16u :
+                       command.api == 21 ? 0x8400fbcau :
                        command.api == 33 ? 0x8400fddau : 0x8400fe34u;
         }
         if (slot && *(const volatile uint32_t *)(uintptr_t)slot == callback)

@@ -1,0 +1,82 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-tx-native-20261013\\jev-claims-q3.json",
+  "request_sha256": "2c537314d1780b6452a2d08577935fa48f09bf924a55bd0f00161f5c3c673167",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "guarded_native_scope": {
+      "type": "choice",
+      "instructions": "Does state.native_receipt support the claim: All six API21 phases completed with retained store ownership and exact expected protected-byte effects in this actual-C/raw-RV32 replay? Limit this claim to the modeled replay, not hardware or unprovided mutation coverage.",
+      "criteria": {
+        "supported": "Entire scoped replay claim follows.",
+        "contradicted": "Evidence explicitly contradicts the same replay claim.",
+        "not_established": "A material part lacks evidence."
+      }
+    },
+    "full_initializer_scope": {
+      "type": "choice",
+      "instructions": "Do state.native_receipt and state.limits establish that the complete MT7996 NPU hardware initializer is implemented and validated? Missing later caller functions mean not established; do not confuse completing both TX bands with completing all initialization.",
+      "criteria": {
+        "supported": "All initialization stages have direct evidence.",
+        "contradicted": "Evidence proves the initializer cannot work in any environment.",
+        "not_established": "Later initialization or required evidence is missing."
+      }
+    },
+    "physical_scope": {
+      "type": "choice",
+      "instructions": "Does the supplied state establish actual physical DMA ownership, drain/retirement, boot and client acceptance? Modeled backing and offline image/native replay checks do not establish physical results.",
+      "criteria": {
+        "supported": "Required physical runtime evidence is present.",
+        "contradicted": "Physical runtime tests explicitly demonstrate failure.",
+        "not_established": "Physical runtime evidence is absent or only modeled."
+      }
+    },
+    "api22_admission_scope": {
+      "type": "noul",
+      "instructions": "Do state.api22_original observations alone establish safe admission of a host RX-event queue's DMA address and lifetime? Original callback acceptance of zero/unaligned values and a metadata store are not queue extent or lifetime validation."
+    }
+  },
+  "elapsed_ms": 785,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "guarded_native_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.38,
+        "probabilities": {
+          "supported": 0.59,
+          "contradicted": 0.09,
+          "not_established": 0.32
+        }
+      },
+      "full_initializer_scope": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "physical_scope": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "api22_admission_scope": {
+        "type": "noul",
+        "noul": 0.3
+      }
+    },
+    "usage": {
+      "input_tokens": 1062,
+      "output_tokens": 167
+    }
+  }
+}

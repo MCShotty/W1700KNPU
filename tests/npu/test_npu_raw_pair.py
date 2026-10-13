@@ -41,7 +41,7 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     assert all(composition.sha(path) == manifest['components'][name]['sha256'] for name, path in files.items())
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
-    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor')}
+    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer')}
     h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
@@ -49,6 +49,8 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     tx_wire.install(h, files['cold-tx'])
     import descriptor_wire_native
     descriptor_wire_native.install(h, files['cold-descriptor'])
+    import tx_buffer_wire_native
+    tx_buffer_wire_native.install(h, files['cold-tx-buffer'])
     # Erase all ELF-loader effects, fixture plans and fixture identity before the
     # two raw copies. Retained Python objects supply only observer/symbol metadata.
     h.cpu.mem_write(image.CODE, b'\xcc' * image.CODE_LIMIT)

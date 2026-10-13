@@ -1,0 +1,27 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "store_guard": "reserve: if (!owned() || OWNER->next != phase || OWNER->committed < OWNER->from || npu_cold_txbuf_recipe(&plan, phase, OWNER->committed - OWNER->from, &store) || address != store.address || width != store.bytes || data != store.value) return fail(); Only after that test succeeds does reserve call value(address,width). publish likewise checks owned, next, published/from, recipe, exact address and width before value(address,width). Recipe returns exact fixed metadata/internal/L2 addresses from the validated plan; owned checks held setup, prior owners, boot plan, tables and exact TXPKT. value performs a volatile mapped read.",
+    "wire_wrong_handle_test": "The test mutates the API21 command value with XOR256 and requires EPROTO, unchanged caller output and unchanged server/client txbuf_steps. It does not check callback count, setup.inflight or admission.active. The production begin checks command.value == enrolled host[step]. Production finish independently repeats that value check. Removing only begin's value check still returns EPROTO and leaves step counters unchanged after invoking the modeled callback and failing finish. The actual mutation run returned success for all1249 cases.",
+    "snapshot_definition": "h.snapshot() preserves inherited base areas plus cold TX binding window84084000/4000 and descriptor binding window84088000/4000. It does not add the new API21 binding window84090000/40000. The new API21 owner213200 bytes and mutable phase/lock/plan/metadata globals reside in that new window. Native negative controls restore snapshot before each case and restore the captured after snapshot on exit.",
+    "callback_failure_propagation": "Original API21 callback wrapper ignores its helper return and returns1. Native store-hook fault invokes fail(), which marks the TX-buffer owner faulty and invokes npu_admission_fail on admission/barrier. owned() calls context(), and descriptor_prior_live in context requires admission/barrier not faulty. The native binder checks result !=1 || !owned() before read_metadata/owner_finish and takes fault on either condition."
+  },
+  "questions": {
+    "unowned_read_guard": {
+      "type": "noul",
+      "instructions": "Does state.store_guard establish that a mismatching computed store address is rejected before reserve/publish read that supplied address? Judge this narrow ordering only, not physical memory ownership or correctness of all prerequisites."
+    },
+    "early_handle_test_gap": {
+      "type": "noul",
+      "instructions": "Does state.wire_wrong_handle_test show a gap in proving rejection before callback entry, despite proving eventual rejection and unchanged step/output?"
+    },
+    "snapshot_new_owner_gap": {
+      "type": "noul",
+      "instructions": "Does state.snapshot_definition leave the new API21 owner and mutable binding globals unrestored between negative cases?"
+    },
+    "ignored_helper_fault_propagates": {
+      "type": "noul",
+      "instructions": "Does state.callback_failure_propagation describe an independent sticky fault check that makes the binder reject a store-hook failure even when the original wrapper returns1? Judge the described control flow, not unprovided runtime evidence."
+    }
+  }
+}

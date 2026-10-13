@@ -27,7 +27,8 @@ def main():
     assert not destination.exists()
     source,header=args.source.resolve(),args.header.resolve()
     paths=[source,header,parent.HARNESS,Path(__file__).resolve(),Path(parent.__file__),
-           Path(lifetime.__file__),Path(parent.loader.__file__),Path(q.__file__)]
+           Path(lifetime.__file__),Path(parent.loader.__file__),Path(q.__file__),
+           root/'tests/npu/tx_buffer_native_controls.py',root/'tests/npu/test_cold_tx_buffer.py']
     paths += [path for path in parent.SOURCE.rglob('*') if path.is_file()]
     inputs={str(path.relative_to(root)):parent.loader.sha(path) for path in paths}
     text,htext=source.read_text(),header.read_text()
@@ -102,8 +103,8 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
     result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
-                'Allocation runs after real BAR binding and before real offload/RX caller replay. Host TX caller still stops at denied API21.',
-                'The old standalone TX sender has synthetic handles; this proves allocator STATUS integration, not complete native buffer consumption.',
+                'Allocation runs after real BAR binding and before real offload/RX/TX caller replay. TX caller uses the returned retained handles.',
+                'Original API21 instructions are guarded by retained store ownership; physical buffer consumption is not established.',
                 'Fixture-only frees after assertions are not production retirement. No physical exclusion/coherency/drain or hardware/client acceptance.'])
     (destination/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(passed=True,tx_allocations=6,native_status=True,native_enrollment_records=14)))
