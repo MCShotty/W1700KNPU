@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-13 - Native TX Enrollment Qualified
+
+Eight mailbox/six TX records now reach native held state before initializer
+output. Wire80/private360, ordered pending/accepted plans, ambiguous-failure
+retention and fresh STATUS are implemented. Owner106640/80/seven, wire1203/25,
+lifetime113/nine, native14/forty lease pairs, provider609/nine,21 units and
+source/style/world/Ghidra58/FIT218+78 pass. FIT69257a6b is unflashed; previous
+images/backups remain protected. No hardware contact.
+
+Next bind the complete portable owner to original API21 callbacks/stores with
+GET5/SET0/SET5/SET10/GET7/SET2/SET7/SET12. Validate typed tables, native spans and
+metadata neighbors, exact TXPKT, prior owners, original lock/IRQ/session state.
+The213200-byte owner is not instantiated in native CODE storage; API21 denies.
+Remaining PCIe/INODE/TXDONE/IRQ, owners/hot/postgate, physical backing/exclusion/
+coherency/drains/retirement/removal/rearm/recovery, boot and actual clients still
+belong to the full objective. Evidence and limits:
+`research/checkpoints/2026-10-13-npu-tx-enrollment/REPORT.md`.
+
 ## 2026-10-13 - Host TX Lifetime Qualified
 
 Provider-owned coherent TX allocation and retained endpoint/DMA/session/plan

@@ -41,9 +41,14 @@ def main():
 int npu_test_allocate_tx(void) {
     const u32 sizes[]={0x20000,0x20000,0x40000,0x40000,0x40000,0x40000};
     dma_addr_t output[6]={0};fail_allocation=99;
+    for(unsigned i=0;i<8;i++) {
+        life.buffers[i].buf=(void *)(uintptr_t)(i+1);
+        life.buffers[i].addr=priv.native_plan[5][0]+i*256;
+    }
     for(unsigned i=0;i<6;i++)addresses[i]=0x96000000u+i*0x100000u;
     int error=airoha_npu_wlan_alloc_tx_buffers_session(&priv.npu,&endpoint_device,&dma_device,sizes,output,6);
-    check(!error && dma_calls==6 && object_count==6 && life.tx_published && life.tx_attempted,"native allocator publication");
+    check(!error && dma_calls==6 && object_count==6 && life.tx_published && life.tx_attempted &&
+          priv.wlan_control.txbuf_enrolled==14,"native allocator publication after enrollment");
     for(unsigned i=0;i<6;i++)check(output[i]==addresses[i] && life.tx_buffers[i].addr==output[i] && life.tx_buffers[i].buf,"native retained allocation records");
     return error;
 }
@@ -87,7 +92,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     ctypes.CDLL=load
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
-                                  host_sender=root/host['shared'])
+                                  host_sender=root/host['shared'],txbuffer_enrollment=True)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()
@@ -95,13 +100,13 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     inputs |= native['inputs']
     for path in (shared,args.host_receipt.resolve()):inputs[str(path.relative_to(root))]=parent.loader.sha(path)
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
-    result=dict(passed=True,allocations=observed,native=native,inputs=inputs,
+    result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
                 'Allocation runs after real BAR binding and before real offload/RX caller replay. Host TX caller still stops at denied API21.',
                 'The old standalone TX sender has synthetic handles; this proves allocator STATUS integration, not complete native buffer consumption.',
                 'Fixture-only frees after assertions are not production retirement. No physical exclusion/coherency/drain or hardware/client acceptance.'])
     (destination/'result.json').write_text(json.dumps(result,indent=2)+'\n')
-    print(json.dumps(dict(passed=True,tx_allocations=6,native_status=True)))
+    print(json.dumps(dict(passed=True,tx_allocations=6,native_status=True,native_enrollment_records=14)))
 
 
 if __name__=='__main__':main()

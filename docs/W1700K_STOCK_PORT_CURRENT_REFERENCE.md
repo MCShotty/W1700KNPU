@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-13 - Native TX Enrollment Qualified
+
+Actual allocator binds eight mailbox/six TX records to native boot/nonce/held
+state before output. Wire80 stays fixed; private360 owns pending/accepted plans.
+Lost replies retain both prefixes/resources. All53260 portable stores are owned
+and readback-checked, but original API21 hooks are not bound; API21 still denies.
+
+Owner106640/80/seven, wire1203/25, lifetime113/nine, native14/forty lease pairs,
+provider609/nine,21 units, source68/nested/style/world/Ghidra58/FIT218+78 pass.
+Latest offline-qualified, unflashed FIT:
+`69257a6bd5637e850198b0099a8413e2e1063d3055a388ab87ecab8dbbd67522`.
+CODE531dd367/DATA08630e0e now carry enlarged cold enrollment history.
+Prior6efaa878/ffbd4344 plus seven companions each and older/R1 are protected.
+
+Next bind API21 metadata/internal/L2 effects with exact GET/SET order, typed
+tables/native spans/metadata neighbors/TXPKT/prior-owner/lock/IRQ checks.
+Remaining setup/owners/hot/physical/recovery/clients keep the full goal open.
+No router contact, flash or physical backing/coherency/drain proof. Scope:
+`research/checkpoints/2026-10-13-npu-tx-enrollment/REPORT.md`.
+
 ## 2026-10-13 - Retained Host TX Allocations
 
 Current mainline owns six coherent TX CPU pointers, full DMA handles and sizes

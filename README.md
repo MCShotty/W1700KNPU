@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-13 - Native TX Records Enrolled
+
+The retained allocator binds eight mailbox and six TX DMA records into native
+boot/nonce/held state before returning handles. Wire80 is unchanged; private
+history is360 bytes. Lost replies retain both prefixes and every allocation.
+The portable owner covers all53260 stores; original API21 hooks are not bound.
+
+Owner106640/80/seven mutants, wire1203/25, lifetime113/nine, native14/forty lease
+pairs, provider609/nine,21 units, source68/style/world/Ghidra58/FIT218+78 pass.
+Latest unflashed FIT69257a6b; prior6efaa878/ffbd4344 and companions are protected.
+Next bind API21, then remaining setup/owners/hot/physical/recovery/clients.
+No hardware contact or full stock-parity claim. Scope and evidence:
+`research/checkpoints/2026-10-13-npu-tx-enrollment/REPORT.md`.
+
 ## 2026-10-13 - Retained Host TX DMA Buffers
 
 The checked provider now owns all six coherent TX allocations, their CPU/DMA

@@ -1,0 +1,104 @@
+Subject: [PATCH] net: enroll retained TX DMA records before publication
+
+Bind mailbox and TX records to the held native session before output.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -1095,6 +1095,12 @@
+ 		void *buf;
+ 		dma_addr_t addr;
+ 	} captured[ARRAY_SIZE(expected)];
++	struct {
++		void *buf;
++		dma_addr_t addr;
++	} mailboxes[NPU_NUM_CORES];
++	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
++	u32 endpoint_base, endpoint_bytes, bound_serial, value;
+ 	unsigned int i;
+ 	int err = 0;
+ 
+@@ -1131,12 +1137,24 @@
+ 	    life->nonce_lo != snapshot.client.base.nonce_lo ||
+ 	    life->nonce_hi != snapshot.client.base.nonce_hi ||
+ 	    life->bound_serial != snapshot.client.base.serial ||
+-	    snapshot.descriptor_gets || snapshot.descriptor_arena) {
++	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled) {
+ 		err = -EPROTO;
+ 		goto hold;
+ 	}
+ 	/* Firmware is already exposed. Retain even partial TX allocations. */
+ 	memcpy(plan, priv->native_plan, sizeof(plan));
++	endpoint_base = life->endpoint_base;
++	endpoint_bytes = life->endpoint_bytes;
++	bound_serial = life->bound_serial;
++	for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
++		if (!life->buffers[i].buf || !life->buffers[i].addr ||
++		    upper_32_bits(life->buffers[i].addr)) {
++			err = -EPROTO;
++			goto hold;
++		}
++		mailboxes[i].buf = life->buffers[i].buf;
++		mailboxes[i].addr = life->buffers[i].addr;
++	}
+ 	life->tx_attempted = true;
+ 	for (i = 0; i < count; i++) {
+ 		life->tx_buffers[i].bytes = expected[i];
+@@ -1167,11 +1185,56 @@
+ 	    life->boot_identity != priv->boot_identity ||
+ 	    life->nonce_lo != snapshot.client.base.nonce_lo ||
+ 	    life->nonce_hi != snapshot.client.base.nonce_hi ||
+-	    snapshot.descriptor_gets || snapshot.descriptor_arena ||
++	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled ||
+ 	    memcmp(plan, priv->native_plan, sizeof(plan))) {
+ 		err = -EPROTO;
+ 		goto hold;
+ 	}
++	for (i = 0; i < count; i++)
++		if (life->tx_buffers[i].buf != captured[i].buf ||
++		    life->tx_buffers[i].addr != captured[i].addr ||
++		    life->tx_buffers[i].bytes != expected[i] ||
++		    !airoha_npu_wlan_tx_buffer_valid(priv, i)) {
++			err = -EPROTO;
++			goto hold;
++		}
++	/* Enroll all mailbox and TX extents before the caller can publish a handle.
++	 * A lost reply retains both the native reservation and every CPU allocation.
++	 */
++	for (i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) {
++		command.api = NPU_COLD_BIND_DMA_API + i;
++		command.value = i < ARRAY_SIZE(mailboxes) ? mailboxes[i].addr :
++				captured[i - ARRAY_SIZE(mailboxes)].addr;
++		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++		if (err)
++			goto hold;
++	}
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
++	    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
++	    !life->tx_attempted || life->tx_published ||
++	    life->boot_identity != priv->boot_identity ||
++	    life->nonce_lo != snapshot.client.base.nonce_lo ||
++	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
++	    life->bound_serial != bound_serial || snapshot.descriptor_gets ||
++	    snapshot.descriptor_arena || snapshot.txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
++	    memcmp(plan, priv->native_plan, sizeof(plan))) {
++		err = -EPROTO;
++		goto hold;
++	}
++	for (i = 0; i < ARRAY_SIZE(mailboxes); i++)
++		if (life->buffers[i].buf != mailboxes[i].buf ||
++		    life->buffers[i].addr != mailboxes[i].addr) {
++			err = -EPROTO;
++			goto hold;
++		}
+ 	for (i = 0; i < count; i++)
+ 		if (life->tx_buffers[i].buf != captured[i].buf ||
+ 		    life->tx_buffers[i].addr != captured[i].addr ||

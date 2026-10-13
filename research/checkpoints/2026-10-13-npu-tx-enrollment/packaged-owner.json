@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "stores": 53260,
+  "calls": 106640,
+  "controls": 80,
+  "sanitized": {
+    "passed": true,
+    "stores": 53260,
+    "controls": 42,
+    "checks": 213122
+  },
+  "mutants": [
+    {
+      "name": "skip-plan-pin",
+      "exit_code": 11,
+      "binary_sha256": "727a8f8bdf7b2267d2e297ca45f51a0de637480baa8cfd6b751e5acce1d7bde4"
+    },
+    {
+      "name": "skip-preimage",
+      "exit_code": 11,
+      "binary_sha256": "e5eaa3f5d6550fcb17ac920aee7953d74ab95987ecc10847baba5ba92ceaf2fc"
+    },
+    {
+      "name": "skip-address",
+      "exit_code": 11,
+      "binary_sha256": "00d33eae813c6d1ad3ee28705aa4afdbf803bdf4defe59e9958ca873cba9cb6d"
+    },
+    {
+      "name": "skip-readback",
+      "exit_code": 11,
+      "binary_sha256": "ebe3d5cdff53c6c19b613c6423ed7d712e216b8b1527f001a61d83a241aeb148"
+    },
+    {
+      "name": "clobber-byte-tail",
+      "exit_code": 11,
+      "binary_sha256": "85f3ca91f1a01354d815242a0aada4dcaf24c2a4b216655095da421f78f9bd77"
+    },
+    {
+      "name": "wrong-internal-head",
+      "exit_code": 11,
+      "binary_sha256": "0f44989de479a489bc9bc5a0bf0d4feddf1ab83835349e61f90ec9a777cfc32c"
+    },
+    {
+      "name": "wrong-record-width",
+      "exit_code": 11,
+      "binary_sha256": "eeebe72097b555591b3500131991a59bcf6cf9e96407ea046cbc4b6af0f63407"
+    }
+  ],
+  "inputs": {
+    "firmware/npu/cold-tx-buffer.c": "ef76971499279e1f516a2f5582b8ac60abdd9fd60848f5bc2b0e96b2e9086b0a",
+    "firmware/npu/cold-tx-buffer.h": "f648f444a99734f2e17a36e3f81c73546b31afbf67865cf496dc107e75fc5a08",
+    "tests/npu/cold-tx-buffer-sanitize.c": "361068de39d7c0ce5e1a4ac59464f09317336a02f3d889a1968d33909725ca6a",
+    "tests/npu/cold-tx-buffer-probe.ld": "616cd73352175eefc0fad1c1af8b1a0fdfe3157dd39c24106d5b9f0310a1ae2f",
+    "tests/npu/test_cold_tx_buffer.py": "06d476d68b429ed3827bc2e52d37e9b46f505fabf51090c343e3577eb23eb4e1",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/cold-tx.h": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+    "firmware/npu/cold-indication.h": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/linux-control.h": "61daeb491584f35c5240f7c54407f98311926aeb9e2aebbb9d4d6778bc886fbc",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/control-client.h": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/cold-setup.h": "6a746e6149d89b10cf32256d1f10e8a203c473a9746515d8eee8aa4e3186930e",
+    ".build/merged-openwrt/bin/npu/cold-tx-buffer.o": "aa46814e0999d00e73fa48ac021fa820551c28b895488be7aeb0729fc3a66421"
+  },
+  "host_sha256": "2bf1379453e5bfdd91a04b760b80e3ffefdb1364ca747e8230392599a61fb05c",
+  "elf_sha256": "66d4967363e384a03246b9b34286c8ef6b6f99ce46bf1650345e6c1813ea0f7f",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual host C and exact RV32 owner instructions with an independent original-store oracle.",
+    "Preimage spans, plan/backing and software writes are synthetic caller-owned fixtures.",
+    "Snapshot restores are test-only; there is no production reset or retirement.",
+    "This does not bind API21 native hooks or prove physical ownership/drains/router/client acceptance."
+  ]
+}

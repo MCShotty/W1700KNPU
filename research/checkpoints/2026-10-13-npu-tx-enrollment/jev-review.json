@@ -1,0 +1,44 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "scope": "W1700K NPU experimental mainline; assess claim support only. Do not determine permissions or generate code.",
+    "allocator_excerpt": "for (i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) { command.api = NPU_COLD_BIND_DMA_API + i; command.value = i < ARRAY_SIZE(mailboxes) ? mailboxes[i].addr : captured[i - ARRAY_SIZE(mailboxes)].addr; err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value); if (err) goto hold; } err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS); if (err) goto hold; ... if (... snapshot.txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || ...) { err = -EPROTO; goto hold; } ... life->tx_published = true; for (i = 0; i < count; i++) addr[i] = life->tx_buffers[i].addr; ... hold: priv->wlan_session_error = err; npu_linux_control_close(&priv->wlan_control);",
+    "server_effects": "Authenticated 80-byte cold commands reserve sequence and inflight/active state. Fourteen ordered metadata commands enroll eight mailbox addresses and six fixed-size host DMA extents. Candidate BOOT/BAR/record state is checked against retained pending state before acknowledgment. Metadata takes result=1 without invoking an original callback. API21 is still unsupported in this cold lane; the six-selector owner has not been bound to original callback/store hooks.",
+    "recipe_effects": "Selectors 0/2 publish host aliases. Selectors 5/7 publish pointers and initialize 512/1024 internal 128-byte records. Selectors 10/12 publish aliases, clear two 16-bit counters, publish static L2 pointers and initialize 512 sixteen-byte records with 4/4/4/1-byte writes, preserving bytes13-15. The portable owner captures arbitrary preimages, reserves before each store and checks readback. It has no production reset/retirement operation.",
+    "current_evidence": "Host C, sanitizer and RV32 instruction fixtures supply modeled backing and caller-owned writes. The 1203-case wire suite includes lost-reply and pending-plan mutation controls and rejects 25 mutants. All six nominal RV32 store sequences completed, but mutation-runner qualification is still being finalized. A new raw pair compiled; native enrollment execution is the next check. None of this continuation contacted a router or measured physical DMA exclusion, coherency, drains, boot or clients.",
+    "address_domain_evidence": "Original firmware transforms host DMA addresses using (address & 0x3fffffff) | 0x40000000 for metadata and | 0x80000000 for record addresses. Internal records use raw arena addresses in 0x3e800000..0x3e878000 and L2 pointers 0x3e8a2000/0x3e8a4020. External DMA alias overlap checks normalize BAR, BOOT, mailboxes and host extents. No supplied hardware translation evidence establishes that equal low 30 bits of a transformed DDR address and a raw native SRAM/L2 address identify the same physical backing. Native destination provenance/span/ownership is a separate binding requirement."
+  },
+  "questions": {
+    "host_publication_order": {
+      "type": "noul",
+      "instructions": "Does state.allocator_excerpt place successful enrollment acknowledgment and the final enrolled-count check before setting tx_published and writing caller output addresses? Judge source-level ordering only, not hardware execution."
+    },
+    "api21_admission_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'This change already admits the original six API21 selectors through native store ownership hooks' against state.server_effects. Do not substitute metadata enrollment for callback/store-hook binding.",
+      "criteria": {
+        "supported": "The evidence establishes existing native callback/store-hook admission for all six selectors.",
+        "contradicted": "The evidence explicitly says API21 remains unsupported or unbound.",
+        "not_established": "The evidence is insufficient without explicitly contradicting the claim."
+      }
+    },
+    "physical_completion_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'The supplied receipts prove physical DMA backing exclusion and coherency on the router' against state.current_evidence. Software fixture execution is not physical observation.",
+      "criteria": {
+        "supported": "Router observations establish the specified physical properties.",
+        "contradicted": "The evidence explicitly identifies backing as modeled and excludes physical/router observation.",
+        "not_established": "The evidence lacks the physical proof without explicitly excluding its observation."
+      }
+    },
+    "internal_ddr_alias_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'Equal low 30 bits prove a raw native SRAM/L2 address and transformed host DDR address are physically identical' against state.address_domain_evidence. Distinct address expressions alone do not prove either physical equivalence or physical independence.",
+      "criteria": {
+        "supported": "The supplied hardware translation evidence establishes the equivalence.",
+        "contradicted": "The supplied hardware translation evidence establishes separate physical backing.",
+        "not_established": "No supplied translation evidence proves physical equivalence or independence."
+      }
+    }
+  }
+}

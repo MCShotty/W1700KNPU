@@ -1,10 +1,32 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-13 (host TX lifetime qualified; native API21 enrollment/records next; full goal open)
+Last updated: 2026-10-13 (native TX records enrolled; original API21 store binding next; full goal open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-13 - Native TX Record Enrollment
+
+- Integrated fourteen authenticated exchanges before allocator output: eight
+  mailbox/six TX DMA records. Wire80 is unchanged; private360 pins BOOT/BAR,
+  accepted prefix and pending plan. Native/CPU order checks and final STATUS/
+  identity/record checks retain both prefixes/resources on lost replies/errors.
+- The17th archive object owns all53260 portable original-derived stores with
+  arbitrary preimages, reserve-before-store and mixed-width/full-span readback.
+  Packaged RV32/host106640 calls,80 controls/seven mutants pass. Its213200-byte
+  state is not instantiated by original native hooks; API21 still denies.
+- Wire1203/25, lifetime113/nine, native14/forty lease pairs with earlier prefix/
+  getters and35 indication/28 TX/28 descriptor controls pass. Provider609/nine,
+  publisher60/eight,21 units, source68/nested/style/world/Ghidra58/FIT218+78 pass.
+  Backing/references/delivery/scheduling remain modeled, not physical proof.
+- Latest unflashed FIT69257a6b; CODE531dd367/DATA08630e0e include enlarged history.
+  Prior6efaa878/ffbd4344 plus seven companions each and older/R1/private backups
+  are protected. No router contact, flash, reset, Wi-Fi or power changes.
+- Next bind original API21 effects with exact GET/SET order, typed-table/native
+  spans/metadata neighbors/TXPKT/prior-owner/lock/IRQ checks. Remaining setup/
+  owners/hot/physical/retirement/recovery/clients keep the full goal open.
+  Evidence: `research/checkpoints/2026-10-13-npu-tx-enrollment/REPORT.md`.
 
 ## 2026-10-13 - Retained Host TX DMA Lifetime
 

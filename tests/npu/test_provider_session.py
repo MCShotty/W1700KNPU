@@ -28,7 +28,8 @@ FUNCTIONS = ('airoha_npu_wlan_cmd_with_retry', 'airoha_npu_wlan_init_memory',
              'airoha_npu_wlan_bind_endpoint_session',
              'airoha_npu_wlan_msg_send_session', 'airoha_npu_wlan_msg_get_session')
 CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c', 'cold-client.c')
-SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c', 'cold-setup.c')
+SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c', 'cold-setup.c', 'cold-tx-buffer.c')
+NATIVE_TXBUF_RECORDS = 14
 
 
 def prepare(directory, text, header):
@@ -55,7 +56,8 @@ def prepare(directory, text, header):
 
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
-                token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False):
+                token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
+                txbuffer_enrollment=False):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -146,6 +148,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             indication_state = h.binding.symbols['npu_emulation_indication_state']
             tx_state = h.tx.symbols['npu_emulation_tx_state']
             cold_state = h.rv.symbols['npu_emulation_cold_setup_state']
+            cold_bytes = int(h.rv.elf.get_section_by_name('.symtab').get_symbol_by_name(
+                'npu_emulation_cold_setup_state')[0]['st_size'])
+            assert cold_bytes >= 120 and not cold_bytes % 4
             assert h.get32(packet_state) == h.get32(page_state) == h.get32(indication_state) == h.get32(ADM + 4) == 0
             leases = []
             def observe_lease(cpu, access, address, size, value, data):
@@ -156,6 +161,16 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             assert lib.npu_test_endpoint(0x20000000, 0x100000, 2) == 0 and not failures, failures
             assert h.get32(cold_state + 8) == 24
             assert h.get32(cold_state + 48) == 0x20000000 and h.get32(cold_state + 52) == 0x100000
+            if txbuffer_enrollment:
+                assert cold_bytes == 360 and h.get32(cold_state + 120) == 14
+                captured = list(struct.unpack('<29I', h.cpu.mem_read(cold_state + 128, 116)))
+                expected_plan = [0, 0x20000000, 0x100000,
+                    *[0x96000000 + i * 0x100000 for i in range(6)],
+                    *[request + i * 256 for i in range(8)],
+                    *[word for region in plan for word in region]]
+                assert captured == expected_plan
+                assert bytes(h.cpu.mem_read(cold_state + 244, 116)) == struct.pack('<29I', *expected_plan)
+                print(json.dumps(dict(native_enrollment_records=14, exact_plan=True)), flush=True)
             lib.npu_test_command.argtypes = [ctypes.c_uint, ctypes.c_uint, ctypes.c_uint,
                                             ctypes.POINTER(ctypes.c_uint32)]
             sequence = [(0x30, 10, 0), (0x10, 14, 2)]
@@ -184,7 +199,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 nonlocal page_total, packet_before_pages, page_before_indication, indication_before, tx_before
                 nonlocal descriptor_before, descriptor_tx_before
                 if api == 4 and header in (0x30, 0x35):
-                    snapshot = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state,120)))]
+                    snapshot = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state,cold_bytes)))]
                     if header == 0x30: descriptor_before = snapshot
                     else: descriptor_tx_before = snapshot
                 if header == 0x15 and api == 0:
@@ -200,10 +215,10 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 if (tx_failure and header == 0x10 and api == 19) or (token_failure and api == 33):
                     h.tx_fault = 'token' if token_failure else 'register'
                 if not indication_failure and header == 0x18 and api == 1:
-                    indication_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, 120)))]
+                    indication_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, cold_bytes)))]
                 if not tx_failure and header == 0x10 and api == 19:
                     from tx_native_controls import REGS
-                    tx_before = dict(memory=h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, 120)))],
+                    tx_before = dict(memory=h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, cold_bytes)))],
                                      registers=[h.get32(address) for address in REGS])
                 if cold_failure and api == 1:
                     h.packet_tracking = True
@@ -424,10 +439,13 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         continue
                     if error:
                         break
-            assert leases == ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
+            expected_leases = ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
                              [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15 + [1] if tx_failure else
                              [1, 0] * 17 + [1] if token_failure else
                              [1, 0] * (25 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * 26)
+            if txbuffer_enrollment:
+                expected_leases[4:4] = [1, 0] * NATIVE_TXBUF_RECORDS
+            assert leases == expected_leases
             assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
             assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else
                                             16383 if tx_failure else 65535 if token_failure else 131071)

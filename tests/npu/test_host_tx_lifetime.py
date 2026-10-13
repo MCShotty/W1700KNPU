@@ -49,6 +49,11 @@ static void *dma_alloc_coherent(struct device *dev,size_t bytes,dma_addr_t *addr
         if(mutation==4)life.tx_buffers[0].addr^=0x10000;
         if(mutation==5)life.tx_buffers[0].bytes++;
         if(mutation==6)mutable_sizes[4]=1;
+        if(mutation==7)life.buffers[3].addr^=256;
+        if(mutation==8)life.buffers[3].buf=(void *)(uintptr_t)0x1234;
+        if(mutation==9)life.endpoint_base+=0x1000000;
+        if(mutation==10)life.endpoint_bytes+=4096;
+        if(mutation==11)life.bound_serial++;
     }
     return buf;
 }
@@ -114,13 +119,18 @@ def main():
             'permit-native-plan-overlap':('if (base < other + priv->native_plan[i][1] && other < base + bytes)','if (false)'),
             'omit-endpoint-identity':('!life->endpoint_bound || life->endpoint != endpoint ||','!life->endpoint_bound || false ||'),
             'omit-record-recheck':('life->tx_buffers[i].addr != captured[i].addr ||','false ||'),
+            'omit-native-enrollment':('for (i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) {','for (i = NPU_COLD_TXBUF_RECORDS; i < NPU_COLD_TXBUF_RECORDS; i++) {'),
+            'skip-late-mailbox-address':('life->buffers[i].addr != mailboxes[i].addr','false'),
         }
         original=inc.read_text()
         for name,(old,new) in changes.items():
             target=destination/'mutants'/name
             relevant=[fragment for fragment in functions if old in fragment]
             assert len(relevant)==1,(name,'mutation must target one extracted function')
-            mutated=parent.loader.once(original,relevant[0],parent.loader.once(relevant[0],old,new))
+            occurrences = 2 if name in ('skip-fresh-status', 'omit-record-recheck', 'omit-endpoint-identity') else 1
+            assert relevant[0].count(old) == occurrences, (name, 'unexpected guard count')
+            replacement = relevant[0].replace(old, new) if occurrences > 1 else parent.loader.once(relevant[0],old,new)
+            mutated=parent.loader.once(original,relevant[0],replacement)
             target.mkdir(parents=True)
             inc.write_text(mutated)
             mutant=target/'test'

@@ -75,6 +75,8 @@ def main():
         'skip-codec-getter-pointer': {client: loader.once(codec, '!npu_cold_descriptor_reply_arena(descriptor, result, 0) :', '(0 && !npu_cold_descriptor_reply_arena(descriptor, result, 0)) :')},
         'skip-host-getter-order': {executor: loader.once(linux, 'descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets', '0 && descriptor < NPU_COLD_DESCRIPTOR_STEPS && descriptor != control->descriptor_gets')},
         'skip-host-exact-arena': {executor: loader.once(linux, 'npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena)', 'npu_cold_descriptor_reply_arena(descriptor, output, 0)')},
+        'skip-pending-plan-pin': {server: loader.once(original, '!npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf)', '(0 && !npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf))')},
+        'skip-host-enrollment-order': {executor: loader.once(linux, 'enrollment != control->txbuf_enrolled)', '(0 && enrollment != control->txbuf_enrolled))')},
     }
     rejected = []
     for name, replacements in mutations.items():
@@ -86,7 +88,8 @@ def main():
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
-                          'Version/BAR/port/RX/page/indication/ACK/TX0/TX2/token and eight ordered descriptor GETs are covered. TX-buffer/INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
+                          'Fourteen ordered mailbox/TX records, lost replies and pending-plan mutations join the existing cold prefix/getters.',
+                          'API21 store binding, INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

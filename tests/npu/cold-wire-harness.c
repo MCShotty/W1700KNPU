@@ -129,6 +129,88 @@ static void fresh(void)
     check(setup.completed == 24 && calls == 5);
 }
 
+static struct npu_bootstrap_packet dma_record(unsigned step)
+{
+    struct npu_bootstrap_packet p = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_DMA_API + step, 0};
+
+    p.value = step < 8 ? 0x83000000 + 256 * step : 0x96000000 + 0x100000 * (step - 8);
+    return p;
+}
+
+static void dma_prefix(unsigned count)
+{
+    uint32_t value;
+
+    fresh();
+    for (unsigned i = 0; i < count; i++) {
+        struct npu_bootstrap_packet p = dma_record(i);
+
+        check(!npu_linux_control_cold_exchange(&control, &p, &value) && value == p.value);
+        check(setup.txbuf_enrolled == i + 1 && control.txbuf_enrolled == i + 1 &&
+              !setup.inflight && !admission.active && setup.completed == 24);
+        check(npu_cold_txbuf_dma_valid(&setup.txbuf, i + 1));
+    }
+}
+
+static void dma_enrollment_suite(void)
+{
+    dma_prefix(14);
+    uint32_t output;
+    check(!npu_linux_control_cold_exchange(&control, &commands[1], &output));
+    check(setup.txbuf_enrolled == 14 && setup.completed == 25);
+    for (unsigned step = 0; step < 14; step++) {
+        for (unsigned bad = 0; bad < 5; bad++) {
+            dma_prefix(step);
+            struct npu_bootstrap_packet p = dma_record(step);
+            unsigned old_calls = calls;
+            output = 0xabcdef01;
+            if (bad == 0) p.value = 0;
+            if (bad == 1) p.value++;
+            if (bad == 2) p.value = 0xbfffffff;
+            if (bad == 3) p.value = 0xa0000000;
+            if (bad == 4) p.value = boot.plan.region[NPU_BOOT_BINARY].base;
+            check(npu_linux_control_cold_exchange(&control, &p, &output) == -EPROTO);
+            check(calls == old_calls + 1 && output == 0xabcdef01 &&
+                  setup.txbuf_enrolled == step && setup.failed && barrier.fault);
+        }
+        for (unsigned after = 0; after < 2; after++) {
+            dma_prefix(step);
+            struct npu_bootstrap_packet p = dma_record(step);
+            unsigned old_calls = calls;
+            transport_error = -ETIMEDOUT; after_effect = after;
+            output = 0xabcdef01;
+            check(npu_linux_control_cold_exchange(&control, &p, &output) == -ETIMEDOUT);
+            check(output == 0xabcdef01 && calls == old_calls + 1 &&
+                  setup.txbuf_enrolled == step + after && control.txbuf_enrolled == step &&
+                  !barrier.released && !barrier.armed);
+            check(npu_linux_control_cold_exchange(&control, &p, &output) == -ETIMEDOUT && calls == old_calls + 1);
+        }
+        dma_prefix(step);
+        struct npu_bootstrap_packet wrong = dma_record((step + 1) % 14);
+        unsigned old_calls = calls;
+        check(npu_linux_control_cold_exchange(&control, &wrong, &output) == -EPROTO && calls == old_calls);
+        dma_prefix(step);
+        struct npu_cold_packet p;
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &wrong));
+        check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) == NPU_COLD_BAD_STATE);
+        check(setup.failed && setup.txbuf_enrolled == step);
+        for (unsigned word = 0; word < 29; word++) {
+            dma_prefix(step);
+            struct npu_bootstrap_packet command = dma_record(step);
+            check(npu_cold_client_request(&control.client, &p, sizeof(p), &command));
+            check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
+            ((uint32_t *)&setup.pending_txbuf)[word] ^= 1;
+            check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &command) == NPU_COLD_CALLBACK_FAILED);
+            check(setup.inflight && admission.active && setup.txbuf_enrolled == step);
+        }
+    }
+    for (unsigned step = 1; step < 14; step++) {
+        dma_prefix(step);
+        unsigned old_calls = calls;
+        check(npu_linux_control_cold_exchange(&control, &commands[1], &output) == -EPROTO && calls == old_calls);
+    }
+}
+
 static void envelope(struct npu_cold_packet *p, unsigned command)
 {
     check(npu_cold_client_request(&control.client, p, sizeof(*p), &commands[command]));
@@ -146,6 +228,7 @@ static void sticky(int error, unsigned old_calls)
 
 int main(void)
 {
+    dma_enrollment_suite();
     fresh();
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;

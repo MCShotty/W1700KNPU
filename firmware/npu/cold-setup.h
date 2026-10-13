@@ -4,6 +4,7 @@
 #include "bootstrap.h"
 #include "control-v2.h"
 #include "cold-descriptor.h"
+#include "cold-tx-buffer.h"
 
 #define NPU_COLD_REQUEST 0x3253434eu /* NCS2 */
 #define NPU_COLD_REPLY 0x3252434eu /* NCR2 */
@@ -38,6 +39,7 @@
 #define NPU_COLD_BIND_HEADER 0x1fu
 #define NPU_COLD_BIND_BASE_API 0x100u
 #define NPU_COLD_BIND_BYTES_API 0x101u
+#define NPU_COLD_BIND_DMA_API 0x102u
 #define NPU_COLD_PAGE_REG0 0xd45a0u
 #define NPU_COLD_ENDPOINT_MIN_BYTES (NPU_COLD_PAGE_REG0 + 0x20u + 12u)
 
@@ -90,7 +92,16 @@ struct npu_cold_setup {
     uint32_t endpoint_base, endpoint_bytes, prior_base, prior_bytes;
     uint32_t counts[NPU_COLD_COUNTS], prior_counts[NPU_COLD_COUNTS];
     uint32_t descriptor_gets, descriptor_arena, prior_descriptor_gets, prior_descriptor_arena;
+    uint32_t txbuf_enrolled, prior_txbuf_enrolled;
+    struct npu_cold_txbuf_plan txbuf, pending_txbuf;
 };
+
+static inline uint32_t npu_cold_txbuf_enrollment_step(const struct npu_bootstrap_packet *p)
+{
+    return p->header == NPU_COLD_BIND_HEADER && p->api >= NPU_COLD_BIND_DMA_API &&
+           p->api < NPU_COLD_BIND_DMA_API + NPU_COLD_TXBUF_RECORDS ?
+           p->api - NPU_COLD_BIND_DMA_API : NPU_COLD_TXBUF_RECORDS;
+}
 
 static inline uint32_t npu_cold_descriptor_command_step(const struct npu_bootstrap_packet *p)
 {

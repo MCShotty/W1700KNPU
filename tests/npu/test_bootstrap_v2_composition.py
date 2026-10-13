@@ -72,7 +72,7 @@ def build(*, destination=BUILD, negative_controls=True):
               '-ffreestanding', '-fno-builtin', '-fno-stack-protector', '-I', BASE]
     lld = shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'
     rv = ['--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32', '-nostdlib', f'--ld-path={lld}']
-    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'bootstrap-v2.c', 'cold-setup.c')]
+    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'bootstrap-v2.c', 'cold-setup.c', 'cold-tx-buffer.c')]
     host = [BASE / 'control-client.c', BASE / 'control-v2-client.c', BASE / 'cold-client.c']
     paths = [destination / name for name in ('control.so', 'host-arm.elf', 'base-rv.elf')]
     run([*common, '-std=c11', *sources, target, *host, '-shared', '-fPIC', '-o', paths[0]])

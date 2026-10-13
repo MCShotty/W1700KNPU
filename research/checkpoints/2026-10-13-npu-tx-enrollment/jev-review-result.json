@@ -1,0 +1,82 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-tx-buffer-20261013\\jev-enrollment.json",
+  "request_sha256": "2279c8731f13c3d160273e71eae75a27aa742d290c8ad4e682b8d9def51c5ee9",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "host_publication_order": {
+      "type": "noul",
+      "instructions": "Does state.allocator_excerpt place successful enrollment acknowledgment and the final enrolled-count check before setting tx_published and writing caller output addresses? Judge source-level ordering only, not hardware execution."
+    },
+    "api21_admission_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'This change already admits the original six API21 selectors through native store ownership hooks' against state.server_effects. Do not substitute metadata enrollment for callback/store-hook binding.",
+      "criteria": {
+        "supported": "The evidence establishes existing native callback/store-hook admission for all six selectors.",
+        "contradicted": "The evidence explicitly says API21 remains unsupported or unbound.",
+        "not_established": "The evidence is insufficient without explicitly contradicting the claim."
+      }
+    },
+    "physical_completion_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'The supplied receipts prove physical DMA backing exclusion and coherency on the router' against state.current_evidence. Software fixture execution is not physical observation.",
+      "criteria": {
+        "supported": "Router observations establish the specified physical properties.",
+        "contradicted": "The evidence explicitly identifies backing as modeled and excludes physical/router observation.",
+        "not_established": "The evidence lacks the physical proof without explicitly excluding its observation."
+      }
+    },
+    "internal_ddr_alias_claim": {
+      "type": "choice",
+      "instructions": "Classify the claim 'Equal low 30 bits prove a raw native SRAM/L2 address and transformed host DDR address are physically identical' against state.address_domain_evidence. Distinct address expressions alone do not prove either physical equivalence or physical independence.",
+      "criteria": {
+        "supported": "The supplied hardware translation evidence establishes the equivalence.",
+        "contradicted": "The supplied hardware translation evidence establishes separate physical backing.",
+        "not_established": "No supplied translation evidence proves physical equivalence or independence."
+      }
+    }
+  },
+  "elapsed_ms": 898,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "host_publication_order": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "api21_admission_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "physical_completion_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.99,
+          "not_established": 0.01
+        }
+      },
+      "internal_ddr_alias_claim": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.01,
+          "not_established": 0.99
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1489,
+      "output_tokens": 172
+    }
+  }
+}

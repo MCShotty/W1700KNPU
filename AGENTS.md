@@ -1,5 +1,24 @@
 # W1700KNPU Workspace
 
+## 2026-10-13 - Native TX Enrollment Qualified
+
+- Actual allocator enrolls eight mailbox/six TX records before output under the
+  same boot/nonce/held session. Wire80 stays fixed; private360 pins pending and
+  accepted BOOT/BAR/record plans. Lost replies retain both prefixes/resources.
+- Packaged owner106640 calls/53260 stores/80 controls/seven mutants, wire1203/25,
+  lifetime113/nine, native14/forty lease pairs, provider609/nine,21 units and
+  source68/nested/style/world/Ghidra58/FIT218+78 pass. Unflashed FIT69257a6b;
+  prior6efaa878/ffbd4344 and companions are protected. No hardware action.
+- API21 stays denied. The213200-byte portable owner is not instantiated/bound
+  to original stores. Next pin typed tables, metadata neighbors/internal/L2
+  spans, exact TXPKT, prior owners and original lock/IRQ/session, preserving
+  actual GET/SET interleaving. Remaining setup/hot/physical/recovery/clients open.
+  Do not infer physical DDR/SRAM alias equivalence/independence from low bits.
+- Freeze consumed sources during replays/builds; derive private snapshot size
+  from ELF, not historical120. Use existing WSL Python libraries and LLVM21
+  linker; Linux Ghidra temporary project paths must not have dotted elements.
+  No subagents. Scope: `research/checkpoints/2026-10-13-npu-tx-enrollment/REPORT.md`.
+
 ## 2026-10-13 - Host TX Lifetime Qualified
 
 - Checked allocation owns six coherent CPU/DMA/size records and a pinned PCI

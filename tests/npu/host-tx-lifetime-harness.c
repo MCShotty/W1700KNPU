@@ -196,7 +196,8 @@ int main(void)
         failed_output(kind <= 5 ? -EPROTO : -EBUSY,0,sizes);
         dispose();
     }
-    for (unsigned kind = 1; kind <= 5; kind++) {
+    for (unsigned kind = 1; kind <= 11; kind++) {
+        if (kind == 6) continue;
         fixture(true); memcpy(sizes,expected_sizes,sizeof(sizes)); mutation = kind;
         failed_output(-EPROTO,6,sizes); dispose();
     }
@@ -205,6 +206,19 @@ int main(void)
         fault_at = calls + 1; fault_error = -EIO; effect_fault = late;
         failed_output(-EIO,6,sizes); dispose();
     }
+    for (unsigned slot = 1; slot <= 16; slot++)
+        for (unsigned after = 0; after < 2; after++) {
+            fixture(true); memcpy(sizes, expected_sizes, sizeof(sizes));
+            unsigned before_calls = calls;
+            fault_at = before_calls + slot; fault_error = -ETIMEDOUT; effect_fault = after;
+            failed_output(-ETIMEDOUT, 6, sizes);
+            unsigned prefix = slot <= 1 ? 0 : slot >= 16 ? 14 : slot - 2;
+            check(cold.txbuf_enrolled == prefix + (slot >= 2 && slot <= 15 ? after : 0) &&
+                  priv.wlan_control.txbuf_enrolled == prefix && calls == before_calls + slot &&
+                  life.tx_attempted && !life.tx_published,
+                  "lost reply retains exact native/CPU enrollment prefixes and all allocations");
+            dispose();
+        }
     for (unsigned word=16;word<20;word++) {
         fixture(true);memcpy(sizes,expected_sizes,sizeof(sizes));
         mutate_at=calls+1;mutate_word=word;mutate_value=0xffffffff;
@@ -213,8 +227,12 @@ int main(void)
     fixture(true); memcpy(sizes,expected_sizes,sizeof(sizes));
     mutable_sizes = sizes; mutation = 6;
     dma_addr_t out[6];
+    unsigned before_calls = calls;
     check(!airoha_npu_wlan_alloc_tx_buffers(&priv.npu,&endpoint_device,&dma_device,sizes,out,6),
           "caller size changes cannot change admitted allocations");
+    check(calls == before_calls + 16 && cold.txbuf_enrolled == 14 &&
+          priv.wlan_control.txbuf_enrolled == 14,
+          "two fresh STATUS calls and all fourteen native records precede output");
     for (unsigned i = 0; i < 6; i++)
         check(allocated_bytes[i] == expected_sizes[i] && out[i] == addresses[i], "immutable allocation sizes");
     unsigned old_dma=dma_calls,old_wire=calls;

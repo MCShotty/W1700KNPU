@@ -21,7 +21,7 @@ struct npu_linux_control {
 	struct mutex mutex;
 	struct airoha_npu *provider;
 	struct npu_control_v2_client client;
-	u32 descriptor_gets, descriptor_arena;
+	u32 descriptor_gets, descriptor_arena, txbuf_enrolled;
 	int error;
 	bool initialized;
 	bool closed;
@@ -29,7 +29,7 @@ struct npu_linux_control {
 
 struct npu_linux_control_snapshot {
 	struct npu_control_v2_client client;
-	u32 descriptor_gets, descriptor_arena;
+	u32 descriptor_gets, descriptor_arena, txbuf_enrolled;
 	int error;
 	bool closed;
 };
