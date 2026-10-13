@@ -1,0 +1,170 @@
+{
+  "passed": true,
+  "actual_provider_c": true,
+  "matrix": {
+    "cases": 273,
+    "requests": 0,
+    "copies": 0
+  },
+  "pair_cases": [
+    {
+      "result": 0,
+      "requests": 2,
+      "copies": 2,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        1
+      ],
+      "events": [
+        10,
+        11,
+        20,
+        21,
+        31,
+        30
+      ],
+      "code_readback_sha256": "3a6d263243d2d39c658caa187d1bfb4246f695ad20412ef3bd5086497d09bc56",
+      "data_readback_sha256": "9951af4878e4850dbf8c72cb189cd1dea88dd831d011f35328bb591ac9e830ab",
+      "mode": "nominal"
+    },
+    {
+      "result": -517,
+      "requests": 2,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        0
+      ],
+      "events": [
+        10,
+        11,
+        30
+      ],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "missing-data"
+    },
+    {
+      "result": -22,
+      "requests": 1,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        0
+      ],
+      "events": [
+        10,
+        30
+      ],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "empty-code"
+    },
+    {
+      "result": -22,
+      "requests": 2,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        1
+      ],
+      "events": [
+        10,
+        11,
+        31,
+        30
+      ],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "empty-data"
+    },
+    {
+      "result": -7,
+      "requests": 1,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        0
+      ],
+      "events": [
+        10,
+        30
+      ],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "oversize-code"
+    },
+    {
+      "result": -7,
+      "requests": 2,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        1,
+        1
+      ],
+      "events": [
+        10,
+        11,
+        31,
+        30
+      ],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "oversize-data"
+    },
+    {
+      "result": -22,
+      "requests": 0,
+      "copies": 0,
+      "code_bytes": 816820,
+      "data_bytes": 25728,
+      "released": [
+        0,
+        0
+      ],
+      "events": [],
+      "code_readback_sha256": "da2c3994b3716a084623009fdf1440420592b32f9c6438710b7bc2dbb4ca307f",
+      "data_readback_sha256": "c7c35a69d70318876c71c5cc4a6f0e00b9c1374b12debe26da48399b23cc7cd1",
+      "mode": "invalid-plan"
+    }
+  ],
+  "inputs": {
+    ".build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/drivers/net/ethernet/airoha/airoha_npu.c": "faa356902fd3511788c8033039fe8520f24b91f52283ee1a8d39d97dde441432",
+    "tests/npu/fixtures/airoha-npu-6.18.52/provenance.json": "78989ad6c9aeb38f4f9137bee826bc4ffdc7af171dc6702e9961da1c3d42b8a0",
+    "tests/npu/fixtures/airoha-npu-6.18.52/provider-upstream.c": "37bf128e7cd7c212e9a30c8b76f031522dede2059b4709e97805b648e01193d9",
+    "firmware/source-lock.json": "adcfc0a2227d843e9d8456732538b3323a19c0694aa9497c3f46a62894d513f0",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "2951062f2ad8007fe2b5ecb12fbc66559d5d262385d6f053b33d0309c3fed444",
+    "tests/npu/raw-pair-loader-harness.c": "3c0a10ed3f6c1f0094be60046ce5197b1eed8a1a2bed3571fc6368d14e820d05",
+    "tests/npu/firmware-loader-harness.c": "8cd283be7823a56134e5ef9f2d281da8f2df01c48b8e1a980b03a117a373247b",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tools/npu_image.py": "991a4464b61a75b69bf7373b70865724fbac587bfe383615c88a891b30af0c3f",
+    "tests/npu/test_npu_pair_loader.py": "df529c8d98b0312835fd33cd9fea304de07db3d692469a36267e1b5dad781b7f",
+    ".build/merged-openwrt/bin/npu-pair-rx-event-lifetime-world-q1/CODE.bin": "32b3506a67e498a1049b37a51cb5caa0ca2f1b7eeb87762028017fa81f5372df",
+    ".build/merged-openwrt/bin/npu-pair-rx-event-lifetime-world-q1/DATA.bin": "402cce5fe187b9d29d2f3d03e467af671527fdc75c2f120c5e96383877f96866",
+    ".build/merged-openwrt/bin/npu-pair-rx-event-lifetime-world-q1/manifest.json": "419f0b6bbdb9494807037eda779ead7031d6c5a6020b91ce10fd399249778011"
+  },
+  "binary_sha256": "6639de2b1604967488c368b3385cf199b0f11cdb6fdb84cc29647ce7842808f0",
+  "fragment_sha256": "60041595a3ad29e372ce620b442369d236ebe4674b0e1b11a88be515e1266e3b",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual current provider C copies/publishes the exact raw pair; requests/resources/RNG/mapping/I/O remain modeled.",
+    "No physical probe boot trigger,live replacement containment or cache/DMA retirement proof."
+  ]
+}

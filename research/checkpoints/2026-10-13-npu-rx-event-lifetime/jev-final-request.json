@@ -1,0 +1,360 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "allocator": "static int airoha_npu_wlan_alloc_rx_event_session(struct airoha_npu *npu,\n\t\t\t\t\t\t  struct device *endpoint,\n\t\t\t\t\t\t  struct device *dma_dev,\n\t\t\t\t\t\t  u32 count, u32 stride,\n\t\t\t\t\t\t  void **buf, dma_addr_t *addr)\n{\n\tstruct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);\n\tstruct airoha_npu_dma_lifetime *life = priv->dma_lifetime;\n\tstruct npu_linux_control_snapshot snapshot;\n\tu32 plan[NPU_EN7581_7996_PLAN_REGIONS][2];\n\tstruct {\n\t\tvoid *buf;\n\t\tdma_addr_t addr;\n\t} mailboxes[NPU_NUM_CORES];\n\tu32 endpoint_base, endpoint_bytes, bound_serial;\n\tvoid *allocated;\n\tdma_addr_t allocated_addr;\n\tunsigned int i;\n\tint err = 0;\n\n\tif (!priv->checked_pair)\n\t\treturn -EOPNOTSUPP;\n\tif (!endpoint || !dma_dev || count != 512 || stride != 16 ||\n\t    !buf || !addr)\n\t\treturn -EINVAL;\n\tmutex_lock(&priv->wlan_session_lock);\n\tif (priv->wlan_session_error) {\n\t\terr = priv->wlan_session_error;\n\t\tgoto unlock;\n\t}\n\tif (dma_dev != npu->dev) {\n\t\terr = -EINVAL;\n\t\tgoto unlock;\n\t}\n\tif (!life || life->dev != dma_dev || !life->exposed ||\n\t    !life->endpoint_bound || life->endpoint != endpoint || !priv->native_published ||\n\t    life->rx_attempted || life->rx_published || life->rx_serial ||\n\t    life->rx_event.buf || life->rx_event.addr || life->rx_event.bytes ||\n\t    life->tx_attempted || life->tx_published) {\n\t\terr = -EBUSY;\n\t\tgoto unlock;\n\t}\n\terr = airoha_npu_wlan_session_snapshot(priv, true);\n\tif (err)\n\t\tgoto hold;\n\tnpu_linux_control_snapshot(&priv->wlan_control, &snapshot);\n\tif (life->boot_identity != priv->boot_identity ||\n\t    life->nonce_lo != snapshot.client.base.nonce_lo ||\n\t    life->nonce_hi != snapshot.client.base.nonce_hi ||\n\t    life->bound_serial != snapshot.client.base.serial || snapshot.descriptor_gets ||\n\t    snapshot.descriptor_arena || snapshot.txbuf_enrolled || snapshot.txbuf_steps) {\n\t\terr = -EPROTO;\n\t\tgoto hold;\n\t}\n\tmemcpy(plan, priv->native_plan, sizeof(plan));\n\tendpoint_base = life->endpoint_base;\n\tendpoint_bytes = life->endpoint_bytes;\n\tbound_serial = life->bound_serial;\n\tfor (i = 0; i < ARRAY_SIZE(mailboxes); i++) {\n\t\tif (!life->buffers[i].buf || !life->buffers[i].addr ||\n\t\t    upper_32_bits(life->buffers[i].addr)) {\n\t\t\terr = -EPROTO;\n\t\t\tgoto hold;\n\t\t}\n\t\tmailboxes[i].buf = life->buffers[i].buf;\n\t\tmailboxes[i].addr = life->buffers[i].addr;\n\t}\n\t/* Retain the real queue backing before any caller can program its address. */\n\tlife->rx_attempted = true;\n\tlife->rx_event.bytes = count * stride;\n\tlife->rx_event.buf = dma_alloc_coherent(dma_dev, life->rx_event.bytes,\n\t\t\t\t\t\t&life->rx_event.addr, GFP_KERNEL);\n\tif (!life->rx_event.buf) {\n\t\terr = -ENOMEM;\n\t\tgoto hold;\n\t}\n\tif (!airoha_npu_wlan_rx_event_valid(priv)) {\n\t\terr = -EINVAL;\n\t\tgoto hold;\n\t}\n\tallocated = life->rx_event.buf;\n\tallocated_addr = life->rx_event.addr;\n\terr = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);\n\tif (err)\n\t\tgoto hold;\n\terr = airoha_npu_wlan_session_snapshot(priv, true);\n\tif (err)\n\t\tgoto hold;\n\tnpu_linux_control_snapshot(&priv->wlan_control, &snapshot);\n\tif (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||\n\t    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||\n\t    !priv->native_published || !life->rx_attempted ||\n\t    life->rx_published || life->rx_serial ||\n\t    life->tx_attempted || life->tx_published ||\n\t    life->boot_identity != priv->boot_identity ||\n\t    life->nonce_lo != snapshot.client.base.nonce_lo ||\n\t    life->nonce_hi != snapshot.client.base.nonce_hi ||\n\t    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||\n\t    life->bound_serial != bound_serial ||\n\t    snapshot.descriptor_gets || snapshot.descriptor_arena ||\n\t    snapshot.txbuf_enrolled || snapshot.txbuf_steps ||\n\t    life->rx_event.buf != allocated || life->rx_event.addr != allocated_addr ||\n\t    memcmp(plan, priv->native_plan, sizeof(plan)) ||\n\t    !airoha_npu_wlan_rx_event_valid(priv)) {\n\t\terr = -EPROTO;\n\t\tgoto hold;\n\t}\n\tfor (i = 0; i < ARRAY_SIZE(mailboxes); i++)\n\t\tif (life->buffers[i].buf != mailboxes[i].buf ||\n\t\t    life->buffers[i].addr != mailboxes[i].addr) {\n\t\t\terr = -EPROTO;\n\t\t\tgoto hold;\n\t\t}\n\tlife->rx_serial = snapshot.client.base.serial;\n\tlife->rx_published = true;\n\t*buf = allocated;\n\t*addr = allocated_addr;\n\tgoto unlock;\nhold:\n\tpriv->wlan_session_error = err;\n\tnpu_linux_control_close(&priv->wlan_control);\nunlock:\n\tmutex_unlock(&priv->wlan_session_lock);\n\treturn err;\n}",
+    "cleanup": "static void airoha_npu_dma_cleanup(void *data)\n{\n\tstruct airoha_npu_dma_lifetime *life = data;\n\tunsigned int i;\n\n\t/* No physical retirement witness exists yet. Publication errors, detach\n\t * and software parking must not release possibly device-owned mailboxes.\n\t */\n\tif (life->exposed) {\n\t\tmutex_lock(&airoha_npu_retained_lock);\n\t\tlist_add_tail(&life->retained, &airoha_npu_retained_dma);\n\t\tmutex_unlock(&airoha_npu_retained_lock);\n\t\tdev_warn(life->dev, \"retaining NPU DMA mailboxes pending retirement proof\\n\");\n\t\treturn;\n\t}\n\tfor (i = 0; i < ARRAY_SIZE(life->buffers); i++)\n\t\tif (life->buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,\n\t\t\t\t\t  life->buffers[i].buf, life->buffers[i].addr);\n\tfor (i = 0; i < ARRAY_SIZE(life->tx_buffers); i++)\n\t\tif (life->tx_buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, life->tx_buffers[i].bytes,\n\t\t\t\t\t  life->tx_buffers[i].buf,\n\t\t\t\t\t  life->tx_buffers[i].addr);\n\tif (life->rx_event.buf)\n\t\tdma_free_coherent(life->dev, life->rx_event.bytes,\n\t\t\t\t  life->rx_event.buf, life->rx_event.addr);\n\tif (life->endpoint)\n\t\tput_device(life->endpoint);\n\tput_device(life->dev);\n\tkfree(life);\n}",
+    "queue": "static int\nmt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,\n\t\t     int idx, int n_desc, int bufsize,\n\t\t     u32 ring_base)\n{\n\tint ret, size;\n\n\tspin_lock_init(&q->lock);\n\tspin_lock_init(&q->cleanup_lock);\n\n\tq->regs = dev->mmio.regs + ring_base + idx * MT_RING_SIZE;\n\tq->ndesc = n_desc;\n\tq->buf_size = bufsize;\n\tq->hw_idx = idx;\n\tq->dev = dev;\n\n\tif (mt76_queue_is_wed_rro_ind(q))\n\t\tsize = sizeof(struct mt76_wed_rro_desc);\n\telse if (mt76_queue_is_npu_tx(q))\n\t\tsize = sizeof(struct airoha_npu_tx_dma_desc);\n\telse if (mt76_queue_is_npu_rx(q))\n\t\tsize = sizeof(struct airoha_npu_rx_dma_desc);\n\telse\n\t\tsize = sizeof(struct mt76_desc);\n\n\tret = mt76_npu_alloc_rx_event(dev, q);\n\tif (ret == -EOPNOTSUPP)\n\t\tq->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,\n\t\t\t\t\t      &q->desc_dma, GFP_KERNEL);\n\telse if (ret)\n\t\treturn ret;\n\tif (!q->desc)\n\t\treturn -ENOMEM;\n\n\tmt76_dma_queue_magic_cnt_init(dev, q);\n\tsize = q->ndesc * sizeof(*q->entry);\n\tq->entry = devm_kzalloc(dev->dev, size, GFP_KERNEL);\n\tif (!q->entry)\n\t\treturn -ENOMEM;\n\n\tret = mt76_create_page_pool(dev, q);\n\tif (ret)\n\t\treturn ret;\n\n\tmt76_npu_queue_setup(dev, q);\n\tret = mt76_wed_dma_setup(dev, q, false);\n\tif (ret)\n\t\treturn ret;\n\n\tif (mtk_wed_device_active(&dev->mmio.wed)) {\n\t\tif ((mtk_wed_get_rx_capa(&dev->mmio.wed) && mt76_queue_is_wed_rro(q)) ||\n\t\t    mt76_queue_is_wed_tx_free(q))\n\t\t\treturn 0;\n\t}\n\n\t/* HW specific driver is supposed to reset brand-new EMI queues since\n\t * it needs to set cpu index pointer.\n\t */\n\tmt76_dma_queue_reset(dev, q, !mt76_queue_is_emi(q));\n\n\treturn 0;\n}",
+    "index_sequences": [
+      {
+        "modeled_descriptor_count": 0,
+        "missing_pointer": null,
+        "returned": true,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ],
+          [
+            2214640106,
+            2516583432,
+            4,
+            1535
+          ],
+          [
+            2214640128,
+            2516583688,
+            4,
+            4294967295
+          ]
+        ],
+        "faults": [],
+        "error": null,
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 1,
+        "missing_pointer": null,
+        "returned": true,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ],
+          [
+            2214640106,
+            2516583432,
+            4,
+            1535
+          ],
+          [
+            2214640128,
+            2516583688,
+            4,
+            0
+          ]
+        ],
+        "faults": [],
+        "error": null,
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": null,
+        "returned": true,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ],
+          [
+            2214640106,
+            2516583432,
+            4,
+            1535
+          ],
+          [
+            2214640128,
+            2516583688,
+            4,
+            511
+          ]
+        ],
+        "faults": [],
+        "error": null,
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 65535,
+        "missing_pointer": null,
+        "returned": true,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ],
+          [
+            2214640106,
+            2516583432,
+            4,
+            1535
+          ],
+          [
+            2214640128,
+            2516583688,
+            4,
+            65534
+          ]
+        ],
+        "faults": [],
+        "error": null,
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": 0,
+        "returned": false,
+        "stores": [],
+        "faults": [
+          {
+            "pc": 2214640046,
+            "address": 8,
+            "access": 20,
+            "bytes": 4
+          }
+        ],
+        "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": 1,
+        "returned": false,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ]
+        ],
+        "faults": [
+          {
+            "pc": 2214640064,
+            "address": 8,
+            "access": 20,
+            "bytes": 4
+          }
+        ],
+        "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": 2,
+        "returned": false,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ]
+        ],
+        "faults": [
+          {
+            "pc": 2214640082,
+            "address": 8,
+            "access": 20,
+            "bytes": 4
+          }
+        ],
+        "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": 3,
+        "returned": false,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ]
+        ],
+        "faults": [
+          {
+            "pc": 2214640106,
+            "address": 8,
+            "access": 20,
+            "bytes": 4
+          }
+        ],
+        "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      },
+      {
+        "modeled_descriptor_count": 512,
+        "missing_pointer": 4,
+        "returned": false,
+        "stores": [
+          [
+            2214640046,
+            2516582664,
+            4,
+            255
+          ],
+          [
+            2214640064,
+            2516582920,
+            4,
+            511
+          ],
+          [
+            2214640082,
+            2516583176,
+            4,
+            1023
+          ],
+          [
+            2214640106,
+            2516583432,
+            4,
+            1535
+          ]
+        ],
+        "faults": [
+          {
+            "pc": 2214640128,
+            "address": 8,
+            "access": 20,
+            "bytes": 4
+          }
+        ],
+        "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+        "earlier_writes_retained": true,
+        "data_and_other_host_bytes_unchanged": true
+      }
+    ],
+    "limits": [
+      "C tests model DMA backing/device refs/registers/framework/transport.",
+      "Original index probes model the DESC10 count. RX native enrollment/API22 and complete strict setup remain open.",
+      "The image is unflashed; no physical DMA/exclusion/coherency/drain/router/client acceptance."
+    ]
+  },
+  "questions": {
+    "output_after_status": {
+      "type": "noul",
+      "instructions": "In allocator, are CPU and DMA outputs assigned only after successful fresh STATUS and late captured-state checks? Judge the supplied control flow, not physical behavior."
+    },
+    "fallback_only_unsupported": {
+      "type": "noul",
+      "instructions": "In queue, is managed coherent allocation used only when the new allocation hook returns EOPNOTSUPP, with other nonzero errors returned without managed fallback?"
+    },
+    "exposed_cleanup_retains": {
+      "type": "noul",
+      "instructions": "In cleanup, does the exposed branch retain the entire lifetime without freeing its RX-event backing or device references? Do not treat this as a physical drain witness."
+    },
+    "partial_index_claim": {
+      "type": "choice",
+      "instructions": "Do index_sequences support the scoped claim: each missing pointer faults after zero-to-four preceding host index writes that remain, within these modeled original-callback tests?",
+      "criteria": {
+        "supported": "The explicit observations establish this finite-case claim.",
+        "contradicted": "An observation contradicts the claimed prefix behavior.",
+        "not_established": "The necessary finite-case observations are absent."
+      }
+    },
+    "full_goal_claim": {
+      "type": "choice",
+      "instructions": "Do the supplied C source, index probes and limits establish full NPU implementation and physical router acceptance?",
+      "criteria": {
+        "supported": "All parts of the full claim are established.",
+        "not_established": "Native setup/lifecycle or physical/router acceptance remain missing.",
+        "unknown": "The supplied scope cannot be determined."
+      }
+    }
+  }
+}

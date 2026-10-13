@@ -1,0 +1,79 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-20261013\\jev-final-request.json",
+  "request_sha256": "75f69ca4ecff263f102f499dc1c8eb7b8de85ddecef60f4d297f898690fbf60e",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "output_after_status": {
+      "type": "noul",
+      "instructions": "In allocator, are CPU and DMA outputs assigned only after successful fresh STATUS and late captured-state checks? Judge the supplied control flow, not physical behavior."
+    },
+    "fallback_only_unsupported": {
+      "type": "noul",
+      "instructions": "In queue, is managed coherent allocation used only when the new allocation hook returns EOPNOTSUPP, with other nonzero errors returned without managed fallback?"
+    },
+    "exposed_cleanup_retains": {
+      "type": "noul",
+      "instructions": "In cleanup, does the exposed branch retain the entire lifetime without freeing its RX-event backing or device references? Do not treat this as a physical drain witness."
+    },
+    "partial_index_claim": {
+      "type": "choice",
+      "instructions": "Do index_sequences support the scoped claim: each missing pointer faults after zero-to-four preceding host index writes that remain, within these modeled original-callback tests?",
+      "criteria": {
+        "supported": "The explicit observations establish this finite-case claim.",
+        "contradicted": "An observation contradicts the claimed prefix behavior.",
+        "not_established": "The necessary finite-case observations are absent."
+      }
+    },
+    "full_goal_claim": {
+      "type": "choice",
+      "instructions": "Do the supplied C source, index probes and limits establish full NPU implementation and physical router acceptance?",
+      "criteria": {
+        "supported": "All parts of the full claim are established.",
+        "not_established": "Native setup/lifecycle or physical/router acceptance remain missing.",
+        "unknown": "The supplied scope cannot be determined."
+      }
+    }
+  },
+  "elapsed_ms": 685,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "output_after_status": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "fallback_only_unsupported": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "exposed_cleanup_retains": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "partial_index_claim": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.89,
+        "probabilities": {
+          "supported": 0.93,
+          "contradicted": 0.06,
+          "not_established": 0.01
+        }
+      },
+      "full_goal_claim": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "not_established": 1.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 4628,
+      "output_tokens": 151
+    }
+  }
+}

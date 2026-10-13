@@ -110,7 +110,7 @@ build input; compilation is not a physical drain or recovery proof.
  #define NPU_DUMP_SIZE				512
  /*
   * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
-@@ -122,6 +142,123 @@
+@@ -122,6 +142,134 @@
  	struct airoha_npu_fw fw_rv32;
  	struct airoha_npu_fw fw_data;
  };
@@ -127,6 +127,11 @@ build input; compilation is not a physical drain or recovery proof.
 +		dma_addr_t addr;
 +		u32 bytes;
 +	} tx_buffers[6];
++	struct {
++		void *buf;
++		dma_addr_t addr;
++		u32 bytes;
++	} rx_event;
 +	struct device *endpoint;
 +	u64 boot_identity;
 +	u32 nonce_lo, nonce_hi;
@@ -134,6 +139,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	bool endpoint_bound;
 +	bool tx_attempted;
 +	bool tx_published;
++	bool rx_attempted;
++	bool rx_published;
++	u32 rx_serial;
 +	bool exposed;
 +};
 +
@@ -202,6 +210,9 @@ build input; compilation is not a physical drain or recovery proof.
 +			dma_free_coherent(life->dev, life->tx_buffers[i].bytes,
 +					  life->tx_buffers[i].buf,
 +					  life->tx_buffers[i].addr);
++	if (life->rx_event.buf)
++		dma_free_coherent(life->dev, life->rx_event.bytes,
++				  life->rx_event.buf, life->rx_event.addr);
 +	if (life->endpoint)
 +		put_device(life->endpoint);
 +	put_device(life->dev);
@@ -234,7 +245,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #define MBOX_MSG_FUNC_ID	GENMASK(14, 11)
  #define MBOX_MSG_STATIC_BUF	BIT(5)
-@@ -171,10 +308,10 @@
+@@ -171,10 +319,10 @@
  				 u16 reply_len)
  {
  	struct airoha_npu_core *core = &npu->cores[0]; /* FIXME: core */
@@ -247,7 +258,7 @@ build input; compilation is not a physical drain or recovery proof.
  		return -EINVAL;
  
  	if (reply && reply_len > len)
-@@ -190,26 +327,57 @@
+@@ -190,26 +338,57 @@
  	 */
  	spin_lock_bh(&core->lock);
  
@@ -311,7 +322,7 @@ build input; compilation is not a physical drain or recovery proof.
  	spin_unlock_bh(&core->lock);
  
  	return ret;
-@@ -221,36 +389,223 @@
+@@ -221,36 +400,223 @@
  	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
  }
  
@@ -551,7 +562,7 @@ build input; compilation is not a physical drain or recovery proof.
  	int ret;
  
  	ret = of_property_read_string_array(dev->of_node, "firmware-name",
-@@ -259,26 +614,46 @@
+@@ -259,26 +625,46 @@
  		return dev_err_probe(dev, -EINVAL,
  				     "invalid firmware-name property\n");
  
@@ -611,7 +622,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	addr = devm_ioremap_resource(dev, res);
  	if (IS_ERR(addr))
-@@ -288,18 +663,12 @@
+@@ -288,18 +674,12 @@
  	 * dts if available.
  	 */
  	if (of_find_property(dev->of_node, "firmware-name", NULL))
@@ -636,7 +647,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
-@@ -489,6 +858,69 @@
+@@ -489,6 +869,69 @@
  				    enum airoha_npu_wlan_set_cmd func_id,
  				    void *data, int data_len, gfp_t gfp)
  {
@@ -706,7 +717,7 @@ build input; compilation is not a physical drain or recovery proof.
  	struct wlan_mbox_data *wlan_data;
  	int err, len;
  
-@@ -498,29 +930,6 @@
+@@ -498,29 +941,6 @@
  		return -ENOMEM;
  
  	wlan_data->ifindex = ifindex;
@@ -736,7 +747,7 @@ build input; compilation is not a physical drain or recovery proof.
  	wlan_data->func_type = NPU_OP_GET;
  	wlan_data->func_id = func_id;
  
-@@ -531,89 +940,659 @@
+@@ -531,89 +951,852 @@
  	return err;
  }
  
@@ -897,6 +908,13 @@ build input; compilation is not a physical drain or recovery proof.
 +		return false;
 +	if (base < bar + life->endpoint_bytes && bar < base + bytes)
 +		return false;
++	if (life->rx_event.buf) {
++		u64 other = life->rx_event.addr & 0x3fffffffULL;
++
++		if (life->tx_buffers[index].buf == life->rx_event.buf ||
++		    (base < other + life->rx_event.bytes && other < base + bytes))
++			return false;
++	}
 +	for (i = 0; i < NPU_EN7581_7996_PLAN_REGIONS; i++) {
 +		u64 other = priv->native_plan[i][0] & 0x3fffffffULL;
 +
@@ -921,6 +939,170 @@ build input; compilation is not a physical drain or recovery proof.
 +	return true;
 +}
 +
++static bool airoha_npu_wlan_rx_event_valid(struct airoha_npu_priv *priv)
++{
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	u64 addr = life->rx_event.addr, base = addr & 0x3fffffffULL;
++	u64 bar = life->endpoint_base & 0x3fffffffULL;
++	u32 bytes = life->rx_event.bytes;
++	unsigned int i;
++
++	if (!life->rx_event.buf || bytes != 512 * 16 || !addr ||
++	    upper_32_bits(addr) || !IS_ALIGNED(addr, 16) || addr >= 0xc0000000ULL ||
++	    bytes > 0xc0000000ULL - addr || bytes > 0x40000000ULL - base ||
++	    (base < bar + life->endpoint_bytes && bar < base + bytes))
++		return false;
++	for (i = 0; i < NPU_EN7581_7996_PLAN_REGIONS; i++) {
++		u64 other = priv->native_plan[i][0] & 0x3fffffffULL;
++
++		if (base < other + priv->native_plan[i][1] && other < base + bytes)
++			return false;
++	}
++	for (i = 0; i < ARRAY_SIZE(life->buffers); i++) {
++		u64 other = life->buffers[i].addr & 0x3fffffffULL;
++
++		if (life->buffers[i].buf &&
++		    (life->rx_event.buf == life->buffers[i].buf ||
++		     (base < other + AIROHA_NPU_MBOX_SIZE && other < base + bytes)))
++			return false;
++	}
++	for (i = 0; i < ARRAY_SIZE(life->tx_buffers); i++) {
++		u64 other = life->tx_buffers[i].addr & 0x3fffffffULL;
++
++		if (life->tx_buffers[i].buf &&
++		    (life->rx_event.buf == life->tx_buffers[i].buf ||
++		     (base < other + life->tx_buffers[i].bytes && other < base + bytes)))
++			return false;
++	}
++	return true;
++}
++
++static int airoha_npu_wlan_alloc_rx_event_session(struct airoha_npu *npu,
++						  struct device *endpoint,
++						  struct device *dma_dev,
++						  u32 count, u32 stride,
++						  void **buf, dma_addr_t *addr)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	struct npu_linux_control_snapshot snapshot;
++	u32 plan[NPU_EN7581_7996_PLAN_REGIONS][2];
++	struct {
++		void *buf;
++		dma_addr_t addr;
++	} mailboxes[NPU_NUM_CORES];
++	u32 endpoint_base, endpoint_bytes, bound_serial;
++	void *allocated;
++	dma_addr_t allocated_addr;
++	unsigned int i;
++	int err = 0;
++
++	if (!priv->checked_pair)
++		return -EOPNOTSUPP;
++	if (!endpoint || !dma_dev || count != 512 || stride != 16 ||
++	    !buf || !addr)
++		return -EINVAL;
++	mutex_lock(&priv->wlan_session_lock);
++	if (priv->wlan_session_error) {
++		err = priv->wlan_session_error;
++		goto unlock;
++	}
++	if (dma_dev != npu->dev) {
++		err = -EINVAL;
++		goto unlock;
++	}
++	if (!life || life->dev != dma_dev || !life->exposed ||
++	    !life->endpoint_bound || life->endpoint != endpoint || !priv->native_published ||
++	    life->rx_attempted || life->rx_published || life->rx_serial ||
++	    life->rx_event.buf || life->rx_event.addr || life->rx_event.bytes ||
++	    life->tx_attempted || life->tx_published) {
++		err = -EBUSY;
++		goto unlock;
++	}
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (life->boot_identity != priv->boot_identity ||
++	    life->nonce_lo != snapshot.client.base.nonce_lo ||
++	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->bound_serial != snapshot.client.base.serial || snapshot.descriptor_gets ||
++	    snapshot.descriptor_arena || snapshot.txbuf_enrolled || snapshot.txbuf_steps) {
++		err = -EPROTO;
++		goto hold;
++	}
++	memcpy(plan, priv->native_plan, sizeof(plan));
++	endpoint_base = life->endpoint_base;
++	endpoint_bytes = life->endpoint_bytes;
++	bound_serial = life->bound_serial;
++	for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
++		if (!life->buffers[i].buf || !life->buffers[i].addr ||
++		    upper_32_bits(life->buffers[i].addr)) {
++			err = -EPROTO;
++			goto hold;
++		}
++		mailboxes[i].buf = life->buffers[i].buf;
++		mailboxes[i].addr = life->buffers[i].addr;
++	}
++	/* Retain the real queue backing before any caller can program its address. */
++	life->rx_attempted = true;
++	life->rx_event.bytes = count * stride;
++	life->rx_event.buf = dma_alloc_coherent(dma_dev, life->rx_event.bytes,
++						&life->rx_event.addr, GFP_KERNEL);
++	if (!life->rx_event.buf) {
++		err = -ENOMEM;
++		goto hold;
++	}
++	if (!airoha_npu_wlan_rx_event_valid(priv)) {
++		err = -EINVAL;
++		goto hold;
++	}
++	allocated = life->rx_event.buf;
++	allocated_addr = life->rx_event.addr;
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
++	    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
++	    !priv->native_published || !life->rx_attempted ||
++	    life->rx_published || life->rx_serial ||
++	    life->tx_attempted || life->tx_published ||
++	    life->boot_identity != priv->boot_identity ||
++	    life->nonce_lo != snapshot.client.base.nonce_lo ||
++	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
++	    life->bound_serial != bound_serial ||
++	    snapshot.descriptor_gets || snapshot.descriptor_arena ||
++	    snapshot.txbuf_enrolled || snapshot.txbuf_steps ||
++	    life->rx_event.buf != allocated || life->rx_event.addr != allocated_addr ||
++	    memcmp(plan, priv->native_plan, sizeof(plan)) ||
++	    !airoha_npu_wlan_rx_event_valid(priv)) {
++		err = -EPROTO;
++		goto hold;
++	}
++	for (i = 0; i < ARRAY_SIZE(mailboxes); i++)
++		if (life->buffers[i].buf != mailboxes[i].buf ||
++		    life->buffers[i].addr != mailboxes[i].addr) {
++			err = -EPROTO;
++			goto hold;
++		}
++	life->rx_serial = snapshot.client.base.serial;
++	life->rx_published = true;
++	*buf = allocated;
++	*addr = allocated_addr;
++	goto unlock;
++hold:
++	priv->wlan_session_error = err;
++	npu_linux_control_close(&priv->wlan_control);
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++	return err;
++}
++
 +static int airoha_npu_wlan_alloc_tx_buffers_session(struct airoha_npu *npu,
 +						    struct device *endpoint,
 +						    struct device *dma_dev,
@@ -943,6 +1125,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	} mailboxes[NPU_NUM_CORES];
 +	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
 +	u32 endpoint_base, endpoint_bytes, bound_serial, value;
++	void *rx_buf;
++	dma_addr_t rx_addr;
++	u32 rx_bytes, rx_serial;
++	bool rx_published;
 +	unsigned int i;
 +	int err = 0;
 +
@@ -978,7 +1164,12 @@ build input; compilation is not a physical drain or recovery proof.
 +	if (life->boot_identity != priv->boot_identity ||
 +	    life->nonce_lo != snapshot.client.base.nonce_lo ||
 +	    life->nonce_hi != snapshot.client.base.nonce_hi ||
-+	    life->bound_serial != snapshot.client.base.serial ||
++	    (life->rx_published ? life->rx_serial : life->bound_serial) !=
++	    snapshot.client.base.serial ||
++	    life->rx_attempted != life->rx_published ||
++	    (life->rx_published ? !airoha_npu_wlan_rx_event_valid(priv) :
++	     life->rx_event.buf || life->rx_event.addr ||
++	     life->rx_event.bytes || life->rx_serial) ||
 +	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled) {
 +		err = -EPROTO;
 +		goto hold;
@@ -988,6 +1179,11 @@ build input; compilation is not a physical drain or recovery proof.
 +	endpoint_base = life->endpoint_base;
 +	endpoint_bytes = life->endpoint_bytes;
 +	bound_serial = life->bound_serial;
++	rx_buf = life->rx_event.buf;
++	rx_addr = life->rx_event.addr;
++	rx_bytes = life->rx_event.bytes;
++	rx_serial = life->rx_serial;
++	rx_published = life->rx_published;
 +	for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
 +		if (!life->buffers[i].buf || !life->buffers[i].addr ||
 +		    upper_32_bits(life->buffers[i].addr)) {
@@ -1027,6 +1223,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	    life->boot_identity != priv->boot_identity ||
 +	    life->nonce_lo != snapshot.client.base.nonce_lo ||
 +	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->rx_event.buf != rx_buf || life->rx_event.addr != rx_addr ||
++	    life->rx_event.bytes != rx_bytes || life->rx_serial != rx_serial ||
++	    life->rx_published != rx_published ||
++	    life->rx_attempted != rx_published ||
 +	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled ||
 +	    memcmp(plan, priv->native_plan, sizeof(plan))) {
 +		err = -EPROTO;
@@ -1064,6 +1264,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	    life->boot_identity != priv->boot_identity ||
 +	    life->nonce_lo != snapshot.client.base.nonce_lo ||
 +	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->rx_event.buf != rx_buf || life->rx_event.addr != rx_addr ||
++	    life->rx_event.bytes != rx_bytes || life->rx_serial != rx_serial ||
++	    life->rx_published != rx_published ||
++	    life->rx_attempted != rx_published ||
 +	    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
 +	    life->bound_serial != bound_serial || snapshot.descriptor_gets ||
 +	    snapshot.descriptor_arena || snapshot.txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
@@ -1468,7 +1672,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -742,22 +1721,84 @@
+@@ -742,22 +1925,84 @@
  	.disable_locking	= true,
  };
  
@@ -1556,7 +1760,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,9 +1806,11 @@
+@@ -765,9 +2010,12 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -1566,12 +1770,13 @@ build input; compilation is not a physical drain or recovery proof.
 +	npu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_session;
 +	npu->ops.wlan_bind_endpoint = airoha_npu_wlan_bind_endpoint_session;
 +	npu->ops.wlan_alloc_tx_buffers = airoha_npu_wlan_alloc_tx_buffers_session;
++	npu->ops.wlan_alloc_rx_event = airoha_npu_wlan_alloc_rx_event_session;
 +	npu->ops.wlan_send_msg = airoha_npu_wlan_msg_send_session;
 +	npu->ops.wlan_get_msg = airoha_npu_wlan_msg_get_session;
  	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
  	npu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;
  	npu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;
-@@ -777,11 +1820,31 @@
+@@ -777,11 +2025,31 @@
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -1603,7 +1808,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +1856,6 @@
+@@ -793,9 +2061,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -1613,7 +1818,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +1865,6 @@
+@@ -805,8 +2070,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1622,7 +1827,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +1883,33 @@
+@@ -825,55 +2088,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  
@@ -1703,7 +1908,7 @@ build input; compilation is not a physical drain or recovery proof.
  		struct work_struct wdt_work;
  		/* Coherent bounce buffer for mailbox cmd/rsp */
  		void *buf;
-@@ -195,6 +197,14 @@
+@@ -195,6 +197,17 @@
  					    u32 entry_size, u32 hash,
  					    bool ppe2);
  		int (*wlan_init_reserved_memory)(struct airoha_npu *npu);
@@ -1715,10 +1920,13 @@ build input; compilation is not a physical drain or recovery proof.
 +					     struct device *dma_dev,
 +					     const u32 *bytes, dma_addr_t *addr,
 +					     unsigned int count);
++		int (*wlan_alloc_rx_event)(struct airoha_npu *npu,
++					   struct device *endpoint, struct device *dma_dev,
++					   u32 count, u32 stride, void **buf, dma_addr_t *addr);
  		int (*wlan_send_msg)(struct airoha_npu *npu, int ifindex,
  				     enum airoha_npu_wlan_set_cmd func_id,
  				     void *data, int data_len, gfp_t gfp);
-@@ -214,10 +224,30 @@
+@@ -214,10 +227,40 @@
  #if (IS_BUILTIN(CONFIG_NET_AIROHA_NPU) || IS_MODULE(CONFIG_NET_AIROHA_NPU))
  struct airoha_npu *airoha_npu_get(struct device *dev);
  void airoha_npu_put(struct airoha_npu *npu);
@@ -1746,10 +1954,20 @@ build input; compilation is not a physical drain or recovery proof.
 +		return -EOPNOTSUPP;
 +	return npu->ops.wlan_alloc_tx_buffers(npu, endpoint, dma_dev, bytes, addr,
 +					    count);
++}
++
++static inline int airoha_npu_wlan_alloc_rx_event(struct airoha_npu *npu,
++						 struct device *endpoint, struct device *dma_dev,
++						 u32 count, u32 stride, void **buf,
++						 dma_addr_t *addr)
++{
++	if (!npu->ops.wlan_alloc_rx_event)
++		return -EOPNOTSUPP;
++	return npu->ops.wlan_alloc_rx_event(npu, endpoint, dma_dev, count, stride, buf, addr);
  }
  
  static inline int airoha_npu_wlan_send_msg(struct airoha_npu *npu,
-@@ -271,7 +301,29 @@
+@@ -271,7 +314,37 @@
  {
  }
  
@@ -1776,6 +1994,14 @@ build input; compilation is not a physical drain or recovery proof.
 +						   struct device *dma_dev,
 +						   const u32 *bytes, dma_addr_t *addr,
 +						   unsigned int count)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_alloc_rx_event(struct airoha_npu *npu,
++						 struct device *endpoint, struct device *dma_dev,
++						 u32 count, u32 stride, void **buf,
++						 dma_addr_t *addr)
  {
  	return -EOPNOTSUPP;
  }

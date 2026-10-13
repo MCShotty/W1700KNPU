@@ -1,0 +1,81 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-20261013\\jev-queue-review.json",
+  "request_sha256": "fafa08722632177f9423b920f2610a46b0631c87d11daec382eb4dd5aecb02c3",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which candidate_routes route directly supplies retained descriptor backing before the first queue address publication, while preserving the unmarked fallback? Do not choose implementation details or grant permissions.",
+      "criteria": {
+        "allocate_before_queue_publication": "Provider owns the allocation before queue registers can expose it.",
+        "copy_during_rx_event_init": "Late copy establishes ownership before the original pointer is exposed.",
+        "keep_managed_memory": "Managed address alone establishes retained ownership.",
+        "none": "No candidate addresses that requirement."
+      }
+    },
+    "lifetime_gap": {
+      "type": "noul",
+      "instructions": "Does queue_allocation plus provider_lifetime leave the RX-event descriptor allocation outside the provider's retained coherent-allocation records?",
+      "criteria": {
+        "true": "RX-event backing is managed separately and has no retained provider record.",
+        "false": "The provider already records and retains RX-event backing."
+      }
+    },
+    "later_tx_overlap": {
+      "type": "noul",
+      "instructions": "If provider-owned RX-event backing is allocated before TX buffers, must TX validation also check those later TX allocations against the retained RX-event span to preserve disjoint backing?",
+      "criteria": {
+        "true": "The existing BAR/plan/mailbox/earlier-TX comparisons omit this newly retained span.",
+        "false": "Those existing comparisons necessarily cover the new RX-event span."
+      }
+    },
+    "full_completion": {
+      "type": "choice",
+      "instructions": "Would adding retained RX-event descriptor backing alone establish the full NPU implementation, including authenticated API22/DESC10, hot lifecycle and physical drain authority?",
+      "criteria": {
+        "supported": "All named requirements follow from allocation ownership alone.",
+        "not_established": "Allocation ownership is one prerequisite and the other named requirements still need implementation/evidence.",
+        "unknown": "The supplied evidence is insufficient even to identify the scope."
+      }
+    }
+  },
+  "elapsed_ms": 743,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "route": {
+        "type": "choice",
+        "choice": "allocate_before_queue_publication",
+        "confidence": 1.0,
+        "probabilities": {
+          "allocate_before_queue_publication": 1.0,
+          "copy_during_rx_event_init": 0.0,
+          "keep_managed_memory": 0.0,
+          "none": 0.0
+        }
+      },
+      "lifetime_gap": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "later_tx_overlap": {
+        "type": "noul",
+        "noul": 0.82
+      },
+      "full_completion": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "not_established": 1.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1076,
+      "output_tokens": 145
+    }
+  }
+}

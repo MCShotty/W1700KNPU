@@ -82,8 +82,10 @@ def main():
     paths += [path for path in parent.SOURCE.rglob('*') if path.is_file()]
     inputs={str(path.relative_to(root)):parent.loader.sha(path) for path in paths}
     text,htext=source.read_text(),header.read_text()
-    functions=[q.function(text,name) for name in ('airoha_npu_dma_retained','airoha_npu_dma_cleanup',
-        'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')]
+    function_names=('airoha_npu_dma_retained','airoha_npu_dma_cleanup',
+        'airoha_npu_wlan_rx_event_valid',
+        'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')
+    functions=[q.function(text,name) for name in function_names]
     extra='\n'.join(functions)+'\n'+q.function(htext,'airoha_npu_wlan_alloc_tx_buffers')+'\n'
     command=parent.prepare(destination,text,htext)
     inc=destination/'provider-session.inc'
@@ -125,7 +127,9 @@ def main():
         original=inc.read_text()
         for name,(old,new) in changes.items():
             target=destination/'mutants'/name
-            relevant=[fragment for fragment in functions if old in fragment]
+            relevant=[fragment for name,fragment in zip(function_names,functions)
+                      if name in ('airoha_npu_wlan_tx_buffer_valid',
+                                  'airoha_npu_wlan_alloc_tx_buffers_session') and old in fragment]
             assert len(relevant)==1,(name,'mutation must target one extracted function')
             occurrences = 2 if name in ('skip-fresh-status', 'omit-record-recheck', 'omit-endpoint-identity') else 1
             assert relevant[0].count(old) == occurrences, (name, 'unexpected guard count')
@@ -143,7 +147,7 @@ def main():
         binary_sha256=parent.loader.sha(binary),sanitizers=['address','undefined','leak'],
         limits=['Actual provider allocator/binding/cleanup, actual inline allocation wrapper and actual mt7996 caller C.',
                 'DMA allocations/device refs/devres/backing/transport are modeled. STATUS validation is not physical drain proof.',
-                'Native API21 is still denied; full setup/lifecycle/hardware/client acceptance remains open.',
+                'Native callbacks are not exercised here; full setup/lifecycle/hardware/client acceptance remains open.',
                 'Direct fixture frees/reset are test-only, never a production retirement operation.'])
     (destination/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(matrix))

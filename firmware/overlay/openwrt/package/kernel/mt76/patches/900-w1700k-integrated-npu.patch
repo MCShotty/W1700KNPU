@@ -6,16 +6,18 @@ build input; compilation is not a physical drain or recovery proof.
 ---
 --- a/mt76.h
 +++ b/mt76.h
-@@ -1680,7 +1680,7 @@
+@@ -1680,8 +1680,9 @@
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_disable_irqs(struct mt76_dev *dev);
 -int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, int type);
 +int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
  void mt76_npu_deinit(struct mt76_dev *dev);
++int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
-@@ -1721,7 +1721,7 @@
+ int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -1721,13 +1722,18 @@
  }
  
  static inline int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr,
@@ -24,6 +26,17 @@ build input; compilation is not a physical drain or recovery proof.
  {
  	return 0;
  }
+ 
+ static inline void mt76_npu_deinit(struct mt76_dev *dev)
+ {
++}
++
++static inline int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++{
++	return -EOPNOTSUPP;
+ }
+ 
+ static inline void mt76_npu_queue_setup(struct mt76_dev *dev,
 --- a/mt7996/debugfs.c
 +++ b/mt7996/debugfs.c
 @@ -967,6 +967,30 @@
@@ -706,7 +719,45 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		goto error_ppe_put;
  
-@@ -506,16 +543,18 @@
+@@ -497,6 +534,37 @@
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_init);
+ 
++int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++{
++	int qid = is_mt7996(dev) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;
++	struct airoha_npu *npu;
++	dma_addr_t addr;
++	void *buf;
++	int err;
++
++	BUILD_BUG_ON(sizeof(*q->desc) != 16);
++	if (q != &dev->q_rx[qid] || q->flags != MT_NPU_Q_TXFREE(0))
++		return -EOPNOTSUPP;
++	if (q->desc || q->desc_dma)
++		return -EBUSY;
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);
++	if (!npu) {
++		err = -ENODEV;
++		goto unlock;
++	}
++	err = airoha_npu_wlan_alloc_rx_event(npu, dev->dev, dev->dma_dev,
++					     q->ndesc, sizeof(*q->desc), &buf, &addr);
++	if (!err) {
++		q->desc = buf;
++		q->desc_dma = addr;
++	}
++unlock:
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_alloc_rx_event);
++
+ void mt76_npu_deinit(struct mt76_dev *dev)
+ {
+ 	struct airoha_ppe_dev *ppe_dev;
+@@ -506,16 +574,18 @@
  
  	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
  				  lockdep_is_held(&dev->mutex));

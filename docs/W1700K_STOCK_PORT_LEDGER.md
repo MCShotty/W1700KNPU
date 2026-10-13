@@ -1,10 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-13 (API21 bound and scoped native/full-raw/image checks pass; RX-event/lifecycle/physical work remains)
+Last updated: 2026-10-13 (RX-event backing retained; C/native/image pass; full setup/physical work remains)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-13 - Retained RX-Event Backing
+
+- The actual mt76 descriptor allocator requests provider-owned 512x16 RX-event
+  backing before queue address publication. CPU/DMA/extent and existing endpoint/
+  device/boot/nonce/BAR/history remain retained across partial allocation, STATUS
+  loss, later queue errors and detach. Only EOPNOTSUPP uses managed fallback.
+  Fresh STATUS and complete record/plan/mailbox checks precede outputs.
+- Later TX allocations reject RX DMA-alias and CPU-backing collisions, follow
+  the accepted RX serial and recheck RX records/flags. Native RX-event enrollment
+  and API22 admission are not added. Wire/private state and raw bytes are unchanged.
+- Actual C115/seven mutants/sanitizers, fresh regressions/21 units, source68,
+  strict367-line delta, world/Ghidra60 (all43 named ELF functions)/REA and
+  FIT218+78 pass. Current native replay passes one RX/six TX allocations, all
+  six API21 phases/53260 effects/76 controls and14 native mailbox/TX records.
+  Eight receipts/266 current input hashes verify. RX native enrollment/API22
+  is still absent. FITf185a731 is unflashed; prior9d1fa30d
+  plus seven companions are verified. No router/flash/reset/Wi-Fi/power/private
+  backup change or subagents. Consumed firmware and tests stay frozen during replay.
+- Original API0 has64 observations (54 returns/ten faults) and nine index
+  sequences. Selectors0/2 immediately write host pointer+8 after DATA publication.
+  Selector15 resets the earlier5/6/7/8/10 pointer indexes in order and retains
+  zero-to-four preceding writes on missing pointers. DESC10 count is explicitly
+  modeled, not candidate ownership or physical proof. Finish real RX-event
+  enrollment/API22/DESC10, PCIe/INODE/IRQ and full lifecycle/physical/client gates.
+  Scope: `research/checkpoints/2026-10-13-npu-rx-event-lifetime/REPORT.md`.
 
 ## 2026-10-13 - Original API21 Callbacks Bound
 

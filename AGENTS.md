@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-13 - Retained RX-Event Backing
+
+- Canonical queue allocation retains the actual 512x16 RX-event descriptor ring
+  before queue address publication. Only unmarked EOPNOTSUPP uses managed
+  fallback. RX serial/record rechecks and RX/TX overlap guards preserve the held
+  lifetime; failures/detach never authorize release.
+- C115/seven mutants/sanitizers, source68, strict367-line delta, world,
+  Ghidra60/REA and FIT218+78 pass. Latest unflashed FITf185a731; prior9d1fa30d
+  plus seven companions are preserved. Raw CODE/DATA remain identical.
+- Current native replay passes: one RX/six TX allocations, all six API21 phases/
+  53260 effects/76 controls and14 native mailbox/TX records. RX native enrollment
+  is still absent. Eight receipts/266 current input hashes verify.
+  Freeze consumed sources/tests. RX-event native enrollment/API22/DESC10 and
+  remaining full setup/lifecycle/physical/client gates remain open. API0 original
+  64 observations/nine index sequences expose immediate host writes and retained
+  partial five-pointer resets. No hardware action or subagents.
+  Scope: `research/checkpoints/2026-10-13-npu-rx-event-lifetime/REPORT.md`.
+
 ## 2026-10-13 - Original API21 Callbacks Bound
 
 - Continue the actual six-callback/53260-store native binding, not a blanket

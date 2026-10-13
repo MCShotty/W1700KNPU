@@ -1,5 +1,21 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-13 - Retained RX-Event Backing
+
+The actual 512x16 RX-event descriptor ring is provider-owned before queue address
+publication. Held identity, fresh STATUS, late record/plan/mailbox checks and
+RX/TX alias/CPU overlap guards preserve the retained lifetime. Only EOPNOTSUPP
+falls back to managed allocation. C115/seven mutants/source68/style/world/
+Ghidra60/REA/FIT218+78 pass. Current native replay passes one RX/six TX
+allocations, all six API21 phases/53260 effects/76 controls. Eight receipts/
+266 current input hashes verify; RX native enrollment/API22 remains absent.
+FITf185a731 is unflashed; prior9d1fa30d plus seven companions are protected.
+Raw CODE/DATA remain unchanged. Enroll RX-event native ownership/API22/DESC10
+and complete PCIe/INODE/IRQ, lifecycle/physical/recovery/client gates next.
+API0 original64 observations/nine index sequences expose partial register writes.
+No hardware action. Scope:
+`research/checkpoints/2026-10-13-npu-rx-event-lifetime/REPORT.md`.
+
 ## 2026-10-13 - Original API21 Callbacks Bound
 
 Working-tree API21 now uses retained native store ownership with actual six-step

@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-13 - Retained RX-Event Backing
+
+Actual RX-event coherent backing is retained before queue address publication,
+with held identity/history, fresh STATUS and late allocation/plan/mailbox checks.
+RX/TX alias and CPU-backing overlaps reject. C115/seven mutants/sanitizers,
+source68/style/world/Ghidra60/REA/FIT218+78 pass; FITf185a731 remains unflashed.
+Current native replay passes one RX/six TX allocations, six API21 phases/53260
+effects/76 controls. Eight receipts/266 current input hashes verify.
+Next enroll the real RX record and bind API22, authenticated DESC10/shared
+TXDONE/PKT/SKB, exact PCIe writes and INODE/final IRQ. Original API0's five-pointer
+index reset retains partial writes; guard full prerequisites and register spans.
+Remaining owners/hot/physical/drains/retirement/recovery/boot/clients stay open.
+Scope: `research/checkpoints/2026-10-13-npu-rx-event-lifetime/REPORT.md`.
+
 ## 2026-10-13 - Original API21 Callbacks Bound
 
 All six original callbacks/stores are now bound in the working tree, with exact

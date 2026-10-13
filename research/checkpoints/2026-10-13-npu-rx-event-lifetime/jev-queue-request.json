@@ -1,0 +1,40 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "queue_allocation": "mt76_dma_alloc_queue chooses descriptor size, calls dmam_alloc_coherent(dev->dma_dev, q->ndesc * size, &q->desc_dma, GFP_KERNEL), then allocates software entries/page pool and eventually resets the queue. Reset writes descriptor base registers. MT7996 NPU RX-event uses q_rx[MT_RXQ_TXFREE_BAND0], with flags MT_NPU_Q_TXFREE(0), count512, descriptor size16.",
+    "rx_event": "After offload/RX/TX setup, mt7996_npu_rx_event_init sends selector0/API22 with q->desc_dma, selector10/API1 with count512, and selector10/API0 with BAR+queue register offset. Existing geometry checks do not retain allocation lifetime.",
+    "provider_lifetime": "Provider already owns eight mailbox/six TX coherent allocations, endpoint reference, boot/nonce and BAR/session state. Its exposed cleanup retains allocations/references and closes CPU control without freeing resources; it has no RX-event allocation record. TX validation checks each allocation against BAR, all six native plan regions, mailboxes and earlier TX allocations.",
+    "candidate_routes": {
+      "allocate_before_queue_publication": "At the real queue descriptor allocation site, obtain provider-owned RX-event backing and return exact CPU/DMA handles before any queue register writes. Unmarked providers may use existing managed allocation only on EOPNOTSUPP.",
+      "copy_during_rx_event_init": "Copy the managed descriptor ring during RX-event initialization after the original queue allocation/reset has already exposed the previous DMA address.",
+      "keep_managed_memory": "Keep dmam_alloc_coherent and treat a nonzero q->desc_dma as ownership."
+    }
+  },
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which candidate_routes route directly supplies retained descriptor backing before the first queue address publication, while preserving the unmarked fallback? Do not choose implementation details or grant permissions.",
+      "criteria": {
+        "allocate_before_queue_publication": "Provider owns the allocation before queue registers can expose it.",
+        "copy_during_rx_event_init": "Late copy establishes ownership before the original pointer is exposed.",
+        "keep_managed_memory": "Managed address alone establishes retained ownership.",
+        "none": "No candidate addresses that requirement."
+      }
+    },
+    "lifetime_gap": {
+      "type": "noul",
+      "instructions": "Does queue_allocation plus provider_lifetime leave the RX-event descriptor allocation outside the provider's retained coherent-allocation records?",
+      "criteria": {"true": "RX-event backing is managed separately and has no retained provider record.", "false": "The provider already records and retains RX-event backing."}
+    },
+    "later_tx_overlap": {
+      "type": "noul",
+      "instructions": "If provider-owned RX-event backing is allocated before TX buffers, must TX validation also check those later TX allocations against the retained RX-event span to preserve disjoint backing?",
+      "criteria": {"true": "The existing BAR/plan/mailbox/earlier-TX comparisons omit this newly retained span.", "false": "Those existing comparisons necessarily cover the new RX-event span."}
+    },
+    "full_completion": {
+      "type": "choice",
+      "instructions": "Would adding retained RX-event descriptor backing alone establish the full NPU implementation, including authenticated API22/DESC10, hot lifecycle and physical drain authority?",
+      "criteria": {"supported": "All named requirements follow from allocation ownership alone.", "not_established": "Allocation ownership is one prerequisite and the other named requirements still need implementation/evidence.", "unknown": "The supplied evidence is insufficient even to identify the scope."}
+    }
+  }
+}

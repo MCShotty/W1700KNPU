@@ -10,6 +10,7 @@ import sys
 sys.dont_write_bytecode=True
 import test_provider_session as parent
 import test_host_tx_lifetime as lifetime
+import test_host_rx_event_lifetime as rx_lifetime
 
 
 def main():
@@ -20,6 +21,7 @@ def main():
     parser.add_argument('--publication',type=Path,required=True)
     parser.add_argument('--host-receipt',type=Path,required=True)
     parser.add_argument('--name',required=True)
+    parser.add_argument('--rx-event',action='store_true')
     args=parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}',args.name)
     root=parent.ROOT;q=parent.loader.extract
@@ -27,17 +29,21 @@ def main():
     assert not destination.exists()
     source,header=args.source.resolve(),args.header.resolve()
     paths=[source,header,parent.HARNESS,Path(__file__).resolve(),Path(parent.__file__),
-           Path(lifetime.__file__),Path(parent.loader.__file__),Path(q.__file__),
+           Path(lifetime.__file__),Path(rx_lifetime.__file__),Path(parent.loader.__file__),Path(q.__file__),
            root/'tests/npu/tx_buffer_native_controls.py',root/'tests/npu/test_cold_tx_buffer.py']
     paths += [path for path in parent.SOURCE.rglob('*') if path.is_file()]
     inputs={str(path.relative_to(root)):parent.loader.sha(path) for path in paths}
     text,htext=source.read_text(),header.read_text()
     command=parent.prepare(destination,text,htext)
     inc=destination/'provider-session.inc'
-    functions=[q.function(text,name) for name in ('airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')]
+    functions=[q.function(text,name) for name in ('airoha_npu_wlan_rx_event_valid',
+        'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')]
+    if args.rx_event:
+        functions.insert(1,q.function(text,'airoha_npu_wlan_alloc_rx_event_session'))
     inc.write_text(inc.read_text()+'\n'.join(functions))
     model=parent.HARNESS.read_text()
-    model=parent.loader.once(model,'#include "provider-session.inc"',lifetime.PLATFORM+'\n#include "provider-session.inc"')
+    platform=rx_lifetime.PLATFORM if args.rx_event else lifetime.PLATFORM
+    model=parent.loader.once(model,'#include "provider-session.inc"',platform+'\n#include "provider-session.inc"')
     entry=r'''
 int npu_test_allocate_tx(void) {
     const u32 sizes[]={0x20000,0x20000,0x40000,0x40000,0x40000,0x40000};
@@ -46,11 +52,22 @@ int npu_test_allocate_tx(void) {
         life.buffers[i].buf=(void *)(uintptr_t)(i+1);
         life.buffers[i].addr=priv.native_plan[5][0]+i*256;
     }
-    for(unsigned i=0;i<6;i++)addresses[i]=0x96000000u+i*0x100000u;
+    unsigned shift=0;
+#ifdef RX_EVENT
+    void *rx_buf=NULL;dma_addr_t rx_addr=0;
+    addresses[0]=0x97000000u;
+    int rx_error=airoha_npu_wlan_alloc_rx_event_session(&priv.npu,&endpoint_device,&dma_device,
+                                                     512,16,&rx_buf,&rx_addr);
+    check(!rx_error && dma_calls==1 && object_count==1 && life.rx_published && life.rx_attempted &&
+          life.rx_event.buf==rx_buf && life.rx_event.addr==rx_addr && life.rx_event.bytes==8192 &&
+          rx_addr==addresses[0],"native RX-event allocator STATUS and retained record");
+    shift=1;
+#endif
+    for(unsigned i=0;i<6;i++)addresses[i+shift]=0x96000000u+i*0x100000u;
     int error=airoha_npu_wlan_alloc_tx_buffers_session(&priv.npu,&endpoint_device,&dma_device,sizes,output,6);
-    check(!error && dma_calls==6 && object_count==6 && life.tx_published && life.tx_attempted &&
+    check(!error && dma_calls==6+shift && object_count==6+shift && life.tx_published && life.tx_attempted &&
           priv.wlan_control.txbuf_enrolled==14,"native allocator publication after enrollment");
-    for(unsigned i=0;i<6;i++)check(output[i]==addresses[i] && life.tx_buffers[i].addr==output[i] && life.tx_buffers[i].buf,"native retained allocation records");
+    for(unsigned i=0;i<6;i++)check(output[i]==addresses[i+shift] && life.tx_buffers[i].addr==output[i] && life.tx_buffers[i].buf,"native retained allocation records");
     return error;
 }
 void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)free(objects[i]); }
@@ -59,7 +76,9 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     generated.write_text('#define main provider_matrix_main\n'+model+'\n#undef main\n'+entry)
     command=[generated if item==parent.HARNESS else item for item in command]
     shared=destination/'native.so'
-    parent.loader.run(command+['-Wno-unused-function','-Wno-unused-variable','-shared','-fPIC','-o',shared],destination/'build.log')
+    flags=['-Wno-unused-function','-Wno-unused-variable','-shared','-fPIC']
+    if args.rx_event:flags+=['-DRX_EVENT']
+    parent.loader.run(command+flags+['-o',shared],destination/'build.log')
     host=json.loads(args.host_receipt.read_bytes())
     assert host['passed'] and all(parent.loader.sha(root/path)==digest for path,digest in host['inputs'].items())
     inputs |= host['inputs']
@@ -102,6 +121,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     for path in (shared,args.host_receipt.resolve()):inputs[str(path.relative_to(root))]=parent.loader.sha(path)
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
     result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14,
+        rx_event_allocations=int(args.rx_event),rx_event_bytes=8192 if args.rx_event else 0,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
                 'Allocation runs after real BAR binding and before real offload/RX/TX caller replay. TX caller uses the returned retained handles.',
                 'Original API21 instructions are guarded by retained store ownership; physical buffer consumption is not established.',

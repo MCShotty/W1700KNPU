@@ -1,0 +1,725 @@
+{
+  "evidence_id": "ev_644fffa5fa8c364d25fafff4bb030a272b2d0ac123852dee6eb9c53adfbb2a7a",
+  "subject": {
+    "architecture": "arm64",
+    "digest": {
+      "sha256": "d2ec1b562fb1f5418e0789fab2592666602057b5bb4e9cb421401b4a7870db8f"
+    },
+    "format": "elf",
+    "local_path": "/home/captain/W1700KNPU/.build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.52/airoha_npu.ko",
+    "name": "airoha_npu.ko"
+  },
+  "provider": {
+    "id": "ghidra",
+    "name": "Ghidra",
+    "version": "12.1.2"
+  },
+  "analysis_profile": {
+    "digest": "5897630f24f23d397cfd5037d6002bc01d4aae4d892ca1ea9d09f578c9dadd09",
+    "parameters": {
+      "analyzer_preset": "ghidra-default",
+      "annotation_policy": "atomic-function-entry-metadata-v1",
+      "architecture": "arm64",
+      "available_architectures": [
+        "arm64"
+      ],
+      "compiler_spec_id": "auto-default",
+      "decompiler_jump_loads": true,
+      "function_body_evidence": "complete-inclusive-ranges-v1",
+      "function_boundary_observations": "ghidra-terminal-call-limitations-v1",
+      "function_references": "complete-body-and-entry-reference-manager-v2",
+      "import_mode": "ephemeral-source-immutable",
+      "instruction_flow_evidence": "decoded-return-pcode-v1",
+      "jump_table_evidence": "typed-case-default-blocks-v1",
+      "language_id": "auto-from-header",
+      "load_image_observations": "source-mappings-entry-context-v2",
+      "loader": "auto-from-header",
+      "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+      "no_return_repair": "returning-imports-decoded-return-v2",
+      "process_launch": "inspected-jvm-launch-support-v1",
+      "string_inventory_evidence": "defined-data-coverage-v1",
+      "target_format": "elf",
+      "target_kind": "executable"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.2"
+    }
+  },
+  "authority": "shipped-artifact",
+  "confidence": "observed",
+  "environment": null,
+  "limitations": [
+    "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+    "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+    "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+    "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+    "References cover the complete Ghidra function-body AddressSet and exact entry. Dossier incoming edges omit sources owned by that function; procedure_references also retains those internal edges.",
+    "The dossier combines Ghidra FunctionManager, Listing, ReferenceManager, BasicBlockModel, and decompiler observations; provider-specific pseudocode and assembly are not cross-provider text invariants.",
+    "Resolved reference metadata identifies computed, indirect, external, call, jump, and data edges; unresolved targetless flows remain unknown, and function classifications distinguish thunks and externals.",
+    "Synthetic Ghidra entry-point references without actionable memory sources are omitted.",
+    "The Java bridge serializes one function request per Program and lets each decompilation run until it completes or the caller cancels.",
+    "This session uses Ghidra 12.1.2. The bridge is verified against 12.1.4; other 12.1.x builds are accepted and the observed version is reported."
+  ],
+  "locations": [],
+  "normalized_result": {
+    "procedure": {
+      "address": "0x100c80",
+      "body": {
+        "available": true,
+        "contains_entry": true,
+        "non_contiguous": false,
+        "provenance": "ghidra-function-body-address-set",
+        "ranges": [
+          {
+            "end": "0x1010ef",
+            "start": "0x100c80"
+          }
+        ],
+        "span_bytes": 1136,
+        "total_bytes": 1136
+      },
+      "classification": {
+        "external": false,
+        "provenance": "ghidra-function-manager",
+        "thunk": false,
+        "thunk_target": null
+      },
+      "locals": [
+        {
+          "description": "undefined8 local_10c @ Stack[-0x10c]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_114 @ Stack[-0x114]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_118 @ Stack[-0x118]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_11c @ Stack[-0x11c]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_128 @ Stack[-0x128]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_130 @ Stack[-0x130]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_138 @ Stack[-0x138]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_140 @ Stack[-0x140]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_148 @ Stack[-0x148]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_160 @ Stack[-0x160]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_170 @ Stack[-0x170]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_180 @ Stack[-0x180]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_190 @ Stack[-0x190]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_1a0 @ Stack[-0x1a0]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_1b0 @ Stack[-0x1b0]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_78 @ Stack[-0x78]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_80 @ Stack[-0x80]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_90 @ Stack[-0x90]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_98 @ Stack[-0x98]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_cc @ Stack[-0xcc]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_d0 @ Stack[-0xd0]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined4 local_d4 @ Stack[-0xd4]:4",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_ec @ Stack[-0xec]:8",
+          "provenance": "ghidra-function-database"
+        },
+        {
+          "description": "undefined8 local_fc @ Stack[-0xfc]:8",
+          "provenance": "ghidra-function-database"
+        }
+      ],
+      "name": "airoha_npu_wlan_alloc_rx_event_session",
+      "signature": "undefined airoha_npu_wlan_alloc_rx_event_session()"
+    },
+    "pseudocode": "\nint airoha_npu_wlan_alloc_rx_event_session\n              (long *param_1,long param_2,long param_3,int param_4,int param_5,long *param_6,\n              long *param_7)\n\n{\n  long *plVar1;\n  int iVar2;\n  long lVar3;\n  long lVar4;\n  int iVar5;\n  long *plVar6;\n  long *plVar7;\n  ulong uVar8;\n  long lVar9;\n  long lVar10;\n  long *plVar11;\n  long *plVar12;\n  long *local_138;\n  long local_10c;\n  long lStack_104;\n  long local_fc;\n  long lStack_f4;\n  long local_ec;\n  long lStack_e4;\n  undefined1 auStack_dc [8];\n  int local_d4;\n  int local_d0;\n  int local_cc;\n  int local_98;\n  int iStack_94;\n  int local_90;\n  int iStack_8c;\n  long local_80 [16];\n  \n  plVar11 = (long *)param_1[0x56];\n  if ((*(byte *)((long)param_1 + 0x47a) & 1) == 0) {\n    return -0x5f;\n  }\n  if (((param_2 == 0 || param_3 == 0) || (param_4 != 0x200 || param_5 != 0x10)) ||\n     (param_6 == (long *)0x0 || param_7 == (long *)0x0)) {\n    return -0x16;\n  }\n  mutex_lock(param_1 + 0x92);\n  iVar5 = *(int *)((long)param_1 + 0x53c);\n  if ((iVar5 != 0) || (iVar5 = -0x16, *param_1 != param_3)) goto LAB_00100d00;\n  if (plVar11 == (long *)0x0) {\n    iVar5 = -0x10;\n    goto LAB_00100d00;\n  }\n  iVar5 = -0x10;\n  if (((((*plVar11 != param_3) || ((*(byte *)(plVar11 + 0x2e) & 1) == 0)) ||\n       (((*(byte *)((long)plVar11 + 0x164) & 1) == 0 ||\n        ((((plVar11[0x28] != param_2 || ((*(byte *)((long)param_1 + 0x47b) & 1) == 0)) ||\n          ((*(byte *)((long)plVar11 + 0x167) & 1) != 0)) ||\n         (((plVar11[0x2d] & 0xffffffff000000ffU) != 0 || (plVar11[0x25] != 0)))))))) ||\n      (plVar11[0x26] != 0)) ||\n     (((int)plVar11[0x27] != 0 || ((plVar11[0x2c] & 0xffff0000000000U) != 0)))) goto LAB_00100d00;\n  iVar5 = FUN_00100980(param_1,1);\n  plVar1 = param_1 + 0x96;\n  if (iVar5 == 0) {\n    npu_linux_control_snapshot(plVar1,auStack_dc);\n    if ((((plVar11[0x29] == param_1[0x90]) && ((int)plVar11[0x2a] == local_d4)) &&\n        (*(int *)((long)plVar11 + 0x154) == local_d0)) &&\n       ((lVar3 = plVar11[0x2c], (int)lVar3 == local_cc &&\n        ((local_98 == 0 && iStack_94 == 0) && (local_90 == 0 && iStack_8c == 0))))) {\n      lVar4 = plVar11[0x2b];\n      plVar12 = plVar11 + 3;\n      local_10c = param_1[0x89];\n      lStack_104 = param_1[0x8a];\n      iVar2 = *(int *)((long)plVar11 + 0x15c);\n      local_fc = param_1[0x8b];\n      lStack_f4 = param_1[0x8c];\n      local_138 = local_80;\n      local_ec = param_1[0x8d];\n      lStack_e4 = param_1[0x8e];\n      plVar6 = plVar12;\n      plVar7 = local_138;\n      do {\n        lVar10 = *plVar6;\n        if (lVar10 == 0) goto LAB_00100f20;\n        uVar8 = plVar6[1];\n        plVar6 = plVar6 + 2;\n        if ((uVar8 == 0) || (uVar8 >> 0x20 != 0)) goto LAB_00100f20;\n        *plVar7 = lVar10;\n        plVar7[1] = uVar8;\n        plVar7 = plVar7 + 2;\n      } while (plVar6 != plVar11 + 0x13);\n      *(undefined4 *)(plVar11 + 0x27) = 0x2000;\n      *(undefined1 *)((long)plVar11 + 0x167) = 1;\n      lVar10 = dma_alloc_attrs(param_3,0x2000,plVar11 + 0x26,0xcc0,0);\n      plVar11[0x25] = lVar10;\n      if (lVar10 == 0) {\n        iVar5 = -0xc;\n      }\n      else {\n        uVar8 = FUN_00100220(param_1);\n        if ((uVar8 & 1) == 0) {\n          iVar5 = -0x16;\n        }\n        else {\n          lVar9 = plVar11[0x26];\n          iVar5 = npu_linux_control_exchange(plVar1,3);\n          if ((iVar5 == 0) && (iVar5 = FUN_00100980(param_1,1), iVar5 == 0)) {\n            npu_linux_control_snapshot(plVar1,auStack_dc);\n            if (((((long *)param_1[0x56] == plVar11) &&\n                 (((*plVar11 == param_3 && (*param_1 == param_3)) &&\n                  ((*(byte *)(plVar11 + 0x2e) & 1) != 0)))) &&\n                ((((*(byte *)((long)plVar11 + 0x164) & 1) != 0 && (plVar11[0x28] == param_2)) &&\n                 ((*(byte *)((long)param_1 + 0x47b) & 1) != 0)))) &&\n               (((((*(byte *)((long)plVar11 + 0x167) & 1) != 0 &&\n                  ((plVar11[0x2d] & 0xffffffff000000ffU) == 0)) &&\n                 (((plVar11[0x2c] & 0xffff0000000000U) == 0 &&\n                  ((((plVar11[0x29] == param_1[0x90] && ((int)plVar11[0x2a] == local_d4)) &&\n                    (*(int *)((long)plVar11 + 0x154) == local_d0)) &&\n                   (((int)plVar11[0x2b] == (int)lVar4 && (*(int *)((long)plVar11 + 0x15c) == iVar2))\n                   )))))) &&\n                ((((int)lVar3 == (int)plVar11[0x2c] &&\n                  (((local_98 == 0 && iStack_94 == 0) && (local_90 == 0 && iStack_8c == 0) &&\n                   (plVar11[0x25] == lVar10)))) &&\n                 ((plVar11[0x26] == lVar9 &&\n                  ((iVar5 = memcmp(&local_10c,param_1 + 0x89,0x30), iVar5 == 0 &&\n                   (uVar8 = FUN_00100220(param_1), (uVar8 & 1) != 0)))))))))) {\n              do {\n                if (*plVar12 != *local_138) goto LAB_00100f20;\n                plVar6 = local_138 + 1;\n                local_138 = local_138 + 2;\n                plVar7 = plVar12 + 1;\n                plVar12 = plVar12 + 2;\n                if (*plVar7 != *plVar6) goto LAB_00100f20;\n              } while (plVar12 != plVar11 + 0x13);\n              *(undefined1 *)(plVar11 + 0x2d) = 1;\n              *(int *)((long)plVar11 + 0x16c) = local_cc;\n              *param_6 = lVar10;\n              *param_7 = lVar9;\n              iVar5 = 0;\n              goto LAB_00100d00;\n            }\n            goto LAB_00100f20;\n          }\n        }\n      }\n    }\n    else {\nLAB_00100f20:\n      iVar5 = -0x47;\n    }\n  }\n  *(int *)((long)param_1 + 0x53c) = iVar5;\n  npu_linux_control_close(plVar1);\nLAB_00100d00:\n  mutex_unlock(param_1 + 0x92);\n  return iVar5;\n}\n\n",
+    "assembly": [
+      "0x100c80: stp x29, x30, [sp, #-0x1b0]!",
+      "0x100c84: mov x29, sp",
+      "0x100c88: stp x19, x20, [sp, #0x10]",
+      "0x100c8c: mov x19, x0",
+      "0x100c90: stp x23, x24, [sp, #0x30]",
+      "0x100c94: stp x25, x26, [sp, #0x40]",
+      "0x100c98: ldrb w0, [x0, #0x47a]",
+      "0x100c9c: ldr x26, [x19, #0x2b0]",
+      "0x100ca0: tbz w0, #0x0, 0x00100f48",
+      "0x100ca4: stp x21, x22, [sp, #0x20]",
+      "0x100ca8: cmp x1, #0x0",
+      "0x100cac: mov x21, x1",
+      "0x100cb0: mov x20, x2",
+      "0x100cb4: ccmp x2, #0x0, #0x4, ne",
+      "0x100cb8: b.eq 0x00100f3c",
+      "0x100cbc: cmp w3, #0x200",
+      "0x100cc0: ccmp w4, #0x10, #0x0, eq",
+      "0x100cc4: b.ne 0x00100f3c",
+      "0x100cc8: cmp x5, #0x0",
+      "0x100ccc: mov x23, x5",
+      "0x100cd0: mov x22, x6",
+      "0x100cd4: ccmp x6, #0x0, #0x4, ne",
+      "0x100cd8: b.eq 0x00100f3c",
+      "0x100cdc: add x25, x19, #0x490",
+      "0x100ce0: mov x0, x25",
+      "0x100ce4: bl 0x00106108",
+      "0x100ce8: ldr w24, [x19, #0x53c]",
+      "0x100cec: cbnz w24, 0x00100d00",
+      "0x100cf0: ldr x0, [x19]",
+      "0x100cf4: mov w24, #0xffffffea",
+      "0x100cf8: cmp x0, x20",
+      "0x100cfc: b.eq 0x00100d24",
+      "0x100d00: mov x0, x25",
+      "0x100d04: bl 0x00106190",
+      "0x100d08: ldp x21, x22, [sp, #0x20]",
+      "0x100d0c: mov w0, w24",
+      "0x100d10: ldp x19, x20, [sp, #0x10]",
+      "0x100d14: ldp x23, x24, [sp, #0x30]",
+      "0x100d18: ldp x25, x26, [sp, #0x40]",
+      "0x100d1c: ldp x29, x30, [sp], #0x1b0",
+      "0x100d20: ret",
+      "0x100d24: cbz x26, 0x00100f34",
+      "0x100d28: ldr x0, [x26]",
+      "0x100d2c: mov w24, #0xfffffff0",
+      "0x100d30: cmp x0, x20",
+      "0x100d34: b.ne 0x00100d00",
+      "0x100d38: ldrb w0, [x26, #0x170]",
+      "0x100d3c: tbz w0, #0x0, 0x00100d00",
+      "0x100d40: ldrb w0, [x26, #0x164]",
+      "0x100d44: tbz w0, #0x0, 0x00100d00",
+      "0x100d48: ldr x0, [x26, #0x140]",
+      "0x100d4c: cmp x0, x21",
+      "0x100d50: b.ne 0x00100d00",
+      "0x100d54: ldrb w0, [x19, #0x47b]",
+      "0x100d58: tbz w0, #0x0, 0x00100d00",
+      "0x100d5c: ldrb w0, [x26, #0x167]",
+      "0x100d60: tbnz w0, #0x0, 0x00100d00",
+      "0x100d64: ldr x0, [x26, #0x168]",
+      "0x100d68: tst x0, #-0xffffff01",
+      "0x100d6c: b.ne 0x00100d00",
+      "0x100d70: ldr x0, [x26, #0x128]",
+      "0x100d74: cbnz x0, 0x00100d00",
+      "0x100d78: ldr x0, [x26, #0x130]",
+      "0x100d7c: cbnz x0, 0x00100d00",
+      "0x100d80: ldr w0, [x26, #0x138]",
+      "0x100d84: cbnz w0, 0x00100d00",
+      "0x100d88: ldr x0, [x26, #0x160]",
+      "0x100d8c: tst x0, #0xffff0000000000",
+      "0x100d90: b.ne 0x00100d00",
+      "0x100d94: mov x0, x19",
+      "0x100d98: mov w1, #0x1",
+      "0x100d9c: bl 0x00100980",
+      "0x100da0: mov w24, w0",
+      "0x100da4: add x0, x19, #0x4b0",
+      "0x100da8: str x0, [sp, #0x68]",
+      "0x100dac: cbnz w24, 0x00100f24",
+      "0x100db0: add x1, sp, #0xd4",
+      "0x100db4: bl 0x00104a80",
+      "0x100db8: ldr x1, [x26, #0x148]",
+      "0x100dbc: ldr x0, [x19, #0x480]",
+      "0x100dc0: cmp x1, x0",
+      "0x100dc4: b.ne 0x00100f20",
+      "0x100dc8: ldr w1, [x26, #0x150]",
+      "0x100dcc: ldr w0, [sp, #0xdc]",
+      "0x100dd0: cmp w1, w0",
+      "0x100dd4: b.ne 0x00100f20",
+      "0x100dd8: ldr w1, [x26, #0x154]",
+      "0x100ddc: ldr w0, [sp, #0xe0]",
+      "0x100de0: cmp w1, w0",
+      "0x100de4: b.ne 0x00100f20",
+      "0x100de8: ldr w1, [x26, #0x160]",
+      "0x100dec: ldr w0, [sp, #0xe4]",
+      "0x100df0: str w1, [sp, #0x94]",
+      "0x100df4: cmp w1, w0",
+      "0x100df8: b.ne 0x00100f20",
+      "0x100dfc: add x5, sp, #0x120",
+      "0x100e00: ldp w0, w3, [x5, #-0x8]",
+      "0x100e04: ldp w1, w2, [x5]",
+      "0x100e08: orr w0, w0, w3",
+      "0x100e0c: orr w1, w1, w2",
+      "0x100e10: orr w0, w0, w1",
+      "0x100e14: cbnz w0, 0x00100f20",
+      "0x100e18: add x4, x26, #0x98",
+      "0x100e1c: stp x27, x28, [sp, #0x50]",
+      "0x100e20: add x28, x19, #0x448",
+      "0x100e24: str x4, [sp, #0x88]",
+      "0x100e28: add x4, sp, #0x44",
+      "0x100e2c: ldr w0, [x26, #0x158]",
+      "0x100e30: add x27, x26, #0x18",
+      "0x100e34: ldp x2, x3, [x28]",
+      "0x100e38: str w0, [sp, #0x98]",
+      "0x100e3c: ldr w0, [x26, #0x15c]",
+      "0x100e40: stp x2, x3, [x4, #0x60]",
+      "0x100e44: ldp x2, x3, [x28, #0x10]",
+      "0x100e48: str w0, [sp, #0x9c]",
+      "0x100e4c: add x0, sp, #0x130",
+      "0x100e50: stp x2, x3, [x4, #0x70]",
+      "0x100e54: mov x1, x0",
+      "0x100e58: ldp x2, x3, [x28, #0x20]",
+      "0x100e5c: mov x0, x27",
+      "0x100e60: str x1, [sp, #0x78]",
+      "0x100e64: stp x2, x3, [x4, #0x80]",
+      "0x100e68: ldr x3, [x0]",
+      "0x100e6c: cbz x3, 0x00100f1c",
+      "0x100e70: ldr x2, [x0, #0x8]",
+      "0x100e74: add x0, x0, #0x10",
+      "0x100e78: cbz x2, 0x00100f1c",
+      "0x100e7c: negs xzr, x2, LSR #0x20",
+      "0x100e80: b.ne 0x00100f1c",
+      "0x100e84: stp x3, x2, [x1], #0x10",
+      "0x100e88: ldr x2, [sp, #0x88]",
+      "0x100e8c: cmp x0, x2",
+      "0x100e90: b.ne 0x00100e68",
+      "0x100e94: mov w0, #0x2000",
+      "0x100e98: str w0, [x26, #0x138]",
+      "0x100e9c: mov w0, #0x1",
+      "0x100ea0: strb w0, [x26, #0x167]",
+      "0x100ea4: add x2, x26, #0x130",
+      "0x100ea8: mov x0, x20",
+      "0x100eac: mov x4, #0x0",
+      "0x100eb0: mov w3, #0xcc0",
+      "0x100eb4: mov x1, #0x2000",
+      "0x100eb8: bl 0x00106110",
+      "0x100ebc: str x0, [sp, #0x70]",
+      "0x100ec0: str x0, [x26, #0x128]",
+      "0x100ec4: cbz x0, 0x001010e4",
+      "0x100ec8: mov x0, x19",
+      "0x100ecc: bl 0x00100220",
+      "0x100ed0: tbz w0, #0x0, 0x001010d8",
+      "0x100ed4: ldr x0, [sp, #0x68]",
+      "0x100ed8: mov w1, #0x3",
+      "0x100edc: ldr x2, [x26, #0x130]",
+      "0x100ee0: str x2, [sp, #0x80]",
+      "0x100ee4: bl 0x00104908",
+      "0x100ee8: mov w24, w0",
+      "0x100eec: cbnz w0, 0x001010d0",
+      "0x100ef0: mov x0, x19",
+      "0x100ef4: mov w1, #0x1",
+      "0x100ef8: bl 0x00100980",
+      "0x100efc: mov w24, w0",
+      "0x100f00: cbnz w0, 0x001010d0",
+      "0x100f04: ldr x0, [sp, #0x68]",
+      "0x100f08: add x1, sp, #0xd4",
+      "0x100f0c: bl 0x00104a80",
+      "0x100f10: ldr x0, [x19, #0x2b0]",
+      "0x100f14: cmp x0, x26",
+      "0x100f18: b.eq 0x00100f50",
+      "0x100f1c: ldp x27, x28, [sp, #0x50]",
+      "0x100f20: mov w24, #0xffffffb9",
+      "0x100f24: ldr x0, [sp, #0x68]",
+      "0x100f28: str w24, [x19, #0x53c]",
+      "0x100f2c: bl 0x00104f68",
+      "0x100f30: b 0x00100d00",
+      "0x100f34: mov w24, #0xfffffff0",
+      "0x100f38: b 0x00100d00",
+      "0x100f3c: ldp x21, x22, [sp, #0x20]",
+      "0x100f40: mov w24, #0xffffffea",
+      "0x100f44: b 0x00100d0c",
+      "0x100f48: mov w24, #0xffffffa1",
+      "0x100f4c: b 0x00100d0c",
+      "0x100f50: ldr x0, [x26]",
+      "0x100f54: cmp x0, x20",
+      "0x100f58: b.ne 0x00100f1c",
+      "0x100f5c: ldr x0, [x19]",
+      "0x100f60: cmp x0, x20",
+      "0x100f64: b.ne 0x00100f1c",
+      "0x100f68: ldrb w0, [x26, #0x170]",
+      "0x100f6c: tbz w0, #0x0, 0x00100f1c",
+      "0x100f70: ldrb w0, [x26, #0x164]",
+      "0x100f74: tbz w0, #0x0, 0x00100f1c",
+      "0x100f78: ldr x0, [x26, #0x140]",
+      "0x100f7c: cmp x0, x21",
+      "0x100f80: b.ne 0x00100f1c",
+      "0x100f84: ldrb w0, [x19, #0x47b]",
+      "0x100f88: tbz w0, #0x0, 0x00100f1c",
+      "0x100f8c: ldrb w0, [x26, #0x167]",
+      "0x100f90: tbz w0, #0x0, 0x00100f1c",
+      "0x100f94: ldr x0, [x26, #0x168]",
+      "0x100f98: tst x0, #-0xffffff01",
+      "0x100f9c: b.ne 0x00100f1c",
+      "0x100fa0: ldr x0, [x26, #0x160]",
+      "0x100fa4: tst x0, #0xffff0000000000",
+      "0x100fa8: b.ne 0x00100f1c",
+      "0x100fac: ldr x1, [x26, #0x148]",
+      "0x100fb0: ldr x0, [x19, #0x480]",
+      "0x100fb4: cmp x1, x0",
+      "0x100fb8: b.ne 0x00100f1c",
+      "0x100fbc: ldr w1, [x26, #0x150]",
+      "0x100fc0: ldr w0, [sp, #0xdc]",
+      "0x100fc4: cmp w1, w0",
+      "0x100fc8: b.ne 0x00100f1c",
+      "0x100fcc: ldr w1, [x26, #0x154]",
+      "0x100fd0: ldr w0, [sp, #0xe0]",
+      "0x100fd4: cmp w1, w0",
+      "0x100fd8: b.ne 0x00100f1c",
+      "0x100fdc: ldr w0, [x26, #0x158]",
+      "0x100fe0: ldr w3, [sp, #0x98]",
+      "0x100fe4: cmp w0, w3",
+      "0x100fe8: b.ne 0x00100f1c",
+      "0x100fec: ldr w0, [x26, #0x15c]",
+      "0x100ff0: ldr w3, [sp, #0x9c]",
+      "0x100ff4: cmp w0, w3",
+      "0x100ff8: b.ne 0x00100f1c",
+      "0x100ffc: ldr w0, [x26, #0x160]",
+      "0x101000: ldr w3, [sp, #0x94]",
+      "0x101004: cmp w3, w0",
+      "0x101008: b.ne 0x00100f1c",
+      "0x10100c: add x4, sp, #0x120",
+      "0x101010: ldp w0, w3, [x4, #-0x8]",
+      "0x101014: ldp w1, w2, [x4]",
+      "0x101018: orr w0, w0, w3",
+      "0x10101c: orr w1, w1, w2",
+      "0x101020: orr w0, w0, w1",
+      "0x101024: cbnz w0, 0x00100f1c",
+      "0x101028: ldr x1, [sp, #0x70]",
+      "0x10102c: ldr x0, [x26, #0x128]",
+      "0x101030: cmp x0, x1",
+      "0x101034: b.ne 0x00100f1c",
+      "0x101038: ldr x2, [sp, #0x80]",
+      "0x10103c: ldr x0, [x26, #0x130]",
+      "0x101040: cmp x0, x2",
+      "0x101044: b.ne 0x00100f1c",
+      "0x101048: mov x1, x28",
+      "0x10104c: add x0, sp, #0xa4",
+      "0x101050: mov x2, #0x30",
+      "0x101054: bl 0x00106120",
+      "0x101058: mov w24, w0",
+      "0x10105c: cbnz w0, 0x00100f1c",
+      "0x101060: mov x0, x19",
+      "0x101064: bl 0x00100220",
+      "0x101068: tbz w0, #0x0, 0x00100f1c",
+      "0x10106c: ldr x2, [sp, #0x78]",
+      "0x101070: ldr x1, [x27]",
+      "0x101074: ldr x0, [x2]",
+      "0x101078: cmp x1, x0",
+      "0x10107c: b.ne 0x00100f1c",
+      "0x101080: ldr x0, [x2, #0x8]",
+      "0x101084: add x2, x2, #0x10",
+      "0x101088: ldr x1, [x27, #0x8]",
+      "0x10108c: str x2, [sp, #0x78]",
+      "0x101090: add x27, x27, #0x10",
+      "0x101094: cmp x1, x0",
+      "0x101098: b.ne 0x00100f1c",
+      "0x10109c: ldr x0, [sp, #0x88]",
+      "0x1010a0: cmp x27, x0",
+      "0x1010a4: b.ne 0x0010106c",
+      "0x1010a8: ldr w0, [sp, #0xe4]",
+      "0x1010ac: mov w1, #0x1",
+      "0x1010b0: strb w1, [x26, #0x168]",
+      "0x1010b4: str w0, [x26, #0x16c]",
+      "0x1010b8: ldr x0, [sp, #0x70]",
+      "0x1010bc: str x0, [x23]",
+      "0x1010c0: ldr x0, [sp, #0x80]",
+      "0x1010c4: str x0, [x22]",
+      "0x1010c8: ldp x27, x28, [sp, #0x50]",
+      "0x1010cc: b 0x00100d00",
+      "0x1010d0: ldp x27, x28, [sp, #0x50]",
+      "0x1010d4: b 0x00100f24",
+      "0x1010d8: ldp x27, x28, [sp, #0x50]",
+      "0x1010dc: mov w24, #0xffffffea",
+      "0x1010e0: b 0x00100f24",
+      "0x1010e4: ldp x27, x28, [sp, #0x50]",
+      "0x1010e8: mov w24, #0xfffffff4",
+      "0x1010ec: b 0x00100f24"
+    ],
+    "callees": [
+      {
+        "address": "0x100220",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x100393",
+              "start": "0x100220"
+            }
+          ],
+          "span_bytes": 372,
+          "total_bytes": 372
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "FUN_00100220"
+      },
+      {
+        "address": "0x100980",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x100a33",
+              "start": "0x100980"
+            }
+          ],
+          "span_bytes": 180,
+          "total_bytes": 180
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "FUN_00100980"
+      },
+      {
+        "address": "0x104908",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x104a73",
+              "start": "0x104908"
+            }
+          ],
+          "span_bytes": 364,
+          "total_bytes": 364
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "npu_linux_control_exchange"
+      },
+      {
+        "address": "0x104a80",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x104b33",
+              "start": "0x104a80"
+            }
+          ],
+          "span_bytes": 180,
+          "total_bytes": 180
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "npu_linux_control_snapshot"
+      },
+      {
+        "address": "0x104f68",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x104fcf",
+              "start": "0x104f68"
+            }
+          ],
+          "span_bytes": 104,
+          "total_bytes": 104
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "npu_linux_control_close"
+      },
+      {
+        "address": "0x106108",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x106108",
+              "start": "0x106108"
+            }
+          ],
+          "span_bytes": 1,
+          "total_bytes": 1
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": true,
+          "thunk_target": "EXTERNAL:0x21"
+        },
+        "name": "<EXTERNAL>::mutex_lock"
+      },
+      {
+        "address": "0x106110",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x106110",
+              "start": "0x106110"
+            }
+          ],
+          "span_bytes": 1,
+          "total_bytes": 1
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": true,
+          "thunk_target": "EXTERNAL:0x22"
+        },
+        "name": "<EXTERNAL>::dma_alloc_attrs"
+      },
+      {
+        "address": "0x106120",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x106120",
+              "start": "0x106120"
+            }
+          ],
+          "span_bytes": 1,
+          "total_bytes": 1
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": true,
+          "thunk_target": "EXTERNAL:0x24"
+        },
+        "name": "<EXTERNAL>::memcmp"
+      },
+      {
+        "address": "0x106190",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x106190",
+              "start": "0x106190"
+            }
+          ],
+          "span_bytes": 1,
+          "total_bytes": 1
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": true,
+          "thunk_target": "EXTERNAL:0x32"
+        },
+        "name": "<EXTERNAL>::mutex_unlock"
+      }
+    ],
+    "callers": [],
+    "limitations": [
+      "Unresolved computed or indirect flows without target addresses are not represented as reference edges.",
+      "Thunk and external classifications are Ghidra FunctionManager observations; they do not resolve targetless calls.",
+      "Pseudocode and assembly are Ghidra-specific representations, not original source or Hopper-equivalent text.",
+      "Synthetic Ghidra entry-point references without actionable memory sources are omitted."
+    ]
+  },
+  "value_flow_limits": {
+    "available": true,
+    "truncated": false,
+    "limitations": [
+      "High p-code is decompiler-derived, not original source or runtime behavior. is_dead preserves the Java AST flag; decoded block members can retain that flag, so block_membership separately reports actual syntax-tree membership.",
+      "Def-use links do not cross function boundaries and may omit memory aliasing, call side effects, or unresolved indirect flow.",
+      "Memory read/write effects include stack and temporary memory operations; they do not identify persistent state or business meaning.",
+      "Operation, input, and def-use limits can truncate large functions; inspect truncation, omitted lower bounds, and known omitted counts before drawing conclusions.",
+      "Known omitted-edge counts cover links omitted from retained operations; omitted operations may contain additional uncounted links."
+    ],
+    "known_omitted_edges": 0,
+    "known_omitted_inputs": 0,
+    "omitted_operations_lower_bound": 0
+  },
+  "local_complete_bundle": {
+    "path": ".local/npu-rx-event-20261013/rea-provider.json",
+    "sha256": "979ae8862839d2875a3a042ce4056d5e7356e0a8a8dbc32724764d5d04d8b4ff"
+  },
+  "local_snapshot": {
+    "path": ".local/npu-rx-event-20261013/rea-provider-snapshot.json",
+    "sha256": "32072b86a8cd13b343408a1a794331a5d44d82843deeaf81e66ddf3976ba37ff"
+  }
+}

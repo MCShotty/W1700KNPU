@@ -1,0 +1,45 @@
+{
+  "pid": 2899076,
+  "process_group": 2899076,
+  "wrapper_pid": 2898718,
+  "command": [
+    "make",
+    "-j8",
+    "world",
+    "V=s"
+  ],
+  "cwd": "/home/captain/W1700KNPU/.build/merged-openwrt",
+  "log": "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/build-rx-event-lifetime-world-q1.log",
+  "started": 1791909995.7967882,
+  "exit_code": 0,
+  "tool_provenance": {
+    "host_tools": [
+      {
+        "prefix": "/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21",
+        "bin": "/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin"
+      }
+    ],
+    "path": "/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "make": {
+      "path": "/usr/bin/make",
+      "sha256": "27c9f6d806aee15882b01c2c61848f7aa75caa14bc7b6f608ba422f9e46a7d49"
+    }
+  },
+  "checked_npu_pair": {
+    "directory": ".build/merged-openwrt/bin/npu-pair-rx-event-lifetime-world-q1",
+    "manifest_sha256": "419f0b6bbdb9494807037eda779ead7031d6c5a6020b91ce10fd399249778011",
+    "code": {
+      "base": 2214592512,
+      "bytes": 816820,
+      "sha256": "32b3506a67e498a1049b37a51cb5caa0ca2f1b7eeb87762028017fa81f5372df"
+    },
+    "data": {
+      "base": 1049624576,
+      "bytes": 25728,
+      "sha256": "402cce5fe187b9d29d2f3d03e467af671527fdc75c2f120c5e96383877f96866"
+    },
+    "loader_provisioned": false,
+    "physical_acceptance": false
+  },
+  "finished": 1791910173.9503536
+}

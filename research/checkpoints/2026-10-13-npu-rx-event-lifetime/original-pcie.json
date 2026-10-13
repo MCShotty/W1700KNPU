@@ -1,0 +1,1415 @@
+{
+  "passed": true,
+  "observations": [
+    {
+      "selector": 0,
+      "supplied": 0,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640140,
+          1049636080,
+          4,
+          0
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640152,
+          "access": 20,
+          "address": 8,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640152,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 0,
+      "supplied": 1,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640140,
+          1049636080,
+          4,
+          1
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640152,
+          "access": 20,
+          "address": 9,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640152,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 0,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640140,
+          1049636080,
+          4,
+          2516582912
+        ],
+        [
+          2214640152,
+          2516582920,
+          4,
+          1535
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 37,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 0,
+      "supplied": 4294967295,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640140,
+          1049636080,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640152,
+          "access": 20,
+          "address": 7,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640152,
+      "instructions": 42,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 1,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 1,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 1,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 1,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 2,
+      "supplied": 0,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640164,
+          1049639172,
+          4,
+          0
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640176,
+          "access": 20,
+          "address": 8,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640176,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 2,
+      "supplied": 1,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640164,
+          1049639172,
+          4,
+          1
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640176,
+          "access": 20,
+          "address": 9,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640176,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 2,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640164,
+          1049639172,
+          4,
+          2516582912
+        ],
+        [
+          2214640176,
+          2516582920,
+          4,
+          1023
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 37,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 2,
+      "supplied": 4294967295,
+      "returned": false,
+      "callback_result": null,
+      "writes": [
+        [
+          2214640164,
+          1049639172,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640176,
+          "access": 20,
+          "address": 7,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640176,
+      "instructions": 42,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 3,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 3,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 3,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 3,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 4,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 4,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 4,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 4,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 5,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640192,
+          1049639260,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 5,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640192,
+          1049639260,
+          4,
+          1
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 5,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640192,
+          1049639260,
+          4,
+          2516582912
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 5,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640192,
+          1049639260,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 47,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 6,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640210,
+          1049635456,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 6,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640210,
+          1049635456,
+          4,
+          1
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 6,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640210,
+          1049635456,
+          4,
+          2516582912
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 6,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640210,
+          1049635456,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 47,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 7,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640228,
+          1049642544,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 7,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640228,
+          1049642544,
+          4,
+          1
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 7,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640228,
+          1049642544,
+          4,
+          2516582912
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 7,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640228,
+          1049642544,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 47,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 8,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640246,
+          1049635484,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 8,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640246,
+          1049635484,
+          4,
+          1
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 8,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640246,
+          1049635484,
+          4,
+          2516582912
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 8,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640246,
+          1049635484,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 47,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 9,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 9,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 9,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 9,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 10,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640264,
+          1049635472,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 10,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640264,
+          1049635472,
+          4,
+          1
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 10,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640264,
+          1049635472,
+          4,
+          2516582912
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 35,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 10,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [
+        [
+          2214640264,
+          1049635472,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 47,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 11,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 11,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 11,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 11,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 12,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 12,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 12,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 12,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 13,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 13,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 13,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 13,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 14,
+      "supplied": 0,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 14,
+      "supplied": 1,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 14,
+      "supplied": 2516582912,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 38,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 14,
+      "supplied": 4294967295,
+      "returned": true,
+      "callback_result": 1,
+      "writes": [],
+      "faults": [],
+      "error": null,
+      "final_pc": 2216689648,
+      "instructions": 50,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 15,
+      "supplied": 0,
+      "returned": false,
+      "callback_result": null,
+      "writes": [],
+      "faults": [
+        {
+          "pc": 2214640046,
+          "access": 20,
+          "address": 435541695,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640046,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 15,
+      "supplied": 1,
+      "returned": false,
+      "callback_result": null,
+      "writes": [],
+      "faults": [
+        {
+          "pc": 2214640046,
+          "access": 20,
+          "address": 435541695,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640046,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 15,
+      "supplied": 2516582912,
+      "returned": false,
+      "callback_result": null,
+      "writes": [],
+      "faults": [
+        {
+          "pc": 2214640046,
+          "access": 20,
+          "address": 435541695,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640046,
+      "instructions": 30,
+      "other_mapped_bytes_unchanged": true
+    },
+    {
+      "selector": 15,
+      "supplied": 4294967295,
+      "returned": false,
+      "callback_result": null,
+      "writes": [],
+      "faults": [
+        {
+          "pc": 2214640046,
+          "access": 20,
+          "address": 435541695,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "final_pc": 2214640046,
+      "instructions": 42,
+      "other_mapped_bytes_unchanged": true
+    }
+  ],
+  "index_sequences": [
+    {
+      "modeled_descriptor_count": 0,
+      "missing_pointer": null,
+      "returned": true,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ],
+        [
+          2214640106,
+          2516583432,
+          4,
+          1535
+        ],
+        [
+          2214640128,
+          2516583688,
+          4,
+          4294967295
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 1,
+      "missing_pointer": null,
+      "returned": true,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ],
+        [
+          2214640106,
+          2516583432,
+          4,
+          1535
+        ],
+        [
+          2214640128,
+          2516583688,
+          4,
+          0
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": null,
+      "returned": true,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ],
+        [
+          2214640106,
+          2516583432,
+          4,
+          1535
+        ],
+        [
+          2214640128,
+          2516583688,
+          4,
+          511
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 65535,
+      "missing_pointer": null,
+      "returned": true,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ],
+        [
+          2214640106,
+          2516583432,
+          4,
+          1535
+        ],
+        [
+          2214640128,
+          2516583688,
+          4,
+          65534
+        ]
+      ],
+      "faults": [],
+      "error": null,
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": 0,
+      "returned": false,
+      "stores": [],
+      "faults": [
+        {
+          "pc": 2214640046,
+          "address": 8,
+          "access": 20,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": 1,
+      "returned": false,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640064,
+          "address": 8,
+          "access": 20,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": 2,
+      "returned": false,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640082,
+          "address": 8,
+          "access": 20,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": 3,
+      "returned": false,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640106,
+          "address": 8,
+          "access": 20,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    },
+    {
+      "modeled_descriptor_count": 512,
+      "missing_pointer": 4,
+      "returned": false,
+      "stores": [
+        [
+          2214640046,
+          2516582664,
+          4,
+          255
+        ],
+        [
+          2214640064,
+          2516582920,
+          4,
+          511
+        ],
+        [
+          2214640082,
+          2516583176,
+          4,
+          1023
+        ],
+        [
+          2214640106,
+          2516583432,
+          4,
+          1535
+        ]
+      ],
+      "faults": [
+        {
+          "pc": 2214640128,
+          "address": 8,
+          "access": 20,
+          "bytes": 4
+        }
+      ],
+      "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)",
+      "earlier_writes_retained": true,
+      "data_and_other_host_bytes_unchanged": true
+    }
+  ],
+  "store_sites": [
+    {
+      "pc": 2214640140,
+      "instruction": "sw s1, 0x2e8(a5)"
+    },
+    {
+      "pc": 2214640152,
+      "instruction": "c.sw a5, 8(s1)"
+    },
+    {
+      "pc": 2214640164,
+      "instruction": "sw s1, -0x11c(a5)"
+    },
+    {
+      "pc": 2214640176,
+      "instruction": "c.sw a5, 8(s1)"
+    },
+    {
+      "pc": 2214640192,
+      "instruction": "sw s1, -0xe0(a5)"
+    },
+    {
+      "pc": 2214640210,
+      "instruction": "sw s1, 0x32(a5)"
+    },
+    {
+      "pc": 2214640228,
+      "instruction": "sw s1, -0x430(a5)"
+    },
+    {
+      "pc": 2214640246,
+      "instruction": "sw s1, 0x2a(a5)"
+    },
+    {
+      "pc": 2214640264,
+      "instruction": "sw s1, 0xc(a5)"
+    }
+  ],
+  "inputs": {
+    "tests/npu/test_api0_original.py": "80aeb4daae3195f6ec020a89ccbdf98c5f436aabb32984581c7964787601b38f",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643"
+  },
+  "limits": [
+    "Observation matrix only: non-returning and unmapped-access cases are retained, not successes.",
+    "Original RV32 callback, patterned synthetic DATA/host regions and stack; only printf skipped.",
+    "Mapped-byte comparisons cover the declared DATA/host regions, not arbitrary unmapped or MMIO effects.",
+    "Five prior pointers are installed by original callbacks; the DESC10 count field alone is explicitly modeled for index-reset sequences.",
+    "No candidate API0 admission, host-register ownership, physical DMA/drain or client proof."
+  ]
+}

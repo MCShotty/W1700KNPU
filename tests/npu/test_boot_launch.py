@@ -18,13 +18,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--name', required=True)
+    parser.add_argument('--header', type=Path,
+                        help='Immutable prepared header when a world build can replace the build tree')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     source = args.source.resolve()
     lock = ROOT / 'firmware/source-lock.json'
     build = ROOT / json.loads(lock.read_bytes())['build_directory']
     kernel = build / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52'
-    header = kernel / 'include/linux/soc/airoha/airoha_offload.h'
+    header = (args.header or kernel / 'include/linux/soc/airoha/airoha_offload.h').resolve()
+    assert header.is_relative_to(ROOT)
     harness = ROOT / 'tests/npu/boot-launch-harness.c'
     dest = ROOT / '.local/npu-boot-launch-20261010' / args.name
     assert source.is_relative_to(ROOT) and not dest.exists()

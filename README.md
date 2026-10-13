@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-13 - Retained RX-Event Backing
+
+The real RX-event descriptor allocation now belongs to the retained provider
+lifetime before queue registers can expose it. C115/seven mutants, sanitizers,
+source68, strict style, full world, Ghidra60/REA and FIT218+78 checks pass.
+The new `f185a731...` image is unflashed; prior `9d1fa30d...` and companions
+are protected. Raw CODE/DATA remain unchanged. Current native replay passes
+one RX/six TX allocations and all six API21 phases/53260 effects/76 controls.
+RX-event native enrollment, complete setup and physical/client
+acceptance remain open. No hardware action.
+Scope: `research/checkpoints/2026-10-13-npu-rx-event-lifetime/REPORT.md`.
+
 ## 2026-10-13 - Original API21 Callbacks Bound
 
 Mainline source now binds all six original API21 callbacks and53260 stores
