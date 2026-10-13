@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-13 - Retained Host TX DMA Buffers
+
+The checked provider now owns all six coherent TX allocations, their CPU/DMA
+records and the endpoint reference across partial errors and detach. Allocation
+uses the NPU DMA device, pins the boot/session/native plan, validates complete
+alias/overlap geometry and requires fresh STATUS before returning handles.
+Only an unmarked provider's `-EOPNOTSUPP` selects managed allocation.
+
+Actual C passes 76 cases/seven mutants; provider C passes 609 cases/nine mutants
+with 272 BAR geometry cases. Native allocator/STATUS replay, 21 unit tests,
+strict checkpatch, source/world/Ghidra59 and image checks pass. The new unflashed
+FIT is `6efaa878...`; previous images and private backups remain protected.
+Eight original RV32 cases pin down API21's 512-record writes and partial
+metadata faults. API21 admission, physical retirement and full NPU acceptance
+remain open. No router contact occurred. Scope and next implementation:
+`research/checkpoints/2026-10-13-npu-host-tx-lifetime/REPORT.md` and `NEXT_API21.md`.
+
 ## 2026-10-11 - Retained Descriptor GETs
 
 Mainline source now admits eight ordered descriptor GETs with a retained owner

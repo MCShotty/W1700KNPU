@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-11 (descriptor checkpoint qualified; API21 lifetime/record work next; full goal open)
+Last updated: 2026-10-13 (host TX lifetime qualified; native API21 enrollment/records next; full goal open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-13 - Retained Host TX DMA Lifetime
+
+- Integrated actual mt7996 caller/provider coherent allocation ownership into
+  the unified mainline. Six CPU/DMA/size records and endpoint reference persist
+  in the exposed NPU DMA-device lifetime. One-shot boot/nonce/serial/plan checks,
+  full alias/overlap validation and fresh STATUS gate output. Partial allocation,
+  protocol error and detach never free exposed records. EOPNOTSUPP alone selects
+  the unmarked managed path; repeated endpoint enrollment closes before new I/O.
+- Actual C76/seven mutants, old-caller six-free and cached-alias counterexamples,
+  provider C609/nine, BAR272/seven, lease13/four, caller publication/offload/RX,
+  endpoint/request/probe/boot/memory and 21 nonzero unit regressions pass.
+  One exact-input raw-RV32 case verifies six real-C allocations and fresh STATUS
+  before the offload/RX prefix; backing/references/delivery are modeled. Actual
+  TX still stops at API21; later synthetic handles are not native consumption.
+- Strict driver checkpatch is clean. Source67/four changed nested files replay
+  byte-equally; world/FIT218+78 and exact-provider Ghidra59 pass. Candidate FIT
+  `6efaa878...` is unflashed; raw CODE/DATA remain unchanged. Earlier123e3084 and
+  3951dc7c images plus seven companions each are hash-protected, as are older/R1
+  and private calibration/bootloader/recovery/device backups. No hardware action.
+- Eight original API21 helper cases verify 512 records per band with 4/4/4/1
+  stores and untouched bytes13-15. Incorrect nonzero prerequisites/band and a
+  wrong mapped table pointer are accepted by original code. Missing table entries
+  clear16-bit counters and publish null32-bit pointers before record-store faults.
+  These are modeled original-code counterexamples, not candidate admission.
+- Next enroll host records and own exact API21 internal/static-L2/metadata effects
+  with real GET/SET order. Remaining setup/owners/workers/hot/postgate, independent
+  physical backing/exclusion/coherency/drains/retirement/recovery and clients stay
+  open. Jev reviews/uncertainty follow-up are retained; continuation used no agents.
+  Evidence: `research/checkpoints/2026-10-13-npu-host-tx-lifetime/REPORT.md`.
 
 ## 2026-10-11 - Retained Descriptor Ownership Qualified
 

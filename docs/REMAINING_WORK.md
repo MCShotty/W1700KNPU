@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-13 - Host TX Lifetime Qualified
+
+Provider-owned coherent TX allocation and retained endpoint/DMA/session/plan
+identity are implemented. C76/seven, provider C609/nine, BAR272/seven,
+actual-C/raw-native allocator STATUS, 21 unit tests, strict driver style,
+source/world/Ghidra59/FIT218+78 pass. FIT `6efaa878...` remains unflashed.
+Current and prior images/backups are protected; no hardware contact occurred.
+
+Next enroll the six exact host DMA records into native cold state and implement
+API21's mixed alias/internal-record/static-L2/counter/pointer effects. Preserve
+GET5/SET0/SET5/SET10/GET7/SET2/SET7/SET12 interleaving. Eight original instruction
+cases verify 512 records per band with 4/4/4/1-byte writes; missing tables mutate
+counter/pointer metadata before faulting. Guard those earlier writes and the
+exact TXPKT prerequisite, not just the descriptor span or nonzero readiness.
+
+Actual TX still stops at denied API21. Other PCIe/INODE/TXDONE/IRQ setup, owners/
+workers/hot/postgate, physical exclusion/backing/coherency/drains/retirement/
+removal/rearm/recovery, exact-image boot and actual clients remain required.
+No software STATUS or retained allocation record proves a physical drain.
+Scope: `research/checkpoints/2026-10-13-npu-host-tx-lifetime/REPORT.md`;
+implementation requirements: `NEXT_API21.md` in that checkpoint.
+
 ## 2026-10-11 - Descriptor Prefix Qualified
 
 Eight selector-specific GETs and retained TX5/7 status ownership are implemented.

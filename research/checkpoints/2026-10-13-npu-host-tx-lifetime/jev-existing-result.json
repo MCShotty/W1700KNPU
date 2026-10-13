@@ -1,0 +1,60 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-host-tx-lifetime-20261011\\jev-existing.json",
+  "request_sha256": "b82ddb9773c04187b43c388fec6e35d7fe2489d82d661ca4d0d07885e077d7d2",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "allocation_device": {
+      "type": "choice",
+      "instructions": "After the successful mt76_attach path, which device is passed to dmam_alloc_coherent in tx_allocate?",
+      "criteria": {
+        "npu_device": "The NPU provider device assigned to dev->dma_dev.",
+        "endpoint_device": "The endpoint dev->dev itself, with no reassignment.",
+        "not_established": "The supplied paths do not establish the identity."
+      }
+    },
+    "cpu_pointer_retention": {
+      "type": "noul",
+      "instructions": "Does tx_allocate preserve each successful allocation CPU pointer in an owned record for a later explicit coherent free?"
+    },
+    "existing_tx_guard": {
+      "type": "noul",
+      "instructions": "Do provider_cleanup and provider_lifetime currently contain the six tx_allocate buffers and prevent their managed_release?"
+    },
+    "drain_proof": {
+      "type": "noul",
+      "instructions": "Do the supplied retention/allocation functions independently prove that physical NPU DMA is stopped and exposed resources can be reclaimed?"
+    }
+  },
+  "elapsed_ms": 812,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "allocation_device": {
+        "type": "choice",
+        "choice": "npu_device",
+        "confidence": 1.0,
+        "probabilities": {
+          "npu_device": 1.0,
+          "endpoint_device": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "cpu_pointer_retention": {
+        "type": "noul",
+        "noul": 0.14
+      },
+      "existing_tx_guard": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "drain_proof": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 1654,
+      "output_tokens": 106
+    }
+  }
+}

@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-11 (descriptor checkpoint qualified; API21 lifetime/records next; full goal open)
+Last updated: 2026-10-13 (host TX lifetime qualified; native API21 enrollment/records next; full goal open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-13 - Host TX Lifetime and Original Record Effects
+
+- Integrated retained six-buffer coherent allocation, endpoint reference and
+  boot/nonce/serial/native-plan validation into the real mt7996/provider path.
+  Fresh STATUS precedes handles; exposed partial failures and detach retain
+  ownership. Old managed free and cached-alias omission are reproduced/fixed.
+- C76/seven, provider C609/nine, BAR272/seven, lease13/four and 21 unit tests
+  pass. Raw native allocation/STATUS plus actual offload/RX callers pass, but
+  TX API21 is still denied. Model backing/references are not physical DMA proof.
+- Four changed nested files and67 top-level files replay. Driver style is clean;
+  world/Ghidra59/FIT218+78 pass. Latest unflashed FIT `6efaa878...`; prior123e3084/
+  3951dc7c and seven companions each are preserved. Raw CODE/DATA are unchanged.
+- Eight original API21 helper cases pin512 records/band and4/4/4/1-byte stores.
+  Missing static tables mutate counters/pointers before faults; wrong nonzero
+  prerequisites and mapped destinations are accepted. Those observations drive
+  the next native host-buffer enrollment and exact ownership guards.
+- Full setup, owners/hot, physical exclusion/backing/coherency/drains/recovery,
+  exact-image boot and real clients remain open. No router contact, flash/reset
+  or subagents. Sealed scope: `research/checkpoints/2026-10-13-npu-host-tx-lifetime/`.
 
 ## 2026-10-11 - Descriptor Qualification
 

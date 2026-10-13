@@ -169,6 +169,34 @@ reset/reinitialization API exists. Old checked firmware without this endpoint
 rejects the envelope, and the new host holds rather than falling back to an
 unbound callback. Unmarked provider callbacks preserve their raw dispatch.
 
+## Host TX Buffer Lifetime
+
+The checked MT7996 caller requests six coherent buffers from the provider-owned
+lease before its offload initializer. mt76 has already redirected `dma_dev` to
+the NPU provider device; the PCI endpoint identity is separate and is pinned
+before the first BAR publication. The lease records CPU pointers, full DMA
+handles and exact sizes, binding them to that endpoint, provider boot and nonce.
+
+Allocation is one-shot. The admitted sizes are512*256 for the first two records
+and1024*256 for the remaining four. Addresses must fit the32-bit native extent
+and one30-bit alias window, avoid the bound BAR across all three alias forms,
+and avoid the immutable native plan, every mailbox and prior TX allocation.
+Argument rejection allocates nothing and changes no caller output. After a valid
+attempt, allocation/STATUS/identity failures close CPU control with the first
+error and retain all successful prefix allocations. Firmware is already exposed;
+partial success does not justify coherent frees or a new setup attempt.
+
+A fresh STATUS and complete identity/record/plan recheck precede the address
+publication latch and output copies. Detach retains the exposed lease, endpoint
+reference and buffers; no production retirement API exists. Unmarked providers
+retain managed allocation, and only `-EOPNOTSUPP` enables that fallback. Other
+errors must not trigger legacy allocation or the hardware initializer.
+
+This owns the Linux allocations, not their complete native API21 initialization.
+STATUS/parking and software alias checks are not independent physical exclusion,
+IOMMU/backing/cache or drain proof. Native fixed-record/table/metadata ownership,
+other callers/workers, hot lifecycle, retirement/recovery and clients remain open.
+
 ## Kernel Build
 
 The existing portable protocol sources remain unchanged. For the selected

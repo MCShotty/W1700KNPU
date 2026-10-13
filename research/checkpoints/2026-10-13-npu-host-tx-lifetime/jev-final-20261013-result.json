@@ -1,0 +1,57 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-host-tx-lifetime-20261011\\jev-final-20261013.json",
+  "request_sha256": "099e6599cd07f03e318bf2bdc59a168dcc03dc8e8c93827b6570e0644ddb27b2",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "retained_partial_allocations": {
+      "type": "noul",
+      "instructions": "Does state.cleanup retain the lifetime containing all prior TX allocations when life->exposed is true, including an allocation or STATUS failure described by state.provider_allocator?"
+    },
+    "fresh_status_before_handles": {
+      "type": "noul",
+      "instructions": "Does state.provider_allocator require a newly issued STATUS exchange and held identity/record revalidation before writing any output DMA handles?"
+    },
+    "cached_bar_alias_guard": {
+      "type": "noul",
+      "instructions": "Does state.address_validation normalize both BAR and DMA ranges to low 30 bits before rejecting overlap, covering the cached 0x80000000 alias as well as other admitted aliases?"
+    },
+    "legacy_fallback_scope": {
+      "type": "noul",
+      "instructions": "Does state.actual_host_caller restrict the managed-allocation fallback to -EOPNOTSUPP, rather than using it for other checked-provider errors?"
+    },
+    "physical_retirement_claim": {
+      "type": "noul",
+      "instructions": "Do these source excerpts or state.scope establish physical DMA quiescence or authorize reclaiming exposed buffers on detach? Software STATUS and retained allocation bookkeeping do not establish physical retirement."
+    }
+  },
+  "elapsed_ms": 1358,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "retained_partial_allocations": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "fresh_status_before_handles": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "cached_bar_alias_guard": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "legacy_fallback_scope": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "physical_retirement_claim": {
+        "type": "noul",
+        "noul": 0.61
+      }
+    },
+    "usage": {
+      "input_tokens": 3669,
+      "output_tokens": 103
+    }
+  }
+}

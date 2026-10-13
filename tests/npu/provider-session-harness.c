@@ -13,7 +13,7 @@ typedef int gfp_t;
 struct device { unsigned unused; };
 struct list_head { struct list_head *next, *prev; };
 struct resource { uint64_t start, end; };
-struct airoha_npu { unsigned unused; };
+struct airoha_npu { struct device *dev; };
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #define container_of(p, type, member) ((type *)((char *)(p) - __builtin_offsetof(type, member)))
 #define lower_32_bits(v) ((uint32_t)(v))
@@ -29,6 +29,8 @@ static void put_unaligned_le32(uint32_t value, void *p) { memcpy(p, &value, 4); 
 
 static struct airoha_npu_priv priv;
 static struct airoha_npu_dma_lifetime life;
+static struct device endpoint_device, dma_device;
+static struct device *get_device(struct device *dev) { return dev; }
 static struct npu_bootstrap bootstrap;
 static struct npu_control_v2_session session;
 static struct npu_admission admission;
@@ -201,6 +203,7 @@ void npu_test_reset(uint64_t identity, uint32_t request)
     priv.native_plan_ready = priv.native_published = life.exposed = true;
     priv.boot_identity = identity;
     priv.dma_lifetime = &life;
+    priv.npu.dev = life.dev = &dma_device;
     mutex_init(&priv.wlan_session_lock);
     calls = ticks = rng_calls = fault_at = mutate_at = rng_zeros = park_after = 0;
     fault_error = rng_error = 0;
@@ -235,7 +238,7 @@ void npu_test_native_plan(unsigned index, uint32_t base, uint32_t bytes)
 int npu_test_run(void) { return airoha_npu_wlan_init_session(&priv.npu); }
 int npu_test_endpoint(uint64_t base, uint64_t bytes, int type)
 {
-    return airoha_npu_wlan_bind_endpoint_session(&priv.npu, base, bytes, type);
+    return airoha_npu_wlan_bind_endpoint_session(&priv.npu, &endpoint_device, base, bytes, type);
 }
 int npu_test_command(unsigned header, unsigned api, unsigned value, uint32_t *output)
 {
@@ -383,11 +386,12 @@ int main(void)
     check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EINVAL && !calls, "binding before setup denies");
     check(!npu_test_run() && !npu_test_endpoint(0x20000000, 0x100000, 2), "actual provider binding");
     check(calls == 11 && cold.completed == 24 && !admission.active && !cold.inflight, "bound held window");
-    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 12, "no second endpoint enrollment");
-    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 12, "sticky endpoint failure");
+    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 11, "no second endpoint enrollment or wire call");
+    check(npu_test_endpoint(0x20000000, 0x100000, 2) == -EPROTO && calls == 11, "sticky endpoint failure");
     retained(-EPROTO);
     const uint64_t bases[] = {0, 1, 0x20000000, 0x80000000, 0x81000000,
                               0x81200000, 0x81400000, 0x81600000, 0x83000000,
+                              0x3ff00000, 0x3ffff000, 0x7ff00000, 0x7ffff000,
                               0xbff00000, 0xbffff000, 0xc0000000, UINT64_C(0x120000000)};
     const uint64_t sizes[] = {0, 1, 0xd4000, 0xd5000, 0x100000, 0x100001,
                               0x40000000, UINT64_C(0x100100000)};
@@ -398,7 +402,8 @@ int main(void)
                 fresh();
                 check(!npu_test_run(), "endpoint matrix setup");
                 int valid = type == 2 && bases[i] <= UINT32_MAX && sizes[j] <= UINT32_MAX &&
-                            npu_cold_endpoint_valid(bases[i], sizes[j]);
+                            npu_cold_endpoint_valid(bases[i], sizes[j]) &&
+                            sizes[j] <= UINT64_C(0x40000000) - (bases[i] & UINT64_C(0x3fffffff));
                 for (unsigned k = 0; k < 6; k++)
                     if (bases[i] < (uint64_t)priv.native_plan[k][0] + priv.native_plan[k][1] &&
                         priv.native_plan[k][0] < bases[i] + sizes[j]) valid = 0;

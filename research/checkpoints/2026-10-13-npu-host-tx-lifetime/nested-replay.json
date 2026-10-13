@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "baseline": "f0d864c",
+  "files": [
+    {
+      "component": "kernel",
+      "path": "drivers/net/ethernet/airoha/airoha_npu.c",
+      "before_sha256": "e2a78fc4adc564a409590f4a604c5e085e87835f75ca322cf8d07c41a98ba62b",
+      "current_sha256": "327be0b7bd88e8a109b211433af6c26e569c433de72b93b892482a2bbbd182a8",
+      "replay_byte_equal": true
+    },
+    {
+      "component": "kernel",
+      "path": "include/linux/soc/airoha/airoha_offload.h",
+      "before_sha256": "fa839a17f9d8c6d7fdb42e37897c4bba631854f514745521529e97dbd87a27bf",
+      "current_sha256": "46c06e66d2023f554eb2425099ffe37769b5abf935251b963faf8cfa403b0b9c",
+      "replay_byte_equal": true
+    },
+    {
+      "component": "mt76",
+      "path": "npu.c",
+      "before_sha256": "b4e92a0458381a40c9e8586a3e66ca10ee323f556242f282c9135a1ddeb5d644",
+      "current_sha256": "b55816fdeccdd63381629bca6c80e584e7238304750457aad009a20b0ad3d459",
+      "replay_byte_equal": true
+    },
+    {
+      "component": "mt76",
+      "path": "mt7996/npu.c",
+      "before_sha256": "6c38b869389c990e43521ff10a72ec7e153b7d56f28b834bc7909eec8c757a88",
+      "current_sha256": "6f825c768630335d9a8b479ac402e082cc7ed66fe64a4958791beec458a76cff",
+      "replay_byte_equal": true
+    }
+  ],
+  "strict_checkpatch": true
+}

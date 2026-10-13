@@ -1,0 +1,55 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-host-tx-lifetime-20261011\\jev-scope-followup-20261013.json",
+  "request_sha256": "2a3dff3d72449b80cb705916903ddab1a5f9d91940bf58ff68f99148ad6fdcbc",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "physical_claim_support": {
+      "type": "choice",
+      "instructions": "Classify whether state.qualification_evidence establishes state.physical_claim. Distinguish executing firmware instructions in a model from observing a physical router DMA drain.",
+      "criteria": {
+        "supported": "The evidence establishes the claimed physical-router observation.",
+        "contradicted": "The evidence explicitly says the qualification was modeled and no router contact occurred, incompatible with that claimed physical observation.",
+        "not_established": "The evidence lacks a required observation but does not explicitly exclude it."
+      }
+    },
+    "software_alias_claim_support": {
+      "type": "choice",
+      "instructions": "Classify whether state.alias_source and state.alias_test support state.alias_claim at software/model scope only. Do not reinterpret it as physical memory or DMA drain proof.",
+      "criteria": {
+        "supported": "The supplied source and actual-C test evidence support the stated software alias coverage.",
+        "contradicted": "The supplied source or test evidence explicitly shows an admitted alias omitted from the software guard.",
+        "not_established": "The supplied source and tests do not establish the software coverage."
+      }
+    }
+  },
+  "elapsed_ms": 837,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "physical_claim_support": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "software_alias_claim_support": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.95,
+        "probabilities": {
+          "supported": 0.97,
+          "contradicted": 0.01,
+          "not_established": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 793,
+      "output_tokens": 95
+    }
+  }
+}

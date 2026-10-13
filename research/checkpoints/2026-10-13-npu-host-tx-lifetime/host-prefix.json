@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "publication_cases": 3,
+  "prefix": [
+    {
+      "header": 48,
+      "api": 10,
+      "value": 0
+    },
+    {
+      "header": 16,
+      "api": 14,
+      "value": 2
+    },
+    {
+      "header": 16,
+      "api": 1,
+      "value": 1536
+    },
+    {
+      "header": 18,
+      "api": 1,
+      "value": 1024
+    },
+    {
+      "header": 21,
+      "api": 0,
+      "value": 537740704
+    },
+    {
+      "header": 21,
+      "api": 1,
+      "value": 256
+    },
+    {
+      "header": 22,
+      "api": 0,
+      "value": 537740720
+    },
+    {
+      "header": 22,
+      "api": 1,
+      "value": 512
+    },
+    {
+      "header": 23,
+      "api": 0,
+      "value": 537740736
+    },
+    {
+      "header": 23,
+      "api": 1,
+      "value": 1024
+    },
+    {
+      "header": 24,
+      "api": 0,
+      "value": 536911936
+    },
+    {
+      "header": 24,
+      "api": 1,
+      "value": 1536
+    },
+    {
+      "header": 19,
+      "api": 19,
+      "value": 536911952
+    },
+    {
+      "header": 16,
+      "api": 19,
+      "value": 537740320
+    },
+    {
+      "header": 18,
+      "api": 19,
+      "value": 537740368
+    },
+    {
+      "header": 16,
+      "api": 33,
+      "value": 8192
+    }
+  ],
+  "unsupported_next": null,
+  "completed_offload": true,
+  "rx_getter_failure_cases": 7,
+  "inputs": {
+    ".local/merge-nonoc-20260923/mt76-merged/npu.c": "b55816fdeccdd63381629bca6c80e584e7238304750457aad009a20b0ad3d459",
+    ".local/merge-nonoc-20260923/mt76-merged/mt76.h": "d49628d3f229488f006afd29c299e674a4da8ac5abc9fef892056e4dba8f0229",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/npu.c": "6f825c768630335d9a8b479ac402e082cc7ed66fe64a4958791beec458a76cff",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/pci.c": "713cf61d0fabe889eb1fb77912c7f767854cd7738da7db30497610c5f1ff6b3d",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c": "e565520865dd3b4d3b1bc270f3d4ebe88404eeda0def10f3f112ae655a7ed3d3",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/regs.h": "55f08a5dc6ea586e9a50c07f8932f2316e0e888ef9aa3e4125e1f25cccba20a7",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h": "37421222ba80195825d4c694bc8a1ec920d63f1acf3b5905b4539fc538cfd1eb",
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h": "46c06e66d2023f554eb2425099ffe37769b5abf935251b963faf8cfa403b0b9c",
+    "tests/npu/test_cold_host_prefix.py": "4608c24940adbdab28453a9f3424aab2d9fe2275114515fa8b6fcd847cf94ba7",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+  },
+  "shared": ".local/npu-cold-pages-wire-20261010/host-tx-prefix-qualified-20261013/host-sender.so",
+  "shared_sha256": "426852169c3f06cf8c83839e6e60a6047c4dc29dab09627d177ee6df0eb1fedf",
+  "binary_sha256": "1816e7b583bc60d8ff19956093580069890cdfe8ac7f71865f231c4c2cf17b3f",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "limits": [
+    "Actual mt76 initialization and complete mt7996 offload sender C; kernel references/RCU and queue state modeled.",
+    "Current DMA configuration is source-checked to WFDMA0 for page/TX bands, not physically executed.",
+    "Binding-before-publication is CPU ordering, not prior-user exclusion or a physical DMA grant."
+  ]
+}

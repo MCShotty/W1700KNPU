@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "matrix": {
+    "passed": true,
+    "cases": 13,
+    "exposed_frees": 0,
+    "module_pins": 1
+  },
+  "rejected_mutants": [
+    "free-exposed-mailboxes",
+    "omit-exposure-latch",
+    "omit-module-pin",
+    "allow-retained-reprobe"
+  ],
+  "inputs": {
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": "327be0b7bd88e8a109b211433af6c26e569c433de72b93b892482a2bbbd182a8",
+    "tests/npu/dma-lifetime-harness.c": "d01f99d7582be90549ea5c4ffb2c52fa7e1d7c18025ff3c77939cac27df21fa9",
+    "tests/npu/test_dma_lifetime.py": "fd397eea07ff66839249d8d9fe3fca7005f63db34ec2be43c00b05a7f05c9fd0",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0"
+  },
+  "binary_sha256": "a90d80b9988d151b6987dde235b2f3e748b691736767abf2a880d9498b58b114",
+  "cleanup_before_cpu_producers": true,
+  "limits": [
+    "Actual cleanup/exposure C; allocation/refs/list/devres and retirement are modeled.",
+    "Post-exposure retention is conservative and permanent until real retirement work exists; not containment/drain proof."
+  ]
+}

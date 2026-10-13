@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "scope": "Reuse of existing exact-module Ghidra evidence, not new native/physical execution",
+  "summary": {
+    "kind": "evidence-bundle-summary",
+    "filters": {
+      "operation": "analyze_function",
+      "target_sha256": "42ec4f37cfc06439292289c71e6523839d5cd0e527d9037e9b8d336750f44293"
+    },
+    "total_retained_records": 3,
+    "matching_records": 1,
+    "unknown_revisions": 0,
+    "records": [
+      {
+        "evidence_id": "ev_22252a9537156b87bb655da3ec4f6070062a8018a25c5f126b940fe75b107a45",
+        "subject": {
+          "name": "airoha_npu.ko",
+          "digest": {
+            "sha256": "42ec4f37cfc06439292289c71e6523839d5cd0e527d9037e9b8d336750f44293"
+          },
+          "format": "elf",
+          "architecture": "arm64",
+          "local_path": "/home/captain/.local/share/rea-review/20261012/airoha_npu.ko"
+        },
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.2"
+        },
+        "operation": "analyze_function",
+        "confidence": "observed",
+        "authority": "shipped-artifact",
+        "analysis_profile_digest": "5897630f24f23d397cfd5037d6002bc01d4aae4d892ca1ea9d09f578c9dadd09",
+        "retention": "complete-record",
+        "limitation_count": 10,
+        "native_dossier": {
+          "available": true,
+          "procedure_address": "0x100ac0",
+          "procedure_name": "airoha_npu_wlan_alloc_tx_buffers_session",
+          "value_flow": {
+            "status": "observed",
+            "truncated": false,
+            "omitted_operations_lower_bound": 0,
+            "known_omitted_inputs": 0,
+            "known_omitted_edges": 0
+          }
+        }
+      }
+    ]
+  },
+  "view": {
+    "kind": "native",
+    "view": {
+      "kind": "native",
+      "facet": "pseudocode",
+      "offset": 0,
+      "limit": 1024
+    },
+    "procedure_address": "0x100ac0",
+    "item": {
+      "text": "\nint airoha_npu_wlan_alloc_tx_buffers_session\n              (long *param_1,long param_2,long param_3,long param_4,long param_5,int param_6)\n\n{\n  long *plVar1;\n  int *piVar2;\n  int *piVar3;\n  undefined4 uVar4;\n  int iVar5;\n  long lVar6;\n  long *plVar7;\n  ulong uVar8;\n  long extraout_x12;\n  ulong extraout_x12_00;\n  long *extraout_x13;\n  long extraout_x13_00;\n  ulong uVar9;\n  long *plVar10;\n  long *plVar11;\n  long *local_120;\n  long *local_110;\n  long *local_108;\n  long local_e4;\n  long lStack_dc;\n  long local_d4;\n  long lStack_cc;\n  long local_c4;\n  long lStack_bc;\n  undefined1 auStack_b4 [8];\n  int local_ac;\n  int local_a8;\n  int local_a4;\n  int local_70;\n  int local_6c;\n  long local_60 [12];\n  \n  if ((*(byte *)((long)param_1 + 0x472) & 1) == 0) {\n    return -0x5f;\n  }\n  if (((param_2 == 0) || (*param_1 != param_3)) || ((param_4 == 0 || param_5 == 0) || param_6 != 6))\n  {\n    return -0x16;\n  }\n  lVar6 = 0;\n  do {\n    piVar2 = (int *)(param_4 + lVar6);\n    piVar3 = (int *)((long)&DAT_00104330 + lVar6);\n    lVar",
+      "unit": "utf16-code-units"
+    },
+    "parent_evidence_id": "ev_22252a9537156b87bb655da3ec4f6070062a8018a25c5f126b940fe75b107a45",
+    "parent_operation": "analyze_function",
+    "parent_digest": "22252a9537156b87bb655da3ec4f6070062a8018a25c5f126b940fe75b107a45",
+    "view_digest": "d144f29dd522d6d417c81cacef69a5c9aa4ee3d08fd38ad5ffd9d566b737c57c",
+    "artifact": {
+      "path": "/home/captain/.local/share/rea-review/20261012/airoha_npu.ko",
+      "sha256": "42ec4f37cfc06439292289c71e6523839d5cd0e527d9037e9b8d336750f44293"
+    },
+    "coverage": {
+      "status": "page",
+      "examined": 1024,
+      "total": 5100,
+      "next_offset": 1024,
+      "exhausted": false
+    },
+    "limitations": [
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Def-use links do not cross function boundaries and may omit memory aliasing, call side effects, or unresolved indirect flow.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "High p-code is decompiler-derived, not original source or runtime behavior. is_dead preserves the Java AST flag; decoded block members can retain that flag, so block_membership separately reports actual syntax-tree membership.",
+      "Known omitted-edge counts cover links omitted from retained operations; omitted operations may contain additional uncounted links.",
+      "Memory read/write effects include stack and temporary memory operations; they do not identify persistent state or business meaning.",
+      "Operation, input, and def-use limits can truncate large functions; inspect truncation, omitted lower bounds, and known omitted counts before drawing conclusions.",
+      "Pseudocode and assembly are Ghidra-specific representations, not original source or Hopper-equivalent text.",
+      "Pseudocode is neither original source nor guaranteed to compile.",
+      "References cover the complete Ghidra function-body AddressSet and exact entry. Dossier incoming edges omit sources owned by that function; procedure_references also retains those internal edges.",
+      "Register variables, compiler-generated blocks, and pointer arithmetic remain decompiler artifacts.",
+      "Resolved reference metadata identifies computed, indirect, external, call, jump, and data edges; unresolved targetless flows remain unknown, and function classifications distinguish thunks and externals.",
+      "Synthetic Ghidra entry-point references without actionable memory sources are omitted.",
+      "The Java bridge serializes one function request per Program and lets each decompilation run until it completes or the caller cancels.",
+      "The dossier combines Ghidra FunctionManager, Listing, ReferenceManager, BasicBlockModel, and decompiler observations; provider-specific pseudocode and assembly are not cross-provider text invariants.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "This session uses Ghidra 12.1.2. The bridge is verified against 12.1.4; other 12.1.x builds are accepted and the observed version is reported.",
+      "Thunk and external classifications are Ghidra FunctionManager observations; they do not resolve targetless calls.",
+      "Types and calling conventions are Ghidra decompiler observations, not source declarations.",
+      "Unresolved computed or indirect flows without target addresses are not represented as reference edges."
+    ],
+    "unknowns": []
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "physical_claim": "The host TX qualification observed a physical DMA drain on the router.",
+    "qualification_evidence": "Tests execute real C in host models and the assembled RV32 firmware in Unicorn. DMA allocations, device references, backing, delivery and IRQ scheduling are modeled. The new FIT is offline-verified and unflashed. No router contact occurred. STATUS validates software held/session fields. The contract explicitly says STATUS and parking are not physical exclusion, IOMMU/backing/cache or drain proof.",
+    "alias_claim": "The current software overlap guard handles the cached DMA/BAR alias as well as the other admitted address aliases.",
+    "alias_source": "u64 base = addr & 0x3fffffffULL; u64 bar = life->endpoint_base & 0x3fffffffULL; if (base < bar + life->endpoint_bytes && bar < base + bytes) return false;",
+    "alias_test": "The actual-C fixture tests all nine combinations of three admitted DMA/BAR aliases. The prior guard has a reproduced cached-alias overlap counterexample; the current implementation rejects that overlap. This is software address validation, not proof of the hardware's physical aperture contract."
+  },
+  "questions": {
+    "physical_claim_support": {
+      "type": "choice",
+      "instructions": "Classify whether state.qualification_evidence establishes state.physical_claim. Distinguish executing firmware instructions in a model from observing a physical router DMA drain.",
+      "criteria": {
+        "supported": "The evidence establishes the claimed physical-router observation.",
+        "contradicted": "The evidence explicitly says the qualification was modeled and no router contact occurred, incompatible with that claimed physical observation.",
+        "not_established": "The evidence lacks a required observation but does not explicitly exclude it."
+      }
+    },
+    "software_alias_claim_support": {
+      "type": "choice",
+      "instructions": "Classify whether state.alias_source and state.alias_test support state.alias_claim at software/model scope only. Do not reinterpret it as physical memory or DMA drain proof.",
+      "criteria": {
+        "supported": "The supplied source and actual-C test evidence support the stated software alias coverage.",
+        "contradicted": "The supplied source or test evidence explicitly shows an admitted alias omitted from the software guard.",
+        "not_established": "The supplied source and tests do not establish the software coverage."
+      }
+    }
+  }
+}

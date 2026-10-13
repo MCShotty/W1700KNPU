@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-13 - Host TX Lifetime Qualified
+
+- Checked allocation owns six coherent CPU/DMA/size records and a pinned PCI
+  endpoint in the exposed provider lifetime. The DMA device is the NPU device,
+  not the endpoint. Full geometry/alias/overlap and fresh STATUS/identity checks
+  precede output; partial errors and detach retain all exposed resources.
+- Actual C76/seven, provider C609/nine with BAR272/seven, native allocation/STATUS,
+  21 nonzero unit tests, strict checkpatch/source/world/Ghidra59/FIT218+78 pass.
+  Current unflashed FIT `6efaa878...`; older `123e3084...`, `3951dc7c...` and
+  seven companions each are preserved. Raw CODE/DATA stay byte-identical.
+- Eight original API21 helper cases verify 512 records per band with 4/4/4/1
+  stores and untouched bytes13-15. Missing static tables clear counters and
+  publish a null pointer before faulting. This is reverse-engineered/model proof,
+  not native API21 admission, physical ownership or complete setup.
+- Next enroll the host DMA records into the native session and implement exact
+  API21 internal/L2/table/metadata ownership with actual GET/SET interleaving.
+  Complete other setup/owners/hot/physical/recovery/client gates; full goal open.
+- Freeze consumed sources/tests during replay/build. Use explicit immutable
+  `--header` for provider replay when world may replace the build-tree header.
+  Reject zero-test discovery and any final input drift. Continue this goal solo
+  unless the user changes the no-more-subagents instruction; use Jev normally.
+  Evidence: `research/checkpoints/2026-10-13-npu-host-tx-lifetime/REPORT.md`.
+
 ## 2026-10-11 - Retained Descriptor GETs
 
 - Descriptor source adds the16th archive object and14th raw component/77 hooks.

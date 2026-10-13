@@ -32,8 +32,10 @@ def main():
     inputs |= {str(p.relative_to(ROOT)): loader.sha(p) for p in SOURCE.rglob('*') if p.is_file()}
     mutations = {
         'accept-wrong-type': loader.once(binding, 'type != 2', 'type == 99'),
-        'accept-truncated-base': loader.once(binding, 'upper_32_bits(base)', '(upper_32_bits(base) == 99)'),
-        'accept-truncated-size': loader.once(binding, 'upper_32_bits(bytes)', '(upper_32_bits(bytes) == 99)'),
+        'accept-truncated-base': loader.once(binding, 'if (!endpoint ||', 'base = (u32)base;\n\tif (!endpoint ||'),
+        'accept-truncated-size': loader.once(binding, 'if (!endpoint ||', 'bytes = (u32)bytes;\n\tif (!endpoint ||'),
+        'permit-alias-window-crossing': loader.once(binding,
+            'bytes > 0x40000000ULL - (base & 0x3fffffffULL)', 'false'),
         'skip-window-geometry': loader.once(binding, '!npu_cold_endpoint_valid(base, bytes)', 'false'),
         'skip-retained-overlap': loader.once(binding, 'if (base < (u64)', 'if (false && base < (u64)'),
         'omit-length-binding': loader.once(binding, 'command.api = NPU_COLD_BIND_BYTES_API;',

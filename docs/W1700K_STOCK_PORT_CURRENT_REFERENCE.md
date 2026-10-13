@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-13 - Retained Host TX Allocations
+
+Current mainline owns six coherent TX CPU pointers, full DMA handles and sizes
+in the exposed NPU provider lifetime, with a separate pinned PCI endpoint.
+One-shot boot/nonce/serial/plan binding, complete alias/overlap geometry and fresh
+STATUS precede output. Failure/detach retains allocations and references; no
+physical retirement permission is added. Managed fallback is only EOPNOTSUPP.
+
+Actual C76/seven, provider C609/nine, BAR272/seven, one native allocation/STATUS
+case, 21 unit tests, strict style/source/world/Ghidra59/image checks pass.
+New offline-qualified, unflashed FIT:
+`6efaa878524140439aaced592c219a925f200dcc9a3f55b00f29bb7e1148dfa7`.
+Previous123e3084/3951dc7c plus seven companions each are checksum-protected.
+Raw CODE/DATA are unchanged; no current nine-case rerun is claimed from their
+historical exact-byte descriptor receipts. No flash/reset/router contact.
+
+Eight original API21 helper cases verify 512 sixteen-byte records per band,
+4/4/4/1-byte stores, untouched bytes13-15 and earlier counter/pointer mutation
+before null-pointer faults. Next native enrollment/ownership must protect all
+those effects and the exact TXPKT prerequisite. Actual TX still stops at API21;
+remaining setup, owners/hot/physical/recovery/clients keep the full goal open.
+Evidence: `research/checkpoints/2026-10-13-npu-host-tx-lifetime/REPORT.md`.
+
 ## 2026-10-11 - Retained Descriptor GETs
 
 Current source implements eight ordered descriptor GETs with retained TX5/7

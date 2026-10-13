@@ -75,7 +75,7 @@ static void airoha_ppe_put_dev(struct airoha_ppe_dev *p) { assert(p == &ppe); ev
 static int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *p) {
     assert(p == &npu); event(4); return fault_stage == 4 ? -EIO : 0;
 }
-static int airoha_npu_wlan_bind_endpoint(struct airoha_npu *p, u64 base, u64 bytes, int type) {
+static int airoha_npu_wlan_bind_endpoint(struct airoha_npu *p, void *endpoint, u64 base, u64 bytes, int type) {
     assert(p == &npu && base == 0x20000000 && bytes == 0x100000 && type == 2);
     event(5); return fault_stage == 5 ? -EIO : 0;
 }

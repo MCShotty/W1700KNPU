@@ -480,16 +480,71 @@ build input; compilation is not a physical drain or recovery proof.
  	err = mt7996_npu_offload_init(dev, npu);
  	if (err)
  		return err;
-@@ -559,6 +585,9 @@
+@@ -558,10 +584,18 @@
+ 
  int mt7996_npu_hw_init(struct mt7996_dev *dev)
  {
- 	int i, err;
-+
-+	if (!mt76_npu_device_active(&dev->mt76))
-+		return 0;
+-	int i, err;
++	struct airoha_npu *npu;
++	u32 bytes[ARRAY_SIZE(dev->npu_txd_addr)];
++	unsigned int i;
++	int err;
  
  	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
+-
++	mutex_lock(&dev->mt76.mutex);
++	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
++	if (!npu) {
++		err = 0;
++		goto unlock;
++	}
+ 	for (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {
+ 		int band = i && is_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND0;
+ 		u32 size = is_mt7996(&dev->mt76) ? band == MT_BAND2
+@@ -569,23 +603,27 @@
+ 						 : MT7996_NPU_RX_RING_SIZE / 2
+ 						 : MT7996_TX_RING_SIZE;
  
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,
+-					 &dev->npu_txd_addr[i], GFP_KERNEL))
+-			return -ENOMEM;
+-
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,
+-					 &dev->npu_txd_addr[i + 1],
+-					 GFP_KERNEL))
+-			return -ENOMEM;
+-
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * 1024,
+-					 &dev->npu_txd_addr[i + 2],
+-					 GFP_KERNEL))
+-			return -ENOMEM;
+-	}
+-
+-	mutex_lock(&dev->mt76.mutex);
++		bytes[i] = 256 * size;
++		bytes[i + 1] = bytes[i];
++		bytes[i + 2] = 256 * 1024;
++	}
++	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
++					       dev->mt76.dma_dev, bytes,
++					       dev->npu_txd_addr, ARRAY_SIZE(bytes));
++	if (err == -EOPNOTSUPP) {
++		/* Unmarked providers retain their existing managed allocation path. */
++		for (i = 0; i < ARRAY_SIZE(bytes); i++) {
++			if (!dmam_alloc_coherent(dev->mt76.dma_dev, bytes[i],
++						 &dev->npu_txd_addr[i], GFP_KERNEL)) {
++				err = -ENOMEM;
++				goto unlock;
++			}
++		}
++	} else if (err) {
++		goto unlock;
++	}
+ 	err = __mt7996_npu_hw_init(dev);
++unlock:
+ 	mutex_unlock(&dev->mt76.mutex);
+ 
+ 	return err;
 --- a/mt7996/pci.c
 +++ b/mt7996/pci.c
 @@ -141,6 +141,7 @@
@@ -647,7 +702,7 @@ build input; compilation is not a physical drain or recovery proof.
  	err = airoha_npu_wlan_init_reserved_memory(npu);
 +	if (err)
 +		goto error_ppe_put;
-+	err = airoha_npu_wlan_bind_endpoint(npu, phy_addr, bar_bytes, type);
++	err = airoha_npu_wlan_bind_endpoint(npu, dev->dev, phy_addr, bar_bytes, type);
  	if (err)
  		goto error_ppe_put;
  

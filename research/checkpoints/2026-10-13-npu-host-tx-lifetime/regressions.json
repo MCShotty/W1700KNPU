@@ -1,0 +1,106 @@
+{
+  "passed": true,
+  "jobs": [
+    {
+      "stage": "endpoint",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_endpoint_binding.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "host-tx-endpoint-final-20261013-seal"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-endpoint-20261013-seal.log"
+    },
+    {
+      "stage": "request",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_provider_request_plan.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "host-tx-request-final-20261013-seal"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-request-20261013-seal.log"
+    },
+    {
+      "stage": "probe",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_provider_dma_probe.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "host-tx-probe-final-20261013-seal"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-probe-20261013-seal.log"
+    },
+    {
+      "stage": "boot",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_boot_launch.py",
+        "--source",
+        ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "--name",
+        "host-tx-boot-final-20261013-seal"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-boot-20261013-seal.log"
+    },
+    {
+      "stage": "memory",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tests/npu/test_cold_memory_plan.py",
+        "--name",
+        "host-tx-memory-final-20261013-seal"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-memory-20261013-seal.log"
+    },
+    {
+      "stage": "source",
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/python3",
+        "tools/migration/verify_source_export.py",
+        "--output",
+        "/home/captain/W1700KNPU/.local/npu-host-tx-lifetime-20261011/source-replay-20261013-seal.json"
+      ],
+      "log": ".local/npu-host-tx-lifetime-20261011/final-source-20261013-seal.log"
+    }
+  ],
+  "unit_groups": [
+    {
+      "name": "test_build_firmware_host_tools.py",
+      "passed": true,
+      "tests": 13,
+      "log": ".local/npu-host-tx-lifetime-20261011/final-unit-test_build_firmware_host_tools-20261013-seal.log"
+    },
+    {
+      "name": "test_verify_source_export.py",
+      "passed": true,
+      "tests": 4,
+      "log": ".local/npu-host-tx-lifetime-20261011/final-unit-test_verify_source_export-20261013-seal.log"
+    },
+    {
+      "name": "test_verify_control_ownership.py",
+      "passed": true,
+      "tests": 4,
+      "log": ".local/npu-host-tx-lifetime-20261011/final-unit-test_verify_control_ownership-20261013-seal.log"
+    }
+  ],
+  "unit_tests": 21,
+  "inputs": {
+    ".local/npu-host-tx-lifetime-20261011/run-final-regressions.py": "a2003e43c517c86b925c6b4c15f0711a1d0dd6576afa1e05ffd92cb3140f336d",
+    "tests/test_build_firmware_host_tools.py": "cc2260f277790418c58aff869e4c5f314bc57ae6f5752975747afa4e0c95bdcc",
+    "tests/test_verify_source_export.py": "238c422fdcf41c467f4368ea25ccf0be936508da548470179e4dc68979b3eaae",
+    "tests/test_verify_control_ownership.py": "a1e1ef303d12323a08874530827aa39dff3bb41839b652b8ab0e0ed5fdfca3c3"
+  }
+}

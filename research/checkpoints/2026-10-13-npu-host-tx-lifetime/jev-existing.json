@@ -1,0 +1,33 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "mt76_attach": "int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type)\n{\n\tstruct airoha_ppe_dev *ppe_dev;\n\tstruct airoha_npu *npu;\n\tint err = 0;\n\n\tmutex_lock(&dev->mutex);\n\n\tnpu = airoha_npu_get(dev->dev);\n\tif (IS_ERR(npu)) {\n\t\trequest_module(\"airoha-npu\");\n\t\tnpu = airoha_npu_get(dev->dev);\n\t}\n\n\tif (IS_ERR(npu)) {\n\t\terr = PTR_ERR(npu);\n\t\tgoto error_unlock;\n\t}\n\n\tppe_dev = airoha_ppe_get_dev(dev->dev);\n\tif (IS_ERR(ppe_dev)) {\n\t\trequest_module(\"airoha-eth\");\n\t\tppe_dev = airoha_ppe_get_dev(dev->dev);\n\t}\n\n\tif (IS_ERR(ppe_dev)) {\n\t\terr = PTR_ERR(ppe_dev);\n\t\tgoto error_npu_put;\n\t}\n\n\terr = airoha_npu_wlan_init_reserved_memory(npu);\n\tif (err)\n\t\tgoto error_ppe_put;\n\terr = airoha_npu_wlan_bind_endpoint(npu, phy_addr, bar_bytes, type);\n\tif (err)\n\t\tgoto error_ppe_put;\n\n\tdev->dma_dev = npu->dev;\n\tdev->mmio.phy_addr = phy_addr;\n\tdev->mmio.npu_type = type;\n\t/* NPU offloading requires HW-RRO for RX packet reordering. */\n\tdev->hwrro_mode = is_mt7996(dev) ? MT76_HWRRO_V3 : MT76_HWRRO_V3_1;\n\tdev->rx_token_size = 32768;\n\n\trcu_assign_pointer(dev->mmio.npu, npu);\n\trcu_assign_pointer(dev->mmio.ppe_dev, ppe_dev);\n\tsynchronize_rcu();\n\n\tmutex_unlock(&dev->mutex);\n\n\treturn 0;\n\nerror_ppe_put:\n\tairoha_ppe_put_dev(ppe_dev);\nerror_npu_put:\n\tairoha_npu_put(npu);\nerror_unlock:\n\tmutex_unlock(&dev->mutex);\n\n\treturn err;\n}",
+    "tx_allocate": "int mt7996_npu_hw_init(struct mt7996_dev *dev)\n{\n\tint i, err;\n\n\tif (!mt76_npu_device_active(&dev->mt76))\n\t\treturn 0;\n\n\tBUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);\n\n\tfor (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {\n\t\tint band = i && is_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND0;\n\t\tu32 size = is_mt7996(&dev->mt76) ? band == MT_BAND2\n\t\t\t\t\t\t ? MT7996_NPU_TX_RING_SIZE\n\t\t\t\t\t\t : MT7996_NPU_RX_RING_SIZE / 2\n\t\t\t\t\t\t : MT7996_TX_RING_SIZE;\n\n\t\tif (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,\n\t\t\t\t\t &dev->npu_txd_addr[i], GFP_KERNEL))\n\t\t\treturn -ENOMEM;\n\n\t\tif (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,\n\t\t\t\t\t &dev->npu_txd_addr[i + 1],\n\t\t\t\t\t GFP_KERNEL))\n\t\t\treturn -ENOMEM;\n\n\t\tif (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * 1024,\n\t\t\t\t\t &dev->npu_txd_addr[i + 2],\n\t\t\t\t\t GFP_KERNEL))\n\t\t\treturn -ENOMEM;\n\t}\n\n\tmutex_lock(&dev->mt76.mutex);\n\terr = __mt7996_npu_hw_init(dev);\n\tmutex_unlock(&dev->mt76.mutex);\n\n\treturn err;\n}",
+    "provider_cleanup": "static void airoha_npu_dma_cleanup(void *data)\n{\n\tstruct airoha_npu_dma_lifetime *life = data;\n\tunsigned int i;\n\n\t/* No physical retirement witness exists yet. Publication errors, detach\n\t * and software parking must not release possibly device-owned mailboxes.\n\t */\n\tif (life->exposed) {\n\t\tmutex_lock(&airoha_npu_retained_lock);\n\t\tlist_add_tail(&life->retained, &airoha_npu_retained_dma);\n\t\tmutex_unlock(&airoha_npu_retained_lock);\n\t\tdev_warn(life->dev, \"retaining NPU DMA mailboxes pending retirement proof\\n\");\n\t\treturn;\n\t}\n\tfor (i = 0; i < ARRAY_SIZE(life->buffers); i++)\n\t\tif (life->buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,\n\t\t\t\t\t  life->buffers[i].buf, life->buffers[i].addr);\n\tput_device(life->dev);\n\tkfree(life);\n}",
+    "provider_lifetime": "struct airoha_npu_dma_lifetime {\n\tstruct device *dev;\n\tstruct list_head retained;\n\tstruct {\n\t\tvoid *buf;\n\t\tdma_addr_t addr;\n\t} buffers[NPU_NUM_CORES];\n\tbool exposed;\n};",
+    "managed_release": "Kernel dmam_release calls dma_free_attrs on detach. These dependency facts are source observations, not hardware drain proof."
+  },
+  "questions": {
+    "allocation_device": {
+      "type": "choice",
+      "instructions": "After the successful mt76_attach path, which device is passed to dmam_alloc_coherent in tx_allocate?",
+      "criteria": {
+        "npu_device": "The NPU provider device assigned to dev->dma_dev.",
+        "endpoint_device": "The endpoint dev->dev itself, with no reassignment.",
+        "not_established": "The supplied paths do not establish the identity."
+      }
+    },
+    "cpu_pointer_retention": {
+      "type": "noul",
+      "instructions": "Does tx_allocate preserve each successful allocation CPU pointer in an owned record for a later explicit coherent free?"
+    },
+    "existing_tx_guard": {
+      "type": "noul",
+      "instructions": "Do provider_cleanup and provider_lifetime currently contain the six tx_allocate buffers and prevent their managed_release?"
+    },
+    "drain_proof": {
+      "type": "noul",
+      "instructions": "Do the supplied retention/allocation functions independently prove that physical NPU DMA is stopped and exposed resources can be reclaimed?"
+    }
+  }
+}

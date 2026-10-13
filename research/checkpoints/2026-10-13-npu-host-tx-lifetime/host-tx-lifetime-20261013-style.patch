@@ -1,0 +1,418 @@
+Subject: [PATCH] net: retain session-bound host TX coherent DMA buffers
+
+Retain coherent allocations and endpoint identity on publication failure.
+Do not infer physical retirement from software STATUS.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -150,6 +150,18 @@
+ 		void *buf;
+ 		dma_addr_t addr;
+ 	} buffers[NPU_NUM_CORES];
++	struct {
++		void *buf;
++		dma_addr_t addr;
++		u32 bytes;
++	} tx_buffers[6];
++	struct device *endpoint;
++	u64 boot_identity;
++	u32 nonce_lo, nonce_hi;
++	u32 endpoint_base, endpoint_bytes, bound_serial;
++	bool endpoint_bound;
++	bool tx_attempted;
++	bool tx_published;
+ 	bool exposed;
+ };
+ 
+@@ -213,6 +225,13 @@
+ 		if (life->buffers[i].buf)
+ 			dma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,
+ 					  life->buffers[i].buf, life->buffers[i].addr);
++	for (i = 0; i < ARRAY_SIZE(life->tx_buffers); i++)
++		if (life->tx_buffers[i].buf)
++			dma_free_coherent(life->dev, life->tx_buffers[i].bytes,
++					  life->tx_buffers[i].buf,
++					  life->tx_buffers[i].addr);
++	if (life->endpoint)
++		put_device(life->endpoint);
+ 	put_device(life->dev);
+ 	kfree(life);
+ }
+@@ -943,10 +962,16 @@
+ 	return err;
+ }
+ 
+-static int airoha_npu_wlan_bind_endpoint_session(struct airoha_npu *npu, u64 base,
+-						 u64 bytes, int type)
++static int airoha_npu_wlan_session_snapshot(struct airoha_npu_priv *priv,
++					    bool require_parked);
++
++static int airoha_npu_wlan_bind_endpoint_session(struct airoha_npu *npu,
++						 struct device *endpoint,
++						 u64 base, u64 bytes, int type)
+ {
+ 	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	struct npu_linux_control_snapshot snapshot;
+ 	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
+ 	u32 value;
+ 	unsigned int i;
+@@ -954,8 +979,9 @@
+ 
+ 	if (!priv->checked_pair)
+ 		return 0;
+-	if (type != 2 || upper_32_bits(base) || upper_32_bits(bytes) ||
+-	    !npu_cold_endpoint_valid(base, bytes))
++	if (!endpoint || type != 2 || upper_32_bits(base) || upper_32_bits(bytes) ||
++	    !npu_cold_endpoint_valid(base, bytes) ||
++	    bytes > 0x40000000ULL - (base & 0x3fffffffULL))
+ 		return -EINVAL;
+ 	for (i = 0; i < NPU_EN7581_7996_PLAN_REGIONS; i++)
+ 		if (base < (u64)priv->native_plan[i][0] + priv->native_plan[i][1] &&
+@@ -971,6 +997,25 @@
+ 		err = -EINVAL;
+ 		goto unlock;
+ 	}
++	if (!life || !life->exposed || !priv->native_published) {
++		err = -EBUSY;
++		goto unlock;
++	}
++	if (life->endpoint) {
++		err = -EPROTO;
++		goto hold;
++	}
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	/* Enrollment precedes the first possibly effective BAR publication. */
++	life->endpoint = get_device(endpoint);
++	life->boot_identity = priv->boot_identity;
++	life->nonce_lo = snapshot.client.base.nonce_lo;
++	life->nonce_hi = snapshot.client.base.nonce_hi;
++	life->endpoint_base = base;
++	life->endpoint_bytes = bytes;
+ 	command.api = NPU_COLD_BIND_BASE_API;
+ 	command.value = base;
+ 	err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
+@@ -979,10 +1024,170 @@
+ 		command.value = bytes;
+ 		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
+ 	}
++	if (!err) {
++		npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++		life->bound_serial = snapshot.client.base.serial;
++		life->endpoint_bound = true;
++	}
++hold:
+ 	if (err) {
+ 		priv->wlan_session_error = err;
+ 		npu_linux_control_close(&priv->wlan_control);
+ 	}
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++	return err;
++}
++
++static bool airoha_npu_wlan_tx_buffer_valid(struct airoha_npu_priv *priv,
++					    unsigned int index)
++{
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	u64 addr = life->tx_buffers[index].addr;
++	u32 bytes = life->tx_buffers[index].bytes;
++	u64 base = addr & 0x3fffffffULL;
++	u64 bar = life->endpoint_base & 0x3fffffffULL;
++	unsigned int i;
++
++	if (!addr || upper_32_bits(addr) || !IS_ALIGNED(addr, 256) ||
++	    addr >= 0xc0000000ULL || bytes > 0xc0000000ULL - addr ||
++	    bytes > 0x40000000ULL - base)
++		return false;
++	if (base < bar + life->endpoint_bytes && bar < base + bytes)
++		return false;
++	for (i = 0; i < NPU_EN7581_7996_PLAN_REGIONS; i++) {
++		u64 other = priv->native_plan[i][0] & 0x3fffffffULL;
++
++		if (base < other + priv->native_plan[i][1] && other < base + bytes)
++			return false;
++	}
++	for (i = 0; i < ARRAY_SIZE(life->buffers); i++) {
++		u64 other = life->buffers[i].addr & 0x3fffffffULL;
++
++		if (life->buffers[i].buf &&
++		    (life->tx_buffers[index].buf == life->buffers[i].buf ||
++		     (base < other + AIROHA_NPU_MBOX_SIZE && other < base + bytes)))
++			return false;
++	}
++	for (i = 0; i < index; i++) {
++		u64 other = life->tx_buffers[i].addr & 0x3fffffffULL;
++
++		if (life->tx_buffers[index].buf == life->tx_buffers[i].buf ||
++		    (base < other + life->tx_buffers[i].bytes && other < base + bytes))
++			return false;
++	}
++	return true;
++}
++
++static int airoha_npu_wlan_alloc_tx_buffers_session(struct airoha_npu *npu,
++						    struct device *endpoint,
++						    struct device *dma_dev,
++						    const u32 *bytes, dma_addr_t *addr,
++						    unsigned int count)
++{
++	static const u32 expected[] = {0x20000, 0x20000, 0x40000,
++				       0x40000, 0x40000, 0x40000};
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	struct npu_linux_control_snapshot snapshot;
++	u32 plan[NPU_EN7581_7996_PLAN_REGIONS][2];
++	struct {
++		void *buf;
++		dma_addr_t addr;
++	} captured[ARRAY_SIZE(expected)];
++	unsigned int i;
++	int err = 0;
++
++	if (!priv->checked_pair)
++		return -EOPNOTSUPP;
++	if (!endpoint || dma_dev != npu->dev || !bytes || !addr ||
++	    count != ARRAY_SIZE(expected))
++		return -EINVAL;
++	for (i = 0; i < count; i++)
++		if (bytes[i] != expected[i])
++			return -EINVAL;
++	mutex_lock(&priv->wlan_session_lock);
++	if (priv->wlan_session_error) {
++		err = priv->wlan_session_error;
++		goto unlock;
++	}
++	if (!life || life->dev != dma_dev || !life->exposed ||
++	    !life->endpoint_bound || life->endpoint != endpoint ||
++	    !priv->native_published || life->tx_attempted || life->tx_published) {
++		err = -EBUSY;
++		goto unlock;
++	}
++	for (i = 0; i < count; i++)
++		if (life->tx_buffers[i].buf || life->tx_buffers[i].addr ||
++		    life->tx_buffers[i].bytes) {
++			err = -EBUSY;
++			goto unlock;
++		}
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (life->boot_identity != priv->boot_identity ||
++	    life->nonce_lo != snapshot.client.base.nonce_lo ||
++	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    life->bound_serial != snapshot.client.base.serial ||
++	    snapshot.descriptor_gets || snapshot.descriptor_arena) {
++		err = -EPROTO;
++		goto hold;
++	}
++	/* Firmware is already exposed. Retain even partial TX allocations. */
++	memcpy(plan, priv->native_plan, sizeof(plan));
++	life->tx_attempted = true;
++	for (i = 0; i < count; i++) {
++		life->tx_buffers[i].bytes = expected[i];
++		life->tx_buffers[i].buf = dma_alloc_coherent(dma_dev, expected[i],
++							     &life->tx_buffers[i].addr,
++							     GFP_KERNEL);
++		if (!life->tx_buffers[i].buf) {
++			err = -ENOMEM;
++			goto hold;
++		}
++		if (!airoha_npu_wlan_tx_buffer_valid(priv, i)) {
++			err = -EINVAL;
++			goto hold;
++		}
++		captured[i].buf = life->tx_buffers[i].buf;
++		captured[i].addr = life->tx_buffers[i].addr;
++	}
++	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
++	if (err)
++		goto hold;
++	err = airoha_npu_wlan_session_snapshot(priv, true);
++	if (err)
++		goto hold;
++	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++	if (priv->dma_lifetime != life || life->dev != dma_dev ||
++	    npu->dev != dma_dev || !life->exposed || !life->endpoint_bound ||
++	    life->endpoint != endpoint || !life->tx_attempted || life->tx_published ||
++	    life->boot_identity != priv->boot_identity ||
++	    life->nonce_lo != snapshot.client.base.nonce_lo ||
++	    life->nonce_hi != snapshot.client.base.nonce_hi ||
++	    snapshot.descriptor_gets || snapshot.descriptor_arena ||
++	    memcmp(plan, priv->native_plan, sizeof(plan))) {
++		err = -EPROTO;
++		goto hold;
++	}
++	for (i = 0; i < count; i++)
++		if (life->tx_buffers[i].buf != captured[i].buf ||
++		    life->tx_buffers[i].addr != captured[i].addr ||
++		    life->tx_buffers[i].bytes != expected[i] ||
++		    !airoha_npu_wlan_tx_buffer_valid(priv, i)) {
++			err = -EPROTO;
++			goto hold;
++		}
++	/* Latch before returning addresses which a caller may publish immediately. */
++	life->tx_published = true;
++	for (i = 0; i < count; i++)
++		addr[i] = life->tx_buffers[i].addr;
++	goto unlock;
++hold:
++	priv->wlan_session_error = err;
++	npu_linux_control_close(&priv->wlan_control);
+ unlock:
+ 	mutex_unlock(&priv->wlan_session_lock);
+ 	return err;
+@@ -1533,6 +1738,7 @@
+ 	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
+ 	npu->ops.wlan_init_reserved_memory = airoha_npu_wlan_init_session;
+ 	npu->ops.wlan_bind_endpoint = airoha_npu_wlan_bind_endpoint_session;
++	npu->ops.wlan_alloc_tx_buffers = airoha_npu_wlan_alloc_tx_buffers_session;
+ 	npu->ops.wlan_send_msg = airoha_npu_wlan_msg_send_session;
+ 	npu->ops.wlan_get_msg = airoha_npu_wlan_msg_get_session;
+ 	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -197,8 +197,14 @@
+ 					    u32 entry_size, u32 hash,
+ 					    bool ppe2);
+ 		int (*wlan_init_reserved_memory)(struct airoha_npu *npu);
+-		int (*wlan_bind_endpoint)(struct airoha_npu *npu, u64 base,
++		int (*wlan_bind_endpoint)(struct airoha_npu *npu,
++					  struct device *endpoint, u64 base,
+ 					  u64 bytes, int type);
++		int (*wlan_alloc_tx_buffers)(struct airoha_npu *npu,
++					     struct device *endpoint,
++					     struct device *dma_dev,
++					     const u32 *bytes, dma_addr_t *addr,
++					     unsigned int count);
+ 		int (*wlan_send_msg)(struct airoha_npu *npu, int ifindex,
+ 				     enum airoha_npu_wlan_set_cmd func_id,
+ 				     void *data, int data_len, gfp_t gfp);
+@@ -226,9 +232,22 @@
+ }
+ 
+ static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++						struct device *endpoint,
+ 						u64 base, u64 bytes, int type)
+ {
+-	return npu->ops.wlan_bind_endpoint(npu, base, bytes, type);
++	return npu->ops.wlan_bind_endpoint(npu, endpoint, base, bytes, type);
++}
++
++static inline int airoha_npu_wlan_alloc_tx_buffers(struct airoha_npu *npu,
++						   struct device *endpoint,
++						   struct device *dma_dev,
++						   const u32 *bytes, dma_addr_t *addr,
++						   unsigned int count)
++{
++	if (!npu->ops.wlan_alloc_tx_buffers)
++		return -EOPNOTSUPP;
++	return npu->ops.wlan_alloc_tx_buffers(npu, endpoint, dma_dev, bytes, addr,
++					    count);
+ }
+ 
+ static inline int airoha_npu_wlan_send_msg(struct airoha_npu *npu,
+@@ -294,7 +313,17 @@
+ }
+ 
+ static inline int airoha_npu_wlan_bind_endpoint(struct airoha_npu *npu,
++						struct device *endpoint,
+ 						u64 base, u64 bytes, int type)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_alloc_tx_buffers(struct airoha_npu *npu,
++						   struct device *endpoint,
++						   struct device *dma_dev,
++						   const u32 *bytes, dma_addr_t *addr,
++						   unsigned int count)
+ {
+ 	return -EOPNOTSUPP;
+ }
+--- a/drivers/net/wireless/mediatek/mt76/npu.c
++++ b/drivers/net/wireless/mediatek/mt76/npu.c
+@@ -504,7 +504,7 @@
+ 	err = airoha_npu_wlan_init_reserved_memory(npu);
+ 	if (err)
+ 		goto error_ppe_put;
+-	err = airoha_npu_wlan_bind_endpoint(npu, phy_addr, bar_bytes, type);
++	err = airoha_npu_wlan_bind_endpoint(npu, dev->dev, phy_addr, bar_bytes, type);
+ 	if (err)
+ 		goto error_ppe_put;
+ 
+--- a/drivers/net/wireless/mediatek/mt76/mt7996/npu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7996/npu.c
+@@ -584,13 +584,18 @@
+ 
+ int mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
+-	int i, err;
+-
+-	if (!mt76_npu_device_active(&dev->mt76))
+-		return 0;
++	struct airoha_npu *npu;
++	u32 bytes[ARRAY_SIZE(dev->npu_txd_addr)];
++	unsigned int i;
++	int err;
+ 
+ 	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
+-
++	mutex_lock(&dev->mt76.mutex);
++	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
++	if (!npu) {
++		err = 0;
++		goto unlock;
++	}
+ 	for (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {
+ 		int band = i && is_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND0;
+ 		u32 size = is_mt7996(&dev->mt76) ? band == MT_BAND2
+@@ -598,23 +603,27 @@
+ 						 : MT7996_NPU_RX_RING_SIZE / 2
+ 						 : MT7996_TX_RING_SIZE;
+ 
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,
+-					 &dev->npu_txd_addr[i], GFP_KERNEL))
+-			return -ENOMEM;
+-
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * size,
+-					 &dev->npu_txd_addr[i + 1],
+-					 GFP_KERNEL))
+-			return -ENOMEM;
+-
+-		if (!dmam_alloc_coherent(dev->mt76.dma_dev, 256 * 1024,
+-					 &dev->npu_txd_addr[i + 2],
+-					 GFP_KERNEL))
+-			return -ENOMEM;
+-	}
+-
+-	mutex_lock(&dev->mt76.mutex);
++		bytes[i] = 256 * size;
++		bytes[i + 1] = bytes[i];
++		bytes[i + 2] = 256 * 1024;
++	}
++	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
++					       dev->mt76.dma_dev, bytes,
++					       dev->npu_txd_addr, ARRAY_SIZE(bytes));
++	if (err == -EOPNOTSUPP) {
++		/* Unmarked providers retain their existing managed allocation path. */
++		for (i = 0; i < ARRAY_SIZE(bytes); i++) {
++			if (!dmam_alloc_coherent(dev->mt76.dma_dev, bytes[i],
++						 &dev->npu_txd_addr[i], GFP_KERNEL)) {
++				err = -ENOMEM;
++				goto unlock;
++			}
++		}
++	} else if (err) {
++		goto unlock;
++	}
+ 	err = __mt7996_npu_hw_init(dev);
++unlock:
+ 	mutex_unlock(&dev->mt76.mutex);
+ 
+ 	return err;
