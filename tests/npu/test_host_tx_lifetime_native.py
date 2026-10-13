@@ -112,7 +112,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     ctypes.CDLL=load
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
-                                  host_sender=root/host['shared'],txbuffer_enrollment=True)
+                                  host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()
@@ -120,7 +120,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     inputs |= native['inputs']
     for path in (shared,args.host_receipt.resolve()):inputs[str(path.relative_to(root))]=parent.loader.sha(path)
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
-    result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14,
+    result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14+int(args.rx_event),
         rx_event_allocations=int(args.rx_event),rx_event_bytes=8192 if args.rx_event else 0,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
                 'Allocation runs after real BAR binding and before real offload/RX/TX caller replay. TX caller uses the returned retained handles.',

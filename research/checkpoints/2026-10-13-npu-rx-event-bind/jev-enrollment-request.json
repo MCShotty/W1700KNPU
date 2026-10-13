@@ -1,0 +1,43 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "timing": "Eight mailbox allocations and BAR binding already exist. The real RX-event queue allocation occurs before six TX allocations. Current native enrollment sends all eight mailbox and six TX records only during TX allocation, leaving RX outside native state.",
+    "routes": {
+      "mailboxes_then_rx_then_tx": "Enroll the existing eight mailbox records and actual RX allocation before RX output. Later append six TX records, rejecting overlap with the retained RX span.",
+      "rx_before_mailboxes": "Expose RX after native RX binding while the native contract has no mailbox extent records; mailbox and TX records arrive later.",
+      "numeric_pointer_only": "Treat the numeric queue pointer as proof of native ownership without enrolling its real allocation."
+    },
+    "original_api22": "Original selector0 publishes one DATA word at 0x3e903964 with (value & 0x3fffffff) | 0x40000000. Zero and unaligned values are accepted. It does not allocate or lock. Other supported original selectors5/6/7 affect different metadata; current actual RX-event caller uses selector0 only.",
+    "candidate_owner": "Require the actual bound RX span, all enrolled mailbox/TX extents, exact completed TX/GET history and held identity. Reserve the one expected DATA store before execution; verify exact readback before publication. Retain fault state and resources. No reset, retirement or physical drain grant."
+  },
+  "questions": {
+    "enrollment_route": {
+      "type": "choice",
+      "instructions": "Which route checks RX against known mailbox extents before exposure and preserves real allocation timing? Judge only the stated property, not architecture or permissions.",
+      "criteria": {
+        "mailboxes_then_rx_then_tx": "Known mailbox/RX records precede output, and future TX records are checked against RX.",
+        "rx_before_mailboxes": "RX is exposed before native mailbox extents exist.",
+        "numeric_pointer_only": "No real allocation record is retained.",
+        "none": "No route addresses the required timing and overlap checks."
+      }
+    },
+    "original_pointer_is_ownership": {
+      "type": "choice",
+      "instructions": "Does original_api22 establish allocation lifetime or physical DMA ownership from a successful metadata write?",
+      "criteria": {
+        "supported": "The original callback establishes both allocation lifetime and physical ownership.",
+        "not_established": "A metadata store alone leaves those properties unestablished.",
+        "unknown": "The supplied behavior cannot determine the scope."
+      }
+    },
+    "single_selector_scope": {
+      "type": "noul",
+      "instructions": "Is admitting all original API22 selectors justified by evidence that the current RX-event caller uses only selector0?",
+      "criteria": {"true": "Evidence establishes required ownership for every original selector.", "false": "Other selectors have separate effects and lack corresponding ownership evidence."}
+    },
+    "owner_scope": {
+      "type": "noul",
+      "instructions": "Does candidate_owner explicitly preserve reservation/write/readback ordering and retained failure state without claiming physical drain authority?"
+    }
+  }
+}

@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-13 - RX Enrollment/API22 Native Replay Passed
+
+- Actual RX allocation enrolls eight mailbox handles plus the retained RX ring
+  before CPU/DMA outputs. TX allocation appends six handles. Selector0/API22
+  uses a152-byte owner and original wrapper/store hooks, exact earlier owners/
+  effects, original lock18, masked IRQs and metadata-neighbor/readback checks.
+- Raw16/126/archive18/private388, world/source69/Ghidra61 (43 named functions)/
+  REA/FIT218+78 and independent identical raw builds/all16 groups pass.
+  Owner487/211/seven, actual C166/seven, wire1320/34, seven regressions and21
+  units pass. Eleven receipts/290 current input hashes verify.
+- Session47388/PID673535 is terminal0: actual allocator/caller/original RV32
+  passes15 records, six API21 phases/53260 effects/76 controls and API22/30
+  native controls, including retained1/0 and1/1 late failures. Earlier q1/q2
+  runs were intentionally interrupted for harness corrections, not timeouts or
+  API22 verdicts. Checkpatch has three line-length warnings. Native final stdout
+  has a legacy14-record label; JSON/early trace correctly report15.
+  Freeze consumed sources/tests during future replays and derive snapshot sizes
+  from ELF. Fix the style/diagnostic cleanup before the next proof cycle.
+- FIT82b1563a is unflashed; f185a731 and seven companions are hash-protected.
+  Next authenticated DESC10 must share PKT/TXDONE/SKB ownership rather than
+  recreate a test-written lease. Remaining PCIe/INODE/IRQ/owners/hot/physical/
+  recovery/boot/client gates keep the full goal active. No hardware or subagents.
+  Scope: `research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
+
 ## 2026-10-13 - Retained RX-Event Backing
 
 - Canonical queue allocation retains the actual 512x16 RX-event descriptor ring

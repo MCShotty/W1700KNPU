@@ -44,7 +44,7 @@ def build(server, source=SOURCE, tag='bootstrap-v2'):
     common = [shutil.which('clang'), '-std=c11', '-O2', '-Wall', '-Wextra', '-Werror',
               '-ffreestanding', '-fno-builtin', '-fno-stack-protector', '-I', BASE]
     host_sources = [BASE / 'control-client.c', BASE / 'control-v2-client.c']
-    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'cold-setup.c', 'cold-tx-buffer.c')]
+    sources = [BASE / name for name in ('barrier.c', 'admission.c', 'bootstrap.c', 'cold-setup.c', 'cold-tx-buffer.c', 'cold-rx-event.c')]
     sources += [server, source]
     paths = [BUILD / (tag + suffix) for suffix in ('.so', '-arm.elf', '-rv.elf')]
     execute([*common, *sources, *host_sources, '-shared', '-fPIC', '-o', paths[0]])

@@ -41,7 +41,7 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     assert all(composition.sha(path) == manifest['components'][name]['sha256'] for name, path in files.items())
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
-    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer')}
+    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event')}
     h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
@@ -51,6 +51,8 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     descriptor_wire_native.install(h, files['cold-descriptor'])
     import tx_buffer_wire_native
     tx_buffer_wire_native.install(h, files['cold-tx-buffer'])
+    import rx_event_wire_native
+    rx_event_wire_native.install(h, files['cold-rx-event'])
     # Erase all ELF-loader effects, fixture plans and fixture identity before the
     # two raw copies. Retained Python objects supply only observer/symbol metadata.
     h.cpu.mem_write(image.CODE, b'\xcc' * image.CODE_LIMIT)
@@ -192,9 +194,17 @@ def main():
     assert h.get32(ADM + 4) == 0 and len(frames) == 26
     # Later TXDONE is still a separately declared modeled lease until its full
     # host/INODE/physical contract is implemented. It cannot reinitialize TX.
-    h.put32(ADM + 4, 1)
+    guarded = h.snapshot()
+    prior_ring = h.get32(tx.SRAM + 0x3964)
     h.cpu.mem_write(PAYLOAD, struct.pack('<3I', 0x10, 22, TXFREE) + bytes(12))
-    assert h.direct(SET_CALLBACKS[22], PAYLOAD) == 1
+    assert h.direct(SET_CALLBACKS[22], PAYLOAD) == 0
+    assert h.get32(tx.SRAM + 0x3964) == prior_ring
+    assert h.get32(h.rx_event.symbols['npu_emulation_rx_event_state'] + 8) == 1
+    h.restore(guarded)
+    # This independent legacy TXDONE model is not authenticated RX enrollment.
+    # The real API22 path is covered by actual allocator/caller/native replay.
+    h.put32(ADM + 4, 1)
+    h.put32(tx.SRAM + 0x3964, (TXFREE & 0x3fffffff) | 0x40000000)
     h.put32(tx.SRAM + 0x3974, 0x87654321)
     core = h.packet.symbols['npu_emulation_packet_state']
     before = list(struct.unpack('<519I', h.cpu.mem_read(core, 2076)))

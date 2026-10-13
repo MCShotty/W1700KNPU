@@ -1,10 +1,43 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-13 (RX-event backing retained; C/native/image pass; full setup/physical work remains)
+Last updated: 2026-10-13 (RX enrollment/API22 C/RV32 scope passes; full setup/physical open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-13 - RX Enrollment/API22 Native Scope Tested
+
+- Canonical RX allocation now enrolls eight mailbox handles and the actual
+  512x16 retained RX ring before queue outputs. TX allocation appends six handles.
+  All eleven RX STATUS/enrollment/final-STATUS delivery points and late allocation/
+  identity/record changes are covered in the166-case actual-C suite/seven mutants.
+- The152-byte one-shot owner retains a possible metadata effect before the
+  original selector0/API22 store. The840d0000/4000 native window adds two hooks;
+  total raw16/126, archive18 and private cold388. Exact prior TX/descriptor/
+  bootstrap/BAR/record/typed-table/store/neighbor checks, original lock18, masked
+  IRQs and readback gate success. Other API22 selectors and DESC10 remain denied.
+- Portable487 calls/211 controls/seven mutants/sanitizers, wire1320/34 with70 RX
+  cases, seven regressions/21 units, source69, world, Ghidra61/43 named ELF
+  functions, REA and FIT218+78 pass. Independent raw builds match and all16
+  assembly groups pass. Eleven receipts/290 current input hashes verify.
+- Session47388/PID673535 completes with terminal0. Actual allocator/caller/
+  original RV32 passes15 records, six API21 phases/53260 effects/76 controls and
+  the exact API22 metadata effect/30 native controls. After-store faults retain
+  committed1/published0; after-publication faults retain1/1 and reject outer
+  success. Earlier two runs were explicitly stopped for harness corrections,
+  not observation timeouts or API22 verdicts. Checkpatch remains zero errors/
+  three line-length warnings. Final stdout has a legacy14-record label while
+  JSON/early trace correctly say15. These two cleanup items remain documented.
+- Current unflashed image:
+  82b1563a809b7c5a2b7872fde908e2d16b261e1f40306090f73a93ae498d19f7,
+  26985290 bytes; provider f163e26ed76787f8479243f4f93db84e9f44e4a73517c227b372d884983aba9c.
+  CODEc6548555/DATAe0495a5f; previous f185a731 plus seven companions are
+  checksum-protected. No router/flash/reset/Wi-Fi/power/private-backup action.
+- Keep full NPU goal active. Next authenticated DESC10 must extend shared PKT/
+  TXDONE/SKB ownership; PCIe/INODE/IRQ/other owners/hot/physical/drains/recovery/
+  exact-image boot/client gates remain. Scope:
+  `research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
 
 ## 2026-10-13 - Retained RX-Event Backing
 

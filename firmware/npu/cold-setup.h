@@ -5,6 +5,7 @@
 #include "control-v2.h"
 #include "cold-descriptor.h"
 #include "cold-tx-buffer.h"
+#include "cold-rx-event.h"
 
 #define NPU_COLD_REQUEST 0x3253434eu /* NCS2 */
 #define NPU_COLD_REPLY 0x3252434eu /* NCR2 */
@@ -40,6 +41,7 @@
 #define NPU_COLD_BIND_BASE_API 0x100u
 #define NPU_COLD_BIND_BYTES_API 0x101u
 #define NPU_COLD_BIND_DMA_API 0x102u
+#define NPU_COLD_BIND_RX_EVENT_API (NPU_COLD_BIND_DMA_API + NPU_COLD_TXBUF_RECORDS)
 #define NPU_COLD_PAGE_REG0 0xd45a0u
 #define NPU_COLD_ENDPOINT_MIN_BYTES (NPU_COLD_PAGE_REG0 + 0x20u + 12u)
 
@@ -95,7 +97,18 @@ struct npu_cold_setup {
     uint32_t txbuf_enrolled, prior_txbuf_enrolled;
     struct npu_cold_txbuf_plan txbuf, pending_txbuf;
     uint32_t txbuf_steps, prior_txbuf_steps;
+    uint32_t rx_event, prior_rx_event, pending_rx_event, rx_event_steps, prior_rx_event_steps;
 };
+
+static inline int npu_cold_rx_event_enrollment(const struct npu_bootstrap_packet *p)
+{
+    return p->header == NPU_COLD_BIND_HEADER && p->api == NPU_COLD_BIND_RX_EVENT_API;
+}
+
+static inline int npu_cold_rx_event_command(const struct npu_bootstrap_packet *p)
+{
+    return p->header == 0x10u && p->api == 22;
+}
 
 static inline uint32_t npu_cold_txbuf_command_step(const struct npu_bootstrap_packet *p)
 {

@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-13 (host TX lifetime qualified; native API21 enrollment/records next; full goal open)
+Last updated: 2026-10-13 (RX enrollment/API22 C/RV32 scope passes; full goal open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-13 - RX Enrollment And API22 Native Scope Tested
+
+- Integrated actual mailbox/RX/TX enrollment order into canonical source and
+  the normal build. Added the152-byte selector0/API22 owner, two original hooks,
+  full previous-owner/effect guards and retained pre-store commitment/readback.
+- Owner487/211/seven, actual C166/seven, wire1320/34, seven regressions/21 units,
+  source69, world/Ghidra61/REA/FIT218+78 and all16 assembly groups pass. Eleven
+  completed receipts/290 current input hashes verify. Checkpatch has zero
+  errors/three line-length warnings, not a strict-style pass.
+- Actual allocator/caller/original RV32 passes15 records, all six API21 phases/
+  53260 effects/76 controls and API22 metadata/30 native controls. Session47388/
+  PID673535 is terminal0. Freeze consumed sources/tests during future replays.
+  Earlier runs were explicitly stopped for harness corrections, not timeouts.
+- FIT82b1563a is unflashed; f185a731 and seven companions are hash-preserved.
+  DESC10/shared PKT/TXDONE/SKB and remaining setup/hot/lifecycle/physical/
+  recovery/exact-image boot/client gates remain open. No hardware or subagents.
+  Scope: `research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
 
 ## 2026-10-13 - Host TX Lifetime and Original Record Effects
 

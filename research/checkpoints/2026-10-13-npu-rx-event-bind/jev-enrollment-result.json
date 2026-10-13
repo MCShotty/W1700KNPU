@@ -1,0 +1,77 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-bind-20261013\\jev-enrollment-request.json",
+  "request_sha256": "7ebe2673f3d0d8f569381ad7fbe1603dc81d8c5878f55e3ceb42780107bc1d5a",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "enrollment_route": {
+      "type": "choice",
+      "instructions": "Which route checks RX against known mailbox extents before exposure and preserves real allocation timing? Judge only the stated property, not architecture or permissions.",
+      "criteria": {
+        "mailboxes_then_rx_then_tx": "Known mailbox/RX records precede output, and future TX records are checked against RX.",
+        "rx_before_mailboxes": "RX is exposed before native mailbox extents exist.",
+        "numeric_pointer_only": "No real allocation record is retained.",
+        "none": "No route addresses the required timing and overlap checks."
+      }
+    },
+    "original_pointer_is_ownership": {
+      "type": "choice",
+      "instructions": "Does original_api22 establish allocation lifetime or physical DMA ownership from a successful metadata write?",
+      "criteria": {
+        "supported": "The original callback establishes both allocation lifetime and physical ownership.",
+        "not_established": "A metadata store alone leaves those properties unestablished.",
+        "unknown": "The supplied behavior cannot determine the scope."
+      }
+    },
+    "single_selector_scope": {
+      "type": "noul",
+      "instructions": "Is admitting all original API22 selectors justified by evidence that the current RX-event caller uses only selector0?",
+      "criteria": {
+        "true": "Evidence establishes required ownership for every original selector.",
+        "false": "Other selectors have separate effects and lack corresponding ownership evidence."
+      }
+    },
+    "owner_scope": {
+      "type": "noul",
+      "instructions": "Does candidate_owner explicitly preserve reservation/write/readback ordering and retained failure state without claiming physical drain authority?"
+    }
+  },
+  "elapsed_ms": 4089,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "enrollment_route": {
+        "type": "choice",
+        "choice": "mailboxes_then_rx_then_tx",
+        "confidence": 1.0,
+        "probabilities": {
+          "mailboxes_then_rx_then_tx": 1.0,
+          "rx_before_mailboxes": 0.0,
+          "numeric_pointer_only": 0.0,
+          "none": 0.0
+        }
+      },
+      "original_pointer_is_ownership": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "not_established": 1.0,
+          "unknown": 0.0
+        }
+      },
+      "single_selector_scope": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "owner_scope": {
+        "type": "noul",
+        "noul": 0.95
+      }
+    },
+    "usage": {
+      "input_tokens": 921,
+      "output_tokens": 152
+    }
+  }
+}

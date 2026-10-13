@@ -188,7 +188,7 @@ def main():
         core_objects[path.name] = sha(path)
     assert set(core_objects) == {name + '.o' for name in (
         'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
-        'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'gdma', 'tunnel-header', 'tunnel-packet')}
+        'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'gdma', 'tunnel-header', 'tunnel-packet')}
     archive = core / 'libw1700k-npu.a'
     metadata = OUT / 'fwtool.json'
     run([BUILD / 'staging_dir/host/bin/fwtool', '-i', metadata, image])

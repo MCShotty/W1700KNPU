@@ -1,0 +1,195 @@
+Subject: [PATCH] Enroll retained RX-event backing and route owned API22
+
+Enroll mailboxes and the actual RX ring before queue publication,
+then append TX handles and admit only the owned API22 selector.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -1149,10 +1149,11 @@
+ 		void *buf;
+ 		dma_addr_t addr;
+ 	} mailboxes[NPU_NUM_CORES];
+-	u32 endpoint_base, endpoint_bytes, bound_serial;
++	struct npu_bootstrap_packet command = { .header = NPU_COLD_BIND_HEADER };
++	u32 endpoint_base, endpoint_bytes, bound_serial, value;
+ 	void *allocated;
+ 	dma_addr_t allocated_addr;
+-	unsigned int i;
++	unsigned int i, round;
+ 	int err = 0;
+ 
+ 	if (!priv->checked_pair)
+@@ -1185,7 +1186,8 @@
+ 	    life->nonce_lo != snapshot.client.base.nonce_lo ||
+ 	    life->nonce_hi != snapshot.client.base.nonce_hi ||
+ 	    life->bound_serial != snapshot.client.base.serial || snapshot.descriptor_gets ||
+-	    snapshot.descriptor_arena || snapshot.txbuf_enrolled || snapshot.txbuf_steps) {
++	    snapshot.descriptor_arena || snapshot.txbuf_enrolled || snapshot.txbuf_steps ||
++	    snapshot.rx_event || snapshot.rx_event_steps) {
+ 		err = -EPROTO;
+ 		goto hold;
+ 	}
+@@ -1217,37 +1219,54 @@
+ 	}
+ 	allocated = life->rx_event.buf;
+ 	allocated_addr = life->rx_event.addr;
+-	err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
+-	if (err)
+-		goto hold;
+-	err = airoha_npu_wlan_session_snapshot(priv, true);
+-	if (err)
+-		goto hold;
+-	npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
+-	if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
+-	    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
+-	    !priv->native_published || !life->rx_attempted ||
+-	    life->rx_published || life->rx_serial ||
+-	    life->tx_attempted || life->tx_published ||
+-	    life->boot_identity != priv->boot_identity ||
+-	    life->nonce_lo != snapshot.client.base.nonce_lo ||
+-	    life->nonce_hi != snapshot.client.base.nonce_hi ||
+-	    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
+-	    life->bound_serial != bound_serial ||
+-	    snapshot.descriptor_gets || snapshot.descriptor_arena ||
+-	    snapshot.txbuf_enrolled || snapshot.txbuf_steps ||
+-	    life->rx_event.buf != allocated || life->rx_event.addr != allocated_addr ||
+-	    memcmp(plan, priv->native_plan, sizeof(plan)) ||
+-	    !airoha_npu_wlan_rx_event_valid(priv)) {
+-		err = -EPROTO;
+-		goto hold;
+-	}
+-	for (i = 0; i < ARRAY_SIZE(mailboxes); i++)
+-		if (life->buffers[i].buf != mailboxes[i].buf ||
+-		    life->buffers[i].addr != mailboxes[i].addr) {
++	for (round = 0; round < 2; round++) {
++		err = npu_linux_control_exchange(&priv->wlan_control, NPU_CONTROL_STATUS);
++		if (err)
++			goto hold;
++		err = airoha_npu_wlan_session_snapshot(priv, true);
++		if (err)
++			goto hold;
++		npu_linux_control_snapshot(&priv->wlan_control, &snapshot);
++		if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
++		    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
++		    !priv->native_published || !life->rx_attempted ||
++		    life->rx_published || life->rx_serial || life->tx_attempted || life->tx_published ||
++		    life->boot_identity != priv->boot_identity ||
++		    life->nonce_lo != snapshot.client.base.nonce_lo ||
++		    life->nonce_hi != snapshot.client.base.nonce_hi ||
++		    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
++		    life->bound_serial != bound_serial ||
++		    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_steps ||
++		    snapshot.txbuf_enrolled != (round ? NPU_COLD_TXBUF_MAILBOXES : 0) ||
++		    snapshot.rx_event != (round ? allocated_addr : 0) || snapshot.rx_event_steps ||
++		    life->rx_event.buf != allocated || life->rx_event.addr != allocated_addr ||
++		    memcmp(plan, priv->native_plan, sizeof(plan)) ||
++		    !airoha_npu_wlan_rx_event_valid(priv)) {
+ 			err = -EPROTO;
+ 			goto hold;
+ 		}
++		for (i = 0; i < ARRAY_SIZE(mailboxes); i++)
++			if (life->buffers[i].buf != mailboxes[i].buf ||
++			    life->buffers[i].addr != mailboxes[i].addr) {
++				err = -EPROTO;
++				goto hold;
++			}
++		if (round)
++			break;
++		/* Bind existing mailboxes and this allocation before queue exposure. */
++		for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
++			command.api = NPU_COLD_BIND_DMA_API + i;
++			command.value = mailboxes[i].addr;
++			err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++			if (err)
++				goto hold;
++		}
++		command.api = NPU_COLD_BIND_RX_EVENT_API;
++		command.value = allocated_addr;
++		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++		if (err)
++			goto hold;
++	}
+ 	life->rx_serial = snapshot.client.base.serial;
+ 	life->rx_published = true;
+ 	*buf = allocated;
+@@ -1328,7 +1347,10 @@
+ 	    (life->rx_published ? !airoha_npu_wlan_rx_event_valid(priv) :
+ 	     life->rx_event.buf || life->rx_event.addr ||
+ 	     life->rx_event.bytes || life->rx_serial) ||
+-	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled) {
++	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_steps ||
++	    snapshot.txbuf_enrolled != (life->rx_published ? NPU_COLD_TXBUF_MAILBOXES : 0) ||
++	    snapshot.rx_event != (life->rx_published ? life->rx_event.addr : 0) ||
++	    snapshot.rx_event_steps) {
+ 		err = -EPROTO;
+ 		goto hold;
+ 	}
+@@ -1385,7 +1407,9 @@
+ 	    life->rx_event.bytes != rx_bytes || life->rx_serial != rx_serial ||
+ 	    life->rx_published != rx_published ||
+ 	    life->rx_attempted != rx_published ||
+-	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_enrolled ||
++	    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_steps ||
++	    snapshot.txbuf_enrolled != (rx_published ? NPU_COLD_TXBUF_MAILBOXES : 0) ||
++	    snapshot.rx_event != (rx_published ? rx_addr : 0) || snapshot.rx_event_steps ||
+ 	    memcmp(plan, priv->native_plan, sizeof(plan))) {
+ 		err = -EPROTO;
+ 		goto hold;
+@@ -1401,7 +1425,7 @@
+ 	/* Enroll all mailbox and TX extents before the caller can publish a handle.
+ 	 * A lost reply retains both the native reservation and every CPU allocation.
+ 	 */
+-	for (i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) {
++	for (i = rx_published ? NPU_COLD_TXBUF_MAILBOXES : 0; i < NPU_COLD_TXBUF_RECORDS; i++) {
+ 		command.api = NPU_COLD_BIND_DMA_API + i;
+ 		command.value = i < ARRAY_SIZE(mailboxes) ? mailboxes[i].addr :
+ 				captured[i - ARRAY_SIZE(mailboxes)].addr;
+@@ -1429,6 +1453,7 @@
+ 	    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
+ 	    life->bound_serial != bound_serial || snapshot.descriptor_gets ||
+ 	    snapshot.descriptor_arena || snapshot.txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
++	    snapshot.rx_event != (rx_published ? rx_addr : 0) || snapshot.rx_event_steps ||
+ 	    memcmp(plan, priv->native_plan, sizeof(plan))) {
+ 		err = -EPROTO;
+ 		goto hold;
+@@ -1464,6 +1489,7 @@
+ 					u32 api, void *data, int len)
+ {
+ 	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
+ 	struct npu_bootstrap_packet command = { .header = header, .api = api };
+ 	u32 value;
+ 	int err;
+@@ -1481,7 +1507,17 @@
+ 		err = -EINVAL;
+ 		goto unlock;
+ 	}
+-	err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++	if (npu_cold_rx_event_command(&command) &&
++	    (!life || !life->exposed || !priv->native_published ||
++	     life->dev != npu->dev || !life->endpoint_bound || !life->endpoint ||
++	     life->boot_identity != priv->boot_identity ||
++	     !life->rx_attempted || !life->rx_published || !life->rx_serial ||
++	     !life->tx_attempted || !life->tx_published || !life->rx_event.buf ||
++	     life->rx_event.bytes != NPU_COLD_RX_EVENT_BYTES ||
++	     life->rx_event.addr != command.value))
++		err = -EPROTO;
++	else
++		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
+ 	if (err) {
+ 		priv->wlan_session_error = err;
+ 		npu_linux_control_close(&priv->wlan_control);
+@@ -1504,6 +1540,12 @@
+ 		    npu_cold_txbuf_step(ifindex) == NPU_COLD_TXBUF_STEPS)
+ 			return -EINVAL;
+ 		return airoha_npu_wlan_cold_command(npu, 0x10 | ifindex, func_id,
++						  data, data_len);
++	}
++	if (priv->checked_pair && func_id == WLAN_FUNC_SET_WAIT_RX_RING_FOR_TXDONE_HW_BASE) {
++		if (ifindex)
++			return -EINVAL;
++		return airoha_npu_wlan_cold_command(npu, 0x10, func_id,
+ 						  data, data_len);
+ 	}
+ 	if (priv->checked_pair &&

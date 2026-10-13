@@ -1,0 +1,101 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-bind-20261013\\jev-final-request.json",
+  "request_sha256": "dc8dbc36350a7724bb084b7d86a0facd826dfa657f3497b51c030725acc12e9e",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "software_claim": {
+      "type": "choice",
+      "instructions": "Does receipts support the claim that selected actual-C/original-native software RX enrollment and selector0/API22 metadata binding were qualified within the stated model scope?",
+      "criteria": {
+        "supported": "Entire scoped software claim follows",
+        "contradicted": "Evidence explicitly conflicts",
+        "not_established": "Material scoped requirement lacks evidence"
+      }
+    },
+    "hardware_claim": {
+      "type": "choice",
+      "instructions": "Does receipts establish physical DMA ownership/drains and successful router/client operation?",
+      "criteria": {
+        "supported": "Physical and client execution observed",
+        "contradicted": "Limits explicitly exclude that conclusion",
+        "not_established": "Evidence is insufficient without explicit exclusion"
+      }
+    },
+    "desc10_claim": {
+      "type": "choice",
+      "instructions": "Does caller_boundary establish a passing authenticated production DESC10 initializer?",
+      "criteria": {
+        "supported": "Actual authenticated DESC10 succeeds",
+        "contradicted": "Boundary expressly says DESC10 is not executed/proven",
+        "not_established": "Insufficient evidence without explicit exclusion"
+      }
+    },
+    "style_claim": {
+      "type": "choice",
+      "instructions": "Does style support describing this as a zero-warning strict-checkpatch pass?",
+      "criteria": {
+        "supported": "No warnings remain",
+        "contradicted": "Recorded warnings conflict with zero-warning claim",
+        "not_established": "No result supplied"
+      }
+    },
+    "scope_disclosure": {
+      "type": "noul",
+      "instructions": "Does docs_claim clearly preserve the full unfinished objective and disclose the unflashed image and remaining setup/physical/client requirements?"
+    }
+  },
+  "elapsed_ms": 952,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "software_claim": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.56,
+        "probabilities": {
+          "supported": 0.71,
+          "contradicted": 0.03,
+          "not_established": 0.26
+        }
+      },
+      "hardware_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.89,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.93,
+          "not_established": 0.07
+        }
+      },
+      "desc10_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "style_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "scope_disclosure": {
+        "type": "noul",
+        "noul": 0.91
+      }
+    },
+    "usage": {
+      "input_tokens": 1000,
+      "output_tokens": 206
+    }
+  }
+}

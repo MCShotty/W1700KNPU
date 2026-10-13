@@ -1,5 +1,23 @@
 # Experimental NPU Components
 
+## RX-Event Enrollment And API22
+
+The retained RX-event allocation now enrolls eight mailbox handles and its actual
+512x16 DMA ring before queue exposure; later TX allocation appends six handles.
+The80-byte wire stays unchanged. Private cold history is388 bytes, including
+pending/accepted RX handle and API22 progress. A partial or lost reply preserves
+the native prefix and host backing without publishing caller outputs.
+
+`cold-rx-event.c/.h` adds a152-byte one-shot owner to the normal18-object archive.
+Selector0/API22 pins the full prior TX/descriptor/boot/BAR/mailbox plan, reserves
+the exact4-byte metadata preimage and records a possible irreversible effect
+before the original store. Readback and unchanged neighbors gate publication.
+The raw binding window is840d0000/4000, with original wrapper/store hooks and
+original lock18/IRQ exclusion. No rollback, reset or retirement operation exists.
+Other API22 selectors and authenticated DESC10 remain unsupported. This is
+software ownership, not physical DMA visibility, drain authority or complete
+setup. Validation scope belongs to the checkpoint receipts, not this contract.
+
 ## 2026-10-13 - Original API21 Callbacks Bound
 
 The17th portable object now has a native binding in raw component15, with47

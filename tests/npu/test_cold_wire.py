@@ -52,6 +52,17 @@ def main():
     executor = SOURCE / 'linux-control.c'
     original, codec, linux = server.read_text(), client.read_text(), executor.read_text()
     mutations = {
+        'skip-RX-late-handle': {server: loader.once(original,
+            's->rx_event != s->prior_rx_event ||', '(0 && s->rx_event != s->prior_rx_event) ||')},
+        'skip-RX-late-progress': {server: loader.once(original,
+            's->rx_event_steps != s->prior_rx_event_steps ||', '(0 && s->rx_event_steps != s->prior_rx_event_steps) ||')},
+        'skip-RX-pending-handle': {server: loader.once(original,
+            's->pending_rx_event != s->command.value : s->pending_rx_event != s->rx_event)',
+            '0 : s->pending_rx_event != s->rx_event)')},
+        'skip-RX-TX-overlap': {server: loader.once(original,
+            '(!s->rx_event || npu_cold_rx_event_dma_valid(plan, step + 1, s->rx_event));', '(1);')},
+        'skip-host-RX-TX-order': {executor: loader.once(linux,
+            'control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||', '(0 && control->txbuf_steps != NPU_COLD_TXBUF_STEPS) ||')},
         'skip-held-workers': {server: loader.once(original, 'load(&b->parked[i]) != 1 || load(&b->ready[i])', 'load(&b->ready[i])')},
         'skip-deferred-irq': {server: loader.once(original, 'if (a->deferred[i])', 'if (0 && a->deferred[i])')},
         'allow-replay': {server: loader.once(original, 'p.sequence <= session->last_sequence', 'p.sequence == 0')},

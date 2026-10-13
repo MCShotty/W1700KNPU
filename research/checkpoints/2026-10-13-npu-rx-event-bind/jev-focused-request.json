@@ -1,0 +1,13 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "native_result": {"passed":true,"api22_reply_status":0,"command_header":16,"command_api":22,"exact_retained_dma_value_echo":true,"api22_controls_passed":30,"desc10_rejection_modeled":true,"full_setup":false},
+    "actual_executed_assertions": "The passing test compares complete SRAM/heap/L2 spans with the pre-command snapshot, allowing only the expected4-byte API22 metadata store. It checks all8 owner words equal completed/fault-free state and PKT/BA/TX owners unchanged; metadata readback and cold RX progress1 must match. Native negative cases require rejection, no unowned access, retained outer lease and committed/published0or1 as appropriate.",
+    "late_results": "After-store held fault/readback/neighbor/TX-effect controls retain committed1/published0. After-publication readback/nonce controls retain1/1. All reject outer success.",
+    "limits": "Actual source-C client/allocator/caller and original RV32 instructions execute under modeled DMA/device/transport/CSR conditions. No hardware/router/client run or physical backing/drain proof exists."
+  },
+  "questions": {
+    "observed_api22": {"type":"choice","instructions":"Does this evidence support ONLY the claim that the tested actual-C/original-RV32 API22 command completed its retained metadata store and that the specified native fault cases rejected success while retaining progress? Do not interpret this as physical or full-setup qualification.","criteria":{"supported":"The exact scoped test claim is established by the passing result and executed assertions","contradicted":"The evidence explicitly conflicts with that scoped claim","not_established":"The evidence lacks a material part of that scoped claim"}},
+    "desc10_scope": {"type":"noul","instructions":"Must the report continue to distinguish the modeled DESC10 rejection from an executed authenticated DESC10 initializer?"}
+  }
+}

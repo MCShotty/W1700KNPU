@@ -20,6 +20,20 @@ native setup remains denied.
 
 ## Ownership
 
+RX-event allocation enrolls eight coherent mailbox handles and the actual512x16
+ring before CPU/DMA queue outputs; later TX allocation appends six retained
+handles. Metadata enrollment is admitted only at the eight-mailbox prefix, with
+no descriptor GET or API21 progress. Alias/overlap checks include accepted RX
+backing as later TX records are added. Lost replies retain both prefixes and
+resources, and never permit queue publication or retry of the same instance.
+
+Selector0/API22 requires the enrolled RX handle,14 mailbox/TX records, eight
+descriptor GETs and six API21 phases. Cached RX progress changes only after an
+exact successful reply; caller output stays untouched on failure. Private cold
+history is388 bytes while the wire remains80 bytes. Native metadata ownership
+also checks the complete earlier store/owner history. This is not physical
+backing/coherency, drain permission, authenticated DESC10 or full strict setup.
+
 Descriptor GETs use the existing80-byte cold envelope and the same provider
 boot/nonce/sequence. The executor privately retains getter count and the first
 validated arena. It rejects out-of-order GETs before transport, without pretending

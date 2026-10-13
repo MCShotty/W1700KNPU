@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-13 - RX Enrollment/API22 Scope Tested
+
+The normal source now enrolls actual mailbox/RX/TX handles in allocation order
+and binds selector0/API22 to retained metadata ownership. Raw16/126, portable18,
+private388, world/source69/Ghidra61/REA/image218+78 pass. Owner487/211/seven,
+C166/seven, wire1320/34 and all16 assembly groups pass. Actual allocator/caller/
+original RV32 passes15 records, six API21 phases/53260 effects/76 controls and
+API22 metadata/30 native controls. Eleven receipts/290 current input hashes verify.
+Current unflashed FIT82b1563a; f185a731 plus seven companions are preserved.
+Three checkpatch line-length warnings and a legacy native stdout14-record label
+remain; JSON/trace correctly report15. Clean them before the next proof cycle.
+
+Continue authenticated DESC10/shared PKT/
+TXDONE/SKB, exact PCIe prerequisites/register writes, INODE and final IRQ. Keep
+full lifecycle/worker/hot/physical backing/exclusion/coherency/drains/retirement/
+recovery/exact-image boot and actual-client requirements intact. Older TXDONE
+regression explicitly models its later lease/ring metadata; it is not full setup.
+No hardware action. Scope:
+`research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
+
 ## 2026-10-13 - Retained RX-Event Backing
 
 Actual RX-event coherent backing is retained before queue address publication,

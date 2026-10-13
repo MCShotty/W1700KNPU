@@ -3,7 +3,7 @@ static unsigned rx_cases;
 
 static void rx_late_mutate(void)
 {
-    if (!late_mutation || dma_calls < mutate_after)
+    if (!late_mutation || dma_calls < mutate_after || (mutate_on_call && calls < mutate_on_call))
         return;
     unsigned kind = late_mutation;
     late_mutation = 0;
@@ -30,6 +30,9 @@ static void rx_late_mutate(void)
     if (kind == 21) life.tx_attempted = true;
     if (kind == 22) life.tx_published = true;
     if (kind == 23) priv.wlan_control.txbuf_steps++;
+    if (kind == 24) priv.wlan_control.rx_event ^= 16;
+    if (kind == 25) priv.wlan_control.rx_event_steps++;
+    if (kind == 26) priv.wlan_control.txbuf_enrolled++;
 }
 
 static void rx_fixture(void)
@@ -40,7 +43,7 @@ static void rx_fixture(void)
     memset(objects, 0, sizeof(objects));
     dma_calls = managed_calls = object_count = freed_buffers = freed_contexts = put_refs = 0;
     fail_allocation = 99;
-    late_mutation = override_cpu = fail_entry = fail_page = fail_wed = programmed = hw_calls = 0;
+    late_mutation = mutate_on_call = override_cpu = fail_entry = fail_page = fail_wed = programmed = hw_calls = 0;
     family7996 = true;
     mutate_after = 1;
     addresses[0] = 0x97000000;
@@ -143,7 +146,7 @@ int main(void)
         check(dma_calls == 1 && !freed_buffers, "invalid geometry retains allocation attempt");
         rx_dispose();
     }
-    for (unsigned kind = 0; kind < 14; kind++) {
+    for (unsigned kind = 0; kind < 16; kind++) {
         rx_fixture();
         if (kind == 0) life.boot_identity++;
         if (kind == 1) life.nonce_lo++;
@@ -156,23 +159,31 @@ int main(void)
         if (kind >= 8 && kind < 12) life.buffers[kind - 8].buf = NULL;
         if (kind == 12) life.buffers[3].addr = 0;
         if (kind == 13) life.buffers[3].addr = UINT64_C(0x183000000);
+        if (kind == 14) priv.wlan_control.rx_event = addresses[0];
+        if (kind == 15) priv.wlan_control.rx_event_steps = 1;
         unsigned wire = calls;
         rx_failed(-EPROTO);
         check(!dma_calls && calls == wire, "bad held history or mailbox fails before allocation/status");
         rx_dispose();
     }
-    for (unsigned kind = 1; kind <= 23; kind++) {
-        rx_fixture(); late_mutation = kind;
-        rx_failed(-EPROTO);
-        check(dma_calls == 1 && life.rx_serial == (kind == 4 ? 1u : 0u),
-              "late mutation retains corrupt state without accepting a serial");
-        rx_dispose();
+    for (unsigned round = 0; round < 2; round++) {
+        for (unsigned kind = 1; kind <= 26; kind++) {
+            rx_fixture(); late_mutation = kind;
+            mutate_on_call = calls + (round ? 11 : 1);
+            rx_failed(-EPROTO);
+            check(dma_calls == 1 && life.rx_serial == (kind == 4 ? 1u : 0u),
+                  "late mutation retains corrupt state without accepting a serial");
+            rx_dispose();
+        }
     }
-    for (unsigned effective = 0; effective < 2; effective++) {
-        rx_fixture(); fault_at = calls + 1; fault_error = -ETIMEDOUT; effect_fault = effective;
-        rx_failed(-ETIMEDOUT);
-        check(dma_calls == 1 && life.rx_event.buf && !life.rx_published, "lost STATUS retains backing");
-        rx_dispose();
+    for (unsigned step = 1; step <= 11; step++) {
+        for (unsigned effective = 0; effective < 2; effective++) {
+            rx_fixture(); fault_at = calls + step; fault_error = -ETIMEDOUT; effect_fault = effective;
+            rx_failed(-ETIMEDOUT);
+            check(dma_calls == 1 && life.rx_event.buf && !life.rx_published,
+                  "lost STATUS/mailbox/RX/final STATUS reply retains unpublished backing");
+            rx_dispose();
+        }
     }
     for (unsigned slot = 1; slot < 7; slot++) {
         for (unsigned alias = 0; alias < 3; alias++) {

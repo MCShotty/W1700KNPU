@@ -28,7 +28,7 @@ FUNCTIONS = ('airoha_npu_wlan_cmd_with_retry', 'airoha_npu_wlan_init_memory',
              'airoha_npu_wlan_bind_endpoint_session',
              'airoha_npu_wlan_msg_send_session', 'airoha_npu_wlan_msg_get_session')
 CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c', 'cold-client.c')
-SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c', 'cold-setup.c', 'cold-tx-buffer.c')
+SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c', 'cold-setup.c', 'cold-tx-buffer.c', 'cold-rx-event.c')
 NATIVE_TXBUF_RECORDS = 14
 
 
@@ -57,7 +57,7 @@ def prepare(directory, text, header):
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
-                txbuffer_enrollment=False):
+                txbuffer_enrollment=False, rx_event=False):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -68,6 +68,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     native_dependencies = [Path(__file__), ROOT / 'tests/npu/cold_wire_native.py',
         ROOT / 'tests/npu/indication_native_controls.py', ROOT / 'tests/npu/tx_native_controls.py',
         ROOT / 'tests/npu/descriptor_native_controls.py', ROOT / 'tests/npu/tx_buffer_native_controls.py',
+        ROOT / 'tests/npu/rx_event_native_controls.py',
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
 
@@ -173,7 +174,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             lib.npu_test_tx_dma_addr.restype = ctypes.c_uint32
             tx_dma = [lib.npu_test_tx_dma_addr(i) for i in range(6)]
             if txbuffer_enrollment:
-                assert cold_bytes == 368 and h.get32(cold_state + 120) == 14
+                assert cold_bytes == 388 and h.get32(cold_state + 120) == 14
                 captured = list(struct.unpack('<29I', h.cpu.mem_read(cold_state + 128, 116)))
                 expected_plan = [0, 0x20000000, 0x100000,
                     *tx_dma,
@@ -181,7 +182,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     *[word for region in plan for word in region]]
                 assert captured == expected_plan
                 assert bytes(h.cpu.mem_read(cold_state + 244, 116)) == struct.pack('<29I', *expected_plan)
-                print(json.dumps(dict(native_enrollment_records=14, exact_plan=True)), flush=True)
+                assert h.get32(cold_state + 368) == (0x97000000 if rx_event else 0)
+                print(json.dumps(dict(native_enrollment_records=14 + int(rx_event), exact_plan=True,
+                                      rx_event_enrolled=rx_event)), flush=True)
             lib.npu_test_command.argtypes = [ctypes.c_uint, ctypes.c_uint, ctypes.c_uint,
                                             ctypes.POINTER(ctypes.c_uint32)]
             sequence = [(0x30, 10, 0), (0x10, 14, 2)]
@@ -205,15 +208,20 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                                     sequence += [(0x37, 4, 0)]
                                     if not descriptor_failure:
                                         sequence += [(0x10 | selector, 21, tx_dma[i + 3]) for i, selector in enumerate((2,7,12))]
+                                        if rx_event:
+                                            sequence += [(0x10, 22, h.get32(cold_state + 368))]
             page_total, packet_before_pages, page_before_indication = 0, None, None
             indication_before, indication_controls = None, []
             tx_before, tx_controls = None, []
             descriptor_before, descriptor_tx_before, descriptor_controls = None, None, []
             txbuf_before, txbuf_controls, txbuf_effects = None, [], []
+            rx_event_before, rx_event_controls = None, []
             def issue(header, api, value):
                 nonlocal page_total, packet_before_pages, page_before_indication, indication_before, tx_before
                 nonlocal descriptor_before, descriptor_tx_before
-                nonlocal txbuf_before
+                nonlocal txbuf_before, rx_event_before
+                if api == 22:
+                    rx_event_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, cold_bytes)))]
                 if api == 21:
                     txbuf_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, cold_bytes)))]
                 if api == 4 and header in (0x30, 0x35):
@@ -417,6 +425,13 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     del leases[lease_end:]
                     print(json.dumps(dict(native_txbuf_controls=len(txbuf_controls), phase=index,
                                           stores=bound, passed=True)), flush=True)
+                if api == 22:
+                    from rx_event_native_controls import effects, check
+                    effects(h, rx_event_before, value)
+                    lease_end = len(leases)
+                    rx_event_controls.extend(check(h, rx_event_before, frames[-1]['request']))
+                    del leases[lease_end:]
+                    print(json.dumps(dict(native_rx_event_controls=len(rx_event_controls), passed=True)), flush=True)
                 cold.append(dict(header=header, api=api, value=value, output=output.value,
                                  packet_claims=h.get32(packet_state + 16),
                                  page_claims=h.get32(page_state + 16),
@@ -454,7 +469,20 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 assert sender.npu_host_register_writes() == 6
                 assert sender.npu_host_txdesc(send) == 0 and not failures, failures
                 assert sender.npu_host_register_writes() == 2
-                assert [(row['header'], row['api'], row['value']) for row in cold] == sequence
+                if rx_event:
+                    declined = []
+                    @peer_type
+                    def rx_send(header, api, value, output):
+                        if (header, api, value) == (0x1a, 1, 512):
+                            declined.append([header, api, value])
+                            return -95
+                        return send(header, api, value, output)
+                    sender.npu_host_rx_event.argtypes = [ctypes.c_uint64, peer_type]
+                    assert sender.npu_host_rx_event(h.get32(cold_state + 368), rx_send) == -95 and not failures, failures
+                    assert declined == [[0x1a, 1, 512]]
+                    cold.append(dict(actual_rx_event_sender=True, next_desc10=declined,
+                                     desc10_rejection_modeled=True, full_setup=False))
+                assert [(row['header'], row['api'], row['value']) for row in cold if 'header' in row] == sequence
             else:
                 for command in sequence:
                     if descriptor_failure and command[:2] == (0x30 | descriptor_fault_selector,4):
@@ -465,8 +493,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             expected_leases = ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
                              [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15 + [1] if tx_failure else
                              [1, 0] * 17 + [1] if token_failure else
-                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * 32)
-            expected_leases[4:4] = [1, 0] * NATIVE_TXBUF_RECORDS
+                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * (32 + int(rx_event)))
+            expected_leases[4:4] = [1, 0] * (NATIVE_TXBUF_RECORDS + int(rx_event))
             assert leases == expected_leases
             assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
             assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else
@@ -493,6 +521,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 cold.append(dict(txbuf_effects=txbuf_effects, txbuf_native_controls=txbuf_controls,
                                  negative_snapshot_restores=True, production_reset=False,
                                  csr_sampling='original code and recipe boundaries during API21; native guards unchanged'))
+            if rx_event_controls:
+                cold.append(dict(rx_event_native_controls=rx_event_controls,
+                                 negative_snapshot_restores=True, production_reset=False))
             old_calls = lib.npu_test_calls()
         strict = [h.message(words) for words in ([0x10, 1, 1536], [0x12, 1, 1024], [0x1a, 1, 512])]
         assert all(row['flags'] == 3 and not row['callbacks'] for row in strict)

@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-13 - RX Enrollment/API22 Native Scope Tested
+
+RX allocation now enrolls eight mailbox handles and its actual retained ring
+before outputs; later TX allocation appends six handles. Selector0/API22 uses
+the152-byte owner and original store binding with full prior TX/descriptor/
+boot/BAR/record checks. Wire80 stays unchanged; private388/archive18/raw16/126.
+Owner487/211/seven, C166/seven, wire1320/34, world/source69/Ghidra61/REA/FIT218+78
+and all16 image groups pass. Actual allocator/caller/original RV32 passes15
+enrollment records, six API21 phases/53260 effects/76 controls and API22/30
+native controls. Eleven receipts/290 current input hashes verify.
+FIT82b1563a is unflashed; f185a731 and seven companions are preserved.
+Checkpatch has zero errors/three line-length warnings. Clean those and the
+legacy stdout14-record label before the next proof; JSON/trace correctly say15.
+Freeze consumed sources/tests during future replays.
+Authenticated DESC10/shared PKT/TXDONE/SKB and all remaining setup/lifecycle/
+physical/recovery/boot/client gates keep the full objective open. No hardware.
+Scope: `research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
+
 ## 2026-10-13 - Retained RX-Event Backing
 
 The actual 512x16 RX-event descriptor ring is provider-owned before queue address

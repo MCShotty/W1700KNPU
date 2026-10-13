@@ -1,0 +1,79 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-bind-20261013\\jev-api22-request.json",
+  "request_sha256": "32a185df13c2a618fdd1246d7f8fede7bada325bd85186fedd0cc4b179768878",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "original_ownership": {
+      "type": "choice",
+      "instructions": "Does original establish ownership of the RX ring's backing merely by storing its normalized address?",
+      "criteria": {
+        "supported": "Lifetime ownership follows from supplied original evidence",
+        "contradicted": "Evidence explicitly states the reverse",
+        "not_established": "The pointer store does not establish backing ownership"
+      }
+    },
+    "helper_success": {
+      "type": "noul",
+      "instructions": "Given original, must native_plan check sticky owner/admission failure after the original wrapper returns1 to avoid mistaking helper rejection for success?"
+    },
+    "selector_scope": {
+      "type": "noul",
+      "instructions": "Does supplied evidence establish retained ownership for API22 selectors5/6/7, allowing them all to be admitted?"
+    },
+    "retained_failure": {
+      "type": "noul",
+      "instructions": "Does native_plan retain reserved/committed effects and exposed host records after failure rather than inventing rollback or retirement?"
+    },
+    "physical_claim": {
+      "type": "choice",
+      "instructions": "Would a passing native_plan replay prove complete physical NPU acceptance?",
+      "criteria": {
+        "supported": "Full physical acceptance follows",
+        "contradicted": "Limits explicitly exclude that claim",
+        "not_established": "Insufficient evidence without explicit exclusion"
+      }
+    }
+  },
+  "elapsed_ms": 803,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "original_ownership": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.97,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.02,
+          "not_established": 0.98
+        }
+      },
+      "helper_success": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "selector_scope": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "retained_failure": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "physical_claim": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 852,
+      "output_tokens": 151
+    }
+  }
+}

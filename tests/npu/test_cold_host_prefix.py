@@ -40,7 +40,7 @@ typedef int gfp_t;
 '''
 STRUCTS = r'''
 struct mt76_queue_regs { u32 desc_base; };
-struct mt76_queue { struct mt76_queue_regs *regs; };
+struct mt76_queue { struct mt76_queue_regs *regs; u64 desc_dma; };
 struct mt76_phy { struct mt76_queue *q_tx[1]; };
 struct airoha_npu { void *dev; };
 struct airoha_ppe_dev { unsigned unused; };
@@ -129,6 +129,15 @@ int npu_host_txdesc(int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
 u32 npu_host_rxdesc_value(unsigned i) { assert(i < __MT_RXQ_MAX); return rx_regs[i].desc_base; }
 u32 npu_host_txdesc_value(unsigned i) { assert(i < 2); return tx_regs[i].desc_base; }
 unsigned npu_host_register_writes(void) { return register_writes; }
+int npu_host_rx_event(u64 ring, int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
+    struct mt7996_dev dev = {0};
+    dev.mt76.mmio.phy_addr = 0x20000000;
+    dev.mt76.q_rx[MT_RXQ_TXFREE_BAND0].desc_dma = ring;
+    peer4 = transport;
+    int result = mt7996_npu_rx_event_init(&dev, &npu);
+    peer4 = NULL;
+    return result;
+}
 static unsigned getter_calls, getter_failure;
 static int getter_peer(unsigned header, unsigned api, unsigned value, u32 *output) {
     static const unsigned selectors[] = {0, 2, 10, 11, 12, 8};
@@ -216,7 +225,7 @@ def main():
     program += [q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_get_cmd')]
     program += [q.declaration(common, 'enum', name) for name in ('mt76_mcuq_id', 'mt76_rxq_id', 'mt76_band_id')]
     program += [text['mt7996/regs.h']]
-    program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE', 'MT7996_HW_TOKEN_SIZE')]
+    program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE', 'MT7996_HW_TOKEN_SIZE', 'MT7996_RX_MCU_RING_SIZE')]
     program += [STRUCTS, q.function(common, 'mt76_npu_send_msg'),
                 q.function(common, 'mt76_npu_get_msg'),
                 q.function(text['npu.c'], 'mt76_npu_init'),
@@ -224,6 +233,7 @@ def main():
                 q.function(text['mt7996/npu.c'], 'mt7996_npu_offload_init'), ENTRY]
     program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_rxd_init'))
     program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_txd_init'))
+    program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_rx_event_init'))
     source = dest / 'host.c'
     source.write_text('\n\n'.join(program) + '\n')
     command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',

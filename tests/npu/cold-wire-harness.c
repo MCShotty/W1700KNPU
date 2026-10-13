@@ -219,11 +219,19 @@ static struct npu_bootstrap_packet txbuf_command(unsigned step)
     return command;
 }
 
-static void txbuf_prefix(unsigned count)
+static void txbuf_prefix_mode(unsigned count, uint32_t ring)
 {
     uint32_t value;
 
-    dma_prefix(14);
+    dma_prefix(ring ? 8 : 14);
+    if (ring) {
+        struct npu_bootstrap_packet bind = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_RX_EVENT_API, ring};
+        check(!npu_linux_control_cold_exchange(&control, &bind, &value));
+        for (unsigned i = 8; i < 14; i++) {
+            struct npu_bootstrap_packet record = dma_record(i);
+            check(!npu_linux_control_cold_exchange(&control, &record, &value));
+        }
+    }
     for (unsigned i = 1; i < 23; i++)
         check(!npu_linux_control_cold_exchange(&control, &commands[i], &value));
     for (unsigned i = 0; i < count; i++) {
@@ -235,6 +243,132 @@ static void txbuf_prefix(unsigned count)
     if (count == 3)
         check(!npu_linux_control_cold_exchange(&control, &commands[23], &value));
     check(control.txbuf_steps == count && setup.txbuf_steps == count);
+}
+
+static void txbuf_prefix(unsigned count)
+{
+    txbuf_prefix_mode(count, 0);
+}
+
+static unsigned rx_wire_cases;
+
+static void rx_event_suite(void)
+{
+    const uint32_t ring = 0x97000000;
+    uint32_t output;
+    for (unsigned alias = 0; alias < 3; alias++) {
+        uint32_t addr = 0x17000000 + alias * 0x40000000;
+        txbuf_prefix_mode(6, addr);
+        struct npu_bootstrap_packet command = {0x10, 22, addr};
+        check(!npu_linux_control_cold_exchange(&control, &command, &output) && output == addr);
+        check(setup.rx_event == addr && control.rx_event == addr &&
+              setup.rx_event_steps == 1 && control.rx_event_steps == 1 &&
+              !setup.inflight && !admission.active && setup.txbuf_enrolled == 14);
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01);
+        rx_wire_cases++;
+    }
+    for (unsigned count = 0; count <= 14; count++) {
+        if (count == 8) continue;
+        dma_prefix(count);
+        struct npu_bootstrap_packet bind = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_RX_EVENT_API, ring};
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &bind, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01 && !setup.rx_event);
+        rx_wire_cases++;
+    }
+    for (unsigned after = 0; after < 2; after++) {
+        dma_prefix(8);
+        struct npu_bootstrap_packet bind = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_RX_EVENT_API, ring};
+        transport_error = -ETIMEDOUT; after_effect = after;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &bind, &output) == -ETIMEDOUT &&
+              output == 0xabcdef01 && setup.rx_event == (after ? ring : 0) && !control.rx_event);
+        rx_wire_cases++;
+        txbuf_prefix_mode(6, ring);
+        struct npu_bootstrap_packet command = {0x10, 22, ring};
+        transport_error = -ETIMEDOUT; after_effect = after;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -ETIMEDOUT &&
+              output == 0xabcdef01 && setup.rx_event_steps == after && !control.rx_event_steps);
+        rx_wire_cases++;
+    }
+    for (unsigned step = 0; step < 6; step++) {
+        txbuf_prefix_mode(step, ring);
+        struct npu_bootstrap_packet command = {0x10, 22, ring};
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01 && !setup.rx_event_steps);
+        rx_wire_cases++;
+    }
+    for (unsigned field = 0; field < 20; field++) {
+        txbuf_prefix_mode(6, ring);
+        struct npu_bootstrap_packet command = {0x10, 22, ring};
+        corrupt = 1; corrupt_word = field; output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.rx_event_steps == 1 && !control.rx_event_steps);
+        rx_wire_cases++;
+    }
+    for (unsigned field = 0; field < 7; field++) {
+        txbuf_prefix_mode(6, ring);
+        struct npu_bootstrap_packet command = {0x10, 22, ring};
+        struct npu_cold_packet p;
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &command));
+        check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
+        if (field == 0) setup.rx_event ^= 16;
+        if (field == 1) setup.prior_rx_event ^= 16;
+        if (field == 2) setup.pending_rx_event ^= 16;
+        if (field == 3) setup.rx_event_steps++;
+        if (field == 4) setup.prior_rx_event_steps++;
+        if (field == 5) setup.txbuf.host[0] ^= 256;
+        if (field == 6) setup.txbuf_enrolled--;
+        check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &command) == NPU_COLD_CALLBACK_FAILED);
+        check(setup.failed && setup.inflight && admission.active);
+        rx_wire_cases++;
+    }
+    for (unsigned field = 0; field < 5; field++) {
+        txbuf_prefix_mode(6, ring);
+        struct npu_bootstrap_packet command = {0x10, 22, ring};
+        if (field == 0) command.value ^= 16;
+        else command.header = 0x10 | (field == 1 ? 5 : field == 2 ? 6 : field == 3 ? 7 : 15);
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              output == 0xabcdef01 && !setup.rx_event_steps);
+        rx_wire_cases++;
+    }
+    for (unsigned field = 0; field < 5; field++) {
+        dma_prefix(8);
+        struct npu_bootstrap_packet bind = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_RX_EVENT_API, ring};
+        struct npu_cold_packet p;
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &bind));
+        check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
+        if (field == 0) setup.rx_event = ring;
+        if (field == 1) setup.prior_rx_event = ring;
+        if (field == 2) setup.pending_rx_event ^= 16;
+        if (field == 3) setup.rx_event_steps++;
+        if (field == 4) setup.prior_rx_event_steps++;
+        check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &bind) == NPU_COLD_CALLBACK_FAILED);
+        check(setup.failed && setup.inflight && admission.active);
+        rx_wire_cases++;
+    }
+    for (unsigned index = 0; index < 6; index++) {
+        dma_prefix(8);
+        struct npu_bootstrap_packet record = dma_record(8 + index);
+        struct npu_bootstrap_packet bind = {NPU_COLD_BIND_HEADER, NPU_COLD_BIND_RX_EVENT_API, record.value};
+        check(!npu_linux_control_cold_exchange(&control, &bind, &output));
+        for (unsigned i = 8; i < 8 + index; i++) {
+            struct npu_bootstrap_packet prior = dma_record(i);
+            check(!npu_linux_control_cold_exchange(&control, &prior, &output));
+        }
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &record, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.txbuf_enrolled == 8 + index &&
+              setup.rx_event == bind.value && !setup.rx_event_steps);
+        rx_wire_cases++;
+    }
 }
 
 static void txbuf_suite(void)
@@ -307,6 +441,7 @@ int main(void)
 {
     dma_enrollment_suite();
     txbuf_suite();
+    rx_event_suite();
     fresh();
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;
@@ -604,7 +739,7 @@ int main(void)
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
            "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
            "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5,"
-           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u}\n",
-           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases);
+           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u,\"rx_event_cases\":%u}\n",
+           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases, rx_wire_cases);
     return 0;
 }

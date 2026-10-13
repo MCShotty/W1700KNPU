@@ -28,6 +28,7 @@ int npu_linux_control_init(struct npu_linux_control *control,
 	control->descriptor_gets = control->descriptor_arena = 0;
 	control->txbuf_enrolled = 0;
 	control->txbuf_steps = 0;
+	control->rx_event = control->rx_event_steps = 0;
 	npu_client_v2_init(&control->client, nonce_lo, nonce_hi);
 	control->initialized = true;
 	if (!provider || control->client.base.phase == NPU_CLIENT_FAILED) {
@@ -108,6 +109,8 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 	snapshot->descriptor_arena = control->descriptor_arena;
 	snapshot->txbuf_enrolled = control->txbuf_enrolled;
 	snapshot->txbuf_steps = control->txbuf_steps;
+	snapshot->rx_event = control->rx_event;
+	snapshot->rx_event_steps = control->rx_event_steps;
 	snapshot->error = control->error;
 	snapshot->closed = control->closed;
 	mutex_unlock(&control->mutex);
@@ -121,7 +124,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	struct npu_bootstrap_packet snapshot;
 	struct npu_cold_packet packet;
 	enum npu_client_result result;
-	u32 ticket, output, descriptor, arena, enrollment, txbuf;
+	u32 ticket, output, descriptor, arena, enrollment, txbuf, rx_bind, rx_command;
 	int error;
 
 	if (!control || !control->initialized || !command || !value)
@@ -137,9 +140,18 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	}
 	snapshot = *command;
 	enrollment = npu_cold_txbuf_enrollment_step(&snapshot);
+	rx_bind = npu_cold_rx_event_enrollment(&snapshot);
+	rx_command = npu_cold_rx_event_command(&snapshot);
 	if ((enrollment < NPU_COLD_TXBUF_RECORDS && enrollment != control->txbuf_enrolled) ||
 	    (control->txbuf_enrolled && control->txbuf_enrolled < NPU_COLD_TXBUF_RECORDS &&
-	     enrollment == NPU_COLD_TXBUF_RECORDS)) {
+	     enrollment == NPU_COLD_TXBUF_RECORDS && !rx_bind) ||
+	    (rx_bind && (control->rx_event || control->rx_event_steps ||
+	     control->txbuf_enrolled != NPU_COLD_TXBUF_MAILBOXES ||
+	     control->descriptor_gets || control->descriptor_arena || control->txbuf_steps)) ||
+	    (rx_command && (!control->rx_event || control->rx_event_steps ||
+	     snapshot.value != control->rx_event || control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
+	     control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+	     control->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS))) {
 		error = hold(control, -EPROTO);
 		goto unlock;
 	}
@@ -173,6 +185,10 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 			control->txbuf_enrolled++;
 		if (txbuf < NPU_COLD_TXBUF_STEPS)
 			control->txbuf_steps++;
+		if (rx_bind)
+			control->rx_event = snapshot.value;
+		if (rx_command)
+			control->rx_event_steps++;
 		if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
 			arena = npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena);
 			if (!arena) {

@@ -121,7 +121,7 @@ def main():
             'permit-native-plan-overlap':('if (base < other + priv->native_plan[i][1] && other < base + bytes)','if (false)'),
             'omit-endpoint-identity':('!life->endpoint_bound || life->endpoint != endpoint ||','!life->endpoint_bound || false ||'),
             'omit-record-recheck':('life->tx_buffers[i].addr != captured[i].addr ||','false ||'),
-            'omit-native-enrollment':('for (i = 0; i < NPU_COLD_TXBUF_RECORDS; i++) {','for (i = NPU_COLD_TXBUF_RECORDS; i < NPU_COLD_TXBUF_RECORDS; i++) {'),
+            'omit-native-enrollment':('for (i = rx_published ? NPU_COLD_TXBUF_MAILBOXES : 0; i < NPU_COLD_TXBUF_RECORDS; i++) {','for (i = NPU_COLD_TXBUF_RECORDS; i < NPU_COLD_TXBUF_RECORDS; i++) {'),
             'skip-late-mailbox-address':('life->buffers[i].addr != mailboxes[i].addr','false'),
         }
         original=inc.read_text()

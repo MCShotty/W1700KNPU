@@ -130,6 +130,40 @@ static int completed_spans(uint32_t completed)
     return 1;
 }
 
+int npu_emulation_txbuf_prior_live(void)
+{
+    struct npu_cold_txbuf_plan current;
+    uint32_t i, status;
+
+    __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
+    npu_cold_txbuf_plan_copy(&current, &SETUP->txbuf);
+    current.arena = SETUP->descriptor_arena;
+    if (status & 8 || lock_owned || phase != NPU_COLD_TXBUF_STEPS - 1 ||
+        !npu_emulation_descriptor_prior_live(8) ||
+        SETUP->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
+        SETUP->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+        SETUP->prior_txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+        !npu_cold_txbuf_plan_valid(&current) ||
+        !npu_cold_txbuf_plan_equal(&current, &plan) ||
+        !npu_cold_txbuf_plan_equal(&OWNER->plan, &plan) ||
+        OWNER->magic != NPU_COLD_TXBUF_MAGIC || OWNER->epoch != 1 ||
+        OWNER->fault || OWNER->active || OWNER->next != NPU_COLD_TXBUF_STEPS ||
+        OWNER->completed != 63 || OWNER->reserved != 63 ||
+        OWNER->committed != NPU_COLD_TXBUF_STORES || OWNER->published != NPU_COLD_TXBUF_STORES ||
+        OWNER->from != NPU_COLD_TXBUF_STORES || OWNER->until != NPU_COLD_TXBUF_STORES ||
+        word(0x3e9001ccu) != 0x8400fbcau ||
+        word(0x8401cf70u) != 0x100 || word(0x8401cf74u) != 0x3e8a2000u ||
+        word(0x8401cf78u) != 0x101 || word(0x8401cf7cu) != 0x3e8a4020u ||
+        word(0x3e902ab8u) != plan.boot.region[NPU_BOOT_TXPKT].base ||
+        word(0x3e9030fcu) != plan.arena)
+        return 0;
+    for (i = 0; i < NPU_BOOT_REGIONS; i++)
+        if (BOOT->plan.region[i].base != plan.boot.region[i].base ||
+            BOOT->plan.region[i].bytes != plan.boot.region[i].bytes)
+            return 0;
+    return descriptor_spans() && completed_spans(NPU_COLD_TXBUF_STEPS);
+}
+
 static int read_metadata(void)
 {
     struct npu_cold_txbuf_store store;

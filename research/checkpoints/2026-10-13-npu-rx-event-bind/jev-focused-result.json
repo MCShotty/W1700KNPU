@@ -1,0 +1,44 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-rx-event-bind-20261013\\jev-focused-request.json",
+  "request_sha256": "34c01d201854bd3361c33e772777db1e6358a59bdd8e83d213c6c8176e65007d",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "observed_api22": {
+      "type": "choice",
+      "instructions": "Does this evidence support ONLY the claim that the tested actual-C/original-RV32 API22 command completed its retained metadata store and that the specified native fault cases rejected success while retaining progress? Do not interpret this as physical or full-setup qualification.",
+      "criteria": {
+        "supported": "The exact scoped test claim is established by the passing result and executed assertions",
+        "contradicted": "The evidence explicitly conflicts with that scoped claim",
+        "not_established": "The evidence lacks a material part of that scoped claim"
+      }
+    },
+    "desc10_scope": {
+      "type": "noul",
+      "instructions": "Must the report continue to distinguish the modeled DESC10 rejection from an executed authenticated DESC10 initializer?"
+    }
+  },
+  "elapsed_ms": 2015,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "observed_api22": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.94,
+        "probabilities": {
+          "supported": 0.96,
+          "contradicted": 0.02,
+          "not_established": 0.02
+        }
+      },
+      "desc10_scope": {
+        "type": "noul",
+        "noul": 0.69
+      }
+    },
+    "usage": {
+      "input_tokens": 711,
+      "output_tokens": 70
+    }
+  }
+}

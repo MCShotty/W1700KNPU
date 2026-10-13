@@ -1,0 +1,274 @@
+{
+  "evidence_id": "ev_dc2ab6181b81dff463f1550092df022a11746ed6c42ad2c6769f4dcc310654a1",
+  "subject": {
+    "architecture": "arm64",
+    "digest": {
+      "sha256": "f163e26ed76787f8479243f4f93db84e9f44e4a73517c227b372d884983aba9c"
+    },
+    "format": "elf",
+    "local_path": "/home/captain/W1700KNPU/.build/merged-openwrt/build_dir/target-aarch64_cortex-a53_musl/root-airoha/lib/modules/6.18.52/airoha_npu.ko",
+    "name": "airoha_npu.ko"
+  },
+  "provider": {
+    "id": "ghidra",
+    "name": "Ghidra",
+    "version": "12.1.2"
+  },
+  "analysis_profile": {
+    "digest": "5897630f24f23d397cfd5037d6002bc01d4aae4d892ca1ea9d09f578c9dadd09",
+    "parameters": {
+      "analyzer_preset": "ghidra-default",
+      "annotation_policy": "atomic-function-entry-metadata-v1",
+      "architecture": "arm64",
+      "available_architectures": [
+        "arm64"
+      ],
+      "compiler_spec_id": "auto-default",
+      "decompiler_jump_loads": true,
+      "function_body_evidence": "complete-inclusive-ranges-v1",
+      "function_boundary_observations": "ghidra-terminal-call-limitations-v1",
+      "function_references": "complete-body-and-entry-reference-manager-v2",
+      "import_mode": "ephemeral-source-immutable",
+      "instruction_flow_evidence": "decoded-return-pcode-v1",
+      "jump_table_evidence": "typed-case-default-blocks-v1",
+      "language_id": "auto-from-header",
+      "load_image_observations": "source-mappings-entry-context-v2",
+      "loader": "auto-from-header",
+      "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+      "no_return_repair": "returning-imports-decoded-return-v2",
+      "process_launch": "inspected-jvm-launch-support-v1",
+      "string_inventory_evidence": "defined-data-coverage-v1",
+      "target_format": "elf",
+      "target_kind": "executable"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.2"
+    }
+  },
+  "authority": "shipped-artifact",
+  "confidence": "observed",
+  "environment": null,
+  "limitations": [
+    "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+    "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+    "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+    "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+    "References cover the complete Ghidra function-body AddressSet and exact entry. Dossier incoming edges omit sources owned by that function; procedure_references also retains those internal edges.",
+    "The dossier combines Ghidra FunctionManager, Listing, ReferenceManager, BasicBlockModel, and decompiler observations; provider-specific pseudocode and assembly are not cross-provider text invariants.",
+    "Resolved reference metadata identifies computed, indirect, external, call, jump, and data edges; unresolved targetless flows remain unknown, and function classifications distinguish thunks and externals.",
+    "Synthetic Ghidra entry-point references without actionable memory sources are omitted.",
+    "The Java bridge serializes one function request per Program and lets each decompilation run until it completes or the caller cancels.",
+    "This session uses Ghidra 12.1.2. The bridge is verified against 12.1.4; other 12.1.x builds are accepted and the observed version is reported."
+  ],
+  "locations": [],
+  "normalized_result": {
+    "procedure": {
+      "address": "0x103968",
+      "body": {
+        "available": true,
+        "contains_entry": true,
+        "non_contiguous": false,
+        "provenance": "ghidra-function-body-address-set",
+        "ranges": [
+          {
+            "end": "0x103adb",
+            "start": "0x103968"
+          }
+        ],
+        "span_bytes": 372,
+        "total_bytes": 372
+      },
+      "classification": {
+        "external": false,
+        "provenance": "ghidra-function-manager",
+        "thunk": false,
+        "thunk_target": null
+      },
+      "locals": [
+        {
+          "description": "undefined8 local_10 @ Stack[-0x10]:8",
+          "provenance": "ghidra-function-database"
+        }
+      ],
+      "name": "airoha_npu_wlan_msg_send_session",
+      "signature": "undefined airoha_npu_wlan_msg_send_session()"
+    },
+    "pseudocode": "\nundefined8\nairoha_npu_wlan_msg_send_session\n          (long param_1,ulong param_2,int param_3,undefined8 param_4,undefined4 param_5)\n\n{\n  undefined8 uVar1;\n  uint uVar2;\n  \n  if ((*(byte *)(param_1 + 0x47a) & 1) == 0) goto LAB_00103988;\n  uVar2 = (uint)param_2;\n  if (param_3 == 0x15) {\n    if (0xf < uVar2) {\n      return 0xffffffea;\n    }\n    if (((((uVar2 != 0) && (uVar2 != 5)) && (uVar2 != 10)) && ((uVar2 != 2 && (uVar2 != 7)))) &&\n       (uVar2 != 0xc)) {\n      return 0xffffffea;\n    }\n    uVar1 = FUN_001008a0(param_1,uVar2 | 0x10,0x15,param_4,param_5);\n    return uVar1;\n  }\n  if (param_3 == 0x16) {\n    if (uVar2 != 0) {\n      return 0xffffffea;\n    }\n    uVar1 = FUN_001008a0(param_1,0x10);\n    return uVar1;\n  }\n  if (uVar2 == 0 && param_3 == 0xe) goto LAB_00103a04;\n  if (uVar2 < 9) {\n    if ((0x1e5UL >> (param_2 & 0x3f) & 1) != 0) {\n      if (param_3 == 1) goto LAB_00103a04;\n      if (uVar2 - 5 < 4) {\n        if ((param_3 == 0) || ((param_2 & 0xfffffffd) == 0 && param_3 == 0x13)) goto LAB_00103a04;\n      }\n      else if (((param_2 & 0xfffffffd) == 0) &&\n              ((param_3 == 0x13 || (param_3 == 0x21 && uVar2 == 0)))) goto LAB_00103a04;\n      goto LAB_00103988;\n    }\n    if ((param_2 & 0xfffffffd) != 0) {\n      if (param_3 != 0x13 || uVar2 != 3) goto LAB_00103988;\n      goto LAB_00103a04;\n    }\n  }\n  else if ((param_2 & 0xfffffffd) != 0) goto LAB_00103988;\n  if (param_3 == 0x13) {\nLAB_00103a04:\n    uVar1 = FUN_001008a0(param_1,uVar2 | 0x10,param_3,param_4,param_5);\n    return uVar1;\n  }\nLAB_00103988:\n  uVar1 = FUN_001037e8(param_1,param_2,param_3,param_4,param_5);\n  return uVar1;\n}\n\n",
+    "assembly": [
+      "0x103968: stp x29, x30, [sp, #-0x10]!",
+      "0x10396c: mov x7, x0",
+      "0x103970: mov w6, w2",
+      "0x103974: mov x29, sp",
+      "0x103978: ldrb w10, [x0, #0x47a]",
+      "0x10397c: mov x8, x3",
+      "0x103980: mov w9, w4",
+      "0x103984: tbnz w10, #0x0, 0x001039a4",
+      "0x103988: mov w4, w9",
+      "0x10398c: mov x3, x8",
+      "0x103990: mov w2, w6",
+      "0x103994: mov x0, x7",
+      "0x103998: bl 0x001037e8",
+      "0x10399c: ldp x29, x30, [sp], #0x10",
+      "0x1039a0: ret",
+      "0x1039a4: cmp w2, #0x15",
+      "0x1039a8: b.eq 0x00103a24",
+      "0x1039ac: cmp w2, #0x16",
+      "0x1039b0: b.eq 0x00103a8c",
+      "0x1039b4: cmp w1, #0x0",
+      "0x1039b8: and w3, w1, #0xfffffffd",
+      "0x1039bc: cset w2, eq",
+      "0x1039c0: cmp w2, #0x0",
+      "0x1039c4: ccmp w6, #0xe, #0x0, ne",
+      "0x1039c8: b.eq 0x00103a04",
+      "0x1039cc: cmp w1, #0x8",
+      "0x1039d0: b.hi 0x00103aa0",
+      "0x1039d4: mov x0, #0x1e5",
+      "0x1039d8: lsr x0, x0, x1",
+      "0x1039dc: tbz w0, #0x0, 0x00103a7c",
+      "0x1039e0: cmp w6, #0x1",
+      "0x1039e4: b.eq 0x00103a04",
+      "0x1039e8: sub w0, w1, #0x5",
+      "0x1039ec: cmp w0, #0x3",
+      "0x1039f0: b.hi 0x00103aa8",
+      "0x1039f4: cbz w6, 0x00103a04",
+      "0x1039f8: cmp w3, #0x0",
+      "0x1039fc: ccmp w6, #0x13, #0x0, eq",
+      "0x103a00: b.ne 0x00103988",
+      "0x103a04: mov w4, w9",
+      "0x103a08: mov x3, x8",
+      "0x103a0c: mov w2, w6",
+      "0x103a10: orr w1, w1, #0x10",
+      "0x103a14: mov x0, x7",
+      "0x103a18: bl 0x001008a0",
+      "0x103a1c: ldp x29, x30, [sp], #0x10",
+      "0x103a20: ret",
+      "0x103a24: cmp w1, #0xf",
+      "0x103a28: b.hi 0x00103ad4",
+      "0x103a2c: cbz w1, 0x00103a5c",
+      "0x103a30: cmp w1, #0x5",
+      "0x103a34: b.eq 0x00103a5c",
+      "0x103a38: cmp w1, #0xa",
+      "0x103a3c: b.eq 0x00103a5c",
+      "0x103a40: cmp w1, #0x2",
+      "0x103a44: b.eq 0x00103a5c",
+      "0x103a48: cmp w1, #0x7",
+      "0x103a4c: b.eq 0x00103a5c",
+      "0x103a50: mov w0, #0xffffffea",
+      "0x103a54: cmp w1, #0xc",
+      "0x103a58: b.ne 0x0010399c",
+      "0x103a5c: mov w4, w9",
+      "0x103a60: mov x3, x8",
+      "0x103a64: orr w1, w1, #0x10",
+      "0x103a68: mov x0, x7",
+      "0x103a6c: mov w2, #0x15",
+      "0x103a70: bl 0x001008a0",
+      "0x103a74: ldp x29, x30, [sp], #0x10",
+      "0x103a78: ret",
+      "0x103a7c: cbnz w3, 0x00103ac4",
+      "0x103a80: cmp w6, #0x13",
+      "0x103a84: b.eq 0x00103a04",
+      "0x103a88: b 0x00103988",
+      "0x103a8c: cbnz w1, 0x00103ad4",
+      "0x103a90: mov w1, #0x10",
+      "0x103a94: bl 0x001008a0",
+      "0x103a98: ldp x29, x30, [sp], #0x10",
+      "0x103a9c: ret",
+      "0x103aa0: cbz w3, 0x00103a80",
+      "0x103aa4: b 0x00103988",
+      "0x103aa8: cbnz w3, 0x00103988",
+      "0x103aac: cmp w6, #0x13",
+      "0x103ab0: b.eq 0x00103a04",
+      "0x103ab4: cmp w6, #0x21",
+      "0x103ab8: ccmp w2, #0x0, #0x4, eq",
+      "0x103abc: b.ne 0x00103a04",
+      "0x103ac0: b 0x00103988",
+      "0x103ac4: cmp w6, #0x13",
+      "0x103ac8: ccmp w1, #0x3, #0x0, eq",
+      "0x103acc: b.ne 0x00103988",
+      "0x103ad0: b 0x00103a04",
+      "0x103ad4: mov w0, #0xffffffea",
+      "0x103ad8: b 0x0010399c"
+    ],
+    "callees": [
+      {
+        "address": "0x1008a0",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x100a4b",
+              "start": "0x1008a0"
+            }
+          ],
+          "span_bytes": 428,
+          "total_bytes": 428
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "FUN_001008a0"
+      },
+      {
+        "address": "0x1037e8",
+        "body": {
+          "available": true,
+          "contains_entry": true,
+          "non_contiguous": false,
+          "provenance": "ghidra-function-body-address-set",
+          "ranges": [
+            {
+              "end": "0x103967",
+              "start": "0x1037e8"
+            }
+          ],
+          "span_bytes": 384,
+          "total_bytes": 384
+        },
+        "classification": {
+          "external": false,
+          "provenance": "ghidra-function-manager",
+          "thunk": false,
+          "thunk_target": null
+        },
+        "name": "FUN_001037e8"
+      }
+    ],
+    "callers": [],
+    "limitations": [
+      "Unresolved computed or indirect flows without target addresses are not represented as reference edges.",
+      "Thunk and external classifications are Ghidra FunctionManager observations; they do not resolve targetless calls.",
+      "Pseudocode and assembly are Ghidra-specific representations, not original source or Hopper-equivalent text.",
+      "Synthetic Ghidra entry-point references without actionable memory sources are omitted."
+    ]
+  },
+  "value_flow_limits": {
+    "available": true,
+    "truncated": false,
+    "limitations": [
+      "High p-code is decompiler-derived, not original source or runtime behavior. is_dead preserves the Java AST flag; decoded block members can retain that flag, so block_membership separately reports actual syntax-tree membership.",
+      "Def-use links do not cross function boundaries and may omit memory aliasing, call side effects, or unresolved indirect flow.",
+      "Memory read/write effects include stack and temporary memory operations; they do not identify persistent state or business meaning.",
+      "Operation, input, and def-use limits can truncate large functions; inspect truncation, omitted lower bounds, and known omitted counts before drawing conclusions.",
+      "Known omitted-edge counts cover links omitted from retained operations; omitted operations may contain additional uncounted links."
+    ],
+    "known_omitted_edges": 0,
+    "known_omitted_inputs": 0,
+    "omitted_operations_lower_bound": 0
+  },
+  "local_complete_bundle": {
+    "path": ".local/npu-rx-event-bind-20261013/rea-provider.json",
+    "sha256": "c0e6572d5e8ac7d81084378d8ed367fc4d46491767cb02abc01c5de7fa2c2c43"
+  },
+  "local_snapshot": {
+    "path": ".local/npu-rx-event-bind-20261013/rea-provider-snapshot.json",
+    "sha256": "12cf04fec0d00516b63aadb89488e31404f1a53edca645a13a1f3c7058661d7b"
+  }
+}

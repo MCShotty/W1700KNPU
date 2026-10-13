@@ -1,0 +1,21 @@
+WARNING: line length of 104 exceeds 100 columns
+#76: FILE: drivers/net/ethernet/airoha/airoha_npu.c:1233:
++		    life->rx_published || life->rx_serial || life->tx_attempted || life->tx_published ||
+
+WARNING: line length of 101 exceeds 100 columns
+#80: FILE: drivers/net/ethernet/airoha/airoha_npu.c:1237:
++		    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
+
+WARNING: line length of 101 exceeds 100 columns
+#103: FILE: drivers/net/ethernet/airoha/airoha_npu.c:1260:
++			err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
+
+total: 0 errors, 3 warnings, 0 checks, 177 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+/home/captain/W1700KNPU/.local/npu-rx-event-bind-20261013/source-delta-q1.patch has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.

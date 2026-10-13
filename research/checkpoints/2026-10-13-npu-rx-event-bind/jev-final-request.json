@@ -1,0 +1,16 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "receipts": "Current-input verification passes11 receipts/290 hashes. Actual provider allocator/client and mt7996 caller execute with original raw RV32 peer: one8192-byte RX allocation, six TX allocations,15 mailbox/RX/TX enrollment records, six API21 phases/53260 effects/76 controls, selector0/API22 exact metadata effect/30 native controls. DMA/device references/delivery/scheduling are modeled. Physical backing/exclusion/coherency/drains/router/client operation remain unproved.",
+    "caller_boundary": "The actual mt7996 RX-event sender calls the qualified API22 transport. Its next DESC10 request(1a,1,512) receives -95 from an explicitly modeled test stub. That does not execute DESC10 or prove its production readiness. Existing later TXDONE compatibility test uses a declared modeled lease/ring metadata.",
+    "style": "Checkpatch reports zero errors,three line-length warnings,zero checks in177 checked lines. Functional checks pass; this is not a zero-warning strict-style result.",
+    "docs_claim": "This closes the selected software RX enrollment/API22 scope, not full NPU implementation. DESC10/shared PKT/TXDONE/SKB, remaining PCIe/INODE/IRQ, owners/hot/lifecycle/physical/recovery/boot/clients remain. Latest image82b1563a is unflashed. Full goal stays active."
+  },
+  "questions": {
+    "software_claim": {"type":"choice","instructions":"Does receipts support the claim that selected actual-C/original-native software RX enrollment and selector0/API22 metadata binding were qualified within the stated model scope?","criteria":{"supported":"Entire scoped software claim follows","contradicted":"Evidence explicitly conflicts","not_established":"Material scoped requirement lacks evidence"}},
+    "hardware_claim": {"type":"choice","instructions":"Does receipts establish physical DMA ownership/drains and successful router/client operation?","criteria":{"supported":"Physical and client execution observed","contradicted":"Limits explicitly exclude that conclusion","not_established":"Evidence is insufficient without explicit exclusion"}},
+    "desc10_claim": {"type":"choice","instructions":"Does caller_boundary establish a passing authenticated production DESC10 initializer?","criteria":{"supported":"Actual authenticated DESC10 succeeds","contradicted":"Boundary expressly says DESC10 is not executed/proven","not_established":"Insufficient evidence without explicit exclusion"}},
+    "style_claim": {"type":"choice","instructions":"Does style support describing this as a zero-warning strict-checkpatch pass?","criteria":{"supported":"No warnings remain","contradicted":"Recorded warnings conflict with zero-warning claim","not_established":"No result supplied"}},
+    "scope_disclosure": {"type":"noul","instructions":"Does docs_claim clearly preserve the full unfinished objective and disclose the unflashed image and remaining setup/physical/client requirements?"}
+  }
+}

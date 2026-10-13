@@ -1,0 +1,16 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "original": "Selector0/API22 wrapper8400fbb4 loads header/value, calls helper, then unconditionally returns1. Helper8400b5c6 saves s1 at4/sp,s0 at8/sp,ra at12/sp in16bytes; store8400b5ec writes normalized30bit ring|40000000 to3e903964. Original helper accepts zero and unaligned values; it takes no allocator lock.",
+    "host": "Actual provider owns512x16 coherent RX backing. Enroll eight mailbox handles and the actual RX handle before queue exposure, then append six retained TX handles. No failure or detach frees the exposed records.",
+    "native_plan": "Admit only selector0 after14 retained records/eight GETs/six API21 phases. Acquire original lock18, disable IRQs, pin complete cold state/boot/nonce/plan and validate earlier owners plus all53260 TX effects. Reserve exact4byte metadata preimage before original store; retain commitment before readback and require final liveness. C wrapper checks sticky failure after original wrapper returns1. No reset/rollback/retirement API.",
+    "limits": "Software/emulator evidence is not physical SRAM/DDR/DMA visibility, drain authority or router/client execution. DESC10 and remaining setup are not yet admitted."
+  },
+  "questions": {
+    "original_ownership": {"type":"choice","instructions":"Does original establish ownership of the RX ring's backing merely by storing its normalized address?","criteria":{"supported":"Lifetime ownership follows from supplied original evidence","contradicted":"Evidence explicitly states the reverse","not_established":"The pointer store does not establish backing ownership"}},
+    "helper_success": {"type":"noul","instructions":"Given original, must native_plan check sticky owner/admission failure after the original wrapper returns1 to avoid mistaking helper rejection for success?"},
+    "selector_scope": {"type":"noul","instructions":"Does supplied evidence establish retained ownership for API22 selectors5/6/7, allowing them all to be admitted?"},
+    "retained_failure": {"type":"noul","instructions":"Does native_plan retain reserved/committed effects and exposed host records after failure rather than inventing rollback or retirement?"},
+    "physical_claim": {"type":"choice","instructions":"Would a passing native_plan replay prove complete physical NPU acceptance?","criteria":{"supported":"Full physical acceptance follows","contradicted":"Limits explicitly exclude that claim","not_established":"Insufficient evidence without explicit exclusion"}}
+  }
+}

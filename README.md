@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-13 - Owned RX Enrollment And API22 Tested
+
+Normal source now enrolls eight mailbox handles and the retained RX-event ring
+before queue exposure, then appends six TX handles. Selector0/API22 is bound to
+the original metadata store under a152-byte retained owner. Raw16/126,
+archive18/private388, world, source69, Ghidra61/43 named ELF functions, REA and
+FIT218+78 checks pass. The82b1563a image is unflashed; f185a731 plus seven
+companions are preserved. Owner487/211/seven, C166/seven, wire1320/34 and all16
+assembly groups pass. Eleven receipts/290 current input hashes verify.
+
+Actual allocator/caller/original-RV32 replay passes15 enrollment records, all
+six API21 phases/53260 effects/76 controls and API22 metadata/30 native controls.
+Authenticated DESC10/shared PKT/TXDONE/SKB and remaining setup/lifecycle/
+physical/recovery/client gates remain open. Checkpatch reports zero errors and
+three line-length warnings. No hardware action or subagents. Current scope:
+`research/checkpoints/2026-10-13-npu-rx-event-bind/REPORT.md`.
+
 ## 2026-10-13 - Retained RX-Event Backing
 
 The real RX-event descriptor allocation now belongs to the retained provider

@@ -24,7 +24,7 @@ static LIST_HEAD(airoha_npu_retained_dma);
 static DEFINE_MUTEX(airoha_npu_retained_lock);
 static struct device other_device;
 static unsigned dma_calls, managed_calls, object_count, freed_buffers, freed_contexts, put_refs;
-static unsigned fail_allocation, late_mutation, mutate_after, override_cpu;
+static unsigned fail_allocation, late_mutation, mutate_after, mutate_on_call, override_cpu;
 static dma_addr_t addresses[7];
 static void *objects[7];
 static void list_add_tail(struct list_head *node,struct list_head *head) {

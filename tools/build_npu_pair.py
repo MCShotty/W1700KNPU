@@ -17,6 +17,7 @@ import test_cold_packet_native as packets
 import tx_wire_native as tx
 import descriptor_wire_native as descriptor
 import tx_buffer_wire_native as txbuf
+import rx_event_wire_native as rx_event
 import test_startup_native as startup
 import test_admission_native as admission
 from test_barrier_workers import SITES as WORKER_SITES
@@ -73,6 +74,8 @@ def hook_plan(code, components):
             put(site, component, name, length=6 if site == packets.GETTER else 4)
     for site, name in txbuf.SITES.items():
         put(site, 'cold-tx-buffer', name, length=txbuf.WIDTHS.get(site, 4))
+    for site, name in rx_event.SITES.items():
+        put(site, 'cold-rx-event', name)
     return sorted(hooks.values(), key=lambda row: row['site'])
 
 
@@ -101,8 +104,12 @@ def build(destination, *, firmware_directory=None):
     txbuf_dir = destination / 'tx-buffer'
     txbuf_dir.mkdir()
     txbuf_path = txbuf.build(txbuf_dir, parts, descriptor_path)
+    rx_event_dir = destination / 'rx-event'
+    rx_event_dir.mkdir()
+    rx_event_path = rx_event.build(rx_event_dir, parts, txbuf_path)
     components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path,
-                          'cold-tx': tx_path, 'cold-descriptor': descriptor_path, 'cold-tx-buffer': txbuf_path}
+                          'cold-tx': tx_path, 'cold-descriptor': descriptor_path, 'cold-tx-buffer': txbuf_path,
+                          'cold-rx-event': rx_event_path}
     layout = composition.memory_layout(components, original_code_bytes=len(original_code), negative_controls=False)
     hooks = hook_plan(original_code, components)
     edits = [dict(site=0x8401b230, before=struct.pack('<I', 58879).hex(),
