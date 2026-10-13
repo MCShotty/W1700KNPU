@@ -1,0 +1,33 @@
+Subject: [PATCH] net: airoha: wrap retained RX allocation checks
+
+Keep the existing allocation predicates and exchange arguments unchanged.
+
+---
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -1230,11 +1230,13 @@
+ 		if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
+ 		    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
+ 		    !priv->native_published || !life->rx_attempted ||
+-		    life->rx_published || life->rx_serial || life->tx_attempted || life->tx_published ||
++		    life->rx_published || life->rx_serial ||
++		    life->tx_attempted || life->tx_published ||
+ 		    life->boot_identity != priv->boot_identity ||
+ 		    life->nonce_lo != snapshot.client.base.nonce_lo ||
+ 		    life->nonce_hi != snapshot.client.base.nonce_hi ||
+-		    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
++		    life->endpoint_base != endpoint_base ||
++		    life->endpoint_bytes != endpoint_bytes ||
+ 		    life->bound_serial != bound_serial ||
+ 		    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_steps ||
+ 		    snapshot.txbuf_enrolled != (round ? NPU_COLD_TXBUF_MAILBOXES : 0) ||
+@@ -1257,7 +1259,8 @@
+ 		for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
+ 			command.api = NPU_COLD_BIND_DMA_API + i;
+ 			command.value = mailboxes[i].addr;
+-			err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++			err = npu_linux_control_cold_exchange(&priv->wlan_control,
++							      &command, &value);
+ 			if (err)
+ 				goto hold;
+ 		}

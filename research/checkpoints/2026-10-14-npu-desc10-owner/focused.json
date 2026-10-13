@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "cases": {
+    "active_RX_owner": {
+      "begin_status": 2,
+      "owner": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "ready_without_effects": {
+      "finish_status": 5,
+      "owner": [
+        826561603,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "reservation_before_store": {
+      "owner": [
+        826561603,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "logical_count": 2779096485
+    },
+    "bad_readback": {
+      "publish_status": 7,
+      "owner": [
+        826561603,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    "committed_unpublished_claim": {
+      "take_status": 7,
+      "claims": [
+        1,
+        1,
+        0
+      ],
+      "shared_count": 2561
+    }
+  },
+  "calls": 13,
+  "inputs": {
+    ".local/npu-desc10-owner-20261013/focused.py": "024fa2e7ec15babd7e56993c8c0bc83484c8f79afa46f968abc9d049e408b367",
+    "tests/npu/test_cold_txdone.py": "e9a60c43935a127c20d6c8d2733cb8d1dba59fbdf707b81372759c4926afebf4",
+    "firmware/npu/cold-txdone.c": "a440535cf2878b7fd803534b6b816e9a9ffa987a7f6a8375a857fc016d119dff",
+    "firmware/npu/cold-rx-event.c": "0ab94125e9d875ca960bc93d01397858d1a7aef06954b0e2f7e0ad3acea7b543"
+  },
+  "binaries": {
+    ".local/npu-desc10-owner-20261013/owner-q6/host.so": "5aa6fca12d9664fd400ef4f16468cc95fab18ebca6becdfb7d36aede08d0b58e",
+    ".local/npu-desc10-owner-20261013/owner-q6/owner.elf": "d7435eed554973c3a3e47afac2468f94e43f8646d62d234b9eb9a7198a847c61"
+  },
+  "limits": [
+    "Focused portable compiled-C/RV32 counterexamples, not original native execution or hardware."
+  ]
+}

@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-13 (RX enrollment/API22 C/RV32 scope passes; full goal open)
+Last updated: 2026-10-14 (portable DESC10 owner tested; native/full/physical open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-14 - Portable DESC10 Owner Tested
+
+- Added the13512-byte one-shot owner and136-byte plan to the normal19-object
+  Makefile. Finished RX/API22 ownership and the shared PKT bitmap precede512
+  additional claims and25606 ordered logical metadata/descriptor/SKB/ready
+  effects. Reserve precedes writes; failed commitment/publication is retained.
+- Exact normal-object host-C/RV32 scope passes3656 compared entry calls,3541
+  controls, eight mutants, ASan/UBSan/leak and independent whole logical memory/
+  event-order checks. Five receipts/210 current input hashes, source69,
+  byte-identical independent raw builds and all16 image groups verify.
+- Corrected the three provider line-length warnings and stdout14/15-record
+  count. Exact reverse cleanup reproduces sealed prior source; strict source
+  checkpatch without signoff checks reports zero errors/warnings/checks.
+- Raw16/126/private388 and CODE/DATA are unchanged; the new owner is not yet
+  instantiated/bound to the native dispatcher. DESC10 remains denied. No new
+  world/provider/Ghidra/full native or hardware acceptance is claimed.
+  FIT82b1563a stays unflashed. Full integration/lifecycle/physical/recovery/
+  boot/client requirements remain open. No hardware action or subagents.
+  Scope: `research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md`.
 
 ## 2026-10-13 - RX Enrollment And API22 Native Scope Tested
 

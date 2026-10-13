@@ -127,7 +127,8 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
                 'Original API21 instructions are guarded by retained store ownership; physical buffer consumption is not established.',
                 'Fixture-only frees after assertions are not production retirement. No physical exclusion/coherency/drain or hardware/client acceptance.'])
     (destination/'result.json').write_text(json.dumps(result,indent=2)+'\n')
-    print(json.dumps(dict(passed=True,tx_allocations=6,native_status=True,native_enrollment_records=14)))
+    print(json.dumps(dict(passed=True,tx_allocations=6,native_status=True,
+                          native_enrollment_records=14+int(args.rx_event))))
 
 
 if __name__=='__main__':main()

@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "calls": 487,
+  "successes": 12,
+  "controls": 211,
+  "inputs": {
+    "firmware/npu/cold-rx-event.c": "0ab94125e9d875ca960bc93d01397858d1a7aef06954b0e2f7e0ad3acea7b543",
+    "firmware/npu/cold-rx-event.h": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b",
+    "firmware/npu/cold-tx-buffer.c": "2657742489291bcc24f3434f7dfe3745b43fb7327b3679c9796767087914ba18",
+    "firmware/npu/cold-tx-buffer.h": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "tests/npu/test_cold_rx_event.py": "00d0245d560e3372cf4d11be7bf6446aabe4713d340b678e773169ea4a3fc06b",
+    "tests/npu/cold-rx-event-probe.ld": "1aa8a197f1519c51ccee166136c0cb21b7223fbaf8513d27522fe79e3d8a3975",
+    "tests/npu/cold-rx-event-sanitize.c": "4cb52f34b0e27f1bab1f4485b5d134f3faba021e9bae21b66ceb85e96866f80a",
+    "tests/npu/test_cold_tx_buffer.py": "4dc51a892d8163659e4c4fa745a3878a5eaacd06ca00d081b3a1dca136bebc95",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    ".local/npu-desc10-owner-20261013/core/cold-rx-event.o": "7e4912099000a1742c6cf91077275454d0b585f6c765f3b9ce5f76bc60f9e82a"
+  },
+  "mutants": [
+    {
+      "name": "ignore-TX-overlap",
+      "host_sha256": "cbfc471961398542698f42e3499ffae73c4cc35172104a45e7e9d6a16d43e0f5",
+      "rv_sha256": "8167c636bee461e22c24ece8b6398da4200b258e80a519313974773a1e50a999"
+    },
+    {
+      "name": "ignore-owner-plan",
+      "host_sha256": "284f48624511ff6384d70a8f2b384b8a1a4391d2750e936fee79117eb81f8ee1",
+      "rv_sha256": "7a9f44923673e1f22ae597e362286370b6692e36ad817feb68cf0094969697db"
+    },
+    {
+      "name": "ignore-reserve-preimage",
+      "host_sha256": "da0e97503590269a6d8990af8e37f78b2bd3c62bc90b2f1563d1a11700766485",
+      "rv_sha256": "66bdeac47823d63a0a07d153a172ee6427e388c24f964991eb191e9266a0b9a9"
+    },
+    {
+      "name": "ignore-reserve-address",
+      "host_sha256": "57f97444d97145be5fd95c3cdb08df0cdd0ef5ce63e4b7a15cd2691ed5cf1b1b",
+      "rv_sha256": "5b9684a246dbc88d1ec3ef2f1191ef8075c4e4b172b5387ca2fc887e6f7be522"
+    },
+    {
+      "name": "ignore-readback",
+      "host_sha256": "2bf6f73f2deb101d7b2d05df49349af454652f0e3ee8cbf87b2c3831cf55e387",
+      "rv_sha256": "3eac164084b3218a48c3577823e553e4a619b32563bc302f394cb399b24499ab"
+    },
+    {
+      "name": "omit-retained-commit",
+      "host_sha256": "2e50b94168db904e9f0be9d0b3deab5a91242e31cbd27d5b4bbb4edaaf3f09ce",
+      "rv_sha256": "b04b96eb25d2884cc02a0c4ed211179c4d5b549e4e0896e8043270d1edc55d68"
+    },
+    {
+      "name": "allow-reinitialize",
+      "host_sha256": "c5c34dd281558262ea31fd9acb4af96b54d052fc447f61f9ae20aef934a6abaf",
+      "rv_sha256": "15c4c16654af44f2bdc4d932688f5397552f2cbfc5e3bdbe6b3f427a12bbb736"
+    }
+  ],
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "exact_core_object": ".local/npu-desc10-owner-20261013/core/cold-rx-event.o",
+  "binaries": {
+    ".local/npu-rx-event-bind-20261013/desc10-regression-q1/host.so": "4bdb40c06b2dfa9dec88afba8490ac0c577c3b926ea604b76e55f4988a1cfa6b",
+    ".local/npu-rx-event-bind-20261013/desc10-regression-q1/owner.elf": "e9a360d1af11765704e94801f73d88a7d41ea5280f52cd19c2584729cd8e7da6",
+    ".local/npu-rx-event-bind-20261013/desc10-regression-q1/sanitize": "70a9a1a0354603d7ba9644c154b4aeab4422234d1351a414b5989b28cee49644"
+  },
+  "limits": [
+    "Exact host-C/RV32 returns and complete 152-byte owner state; plan/spans/preimages are modeled.",
+    "This does not bind original API22 stores, authorize physical DMA/drains or establish full setup."
+  ]
+}

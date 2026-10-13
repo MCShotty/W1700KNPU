@@ -1,0 +1,134 @@
+{
+  "original_code_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "instructions": [
+    {
+      "address": "0x8400b530",
+      "role": "count metadata",
+      "bytes": "23988754",
+      "mnemonic": "sh",
+      "operands": "s0, 0x550(a5)"
+    },
+    {
+      "address": "0x8400b53c",
+      "role": "typed ID-pool pointer",
+      "bytes": "23aea77a",
+      "mnemonic": "sw",
+      "operands": "a0, 0x7bc(a5)"
+    },
+    {
+      "address": "0x8400b4b6",
+      "role": "descriptor field4 clear",
+      "bytes": "23220700",
+      "mnemonic": "sw",
+      "operands": "zero, 4(a4)"
+    },
+    {
+      "address": "0x8400b4ba",
+      "role": "descriptor packet pointer",
+      "bytes": "1cc3",
+      "mnemonic": "c.sw",
+      "operands": "a5, 0(a4)"
+    },
+    {
+      "address": "0x8400b4bc",
+      "role": "descriptor field8 clear",
+      "bytes": "23240700",
+      "mnemonic": "sw",
+      "operands": "zero, 8(a4)"
+    },
+    {
+      "address": "0x8400b4c0",
+      "role": "descriptor field12 clear",
+      "bytes": "23260700",
+      "mnemonic": "sw",
+      "operands": "zero, 0xc(a4)"
+    },
+    {
+      "address": "0x8400b4ce",
+      "role": "descriptor field4 status",
+      "bytes": "44c3",
+      "mnemonic": "c.sw",
+      "operands": "s1, 4(a4)"
+    },
+    {
+      "address": "0x8400b4d6",
+      "role": "software packet ID",
+      "bytes": "2310ac00",
+      "mnemonic": "sh",
+      "operands": "a0, 0(s8)"
+    },
+    {
+      "address": "0x84004a62",
+      "role": "temporary sentinel",
+      "bytes": "2390d700",
+      "mnemonic": "sh",
+      "operands": "a3, 0(a5)"
+    },
+    {
+      "address": "0x84009b04",
+      "role": "temporary occupied ID",
+      "bytes": "2310f700",
+      "mnemonic": "sh",
+      "operands": "a5, 0(a4)"
+    },
+    {
+      "address": "0x84004aac",
+      "role": "SKB state clear",
+      "bytes": "23900700",
+      "mnemonic": "sh",
+      "operands": "zero, 0(a5)"
+    },
+    {
+      "address": "0x84004ad2",
+      "role": "SKB occupied marker",
+      "bytes": "2390b700",
+      "mnemonic": "sh",
+      "operands": "a1, 0(a5)"
+    },
+    {
+      "address": "0x84004afa",
+      "role": "SKB occupied queue ID",
+      "bytes": "2310f300",
+      "mnemonic": "sh",
+      "operands": "a5, 0(t1)"
+    },
+    {
+      "address": "0x84004b32",
+      "role": "SKB free queue ID",
+      "bytes": "2310d300",
+      "mnemonic": "sh",
+      "operands": "a3, 0(t1)"
+    },
+    {
+      "address": "0x84004b5c",
+      "role": "SKB head",
+      "bytes": "239e4705",
+      "mnemonic": "sh",
+      "operands": "s4, 0x5c(a5)"
+    },
+    {
+      "address": "0x84004b60",
+      "role": "SKB tail",
+      "bytes": "2396017e",
+      "mnemonic": "sh",
+      "operands": "zero, 0x7ec(gp)"
+    },
+    {
+      "address": "0x8400b54a",
+      "role": "TXDONE counter clear",
+      "bytes": "23a70742",
+      "mnemonic": "sw",
+      "operands": "zero, 0x42e(a5)"
+    },
+    {
+      "address": "0x8400b558",
+      "role": "TXDONE ready byte",
+      "bytes": "2303f71a",
+      "mnemonic": "sb",
+      "operands": "a5, 0x1a6(a4)"
+    }
+  ],
+  "limits": [
+    "Static original store sites, not dynamic execution or hook installation."
+  ]
+}

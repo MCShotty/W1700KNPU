@@ -747,7 +747,7 @@ build input; compilation is not a physical drain or recovery proof.
  	wlan_data->func_type = NPU_OP_GET;
  	wlan_data->func_id = func_id;
  
-@@ -531,89 +951,894 @@
+@@ -531,89 +951,897 @@
  	return err;
  }
  
@@ -1065,11 +1065,13 @@ build input; compilation is not a physical drain or recovery proof.
 +		if (priv->dma_lifetime != life || life->dev != dma_dev || npu->dev != dma_dev ||
 +		    !life->exposed || !life->endpoint_bound || life->endpoint != endpoint ||
 +		    !priv->native_published || !life->rx_attempted ||
-+		    life->rx_published || life->rx_serial || life->tx_attempted || life->tx_published ||
++		    life->rx_published || life->rx_serial ||
++		    life->tx_attempted || life->tx_published ||
 +		    life->boot_identity != priv->boot_identity ||
 +		    life->nonce_lo != snapshot.client.base.nonce_lo ||
 +		    life->nonce_hi != snapshot.client.base.nonce_hi ||
-+		    life->endpoint_base != endpoint_base || life->endpoint_bytes != endpoint_bytes ||
++		    life->endpoint_base != endpoint_base ||
++		    life->endpoint_bytes != endpoint_bytes ||
 +		    life->bound_serial != bound_serial ||
 +		    snapshot.descriptor_gets || snapshot.descriptor_arena || snapshot.txbuf_steps ||
 +		    snapshot.txbuf_enrolled != (round ? NPU_COLD_TXBUF_MAILBOXES : 0) ||
@@ -1098,7 +1100,8 @@ build input; compilation is not a physical drain or recovery proof.
 +		for (i = 0; i < ARRAY_SIZE(mailboxes); i++) {
 +			command.api = NPU_COLD_BIND_DMA_API + i;
 +			command.value = mailboxes[i].addr;
-+			err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
++			err = npu_linux_control_cold_exchange(&priv->wlan_control,
++							      &command, &value);
 +			if (err)
 +				goto hold;
 +		}
@@ -1713,7 +1716,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -742,22 +1967,84 @@
+@@ -742,22 +1970,84 @@
  	.disable_locking	= true,
  };
  
@@ -1801,7 +1804,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,9 +2052,12 @@
+@@ -765,9 +2055,12 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -1817,7 +1820,7 @@ build input; compilation is not a physical drain or recovery proof.
  	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
  	npu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;
  	npu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;
-@@ -777,11 +2067,31 @@
+@@ -777,11 +2070,31 @@
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -1849,7 +1852,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +2103,6 @@
+@@ -793,9 +2106,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -1859,7 +1862,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +2112,6 @@
+@@ -805,8 +2115,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1868,7 +1871,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +2130,33 @@
+@@ -825,55 +2133,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  

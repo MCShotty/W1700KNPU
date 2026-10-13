@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "calls": 3656,
+  "controls": 3541,
+  "modeled_store_events": 25606,
+  "shared_packet_claims": 512,
+  "owner_bytes": 13512,
+  "phase_checkpoints": 15,
+  "inputs": {
+    "firmware/npu/cold-txdone.c": "a440535cf2878b7fd803534b6b816e9a9ffa987a7f6a8375a857fc016d119dff",
+    "firmware/npu/cold-rx-event.c": "0ab94125e9d875ca960bc93d01397858d1a7aef06954b0e2f7e0ad3acea7b543",
+    "firmware/npu/cold-tx-buffer.c": "2657742489291bcc24f3434f7dfe3745b43fb7327b3679c9796767087914ba18",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/cold-txdone.h": "4adeabf3ea24c208a827c14408a32bc383bb5c6421e7394d61fe316a002fa86a",
+    "firmware/npu/cold-tx.h": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+    "firmware/npu/cold-indication.h": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/cold-rx-event.h": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/linux-control.h": "9db3f6083a49a40f17af36e89ecffe837c610369a302b3e9510f4e73723b288b",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/cold-tx-buffer.h": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776",
+    "firmware/npu/control-client.h": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/cold-setup.h": "e99104be8af02dfb2b3ecf2895be169f4ec56f809bcfeb6a6389fa5dba10c69e",
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "tests/npu/cold-txdone-fixture.c": "fdfbd5c6518041fa50d7f751a76963de5414d69147e0cdce2eac0f523e989822",
+    "tests/npu/cold-txdone-probe.ld": "d3419b2d76737f6b8ae7eea31cfbb9498677ce2da33eab74724ecb7d258f9a3b",
+    "tests/npu/test_cold_txdone.py": "e9a60c43935a127c20d6c8d2733cb8d1dba59fbdf707b81372759c4926afebf4",
+    "tests/npu/test_cold_tx_buffer.py": "4dc51a892d8163659e4c4fa745a3878a5eaacd06ca00d081b3a1dca136bebc95",
+    "tests/npu/test_npu_firmware_loader.py": "5c2eea5ff40825aea49e63fc7aaa13c59a492ca4a953dcaabc62268a67556677",
+    "tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "firmware/npu/Makefile": "02410409c38565a98c5ad360738bac5e3853ecd6f8f56b3d2f2c1a3628b74164",
+    ".local/npu-desc10-owner-20261013/core/cold-txdone.o": "8fa0ddd41634e6cc3b0381258680935076d983e071cc615764cdeabaac76e9e6"
+  },
+  "mutants": [
+    {
+      "name": "ignore-finished-RX",
+      "host_sha256": "36db769e684e0fe0ec072cb37de75fe806faa83aa98b5551fbfdf55c6031e3c1",
+      "rv_sha256": "b514ee09f0be59d0a0ea965bc0540372134d7a9602ab0a3b864eeda2e0bee5df"
+    },
+    {
+      "name": "ignore-prefix-population",
+      "host_sha256": "0100ced1b2d74753d76f3c5f33c60ea80cc33502ae18dd6fca4fc4b7f4d7d7a9",
+      "rv_sha256": "a526676b8cb8f17db387bcb362f19d4b4b29e958d25757384dbb35fd5bdfd89c"
+    },
+    {
+      "name": "wrong-first-clear",
+      "host_sha256": "ded0be497fbd3a590c1f5814e230bce23ee90a393051b4c67ae1f1f83bc5d938",
+      "rv_sha256": "39e6ff4e0db4af95b3b9bb0c05e4b735a94433188f832043ea891893ed827018"
+    },
+    {
+      "name": "ignore-reservation-value",
+      "host_sha256": "bdebaf290611ac47a2c96439f334290b46a1d9ff481a5a8b5e1ce99934ad8ca5",
+      "rv_sha256": "7a59a5fa867f6e7498fa3bee14829c3e8f719f4f9b7fb4245f7c966688fb91be"
+    },
+    {
+      "name": "ignore-readback",
+      "host_sha256": "50427f952e520643364b1b6d40103e6df730d37bc27677dc7770cc8a0a9401be",
+      "rv_sha256": "c6fc8f19ddf99883a6c60e0f8821472f5e70083465fba5f20baca771d7689a25"
+    },
+    {
+      "name": "omit-retained-store",
+      "host_sha256": "eeb4cb4edb73ee56dadd89e2345a738a2bd7f1a0258cfa786864ae5509f67653",
+      "rv_sha256": "5b758ba45c5163ff49faa21df19692a292486758d3a96473e5657b787d588631"
+    },
+    {
+      "name": "forget-committed-claim",
+      "host_sha256": "8730b53758c54787c20a94641cec9dc9fa7ec59ca2f547bad760833ba48aeb0b",
+      "rv_sha256": "5c8772bf917d146330e87afb4b819e6261cda8817639bf62530f7594cf4ce0e3"
+    },
+    {
+      "name": "allow-reinitialize",
+      "host_sha256": "c4dc7952cb073758a6bb3489da441a39d2a670364987f1b374912690995f4ad3",
+      "rv_sha256": "a762f18de013992e6e6cb5e2e3ecedbb9c30a9b4a2169125995c9136b7976b6f"
+    }
+  ],
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "exact_core_object": ".local/npu-desc10-owner-20261013/core/cold-txdone.o",
+  "binaries": {
+    ".local/npu-desc10-owner-20261013/owner-q6/host.so": "5aa6fca12d9664fd400ef4f16468cc95fab18ebca6becdfb7d36aede08d0b58e",
+    ".local/npu-desc10-owner-20261013/owner-q6/owner.elf": "d7435eed554973c3a3e47afac2468f94e43f8646d62d234b9eb9a7198a847c61",
+    ".local/npu-desc10-owner-20261013/owner-q6/sanitize": "4997390f20b087fbee7d5f93f0bb1b8bae5c1ef54b760ec4dfa39c2d8e1337fd"
+  },
+  "limits": [
+    "Exact compiled host-C/RV32 portable owner and logical-store fixture; RX/PKT owners use their actual portable APIs.",
+    "Ordered logical store events and whole logical memory are compared with an independent literal oracle.",
+    "Original DESC10 instructions, actual allocator/caller/session binding and native locks are not replayed here.",
+    "This does not admit DESC10, establish physical backing/coherency/drains or full NPU acceptance."
+  ]
+}

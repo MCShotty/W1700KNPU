@@ -1,0 +1,93 @@
+{
+  "request_path": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-desc10-owner-20261013\\jev-focused-request.json",
+  "request_sha256": "11fc8681f2efcac087efd226e09799695b1a405bb487f0bd1ab376d4350c4576",
+  "requested_model": "jev-1.13.0",
+  "questions": {
+    "active_rx": {
+      "type": "choice",
+      "instructions": "Does the focused observed evidence support state.claims.active_rx? Judge that statement only, without speculating about untested inputs or other executions.",
+      "criteria": {
+        "supported": "The entire statement directly follows from the supplied focused observation and its scope.",
+        "contradicted": "The statement conflicts with the supplied observation or expressly declared scope.",
+        "not_established": "A material part of the statement lacks evidence without an explicit conflict."
+      }
+    },
+    "ready": {
+      "type": "choice",
+      "instructions": "Does the focused observed evidence support state.claims.ready? Judge that statement only, without speculating about untested inputs or other executions.",
+      "criteria": {
+        "supported": "The entire statement directly follows from the supplied focused observation and its scope.",
+        "contradicted": "The statement conflicts with the supplied observation or expressly declared scope.",
+        "not_established": "A material part of the statement lacks evidence without an explicit conflict."
+      }
+    },
+    "retained": {
+      "type": "choice",
+      "instructions": "Does the focused observed evidence support state.claims.retained? Judge that statement only, without speculating about untested inputs or other executions.",
+      "criteria": {
+        "supported": "The entire statement directly follows from the supplied focused observation and its scope.",
+        "contradicted": "The statement conflicts with the supplied observation or expressly declared scope.",
+        "not_established": "A material part of the statement lacks evidence without an explicit conflict."
+      }
+    },
+    "runtime": {
+      "type": "choice",
+      "instructions": "Does the focused observed evidence support state.claims.runtime? Judge that statement only, without speculating about untested inputs or other executions.",
+      "criteria": {
+        "supported": "The entire statement directly follows from the supplied focused observation and its scope.",
+        "contradicted": "The statement conflicts with the supplied observation or expressly declared scope.",
+        "not_established": "A material part of the statement lacks evidence without an explicit conflict."
+      }
+    }
+  },
+  "elapsed_ms": 651,
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "active_rx": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.48,
+        "probabilities": {
+          "supported": 0.65,
+          "contradicted": 0.04,
+          "not_established": 0.31
+        }
+      },
+      "ready": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.91,
+        "probabilities": {
+          "supported": 0.94,
+          "contradicted": 0.01,
+          "not_established": 0.05
+        }
+      },
+      "retained": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.52,
+        "probabilities": {
+          "supported": 0.68,
+          "contradicted": 0.09,
+          "not_established": 0.23
+        }
+      },
+      "runtime": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.91,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.94,
+          "not_established": 0.06
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1187,
+      "output_tokens": 176
+    }
+  }
+}

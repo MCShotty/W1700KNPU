@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-13 (RX enrollment/API22 C/RV32 scope passes; full setup/physical open)
+Last updated: 2026-10-14 (portable DESC10 owner tested; native/full/physical open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-14 - Portable DESC10 Owner Tested
+
+- Added `cold-txdone.c/.h` to the normal19-object portable Makefile. Its136-byte
+  plan and13512-byte one-shot state require a completed matching RX owner and
+  snapshot the shared2560-claim PKT bitmap. It reserves512 further claims and
+  25606 ordered possible metadata/descriptor/SKB/readiness stores. Partial
+  committed/published progress remains held; there is no reset or retirement.
+- Exact normal-Os object passes3656 compared host-C/RV32 entry calls,3541
+  controls, eight mutants and ASan/UBSan/leak. Every owner word is checked for
+  dirty reinitialization; phase snapshots compare whole logical memory and
+  all ordered address/width/value events against an independent literal oracle.
+  Focused compiled cases reject active RX ownership and ready-only completion,
+  and retain store/claim commitment when publication fails.
+- Five receipts/210 current input hashes, source64+5, identical independent
+  current raw pairs and all16 image groups verify. CODEc6548555/DATAe0495a5f,
+  raw16/126 and private388 are unchanged. Earlier provider style warnings and
+  stdout record-count drift are fixed; exact reversed cleanup matches sealed
+  source5f8b768b, and strict checkpatch without signoff checks reports zero
+  errors/warnings/checks. Source lock is512dd84d.
+- This is a portable logical fixture, not original native DESC10 execution.
+  The owner is not yet instantiated/bound to the dispatcher; authenticated
+  DESC10 remains denied. No new world/provider/Ghidra/full allocator/caller/
+  native replay or hardware/client acceptance is claimed. FIT82b1563a remains
+  unflashed. No router/flash/reset/Wi-Fi/power/private-backup action or subagents.
+- Keep the full objective active. Bind the original constructor/locks/typed
+  allocations/cold session next, then finish PCIe/INODE/IRQ, owners/workers/hot,
+  physical backing/exclusion/coherency/drains/retirement/removal/rearm/recovery,
+  exact-image boot and real clients. Scope and concrete native continuation:
+  `research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md` and `NEXT_DESC10.md`.
 
 ## 2026-10-13 - RX Enrollment/API22 Native Scope Tested
 

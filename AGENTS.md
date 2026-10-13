@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-14 - Portable DESC10 Owner Tested
+
+- `cold-txdone.c/.h` now belongs to the normal19-object portable Makefile.
+  Its13512-byte one-shot state requires a finished matching RX-event owner,
+  retains the2560-claim PKT bitmap and owns512 additional claims plus25606
+  ordered metadata/descriptor/SKB/readiness effects. No reset or retirement API.
+- Exact normal-Os object:3656 compared host-C/RV32 entry calls,3541 controls,
+  eight mutants and ASan/UBSan/leak pass. Whole logical memory and ordered
+  address/width/value events match an independent oracle at phase boundaries.
+  Original DESC10 instructions and allocator/caller/session/locks are not
+  exercised by this portable fixture. Five receipts/210 current input hashes
+  verify; source69 and all16 image groups including independent repeats pass.
+- Raw CODEc6548555/DATAe0495a5f and16/126/private388 remain unchanged. The
+  portable owner is not yet instantiated or invoked by the native dispatcher;
+  authenticated DESC10 remains denied. No world/provider/Ghidra/full-native
+  rerun or hardware action is claimed. FIT82b1563a remains unflashed.
+- Earlier three provider line-length warnings and the14-record stdout label
+  are corrected. The cleanup delta matches the sealed prior source on exact
+  reversal and passes strict checkpatch without signoff checks. Read
+  `research/checkpoints/2026-10-14-npu-desc10-owner/NEXT_DESC10.md` to bind the
+  original constructor next. Keep the full NPU/physical/client goal active;
+  freeze consumed sources/tests during replay. No subagents or hardware.
+
 ## 2026-10-13 - RX Enrollment/API22 Native Replay Passed
 
 - Actual RX allocation enrolls eight mailbox handles plus the retained RX ring

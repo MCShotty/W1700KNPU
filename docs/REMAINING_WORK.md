@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-14 - Portable DESC10 Owner Tested
+
+The normal portable Makefile compiles19 objects including the13512-byte DESC10
+owner. It binds a finished matching RX owner and shared2560-claim PKT prefix,
+retains512 additional claims and25606 ordered metadata/descriptor/SKB/readiness
+effects. Exact compiled-object validation passes3656 compared host-C/RV32 entry
+calls,3541 controls, eight mutants and ASan/UBSan/leak. Five receipts/210 current
+input hashes, source69, independent identical raw pairs and all16 image groups
+verify. Provider style and native stdout14/15-record cleanup are checked.
+
+Next instantiate/bind this owner to the original constructor, original locks,
+typed allocations and actual cold allocator/caller/session. Keep prior PKT
+checks fixed unless growth is derived from this independent retained owner.
+DESC10 is still denied; raw16/126/private388 and CODE/DATA remain unchanged.
+No new world/provider/Ghidra/full-native replay or hardware result is claimed;
+FIT82b1563a stays unflashed. Exact store sites and continuation are in
+`research/checkpoints/2026-10-14-npu-desc10-owner/NEXT_DESC10.md`.
+PCIe/INODE/final IRQ, other owners/workers/hot, physical backing/exclusion/
+coherency/drains/retirement/removal/rearm/recovery/boot and actual clients remain
+part of the full goal. No hardware action or subagents.
+
 ## 2026-10-13 - RX Enrollment/API22 Scope Tested
 
 The normal source now enrolls actual mailbox/RX/TX handles in allocation order

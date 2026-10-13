@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-14 - Portable DESC10 Ownership
+
+The normal portable Makefile now includes a13512-byte one-shot DESC10 owner.
+It requires the finished RX/API22 owner, preserves the shared PKT prefix and
+tracks512 further claims plus25606 ordered descriptor/SKB/readiness effects.
+The exact compiled object passes3656 compared host-C/RV32 entry calls,3541
+controls, eight mutants and sanitizers. Source69 and all16 image groups pass;
+independent current raw builds remain byte-identical to the preceding image.
+
+This is portable logical execution, not the original authenticated constructor.
+Native binding and complete setup/lifecycle/physical/recovery/client acceptance
+remain open. FIT82b1563a is still unflashed; no new world image was built.
+The three style warnings and stale stdout record count are fixed. No hardware
+action or subagents. Evidence and concrete continuation:
+`research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md`.
+
 ## 2026-10-13 - Owned RX Enrollment And API22 Tested
 
 Normal source now enrolls eight mailbox handles and the retained RX-event ring

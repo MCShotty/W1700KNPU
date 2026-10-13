@@ -1,5 +1,28 @@
 # Experimental NPU Components
 
+## Portable DESC10 Ownership
+
+`cold-txdone.c/.h` is the19th object in the portable Makefile. A136-byte plan
+and13512-byte one-shot state bind the completed RX-event plan/readback and the
+existing2560-claim PKT bitmap. Each additional packet claim is independently
+reserved and its committed/published progress retained. Exactly512 further
+claims precede full SKB initialization; they cannot be authorized by a mutable
+PKT self-count alone.
+
+The ordered recipe owns the earlier count/ID-pool pointer, all six writes per
+descriptor/ID, temporary sentinels/occupied IDs, SKB clear/mark/ordered queue,
+head/tail, counter and final ready byte:25606 possible stores. Reservations
+retain possible effects before writes; exact address/width/value readback gates
+publication. Partial effects and lost queue-head publication are never erased.
+The caller must still supply original locks, exact typed allocations, immutable
+TX descriptor inputs, live prior owners and appropriate backing/readback.
+
+The normal-Os object passes portable host-C/RV32 tests and sanitizers. It has
+no native instance or dispatcher binding yet; authenticated DESC10 remains
+unsupported. Current raw16/126/private388 CODE/DATA are unchanged. This is
+not physical containment/coherency/drain or complete setup acceptance. Scope:
+`research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md`.
+
 ## RX-Event Enrollment And API22
 
 The retained RX-event allocation now enrolls eight mailbox handles and its actual

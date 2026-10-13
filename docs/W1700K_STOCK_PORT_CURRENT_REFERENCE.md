@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-14 - Portable DESC10 Owner Tested
+
+Normal portable compilation now includes the19th object, `cold-txdone.c`.
+The13512-byte owner binds finished RX/API22 ownership and the existing PKT
+bitmap, retaining512 new claims and25606 ordered metadata/descriptor/SKB/
+readiness effects. Exact normal-object host-C/RV32 comparison passes3656 entry
+calls,3541 controls, eight mutants and sanitizers. Five receipts/210 current
+input hashes, source69, identical independent raw pairs and all16 image groups
+verify. Strict cleanup style and stdout14/15-record diagnostics are checked.
+
+This portable logical fixture does not execute original authenticated DESC10.
+The owner has no native instance/binding; production DESC10 remains denied.
+Raw16/126/private388 CODEc6548555/DATAe0495a5f remain unchanged; no new world/
+provider/Ghidra/full-native replay is claimed. FIT82b1563a stays unflashed.
+Native integration, PCIe/INODE/IRQ and full lifecycle/physical/recovery/client
+requirements remain open. No hardware or subagents. Scope and continuation:
+`research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md` and `NEXT_DESC10.md`.
+
 ## 2026-10-13 - RX Enrollment/API22 Native Scope Tested
 
 RX allocation now enrolls eight mailbox handles and its actual retained ring
