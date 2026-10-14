@@ -198,8 +198,11 @@ class Installation(NativeMemory):
         if PAYLOAD <= address < PAYLOAD + 256:
             self.record('payload-write', offset=address-PAYLOAD, size=size, value=hex(value))
         if TX <= address < TX + 0xe000:
-            assert size == 2 and value == 0 and address == TX + self.clear_count * 2
-            self.clear_count += 1
+            self.observe_tx_write(cpu, address, size, value)
+
+    def observe_tx_write(self, cpu, address, size, value):
+        assert size == 2 and value == 0 and address == TX + self.clear_count * 2
+        self.clear_count += 1
 
     def invalid_hook(self, cpu, access, address, size, value, data):
         self.unmodeled = (f'unmapped access={access} {address:#x}/{size} at '

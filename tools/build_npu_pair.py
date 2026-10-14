@@ -18,6 +18,8 @@ import tx_wire_native as tx
 import descriptor_wire_native as descriptor
 import tx_buffer_wire_native as txbuf
 import rx_event_wire_native as rx_event
+import txdone_wire_native as desc10
+import rx_pcie_wire_native as rx_pcie
 import test_startup_native as startup
 import test_admission_native as admission
 from test_barrier_workers import SITES as WORKER_SITES
@@ -76,6 +78,10 @@ def hook_plan(code, components):
         put(site, 'cold-tx-buffer', name, length=txbuf.WIDTHS.get(site, 4))
     for site, name in rx_event.SITES.items():
         put(site, 'cold-rx-event', name)
+    for site, name in desc10.SITES.items():
+        put(site, 'cold-txdone', name, length=desc10.WIDTHS.get(site, 4))
+    for site, name in rx_pcie.SITES.items():
+        put(site, 'cold-rx-pcie', name)
     return sorted(hooks.values(), key=lambda row: row['site'])
 
 
@@ -107,9 +113,16 @@ def build(destination, *, firmware_directory=None):
     rx_event_dir = destination / 'rx-event'
     rx_event_dir.mkdir()
     rx_event_path = rx_event.build(rx_event_dir, parts, txbuf_path)
+    desc10_dir = destination / 'desc10'
+    desc10_dir.mkdir()
+    desc10_path = desc10.build(desc10_dir, parts, packet_path, rx_event_path)
+    rx_pcie_dir = destination / 'rx-pcie'
+    rx_pcie_dir.mkdir()
+    rx_pcie_path = rx_pcie.build(rx_pcie_dir, parts, desc10_path, rx_event_path, packet_path)
     components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path,
                           'cold-tx': tx_path, 'cold-descriptor': descriptor_path, 'cold-tx-buffer': txbuf_path,
-                          'cold-rx-event': rx_event_path}
+                          'cold-rx-event': rx_event_path, 'cold-txdone': desc10_path,
+                          'cold-rx-pcie': rx_pcie_path}
     layout = composition.memory_layout(components, original_code_bytes=len(original_code), negative_controls=False)
     hooks = hook_plan(original_code, components)
     edits = [dict(site=0x8401b230, before=struct.pack('<I', 58879).hex(),

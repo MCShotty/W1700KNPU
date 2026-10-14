@@ -28,7 +28,9 @@ def build(destination, parts, descriptor_path):
                '--ld-path=' + str(shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'),
                '-Wl,-T,' + str(TESTS / 'cold-tx-buffer-native-emulation.ld') + ',--no-relax',
                '-Wl,--just-symbols=' + str(parts['base']),
-               '-Wl,--defsym=npu_emulation_descriptor_prior_live=' + hex(symbols['npu_emulation_descriptor_prior_live'])]
+               '-Wl,--defsym=npu_emulation_descriptor_prior_live=' + hex(symbols['npu_emulation_descriptor_prior_live']),
+               '-Wl,--defsym=npu_emulation_descriptor_prior_live_packets=' + hex(symbols['npu_emulation_descriptor_prior_live_packets']),
+               '-Wl,--defsym=npu_emulation_descriptor_prior_live_done=' + hex(symbols['npu_emulation_descriptor_prior_live_done'])]
     for site in SITES:
         if site == 0x8400fbca:
             continue

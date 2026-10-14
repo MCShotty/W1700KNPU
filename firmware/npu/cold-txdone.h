@@ -8,6 +8,7 @@
 #define NPU_COLD_TXDONE_PREFIX 2560u
 #define NPU_COLD_TXDONE_IDS 512u
 #define NPU_COLD_TXDONE_OCCUPIED 2048u
+#define NPU_COLD_TXDONE_IDS_POOL 0x3e8adc70u
 #define NPU_COLD_TXDONE_CAPACITY 8192u
 #define NPU_COLD_TXDONE_BITMAP_WORDS (NPU_COLD_TXDONE_CAPACITY / 32u)
 #define NPU_COLD_TXDONE_DESCRIPTOR_STORES (2u + NPU_COLD_TXDONE_IDS * 6u)
@@ -55,6 +56,8 @@ uint32_t npu_cold_txdone_claim_reserve(struct npu_cold_txdone_state *,
 uint32_t npu_cold_txdone_claim_publish(struct npu_cold_txdone_state *,
     const struct npu_cold_txdone_plan *, uint32_t epoch, const struct npu_cold_packet_state *,
     const struct npu_cold_packet_queue_result *);
+int npu_cold_txdone_packets_live(const struct npu_cold_txdone_state *,
+    const struct npu_cold_txdone_plan *, uint32_t epoch, const struct npu_cold_packet_state *);
 uint32_t npu_cold_txdone_skb_begin(struct npu_cold_txdone_state *, const struct npu_cold_txdone_plan *,
     uint32_t epoch, const struct npu_cold_rx_event_state *, uint32_t rx_readback,
     const struct npu_cold_packet_state *, const volatile uint32_t *occupied);
@@ -69,5 +72,14 @@ uint32_t npu_cold_txdone_finish(struct npu_cold_txdone_state *, const struct npu
 int npu_cold_txdone_live(const struct npu_cold_txdone_state *, const struct npu_cold_txdone_plan *,
     uint32_t epoch, const struct npu_cold_rx_event_state *, uint32_t rx_readback,
     const struct npu_cold_packet_state *, uint32_t ready);
+typedef int (*npu_cold_txdone_read_fn)(void *, uint32_t address, uint32_t bytes, uint32_t *value);
+/* The reader must enforce mapped spans and exclusion. This inspects final
+ * values, not every transient constructor store, and never retires ownership.
+ */
+int npu_cold_txdone_memory_live(const struct npu_cold_txdone_state *,
+    const struct npu_cold_txdone_plan *, uint32_t epoch,
+    const struct npu_cold_rx_event_state *, uint32_t rx_readback,
+    const struct npu_cold_packet_state *, uint32_t ready,
+    npu_cold_txdone_read_fn, void *);
 
 #endif

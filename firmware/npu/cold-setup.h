@@ -6,6 +6,7 @@
 #include "cold-descriptor.h"
 #include "cold-tx-buffer.h"
 #include "cold-rx-event.h"
+#include "cold-rx-pcie.h"
 
 #define NPU_COLD_REQUEST 0x3253434eu /* NCS2 */
 #define NPU_COLD_REPLY 0x3252434eu /* NCR2 */
@@ -108,6 +109,16 @@ static inline int npu_cold_rx_event_enrollment(const struct npu_bootstrap_packet
 static inline int npu_cold_rx_event_command(const struct npu_bootstrap_packet *p)
 {
     return p->header == 0x10u && p->api == 22;
+}
+
+static inline int npu_cold_txdone_command(const struct npu_bootstrap_packet *p)
+{
+    return p->header == 0x1au && p->api == 1;
+}
+
+static inline int npu_cold_rx_pcie_command(const struct npu_bootstrap_packet *p)
+{
+    return p->header == 0x1au && p->api == 0;
 }
 
 static inline uint32_t npu_cold_txbuf_command_step(const struct npu_bootstrap_packet *p)

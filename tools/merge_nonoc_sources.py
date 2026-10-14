@@ -298,7 +298,9 @@ def main():
             control = ('control-client.c', 'control-v2-client.c', 'linux-control.c',
                        'control-client.h', 'control-v2.h', 'linux-control.h',
                        'admission.h', 'barrier.h', 'kernel-include/stdint.h', 'provider-main.c',
-                       'cold-client.c', 'cold-setup.h', 'cold-descriptor.h', 'cold-tx-buffer.h', 'cold-rx-event.h', 'bootstrap.h')
+                       'cold-client.c', 'cold-setup.h', 'cold-descriptor.h', 'cold-tx-buffer.h',
+                       'cold-rx-event.h', 'cold-rx-pcie.h', 'cold-txdone.h', 'cold-packet.h',
+                       'cold-pcie-tail.h', 'cold-inode.h', 'cold-tx.h', 'bootstrap.h')
             component_sources = []
             for name in control:
                 destination = 'target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/' + name

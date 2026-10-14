@@ -259,18 +259,48 @@
         "mode": "0o644"
       },
       {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-inode.h",
+        "sha256": "40244718515244d4be62e14e55599175f89b530a6cd060c50350dda51aa0817c",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-packet.h",
+        "sha256": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-pcie-tail.h",
+        "sha256": "7a7c03d2373c14a599146bc5703a8f357271252b785f9106b83bdc17f0ab67c8",
+        "mode": "0o644"
+      },
+      {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-rx-event.h",
         "sha256": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b",
         "mode": "0o644"
       },
       {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-rx-pcie.h",
+        "sha256": "ae2139e6ef61454b8cad60b9ced1b899fa1f66c7f01e0cfaa4ecaf8ac7bf0d89",
+        "mode": "0o644"
+      },
+      {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-setup.h",
-        "sha256": "e99104be8af02dfb2b3ecf2895be169f4ec56f809bcfeb6a6389fa5dba10c69e",
+        "sha256": "703bf416c74a02703015cef79549352056a8d335fe66752129e623cee82ffdde",
         "mode": "0o644"
       },
       {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-tx-buffer.h",
         "sha256": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-tx.h",
+        "sha256": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-txdone.h",
+        "sha256": "89603ef51444274cb9892806e8e4c6894b68fa0a673cf4239669ec06f4ecfbd3",
         "mode": "0o644"
       },
       {
@@ -300,7 +330,7 @@
       },
       {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.c",
-        "sha256": "f054ebec76855588852fa821197f2090cfbcadb7899d51343f09f854e579f92e",
+        "sha256": "7253c24e8ae6273c2de789fbc17726f190f5b63f6b40fde0e0296cb68edd9a02",
         "mode": "0o644"
       },
       {
@@ -320,7 +350,7 @@
       },
       {
         "path": "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
-        "sha256": "4b690a5a3b4c7d776417e1ab36645bb2fc07e86c15d55321564842ca3f85f128",
+        "sha256": "0f5474ef643380808cebb7fabf76f6955fcccb804fe40bf7212adbcaf9476869",
         "mode": "0o644"
       },
       {
@@ -408,7 +438,7 @@
       "tree": "openwrt",
       "source": "firmware/npu/linux-control.c",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.c",
-      "sha256": "f054ebec76855588852fa821197f2090cfbcadb7899d51343f09f854e579f92e",
+      "sha256": "7253c24e8ae6273c2de789fbc17726f190f5b63f6b40fde0e0296cb68edd9a02",
       "mode": "0o644"
     },
     {
@@ -471,7 +501,7 @@
       "tree": "openwrt",
       "source": "firmware/npu/cold-setup.h",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-setup.h",
-      "sha256": "e99104be8af02dfb2b3ecf2895be169f4ec56f809bcfeb6a6389fa5dba10c69e",
+      "sha256": "703bf416c74a02703015cef79549352056a8d335fe66752129e623cee82ffdde",
       "mode": "0o644"
     },
     {
@@ -493,6 +523,48 @@
       "source": "firmware/npu/cold-rx-event.h",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-rx-event.h",
       "sha256": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-rx-pcie.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-rx-pcie.h",
+      "sha256": "ae2139e6ef61454b8cad60b9ced1b899fa1f66c7f01e0cfaa4ecaf8ac7bf0d89",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-txdone.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-txdone.h",
+      "sha256": "89603ef51444274cb9892806e8e4c6894b68fa0a673cf4239669ec06f4ecfbd3",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-packet.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-packet.h",
+      "sha256": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-pcie-tail.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-pcie-tail.h",
+      "sha256": "7a7c03d2373c14a599146bc5703a8f357271252b785f9106b83bdc17f0ab67c8",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-inode.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-inode.h",
+      "sha256": "40244718515244d4be62e14e55599175f89b530a6cd060c50350dda51aa0817c",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/cold-tx.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/cold-tx.h",
+      "sha256": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
       "mode": "0o644"
     },
     {

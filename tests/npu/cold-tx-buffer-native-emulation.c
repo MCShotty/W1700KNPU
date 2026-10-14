@@ -6,6 +6,8 @@ extern struct npu_admission npu_emulation_admission_state;
 extern struct npu_barrier npu_emulation_barrier_state;
 extern struct npu_cold_setup npu_emulation_cold_setup_state;
 extern int npu_emulation_descriptor_prior_live(uint32_t gets);
+extern int npu_emulation_descriptor_prior_live_packets(uint32_t gets, uint32_t packets);
+extern int npu_emulation_descriptor_prior_live_done(uint32_t packets);
 extern uint32_t npu_original_txbuf_callback(struct npu_bootstrap_packet *);
 
 struct npu_cold_txbuf_state npu_emulation_txbuf_state;
@@ -130,7 +132,7 @@ static int completed_spans(uint32_t completed)
     return 1;
 }
 
-int npu_emulation_txbuf_prior_live(void)
+static int prior_live_packets(uint32_t packets, uint32_t full, uint32_t completed)
 {
     struct npu_cold_txbuf_plan current;
     uint32_t i, status;
@@ -139,7 +141,8 @@ int npu_emulation_txbuf_prior_live(void)
     npu_cold_txbuf_plan_copy(&current, &SETUP->txbuf);
     current.arena = SETUP->descriptor_arena;
     if (status & 8 || lock_owned || phase != NPU_COLD_TXBUF_STEPS - 1 ||
-        !npu_emulation_descriptor_prior_live(8) ||
+        !(completed ? npu_emulation_descriptor_prior_live_done(packets) :
+          npu_emulation_descriptor_prior_live_packets(8, packets)) ||
         SETUP->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
         SETUP->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
         SETUP->prior_txbuf_steps != NPU_COLD_TXBUF_STEPS ||
@@ -161,7 +164,22 @@ int npu_emulation_txbuf_prior_live(void)
         if (BOOT->plan.region[i].base != plan.boot.region[i].base ||
             BOOT->plan.region[i].bytes != plan.boot.region[i].bytes)
             return 0;
-    return descriptor_spans() && completed_spans(NPU_COLD_TXBUF_STEPS);
+    return !full || (descriptor_spans() && completed_spans(NPU_COLD_TXBUF_STEPS));
+}
+
+int npu_emulation_txbuf_prior_live_packets(uint32_t packets, uint32_t full)
+{
+    return prior_live_packets(packets, full, 0);
+}
+
+int npu_emulation_txbuf_prior_live_done(uint32_t packets)
+{
+    return prior_live_packets(packets, 1, 1);
+}
+
+int npu_emulation_txbuf_prior_live(void)
+{
+    return npu_emulation_txbuf_prior_live_packets(2560, 1);
 }
 
 static int read_metadata(void)

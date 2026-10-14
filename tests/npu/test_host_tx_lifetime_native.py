@@ -22,7 +22,10 @@ def main():
     parser.add_argument('--host-receipt',type=Path,required=True)
     parser.add_argument('--name',required=True)
     parser.add_argument('--rx-event',action='store_true')
+    parser.add_argument('--desc10',action='store_true')
+    parser.add_argument('--nominal-only',action='store_true')
     args=parser.parse_args()
+    assert not args.desc10 or args.rx_event
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}',args.name)
     root=parent.ROOT;q=parent.loader.extract
     destination=root/'.local/npu-host-tx-lifetime-20261011'/args.name
@@ -112,7 +115,8 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     ctypes.CDLL=load
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
-                                  host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event)
+                                  host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event,
+                                  desc10=args.desc10,nominal_only=args.nominal_only)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()

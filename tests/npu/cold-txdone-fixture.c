@@ -52,7 +52,7 @@ uint32_t npu_test_txdone_fresh(uint32_t alias)
         .boot.region = {{0x84000000, 0xa00000}, {0x90c00000, 0xe000},
                         {0x8a000000, 0x2c00000}, {0x8cc00000, 0x4000000},
                         {0x90c0e000, 0x200000}, {0x83000000, 256}}
-    }, .ring = 0x17000000}, .packet_pool = 0x3e800020, .ids_pool = 0x3e870000,
+    }, .ring = 0x17000000}, .packet_pool = 0x3e800020, .ids_pool = NPU_COLD_TXDONE_IDS_POOL,
        .temporary = 0x3e871000, .skb_queue = 0x3e872000};
     struct npu_cold_packet_plan packets = {0x8a000000, 0x2c00000};
     struct npu_cold_packet_queue q;
@@ -126,6 +126,17 @@ static uint32_t read(const uint8_t *data, uint32_t bytes)
     for (uint32_t i = 0; i < bytes; i++)
         result |= (uint32_t)data[i] << (i * 8);
     return result;
+}
+
+int npu_test_txdone_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
+{
+    const uint8_t *data = span(address, bytes);
+
+    (void)opaque;
+    if (!data || !value || (bytes != 1 && bytes != 2 && bytes != 4))
+        return 0;
+    *value = read(data, bytes);
+    return 1;
 }
 
 uint32_t npu_test_txdone_begin(void)

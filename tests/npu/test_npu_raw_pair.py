@@ -41,7 +41,7 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     assert all(composition.sha(path) == manifest['components'][name]['sha256'] for name, path in files.items())
     assert all(composition.sha(ROOT / path) == digest for path, digest in manifest['host_inputs'].items())
     paths = host_files + [files['base']]
-    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event')}
+    parts = {key: value for key, value in files.items() if key not in ('cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie')}
     h = factory(paths, parts)
     h.install(files['cold-pages'])
     h.install_rx(files['rx-stats'])
@@ -53,6 +53,10 @@ def load(pair, *, factory=tx.TxPackets, published=None):
     tx_buffer_wire_native.install(h, files['cold-tx-buffer'])
     import rx_event_wire_native
     rx_event_wire_native.install(h, files['cold-rx-event'])
+    import txdone_wire_native
+    txdone_wire_native.install(h, files['cold-txdone'])
+    import rx_pcie_wire_native
+    rx_pcie_wire_native.install(h, files['cold-rx-pcie'])
     # Erase all ELF-loader effects, fixture plans and fixture identity before the
     # two raw copies. Retained Python objects supply only observer/symbol metadata.
     h.cpu.mem_write(image.CODE, b'\xcc' * image.CODE_LIMIT)

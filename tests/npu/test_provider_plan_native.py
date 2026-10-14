@@ -57,9 +57,12 @@ class ProviderRequest(tx.TxPackets):
                                 (r.UC_RISCV_REG_MSTATUS, 0)):
             self.cpu.reg_write(register, value)
         assert self.run(DISPATCH, []) == END
+        returned_stack = self.cpu.reg_read(r.UC_RISCV_REG_SP)
+        assert returned_stack == STACK_TOPS[0] - 0x1000, ('native-message-stack-unbalanced', hex(returned_stack))
         result = dict(flags=self.get32(MBOX + 0x3c),
                       words=list(struct.unpack('<' + 'I' * len(words), self.cpu.mem_read(self.request_alias, len(encoded)))),
-                      callbacks=self.callback_entries.copy(), reads=self.request_reads.copy())
+                      callbacks=self.callback_entries.copy(), reads=self.request_reads.copy(),
+                      returned_stack=hex(returned_stack))
         assert all(row['offset'] + row['size'] <= (len(encoded) if length is None else length)
                    for row in result['reads'])
         self.wire_frames.append(dict(address=address, request=words, response=result))

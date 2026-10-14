@@ -51,7 +51,7 @@ static uint32_t fail(void)
     return 0;
 }
 
-static int prior_context(void)
+static int prior_context(uint32_t packets)
 {
     static const uint32_t profile[] = {1536, 1024, 256, 512, 1024};
     static const uint32_t types[] = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 65535};
@@ -79,7 +79,8 @@ static int prior_context(void)
         IND->magic != NPU_COLD_INDICATION_MAGIC || IND->epoch != 1 || IND->fault || IND->active ||
         IND->committed != 1536 || IND->published != 1536 || IND->count != 1536 ||
         IND->base != word(0x3e9030fcu) + 0x1f020u ||
-        PKT->magic != NPU_COLD_PACKET_MAGIC || PKT->epoch != 1 || PKT->fault || PKT->count != 2560 || PKT->head != 2560 ||
+        PKT->magic != NPU_COLD_PACKET_MAGIC || PKT->epoch != 1 || PKT->fault ||
+        PKT->count != packets || PKT->head != packets ||
         PKT->packet_base != npu_emulation_bootstrap_state.plan.region[NPU_BOOT_PKT].base ||
         PKT->packet_bytes != npu_emulation_bootstrap_state.plan.region[NPU_BOOT_PKT].bytes ||
         BA->magic != NPU_COLD_PAGE_MAGIC || BA->epoch != 1 || BA->fault || BA->count != 1792 || BA->head != 1792 ||
@@ -101,7 +102,7 @@ static int context(void)
     return getter_step < 8 && SETUP->descriptor_gets == getter_step &&
            SETUP->prior_descriptor_gets == getter_step &&
            SETUP->command.header == (0x30u | npu_cold_descriptor_selector(getter_step)) &&
-           SETUP->command.api == 4 && !SETUP->command.value && prior_context();
+           SETUP->command.api == 4 && !SETUP->command.value && prior_context(2560);
 }
 
 static int arena_pinned(void)
@@ -136,11 +137,19 @@ static int pinned(void)
            SETUP->boot_hi == identity[2] && SETUP->nonce_lo == identity[3] && SETUP->nonce_hi == identity[4];
 }
 
-int npu_emulation_descriptor_prior_live(uint32_t gets)
+static int prior_live_packets(uint32_t gets, uint32_t packets, uint32_t completed)
 {
     uint32_t count = gets == 7 ? 512 : 1536, tx = gets == 7 ? 1 : 3;
 
-    return (gets == 7 || gets == 8) && prior_context() && arena_pinned() &&
+    return (gets == 7 || gets == 8) && packets >= 2560 && packets <= 3072 &&
+           (completed ? gets == 8 && packets == 3072 &&
+            npu_cold_rx_pcie_command(&SETUP->command) &&
+            SETUP->command.value == SETUP->endpoint_base + NPU_COLD_RX_PCIE_REGISTER &&
+            SETUP->rx_event_steps == 2 && SETUP->prior_rx_event_steps == 2 :
+            packets == 2560 || (gets == 8 && SETUP->command.header == 0x1a &&
+            SETUP->command.api == 1 && SETUP->command.value == 512 &&
+            SETUP->rx_event_steps == 1 && SETUP->prior_rx_event_steps == 1)) &&
+           prior_context(packets) && arena_pinned() &&
            SETUP->descriptor_gets == gets && SETUP->prior_descriptor_gets == gets &&
            SETUP->descriptor_arena == native_arena &&
            SETUP->boot_lo == identity[1] && SETUP->boot_hi == identity[2] &&
@@ -149,6 +158,24 @@ int npu_emulation_descriptor_prior_live(uint32_t gets)
            !OWNER->active && OWNER->next == gets && OWNER->completed == (1u << gets) - 1 &&
            OWNER->arena == native_arena && OWNER->reserved_tx == tx && OWNER->completed_tx == tx &&
            OWNER->committed == count && OWNER->published == count;
+}
+
+int npu_emulation_descriptor_prior_live_packets(uint32_t gets, uint32_t packets)
+{
+    return prior_live_packets(gets, packets, 0);
+}
+
+/* The completed-DESC10 caller has verified its retained owner and supplies
+ * the owner-derived count. This entry does not grant dispatch/store authority.
+ */
+int npu_emulation_descriptor_prior_live_done(uint32_t packets)
+{
+    return prior_live_packets(8, packets, 1);
+}
+
+int npu_emulation_descriptor_prior_live(uint32_t gets)
+{
+    return npu_emulation_descriptor_prior_live_packets(gets, 2560);
 }
 
 static int owned(void)

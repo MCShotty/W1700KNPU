@@ -30,16 +30,15 @@ static int overlap(uint32_t a, uint32_t bytes, uint32_t b, uint32_t size)
 
 int npu_cold_txdone_plan_valid(const struct npu_cold_txdone_plan *p)
 {
-    const uint32_t bytes[] = {32768, 1024, 4096, 16384};
-    uint32_t bases[4], i, j;
+    const uint32_t bytes[] = {32768, 4096, 16384};
+    uint32_t bases[3], i, j;
 
-    if (!p || !npu_cold_rx_event_plan_valid(&p->prior))
+    if (!p || !npu_cold_rx_event_plan_valid(&p->prior) || p->ids_pool != NPU_COLD_TXDONE_IDS_POOL)
         return 0;
     bases[0] = p->packet_pool;
-    bases[1] = p->ids_pool;
-    bases[2] = p->temporary;
-    bases[3] = p->skb_queue;
-    for (i = 0; i < 4; i++) {
+    bases[1] = p->temporary;
+    bases[2] = p->skb_queue;
+    for (i = 0; i < 3; i++) {
         if ((bases[i] & 31) || bases[i] < HEAP || bases[i] >= HEAP_END ||
             bytes[i] > HEAP_END - bases[i] ||
             overlap(bases[i], bytes[i], p->prior.prior.arena, NPU_COLD_DESCRIPTOR_ARENA_BYTES))
@@ -127,6 +126,12 @@ static int packets_live(const struct npu_cold_txdone_state *s,
         if (pkt->claimed[i] != expected[i])
             return 0;
     return 1;
+}
+
+int npu_cold_txdone_packets_live(const struct npu_cold_txdone_state *s,
+    const struct npu_cold_txdone_plan *p, uint32_t epoch, const struct npu_cold_packet_state *pkt)
+{
+    return context(s, p, epoch) && packets_live(s, pkt);
 }
 
 uint32_t npu_cold_txdone_begin(struct npu_cold_txdone_state *s,
@@ -418,4 +423,69 @@ int npu_cold_txdone_live(const struct npu_cold_txdone_state *s,
     const struct npu_cold_packet_state *pkt, uint32_t ready)
 {
     return s && !s->active && complete(s, p, epoch, rx, rx_readback, pkt, ready);
+}
+
+static int matches(npu_cold_txdone_read_fn read, void *opaque,
+                   uint32_t address, uint32_t bytes, uint32_t expected)
+{
+    uint32_t value;
+
+    return read(opaque, address, bytes, &value) && value == expected;
+}
+
+int npu_cold_txdone_memory_live(const struct npu_cold_txdone_state *s,
+    const struct npu_cold_txdone_plan *p, uint32_t epoch,
+    const struct npu_cold_rx_event_state *rx, uint32_t rx_readback,
+    const struct npu_cold_packet_state *pkt, uint32_t ready,
+    npu_cold_txdone_read_fn read, void *opaque)
+{
+    uint32_t i, free_id = 0;
+    uint32_t ring, check, packet;
+
+    if (!read || !npu_cold_txdone_live(s, p, epoch, rx, rx_readback, pkt, ready))
+        return 0;
+    ring = npu_cold_rx_event_value(p->prior.ring);
+    check = npu_cold_rx_event_value(p->prior.prior.boot.region[NPU_BOOT_TXCHECK].base);
+    packet = p->prior.prior.boot.region[NPU_BOOT_PKT].base;
+    for (i = 0; i < NPU_COLD_TXDONE_IDS; i++) {
+        uint32_t descriptor = ring + i * NPU_COLD_RX_EVENT_STRIDE;
+        uint32_t address = ((packet + s->ids[i] * NPU_COLD_PACKET_BYTES) & 0x3fffffffu) + 0x80000080u;
+
+        if (!matches(read, opaque, descriptor, 4, address) ||
+            !matches(read, opaque, descriptor + 4, 4, 0x07000100u) ||
+            !matches(read, opaque, descriptor + 8, 4, 0) ||
+            !matches(read, opaque, descriptor + 12, 4, 0) ||
+            !matches(read, opaque, p->ids_pool + i * 2, 2, s->ids[i]))
+            return 0;
+    }
+    for (i = 0; i < NPU_COLD_TXDONE_OCCUPIED; i++)
+        if (!matches(read, opaque, p->temporary + i * 2, 2, s->occupied[i]))
+            return 0;
+    for (i = 0; i < NPU_COLD_TXDONE_CAPACITY; i++) {
+        uint32_t occupied = s->occupied_bitmap[i >> 5] & (1u << (i & 31));
+        uint32_t queued;
+
+        if (!matches(read, opaque, check + i * 2, 2, occupied ? 3 : 0))
+            return 0;
+        if (i < NPU_COLD_TXDONE_OCCUPIED) {
+            queued = s->occupied[i];
+        } else {
+            while (free_id < NPU_COLD_TXDONE_CAPACITY &&
+                   (s->occupied_bitmap[free_id >> 5] & (1u << (free_id & 31))))
+                free_id++;
+            if (free_id >= NPU_COLD_TXDONE_CAPACITY)
+                return 0;
+            queued = free_id++;
+        }
+        if (!matches(read, opaque, p->skb_queue + i * 2, 2, queued))
+            return 0;
+    }
+    if (!matches(read, opaque, 0x3e902a7cu, 2, NPU_COLD_TXDONE_IDS) ||
+        !matches(read, opaque, 0x3e902cf4u, 4, p->ids_pool) ||
+        !matches(read, opaque, 0x3e901bb4u, 2, NPU_COLD_TXDONE_OCCUPIED) ||
+        !matches(read, opaque, 0x3e901b94u, 2, 0) ||
+        !matches(read, opaque, 0x3e903974u, 4, 0) ||
+        !matches(read, opaque, 0x3e9046fau, 1, 1))
+        return 0;
+    return npu_cold_txdone_live(s, p, epoch, rx, rx_readback, pkt, ready);
 }

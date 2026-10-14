@@ -250,7 +250,7 @@ static void txbuf_prefix(unsigned count)
     txbuf_prefix_mode(count, 0);
 }
 
-static unsigned rx_wire_cases;
+static unsigned rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases;
 
 static void rx_event_suite(void)
 {
@@ -371,6 +371,119 @@ static void rx_event_suite(void)
     }
 }
 
+static void desc10_prefix(void)
+{
+    uint32_t value;
+    struct npu_bootstrap_packet rx = {0x10, 22, 0x97000000};
+
+    txbuf_prefix_mode(6, rx.value);
+    check(!npu_linux_control_cold_exchange(&control, &rx, &value));
+}
+
+static void desc10_suite(void)
+{
+    const struct npu_bootstrap_packet command = {0x1a, 1, 512};
+    const uint32_t invalid_counts[] = {0, 1, 511, 513, 65535, UINT32_MAX};
+    uint32_t output;
+    struct npu_cold_packet p;
+
+    for (unsigned alias = 0; alias < 3; alias++) {
+        struct npu_bootstrap_packet rx = {0x10, 22, 0x17000000 + alias * 0x40000000};
+        txbuf_prefix_mode(6, rx.value);
+        check(!npu_linux_control_cold_exchange(&control, &rx, &output));
+        check(!npu_linux_control_cold_exchange(&control, &command, &output) && output == 512);
+        check(setup.rx_event_steps == 2 && control.rx_event_steps == 2 &&
+              !setup.inflight && !admission.active && !setup.failed);
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01);
+        desc10_wire_cases++;
+    }
+    for (unsigned index = 0; index < sizeof(invalid_counts) / sizeof(invalid_counts[0]); index++) {
+        struct npu_bootstrap_packet bad = command;
+        bad.value = invalid_counts[index];
+        desc10_prefix();
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &bad, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01 && setup.rx_event_steps == 1);
+        desc10_wire_cases++;
+        desc10_prefix();
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &bad));
+        check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) != NPU_COLD_OK);
+        check(setup.failed && !setup.inflight && !admission.active && admission.fault &&
+              barrier.fault && setup.rx_event_steps == 1);
+        desc10_wire_cases++;
+    }
+    for (unsigned field = 0; field < 6; field++) {
+        desc10_prefix();
+        if (field == 0) control.rx_event_steps = 0;
+        if (field == 1) control.rx_event_steps = 2;
+        if (field == 2) control.rx_event = 0;
+        if (field == 3) control.txbuf_enrolled--;
+        if (field == 4) control.txbuf_steps--;
+        if (field == 5) control.descriptor_gets--;
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01);
+        desc10_wire_cases++;
+    }
+    for (unsigned field = 0; field < 7; field++) {
+        desc10_prefix();
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &command));
+        if (field == 0) setup.rx_event_steps = 0;
+        if (field == 1) setup.rx_event_steps = 2;
+        if (field == 2) setup.rx_event = 0;
+        if (field == 3) setup.txbuf_enrolled--;
+        if (field == 4) setup.txbuf_steps--;
+        if (field == 5) setup.descriptor_gets--;
+        if (field == 6) setup.completed ^= 1;
+        check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) != NPU_COLD_OK);
+        check(setup.failed && !setup.inflight && !admission.active && admission.fault && barrier.fault);
+        desc10_wire_cases++;
+    }
+    for (unsigned field = 0; field < 7; field++) {
+        desc10_prefix();
+        check(npu_cold_client_request(&control.client, &p, sizeof(p), &command));
+        check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
+        if (field == 0) setup.rx_event_steps = setup.prior_rx_event_steps = 0;
+        if (field == 1) setup.rx_event_steps = setup.prior_rx_event_steps = 2;
+        if (field == 2) setup.rx_event = 0;
+        if (field == 3) setup.txbuf_enrolled--;
+        if (field == 4) setup.txbuf_steps = setup.prior_txbuf_steps = 5;
+        if (field == 5) setup.descriptor_gets = setup.prior_descriptor_gets = 7;
+        if (field == 6) setup.command.value = 511;
+        struct npu_bootstrap_packet reply = setup.command;
+        check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &reply) == NPU_COLD_CALLBACK_FAILED);
+        check(setup.failed && setup.inflight && admission.active);
+        desc10_wire_cases++;
+    }
+    desc10_prefix();
+    callback_error = 1;
+    output = 0xabcdef01;
+    check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+          output == 0xabcdef01 && setup.failed && setup.inflight && admission.active &&
+          setup.rx_event_steps == 1 && control.rx_event_steps == 1);
+    desc10_wire_cases++;
+    for (unsigned after = 0; after < 2; after++) {
+        desc10_prefix();
+        transport_error = -ETIMEDOUT; after_effect = after;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -ETIMEDOUT &&
+              output == 0xabcdef01 && setup.rx_event_steps == 1 + after && control.rx_event_steps == 1);
+        desc10_wire_cases++;
+    }
+    for (unsigned field = 0; field < 20; field++) {
+        desc10_prefix();
+        corrupt = 1; corrupt_word = field; output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.rx_event_steps == 2 && control.rx_event_steps == 1);
+        desc10_wire_cases++;
+    }
+}
+
 static void txbuf_suite(void)
 {
     txbuf_prefix(6);
@@ -437,11 +550,115 @@ static void sticky(int error, unsigned old_calls)
     check(calls == old_calls && !barrier.released && !barrier.armed);
 }
 
+static void rx_pcie_prefix(void)
+{
+    const struct npu_bootstrap_packet done = {0x1a, 1, 512};
+    uint32_t output;
+
+    desc10_prefix();
+    check(!npu_linux_control_cold_exchange(&control, &done, &output));
+}
+
+static void rx_pcie_suite(void)
+{
+    const struct npu_bootstrap_packet command = {0x1a, 0, 0x200d4590};
+    uint32_t output;
+    struct npu_cold_packet p;
+
+    for (unsigned alias = 0; alias < 3; alias++) {
+        struct npu_bootstrap_packet rx = {0x10, 22, 0x17000000 + alias * 0x40000000};
+        const struct npu_bootstrap_packet done = {0x1a, 1, 512};
+        txbuf_prefix_mode(6, rx.value);
+        check(!npu_linux_control_cold_exchange(&control, &rx, &output));
+        check(!npu_linux_control_cold_exchange(&control, &done, &output));
+        check(!npu_linux_control_cold_exchange(&control, &command, &output) && output == command.value);
+        check(setup.rx_event_steps == 3 && control.rx_event_steps == 3 &&
+              !setup.inflight && !admission.active && !setup.failed);
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01);
+        rx_pcie_wire_cases++;
+    }
+    const uint32_t bad_values[] = {0, 1, UINT32_MAX, 0x200d458c, 0x200d4594};
+    for (unsigned i = 0; i < sizeof(bad_values) / sizeof(bad_values[0]); i++) {
+        struct npu_bootstrap_packet bad = command;
+        bad.value = bad_values[i];
+        rx_pcie_prefix();
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &bad, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.rx_event_steps == 2 && setup.failed && !setup.inflight);
+        rx_pcie_wire_cases++;
+    }
+    for (unsigned field = 0; field < 7; field++) {
+        rx_pcie_prefix();
+        if (field == 0) control.rx_event_steps = 0;
+        if (field == 1) control.rx_event_steps = 1;
+        if (field == 2) control.rx_event_steps = 3;
+        if (field == 3) control.rx_event = 0;
+        if (field == 4) control.txbuf_enrolled--;
+        if (field == 5) control.txbuf_steps--;
+        if (field == 6) control.descriptor_gets--;
+        unsigned before = calls;
+        output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              calls == before && output == 0xabcdef01);
+        rx_pcie_wire_cases++;
+    }
+    for (unsigned late = 0; late < 2; late++) {
+        for (unsigned field = 0; field < 10; field++) {
+            rx_pcie_prefix();
+            check(npu_cold_client_request(&control.client, &p, sizeof(p), &command));
+            if (late)
+                check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)));
+            if (field == 0) setup.rx_event_steps = setup.prior_rx_event_steps = 0;
+            if (field == 1) setup.rx_event_steps = setup.prior_rx_event_steps = 1;
+            if (field == 2) setup.rx_event = 0;
+            if (field == 3) setup.txbuf_enrolled--;
+            if (field == 4) setup.txbuf_steps = setup.prior_txbuf_steps = 5;
+            if (field == 5) setup.descriptor_gets = setup.prior_descriptor_gets = 7;
+            if (field == 6) setup.completed ^= 1;
+            if (field == 7) setup.endpoint_base++;
+            if (field == 8) setup.endpoint_bytes = 4096;
+            if (field == 9) { p.command.value++; setup.command.value++; }
+            struct npu_bootstrap_packet reply = setup.command;
+            if (late)
+                check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot, 1, &reply) == NPU_COLD_CALLBACK_FAILED);
+            else
+                check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot, &p, sizeof(p)) != NPU_COLD_OK);
+            check(setup.failed && setup.inflight == late && admission.active == late);
+            rx_pcie_wire_cases++;
+        }
+    }
+    rx_pcie_prefix();
+    callback_error = 1; output = 0xabcdef01;
+    check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+          output == 0xabcdef01 && setup.failed && setup.inflight && admission.active &&
+          setup.rx_event_steps == 2 && control.rx_event_steps == 2);
+    rx_pcie_wire_cases++;
+    for (unsigned after = 0; after < 2; after++) {
+        rx_pcie_prefix();
+        transport_error = -ETIMEDOUT; after_effect = after; output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -ETIMEDOUT &&
+              output == 0xabcdef01 && setup.rx_event_steps == 2 + after && control.rx_event_steps == 2);
+        rx_pcie_wire_cases++;
+    }
+    for (unsigned field = 0; field < 20; field++) {
+        rx_pcie_prefix();
+        corrupt = 1; corrupt_word = field; output = 0xabcdef01;
+        check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+              output == 0xabcdef01 && setup.rx_event_steps == 3 && control.rx_event_steps == 2);
+        rx_pcie_wire_cases++;
+    }
+}
+
 int main(void)
 {
     dma_enrollment_suite();
     txbuf_suite();
     rx_event_suite();
+    desc10_suite();
+    rx_pcie_suite();
     fresh();
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;
@@ -739,7 +956,7 @@ int main(void)
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
            "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
            "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5,"
-           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u,\"rx_event_cases\":%u}\n",
-           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases, rx_wire_cases);
+           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u,\"rx_event_cases\":%u,\"desc10_cases\":%u,\"rx_pcie_cases\":%u}\n",
+           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases, rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases);
     return 0;
 }

@@ -57,18 +57,26 @@ def prepare(directory, text, header):
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
-                txbuffer_enrollment=False, rx_event=False):
+                txbuffer_enrollment=False, rx_event=False, desc10=False, nominal_only=False):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
     from emulation_layout import STATE
     from unicorn import riscv_const as r
-    from unicorn import UC_HOOK_MEM_WRITE
+    from unicorn import UC_HOOK_MEM_WRITE, UC_QUERY_TIMEOUT
+    import native_prefix_snapshot
+    import desc10_transaction_oracle
+    import test_desc10_native_replay as desc10_memory
+    import rx_pcie_transaction_oracle
 
     native_dependencies = [Path(__file__), ROOT / 'tests/npu/cold_wire_native.py',
         ROOT / 'tests/npu/indication_native_controls.py', ROOT / 'tests/npu/tx_native_controls.py',
         ROOT / 'tests/npu/descriptor_native_controls.py', ROOT / 'tests/npu/tx_buffer_native_controls.py',
         ROOT / 'tests/npu/rx_event_native_controls.py',
+        Path(native_prefix_snapshot.__file__),
+        Path(desc10_transaction_oracle.__file__), Path(desc10_memory.__file__),
+        Path(rx_pcie_transaction_oracle.__file__),
+        ROOT / 'tests/npu/test_desc10_native_controls.py',
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
 
@@ -98,13 +106,35 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     for i in range(4):
         lib.npu_test_memory(i, *plan[i + 1])
     frames, failures, workers = [], [], []
+    desc10_expected = {}
+    pcie_expected = {}
     wire = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_uint)
     tick = ctypes.CFUNCTYPE(None)
 
     @wire
     def transport(pointer, length):
+        words = []
         try:
             words = list(struct.unpack('<' + 'I' * (length // 4), ctypes.string_at(pointer, length)))
+            prefix = Path(binary).parent / 'desc10-prefix'
+            if desc10 and length == 80 and words[2] == 0x3253434e and words[11:13] == [0x1a, 1]:
+                try:
+                    images, _, footprint = desc10_transaction_oracle.expected(h, words)
+                    desc10_expected.update(images=images, footprint=footprint)
+                except (AssertionError, ValueError) as error:
+                    desc10_expected['error'] = str(error)
+            if desc10 and length == 80 and words[2] == 0x3253434e and words[11:14] == [0x1a, 1, 512] and not prefix.exists():
+                native_prefix_snapshot.capture(h, prefix, words, manifest['inputs'] | native_inputs | {
+                    str(path.relative_to(ROOT)): loader.sha(path) for path in (code_path, data_path, binary)},
+                    origin='actual-provider-allocator-caller-before-DESC10')
+            if desc10 and length == 80 and words[2] == 0x3253434e and words[11:13] == [0x1a, 0]:
+                images, changes = rx_pcie_transaction_oracle.expected(h, words)
+                pcie_expected.update(images=images, changes=changes)
+                pcie_prefix = Path(binary).parent / 'pcie-prefix'
+                if not pcie_prefix.exists():
+                    native_prefix_snapshot.capture(h, pcie_prefix, words, manifest['inputs'] | native_inputs | {
+                        str(path.relative_to(ROOT)): loader.sha(path) for path in (code_path, data_path, binary)},
+                        origin='actual-provider-allocator-caller-after-DESC10-before-PCIE')
             reply = h.message(words)
             frames.append(dict(request=words, reply=reply))
             if reply['flags'] != 7:
@@ -116,6 +146,21 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             return 0
         except Exception as error:
             failures.append(traceback.format_exc())
+            diagnostic = dict(request=words, error_type=type(error).__name__,
+                pc=hex(h.cpu.reg_read(r.UC_RISCV_REG_PC)),
+                ra=hex(h.cpu.reg_read(r.UC_RISCV_REG_RA)),
+                sp=hex(h.cpu.reg_read(r.UC_RISCV_REG_SP)),
+                mstatus=hex(h.cpu.reg_read(r.UC_RISCV_REG_MSTATUS)),
+                wall_budget_exhausted=bool(h.cpu.query(UC_QUERY_TIMEOUT)),
+                unmodeled=h.unmodeled,
+                checkpoints=getattr(h, 'cold_checkpoint_hits', {}),
+                callbacks=h.callback_entries.copy(), traceback=failures[-1])
+            if desc10:
+                address = h.desc10.symbols['npu_emulation_desc10_state']
+                diagnostic['desc10_owner'] = list(struct.unpack('<16I', h.cpu.mem_read(address, 64)))
+                address = h.rx_pcie.symbols['npu_emulation_rx_pcie_state']
+                diagnostic['rx_pcie_owner'] = list(struct.unpack('<8I', h.cpu.mem_read(address, 32)))
+            (Path(binary).parent / 'native-failure.json').write_text(json.dumps(diagnostic, indent=2) + '\n')
             return -5
 
     @tick
@@ -210,6 +255,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                                         sequence += [(0x10 | selector, 21, tx_dma[i + 3]) for i, selector in enumerate((2,7,12))]
                                         if rx_event:
                                             sequence += [(0x10, 22, h.get32(cold_state + 368))]
+                                            if desc10:
+                                                sequence += [(0x1a, 1, 512), (0x1a, 0, 0x200d4590)]
             page_total, packet_before_pages, page_before_indication = 0, None, None
             indication_before, indication_controls = None, []
             tx_before, tx_controls = None, []
@@ -220,6 +267,10 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 nonlocal page_total, packet_before_pages, page_before_indication, indication_before, tx_before
                 nonlocal descriptor_before, descriptor_tx_before
                 nonlocal txbuf_before, rx_event_before
+                if (header, api) == (0x1a, 1):
+                    desc10_expected.clear()
+                if (header, api) == (0x1a, 0):
+                    pcie_expected.clear()
                 if api == 22:
                     rx_event_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state, cold_bytes)))]
                 if api == 21:
@@ -258,6 +309,52 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 output = ctypes.c_uint32(0xabcdef01)
                 error = lib.npu_test_command(header, api, value, ctypes.byref(output))
                 assert not failures, failures
+                if (header, api) == (0x1a, 1):
+                    desc10_want = desc10_expected.get('images')
+                    owner = h.desc10.symbols['npu_emulation_desc10_state']
+                    observed = dict(error=error, output=output.value,
+                        owner=list(struct.unpack('<16I', h.cpu.mem_read(owner, 64))),
+                        packet_claims=h.get32(packet_state + 16),
+                        rx_event_steps=h.get32(cold_state + 380),
+                        ready=h.cpu.mem_read(0x3e9046fa, 1)[0],
+                        oracle_error=desc10_expected.get('error'), reply=frames[-1],
+                        protected_memory_matches=None,
+                        limits=['Actual caller/original guarded RV32, with modeled platform/DMA/backing and scheduling.'])
+                    if not error:
+                        assert desc10_want is not None, desc10_expected.get('error')
+                        memory_directory = Path(binary).parent / 'desc10-protected-memory'
+                        memory_directory.mkdir()
+                        observed['memory_comparison'] = desc10_memory.compare(h, desc10_want, memory_directory)
+                        observed['protected_memory_matches'] = all(not row['differing_bytes']
+                            for row in observed['memory_comparison'])
+                        observed['transaction_sequence'] = desc10_expected['footprint']['transaction_sequence']
+                    (Path(binary).parent / 'desc10-observed.json').write_text(json.dumps(observed, indent=2) + '\n')
+                    if not error:
+                        assert observed['protected_memory_matches'], observed['memory_comparison']
+                        assert observed['owner'][:11] == [0x31445443, 1, 0, 0, 25606, 25606, 25606, 512, 512, 512, 1]
+                        assert observed['rx_event_steps'] == 2 and observed['ready'] == 1
+                    print(json.dumps(dict(native_desc10=observed['owner'][:11], error=error,
+                                          packet_claims=observed['packet_claims'])), flush=True)
+                if (header, api) == (0x1a, 0):
+                    owner = h.rx_pcie.symbols['npu_emulation_rx_pcie_state']
+                    observed = dict(error=error, output=output.value,
+                        owner=list(struct.unpack('<8I', h.cpu.mem_read(owner, 32))),
+                        packet_claims=h.get32(packet_state + 16), rx_event_steps=h.get32(cold_state + 380),
+                        metadata=h.get32(0x3e902a90), reply=frames[-1], protected_memory_matches=None)
+                    if not error:
+                        directory = Path(binary).parent / 'pcie-protected-memory'
+                        directory.mkdir()
+                        observed['memory_comparison'] = desc10_memory.compare(h, pcie_expected['images'], directory)
+                        observed['protected_memory_matches'] = all(not row['differing_bytes'] for row in observed['memory_comparison'])
+                        observed['expected_changes'] = pcie_expected['changes']
+                    (Path(binary).parent / 'pcie-observed.json').write_text(json.dumps(observed, indent=2) + '\n')
+                    if not error:
+                        assert observed['protected_memory_matches'], observed['memory_comparison']
+                        assert observed['owner'][:7] == [0x31455052, 1, 0, 0, 1, 1, 1]
+                        assert observed['packet_claims'] == 3072 and observed['rx_event_steps'] == 3
+                        assert observed['metadata'] == value
+                    print(json.dumps(dict(native_rx_pcie=observed['owner'], error=error,
+                                          protected_memory_matches=observed['protected_memory_matches'])), flush=True)
                 if descriptor_failure and header == (0x30 | descriptor_fault_selector) and api == 4:
                     assert h.descriptor_injected and error == -71
                     owner = h.descriptor.symbols['npu_emulation_descriptor_state']
@@ -355,8 +452,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 if api == 4 and (header & ~15) == 0x30 and step in (0,6):
                     from descriptor_native_controls import check
                     lease_end = len(leases)
-                    descriptor_controls.extend(check(h, descriptor_tx_before if step == 6 else descriptor_before,
-                                                     frames[-1]['request'], tx=step == 6))
+                    if not nominal_only:
+                        descriptor_controls.extend(check(h, descriptor_tx_before if step == 6 else descriptor_before,
+                                                         frames[-1]['request'], tx=step == 6))
                     del leases[lease_end:]
                     print(json.dumps(dict(native_descriptor_controls=len(descriptor_controls),passed=True)),flush=True)
                 assert h.get32(ADM + 4) == h.get32(cold_state + 4) == 0
@@ -386,7 +484,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         assert h.get32(0x3e901fd4) == 0 and bytes(h.cpu.mem_read(0x3e904590, 1)) == b'\0'
                         from indication_native_controls import check
                         lease_end = len(leases)
-                        indication_controls.extend(check(h, indication_before, frames[-1]['request']))
+                        if not nominal_only:
+                            indication_controls.extend(check(h, indication_before, frames[-1]['request']))
                         del leases[lease_end:]
                         print(json.dumps(dict(native_indication_controls=len(indication_controls), passed=True)), flush=True)
                     assert bytes(h.cpu.mem_read(packet_state, 2076)) == packet_before_pages
@@ -404,7 +503,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     if header == 0x10:
                         from tx_native_controls import check
                         lease_end = len(leases)
-                        tx_controls.extend(check(h, tx_before, frames[-1]['request']))
+                        if not nominal_only:
+                            tx_controls.extend(check(h, tx_before, frames[-1]['request']))
                         del leases[lease_end:]
                         print(json.dumps(dict(native_tx_controls=len(tx_controls), passed=True)), flush=True)
                 if api == 33:
@@ -421,7 +521,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     assert h.get32(cold_state + 360) == index + 1
                     txbuf_effects.append(effects(h, txbuf_before, index))
                     lease_end = len(leases)
-                    txbuf_controls.extend(check(h, txbuf_before, frames[-1]['request'], index))
+                    if not nominal_only:
+                        txbuf_controls.extend(check(h, txbuf_before, frames[-1]['request'], index))
                     del leases[lease_end:]
                     print(json.dumps(dict(native_txbuf_controls=len(txbuf_controls), phase=index,
                                           stores=bound, passed=True)), flush=True)
@@ -429,7 +530,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     from rx_event_native_controls import effects, check
                     effects(h, rx_event_before, value)
                     lease_end = len(leases)
-                    rx_event_controls.extend(check(h, rx_event_before, frames[-1]['request']))
+                    if not nominal_only:
+                        rx_event_controls.extend(check(h, rx_event_before, frames[-1]['request']))
                     del leases[lease_end:]
                     print(json.dumps(dict(native_rx_event_controls=len(rx_event_controls), passed=True)), flush=True)
                 cold.append(dict(header=header, api=api, value=value, output=output.value,
@@ -473,15 +575,18 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     declined = []
                     @peer_type
                     def rx_send(header, api, value, output):
-                        if (header, api, value) == (0x1a, 1, 512):
+                        if not desc10 and (header, api, value) == (0x1a, 1, 512):
                             declined.append([header, api, value])
                             return -95
                         return send(header, api, value, output)
                     sender.npu_host_rx_event.argtypes = [ctypes.c_uint64, peer_type]
-                    assert sender.npu_host_rx_event(h.get32(cold_state + 368), rx_send) == -95 and not failures, failures
-                    assert declined == [[0x1a, 1, 512]]
+                    expected_rx = 0 if desc10 else -95
+                    assert sender.npu_host_rx_event(h.get32(cold_state + 368), rx_send) == expected_rx and not failures, failures
+                    assert declined == ([] if desc10 else [[0x1a, 1, 512]])
                     cold.append(dict(actual_rx_event_sender=True, next_desc10=declined,
-                                     desc10_rejection_modeled=True, full_setup=False))
+                                     desc10_rejection_modeled=not desc10, desc10_executed=desc10,
+                                     rx_pcie_executed=desc10,
+                                     full_setup=False, prior_controls_skipped=nominal_only))
                 assert [(row['header'], row['api'], row['value']) for row in cold if 'header' in row] == sequence
             else:
                 for command in sequence:
@@ -493,10 +598,10 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             expected_leases = ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
                              [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15 + [1] if tx_failure else
                              [1, 0] * 17 + [1] if token_failure else
-                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * (32 + int(rx_event)))
+                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * (32 + int(rx_event) + 2 * int(desc10)))
             expected_leases[4:4] = [1, 0] * (NATIVE_TXBUF_RECORDS + int(rx_event))
             assert leases == expected_leases
-            assert h.get32(packet_state + 16) == (1 if cold_failure else 2560)
+            assert h.get32(packet_state + 16) == (1 if cold_failure else 3072 if desc10 else 2560)
             assert h.get32(cold_state + 8) == (25 if cold_failure else 63 if page_failure else 4095 if indication_failure else
                                             16383 if tx_failure else 65535 if token_failure else 131071)
             assert h.get32(page_state + 16) == (0 if cold_failure else 1 if page_failure else 1792)
@@ -506,7 +611,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                              test_indication_init=False,
                              indication_committed=0 if cold_failure or page_failure else 1 if indication_failure else 1536,
                              indication_published=0 if cold_failure or page_failure or indication_failure else 1536,
-                             retained_claims=1 if cold_failure else 2560,
+                             retained_claims=1 if cold_failure else 3072 if desc10 else 2560,
                              retained_ba_claims=0 if cold_failure else 1 if page_failure else 1792))
             if indication_controls:
                 cold.append(dict(indication_native_controls=indication_controls,

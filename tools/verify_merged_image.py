@@ -27,6 +27,17 @@ def run(args):
     return done.stdout
 
 
+def verify_core_archive(core, objects):
+    archive = core / 'libw1700k-npu.a'
+    members = run(['ar', 't', archive]).decode().splitlines()
+    assert len(members) == len(set(members)), 'Duplicate RV32 archive members'
+    assert set(members) == set(objects), 'RV32 archive member set differs from normal objects'
+    actual = {name: hashlib.sha256(run(['ar', 'p', archive, name])).hexdigest()
+              for name in members}
+    assert actual == objects, 'RV32 archive contains stale or different object bytes'
+    return actual
+
+
 def prop(path, node, name, kind='s', optional=False):
     done = subprocess.run(['fdtget', '-t', kind, str(path), node, name], capture_output=True, text=True)
     assert done.returncode == 0 or optional, done.stderr
@@ -188,8 +199,12 @@ def main():
         core_objects[path.name] = sha(path)
     assert set(core_objects) == {name + '.o' for name in (
         'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
-        'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'gdma', 'tunnel-header', 'tunnel-packet')}
+        'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx',
+        'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie',
+        'cold-pcie-tail', 'cold-inode',
+        'gdma', 'tunnel-header', 'tunnel-packet')}
     archive = core / 'libw1700k-npu.a'
+    archive_members = verify_core_archive(core, core_objects)
     metadata = OUT / 'fwtool.json'
     run([BUILD / 'staging_dir/host/bin/fwtool', '-i', metadata, image])
     data = json.loads(metadata.read_text())
@@ -204,6 +219,7 @@ def main():
                    board_configuration=board,
                    wifi_firmware_sha256=wifi_firmware,
                    rv32_core=dict(objects=core_objects, archive_sha256=sha(archive),
+                                  archive_members=archive_members,
                                   bootable_replacement=False),
                    checked_npu_pair=dict(code=pair_manifest['code'], data=pair_manifest['data'],
                                          manifest_sha256=sha(fw / 'w1700k-npu-pair.json'),

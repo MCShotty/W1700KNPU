@@ -123,7 +123,7 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
     uint32_t i;
 
-    if (!txbuf_history(s, boot) || s->rx_event_steps > 1 ||
+    if (!txbuf_history(s, boot) || s->rx_event_steps > 3 ||
         (s->rx_event ? s->txbuf_enrolled < NPU_COLD_TXBUF_MAILBOXES ||
          !npu_cold_rx_event_dma_valid(&s->txbuf, s->txbuf_enrolled, s->rx_event) :
          !!s->rx_event_steps) ||
@@ -160,6 +160,18 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
         return 0;
     return s->completed & NPU_COLD_ENDPOINT_BYTES ?
            window(s->endpoint_base, s->endpoint_bytes, boot) : !s->endpoint_bytes;
+}
+
+static int rx_pcie_ready(const struct npu_cold_setup *s,
+                         const struct npu_bootstrap_packet *p, const struct npu_bootstrap *boot)
+{
+    return s->rx_event_steps == 2 && s->rx_event &&
+           s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS && s->txbuf_steps == NPU_COLD_TXBUF_STEPS &&
+           s->descriptor_gets == NPU_COLD_DESCRIPTOR_STEPS && s->completed == NPU_COLD_COMPLETED_MASK &&
+           window(s->endpoint_base, s->endpoint_bytes, boot) &&
+           s->endpoint_bytes >= NPU_COLD_RX_PCIE_REGISTER_BYTES &&
+           NPU_COLD_RX_PCIE_REGISTER <= s->endpoint_bytes - NPU_COLD_RX_PCIE_REGISTER_BYTES &&
+           p->value == s->endpoint_base + NPU_COLD_RX_PCIE_REGISTER;
 }
 
 static uint32_t command_bit(const struct npu_bootstrap_packet *p,
@@ -233,7 +245,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     struct npu_cold_packet p;
     struct npu_cold_txbuf_plan candidate;
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
-    uint32_t i, bit, descriptor, enrollment, txbuf, rx_bind, rx_command;
+    uint32_t i, bit, descriptor, enrollment, txbuf, rx_bind, rx_command, desc10, rx_pcie;
 
     if (!packet || bytes != sizeof(p))
         return NPU_COLD_BAD_MESSAGE;
@@ -265,11 +277,19 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     txbuf = npu_cold_txbuf_command_step(&p.command);
     rx_bind = npu_cold_rx_event_enrollment(&p.command);
     rx_command = npu_cold_rx_event_command(&p.command);
+    desc10 = npu_cold_txdone_command(&p.command);
+    rx_pcie = npu_cold_rx_pcie_command(&p.command);
+    if (rx_pcie && !rx_pcie_ready(s, &p.command, boot))
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
     if ((rx_bind && !rx_event_candidate(s, &p.command)) ||
         (rx_command && (!s->rx_event || s->rx_event_steps ||
          s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
          s->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
          s->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS || p.command.value != s->rx_event)))
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
+    if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || p.command.value != 512 ||
+        s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || s->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+        s->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS || s->completed != NPU_COLD_COMPLETED_MASK))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (txbuf < NPU_COLD_TXBUF_STEPS &&
         (s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || txbuf != s->txbuf_steps ||
@@ -285,7 +305,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
         !txbuf_candidate(s, boot, &p.command, &candidate))
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
-        txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command &&
+        txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command && !desc10 && !rx_pcie &&
         !(p.command.header == 0x30 && p.command.api == 10 && !p.command.value))
         return fail(s, a, b, NPU_COLD_UNSUPPORTED);
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
@@ -333,7 +353,12 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
     uint32_t txbuf = npu_cold_txbuf_command_step(&s->command);
     uint32_t rx_bind = npu_cold_rx_event_enrollment(&s->command);
     uint32_t rx_command = npu_cold_rx_event_command(&s->command);
+    uint32_t desc10 = npu_cold_txdone_command(&s->command);
+    uint32_t rx_pcie = npu_cold_rx_pcie_command(&s->command);
     struct npu_cold_txbuf_plan candidate;
+
+    if (rx_pcie && !rx_pcie_ready(s, &s->command, boot))
+        return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
 
     if (s->rx_event != s->prior_rx_event || s->rx_event_steps != s->prior_rx_event_steps ||
         (rx_bind ? !rx_event_candidate(s, &s->command) ||
@@ -352,6 +377,11 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
          !txbuf_candidate(s, boot, &s->command, &candidate) ||
          !npu_cold_txbuf_plan_equal(&candidate, &s->pending_txbuf) :
          !npu_cold_txbuf_plan_equal(&s->txbuf, &s->pending_txbuf)))
+        return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
+
+    if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || s->command.value != 512 ||
+        s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || s->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+        s->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS || s->completed != NPU_COLD_COMPLETED_MASK))
         return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
 
     if (reply && descriptor < NPU_COLD_DESCRIPTOR_STEPS)
@@ -374,13 +404,13 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
          (descriptor != s->descriptor_gets || s->completed != NPU_COLD_COMPLETED_MASK || !arena)) ||
         (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
-         txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command &&
+         txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command && !desc10 && !rx_pcie &&
          !(s->command.header == 0x30 && s->command.api == 10 && !s->command.value)) ||
         !reply || result != 1 || reply->header != s->command.header ||
         reply->api != s->command.api ||
         (descriptor == NPU_COLD_DESCRIPTOR_STEPS && reply->value !=
          (bit || enrollment < NPU_COLD_TXBUF_RECORDS || txbuf < NPU_COLD_TXBUF_STEPS ||
-          rx_bind || rx_command ?
+          rx_bind || rx_command || desc10 || rx_pcie ?
           s->command.value : 0x457u)))
         return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
     if (enrollment < NPU_COLD_TXBUF_RECORDS) {
@@ -391,7 +421,7 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         s->txbuf_steps++;
     if (rx_bind)
         s->rx_event = s->pending_rx_event;
-    if (rx_command)
+    if (rx_command || desc10 || rx_pcie)
         s->rx_event_steps++;
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
         s->descriptor_arena = arena;

@@ -345,6 +345,7 @@ def main():
         'ignore-finished-RX': ('!npu_cold_rx_event_live(rx, &p->prior, epoch, rx_readback) ||\n        !packet_header',
                               '(0 && !npu_cold_rx_event_live(rx, &p->prior, epoch, rx_readback)) ||\n        !packet_header'),
         'ignore-prefix-population': ('if (count != NPU_COLD_TXDONE_PREFIX)', 'if (0 && count != NPU_COLD_TXDONE_PREFIX)'),
+        'ignore-fixed-ID-pool': ('|| p->ids_pool != NPU_COLD_TXDONE_IDS_POOL)', '|| (0 && p->ids_pool != NPU_COLD_TXDONE_IDS_POOL))'),
         'wrong-first-clear': ('field == 4 ? 0x07000100u : 0;', 'field == 4 ? 0x07000100u : 1;'),
         'ignore-reservation-value': ('bytes != store.bytes || value != store.value)', 'bytes != store.bytes || (0 && value != store.value))'),
         'ignore-readback': ('if (readback != store.value)', 'if (0 && readback != store.value)'),

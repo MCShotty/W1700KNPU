@@ -55,9 +55,22 @@ class ImageTests(unittest.TestCase):
         self.assertEqual({row['component']: row['end'] - row['start'] for row in bss},
                          {'base': 388, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
                           'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213744,
-                          'cold-rx-event': 672})
+                          'cold-rx-event': 672, 'cold-txdone': 23056, 'cold-rx-pcie': 708})
         for row in bss:
             self.assertEqual(code[row['start'] - image.CODE:row['end'] - image.CODE], bytes(row['end'] - row['start']))
+
+    def test_desc10_metadata_branches_enrolled(self):
+        hooks = {row['site']: row for row in self.manifest['hooks']}
+        symbols = image.symbols(self.components['cold-txdone'])
+        for offset in (0xb45e, 0xb46a, 0xb530, 0xb53c):
+            site = image.CODE + offset
+            name = 'npu_emulation_desc10_' + format(offset, 'x')
+            self.assertEqual((hooks[site]['component'], hooks[site]['symbol']), ('cold-txdone', name))
+            target = symbols[name + '_store'] - image.CODE
+            self.assertEqual(self.raw_code[target:target + 4], self.code[offset:offset + 4])
+        remaining = [row for row in self.arguments()['patches']
+                     if row['site'] not in (image.CODE + 0xb45e, image.CODE + 0xb46a)]
+        self.rejected('incomplete-hook-set', patches=remaining)
 
     def test_repeat_build(self):
         if COMPARE is None:
@@ -67,6 +80,18 @@ class ImageTests(unittest.TestCase):
         image.validate(code, data, manifest)
         self.assertEqual((code, data), (self.raw_code, self.raw_data))
         self.assertEqual(manifest['inputs'], self.manifest['inputs'])
+
+    def test_rx_pcie_original_store_and_hooks(self):
+        hooks = {row['site']: row for row in self.manifest['hooks']}
+        for offset, name in ((0xfdc4, 'npu_emulation_rx_pcie_callback'),
+                             (0xba88, 'npu_emulation_rx_pcie_ba88')):
+            self.assertEqual((hooks[image.CODE + offset]['component'], hooks[image.CODE + offset]['symbol']),
+                             ('cold-rx-pcie', name))
+        symbols = image.symbols(self.components['cold-rx-pcie'])
+        address = symbols['npu_emulation_rx_pcie_ba88_store'] - image.CODE
+        self.assertEqual(self.raw_code[address:address + 4], self.code[0xba88:0xba8c])
+        remaining = [row for row in self.arguments()['patches'] if row['site'] != image.CODE + 0xba88]
+        self.rejected('incomplete-hook-set', patches=remaining)
 
     def test_original_identity(self):
         self.rejected('wrong-original-pair', code=b'\x00' + self.code[1:])

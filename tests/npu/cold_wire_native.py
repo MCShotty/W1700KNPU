@@ -8,6 +8,7 @@ from emulation_layout import STATE
 from test_firmware_memory_layout import STACK_TOPS
 from emulation_layout import CODE
 from unicorn import UC_HOOK_CODE
+import test_bootstrap_v2_composition as composition
 
 
 class ColdProviderRequest(ProviderRequest):
@@ -15,8 +16,13 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_request = False
         self.cold_getters = 0
         self.cold_count = 0
+        self.cold_callback_count = 0
+        self.cold_checkpoints = ()
+        self.cold_checkpoint_hits = {}
         self.cold_txbuf = False
         self.cold_rx_event = False
+        self.cold_desc10 = False
+        self.cold_pcie = False
         self.indication_fault = self.indication_injected = False
         self.tx_fault = None
         self.tx_injected = False
@@ -27,6 +33,8 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_request = len(words) == 20 and words[2] == 0x3253434e
         self.cold_txbuf = self.cold_request and words[12] == 21
         self.cold_rx_event = self.cold_request and words[12] == 22
+        self.cold_desc10 = self.cold_request and words[11:13] == [0x1a, 1]
+        self.cold_pcie = self.cold_request and words[11:13] == [0x1a, 0]
         self.cold_count = words[13] if self.cold_request and words[12] == 1 and words[11] in (0x10, 0x12, 0x15, 0x16, 0x17, 0x18) else 0
         self.cold_getter = 0x8400bb10 if self.cold_request and words[11] == 0x18 else (
             PAGE_GETTER if self.cold_request and words[11] in (0x15, 0x16, 0x17) else GETTER)
@@ -37,25 +45,43 @@ class ColdProviderRequest(ProviderRequest):
         if self.cold_txbuf or self.cold_rx_event:
             self.cold_count = 16 * 53260
             self.cold_getter = self.rv.symbols['npu_cold_txbuf_recipe']
+        if self.cold_desc10:
+            self.cold_count = 64 * 53260
+            self.cold_getter = self.desc10.symbols['npu_cold_txdone_recipe']
+        if self.cold_pcie:
+            self.cold_count = 64 * 53260
+            self.cold_getter = self.desc10.symbols['npu_cold_txdone_memory_live']
+        self.cold_callback_count = words[13] if self.cold_request and words[12] == 1 else self.cold_count
+        self.cold_checkpoints = (self.cold_getter,)
+        if self.cold_desc10 or self.cold_pcie:
+            # Prior effect verification runs before the first DESC10 recipe.
+            self.cold_checkpoints += (self.rv.symbols['npu_cold_txbuf_recipe'],)
+        self.cold_checkpoint_hits = {hex(pc): 0 for pc in self.cold_checkpoints}
         self.cold_getters = 0
         previous_probe = self.probing
         # This selects the existing RX observer, not a native admission bypass.
-        self.probing = bool(self.cold_count) and not (self.cold_txbuf or self.cold_rx_event)
+        self.probing = bool(self.cold_count) and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie)
         observers = []
-        if self.cold_txbuf or self.cold_rx_event:
+        if self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie:
             self.cpu.hook_del(self.instruction_hook)
             self.cpu.hook_del(self.callback_hook)
             observers = [
                 self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=CODE, end=CODE + len(self.code) - 1),
                 self.cpu.hook_add(UC_HOOK_CODE, self.native_callback, begin=CODE, end=CODE + len(self.code) - 1),
-                self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=self.cold_getter, end=self.cold_getter),
             ]
+            observers += [self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=pc, end=pc)
+                          for pc in self.cold_checkpoints]
         try:
             reply = super().message(words, **kwargs)
             if self.cold_txbuf:
                 reply['api21_recipe_entries'] = self.cold_getters
             if self.cold_rx_event:
                 reply['api22_prior_recipe_entries'] = self.cold_getters
+            if self.cold_desc10:
+                reply['desc10_recipe_entries'] = self.cold_getters
+                reply['desc10_checkpoints'] = self.cold_checkpoint_hits.copy()
+            if self.cold_pcie:
+                reply['pcie_final_memory_entries'] = self.cold_getters
             return reply
         finally:
             if observers:
@@ -66,14 +92,25 @@ class ColdProviderRequest(ProviderRequest):
             self.cold_request = False
             self.cold_txbuf = False
             self.cold_rx_event = False
+            self.cold_desc10 = False
+            self.cold_pcie = False
             self.probing = previous_probe
 
     def code_hook(self, cpu, pc, size, data):
         if self.cold_request and pc == 0x8400dd82:
             state = self.rv.symbols['npu_emulation_cold_setup_state']
             assert self.get32(state + 4) == self.get32(ADM + 4) == 1
-            assert cpu.reg_read(r.UC_RISCV_REG_A1) in (0, 2, 5, 6, 7, 8)
-            assert cpu.reg_read(r.UC_RISCV_REG_A0) == self.cold_count
+            assert cpu.reg_read(r.UC_RISCV_REG_A1) in (0, 2, 5, 6, 7, 8, 10)
+            assert cpu.reg_read(r.UC_RISCV_REG_A0) == self.cold_callback_count
+            if self.cold_desc10:
+                assert cpu.reg_read(r.UC_RISCV_REG_A1) == 10
+                owner = self.desc10.symbols['npu_emulation_desc10_state']
+                assert [self.get32(owner + 4 * i) for i in range(4)] == [0x31445443, 1, 0, 1]
+                assert self.get32(self.desc10.symbols['npu_emulation_desc10_running']) == 1
+                self.executions[pc] += 1
+                # Only the parking-only observer's no-DESC assertion is bypassed.
+                super(composition.Composed, self).code_hook(cpu, pc, size, data)
+                return
         super().code_hook(cpu, pc, size, data)
 
     def write_hook(self, cpu, access, address, size, value, data):
@@ -93,6 +130,26 @@ class ColdProviderRequest(ProviderRequest):
                 self.put32(STATE + 16, 1)
         super().write_hook(cpu, access, address, size, value, data)
 
+    def observe_tx_write(self, cpu, address, size, value):
+        if not (self.cold_request and self.cold_desc10):
+            return super().observe_tx_write(cpu, address, size, value)
+        owner = self.desc10.symbols['npu_emulation_desc10_state']
+        words = [self.get32(owner + 4 * i) for i in range(16)]
+        assert words[:4] == [0x31445443, 1, 0, 1]
+        assert words[4] == words[5] == words[6] + 1
+        assert words[7:11] == [512, 512, 512, 1]
+        assert self.get32(self.desc10.symbols['npu_emulation_desc10_running']) == 1
+        assert self.get32(self.allocator_rv.symbols['npu_emulation_callback_guarded']) == 1
+        assert not cpu.reg_read(r.UC_RISCV_REG_MSTATUS) & 8
+        stores = {
+            self.desc10.symbols['npu_emulation_desc10_4aac_store']: 0,
+            self.desc10.symbols['npu_emulation_desc10_4ad2_store']: 3,
+        }
+        pc = cpu.reg_read(r.UC_RISCV_REG_PC)
+        assert pc in stores and size == 2 and value == stores[pc]
+        assert words[13:16] == [value, address, size]
+        # Keep the boot clear counter separate from later owned SKB effects.
+
     def native_callback(self, cpu, pc, size, data):
         if not self.cold_request:
             return super().native_callback(cpu, pc, size, data)
@@ -107,13 +164,27 @@ class ColdProviderRequest(ProviderRequest):
         assert self.get32(state + 4) == self.get32(ADM + 4) == 1
 
     def run(self, start, stops):
-        if not self.cold_request or not self.cold_count or (self.cold_count > 1536 and not (self.cold_txbuf or self.cold_rx_event)):
+        if not (self.cold_request and self.cold_pcie):
+            return self._run_cold(start, stops)
+        reader = self.desc10.symbols['npu_emulation_desc10_read']
+        if reader not in self.cold_checkpoints:
+            self.cold_checkpoints += (reader,)
+            self.cold_checkpoint_hits[hex(reader)] = 0
+        hook = self.cpu.hook_add(UC_HOOK_CODE, self.code_hook, begin=reader, end=reader)
+        try:
+            return self._run_cold(start, stops)
+        finally:
+            self.cpu.hook_del(hook)
+
+    def _run_cold(self, start, stops):
+        if not self.cold_request or not self.cold_count or (self.cold_count > 1536 and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie)):
             return super().run(start, stops)
         pc, chunks = start, 0
         while True:
-            pc = super().run(pc, list(stops) + [self.cold_getter])
+            pc = super().run(pc, list(stops) + list(self.cold_checkpoints))
             chunks += 1
             assert chunks <= self.cold_count + 3, 'cold-wire-getter-progress'
-            if pc != self.cold_getter:
+            if pc not in self.cold_checkpoints:
                 return pc
-            self.cold_getters += 1
+            self.cold_checkpoint_hits[hex(pc)] += 1
+            self.cold_getters += int(pc == self.cold_getter)

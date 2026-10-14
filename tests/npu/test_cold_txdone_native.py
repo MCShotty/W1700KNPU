@@ -121,6 +121,10 @@ class TxPackets(packets.NativePackets):
             extra.append((0x84090000, bytes(self.cpu.mem_read(0x84090000, 0x40000))))
         if hasattr(self, 'rx_event'):
             extra.append((0x840d0000, bytes(self.cpu.mem_read(0x840d0000, 0x4000))))
+        if hasattr(self, 'desc10'):
+            extra.append((0x840d4000, bytes(self.cpu.mem_read(0x840d4000, 0x10000))))
+        if hasattr(self, 'rx_pcie'):
+            extra.append((0x840e4000, bytes(self.cpu.mem_read(0x840e4000, 0x4000))))
         return super().snapshot() + extra + [(HOST, bytes(self.cpu.mem_read(HOST, HOST_BYTES))),
                                             (SKB_STATE, bytes(self.cpu.mem_read(SKB_STATE, SKB_BYTES)))]
 

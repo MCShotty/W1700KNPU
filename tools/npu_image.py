@@ -13,7 +13,7 @@ CODE_SHA = 'e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643'
 DATA_SHA = '61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1'
 ORIGINAL_CODE_BYTES, ORIGINAL_DATA_BYTES = 122336, 3084
 COMPONENTS = frozenset(('base', 'bridge', 'reset', 'allocator', 'txdone', 'order', 'headers',
-                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event'))
+                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie'))
 HOOK_SITES = frozenset(CODE + offset for offset in (
     0x74, 0xf0, 0x188, 0xb24, 0xb36, 0x148a, 0x1500, 0x1582, 0x159e, 0x178e,
     0x1e78, 0x1e92, 0x1eea, 0x1f00, 0x1f3a, 0x30b2, 0x3f2e, 0x4a28, 0x4a3a,
@@ -26,8 +26,10 @@ HOOK_SITES = frozenset(CODE + offset for offset in (
     0x10164, 0xd8cc, 0xd8fc, 0xfbca,
     0xef98, 0xefba, 0xefd8, 0xf014, 0xf062, 0xf092,
     0xa630, 0xa638, 0xa644, 0xa6a6, 0xa6ae, 0xa6c6,
-    0xeeb2, *range(0xeeb8, 0xef2c, 4), 0xef2c, 0xa672, 0xa678, 0xa67c, 0xfbb4, 0xb5ec))
-HOOK_WIDTHS = {CODE + 0x4d80: 6, CODE + 0xeeb2: 6, CODE + 0xa672: 6}
+    0xeeb2, *range(0xeeb8, 0xef2c, 4), 0xef2c, 0xa672, 0xa678, 0xa67c, 0xfbb4, 0xb5ec,
+    0xb45e, 0xb46a, 0xb530, 0xb53c, 0xb4b6, 0xb4ba, 0xb4c0, 0xb4ce, 0xb4d6, 0x4a62, 0x9b04,
+    0x4aac, 0x4ad2, 0x4afa, 0x4b32, 0x4b5c, 0x4b60, 0xb54a, 0xb558, 0xfdc4, 0xba88))
+HOOK_WIDTHS = {CODE + 0x4d80: 6, CODE + 0xeeb2: 6, CODE + 0xa672: 6, CODE + 0xb4ba: 6}
 LOADER_SLOTS = {SRAM + 0x6300: 48, SRAM + 0x6380: 20, SRAM + 0x63a0: 8}
 STARTUP_ADDRESS = SRAM + 0x6180
 STARTUP_BYTES = struct.pack('<16I', 0x3153504e, 1, 64, *([0] * 13))

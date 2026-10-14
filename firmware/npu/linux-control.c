@@ -124,7 +124,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	struct npu_bootstrap_packet snapshot;
 	struct npu_cold_packet packet;
 	enum npu_client_result result;
-	u32 ticket, output, descriptor, arena, enrollment, txbuf, rx_bind, rx_command;
+	u32 ticket, output, descriptor, arena, enrollment, txbuf, rx_bind, rx_command, desc10, rx_pcie;
 	int error;
 
 	if (!control || !control->initialized || !command || !value)
@@ -142,6 +142,8 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	enrollment = npu_cold_txbuf_enrollment_step(&snapshot);
 	rx_bind = npu_cold_rx_event_enrollment(&snapshot);
 	rx_command = npu_cold_rx_event_command(&snapshot);
+	desc10 = npu_cold_txdone_command(&snapshot);
+	rx_pcie = npu_cold_rx_pcie_command(&snapshot);
 	if ((enrollment < NPU_COLD_TXBUF_RECORDS && enrollment != control->txbuf_enrolled) ||
 	    (control->txbuf_enrolled && control->txbuf_enrolled < NPU_COLD_TXBUF_RECORDS &&
 	     enrollment == NPU_COLD_TXBUF_RECORDS && !rx_bind) ||
@@ -151,6 +153,12 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	    (rx_command && (!control->rx_event || control->rx_event_steps ||
 	     snapshot.value != control->rx_event || control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
 	     control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+	     control->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS)) ||
+	    (desc10 && (!control->rx_event || control->rx_event_steps != 1 || snapshot.value != 512 ||
+	     control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+	     control->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS)) ||
+	    (rx_pcie && (!control->rx_event || control->rx_event_steps != 2 ||
+	     control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
 	     control->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS))) {
 		error = hold(control, -EPROTO);
 		goto unlock;
@@ -187,7 +195,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 			control->txbuf_steps++;
 		if (rx_bind)
 			control->rx_event = snapshot.value;
-		if (rx_command)
+		if (rx_command || desc10 || rx_pcie)
 			control->rx_event_steps++;
 		if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {
 			arena = npu_cold_descriptor_reply_arena(descriptor, output, control->descriptor_arena);

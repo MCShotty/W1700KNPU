@@ -1,8 +1,195 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-14 (portable DESC10 owner tested; native/full/physical open)
+Last updated: 2026-10-15 (canonical owners/image qualified; full native/physical open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-15 - Canonical Owners And Image Qualified
+
+- Older fresh82479 is terminal0 through actual-C DESC10/RX PCIe with exact
+  protected memory; full_setup=false/prior_controls_skipped=true. Its530-file
+  historical producing cohort is hash-preserved before canonical edits.
+- Promoted PCIe-tail/INODE source, separate fixtures and exact normal-build
+  drivers into the22-object archive. RV32446/376 and2312/142, host checks,
+  15 compiled mutants/sanitizers,42/120 original-store stub-guard ABI,4/1036
+  original INODE prefixes and61 focused units pass. No new native admission.
+- Raw18/147 CODEeea4cfc6/DATA8fb7ca09 repeats; source70 OpenWrt/5 LuCI and
+  world/FIT/Gemtek W1700K/218 packages/78 module ABIs/22 object checks pass.
+  New unflashed FIT1aa17499; prior69c88ce9 and seven companions are protected.
+  Archive members now verify exact bytes despite harmless member-order changes.
+- Broader raw12172 is terminal1: six boot controls/2560 RX/1792 BA claims pass,
+  then its old modeled TXDONE lease fails strict admission before descriptor
+  stores. Exact first failed condition is uncaptured. Migrate to actual retained
+  RX/API22/DESC10 history with full512-store/negative coverage, not looser guards.
+  Current provider609/nine and wire1436/45 pass after README changes. Status
+  verifies299 current inputs/14 passing scoped receipts and explicitly records
+  the failed broader raw run; all jobs are terminal. Continue real
+  PCIe/INODE guards/history, checked final IRQ/hot re-enable and full native/
+  worker/hot/physical/drain/lifecycle/recovery/boot/actual-client requirements.
+  Evidence: research/checkpoints/2026-10-15-npu-owner-promotion/REPORT.md.
+
+## 2026-10-15 - Portable INODE Owner Tested
+
+- Staged188/4372-byte INODE owner retains1030+6 effects/full4104-byte clear
+  and requires finished PCIe/earlier owners plus exact fixed109 metadata.
+  Host382 and exact normal-Os RV322312 calls/142 controls each/both profiles,
+  eight compiled mutants and ASan/UBSan/leak pass. Five receipts/71 current
+  inputs verify. Fixture pointer UB was repaired.
+- Added eleven original-store trampolines/120 passing ABI cases with explicit
+  guard stubs; six scoped receipts/78 current inputs verify. Original callback
+  return1 after inner failure cannot replace a real outer owner. NEXT_INODE.md
+  records exact opcodes/frame/guard/history requirements; no new admission.
+- Final IRQ host-provider/wrapper/caller actual-C fixture passes21 sanitizer
+  cases; current void API loses12 modeled IRQ errors. Seven earlier errors
+  propagate. No source/hardware fix claimed; next must cover hot poll re-enable
+  and partial ownership/readback. See checkpoint NEXT_IRQ.md.
+- Single-effect compiled-RV3247692 is terminal0; only older fresh82479/PID3199667
+  remains live, now after DESC10/25606 effects/3072 claims/all856064 protected
+  bytes. Independent225 inputs/44 files pass; PCIe verdict is pending. Entry
+  limits remain500M/30 seconds; earlier oversized fixture/
+  batch runs and intentional interruption are not passes. No new native
+  admission, stack bound, worker/IRQ/reclaim or hardware claim. Normal promotion
+  follows terminal. Full goal active; image/flash/subagents unchanged.
+  Evidence: research/checkpoints/2026-10-15-npu-inode-owner/REPORT.md.
+
+## 2026-10-14 - Remaining PCIe Portable Owner
+
+- Implemented the staged three-command/nine-effect PCIe owner with independent
+  finished TX and RX PCIe/DESC10 prerequisites and retained partial failures.
+  Fixed a reproduced first-begin reader-mutation gap; whole-state controls
+  explicitly retain only named injections/fault changes.
+- Host and exact normal-Os RV32 each pass446 calls/376 controls; both HIF
+  profiles, seven compiled host mutants and ASan/UBSan/leak pass. Checkpoint
+  verifies51 inputs/three receipts. Native binding/full caller/hardware proof
+  remain absent; normal integration follows older native jobs' terminal state.
+- Added nine original-store trampolines and42 passing original-callback/ABI
+  cases with explicit guard stubs; real native guard/admission remains open.
+  Original INODE fixed109 lookup and four nominal/1036 interrupted prefixes
+  pass with whole memory and exact full4104-byte clear. Cross-check57 inputs;
+  physical readiness/drains remain unproved. Exact NEXT_NATIVE.md is recorded.
+- Parallel24394 passes all30 native PCIe faults/267 current input hashes.
+  Redundant serial30156 was intentionally interrupted afterward (terminal1),
+  not a pass. Fresh82479/PID3199667 remains live at actual pre-DESC10 after all
+  six API21 phases/53260 effects; no full caller verdict.
+  Consumed source remains frozen; no hardware/subagents/image/mainline publish.
+  All full NPU/lifecycle/physical/recovery/client requirements remain active.
+  Evidence: research/checkpoints/2026-10-14-npu-pcie-tail-owner/REPORT.md.
+
+## 2026-10-14 - PCIe Nominal Diagnostic And Unified Image
+
+- Strict actual-prefix PCIe nominal passes1/1/1 owner,3072 claims/RXsteps3 and
+  all856064 bytes against exact pointer/session update; no source drift. Reader
+  checkpoint passes4 units without guest writes or raised instruction/chunk bounds.
+- Three missing exported headers caused first world failure; allowlist is fixed.
+  Six dependency units/old-export rejection and current67 OpenWrt/5 LuCI pass.
+  World q2/20 objects/raw18-147/218 packages/78 ABI/FIT/Gemtek W1700K pass.
+  New unflashed FIT69c88ce9/provider1a001dc2;82b1563a and companions are protected.
+  Exact compiled provider REA evidence is retained; session closed. No runtime
+  or physical implication from static/image checks.
+- Serial matrix30156, fixed8-group matrix24394 and fresh sender82479 are live.
+  Q2 stopped on10-second host wall reset budget; q3 records supported60-second
+  host profile with3M instruction/finite checkpoint/state bounds fixed. Reset/
+  enrollment15 pass. No complete current fault matrix or fresh sender pass yet.
+  Freeze consumed files; integrate qualified helpers/observer after terminal.
+- Full remaining setup/packet/worker/lifecycle/physical/recovery/boot/client,
+  final native mutation/reply/input closure and mainline publish remain open.
+  No hardware/subagents. Report/NEXT_SETUP in the2026-10-14 PCIe-bind checkpoint.
+
+## 2026-10-14 - Native RX PCIe Binding And Current Controls
+
+- Raw18/147/private388 now binds original8400ba88 and completed DESC10/prior
+  ownership; command ordering extends through RXsteps2->3 in server/client/
+  prepared provider. Same-input/all18 image groups, wire1436/45 mutants,
+  provider609/nine, loader60/eight, host3/16 and28 units pass.
+- Fresh q1 is terminal1: actual allocator/caller DESC10 passes25606 effects/
+  512 added claims/total3072/RXsteps2/ready1 and all856064 protected bytes.
+  PCIe then hits a bounded instruction observation failure at84042946 inside
+  DMA-plan verification; the pointer owner remains zero. No full sender pass.
+- Strict current-input prefixes pass31 DESC10 controls and4 early API0/history
+  denials. Read-only reader checkpoint passes4 units. Nominal/fault diagnostics
+  are live (48837/30156), not fresh full setup. Freeze consumed inputs.
+  Ghidra's revised15-function export uses explicit W1700K language and actual
+  raw continuation mapping; DWARF register/type warnings remain.
+- Canonical checkpoint integration, fresh full sender, native mutations,
+  export/lock/world/provider/FIT/publish and full setup/packet/lifecycle/
+  physical/recovery/boot/client scope remain. FIT82b1563a unchanged/unflashed.
+  No hardware/subagents. Read research/checkpoints/2026-10-14-npu-rx-pcie-bind/REPORT.md.
+
+## 2026-10-14 - Portable RX PCIe Owner Tested
+
+- Normal archive20 adds168-byte RX PCIe owner/136-byte prior plan, deriving
+  BAR+0xd4590 and retaining one possible metadata effect before the caller
+  store. Final DESC10 memory helper checks20998 final cells and owner liveness
+  before/after. Original native locks/spans/session/typed records remain external.
+- Exact host-C/normal-Os RV32 passes226 calls/213 controls/eight mutants and
+  sanitizers. DESC10 regression3656/3541/nine,24 units, identical raw17/145/
+  private388 pairs (CODEab78628b/DATA6bc539e7), all17 image groups and loader
+  60/eight pass. Six receipt input maps/binaries hash-check228 current files.
+  Original API0 observation64/54 returns/10 faults/nine sequences is synthetic
+  instruction evidence, not admission. Actual Jev batches keep raw uncertainty.
+- The pointer owner is not bound/instantiated in native firmware; API0 remains
+  unsupported. Next bind completed DESC10/prior owners, held BAR/nonce/session/
+  typed spans/IRQ/neighbor/ABI/readback and original16-byte frame; extend all
+  ordering together and run the actual full sender. Remaining broader setup/
+  hot/lifecycle/physical/drain/recovery/boot/client/export/world/publish stay open.
+  No live jobs, hardware/subagents or new image. FIT82b1563a/providerf163e26e
+  unchanged/unflashed. Full goal active; source uncommitted. Scope:
+  research/checkpoints/2026-10-14-npu-rx-pcie-owner/REPORT.md.
+
+## 2026-10-14 - DESC10 Protected Memory Reconciled
+
+- Q7 reached native error0/25606 effects/512 new claims/total3072/RXsteps2/
+  ready1 but its direct-callback oracle failed. Terminal same-image prefix
+  replay retains actual/expected bytes and proves only sequence56->57 at
+  3e906390 differed. Exact request-derived protocol-word modeling reconciles
+  all856064 protected bytes/five regions; no broad exclusions or post-state copy.
+- Integrated corrected oracle before main-harness guest execution and retained
+  memory dumps/match diagnostics. Twenty-four units pass. Old producer8960708c
+  is preserved; old input receipts are historical after this harness edit.
+  No fresh corrected full caller/native receipt or new world/publish yet.
+- Prior native39/typed57-three/width18-one/symbol30/raw17-145 keep their scope.
+  Own selector10/API0 tail and remaining setup/hot/physical/drain/recovery/boot/
+  client gates; export/lock/current-input/late-native/world/publish remain.
+  FIT82b1563a unchanged/unflashed. No live jobs or hardware/subagent action.
+  Full goal active; latest source changes are canonical but uncommitted.
+
+## 2026-10-14 - Native DESC10 Integration In Progress
+
+- Compiled working-tree raw17/145/private388 with original DESC10/PKT/SKB/store
+  bindings. Corrected fixed L2 type0x107 pointer0x3e8adc70; original replay has
+  no writes/allocator metadata change. All20 selected store instructions match original
+  and packaged raw bytes. Portable3656/3541/nine mutants/sanitizers pass.
+- First actual caller nominal prefix completed API21/API22, then DESC10 stopped
+  inside prior TX-buffer recipe verification at0x84042ad4. Nine observer units
+  pass after adding the actual prior-recipe checkpoint and separating native
+  count from observation budget. Native instruction limits and checks remain.
+  Three read-only capture units pass. Q3 then exposed two untracked valid-count
+  metadata stores before claim ordering rejected the command. Both valid/alternate
+  paths are now bound. Wire1378/40 mutants includes58 DESC10 cases; loader60/eight
+  and branch-coverage image checks pass. Q4 ended after3074 stores/512 claims;
+  signed halfword normalization now passes18 boundary cases/one mutant. Q5
+  published7170 stores before the boot-only TX-clear observer failed. The new
+  marked-DESC10 observation checks exact pending ownership/store PC and keeps
+  inherited access/boot counters;15 observer plus three capture units pass.
+  Captured replay exposed the allocator/base ELF guard-symbol mismatch; fixed
+  lookup passes30 raw-loaded observer checks. Exact typed8a/12/1d starts and
+  full CODE definition extents now precede effects; actual C57/three mutants
+  pass. Q6 and incomplete Q3 controls were deliberately stopped for fixes,
+  not native verdicts. CODEaff56189/DATA03c504e5 repeat identically; all17 groups
+  and current wire1378/40 pass. Q7 is terminal1: native error0/all25606 effects/
+  512 new claims/total3072/RXsteps2/ready1, but whole-memory oracle comparison
+  failed. No complete nominal pass. Same-prefix byte-diff diagnostic is live.
+  Its captured actual prefix passes31 native early/first-two-store fault/ABI
+  controls with245 current input hashes. Retained1/0 and2/1 store prefixes,
+  active/inflight1 and2560 prior claims are checked; restores are fixtures.
+  Eight count/unmarked/seeded-lease denials also pass without effects or changed
+  packet prefix;39 focused native controls total.
+  Later SKB/readiness/native-mutant controls remain.
+  Freeze consumed sources/tests; captured-state diagnostics are not fresh proof.
+- No complete native DESC10/fault suite/current-input closure/export/world or
+  hardware proof yet. FIT82b1563a/providerf163e26e are unchanged and unflashed.
+  Full setup/lifecycle/physical/recovery/boot/client objective stays active.
+  No hardware or subagents. Current receipts: .local/npu-desc10-native-20261014/.
 
 ## 2026-10-14 - Portable DESC10 Owner Tested
 

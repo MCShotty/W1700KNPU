@@ -7,11 +7,13 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+from source_component_headers import verify_header_closure
 
 ROOT = Path(__file__).resolve().parents[2]
 lock = json.loads((ROOT / 'firmware/source-lock.json').read_text())
 SOURCE = ROOT / lock['build_directory']
 components = {(row['tree'], row['destination']): row for row in lock.get('component_sources', [])}
+verify_header_closure(ROOT, lock.get('component_sources', []))
 results = []
 for label, source in [('openwrt', SOURCE), ('luci', SOURCE / 'feeds/luci')]:
     with tempfile.TemporaryDirectory(prefix='export-check-', dir=ROOT / '.migration') as tmp:

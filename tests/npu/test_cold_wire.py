@@ -52,6 +52,37 @@ def main():
     executor = SOURCE / 'linux-control.c'
     original, codec, linux = server.read_text(), client.read_text(), executor.read_text()
     mutations = {
+        'skip-RX-PCIE-order': {server: loader.once(original,
+            'return s->rx_event_steps == 2 && s->rx_event &&',
+            'return (1) && s->rx_event &&')},
+        'skip-RX-PCIE-value': {server: loader.once(original,
+            'p->value == s->endpoint_base + NPU_COLD_RX_PCIE_REGISTER;', '((void)p, 1);')},
+        'skip-late-RX-PCIE': {server: loader.once(original,
+            'if (rx_pcie && !rx_pcie_ready(s, &s->command, boot))',
+            'if (0 && rx_pcie && !rx_pcie_ready(s, &s->command, boot))')},
+        'skip-host-RX-PCIE-order': {executor: loader.once(linux,
+            '(rx_pcie && (!control->rx_event || control->rx_event_steps != 2 ||',
+            '(rx_pcie && (!control->rx_event || (0 && control->rx_event_steps != 2) ||')},
+        'omit-RX-PCIE-progress': {server: loader.once(original,
+            'if (rx_command || desc10 || rx_pcie)', 'if (rx_command || desc10)')},
+        'skip-DESC10-count': {server: loader.once(original,
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || p.command.value != 512 ||',
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || (0 && p.command.value != 512) ||')},
+        'skip-DESC10-RX-order': {server: loader.once(original,
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || p.command.value != 512 ||',
+            'if (desc10 && ((0 && s->rx_event_steps != 1) || !s->rx_event || p.command.value != 512 ||')},
+        'skip-DESC10-late-RX-order': {server: loader.once(original,
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || s->command.value != 512 ||',
+            'if (desc10 && ((0 && s->rx_event_steps != 1) || !s->rx_event || s->command.value != 512 ||')},
+        'skip-DESC10-late-count': {server: loader.once(original,
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || s->command.value != 512 ||',
+            'if (desc10 && (s->rx_event_steps != 1 || !s->rx_event || (0 && s->command.value != 512) ||')},
+        'skip-host-DESC10-RX-order': {executor: loader.once(linux,
+            '(desc10 && (!control->rx_event || control->rx_event_steps != 1 || snapshot.value != 512 ||',
+            '(desc10 && (!control->rx_event || (0 && control->rx_event_steps != 1) || snapshot.value != 512 ||')},
+        'skip-host-DESC10-count': {executor: loader.once(linux,
+            '(desc10 && (!control->rx_event || control->rx_event_steps != 1 || snapshot.value != 512 ||',
+            '(desc10 && (!control->rx_event || control->rx_event_steps != 1 || (0 && snapshot.value != 512) ||')},
         'skip-RX-late-handle': {server: loader.once(original,
             's->rx_event != s->prior_rx_event ||', '(0 && s->rx_event != s->prior_rx_event) ||')},
         'skip-RX-late-progress': {server: loader.once(original,
@@ -62,7 +93,8 @@ def main():
         'skip-RX-TX-overlap': {server: loader.once(original,
             '(!s->rx_event || npu_cold_rx_event_dma_valid(plan, step + 1, s->rx_event));', '(1);')},
         'skip-host-RX-TX-order': {executor: loader.once(linux,
-            'control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||', '(0 && control->txbuf_steps != NPU_COLD_TXBUF_STEPS) ||')},
+            '\t     control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||',
+            '\t     (0 && control->txbuf_steps != NPU_COLD_TXBUF_STEPS) ||')},
         'skip-held-workers': {server: loader.once(original, 'load(&b->parked[i]) != 1 || load(&b->ready[i])', 'load(&b->ready[i])')},
         'skip-deferred-irq': {server: loader.once(original, 'if (a->deferred[i])', 'if (0 && a->deferred[i])')},
         'allow-replay': {server: loader.once(original, 'p.sequence <= session->last_sequence', 'p.sequence == 0')},
@@ -106,7 +138,8 @@ def main():
                   limits=['Actual cold server/codec and Linux executor; kernel/provider/worker/callback effects are modeled.',
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
                           'Fourteen ordered mailbox/TX records, lost replies and pending-plan mutations join the existing cold prefix/getters.',
-                          'Native API21 store correctness is outside this host fixture proof; INODE/TXDONE/final IRQ and physical/hot/client gates remain open.'])
+                          'DESC10 step1-to2 admission, retained failures and reply delivery are host/codec scope, not original constructor execution.',
+                          'Native API21/DESC10 store correctness, INODE/final IRQ and physical/hot/client gates remain outside this host fixture proof.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))
 

@@ -1,5 +1,75 @@
 # Experimental NPU Components
 
+## Canonical PCIe Tail And INODE Owners
+
+The normal Makefile now builds22 RV32 objects, including `cold-pcie-tail.c/.h`
+and `cold-inode.c/.h`. Their canonical fixtures/drivers use explicit normal-build
+object directories; qualification links those objects rather than recompiling
+substitute owner objects. PCIe passes446 host/RV32 calls/376 controls; INODE
+passes382 host and2312 RV32 calls/142 controls. Both HIF profiles, all15 compiled
+host mutants and ASan/UBSan/leak pass. INODE uses one effect per finite-budget
+RV32 call with unchanged500M-instruction/30-second limits.
+
+Original-store assembly passes42 PCIe/120 INODE ABI cases with explicit guard
+stubs. This is not real ownership admission: PCIe0/2/15 and INODE2/7 remain
+unbound to the authenticated native path. Their exact next contracts remain
+NEXT_NATIVE.md/NEXT_INODE.md in the corresponding checkpoints. Largest individual
+INODE frame4688 bytes is not a full caller/interrupt-chain or physical stack bound.
+Final IRQ is a separate host/provider contract;21 actual-C modeled cases expose
+12 lost write errors, not a source fix or observed hardware bus fault.
+
+See `research/checkpoints/2026-10-15-npu-owner-promotion/REPORT.md` for canonical
+receipts, preserved producing cohorts, image/source closure and full remaining
+native/IRQ/worker/hot/lifecycle/physical/recovery/client requirements.
+
+## Portable RX-event PCIe Ownership
+
+`cold-rx-pcie.c/.h` is the20th normal archive object:136-byte plan and168-byte
+one-shot state. It requires matching completed DESC10/RX/PKT ownership and final
+DESC10 memory at every transition, derives BAR+0xd4590 with its full12-byte
+register extent, and reserves metadata3e902a90/width4/preimage/value before the
+caller store. Exact readback gates publication; failures retain possible effects.
+No reset or retirement is provided.
+
+The bounded reader verifies20998 final cells with a linear free-ID scan and
+owner liveness before/after. It does not recheck transient overwritten stores.
+The selector10/API0 native binding now checks mapped spans, typed allocations,
+original locks, session/nonce, metadata neighbors and original continuation.
+It is component18 in the raw18/147 composition. The fresh actual-C caller passed
+through this stage and DESC10 with all856064 protected bytes, before canonical
+promotion; that producing cohort is preserved separately. This does not admit
+the following PCIe0/2/15 or INODE commands or prove full setup/physical acceptance.
+Scope: `research/checkpoints/2026-10-14-npu-rx-pcie-bind/REPORT.md` and the newer
+canonical-promotion report above.
+
+## Original DESC10 Binding
+
+DESC10 is component17; with RX PCIe, the current raw pair has18 components and147 hooks.
+Its retained DESC10 owner binds ordered RX/API22 progress, the actual held cold
+session and shared PKT bitmap to the original count/pointer/descriptor/SKB/
+readiness instructions. Original frames and lock ownership are preserved through
+the detours; a failed reservation or readback retains the owner and blocks success.
+Both the valid-count metadata stores atb45e/b46a and their alternate copies at
+b530/b53c are bound. They share the same two recipe effects, not four effects
+in one invocation. Opcode equality alone did not establish this branch coverage.
+The store boundary validates address/width before reading the destination and
+normalizes register values to that width, matching native byte/halfword semantics.
+Before any constructor effect, the binding checks the actual allocator's unique,
+unreserved packet/type8a, SKB-queue/type12 and temporary/type1d records and exact
+paired-CODE definition sizes32768/57344/4096. The queue owner uses only16384 bytes
+of the full57344-byte native allocation. A merely aligned interior heap pointer
+does not establish an allocation. All held metadata stays pinned thereafter.
+
+Type0x107 is an immutable native L2 table lookup at3e8adc70, not a heap
+allocation. The portable plan pins that exact ID-pool address; original lookup
+does not grow allocator metadata. Earlier prior-owner checks remain fixed for
+their own commands, while DESC10 supplies independently verified packet growth.
+RX steps1->2 and exact header1a/API1/value512 govern the ordered cold exchange.
+
+The binding's qualification belongs to current checkpoint receipts and the
+canonical ledger, not this contract description. This does not establish
+physical backing, exclusion, coherency, drains, recovery or actual clients.
+
 ## Portable DESC10 Ownership
 
 `cold-txdone.c/.h` is the19th object in the portable Makefile. A136-byte plan
@@ -17,10 +87,10 @@ publication. Partial effects and lost queue-head publication are never erased.
 The caller must still supply original locks, exact typed allocations, immutable
 TX descriptor inputs, live prior owners and appropriate backing/readback.
 
-The normal-Os object passes portable host-C/RV32 tests and sanitizers. It has
-no native instance or dispatcher binding yet; authenticated DESC10 remains
-unsupported. Current raw16/126/private388 CODE/DATA are unchanged. This is
-not physical containment/coherency/drain or complete setup acceptance. Scope:
+The normal-Os object passes portable host-C/RV32 tests and sanitizers. That
+portable receipt does not establish original native execution. The current
+raw17/145 binding is described above; complete current-input sender/native and
+physical containment/coherency/drain acceptance remain unproven. Portable scope:
 `research/checkpoints/2026-10-14-npu-desc10-owner/REPORT.md`.
 
 ## RX-Event Enrollment And API22
