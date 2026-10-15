@@ -22,6 +22,26 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   Older q1 live observations below are historical, not restart instructions.
   Evidence: research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
 
+## 2026-10-15 - Exact Compiled Frame Audit; Mainline Published
+
+- Checkpoint734b827 is pushed and remote-ref verified on main; treea234b40d.
+  Fresh offline FIT978f9ddd still passes218 packages/78 module ABIs. Fresh native
+  q2 passes all six API21 phases/53260 effects and is in API22; no full native
+  nominal/eight-fault verdict yet. Frozen production inputs remain unchanged.
+- Added canonical normal-object and DESC10 C frame audits. All22 normal-Os
+  objects/166 defined functions match exact object bytes; largest single frame
+  4688 bytes. A separate archive in exact packaged-member order matches the
+  complete container too; the first different-order archive remains preserved.
+  Receiptb421ab04. No byte/hash comparison was waived.
+- Separate translation-unit O2 builds cover all29 defined DESC10 C functions
+  and reproduce every allocated section byte/address/extent/type; largest
+  individual frame2064 bytes. Receiptd2840e58. The first overwritten .su attempt
+  covered eleven binding functions only and is not comprehensive coverage.
+- All14 parser/inventory units pass with explicit synthetic ELF/file stubs.
+  Individual frames do not establish full call-chain/indirect/assembly/IRQ or
+  physical stack bounds. No firmware/image/hardware/subagent changes for this
+  audit. Full NPU goal stays open. Evidence: desc10-plan/STACK.md.
+
 ## 2026-10-15 - Borrowed Packet-Plan Guard Fixed; Qualification Live
 
 - Before native edits, preserved526 files/36963130 bytes with311 declared replay

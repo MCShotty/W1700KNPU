@@ -15,6 +15,11 @@ exact FIT978f9ddd board/package/module/archive checks pass; unflashed. Prior
 FIT1aa17499 and companions are protected. No hardware acceptance is claimed. See
 research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
 
+The independent frame audit covers166 normal-build functions/22 exact objects
+and29 C functions in the exact DESC10 component; all117 focused units pass.
+This measures individual frames, not full call-chain or physical stack bounds.
+See [frame measurements](research/checkpoints/2026-10-15-npu-desc10-plan/STACK.md).
+
 ## 2026-10-15 - Retained Replay Migration
 
 The broader raw regression is moving onto the actual allocator/host caller,

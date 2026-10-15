@@ -19,6 +19,10 @@ unflashed. No hardware/subagents. Full goal remains open. Read
 research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md. Dated live notes below
 are historical observations, not instructions to restart completed/stopped jobs.
 
+Frame audits cover166 normal functions/22 exact objects and29 exact DESC10 C
+functions;117 focused units pass. Maximum single frames4688/2064 bytes are not
+complete call-chain/assembly/IRQ/physical stack bounds. Read checkpoint STACK.md.
+
 ## 2026-10-15 - Retained Replay Migration In Progress
 
 The raw regression now requires the actual allocator/caller receipt, not a

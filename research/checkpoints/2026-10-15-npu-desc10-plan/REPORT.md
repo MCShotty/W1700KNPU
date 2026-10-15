@@ -30,6 +30,20 @@ remain the evidence for that check. Request/result are local jev-scope-review-q2
 The next native contract's TX pointer offsets are explicitly hexadecimal
 0x160/0x110, matching actual sender and portable recipe, not decimal160/110.
 
+Source/tests/docs checkpoint734b82760df70977e752a467a6765f92807b6d67 is pushed
+to GitHub main and remote-ref verified, treea234b40da47e85cb40f9bbfe5dd3510fecd3bd58.
+It does not claim the still-running fresh native matrix has passed. A fresh
+offline FIT check reproduces978f9ddd/218 packages/78 module ABIs. Current q2
+passes all six API21 phases/53260 effects; read-only owned-process inspection
+shows API22 in flight with failed0, not a passing native verdict.
+
+New canonical frame audits measure all166 defined functions in22 byte-identical
+normal objects and all29 C functions in the exact allocated DESC10 component.
+Largest individual frames4688/2064 bytes respectively;14 parser/inventory units
+pass. Original archive ordering and overwritten .su coverage attempts are
+preserved, not upgraded to comprehensive passes. Complete call-chain/assembly/
+physical bounds remain unresolved. Exact reproduction/scopes are in STACK.md.
+
 ## Preserved Failure
 
 The previous actual allocator/caller retained-replay-q3 finished its DESC10 and

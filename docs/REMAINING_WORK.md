@@ -18,6 +18,11 @@ weaker native guards or changed fault expectations. Full remaining PCIe/INODE/
 IRQ/worker/hot/lifecycle/physical/drain/recovery/boot/client scope stays open.
 Both images unflashed; no hardware/subagents. Read the desc10-plan REPORT.
 
+Frame audits now cover166 normal functions/22 exact objects and29 exact DESC10
+C functions, with117 focused units passing. Complete call-chain, indirect-call,
+assembly/original-firmware, IRQ nesting and physical per-hart stack bounds remain
+open; individual frame sizes are not acceptance. See desc10-plan/STACK.md.
+
 ## 2026-10-15 - Retained Replay Migration Pending Native Verdicts
 
 Strict captures now include imported replay code and generated provider inputs;

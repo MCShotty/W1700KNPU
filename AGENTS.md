@@ -18,6 +18,9 @@
   FIT1aa17499/eight artifacts protected. Ghidra exports five functions with both
   geometry checks around readers. No hardware/subagents.
   All103 units and24 compiled guard cases pass again after access restoration.
+  Independent stack audits add14 units: all166 normal functions/22 exact
+  objects and29 exact DESC10 C functions. Individual frames are not full
+  call-chain/assembly/physical stack bounds; see the checkpoint STACK.md.
   Read research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
 
 ## 2026-10-15 - Retained Raw Replay Migration In Progress
