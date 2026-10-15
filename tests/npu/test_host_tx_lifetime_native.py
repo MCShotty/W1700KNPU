@@ -85,6 +85,8 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     host=json.loads(args.host_receipt.read_bytes())
     assert host['passed'] and all(parent.loader.sha(root/path)==digest for path,digest in host['inputs'].items())
     inputs |= host['inputs']
+    inputs |= {str(path.relative_to(root)): parent.loader.sha(path)
+               for path in destination.rglob('*') if path.is_file() and path.suffix in ('.c', '.h', '.inc', '.so')}
     original_cdll=ctypes.CDLL
     observed=[]
 
@@ -116,7 +118,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
                                   host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event,
-                                  desc10=args.desc10,nominal_only=args.nominal_only)
+                                  desc10=args.desc10,nominal_only=args.nominal_only,producer_inputs=inputs)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()

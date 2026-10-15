@@ -7,6 +7,7 @@ extern struct npu_cold_setup npu_emulation_cold_setup_state;
 extern struct npu_admission npu_emulation_admission_state;
 extern struct npu_barrier npu_emulation_barrier_state;
 extern struct npu_cold_packet_state npu_emulation_packet_state;
+extern struct npu_cold_packet_plan npu_emulation_packet_plan;
 extern struct npu_cold_packet_queue_result npu_emulation_packet_last;
 extern struct npu_cold_rx_event_state npu_emulation_rx_event_state;
 extern uint32_t npu_emulation_callback_guarded;
@@ -97,6 +98,14 @@ static int allocations_live(void)
     return 1;
 }
 
+static int packet_plan_live(void)
+{
+    const volatile struct npu_cold_packet_plan *current = &npu_emulation_packet_plan;
+
+    return current->packet_base == plan.prior.prior.boot.region[NPU_BOOT_PKT].base &&
+           current->packet_bytes == plan.prior.prior.boot.region[NPU_BOOT_PKT].bytes;
+}
+
 static int context(uint32_t full)
 {
     const volatile uint32_t *setup = (const volatile void *)SETUP;
@@ -107,12 +116,14 @@ static int context(uint32_t full)
         SETUP->failed || SETUP->inflight != 1 ||
         SETUP->command.header != 0x1a || SETUP->command.api != 1 || SETUP->command.value != 512 ||
         SETUP->rx_event_steps != 1 || SETUP->prior_rx_event_steps != 1 ||
-        !allocations_live() || !npu_emulation_rx_event_prior_live(packets, full))
+        !packet_plan_live() || !allocations_live() ||
+        !npu_emulation_rx_event_prior_live(packets, full))
         return 0;
     for (i = 0; i < sizeof(held_setup) / 4; i++)
         if (setup[i] != held_setup[i])
             return 0;
-    return !OWNER->magic || npu_cold_txdone_packets_live(OWNER, &plan, 1, PKT);
+    return (!OWNER->magic || npu_cold_txdone_packets_live(OWNER, &plan, 1, PKT)) &&
+           packet_plan_live();
 }
 
 int npu_emulation_desc10_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
@@ -150,7 +161,8 @@ int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *candidate
         SETUP->rx_event_steps != 2 || SETUP->prior_rx_event_steps != 2 ||
         prior->command.header != 0x1a || prior->command.api != 1 || prior->command.value != 512 ||
         prior->rx_event_steps != 1 || prior->prior_rx_event_steps != 1 ||
-        !npu_cold_txdone_plan_equal(candidate, &plan) || !allocations_live() ||
+        !npu_cold_txdone_plan_equal(candidate, &plan) || !packet_plan_live() ||
+        !allocations_live() ||
         !npu_cold_txdone_live(OWNER, &plan, 1, RX, word(NPU_COLD_RX_EVENT_METADATA),
                                 PKT, read(0x3e9046fa, 1)))
         return 0;
@@ -167,7 +179,7 @@ int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *candidate
     return npu_emulation_rx_event_prior_live_done(packets) &&
            npu_cold_txdone_memory_live(OWNER, &plan, 1, RX,
                word(NPU_COLD_RX_EVENT_METADATA), PKT, read(0x3e9046fa, 1),
-               npu_emulation_desc10_read, OWNER);
+               npu_emulation_desc10_read, OWNER) && packet_plan_live();
 }
 
 uint32_t npu_emulation_desc10_take(uint32_t acquired)

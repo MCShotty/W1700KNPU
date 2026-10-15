@@ -34,9 +34,32 @@ physical bus faults. This establishes current C error-loss behavior, not that
 the physical router has suffered these errors or that any engine is drained.
 No current source was changed by this test.
 
+## Hot Poll Caller Characterized
+
+The canonical fixture now also compiles exact mt7996_rx_poll_complete and the
+actual mt76_rxq_id enum, rather than merely checking for a call-site string.
+.local/npu-final-irq-contract/hot-poll-q1/result.json passes the original21
+startup cases plus31 poll cases with address/undefined/leak sanitizers:
+
+- Ten NPU poll cases exercise both queues with success, EIO/timeout and no/
+  possible write effects. Eight modeled errors are lost through the void ABI.
+- Two null-provider NPU polls perform no IRQ write.
+- All19 other valid queue values route to the ordinary IRQ stub without a
+  provider access. Its mask is an explicitly modeled unique routing token;
+  this is not verification of the physical ordinary-queue interrupt masks.
+
+Receipt SHA2561efa0c69db1813d0602dc2ef03bbb89c87750d950f0136f7f6e8a21424b868ff.
+RCU reads, initializer dependencies and register effects/errors remain modeled.
+This does not establish NAPI/RCU lifetime, concurrency, physical routing or an
+IRQ fix. Production C/headers are unchanged. The previous canonical test driver
+is hash-preserved in the earlier producing-inputs-q1 archive. Current native
+desc10-plan-q1 does not consume this test driver; its actual production inputs
+remain frozen while the caller/fault runs execute.
+
 ## Required Implementation
 
-1. The older replay is terminal; add checked host/provider error handling
+1. Preserve any currently live replay inputs until terminal, then add checked
+   host/provider error handling
    across the real ops/header/wrapper and initialization caller. Keep the two
    headers, NPU-in/out builds and module interfaces consistent. Cover the hot
    poll re-enable caller explicitly; do not silently leave an unchecked path.

@@ -1,5 +1,38 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-15 - Borrowed Packet-Plan Guard Qualification
+
+Prior retained-replay-q3 is terminal with a passing nominal DESC10/RX PCIe
+prefix, seven passing faults and a real before-ready-plan failure25606 versus
+required25604 stores. Its526-file exact replay cohort is preserved. Actual
+base/extent checks now bracket prior/packet/final-memory readers, including
+the PCIe successor. Compiled host/RV3224 cases,103 units, repeated raw18/147/
+all18 image groups and loader60/eight mutants pass. These do not qualify native
+admission. WSL restarted during desc10-plan-q1: nominal/two late faults have no
+terminal receipt; six individual faults pass. Its144-file stopped cohort is
+hash-preserved unchanged. Fresh actual caller desc10-plan-q2 is live with
+consumed inputs frozen;103 units/24 compiled guard cases pass again.
+full512/eight faults remain pending. World/FIT978f9ddd passes exact board/218
+packages/78 module ABIs/22 archive objects, and Ghidra confirms compiled geometry
+checks around readers. Prior FIT1aa17499/eight artifacts protected; both images
+unflashed. No hardware/subagents. Full goal remains open. Read
+research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md. Dated live notes below
+are historical observations, not instructions to restart completed/stopped jobs.
+
+## 2026-10-15 - Retained Replay Migration In Progress
+
+The raw regression now requires the actual allocator/caller receipt, not a
+seeded lease. Strict captures bind imported replay/generated provider inputs;
+restoration has no observer-source drift exception. Current96 focused units
+pass for capture, independent store/partial-memory oracles, original-store/
+lock traces and full-size fault/CLI contracts. These are scoped synthetic tests,
+not a fresh native success or passing replacement for the older raw failure.
+Actual caller retained-replay-q3 is live with inputs frozen; Q1/Q2 were deliberately
+interrupted for capture/CLI fixes and are terminal non-passes. Eight retained
+native fault verdicts remain pending. No firmware/image/hardware/subagent change;
+FIT1aa17499 is unchanged/unflashed. Full native/IRQ/worker/hot/lifecycle/physical/
+drain/recovery/boot/client scope remains open. Read the retained-replay REPORT.md.
+
 ## 2026-10-15 - Canonical Owners And Unified Image Qualified
 
 Fresh82479 is terminal0 through actual allocator/caller DESC10 and RX PCIe,

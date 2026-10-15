@@ -1,5 +1,37 @@
 # Remaining W1700K Work
 
+## 2026-10-15 - Borrowed Packet-Plan Guard Qualification
+
+Prior retained-replay-q3 is terminal: nominal DESC10/RX PCIe prefix and seven
+retained faults pass, but before-ready-plan incorrectly executes25606 rather
+than25604 stores. Its exact526-file replay cohort is preserved. Actual guard
+base/extent checks now bracket readers and the PCIe successor; compiled24 cases,
+103 units, repeated raw18/147/all18 image groups and loader60/eight mutants pass.
+WSL restarted during desc10-plan-q1: nominal/two late faults are incomplete and
+six individual faults pass. Its144-file cohort is hash-preserved unchanged.
+Fresh changed-pair actual caller desc10-plan-q2 is live with inputs frozen;
+all103 units and24 compiled guard cases pass again after access restoration.
+Complete full512 nominal/eight faults and early/raw aggregate/current closure
+before qualifying it. World/FIT978f9ddd and compiled guard inspection pass;
+prior FIT1aa17499/eight artifacts protected. No hash waivers,
+weaker native guards or changed fault expectations. Full remaining PCIe/INODE/
+IRQ/worker/hot/lifecycle/physical/drain/recovery/boot/client scope stays open.
+Both images unflashed; no hardware/subagents. Read the desc10-plan REPORT.
+
+## 2026-10-15 - Retained Replay Migration Pending Native Verdicts
+
+Strict captures now include imported replay code and generated provider inputs;
+restoration has no observer-source drift exceptions. New independent effect/
+partial-memory and original-store/lock observers plus the migrated raw CLI pass
+96 focused units. The previous broader raw failure remains failed until its
+replacement proves full512 success and all eight full-size native fault classes.
+Actual caller retained-replay-q3 is live with inputs frozen; Q1/Q2 were deliberately
+interrupted for capture/CLI fixes and are terminal non-passes. Do not restart them.
+No native fault/complete setup or hardware verdict is upgraded. FIT1aa17499 stays
+unchanged/unflashed. Next complete native verdicts/current evidence, then real
+remaining PCIe/INODE/IRQ bindings and full worker/hot/lifecycle/physical/drain/
+recovery/boot/client scope. See the retained-replay checkpoint REPORT.md.
+
 ## 2026-10-15 - Canonical Owners Qualified; Native Binding Next
 
 The earlier actual-C caller is terminal0 through DESC10 and RX PCIe, with exact

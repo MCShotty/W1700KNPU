@@ -31,7 +31,8 @@ def build(destination, parts, packet_path, rx_event_path):
         '--ld-path=' + str(shutil.which('ld.lld') or ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld'),
         '-Wl,-T,' + str(TESTS / 'cold-txdone-native-emulation.ld') + ',--no-relax',
         '-Wl,--just-symbols=' + str(parts['base'])]
-    for name in ('npu_emulation_callback_guarded', 'npu_emulation_packet_state', 'npu_emulation_packet_last', 'npu_emulation_packet_live',
+    for name in ('npu_emulation_callback_guarded', 'npu_emulation_packet_state',
+                 'npu_emulation_packet_plan', 'npu_emulation_packet_last', 'npu_emulation_packet_live',
                  'npu_emulation_packet_callback', 'npu_emulation_packet_take', 'npu_emulation_packet_guard',
                  'npu_emulation_rx_event_state', 'npu_emulation_rx_event_prior_live',
                  'npu_emulation_rx_event_prior_live_done'):

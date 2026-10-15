@@ -1,6 +1,7 @@
 """Snapshot capture mechanics, not a production ownership/initialization proof."""
 import hashlib
 import json
+from pathlib import Path
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -9,14 +10,13 @@ import unittest
 sys.dont_write_bytecode = True
 from unicorn import Uc, UC_ARCH_RISCV, UC_MODE_RISCV32
 from unicorn import riscv_const as r
-from native_prefix_snapshot import ROOT, capture
+from native_prefix_snapshot import ROOT, capture, source_inputs
 
 
 class NativePrefixSnapshotTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='prefix-capture-unit-', dir=ROOT / '.local')
         self.addCleanup(self.temp.cleanup)
-        from pathlib import Path
         self.destination = Path(self.temp.name) / 'snapshot'
         cpu = Uc(UC_ARCH_RISCV, UC_MODE_RISCV32)
         cpu.mem_map(0x1000, 0x2000)
@@ -48,6 +48,22 @@ class NativePrefixSnapshotTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             capture(self.h, self.destination, [], {}, origin='synthetic-unit-only')
         self.assertEqual(marker.read_text(), 'keep')
+
+    def test_imported_replay_sources_are_bound_without_rebasing_old_hashes(self):
+        import native_prefix_snapshot as module
+        name = str(Path(module.__file__).relative_to(ROOT))
+        inputs = source_inputs({}, [module, SimpleNamespace(), SimpleNamespace(__file__='/not/project.py')])
+        self.assertEqual(set(inputs), {name})
+        self.assertEqual(inputs[name], hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest())
+        with self.assertRaisesRegex(AssertionError, 'producer-source-drift'):
+            source_inputs({name: '0' * 64}, [module])
+
+    def test_producer_drift_is_rejected_before_capture_creates_files(self):
+        import native_prefix_snapshot as module
+        name = str(Path(module.__file__).relative_to(ROOT))
+        with self.assertRaisesRegex(AssertionError, 'producer-source-drift'):
+            capture(self.h, self.destination, [], {name: '0' * 64}, origin='synthetic-unit-only')
+        self.assertFalse(self.destination.exists())
 
     def test_output_outside_build_storage_is_rejected(self):
         destination = ROOT / 'docs' / self.destination.parent.name

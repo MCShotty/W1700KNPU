@@ -1,5 +1,43 @@
 # W1700KNPU Workspace
 
+## 2026-10-15 - Packet-Plan Guard Fixed; Fresh Qualification Live
+
+- Prior retained-replay-q3 is terminal: nominal DESC10/RX PCIe prefix passed,
+  seven faults passed, before-ready-plan failed25606 versus required25604 stores.
+  Its526-file exact replay cohort is preserved before native edits. No waiver.
+- Actual guard now checks borrowed packet base/extent before and after readers,
+  including the PCIe successor. Compiled host/RV3224 cases,103 focused units,
+  repeated raw18/147/all18 image groups and checked loader60/eight mutants pass.
+- WSL restarted during desc10-plan-q1: nominal/two late faults are incomplete,
+  six individual faults pass. Its144-file stopped cohort is hash-preserved;
+  original files/receipts are unchanged. Fresh actual allocator/caller
+  desc10-plan-q2 is live with a bounded eight-fault/raw/seal follower. Freeze
+  consumed inputs; do not restart either producer from dated live notes below.
+  Full512 nominal/eight native fault results remain pending. World/FIT978f9ddd
+  passes offline board/218-package/78-module/22-object checks; unflashed. Prior
+  FIT1aa17499/eight artifacts protected. Ghidra exports five functions with both
+  geometry checks around readers. No hardware/subagents.
+  All103 units and24 compiled guard cases pass again after access restoration.
+  Read research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
+
+## 2026-10-15 - Retained Raw Replay Migration In Progress
+
+- The raw regression now requires a current actual allocator/caller receipt,
+  not its rejected seeded lease. Full512 nominal/25606 original stores and all
+  eight fault classes remain required. The earlier broader raw failure is not
+  relabeled. New fault/CLI contracts are synthetic until native results pass.
+- Strict restoration has no observer-source drift exceptions. Captures bind
+  imported project replay modules and actual generated provider inputs before
+  execution. Current focused units96 pass. A read-only ordered-store/lock trace
+  is integrated but not yet fresh-native qualified.
+- Actual allocator/caller retained-replay-q3 is live with frozen inputs and
+  unchanged native guards/finite entry/checkpoint limits. Q1/Q2 were deliberately
+  interrupted for capture/CLI fixes and are terminal non-passes. Never restart
+  those from these notes. Eight retained native fault results remain pending.
+- No firmware/image/hardware/subagent changes; FIT1aa17499 stays unflashed.
+  Complete native/IRQ/worker/hot/lifecycle/physical/recovery/client scope stays
+  open. Read research/checkpoints/2026-10-15-npu-retained-replay/REPORT.md.
+
 ## 2026-10-15 - Canonical PCIe/INODE Owners Qualified
 
 - All older native jobs are terminal. Fresh82479 passed the actual-C caller

@@ -1,10 +1,125 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-15 (canonical PCIe/INODE owners and image qualified; full native/physical open)
+Last updated: 2026-10-15 (access restored; interrupted q1 preserved; fresh q2 qualification live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-15 - WSL Access Restored; Qualification Resumed
+
+- WSL process/filesystem access works again. Its restarted instance has no
+  surviving old native jobs. desc10-plan-q1 has six passing individual faults,
+  no nominal/eight-case aggregate receipt and two incomplete readiness cases.
+  No verdict is inferred from the interruption or missing tool handles.
+- Preserved and hash-verified144 files/17999640 bytes before rerunning. Receipt
+  c677ac908fd03fc06558cfc01b4ce565ff1116d9a345e333245efb3039693bc8;
+  original files/receipts are unchanged. Fresh actual allocator/caller q2 uses
+  the same changed pair/full512 scope and unchanged finite native limits.
+- All103 focused units pass again. GitHub main matches basef07ff4c. A follower
+  requires all eight faults, fresh caller success and broader raw checks before
+  the qualification seal. Source stays frozen; no new hardware or image action.
+  Older q1 live observations below are historical, not restart instructions.
+  Evidence: research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
+
+## 2026-10-15 - Borrowed Packet-Plan Guard Fixed; Qualification Live
+
+- Before native edits, preserved526 files/36963130 bytes with311 declared replay
+  inputs, the completed q3 nominal and seven passing/one failed fault evidence.
+  Receipt SHA256e99bd58f1adcd16db8003a18747c12d21bcd229a9bb99c633f4838b36990d25b.
+  Not a complete executable environment or requalification of older build inputs.
+- Actual DESC10 binding now imports the eight-byte packet plan and checks its
+  base/extent against retained boot geometry before and after readers, including
+  successor prior/final-memory validation. Existing native checks remain; no
+  synthesized history. before-ready-plan still must stop at25604 stores.
+- Exact extracted guard predicates pass24 host/RV32 cases with explicit prior/
+  allocation/readback stubs. All103 focused units and two raw18/147 builds/all18
+  image groups pass. CODE07f3585b/DATAeb15df4e; checked loader60/eight mutants
+  and provider609/nine mutants pass. This is not native/hardware acceptance.
+- Fresh actual allocator/caller desc10-plan-q1 is live with consumed inputs
+  frozen and unchanged instruction/checkpoint limits. Obtain full512 nominal,
+  all eight retained faults and early/raw aggregate/current closure. No prior-
+  prefix drift exception or fault waiver.
+- Its six API21 phases/53260 effects and API22 pass;31 strict early controls and
+  six full512 retained fault classes pass. Both readiness faults and fresh nominal
+  DESC10/RX PCIe remain live. Read-only owned-guest counters show512 claims and
+  continuing stores; unsynchronized diagnostic counts are not a passing verdict.
+- Normal world is terminal0. Exact FIT978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f
+  passes actual Gemtek W1700K DTB/218 packages/78 module ABIs/22 exact objects.
+  Prior FIT1aa17499 and seven companions are copied/hash-protected. Both images
+  unflashed; source-lock5fdb8df3 unchanged. Cold-wire1436/45 mutants and six
+  synthetic raw unleased denials also pass their separate scopes.
+- Ghidra12.1.2 exports five functions/44 analyzed/zero failed decompilations
+  from ELF64e8f6ef, including both compiled geometry checks around readers.
+  Export20f056d7; DWARF/global/type warnings remain. Static, not hardware proof.
+- Independent actual-C IRQ characterization now includes the real poll caller
+  and RX queue enum: original21 startup/12 lost modeled errors plus31 poll
+  cases/eight lost modeled errors pass under address/undefined/leak sanitizers.
+  RCU/ordinary IRQ masks remain explicit models; production IRQ source is
+  unchanged. Receipt1efa0c69. Both startup/hot error handling still need fixes.
+- No hardware/subagents. Full remaining
+  native/IRQ/worker/hot/lifecycle/physical/drain/recovery/boot/client scope stays
+  active. Report: research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
+
+## 2026-10-15 - Overall Scope And Latest Retained Verdict
+
+- Actual allocator/caller retained-replay-q3 is terminal with passed=true and
+  native.passed=true in its result.json. DESC10 and RX PCIe complete within that
+  initialization prefix. Its full_setup=false and prior_controls_skipped=true
+  remain authoritative; this is not complete setup or hardware acceptance.
+- Seven full-size retained DESC10 fault cases have passing individual receipts.
+  before-ready-plan fails: changing the borrowed packet plan before readiness
+  still permits25606 original stores instead of the required25604. The last
+  counter/ready stores must not execute for that fault. Preserve the failure;
+  do not alter its expected count or label the eight-case matrix passed.
+- The packet-plan guard fix, fresh changed-pair caller/fault qualification and
+  complete raw aggregate remain pending. Existing dated live/pending notes below
+  describe earlier observations, not instructions to restart completed jobs.
+- Overall remaining work: real remaining PCIe/INODE initialization bindings and
+  checked final IRQ/hot re-enable; live TX/RX workers and packet/token/TXFREE/
+  RRO/BA ownership; physical DMA/cache/exclusion and all-worker drains; reset,
+  removal, partial failure, reclamation and rearm; final integrated image boot,
+  actual-client WiFi/MLO traffic, stability and recovery acceptance. CPU clock,
+  truthful telemetry, LuCI behavior and final service checks also remain open.
+- No firmware guard, raw pair, image or hardware was changed for this status
+  refresh. FIT1aa17499 remains unflashed. Full NPU/stock parity is not complete.
+  Evidence is local under
+  .local/npu-host-tx-lifetime-20261011/retained-replay-q3/.
+
+## 2026-10-15 - Retained Raw Replay Migration In Progress
+
+- Removed the two observer-source hash exceptions from DESC10 restoration.
+  Unknown observer fields are rejected before captured restoration. Captures
+  now bind imported project Python and actual generated provider inputs before
+  guest execution, rejecting conflicts rather than rebasing producing hashes.
+- Added an independent pre-state-derived25606-store/partial-memory oracle and
+  read-only actual original-store/lock trace. Twenty copied stores use nineteen
+  hook sites, including b4bc within b4ba's six-byte detour. Current96 focused
+  tests pass, including synthetic fault contracts and the raw CLI entry point.
+  Synthetic/trace-storage success is not a fresh native constructor verdict.
+- Latest qualification inputs/output are preserved as300 files/156171056 bytes,
+  receipt9e0514711592c970ae1bdf3a0f3e84d4c49122e149025049b8eb7e727f16943f.
+  The oracle matches historical856064 protected/2076 PKT bytes under the exact
+  preserved530-file producing manifest; artifact receipt84380a1306ea1efc509668ed45b9b9b4785e5076fc8205d56e87560b3d3ad405.
+  This is not fresh execution or a complete archived executable environment.
+- Actual raw native guard rejects six explicitly synthetic forbidden contexts.
+  Those negatives do not replace required full512 success/eight late fault
+  classes. The old failed broader raw receipt remains failed, not waived.
+- Current strict captured-prefix31 early controls and five of eight full-size
+  retained fault cases pass. Three SKB/readiness cases and fresh nominal remain
+  live. The new cached-summary audit exposes five rejection gaps (six tests);
+  repair/reaggregate after the batch is terminal and run all103 focused units.
+  The earlier97 units pass; the new cache tests are currently red, not waived.
+- Actual allocator/caller retained-replay-q3 is live with frozen inputs and the
+  supported60-second host profile/unchanged3M entry/finite checkpoint bounds.
+  Q1/Q2 were deliberately interrupted for capture/CLI fixes; terminal non-passes,
+  not native failure verdicts. Fresh original-store/native fault verdicts remain
+  pending. Do not restart dated jobs merely from notes.
+- No firmware C/assembly, admission guard, raw pair, image or hardware changed.
+  Offline image reinspection passes the same FIT1aa17499/218 packages/78 module
+  ABIs/22 exact archive objects; unflashed. Full native/IRQ/worker/hot/lifecycle/
+  physical/drain/recovery/boot/client requirements remain open; no subagents.
+  Report: research/checkpoints/2026-10-15-npu-retained-replay/REPORT.md.
 
 ## 2026-10-15 - Canonical PCIe/INODE Owners Qualified
 

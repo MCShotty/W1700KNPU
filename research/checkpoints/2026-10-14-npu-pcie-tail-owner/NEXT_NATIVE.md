@@ -33,7 +33,7 @@ failed. Its return alone must never advance an outer owner.
 ## Admission And Live Prior State
 
 1. Extend the actual server/client/prepared-provider history for the exact
-   three-command order: header10/API0 TX0+160, header12/API0 TX2+110, then
+   three-command order: header10/API0 TX0+0x160, header12/API0 TX2+0x110, then
    header1f/API0 zero. Require the completed RX-event/DESC10/PCIe10 prefix,
    independent finished TX owner, held BAR/nonce/boot identity and exact plan.
 2. The current npu_emulation_desc10_prior_live is deliberately restricted to

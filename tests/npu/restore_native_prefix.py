@@ -62,14 +62,18 @@ def fixture(pair, snapshot, *, origin):
     inputs[str(path.relative_to(ROOT))] = digest(path)
     restored = type(context).__new__(type(context))
     restored.__setstate__((contents, context.size, context.arch, context.mode))
+    observer = {}
+    for name, value in record['observer'].items():
+        assert name in ('hart', 'clear_count', 'l2_clear_active', 'l2_writes', 'last_csr'), (
+            'unknown-observer-field', name)
+        observer[name] = tuple(value) if name == 'last_csr' and value is not None else value
 
     def restore():
         for begin, contents_ in memory:
             h.cpu.mem_write(begin, contents_)
         h.cpu.context_restore(restored)
-        for name, value in record['observer'].items():
-            assert name in ('hart', 'clear_count', 'l2_clear_active', 'l2_writes', 'last_csr')
-            setattr(h, name, tuple(value) if name == 'last_csr' and value is not None else value)
+        for name, value in observer.items():
+            setattr(h, name, value)
         h.unmodeled = None
         h.check_hooks()
 

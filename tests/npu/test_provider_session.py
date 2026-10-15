@@ -57,7 +57,8 @@ def prepare(directory, text, header):
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
-                txbuffer_enrollment=False, rx_event=False, desc10=False, nominal_only=False):
+                txbuffer_enrollment=False, rx_event=False, desc10=False, nominal_only=False,
+                producer_inputs=None):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -79,6 +80,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         ROOT / 'tests/npu/test_desc10_native_controls.py',
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
+    analysis_inputs = {}
 
     code_path, data_path = publication / 'CODE-copied.bin', publication / 'DATA-published.bin'
     code, data = code_path.read_bytes(), data_path.read_bytes()
@@ -91,6 +93,11 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         from cold_wire_native import ColdProviderRequest
         factory = ColdProviderRequest
     h, _, _, manifest = raw.load(pair, factory=partial(factory, request=request), published=(code, data))
+    if producer_inputs:
+        for name, expected in producer_inputs.items():
+            assert name not in native_inputs or native_inputs[name] == expected, ('producer-input-conflict', name)
+            native_inputs[name] = expected
+    native_inputs = native_prefix_snapshot.source_inputs(native_inputs)
     h.hart = 0
     h.cpu.context_restore(h.fresh)
     assert h.reset() == 0x8400420a
@@ -135,7 +142,28 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     native_prefix_snapshot.capture(h, pcie_prefix, words, manifest['inputs'] | native_inputs | {
                         str(path.relative_to(ROOT)): loader.sha(path) for path in (code_path, data_path, binary)},
                         origin='actual-provider-allocator-caller-after-DESC10-before-PCIE')
-            reply = h.message(words)
+            trace = None
+            if desc10 and length == 80 and words[2] == 0x3253434e and words[11:14] == [0x1a, 1, 512]:
+                import desc10_store_trace
+                import desc10_effect_oracle
+                for module in (desc10_store_trace, desc10_effect_oracle):
+                    path = Path(module.__file__).resolve()
+                    analysis_inputs[str(path.relative_to(ROOT))] = loader.sha(path)
+                trace = desc10_store_trace.Desc10Trace(h, words)
+            if trace is None:
+                reply = h.message(words)
+            else:
+                try:
+                    with trace:
+                        reply = h.message(words)
+                finally:
+                    directory = Path(binary).parent / 'desc10-store-trace'
+                    desc10_expected['store_trace'] = trace.save(directory)
+                    for path in directory.iterdir():
+                        analysis_inputs[str(path.relative_to(ROOT))] = loader.sha(path)
+                if reply['flags'] == 7 and reply['words'][14] == 0:
+                    trace.validate()
+                    desc10_expected['store_trace']['validated'] = True
             frames.append(dict(request=words, reply=reply))
             if reply['flags'] != 7:
                 return -22
@@ -318,6 +346,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         rx_event_steps=h.get32(cold_state + 380),
                         ready=h.cpu.mem_read(0x3e9046fa, 1)[0],
                         oracle_error=desc10_expected.get('error'), reply=frames[-1],
+                        original_store_trace=desc10_expected.get('store_trace'),
                         protected_memory_matches=None,
                         limits=['Actual caller/original guarded RV32, with modeled platform/DMA/backing and scheduling.'])
                     if not error:
@@ -645,7 +674,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 actual_c_linux_setup=True, actual_c_publication_readback=True,
                 actual_c_txrx_sender=bool(host_sender and not wrong_identity and not cold_failure and not page_failure and not indication_failure and not tx_failure and not token_failure and not descriptor_failure),
                 synthetic_plan_identity_writes=False, post_load_elf_injection=False,
-                inputs=manifest['inputs'] | native_inputs | {str(p.relative_to(ROOT)): loader.sha(p) for p in
+                inputs=manifest['inputs'] | native_inputs | analysis_inputs | {str(p.relative_to(ROOT)): loader.sha(p) for p in
                     (code_path, data_path, pair / 'manifest.json', binary)})
 
 
@@ -740,7 +769,8 @@ def main():
             if args.native_case not in ('all', case):
                 continue
             value = native_peer(shared, args.pair.resolve(), args.publication.resolve(),
-                                cold_commands=args.cold_commands, host_sender=host_sender, hif2=args.hif2, **keywords)
+                                cold_commands=args.cold_commands, host_sender=host_sender, hif2=args.hif2,
+                                producer_inputs=inputs, **keywords)
             assert all(loader.sha(ROOT / path) == digest for path,digest in inputs.items())
             receipt = dest / ('native-' + case + '.json')
             receipt.write_text(json.dumps(dict(passed=True,case=case,result=value,inputs=inputs),indent=2) + '\n')

@@ -2,13 +2,31 @@
 import hashlib
 import json
 from pathlib import Path
+import sys
 
 import unicorn
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def source_inputs(inputs, modules=None):
+    result = dict(inputs)
+    for module in list(sys.modules.values()) if modules is None else modules:
+        filename = getattr(module, '__file__', None)
+        if not filename:
+            continue
+        path = Path(filename).resolve()
+        if path.suffix != '.py' or not any(path.is_relative_to(ROOT / name) for name in ('tests/npu', 'tools')):
+            continue
+        name = str(path.relative_to(ROOT))
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        assert name not in result or result[name] == digest, ('producer-source-drift', name)
+        result[name] = digest
+    return result
+
+
 def capture(h, destination, request, inputs, *, origin):
+    inputs = source_inputs(inputs)
     destination = destination.resolve()
     assert any(destination.is_relative_to(ROOT / name) for name in ('.local', '.build'))
     destination.mkdir()

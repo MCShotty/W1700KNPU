@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Native DESC10 negatives from an artifact-bound captured prefix, not fresh boot."""
 import argparse
-from functools import partial
 import hashlib
 import json
 from pathlib import Path
@@ -12,10 +11,10 @@ from unittest.mock import patch
 sys.dont_write_bytecode = True
 import unicorn
 from unicorn import riscv_const as r
-from cold_wire_native import ColdProviderRequest
 from emulation_layout import STATE
 from test_bootstrap_native import ADM
 import test_npu_raw_pair as raw
+import restore_native_prefix as captured
 
 ROOT = raw.ROOT
 
@@ -25,60 +24,10 @@ def sha(data):
 
 
 def fixture(pair, snapshot):
-    record = json.loads(snapshot.read_bytes())
-    assert record['format'] == 'npu-native-prefix-diagnostic-v1'
-    assert record['fresh_loader_allocator_caller_proof'] is False
-    assert record['origin'] == 'actual-provider-allocator-caller-before-DESC10'
-    assert record['unicorn_version'] == unicorn.__version__
-    published = []
-    for name in ('CODE-copied.bin', 'DATA-published.bin'):
-        path = next(ROOT / name_ for name_ in record['inputs'] if Path(name_).name == name)
-        data = path.read_bytes()
-        assert sha(data) == record['inputs'][str(path.relative_to(ROOT))]
-        published.append(data)
-    h, _, _, manifest = raw.load(pair, factory=partial(
-        ColdProviderRequest, request=record['request_address']), published=tuple(published))
-    regions = [(item['begin'], item['end'], item['permissions']) for item in record['regions']]
-    assert sorted(h.cpu.mem_regions()) == sorted(regions)
-    assert sum(end - begin + 1 for begin, end, _ in regions) <= 32 * 1024 * 1024
-    memory = []
-    inputs = manifest['inputs'] | {str(snapshot.relative_to(ROOT)): sha(snapshot.read_bytes()),
-                                  str(Path(__file__).relative_to(ROOT)): sha(Path(__file__).read_bytes())}
-    for item in record['regions']:
-        assert Path(item['file']).name == item['file']
-        path = snapshot.parent / item['file']
-        data = path.read_bytes()
-        assert len(data) == item['end'] - item['begin'] + 1 and sha(data) == item['sha256']
-        memory.append((item['begin'], data))
-        inputs[str(path.relative_to(ROOT))] = sha(data)
-    info = record['context']
-    assert Path(info['file']).name == info['file']
-    path = snapshot.parent / info['file']
-    data = path.read_bytes()
-    context = h.cpu.context_save()
-    assert (context.size, context.arch, context.mode) == (info['size'], info['arch'], info['mode'])
-    assert len(data) == context.size and sha(data) == info['sha256']
-    inputs[str(path.relative_to(ROOT))] = sha(data)
-    restored = type(context).__new__(type(context))
-    restored.__setstate__((data, context.size, context.arch, context.mode))
-    drift = {name: {'captured': digest, 'current': raw.composition.sha(ROOT / name)}
-             for name, digest in record['inputs'].items() if raw.composition.sha(ROOT / name) != digest}
-    assert set(drift) <= {'tests/npu/test_boot_irq_installation.py', 'tests/npu/cold_wire_native.py'}
-    inputs |= {name: raw.composition.sha(ROOT / name) for name in record['inputs']}
-    inputs['tests/npu/cold_wire_native.py'] = raw.composition.sha(ROOT / 'tests/npu/cold_wire_native.py')
-
-    def restore():
-        for begin, contents in memory:
-            h.cpu.mem_write(begin, contents)
-        h.cpu.context_restore(restored)
-        for name, value in record['observer'].items():
-            assert name in ('hart', 'clear_count', 'l2_clear_active', 'l2_writes', 'last_csr')
-            setattr(h, name, tuple(value) if name == 'last_csr' and value is not None else value)
-        h.unmodeled = None
-        h.check_hooks()
-
-    restore()
-    return h, restore, record, inputs, drift
+    h, restore, record, inputs = captured.fixture(pair, snapshot,
+        origin='actual-provider-allocator-caller-before-DESC10')
+    inputs[str(Path(__file__).relative_to(ROOT))] = captured.digest(Path(__file__))
+    return h, restore, record, inputs, {}
 
 
 def check(h, restore, request):

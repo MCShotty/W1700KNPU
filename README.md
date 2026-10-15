@@ -1,5 +1,32 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-15 - Packet-Plan Guard Qualification
+
+The actual native readiness fault exposed premature final counter/ready stores
+after borrowed packet-plan mutation. The guard now checks base/extent before
+and after readers, including the later PCIe handoff. Scoped compiled24 cases,
+103 units, repeated raw18/147/all18 image groups and loader60/eight mutants pass.
+WSL restarted during desc10-plan-q1; its nominal/two late faults are incomplete,
+six individual faults pass and its144-file stopped cohort is hash-preserved.
+Fresh actual caller desc10-plan-q2 is live with inputs frozen; all eight native
+faults and complete changed-pair qualification remain pending. All103 units and
+24 compiled guard cases pass again after access restoration. Normal world and
+exact FIT978f9ddd board/package/module/archive checks pass; unflashed. Prior
+FIT1aa17499 and companions are protected. No hardware acceptance is claimed. See
+research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
+
+## 2026-10-15 - Retained Replay Migration
+
+The broader raw regression is moving onto the actual allocator/host caller,
+without a seeded TXDONE lease or relaxed native guards. Strict capture/restoration,
+pre-state-derived partial-memory oracles and original-store/lock tracing are
+integrated. The 96 focused units pass; fresh full512 execution and all eight
+retained native fault verdicts are pending. Current caller retained-replay-q3
+is live with inputs frozen; interrupted Q1/Q2 are not passes.
+No firmware/image/hardware change occurred. FIT1aa17499 remains unflashed and
+full stock parity remains incomplete. See the
+[retained replay report](research/checkpoints/2026-10-15-npu-retained-replay/REPORT.md).
+
 ## 2026-10-15 - Canonical PCIe/INODE Owners
 
 The remaining PCIe-tail and INODE owners are now canonical normal-build inputs,
