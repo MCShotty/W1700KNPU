@@ -58,3 +58,10 @@ success cannot repair that ABI or prove physical readiness. Continue at
 `../2026-10-15-npu-inode-owner/NEXT_IRQ.md` after the checked constructor gate;
 workers/hot ownership, complete stack/physical backing/cache/exclusion/drains,
 reset/removal/rearm/recovery and actual-image/client acceptance remain open.
+
+API24 also has separate RRO selectors0/1/3. Original137 byte-effect/ABI probes
+now characterize those against synthetic RAM;see RRO.md. They are not checked
+admission. Constructor2/7 alone must not authorize RRO allocation/session/reset
+or worker release. Current source's three RRO send call sites do not check the
+returned error;actual retained allocations/lifetimes,partial results,generations
+and host error handling remain separate implementation requirements.

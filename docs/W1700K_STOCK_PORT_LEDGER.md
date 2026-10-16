@@ -99,6 +99,19 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   aggregate contracts/all167 selected units pass. Native matrix has not run;
   three actual tail prefixes are still pending. Existing native code/observer
   inputs and instruction/checkpoint bounds are unchanged.
+- Fresh caller's RX PCIe passes with3072 claims/RX step3 and exact protected
+  memory. Tail stage0 and its diagnostic shard are live;five entry/reserve
+  faults pass so far. No complete tail or36-case matrix verdict yet.
+- Independent original API24 RRO0/1/3 probes pass137 cases over all128 element
+  blocks,session table,five reset boundaries and aliases. Exact write sets,
+  full synthetic SRAM/alias projection,distinct callee-saved registers and
+  MSTATUS match;original helpers execute without substituted results. Current
+  header geometry is compiler-evaluated. Receipt2d01b092;five projection
+  contracts/all172 selected units pass. Originalq1's weaker initial-register
+  ABI scope/driver is preserved. No checked admission or physical DMA/drain.
+  Source-only review finds three RRO send callers not checking returned errors;
+  ownership/error/partial/session-generation work stays open beyond INODE2/7.
+  No production/checked source,image,hardware or live replay input change.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

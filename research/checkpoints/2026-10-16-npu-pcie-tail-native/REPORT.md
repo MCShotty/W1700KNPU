@@ -330,6 +330,14 @@ PYTHONPATH=.local/npu-reset/python-lib:tests/npu:tools \
 
 ## Preservation And Limits
 
+Latest progress:the fresh actual caller's RX PCIe memory comparison passes.
+Tail stage0 is live,and five of its restored entry/reserve faults pass;the
+complete36-case matrix remains pending. Independent original RRO0/1/3 probes
+pass137 exact byte/ABI cases in synthetic RAM,five projection controls/all172
+selected units pass. See RRO.md for the separate API24 allocation/session/reset
+contract;this is not checked admission,physical DMA or permission to release
+workers. The live checked source inputs remain unchanged.
+
 The prior journal cohort was copied and hash-verified before native edits:
 454 files/124259837 bytes at
 `.local/npu-pcie-tail-bind-20261016/preserved-journal-q2/receipt.json`, SHA256

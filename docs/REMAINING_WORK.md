@@ -60,6 +60,12 @@ revalidates cached scopes/input/artifact hashes. Seven aggregate contract
 tests/all167 selected units pass;native execution still awaits all three actual
 prefixes. No source/count guard is weakened by this new consumer.
 
+RX PCIe now passes in the fresh caller;tail stage0 and its fault shard are live.
+Original RRO selectors0/1/3 pass137 direct byte/ABI probes with synthetic RAM,
+not checked admission. Their actual allocation/session/reset ownership and
+caller error handling remain separate from constructor2/7;see checkpoint RRO.md.
+Five new projection controls/all172 selected units pass;live inputs unchanged.
+
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 
 The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are

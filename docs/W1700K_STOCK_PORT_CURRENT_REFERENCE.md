@@ -58,6 +58,11 @@ Canonical tail matrix consumer requires all36 cases over three strict actual
 prefixes,exact region/effect/private bytes and cached current hash/scope checks.
 Seven contracts/all167 selected units pass;the native matrix has not run while
 actual tail prefixes are pending. RV32/observer source and count bounds unchanged.
+Fresh RX PCIe now passes its exact memory comparison;tail stage0/fault shard
+are live. Independent original RRO0/1/3 probes pass137 exact byte/ABI cases on
+synthetic RAM,receipt2d01b092. Five projection controls/all172 units pass. These
+do not admit RRO or prove DMA/reset ownership;constructor2/7 is not all API24.
+Read checkpoint RRO.md. Current checked/native inputs remain unchanged/frozen.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 

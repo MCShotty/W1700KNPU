@@ -60,6 +60,12 @@
   current hashes and no cached scope promotion. Seven contracts/all167 units
   pass;native matrix has not run while three prefixes are pending. New runner
   does not edit frozen RV32/observer inputs or change native count bounds.
+- Original API24 RRO0/1/3 now has137 direct byte/ABI probes over synthetic RAM,
+  all128 blocks/session/reset boundaries/aliases,with distinct saved registers
+  and unchanged MSTATUS. Receipt2d01b092;five projection controls/all172 units
+  pass. No checked admission or physical backing/reset/drain proof. Read the
+  checkpoint RRO.md before treating constructor2/7 as the full API24 contract.
+  Fresh caller RX PCIe passes;tail stage0 and its fault shard remain live.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 
