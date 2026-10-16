@@ -44,6 +44,12 @@ Other C-bearing-component/original assembly,allowed call chains/indirect targets
 IRQ nesting and physical placement remain outside that scoped result. Native
 caller/readiness jobs are unchanged and still live.
 
+The corrected CFI/direct-call audit matches all264 compiler frames to linked
+symbols,with604 resolved direct transfers/81 unresolved. Largest candidate4480
+includes the actual call-site CFA,not unrelated local maxima,but is not a full
+bound. Close original/assembly/indirect-target/IRQ and physical stack scope;
+all160 selected units pass,not the still-pending native jobs.
+
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 
 The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are

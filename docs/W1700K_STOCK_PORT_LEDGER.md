@@ -78,6 +78,14 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   Receipt e5e559dc;six synthetic controls/all150 selected units pass. Separate
   profiled full512 denied-lock diagnostic passes,not a fresh caller or physical
   performance result;no scheduling optimization or live-input change applied.
+- CFI audit matches all264 C frames to exact linked symbol ranges and SP-based
+  unwind records. Direct-call candidates use the caller CFA at each transfer;
+  604 transfers resolve,81 remain unresolved and no resolved direct cycle is
+  found. Largest4480 from the tail callback through RX PCIe/DESC10 is not a
+  complete bound;original/assembly/indirect/IRQ/physical scope remains open.
+  Correctedq2 receipt61661c05 preserves the earlier exploratoryq1 driver/limits
+  rather than silently promoting it. Ten controls/all160 selected units pass.
+  Actual native jobs and consumed sources remain unchanged and live.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

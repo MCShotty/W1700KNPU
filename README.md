@@ -32,6 +32,11 @@ and the ring consumer's caller-stack read; it does not bound complete paths or
 physical stacks. All150 selected units pass. Native caller/readiness jobs remain
 live with their consumed inputs unchanged.
 
+The address-bound CFI audit matches all264 C frames,resolves604 direct transfers
+and lists81 unresolved transfers. Its4480-byte largest direct-chain candidate
+is not a complete stack limit. Ten further controls bring the selected suite
+to160 passing tests;native qualification remains pending.
+
 ## 2026-10-16 - PCIe Tail Protocol Journal
 
 The checked protocol now retains the accepted TX2/HIF register and the ordered

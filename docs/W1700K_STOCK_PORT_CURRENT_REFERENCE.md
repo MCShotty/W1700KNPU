@@ -42,6 +42,12 @@ while the ring consumer loads from caller SP+6. Six controls/all150 selected
 units pass. Other assembly/complete chains/IRQ/physical stack scope remains
 open;actual caller/readiness jobs and consumed inputs are unchanged and live.
 
+CFI/direct-stack receipt61661c05 binds264 exact compiler frames to linked
+symbols and604 direct transfers,with81 unresolved transfers. Largest direct
+graph candidate4480 does not close assembly/original/indirect/IRQ/physical
+stack scope. Correctedq2 preserves earlier exploratoryq1 with its limitations.
+Ten added controls/all160 selected units pass;native jobs/inputs stay live.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
 Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15

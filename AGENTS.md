@@ -43,6 +43,12 @@
   SP references are absent,not proof about callees. Six new controls/all150
   selected units pass. Receipt e5e559dc; other assembly/full chains/IRQ/physical
   stacks remain open. Native jobs/inputs stay unchanged and live.
+- CFI/direct-stack audit independently binds all264 C frames to linked symbols,
+  resolves604 direct transfers and lists81 unresolved transfers. Largest direct
+  graph candidate4480 is not a full bound; original/assembly/indirect/IRQ/
+  physical scope stays open. Correctedq2 receipt61661c05 retains conservative
+  self/interior/conditional edges;old exploratoryq1 is preserved with limits.
+  Ten new controls/all160 selected units pass;native jobs/inputs unchanged.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 

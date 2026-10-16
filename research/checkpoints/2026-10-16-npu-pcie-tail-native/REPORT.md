@@ -239,6 +239,45 @@ Jev checks these scope/path/performance/qualification claims in the retained
 `jev-assembly-scope-q1-result.json`,not a runtime or stack proof. The actual
 caller/two readiness faults remain live;the six other native faults pass.
 
+## Address-Bound Direct Stack Candidates
+
+`test_npu_direct_stack.py` independently matches all264 compiler frame records
+to exact linked function extents and SP-based DWARF CFA records. Each function
+is completely decoded and byte-matched to raw CODE. It resolves604 direct
+transfers into this C-frame inventory and records81 unresolved transfers,
+including register transfers and known addresses outside the C inventory.
+It does not infer indirect targets from names or conflate Capstone's CALL group
+with actual calls;this backend also labels some returns/tail jumps as CALL.
+
+The direct graph has no cycles. Its largest candidate4480 bytes starts at the
+tail callback through portable tail context/prior,RX PCIe and DESC10 complete/
+packet checks. Edges use the caller's CFA at the transfer site,not every local
+maximum added indiscriminately. A graph path may be infeasible,and missing
+assembly/original/indirect/IRQ edges prevent any complete per-hart stack bound.
+Neither4480 nor the original modeled16KiB stack stride is physical acceptance.
+
+Exploratoryq1 omitted self/interior calls as internal control flow and did not
+inspect conditional transfers leaving a function. Its exact driver and receipt
+are preserved at `.local/npu-direct-stack/pcie-tail-q1` with LIMITS.md. Corrected
+q2 retains those edges conservatively and gives no finite candidate to any
+root reaching a direct cycle. Ten synthetic controls and all160 selected units
+pass. The corrected independent receipt is
+`.local/npu-direct-stack/pcie-tail-q2/result.json`, SHA256
+`61661c058951497fe46a11d096144ee1e9488307a541afbb02f4a566dfb66e90`.
+
+```sh
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu:tools \
+  python3 -B tests/npu/test_npu_direct_stack.py \
+  --pair .local/npu-pcie-tail-native-20261016/native-pair-q1 \
+  --frames .local/npu-raw-stack/pcie-tail-q1/result.json --name fresh-name
+```
+
+Jev's retained semantic scope checks do not establish a full bound. The full-bound
+question is split between contradicted.54/not_established.46;the deterministic
+scope remains incomplete either way. Original/assembly calls,allowed indirect
+targets/IRQ nesting and actual physical per-hart placement remain open. Native
+caller/two readiness tests and all their consumed sources remain unchanged/live.
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:
