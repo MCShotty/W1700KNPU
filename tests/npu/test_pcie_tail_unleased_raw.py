@@ -38,7 +38,7 @@ def run(pair):
                         if s['sh_flags'] & 3 == 3 and s['sh_size']]
     owner, owner_bytes = symbols['npu_emulation_pcie_tail_state']
     setup, setup_bytes = symbols['npu_emulation_cold_setup_state']
-    assert owner_bytes == 256 and setup_bytes == 404 and writable
+    assert owner_bytes == 256 and setup_bytes == 412 and writable
     spaces = (*prior.IMAGES, (prior.HOST, prior.HOST_BYTES), (prior.SKB_STATE, prior.SKB_BYTES))
     stack = (prior.STACK_TOPS[0] - 0x4000, prior.STACK_TOPS[0])
     results = []

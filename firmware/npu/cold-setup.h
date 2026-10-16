@@ -46,6 +46,8 @@
 #define NPU_COLD_BIND_RX_EVENT_API (NPU_COLD_BIND_DMA_API + NPU_COLD_TXBUF_RECORDS)
 #define NPU_COLD_PAGE_REG0 0xd45a0u
 #define NPU_COLD_ENDPOINT_MIN_BYTES (NPU_COLD_PAGE_REG0 + 0x20u + 12u)
+#define NPU_COLD_INODE_API 24u
+#define NPU_COLD_INODE_STAGES 2u
 
 static inline int npu_cold_endpoint_valid(uint32_t base, uint32_t bytes)
 {
@@ -101,6 +103,7 @@ struct npu_cold_setup {
     uint32_t txbuf_steps, prior_txbuf_steps;
     uint32_t rx_event, prior_rx_event, pending_rx_event, rx_event_steps, prior_rx_event_steps;
     uint32_t tx2_register, prior_tx2_register, pcie_tail_steps, prior_pcie_tail_steps;
+    uint32_t inode_steps, prior_inode_steps;
 };
 
 static inline uint32_t npu_cold_pcie_tail_command_step(const struct npu_bootstrap_packet *p)
@@ -144,6 +147,7 @@ static inline int npu_cold_pcie_tail_request_valid(const struct npu_cold_setup *
 static inline int npu_cold_pcie_tail_inflight(const struct npu_cold_setup *s)
 {
     return !s->failed && s->inflight == 1 &&
+           !s->inode_steps && !s->prior_inode_steps &&
            npu_cold_pcie_tail_request_valid(s, &s->command) &&
            s->prior_completed == NPU_COLD_COMPLETED_MASK &&
            s->prior_rx_event_steps == 3 && s->prior_rx_event == s->rx_event &&
@@ -155,6 +159,42 @@ static inline int npu_cold_pcie_tail_inflight(const struct npu_cold_setup *s)
            s->prior_base == s->endpoint_base && s->prior_bytes == s->endpoint_bytes &&
            s->prior_tx2_register == s->tx2_register &&
            s->prior_pcie_tail_steps == s->pcie_tail_steps;
+}
+
+static inline uint32_t npu_cold_inode_command_step(const struct npu_bootstrap_packet *p)
+{
+    if (p->api != NPU_COLD_INODE_API)
+        return NPU_COLD_INODE_STAGES;
+    return p->header == 0x12u ? 0u : p->header == 0x17u ? 1u : NPU_COLD_INODE_STAGES;
+}
+
+static inline int npu_cold_inode_request_valid(const struct npu_cold_setup *s,
+                                             const struct npu_bootstrap_packet *p)
+{
+    uint32_t step = npu_cold_inode_command_step(p);
+
+    return step < NPU_COLD_INODE_STAGES && step == s->inode_steps && !p->value &&
+           s->pcie_tail_steps == NPU_COLD_PCIE_TAIL_STAGES &&
+           s->completed == NPU_COLD_COMPLETED_MASK && s->rx_event && s->rx_event_steps == 3 &&
+           s->txbuf_enrolled == NPU_COLD_TXBUF_RECORDS && s->txbuf_steps == NPU_COLD_TXBUF_STEPS &&
+           s->descriptor_gets == NPU_COLD_DESCRIPTOR_STEPS &&
+           npu_cold_endpoint_valid(s->endpoint_base, s->endpoint_bytes) && npu_cold_tx2_register_valid(s);
+}
+
+static inline int npu_cold_inode_inflight(const struct npu_cold_setup *s)
+{
+    return !s->failed && s->inflight == 1 && npu_cold_inode_request_valid(s, &s->command) &&
+           s->prior_inode_steps == s->inode_steps &&
+           s->prior_pcie_tail_steps == NPU_COLD_PCIE_TAIL_STAGES &&
+           s->prior_completed == NPU_COLD_COMPLETED_MASK &&
+           s->prior_rx_event_steps == 3 && s->prior_rx_event == s->rx_event &&
+           s->pending_rx_event == s->rx_event &&
+           s->prior_descriptor_gets == NPU_COLD_DESCRIPTOR_STEPS &&
+           s->descriptor_arena == s->prior_descriptor_arena &&
+           s->prior_txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&
+           s->prior_txbuf_steps == NPU_COLD_TXBUF_STEPS &&
+           s->prior_base == s->endpoint_base && s->prior_bytes == s->endpoint_bytes &&
+           s->prior_tx2_register == s->tx2_register;
 }
 
 static inline int npu_cold_rx_event_enrollment(const struct npu_bootstrap_packet *p)

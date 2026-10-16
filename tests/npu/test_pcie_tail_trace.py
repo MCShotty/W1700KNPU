@@ -44,12 +44,12 @@ class TailTraceTests(unittest.TestCase):
                 f'npu_emulation_pcie_tail_{site:x}_store': 0x840ea000 + i * 16 for i, site in enumerate(SITES)}))
         h.cpu.mem_read.side_effect = read
         h.get32 = lambda address: struct.unpack('<I', read(address, 4))[0]
-        words = [0] * 101
+        words = [0] * 103
         words[:8] = [0, 0, 131071, 79, 1, 2, 3, 4]
         words[12:16] = [0x20000000, 0x100000] * 2
         words[26:32] = [8, 0x3e810000, 8, 0x3e810000, 14, 14]
         words[90:101] = [6, 6, 0x97000000, 0x97000000, 0x97000000, 3, 3, tx2, tx2, stage, stage]
-        put(setup, struct.pack('<101I', *words))
+        put(setup, struct.pack('<103I', *words))
         put(session, struct.pack('<5I', 1, 2, 3, 4, 79))
         tx_plan = struct.pack('<11I', 0x3e810000, 303168, 0x20000000, 0x100000,
                               0x200d4420, tx2, 0, 1, 2, 3, 4)
@@ -90,6 +90,14 @@ class TailTraceTests(unittest.TestCase):
             h, request, _, _ = self.fixture()
             request[index] = value
             with self.assertRaises(AssertionError):
+                PcieTailTrace(h, request)
+            h.cpu.mem_write.assert_not_called()
+
+    def test_inode_history_cannot_be_smuggled_into_a_tail_prefix(self):
+        for offset in (404, 408):
+            h, request, put, _ = self.fixture()
+            put(h.rv.symbols['npu_emulation_cold_setup_state'] + offset, struct.pack('<I', 1))
+            with self.assertRaisesRegex(AssertionError, 'tail-before-INODE'):
                 PcieTailTrace(h, request)
             h.cpu.mem_write.assert_not_called()
 

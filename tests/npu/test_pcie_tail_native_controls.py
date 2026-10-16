@@ -153,7 +153,7 @@ def run(pair, snapshot, destination, case):
     binary = ELFFile(io.BytesIO(path.read_bytes()))
     writable = [(section['sh_addr'], section['sh_addr'] + section['sh_size']) for section in binary.iter_sections()
                 if section['sh_flags'] & 3 == 3 and section['sh_size']]
-    writable += [(trace.setup, trace.setup + 404), (STACK_TOPS[0] - 0x4000, STACK_TOPS[0])]
+    writable += [(trace.setup, trace.setup + 412), (STACK_TOPS[0] - 0x4000, STACK_TOPS[0])]
     saved = [getattr(r, 'UC_RISCV_REG_S' + str(i)) for i in range(12)]
     for index, register in enumerate(saved): h.cpu.reg_write(register, 0xa1000000 + index * 0x101)
     saved += [r.UC_RISCV_REG_GP, r.UC_RISCV_REG_TP]
@@ -197,11 +197,11 @@ def run(pair, snapshot, destination, case):
     struct.pack_into('<I', setup_wanted, 396, stage)
     for item in injection.memory:
         address = int(item['address'], 16)
-        if trace.setup <= address < trace.setup + 404:
+        if trace.setup <= address < trace.setup + 412:
             setup_wanted[address - trace.setup:address - trace.setup + 4] = bytes.fromhex(item['after'])
         if CODE <= address < CODE + len(code_before):
             code_before[address - CODE:address - CODE + 4] = bytes.fromhex(item['after'])
-    assert bytes(h.cpu.mem_read(trace.setup, 404)) == setup_wanted, 'tail-fault-setup'
+    assert bytes(h.cpu.mem_read(trace.setup, 412)) == setup_wanted, 'tail-fault-setup'
     code_after = bytearray(h.cpu.mem_read(CODE, len(code_before)))
     for begin, end in writable:
         assert CODE <= begin <= end <= CODE + len(code_before)
@@ -216,7 +216,7 @@ def run(pair, snapshot, destination, case):
     result = dict(passed=True, case=case.name, stage=stage, original_stores=count,
         committed=trace.first + count, published=trace.first + published,
         owner_words=list(struct.unpack_from('<10I', owner_actual)), protected_memory=memory,
-        exact_owner_bytes=256, exact_setup_bytes=404, packet_claims=3072,
+        exact_owner_bytes=256, exact_setup_bytes=412, packet_claims=3072,
         exact_prior_private_and_code=True, trace=trace_record, injections=injection.memory,
         register_injections=injection.registers, inputs=inputs, actual_native_guards=True,
         diagnostic_prefix=True, input_drift_waivers=False, fresh_loader_allocator_caller_proof=False,

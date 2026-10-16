@@ -33,14 +33,20 @@ child completion. The original JSON paths and existing hash guards are retained.
   The cached nominal result remains a result of its original fresh caller.
 - Both execution envelopes report returncode0 and parent mount unchanged.
   `hif2-caller-q1` starts a separate fresh actual provider/caller inside the copy;
-  no terminal verdict has been observed yet. Original canonical long jobs are
-  still live and their producing source remains frozen at this checkpoint.
+  no terminal verdict has been observed yet. Original canonical long jobs were
+  subsequently stopped deliberately for execution isolation,not counted as
+  passes. Their731 terminal files are hash-preserved in original-migration-q1.
+  Fresh HIF2/full36 tail continuation runs remain in this frozen candidate.
 - Five copy/path/hash controls pass,including source drift,escapes,independent
   read-only copies and refusal to overwrite. All185 selected units pass.
 
 Local evidence is under `.local/npu-validation-capsules/tail-v2/`; native output
 is physically inside its `root/.local/` subtree. The unchanged canonical path
 shown inside a test is namespace-local,not evidence that it used newer main.
+After main changed to the412-byte journal,six live process source views were
+read through /proc/PID/root. All match the frozen candidate and differ from
+main;live-isolation-q1.json records this actual isolation check. The frozen
+404-byte cohort's results never qualify the changed journal or later code.
 
 ## Isolated CSR Reader
 

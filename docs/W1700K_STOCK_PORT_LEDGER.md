@@ -1,10 +1,59 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-16 (default-HIF nine-store caller passes; complete tail faults/HIF2 pending)
+Last updated: 2026-10-16 (checked INODE journal412 implemented; native constructor binding open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-16 - Checked INODE Journal And Frozen Validation Continuation
+
+- Added ordered API24/scalar0 constructor2 then7 history after complete PCIe
+  tail to canonical cold server/Linux client. New progress advances only after
+  accepted callback/reply;late mutation,callback failure,corrupt/lost replies
+  and uncertain transport retain sticky errors/leases. VERSION/STATUS remain
+  compatible. RRO selectors0/1/3 are explicitly outside this constructor lane.
+- SETUP404->412 appends inode_steps/prior_inode_steps. Clang AST discovers the
+  old/new fields;separate RV32 object tables verify all35 previous offsets
+  unchanged and new fields404/408. Original checked dispatcher explicitly
+  denies API24 until actual callback/11-store owner guards are bound. Matching
+  original slot/return1 stubs cannot be promoted to native constructor success.
+- Sanitized actual-C protocol2282 cases/352 INODE cases/60 compiled mutants,
+  provider609/nine,RV32 dispatcher70/four,packet guard32,18 raw unleased tail
+  denials and186 selected units pass. Initial protocol attempt's redundant
+  late-progress mutant survived;its driver/logs remain failed. Added independent
+  prior-journal mutation during version and forged command+matching reply cases;
+  distinct final protocol run passes all60 mutants. No native guard weakened.
+- Two raw19-component/156-hook builds repeat CODE0366d955/DATA4a35a6e8;
+  all19 image groups,loader60/eight and actual published-byte/eight-hart boot
+  pass. First boot invocation used the default10-second host entry budget and
+  timed out;it remains incomplete. Separate bootq2 passes with the previously
+  reviewed60-second host budget and unchanged3M instruction/state gates.
+- Source export verifies70 OpenWrt/five LuCI files;source-locke76a6253.
+  Normal22 RV32 objects/archive compile. Copy preflights caught a nonexistent
+  component-reference directory and older prepared-kernel source before writes.
+  Final copy touches only hash-matched source-overlay components. The older
+  prepared kernel/module and FIT978f9ddd stay intact;no AArch64 provider/world/
+  image rebuild or fresh full512 qualification of the412-byte pair is claimed.
+- Original canonical full36-tail matrix/HIF2 caller were intentionally stopped
+  for validated execution isolation,not an observation-timeout retry. Both are
+  terminal non-passes;731 exact terminal files are preserved. Continuation runs
+  use capsule24b9d075 for the older37ee4e3/404-byte candidate. Six actual
+  /proc/PID/root source views verify frozen hashes differ from main after edits;
+  old-cohort results cannot qualify412/later changes. No snapshot/receipt rewrite
+  or source hash waiver. Full36/HIF2 terminal verdicts are still pending there.
+- Jev checked five bounded scope claims,with probabilities retained: native
+  constructor execution contradicted.99,retained lost-reply host scope
+  supported.94,old validation qualifies412 contradicted1,modeled VERSION/STATUS
+  compatibility supported.90,all-API24/RRO physical completion contradicted1.
+  These semantic checks are not native or hardware proof.
+- Scoped SHA256d56cdfe0c3d04d08e5fbb9daddd52738e8072bbd8c085673d09d56ec58112697
+  independently verifies433 current hashes,186 units,exact22 archive objects
+  and six raw boot controls. Native INODE/full512/eight-fault/current full36
+  qualification flags remain false,not silently inherited from the older copy.
+- Full native INODE/RRO,checked IRQ/hot/workers,complete stack/physical/drain/
+  lifecycle/recovery/boot/client scope remains open. No flash/hardware/subagents.
+  Evidence: research/checkpoints/2026-10-16-npu-inode-journal/REPORT.md.
 
 ## 2026-10-16 - Nine-Store Caller Qualified And Validation Copy Tested
 

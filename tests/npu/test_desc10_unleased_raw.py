@@ -54,7 +54,7 @@ def run(pair):
     setup, setup_bytes = symbols['npu_emulation_cold_setup_state']
     owner, owner_bytes = symbols['npu_emulation_desc10_state']
     packet, packet_bytes = symbols['npu_emulation_packet_state']
-    assert setup_bytes in (0, 404) and owner_bytes == 13512 and packet_bytes == 2076
+    assert setup_bytes in (0, 412) and owner_bytes == 13512 and packet_bytes == 2076
     stack = (STACK_TOPS[0] - 0x4000, STACK_TOPS[0])
     spaces = (*IMAGES, (HOST, HOST_BYTES), (SKB_STATE, SKB_BYTES))
     rows = []
@@ -78,7 +78,7 @@ def run(pair):
                 address, size = symbols[name]
                 if not size:
                     size = {'npu_emulation_admission_state': 44, 'npu_emulation_barrier_state': 104,
-                            'npu_emulation_cold_setup_state': 404}[name]
+                            'npu_emulation_cold_setup_state': 412}[name]
                 cpu.mem_write(address, bytes(size))
             put(packet + 16, 2560)
             cpu.mem_write(SRAM + 0x46fa, b'\0')

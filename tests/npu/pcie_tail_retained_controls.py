@@ -24,7 +24,7 @@ def case_contract(row, stage, case):
     assert row['diagnostic_prefix'] is True and row['fresh_loader_allocator_caller_proof'] is False
     assert row['full_setup'] is False and row['hardware'] is False
     assert row['exact_prior_private_and_code'] is True and row['exact_owner_bytes'] == 256
-    assert row['exact_setup_bytes'] == 404 and row['packet_claims'] == 3072
+    assert row['exact_setup_bytes'] == 412 and row['packet_claims'] == 3072
     first, count = stage * 2, (5 if stage == 2 else 2) if case.boundary == 'release' else case.stores
     published = count if case.boundary == 'release' else case.published
     assert (row['original_stores'], row['committed'], row['published']) == (count, first + count, first + published)

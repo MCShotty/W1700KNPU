@@ -12,11 +12,11 @@ class PcieTransactionOracleTests(unittest.TestCase):
         session, state = 0x3e906380, 0x84046000
         images = {address: bytearray(b'\xa5' * length) for address, length in SPACES}
         struct.pack_into('<5I', images[0x3e900000], session - 0x3e900000, 1, 2, 3, 4, 57)
-        setup = [0] * 101
+        setup = [0] * 103
         setup[12:14] = [0x20000000, 0x100000]
         setup[95] = 2
         setup[97:99] = [0x200d4450 + hif2 * 0x4000] * 2
-        setup = struct.pack('<101I', *setup)
+        setup = struct.pack('<103I', *setup)
         cpu = Mock()
         def read(address, length):
             if address == state:
@@ -53,7 +53,8 @@ class PcieTransactionOracleTests(unittest.TestCase):
 
     def test_completed_prefix_is_required_before_region_reads(self):
         for offset, value in ((0, 1), (4, 1), (380, 1), (48, 0x20000001), (52, 4096),
-                              (388, 0), (388, 0x200d4454), (392, 0), (396, 1), (400, 1)):
+                              (388, 0), (388, 0x200d4454), (392, 0), (396, 1), (400, 1),
+                              (404, 1), (408, 1)):
             h, request, _, setup = self.fixture()
             data = bytearray(setup)
             struct.pack_into('<I', data, offset, value)

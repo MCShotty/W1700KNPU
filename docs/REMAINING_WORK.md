@@ -1,5 +1,30 @@
 # Remaining W1700K Work
 
+## 2026-10-16 - Current INODE And Native Gates
+
+The checked constructor2/7 journal is implemented in canonical server/Linux
+code:API24/scalar0,after all PCIe tail stages,with VERSION/STATUS compatibility
+and retained early/late/reply failures. SETUP412 appends two words and preserves
+all35 old offsets. Protocol2282/352 INODE cases/60 mutants,dispatcher70/four,
+186 units,repeat raw19/156/all19 checks,loader60/eight and published eight-hart
+boot pass. Checked native API24 dispatch deliberately remains closed.
+
+Next bind the actual original8400fc2c callback and11 store sites to the retained
+INODE owner,with explicit authenticated completed-owner successors,no fabricated
+earlier SETUP and fresh full512/eight-fault/both-HIF/current-source qualification.
+RRO0/1/3 allocations/session/reset/error propagation remain separate. Checked
+initial/hot IRQ,workers/hot packet ownership,complete stack and physical DMA/
+cache/exclusion/drains/lifecycle/reset/removal/rearm/recovery and exact-image/
+actual-client gates all remain required.
+
+Older HIF2/full36 tail tests now run in the tested original-path frozen404-byte
+validation copy. The interrupted canonical jobs are terminal non-passes with731
+files preserved. /proc source-view checks confirm isolation after main edits;
+these old-cohort runs do not qualify new412 source. Source70/5 is exported,but
+the older prepared kernel/module and FIT978f9ddd are left intact. No new world,
+image,flash,hardware or subagents. Read the inode-journal/REPORT.md checkpoint.
+This supersedes previous current/live-status notes below.
+
 ## 2026-10-16 - Current Remaining Gates
 
 Fresh default-HIF caller pcie-tail-native-q2 is terminal0: full512 DESC10,

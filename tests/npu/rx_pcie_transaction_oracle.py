@@ -12,7 +12,8 @@ def expected(h, request):
     assert list(before[:4]) == request[9:11] + request[7:9]
     assert before[4] < request[6] <= 0xffffffff
     state = h.rv.symbols['npu_emulation_cold_setup_state']
-    setup = struct.unpack('<101I', h.cpu.mem_read(state, 404))
+    setup = struct.unpack('<103I', h.cpu.mem_read(state, 412))
+    assert setup[101:103] == (0, 0), 'RX-PCIE-before-INODE'
     assert setup[:2] == (0, 0) and setup[95] == 2
     base, extent = setup[12:14]
     assert base and not base & 4095 and base < 0xc0000000

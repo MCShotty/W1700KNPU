@@ -21,7 +21,8 @@ class PcieTailTrace:
         self.stage = (0x10, 0x12, 0x1f).index(request[11])
         self.first, self.last = self.stage * 2, 9 if self.stage == 2 else self.stage * 2 + 2
         self.setup = h.rv.symbols['npu_emulation_cold_setup_state']
-        setup = list(struct.unpack('<101I', h.cpu.mem_read(self.setup, 404)))
+        setup = list(struct.unpack('<103I', h.cpu.mem_read(self.setup, 412)))
+        assert setup[101:103] == [0, 0], 'tail-before-INODE'
         assert setup[:3] == [0, 0, 131071] and setup[95] == 3 and setup[99] == self.stage
         base, extent, tx2 = setup[12], setup[13], setup[97]
         assert base == 0x20000000 and extent == 0x100000
@@ -71,7 +72,7 @@ class PcieTailTrace:
             setup[target] = setup[source]
         setup[21:26], setup[61:90] = setup[16:21], setup[32:61]
         setup[99] += 1
-        self.setup_expected = struct.pack('<101I', *setup)
+        self.setup_expected = struct.pack('<103I', *setup)
         self.prior = {}
         for component, name in ((h.packet, 'npu_emulation_packet_state'),
             (h.tx, 'npu_emulation_tx_state'), (h.rx_pcie, 'npu_emulation_rx_pcie_state'),
@@ -115,7 +116,7 @@ class PcieTailTrace:
         assert self.locks == [(LOCKS[0], 4, 0x40), (LOCKS[1], 4, 0)], ('tail-lock18', self.locks)
         assert all(bytes(self.h.cpu.mem_read(base, len(data))) == data for base, data in self.memory.items()), 'tail-protected-memory'
         assert bytes(self.h.cpu.mem_read(self.owner, 256)) == self.owner_expected, 'tail-owner-publication'
-        assert bytes(self.h.cpu.mem_read(self.setup, 404)) == self.setup_expected, 'tail-setup-journal'
+        assert bytes(self.h.cpu.mem_read(self.setup, 412)) == self.setup_expected, 'tail-setup-journal'
         assert all(bytes(self.h.cpu.mem_read(address, len(data))) == data for address, data in self.prior.values()), 'tail-prior-owner-mutation'
 
     def save(self, directory):
@@ -127,7 +128,7 @@ class PcieTailTrace:
         for name, contents in (('actual-stores.bin', actual), ('owner-expected.bin', self.owner_expected),
                                ('owner-actual.bin', bytes(self.h.cpu.mem_read(self.owner, 256))),
                                ('setup-expected.bin', self.setup_expected),
-                               ('setup-actual.bin', bytes(self.h.cpu.mem_read(self.setup, 404)))):
+                               ('setup-actual.bin', bytes(self.h.cpu.mem_read(self.setup, 412)))):
             with (directory / name).open('xb') as stream:
                 stream.write(contents)
         result = dict(stage=self.stage, actual_stores=len(self.stores), expected_stores=len(self.events),

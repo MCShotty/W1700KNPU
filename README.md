@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-16 - Checked INODE Command Journal
+
+API24 constructors2/7 now have ordered server/Linux-client progress after the
+complete PCIe tail. All35 old private offsets remain unchanged;two appended
+words grow SETUP to412 bytes. Version/STATUS,early and late faults,lost replies
+and retained failures are tested. Host protocol2282 cases/60 mutants,compiled
+RV32 dispatch70/four,186 selected units,repeat raw19/156/all19 image groups and
+actual published-byte/eight-hart boot pass their scopes.
+
+Native INODE execution remains explicitly closed until its retained owner and
+all11 original store guards are bound. The ongoing HIF2/full36 tail validation
+runs against a preserved older404-byte candidate in private mount namespaces,
+not newer main. No rebuilt world/image or hardware acceptance is claimed.
+See the [current journal report](research/checkpoints/2026-10-16-npu-inode-journal/REPORT.md).
+Earlier live notes below are historical. Full NPU implementation remains open.
+
 ## 2026-10-16 - Actual Nine-Store Tail Passes
 
 The fresh default-HIF allocator/provider/caller passes full512 DESC10, RX PCIe

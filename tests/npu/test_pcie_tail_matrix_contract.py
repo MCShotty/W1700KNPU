@@ -10,7 +10,7 @@ def receipt(stage, case):
     published = count if case.boundary == 'release' else case.published
     return dict(passed=True, stage=stage, case=case.name, actual_native_guards=True, input_drift_waivers=False,
         diagnostic_prefix=True, fresh_loader_allocator_caller_proof=False, full_setup=False, hardware=False,
-        exact_prior_private_and_code=True, exact_owner_bytes=256, exact_setup_bytes=404, packet_claims=3072,
+        exact_prior_private_and_code=True, exact_owner_bytes=256, exact_setup_bytes=412, packet_claims=3072,
         original_stores=count, committed=stage * 2 + count, published=stage * 2 + published,
         protected_memory=[dict(base=hex(base), bytes=size, differing_bytes=0) for base, size in
                           (*retained.SPACES, *((base, 4096) for base in retained.MODEL_BAR_PAGES))])

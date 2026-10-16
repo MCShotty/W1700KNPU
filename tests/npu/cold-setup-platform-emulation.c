@@ -34,6 +34,9 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
                     npu_cold_rx_event_enrollment(&command))) {
             result = 1;
             slot = callback = 0;
+        } else if (command.api == NPU_COLD_INODE_API) {
+            /* Constructor history is not an original-store owner binding. */
+            slot = callback = 0;
         } else if ((command.header & ~15u) == 0x30u) {
             slot = 0x3e900148u + command.api * 4;
             callback = command.api == 4 ? 0x84010164u : 0x840101a6u;

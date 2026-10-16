@@ -1,7 +1,9 @@
 #include "cold-setup.h"
 
 _Static_assert(sizeof(struct npu_cold_packet) == NPU_COLD_SIZE, "cold wire changed");
-_Static_assert(sizeof(struct npu_cold_setup) == 404, "cold owner changed");
+_Static_assert(sizeof(struct npu_cold_setup) == 412, "cold owner changed");
+_Static_assert(__builtin_offsetof(struct npu_cold_setup, inode_steps) == 404, "old cold offsets changed");
+_Static_assert(__builtin_offsetof(struct npu_cold_setup, prior_inode_steps) == 408, "INODE journal changed");
 
 static uint32_t load(const uint32_t *word)
 {
@@ -127,6 +129,8 @@ static int history(const struct npu_cold_setup *s, const struct npu_bootstrap *b
         ((s->completed & NPU_COLD_TX2) ? !npu_cold_tx2_register_valid(s) : s->tx2_register != 0) ||
         s->pcie_tail_steps > NPU_COLD_PCIE_TAIL_STAGES ||
         (s->pcie_tail_steps && (s->rx_event_steps != 3 || s->completed != NPU_COLD_COMPLETED_MASK)) ||
+        s->inode_steps > NPU_COLD_INODE_STAGES ||
+        (s->inode_steps && s->pcie_tail_steps != NPU_COLD_PCIE_TAIL_STAGES) ||
         (s->rx_event ? s->txbuf_enrolled < NPU_COLD_TXBUF_MAILBOXES ||
          !npu_cold_rx_event_dma_valid(&s->txbuf, s->txbuf_enrolled, s->rx_event) :
          !!s->rx_event_steps) ||
@@ -248,7 +252,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     struct npu_cold_packet p;
     struct npu_cold_txbuf_plan candidate;
     static const uint32_t limits[NPU_COLD_COUNTS] = {1536, 1024, 256, 512, 1024};
-    uint32_t i, bit, descriptor, enrollment, txbuf, rx_bind, rx_command, desc10, rx_pcie, tail;
+    uint32_t i, bit, descriptor, enrollment, txbuf, rx_bind, rx_command, desc10, rx_pcie, tail, inode;
 
     if (!packet || bytes != sizeof(p))
         return NPU_COLD_BAD_MESSAGE;
@@ -283,6 +287,10 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     desc10 = npu_cold_txdone_command(&p.command);
     rx_pcie = npu_cold_rx_pcie_command(&p.command);
     tail = npu_cold_pcie_tail_command_step(&p.command);
+    inode = npu_cold_inode_command_step(&p.command);
+    if (inode < NPU_COLD_INODE_STAGES &&
+        (!npu_cold_inode_request_valid(s, &p.command) || !window(s->endpoint_base, s->endpoint_bytes, boot)))
+        return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (tail < NPU_COLD_PCIE_TAIL_STAGES &&
         (!npu_cold_pcie_tail_request_valid(s, &p.command) ||
          !window(s->endpoint_base, s->endpoint_bytes, boot)))
@@ -314,7 +322,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
         return fail(s, a, b, NPU_COLD_BAD_STATE);
     if (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
         txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command && !desc10 && !rx_pcie &&
-        tail == NPU_COLD_PCIE_TAIL_STAGES &&
+        tail == NPU_COLD_PCIE_TAIL_STAGES && inode == NPU_COLD_INODE_STAGES &&
         !(p.command.header == 0x30 && p.command.api == 10 && !p.command.value))
         return fail(s, a, b, NPU_COLD_UNSUPPORTED);
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS &&
@@ -344,6 +352,7 @@ enum npu_cold_status npu_cold_setup_begin(struct npu_cold_setup *s,
     s->prior_rx_event_steps = s->rx_event_steps;
     s->prior_tx2_register = s->tx2_register;
     s->prior_pcie_tail_steps = s->pcie_tail_steps;
+    s->prior_inode_steps = s->inode_steps;
     s->pending_rx_event = rx_bind ? p.command.value : s->rx_event;
     npu_cold_txbuf_plan_copy(&s->pending_txbuf,
         enrollment < NPU_COLD_TXBUF_RECORDS ? &candidate : &s->txbuf);
@@ -367,7 +376,13 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
     uint32_t desc10 = npu_cold_txdone_command(&s->command);
     uint32_t rx_pcie = npu_cold_rx_pcie_command(&s->command);
     uint32_t tail = npu_cold_pcie_tail_command_step(&s->command);
+    uint32_t inode = npu_cold_inode_command_step(&s->command);
     struct npu_cold_txbuf_plan candidate;
+
+    if (s->inode_steps != s->prior_inode_steps ||
+        (inode < NPU_COLD_INODE_STAGES &&
+         (!npu_cold_inode_inflight(s) || !window(s->endpoint_base, s->endpoint_bytes, boot))))
+        return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
 
     if (s->tx2_register != s->prior_tx2_register ||
         s->pcie_tail_steps != s->prior_pcie_tail_steps ||
@@ -423,13 +438,14 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
          (descriptor != s->descriptor_gets || s->completed != NPU_COLD_COMPLETED_MASK || !arena)) ||
         (!bit && descriptor == NPU_COLD_DESCRIPTOR_STEPS && enrollment == NPU_COLD_TXBUF_RECORDS &&
          txbuf == NPU_COLD_TXBUF_STEPS && !rx_bind && !rx_command && !desc10 && !rx_pcie &&
-         tail == NPU_COLD_PCIE_TAIL_STAGES &&
+         tail == NPU_COLD_PCIE_TAIL_STAGES && inode == NPU_COLD_INODE_STAGES &&
          !(s->command.header == 0x30 && s->command.api == 10 && !s->command.value)) ||
         !reply || result != 1 || reply->header != s->command.header ||
         reply->api != s->command.api ||
         (descriptor == NPU_COLD_DESCRIPTOR_STEPS && reply->value !=
          (bit || enrollment < NPU_COLD_TXBUF_RECORDS || txbuf < NPU_COLD_TXBUF_STEPS ||
-          rx_bind || rx_command || desc10 || rx_pcie || tail < NPU_COLD_PCIE_TAIL_STAGES ?
+          rx_bind || rx_command || desc10 || rx_pcie || tail < NPU_COLD_PCIE_TAIL_STAGES ||
+          inode < NPU_COLD_INODE_STAGES ?
           s->command.value : 0x457u)))
         return fail(s, a, b, NPU_COLD_CALLBACK_FAILED);
     if (enrollment < NPU_COLD_TXBUF_RECORDS) {
@@ -444,6 +460,8 @@ enum npu_cold_status npu_cold_setup_finish(struct npu_cold_setup *s,
         s->rx_event_steps++;
     if (tail < NPU_COLD_PCIE_TAIL_STAGES)
         s->pcie_tail_steps++;
+    if (inode < NPU_COLD_INODE_STAGES)
+        s->inode_steps++;
     if (bit == NPU_COLD_TX2)
         s->tx2_register = s->command.value;
     if (descriptor < NPU_COLD_DESCRIPTOR_STEPS) {

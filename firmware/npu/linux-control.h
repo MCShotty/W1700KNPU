@@ -22,7 +22,7 @@ struct npu_linux_control {
 	struct airoha_npu *provider;
 	struct npu_control_v2_client client;
 	u32 descriptor_gets, descriptor_arena, txbuf_enrolled, txbuf_steps, rx_event, rx_event_steps;
-	u32 tx0_register, tx2_register, pcie_tail_steps;
+	u32 tx0_register, tx2_register, pcie_tail_steps, inode_steps;
 	int error;
 	bool initialized;
 	bool closed;
@@ -31,7 +31,7 @@ struct npu_linux_control {
 struct npu_linux_control_snapshot {
 	struct npu_control_v2_client client;
 	u32 descriptor_gets, descriptor_arena, txbuf_enrolled, txbuf_steps, rx_event, rx_event_steps;
-	u32 tx0_register, tx2_register, pcie_tail_steps;
+	u32 tx0_register, tx2_register, pcie_tail_steps, inode_steps;
 	int error;
 	bool closed;
 };

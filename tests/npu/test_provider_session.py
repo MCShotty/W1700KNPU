@@ -270,7 +270,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             lib.npu_test_tx_dma_addr.restype = ctypes.c_uint32
             tx_dma = [lib.npu_test_tx_dma_addr(i) for i in range(6)]
             if txbuffer_enrollment:
-                assert cold_bytes == 404 and h.get32(cold_state + 120) == 14
+                assert cold_bytes == 412 and h.get32(cold_state + 120) == 14
                 captured = list(struct.unpack('<29I', h.cpu.mem_read(cold_state + 128, 116)))
                 expected_plan = [0, 0x20000000, 0x100000,
                     *tx_dma,

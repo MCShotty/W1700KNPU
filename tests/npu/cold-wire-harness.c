@@ -73,6 +73,7 @@ int airoha_npu_wlan_control(struct airoha_npu *npu, void *packet, int bytes)
     if (late_control == 1) control.tx0_register ^= 4;
     if (late_control == 2) control.tx2_register ^= 4;
     if (late_control == 3) control.pcie_tail_steps++;
+    if (late_control == 4) control.inode_steps++;
     return transport_error;
 }
 
@@ -261,7 +262,7 @@ static void txbuf_prefix(unsigned count)
     txbuf_prefix_mode(count, 0);
 }
 
-static unsigned rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases, pcie_tail_wire_cases;
+static unsigned rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases, pcie_tail_wire_cases, inode_wire_cases;
 
 static void rx_event_suite(void)
 {
@@ -880,6 +881,203 @@ static void pcie_tail_suite(void)
     }
 }
 
+static struct npu_bootstrap_packet inode_command(unsigned step)
+{
+    check(step < 2);
+    return (struct npu_bootstrap_packet){step ? 0x17 : 0x12, 24, 0};
+}
+
+static void inode_prefix(unsigned hif2, unsigned steps)
+{
+    uint32_t output;
+
+    tail_prefix(hif2, 3);
+    for (unsigned i = 0; i < steps; i++) {
+        struct npu_bootstrap_packet command = inode_command(i);
+        check(!npu_linux_control_cold_exchange(&control, &command, &output));
+        check(!output && setup.inode_steps == i + 1 && control.inode_steps == i + 1 &&
+              !setup.failed && !setup.inflight && !admission.active && setup.pcie_tail_steps == 3);
+    }
+}
+
+static void inode_server_reject(struct npu_bootstrap_packet command)
+{
+    struct npu_cold_packet packet;
+
+    check(npu_cold_client_request(&control.client, &packet, sizeof(packet), &command));
+    check(npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                              &packet, sizeof(packet)) != NPU_COLD_OK);
+    check(setup.failed && !setup.inflight && !admission.active && admission.fault && barrier.fault);
+    inode_wire_cases++;
+}
+
+static void inode_suite(void)
+{
+    uint32_t output;
+    struct npu_cold_packet packet;
+
+    check(sizeof(setup) == 412 && __builtin_offsetof(struct npu_cold_setup, inode_steps) == 404 &&
+          __builtin_offsetof(struct npu_cold_setup, prior_inode_steps) == 408);
+    for (unsigned hif2 = 0; hif2 < 2; hif2++) {
+        for (unsigned step = 0; step <= 2; step++) {
+            inode_prefix(hif2, step);
+            struct npu_linux_control_snapshot snapshot;
+            check(!npu_linux_control_snapshot(&control, &snapshot) && snapshot.inode_steps == step);
+            check(!npu_linux_control_cold_exchange(&control, &commands[0], &output) && output == 0x457);
+            check(!npu_linux_control_exchange(&control, NPU_CONTROL_STATUS));
+            check(setup.inode_steps == step && control.inode_steps == step &&
+                  !setup.failed && !setup.inflight && !barrier.released && !barrier.armed);
+            inode_wire_cases++;
+            for (unsigned selected = 0; selected < 2; selected++) {
+                if (selected == step) continue;
+                struct npu_bootstrap_packet command = inode_command(selected);
+                inode_prefix(hif2, step);
+                unsigned before = calls;
+                output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                      output == 0xabcdef01 && calls == before && !setup.failed);
+                sticky(-EPROTO, calls);
+                inode_wire_cases++;
+                inode_prefix(hif2, step);
+                inode_server_reject(command);
+            }
+        }
+        for (unsigned step = 0; step < 2; step++) {
+            struct npu_bootstrap_packet command = inode_command(step);
+            for (unsigned tail = 0; tail < 3; tail++) {
+                tail_prefix(hif2, tail);
+                unsigned before = calls;
+                output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                      output == 0xabcdef01 && calls == before && !setup.failed);
+                inode_wire_cases++;
+                tail_prefix(hif2, tail);
+                inode_server_reject(command);
+            }
+            for (unsigned bad = 0; bad < 3; bad++) {
+                struct npu_bootstrap_packet wrong = command;
+                wrong.value = bad == 0 ? 1 : bad == 1 ? UINT32_MAX : 4;
+                inode_prefix(hif2, step);
+                unsigned before = calls;
+                output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &wrong, &output) == -EPROTO &&
+                      output == 0xabcdef01 && calls == before && !setup.failed);
+                inode_wire_cases++;
+                inode_prefix(hif2, step);
+                inode_server_reject(wrong);
+            }
+            const unsigned denied_headers[] = {0x10, 0x11, 0x13, 0x18, 0x1f, 0x112};
+            for (unsigned i = 0; i < sizeof(denied_headers) / sizeof(denied_headers[0]); i++) {
+                struct npu_bootstrap_packet wrong = {denied_headers[i], 24, 0};
+                inode_prefix(hif2, step);
+                unsigned before = calls;
+                output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &wrong, &output) == -EPROTO &&
+                      output == 0xabcdef01 && calls == before && !setup.failed);
+                inode_wire_cases++;
+                inode_prefix(hif2, step);
+                inode_server_reject(wrong);
+            }
+            for (unsigned field = 0; field < 10; field++) {
+                inode_prefix(hif2, step);
+                if (field == 0) control.inode_steps = 3;
+                if (field == 1) control.pcie_tail_steps = 2;
+                if (field == 2) control.rx_event = 0;
+                if (field == 3) control.rx_event_steps = 2;
+                if (field == 4) control.txbuf_enrolled--;
+                if (field == 5) control.txbuf_steps--;
+                if (field == 6) control.descriptor_gets--;
+                if (field == 7) control.tx0_register = 0;
+                if (field == 8) control.tx2_register = 0;
+                if (field == 9) control.inode_steps = step ^ 1;
+                unsigned before = calls;
+                output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                      output == 0xabcdef01 && calls == before && !setup.failed);
+                inode_wire_cases++;
+            }
+            for (unsigned field = 0; field < 21; field++) {
+                inode_prefix(hif2, step);
+                check(npu_cold_client_request(&control.client, &packet, sizeof(packet), &command));
+                check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                                           &packet, sizeof(packet)));
+                check(npu_cold_inode_inflight(&setup));
+                if (field == 0) setup.inode_steps++;
+                if (field == 1) setup.prior_inode_steps++;
+                if (field == 2) setup.pcie_tail_steps = 2;
+                if (field == 3) setup.prior_pcie_tail_steps = 2;
+                if (field == 4) setup.command.header ^= 1;
+                if (field == 5) setup.command.api = 2;
+                if (field == 6) setup.command.value = 1;
+                if (field == 7) setup.rx_event_steps = 2;
+                if (field == 8) setup.prior_rx_event_steps = 2;
+                if (field == 9) setup.rx_event ^= 32;
+                if (field == 10) setup.prior_rx_event ^= 32;
+                if (field == 11) setup.pending_rx_event ^= 32;
+                if (field == 12) setup.tx2_register ^= 4;
+                if (field == 13) setup.prior_tx2_register ^= 4;
+                if (field == 14) setup.prior_descriptor_arena += 32;
+                if (field == 15) setup.counts[0]--;
+                if (field == 16) setup.sequence++;
+                if (field == 17) session.nonce_lo++;
+                if (field == 18) setup.txbuf_steps--;
+                if (field == 19) setup.endpoint_bytes = 4096;
+                struct npu_bootstrap_packet reply = command;
+                if (field == 20) {
+                    setup.command.header = inode_command(step ^ 1).header;
+                    reply.header = setup.command.header;
+                }
+                check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot,
+                                           1, &reply) == NPU_COLD_CALLBACK_FAILED);
+                check(setup.failed && setup.inflight && admission.active && admission.fault && barrier.fault);
+                inode_wire_cases++;
+            }
+            for (unsigned after = 0; after < 2; after++) {
+                inode_prefix(hif2, step);
+                transport_error = -ETIMEDOUT; after_effect = after; output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -ETIMEDOUT &&
+                      output == 0xabcdef01 && setup.inode_steps == step + after &&
+                      control.inode_steps == step && !barrier.released && !barrier.armed);
+                sticky(-ETIMEDOUT, calls);
+                inode_wire_cases++;
+            }
+            for (unsigned field = 0; field < 20; field++) {
+                inode_prefix(hif2, step);
+                corrupt = 1; corrupt_word = field; output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                      output == 0xabcdef01 && setup.inode_steps == step + 1 &&
+                      control.inode_steps == step && !setup.failed);
+                sticky(-EPROTO, calls);
+                inode_wire_cases++;
+            }
+            for (unsigned field = 1; field <= 4; field++) {
+                inode_prefix(hif2, step);
+                late_control = field; output = 0xabcdef01;
+                check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                      output == 0xabcdef01 && setup.inode_steps == step + 1 && !setup.failed);
+                sticky(-EPROTO, calls);
+                inode_wire_cases++;
+            }
+            inode_prefix(hif2, step);
+            callback_error = 1; output = 0xabcdef01;
+            check(npu_linux_control_cold_exchange(&control, &command, &output) == -EPROTO &&
+                  output == 0xabcdef01 && setup.inode_steps == step && setup.failed &&
+                  setup.inflight && admission.active && control.inode_steps == step);
+            inode_wire_cases++;
+        }
+        inode_prefix(hif2, 2);
+        check(npu_cold_client_request(&control.client, &packet, sizeof(packet), &commands[0]));
+        check(!npu_cold_setup_begin(&setup, &session, &admission, &barrier, &boot,
+                                   &packet, sizeof(packet)));
+        setup.prior_inode_steps++;
+        struct npu_bootstrap_packet reply = {0x30, 10, 0x457};
+        check(npu_cold_setup_finish(&setup, &session, &admission, &barrier, &boot,
+                                   1, &reply) == NPU_COLD_CALLBACK_FAILED);
+        check(setup.failed && setup.inflight && admission.active && admission.fault && barrier.fault);
+        inode_wire_cases++;
+    }
+}
+
 int main(void)
 {
     dma_enrollment_suite();
@@ -888,6 +1086,7 @@ int main(void)
     desc10_suite();
     rx_pcie_suite();
     pcie_tail_suite();
+    inode_suite();
     fresh();
     for (unsigned i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         uint32_t value = 0;
@@ -1185,7 +1384,7 @@ int main(void)
     printf("{\"passed\":true,\"cases\":%u,\"request_fields\":20,\"reply_fields\":20,"
            "\"bad_lengths\":128,\"held_controls\":38,\"late_controls\":19,\"transport_faults\":8,"
            "\"geometry_cases\":%u,\"order_cases\":%u,\"partial_prefix_controls\":5,"
-           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u,\"rx_event_cases\":%u,\"desc10_cases\":%u,\"rx_pcie_cases\":%u,\"pcie_tail_cases\":%u}\n",
-           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases, rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases, pcie_tail_wire_cases);
+           "\"tx_geometry_cases\":%u,\"getter_reply_cases\":%u,\"getter_server_cases\":%u,\"getter_codec_cases\":%u,\"rx_event_cases\":%u,\"desc10_cases\":%u,\"rx_pcie_cases\":%u,\"pcie_tail_cases\":%u,\"inode_cases\":%u}\n",
+           total, geometry_cases, order_cases, tx_geometry_cases, getter_reply_cases, getter_server_cases, getter_codec_cases, rx_wire_cases, desc10_wire_cases, rx_pcie_wire_cases, pcie_tail_wire_cases, inode_wire_cases);
     return 0;
 }

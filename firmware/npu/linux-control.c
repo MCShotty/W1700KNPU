@@ -30,6 +30,7 @@ int npu_linux_control_init(struct npu_linux_control *control,
 	control->txbuf_steps = 0;
 	control->rx_event = control->rx_event_steps = 0;
 	control->tx0_register = control->tx2_register = control->pcie_tail_steps = 0;
+	control->inode_steps = 0;
 	npu_client_v2_init(&control->client, nonce_lo, nonce_hi);
 	control->initialized = true;
 	if (!provider || control->client.base.phase == NPU_CLIENT_FAILED) {
@@ -115,6 +116,7 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 	snapshot->tx0_register = control->tx0_register;
 	snapshot->tx2_register = control->tx2_register;
 	snapshot->pcie_tail_steps = control->pcie_tail_steps;
+	snapshot->inode_steps = control->inode_steps;
 	snapshot->error = control->error;
 	snapshot->closed = control->closed;
 	mutex_unlock(&control->mutex);
@@ -130,6 +132,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	enum npu_client_result result;
 	u32 ticket, output, descriptor, arena, enrollment, txbuf, rx_bind, rx_command, desc10, rx_pcie;
 	u32 tail, tx0_before, tx2_before, tail_before, address, offset;
+	u32 inode, inode_before;
 	int error;
 
 	if (!control || !control->initialized || !command || !value)
@@ -150,9 +153,19 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	desc10 = npu_cold_txdone_command(&snapshot);
 	rx_pcie = npu_cold_rx_pcie_command(&snapshot);
 	tail = npu_cold_pcie_tail_command_step(&snapshot);
+	inode = npu_cold_inode_command_step(&snapshot);
 	tx0_before = control->tx0_register;
 	tx2_before = control->tx2_register;
 	tail_before = control->pcie_tail_steps;
+	inode_before = control->inode_steps;
+	if (snapshot.api == NPU_COLD_INODE_API &&
+	    (inode == NPU_COLD_INODE_STAGES || inode != inode_before || snapshot.value ||
+	     tail_before != NPU_COLD_PCIE_TAIL_STAGES || !control->rx_event || control->rx_event_steps != 3 ||
+	     control->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || control->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+	     control->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS || !tx0_before || !tx2_before)) {
+		error = hold(control, -EPROTO);
+		goto unlock;
+	}
 	if (tail < NPU_COLD_PCIE_TAIL_STAGES) {
 		address = tail ? tx2_before : tx0_before;
 		offset = tail ? 0x110u : 0x160u;
@@ -211,7 +224,7 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 	if (error || result != NPU_CLIENT_ACCEPTED)
 		error = hold(control, error < 0 ? error : error ? -EIO : -EPROTO);
 	else if (control->tx0_register != tx0_before || control->tx2_register != tx2_before ||
-		 control->pcie_tail_steps != tail_before)
+		 control->pcie_tail_steps != tail_before || control->inode_steps != inode_before)
 		error = hold(control, -EPROTO);
 	else {
 		if (enrollment < NPU_COLD_TXBUF_RECORDS)
@@ -224,6 +237,8 @@ int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 			control->rx_event_steps++;
 		if (tail < NPU_COLD_PCIE_TAIL_STAGES)
 			control->pcie_tail_steps++;
+		if (inode < NPU_COLD_INODE_STAGES)
+			control->inode_steps++;
 		if (snapshot.api == 19 && snapshot.header == 0x10)
 			control->tx0_register = snapshot.value;
 		if (snapshot.api == 19 && snapshot.header == 0x12)

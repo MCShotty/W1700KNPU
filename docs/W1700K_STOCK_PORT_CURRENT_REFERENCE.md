@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-16 - Current Checked INODE Journal
+
+Server/Linux client now retain ordered API24 constructor2/7 progress after the
+complete PCIe tail. Appended words grow SETUP404->412;independent clang AST/
+RV32 tables verify all35 old offsets unchanged. VERSION/STATUS and retained
+early/late/lost-reply failures are modeled-host tested. Current checks pass
+protocol2282/352 INODE cases/60 mutants,provider609/nine,dispatcher70/four,
+packet guard32,186 units,repeat raw19/156/all19 checks,loader60/eight and actual
+published-byte/eight-hart boot. Native checked API24 remains explicitly denied
+until the real callback/11-store owner guards and successors are bound.
+
+The original canonical HIF2/full36-tail jobs are terminal non-passes after an
+intentional migration;731 files are preserved. Fresh continuation runs use the
+frozen37ee4e3/404-byte copy at original paths in separate private namespaces.
+Six actual process source views verify old hashes after main source changes.
+Those results never qualify412 or later main. Source export verifies70/5;
+normal22 RV32 objects compile. Older prepared kernel/module and FIT978f9ddd stay
+intact;no AArch64 provider/world/image rebuild,flash,hardware or subagents.
+Native INODE/RRO,checked IRQ/hot/workers/full stack/physical/drain/lifecycle/
+recovery/client work remains. Read inode-journal/REPORT.md. This supersedes
+previous current/live-status notes below.
+Scoped seald56cdfe0 binds433 current hashes,186 units,exact22 archive objects
+and six raw boot controls. It is not native INODE/full512 qualification of412.
+
 ## 2026-10-16 - Current Native Qualification And Isolation
 
 Fresh default-HIF actual allocator/caller pcie-tail-native-q2 is terminal0

@@ -1,5 +1,32 @@
 # W1700KNPU Workspace
 
+## 2026-10-16 - Checked INODE Journal; Native Owner Still Closed
+
+- Canonical server/Linux client retain API24 selector2 then7/scalar0 only after
+  all three PCIe tail stages. SETUP grows404->412 by appending two words; clang
+  AST/RV32 object tables independently verify all35 old offsets unchanged.
+  VERSION/STATUS remain compatible. RRO0/1/3 are not constructor ownership.
+- Host protocol2282/352 INODE cases/60 compiled mutants,provider609/nine,
+  RV32 dispatcher70/four,packet guard32,raw19/156/all19 image groups,loader60/
+  eight and actual published-byte/eight-hart boot pass. Selected186 units pass.
+  API24 checked dispatch explicitly stays closed until its actual11 original
+  store guards/retained owner are bound. No fresh full512 qualification of412.
+- Original canonical HIF2/full36-tail jobs were intentionally migrated,not
+  timeout-restarted or counted as passes. Their731 terminal files are preserved.
+  New runs use the frozen37ee4e3/404-byte candidate at original paths in private
+  namespaces. Six actual /proc/PID/root source views still match that copy after
+  main edits. Their results cannot qualify412 or later main changes.
+- Source export70 OpenWrt/five LuCI passes;normal22 RV32 objects compile.
+  Prepared kernel sources have an older Linux-control revision and were left
+  intact. No AArch64 provider/world/image rebuild is claimed. FIT978f9ddd stays
+  unchanged/unflashed. No hardware/subagents. Next actual native INODE binding,
+  then checked IRQ/hot/workers/stack/physical/drain/lifecycle/recovery/clients.
+  Read research/checkpoints/2026-10-16-npu-inode-journal/REPORT.md.
+  This section supersedes earlier current/live notes below.
+- Scoped seald56cdfe0 verifies433 current input hashes,all186 selected units,
+  exact22 archive objects and six raw boot controls. It explicitly leaves
+  fresh native INODE/full512/eight-fault qualification of412 false.
+
 ## 2026-10-16 - Latest Verified Qualification State
 
 - Fresh default-HIF actual caller pcie-tail-native-q2 is terminal0 through

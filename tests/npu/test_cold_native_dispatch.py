@@ -22,7 +22,7 @@ def exercise(path):
     guest = Rv32(path)
     callbacks = []
     slots = {0: 0x8400fdc4, 1: 0x8400fe34, 14: 0x8400ff34,
-             19: 0x8400fc16, 21: 0x8400fbca, 22: 0x8400fbb4, 33: 0x8400fdda}
+             19: 0x8400fc16, 21: 0x8400fbca, 22: 0x8400fbb4, 24: 0x8400fc2c, 33: 0x8400fdda}
     for api, address in slots.items():
         guest.cpu.mem_write(0x3e900178 + api * 4, struct.pack('<I', address))
     for api, address in ((4, 0x84010164), (10, 0x840101a6)):
@@ -50,6 +50,9 @@ def exercise(path):
     cases += [(header, api, 80, 0, 0, slots[api], 0, True)
               for header, api in ((0x10, 0), (0x12, 0), (0x1f, 0), (0x10, 14))]
     cases += [(header, 0, 80, 0, 0, 0, 1, False) for header in (0x10, 0x12, 0x1f)]
+    cases += [(header, 24, 80, 0, 0, 0, result, good_slot)
+              for header in (0x10, 0x11, 0x12, 0x13, 0x17, 0x1f)
+              for result, good_slot in ((1, True), (0, True), (1, False))]
     observed = []
     for header, api, size, status, expected, target, callback_result, good_slot in cases:
         callbacks.clear()
@@ -99,6 +102,9 @@ def main():
         '-Wl,-T,' + str(linker) + ',--no-relax']
     source = SOURCE.read_text()
     mutations = {
+        'allow-unbound-inode': loader.once(source,
+            '/* Constructor history is not an original-store owner binding. */\n            slot = callback = 0;',
+            'slot = 0x3e9001d8u; callback = 0x8400fc2cu;'),
         'header-only-binding': loader.once(source,
             'npu_cold_rx_event_enrollment(&command)))', 'npu_cold_rx_event_enrollment(&command) || 1))'),
         'ignore-callback-slot': loader.once(source,
@@ -124,9 +130,10 @@ def main():
     assert all(loader.sha(ROOT / p) == value for p, value in inputs.items())
     result = dict(passed=True, cases=rows, mutants=rejected, inputs=inputs,
         binary_sha256=loader.sha(destination / 'nominal.elf'), protocol_and_callbacks_stubbed=True,
-        native_tail_admission=False, full_setup=False, hardware=False,
+        native_tail_admission=False, native_inode_admission=False, full_setup=False, hardware=False,
         limits=['Exact compiled RV32 dispatcher only; begin/finish and callback effects are explicit stubs.',
                 'PCIe0/2/15 route to API0 only through its matching slot; real guard admission is not established by these stubs.',
+                'All API24 selectors remain explicitly denied until original-store owner guards are bound; a callback slot alone is not admission.',
                 'Existing callback families and exact synthetic enrollment APIs retain their routing.'])
     (destination / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=len(rows), mutants=len(rejected), native_tail_admission=False)))
