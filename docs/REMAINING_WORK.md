@@ -30,6 +30,13 @@ Five early native retained faults pass; three late full-size cases and the
 fresh actual caller remain live. Exact C-frame/Ghidra scope is recorded in
 extended seal5cedd413 (404 hashes), not a native positive or full stack bound.
 
+Canonical raw frame audit adds264 measured C frames/39 translation units with
+all19 components/full CODE/DATA unchanged. Largest3600 is not the complete
+stack gate;four assembly-only components/five other defined symbols, original
+frames,indirect targets/call chains,IRQ nesting and physical placement remain.
+All144 selected units and portable INODE host382/142 pass. Native readiness
+pair/caller remain live;all six other retained faults pass. Freeze their inputs.
+
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 
 The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are

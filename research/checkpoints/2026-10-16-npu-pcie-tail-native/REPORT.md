@@ -156,6 +156,49 @@ original callback contract. Jev checks three scope/requirement claims in the
 retained `jev-next-inode-q1-result.json`; that is semantic evidence, not native
 constructor or IRQ execution.
 
+## Full Raw-Pair Frame Inventory
+
+The first local all-frames-q1 run rebuilt matching raw bytes/allocated sections,
+then failed an inventory condition that incorrectly demanded C .su records from
+every component. Its driver/compiler outputs remain unchanged at
+`.local/npu-pcie-tail-native-20261016/all-frames-q1`. A separate corrected
+inventory records its partial C scope; the failed run is not relabeled passed.
+
+The canonical `tests/npu/test_npu_raw_stack_usage.py` independently recompiles
+each C translation unit with `-fstack-usage`, relinks in original input order and
+requires every allocated section and complete CODE/DATA to match the frozen
+reference exactly. It measures264 C frames/39 translation units over15 C-bearing
+components. Largest individual frame3600 bytes is
+`npu_emulation_txdone_skb_valid`; DESC10 packets_live2064/complete1072 and portable
+tail context560 are also measured. These maxima must not be added as if all
+functions shared one call chain or treated as a complete stack bound.
+
+The four assembly-only components bridge/reset/order/egress remain unmeasured.
+Five other defined symbols remain explicitly listed: base mailbox_register,
+bridge base/channel guards, reset_prepare and allocator_startup_dispatch. This
+is not complete function/assembly coverage, indirect-target closure, IRQ nesting
+or physical per-hart stack acceptance.
+
+Canonical receipt `.local/npu-raw-stack/pcie-tail-q1/result.json`, SHA256
+`ddbe81abe7766313f693ec24e3adb0095c0a3e180d16aa7319e6b650481a4e25`.
+Five synthetic inventory controls and the expanded144-test suite pass. Jev
+checks byte-gate/failure/scope claims separately; no semantic result replaces
+the actual byte, compiler or runtime checks.
+
+```sh
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu:tools \
+  python3 -B tests/npu/test_npu_raw_stack_usage.py \
+  --pair .local/npu-pcie-tail-native-20261016/native-pair-q1 --name fresh-name
+```
+
+The current portable INODE host-only regression also passes382 calls/142
+controls against normal-q1 objects, with the stack probe's allocated/relocation
+sections unchanged. Receipt `.local/npu-inode-owner/pcie-tail-host-q1/result.json`.
+This is not fresh RV32 execution or original-store/native admission.
+Six retained native faults now pass; the two readiness faults and actual caller
+are still live. No consumed source or native instruction/checkpoint limit was
+changed for the frame/host follow-up. FIT978f9ddd remains unchanged/unflashed.
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:

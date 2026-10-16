@@ -58,6 +58,18 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   not NPU_INIT_DONE API2; both-HIF synthetic consumer checks distinguish them.
   NEXT_INODE.md records the remaining checked codec/history/actual8400fc2c
   callback contract. Native caller/fault jobs and consumed inputs stay unchanged.
+- Extended raw frame audit is now canonical:264 C frames across39 translation
+  units match all19 allocated component sections and complete CODE/DATA exactly.
+  Largest3600 is npu_emulation_txdone_skb_valid. Four assembly-only components
+  and five other defined function symbols remain explicitly unmeasured; full
+  chains/indirect/original/IRQ/physical stack bounds remain open. Local first
+  inventory failed its blanket C-record requirement and is preserved unchanged;
+  a distinct corrected inventory and independent canonical execution pass.
+  Canonical receiptddbe81ab;five inventory controls/all144 selected units pass.
+- Portable INODE host regression passes382 calls/142 controls against current
+  normal objects with exact allocated/relocation stack-probe matching. Not new
+  RV32 execution or native admission. Native six retained faults pass; readiness
+  pair and actual caller remain live with source/limits unchanged. No hardware.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

@@ -31,6 +31,12 @@
   appended nine-store tail/actual padded INODE denial and independent sender
   enum; all eight full512 faults remain mandatory. Producer inputs are frozen;
   fresh caller and eight-fault jobs are live, five early faults have passed.
+- Canonical test_npu_raw_stack_usage.py now measures264 C frames/39 translation
+  units with all19 allocated component sections and full CODE/DATA byte-exact.
+  Largest3600;four assembly-only components and five other function symbols
+  remain unmeasured. Five inventory controls pass; selected suite144 passes.
+  Portable INODE host382/142 passes against current normal objects, not native
+  admission. Six native retained faults pass; readiness pair/caller remain live.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 

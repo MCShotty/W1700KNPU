@@ -28,6 +28,13 @@ appended tail/real INODE envelope denial using the compiler-bound enum. All
 eight full512 faults remain required; five early cases pass, three late cases
 and the actual nominal caller remain live. No positive tail verdict yet.
 
+Raw frame auditing is canonical and repeatable:264 C frames/39 translation
+units,all19 component sections/full CODE/DATA byte-identical,largest3600.
+Four assembly-only components/five other function symbols remain unmeasured;
+complete call chains/physical stacks are not bounded. All144 selected units and
+portable INODE host382/142 pass;this is not native INODE admission. Six retained
+faults pass;two readiness cases and the actual caller remain live.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
 Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15
