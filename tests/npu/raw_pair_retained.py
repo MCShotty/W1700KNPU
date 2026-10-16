@@ -1,5 +1,6 @@
 """Broader raw regression using a verified actual caller, never a seeded lease."""
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import ctypes
 import json
 import os
 from pathlib import Path
@@ -9,6 +10,8 @@ import sys
 import native_prefix_snapshot
 import restore_native_prefix as captured
 from test_desc10_retained_controls import CASES, expected_locks
+from test_cold_txdone_native import SPACES
+from pcie_tail_wire_native import MODEL_BAR_PAGES
 
 ROOT = captured.ROOT
 
@@ -115,7 +118,46 @@ def run_controls(pair, snapshot, directory, *, workers=4):
     return result
 
 
-def caller_contract(caller):
+def tail_caller_contract(native, commands, pcie, inode_api):
+    assert inode_api is not None, 'tail-INODE-enum-not-bound-to-sender'
+    tx2 = [row['value'] for row in commands if (row['header'], row['api']) == (0x12, 19)]
+    assert len(tx2) == 1 and tx2[0] in (0x200d4450, 0x200d8450)
+    appended = commands[commands.index(pcie) + 1:]
+    assert [(row['header'], row['api'], row['value']) for row in appended] == [
+        (0x10, 0, 0x200d4580), (0x12, 0, tx2[0] + 0x110), (0x1f, 0, 0), (0x12, inode_api, 0)], 'tail-command-order'
+    events = [(0x8400ba0c, 0x3e902cf0, 4, 0x200d4580), (0x8400ba18, 0x200d4588, 4, 1535),
+        (0x8400ba24, 0x3e903904, 4, tx2[0] + 0x110), (0x8400ba30, tx2[0] + 0x118, 4, 1023),
+        (0x8400b9ae, 0x200d45a8, 4, 255), (0x8400b9c0, 0x200d45b8, 4, 511),
+        (0x8400b9d2, 0x200d45c8, 4, 1023), (0x8400b9ea, 0x2000a048, 4, 1535),
+        (0x8400ba00, 0x200d4598, 4, 511)]
+    for stage, row in enumerate(appended[:3]):
+        assert row['pcie_tail_stage'] == stage and row['packet_claims'] == 3072 and row['page_claims'] == 1792
+        reply = row['reply']['reply']
+        assert reply['flags'] == 7 and reply['words'][14] == 0
+        trace = row['pcie_tail_original_store_trace']
+        count = 5 if stage == 2 else 2
+        assert trace['validated'] is True and trace['actual_stores'] == trace['expected_stores'] == count
+        assert [tuple(event) for event in trace['stores']] == events[stage * 2:stage * 2 + count], 'tail-original-effects'
+        assert [tuple(write) for write in trace['ordered_lock_writes']] == [(0x1ec031c8, 4, 0x40), (0x1ec03248, 4, 0)]
+        assert trace['guest_writes_by_observer'] is False
+        spans = (*SPACES, *((base, 4096) for base in MODEL_BAR_PAGES))
+        assert sorted((region['base'], region['bytes']) for region in trace['protected_memory']) == \
+               sorted((hex(base), size) for base, size in spans), 'tail-protected-regions'
+        assert trace['protected_bytes'] == sum(region['bytes'] for region in trace['protected_memory']) == 868352
+        assert all(region['differing_bytes'] == 0 for region in trace['protected_memory'])
+    boundary = appended[-1]
+    assert boundary['error'] == -22 and boundary['actual_legacy_provider_framing'] is True
+    assert boundary['native_legacy_denial'] is True and boundary['protected_memory_unchanged'] is True
+    assert boundary['full_setup'] is False
+    assert boundary['reply']['request'] == [0x12, inode_api, 0, 0, 0, 0]
+    assert boundary['reply']['reply']['flags'] == 3 and not boundary['reply']['reply']['callbacks']
+    senders = [row for row in native['cold'] if row.get('actual_pcie_tail_sender')]
+    assert len(senders) == 1 and senders[0]['pcie_tail_stages'] == 3 and senders[0]['pcie_tail_original_stores'] == 9
+    assert senders[0]['native_inode_legacy_denial'] is True and senders[0]['inode_api'] == inode_api
+    assert senders[0]['full_setup'] is False
+
+
+def caller_contract(caller, *, inode_api=None):
     native = caller['native']
     assert caller['passed'] is True and native['passed'] is True
     assert native['actual_c_linux_setup'] and native['actual_c_txrx_sender']
@@ -130,7 +172,12 @@ def caller_contract(caller):
     assert [row['header'] & 15 for row in commands if row['api'] == 21] == [0, 5, 10, 2, 7, 12]
     assert all(row['packet_claims'] == 2560 and row['page_claims'] == 1792
                for row in commands if row['api'] == 21)
-    assert commands[-1]['packet_claims'] == 3072 and commands[-1]['page_claims'] == 1792
+    pcie = [row for row in commands if (row['header'], row['api'], row['value']) == (0x1a, 0, 0x200d4590)]
+    assert len(pcie) == 1 and pcie[0]['packet_claims'] == 3072 and pcie[0]['page_claims'] == 1792
+    if native.get('pcie_tail_requested') is True:
+        tail_caller_contract(native, commands, pcie[0], inode_api)
+    else:
+        assert commands[-1] is pcie[0], 'unexpected-command-after-RX-PCIE'
     senders = [row for row in native['cold'] if row.get('actual_rx_event_sender')]
     assert len(senders) == 1 and senders[0]['desc10_executed'] and senders[0]['rx_pcie_executed']
     assert senders[0]['full_setup'] is False
@@ -166,8 +213,13 @@ def sender_provenance(caller):
 def check(pair, caller_receipt, destination, boot_controls):
     initial_inputs = native_prefix_snapshot.source_inputs({})
     caller = read_receipt(caller_receipt)
-    native = caller_contract(caller)
     sender = sender_provenance(caller)
+    inode_api = None
+    if caller['native'].get('pcie_tail_requested') is True:
+        host = ctypes.CDLL(str(ROOT / sender['shared']))
+        host.npu_host_inode_api.restype = ctypes.c_uint
+        inode_api = host.npu_host_inode_api()
+    native = caller_contract(caller, inode_api=inode_api)
     manifest_path = pair / 'manifest.json'
     manifest_name = str(manifest_path.relative_to(ROOT))
     assert caller['inputs'][manifest_name] == captured.digest(manifest_path)

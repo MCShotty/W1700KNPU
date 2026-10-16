@@ -31,10 +31,28 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   eight-hart boot and source70/5 pass. Fresh actual caller pcie-tail-native-q2
   is live with consumed inputs frozen. Q1 stopped at host compilation before
   native execution; exact driver/generated C/build log remain preserved.
-- Scoped SHA256c725d267e8abcb5a8e52de3b2cdc758694d11d8d271726039464552ed9e01060
+- Scoped SHA256c99132924fc50e332f88660a11be2b8ec9ed60e3e9b4a77b904c1480d4ec2ca9
   verifies343 current inputs/eleven passing scoped receipts, not positive native
   qualification. Four new synthetic fault-contract units pass for12 control
   classes/all three stages/both HIF; the native matrix is still pending.
+- Mainline1bc4d0e is pushed and remote-ref verified, tree8edae1dd. Scopeq2
+  supersedesq1 after removing one unused import from the new fault consumer;
+  no live producing input changed. All selected116 units pass. No native
+  tail/full512/fault verdict is inferred from publication or the scoped seal.
+- Exact tail frame audit reproduces every allocated section byte and covers
+  all21 C functions/largest560-byte frame,not full call-chain/physical bounds.
+  Sparse Ghidra export has a predecessor hole; new hash/overlap-checked raw
+  mapping reads back all960940 CODE bytes and exports eight selected functions
+  without that hole. Two corrupt-map controls pass; DWARF/type limits remain.
+- Existing TX113/nine and RX166/seven lifetime regressions pass. Raw regression
+  consumer is extended for exact tail effects/locks/all protected regions and
+  actual padded INODE denial,with enum from the independently hashed compiled
+  sender. It was verified absent from the frozen producer input closure before
+  editing. Seven new synthetic contracts pass;all eight full512 faults remain.
+- Extended scoped SHA2565cedd413f6499bd6630b446295706c5c694b7a35bb3cbe834830db2ab10cf2ff
+  verifies404 current hashes/139 units. Actual caller and eight-fault jobs remain
+  live;five early faults pass,three late cases are pending. No positive tail,
+  complete fault matrix,full setup,world,flash or physical verdict is inferred.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

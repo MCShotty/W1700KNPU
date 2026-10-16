@@ -10,7 +10,7 @@ intermediate raw19/156/all19 image groups and18 unleased denials pass. These
 checks do not establish fresh actual-caller admission or physical operation.
 
 Final source70/5, repeated raw19/156/all19 image groups,loader60/eight mutants
-and actual published-byte/eight-hart boot pass. Scoped sealc725d267 verifies343
+and actual published-byte/eight-hart boot pass. Scoped sealc9913292 verifies343
 current input hashes. Actual allocator/caller pcie-tail-native-q2 is live;
 consumed inputs are frozen. Next finish full512/nine-store success, all eight
 retained faults and the new tail-specific native controls. Four new fault-oracle
@@ -21,6 +21,14 @@ Prior journal454-file and native1171-file producing cohorts are protected.
 FIT978f9ddd remains unchanged/unflashed. INODE, checked initial/hot IRQ, workers,
 full stack/physical/drain/lifecycle/recovery/boot/client gates remain open.
 Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
+The raw retained consumer now accepts only an explicitly proven three-stage/
+nine-store tail followed by the real padded INODE denial, with its enum bound
+to the hashed compiler-produced sender. All old full512/eight-fault gates stay
+intact. Its seven new synthetic contracts and expanded139-unit suite pass.
+Five early native retained faults pass; three late full-size cases and the
+fresh actual caller remain live. Exact C-frame/Ghidra scope is recorded in
+extended seal5cedd413 (404 hashes), not a native positive or full stack bound.
 
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 

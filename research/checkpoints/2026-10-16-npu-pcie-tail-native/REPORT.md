@@ -70,8 +70,8 @@ protected-byte projections across all three stages and both HIF profiles.
 explicit single mutations; its native matrix has not yet run. These new Python
 consumers are not inputs consumed by the live producer, which remains frozen.
 
-Scoped check `.local/npu-pcie-tail-native-20261016/scoped-check-q1.json`, SHA256
-`c725d267e8abcb5a8e52de3b2cdc758694d11d8d271726039464552ed9e01060`,
+Scoped check `.local/npu-pcie-tail-native-20261016/scoped-check-q2.json`, SHA256
+`c99132924fc50e332f88660a11be2b8ec9ed60e3e9b4a77b904c1480d4ec2ca9`,
 verifies343 current input hashes/eleven passing scoped receipts with no drift.
 It explicitly records fresh native tail and full512/eight-fault qualification
 as false. Jev separately checked four evidence-scope claims; its uncertainty
@@ -84,6 +84,67 @@ retained raw contracts/cache, frame inventories and cold/reader/tail observers.
 This count includes imported fixture tests; it is not a claim of116 distinct
 native scenarios. Its four new fault-oracle tests are included, not additional
 native admission evidence.
+
+Mainline checkpoint `1bc4d0e8043850285b00da8192773ed560ece940` is pushed and
+remote-ref verified; tree `8edae1dd0a6dc3127d6fe78d9e1f5dfc309da393`.
+Scopeq2 supersedesq1 after removal of an unused import from the new fault
+consumer. No source consumed by the live actual caller changed. Q1 is retained
+as a historical scoped result, not relabeled a current-input seal.
+
+## Compiled Follow-Up
+
+- Exact tail allocated sections match a separate two-translation-unit O2/
+  `-fstack-usage` build. All21 defined C functions are covered, largest individual
+  frame560 bytes. Receipt `.local/npu-pcie-tail-native-20261016/stack-tail-q1/result.json`,
+  SHA256 `28ec12e03ca95143cbb44134843fd481a4b622a7d3c905f6687a75a0829aceb9`.
+  This does not measure other components/original assembly, complete call chains,
+  IRQ nesting or physical stack placement.
+- Standalone Ghidra q1 exports eight functions but cannot follow its unmapped
+  imported predecessor at840e4b72. Keep that result partial. New
+  `MapNpuRawCode.java` validates the requested raw hash and every existing
+  component byte before filling analysis-map gaps, then reads back the entire
+  CODE image byte-for-byte. This changes a temporary Ghidra database, not the
+  firmware file or native replay state.
+- Ghidra q2 maps960940 bytes, verifies10666 existing component bytes and exports
+  eight selected functions/zero failed decompilations among965 auto-analyzed
+  executable functions under `RISCV:LE:32:AndeStar_v5:gcc`. The predecessor hole
+  is absent and the completed-stage checks bracket unlock in the compiled
+  callback. DWARF expressions and type propagation still limit pseudocode;
+  965 is an analysis observation, not an exhaustive firmware inventory.
+  Export SHA256 `b62d8c4ad3f89b238d3bc17a80fc14374ec0588c82ceeedacdb83b992ee086c4`;
+  ELF SHA256 `5c1ff5b8772144d7b90fccf9d9236cbc7573fb4c9c000182b915e8aeddb510cd`.
+- Actual Ghidra negative controls reject wrong raw hash and an explicitly
+  corrupted component byte, requiring the exact exception and absence of the
+  map-pass marker rather than trusting the tool exit code alone. Receipt:
+  `.local/npu-ghidra-map/tail-map-q1/result.json`.
+- Existing sanitized TX lifetime113/nine mutants and RX166/seven mutants pass;
+  no exposed TX frees. Their records/backing/framework remain modeled.
+
+## Retained Consumer And Live Qualification
+
+The old broader raw consumer assumed RX PCIe was the caller's final command.
+It now checks the appended three tail stages, all nine literal original effects,
+ordered lock18 writes and every protected region, followed by the actual padded
+INODE envelope denial. Its enum is obtained from the independently hashed
+compiler-produced sender, not trusted from the caller's self-description.
+Missing/duplicate/inexact tail evidence cannot pass. This consumer was verified
+absent from the frozen producing snapshot's inputs before editing; all source
+consumed by the live actual caller remains unchanged.
+
+Seven new synthetic contract tests and the expanded139-test suite pass. All old
+full512/eight-fault gates are retained. Five early native retained cases pass
+(`denied`, `partial-pool`, `claim-fault`, `head-changed`, `release-fault`); three
+late full-size cases and fresh caller `pcie-tail-native-q2` are still live.
+The fresh caller has passed all six API21 phases/53260 effects and RX-event,
+and is in full512 DESC10. No positive tail or completed native matrix verdict.
+
+Extended scoped receipt
+`.local/npu-pcie-tail-native-20261016/extended-scoped-check-q1.json`, SHA256
+`5cedd413f6499bd6630b446295706c5c694b7a35bb3cbe834830db2ab10cf2ff`,
+verifies404 current input hashes and all139 units. Its native qualification
+flags remain false and its live notes describe the moment of that receipt.
+This is not a new full executable environment, physical proof or promotion of
+the preserved older native seal.
 
 ## Preservation And Limits
 

@@ -9,13 +9,18 @@ images, all19 image checks, checked loader60/eight mutants, actual published-byt
 eight-hart boot, provider84/five mutants and18 unleased tail denials pass.
 Protocol1930/53 and existing provider609/nine regressions also pass.
 
-Scoped sealc725d267 verifies343 current inputs, not a fresh positive native
+Scoped sealc9913292 verifies343 current inputs, not a fresh positive native
 verdict. Actual allocator/caller pcie-tail-native-q2 is live with consumed
 inputs frozen; full512/nine-store success and retained faults are still pending.
-The selected116-test suite, including four new fault-oracle contracts, passes
+The selected139-test suite, including fault-oracle/raw-caller contracts, passes
 its synthetic scopes. Older producing cohorts are protected. FIT978f9ddd remains
 unchanged/unflashed; full INODE/IRQ/hot/worker/stack/physical/drain/lifecycle/
 client work remains open. See the [native binding report](research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md).
+
+Extended scoped seal5cedd413 binds404 current input hashes, including exact
+tail C frames, the raw-CODE-mapped Ghidra export and two corrupt-map controls.
+Those static/fixture checks do not qualify the still-running native caller or
+the full512/eight-fault matrix.
 
 ## 2026-10-16 - PCIe Tail Protocol Journal
 

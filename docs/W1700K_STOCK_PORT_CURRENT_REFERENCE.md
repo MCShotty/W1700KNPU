@@ -11,7 +11,7 @@ Scoped checks pass provider84/five mutants, dispatcher52/three, guard32,
 portable host/RV32467/379 controls/nine mutants and sender12. Intermediate
 raw19/156/all19 image groups and18 unleased denials pass. Final source70/5,
 repeated raw19/156/all19 groups,loader60/eight and actual published-byte/eight-hart
-boot pass. Scoped sealc725d267 verifies343 current inputs. Actual caller
+boot pass. Scoped sealc9913292 verifies343 current inputs. Actual caller
 pcie-tail-native-q2 is live with frozen consumed inputs; full512/nine-store/
 retained fault qualification remains pending. Q1 stopped at host compilation
 before native execution and is preserved. New fault-oracle four units pass;
@@ -20,6 +20,13 @@ The journal454-file producing cohort is preserved (receiptbdda5060), alongside
 the older1171-file native cohort. FIT978f9ddd is unchanged/unflashed.
 Full INODE/IRQ/hot/worker/stack/physical/drain/lifecycle/client scope stays open.
 Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
+Follow-up scoped seal5cedd413 binds404 current hashes/139 units,21 exact tail
+C frames/eight raw-CODE-mapped Ghidra functions/two corrupt-map guards. TX113/
+nine and RX166/seven lifetime regressions pass. Raw consumer validates the
+appended tail/real INODE envelope denial using the compiler-bound enum. All
+eight full512 faults remain required; five early cases pass, three late cases
+and the actual nominal caller remain live. No positive tail verdict yet.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 

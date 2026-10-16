@@ -13,7 +13,7 @@
   denials; it is not a fresh actual-caller/full512/fault qualification.
 - Previous journal cohort454 files is hash-preserved (receiptbdda5060), as is
   the accepted older1171-file native cohort. Actual caller and retained faults
-  are still pending; scoped sealc725d267 verifies343 current input hashes.
+  are still pending; scoped sealc9913292 verifies343 current input hashes.
   Freeze consumed inputs during native replay; never waive source hashes or
   weaken full512/eight-fault coverage. Current SETUP remains404 bytes.
 - Final source70/5, repeated raw19/156/all19 groups, loader60/eight and actual
@@ -23,6 +23,14 @@
   and unflashed. INODE, checked IRQ/hot, workers, full stack/physical/drain/
   lifecycle/recovery/client scope remains open. No hardware or subagents.
   Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
+- Follow-up scoped seal5cedd413 verifies404 hashes/139 units. Exact tail21 C
+  frames match current allocated bytes (largest560); raw-CODE mapping fixes
+  the standalone Ghidra predecessor gap and exports eight selected functions.
+  Two corrupt-map guards pass. Raw retained consumer now explicitly checks
+  appended nine-store tail/actual padded INODE denial and independent sender
+  enum; all eight full512 faults remain mandatory. Producer inputs are frozen;
+  fresh caller and eight-fault jobs are live, five early faults have passed.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 
