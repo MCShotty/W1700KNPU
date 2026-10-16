@@ -37,6 +37,13 @@ frames,indirect targets/call chains,IRQ nesting and physical placement remain.
 All144 selected units and portable INODE host382/142 pass. Native readiness
 pair/caller remain live;all six other retained faults pass. Freeze their inputs.
 
+The additional exact assembly audit covers bridge/reset/order/egress text and
+five typed wrappers,including the untyped egress16/48-byte alternative stack
+reservations and ring caller-SP+6 read. Six controls/all150 selected units pass.
+Other C-bearing-component/original assembly,allowed call chains/indirect targets,
+IRQ nesting and physical placement remain outside that scoped result. Native
+caller/readiness jobs are unchanged and still live.
+
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 
 The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are

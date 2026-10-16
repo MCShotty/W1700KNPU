@@ -37,6 +37,12 @@
   remain unmeasured. Five inventory controls pass; selected suite144 passes.
   Portable INODE host382/142 passes against current normal objects, not native
   admission. Six native retained faults pass; readiness pair/caller remain live.
+- Exact Capstone assembly audit covers four pure-assembly text sections and
+  five typed wrappers. Egress reserves16 bytes on its success path or48 on
+  its nonreturning fault path; ring consumer reads caller SP+6. Wrapper local
+  SP references are absent,not proof about callees. Six new controls/all150
+  selected units pass. Receipt e5e559dc; other assembly/full chains/IRQ/physical
+  stacks remain open. Native jobs/inputs stay unchanged and live.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 

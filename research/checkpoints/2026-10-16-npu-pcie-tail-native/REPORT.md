@@ -199,6 +199,46 @@ Six retained native faults now pass; the two readiness faults and actual caller
 are still live. No consumed source or native instruction/checkpoint limit was
 changed for the frame/host follow-up. FIT978f9ddd remains unchanged/unflashed.
 
+## Scoped Assembly Stack References
+
+`test_npu_assembly_stack_usage.py` uses Capstone5.0.7 structured operands,
+requires complete decoding of every selected byte,and matches each scanned
+range to the hash-verified raw CODE. It covers complete bridge/reset/order/
+egress text and five explicitly typed wrappers in base/bridge/reset/allocator.
+The overlapping wrapper/component ranges are not independent coverage.
+
+All five typed wrappers and bridge/reset text have no explicit SP references.
+The ring consumer has one caller-owned `lhu a4,6(sp)`. Egress replays the
+successful original16-byte prologue,or takes a separate nonreturning48-byte
+fault reservation with12 saved words before calling npu_barrier_fail. These
+local observations do not justify adding alternative paths together,omitting
+callee frames or claiming complete permitted call-chain bounds. Other assembly
+in C-bearing components,original firmware,indirect/IRQ closure and physical
+per-hart stack placement remain separate work.
+
+Receipt `.local/npu-assembly-stack/pcie-tail-q1/result.json`, SHA256
+`e5e559dc02ec192602416669d206a7111a821fbfaba8aa4989a8862e88c00b84`.
+Six synthetic decoder/byte/coverage/layout controls and all150 selected units
+pass. This audit does not run or mutate a guest and changes no live input.
+
+```sh
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu:tools \
+  python3 -B tests/npu/test_npu_assembly_stack_usage.py \
+  --pair .local/npu-pcie-tail-native-20261016/native-pair-q1 --name fresh-name
+```
+
+A separate profiled full512 denied-lock diagnostic passes with the existing
+retained-control checks and native limits. Its result is
+`.local/npu-pcie-tail-native-20261016/profile-denied-q1/result.json`, SHA256
+`943aaa33186708801e4ff2064eae9acf7e6a6a1dca58c24d385803bad6445ea8`.
+This restored diagnostic is not the fresh caller or a replacement for all eight
+faults. The53267 emu_start calls include native C emulator work in their own
+time;that time is not all removable observation overhead or physical NPU
+performance. No observation scheduling change was implemented.
+Jev checks these scope/path/performance/qualification claims in the retained
+`jev-assembly-scope-q1-result.json`,not a runtime or stack proof. The actual
+caller/two readiness faults remain live;the six other native faults pass.
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:

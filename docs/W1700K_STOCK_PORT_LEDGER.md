@@ -70,6 +70,14 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   normal objects with exact allocated/relocation stack-probe matching. Not new
   RV32 execution or native admission. Native six retained faults pass; readiness
   pair and actual caller remain live with source/limits unchanged. No hardware.
+- Exact Capstone5.0.7 audit fully decodes four pure-assembly text sections and
+  five typed wrappers against their raw-CODE bytes. It records egress's16-byte
+  successful original prologue or48-byte nonreturning fault frame/12 words,
+  and the ring consumer's caller SP+6 read. Typed wrappers have no explicit SP
+  reference;callee/original/other assembly/IRQ/physical chains stay unbounded.
+  Receipt e5e559dc;six synthetic controls/all150 selected units pass. Separate
+  profiled full512 denied-lock diagnostic passes,not a fresh caller or physical
+  performance result;no scheduling optimization or live-input change applied.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

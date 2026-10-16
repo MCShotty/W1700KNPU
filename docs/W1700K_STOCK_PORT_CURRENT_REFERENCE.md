@@ -35,6 +35,13 @@ complete call chains/physical stacks are not bounded. All144 selected units and
 portable INODE host382/142 pass;this is not native INODE admission. Six retained
 faults pass;two readiness cases and the actual caller remain live.
 
+Exact assembly receipt e5e559dc covers four pure-assembly text sections/five
+typed wrappers with complete Capstone decoding and raw-CODE byte matching.
+Egress success reserves16 bytes;its separate nonreturning fault reserves48,
+while the ring consumer loads from caller SP+6. Six controls/all150 selected
+units pass. Other assembly/complete chains/IRQ/physical stack scope remains
+open;actual caller/readiness jobs and consumed inputs are unchanged and live.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
 Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15

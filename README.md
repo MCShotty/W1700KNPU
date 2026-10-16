@@ -26,6 +26,12 @@ The canonical raw frame audit reproduces all19 components and complete CODE/DATA
 measures264 C frames across39 translation units, and lists remaining assembly/
 function gaps explicitly. Largest individual frame3600 is not a full stack bound.
 
+A separate exact-byte assembly audit covers the four pure-assembly components
+and five typed wrappers. It records egress's16/48-byte alternative reservations
+and the ring consumer's caller-stack read; it does not bound complete paths or
+physical stacks. All150 selected units pass. Native caller/readiness jobs remain
+live with their consumed inputs unchanged.
+
 ## 2026-10-16 - PCIe Tail Protocol Journal
 
 The checked protocol now retains the accepted TX2/HIF register and the ordered
