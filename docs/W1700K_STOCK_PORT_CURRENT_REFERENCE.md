@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-16 - Packet-Plan Guard And Retained Raw Qualified
+
+Fresh q2 actual allocator/provider/host caller is terminal0 through full512
+DESC10 and RX PCIe, with original25606 stores/1028 locks, exact856064 protected
+bytes/2076 PKT bytes and3072 packet/1792 BA claims. All eight full512 retained
+faults and broader raw/six boot controls pass; both readiness faults stop at
+25604. No source-drift waiver, forged history or seeded later lease is used.
+
+Qualification SHA256
+b02ebf824f55fafecfe6b6f5ec84d4a74c18df4dcffaa3eabf9693b064942bde
+verifies1169 current inputs/117 units. Its1171-file/130089275-byte producing
+cohort is preserved, receipt55a17e60. Not a complete executable environment.
+All jobs are terminal; prior dated live notes are historical, not restart
+instructions. Fresh nominal/default HIF and restored faults remain separate;
+earlier negatives were skipped, full_setup=false and hardware=false.
+
+FIT978f9ddd remains offline-qualified with no flash performed. Real remaining
+PCIe/INODE admission, checked initial/hot IRQ, workers/hot lifetime, complete
+stack bounds, physical DMA/cache/exclusion/drains/lifecycle/recovery and exact
+boot/actual-client acceptance remain open. Read
+research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md and STACK.md.
+
 ## 2026-10-15 - Borrowed Packet-Plan Guard Qualification
 
 Prior retained-replay-q3 is terminal with a passing nominal DESC10/RX PCIe

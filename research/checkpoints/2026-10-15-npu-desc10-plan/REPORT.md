@@ -1,6 +1,66 @@
 # Borrowed Packet-Plan Guard
 
-## Access-Restored Continuation
+## 2026-10-16 - Terminal Qualification
+
+Fresh actual allocator/provider/host-caller desc10-plan-q2 passes DESC10 with
+error0,25606 original stores,512 new/3072 total packet claims,1792 BA claims,
+validated ordered store/lock/private-packet traces and all856064 protected bytes
+matching the independent pre-state/request-derived oracle. The actual constructor
+owner is finished and readiness1 is observed after the complete store sequence.
+This is native execution in emulation with explicit platform/DMA/backing models,
+not physical ownership or hardware acceptance.
+
+All eight full512 retained fault cases pass. Both readiness faults stop at the
+unchanged25604-store expectation; the final counter reset and ready publication
+are suppressed. The aggregate and every individual current input/artifact hash
+revalidate. Matrix SHA256
+a002c8237f4d12f320fc2acb87784e35139ad96e64adafd1b2575299b99841b7.
+These are diagnostic restorations of the actual q2 prefix, not fresh boots.
+
+Q2 also passes the actual selector10/API0 RX PCIe successor with error0 and exact
+protected-memory comparison. The actual caller is terminal0 with15 enrollment
+records and no post-load ELF injection. Its nominal-only/default-HIF scope is
+explicit: earlier native negatives were skipped and full_setup=false. This is
+not complete native setup or qualification of the other HIF profile.
+
+The migrated broader raw CLI is terminal0: current actual allocator/caller,
+independently compiled host sender, six raw boot controls, full512 nominal and
+all eight retained faults pass without a seeded lease or input-drift waiver.
+Qualification SHA256
+b02ebf824f55fafecfe6b6f5ec84d4a74c18df4dcffaa3eabf9693b064942bde
+verifies1169 current input hashes/117 focused units and the separately scoped
+24 compiled guard cases, loader60/eight mutants, provider609/nine, wire1436/45,
+31 early controls, six unleased denials, frame/Ghidra/normal image evidence.
+Independent reread repeats the input/caller checks. Caller SHA256
+7d17ad95da95ebd445bea441df9e3af952157ed5c17696fbed7fa48c774b1cb6;
+broader raw SHA2562fd3382095f8e716614ad21ca994c39fb078769d47ed41dff62810374739ad91.
+
+Before any future consumed native-source edit,1171 files/130089275 bytes were
+copied and individually hash-verified under
+.local/npu-desc10-plan-20261015/qualified-q2-inputs. Preservation receipt SHA256
+55a17e60c0990dab85ece79f66589ea1cc926ffaedb56ffd7f0b6ff986e921a0.
+This preserves the accepted producing-input/artifact cohort, not a full executable
+environment, physical ownership or hardware acceptance. Original failed q3 and
+interrupted q1 cohorts/receipts remain unchanged. All current jobs are terminal;
+dated live observations below are historical and are not restart instructions.
+
+Jev1.13.0's fresh four-claim scope batch supports the guard-scoped claim0.71/
+confidence0.56 and migrated raw claim0.99/confidence0.98. It contradicts both
+eight-fresh-hardware-boots and full-NPU-complete claims1.0. The guarded readiness
+count/source/trace checks above, not semantic confidence, establish the narrow
+bug fix. No general race/physical/timing claim follows. Request/result remain
+local under jev-final-scope-q2*. Stack audit's separate four-claim batch supports
+normal/exact-DESC10 frame scopes0.86/0.72, contradicts the first-archive-equal
+claim1.0 and marks full-stack bounds not established0.98; see STACK.md.
+
+The overnight wall-clock jump was not additional guest execution or physical
+timing evidence. No hardware/flash/subagent action occurred. FIT978f9ddd remains
+offline-qualified only. Full NPU completion stays open: real PCIe0/2/15 and
+INODE2/7 bindings/authenticated ordering, checked initial/hot IRQ, complete hot
+workers/lifetime, full stack bounds and physical DMA/cache/exclusion/drains/
+reset/removal/rearm/boot/client acceptance remain required.
+
+## Historical Access-Restored Continuation
 
 Canonical WSL process/filesystem access is working again. The restarted WSL
 instance has no surviving prior validation processes. desc10-plan-q1 has six
@@ -124,7 +184,7 @@ guard-bypass0.15, preserved fault expectation0.70 and native/hardware acceptance
 tests and fresh native evidence remain required. Request/result stay local under
 .local/npu-desc10-plan-20261015/jev-guard-review-q1*.
 
-## Fresh Native Qualification In Progress
+## Historical Q1 Qualification Observations
 
 The changed pair has a new actual provider allocator/caller run desc10-plan-q1
 under .local/npu-host-tx-lifetime-20261011. Its consumed inputs are frozen. It
@@ -154,10 +214,11 @@ still needs implementation. See the INODE checkpoint NEXT_IRQ.md.
 
 ## Next Gates
 
-Next obtain its complete nominal prefix and all eight full512 retained faults,
-including the unchanged25604-store plan-fault contract, then strict aggregate/
-early controls/current-input closure and final evidence/mainline publication.
-World/FIT978f9ddd and compiled guard inspection pass their separate scopes.
+The current terminal q2 qualification above closes this changed-pair nominal,
+all-eight-fault and broader raw gate. Preserve the accepted cohort before
+changing consumed code; never restart q1 from the historical notes. Continue
+the real remaining native guard/history and implementation requirements below.
+World/FIT978f9ddd and compiled guard inspection retain their separate scopes.
 No hardware, reset, reclamation, radio or subagent action was performed.
 
 Remaining PCIe0/2/15 and INODE2/7 native bindings, checked final IRQ/hot re-enable,

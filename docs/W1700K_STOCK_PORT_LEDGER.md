@@ -1,10 +1,38 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-15 (access restored; interrupted q1 preserved; fresh q2 qualification live)
+Last updated: 2026-10-16 (fresh DESC10/RX PCIe, all eight faults and broader raw qualified; cohort preserved)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-16 - Fresh DESC10/RX PCIe And Retained Raw Qualified
+
+- Actual allocator/provider/host-caller q2 passes nominal DESC10 with error0,
+  all25606 original stores,3072 retained packet claims/1792 BA claims and exact
+  856064 protected bytes. Its original-store/ordered-lock/private2076-byte
+  packet-state oracle validates, including20 copied store sites/1028 ordered
+  lock writes. RX PCIe now also passes error0/exact protected memory. Fresh
+  default-HIF scope only; nominal-only skipped earlier negatives. No post-load
+  ELF injection, forged history or seeded lease. full_setup=false.
+- All eight full512 retained faults now pass and their current input/artifact
+  hashes revalidate. Both readiness faults stop at25604 stores. Matrix SHA256
+  a002c8237f4d12f320fc2acb87784e35139ad96e64adafd1b2575299b99841b7.
+  Restored faults are diagnostic prefix fixtures, not fresh initialization.
+- Broader raw q2 passes with six boot controls/current actual caller/all eight
+  faults. Final qualification verifies1169 current input hashes/117 units;
+  SHA256b02ebf824f55fafecfe6b6f5ec84d4a74c18df4dcffaa3eabf9693b064942bde.
+  Old broader raw12172 and q3 plan-fault failures remain failed and preserved.
+- Preserved1171 files/130089275 bytes, each hash-verified before future native
+  source edits. Receipt55a17e60c0990dab85ece79f66589ea1cc926ffaedb56ffd7f0b6ff986e921a0.
+  This is the accepted producing-input cohort, not a complete executable
+  environment or hardware proof. All native/follower jobs are terminal.
+- Mainline checkpoints734b827/858f2a7 are pushed and remote-ref verified.
+  All117 focused units,24 compiled guard cases and exact-frame/image checks pass
+  their separate scopes. No new build, flash, hardware or subagent action.
+  The overnight calendar jump was not guest execution/performance evidence.
+  Full remaining native/IRQ/hot/lifecycle/physical/client scope stays open.
+  Evidence: research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md.
 
 ## 2026-10-15 - WSL Access Restored; Qualification Resumed
 

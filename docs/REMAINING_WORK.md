@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-16 - Packet-Plan And Retained Raw Gates Closed
+
+Fresh actual allocator/provider/host caller q2, full512 DESC10, RX PCIe, all eight
+full-size retained faults and broader raw/six boot controls pass. Original25606
+stores/1028 locks/exact856064 protected bytes and2076 private PKT bytes validate;
+both readiness faults stop at25604. Sealb02ebf82 verifies1169 current inputs and
+117 units. The1171-file producing cohort is preserved before future source edits;
+receipt55a17e60. All jobs are terminal; do not restart older dated live notes.
+
+Default-HIF/nominal-only scope remains explicit, with earlier negatives skipped
+and full_setup=false. Restored faults are diagnostic, not fresh boots. The exact
+FIT978f9ddd is offline-qualified; no flash or hardware action was performed.
+Next real remaining PCIe0/2/15 and INODE2/7 guards/authenticated ordering, checked
+initial IRQ/hot re-enable, complete workers/hot lifetime and full stack/physical
+DMA/cache/exclusion/drain/reset/removal/rearm/boot/client proof. All overall
+requirements below stay in scope. Report: desc10-plan/REPORT.md and STACK.md.
+
 ## 2026-10-15 - Borrowed Packet-Plan Guard Qualification
 
 Prior retained-replay-q3 is terminal: nominal DESC10/RX PCIe prefix and seven

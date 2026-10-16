@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-16 - Packet-Plan Guard And Retained Raw Replay Qualified
+
+- Fresh actual provider allocator/host caller desc10-plan-q2 is terminal0
+  through full512 DESC10 and RX PCIe:25606 original stores,1028 original lock
+  writes, exact856064 protected/2076 packet bytes and3072 PKT/1792 BA claims.
+  Default HIF only; nominal-only skipped earlier negatives. full_setup=false.
+- All eight full512 restored faults pass with current input/artifact hashes;
+  both readiness faults stop at25604. Broader raw q2/six boot controls pass.
+  No seeded lease, forged history, post-load ELF injection or source-drift waiver.
+- Sealb02ebf82 verifies1169 inputs/117 focused units;1171-file exact producing
+  cohort is preserved at .local/npu-desc10-plan-20261015/qualified-q2-inputs,
+  receipt55a17e60. Not a complete executable environment or hardware proof.
+- All jobs are terminal. Earlier dated live notes are historical; never restart
+  them. Preserve the accepted cohort before editing consumed native inputs.
+  FIT978f9ddd remains offline-qualified only; no flash/hardware/subagents.
+- Next real PCIe0/2/15 and INODE2/7 guard/history bindings, checked initial/hot
+  IRQ, workers/hot ownership, complete stack bounds and physical DMA/cache/
+  exclusion/drains/reset/removal/rearm/boot/client acceptance remain open.
+  Read research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md and STACK.md.
+
 ## 2026-10-15 - Packet-Plan Guard Fixed; Fresh Qualification Live
 
 - Prior retained-replay-q3 is terminal: nominal DESC10/RX PCIe prefix passed,

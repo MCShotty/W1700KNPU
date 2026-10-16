@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-16 - Packet-Plan Guard Qualified
+
+The fresh actual allocator/provider/host caller now passes full512 DESC10 and
+RX PCIe in native emulation, with25606 original stores,1028 ordered lock writes,
+exact856064 protected bytes and3072 packet/1792 BA claims. All eight full-size
+retained faults pass; packet-plan mutation stops at25604 before readiness.
+The migrated broader raw regression and six boot controls pass without a seeded
+lease or source-hash waiver. Sealb02ebf82 verifies1169 current inputs/117 units;
+its1171-file producing cohort is hash-preserved. All jobs are terminal.
+
+This is the default-HIF initialization prefix, not full setup or hardware proof;
+earlier native negatives were skipped. No flash was performed. Remaining native
+PCIe/INODE, IRQ/hot ownership, stack/drain/lifecycle and actual-client acceptance
+remain open. Older live notes below are historical, not restart instructions.
+See the [qualification report](research/checkpoints/2026-10-15-npu-desc10-plan/REPORT.md).
+
 ## 2026-10-15 - Packet-Plan Guard Qualification
 
 The actual native readiness fault exposed premature final counter/ready stores
