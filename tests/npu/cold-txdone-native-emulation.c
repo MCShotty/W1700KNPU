@@ -17,6 +17,7 @@ extern uint32_t npu_emulation_packet_live(void);
 extern int npu_emulation_txdone_skb_valid(void);
 extern int npu_emulation_rx_event_prior_live(uint32_t packets, uint32_t full);
 extern int npu_emulation_rx_event_prior_live_done(uint32_t packets);
+extern int npu_emulation_rx_event_prior_live_tail(uint32_t packets);
 
 struct npu_cold_txdone_state npu_emulation_desc10_state;
 uint32_t npu_emulation_desc10_running;
@@ -147,20 +148,22 @@ int npu_emulation_desc10_read(void *opaque, uint32_t address, uint32_t bytes, ui
     return 0;
 }
 
-int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *candidate)
+static int completed_prior_live(const struct npu_cold_txdone_plan *candidate, uint32_t tail)
 {
     const struct npu_cold_setup *prior = (const void *)held_setup;
     const volatile uint32_t *setup = (const volatile void *)SETUP;
     uint32_t i, status, packets = NPU_COLD_TXDONE_PREFIX + OWNER->claims_committed;
 
     __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
-    if (status & 8 || npu_emulation_desc10_running || npu_emulation_callback_guarded ||
+    if (status & 8 || tail > 1 || npu_emulation_desc10_running || npu_emulation_callback_guarded ||
         SETUP->failed || SETUP->inflight != 1 || SETUP->sequence <= prior->sequence ||
+        (tail ? !npu_cold_pcie_tail_inflight(SETUP) :
         !npu_cold_rx_pcie_command(&SETUP->command) ||
         SETUP->command.value != plan.prior.prior.endpoint_base + NPU_COLD_RX_PCIE_REGISTER ||
-        SETUP->rx_event_steps != 2 || SETUP->prior_rx_event_steps != 2 ||
+        SETUP->rx_event_steps != 2 || SETUP->prior_rx_event_steps != 2) ||
         prior->command.header != 0x1a || prior->command.api != 1 || prior->command.value != 512 ||
         prior->rx_event_steps != 1 || prior->prior_rx_event_steps != 1 ||
+        prior->pcie_tail_steps || prior->prior_pcie_tail_steps ||
         !npu_cold_txdone_plan_equal(candidate, &plan) || !packet_plan_live() ||
         !allocations_live() ||
         !npu_cold_txdone_live(OWNER, &plan, 1, RX, word(NPU_COLD_RX_EVENT_METADATA),
@@ -173,13 +176,27 @@ int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *candidate
             i == __builtin_offsetof(struct npu_cold_setup, rx_event_steps) / 4 ||
             i == __builtin_offsetof(struct npu_cold_setup, prior_rx_event_steps) / 4)
             continue;
+        if (tail && (i == __builtin_offsetof(struct npu_cold_setup, pcie_tail_steps) / 4 ||
+                     i == __builtin_offsetof(struct npu_cold_setup, prior_pcie_tail_steps) / 4))
+            continue;
         if (setup[i] != held_setup[i])
             return 0;
     }
-    return npu_emulation_rx_event_prior_live_done(packets) &&
+    return (tail ? npu_emulation_rx_event_prior_live_tail(packets) :
+                   npu_emulation_rx_event_prior_live_done(packets)) &&
            npu_cold_txdone_memory_live(OWNER, &plan, 1, RX,
                word(NPU_COLD_RX_EVENT_METADATA), PKT, read(0x3e9046fa, 1),
                npu_emulation_desc10_read, OWNER) && packet_plan_live();
+}
+
+int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *candidate)
+{
+    return completed_prior_live(candidate, 0);
+}
+
+int npu_emulation_desc10_prior_live_tail(const struct npu_cold_txdone_plan *candidate)
+{
+    return completed_prior_live(candidate, 1);
 }
 
 uint32_t npu_emulation_desc10_take(uint32_t acquired)

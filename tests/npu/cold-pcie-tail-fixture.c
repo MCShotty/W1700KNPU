@@ -205,3 +205,9 @@ uint32_t npu_test_tail_live(void)
     struct npu_cold_pcie_tail_context c = context();
     return npu_cold_pcie_tail_live(&npu_test_tail_state, &npu_test_tail_plan, 1, &c);
 }
+
+uint32_t npu_test_tail_stage_live(uint32_t stage)
+{
+    struct npu_cold_pcie_tail_context c = context();
+    return npu_cold_pcie_tail_stage_live(&npu_test_tail_state, &npu_test_tail_plan, 1, &c, stage);
+}

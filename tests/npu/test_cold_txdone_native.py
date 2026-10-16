@@ -125,6 +125,9 @@ class TxPackets(packets.NativePackets):
             extra.append((0x840d4000, bytes(self.cpu.mem_read(0x840d4000, 0x10000))))
         if hasattr(self, 'rx_pcie'):
             extra.append((0x840e4000, bytes(self.cpu.mem_read(0x840e4000, 0x4000))))
+        if hasattr(self, 'pcie_tail'):
+            extra.append((0x840e8000, bytes(self.cpu.mem_read(0x840e8000, 0x8000))))
+            extra.extend((base, bytes(self.cpu.mem_read(base, 4096))) for base in self.pcie_tail_model_pages)
         return super().snapshot() + extra + [(HOST, bytes(self.cpu.mem_read(HOST, HOST_BYTES))),
                                             (SKB_STATE, bytes(self.cpu.mem_read(SKB_STATE, SKB_BYTES)))]
 

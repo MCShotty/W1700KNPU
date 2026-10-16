@@ -8,6 +8,7 @@ extern struct npu_cold_setup npu_emulation_cold_setup_state;
 extern int npu_emulation_descriptor_prior_live(uint32_t gets);
 extern int npu_emulation_descriptor_prior_live_packets(uint32_t gets, uint32_t packets);
 extern int npu_emulation_descriptor_prior_live_done(uint32_t packets);
+extern int npu_emulation_descriptor_prior_live_tail(uint32_t packets);
 extern uint32_t npu_original_txbuf_callback(struct npu_bootstrap_packet *);
 
 struct npu_cold_txbuf_state npu_emulation_txbuf_state;
@@ -132,7 +133,7 @@ static int completed_spans(uint32_t completed)
     return 1;
 }
 
-static int prior_live_packets(uint32_t packets, uint32_t full, uint32_t completed)
+static int prior_live_packets(uint32_t packets, uint32_t full, uint32_t successor)
 {
     struct npu_cold_txbuf_plan current;
     uint32_t i, status;
@@ -140,8 +141,9 @@ static int prior_live_packets(uint32_t packets, uint32_t full, uint32_t complete
     __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
     npu_cold_txbuf_plan_copy(&current, &SETUP->txbuf);
     current.arena = SETUP->descriptor_arena;
-    if (status & 8 || lock_owned || phase != NPU_COLD_TXBUF_STEPS - 1 ||
-        !(completed ? npu_emulation_descriptor_prior_live_done(packets) :
+    if (status & 8 || lock_owned || successor > 2 || phase != NPU_COLD_TXBUF_STEPS - 1 ||
+        !(successor == 2 ? npu_emulation_descriptor_prior_live_tail(packets) :
+          successor == 1 ? npu_emulation_descriptor_prior_live_done(packets) :
           npu_emulation_descriptor_prior_live_packets(8, packets)) ||
         SETUP->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS ||
         SETUP->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
@@ -175,6 +177,11 @@ int npu_emulation_txbuf_prior_live_packets(uint32_t packets, uint32_t full)
 int npu_emulation_txbuf_prior_live_done(uint32_t packets)
 {
     return prior_live_packets(packets, 1, 1);
+}
+
+int npu_emulation_txbuf_prior_live_tail(uint32_t packets)
+{
+    return prior_live_packets(packets, 1, 2);
 }
 
 int npu_emulation_txbuf_prior_live(void)

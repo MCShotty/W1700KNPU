@@ -37,6 +37,8 @@ int npu_emulation_rx_event_prior_live(uint32_t count, uint32_t full)
 { (void)count; (void)full; mutate(1); return 1; }
 int npu_emulation_rx_event_prior_live_done(uint32_t count)
 { (void)count; mutate(3); return 1; }
+int npu_emulation_rx_event_prior_live_tail(uint32_t count)
+{ (void)count; mutate(3); return 1; }
 int npu_cold_txdone_packets_live(const struct npu_cold_txdone_state *s,
     const struct npu_cold_txdone_plan *p, uint32_t epoch, const struct npu_cold_packet_state *pkt)
 { (void)s; (void)p; (void)epoch; (void)pkt; mutate(2); return 1; }
@@ -90,18 +92,32 @@ uint32_t npu_test_plan_case(uint32_t phase, uint32_t kind, uint32_t point, uint3
     SETUP->command.api = 1;
     SETUP->command.value = 512;
     SETUP->rx_event_steps = SETUP->prior_rx_event_steps = 1;
+    SETUP->completed = SETUP->prior_completed = NPU_COLD_COMPLETED_MASK;
+    SETUP->endpoint_base = SETUP->prior_base = 0x20000000;
+    SETUP->endpoint_bytes = SETUP->prior_bytes = 0x100000;
+    SETUP->descriptor_gets = SETUP->prior_descriptor_gets = 8;
+    SETUP->descriptor_arena = SETUP->prior_descriptor_arena = 0x3e810000;
+    SETUP->txbuf_enrolled = SETUP->prior_txbuf_enrolled = 14;
+    SETUP->txbuf_steps = SETUP->prior_txbuf_steps = 6;
+    SETUP->rx_event = SETUP->prior_rx_event = SETUP->pending_rx_event = 0x17000000;
+    SETUP->tx2_register = SETUP->prior_tx2_register = 0x200d4450;
     for (uint32_t i = 0; i < sizeof(held_setup) / 4; i++)
         held_setup[i] = ((const uint32_t *)SETUP)[i];
     OWNER->magic = NPU_COLD_TXDONE_MAGIC;
     OWNER->committed = OWNER->published = NPU_COLD_TXDONE_STORES - 2;
     OWNER->claims_committed = OWNER->claims_published = 512;
     OWNER->skb_reserved = 1;
-    npu_emulation_desc10_running = npu_emulation_callback_guarded = phase != 2;
-    if (phase == 2) {
+    npu_emulation_desc10_running = npu_emulation_callback_guarded = phase < 2;
+    if (phase >= 2) {
         SETUP->sequence++;
         SETUP->command.api = 0;
         SETUP->command.value = 0x200d4590;
         SETUP->rx_event_steps = SETUP->prior_rx_event_steps = 2;
+    }
+    if (phase == 3) {
+        SETUP->command.header = 0x10;
+        SETUP->command.value = 0x200d4580;
+        SETUP->rx_event_steps = SETUP->prior_rx_event_steps = 3;
     }
     mutation = kind;
     mutation_point = point;
@@ -111,7 +127,9 @@ uint32_t npu_test_plan_case(uint32_t phase, uint32_t kind, uint32_t point, uint3
 #endif
     if (!point) mutate(0);
     uint32_t result = phase == 0 ? npu_emulation_desc10_ready() :
-        phase == 1 ? (uint32_t)context(1) : (uint32_t)npu_emulation_desc10_prior_live(&plan);
+        phase == 1 ? (uint32_t)context(1) :
+        phase == 2 ? (uint32_t)npu_emulation_desc10_prior_live(&plan) :
+                     (uint32_t)npu_emulation_desc10_prior_live_tail(&plan);
     npu_test_observed[0] = result;
     npu_test_observed[1] = npu_emulation_packet_plan.packet_base;
     npu_test_observed[2] = npu_emulation_packet_plan.packet_bytes;

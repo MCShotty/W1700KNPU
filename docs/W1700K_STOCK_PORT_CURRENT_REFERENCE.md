@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-16 - Native PCIe Tail Binding In Qualification
+
+Nine original PCIe0/2/15 stores are bound by a new guarded native component,
+with explicit completed-owner successors and retained provider lifetime checks.
+The actual MT7996 sender now reaches the five-frame tail/INODE boundary in the
+test driver. No earlier SETUP is fabricated and no old native seal is promoted.
+
+Scoped checks pass provider84/five mutants, dispatcher52/three, guard32,
+portable host/RV32467/379 controls/nine mutants and sender12. Intermediate
+raw19/156/all19 image groups and18 unleased denials pass. Final source70/5,
+repeated raw19/156/all19 groups,loader60/eight and actual published-byte/eight-hart
+boot pass. Scoped sealc725d267 verifies343 current inputs. Actual caller
+pcie-tail-native-q2 is live with frozen consumed inputs; full512/nine-store/
+retained fault qualification remains pending. Q1 stopped at host compilation
+before native execution and is preserved. New fault-oracle four units pass;
+the native tail fault matrix is not yet run.
+The journal454-file producing cohort is preserved (receiptbdda5060), alongside
+the older1171-file native cohort. FIT978f9ddd is unchanged/unflashed.
+Full INODE/IRQ/hot/worker/stack/physical/drain/lifecycle/client scope stays open.
+Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
 Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15

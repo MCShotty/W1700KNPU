@@ -106,6 +106,9 @@ def exercise(pair, exhaustive):
             assert pair.values("tail_state")[3:9] == (
                 0, stage, (1 << (stage + 1)) - 1, (1 << (stage + 1)) - 1, last, last)
             states[f"finished-{stage}"] = pair.snapshot()
+            assert pair.tail("stage_live", stage) == 1
+            assert pair.tail("stage_live", (stage + 1) % 3) == 0
+            assert pair.tail("stage_live", 3) == 0
         assert pair.tail("live") == 1
         assert pair.values("tail_effects") == (9,)
         events = pair.values("tail_events")
@@ -143,6 +146,8 @@ def exercise(pair, exhaustive):
                    "begin", (wrong, operand, 1))
         denied(f"stage-{stage}-operand", phases[f"pre-{stage}"], "begin", (selector, operand ^ 1, 1))
         denied(f"stage-{stage}-finish-before-stores", phases[f"begun-{stage}"], "finish")
+        denied(f"stage-{stage}-active-not-live", phases[f"begun-{stage}"],
+               "stage_live", (stage,), read_only=True)
         denied(f"stage-{stage}-replay", phases[f"finished-{stage}"], "begin", (selector, operand, 1))
         for i in range(first, last):
             address, width, value = expected[i]

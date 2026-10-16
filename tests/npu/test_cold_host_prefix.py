@@ -26,6 +26,7 @@ MODEL = r'''
 typedef uint32_t u32;
 typedef uint64_t u64;
 typedef uint64_t phys_addr_t;
+typedef uint64_t dma_addr_t;
 typedef int gfp_t;
 #define GFP_KERNEL 0
 #define dev_warn(...) ((void)0)
@@ -138,6 +139,27 @@ int npu_host_rx_event(u64 ring, int (*transport)(unsigned, unsigned, unsigned, u
     peer4 = NULL;
     return result;
 }
+int npu_host_pcie_tail(unsigned hif2, int (*transport)(unsigned, unsigned, unsigned, u32 *)) {
+    struct mt7996_dev dev = {0};
+    dev.mt76.mmio.phy_addr = 0x20000000;
+    dev.hif2 = hif2 ? &npu : NULL;
+    peer4 = transport;
+    int result = mt7996_npu_set_pcie_addr(&dev, &npu);
+    if (!result) result = mt7996_npu_tx_done_init(&dev, &npu);
+    peer4 = NULL;
+    return result;
+}
+unsigned npu_host_inode_api(void) { return WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR; }
+static unsigned tail_calls, tail_fail_at, tail_hif2;
+static int tail_peer(unsigned header, unsigned api, unsigned value, u32 *output) {
+    const unsigned headers[] = {0x10, 0x12, 0x1f, 0x12, 0x17};
+    const unsigned apis[] = {WLAN_FUNC_SET_WAIT_PCIE_ADDR, WLAN_FUNC_SET_WAIT_PCIE_ADDR,
+        WLAN_FUNC_SET_WAIT_PCIE_ADDR, WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR, WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR};
+    const unsigned values[] = {0x200d4580, 0x200d4560 + tail_hif2 * 0x4000, 0, 0, 0};
+    assert(tail_calls < 5 && header == headers[tail_calls] && api == apis[tail_calls] && value == values[tail_calls]);
+    *output = value;
+    return tail_calls++ == tail_fail_at ? -EPROTO : 0;
+}
 static unsigned getter_calls, getter_failure;
 static int getter_peer(unsigned header, unsigned api, unsigned value, u32 *output) {
     static const unsigned selectors[] = {0, 2, 10, 11, 12, 8};
@@ -193,6 +215,13 @@ int main(void) {
         assert(register_writes == getter_failure);
         assert(getter_calls == (getter_failure == 6 ? 6 : getter_failure + 1));
     }
+    for (tail_hif2 = 0; tail_hif2 < 2; tail_hif2++) {
+        for (tail_fail_at = 0; tail_fail_at <= 5; tail_fail_at++) {
+            tail_calls = 0;
+            assert(npu_host_pcie_tail(tail_hif2, tail_peer) == (tail_fail_at == 5 ? 0 : -EPROTO));
+            assert(tail_calls == (tail_fail_at == 5 ? 5 : tail_fail_at + 1));
+        }
+    }
     return 0;
 }
 '''
@@ -234,6 +263,8 @@ def main():
     program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_rxd_init'))
     program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_txd_init'))
     program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_rx_event_init'))
+    program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_set_pcie_addr'))
+    program.insert(-1, q.function(text['mt7996/npu.c'], 'mt7996_npu_tx_done_init'))
     source = dest / 'host.c'
     source.write_text('\n\n'.join(program) + '\n')
     command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
@@ -253,6 +284,7 @@ def main():
     assert all(loader.sha(ROOT / p) == digest for p, digest in inputs.items())
     result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=None, completed_offload=True,
                   rx_getter_failure_cases=7,
+                  pcie_tail_sender_cases=12,
                   inputs=inputs, shared=str(shared.relative_to(ROOT)), shared_sha256=loader.sha(shared),
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual mt76 initialization and complete mt7996 offload sender C; kernel references/RCU and queue state modeled.',

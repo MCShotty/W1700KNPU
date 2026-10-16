@@ -19,7 +19,7 @@ class ColdWireObserverTests(unittest.TestCase):
         h = object.__new__(ColdProviderRequest)
         h.cold_request = h.cold_desc10 = True
         h.cold_txbuf = h.cold_rx_event = False
-        h.cold_pcie = False
+        h.cold_pcie = h.cold_tail = False
         h.cold_count, h.cold_callback_count = 64 * 53260, 512
         h.cold_getter, h.cold_getters = 0x10, 0
         h.cold_checkpoints = (0x10, 0x20)

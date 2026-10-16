@@ -25,6 +25,7 @@ def build(destination, parts, txbuf_path):
                '-Wl,--defsym=npu_emulation_txbuf_prior_live=' + hex(symbols['npu_emulation_txbuf_prior_live']),
                '-Wl,--defsym=npu_emulation_txbuf_prior_live_packets=' + hex(symbols['npu_emulation_txbuf_prior_live_packets']),
                '-Wl,--defsym=npu_emulation_txbuf_prior_live_done=' + hex(symbols['npu_emulation_txbuf_prior_live_done']),
+               '-Wl,--defsym=npu_emulation_txbuf_prior_live_tail=' + hex(symbols['npu_emulation_txbuf_prior_live_tail']),
                '-o', path]
     done = subprocess.run(list(map(str, command)), capture_output=True, text=True, timeout=180)
     (destination / 'build.log').write_text(done.stdout + done.stderr)

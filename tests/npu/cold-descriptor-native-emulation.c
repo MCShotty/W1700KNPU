@@ -71,6 +71,7 @@ static int prior_context(uint32_t packets)
         TX->plan.arena_bytes != NPU_COLD_DESCRIPTOR_ARENA_BYTES ||
         TX->plan.endpoint_base != SETUP->endpoint_base || TX->plan.endpoint_bytes != SETUP->endpoint_bytes ||
         TX->plan.host0 != SETUP->endpoint_base + NPU_COLD_TX_REG0 ||
+        SETUP->tx2_register != TX->plan.host2 || SETUP->prior_tx2_register != TX->plan.host2 ||
         (TX->plan.host2 != SETUP->endpoint_base + NPU_COLD_TX_REG2 &&
          TX->plan.host2 != SETUP->endpoint_base + NPU_COLD_TX_REG2 + NPU_COLD_TX_HIF2) ||
         TX->plan.host2 - SETUP->endpoint_base > SETUP->endpoint_bytes - 12 ||
@@ -137,12 +138,13 @@ static int pinned(void)
            SETUP->boot_hi == identity[2] && SETUP->nonce_lo == identity[3] && SETUP->nonce_hi == identity[4];
 }
 
-static int prior_live_packets(uint32_t gets, uint32_t packets, uint32_t completed)
+static int prior_live_packets(uint32_t gets, uint32_t packets, uint32_t successor)
 {
     uint32_t count = gets == 7 ? 512 : 1536, tx = gets == 7 ? 1 : 3;
 
-    return (gets == 7 || gets == 8) && packets >= 2560 && packets <= 3072 &&
-           (completed ? gets == 8 && packets == 3072 &&
+    return successor <= 2 && (gets == 7 || gets == 8) && packets >= 2560 && packets <= 3072 &&
+           (successor == 2 ? gets == 8 && packets == 3072 && npu_cold_pcie_tail_inflight(SETUP) :
+            successor == 1 ? gets == 8 && packets == 3072 &&
             npu_cold_rx_pcie_command(&SETUP->command) &&
             SETUP->command.value == SETUP->endpoint_base + NPU_COLD_RX_PCIE_REGISTER &&
             SETUP->rx_event_steps == 2 && SETUP->prior_rx_event_steps == 2 :
@@ -171,6 +173,11 @@ int npu_emulation_descriptor_prior_live_packets(uint32_t gets, uint32_t packets)
 int npu_emulation_descriptor_prior_live_done(uint32_t packets)
 {
     return prior_live_packets(8, packets, 1);
+}
+
+int npu_emulation_descriptor_prior_live_tail(uint32_t packets)
+{
+    return prior_live_packets(8, packets, 2);
 }
 
 int npu_emulation_descriptor_prior_live(uint32_t gets)

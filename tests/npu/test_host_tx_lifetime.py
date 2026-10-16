@@ -86,7 +86,7 @@ def main():
         'airoha_npu_wlan_rx_event_valid',
         'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')
     functions=[q.function(text,name) for name in function_names]
-    extra='\n'.join(functions)+'\n'+q.function(htext,'airoha_npu_wlan_alloc_tx_buffers')+'\n'
+    extra='\n'.join(body for name,body in zip(function_names,functions) if name not in parent.FUNCTIONS)+'\n'+q.function(htext,'airoha_npu_wlan_alloc_tx_buffers')+'\n'
     command=parent.prepare(destination,text,htext)
     inc=destination/'provider-session.inc'
     inc.write_text(inc.read_text()+extra)

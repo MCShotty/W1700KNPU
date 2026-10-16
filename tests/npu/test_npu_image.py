@@ -55,7 +55,8 @@ class ImageTests(unittest.TestCase):
         self.assertEqual({row['component']: row['end'] - row['start'] for row in bss},
                          {'base': 404, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
                           'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213760,
-                          'cold-rx-event': 688, 'cold-txdone': 23072, 'cold-rx-pcie': 724})
+                          'cold-rx-event': 688, 'cold-txdone': 23072, 'cold-rx-pcie': 724,
+                          'cold-pcie-tail': 928})
         for row in bss:
             self.assertEqual(code[row['start'] - image.CODE:row['end'] - image.CODE], bytes(row['end'] - row['start']))
 
@@ -83,14 +84,33 @@ class ImageTests(unittest.TestCase):
 
     def test_rx_pcie_original_store_and_hooks(self):
         hooks = {row['site']: row for row in self.manifest['hooks']}
-        for offset, name in ((0xfdc4, 'npu_emulation_rx_pcie_callback'),
-                             (0xba88, 'npu_emulation_rx_pcie_ba88')):
+        for offset, name in ((0xba88, 'npu_emulation_rx_pcie_ba88'),):
             self.assertEqual((hooks[image.CODE + offset]['component'], hooks[image.CODE + offset]['symbol']),
                              ('cold-rx-pcie', name))
         symbols = image.symbols(self.components['cold-rx-pcie'])
         address = symbols['npu_emulation_rx_pcie_ba88_store'] - image.CODE
         self.assertEqual(self.raw_code[address:address + 4], self.code[0xba88:0xba8c])
         remaining = [row for row in self.arguments()['patches'] if row['site'] != image.CODE + 0xba88]
+        self.rejected('incomplete-hook-set', patches=remaining)
+
+    def test_pcie_tail_original_stores_and_predecessor_link(self):
+        import pcie_tail_wire_native as tail
+        hooks = {row['site']: row for row in self.manifest['hooks']}
+        symbols = image.symbols(self.components['cold-pcie-tail'])
+        for site, name in tail.SITES.items():
+            self.assertEqual((hooks[site]['component'], hooks[site]['symbol']), ('cold-pcie-tail', name))
+        predecessor = image.symbols(self.components['cold-rx-pcie'])['npu_emulation_rx_pcie_callback']
+        self.assertEqual(symbols['npu_emulation_rx_pcie_callback'], predecessor)
+        self.assertNotEqual(predecessor, image.CODE + 0xfdc4)
+        decoder = image.Cs(image.CS_ARCH_RISCV, image.CS_MODE_RISCV32 | image.CS_MODE_RISCVC)
+        for offset in tail.STORES:
+            site = image.CODE + offset
+            width = tail.WIDTHS.get(site, 4)
+            first = next(decoder.disasm(self.code[offset:offset + width], site))
+            target = symbols['npu_emulation_pcie_tail_' + format(offset, 'x') + '_store'] - image.CODE
+            self.assertEqual(self.raw_code[target:target + first.size], self.code[offset:offset + first.size])
+            self.assertEqual(len(bytes.fromhex(hooks[site]['before'])), width)
+        remaining = [row for row in self.arguments()['patches'] if row['site'] != image.CODE + tail.STORES[-1]]
         self.rejected('incomplete-hook-set', patches=remaining)
 
     def test_original_identity(self):

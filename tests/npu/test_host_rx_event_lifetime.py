@@ -142,7 +142,7 @@ def main():
     names = ('airoha_npu_dma_retained', 'airoha_npu_dma_cleanup',
              'airoha_npu_wlan_rx_event_valid', 'airoha_npu_wlan_alloc_rx_event_session',
              'airoha_npu_wlan_tx_buffer_valid', 'airoha_npu_wlan_alloc_tx_buffers_session')
-    provider = '\n'.join(q.function(text, name) for name in names)
+    provider = '\n'.join(q.function(text, name) for name in names if name not in parent.FUNCTIONS)
     inc = destination / 'provider-session.inc'
     inc.write_text(inc.read_text() + provider + '\n' +
                    q.function(htext, 'airoha_npu_wlan_alloc_rx_event') + '\n' +

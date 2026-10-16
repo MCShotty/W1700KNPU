@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-16 - Native PCIe Tail Binding Awaiting Actual Caller
+
+All nine original PCIe0/2/15 stores now have a native owner binding with
+explicit authenticated successor helpers. Actual provider lifetime/routing and
+the actual five-frame MT7996 tail sender are extended. Scoped provider84/five
+mutants, dispatcher52/three, guard32, portable467/379/nine mutants, sender12,
+intermediate raw19/156/all19 image groups and18 unleased denials pass. These
+checks do not establish fresh actual-caller admission or physical operation.
+
+Final source70/5, repeated raw19/156/all19 image groups,loader60/eight mutants
+and actual published-byte/eight-hart boot pass. Scoped sealc725d267 verifies343
+current input hashes. Actual allocator/caller pcie-tail-native-q2 is live;
+consumed inputs are frozen. Next finish full512/nine-store success, all eight
+retained faults and the new tail-specific native controls. Four new fault-oracle
+contract units pass, not a native fault matrix. Q1 stopped at fixture compilation
+before native execution and is preserved. The actual padded INODE boundary remains
+to be measured; do not label an envelope rejection an INODE constructor verdict.
+Prior journal454-file and native1171-file producing cohorts are protected.
+FIT978f9ddd remains unchanged/unflashed. INODE, checked initial/hot IRQ, workers,
+full stack/physical/drain/lifecycle/recovery/boot/client gates remain open.
+Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 
 The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are

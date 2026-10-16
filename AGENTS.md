@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-16 - Native PCIe Tail Binding In Qualification
+
+- New native component binds all nine original PCIe0/2/15 stores and delegates
+  other callbacks to the already-linked RX PCIe predecessor. Explicit tail
+  successor helpers retain completed owners, packet geometry, original lock18,
+  IRQ, neighbors and exact readbacks. No earlier SETUP history is fabricated.
+- Actual provider lifetime/routing and actual MT7996 five-frame sender are
+  extended. Scoped provider84/five mutants, dispatcher52/three, guard32,
+  portable host/RV32467/379 controls/nine mutants and sender12 pass. New raw
+  intermediate19-component/156-hook image passes all19 groups and18 unleased
+  denials; it is not a fresh actual-caller/full512/fault qualification.
+- Previous journal cohort454 files is hash-preserved (receiptbdda5060), as is
+  the accepted older1171-file native cohort. Actual caller and retained faults
+  are still pending; scoped sealc725d267 verifies343 current input hashes.
+  Freeze consumed inputs during native replay; never waive source hashes or
+  weaken full512/eight-fault coverage. Current SETUP remains404 bytes.
+- Final source70/5, repeated raw19/156/all19 groups, loader60/eight and actual
+  published-byte/eight-hart boot pass. Fresh actual caller pcie-tail-native-q2
+  is live; freeze consumed inputs. Q1 stopped at host compilation, before
+  native execution, and is preserved. FIT978f9ddd remains unchanged
+  and unflashed. INODE, checked IRQ/hot, workers, full stack/physical/drain/
+  lifecycle/recovery/client scope remains open. No hardware or subagents.
+  Read research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 
 - Actual server/Linux executor retain accepted TX2/HIF and ordered PCIe0/2/15

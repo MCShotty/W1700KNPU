@@ -32,12 +32,12 @@ def exercise(path):
 
     def callback(cpu, pc, size, opaque):
         callbacks.append(pc)
-        cpu.reg_write(r.UC_RISCV_REG_A0, 1)
+        cpu.reg_write(r.UC_RISCV_REG_A0, callback_result)
         cpu.reg_write(r.UC_RISCV_REG_PC, cpu.reg_read(r.UC_RISCV_REG_RA))
 
     guest.cpu.hook_add(UC_HOOK_CODE, callback, begin=0x8400fb00, end=0x84010200)
     cases = [(0x1f, api, 80, 0, 1, 0) for api in range(0x100, 0x111)]
-    cases += [(header, 0, 80, 0, 0, 0) for header in (0x10, 0x12, 0x1f)]
+    cases += [(header, 0, 80, 0, 1, slots[0]) for header in (0x10, 0x12, 0x1f)]
     cases += [(0x1f, api, 80, 0, 0, 0) for api in (0xff, 0x111, 0x200, 0xffffffff)]
     cases += [(header, api, 80, 0, 1, address) for header, api, address in
               ((0x10, 14, slots[14]), (0x10, 1, slots[1]), (0x10, 19, slots[19]),
@@ -46,9 +46,15 @@ def exercise(path):
                (0x30, 4, 0x84010164), (0x30, 10, 0x840101a6))]
     cases += [(0x10, 0, size, 0, 0, 0) for size in (0, 79, 81, 0xffffffff)]
     cases += [(0x10, 14, 80, status, 0, 0) for status in range(1, 8)]
+    cases = [(*case, 1, True) for case in cases]
+    cases += [(header, api, 80, 0, 0, slots[api], 0, True)
+              for header, api in ((0x10, 0), (0x12, 0), (0x1f, 0), (0x10, 14))]
+    cases += [(header, 0, 80, 0, 0, 0, 1, False) for header in (0x10, 0x12, 0x1f)]
     observed = []
-    for header, api, size, status, expected, target in cases:
+    for header, api, size, status, expected, target, callback_result, good_slot in cases:
         callbacks.clear()
+        if api in slots:
+            guest.cpu.mem_write(0x3e900178 + api * 4, struct.pack('<I', slots[api] ^ (0 if good_slot else 4)))
         for register, value in zip(ARGS, (header, api, size, status)):
             guest.cpu.reg_write(register, value)
         guest.cpu.reg_write(r.UC_RISCV_REG_SP, STACK)
@@ -67,7 +73,8 @@ def exercise(path):
                          0x3252434e if valid_size else 0), (header, api, size, status, words)
         assert callbacks == ([target] if target else []), (header, api, callbacks)
         observed.append(dict(header=header, api=api, bytes=size, begin_status=status,
-                             callback=target, observed=list(words)))
+                             callback=target, callback_result=callback_result,
+                             callback_slot_matches=good_slot, observed=list(words)))
     return observed
 
 
@@ -92,14 +99,13 @@ def main():
         '-Wl,-T,' + str(linker) + ',--no-relax']
     source = SOURCE.read_text()
     mutations = {
-        'unguarded-tail': loader.once(source,
-            'if (npu_cold_pcie_tail_command_step(&command) < NPU_COLD_PCIE_TAIL_STAGES)',
-            'if (0 && npu_cold_pcie_tail_command_step(&command) < NPU_COLD_PCIE_TAIL_STAGES)'),
         'header-only-binding': loader.once(source,
             'npu_cold_rx_event_enrollment(&command)))', 'npu_cold_rx_event_enrollment(&command) || 1))'),
-        'fake-tail-success': loader.once(source,
-            'if (npu_cold_pcie_tail_command_step(&command) < NPU_COLD_PCIE_TAIL_STAGES) {\n            slot = callback = 0;',
-            'if (npu_cold_pcie_tail_command_step(&command) < NPU_COLD_PCIE_TAIL_STAGES) {\n            result = 1; slot = callback = 0;')
+        'ignore-callback-slot': loader.once(source,
+            'if (slot && *(const volatile uint32_t *)(uintptr_t)slot == callback)', 'if (slot)'),
+        'fake-callback-success': loader.once(source,
+            'result = ((native_callback)(uintptr_t)callback)(&command);',
+            'result = (((native_callback)(uintptr_t)callback)(&command), 1u);')
     }
     rows, rejected = [], []
     for name, text in [('nominal', source), *mutations.items()]:
@@ -120,7 +126,7 @@ def main():
         binary_sha256=loader.sha(destination / 'nominal.elf'), protocol_and_callbacks_stubbed=True,
         native_tail_admission=False, full_setup=False, hardware=False,
         limits=['Exact compiled RV32 dispatcher only; begin/finish and callback effects are explicit stubs.',
-                'New PCIe0/2/15 commands fail closed; real native ownership binding remains required.',
+                'PCIe0/2/15 route to API0 only through its matching slot; real guard admission is not established by these stubs.',
                 'Existing callback families and exact synthetic enrollment APIs retain their routing.'])
     (destination / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=len(rows), mutants=len(rejected), native_tail_admission=False)))

@@ -28,6 +28,8 @@ def main():
     source_path = CORE / "cold-pcie-tail.c"
     source = source_path.read_text()
     mutations = {
+        "stage-live-active": ("!s->active && s->stage == stage;", "s->stage == stage;"),
+        "stage-live-wrong-stage": ("!s->active && s->stage == stage;", "!s->active && stage < 3;"),
         "prior-reader-change": (
             "equal(c->pcie, &held_pcie, sizeof(held_pcie)) &&",
             "1 &&"),

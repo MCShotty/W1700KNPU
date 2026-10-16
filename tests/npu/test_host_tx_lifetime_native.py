@@ -24,8 +24,11 @@ def main():
     parser.add_argument('--rx-event',action='store_true')
     parser.add_argument('--desc10',action='store_true')
     parser.add_argument('--nominal-only',action='store_true')
+    parser.add_argument('--pcie-tail',action='store_true')
+    parser.add_argument('--hif2',action='store_true')
     args=parser.parse_args()
     assert not args.desc10 or args.rx_event
+    assert not args.pcie_tail or args.desc10
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}',args.name)
     root=parent.ROOT;q=parent.loader.extract
     destination=root/'.local/npu-host-tx-lifetime-20261011'/args.name
@@ -40,11 +43,33 @@ def main():
     command=parent.prepare(destination,text,htext)
     inc=destination/'provider-session.inc'
     functions=[q.function(text,name) for name in ('airoha_npu_wlan_rx_event_valid',
-        'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')]
+        'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session') if name not in parent.FUNCTIONS]
     if args.rx_event:
         functions.insert(1,q.function(text,'airoha_npu_wlan_alloc_rx_event_session'))
     inc.write_text(inc.read_text()+'\n'.join(functions))
     model=parent.HARNESS.read_text()
+    if args.pcie_tail:
+        legacy=q.function(text,'airoha_npu_wlan_msg_send')
+        declarations='\n'.join(q.macro(text,name) for name in
+            ('NPU_EN7581_7996_TX_CHECK_SIZE','NPU_EN7581_7996_INODE_DATA_SIZE'))
+        framing=r'''
+typedef uint16_t u16;
+#define DECLARE_FLEX_ARRAY(type,name) type name[]
+#define NPU_OP_SET 1
+#define NPU_FUNC_WIFI 0
+static void *npu_test_raw_alloc(size_t bytes,gfp_t flags) {
+    check(flags==GFP_KERNEL,"modeled raw-frame allocator");return calloc(1,bytes);
+}
+static void npu_test_raw_free(void *pointer) { free(pointer); }
+static int airoha_npu_send_msg(struct airoha_npu *npu,int function,void *data,int bytes) {
+    check(npu==&priv.npu && function==NPU_FUNC_WIFI,"actual legacy wrapper transport");
+    return transaction(data,bytes);
+}
+#define kzalloc npu_test_raw_alloc
+#define kfree npu_test_raw_free
+'''
+        raw=declarations+'\n'+framing+'\n'+q.declaration(text,'struct','wlan_mbox_data')+'\n'+legacy+'\n#undef kzalloc\n#undef kfree\n'
+        model=parent.loader.once(model,q.function(model,'airoha_npu_wlan_msg_send'),raw)
     platform=rx_lifetime.PLATFORM if args.rx_event else lifetime.PLATFORM
     model=parent.loader.once(model,'#include "provider-session.inc"',platform+'\n#include "provider-session.inc"')
     entry=r'''
@@ -80,6 +105,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     command=[generated if item==parent.HARNESS else item for item in command]
     shared=destination/'native.so'
     flags=['-Wno-unused-function','-Wno-unused-variable','-shared','-fPIC']
+    if args.pcie_tail:flags+=['-Wno-sign-compare']
     if args.rx_event:flags+=['-DRX_EVENT']
     parent.loader.run(command+flags+['-o',shared],destination/'build.log')
     host=json.loads(args.host_receipt.read_bytes())
@@ -118,7 +144,8 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
                                   host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event,
-                                  desc10=args.desc10,nominal_only=args.nominal_only,producer_inputs=inputs)
+                                  desc10=args.desc10,pcie_tail=args.pcie_tail,hif2=args.hif2,
+                                  nominal_only=args.nominal_only,producer_inputs=inputs)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()
@@ -128,6 +155,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
     result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14+int(args.rx_event),
         rx_event_allocations=int(args.rx_event),rx_event_bytes=8192 if args.rx_event else 0,
+        pcie_tail_requested=args.pcie_tail,actual_legacy_wrapper_framing=args.pcie_tail,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
                 'Allocation runs after real BAR binding and before real offload/RX/TX caller replay. TX caller uses the returned retained handles.',
                 'Original API21 instructions are guarded by retained store ownership; physical buffer consumption is not established.',

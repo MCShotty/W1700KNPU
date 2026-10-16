@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-16 - Native PCIe Tail Binding In Qualification
+
+All nine original PCIe0/2/15 stores now have retained native owner guards and
+explicit authenticated prior-owner successors. The actual provider lifetime
+check/routing and MT7996 sender are extended. Repeated raw19-component/156-hook
+images, all19 image checks, checked loader60/eight mutants, actual published-byte
+eight-hart boot, provider84/five mutants and18 unleased tail denials pass.
+Protocol1930/53 and existing provider609/nine regressions also pass.
+
+Scoped sealc725d267 verifies343 current inputs, not a fresh positive native
+verdict. Actual allocator/caller pcie-tail-native-q2 is live with consumed
+inputs frozen; full512/nine-store success and retained faults are still pending.
+The selected116-test suite, including four new fault-oracle contracts, passes
+its synthetic scopes. Older producing cohorts are protected. FIT978f9ddd remains
+unchanged/unflashed; full INODE/IRQ/hot/worker/stack/physical/drain/lifecycle/
+client work remains open. See the [native binding report](research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md).
+
 ## 2026-10-16 - PCIe Tail Protocol Journal
 
 The checked protocol now retains the accepted TX2/HIF register and the ordered

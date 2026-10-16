@@ -37,7 +37,8 @@ def main():
     signature = 'uint32_t npu_emulation_desc10_ready('
     parsed = loader.once(text, signature, 'u32 npu_emulation_desc10_ready(')
     functions = [loader.extract.function(parsed, name) for name in
-                 ('packet_plan_live', 'context', 'npu_emulation_desc10_ready', 'npu_emulation_desc10_prior_live')]
+                 ('packet_plan_live', 'context', 'npu_emulation_desc10_ready', 'completed_prior_live',
+                  'npu_emulation_desc10_prior_live', 'npu_emulation_desc10_prior_live_tail')]
     functions = [function.replace('u32 npu_emulation_desc10_ready(', signature) for function in functions]
     assert all(function in text for function in functions)
     instruction = '__asm__ volatile ("csrr %0, mstatus" : "=r"(status));'
@@ -63,8 +64,8 @@ def main():
     observed_host = (ctypes.c_uint32 * 8).in_dll(host, 'npu_test_observed')
     guest = Rv32(elf)
     cases = []
-    for phase in range(3):
-        points = (0, 1, 2) if phase != 2 else (0, 3, 4)
+    for phase in range(4):
+        points = (0, 1, 2) if phase < 2 else (0, 3, 4)
         configurations = [(0, 0, 0), (0, 0, 8)]
         configurations += [(kind, point, 0) for kind in (1, 2) for point in points]
         for kind, point, irq in configurations:

@@ -282,6 +282,14 @@ uint32_t npu_cold_pcie_tail_finish(struct npu_cold_pcie_tail_state *s,
     return context(s, p, epoch, c) ? NPU_COLD_PCIE_TAIL_OK : fail(s, NPU_COLD_PCIE_TAIL_STALE);
 }
 
+int npu_cold_pcie_tail_stage_live(const struct npu_cold_pcie_tail_state *s,
+    const struct npu_cold_pcie_tail_plan *p, uint32_t epoch,
+    const struct npu_cold_pcie_tail_context *c, uint32_t stage)
+{
+    return stage < NPU_COLD_PCIE_TAIL_STAGES && context(s, p, epoch, c) &&
+           !s->active && s->stage == stage;
+}
+
 int npu_cold_pcie_tail_live(const struct npu_cold_pcie_tail_state *s,
     const struct npu_cold_pcie_tail_plan *p, uint32_t epoch,
     const struct npu_cold_pcie_tail_context *c)

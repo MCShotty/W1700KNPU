@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linux-control.h"
+#define IS_ALIGNED(v,a) (!((v) & ((a)-1)))
+#define AIROHA_NPU_MBOX_SIZE 256
 #include "bootstrap-v2.h"
 
 typedef uint64_t dma_addr_t;

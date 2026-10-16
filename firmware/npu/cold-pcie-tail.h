@@ -64,5 +64,8 @@ uint32_t npu_cold_pcie_tail_finish(struct npu_cold_pcie_tail_state *,
 int npu_cold_pcie_tail_live(const struct npu_cold_pcie_tail_state *,
     const struct npu_cold_pcie_tail_plan *, uint32_t epoch,
     const struct npu_cold_pcie_tail_context *);
+int npu_cold_pcie_tail_stage_live(const struct npu_cold_pcie_tail_state *,
+    const struct npu_cold_pcie_tail_plan *, uint32_t epoch,
+    const struct npu_cold_pcie_tail_context *, uint32_t stage);
 
 #endif

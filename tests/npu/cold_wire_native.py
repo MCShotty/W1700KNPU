@@ -23,6 +23,7 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_rx_event = False
         self.cold_desc10 = False
         self.cold_pcie = False
+        self.cold_tail = False
         self.indication_fault = self.indication_injected = False
         self.tx_fault = None
         self.tx_injected = False
@@ -35,6 +36,7 @@ class ColdProviderRequest(ProviderRequest):
         self.cold_rx_event = self.cold_request and words[12] == 22
         self.cold_desc10 = self.cold_request and words[11:13] == [0x1a, 1]
         self.cold_pcie = self.cold_request and words[11:13] == [0x1a, 0]
+        self.cold_tail = self.cold_request and words[12] == 0 and words[11] in (0x10, 0x12, 0x1f)
         self.cold_count = words[13] if self.cold_request and words[12] == 1 and words[11] in (0x10, 0x12, 0x15, 0x16, 0x17, 0x18) else 0
         self.cold_getter = 0x8400bb10 if self.cold_request and words[11] == 0x18 else (
             PAGE_GETTER if self.cold_request and words[11] in (0x15, 0x16, 0x17) else GETTER)
@@ -48,21 +50,21 @@ class ColdProviderRequest(ProviderRequest):
         if self.cold_desc10:
             self.cold_count = 64 * 53260
             self.cold_getter = self.desc10.symbols['npu_cold_txdone_recipe']
-        if self.cold_pcie:
+        if self.cold_pcie or self.cold_tail:
             self.cold_count = 64 * 53260
             self.cold_getter = self.desc10.symbols['npu_cold_txdone_memory_live']
         self.cold_callback_count = words[13] if self.cold_request and words[12] == 1 else self.cold_count
         self.cold_checkpoints = (self.cold_getter,)
-        if self.cold_desc10 or self.cold_pcie:
+        if self.cold_desc10 or self.cold_pcie or self.cold_tail:
             # Prior effect verification runs before the first DESC10 recipe.
             self.cold_checkpoints += (self.rv.symbols['npu_cold_txbuf_recipe'],)
         self.cold_checkpoint_hits = {hex(pc): 0 for pc in self.cold_checkpoints}
         self.cold_getters = 0
         previous_probe = self.probing
         # This selects the existing RX observer, not a native admission bypass.
-        self.probing = bool(self.cold_count) and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie)
+        self.probing = bool(self.cold_count) and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie or self.cold_tail)
         observers = []
-        if self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie:
+        if self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie or self.cold_tail:
             self.cpu.hook_del(self.instruction_hook)
             self.cpu.hook_del(self.callback_hook)
             observers = [
@@ -82,6 +84,9 @@ class ColdProviderRequest(ProviderRequest):
                 reply['desc10_checkpoints'] = self.cold_checkpoint_hits.copy()
             if self.cold_pcie:
                 reply['pcie_final_memory_entries'] = self.cold_getters
+            if self.cold_tail:
+                reply['pcie_tail_final_memory_entries'] = self.cold_getters
+                reply['pcie_tail_checkpoints'] = self.cold_checkpoint_hits.copy()
             return reply
         finally:
             if observers:
@@ -94,10 +99,12 @@ class ColdProviderRequest(ProviderRequest):
             self.cold_rx_event = False
             self.cold_desc10 = False
             self.cold_pcie = False
+            self.cold_tail = False
             self.probing = previous_probe
 
     def code_hook(self, cpu, pc, size, data):
         if self.cold_request and pc == 0x8400dd82:
+            assert not getattr(self, 'cold_tail', False), 'unexpected-tail-allocator'
             state = self.rv.symbols['npu_emulation_cold_setup_state']
             assert self.get32(state + 4) == self.get32(ADM + 4) == 1
             assert cpu.reg_read(r.UC_RISCV_REG_A1) in (0, 2, 5, 6, 7, 8, 10)
@@ -129,6 +136,18 @@ class ColdProviderRequest(ProviderRequest):
                 self.indication_injected = True
                 self.put32(STATE + 16, 1)
         super().write_hook(cpu, access, address, size, value, data)
+
+    def register_model(self, address, write):
+        if getattr(self, 'cold_tail', False):
+            setup = self.rv.symbols['npu_emulation_cold_setup_state']
+            base, tx2 = self.get32(setup + 48), self.get32(setup + 388)
+            if base == 0x20000000 and tx2 - base in (0xd4450, 0xd8450):
+                stores = (base + 0xd4588, tx2 + 0x118, base + 0xd45a8, base + 0xd45b8,
+                          base + 0xd45c8, base + 0xa048, base + 0xd4598)
+                allowed = stores if write else tuple(cell + delta for cell in stores for delta in (-4, 0, 4))
+                if address in allowed:
+                    return 'Selected PCIe-tail BAR count/neighbor storage; no physical MMIO or DMA effect proof'
+        return super().register_model(address, write)
 
     def observe_tx_write(self, cpu, address, size, value):
         if not (self.cold_request and self.cold_desc10):
@@ -164,7 +183,7 @@ class ColdProviderRequest(ProviderRequest):
         assert self.get32(state + 4) == self.get32(ADM + 4) == 1
 
     def run(self, start, stops):
-        if not (self.cold_request and self.cold_pcie):
+        if not (self.cold_request and (self.cold_pcie or getattr(self, 'cold_tail', False))):
             return self._run_cold(start, stops)
         reader = self.desc10.symbols['npu_emulation_desc10_read']
         if reader not in self.cold_checkpoints:
@@ -177,7 +196,7 @@ class ColdProviderRequest(ProviderRequest):
             self.cpu.hook_del(hook)
 
     def _run_cold(self, start, stops):
-        if not self.cold_request or not self.cold_count or (self.cold_count > 1536 and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie)):
+        if not self.cold_request or not self.cold_count or (self.cold_count > 1536 and not (self.cold_txbuf or self.cold_rx_event or self.cold_desc10 or self.cold_pcie or getattr(self, 'cold_tail', False))):
             return super().run(start, stops)
         pc, chunks = start, 0
         while True:

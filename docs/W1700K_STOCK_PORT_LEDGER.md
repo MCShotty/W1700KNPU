@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-16 (PCIe-tail protocol journal integrated; native dispatch remains closed)
+Last updated: 2026-10-16 (native PCIe-tail binding implemented; actual-caller qualification pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-16 - Nine-Store Native PCIe Tail Binding In Progress
+
+- Added the native PCIe0/2/15 owner around all nine original stores, with
+  explicit authenticated successors through RX PCIe/DESC10/RX/TX-buffer/
+  descriptor owners. Original lock18/IRQ/store order, bounded readers,
+  neighbors and held SETUP404 are checked; faults retain owners. Other
+  callbacks delegate to the linked predecessor, avoiding detour recursion.
+- Added actual provider retained-lifetime validation and routing. Its sanitized
+  synthetic-record fixture passes84 cases/five compiled mutants; existing
+  provider609/nine remains passing. Actual MT7996 five-frame sender passes12
+  both-HIF framing/error cases. No native positive result is inferred.
+- Portable stage-live checks pass467 host/RV32 calls/379 controls and nine
+  compiled mutants; explicit packet guard32 and dispatcher52/three pass.
+  Intermediate raw19-component/156-hook pair passes all19 image groups and
+  18 actual unleased denials. Read-only nine-store/lock/private/protected-memory
+  trace has five synthetic oracle units; these are not native admission proof.
+- Before edits preserved454 files/124259837 bytes, receipt SHA256
+  bdda5060f6e13bfcf5c8e83123a299445d15a63872201e69e3a3fd30d25a37a1.
+  Original receipts and the older1171-file accepted native cohort are unchanged.
+  Fresh actual caller and full512/eight-fault qualification remain pending.
+  Final raw19/156 repeats
+  CODE92bb5620/DATAbba7d2b4; all19 groups,loader60/eight,actual published-byte
+  eight-hart boot and source70/5 pass. Fresh actual caller pcie-tail-native-q2
+  is live with consumed inputs frozen. Q1 stopped at host compilation before
+  native execution; exact driver/generated C/build log remain preserved.
+- Scoped SHA256c725d267e8abcb5a8e52de3b2cdc758694d11d8d271726039464552ed9e01060
+  verifies343 current inputs/eleven passing scoped receipts, not positive native
+  qualification. Four new synthetic fault-contract units pass for12 control
+  classes/all three stages/both HIF; the native matrix is still pending.
+- FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
+  INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
+  recovery/client scope remains open. Evidence:
+  research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md.
 
 ## 2026-10-16 - PCIe Tail Journal And Dispatch Boundary
 

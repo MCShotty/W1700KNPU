@@ -8,6 +8,7 @@ extern struct npu_cold_txdone_state npu_emulation_desc10_state;
 extern struct npu_cold_rx_event_state npu_emulation_rx_event_state;
 extern struct npu_cold_packet_state npu_emulation_packet_state;
 extern int npu_emulation_desc10_prior_live(const struct npu_cold_txdone_plan *);
+extern int npu_emulation_desc10_prior_live_tail(const struct npu_cold_txdone_plan *);
 extern int npu_emulation_desc10_read(void *, uint32_t, uint32_t, uint32_t *);
 extern uint32_t npu_original_rx_pcie_callback(struct npu_bootstrap_packet *);
 
@@ -67,6 +68,41 @@ static int neighbors_live(void)
 {
     return word(NPU_COLD_RX_PCIE_METADATA - 4) == neighbors[0] &&
            word(NPU_COLD_RX_PCIE_METADATA + 4) == neighbors[1];
+}
+
+int npu_emulation_rx_pcie_prior_live_tail(const struct npu_cold_rx_pcie_plan *candidate)
+{
+    const struct npu_cold_setup *held = (const void *)held_setup;
+    const volatile uint32_t *current = (const volatile void *)SETUP;
+    struct npu_cold_rx_pcie_context c;
+    uint32_t i, status;
+
+    __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
+    if (!candidate || status & 8 || lock_owned || npu_emulation_rx_pcie_running ||
+        SETUP->sequence <= held->sequence || !npu_cold_pcie_tail_inflight(SETUP) ||
+        !npu_cold_rx_pcie_command(&held->command) ||
+        held->command.value != npu_cold_rx_pcie_value(&plan) ||
+        held->rx_event_steps != 2 || held->prior_rx_event_steps != 2 ||
+        held->pcie_tail_steps || held->prior_pcie_tail_steps ||
+        word(0x3e900178u) != 0x8400fdc4u || !neighbors_live() ||
+        !npu_cold_txdone_plan_equal(&candidate->prior, &plan.prior) ||
+        !npu_emulation_desc10_prior_live_tail(&plan.prior))
+        return 0;
+    for (i = 0; i < sizeof(held_setup) / 4; i++) {
+        if (i == __builtin_offsetof(struct npu_cold_setup, sequence) / 4 ||
+            (i >= __builtin_offsetof(struct npu_cold_setup, command) / 4 &&
+             i < (__builtin_offsetof(struct npu_cold_setup, command) + sizeof(SETUP->command)) / 4) ||
+            i == __builtin_offsetof(struct npu_cold_setup, rx_event_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, prior_rx_event_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, pcie_tail_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, prior_pcie_tail_steps) / 4)
+            continue;
+        if (current[i] != held_setup[i])
+            return 0;
+    }
+    c = prior();
+    return npu_cold_rx_pcie_live(OWNER, &plan, 1, &c, word(NPU_COLD_RX_PCIE_METADATA)) &&
+           npu_cold_pcie_tail_inflight(SETUP) && neighbors_live();
 }
 
 static int owned(void)
