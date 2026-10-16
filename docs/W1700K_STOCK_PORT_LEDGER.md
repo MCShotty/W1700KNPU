@@ -53,6 +53,11 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   verifies404 current hashes/139 units. Actual caller and eight-fault jobs remain
   live;five early faults pass,three late cases are pending. No positive tail,
   complete fault matrix,full setup,world,flash or physical verdict is inferred.
+- Follow-up2d359dc is pushed and remote-ref/tree verified. Worktree audit lists
+  only canonical main. Actual hashed sender getter identifies INODE API24,
+  not NPU_INIT_DONE API2; both-HIF synthetic consumer checks distinguish them.
+  NEXT_INODE.md records the remaining checked codec/history/actual8400fc2c
+  callback contract. Native caller/fault jobs and consumed inputs stay unchanged.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

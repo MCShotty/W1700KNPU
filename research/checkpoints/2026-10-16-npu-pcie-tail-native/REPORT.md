@@ -146,6 +146,16 @@ flags remain false and its live notes describe the moment of that receipt.
 This is not a new full executable environment, physical proof or promotion of
 the preserved older native seal.
 
+Mainline follow-up `2d359dc23e6d23c9e77f48a59d11a824c98f1191` is pushed and
+remote-ref verified, tree `255041935d21b9490db39881039d02d01e69b40f`.
+The worktree check lists only canonical main; no additional worktree/subagent
+was created. The current independently compiled INODE enum is24; both HIF
+synthetic consumer contracts reject the unrelated API2 when bound to that
+sender. See `NEXT_INODE.md` for the exact remaining checked envelope/prior/
+original callback contract. Jev checks three scope/requirement claims in the
+retained `jev-next-inode-q1-result.json`; that is semantic evidence, not native
+constructor or IRQ execution.
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:
