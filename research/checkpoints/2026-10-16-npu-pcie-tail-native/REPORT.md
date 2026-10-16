@@ -2,10 +2,21 @@
 
 ## Status
 
-Implemented in the canonical checkout; fresh actual allocator/caller and
-full512/fault qualification are pending. Fresh caller `pcie-tail-native-q2`
-is live with consumed inputs frozen. The older successful native seal applies only to its preserved
-producing inputs, not this changed pair.
+Fresh default-HIF actual allocator/provider/caller `pcie-tail-native-q2` is
+terminal0 through full512 DESC10, RX PCIe and all three tail stages/nine original
+stores. All eight full512 retained DESC10 faults and broader raw/six boot
+controls pass. All12 stage0 tail faults pass; the complete36-case matrix and
+fresh HIF2 caller remain live. Actual padded API24 INODE is denied before the
+callback, not a constructor verdict. Full setup and physical acceptance remain
+open. This supersedes the earlier live-status observations below.
+
+Current caller receipt SHA256
+`cd9650e85418abfdb346939b7db7df5923988d3c8f7a53a85464606d0f23107f`
+revalidates351 inputs; broader raw SHA256
+`66130bdf8cedb2b62ef3478eee2c89712d151353bcf010fcaa33cbf776ea8379`
+binds393 inputs. A new original-path private-namespace replay copy passes its
+restored-fault/raw smoke tests; it isolates this older candidate, not future
+source changes. All185 selected unit tests pass. See [copy and CSR limits](CAPSULE.md).
 
 ## Implementation
 

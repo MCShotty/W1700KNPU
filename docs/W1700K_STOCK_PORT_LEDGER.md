@@ -1,10 +1,50 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-16 (native PCIe-tail binding implemented; actual-caller qualification pending)
+Last updated: 2026-10-16 (default-HIF nine-store caller passes; complete tail faults/HIF2 pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-16 - Nine-Store Caller Qualified And Validation Copy Tested
+
+- Fresh default-HIF actual allocator/provider/caller pcie-tail-native-q2 is
+  terminal0 through full512 DESC10, RX PCIe and all nine original tail stores.
+  Receipt SHA256cd9650e85418abfdb346939b7db7df5923988d3c8f7a53a85464606d0f23107f
+  revalidates351 current inputs and the exact caller contract. Actual padded
+  API24 INODE is denied before callback entry,not a constructor verdict.
+- All eight full512 retained DESC10 faults pass (aggregate70b8bf59),as does
+  broader raw/six boot controls (66130bdf,393 inputs). All12 stage0 tail faults
+  pass;full36 tail matrix and fresh HIF2 caller remain live. Earlier live-status
+  notes below are historical and must not restart completed jobs.
+- Added npu_validation_capsule.py with independent hash-checked read-only file
+  copies and a root bootstrap that binds the copy at the canonical pathname
+  only in a new private mount namespace,then drops to captain. Existing source
+  and snapshot hashes/original JSON are not waived or rewritten. Parent mount
+  namespace and project inode remain unchanged after child completion.
+- First capsule's replay failed before native execution due to a missing DTB;
+  it remains failed/preserved. Second copy explicitly includes that dependency:
+  3320 files/633122048 bytes,candidate37ee4e3,receipt SHA256
+  24b9d075a9adb59eb4667c1065721a7e821c90475929d5bbeb733e006cc76f08.
+  Actual restored stage2 callback-slot fault and broader raw/six boot/eight
+  cached-fault verification pass. Fresh HIF2 starts there separately,no final
+  verdict yet. Host interpreter/compiler/system libraries remain external;
+  copy validation never qualifies newer main source or hardware operation.
+- Added an unintegrated per-engine/thread/version-pinned CSR reader using the
+  already-loaded Unicorn2.1.4 C batch API with fresh reads/preallocated buffers.
+  Eight controls pass,including real CSR instructions/injected host writes,
+  scalar transcripts/context restores,no memory/GPR mutation and backend/
+  version/signature/handle/thread errors. Initial fixture's masked MIE bit
+  failure remains preserved;corrected machine-external bit fixture passes.
+- Three alternating-order50k host-read samples pass equivalence and are faster
+  than scalar calls on this host;receipt .local/npu-csr-sampler/microbench-q1.json.
+  This helper is not imported by current NPU observers. No whole-emulation or
+  hardware speedup is established. Five capsule copy/path controls and all185
+  selected units pass. Jev's scoped claim judgments/probabilities are retained,
+  not runtime proof. No consumed original native input has changed.
+- FIT978f9ddd unchanged/unflashed. No world/hardware/subagents. INODE,checked
+  IRQ/hot,workers,full stack/physical/drain/lifecycle/recovery/client gates remain.
+  Evidence: research/checkpoints/2026-10-16-npu-pcie-tail-native/CAPSULE.md.
 
 ## 2026-10-16 - Nine-Store Native PCIe Tail Binding In Progress
 

@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-16 - Latest Verified Qualification State
+
+- Fresh default-HIF actual caller pcie-tail-native-q2 is terminal0 through
+  full512 DESC10, RX PCIe and all three tail stages/nine original stores.
+  Receipt cd9650e8 revalidates351 current inputs. Actual padded API24 INODE
+  is denied before its callback; this is not a constructor verdict.
+- All eight full512 DESC10 retained faults and broader raw/six boot controls
+  pass (70b8bf59/66130bdf). All12 stage0 tail faults pass; the full36 matrix
+  and fresh HIF2 caller are still running. Do not claim their final verdicts.
+- New private validation capsule preserves3320 files/633122048 bytes for
+  candidate37ee4e3, receipt24b9d075. Original-path native restored fault and
+  raw/six-boot/eight-cached-fault checks pass without receipt/hash waivers;
+  parent mount unchanged. Not a complete portable execution environment or
+  acceptance of later main changes. Read checkpoint CAPSULE.md.
+- Isolated CSR sampler/eight controls is not wired into any NPU observer.
+  Host-read timings are not whole-emulation/hardware speedup. All185 selected
+  units pass, including five capsule copy/path controls. Consumed original
+  native inputs remain frozen until their runs finish or are explicitly migrated.
+- This section supersedes older live-status notes below. FIT978f9ddd remains
+  unchanged/unflashed. INODE/checked IRQ/hot/workers/full stack/physical/drain/
+  lifecycle/recovery/client gates remain open. No hardware or subagents.
+
 ## 2026-10-16 - Native PCIe Tail Binding In Qualification
 
 - New native component binds all nine original PCIe0/2/15 stores and delegates

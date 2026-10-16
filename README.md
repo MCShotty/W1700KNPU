@@ -1,5 +1,25 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-16 - Actual Nine-Store Tail Passes
+
+The fresh default-HIF allocator/provider/caller passes full512 DESC10, RX PCIe
+and all three PCIe-tail stages/nine original stores. All eight retained DESC10
+faults and broader raw/six boot controls pass. The actual padded API24 INODE
+request is rejected before the constructor, not a constructor failure/success.
+All12 stage0 tail faults pass; the complete36-case matrix and fresh HIF2 caller
+are still running. Full setup and physical hardware operation remain unproven.
+
+A hash-preserved validation copy passes original-path native restored-fault
+and raw revalidation inside a private mount namespace, with the parent project
+mount unchanged. This isolates an older candidate's validation from later main
+edits; it never qualifies those edits. All185 selected unit tests pass. The new
+CSR read helper remains unintegrated and has only host-read microbenchmark
+evidence. See [validation isolation and limits](research/checkpoints/2026-10-16-npu-pcie-tail-native/CAPSULE.md).
+
+Older live-status notes below are historical. FIT978f9ddd remains unchanged and
+unflashed; INODE, checked IRQ/hot paths, workers, full stack/physical ownership,
+drains/lifecycle/recovery and actual-client acceptance are still required.
+
 ## 2026-10-16 - Native PCIe Tail Binding In Qualification
 
 All nine original PCIe0/2/15 stores now have retained native owner guards and

@@ -1,5 +1,29 @@
 # Remaining W1700K Work
 
+## 2026-10-16 - Current Remaining Gates
+
+Fresh default-HIF caller pcie-tail-native-q2 is terminal0: full512 DESC10,
+RX PCIe and all nine tail stores pass. Receipt cd9650e8 binds351 current inputs;
+all eight full512 retained DESC10 faults (70b8bf59) and broader raw/six boot
+controls (66130bdf) pass. All12 stage0 tail faults pass. Finish the complete36
+tail matrix and the fresh HIF2 caller before claiming those qualifications.
+
+The real padded API24 INODE frame is denied before callback entry. Implement
+checked constructor2/7 history, authenticated successors, retained owner and
+all11 original stores; RRO0/1/3 allocations/session/reset and host error handling
+remain separate. Then checked initial/hot IRQ, workers/hot packet ownership,
+complete stack/physical DMA/cache/exclusion/drains/lifecycle/reset/removal/rearm,
+recovery and exact-image/actual-client acceptance still remain.
+
+Validation capsule24b9d075 preserves the older37ee4e3 candidate and passes
+original-path restored-fault/raw smoke checks without hash waivers or parent
+mount changes. Its host interpreter/compiler/system libraries remain external.
+Fresh HIF2 execution has started there; no completed fresh-caller verdict is
+claimed. The isolated CSR sampler is not wired into current observers; all185
+selected units pass, not a whole-NPU speedup measurement. See checkpoint
+CAPSULE.md. Older live-status notes below are historical, not restart commands.
+FIT978f9ddd remains unchanged/unflashed. No hardware or subagents.
+
 ## 2026-10-16 - Native PCIe Tail Binding Awaiting Actual Caller
 
 All nine original PCIe0/2/15 stores now have a native owner binding with

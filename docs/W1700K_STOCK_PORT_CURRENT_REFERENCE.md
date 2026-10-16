@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-16 - Current Native Qualification And Isolation
+
+Fresh default-HIF actual allocator/caller pcie-tail-native-q2 is terminal0
+through full512 DESC10, RX PCIe and all three tail stages/nine original stores.
+Receipt cd9650e8 revalidates351 current inputs. Actual padded API24 INODE denial
+occurs before callback entry, not inside the constructor. All eight full512
+retained DESC10 faults and broader raw/six boot controls pass,70b8bf59/66130bdf.
+All12 stage0 tail faults pass; the full36 matrix and fresh HIF2 remain live.
+
+Capsule24b9d075 preserves3320 files/633122048 bytes for candidate37ee4e3.
+An original-path private-namespace restored native fault and broader raw/six
+boot/eight-cached-fault validation pass,with original receipts/hashes unchanged
+and parent mount unchanged. First capsule's missing-DTB failure is preserved.
+Fresh HIF2 starts separately in the second capsule; no terminal fresh verdict
+yet. This is not a complete portable environment or qualification of later main.
+Five capsule/eight isolated CSR controls bring the selected suite to185 passing
+units. CSR helper remains unintegrated; host-read timing is not NPU throughput.
+Read checkpoint CAPSULE.md. This supersedes earlier live-status notes below.
+FIT978f9ddd stays unchanged/unflashed; full INODE/IRQ/hot/worker/stack/physical/
+drain/lifecycle/recovery/client scope remains open. No hardware/subagents.
+
 ## 2026-10-16 - Native PCIe Tail Binding In Qualification
 
 Nine original PCIe0/2/15 stores are bound by a new guarded native component,
