@@ -2,7 +2,7 @@
 from copy import deepcopy
 import unittest
 
-from pcie_tail_retained_controls import CASES, case_contract, matrix, retained, summary_contract
+from pcie_tail_retained_controls import CASES, artifact_contract, case_contract, matrix, retained, summary_contract
 
 
 def receipt(stage, case):
@@ -65,6 +65,19 @@ class TailMatrixContractTests(unittest.TestCase):
         for incomplete in (rows[:-1], rows[:-1] + rows[:1]):
             wrong = dict(record, controls=incomplete)
             with self.assertRaises(AssertionError): summary_contract(wrong, incomplete)
+
+    def test_every_pair_artifact_is_required_even_with_a_manifest_hash(self):
+        required = {'pair/manifest.json': 'manifest', 'pair/CODE.bin': 'code', 'pair/DATA.bin': 'data',
+                    'pair/component.elf': 'component', 'pair/host.so': 'host'}
+        artifact_contract({'inputs': required}, required, 0, CASES[0])
+        for name in required:
+            for missing in (True, False):
+                inputs = dict(required)
+                if missing: del inputs[name]
+                else: inputs[name] += '-drift'
+                with self.subTest(name=name, missing=missing):
+                    with self.assertRaises(AssertionError):
+                        artifact_contract({'inputs': inputs}, required, 0, CASES[0])
 
 
 if __name__ == '__main__': unittest.main()

@@ -1,5 +1,36 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Current Native INODE Binding
+
+The20-component/168-hook/SETUP412 candidate binds original API24 callback and
+all11 store sites,with explicit authenticated completed-owner successors and
+native24-byte padded frame. Actual provider routes only constructor2/7 and pins
+all retained allocation/lease records and the published plan across the RPC.
+RRO0/1/3 remain denied. Added checked-lane lock18 is not a stock constructor lock.
+
+Current scoped checks pass protocol2282/60 mutants,provider609/nine,new provider
+504/10,portable418 host/2348 RV32/154 controls/eight mutants,dispatcher70/five,
+packet guard48,36 raw unleased denials,repeat20 image groups,loader60/eight,
+published eight-hart boot and189 units. No fresh authenticated native INODE or
+current full512/eight-fault/full36 qualification is claimed. Extend the actual
+sender driver/strict constructor oracle next;its old legacy-denial expectation
+is not a constructor verdict for this new candidate.
+
+Frozen404 HIF2 caller is terminal0. All36 old tail cases pass individually,but
+aggregate615ce917 remains terminal1 for missing explicit pair-artifact inputs.
+Read-only auditda6bff44 preserves that distinction. Future restoration and
+cached aggregation require all manifest/raw/component/host ELF identities.
+None of this older cohort qualifies20/412. All prior jobs are terminal.
+
+Source70/5/22 is exported(source-lock008c428e). Isolated AArch64 provider
+compiles with544-byte cold-command frame,not a full stack bound or module relink.
+Prepared kernel/module/FIT978f9ddd unchanged/unflashed;no world/hardware/subagents.
+Native positives,RRO,IRQ/hot/workers,stack/physical/drain/lifecycle/recovery/
+clients remain open. Read research/checkpoints/2026-10-17-npu-inode-native/REPORT.md.
+This supersedes earlier current/live/closed-dispatch notes below.
+Scoped seal42f6ff34 verifies502 current hashes,189 units,22 archive objects and
+six negative raw boot controls;new native-positive/full512/fault flags stay false.
+
 ## 2026-10-16 - Current Checked INODE Journal
 
 Server/Linux client now retain ordered API24 constructor2/7 progress after the

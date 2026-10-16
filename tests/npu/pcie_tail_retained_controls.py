@@ -9,6 +9,7 @@ import sys
 
 import native_prefix_snapshot
 import raw_pair_retained as retained
+import restore_native_prefix
 from test_pcie_tail_native_controls import CASES
 
 ROOT = retained.ROOT
@@ -44,6 +45,12 @@ def summary_contract(record, rows):
     assert [(row['stage'], row['case']) for row in rows] == [(stage, case.name) for stage, case in matrix()]
 
 
+def artifact_contract(record, required, stage, case):
+    for name, expected in required.items():
+        assert name in record['inputs'], ('missing-pair-artifact-input', stage, case.name, name)
+        assert record['inputs'][name] == expected, ('different-pair-artifact-input', stage, case.name, name)
+
+
 def run_controls(pair, caller, directory, *, workers=4):
     pair, caller, directory = pair.resolve(), caller.resolve(), directory.resolve()
     assert all(path.is_relative_to(ROOT / '.local') for path in (pair, caller, directory))
@@ -55,8 +62,7 @@ def run_controls(pair, caller, directory, *, workers=4):
         retained.verify_inputs(record['inputs'])
     initial = native_prefix_snapshot.source_inputs({})
     manifest_path = pair / 'manifest.json'
-    manifest_name = str(manifest_path.relative_to(ROOT))
-    manifest_hash = retained.captured.digest(manifest_path)
+    required_artifacts = restore_native_prefix.pair_artifact_inputs(pair, json.loads(manifest_path.read_bytes()))
     summary = directory / 'result.json'
     cached = retained.read_receipt(summary) if summary.exists() else None
     if cached is not None:
@@ -97,7 +103,7 @@ def run_controls(pair, caller, directory, *, workers=4):
         receipt = outcomes[(stage, case.name)]
         record = retained.read_receipt(receipt)
         case_contract(record, stage, case)
-        assert record['inputs'][manifest_name] == manifest_hash
+        artifact_contract(record, required_artifacts, stage, case)
         snapshot = snapshots[stage]
         assert record['inputs'][str(snapshot.relative_to(ROOT))] == retained.captured.digest(snapshot)
         relative = str(receipt.relative_to(ROOT))

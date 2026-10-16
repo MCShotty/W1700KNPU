@@ -1,5 +1,32 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Native INODE Binding; Positive Qualification Open
+
+- Mainline now builds20 components/168 hooks:actual API24 callback/11 original
+  store guards,authenticated predecessor successors,SETUP412 and checked
+  provider constructor2/7 routing. RRO0/1/3 remain denied in this checked lane.
+  Added lock18 exclusion is not an original constructor mutex. Native24-byte
+  frame preserves the original wrapper read extent; no earlier SETUP is forged.
+- Protocol2282/60 mutants,provider609/nine,new retained-pin provider504/10,
+  portable INODE418 host/2348 RV32/154 controls/eight mutants,dispatcher70/five,
+  packet guard48,36 raw unleased denials,repeat20-image groups,loader60/eight,
+  published eight-hart boot and189 selected units pass their separate scopes.
+  Fresh authenticated INODE/current full512/eight-fault/full36 qualification is
+  still false. The actual native sender driver/oracle must be extended next.
+- Frozen404 HIF2 caller is terminal0. All36 old tail cases pass individually,
+  but aggregate615ce917 is terminal1 for missing per-case pair artifacts. Keep
+  that failure;future restoration/aggregation now require all pair/ELF hashes.
+  No old native result qualifies current20/412. All older jobs are terminal.
+- Source70/5/22 is exported;isolated AArch64 provider compiles(frame544),not a
+  module/world/image rebuild. Prepared kernel/module/FIT978f9ddd unchanged and
+  unflashed. Full RRO/IRQ/hot/workers/stack/physical/drain/lifecycle/recovery/
+  clients remain open. No hardware/subagents. Read
+  research/checkpoints/2026-10-17-npu-inode-native/REPORT.md.
+  This supersedes earlier current/live/closed-dispatch notes below.
+- Scoped seal42f6ff34 verifies502 exact current hashes,189 units,22 archive
+  objects and six negative boot controls. Native INODE/full512/eight-fault/
+  current full36/full_setup/hardware qualification flags remain false.
+
 ## 2026-10-16 - Checked INODE Journal; Native Owner Still Closed
 
 - Canonical server/Linux client retain API24 selector2 then7/scalar0 only after

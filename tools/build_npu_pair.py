@@ -21,6 +21,7 @@ import rx_event_wire_native as rx_event
 import txdone_wire_native as desc10
 import rx_pcie_wire_native as rx_pcie
 import pcie_tail_wire_native as pcie_tail
+import inode_wire_native as inode
 import test_startup_native as startup
 import test_admission_native as admission
 from test_barrier_workers import SITES as WORKER_SITES
@@ -85,6 +86,8 @@ def hook_plan(code, components):
         put(site, 'cold-rx-pcie', name)
     for site, name in pcie_tail.SITES.items():
         put(site, 'cold-pcie-tail', name, length=pcie_tail.WIDTHS.get(site, 4))
+    for site, name in inode.SITES.items():
+        put(site, 'cold-inode', name)
     return sorted(hooks.values(), key=lambda row: row['site'])
 
 
@@ -125,10 +128,14 @@ def build(destination, *, firmware_directory=None):
     tail_dir = destination / 'pcie-tail'
     tail_dir.mkdir()
     tail_path = pcie_tail.build(tail_dir, parts, rx_pcie_path, desc10_path, rx_event_path, packet_path, tx_path)
+    inode_dir = destination / 'inode'
+    inode_dir.mkdir()
+    inode_path = inode.build(inode_dir, parts, tail_path, rx_pcie_path, tx_path,
+                            desc10_path, rx_event_path, packet_path)
     components = parts | {'cold-pages': page_path, 'rx-stats': rx_path, 'cold-packets': packet_path,
                           'cold-tx': tx_path, 'cold-descriptor': descriptor_path, 'cold-tx-buffer': txbuf_path,
                           'cold-rx-event': rx_event_path, 'cold-txdone': desc10_path,
-                          'cold-rx-pcie': rx_pcie_path, 'cold-pcie-tail': tail_path}
+                          'cold-rx-pcie': rx_pcie_path, 'cold-pcie-tail': tail_path, 'cold-inode': inode_path}
     layout = composition.memory_layout(components, original_code_bytes=len(original_code), negative_controls=False)
     hooks = hook_plan(original_code, components)
     edits = [dict(site=0x8401b230, before=struct.pack('<I', 58879).hex(),

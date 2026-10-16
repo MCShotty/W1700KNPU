@@ -56,7 +56,7 @@ class ImageTests(unittest.TestCase):
                          {'base': 412, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
                           'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213768,
                           'cold-rx-event': 696, 'cold-txdone': 23080, 'cold-rx-pcie': 732,
-                          'cold-pcie-tail': 936})
+                          'cold-pcie-tail': 936, 'cold-inode': 5032})
         for row in bss:
             self.assertEqual(code[row['start'] - image.CODE:row['end'] - image.CODE], bytes(row['end'] - row['start']))
 
@@ -111,6 +111,22 @@ class ImageTests(unittest.TestCase):
             self.assertEqual(self.raw_code[target:target + first.size], self.code[offset:offset + first.size])
             self.assertEqual(len(bytes.fromhex(hooks[site]['before'])), width)
         remaining = [row for row in self.arguments()['patches'] if row['site'] != image.CODE + tail.STORES[-1]]
+        self.rejected('incomplete-hook-set', patches=remaining)
+
+    def test_inode_original_wrapper_and_all_store_sites(self):
+        import inode_wire_native as inode
+        hooks = {row['site']: row for row in self.manifest['hooks']}
+        symbols = image.symbols(self.components['cold-inode'])
+        for site, name in inode.SITES.items():
+            self.assertEqual((hooks[site]['component'], hooks[site]['symbol']), ('cold-inode', name))
+        callback = symbols['npu_original_inode_callback']
+        offset = callback - image.CODE
+        self.assertEqual(self.raw_code[offset:offset + 8], self.code[0xfc2c:0xfc30] + image.jal(callback + 4, image.CODE + 0xfc30))
+        self.assertEqual(self.raw_code[0xfc30:0xfc4a], self.code[0xfc30:0xfc4a])
+        for site in inode.STORES:
+            target = symbols['npu_emulation_inode_' + format(site, 'x') + '_store'] - image.CODE
+            self.assertEqual(self.raw_code[target:target + 4], self.code[site:site + 4])
+        remaining = [row for row in self.arguments()['patches'] if row['site'] != image.CODE + inode.STORES[-1]]
         self.rejected('incomplete-hook-set', patches=remaining)
 
     def test_original_identity(self):

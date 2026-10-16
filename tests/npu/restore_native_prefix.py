@@ -15,6 +15,25 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def pair_artifact_inputs(pair, manifest):
+    manifest_path = pair / 'manifest.json'
+    assert json.loads(manifest_path.read_bytes()) == manifest, 'pair-manifest-descriptor-drift'
+    assert set(manifest['symbol_files']) == set(manifest['components']), 'pair-component-set'
+    assert set(manifest['host_files']) == set(manifest['host_inputs']), 'pair-host-set'
+    result = {str(manifest_path.relative_to(ROOT)): digest(manifest_path)}
+    artifacts = {str((pair / name).relative_to(ROOT)): manifest[kind]['sha256']
+                 for name, kind in (('CODE.bin', 'code'), ('DATA.bin', 'data'))}
+    artifacts.update({path: manifest['components'][name]['sha256']
+                      for name, path in manifest['symbol_files'].items()})
+    artifacts.update(manifest['host_inputs'])
+    for name, expected in artifacts.items():
+        path = (ROOT / name).resolve()
+        assert path.is_relative_to(pair) and path.is_file(), ('pair-artifact-path', name)
+        assert digest(path) == expected, ('pair-artifact-drift', name)
+        result[name] = expected
+    return result
+
+
 def fixture(pair, snapshot, *, origin):
     pair, snapshot = pair.resolve(), snapshot.resolve()
     assert pair.is_relative_to(ROOT) and snapshot.is_relative_to(ROOT / '.local')
@@ -40,6 +59,9 @@ def fixture(pair, snapshot, *, origin):
     inputs = dict(record['inputs'])
     for name, expected in manifest['inputs'].items():
         assert name not in inputs or inputs[name] == expected, ('pair-input-drift', name)
+        inputs[name] = expected
+    for name, expected in pair_artifact_inputs(pair, manifest).items():
+        assert name not in inputs or inputs[name] == expected, ('pair-artifact-input-conflict', name)
         inputs[name] = expected
     inputs[str(snapshot.relative_to(ROOT))] = digest(snapshot)
     inputs[str(Path(__file__).resolve().relative_to(ROOT))] = digest(Path(__file__).resolve())

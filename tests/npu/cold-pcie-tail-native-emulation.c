@@ -10,6 +10,7 @@ extern struct npu_cold_txdone_state npu_emulation_desc10_state;
 extern struct npu_cold_rx_event_state npu_emulation_rx_event_state;
 extern struct npu_cold_packet_state npu_emulation_packet_state;
 extern int npu_emulation_rx_pcie_prior_live_tail(const struct npu_cold_rx_pcie_plan *);
+extern int npu_emulation_rx_pcie_prior_live_inode(const struct npu_cold_rx_pcie_plan *);
 extern int npu_emulation_desc10_read(void *, uint32_t, uint32_t, uint32_t *);
 extern uint32_t npu_emulation_rx_pcie_callback(struct npu_bootstrap_packet *);
 
@@ -46,14 +47,18 @@ static uint32_t fail(void)
     return 0;
 }
 
-static int tail_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
+static int tail_read_for(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value,
+                         uint32_t inode)
 {
     static const uint32_t metadata[] = {0x3e90395c, 0x3e902a80, 0x3e904630, 0x3e902a9c, 0x3e902a90};
     struct npu_cold_pcie_tail_store store;
     uint32_t i, status;
 
     __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
-    if (status & 8 || opaque != OWNER || !value || npu_emulation_pcie_tail_running != 1 ||
+    if (status & 8 || inode > 1 || opaque != OWNER || !value ||
+        (inode ? npu_emulation_pcie_tail_running || lock_owned || phase != 2 ||
+         neighbors_captured != 1 || !npu_cold_inode_inflight(SETUP) :
+         npu_emulation_pcie_tail_running != 1) ||
         !npu_cold_pcie_tail_plan_valid(&plan))
         return 0;
     if (address == 0x3e902a7cu && bytes == 2)
@@ -71,6 +76,17 @@ static int tail_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *v
             return 1;
         }
     return 0;
+}
+
+static int tail_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
+{
+    return tail_read_for(opaque, address, bytes, value, 0);
+}
+
+int npu_emulation_pcie_tail_read_inode(void *opaque, uint32_t address, uint32_t bytes,
+                                      uint32_t *value)
+{
+    return tail_read_for(opaque, address, bytes, value, 1);
 }
 
 static struct npu_cold_pcie_tail_context prior(void)
@@ -149,6 +165,45 @@ static int neighbors_live(void)
 static int owned(void)
 {
     return lock_owned && context() && neighbors_live();
+}
+
+int npu_emulation_pcie_tail_prior_live_inode(const struct npu_cold_pcie_tail_plan *candidate)
+{
+    const struct npu_cold_setup *held = (const void *)held_setup;
+    const volatile uint32_t *current = (const volatile void *)SETUP;
+    const volatile unsigned char *wanted = (const volatile void *)candidate;
+    const volatile unsigned char *saved = (const volatile void *)&plan;
+    struct npu_cold_pcie_tail_context c;
+    uint32_t i, status;
+
+    __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
+    if (!candidate || status & 8 || npu_emulation_pcie_tail_running || lock_owned || phase != 2 ||
+        SETUP->sequence <= held->sequence || !npu_cold_inode_inflight(SETUP) ||
+        held->command.header != 0x1f || held->command.api || held->command.value ||
+        held->pcie_tail_steps != 2 || held->prior_pcie_tail_steps != 2 ||
+        held->inode_steps || held->prior_inode_steps ||
+        word(0x3e900178u) != 0x8400fdc4u || !neighbors_live() ||
+        !npu_emulation_rx_pcie_prior_live_inode(&candidate->prior))
+        return 0;
+    for (i = 0; i < sizeof(plan); i++)
+        if (wanted[i] != saved[i])
+            return 0;
+    for (i = 0; i < sizeof(held_setup) / 4; i++) {
+        if (i == __builtin_offsetof(struct npu_cold_setup, sequence) / 4 ||
+            (i >= __builtin_offsetof(struct npu_cold_setup, command) / 4 &&
+             i < (__builtin_offsetof(struct npu_cold_setup, command) + sizeof(SETUP->command)) / 4) ||
+            i == __builtin_offsetof(struct npu_cold_setup, pcie_tail_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, prior_pcie_tail_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, inode_steps) / 4 ||
+            i == __builtin_offsetof(struct npu_cold_setup, prior_inode_steps) / 4)
+            continue;
+        if (current[i] != held_setup[i])
+            return 0;
+    }
+    c = prior();
+    c.read = npu_emulation_pcie_tail_read_inode;
+    return npu_cold_pcie_tail_live(OWNER, candidate, 1, &c) &&
+           npu_cold_inode_inflight(SETUP) && neighbors_live();
 }
 
 uint32_t npu_emulation_pcie_tail_reserve(uint32_t address, uint32_t value, uint32_t bytes)

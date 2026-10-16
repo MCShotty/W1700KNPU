@@ -1,5 +1,34 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Current Native INODE Gates
+
+Callback/11-store INODE binding,authenticated successors and actual provider
+constructor2/7 routing are implemented in the20-component/168-hook/SETUP412
+candidate. RRO0/1/3 remain closed. Provider504/10 mutants pins exact retained
+allocation records/plan across all tail/constructor commands,including coherent
+late mutations. Protocol2282/60,portable owner418 host/2348 RV32/154 controls/
+eight mutants,dispatcher70/five,guard48,36 raw denials,repeat20 image groups,
+loader60/eight,published eight-hart boot and189 units pass their stated scopes.
+
+Next extend the actual sender/caller with strict INODE memory/site/ABI oracle,
+then run fresh both-HIF/full512/eight-DESC10-fault/all36-tail-fault/current-source
+qualification and new constructor faults. Do not count compiled guards,stubbed
+dispatch,modeled provider success or unleased denials as a native positive.
+The current `--pcie-tail` producer still expects the previous legacy API24 denial.
+
+Older frozen404 HIF2 caller is terminal0. All36 old cases pass individually,
+but their aggregate is terminal1 for incomplete pair-artifact provenance. It
+remains failed;future strict restoration/aggregation requires all manifest/raw/
+component/host ELF identities. Old results do not qualify current20/412.
+All previous jobs are terminal;older live notes below are not restart commands.
+
+Source70/5/22 and isolated AArch64 provider(frame544) pass. No module/world/
+image rebuild;prepared kernel/module/FIT978f9ddd unchanged/unflashed. RRO,
+checked IRQ/hot/workers,complete stack/physical/drain/lifecycle/reset/removal/
+rearm/recovery and exact-image/actual-client acceptance all remain. No hardware/
+subagents. Read the2026-10-17-npu-inode-native/REPORT.md checkpoint.
+This supersedes previous current/live/closed-dispatch notes below.
+
 ## 2026-10-16 - Current INODE And Native Gates
 
 The checked constructor2/7 journal is implemented in canonical server/Linux

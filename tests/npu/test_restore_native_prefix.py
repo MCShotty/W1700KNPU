@@ -21,6 +21,16 @@ class RestorePrefixTests(unittest.TestCase):
         self.directory = Path(temp.name)
         self.pair = self.directory / 'pair'
         self.pair.mkdir()
+        for name in ('CODE.bin', 'DATA.bin', 'component.elf', 'host.so'):
+            (self.pair / name).write_bytes(name.encode())
+        component, host = [(self.pair / name).relative_to(restored.ROOT).as_posix()
+                           for name in ('component.elf', 'host.so')]
+        self.manifest = {'inputs': {}, 'code': {'sha256': restored.digest(self.pair / 'CODE.bin')},
+            'data': {'sha256': restored.digest(self.pair / 'DATA.bin')},
+            'components': {'example': {'sha256': restored.digest(self.pair / 'component.elf')}},
+            'symbol_files': {'example': component}, 'host_files': [host],
+            'host_inputs': {host: restored.digest(self.pair / 'host.so')}}
+        (self.pair / 'manifest.json').write_text(json.dumps(self.manifest))
         inputs = {}
         for name in ('CODE-copied.bin', 'DATA-published.bin'):
             path = self.directory / name
@@ -36,7 +46,7 @@ class RestorePrefixTests(unittest.TestCase):
         self.origin = 'actual-provider-allocator-caller-before-DESC10'
         self.snapshot = capture(self.h, self.directory / 'capture', [1, 2, 3], inputs, origin=self.origin)
         self.record = json.loads(self.snapshot.read_text())
-        self.load = patch.object(restored.raw, 'load', return_value=(self.h, [], {}, {'inputs': {}}))
+        self.load = patch.object(restored.raw, 'load', return_value=(self.h, [], {}, self.manifest))
         self.loader = self.load.start()
         self.addCleanup(self.load.stop)
 
@@ -57,6 +67,9 @@ class RestorePrefixTests(unittest.TestCase):
         self.assertEqual((h.hart, h.clear_count, h.last_csr), (0, 77, (1, 2)))
         self.assertFalse(record['fresh_loader_allocator_caller_proof'])
         self.assertTrue(all(restored.digest(restored.ROOT / n) == d for n, d in inputs.items()))
+        for name in ('manifest.json', 'CODE.bin', 'DATA.bin', 'component.elf', 'host.so'):
+            self.assertEqual(inputs[(self.pair / name).relative_to(restored.ROOT).as_posix()],
+                             restored.digest(self.pair / name))
         h.cpu.reg_write(r.UC_RISCV_REG_A0, 789)
         restore()
         self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_A0), 123)
@@ -70,6 +83,31 @@ class RestorePrefixTests(unittest.TestCase):
                     self.invoke()
                 del self.record['inputs'][name]
         self.loader.assert_not_called()
+
+    def test_pair_binary_and_symbol_drift_fail_before_restoring(self):
+        for name in ('CODE.bin', 'DATA.bin', 'component.elf', 'host.so'):
+            with self.subTest(name=name):
+                path = self.pair / name
+                original = path.read_bytes()
+                try:
+                    path.write_bytes(b'corrupt-artifact')
+                    with self.assertRaisesRegex(AssertionError, 'pair-artifact-drift'):
+                        self.invoke()
+                finally:
+                    path.write_bytes(original)
+        self.h.check_hooks.assert_not_called()
+
+    def test_manifest_descriptor_and_external_component_paths_are_rejected(self):
+        changed = dict(self.manifest, code={'sha256': '0' * 64})
+        with self.assertRaisesRegex(AssertionError, 'pair-manifest-descriptor-drift'):
+            restored.pair_artifact_inputs(self.pair, changed)
+        outside = self.directory / 'outside.elf'
+        outside.write_bytes(b'outside')
+        self.manifest['symbol_files']['example'] = outside.relative_to(restored.ROOT).as_posix()
+        self.manifest['components']['example']['sha256'] = restored.digest(outside)
+        (self.pair / 'manifest.json').write_text(json.dumps(self.manifest))
+        with self.assertRaisesRegex(AssertionError, 'pair-artifact-path'):
+            restored.pair_artifact_inputs(self.pair, self.manifest)
 
     def test_input_path_escape_is_rejected_before_loading(self):
         self.record['inputs']['../outside'] = '0' * 64

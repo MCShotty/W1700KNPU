@@ -72,6 +72,8 @@ def exercise(pair):
                 assert pair.tail("publish", address, size, value) == 0
             assert pair.tail("finish") == 0
         assert pair.inode("prepare", hif2) == 0
+        for stage in (0, 1, 2, 0xffffffff):
+            assert pair.inode("stage_live", stage) == 0
         fresh = pair.snapshot()
         snapshots = {"fresh": fresh}
         for stage, selector, limit in ((0, 2, 1030), (1, 7, 1036)):
@@ -81,6 +83,7 @@ def exercise(pair):
                 (1 << (stage + 1)) - 1, (1 << stage) - 1, 1030 if stage else 0,
                 1030 if stage else 0, limit)
             snapshots[f"begun-{stage}"] = pair.snapshot()
+            assert pair.inode("stage_live", stage) == 0
             count = 1030 if stage else 0
             checkpoints = (1, 2, 3, 17, 512, 1029, 1030) if not stage else (1031, 1036)
             for target in checkpoints:
@@ -95,6 +98,9 @@ def exercise(pair):
             assert pair.values("inode_state")[3:9] == (
                 0, stage, (1 << (stage + 1)) - 1, (1 << (stage + 1)) - 1, limit, limit)
             snapshots[f"finished-{stage}"] = pair.snapshot()
+            assert pair.inode("stage_live", stage) == 1
+            assert pair.inode("stage_live", stage ^ 1) == 0
+            assert pair.inode("stage_live", 2) == 0
         assert pair.inode("live") == 1
         assert_memory(pair, fresh, expected, 1036)
         nominal.append({"hif2": hif2, "ordered_stores": 1036, "icv_bytes": 4104,
@@ -118,6 +124,11 @@ def exercise(pair):
         controls.append(label)
 
     fresh, begun, finished = phases["fresh"], phases["begun-0"], phases["finished-1"]
+    for stage in (0, 1):
+        saved = phases[f"finished-{stage}"]
+        for offset, value in ((4, 2), (8, 1), (12, 1), (16, stage ^ 1), (28, 0), (32, 0)):
+            denied(f"stage-{stage}-owner-{offset}", saved, "stage_live", (stage,),
+                   ("inode_state", offset, value), readonly=True)
     for selector in (0, 1, 4, 7, 15, 0xffffffff):
         denied(f"initial-selector-{selector}", fresh, "begin", (selector, 0, 1))
     for value, epoch in ((1, 1), (0xffffffff, 1), (0, 0), (0, 2)):

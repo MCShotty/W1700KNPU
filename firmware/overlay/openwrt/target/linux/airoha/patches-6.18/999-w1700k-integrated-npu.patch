@@ -747,7 +747,7 @@ build input; compilation is not a physical drain or recovery proof.
  	wlan_data->func_type = NPU_OP_GET;
  	wlan_data->func_id = func_id;
  
-@@ -531,89 +951,943 @@
+@@ -531,89 +951,967 @@
  	return err;
  }
  
@@ -1360,9 +1360,12 @@ build input; compilation is not a physical drain or recovery proof.
 +					u32 api, void *data, int len)
 +{
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
-+	struct airoha_npu_dma_lifetime *life = priv->dma_lifetime;
++	struct airoha_npu_dma_lifetime *life, captured;
++	const size_t lease_offset = offsetof(struct airoha_npu_dma_lifetime, buffers);
 +	struct npu_bootstrap_packet command = { .header = header, .api = api };
-+	u32 value, tail;
++	u32 plan[NPU_EN7581_7996_PLAN_REGIONS][2];
++	u32 value, tail, inode;
++	bool pinned;
 +	int err;
 +
 +	if (!data || len != sizeof(value))
@@ -1370,7 +1373,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	if ((header & ~0xfU) != 0x30)
 +		command.value = get_unaligned_le32(data);
 +	tail = npu_cold_pcie_tail_command_step(&command);
++	inode = npu_cold_inode_command_step(&command);
++	pinned = tail < NPU_COLD_PCIE_TAIL_STAGES || inode < NPU_COLD_INODE_STAGES;
 +	mutex_lock(&priv->wlan_session_lock);
++	life = priv->dma_lifetime;
 +	if (priv->wlan_session_error) {
 +		err = priv->wlan_session_error;
 +		goto unlock;
@@ -1398,12 +1404,24 @@ build input; compilation is not a physical drain or recovery proof.
 +		  life->nonce_lo != priv->wlan_control.client.base.nonce_lo ||
 +		  life->nonce_hi != priv->wlan_control.client.base.nonce_hi))
 +		err = -EPROTO;
-+	else if (tail < NPU_COLD_PCIE_TAIL_STAGES && !airoha_npu_wlan_tail_lifetime_valid(priv))
++	else if (pinned && (!priv->checked_pair || !airoha_npu_wlan_tail_lifetime_valid(priv)))
 +		err = -EPROTO;
-+	else
++	else {
++		if (pinned) {
++			/* Cleanup owns the retained-list links independently of this lane. */
++			captured.dev = life->dev;
++			memcpy((u8 *)&captured + lease_offset, (u8 *)life + lease_offset,
++			       sizeof(captured) - lease_offset);
++			memcpy(plan, priv->native_plan, sizeof(plan));
++		}
 +		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
-+	if (!err && tail < NPU_COLD_PCIE_TAIL_STAGES &&
-+	    (priv->dma_lifetime != life || !airoha_npu_wlan_tail_lifetime_valid(priv)))
++	}
++	if (!err && pinned &&
++	    (priv->dma_lifetime != life || !priv->checked_pair || life->dev != captured.dev ||
++	     memcmp((u8 *)life + lease_offset, (u8 *)&captured + lease_offset,
++		    sizeof(captured) - lease_offset) ||
++	     memcmp(plan, priv->native_plan, sizeof(plan)) ||
++	     !airoha_npu_wlan_tail_lifetime_valid(priv)))
 +		err = -EPROTO;
 +	if (err) {
 +		priv->wlan_session_error = err;
@@ -1422,6 +1440,12 @@ build input; compilation is not a physical drain or recovery proof.
 +{
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
 +
++	if (priv->checked_pair && func_id == WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR) {
++		if (ifindex != 2 && ifindex != 7)
++			return -EINVAL;
++		return airoha_npu_wlan_cold_command(npu, 0x10 | ifindex, func_id,
++						  data, data_len);
++	}
 +	if (priv->checked_pair && func_id == WLAN_FUNC_SET_WAIT_TX_BUF_SPACE_HW_BASE) {
 +		if (ifindex < 0 || ifindex > 15 ||
 +		    npu_cold_txbuf_step(ifindex) == NPU_COLD_TXBUF_STEPS)
@@ -1762,7 +1786,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -742,22 +2016,84 @@
+@@ -742,22 +2040,84 @@
  	.disable_locking	= true,
  };
  
@@ -1850,7 +1874,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,9 +2101,12 @@
+@@ -765,9 +2125,12 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -1866,7 +1890,7 @@ build input; compilation is not a physical drain or recovery proof.
  	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
  	npu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;
  	npu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;
-@@ -777,11 +2116,31 @@
+@@ -777,11 +2140,31 @@
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -1898,7 +1922,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +2152,6 @@
+@@ -793,9 +2176,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -1908,7 +1932,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +2161,6 @@
+@@ -805,8 +2185,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1917,7 +1941,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +2179,33 @@
+@@ -825,55 +2203,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  

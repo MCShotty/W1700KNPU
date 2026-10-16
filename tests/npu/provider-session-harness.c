@@ -45,6 +45,8 @@ static unsigned rng_zeros, park_after;
 static bool allocated;
 static int (*external_transport)(void *, unsigned);
 static void (*external_tick)(void);
+static void (*external_after_transport)(void);
+static unsigned last_transport_bytes;
 static pthread_mutex_t gate = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t gate_cv = PTHREAD_COND_INITIALIZER;
 static bool block_transport, entered, resume_transport, close_started, close_done;
@@ -88,6 +90,7 @@ static void usleep_range(unsigned lo, unsigned hi)
 static int transaction(void *packet, unsigned bytes)
 {
     calls++;
+    last_transport_bytes = bytes;
     pthread_mutex_lock(&gate);
     if (block_transport) {
         entered = true;
@@ -109,7 +112,10 @@ static int transaction(void *packet, unsigned bytes)
                 &admission, &barrier, &bootstrap, c, bytes);
             if (!status) {
                 struct npu_bootstrap_packet reply = cold.command;
-                if (reply.header == 0x30) reply.value = 0x457;
+                unsigned descriptor = npu_cold_descriptor_command_step(&reply);
+                if (descriptor < NPU_COLD_DESCRIPTOR_STEPS)
+                    reply.value = 0x1e800000 + npu_cold_descriptor_offset(descriptor);
+                else if (reply.header == 0x30) reply.value = 0x457;
                 status = npu_cold_setup_finish(&cold, &session, &admission, &barrier,
                                                &bootstrap, 1, &reply);
                 if (!status) c->command = reply;
@@ -131,6 +137,8 @@ static int transaction(void *packet, unsigned bytes)
         check(bytes == 80 && mutate_word < 20, "reply mutation bounds");
         ((uint32_t *)packet)[mutate_word] = mutate_value;
     }
+    if (external_after_transport)
+        external_after_transport();
     return calls == fault_at && effect_fault ? fault_error : error;
 }
 
@@ -212,6 +220,8 @@ void npu_test_reset(uint64_t identity, uint32_t request)
     effect_fault = 0;
     external_transport = NULL;
     external_tick = NULL;
+    external_after_transport = NULL;
+    last_transport_bytes = 0;
     allocated = true;
 }
 

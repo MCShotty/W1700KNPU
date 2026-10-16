@@ -1,10 +1,74 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-16 (checked INODE journal412 implemented; native constructor binding open)
+Last updated: 2026-10-17 (native INODE guards/provider integrated; fresh positive qualification open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Native INODE Binding And Exact Retained Provider Pin
+
+- Added original API24 callback8400fc2c/11-store owner binding,explicit
+  authenticated prior-owner successors and native24-byte padded frame. Original
+  thunk bytes1c415849 are two loads,not an SP prologue. Constructors2/7 require
+  real SETUP412 history;RRO0/1/3 stay closed. Added lock18 exclusion is not an
+  original constructor mutex. Portable stage-live verifies finish/unlock without
+  granting IRQ,workers,drain or reclamation authority.
+- Actual Linux provider now routes only constructor2/7 through the checked80
+  exchange. It captures the lifetime pointer after the session mutex,and pins
+  device/all allocation/lease fields/published plan across all tail/constructor
+  RPCs,excluding independently managed retained-list links. Late coherent changes
+  fail sticky without rolling back server effects or releasing backing.
+- Actual C provider504 modeled cases,both HIF/five commands,40 post changes
+  including38 still-valid mutations,all10 compiled mutants pass. First attempt
+  passed nominal cases but stopped at an unused-variable mutant compile warning;
+  files/logs/driver-at-failure remain intact. Separateq2 passes all10 mutants.
+  Existing provider609/nine and tail84/five regressions pass against current C.
+- Portable INODE418 host/2348 RV32 calls,154 controls/eight compiled mutants/
+  ASan/UBSan/leak checks pass;dispatcher70/five uses explicit stubs,not native
+  admission. Packet guard48 passes current headerq2;oldq1 is not reused after
+  header drift. Protocol2282/352 INODE cases/60 mutants and189 units pass.
+- Current raw20-component/168-hook buildsq3/q4 repeat CODEa6813d39/DATA180bc808,
+  all20 image groups,60 checked-loader/eight mutants,published eight-hart boot
+  and18 tail+18 INODE raw unleased denials pass. Earlier equal-byteq1/q2
+  manifests predate the provider test-harness edit and are not current input
+  qualification. No fresh authenticated native constructor success is claimed.
+- Isolated AArch64 provider compiles with saved Linux6.18.52 flags/current
+  headers;its cold-command frame is544 bytes(static),not a whole-stack bound.
+  Source export70 OpenWrt/five LuCI/22 component references passes;source-lock
+  SHA256008c428ec633536869888bf61491488ee389371869a28cd4782a5f489b4c950b.
+  Normal22 RV32 objects/archive repeat. Prepared kernel/object/module and
+  FIT978f9ddd stay byte-identical;no module/world/image rebuild or flash.
+- Older frozen404 HIF2 caller is terminal0,receiptbb585f0e,through full512
+  DESC10/RX PCIe/nine tail stores. All36 recorded tail cases pass their contracts,
+  but original aggregate615ce917 is terminal1 for missing per-case manifest/raw/
+  component/host ELF identities. Auditda6bff44 verifies3320 preserved files,
+  both callers and all36 case contracts/hashes without relabeling the failed
+  aggregate. All old jobs are terminal;old results do not qualify20/412.
+- Fixed future strict restoration to bind every pair artifact before restoring
+  memory. Cached aggregation now requires those exact identities for every case.
+  Missing/corrupt binary classes,manifest drift,external paths and missing
+  provenance have contract tests. Frozen old receipts/restorer are unchanged;
+  no hash waiver,forged history or reduced full512/eight-fault/full36 gate.
+- Jev's five focused provider/scope judgments/probabilities are retained. It
+  flags coherent record drift(.91) and contradicts unsupported native-positive/
+  complete-old-matrix claims(1). Its old-route classification was uncertain;
+  actual source/compiled route tests resolve it. No generated code/runtime proof
+  is attributed to Jev.
+- Next extend actual sender/caller/strict INODE oracle,then fresh both-HIF/
+  full512/eight-DESC10-fault/all36-tail/new-constructor-fault qualification.
+  RRO,checked IRQ/hot/workers,full stack/physical/drain/lifecycle/recovery/client
+  gates remain open. No hardware/subagents. Evidence:
+  research/checkpoints/2026-10-17-npu-inode-native/REPORT.md.
+- Scoped seal SHA256
+  42f6ff3474a1fb8df7c778b26c95fb620c8e065e38d8ca1d9c6d948a786efd12
+  verifies502 current input/artifact hashes,189 units,exact22 archive objects
+  and six negative raw boot controls. Native INODE/current full512/eight-fault/
+  current36-matrix/full_setup/hardware flags are explicitly false.
+- Supplemental Jev checks preserve an uncertain broad modeled-provider judgment,
+  then use actual C evidence for narrower history/effect checks(.94/.99). Native
+  positive/all-API24/full-stack/retroactive-matrix promotion is rejected. Raw
+  probabilities remain local;none replaces compiled tests or expands the seal.
 
 ## 2026-10-16 - Checked INODE Journal And Frozen Validation Continuation
 

@@ -167,3 +167,9 @@ uint32_t npu_test_inode_live(void)
     struct npu_cold_inode_context c = inode_context();
     return npu_cold_inode_live(&npu_test_inode_state, &npu_test_inode_plan, 1, &c);
 }
+
+uint32_t npu_test_inode_stage_live(uint32_t stage)
+{
+    struct npu_cold_inode_context c = inode_context();
+    return npu_cold_inode_stage_live(&npu_test_inode_state, &npu_test_inode_plan, 1, &c, stage);
+}

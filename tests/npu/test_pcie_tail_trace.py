@@ -39,6 +39,7 @@ class TailTraceTests(unittest.TestCase):
             txbuf=component('npu_emulation_txbuf_state', 0x84090000, 16),
             descriptor=component('npu_emulation_descriptor_state', 0x84088000, 16),
             binding=component('npu_emulation_page_state', 0x84080000, 16),
+            inode=component('npu_emulation_inode_state', 0x840f3000, 4372),
             pcie_tail=SimpleNamespace(symbols={'npu_emulation_pcie_tail_state': owner,
                 'npu_emulation_pcie_tail_running': running} | {
                 f'npu_emulation_pcie_tail_{site:x}_store': 0x840ea000 + i * 16 for i, site in enumerate(SITES)}))

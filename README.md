@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Native INODE Binding In Mainline
+
+The20-component/168-hook experimental pair now binds both INODE constructors
+to their real callback/store guards and routes them through the checked Linux
+provider. Retained allocation records and the published plan are pinned across
+all tail/constructor commands. Both-HIF modeled provider504/10 mutants,portable
+owner checks,36 raw unleased denials,repeat image checks and eight-hart published
+boot pass. Fresh authenticated native constructor success is still untested.
+
+The older frozen HIF2 tail caller passed. Its36 individual tail cases passed,
+but their aggregate failed for missing artifact provenance;that failure stays
+failed. The new recorder requires all manifest/raw/ELF identities. Neither old
+cohort result qualifies the new build. Source export and an isolated AArch64
+provider object pass;no module/world/image rebuild or flash is claimed.
+See the [current native checkpoint](research/checkpoints/2026-10-17-npu-inode-native/REPORT.md).
+Earlier live notes are historical. Full NPU/physical/client work remains open.
+
 ## 2026-10-16 - Checked INODE Command Journal
 
 API24 constructors2/7 now have ordered server/Linux-client progress after the

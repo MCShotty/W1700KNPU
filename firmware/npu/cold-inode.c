@@ -228,9 +228,16 @@ uint32_t npu_cold_inode_finish(struct npu_cold_inode_state *s, const struct npu_
     return context(s, p, epoch, c) ? NPU_COLD_INODE_OK : fail(s, NPU_COLD_INODE_STALE);
 }
 
+int npu_cold_inode_stage_live(const struct npu_cold_inode_state *s, const struct npu_cold_inode_plan *p,
+    uint32_t epoch, const struct npu_cold_inode_context *c, uint32_t stage)
+{
+    return s && stage < 2 && s->stage == stage && !s->active &&
+           s->completed == (1u << (stage + 1)) - 1 &&
+           s->committed == end(stage) && s->published == s->committed && context(s, p, epoch, c);
+}
+
 int npu_cold_inode_live(const struct npu_cold_inode_state *s, const struct npu_cold_inode_plan *p,
     uint32_t epoch, const struct npu_cold_inode_context *c)
 {
-    return context(s, p, epoch, c) && !s->active && s->stage == 1 && s->completed == 3 &&
-           s->committed == NPU_COLD_INODE_STORES && s->published == s->committed;
+    return npu_cold_inode_stage_live(s, p, epoch, c, 1);
 }

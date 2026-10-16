@@ -78,7 +78,7 @@ class PcieTailTrace:
             (h.tx, 'npu_emulation_tx_state'), (h.rx_pcie, 'npu_emulation_rx_pcie_state'),
             (h.desc10, 'npu_emulation_desc10_state'), (h.rx_event, 'npu_emulation_rx_event_state'),
             (h.txbuf, 'npu_emulation_txbuf_state'), (h.descriptor, 'npu_emulation_descriptor_state'),
-            (h.binding, 'npu_emulation_page_state')):
+            (h.binding, 'npu_emulation_page_state'), (h.inode, 'npu_emulation_inode_state')):
             symbol = component.elf.get_section_by_name('.symtab').get_symbol_by_name(name)[0]
             assert symbol['st_size'] > 0
             address = component.symbols[name]

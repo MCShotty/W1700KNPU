@@ -35,7 +35,8 @@ def build(destination, parts, packet_path, rx_event_path):
                  'npu_emulation_packet_plan', 'npu_emulation_packet_last', 'npu_emulation_packet_live',
                  'npu_emulation_packet_callback', 'npu_emulation_packet_take', 'npu_emulation_packet_guard',
                  'npu_emulation_rx_event_state', 'npu_emulation_rx_event_prior_live',
-                 'npu_emulation_rx_event_prior_live_done', 'npu_emulation_rx_event_prior_live_tail'):
+                 'npu_emulation_rx_event_prior_live_done', 'npu_emulation_rx_event_prior_live_tail',
+                 'npu_emulation_rx_event_prior_live_inode'):
         command.append('-Wl,--defsym=' + name + '=' + hex(symbols[name]))
     previous = composition.symbols(parts['txdone'])
     for name in ('npu_emulation_txdone_skb_valid',):

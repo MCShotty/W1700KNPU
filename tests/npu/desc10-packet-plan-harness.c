@@ -39,6 +39,8 @@ int npu_emulation_rx_event_prior_live_done(uint32_t count)
 { (void)count; mutate(3); return 1; }
 int npu_emulation_rx_event_prior_live_tail(uint32_t count)
 { (void)count; mutate(3); return 1; }
+int npu_emulation_rx_event_prior_live_inode(uint32_t count)
+{ (void)count; mutate(3); return 1; }
 int npu_cold_txdone_packets_live(const struct npu_cold_txdone_state *s,
     const struct npu_cold_txdone_plan *p, uint32_t epoch, const struct npu_cold_packet_state *pkt)
 { (void)s; (void)p; (void)epoch; (void)pkt; mutate(2); return 1; }
@@ -114,10 +116,17 @@ uint32_t npu_test_plan_case(uint32_t phase, uint32_t kind, uint32_t point, uint3
         SETUP->command.value = 0x200d4590;
         SETUP->rx_event_steps = SETUP->prior_rx_event_steps = 2;
     }
-    if (phase == 3) {
+    if (phase >= 3) {
         SETUP->command.header = 0x10;
         SETUP->command.value = 0x200d4580;
         SETUP->rx_event_steps = SETUP->prior_rx_event_steps = 3;
+    }
+    if (phase >= 4) {
+        SETUP->command.header = phase == 4 ? 0x12 : 0x17;
+        SETUP->command.api = 24;
+        SETUP->command.value = 0;
+        SETUP->pcie_tail_steps = SETUP->prior_pcie_tail_steps = 3;
+        SETUP->inode_steps = SETUP->prior_inode_steps = phase - 4;
     }
     mutation = kind;
     mutation_point = point;
@@ -129,7 +138,8 @@ uint32_t npu_test_plan_case(uint32_t phase, uint32_t kind, uint32_t point, uint3
     uint32_t result = phase == 0 ? npu_emulation_desc10_ready() :
         phase == 1 ? (uint32_t)context(1) :
         phase == 2 ? (uint32_t)npu_emulation_desc10_prior_live(&plan) :
-                     (uint32_t)npu_emulation_desc10_prior_live_tail(&plan);
+        phase == 3 ? (uint32_t)npu_emulation_desc10_prior_live_tail(&plan) :
+                     (uint32_t)npu_emulation_desc10_prior_live_inode(&plan);
     npu_test_observed[0] = result;
     npu_test_observed[1] = npu_emulation_packet_plan.packet_base;
     npu_test_observed[2] = npu_emulation_packet_plan.packet_bytes;

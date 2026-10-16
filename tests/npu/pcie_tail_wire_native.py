@@ -28,6 +28,7 @@ def build(destination, parts, rx_pcie_path, desc10_path, rx_event_path, packet_p
         '-Wl,-T,' + str(TESTS / 'cold-pcie-tail-native-emulation.ld') + ',--no-relax',
         '-Wl,--just-symbols=' + str(parts['base'])]
     for name in ('npu_emulation_rx_pcie_state', 'npu_emulation_rx_pcie_prior_live_tail',
+                 'npu_emulation_rx_pcie_prior_live_inode',
                  'npu_emulation_rx_pcie_callback', 'npu_cold_rx_pcie_plan_valid', 'npu_cold_rx_pcie_live',
                  'npu_emulation_desc10_state', 'npu_emulation_desc10_read',
                  'npu_cold_txdone_plan_valid', 'npu_cold_txdone_plan_equal',

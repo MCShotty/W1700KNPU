@@ -57,5 +57,7 @@ uint32_t npu_cold_inode_finish(struct npu_cold_inode_state *, const struct npu_c
     uint32_t epoch, const struct npu_cold_inode_context *);
 int npu_cold_inode_live(const struct npu_cold_inode_state *, const struct npu_cold_inode_plan *,
     uint32_t epoch, const struct npu_cold_inode_context *);
+int npu_cold_inode_stage_live(const struct npu_cold_inode_state *, const struct npu_cold_inode_plan *,
+    uint32_t epoch, const struct npu_cold_inode_context *, uint32_t stage);
 
 #endif

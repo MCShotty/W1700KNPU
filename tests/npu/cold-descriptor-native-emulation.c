@@ -142,8 +142,9 @@ static int prior_live_packets(uint32_t gets, uint32_t packets, uint32_t successo
 {
     uint32_t count = gets == 7 ? 512 : 1536, tx = gets == 7 ? 1 : 3;
 
-    return successor <= 2 && (gets == 7 || gets == 8) && packets >= 2560 && packets <= 3072 &&
-           (successor == 2 ? gets == 8 && packets == 3072 && npu_cold_pcie_tail_inflight(SETUP) :
+    return successor <= 3 && (gets == 7 || gets == 8) && packets >= 2560 && packets <= 3072 &&
+           (successor == 3 ? gets == 8 && packets == 3072 && npu_cold_inode_inflight(SETUP) :
+            successor == 2 ? gets == 8 && packets == 3072 && npu_cold_pcie_tail_inflight(SETUP) :
             successor == 1 ? gets == 8 && packets == 3072 &&
             npu_cold_rx_pcie_command(&SETUP->command) &&
             SETUP->command.value == SETUP->endpoint_base + NPU_COLD_RX_PCIE_REGISTER &&
@@ -178,6 +179,11 @@ int npu_emulation_descriptor_prior_live_done(uint32_t packets)
 int npu_emulation_descriptor_prior_live_tail(uint32_t packets)
 {
     return prior_live_packets(8, packets, 2);
+}
+
+int npu_emulation_descriptor_prior_live_inode(uint32_t packets)
+{
+    return prior_live_packets(8, packets, 3);
 }
 
 int npu_emulation_descriptor_prior_live(uint32_t gets)

@@ -9,6 +9,7 @@ extern uint32_t npu_test_tail_effect(uint32_t, uint32_t), npu_test_tail_publish(
 extern uint32_t npu_test_tail_finish(void);
 extern uint32_t npu_test_inode_prepare(uint32_t), npu_test_inode_begin(uint32_t, uint32_t, uint32_t);
 extern uint32_t npu_test_inode_run(uint32_t, uint32_t), npu_test_inode_finish(void), npu_test_inode_live(void);
+extern uint32_t npu_test_inode_stage_live(uint32_t);
 
 static int prepare(uint32_t hif2)
 {
@@ -42,6 +43,8 @@ int main(void)
                 remaining -= count;
             }
             if (npu_test_inode_finish()) return 4;
+            if (!npu_test_inode_stage_live(stage) || npu_test_inode_stage_live(stage ^ 1) ||
+                npu_test_inode_stage_live(2)) return 8;
         }
         if (!npu_test_inode_live()) return 5;
     }
