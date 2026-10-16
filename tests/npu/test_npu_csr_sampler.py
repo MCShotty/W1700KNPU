@@ -1,4 +1,4 @@
-"""Read-API equivalence controls; no current NPU observer replacement."""
+"""Read-API equivalence controls; no native ownership or speedup verdict."""
 import ctypes
 import io
 import subprocess

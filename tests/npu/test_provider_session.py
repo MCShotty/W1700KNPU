@@ -59,7 +59,7 @@ def prepare(directory, text, header):
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
-                txbuffer_enrollment=False, rx_event=False, desc10=False, pcie_tail=False, nominal_only=False,
+                txbuffer_enrollment=False, rx_event=False, desc10=False, pcie_tail=False, inode=False, nominal_only=False,
                 producer_inputs=None):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
@@ -72,8 +72,11 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     import test_desc10_native_replay as desc10_memory
     import rx_pcie_transaction_oracle
     import pcie_tail_trace
+    import inode_trace
+    import restore_native_prefix
 
     assert not pcie_tail or (desc10 and rx_event and cold_commands and host_sender)
+    assert inode == pcie_tail, 'current-tail-sender-requires-explicit-INODE-qualification'
 
     native_dependencies = [Path(__file__), ROOT / 'tests/npu/cold_wire_native.py',
         ROOT / 'tests/npu/indication_native_controls.py', ROOT / 'tests/npu/tx_native_controls.py',
@@ -83,6 +86,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         Path(desc10_transaction_oracle.__file__), Path(desc10_memory.__file__),
         Path(rx_pcie_transaction_oracle.__file__),
         Path(pcie_tail_trace.__file__), ROOT / 'tests/npu/pcie_tail_wire_native.py',
+        Path(inode_trace.__file__), Path(restore_native_prefix.__file__),
         ROOT / 'tests/npu/test_desc10_native_controls.py',
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
@@ -99,6 +103,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         from cold_wire_native import ColdProviderRequest
         factory = ColdProviderRequest
     h, _, _, manifest = raw.load(pair, factory=partial(factory, request=request), published=(code, data))
+    native_inputs |= restore_native_prefix.pair_artifact_inputs(pair, manifest)
     if producer_inputs:
         for name, expected in producer_inputs.items():
             assert name not in native_inputs or native_inputs[name] == expected, ('producer-input-conflict', name)
@@ -122,6 +127,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     desc10_expected = {}
     pcie_expected = {}
     tail_traces = {}
+    inode_traces = {}
     wire = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_uint)
     tick = ctypes.CFUNCTYPE(None)
 
@@ -151,6 +157,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         origin='actual-provider-allocator-caller-after-DESC10-before-PCIE')
             trace = None
             tail_trace = False
+            inode_observation = False
             if desc10 and length == 80 and words[2] == 0x3253434e and words[11:14] == [0x1a, 1, 512]:
                 import desc10_store_trace
                 import desc10_effect_oracle
@@ -165,6 +172,13 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 native_prefix_snapshot.capture(h, prefix, words, manifest['inputs'] | native_inputs | {
                     str(path.relative_to(ROOT)): loader.sha(path) for path in (code_path, data_path, binary)},
                     origin='actual-provider-allocator-caller-before-PCIE-tail-' + str(trace.stage))
+            if inode and length == 80 and words[2] == 0x3253434e and words[12] == 24:
+                trace = inode_trace.InodeTrace(h, words)
+                inode_observation = True
+                prefix = Path(binary).parent / ('inode-prefix-' + str(trace.stage))
+                native_prefix_snapshot.capture(h, prefix, words, manifest['inputs'] | native_inputs | {
+                    str(path.relative_to(ROOT)): loader.sha(path) for path in (code_path, data_path, binary)},
+                    origin='actual-provider-allocator-caller-before-INODE-' + str(trace.stage))
             if trace is None:
                 reply = h.message(words)
             else:
@@ -172,9 +186,12 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     with trace:
                         reply = h.message(words)
                 finally:
-                    directory = Path(binary).parent / (('tail-store-trace-' + str(trace.stage)) if tail_trace else 'desc10-store-trace')
+                    directory = Path(binary).parent / (('inode-store-trace-' + str(trace.stage)) if inode_observation else
+                        ('tail-store-trace-' + str(trace.stage)) if tail_trace else 'desc10-store-trace')
                     saved = trace.save(directory)
-                    if tail_trace:
+                    if inode_observation:
+                        inode_traces[trace.stage] = saved
+                    elif tail_trace:
                         tail_traces[trace.stage] = saved
                     else:
                         desc10_expected['store_trace'] = saved
@@ -211,6 +228,9 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 if pcie_tail:
                     address = h.pcie_tail.symbols['npu_emulation_pcie_tail_state']
                     diagnostic['pcie_tail_owner'] = list(struct.unpack('<10I', h.cpu.mem_read(address, 40)))
+                if inode:
+                    address = h.inode.symbols['npu_emulation_inode_state']
+                    diagnostic['inode_owner'] = list(struct.unpack('<10I', h.cpu.mem_read(address, 40)))
             (Path(binary).parent / 'native-failure.json').write_text(json.dumps(diagnostic, indent=2) + '\n')
             return -5
 
@@ -359,21 +379,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                     h.requested = value
                     h.head_before = 0
                 output = ctypes.c_uint32(0xabcdef01)
-                inode_boundary = pcie_tail and header == 0x12 and api == inode_api and value == 0
-                boundary_before = h.snapshot() + [(cold_state, bytes(h.cpu.mem_read(cold_state,cold_bytes)))] if inode_boundary else None
                 error = lib.npu_test_command(header, api, value, ctypes.byref(output))
                 assert not failures, failures
-                if inode_boundary:
-                    assert error == -22 and frames[-1]['request'] == [header,api,0,0,0,0]
-                    assert frames[-1]['reply']['flags'] == 3 and not frames[-1]['reply']['callbacks']
-                    assert all(bytes(h.cpu.mem_read(address,len(data))) == data for address,data in boundary_before)
-                    assert h.get32(cold_state + 396) == 3 and h.get32(cold_state) == h.get32(cold_state + 4) == 0
-                    cold.append(dict(header=header,api=api,value=value,error=error,
-                        actual_legacy_provider_framing=True,native_legacy_denial=True,
-                        protected_memory_unchanged=True,full_setup=False,reply=frames[-1]))
-                    print(json.dumps(dict(next_inode_boundary=[header,api,value],error=error,
-                                          actual_native_denial=True)),flush=True)
-                    return error
                 if (header, api) == (0x1a, 1):
                     desc10_want = desc10_expected.get('images')
                     owner = h.desc10.symbols['npu_emulation_desc10_state']
@@ -433,6 +440,18 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                         assert observed['journal_steps'] == stage + 1 and tail_traces[stage]['validated']
                         assert observed['packet_claims'] == 3072
                     print(json.dumps(dict(native_pcie_tail=observed['owner'],stage=stage,error=error)),flush=True)
+                is_inode = inode and api == inode_api and header in (0x12, 0x17)
+                if is_inode:
+                    stage = (0x12, 0x17).index(header)
+                    owner = h.inode.symbols['npu_emulation_inode_state']
+                    observed = dict(stage=stage, error=error, owner=list(struct.unpack('<10I', h.cpu.mem_read(owner, 40))),
+                        journal_steps=h.get32(cold_state + 404), original_store_trace=inode_traces.get(stage),
+                        packet_claims=h.get32(packet_state + 16), hif2=hif2, full_setup=False, hardware=False)
+                    (Path(binary).parent / ('inode-observed-' + str(stage) + '.json')).write_text(json.dumps(observed, indent=2) + '\n')
+                    if not error:
+                        assert observed['journal_steps'] == stage + 1 and inode_traces[stage]['validated']
+                        assert observed['packet_claims'] == 3072
+                    print(json.dumps(dict(native_inode=observed['owner'], stage=stage, error=error)), flush=True)
                 if descriptor_failure and header == (0x30 | descriptor_fault_selector) and api == 4:
                     assert h.descriptor_injected and error == -71
                     owner = h.descriptor.symbols['npu_emulation_descriptor_state']
@@ -620,6 +639,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                                  completed=h.get32(cold_state + 8), reply=frames[-1]))
                 if is_tail:
                     cold[-1].update(pcie_tail_stage=stage,pcie_tail_original_store_trace=tail_traces[stage])
+                if is_inode:
+                    cold[-1].update(inode_stage=stage, inode_original_store_trace=inode_traces[stage])
                 print(json.dumps(dict(native_command=[header, api, value],
                     packet_claims=h.get32(packet_state + 16), ba_claims=h.get32(page_state + 16))), flush=True)
                 return 0
@@ -670,12 +691,16 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 if pcie_tail:
                     sender.npu_host_inode_api.restype=ctypes.c_uint
                     inode_api=sender.npu_host_inode_api()
-                    sequence += [(0x10,0,0x200d4580),(0x12,0,0x200d4560+int(hif2)*0x4000),(0x1f,0,0),(0x12,inode_api,0)]
+                    assert inode_api == 24
+                    sequence += [(0x10,0,0x200d4580),(0x12,0,0x200d4560+int(hif2)*0x4000),(0x1f,0,0),
+                                 (0x12,inode_api,0),(0x17,inode_api,0)]
                     sender.npu_host_pcie_tail.argtypes=[ctypes.c_uint,peer_type]
-                    assert sender.npu_host_pcie_tail(int(hif2),send) == -22 and not failures, failures
+                    assert sender.npu_host_pcie_tail(int(hif2),send) == 0 and not failures, failures
                     assert len(tail_traces) == 3 and all(row['validated'] for row in tail_traces.values())
+                    assert len(inode_traces) == 2 and all(row['validated'] for row in inode_traces.values())
                     cold.append(dict(actual_pcie_tail_sender=True,pcie_tail_stages=3,pcie_tail_original_stores=9,
-                        native_inode_legacy_denial=True,inode_api=inode_api,full_setup=False,
+                        actual_inode_sender=True, native_inode_stages=2, inode_original_stores=1036,
+                        native_inode_legacy_denial=False,inode_api=inode_api,full_setup=False,
                         prior_controls_skipped=nominal_only))
                 assert [(row['header'], row['api'], row['value']) for row in cold if 'header' in row] == sequence
             else:
@@ -688,7 +713,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
             expected_leases = ([1, 0] * 4 + [1] if cold_failure else [1, 0] * 7 + [1] if page_failure else
                              [1, 0] * 13 + [1] if indication_failure else [1, 0] * 15 + [1] if tx_failure else
                              [1, 0] * 17 + [1] if token_failure else
-                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * (32 + int(rx_event) + 2 * int(desc10) + 3 * int(pcie_tail)))
+                             [1, 0] * (28 if descriptor_fault_selector == 7 else 24) + [1] if descriptor_failure else [1, 0] * (32 + int(rx_event) + 2 * int(desc10) + 3 * int(pcie_tail) + 2 * int(inode)))
             expected_leases[4:4] = [1, 0] * (NATIVE_TXBUF_RECORDS + int(rx_event))
             assert leases == expected_leases
             assert h.get32(packet_state + 16) == (1 if cold_failure else 3072 if desc10 else 2560)
@@ -731,6 +756,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 tx_failure=tx_failure, token_failure=token_failure, descriptor_failure=descriptor_failure,
                 descriptor_fault_selector=descriptor_fault_selector if descriptor_failure else None, hif2=hif2,
                 pcie_tail_requested=pcie_tail,
+                inode_requested=inode,
                 result=result, frames=frames, cold=cold,
                 workers=workers, strict_denials=strict, initial_held=True,
                 actual_c_linux_setup=True, actual_c_publication_readback=True,

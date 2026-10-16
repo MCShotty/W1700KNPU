@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Current Caller Qualification Gate
+
+Both constructor commands,independent original-store/memory/private/ABI oracle
+and fresh CSR observer are implemented. Preflight9fcea999 binds372 current hashes,
+196 unique unit cases/214 runs,repeat20 image groups,loader60/eight,six negative
+boot controls and actual C sender checks. Raw bytes/native guards are unchanged.
+This is preparation,not authenticated native INODE or current full-size fault
+qualification. Older502-hash/current-closed-dispatch notes below are historical.
+
+Next validate the source execution copy,run both actual HIF caller profiles with
+full512 DESC10/RX PCIe/nine tail stores/both constructors,and retain all eight
+DESC10/all36 tail/new constructor faults with strict real-prefix provenance.
+Then RRO0/1/3,checked initial/hot IRQ,workers/hot ownership,complete stack/
+physical DMA/cache/exclusion/drains,lifecycle/reset/removal/rearm/recovery and
+exact-image/actual-client gates remain. No source-hash waiver or fabricated SETUP.
+FIT978f9ddd and prepared kernel/module stay unchanged/unflashed. No hardware/
+subagents. Read the2026-10-17-npu-inode-caller/REPORT.md checkpoint.
+
 ## 2026-10-17 - Current Native INODE Gates
 
 Callback/11-store INODE binding,authenticated successors and actual provider

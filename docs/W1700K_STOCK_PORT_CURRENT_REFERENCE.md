@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Current INODE Caller/Oracle Preparation
+
+Actual caller now requests constructor2 then7 through checked80 after all tail
+commands. Read-only literal original-store/owner/SETUP/protected/private/CODE/ABI
+oracle and strict complete-caller receipt contracts are implemented. An actual
+tiny synthetic guest proves ABI capture must precede mailbox context restore;
+its unit result is not native constructor admission. Cold observer now uses
+fresh per-engine C-API CSR reads;other observers retain scalar mode. Existing
+native guards/raw bytes/entry limits/old-lane budgets are unchanged.
+
+Preflight9fcea999 verifies372 hashes,196 unique cases/214 executions,repeat20
+image checks,loader60/eight,six negative boot controls and actual C sender cases.
+18 imported fixture cases repeat;first count-only assertion failure is retained.
+Previousd975 source/artifacts are preserved(2388 files,a0e02b38),not promoted to
+the new observer. Next original-path copy validation and fresh both-HIF/full512/
+eight-DESC10-fault/all36-tail/new-INODE-fault qualification. No native positive
+yet. RRO/IRQ/hot/workers/stack/physical/drain/lifecycle/recovery/clients remain.
+No new world/image/flash/hardware/subagents. FIT978f9ddd unchanged. Read
+research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.
+This supersedes earlier current/live-status notes below.
+
 ## 2026-10-17 - Current Native INODE Binding
 
 The20-component/168-hook/SETUP412 candidate binds original API24 callback and

@@ -25,10 +25,12 @@ def main():
     parser.add_argument('--desc10',action='store_true')
     parser.add_argument('--nominal-only',action='store_true')
     parser.add_argument('--pcie-tail',action='store_true')
+    parser.add_argument('--inode',action='store_true')
     parser.add_argument('--hif2',action='store_true')
     args=parser.parse_args()
     assert not args.desc10 or args.rx_event
     assert not args.pcie_tail or args.desc10
+    assert args.inode == args.pcie_tail, 'current-tail-sender-requires-explicit-INODE-qualification'
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}',args.name)
     root=parent.ROOT;q=parent.loader.extract
     destination=root/'.local/npu-host-tx-lifetime-20261011'/args.name
@@ -144,7 +146,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
                                   host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event,
-                                  desc10=args.desc10,pcie_tail=args.pcie_tail,hif2=args.hif2,
+                                  desc10=args.desc10,pcie_tail=args.pcie_tail,inode=args.inode,hif2=args.hif2,
                                   nominal_only=args.nominal_only,producer_inputs=inputs)
     finally:
         ctypes.CDLL=original_cdll
@@ -155,7 +157,9 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     assert all(parent.loader.sha(root/path)==digest for path,digest in inputs.items())
     result=dict(passed=True,allocations=observed,native=native,inputs=inputs,native_enrollment_records=14+int(args.rx_event),
         rx_event_allocations=int(args.rx_event),rx_event_bytes=8192 if args.rx_event else 0,
-        pcie_tail_requested=args.pcie_tail,actual_legacy_wrapper_framing=args.pcie_tail,
+        pcie_tail_requested=args.pcie_tail,actual_legacy_wrapper_framing=False,
+        actual_legacy_wrapper_compiled=args.pcie_tail, inode_checked_framing=args.inode,
+        inode_requested=args.inode,
         limits=['Actual provider allocation/STATUS/client C with raw RV32 reply execution; DMA backing/device references/delivery/scheduling are modeled.',
                 'Allocation runs after real BAR binding and before real offload/RX/TX caller replay. TX caller uses the returned retained handles.',
                 'Original API21 instructions are guarded by retained store ownership; physical buffer consumption is not established.',

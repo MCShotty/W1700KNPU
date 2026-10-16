@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - INODE Caller And Oracle Prepared
+
+The actual caller now sends both checked INODE constructors after the PCIe
+tail. Its independent read-only oracle checks original stores,protected memory,
+private state and ABI before the mailbox helper restores CPU context. Fresh
+CSR reads are integrated into the cold observer;native guards/raw firmware bytes
+are unchanged.196 unique unit cases,repeat image/loader/sender checks pass.
+
+Authenticated both-HIF native execution and full-size fault qualification are
+still pending,not inferred from those checks. No new world/image/flash or hardware
+acceptance. See the [caller/oracle checkpoint](research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md).
+Older checkpoints retain their original scope;full NPU implementation remains open.
+
 ## 2026-10-17 - Native INODE Binding In Mainline
 
 The20-component/168-hook experimental pair now binds both INODE constructors

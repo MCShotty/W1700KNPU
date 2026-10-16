@@ -88,10 +88,18 @@ class Installation(NativeMemory):
         cpu.reg_write(r.UC_RISCV_REG_A0, self.hart if address == 0x84004212 else 0)
         cpu.reg_write(r.UC_RISCV_REG_PC, ra)
 
+    def sample_csr(self, cpu):
+        sampler = getattr(self, 'csr_sampler', None)
+        if sampler is not None:
+            if cpu is not self.cpu:
+                raise RuntimeError('CSR observer received a different engine')
+            return sampler()
+        return tuple(cpu.reg_read(reg) for reg in (
+            r.UC_RISCV_REG_MSTATUS, r.UC_RISCV_REG_MIE, r.UC_RISCV_REG_MTVEC))
+
     def code_hook(self, cpu, pc, size, data):
         self.tick += 1
-        csr = tuple(cpu.reg_read(reg) for reg in (
-            r.UC_RISCV_REG_MSTATUS, r.UC_RISCV_REG_MIE, r.UC_RISCV_REG_MTVEC))
+        csr = self.sample_csr(cpu)
         if csr != self.last_csr:
             self.csr_events.append(self.record('csr-state', mstatus=hex(csr[0]),
                                               mie=hex(csr[1]), mtvec=hex(csr[2])))

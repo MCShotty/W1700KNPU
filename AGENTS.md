@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - INODE Actual Caller And Oracle Ready
+
+- Current driver sends both constructors via checked80 after all three tail
+  commands;`--pcie-tail` now requires explicit `--inode`. Read-only oracle checks
+  literal1030/six original stores,exact4372-owner/412-SETUP/868352 protected
+  bytes/all native private fields/2MiB CODE,except the existing current stack
+  band. ABI is observed before mailbox context restoration;an actual tiny guest
+  demonstrates why post-restore checking hides corruption. Units are synthetic
+  oracle evidence,not INODE admission. Old denial receipts cannot be promoted.
+- Cold observer now uses the pinned fresh C-API CSR reader;legacy observers
+  retain scalar mode. Existing native guards/raw bytes/3M entry gates/old lane
+  budgets are unchanged. No whole-native/hardware speedup is measured.
+- Preflight9fcea999 verifies372 current hashes,196 unique unit cases/214 runs,
+  all20 image/repeat groups,loader60/eight,six negative boot controls and actual
+  C sender checks.18 imported fixture cases repeat and are explicitly counted.
+  First count-only assertion failure is preserved;no native fault gate shrank.
+- D975 cohort2388 files is preserved(a0e02b38). Do not reuse its502-hash or old
+ 404 native results as proof for changed caller/observer source. Next validate
+  the execution copy and run fresh both-HIF/full512/eight-DESC10-fault/all36-tail/
+  new-INODE-fault checks. No native-positive verdict yet. FIT978f9ddd and prepared
+  kernel/module remain unchanged/unflashed. No hardware/subagents. Read
+  research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.
+  This supersedes earlier current/live notes below.
+
 ## 2026-10-17 - Native INODE Binding; Positive Qualification Open
 
 - Mainline now builds20 components/168 hooks:actual API24 callback/11 original

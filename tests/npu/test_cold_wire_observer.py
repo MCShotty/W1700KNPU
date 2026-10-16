@@ -19,7 +19,7 @@ class ColdWireObserverTests(unittest.TestCase):
         h = object.__new__(ColdProviderRequest)
         h.cold_request = h.cold_desc10 = True
         h.cold_txbuf = h.cold_rx_event = False
-        h.cold_pcie = h.cold_tail = False
+        h.cold_pcie = h.cold_tail = h.cold_inode = False
         h.cold_count, h.cold_callback_count = 64 * 53260, 512
         h.cold_getter, h.cold_getters = 0x10, 0
         h.cold_checkpoints = (0x10, 0x20)
@@ -140,6 +140,27 @@ class ColdWireObserverTests(unittest.TestCase):
         self.assertFalse(h.cold_request)
         h.cpu.reg_write.assert_not_called()
         h.cpu.mem_write.assert_not_called()
+
+    def test_inode_observer_keeps_prior_checkpoints_and_bounded_store_budget(self):
+        for selector, stores in ((2, 1030), (7, 6)):
+            h = self.observer()
+            h.desc10.symbols['npu_cold_txdone_memory_live'] = 0x10
+            h.desc10.symbols['npu_emulation_desc10_read'] = 0x30
+            words = [0] * 20
+            words[2], words[11], words[12] = 0x3253434e, 0x10 | selector, 24
+            with patch.object(ProviderRequest, 'message', return_value={'flags': 7}):
+                reply = h.message(words)
+            self.assertEqual(h.cold_count, 64 * 53260 * stores)
+            self.assertEqual(reply['inode_checkpoints'], {'0x10': 0, '0x20': 0})
+            self.assertFalse(h.cold_inode)
+            h.cpu.mem_write.assert_not_called()
+            h.cpu.reg_write.assert_not_called()
+
+    def test_inode_never_allows_original_dynamic_allocator(self):
+        h = self.observer()
+        h.cold_inode = True
+        with self.assertRaisesRegex(AssertionError, 'unexpected-INODE-allocator'):
+            h.code_hook(h.cpu, 0x8400dd82, 2, None)
 
     def test_pcie_observer_checkpoints_final_memory_and_prior_recipe(self):
         h = self.observer()

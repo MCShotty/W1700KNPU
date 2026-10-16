@@ -1,10 +1,55 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (native INODE guards/provider integrated; fresh positive qualification open)
+Last updated: 2026-10-17 (actual INODE caller/oracle prepared; authenticated native qualification pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Actual INODE Caller And Independent Read-Only Oracle
+
+- Extended actual allocator/MT7996 sender replay through both checked80-byte
+  API24 constructors. Explicit `--inode` is required with `--pcie-tail`;the old
+  legacy-denial endpoint is no longer accepted as new constructor success.
+  Every capture now includes exact manifest/raw/component/host identities.
+- Added independent literal1030/six-store projection and read-only site/lock/
+  protected-memory/native-private/SETUP/full-CODE/ABI observer. No guarded owner
+  recipe is used for expected effects. Exact owner4372/SETUP412/protected868352
+  bytes/2MiB CODE are checked,with only the existing current stack band exempt.
+  ELF private-symbol selection rejects imported same-name aliases.
+- ABI capture occurs before actual mailbox context restoration. A tiny actual
+  synthetic RV32 guest clobbers S0;post-return context restoration hides it,but
+  the observer preserves the clobber. This is ordering evidence,not native INODE
+  admission. Caller contracts reject missing/reordered constructors,bad framing/
+  sequence/callbacks/stores/locks/memory/private scope or pre-restore ABI.
+- Integrated the pinned per-engine fresh C-API CSR reader only for the cold
+  observer. Scalar transcripts/context restore/error/engine checks pass;legacy
+  observer mode is unchanged. No CSR cache/guest write/native guard or firmware
+  instruction change. Existing lane budgets and3M entry limit remain;only the
+  new constructor checkpoint budget scales by its1030/six stores. No measured
+  whole-native or hardware speedup is claimed.
+- Preflight SHA256
+  9fcea99907bdc2a927f5af7b0fe2147b446449219db63b7daef97c32f581ceda
+  verifies372 current inputs,196 unique unit cases/214 executions,all20 repeat
+  image groups,loader60/eight,six negative boot controls and actual C sender
+  checks(including12 both-HIF tail/constructor framing/error cases).18 imported
+  fixture cases execute twice;the initial212-count assertion failed after all
+  214 executions passed. That script/log remains failed;distinctq2 records the
+  true counts. Initial observer diagnostic-string mismatch is also documented;
+  separate tail/INODE allocator denials retain the old diagnostic contract.
+- Fresh raw pairq1/q2 repeats d975 bytes CODEa6813d39/DATA180bc808 exactly.
+  Earlierd975 cohort is preserved:2388 files/630333804 bytes,receipt SHA256
+  a0e02b381c4b411e0aed75b0eaaa85d40b1f74c9fd972800819b8eb50a8f7dca.
+  Preservation is not replay or qualification of changed caller/observer inputs.
+- Jev's five bounded source judgments/raw probabilities are retained. Limited
+  ABI/control-flow confidence is recorded alongside stronger exact tests;no semantic result is
+  native execution or permission. All authenticated native-positive/full512/
+  current eight-DESC10-fault/full36-tail/new-constructor-fault flags stay open.
+- Next validate an original-path frozen execution view and run both actual HIF
+  profiles with the full request/guards. RRO/IRQ/hot/workers/full stack/physical/
+  drain/lifecycle/recovery/client scope remains. Old404 aggregate stays failed.
+  FIT978f9ddd/prepared kernel/module unchanged;no world/image/flash/hardware/
+  subagents. Evidence:research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.
 
 ## 2026-10-17 - Native INODE Binding And Exact Retained Provider Pin
 

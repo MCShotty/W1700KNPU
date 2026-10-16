@@ -10,9 +10,9 @@ from pcie_tail_trace import PcieTailTrace, SPACES, MODEL_BAR_PAGES, SITES, LOCKS
 
 
 class TailTraceTests(unittest.TestCase):
-    def fixture(self, stage=0, hif2=0):
+    def fixture(self, stage=0, hif2=0, code_bytes=0x100000):
         memory = {base: bytearray(size) for base, size in (*SPACES,
-            *((base, 4096) for base in MODEL_BAR_PAGES), (0x84000000, 0x100000))}
+            *((base, 4096) for base in MODEL_BAR_PAGES), (0x84000000, code_bytes))}
 
         def read(address, size):
             base = next(base for base, data in memory.items() if base <= address and address + size <= base + len(data))

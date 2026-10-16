@@ -12,6 +12,7 @@ import restore_native_prefix as captured
 from test_desc10_retained_controls import CASES, expected_locks
 from test_cold_txdone_native import SPACES
 from pcie_tail_wire_native import MODEL_BAR_PAGES
+from inode_trace import original_events, END, STACK_TOPS
 
 ROOT = captured.ROOT
 
@@ -123,8 +124,11 @@ def tail_caller_contract(native, commands, pcie, inode_api):
     tx2 = [row['value'] for row in commands if (row['header'], row['api']) == (0x12, 19)]
     assert len(tx2) == 1 and tx2[0] in (0x200d4450, 0x200d8450)
     appended = commands[commands.index(pcie) + 1:]
-    assert [(row['header'], row['api'], row['value']) for row in appended] == [
-        (0x10, 0, 0x200d4580), (0x12, 0, tx2[0] + 0x110), (0x1f, 0, 0), (0x12, inode_api, 0)], 'tail-command-order'
+    inode = native.get('inode_requested', False)
+    assert isinstance(inode, bool)
+    expected = [(0x10, 0, 0x200d4580), (0x12, 0, tx2[0] + 0x110), (0x1f, 0, 0), (0x12, inode_api, 0)]
+    if inode: expected.append((0x17, inode_api, 0))
+    assert [(row['header'], row['api'], row['value']) for row in appended] == expected, 'tail-command-order'
     events = [(0x8400ba0c, 0x3e902cf0, 4, 0x200d4580), (0x8400ba18, 0x200d4588, 4, 1535),
         (0x8400ba24, 0x3e903904, 4, tx2[0] + 0x110), (0x8400ba30, tx2[0] + 0x118, 4, 1023),
         (0x8400b9ae, 0x200d45a8, 4, 255), (0x8400b9c0, 0x200d45b8, 4, 511),
@@ -145,16 +149,61 @@ def tail_caller_contract(native, commands, pcie, inode_api):
                sorted((hex(base), size) for base, size in spans), 'tail-protected-regions'
         assert trace['protected_bytes'] == sum(region['bytes'] for region in trace['protected_memory']) == 868352
         assert all(region['differing_bytes'] == 0 for region in trace['protected_memory'])
+    senders = [row for row in native['cold'] if row.get('actual_pcie_tail_sender')]
+    assert len(senders) == 1 and senders[0]['pcie_tail_stages'] == 3 and senders[0]['pcie_tail_original_stores'] == 9
+    assert senders[0]['inode_api'] == inode_api and senders[0]['full_setup'] is False
+    if inode:
+        inode_caller_contract(appended[3:], senders[0], inode_api)
+        return
     boundary = appended[-1]
     assert boundary['error'] == -22 and boundary['actual_legacy_provider_framing'] is True
     assert boundary['native_legacy_denial'] is True and boundary['protected_memory_unchanged'] is True
     assert boundary['full_setup'] is False
     assert boundary['reply']['request'] == [0x12, inode_api, 0, 0, 0, 0]
     assert boundary['reply']['reply']['flags'] == 3 and not boundary['reply']['reply']['callbacks']
-    senders = [row for row in native['cold'] if row.get('actual_pcie_tail_sender')]
-    assert len(senders) == 1 and senders[0]['pcie_tail_stages'] == 3 and senders[0]['pcie_tail_original_stores'] == 9
     assert senders[0]['native_inode_legacy_denial'] is True and senders[0]['inode_api'] == inode_api
     assert senders[0]['full_setup'] is False
+
+
+def inode_caller_contract(rows, sender, inode_api):
+    assert inode_api == 24 and len(rows) == 2
+    assert sender['actual_inode_sender'] is True and sender['native_inode_legacy_denial'] is False
+    assert sender['native_inode_stages'] == 2 and sender['inode_original_stores'] == 1036
+    previous = None
+    for stage, row in enumerate(rows):
+        assert row['inode_stage'] == stage and row['packet_claims'] == 3072 and row['page_claims'] == 1792
+        request, reply = row['reply']['request'], row['reply']['reply']
+        assert len(request) == 20 and request[:5] == [0x3f, 1, 0x3253434e, 2, 80]
+        assert request[5] == 1 and request[11:14] == [0x12 if stage == 0 else 0x17, 24, 0]
+        assert request[13:] == [0] * 7
+        if previous is not None:
+            assert request[5:6] + request[7:11] == previous[5:6] + previous[7:11] and request[6] == previous[6] + 1
+        expected_reply = request.copy()
+        expected_reply[2] = 0x3252434e
+        assert reply['flags'] == 7 and reply['words'] == expected_reply
+        assert reply['callbacks'] == ['0x8400fc2c'] and reply['returned_stack'] == hex(STACK_TOPS[0] - 0x1000)
+        trace = row['inode_original_store_trace']
+        expected = original_events(stage)
+        assert trace['validated'] is True and trace['stage'] == stage
+        assert trace['actual_stores'] == trace['expected_stores'] == len(expected)
+        assert [tuple(event) for event in trace['stores']] == list(expected), 'INODE-original-effects'
+        assert [tuple(write) for write in trace['ordered_lock_writes']] == [(0x1ec031c8, 4, 0x40), (0x1ec03248, 4, 0)]
+        assert trace['guest_writes_by_observer'] is False and trace['abi_observed_before_context_restore'] is True
+        assert trace['validation_is_separate'] is True
+        assert trace['exact_owner_bytes'] == 4372 and trace['exact_setup_bytes'] == 412 and trace['code_private_bytes'] == 0x200000
+        assert trace['original_entries'] == ['callback', 'wrapper', 'helper', 'release']
+        saved, interrupt = trace['entry_saved_registers'], trace['entry_interrupt_csrs']
+        assert len(saved) == 14 and len(interrupt) == 2
+        returns = trace['native_returns']
+        assert len(returns) == 1 and returns[0]['pc'] == END and returns[0]['mstatus'] == 0
+        assert returns[0]['sp'] == STACK_TOPS[0] - 0x1000
+        assert list(returns[0]['saved']) == list(saved) and list(returns[0]['interrupt']) == list(interrupt)
+        spans = (*SPACES, *((base, 4096) for base in MODEL_BAR_PAGES))
+        assert sorted((region['base'], region['bytes']) for region in trace['protected_memory']) == \
+               sorted((hex(base), size) for base, size in spans), 'INODE-protected-regions'
+        assert trace['protected_bytes'] == sum(region['bytes'] for region in trace['protected_memory']) == 868352
+        assert all(region['differing_bytes'] == 0 for region in trace['protected_memory'])
+        previous = request
 
 
 def caller_contract(caller, *, inode_api=None):
@@ -163,6 +212,8 @@ def caller_contract(caller, *, inode_api=None):
     assert native['actual_c_linux_setup'] and native['actual_c_txrx_sender']
     assert native['synthetic_plan_identity_writes'] is False and native['post_load_elf_injection'] is False
     assert caller['native_enrollment_records'] == 15 and caller['rx_event_bytes'] == 8192
+    assert isinstance(native.get('inode_requested', False), bool)
+    assert not native.get('inode_requested', False) or native.get('pcie_tail_requested') is True
     commands = [row for row in native['cold'] if 'header' in row]
     shape = [(row['header'], row['api'], row['value']) for row in commands]
     for command in ((0x10, 1, 1536), (0x12, 1, 1024), (0x15, 1, 256),
