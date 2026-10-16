@@ -12,7 +12,7 @@ Protocol1930/53 and existing provider609/nine regressions also pass.
 Scoped sealc9913292 verifies343 current inputs, not a fresh positive native
 verdict. Actual allocator/caller pcie-tail-native-q2 is live with consumed
 inputs frozen; full512/nine-store success and retained faults are still pending.
-The selected144-test suite, including fault-oracle/raw-caller/frame contracts, passes
+The selected160-test suite, including fault-oracle/raw-caller/frame contracts, passes
 its synthetic scopes. Older producing cohorts are protected. FIT978f9ddd remains
 unchanged/unflashed; full INODE/IRQ/hot/worker/stack/physical/drain/lifecycle/
 client work remains open. See the [native binding report](research/checkpoints/2026-10-16-npu-pcie-tail-native/REPORT.md).
@@ -36,6 +36,11 @@ The address-bound CFI audit matches all264 C frames,resolves604 direct transfers
 and lists81 unresolved transfers. Its4480-byte largest direct-chain candidate
 is not a complete stack limit. Ten further controls bring the selected suite
 to160 passing tests;native qualification remains pending.
+
+Latest native progress: the actual caller's full512 DESC10 and all eight full512
+retained faults pass with current input hashes. Both readiness faults stop at
+25604 stores. The caller is still in RX PCIe;new nine-store tail qualification
+and tail-specific faults remain pending. No hardware/full-setup verdict.
 
 ## 2026-10-16 - PCIe Tail Protocol Journal
 

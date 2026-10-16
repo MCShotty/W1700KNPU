@@ -86,6 +86,13 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   Correctedq2 receipt61661c05 preserves the earlier exploratoryq1 driver/limits
   rather than silently promoting it. Ten controls/all160 selected units pass.
   Actual native jobs and consumed sources remain unchanged and live.
+- Fresh actual caller now passes full512 DESC10:25606 original stores,3072
+  packet/1792 BA claims,ready/RX step2 and exact856064 protected bytes,observed
+  dc5dfe94. All eight full512 retained faults pass;both readiness faults stop
+  at25604. Aggregate70b8bf59/current case/input/artifact hashes independently
+  revalidate without drift waivers. Fault job is terminal;fresh caller remains
+  live in RX PCIe. Tail/full caller/tail-specific faults/broader raw stay open;
+  no full setup or hardware verdict. Consumed source remains frozen.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

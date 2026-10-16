@@ -278,6 +278,31 @@ scope remains incomplete either way. Original/assembly calls,allowed indirect
 targets/IRQ nesting and actual physical per-hart placement remain open. Native
 caller/two readiness tests and all their consumed sources remain unchanged/live.
 
+## Fresh DESC10 And Eight Retained Faults Pass
+
+The actual provider/allocator/caller pcie-tail-native-q2 has passed full512
+DESC10:25606 original stores/3072 packet claims/1792 BA claims,ready1/RX step2
+and exact856064 protected bytes. Its independent read-only original-store
+trace is validated and no projected protected byte differs. Observed receipt
+`.local/npu-host-tx-lifetime-20261011/pcie-tail-native-q2/desc10-observed.json`,
+SHA256 `dc5dfe943099871b5eb83b3a8febfd90f054a663021b10e29dd331a11066ced8`.
+This is a completed stage of a still-live fresh caller,not its terminal result.
+
+The separate retained-control job is terminal0 with all eight unchanged full512
+cases passing. Both before-ready-bitmap and before-ready-plan stop25604 before
+the final counter/ready stores. Denied/partial-pool/claim-fault/head-changed/
+release-fault/denied-skb19 preserve their exact original expected effects and
+claim counts. The cached verifier independently rechecks every case,original
+snapshot,current source input and stored artifact without source-drift waivers.
+Aggregate `.local/npu-host-tx-lifetime-20261011/pcie-tail-native-q2/desc10-retained-controls/result.json`,
+SHA256 `70b8bf5994410e835370d3ade401325e62df86e17625a812693f0f45607b488e`.
+
+The actual caller is still executing RX PCIe. New tail admission,the full caller
+receipt,broader raw qualification and tail-specific native fault matrix remain
+pending. Keep its consumed inputs frozen. Do not restart the completed fault
+job from earlier live notes. Restored controls remain diagnostics,not fresh
+boots,physical faults,full setup or hardware acceptance.
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:

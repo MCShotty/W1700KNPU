@@ -49,6 +49,12 @@
   physical scope stays open. Correctedq2 receipt61661c05 retains conservative
   self/interior/conditional edges;old exploratoryq1 is preserved with limits.
   Ten new controls/all160 selected units pass;native jobs/inputs unchanged.
+- Latest native progress: fresh actual caller's full512 DESC10 passes25606
+  original stores/3072 packet claims/exact856064 protected bytes. All eight
+  full512 retained faults pass;both readiness cases stop25604. Aggregate
+  70b8bf59 revalidates current inputs/artifacts without drift waivers. Fault
+  job is terminal;actual caller remains live in RX PCIe,tail qualification
+  pending. Do not restart the completed fault job from earlier live notes.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 

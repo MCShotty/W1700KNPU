@@ -48,6 +48,13 @@ graph candidate4480 does not close assembly/original/indirect/IRQ/physical
 stack scope. Correctedq2 preserves earlier exploratoryq1 with its limitations.
 Ten added controls/all160 selected units pass;native jobs/inputs stay live.
 
+Latest native progress: fresh actual caller full512 DESC10 passes25606 stores,
+3072 packet claims/exact856064 protected bytes (observeddc5dfe94). All eight
+full512 retained faults pass,both readiness stops25604;aggregate70b8bf59 and
+every case/input/artifact revalidate. Fault job is terminal;actual caller is
+still live in RX PCIe. Tail/full caller/tail faults/broader raw remain pending;
+do not restart completed faults from older live notes. Inputs stay frozen.
+
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
 Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15
