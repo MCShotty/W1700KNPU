@@ -7,6 +7,7 @@
 #include "cold-tx-buffer.h"
 #include "cold-rx-event.h"
 #include "cold-rx-pcie.h"
+#include "cold-pcie-tail.h"
 
 #define NPU_COLD_REQUEST 0x3253434eu /* NCS2 */
 #define NPU_COLD_REPLY 0x3252434eu /* NCR2 */
@@ -99,7 +100,62 @@ struct npu_cold_setup {
     struct npu_cold_txbuf_plan txbuf, pending_txbuf;
     uint32_t txbuf_steps, prior_txbuf_steps;
     uint32_t rx_event, prior_rx_event, pending_rx_event, rx_event_steps, prior_rx_event_steps;
+    uint32_t tx2_register, prior_tx2_register, pcie_tail_steps, prior_pcie_tail_steps;
 };
+
+static inline uint32_t npu_cold_pcie_tail_command_step(const struct npu_bootstrap_packet *p)
+{
+    if (p->api != 0)
+        return NPU_COLD_PCIE_TAIL_STAGES;
+    return p->header == 0x10u ? 0u : p->header == 0x12u ? 1u :
+           p->header == 0x1fu ? 2u : NPU_COLD_PCIE_TAIL_STAGES;
+}
+
+static inline int npu_cold_tx2_register_valid(const struct npu_cold_setup *s)
+{
+    uint32_t offset = s->tx2_register - s->endpoint_base;
+
+    return s->tx2_register >= s->endpoint_base &&
+           (offset == NPU_COLD_TX_REG2 || offset == NPU_COLD_TX_REG2 + NPU_COLD_TX_HIF2) &&
+           s->endpoint_bytes >= 12 && offset <= s->endpoint_bytes - 12;
+}
+
+static inline int npu_cold_pcie_tail_request_valid(const struct npu_cold_setup *s,
+                                                 const struct npu_bootstrap_packet *p)
+{
+    uint32_t step = npu_cold_pcie_tail_command_step(p), offset;
+
+    if (step >= NPU_COLD_PCIE_TAIL_STAGES || step != s->pcie_tail_steps ||
+        s->completed != NPU_COLD_COMPLETED_MASK || !s->rx_event || s->rx_event_steps != 3 ||
+        s->txbuf_enrolled != NPU_COLD_TXBUF_RECORDS || s->txbuf_steps != NPU_COLD_TXBUF_STEPS ||
+        s->descriptor_gets != NPU_COLD_DESCRIPTOR_STEPS ||
+        !npu_cold_endpoint_valid(s->endpoint_base, s->endpoint_bytes) ||
+        !npu_cold_tx2_register_valid(s))
+        return 0;
+    if (step == 2)
+        return p->value == 0;
+    offset = step ? s->tx2_register - s->endpoint_base + 0x110u : NPU_COLD_TX_REG0 + 0x160u;
+    return offset <= s->endpoint_bytes - 12 && p->value == s->endpoint_base + offset;
+}
+
+/* This validates an actual current successor, never an earlier fabricated view.
+ * Native callers additionally retain their session, completed owners and locks.
+ */
+static inline int npu_cold_pcie_tail_inflight(const struct npu_cold_setup *s)
+{
+    return !s->failed && s->inflight == 1 &&
+           npu_cold_pcie_tail_request_valid(s, &s->command) &&
+           s->prior_completed == NPU_COLD_COMPLETED_MASK &&
+           s->prior_rx_event_steps == 3 && s->prior_rx_event == s->rx_event &&
+           s->pending_rx_event == s->rx_event &&
+           s->prior_descriptor_gets == NPU_COLD_DESCRIPTOR_STEPS &&
+           s->descriptor_arena == s->prior_descriptor_arena &&
+           s->prior_txbuf_enrolled == NPU_COLD_TXBUF_RECORDS &&
+           s->prior_txbuf_steps == NPU_COLD_TXBUF_STEPS &&
+           s->prior_base == s->endpoint_base && s->prior_bytes == s->endpoint_bytes &&
+           s->prior_tx2_register == s->tx2_register &&
+           s->prior_pcie_tail_steps == s->pcie_tail_steps;
+}
 
 static inline int npu_cold_rx_event_enrollment(const struct npu_bootstrap_packet *p)
 {

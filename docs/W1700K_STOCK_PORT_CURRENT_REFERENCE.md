@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
+
+Canonical server/Linux code retains selected TX2/HIF and the ordered PCIe0/2/15
+journal. Private SETUP grows388->404 by appending four words; earlier offsets
+are unchanged. Version/STATUS reads remain compatible. The native dispatcher
+denies these commands until their actual nine-store owner is bound,and no
+longer treats header0x1f alone as successful synthetic enrollment.
+
+Current scoped checks pass1930 protocol cases/53 mutants,609 provider/nine,
+45 compiled RV32 dispatcher/three,24 guard cases,118 units,all18 image groups,
+six boot/six unleased denials and normal22-object compilation. Exact DESC10
+frame audit covers29 C functions;2064-byte largest frame is not a full bound.
+Seala07b27a753153006f753cfd98248bb86093400110534588ed86de88708d40de2
+binds452 inputs. Source export/lock refresh verifies70 OpenWrt/five LuCI files.
+
+Raw18/147 repeats CODE6bedb6cc/DATA076912dc but is not fresh actual-caller/
+full512/eight-fault qualified. Old sealb02ebf82 applies only to its preserved
+1171-file producing cohort. FIT978f9ddd is unchanged/unflashed. All jobs are
+terminal; no world/hardware/subagents. Next real native tail/prior/lifetime
+binding,INODE,checked IRQ/hot,full stack/physical/drain/lifecycle/client work.
+Read research/checkpoints/2026-10-16-npu-pcie-tail-journal/REPORT.md.
+
 ## 2026-10-16 - Packet-Plan Guard And Retained Raw Qualified
 
 Fresh q2 actual allocator/provider/host caller is terminal0 through full512

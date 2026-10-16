@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-16 - PCIe Tail Protocol Journal
+
+The checked protocol now retains the accepted TX2/HIF register and the ordered
+PCIe0/2/15 command journal. Both HIF profiles, late mutations, lost/corrupt
+replies and callback failures are covered. Native dispatch explicitly denies
+these commands until their actual nine-store owner is bound; selector15 can no
+longer be mistaken for a successful synthetic binding just because of its header.
+
+Scoped checks pass1930 protocol cases/53 mutants,609 provider cases/nine mutants,
+45 compiled RV32 dispatch cases/three mutants,118 focused units and all18 image
+groups. Two raw18-component/147-hook builds repeat, private setup is404 bytes,
+and the unified source export/lock verifies70 OpenWrt/five LuCI files.
+Seala07b27a7 binds452 inputs. No fresh full512 caller/fault qualification of this
+changed pair is claimed. The prior qualified producing cohort remains preserved;
+FIT978f9ddd is unchanged/unflashed. Full native/IRQ/hot/lifecycle/physical/client
+work remains open. See the [journal report](research/checkpoints/2026-10-16-npu-pcie-tail-journal/REPORT.md).
+
 ## 2026-10-16 - Packet-Plan Guard Qualified
 
 The fresh actual allocator/provider/host caller now passes full512 DESC10 and

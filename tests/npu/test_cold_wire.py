@@ -52,6 +52,26 @@ def main():
     executor = SOURCE / 'linux-control.c'
     original, codec, linux = server.read_text(), client.read_text(), executor.read_text()
     mutations = {
+        'skip-tail-begin-history': {server: loader.once(original,
+            'if (tail < NPU_COLD_PCIE_TAIL_STAGES &&',
+            'if (0 && tail < NPU_COLD_PCIE_TAIL_STAGES &&')},
+        'skip-tail-late-tx2': {server: loader.once(original,
+            's->tx2_register != s->prior_tx2_register ||',
+            '(0 && s->tx2_register != s->prior_tx2_register) ||')},
+        'skip-tail-late-progress': {server: loader.once(original,
+            's->pcie_tail_steps != s->prior_pcie_tail_steps ||',
+            '(0 && s->pcie_tail_steps != s->prior_pcie_tail_steps) ||')},
+        'omit-tail-progress': {server: loader.once(original,
+            's->pcie_tail_steps++;', 's->pcie_tail_steps += 0;')},
+        'omit-TX2-journal': {server: loader.once(original,
+            's->tx2_register = s->command.value;', 's->tx2_register = 0;')},
+        'skip-host-tail-order': {executor: loader.once(linux,
+            'tail != tail_before ||', '(0 && tail != tail_before) ||')},
+        'skip-host-tail-value': {executor: loader.once(linux,
+            'snapshot.value != address + offset', '(0 && snapshot.value != address + offset)')},
+        'skip-host-tail-late-journal': {executor: loader.once(linux,
+            'else if (control->tx0_register != tx0_before || control->tx2_register != tx2_before ||\n\t\t control->pcie_tail_steps != tail_before)',
+            'else if (0 && (control->tx0_register != tx0_before || control->tx2_register != tx2_before ||\n\t\t control->pcie_tail_steps != tail_before))')},
         'skip-RX-PCIE-order': {server: loader.once(original,
             'return s->rx_event_steps == 2 && s->rx_event &&',
             'return (1) && s->rx_event &&')},
@@ -139,6 +159,7 @@ def main():
                           'Initial binding is exercised through actual V2 control C; fixture cold backing/parking is not physical proof.',
                           'Fourteen ordered mailbox/TX records, lost replies and pending-plan mutations join the existing cold prefix/getters.',
                           'DESC10 step1-to2 admission, retained failures and reply delivery are host/codec scope, not original constructor execution.',
+                          'PCIe-tail three-command journal and accepted HIF selection are exercised with modeled callbacks, not native admission.',
                           'Native API21/DESC10 store correctness, INODE/final IRQ and physical/hot/client gates remain outside this host fixture proof.'])
     (dest / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=matrix['cases'], mutants=len(rejected))))

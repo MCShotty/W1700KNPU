@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
+
+- Actual server/Linux executor retain accepted TX2/HIF and ordered PCIe0/2/15
+  progress separately from RX steps. Private SETUP404 appends four words;
+  previous field offsets stay unchanged. Version/STATUS reads remain available.
+- Exact native dispatcher denies the three unbound tail commands, retaining
+  failed leases. Header0x1f alone is no longer synthetic-bind success. Do not
+  remove this denial until real completed-owner/store guards are bound.
+- Protocol1930/53 mutants,provider609/nine,compiled RV32 dispatch45/three,
+  guard24,118 units,raw18/147/all18 image groups and six boot/six unleased
+  denials pass. Normal22 objects compile; exact DESC1029 C frames match.
+  Scoped seala07b27a7 verifies452 inputs. Source export/lock refresh70/5 passes.
+- All jobs are terminal. Current raw CODE6bedb6cc/DATA076912dc is not fresh
+  actual-caller/full512/eight-fault qualified. Old native sealb02ebf82 applies
+  only to its preserved1171-file producing cohort, not these changed inputs.
+  FIT978f9ddd remains unchanged/unflashed; no world/hardware/subagents.
+- Next explicit authenticated tail successor helpers,actual nine-store owner,
+  provider lifetime/routing and fresh full512/fault qualification; INODE/IRQ/
+  hot/physical/drain/lifecycle/client/full-stack scope remains open. Read
+  research/checkpoints/2026-10-16-npu-pcie-tail-journal/REPORT.md.
+
 ## 2026-10-16 - Packet-Plan Guard And Retained Raw Replay Qualified
 
 - Fresh actual provider allocator/host caller desc10-plan-q2 is terminal0

@@ -53,9 +53,9 @@ class ImageTests(unittest.TestCase):
         image.validate(code, data, manifest)
         bss = [row for row in manifest['sections'] if row['zero_fill']]
         self.assertEqual({row['component']: row['end'] - row['start'] for row in bss},
-                         {'base': 388, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
-                          'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213744,
-                          'cold-rx-event': 672, 'cold-txdone': 23056, 'cold-rx-pcie': 708})
+                         {'base': 404, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
+                          'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213760,
+                          'cold-rx-event': 688, 'cold-txdone': 23072, 'cold-rx-pcie': 724})
         for row in bss:
             self.assertEqual(code[row['start'] - image.CODE:row['end'] - image.CODE], bytes(row['end'] - row['start']))
 

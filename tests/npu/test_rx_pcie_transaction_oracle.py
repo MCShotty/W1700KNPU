@@ -8,14 +8,15 @@ from rx_pcie_transaction_oracle import expected, SPACES
 
 
 class PcieTransactionOracleTests(unittest.TestCase):
-    def fixture(self):
+    def fixture(self, hif2=0):
         session, state = 0x3e906380, 0x84046000
         images = {address: bytearray(b'\xa5' * length) for address, length in SPACES}
         struct.pack_into('<5I', images[0x3e900000], session - 0x3e900000, 1, 2, 3, 4, 57)
-        setup = [0] * 97
+        setup = [0] * 101
         setup[12:14] = [0x20000000, 0x100000]
         setup[95] = 2
-        setup = struct.pack('<97I', *setup)
+        setup[97:99] = [0x200d4450 + hif2 * 0x4000] * 2
+        setup = struct.pack('<101I', *setup)
         cpu = Mock()
         def read(address, length):
             if address == state:
@@ -51,7 +52,8 @@ class PcieTransactionOracleTests(unittest.TestCase):
             h.cpu.mem_write.assert_not_called()
 
     def test_completed_prefix_is_required_before_region_reads(self):
-        for offset, value in ((0, 1), (4, 1), (380, 1), (48, 0x20000001), (52, 4096)):
+        for offset, value in ((0, 1), (4, 1), (380, 1), (48, 0x20000001), (52, 4096),
+                              (388, 0), (388, 0x200d4454), (392, 0), (396, 1), (400, 1)):
             h, request, _, setup = self.fixture()
             data = bytearray(setup)
             struct.pack_into('<I', data, offset, value)
@@ -60,6 +62,14 @@ class PcieTransactionOracleTests(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 expected(h, request)
             self.assertFalse(any(call.args[0] in dict(SPACES) for call in h.cpu.mem_read.call_args_list))
+
+    def test_both_accepted_hif_profiles_keep_the_same_rx_pointer_projection(self):
+        for hif2 in (0, 1):
+            h, request, _, _ = self.fixture(hif2)
+            result, changes = expected(h, request)
+            self.assertEqual(struct.unpack_from('<I', result[0x3e900000], 0x2a90)[0], 0x200d4590)
+            self.assertEqual(len(changes), 2)
+            h.cpu.mem_write.assert_not_called()
 
 
 if __name__ == '__main__':

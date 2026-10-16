@@ -27,7 +27,16 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
         command.header = s->command.header;
         command.api = s->command.api;
         command.value = s->command.value;
-        if (command.header == NPU_COLD_BIND_HEADER) {
+        /* The tail protocol is journaled, but its native owner is not bound.
+         * Do not delegate to the unguarded original PCIe callback or fake a bind.
+         */
+        if (npu_cold_pcie_tail_command_step(&command) < NPU_COLD_PCIE_TAIL_STAGES) {
+            slot = callback = 0;
+        } else if (command.header == NPU_COLD_BIND_HEADER &&
+                   (command.api == NPU_COLD_BIND_BASE_API ||
+                    command.api == NPU_COLD_BIND_BYTES_API ||
+                    npu_cold_txbuf_enrollment_step(&command) < NPU_COLD_TXBUF_RECORDS ||
+                    npu_cold_rx_event_enrollment(&command))) {
             result = 1;
             slot = callback = 0;
         } else if ((command.header & ~15u) == 0x30u) {

@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-16 (fresh DESC10/RX PCIe, all eight faults and broader raw qualified; cohort preserved)
+Last updated: 2026-10-16 (PCIe-tail protocol journal integrated; native dispatch remains closed)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-16 - PCIe Tail Journal And Dispatch Boundary
+
+- Canonical cold server and Linux executor retain the accepted TX2 register/HIF
+  and exact PCIe0/2/15 ordering independently of RX progress. Four appended
+  words grow private SETUP388->404 without shifting old fields. Host/server
+  progress advances only on accepted replies; timeout/late-callback uncertainty
+  retains faults/leases. Existing version and STATUS reads remain compatible.
+- Fixed a latent native-dispatch classification exposed by this extension:
+  header0x1f alone cannot acknowledge selector15 as synthetic binding. The
+  dispatcher explicitly denies all three unbound tail commands rather than
+  reaching original unguarded stores or pretending that they ran.
+- Current sanitized protocol fixture passes1930 cases/486 tail cases/53 compiled
+  mutants;provider609/nine mutants. Exact compiled RV32 dispatcher45/three
+  mutants passes with explicit protocol/callback stubs,not native admission.
+  Guard24,118 focused units,six boot/six unleased denials,all18 image groups and
+  normal22-object compilation pass. DESC10 exact-section audit covers29 C
+  functions/maximum individual frame2064,not a full stack bound.
+- Two raw18-component/147-hook pairs repeat CODE6bedb6cc/DATA076912dc.
+  Scoped seal SHA256a07b27a753153006f753cfd98248bb86093400110534588ed86de88708d40de2
+  verifies452 current inputs. Unified source export70 OpenWrt/five LuCI files
+  and22 component copies verify;source-lock18d8b114. Cumulative patches and
+  existing WiFi/UI inputs are unchanged. Jev checks evidence-scope claims;
+  retained probabilities are semantic evidence,not execution proof.
+- All jobs are terminal. No new actual-caller/full512/eight-fault qualification,
+  full setup,world rebuild,flash,hardware or subagent action. FIT978f9ddd remains
+  unchanged; prior native sealb02ebf82 belongs to its preserved1171-file cohort.
+  Real nine-store/prior/lifetime binding,INODE,checked IRQ/hot ownership,full
+  stack/physical/drain/lifecycle/recovery/client work remains open.
+  Evidence: research/checkpoints/2026-10-16-npu-pcie-tail-journal/REPORT.md.
 
 ## 2026-10-16 - Fresh DESC10/RX PCIe And Retained Raw Qualified
 

@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
+
+The accepted TX2/HIF and ordered three-command PCIe-tail protocol journal are
+implemented in canonical server/Linux code and the unified source lock. Native
+dispatch remains deliberately denied until the real nine-store owner is bound;
+header0x1f cannot silently acknowledge selector15 as a synthetic binding.
+Protocol1930/53 mutants,provider609/nine,compiled RV32 dispatch45/three,118
+units,raw18/147/all18 image groups,six boot/six unleased denials,guard24 and
+normal22 objects pass their scoped checks. Seala07b27a7 binds452 current inputs.
+
+Next extend the prior-helper chain with explicit authenticated tail successors
+without fabricating earlier SETUP,bind all nine original stores and completed
+owners,then add actual provider lifetime/routing and fresh full512/eight-fault
+qualification for the changed pair. Current private state is404 bytes; prior
+native success belongs only to its preserved388-byte producing cohort.
+INODE,checked initial/hot IRQ,complete workers/hot ownership,full stack bounds,
+physical backing/cache/exclusion/drains/lifecycle/recovery and actual-image/
+client acceptance remain open. FIT978f9ddd stays unchanged/unflashed; no world
+rebuild or hardware action. Read the pcie-tail-journal/REPORT.md checkpoint.
+
 ## 2026-10-16 - Packet-Plan And Retained Raw Gates Closed
 
 Fresh actual allocator/provider/host caller q2, full512 DESC10, RX PCIe, all eight
