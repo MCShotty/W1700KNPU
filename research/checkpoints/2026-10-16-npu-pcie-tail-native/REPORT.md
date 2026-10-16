@@ -303,6 +303,31 @@ pending. Keep its consumed inputs frozen. Do not restart the completed fault
 job from earlier live notes. Restored controls remain diagnostics,not fresh
 boots,physical faults,full setup or hardware acceptance.
 
+## Complete Tail Fault Matrix Runner
+
+`pcie_tail_retained_controls.py` requires all12 existing tail fault classes at
+each of the three strict actual-caller prefix origins. It validates every
+current input/artifact hash,stage/case/effect count,404-byte SETUP/256-byte owner,
+3072 claims and exact protected region identities/sizes with zero unexpected
+differences. Cached aggregates cannot omit a case or promote diagnostic scope
+to fresh caller/full setup/hardware. Missing/incomplete cases remain failures.
+It invokes the unchanged native case driver with the same60-second host-entry
+budget as the current caller;no RV32 instruction/checkpoint bound is changed.
+
+Seven synthetic aggregate contract tests and all167 selected units pass. The
+actual36-case matrix has not run while the fresh caller is still in RX PCIe and
+its three tail prefixes are pending. The existing eight-case DESC10 matrix is
+separate and already terminal0. No new native positive is inferred from the
+runner's tests or Jev's retained semantic scope checks.
+
+```sh
+PYTHONPATH=.local/npu-reset/python-lib:tests/npu:tools \
+  python3 -B tests/npu/pcie_tail_retained_controls.py \
+  --pair .local/npu-pcie-tail-native-20261016/native-pair-q1 \
+  --caller .local/npu-host-tx-lifetime-20261011/pcie-tail-native-q2 \
+  --output .local/npu-host-tx-lifetime-20261011/pcie-tail-native-q2/tail-retained-controls
+```
+
 ## Preservation And Limits
 
 The prior journal cohort was copied and hash-verified before native edits:

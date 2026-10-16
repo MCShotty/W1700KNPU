@@ -93,6 +93,12 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   revalidate without drift waivers. Fault job is terminal;fresh caller remains
   live in RX PCIe. Tail/full caller/tail-specific faults/broader raw stay open;
   no full setup or hardware verdict. Consumed source remains frozen.
+- Added strict36-case native tail matrix runner (12 existing cases at each of
+  three captured actual prefixes),including cached artifact/input/scope checks,
+  exact stage/effect counts and protected region identities/sizes. Seven new
+  aggregate contracts/all167 selected units pass. Native matrix has not run;
+  three actual tail prefixes are still pending. Existing native code/observer
+  inputs and instruction/checkpoint bounds are unchanged.
 - FIT978f9ddd remains unchanged/unflashed. No world, hardware or subagents.
   INODE, checked initial/hot IRQ, full worker/hot/stack/physical/drain/lifecycle/
   recovery/client scope remains open. Evidence:

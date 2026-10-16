@@ -55,6 +55,11 @@
   70b8bf59 revalidates current inputs/artifacts without drift waivers. Fault
   job is terminal;actual caller remains live in RX PCIe,tail qualification
   pending. Do not restart the completed fault job from earlier live notes.
+- pcie_tail_retained_controls.py now runs/revalidates all36 native tail faults
+  (12 cases/three strict actual prefixes),with exact stage/effects/regions,
+  current hashes and no cached scope promotion. Seven contracts/all167 units
+  pass;native matrix has not run while three prefixes are pending. New runner
+  does not edit frozen RV32/observer inputs or change native count bounds.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Dispatch Closed
 

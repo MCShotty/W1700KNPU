@@ -13,8 +13,8 @@ Final source70/5, repeated raw19/156/all19 image groups,loader60/eight mutants
 and actual published-byte/eight-hart boot pass. Scoped sealc9913292 verifies343
 current input hashes. Actual allocator/caller pcie-tail-native-q2 is live;
 consumed inputs are frozen. Full512 DESC10/all eight retained faults now pass;
-next finish RX PCIe/nine-store success and the new tail-specific native controls. Four new fault-oracle
-contract units pass, not a native fault matrix. Q1 stopped at fixture compilation
+next finish RX PCIe/nine-store success and the new tail-specific native controls.
+Four new fault-oracle contract units pass,not a native fault matrix. Q1 stopped at fixture compilation
 before native execution and is preserved. The actual padded INODE boundary remains
 to be measured; do not label an envelope rejection an INODE constructor verdict.
 Prior journal454-file and native1171-file producing cohorts are protected.
@@ -55,6 +55,10 @@ Latest native progress is hash-verified:actual full512 DESC1025606 stores,
 (both readiness stops25604) pass. Aggregate70b8bf59 revalidates all current
 inputs/artifacts;fault job is terminal. Actual caller remains live in RX PCIe,
 so tail admission/full caller,broader raw and tail-specific faults stay open.
+The canonical tail runner now requires all36 exact stage/case results and
+revalidates cached scopes/input/artifact hashes. Seven aggregate contract
+tests/all167 selected units pass;native execution still awaits all three actual
+prefixes. No source/count guard is weakened by this new consumer.
 
 ## 2026-10-16 - PCIe Journal Done; Real Native Binding Still Open
 

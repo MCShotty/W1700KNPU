@@ -54,6 +54,10 @@ full512 retained faults pass,both readiness stops25604;aggregate70b8bf59 and
 every case/input/artifact revalidate. Fault job is terminal;actual caller is
 still live in RX PCIe. Tail/full caller/tail faults/broader raw remain pending;
 do not restart completed faults from older live notes. Inputs stay frozen.
+Canonical tail matrix consumer requires all36 cases over three strict actual
+prefixes,exact region/effect/private bytes and cached current hash/scope checks.
+Seven contracts/all167 selected units pass;the native matrix has not run while
+actual tail prefixes are pending. RV32/observer source and count bounds unchanged.
 
 ## 2026-10-16 - PCIe Tail Journal Integrated; Native Binding Open
 
