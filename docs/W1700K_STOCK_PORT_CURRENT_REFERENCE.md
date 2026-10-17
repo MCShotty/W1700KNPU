@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Default Cached Eight-Case Coverage Verified
+
+The unchanged frozen grader accepts a new default-HIF collection of all eight
+byte-exact passed cached diagnostics, aggregate b1c1342f / audit 43722a96.
+Preparation 753a28ee preserves 136 copied files; readback verifies 352 inputs,
+137 artifacts, 2337 original/supplemental sources and both original failed
+trees/executions unchanged. This is cached coverage, not fresh native matrix,
+cold/current-main or physical acceptance. The bitmap source used a 21600s
+host bound versus 10800s for the other seven; native 60000000us is unchanged.
+
+The q1 wrapper postcheck failed on its case-order assumption after the original
+grader passed. Its source/log stay preserved; separate q2 readback uses the
+actual original order without changing the aggregate. It ran from physical
+frozen ROOT, not a canonical-path private mount. HIF2 bitmap, both callers and
+full36 matrices remain live; new24 INODE/broader/current-source/physical/client
+gates remain open. Source-lock 40d29368, image a22300ea and WORLD.json unchanged.
+No hardware, job restart, waiver or subagents. See world-isolation/REPORT.md.
+
 ## 2026-10-17 - Default Bitmap Passed;Prefix Scope Measured
 
 Fresh default observed bitmap diagnostic passes,casefc18f8ad/attemptae924e40/

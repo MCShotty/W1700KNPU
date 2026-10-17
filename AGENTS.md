@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Default Cached DESC10 Coverage Verified
+
+- A fresh default collection revalidates all eight original strict cases from
+  byte-exact passed caches, aggregate b1c1342f / audit 43722a96. It is not a
+  fresh native matrix, repaired failed run, cold/current-main or physical proof.
+  Keep both old failed executions and their absent bitmap verdicts unchanged.
+- Preparation 753a28ee copies 136 files, preserving 2337 original/supplemental
+  sources. Readback verifies 352 inputs / 137 artifacts and both original
+  failed trees including modes/owners/links. The seven old cases used 10800s
+  host bounds; the new bitmap source used 21600s, native 60000000us unchanged.
+- The q1 wrapper's order-only postcheck failed after the original grader passed.
+  Its source/log are preserved, not fixed or relabeled. Separate q2 readback
+  accepts the actual original case order and leaves the aggregate unchanged.
+  It uses the physical frozen ROOT, not a canonical-path private mount replay.
+- HIF2 bitmap, both original callers and both full36 tail matrices remain live;
+  new24 INODE and broader/current-source/physical/client gates stay open. Do
+  not restart jobs or change original inputs/budgets/coverage. Source-lock
+  40d29368, image a22300ea and WORLD.json stay unchanged. No subagents/hardware.
+  Read world-isolation/REPORT.md for paths, hashes and Jev's retained uncertainty.
+
 ## 2026-10-17 - Default Bitmap Pass And Bounded Prefix Verifier
 
 - New default bitmap diagnostic passes,casefc18f8ad/attemptae924e40/execution

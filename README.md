@@ -6,9 +6,12 @@ Both nominal callers passed full512 DESC10 setup and their first two PCIe tail
 commands; later stages and both full 36-case tail matrices are running.
 Each old DESC10 fault matrix remains failed at its original bitmap host deadline.
 A fresh restored-prefix default bitmap replay now passes all strict checks;
-the HIF2 equivalent is running. The observed denied replay also passes with
-15 native artifacts byte-identical to its earlier case. No complete matrix
-or final constructor qualification is claimed.
+the HIF2 equivalent is running. A separate default collection now passes the
+unchanged grader over all eight byte-exact cached cases. This is cached
+diagnostic coverage, not a fresh native matrix or a repaired failed run.
+The observed denied replay also passes with
+15 native artifacts byte-identical to its earlier case. No fresh complete
+native matrix or final constructor qualification is claimed.
 
 The fourth isolated Linux 6.18.52 world/image build now passes FIT, Gemtek
 board, 218-package, 78-module and prepared-source 5/22/329 checks. The separate

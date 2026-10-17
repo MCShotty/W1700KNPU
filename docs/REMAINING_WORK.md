@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Cached Default DESC10 Coverage Is Not Fresh Execution
+
+New default cached aggregate b1c1342f / audit 43722a96 revalidates all eight
+original strict cases at full512, with 136 byte-exact copied files, 352 inputs
+and 137 artifacts. Both original failed matrices remain failed and unchanged.
+The bitmap source used 21600s host, the other seven 10800s; native 60000000us
+is unchanged. Do not substitute this collection for fresh native/current-main
+qualification or repair the old missing verdicts. The failed order-only q1
+postcheck is preserved; independent q2 readback leaves the aggregate unchanged.
+
+Continue HIF2 bitmap, both original cold callers and both full36 tail matrices
+without restarting them. Actual INODE prefixes/new24 faults and broader
+qualification remain pending; the broader consumer still points at the old
+failed directories and has not been rerouted. Current-main native/full setup,
+hot/RRO/IRQ/lifecycle/physical/boot/client gates stay open. Source-lock40d29368,
+image a22300ea and WORLD.json are unchanged. No hardware action or subagents.
+Exact scope and evidence: world-isolation/REPORT.md.
+
 ## 2026-10-17 - Default Bitmap Passed;Other Native Gates Live
 
 Fresh default restored bitmap casefc18f8ad passes full512/25604 stores/3072

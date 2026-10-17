@@ -543,3 +543,78 @@ preserved,not replayed. Full hashes,fixture provenance,source checks and Jev
 probabilities are in [STACK.md](../2026-10-17-npu-inode-caller/STACK.md).
 Imagea22300ea/WORLD.json and source-lock40d29368 remain unchanged;no module
 load,flash,hardware action,guard/hash/coverage waiver or subagents.
+
+## Default Cached DESC10 Coverage Verified
+
+The existing frozen raw_pair_retained.run_controls grader supports reusing
+passed case caches. A new directory contains byte-exact copies of the seven
+original passing default-HIF cases plus the new passing before-ready-bitmap
+diagnostic. The unchanged grader accepts all eight at full512. This is a new
+cached diagnostic coverage record, not a fresh native matrix execution, repaired
+old failure, new allocator/cold caller or current-main/physical qualification.
+
+New collection beneath `.local/npu-validation-capsules/inode-caller-v1/root/`:
+
+`.local/npu-desc10-cached-completion-20261017/default-q1/`
+
+- `result.json`, SHA256
+  `b1c1342fcecd2b6997de6c8fc7e81447bc1fe6a9d1cc611b4c4c096eb9576a01`.
+- `PROVENANCE.json`, SHA256
+  `10a70fb78636f2cd9615fdfa992236b6af25af7e9b679a37b206b1321bdbd1f9`.
+
+All following receipts are under `.local/npu-world-overlay-20261017/`:
+
+- `desc10-cached-default-preparation-q1.json`, SHA256
+  `753a28ee58c7e251cd987dc4399be087f0809e14d0e99ceab0f10338e080b766`.
+- `desc10-cached-default-audit-q2.json`, SHA256
+  `43722a967d7f8b4263416f1c1f50eacae9ead3f22c4bfc49e4b465da18de678c`.
+- `desc10-cached-default-postcheck-failure-q1/result.json`, SHA256
+  `6287815a4df362c3ceca1f59978b218d25f842a6ed46862901eaf4bda89db353`.
+
+Preparation verifies all2337 readonly original/supplemental files and copies
+136 case/log files without changing their contents. Readback checks352 declared
+inputs and137 aggregate artifacts, exact copied/source bytes, and both original
+failed trees' contents/modes/owners/literal-link constraints. The original two
+execution receipts remain return1; both old bitmap result files remain absent.
+No standard record or old case is rewritten. The broader raw consumer still
+targets the original failed directories and has not been rerouted to this copy.
+
+| Original Case | Original Stores | Packet Claims |
+| --- | --- | --- |
+| denied | 2 | 2560 |
+| partial-pool | 104 | 2577 |
+| claim-fault | 2 | 2561 |
+| head-changed | 2 | 2561 |
+| release-fault | 2 | 2561 |
+| denied-skb19 | 3074 | 3072 |
+| before-ready-bitmap | 25604 | 3072 |
+| before-ready-plan | 25604 | 3072 |
+
+All cases retain their exact original per-case native guards, snapshot identity,
+source inputs, store/lock counts, private claims/publications and full512 scope.
+The bitmap source used21600s host, the other seven10800s; native60000000us is
+unchanged. Original bitmap outer elapsed7195.612903s does not diagnose the old
+timeouts. The copied coverage record does not erase that difference.
+
+The initial wrapper's postcheck incorrectly expected plan before bitmap. The
+original grader passed and wrote the aggregate in its actual bitmap-before-plan
+order, then the wrapper raised AssertionError. Its source/log remain read-only
+in the preserved failure directory. A separate q2 audit re-enters the unchanged
+grader's cached-summary branch, verifies its real order and all hashes, returns0
+and leaves the aggregate byte-identical. It does not relabel the q1 failure.
+
+Two new WSL connections failed before canonical namespace launch. Existing shells
+and native workers remained healthy. Cache-only grading used the physical frozen
+tree as ROOT without a canonical-path private mount; it did not execute any new
+native case. It must not be described as a canonical namespace replay. No guest,
+original source, mount in the parent namespace, firmware/image or hardware changed.
+
+Jev q13 retains uncertainty on the documentation scope claim (support0.59,
+confidence0.38) and the private-mount claim (contradiction0.56,confidence0.34).
+It contradicts fresh native execution0.99/0.98 and old-failure repair0.98/0.97.
+Raw distributions remain in jev-q13.result.json. These judgments are not approval
+or execution evidence; the original grader and explicit hash/audit checks establish
+only cached scope. Both nominal callers/full36 tail matrices and HIF2 bitmap
+remain live. New24 INODE, broader/current-source native/full setup, hot/RRO/IRQ,
+physical/drain/lifecycle/boot and real-client gates remain open. No restart,
+source-lock change, reduced coverage, guard waiver, hardware action or subagents.

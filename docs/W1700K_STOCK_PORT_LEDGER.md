@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (default bitmap diagnostic passed; HIF2 bitmap and full36 matrices live; prefix verifier/72 units pass)
+Last updated: 2026-10-17 (default eight-case cached coverage verified; HIF2 bitmap/callers/full36 matrices live; original failures preserved)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Default Cached Eight-Case Coverage Verified
+
+- A new default-HIF collection passes the unchanged original grader over all
+  eight byte-exact passed caches, aggregate b1c1342f / audit 43722a96. This is
+  cached diagnostic coverage, not a fresh native matrix or repaired failure.
+  Both original failed executions, their 14 passed receipts and missing old
+  bitmap verdicts remain unchanged. Broader qualification is not rerouted.
+- Preparation 753a28ee copies 136 files and verifies 2337 original/supplemental
+  sources. Independent readback verifies 352 inputs / 137 artifacts, all source
+  versus copied bytes and both original failed trees' modes/owners/links.
+  Full512 and all original per-case guards/counts remain. The bitmap source
+  used 21600s host; other seven used 10800s, native 60000000us unchanged.
+- The q1 post-grader wrapper failed an order assumption: it listed plan before
+  bitmap while the original grader uses bitmap before plan. Its source/log are
+  preserved unchanged. Separate q2 readback accepts the actual original order
+  and verifies the same aggregate without rewriting it. Physical frozen ROOT
+  was used, not a canonical-path private mount. New WSL connections failed
+  before namespace launch; existing native jobs were not interrupted.
+- Jev q13 is uncertain on the narrow documentation claim, support0.59/
+  confidence0.38. It contradicts fresh-native0.99/0.98 and old-failure-repair
+  0.98/0.97 claims; private-mount claim also remains uncertain0.56/0.34.
+  Preserve distributions; actual source/hash/readback checks establish only
+  the stated cached scope. No model judgment is an execution or approval.
+- HIF2 bitmap, both original callers and both full36 tail matrices remain live;
+  new24 INODE/current-main/full setup/hot/RRO/IRQ/lifecycle/physical/boot/client
+  gates remain open. Source-lock40d29368/imagea22300ea/WORLD.json unchanged.
+  No hardware, job restart, waiver or subagents. Exact evidence: the appended
+  default cached-coverage section in world-isolation/REPORT.md.
 
 ## 2026-10-17 - Default Bitmap Passed And Prefix Verifier Added
 
