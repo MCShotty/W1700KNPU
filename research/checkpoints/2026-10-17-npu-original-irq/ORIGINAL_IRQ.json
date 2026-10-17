@@ -1,0 +1,250 @@
+{
+  "format": "w1700k-original-irq-local-SP-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "proof": {
+    "path": ".local/npu-original-irq-20261017/scope-q1.json",
+    "sha256": "b634bf819476fe541a9b02ac671aa07dda6a9f495ef394b4cfdbf8835d8750fc",
+    "verified_paths": 443
+  },
+  "receipts": {
+    "local_SP": {
+      "path": ".local/npu-original-body-stack/irq-local-q2/result.json",
+      "sha256": "159a9a4d6b2e2ea5510a82b0304d87f7b3478ad56b5a06148bec2cd46c36d6ce"
+    },
+    "original_diagnostics": {
+      "path": ".local/npu-original-irq-20261017/original-probes-q1/result.json",
+      "sha256": "75ec9ae4150c25810fd5f874616ce933777c77dc42a75aa822dc572d32647748"
+    },
+    "focused_units": {
+      "path": ".local/npu-original-irq-20261017/host-scope-q1/result.json",
+      "sha256": "3ac1fa2539b20635d7d311d52eb4dbcf7f4fe11e8665aee691baac4615939bbc"
+    },
+    "local_contracts": {
+      "path": ".local/npu-original-irq-20261017/local-contracts-q2/result.json",
+      "sha256": "98432df1311531cb39b7f8ef25e1e95d1e48a00373947621bd538ef7c27a65db"
+    },
+    "Ghidra": {
+      "path": ".local/npu-original-irq-20261017/functions-q1.json",
+      "sha256": "0cfa162d395349de0672c7d055bdef9af5f8c74c58d71a86ce2fa9b8f788809e"
+    },
+    "Linux_IRQ_scope": {
+      "path": ".local/npu-irq-channel-20261017/scope-q2.json",
+      "sha256": "523c8a2ee0175a4624cbae8201ba19104eb6430205d640ee1dc0a544a2b87e82"
+    }
+  },
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "original_CODE_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "paired_CODE_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "functions": [
+    {
+      "entry": 2214611188,
+      "bytes": 252,
+      "instructions": 92,
+      "local_max_stack_bytes": 64,
+      "external_transfers": [
+        {
+          "address": 2214611244,
+          "target": 2214619064,
+          "kind": "direct-call",
+          "caller_CFA": 64,
+          "child_frame_proved": false
+        },
+        {
+          "address": 2214611260,
+          "target": 2214659762,
+          "kind": "direct-call",
+          "caller_CFA": 64,
+          "child_frame_proved": false
+        },
+        {
+          "address": 2214611308,
+          "target": 2214609432,
+          "kind": "direct-call",
+          "caller_CFA": 64,
+          "child_frame_proved": false
+        },
+        {
+          "address": 2214611396,
+          "target": 2214619220,
+          "kind": "direct-call",
+          "caller_CFA": 64,
+          "child_frame_proved": false
+        }
+      ],
+      "child_frames_proved": false,
+      "termination_proved": false
+    },
+    {
+      "entry": 2214605312,
+      "bytes": 80,
+      "instructions": 26,
+      "local_max_stack_bytes": 0,
+      "external_transfers": [
+        {
+          "address": 2214605388,
+          "target": 2214611188,
+          "kind": "direct-tail",
+          "caller_CFA": 0,
+          "child_frame_proved": false
+        }
+      ],
+      "child_frames_proved": false,
+      "termination_proved": false
+    },
+    {
+      "entry": 2214605418,
+      "bytes": 80,
+      "instructions": 26,
+      "local_max_stack_bytes": 0,
+      "external_transfers": [
+        {
+          "address": 2214605494,
+          "target": 2214611188,
+          "kind": "direct-tail",
+          "caller_CFA": 0,
+          "child_frame_proved": false
+        }
+      ],
+      "child_frames_proved": false,
+      "termination_proved": false
+    }
+  ],
+  "diagnostics": {
+    "original_executions": 394,
+    "normal_returns": 384,
+    "disabled_logger_returns": 8,
+    "prefixes_stopped_before_logger_child": 2,
+    "hart_ids": [
+      0
+    ],
+    "synthetic_MMIO": true,
+    "all32_GPR_PC_MSTATUS_trace_and_protected_memory_checked": true,
+    "observer_restore_or_guest_repair": false,
+    "unreviewed_children_executed": false
+  },
+  "tests": {
+    "local_contracts": 19,
+    "synthetic_fixtures": 16,
+    "focused_units": 193,
+    "skips": 0,
+    "synthetic_guests": 41
+  },
+  "preserved_initial_failure": {
+    "path": ".local/npu-original-irq-20261017/local-contract-failure-q1/result.json",
+    "sha256": "709b48574b02761525e37d201388f33919e66b24643e2ab9b55683f2a670727f",
+    "failed_control_ids": [
+      "test_npu_original_body_stack_contract.OriginalBodyStackContractTests.test_absolute_zero_SP_is_not_entry_relative_zero",
+      "test_npu_original_body_stack_contract.OriginalBodyStackContractTests.test_non_RA_link_is_not_an_ordinary_ABI_call"
+    ],
+    "old_local_proof_files": 13,
+    "old_local_proof_bytes": 1260983,
+    "replay_verified": false
+  },
+  "Ghidra": {
+    "version": "12.1.2",
+    "language": "RISCV:LE:32:AndeStar_v5",
+    "analyst_seeded_names": true,
+    "exact_original_and_paired_body_bytes": true,
+    "DWARF_expression_errors_retained": true
+  },
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "domain": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.69,
+        "probabilities": {
+          "supported": 0.79,
+          "contradicted": 0.01,
+          "not_established": 0.2
+        }
+      },
+      "frame": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.59,
+        "probabilities": {
+          "supported": 0.73,
+          "contradicted": 0.13,
+          "not_established": 0.14
+        }
+      },
+      "execution": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.35,
+        "probabilities": {
+          "supported": 0.57,
+          "contradicted": 0.08,
+          "not_established": 0.35
+        }
+      },
+      "guard": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.77,
+        "probabilities": {
+          "supported": 0.85,
+          "contradicted": 0.02,
+          "not_established": 0.13
+        }
+      },
+      "MIE": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.33,
+        "probabilities": {
+          "supported": 0.55,
+          "contradicted": 0.02,
+          "not_established": 0.43
+        }
+      },
+      "controls": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.76,
+        "probabilities": {
+          "supported": 0.84,
+          "contradicted": 0.01,
+          "not_established": 0.15
+        }
+      }
+    },
+    "raw_uncertainty_retained": true,
+    "approval_or_test_substitution": false
+  },
+  "native_callers": {
+    "frozen_source_view_reverified": true,
+    "older_main_qualified": false,
+    "restarted": false
+  },
+  "unchanged_images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46"
+  },
+  "earlier_partial_graph": {
+    "nodes": 300,
+    "interfunction_transfers": 718,
+    "internal_dispatches": 6,
+    "unknown_records": 56,
+    "partial_candidate_bytes": 9696,
+    "extended": false
+  },
+  "firmware_implementation_changed": false,
+  "full_setup": false,
+  "physical_acceptance": false,
+  "limits": [
+    "Exact contiguous analyzed bodies/bytes only;analyst-seeded Ghidra names are not original symbols.",
+    "Exact entry,ordinary calls/returns with restored SP and no asynchronous IRQ/external mutation are assumptions.",
+    "Every external call/tail keeps an unproved child cost;local depth is not a whole function-chain bound.",
+    "Non-SP-based memory aliases/escaped stack pointers,termination,register save correctness and physical placement are not proved.",
+    "Synthetic PLIC/status/stack inputs on actual emulator hart0,not physical IRQ delivery or pending-event proof.",
+    "Normal source0..191;original signed upper guard does not establish rejection of negative arguments.",
+    "Eight invalid-source returns explicitly disable logger output via a synthetic flag.",
+    "Two enabled-logger prefixes stop before the first unreviewed child;SP/RA are intentionally not restored at that stop.",
+    "No UART readiness loop,formatting/lock callee,other hart,IRQ nesting,release/reset/reclaim or hardware scope is qualified.",
+    "ObservationCPU guards explicit mem_write/reg_write APIs;this is an audited source program,not a hostile-code sandbox."
+  ]
+}

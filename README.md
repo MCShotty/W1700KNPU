@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Original IRQ Bodies And Error Tails
+
+The two original PLIC routines have zero local SP depth,but their error paths
+tail into a64-byte logger with four still-unqualified children. Fresh exact-body
+checks and394 original-code emulations pass on synthetic hart0 RAM/MMIO:
+384 normal returns,eight explicitly disabled-logger returns andtwo stopped
+prefixes. This is not IRQ delivery,cold setup or a whole-stack bound.
+The new checker passes19 controls;the focused suite passes193 tests and41
+tiny synthetic guests. Initial checker failures remain preserved. Source-lock,
+images and the older partial graph are unchanged. See the
+[original IRQ checkpoint](research/checkpoints/2026-10-17-npu-original-irq/REPORT.md).
+
 ## 2026-10-17 - Queue-Filtered IRQ Status
 
 The provider now filters shared status to the requested queue before its caller

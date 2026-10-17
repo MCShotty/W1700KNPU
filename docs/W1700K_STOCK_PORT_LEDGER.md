@@ -1,10 +1,60 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (shared IRQ status now filtered per queue;checked IRQ error/lifetime work remains;359 current hashes and174 focused/214 broader overlapping unique tests;no image or hardware change)
+Last updated: 2026-10-17 (whole original PLIC bodies/local SP and error tails checked;394 scoped original-code emulations;193 focused units/443 paths;partial graph,source-lock and images unchanged;no hardware acceptance)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Original PLIC Bodies And Logger Error Tails
+
+- Fresh Ghidra12.1.2/AndeStar export0cfa162d checks complete80-byte bodies
+  0x84003200/0x8400326a and252-byte logger0x840048f4. Original/paired body
+  bytes match independently decoded Capstone instructions. Local SP depths
+  0/0/64 are not whole-chain bounds. Two error tails/four logger children
+  remain explicit. Original PLIC0x0c002000/0x0c003000 are not Linux WLAN
+  shared status0x30d030. UART/formatting/lock/MIE/negative-source behavior
+  must not be copied into a checked contract without separate qualification.
+- New checker enforces self-relative immediate SP writes,aligned reservations,
+  balanced returns/tails and conservative branch/loop joins. SP-based memory
+  stays inside the local reservation;aliases/escaped pointers/register-save
+  correctness/termination/unknown child costs/IRQ/per-hart/physical stay open.
+  Calls assume ordinary ABI-restored SP. No adjacent-AUIPC target guessing.
+- Nineteen controls/16 LLVM fixtures expose two initial checker defects:
+  absolute SP=0 confused with entry-relative0,and non-RA link accepted as an
+  ordinary call. Failed709b4857/source/log and13-file/1260983-byte old cohort
+  f1cfb0cb are preserved,not promoted or repaired. Corrected19 controls pass,
+  and new whole-body159a9a4d independently rechecks all bytes/paths. Three
+  failed fixture-link attempts remain;successful explicit LLVM21 LLD/image-
+  base0 needs no new install or changed native budget.
+- Original-code75ec9ae4 passes394 synthetic hart0 cases:384 normal sources
+  0..191 returns,eight error returns with explicit logging-disable flag and
+  two prefixes stopped before child0x840067b8. All32 GPR/PC/MSTATUS/exact
+  trace/ordered reads+writes/full CODE/stack/PLIC/flag bytes compare before
+  restoration. Explicit observer mem/reg writes are sealed;no guest repair.
+  Prefixes retain SP-64/changed RA,not completed returns. No MHARTID override,
+  UART/unreviewed children/negative-input rejection/full MIE-restoration/
+  physical IRQ delivery/cold setup or hardware acceptance.
+- Fresh193 unique focused units/no skips/97 inputs/28 artifacts/41 tiny
+  synthetic guests pass3ac1fa25. Scopeb634bf81 verifies443 combined paths,
+  including unchanged Linux IRQ359 scope. Groups overlap separate214 broader
+  units;do not add them. Metadata-only ORIGINAL_IRQ.json hashes58c3aac8.
+  Tested Java/synthetic assembly match maintained copies;no original binary
+  or device data is uploaded. Ghidra analyst names/DWARF-expression errors
+  remain explicit,not complete variable recovery or permission proof.
+- Jev1.13 domain/frame/execution/guard/MIE/control support probabilities are
+  0.79/0.73/0.57/0.85/0.55/0.84 with confidences0.69/0.59/0.35/0.77/0.33/0.76.
+  Execution/MIE uncertainty stays visible;no resampling/model approval/test
+  substitution. Direct byte/CFG/emulation checks govern their limited scopes.
+- Partial graph300/718/six-internal/56-unknown/9696 is unchanged and not
+  extended. Older metadata remains40d29368-bound;currentd6b6e2da and both
+  FITs978f9ddd/a22300ea are unchanged. Live-view439e87bc rechecks2330 frozen
+  files/supplements/both actual caller mount views;new main is not qualified
+  by those older runs. Both callers/full36 matrices/HIF2 bitmap retain
+  original sources/guards/budgets. Full512/eight-DESC10/all36-tail/new24-INODE/
+  broader/current-source/full setup/hot/RRO/checked IRQ/lifecycle/DMA/cache/
+  remaining original/indirect/IRQ/per-hart/physical/boot/client gates remain.
+  No hardware,restart,waiver or subagents. See original-irq/REPORT.md.
 
 ## 2026-10-17 - Shared IRQ Status Filtered Per Queue
 

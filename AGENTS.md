@@ -1,5 +1,35 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Original IRQ Local Bodies And Error Tails
+
+- Fresh Ghidra/Capstone covers complete80-byte PLIC routines0x84003200/
+  0x8400326a and252-byte logger0x840048f4. Local SP depths0/0/64 are not
+  whole-chain bounds. Both error tails and four logger child calls stay
+  explicit/unproved. These PLIC windows are not Linux WLAN status0x30d030.
+- New local-body checker permits only self-relative immediate SP writes,
+  balanced returns/tails and conservative joins. Absolute/dynamic/load/CSR
+  SP writes,non-RA links,traps,unknown noncall control and caller-storage
+  access fail. Calls assume ordinary ABI-restored SP;unknown child cost,
+  aliases/escapes,termination/register saves/IRQ/per-hart/physical stay open.
+- Initial19 controls exposed absolute-SP-zero/non-RA-link defects. Failed
+  source/log/receipt709b4857 and13-file earlier cohortf1cfb0cb are preserved,
+  not relabeled/replayed. Corrected19 controls and local-SP159a9a4d pass.
+  Fresh193 units/no skips/97 inputs/28 artifacts/41 synthetic guests pass;
+  scopeb634bf81 verifies443 paths. Do not sum overlapping broader214 units.
+- Original-code75ec9ae4 passes394 synthetic hart0 runs:384 normal0..191
+  returns,eight disabled-logger returns,two prefixes stopped before0x840067b8.
+  All32 GPR/PC/MSTATUS/trace/ordered memory/full protected bytes match before
+  restoration. Prefix stops retain SP-64/changed RA;no full logger completion.
+  No MHARTID override. UART/children/negative-input rejection/MIE restoration
+  are not proved. Jev execution/MIE checks remain uncertain,not approval.
+- Partial300/718/six-internal/56-unknown/9696 graph is unchanged. Older
+  metadata remains40d29368-bound;current source-lockd6b6e2da/both FITs unchanged.
+  Live-view439e87bc confirms2330 frozen files/supplements/both caller mounts.
+  Both callers/full36 matrices/HIF2 bitmap keep original inputs/budgets;new24
+  INODE/broader/current-source/full setup/hot/lifecycle/physical/client gates
+  remain. No restart,hardware,waiver or subagents. Read original-irq/REPORT.md
+  and metadata-only ORIGINAL_IRQ.json;maintained seeder/fixtures match tested.
+
 ## 2026-10-17 - Queue-Filtered Shared IRQ Status
 
 - Current getter validates queues0/1 before reading and returns only the

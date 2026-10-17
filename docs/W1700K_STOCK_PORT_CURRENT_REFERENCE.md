@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Whole Original IRQ Bodies;Local SP Only
+
+Fresh Ghidra/Capstone checks complete original80-byte PLIC bodies0x84003200/
+0x8400326a and252-byte logger0x840048f4. Local SP depths0/0/64 retain both
+error tails/four unknown child costs. No whole-chain/IRQ/per-hart/physical
+bound or graph extension:300/718/six internal/56 unknown/9696 stays unchanged.
+Original PLIC registers are distinct from Linux shared WLAN pending status.
+
+New19 synthetic controls and exact-body159a9a4d pass. Initial absolute-SP-zero/
+non-RA-link failures709b4857 and13-file earlier cohortf1cfb0cb remain preserved.
+Fresh193 units/no skips/97 inputs/28 artifacts/41 tiny guests pass3ac1fa25;
+scopeb634bf81 verifies443 paths. Groups overlap the separate214 broader units.
+Original-code75ec9ae4 passes394 synthetic hart0 runs:384 normal,eight explicitly
+disabled-logger returns andtwo prefixes stopped before the first child. All32
+GPR/PC/MSTATUS/trace/ordered reads/writes/protected memory compare before any
+restore. No MHARTID override or full logger/negative-input/MIE-preservation/
+cold/physical proof. Jev's execution/MIE uncertainty is retained,not approval.
+
+Current source-lockd6b6e2da/both FITs are unchanged. Older graph metadata keeps
+its40d29368 scope. Live-view439e87bc verifies2330 frozen files/supplements and
+both caller mounts unchanged. Both callers/full36 matrices/HIF2 bitmap continue;
+all new24-INODE/broader/current-source/full setup/hot/lifecycle/physical/client
+gates remain. No hardware,restart,waiver or subagents. Read original-irq/REPORT.md
+and metadata-only ORIGINAL_IRQ.json. Maintained seeder/synthetic assembly match
+the actual tested copies;no firmware/device data is uploaded.
+
 ## 2026-10-17 - Per-Queue Status Acknowledgement
 
 Current getter validates queues0/1 before reading and returns only that queue's

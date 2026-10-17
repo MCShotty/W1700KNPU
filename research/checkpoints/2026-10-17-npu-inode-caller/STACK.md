@@ -4,6 +4,25 @@ These are static checks of the20-component/168-hook600055c candidate,not a full
 physical stack bound or a native constructor verdict. No firmware source or
 image changed for these measurements.
 
+## Original IRQ Local Bodies And Error Tails
+
+Fresh local-SP audit159a9a4d covers complete original80-byte bodies0x84003200/
+0x8400326a and252-byte logger0x840048f4. Their local depths0/0/64 retain two
+error tails and four unqualified children. This does not extend the earlier
+300/718/six-internal/56-unknown/9696 graph or make a whole IRQ/physical bound.
+
+394 original-code emulations75ec9ae4 cover384 normal0..191 returns,eight
+explicitly disabled-logger returns andtwo logging prefixes stopped before
+0x840067b8. All32 GPR/PC/MSTATUS/trace/protected-memory checks occur before
+restoration;partial stops retain SP-64/changed RA. No UART/child/negative-input/
+MIE-preservation/cold/per-hart/physical proof.19 controls/193 focused units pass
+after preserving initial absolute-SP/non-RA-link checker failures. Scopeb634bf81
+verifies443 paths;41 tiny synthetic guests stay separate from394 original runs.
+See ../2026-10-17-npu-original-irq/REPORT.md and ORIGINAL_IRQ.json for exact
+receipts,assumptions and remaining calls. Source-lockd6b6e2da/images stay
+unchanged;older graph metadata keeps its40d29368 scope. Native jobs keep frozen
+sources/budgets. The sections below retain their historical checkpoint scope.
+
 ## Evidence
 
 | Receipt | SHA256 | Covered Scope |

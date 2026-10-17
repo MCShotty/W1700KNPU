@@ -1,0 +1,85 @@
+{
+  "format": "npu-original-body-synthetic-fixtures-v1",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "source_sha256": "f39b0468ebe3333f60cc0e7459a52d2c36bbf233838bc47db4929ee2159e55e3",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--image-base=0x0,-Ttext=0x1000,-e,case_leaf,--defsym,callee=0x8000",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/local-fixtures.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/local-fixtures-q4.elf"
+  ],
+  "router_firmware": false,
+  "fixtures": {
+    "case_leaf": {
+      "address": 4096,
+      "bytes_hex": "67800000"
+    },
+    "case_frame": {
+      "address": 4100,
+      "bytes_hex": "130101ff232611008320c1001301010167800000"
+    },
+    "case_tail": {
+      "address": 4120,
+      "bytes_hex": "6f60907e"
+    },
+    "case_tail_leak": {
+      "address": 4124,
+      "bytes_hex": "130101ff6f60107e"
+    },
+    "case_merge": {
+      "address": 4132,
+      "bytes_hex": "63040500130101ff67800000"
+    },
+    "case_growth": {
+      "address": 4144,
+      "bytes_hex": "130101ffe31e05fe1301010167800000"
+    },
+    "case_dynamic": {
+      "address": 4160,
+      "bytes_hex": "3301a10067800000"
+    },
+    "case_load_sp": {
+      "address": 4168,
+      "bytes_hex": "0321050067800000"
+    },
+    "case_indirect": {
+      "address": 4176,
+      "bytes_hex": "67000500"
+    },
+    "case_trap": {
+      "address": 4180,
+      "bytes_hex": "7300000067800000"
+    },
+    "case_stack_overrun": {
+      "address": 4188,
+      "bytes_hex": "130101ff232811001301010167800000"
+    },
+    "case_absolute_sp": {
+      "address": 4204,
+      "bytes_hex": "1301000067800000"
+    },
+    "case_wrong_link": {
+      "address": 4212,
+      "bytes_hex": "6f64d07867800000"
+    },
+    "case_balanced_loop": {
+      "address": 4220,
+      "bytes_hex": "130101ff13000000e31e05fe1301010167800000"
+    },
+    "case_call": {
+      "address": 4240,
+      "bytes_hex": "130101ff23261100ef6090768320c1001301010167800000"
+    },
+    "case_csr_sp": {
+      "address": 4264,
+      "bytes_hex": "7321003067800000"
+    }
+  }
+}

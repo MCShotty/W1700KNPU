@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Original IRQ Error Paths Retained
+
+The complete two original80-byte PLIC bodies have local SP0 but error-tail to
+the252-byte logger with local SP64 and four unproved children. Close those
+targets/aliases/escape/register-save/termination/IRQ/per-hart/physical contracts
+before any whole-chain bound. Do not copy UART polling or claim previous MIE
+restoration/negative-input rejection from the original code. PLIC enable/mask
+windows differ from Linux's shared WLAN pending status.
+
+New19 controls/16 synthetic fixtures and exact-body audit pass after preserving
+two initial checker failures. Fresh193 units/41 tiny guests pass;scopeb634bf81
+verifies443 paths.394 actual original-code emulations pass only on synthetic
+hart0:384 normal,eight disabled-logger returns,two partial logging prefixes.
+No unreviewed child executes and no cold/physical acceptance follows. The
+300/718/six-internal/56-unknown/9696 partial graph is unchanged,not extended.
+See original-irq/REPORT.md and metadata-only ORIGINAL_IRQ.json.
+
+Source-lockd6b6e2da/both saved images remain unchanged. Both actual caller mount
+views retain their frozen older sources,439e87bc. Both callers/full36 matrices/
+HIF2 bitmap continue unchanged. Actual INODE prefixes/new24 faults/full512/eight-
+DESC10/all36-tail/broader/current-source/full setup/hot/RRO/checked IRQ/lifecycle/
+DMA/cache/physical/boot/client gates remain. No hardware,restart or subagents.
+
 ## 2026-10-17 - Queue Filtering Fixed;Checked IRQ Contract Still Open
 
 The current status getter validates queues0/1 and filters pending bits before
