@@ -1,5 +1,34 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Per-Queue Status Acknowledgement
+
+Current getter validates queues0/1 before reading and returns only that queue's
+pending bit. Canonical patch55e97086/source-lockd6b6e2da are exported,zero-fuzz
+five-file equality checked.120 getter cases/five mutants/old getter rejection,
+5778 read/ack/mask,609 provider/nine mutants and52 RCU/five mutants pass.
+Error schedules148/silent bulk5624/initial12/hot8 error gaps remain. No checked
+IRQ error channel,readiness/quarantine,drain or physical acceptance is claimed.
+
+Scope523c8a2e verifies359 current hashes.174 focused units/41 tiny synthetic
+guests and separate214 unique broader units/232 executions pass;groups overlap.
+Isolated AArch64 getter48/cold544-byte frames compile,not whole stack bounds.
+Preserved pre-edit2313-file cohortf7d55aa7 is not replay-qualified. Initial
+old-count scope preparation failed;four existing mt76 export tests explain
+the larger fresh count and no tests were removed.
+
+Stock REA20 records preserve mask filtering,locked shadow updates and actual
+MMIO assembly. Apparent ops DATA reference0x10e248 is unwind metadata;the
+separate .rela.data slot provides callback evidence. Decompiler void-return
+inference omits an LDR result. Physical queue mapping and runtime behavior
+remain unknown. Jev queue/stock claims are uncertain/not-established,not an
+approval. Read irq-queue/REPORT.md and metadata-only IRQ_QUEUE_STATUS.json.
+
+Both FITs978f9ddd/a22300ea/prepared modules are unchanged;neither image contains
+this change. Both callers/full36 matrices/HIF2 bitmap retain frozen600055c
+sources/budgets. Full512/eight-DESC10/new24-INODE/broader/current-source/full
+setup/hot/RRO/lifecycle/physical/boot/client gates remain. Earlier stack metadata
+stays40d29368-bound. No hardware,restart,waiver or subagents.
+
 ## 2026-10-17 - Reaching Constants Without Graph Promotion
 
 New static e30465be identifies the fixed IRQ/open targets0x84003200/0x84004212/

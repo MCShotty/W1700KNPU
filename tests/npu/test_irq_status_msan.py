@@ -37,6 +37,8 @@ def main():
 #include <stdio.h>
 typedef uint32_t u32;
 #define REG_IRQ_STATUS 0x30d030u
+#define BIT(n) (1u << (n))
+#define NPU_IRQ_RX_MASK(q) ((q)==1 ? BIT(17) : BIT(16))
 struct airoha_npu { void *regmap; };
 static volatile int fail_read;
 static int cookie;

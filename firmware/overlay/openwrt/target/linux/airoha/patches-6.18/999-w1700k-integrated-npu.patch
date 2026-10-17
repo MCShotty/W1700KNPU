@@ -1786,21 +1786,26 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -632,9 +1930,10 @@
+@@ -632,10 +1930,14 @@
  
  static u32 airoha_npu_wlan_irq_status_get(struct airoha_npu *npu, int q)
  {
 -	u32 val;
 -
 -	regmap_read(npu->regmap, REG_IRQ_STATUS, &val);
+-	return val;
 +	u32 val = 0;
 +
++	if (q < 0 || q > 1)
++		return 0;
 +	if (regmap_read(npu->regmap, REG_IRQ_STATUS, &val))
 +		return 0;
- 	return val;
++	/* The shared status register is acknowledged by the per-queue caller. */
++	return val & NPU_IRQ_RX_MASK(q);
  }
  
-@@ -742,22 +2041,84 @@
+ static void airoha_npu_wlan_irq_enable(struct airoha_npu *npu, int q)
+@@ -742,22 +2044,84 @@
  	.disable_locking	= true,
  };
  
@@ -1888,7 +1893,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,9 +2126,12 @@
+@@ -765,9 +2129,12 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -1904,7 +1909,7 @@ build input; compilation is not a physical drain or recovery proof.
  	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
  	npu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;
  	npu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;
-@@ -777,11 +2141,31 @@
+@@ -777,11 +2144,31 @@
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -1936,7 +1941,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +2177,6 @@
+@@ -793,9 +2180,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -1946,7 +1951,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +2186,6 @@
+@@ -805,8 +2189,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1955,7 +1960,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +2204,33 @@
+@@ -825,55 +2207,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  

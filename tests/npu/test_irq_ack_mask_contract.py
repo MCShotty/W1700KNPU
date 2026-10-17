@@ -96,7 +96,7 @@ static int regmap_read(void *map, u32 reg, u32 *value) {
     *value=read_value=pending; event(0,*value); return config[cursor].error[0];
 }
 static int regmap_write(void *map, u32 reg, u32 value) {
-    assert(map==&cookie && reg==REG_IRQ_STATUS && value==(config[cursor].error[0]?0:read_value));
+    assert(map==&cookie && reg==REG_IRQ_STATUS && value==(config[cursor].error[0]?0:(read_value&NPU_IRQ_RX_MASK(cursor))));
     event(1,value); if(config[cursor].ack_effect) pending&=~value;
     return config[cursor].error[1];
 }
@@ -128,7 +128,7 @@ static void check(unsigned first, unsigned queues) {
     for(unsigned i=0;i<queues;i++) {
         unsigned q=first+i;
         assert(calls[i*3].stage==0 && calls[i*3].queue==q && calls[i*3].value==expected_pending);
-        u32 ack=config[q].error[0]?0:expected_pending;
+        u32 ack=config[q].error[0]?0:(expected_pending&NPU_IRQ_RX_MASK(q));
         assert(calls[i*3+1].stage==1 && calls[i*3+1].queue==q && calls[i*3+1].value==ack);
         assert(calls[i*3+2].stage==2 && calls[i*3+2].queue==q && calls[i*3+2].value==NPU_IRQ_RX_MASK(q));
         for(unsigned stage=0;stage<3;stage++) assert(calls[i*3+stage].error==config[q].error[stage]);
@@ -190,13 +190,14 @@ int main(void) {
         actual_provider_wrappers_handler_bulk_caller=True, actual_queue_enum=True,
         effects_errors_RCU_and_NAPI_modeled=True, all_read_errors_explicitly_supply_output=True,
         getter_error_output_defined=True, read_errors_acknowledge_zero=True,
+        successful_reads_filtered_to_requested_queue=True, unrelated_pending_bits_preserved=True,
         uninitialized_read_executed=False, characterization_only=True, checked_IRQ_contract=False,
         complete_drain_witness=False, full_setup=False, hardware=False,
         limits=['Actual read/ack/mask bodies and two callers;register effects/errors/RCU/NAPI are synthetic fixtures.',
             'Current handlers schedule despite errors and bulk disable cannot return errors;passing characterizes that loss,not correctness.',
-            'Successful reads ack the entire shared status word;read errors now ack zero. No physical lost-interrupt/client result is established.',
+            'Successful reads ack only the requested queue bit;read errors ack zero. No physical lost-interrupt/client result is established.',
             'Read-error fixtures always supply an output;the separate potential uninitialized-output path is not executed.',
-            'Only defined getter error output is fixed;no checked IRQ error-channel,actual concurrency,drain,reset,reclaim or physical acceptance.'])
+            'Defined error output and queue filtering are fixed;no checked IRQ error-channel,actual concurrency,drain,reset,reclaim or physical acceptance.'])
     with (destination / 'result.json').open('x') as stream: stream.write(json.dumps(record, indent=2) + '\n')
     print(json.dumps(dict(passed=True, handler_cases=record['handler_cases'], bulk_cases=record['bulk_disable_cases'],
         characterization_only=True, checked_IRQ_contract=False, sha256=sha(destination / 'result.json'))), flush=True)

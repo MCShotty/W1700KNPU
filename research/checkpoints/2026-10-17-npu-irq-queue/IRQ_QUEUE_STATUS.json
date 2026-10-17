@@ -1,0 +1,209 @@
+{
+  "format": "w1700k-irq-queue-status-checkpoint-v1",
+  "date": "2026-10-17",
+  "scope": "Queue-filtered shared-status getter; error channels,readiness,quarantine and physical IRQ acceptance remain open.",
+  "sources": {
+    "firmware/source-lock.json": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "55e97086f843466c1ea674ba00b13a923e56babf3735597b2072e8e5ef559c0e",
+    "tests/npu/test_irq_queue_status_contract.py": "a994406fa29fabc160d8a999ce16c3f51b0f59079ed648e7a8e3ee1fe8ee1fcd",
+    "tests/npu/test_irq_ack_mask_contract.py": "82a33839c73fab2ed742cffab50890c65aaa2a72c98a0f0e2c0020b11770daac",
+    "tests/npu/test_irq_status_msan.py": "d2acceb3d98acdf39e6bcd5747c5eb80be818db70eb1b47426e1531e7c3cf18b"
+  },
+  "proof": {
+    "path": ".local/npu-irq-channel-20261017/scope-q2.json",
+    "sha256": "523c8a2ee0175a4624cbae8201ba19104eb6430205d640ee1dc0a544a2b87e82",
+    "current_hashes": 359
+  },
+  "receipts": {
+    "queue": {
+      "path": ".local/npu-irq-queue-status/queue-filter-q1/result.json",
+      "sha256": "5cf48d46185848d736abbff88ecd94bed05326cfbfedeafe72eb357d1a53dd69"
+    },
+    "ack_mask": {
+      "path": ".local/npu-irq-ack-mask-contract/queue-filter-q1/result.json",
+      "sha256": "22f9a0555df00c22503a7ec80d1bea7b3023ebc2726e9512e7e033b521cf8548"
+    },
+    "MSan": {
+      "path": ".local/npu-irq-status-msan/queue-filter-q1/result.json",
+      "sha256": "10674b7dc29ee763f9b50021acef454a9412aeec9e776b2cbd7322398e0d5ba2"
+    },
+    "RCU": {
+      "path": ".local/npu-final-irq-contract/queue-filter-q1/result.json",
+      "sha256": "98f7748c3acf30895fe9444cb20670f0dcc303baf175d5b23b4c13cfb6e817fb"
+    },
+    "provider_host": {
+      "path": ".local/npu-provider-session-20261010/irq-queue-filter-host-q1/result.json",
+      "sha256": "3ed8acf8d2ed78c6cf055bf4c8b3dcb241b8d4b996c96bf05b9125cb892b9baf"
+    },
+    "provider_object": {
+      "path": ".local/npu-irq-channel-20261017/provider-object-q1/result.json",
+      "sha256": "fe62d3b151072bd049e925912985f4434929bafb6b3352238b0d956513d0a7cc"
+    },
+    "export": {
+      "path": ".local/npu-irq-channel-20261017/export-q1/result.json",
+      "sha256": "969bb44be2d85482be30ac102923c6d58b045d15c653468463607a536b597f28"
+    },
+    "focused_units": {
+      "path": ".local/npu-irq-channel-20261017/host-scope-q1/result.json",
+      "sha256": "b89fdc7efeb09d138e883063b2833bfeac92e219a78e8a8d5dd53fadce8bec84"
+    }
+  },
+  "tests": {
+    "valid_queue_cases": 110,
+    "invalid_queue_cases": 10,
+    "rejected_queue_mutants": 5,
+    "preserved_unfiltered_rejected": true,
+    "ack_mask_cases": 5778,
+    "schedules_after_modeled_error": 148,
+    "silent_bulk_error_cases": 5624,
+    "provider_cases": 609,
+    "provider_mutants": 9,
+    "RCU_cases": 52,
+    "RCU_mutants": 5,
+    "initial_enable_errors_lost": 12,
+    "hot_enable_errors_lost": 8,
+    "focused_units": 174,
+    "focused_skips": 0,
+    "synthetic_RV32_guests": 41,
+    "broader_unique_units": 214,
+    "broader_executions": 232,
+    "broader_duplicate_test_ids": 18
+  },
+  "AArch64_object": {
+    "isolated": true,
+    "module_relinked": false,
+    "getter_frame_bytes": 48,
+    "cold_command_frame_bytes": 544
+  },
+  "source_export": {
+    "zero_fuzz": true,
+    "kernel_files": 5,
+    "component_sources_unchanged": 22,
+    "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47"
+  },
+  "preservation": {
+    "path": ".local/npu-validation-capsules/irq-queue-filter-before-v1/receipt.json",
+    "sha256": "f7d55aa725251c69fda480de2f27a5ce9129b0bbd41ef27840447dff2b0dce1d",
+    "files": 2313,
+    "bytes": 520126273,
+    "replay_verified": false
+  },
+  "preparation_failure": {
+    "path": ".local/npu-irq-channel-20261017/scope-count-failure-q1.json",
+    "sha256": "20752c2f9248ccee63668906818c90d9fc346c0aa51d0d8194d597bd9011f8fb",
+    "cause": "A copied pre-execution manifest expected210/228;four existing mt76 export tests make the actual suite214/232. No tests were removed."
+  },
+  "stock": {
+    "target_sha256": "c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b",
+    "evidence_bundle_sha256": "d141baec902d16fe1c767007e23cb8c9617455069f5c42351535f3d983b9b318",
+    "snapshot_sha256": "c541add7fae8a0da49c1d4eb76b02b3187c8144665818a08cf289a101da74fe0",
+    "evidence_records": 20,
+    "provider": "Ghidra12.1.2",
+    "bridge_verified_version": "12.1.4",
+    "top_irq_evidence": "ev_d0860a80ce0001346bda27f5a09494affd00b3553a56d8111912517b81fb3b97",
+    "mask_update_evidence": "ev_c6df86deb7bf00b7693e0c02e7dc4be98e323abe29feb802a89564acdf22a181",
+    "shadow_merge_evidence": "ev_d4d00a6cab00aedd51450be377bc6be0d3631ef27a4766e51686c9cfa8d42dd9",
+    "MMIO_read_evidence": "ev_30e587d534c7275858df0878ea0f305c034a9f1447bdfe6d600ca883af9e09ac",
+    "MMIO_write_evidence": "ev_f4649047960b639c493bef0a3bf2da7bb6de693768cac1ac90d0b2661c6fbce6",
+    "apparent_callback_reference_is_unwind_metadata": true,
+    "distinct_relocation_callback_slot": {
+      "ELF_section": ".data",
+      "offset": 368,
+      "ops_offset": 184,
+      "target_text_offset": 5648,
+      "imported_address": "0x101630"
+    },
+    "physical_register_mapping_qualified": false,
+    "original_binary_executed": false
+  },
+  "Jev": {
+    "request_sha256": "e3c40e566661af02c441ca20595328c0b3e2317e5a8641394ea5e43824dbacad",
+    "result_sha256": "d51d64ec16da9fd85250ce3ff008b2c1d7afef35d253ee77c0396a76dbed5bcb",
+    "model": "jev-1.13.0",
+    "answers": {
+      "queue": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.35,
+        "probabilities": {
+          "supported": 0.37,
+          "contradicted": 0.06,
+          "not_established": 0.57
+        }
+      },
+      "scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.59,
+        "probabilities": {
+          "supported": 0.73,
+          "contradicted": 0.0,
+          "not_established": 0.27
+        }
+      },
+      "stock": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.52,
+        "probabilities": {
+          "supported": 0.31,
+          "contradicted": 0.01,
+          "not_established": 0.68
+        }
+      },
+      "decompiler": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.94,
+        "probabilities": {
+          "supported": 0.96,
+          "contradicted": 0.01,
+          "not_established": 0.03
+        }
+      },
+      "callback": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.34,
+        "probabilities": {
+          "supported": 0.5599999999999999,
+          "contradicted": 0.06,
+          "not_established": 0.38
+        }
+      },
+      "remaining_IRQ_gap": {
+        "type": "choice",
+        "choice": "checked_error_and_lifetime_contract",
+        "confidence": 1.0,
+        "probabilities": {
+          "checked_error_and_lifetime_contract": 1.0,
+          "uninitialized_output_only": 0.0,
+          "physically_complete": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "uncertainty_retained": true,
+    "approval_or_test_substitution": false
+  },
+  "protected_images": {
+    "original": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    "offline_world": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+    "unchanged": true,
+    "current_change_built_into_either_image": false
+  },
+  "complete_IRQ_contract": false,
+  "current_native_cold_qualified": false,
+  "full_setup": false,
+  "native_jobs_restarted": false,
+  "world_build": false,
+  "hardware": false,
+  "limits": [
+    "Tests use explicit modeled register effects/errors/RCU/NAPI and do not prove physical lost interrupts.",
+    "Current queue bit mapping is not independently qualified by the stock trace or physical hardware.",
+    "Zero status remains ambiguous with a register-read error;ack/mask/enable still lose errors.",
+    "Stock decompiler prototypes and volatile result recovery are imperfect;retain assembly,ELF relocations and mappings.",
+    "The two unit groups overlap;do not sum them as distinct tests or treat tiny synthetic guests as original firmware.",
+    "Older stack metadata and native producing sources keep their original source-lock and scope."
+  ]
+}

@@ -1,5 +1,34 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Queue-Filtered Shared IRQ Status
+
+- Current getter validates queues0/1 before reading and returns only the
+  requested NPU_IRQ_RX_MASK bit. Both callers no longer acknowledge other
+  pending bits under modeled fixtures. Read errors still return0;IRQ ABI,
+  scheduling and mask/enable/owner paths are unchanged. Canonical patch and
+  source-lockd6b6e2da are exported with zero-fuzz/five-file equality.
+- Fresh120 getter cases/five mutants/preserved old getter rejection,5778
+  read/ack/mask cases,609 provider/nine mutants and52 RCU/five mutants pass.
+  Remaining148 error schedules/5624 silent bulk errors/12 initial/eight hot
+  enable errors stay explicit. No checked IRQ channel/readiness/quarantine/
+  drain or physical acceptance. No sleeping mutex in hard IRQ/RCU contexts.
+- Isolated AArch64 getter48/cold544-byte frames compile;the getter was32.
+  This is not a whole IRQ stack bound.174 focused units/41 tiny synthetic
+  guests and separate214 unique broader units/232 executions pass;groups
+  overlap. Scope523c8a2e verifies359 current hashes. Failed210-count manifest
+  preparation is preserved;four existing export tests were added,none dropped.
+- Stock REA20 records are exported and target closed. The apparent callback
+  DATA reference is .eh_frame;separate .rela.data proves its static ops slot.
+  MMIO LDR is absent from inferred void pseudocode but present in assembly.
+  Stock mask filtering does not prove our physical queue mapping. Jev q1
+  queue/stock wording remains not-established/uncertain,not model approval.
+- Both images978f9ddd/a22300ea/prepared kernel/modules are unchanged and do
+  not contain this change. Both callers/full36 matrices/HIF2 bitmap stay on
+  frozen600055c inputs/budgets;full512/eight-DESC10/new24-INODE/broader/current-
+  source/full setup/hot/lifecycle/physical/client gates remain. Older stack
+  metadata stays40d29368-bound. No hardware,restart,waiver or subagents.
+  Read irq-queue/REPORT.md and metadata-only IRQ_QUEUE_STATUS.json.
+
 ## 2026-10-17 - Reaching Singleton Targets Identified;Graph Unchanged
 
 - New e30465be identifies three fixed calls in exact IRQ/open C bodies under

@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Queue-Filtered IRQ Status
+
+The provider now filters shared status to the requested queue before its caller
+acknowledges it,and rejects invalid queue IDs without register access. The
+canonical patch/source-lock are updated.120 getter cases,five compiled mutants,
+5778 handler/bulk/null fixtures and a fresh isolated AArch64 object pass.
+174 focused units and a separate214 unique broader units pass;these groups
+overlap. Error propagation,initial/hot rearm,readiness/quarantine and physical
+IRQ acceptance remain open. Neither saved image contains this new change.
+Stock REA observations and uncertain Jev checks retain their limits. See the
+[queue-status checkpoint](research/checkpoints/2026-10-17-npu-irq-queue/REPORT.md).
+Native jobs stay on their frozen older sources;no restart or hardware action.
+
 ## 2026-10-17 - Native Qualification And Offline Image Work
 
 Both nominal callers passed full512 DESC10 setup and their first two PCIe tail

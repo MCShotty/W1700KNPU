@@ -1,10 +1,56 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (reaching constants identify three IRQ/open targets without graph promotion;56 records open;174 units/41 synthetic guests;all native and physical scopes remain distinct)
+Last updated: 2026-10-17 (shared IRQ status now filtered per queue;checked IRQ error/lifetime work remains;359 current hashes and174 focused/214 broader overlapping unique tests;no image or hardware change)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Shared IRQ Status Filtered Per Queue
+
+- Current getter rejects queue IDs outside0/1 before register access and
+  returns only NPU_IRQ_RX_MASK(q) on success. Read errors still return0.
+  The two current callers acknowledge that value,so modeled queue0 handling
+  preserves queue1/unrelated pending bits and vice versa. IRQ ABI,scheduling,
+  mask/enable/session/owner paths stay unchanged. No physical lost-interrupt
+  or queue routing proof. Canonical kernel patch/source-lock are updated.
+- New120 getter cases/five compiled mutants/preserved unfiltered getter
+  rejection and5778 handler/bulk/null modeled cases pass under sanitizers.
+  Actual getter nominal/no-output error are MSan-clean.609 provider/nine
+  mutants and52 RCU/five mutants pass. Remaining148 error schedules/5624
+  silent bulk errors/12 initial/eight hot lost enable errors remain explicit;
+  no complete checked IRQ/readiness/quarantine/drain/physical contract.
+- Isolated current AArch64 object compiles. Getter frame increases32->48,
+  cold command stays544 bytes;individual frames are not whole-stack bounds.
+  Fresh174 focused units/no skips/41 synthetic guests and separate214 broader
+  unique units/232 executions pass. Groups overlap. Scope523c8a2e verifies359
+  hashes. Initial copied210/228 manifest failed before execution;four already-
+  added mt76 export tests explain214/232. Failed20752c2f/source retained,no
+  tests dropped. Pre-edit2313 files/520126273 bytes are preserved,f7d55aa7,
+  not private replay-qualified. Old source-bound receipts are not rewritten.
+- Stock REA/Ghidra12.1.2 exports20 Evidence records and a snapshot;target is
+  closed. Top IRQ code filters pending status through descriptor+0x34 before
+  MMIO write;mask updates use irqsave/spinlock and another path merges shadows.
+  Exact selected original instruction bytes match. Apparent DATA callback
+  reference0x10e248 is .eh_frame;separate .rela.data slot0x170 in pci_dma_ops
+  points at text+0x1610. MMIO LDR result disappears from inferred void
+  pseudocode but remains in actual assembly. These are static observations,
+  not runtime/hardware or independent physical bit16/17 mapping proof.
+- Jev1.13 q1 queue wording is not-established0.57/confidence0.35,stock0.68/0.52.
+  Scope supported0.73/0.59,decompiler0.96/0.94,callback0.56/0.34 and remaining
+  checked-error/lifetime category1.00/1.00. Retain raw uncertainty;no resampling,
+  model approval or test substitution. Direct exact checks govern their scope.
+- Zero-fuzz patch matches five kernel files;source export verifies70 OpenWrt/
+  five LuCI files and22 unchanged component sources. Current kernel patch
+  55e97086/source-lockd6b6e2da. Both images978f9ddd/a22300ea and prepared
+  kernel/modules remain unchanged;neither image contains this change. No
+  world/module relink,load,flash,IRQ/radio/reset/reclaim or device data upload.
+- Both actual callers/full36 matrices/HIF2 bitmap remain frozen600055c with
+  original guards/budgets. Keep full512/eight-DESC10/all36-tail/new24-INODE/
+  broader/current-source/full setup/hot/RRO/lifecycle/DMA/cache/remaining
+  original/indirect/IRQ/per-hart/physical/boot/client gates. Older stack
+  metadata keeps40d29368 scope. No restart,waiver or subagents. Exact receipts:
+  irq-queue/REPORT.md and metadata-only IRQ_QUEUE_STATUS.json.
 
 ## 2026-10-17 - Reaching Constants Identify IRQ/Open Targets
 

@@ -1,5 +1,29 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Queue Filtering Fixed;Checked IRQ Contract Still Open
+
+The current status getter validates queues0/1 and filters pending bits before
+per-queue acknowledgement.120 getter/five-mutant cases and5778 actual-C modeled
+handler/bulk/null fixtures pass. The remaining148 schedules after errors,
+5624 silent bulk errors,12 lost initial/eight lost hot enables still require
+checked read/ack/mask/enable,completed setup/session/lifetime gates,partial
+effects/readback,atomic rearm and quarantine. No sleeping mutex in hard IRQ/RCU
+or unsafe resource free without retirement. No physical lost-interrupt proof.
+
+Fresh174 focused units/41 tiny guests and separate214 broader unique units/
+232 executions pass,with overlap. Scope523c8a2e verifies359 current hashes;
+isolated AArch64 getter48/cold544-byte frames are individual,not whole bounds.
+Source-lockd6b6e2da/zero-fuzz kernel patch are current;both saved images and
+prepared modules are unchanged and do not include this change. Stock REA
+masking/ops/MMIO observations and Jev uncertainty are scoped in irq-queue/REPORT.md.
+
+Both actual callers/full36 matrices/HIF2 bitmap remain on frozen600055c sources
+and original budgets. Actual INODE prefixes/new24 faults,full512/eight-DESC10/
+all36-tail/broader/current-source/native/full setup and all hot/RRO/lifecycle/
+DMA/cache/remaining original/indirect/IRQ/per-hart/physical/boot/client gates
+remain. Older stack metadata keeps its40d29368 source-lock. No restart,hardware,
+guard waiver or subagents.
+
 ## 2026-10-17 - Singleton Addresses Identified;56 Graph Records Still Open
 
 Reaching-flow supplement e30465be identifies three fixed IRQ/open calls under
