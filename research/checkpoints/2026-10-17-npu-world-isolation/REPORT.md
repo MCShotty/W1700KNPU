@@ -7,8 +7,9 @@ mt76 consumers,then fails at package ownership. Its original build/cache and
 source remain unchanged. The scoped fakeroot correction passes a real
 synthetic APK install,not a complete world/image. Actual prepared-source
 verification now passes5/22/329 with only the exact two pinned upstream
-firmware aliases admitted. Current51 focused tests pass. Fresh V6/full world
-retry is next;source-lock40d29368 remains unchanged.
+firmware aliases admitted. Current60 focused tests pass. Fresh V6/full world
+retry is live;source-lock40d29368 remains unchanged. Main's added numeric
+rootfs-owner guard postdates V6 and must separately check any new filesystem.
 
 Both old nominal native callers pass RX PCIe and the first PCIe tail command,
 then continue. A separate observed denied replay passes with15 native
@@ -358,3 +359,37 @@ native restart. No HIF2 bitmap result or complete eight-case aggregate exists.
 Both original nominal callers also remain live after their first tail stage.
 Full36-tail/new24-INODE and broader qualification remain open. No source-lock,
 protected FIT,hardware action or subagent change.
+
+## V6 Launch And Numeric SquashFS Metadata
+
+Fresh V6 preserves6101 files/3052512464 bytes at Gitf9ba011,
+`.local/npu-validation-capsules/world-main-40d-v6/receipt.json`, SHA256
+`d298889ff1ce0ddebcf043b78819262ea516977f12183de69e1ee7e366271d12`.
+It includes the current51-test scope plus existing declared V5 inputs. Fourth
+world has entered its private namespace after recording protected original
+inventories. Do not modify the live runner or restart it;terminal clean/world/
+source/image/lower/cache/snapshot checks are still required.
+
+Main's image verifier now reads numeric uid/gid/modes directly from SquashFS
+using unsquashfs -lln,not ownership on extracted host files. Its exact set is
+busybox,init,passwd,group,shadow,release-helper and their six parent/root entries.
+All must be root0/0 with the configured exact regular/directory modes;shadow
+must be0600. No links,duplicate/unknown/missing paths or malformed/name-based
+metadata can pass. This is not verification of every rootfs path's ownership.
+Nine synthetic controls pass. The actual reader passes on an older component
+whose bytes match its original image receipt before/after,with12 selected rows:
+`.local/npu-world-overlay-20261017/rootfs-owners-old-q1.json`, SHA256
+`598b6e3b5f7f054975ab000e70c40beac6f5ad5f3552710521e3c3814c4ff32b`.
+That old-image read is not current-world proof. V6 predates this verifier
+addition;any q4 filesystem must pass a separate same-byte numeric check after
+the original full image verifier. No extra image/body/hash gate is waived.
+
+Fresh focused scope
+`.local/npu-world-overlay-20261017/host-scope-q3/result.json`, SHA256
+`f86e71a154bf71c2663ab15d46908bf3a4072215247cf9ca223c65d7ff349c4a`,
+passes60 unique tests/no skips and82 source/artifact identities:the51 earlier
+cases rerun plus nine ownership contracts. Jev q8 supports encoded numeric
+metadata1.00/confidence1.00 and exact selected-set semantics0.98/0.97;
+whole-filesystem correctness is not established0.84/0.76. Raw results and source
+pins remain local. No native code,hardware or current-image qualification
+follows from these units or the older-image reader.

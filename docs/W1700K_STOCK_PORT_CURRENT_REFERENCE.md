@@ -1,5 +1,17 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Fourth World Live;Encoded Ownership Check Required
+
+Fresh V6 d298889f preserves6101 files/3052512464 bytes at Gitf9ba011. Fourth
+world has entered its private namespace;terminal lower/cache/snapshot/image
+results remain pending. Do not restart or edit the live runner. Main now adds
+numeric SquashFS owner/mode checks for six critical files and six parent/root
+entries. Nine synthetic controls and actual older-image read598b6e3b pass;
+60-test/82-hash scopef86e71a1 passes. This is selected-file metadata,not full
+rootfs correctness. V6 predates that extra verifier:run it separately against
+any q4 filesystem before accepting an image. Source-lock40d29368 unchanged;
+native callers/observed bitmap remain live and no hardware action occurred.
+
 ## 2026-10-17 - Modules Built;Package Ownership Retry Next
 
 Fresh V5 preserves6091 files/3052456545 bytes,49c78847/Git9eea3da. Third world

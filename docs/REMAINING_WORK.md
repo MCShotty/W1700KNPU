@@ -1,5 +1,15 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - V6 World And Numeric Ownership Gates
+
+Fresh V6 d298889f/Gitf9ba011 is preserved and fourth world is live. Await its
+terminal original-build/cache/snapshot and full image checks;do not restart or
+change the active runner. Main adds numeric SquashFS owner/mode checks for six
+critical files and their parents,nine units/older-image reader598b6e3b passing.
+Full focused60/no skips/82 hashes pass,f86e71a1. V6's verifier predates the new
+guard,so check any q4 filesystem separately before image acceptance. No new
+image yet;the native caller/bitmap/full matrices and broader gates below remain.
+
 ## 2026-10-17 - Fresh Package-Ownership Retry Required
 
 V5/third world now passes cache staging and compiles the provider/three Wi-Fi

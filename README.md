@@ -13,8 +13,10 @@ and all three Wi-Fi modules, then failed during APK ownership handling. Its
 891,138 original build entries and 4,617 cache entries remain unchanged.
 The scoped fakeroot correction passes an actual synthetic APK install; source
 verification now accepts only two exact pinned upstream firmware aliases while
-retaining all 5/22/329 byte checks. All 51 focused tests pass. A fresh world
-retry and verified current image remain pending; nothing has been flashed.
+retaining all 5/22/329 byte checks. All 60 focused tests pass. A fresh V6 world
+retry is running. A new numeric SquashFS ownership check covers six critical
+boot/account files and their parents; it still needs a new image to inspect.
+No verified current image or flash is claimed.
 See the [isolation and timing checkpoint](research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md).
 
 ## 2026-10-17 - RX-Event Export Gap Repaired

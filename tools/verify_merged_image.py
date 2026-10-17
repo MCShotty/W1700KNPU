@@ -71,6 +71,35 @@ def verify_control_ownership(name, defined, imports):
         assert not control & imports, 'The provider must link its own control implementation'
 
 
+ROOTFS_BOOT_MODES = {
+    '':'drwxr-xr-x', 'bin':'drwxr-xr-x', 'etc':'drwxr-xr-x',
+    'sbin':'drwxr-xr-x', 'usr':'drwxr-xr-x', 'usr/libexec':'drwxr-xr-x',
+    'bin/busybox':'-rwxr-xr-x', 'sbin/init':'-rwxr-xr-x',
+    'etc/passwd':'-rw-r--r--', 'etc/group':'-rw-r--r--', 'etc/shadow':'-rw-------',
+    'usr/libexec/w1700k-release-helper':'-rwxr-xr-x',
+}
+
+
+def rootfs_owner_table(listing):
+    rows = {}
+    for line in listing.splitlines():
+        match = re.fullmatch(r'([d-][rwxstST-]{9})\s+(\d+)/(\d+)\s+\d+\s+'
+            r'\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}\s+squashfs-root(?:/(\S+))?', line)
+        assert match, ('invalid-numeric-rootfs-listing', line)
+        mode,uid,gid,name = match[1],int(match[2]),int(match[3]),match[4] or ''
+        assert name in ROOTFS_BOOT_MODES and name not in rows, ('unexpected-rootfs-ownership-entry',name)
+        assert mode == ROOTFS_BOOT_MODES[name] and (uid,gid) == (0,0), ('rootfs-boot-owner-or-mode',name,mode,uid,gid)
+        rows[name] = dict(mode=mode,uid=uid,gid=gid)
+    assert rows.keys() == ROOTFS_BOOT_MODES.keys(), ('missing-rootfs-ownership-entry',sorted(ROOTFS_BOOT_MODES.keys() - rows.keys()))
+    return rows
+
+
+def verify_rootfs_ownership(rootfs):
+    leaves = [name for name,mode in ROOTFS_BOOT_MODES.items() if mode.startswith('-')]
+    listing = run(['unsquashfs','-lln','-UTC',rootfs,*leaves]).decode('utf-8')
+    return rootfs_owner_table(listing)
+
+
 def board_configuration(dtb):
     regions = {'npu-binary@84000000': (0x84000000, 0xa00000),
                'npu-pkt@8a000000': (0x8a000000, 0x2c00000),
@@ -133,6 +162,7 @@ def main():
         if kind == 'filesystem': rootfs = output
         if kind == 'kernel': kernel = output
     assert dtb and rootfs and kernel
+    rootfs_owners = verify_rootfs_ownership(rootfs)
     model, compatible = prop(dtb, '/', 'model'), prop(dtb, '/', 'compatible')
     assert model == 'Gemtek W1700K (OpenWrt U-Boot layout)'
     assert 'gemtek,w1700k-ubi' in compatible.split()
@@ -216,6 +246,7 @@ def main():
     receipt = dict(passed=True, image=str(image.relative_to(ROOT)), sha256=image_hash,
                    bytes=image.stat().st_size, components=components, model=model,
                    compatible=compatible, metadata=data, packages=packages,
+                   rootfs_numeric_boot_ownership=rootfs_owners,
                    board_configuration=board,
                    wifi_firmware_sha256=wifi_firmware,
                    rv32_core=dict(objects=core_objects, archive_sha256=sha(archive),

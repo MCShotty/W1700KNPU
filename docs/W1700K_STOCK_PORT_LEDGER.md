@@ -1,10 +1,30 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (four world modules compiled; scoped ownership fix tested; observed denied replay passed)
+Last updated: 2026-10-17 (V6 world running; numeric SquashFS ownership guard and60 focused tests pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - V6 World And Encoded Rootfs Ownership
+
+- Fresh V6 d298889f preserves6101 files/3052512464 bytes from Gitf9ba011,
+  including the current51-test scope and original V5 cache/linker/pair inputs.
+  Fourth world has entered its private namespace;terminal world/image and
+  protected lower/cache/snapshot audits are pending. No live restart/runner edit.
+- Added read-only numeric SquashFS ownership/mode verification for six critical
+  boot/account files and six parent/root entries. Extracted host owners are not
+  used. Nine controls reject foreign uid/gid,names,missing/duplicate/extra/path
+  escape,links,wrong permissions and invalid encoding. Actual older-image reader
+  598b6e3b passes12 selected metadata entries without changing its bytes.
+  Focused current60 tests/no skips/82 hashes pass,f86e71a1. No all-filesystem,
+  current-image or boot claim. V6 predates the added guard;check any q4 encoded
+  filesystem separately after its existing strict image verifier succeeds.
+- Jev q8 supports encoded rather than host metadata1.00/confidence1.00 and
+  strict selected-set semantics0.98/0.97;whole-filesystem correctness is not
+  established0.84/0.76. Direct tests/artifact checks remain required. Native
+  callers/observed bitmap continue;source-lock40d29368/no hardware/subagents.
+  Evidence:research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
 
 ## 2026-10-17 - World Package Ownership And Native Observation
 

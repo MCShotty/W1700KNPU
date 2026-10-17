@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - V6 World Running;Numeric Rootfs Guard Added
+
+- Fresh V6 preserves6101 files/3052512464 bytes,d298889f/Gitf9ba011. Fourth
+  world is live in its private namespace. Do not edit npu_isolated_world.py
+  until its terminal lower/cache/snapshot audits finish;do not restart it.
+- Main's verifier now reads numeric SquashFS owners/modes for six critical
+  boot/account files and six parent/root entries,not host extraction owners.
+  Nine contracts and an actual older-image read598b6e3b pass. Full focused60
+  tests/no skips and82 hash checks pass,f86e71a1. This is not all-rootfs or
+  current-image proof. V6 predates this added guard:run it separately against
+  any hash-verified q4 filesystem after the unchanged full image verifier.
+- Source-lock40d29368/native inputs/guard budgets are unchanged;both original
+  callers and the separate observed bitmap worker remain live. No hardware.
+
 ## 2026-10-17 - Package Ownership And Observed Native Replay
 
 - V5 preserves6091 files/3052456545 bytes,49c78847/Git9eea3da. Third isolated
