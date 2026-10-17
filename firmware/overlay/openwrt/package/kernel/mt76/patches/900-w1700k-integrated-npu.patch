@@ -4,6 +4,23 @@ Rebased onto the pinned non-OC source. This is the experimental
 build input; compilation is not a physical drain or recovery proof.
 
 ---
+--- a/dma.c
++++ b/dma.c
+@@ -850,8 +850,12 @@
+ 	else
+ 		size = sizeof(struct mt76_desc);
+ 
+-	q->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,
+-				      &q->desc_dma, GFP_KERNEL);
++	ret = mt76_npu_alloc_rx_event(dev, q);
++	if (ret == -EOPNOTSUPP)
++		q->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,
++					      &q->desc_dma, GFP_KERNEL);
++	else if (ret)
++		return ret;
+ 	if (!q->desc)
+ 		return -ENOMEM;
+ 
 --- a/mt76.h
 +++ b/mt76.h
 @@ -1680,8 +1680,9 @@

@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - RX-Event Export And Current Consumer Links
+
+Full mt76 source comparison exposed the missing dma.c retained RX-event hook
+in the exported patch. The exporter now discovers changed existing files;
+zero-fuzz replay reproduces all 329 clean source files/11 changed files. New
+files still require explicit enrollment; Git/patch-backup metadata and unused
+legacy w1700k copies are excluded from the clean compile tree.
+Source-lock is 40d29368, mt76 patch ef19e496. Source70/5/22 and 166 exported-source
+modeled allocation cases/seven mutants pass. Fresh current-lock provider link
+52ca9564 passes with matching vermagic/three exports/70 imports and unchanged
+102685-entry prepared kernel. Older f9 provider evidence below is historical.
+Consumer q1 compiled three combined objects but failed real modpost for missing
+hwmon exports in the isolated index. Q2 was canceled before source copy when a
+separate preflight exposed the older parser's unsupported pre-modpost export
+metadata. Corrected preflight finds 228 own exports/14 actual eth+hwmon rows;
+the real dependency modules match. Fresh q3 final links pass all three consumers
+(receipt079b4703), with six NPU import edges and internally resolved module
+metadata. Scope8c0fdc7f verifies284 hashes/238 unique units/256 executions, with
+16 synthetic consumer contracts. Four MODULE_DESCRIPTION warnings are retained.
+No module loading, world/image or native/physical promotion. Both original
+callers remain on their frozen old cohort; live-view c4feaf4f checks all 2330
+files/five supplements unchanged. Do not restart them or waive hashes. Read
+research/checkpoints/2026-10-17-npu-mt76-link/REPORT.md for the retained failures.
+
 ## 2026-10-17 - Current Provider Final Link
 
 Current f9f90ba5 provider/five C objects/22 source components link successfully

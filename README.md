@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - RX-Event Export Gap Repaired
+
+Whole-source comparison found the retained RX-event allocation hook missing
+from the exported mt76 patch. The exporter now discovers changed existing files;
+the corrected patch reproduces all 329 clean source files across 11 changes.
+Exported-source C checks pass 166 modeled cases/seven mutants. The provider and
+all three mt76 consumers link against the refreshed source lock; 238 unique
+focused tests pass in 256 executions. No rebuilt image, module load or hardware
+acceptance is claimed; the native cold/fault jobs remain on their older cohort.
+See the [mt76 integration checkpoint](research/checkpoints/2026-10-17-npu-mt76-link/REPORT.md).
+
 ## 2026-10-17 - Current Provider Module Linked
 
 The current provider and its 22 source components now link into a real AArch64

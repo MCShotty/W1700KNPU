@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - RX-Event Export And Current Consumers Linked
+
+- Whole-source comparison caught dma.c's retained RX-event allocation hook
+  missing from the exported patch. Dynamic changed-existing-file discovery now
+  includes it. Zero-fuzz patch replay matches 329 clean files/11 changed files;
+  stale .git/.orig/.rej metadata and unused legacy w1700k copies are not built.
+- Source-lock is now 40d29368, mt76 patch ef19e496. Exported-source allocation
+  C passes 166 modeled cases/seven mutants; source70/5/22 and 22 focused parser/
+  exporter units pass. Fresh current-lock provider module links (52ca9564).
+- Consumer q1 compiled all three combined objects but failed modpost for the
+  absent hwmon dependency index. Failed inputs stay preserved. Q2 was canceled
+  before source copy after a separate preflight exposed pre-modpost export
+  metadata unsupported by the old parser. Fresh q3 now passes final links of
+  mt76/connac/mt7996e (receipt079b4703), 228 own exports/14 real eth+hwmon rows
+  and six NPU import edges. Generated module metadata resolves internally;
+  no relaxed unresolved-symbol policy. Scope8c0fdc7f verifies284 hashes and
+  238 unique units/256 executions, including16 synthetic consumer controls.
+  Four MODULE_DESCRIPTION warnings are reported, not suppressed.
+- Prior f9 inputs are preserved, not replay-qualified. Both old native callers
+  retain all 2330 files/five supplements (live-view c4feaf4f); no native job
+  restart or current-main qualification. No module load/world/image/hardware.
+  Read research/checkpoints/2026-10-17-npu-mt76-link/REPORT.md.
+
 ## 2026-10-17 - Current Provider Module Linked In Isolation
 
 - Current source-lock f9f90ba5 links the provider's five C objects/22 source

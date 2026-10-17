@@ -1,5 +1,20 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Current Module Links Closed; Runtime Gates Remain
+
+The retained RX-event dma.c hook was missing from the exported mt76 patch.
+That gap is repaired: changed-existing-file discovery, complete 329-file/
+11-change patch replay, source70/5/22 and exported-source C166/seven mutants
+pass. Current source-lock is 40d29368. Fresh provider link52ca9564 passes.
+Fresh q3 final links of all three consumers now pass (receipt079b4703), as do
+the actual eth/hwmon index/module checks and six NPU import edges. Scope8c0fdc7f
+verifies284 hashes/238 unique units/256 executions. Q1's missing-dependency
+modpost failure and q2's prebuild cancellation remain unqualified. No invented
+CRCs or unresolved-symbol bypass. World/image, module load, full current-source
+native/IRQ/physical/drain/lifecycle/client gates remain open. Existing native
+jobs are unchanged and do not qualify newer main.
+Read research/checkpoints/2026-10-17-npu-mt76-link/REPORT.md.
+
 ## 2026-10-17 - Provider Linked; Consumer And Runtime Gates Remain
 
 Current f9f90ba5 provider/22 source components link into a real Linux 6.18.52

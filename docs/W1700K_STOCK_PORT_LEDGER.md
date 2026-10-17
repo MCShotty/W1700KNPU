@@ -1,10 +1,62 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (current provider module linked in isolation; native jobs remain live)
+Last updated: 2026-10-17 (retained RX-event export repaired; current module links pass; native jobs remain live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Retained RX-Event Export Gap And Consumer Qualification
+
+- A new whole-source check stopped before compilation because the exported
+  mt76 patch omitted dma.c's already-implemented mt76_npu_alloc_rx_event hook.
+  The earlier export allowlist covered selected merge files and the poll fix,
+  not every changed existing file. This is a real build-input omission, not
+  a new physical failure. Initial failure dc6fa095 stays failed and preserved.
+- Exporter now discovers changed existing files while excluding Git/patch
+  backup metadata. New sources still need explicit enrollment. The corrected
+  zero-fuzz patch reproduces all 329 clean source files and 11 changed files;
+  unused legacy w1700k copies are not added or referenced. Mt76 patch SHA256
+  ef19e49618292089e59727f9acb38627451f975efa2132094d185037a0c4a4a1;
+  source-lock 40d293685243a51c56c8a153505f24bab0b2b9cb81231ff3a2b029afc3db331c.
+  Source70/5/22 and 166 actual exported-source modeled C cases/seven mutants
+  pass with address/undefined/leak sanitizers. No native or physical allocation
+  acceptance follows from the modeled DMA/register/transport fixture.
+- A fresh current-lock provider final link passes, receipt52ca9564, module
+  750796b42edf74fdb7fdc89ffa5793e066cb2250163b40fa92f06b648922b648.
+  Matching6.18.52 vermagic, three exports/70 imports and the unchanged102685
+  original kernel entries are verified. Old f9 records are preserved in a
+  2294-file/563732366-byte copy, not replayed or promoted to the new source lock.
+- Consumer q1 compiled all three combined objects, then failed actual modpost
+  for devm_hwmon_device_register_with_groups absent from the isolated index.
+  Original kernel/producing provider/prepared mt76 inventories remained exact;
+  failed inputs/runner/logs are preserved under modpost-failed-q1 (4aaa9c76).
+  Q2 was canceled before source copy when a separate preflight found the old
+  parser did not recognize __export_symbol_ entries. Canceled record05075ba8
+  is not a completed build or a timeout. No original native job was interrupted.
+- The corrected parser handles actual pre-modpost and final export sections.
+  Real-object preflight finds228 own exports, the two eth imports and one hwmon
+  import. Fourteen exact dependency rows and actual eth/hwmon module export
+  lists/vermagic pass; no CRC is invented or unresolved symbol ignored.
+  Fresh consumer q3 final links pass all three modules (receipt SHA256
+  079b47039fdf003dacb70c6733cf4c7eec1611ab91e94874dfbcb107d881505c).
+  All187/65/282 imports of mt76/connac/mt7996e are available, with131/97/0
+  exports and six NPU import edges. Generated metadata resolves internally;
+  it is not an undefined-symbol waiver. One provider/three consumer modpost
+  MODULE_DESCRIPTION warnings remain reported, with no C warnings.
+- Scope SHA2568c0fdc7ffa5fb39e7b3af2394f7ba03bb24e2f3aed5b6dbea58c7ab34ef63aae
+  verifies284 current hashes/238 unique cases/256 executions, no skips, with18
+  preexisting duplicate imported fixture cases. Sixteen synthetic consumer
+  contracts are distinct from actual final-module links. Jev's four post-link
+  judgments/probabilities are retained; its export-coverage judgment has low
+  confidence and does not replace exact329-file comparison or the source tests.
+- Live-viewc4feaf4f verifies both old callers'2330 original files/five supplements
+  unchanged. Initial diagnostic requested dma.c, which is outside that declared
+  producer input set; its failed script is preserved. Correctedq2 explicitly
+  checks the original declared set, not an invented file or source-hash waiver.
+  Both callers/eight-fault matrices remain live on600055c. No module load,
+  world/image/flash/radio/reset/reclaim/hardware or subagents. Evidence:
+  research/checkpoints/2026-10-17-npu-mt76-link/REPORT.md.
 
 ## 2026-10-17 - Current Provider Final Module Link
 

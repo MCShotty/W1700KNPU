@@ -27,6 +27,18 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def changed_existing_files(base, merged):
+    names = set()
+    for path in base.rglob('*'):
+        relative = path.relative_to(base)
+        if '.git' in relative.parts or path.name.endswith(('.orig', '.rej')):
+            continue
+        target = merged / relative
+        if path.is_file() and target.is_file() and path.read_bytes() != target.read_bytes():
+            names.add(relative.as_posix())
+    return names
+
+
 def original(tree, revision, name):
     done = subprocess.run(['git', '-C', str(tree), 'show', revision + ':' + name],
                           capture_output=True)
@@ -287,6 +299,7 @@ def main():
             names = {r['path'] for r in json.loads((WORK / 'mt76-merge.json').read_text())}
             names.add('Makefile')
             names.update(('mt76.h', 'mt7996/pci.c', 'mt7996/mmio.c'))
+            names.update(changed_existing_files(base, merged))
             patch = DEST / 'package/kernel/mt76/patches/900-w1700k-integrated-npu.patch'
             for old in sorted(patch.parent.glob('00[123]-*.patch')):
                 saved = WORK / 'merged-original-patches' / old.name
