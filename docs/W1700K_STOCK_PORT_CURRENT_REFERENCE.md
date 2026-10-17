@@ -1,6 +1,20 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-10-17 - Current INODE Caller Qualification
+## 2026-10-17 - Current Poll Lifetime And INODE Qualification
+
+Main now explicitly brackets poll provider lookup/use/null with RCU. Actual-C
+21 startup/31 poll cases/five compiled RCU mutants and210 unique units pass.
+Two isolated AArch64 objects compile(32-byte poll frame);NPU-off is a forced-
+include fixture,not alternate full Kconfig. Sealf2a4c15c verifies496 hashes.
+Twelve startup/eight hot modeled errors still disappear via the void IRQ ABI;
+checked initial/hot IRQ and physical/concurrent/lifecycle scope remain open.
+Corrected exporter includes mt7996/mmio.c;zero-fuzz whole patch reproduces10
+files,source70/5/22 passes and source-lock is0705aea8. Firstq1 omitted the file
+and did not export the fix. All eight protected prepared source/object/module/
+FIT hashes stay unchanged. No world or hardware action.
+The existing cold callers/faults remain on600055c,not this newer poll source;
+live-viewd457e4b1 verifies all2330 original files/five supplements unchanged.
+Read research/checkpoints/2026-10-17-npu-poll-rcu/REPORT.md.
 
 Actual caller now requests constructor2 then7 through checked80 after all tail
 commands. Read-only literal original-store/owner/SETUP/protected/private/CODE/ABI

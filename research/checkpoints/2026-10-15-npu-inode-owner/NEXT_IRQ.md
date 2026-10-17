@@ -58,6 +58,13 @@ remain frozen while the caller/fault runs execute.
 
 ## Required Implementation
 
+2026-10-17 follow-up:the hot callback now explicitly brackets provider lookup/
+use with RCU. Actual-C52 cases/five compiled RCU mutants and two isolated
+AArch64 objects pass;the source patch is exported. This does not fix the void
+IRQ ABI or the12 startup/eight hot modeled errors,and does not establish actual
+kernel concurrency,physical lifetime or drain. Read the poll-rcu checkpoint.
+Existing native cold runs use an unchanged frozen source view while main moves.
+
 1. Preserve any currently live replay inputs until terminal, then add checked
    host/provider error handling
    across the real ops/header/wrapper and initialization caller. Keep the two

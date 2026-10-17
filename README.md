@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Poll Provider Lifetime Scope
+
+The NPU poll callback now explicitly keeps its provider lookup/use inside RCU.
+Actual-C52 cases/five compiled RCU mutants,two isolated AArch64 objects and210
+unique focused units pass. The exported source patch reproduces the change;
+prepared kernel/modules/FIT are unchanged. This does not fix the still-discarded
+IRQ errors or establish physical lifetime/drain safety.
+See the [poll lifetime checkpoint](research/checkpoints/2026-10-17-npu-poll-rcu/REPORT.md).
+Existing cold native runs remain on their frozen producing source,not this edit.
+
 ## 2026-10-17 - INODE Caller Qualification Running
 
 The actual caller now sends both checked INODE constructors after the PCIe

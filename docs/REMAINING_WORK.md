@@ -1,5 +1,17 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Poll Lifetime Scope And IRQ Boundary
+
+Explicit poll RCU lookup/use/null scope is implemented/exported. Actual-C52
+cases/five RCU mutants,two isolated objects and210 unique units pass;source70/
+5/22 and exact10-file patch application pass. Source-lock0705aea8 supersedes
+008c428e for main,but live cold callers/faults retain their exact600055c copy.
+No current cold result qualifies the poll change. Twelve startup/eight hot IRQ
+errors are still lost:checked startup/atomic re-enable,completed-owner/session/
+lifetime gates,possible-effects/readback/partial-failure quarantine remain open.
+No world/module/image rebuild,kernel-concurrency/physical proof or hardware.
+Read2026-10-17-npu-poll-rcu/REPORT.md;the native gates below are still live.
+
 ## 2026-10-17 - Current Caller Qualification Gate
 
 Both constructor commands,independent original-store/memory/private/ABI oracle

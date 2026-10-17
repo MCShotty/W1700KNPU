@@ -434,6 +434,20 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  /* firmware coredump */
+--- a/mt7996/mmio.c
++++ b/mt7996/mmio.c
+@@ -723,9 +723,11 @@
+ 	if (q == MT_RXQ_NPU0 || q == MT_RXQ_NPU1) {
+ 		struct airoha_npu *npu;
+ 
++		rcu_read_lock();
+ 		npu = rcu_dereference(mdev->mmio.npu);
+ 		if (npu)
+ 			airoha_npu_wlan_enable_irq(npu, q - MT_RXQ_NPU0);
++		rcu_read_unlock();
+ 	} else {
+ 		struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev,
+ 						      mt76);
 --- a/mt7996/mt7996.h
 +++ b/mt7996/mt7996.h
 @@ -490,6 +490,7 @@

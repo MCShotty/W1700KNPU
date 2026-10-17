@@ -1,5 +1,24 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Poll RCU Scope Exported; Cold Runs Stay Frozen
+
+- Main's NPU poll callback explicitly brackets pointer lookup/provider use
+  with RCU,including null;ordinary IRQ route is unchanged. Actual-C21 startup/
+ 31 poll fixtures/five compiled RCU mutants pass. Twelve startup/eight hot IRQ
+  errors are still lost by the void ABI;this is not the checked IRQ contract.
+- Two isolated AArch64 objects compile with32-byte poll frames;NPU-off uses an
+  explicit preprocessor fixture,not a full alternate Kconfig/world. Scoped seal
+  f2a4c15c binds496 hashes/210 unique units/228 executions. No kernel concurrency
+  or physical lifetime proof,world/module/image rebuild or hardware action.
+- Export allowlist now includes mt7996/mmio.c. Q1 missed the file and changed
+  no source-lock;it does not export the fix. Q2 zero-fuzz patch application
+  reproduces all10 changed files,source70/5/22 passes;source-lock0705aea8.
+  All eight protected prepared source/object/module/FIT hashes are unchanged.
+- Both actual cold callers/eight-DESC10-fault matrices remain live on600055c.
+  Live-viewd457e4b1 verifies all2330 original files/five supplements unchanged
+  after main edits. Their results cannot qualify the new poll change. No hash
+  waivers,job restarts or subagents. Read the poll-rcu/REPORT.md checkpoint.
+
 ## 2026-10-17 - INODE Caller Qualification In Progress
 
 - Current driver sends both constructors via checked80 after all three tail

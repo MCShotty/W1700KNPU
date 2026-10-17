@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (both-HIF caller/full512 fault runs live; INODE fault controls and exact stack audit prepared)
+Last updated: 2026-10-17 (poll RCU scope exported; both-HIF caller/full512 fault runs stay frozen and live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Explicit Poll Provider RCU Scope
+
+- Actual mt76_dma_rx_poll calls completion after its explicit RCU unlock.
+  mt7996_rx_poll_complete now owns an explicit read-side bracket around NPU
+  pointer lookup/provider use,balanced for null. Ordinary queues are unchanged.
+  This removes reliance on an outer/implicit read-side context;it is not a
+  claim that physical use-after-free was reproduced or DMA is retired.
+- New exact-C fixture fails against the old body at poll-read-without-RCU.
+  Corrected body passes the original21 startup/31 poll cases and all five
+  compiled RCU boundary mutants under address/undefined/leak sanitizers.
+  Existing12 startup/eight hot modeled IRQ errors are still lost through the
+  void ABI. Checked IRQ/session/readback/partial-failure handling remains open.
+  Actual receipt SHA256d90a28e372878a2f8d5a27501a4dbbb76bd91db41099f29e5d43bc62f0f29569.
+- Two isolated current AArch64 mmio objects compile with32-byte poll frames;
+  NPU-off is an explicit preprocessor fixture,not a separate full Kconfig build.
+  Objects receipt38263c5f. Eight prepared source/object/module/FIT identities
+  remain unchanged. No module relink,world,image,flash or hardware action.
+- First exportq1 missed mt7996/mmio.c because it was absent from the exporter
+  allowlist;source-lock remained unchanged andq1 does not publish the fix.
+  Added that exact file to the allowlist. Q2 zero-fuzz whole-patch application
+  reproduces all10 changed mt76 files including poll. Source70/5/22 passes,
+  integrated patch624e2831 and source-lock0705aea8. An initial regression unit
+  assumed git-style headers;the actual exporter uses unified headers. Its
+  corrected two-case unit checks the explicit allowlist and locked patch.
+- Scoped sealf2a4c15c7af1e6997f25e9ce74eaf0b5024682cd2e027603167129a972c8603e
+  verifies496 input hashes/210 unique unit cases/228 executions,no skips.
+  Native/complete IRQ/kernel-concurrency/physical flags remain false. The
+  nested unified patch has required context indent/blank lines;non-patch
+  diff whitespace and actual patch application/source equality are checked.
+- Live-viewd457e4b14de8bc28d5fd3598d5cc27cfdf96fcaef1b4829ac0ba7031ceae8fdc
+  verifies all2330 original/five supplemental files unchanged after main's
+  source-lock/exporter edits. Both cold callers/eight-DESC10-fault matrices
+  remain live on600055c;their results cannot qualify the new poll change.
+  Jev's six bounded source/scope judgments and probabilities are retained;
+  they do not establish actual RCU scheduling or IRQ closure. No subagents.
+  Evidence:research/checkpoints/2026-10-17-npu-poll-rcu/REPORT.md.
 
 ## 2026-10-17 - Actual INODE Caller And Independent Read-Only Oracle
 

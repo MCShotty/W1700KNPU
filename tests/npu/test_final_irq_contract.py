@@ -5,7 +5,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import resource
 import shutil
+import signal
 import sys
 
 sys.dont_write_bytecode = True
@@ -27,6 +29,7 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", required=True)
+    parser.add_argument("--mutants", action="store_true")
     args = parser.parse_args()
     assert args.name.replace("-", "").isalnum()
     dest = ROOT / ".local/npu-final-irq-contract" / args.name
@@ -68,14 +71,24 @@ static u32 bits[2], original_bits[2];
 static int cookie;
 static struct airoha_npu npu;
 static struct mt7996_dev dev;
-static unsigned rcu_reads, regular_calls;
+static unsigned rcu_reads, regular_calls, rcu_depth, rcu_locks, rcu_unlocks;
+static int in_poll;
 static u32 regular_mask;
-static struct airoha_npu *poll_rcu_read(struct airoha_npu *p) { rcu_reads++; return p; }
+static __attribute__((unused)) void rcu_read_lock(void) {
+    assert(!rcu_depth && "poll-RCU-nesting"); rcu_depth++; rcu_locks++;
+}
+static __attribute__((unused)) void rcu_read_unlock(void) {
+    assert(rcu_depth==1 && "unbalanced-RCU-unlock"); rcu_depth--; rcu_unlocks++;
+}
+static struct airoha_npu *poll_rcu_read(struct airoha_npu *p) {
+    assert(rcu_depth==1 && "poll-read-without-RCU"); rcu_reads++; return p;
+}
 static void mt7996_irq_enable(struct mt7996_dev *d, u32 mask) {
-    assert(d==&dev); regular_calls++; regular_mask=mask;
+    assert(d==&dev && !rcu_depth && "ordinary-poll-RCU-scope"); regular_calls++; regular_mask=mask;
 }
 static int regmap_set_bits(void *map, u32 reg, u32 mask) {
     assert(map==&cookie);
+    assert((!in_poll || rcu_depth==1) && "poll-provider-without-RCU");
     int q=reg==0x30d034u ? 0 : reg==0x30d038u ? 1 : -1;
     assert(q>=0 && mask==(q ? 0x20000u : 0x10000u));
     calls[count++]=8+q;
@@ -97,7 +110,7 @@ STUB(mt7996_npu_tx_done_init,7)
     suffix = r'''
 static void reset(void) {
     memset(calls,0,sizeof(calls)); count=failed_stage=0;
-    rcu_reads=regular_calls=0; regular_mask=0;
+    assert(!rcu_depth); rcu_reads=regular_calls=rcu_locks=rcu_unlocks=0; regular_mask=0; in_poll=0;
     errors[0]=errors[1]=0; applied[0]=applied[1]=1;
     bits[0]=original_bits[0]=0xa5002000u;
     bits[1]=original_bits[1]=0x5a000008u;
@@ -131,24 +144,27 @@ int main(void) {
     for(int q=0;q<2;q++)for(unsigned i=0;i<sizeof(poll_errors)/sizeof(poll_errors[0]);i++)
         for(int effect=0;effect<2;effect++) {
             if(!poll_errors[i]&&!effect) continue;
-            reset(); errors[q]=poll_errors[i]; applied[q]=effect;
+            reset(); errors[q]=poll_errors[i]; applied[q]=effect; in_poll=1;
             mt7996_rx_poll_complete(&dev.mt76,(enum mt76_rxq_id)(MT_RXQ_NPU0+q));
+            assert(!rcu_depth && rcu_locks==1 && rcu_unlocks==1 && "poll-RCU-not-balanced");
             assert(rcu_reads==1 && !regular_calls && count==1 && calls[0]==8+q);
             for(int lane=0;lane<2;lane++)
                 assert(bits[lane]==(original_bits[lane]|((lane==q&&effect)?(q?0x20000u:0x10000u):0)));
             hot_cases++; hot_lost+=errors[q]!=0;
         }
     for(int q=0;q<2;q++) {
-        reset(); dev.mt76.mmio.npu=0;
+        reset(); dev.mt76.mmio.npu=0; in_poll=1;
         mt7996_rx_poll_complete(&dev.mt76,(enum mt76_rxq_id)(MT_RXQ_NPU0+q));
+        assert(!rcu_depth && rcu_locks==1 && rcu_unlocks==1 && "poll-RCU-not-balanced");
         assert(rcu_reads==1 && !regular_calls && !count);
         assert(bits[0]==original_bits[0] && bits[1]==original_bits[1]);
         null_cases++;
     }
     for(int q=0;q<__MT_RXQ_MAX;q++) {
         if(q==MT_RXQ_NPU0 || q==MT_RXQ_NPU1) continue;
-        reset();
+        reset(); in_poll=1;
         mt7996_rx_poll_complete(&dev.mt76,(enum mt76_rxq_id)q);
+        assert(!rcu_depth && !rcu_locks && !rcu_unlocks && "ordinary-poll-RCU-scope");
         assert(!rcu_reads && regular_calls==1 && regular_mask==(0xb4000000u|(u32)q) && !count);
         assert(bits[0]==original_bits[0] && bits[1]==original_bits[1]);
         regular_cases++;
@@ -161,28 +177,54 @@ int main(void) {
     return 0;
 }
 '''
-    source, binary = dest / "actual.c", dest / "actual"
-    source.write_text(prefix + "\n".join(macros) + "\n" + enable + "\n" + wrapper + "\n" + caller + "\n" + poll + suffix)
-    loader.run([shutil.which("clang"), "-std=c11", "-O1", "-g", "-Wall", "-Wextra", "-Werror",
-                "-fno-omit-frame-pointer", "-fsanitize=address,undefined", source, "-o", binary], dest / "build.log")
-    result = loader.run([binary], dest / "run.log", env=dict(os.environ,
-        ASAN_OPTIONS="detect_leaks=1:halt_on_error=1", UBSAN_OPTIONS="halt_on_error=1"))
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+    environment = dict(os.environ, ASAN_OPTIONS="detect_leaks=1:halt_on_error=1", UBSAN_OPTIONS="halt_on_error=1")
+    common = prefix + "\n".join(macros) + "\n" + enable + "\n" + wrapper + "\n" + caller + "\n"
+    def compile_poll(body, name):
+        source, binary = dest / (name + ".c"), dest / name
+        source.write_text(common + body + suffix)
+        loader.run([shutil.which("clang"), "-std=c11", "-O1", "-g", "-Wall", "-Wextra", "-Werror",
+                    "-fno-omit-frame-pointer", "-fsanitize=address,undefined", source, "-o", binary], dest / (name + ".build.log"))
+        return source, binary
+    source, binary = compile_poll(poll, "actual")
+    result = loader.run([binary], dest / "run.log", env=environment)
+    mutants = []
+    if args.mutants:
+        variants = (
+            ("missing-begin", loader.once(poll, "\t\trcu_read_lock();\n", ""), "poll-read-without-RCU"),
+            ("missing-end", loader.once(poll, "\t\trcu_read_unlock();\n", ""), "poll-RCU-not-balanced"),
+            ("end-before-deref", loader.once(poll, "\t\trcu_read_lock();\n",
+                "\t\trcu_read_lock(); rcu_read_unlock();\n"), "poll-read-without-RCU"),
+            ("end-before-provider", loader.once(poll, "\t\tif (npu)\n\t\t\tairoha_npu_wlan_enable_irq(npu, q - MT_RXQ_NPU0);",
+                "\t\tif (npu) {\n\t\t\trcu_read_unlock();\n\t\t\tairoha_npu_wlan_enable_irq(npu, q - MT_RXQ_NPU0);\n\t\t\trcu_read_lock();\n\t\t}"), "poll-provider-without-RCU"),
+            ("ordinary-scope", loader.once(poll, "\t\tmt7996_irq_enable(dev, MT_INT_RX(q));",
+                "\t\trcu_read_lock();\n\t\tmt7996_irq_enable(dev, MT_INT_RX(q));\n\t\trcu_read_unlock();"), "ordinary-poll-RCU-scope"),
+        )
+        for name, body, expected in variants:
+            mutant_source, mutant_binary = compile_poll(body, name)
+            rejected = loader.run([mutant_binary], dest / (name + ".run.log"), env=environment, accepted=-signal.SIGABRT)
+            assert expected in rejected.stderr, (name, rejected.stderr)
+            mutants.append(dict(name=name, rejected=True, expected_assertion=expected,
+                source_sha256=sha(mutant_source), binary_sha256=sha(mutant_binary)))
     assert all(sha(ROOT / n) == h for n, h in inputs.items())
     record = json.loads(result.stdout)
     record.update(inputs=inputs, binary_sha256=sha(binary), generated_source_sha256=sha(source),
                   actual_provider_wrapper_caller=True, actual_poll_caller=True,
                   actual_rx_queue_enum=True, stages_and_regmap_modeled=True,
-                  rcu_and_ordinary_irq_mask_modeled=True,
+                  rcu_and_ordinary_irq_mask_modeled=True, actual_poll_rcu_bracket=True,
+                  rejected_mutants=mutants,
                   sanitizers=["address", "undefined", "leak"],
-                  source_changed=False, hardware=False,
+                  source_changed=False, production_source_modified_by_test=False, hardware=False,
                   limits=["Actual extracted current C bodies; initializer stages and MMIO/regmap effects/errors are explicit fixtures.",
                           "The final two calls are host register writes, not native NPU mailbox callbacks.",
                           "This proves error-loss behavior under these fixtures, not observed physical bus errors or drain/ready acceptance.",
                           "Actual poll completion and queue enum are compiled; RCU and the ordinary-queue IRQ routing mask are modeled.",
-                          "This is not NAPI/RCU lifetime, concurrency, physical IRQ routing or a fix for the lost errors."])
+                          "The explicit read-side bracket is checked at lookup/provider use/null/ordinary branches; RCU scheduling and lifetime are modeled.",
+                          "This is not actual kernel concurrency, physical IRQ routing or a fix for the lost errors."])
     (dest / "result.json").write_text(json.dumps(record, indent=2) + "\n")
     print(json.dumps({"passed": True, "cases": record["cases"], "lost_error_cases": record["lost_error_cases"],
                       "poll_cases": record["poll_cases"], "lost_poll_error_cases": record["lost_poll_error_cases"],
+                      "rejected_mutants": len(mutants),
                       "output": str(dest / "result.json")}), flush=True)
 
 
