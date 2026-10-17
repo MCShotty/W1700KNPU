@@ -105,3 +105,71 @@ Original continuations/75 register transfers/IRQ/per-hart/physical bounds remain
 open. No NPU source/guard/source-lock/image or hardware changed. Both frozen
 callers/full36 matrices and HIF2 bitmap remain live;these static/synthetic
 checks do not promote their pending results or newer Linux integration.
+
+## Guarded Literal Register Target Supplement
+
+The new test_npu_constant_targets.py supplements,not rewrites,the prior graph.
+It verifies its inputs and every297 measured function's exact symbol extent,
+linked ELF bytes and raw CODE match. Adjacent LUI/ADDI/register-transfer
+sequences are checked with decoded operands and local control flow. An unknown
+register transfer or unsupported flow anywhere in the function prevents local
+qualification. Direct branches entering the ADDI/jump without its preceding
+definition,unreachable definitions,mid-instruction targets and traps are rejected.
+This assumes entry at the exact function start and ordinary ABI call/return.
+
+Actual20-component audit
+`.local/npu-constant-targets/inode-caller-q1/result.json`,SHA256
+`9ab060c56efd3a26dfd8680fb75d4f4a8345c82e78526bd49d378319c1dff673`,
+verifies371 inputs. Of75 prior unknown register sites,30 match the literal
+shape and27 pass the guards. All27 point to three original-firmware addresses:
+
+| Target | Guarded Sites |
+| --- | --- |
+| 0x84004212 | 9 |
+| 0x840064b4 | 8 |
+| 0x8400651c | 10 |
+
+The other three candidates remain rejected:one in npu_emulation_irq_dispatch
+and two in npu_emulation_descriptor_callback,because their functions also
+contain other unresolved register flow.48 sites remain unidentified by this
+qualified subset. This does not mean27 stack edges are closed:the three original
+callees' complete frames/paths are outside this supplement. The prior graph
+remains297/687/91/9696,not extended or replayed as a new complete bound.
+
+Twelve new contracts use18 toolchain-generated synthetic fixtures,including
+bypass/unknown-flow/unreachable/trap/encoding/alias cases. Seven tiny RV32 guests
+check actual PC,RA,SP,all32 GPRs and absence of memory writes,including backward,
+low-bit clearing,32-bit wrap and both conditional paths into a full definition.
+They are synthetic instruction programs,not original firmware. The target and
+compressed return-address rules were checked against the primary
+[RV32I ISA](https://docs.riscv.org/reference/isa/v20260120/unpriv/rv32.html) and
+[compressed ISA](https://docs.riscv.org/reference/isa/v20260120/unpriv/c-st-ext.html).
+Fixture SHA256
+`fcab677111e580e6745e1190023a9dae17a0a83943af70eaaad21276bf649c34`.
+
+Latest focused `.local/npu-world-overlay-20261017/host-scope-q6/result.json`,
+SHA256 `e90da153dd876dbc573a44321524390fbca4e39c0614b3de2c91181227ccf044`,
+passes84 unique units/no skips/95 source and artifact hashes. It records13 tiny
+synthetic guests:seven new literal-target guests plus the previous six prefixes.
+The older72-test scope is unchanged,not relabeled as testing these new files.
+
+Jev q14 supports the narrow scope0.86/confidence0.79,bypass rejection0.95/0.92
+and unknown-flow rejection0.95/0.92. Its observation judgment is contradictory
+but uncertain0.58/0.37;whole-stack claim is also contradicted0.70/0.55.
+All probabilities are retained. The code sets initial registers before emulation
+and reads them afterward;expected-value list updates do not write the guest.
+Rather than treating a model judgment as proof,an independent unchanged-test
+replay installs a Python API proxy that raises on post-emulation reg_write.
+
+`.local/npu-world-overlay-20261017/literal-guest-observation-q1.json`,SHA256
+`e8027d69bfc07c1ddfd413bbc1b5a26796f4a8d1d728ab2c05b26e255a58efea`,
+passes seven replayed synthetic guests with records exactly matching the84-test
+scope. Each has33 post-emulation reads (PC plus32 GPRs),one emulation and zero
+forbidden writes. The proxy guards test Python API writes,not normal Unicorn
+internal instruction effects;it does not certify original firmware/observers.
+This is separate evidence,not a repaired or silently relabeled Jev result.
+
+No NPU/source-lock/image/guard changed,guest pipeline restarted,hardware action
+or subagent used. Both original callers/full36 matrices and HIF2 bitmap remain
+live. Original callees,other indirect paths,IRQ/per-hart/physical bounds and all
+broader/current-source native/full-setup/hot/lifecycle/boot/client gates remain.

@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (default eight-case cached coverage verified; HIF2 bitmap/callers/full36 matrices live; original failures preserved)
+Last updated: 2026-10-17 (27 literal targets identified,not whole-stack bounds;84 focused units pass;native jobs live and old failures preserved)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Guarded Literal Register Targets Identified
+
+- Added a bounded static supplement,receipt9ab060c5/371 inputs. All297 prior
+  measured C extents match linked ELF and raw CODE. Of75 old unknown register
+  sites,30 have literal LUI/ADDI/jump sequences;27 pass local guards and point
+  at0x84004212(9),0x840064b4(8),0x8400651c(10). Three sequences in IRQ/descriptor
+  functions stay rejected because those functions contain other unknown flow.
+- This identifies addresses,not permitted callbacks or original callee frames.
+  Exact function entry/ordinary ABI are assumptions;unknown register flow
+  anywhere in the function,branches into later sequence instructions,traps,
+  invalid targets and unreachable definitions block qualification. The existing
+  297-C-frame/687-direct/91-unresolved/9696 restricted graph is neither changed
+  nor extended. Original callee/indirect/IRQ/per-hart/physical bounds remain.
+- Twelve new contracts use18 toolchain-generated synthetic fixtures and seven
+  tiny RV32 guests. Actual target PC/RA/all32 GPRs/SP and writes match expected
+  values. Latest84 unique tests/no skips/95 hashes pass e90da153;13 tiny guests
+  include the previous six synthetic prefix guests. These are not original router firmware.
+- Jev q14 supports scope0.86/confidence0.79,bypass guard0.95/0.92 and unknown-
+  flow guard0.95/0.92. It is uncertain/contradictory on pre-restore observation
+  0.58/0.37 and whole-bound0.70/0.55;all distributions are retained. Direct code
+  review and an independent unchanged-test API-guard replay e8027d69 confirm
+  seven matching synthetic records,33 reads after emulation per guest and zero
+  forbidden post-emulation register writes. No model approval is substituted.
+- Both original callers/full36 matrices and HIF2 bitmap remain live. New24
+  INODE/broader/current-source/full setup/hot/RRO/IRQ/lifecycle/physical/boot/
+  client gates stay open. Source-lock40d29368/imagea22300ea/WORLD.json and all
+  native producing inputs are unchanged. No restart,hardware or subagents.
+  Full hashes,assumptions and source references: inode-caller/STACK.md.
 
 ## 2026-10-17 - Default Cached Eight-Case Coverage Verified
 

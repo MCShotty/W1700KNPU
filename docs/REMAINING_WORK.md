@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Literal Addresses Identified;Callee Bounds Still Open
+
+New supplement9ab060c5 identifies27 guarded literal register targets among75
+prior unknown sites. Three original addresses remain outside the measured C
+graph;address identification does not close27 stack edges. Three additional
+literal candidates are rejected for other unknown flow. The297/687/91/9696
+graph is unchanged. Finish original callee/indirect/IRQ/per-hart/physical bounds;
+do not turn exact-entry/ordinary-ABI assumptions into a permitted-path claim.
+
+Latest84 focused tests/no skips/95 hashes and13 tiny synthetic guests pass
+e90da153. Separate guarded replay e8027d69 confirms seven unchanged synthetic
+records without post-emulation register API writes. Neither executes original
+firmware. Both callers/full36 matrices and HIF2 bitmap remain live;new24 INODE,
+broader/current-main/full setup/hot/RRO/IRQ/lifecycle/physical/client gates are
+still open. Source-lock40d29368/imagea22300ea/WORLD.json unchanged. No hardware,
+job restart,waiver or subagents. Exact evidence: inode-caller/STACK.md.
+
 ## 2026-10-17 - Cached Default DESC10 Coverage Is Not Fresh Execution
 
 New default cached aggregate b1c1342f / audit 43722a96 revalidates all eight

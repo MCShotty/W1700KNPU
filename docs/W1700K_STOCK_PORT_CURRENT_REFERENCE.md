@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Literal Target Scope And 84 Focused Tests
+
+Static supplement9ab060c5 identifies27 guarded literal targets among75 prior
+unknown register sites,from30 adjacent sequences. It checks297 exact linked
+C function extents/raw CODE and371 input hashes. Three remaining candidates
+are rejected for other unknown flow. This identifies addresses at three
+original routines,not their frames/permitted entry paths or a whole-stack bound.
+The297/687/91/9696 graph is unchanged and not extended. Exact function entry
+and ordinary ABI remain assumptions. See inode-caller/STACK.md for all limits.
+
+Latest84 unique tests/no skips/95 hashes pass e90da153,with18 new synthetic
+fixtures/seven new tiny RV32 guests (13 including the prior prefix suite).
+Separate unchanged-test replay e8027d69 forbids post-emulation register API
+writes and observes matching seven records/33 reads each/zero forbidden writes.
+No original firmware executes in these units. Both callers/full36 matrices
+and HIF2 bitmap remain live;new24 INODE/broader/current-main/full-setup/
+physical/client gates remain open. Source-lock40d29368/imagea22300ea/WORLD.json
+unchanged. No hardware,job restart,waiver or subagents.
+
 ## 2026-10-17 - Default Cached Eight-Case Coverage Verified
 
 The unchanged frozen grader accepts a new default-HIF collection of all eight

@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Guarded Literal Targets Identified
+
+- New static supplement 9ab060c5 checks all297 measured C functions against
+  exact linked ELF/raw CODE bytes and prior graph inputs. Of75 old unknown
+  register sites,30 have adjacent literal sequences and27 pass local control-
+  flow guards:three original target addresses,counts9/8/10. Three sequences
+  remain rejected because their functions contain other unresolved flow.
+- This identifies addresses,not permitted callbacks/callee frames. The old
+  297/687/91/9696 graph is unchanged and not extended. Qualification assumes
+  exact function entry/ordinary ABI;unknown register flow anywhere in a function,
+  bypass branches,unreachable definitions/traps/invalid targets prevent admission.
+- Latest84 unique units/no skips/95 hashes pass e90da153,including12 new
+  contracts/18 synthetic fixtures/seven new tiny guests (13 with prior prefix
+  suite). Guarded replay e8027d69 separately forbids post-emulation API register
+  writes:seven records match the earlier scope,33 observed reads/guest,zero
+  forbidden writes. Jev q14's uncertain contradictory observation judgment is
+  retained,not silently overridden as a model approval. See inode-caller/STACK.md.
+- Source-lock40d29368/imagea22300ea/WORLD.json and all native producing inputs
+  remain unchanged. Both callers/full36 matrices and HIF2 bitmap remain live;
+  keep all full512/eight-DESC10/new24-INODE/broader/current-source/physical
+  gates. No job restart,hardware action,source-hash waiver or subagents.
+
 ## 2026-10-17 - Default Cached DESC10 Coverage Verified
 
 - A fresh default collection revalidates all eight original strict cases from

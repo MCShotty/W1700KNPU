@@ -17,8 +17,10 @@ The fourth isolated Linux 6.18.52 world/image build now passes FIT, Gemtek
 board, 218-package, 78-module and prepared-source 5/22/329 checks. The separate
 numeric SquashFS check passes six critical files and their parents. All 891,138
 original build entries, 4,617 cache entries, frozen inputs and parent namespaces
-remain unchanged. The latest focused suite passes 72 tests, including the new
-nine-prefix stack verifier and six tiny synthetic RV32 guests. These do not
+remain unchanged. The latest focused suite passes 84 tests, including the
+nine-prefix verifier, guarded literal-call targets and 13 tiny synthetic RV32
+guests. The new static supplement identifies 27 fixed register targets, not
+complete original callee frames. These checks do not
 establish a whole-stack bound. The new 27,009,866-byte image
 hash starts `a22300ea`; [metadata and full hashes](research/checkpoints/2026-10-17-npu-world-isolation/WORLD.json)
 are committed, not the binary. It is unflashed and not native/physical/client

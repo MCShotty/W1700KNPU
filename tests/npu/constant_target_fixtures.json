@@ -1,0 +1,106 @@
+{
+  "address": 65536,
+  "format": "synthetic-rv32-literal-target-fixtures-v1",
+  "no_router_firmware_bytes": true,
+  "programs": {
+    "backward": {
+      "ELF_sha256": "debdbc03665088286d082cbe746e0679320db92394c72d8e4ca3da9683a970d5",
+      "assembly": "lui a1,0x10\naddi a1,a1,-128\n.option rvc\nc.jr a1\n.option norvc",
+      "program_hex": "b7050100938505f88285"
+    },
+    "branch_to_addition": {
+      "ELF_sha256": "661ac507875c9e746e62c1d654a91ffb5aff9186f4076be74a5e495ea951b969",
+      "assembly": "beq a0,zero,addition\nlui a1,0x10\naddition:\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "63040500b705010093850504829567800000"
+    },
+    "branch_to_jump": {
+      "ELF_sha256": "e303b063d3d09e9728fa9a9f81efaecb21b2fe0d367dcba44c9d057492d2b846",
+      "assembly": "beq a0,zero,jump\nlui a1,0x10\naddi a1,a1,0x40\njump:\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "63060500b705010093850504829567800000"
+    },
+    "branch_to_upper": {
+      "ELF_sha256": "ff6488e6a4e33eb84da20b384ea00eeae165eea24cee2aa211f15ef5955339a6",
+      "assembly": "beq a0,zero,upper\nnop\nupper:\nlui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "6304050013000000b705010093850504829567800000"
+    },
+    "call": {
+      "ELF_sha256": "bfed73f6f991851cb07393332fb473af30703c9e227aa8a38b5b23c84db28a27",
+      "assembly": "lui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b705010093850504829567800000"
+    },
+    "low_bit": {
+      "ELF_sha256": "92158e3d1564a96720470164a5deae2aaeccc8ac4773cf25d8321148c553e579",
+      "assembly": "lui a1,0x10\naddi a1,a1,0x41\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b705010093851504829567800000"
+    },
+    "self_target": {
+      "ELF_sha256": "555d28d8cb3dace2bc6383c3d011614d0a55c1befd9e299df001ff651a58c58a",
+      "assembly": "lui a1,0x10\naddi a1,a1,8\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b705010093858500829567800000"
+    },
+    "split": {
+      "ELF_sha256": "be683c6e8a07bbdfb0e6d6b06100a8347f807c35f61ded160cef7a4afffee559",
+      "assembly": "lui a1,0x10\nnop\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b70501001300000093850504829567800000"
+    },
+    "split_jump": {
+      "ELF_sha256": "da716df4e6aa3b89e547470c5698ab9738bb4af8e9c1bb1da23a393a69386300",
+      "assembly": "lui a1,0x10\naddi a1,a1,0x40\nnop\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b70501009385050413000000829567800000"
+    },
+    "tail": {
+      "ELF_sha256": "416acd8b60c7b683229a340016c750b8235629f309dc4b5a345ae597bf4650b4",
+      "assembly": "lui a1,0x84006\naddi a5,a1,0x51c\n.option rvc\nc.jr a5\n.option norvc",
+      "program_hex": "b76500849387c5518287"
+    },
+    "trap": {
+      "ELF_sha256": "c3f94729487f1c19e84843e1197aea835c6769a6f9e97f55821eb1999cef2f58",
+      "assembly": "ebreak\nlui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "73001000b705010093850504829567800000"
+    },
+    "unknown_call": {
+      "ELF_sha256": "d6215b91f16827d430ecd531aa1024e4ea25fd4df1c2a6753dc34f26a038c0e5",
+      "assembly": ".option rvc\nc.jalr a2\n.option norvc\nlui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "0296b705010093850504829567800000"
+    },
+    "unknown_tail": {
+      "ELF_sha256": "a3224437d4be6488c77d75e4f3e140e963fe6662396b59a4d115970b6867f792",
+      "assembly": ".option rvc\nc.jr a2\n.option norvc\nlui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "0286b705010093850504829567800000"
+    },
+    "unreachable": {
+      "ELF_sha256": "635cd968c6e5e49e40f3e2fed21d22bc9ce786b69a7ac715777de12912373a43",
+      "assembly": "j done\nlui a1,0x10\naddi a1,a1,0x40\n.option rvc\nc.jalr a1\n.option norvc\ndone:\nret",
+      "program_hex": "6f00e000b705010093850504829567800000"
+    },
+    "wrap": {
+      "ELF_sha256": "43a1517c7292b07c450c7d63fbd10ae9fcdb25e699da1b1a2803d8ac462c351a",
+      "assembly": "lui a1,0\naddi a1,a1,-1\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b70500009385f5ff829567800000"
+    },
+    "wrong_base": {
+      "ELF_sha256": "efa34524f606dc2ff44118994bdefcfe179c5234044d3b1c6f6bc22ba79500ee",
+      "assembly": "lui a1,0x10\naddi a1,a2,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "b705010093050604829567800000"
+    },
+    "wrong_jump": {
+      "ELF_sha256": "e2389c78176fc6c25a736379d36f6b35fdcc236bff69b650e86e496002e5b9c4",
+      "assembly": "lui a1,0x10\naddi a5,a1,0x40\n.option rvc\nc.jalr a2\n.option norvc\nret",
+      "program_hex": "b705010093870504029667800000"
+    },
+    "zero_upper": {
+      "ELF_sha256": "357061a48de14d4c7b0ebb294ea14be6d9e882aab5676514eda06cc1f957fc11",
+      "assembly": "lui zero,0x10\naddi a1,zero,0x40\n.option rvc\nc.jalr a1\n.option norvc\nret",
+      "program_hex": "3700010093050004829567800000"
+    }
+  },
+  "synthetic_only": true,
+  "toolchain": {
+    "/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld": {
+      "sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c"
+    },
+    "/usr/lib/llvm-21/bin/clang": {
+      "sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932"
+    }
+  }
+}
