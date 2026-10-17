@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import subprocess
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -44,6 +45,56 @@ class IsolatedWorldTests(unittest.TestCase):
         receipt = directory / 'receipt.json'
         receipt.write_text(json.dumps(record))
         return receipt, frozen, script
+
+    def test_linker_preflight_requires_exact_declared_readonly_executable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            frozen = Path(temporary)
+            name = str((world.LINKER_PREFIX / 'bin/ld.lld').relative_to(world.ROOT))
+            linker = frozen / name
+            linker.parent.mkdir(parents=True)
+            linker.write_bytes(b'synthetic linker fixture;not executable code')
+            linker.chmod(0o555)
+            expected = dict(path=name,sha256=world.digest(linker))
+            self.assertEqual(world.linker_input(frozen,dict(files={name:expected['sha256']})),expected)
+
+    def test_missing_linker_stops_run_before_output_creation_or_inventory(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            frozen = root / 'root'
+            (frozen / 'firmware').mkdir(parents=True)
+            (frozen / 'firmware/source-lock.json').write_bytes(b'{}')
+            args = SimpleNamespace(name='fixture',snapshot=root / 'synthetic.json',probe_only=False,
+                provider_receipt=Path('synthetic-provider.json'),mt76_receipt=Path('synthetic-mt76.json'))
+            with patch.object(world,'STORE',root / 'output'), \
+                    patch.object(world.os,'getuid',return_value=1000), \
+                    patch.object(world,'snapshot',return_value=(frozen,dict(files={}))), \
+                    patch.object(world,'tree_state') as inventory:
+                with self.assertRaisesRegex(AssertionError,'missing-frozen-linker'): world.run(args)
+                inventory.assert_not_called()
+                self.assertFalse((root / 'output').exists())
+
+    def test_missing_alias_unlisted_changed_or_wrong_mode_linker_is_rejected(self):
+        for mutation in ('missing','unlisted','bytes','nonexecutable','writable','link'):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temporary:
+                frozen = Path(temporary)
+                name = str((world.LINKER_PREFIX / 'bin/ld.lld').relative_to(world.ROOT))
+                linker = frozen / name
+                linker.parent.mkdir(parents=True)
+                linker.write_bytes(b'synthetic fixture')
+                record = dict(files={name:world.digest(linker)})
+                linker.chmod(0o555)
+                if mutation == 'missing': linker.unlink()
+                elif mutation == 'unlisted': record['files'].clear()
+                elif mutation == 'bytes':
+                    linker.chmod(0o755)
+                    linker.write_bytes(b'changed')
+                    linker.chmod(0o555)
+                elif mutation == 'nonexecutable': linker.chmod(0o444)
+                elif mutation == 'writable': linker.chmod(0o755)
+                else:
+                    linker.unlink()
+                    linker.symlink_to('/bin/true')
+                with self.assertRaises(AssertionError): world.linker_input(frozen,record)
 
     def test_synthetic_snapshot_requires_exact_declared_readonly_files(self):
         base = world.ROOT / '.local/npu-validation-capsules'

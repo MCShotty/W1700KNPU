@@ -30,7 +30,7 @@ process runs as uid1000 with a minimal device tree. No router command is used.
 This is a tested workflow boundary for trusted build tools,not a claim of a
 complete adversarial-security or portable/hermetic execution environment.
 
-Eleven synthetic inventory/snapshot/command/host-exit controls pass. They exercise exact
+Fourteen synthetic inventory/snapshot/command/host-exit/linker controls pass. They exercise exact
 file bytes/modes/ownership,link literals,unexpected/special files,snapshot
 integrity,required current producer references and namespace/overlay argument
 shape. Host timeout and nonzero exits remain failed and continue into original
@@ -53,6 +53,46 @@ This tests the earlier runner before clean/source guards were added. Its
 namespace command function is byte-identical,not a whole-runner hash waiver;
 the new full build must still execute its own namespace assertions.
 No world/image has built.
+
+## First Build Attempt And Linker Correction
+
+The fresh V3 copy preserves2308 files/593965354 bytes at Git8bea6337,
+receipt `.local/npu-validation-capsules/world-main-40d-v3/receipt.json`, SHA256
+`37eab9c88ac1f746d91e916f3ad33f676048cb049912605bba85b59190f0e60c`.
+Its first full isolated attempt passed namespace checks and privately cleaned
+the critical outputs. All22 RV32 core objects/archive built. The checked-pair
+builder then failed linking the AArch64 helper because the frozen copy lacked
+the existing local ld.lld. OpenWrt world did not start;no pair/image qualified.
+
+Terminal `.local/npu-isolated-world/world-build-q1/result.json`, SHA256
+`1d75c5e709b83c9cbffa0d9aad8c9690c640138c9eef0b893eeb013ee3dbc3ed`,
+records passed:false/return1/host_timeout:false,all891138 original entries
+unchanged,snapshot unchanged and parent namespaces unchanged. Run log SHA256
+`b949ebb9ff103900d460e884f57f46620f3c41d5ef1cbfa14dedb28f4d23677e`.
+Private partial RV32 archive86790 bytes hashes
+`f6df5ce138536c46fd2b1c8594cd6fab85750f7b87c1cfc22877debf72c6269a`.
+These remain failed-attempt evidence,not a current firmware build.
+
+The corrected runner requires a declared,hash-exact,read-only executable
+ld.lld before creating output or inventorying the lower build. It rejects
+missing aliases/unlisted/changed/nonexecutable/writable/symlink fixtures.
+Inside the private namespace it rechecks the hash and actual --version,then
+passes the copied LLVM21 prefix through the existing builder --host-tools
+option. The namespace command function is unchanged. A fresh snapshot must
+include the existing LLVM21 bin directory;V3 and the failed outputs stay intact.
+No tool installation,global environment/policy or guest/native guard changed.
+
+Jev q3 marks fail-fast admission uncertain: supported0.49/confidence0.23,
+contradicted0.40. A separate synthetic whole-run test now verifies rejection
+before output creation or tree inventory directly. Same checked-prefix wiring
+is supported0.76/0.64;neither judgment qualifies the pending real retry.
+
+Jev q2 retains the source/timing-scope checks and original file identities.
+Plan short-circuit support is limited0.67/confidence0.51;bitmap mapping is not
+established0.63/0.45 from that excerpt. Firmware crash is not established
+0.99/0.98 and a sole validation-cost timeout cause is not established0.98/0.97.
+The source-path difference is only a lead,not runtime timing or a passing
+bitmap verdict. Both failed native aggregates remain failed.
 
 ## Source Copy
 

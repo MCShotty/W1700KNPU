@@ -6,9 +6,10 @@ Both nominal callers passed full512 DESC10 setup; later stages are still
 running. Each fault matrix finished failed: seven cases passed, but its bitmap
 case hit the original host deadline. Those failures remain failures.
 
-The full offline build-containment probe kept all 891,138 prepared-build
-entries unchanged. Prepared-source checks reject the older cache and accept
-the real current producer source maps; no current world/image has built yet.
+The first offline build attempt stopped at an omitted copied linker, before
+OpenWrt world. Its audit kept all 891,138 original entries unchanged. New linker
+preflight checks pass; the retry needs a fresh copy including that existing tool.
+Prepared-source checks pass; no current world/image has built yet.
 See the [isolation and timing checkpoint](research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md).
 
 ## 2026-10-17 - RX-Event Export Gap Repaired

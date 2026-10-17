@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (seven native faults/profile pass but aggregates fail; world containment/source checks pass)
+Last updated: 2026-10-17 (world attempt failed before world; original tree unchanged; linker-copy preflight added)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -19,7 +19,7 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   stores with no native error and continue later stages on600055c. No current
   constructor or complete fault qualification or
   proved firmware crash follows from these timeouts. No live job was restarted.
-- Added isolated-world/source-map runners with 11/four synthetic controls,
+- Added isolated-world/source-map runners with 14/four synthetic controls,
   all passing;13 existing fake-builder tests also pass. Actual primitive bwrap smoke verifies
   copy-up/new output,unchanged synthetic lower,EROFS and distinct mount/network/
   PID namespaces at uid1000. Receipt17628f8f is not a world or firmware test.
@@ -52,6 +52,23 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   loaded or flashed. Current FIT978f9ddd/calibration/recovery/rollback and
   original native files remain protected. No subagents or hardware actions.
   Evidence:research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
+- Fresh V3 snapshot37eab9c8 preserved2308 files/593965354 bytes from Git8bea633.
+  First actual isolated attempt performed private critical clean and built all
+  22 RV32 objects/archive,but failed linking the checked pair's AArch64 helper
+  because the snapshot omitted the existing local ld.lld alias. OpenWrt world
+  never started. Failed result1d75c5e7 records return1/host_timeout:false and
+  all891138 original entries,snapshot and parent namespaces unchanged;the FIT
+  still hashes978f9ddd. Failure/logs/partial artifacts remain separate,not fixed
+  in place. New declared-hash/RO/executable/no-alias linker preflight runs before
+  inventory;the builder receives the existing --host-tools LLVM21 prefix. A new
+  snapshot including that bin directory is required. No dependency installation,
+  compiler substitution,source-lock change or failed-run promotion.
+  A synthetic whole-run preflight control verifies missing-linker rejection
+  before output creation or tree inventory;it is not a namespace/build test.
+- Jev q2's source/timing checks retain raw probabilities: plan short circuit
+  supported0.67/confidence0.51;bitmap mapping not established0.63/0.45;firmware
+  crash not established0.99/0.98;sole validation-cost cause not established
+  0.98/0.97. The source path difference remains a lead,not a measured cause.
 
 ## 2026-10-17 - Retained RX-Event Export Gap And Consumer Qualification
 

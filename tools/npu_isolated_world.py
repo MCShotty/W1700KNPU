@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / '.build/merged-openwrt'
 WORK = ROOT / '.local/merge-nonoc-20260923'
 STORE = ROOT / '.local/npu-isolated-world'
+LINKER_PREFIX = ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21'
 
 
 def digest(path):
@@ -56,6 +57,17 @@ def snapshot(receipt_path):
     assert digest(frozen / 'tools/npu_isolated_world.py') == digest(Path(__file__))
     assert (frozen / BUILD.relative_to(ROOT)).is_dir() and (frozen / WORK.relative_to(ROOT)).is_dir()
     return frozen, record
+
+
+def linker_input(frozen, record):
+    name = str((LINKER_PREFIX / 'bin/ld.lld').relative_to(ROOT))
+    assert name in record['files'], ('missing-frozen-linker', name)
+    path = frozen / name
+    assert path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(frozen.resolve())
+    mode = path.stat().st_mode
+    assert mode & 0o111 and not mode & 0o222, ('linker-not-readonly-executable', name)
+    assert digest(path) == record['files'][name], ('frozen-linker-drift', name)
+    return dict(path=name, sha256=record['files'][name])
 
 
 def command(frozen, directory, name, context, probe):
@@ -132,6 +144,10 @@ def inner(args):
         consumer = json.loads(npu_world_sources.relative_file(ROOT,context['mt76_receipt']).read_bytes())
         assert provider['passed'] is consumer['passed'] is True
         assert provider['source_lock_sha256'] == consumer['source_lock_sha256'] == context['source_lock_sha256']
+        linker = ROOT / context['linker']['path']
+        assert linker == LINKER_PREFIX / 'bin/ld.lld' and digest(linker) == context['linker']['sha256']
+        linker_version = subprocess.check_output([str(linker), '--version'], text=True, timeout=30).strip()
+        proof['linker'] = dict(**context['linker'], version=linker_version)
         print(json.dumps(dict(phase='clean-critical-outputs-in-private-overlay')),flush=True)
         clean_commands = [
             ['make','-C',str(BUILD),'-j2','target/linux/clean','V=s'],
@@ -141,7 +157,8 @@ def inner(args):
             assert clean.returncode == 0, ('private-clean-failed',cleanup,clean.returncode)
         build_name = 'isolated-' + args.name
         build = subprocess.run([sys.executable, '-u', '-B', str(ROOT / 'tools/build_firmware.py'),
-            '--name', build_name, '--jobs', '2', '--target', 'world'], stdin=subprocess.DEVNULL)
+            '--name', build_name, '--jobs', '2', '--target', 'world',
+            '--host-tools', str(LINKER_PREFIX)], stdin=subprocess.DEVNULL)
         assert build.returncode == 0, ('world-build-failed', build.returncode)
         lock = json.loads((ROOT / 'firmware/source-lock.json').read_bytes())
         for label, tree in (('openwrt', BUILD), ('luci', BUILD / 'feeds/luci')):
@@ -172,14 +189,10 @@ def run(args):
     directory = STORE / args.name
     assert not directory.exists()
     frozen, record = snapshot(args.snapshot)
-    directory.mkdir(parents=True)
-    for name in ('build-upper', 'build-work', 'log-upper', 'log-work', 'tmp'): (directory / name).mkdir()
-    print(json.dumps(dict(phase='inventory-protected-lower-build', probe_only=args.probe_only)), flush=True)
-    before = tree_state(BUILD)
-    with (directory / 'lower-before.json').open('x') as stream: stream.write(json.dumps(before, sort_keys=True) + '\n')
     context = dict(uid=os.getuid(), parent_namespaces=namespaces(), frozen_root_identity=identity(frozen),
         source_lock_sha256=digest(frozen / 'firmware/source-lock.json'))
     if not args.probe_only:
+        context['linker'] = linker_input(frozen, record)
         for key,path in (('provider_receipt',args.provider_receipt),('mt76_receipt',args.mt76_receipt)):
             assert path is not None, ('missing-current-producer-reference',key)
             name = str(path.resolve().relative_to(ROOT))
@@ -187,6 +200,11 @@ def run(args):
             reference = json.loads((frozen / name).read_bytes())
             assert reference['passed'] is True and reference['source_lock_sha256'] == context['source_lock_sha256']
             context[key] = name
+    directory.mkdir(parents=True)
+    for name in ('build-upper', 'build-work', 'log-upper', 'log-work', 'tmp'): (directory / name).mkdir()
+    print(json.dumps(dict(phase='inventory-protected-lower-build', probe_only=args.probe_only)), flush=True)
+    before = tree_state(BUILD)
+    with (directory / 'lower-before.json').open('x') as stream: stream.write(json.dumps(before, sort_keys=True) + '\n')
     argv = command(frozen, directory, args.name, context, args.probe_only)
     envelope = dict(command=argv, snapshot_receipt_sha256=digest(args.snapshot),
         snapshot_source_commit=record['source_commit'], source_lock_sha256=context['source_lock_sha256'],

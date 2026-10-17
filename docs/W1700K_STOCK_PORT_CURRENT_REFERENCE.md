@@ -10,14 +10,20 @@ keeps aggregates failed. Both nominal callers passed full512 DESC10/25606
 stores and continue later stages on600055c. No current constructor verdict.
 Do not restart live jobs or remove failures.
 
-Offline world-build isolation is being prepared. Eleven synthetic namespace and
+Offline world-build isolation is being prepared. Fourteen synthetic namespace and
 four source-map contracts plus13 existing fake-builder regressions pass. Actual
 full prepared-build probe4d533ee2 verifies all891138 entries unchanged,alongside
 source EROFS/private namespaces. Actual stale-cache rejection9b651b7a and
 real-source synthetic-layout positivec3730851 check prepared5/22/329 identities.
 The added non-probe path requires private kernel/module/RV32 clean and source
 equivalence before FIT verification. It needs a fresh source copy,not reuse of
-the earlier probe's code. No world has built.
+the earlier probe's code. First world attempt stopped at an omitted linker
+before world;terminal audit1d75c5e7 confirms all891138 original entries and the
+snapshot/parent namespaces unchanged. The RV32 archive built,not a full pair or
+image. V3 preserves2308 files/593965354 bytes (37eab9c8/Git8bea633). A new frozen
+copy must include existing LLVM21/bin;new fail-fast checks require its declared
+read-only executable hash and the builder receives that exact host-tool prefix.
+No world has built.
 Snapshotv2 preserves2305 files/593939316 bytes,bfe078a9,
 source-lock40d29368 and current producer inputs,with two new included host
 files beyond itsb764894 Git anchor. Snapshotv1 correctly refused historical

@@ -9,7 +9,7 @@
   verifies case-input identities;it does not repair failed aggregates. Do not
   restart live jobs, erase failures or
   treat timeout as a proved firmware crash or a passing fault test.
-- New isolated-world runner/11 synthetic contracts plus four prepared-source
+- New isolated-world runner/14 synthetic contracts plus four prepared-source
   contracts pass;13 existing fake-builder regressions also pass.
   A real synthetic bwrap copy-up/EROFS/private-namespace smoke passes, but is
   not an image or NPU test. Full prepared-build containment probe4d533ee2 passes
@@ -17,8 +17,11 @@
   New non-probe flow explicitly cleans kernel/modules/RV32 in private overlays
   and checks prepared-source identities before image verification. Actual stale
   cache rejection9b651b7a and real-source synthetic-layout positivec3730851
-  check5/22/329 files. No world build has started;use a fresh copy for this
-  changed runner,not the earlier v2 probe's source snapshot.
+  check5/22/329 files. First full attempt failed before world at an omitted
+  linker;terminal audit1d75c5e7 keeps all891138 original entries unchanged.
+  V3 preserved2308 files/593965354 bytes,37eab9c8/Git8bea633. New required RO
+  linker preflight and existing builder --host-tools path need a fresh copy
+  including LLVM21/bin;do not mutate earlier snapshots or hide the failure.
 - World source snapshotv2 preserves2305 files/593939316 bytes (bfe078a9),
   source-lock40d29368, using current provider/consumer producer receipts plus
   the two new included host files. Its Git anchor isb764894, not a claim that

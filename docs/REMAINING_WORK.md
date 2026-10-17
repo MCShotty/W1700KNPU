@@ -9,12 +9,14 @@ full512 DESC10/25606 stores and continue later stages. Keep the exact old
 source/receipts;investigate late-path timing before any bounded rerun. Full eight-case,
 both-HIF caller/all36-tail/new24-INODE/broader native qualification stays open.
 
-Current module links pass, but no current world/image exists. Full891138-entry
-containment probe passes;actual prepared-source checks are implemented/tested
-with stale-cache rejection and current5/22/329 source-map acceptance. Freeze a
-fresh copy for the changed runner,then privately clean kernel/modules/RV32 and
-build/verify offline. Synthetic namespace/unit/source-map success is not a world
-build. Source-lock stays40d29368;
+Current module links pass, but no current world/image exists. First offline
+attempt failed before world because the copied environment omitted the local
+linker. Its terminal audit1d75c5e7 kept all891138 original entries unchanged.
+Fourteen isolation/linker plus four source-map contracts pass. Freeze a fresh
+copy including existing LLVM21/bin,then retry private clean/build/verification
+with the pinned tool prefix. Prepared-source5/22/329 checks remain required.
+Synthetic checks and the successful RV32 archive are not a world build.
+Source-lock stays40d29368;
 protected FIT978f9ddd is unchanged. No hardware or runtime promotion.
 Read research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
 
