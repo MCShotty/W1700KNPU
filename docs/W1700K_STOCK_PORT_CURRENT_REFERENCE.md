@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Two Tail Stages Pass;Full36 Matrices Live
+
+Both600055c actual callers pass stages0/1 and capture prefixes0/1/2. Audit
+97db6e13 verifies profile identity/four observations/exact two stores/stage and
+868352 protected bytes. HIF2/default preflightsc7c6f13c/f39946f5 verify2337
+readonly originals/supplements and every captured input/region/context. Both
+full36 matrices are now live with original guard/budget contracts and two
+workers/profile. No full matrix/final caller/current-main/physical promotion.
+Default bitmap remains live;new24 INODE awaits actual prefixes. No restart or
+subagents. Offline imagea22300ea/WORLD.json/source-lock40d29368 are unchanged.
+
 ## 2026-10-17 - Current-Lock Offline Image Verified
 
 Fourth isolated world is terminal0/pass,246532d5. V6 d298889f/Gitf9ba011

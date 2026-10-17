@@ -2,8 +2,9 @@
 
 ## 2026-10-17 - Native Qualification And Offline Image Work
 
-Both nominal callers passed full512 DESC10 setup and their first PCIe tail
-command; later stages are still running. Each old fault matrix remains failed
+Both nominal callers passed full512 DESC10 setup and their first two PCIe tail
+commands; later stages and both full 36-case tail matrices are running.
+Each old DESC10 fault matrix remains failed
 at its original bitmap host deadline. A new observed denied replay passes,
 with 15 native artifacts byte-identical to the earlier case; its separate
 full-size bitmap replay is running, not qualified.

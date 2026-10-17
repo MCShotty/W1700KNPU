@@ -10,8 +10,9 @@ numeric-owner guard postdates V6 and passes separately on the actual same-hash
 encoded filesystem. The image is unflashed/not native or physically qualified;
 the three earlier failed world attempts remain failed and preserved.
 
-Both old nominal native callers pass RX PCIe and the first PCIe tail command,
-then continue. A separate observed denied replay passes with15 native
+Both old nominal native callers pass RX PCIe and the first two PCIe tail commands,
+then continue. Both full36 tail matrices are live from all three actual prefixes.
+A separate observed denied replay passes with15 native
 artifacts byte-identical to the earlier passing case. Its full-size default
 bitmap replay is live,not qualified;the two old failed matrices stay failed.
 No full constructor/fault/current-main/image/hardware acceptance follows.
@@ -452,3 +453,34 @@ replay remain live. First tail stage passes,not final INODE or complete fault
 qualification. Full eight-DESC10/both profiles/all36-tail/new24-INODE and
 broader native,hot ownership/RRO/checked IRQ/physical/drain/lifecycle/client
 gates remain open. No input/budget/full-size guard waiver or live restart.
+
+## Both Third-Tail Prefixes Captured;Full36 Matrices Live
+
+Both actual nominal callers pass tail stages0/1 with no native error and3072
+packet claims. Read-only audit
+`.local/npu-world-overlay-20261017/tail-capture-audit-q1.json`,SHA256
+`97db6e139eda77330fc969e683f1b0e6064675425a63df2310034f0bd6de195f`,
+checks both profile identities/four completed observations,exact two original
+stores/stage,validated original traces and all868352 protected bytes unchanged.
+All three actual prefixes0/1/2 exist for both profiles before command3. This
+does not establish final cold/INODE or current-main qualification.
+
+HIF2 preflight `.local/npu-world-overlay-20261017/tail-hif2-preflight-q1.json`,
+SHA256 `c7c6f13c7dd6461c0fd0021ea0a74fc2a453649650108d5e0284fda205946245`;
+default `.local/npu-world-overlay-20261017/tail-default-preflight-q1.json`,
+SHA256 `f39946f5aace5722cc119b1ae38066c027229f6584440ebb107deb32513fabef`.
+Each verifies all2337 readonly original/supplemental files plus all three
+actual captures'inputs/regions/context. Both original-path matrix mounts pass.
+Tags tail-hif2-full36-q1/tail-default-full36-q1 execute the unchanged frozen
+pcie_tail_retained_controls.py over36 cases/profile,workers2/profile. Native
+60000000us and per-case host10800-second bounds/full exact guards remain.
+
+Physical outputs are below
+`.local/npu-validation-capsules/inode-caller-v1/root/.local/npu-pcie-tail-full36-20261017/`,
+subdirectories hif2-q1/default-q1. First stage0 callback-slot/prior-tx-fault
+cases pass individually in both;no full matrix receipt yet. The source is
+still600055c,not newer Linux integration. Original failed DESC10 aggregates
+stay failed;default observed bitmap and both callers remain live. Actual
+INODE prefixes/new24 faults and broader/native/physical gates remain pending.
+No changed producing files,shorter coverage,budget/hash waiver,job restart,
+world/image change,hardware action or subagents.

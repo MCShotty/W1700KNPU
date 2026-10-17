@@ -1,10 +1,30 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (V6 world/image and same-image numeric ownership pass; native qualification remains live)
+Last updated: 2026-10-17 (V6 image passed; two tail stages pass per profile; both full36 matrices launched)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Both Profiles Reach Third Tail;Full36 Matrices Live
+
+- Both original600055c nominal callers pass tail stages0/1 and capture actual
+  prefixes0/1/2. Audit97db6e13 verifies four completed observations,profile
+  identity,two original stores/stage,zero native error/3072 packet claims and
+  exact868352 protected bytes. Not final cold/INODE or current-main acceptance.
+- Full36 launch preflightsc7c6f13c(HIF2)/f39946f5(default) each verify all2337
+  readonly original/supplemental files plus all three snapshots'inputs/region/
+  context hashes. Both matrices have started in private original-path mounts,
+  tags tail-hif2-full36-q1/tail-default-full36-q1,workers2/profile. All36 cases
+  and exact412-SETUP/owner/private/CODE/ABI/store/lock/protected-memory checks
+  remain;native60000000us/per-case host10800s limits are unchanged. Initial
+  stage0 callback-slot/prior-tx-fault cases pass individually in both profiles;
+  no full aggregate verdict. Old failed DESC10 matrices remain failed.
+- Default observed bitmap and both nominal callers also remain live. New24
+  INODE awaits actual constructor prefixes;all broader/hot/physical/client gates
+  stay open. No live restart,source-hash waiver or subagents. Imagea22300ea/
+  WORLD.json/protected artifacts/source-lock40d29368 remain unchanged. Read
+  world-isolation/REPORT.md for exact private paths/hashes and evidence limits.
 
 ## 2026-10-17 - Current-Lock Offline World And Image Passed
 

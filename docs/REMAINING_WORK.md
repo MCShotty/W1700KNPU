@@ -1,5 +1,15 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Both Full36 Tail Matrices Live
+
+Both original600055c callers pass first two tail stages and provide all three
+actual prefixes. Audit97db6e13 checks four completed observations/two profiles
+with exact two stores/stage/868352 protected bytes. Both full36 matrices are
+running,workers2/profile,after2337-file/three-prefix preflightsc7c6f13c/f39946f5.
+No matrix/final caller/constructor verdict yet. Default observed bitmap also
+continues;old failed DESC10 aggregates stay failed. Await actual INODE prefixes
+before new24 faults. Preserve source hashes,coverage and all live jobs.
+
 ## 2026-10-17 - Offline Image Gate Closed;Native And Physical Open
 
 Fourth world/image passes,246532d5/f3cf6602:new Linux6.18.52 Gemtek image

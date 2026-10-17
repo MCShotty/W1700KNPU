@@ -1,5 +1,21 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Both Full36 Tail Matrices Running
+
+- Both600055c nominal callers pass tail stages0/1 and capture actual prefixes
+ 0/1/2 before command3. Read-only audit97db6e13 verifies both profiles/four
+  completed observations:two original stores/stage and868352 protected bytes
+  unchanged. This is not final cold/INODE/current-main or physical acceptance.
+- Preflightsc7c6f13c(HIF2)/f39946f5(default) verify all2337 original/supplemental
+  readonly files and all three captured regions/context/input sets per profile.
+  Both full36 matrices are live via original-path capsule tags
+  tail-hif2-full36-q1/tail-default-full36-q1,workers2/profile. Cases/guards/
+  60000000us native/10800s per-case host limits are unchanged. No aggregate
+  verdict yet;old failed DESC10 matrices remain failed. No restart/subagents.
+- Default observed bitmap also remains live;new24 INODE still awaits actual
+  constructor prefixes. World is already terminal/pass;WORLD.json is immutable
+  metadata for imagea22300ea,not a native/boot qualification. Source-lock40d29368.
+
 ## 2026-10-17 - V6 Offline Image Passed;Continue Native Gates
 
 - Fourth world is terminal0/pass,246532d5. V6/Gitf9ba011 builds Linux6.18.52
