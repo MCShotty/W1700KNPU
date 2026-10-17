@@ -13,6 +13,15 @@ import test_host_tx_lifetime as lifetime
 import test_host_rx_event_lifetime as rx_lifetime
 
 
+def checked_host_sender(receipt):
+    assert receipt['passed'] is True, 'host-sender-receipt-not-passed'
+    path = (parent.ROOT / receipt['shared']).resolve()
+    assert path.is_relative_to(parent.ROOT / '.local'), 'host-sender-path-outside-private-storage'
+    expected = receipt['shared_sha256']
+    assert parent.loader.sha(path) == expected, 'host-sender-binary-drift'
+    return path, {str(path.relative_to(parent.ROOT)): expected}
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--source',type=Path,required=True)
@@ -113,6 +122,9 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     host=json.loads(args.host_receipt.read_bytes())
     assert host['passed'] and all(parent.loader.sha(root/path)==digest for path,digest in host['inputs'].items())
     inputs |= host['inputs']
+    host_sender, sender_inputs = checked_host_sender(host)
+    assert all(name not in inputs or inputs[name] == digest for name, digest in sender_inputs.items())
+    inputs |= sender_inputs
     inputs |= {str(path.relative_to(root)): parent.loader.sha(path)
                for path in destination.rglob('*') if path.is_file() and path.suffix in ('.c', '.h', '.inc', '.so')}
     original_cdll=ctypes.CDLL
@@ -145,7 +157,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     ctypes.CDLL=load
     try:
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
-                                  host_sender=root/host['shared'],txbuffer_enrollment=True,rx_event=args.rx_event,
+                                  host_sender=host_sender,txbuffer_enrollment=True,rx_event=args.rx_event,
                                   desc10=args.desc10,pcie_tail=args.pcie_tail,inode=args.inode,hif2=args.hif2,
                                   nominal_only=args.nominal_only,producer_inputs=inputs)
     finally:

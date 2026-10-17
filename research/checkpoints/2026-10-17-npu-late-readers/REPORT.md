@@ -140,6 +140,46 @@ and timeout wording at0.80,confidence0.70. Exact request/result hashes and raw
 probabilities are retained in `DOCUMENTATION_SCOPE.json`. This does not replace
 the earlier uncertain design judgments or authorize hardware actions.
 
+## Runtime Input Follow-Up
+
+The first new capsule omitted the test DTB. Both v1 launches ended exit1 before
+the cold constructor. A later v2 captured that DTB and reached15 native
+enrollment records on each profile, then ended exit1 because the selected
+host-sender library was absent. All four failures and their immutable producing
+input sets remain. No failed execution is relabeled or repaired.
+
+The replay now adds the hash-pinned, parsed test DTB to its input manifest.
+The actual TX caller also checks its selected sender against the independent
+passed compiler receipt, rejects missing/changed/outside-storage libraries, and
+includes that exact binary in producer inputs before emulation. The general
+peer records the selected sender too. No firmware guard, native size or budget
+changes. Four DTB/five sender synthetic tests pass. The complete earlier test
+selection plus these nine gives228 unique/246 executions,no skips,receipt
+`5978771cfdb32d5a798a787f51d4a02b6bd706776e242b870f41a8e240742675`.
+
+A94-input preflight constructs the exact raw harness and loads six sender
+symbols without calling the guest engine or sender functions. Its receipt is
+`7279390bf7ceef07bd8fae5468fcac44aed9b88aa1baa7cb21cf6e9e62f02b20`.
+New `late-readers-caller-v3` preserves2378 readonly files/525043700 bytes,receipt
+`7ddc73cd215b3f99f16d5056a581210fb497a93bdd31ec7e33ec0524522cbf60`.
+All nine dependency controls pass inside its isolated mounts. This is input/
+construction qualification,not cold-constructor success.
+
+Both fresh original cold callers are live with tags `default-hif-q3`/`hif2-q3`
+and output names `reader-caller-q3`/`reader-caller-hif2-q3`. Paired CODE/DATA
+remain858d1408/40483c19. `RUNTIME_INPUTS.json` hashes
+`529e124e5bd1190be004e027ba3c733a53e8608cdaf1e743018dcc5973351beb`.
+It preserves all four failed attempts, new preparation evidence and explicit
+pending status. The older frozen tail diagnostics remain independent. No new
+stage1 INODE capture, current full matrix or overall NPU acceptance is claimed.
+
+The separate Jev runtime-scope batch supports sender-identity wording at0.90,
+confidence0.85,and failure-history/limited-acceptance wording at1.0. Its raw
+request/result remain under `.local/npu-tail-liveness-20261017/jev-runtime-q4.*`;
+the result hashes
+`f2112e2a1a326c6ff0192fe515911780f7888ddbd5964035be5d9c8a5e77accf`.
+These are semantic checks,not constructor or hardware proof.
+
 ## Next Gates
 
 Fresh current-source both-HIF actual cold callers, full512 DESC10/eight DESC10

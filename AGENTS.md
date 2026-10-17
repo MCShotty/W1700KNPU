@@ -1,5 +1,20 @@
 # W1700KNPU Workspace
 
+## 2026-10-18 - Explicit Runtime Inputs;Fresh Callers Running
+
+- Caller manifests now bind the validated test DTB and selected host-sender
+  library before emulation; the sender must match its independent passed
+  compiler receipt. Nine new synthetic controls/228 unique/246 executions pass.
+- Four earlier fresh-launch failures remain: v1 lacks the DTB before the cold
+  constructor; v2 reaches15 native enrollment records but lacks the sender.
+  New v3 has2378 readonly inputs/525043700 bytes,receipt7ddc73cd.94-input
+  harness/library preflight starts no guest engine or sender functions.
+- Current actual callers are v3 tags default-hif-q3/hif2-q3,outputs reader-
+  caller-q3/reader-caller-hif2-q3. Both are live,not qualified. Old frozen tail
+  completion diagnostics remain separate. Pair858d1408/40483c19 and firmware/
+  native budgets are unchanged. Read late-readers/RUNTIME_INPUTS.json and
+  REPORT.md;all full setup/hot/IRQ/lifecycle/physical/client gates remain.
+
 ## 2026-10-18 - Late Readers Recheck Transitive Owners
 
 - Implemented the reproduced PCIe-tail/INODE liveness fixes. Tail rechecks the

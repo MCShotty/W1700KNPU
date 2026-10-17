@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-18 - Current Cold Callers Started With Complete Selected Inputs
+
+Actual caller input manifests now validate/bind the test DTB and independently
+compiled sender library before emulation. Nine new synthetic controls bring
+the current selection to228 unique/246 executions,no skips. The94-input harness/
+library preflight calls no guest engine or sender functions. Four earlier
+launch failures remain: v1 missing DTB before constructor; v2 missing sender
+after15 native enrollment records. They are not successful cold callers.
+
+New frozen v3 has2378 files/525043700 bytes,receipt7ddc73cd. Default-hif-q3/
+hif2-q3 callers are live as reader-caller-q3/reader-caller-hif2-q3. No positive
+constructor/stage1 or complete current matrix verdict yet. Old frozen tail
+completion diagnostics continue separately. Paired CODE858d1408/DATA40483c19,
+firmware/source-lock/images/native budgets remain unchanged. All full setup/
+hot/IRQ/lifecycle/physical/client gates stay. Read late-readers/RUNTIME_INPUTS.json
+and REPORT.md. This supersedes earlier preparation/live-status descriptions.
+
 ## 2026-10-18 - Reader Fixes Implemented;Native Qualification Open
 
 The late-reader hypothesis reproduced two real logical-owner defects. Tail

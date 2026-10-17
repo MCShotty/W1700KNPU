@@ -4,6 +4,16 @@ Last updated: 2026-10-18 (two late-reader fixes;modeled core checks pass;fresh o
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
+## 2026-10-18 - Runtime Inputs And Fresh Callers
+
+- Added explicit DTB/sender input validation before emulation. Nine new controls
+  and228 unique/246 unit executions pass.94-input harness construction/sender
+  symbol load invokes no guest engine or sender functions. Four earlier missing-
+  input failures remain failed. New2378-file v3 capsule7ddc73cd runs both actual
+  callers as reader-caller-q3/reader-caller-hif2-q3; verdicts pending. Older
+  frozen tail diagnostics remain separate. No firmware/pair/image/budget or
+  hardware change. See late-readers/RUNTIME_INPUTS.json and REPORT.md.
+
 ## 2026-10-18 - Reader Fixes And Corrected Run Inventory
 
 - Implemented two reproduced transitive-owner rechecks in the tail and INODE

@@ -56,6 +56,13 @@ def prepare(directory, text, header):
             HARNESS, *[SOURCE / name for name in (*CLIENTS, *SERVERS)]]
 
 
+def native_bootstrap_inputs():
+    from test_bootstrap_native import DTB, plan
+
+    plan()
+    return {str(DTB.relative_to(ROOT)): loader.sha(DTB)}
+
+
 def native_peer(binary, pair, publication, *, wrong_identity=False, cold_commands=False,
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
@@ -89,7 +96,10 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         Path(inode_trace.__file__), Path(restore_native_prefix.__file__),
         ROOT / 'tests/npu/test_desc10_native_controls.py',
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
+    if host_sender is not None:
+        native_dependencies.append(Path(host_sender).resolve())
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
+    native_inputs |= native_bootstrap_inputs()
     analysis_inputs = {}
 
     code_path, data_path = publication / 'CODE-copied.bin', publication / 'DATA-published.bin'

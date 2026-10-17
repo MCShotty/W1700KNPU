@@ -17,6 +17,13 @@
   Gemtek W1700K boot, services,2.4/5/6GHz/MLO, clients, performance and stability.
   No current hardware/flash authorization is implied by software progress.
 
+Current cold callers now run as reader-caller-q3/reader-caller-hif2-q3 in frozen
+late-readers-caller-v3. Their status is pending,not accepted. Nine new runtime-
+dependency controls/228 unique/246 executions pass; the test DTB and sender are
+explicitly verified/captured before replay. Earlier v1/v2 missing-input launch
+failures remain failed. The94-input construction preflight starts no guest
+engine or sender functions. See late-readers/RUNTIME_INPUTS.json and REPORT.md.
+
 Two late-reader fixes are implemented,not merely proposed. Covered host probes
 improve36/72 and20/56 false acceptances to zero. Normal RV32 fixtures pass tail
 647/559 and INODE2522/326; host INODE592/326,13/10 mutants and219 unique/237

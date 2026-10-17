@@ -1,0 +1,84 @@
+{
+  "passed": true,
+  "scope": "runtime-input-binding-and-capsule-preparation-only",
+  "observed_at": "2026-10-17T21:24:02.272328+00:00",
+  "unique_units": 228,
+  "unit_executions": 246,
+  "focused_new_controls": 9,
+  "preflight_input_count": 94,
+  "guest_engine_calls_in_preflight": 0,
+  "selected_sender_loaded_but_functions_not_invoked": true,
+  "failed_launches": [
+    {
+      "capsule": "late-readers-caller-v1",
+      "tag": "default-hif-q1",
+      "returncode": 1,
+      "cause": "missing-test-DTB-before-cold-constructor",
+      "elapsed_seconds": 3.4805564880371094,
+      "receipt_sha256": "98e3e3f72cff2892b297028af6242045a2f6072eb08b0b472bf121e51c231cf6"
+    },
+    {
+      "capsule": "late-readers-caller-v1",
+      "tag": "hif2-q1",
+      "returncode": 1,
+      "cause": "missing-test-DTB-before-cold-constructor",
+      "elapsed_seconds": 3.0218653678894043,
+      "receipt_sha256": "fea89a4026d26c6e080f8a3852910dfd8a20f00be4d3036542266f3777cf845f"
+    },
+    {
+      "capsule": "late-readers-caller-v2",
+      "tag": "default-hif-q2",
+      "returncode": 1,
+      "cause": "missing-selected-host-sender-after-native-enrollment",
+      "elapsed_seconds": 41.99235653877258,
+      "receipt_sha256": "5f62edb401c618b0ae5930d19cbc54ffb30fdf42af5dc046faca7fa0e42a68da"
+    },
+    {
+      "capsule": "late-readers-caller-v2",
+      "tag": "hif2-q2",
+      "returncode": 1,
+      "cause": "missing-selected-host-sender-after-native-enrollment",
+      "elapsed_seconds": 41.27964997291565,
+      "receipt_sha256": "6febe5739d69f7f6e007f56392cf9037afaf2fd453f380520ad362b13a4d2f21"
+    }
+  ],
+  "frozen_input_checks": [
+    {
+      "tag": "bootstrap-input-q1",
+      "tests": 4,
+      "returncode": 0,
+      "receipt_sha256": "db8b3578956cb0f319ed437cba199b71139ad9b2862b8405df7b50b6baa8cd34"
+    },
+    {
+      "tag": "sender-input-q1",
+      "tests": 5,
+      "returncode": 0,
+      "receipt_sha256": "6e0f6ce0c76db11aa295add58e632ee4edf6fa9f0cdede373653e6132848712d"
+    }
+  ],
+  "capsule_files": 2378,
+  "capsule_bytes": 525043700,
+  "capsule_sha256": "7ddc73cd215b3f99f16d5056a581210fb497a93bdd31ec7e33ec0524522cbf60",
+  "paired_bytes_changed": false,
+  "firmware_changed": false,
+  "native_budgets_changed": false,
+  "fresh_original_cold_constructor_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "fresh_callers": {
+    "default": {
+      "status": "running-not-qualified",
+      "tag": "default-hif-q3",
+      "caller": "reader-caller-q3",
+      "mount_sha256": "99172121603be1a23c9a755890de69c923ace0c3162f82c0e350e569a7ab43bc"
+    },
+    "hif2": {
+      "status": "running-not-qualified",
+      "tag": "hif2-q3",
+      "caller": "reader-caller-hif2-q3",
+      "mount_sha256": "c396d0892ac2569850c2e61b03960d1ea3ec55d65a6c669574fc9a8da91f40e7"
+    }
+  },
+  "private_receipt_sha256": "494cc05580eb281f5426606d246f5887519736074024e05ed9462dd99ba92ef9",
+  "receipt_input_count": 181
+}

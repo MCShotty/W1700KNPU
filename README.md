@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-18 - Fresh Caller Replay
+
+Both current cold callers are running from a new frozen input set. The test
+runner now verifies and records the test DTB and independently compiled sender
+library before replay; nine new controls and228 unique tests pass. Four earlier
+input-capture failures remain failures. No fresh constructor result is claimed,
+and the paired firmware bytes and saved router images are unchanged. See the
+[runtime-input follow-up](research/checkpoints/2026-10-17-npu-late-readers/REPORT.md#runtime-input-follow-up).
+
 ## 2026-10-18 - Late-Reader Owner Checks
 
 Fixed two reproduced cold-owner liveness gaps: PCIe-tail readers now recheck

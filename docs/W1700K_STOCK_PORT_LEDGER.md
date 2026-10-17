@@ -1,10 +1,31 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-18 (two reader fixes;modeled tail647/559 and INODE2522/326 pass;old interruptions/failures retained;fresh original cold/full setup/hot/physical/client gates open)
+Last updated: 2026-10-18 (two reader fixes;runtime-input binding/228 unique units pass;fresh v3 cold callers running;earlier failures retained;full setup/hot/physical/client gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-18 - Runtime Artifact Capture And New Cold Attempts
+
+- Provider replay now binds its validated test DTB and selected sender library
+  before emulation. Actual TX caller verifies the sender's independent passed
+  receipt/hash and includes it in producer inputs. Five sender/four DTB
+  synthetic controls pass; full selection228 unique/246 executions,no skips,
+  receipt5978771c. These are test infrastructure changes,not new firmware.
+- Four earlier launches remain exit1: v1/default+HIF2 lack the DTB before cold
+  constructor; v2/default+HIF2 reach15 native enrollment records then lack the
+  selected host-sender.so. Their producing copies/terminal receipts stay.
+- New94-input harness preflight7279390b constructs the raw peer and loads six
+  sender symbols without guest-engine or sender-function invocation. New v3
+  capsule7ddc73cd verifies2378 readonly files/525043700 bytes. Its four DTB/five
+  sender controls pass inside isolated mounts. This is not cold acceptance.
+- Fresh v3 default-hif-q3/hif2-q3 actual callers are live,output reader-caller-
+  q3/reader-caller-hif2-q3. Old frozen tail completion diagnostics stay separate;
+  no stage1/current full matrix or successful constructor is claimed. Native
+  pair858d1408/40483c19,core/source-lock/images/budgets unchanged. No hardware,
+  restart of failed runs,waiver or subagents. Runtime metadata529e124e and
+  late-readers/REPORT.md retain exact scope. All overall-project gates stay.
 
 ## 2026-10-18 - Transitive Owner Liveness After Readers
 
