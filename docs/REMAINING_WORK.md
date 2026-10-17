@@ -17,6 +17,16 @@
   Gemtek W1700K boot, services,2.4/5/6GHz/MLO, clients, performance and stability.
   No current hardware/flash authorization is implied by software progress.
 
+The original formatter now has an exact7544-byte inventory and20 callee local-
+SP analyses,but computed-flow boundaries at0x840108e2 and in0x840183b2 remain.
+Its observed496-byte entry decrement is not a whole/logger/IRQ bound. New
+arithmetic clobber handling passes28 compiled variants/84 synthetic guests and
+234 unique/252 unit executions. The earlier partial graph is not extended or
+requalified. Read original-irq/FORMATTER.md;all physical/indirect gates remain.
+Both older tail completion diagnostics are now terminal0/all36 each,with strict
+cached regrades and8120-path/2338-source audit. They do not repair the original
+interruptions or qualify the current candidate. See FROZEN_TAIL_DIAGNOSTICS.json.
+
 Current cold callers now run as reader-caller-q3/reader-caller-hif2-q3 in frozen
 late-readers-caller-v3. Their status is pending,not accepted. Nine new runtime-
 dependency controls/228 unique/246 executions pass; the test DTB and sender are

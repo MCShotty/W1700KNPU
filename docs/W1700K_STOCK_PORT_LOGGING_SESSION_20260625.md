@@ -4,6 +4,21 @@ Last updated: 2026-10-18 (two late-reader fixes;modeled core checks pass;fresh o
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
+## 2026-10-18 - Arithmetic Scope And Terminal Tail Collections
+
+- Local checker adds nine non-SP unknown-clobber forms,with SP rejection
+  retained.28 LLVM variants/84 maintained synthetic guests and234 unique/252
+  unit executions pass. Initial return-stop-page guest failure stays.20 of21
+  formatter-callee local analyses pass;formatter/callee computed flow still
+  rejects. No whole bound or graph extension. Scope6cd11a12 verifies252 paths;
+  original-irq/FORMATTER.md retains exact receipts and Jev SP uncertainty.
+- Both older tail diagnostic collections are terminal0/all36 each;34 caches
+  plus two new cases/profile. Strict cached regrades pass. Auditd544d4bc binds
+  8120 paths/2338 sources. Original interrupted runs remain without verdicts;
+  these are not current firmware/cold qualification. Only v3 cold callers
+  remain live. Firmware/pair/source-lock/images/budgets and overall gates stay;
+  no hardware,waiver or subagents. See FROZEN_TAIL_DIAGNOSTICS.json.
+
 ## 2026-10-18 - Runtime Inputs And Fresh Callers
 
 - Added explicit DTB/sender input validation before emulation. Nine new controls

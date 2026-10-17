@@ -50,7 +50,13 @@ def local_effect(instruction, state, edge):
         else:
             assert len(ops) == 2
         assert ops[-1].type == RISCV_OP_IMM
-    if instruction.mnemonic in ('c.lui', 'neg', 'snez'):
+    if instruction.mnemonic in ('mul', 'mulh', 'mulhsu', 'mulhu', 'div', 'divu', 'rem', 'remu'):
+        assert len(ops) == 3 and all(operand.type == RISCV_OP_REG for operand in ops)
+        result = list(state)
+        result[reg(instruction, 0)] = None
+        result[0] = 0
+        return tuple(result)
+    if instruction.mnemonic in ('c.lui', 'neg', 'seqz', 'snez'):
         assert len(ops) == 2 and ops[0].type == RISCV_OP_REG
         assert ops[1].type == (RISCV_OP_IMM if instruction.mnemonic == 'c.lui' else RISCV_OP_REG)
         result = list(state)

@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-18 - Original Formatter And Older Tail Diagnostics
+
+The local stack checker now handles nine additional non-SP arithmetic forms,
+with28 compiled fixtures/84 synthetic guest executions and234 unique tests
+passing.20 individual formatter callees qualify locally;two computed-flow
+boundaries still prevent a whole logger/IRQ bound. See the
+[formatter checkpoint](research/checkpoints/2026-10-17-npu-original-irq/FORMATTER.md).
+Both older tail diagnostic collections now pass36 cases each;they are distinct
+from the still-running current cold callers and do not qualify the new firmware.
+
 ## 2026-10-18 - Fresh Caller Replay
 
 Both current cold callers are running from a new frozen input set. The test

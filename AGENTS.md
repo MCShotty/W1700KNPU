@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-18 - Formatter Arithmetic And Terminal Older Tail Diagnostics
+
+- Local-SP checker now treats SEQZ/eight RV32 M arithmetic forms as unknown
+  non-SP clobbers only. All SP-destination forms still reject.28 new LLVM
+  fixtures/84 maintained synthetic guests and234 unique/252 unit executions
+  pass. Keep25 prior local-control methods;scopes overlap. Initial toy return-
+  stop fetch failure/exact source remains,not relabeled. q3 repeats q2's84.
+- Fresh Ghidra pins formatter7544 bytes/2707 instructions/78 external sites/
+  21 targets. Entry SP-496 is not a local/all-chain bound. Relative table91/
+  28 and computed0x840108e2 stay unqualified.20 callee local analyses pass;
+  callee0x840183b2 still rejects. No global graph extension/requalification.
+  Old12/9 callee cohort is preserved38 files. Scope6cd11a12 verifies252 paths.
+  Read original-irq/FORMATTER.md and metadata;retain Jev SP uncertainty0.45.
+- Both older frozen tail completion diagnostics are terminal0/all36 each:
+  34 exact caches plus two new cases/profile. Canonical-path cached regrades
+  also pass. Auditd544d4bc verifies8120 paths/2338 producing sources;original
+  interrupted runs remain without final verdict. This is not current source
+  or fresh constructor qualification. See late-readers/FROZEN_TAIL_DIAGNOSTICS.json.
+- Only the current v3 actual cold callers remain live. Keep their full sizes,
+  exact inputs and native budgets. No firmware/source-lock/pair/image change,
+  hardware,waiver or subagents. All overall project gates remain. This entry
+  supersedes older running-tail and unreviewed-formatter descriptions below.
+
 ## 2026-10-18 - Explicit Runtime Inputs;Fresh Callers Running
 
 - Caller manifests now bind the validated test DTB and selected host-sender

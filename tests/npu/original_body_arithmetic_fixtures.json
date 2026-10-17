@@ -1,0 +1,133 @@
+{
+  "format": "npu-original-body-synthetic-fixtures-v1",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "source_sha256": "e80fc2837184eb058247274950555af9bf5796e991f2bf69d767b8fbdce63225",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--image-base=0x0,-Ttext=0x1000,-e,case_mul",
+    "/home/captain/W1700KNPU/tests/npu/fixtures/original_body_arithmetic.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/local-arithmetic-q1.elf"
+  ],
+  "router_firmware": false,
+  "fixtures": {
+    "case_mul": {
+      "address": 4096,
+      "bytes_hex": "3385c50267800000"
+    },
+    "case_mul_sp": {
+      "address": 4104,
+      "bytes_hex": "3381c50267800000"
+    },
+    "case_mul_zero": {
+      "address": 4112,
+      "bytes_hex": "3380c50267800000"
+    },
+    "case_mulh": {
+      "address": 4120,
+      "bytes_hex": "3395c50267800000"
+    },
+    "case_mulh_sp": {
+      "address": 4128,
+      "bytes_hex": "3391c50267800000"
+    },
+    "case_mulh_zero": {
+      "address": 4136,
+      "bytes_hex": "3390c50267800000"
+    },
+    "case_mulhsu": {
+      "address": 4144,
+      "bytes_hex": "33a5c50267800000"
+    },
+    "case_mulhsu_sp": {
+      "address": 4152,
+      "bytes_hex": "33a1c50267800000"
+    },
+    "case_mulhsu_zero": {
+      "address": 4160,
+      "bytes_hex": "33a0c50267800000"
+    },
+    "case_mulhu": {
+      "address": 4168,
+      "bytes_hex": "33b5c50267800000"
+    },
+    "case_mulhu_sp": {
+      "address": 4176,
+      "bytes_hex": "33b1c50267800000"
+    },
+    "case_mulhu_zero": {
+      "address": 4184,
+      "bytes_hex": "33b0c50267800000"
+    },
+    "case_div": {
+      "address": 4192,
+      "bytes_hex": "33c5c50267800000"
+    },
+    "case_div_sp": {
+      "address": 4200,
+      "bytes_hex": "33c1c50267800000"
+    },
+    "case_div_zero": {
+      "address": 4208,
+      "bytes_hex": "33c0c50267800000"
+    },
+    "case_divu": {
+      "address": 4216,
+      "bytes_hex": "33d5c50267800000"
+    },
+    "case_divu_sp": {
+      "address": 4224,
+      "bytes_hex": "33d1c50267800000"
+    },
+    "case_divu_zero": {
+      "address": 4232,
+      "bytes_hex": "33d0c50267800000"
+    },
+    "case_rem": {
+      "address": 4240,
+      "bytes_hex": "33e5c50267800000"
+    },
+    "case_rem_sp": {
+      "address": 4248,
+      "bytes_hex": "33e1c50267800000"
+    },
+    "case_rem_zero": {
+      "address": 4256,
+      "bytes_hex": "33e0c50267800000"
+    },
+    "case_remu": {
+      "address": 4264,
+      "bytes_hex": "33f5c50267800000"
+    },
+    "case_remu_sp": {
+      "address": 4272,
+      "bytes_hex": "33f1c50267800000"
+    },
+    "case_remu_zero": {
+      "address": 4280,
+      "bytes_hex": "33f0c50267800000"
+    },
+    "case_seqz": {
+      "address": 4288,
+      "bytes_hex": "13b5150067800000"
+    },
+    "case_seqz_sp": {
+      "address": 4296,
+      "bytes_hex": "13b1150067800000"
+    },
+    "case_seqz_zero": {
+      "address": 4304,
+      "bytes_hex": "13b0150067800000"
+    },
+    "case_mul_framed": {
+      "address": 4312,
+      "bytes_hex": "130101ff232611003385c5028320c1001301010167800000"
+    }
+  }
+}

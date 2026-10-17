@@ -180,6 +180,29 @@ the result hashes
 `f2112e2a1a326c6ff0192fe515911780f7888ddbd5964035be5d9c8a5e77accf`.
 These are semantic checks,not constructor or hardware proof.
 
+## Terminal Older Tail Diagnostics
+
+Both separate older-source completion collections are now terminal0 and pass36
+cases each. Each contains34 byte-exact retained cases and two new stage2
+release-fault/unlock-neighbor executions. Both aggregates were then regraded
+successfully in the original canonical-path private namespace,using every
+cached case and the unchanged strict grader;no native case was rerun or
+aggregate rewritten during that regrade.
+
+Audit`d544d4bcf692c32555f00df29122b71e2e4e39676cb1363138fa7563cd7a8f92`
+verifies8120 paths/2338 original+supplemental sources,case inputs/artifacts,
+preserved earlier34-case inventories and all868352-byte protected projections.
+Aggregate hashes are`9799750e929e9617b1c9daf57c60c6e15555d33950ecf96a349f7f2bd69f19aa`
+and`7c1f4730e2d4ff8616534c0e2957fbf9b34a0bb8ef83fe378d2b96be166b43ce`.
+FROZEN_TAIL_DIAGNOSTICS.json hashes
+`df5959635c9afe3a71668617bfad61d27d721515fe1e27a584b4047ce5d0c55f`.
+Native60M-us and original10800-second host case limits remain. The original
+interrupted executions still have34 individual passes and no final verdict.
+Neither was repaired. These collections qualify only restored diagnostics on
+older CODE/source,not the reader fixes/current cold constructor/full setup.
+This supersedes the earlier running-completion descriptions in this report.
+Current v3 cold callers remain live and separately unqualified.
+
 ## Next Gates
 
 Fresh current-source both-HIF actual cold callers, full512 DESC10/eight DESC10

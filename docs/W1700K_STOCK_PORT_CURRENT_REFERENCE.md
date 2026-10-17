@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-18 - Local Arithmetic;Older Tail Collections Complete
+
+Current local-SP helper admits SEQZ/eight M forms only as unknown non-SP
+clobbers;SP writes remain rejected.28 LLVM variants/84 maintained synthetic
+guests and234 unique/252 executions pass,no skips. Initial toy return-stop
+fetch failure remains. The new helper qualifies20 formatter-callee local
+analyses,not a whole bound. Formatter7544/2707/78 sites/21 targets and its91/
+28 relative table are inventoried;computed0x840108e2 and callee0x840183b2 stay
+unqualified. Old12/9 cohort is preserved38 files. Scope6cd11a12 verifies252
+paths. Original-irq/FORMATTER.md and metadata retain Jev SP uncertainty0.45.
+
+Both older frozen tail completion collections now pass all36 each,terminal0:
+34 exact caches plus two new executions/profile. Both strict canonical-path
+cached regrades pass without rewriting their aggregates. Auditd544d4bc verifies
+8120 paths/2338 producing files. Original interrupted runs remain interrupted;
+no current-main/fresh-constructor qualification follows. See late-readers/
+FROZEN_TAIL_DIAGNOSTICS.json. Only the current v3 callers remain live with
+unchanged source/budgets. Firmware/pair/source-lock/images and all full setup/
+hot/IRQ/RRO/lifecycle/physical/client gates stay. No hardware or subagents.
+This supersedes older running-tail/unreviewed-formatter descriptions below.
+
 ## 2026-10-18 - Current Cold Callers Started With Complete Selected Inputs
 
 Actual caller input manifests now validate/bind the test DTB and independently

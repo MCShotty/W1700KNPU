@@ -1,5 +1,11 @@
 # Logger Child Local-SP Extension
 
+Later follow-up: [FORMATTER.md](FORMATTER.md) inventories the formatter and
+qualifies20 individual callee local-SP depths after conservative arithmetic
+clobber support. The formatter and one callee still have unqualified computed
+flow;no whole logger bound follows. The earlier checkpoint below is retained
+with its original receipts/source cohort.
+
 The current checker admits `C.LUI`, `NEG` and `SNEZ` only as checked non-SP
 destination clobbers to unknown. Self-relative SP/control/byte/merge guards stay
 unchanged. Six new LLVM controls accept the three non-SP forms and reject

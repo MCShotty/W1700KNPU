@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "scope": "older-frozen-restored-tail-diagnostics-only",
+  "profiles": {
+    "default": {
+      "cases": 36,
+      "byte_exact_cached_cases": 34,
+      "newly_executed_cases": 2,
+      "new_cases": [
+        "stage2 release-fault",
+        "stage2 unlock-neighbor"
+      ],
+      "summary_sha256": "9799750e929e9617b1c9daf57c60c6e15555d33950ecf96a349f7f2bd69f19aa",
+      "executions": {
+        "completion": {
+          "returncode": 0,
+          "elapsed_seconds": 9111.201531171799,
+          "receipt_sha256": "3a3e3edd403b5bef75c95535710d2b7424e5631aa0c0e2c800f6886f22090512"
+        },
+        "cached_regrade": {
+          "returncode": 0,
+          "elapsed_seconds": 4.043247222900391,
+          "receipt_sha256": "d87e7be21bc5e4e094fb055e44f44a36a4512b0c5683912e707be3a8bbfd1fad"
+        }
+      },
+      "original_run_status": "interrupted-no-final-verdict",
+      "current_source_qualified": false
+    },
+    "hif2": {
+      "cases": 36,
+      "byte_exact_cached_cases": 34,
+      "newly_executed_cases": 2,
+      "new_cases": [
+        "stage2 release-fault",
+        "stage2 unlock-neighbor"
+      ],
+      "summary_sha256": "7c1f4730e2d4ff8616534c0e2957fbf9b34a0bb8ef83fe378d2b96be166b43ce",
+      "executions": {
+        "completion": {
+          "returncode": 0,
+          "elapsed_seconds": 9402.40532875061,
+          "receipt_sha256": "5342c74a1f3c38448aca97333b04cb77f76674d6d5114b3ef498192269cb815f"
+        },
+        "cached_regrade": {
+          "returncode": 0,
+          "elapsed_seconds": 4.027126789093018,
+          "receipt_sha256": "d9600538571d3228b4c563be4bc75f6706e8ae234c0a451c92b519146afbbccc"
+        }
+      },
+      "original_run_status": "interrupted-no-final-verdict",
+      "current_source_qualified": false
+    }
+  },
+  "preserved_sources": 2338,
+  "snapshot_source_commit": "600055cce1508d02bf78a26271e6239cf27307ba",
+  "original_interrupted_runs_repaired": false,
+  "native_timeout_us": 60000000,
+  "unchanged_host_case_limit_seconds": 10800,
+  "fresh_constructor_qualified": false,
+  "current_source_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "private_audit_sha256": "d544d4bcf692c32555f00df29122b71e2e4e39676cb1363138fa7563cd7a8f92",
+  "input_count": 8120
+}

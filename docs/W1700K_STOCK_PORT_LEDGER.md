@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-18 (two reader fixes;runtime-input binding/228 unique units pass;fresh v3 cold callers running;earlier failures retained;full setup/hot/physical/client gates open)
+Last updated: 2026-10-18 (reader/runtime fixes;234 unique units/84 arithmetic guests;20 individual original callee analyses;older tail collections36 each;v3 cold callers live;full setup/hot/physical/client gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-18 - Formatter Local Arithmetic And Completed Older Diagnostics
+
+- Read-only Ghidra/Capstone pins formatter0x840107ca at7544 bytes/2707
+  instructions,78 external sites/21 targets and a91-entry/28-target relative
+  table. Its entry SP-496 is an observation,not an all-path/whole-chain bound.
+  Computed0x840108e2 stays rejected;labels are not verified index labels and
+  no guard/bypass/physical permission is inferred from table-byte decoding.
+- Extended only the local-SP helper:SEQZ/eight RV32 M forms clobber non-SP
+  destinations to unknown;all SP-destination forms fail the existing guard.
+  25 prior local methods plus28 LLVM variants remain.84 maintained synthetic
+  guests cover normal/zero-divisor/signed-overflow inputs,all32 GPR/PC/protected
+  bytes before host restore. Current234 unique/252 executions pass,no skips.
+  Initial toy probe failed fetching its unmapped0x2000 return-stop page;exact
+  source/failure remain. Separate corrected q2 and maintained q3 share the
+  same84 observations,not168 unique executions/coverage.
+- Fresh21-callee audit qualifies20 local depths,largest496;0x840183b2 still
+  rejects computed flow. Earlier12/9 cohort remains38 readonly files. Scope
+  6cd11a12 verifies252 paths;metadatae21b5477 and frontier a79ca3cc retain Jev
+  SP-guard not-established0.45/confidence0.18 and clobber support0.94/0.91.
+  No global300/718/six/56/9696 graph extension/current-CODE requalification or
+  full logger/IRQ/per-hart/physical bound. See original-irq/FORMATTER.md.
+- Both older frozen tail completion diagnostics ended0/all36 cases each:
+  34 byte-exact caches plus stage2 release-fault/unlock-neighbor executed
+  anew/profile. Both canonical-path strict cached regrades pass. Auditd544d4bc
+  checks8120 paths/2338 source files and every868352-byte protected projection.
+  Summaries9799750e/7c1f4730;metadata df595963. Original interrupted runs still
+  have34 individual passes/no final verdict;neither is repaired/relabelled.
+  This is old-source diagnostic restoration,not current/main/cold proof.
+- Only current v3 actual callers remain live;full512/eight-DESC10/all36-tail/
+  actual stage1/new24-INODE/broader/full setup/hot/IRQ/RRO/lifecycle/DMA/cache/
+  original/indirect/per-hart/physical/boot/client gates stay. Firmware/pair/
+  source-lock/images/native budgets unchanged. No hardware,waiver or subagents.
+  This supersedes older running-tail and unreviewed-formatter descriptions.
 
 ## 2026-10-18 - Runtime Artifact Capture And New Cold Attempts
 

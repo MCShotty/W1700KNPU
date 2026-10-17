@@ -1,0 +1,97 @@
+{
+  "function_entry": 2214660042,
+  "body_bytes": 7544,
+  "body_sha256": "66c43bfc35ea6f53944fdb5ca58a7f780a81e1e7e7af0fa4c17c6917763200c6",
+  "instruction_count": 2707,
+  "original_and_both_paired_body_bytes_equal": true,
+  "observed_entry_SP_decrement": 496,
+  "entry_decrement_is_not_a_whole_function_or_chain_bound": true,
+  "SP_destination_instructions": [
+    {
+      "address": 2214660042,
+      "mnemonic": "c.addi16sp",
+      "operands": "sp, -0x1f0"
+    },
+    {
+      "address": 2214660496,
+      "mnemonic": "c.addi16sp",
+      "operands": "sp, 0x1f0"
+    }
+  ],
+  "distinct_known_external_targets": 21,
+  "unknown_transfers": [
+    {
+      "address": 2214660322,
+      "target": null,
+      "kind": "unresolved-register-transfer"
+    }
+  ],
+  "relative_table_address": 2214712500,
+  "relative_table_entries": 91,
+  "relative_table_unique_targets": 28,
+  "relative_table_sha256": "7462cb88bed78544615ae9ab665e3e57c1503566b10500601db9e26feb326535",
+  "table_targets_inside_exact_body": true,
+  "table_guard_dominance_proven": false,
+  "Ghidra_label_values_are_not_index_labels": true,
+  "local_checker_rejection": "unknown-noncall-register-flow",
+  "local_checker_bypassed": false,
+  "complete_call_chain_bound_proven": false,
+  "global_graph_extended": false,
+  "original_execution": false,
+  "preserved_files": 19,
+  "preserved_bytes": 3038088,
+  "rejection_receipt_sha256": "bdce753d5ce245183c0c2782fffdccb1219c9be9ff9fe45d4c98d45c0ba6b073",
+  "full_setup": false,
+  "hardware": false,
+  "scope": "exact-original-formatter-layout-and-transfer-frontier-only",
+  "characterization_completed": true,
+  "external_transfer_sites": 78,
+  "inventory_sha256": "078c892ed6fce3805158df73a0093f9860165692c4d8d401e692bda49fefa5aa",
+  "Ghidra_decompiler_type_propagation_warning": true,
+  "Ghidra_read_only_noanalysis_export": true,
+  "source_lock_unchanged": true,
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "role": {
+        "type": "choice",
+        "choice": "formatting",
+        "confidence": 0.64,
+        "probabilities": {
+          "formatting": 0.73,
+          "irq_dispatch": 0.0,
+          "packet_owner": 0.01,
+          "unknown": 0.26
+        }
+      },
+      "logger_bound": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.8,
+        "probabilities": {
+          "supported": 0.1,
+          "contradicted": 0.03,
+          "not_established": 0.87
+        }
+      },
+      "dispatch": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.62,
+        "probabilities": {
+          "supported": 0.01,
+          "contradicted": 0.75,
+          "not_established": 0.24
+        }
+      }
+    },
+    "request_sha256": "1da90f5d00f7072c9eda359b7d3e26ed0460c9af208689a7bd8f750a23f41140",
+    "result_sha256": "fb510048c1507dd5a4f1dcaffca9de5db27ae649b9ee82e741e752c937f76de9"
+  },
+  "limits": [
+    "Entry SP decrement is an instruction observation,not a qualified local/all-path or whole-chain frame.",
+    "Decoded table positions are not a guard/bypass/readonly-physical or permitted-target proof.",
+    "No original function/constructor/IRQ delivery or physical hardware executes in this inventory.",
+    "Matching this body across raw images does not requalify the old global stack graph."
+  ]
+}
