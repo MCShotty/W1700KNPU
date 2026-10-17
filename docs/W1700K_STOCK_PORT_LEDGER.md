@@ -1,10 +1,41 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (RRO atomic caller/retention gap rechecked; IRQ status fixed; native jobs remain live)
+Last updated: 2026-10-17 (current provider module linked in isolation; native jobs remain live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Current Provider Final Module Link
+
+- Added a reproducible independent-kernel link runner and eight synthetic
+  inventory/ELF-parser controls. The runner applies the current tracked kernel
+  patch with zero fuzz, verifies all five selected files and 22 locked source
+  components, copies the complete prepared kernel without hardlinking outputs,
+  and builds the five actual provider C objects plus final .ko with pinned
+  GCC 14.4.0 and the unchanged Linux 6.18.52 configuration, at two jobs.
+- Actual module is AArch64/ET_REL, 247,152 bytes, vermagic
+  6.18.52 SMP mod_unload aarch64. Three exports match source and all 70 imports
+  are available. SHA256 8f8a6a5480faf81ab6b047d484e88726aba143b876cd3ab08f80c504ae27b096.
+  Build receipt 6fef3cfc1924ef43fe61098e1f7203521eae95a5f4e431c82404caed089f308b.
+  One modpost missing MODULE_DESCRIPTION metadata warning is retained; no
+  warning was hidden or source changed merely to suppress it.
+- Full before/after comparison verifies all 102,685 original prepared-kernel
+  file-content/mode/relative-link entries unchanged. Protected mt76/module/FIT
+  identities and the copied vmlinux remain unchanged. Scope SHA256
+  7044084edce5dfb481fd11a2f40c2126905b138f302fa4acb66193d2bad0181ed
+  binds 200 exact inputs and 218 unique tests/236 executions with no skips.
+  Eighteen preexisting imported fixture cases run twice. The eight new synthetic
+  tests validate inventory/parser behavior, not a real module link or load.
+- Jev's four narrow judgments/probabilities are retained. Its link judgment
+  has limited confidence; exact build/module/source checks establish only the
+  documented offline link scope. Host compiler/runtime are external, so this
+  is not a fully portable/hermetic execution environment.
+- Source-lock remains f9f90ba5. No module loading, current mt76 consumer relink,
+  vmlinux/world/image rebuild, native cold/full IRQ/drain/physical acceptance,
+  flash/reset/radio/reclaim or subagents. The existing four native jobs remain
+  live in their preserved old cohort; no restart or hash waiver. Evidence:
+  research/checkpoints/2026-10-17-npu-provider-link/REPORT.md.
 
 ## 2026-10-17 - RRO Caller Shape And Managed Lifetime Boundary
 

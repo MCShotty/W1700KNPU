@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Current Provider Final Link
+
+Current f9f90ba5 provider/five C objects/22 source components link successfully
+in an independent complete pinned kernel copy. The real AArch64 module has
+6.18.52 SMP mod_unload aarch64 vermagic, three expected exports and 70 available
+imports. Module SHA256 is 8f8a6a5480faf81ab6b047d484e88726aba143b876cd3ab08f80c504ae27b096.
+Link receipt 6fef3cfc and scope 7044084e verify all 102,685 original prepared
+inventory entries unchanged, protected mt76/FIT identities and 218 unique tests/
+236 executions. Eight inventory/ELF-parser tests are synthetic; the build log
+and actual module are the separate link evidence. One MODULE_DESCRIPTION
+metadata warning is retained. Source-lock and prepared outputs stay unchanged.
+No module load, current mt76 consumer relink, vmlinux/world/image rebuild,
+native cold/full IRQ/physical/client qualification or hardware action. Native
+jobs below remain live on their old frozen cohort. Read
+research/checkpoints/2026-10-17-npu-provider-link/REPORT.md. This supersedes older
+no-current-provider-module-link notes only; their original scope stays intact.
+
 ## 2026-10-17 - Current RRO Boundary,IRQ Status And INODE Qualification
 
 New actual RRO caller/provider C294 cases verify the16-byte/GFP_ATOMIC/RCU

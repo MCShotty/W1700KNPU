@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Current Provider Module Linked
+
+The current provider and its 22 source components now link into a real AArch64
+module against the pinned Linux 6.18.52 configuration. Vermagic, three exports
+and all 70 imports check out. All 102,685 original prepared-kernel inventory
+entries remain unchanged; 218 unique focused tests pass in 236 executions.
+This is an isolated, unloaded module, not a new world/image or native/hardware
+qualification. mt76 consumers still need their current-source relink.
+See the [provider link checkpoint](research/checkpoints/2026-10-17-npu-provider-link/REPORT.md).
+
 ## 2026-10-17 - RRO Bridge Still Open
 
 Fresh137 original-firmware RRO probes pass on synthetic RAM. The current checked

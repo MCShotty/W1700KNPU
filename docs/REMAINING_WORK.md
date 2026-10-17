@@ -1,5 +1,18 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Provider Linked; Consumer And Runtime Gates Remain
+
+Current f9f90ba5 provider/22 source components link into a real Linux 6.18.52
+AArch64 module with matching vermagic, three exports and 70 available imports.
+Scope 7044084e verifies the original 102,685 kernel inventory entries unchanged
+and 218 unique tests/236 executions. This closes the isolated provider-link
+gate only. Current mt76 consumers, vmlinux/world/image packaging, module loading
+and native/physical ownership, IRQ, drain and actual-client qualification remain
+open. Eight new inventory/ELF-parser controls do not establish runtime behavior.
+The existing native jobs remain live on their exact frozen source; do not
+restart or promote their pending results to newer main. No hardware changes.
+Read research/checkpoints/2026-10-17-npu-provider-link/REPORT.md.
+
 ## 2026-10-17 - RRO Transport And Retention Requirements
 
 Current16-byte RRO helper uses GFP_ATOMIC inside RCU;294 actual C cases verify

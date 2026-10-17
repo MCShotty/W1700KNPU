@@ -1,5 +1,21 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Current Provider Module Linked In Isolation
+
+- Current source-lock f9f90ba5 links the provider's five C objects/22 source
+  components into a real AArch64 .ko in an independent complete kernel copy.
+  Vermagic is 6.18.52 SMP mod_unload aarch64; three expected exports and all 70
+  imports pass offline checks. Module SHA256 starts 8f8a6a54, not the old module.
+- Receipt 6fef3cfc and scope 7044084e verify all 102,685 original kernel content/
+  file-mode/relative-link entries unchanged, protected mt76/FIT identities and
+  218 unique tests/236 executions. Eight inventory/ELF-parser controls are
+  synthetic tests, not the real link evidence. One preexisting-style modpost
+  MODULE_DESCRIPTION metadata warning is retained and reported.
+- No module load, mt76 consumer relink, vmlinux/world/FIT rebuild, native cold/
+  full IRQ/physical acceptance or hardware action. Source-lock stays f9f90ba5.
+  Both old-cohort cold callers/fault matrices remain live and must not be
+  restarted. Read research/checkpoints/2026-10-17-npu-provider-link/REPORT.md.
+
 ## 2026-10-17 - RRO Caller Boundary Rechecked
 
 - Actual16-byte/four-word mt76 RRO helper holds RCU and uses GFP_ATOMIC. New
