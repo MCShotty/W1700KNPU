@@ -1,0 +1,662 @@
+{
+  "format": "w1700k-descriptor-joint-target-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "scope": "Two additional bounded internal tables and two fixed original-call sites in a partial static graph,with separate local compiled-prefix diagnostics.",
+  "prior_checkpoint": {
+    "path": "research/checkpoints/2026-10-17-npu-inode-caller/INTERNAL_DISPATCHES.json",
+    "sha256": "e5614fb12f0c6d5924ccab4469e5404823a30463feb9c2e5aed99909825d6bb2",
+    "unchanged": true
+  },
+  "source_lock_sha256": "40d293685243a51c56c8a153505f24bab0b2b9cb81231ff3a2b029afc3db331c",
+  "CODE_identity_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "graph": {
+    "nodes": 300,
+    "resolved_interfunction_transfers": 718,
+    "new_literal_calls": 2,
+    "new_internal_dispatches": 2,
+    "total_internal_dispatches": 6,
+    "unresolved_transfers": 56,
+    "register_unknown": 40,
+    "known_outside_subset": 16,
+    "cycles": 0,
+    "largest_partial_candidate": 9696,
+    "new_callees": 0,
+    "prior_graph_unchanged": true
+  },
+  "new_tables": [
+    {
+      "caller": 2215149580,
+      "caller_name": "npu_cold_descriptor_begin",
+      "address": 2215149632,
+      "caller_CFA": 32,
+      "table_address": 2215155464,
+      "entry_count": 13,
+      "default_target": 2215149648,
+      "table_sha256": "118f25c87045b11758a28a5f63f5bf72cd3c15b49ade8e6fd4bf9674dd349f1f",
+      "metadata_case_count": 13,
+      "metadata_unlabelled_default_count": 0,
+      "metadata_load_tables_available": false
+    },
+    {
+      "caller": 2215152794,
+      "caller_name": "npu_emulation_descriptor_callback",
+      "address": 2215152878,
+      "caller_CFA": 48,
+      "table_address": 2215155580,
+      "entry_count": 13,
+      "default_target": 2215153154,
+      "table_sha256": "3dca1b8a3ebb535198564dde2563fc2953496ca8c831492b17fb845db0a98e4f",
+      "metadata_case_count": 13,
+      "metadata_unlabelled_default_count": 0,
+      "metadata_load_tables_available": false
+    }
+  ],
+  "new_literal_calls": [
+    {
+      "caller": 2215152794,
+      "caller_name": "npu_emulation_descriptor_callback",
+      "address": 2215153062,
+      "caller_CFA": 48,
+      "definition_start": 2215153054,
+      "target": 2214618292,
+      "target_frame": 16,
+      "kind": "literal-register-call",
+      "qualified_with_internal_tables": true
+    },
+    {
+      "caller": 2215152794,
+      "caller_name": "npu_emulation_descriptor_callback",
+      "address": 2215153526,
+      "caller_CFA": 48,
+      "definition_start": 2215153518,
+      "target": 2214618396,
+      "target_frame": 16,
+      "kind": "literal-register-call",
+      "qualified_with_internal_tables": true
+    }
+  ],
+  "remaining_transfer_records": [
+    {
+      "caller": 2214872484,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214872508,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a0"
+    },
+    {
+      "caller": 2214872484,
+      "target": 2214874888,
+      "kind": "AUIPC-direct-tail",
+      "address": 2214872532,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, -0x6c8"
+    },
+    {
+      "caller": 2214872484,
+      "target": 2214874888,
+      "kind": "AUIPC-direct-call",
+      "address": 2214872578,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x6f6"
+    },
+    {
+      "caller": 2214872484,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214872698,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a1"
+    },
+    {
+      "caller": 2214873132,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873264,
+      "caller_CFA": 48,
+      "instruction": "c.jalr s6"
+    },
+    {
+      "caller": 2214873600,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873716,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a1"
+    },
+    {
+      "caller": 2214873600,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873808,
+      "caller_CFA": 32,
+      "instruction": "c.jr a3"
+    },
+    {
+      "caller": 2214874032,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214874330,
+      "caller_CFA": 112,
+      "instruction": "c.jr a4"
+    },
+    {
+      "caller": 2214874032,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214874408,
+      "caller_CFA": 112,
+      "instruction": "c.jalr a2"
+    },
+    {
+      "caller": 2214912000,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214912644,
+      "caller_CFA": 96,
+      "instruction": "c.jalr a7"
+    },
+    {
+      "caller": 2214912000,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214912788,
+      "caller_CFA": 96,
+      "instruction": "c.jalr a1"
+    },
+    {
+      "caller": 2214928974,
+      "target": 2214929710,
+      "kind": "AUIPC-direct-tail",
+      "address": 2214929160,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x22a"
+    },
+    {
+      "caller": 2214928974,
+      "target": 2214929710,
+      "kind": "AUIPC-direct-call",
+      "address": 2214929612,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x66"
+    },
+    {
+      "caller": 2215086126,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215086410,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x43c"
+    },
+    {
+      "caller": 2215088540,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215088916,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x58e"
+    },
+    {
+      "caller": 2215100736,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215100944,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x48a"
+    },
+    {
+      "caller": 2215135878,
+      "target": 2215137840,
+      "kind": "AUIPC-direct-tail",
+      "address": 2215135896,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x79c"
+    },
+    {
+      "caller": 2215135980,
+      "target": 2215137852,
+      "kind": "AUIPC-direct-call",
+      "address": 2215136480,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x560"
+    },
+    {
+      "caller": 2215135980,
+      "target": 2215137840,
+      "kind": "AUIPC-direct-call",
+      "address": 2215136492,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x548"
+    },
+    {
+      "caller": 2215152794,
+      "target": 2215154942,
+      "kind": "AUIPC-direct-call",
+      "address": 2215153404,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x606"
+    },
+    {
+      "caller": 2215183740,
+      "target": 2215185448,
+      "kind": "AUIPC-direct-call",
+      "address": 2215184176,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x4fc"
+    },
+    {
+      "caller": 2215446394,
+      "target": 2215447066,
+      "kind": "AUIPC-direct-call",
+      "address": 2215446820,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0xfa"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464686,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464720,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464744,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464766,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464794,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464844,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464904,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465004,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465040,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465078,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465108,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465142,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465172,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465204,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5"
+    },
+    {
+      "caller": 2215529024,
+      "target": 2215530706,
+      "kind": "AUIPC-direct-tail",
+      "address": 2215529414,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x510"
+    },
+    {
+      "caller": 2215529024,
+      "target": 2215530706,
+      "kind": "AUIPC-direct-call",
+      "address": 2215529794,
+      "caller_CFA": 96,
+      "instruction": "jalr ra, ra, 0x394"
+    },
+    {
+      "caller": 2215543462,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544008,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544528,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544574,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544620,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544666,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544710,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544750,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215544906,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545106,
+      "caller_CFA": 560,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215545292,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545472,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215545524,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545632,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215575868,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576328,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576566,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576602,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576646,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215576784,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577118,
+      "caller_CFA": 4704,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215577314,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577638,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215577690,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577920,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4"
+    },
+    {
+      "caller": 2215579948,
+      "target": 2215586002,
+      "kind": "AUIPC-direct-call",
+      "address": 2215580918,
+      "caller_CFA": 144,
+      "instruction": "jalr ra, ra, 0x3e0"
+    }
+  ],
+  "host_tests": {
+    "unique": 158,
+    "skipped": 0,
+    "input_hashes": 92,
+    "artifact_hashes": 24,
+    "synthetic_guests": 35,
+    "original_firmware_execution": false
+  },
+  "compiled_diagnostics": {
+    "table_prefixes": 32,
+    "in_range_indices": 26,
+    "out_of_range_indices": 6,
+    "fixed_call_prefixes": 2,
+    "table_case_bodies_executed": false,
+    "original_callee_bodies_executed": false,
+    "synthetic_CPU_and_RAM": true,
+    "restoration_before_observation": false,
+    "prior118_prefixes_and_original129_are_separate": true
+  },
+  "evidence": {
+    "graph": {
+      "path": ".local/npu-descriptor-targets/descriptor-q1/result.json",
+      "sha256": "9941a452a6d11e0c4eafd40af54a3ad62d3b09f22252ed3b29e907c4991ae8cc"
+    },
+    "table_prefixes": {
+      "path": ".local/npu-world-overlay-20261017/compiled-descriptor-table-prefixes-q2/result.json",
+      "sha256": "c937f04106cca8d45855c9fab74d810fe9c835b0aea2b59b6cd448280f04734b"
+    },
+    "literal_prefixes": {
+      "path": ".local/npu-world-overlay-20261017/compiled-descriptor-literal-prefixes-q1/result.json",
+      "sha256": "7d597c58578324d55d454e43527dd28f54269e0c361473c5741428acb66f6d6b"
+    },
+    "host_scope": {
+      "path": ".local/npu-world-overlay-20261017/host-scope-q10/result.json",
+      "sha256": "69dd42c6f76b911359ee7d15b2ff285ae899fe214e123c474cf63e56989547d4"
+    },
+    "Ghidra_export": {
+      "path": ".local/npu-world-overlay-20261017/ghidra-switch-descriptor-q1/functions.json",
+      "sha256": "52ccc239453fb4f7e5e023aeb859514f622e5ac53fff10312b9b841f51ef408b"
+    },
+    "contract_failure": {
+      "path": ".local/npu-world-overlay-20261017/descriptor-contract-failure-q1/result.json",
+      "sha256": "54e8659639d775d99d6132a0fd7ccc94db5f389b01f24e17c5ce05778fd09a47"
+    },
+    "guard_position_failure": {
+      "path": ".local/npu-world-overlay-20261017/descriptor-prefix-guard-failure-q1/result.json",
+      "sha256": "f83cb0f78e41cf9f31ffd030754e0964830ba3a6389fa23d79e1b2dbcca163ab"
+    },
+    "Jev_scope": {
+      "path": ".local/npu-world-overlay-20261017/jev-q24.result.json",
+      "sha256": "fe029452100d0d8c228b5a0d862c533fc41b5c3c6752681b21cf547f556b27dd"
+    }
+  },
+  "combined_verified_input_artifact_paths": 468,
+  "images": {
+    "protected_original": {
+      "path": ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "bytes": 26997578,
+      "sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+      "unchanged": true
+    },
+    "unflashed_world_q4": {
+      "path": ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "bytes": 27009866,
+      "sha256": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+      "unchanged": true
+    }
+  },
+  "semantic_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "joint": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.56,
+        "probabilities": {
+          "supported": 0.71,
+          "contradicted": 0.02,
+          "not_established": 0.27
+        }
+      },
+      "graph": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.43,
+        "probabilities": {
+          "supported": 0.62,
+          "contradicted": 0.11,
+          "not_established": 0.27
+        }
+      },
+      "diagnostics": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.8,
+        "probabilities": {
+          "supported": 0.87,
+          "contradicted": 0.01,
+          "not_established": 0.12
+        }
+      },
+      "scope_category": {
+        "type": "choice",
+        "choice": "partial_static_plus_local_prefix_diagnostics",
+        "confidence": 1.0,
+        "probabilities": {
+          "partial_static_plus_local_prefix_diagnostics": 1.0,
+          "complete_fresh_cold": 0.0,
+          "physical_NPU": 0.0,
+          "not_established": 0.0
+        }
+      }
+    },
+    "judgments_are_not_proof_or_authority": true
+  },
+  "limits": [
+    "Joint control-flow analysis resolves same-function tables and adjacent fixed original-call sequences together.",
+    "The two original targets already have exact-body16-byte frame proofs in the prior graph;no callee is invented.",
+    "Definition predecessors,guard-safe-edge dominance,readonly table/CODE bytes,all target boundaries and CFA must match.",
+    "Exact function entry,ordinary ABI,immutable tables,no IRQ/external mutation remain assumptions.",
+    "This is a partial static view,not whole function/cold constructor/IRQ/per-hart/physical or client proof.",
+    "Ghidra selected416/768-byte bodies and both13-word tables match;imported DWARF-expression errors remain retained.",
+    "Setup instructions may be independent only under the narrow operand/dependency whitelist and full CFG checks.",
+    "The prior strict literal receipt stays rejected at these sites;only the new joint proof qualifies them.",
+    "The first17-test run wrongly expected an unrelated acyclic leaf to disappear with cycle-reaching roots;old sources/log are preserved.",
+    "The first descriptor prefix harness assumed a two-instruction denied path;13 valid cases and the failed trace are retained. Fresh q2 uses the decoded guard position.",
+    "Actual callers/full36 matrices/HIF2 bitmap keep their frozen inputs and original budgets;new24 INODE and broader/current-source/physical/client gates remain."
+  ],
+  "current_main_native_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "complete_call_chain_bound_proven": false,
+  "subagents_used": false
+}

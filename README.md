@@ -17,15 +17,16 @@ The fourth isolated Linux 6.18.52 world/image build now passes FIT, Gemtek
 board, 218-package, 78-module and prepared-source 5/22/329 checks. The separate
 numeric SquashFS check passes six critical files and their parents. All 891,138
 original build entries, 4,617 cache entries, frozen inputs and parent namespaces
-remain unchanged. The latest focused suite passes 141 tests, including the
-nine-prefix verifier, guarded literal-call targets and 25 tiny synthetic RV32
+remain unchanged. The latest focused suite passes 158 tests, including the
+nine-prefix verifier, guarded literal-call targets and 35 tiny synthetic RV32
 guests. The new static supplement identifies 27 fixed register targets. Three
 original callee bodies also pass 129 isolated hart-0 RAM/MMIO checks and a
 narrow SP-balance audit. A new restricted graph has 300 mixed-proof nodes and
-716 resolved transfers; 60 transfers remain unresolved after four bounded
-intra-function jump tables were checked separately. Their 118 compiled-prefix
-diagnostics stop before case bodies and do not qualify constructors or a
-whole-stack bound. See the [internal-dispatch checkpoint](research/checkpoints/2026-10-17-npu-inode-caller/INTERNAL_DISPATCHES.json).
+718 resolved transfers and six checked intra-function dispatches; 56 transfers
+remain unresolved. Separate diagnostics cover 118 earlier table prefixes,
+32 descriptor-table prefixes and two fixed-call prefixes, stopping before
+case or callee bodies. They do not qualify constructors or a whole-stack bound.
+See the [joint descriptor checkpoint](research/checkpoints/2026-10-17-npu-inode-caller/DESCRIPTOR_TARGETS.json).
 The new 27,009,866-byte image
 hash starts `a22300ea`; [metadata and full hashes](research/checkpoints/2026-10-17-npu-world-isolation/WORLD.json)
 are committed, not the binary. It is unflashed and not native/physical/client

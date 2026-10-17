@@ -411,3 +411,68 @@ The first post-documentation audit caught one duplicated character in the copied
 metadata digest above. Its old STACK.md/source/log are preserved under
 .local/npu-world-overlay-20261017/switch-doc-hash-failure-q1/. The canonical
 metadata/evidence never changed;fresh audit q2 checks the corrected citation.
+
+## Joint Descriptor Table And Literal Proof
+
+New test_npu_descriptor_targets.py checks the complete416-byte descriptor begin
+and768-byte callback against exact ELF/CFI/paired CODE/Ghidra bytes. The begin
+table uses independent setup around its guard and adds the scaled index into
+the base register before loading a separate target register. Only that exact
+operand/dependency whitelist is added;all readonly-byte,bounds,predecessor,
+safe-edge dominance,target-boundary and matching-CFA guards remain.
+
+| Function | Dispatch | Table | Entries | CFA |
+| --- | --- | --- | --- | --- |
+| npu_cold_descriptor_begin | 0x84088040 | 0x84089708 | 13 | 32 |
+| npu_emulation_descriptor_callback | 0x84088cee | 0x8408977c | 13 | 48 |
+
+The callback table and two adjacent LUI/ADDI/C.JALR sites are checked jointly.
+The fixed calls0x84088da6/0x84088f76 need their own reachable definitions and
+single predecessors. Their original targets0x840064b4/0x8400651c already have
+reviewed16-byte frames in the prior graph;no new callee or zero-frame shortcut
+is introduced. The old strict literal receipt remains rejected at these sites.
+Only this new joint CFG resolves their other previously unknown table flow.
+
+| Private Evidence | SHA256 |
+| --- | --- |
+| .local/npu-descriptor-targets/descriptor-q1/result.json | 9941a452a6d11e0c4eafd40af54a3ad62d3b09f22252ed3b29e907c4991ae8cc |
+| .local/npu-world-overlay-20261017/compiled-descriptor-table-prefixes-q2/result.json | c937f04106cca8d45855c9fab74d810fe9c835b0aea2b59b6cd448280f04734b |
+| .local/npu-world-overlay-20261017/compiled-descriptor-literal-prefixes-q1/result.json | 7d597c58578324d55d454e43527dd28f54269e0c361473c5741428acb66f6d6b |
+| .local/npu-world-overlay-20261017/host-scope-q10/result.json | 69dd42c6f76b911359ee7d15b2ff285ae899fe214e123c474cf63e56989547d4 |
+
+The32 new table-prefix diagnostics cover all26 valid indices andsix selected
+out-of-range values. They stop before every case/default-body instruction. Two
+additional exact fixed-call prefixes stop before the original callees. All32
+GPRs/PC/RA/SP/MSTATUS,ordered reads/no writes,instruction trace and full CODE/
+stack bytes match before restoration;host writes stay sealed. These synthetic
+CPU/RAM starts are not actual owners,whole functions,cold constructors or
+physical acceptance. Earlier118 table-prefix and129 original-routine scopes
+remain distinct. No SETUP/owners are fabricated.
+
+The latest partial view retains300 mixed-proof nodes and has718 inter-function
+transfers,six internal dispatches and56 unresolved records:40 register targets/
+16 known outside-subset targets. Largest partial candidate stays9696;unknown
+contributions are not proved zero. Exact-entry/ordinary-ABI/immutable-table/
+no-IRQ/external-mutation assumptions and physical/per-hart limits still apply.
+
+Seventeen new contracts use15 LLVM-generated synthetic fixtures and10 tiny
+synthetic guests. Full focused scope passes158 unique units/no skips/92 input
+and24 artifact hashes/35 synthetic guests. The first cycle test wrongly removed
+an unrelated acyclic leaf;old source/fixture/log54e86596 remains preserved. The
+first descriptor probe expected a two-instruction denied path even though its
+guard follows independent setup. All13 completed valid cases and failed trace
+f83cb0f7 remain preserved;fresh q2 uses the actual decoded guard position.
+
+Actual Jev q24 supports joint wording0.71/confidence0.56,graph0.62/0.43 and
+diagnostic scope0.87/0.80;partial-static/local-prefix category1.00/1.00. Raw
+uncertainty stays visible. Code/byte/CFI/execution checks govern,not a model
+approval or resampling. Imported Ghidra DWARF-expression errors remain retained.
+
+Metadata-only [DESCRIPTOR_TARGETS.json](DESCRIPTOR_TARGETS.json),SHA256
+b91665c889a1e22c9e2919f067d4712adceb9cd1c27d9bf91c7e7db5ad40b55b,
+records all56 remaining transfers,evidence identities,limits and unchanged
+images. Preparation rechecks468 combined paths,the exact tested Java copies,
+source-lock40d29368 and both978f9ddd/a22300ea images. Prior metadata stays intact.
+Both actual callers/full36 matrices/HIF2 bitmap continue unchanged;new24 INODE/
+broader/current-source/native/full setup/hot/IRQ/lifecycle/physical/boot/client
+gates remain. No hardware,restart,waiver or subagents.

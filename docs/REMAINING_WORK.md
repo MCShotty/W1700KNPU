@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Descriptor Joint Proof Leaves56 Transfers Open
+
+The latest partial view9941a452 has300 mixed-proof nodes/718 inter-function
+transfers andsix internal dispatches.40 register-target records/16 outside-
+subset targets remain unresolved,not zero-frame callees. The descriptor proof
+adds two bounded internal tables andtwo fixed calls to existing16-byte original
+frames. Largest restricted candidate remains9696,not a full/physical bound.
+
+New32 table/two fixed-call diagnostics stop before case/default/callee bodies;
+they do not qualify cold constructors.158 focused units/no skips/92 inputs/
+24 artifacts/35 synthetic guests pass69dd42c6. Prior118-prefix/original129 scopes
+remain separate. Exact-entry/ordinary-ABI/no-IRQ/external-mutation assumptions
+and uncertain Jev scope checks stay explicit. See STACK.md/DESCRIPTOR_TARGETS.json.
+
+Continue both actual callers/full36 matrices/HIF2 bitmap unchanged. Actual INODE
+prefixes/new24 faults,broader/current-main native/full setup,hot TX/RX,RRO/checked
+IRQ/lifecycle/DMA/cache/physical/boot/client gates remain. Source-lock40d29368 and
+images unchanged. No hardware,restart,waiver or subagents.
+
 ## 2026-10-17 - Four Internal Dispatches Closed;60 Transfers Open
 
 The fresh f63ffc9a view keeps300 nodes/716 inter-function transfers and records

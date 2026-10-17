@@ -1,10 +1,54 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (four bounded internal dispatches checked;60 transfers open;141 units/118 compiled-prefix diagnostics;original129/native pipelines remain distinct)
+Last updated: 2026-10-17 (joint descriptor tables/fixed calls checked;56 transfers open;158 units;32+2 new prefix diagnostics remain separate from earlier118/original129/native pipelines)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Descriptor Tables And Fixed Calls Jointly Checked
+
+- Fresh9941a452 checks complete416-byte descriptor begin/768-byte callback
+  against exact ELF/CFI/paired CODE/Ghidra. It qualifies two13-word internal
+  tables andtwo literal C.JALR sites to existing original0x840064b4/0x8400651c
+  nodes with16-byte SP proofs. No new callee is invented. The current partial
+  view is300 nodes/718 inter-function transfers/six internal dispatches/56
+  unresolved:40 register targets/16 outside-subset targets. Largest candidate
+  stays9696,not full permitted-path/IRQ/per-hart/physical or stack-fit proof.
+- The additional setup pattern permits only independently written registers
+  around the unsigned guard and an exact base-destination ADD/load dependency.
+  Full CFG/definition-predecessor/safe-edge/CFA/readonly table-byte checks stay.
+  Literal calls need independent adjacent definitions and already-proved target
+  nodes. Old strict literal rejections are not rewritten;this is a new joint
+  proof. Exact entry/ordinary ABI/immutable tables/no asynchronous external
+  mutation or IRQ remain assumptions. Ghidra DWARF-expression errors remain.
+- New c937f041 passes32 compiled-table prefixes:26 valid indices/six invalid.
+  New7d597c58 passes thetwo exact fixed-call prefixes,stopping before either
+  original callee instruction. All32 GPRs/PC/RA/SP/MSTATUS,trace/ordered reads/
+  no writes and full CODE/stack match before restoration,with host writes
+  sealed. No SETUP/owners,whole callback,cold constructors or physical proof.
+  Earlier118 table-prefix/original129 routine scopes remain separate.
+- New17 contracts/15 synthetic fixtures/10 tiny guests give158 unique units/
+  no skips/92 input+24 artifact hashes/35 synthetic guests,69dd42c6. Metadata
+  preparation rechecks468 combined paths,the exact tested Java copies,source-
+  lock40d29368 and both978f9ddd/a22300ea images unchanged. DESCRIPTOR_TARGETS.json
+  contains metadata,all56 remaining records and hashes only. Older public
+  metadata/receipts stay intact;no firmware/device backup is uploaded.
+- Initial17-test run wrongly expected an unrelated acyclic leaf to vanish
+  alongside cycle-reaching roots;old source/fixture/log54e86596 is preserved.
+  Corrected test requires only thetwo cycle-reaching roots lack candidates.
+  First prefix harness assumed a two-instruction denied path;its13 valid
+  cases/failed tracef83cb0f7 remain retained. Fresh q2 uses the actual decoded
+  guard position and passes all32 cases;no native guard or coverage is waived.
+- Actual Jev q24 supports joint wording0.71/confidence0.56,graph0.62/0.43,
+  diagnostic scope0.87/0.80 and selects partial-static/local-prefix1.00/1.00.
+  All distributions remain visible;uncertainty is not permission or proof.
+  Exact code/byte/CFI/execution checks govern,no resampling to force approval.
+- Both actual callers/full36 matrices/HIF2 bitmap remain live. Keep frozen
+  inputs,original budgets,full512/eight-DESC10/all36-tail/new24-INODE and broader/
+  current-main native/full setup gates. Hot/RRO/checked IRQ/lifecycle/DMA/cache/
+  per-hart/physical/boot/client work remains. No hardware,restart,waiver or
+  subagents. Exact evidence: inode-caller/STACK.md and DESCRIPTOR_TARGETS.json.
 
 ## 2026-10-17 - Four Bounded Internal Dispatches Checked
 

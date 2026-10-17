@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Descriptor Joint Targets Checked;56 Transfers Remain
+
+- Fresh joint proof9941a452 checks descriptor begin/callback together:two new
+  internal tables/two fixed calls to already-reviewed16-byte original frames.
+  Current partial view has300 mixed-proof nodes/718 inter-function transfers/
+  six total internal dispatches/56 unknowns:40 register targets,16 outside the
+  subset. Largest partial candidate stays9696,not a permitted/physical bound.
+- New setup pattern requires independent register writes and exact address
+  roles;every prior bound/CFG/CFA/readonly-byte guard remains. Literal calls
+  need their own adjacent definitions,predecessors and existing target frames;
+  closing a table alone does not admit them. Old rejected receipts stay intact.
+- New32 table diagnostics c937f041 andtwo call-prefix diagnostics7d597c58 stop
+  before case/default/callee instructions. They are separate from earlier118
+  prefixes,original129 routines and both cold callers. No owners/SETUP fabricated.
+- Latest158 units/no skips/92 input+24 artifact hashes/35 synthetic guests pass
+  69dd42c6. Initial cycle-test/guard-position failures remain preserved. New
+  DESCRIPTOR_TARGETS.json has metadata only;see STACK.md for exact receipts.
+  Jev q24 remains uncertain about joint/graph wording;direct checks govern.
+- Both callers/full36 matrices/HIF2 bitmap remain live with unchanged sources,
+  budgets/full512/eight-DESC10/new24-INODE/broader/current-source/physical/client
+  gates. Images/source-lock40d29368 unchanged. No hardware,restart,waiver or
+  subagents. Continue remaining original/indirect/IRQ/per-hart/physical bounds.
+
 ## 2026-10-17 - Four Internal Tables Checked;60 Transfers Remain
 
 - Fresh view f63ffc9a keeps 300 mixed-proof nodes/716 inter-function transfers

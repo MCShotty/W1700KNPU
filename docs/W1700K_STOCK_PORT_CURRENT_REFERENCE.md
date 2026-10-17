@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Joint Descriptor Proof And Remaining56 Transfers
+
+New9941a452 checks descriptor begin/callback with two bounded tables andtwo fixed
+calls to already-reviewed16-byte original-frame nodes. The fresh partial view
+has300 nodes/718 inter-function transfers/six internal dispatches/56 unknowns,
+40 register-target records and16 known outside-subset targets. Largest partial
+candidate stays9696;no new callees,complete permitted/IRQ/per-hart/physical bound.
+Earlier60/64/91-unknown metadata and rejected literal-site receipts stay intact.
+
+New32 table diagnostics c937f041 andtwo fixed-call prefixes7d597c58 stop before
+case/default/callee instructions. They are separate from earlier118 prefixes,
+original129 routines and both cold callers.158 units/no skips/92 inputs+24
+artifacts/35 synthetic guests pass69dd42c6. Metadata-only DESCRIPTOR_TARGETS.json
+and STACK.md retain exact inputs,guards,failed attempts and Jev q24 uncertainty.
+
+Both actual callers/full36 matrices/HIF2 bitmap remain live;new24 INODE/broader/
+current-source/full setup/hot/lifecycle/physical/boot/client gates remain. Images/
+source-lock40d29368 unchanged. No hardware,restart,waiver or subagents.
+
 ## 2026-10-17 - Bounded Internal Tables And Remaining60 Transfers
 
 Fresh f63ffc9a retains300 mixed-proof nodes/716 inter-function transfers and
