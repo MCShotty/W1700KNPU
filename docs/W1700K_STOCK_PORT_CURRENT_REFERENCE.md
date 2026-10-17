@@ -1,6 +1,16 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-10-17 - Current IRQ Status And INODE Qualification
+## 2026-10-17 - Current RRO Boundary,IRQ Status And INODE Qualification
+
+New actual RRO caller/provider C294 cases verify the16-byte/GFP_ATOMIC/RCU
+shape and denial before modeled mutex/transport. Fresh137 original callback
+byte/ABI probes and five synthetic projection units pass;scope c5e611c6 binds108
+hashes. Original synthetic-RAM effects are not checked RRO or physical backing.
+Higher init/reset callers ignore errors(source observation),and storage uses
+dmam-managed allocations. Port retention/atomic handoff/error propagation as
+one ownership change;returning errors without retaining ambiguous publication
+can permit cleanup before independently verified drain. No production or
+source-lock change here. Read research/checkpoints/2026-10-17-npu-rro-bridge/REPORT.md.
 
 Status getter now initializes its value and returns0 on read error. MSan is
 clean for the corrected body and reproduces the preserved old uninitialized

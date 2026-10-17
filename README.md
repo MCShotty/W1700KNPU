@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - RRO Bridge Still Open
+
+Fresh137 original-firmware RRO probes pass on synthetic RAM. The current checked
+bridge still rejects its actual16-byte atomic caller,verified by294 C cases.
+It needs retained allocations,an appropriate atomic/process handoff,and checked
+initialization/reset errors before RRO can be enabled. This is not native RRO
+or physical DMA acceptance. See the [RRO bridge checkpoint](research/checkpoints/2026-10-17-npu-rro-bridge/REPORT.md).
+
 ## 2026-10-17 - IRQ Status And Poll Lifetime
 
 Fixed an uninitialized status return on register-read failure. MemorySanitizer

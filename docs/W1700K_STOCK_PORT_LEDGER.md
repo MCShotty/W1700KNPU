@@ -1,10 +1,45 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (IRQ status output fixed; checked IRQ ownership open; frozen native jobs remain live)
+Last updated: 2026-10-17 (RRO atomic caller/retention gap rechecked; IRQ status fixed; native jobs remain live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - RRO Caller Shape And Managed Lifetime Boundary
+
+- Added actual mt76_npu_send_txrx_addr/checked-provider C fixture. It verifies
+  four little-endian words/16 payload bytes,GFP_ATOMIC within explicit RCU,
+  byte-exact fields,balanced lookup/use/null and unchanged retained/client state.
+  All288 checked denials/six null cases pass before any modeled mutex or RPC.
+  Both fresh and actual-initialized modeled C session states are covered;no
+  native earlier SETUP is fabricated or claimed. Public ops forwarding and
+  kernel/RCU/backing remain modeled. Arbitrary scalar4 calls are not certified
+  atomic-safe by this16-byte test.
+- Fresh original callback137 cases pass:all128 blocks,session table,five reset
+  boundaries and three aliases,exact original stores/whole synthetic memory/
+  distinctive ABI/MSTATUS and unchanged original CODE. Receipt SHA256
+  b5177c055b2d6d6cbf471e6a6d00fc92095f8c968095b31fe4961c91e9740672.
+  This repeats original-instruction evidence under current inputs,not checked
+  current RRO admission,real DMA/PMA/cache,concurrent reset or drain proof.
+- Source inspection confirms current init publications and reset worker ignore
+  the returned error. Reset continues to the MCU call/free-item path. Those
+  higher functions were not executed by the new caller fixture. RRO backing
+  uses dmam_alloc_coherent;the pinned kernel's managed release frees the DMA
+  allocation at device cleanup. Retention must accompany future checked errors
+  after uncertain publication;an early-return-only change cannot prove safe
+  lifetime. This is source/design reasoning,not a physical use-after-free test.
+- Caller receipt db0f59c45227cf04369e1c97e8bf033ba0e193ba786fa629ef9a27505e4007ad;
+  scoped seal c5e611c65bcdf7928975bd327d9758481d89d825a88a62c9f06ba724ad4b1c5e
+  verifies108 exact input hashes,294 C cases,137 original probes and five
+  synthetic projection units. Jev's six source checks/probabilities remain
+  retained;limited denial confidence does not override the exact fixture scope.
+- No production/provider/RRO guard/source-lock or image changes in this pass.
+  Current source-lock staysf9f90ba5. RRO0/1/3 admission,retained allocations,
+  nonblocking/process handoff,checked init/reset,generations/timeout/late effects,
+  physical mappings/drain/recovery/clients remain open. The existing nominal/
+  eight-fault cold jobs remain live on their frozen600055c inputs. No hardware,
+  restart or subagents. Evidence:research/checkpoints/2026-10-17-npu-rro-bridge/REPORT.md.
 
 ## 2026-10-17 - Defined IRQ Status Error Output
 

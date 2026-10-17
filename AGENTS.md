@@ -1,5 +1,21 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - RRO Caller Boundary Rechecked
+
+- Actual16-byte/four-word mt76 RRO helper holds RCU and uses GFP_ATOMIC. New
+  caller/provider C294 cases verify checked denial before modeled mutex/RPC,
+  exact payload,balanced null/use scope and unchanged metadata. This does not
+  certify arbitrary scalar4 atomic calls or implement an atomic RRO transport.
+- Fresh137 original callback probes pass all128 blocks/session/reset/alias
+  cases on synthetic RAM;five projection units pass. Scope c5e611c6 verifies108
+  hashes. No checked RRO admission or physical backing/drain is established.
+- Higher-level init/reset ignores returned errors;that remains source-only
+  observation. RRO backing uses dmam-managed allocations;future error returns
+  must be coupled to retention before uncertain device-visible publication,
+  not merely early abort/cleanup. No production/source-lock/image/hardware
+  changes in this pass. Current source-lock staysf9f90ba5. Native cold/fault
+  jobs below remain live/frozen. Read rro-bridge/REPORT.md in the checkpoints.
+
 ## 2026-10-17 - IRQ Status Value And Poll Scope; Cold Runs Frozen
 
 - Status getter now initializes its output and returns0 on read error. Host

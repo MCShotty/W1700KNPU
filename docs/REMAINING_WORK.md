@@ -1,5 +1,18 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - RRO Transport And Retention Requirements
+
+Current16-byte RRO helper uses GFP_ATOMIC inside RCU;294 actual C cases verify
+that this shape is rejected before a modeled mutex/RPC. Fresh original137
+callback probes/five projection units pass on synthetic RAM,not checked RRO
+admission. Scope c5e611c6 binds108 hashes. Implement retained128-block/session
+backing and identity/generation/order,appropriate atomic/process handoff,and
+checked init/reset results together. Current higher callers ignore errors and
+storage is dmam-managed;an early return alone cannot establish safe retention
+after possible publication. Managed cleanup and reset need independent drain
+conditions. Source-lockf9f90ba5/no image or hardware change. Existing cold runs
+remain live;read2026-10-17-npu-rro-bridge/REPORT.md before admitting0/1/3.
+
 ## 2026-10-17 - Defined IRQ Status,Incomplete IRQ Ownership
 
 The getter now returns defined0 on register-read error;MSan verifies corrected
