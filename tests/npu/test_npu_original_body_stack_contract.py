@@ -10,10 +10,19 @@ FIXTURE_PATH = Path(__file__).with_name('original_body_stack_fixtures.json')
 FIXTURE_SHA256 = 'd2a79a6d81ef5b79a8534f3e06097698b0256bb0483e6a3a643bac496affd025'
 assert hashlib.sha256(FIXTURE_PATH.read_bytes()).hexdigest() == FIXTURE_SHA256
 FIXTURES = json.loads(FIXTURE_PATH.read_bytes())['fixtures']
+EXTENSION_PATH = Path(__file__).with_name('original_body_extension_v2_fixtures.json')
+EXTENSION_SHA256 = '61fd8b9b005ba1837721bcc7470bab9f4b3233baa7fa70539da5a3f5598ae462'
+assert hashlib.sha256(EXTENSION_PATH.read_bytes()).hexdigest() == EXTENSION_SHA256
+EXTENSIONS = json.loads(EXTENSION_PATH.read_bytes())['fixtures']
+assert not FIXTURES.keys() & EXTENSIONS.keys()
+for fixture, source in ((FIXTURE_PATH, 'original_body_stack.S'),
+                        (EXTENSION_PATH, 'original_body_extensions.S')):
+    expected = json.loads(fixture.read_bytes())['source_sha256']
+    assert hashlib.sha256((fixture.parent / 'fixtures' / source).read_bytes()).hexdigest() == expected
 
 
 def inspect(name):
-    row = FIXTURES['case_' + name]
+    row = (FIXTURES | EXTENSIONS)['case_' + name]
     return local_body(bytes.fromhex(row['bytes_hex']), row['address'])
 
 
@@ -61,6 +70,19 @@ class OriginalBodyStackContractTests(unittest.TestCase):
         self.assertFalse(row['child_frames_proved'])
 
     def test_CSR_cannot_replace_SP(self): self.reject('csr_sp')
+
+    def test_compressed_LUI_clobbers_a_non_SP_register(self):
+        self.assertEqual(inspect('comp_lui')['local_max_stack_bytes'], 0)
+
+    def test_NEG_clobbers_a_non_SP_register(self):
+        self.assertEqual(inspect('neg')['local_max_stack_bytes'], 0)
+
+    def test_SNEZ_clobbers_a_non_SP_register(self):
+        self.assertEqual(inspect('snez')['local_max_stack_bytes'], 0)
+
+    def test_LUI_cannot_replace_SP(self): self.reject('lui_sp')
+    def test_NEG_cannot_replace_SP(self): self.reject('neg_sp')
+    def test_SNEZ_cannot_replace_SP(self): self.reject('snez_sp')
 
     def test_incomplete_instruction_bytes_are_not_ignored(self):
         row = FIXTURES['case_leaf']

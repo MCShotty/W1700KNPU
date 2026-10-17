@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Logger Child Local-SP Extension
+
+- Current checker adds C.LUI/NEG/SNEZ as unknown clobbers of checked non-SP
+  destinations,not new SP writes/targets.25 controls/199 focused units/101
+  inputs/28 artifacts/41 tiny guests pass. Both assembly fixtures are bound.
+- Four child local-SP analyses16/0/0/16 and128-byte formatter wrapper retain
+  unreviewed0x840107ca. Earlier originals0/16/16 and PLIC/logger0/0/64 recheck
+  on current helper. No whole logger/IRQ bound or global graph extension.
+- New394 probe observations exactly match the preserved earlier394;no newly
+  inspected child/other hart/UART/full logger executes. Old193/394 cohort is
+  readonly-preserved140 files/3039180 bytes,30604441,not replay-qualified.
+  Old C.LUI/SNEZ denials remain. Scope3f22a3bd verifies570 paths;metadata
+  LOGGER_CHILDREN.json33477f2b retains Jev cost not-established0.85/0.77.
+- Source-lockd6b6e2da/images/300-718-six-56 partial graph stay unchanged.
+  Preserve all native inputs/budgets/full512/eight-DESC10/all36-tail/new24-INODE/
+  broader/current-source/full setup/hot/lifecycle/physical/client gates. No
+  hardware,restart,waiver or subagents. Read original-irq/LOGGER_CHILDREN.md.
+
 ## 2026-10-17 - Original IRQ Local Bodies And Error Tails
 
 - Fresh Ghidra/Capstone covers complete80-byte PLIC routines0x84003200/

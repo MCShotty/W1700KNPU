@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - Logger Child Local-SP Checks
+
+The local checker now handles three additional non-SP instruction forms while
+rejecting their SP-writing counterparts.25 controls/199 focused units pass.
+The four logger children analyze at16/0/0/16 local bytes,but a128-byte formatter
+wrapper still calls an unreviewed child. No full logger cost or graph extension
+is claimed. Fresh394 original-code probe records match the preserved earlier
+scope exactly,without executing those children. See the
+[logger-child extension](research/checkpoints/2026-10-17-npu-original-irq/LOGGER_CHILDREN.md).
+
 ## 2026-10-17 - Original IRQ Bodies And Error Tails
 
 The two original PLIC routines have zero local SP depth,but their error paths

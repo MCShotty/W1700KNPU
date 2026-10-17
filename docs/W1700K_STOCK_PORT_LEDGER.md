@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (whole original PLIC bodies/local SP and error tails checked;394 scoped original-code emulations;193 focused units/443 paths;partial graph,source-lock and images unchanged;no hardware acceptance)
+Last updated: 2026-10-17 (logger-child local-SP extension;formatter cost remains open;25 controls/199 units/570 paths;394 probe observations unchanged;graph,source-lock,images and native budgets unchanged)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Logger Child Local-SP Extension
+
+- C.LUI/NEG/SNEZ are admitted only as unknown clobbers of checked non-SP
+  destinations. Existing SP/control/byte/merge guards remain. Six new LLVM
+  controls reject LUI/NEG/SNEZ SP writes;all19 prior controls pass. New25
+  local/199 focused units/no skips/101 inputs/28 artifacts/41 tiny guests
+  pass094dd855. Both assembly fixtures/hashes are bound explicitly.
+- Read-only/noanalysis Ghidra child bodies156/14/24/64 bytes analyze at local
+  16/0/0/16. Formatting tails into46-byte wrapper0x84010684,local128,then
+  unreviewed0x840107ca. Earlier original0/16/16 and PLIC/logger0/0/64 recheck
+  with current helper. These are local ordinary-ABI analyses,not full child
+  behavior,an80-byte logger bound or any global graph promotion.
+- Fresh394-run100f029a observations exactly equal the preserved earlier394,
+  including all32 GPR/PC/MSTATUS/trace/memory. No new logger child,other hart,
+  UART loop or full logger path executes. Old193/394 cohort30604441 is140
+  readonly files/3039180 bytes,not privately replay-qualified. Initial C.LUI
+  triage and explicit SNEZ denial/source remain,not relabeled as passes.
+- Scope3f22a3bd verifies570 paths,including unchanged Linux IRQ scope/images.
+  Metadata-only LOGGER_CHILDREN.json hashes33477f2b;old ORIGINAL_IRQ.json
+  remains unchanged. Jev primitive/diagnostic/scope support0.72/0.77/0.55,
+  confidence0.58/0.66/0.33;cost is not-established0.85/0.77. Preserve raw
+  uncertainty;no resampling/model approval or physical/full-chain claim.
+- Source-lockd6b6e2da,both FITs978f9ddd/a22300ea and partial300/718/six/56/
+  9696 graph stay unchanged. Native sources/guards/budgets/full512/eight-
+  DESC10/all36-tail/new24-INODE/broader/current-source/full setup/hot/RRO/IRQ/
+  lifecycle/DMA/cache/physical/boot/client gates remain. No firmware source,
+  module/image build,hardware,restart,waiver or subagents. Exact evidence:
+  original-irq/LOGGER_CHILDREN.md and LOGGER_CHILDREN.json.
 
 ## 2026-10-17 - Original PLIC Bodies And Logger Error Tails
 

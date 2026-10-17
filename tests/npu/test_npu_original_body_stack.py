@@ -50,6 +50,14 @@ def local_effect(instruction, state, edge):
         else:
             assert len(ops) == 2
         assert ops[-1].type == RISCV_OP_IMM
+    if instruction.mnemonic in ('c.lui', 'neg', 'snez'):
+        assert len(ops) == 2 and ops[0].type == RISCV_OP_REG
+        assert ops[1].type == (RISCV_OP_IMM if instruction.mnemonic == 'c.lui' else RISCV_OP_REG)
+        result = list(state)
+        # These non-SP writes need no constant value for the local SP contract.
+        result[reg(instruction, 0)] = None
+        result[0] = 0
+        return tuple(result)
     if instruction.mnemonic in ('csrr', 'csrrci', 'csrrsi'):
         assert instruction.operands and instruction.operands[0].type == RISCV_OP_REG
         destination = reg(instruction, 0)

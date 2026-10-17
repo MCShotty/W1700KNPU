@@ -4,6 +4,18 @@ These are static checks of the20-component/168-hook600055c candidate,not a full
 physical stack bound or a native constructor verdict. No firmware source or
 image changed for these measurements.
 
+## Logger Child Local-SP Extension
+
+Fresh current-helper child analyses cover16/0/0/16 local bytes and a128-byte
+formatter wrapper with unreviewed child0x840107ca. Original PLIC/logger0/0/64
+and earlier0/16/16 bodies recheck;no global graph extension or complete logger
+cost.25 controls/199 units and570-path scope3f22a3bd pass after preserving the
+old193/394 cohort. New394 probe observations match the previous scope without
+executing newly inspected children. Jev cost wording is not-established,not
+approval. See ../2026-10-17-npu-original-irq/LOGGER_CHILDREN.md and metadata.
+All native/full setup/per-hart/physical/client gates and source-lockd6b6e2da/
+images remain unchanged. Earlier sections retain their own source/receipt scope.
+
 ## Original IRQ Local Bodies And Error Tails
 
 Fresh local-SP audit159a9a4d covers complete original80-byte bodies0x84003200/

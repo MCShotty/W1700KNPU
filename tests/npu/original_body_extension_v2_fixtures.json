@@ -1,0 +1,45 @@
+{
+  "format": "npu-original-body-synthetic-fixtures-v1",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "source_sha256": "65e6bc04969dc81efffa3f97d3628f129c352e66f0e91843b5a51b7b1d8213f0",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--image-base=0x0,-Ttext=0x1000,-e,case_comp_lui",
+    "/home/captain/W1700KNPU/tests/npu/fixtures/original_body_extensions.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/local-extensions-q2.elf"
+  ],
+  "router_firmware": false,
+  "fixtures": {
+    "case_comp_lui": {
+      "address": 4096,
+      "bytes_hex": "856767800000"
+    },
+    "case_neg": {
+      "address": 4102,
+      "bytes_hex": "3305a04067800000"
+    },
+    "case_lui_sp": {
+      "address": 4110,
+      "bytes_hex": "3711000067800000"
+    },
+    "case_neg_sp": {
+      "address": 4118,
+      "bytes_hex": "3301a04067800000"
+    },
+    "case_snez": {
+      "address": 4126,
+      "bytes_hex": "3335a00067800000"
+    },
+    "case_snez_sp": {
+      "address": 4134,
+      "bytes_hex": "3331a00067800000"
+    }
+  }
+}

@@ -1,0 +1,473 @@
+{
+  "format": "w1700k-logger-child-local-SP-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "proof": {
+    "path": ".local/npu-original-irq-20261017/children-scope-q1.json",
+    "sha256": "3f22a3bde1fd59e43af1602b56ab5a8584943f229670e77c37aab4679d532366",
+    "verified_paths": 570
+  },
+  "receipts": {
+    "IRQ_local": {
+      "path": ".local/npu-original-body-stack/irq-local-q3/result.json",
+      "sha256": "dc1b5c257684c0ef94951fb3e66bfd184cfaf833382f3a6b364e3e9deb8cb7a5"
+    },
+    "logger_children": {
+      "path": ".local/npu-original-body-stack/logger-local-q2/result.json",
+      "sha256": "f4ed16ca0cc699e4e08949bda5ccd2e965ee05658e9794c9a076b1fa7bb0c948"
+    },
+    "formatter_wrapper": {
+      "path": ".local/npu-original-body-stack/formatter-local-q1/result.json",
+      "sha256": "07af7f697c5e23082734d330cb13992bb0f41cd2a0033b90eb077398e3d55866"
+    },
+    "earlier_originals": {
+      "path": ".local/npu-original-body-stack/earlier-originals-q1/result.json",
+      "sha256": "ad0f83346bf23830f980e55139662c8d6e6632f1272ebc15523e8294929d9bf6"
+    },
+    "original_diagnostics": {
+      "path": ".local/npu-original-irq-20261017/original-probes-q2/result.json",
+      "sha256": "100f029a2456c229656b1d94181941a87070b47203ad70a9ed61c98b919d714f"
+    },
+    "focused_units": {
+      "path": ".local/npu-original-irq-20261017/host-scope-q2/result.json",
+      "sha256": "094dd85513de6b34fba13120501992181971552533b3f97502ae604f24f27bb8"
+    },
+    "local_contracts": {
+      "path": ".local/npu-original-irq-20261017/local-contracts-q3/result.json",
+      "sha256": "8d35c542ac5841cb164e5f22240e0a0888fc1f076d71bd2d0a8eb0799206317c"
+    },
+    "Linux_IRQ": {
+      "path": ".local/npu-irq-channel-20261017/scope-q2.json",
+      "sha256": "523c8a2ee0175a4624cbae8201ba19104eb6430205d640ee1dc0a544a2b87e82"
+    }
+  },
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46"
+  },
+  "child_local_SP": [
+    {
+      "entry": 2214619064,
+      "bytes": 156,
+      "instructions": 53,
+      "local_max_stack_bytes": 16,
+      "returns": [
+        2214619170
+      ],
+      "external_transfers": [
+        {
+          "address": 2214619072,
+          "target": 2214609426,
+          "kind": "direct-call",
+          "caller_CFA": 16,
+          "child_frame_proved": false
+        }
+      ],
+      "stack_memory": [
+        {
+          "address": 2214619066,
+          "entry_SP_offset": -8,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214619068,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214619164,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        },
+        {
+          "address": 2214619166,
+          "entry_SP_offset": -8,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        }
+      ],
+      "entry_SP_deltas": {
+        "2214619064": 0,
+        "2214619066": -16,
+        "2214619068": -16,
+        "2214619070": -16,
+        "2214619072": -16,
+        "2214619076": -16,
+        "2214619078": -16,
+        "2214619082": -16,
+        "2214619086": -16,
+        "2214619088": -16,
+        "2214619090": -16,
+        "2214619092": -16,
+        "2214619096": -16,
+        "2214619100": -16,
+        "2214619104": -16,
+        "2214619106": -16,
+        "2214619108": -16,
+        "2214619112": -16,
+        "2214619116": -16,
+        "2214619118": -16,
+        "2214619122": -16,
+        "2214619124": -16,
+        "2214619128": -16,
+        "2214619132": -16,
+        "2214619134": -16,
+        "2214619136": -16,
+        "2214619138": -16,
+        "2214619142": -16,
+        "2214619146": -16,
+        "2214619148": -16,
+        "2214619152": -16,
+        "2214619156": -16,
+        "2214619160": -16,
+        "2214619164": -16,
+        "2214619166": -16,
+        "2214619168": -16,
+        "2214619170": 0,
+        "2214619172": -16,
+        "2214619174": -16,
+        "2214619178": -16,
+        "2214619182": -16,
+        "2214619184": -16,
+        "2214619188": -16,
+        "2214619192": -16,
+        "2214619194": -16,
+        "2214619198": -16,
+        "2214619202": -16,
+        "2214619204": -16,
+        "2214619206": -16,
+        "2214619208": -16,
+        "2214619212": -16,
+        "2214619216": -16,
+        "2214619218": -16
+      },
+      "all_body_instructions_reached_by_conservative_CFG": true,
+      "reviewed_returns_and_tail_SP_balanced": true,
+      "child_frames_proved": false,
+      "termination_proved": false,
+      "complete_call_chain_bound_proven": false
+    },
+    {
+      "entry": 2214659762,
+      "bytes": 14,
+      "instructions": 6,
+      "local_max_stack_bytes": 0,
+      "returns": [],
+      "external_transfers": [
+        {
+          "address": 2214659774,
+          "target": 2214659716,
+          "kind": "direct-tail",
+          "caller_CFA": 0,
+          "child_frame_proved": false
+        }
+      ],
+      "stack_memory": [],
+      "entry_SP_deltas": {
+        "2214659762": 0,
+        "2214659766": 0,
+        "2214659768": 0,
+        "2214659770": 0,
+        "2214659772": 0,
+        "2214659774": 0
+      },
+      "all_body_instructions_reached_by_conservative_CFG": true,
+      "reviewed_returns_and_tail_SP_balanced": true,
+      "child_frames_proved": false,
+      "termination_proved": false,
+      "complete_call_chain_bound_proven": false
+    },
+    {
+      "entry": 2214609432,
+      "bytes": 24,
+      "instructions": 7,
+      "local_max_stack_bytes": 0,
+      "returns": [
+        2214609454
+      ],
+      "external_transfers": [],
+      "stack_memory": [],
+      "entry_SP_deltas": {
+        "2214609432": 0,
+        "2214609436": 0,
+        "2214609438": 0,
+        "2214609442": 0,
+        "2214609446": 0,
+        "2214609450": 0,
+        "2214609454": 0
+      },
+      "all_body_instructions_reached_by_conservative_CFG": true,
+      "reviewed_returns_and_tail_SP_balanced": true,
+      "child_frames_proved": false,
+      "termination_proved": false,
+      "complete_call_chain_bound_proven": false
+    },
+    {
+      "entry": 2214619220,
+      "bytes": 64,
+      "instructions": 26,
+      "local_max_stack_bytes": 16,
+      "returns": [
+        2214619282
+      ],
+      "external_transfers": [
+        {
+          "address": 2214619228,
+          "target": 2214609426,
+          "kind": "direct-call",
+          "caller_CFA": 16,
+          "child_frame_proved": false
+        }
+      ],
+      "stack_memory": [
+        {
+          "address": 2214619222,
+          "entry_SP_offset": -8,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214619224,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214619266,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        },
+        {
+          "address": 2214619268,
+          "entry_SP_offset": -8,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        }
+      ],
+      "entry_SP_deltas": {
+        "2214619220": 0,
+        "2214619222": -16,
+        "2214619224": -16,
+        "2214619226": -16,
+        "2214619228": -16,
+        "2214619232": -16,
+        "2214619234": -16,
+        "2214619236": -16,
+        "2214619240": -16,
+        "2214619242": -16,
+        "2214619246": -16,
+        "2214619248": -16,
+        "2214619252": -16,
+        "2214619254": -16,
+        "2214619256": -16,
+        "2214619258": -16,
+        "2214619260": -16,
+        "2214619262": -16,
+        "2214619266": -16,
+        "2214619268": -16,
+        "2214619270": -16,
+        "2214619274": -16,
+        "2214619276": -16,
+        "2214619278": -16,
+        "2214619280": -16,
+        "2214619282": 0
+      },
+      "all_body_instructions_reached_by_conservative_CFG": true,
+      "reviewed_returns_and_tail_SP_balanced": true,
+      "child_frames_proved": false,
+      "termination_proved": false,
+      "complete_call_chain_bound_proven": false
+    }
+  ],
+  "formatter_local_SP": [
+    {
+      "entry": 2214659716,
+      "bytes": 46,
+      "instructions": 19,
+      "local_max_stack_bytes": 128,
+      "returns": [
+        2214659760
+      ],
+      "external_transfers": [
+        {
+          "address": 2214659748,
+          "target": 2214660042,
+          "kind": "direct-call",
+          "caller_CFA": 128,
+          "child_frame_proved": false
+        }
+      ],
+      "stack_memory": [
+        {
+          "address": 2214659726,
+          "entry_SP_offset": -100,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659728,
+          "entry_SP_offset": -112,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659740,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659742,
+          "entry_SP_offset": -108,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659744,
+          "entry_SP_offset": -120,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659746,
+          "entry_SP_offset": -104,
+          "bytes": 4,
+          "instruction": "c.swsp"
+        },
+        {
+          "address": 2214659750,
+          "entry_SP_offset": -120,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        },
+        {
+          "address": 2214659756,
+          "entry_SP_offset": -4,
+          "bytes": 4,
+          "instruction": "c.lwsp"
+        }
+      ],
+      "entry_SP_deltas": {
+        "2214659716": 0,
+        "2214659720": 0,
+        "2214659722": -128,
+        "2214659726": -128,
+        "2214659728": -128,
+        "2214659730": -128,
+        "2214659732": -128,
+        "2214659734": -128,
+        "2214659738": -128,
+        "2214659740": -128,
+        "2214659742": -128,
+        "2214659744": -128,
+        "2214659746": -128,
+        "2214659748": -128,
+        "2214659750": -128,
+        "2214659752": -128,
+        "2214659756": -128,
+        "2214659758": -128,
+        "2214659760": 0
+      },
+      "all_body_instructions_reached_by_conservative_CFG": true,
+      "reviewed_returns_and_tail_SP_balanced": true,
+      "child_frames_proved": false,
+      "termination_proved": false,
+      "complete_call_chain_bound_proven": false
+    }
+  ],
+  "child_frames_are_local_analyses_under_ordinary_ABI": true,
+  "unreviewed_formatter_child": "0x840107ca",
+  "focused_units": 199,
+  "local_contracts": 25,
+  "synthetic_unit_guests": 41,
+  "original_diagnostics": {
+    "executions": 394,
+    "records_equal_to_preserved_prior": true,
+    "normal_returns": 384,
+    "disabled_logger_returns": 8,
+    "prefix_stops": 2,
+    "hart_ids": [
+      0
+    ],
+    "newly_inspected_logger_children_executed": false
+  },
+  "preservation": {
+    "files": 140,
+    "bytes": 3039180,
+    "sha256": "30604441d5137748765ff57c336d17284212ed5827c5375b0ba8f46cfc9e6019",
+    "replay_verified": false
+  },
+  "unsupported_SNEZ_denial_retained": true,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "primitive": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.58,
+        "probabilities": {
+          "supported": 0.72,
+          "contradicted": 0.03,
+          "not_established": 0.25
+        }
+      },
+      "cost": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.77,
+        "probabilities": {
+          "supported": 0.13,
+          "contradicted": 0.02,
+          "not_established": 0.85
+        }
+      },
+      "diagnostic": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.66,
+        "probabilities": {
+          "supported": 0.77,
+          "contradicted": 0.01,
+          "not_established": 0.22
+        }
+      },
+      "scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.33,
+        "probabilities": {
+          "supported": 0.55,
+          "contradicted": 0.17,
+          "not_established": 0.28
+        }
+      }
+    },
+    "uncertainty_retained": true,
+    "approval_or_test_substitution": false
+  },
+  "earlier_graph": {
+    "nodes": 300,
+    "transfers": 718,
+    "internal": 6,
+    "unresolved": 56,
+    "candidate": 9696,
+    "changed": false
+  },
+  "firmware_implementation_changed": false,
+  "complete_logger_or_IRQ_bound": false,
+  "current_native_cold_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "C.LUI/NEG/SNEZ only clobber checked non-SP destinations to unknown;all SP/control/byte guards remain.",
+    "Local caller SP assumes ordinary call/return with restored SP;unreviewed child costs are not zero.",
+    "The formatter has a128-byte wrapper and further unreviewed child;no full logger/IRQ cost is given.",
+    "No new logger child executes in the394 original diagnostics;preservation is not private replay qualification.",
+    "Aliases/escaped pointers,register-save correctness,termination,per-hart/physical placement and client scope remain open."
+  ]
+}

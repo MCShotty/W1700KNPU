@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Logger Children;Formatter Still Unreviewed
+
+Fresh25 controls/199 units/101 inputs/28 artifacts/41 synthetic guests pass.
+The checker adds only non-SP C.LUI/NEG/SNEZ clobbers;SP/control guards remain.
+Child local analyses16/0/0/16 and formatter128 retain unreviewed0x840107ca.
+No full logger/IRQ cost or old graph extension. New394 original probe records
+equal the preserved prior scope;no new child/other hart/UART path executes.
+Old193/394 cohort30604441 is140 readonly files/3039180 bytes,not replay-
+qualified. Scope3f22a3bd verifies570 paths. LOGGER_CHILDREN.json33477f2b and
+original-irq/LOGGER_CHILDREN.md retain Jev cost not-established0.85/0.77.
+Source-lockd6b6e2da/images/native inputs/budgets and all remaining gates stay
+unchanged. No firmware implementation,hardware,restart,waiver or subagents.
+
 ## 2026-10-17 - Whole Original IRQ Bodies;Local SP Only
 
 Fresh Ghidra/Capstone checks complete original80-byte PLIC bodies0x84003200/

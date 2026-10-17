@@ -1,5 +1,17 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Logger Formatting Cost Remains Open
+
+New local analyses cover four logger children16/0/0/16 and a128-byte formatter
+wrapper that calls unreviewed0x840107ca. Do not declare a full80-byte logger
+cost or extend the old partial graph from these local results. Ordinary-ABI,
+alias/escape/register-save/termination/IRQ/per-hart/physical scope remains.
+25 controls/199 units/570-path seal pass;fresh394 original probe records match
+the prior scope without executing new children. Earlier193/394 sources are
+preserved,not replay-qualified;Jev's cost wording remains not-established.
+See original-irq/LOGGER_CHILDREN.md. Source-lock/images/native inputs/budgets
+and all cold/full setup/hot/lifecycle/physical/client gates remain unchanged.
+
 ## 2026-10-17 - Original IRQ Error Paths Retained
 
 The complete two original80-byte PLIC bodies have local SP0 but error-tail to
