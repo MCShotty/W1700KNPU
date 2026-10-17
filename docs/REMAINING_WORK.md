@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Four Internal Dispatches Closed;60 Transfers Open
+
+The fresh f63ffc9a view keeps300 nodes/716 inter-function transfers and records
+four bounded internal jumps separately. Remaining44 register callbacks/16 known
+outside-subset targets still need qualification. No unknown callee gets a zero
+frame;the9696-byte partial candidate is unchanged,not full stack-fit or physical
+proof. Prior64/91-unknown graphs and their metadata are unchanged historical
+receipts. Exact-entry/ordinary-ABI/no-IRQ/external-mutation assumptions remain.
+
+Table audit fdd40dc5 checks106 exact readonly-ELF/CODE words,guards/bypass paths,
+same-function instruction targets and CFA;Ghidra corroborates the selected full
+bodies.118 compiled-prefix diagnostics ac9d6f5d stop before case/default bodies,
+not constructor execution. Latest141 units/no skips/89 input+22 artifact hashes/
+25 synthetic guests pass55b025a7. Source-role Jev labels are leads only;its
+uncertain scope judgments and raw probability masses stay retained. Earlier
+failed fixture/preflight attempts stay failed. See STACK.md/INTERNAL_DISPATCHES.json.
+
+Both original callers/full36 matrices/HIF2 bitmap continue unchanged. Actual
+INODE prefixes/new24 faults,broader and current-main native/full setup,hot TX/RX,
+RRO/checked IRQ/lifecycle/DMA/cache/physical/boot/client gates remain open.
+Images/source-lock40d29368 unchanged. No hardware,restart,waiver or subagents.
+
 ## 2026-10-17 - Restricted Graph Built;64 Transfers Still Open
 
 Fresh subset66b6ac6a composes the297 CFI frames/three original-body SP proofs

@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Bounded Internal Tables And Remaining60 Transfers
+
+Fresh f63ffc9a retains300 mixed-proof nodes/716 inter-function transfers and
+records four qualified internal dispatches separately.44 register-unknown and
+16 outside-subset targets remain. Largest partial candidate stays9696;these
+are not four new callees or a full permitted/IRQ/per-hart/physical stack bound.
+Old66b6ac6a/c209050c and their metadata remain unchanged.
+
+Exact table proof fdd40dc5 checks three full linked functions,all106 indexed
+words,readonly ELF/CODE/Ghidra byte identities,unsigned guards,bypass paths and
+same-function target CFA.118 compiled-prefix diagnostics ac9d6f5d start from
+synthetic register/index contexts and stop before any case/default body. They
+are separate from129 original-routine hart0 diagnostics and both real callers.
+Latest141 unique units/no skips/89 inputs+22 artifacts/25 tiny synthetic guests
+pass55b025a7. Metadata-only INTERNAL_DISPATCHES.json hashese5614fb1. See STACK.md.
+
+All48 source locations are recovered;45 actual Jev role judgments are triage,
+not proof. Raw probability masses/uncertainty and earlier test/preflight failures
+remain retained. Both callers/full36 matrices/HIF2 bitmap stay live with original
+guards/budgets;new24 INODE/broader/current-source/full setup/hot/lifecycle/physical/
+boot/client gates remain. Images/source-lock40d29368 unchanged. No hardware,
+job restart,waiver or subagents.
+
 ## 2026-10-17 - Restricted Mixed-Proof Stack Graph
 
 New graph66b6ac6a combines297 prior CFI C frames/three exact original-body SP

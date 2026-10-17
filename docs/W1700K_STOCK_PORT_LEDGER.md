@@ -1,10 +1,58 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (new restricted300-node stack graph,64 transfers still open;110 focused units pass;129 isolated routines/native pipelines remain distinct)
+Last updated: 2026-10-17 (four bounded internal dispatches checked;60 transfers open;141 units/118 compiled-prefix diagnostics;original129/native pipelines remain distinct)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Four Bounded Internal Dispatches Checked
+
+- Fresh restricted view f63ffc9a classifies four internal jumps separately:
+  300 mixed-proof nodes/716 inter-function transfers/60 unresolved,44 register-
+  unknown and16 known outside-subset targets. No new callee,inter-function edge
+  or zero-frame assumption is introduced. The partial9696-byte candidate and
+  subset cycles stay unchanged. Old66b6ac6a/c209050c metadata/receipts stay intact.
+- Exact proof fdd40dc5 checks three complete linked functions and all106 table
+  entries against readonly file-backed ELF/paired CODE. Unsigned guard safe-edge
+  dominance,definition predecessors,all decoded target/default boundaries and
+  matching CFA are required;other unknown flow blocks function qualification.
+  Ghidra12.1.2 selected bodies/cases match byte-exact. Its load-table metadata
+  is absent,not evidence of empty tables;the extra history default is retained.
+  Imported DWARF-expression errors remain. Exact-entry/ordinary ABI/immutable
+  tables/no asynchronous external mutation or IRQ are assumptions,not proof.
+- Diagnostic ac9d6f5d passes118 exact compiled-prefix runs:106 valid indices,
+  twelve out-of-range inputs. Synthetic CPU contexts stop before all case/
+  default bodies. PC/all32 GPRs/RA/SP/MSTATUS,ordered reads/no writes and full
+  CODE/stack compare before restoration. Host register/memory-write guards are
+  sealed for execution/observation. This is neither a constructor nor the
+  separate129 original-routine hart0 RAM/MMIO diagnostic or physical NPU proof.
+- New19 table/12 graph contracts give141 unique focused units/no skips,
+  89 source inputs/22 artifact hashes and25 tiny synthetic RV32 guests,55b025a7.
+  Combined checkpoint preparation verifies470 declared paths and the exact
+  tested ExportNpuSwitchTables helper copy. Metadata-only INTERNAL_DISPATCHES.json
+  hashese5614fb1;no firmware/device data is uploaded. Both images and source-lock
+  40d29368 recheck unchanged. Prior host scopes are not rewritten as new tests.
+- All48 remaining-register source contexts were recovered before this closure.
+  Jev q17-q22 classifies45 semantic roles;three literal sites remain withheld.
+  Eight indexed candidates were leads,not automatically admitted. The first
+  role aggregator's sum-to-one assumption failed before output. Fresh q2 keeps
+  all raw distributions,including one0.99 mass,float-rounding discrepancies
+  and uncertain labels,without normalizing or resampling. Jev q23 supports
+  scope0.72/confidence0.58,graph0.82/0.73,metadata0.64/0.46;bounded-prefix/partial-
+  static category1.00/1.00. Uncertainty stays visible;direct checks govern.
+- Two initial contract constants named valid instruction starts instead of
+  interiors;old source/fixture/log and reproduced19-test/two-failure record
+  7e7f8679 are preserved. Corrected tests retain production guards. Prefix q1
+  failed on unsupported Unicorn Uc subclass initialization before any guest
+  instruction,148e1da1;fresh composition-based q2 passed. Installed REA rejects
+  this RISC-V active-target open;headless Ghidra handles the selected ELF.
+- Both actual callers/full36 matrices/HIF2 bitmap remain live,not promoted by
+  these diagnostics. Preserve original sources,budgets,full512/eight DESC10/
+  all36 tail/new24 INODE and broader/current-source/native/full setup gates.
+  Hot/RRO/checked IRQ/lifecycle/DMA/cache/per-hart/physical/boot/client work
+  remains. No hardware,job restart,guard/hash waiver or subagents.
+  Exact evidence and boundaries: inode-caller/STACK.md and INTERNAL_DISPATCHES.json.
 
 ## 2026-10-17 - Restricted Mixed-Proof Stack Graph Composed
 

@@ -1,5 +1,36 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Four Internal Tables Checked;60 Transfers Remain
+
+- Fresh view f63ffc9a keeps 300 mixed-proof nodes/716 inter-function transfers
+  and classifies four bounded compiler-generated jumps separately as internal.
+  Remaining 60 records are 44 register-unknown/16 outside-subset targets,not
+  zero-frame callees. The partial 9696-byte candidate remains unchanged.
+- Exact table audit fdd40dc5 checks three full linked C extents,all106 words,
+  readonly ELF/paired CODE/Ghidra identities,unsigned bounds,definition/bypass
+  paths and target CFA. Ghidra's absent load records are not interpreted as
+  empty tables;history's extra unlabelled default is preserved. Other unknown
+  register flow blocks function qualification. Exact-entry/ordinary-ABI/no
+  external mutation or IRQ remain assumptions,not permitted-path proof.
+- Diagnostic ac9d6f5d passes118 compiled-prefix runs from synthetic CPU index
+  contexts,stopping before all case/default bodies. All32 GPRs/PC/MSTATUS,
+  ordered reads/no writes and complete CODE/stack match before restoration.
+  This is not the separate129 original-routine hart0 diagnostic or a cold run.
+- Latest141 unique units/no skips/89 input and22 artifact hashes/25 synthetic
+  guests pass55b025a7. New19 table/12 graph contracts retain invalid/bypass/
+  clobber/cycle/mixed-scope guards. Initial test-address and Uc-subclass failures
+  remain preserved;their failed outputs are not repaired. See STACK.md and
+  metadata-only INTERNAL_DISPATCHES.json,e5614fb1. Older metadata stays intact.
+- Source-bound Jev triage covers45 of48 sites,with three deterministic literal
+  candidates still withheld. Labels/probabilities are leads,not target proof;
+  raw nonunit probability masses are retained without normalization/resampling.
+  Jev q23 scope/metadata judgments remain uncertain;direct checks govern.
+- Source-lock40d29368,both images and all live producing inputs stay unchanged.
+  Both actual callers/full36 matrices/HIF2 bitmap remain live. Preserve full512,
+  eight DESC10/all36-tail/new24-INODE and broader/current-source/physical/client
+  gates. No hardware,restart,waiver or subagents. Continue remaining callbacks,
+  original/assembly/IRQ/per-hart/physical bounds;do not promote the partial graph.
+
 ## 2026-10-17 - Restricted Stack Subset Checked
 
 - Fresh graph66b6ac6a composes297 prior CFI C frames/three exact original-body

@@ -315,3 +315,99 @@ No NPU implementation,source-lock,image,live producing input,coverage or native
 budget changed. Both actual callers/full36 matrices/HIF2 bitmap remain live;
 new24 INODE/broader/current-source native/full setup/hot/lifecycle/physical/boot/
 client gates stay open. No hardware,restart,waiver or subagents.
+
+## Bounded Internal Dispatches
+
+The new checker test_npu_switch_targets.py binds three complete linked C bodies
+to exact ELF/CFI extents,paired CODE and Ghidra12.1.2 instruction bytes. Four
+remaining register jumps are compiler-generated internal tables,not callbacks
+or new zero-frame callees. Only the narrow absolute-word,unsigned-bound,
+LUI/ADDI/SLLI/C.ADD/C.LW/C.JR pattern is admitted. Up to eight intervening C.LI/
+C.MV instructions may not clobber the target,SP or RA. Other unknown flow,
+traps,invalid targets,definition bypasses and unreachable definitions fail.
+
+| Function | Dispatch | Table | Indexed Entries | CFA |
+| --- | --- | --- | --- | --- |
+| history | 0x8404161c | 0x840464b4 | 64 | 16 |
+| prior | 0x8404213c | 0x840465b4 | 16 | 0 |
+| npu_cold_setup_finish | 0x840421d4 | 0x840465f4 | 13 | 208 |
+| npu_cold_setup_finish | 0x84042220 | 0x84046628 | 13 | 208 |
+
+All106 raw table words must be in allocated,file-backed,nonwritable/nonexecuting
+ELF data and match paired CODE. Every loaded target/default must be a decoded
+instruction start inside the same function,with matching CFI CFA. Every later
+prefix instruction has exactly its preceding definition as predecessor;removing
+the unsigned guard's safe fallthrough edge must make the load/jump unreachable.
+Both tables in the finish function are resolved together during this CFG check.
+No table/case entry can bypass its own or the other table's definitions.
+
+Ghidra's selected bodies match all846/50/2278 bytes. Its getLoadTables records
+are absent for allfour sites,not evidence of empty tables. The verifier supplies
+literal table addresses and ELF/raw bytes independently. Case order/labels match
+exactly;history has65 case targets but64 labels because of an extra unlabelled
+default. That extra target is checked and retained,not lost in zip truncation.
+Imported-component DWARF-expression errors remain in the logs. The committed
+ExportNpuSwitchTables.java is byte-identical to the tested private script.
+Installed REA's active-target frontend rejected this RISC-V ELF as unsupported;
+this does not limit the independent headless Ghidra architecture analysis.
+
+| Private Receipt | SHA256 |
+| --- | --- |
+| .local/npu-switch-targets/base-q1/result.json | fdd40dc5fae76052a2068ab97ed19fa3161b31d224ee10b2c7fee8efeb7d9cde |
+| .local/npu-world-overlay-20261017/compiled-switch-prefixes-q2/result.json | ac9d6f5d94012ab17217cdf66f815eb650823202af61518d84b35800c14f486e |
+| .local/npu-internal-dispatch-subset/base-q1/result.json | f63ffc9a711444b177c913e1e84aea261bb38f611408fd694b13555cdc657866 |
+| .local/npu-world-overlay-20261017/host-scope-q9/result.json | 55b025a79af012969286e844ae5eb880fce913376af55e71d66dec3f970b7d1f |
+
+The118 compiled-prefix diagnostics cover every106 valid index plus twelve
+out-of-range values,including high-bit and all-ones inputs. They begin at the
+guard definition from synthetic CPU index/register contexts and stop before
+the first case/default-body instruction. All32 GPRs/PC/RA/SP/MSTATUS,exact
+instruction trace/ordered reads/no writes and full CODE/stack bytes compare
+before any restoration. The host write wrappers are sealed and callbacks use
+the same guarded wrapper. This is not whole-function or cold-constructor proof,
+and is separate from the129 original-routine hart0 RAM/MMIO checks.
+
+A fresh partial graph records these four dispatches as internal metadata and
+removes only their four prior unknown-transfer records. It keeps300 mixed-proof
+nodes/716 inter-function transfers/zero subset cycles and the9696-byte partial
+candidate. Remaining60 records are44 unknown register callbacks/16 known
+targets outside the reviewed set. Missing contributions are not proved zero.
+No complete permitted-path,IRQ,per-hart or physical bound follows. Exact linked
+entry,ordinary ABI,immutable tables and no asynchronous/external mutation remain
+assumptions. The older64/91-unknown receipts are neither repaired nor relabeled.
+
+Nineteen table and twelve graph contracts cover guard/definition bypasses,
+cross-table jumps,odd/interior/external targets,register clobbers,bounds,
+metadata drift,CFA/identity drift,duplicate/known sites,immutability and cycles.
+The latest141 unique units/no skips verify89 source inputs/22 artifacts and25
+tiny synthetic guests. These synthetic guests are not the118 compiled prefixes.
+Initial contract constants selected valid instruction starts instead of
+interiors;the exact earlier source/fixture and reproduced19-test/two-failure
+log stay preserved,7e7f8679. Correcting the tests did not weaken production guards.
+Prefix q1 failed on unsupported Uc subclass initialization before any guest
+instruction,148e1da1;the fresh composition-based q2 source/run is separate.
+
+Before closure,all48 remaining-register sites were mapped to pinned DWARF source
+contexts. Actual Jev q17-q22 classifies45 roles;three prior literal candidates
+stay deterministically withheld. Categories are candidates,not target/bounds or
+frame proofs. The first aggregator's exact-sum assumption failed before output;
+fresh q2 retains raw distributions,one0.99 probability mass and floating-point
+rounding discrepancies without normalization/resampling. Jev q23 supports the
+scoped prefix claim0.72/confidence0.58,graph claim0.82/0.73,metadata0.64/0.46;
+bounded-prefix/partial-static category1.00/1.00. Its uncertainty is retained,
+not treated as blanket approval. Exact byte/control-flow/execution checks govern.
+
+Metadata-only [INTERNAL_DISPATCHES.json](INTERNAL_DISPATCHES.json),SHA256
+e5614fb12f0c6d5924ccab4469e5404823a30463feb9c2e5aed99909825d6bb2,
+records all60 remaining transfers,table identities,evidence hashes and limits.
+Preparation rechecks470 declared input/artifact paths,the tested helper copy,
+source-lock40d29368 and both protected978f9ddd/unflasheda22300ea images unchanged.
+All earlier metadata,live producers,guard budgets and full512/eight-DESC10/
+all36-tail/new24-INODE/broader/current-source/full setup/physical/client gates
+remain unchanged. Both actual callers/full36 matrices/HIF2 bitmap remain live.
+No firmware edit,hardware,restart,waiver or subagents.
+
+The first post-documentation audit caught one duplicated character in the copied
+metadata digest above. Its old STACK.md/source/log are preserved under
+.local/npu-world-overlay-20261017/switch-doc-hash-failure-q1/. The canonical
+metadata/evidence never changed;fresh audit q2 checks the corrected citation.
