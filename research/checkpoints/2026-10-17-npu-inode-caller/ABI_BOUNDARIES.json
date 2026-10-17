@@ -1,0 +1,163 @@
+{
+  "format": "w1700k-inode-callback-abi-checkpoint-v1",
+  "preparation_receipt_sha256": "d14ff98b1be46bbc90ac9aca16cd6df57660f675f00d0c664e07cd9b5220028f",
+  "preparation_input_count": 379,
+  "unique_units": 215,
+  "unit_executions": 233,
+  "focused_units": 35,
+  "negative_boot_controls": 6,
+  "pair_image_groups": 20,
+  "loader_cases": 60,
+  "loader_mutants": 8,
+  "both_hif_sender_cases": 12,
+  "earlier_failed_unit_receipt_sha256": "5a717f68a32f4cdefe80dfd4c0e97ba86003a0887a59602cc518d9a787934520",
+  "preserved_failed_unit_sources": 72,
+  "native_terminal_audit_sha256": "76ebb98f5dab2df4f1ee36249cd03ccc5e6772c09e8ca1afb2d9f2fa8d0f9655",
+  "old_source_files_unchanged": 2330,
+  "supplemental_readonly_consumers": 8,
+  "old_failed_callers": {
+    "inode-caller-q1": {
+      "returncode": 1,
+      "failure": "INODE-entry-ABI",
+      "original_tail_stores": 9,
+      "actual_inode_stage0_prefix": true,
+      "inode_stage1_prefix": false,
+      "callback_body_validated": false,
+      "changed_saved_registers": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "gp_tp_unchanged": true,
+      "observed_elapsed_seconds": 40222.82586121559
+    },
+    "inode-caller-hif2-q1": {
+      "returncode": 1,
+      "failure": "INODE-entry-ABI",
+      "original_tail_stores": 9,
+      "actual_inode_stage0_prefix": true,
+      "inode_stage1_prefix": false,
+      "callback_body_validated": false,
+      "changed_saved_registers": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "gp_tp_unchanged": true,
+      "observed_elapsed_seconds": 40067.316063165665
+    }
+  },
+  "hif2_bitmap_diagnostic": {
+    "passed": true,
+    "original_stores": 25604,
+    "full_request_count": 512,
+    "packet_claims": 3072,
+    "private_claims": 512,
+    "queue_publications": 512,
+    "host_timeout": false,
+    "original_budget_us": 60000000,
+    "configured_host_limit_seconds": 21600,
+    "observed_elapsed_seconds": 13198.725000619888
+  },
+  "callback_boundary": "entry-to-actual-caller-return-before-outer-epilogue",
+  "outer_boundary": "dispatcher-to-END-before-host-context-restoration",
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "code_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "data_sha256": "180bc8084bcdcb695498056004d9d439fdde22da231574510be1064cfe61cfe3",
+  "jev": {
+    "jev-boundary-q1": {
+      "request_sha256": "2bb5b1408c9a90afb0658623630aa02b8f15fa293d8fcedde91a39c2544f53b7",
+      "result_sha256": "9e1f768d0e820c168a5351a7825259e20bbc9c344bd670afb3b0ad1ceafcaecc",
+      "model": "jev-1.13.0",
+      "answers": {
+        "callback_clobber": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 1.0,
+          "probabilities": {
+            "established": 0.0,
+            "not_established": 1.0,
+            "unknown": 0.0
+          }
+        },
+        "boundary_design": {
+          "type": "choice",
+          "choice": "matches",
+          "confidence": 0.97,
+          "probabilities": {
+            "matches": 0.98,
+            "conflicts": 0.02,
+            "unclear": 0.0
+          }
+        },
+        "claim_scope": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.48,
+          "probabilities": {
+            "supported": 0.65,
+            "contradicted": 0.03,
+            "not_established": 0.32
+          }
+        }
+      }
+    },
+    "jev-verification-q2": {
+      "request_sha256": "c910a9b832475f1c8ad50bd1e4e0c7051eae2378c83d3956515dd495693a6223",
+      "result_sha256": "32e05842193b3c1919191dc55cbde9805b58733a3406d2353820f534d82d8164",
+      "model": "jev-1.13.0",
+      "answers": {
+        "boundaries": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.33,
+          "probabilities": {
+            "supported": 0.4,
+            "contradicted": 0.05,
+            "not_established": 0.55
+          }
+        },
+        "proof": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.56,
+          "probabilities": {
+            "supported": 0.27,
+            "contradicted": 0.02,
+            "not_established": 0.71
+          }
+        },
+        "history": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.34,
+          "probabilities": {
+            "supported": 0.5599999999999999,
+            "contradicted": 0.02,
+            "not_established": 0.42
+          }
+        },
+        "fixture": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.33,
+          "probabilities": {
+            "supported": 0.55,
+            "contradicted": 0.01,
+            "not_established": 0.44
+          }
+        }
+      }
+    }
+  },
+  "jev_is_not_execution_proof": true,
+  "old_failed_executions_repaired": false,
+  "new_positive_constructor_qualified": false,
+  "all36_tail_matrices_terminal": false,
+  "new24_inode_faults_qualified": false,
+  "firmware_implementation_changed": false,
+  "full_setup": false,
+  "hardware": false
+}

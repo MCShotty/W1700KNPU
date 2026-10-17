@@ -42,6 +42,7 @@ class InodeTraceTests(unittest.TestCase):
         put(0x3e902ac0, struct.pack('<I', 0x3e8bc470))
         registers = {register: 0x51010000 + index * 0x101 for index, register in enumerate(SAVED)}
         registers |= {r.UC_RISCV_REG_PC: END, r.UC_RISCV_REG_SP: STACK_TOPS[0] - 0x1000,
+            r.UC_RISCV_REG_RA: 0x84044d2a,
             r.UC_RISCV_REG_MSTATUS: 0, r.UC_RISCV_REG_MIE: 0x800, r.UC_RISCV_REG_MTVEC: 0x84004100}
         h.cpu.reg_read.side_effect = registers.__getitem__
         h.cpu.hook_add.side_effect = range(1, 100)
@@ -61,6 +62,10 @@ class InodeTraceTests(unittest.TestCase):
         trace.stores = list(trace.events)
         trace.locks = [(LOCKS[0], 4, 0x40), (LOCKS[1], 4, 0)]
         trace.entries = ['callback', 'wrapper', 'helper', 'release']
+        trace.callback_entry = dict(pc=trace.h.inode.symbols['npu_emulation_inode_callback'], return_pc=0x84044d2a,
+            saved=trace.saved_before, sp=STACK_TOPS[0] - 0x1100, mstatus=0, interrupt=trace.interrupt_before)
+        trace.callback_returns = [dict(pc=0x84044d2a, saved=trace.saved_before,
+            sp=STACK_TOPS[0] - 0x1100, mstatus=0, interrupt=trace.interrupt_before)]
         trace.returns = [dict(pc=END, saved=trace.saved_before, sp=STACK_TOPS[0] - 0x1000,
             mstatus=0, interrupt=trace.interrupt_before)]
 
@@ -179,6 +184,127 @@ class InodeTraceTests(unittest.TestCase):
         registers[SAVED[0]] ^= 1
         self.assertEqual(trace.returns[0]['saved'], trace.saved_before)
         self.assertNotEqual(trace.returns[0]['saved'][0], registers[SAVED[0]])
+
+    def test_callback_boundary_accepts_caller_local_saved_registers(self):
+        h, request, put, _, registers = self.fixture()
+        trace = InodeTrace(h, request)
+        pointer = STACK_TOPS[0] - 0x1100
+        put(pointer, struct.pack('<3I', *request[11:14]))
+        registers[r.UC_RISCV_REG_A0] = pointer
+        registers[r.UC_RISCV_REG_SP] = pointer
+        for register in SAVED[:12]: registers[register] ^= 0x100
+        trace.code(h.cpu, h.inode.symbols['npu_emulation_inode_callback'], 2, None)
+        self.assertNotEqual(trace.callback_entry['saved'], trace.saved_before)
+        trace.observe_callback_return(h.cpu, registers[r.UC_RISCV_REG_RA], 2, None)
+        trace.validate_callback_abi()
+        h.cpu.mem_write.assert_not_called()
+        h.cpu.reg_write.assert_not_called()
+
+    def test_callback_return_catches_each_saved_stack_and_interrupt_clobber(self):
+        for register in (*SAVED, r.UC_RISCV_REG_SP, r.UC_RISCV_REG_MSTATUS,
+                         r.UC_RISCV_REG_MIE, r.UC_RISCV_REG_MTVEC):
+            with self.subTest(register=register):
+                h, request, _, _, registers = self.fixture()
+                trace = InodeTrace(h, request)
+                trace.observe_callback_entry(h.cpu, h.inode.symbols['npu_emulation_inode_callback'])
+                registers[register] ^= 16
+                with self.assertRaisesRegex(AssertionError, 'INODE-callback-return-ABI'):
+                    trace.observe_callback_return(h.cpu, registers[r.UC_RISCV_REG_RA], 2, None)
+                self.assertEqual(len(trace.callback_returns), 1)
+
+    def test_missing_duplicate_and_wrong_return_observations_fail(self):
+        h, request, _, _, registers = self.fixture()
+        trace = InodeTrace(h, request)
+        with self.assertRaisesRegex(AssertionError, 'missing-callback-entry'): trace.validate_callback_abi()
+        pc = h.inode.symbols['npu_emulation_inode_callback']
+        trace.observe_callback_entry(h.cpu, pc)
+        with self.assertRaisesRegex(AssertionError, 'duplicate-callback'): trace.observe_callback_entry(h.cpu, pc)
+        with self.assertRaisesRegex(AssertionError, 'callback-return-ABI'): trace.validate_callback_abi()
+        with self.assertRaisesRegex(AssertionError, 'callback-return-ABI'):
+            trace.observe_callback_return(h.cpu, registers[r.UC_RISCV_REG_RA] + 2, 2, None)
+
+    def test_bad_fixed_register_stack_csr_and_return_entry_fail(self):
+        faults = [(register, 1) for register in SAVED[-2:]] + [
+            (r.UC_RISCV_REG_SP, 4), (r.UC_RISCV_REG_MIE, 8), (r.UC_RISCV_REG_MTVEC, 8),
+            (r.UC_RISCV_REG_RA, 1), (r.UC_RISCV_REG_RA, 0x84000000)]
+        for register, mask in faults:
+            h, request, _, _, registers = self.fixture()
+            trace = InodeTrace(h, request)
+            registers[register] ^= mask
+            with self.assertRaises(AssertionError):
+                trace.observe_callback_entry(h.cpu, h.inode.symbols['npu_emulation_inode_callback'])
+
+    def test_callback_return_is_checked_before_outer_epilogue_can_mask_clobber(self):
+        from test_provider_plan_native import ProviderRequest, MBOX, DISPATCH
+        for clobber, guarded in ((False, True), (True, False), (True, True)):
+            with self.subTest(clobber=clobber, guarded=guarded):
+                assembly = f''' .option norvc
+.text
+addi sp,sp,-32
+sw ra,28(sp)
+sw s0,24(sp)
+li s0,0x456
+li t0,0x12
+sw t0,0(sp)
+li t0,24
+sw t0,4(sp)
+sw zero,8(sp)
+mv a0,sp
+li t0,{DISPATCH + 0x100}
+jalr ra,t0,0
+lw s0,24(sp)
+lw ra,28(sp)
+addi sp,sp,32
+ret
+.org 0x100
+{'li s0,0x789' if clobber else 'nop'}
+ret
+'''
+                built = subprocess.run(['clang', '--target=riscv32', '-march=rv32imac_zicsr', '-mabi=ilp32',
+                    '-x', 'assembler', '-c', '-o', '-', '-'], input=assembly.encode(), capture_output=True, timeout=30)
+                self.assertEqual(built.returncode, 0, built.stderr)
+                elf = ELFFile(io.BytesIO(built.stdout))
+                self.assertIsNone(elf.get_section_by_name('.rela.text'))
+                code = elf.get_section_by_name('.text').data()
+                h = object.__new__(ProviderRequest)
+                h.cpu = cpu = Uc(UC_ARCH_RISCV, UC_MODE_RISCV32)
+                cpu.mem_map(CODE, 0x201000)
+                cpu.mem_write(DISPATCH, code)
+                cpu.mem_map(MBOX & ~0xfff, 4096)
+                h.request_address, h.request_alias = 0x83000000, 0x43000000
+                cpu.mem_map(h.request_alias, 4096)
+                h.callback_entries, h.request_reads, h.wire_frames = [], [], []
+                h.get32 = lambda address: int.from_bytes(cpu.mem_read(address, 4), 'little')
+                h.put32 = lambda address, value: cpu.mem_write(address, struct.pack('<I', value))
+                for index, register in enumerate(SAVED): cpu.reg_write(register, 0x51010000 + index * 0x101)
+
+                def run(start, stops):
+                    self.assertEqual(stops, [])
+                    cpu.emu_start(start, END, count=1000, timeout=1000000)
+                    return cpu.reg_read(r.UC_RISCV_REG_PC)
+
+                h.run = run
+                trace = object.__new__(InodeTrace)
+                trace.h, trace._run, trace._patch = h, h.run, None
+                trace.returns, trace.hooks, trace.entries, trace.stores, trace.locks = [], [], [], [], []
+                trace.callback_entry, trace.callback_returns, trace.sites = None, [], {}
+                trace.entry_sites = {DISPATCH + 0x100: 'callback'}
+                trace.request = [0x3f, 1, 0x3253434e, 2, 80, 1, 62, 1, 2, 2, 1, 0x12, 24] + [0] * 7
+                trace.saved_before = tuple(cpu.reg_read(register) for register in SAVED)
+                trace.interrupt_before = (0, 0)
+                if guarded and clobber:
+                    with self.assertRaisesRegex(AssertionError, 'INODE-callback-return-ABI'):
+                        with trace: ProviderRequest.message(h, trace.request)
+                    self.assertEqual(cpu.reg_read(r.UC_RISCV_REG_S0), 0x789)
+                    self.assertNotEqual(cpu.reg_read(r.UC_RISCV_REG_PC), END)
+                else:
+                    with trace if guarded else patch.object(h, 'run', trace.observe_return):
+                        ProviderRequest.message(h, trace.request)
+                    self.assertEqual(trace.returns[0]['saved'], trace.saved_before)
+                    if guarded:
+                        trace.validate_callback_abi()
+                        self.assertEqual(trace.callback_entry['saved'][0], 0x456)
+                        self.assertNotEqual(trace.callback_entry['saved'], trace.saved_before)
 
     def test_actual_mailbox_context_restore_cannot_hide_a_guest_ABI_clobber(self):
         from test_provider_plan_native import ProviderRequest, MBOX, DISPATCH

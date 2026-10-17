@@ -1,5 +1,15 @@
 # INODE Caller And Independent Oracle
 
+## Latest Terminal State And ABI Correction
+
+Both old callers are terminal failures at the misplaced callback-entry check,
+after all three tail stages/nine stores. Real stage0 captures exist;stage1 and
+constructor success do not. Corrected callback-return/retained outer guards pass
+215 broader unique tests,not native constructor qualification. HIF2 bitmap
+diagnostic passes separately;old failed matrices stay failed. Both full36-tail
+matrices remain live. Read [ABI.md](ABI.md)/[ABI_BOUNDARIES.json](ABI_BOUNDARIES.json),
+which supersede earlier running-caller descriptions retained below as history.
+
 ## Native Qualification In Progress
 
 The actual allocator/MT7996 sender driver now requests both API24 constructors

@@ -11,6 +11,7 @@ import native_prefix_snapshot
 import raw_pair_retained as retained
 import restore_native_prefix
 from test_inode_native_controls import CASES
+from inode_trace import callback_abi_contract, END, STACK_TOPS
 
 ROOT = retained.ROOT
 
@@ -26,6 +27,15 @@ def case_contract(row, stage, case):
     assert row['exact_owner_bytes'] == 4372 and row['exact_setup_bytes'] == 412 and row['exact_code_private_bytes'] == 0x200000
     assert row['exact_prior_private_and_code'] is True
     assert row['release_irq_checked'] is True
+    trace = row.get('trace')
+    assert isinstance(trace, dict), 'INODE-fault-missing-ABI-trace'
+    saved, interrupt = trace['entry_saved_registers'], trace['entry_interrupt_csrs']
+    callback_abi_contract(trace.get('callback_entry'), trace.get('callback_returns'), saved, interrupt)
+    returns = trace['native_returns']
+    assert len(returns) == 1 and returns[0]['pc'] == END and returns[0]['mstatus'] == 0
+    assert returns[0]['sp'] == STACK_TOPS[0] - 0x1000
+    assert tuple(returns[0]['saved']) == tuple(saved) and tuple(returns[0]['interrupt']) == tuple(interrupt)
+    assert trace['abi_observed_before_context_restore'] is True
     assert row['packet_claims'] == 3072
     first, size = (0, 1030) if stage == 0 else (1030, 6)
     stores = size if case.boundary == 'release' else case.stores

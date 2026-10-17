@@ -20,6 +20,9 @@ class InodeRawContractTests(unittest.TestCase):
             reply = request.copy()
             reply[2] = 0x3252434e
             saved, interrupt = list(range(14)), [0x800, 0x84004100]
+            callback_saved = [value + 100 if index < 12 else value for index, value in enumerate(saved)]
+            callback_return = dict(pc=0x84044d2a, saved=callback_saved.copy(),
+                sp=STACK_TOPS[0] - 0x1100, mstatus=0, interrupt=interrupt.copy())
             trace = dict(stage=stage, validated=True, actual_stores=1030 if stage == 0 else 6,
                 expected_stores=1030 if stage == 0 else 6, stores=[list(event) for event in original_events(stage)],
                 ordered_lock_writes=[[0x1ec031c8, 4, 0x40], [0x1ec03248, 4, 0]],
@@ -27,6 +30,9 @@ class InodeRawContractTests(unittest.TestCase):
                 validation_is_separate=True, exact_owner_bytes=4372, exact_setup_bytes=412, code_private_bytes=0x200000,
                 original_entries=['callback', 'wrapper', 'helper', 'release'],
                 entry_saved_registers=saved, entry_interrupt_csrs=interrupt,
+                callback_entry=dict(callback_return, pc=0x840f112c, return_pc=0x84044d2a,
+                    saved=callback_saved.copy(), interrupt=interrupt.copy()),
+                callback_returns=[callback_return],
                 native_returns=[dict(pc=END, saved=saved.copy(), sp=STACK_TOPS[0] - 0x1000, mstatus=0, interrupt=interrupt.copy())],
                 protected_bytes=868352, protected_memory=[dict(base=hex(base), bytes=size, differing_bytes=0) for base, size in spans])
             native['cold'].append(dict(header=header, api=24, value=0, packet_claims=3072, page_claims=1792,
@@ -78,6 +84,23 @@ class InodeRawContractTests(unittest.TestCase):
             row['reply']['request'][index] ^= 1
             row['reply']['reply']['words'][index] ^= 1
             with self.assertRaises(AssertionError): retained.caller_contract(caller, inode_api=24)
+
+    def test_callback_return_proof_is_independent_and_mandatory(self):
+        for stage in (0, 1):
+            for fault in range(9):
+                caller = self.fixture()
+                trace = caller['native']['cold'][-3 + stage]['inode_original_store_trace']
+                if fault == 0: trace.pop('callback_entry')
+                if fault == 1: trace.pop('callback_returns')
+                if fault == 2: trace['callback_returns'] = []
+                if fault == 3: trace['callback_returns'] *= 2
+                if fault == 4: trace['callback_returns'][0]['saved'][0] ^= 1
+                if fault == 5: trace['callback_returns'][0]['sp'] += 16
+                if fault == 6: trace['callback_returns'][0]['mstatus'] = 8
+                if fault == 7: trace['callback_entry']['saved'][-1] ^= 1
+                if fault == 8: trace['callback_returns'][0]['pc'] += 2
+                with self.subTest(stage=stage, fault=fault):
+                    with self.assertRaises(AssertionError): retained.caller_contract(caller, inode_api=24)
 
     def test_old_denial_or_partial_new_summary_cannot_be_promoted(self):
         for fault in range(8):

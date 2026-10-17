@@ -193,6 +193,7 @@ def run(pair, snapshot, destination, case):
     assert reply['flags'] == 7 and reply['words'][14] == 7, ('INODE-fault-reply', case.name, reply)
     assert h.unmodeled is None and trace.returns == [dict(pc=END, saved=trace.saved_before,
         sp=STACK_TOPS[0] - 0x1000, mstatus=0, interrupt=trace.interrupt_before)], ('INODE-fault-ABI', trace.returns)
+    trace.validate_callback_abi()
     assert reply['returned_stack'] == hex(STACK_TOPS[0] - 0x1000)
     count, published = counts(trace, case)
     assert trace.stores == list(trace.events[:count]), ('INODE-fault-store-prefix', len(trace.stores), count)

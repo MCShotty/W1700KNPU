@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Fresh INODE Qualification Still Needed
+
+Both old cold callers failed the misplaced entry-ABI guard after all three tail
+stages/nine stores. Real INODE stage0 prefixes exist;stage1/constructor success
+do not. New callback-return and retained outer-return guards pass35 focused/
+215 broader unique units,233 executions,no skips. Tiny RV32 controls catch a
+callee clobber masked by outer epilogue. New nominal/fault receipts require both
+boundaries. Old failures stay failed;no new positive constructor is claimed.
+
+HIF2 full512 bitmap diagnostic passes separately25604 stores/3072 claims/512
+private claims/publications. Both old DESC10 matrix failures remain. Both all36-
+tail matrices are live. Check late-reader/transitive-owner liveness before the
+next cohort,then fresh corrected/current-source both-HIF cold/full512/eight-
+DESC10/all36-tail/actual-stage1/new24-INODE and broader qualification. See
+inode-caller/ABI.md and ABI_BOUNDARIES.json. Source-lock/images/partial stack
+graph are unchanged. All full setup/hot/IRQ/RRO/lifecycle/physical/client gates
+stay open. No hardware,restart,waiver or subagents. This supersedes older live-
+caller descriptions below.
+
 ## 2026-10-17 - Logger Formatting Cost Remains Open
 
 New local analyses cover four logger children16/0/0/16 and a128-byte formatter

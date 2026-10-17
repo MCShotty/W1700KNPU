@@ -20,6 +20,21 @@ SAVED = tuple(getattr(r, 'UC_RISCV_REG_S' + str(index)) for index in range(12)) 
     r.UC_RISCV_REG_GP, r.UC_RISCV_REG_TP)
 
 
+def callback_abi_contract(entry, returns, outer_saved, outer_interrupt):
+    assert isinstance(entry, dict) and isinstance(returns, (list, tuple)), 'INODE-missing-callback-ABI'
+    assert {'pc', 'return_pc', 'saved', 'sp', 'mstatus', 'interrupt'} <= entry.keys(), 'INODE-incomplete-callback-entry'
+    assert len(outer_saved) == len(entry['saved']) == 14 and len(outer_interrupt) == 2
+    assert tuple(entry['saved'][-2:]) == tuple(outer_saved[-2:]), 'INODE-entry-fixed-registers'
+    assert tuple(entry['interrupt']) == tuple(outer_interrupt) and entry['mstatus'] == 0, 'INODE-entry-interrupt-state'
+    assert all(CODE <= entry[name] < CODE + 0x200000 and entry[name] % 2 == 0
+               for name in ('pc', 'return_pc')) and entry['pc'] != entry['return_pc']
+    assert STACK_TOPS[0] - 0x4000 <= entry['sp'] <= STACK_TOPS[0] and entry['sp'] % 16 == 0
+    assert len(returns) == 1 and {'pc', 'saved', 'sp', 'mstatus', 'interrupt'} <= returns[0].keys(), 'INODE-callback-return-ABI'
+    returned = returns[0]
+    assert (returned['pc'], tuple(returned['saved']), returned['sp'], returned['mstatus'], tuple(returned['interrupt'])) == (
+        entry['return_pc'], tuple(entry['saved']), entry['sp'], entry['mstatus'], tuple(entry['interrupt'])), 'INODE-callback-return-ABI'
+
+
 def original_events(stage):
     assert stage in (0, 1)
     sites = (0xe178, 0xe180, 0xe18a) + (0xe196,) * 1026 + (0xe1b4,) if stage == 0 else SITES[:6]
@@ -37,6 +52,7 @@ class InodeTrace:
     def __init__(self, h, request):
         self.h, self.request = h, tuple(request)
         self.stores, self.locks, self.entries, self.returns, self.hooks = [], [], [], [], []
+        self.callback_entry, self.callback_returns = None, []
         self._run, self._patch = h.run, None
         assert len(request) == 20 and request[:5] == [0x3f, 1, 0x3253434e, 2, 80]
         assert request[5] == 1 and request[12] == 24 and request[13:] == [0] * 7
@@ -141,13 +157,39 @@ class InodeTrace:
             assert STACK_TOPS[0] - 0x4000 <= pointer <= STACK_TOPS[0] - length
             assert bytes(cpu.mem_read(pointer, length)) == struct.pack('<3I', *self.request[11:14]) + (bytes(12) if length == 24 else b'')
         if kind == 'callback':
-            assert tuple(cpu.reg_read(register) for register in SAVED) == self.saved_before, 'INODE-entry-ABI'
+            self.observe_callback_entry(cpu, pc)
         elif kind == 'helper':
             assert [cpu.reg_read(getattr(r, 'UC_RISCV_REG_A' + str(index))) for index in range(5)] == [
                 2 if self.stage == 0 else 7, 0, 0, 0, 0], 'INODE-original-wrapper-arguments'
         elif kind == 'release':
             assert bytes(cpu.mem_read(self.owner, 4372)) == self.owner_expected, 'INODE-owner-before-unlock'
         self.entries.append(kind)
+
+    def observe_callback_entry(self, cpu, pc):
+        assert self.callback_entry is None, 'INODE-duplicate-callback'
+        saved = tuple(cpu.reg_read(register) for register in SAVED)
+        assert saved[-2:] == self.saved_before[-2:], 'INODE-entry-fixed-registers'
+        sp, return_pc = cpu.reg_read(r.UC_RISCV_REG_SP), cpu.reg_read(r.UC_RISCV_REG_RA)
+        assert STACK_TOPS[0] - 0x4000 <= sp <= STACK_TOPS[0] and sp % 16 == 0, 'INODE-entry-stack'
+        assert CODE <= return_pc < CODE + 0x200000 and return_pc % 2 == 0 and return_pc not in self.entry_sites, 'INODE-callback-return-address'
+        interrupt = tuple(cpu.reg_read(register) for register in (r.UC_RISCV_REG_MIE, r.UC_RISCV_REG_MTVEC))
+        assert interrupt == self.interrupt_before, 'INODE-entry-interrupt-CSRs'
+        self.callback_entry = dict(pc=pc, return_pc=return_pc, saved=saved, sp=sp,
+            mstatus=cpu.reg_read(r.UC_RISCV_REG_MSTATUS), interrupt=interrupt)
+        # Observe before the outer caller can restore its own saved frame.
+        self.hooks.append(cpu.hook_add(UC_HOOK_CODE, self.observe_callback_return, begin=return_pc, end=return_pc))
+
+    def observe_callback_return(self, cpu, pc, size, unused):
+        if self.callback_returns:
+            return
+        self.callback_returns.append(dict(pc=pc, saved=tuple(cpu.reg_read(register) for register in SAVED),
+            sp=cpu.reg_read(r.UC_RISCV_REG_SP), mstatus=cpu.reg_read(r.UC_RISCV_REG_MSTATUS),
+            interrupt=tuple(cpu.reg_read(register) for register in (r.UC_RISCV_REG_MIE, r.UC_RISCV_REG_MTVEC))))
+        self.validate_callback_abi()
+
+    def validate_callback_abi(self):
+        assert self.callback_entry is not None, 'INODE-missing-callback-entry'
+        callback_abi_contract(self.callback_entry, self.callback_returns, self.saved_before, self.interrupt_before)
 
     def write(self, cpu, access, address, size, value, unused):
         pc = cpu.reg_read(r.UC_RISCV_REG_PC)
@@ -193,6 +235,7 @@ class InodeTrace:
         assert self.stores == list(self.events), ('INODE-original-stores', len(self.stores), len(self.events))
         assert self.locks == [(LOCKS[0], 4, 0x40), (LOCKS[1], 4, 0)], 'INODE-added-lock18'
         assert self.entries == ['callback', 'wrapper', 'helper', 'release'], ('INODE-original-entries', self.entries)
+        self.validate_callback_abi()
         assert self.returns == [dict(pc=END, saved=self.saved_before, sp=STACK_TOPS[0] - 0x1000,
             mstatus=0, interrupt=self.interrupt_before)], ('INODE-return-ABI-before-context-restore', self.returns)
         assert all(bytes(self.h.cpu.mem_read(base, len(data))) == data for base, data in self.memory.items()), 'INODE-protected-memory'
@@ -221,10 +264,12 @@ class InodeTrace:
             expected_stores_sha256=hashlib.sha256(expected).hexdigest(), ordered_lock_writes=self.locks,
             original_entries=self.entries, native_returns=self.returns, protected_memory=memory,
             entry_saved_registers=self.saved_before, entry_interrupt_csrs=self.interrupt_before,
+            callback_entry=self.callback_entry, callback_returns=self.callback_returns,
             protected_bytes=sum(len(data) for data in self.memory.values()), exact_owner_bytes=4372,
             exact_setup_bytes=412, code_private_bytes=0x200000, guest_writes_by_observer=False,
             abi_observed_before_context_restore=True, validation_is_separate=True,
             limits=['Literal original2/7 sites/effects and pre-command memory,not the guarded owner recipe.',
+                    'Callback entry-to-caller-return and outer dispatcher entry-to-END are separate ABI boundaries.',
                     'Only the current core stack may change outside the exactly projected owner,private fields and SETUP.',
                     'Saving is not validation; actual caller and diagnostic restored prefixes remain distinct.',
                     'Added lock18,MMIO,DMA backing and scheduling are modeled; no physical/drain or worker authority.'])

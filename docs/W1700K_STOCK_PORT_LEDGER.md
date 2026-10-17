@@ -1,10 +1,43 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (logger-child local-SP extension;formatter cost remains open;25 controls/199 units/570 paths;394 probe observations unchanged;graph,source-lock,images and native budgets unchanged)
+Last updated: 2026-10-17 (INODE ABI boundary corrected;both old callers failed and retained;35 focused/215 broader unique units;HIF2 bitmap diagnostic passes;both tail matrices live;firmware,source-lock,images and native budgets unchanged)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - INODE ABI Boundary And Terminal Callers
+
+- Both frozen600055c callers ended exit1 INODE-entry-ABI before the first
+  callback instruction. All three tail stages/nine stores/owner/SETUP and
+  protected projections pass. Real stage0 INODE captures exist;stage1 and
+  successful constructor receipts do not. Both failures remain unchanged.
+- Strict restored probes stop at callback entry and show caller-local s0-s3
+  differences,GP/TP intact. New observer checks callback entry-to-actual-return
+  before outer epilogue,plus outer END before host restore. Fixed GP/TP/IRQ
+  invariants remain. Nominal/fault receipts require both;no owner/store/SETUP/
+  private/native-guard/budget waiver. This is not a firmware implementation.
+- 35 focused/215 broader unique/233 executions pass,no skips;groups overlap.
+  Tiny RV32 guests prove a clobber masked by outer epilogue is caught first,
+  not native INODE success. Initial35-test expansion had two aliased-fixture
+  failures;exact72-source cohort/log5a717f68 remain. Corrected focused9e699821/
+  broader55f98f4b are separate. Preflightd14ff98b binds379 current inputs.20
+  repeat/image groups,60 loader/eight mutants,six negative boots/12 sender
+  cases pass. CODEa6813d39/DATA180bc808 remain unchanged.
+- HIF2 restored bitmap diagnostic passes full512/25604 stores/3072 packet
+  claims/512 private claims/publications/exact protected memory. Native60M us/
+  host21600s stay. Both old matrix failures/missing verdicts stay. Terminal
+  audit76ebb98f binds934 files/2330 original+eight supplemental sources. Its
+  initial filename mistake is preserved separately;no native artifact changed.
+- Both all36-tail matrices remain live. Check the unvalidated late-reader/
+  transitive-owner hypothesis before the next long cohort. Fresh corrected/
+  current-source both-HIF cold/full512/eight-DESC10/actual-stage1/new24-INODE/
+  broader and full setup/hot/IRQ/RRO/lifecycle/DMA/cache/remaining original/
+  indirect/IRQ/per-hart/physical/boot/client gates remain. Source-lockd6b6e2da,
+  both images/partial stack graph unchanged. No hardware,restart,waiver or
+  subagents. Jev's later boundary/proof labels stay uncertain/not-established,
+  not approval. See inode-caller/ABI.md/metadata-only ABI_BOUNDARIES.json.
+  This supersedes older running-caller descriptions below.
 
 ## 2026-10-17 - Logger Child Local-SP Extension
 

@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Correct Callback ABI Boundary;Old Callers Failed
+
+- Both frozen600055c callers are terminal exit1 INODE-entry-ABI after all three
+  tail stages/nine stores. Real stage0 INODE prefixes exist;stage1 and complete
+  constructor success do not. Strict stopping probes show caller-local s0-s3
+  changes,not GP/TP. Do not restart or relabel these failed executions.
+- New observer checks callback entry-to-return before outer epilogue,plus
+  dispatcher-to-END before host restoration. Nominal/fault receipts require
+  both.35 focused/215 broader unique/233 executions pass,no skips. Tiny RV32
+  masked-clobber controls execute,not native INODE. Initial two fixture-alias
+  failures/exact72-source cohort remain. Preflightd14ff98b binds379 inputs.
+- Repeat pair/20 groups,60 loader/eight mutants,six negative boots/12 sender
+  cases pass. HIF2 full512 bitmap diagnostic separately passes25604 stores/
+  3072 claims/512 publications. Old failed matrices remain failed. Terminal
+  audit76ebb98f binds934 files/2330 original+eight supplemental sources.
+- Both all36-tail matrices remain live. Fresh corrected/current-source both-
+  HIF cold/full512/eight-DESC10/actual-stage1/new24-INODE qualification remains.
+  Check the unvalidated late-reader/transitive-owner hypothesis before the
+  next long cohort. Source-lock/images/partial stack graph unchanged. Full
+  setup/hot/IRQ/RRO/lifecycle/physical/client gates remain. No hardware,restart,
+  waiver or subagents. Read inode-caller/ABI.md/ABI_BOUNDARIES.json;retain Jev
+  uncertainty,not approval. This supersedes older running-caller descriptions.
+
 ## 2026-10-17 - Logger Child Local-SP Extension
 
 - Current checker adds C.LUI/NEG/SNEZ as unknown clobbers of checked non-SP

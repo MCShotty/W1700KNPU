@@ -12,7 +12,7 @@ import restore_native_prefix as captured
 from test_desc10_retained_controls import CASES, expected_locks
 from test_cold_txdone_native import SPACES
 from pcie_tail_wire_native import MODEL_BAR_PAGES
-from inode_trace import original_events, END, STACK_TOPS
+from inode_trace import original_events, callback_abi_contract, END, STACK_TOPS
 
 ROOT = captured.ROOT
 
@@ -194,6 +194,7 @@ def inode_caller_contract(rows, sender, inode_api):
         assert trace['original_entries'] == ['callback', 'wrapper', 'helper', 'release']
         saved, interrupt = trace['entry_saved_registers'], trace['entry_interrupt_csrs']
         assert len(saved) == 14 and len(interrupt) == 2
+        callback_abi_contract(trace.get('callback_entry'), trace.get('callback_returns'), saved, interrupt)
         returns = trace['native_returns']
         assert len(returns) == 1 and returns[0]['pc'] == END and returns[0]['mstatus'] == 0
         assert returns[0]['sp'] == STACK_TOPS[0] - 0x1000

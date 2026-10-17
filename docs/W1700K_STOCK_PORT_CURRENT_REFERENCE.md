@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - INODE Observer Boundary Fixed;Old Failures Retained
+
+Both frozen600055c callers are terminal exit1 INODE-entry-ABI after all three
+tail stages/nine stores. Real stage0 INODE captures exist;no stage1/constructor
+success. Strict stopping probes show caller-local s0-s3 changes,GP/TP intact.
+New observer checks callback return before outer epilogue and dispatcher-to-END
+before host restoration. Nominal/fault receipts require both.35 focused/215
+broader unique/233 executions pass,no skips;groups overlap. Initial fixture-
+alias failures/72 sources remain. Preflightd14ff98b binds379 current inputs.
+Repeat pair/20 groups,60 loader/eight mutants,six negative boots/12 sender cases
+pass,not positive INODE. Terminal audit76ebb98f binds934 files/2330+eight unchanged
+source files. HIF2 full512 bitmap diagnostic separately passes25604 stores/3072
+claims/512 publications;old failed matrices remain failed.
+
+Both all36-tail matrices remain live. Fresh corrected/current-source both-HIF
+cold/full512/eight-DESC10/actual-stage1/new24-INODE and broader qualification
+remain. Check the unvalidated late-reader/transitive-owner boundary first.
+Source-lockd6b6e2da/images/partial stack graph and full setup/hot/IRQ/RRO/
+lifecycle/physical/client gates unchanged. No hardware,restart,waiver or
+subagents. Read inode-caller/ABI.md/ABI_BOUNDARIES.json;retain Jev uncertainty.
+This supersedes older running-caller descriptions below.
+
 ## 2026-10-17 - Logger Children;Formatter Still Unreviewed
 
 Fresh25 controls/199 units/101 inputs/28 artifacts/41 synthetic guests pass.

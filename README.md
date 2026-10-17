@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-17 - INODE ABI Observer Corrected
+
+Both old cold callers reached all three PCIe tail stages/nine stores,then failed
+a misplaced callback-entry ABI check. Both real stage0 captures and failures
+are retained. The observer now checks callback entry-to-return before outer
+epilogue,plus outer return before host restoration.35 focused/215 broader unique
+tests pass;groups overlap. Repeat pair bytes are unchanged. Fresh constructor
+qualification remains. HIF2 full512 bitmap diagnostic passes separately;old
+failed matrices stay failed. Both all36-tail matrices remain live. See the
+[ABI checkpoint](research/checkpoints/2026-10-17-npu-inode-caller/ABI.md).
+This supersedes older running-caller descriptions below.
+
 ## 2026-10-17 - Logger Child Local-SP Checks
 
 The local checker now handles three additional non-SP instruction forms while
