@@ -484,3 +484,11 @@ stay failed;default observed bitmap and both callers remain live. Actual
 INODE prefixes/new24 faults and broader/native/physical gates remain pending.
 No changed producing files,shorter coverage,budget/hash waiver,job restart,
 world/image change,hardware action or subagents.
+
+While native jobs remain live,a read-only static lead identifies10 targets for
+the16 outside-C direct stack edges. Nine have named displaced prefixes;three
+contain SP-16 before their jump. This is not whole-function decoding or a new
+bound;the297-C-frame/687-direct/91-unresolved graph and9696-byte restricted
+candidate remain unchanged. See [STACK.md](../2026-10-17-npu-inode-caller/STACK.md)
+for exact receipt hashes,raw-byte scope and unresolved continuations/indirect/
+IRQ/physical limits. No producing source or running guest changed.

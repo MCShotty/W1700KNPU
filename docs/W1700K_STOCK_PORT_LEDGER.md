@@ -25,6 +25,12 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   stay open. No live restart,source-hash waiver or subagents. Imagea22300ea/
   WORLD.json/protected artifacts/source-lock40d29368 remain unchanged. Read
   world-isolation/REPORT.md for exact private paths/hashes and evidence limits.
+- Separate static lead maps16 outside-C direct edges to10 targets/nine named
+  displaced prefixes. Fragmentsa3be61db show IRQ/token/descriptor prefixes
+  subtract16 from SP before their jump. Do not assume zero-stack wrappers.
+  This is not a C-graph replay/extension or whole-function bound;297 frames/
+ 687 direct/91 unresolved/9696 restricted candidate remain unchanged. Read
+  inode-caller/STACK.md;no source/image/native acceptance changed.
 
 ## 2026-10-17 - Current-Lock Offline World And Image Passed
 

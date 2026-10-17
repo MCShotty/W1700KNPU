@@ -29,3 +29,28 @@ physical bound. A direct graph candidate can include infeasible paths;it is not
 a measured runtime watermark. The earlier264-frame/4480-byte candidate does not
 cover this new constructor component. Do not compare9696 with an assumed stack
 size and declare the stack safe.
+
+## Direct-Target Identification Lead
+
+A read-only exact-ELF lookup maps the16 outside-C direct edges to10 target
+addresses:nine named displaced prefixes and the original target0x8400dd82.
+`.local/npu-world-overlay-20261017/direct-targets-q1.json`,SHA256
+`7d4bb1b20dca10bfaf1d06d8f56875f210d68d502b916b2a507ad0599de20276`.
+This is symbol identification,not a replay/extension of the earlier C graph.
+
+Exact CODEa6813d39 fragments record at most five instructions per target,
+stopping at the first unconditional jump. Receipt
+`.local/npu-world-overlay-20261017/stack-prefix-fragments-q1.json`,SHA256
+`a3be61db25887126bb584819dd9bbd84affff70a5a46a28d3392a83ad81fe27e`.
+IRQ prefix0x84044f08,token prefix0x8408523c and descriptor prefix0x840894fe
+each contain addi sp,sp,-16 before the jump. Thus the named prefixes cannot
+all be treated as zero-stack wrappers. This does not establish their complete
+function frames or original continuation behavior;the other fragments are not
+whole-function zero-stack proofs either.
+
+The297-C-frame/687-direct/91-unresolved graph and9696-byte restricted candidate
+are unchanged. Original continuations,all75 register transfers,IRQ nesting and
+physical/per-hart placement remain open. Jev q10 contradicts the all-zero-SP
+claim0.67/confidence0.51 and leaves a whole-path bound not established0.95/0.92;
+neither judgment replaces instruction/flow contracts. No source/image/native
+admission change,guest execution or new permitted-path/physical bound.
