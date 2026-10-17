@@ -1,10 +1,57 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (retained RX-event export repaired; current module links pass; native jobs remain live)
+Last updated: 2026-10-17 (seven native faults/profile pass but aggregates fail; world containment/source checks pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Native Deadline And Offline World Containment
+
+- Both before-ready-bitmap full512 replay processes reached their original
+  10800-second host deadline. Both matrix runners report TimeoutExpired/false;
+  those cases stay failed. Plan readiness cases now pass,with25604 original
+  stores/512 claims/3072 total packet claims. Both matrices are terminal1 with
+  seven individual passes/profile. Read-only audit SHA256
+  b0413e0ef220ab486278d261c10a313fa064a8a18b0f38c877fcaa29415afcda
+  checks original2330 inputs and every passing receipt's inputs without
+  promoting failed aggregates. Nominal callers passed full512 DESC10/25606
+  stores with no native error and continue later stages on600055c. No current
+  constructor or complete fault qualification or
+  proved firmware crash follows from these timeouts. No live job was restarted.
+- Added isolated-world/source-map runners with 11/four synthetic controls,
+  all passing;13 existing fake-builder tests also pass. Actual primitive bwrap smoke verifies
+  copy-up/new output,unchanged synthetic lower,EROFS and distinct mount/network/
+  PID namespaces at uid1000. Receipt17628f8f is not a world or firmware test.
+  Full prepared-build probe now passes all891138 original regular content/mode/
+  ownership/literal-link/directory entries unchanged and source EROFS/private
+  namespaces. Receipt SHA256
+  4d533ee2e30727af59298a985c81ef13555d79e4ef79cf09a0a13693eec6e303.
+  This probe predates added source/clean guards;the command function is byte-
+  identical,but a new full build must execute its own namespace checks.
+- Snapshotv1 correctly refused a historical failed runner hash reached through
+  the aggregate receipt graph. It did not create a passing snapshot or rewrite
+  old inputs. Snapshotv2 uses the current successful provider/consumer producer
+  records instead,preserving2305 files/593939316 bytes. Receipt SHA256
+  bfe078a9c1969d887c23235ed1bd093e6c1636a55c66a9417a6907d7cdbddf55.
+  Source-lock40d29368/Git anchorb764894 plus two explicitly included new host
+  files;the then-untracked files are not claimed to have been in that commit.
+- New prepared-source mapper checks actual kernel5/component22/mt76329 bytes
+  against matching-lock successful producer identities,not just recipe files.
+  It rejects the real older prepared provider (9b651b7a) and passes real current
+  producer trees mapped into a synthetic prepared layout (c3730851). Neither
+  source check compiles,builds an image or executes native NPU code.
+- The full-world path keeps the physical prepared build read-only via a
+  writable overlay,RO source snapshot,private temporary storage and namespaces,
+  and now requires private kernel/module/RV32 cleaning plus actual prepared
+  kernel/mt76 source equivalence before FIT/board/package/module verification.
+  Host timeout/nonzero exits remain failures and still reach lower-tree audits.
+  The changed runner requires a fresh snapshot,not mutation ofv2. Jev's four
+  checks/probabilities are retained;limited clean/gating confidence does not
+  establish runtime behavior. No current world or image has built,
+  loaded or flashed. Current FIT978f9ddd/calibration/recovery/rollback and
+  original native files remain protected. No subagents or hardware actions.
+  Evidence:research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
 
 ## 2026-10-17 - Retained RX-Event Export Gap And Consumer Qualification
 

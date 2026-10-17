@@ -1,5 +1,30 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Native Timeout And Build-Isolation Work
+
+Both full512 before-ready-bitmap controls reached the unchanged10800-second
+host timeout. They remain failed,not firmware-crash evidence or native fault
+qualification. Plan readiness cases passed,so both matrices are terminal1 with
+seven individual passes/profile. Auditb0413e0e verifies source identities and
+keeps aggregates failed. Both nominal callers passed full512 DESC10/25606
+stores and continue later stages on600055c. No current constructor verdict.
+Do not restart live jobs or remove failures.
+
+Offline world-build isolation is being prepared. Eleven synthetic namespace and
+four source-map contracts plus13 existing fake-builder regressions pass. Actual
+full prepared-build probe4d533ee2 verifies all891138 entries unchanged,alongside
+source EROFS/private namespaces. Actual stale-cache rejection9b651b7a and
+real-source synthetic-layout positivec3730851 check prepared5/22/329 identities.
+The added non-probe path requires private kernel/module/RV32 clean and source
+equivalence before FIT verification. It needs a fresh source copy,not reuse of
+the earlier probe's code. No world has built.
+Snapshotv2 preserves2305 files/593939316 bytes,bfe078a9,
+source-lock40d29368 and current producer inputs,with two new included host
+files beyond itsb764894 Git anchor. Snapshotv1 correctly refused historical
+failed-input versions;no hash waiver or receipt rewrite. Actual prepared-source
+equivalence and full FIT/board/module/package checks are required before image
+qualification. Read research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
+
 ## 2026-10-17 - RX-Event Export And Current Consumer Links
 
 Full mt76 source comparison exposed the missing dma.c retained RX-event hook

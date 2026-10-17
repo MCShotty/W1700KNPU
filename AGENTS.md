@@ -1,5 +1,34 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Native Deadline And Offline Build Isolation
+
+- Both before-ready-bitmap DESC10 replays reached their original10800-second
+  host deadline and remain failed. The plan case passed, so both matrices are
+  terminal1 with seven individual passes/profile. Both nominal callers passed
+  full512 DESC10/25606 stores and continue later stages on600055c. Auditb0413e0e
+  verifies case-input identities;it does not repair failed aggregates. Do not
+  restart live jobs, erase failures or
+  treat timeout as a proved firmware crash or a passing fault test.
+- New isolated-world runner/11 synthetic contracts plus four prepared-source
+  contracts pass;13 existing fake-builder regressions also pass.
+  A real synthetic bwrap copy-up/EROFS/private-namespace smoke passes, but is
+  not an image or NPU test. Full prepared-build containment probe4d533ee2 passes
+  all891138 original content/mode/ownership/link/directory entries unchanged.
+  New non-probe flow explicitly cleans kernel/modules/RV32 in private overlays
+  and checks prepared-source identities before image verification. Actual stale
+  cache rejection9b651b7a and real-source synthetic-layout positivec3730851
+  check5/22/329 files. No world build has started;use a fresh copy for this
+  changed runner,not the earlier v2 probe's source snapshot.
+- World source snapshotv2 preserves2305 files/593939316 bytes (bfe078a9),
+  source-lock40d29368, using current provider/consumer producer receipts plus
+  the two new included host files. Its Git anchor isb764894, not a claim that
+  those then-untracked host files were in that commit. Snapshotv1 correctly
+  refused mixed historical-failure input hashes; no old record was rewritten.
+- Before a world result can qualify, check the actual prepared kernel/mt76
+  sources against current producer identities as well as recipe70/5/22 and
+  FIT/DTB/package/module integrity. No flash, module load or native/physical
+  promotion. Read research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
+
 ## 2026-10-17 - RX-Event Export And Current Consumers Linked
 
 - Whole-source comparison caught dma.c's retained RX-event allocation hook
