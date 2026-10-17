@@ -2,14 +2,13 @@
 
 ## Latest State
 
-The third world attempt compiles/links the real kernel provider and all three
-mt76 consumers,then fails at package ownership. Its original build/cache and
-source remain unchanged. The scoped fakeroot correction passes a real
-synthetic APK install,not a complete world/image. Actual prepared-source
-verification now passes5/22/329 with only the exact two pinned upstream
-firmware aliases admitted. Current60 focused tests pass. Fresh V6/full world
-retry is live;source-lock40d29368 remains unchanged. Main's added numeric
-rootfs-owner guard postdates V6 and must separately check any new filesystem.
+The fourth isolated world/image now passes,with Linux6.18.52,Gemtek FIT/DTB,
+218 packages/78 module ABI checks and actual prepared5/22/329 source identities.
+All891138 original build/4617 cache entries,snapshot and parent namespaces
+remain unchanged. Source-lock40d29368/current60 focused tests pass. Main's
+numeric-owner guard postdates V6 and passes separately on the actual same-hash
+encoded filesystem. The image is unflashed/not native or physically qualified;
+the three earlier failed world attempts remain failed and preserved.
 
 Both old nominal native callers pass RX PCIe and the first PCIe tail command,
 then continue. A separate observed denied replay passes with15 native
@@ -393,3 +392,63 @@ metadata1.00/confidence1.00 and exact selected-set semantics0.98/0.97;
 whole-filesystem correctness is not established0.84/0.76. Raw results and source
 pins remain local. No native code,hardware or current-image qualification
 follows from these units or the older-image reader.
+
+## Fourth World And Same-Image Supplement Passed
+
+V6/Gitf9ba011 completes make -j2 world with exit0. The private clean/checked
+pair build stages the same20-component/168-hook CODEa6813d39/DATA180bc808.
+Actual prepared kernel5/component22/mt76329 sources match current successful
+producers. Full strict verifier passes FIT hashes/DTB Gemtek board/reserved
+regions/configured OPPs,218 packages,78 module ABI checks,paired NPU/Wi-Fi
+firmware,22 RV32 objects and exact archive members. These are offline checks,
+not measured clocks,physical memory ownership or NPU/boot/client acceptance.
+
+New image27009866 bytes hashes
+`a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46`.
+Physical path:
+`.local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb`.
+It is not copied over protected current/rollback images or published as a binary.
+
+Strict image receipt
+`.local/npu-isolated-world/world-build-q4/log-upper/isolated-world-build-q4-image/result.json`,
+SHA256 `f3cf660288a85765edd3290fac034909276580953fc208468cdd03d995308374`.
+Outer terminal result `.local/npu-isolated-world/world-build-q4/result.json`,
+SHA256 `246532d5ab3b9269635fbfb75d3759ee10a8a96768907a6ac89b72fd07019594`,
+records passed:true/return0/no host timeout and all891138 original build/4617
+cache content/mode/ownership/literal-link/directory entries unchanged. Frozen
+inputs and parent namespaces are unchanged. Original FIT978f9ddd stays intact.
+Earlier world q1/q2/q3 results still report false;none is overwritten/repaired.
+
+Separate current56b0a80-verifier supplement
+`.local/npu-world-overlay-20261017/rootfs-owners-world-q1.json`, SHA256
+`bc5d832a26d76c48983af5632845d5cadb3d1bbf143fdd2b0de0482b4982353f`,
+binds the actual FIT/filesystem bytes to their successful receipt before/after
+reading12 selected numeric uid/gid/mode entries. It rechecks all60-test/82-hash
+inputs and all four full provider/consumer link outputs byte-identical to q3.
+No stale receipt,older numeric-reader exercise or extracted host owner stands
+in for this actual image. The original V6 verifier/receipt remain unchanged.
+Only six critical files and six parent/root entries are ownership checked,
+not every filesystem path. No full dependency clean/hermetic build is claimed.
+
+[WORLD.json](WORLD.json),SHA256
+`8c53cf1c8625d51be7a250b0839efcbfcf420c10acc9da850ae1b8b067864f26`,
+publishes only offline metadata,hashes,package/module/source scope and limits.
+It contains no image,private key or device-specific backup. The actual image
+includes MT7996/wpad,MLO/Wi-Fi7 and custom NPU/FlowSense/fan/SQM/SoftEther UI
+packages;packaging is not radio/service/UI runtime validation.
+
+Jev q9 supports protected-input evidence0.96/confidence0.94. Its broad offline
+claim remains not established0.74/0.61 and selected-mode claim is uncertain
+0.52/0.28;no model approval is inferred. Direct strict verifier/source
+assertions,actual encoded metadata reader and exact configured modes establish
+the stated narrower checks. Current native/full qualification is not established
+0.52/0.28;physical boot is not established0.93/0.89. Raw results/pins remain.
+
+The compat2.0/partition-layout/force/reinstall/chainloader message remains FIT
+metadata,not an instruction or authorization. No module load,flash,radio/reset,
+reclaim,protected-image promotion,hardware command or subagents occurred.
+Both original600055c nominal callers and the separate observed default bitmap
+replay remain live. First tail stage passes,not final INODE or complete fault
+qualification. Full eight-DESC10/both profiles/all36-tail/new24-INODE and
+broader native,hot ownership/RRO/checked IRQ/physical/drain/lifecycle/client
+gates remain open. No input/budget/full-size guard waiver or live restart.

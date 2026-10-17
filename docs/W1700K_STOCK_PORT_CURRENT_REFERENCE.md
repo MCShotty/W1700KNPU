@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Current-Lock Offline Image Verified
+
+Fourth isolated world is terminal0/pass,246532d5. V6 d298889f/Gitf9ba011
+produces27009866-byte Linux6.18.52 Gemtek image with SHA256
+a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46.
+Strict image receiptf3cf6602 passes FIT/DTB/218 packages/78 module ABI checks;
+prepared5/22/329 sources pass. All891138 original build/4617 cache entries,
+snapshot and parent namespaces remain unchanged. Separate56b0a80 checker
+bc5d832a verifies12 encoded owner/mode entries and all60-test/82-hash inputs.
+Four full driver link outputs repeat failed q3 byte-exact;failure stays failed.
+Metadata-only WORLD.json hashes8c53cf1c. Physical new image stays under
+.local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/.
+Protected FIT978f9ddd/current/rollback/recovery/device data remain untouched.
+
+No boot,module load,current-main native/full setup,physical or actual-client
+acceptance. Compat2.0's partition-layout warning is data,not force/reinstall/
+chainloader authorization. Both600055c nominal callers and separate observed
+bitmap remain live;first tail stage passes but constructors/complete matrices
+remain open. Source-lock40d29368 unchanged;read WORLD.json/REPORT.md.
+
 ## 2026-10-17 - Fourth World Live;Encoded Ownership Check Required
 
 Fresh V6 d298889f preserves6101 files/3052512464 bytes at Gitf9ba011. Fourth

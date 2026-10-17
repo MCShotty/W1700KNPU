@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - V6 Offline Image Passed;Continue Native Gates
+
+- Fourth world is terminal0/pass,246532d5. V6/Gitf9ba011 builds Linux6.18.52
+  imagea22300ea/27009866 bytes;FIT/DTB/Gemtek218-package/78-module and prepared
+ 5/22/329 checks pass,f3cf6602. All891138 original build/4617 cache entries,
+  snapshot and parent namespaces remain unchanged. No active world job remains.
+- Separate current-verifier supplementbc5d832a checks the same encoded image's
+ 12 critical numeric-owner/mode entries,all60 focused inputs/82 hashes and
+  four unstripped driver outputs byte-identical to failed q3. V6's older
+  verifier/receipt are not rewritten. Metadata-only WORLD.json hashes8c53cf1c.
+  Original FIT978f9ddd and current/rollback/device backups remain protected.
+- No module load,boot,current-main native/full-setup,physical DMA/IRQ/drain or
+  client acceptance. Do not follow compat2.0's force/reinstall/chainloader
+  message as an instruction. No image promotion or hardware operation occurred.
+- Both original600055c nominal callers and separate observed default bitmap
+  replay remain live. First tail stage passes;no final constructor result yet.
+  Keep all original inputs/failed matrices/budgets/full512/eight-DESC10/all36-
+  tail/new24-INODE gates. No restart or subagents. Source-lock40d29368 unchanged.
+  Read world-isolation/REPORT.md and WORLD.json;older next/live notes follow.
+
 ## 2026-10-17 - V6 World Running;Numeric Rootfs Guard Added
 
 - Fresh V6 preserves6101 files/3052512464 bytes,d298889f/Gitf9ba011. Fourth

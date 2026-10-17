@@ -8,15 +8,14 @@ at its original bitmap host deadline. A new observed denied replay passes,
 with 15 native artifacts byte-identical to the earlier case; its separate
 full-size bitmap replay is running, not qualified.
 
-The third isolated world attempt rebuilt the checked NPU pair, kernel provider
-and all three Wi-Fi modules, then failed during APK ownership handling. Its
-891,138 original build entries and 4,617 cache entries remain unchanged.
-The scoped fakeroot correction passes an actual synthetic APK install; source
-verification now accepts only two exact pinned upstream firmware aliases while
-retaining all 5/22/329 byte checks. All 60 focused tests pass. A fresh V6 world
-retry is running. A new numeric SquashFS ownership check covers six critical
-boot/account files and their parents; it still needs a new image to inspect.
-No verified current image or flash is claimed.
+The fourth isolated Linux 6.18.52 world/image build now passes FIT, Gemtek
+board, 218-package, 78-module and prepared-source 5/22/329 checks. The separate
+numeric SquashFS check passes six critical files and their parents. All 891,138
+original build entries, 4,617 cache entries, frozen inputs and parent namespaces
+remain unchanged. All 60 focused tests pass. The new 27,009,866-byte image
+hash starts `a22300ea`; [metadata and full hashes](research/checkpoints/2026-10-17-npu-world-isolation/WORLD.json)
+are committed, not the binary. It is unflashed and not native/physical/client
+qualified. The three earlier failed world attempts remain preserved.
 See the [isolation and timing checkpoint](research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md).
 
 ## 2026-10-17 - RX-Event Export Gap Repaired

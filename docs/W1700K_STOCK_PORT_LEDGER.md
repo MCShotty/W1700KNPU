@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (V6 world running; numeric SquashFS ownership guard and60 focused tests pass)
+Last updated: 2026-10-17 (V6 world/image and same-image numeric ownership pass; native qualification remains live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Current-Lock Offline World And Image Passed
+
+- Fourth isolated world is terminal0/pass,receipt246532d5. V6 d298889f/Gitf9ba011
+  produces Linux6.18.52 Gemtek image27009866 bytes,SHA256
+  a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46.
+  Strict FIT/DTB/board/218-package/78-module/firmware/archive checks pass,
+  f3cf6602;actual prepared5/22/329 passes. Source-lock40d29368 unchanged.
+  All891138 original build/4617 cache entries,snapshot and parent namespaces
+  remain unchanged. New image stays in q4's private build-upper;old protected
+  FIT978f9ddd is unchanged. Earlier three failed world results remain failed.
+- Separate current-verifier supplementbc5d832a reads the actual same-hash
+  encoded filesystem and passes12 selected root0/0/mode entries. All60 focused
+  test inputs/82 hashes recheck;all four unstripped driver link outputs are
+  byte-identical to failed q3. Frozen V6 verifier and old receipts stay intact.
+  Metadata-only WORLD.json hashes8c53cf1c;no binary,key or device backup upload.
+  Both merged Wi-Fi and custom UI packages are present;no runtime claim.
+- Jev q9 supports protected inputs0.96/confidence0.94 but leaves its broad
+  offline claim not established0.74/0.61 and selected-mode claim uncertain
+ 0.52/0.28. These are not approvals;the unchanged strict verifier,actual
+  same-byte numeric reader and configured-mode/source assertions are the direct
+  scoped checks. Current native/full setup and physical boot remain unsupported.
+- No module load,boot,physical DMA/IRQ/drain/client acceptance or image promotion.
+  Compat2.0's partition-layout/force/reinstall message is not an instruction to
+  modify chainloader or protected data. Both original callers and separate
+  observed bitmap remain live on600055c;first tail stage passes,not constructors
+  or complete matrices. Continue exact full512/eight-DESC10/all36-tail/new24-
+  INODE/broader native and hot/lifecycle/physical/client gates. No restart,
+  hardware action or subagents. Evidence:world-isolation/REPORT.md and WORLD.json.
 
 ## 2026-10-17 - V6 World And Encoded Rootfs Ownership
 
