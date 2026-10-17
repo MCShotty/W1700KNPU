@@ -6,12 +6,19 @@ Both constructor commands,independent original-store/memory/private/ABI oracle
 and fresh CSR observer are implemented. Preflight9fcea999 binds372 current hashes,
 196 unique unit cases/214 runs,repeat20 image groups,loader60/eight,six negative
 boot controls and actual C sender checks. Raw bytes/native guards are unchanged.
-This is preparation,not authenticated native INODE or current full-size fault
-qualification. Older502-hash/current-closed-dispatch notes below are historical.
+Fault preflight4c7f7174 adds12 synthetic contracts:208 unique cases/226 total
+executions pass. This is not authenticated native INODE or current full-size
+fault qualification. Older502-hash/current-closed-dispatch notes are historical.
 
-Next validate the source execution copy,run both actual HIF caller profiles with
-full512 DESC10/RX PCIe/nine tail stores/both constructors,and retain all eight
-DESC10/all36 tail/new constructor faults with strict real-prefix provenance.
+Original-path2330-file copye62be4a8 passes actual native wrong-boot smoke;parent
+mount stays unchanged. Both fresh HIF callers are live through API22;both eight-
+case full512 DESC10 matrices are live from actual captures. Do not restart them
+from older status notes. Complete both callers/RX PCIe/nine tail stores/both
+constructors,all eight DESC10/all36 tail/new24 INODE faults and broader raw
+qualification. Five supplemental diagnostic files leave every original producing
+file/receipt unchanged. Native INODE faults still await actual prefix captures.
+Exact20-component audit measures297 C frames(max4704) and9696-byte direct graph
+candidate;91 unresolved transfers prevent any complete stack-bound claim.
 Then RRO0/1/3,checked initial/hot IRQ,workers/hot ownership,complete stack/
 physical DMA/cache/exclusion/drains,lifecycle/reset/removal/rearm/recovery and
 exact-image/actual-client gates remain. No source-hash waiver or fabricated SETUP.

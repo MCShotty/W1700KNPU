@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (actual INODE caller/oracle prepared; authenticated native qualification pending)
+Last updated: 2026-10-17 (both-HIF caller/full512 fault runs live; INODE fault controls and exact stack audit prepared)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -45,8 +45,37 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   ABI/control-flow confidence is recorded alongside stronger exact tests;no semantic result is
   native execution or permission. All authenticated native-positive/full512/
   current eight-DESC10-fault/full36-tail/new-constructor-fault flags stay open.
-- Next validate an original-path frozen execution view and run both actual HIF
-  profiles with the full request/guards. RRO/IRQ/hot/workers/full stack/physical/
+- Current original-path copy preserves2330 files/526338701 bytes,receipt SHA256
+  e62be4a8e12078f85fee3d39f3043636c8d819efb7182b371b8ebced2368e379.
+  Actual wrong-boot native smoke passes,including the609-case/nine-mutant host
+  prefix. Parent mount stays unchanged. Both fresh actual HIF profiles are live
+  on600055c through the RX/page/full53260-store TX-buffer/API22 prefix. Both
+  eight-case full512 DESC10 fault matrices are live from real captures. No
+  terminal caller/full-size fault verdict is claimed and no job was restarted.
+  One accidental duplicate smoke invocation was refused by its existing-tag
+  guard before replay;the original smoke then completed normally.
+- Added24-case restored INODE matrix(12 faults/two real prefix stages),with
+  exact original store prefix,owner4372/SETUP412,868352 protected bytes,2MiB
+  CODE/private except the existing stack band,and pre-context-restore ABI.
+  Unlock checks exact MSTATUS/MIE/MTVEC,allowing MSTATUS8 only in the explicit
+  late-IRQ fixture. An initial positive-observer override had omitted that
+  release-time IRQ check;source review/Jev exposed the omission and a dedicated
+  negative unit now checks all three CSRs at both stages. No native result is
+  relabeled by that correction;none of these new INODE faults has run yet.
+- Fault preflight4c7f7174e0c5e1d955ba2b75959e7198197f9c7f17a351f39a6e3194250215f2
+  verifies378 hashes and208 unique unit cases/226 executions,no skips. The12
+  added contracts are synthetic;18 preexisting imported cases still repeat.
+  Diagnostic-only supplements2c323aa1/f6fee208 add five new files without
+  overwriting any frozen producing file or rewriting its receipt. Seven/five
+  contracts pass inside the original-path copy with unchanged parent mount.
+- Exact raw20-component repeat audit measures297 C frames(max4704),all allocated
+  sections/full CODE/DATA byte-identical. Four pure-assembly ranges/five typed
+  wrappers retain their earlier narrow check. CFI binds all297 frames and687
+  direct transfers;largest direct graph candidate9696 has91 unresolved transfers
+  elsewhere. Not a complete permitted-chain/IRQ/per-hart/physical stack bound.
+  Stack receipts83f82625/16295fbc/c209050c are in the current checkpoint STACK.md.
+- Complete both fresh callers,all eight DESC10/all36 tail/new24 INODE faults
+  and broader raw qualification next. RRO/IRQ/hot/workers/full stack/physical/
   drain/lifecycle/recovery/client scope remains. Old404 aggregate stays failed.
   FIT978f9ddd/prepared kernel/module unchanged;no world/image/flash/hardware/
   subagents. Evidence:research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.

@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-10-17 - Current INODE Caller/Oracle Preparation
+## 2026-10-17 - Current INODE Caller Qualification
 
 Actual caller now requests constructor2 then7 through checked80 after all tail
 commands. Read-only literal original-store/owner/SETUP/protected/private/CODE/ABI
@@ -14,9 +14,19 @@ Preflight9fcea999 verifies372 hashes,196 unique cases/214 executions,repeat20
 image checks,loader60/eight,six negative boot controls and actual C sender cases.
 18 imported fixture cases repeat;first count-only assertion failure is retained.
 Previousd975 source/artifacts are preserved(2388 files,a0e02b38),not promoted to
-the new observer. Next original-path copy validation and fresh both-HIF/full512/
-eight-DESC10-fault/all36-tail/new-INODE-fault qualification. No native positive
-yet. RRO/IRQ/hot/workers/stack/physical/drain/lifecycle/recovery/clients remain.
+the new observer. Current2330-file copye62be4a8 passes actual native wrong-boot
+smoke,with unchanged parent mount. Both fresh HIF callers are live through API22;
+both eight-case full512 DESC10 matrices are live from their real captures.
+No terminal caller or current fault qualification yet;do not restart these jobs.
+New24-case INODE fault runner requires exact retained/private/protected/ABI and
+case-specific unlock CSR checks. Preflight4c7f7174 passes208 unique cases/226
+executions,including12 new synthetic contracts;seven/five also pass inside the
+copy. Five diagnostic-only supplemental files leave all original2330 files and
+receipt unchanged. Actual INODE faults await real constructor prefixes.
+Exact20-component stack audit measures297 C frames(max4704),687 direct edges,
+9696-byte candidate and91 unresolved transfers,not a full/physical bound.
+Both-HIF full caller/eight DESC10/all36 tail/new24 INODE/broader raw verdicts
+remain required. RRO/IRQ/hot/workers/stack/physical/drain/lifecycle/clients remain.
 No new world/image/flash/hardware/subagents. FIT978f9ddd unchanged. Read
 research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.
 This supersedes earlier current/live-status notes below.

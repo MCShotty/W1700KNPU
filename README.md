@@ -1,15 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
-## 2026-10-17 - INODE Caller And Oracle Prepared
+## 2026-10-17 - INODE Caller Qualification Running
 
 The actual caller now sends both checked INODE constructors after the PCIe
 tail. Its independent read-only oracle checks original stores,protected memory,
 private state and ABI before the mailbox helper restores CPU context. Fresh
 CSR reads are integrated into the cold observer;native guards/raw firmware bytes
-are unchanged.196 unique unit cases,repeat image/loader/sender checks pass.
+are unchanged.208 unique focused tests,repeat image/loader/sender checks pass.
 
-Authenticated both-HIF native execution and full-size fault qualification are
-still pending,not inferred from those checks. No new world/image/flash or hardware
+Both fresh HIF callers and their full512 DESC10 fault matrices are running in
+the tested original-path frozen copy. Constructor/fault verdicts remain pending.
+The new24-case INODE fault runner is prepared,not yet natively qualified. Exact
+stack auditing finds297 C frames and a9696-byte partial direct-call candidate;
+indirect/IRQ/physical stack bounds stay open. No new world/image/flash or hardware
 acceptance. See the [caller/oracle checkpoint](research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md).
 Older checkpoints retain their original scope;full NPU implementation remains open.
 

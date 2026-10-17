@@ -1,6 +1,6 @@
 # INODE Caller And Independent Oracle
 
-## Preparation, Not Native Qualification
+## Native Qualification In Progress
 
 The actual allocator/MT7996 sender driver now requests both API24 constructors
 after all three tail commands, through the checked80-byte provider protocol.
@@ -8,7 +8,7 @@ after all three tail commands, through the checked80-byte provider protocol.
 is no longer a success condition for the current20-component build.
 
 An independent read-only oracle is ready. No authenticated native INODE run has
-completed for these changed observer/caller inputs at this preparation checkpoint.
+completed for these changed observer/caller inputs at this checkpoint.
 Both-HIF/full512/eight-DESC10-fault/all36-tail/new-constructor-fault qualification
 remains required. Full setup,physical ownership,IRQ/hot/workers,lifecycle/recovery
 and actual-client acceptance remain open. No firmware image or hardware action.
@@ -87,15 +87,41 @@ ABI/control-flow confidence was limited,so exact tests and the actual tiny-guest
 counterexample are the evidence. Semantic support does not establish execution
 of native constructors,complete fault coverage or physical acceptance.
 
-## Next Execution
+## Current Execution
 
-Create a current-source validation copy with the preflight,published CODE/DATA,
-vendor analysis inputs and the required DTB. Verify original-path execution and
-unchanged parent mount. Then run actual `test_host_tx_lifetime_native.py` with
+Current copy `inode-caller-v1` preserves2330 files/526338701 bytes from600055c,
+receipt SHA256
+`e62be4a8e12078f85fee3d39f3043636c8d819efb7182b371b8ebced2368e379`.
+It includes the preflight,published CODE/DATA,vendor analysis inputs and required
+DTB. Actual native wrong-boot smoke passed in the original-path private namespace
+with unchanged parent mount;execution receipt SHA256
+`078d7cff34bfc811ba167afb4ff5c11df05386a42516f486a92b6d603753c2b0`
+and its mount-proof SHA256
+`970bdd4bf3748ca6666607fb92eaa89d9870370df78cf493e939d40fcef8078c`.
+The smoke does not qualify a positive constructor. Live process-view receipt
+`0ff499bf5d296a4ee513b99dd651be7f41e91040d259875e1f05f79c89b70008`
+checks both distinct namespaces and six exact producing source files.
+
+Both actual `test_host_tx_lifetime_native.py` profiles are running with
 `--rx-event --desc10 --pcie-tail --inode --nominal-only`,separately for HIF0 and
-`--hif2`. Keep the complete512 request and all native guards. Bind real pre-INODE
-captures for early/late faults;those restored cases remain diagnostic,not fresh
-caller proof. Do not edit consumed inputs during a run or waive hashes.
+`--hif2`. Both have passed the RX/page prefix,all six API21 phases/53260 original
+TX-buffer stores and API22,and captured real pre-DESC10 state. Their full512
+nominal calls and separate eight-fault matrices(two workers/profile) are live;
+no terminal full caller/full-size fault verdict is claimed. Keep the complete512
+request and all native guards. INODE prefix captures are still pending.
+
+Five new diagnostic-only consumers are explicitly supplemented without editing
+any of the original2330 files or rewriting the capsule receipt. New INODE fault
+contracts and exact current stack auditing are documented in [FAULTS.md](FAULTS.md)
+and [STACK.md](STACK.md). Fault preflight SHA256
+`4c7f7174e0c5e1d955ba2b75959e7198197f9c7f17a351f39a6e3194250215f2`
+checks378 hashes and208 unique tests/226 executions,including12 new synthetic
+contracts. Source preparation/synthetic tests are not native fault qualification.
+
+Do not restart a live job solely because observation timed out. An accidental
+duplicate smoke invocation was refused at its existing-tag guard before replay;
+the original smoke then completed normally. Original inputs remain frozen and
+no hash waiver,forged earlier SETUP or direct owner initialization is allowed.
 
 The old frozen404-byte tail aggregate is still failed for missing provenance.
 Its individual cases and both old callers never qualify these new inputs.

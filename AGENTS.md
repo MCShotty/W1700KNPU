@@ -1,6 +1,6 @@
 # W1700KNPU Workspace
 
-## 2026-10-17 - INODE Actual Caller And Oracle Ready
+## 2026-10-17 - INODE Caller Qualification In Progress
 
 - Current driver sends both constructors via checked80 after all three tail
   commands;`--pcie-tail` now requires explicit `--inode`. Read-only oracle checks
@@ -16,10 +16,21 @@
   all20 image/repeat groups,loader60/eight,six negative boot controls and actual
   C sender checks.18 imported fixture cases repeat and are explicitly counted.
   First count-only assertion failure is preserved;no native fault gate shrank.
-- D975 cohort2388 files is preserved(a0e02b38). Do not reuse its502-hash or old
- 404 native results as proof for changed caller/observer source. Next validate
-  the execution copy and run fresh both-HIF/full512/eight-DESC10-fault/all36-tail/
-  new-INODE-fault checks. No native-positive verdict yet. FIT978f9ddd and prepared
+- D975 cohort2388 files is preserved(a0e02b38). Original-path current copy
+  e62be4a8 preserves2330 files;wrong-boot native smoke passes and parent mount
+  stays unchanged. Both fresh HIF callers are live on600055c,through full RX/
+  page/TX-buffer/API22 prefix. Both eight-case full512 DESC10 diagnostic matrices
+  are also live from actual captures;no terminal caller/fault verdict yet.
+- Added24-case INODE fault runner with exact owner/SETUP/protected/private/CODE/
+  ABI and case-specific unlock CSR checks. Fault preflight4c7f7174 passes208
+  unique cases/226 executions,including12 new synthetic contracts. Original2330
+  frozen files/receipt are unchanged;new diagnostic-only supplements2c323aa1/
+  f6fee208 add five files. Both seven/five-case unit suites also pass in the
+  original-path copy. Actual INODE faults await real constructor prefixes.
+- Exact20-component stack audit measures297 C frames,largest4704;687 direct
+  transfers yield a9696-byte candidate,with91 unresolved transfers. This is not
+  a complete/physical stack bound. All36 tail faults/both constructors/new24
+  faults and broader raw qualification remain pending. FIT978f9ddd and prepared
   kernel/module remain unchanged/unflashed. No hardware/subagents. Read
   research/checkpoints/2026-10-17-npu-inode-caller/REPORT.md.
   This supersedes earlier current/live notes below.
