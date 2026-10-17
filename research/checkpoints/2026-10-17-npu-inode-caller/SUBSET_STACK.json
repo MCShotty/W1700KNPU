@@ -1,0 +1,708 @@
+{
+  "format": "npu-resolved-stack-subset-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "passed": true,
+  "source_lock_sha256": "40d293685243a51c56c8a153505f24bab0b2b9cb81231ff3a2b029afc3db331c",
+  "CODE_identity_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "frames": {
+    "prior_CFI_C": 297,
+    "added_exact_original_SP": 3,
+    "total_nodes": 300,
+    "all_frames_CFI_proved": false
+  },
+  "edges": {
+    "prior_resolved_direct": 687,
+    "new_literal_register": 27,
+    "added_original_direct": 2,
+    "resolved_total": 716,
+    "unresolved_total": 64,
+    "register_unknown": 48,
+    "known_targets_outside_subset": 16
+  },
+  "subset_cycles": 0,
+  "largest_restricted_candidate_bytes": 9696,
+  "largest_candidate_root": "npu_emulation_inode_callback",
+  "prior_graph": {
+    "path": ".local/npu-direct-stack/inode-caller-q1/result.json",
+    "sha256": "c209050c08a95ec0d8b5f58adf12f1ed1728146b7302deefe5942bf6ea2d4174",
+    "unchanged": true,
+    "frames": 297,
+    "resolved_direct": 687,
+    "unresolved": 91,
+    "restricted_candidate_bytes": 9696
+  },
+  "current_graph": {
+    "path": ".local/npu-resolved-stack-subset/inode-caller-q2/result.json",
+    "sha256": "66b6ac6a5218b5f12d5ac8e9ed724b3e685fb623003782c8e28af6e39016a748",
+    "input_hashes": 387
+  },
+  "focused_scope": {
+    "path": ".local/npu-world-overlay-20261017/host-scope-q8/result.json",
+    "sha256": "aca6da424e7706208f9c70e9631cc145d54de2668f16a52a73b32c89891de7d6",
+    "unique_tests": 110,
+    "source_and_artifact_hashes": 102,
+    "synthetic_guests": 13,
+    "no_original_router_instructions_in_these_units": true
+  },
+  "separate_original_runtime_scope": {
+    "cases": 129,
+    "harts": [
+      0
+    ],
+    "platform": "Synthetic RAM/MMIO,not cold/full setup or physical ownership."
+  },
+  "earlier_source_preservation": {
+    "path": ".local/npu-validation-capsules/stack-subset-v1/receipt.json",
+    "sha256": "781aca3c2781db17215b809cbe01593bc50afab2398907223af606fbd17f12f5",
+    "files": 2434,
+    "bytes": 525298077,
+    "all_files_and_old_declared_inputs_reverified": true,
+    "prior_graph_sha256": "cc19c0690301642389100f65a51af60f7e7091ebe68e7b58eab38d8b0fd71804",
+    "prior_108_scope_sha256": "4c887712529b18ba14253bf7bd037868b758a5dd1f7909a61d1694a2bb98a34b",
+    "source_commit_anchor": "8fbac5777cf8515f4f109f43b445b56f396a5ed6",
+    "anchor_predates_two_explicit_untracked_subset_modules": true,
+    "replay_verified": false,
+    "complete_executable_environment": false
+  },
+  "contract_scope": "16 new subset contracts plus10 direct-transfer regressions;84 prior focused units retained.",
+  "CODE_guard": "Every complete CODE.bin identity in the prior graph must agree with native and Ghidra CODE identities.",
+  "unresolved_transfers": [
+    {
+      "caller": 2214859842,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214860316,
+      "caller_CFA": 16,
+      "instruction": "c.jr a1",
+      "caller_name": "history"
+    },
+    {
+      "caller": 2214863136,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214863164,
+      "caller_CFA": 0,
+      "instruction": "c.jr a2",
+      "caller_name": "prior"
+    },
+    {
+      "caller": 2214863186,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214863316,
+      "caller_CFA": 208,
+      "instruction": "c.jr a4",
+      "caller_name": "npu_cold_setup_finish"
+    },
+    {
+      "caller": 2214863186,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214863392,
+      "caller_CFA": 208,
+      "instruction": "c.jr a4",
+      "caller_name": "npu_cold_setup_finish"
+    },
+    {
+      "caller": 2214872484,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214872508,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a0",
+      "caller_name": "npu_emulation_irq_dispatch"
+    },
+    {
+      "caller": 2214872484,
+      "target": 2214874888,
+      "kind": "AUIPC-direct-tail",
+      "address": 2214872532,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, -0x6c8",
+      "caller_name": "npu_emulation_irq_dispatch"
+    },
+    {
+      "caller": 2214872484,
+      "target": 2214874888,
+      "kind": "AUIPC-direct-call",
+      "address": 2214872578,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x6f6",
+      "caller_name": "npu_emulation_irq_dispatch"
+    },
+    {
+      "caller": 2214872484,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214872698,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a1",
+      "caller_name": "npu_emulation_irq_dispatch"
+    },
+    {
+      "caller": 2214873132,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873264,
+      "caller_CFA": 48,
+      "instruction": "c.jalr s6",
+      "caller_name": "npu_emulation_open"
+    },
+    {
+      "caller": 2214873600,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873716,
+      "caller_CFA": 32,
+      "instruction": "c.jalr a1",
+      "caller_name": "npu_emulation_bootstrap_mailbox"
+    },
+    {
+      "caller": 2214873600,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214873808,
+      "caller_CFA": 32,
+      "instruction": "c.jr a3",
+      "caller_name": "npu_emulation_bootstrap_mailbox"
+    },
+    {
+      "caller": 2214874032,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214874330,
+      "caller_CFA": 112,
+      "instruction": "c.jr a4",
+      "caller_name": "npu_emulation_cold_mailbox"
+    },
+    {
+      "caller": 2214874032,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214874408,
+      "caller_CFA": 112,
+      "instruction": "c.jalr a2",
+      "caller_name": "npu_emulation_cold_mailbox"
+    },
+    {
+      "caller": 2214912000,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214912644,
+      "caller_CFA": 96,
+      "instruction": "c.jalr a7",
+      "caller_name": "npu_allocator_allocate"
+    },
+    {
+      "caller": 2214912000,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2214912788,
+      "caller_CFA": 96,
+      "instruction": "c.jalr a1",
+      "caller_name": "npu_allocator_allocate"
+    },
+    {
+      "caller": 2214928974,
+      "target": 2214929710,
+      "kind": "AUIPC-direct-tail",
+      "address": 2214929160,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x22a",
+      "caller_name": "npu_emulation_txdone_callback"
+    },
+    {
+      "caller": 2214928974,
+      "target": 2214929710,
+      "kind": "AUIPC-direct-call",
+      "address": 2214929612,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x66",
+      "caller_name": "npu_emulation_txdone_callback"
+    },
+    {
+      "caller": 2215086126,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215086410,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x43c",
+      "caller_name": "npu_emulation_page_callback"
+    },
+    {
+      "caller": 2215088540,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215088916,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x58e",
+      "caller_name": "npu_emulation_indication_callback"
+    },
+    {
+      "caller": 2215100736,
+      "target": 2214649218,
+      "kind": "AUIPC-direct-call",
+      "address": 2215100944,
+      "caller_CFA": 32,
+      "instruction": "jalr ra, ra, -0x48a",
+      "caller_name": "npu_emulation_rx_stats_callback"
+    },
+    {
+      "caller": 2215135878,
+      "target": 2215137840,
+      "kind": "AUIPC-direct-tail",
+      "address": 2215135896,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x79c",
+      "caller_name": "npu_emulation_tx_callback"
+    },
+    {
+      "caller": 2215135980,
+      "target": 2215137852,
+      "kind": "AUIPC-direct-call",
+      "address": 2215136480,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x560",
+      "caller_name": "callback"
+    },
+    {
+      "caller": 2215135980,
+      "target": 2215137840,
+      "kind": "AUIPC-direct-call",
+      "address": 2215136492,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x548",
+      "caller_name": "callback"
+    },
+    {
+      "caller": 2215149580,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215149632,
+      "caller_CFA": 32,
+      "instruction": "c.jr s1",
+      "caller_name": "npu_cold_descriptor_begin"
+    },
+    {
+      "caller": 2215152794,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215152878,
+      "caller_CFA": 48,
+      "instruction": "c.jr a3",
+      "caller_name": "npu_emulation_descriptor_callback"
+    },
+    {
+      "caller": 2215152794,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215153062,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a1",
+      "caller_name": "npu_emulation_descriptor_callback"
+    },
+    {
+      "caller": 2215152794,
+      "target": 2215154942,
+      "kind": "AUIPC-direct-call",
+      "address": 2215153404,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0x606",
+      "caller_name": "npu_emulation_descriptor_callback"
+    },
+    {
+      "caller": 2215152794,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215153526,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a1",
+      "caller_name": "npu_emulation_descriptor_callback"
+    },
+    {
+      "caller": 2215183740,
+      "target": 2215185448,
+      "kind": "AUIPC-direct-call",
+      "address": 2215184176,
+      "caller_CFA": 64,
+      "instruction": "jalr ra, ra, 0x4fc",
+      "caller_name": "npu_emulation_txbuf_callback"
+    },
+    {
+      "caller": 2215446394,
+      "target": 2215447066,
+      "kind": "AUIPC-direct-call",
+      "address": 2215446820,
+      "caller_CFA": 48,
+      "instruction": "jalr ra, ra, 0xfa",
+      "caller_name": "npu_emulation_rx_event_callback"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464686,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464720,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464744,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464766,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464794,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464844,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215464904,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465004,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465040,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465078,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465108,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465142,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465172,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215464490,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215465204,
+      "caller_CFA": 80,
+      "instruction": "c.jalr s5",
+      "caller_name": "npu_cold_txdone_memory_live"
+    },
+    {
+      "caller": 2215529024,
+      "target": 2215530706,
+      "kind": "AUIPC-direct-tail",
+      "address": 2215529414,
+      "caller_CFA": 0,
+      "instruction": "jalr zero, t1, 0x510",
+      "caller_name": "npu_emulation_rx_pcie_callback"
+    },
+    {
+      "caller": 2215529024,
+      "target": 2215530706,
+      "kind": "AUIPC-direct-call",
+      "address": 2215529794,
+      "caller_CFA": 96,
+      "instruction": "jalr ra, ra, 0x394",
+      "caller_name": "npu_emulation_rx_pcie_callback"
+    },
+    {
+      "caller": 2215543462,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544008,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_pcie_tail_begin"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544528,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544574,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544620,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544666,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544710,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544074,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215544750,
+      "caller_CFA": 464,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215544906,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545106,
+      "caller_CFA": 560,
+      "instruction": "c.jalr a4",
+      "caller_name": "context"
+    },
+    {
+      "caller": 2215545292,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545472,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_pcie_tail_reserve"
+    },
+    {
+      "caller": 2215545524,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215545632,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_pcie_tail_publish"
+    },
+    {
+      "caller": 2215575868,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576328,
+      "caller_CFA": 64,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_inode_begin"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576566,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576602,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215576384,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215576646,
+      "caller_CFA": 480,
+      "instruction": "c.jalr a4",
+      "caller_name": "prior_live"
+    },
+    {
+      "caller": 2215576784,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577118,
+      "caller_CFA": 4704,
+      "instruction": "c.jalr a4",
+      "caller_name": "context"
+    },
+    {
+      "caller": 2215577314,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577638,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_inode_reserve"
+    },
+    {
+      "caller": 2215577690,
+      "target": null,
+      "kind": "unresolved-register-transfer",
+      "address": 2215577920,
+      "caller_CFA": 48,
+      "instruction": "c.jalr a4",
+      "caller_name": "npu_cold_inode_publish"
+    },
+    {
+      "caller": 2215579948,
+      "target": 2215586002,
+      "kind": "AUIPC-direct-call",
+      "address": 2215580918,
+      "caller_CFA": 144,
+      "instruction": "jalr ra, ra, 0x3e0",
+      "caller_name": "npu_emulation_inode_callback"
+    }
+  ],
+  "jev_model": "jev-1.13.0",
+  "jev_answers": {
+    "classification": {
+      "type": "choice",
+      "choice": "restricted_mixed_static_graph",
+      "confidence": 1.0,
+      "probabilities": {
+        "restricted_mixed_static_graph": 1.0,
+        "all_direct_all_CFI_graph": 0.0,
+        "complete_runtime_physical_bound": 0.0,
+        "not_established": 0.0
+      }
+    },
+    "scope_text": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 0.95,
+      "probabilities": {
+        "supported": 0.97,
+        "contradicted": 0.0,
+        "not_established": 0.03
+      }
+    },
+    "unknown_meaning": {
+      "type": "choice",
+      "choice": "outside_ranked_subset",
+      "confidence": 1.0,
+      "probabilities": {
+        "outside_ranked_subset": 1.0,
+        "zero_frames_proved": 0.0,
+        "full_runtime_observed": 0.0,
+        "not_established": 0.0
+      }
+    },
+    "physical_claim": {
+      "type": "choice",
+      "choice": "contradicted",
+      "confidence": 0.53,
+      "probabilities": {
+        "supported": 0.0,
+        "contradicted": 0.69,
+        "not_established": 0.31
+      }
+    }
+  },
+  "complete_call_chain_bound_proven": false,
+  "current_main_native_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "A new restricted static view composes existing CFI C frames with three exact original-body SP proofs.",
+    "Literal register edges remain syntactically indirect;resolved total must not be called all-direct or all-CFI.",
+    "Unresolved edges are retained;cycles do not receive finite candidates. No complete permitted-path bound follows.",
+    "Exact function entry/ordinary call-return/no IRQ or external stack mutation remain assumptions.",
+    "Original runtime comparisons cover hart0 on synthetic RAM/MMIO,not other harts,full cold or physical ownership.",
+    "The prior graph is unchanged;this does not qualify newer host integration,full NPU setup,physical stacks or clients.",
+    "The preserved first subset/108-test cohort is byte-verified,not privately replay-qualified.",
+    "Unknown callees are outside the ranked subset,not established zero-frame functions.",
+    "The 129 original-routine diagnostics remain separate from the110-unit/13-synthetic-guest scope."
+  ]
+}

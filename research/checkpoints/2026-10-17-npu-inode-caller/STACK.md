@@ -249,3 +249,69 @@ No NPU implementation,live producing input,guard,coverage,budget or hardware
 changed. Both actual callers/full36 matrices/HIF2 bitmap remain live;new24
 INODE/broader/current-source native/full setup/hot/lifecycle/physical/boot and
 actual-client gates remain open. No restart or subagents.
+
+## New Restricted Mixed-Proof Graph
+
+A fresh view composes the297 prior CFI C frames with the three exact original
+body/SP proofs and27 locally guarded literal targets. It does not modify or
+reinterpret the old c209050c receipt. The new graph verifies the prior graph,
+literal-site and original-body input identities,exact callsite CFA/name/address,
+covered target entries,nonoverlapping extents and original call instructions.
+No unselected unresolved record is discarded. Unknown added callees,duplicate
+sites,CFA drift,overlaps,unqualified targets and malformed frame shapes fail.
+
+An explicit guard requires every complete CODE.bin alias in the prior graph to
+match both native and Ghidra CODE identities. This rejects cross-version proof
+mixes even if the selected routines happen to have the same entry addresses.
+The actual shared identity remainsa6813d39. This does not qualify later Linux
+host integration,physical context or full NPU setup.
+
+| New Subset Measure | Result |
+| --- | --- |
+| Nodes | 300:297 CFI C frames plus3 original-body SP frames |
+| Resolved transfers | 716:687 prior direct,27 literal-register,2 original direct |
+| Remaining transfers | 64:48 register-unknown,16 known targets outside subset |
+| Cycles in reviewed subset | 0 |
+| Largest restricted candidate | 9696 bytes |
+
+The count716 must not be called syntactically all-direct;the300 frames are not
+all CFI-proved. The remaining64 targets are outside the ranked subset,not proved
+zero-frame functions. Ranking can include infeasible paths and excludes missing
+callees;no complete permitted-path/IRQ/per-hart/physical bound follows from the
+unchanged9696 value. Exact entry,ordinary call/return and no asynchronous or
+external stack mutation remain assumptions. Other assembly/original/indirect
+paths remain required. The original graph stays297/687/91/9696.
+
+Actual `.local/npu-resolved-stack-subset/inode-caller-q2/result.json`,SHA256
+`66b6ac6a5218b5f12d5ac8e9ed724b3e685fb623003782c8e28af6e39016a748`,
+passes with387 input hashes. Sixteen new subset contracts and10 existing
+direct-transfer regressions cover composition,missing/duplicate/unqualified
+targets,CFA drift,frame shapes,cycles,overlap,input immutability and mismatched
+CODE cohorts. The unchanged13 tiny synthetic guests remain separate from129
+original-routine hart0 diagnostics. No new original firmware executes here.
+
+Latest `.local/npu-world-overlay-20261017/host-scope-q8/result.json`,SHA256
+`aca6da424e7706208f9c70e9631cc145d54de2668f16a52a73b32c89891de7d6`,
+passes110 unique units/no skips/102 source and artifact hashes. No earlier
+scope is relabeled as testing this final CODE guard.
+
+The first subset and108-test source/artifact cohort were preserved before the
+guard edit in `.local/npu-validation-capsules/stack-subset-v1/receipt.json`,SHA256
+`781aca3c2781db17215b809cbe01593bc50afab2398907223af606fbd17f12f5`.
+All2434 readonly files/525298077 bytes and the contained older receipts' declared
+inputs/artifacts recheck. It is not privately replayed or a complete portable
+environment. Git8fbac57 is only an anchor:the two subset source files were then
+untracked and explicitly included,not secretly part of that commit.
+
+Metadata-only [SUBSET_STACK.json](SUBSET_STACK.json),SHA256
+`f0085c20e1585d20609cb174e97cd0fb8023652f457257f2a251d3b7c046e55e`,
+retains the full64 unresolved records and provenance. Jev q16 selects the
+mixed-static and missing-targets-outside-ranking categories1.00/confidence1.00,
+supports scoped wording0.97/0.95 and contradicts a physical-bound claim with
+uncertainty0.69/0.53. Raw probabilities remain retained;code performs all counts
+and candidate calculations. Model judgments are not proof or permission.
+
+No NPU implementation,source-lock,image,live producing input,coverage or native
+budget changed. Both actual callers/full36 matrices/HIF2 bitmap remain live;
+new24 INODE/broader/current-source native/full setup/hot/lifecycle/physical/boot/
+client gates stay open. No hardware,restart,waiver or subagents.

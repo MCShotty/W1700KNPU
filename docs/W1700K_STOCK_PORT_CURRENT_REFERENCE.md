@@ -1,22 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-10-17 - Three Original Callees On Synthetic Hart0
+## 2026-10-17 - Restricted Mixed-Proof Stack Graph
 
-Ghidra q4 verifies full CODE mapping and three original bodies6/104/64 bytes,
-59f8ee3a;metadata-only ORIGINAL_CALLEES.json hashes2fb12ac4. Diagnostic32fe94a4
-passes129 original-routine executions on synthetic hart0 RAM/MMIO,with observed
-local SP depths0/16/16,balanced saved state/returns and exact protected bytes.
-One-off CFG/SP audita8b07ff1 checks all reviewed branches/returns under exact-
-entry/ordinary-ABI/no-IRQ assumptions. This does not extend the old297/687/91/
-9696 graph or establish permitted paths,other harts,physical locks or full cold.
+New graph66b6ac6a combines297 prior CFI C frames/three exact original-body SP
+proofs and27 literal sites:300 nodes/716 resolved/64 unresolved/zero subset
+cycles. Largest restricted candidate remains9696. The resolved total contains
+27 register transfers andtwo added original direct calls;it is not all-direct
+or300-CFI proof.48 register targets/16 outside-subset targets remain unknown to
+the ranking,not zero-frame functions. Old graphc209050c is unchanged.
 
-Imported-component DWARF errors and earlier failed launches/hash-pin attempts
-remain retained,not suppressed or relabeled. Exact tested Java helpers are now
-in tools/ghidra;no NPU implementation or image changed. Both images/source-lock
-40d29368 recheck unchanged. Latest84 host units/95 hashes/13 tiny synthetic
-guests remain a separate scope. Both callers/full36 matrices/HIF2 bitmap stay
-live;new24 INODE/broader/current-main/full-setup/physical/client gates remain.
-No hardware,restart,waiver or subagents. See inode-caller/STACK.md.
+Explicit complete-CODE equality binds the C graph to native/Ghidra CODEa6813d39.
+Latest110 unique tests/no skips/102 hashes/13 synthetic guests passaca6da42.
+Earlier subset/108 inputs are preserved2434 readonly files/525298077 bytes,
+781aca3c,not privately replayed. Metadata-only SUBSET_STACK.json hashesf0085c20.
+The129 original-routine hart0 RAM/MMIO diagnostics remain a separate scope.
+No whole permitted-path/IRQ/per-hart/physical bound or current-main native/full
+setup acceptance follows. Both callers/full36 matrices/HIF2 bitmap stay live;
+new24 INODE/broader/hot/lifecycle/boot/client gates remain. Source-lock40d29368,
+images and producing inputs unchanged. No hardware,restart,waiver or subagents.
+Exact proofs/limitations: inode-caller/STACK.md and both metadata JSON files.
 
 ## 2026-10-17 - Literal Target Scope And 84 Focused Tests
 

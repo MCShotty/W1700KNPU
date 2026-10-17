@@ -1,22 +1,22 @@
 # Remaining W1700K Work
 
-## 2026-10-17 - Three Callee Bodies Checked;Global Stack Still Open
+## 2026-10-17 - Restricted Graph Built;64 Transfers Still Open
 
-Three original targets now have exact Ghidra bodies6/104/64 bytes and129
-isolated hart0 RAM/MMIO comparisons,32fe94a4. One-off exact-body SP/CFG audit
-a8b07ff1 verifies local0/16/16 and balanced reviewed returns. Metadata2fb12ac4
-retains all scope/diagnostics. This is not physical ownership,other harts,IRQ
-nesting,full cold or a whole permitted-path bound. Imported DWARF recovery
-errors stay visible;there is no complete source-variable guarantee.
+Fresh subset66b6ac6a composes the297 CFI frames/three original-body SP proofs
+and27 literal sites into300 nodes/716 resolved transfers.64 transfers remain
+outside the ranking:48 unknown registers/16 known targets outside the reviewed
+set. Close those original/indirect/assembly paths plus IRQ/per-hart/physical
+scope. The9696-byte restricted candidate is not a full bound or stack-fit proof;
+do not assign unknown callees zero frames. Old297/687/91/9696 stays unchanged.
 
-Integrate these exact callee proofs and27 guarded literal sites into a fresh,
-explicitly scoped graph;do not rewrite the old297/687/91/9696 receipt. Remaining
-indirect/original/assembly/IRQ/per-hart/physical stack bounds remain open. Both
-original callers/full36 matrices/HIF2 bitmap continue;new24 INODE,broader/current-
-source/native/full-setup/hot/RRO/IRQ/lifecycle/physical/boot/client gates remain.
-Latest84 host units/95 hashes/13 tiny synthetic guests remain separate. Both
-images/source-lock40d29368 are unchanged. No hardware,restart,waiver or subagents.
-Exact evidence: inode-caller/STACK.md and ORIGINAL_CALLEES.json.
+Complete-CODE equality now rejects cross-version proof mixes. Latest110 unique
+host tests/no skips/102 hashes/13 synthetic guests passaca6da42. The earlier
+subset/108-test cohort is preserved2434 files/525298077 bytes,781aca3c,not
+privately replay-qualified. Original129 hart0 RAM/MMIO diagnostic remains
+separate. Both callers/full36 matrices/HIF2 bitmap continue;new24 INODE,
+broader/current-source/native/full setup/hot/RRO/IRQ/lifecycle/physical/boot/
+client gates remain. Images/source-lock40d29368 unchanged. No hardware,restart,
+waiver or subagents. Exact evidence: inode-caller/STACK.md and SUBSET_STACK.json.
 
 ## 2026-10-17 - Literal Addresses Identified;Callee Bounds Still Open
 

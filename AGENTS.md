@@ -1,29 +1,29 @@
 # W1700KNPU Workspace
 
-## 2026-10-17 - Three Original Callees Checked On Hart0
+## 2026-10-17 - Restricted Stack Subset Checked
 
-- Ghidra12.1.2 q4 maps all998644 CODE bytes exactly and exports three original
-  bodies6/104/64 bytes,59f8ee3a. Both lock bodies use16-byte local frames;
-  getter uses0. Imported-component DWARF-expression errors remain reported:
-  this is not complete variable recovery or a whole-program Ghidra guarantee.
-- Original-routine diagnostic32fe94a4 passes129 executions on synthetic RAM/
-  MMIO and actual emulator hart0:32 lock encodings/three acquire outcomes,
-  release encoding and getter. PC/SP/RA/14 saved registers/MSTATUS/ordered
-  writes/protected bytes are observed before restoration. No real ownership,
-  release/reclaim authority,other harts or fresh cold/setup acceptance.
-- One-off exact-body CFG/SP audita8b07ff1 checks every modeled branch and
-  balanced returns,local0/16/16. It assumes exact entry/ordinary ABI/no IRQ
-  or external stack mutation. The old297/687/91/9696 graph is not extended.
-  Integrating these callee proofs into a fresh scoped graph is still open.
-- Committed helper bytes match q4's tested copies. Metadata-only
-  inode-caller/ORIGINAL_CALLEES.json hashes2fb12ac4. Jev q15's uncertain
-  host-array-restoration claim is retained;source/API-copy audit9eca582e
-  distinguishes local expected arrays from guest writes. See STACK.md.
-- Both callers/full36 matrices and HIF2 bitmap remain live;all original input/
-  budget/full512/eight-DESC10/new24-INODE/broader gates remain. Source-lock
-  40d29368 and both image hashes are rechecked unchanged. No hardware,restart,
-  waiver or subagents. Prior failed Ghidra/preparation/hash-pin attempts stay
-  preserved;latest84-unit/95-hash/13-synthetic-guest scope remains separate.
+- Fresh graph66b6ac6a composes297 prior CFI C frames/three exact original-body
+  SP proofs and27 guarded literal sites:300 nodes/716 resolved transfers/64
+  unresolved/zero subset cycles. Resolved total mixes687 prior direct,27
+  literal-register andtwo original direct edges;not all-direct/all-CFI proof.
+  Largest restricted candidate stays9696,not a whole permitted/physical bound.
+- All complete CODE.bin aliases in the prior graph must match native/Ghidra
+  CODEa6813d39. Sixteen new subset contracts plus10 direct regressions give
+  latest110 unique units/no skips/102 hashes/13 tiny synthetic guests,aca6da42.
+  New metadata-only SUBSET_STACK.json hashesf0085c20;see STACK.md.
+- The old297/687/91/9696 receiptc209050c stays unchanged. The pre-CODE-guard
+  subset/108-test cohort is preserved in2434 readonly files/525298077 bytes,
+  receipt781aca3c,not privately replayed or a complete portable environment.
+  Git8fbac57 is an anchor,predating the two explicitly included untracked files.
+- Remaining48 register/16 outside-subset targets must not receive zero-frame
+  assumptions. Original three-body/hart0 diagnostic129 remains separate from
+  the110-unit scope. It uses synthetic RAM/MMIO,not physical ownership or other
+  harts. Imported DWARF-expression errors and earlier failures remain retained.
+- Both actual callers/full36 matrices/HIF2 bitmap stay live. Preserve all
+  producing inputs/budgets/full512/eight-DESC10/new24-INODE/broader gates.
+  Source-lock40d29368 and images stay unchanged. No hardware,restart,waiver
+  or subagents. IRQ/per-hart/physical/current-source/full-setup/client gates
+  remain open;read SUBSET_STACK.json/ORIGINAL_CALLEES.json and STACK.md.
 
 ## 2026-10-17 - Guarded Literal Targets Identified
 

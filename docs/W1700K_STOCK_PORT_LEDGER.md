@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (three original callees checked on synthetic hart0;global stack/native gates open;84 focused units and129 isolated routine diagnostics remain distinct)
+Last updated: 2026-10-17 (new restricted300-node stack graph,64 transfers still open;110 focused units pass;129 isolated routines/native pipelines remain distinct)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Restricted Mixed-Proof Stack Graph Composed
+
+- Fresh graph66b6ac6a/387 input hashes combines297 prior CFI C frames with
+  three exact original-body SP proofs and27 guarded literal sites.300 nodes,
+  716 resolved transfers,64 unresolved,zero cycles in this subset. Resolved
+  breakdown is687 prior direct/27 literal-register/two original direct edges,
+  not716 direct edges or300 CFI-proved frames. Largest candidate stays9696;
+  no full permitted-path/IRQ/per-hart/physical bound or stack-fit claim.
+- The oldc209050c receipt remains297/687/91/9696 and byte-identical. Every
+  unselected unknown stays recorded. New remaining48 register/16 outside-
+  subset targets are excluded from ranking,not proved zero-frame callees.
+  Exact function entry,ordinary ABI and no external/IRQ stack mutation remain
+  assumptions;the129 original hart0 RAM/MMIO diagnostics stay separate.
+- Added complete-CODE equality across all prior graph CODE.bin aliases and
+  native/Ghidra identities. Mixed/missing/malformed cohorts are rejected.
+  Sixteen subset contracts plus10 existing direct-transfer regressions give
+  latest110 unique tests/no skips/102 hashes/13 tiny synthetic guests,aca6da42.
+  This does not execute original firmware in the unit suite.
+- Before changing the new source,the first subset/108-test inputs were frozen
+  in2434 readonly files/525298077 bytes,receipt781aca3c. All files and old
+  declared inputs/artifacts recheck. This is preservation,not private replay
+  or a complete executable environment. Git8fbac57 is an anchor,predating
+  the two explicitly included then-untracked subset files. Old receipts are
+  not rewritten to pretend they tested the final CODE guard.
+- Metadata-only SUBSET_STACK.json hashesf0085c20 and retains all64 unresolved
+  records/labels. Jev q16 selects mixed-static/unknowns-outside-ranking1.00/
+  confidence1.00 and supports scoped wording0.97/0.95. Physical-bound claim is
+  contradicted but uncertain0.69/0.53;retain all distributions,not approvals.
+- Source-lock40d29368/images/producing inputs stay unchanged. Both callers,
+  full36 tail matrices and HIF2 bitmap remain live;new24 INODE/broader/current-
+  source/full-setup/hot/RRO/IRQ/lifecycle/physical/boot/client gates stay open.
+  No hardware,restart,guard/hash/budget/coverage waiver or subagents.
+  Exact evidence: inode-caller/STACK.md and SUBSET_STACK.json.
 
 ## 2026-10-17 - Three Original Callees Checked On Synthetic Hart0
 
