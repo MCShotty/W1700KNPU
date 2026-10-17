@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Defined IRQ Status,Incomplete IRQ Ownership
+
+The getter now returns defined0 on register-read error;MSan verifies corrected
+and preserved legacy bodies. Actual5778 read/ack/mask fixtures still expose148
+NAPI schedules after modeled errors and5624 silent bulk-error cases. All four
+operations(read/ack/mask/enable),startup and atomic hot rearm need one checked
+ownership/error/quarantine contract. Zero status is not an error channel or
+drain witness. New scope3f61aa32 verifies274 hashes/210 unique units,provider
+609/nine,RCU52/five mutants and isolated current provider object. Source-lock
+f9f90ba5/five-file zero-fuzz kernel application/source70/5/22 pass. No new world,
+module/image/hardware. Existing cold native jobs remain on600055c;six of eight
+DESC10 faults/profile pass,two readiness cases and both callers are still live.
+Read2026-10-17-npu-irq-status/REPORT.md. Older main/source-lock notes follow.
+
 ## 2026-10-17 - Poll Lifetime Scope And IRQ Boundary
 
 Explicit poll RCU lookup/use/null scope is implemented/exported. Actual-C52

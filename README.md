@@ -1,6 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
-## 2026-10-17 - Poll Provider Lifetime Scope
+## 2026-10-17 - IRQ Status And Poll Lifetime
+
+Fixed an uninitialized status return on register-read failure. MemorySanitizer
+is clean for the corrected body and reproduces the preserved old defect. The
+5778 read/ack/mask fixtures still show missing error propagation and quarantine;
+this value fix does not complete IRQ handling or establish quiescence.
+See the [status/error checkpoint](research/checkpoints/2026-10-17-npu-irq-status/REPORT.md).
 
 The NPU poll callback now explicitly keeps its provider lookup/use inside RCU.
 Actual-C52 cases/five compiled RCU mutants,two isolated AArch64 objects and210

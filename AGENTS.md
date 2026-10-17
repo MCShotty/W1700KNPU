@@ -1,6 +1,17 @@
 # W1700KNPU Workspace
 
-## 2026-10-17 - Poll RCU Scope Exported; Cold Runs Stay Frozen
+## 2026-10-17 - IRQ Status Value And Poll Scope; Cold Runs Frozen
+
+- Status getter now initializes its output and returns0 on read error. Host
+  MSan is clean for the corrected body and reproduces the preserved legacy
+  uninitialized return. Actual read/ack/mask5778 fixtures still show148 handler
+  error cases scheduling NAPI/5624 silent bulk errors. This is a value-path fix,
+  not checked IRQ propagation,quarantine or a drain/physical witness.
+- New scope3f61aa32 binds274 current hashes/210 unique units/228 executions,
+  provider609/nine,RCU52/five mutants and isolated provider object(getter32/
+  cold544 frames). Kernel patch applies zero-fuzz to all five manifest-selected
+  files;source70/5/22 passes,source-lockf9f90ba5. Prepared kernel/modules/FIT
+  stay unchanged. Earlier seal/source-lock notes below describe older cohorts.
 
 - Main's NPU poll callback explicitly brackets pointer lookup/provider use
   with RCU,including null;ordinary IRQ route is unchanged. Actual-C21 startup/
@@ -16,8 +27,12 @@
   All eight protected prepared source/object/module/FIT hashes are unchanged.
 - Both actual cold callers/eight-DESC10-fault matrices remain live on600055c.
   Live-viewd457e4b1 verifies all2330 original files/five supplements unchanged
-  after main edits. Their results cannot qualify the new poll change. No hash
+  after main edits. Latest live-viewaeed28bb also verifies old provider C after
+  the status fix. Both fault matrices have six individual passes;two readiness
+  cases/profile and both nominal callers remain live. No terminal constructor
+  verdict. These results cannot qualify newer main. No hash
   waivers,job restarts or subagents. Read the poll-rcu/REPORT.md checkpoint.
+  New status evidence:research/checkpoints/2026-10-17-npu-irq-status/REPORT.md.
 
 ## 2026-10-17 - INODE Caller Qualification In Progress
 

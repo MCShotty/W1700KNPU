@@ -1,6 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-10-17 - Current Poll Lifetime And INODE Qualification
+## 2026-10-17 - Current IRQ Status And INODE Qualification
+
+Status getter now initializes its value and returns0 on read error. MSan is
+clean for the corrected body and reproduces the preserved old uninitialized
+return. Actual5778 read/ack/mask fixtures still show148 handler error cases
+scheduling NAPI and5624 silent bulk errors. This fixes only the value path,not
+checked IRQ propagation/quarantine/physical drain. Fresh provider609/nine,
+RCU52/five mutants,isolated provider(getter32/cold544 frame) and210 unique
+units/228 executions pass. Scope3f61aa32 verifies274 hashes. Kernel patch applies
+zero-fuzz to all five manifest-selected files;source70/5/22 passes and current
+source-lock isf9f90ba5. Prepared sources/objects/modules/FIT stay unchanged.
+Legacy2245-file cohort5c38698e is preserved,not a full replay. Live-viewaeed28bb
+checks old provider C/2330 original files/five supplements after main changes.
+Both old-cohort callers/fault matrices remain live;six DESC10 cases/profile
+pass and two readiness cases remain. No fresh terminal constructor verdict.
+Read research/checkpoints/2026-10-17-npu-irq-status/REPORT.md. Older notes below
+retain their original producing source-lock/seal scopes,not current proof.
 
 Main now explicitly brackets poll provider lookup/use/null with RCU. Actual-C
 21 startup/31 poll cases/five compiled RCU mutants and210 unique units pass.

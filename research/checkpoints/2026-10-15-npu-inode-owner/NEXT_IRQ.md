@@ -58,6 +58,12 @@ remain frozen while the caller/fault runs execute.
 
 ## Required Implementation
 
+Further2026-10-17 evidence:the status getter's uninitialized error return is
+fixed/host-MSan checked. Actual5778 read/ack/mask fixtures still show148 NAPI
+schedules after errors and5624 silent bulk errors. All four register operations
+must join the checked contract,not only enable/re-enable. Zero status and bulk
+disable are not error/quiescence certificates. Read the irq-status checkpoint.
+
 2026-10-17 follow-up:the hot callback now explicitly brackets provider lookup/
 use with RCU. Actual-C52 cases/five compiled RCU mutants and two isolated
 AArch64 objects pass;the source patch is exported. This does not fix the void

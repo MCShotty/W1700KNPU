@@ -1,10 +1,56 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (poll RCU scope exported; both-HIF caller/full512 fault runs stay frozen and live)
+Last updated: 2026-10-17 (IRQ status output fixed; checked IRQ ownership open; frozen native jobs remain live)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Defined IRQ Status Error Output
+
+- Actual status getter previously returned an uninitialized local if regmap
+  failed without supplying output. Host MemorySanitizer reproduced the exact
+  extracted C defect. The getter now initializes the value and returns0 on
+  any read error,including partial-output errors. MSan is clean for corrected
+  success/error and still rejects the exact preserved old body. No physical
+  bus fault or kernel sanitizer execution was observed.
+- Actual read/ack/mask/provider wrappers,hard IRQ handler and bulk disable are
+  compiled with explicit register/RCU/NAPI fixtures. Current150 handler/5625
+  bulk/three null cases pass their expected behavior checks,not IRQ correctness.
+  Read errors ack0,but148 modeled-error handler cases still schedule NAPI and
+  5624 bulk-error cases have no return channel. Successful reads ack the full
+  shared status word;physical routing/other-queue effects require validation.
+  These losses forbid treating disable or zero status as a drain witness.
+- Pre-fix legacy cohort2245 files/520729699 bytes is preserved,receipt SHA256
+  5c38698e987172c7f13aaa237db83eadcd0922335d0c026cfa785e17fcd5239c.
+  It is preservation only;the old getter is separately compiled as the MSan
+  negative,not a complete capsule replay. Original failing extraction/build
+  attempts remain inq1/q2;the helper lacked irqreturn_t support and normal
+  kernel unused-parameter policy was needed. No production body was rewritten
+  to fit the fixture. Legacyq3 and correctedq4 receipts remain distinct.
+- Fresh provider609/nine and RCU21 startup/31 poll/five mutants pass on current
+  provider C. Isolated AArch64 provider compiles:getter32/cold-command544-byte
+  individual frames,not full stack bounds or a module relink. Nine protected
+  prepared source/object/module/FIT identities remain unchanged.
+- Source70/5/22 export passes,kernel patchebc830d8,source-lockf9f90ba5. Exact
+  zero-fuzz kernel application reproduces all five files selected by the merge
+  manifest plus Makefile. Initial verifier incorrectly expected four files;
+  q1 stays failed,andq2 derives the complete five-file set including Kconfig.
+  The isolated compile's old0705 guard-only source-lock is preserved in the
+  legacy cohort before the intentional source export;it is not a hash waiver.
+- Scope3f61aa3263dda4219f7d490763afab616800a756a2c8a15266535104aa2f2d17
+  verifies274 current input hashes/210 unique unit cases/228 executions,no skips.
+  Defined value output is the only fix. Checked IRQ/error channels,partial
+  effects/readback/quarantine,initial/hot gates and actual kernel/physical/
+  drain/lifecycle/recovery/client scope remain open. Jev's six probabilities
+  are retained;limited value-path confidence is not promoted beyond exact tests.
+- Live-viewaeed28bba420c334daab2676362375ea9559e636959a721ef45de3bc1d958465
+  verifies unchanged2330-file original/five supplemental source views after
+  main's provider edit. Both cold callers/eight-DESC10-fault matrices still
+  execute600055c;six individual faults/profile pass,two readiness cases and
+  both nominal callers remain live. They do not qualify newer main. No world,
+  image,flash,radio/reset,reclaim,hardware,job restart or subagents.
+  Evidence:research/checkpoints/2026-10-17-npu-irq-status/REPORT.md.
 
 ## 2026-10-17 - Explicit Poll Provider RCU Scope
 
