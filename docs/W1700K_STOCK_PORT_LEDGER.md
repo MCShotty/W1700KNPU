@@ -1,10 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (joint descriptor tables/fixed calls checked;56 transfers open;158 units;32+2 new prefix diagnostics remain separate from earlier118/original129/native pipelines)
+Last updated: 2026-10-17 (reaching constants identify three IRQ/open targets without graph promotion;56 records open;174 units/41 synthetic guests;all native and physical scopes remain distinct)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Reaching Constants Identify IRQ/Open Targets
+
+- New e30465be follows all predecessor/loop joins through exact linked IRQ/open
+  bodies and identifies0x840448b0->0x84003200,0x840445bc->0x84004212 and
+  0x8404467a->0x8400326a. Cross-register/nonadjacent LUI/ADDI definitions and a
+  stable callee-saved target across loops are covered. Loads/conflicting values
+  join to unknown;caller-saved GPRs are clobbered at every call. Unsupported
+  register/control effects and unresolved noncall flow fail closed. The constant
+  lattice converges conservatively,not by selecting a convenient path/value.
+- Exact entry,ordinary ABI call/return,preserved callee-saved GPRs and no IRQ/
+  external register/CODE mutation are assumptions. This is address identification,
+  not original callee/ABI-return proof. Original IRQ routines include error-tail
+  paths outside the small inspected windows;no whole-callee zero-frame claim.
+  The graph stays300 nodes/718 inter-function transfers/six internal dispatches/
+  56 unresolved/partial9696. Its older metadata/strict literal rejections remain.
+- New16 contracts use17 LLVM-generated fixtures andsix synthetic guests. One
+  tiny loop executes two synthetic calls and restores RA/SP/saved registers;
+  all32 GPRs,ordered reads/writes and protected bytes compare before restoration.
+  These are not original NPU instructions or full cold callers. Latest174 units/
+  no skips/95 input+26 artifact hashes/41 synthetic guests pass55fc7411.
+- Ghidra readOnly/noanalysis exports four existing exact C bodies without
+  rerunning analysis. The older75a40091 export remains unchanged. Ghidra's7/10
+  mailbox target sets and two remaining jump tables are leads,not new bounds,
+  frames or graph edges. Jev q25 selects whitelist candidates0.87/confidence0.83
+  and0.81/0.75,singletons0.82/0.76 and0.71/0.61. Raw uncertainty stays retained.
+- Jev q26 scope is nearly tied:supported0.49/confidence0.23 versus not-established
+  0.47. ABI-assumption/unknown-callback wording is supported0.89/0.83 each. No
+  resampling or model approval is claimed;direct readback verifies unchanged
+  graph/hash/56 records. Metadata-only REACHING_TARGETS.json retains all scope
+  and evidence. Preparation rechecks478 paths and protected images/source-lock
+  40d29368 unchanged. No binary/device data is uploaded.
+- Both actual callers/full36 matrices/HIF2 bitmap stay live. Keep original
+  producing inputs/budgets/full512/eight-DESC10/all36-tail/new24-INODE/broader/
+  current-source/native/full setup and physical/client gates. No hardware,
+  restart,guard/hash waiver or subagents. See inode-caller/STACK.md.
 
 ## 2026-10-17 - Descriptor Tables And Fixed Calls Jointly Checked
 

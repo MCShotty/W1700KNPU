@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Reaching Constants Without Graph Promotion
+
+New static e30465be identifies the fixed IRQ/open targets0x84003200/0x84004212/
+0x8400326a through nonadjacent definitions,branch joins and loops. Exact entry,
+ordinary call/return,preserved callee-saved GPRs and no external mutation remain
+assumptions. Loads,caller-saved clobbers,conflicting paths and unsupported effects
+fail closed. No original callee frames or graph edges are added;keep300/718/six
+internal/56 unresolved and partial9696,not a whole-stack/physical bound.
+
+Latest174 units/no skips/95 inputs+26 artifacts/41 synthetic guests pass55fc7411.
+New16 contracts/17 fixtures/six guests include a tiny synthetic two-call loop;
+no original firmware executes. Read-only Ghidra mailbox7/10 target sets and
+Jev q25 routing are leads only. Jev q26 scope is nearly tied,not an approval.
+REACHING_TARGETS.json/STACK.md preserve exact receipts and limits. Both callers/
+full36 matrices/HIF2 bitmap remain live;all new24-INODE/broader/current-source/
+physical/client gates stay. Images/source-lock40d29368 unchanged. No hardware,
+restart,waiver or subagents.
+
 ## 2026-10-17 - Joint Descriptor Proof And Remaining56 Transfers
 
 New9941a452 checks descriptor begin/callback with two bounded tables andtwo fixed

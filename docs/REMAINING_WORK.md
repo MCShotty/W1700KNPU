@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Singleton Addresses Identified;56 Graph Records Still Open
+
+Reaching-flow supplement e30465be identifies three fixed IRQ/open calls under
+exact-entry/ordinary-ABI assumptions. It does not add original callee frames or
+extend the partial graph:300 nodes/718 inter-function transfers/six internal
+dispatches/56 unknown records and partial9696 candidate stay unchanged. Review
+the original IRQ routines/error-tail paths before any complete frame/path claim.
+Ghidra's mailbox7/10 target sets remain leads,not additional qualified edges.
+
+Latest174 units/no skips/95 input+26 artifact hashes/41 synthetic guests pass
+55fc7411. The six new guests are synthetic,including a two-call saved-register
+loop,not NPU execution. All remaining original/indirect/IRQ/per-hart/physical
+bounds and native/full setup/hot/RRO/lifecycle/boot/client gates stay open. Both
+callers/full36 matrices/HIF2 bitmap continue;no restart/hardware/subagents or
+source-lock/image change. See STACK.md/REACHING_TARGETS.json for exact scope.
+
 ## 2026-10-17 - Descriptor Joint Proof Leaves56 Transfers Open
 
 The latest partial view9941a452 has300 mixed-proof nodes/718 inter-function

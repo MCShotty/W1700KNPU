@@ -476,3 +476,60 @@ source-lock40d29368 and both978f9ddd/a22300ea images. Prior metadata stays intac
 Both actual callers/full36 matrices/HIF2 bitmap continue unchanged;new24 INODE/
 broader/current-source/native/full setup/hot/IRQ/lifecycle/physical/boot/client
 gates remain. No hardware,restart,waiver or subagents.
+
+## Reaching Singleton Targets Without Graph Extension
+
+New test_npu_reaching_targets.py checks constant register flow through two exact
+linked C functions. All branch successors and loop backedges participate in a
+flat per-register lattice. Conflicting constants and unknown inputs join to
+unknown. Loads are unknown;every call clobbers caller-saved GPRs. Callee-saved
+GPR preservation and ordinary call/return are explicit ABI assumptions. Unknown
+noncall register flow and unsupported control/register effects fail closed.
+
+| Caller | Call | Register | Identified Target | Caller CFA |
+| --- | --- | --- | --- | --- |
+| npu_emulation_open | 0x840448b0 | s6 | 0x84003200 | 48 |
+| npu_emulation_irq_dispatch | 0x840445bc | a0 | 0x84004212 | 32 |
+| npu_emulation_irq_dispatch | 0x8404467a | a1 | 0x8400326a | 32 |
+
+These identify addresses under exact-entry/ordinary-ABI/no-external-mutation
+assumptions,not complete callee/ABI-return/IRQ/per-hart/physical bounds. The
+original IRQ routines contain error-tail paths outside the small inspected
+windows. No whole-callee zero-frame claim or graph promotion is made. The
+previous graph remains300 nodes/718 inter-function transfers/six internal
+dispatches/56 unresolved and largest partial candidate9696.
+
+| Private Evidence | SHA256 |
+| --- | --- |
+| .local/npu-reaching-targets/irq-open-q1/result.json | e30465be5cf5ef6d2a997c37100b848dd208108df5259a70cec639ee4ac6215a |
+| .local/npu-world-overlay-20261017/host-scope-q11/result.json | 55fc7411cc785f13318996cb40f058b4dcc6c4b13419a61b864ee3e81500d9df |
+| .local/npu-world-overlay-20261017/ghidra-mailbox-metadata-q1/functions.json | 14b6543a1137d7cc131bdf9ccfe0f1e670007df55aee16b8df0122cf3a2c05a1 |
+
+Sixteen new contracts cover cross-register definitions,caller-saved clobbers,
+unknown loads/arguments,conflicting/equal joins,loop convergence,unsupported
+effects,unreachable calls,signed/unsigned arithmetic,word wrap and low-bit mask.
+Seventeen LLVM-generated fixtures support six tiny synthetic guests. A real
+synthetic loop executes two calls and restores saved registers/RA/SP;all32
+GPRs,ordered reads/writes and protected bytes compare before restoration. No
+original firmware executes in the latest174-unit/95-input/26-artifact/41-guest
+scope. This is not a fresh native constructor or physical run.
+
+Ghidra readOnly/noanalysis exports four existing exact C bodies;the previous
+75a40091 export remains unchanged. Its bootstrap/cold mailbox call-target sets
+contain7/10 candidates,with remaining table metadata;these are leads only.
+Jev q25 selects explicit-whitelist roles0.87/confidence0.83 and0.81/0.75,and
+singleton roles0.82/0.76 and0.71/0.61. No model label grants a target/frame proof.
+
+Jev q26 scope is nearly tied:supported0.49/confidence0.23 versus not-established
+0.47. ABI-assumption and unknown-callback wording are supported0.89/0.83 each.
+Raw uncertainty stays retained;the unchanged graph/hash/56 records are verified
+directly instead of resampling for approval.
+
+Metadata-only [REACHING_TARGETS.json](REACHING_TARGETS.json),SHA256
+1bd177df1aa88bd53474dd8f75b17516aae9a8d7683207cbc6351fd058e003ce,
+retains exact evidence,assumptions,leads and unchanged graph/image identities.
+Preparation rechecks478 paths and images978f9ddd/a22300ea/source-lock40d29368.
+All actual callers/full36 matrices/HIF2 bitmap continue with original frozen
+inputs/budgets. New24-INODE/broader/current-source/full setup/hot/RRO/IRQ/
+lifecycle/physical/boot/client gates remain. No hardware,restart,waiver or
+subagents.

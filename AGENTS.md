@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Reaching Singleton Targets Identified;Graph Unchanged
+
+- New e30465be identifies three fixed calls in exact IRQ/open C bodies under
+  explicit ordinary-ABI/no-external-mutation assumptions:0x840448b0->0x84003200,
+  0x840445bc->0x84004212,0x8404467a->0x8400326a. All predecessor/loop joins are
+  conservative;loads/caller-saved clobbers/conflicts stay unknown. Unsupported
+  effects and unknown noncall register flow fail closed. Callee-saved register
+  preservation is an ABI assumption,not a runtime proof of original firmware.
+- This is address identification only,not new callee frames or graph extension.
+  Keep300 nodes/718 inter-function transfers/six internal dispatches/56 unknowns
+  and partial9696 candidate unchanged. Original IRQ routines have error tails;
+  do not declare whole callees/path frames zero from small instruction windows.
+- Latest174 units/no skips/95 inputs+26 artifacts/41 synthetic guests pass
+  55fc7411. New16 contracts/17 fixtures/six guests include a real tiny synthetic
+  two-call loop with saved-register restoration,not original NPU execution.
+- Read-only/noanalysis Ghidra exports four existing bodies;mailbox7/10 target
+  sets and Jev q25 labels are leads only. Jev q26 scope is nearly tied;retain
+  uncertainty and use direct unchanged-graph readback,not model approval.
+  See STACK.md/metadata-only REACHING_TARGETS.json. All native producing inputs,
+  original budgets/full512/eight-DESC10/all36-tail/new24-INODE/broader/current-
+  source/physical/client gates stay. Images/source-lock40d29368 unchanged.
+  Both callers/full36 matrices/HIF2 bitmap remain live. No hardware/restart/
+  waiver/subagents. Continue original callee/indirect/IRQ/per-hart/physical work.
+
 ## 2026-10-17 - Descriptor Joint Targets Checked;56 Transfers Remain
 
 - Fresh joint proof9941a452 checks descriptor begin/callback together:two new

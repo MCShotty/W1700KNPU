@@ -1,0 +1,268 @@
+{
+  "format": "w1700k-reaching-singleton-target-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "scope": "Conservative static singleton register targets in two exact linked C functions under explicit ordinary-ABI assumptions;no graph extension.",
+  "prior_checkpoint": {
+    "path": "research/checkpoints/2026-10-17-npu-inode-caller/DESCRIPTOR_TARGETS.json",
+    "sha256": "b91665c889a1e22c9e2919f067d4712adceb9cd1c27d9bf91c7e7db5ad40b55b",
+    "unchanged": true
+  },
+  "source_lock_sha256": "40d293685243a51c56c8a153505f24bab0b2b9cb81231ff3a2b029afc3db331c",
+  "CODE_identity_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "identified_calls": [
+    {
+      "address": 2214873264,
+      "target": 2214605312,
+      "raw_target": 2214605312,
+      "target_register": "s6",
+      "control_flow_qualified": true,
+      "proof": "reaching-register-singleton-under-ordinary-ABI",
+      "all_reachable_predecessors_joined": true,
+      "caller": 2214873132,
+      "caller_name": "npu_emulation_open",
+      "caller_CFA": 48,
+      "target_frame_proved_here": false,
+      "target_already_in_graph": false
+    },
+    {
+      "address": 2214872508,
+      "target": 2214609426,
+      "raw_target": 2214609426,
+      "target_register": "a0",
+      "control_flow_qualified": true,
+      "proof": "reaching-register-singleton-under-ordinary-ABI",
+      "all_reachable_predecessors_joined": true,
+      "caller": 2214872484,
+      "caller_name": "npu_emulation_irq_dispatch",
+      "caller_CFA": 32,
+      "target_frame_proved_here": false,
+      "target_already_in_graph": true
+    },
+    {
+      "address": 2214872698,
+      "target": 2214605418,
+      "raw_target": 2214605418,
+      "target_register": "a1",
+      "control_flow_qualified": true,
+      "proof": "reaching-register-singleton-under-ordinary-ABI",
+      "all_reachable_predecessors_joined": true,
+      "caller": 2214872484,
+      "caller_name": "npu_emulation_irq_dispatch",
+      "caller_CFA": 32,
+      "target_frame_proved_here": false,
+      "target_already_in_graph": false
+    }
+  ],
+  "new_target_frames_proved": 0,
+  "graph_extended": false,
+  "unchanged_graph": {
+    "nodes": 300,
+    "resolved_interfunction_transfers": 718,
+    "total_internal_dispatches": 6,
+    "unresolved_transfers": 56,
+    "register_unknown": 40,
+    "known_outside_subset": 16,
+    "largest_partial_candidate": 9696
+  },
+  "rules": {
+    "join": "Flat per-register constants;conflicts/unknown inputs join to unknown.",
+    "branch_paths": "Both successors and loop backedges participate.",
+    "loads": "Always unknown,not constant pointer sources.",
+    "calls": "Ordinary ABI return and preserved callee-saved GPRs are assumptions;caller-saved GPRs are clobbered.",
+    "unsupported": "Unsupported register/control effects and unknown noncall register flow fail closed."
+  },
+  "host_tests": {
+    "unique": 174,
+    "skipped": 0,
+    "input_hashes": 95,
+    "artifact_hashes": 26,
+    "synthetic_guests": 41,
+    "new_contracts": 16,
+    "new_generated_fixtures": 17,
+    "new_synthetic_guests": 6,
+    "new_real_synthetic_loop_calls": 2,
+    "original_firmware_execution": false
+  },
+  "mailbox_target_set_leads": [
+    {
+      "caller": "npu_emulation_bootstrap_mailbox",
+      "site": "0x84044a74",
+      "Ghidra_candidate_targets": [
+        "0x8400fb2e",
+        "0x8400febe",
+        "0x8400ff0c",
+        "0x8400feac",
+        "0x8400ff88",
+        "0x840101a6",
+        "0x8400fb84"
+      ],
+      "bounds_or_frame_proof": false,
+      "new_graph_edge": false
+    },
+    {
+      "caller": "npu_emulation_cold_mailbox",
+      "site": "0x84044d28",
+      "Ghidra_candidate_targets": [
+        "0x8400fc2c",
+        "0x8400fbca",
+        "0x8400fdda",
+        "0x840101a6",
+        "0x8400fc16",
+        "0x84010164",
+        "0x8400fbb4",
+        "0x8400ff34",
+        "0x8400fe34",
+        "0x8400fdc4"
+      ],
+      "bounds_or_frame_proof": false,
+      "new_graph_edge": false
+    }
+  ],
+  "evidence": {
+    "reaching": {
+      "path": ".local/npu-reaching-targets/irq-open-q1/result.json",
+      "sha256": "e30465be5cf5ef6d2a997c37100b848dd208108df5259a70cec639ee4ac6215a"
+    },
+    "host_scope": {
+      "path": ".local/npu-world-overlay-20261017/host-scope-q11/result.json",
+      "sha256": "55fc7411cc785f13318996cb40f058b4dcc6c4b13419a61b864ee3e81500d9df"
+    },
+    "Ghidra_export": {
+      "path": ".local/npu-world-overlay-20261017/ghidra-mailbox-metadata-q1/functions.json",
+      "sha256": "14b6543a1137d7cc131bdf9ccfe0f1e670007df55aee16b8df0122cf3a2c05a1"
+    },
+    "mailbox_preparation": {
+      "path": ".local/npu-world-overlay-20261017/mailbox-role-preparation-q1.json",
+      "sha256": "4b3d789f758e935d67f9409653e6fcc856567ef2d59392c6b6a367c8f1e8922b"
+    },
+    "role_review": {
+      "path": ".local/npu-world-overlay-20261017/jev-q25.result.json",
+      "sha256": "1c3131c0dc3dca19c85c22eb605f229abde8530889cec0fd9e2da76fcdea5eef"
+    },
+    "scope_review": {
+      "path": ".local/npu-world-overlay-20261017/jev-q26.result.json",
+      "sha256": "3ef6bc882653b786d4f96d54043e0660b5c1b237d6d82589064217fc132f2867"
+    }
+  },
+  "combined_verified_input_artifact_paths": 478,
+  "images": {
+    "protected_original": {
+      "path": ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "bytes": 26997578,
+      "sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+      "unchanged": true
+    },
+    "unflashed_world_q4": {
+      "path": ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+      "bytes": 27009866,
+      "sha256": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+      "unchanged": true
+    }
+  },
+  "semantic_reviews": {
+    "role_review": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "0x84044a74": {
+          "type": "choice",
+          "choice": "finite_hardcoded_whitelist",
+          "confidence": 0.83,
+          "probabilities": {
+            "singleton_hardcoded": 0.0,
+            "finite_hardcoded_whitelist": 0.87,
+            "caller_or_runtime_selected": 0.12,
+            "not_established": 0.01
+          }
+        },
+        "0x84044d28": {
+          "type": "choice",
+          "choice": "finite_hardcoded_whitelist",
+          "confidence": 0.75,
+          "probabilities": {
+            "singleton_hardcoded": 0.0,
+            "finite_hardcoded_whitelist": 0.81,
+            "caller_or_runtime_selected": 0.17,
+            "not_established": 0.01
+          }
+        },
+        "0x840448b0": {
+          "type": "choice",
+          "choice": "singleton_hardcoded",
+          "confidence": 0.76,
+          "probabilities": {
+            "singleton_hardcoded": 0.82,
+            "finite_hardcoded_whitelist": 0.01,
+            "caller_or_runtime_selected": 0.16,
+            "not_established": 0.01
+          }
+        },
+        "0x8404467a": {
+          "type": "choice",
+          "choice": "singleton_hardcoded",
+          "confidence": 0.61,
+          "probabilities": {
+            "singleton_hardcoded": 0.71,
+            "finite_hardcoded_whitelist": 0.02,
+            "caller_or_runtime_selected": 0.25,
+            "not_established": 0.02
+          }
+        }
+      }
+    },
+    "scope_review": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "scope": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.23,
+          "probabilities": {
+            "supported": 0.49,
+            "contradicted": 0.04,
+            "not_established": 0.47
+          }
+        },
+        "ABI": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.83,
+          "probabilities": {
+            "supported": 0.89,
+            "contradicted": 0.0,
+            "not_established": 0.11
+          }
+        },
+        "callbacks": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.83,
+          "probabilities": {
+            "supported": 0.89,
+            "contradicted": 0.0,
+            "not_established": 0.11
+          }
+        }
+      }
+    }
+  },
+  "limits": [
+    "All unknown register controls in selected functions must be ordinary C.JALR calls and resolve to singleton targets.",
+    "Both branch paths and loop backedges join;conflicting or unknown values fail qualification.",
+    "Exact function entry,ordinary ABI calls/returns and preserved callee-saved registers are explicit assumptions.",
+    "Asynchronous IRQ or external register/CODE mutation is not qualified by this analysis.",
+    "Loads are unknown;caller-saved registers are clobbered at every call;unsupported control/register effects fail closed.",
+    "This identifies call targets only;original callee frames/IRQ/per-hart/physical bounds remain required.",
+    "Ghidra readOnly/noanalysis exports four exact existing C bodies;the reaching tool independently checks two selected bodies.",
+    "Ghidra mailbox target sets of7/10 are leads only;their table bounds/target-flow/original frames are not newly qualified.",
+    "The original IRQ-mask/open routines include error-tail paths outside the selected local windows;no whole-callee zero-frame claim is made.",
+    "The old adjacent-literal receipts and current56-unknown graph are neither rewritten nor reclassified.",
+    "Jev scope review is nearly tied;raw probabilities remain retained and the unchanged graph is checked directly.",
+    "All actual callers/full36 matrices/HIF2 bitmap keep original producing inputs/budgets;new24 INODE/broader/current-source/physical/client gates remain."
+  ],
+  "complete_call_chain_bound_proven": false,
+  "current_main_native_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "subagents_used": false
+}
