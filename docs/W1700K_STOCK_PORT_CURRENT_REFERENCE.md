@@ -1,5 +1,20 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-18 - Current Provider And mt76 Links
+
+Fresh independent provider/three mt76 module links pass atLinux6.18.52,with
+3 exports/70 imports/six NPU consumer imports and unchanged original prepared
+trees. Five kernel patch files/11 mt76 changes/329 source-manifest files match;
+74 separate build-contract tests pass. The22 Linux exports are five C files/
+17 headers,not the two native readers. Their source provenance remains Git/raw
+manifests;source-lockd6b6e2da and raw pair858d1408/40483c19 are unchanged.
+
+Current-image/REPORT.md/MODULES.json records module-only scope. A fresh full
+offline overlay build is next,not yet qualified;protected978f9ddd/a22300ea FITs
+remain unchanged. Both v3 cold callers stay active with frozen full-size inputs/
+budgets. All full setup/hot/IRQ/RRO/lifecycle/physical/client gates remain.
+No module load,hardware or subagents.
+
 ## 2026-10-18 - Local Arithmetic;Older Tail Collections Complete
 
 Current local-SP helper admits SEQZ/eight M forms only as unknown non-SP
@@ -58,7 +73,9 @@ Repeat CODE858d1408/DATA40483c19 has20 components/168 hooks;20 image groups,
 60 loader/eight mutants,six negative boots/12 sender cases pass.22 identical
 normal/stack objects give171 individual frames,max4688,not a full bound. The
 older300/718/six/56/9696 partial graph remains older-CODE-bound,not requalified.
-Source-lockd6b6e2da/kernel/provider/22 headers/both saved FITs are unchanged.
+Source-lockd6b6e2da/kernel/provider/22 exported sources/both saved FITs are
+unchanged. That Linux export set is five C files/17 headers;neither native
+reader implementation belongs to it. Raw manifests/Git bind those changes.
 
 Both original full36 tail runs were interrupted at34 passed cases/profile with
 no aggregate verdict. Separate frozen-source completion diagnostics remain

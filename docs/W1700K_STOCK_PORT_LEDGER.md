@@ -1,10 +1,31 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-18 (reader/runtime fixes;234 unique units/84 arithmetic guests;20 individual original callee analyses;older tail collections36 each;v3 cold callers live;full setup/hot/physical/client gates open)
+Last updated: 2026-10-18 (current provider/three mt76 module links and74 build contracts pass;reader/arithmetic/older-tail checkpoints retained;full image next;v3 cold callers live;overall runtime/physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-18 - Current Module Links And Export-Scope Correction
+
+- Fresh isolated provider link checks3 exports/70 imports atLinux6.18.52.
+  Its102685-file prepared kernel remains unchanged. Canonical five-file
+  kernel patch/22 exported sources match;zero-fuzz upstream application passes.
+- Fresh three mt76 consumer links pass actual provider/dependency symbol
+  indices,matching module ABI metadata,six NPU imports and unchanged original
+  kernel/mt76. The11-file patch/329-file source manifest match.74 separate
+  build-contract tests pass,no skips;do not sum overlapping unit selections.
+- Receipts6fbcbd28/863dc755/7c319a8f and scope8ce1f6ec bind module-only
+  evidence. MODULES.jsonf381fa97 contains metadata only;producer5b314c0.
+  The22 Linux exports are five C files/17 headers,not22 headers. Neither
+  native reader is exported there;Git/raw manifests bind their C changes.
+  Corrected the earlier wording,not the source lock or any old result.
+- New full offline overlay image build is next. Existing978f9ddd/a22300ea
+  FITs/raw858d1408/40483c19/source-lockd6b6e2da remain unchanged;no module
+  load or complete image claim. Both v3 callers stay live with original inputs/
+  full sizes/budgets. Full setup/hot/checked IRQ/RRO/lifecycle/DMA/cache/drain/
+  recovery/remaining original/indirect/per-hart/physical/boot/client gates stay.
+  No hardware or subagents. See current-image/REPORT.md and MODULES.json.
 
 ## 2026-10-18 - Formatter Local Arithmetic And Completed Older Diagnostics
 
@@ -89,9 +110,10 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   absent terminal/aggregate verdicts. Separate default/HIF2 frozen completion
   diagnostics remain live with the missing two cases; no repair of old runs
   or current-source qualification. Both old cold callers remain ABI failures.
-- Canonical source-lockd6b6e2da/kernel/provider/22 exported headers/both saved
+- Canonical source-lockd6b6e2da/kernel/provider/22 exported sources/both saved
   FITs remain unchanged. Native implementation changes are Git/raw-manifest
-  bound. Preserved cohorts2521/2731 and5393 files are not replay-qualified.
+  bound. The22 exports are five C files/17 headers,not the two native reader
+  implementations. Preserved cohorts2521/2731 and5393 files are not replay-qualified.
   The first recursive pre-review preservation refused historical source drift;
   separate declared-input preservation succeeds without changing old receipts.
 - Fresh both-HIF current-source cold/full512/eight-DESC10/all36-tail/actual

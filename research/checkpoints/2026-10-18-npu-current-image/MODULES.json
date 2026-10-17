@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "scope": "isolated-current-provider-and-mt76-links-only",
+  "producing_commit": "5b314c040e113985409d9a03ad02d8bdfa4c0146",
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "provider_receipt_sha256": "6fbcbd28837c7473586e8075b7037a550f108cf58e690d1353e1838e8a6030a9",
+  "consumer_receipt_sha256": "863dc755bd50f19a51422f359cd1bf29de4a319861f40456db0899fb66b5fab2",
+  "unit_receipt_sha256": "7c319a8f06c9fe91eae74c1312ddd910c04dab714f7573cafc6a62ceed1e1819",
+  "build_contract_tests": 74,
+  "provider_exports": 3,
+  "provider_imports": 70,
+  "provider_components": 5,
+  "provider_module": {
+    "sha256": "5520880b30c84a11f9b9248261d650c4a66bfbfa12671f869671fbbead02a4d6",
+    "bytes": 247256,
+    "vermagic": "6.18.52 SMP mod_unload aarch64"
+  },
+  "consumer_modules": {
+    "mt76.ko": {
+      "sha256": "d51a210d2a7a0501ec05bf77f6b9c1cdda095de0794f14bf25ae83c1accdaab1",
+      "bytes": 1339360,
+      "vermagic": "6.18.52 SMP mod_unload aarch64"
+    },
+    "mt76-connac-lib.ko": {
+      "sha256": "22be6f87561e9886ee13a6feb2c8aa43c4bd733b89eb7fc70317be2c3cbb1ebd",
+      "bytes": 650312,
+      "vermagic": "6.18.52 SMP mod_unload aarch64"
+    },
+    "mt7996/mt7996e.ko": {
+      "sha256": "bae05471c0df5d5e12468fbcef6c1be5777bf4f5acbe64e7105f855bfd9fb366",
+      "bytes": 1846864,
+      "vermagic": "6.18.52 SMP mod_unload aarch64"
+    }
+  },
+  "kernel": "6.18.52",
+  "mt76_revision": "01367e60db433534ad0aa3d3b6c886de8cb7d44c",
+  "kernel_patch_files": 5,
+  "changed_mt76_files": 11,
+  "mt76_source_manifest_files": 329,
+  "locked_export_C_files": 5,
+  "locked_export_headers": 17,
+  "native_reader_implementations_in_Linux_export_set": false,
+  "original_kernel_inventory_files": 102685,
+  "protected_originals_unchanged": true,
+  "world_build_started": false,
+  "new_image_qualified": false,
+  "module_loaded": false,
+  "current_native_cold_callers_pending": true,
+  "complete_IRQ_contract": false,
+  "native_cold_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "private_scope_sha256": "8ce1f6ecab656feeb0b42301c14505017df1203b9a4c8b411f72115b62fff3c9",
+  "checked_paths": 102
+}

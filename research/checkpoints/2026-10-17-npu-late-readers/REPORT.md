@@ -84,8 +84,9 @@ graph remains bound to older CODE and is not requalified for this candidate.
 
 `firmware/source-lock.json` remains
 `d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47`:
-kernel/provider and the 22 exported component headers are unchanged. The native
-C implementation changes are bound by Git and raw-pair manifests. Both protected
+kernel/provider and the 22 exported component sources are unchanged. This Linux
+export set contains five C files and17 headers;neither native reader implementation
+is included. Their C changes are bound by Git and raw-pair manifests. Both protected
 FITs remain unchanged, at `978f9ddd...` and `a22300ea...`; neither contains these
 latest changes. No new full world/kernel/module/image build or flash occurred.
 

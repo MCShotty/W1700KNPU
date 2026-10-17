@@ -17,6 +17,12 @@
   Gemtek W1700K boot, services,2.4/5/6GHz/MLO, clients, performance and stability.
   No current hardware/flash authorization is implied by software progress.
 
+Current provider/three mt76 modules now link againstLinux6.18.52,with74 separate
+build-contract tests passing and original prepared trees unchanged. A new full
+offline overlay image build/verification is next;no new complete image or
+module load is qualified. See current-image/REPORT.md/MODULES.json. The22 locked
+Linux exports are five C files/17 headers,not the two native reader C files.
+
 The original formatter now has an exact7544-byte inventory and20 callee local-
 SP analyses,but computed-flow boundaries at0x840108e2 and in0x840183b2 remain.
 Its observed496-byte entry decrement is not a whole/logger/IRQ bound. New

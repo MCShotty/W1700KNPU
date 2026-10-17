@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-18 - Current Driver Links
+
+The current provider and all three mt76 consumer modules link successfully
+against the pinned Linux6.18.52 kernel,with matching ABI metadata and unchanged
+original build trees.74 separate build-contract tests pass. This prepares a
+fresh isolated full-image build;no module load or new image is qualified yet.
+See the [module checkpoint](research/checkpoints/2026-10-18-npu-current-image/REPORT.md).
+
 ## 2026-10-18 - Original Formatter And Older Tail Diagnostics
 
 The local stack checker now handles nine additional non-SP arithmetic forms,

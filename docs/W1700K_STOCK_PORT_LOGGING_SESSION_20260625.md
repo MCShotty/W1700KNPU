@@ -4,6 +4,17 @@ Last updated: 2026-10-18 (two late-reader fixes;modeled core checks pass;fresh o
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
+## 2026-10-18 - Current Modules Before Full Image
+
+- Fresh provider/three mt76 module links pass Linux6.18.52 ABI/export/import
+  checks,zero-fuzz canonical patches and unchanged original prepared trees.
+  Separate74 build-contract tests pass.22 Linux exports are five C files/
+  17 headers,not the native reader C files. Corrected earlier header wording.
+- Scope8ce1f6ec/MODULES.jsonf381fa97 is module-only;new full offline overlay
+  image build is next. Protected FITs/raw pair/source-lock remain unchanged.
+  Both v3 cold callers stay active;all full setup/hot/IRQ/lifecycle/physical/
+  client gates remain. No module load,hardware or subagents. See current-image/REPORT.md.
+
 ## 2026-10-18 - Arithmetic Scope And Terminal Tail Collections
 
 - Local checker adds nine non-SP unknown-clobber forms,with SP rejection

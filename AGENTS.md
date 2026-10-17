@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-18 - Current Module Links Before Image Build
+
+- Fresh isolated AArch64 provider and three mt76 consumer modules link at
+  Linux6.18.52,with3 exports/70 imports and six NPU consumer imports checked.
+  Five kernel patch files/11 mt76 patch files/329 mt76 sources match;original
+  prepared kernel/mt76 remain unchanged.74 separate build-contract tests pass.
+- Linux export set is five C files/17 headers,not22 headers. Neither native
+  reader implementation is in that set;Git/raw manifests bind those changes.
+  Source-lockd6b6e2da and raw pair858d1408/40483c19 remain unchanged.
+- Read current-image/REPORT.md/MODULES.json before freezing the full offline
+  world build. No new complete image or module load yet. Both v3 cold callers
+  stay active on frozen inputs/budgets;all broader/full setup/hot/IRQ/physical/
+  client gates remain. No hardware or subagents.
+
 ## 2026-10-18 - Formatter Arithmetic And Terminal Older Tail Diagnostics
 
 - Local-SP checker now treats SEQZ/eight RV32 M arithmetic forms as unknown
@@ -64,9 +78,10 @@
 - Fresh current-source both-HIF cold/full512/eight-DESC10/all36-tail/actual
   stage1/new24-INODE and broader qualification remain, as do full setup/hot/
   IRQ/RRO/lifecycle/DMA/cache/original/indirect/per-hart/physical/client gates.
-  Source-lockd6b6e2da/kernel/provider/22 exported headers/both FITs stay.
-  Native implementation provenance is in Git/raw manifests,not a header-only
-  lock change. No hardware or subagents. Read late-readers/REPORT.md and both
+  Source-lockd6b6e2da/kernel/provider/22 exported sources/both FITs stay.
+  The Linux export set is five C files/17 headers,not the two native reader
+  implementations. Their provenance is in Git/raw manifests. No hardware or
+  subagents. Read late-readers/REPORT.md and both
   metadata files; preserve Jev uncertainty,not approval. This entry supersedes
   older running-job and unvalidated-hypothesis descriptions below.
 
