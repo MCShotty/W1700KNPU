@@ -1,5 +1,36 @@
 # Remaining W1700K Work
 
+## 2026-10-18 - Overall Project Gates
+
+- Qualify the corrected current candidate through both actual cold callers,
+  full512 DESC10/eight DESC10 cases/all36 tail cases/actual INODE stage1/new24
+  INODE faults and broader full setup. Do not seed replacement owners or SETUP.
+- Complete hot TX/RX: packet/SKB/token/TXFREE/scatter/BA/free-pool/PPE/FastTX
+  ownership, workers and complete host/native lifecycle contracts.
+- Add checked IRQ read/ack/mask/enable, partial-effect/readback handling,
+  quarantine and atomic rearm. The148 error schedules/5624 silent bulk errors/
+  12 initial/eight hot enable losses remain. RRO's atomic-context bridge stays
+  denied until its ownership/context contract is established.
+- Close DMA/cache/PMA/exclusion, drain/remove/rearm/recovery, remaining original
+  and indirect callees, and whole IRQ/per-hart/physical stack bounds.
+- Build and qualify an updated complete image, then separately validate actual
+  Gemtek W1700K boot, services,2.4/5/6GHz/MLO, clients, performance and stability.
+  No current hardware/flash authorization is implied by software progress.
+
+Two late-reader fixes are implemented,not merely proposed. Covered host probes
+improve36/72 and20/56 false acceptances to zero. Normal RV32 fixtures pass tail
+647/559 and INODE2522/326; host INODE592/326,13/10 mutants and219 unique/237
+unit executions pass separately. All full1036 effects/profile remain. These
+are modeled-core checks,not fresh original-constructor or physical proof.
+Old120s sanitizer timeout stays; separate600s host invocation/default120 and
+native budgets are explicitly distinguished. Read late-readers/REPORT.md.
+
+The original tail runs were interrupted with34 passed cases each; separate
+old-source completion diagnostics are live. Old cold-caller ABI failures stay
+failed. Repeat raw pair is CODE858d1408/DATA40483c19; source-lock/kernel/provider/
+headers/saved FITs remain unchanged. The older partial graph is not requalified.
+No hardware or subagents. This supersedes older live-job/hypothesis entries.
+
 ## 2026-10-17 - Fresh INODE Qualification Still Needed
 
 Both old cold callers failed the misplaced entry-ABI guard after all three tail

@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-18 - Reader Fixes Implemented;Native Qualification Open
+
+The late-reader hypothesis reproduced two real logical-owner defects. Tail
+accepted36/72 old probe cases; INODE accepted20/56. Corrected source rejects
+all covered faults. Tail now rechecks the full TXDONE dependency after its
+metadata/prefix reads. INODE rechecks the full tail dependency after its prefix
+and before final local-owner comparisons. No retirement or native ABI changes.
+
+Normal RV32 core fixtures pass tail647 calls/559 controls and INODE2522/326;
+host INODE592/326 passes separately. Added180/172 controls retain exact owners,
+effects and full1030+6 INODE projections for both profiles.13 tail/10 INODE
+mutants and219 unique/237 unit executions pass. The old120s sanitizer timeout
+is retained; a separate600s host invocation passes,default120/native budgets
+unchanged. The nine original tail mutation pairs are exactly retained after
+preserving the intermediate changed-value runner. These are modeled core tests.
+
+Repeat CODE858d1408/DATA40483c19 has20 components/168 hooks;20 image groups,
+60 loader/eight mutants,six negative boots/12 sender cases pass.22 identical
+normal/stack objects give171 individual frames,max4688,not a full bound. The
+older300/718/six/56/9696 partial graph remains older-CODE-bound,not requalified.
+Source-lockd6b6e2da/kernel/provider/22 headers/both saved FITs are unchanged.
+
+Both original full36 tail runs were interrupted at34 passed cases/profile with
+no aggregate verdict. Separate frozen-source completion diagnostics remain
+live; they cannot qualify this new source. Both old cold callers remain ABI
+failures,with real stage0 but no stage1 INODE prefix. Fresh current-source both-
+HIF cold/full512/eight-DESC10/all36-tail/actual-stage1/new24-INODE/broader work
+remains. Full setup/hot/checked IRQ/RRO/lifecycle/DMA/cache/original/indirect/
+per-hart/physical/boot/client gates stay open. No hardware or subagents.
+Read late-readers/REPORT.md and metadata; Jev is uncertain,not an approval.
+This supersedes older running-job and unvalidated-hypothesis descriptions below.
+
 ## 2026-10-17 - INODE Observer Boundary Fixed;Old Failures Retained
 
 Both frozen600055c callers are terminal exit1 INODE-entry-ABI after all three

@@ -22,6 +22,7 @@ uint32_t npu_test_tail_cells[9], npu_test_tail_addresses[9];
 uint32_t npu_test_tail_events[27], npu_test_tail_effects;
 uint32_t npu_test_tail_reads, npu_test_tail_mutation, npu_test_tail_mutated;
 uint32_t npu_test_tail_read_failure;
+uint32_t npu_test_tail_late_owner, npu_test_tail_late_address;
 static uint32_t cookie = 0x314c5450;
 
 static void clear(void *target, uint32_t bytes)
@@ -56,6 +57,27 @@ static int prior_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *
     return result;
 }
 
+static int read_complete(uint32_t address)
+{
+    if (!npu_test_tail_late_owner || npu_test_tail_mutated ||
+        address != npu_test_tail_late_address)
+        return 1;
+    switch (npu_test_tail_late_owner) {
+    case 1: npu_cold_packet_fault(&npu_test_txdone_packet); break;
+    case 2: npu_cold_txdone_fault(&npu_test_txdone_state); break;
+    case 3: npu_cold_rx_event_fault(&npu_test_txdone_rx); break;
+    case 4: npu_test_tail_tx.fault = 1; break;
+    case 5: npu_test_pcie_state.fault = 1; break;
+    case 6: npu_cold_pcie_tail_fault(&npu_test_tail_state); break;
+    case 7: npu_test_txdone_packet.count--; break;
+    case 8: npu_test_txdone_state.claims_published--; break;
+    case 9: npu_test_txdone_rx.published = 0; break;
+    default: return 0;
+    }
+    npu_test_tail_mutated = 1;
+    return 1;
+}
+
 static int tail_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
 {
     static const uint32_t metadata[] = {0x3e90395c, 0x3e902a80, 0x3e904630, 0x3e902a9c, 0x3e902a90};
@@ -65,19 +87,19 @@ static int tail_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *v
         return 0;
     if (address == 0x3e902a7c && bytes == 2) {
         *value = npu_test_txdone_count & 65535;
-        return 1;
+        return read_complete(address);
     }
     if (bytes != 4)
         return 0;
     for (uint32_t i = 0; i < 5; i++)
         if (address == metadata[i]) {
             *value = i == 4 ? npu_test_pcie_metadata[1] : npu_test_tail_plan.tx.endpoint_base + offsets[i];
-            return 1;
+            return read_complete(address);
         }
     for (uint32_t i = 0; i < 9; i++)
         if (address == npu_test_tail_addresses[i]) {
             *value = npu_test_tail_cells[i];
-            return 1;
+            return read_complete(address);
         }
     return 0;
 }
@@ -153,6 +175,7 @@ uint32_t npu_test_tail_prepare(uint32_t hif2)
     clear(npu_test_tail_events, sizeof(npu_test_tail_events));
     npu_test_tail_effects = npu_test_tail_reads = npu_test_tail_mutation = npu_test_tail_mutated = 0;
     npu_test_tail_read_failure = 0;
+    npu_test_tail_late_owner = npu_test_tail_late_address = 0;
     npu_test_tail_addresses[0] = 0x3e902cf0;
     npu_test_tail_addresses[1] = tx.host0 + 0x168;
     npu_test_tail_addresses[2] = 0x3e903904;

@@ -1,0 +1,52 @@
+{
+  "scope": "documentation-claims-only-not-firmware-design-or-authority",
+  "model": "jev-1.13.0",
+  "answers": {
+    "modeled_scope": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 1.0,
+      "probabilities": {
+        "supported": 1.0,
+        "contradicted": 0.0,
+        "not_established": 0.0
+      }
+    },
+    "timeout_scope": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 0.7,
+      "probabilities": {
+        "supported": 0.8,
+        "contradicted": 0.16,
+        "not_established": 0.04
+      }
+    },
+    "frozen_scope": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 1.0,
+      "probabilities": {
+        "supported": 1.0,
+        "contradicted": 0.0,
+        "not_established": 0.0
+      }
+    },
+    "overall_scope": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 1.0,
+      "probabilities": {
+        "supported": 1.0,
+        "contradicted": 0.0,
+        "not_established": 0.0
+      }
+    }
+  },
+  "request_sha256": "fca8f96998efa075b716b4500d1ae84f4853d6afd26493120eaba363ed4294a7",
+  "result_sha256": "4ba2a4bd4f36e1b16def823b01d3e686a0511f91d5e6bed486d70c844e8f6d6d",
+  "reviewed_report_sha256": "e6ab3bdce78af96a9e6246785e2557e6af562ca42a79ee94a1fb85ccbeab9643",
+  "reviewed_readme_sha256": "8b5cc3f60661646a5939260ac90cc2d7414ddc7887705438cb77c7f12cc57836",
+  "earlier_design_uncertainty_retained": true,
+  "hardware": false
+}

@@ -101,6 +101,8 @@ class ImageTests(unittest.TestCase):
             self.assertEqual((hooks[site]['component'], hooks[site]['symbol']), ('cold-pcie-tail', name))
         predecessor = image.symbols(self.components['cold-rx-pcie'])['npu_emulation_rx_pcie_callback']
         self.assertEqual(symbols['npu_emulation_rx_pcie_callback'], predecessor)
+        done = image.symbols(self.components['cold-txdone'])
+        self.assertEqual(symbols['npu_cold_txdone_live'], done['npu_cold_txdone_live'])
         self.assertNotEqual(predecessor, image.CODE + 0xfdc4)
         decoder = image.Cs(image.CS_ARCH_RISCV, image.CS_MODE_RISCV32 | image.CS_MODE_RISCVC)
         for offset in tail.STORES:

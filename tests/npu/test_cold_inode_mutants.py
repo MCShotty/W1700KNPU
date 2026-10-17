@@ -19,11 +19,20 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main():
+def arguments(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", required=True)
     parser.add_argument("--baseline", type=Path, required=True)
-    args = parser.parse_args()
+    parser.add_argument('--sanitizer-host-timeout', type=int, default=120,
+        help='Host seconds for the sanitizer only (default: %(default)s); native limits are unchanged.')
+    args = parser.parse_args(argv)
+    if not 120 <= args.sanitizer_host_timeout <= 600:
+        parser.error('--sanitizer-host-timeout must be between120 and600 seconds')
+    return args
+
+
+def main():
+    args = arguments()
     assert args.name.replace("-", "").isalnum()
     dest = ROOT / ".local/npu-inode-owner" / args.name
     assert not dest.exists()
@@ -44,7 +53,13 @@ def main():
         "ignore-readback": ("bytes != store.bytes || readback != store.value || !read_equal(c, address, bytes, readback))",
                              "bytes != store.bytes || ((void)readback, 0))"),
         "forget-possible-effect": ("    npu_cold_inode_fault(s);\n    return status;",
-                                   "    npu_cold_inode_fault(s);\n    if (s) s->committed = s->published;\n    return status;")}
+                                   "    npu_cold_inode_fault(s);\n    if (s) s->committed = s->published;\n    return status;"),
+        'late-prefix-prior-fault': (
+            '    return npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&\n           equal(s, &held, sizeof(held))',
+            '    return equal(s, &held, sizeof(held))'),
+        'postcheck-after-owner-snapshot': (
+            '    return npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&\n           equal(s, &held, sizeof(held)) && equal(c->pcie, &prior, sizeof(prior)) && state_valid(s, p, epoch);',
+            '    return equal(s, &held, sizeof(held)) && equal(c->pcie, &prior, sizeof(prior)) && state_valid(s, p, epoch) &&\n           npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior);')}
     sources = [CORE / (n + ".c") for n in
         ("cold-rx-pcie", "cold-txdone", "cold-rx-event", "cold-tx-buffer", "cold-packet", "cold-tx")]
     sources += [CORE / "cold-pcie-tail.c"]
@@ -62,13 +77,14 @@ def main():
                         *sources, source_path, *fixtures, sanitizer_source, "-o", sanitizer]
     run(build, dest / "sanitize-build.log")
     environment = dict(os.environ, ASAN_OPTIONS="detect_leaks=1:halt_on_error=1", UBSAN_OPTIONS="halt_on_error=1")
-    completed = subprocess.run([str(sanitizer)], env=environment, text=True, capture_output=True, timeout=120)
+    completed = subprocess.run([str(sanitizer)], env=environment, text=True, capture_output=True,
+        timeout=args.sanitizer_host_timeout)
     (dest / "sanitize-run.log").write_text(completed.stdout + completed.stderr)
     assert completed.returncode == 0, completed.stderr
     print(json.dumps({"sanitizer": True, "address": True, "undefined": True, "leak": True}), flush=True)
     results = []
     for name, (before, after) in mutants.items():
-        assert source.count(before) == (2 if name == "unfinished-pcie-tail" else 1), name
+        assert source.count(before) == (3 if name == "unfinished-pcie-tail" else 1), name
         path, shared = dest / (name + ".c"), dest / (name + ".so")
         path.write_text(source.replace(before, after))
         run(command + ["-O2", "-shared", "-fPIC", *sources, path, *fixtures, "-o", shared], dest / (name + "-build.log"))
@@ -85,7 +101,10 @@ def main():
     assert all(sha(ROOT / n) == h for n, h in inputs.items())
     record = {"passed": True, "mutants": results, "inputs": inputs,
               "sanitizer": {"exit_code": 0, "address": True, "undefined": True, "leak": True,
-                            "binary_sha256": sha(sanitizer)}, "scope": "compiled host faults, not native admission"}
+                            "binary_sha256": sha(sanitizer),
+                            "host_timeout_seconds": args.sanitizer_host_timeout},
+              "native_guard_budget_changed": False,
+              "scope": "compiled host faults, not native admission"}
     (dest / "result.json").write_text(json.dumps(record, indent=2) + "\n")
 
 

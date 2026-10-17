@@ -1,8 +1,29 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-15 (canonical owners/image qualified; full native/physical open)
+Last updated: 2026-10-18 (two late-reader fixes;modeled core checks pass;fresh original/full setup/physical open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-18 - Reader Fixes And Corrected Run Inventory
+
+- Implemented two reproduced transitive-owner rechecks in the tail and INODE
+  core. Corrected host probes reject all72/56 covered faults,versus36/20 false
+  acceptances before. Normal RV32 fixtures pass647/559 and2522/326;host INODE
+  592/326 and13/10 compiled mutants pass separately. Full1036 effects/profile,
+  default120s sanitizer/native budgets and exact original mutation pairs stay.
+  The explicit600s host sanitizer run does not repair the old120s timeout.
+- Current pair CODE858d1408/DATA40483c19 repeats with20 components/168 hooks.
+  20 image groups,60 loader/eight mutants,six negative boots/12 sender cases
+  and219 unique/237 unit executions pass in their scopes.22 identical normal/
+  stack objects give171 individual frames,max4688,not a whole-chain bound.
+- Original tail jobs were interrupted at34 passed cases/profile,not completed.
+  Separate old-source completion diagnostics are live. Both old cold callers
+  remain ABI failures. Fresh current-source actual cold/full512/eight-DESC10/
+  all36-tail/INODE stage1/new24 faults and all full setup/hot/IRQ/RRO/lifecycle/
+  physical/boot/client gates remain. Source-lock/kernel/provider/headers/FITs
+  unchanged; no hardware,subagents or raw private evidence uploaded. Current
+  evidence: research/checkpoints/2026-10-17-npu-late-readers/REPORT.md.
+  This supersedes older live-job descriptions,not their historical receipts.
 
 ## 2026-10-15 - Canonical Owners And Image Qualified
 

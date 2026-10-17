@@ -1,5 +1,37 @@
 # W1700KNPU Workspace
 
+## 2026-10-18 - Late Readers Recheck Transitive Owners
+
+- Implemented the reproduced PCIe-tail/INODE liveness fixes. Tail rechecks the
+  full TXDONE dependency after metadata/prefix reads. INODE rechecks the full
+  tail dependency after its prefix, before final local-owner comparisons.
+  No reclamation, fabricated owners, ABI/size or native-budget changes.
+- Host probes reproduce 36/72 and 20/56 old false acceptances; corrected
+  source rejects all covered faults. Normal RV32 tail647/559 and INODE2522/326
+  pass, including 180/172 added controls and both full1036 INODE projections.
+  Host INODE592/326, 13 tail/10 INODE mutants, sanitizers and 219 unique/237
+  unit executions pass in their separate scopes. Do not sum overlapping runs.
+- The original120s INODE sanitizer timeout remains a timeout. A separate600s
+  host-only invocation passes; default120s/native bounds/full sizes stay.
+  All nine legacy tail mutation pairs must remain exactly unchanged; retain
+  the earlier altered-value runner/receipts as historical, not current proof.
+- Current repeat pair has20 components/168 hooks, CODE858d1408/DATA40483c19;
+  20 image groups,60 loader/eight mutants,six negative boots/12 sender cases
+  pass.22 normal objects match171 measured individual frames,max4688,not a
+  whole-stack bound. The old300/718/six/56/9696 graph is not requalified.
+- Original full36 tail jobs were interrupted with34 passed cases/profile and
+  no final verdict. Separate default/HIF2 completion diagnostics are live on
+  the old frozen sources,not current-main qualification. Both old cold callers
+  remain terminal ABI failures. No restart or repair of those executions.
+- Fresh current-source both-HIF cold/full512/eight-DESC10/all36-tail/actual
+  stage1/new24-INODE and broader qualification remain, as do full setup/hot/
+  IRQ/RRO/lifecycle/DMA/cache/original/indirect/per-hart/physical/client gates.
+  Source-lockd6b6e2da/kernel/provider/22 exported headers/both FITs stay.
+  Native implementation provenance is in Git/raw manifests,not a header-only
+  lock change. No hardware or subagents. Read late-readers/REPORT.md and both
+  metadata files; preserve Jev uncertainty,not approval. This entry supersedes
+  older running-job and unvalidated-hypothesis descriptions below.
+
 ## 2026-10-17 - Correct Callback ABI Boundary;Old Callers Failed
 
 - Both frozen600055c callers are terminal exit1 INODE-entry-ABI after all three

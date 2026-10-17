@@ -17,7 +17,7 @@ HERE = Path(__file__).resolve().parent
 BASE, MAGIC = 0x20000000, 0x31545043
 FIELDS = ("tail_state", "tail_plan", "tail_tx", "tail_cells", "tail_addresses",
           "tail_events", "tail_effects", "tail_reads", "tail_mutation",
-          "tail_mutated", "tail_read_failure")
+          "tail_mutated", "tail_read_failure", "tail_late_owner", "tail_late_address")
 
 
 class Pair(pcie.Pair):
@@ -65,6 +65,28 @@ def stores(hif2):
 def exercise(pair, exhaustive):
     controls, nominal = [], []
     phases = None
+
+    def late_fault(label, saved, command, args, owner, address, read_only):
+        pair.restore(saved)
+        pair.setword('tail_late_owner', 0, owner)
+        pair.setword('tail_late_address', 0, address)
+        before = pair.snapshot()
+        result = pair.tail(command, *args)
+        assert (result == 0 if read_only else result != 0), (label, 'late-owner-accepted', result)
+        assert pair.values('tail_mutated') == (1,), (label, 'late-owner-not-injected')
+        wanted = {name: bytearray(data) for name, data in before.items()}
+        if owner <= 6:
+            field = ('packet', 'state', 'rx', 'tail_tx', 'pcie_state', 'tail_state')[owner - 1]
+            struct.pack_into('<I', wanted[field], 8, 1)
+        else:
+            field, offset = (('packet', 16), ('state', 36), ('rx', 24))[owner - 7]
+            value = struct.unpack_from('<I', wanted[field], offset)[0]
+            struct.pack_into('<I', wanted[field], offset, value - 1 if owner < 9 else 0)
+        if not read_only: struct.pack_into('<I', wanted['tail_state'], 8, 1)
+        for name, data in wanted.items():
+            if name not in ('tail_reads', 'tail_mutated'):
+                assert bytes(pair.fields[name][2]) == data, (label, 'late-owner-unexpected-write', name)
+        controls.append(label)
 
     for hif2 in (0, 1):
         assert pair.tail("prepare", hif2) == 0
@@ -117,6 +139,21 @@ def exercise(pair, exhaustive):
         nominal.append({"hif2": hif2, "ordered_effects": expected, "stores": 9})
         if not hif2:
             phases = states
+
+        for stage in range(3):
+            last = (stage + 1) * 2 if stage < 2 else 9
+            for boundary, address in (('metadata', 0x3e902a7c), ('prefix', expected[last - 1][0])):
+                for owner in range(1, 10):
+                    late_fault(f'hif{hif2}-stage{stage}-late-{boundary}-owner{owner}',
+                        states[f'finished-{stage}'], 'stage_live', (stage,), owner, address, True)
+        for command, state, args in (
+            ('begin', 'fresh', (0, BASE + 0xd4580, 1)),
+            ('reserve', 'begun-0', (*expected[0], initial_cells[0])),
+            ('publish', 'written-0', expected[0]),
+            ('finish', 'published-1', ())):
+            for owner in range(1, 10):
+                late_fault(f'hif{hif2}-late-{command}-owner{owner}', states[state],
+                    command, args, owner, 0x3e902a7c, False)
 
     def denied(label, saved, command, args=(), mutation=None, read_only=False):
         pair.restore(saved)

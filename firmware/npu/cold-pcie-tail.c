@@ -141,7 +141,9 @@ static int prior_live(const struct npu_cold_pcie_tail_plan *p, uint32_t epoch,
     return read_equal(c, 0x3e902a7c, 2, NPU_COLD_TXDONE_IDS) &&
            equal(c->tx, &held_tx, sizeof(held_tx)) &&
            equal(c->pcie, &held_pcie, sizeof(held_pcie)) &&
-           equal(p, &held_plan, sizeof(held_plan));
+           equal(p, &held_plan, sizeof(held_plan)) &&
+           npu_cold_txdone_live(c->prior.done, &p->prior.prior, epoch,
+               c->prior.rx, c->prior.rx_readback, c->prior.packets, c->prior.ready);
 }
 
 static int prefix_live(const struct npu_cold_pcie_tail_state *s,
@@ -192,7 +194,9 @@ static int context(const struct npu_cold_pcie_tail_state *s,
     copy(&pcie, c->pcie, sizeof(pcie));
     return prior_live(p, epoch, c) && prefix_live(&held, p, c) &&
            equal(s, &held, sizeof(held)) && equal(c->tx, &tx, sizeof(tx)) &&
-           equal(c->pcie, &pcie, sizeof(pcie)) && state_valid(s, p, epoch);
+           equal(c->pcie, &pcie, sizeof(pcie)) && state_valid(s, p, epoch) &&
+           npu_cold_txdone_live(c->prior.done, &p->prior.prior, epoch,
+               c->prior.rx, c->prior.rx_readback, c->prior.packets, c->prior.ready);
 }
 
 uint32_t npu_cold_pcie_tail_begin(struct npu_cold_pcie_tail_state *s,

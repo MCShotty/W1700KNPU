@@ -1,5 +1,23 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-18 - Late-Reader Owner Checks
+
+Fixed two reproduced cold-owner liveness gaps: PCIe-tail readers now recheck
+the complete earlier TXDONE/packet/RX owner state after external reads, and
+INODE rechecks its complete tail dependency after its published-prefix reads.
+The normal RV32 fixtures pass 647 tail calls/559 controls and 2522 INODE
+calls/326 controls; these are modeled core tests, not original cold-constructor
+or physical acceptance. Both profiles retain the full 1030+6 INODE effects.
+See the [reader checkpoint](research/checkpoints/2026-10-17-npu-late-readers/REPORT.md).
+
+The old tail matrices were interrupted with 34 passed cases each. Separate
+frozen-source completion diagnostics are running; neither qualifies this new
+candidate. Both old cold-caller ABI failures remain failures. Fresh complete
+cold setup, hot TX/RX, checked IRQ/rearm, ownership/drain/recovery, remaining
+original/indirect/stack analysis and real-router/client validation remain open.
+Saved images and source-lock are unchanged; no hardware action occurred.
+This supersedes older live-job descriptions below.
+
 ## 2026-10-17 - INODE ABI Observer Corrected
 
 Both old cold callers reached all three PCIe tail stages/nine stores,then failed

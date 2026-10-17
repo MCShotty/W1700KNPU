@@ -8,6 +8,7 @@ extern struct npu_cold_tx_state npu_test_tail_tx;
 extern struct npu_cold_rx_pcie_state npu_test_pcie_state;
 extern struct npu_cold_txdone_state npu_test_txdone_state;
 extern struct npu_cold_rx_event_state npu_test_txdone_rx;
+extern struct npu_cold_packet_state npu_test_txdone_packet;
 extern uint32_t npu_test_tail_live(void);
 extern struct npu_cold_pcie_tail_context npu_test_tail_context(void);
 
@@ -33,7 +34,44 @@ uint8_t npu_test_inode_flags[36];
 uint32_t npu_test_inode_events[NPU_COLD_INODE_STORES * 3], npu_test_inode_effects;
 uint32_t npu_test_inode_reads, npu_test_inode_read_failure;
 uint32_t npu_test_inode_mutation, npu_test_inode_mutated;
+uint32_t npu_test_inode_late_owner, npu_test_inode_late_address, npu_test_inode_late_seen;
 static uint32_t inode_cookie = 0x31434e49;
+static npu_cold_txdone_read_fn inode_prior_read;
+
+static int inode_read_complete(uint32_t address)
+{
+    if (!npu_test_inode_late_owner || npu_test_inode_mutated ||
+        address != npu_test_inode_late_address)
+        return 1;
+    switch (npu_test_inode_late_owner) {
+    case 1: npu_cold_packet_fault(&npu_test_txdone_packet); break;
+    case 2: npu_cold_txdone_fault(&npu_test_txdone_state); break;
+    case 3: npu_cold_rx_event_fault(&npu_test_txdone_rx); break;
+    case 4: npu_test_tail_tx.fault = 1; break;
+    case 5: npu_cold_rx_pcie_fault(&npu_test_pcie_state); break;
+    case 6: npu_cold_pcie_tail_fault(&npu_test_tail_state); break;
+    case 7: npu_cold_inode_fault(&npu_test_inode_state); break;
+    case 8: npu_test_txdone_packet.count--; break;
+    case 9: npu_test_txdone_state.claims_published--; break;
+    case 10: npu_test_txdone_rx.published = 0; break;
+    case 11: npu_test_inode_late_seen = 1; return 1;
+    default: return 0;
+    }
+    npu_test_inode_mutated = 1;
+    return 1;
+}
+
+static int inode_prior_observed(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
+{
+    int result = inode_prior_read(opaque, address, bytes, value);
+
+    if (result && npu_test_inode_late_owner == 11 && npu_test_inode_late_seen &&
+        !npu_test_inode_mutated && address == 0x3e902a7c && bytes == 2) {
+        npu_cold_inode_fault(&npu_test_inode_state);
+        npu_test_inode_mutated = 1;
+    }
+    return result;
+}
 
 static int inode_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *value)
 {
@@ -55,10 +93,10 @@ static int inode_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *
             if (npu_test_inode_mutation == 8) npu_test_txdone_rx.fault = 1;
             npu_test_inode_mutated = 1;
         }
-        return 1;
+        return inode_read_complete(address);
     }
-    if (address == 0x8401cfbc && bytes == 4) { *value = npu_test_inode_metadata[1]; return 1; }
-    if (address == 0x3e902ac0 && bytes == 4) { *value = npu_test_inode_metadata[2]; return 1; }
+    if (address == 0x8401cfbc && bytes == 4) { *value = npu_test_inode_metadata[1]; return inode_read_complete(address); }
+    if (address == 0x3e902ac0 && bytes == 4) { *value = npu_test_inode_metadata[2]; return inode_read_complete(address); }
     if (address >= NPU_COLD_INODE_ICV && address - NPU_COLD_INODE_ICV < NPU_COLD_INODE_ICV_BYTES &&
         bytes == 4 && bytes <= NPU_COLD_INODE_ICV_BYTES - (address - NPU_COLD_INODE_ICV))
         source = (const volatile uint8_t *)npu_test_inode_window + (address - 0x3e8bc000u);
@@ -68,14 +106,17 @@ static int inode_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *
     else return 0;
     *value = 0;
     for (uint32_t i = 0; i < bytes; i++) *value |= (uint32_t)source[i] << (i * 8);
-    return 1;
+    return inode_read_complete(address);
 }
 
 static struct npu_cold_inode_context inode_context(void)
 {
     struct npu_cold_inode_context c = {.pcie = &npu_test_tail_state,
         .prior = npu_test_tail_context(), .read = inode_read, .opaque = &inode_cookie};
+    inode_prior_read = c.prior.read;
+    c.prior.read = inode_prior_observed;
     npu_test_inode_reads = npu_test_inode_mutated = 0;
+    npu_test_inode_late_seen = 0;
     return c;
 }
 
@@ -95,6 +136,7 @@ uint32_t npu_test_inode_prepare(uint32_t hif2)
     npu_test_inode_metadata[1] = npu_test_inode_metadata[2] = NPU_COLD_INODE_ICV;
     npu_test_inode_effects = npu_test_inode_reads = npu_test_inode_read_failure = 0;
     npu_test_inode_mutation = npu_test_inode_mutated = 0;
+    npu_test_inode_late_owner = npu_test_inode_late_address = npu_test_inode_late_seen = 0;
     return 0;
 }
 

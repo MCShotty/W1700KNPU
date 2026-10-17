@@ -18,8 +18,8 @@ ROOT, CORE, TESTS = tail.ROOT, tail.CORE, tail.TESTS
 HERE = Path(__file__).resolve().parent
 FIELDS = ("inode_state", "inode_plan", "inode_window", "inode_flags", "inode_events",
           "inode_effects", "inode_metadata", "inode_reads", "inode_read_failure",
-          "inode_mutation", "inode_mutated")
-DIAGNOSTICS = ("tail_reads", "tail_mutated", "inode_reads", "inode_mutated")
+          "inode_mutation", "inode_mutated", "inode_late_owner", "inode_late_address", "inode_late_seen")
+DIAGNOSTICS = ("tail_reads", "tail_mutated", "inode_reads", "inode_mutated", "inode_late_seen")
 
 
 class Pair(tail.Pair):
@@ -59,6 +59,28 @@ def exercise(pair):
     expected = original.recipe(2) + original.recipe(7)
     assert len(expected) == 1036
     controls, nominal, phases = [], [], {}
+
+    def late_fault(label, saved, command, args, mode, address, readonly):
+        pair.restore(saved)
+        pair.setword('inode_late_owner', 0, mode)
+        pair.setword('inode_late_address', 0, address)
+        wanted = {name: bytearray(data) for name, data in pair.snapshot().items()}
+        result = pair.inode(command, *args)
+        assert (result == 0 if readonly else result != 0), (label, 'late-owner-accepted', result)
+        assert pair.values('inode_mutated') == (1,), (label, 'late-owner-not-injected')
+        if mode <= 7 or mode == 11:
+            field = 'inode_state' if mode == 11 else (
+                'packet', 'state', 'rx', 'tail_tx', 'pcie_state', 'tail_state', 'inode_state')[mode - 1]
+            struct.pack_into('<I', wanted[field], 8, 1)
+        else:
+            field, offset = (('packet', 16), ('state', 36), ('rx', 24))[mode - 8]
+            value = struct.unpack_from('<I', wanted[field], offset)[0]
+            struct.pack_into('<I', wanted[field], offset, value - 1 if mode < 10 else 0)
+        if not readonly: struct.pack_into('<I', wanted['inode_state'], 8, 1)
+        for name, data in wanted.items():
+            if name not in DIAGNOSTICS:
+                assert bytes(pair.fields[name][2]) == data, (label, 'late-owner-unexpected-write', name)
+        controls.append(label)
     for hif2 in (0, 1):
         assert pair.tail("prepare", hif2) == 0
         prior_stores = tail.stores(hif2)
@@ -107,6 +129,27 @@ def exercise(pair):
                         "window_sha256": hashlib.sha256(bytes(pair.fields["inode_window"][2])).hexdigest()})
         if hif2 == 0:
             phases = snapshots
+
+        for stage in (0, 1):
+            last = 1029 if stage == 0 else 1035
+            for boundary, address in (('metadata', 0x3e902ac0), ('prefix', expected[last][0])):
+                for mode in range(1, 11):
+                    late_fault(f'hif{hif2}-stage{stage}-late-{boundary}-owner{mode}',
+                        snapshots[f'finished-{stage}'], 'stage_live', (stage,), mode, address, True)
+            late_fault(f'hif{hif2}-stage{stage}-late-recheck-owner11',
+                snapshots[f'finished-{stage}'], 'stage_live', (stage,), 11, expected[last][0], True)
+        pair.restore(snapshots['prefix-1'])
+        assert pair.inode('run', 1, 2) == 5
+        written_second = pair.snapshot()
+        address, size, value = expected[1]
+        before = int.from_bytes(snapshots['prefix-1']['inode_flags'][address - 0x3e9046e0:address - 0x3e9046e0 + size], 'little')
+        for command, saved, args, trigger in (
+            ('begin', snapshots['pre-1'], (7, 0, 1), expected[1029][0]),
+            ('reserve', snapshots['prefix-1'], (address, size, value, before), expected[0][0]),
+            ('publish', written_second, expected[1], expected[0][0]),
+            ('finish', snapshots['prefix-1030'], (), expected[1029][0])):
+            for mode in range(1, 12):
+                late_fault(f'hif{hif2}-late-{command}-owner{mode}', saved, command, args, mode, trigger, False)
 
     def denied(label, saved, command, args=(), mutation=None, readonly=False):
         pair.restore(saved)

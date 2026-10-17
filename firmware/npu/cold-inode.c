@@ -146,7 +146,8 @@ static int context(const struct npu_cold_inode_state *s,
     for (uint32_t i = 0; i < held.published; i++)
         if (npu_cold_inode_recipe(p, i, &store) || !read_equal(c, store.address, store.bytes, store.value))
             return 0;
-    return equal(s, &held, sizeof(held)) && equal(c->pcie, &prior, sizeof(prior)) && state_valid(s, p, epoch);
+    return npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&
+           equal(s, &held, sizeof(held)) && equal(c->pcie, &prior, sizeof(prior)) && state_valid(s, p, epoch);
 }
 
 uint32_t npu_cold_inode_begin(struct npu_cold_inode_state *s, const struct npu_cold_inode_plan *p,

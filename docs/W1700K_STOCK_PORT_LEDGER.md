@@ -1,10 +1,50 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (INODE ABI boundary corrected;both old callers failed and retained;35 focused/215 broader unique units;HIF2 bitmap diagnostic passes;both tail matrices live;firmware,source-lock,images and native budgets unchanged)
+Last updated: 2026-10-18 (two reader fixes;modeled tail647/559 and INODE2522/326 pass;old interruptions/failures retained;fresh original cold/full setup/hot/physical/client gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-18 - Transitive Owner Liveness After Readers
+
+- Reproduced tail36/72 and INODE20/56 false acceptances in actual host C probes
+  that inject faults on successful late metadata/prefix reads. Full owner,
+  plan, memory and effect snapshots retain only the named fault differences.
+  Settled queries deny; old omission mutants match the old C byte-for-byte.
+- Implemented full TXDONE/packet/RX owner rechecks after tail metadata/prefix
+  reads and a full tail recheck after INODE prefix reads, before final local
+  owner comparisons. Corrected probes reject all72/56 covered cases. The
+  stronger source-bound INODE probe repeats the same56,not additional coverage.
+- Normal RV32 tail647 calls/559 controls and INODE2522/326 pass; host INODE
+  592/326 is separate. Added180 tail/172 INODE controls include non-fault
+  corruption and a fault during nested recheck. Both full1030+6 effects/4104-
+  byte projections remain.13 tail/10 INODE compiled mutants/sanitizers and
+  219 unique/237 unit executions pass; scopes overlap,not aggregate coverage.
+- The original INODE sanitizer's120s TimeoutExpired/no result remains. A fresh
+  explicit600s host-only run passes; default120/native instruction/wall bounds
+  and full fixture sizes stay. Review restored the exact old HIF2 mutant value;
+  fresh13-mutant scope retains all nine original mutation pairs. Earlier
+  changed-value runner/results are hash-preserved,not silently requalified.
+- Repeat pair20 components/168 hooks has CODE858d1408/DATA40483c19.20 image
+  groups,60 checked loader/eight mutants,six negative boots/12 actual sender
+  cases pass.22 normal objects match instrumented objects;171 measured frames,
+  max4688,are individual only. Old300/718/six/56/9696 graph remains older-bound.
+- Original all36 tail jobs were interrupted with34 passed cases/profile and
+  absent terminal/aggregate verdicts. Separate default/HIF2 frozen completion
+  diagnostics remain live with the missing two cases; no repair of old runs
+  or current-source qualification. Both old cold callers remain ABI failures.
+- Canonical source-lockd6b6e2da/kernel/provider/22 exported headers/both saved
+  FITs remain unchanged. Native implementation changes are Git/raw-manifest
+  bound. Preserved cohorts2521/2731 and5393 files are not replay-qualified.
+  The first recursive pre-review preservation refused historical source drift;
+  separate declared-input preservation succeeds without changing old receipts.
+- Fresh both-HIF current-source cold/full512/eight-DESC10/all36-tail/actual
+  stage1/new24-INODE/broader/full setup/hot/checked IRQ/RRO/lifecycle/DMA/cache/
+  original/indirect/per-hart/physical/boot/client gates remain. No hardware,
+  reclamation,source-hash/budget waiver or subagents. Jev's uncertain layer/
+  ordering labels remain,not approval. See late-readers/REPORT.md and metadata.
+  This supersedes older running-job/unvalidated-hypothesis descriptions below.
 
 ## 2026-10-17 - INODE ABI Boundary And Terminal Callers
 

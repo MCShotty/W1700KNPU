@@ -1,0 +1,189 @@
+{
+  "passed": true,
+  "scope": "late-reader-checked-owners-preparation-and-modeled-core-only",
+  "observed_at": "2026-10-17T21:10:41.631004+00:00",
+  "units_unique": 219,
+  "unit_executions": 237,
+  "tail_normal_rv32_calls": 647,
+  "tail_controls": 559,
+  "tail_new_controls": 180,
+  "tail_mutants": 13,
+  "inode_host_calls": 592,
+  "inode_controls": 326,
+  "inode_new_controls": 172,
+  "inode_mutants": 10,
+  "inode_normal_rv32_status": "passed-modeled-normal-rv32-core",
+  "inode_normal_rv32_calls": 2522,
+  "tail_legacy_mutation_pairs_exactly_retained": true,
+  "inode_sanitizer_host_limit_seconds": 600,
+  "original120s_sanitizer_repaired": false,
+  "native_budgets_changed": false,
+  "probes": {
+    "tail": {
+      "cases": 72,
+      "false_acceptances": 0,
+      "receipt_sha256": "1842117c1597f9a6ccc5f6d2633cadd1e5e2e61c7310cd4a95fd3da5112e1871",
+      "original_false_acceptances": 36,
+      "original_receipt_sha256": "584142bdf5ed8c3fcdb8425718ee2ef1425f1c41f797ce351330b9ad07b94db4",
+      "omission_mutant_matches_old_source": true
+    },
+    "inode": {
+      "cases": 56,
+      "false_acceptances": 0,
+      "receipt_sha256": "bd21f533a2e2a3a299b6592b734a2d7c9c5b1e7c980b497c9959a097f277cdfe",
+      "original_false_acceptances": 20,
+      "original_receipt_sha256": "6bd55c636c6a792a046c8cfa2643f691a7a9b2eab9d6000f157c5d6bdac73832",
+      "omission_mutant_matches_old_source": true
+    }
+  },
+  "frames_individual_only": true,
+  "code_sha256": "858d14086955983764721acb26400446751cdcbc5708b31c6d4295c968711d3c",
+  "data_sha256": "40483c19c5fff003f73918ee6d2829371598e25b5d782888eeea65e70c120389",
+  "raw_components": 20,
+  "raw_hooks": 168,
+  "preservations": {
+    "inode-abi-before-tail-v1": {
+      "files": 2521,
+      "bytes": 528798311,
+      "receipt_sha256": "f475bf5694de4b9c8b1dbde735f6e66761ac4c3fbe72d7cf334ea01277ce77e8",
+      "replay_qualified": false
+    },
+    "tail-before-inode-v1": {
+      "files": 2731,
+      "bytes": 542739313,
+      "receipt_sha256": "68d1dee1fd4dd10dde72996e47e65a56e77076498688b8df49bbbbfd1f9a0a8c",
+      "replay_qualified": false
+    },
+    "late-readers-pre-review-v2": {
+      "files": 5393,
+      "bytes": 773414982,
+      "receipt_sha256": "99987ea075c5b67d1642298b7bf11232132608cd1802da447d6543491652a891",
+      "replay_qualified": false
+    }
+  },
+  "older_tail_original_executions_interrupted": true,
+  "older_completed_cases_each": 34,
+  "fresh_original_cold_constructor_qualified": false,
+  "new24_inode_faults_qualified": false,
+  "old_partial_stack_graph_requalified": false,
+  "full_setup": false,
+  "hardware": false,
+  "preflight_sha256": "c267c21522a0cd4d8400c97d9f9f84593f20e03c6a5a3711e425e6ccb984b0b1",
+  "preflight_input_count": 3478,
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "source_only_native_change": true,
+  "images_changed": false,
+  "jev": {
+    "jev-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "logic": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.3,
+          "probabilities": {
+            "supported": 0.53,
+            "contradicted": 0.08,
+            "not_established": 0.39
+          }
+        },
+        "retention": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.52,
+          "probabilities": {
+            "supported": 0.68,
+            "contradicted": 0.08,
+            "not_established": 0.24
+          }
+        },
+        "fault_bits": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.4,
+          "probabilities": {
+            "supported": 0.07,
+            "contradicted": 0.6,
+            "not_established": 0.33
+          }
+        },
+        "scope": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.72,
+          "probabilities": {
+            "supported": 0.81,
+            "contradicted": 0.01,
+            "not_established": 0.18
+          }
+        },
+        "timeout": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.61,
+          "probabilities": {
+            "supported": 0.01,
+            "contradicted": 0.25,
+            "not_established": 0.74
+          }
+        }
+      },
+      "request_sha256": "db4f9b7bdc0dcf731724d2fb9e4d8ec2109de06e67aaf20ec515ee7090b0dabd",
+      "result_sha256": "363e820ffd2d9bdeae06e36264d839ad93e56cb8d1c6e1e80426dffcef173f50"
+    },
+    "jev-owner-q2": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "layer": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.38,
+          "probabilities": {
+            "supported": 0.37,
+            "contradicted": 0.04,
+            "not_established": 0.59
+          }
+        },
+        "order": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.34,
+          "probabilities": {
+            "supported": 0.27,
+            "contradicted": 0.17,
+            "not_established": 0.56
+          }
+        },
+        "timeout": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.82,
+          "probabilities": {
+            "supported": 0.02,
+            "contradicted": 0.88,
+            "not_established": 0.1
+          }
+        },
+        "scope": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 0.59,
+          "probabilities": {
+            "supported": 0.73,
+            "contradicted": 0.01,
+            "not_established": 0.26
+          }
+        }
+      },
+      "request_sha256": "dede5b3e5cb8d55fdbfdc50231c5181bb3a6751ca13e777d3e99e8d3864d32d3",
+      "result_sha256": "1027a9b6de0a56951893d7a926450232172773ded42adf48e436b615af33aa1f"
+    }
+  },
+  "jev_is_not_model_approval": true,
+  "limits": [
+    "Portable C owners,normal RV32 core fixtures and source-bound paired preparation,not a fresh original constructor or physical acceptance.",
+    "Current kernel/provider/component export hashes are unchanged;native core Git files and raw-pair manifests carry the implementation change.",
+    "The original120s timeout and interrupted runs stay unchanged. New600s sanitizer configuration and fresh cached diagnostics are separate.",
+    "Compiler frames are individual,not a new whole-chain/IRQ/per-hart/physical stack bound."
+  ]
+}
