@@ -2,15 +2,19 @@
 
 ## 2026-10-17 - Native Qualification And Offline Image Work
 
-Both nominal callers passed full512 DESC10 setup; later stages are still
-running. Each fault matrix finished failed: seven cases passed, but its bitmap
-case hit the original host deadline. Those failures remain failures.
+Both nominal callers passed full512 DESC10 setup and their first PCIe tail
+command; later stages are still running. Each old fault matrix remains failed
+at its original bitmap host deadline. A new observed denied replay passes,
+with 15 native artifacts byte-identical to the earlier case; its separate
+full-size bitmap replay is running, not qualified.
 
-The checked NPU pair now rebuilds and stages offline with the same CODE/DATA
-hashes as the frozen native cohort. World then stopped at its copied download-
-cache boundary; the failed run kept all 891,138 original entries unchanged.
-Private cache staging and bounded native-progress diagnostics are tested, but
-their real-cache world/native replays and a current image remain pending.
+The third isolated world attempt rebuilt the checked NPU pair, kernel provider
+and all three Wi-Fi modules, then failed during APK ownership handling. Its
+891,138 original build entries and 4,617 cache entries remain unchanged.
+The scoped fakeroot correction passes an actual synthetic APK install; source
+verification now accepts only two exact pinned upstream firmware aliases while
+retaining all 5/22/329 byte checks. All 51 focused tests pass. A fresh world
+retry and verified current image remain pending; nothing has been flashed.
 See the [isolation and timing checkpoint](research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md).
 
 ## 2026-10-17 - RX-Event Export Gap Repaired

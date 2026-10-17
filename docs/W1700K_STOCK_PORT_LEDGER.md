@@ -1,10 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (checked pair compiled/staged; world cache boundary fixed in source; strict diagnostics prepared)
+Last updated: 2026-10-17 (four world modules compiled; scoped ownership fix tested; observed denied replay passed)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - World Package Ownership And Native Observation
+
+- V5 preserves6091 files/3052456545 bytes,49c78847/Git9eea3da. Third actual
+  isolated attempt stages cache/builds checked pair and compiles/links four
+  provider/consumer modules,then fails package/install on218 ownership errors.
+  Failed ca0d892f verifies all891138 original build/4617 cache entries unchanged,
+  snapshot and parent namespaces unchanged. No world/image acceptance.
+- Actual prepared-source/compile-log/ELF audit1c9ab4bc passes kernel5/components22/
+  mt76329 and four6.18.52 AArch64 modules from failed output. Initial diagnostic
+  q3 rejected legitimate firmware links;q4 counted packaged .ko copies. Both
+  failed diagnostics stay intact. Exact pinned Git link audit22930240 supports
+  only two literal firmware aliases;all target hashes and negative guards remain.
+- Fakeroot records requested fake ownership before trying real chown;userns
+  real chown fails EINVAL. Supported FAKEROOTDONTTRYCHOWN=1 is passed only to
+  the copied build environment. Actual synthetic APK smoke93d77651 passes fake
+  root0/0 and daemon1/1 with physical1000/1000 unchanged. Earlier fixture with
+  missing target account mapping remains failed. No APK ownership suppression,
+  global security change or synthetic unsigned allowance in the actual recipe.
+  Current51 unique focused tests/no skips pass,972623da;earlier48-test cohort
+  is preserved in2256-file/517587382-byte copyd4b2e80c,not current-code proof.
+- New two-file diagnostic supplement2157db70 verifies2330 originals/five prior
+  files unchanged;its10 units also pass in the private original-path copy.
+  Actual restored-prefix denied replay971722e9 passes strict native assertions,
+  two stores/2560 packet claims/full512 request. Audit6d0c3ded checks15 original
+  native artifacts byte-identical and all old inputs unchanged. Old default/HIF2
+  matrices stay failed;this does not qualify a fresh constructor or whole matrix.
+  Separate default observed bitmap replay is live with21600s host/60000000us
+  native bound;both nominal callers now pass first PCIe tail stage and continue.
+- Jev q7 supports fake-owner retention0.93/confidence0.89,scoped environment
+ 0.83/0.74 and pinned alias policy0.93/0.89;current-image claim is contradicted
+ 0.92/0.88. Raw distributions retained;not substituted for actual build/native
+  gates. Next:freeze fresh V6 and rerun full world/source/image checks. Keep V5,
+  all failed receipts,full512/eight-DESC10/all36-tail/new24-INODE requirements.
+  Source-lock40d29368 unchanged;no hardware action or subagents. Evidence:
+  research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
 
 ## 2026-10-17 - Checked Pair,Cache Boundary And Bounded Diagnostics
 

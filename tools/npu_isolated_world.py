@@ -206,9 +206,12 @@ def inner(args):
             clean = subprocess.run(cleanup,stdin=subprocess.DEVNULL)
             assert clean.returncode == 0, ('private-clean-failed',cleanup,clean.returncode)
         build_name = 'isolated-' + args.name
+        build_env = dict(os.environ,FAKEROOTDONTTRYCHOWN='1')
+        proof['fakeroot_no_real_chown'] = True
+        print(json.dumps(dict(phase='world-with-fakeroot-emulated-ownership',uid=os.getuid())),flush=True)
         build = subprocess.run([sys.executable, '-u', '-B', str(ROOT / 'tools/build_firmware.py'),
             '--name', build_name, '--jobs', '2', '--target', 'world',
-            '--host-tools', str(LINKER_PREFIX)], stdin=subprocess.DEVNULL)
+            '--host-tools', str(LINKER_PREFIX)], stdin=subprocess.DEVNULL,env=build_env)
         assert build.returncode == 0, ('world-build-failed', build.returncode)
         lock = json.loads((ROOT / 'firmware/source-lock.json').read_bytes())
         for label, tree in (('openwrt', BUILD), ('luci', BUILD / 'feeds/luci')):

@@ -1,5 +1,34 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Package Ownership And Observed Native Replay
+
+- V5 preserves6091 files/3052456545 bytes,49c78847/Git9eea3da. Third isolated
+  world built the checked pair and four actual provider/consumer .ko outputs,
+  then failed package/install with218 ownership errors. Failed ca0d892f keeps
+  all891138 original build/4617 cache entries,snapshot and parent namespaces
+  unchanged. Read-only source/compile-log/ELF check1c9ab4bc passes5/22/329 and
+  four6.18.52 AArch64 modules;it does not repair world/image qualification.
+- Userns real chown returns EINVAL. Use FAKEROOTDONTTRYCHOWN=1 only in the
+  copied build-subprocess environment:fakeroot still records intended owners.
+  Actual synthetic APK smoke93d77651 preserves fake0/0 and1/1 with physical
+ 1000/1000 unchanged. No --no-chown/error suppression/global policy change.
+- Permit only the two exact upstream firmware aliases at pinned mt76 revision
+ 01367e60;all329 target-byte checks remain. Audit22930240 records primary Git
+  blobs. Seven source tests plus14 world/seven cache/10 progress/13 builder
+  cases give51 unique/no skips,scope972623da. Earlier48-test inputs are
+  preserved separately in2256-file copyd4b2e80c,not current-code proof.
+- New diagnostic supplements2157db70 leave all2330 originals/five prior files
+  unchanged. Actual denied smoke971722e9 passes;15 original native artifacts
+  match byte-for-byte,audit6d0c3ded. Both old matrices stay failed. Separate
+  observed default-HIF bitmap replay is live with21600s host/60000000us native
+  bounds unchanged otherwise. Do not restart it or either live nominal caller.
+  Both callers have passed first tail command after RX PCIe;no final INODE,
+  full36-tail/new24-fault/current-main or hardware acceptance follows.
+- Freeze fresh V6 with corrected runner/source verifier and existing V5 inputs;
+  do not mutate V5 or failed outputs. Source-lock40d29368 unchanged. Keep all
+  guard/hash/full512/eight-DESC10 requirements. No subagents/hardware action.
+  Read world-isolation/REPORT.md. This supersedes earlier next/live notes.
+
 ## 2026-10-17 - Cache Boundary And Progress Diagnostics
 
 - V4 preserves2313 files/623343479 bytes,a69f4db0/Gitf375787. The second world

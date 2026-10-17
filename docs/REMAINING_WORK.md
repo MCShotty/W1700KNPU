@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Fresh Package-Ownership Retry Required
+
+V5/third world now passes cache staging and compiles the provider/three Wi-Fi
+modules,but package/install fails with218 ownership errors. Failed ca0d892f
+keeps all891138 original build/4617 cache entries unchanged. Actual prepared
+5/22/329 and four-module ELF/compile-log check1c9ab4bc pass without qualifying
+an image. Scoped fakeroot emulated ownership passes actual synthetic APK smoke
+93d77651;exact pinned upstream firmware aliases retain complete byte checks.
+Current focused51 tests/no skips pass,972623da. Freeze fresh V6 and rerun full
+private clean/world/source/FIT/board/package/module verification;no current FIT.
+
+Observed denied replay passes with15 native artifacts byte-identical to the
+earlier case. Separate full512 default bitmap replay is live;old matrices stay
+failed. Both original callers pass first PCIe tail stage,not final constructors.
+Complete both-HIF full eight-DESC10/all36-tail/new24-INODE/broader native,
+hot ownership/IRQ/drain/lifecycle/physical/boot/client gates. No live restarts,
+hash/coverage waivers or hardware action. Source-lock40d29368 unchanged.
+Read world-isolation/REPORT.md. Earlier next/live notes are historical.
+
 ## 2026-10-17 - Retry Inputs And Observed Native Diagnostics
 
 Second world attempt built/staged the exact20/168 NPU pair but world failed at

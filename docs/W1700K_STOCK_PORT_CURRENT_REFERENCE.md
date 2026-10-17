@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Modules Built;Package Ownership Retry Next
+
+Fresh V5 preserves6091 files/3052456545 bytes,49c78847/Git9eea3da. Third world
+passes cache staging and recompiles/links the provider and all three consumers,
+then fails with218 package ownership errors. Failed ca0d892f verifies891138
+original build/4617 cache entries,snapshot and parent namespaces unchanged.
+Actual read-only prepared5/22/329 and four-module6.18.52 AArch64 checks pass,
+1c9ab4bc;no rootfs/image is qualified. Fakeroot's supported no-real-chown flag
+is scoped to the build environment;synthetic APK smoke93d77651 preserves fake
+root/daemon ownership and physical1000/1000. The source guard allows only two
+exact firmware aliases at pinned upstream revision,not general symlinks.
+Focused51 tests/no skips pass,972623da. Fresh V6/full world retry is next.
+
+Observed denied replay971722e9 passes;15 original native artifacts match the
+earlier case,audit6d0c3ded. New full-size default bitmap replay is live with
+explicit21600-second host and unchanged60000000us native limit. Original failed
+matrices stay failed. Both nominal callers passed first PCIe tail stage and
+continue;no final INODE/full36-tail/new24-fault/current-main acceptance.
+Source-lock40d29368/protected FIT978f9ddd unchanged. No flash/module load or
+other hardware action. Read world-isolation/REPORT.md;older next/live notes
+below are superseded,not erased.
+
 ## 2026-10-17 - Checked Pair Built;Cache Boundary Is Next
 
 Fresh V4 a69f4db0 preserves2313 files/623343479 bytes at Gitf375787. The second

@@ -1,5 +1,22 @@
 # Offline World Isolation And Native Deadline
 
+## Latest State
+
+The third world attempt compiles/links the real kernel provider and all three
+mt76 consumers,then fails at package ownership. Its original build/cache and
+source remain unchanged. The scoped fakeroot correction passes a real
+synthetic APK install,not a complete world/image. Actual prepared-source
+verification now passes5/22/329 with only the exact two pinned upstream
+firmware aliases admitted. Current51 focused tests pass. Fresh V6/full world
+retry is next;source-lock40d29368 remains unchanged.
+
+Both old nominal native callers pass RX PCIe and the first PCIe tail command,
+then continue. A separate observed denied replay passes with15 native
+artifacts byte-identical to the earlier passing case. Its full-size default
+bitmap replay is live,not qualified;the two old failed matrices stay failed.
+No full constructor/fault/current-main/image/hardware acceptance follows.
+Earlier next/live notes below describe preserved historical states.
+
 ## Native Status
 
 Both full512 `before-ready-bitmap` cases reached the original10800-second host
@@ -234,3 +251,110 @@ checks78 source/artifact identities and48 unique synthetic executions/no skips:
 It is not native,world,FIT,hardware or actual-client acceptance. Source-lock
 remains40d29368. Both earlier native matrices stay failed;the original nominal
 callers keep running. No flash,radio/reset,reclaim,module load or subagents.
+
+## Third World Attempt And Scoped Ownership Correction
+
+V5 preserves6091 files/3052456545 bytes at Git9eea3da,
+`.local/npu-validation-capsules/world-main-40d-v5/receipt.json`, SHA256
+`49c788470056ebcd0a5e2a60756aa1705e9d0b58071a657c0d5b1af729be6be4`.
+Real private cache staging and clean/checked-pair build now succeed with the
+same CODEa6813d39/DATA180bc808. Actual world reaches package/install,which
+fails with218 ownership-preservation errors. Terminal outer result
+`.local/npu-isolated-world/world-build-q3/result.json`, SHA256
+`ca0d892f7dd81566c05b925dfe5c8c8b2de59dee7263dd73c6adc36420570460`,
+keeps all891138 original build entries and4617 original cache entries exact,
+as well as snapshot and parent namespaces. No new image qualifies.
+
+Local fakeroot2.1.3 source records intended fake uid/gid before attempting real
+chown. Only EPERM is ignored by that wrapper;the single-user namespace returns
+EINVAL for unmapped owners. FAKEROOTDONTTRYCHOWN is the existing supported
+switch to retain emulation while skipping that real call. The runner passes
+it only in a copied build-subprocess environment,not global os.environ/policy.
+No --no-chown or APK ownership-error suppression is added.
+
+Actual bwrap/fakeroot/APK smoke
+`.local/npu-world-overlay-20261017/fakeroot-owner-smoke-q2/result.json`, SHA256
+`93d7765145400a91e31ab22e0b2c31937f83b9944cbaaf563a7d13992351d8f0`,
+reproduces baseline errno22/APK failure and passes the correction. Fake root0/0
+and daemon1/1 survive within fakeroot;physical fixture owners remain1000/1000.
+Writes are disposable synthetic APK roots/text under private /tmp. Its unsigned
+fixture allowance is not used by the world recipe. Q1's missing target account
+mapping remains failed and intact. This smoke does not establish a world build.
+
+## Actual Prepared Sources And Exact Upstream Aliases
+
+The producer's flattened source manifest includes two upstream firmware aliases.
+OpenWrt preserves the legitimate symlinks. Primary local-Git audit
+`.local/npu-world-overlay-20261017/mt76-upstream-links-q1.json`, SHA256
+`2293024040e7b8a0db278b5ee363bdf9fd5bba41fd45491c6f264e82b8aae996`,
+verifies exactly two mode120000 blobs at pinned revision
+01367e60db433534ad0aa3d3b6c886de8cb7d44c:
+
+- firmware/mt7662.bin -> mt7662_firmware_e3_v2.3.bin
+- firmware/mt7662_rom_patch.bin -> mt7662_patch_e3_hdr_v0.0.2_P69.bin
+
+The verifier permits only those literal aliases at that revision. Symlink
+parents/chains,other source aliases,wrong revision/literal and external targets
+are rejected;all329 expected target-byte hashes still run. Seven source tests
+pass. No bytes/source files/hash gates are excluded.
+
+Read-only actual failed-output audit
+`.local/npu-world-overlay-20261017/prepared-world-q5.json`, SHA256
+`1c9ab4bc081f5136a334831ea156a5897b441c6ca96070849d98e57dd7c9c55f`,
+passes kernel5/component22/mt76329 sources,original compile-log evidence and
+ELF64 AArch64/vermagic6.18.52 checks for all four exact module link outputs.
+The log includes changed dma/mmio/npu object compilation and four final links.
+Earlier diagnostic q3 rejected aliases;q4 incorrectly counted packaged module
+copies. Both sources/failures remain intact. This separate source/ELF check
+does not repair the failed world result or prove rootfs/module loading.
+
+Current focused scope
+`.local/npu-world-overlay-20261017/host-scope-q2/result.json`, SHA256
+`972623dae3e4e0d09a9d8fb3330bbda61f80b39bddc28db99b0127c9c44e83d2`,
+passes51 unique tests/no skips:21 world/source,seven cache,10 progress and13
+fake-builder controls. Loaded Python sources/artifacts are hash-bound.
+The earlier48-test source cohort is preserved before edits in2256 files/
+517587382 bytes,not replay-qualified:
+`.local/npu-validation-capsules/host-scope-9eea-v1/receipt.json`, SHA256
+`d4b2e80c762329c375315efdd7fb1e33d9f958b409a324db67d318c06bcea25e`.
+
+Jev q7 supports fake-owner retention0.93/confidence0.89,scoped environment
+0.83/0.74 and the narrow alias policy0.93/0.89. A current-image claim is
+contradicted0.92/0.88. Raw probabilities/source hashes are retained in the
+local q7 records;these source checks do not replace full world/FIT acceptance.
+
+## Actual Observed Denied Replay And Live Bitmap
+
+Two diagnostic-only files were copied read-only after checking all2330
+originals/five prior supplements before and after. Supplemental receipt
+`.local/npu-validation-capsules/inode-caller-v1/desc10-progress-consumers-q1.json`,
+SHA256 `2157db7033f4a619b2aa83c237fe2eca42d0214d779b793ee12642777a24cc95`.
+Their10 synthetic units also pass inside the private original-path copy;
+execution SHA256
+`6b6697ea92fb9d130813166eae59f67d6083a5d0ff3595f17871c1915441ec69`.
+
+Actual restored-prefix denied replay uses the unchanged strict native checker,
+full512 request and60000000us emulator budget. It passes two original stores/
+2560 packet claims with the original single deliberate MMIO fault. Case SHA256
+`971722e924afe50d1ac77d5e4850efb9012db72b486212a302f4d160a715f004`,
+controller attempt SHA256
+`30e908bd2f5e4cb4183c71a6bdf18e764ee021882b2e450d2fb33a45054ea637`.
+Root execution `desc10-progress-denied-q1.execution.json` SHA256
+`d839c2ef4a1d6efe40d4db5e8eb4e048bd29be494ac98514cdb5a1947b1ee792`.
+These are restored diagnostic results,not fresh allocator/constructor proof.
+
+Read-only `.local/npu-world-overlay-20261017/progress-denied-audit-q1.json`,
+SHA256 `6d0c3dedd4a7b8b28f72c2c9618bb3e3e198ddea788dc599c807e831319575c6`,
+verifies all original/prior/new inputs unchanged,all non-input case fields equal
+and15 original native artifact files byte-identical. Provenance JSON is not
+mistaken for identical original artifact bytes. Both old failed matrix results
+and missing old bitmap verdicts remain unchanged.
+
+The separate default-HIF observed bitmap worker is live with explicit21600s
+host deadline,unchanged60000000us native budget and original full-size guards.
+A WSL service connection failed before launch;proof/output/PID checks found no
+worker,then the persistent root connection launched it once. It is not a
+native restart. No HIF2 bitmap result or complete eight-case aggregate exists.
+Both original nominal callers also remain live after their first tail stage.
+Full36-tail/new24-INODE and broader qualification remain open. No source-lock,
+protected FIT,hardware action or subagent change.

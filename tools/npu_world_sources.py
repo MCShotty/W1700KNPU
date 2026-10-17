@@ -1,8 +1,16 @@
 """Check actual prepared sources against locked successful producer identities."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+
+PINNED_MT76_FIRMWARE_LINKS = {
+    '01367e60db433534ad0aa3d3b6c886de8cb7d44c': {
+        'firmware/mt7662.bin':'mt7662_firmware_e3_v2.3.bin',
+        'firmware/mt7662_rom_patch.bin':'mt7662_patch_e3_hdr_v0.0.2_P69.bin',
+    }
+}
 
 
 def digest(path):
@@ -15,6 +23,19 @@ def relative_file(base, name):
     target = base / relative
     assert not target.is_symlink() and target.resolve().is_relative_to(base.resolve()), ('source-path-escape', name)
     return target
+
+
+def mt76_source_file(base, name, revision):
+    relative = Path(name)
+    assert name and not relative.is_absolute() and '..' not in relative.parts, ('unsafe-source-path',name)
+    assert base.is_dir() and not base.is_symlink()
+    assert not any((base / parent).is_symlink() for parent in relative.parents), ('source-directory-alias',name)
+    target = base / relative
+    if target.is_symlink():
+        literal = PINNED_MT76_FIRMWARE_LINKS.get(revision,{}).get(name)
+        assert literal is not None and os.readlink(target) == literal, ('unlisted-mt76-source-alias',name)
+        return relative_file(base,str(relative.parent / literal))
+    return relative_file(base,name)
 
 
 def verify(build, root, lock, provider, consumer):
@@ -53,5 +74,5 @@ def verify(build, root, lock, provider, consumer):
     assert not mt76.is_symlink() and mt76.resolve().is_relative_to(build.resolve())
     for name, identity in expected.items():
         assert set(identity) == {'sha256', 'mode'}, ('unexpected-source-identity', name)
-        assert digest(relative_file(mt76, name)) == identity['sha256'], ('prepared-mt76-source-drift', name)
+        assert digest(mt76_source_file(mt76,name,lock['mt76'])) == identity['sha256'], ('prepared-mt76-source-drift', name)
     return dict(kernel_patch_files=len(names), component_sources=len(lock['component_sources']), mt76_source_files=len(expected))
