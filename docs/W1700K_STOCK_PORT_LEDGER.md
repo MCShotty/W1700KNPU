@@ -1,10 +1,41 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (V6 image passed; two tail stages pass per profile; both full36 matrices launched)
+Last updated: 2026-10-17 (default bitmap diagnostic passed; HIF2 bitmap and full36 matrices live; prefix verifier/72 units pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Default Bitmap Passed And Prefix Verifier Added
+
+- Fresh restored default before-ready-bitmap diagnostic passes strict original
+  checks,casefc18f8ad/attemptae924e40/execution1df887cf. Full512/25604 stores/
+ 3072 packet claims/512 private claims and publications. Host config21600s,
+  native60000000us unchanged,outer elapsed7195.612903s. Post-audit761bd983
+  checks all declared inputs/artifacts and preserves both failed old executions,
+ 14 old passing receipts and absent old bitmap verdicts. This is not a repaired
+  matrix,new allocator/constructor/current-main or physical qualification.
+  The observed elapsed does not identify why earlier10800s attempts timed out.
+- HIF2 equivalent is live after2337-file/actual captured-prefix preflight
+ 036ef80b,tagdesc10-bitmap-hif2-q1/outputbitmap-hif2-q1. Both original callers
+  and both full36 tail matrices remain live. New24 INODE still needs actual
+  constructor prefixes. No limits/coverage/source hashes waived or job restarted.
+- Added exact nine displaced-prefix SP verifier with raw CODE/linked ELF
+  bindings,receipt6d042252/12 hashes. Three local16-byte reservations are
+  measured,not complete frames/ABI returns/original continuations. Existing
+ 297-C-frame/687-direct/91-unresolved/9696 restricted candidate is unchanged.
+  Initial Capstone c.lw operand-layout failure is preserved with two failed
+  executions/source copies,1b9ca810. Corrected strict REG,IMM,REG handling passes.
+- Latest72 unique units/no skips/87 hashes pass00b9f6ed:prior60 plus12 prefix
+  contracts. Six tiny synthetic RV32 programs execute,including a backward jump
+  using the existing JAL encoder. Actual PC/SP/GPR/writes are checked before
+  any restoration.22 LLVM21-generated synthetic fixtures contain no router
+  firmware. Prior five-guest72 scope is preserved90 files/1119620 bytes,
+ 65050f7b,not replayed. Jev q11/q12 source/scope probabilities are retained;
+  tests/raw-byte checks remain decisive. No whole-stack/native admission claim.
+- Imagea22300ea/WORLD.json/source-lock40d29368/protected data remain unchanged.
+  No hardware action or subagents. Evidence:world-isolation/REPORT.md and
+  inode-caller/STACK.md;all earlier states below remain historical.
 
 ## 2026-10-17 - Both Profiles Reach Third Tail;Full36 Matrices Live
 

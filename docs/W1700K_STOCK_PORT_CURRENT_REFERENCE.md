@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Default Bitmap Passed;Prefix Scope Measured
+
+Fresh default observed bitmap diagnostic passes,casefc18f8ad/attemptae924e40/
+execution1df887cf/audit761bd983:full512/25604 original stores/3072 packet claims,
+512 claims/publications,unchanged strict source/ABI/store/lock/private/CODE
+checks. Configured host21600s/native60000000us,actual outer7195.612903s;no
+old-timeout cause inferred. Both old failed executions/14 passing receipts
+are unchanged. HIF2 bitmap now runs after2337-file preflight036ef80b.
+
+Nine exact selected displaced prefixes match raw CODE,6d042252. Three local
+reservations are16 bytes;this is not a whole-callee/stack or ABI-return proof.
+Compressed-load adapter failure1b9ca810 is preserved;current72-test/87-hash/
+six-synthetic-guest scope00b9f6ed passes. Source-lock40d29368/imagea22300ea and
+WORLD.json stay unchanged. Both actual callers/full36 matrices remain live;
+new24 INODE/full current-source/physical/client gates remain open. No restart,
+hardware or subagents. Read REPORT.md/STACK.md for exact evidence and limits.
+
 ## 2026-10-17 - Two Tail Stages Pass;Full36 Matrices Live
 
 Both600055c actual callers pass stages0/1 and capture prefixes0/1/2. Audit

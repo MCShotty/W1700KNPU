@@ -5,7 +5,7 @@
 The fourth isolated world/image now passes,with Linux6.18.52,Gemtek FIT/DTB,
 218 packages/78 module ABI checks and actual prepared5/22/329 source identities.
 All891138 original build/4617 cache entries,snapshot and parent namespaces
-remain unchanged. Source-lock40d29368/current60 focused tests pass. Main's
+remain unchanged. Source-lock40d29368 is unchanged;latest72 focused units pass. Main's
 numeric-owner guard postdates V6 and passes separately on the actual same-hash
 encoded filesystem. The image is unflashed/not native or physically qualified;
 the three earlier failed world attempts remain failed and preserved.
@@ -14,7 +14,8 @@ Both old nominal native callers pass RX PCIe and the first two PCIe tail command
 then continue. Both full36 tail matrices are live from all three actual prefixes.
 A separate observed denied replay passes with15 native
 artifacts byte-identical to the earlier passing case. Its full-size default
-bitmap replay is live,not qualified;the two old failed matrices stay failed.
+bitmap replay now passes a fresh strict diagnostic;HIF2 is live. Both old
+failed matrices stay failed.
 No full constructor/fault/current-main/image/hardware acceptance follows.
 Earlier next/live notes below describe preserved historical states.
 
@@ -492,3 +493,53 @@ bound;the297-C-frame/687-direct/91-unresolved graph and9696-byte restricted
 candidate remain unchanged. See [STACK.md](../2026-10-17-npu-inode-caller/STACK.md)
 for exact receipt hashes,raw-byte scope and unresolved continuations/indirect/
 IRQ/physical limits. No producing source or running guest changed.
+
+## Default Bitmap Diagnostic Passed;HIF2 Live
+
+The fresh default-HIF restored before-ready-bitmap case passes its unchanged
+strict original consumer:full512 request,25604 original stores,3072 packet
+claims,512 private claims/publications and exact ABI/locks/private/protected/
+CODE checks. Controller grades the original case receipt and returns0 without
+host timeout;the parent mount remains unchanged. It is diagnostic restoration,
+not a new allocator/caller/constructor or complete matrix/current-main proof.
+
+Under `.local/npu-validation-capsules/inode-caller-v1/`:
+
+- `root/.local/npu-desc10-progress-20261017/bitmap-default-q1/case/result.json`,
+  SHA256 `fc18f8ad86b59d71b5484482d4d3756edb40d41b2758d7aee3555292916ca975`.
+- `root/.local/npu-desc10-progress-20261017/bitmap-default-q1/attempt.json`,SHA256
+  `ae924e40493a8c6c35a473839a651ec7160cf47d92ab45bad053413df0ac5e49`.
+- `desc10-bitmap-default-q1.execution.json`,SHA256
+  `1df887cf58a3f3d611ae5b477901bb0aefda029fe8ef12e29a8ac5ae63b5a4c5`.
+
+Configured host limit is21600 seconds;native60000000us is unchanged. Actual
+outer elapsed is7195.612903 seconds. This does not identify why the older
+10800-second attempts timed out. Post-audit
+`.local/npu-world-overlay-20261017/bitmap-default-audit-q1.json`,SHA256
+`761bd983a3120668f0e7ee7172ad2ad7b458b1962417c93145a4488b866761fe`,
+verifies every declared input/artifact and retains both old failing executions,
+their14 passing individual receipts and absent old bitmap verdicts unchanged.
+No old aggregate is rewritten or repaired.
+
+HIF2 launch preflight
+`.local/npu-world-overlay-20261017/bitmap-hif2-preflight-q1.json`,SHA256
+`036ef80b18b4c12efa97819356880af6a5b03d291fdce9a013b1a2f53311a9f3`,
+checks2337 readonly originals/supplements and every actual HIF2 DESC10 snapshot
+input/region/context. Tagdesc10-bitmap-hif2-q1 is now live,output
+`root/.local/npu-desc10-progress-20261017/bitmap-hif2-q1/` beneath the capsule.
+Same full-size guards/native/host bounds;no restart of a prior job. Both
+nominal callers and both full36 tail matrices also remain live.
+
+## Nine-Prefix Verifier And Latest Unit Scope
+
+The new bounded verifier binds nine selected displaced prefixes to raw CODE/
+linked ELF and measures local SP/stores/jump targets only. Actual receipt
+6d042252 passes;initial compressed-load failure1b9ca810 stays preserved.
+Latest scope00b9f6ed passes72 unique units/no skips/87 hashes,including12 new
+contracts and six tiny synthetic RV32 guests/one backward jump. It does not
+execute original router firmware or establish complete callee/ABI-return/C-
+graph/physical stack safety. The older five-guest72 source/artifact scope is
+preserved,not replayed. Full hashes,fixture provenance,source checks and Jev
+probabilities are in [STACK.md](../2026-10-17-npu-inode-caller/STACK.md).
+Imagea22300ea/WORLD.json and source-lock40d29368 remain unchanged;no module
+load,flash,hardware action,guard/hash/coverage waiver or subagents.

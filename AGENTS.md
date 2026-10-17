@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Default Bitmap Pass And Bounded Prefix Verifier
+
+- New default bitmap diagnostic passes,casefc18f8ad/attemptae924e40/execution
+ 1df887cf,audit761bd983. Full512/25604 original stores/3072 packet claims,
+ 512 private claims/publications and strict unchanged native checks pass.
+  Configured host21600s/native60000000us;actual outer7195.612903s. This does
+  not identify the old timeout's cause or repair either old failed execution.
+- HIF2 observed bitmap is now live,tagdesc10-bitmap-hif2-q1/outputbitmap-hif2-q1,
+  after2337-file/actual-prefix preflight036ef80b. Both callers/two full36 tail
+  matrices also remain live;no final constructor/complete matrix verdict.
+- New displaced-prefix verifier matches nine selected ELF prefixes to raw CODE,
+  receipt6d042252/12 input hashes. IRQ/token/descriptor prefixes reserve16 bytes
+  locally;the other six have no SP change in the selected prefix only. No
+  complete callee/ABI-return/C-graph/physical bound. Keep297/687/91/9696 scope.
+- Corrected Capstone5.0.7 c.lw REG,IMM,REG handling after preserving failed
+  source/logs1b9ca810. Latest72 unique units/no skips/87 hashes pass00b9f6ed,
+  including six recorded tiny synthetic guests/one backward jump,not router
+  firmware. Earlier five-guest72 scope is preserved90 files/1119620 bytes,
+ 65050f7b,not replay-qualified. Never mix this with actual NPU/client proof.
+  World/imagea22300ea/source-lock40d29368 stay unchanged. No restart/hardware/
+  subagents;read world-isolation/REPORT.md and inode-caller/STACK.md.
+
 ## 2026-10-17 - Both Full36 Tail Matrices Running
 
 - Both600055c nominal callers pass tail stages0/1 and capture actual prefixes

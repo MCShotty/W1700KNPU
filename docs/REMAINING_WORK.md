@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Default Bitmap Passed;Other Native Gates Live
+
+Fresh default restored bitmap casefc18f8ad passes full512/25604 stores/3072
+packet claims;post-audit761bd983 verifies all declared data and retains both
+old failed executions. HIF2 bitmap now runs after preflight036ef80b. Both
+callers and full36 tail matrices remain live;final constructors/complete
+matrices/new24 INODE/broader current-source/native/physical gates stay open.
+
+New9-prefix verifier6d042252 measures local SP reservations only,not original
+continuations/indirect/IRQ/per-hart or whole-stack safety. Latest72 units/
+87 hashes/six tiny synthetic RV32 guests pass00b9f6ed. Existing297-frame/
+687-direct/91-unresolved/9696 restricted candidate remains unchanged. See
+inode-caller/STACK.md. No source-lock/image/hardware change or live restart.
+
 ## 2026-10-17 - Both Full36 Tail Matrices Live
 
 Both original600055c callers pass first two tail stages and provide all three

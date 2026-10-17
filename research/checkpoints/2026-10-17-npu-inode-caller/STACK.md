@@ -54,3 +54,54 @@ physical/per-hart placement remain open. Jev q10 contradicts the all-zero-SP
 claim0.67/confidence0.51 and leaves a whole-path bound not established0.95/0.92;
 neither judgment replaces instruction/flow contracts. No source/image/native
 admission change,guest execution or new permitted-path/physical bound.
+
+## Bounded Prefix Verifier
+
+The new test_npu_displaced_prefix_stack.py binds the nine selected prefixes to
+their hash-checked linked ELF and raw CODE bytes. It decodes through only the
+first unconditional direct jump,records local SP changes/stores/continuations
+and checks the exact known9-prefix set. Unsupported/dynamic SP changes,caller-
+frame/foreign stores,conditional/indirect flow,missing tails and malformed
+metadata fail closed. These are not complete functions or an ABI-return proof.
+
+Actual20-component-pair audit
+`.local/npu-displaced-prefix-stack/inode-caller-q2/result.json`,SHA256
+`6d0422522bfbc88ec3f9881f52a8d6e49b0ed2d836d6abd959c17aa923373a1b`,
+passes nine prefixes/12 input hashes. IRQ/token/descriptor reserve16 local
+bytes;the other six have no selected-prefix SP change,not zero whole frames.
+Do not add the copied prologue reservation blindly to original function frames.
+The297/687/91/9696 C-graph scope is neither replayed nor extended by this check.
+
+Initial ordinary-lw operand assumptions rejected compressed c.lw in the new
+synthetic and actual checks. Capstone5.0.7 exposes c.lw as REG,IMM,REG,not the
+ordinary REG,MEM form. The bad source/fixture copies and two actual failed
+commands/logs remain read-only at
+`.local/npu-world-overlay-20261017/prefix-parser-failure-q1/result.json`,SHA256
+`1b9ca810de257f85718403d7aa65b61feb36c521a5d28ac3a665fd2f9b73d739`.
+The corrected operand-specific path retains the strict checks.
+
+Twelve contracts use22 LLVM21-generated synthetic program fixtures,plus a
+backward transfer built with the existing npu_image.jal encoder. Six tiny
+programs execute in Unicorn;actual PC/SP/all32 GPRs/writes match before any
+register restoration. This is synthetic RV32 execution,not router firmware.
+Fixture SHA256
+`eacc7bf0dc7349859aa03e21e914bf069b1534154ed82d7a306d6fbaa513763d`.
+The earlier five-guest72-test source/artifact set is preserved in90 files/
+1119620 bytes,receipt
+`.local/npu-world-overlay-20261017/prefix-forward-scope-preserved-q1/receipt.json`,
+SHA256 `65050f7bf2962cf59c020ce5f08746c202e026a259f2b264e7b41748b89d1ef0`.
+Preservation alone is not a private replay or complete runtime environment.
+
+Latest focused scope `.local/npu-world-overlay-20261017/host-scope-q5/result.json`,
+SHA256 `00b9f6edbd1a9ebfb00204b4826796b1fe4457861b5ae33c0c476faf509335b4`,
+passes72 unique tests/no skips/87 source/artifact hashes,including the12 new
+contracts and six recorded synthetic guests. Jev q11 supports raw binding0.99/
+confidence0.98,pre-restore observation0.87/0.80 and compressed shape0.98/0.97;
+whole-chain bound stays not established0.81/0.72. Final q12 supports the
+independent target0.96/0.94,observation0.81/0.72 and synthetic-only category
+1.00/1.00. Raw probabilities are retained,not substituted for direct checks.
+
+Original continuations/75 register transfers/IRQ/per-hart/physical bounds remain
+open. No NPU source/guard/source-lock/image or hardware changed. Both frozen
+callers/full36 matrices and HIF2 bitmap remain live;these static/synthetic
+checks do not promote their pending results or newer Linux integration.
