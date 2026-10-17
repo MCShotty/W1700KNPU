@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Three Callee Bodies Checked;Global Stack Still Open
+
+Three original targets now have exact Ghidra bodies6/104/64 bytes and129
+isolated hart0 RAM/MMIO comparisons,32fe94a4. One-off exact-body SP/CFG audit
+a8b07ff1 verifies local0/16/16 and balanced reviewed returns. Metadata2fb12ac4
+retains all scope/diagnostics. This is not physical ownership,other harts,IRQ
+nesting,full cold or a whole permitted-path bound. Imported DWARF recovery
+errors stay visible;there is no complete source-variable guarantee.
+
+Integrate these exact callee proofs and27 guarded literal sites into a fresh,
+explicitly scoped graph;do not rewrite the old297/687/91/9696 receipt. Remaining
+indirect/original/assembly/IRQ/per-hart/physical stack bounds remain open. Both
+original callers/full36 matrices/HIF2 bitmap continue;new24 INODE,broader/current-
+source/native/full-setup/hot/RRO/IRQ/lifecycle/physical/boot/client gates remain.
+Latest84 host units/95 hashes/13 tiny synthetic guests remain separate. Both
+images/source-lock40d29368 are unchanged. No hardware,restart,waiver or subagents.
+Exact evidence: inode-caller/STACK.md and ORIGINAL_CALLEES.json.
+
 ## 2026-10-17 - Literal Addresses Identified;Callee Bounds Still Open
 
 New supplement9ab060c5 identifies27 guarded literal register targets among75

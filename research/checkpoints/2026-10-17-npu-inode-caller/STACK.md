@@ -173,3 +173,79 @@ No NPU/source-lock/image/guard changed,guest pipeline restarted,hardware action
 or subagent used. Both original callers/full36 matrices and HIF2 bitmap remain
 live. Original callees,other indirect paths,IRQ/per-hart/physical bounds and all
 broader/current-source native/full-setup/hot/lifecycle/boot/client gates remain.
+
+## Three Original Callee Bodies And Hart0 Diagnostics
+
+Fresh Ghidra12.1.2 analysis imports the checked inode ELF and uses the existing
+MapNpuRawCode script to verify all998644 paired CODE bytes (15602 imported
+component bytes,two exact gap mappings). Three analyst-seeded function entries
+are exported after automatic analysis. Every decoded instruction and complete
+body range matches Capstone and the untouched original e743d1b5 CODE bytes,
+not merely the patched pair's labels.
+
+| Original Entry | Body Bytes | Local SP Depth |
+| --- | --- | --- |
+| 0x84004212 | 6 | 0 |
+| 0x840064b4 | 104 | 16 |
+| 0x8400651c | 64 | 16 |
+
+The getter reads mhartid. Acquire/release call that getter and save/restore their
+16-byte frames. The one-off exact-body CFG/SP audit admits only the reviewed
+opcode set,checks branch destinations/instruction boundaries,requires one SP
+delta at each merge/cycle and balances every reviewed return. Both direct calls
+target the zero-frame getter. This assumes exact entry,ordinary call/return and
+no asynchronous IRQ or external stack mutation. It is not a generic firmware
+prover,physical stack map or complete permitted-path/IRQ/per-hart bound. The old
+297/687/91/9696 graph is not rewritten or extended;fresh scoped integration is
+still needed before any new graph claim.
+
+129 isolated executions use the actual emulator hart0,synthetic argument/stack/
+MMIO RAM and original instructions:one getter,96 acquire comparisons across32
+lock encodings/three status outcomes,and32 release-encoding comparisons. Actual
+PC/SP/RA/14 saved registers/MSTATUS,ordered writes and complete protected code,
+argument,stack and MMIO bytes match before restoration. No observer modifies
+guest instructions,registers or memory. Synthetic owner/status values are test inputs,
+not genuine allocations or physical ownership. Release cases characterize byte
+encoding,not authorization to release a real/unowned lock. A direct attempt to
+write Unicorn MHARTID was ignored;the diagnostics therefore do not claim harts1-7.
+
+Metadata-only [ORIGINAL_CALLEES.json](ORIGINAL_CALLEES.json),SHA256
+`2fb12ac4d37e4bacc64a311df2d4f76939bed37df538c1ec36bb9c8df9c21fc9`,
+records the verified ranges,helper copies,receipts,limits and unchanged images.
+Private evidence under `.local/npu-world-overlay-20261017/`:
+
+- `ghidra-literal-targets-q4/functions.json`,SHA256
+  `59f8ee3ac505349d83e611795e6b267fe7fed225ec4be59a6ef12f5619cb64a8`.
+- `original-literal-callees-q1/result.json`,SHA256
+  `32fe94a44cce2a3c75f2c4770ba9113f3651502ce05dfc5931be644a73693f5c`.
+- `original-literal-stack-q2.json`,SHA256
+  `a8b07ff182546c0f87d2684a34ab97e51906a27496de1e6e988e5ea3d3367c50`.
+- `original-observer-write-audit-q1.json`,SHA256
+  `9eca582e114ba22338366dd38c8be56978d62620d2220e457a3d1df94a22f323`.
+
+The selected original bodies export/decompile successfully;imported C-component
+DWARF expressions could not all be recovered. Those errors stay in analysis.log;
+this does not certify all variable locations or the rest of the mapped program.
+The committed Java helpers are byte-identical to q4's tested private copies.
+The project is under scratch/npu-literal-targets-20261017-q4,not protected old
+analysis state. Earlier q1 split-script-path/q3 hidden-project-path launches
+failed before import. The q2 preparation log assumption and the first SP audit's
+malformed digest failed before producing a result;their sources remain intact.
+Successful q4/q2 outputs have new identities,not repaired failed records.
+
+Jev q15 selects original-routines-on-synthetic-platform1.00/confidence1.00,
+supports scoped wording0.97/0.95 and classifies the DWARF errors as metadata
+limitations1.00/1.00. Its expected-array-restoration claim is supported0.67/0.51
+but not followed:the source makes no explicit mutating API call after emulation
+or in its observers. Separate source/API audit9eca582e also performs two actual
+memory-copy experiments with no guest instructions. Updating a local expected
+bytearray after copying bytes into Unicorn does not restore guest memory.
+The observer-mutation claim is contradicted0.80/0.70. All raw distributions
+remain retained;none is substituted for the direct source/byte/execution checks.
+
+The84-unit/95-hash/13-synthetic-guest scope is unchanged and separate. Original
+and new image hashes978f9ddd/a22300ea and source-lock40d29368 recheck unchanged.
+No NPU implementation,live producing input,guard,coverage,budget or hardware
+changed. Both actual callers/full36 matrices/HIF2 bitmap remain live;new24
+INODE/broader/current-source native/full setup/hot/lifecycle/physical/boot and
+actual-client gates remain open. No restart or subagents.

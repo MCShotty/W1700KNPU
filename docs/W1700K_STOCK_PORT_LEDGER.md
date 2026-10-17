@@ -1,10 +1,48 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (27 literal targets identified,not whole-stack bounds;84 focused units pass;native jobs live and old failures preserved)
+Last updated: 2026-10-17 (three original callees checked on synthetic hart0;global stack/native gates open;84 focused units and129 isolated routine diagnostics remain distinct)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Three Original Callees Checked On Synthetic Hart0
+
+- Ghidra12.1.2 q4 imports the exact inode ELF,maps all998644 raw CODE bytes
+  and exports original0x84004212/0x840064b4/0x8400651c bodies6/104/64 bytes.
+  Export59f8ee3a matches Capstone and the unchanged original e743d1b5 bytes.
+  Selected original routines decompile;imported C-component DWARF-expression
+  errors remain reported,not suppressed as a complete variable-recovery pass.
+- Original diagnostic32fe94a4 passes129 routine executions:actual emulator
+  hart0,synthetic RAM/MMIO,all32 lock encodings/three acquire outcomes/release
+  encoding/getter. Local SP peaks0/16/16,PC/RA/saved state/MSTATUS,ordered
+  writes and protected code/argument/stack/MMIO compare before restoration.
+  Hart-ID override is not used:the attempted register write was ignored,so
+  no hart1-7 coverage is claimed. Synthetic status inputs are not physical
+  lock ownership and release encoding grants no real release/reclaim authority.
+- Exact-body CFG/SP supplementa8b07ff1 checks all reviewed branches and
+  balanced returns under exact-entry/ordinary-ABI/no-IRQ assumptions. It is
+  one-off bounded analysis,not a general firmware proof or an extension of
+  the old297/687/91/9696 C graph. Fresh scoped integration is still needed.
+- Added exact tested SeedNpuLiteralTargets/ExportNpuLiteralTargets helpers.
+  Metadata-only ORIGINAL_CALLEES.json hashes2fb12ac4;no binary/device backup
+  upload. Both old978f9ddd/newa22300ea images and source-lock40d29368 recheck
+  unchanged. Latest84 host tests/95 hashes/13 tiny synthetic guests remain a
+  separate scope from the129 original-routine diagnostics.
+- Jev q15 supports category1.00/confidence1.00 and scoped wording0.97/0.95;
+  DWARF limitation1.00/1.00. Its uncertain expected-array-restoration claim
+  0.67/0.51 is retained,not followed as proof. Direct source/API audit9eca582e
+  finds no explicit mutating API after emulation/in observers;two memory-only
+  experiments distinguish local bytearrays from copied guest memory. No guest
+  instructions execute in those copy experiments. Observer-mutation claim is
+  contradicted0.80/0.70. All distributions remain separate from direct checks.
+- Ghidra q1 split-script-path/q3 hidden-project-path failures,preparation q2
+  log assumption and the first stack-audit malformed hash pin stay preserved.
+  The successful runs use fresh output identities,not repaired failed records.
+  Both callers/full36 matrices/HIF2 bitmap remain live;new24 INODE/broader/
+  current-source/full-setup/hot/IRQ/lifecycle/physical/boot/client gates stay
+  open. No job restart,hardware,guard/budget/coverage waiver or subagents.
+  Exact receipts/assumptions: inode-caller/STACK.md and ORIGINAL_CALLEES.json.
 
 ## 2026-10-17 - Guarded Literal Register Targets Identified
 

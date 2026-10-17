@@ -1,5 +1,30 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Three Original Callees Checked On Hart0
+
+- Ghidra12.1.2 q4 maps all998644 CODE bytes exactly and exports three original
+  bodies6/104/64 bytes,59f8ee3a. Both lock bodies use16-byte local frames;
+  getter uses0. Imported-component DWARF-expression errors remain reported:
+  this is not complete variable recovery or a whole-program Ghidra guarantee.
+- Original-routine diagnostic32fe94a4 passes129 executions on synthetic RAM/
+  MMIO and actual emulator hart0:32 lock encodings/three acquire outcomes,
+  release encoding and getter. PC/SP/RA/14 saved registers/MSTATUS/ordered
+  writes/protected bytes are observed before restoration. No real ownership,
+  release/reclaim authority,other harts or fresh cold/setup acceptance.
+- One-off exact-body CFG/SP audita8b07ff1 checks every modeled branch and
+  balanced returns,local0/16/16. It assumes exact entry/ordinary ABI/no IRQ
+  or external stack mutation. The old297/687/91/9696 graph is not extended.
+  Integrating these callee proofs into a fresh scoped graph is still open.
+- Committed helper bytes match q4's tested copies. Metadata-only
+  inode-caller/ORIGINAL_CALLEES.json hashes2fb12ac4. Jev q15's uncertain
+  host-array-restoration claim is retained;source/API-copy audit9eca582e
+  distinguishes local expected arrays from guest writes. See STACK.md.
+- Both callers/full36 matrices and HIF2 bitmap remain live;all original input/
+  budget/full512/eight-DESC10/new24-INODE/broader gates remain. Source-lock
+  40d29368 and both image hashes are rechecked unchanged. No hardware,restart,
+  waiver or subagents. Prior failed Ghidra/preparation/hash-pin attempts stay
+  preserved;latest84-unit/95-hash/13-synthetic-guest scope remains separate.
+
 ## 2026-10-17 - Guarded Literal Targets Identified
 
 - New static supplement 9ab060c5 checks all297 measured C functions against

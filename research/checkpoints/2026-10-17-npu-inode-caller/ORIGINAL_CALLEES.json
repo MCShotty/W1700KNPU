@@ -1,0 +1,195 @@
+{
+  "format": "npu-original-literal-callees-checkpoint-v1",
+  "date": "2026-10-17",
+  "metadata_only": true,
+  "no_firmware_or_device_backups": true,
+  "passed": true,
+  "source_lock_sha256": "40d293685243a51c56c8a153505f24bab0b2b9cb81231ff3a2b029afc3db331c",
+  "original_CODE_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "paired_CODE_sha256": "a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad",
+  "Ghidra_version": "12.1.2",
+  "language": "RISCV:LE:32:AndeStar_v5",
+  "functions": [
+    {
+      "entry": "0x84004212",
+      "body_ranges": [
+        {
+          "sha256": "c90e261ea1fc9a292e512209217f8f438c7479c5406495a2f25fb55f70cf759e",
+          "inclusive_end": "0x84004217",
+          "start": "0x84004212",
+          "bytes": 6
+        }
+      ],
+      "body_bytes": 6,
+      "instruction_count": 2,
+      "local_max_SP_depth": 0,
+      "SP_balanced_on_all_reviewed_returns": true,
+      "direct_calls": []
+    },
+    {
+      "entry": "0x840064b4",
+      "body_ranges": [
+        {
+          "sha256": "f228c62f99a32c752e8353ecbb4de6b3a26842d062495397a9d6738b207bf70b",
+          "inclusive_end": "0x8400651b",
+          "start": "0x840064b4",
+          "bytes": 104
+        }
+      ],
+      "body_bytes": 104,
+      "instruction_count": 37,
+      "local_max_SP_depth": 16,
+      "SP_balanced_on_all_reviewed_returns": true,
+      "direct_calls": [
+        {
+          "address": "0x840064bc",
+          "target": "0x84004212",
+          "caller_CFA": 16
+        }
+      ]
+    },
+    {
+      "entry": "0x8400651c",
+      "body_ranges": [
+        {
+          "sha256": "e868958c5a894fdcb71c8a3965e685e407c4ff559753a2b63ae85141c09ad87f",
+          "inclusive_end": "0x8400655b",
+          "start": "0x8400651c",
+          "bytes": 64
+        }
+      ],
+      "body_bytes": 64,
+      "instruction_count": 26,
+      "local_max_SP_depth": 16,
+      "SP_balanced_on_all_reviewed_returns": true,
+      "direct_calls": [
+        {
+          "address": "0x84006524",
+          "target": "0x84004212",
+          "caller_CFA": 16
+        }
+      ]
+    }
+  ],
+  "original_routine_diagnostic_executions": 129,
+  "hart_ids_executed": [
+    0
+  ],
+  "synthetic_MMIO": true,
+  "preserved_original_function_bytes": true,
+  "observed_local_SP_depths": [
+    0,
+    16,
+    16
+  ],
+  "source_helpers_byte_identical_to_tested_copies": {
+    "tools/ghidra/MapNpuRawCode.java": "5a1597b4f5c3cadd8d3c0a0d73ff750d0bbb9ad6fafa14a4816cfef597edb3d3",
+    "tools/ghidra/SeedNpuLiteralTargets.java": "4949edba31abddba8c564039388f5d5440b57175be4f245273dc7699967db246",
+    "tools/ghidra/ExportNpuLiteralTargets.java": "d3c1e0d0f79088820084663594a81b4fcebe5714d56da6510d5ddac4de5585c8"
+  },
+  "receipts": {
+    "Ghidra": {
+      "path": ".local/npu-world-overlay-20261017/ghidra-literal-targets-q4/functions.json",
+      "sha256": "59f8ee3ac505349d83e611795e6b267fe7fed225ec4be59a6ef12f5619cb64a8"
+    },
+    "original_routine_probes": {
+      "path": ".local/npu-world-overlay-20261017/original-literal-callees-q1/result.json",
+      "sha256": "32fe94a44cce2a3c75f2c4770ba9113f3651502ce05dfc5931be644a73693f5c"
+    },
+    "static_SP": {
+      "path": ".local/npu-world-overlay-20261017/original-literal-stack-q2.json",
+      "sha256": "a8b07ff182546c0f87d2684a34ab97e51906a27496de1e6e988e5ea3d3367c50"
+    },
+    "observer_source_and_copy_API": {
+      "path": ".local/npu-world-overlay-20261017/original-observer-write-audit-q1.json",
+      "sha256": "9eca582e114ba22338366dd38c8be56978d62620d2220e457a3d1df94a22f323"
+    }
+  },
+  "focused_host_scope": {
+    "path": ".local/npu-world-overlay-20261017/host-scope-q6/result.json",
+    "sha256": "e90da153dd876dbc573a44321524390fbca4e39c0614b3de2c91181227ccf044",
+    "tests": 84,
+    "synthetic_guest_programs": 13,
+    "source_and_artifact_hashes": 95
+  },
+  "Ghidra_DWARF_expression_recovery_errors_retained": true,
+  "prior_attempts": {
+    "Ghidra_q1": "Windows multi-directory script path split before import.",
+    "preparation_q2": "Incorrectly expected the q1 console exception in analysis.log;no output directory created.",
+    "Ghidra_q3": "Project path rejected hidden .local element before import.",
+    "stack_q1": "Malformed pinned native receipt digest rejected before analysis;source preserved."
+  },
+  "unchanged_images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46"
+  },
+  "jev_model": "jev-1.13.0",
+  "jev_answers": {
+    "evidence_category": {
+      "type": "choice",
+      "choice": "original_routines_synthetic_platform",
+      "confidence": 1.0,
+      "probabilities": {
+        "original_routines_synthetic_platform": 1.0,
+        "generated_synthetic_instructions": 0.0,
+        "full_cold_hardware": 0.0,
+        "unknown": 0.0
+      }
+    },
+    "scope_text": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 0.95,
+      "probabilities": {
+        "supported": 0.97,
+        "contradicted": 0.0,
+        "not_established": 0.03
+      }
+    },
+    "expected_images": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 0.51,
+      "probabilities": {
+        "supported": 0.67,
+        "contradicted": 0.26,
+        "not_established": 0.07
+      }
+    },
+    "observer_mutations": {
+      "type": "choice",
+      "choice": "contradicted",
+      "confidence": 0.7,
+      "probabilities": {
+        "supported": 0.08,
+        "contradicted": 0.8,
+        "not_established": 0.12
+      }
+    },
+    "DWARF_scope": {
+      "type": "choice",
+      "choice": "metadata_limitation",
+      "confidence": 1.0,
+      "probabilities": {
+        "metadata_limitation": 1.0,
+        "body_export_failed": 0.0,
+        "firmware_runtime_crashed": 0.0,
+        "unknown": 0.0
+      }
+    }
+  },
+  "local_copy_API_audit": "Two memory-API experiments execute no guest instructions;exact source has no explicit mutating API after emulation or in observers.",
+  "old_C_graph_extended": false,
+  "complete_permitted_path_bound": false,
+  "current_main_native_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "Ghidra body names are analyst seeds,not recovered original symbols.",
+    "Original routines execute on synthetic hart0 RAM/MMIO only;no physical lock ownership/release/reclaim is authorized.",
+    "SP balance assumes exact function entry,ordinary call/return and no asynchronous IRQ/external stack mutation.",
+    "No complete imported DWARF variable-location recovery is claimed.",
+    "The prior297/687/91/9696 graph is not rewritten or extended;other original/indirect/IRQ/per-hart/physical bounds remain.",
+    "The original callers/full36 matrices/HIF2 bitmap and all broader/new24-INODE/current-source/physical/client gates remain separate."
+  ]
+}

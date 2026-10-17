@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Three Original Callees On Synthetic Hart0
+
+Ghidra q4 verifies full CODE mapping and three original bodies6/104/64 bytes,
+59f8ee3a;metadata-only ORIGINAL_CALLEES.json hashes2fb12ac4. Diagnostic32fe94a4
+passes129 original-routine executions on synthetic hart0 RAM/MMIO,with observed
+local SP depths0/16/16,balanced saved state/returns and exact protected bytes.
+One-off CFG/SP audita8b07ff1 checks all reviewed branches/returns under exact-
+entry/ordinary-ABI/no-IRQ assumptions. This does not extend the old297/687/91/
+9696 graph or establish permitted paths,other harts,physical locks or full cold.
+
+Imported-component DWARF errors and earlier failed launches/hash-pin attempts
+remain retained,not suppressed or relabeled. Exact tested Java helpers are now
+in tools/ghidra;no NPU implementation or image changed. Both images/source-lock
+40d29368 recheck unchanged. Latest84 host units/95 hashes/13 tiny synthetic
+guests remain a separate scope. Both callers/full36 matrices/HIF2 bitmap stay
+live;new24 INODE/broader/current-main/full-setup/physical/client gates remain.
+No hardware,restart,waiver or subagents. See inode-caller/STACK.md.
+
 ## 2026-10-17 - Literal Target Scope And 84 Focused Tests
 
 Static supplement9ab060c5 identifies27 guarded literal targets among75 prior
