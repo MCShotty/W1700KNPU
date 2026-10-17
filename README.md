@@ -6,10 +6,11 @@ Both nominal callers passed full512 DESC10 setup; later stages are still
 running. Each fault matrix finished failed: seven cases passed, but its bitmap
 case hit the original host deadline. Those failures remain failures.
 
-The first offline build attempt stopped at an omitted copied linker, before
-OpenWrt world. Its audit kept all 891,138 original entries unchanged. New linker
-preflight checks pass; the retry needs a fresh copy including that existing tool.
-Prepared-source checks pass; no current world/image has built yet.
+The checked NPU pair now rebuilds and stages offline with the same CODE/DATA
+hashes as the frozen native cohort. World then stopped at its copied download-
+cache boundary; the failed run kept all 891,138 original entries unchanged.
+Private cache staging and bounded native-progress diagnostics are tested, but
+their real-cache world/native replays and a current image remain pending.
 See the [isolation and timing checkpoint](research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md).
 
 ## 2026-10-17 - RX-Event Export Gap Repaired

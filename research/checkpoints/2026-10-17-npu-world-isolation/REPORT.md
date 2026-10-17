@@ -143,3 +143,94 @@ not a native-cold,physical DMA/IRQ/drain,boot,recovery or client witness.
 The original prepared tree,FIT978f9ddd,calibration/private device backups,
 recovery and rollback remain protected. No module loading,flash,radio/reset,
 reclamation,hardware operation or subagents.
+
+## Second Attempt And Download-Cache Boundary
+
+V4 preserves2313 files/623343479 bytes at Gitf37578727,
+`.local/npu-validation-capsules/world-main-40d-v4/receipt.json`, SHA256
+`a69f4db046e1e71570e641181a5b60bdbf5bcaa4d1b23254a475196297068516`.
+The copied-linker cross-link smoke3 passes synthetic RV32/AArch64 ELF checks,
+receipt `.local/npu-world-overlay-20261017/linker-smoke-q3/result.json`, SHA256
+`8d4839743479a7b204c2d92524a26cefa761f3655c9fba60d2f3330e15afbe4b`.
+No guest code executes. Fixture q1 placed text below the RV32 default image
+base;q2's RV32 link passed but its ARM64 text was below that architecture's
+default base. Both earlier sources/logs remain unchanged;smoke3 explicitly
+sets its synthetic image base. These are fixture failures,not firmware faults.
+
+World attempt2 now builds and stages the20-component/168-hook checked pair:
+CODE998644 bytes hashes
+`a6813d396802a553997527fdcf0e77d92f9cc2bf08689f413d06341efbbe5aad`,
+DATA25728 bytes hashes
+`180bc8084bcdcb695498056004d9d439fdde22da231574510be1064cfe61cfe3`.
+They match the frozen native cohort's bytes,not a qualification of newer host
+integration. Make world then exits2 before kernel preparation because its dl
+symlink points to .build/openwrt/dl,hidden by the copied source root. No new
+kernel or image qualifies. Terminal outer result
+`.local/npu-isolated-world/world-build-q2/result.json`, SHA256
+`1c572624a2517d6da9a2565e5e54350b41aaebb5f088da8701c81faabba6881e`,
+records passed:false,all891138 original prepared entries unchanged,snapshot
+unchanged and parent namespaces unchanged. Old failed outputs remain intact.
+
+Read-only link audit `.local/npu-world-overlay-20261017/build-links-audit-q1.json`,
+SHA256 `3c71bde856b4e2dcf5378fba1794b2767e7beecf76c3f3c7e5f02633b18fd1df`,
+checks9782 prepared links. The download directory is the only missing workspace
+target in V4;this does not close arbitrary non-link paths embedded in tools.
+
+The new cache admission checks every declared file and the unique exact-version
+kernel hash recipe. The existing154741268-byte archive matches its recipe.
+Inside the already-verified private namespace,the exact expected dl symlink is
+replaced with a byte-exact writable copy. The original source remains read-only;
+new host guards compare both original prepared/cache inventories after each
+run. Never invoke staging on the real host prepared tree. The namespace command
+and its two overlays remain byte-identical;this is not a whole-runner hash waiver.
+Fresh V5 must include .build/openwrt/dl and the kernel-6.18 recipe,alongside the
+existing linker/original pair/current producer inputs. No archive was downloaded.
+
+Seven new synthetic cache contracts pass. Actual bwrap staging over synthetic
+lower/cache fixtures also passes:copy/write stays in the upper,source is EROFS,
+both original synthetic inventories and link literal stay unchanged,parent
+namespaces remain unchanged. Receipt
+`.local/npu-world-overlay-20261017/cache-stage-smoke-q1/result.json`, SHA256
+`098b3ba108d53c6c6514c5a527c42c2723a8df678ab234e6eede4192eb0569c6`.
+This is not a real-cache/world/firmware test. Jev q6 source checks support
+validation-before-unlink0.98/confidence0.97,isolation-before-stage0.97/0.95 and
+unique kernel hash1.00/1.00;actual world qualification is still pending.
+
+## Bounded DESC10 Observation Preparation
+
+The new diagnostic wrapper uses the unchanged original native consumer and
+strict case-receipt validator. Host progress preserves all original append
+events and reports selected counts plus original fault metadata. No new native
+owner,SETUP,shortened request,guard/hash waiver or original-store substitution.
+Native emulator budget must stay60000000us. Controller host deadlines are
+10800(default)/21600 seconds and use a new worker session/process group. A
+nonzero exit,deadline race or missing/invalid native receipt cannot pass.
+Captured artifacts/inputs stay explicit;an attempt never repairs old matrices.
+
+Ten synthetic controls pass,including exact25606-event list retention and the
+original single fault write. Three actual disposable-host process controls pass
+for zero/nonzero/deadline exits,group-only termination and unchanged identities
+of both live native callers. Receipt
+`.local/npu-world-overlay-20261017/progress-host-smoke-q1/result.json`, SHA256
+`0dd5c87bdbd2fc5d346d53eacdb15712af71f0ba5e01de262c2d70be6dda2ab1`.
+Those processes execute no native firmware. The new consumers have not yet been
+copied to the old original-path bundle or run against its actual prefixes.
+Check all2330 originals/five supplements before and after adding only the new
+read-only diagnostic files,then use denied smoke before an observed bitmap run.
+
+Jev q4 preserves observer uncertainty:store sequence not established0.61/
+confidence0.41;injection supported0.38/0.07;strict acceptance supported0.92/0.88;
+owned-group boundary0.83/0.74. Q5 includes exact original parent methods but
+still marks append support not established0.91/0.86;original mutation support
+is limited0.59/0.38. These are not promoted into native proof. Exact synthetic
+transcripts,host process controls and the unchanged strict native acceptance
+remain separate requirements. No observed native replay has run yet.
+
+Focused scope `.local/npu-world-overlay-20261017/host-scope-q1/result.json`, SHA256
+`52b3d447d63bf2fbb72cace077d9e59c9ea6b9d14fe6ca1d155b0d0d17d040ce`,
+checks78 source/artifact identities and48 unique synthetic executions/no skips:
+18 world/source,seven cache,
+10 progress and13 existing fake-builder cases,with loaded source hashes.
+It is not native,world,FIT,hardware or actual-client acceptance. Source-lock
+remains40d29368. Both earlier native matrices stay failed;the original nominal
+callers keep running. No flash,radio/reset,reclaim,module load or subagents.

@@ -1,5 +1,35 @@
 # W1700KNPU Workspace
 
+## 2026-10-17 - Cache Boundary And Progress Diagnostics
+
+- V4 preserves2313 files/623343479 bytes,a69f4db0/Gitf375787. The second world
+  attempt rebuilt/staged20-component/168-hook CODEa6813d39/DATA180bc808,then
+  world exited2 because dl points to the hidden .build/openwrt/dl. Outer failed
+  receipt1c572624 keeps all891138 original entries,snapshot and parent namespaces
+  unchanged. Do not repair the failed run in place or claim a new kernel/image.
+- Read-only link audit3c71bde8 checks9782 links;the download directory is the only
+  missing workspace target in V4. This is not closure over arbitrary file paths
+  embedded in tools. Fresh V5 must include .build/openwrt/dl and
+  .build/merged-openwrt/target/linux/generic/kernel-6.18,plus the existing LLVM21
+  bin/original pair/current producer receipts. Do not reuse or mutate V4.
+- Cache preflight requires exact declared bytes and the unique version's kernel
+  recipe hash. Only the verified private inner build may replace its dl symlink
+  with a byte-exact writable copy;never invoke staging on the real host build.
+  Both real original prepared/cache inventories must match after every run.
+  The namespace command/two overlays are unchanged. Seven cache contracts and
+  actual synthetic overlay smoke098b3ba1 pass,not a real-cache world build.
+- Focused scope52b3d447 verifies48 unique synthetic tests/no skips. New progress
+  wrapper has10 contracts and actual disposable-host-process smoke0dd5c87b;
+  neither executes native firmware. Keep original store/PC/lock/private/CODE/
+  ABI guards and full512/eight-DESC10 coverage. Native budget stays60000000us;
+  host bounds are10800(default)/21600 seconds,not automatic qualification.
+- Before native use,copy only new diagnostic consumers read-only after checking
+  all2330 originals/five earlier supplements. Run the denied smoke first; no
+  observed native probe has run yet. The earlier failed matrices stay failed.
+  Jev's observer checks remain uncertain;do not substitute them for strict
+  native acceptance. No live native job restart,hardware action or subagents.
+  Source-lock40d29368 remains unchanged;read world-isolation/REPORT.md.
+
 ## 2026-10-17 - Native Deadline And Offline Build Isolation
 
 - Both before-ready-bitmap DESC10 replays reached their original10800-second

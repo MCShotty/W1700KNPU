@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-17 - Checked Pair Built;Cache Boundary Is Next
+
+Fresh V4 a69f4db0 preserves2313 files/623343479 bytes at Gitf375787. The second
+attempt compiled/staged the exact20/168 CODEa6813d39/DATA180bc808 pair,then world
+exited2 at the hidden download-cache link. Failed outer1c572624 verifies all
+891138 original entries,snapshot and parent namespaces unchanged. No kernel/
+image acceptance follows. Link audit3c71bde8 finds one missing workspace target
+among9782 links: .build/openwrt/dl. Non-link path references remain unproved.
+
+New cache admission requires declared contents/unique exact-version kernel
+recipe hash. Only private build/dl is replaced with a byte-exact writable copy;
+the source/cache/lower guards stay strict. Seven cache units and synthetic
+actual-overlay smoke098b3ba1 pass. Freeze fresh V5 including the cache and
+kernel recipe,not V4 modification. Namespace command/two overlays are unchanged.
+Focused48-unit scope52b3d447 has no skips. Progress wrapper10 controls and
+three disposable-host process checks0dd5c87b pass,but no observed native replay
+has run. Original native budget stays60000000us;host deadline metadata remains
+explicit. Preserve both earlier failed matrices and the live nominal callers.
+Source-lock40d29368/no flash or other hardware action. Read world-isolation/REPORT.md.
+
 ## 2026-10-17 - Native Timeout And Build-Isolation Work
 
 Both full512 before-ready-bitmap controls reached the unchanged10800-second

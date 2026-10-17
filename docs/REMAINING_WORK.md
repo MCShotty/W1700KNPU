@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-17 - Retry Inputs And Observed Native Diagnostics
+
+Second world attempt built/staged the exact20/168 NPU pair but world failed at
+the hidden download directory. Its failed receipt1c572624 verifies the891138-
+entry original build unchanged. Private cache staging now passes seven units
+and a real synthetic overlay smoke. Freeze V5 with existing cache/kernel hash
+recipe/LLVM21 inputs,then retry offline and require prepared5/22/329 plus full
+FIT/board/package/module verification. No current image or new world kernel.
+
+The progress wrapper passes10 synthetic contracts/three disposable-host process
+tests,not native firmware. Add only the new consumers after original2330/five-
+supplement verification,and run denied smoke before an observed bitmap replay.
+Preserve the original failed matrices. Both nominal callers still run on the
+unchanged old cohort;full eight-case/all36-tail/new24-INODE and broader native,
+hot/IRQ/drain/lifecycle/physical/client gates remain open. Source-lock40d29368.
+
 ## 2026-10-17 - Native Timing And Current Image Gates
 
 Both before-ready-bitmap full512 controls timed out at the original10800-second

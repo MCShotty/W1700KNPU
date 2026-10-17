@@ -1,10 +1,50 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-17 (world attempt failed before world; original tree unchanged; linker-copy preflight added)
+Last updated: 2026-10-17 (checked pair compiled/staged; world cache boundary fixed in source; strict diagnostics prepared)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-17 - Checked Pair,Cache Boundary And Bounded Diagnostics
+
+- V4 preserves2313 files/623343479 bytes,a69f4db0,from Gitf375787. Second actual
+  private attempt built/staged20 components/168 hooks with CODEa6813d39 and
+  DATA180bc808. World exited2 at dl's absolute link into the uncopied older
+  build cache. Outer failed result1c572624 keeps all891138 original prepared
+  entries,snapshot and parent namespaces unchanged. No new world kernel/image
+  qualified;failure/logs/partial pair stay preserved,not retagged as success.
+- Read-only9782-link audit3c71bde8 identifies only .build/openwrt/dl as a missing
+  workspace target in V4. It does not verify arbitrary embedded path references.
+  New preflight requires a declared exact cache manifest and kernel archive hash
+  from the unique declared recipe version. Inside the verified namespace only,
+  private build/dl replaces its exact expected symlink with a checked writable
+  copy. Original source stays RO;both prepared and original cache inventories
+  are compared afterward. Seven new cache controls and actual synthetic overlay
+  smoke098b3ba1 pass. A fresh V5 with cache/kernel recipe inputs is still needed.
+  No namespace/overlay-command change,download or source-lock change.
+- Copied-linker synthetic ELF smoke8d483974 links RV32/AArch64 without guest
+  execution. Earlier fixture q1/q2 image-base mistakes remain failed and intact.
+  Focused host scope52b3d447 checks78 source/artifact hashes and48 unique tests/
+  no skips:18 world/source,
+  seven cache,10 progress and13 existing fake-builder cases. This is synthetic
+  host evidence,not full world/native or physical acceptance.
+- New bounded progress consumer retains the original native checker and its
+  full512 store/PC/lock/memory/private/CODE/ABI assertions. Progress observes a
+  host-list append and original fault metadata. Ten units verify exact25606-
+  event retention,one original fault mutation,deadline races/nonzero/missing
+  verdict rejection,unchanged native budget and no log overwrite. Disposable
+  host-process smoke0dd5c87b checks normal/nonzero/group timeout,keeping both
+  live native process identities unchanged;it executes no native firmware.
+  Host limits10800(default)/21600 are explicit;native60000000us stays fixed.
+  New original-path consumers have not been copied/run yet. Keep failed old
+  aggregates and live callers untouched;no native or current-main promotion.
+- Jev q4/q5 observer checks remain uncertain;strict acceptance/group-boundary
+  checks support0.92/0.83 and direct host controls remain decisive. Q6 cache
+  validation/isolation/hash checks support0.98/0.97/1.00 with raw probabilities
+  retained. None grants authority or replaces a real passing world/native run.
+  No hardware action or subagents. Source-lock40d29368 remains unchanged.
+  Evidence:research/checkpoints/2026-10-17-npu-world-isolation/REPORT.md.
 
 ## 2026-10-17 - Native Deadline And Offline World Containment
 

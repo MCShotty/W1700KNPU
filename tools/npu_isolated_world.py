@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import stat
 import subprocess
 import sys
@@ -16,6 +17,7 @@ BUILD = ROOT / '.build/merged-openwrt'
 WORK = ROOT / '.local/merge-nonoc-20260923'
 STORE = ROOT / '.local/npu-isolated-world'
 LINKER_PREFIX = ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21'
+CACHE = ROOT / '.build/openwrt/dl'
 
 
 def digest(path):
@@ -55,7 +57,7 @@ def snapshot(receipt_path):
         assert path.resolve().is_relative_to(frozen) and not path.is_symlink()
         assert digest(path) == expected and not path.stat().st_mode & 0o222, ('snapshot-input-drift', name)
     assert digest(frozen / 'tools/npu_isolated_world.py') == digest(Path(__file__))
-    assert (frozen / BUILD.relative_to(ROOT)).is_dir() and (frozen / WORK.relative_to(ROOT)).is_dir()
+    assert all((frozen / path.relative_to(ROOT)).is_dir() for path in (BUILD,WORK,CACHE))
     return frozen, record
 
 
@@ -68,6 +70,52 @@ def linker_input(frozen, record):
     assert mode & 0o111 and not mode & 0o222, ('linker-not-readonly-executable', name)
     assert digest(path) == record['files'][name], ('frozen-linker-drift', name)
     return dict(path=name, sha256=record['files'][name])
+
+
+def cache_manifest(directory):
+    assert directory.is_dir() and not directory.is_symlink(), ('missing-frozen-download-cache',str(directory))
+    files = {}
+    for path in sorted(directory.rglob('*')):
+        mode = path.lstat().st_mode
+        assert stat.S_ISREG(mode) or stat.S_ISDIR(mode), ('unsafe-cache-node',str(path))
+        if stat.S_ISREG(mode): files[str(path.relative_to(directory))] = digest(path)
+    encoded = json.dumps(files,sort_keys=True,separators=(',',':')).encode()
+    return files,hashlib.sha256(encoded).hexdigest()
+
+
+def download_cache_input(frozen, record):
+    files,manifest_sha256 = cache_manifest(frozen / CACHE.relative_to(ROOT))
+    prefix = str(CACHE.relative_to(ROOT)) + '/'
+    declared = {name.removeprefix(prefix):value for name,value in record['files'].items() if name.startswith(prefix)}
+    assert files and files == declared, 'download-cache-input-drift'
+    release = json.loads((frozen / 'firmware/source-lock.json').read_bytes())['kernel']
+    assert re.fullmatch(r'\d+\.\d+\.\d+',release)
+    minor = '.'.join(release.split('.')[:2])
+    recipe = str(BUILD.relative_to(ROOT) / ('target/linux/generic/kernel-' + minor))
+    assert recipe in record['files'] and digest(frozen / recipe) == record['files'][recipe], 'missing-kernel-hash-recipe'
+    hashes = re.findall(r'^LINUX_KERNEL_HASH-' + re.escape(release) + r'[ \t]*=[ \t]*([0-9a-f]{64})[ \t]*$',
+        (frozen / recipe).read_text(),re.M)
+    archive = 'linux-' + release + '.tar.xz'
+    assert len(hashes) == 1 and files.get(archive) == hashes[0], 'kernel-cache-recipe-hash-mismatch'
+    return dict(file_count=len(files),manifest_sha256=manifest_sha256,kernel_archive=archive,
+        kernel_archive_sha256=hashes[0],kernel_recipe=recipe,kernel_recipe_sha256=record['files'][recipe])
+
+
+def stage_download_cache(build, cache, expected):
+    source,source_sha256 = cache_manifest(cache)
+    assert len(source) == expected['file_count'] and source_sha256 == expected['manifest_sha256'], 'cache-stage-source-drift'
+    target = build / 'dl'
+    assert target.is_symlink() and os.readlink(target) == str(cache), 'unexpected-private-dl-link'
+    assert not cache.resolve().is_relative_to(build.resolve()), 'cache-inside-build'
+    target.unlink()
+    shutil.copytree(cache,target)
+    for path in (target,*target.rglob('*')):
+        assert not path.is_symlink()
+        path.chmod(stat.S_IMODE(path.stat().st_mode) | (0o700 if path.is_dir() else 0o600))
+    assert cache_manifest(target) == (source,source_sha256), 'private-download-cache-copy-drift'
+    assert cache_manifest(cache) == (source,source_sha256), 'source-download-cache-changed'
+    return dict(files_copied=len(source),manifest_sha256=source_sha256,
+        private_dl_replaced_symlink=True,source_cache_contents_unchanged=True)
 
 
 def command(frozen, directory, name, context, probe):
@@ -148,6 +196,8 @@ def inner(args):
         assert linker == LINKER_PREFIX / 'bin/ld.lld' and digest(linker) == context['linker']['sha256']
         linker_version = subprocess.check_output([str(linker), '--version'], text=True, timeout=30).strip()
         proof['linker'] = dict(**context['linker'], version=linker_version)
+        assert digest(ROOT / context['download_cache']['kernel_recipe']) == context['download_cache']['kernel_recipe_sha256'], 'active-kernel-hash-recipe-drift'
+        proof['download_cache'] = stage_download_cache(BUILD,CACHE,context['download_cache'])
         print(json.dumps(dict(phase='clean-critical-outputs-in-private-overlay')),flush=True)
         clean_commands = [
             ['make','-C',str(BUILD),'-j2','target/linux/clean','V=s'],
@@ -193,6 +243,7 @@ def run(args):
         source_lock_sha256=digest(frozen / 'firmware/source-lock.json'))
     if not args.probe_only:
         context['linker'] = linker_input(frozen, record)
+        context['download_cache'] = download_cache_input(frozen, record)
         for key,path in (('provider_receipt',args.provider_receipt),('mt76_receipt',args.mt76_receipt)):
             assert path is not None, ('missing-current-producer-reference',key)
             name = str(path.resolve().relative_to(ROOT))
@@ -203,6 +254,8 @@ def run(args):
     directory.mkdir(parents=True)
     for name in ('build-upper', 'build-work', 'log-upper', 'log-work', 'tmp'): (directory / name).mkdir()
     print(json.dumps(dict(phase='inventory-protected-lower-build', probe_only=args.probe_only)), flush=True)
+    cache_before = tree_state(CACHE)
+    with (directory / 'cache-before.json').open('x') as stream: stream.write(json.dumps(cache_before,sort_keys=True) + '\n')
     before = tree_state(BUILD)
     with (directory / 'lower-before.json').open('x') as stream: stream.write(json.dumps(before, sort_keys=True) + '\n')
     argv = command(frozen, directory, args.name, context, args.probe_only)
@@ -214,16 +267,20 @@ def run(args):
     print(json.dumps(dict(phase='launch-private-offline-world', name=args.name, probe_only=args.probe_only)), flush=True)
     execution = run_logged(argv, directory / 'run.log')
     unchanged = tree_state(BUILD) == before
+    cache_unchanged = tree_state(CACHE) == cache_before
     snapshot(args.snapshot)
     assert namespaces() == context['parent_namespaces']
     child_path = directory / 'build-upper/bin' / ('isolated-world-' + args.name) / 'result.json'
     child = json.loads(child_path.read_bytes()) if child_path.exists() else None
-    passed = execution['returncode'] == 0 and unchanged and child is not None and child['passed'] is True
+    passed = execution['returncode'] == 0 and unchanged and cache_unchanged and child is not None and child['passed'] is True
     result = dict(passed=passed, **execution, original_build_content_modes_ownership_links_unchanged=unchanged,
         original_inventory_entries=len(before), snapshot_unchanged=True, parent_namespaces_unchanged=True,
+        original_download_cache_content_modes_ownership_links_unchanged=cache_unchanged,
+        original_download_cache_entries=len(cache_before),
         envelope=envelope, child=child, world_build=bool(child and child['world_build']),
         probe_only=args.probe_only, module_loaded=False, native_cold_qualified=False, full_setup=False, hardware=False,
         limits=['An offline overlay build reuses prepared cache inputs;not a fresh rebuild of every dependency.',
+                'Declared frozen download inputs are copied byte-exact into private writable build/dl;the original cache is compared separately.',
                 'Original regular-file content/modes/ownership and literal symlinks/directories are compared;special input nodes are rejected.',
                 'Read-only source snapshot,private mount/network/PID namespaces,writable build/log overlays and private temporary storage.',
                 'No native-cold,physical DMA/IRQ/drain,boot,actual-client or complete NPU acceptance follows from a successful world/image check.'])

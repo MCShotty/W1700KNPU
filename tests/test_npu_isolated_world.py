@@ -33,7 +33,7 @@ class IsolatedWorldTests(unittest.TestCase):
     def synthetic_snapshot(self, directory):
         directory = Path(directory)
         frozen = directory / 'root'
-        for path in ('tools', '.build/merged-openwrt', '.local/merge-nonoc-20260923'):
+        for path in ('tools', '.build/merged-openwrt', '.build/openwrt/dl', '.local/merge-nonoc-20260923'):
             (frozen / path).mkdir(parents=True, exist_ok=True)
         script = frozen / 'tools/npu_isolated_world.py'
         script.write_bytes(Path(world.__file__).read_bytes())
