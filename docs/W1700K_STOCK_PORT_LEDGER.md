@@ -1,10 +1,59 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-18 (current provider/three mt76 module links and74 build contracts pass;reader/arithmetic/older-tail checkpoints retained;full image next;v3 cold callers live;overall runtime/physical gates open)
+Last updated: 2026-10-20 (current full image633b4d71 passes offline checks;both v3 callers fail initial INODE capture;budgets unchanged;full runtime/physical goal remains open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Current Full Image And Terminal Cold Callers
+
+- Frozen f282a131 world-build-q5 completes make-j2-world and offline actual
+  Gemtek DTB/FIT,218-package/78-module ABI/numeric boot ownership checks.
+  FIT633b4d71 is27009866 bytes. Five kernel/22 export/329 mt76 prepared
+  sources match;all22 RV32 objects/archive members and raw20/168 pair
+  858d1408/40483c19 match. No loader provisioning or physical acceptance.
+- Separate namespace probe08e4a2dc and final world8101de14 pass. All891138
+  original build/4617 cache entries and6168 frozen files remain unchanged;
+  3774 downloads are copied into a private offline cache. Scope413328b3
+  verifies6213 paths;metadata WORLD.jsonde06f3a1. Protected978f9ddd/a22300ea
+  are independently rehashed unchanged. The compatibility2.0 layout warning
+  remains;this is not a flash/chainloader instruction. See current-image/REPORT.md.
+- Both v3 callers are terminal exit1,not live. Current full512 DESC10 validates
+  25606 original stores/3072 claims;three tail stages validate2+2+5 stores.
+  INODE stops at217 captured preimages before its first original store/return;
+  no stage1 prefix or complete result exists. Failure PCs84042f86/84042df6
+  have no recorded wall timeout/unmodeled access/ABI error. Keep3M/60M-us
+  original limits;instruction-window exhaustion remains under investigation.
+- Terminal scope56932e89 checks3060 paths/2378 unchanged producing files;
+  COLD_CALLERS.json54c2e238 has metadata only. Initial audit scaffold's older
+  25604 expected count stopped before a verdict and is retained;actual traces
+  were not changed. Separate reader-progress-v2 preserves2464 files for a
+  diagnostic restoration with host observations only;v1 was not executed.
+  See late-readers/TERMINAL.md. No failed producing run was restarted/regraded.
+- A separate seven-handler MCU source intake is preserved a57e9105. Jev
+  flags six first-body-access guards absent and the PS-sync guard present.
+  This is static triage,not executed event handling or a physical finding;
+  existing normal RX parser guards already belong to the unified source.
+- Current eight-DESC10/all36-tail/actual INODE stage1/new24-INODE and broader
+  full setup/hot/checked IRQ/RRO/lifecycle/DMA/cache/drain/recovery/remaining
+  original/indirect/whole-stack/physical/boot/client gates stay. No hardware,
+  flash,source/hash/budget waiver or subagents. The full goal is unchanged.
+  This supersedes earlier running-caller/full-image-next entries.
+- Current both-profile eight-DESC10/all36-tail diagnostic matrices have now
+  started separately in reader-controls-v1,2673 readonly files/567317019 bytes,
+  receipt90580953. Four named runners use two workers each;all original sizes/
+  inputs/budgets stay. They are not passed or fresh producing callers. Check
+  their terminal execution and aggregate receipts. See TERMINAL.md for tags.
+- The separate restored default probe is now terminal diagnostic exit0 and
+  reproduces PC84042f86/capture217 exactly,still no INODE store/return. Its
+  last original3M/60M-us engine has no wall timeout/explicit harness stop.
+  Both producing failure PCs bind the same930-byte npu_cold_txbuf_dma_valid
+  body5fd46aec. Observed non-inlined entry counts are not all source calls
+  or per-iteration instruction counts. Repeated geometry checking is a lead,
+  not a proven equivalent fix. Scope03e67f38 verifies2497 paths;metadata
+  INODE_PROGRESS.json84c4212e. HIF2 diagnostic was not executed. Both original
+  callers remain failed;no budget/checkpoint/source change occurred.
 
 ## 2026-10-18 - Current Module Links And Export-Scope Correction
 

@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-20 - Current Image Built; INODE Still Fails
+
+The current Linux 6.18.52 image passes the complete isolated world build,
+Gemtek DTB/FIT checks, 218-package/78-module checks and numeric rootfs boot
+ownership. Its FIT hash starts `633b4d71`; the original build, download cache
+and saved images are unchanged. See the
+[image checkpoint](research/checkpoints/2026-10-18-npu-current-image/REPORT.md).
+
+Both current cold callers are terminal failures during initial INODE capture,
+after validated full-512 DESC10 and three tail stages. Neither reaches an
+original INODE store or a complete constructor verdict. The
+[terminal audit](research/checkpoints/2026-10-17-npu-late-readers/TERMINAL.md)
+supersedes older running-job descriptions. Fault matrices, full setup,
+hot TX/RX, IRQ/rearm, physical ownership/drains and router/client acceptance
+remain open. No flash or hardware contact occurred.
+
 ## 2026-10-18 - Current Driver Links
 
 The current provider and all three mt76 consumer modules link successfully

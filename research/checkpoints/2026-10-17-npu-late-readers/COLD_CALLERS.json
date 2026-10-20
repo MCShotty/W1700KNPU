@@ -1,0 +1,100 @@
+{
+  "evidence_audited": true,
+  "scope": "terminal-current-caller-failures-and-validated-prior-stages",
+  "capsule_sha256": "7ddc73cd215b3f99f16d5056a581210fb497a93bdd31ec7e33ec0524522cbf60",
+  "frozen_producing_files": 2378,
+  "producing_originals_unchanged": true,
+  "profiles": {
+    "default": {
+      "caller_passed": false,
+      "terminal_exit": 1,
+      "failure_pc": "0x84042f86",
+      "wall_budget_exhausted": false,
+      "unmodeled_access": false,
+      "desc10_ids": 512,
+      "desc10_original_stores": 25606,
+      "packet_claims": 3072,
+      "desc10_trace_validated": true,
+      "tail_stages": [
+        {
+          "stage": 0,
+          "original_stores": 2,
+          "validated": true
+        },
+        {
+          "stage": 1,
+          "original_stores": 2,
+          "validated": true
+        },
+        {
+          "stage": 2,
+          "original_stores": 5,
+          "validated": true
+        }
+      ],
+      "tail_original_stores": 9,
+      "inode_original_stores": 0,
+      "inode_expected_stage0_stores": 1030,
+      "inode_captured_preimages": 217,
+      "inode_callback_entered": true,
+      "inode_callback_returned": false,
+      "inode_stage1_prefix": false,
+      "execution_sha256": "9253f6ecc31b0dbde516d63533ec1f1005677b727c7756bb8043e863d718b9d3",
+      "failure_sha256": "6bfbf872f35a27cc13828082cf081c0236142e43955152219caa8c438ed70856"
+    },
+    "hif2": {
+      "caller_passed": false,
+      "terminal_exit": 1,
+      "failure_pc": "0x84042df6",
+      "wall_budget_exhausted": false,
+      "unmodeled_access": false,
+      "desc10_ids": 512,
+      "desc10_original_stores": 25606,
+      "packet_claims": 3072,
+      "desc10_trace_validated": true,
+      "tail_stages": [
+        {
+          "stage": 0,
+          "original_stores": 2,
+          "validated": true
+        },
+        {
+          "stage": 1,
+          "original_stores": 2,
+          "validated": true
+        },
+        {
+          "stage": 2,
+          "original_stores": 5,
+          "validated": true
+        }
+      ],
+      "tail_original_stores": 9,
+      "inode_original_stores": 0,
+      "inode_expected_stage0_stores": 1030,
+      "inode_captured_preimages": 217,
+      "inode_callback_entered": true,
+      "inode_callback_returned": false,
+      "inode_stage1_prefix": false,
+      "execution_sha256": "436ef1a3df80e3b3acd09e96f3d15f9b9de04941a011d3e49dc8561d978ef8a3",
+      "failure_sha256": "9b8bdae9d716fb3ab9d7bcd1717d771bd076197fdd68e7e9ddccf281465f0a1a"
+    }
+  },
+  "native_instruction_budget": 3000000,
+  "native_wall_budget_us": 60000000,
+  "current_caller_passed": false,
+  "current_desc10_fault_matrix_qualified": false,
+  "current_tail_fault_matrix_qualified": false,
+  "current_inode_fault_matrix_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "Both producing runs remain terminal failures, not successful original cold constructors.",
+    "Prior validated original-stage traces do not establish all fault matrices, whole setup or physical behavior.",
+    "The nonterminal-PC stop has no recorded wall timeout or explicit ABI error; detailed cause remains under diagnostic investigation.",
+    "No changed instruction/time budget, progress checkpoint, native guard, source hash or full-size count.",
+    "The initial audit scaffold expected the older 25604 store count and stopped before writing a verdict; its source is retained. The actual current traces have 25606 original stores."
+  ],
+  "private_scope_sha256": "56932e89fd1aa3bfdfd000ca47e2e3695af6a4c661ee3284502e61daa06dcc6f",
+  "checked_paths": 3060
+}

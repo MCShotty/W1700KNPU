@@ -1,0 +1,164 @@
+{
+  "evidence_audited": true,
+  "scope": "restored-default-INODE-stop-diagnostic-and-static-body-binding",
+  "diagnostic_completed": true,
+  "original_caller_passed": false,
+  "profile": "default",
+  "captured_preimages": 217,
+  "expected_stage0_preimages": 1030,
+  "original_inode_stores": 0,
+  "callback_or_outer_return_observed": false,
+  "exact_failure_pc_reproduced": true,
+  "last_engine_segment": {
+    "begin": "0x840d5124",
+    "until": "0x84200000",
+    "count": 3000000,
+    "timeout_us": 60000000,
+    "pc": "0x84042f86",
+    "wall_timeout": false,
+    "explicit_harness_stop": null
+  },
+  "observed_entries_after_begin": {
+    "npu_cold_inode_begin": 1,
+    "npu_cold_pcie_tail_plan_valid": 469,
+    "npu_cold_rx_pcie_plan_valid": 647,
+    "npu_cold_txdone_plan_valid": 42657,
+    "npu_cold_rx_event_plan_valid": 42665,
+    "npu_cold_txbuf_plan_valid": 42665,
+    "inode_read": 220,
+    "npu_cold_inode_plan_valid": 220
+  },
+  "stop_bodies": [
+    {
+      "pc": "0x84042f86",
+      "component": "base",
+      "symbol": "npu_cold_txbuf_dma_valid",
+      "entry": "0x84042bfe",
+      "body_bytes": 930,
+      "body_sha256": "5fd46aecfc3b845c6a3bd1a7fdb5255edae314e21ae32534ca15183ae864f7be",
+      "elf_path": ".local/npu-tail-liveness-20261017/owner-pair-q1/components/base-rv.elf",
+      "elf_sha256": "50cc98b5eb7fd645d7782b2778be3405d0550acf91d1e53018447cbc84af41a8",
+      "instructions": [
+        {
+          "pc": "0x84042f7c",
+          "bytes": "de85",
+          "text": "c.mv a1, s7"
+        },
+        {
+          "pc": "0x84042f7e",
+          "bytes": "63178a01",
+          "text": "bne s4, s8, 0xe"
+        },
+        {
+          "pc": "0x84042f82",
+          "bytes": "c9b5",
+          "text": "c.j -0x13e"
+        },
+        {
+          "pc": "0x84042f84",
+          "bytes": "fd15",
+          "text": "c.addi a1, -1"
+        },
+        {
+          "pc": "0x84042f86",
+          "bytes": "1105",
+          "text": "c.addi a0, 4"
+        },
+        {
+          "pc": "0x84042f88",
+          "bytes": "e38e05ea",
+          "text": "beqz a1, -0x144"
+        },
+        {
+          "pc": "0x84042f8c",
+          "bytes": "1041",
+          "text": "c.lw a2, 0(a0)"
+        },
+        {
+          "pc": "0x84042f8e",
+          "bytes": "33765601",
+          "text": "and a2, a2, s5"
+        },
+        {
+          "pc": "0x84042f92",
+          "bytes": "b3066601",
+          "text": "add a3, a2, s6"
+        }
+      ],
+      "body_equal_to_current_pair": true
+    },
+    {
+      "pc": "0x84042df6",
+      "component": "base",
+      "symbol": "npu_cold_txbuf_dma_valid",
+      "entry": "0x84042bfe",
+      "body_bytes": 930,
+      "body_sha256": "5fd46aecfc3b845c6a3bd1a7fdb5255edae314e21ae32534ca15183ae864f7be",
+      "elf_path": ".local/npu-tail-liveness-20261017/owner-pair-q1/components/base-rv.elf",
+      "elf_sha256": "50cc98b5eb7fd645d7782b2778be3405d0550acf91d1e53018447cbc84af41a8",
+      "instructions": [
+        {
+          "pc": "0x84042dee",
+          "bytes": "d287",
+          "text": "c.mv a5, s4"
+        },
+        {
+          "pc": "0x84042df0",
+          "bytes": "2685",
+          "text": "c.mv a0, s1"
+        },
+        {
+          "pc": "0x84042df2",
+          "bytes": "ee85",
+          "text": "c.mv a1, s11"
+        },
+        {
+          "pc": "0x84042df4",
+          "bytes": "21a0",
+          "text": "c.j 8"
+        },
+        {
+          "pc": "0x84042df6",
+          "bytes": "fd17",
+          "text": "c.addi a5, -1"
+        },
+        {
+          "pc": "0x84042df8",
+          "bytes": "1107",
+          "text": "c.addi a4, 4"
+        },
+        {
+          "pc": "0x84042dfa",
+          "bytes": "d5d3",
+          "text": "c.beqz a5, -0x5c"
+        },
+        {
+          "pc": "0x84042dfc",
+          "bytes": "0443",
+          "text": "c.lw s1, 0(a4)"
+        },
+        {
+          "pc": "0x84042dfe",
+          "bytes": "b3f45401",
+          "text": "and s1, s1, s5"
+        }
+      ],
+      "body_equal_to_current_pair": true
+    }
+  ],
+  "source_CODE_sha256": "858d14086955983764721acb26400446751cdcbc5708b31c6d4295c968711d3c",
+  "diagnostic_receipt_sha256": "a74e02e2668357eb3216bd741d14e6508b69c967e31c485a421825669a955911",
+  "capsule_receipt_sha256": "0945ca33d0d875aa4ea660d8a2e3c0bbb87ea5592c557d6be8ef7e13fbe2eea8",
+  "input_drift_waivers": false,
+  "hif2_diagnostic_executed": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "Both fresh producing failures remain failures. This is strictly restored-prefix observation only.",
+    "Host entry hooks observe non-inlined entries, not all source calls or a per-iteration instruction count.",
+    "Final bounded engine has neither recorded wall timeout nor explicit harness stop; instruction-window exhaustion is an inference.",
+    "The two observed failure PCs are statically inside the same exact DMA-plan validator body; no control was skipped or budget raised."
+  ],
+  "private_scope_sha256": "03e67f38894dae21ce9daf7378ca0875fd42f3f59f6815f787341b7e71e97578",
+  "checked_paths": 2497
+}

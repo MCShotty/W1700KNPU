@@ -1,5 +1,40 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Current Build And Runtime Boundary
+
+The complete current image now builds and passes offline FIT/actual Gemtek
+DTB, 218 packages, 78 module ABIs and numeric boot ownership checks. FIT
+`633b4d71` packages raw `858d1408` / `40483c19` and all22 current RV32 objects.
+Prepared5/22/329 kernel/export/mt76 sources match; protected build/cache/images
+are unchanged. See current-image/REPORT.md and WORLD.json. Boot is untested.
+
+Both v3 cold callers have ended with exit1 during INODE capture217/1030,
+before any original INODE store or callback return. The preceding full512
+DESC10 path validates25606 stores/3072 claims; all three tail stages validate
+nine stores. This does not qualify the complete caller or fault matrices.
+Investigate the unchanged3M-instruction nonterminal-PC stop without increasing
+its60M-us wall budget or adding waiver checkpoints. A separate restored-prefix
+observation is in reader-progress-v2;check its result. See late-readers/
+TERMINAL.md and COLD_CALLERS.json. Older live-job descriptions are superseded.
+
+Next runtime gates remain: current eight DESC10/all36-tail cases, an actual
+successful INODE stage0/stage1 and all24 INODE controls, then broader full
+setup. Hot TX/RX and MCU event bodies, checked IRQ/quarantine/rearm, RRO,
+physical DMA/cache/exclusion/drain/recovery, remaining original/indirect/
+whole-stack contracts, real boot/radios/clients/performance/stability remain
+open. No hardware or subagents; the full NPU objective is unchanged.
+
+Current both-profile eight-DESC10/all36-tail diagnostics are now running in
+reader-controls-v1 (2673 readonly files,90580953),two workers each. They use
+actual validated prefixes and unchanged full sizes/budgets,not replacement
+owners or restarted callers. No aggregate pass is claimed yet.
+
+The default restored stop is now reproduced exactly,diagnostic-only:PC84042f86/
+capture217,with no final wall timeout/explicit harness stop. Both failure PCs
+bind the same930-byte DMA-plan validator. INODE_PROGRESS.json84c4212e/scope
+03e67f38 records2497 checked paths. Investigate repeated validation cost and
+an equivalent bounded implementation;do not relabel the caller or raise limits.
+
 ## 2026-10-18 - Overall Project Gates
 
 - Qualify the corrected current candidate through both actual cold callers,

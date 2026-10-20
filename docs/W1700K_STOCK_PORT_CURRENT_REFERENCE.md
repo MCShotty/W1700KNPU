@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Full Current Image; Terminal Native Callers
+
+Frozen f282a131/source-lockd6b6e2da passes complete isolated world-build-q5.
+New FIT633b4d71 is27009866 bytes with actual Gemtek W1700K DTB/compatible,
+Linux6.18.52,218 packages/78 module ABI checks and root-owned boot files.
+All22 RV32 objects/archive members and raw20-component/168-hook858d1408/
+40483c19 pair match. Actual prepared5/22/329 kernel/export/mt76 sources match.
+All891138 original build entries/4617 cache entries and6168 frozen files stay;
+protected978f9ddd/a22300ea images are unchanged. See current-image/REPORT.md/
+WORLD.json. These are offline checks,not module load/boot/physical acceptance.
+
+Both v3 callers are terminal exit1 at INODE stage0 capture217/1030,zero original
+INODE stores/returns,no stage1 prefix. Full512 DESC1025606 stores/3072 claims
+and tail2+2+5 validated traces precede this failure. It is a nonterminal-PC
+assertion,not the earlier ABI error or recorded wall timeout. Keep3M/60M-us
+budgets unchanged. Separate reader-progress-v2 restores exact prefixes for
+observation only;check its result. Read late-readers/TERMINAL.md/COLD_CALLERS.json.
+Current eight-DESC10/all36-tail/stage1/new24-INODE,full setup/hot/checked IRQ/
+RRO/lifecycle/physical/boot/client gates remain. No hardware or subagents.
+This supersedes older running-caller/full-image-next descriptions.
+
+Both-profile eight-DESC10/all36-tail diagnostic matrices now run separately
+in reader-controls-v1,2673 readonly files/567317019 bytes,90580953. Four tags
+desc10-default-q1/desc10-hif2-q1/tail-default-q1/tail-hif2-q1 use two workers
+each. Check terminal/aggregate receipts;none is yet declared passed.
+
+Default restored-prefix probe completed diagnostically,replicating PC84042f86/
+capture217 with no final wall timeout/explicit stop. Both failure PCs bind the
+same930-byte DMA-plan validator. Scope03e67f38 verifies2497 paths;metadata
+INODE_PROGRESS.json84c4212e. This is a performance lead,not a successful cold
+caller,proven equivalent fix or physical bound;HIF2 probe was not run.
+
 ## 2026-10-18 - Current Provider And mt76 Links
 
 Fresh independent provider/three mt76 module links pass atLinux6.18.52,with

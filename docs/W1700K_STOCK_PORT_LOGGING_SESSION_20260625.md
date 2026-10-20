@@ -1,8 +1,34 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-18 (two late-reader fixes;modeled core checks pass;fresh original/full setup/physical open)
+Last updated: 2026-10-20 (current full image passes offline checks;both v3 cold callers fail initial INODE capture;full setup/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Current Image And Failed INODE Capture
+
+- Complete isolated world-build-q5 passes: FIT633b4d71,actual Gemtek DTB,
+  Linux6.18.52,218 packages/78 module ABIs/numeric boot ownership. Prepared
+  kernel/export/mt76 sources5/22/329,all22 RV32 archive members and raw20/168
+  858d1408/40483c19 pair match. Scope413328b3 verifies6213 paths. Original
+  build/cache/frozen sources/protected FITs stay;no module load/boot proof.
+- Both v3 callers are terminal exit1,not running. Full512 DESC1025606 stores/
+  3072 claims and three tail stages/nine stores validate before initial INODE
+  capture stops217/1030,with no original INODE store/return/stage1. No recorded
+  wall timeout or ABI error;keep3M/60M-us bounds. Scope56932e89/COLD_CALLERS.json
+  54c2e238 retains failures and3060 verified paths. Reader-progress-v2 is
+  separate restored-prefix observation,not a new cold caller;check its result.
+- Read current-image/REPORT.md/WORLD.json and late-readers/TERMINAL.md. Current
+  full fault matrices/setup/hot/checked IRQ/RRO/lifecycle/physical/boot/client
+  gates remain. No hardware,flash,waiver or subagents. This supersedes older
+  live-caller/full-image-next entries;the full NPU goal remains active.
+- Both-profile eight-DESC10/all36-tail diagnostics now run in reader-controls-v1,
+  2673 readonly files/90580953,at two workers per named runner. Not passed;
+  check final receipts. Actual prefix restoration is not a fresh cold caller.
+- Default restored probe is terminal diagnostic exit0,reproducing failure
+  PC84042f86/capture217 with no INODE stores/returns. Both failure PCs bind
+  exact930-byte DMA-plan validator5fd46aec;final engine has no wall timeout/
+  explicit stop. Scope03e67f38/INODE_PROGRESS.json84c4212e binds2497 paths.
+  Performance lead only;no HIF2 probe,equivalent fix or caller pass is claimed.
 
 ## 2026-10-18 - Current Modules Before Full Image
 

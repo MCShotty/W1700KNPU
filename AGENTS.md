@@ -1,5 +1,37 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Current Image Passes; Both Callers Are Terminal Failures
+
+- Current frozen f282a131 world-build-q5 passes offline build/image checks:
+  FIT633b4d71, actual Gemtek DTB, Linux6.18.52, 218 packages, 78 module ABIs,
+  numeric boot ownership, 22 RV32 objects/archive members and raw20/168 pair
+  858d1408/40483c19. Five kernel/22 export/329 mt76 prepared sources match.
+  All891138 original build/4617 cache entries and6168 frozen files remain.
+  See current-image/REPORT.md/WORLD.json. No load,boot or hardware proof.
+- Both v3 callers exited1 during INODE stage0 capture217/1030, with zero
+  original INODE stores/returns and no stage1 prefix. Full512 DESC1025606
+  original stores/3072 claims and tail2+2+5 traces validate beforehand.
+  Nonterminal-PC assertion is not an ABI error or recorded wall timeout.
+  Keep3M instructions/60M-us budgets; investigate,do not add waiver stops.
+  Read late-readers/TERMINAL.md/COLD_CALLERS.json before further native work.
+- Separate reader-progress-v2 preserves2464 readonly files for host-only
+  observation of restored actual prefixes;check its terminal result. It is
+  not a new cold caller. v1 remains unexecuted preservation. Current eight
+  DESC10/all36-tail/stage1/new24-INODE and overall full setup/hot/checked IRQ/
+  RRO/lifecycle/DMA/cache/drain/recovery/original/indirect/stack/physical/client
+  gates remain. Protected978f9ddd/a22300ea stay;no hardware or subagents.
+  This supersedes earlier live-caller/full-image-next descriptions.
+- Current both-profile eight-DESC10/all36-tail diagnostic matrices now run
+  in reader-controls-v1,2673 files/567317019 bytes,90580953. Four tags
+  desc10-default-q1/desc10-hif2-q1/tail-default-q1/tail-hif2-q1 use two workers
+  each. They are not passed or fresh caller proofs;check terminal receipts.
+- Default restored-prefix probe is now diagnostic exit0:it reproduces failure
+  PC84042f86/capture217,not constructor success. Final original3M/60M-us engine
+  has no wall timeout/explicit stop. Both failure PCs bind the same930-byte
+  npu_cold_txbuf_dma_valid body. Scope03e67f38 checks2497 paths;metadata
+  INODE_PROGRESS.json84c4212e. Repeated geometry validation is a performance
+  lead,not a proven equivalent fix or physical bound. HIF2 probe was not run.
+
 ## 2026-10-18 - Current Module Links Before Image Build
 
 - Fresh isolated AArch64 provider and three mt76 consumer modules link at

@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "scope": "offline-current-image-not-runtime-or-hardware",
+  "source_commit": "f282a13159ef627a8cc78d99e8cbfe9c516e4a30",
+  "source_lock_sha256": "d6b6e2daf745414e82579bc89308821c5ba392d805fe3a220cd184dacbef7f47",
+  "image_sha256": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1",
+  "image_bytes": 27009866,
+  "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "compatible": "gemtek,w1700k-ubi airoha,an7581 airoha,en7581",
+  "image_relative_path": ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+  "kernel": "6.18.52",
+  "packages": 218,
+  "module_abi_checks": 78,
+  "RV32_objects": 22,
+  "pair_components": 20,
+  "pair_hooks": 168,
+  "pair_CODE": {
+    "base": 2214592512,
+    "bytes": 998664,
+    "sha256": "858d14086955983764721acb26400446751cdcbc5708b31c6d4295c968711d3c"
+  },
+  "pair_DATA": {
+    "base": 1049624576,
+    "bytes": 25728,
+    "sha256": "40483c19c5fff003f73918ee6d2829371598e25b5d782888eeea65e70c120389"
+  },
+  "prepared_sources": {
+    "kernel_patch_files": 5,
+    "component_sources": 22,
+    "mt76_source_files": 329
+  },
+  "snapshot_files": 6168,
+  "snapshot_bytes": 3053878771,
+  "original_inventory_entries": 891138,
+  "original_download_cache_entries": 4617,
+  "copied_download_files": 3774,
+  "original_build_and_cache_unchanged": true,
+  "frozen_sources_unchanged": true,
+  "rootfs_numeric_boot_ownership": {
+    "": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "bin": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "bin/busybox": {
+      "mode": "-rwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "etc": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "etc/group": {
+      "mode": "-rw-r--r--",
+      "uid": 0,
+      "gid": 0
+    },
+    "etc/passwd": {
+      "mode": "-rw-r--r--",
+      "uid": 0,
+      "gid": 0
+    },
+    "etc/shadow": {
+      "mode": "-rw-------",
+      "uid": 0,
+      "gid": 0
+    },
+    "sbin": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "sbin/init": {
+      "mode": "-rwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "usr": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "usr/libexec": {
+      "mode": "drwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    },
+    "usr/libexec/w1700k-release-helper": {
+      "mode": "-rwxr-xr-x",
+      "uid": 0,
+      "gid": 0
+    }
+  },
+  "compatibility_warning": "Partition table has been changed to cooperate with the vendor bootloader with regard to the BMT/BBT partition at the end of flash. A reinstall including corrected chainloader is needed.",
+  "world_receipt_sha256": "8101de147c8cf58954e3055ef53f361f38c5d793b61c2a1f1fcd16b31796a8e0",
+  "namespace_probe_sha256": "08e4a2dc40a82b0aa4b9b78c3c048a1ce3c1f2cb2148d8e95c6390c2a0ca01f2",
+  "module_loaded": false,
+  "native_cold_qualified": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "An offline overlay build reuses prepared cache inputs;not a fresh rebuild of every dependency.",
+    "Declared frozen download inputs are copied byte-exact into private writable build/dl;the original cache is compared separately.",
+    "Original regular-file content/modes/ownership and literal symlinks/directories are compared;special input nodes are rejected.",
+    "Read-only source snapshot,private mount/network/PID namespaces,writable build/log overlays and private temporary storage.",
+    "No native-cold,physical DMA/IRQ/drain,boot,actual-client or complete NPU acceptance follows from a successful world/image check."
+  ],
+  "private_scope_sha256": "413328b351963fdcd1ca3ac54cce9baf7e9d96ab6626252c46431895677a7d5e",
+  "checked_paths": 6213
+}
