@@ -60,8 +60,8 @@ uint32_t npu_cold_inode_selector(uint32_t stage)
     return stage < 2 ? stage ? 7 : 2 : UINT32_MAX;
 }
 
-uint32_t npu_cold_inode_recipe(const struct npu_cold_inode_plan *p, uint32_t index,
-                              struct npu_cold_inode_store *out)
+static void recipe_validated(const struct npu_cold_inode_plan *p, uint32_t index,
+                             struct npu_cold_inode_store *out)
 {
     static const struct npu_cold_inode_store first[] = {
         {0x3e9046ec, 4, 1}, {0x3e9046f0, 4, 1}, {0x3e9046f8, 1, 3}
@@ -71,8 +71,6 @@ uint32_t npu_cold_inode_recipe(const struct npu_cold_inode_plan *p, uint32_t ind
         {0x3e9046f8, 1, 3}, {0x3e9046e1, 1, 1}, {0x3e9046e0, 1, 1}
     };
 
-    if (!out || !npu_cold_inode_plan_valid(p) || index >= NPU_COLD_INODE_STORES)
-        return NPU_COLD_INODE_ARGUMENT;
     if (index < 3)
         *out = first[index];
     else if (index < NPU_COLD_INODE_FIRST_STORES - 1)
@@ -81,6 +79,14 @@ uint32_t npu_cold_inode_recipe(const struct npu_cold_inode_plan *p, uint32_t ind
         *out = (struct npu_cold_inode_store){0x3e9046f7, 1, 0};
     else
         *out = last[index - NPU_COLD_INODE_FIRST_STORES];
+}
+
+uint32_t npu_cold_inode_recipe(const struct npu_cold_inode_plan *p, uint32_t index,
+                              struct npu_cold_inode_store *out)
+{
+    if (!out || !npu_cold_inode_plan_valid(p) || index >= NPU_COLD_INODE_STORES)
+        return NPU_COLD_INODE_ARGUMENT;
+    recipe_validated(p, index, out);
     return NPU_COLD_INODE_OK;
 }
 
@@ -90,6 +96,26 @@ static int read_equal(const struct npu_cold_inode_context *c,
     uint32_t value;
 
     return c->read(c->opaque, address, bytes, &value) && value == expected;
+}
+
+static int read_plan(const struct npu_cold_inode_context *c,
+                     const struct npu_cold_inode_plan *p,
+                     const struct npu_cold_inode_plan *held,
+                     uint32_t address, uint32_t bytes, uint32_t *value)
+{
+    return equal(p, held, sizeof(*p)) &&
+           c->read(c->opaque, address, bytes, value) &&
+           equal(p, held, sizeof(*p));
+}
+
+static int read_equal_plan(const struct npu_cold_inode_context *c,
+                           const struct npu_cold_inode_plan *p,
+                           const struct npu_cold_inode_plan *held,
+                           uint32_t address, uint32_t bytes, uint32_t expected)
+{
+    uint32_t value;
+
+    return read_plan(c, p, held, address, bytes, &value) && value == expected;
 }
 
 static int prior_live(const struct npu_cold_inode_plan *p, uint32_t epoch,
@@ -103,9 +129,9 @@ static int prior_live(const struct npu_cold_inode_plan *p, uint32_t epoch,
     copy(&prior, c->pcie, sizeof(prior));
     copy(&plan, p, sizeof(plan));
     return npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&
-           read_equal(c, 0x8401cfb8, 4, 0x109) &&
-           read_equal(c, 0x8401cfbc, 4, NPU_COLD_INODE_ICV) &&
-           read_equal(c, 0x3e902ac0, 4, p->icv) &&
+           read_equal_plan(c, p, &plan, 0x8401cfb8, 4, 0x109) &&
+           read_equal_plan(c, p, &plan, 0x8401cfbc, 4, NPU_COLD_INODE_ICV) &&
+           read_equal_plan(c, p, &plan, 0x3e902ac0, 4, plan.icv) &&
            npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&
            equal(c->pcie, &prior, sizeof(prior)) && equal(p, &plan, sizeof(plan));
 }
@@ -143,9 +169,12 @@ static int context(const struct npu_cold_inode_state *s,
     copy(&prior, c->pcie, sizeof(prior));
     if (!prior_live(p, epoch, c))
         return 0;
-    for (uint32_t i = 0; i < held.published; i++)
-        if (npu_cold_inode_recipe(p, i, &store) || !read_equal(c, store.address, store.bytes, store.value))
+    for (uint32_t i = 0; i < held.published; i++) {
+        /* The validated owner snapshot pins every plan byte across each reader. */
+        recipe_validated(&held.plan, i, &store);
+        if (!read_equal_plan(c, p, &held.plan, store.address, store.bytes, store.value))
             return 0;
+    }
     return npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&
            equal(s, &held, sizeof(held)) && equal(c->pcie, &prior, sizeof(prior)) && state_valid(s, p, epoch);
 }
@@ -155,11 +184,13 @@ uint32_t npu_cold_inode_begin(struct npu_cold_inode_state *s, const struct npu_c
 {
     uint32_t stage = selector == 2 ? 0 : selector == 7 ? 1 : 2;
     struct npu_cold_inode_store store;
+    struct npu_cold_inode_plan held_plan;
 
     if (!s || !p || !c)
         return fail(s, NPU_COLD_INODE_ARGUMENT);
     if (stage == 2 || value || !prior_live(p, epoch, c))
         return fail(s, NPU_COLD_INODE_PLAN);
+    copy(&held_plan, p, sizeof(held_plan));
     if (!s->magic) {
         const volatile unsigned char *bytes = (const volatile void *)s;
 
@@ -178,8 +209,8 @@ uint32_t npu_cold_inode_begin(struct npu_cold_inode_state *s, const struct npu_c
     s->active = 1;
     s->reserved |= 1u << stage;
     for (uint32_t i = start(stage); i < end(stage); i++) {
-        if (npu_cold_inode_recipe(p, i, &store) ||
-            !c->read(c->opaque, store.address, store.bytes, &s->before[i]))
+        recipe_validated(&held_plan, i, &store);
+        if (!read_plan(c, p, &held_plan, store.address, store.bytes, &s->before[i]))
             return fail(s, NPU_COLD_INODE_READ);
         s->captured++;
     }

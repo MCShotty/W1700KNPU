@@ -46,7 +46,7 @@ def main():
         "unfinished-pcie-tail": ("npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior)", "1"),
         "late-nested-prior-fault": ("           npu_cold_pcie_tail_live(c->pcie, &p->prior, epoch, &c->prior) &&",
                                     "           1 &&"),
-        "ignore-type109-definition": ("read_equal(c, 0x8401cfb8, 4, 0x109) &&", "1 &&"),
+        "ignore-type109-definition": ("read_equal_plan(c, p, &plan, 0x8401cfb8, 4, 0x109) &&", "1 &&"),
         "short-icv-clear": ("p->icv + (index - 3) * 4, 4, 0", "p->icv + ((index - 3) % 1025) * 4, 4, 0"),
         "wrong-store-address": ("npu_cold_inode_recipe(p, s->committed, &store) || address != store.address ||",
                                  "npu_cold_inode_recipe(p, s->committed, &store) || ((void)address, 0) ||"),

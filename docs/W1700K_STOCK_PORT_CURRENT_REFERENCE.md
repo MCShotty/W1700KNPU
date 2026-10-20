@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - INODE Snapshot Candidate In Main Working Source
+
+Implemented full188-byte snapshot comparison around metadata/preimage/prefix
+readers,with public recipe geometry/full transitive owner checks retained.
+Native reader spans are fixed. Predicate378 host/RV32/two mutants,view1101
+synthetic cases,host592/326,ten host mutants and96 focused units pass. Normal
+RV32/startup checks remain live. Default120s sanitizer timeout stays;separate
+600s host-only run passes. No fresh cold caller success. Individual frame4704
+is not a whole-stack bound. See inode-plan/REPORT.md before proceeding.
+
+New pair658c9c32/3d821c93 repeats20/168;all20 image groups/60 loader/eight mutants
+pass. Four frozen fault matrices still use old858d1408;FIT633b4d71 predates the
+optimization. Source-lockd6b6e2da/22 Linux exports/images stay. Finish current
+checks then fresh both-HIF full caller/stage1/new24/fault/image qualification;
+all overall hot/IRQ/RRO/lifecycle/physical/client gates remain. No hardware or
+subagents. Native count/time limits/progress checkpoints were not changed.
+
+Six negative raw boots and actual-C published eight-hart parked startup now
+pass. Partial443-path audit5653ecea/PREFLIGHT.json3ae6cf28 records exact dirty
+source at a4bb94d. Normal-object RV32/fresh caller acceptance remains pending.
+
 ## 2026-10-20 - Full Current Image; Terminal Native Callers
 
 Frozen f282a131/source-lockd6b6e2da passes complete isolated world-build-q5.

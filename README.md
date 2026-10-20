@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-20 - INODE Optimization In Progress
+
+Implemented exact plan-snapshot checks to avoid repeating expensive geometry
+validation for every INODE preimage. Unit and modeled host-core checks pass;
+the full RV32 regression and fresh cold-constructor qualification are still
+pending. The built `633b4d71` image predates this candidate. See the
+[snapshot checkpoint](research/checkpoints/2026-10-20-npu-inode-plan/REPORT.md).
+
 ## 2026-10-20 - Current Image Built; INODE Still Fails
 
 The current Linux 6.18.52 image passes the complete isolated world build,

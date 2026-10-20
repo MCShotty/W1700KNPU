@@ -67,14 +67,18 @@ static int inode_read(void *opaque, uint32_t address, uint32_t bytes, uint32_t *
 
     __asm__ volatile ("csrr %0, mstatus" : "=r"(status));
     if (status & 8 || opaque != OWNER || !result || npu_emulation_inode_running != 1 ||
-        (bytes != 1 && bytes != 4) || (address & (bytes - 1)) || !npu_cold_inode_plan_valid(&plan))
+        (bytes != 1 && bytes != 4) || (address & (bytes - 1)) ||
+        plan.icv != NPU_COLD_INODE_ICV || plan.icv_bytes != NPU_COLD_INODE_ICV_BYTES)
         return 0;
     if (bytes == 4 && (address == 0x8401cfb8u || address == 0x8401cfbcu || address == 0x3e902ac0u)) {
         *result = word(address);
         return 1;
     }
-    if ((address >= plan.icv && address - plan.icv < plan.icv_bytes &&
-         bytes <= plan.icv_bytes - (address - plan.icv)) ||
+    /* The core pins the complete validated plan around each read. This view
+     * authorizes only fixed spans, never addresses from a mutable plan.
+     */
+    if ((address >= NPU_COLD_INODE_ICV && address - NPU_COLD_INODE_ICV < NPU_COLD_INODE_ICV_BYTES &&
+         bytes <= NPU_COLD_INODE_ICV_BYTES - (address - NPU_COLD_INODE_ICV)) ||
         (address >= FLAGS && address - FLAGS < sizeof(flag_neighbors) &&
          bytes <= sizeof(flag_neighbors) - (address - FLAGS))) {
         *result = value(address, bytes);

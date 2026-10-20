@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - INODE Snapshot Candidate Under Qualification
+
+- Main working source now snapshots the full188-byte plan around metadata/
+  preimage/published-prefix reads. Public recipe geometry and full transitive
+  owner rechecks remain. Private native view authorizes fixed spans only.
+  No owner/selector/full1030+6/budget/checkpoint changes. Read inode-plan/REPORT.md.
+- Predicate378 host/RV32 cases/two mutants,actual fixed-view1101 synthetic
+  cases,host592/326,all10 host mutants and96 focused units pass. Default120s
+  sanitizer timeout remains;separate600s host-only run passes. Normal-object
+  RV32 regression is still running,not accepted. Individual max frame4704 is
+  not a whole-stack bound. New pair658c9c32/3d821c93 repeats exactly20/168;
+  all20 image groups and60/eight checked-loader cases pass. Negative/published
+  boot checks are running. No successful fresh INODE constructor yet.
+- Frozen four eight-DESC10/all36-tail jobs stay on old858d1408 inputs in
+  reader-controls-v1;not this candidate. FIT633b4d71 also predates this change.
+  Linux source-lockd6b6e2da/22 exports and saved images stay. Fresh both-HIF
+  caller/stage1/new24/fault/full setup/hot/IRQ/RRO/physical/client gates remain.
+  Do not waive hashes,raise limits,add checkpoint shortcuts or use subagents.
+- Six negative raw boots and actual-C published eight-hart parked startup
+  now pass. Partial audit5653ecea verifies443 paths;PREFLIGHT.json3ae6cf28
+  explicitly records dirty producing source at a4bb94d,not a clean committed
+  candidate. Normal-object RV32/fresh constructor acceptance are still pending.
+
 ## 2026-10-20 - Current Image Passes; Both Callers Are Terminal Failures
 
 - Current frozen f282a131 world-build-q5 passes offline build/image checks:

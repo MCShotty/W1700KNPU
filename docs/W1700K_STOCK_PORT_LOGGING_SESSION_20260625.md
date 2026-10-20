@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (current full image passes offline checks;both v3 cold callers fail initial INODE capture;full setup/physical remain open)
+Last updated: 2026-10-20 (INODE snapshot candidate implemented;modeled/predicate checks pass;full RV32/fresh callers/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - INODE Snapshot Candidate
+
+- Main source now uses full188-byte snapshots around metadata/preimage/prefix
+  reads,retaining public geometry and full owner checks. Native view spans
+  stay fixed;no owner/selector/count/native-budget/checkpoint changes.
+- Predicate378 host/RV32/two mutants,view1101 synthetic cases,host592/326,
+  ten host mutants and96 focused units pass. Default120s sanitizer timeout
+  stays;separate600s host-only run passes. Normal-object RV32 is still live.
+  Individual4704-byte frame is not a full stack bound. Repeat pair658c9c32/
+  3d821c93 passes20 image groups and60/eight loader cases;startup checks live.
+- FIT633b4d71 and four frozen fault matrices predate the candidate. Keep exact
+  scope while integrating source on main. Full fresh both-HIF/stage1/new24/
+  fault/image/overall gates remain. See inode-plan/REPORT.md. No hardware,
+  flash,hash/budget waiver or subagents;the complete NPU goal stays active.
+- Six negative raw boots and actual-C published eight-hart parked startup
+  now pass. Audit5653ecea binds443 paths;PREFLIGHT.json3ae6cf28 is partial,
+  explicitly dirty-source-bound at a4bb94d. Full RV32/fresh cold still pending.
 
 ## 2026-10-20 - Current Image And Failed INODE Capture
 

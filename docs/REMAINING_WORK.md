@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - INODE Snapshot Candidate
+
+Full-plan snapshot checks are implemented with full geometry/owner checks
+retained and a fixed-span native view. Predicate378 host/RV32 cases/two
+mutants,view1101 synthetic cases,host592/326,ten host mutants and96 focused
+units pass. Normal-object RV32 and startup checks are pending. No fresh
+constructor success is claimed. New pair658c9c32/3d821c93 repeats20/168 and
+passes20 image groups/60 loader cases/eight mutants. See inode-plan/REPORT.md.
+
+Finish current qualification,then fresh both-HIF full cold/stage1/new24 faults
+and a new complete image. FIT633b4d71 and the four frozen fault jobs predate
+this optimization. Keep their scope separate,not their implemented source.
+Original sizes/budgets remain;all full setup/hot/IRQ/physical/client gates stay.
+
+Six raw negative boots and actual-C published eight-hart parked startup now
+pass. PREFLIGHT.json3ae6cf28/scope5653ecea binds443 paths and exact dirty-source
+identity. This is partial preflight,not normal RV32/fresh cold acceptance.
+
 ## 2026-10-20 - Current Build And Runtime Boundary
 
 The complete current image now builds and passes offline FIT/actual Gemtek

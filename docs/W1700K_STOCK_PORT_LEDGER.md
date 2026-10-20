@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (current full image633b4d71 passes offline checks;both v3 callers fail initial INODE capture;budgets unchanged;full runtime/physical goal remains open)
+Last updated: 2026-10-20 (built image633b4d71 qualified separately;INODE snapshot candidate implemented and partly validated;full RV32/fresh callers/overall goal remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - INODE Plan Snapshot Candidate Implemented
+
+- Pure-function diagnostics count5293 RV32 instructions for full plan-valid
+  and5321 for a public recipe lookup using exact failed-run plan bytes in a
+  synthetic context. Not whole-constructor or physical timing proof.
+- Main working core retains full geometry/owner validation,then compares all
+  188 plan bytes before/after metadata,preimage and prefix reads. Bounded
+  internal loops use private validated recipes;public API validation and the
+  late transitive-owner recheck remain. Native view authorizes only fixed
+  metadata/ICV/flag spans,with its other context/width/alignment guards retained.
+  No owner size,selector,full1030+6 count,native budget or progress-stop change.
+- Predicate378 host/RV32 cases/two independent mutants and fixed-view1101
+  RV32 cases1076/25 pass. View globals are explicitly synthetic;no owner or
+  SETUP is provisioned and no original constructor executes. Host592/326 and
+  all ten existing host INODE mutants pass. Type109 mutant adapts its call
+  name,not its omission intent. Original default120s sanitizer timeout stays;
+  a separate600s host-only sanitizer run passes. Normal RV32 remains running.
+- All22 normal archive objects compile;individual INODE frame4704 matches
+  normal allocated/relocation sections,not a whole-chain/IRQ/physical bound.
+  New repeat pair658c9c32/3d821c93 has20 components/168 hooks;all20 image
+  groups and60/eight checked-loader cases pass.96 unique focused units pass,
+  no skips,8112a2fe. Repeated unit/predicate cohorts overlap. New negative/
+  published startup checks are running;not successful INODE or physical proof.
+- Old four frozen fault jobs remain858d1408-bound. Built FIT633b4d71 predates
+  this new candidate;all saved images/Linux source-lockd6b6e2da/22 exports stay.
+  Finish qualification then fresh both-HIF full caller/stage1/new24/fault/image
+  gates;all broader full setup/hot/IRQ/RRO/lifecycle/physical/client work remains.
+  See inode-plan/REPORT.md. No hardware,flash,hash/budget waiver or subagents.
+- New six negative raw boot controls pass and actual-C published readback
+  reaches eight-hart parked startup. Partial audit5653ecea verifies443 paths;
+  PREFLIGHT.json3ae6cf28 records exact source hashes and dirty producing Git
+  state at a4bb94d,not code already committed there. Normal-object RV32 and
+  fresh constructor qualification remain pending;no lifecycle/physical claim.
 
 ## 2026-10-20 - Current Full Image And Terminal Cold Callers
 
