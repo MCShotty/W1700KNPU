@@ -1,5 +1,8 @@
 # Original Child Frontier
 
+Follow-up: [finite whole-routine execution](MEMSET_EXECUTION.md) covers4992
+original memory-routine cases;the static denied contracts here remain denied.
+
 2026-10-20.64 original routines are byte-bound to current CODE658c9c32;
 62 pass conditional local-body checks and two remain denied. This selected
 corpus is not the complete NPU graph, a whole-chain/IRQ/per-hart/physical

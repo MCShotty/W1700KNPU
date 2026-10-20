@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Original Memory Routine Finite Execution
+
+Maintained103aa entry-to-return emulation passes4992 finite cases/four separate
+mutated-guest controls on synthetic owned/nonwrapping buffers. Exact all32
+GPR/PC/MSTATUS,ordered writes/no reads/full protected bytes match before host
+restoration.168-byte carrier includes62-byte gap;this is not a rewritten
+Ghidra extent or universal static permission. Earlier4940 unique observations
+match;52 additional cases. All280 unique/298 units pass. Read
+MEMSET_EXECUTION.md/json:scope80dc568f binds169 paths,metadata7158e576,
+full maintained receiptf6561f4a;earlier harness source preserved exactly.
+
+Static computed103e0/10440 and ECALL17086/error170fa contracts stay denied;
+local corpus still62/two,global graph/whole-chain/IRQ/per-hart/physical and
+real device/client acceptance unproved. Isolated Z35.3.1.0 runtime installed
+at.local/npu-smt-runtime-20261020,58-file preparatory receipt80ae16f6. Its
+sanity check is not an NPU proof. Existing native runtime/firmware/source-lock/
+pair/images/budgets/checkpoints stay;normal INODE2522/326 passes. Both actual
+v2 callers/four old-pair matrices stay live. Full cold/latest image/full setup/
+hot/IRQ/RRO/physical/client gates remain;no hardware or subagents.
+
 ## 2026-10-20 - Original Child Frontier:62 Local,Two Denied
 
 Read original-irq/CHILD_FRONTIER.md/json before further original/stack work.

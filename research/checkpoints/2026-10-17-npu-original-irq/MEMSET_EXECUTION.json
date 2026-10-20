@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "scope": "finite-whole-original-memset-execution-with-static-denial-retained",
+  "unique_units": 280,
+  "unit_executions": 298,
+  "maintained_original_guests": 4992,
+  "earlier_private_full_guests": 4928,
+  "earlier_smoke_guests": 144,
+  "earlier_unique_cases": 4940,
+  "additional_unique_cases": 52,
+  "all_earlier_observations_exactly_retained": true,
+  "separately_modified_negative_controls": 4,
+  "negative_controls_not_original_case_coverage": true,
+  "original_entry_to_return_executed": true,
+  "all32_GPR_PC_MSTATUS_ordered_writes_and_protected_bytes_checked": true,
+  "observed_before_host_restoration": true,
+  "synthetic_owned_nonwrapping_buffers_and_no_async_faults_assumed": true,
+  "original_carrier_bytes": 168,
+  "recovered_Ghidra_ranges_bytes": 106,
+  "additional_gap_decoded_bytes": 62,
+  "finite_lengths_max": 1024,
+  "alignment_residues": 16,
+  "values": [
+    0,
+    90,
+    256,
+    305420031
+  ],
+  "instruction_limit_per_guest": 50000,
+  "wall_microseconds_per_guest": 1000000,
+  "native_constructor_budgets_or_checkpoints_changed": false,
+  "static_computed_entry_and_ECALL_contracts_still_denied": true,
+  "conditional_static_local_passes_unchanged": 62,
+  "current_global_graph_extended_or_requalified": false,
+  "all32bit_inputs_or_physical_bound_proved": false,
+  "whole_chain_IRQ_per_hart_stack_bound_proved": false,
+  "cold_constructor_full_setup_device_or_client_acceptance": false,
+  "source_lock_raw_pair_firmware_images_unchanged": true,
+  "hardware": false,
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "observation_boundary": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "mutant_scope": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "evidence_kind": {
+        "type": "choice",
+        "choice": "finite_emulation",
+        "confidence": 1.0,
+        "probabilities": {
+          "finite_emulation": 1.0,
+          "physical_acceptance": 0.0,
+          "universal_static": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "result_sha256": "6f4bdedb79562c7f81893ab48cc38092880c53793ad3d15173475302c911e385",
+    "judgment_not_proof": true
+  },
+  "private_scope_sha256": "80dc568f6779e47cca77820142719a017d54f802c4bca0c962fe2473f459fb8c",
+  "input_count": 169,
+  "historical_exact_source_binding_count": 1
+}

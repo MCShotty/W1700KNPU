@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Finite Original Memory Execution Passes
+
+Original103aa now executes entry-to-return for4992 finite emulated cases on
+synthetic owned/nonwrapping buffers,with exact GPR/PC/MSTATUS,ordered writes/
+no reads/full protected bytes checked. Four mutated-guest controls reject.
+Prior4940 unique observations match exactly;52 new cases. All280 unique/298
+units pass. See MEMSET_EXECUTION.md/json:scope80dc568f/metadata7158e576.
+
+Static computed-entry103e0/10440 and ECALL17086/error170fa remain denied.
+Selected local corpus still62 passes/two denied;no universal inputs/current
+graph/whole-stack/IRQ/per-hart/physical proof. Next use the isolated Z3 runtime
+for an instruction-bound proof;its installation/sanity alone proves no NPU
+contract. Native runtime and all original budgets/checkpoints remain unchanged.
+
+Normal INODE2522/326 remains passed;actual v2 both-HIF callers/four old-pair
+matrices stay live. Current cold/fault/full setup/latest image/hot/IRQ/RRO/
+lifecycle/DMA/cache/recovery/real boot/radio/client/performance gates stay.
+No firmware/image/hardware/subagent change. Full project objective is open.
+
 ## 2026-10-20 - Current Original Child Frontier
 
 64 original bodies are current-byte-bound;62 pass conditional local checks.

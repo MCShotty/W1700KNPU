@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Whole Original Memory Routine:Finite Execution Only
+
+- Read original-irq/MEMSET_EXECUTION.md/json. Maintained original103aa entry-
+  to-return harness passes4992 finite cases with synthetic owned/nonwrapping
+  buffers. All32 GPR/PC/MSTATUS,exact ordered writes/no reads and full protected
+  bytes match before restoration.168-byte carrier includes62-byte decoded
+  gap,not a fabricated contiguous Ghidra function. No fake calls/returns.
+- Four separately mutated guest controls reject missing/out-of-range stores,
+  S0 clobber and wrong return register. They are not original coverage.
+  Prior144/4928 union4940 observations exactly retained;52 new unique cases.
+  All280 unique/298 units pass. Scope80dc568f binds169 paths;metadata7158e576;
+  full maintained receiptf6561f4a. Earlier source is preserved exactly.
+- Static103aa computed-entry and17086 ECALL contracts remain denied;local
+  corpus still62 passes/two denied. Finite execution does not prove arbitrary
+  inputs,whole-chain/IRQ/per-hart/physical bounds or current global graph.
+  Next is an instruction-bound static proof,not an opaque-call/target waiver.
+- Separate Z3-solver5.3.1.0 runtime is at.local/npu-smt-runtime-20261020,
+  58 files/preparatory receipt80ae16f6. Bitvector sanity is not NPU proof.
+  Existing native runtime/firmware/pair/source-lock/images/budgets stay.
+  Normal INODE2522/326 passed;both v2 actual callers/four old-pair matrices
+  remain live. Full cold/full setup/latest image/hot/IRQ/RRO/physical/client
+  gates stay;no hardware or subagents. Full objective remains active.
+
 ## 2026-10-20 - Original Child Frontier And Bounded Guard Setup
 
 - Read original-irq/CHILD_FRONTIER.md/json.64 original bodies are current-byte

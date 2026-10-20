@@ -1,10 +1,41 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;64 current original bodies/62 conditional local passes/two denied contracts;fresh cold/fault/whole-chain/overall project remain open)
+Last updated: 2026-10-20 (original memory routine4992 finite cases/four controls pass;static computed/ECALL contracts and full cold/fault/whole-chain/overall project remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Whole Original Memory Routine Finite Execution
+
+- Maintained103aa original entry-to-return emulation passes4992 finite cases,
+  all16 alignment residues,lengths0..65 plus listed boundaries through1024,
+  four byte/word values. Exact all32 GPR/PC/MSTATUS,write sites/order/address/
+  width/value,no reads and whole protected CODE/sentinel/data bytes match
+  before host restoration. Buffers are synthetic/caller-owned/nonwrapping;
+  no asynchronous exception/physical ownership is established.
+- Full168-byte carrier matches original/current CODE;Ghidra's106 recovered
+  bytes are individually bound and the62-byte gap separately decodes15 SBs/
+  return. No fabricated contiguous Ghidra body/static-CFG approval. Actual
+  instructions execute without injected callback returns/checkpoint shortcuts.
+- Four synthetic mutated guests reject omitted store,out-of-range store,S0
+  clobber and wrong return register;not original-case coverage. Earlier144/
+  4928 runs/4940 unique observations exactly match;52 additional unique cases.
+  All280 unique/298 units pass,no skips. Guest50K/1M-us limits do not change
+  original cold3M/60M-us budgets. Static103aa/17086 contracts stay denied.
+- Scope80dc568f verifies169 paths;metadata7158e576/full maintained receipt
+  f6561f4a. Exact older harness source preserved. Jev observation boundary0.93/
+  mutant scope0.97/finite-emulation1.0 confidence1.0 are judgments,not proof.
+  No arbitrary32-bit/static-entry/current-graph/whole-chain/IRQ/per-hart/
+  physical/device/client acceptance. Local corpus stays62 passes/two denied.
+- Isolated Z3-solver5.3.1.0 installed at.local/npu-smt-runtime-20261020;
+  58-file preparatory receipt80ae16f6 and bitvector sanity only,not NPU proof.
+  Existing native runtime stays. Next is instruction-bound computed-entry
+  proof;ECALL handler/ABI/error170fa remains unreviewed,not patched or waived.
+- Read MEMSET_EXECUTION.md/json. Firmware/pair/source-lock/images/native
+  budgets stay;normal INODE2522/326 passes. Both actual v2 callers/four old-
+  pair matrices stay live. Full cold/fault/latest image/full setup/hot/IRQ/
+  RRO/physical/client gates stay;no hardware or subagents. Full goal is open.
 
 ## 2026-10-20 - Current Original Child Frontier And Guard Setup
 

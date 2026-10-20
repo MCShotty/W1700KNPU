@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;64 current original bodies/62 conditional local passes/two denied contracts;fresh cold/fault/whole-chain/physical remain open)
+Last updated: 2026-10-20 (original memory routine4992 finite cases/four controls pass;static computed/ECALL/full cold/fault/whole-chain/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Finite Whole Original Memory Execution
+
+- Maintained original103aa entry-to-return4992 cases/four separate mutated
+  controls pass. All32 GPR/PC/MSTATUS,exact ordered writes/no reads and whole
+  protected bytes match before host restoration.168-byte carrier includes
+  separately decoded62-byte gap,not a fabricated Ghidra body. Synthetic
+  owned/nonwrapping buffers only;no physical ownership or exception proof.
+- Prior4940 unique observations exactly retained;52 new cases.280 unique/
+  298 units pass. Scope80dc568f binds169 paths;metadata7158e576/receiptf6561f4a.
+  Old harness source preserved. Static computed/ECALL contracts stay denied,
+  local62/two and global/whole-stack/IRQ/per-hart/physical gates unchanged.
+- Read MEMSET_EXECUTION.md/json. Separate Z35.3.1.0 runtime/58 files has
+  preparatory receipt80ae16f6;sanity is not NPU proof. Existing native runtime,
+  firmware/pair/source-lock/images/budgets/checkpoints stay. Normal INODE
+  2522/326 passed;actual v2 both-HIF callers/four old-pair matrices stay live.
+  Full cold/latest image/full setup/hot/IRQ/RRO/physical/client gates remain.
+  No hardware or subagents;the full project objective remains active.
 
 ## 2026-10-20 - Current Original Child Frontier
 

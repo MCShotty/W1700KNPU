@@ -4,8 +4,12 @@
 
 Of64 inspected original routines,62 now pass conditional local-body checks.
 The ECALL and computed-entry memory contracts remain denied,not assumed safe.
-This is not a whole IRQ stack or hardware bound.275 unique tests pass; see the
+This is not a whole IRQ stack or hardware bound.280 unique tests pass; see the
 [child-frontier checkpoint](research/checkpoints/2026-10-17-npu-original-irq/CHILD_FRONTIER.md).
+The original memory routine separately passes4992 finite whole-routine
+emulations and four mutated-guest controls; see the
+[execution checkpoint](research/checkpoints/2026-10-17-npu-original-irq/MEMSET_EXECUTION.md).
+That does not clear its static computed-entry contract or prove hardware behavior.
 The INODE model passes; fresh cold/fault validation and the full project remain
 in progress. The earlier strict-profile formatter denial remains valid.
 
