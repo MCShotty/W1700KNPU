@@ -21,6 +21,12 @@ Purpose: dated logging session and future-reference copy tracking what has been 
 - Six negative raw boots and actual-C published eight-hart parked startup
   now pass. Audit5653ecea binds443 paths;PREFLIGHT.json3ae6cf28 is partial,
   explicitly dirty-source-bound at a4bb94d. Full RV32/fresh cold still pending.
+- Two inode-plan-caller-v1 launches failed before guest construction:missing
+  selected publisher CODE/DATA readbacks,not firmware proof. V2 now captures
+  the passed published receipt and explicit assets,2378 files/0582437a.
+  Namespace startup passed0/eight harts. Fresh default/HIF2 q2 callers are live
+  with15 enrollment records each,not accepted. LAUNCH_INPUTS.jsone966f30a/
+  scope5dc99b6f binds4762 paths. Normal RV32 and full project gates remain.
 
 ## 2026-10-20 - Current Image And Failed INODE Capture
 

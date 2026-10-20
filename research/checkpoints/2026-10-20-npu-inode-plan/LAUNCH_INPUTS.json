@@ -1,0 +1,39 @@
+{
+  "evidence_audited": true,
+  "source_commit": "20c71649412ba70df99458f1d6d3cf9fc9ce64f9",
+  "earlier_capsule_files": 2375,
+  "earlier_capsule_bytes": 521172677,
+  "corrected_capsule_files": 2378,
+  "corrected_capsule_bytes": 522231329,
+  "corrected_capsule_sha256": "0582437a9e22e19a2db8c655a7b42faa29008b67c0f7c44e8b7a325baaaf832b",
+  "failures": {
+    "default-hif-q1": {
+      "exit_code": 1,
+      "host_library_compiled": true,
+      "no_native_failure_or_constructor_receipt": true,
+      "execution_sha256": "cce904c43c79039ae06931ad9a992d983280f4b9ae6d7d89d65693ce43f9ae5d"
+    },
+    "hif2-q1": {
+      "exit_code": 1,
+      "host_library_compiled": true,
+      "no_native_failure_or_constructor_receipt": true,
+      "execution_sha256": "d53e53b18b493e43e9b3cb951bea15e6d99d09262ab6a1a6eb3e901d39110673"
+    }
+  },
+  "selected_publication_inputs": {
+    ".local/npu-loader-publish-20261010/plan-snapshot-q1/nominal/CODE-copied.bin": "658c9c329b34945ba196f60bafc09a81ed6f5f15011d15f632d8594f3c632392",
+    ".local/npu-loader-publish-20261010/plan-snapshot-q1/nominal/DATA-published.bin": "8ad5d385c84b0ade588ac22d87c4cef2ea124e27077b4d9cd99368bc2056d4ac"
+  },
+  "original_sources_unchanged": true,
+  "corrected_startup_preflight_status": "running",
+  "corrected_cold_callers_started": false,
+  "firmware_failure_established": false,
+  "hardware": false,
+  "limits": [
+    "Observed console tracebacks identify missing publication readback files before peer construction;this audit binds exit records and immutable asset absence,not a guest exception.",
+    "Both failed launches remain exit1;no caller verdict or native failure receipt exists.",
+    "The corrected preservation includes the passed published-startup receipt plus both selected readbacks;namespace execution is checked separately."
+  ],
+  "private_scope_sha256": "5dc99b6fe31c04ac0729917ec5d35d971b81d363f18152c3a49403f2c12d2442",
+  "checked_paths": 4762
+}

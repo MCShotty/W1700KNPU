@@ -18,6 +18,12 @@ Six raw negative boots and actual-C published eight-hart parked startup now
 pass. PREFLIGHT.json3ae6cf28/scope5653ecea binds443 paths and exact dirty-source
 identity. This is partial preflight,not normal RV32/fresh cold acceptance.
 
+Fresh both-HIF nominal callers now run in inode-plan-caller-v2,0582437a,
+2378 readonly files,as snapshot-caller-q2/snapshot-caller-hif2-q2. Both reach15
+enrollment records;no completed constructor. Namespace startup preflight passed.
+Two earlier v1 launches failed before guest construction on missing publisher
+readbacks,not firmware behavior. Keep failures;see LAUNCH_INPUTS.json/report.
+
 ## 2026-10-20 - Current Build And Runtime Boundary
 
 The complete current image now builds and passes offline FIT/actual Gemtek

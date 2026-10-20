@@ -103,3 +103,36 @@ with978f9ddd/a22300ea. Linux source-lockd6b6e2da/22 exported sources are unchang
 the native INODE implementation is not one of those Linux exports. A new
 whole-image qualification is required after this candidate is validated.
 No flash, module load, radio change, hardware contact or subagents.
+
+## Fresh Caller Inputs And Status
+
+The first `inode-plan-caller-v1` launches both ended exit1 before peer/guest
+construction: their2375-file snapshot omitted the selected
+`CODE-copied.bin` / `DATA-published.bin` publication readbacks. Console
+tracebacks identify FileNotFoundError; no native failure or constructor
+receipt exists. Both failed executions and inputs remain unchanged. This
+does not establish a firmware failure.
+
+Corrected `inode-plan-caller-v2` includes the independently passed published-
+startup receipt and both readbacks explicitly, alongside the DTB, exact pair,
+provider header and independently compiled sender. Its2378 readonly files /
+522231329 bytes hash
+`0582437a9e22e19a2db8c655a7b42faa29008b67c0f7c44e8b7a325baaaf832b`.
+The namespace startup preflight is terminal0/eight harts parked, execution
+receipt `65c8bc5394ed57e6699fdf6a7d52b57c32f02e6c472646ae6bb2c86796c3369c`.
+Do not freeze a caller using only the checked-loader receipt: its basename-
+keyed publication-output field is not a canonical runtime-input map.
+
+Both fresh nominal callers are now live in that corrected capsule, tags
+`default-hif-q2` / `hif2-q2`, outputs `snapshot-caller-q2` /
+`snapshot-caller-hif2-q2`. Both report15 native enrollment records and start
+actual cold commands. Neither has a complete result yet. Original full sizes,
+3M-instruction/60M-us per-engine limits and progress checkpoints stay.
+
+`LAUNCH_INPUTS.json` is metadata only, hash
+`e966f30ae5666c995df4020a7f011690a9d17cf4ed093803eaf89978b2d6689b`;
+the4762-path comparison audit hashes
+`5dc99b6fe31c04ac0729917ec5d35d971b81d363f18152c3a49403f2c12d2442`.
+That audit predates the completed namespace preflight/new launches and leaves
+their then-pending fields intact. This section records the later status,
+not a regrade or repair. Normal-object RV32 and all overall gates remain open.

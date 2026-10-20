@@ -21,6 +21,14 @@ Six negative raw boots and actual-C published eight-hart parked startup now
 pass. Partial443-path audit5653ecea/PREFLIGHT.json3ae6cf28 records exact dirty
 source at a4bb94d. Normal-object RV32/fresh caller acceptance remains pending.
 
+Fresh actual callers now run in inode-plan-caller-v2,2378 files/522231329 bytes,
+0582437a,tags default-hif-q2/hif2-q2,outputs snapshot-caller-q2/snapshot-caller-
+hif2-q2. Both enroll15 and start cold commands,not complete. Namespace startup
+preflight passed0/eight parked harts. Earlier v1 launches failed before guest
+construction on missing publication CODE/DATA. Corrected capture includes the
+passed published-startup receipt and selected readbacks;do not use only the
+checked-loader receipt. LAUNCH_INPUTS.jsone966f30a/scope5dc99b6f binds4762 paths.
+
 ## 2026-10-20 - Full Current Image; Terminal Native Callers
 
 Frozen f282a131/source-lockd6b6e2da passes complete isolated world-build-q5.

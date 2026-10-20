@@ -39,6 +39,19 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   PREFLIGHT.json3ae6cf28 records exact source hashes and dirty producing Git
   state at a4bb94d,not code already committed there. Normal-object RV32 and
   fresh constructor qualification remain pending;no lifecycle/physical claim.
+- Two inode-plan-caller-v1 launches ended exit1 before peer/guest construction:
+  selected CODE-copied.bin/DATA-published.bin readbacks were missing from the
+  preservation. No native/constructor receipt exists;no firmware failure is
+  established. Failed executions/2375 producing files stay unchanged.
+- New inode-plan-caller-v2 includes the passed published-startup receipt plus
+  both readbacks explicitly,DTB/pair/header/sender:2378 readonly files/
+  522231329 bytes,0582437a. Namespace startup preflight passed0/eight harts,
+  execution65c8bc53. Fresh default-hif-q2/hif2-q2 jobs now run as snapshot-
+  caller-q2/snapshot-caller-hif2-q2;both enroll15 and start actual commands.
+  Not accepted. LAUNCH_INPUTS.jsone966f30a/scope5dc99b6f binds4762 paths.
+  Checked-loader receipt alone lacks a canonical map for its basename-keyed
+  publication-output field;use the actual published receipt/selected assets.
+  No restart/regrade/hash/budget waiver;normal RV32 and overall gates remain.
 
 ## 2026-10-20 - Current Full Image And Terminal Cold Callers
 

@@ -22,6 +22,15 @@
   now pass. Partial audit5653ecea verifies443 paths;PREFLIGHT.json3ae6cf28
   explicitly records dirty producing source at a4bb94d,not a clean committed
   candidate. Normal-object RV32/fresh constructor acceptance are still pending.
+- Current actual cold jobs are inode-plan-caller-v2,0582437a,2378 files/
+  522231329 bytes,tags default-hif-q2/hif2-q2,outputs snapshot-caller-q2/
+  snapshot-caller-hif2-q2. Both have15 enrollment records and are live,not
+  accepted. Separate namespace startup preflight passed0/eight parked harts.
+  Two earlier inode-plan-caller-v1 launches failed before guest construction,
+  missing publication CODE/DATA readbacks;retain them. Include the published-
+  startup receipt AND selected readbacks,not only the checked-loader receipt.
+  LAUNCH_INPUTS.jsone966f30a/scope5dc99b6f records4762 paths. No budgets,
+  checkpoint stops,firmware hashes or failed receipts were waived/rewritten.
 
 ## 2026-10-20 - Current Image Passes; Both Callers Are Terminal Failures
 
