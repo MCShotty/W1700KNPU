@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Both Original Local Frames Under Guard-Set Proof
+
+Explicit relative guard sets now qualify original formatter496/callee192 local
+frames under known bounds90/14,ordinary ABI and immutable snapshots. Strict
+default formatter denial stays.77/eight external child sites and whole-chain/
+IRQ/per-hart/physical bounds,current global graph and physical table permissions
+remain unproved. All268 unique/286 units,three mutants,54 synthetic and203
+original isolated-prefix guests pass;48 synthetic/110 original cases overlap
+earlier coverage. No complete original routine/child executes. Read
+original-irq/GUARD_SETS.md/json:scope a2982b34 binds5152 paths/2377+161 readonly
+prior files;metadata cb3633b7. Initial label/postcheck failures and historical
+source bindings remain;one source is exact-digest reconstruction,not original
+timestamp. Jev0.28/0.52 stays uncertain/false-premised,not approval. Primary
+entry dominance does not replace checking each later index/bound.
+
+Normal INODE2522/326 passes;both actual v2 cold callers and four frozen old-pair
+fault matrices remain live. Firmware/source-lock/raw pair/saved images/native
+limits stay;current cold/stage1/new24/fault/full setup/latest image/hot/checked
+IRQ/RRO/lifecycle/physical/client gates remain. No hardware or subagents.
+This supersedes only formatter-unqualified-profile summaries below.
+
 ## 2026-10-20 - Normal INODE Pass;Original Relative Switch Progress
 
 Normal-object RV32 snapshot regression is terminal0:2522 calls/326 controls,

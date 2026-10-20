@@ -1,5 +1,8 @@
 # Original Relative Switches
 
+Follow-up: [guarded-entry proof](GUARD_SETS.md) qualifies the formatter under
+an explicit stronger profile. This earlier strict-profile denial remains valid.
+
 2026-10-20. One additional original routine now has a conditional local-SP
 analysis. The formatter remains denied. This does not extend or requalify
 the older whole-CODE graph, establish a whole interrupt-stack bound, or

@@ -2,6 +2,7 @@
 """Check bounded intra-function tables without inventing inter-function edges."""
 import argparse
 from bisect import bisect_right
+from collections import deque
 import hashlib
 import json
 from pathlib import Path
@@ -9,7 +10,7 @@ import re
 import struct
 
 import capstone
-from capstone.riscv import RISCV_OP_IMM, RISCV_OP_REG
+from capstone.riscv import RISCV_OP_IMM, RISCV_OP_REG, RISCV_REG_RA
 from elftools.dwarf.callframe import FDE
 
 import npu_image
@@ -158,7 +159,7 @@ def table_sequence(instructions, index):
         prefix_hex=b''.join(bytes(item.bytes) for item in prefix).hex())
 
 
-def reachable(successors, start, removed_edge=None):
+def reachable(successors, start, removed_edge=None, removed_edges=()):
     visited, pending = set(), [start]
     while pending:
         current = pending.pop()
@@ -166,11 +167,62 @@ def reachable(successors, start, removed_edge=None):
             continue
         visited.add(current)
         pending.extend(target for target in successors[current] if target not in visited
-                       and (current, target) != removed_edge)
+                       and (current, target) != removed_edge and (current, target) not in removed_edges)
     return visited
 
 
-def inspect_function(data, address, read_table):
+def reaching_constants(instructions, successors, edges, address):
+    from test_npu_original_body_stack import local_effect
+    from test_npu_reaching_targets import merge
+    positions = {instruction.address:instruction for instruction in instructions}
+    states, pending, updates = {address:tuple([0]+[None]*31)}, deque([address]), 0
+    while pending:
+        pc = pending.popleft()
+        instruction = positions[pc]
+        if instruction.mnemonic == 'jal' and len(instruction.operands) == 2:
+            assert instruction.operands[0].type == RISCV_OP_REG and instruction.operands[0].reg == RISCV_REG_RA, 'non-ABI-direct-link-register'
+        after = local_effect(instruction, states[pc], edges[pc])
+        for target in successors[pc]:
+            state = after if target not in states else merge(states[target], after)
+            if target not in states or state != states[target]:
+                states[target] = state
+                pending.append(target)
+                updates += 1
+                assert updates <= 66 * len(instructions), 'constant-state-convergence-bound'
+    return states, updates
+
+
+def relative_guard_set(row, positions, successors, predecessors, states, address):
+    from test_npu_reaching_targets import reg
+    guard, safe = positions[row['guard']], row['guard_fallthrough']
+    bound, index = guard.operands[0].reg, guard.operands[1].reg
+    guards = {guard.address}
+    for pc in predecessors[safe] - guards:
+        candidate = positions[pc]
+        assert (immediate(candidate, 'bgeu', 3) and candidate.operands[0].reg == bound
+            and candidate.operands[1].reg == index and pc + candidate.size == row['default_target']
+            and (pc + candidate.operands[2].imm) & 0xffffffff == safe), 'unqualified-alternate-safe-entry'
+        guards.add(pc)
+    assert predecessors[safe] == guards, 'incomplete-safe-edge-set'
+    for pc in guards:
+        assert pc in states and states[pc][reg(positions[pc], 0)] == row['entry_count']-1, 'guard-bound-not-proved-constant'
+    # Entries before a guard are safe only because its actual bound is proved.
+    after_safe = row['prefix_addresses'][row['prefix_addresses'].index(safe):]
+    for left, right in zip(after_safe, after_safe[1:]):
+        assert predecessors[right] == {left}, 'prefix-can-bypass-safe-edge-set'
+    safe_edges = {(pc, safe) for pc in guards}
+    without_safe = reachable(successors, address, removed_edges=safe_edges)
+    assert not set(after_safe).intersection(without_safe), 'safe-edge-set-does-not-dominate'
+    primary_only = reachable(successors, address, (guard.address, safe))
+    row.update(control_flow_qualified=True, same_function_only=True, interfunction_edge=False,
+        guard_safe_edge_dominates_load_and_jump=not set(after_safe).intersection(primary_only),
+        guard_safe_edge_set_dominates_load_and_jump=True,
+        guard_bound_register=guard.reg_name(bound), guard_bound_constant=row['entry_count']-1,
+        qualified_safe_edges=[dict(source=pc, target=safe) for pc in sorted(guards)],
+        qualification_profile='relative-unsigned-safe-edge-set-v1')
+
+
+def inspect_function(data, address, read_table, relative_guard_sets=False):
     instructions = decode(data, address)
     assert all(item.mnemonic not in ('unimp', 'c.unimp') for item in instructions), 'invalid-instruction'
     positions = {item.address:item for item in instructions}
@@ -191,12 +243,15 @@ def inspect_function(data, address, read_table):
         tables[item.address] = row
     assert tables, 'no-recognized-table'
     successors = {item.address:set() for item in instructions}
+    edges = {}
     control = {capstone.CS_GRP_JUMP, capstone.CS_GRP_CALL, capstone.CS_GRP_RET,
                capstone.CS_GRP_INT, capstone.CS_GRP_IRET}
     for index, item in enumerate(instructions):
         if returned(item):
+            edges[item.address] = None
             continue
         edge = transfer(item, instructions[index-1] if index else None)
+        edges[item.address] = edge
         if edge is not None and edge['target'] is None:
             assert item.address in tables, 'function-has-other-unresolved-register-flow'
             successors[item.address].update(tables[item.address]['table_targets'])
@@ -221,9 +276,13 @@ def inspect_function(data, address, read_table):
         for target in targets:
             predecessors[target].add(source)
     reached = reachable(successors, address)
+    states, updates = reaching_constants(instructions, successors, edges, address) if relative_guard_sets else ({}, 0)
     for row in tables.values():
         assert row['definition_start'] in reached, 'unreachable-table-definition'
         assert row['guard_fallthrough'] != row['default_target'], 'guard-has-no-distinct-safe-edge'
+        if relative_guard_sets and row.get('table_entry_encoding') == 'base-relative-u32':
+            relative_guard_set(row, positions, successors, predecessors, states, address)
+            continue
         for left, right in zip(row['prefix_addresses'], row['prefix_addresses'][1:]):
             assert predecessors[right] == {left}, 'prefix-can-bypass-definition'
         without_safe = reachable(successors, address, (row['guard'], row['guard_fallthrough']))
@@ -231,8 +290,12 @@ def inspect_function(data, address, read_table):
         assert not set(protected_prefix).intersection(without_safe), 'guard-safe-edge-does-not-dominate'
         row.update(control_flow_qualified=True, guard_safe_edge_dominates_load_and_jump=True,
                    same_function_only=True, interfunction_edge=False)
-    return dict(tables=list(tables.values()), instruction_count=len(instructions),
+    result = dict(tables=list(tables.values()), instruction_count=len(instructions),
                 reachable_instructions=len(reached), other_unknown_register_flow=False)
+    if relative_guard_sets:
+        result.update(relative_guard_sets=True, reaching_constant_updates=updates,
+            entry_registers_unknown_except_zero=True, calls_clobber_caller_saved=True)
+    return result
 
 
 def metadata_matches(row, metadata):

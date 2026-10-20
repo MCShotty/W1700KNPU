@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-20 - Original Local Stack Progress
+
+Both original relative-table routines now have conditional local-frame analyses,
+496 and192 bytes, with the alternate guards checked explicitly. This is not
+a whole IRQ stack or hardware bound.268 unique tests pass; see the
+[guarded-entry checkpoint](research/checkpoints/2026-10-17-npu-original-irq/GUARD_SETS.md).
+The INODE model passes; fresh cold/fault validation and the full project remain
+in progress. The earlier strict-profile formatter denial remains valid.
+
 ## 2026-10-20 - INODE Model Passes;Cold Qualification Continues
 
 The normal compiled RV32 INODE regression now passes2522 calls/326 controls,

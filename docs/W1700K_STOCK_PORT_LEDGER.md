@@ -1,10 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;one original relative local frame qualified conditionally;formatter/fresh cold/fault/overall project remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;both original relative local frames conditional under explicit guard proof;fresh cold/fault/whole-chain/overall project remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Guard Sets Close The Conditional Formatter Local Body
+
+- Opt-in proof starts entry GPRs unknown except zero,retains caller-saved call
+  clobbers/unknown joins and requires actual bound90 at both formatter guards.
+  Every safe-prefix predecessor is a checked unsigned same-index/same-bound
+  guard;later predecessors stay unique and the full safe-edge cutset dominates.
+  Before-guard entries are checked,not waived. Old strict default/31 absolute/
+  22 relative fixtures and label contract stay. No target allowlist.
+- Exact original/current658c9c32/Ghidra body/table bindings pass. Formatter
+  all2707 instructions/7544 bytes now conditionally local496,with77 external
+  child sites unproved. Callee2876 bytes remains conditional192/eight unproved
+  child sites. Bounds90/14;tables91/28 and15/five retain exact targets.
+  Primary formatter edge also globally dominates,but later iterations still
+  need their own bound/index checks. No whole-chain/IRQ/per-hart/physical or
+  global graph qualification,physical permissions/exclusion or complete routine.
+- All268 unique/286 unit executions/no skips,31 new compiled guard fixtures,
+  three independent mutations and54 synthetic guests pass.48 retain earlier
+  observations;six new loop guests stop before decoded return and reject the
+  second out-of-range index.203 original isolated prefixes include110 repeats
+  and93 new alternate-entry cases,with synthetic state/permissions and stops
+  before cases. All registers/PC/MSTATUS/ordered reads/no writes/full protected
+  bytes match before restoration. No external child executes.
+- Scope a2982b34 verifies5152 paths/2377+161 readonly earlier files and11
+  exact historical source bindings. Metadata cb3633b7. Intermediate source
+  reconstruction matches its earlier digest;no original timestamp claim.
+  Initial missing-label error before guest start and tuple/list postcomparison
+  failure stay with exact sources. No failed producing receipt is rewritten.
+- Jev actual-bound/all-predecessor semantic checks0.94/0.94 are not proof.
+  Prior unsigned0.28 and false-premised single-edge0.52 remain;actual JSON
+  says primary dominance true. Whole-stack contradiction0.98/confidence0.97.
+  Read original-irq/GUARD_SETS.md/json;old strict denial remains valid.
+- Normal INODE2522/326 stays passed;actual v2 both-HIF callers/four old-pair
+  fault matrices remain live. Firmware/pair/source-lock/images/native limits
+  stay. Full fresh cold/fault/stage1/new24/full setup/latest image/hot/checked
+  IRQ/RRO/lifecycle/physical/client gates remain. No hardware or subagents.
 
 ## 2026-10-20 - Normal INODE Completion And Original Relative Switches
 

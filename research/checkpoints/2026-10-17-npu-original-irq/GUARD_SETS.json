@@ -1,0 +1,132 @@
+{
+  "passed": true,
+  "scope": "opt-in-relative-safe-edge-set-and-conditional-local-SP-only",
+  "unique_units": 268,
+  "unit_executions": 286,
+  "compiled_synthetic_guardset_programs": 31,
+  "previous31_absolute_and22_relative_fixtures_unchanged": true,
+  "independent_mutants": 3,
+  "synthetic_guests": 54,
+  "repeated_exact_earlier_synthetic_guests": 48,
+  "new_unique_loop_guests": 6,
+  "original_isolated_prefix_guests": 203,
+  "repeated_prior_original_prefix_guests": 110,
+  "new_alternate_original_prefix_guests": 93,
+  "original_full_functions_or_external_children_executed": false,
+  "strict_default_formatter_denial_retained": true,
+  "strict_default_callee_frame": 192,
+  "exact_frozen_pre_edit_files_verified": 2377,
+  "additional_frozen_prior_test_files": 161,
+  "preservation_not_replay_qualification": true,
+  "intermediate_source_reconstructed_at_exact_recorded_digest": true,
+  "original_source_timestamp_not_claimed": true,
+  "initial_missing_label_and_postcheck_failures_retained": true,
+  "single_edge_semantic_question_false_formatter_premise_retained": true,
+  "source_lock_raw_pair_images_firmware_native_budgets_unchanged": true,
+  "table_snapshot_immutability_and_ordinary_ABI_assumed": true,
+  "physical_table_permissions_or_async_exclusion_proved": false,
+  "whole_chain_IRQ_per_hart_or_physical_stack_bound_proved": false,
+  "current_global_graph_extended_or_older_graph_requalified": false,
+  "full_setup": false,
+  "hardware": false,
+  "summaries": [
+    {
+      "entry": "0x840107ca",
+      "body_bytes": 7544,
+      "body_sha256": "66c43bfc35ea6f53944fdb5ca58a7f780a81e1e7e7af0fa4c17c6917763200c6",
+      "entries": 91,
+      "unique_table_targets": 28,
+      "local_frame_bytes": 496,
+      "all_body_instructions_reached": true,
+      "unproved_external_child_sites": 77,
+      "primary_single_edge_dominates": true,
+      "safe_edge_set_dominates": true,
+      "bound": 90,
+      "safe_edges": [
+        {
+          "source": "0x840108ce",
+          "target": "0x840108d2"
+        },
+        {
+          "source": "0x84010a38",
+          "target": "0x840108d2"
+        }
+      ]
+    },
+    {
+      "entry": "0x840183b2",
+      "body_bytes": 2876,
+      "body_sha256": "31f932e20486bd7a253086489e7c0d3d5c8afe0c1f8e95cd05004a3474c0a742",
+      "entries": 15,
+      "unique_table_targets": 5,
+      "local_frame_bytes": 192,
+      "all_body_instructions_reached": true,
+      "unproved_external_child_sites": 8,
+      "primary_single_edge_dominates": true,
+      "safe_edge_set_dominates": true,
+      "bound": 14,
+      "safe_edges": [
+        {
+          "source": "0x840184b2",
+          "target": "0x840184b6"
+        }
+      ]
+    }
+  ],
+  "jev": {
+    "jev-guardset-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_unsigned_safe_condition": {
+          "type": "noul",
+          "noul": 0.28
+        },
+        "bound_value_proved": {
+          "type": "choice",
+          "choice": "not_established",
+          "confidence": 0.94,
+          "probabilities": {
+            "established": 0.02,
+            "not_established": 0.96,
+            "contradicted": 0.02
+          }
+        }
+      },
+      "result_sha256": "84735070fad5d6412738df23bc91a28cf18dad8b971cebe2dde9f42479a7e4d6",
+      "judgment_not_proof": true
+    },
+    "jev-guardset-code-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "constant_each_guard": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "all_safe_predecessors": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "single_vs_set_output": {
+          "type": "noul",
+          "noul": 0.52
+        },
+        "whole_stack_claim": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.97,
+          "probabilities": {
+            "supported": 0.0,
+            "contradicted": 0.98,
+            "not_established": 0.02
+          }
+        }
+      },
+      "result_sha256": "c6b3107051113a9d04253b05705ef043478b37d59d2f5df4d7a2bb8f473d451f",
+      "judgment_not_proof": true
+    }
+  },
+  "ISA_branch_semantics_reference": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rv32.html#_conditional_branches",
+  "private_scope_sha256": "a2982b34569ca4d43b397c83d1b6c12350e6ab877c2982df68058a5a1347db22",
+  "input_count": 5152,
+  "historical_exact_hash_binding_count": 11
+}

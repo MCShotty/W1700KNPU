@@ -1,5 +1,30 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Guard Sets Qualify Conditional Original Local Frames
+
+- Read original-irq/GUARD_SETS.md/json. Explicit relative guard-set profile
+  proves actual bounds90/14 with conservative whole-body constants/caller-
+  saved clobbers,all safe-entry predecessors and post-entry uniqueness/cutset.
+  Original formatter/callee now conditionally local496/192;77/eight child
+  sites remain unproved. Strict default formatter denial remains. No target
+  allowlist,old31 absolute/22 relative fixture change or graph requalification.
+- All268 unique/286 unit executions,31 new compiled fixtures,three independent
+  mutants and54 synthetic guests pass.48 repeat earlier observations;six
+  added loop guests reject the next out-of-range index before return.203
+  original isolated-prefix guests include110 repeats/93 alternate-entry cases.
+  No complete original routine/child or whole-chain/IRQ/per-hart/physical bound.
+- Scope a2982b34 verifies5152 paths/2377+161 readonly prior files;metadata
+  cb3633b7. Initial missing-label/tuple comparison failures and exact prior
+  sources remain. One intermediate source is exact-digest reconstruction,
+  not original timestamp. Jev0.28/0.52 uncertainty/false premise stay;not proof.
+  Actual formatter primary-edge dominance is true but does not replace fresh
+  per-entry index/bound checks. Ordinary-ABI/table-snapshot assumptions stay.
+- Normal INODE2522/326 pass remains;both actual v2 cold callers/four old-pair
+  fault matrices remain live. Firmware/pair/source-lock/images/native bounds
+  stay;latest image/full setup/hot/IRQ/RRO/physical/client gates remain. No
+  hardware or subagents. This supersedes formatter-unqualified-only summaries,
+  not the still-valid strict default or historical failed runs.
+
 ## 2026-10-20 - Normal INODE Model Passes;Original Relative Table Progress
 
 - Normal-object RV32 snapshot regression is terminal0:2522 calls/326 controls,

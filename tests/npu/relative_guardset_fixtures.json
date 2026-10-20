@@ -1,0 +1,456 @@
+{
+  "format": "synthetic-rv32-relative-guardset-fixtures-v1",
+  "programs": {
+    "multi_guard": {
+      "address": 65536,
+      "program_hex": "01000d47aa878de50d476365f70297060100938626ff8a07b6979c43b6978287010011a8010001a8010031a0010021a0e37ff7fc01008280",
+      "table_address": 131072,
+      "table_hex": "2000ffff2400ffff2800ffff2c00ffff",
+      "labels": {
+        "upper": 65550,
+        "table": 131072,
+        "case0": 65568,
+        "case1": 65572,
+        "case2": 65576,
+        "case3": 65580
+      }
+    },
+    "guard_reentry": {
+      "address": 65592,
+      "program_hex": "01000d47aa878de50d476364f702970601009386a6fc8a07b6979c43b6978287010009a8010039a0010029a0010019a0e9bf01008280",
+      "table_address": 131088,
+      "table_hex": "4800ffff4c00ffff5000ffff5400ffff",
+      "labels": {
+        "upper": 65606,
+        "table": 131088,
+        "case0": 65624,
+        "case1": 65628,
+        "case2": 65632,
+        "case3": 65636
+      }
+    },
+    "bias_reentry": {
+      "address": 65648,
+      "program_hex": "01000d47aa879de50d47930705fe6364f702970601009386e6f98a07b6979c43b6978287010009a8010039a0010029a0010019a0d9bf01008280",
+      "table_address": 131104,
+      "table_hex": "7400ffff7800ffff7c00ffff8000ffff",
+      "labels": {
+        "upper": 65666,
+        "table": 131104,
+        "case0": 65684,
+        "case1": 65688,
+        "case2": 65692,
+        "case3": 65696
+      }
+    },
+    "bound_changed": {
+      "address": 65708,
+      "program_hex": "01000d47aa878de50d476366f70297060100938666f78a07b6979c43b6978287010019a8010009a8010039a0010029a01147e37ef7fc01008280",
+      "table_address": 131120,
+      "table_hex": "9c00ffffa000ffffa400ffffa800ffff",
+      "labels": {
+        "upper": 65722,
+        "table": 131120,
+        "case0": 65740,
+        "case1": 65744,
+        "case2": 65748,
+        "case3": 65752
+      }
+    },
+    "bound_unknown": {
+      "address": 65768,
+      "program_hex": "01000d47aa878de50d476366f702970601009386a6f48a07b6979c43b6978287010019a8010009a8010039a0010029a01842e37ef7fc01008280",
+      "table_address": 131136,
+      "table_hex": "c800ffffcc00ffffd000ffffd400ffff",
+      "labels": {
+        "upper": 65782,
+        "table": 131136,
+        "case0": 65800,
+        "case1": 65804,
+        "case2": 65808,
+        "case3": 65812
+      }
+    },
+    "call_clobbered": {
+      "address": 65828,
+      "program_hex": "01000d47aa878de50d476366f702970601009386e6f18a07b6979c43b6978287010019a8010009a8010039a0010029a07523e37ef7fc01008280",
+      "table_address": 131152,
+      "table_hex": "f400fffff800fffffc00ffff0001ffff",
+      "labels": {
+        "upper": 65842,
+        "table": 131152,
+        "case0": 65860,
+        "case1": 65864,
+        "case2": 65868,
+        "case3": 65872
+      }
+    },
+    "call_restored": {
+      "address": 65888,
+      "program_hex": "01000d47aa878de50d476367f70297060100938626ef8a07b6979c43b6978287010021a8010011a8010001a8010031a0852b0d47e37df7fc01008280",
+      "table_address": 131168,
+      "table_hex": "2001ffff2401ffff2801ffff2c01ffff",
+      "labels": {
+        "upper": 65902,
+        "table": 131168,
+        "case0": 65920,
+        "case1": 65924,
+        "case2": 65928,
+        "case3": 65932
+      }
+    },
+    "signed_alternate": {
+      "address": 65948,
+      "program_hex": "01000d47aa878de50d476365f70297060100938666ec8a07b6979c43b6978287010011a8010001a8010031a0010021a0e35ff7fc01008280",
+      "table_address": 131184,
+      "table_hex": "4c01ffff5001ffff5401ffff5801ffff",
+      "labels": {
+        "upper": 65962,
+        "table": 131184,
+        "case0": 65980,
+        "case1": 65984,
+        "case2": 65988,
+        "case3": 65992
+      }
+    },
+    "wrong_bound": {
+      "address": 66004,
+      "program_hex": "01000d47aa878de50d476365f702970601009386e6e98a07b6979c43b6978287010011a8010001a8010031a0010021a0e3fff6fc01008280",
+      "table_address": 131200,
+      "table_hex": "7401ffff7801ffff7c01ffff8001ffff",
+      "labels": {
+        "upper": 66018,
+        "table": 131200,
+        "case0": 66036,
+        "case1": 66040,
+        "case2": 66044,
+        "case3": 66048
+      }
+    },
+    "wrong_index": {
+      "address": 66060,
+      "program_hex": "01000d47aa878de50d476365f70297060100938666e78a07b6979c43b6978287010011a8010001a8010031a0010021a0e37fc7fc01008280",
+      "table_address": 131216,
+      "table_hex": "9c01ffffa001ffffa401ffffa801ffff",
+      "labels": {
+        "upper": 66074,
+        "table": 131216,
+        "case0": 66092,
+        "case1": 66096,
+        "case2": 66100,
+        "case3": 66104
+      }
+    },
+    "default_gap": {
+      "address": 66116,
+      "program_hex": "01000d47aa878de50d476366f702970601009386e6e48a07b6979c43b6978287010019a8010009a8010039a0010029a0e37ff7fc010001008280",
+      "table_address": 131232,
+      "table_hex": "c401ffffc801ffffcc01ffffd001ffff",
+      "labels": {
+        "upper": 66130,
+        "table": 131232,
+        "case0": 66148,
+        "case1": 66152,
+        "case2": 66156,
+        "case3": 66160
+      }
+    },
+    "jump_upper": {
+      "address": 66176,
+      "program_hex": "01000d47aa878de50d476364f70297060100938626e28a07b6979c43b6978287010009a8010039a0010029a0010019a0f9bf01008280",
+      "table_address": 131248,
+      "table_hex": "f001fffff401fffff801fffffc01ffff",
+      "labels": {
+        "upper": 66190,
+        "table": 131248,
+        "case0": 66208,
+        "case1": 66212,
+        "case2": 66216,
+        "case3": 66220
+      }
+    },
+    "jump_addition": {
+      "address": 66232,
+      "program_hex": "01000d47aa878de50d476364f702970601009386a6df8a07b6979c43b6978287010009a8010039a0010029a0010019a0cdb701008280",
+      "table_address": 131264,
+      "table_hex": "1802ffff1c02ffff2002ffff2402ffff",
+      "labels": {
+        "upper": 66246,
+        "table": 131264,
+        "case0": 66264,
+        "case1": 66268,
+        "case2": 66272,
+        "case3": 66276
+      }
+    },
+    "jump_shift": {
+      "address": 66288,
+      "program_hex": "01000d47aa878de50d476364f70297060100938626dd8a07b6979c43b6978287010009a8010039a0010029a0010019a0ddb701008280",
+      "table_address": 131280,
+      "table_hex": "4002ffff4402ffff4802ffff4c02ffff",
+      "labels": {
+        "upper": 66302,
+        "table": 131280,
+        "case0": 66320,
+        "case1": 66324,
+        "case2": 66328,
+        "case3": 66332
+      }
+    },
+    "jump_combine": {
+      "address": 66344,
+      "program_hex": "01000d47aa878de50d476364f702970601009386a6da8a07b6979c43b6978287010009a8010039a0010029a0010019a0e5b701008280",
+      "table_address": 131296,
+      "table_hex": "6802ffff6c02ffff7002ffff7402ffff",
+      "labels": {
+        "upper": 66358,
+        "table": 131296,
+        "case0": 66376,
+        "case1": 66380,
+        "case2": 66384,
+        "case3": 66388
+      }
+    },
+    "jump_load": {
+      "address": 66400,
+      "program_hex": "01000d47aa878de50d476364f70297060100938626d88a07b6979c43b6978287010009a8010039a0010029a0010019a0edb701008280",
+      "table_address": 131312,
+      "table_hex": "9002ffff9402ffff9802ffff9c02ffff",
+      "labels": {
+        "upper": 66414,
+        "table": 131312,
+        "case0": 66432,
+        "case1": 66436,
+        "case2": 66440,
+        "case3": 66444
+      }
+    },
+    "jump_post": {
+      "address": 66456,
+      "program_hex": "01000d47aa878de50d476364f702970601009386a6d58a07b6979c43b6978287010009a8010039a0010029a0010019a0f5b701008280",
+      "table_address": 131328,
+      "table_hex": "b802ffffbc02ffffc002ffffc402ffff",
+      "labels": {
+        "upper": 66470,
+        "table": 131328,
+        "case0": 66488,
+        "case1": 66492,
+        "case2": 66496,
+        "case3": 66500
+      }
+    },
+    "jump_dispatch": {
+      "address": 66512,
+      "program_hex": "01000d47aa878de50d476364f70297060100938626d38a07b6979c43b6978287010009a8010039a0010029a0010019a0fdb701008280",
+      "table_address": 131344,
+      "table_hex": "e002ffffe402ffffe802ffffec02ffff",
+      "labels": {
+        "upper": 66526,
+        "table": 131344,
+        "case0": 66544,
+        "case1": 66548,
+        "case2": 66552,
+        "case3": 66556
+      }
+    },
+    "bound_join": {
+      "address": 66568,
+      "program_hex": "01000d47aa878de50d476366f702970601009386a6d08a07b6979c43b6978287010019a8010009a8010039a0010029a069de1147d9bf01008280",
+      "table_address": 131360,
+      "table_hex": "0803ffff0c03ffff1003ffff1403ffff",
+      "labels": {
+        "upper": 66582,
+        "table": 131360,
+        "case0": 66600,
+        "case1": 66604,
+        "case2": 66608,
+        "case3": 66612
+      }
+    },
+    "index_after_guard": {
+      "address": 66628,
+      "program_hex": "01000d47aa878de50d476365f702970601009386e6cd8a07b6979c43b6978287010011a8010001a8010031a0010021a06374f700010082808507d1bf",
+      "table_address": 131376,
+      "table_hex": "3403ffff3803ffff3c03ffff4003ffff",
+      "labels": {
+        "upper": 66642,
+        "table": 131376,
+        "case0": 66660,
+        "case1": 66664,
+        "case2": 66668,
+        "case3": 66672
+      }
+    },
+    "stack_leak": {
+      "address": 66688,
+      "program_hex": "01000d47aa878de50d476365f70297060100938626cb8a07b6979c43b6978287010011a8010001a8010031a0411121a0e37ff7fc01008280",
+      "table_address": 131392,
+      "table_hex": "6003ffff6403ffff6803ffff6c03ffff",
+      "labels": {
+        "upper": 66702,
+        "table": 131392,
+        "case0": 66720,
+        "case1": 66724,
+        "case2": 66728,
+        "case3": 66732
+      }
+    },
+    "stack_overrun": {
+      "address": 66744,
+      "program_hex": "01000d47aa878de50d476365f702970601009386a6c88a07b6979c43b697828706c011a8010001a8010031a0010021a0e37ff7fc01008280",
+      "table_address": 131408,
+      "table_hex": "8803ffff8c03ffff9003ffff9403ffff",
+      "labels": {
+        "upper": 66758,
+        "table": 131408,
+        "case0": 66776,
+        "case1": 66780,
+        "case2": 66784,
+        "case3": 66788
+      }
+    },
+    "unknown_tail": {
+      "address": 66800,
+      "program_hex": "01000d47aa878de50d476365f70297060100938626c68a07b6979c43b6978287010011a8010001a8010031a0010021a0e37ff7fc02868280",
+      "table_address": 131424,
+      "table_hex": "b003ffffb403ffffb803ffffbc03ffff",
+      "labels": {
+        "upper": 66814,
+        "table": 131424,
+        "case0": 66832,
+        "case1": 66836,
+        "case2": 66840,
+        "case3": 66844
+      }
+    },
+    "unknown_call": {
+      "address": 66856,
+      "program_hex": "01000d47aa878de50d476365f702970601009386a6c38a07b6979c43b6978287010011a8010001a8010031a0010021a0e37ff7fc02968280",
+      "table_address": 131440,
+      "table_hex": "d803ffffdc03ffffe003ffffe403ffff",
+      "labels": {
+        "upper": 66870,
+        "table": 131440,
+        "case0": 66888,
+        "case1": 66892,
+        "case2": 66896,
+        "case3": 66900
+      }
+    },
+    "trap": {
+      "address": 66912,
+      "program_hex": "01000d47aa878de50d476365f70297060100938626c18a07b6979c43b6978287010019a8010009a8010039a0010029a0e37ff7fc730000008280",
+      "table_address": 131456,
+      "table_hex": "0004ffff0404ffff0804ffff0c04ffff",
+      "labels": {
+        "upper": 66926,
+        "table": 131456,
+        "case0": 66944,
+        "case1": 66948,
+        "case2": 66952,
+        "case3": 66956
+      }
+    },
+    "non_ABI_call": {
+      "address": 66972,
+      "program_hex": "01000d47aa878de50d476367f70297060100938666be8a07b6979c43b6978287010021a8010011a8010001a8010031a0ef024013e37df7fc01008280",
+      "table_address": 131472,
+      "table_hex": "2c04ffff3004ffff3404ffff3804ffff",
+      "labels": {
+        "upper": 66986,
+        "table": 131472,
+        "case0": 67004,
+        "case1": 67008,
+        "case2": 67012,
+        "case3": 67016
+      }
+    },
+    "SP_write": {
+      "address": 67032,
+      "program_hex": "01000d47aa878de50d476366f702970601009386a6bb8a07b6979c43b6978287010019a8010009a8010039a0010029a00141e37ef7fc01008280",
+      "table_address": 131488,
+      "table_hex": "5804ffff5c04ffff6004ffff6404ffff",
+      "labels": {
+        "upper": 67046,
+        "table": 131488,
+        "case0": 67064,
+        "case1": 67068,
+        "case2": 67072,
+        "case3": 67076
+      }
+    },
+    "framed": {
+      "address": 67092,
+      "program_hex": "41110d47aa878de50d476365f702970601009386e6b88a07b6979c43b6978287010011a8010001a8010031a0010021a0e37ff7fc010041018280",
+      "table_address": 131504,
+      "table_hex": "8404ffff8804ffff8c04ffff9004ffff",
+      "labels": {
+        "upper": 67106,
+        "table": 131504,
+        "case0": 67124,
+        "case1": 67128,
+        "case2": 67132,
+        "case3": 67136
+      }
+    },
+    "uninitialized_bound": {
+      "address": 67152,
+      "program_hex": "01000100aa878de50d476365f70297060100938626b68a07b6979c43b6978287010011a8010001a8010031a0010021a0e37ff7fc01008280",
+      "table_address": 131520,
+      "table_hex": "b004ffffb404ffffb804ffffbc04ffff",
+      "labels": {
+        "upper": 67166,
+        "table": 131520,
+        "case0": 67184,
+        "case1": 67188,
+        "case2": 67192,
+        "case3": 67196
+      }
+    },
+    "guarded_loop": {
+      "address": 67208,
+      "program_hex": "01000d47aa8701000d476366f702970601009386a6b38a07b6979c43b6978287010019a8010009a8010039a0050509a0aa87e37ef7fc01008280",
+      "table_address": 131536,
+      "table_hex": "d804ffffdc04ffffe004ffffe404ffff",
+      "labels": {
+        "upper": 67222,
+        "table": 131536,
+        "case0": 67240,
+        "case1": 67244,
+        "case2": 67248,
+        "case3": 67252
+      }
+    },
+    "changed_loop": {
+      "address": 67268,
+      "program_hex": "01000d47aa8701000d476367f702970601009386e6b08a07b6979c43b6978287010021a8010011a8010001a8050509a0aa871147e37df7fc01008280",
+      "table_address": 131552,
+      "table_hex": "0405ffff0805ffff0c05ffff1005ffff",
+      "labels": {
+        "upper": 67282,
+        "table": 131552,
+        "case0": 67300,
+        "case1": 67304,
+        "case2": 67308,
+        "case3": 67312
+      }
+    }
+  },
+  "source_sha256": "e7dd6efb6c15cd9cee8f374fab3c88163e714af267c2995fb7f67dec58f52f85",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--discard-none,--image-base=0x0,-Ttext=0x10000,--section-start=.rodata=0x20000,-e,case_multi_guard",
+    "/home/captain/W1700KNPU/tests/npu/fixtures/relative_guard_sets.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/relative-guardsets-q4.elf"
+  ],
+  "synthetic_only": true,
+  "no_router_firmware_bytes": true
+}

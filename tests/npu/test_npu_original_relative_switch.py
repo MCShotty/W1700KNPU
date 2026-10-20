@@ -21,7 +21,7 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def prefix_guests(code, entry, row):
+def prefix_guests(code, entry, row, alternate_edge=None):
     from unicorn import Uc, UC_ARCH_RISCV, UC_MODE_RISCV32, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE
     from unicorn import UC_PROT_READ, UC_PROT_EXEC
     from unicorn import riscv_const as registers
@@ -40,6 +40,9 @@ def prefix_guests(code, entry, row):
         cpu.reg_write(registers.UC_RISCV_REG_A5, index)
         if entry == 0x840107ca:
             cpu.reg_write(registers.UC_RISCV_REG_S5, (index+32) & 0xffffffff)
+        if alternate_edge is not None:
+            assert entry == 0x840107ca
+            cpu.reg_write(registers.UC_RISCV_REG_A4, row['entry_count']-1)
         allowed = index < row['entry_count']
         target = row['table_targets'][index] if allowed else row['default_target']
         expected = [cpu.reg_read(register) for register in ids]
@@ -57,13 +60,14 @@ def prefix_guests(code, entry, row):
             reads.append((address, width)))
         cpu.hook_add(UC_HOOK_MEM_WRITE, lambda engine, access, address, width, value, unused:
             writes.append((address, width, value)))
-        cpu.emu_start(row['definition_start'], target, count=50)
+        start = row['definition_start'] if alternate_edge is None else alternate_edge['source']
+        cpu.emu_start(start, target, count=50)
         actual = [cpu.reg_read(register) for register in ids]
         assert actual == expected and cpu.reg_read(registers.UC_RISCV_REG_PC) == target
         assert cpu.reg_read(registers.UC_RISCV_REG_MSTATUS) == status
         assert reads == ([(row['table_address']+4*index, 4)] if allowed else []) and writes == []
         assert bytes(cpu.mem_read(BASE, mapped)) == before
-        observations.append(dict(index=index, in_range=allowed, start=row['definition_start'], PC=target,
+        observations.append(dict(index=index, in_range=allowed, start=start, PC=target,
             registers=actual, MSTATUS=status, reads=reads, writes=writes,
             whole_protected_memory_unchanged=True, observed_before_restoration=True,
             stopped_before_case_body=True, original_prefix_bytes_executed=True,
@@ -71,7 +75,7 @@ def prefix_guests(code, entry, row):
     return observations
 
 
-def audit(original, paired, exports, execute_prefixes=False):
+def audit(original, paired, exports, execute_prefixes=False, relative_guard_sets=False):
     blob, code = original.read_bytes(), paired.read_bytes()
     paths, rows, seen = [original, paired, Path(__file__)], [], set()
     for path in exports:
@@ -123,12 +127,13 @@ def audit(original, paired, exports, execute_prefixes=False):
                 older_Ghidra_CODE_sha256=export['mapped_CODE_sha256'], exact_body_and_instruction_bytes=True,
                 prefix=row, direct_entries_from_outside_prefix=entries)
             try:
-                result['CFG'] = dict(qualified=True, result=inspect_function(data, entry, read_table))
+                result['CFG'] = dict(qualified=True,
+                    result=inspect_function(data, entry, read_table, relative_guard_sets=relative_guard_sets))
             except AssertionError as error:
                 result['CFG'] = dict(qualified=False, error=str(error))
             try:
                 result['local_stack'] = dict(qualified=True,
-                    result=local_body(data, entry, read_table=read_table))
+                    result=local_body(data, entry, read_table=read_table, relative_guard_sets=relative_guard_sets))
             except AssertionError as error:
                 result['local_stack'] = dict(qualified=False, error=str(error))
             result['table_snapshot_reads'] = tables_read
@@ -139,12 +144,18 @@ def audit(original, paired, exports, execute_prefixes=False):
             result['Ghidra_labels_used_as_table_indices'] = False
             if execute_prefixes:
                 result['prefix_guests'] = prefix_guests(code, entry, row)
+                if relative_guard_sets and result['CFG']['qualified']:
+                    checked = result['CFG']['result']['tables'][0]
+                    alternate = [edge for edge in checked['qualified_safe_edges'] if edge['source'] != checked['guard']]
+                    result['alternate_prefix_guests'] = [guest for edge in alternate
+                        for guest in prefix_guests(code, entry, row, alternate_edge=edge)]
             rows.append(result)
     assert seen == set(SITES)
     inputs = native_prefix_snapshot.source_inputs({str(path.relative_to(ROOT)):digest(path) for path in paths})
     assert all(digest(ROOT / name) == expected for name, expected in inputs.items())
     return dict(observations_verified=True, scope='two-original-relative-switches-local-CFG-and-isolated-prefixes',
         rows=rows, inputs=inputs, original_CODE_sha256=digest(original), paired_CODE_sha256=digest(paired),
+        relative_guard_sets_profile_enabled=relative_guard_sets,
         table_snapshot_immutability_assumed=True, physical_table_permissions_proved=False,
         guest_scope='Original isolated dispatch prefixes with synthetic state,not complete functions.' if execute_prefixes else 'No guest executed.',
         global_graph_extended=False, earlier_graph_requalified=False,
@@ -161,12 +172,13 @@ def main():
     parser.add_argument('--paired', type=Path, required=True)
     parser.add_argument('--export', type=Path, action='append', required=True)
     parser.add_argument('--execute-prefixes', action='store_true')
+    parser.add_argument('--relative-guard-sets', action='store_true')
     parser.add_argument('--name', required=True)
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     original, paired, *exports = [path.resolve() for path in [args.original, args.paired, *args.export]]
     assert all(path.is_relative_to(ROOT / '.local') for path in [original, paired, *exports])
-    result = audit(original, paired, exports, args.execute_prefixes)
+    result = audit(original, paired, exports, args.execute_prefixes, args.relative_guard_sets)
     target = ROOT / '.local/npu-original-relative-switch' / args.name / 'result.json'
     target.parent.mkdir(parents=True, exist_ok=False)
     with target.open('x') as stream:
@@ -174,7 +186,8 @@ def main():
     print(json.dumps(dict(observations_verified=True, rows=[dict(entry=hex(row['entry']),
         CFG=row['CFG']['qualified'], local_stack=row['local_stack']['qualified'],
         local_frame=row['local_stack'].get('result', {}).get('local_max_stack_bytes'),
-        prefix_guests=len(row.get('prefix_guests', []))) for row in result['rows']],
+        prefix_guests=len(row.get('prefix_guests', [])),
+        alternate_prefix_guests=len(row.get('alternate_prefix_guests', []))) for row in result['rows']],
         sha256=digest(target))), flush=True)
 
 

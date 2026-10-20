@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Both Original Local Frames Now Conditional
+
+The explicit guarded-entry profile now qualifies formatter496/callee192 local
+frames with whole-body known bounds90/14 and every safe-entry guard checked.
+Strict default denial remains.268 unique/286 units,three mutants,54 synthetic
+and203 original isolated-prefix guests pass in their own scopes;older coverage
+overlaps. No complete original routine/child/whole-chain/IRQ/per-hart/physical
+bound or current global graph requalification. Read GUARD_SETS.md/json.
+
+Next original work is the77/eight unproved external child sites,other indirect
+contracts and current graph qualification,not a guard waiver. Retain ordinary
+ABI/immutable-table assumptions and earlier failures/uncertainty. Scopea2982b34
+verifies5152 paths,including2377+161 readonly earlier files;metadata cb3633b7.
+Normal INODE2522/326 passes. Fresh v2 both-HIF callers/four old-pair matrices
+remain live;current faults/stage1/new24/full setup/latest image and all hot/
+checked IRQ/RRO/physical/real Gemtek boot/radio/client/performance gates remain.
+No hardware,source-lock/pair/image/native-limit change or subagents.
+
 ## 2026-10-20 - Current Qualification And Original Switch Frontier
 
 The normal-object INODE RV32 model now passes2522 calls/326 controls/both

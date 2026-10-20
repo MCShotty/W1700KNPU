@@ -75,15 +75,16 @@ def local_effect(instruction, state, edge):
     return effects(instruction, state, edge)
 
 
-def local_body(data, address, max_frame=4096, read_table=None):
+def local_body(data, address, max_frame=4096, read_table=None, relative_guard_sets=False):
     assert address % 2 == 0 and 0 <= address < address + len(data) <= 0x100000000
     assert 0 < max_frame <= 0x100000 and max_frame % 16 == 0
+    assert not relative_guard_sets or read_table is not None, 'guard-sets-require-table-reader'
     instructions = decode(data, address)
     positions = {i.address:i for i in instructions}
     tables = {}
     if read_table is not None:
         from test_npu_switch_targets import inspect_function
-        reviewed = inspect_function(data, address, read_table)
+        reviewed = inspect_function(data, address, read_table, relative_guard_sets=relative_guard_sets)
         tables = {row['address']:row for row in reviewed['tables']}
     edges, successors, tails = {}, {}, {}
     controls = {capstone.CS_GRP_JUMP, capstone.CS_GRP_CALL, capstone.CS_GRP_RET,
@@ -176,6 +177,8 @@ def local_body(data, address, max_frame=4096, read_table=None):
     if read_table is not None:
         result.update(internal_tables=list(tables.values()),
             table_snapshot_immutability_assumed=True, physical_table_permissions_proved=False)
+    if relative_guard_sets:
+        result['relative_guard_sets'] = True
     return result
 
 

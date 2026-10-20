@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;relative callee192 local frame conditionally qualified;formatter/fresh cold/fault/physical remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;explicit original guard proof gives conditional496/192 local frames;fresh cold/fault/whole-chain/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Conditional Formatter Guard-Set Proof
+
+- Explicit known-bound/safe-entry/cutset proof now gives formatter496/callee
+  192 local frames under ordinary ABI/immutable snapshots. Strict default
+  formatter denial stays.77/eight child sites and all whole-chain/IRQ/per-hart/
+  physical bounds/current global graph remain unproved. Entry dominance alone
+  does not establish later-loop index checks. Old31/22 fixtures stay.
+- All268 unique/286 units,31 new compiled fixtures,three mutations and54
+  synthetic guests pass;48 repeat earlier observations/six new loop cases.
+  Original isolated-prefix203 includes110 repeats/93 new alternate cases,
+  synthetic state/permissions and no case-body/complete routine/child execution.
+- Scope a2982b34/metadata cb3633b7 binds5152 paths,2377+161 readonly prior
+  files and11 exact historical bindings. Initial label/postcheck failures and
+  exact-digest intermediate reconstruction remain;no original timestamp claim.
+  Jev0.28/0.52 is retained uncertainty/false premise,not proof or approval.
+- Read GUARD_SETS.md/json. Normal INODE2522/326 passes;both actual v2 callers
+  and four old-pair fault matrices stay live. Firmware/pair/source-lock/images/
+  native limits stay. All fresh cold/fault/full setup/latest image/hot/checked
+  IRQ/RRO/physical/client gates remain;no hardware or subagents.
 
 ## 2026-10-20 - Normal INODE Pass And Relative Table Frontier
 
