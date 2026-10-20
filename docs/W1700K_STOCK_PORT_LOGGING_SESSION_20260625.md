@@ -1,8 +1,36 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (trap route bound;ECALL service denied/error child local0;both old-pair DESC10 bitmap host timeouts;optimized cold/whole-stack/physical remain open)
+Last updated: 2026-10-20 (verified cleanup/host-capacity recovery;bindings/images intact;native jobs failed or interrupted,not live;overall NPU gates remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Cleanup,Disk Compaction And Job-Status Reconciliation
+
+- Removed about24.46GB redundant expanded file data after verified archival/
+  duplicate checks;guest used-space reduction25.95GB. Standard detached-VHD
+  compaction recovered host capacity,D: free26197639168 bytes after restart.
+  First terminate-only attempt safely aborted before DiskPart because the disk
+  remained open. No format,resize,unregister,sparse-mode change or router access.
+- Preserve private C:\Users\captain\W1700K-Archives\2026-10-20-index.json
+  and dated directories.
+  Old builds/failed preparations and earlier optimized-world complete v1/partial
+  damaged v2 remain recoverable there. Original receipt paths were not rewritten.
+  Current images/non-cache build evidence,modules,v5/v6/d6 inputs,native-case
+  capsules,source/keys/calibration/recovery/original cache remain. All2736 bound
+  files/three FITs match after maintenance;independent image copies and tested
+  shallow-main backup with required boundary file are retained on C:.
+- Ten archive-guard/five cache-content fixtures pass;14776 retained symlinks
+  have no dependencies into removed targets. This is not firmware qualification.
+  Existing receipt/status observations show two DESC10 aggregate exits1,each
+  six passed case receipts/two10800s host-timeout reports;four other jobs were
+  interrupted without completed verdicts. No live/restarted native jobs. No
+  independent native trace revalidation,new image,flash,hardware or subagents.
+- Read research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md/CLEANUP.json.
+  Host AND guest capacity plus copy/cache/overlay/output margin must be checked
+  before further freezes/builds. Inspect partial runs,use fresh names,retain
+  native limits/checkpoints/hashes,and fix all four world linker aliases.
+  Full cold/latest optimized image/full setup/hot/IRQ/RRO/physical/whole-stack/
+  client gates stay open. Named-job live/pending descriptions below are superseded.
 
 ## 2026-10-20 - Original Trap Routing;DESC10 Timeout Cases Retained
 

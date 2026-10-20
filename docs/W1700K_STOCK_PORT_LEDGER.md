@@ -1,10 +1,48 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (original trap routing bound;ECALL service denied,error child local-SP0;both old-pair DESC10 bitmap host timeouts;optimized cold/full-stack/overall remain open)
+Last updated: 2026-10-20 (verified cleanup and host-capacity recovery;protected bindings/images unchanged;native jobs terminal or interrupted,not live;full NPU work remains open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Verified Cleanup And Host Storage Recovery
+
+- Archived/verified then removed 11 superseded build trees and three earlier
+  failed input preparations. Removed7548 generated q4/q5 cache duplicates only
+  after comparing retained originals. Total redundant file data about24.46GB;
+  actual guest used-space reduction25.95GB. Current module/build/image-reference/
+  native-case evidence,original download cache,source,keys,calibration,recovery
+  and current/rollback images were not removal targets. No unrelated files removed.
+- Preserve C:\Users\captain\W1700K-Archives and its dated index. Two new archives
+  have SHA9f833224/7f3834e4;earlier failed optimized-world v1/partial damaged v2
+  archivefc68f813 is relocated there too. Exact member sets,bytes,modes,ownership,
+  nanosecond mtime/overlay PAX xattrs/devices checked before removal. Old receipt
+  paths remain provenance;restore inputs on ext4 before replay,never waive hashes.
+- Guest deletion alone left D: free32522240 bytes. First terminate-only VHD
+  attempt aborted at exclusive-open guard before DiskPart. Normal VM shutdown
+  with only Ubuntu registered permitted standard compaction;post-restart D:
+  free26197639168 bytes,VHD149976776704 bytes. No format/resize/unregister/sparse
+  change. All2736 bound files/three protected FITs match after maintenance.
+- Three protected images have independent verified C: copies. The source bundle
+  alone failed a shallow-boundary clone test;with the original companion shallow
+  file,a fresh bare main0a3fb7d restore passes git fsck --full. Not full upstream
+  history or ignored device-data backup. Verification clone was removed. Ten
+  archive-guard/five cache-content fixture tests pass;14776 retained-tree symlinks
+  show no dependencies into removal targets. These are cleanup,not NPU tests.
+- Reconciled existing native status:both old-pair DESC10 aggregates exited1,
+  each six passed individual receipts/two10800s host-timeout reports. Twelve
+  passed case receipts/four reported timeouts are not aggregate qualification.
+  Four other jobs were interrupted without completed verdicts during host-full
+  outage. No jobs remain live or were restarted. No independent native trace
+  regrading,image build,hardware,flash or subagents. Read the cleanup REPORT.md/
+  CLEANUP.json;Jev scope judgments are not byte proof or firmware acceptance.
+- Before another freeze/build budget BOTH backing Windows volume and guest
+  capacity for snapshots/private cache/overlay/output plus margin. Preserve and
+  inspect partial runs,use new names,and include four logical linker aliases
+  in fresh optimized world inputs. Full cold/fault/latest optimized image/full
+  setup/hot/IRQ/RRO/physical/whole-stack/client gates remain. This supersedes
+  older pending/live statements for the named jobs,not historical proof scopes.
 
 ## 2026-10-20 - Original Trap Routing And Retained DESC10 Timeouts
 

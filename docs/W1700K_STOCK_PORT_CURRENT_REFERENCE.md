@@ -1,5 +1,33 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Verified Cleanup And Recovered Host Capacity
+
+Read research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md and CLEANUP.json.
+About24.46GB redundant file data was removed after archive/content checks;
+guest allocation fell25.95GB. Offline VHD compaction restored about26.2GB free
+on Windows D:. First terminate-only attempt stopped before compaction because
+the disk remained open;normal VM shutdown with only Ubuntu registered succeeded.
+No format,resize,unregister or sparse-mode change. Ubuntu and all2736 saved
+bindings/three protected images pass post-maintenance byte checks.
+
+Private C:\Users\captain\W1700K-Archives holds verified removed-tree archives,
+the earlier failed world-copy archive,three image copies and a restored/fsck-
+checked shallow main backup. The bundle needs its shallow-boundary companion;
+not complete upstream history or ignored device backups. Preserve the index.
+Recorded old paths are provenance,not live/replay-ready files. Current q4/q5
+images/non-cache evidence,late-reader modules,v5/v6/d6 inputs and native-case
+capsules remain;only verified duplicate q4/q5 download files were removed.
+
+Supersedes older live/pending job statements:both old-pair DESC10 aggregates
+exited1 with six passed case receipts/two10800s host-timeout reports each. Four
+other jobs were interrupted without completed verdicts. This status observation
+is not independent native trace revalidation. No native runs,image build,hardware,
+flash or subagents occurred for cleanup. Full cold/latest optimized image/full
+setup/hot/IRQ/RRO/physical/whole-stack/client gates stay. Before fresh runs inspect
+partial outputs,use new names,and budget BOTH Windows backing volume and guest
+capacity. New world freeze must include all four linker aliases;no hash/limit/
+checkpoint waivers. Source-lock,pair,firmware and saved-image contents stay.
+
 ## 2026-10-20 - Trap Routing Bound;ECALL Service Still Denied
 
 Read original-irq/TRAP_ROUTING.md/json. Exact current/original boot fragment

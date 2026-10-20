@@ -1,0 +1,426 @@
+{
+  "recorded_at_UTC": "2026-10-20T15:47:09.188378+00:00",
+  "scope": "Verified project cleanup and host-storage recovery only; no new NPU/runtime/hardware qualification.",
+  "source_commit_before_cleanup": "0a3fb7def409ca8678dfce262196efffdeb8d15a",
+  "canonical_project": "/home/captain/W1700KNPU",
+  "removed": {
+    "regular_file_bytes": 24461438221,
+    "expanded_builds": {
+      "group": "obsolete-builds",
+      "recorded_at_UTC": "2026-10-20T15:27:24.006121+00:00",
+      "removed_roots": [
+        ".local/npu-isolated-world/world-probe-q1",
+        ".local/npu-isolated-world/world-current-probe-q1",
+        ".local/npu-isolated-world/world-build-q1",
+        ".local/npu-isolated-world/world-build-q2",
+        ".local/npu-isolated-world/world-build-q3",
+        ".local/npu-current-provider-module/current-f9-q1",
+        ".local/npu-current-provider-module/rx-event-export-q1",
+        ".local/npu-current-mt76-modules/current-f9-q1",
+        ".local/npu-current-mt76-modules/rx-event-export-q1",
+        ".local/npu-current-mt76-modules/rx-event-export-q2",
+        ".local/npu-current-mt76-modules/rx-event-export-q3"
+      ],
+      "all_roots_absent": true,
+      "archive_sha256": "9f833224ca11f403672de7d6866db28b75f909394cb50b2e5d6213acc7cead9f",
+      "archived_bytes": 6942784092,
+      "original_regular_file_bytes": 17791075032,
+      "original_allocated_bytes": 19235233792,
+      "pax_xattrs_nanosecond_mtime_device_nodes_verified": true,
+      "host_VHD_compaction_not_performed": true,
+      "protected_source_build_images_backups_untouched": true
+    },
+    "failed_input_preparations": {
+      "group": "obsolete-world-inputs",
+      "recorded_at_UTC": "2026-10-20T15:32:21.756442+00:00",
+      "removed_roots": [
+        ".local/npu-validation-capsules/world-main-40d-v2",
+        ".local/npu-validation-capsules/world-main-40d-v3",
+        ".local/npu-validation-capsules/world-main-40d-v4"
+      ],
+      "all_roots_absent": true,
+      "archive_sha256": "7f3834e4a402d27f0fa1e8f0ee3ffe86195f11ae6abd4a689dd2e7663a272c90",
+      "archived_bytes": 1277148963,
+      "original_regular_file_bytes": 1812213719,
+      "original_allocated_bytes": 1833598976,
+      "pax_xattrs_nanosecond_mtime_device_nodes_verified": true,
+      "host_VHD_compaction_not_performed": true,
+      "protected_source_build_images_backups_untouched": true
+    },
+    "duplicate_caches": {
+      "recorded_at_UTC": "2026-10-20T15:31:58.484298+00:00",
+      "removed_duplicate_files": 7548,
+      "duplicate_file_bytes": 4858149470,
+      "not_selected": 0,
+      "original_files_content_metadata_unchanged": true,
+      "protected_images_not_selected": true,
+      "host_compaction_not_performed": true,
+      "manifest_sha256": "f3531af070819c0dd74bac0c6fb161cb4387778e0a056db780082693630df4a5",
+      "journal_sha256": "5a3ad18fad1c51df980635dd47c84d0fd008203c39ae1c9beb568d0e0ae1ce67"
+    }
+  },
+  "storage": {
+    "D_free_bytes_before": 32522240,
+    "D_free_bytes_after_guest_cleanup": 32522240,
+    "D_free_bytes_after_compaction_restart": 26197639168,
+    "D_free_bytes_increase": 26165116928,
+    "guest_used_bytes_before": 168075083776,
+    "guest_used_bytes_after_cleanup": 142125989888,
+    "guest_bytes_recovered": 25949093888,
+    "VHD_bytes_before": 176141893632,
+    "VHD_bytes_after_restart": 149976776704,
+    "compaction": {
+      "recorded_at_UTC": "2026-10-20T15:35:44.1939615Z",
+      "scope": "Normal WSL VM shutdown with only Ubuntu registered, then compact only its detached existing VHD; no format, resize, unregister, or sparse-mode change.",
+      "path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+      "diskpart_script_sha256": "eccb3884bc302e5b6a74db155a15bd923d244e8bfe897f279fe4de999f68c87f",
+      "vhd_bytes_before": 175972024320,
+      "D_free_bytes_before": 202391552,
+      "success": true,
+      "exclusive_open_attempts": 1,
+      "diskpart_exit_code": 0,
+      "diskpart_reported_success": true,
+      "vhd_bytes_after": 149930639360,
+      "D_free_bytes_after": 26243776512,
+      "ubuntu_restart_exit_code": 0,
+      "finished_at_UTC": "2026-10-20T15:38:31.7039332Z"
+    },
+    "initial_busy_VHD_attempt": {
+      "recorded_at_UTC": "2026-10-20T15:33:55.6886962Z",
+      "scope": "Compact only the detached existing Ubuntu VHD; no format, resize, unregister, or sparse-mode change.",
+      "path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+      "diskpart_script_sha256": "eccb3884bc302e5b6a74db155a15bd923d244e8bfe897f279fe4de999f68c87f",
+      "vhd_bytes_before": 176141893632,
+      "D_free_bytes_before": 32522240,
+      "success": false,
+      "error": "Exception calling \"Open\" with \"4\" argument(s): \"The process cannot access the file 'D:\\WSL\\Ubuntu\\ext4.vhdx' because it is being used by another process.\"",
+      "ubuntu_restart_exit_code": 0,
+      "finished_at_UTC": "2026-10-20T15:34:02.7493546Z"
+    },
+    "fstrim_output": "/: 18.1 GiB (19433127936 bytes) trimmed",
+    "guest_limit_not_host_capacity": true
+  },
+  "archives": {
+    "cleanup_root_windows": "C:\\Users\\captain\\W1700K-Archives\\2026-10-20-cleanup",
+    "prior_storage_recovery_root_windows": "C:\\Users\\captain\\W1700K-Archives\\2026-10-20-storage-recovery",
+    "index_windows": "C:\\Users\\captain\\W1700K-Archives\\2026-10-20-index.json",
+    "index_sha256": "9c8349987b1a98520442a573c7afdc25a77191841ff4d503610409354d17a2be",
+    "cleanup_archives": [
+      {
+        "name": "obsolete-builds.tar.gz",
+        "sha256": "9f833224ca11f403672de7d6866db28b75f909394cb50b2e5d6213acc7cead9f",
+        "bytes": 6942784092,
+        "original_roots": [
+          ".local/npu-isolated-world/world-probe-q1",
+          ".local/npu-isolated-world/world-current-probe-q1",
+          ".local/npu-isolated-world/world-build-q1",
+          ".local/npu-isolated-world/world-build-q2",
+          ".local/npu-isolated-world/world-build-q3",
+          ".local/npu-current-provider-module/current-f9-q1",
+          ".local/npu-current-provider-module/rx-event-export-q1",
+          ".local/npu-current-mt76-modules/current-f9-q1",
+          ".local/npu-current-mt76-modules/rx-event-export-q1",
+          ".local/npu-current-mt76-modules/rx-event-export-q2",
+          ".local/npu-current-mt76-modules/rx-event-export-q3"
+        ],
+        "entries": 579422
+      },
+      {
+        "name": "obsolete-world-inputs.tar.gz",
+        "sha256": "7f3834e4a402d27f0fa1e8f0ee3ffe86195f11ae6abd4a689dd2e7663a272c90",
+        "bytes": 1277148963,
+        "original_roots": [
+          ".local/npu-validation-capsules/world-main-40d-v2",
+          ".local/npu-validation-capsules/world-main-40d-v3",
+          ".local/npu-validation-capsules/world-main-40d-v4"
+        ],
+        "entries": 8182
+      }
+    ],
+    "earlier_failed_world_copies": {
+      "archive": "generated-world-inputs-v1-v2.tar",
+      "sha256": "fc68f813c6fb192f318595634334ac34b2056dee9ce5e9a9c36e8f14c4b8648a",
+      "complete_v1_and_partial_damaged_v2": true,
+      "firmware_qualified": false
+    },
+    "source_backup": {
+      "recorded_at_UTC": "2026-10-20T15:42:05.1724533Z",
+      "restored_main_commit": "0a3fb7def409ca8678dfce262196efffdeb8d15a",
+      "source_and_restored_repository_are_shallow": true,
+      "complete_upstream_history_claim": false,
+      "bundle_requires_companion_shallow_file": true,
+      "standalone_clone_attempt": {
+        "error": "Missing parent a535626eab84d3c58ebe742746e4613c092d4b6e of shallow boundary 4a5a3fe0589d34849fc8b8c53559a06db01238e6.",
+        "passed": false
+      },
+      "verified_restore": "Initialized bare repository, installed original shallow boundary before fetching bundle main, set HEAD to main, and passed git fsck --full.",
+      "fsck_passed": true,
+      "bundle_sha256": "1e7be75f84358c3318b79470c6fa2141a4bbfb8b708d065a4771e0d6a73149c9",
+      "bundle_bytes": 353277420,
+      "shallow_boundary_sha256": "aa2173daf1215cfd590db91943c1acca98f707f6e8d058038b15b9122694e35e",
+      "private_ignored_device_backups_not_included": true,
+      "verification_clone_removed": true
+    },
+    "protected_image_copies": {
+      "passed": true,
+      "recorded_at_UTC": "2026-10-20T15:20:29.5043237Z",
+      "images": [
+        {
+          "source": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.build\\merged-openwrt\\bin\\targets\\airoha\\an7581\\openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+          "copy": "C:\\Users\\captain\\.codex\\tmp\\w1700k-cleanup-20261020\\protected-images\\978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f.itb",
+          "sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+          "bytes": 26997578
+        },
+        {
+          "source": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-isolated-world\\world-build-q4\\build-upper\\bin\\targets\\airoha\\an7581\\openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+          "copy": "C:\\Users\\captain\\.codex\\tmp\\w1700k-cleanup-20261020\\protected-images\\a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46.itb",
+          "sha256": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+          "bytes": 27009866
+        },
+        {
+          "source": "\\\\wsl.localhost\\Ubuntu\\home\\captain\\W1700KNPU\\.local\\npu-isolated-world\\world-build-q5\\build-upper\\bin\\targets\\airoha\\an7581\\openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+          "copy": "C:\\Users\\captain\\.codex\\tmp\\w1700k-cleanup-20261020\\protected-images\\633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1.itb",
+          "sha256": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1",
+          "bytes": 27009866
+        }
+      ],
+      "source_images_unmodified": true
+    }
+  },
+  "integrity": {
+    "protected_after_compaction": {
+      "passed": true,
+      "recorded_at_UTC": "2026-10-20T15:39:59.489879+00:00",
+      "scope": "Saved checkpoint bindings and protected images; not new native/runtime proof.",
+      "HEAD": "0a3fb7def409ca8678dfce262196efffdeb8d15a",
+      "tracked_source_clean": true,
+      "bound_files": 2736,
+      "scopes": {
+        ".local/npu-original-irq-20261017/memset-entry-scope-q1.json": "aab7c913bf3d4e2ffceed672beedc7afcbeeb118102efbece6174d979c44e6b1",
+        ".local/npu-original-irq-20261017/trap-routing-scope-q1.json": "35393cef13c267de23f20dad8921fd86a33e0eca17129924a55fff31a35714e5"
+      },
+      "protected_images": {
+        ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+        ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+        ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1"
+      },
+      "hardware": false,
+      "mount": "/dev/sdd rw,relatime,discard,errors=remount-ro,data=ordered"
+    },
+    "retained_links": {
+      "recorded_at_UTC": "2026-10-20T15:28:46.538218+00:00",
+      "scope": "Retained build/cache/image-reference tree symlinks versus cleanup roots only; not all symlinks valid.",
+      "roots": [
+        ".build/merged-openwrt",
+        ".build/openwrt/dl",
+        ".local/npu-current-provider-module/late-readers-q1",
+        ".local/npu-current-mt76-modules/late-readers-q1",
+        ".local/npu-isolated-world/world-build-q4",
+        ".local/npu-isolated-world/world-build-q5",
+        ".local/npu-validation-capsules/world-main-40d-v5",
+        ".local/npu-validation-capsules/world-main-40d-v6",
+        ".local/npu-validation-capsules/world-current-d6-v1"
+      ],
+      "links_examined": 14776,
+      "dependencies_into_cleanup_targets": [],
+      "existing_unresolved_links": [],
+      "passed": true
+    },
+    "source_backups_keys_calibration_images_not_cleanup_targets": true
+  },
+  "verification": {
+    "archive_guard_fixture_tests_passed": 10,
+    "duplicate_cache_fixture_tests_passed": 5,
+    "native_firmware_tests_run": false,
+    "independent_native_trace_revalidation": false
+  },
+  "native_status": {
+    "recorded_at_UTC": "2026-10-20T15:13:35.579463+00:00",
+    "scope": "Existing receipt/status observations only; no independent trace revalidation or new native execution.",
+    "continuity_note_sha256": "ffd9976a89809759fe41f29e7874de844e5989d9c0bc0b1cddaaa5a209a45212",
+    "DESC10_matrices": [
+      {
+        "profile": "default",
+        "aggregate_returncode": 1,
+        "aggregate_passed": false,
+        "execution_record": ".local/npu-validation-capsules/reader-controls-v1/desc10-default-q1.execution.json",
+        "execution_sha256": "c2398ef75ce3686829f0c267d46f7be1e3aba2add458713bb38b65cfba4687a8",
+        "passed_case_receipts": {
+          "claim-fault": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/claim-fault/result.json",
+            "sha256": "b32ea3e80d99cdbeebaa65877c2c87d4cb83edd750c1b4a93c0c52359012f403"
+          },
+          "denied": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/denied/result.json",
+            "sha256": "c06eb965e5c5cf1f284859bfa7fdb8c5f114961e181f502d06479f5879a7ac10"
+          },
+          "denied-skb19": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/denied-skb19/result.json",
+            "sha256": "be4536dd438a586db6f89113e1c8be5d774c40cd1dc4d6d5722cb16fa925d4e1"
+          },
+          "head-changed": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/head-changed/result.json",
+            "sha256": "f911d95d0198973d027a9c2dae745319414f74618a2c8a5ce738221992c3195b"
+          },
+          "partial-pool": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/partial-pool/result.json",
+            "sha256": "99cf7c554fc9f07629b4fbcf18b798531b07d20e5a2a422c95ab3f4c6ef51219"
+          },
+          "release-fault": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-default-q1/release-fault/result.json",
+            "sha256": "b94b060b7e218b31df8c13fa7666ee3627fa40b989896d856ecc28628d74d737"
+          }
+        },
+        "no_completed_case_receipt": [
+          "before-ready-bitmap",
+          "before-ready-plan"
+        ],
+        "host_timeout_reports": [
+          "before-ready-bitmap",
+          "before-ready-plan"
+        ],
+        "host_timeout_seconds": 10800,
+        "timeout_report_source": "saved live-tool observations in INTERRUPTION.json"
+      },
+      {
+        "profile": "hif2",
+        "aggregate_returncode": 1,
+        "aggregate_passed": false,
+        "execution_record": ".local/npu-validation-capsules/reader-controls-v1/desc10-hif2-q1.execution.json",
+        "execution_sha256": "b79c898134a7724974414a5d7a0488c8f1e9fb538243cd66390a2db953403cfb",
+        "passed_case_receipts": {
+          "claim-fault": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/claim-fault/result.json",
+            "sha256": "2e026d2632cc861277078e398eda92371ed71b70b39c72b0106e998361d3b63c"
+          },
+          "denied": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/denied/result.json",
+            "sha256": "2c5230877a3371531f97b1c75172ec7d04ea13a70afce948a4be0059d70e5ee6"
+          },
+          "denied-skb19": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/denied-skb19/result.json",
+            "sha256": "eafca075590139703ec2034eeb4625726f051e5454f06b47d56b68013b56e098"
+          },
+          "head-changed": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/head-changed/result.json",
+            "sha256": "63c856571c4e74addf069c82a134cf3a882b0637e007dc698265fe385137dea1"
+          },
+          "partial-pool": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/partial-pool/result.json",
+            "sha256": "e23971573bc5fac184439932cfbcd681fe2efb15b88bbb0872e5ab5fad27b382"
+          },
+          "release-fault": {
+            "path": ".local/npu-validation-capsules/reader-controls-v1/root/.local/npu-reader-controls-20261020/desc10-hif2-q1/release-fault/result.json",
+            "sha256": "3cdeec22048a3f5de7b46105858885374e398cc3e8658a54d146350d9b434b82"
+          }
+        },
+        "no_completed_case_receipt": [
+          "before-ready-bitmap",
+          "before-ready-plan"
+        ],
+        "host_timeout_reports": [
+          "before-ready-bitmap",
+          "before-ready-plan"
+        ],
+        "host_timeout_seconds": 10800,
+        "timeout_report_source": "saved live-tool observations in INTERRUPTION.json"
+      }
+    ],
+    "interrupted_without_completed_verdict": [
+      {
+        "exec_session": 89899,
+        "returncode": 1,
+        "role": "optimized default original cold caller",
+        "output_name": "snapshot-caller-q2"
+      },
+      {
+        "exec_session": 23459,
+        "returncode": 1,
+        "role": "optimized HIF2 original cold caller",
+        "output_name": "snapshot-caller-hif2-q2"
+      },
+      {
+        "exec_session": 11754,
+        "returncode": 1,
+        "role": "old-pair default tail fault matrix",
+        "output_name": "tail-default-q1"
+      },
+      {
+        "exec_session": 91179,
+        "returncode": 1,
+        "role": "old-pair HIF2 tail fault matrix",
+        "output_name": "tail-hif2-q1"
+      }
+    ],
+    "current_capsule_execution_processes": 0,
+    "native_jobs_restarted": false,
+    "native_limits_changed": false,
+    "source_or_saved_receipts_modified": false,
+    "hardware": false
+  },
+  "typesafe": {
+    "pre": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "preserves_failure_provenance": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "keeps_protected_scope": {
+          "type": "noul",
+          "noul": 0.93
+        },
+        "claims_host_space_from_guest_delete": {
+          "type": "noul",
+          "noul": 0.04
+        }
+      },
+      "usage": {
+        "input_tokens": 772,
+        "output_tokens": 68
+      }
+    },
+    "post": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "summary_scope_supported": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "full_upstream_history_established": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "latest_optimized_image_established": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "failure_provenance_preserved": {
+          "type": "noul",
+          "noul": 0.87
+        }
+      },
+      "usage": {
+        "input_tokens": 903,
+        "output_tokens": 92
+      }
+    },
+    "role": "Semantic scope/claim checks, not byte proof, permission, code generation or hardware acceptance."
+  },
+  "receipt_sha256": {
+    "obsolete-builds.cleaned.json": "650957f09ad67ee4716072ccf959a50e80c23df5525ab4d8e4e3c7cd3ed3751b",
+    "obsolete-world-inputs.cleaned.json": "d5f407cd9747e3a6236014b320d34cc8098ed8b5f25114729af921a0ade3a984",
+    "duplicate-caches.cleaned.json": "f232bee34c982e12293aef7cba082e80d6b270f11d42cb1b28da3b3da28dba56",
+    "protected-after-compaction.json": "bb36c32c552a87038e61dc0df8cf54b76fcee484ca77c5c47cf1f376bb5052ef",
+    "source-backup.verified.json": "f5940da7129142fff5982cac0e296a7f015713cfb2e093cc69e796d46ccc2c67",
+    "native-status-observed.json": "88d4f20a18c79774d94e0cf197aed8e652738ec9c308d6ab19b5064c63b4d52d",
+    "compaction-shutdown-result.json": "d696e53749f3d6d2ab16e36291d336cc08a25b9bb42bf577df082d67f3da6494",
+    "retained-links-audit.json": "d082a4589d81372e8c060abad2b01ecba5fc99662dc128341459b6f62694fc77"
+  },
+  "private_archives_published": false,
+  "source_code_or_firmware_changed": false,
+  "image_built_or_flashed": false,
+  "hardware": false,
+  "subagents": false,
+  "full_NPU_objective_complete": false
+}

@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-20 - Workspace Cleanup And Recovery
+
+Removed about24.46GB of redundant expanded files, preserving verified private
+archives and original cache inputs. Offline WSL disk compaction recovered host
+capacity;Windows D: now has about26.2GB free. The source bindings and three saved
+images still match. Archives and recovery instructions are under
+`C:\Users\captain\W1700K-Archives`;they are protected,not temporary cleanup targets.
+See the [cleanup receipt](research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md).
+
+No native validation jobs are running. Both old-pair DESC10 aggregates failed;
+four other jobs were interrupted without completed verdicts during the storage
+outage. This supersedes older running/pending job descriptions below. No new
+image,firmware qualification,flash or hardware acceptance follows from cleanup.
+
 ## 2026-10-20 - Original Local Stack Progress
 
 Of64 selected original routines,63 now have conditional local results.
@@ -14,16 +28,17 @@ qualifies local SP0.299 unique tests and66/four isolated dispatcher/vector
 prefixes pass;see the [trap checkpoint](research/checkpoints/2026-10-17-npu-original-irq/TRAP_ROUTING.md).
 Actual trap delivery and the ECALL ABI remain unqualified. Earlier4992 finite whole-routine
 emulations are a separate [execution result](research/checkpoints/2026-10-17-npu-original-irq/MEMSET_EXECUTION.md).
-The INODE model passes;optimized cold callers still run. Both old-pair DESC10
-bitmap cases hit their unchanged host timeout;aggregate fault verdicts are
-pending. Latest image/full setup and the full project remain in progress.
+The INODE model passes;optimized cold callers were later interrupted without
+completed verdicts. Both old-pair DESC10 aggregates exited1 with two host-timeout
+reports each. Latest image/full setup and the full project remain incomplete.
 Historical strict-profile denials stay.
 
 ## 2026-10-20 - INODE Model Passes;Cold Qualification Continues
 
 The normal compiled RV32 INODE regression now passes2522 calls/326 controls,
 including both full1036-effect projections. Fresh original default/HIF2 cold
-callers are still running. The built `633b4d71` image predates the optimization.
+callers were interrupted during the storage outage,not accepted or still live.
+The built `633b4d71` image predates the optimization.
 See the [INODE checkpoint](research/checkpoints/2026-10-20-npu-inode-plan/REPORT.md).
 
 One original relative-table routine now has a conditional192-byte local-frame

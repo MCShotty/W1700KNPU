@@ -1,5 +1,30 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Verified Cleanup And Storage Recovery
+
+- Read research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md and CLEANUP.json.
+  Removed redundant expanded builds/failed preparations and byte-identical private
+  download-cache copies. About24.46GB file data/25.95GB guest allocation recovered;
+  standard offline VHD compaction restored about26.2GB free on Windows D:.
+- Protect C:\Users\captain\W1700K-Archives and its dated index. It now holds the
+  only preserved copies of removed trees and earlier failed world-input snapshots,
+  not disposable temporary files. Original receipt paths are provenance;restore
+  archived inputs on Linux ext4 before any replay. Never waive missing hashes.
+- Current build,current module trees,v5/v6/d6 image-reference inputs,native-case
+  evidence,source,keys,calibration,recovery and original download cache remain.
+  All2736 bound files/three protected FITs match after maintenance. Additional C:
+  image copies and restored/fsck-verified shallow main backup are preserved.
+  That source bundle requires its companion shallow file,not full upstream history.
+- Supersedes older live-job statements:both old-pair DESC10 aggregates exited1,
+  each with six passed case receipts/two10800s host-timeout reports. Four other
+  jobs were interrupted without completed verdicts. No native trace revalidation,
+  image build,hardware,flash or subagents occurred for cleanup;no jobs restarted.
+- Before another freeze/build check Windows backing-volume capacity AND guest
+  capacity,budgeting copies/cache/overlay/output plus margin. Inspect interrupted
+  outputs and use new run names. New optimized world inputs still need all four
+  logical linker aliases. Full cold/latest optimized image/full setup/hot/IRQ/RRO/
+  physical/whole-stack/client gates remain;native limits/checkpoints stay.
+
 ## 2026-10-20 - Original Trap Route Does Not Qualify ECALL Service
 
 - Read original-irq/TRAP_ROUTING.md/json. Exact current/original boot fragment

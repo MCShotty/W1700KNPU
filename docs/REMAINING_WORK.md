@@ -1,5 +1,29 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Storage Recovered;Native Work Must Resume Fresh
+
+Verified cleanup removed about24.46GB of redundant file data;guest allocation
+fell about25.95GB. Standard offline VHD compaction leaves Windows D: about26.2GB
+free. All2736 saved bindings/three protected images still match. Protect the
+private C:\Users\captain\W1700K-Archives index/archives;removed old paths now
+require restoration for replay. Current builds/modules,image-reference inputs,
+native-case capsules,original cache,keys/calibration/recovery remain protected.
+See research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md and CLEANUP.json.
+
+Both old-pair DESC10 aggregates exited1:each has six passed individual receipts
+and two10800s host-timeout reports. Four other jobs were interrupted without
+completed verdicts. None remain live;no native trace was independently regraded
+for cleanup. Earlier running/pending descriptions are superseded for these jobs.
+
+Next:inspect/preserve partial interrupted outputs,check BOTH host/guest capacity,
+and resume exact current cold/fault qualification using new run names. Freeze new
+optimized world inputs with explicit ld.lld/ld64.lld/lld-link/wasm-ld identities;
+earlier complete v1/partial damaged v2 are archived,not qualified. Budget snapshot,
+private cache,overlay/output and margin before copying. No limit/checkpoint/hash
+waivers. Latest optimized image/full setup/hot/checked IRQ/RRO/lifecycle/physical/
+whole-stack/real boot/radios/clients/performance gates remain. No jobs restarted,
+hardware or subagents during cleanup. Full project objective remains open.
+
 ## 2026-10-20 - Original ECALL Service Still Denied
 
 Current-byte trap routing now shows only mcause8000000b reaches the IRQ
