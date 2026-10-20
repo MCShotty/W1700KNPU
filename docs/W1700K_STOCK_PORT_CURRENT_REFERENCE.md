@@ -1,5 +1,32 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Exact Original Computed Entry Conditional
+
+Read original-irq/MEMSET_ENTRY.md/json. Selected64-body combined profiles now
+63 conditional local/one denied17086. Exact103aa profile checks55 instructions/
+168-byte carrier,two computed sites,actual guards/masks/reaching definitions/
+predecessors/cutsets and store-only suffix/link return/RA save-restore. Local
+SP0 is not a whole-chain/IRQ/per-hart/physical bound. Generic checker and old
+denials stay;Ghidra's two ranges and separately decoded gap are not rewritten.
+Three SMT lemmas/two SAT controls,1344 core bit mutations,15 proof-state
+controls and292 unique/310 units pass,no skips. Solver unknown/wrong results,
+assertion removal and missing/ambiguous loaded library fail closed.
+
+Scopeaab7c913 rehashes2706 paths/one external compiler,2451 readonly prior/
+58 solver files;metadata5094d371/proof24687e04. Initial preflight/schema
+failures and exact sources remain. Unmodified pinned public Newlib source
+compiles to exact168 bytes,not vendor date/compiler/full-origin proof. Jev
+source-date confidence0.56 stays,not approval. Earlier4992 finite guests are
+separate. Exact entry,valid ordinary return,immutable code,owned accessible
+nonwrapping data/no async faults remain assumptions. No general memory-fill/
+termination/current global graph/ECALL ABI/whole-stack/device acceptance.
+
+ECALL17086 handler/error170fa remain unreviewed. Both actual optimized v2
+callers/four old-pair matrices stay live;normal INODE2522/326 passes. Latest
+image/full cold/fault/full setup/hot/IRQ/RRO/physical/client gates stay.
+Firmware/pair/source-lock/three FITs/native budgets/checkpoints stay;no
+hardware or subagents. This supersedes exact-profile103aa denial below only.
+
 ## 2026-10-20 - Original Memory Routine Finite Execution
 
 Maintained103aa entry-to-return emulation passes4992 finite cases/four separate

@@ -1,5 +1,32 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Original Memory Computed Entry Qualified Conditionally
+
+- Read original-irq/MEMSET_ENTRY.md/json. Separate exact-artifact profile
+  checks55 instructions/168 bytes,three known unsigned/masked bounds and
+  every prefix predecessor/cutset. Nonlinking103e0 has16 SB/return entries;
+  linking10440 has15 SB entries,checked store-only suffix/return10444 and
+  incoming RA save/restore. Local SP0 is conditional,not a whole-stack bound.
+- Three Z3 bitvector lemmas/two SAT counterexamples,1344 direct-core bit
+  mutations,15 proof-intermediate controls and292 unique/310 units pass.
+  Unknown/wrong solver results,disabled assertions and missing/ambiguous
+  mapped solver fail closed. Generic checker/old denials stay. No arbitrary
+  indirect-call summary or fabricated contiguous Ghidra function.
+- Selected64-body combined profiles now63 local/one denied17086. ECALL ABI/
+  handler/error170fa stay unreviewed. No current global graph/whole-chain/
+  IRQ/per-hart/physical/general memory-fill/termination proof. Exact entry,
+  valid ordinary return,immutable code,owned nonwrapping data/no async faults
+  remain assumptions. Earlier4992 finite guests are separate,not rerun here.
+- Unmodified pinned public Newlib source compiles to exact168 bytes;not
+  vendor date/compiler/whole-firmware origin proof. Scopeaab7c913 rehashes
+  2706 paths/one external compiler,2451 readonly prior/58 solver files;
+  metadata5094d371/proof24687e04. Preflight/schema failures/exact sources and
+  Jev source-date confidence0.56 stay,not approval. Private bytes stay local.
+- Both optimized actual callers/four old-pair matrices stay live. Firmware/
+  pair/source-lock/three FITs/budgets/checkpoints stay. Latest image/full cold/
+  faults/full setup/hot/IRQ/RRO/physical/client gates remain;no hardware or
+  subagents. This supersedes only exact-profile103aa-denied status below.
+
 ## 2026-10-20 - Whole Original Memory Routine:Finite Execution Only
 
 - Read original-irq/MEMSET_EXECUTION.md/json. Maintained original103aa entry-

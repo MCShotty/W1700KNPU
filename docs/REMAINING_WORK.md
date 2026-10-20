@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Exact Original Memory Entry Now Conditional
+
+Selected64-body combined profiles now63 conditional local results/one denied.
+The exact103aa profile checks both computed sites,55 instructions/168 bytes,
+actual bounds/masks/predecessors/cutsets and linked store-only suffix/RA
+save-return-restore. Local SP0 is not a whole-chain/IRQ/per-hart/physical
+bound. Generic checker/earlier denials stay. Three SMT lemmas/two SAT controls,
+1344 core bit mutations,15 proof-state controls and292 unique/310 units pass.
+Read MEMSET_ENTRY.md/json:scopeaab7c913/metadata5094d371/proof24687e04.
+
+Next original work includes ECALL17086 handler/ABI/error170fa,current graph
+and remaining indirect/whole-stack contracts. Exact entry/ordinary valid
+return,immutable code,owned accessible nonwrapping data/no async faults stay
+assumptions;general memory semantics/termination remain unproved. Public
+Newlib source compiles to exact168 bytes,not vendor date/compiler proof.
+Earlier4992 finite guests remain separate. Failures/exact sources preserved.
+
+Normal INODE2522/326 passes;actual v2 both-HIF callers/four old-pair matrices
+stay live. Latest optimized image/full cold/fault/full setup/hot/checked IRQ/
+RRO/lifecycle/DMA/cache/drain/recovery/real boot/radios/clients/performance
+gates stay. Firmware/pair/source-lock/images/native limits/checkpoints stay.
+No hardware or subagents. Full project objective remains active.
+
 ## 2026-10-20 - Finite Original Memory Execution Passes
 
 Original103aa now executes entry-to-return for4992 finite emulated cases on

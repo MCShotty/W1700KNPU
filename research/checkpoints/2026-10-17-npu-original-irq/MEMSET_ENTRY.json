@@ -1,0 +1,135 @@
+{
+  "passed": true,
+  "scope": "conditional-exact-original-memory-routine-computed-code-entry-and-zero-local-SP",
+  "inspected_original_bodies": 64,
+  "conditional_local_qualified_combined_profiles": 63,
+  "denied_local_bodies": 1,
+  "remaining_denied_entry": "0x84017086",
+  "remaining_unreviewed_error_child": "0x840170fa",
+  "historical_generic_and_62_of_64_receipts_unchanged": true,
+  "entry": "0x840103aa",
+  "carrier_bytes": 168,
+  "Ghidra_ranges_bytes": 106,
+  "separately_decoded_gap_bytes": 62,
+  "decoded_instructions": 55,
+  "local_SP_bytes": 0,
+  "tail_target_count": 16,
+  "linked_target_count": 15,
+  "tail_site": "0x840103e0",
+  "linked_site": "0x84010440",
+  "linked_return": "0x84010444",
+  "actual_unsigned_bounds_masks_reaching_definitions_predecessors_and_cutsets_checked": true,
+  "store_only_suffix_link_return_and_RA_save_restore_checked": true,
+  "arbitrary_indirect_call_or_external_child_summary_admitted": false,
+  "Z3_version": "5.3.1.0",
+  "SMT_bitvector_lemmas_unsat": 3,
+  "SMT_counterexample_controls_sat": 2,
+  "solver_unknown_or_wrong_results_and_optimized_assertion_removal_rejected": true,
+  "unique_units": 292,
+  "unit_executions": 310,
+  "unit_skips": 0,
+  "single_bit_core_controls": 1344,
+  "proof_intermediate_controls": 15,
+  "controls_are_not_original_guest_coverage": true,
+  "earlier_finite_original_guests_preserved": 4992,
+  "new_original_guest_executions": 0,
+  "unmodified_public_source_exact_168_byte_compilation": true,
+  "public_source_commit": "1b7c72fdcc4bde7520407d2d3364146f04fb8312",
+  "public_source_URL": "https://github.com/mirror/newlib-cygwin/blob/1b7c72fdcc4bde7520407d2d3364146f04fb8312/newlib/libc/machine/riscv/memset.S",
+  "public_source_sha256": "d19ba6175bfac8114dc828a8e4029080d0a86c926f0bf12daa3bc44550adaa62",
+  "function_sha256": "50232f532bf996f5d738050c60480fab6069d6ef4cb842cfc582170e351630c6",
+  "public_compiled_ELF_sha256": "b93d150151a497a0d02fe9d2184e6b8d5af29b7ff909129ab59e8d40665087a9",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "vendor_build_date_compiler_or_entire_firmware_origin_proved": false,
+  "readonly_prechange_files_verified": 2451,
+  "isolated_solver_files_verified": 58,
+  "preserved_preflight_failure": true,
+  "preserved_initial_metadata_schema_failure": true,
+  "original_failure_rewritten": false,
+  "assumptions": [
+    "Exact entry and ordinary valid incoming return address.",
+    "Immutable code;caller-owned accessible nonwrapping destination;no asynchronous faults or interrupts."
+  ],
+  "arbitrary_memory_fill_semantics_or_termination_proved": false,
+  "current_global_graph_requalified": false,
+  "whole_chain_IRQ_per_hart_or_physical_stack_bound_proved": false,
+  "ECALL_handler_ABI_qualified": false,
+  "source_lock_firmware_pair_images_native_budgets_and_checkpoints_unchanged": true,
+  "current_cold_callers_and_old_pair_fault_matrices_still_live": true,
+  "latest_optimized_image_or_real_boot_accepted": false,
+  "full_NPU_goal_complete": false,
+  "hardware": false,
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "conditional_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 1.0,
+          "contradicted": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "source_date": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.56,
+        "probabilities": {
+          "supported": 0.01,
+          "contradicted": 0.71,
+          "not_established": 0.28
+        }
+      },
+      "gap_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.89,
+        "probabilities": {
+          "supported": 0.93,
+          "contradicted": 0.01,
+          "not_established": 0.06
+        }
+      },
+      "unknown_solver": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.74,
+        "probabilities": {
+          "supported": 0.06,
+          "contradicted": 0.83,
+          "not_established": 0.11
+        }
+      },
+      "finite_substitution": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.97,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.98,
+          "not_established": 0.02
+        }
+      },
+      "generic_waiver": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.89,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.93,
+          "not_established": 0.07
+        }
+      }
+    },
+    "judgment_not_proof": true,
+    "source_date_confidence_056_retained_not_approval": true
+  },
+  "private_scope_sha256": "aab7c913bf3d4e2ffceed672beedc7afcbeeb118102efbece6174d979c44e6b1",
+  "input_count": 2706,
+  "external_input_count": 1,
+  "proof_receipt_sha256": "24687e0493f4f312595a131c5a54d83f6cd71fb20fe453d985471f7ec5e5f4cc",
+  "units_receipt_sha256": "2e7ce4dd6311a5b031660a2b589b4ecd3e8f32ff204b1b0d4c5d3f04107ea9e0"
+}

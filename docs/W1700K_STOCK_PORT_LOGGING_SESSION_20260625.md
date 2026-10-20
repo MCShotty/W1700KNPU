@@ -1,8 +1,32 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (original memory routine4992 finite cases/four controls pass;static computed/ECALL/full cold/fault/whole-chain/physical remain open)
+Last updated: 2026-10-20 (exact original computed-entry/local-SP0 passes;selected63/64 conditional local;ECALL/full cold/fault/whole-stack/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Exact Original Memory Computed Entry
+
+- Separate exact-artifact103aa profile qualifies two computed sites with
+  actual guards/masks/reaching definitions/predecessors/cutsets,55 decoded
+  instructions and checked SB-only suffix/link return/RA save-restore. Local
+  SP0 is conditional. Generic checker/old denials and Ghidra's two ranges
+  remain. Selected64-body combined profiles now63 local/one denied17086;
+  ECALL ABI/handler/error170fa and current global/whole-stack/physical stay.
+- Three SMT lemmas/two SAT counterexamples,1344 direct-core bit controls,
+  15 proof-state controls and292 unique/310 units pass. Solver unknown/wrong
+  results,assertion removal and ambiguous/missing loaded library reject.
+  Earlier4992 finite guests are separate,not rerun or used as static proof.
+  Exact entry,ordinary valid return,immutable code,owned accessible nonwrapping
+  data/no async faults stay assumptions;memory semantics/termination unproved.
+- Public unmodified pinned Newlib source compiles to exact168 bytes,not
+  vendor date/compiler/full-firmware origin proof. Scopeaab7c913 binds2706
+  paths/one external compiler,2451 readonly prior/58 solver files;metadata
+  5094d371/proof24687e04. Exact preflight/schema failures remain. Jev0.56
+  source-date confidence retained,not proof. Read MEMSET_ENTRY.md/json.
+- Normal INODE2522/326 passes;actual v2 callers/four old-pair fault matrices
+  stay live. Firmware/pair/source-lock/images/native budgets/checkpoints stay.
+  Full cold/fault/latest image/full setup/hot/IRQ/RRO/lifecycle/physical/real
+  boot/client gates remain;no hardware or subagents. Full objective is open.
 
 ## 2026-10-20 - Finite Whole Original Memory Execution
 

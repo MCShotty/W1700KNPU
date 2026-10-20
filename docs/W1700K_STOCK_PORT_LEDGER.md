@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (original memory routine4992 finite cases/four controls pass;static computed/ECALL contracts and full cold/fault/whole-chain/overall project remain open)
+Last updated: 2026-10-20 (exact original memory computed-entry/local-SP0 profile passes;selected63/64 conditional local;ECALL/full cold/fault/whole-stack/overall remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Conditional Original Memory Computed Entry
+
+- Separate exact-artifact profile checks55 decoded instructions/168 bytes,
+  three known unsigned/masked bounds,reaching definitions,all predecessors/
+  cutsets. Nonlinking103e0 resolves16 SB/return entries;linking10440 resolves
+  15 SB entries and checked store-only suffix/return10444. Incoming RA save/
+  restore and local SP0 checked. No opaque ABI call/target allowlist/generic
+  checker weakening or fabricated contiguous Ghidra function. Exact two
+  Ghidra ranges/62-byte separately decoded gap stay. Historical denials stay.
+- Three32-bit SMT lemmas/two expected SAT counterexamples,all1344 single-bit
+  direct-core mutations and15 injected proof-state controls pass. Unknown/
+  wrong solver results,disabled assertions and missing/ambiguous mapped
+  library reject. All292 unique/310 units,no skips,pass. Controls are not
+  original guest coverage;earlier4992 finite guests remain separate/unchanged.
+- Combined selected64-body profiles now63 conditional local/one denied17086;
+  ECALL handler/ABI/error170fa still unreviewed. Whole-chain/IRQ/per-hart/
+  physical bounds,current global graph,general memory-fill and termination
+  unproved. Exact entry/valid ordinary return/immutable code/caller-owned
+  accessible nonwrapping destination/no async faults remain assumptions.
+- Pinned unmodified public Newlib source compiles to exact168 bytes,source
+  d19ba617/function50232f53/ELFb93d1501. Compiler412bbe8c/linker6a65863a are
+  identity checks,not vendor compiler/date/full-firmware-origin proof. No raw
+  blobs/source caches/private receipts published. Read MEMSET_ENTRY.md/json.
+- Scopeaab7c913 binds2706 paths/one external compiler,2451 readonly prior/58
+  solver files. Metadata5094d371/proof24687e04/units2e7ce4dd. Exact failed
+  preflight and metadata-schema sources remain;no receipts relabeled. Jev
+  source-date confidence0.56 retained,not mathematical proof or approval.
+- Firmware/pair/source-lock/three FITs/native budgets/checkpoints rehash
+  unchanged. Normal INODE2522/326 passes;actual v2 both-HIF callers/four old-
+  pair matrices stay live. Latest optimized image/full cold/fault/full setup/
+  hot/checked IRQ/RRO/physical/real boot/client gates stay;no hardware or
+  subagents. Full objective stays open. Only exact-profile103aa status below
+  is superseded;the generic/historical denials remain valid in their scopes.
 
 ## 2026-10-20 - Whole Original Memory Routine Finite Execution
 

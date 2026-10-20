@@ -2,16 +2,17 @@
 
 ## 2026-10-20 - Original Local Stack Progress
 
-Of64 inspected original routines,62 now pass conditional local-body checks.
-The ECALL and computed-entry memory contracts remain denied,not assumed safe.
-This is not a whole IRQ stack or hardware bound.280 unique tests pass; see the
-[child-frontier checkpoint](research/checkpoints/2026-10-17-npu-original-irq/CHILD_FRONTIER.md).
-The original memory routine separately passes4992 finite whole-routine
-emulations and four mutated-guest controls; see the
-[execution checkpoint](research/checkpoints/2026-10-17-npu-original-irq/MEMSET_EXECUTION.md).
-That does not clear its static computed-entry contract or prove hardware behavior.
-The INODE model passes; fresh cold/fault validation and the full project remain
-in progress. The earlier strict-profile formatter denial remains valid.
+Of64 selected original routines,63 now have conditional local results.
+An exact-artifact profile qualifies the original memory routine's computed
+entries and zero local SP use;the generic checker remains strict.292 unique
+tests,1344 bit mutations and15 proof-state controls pass;see the
+[computed-entry checkpoint](research/checkpoints/2026-10-17-npu-original-irq/MEMSET_ENTRY.md).
+Unmodified public Newlib source compiles to its exact168 bytes. That is not
+a vendor-build-date,whole-NPU/IRQ-stack or hardware proof. The ECALL handler/
+ABI and error child remain unreviewed. Earlier4992 finite whole-routine
+emulations are a separate [execution result](research/checkpoints/2026-10-17-npu-original-irq/MEMSET_EXECUTION.md).
+The INODE model passes;fresh cold/fault validation,latest optimized image and
+the full project remain in progress. Historical strict-profile denials stay.
 
 ## 2026-10-20 - INODE Model Passes;Cold Qualification Continues
 
