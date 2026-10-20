@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "scope": "conditional-current-original-trap-routing-not-ECALL-service-or-whole-IRQ-bound",
+  "current_CODE_sha256": "658c9c329b34945ba196f60bafc09a81ed6f5f15011d15f632d8594f3c632392",
+  "original_CODE_sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+  "vector_entry": "0x84006894",
+  "vector_bytes": 164,
+  "vector_sha256": "73881438ca95cc77108c128fb52851d28e3b2c2fa0dbe9ce0040b76be448d0d2",
+  "dispatcher_entry": "0x84004230",
+  "dispatcher_bytes": 268,
+  "dispatcher_sha256": "b02bf5e3d458f00f44b5c6ea6597d318bf7af3a5556b18db1210e4f3bd1bd2af",
+  "error_child_entry": "0x840170fa",
+  "error_child_bytes": 8,
+  "error_child_local_SP_bytes": 0,
+  "error_child_loaded_pointer_or_errno_identity_and_memory_validity_not_proved": true,
+  "boot_mtvec_fragment_address": "0x84004388",
+  "boot_mtvec_fragment_sha256": "856defe0c36f23c5c0792e6008e880d44ab87d7fb30e17aa126287d8af85e387",
+  "boot_fragment_defines_vector": "0x84006894",
+  "all_hart_runtime_vector_installation_not_proved": true,
+  "machine_external_interrupt_branch_only_mcause": "0x8000000b",
+  "synchronous_ECALL_causes8_9_11_enter_diagnostic_prefix": true,
+  "diagnostic_in_body_CFG_cannot_reach_IRQ_or_normal_return": true,
+  "diagnostic_self_loop": "0x84004318",
+  "ordinary_logger_return_edges_assumed_for_static_CFG": true,
+  "logger_calls_memory_safety_and_completion_not_proved": true,
+  "dispatcher_prefix_original_guests": 66,
+  "vector_prefix_original_guests": 4,
+  "separate_mutated_guest_controls": 2,
+  "earlier_same70_prefix_observations_exactly_retained": true,
+  "repeat_guests_not_additional_unique_coverage": true,
+  "all32_GPR_PC_MSTATUS_ordered_stack_writes_no_reads_and_full_protected_bytes_checked": true,
+  "no_child_call_callback_return_or_ECALL_delivery_injected": true,
+  "solver_branch_lemmas_unsat": 2,
+  "weakened_sign_check_counterexample_sat": 1,
+  "unique_units": 299,
+  "unit_executions": 317,
+  "unit_skips": 0,
+  "original_ECALL_parent_still_denied": true,
+  "generic_trap_veneer_denial_retained": true,
+  "selected64_body63_conditional_local_status_unchanged": true,
+  "ECALL_service_ABI_or_return_equivalence_proved": false,
+  "global_graph_or_whole_chain_IRQ_per_hart_physical_bound_proved": false,
+  "instruction_limit_per_isolated_guest": 500,
+  "timeout_us_per_isolated_guest": 1000000,
+  "original_constructor_limits_or_checkpoints_changed": false,
+  "actual_trap_delivery_or_complete_handler_or_device_execution": false,
+  "actual_optimized_callers_still_live": true,
+  "old_pair_DESC10_bitmap_host_timeouts_both_profiles_observed": true,
+  "old_pair_fault_matrices_aggregate_verdict_pending": true,
+  "source_lock_firmware_pair_saved_images_unchanged": true,
+  "hardware": false,
+  "full_NPU_goal_complete": false,
+  "Ghidra": {
+    "version": "12.1.2",
+    "read_only_no_analysis": true,
+    "old_mapped_CODE_not_current_global_graph": true
+  },
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "whole_trap": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.99,
+          "not_established": 0.01
+        }
+      },
+      "original_coverage": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.99,
+          "contradicted": 0.0,
+          "not_established": 0.01
+        }
+      },
+      "error_ABI": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.43,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.38,
+          "not_established": 0.62
+        }
+      },
+      "hardware": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.82,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.88,
+          "not_established": 0.12
+        }
+      },
+      "error_child_role": {
+        "type": "choice",
+        "choice": "pointer_lookup",
+        "confidence": 1.0,
+        "probabilities": {
+          "pointer_lookup": 1.0,
+          "allocate_heap": 0.0,
+          "IRQ_delivery": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "judgment_not_proof": true,
+    "error_ABI_not_established_confidence043_retained": true
+  },
+  "private_scope_sha256": "35393cef13c267de23f20dad8921fd86a33e0eca17129924a55fff31a35714e5",
+  "input_count": 2735,
+  "external_input_count": 1,
+  "historical_exact_source_binding_count": 1,
+  "prefix_receipt_sha256": "6fef0034a253a1bd05bf9a7f6da3f123b0522c8648fef6a6fac1a57fb072d628",
+  "units_receipt_sha256": "f45ddb8ade2d3570e54cdeacddfe21da841a92490758c0280995f73d75add3fa"
+}

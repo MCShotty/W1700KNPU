@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Original Trap Route Does Not Qualify ECALL Service
+
+- Read original-irq/TRAP_ROUTING.md/json. Exact current/original boot fragment
+  defines MTVEC6894;164-byte vector calls268-byte dispatcher4230. Only
+  mcause8000000b selects IRQ431a. Standard synchronous8/9/11 enter4258
+  diagnostic path;its in-body CFG has no normal return/IRQ edge and loops
+  at4318 under ordinary external-call-return assumptions. No actual trap
+  delivery/all-hart privilege/vector or logger completion proof.
+- ECALL17086 remains denied. Error170fa is now separately reviewed as an
+  eight-byte GP-relative load/return with conditional local SP0;loaded pointer/
+  errno identity/service ABI unproved. Selected64/63 count stays. Generic
+  vector/MRET denial stays;do not replace it with RET or fake a syscall.
+- Two SMT lemmas/one SAT control,66 dispatcher/four vector isolated original
+  prefixes,two separately modified guest controls and299 unique/317 units
+  pass. All32 GPR/PC/MSTATUS/ordered stack writes/no reads/full protected
+  bytes checked before reset. Stops precede child calls;not complete handlers.
+  Previous70 observations match;exact earlier source is digest reconstruction,
+  not original timestamp/replay. Scope35393cef binds2735 paths/one external
+  compiler;metadata6f372992/prefix6fef0034. Jev error-ABI confidence0.43 stays.
+- Both old-pair before-ready-bitmap DESC10 cases reported10800s host timeouts;
+  preserve them,not aggregate passes. Observation36b3ae0b/exact logs retained.
+  Remaining matrix verdicts/current optimized callers stay live. Firmware/
+  pair/source-lock/images/native limits/checkpoints stay. Latest image/full
+  cold/fault/full setup/hot/IRQ/RRO/physical/client gates remain;no hardware
+  or subagents. Only the earlier error-child-unreviewed status is superseded.
+
 ## 2026-10-20 - Original Memory Computed Entry Qualified Conditionally
 
 - Read original-irq/MEMSET_ENTRY.md/json. Separate exact-artifact profile

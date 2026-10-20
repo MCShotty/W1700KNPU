@@ -1,8 +1,32 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (exact original computed-entry/local-SP0 passes;selected63/64 conditional local;ECALL/full cold/fault/whole-stack/physical remain open)
+Last updated: 2026-10-20 (trap route bound;ECALL service denied/error child local0;both old-pair DESC10 bitmap host timeouts;optimized cold/whole-stack/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Original Trap Routing;DESC10 Timeout Cases Retained
+
+- Exact current/original/Ghidra vector6894/164 bytes,dispatcher4230/268 and
+  error170fa/eight bytes bind. Original boot fragment sets MTVEC6894. Only
+  cause8000000b selects IRQ;standard synchronous8/9/11 select diagnostics.
+  In-body CFG has no normal return/IRQ edge and loops4318 under ordinary
+  child-return assumptions. ECALL17086 service/return remains denied;no
+  physical delivery/all-hart privilege/vector/logger-completion proof.
+- Error170fa separately qualifies local SP0,not pointer validity/errno
+  identity/parent ABI. Selected64/63 count and generic MRET denial stay.
+  Two SMT lemmas/one SAT control,66 dispatcher/four vector isolated original
+  prefixes/two mutated guests and299 unique/317 units pass. Exact registers/
+  status/stack effects/protected bytes checked before reset. No child call/
+  full handler/actual ECALL executes. Earlier70 observations match;source
+  recovery is exact-digest reconstruction,not original timestamp/replay.
+- Scope35393cef binds2735 paths/one external compiler;metadata6f372992/
+  prefix6fef0034. Jev error-ABI confidence0.43 retained,not proof. Read
+  TRAP_ROUTING.md/json. Both old-pair bitmap DESC10 cases report unchanged
+  10800s host timeouts;observation36b3ae0b/exact logs retained. Aggregate
+  matrix verdicts pending,not passes. Optimized actual callers/old-pair tail
+  jobs stay live. Firmware/pair/source-lock/images/native budgets/checkpoints
+  stay. Latest image/full setup/hot/IRQ/RRO/physical/client gates remain;
+  no hardware or subagents. Full project objective remains active.
 
 ## 2026-10-20 - Exact Original Memory Computed Entry
 

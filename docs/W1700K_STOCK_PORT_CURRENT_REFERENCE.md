@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Trap Routing Bound;ECALL Service Still Denied
+
+Read original-irq/TRAP_ROUTING.md/json. Exact current/original boot fragment
+sets MTVEC6894;164-byte vector calls268-byte dispatcher4230. Only cause
+8000000b selects IRQ431a;standard synchronous8/9/11 enter diagnostic4258.
+Its in-body CFG has no normal return/IRQ edge and self-loops4318 under
+ordinary external-call-return assumptions. No all-hart privilege/delegation/
+delivery or logger completion proof. ECALL parent17086 stays denied. Error
+170fa now separately qualifies local SP0,not pointer validity/errno identity/
+service ABI. Selected64/63 count and generic MRET denial stay unchanged.
+
+66 dispatcher/four vector isolated original prefixes,two mutated guests,
+two SMT lemmas/one SAT control and299 unique/317 units pass. Exact all32
+GPR/PC/MSTATUS,ordered stack writes/no reads/full protected bytes checked
+before reset. Stops precede actual child calls;no full handler/trap delivery.
+Previous70 observations match;exact earlier source is digest reconstruction,
+not original timestamp/replay. Scope35393cef verifies2735 paths/one external
+compiler;metadata6f372992/prefix6fef0034. Jev error-ABI confidence0.43 retained.
+
+Both old-pair DESC10 before-ready-bitmap cases reported10800s host timeouts,
+not passes;exact observed reports/logs36b3ae0b retained. Aggregate matrix
+verdicts pending;optimized callers/old-pair tail jobs stay live. Firmware/
+source-lock/pair/images/native budgets/checkpoints stay. Latest image/full
+cold/fault/full setup/hot/IRQ/RRO/physical/client gates remain;no hardware or
+subagents. This supersedes only earlier unreviewed-error-child status.
+
 ## 2026-10-20 - Exact Original Computed Entry Conditional
 
 Read original-irq/MEMSET_ENTRY.md/json. Selected64-body combined profiles now

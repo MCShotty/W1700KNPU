@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Original ECALL Service Still Denied
+
+Current-byte trap routing now shows only mcause8000000b reaches the IRQ
+branch;standard synchronous8/9/11 select the diagnostic prefix. The in-body
+diagnostic CFG cannot reach the normal return/IRQ branch,under ordinary
+external-call-return assumptions. Boot fragment/vector/dispatcher are byte-
+bound,not a proof of all-hart trap delivery or ECALL service. Parent17086
+stays denied. Error170fa separately qualifies local SP0;pointer validity/
+errno identity/ABI remain unproved. Selected64/63 count and strict MRET deny
+stay. See TRAP_ROUTING.md/json,scope35393cef/metadata6f372992/prefix6fef0034.
+
+66 dispatcher/four vector original isolated prefixes,two mutated guests,
+two SMT lemmas/one SAT control and299 unique/317 units pass. No full handler/
+child call/actual ECALL delivery executes. Earlier70 observations match;
+source recovery is exact-digest reconstruction,not original timestamp/replay.
+
+Both old-pair DESC10 bitmap cases reported unchanged10800s host timeouts;
+aggregate matrix verdicts remain pending. Optimized actual cold callers/
+old-pair tail matrices stay live. Finish exact scopes without limit/hash/
+checkpoint waivers. Latest optimized image/full setup/hot/checked IRQ/RRO/
+lifecycle/DMA/cache/drain/recovery/whole-stack/real boot/client gates remain.
+No firmware/hardware/subagents. Full project objective stays active.
+
 ## 2026-10-20 - Exact Original Memory Entry Now Conditional
 
 Selected64-body combined profiles now63 conditional local results/one denied.

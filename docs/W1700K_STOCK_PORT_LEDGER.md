@@ -1,10 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (exact original memory computed-entry/local-SP0 profile passes;selected63/64 conditional local;ECALL/full cold/fault/whole-stack/overall remain open)
+Last updated: 2026-10-20 (original trap routing bound;ECALL service denied,error child local-SP0;both old-pair DESC10 bitmap host timeouts;optimized cold/full-stack/overall remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Original Trap Routing And Retained DESC10 Timeouts
+
+- Read-only/no-analysis Ghidra12.1.2 binds vector6894/164 bytes,dispatcher
+  4230/268 bytes and error170fa/eight bytes to original/current CODE. Exact
+  original boot fragment4388 defines6894 and writes MTVEC. Older full
+  mappeda6813d39/imported7599be46 identities stay;not current global graph.
+- Only cause8000000b reaches IRQ431a. Standard synchronous8/9/11 enter
+  diagnostic4258. Static in-body CFG cannot reach normal return/IRQ branch
+  and has self-loop4318,under ordinary external-call-return assumptions.
+  Logger completion,memory safety,all-hart privilege/delegation/vector and
+  physical trap delivery unproved. ECALL17086 service/return stays denied;
+  no syscall substitute or fake ECALL return. Generic vector/MRET deny stays.
+- Error170fa now separately passes conditional local SP0. It computes a
+  GP-relative address,loads into A0 and returns;pointer validity/errno identity/
+  parent ABI are not proved. Selected64-body63-local count stays unchanged.
+  Two SMT route lemmas/one SAT weakened-sign counterexample and66 dispatcher/
+  four vector isolated original prefixes pass. Stops are before child calls.
+  All32 GPR/PC/MSTATUS,ordered stack stores/no data reads/full protected bytes
+  match before reset. Vector prologue128 is not a whole IRQ-stack bound.
+- Two modified guests reject inverted sign/wrong IRQ number;not original
+  coverage. Earlier70 observations exactly match,not140 unique executions.
+  Earlier source recovered to its recorded digest/read-only,not claimed
+  original timestamp/replay. All299 unique/317 units pass,no skips. Guest
+  500/1M-us limits do not change native constructor budgets/checkpoints.
+- Scope35393cef verifies2735 paths/one external compiler;metadata6f372992/
+  prefix6fef0034/unitsf45ddb8a. Jev error-ABI not-established0.62/confidence
+  0.43 stays uncertain,not approval. Raw/private evidence remains local.
+- Both old-pair DESC10 before-ready-bitmap cases reported TimeoutExpired/
+  passed:false at unchanged10800s host limit. Observation36b3ae0b preserves
+  reports/exact case logs;not an aggregate matrix verdict or optimized-pair
+  failure. Remaining matrix verdicts/two optimized cold callers/two old-pair
+  tail matrices stay live. Firmware/pair/source-lock/saved FITs rehash stay.
+  Full cold/fault/latest optimized image/full setup/hot/IRQ/RRO/lifecycle/
+  physical/real boot/client/whole-stack gates remain;no hardware or subagents.
+  Full goal stays active. Earlier error-child-unreviewed-only status is superseded.
 
 ## 2026-10-20 - Conditional Original Memory Computed Entry
 
