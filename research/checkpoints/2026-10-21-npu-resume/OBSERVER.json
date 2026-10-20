@@ -1,0 +1,200 @@
+{
+  "evidence_audited": true,
+  "scope": "host-stack-and-semantic-scope-observations-not-native-constructor-or-physical-proof",
+  "samples": 6,
+  "successful_nonblocking_dumps": 2,
+  "profiler_read_errors": 4,
+  "no_locals": true,
+  "sampled_activity": "both successful samples contain Unicorn emu_start; no dominant RV32 hotspot established",
+  "profiler_version": "py-spy 0.4.2",
+  "profiler_sha256": "9b4d1f39b2a47ae44f4c6a46f615dcc0287d7755beba5065f32391951e07d594",
+  "official_wheel": {
+    "filename": "py_spy-0.4.2-py2.py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl",
+    "url": "https://files.pythonhosted.org/packages/f9/34/dd7d3c763a00b7b965e25a5eab0acd1a345dbaf0f45fffe595278873a1c0/py_spy-0.4.2-py2.py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl",
+    "sha256": "aeb0323409199c785f730645e9f4bb7a7b9ca2c481f2c331a55642b5d13fa52f"
+  },
+  "profiler_install": "task-local-only-no-global-Python-change",
+  "guest_memory_registers_or_checkpoints_modified": false,
+  "native_limits_changed": false,
+  "host_job_control": "brief SIGTSTP/immediate bg resume of original controller group to reuse existing shell; PIDs retained",
+  "observed_wsl_client_error": "Wsl/Service/0x8007274c",
+  "memory_compaction_or_cache_drop_executed": false,
+  "memory_policy_changed": false,
+  "VM_restarted": false,
+  "semantic_checks": {
+    "jev-guard-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "both_spaces": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "readonly_probe": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "shell_scope": {
+          "type": "noul",
+          "noul": 0.9
+        },
+        "claim_reservation": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 1.0,
+          "probabilities": {
+            "supported": 0.0,
+            "contradicted": 1.0,
+            "not_established": 0.0
+          }
+        },
+        "alias_fixture_scope": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.89,
+          "probabilities": {
+            "supported": 0.0,
+            "contradicted": 0.93,
+            "not_established": 0.07
+          }
+        },
+        "report_scope": {
+          "type": "noul",
+          "noul": 0.96
+        }
+      },
+      "usage": {
+        "input_tokens": 5996,
+        "output_tokens": 167
+      },
+      "result_sha256": "8320df2bec7cc69a576fd906e3b379e0018a8db2b004f66042538790f30c7e37"
+    },
+    "jev-image-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "offline_fit": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 1.0,
+          "probabilities": {
+            "supported": 1.0,
+            "contradicted": 0.0,
+            "not_established": 0.0
+          }
+        },
+        "real_boot": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.43,
+          "probabilities": {
+            "supported": 0.0,
+            "contradicted": 0.62,
+            "not_established": 0.38
+          }
+        },
+        "complete_cold": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.86,
+          "probabilities": {
+            "supported": 0.02,
+            "contradicted": 0.91,
+            "not_established": 0.07
+          }
+        },
+        "all_faults": {
+          "type": "choice",
+          "choice": "contradicted",
+          "confidence": 0.73,
+          "probabilities": {
+            "supported": 0.0,
+            "contradicted": 0.82,
+            "not_established": 0.18
+          }
+        },
+        "derivative_scope": {
+          "type": "noul",
+          "noul": 0.95
+        },
+        "physical_scope": {
+          "type": "noul",
+          "noul": 0.98
+        },
+        "historical_guard": {
+          "type": "noul",
+          "noul": 0.94
+        }
+      },
+      "usage": {
+        "input_tokens": 4591,
+        "output_tokens": 243
+      },
+      "result_sha256": "71fd6ef610b778ca201a46bb59af3f43886582204e06c3aa63ac208b0c24ee18"
+    },
+    "jev-stacks-q1": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "default_route": {
+          "type": "choice",
+          "choice": "emulation",
+          "confidence": 1.0,
+          "probabilities": {
+            "emulation": 1.0,
+            "oracle": 0.0,
+            "file_hashing": 0.0,
+            "serialization": 0.0,
+            "waiting": 0.0,
+            "unknown": 0.0
+          }
+        },
+        "hif2_route": {
+          "type": "choice",
+          "choice": "emulation",
+          "confidence": 1.0,
+          "probabilities": {
+            "emulation": 1.0,
+            "oracle": 0.0,
+            "file_hashing": 0.0,
+            "serialization": 0.0,
+            "waiting": 0.0,
+            "unknown": 0.0
+          }
+        },
+        "error_origin": {
+          "type": "choice",
+          "choice": "host_profiler",
+          "confidence": 1.0,
+          "probabilities": {
+            "host_profiler": 1.0,
+            "guest_guard": 0.0,
+            "physical_router": 0.0,
+            "unknown": 0.0
+          }
+        },
+        "rv32_hotspot": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "completed_desc10": {
+          "type": "noul",
+          "noul": 0.03
+        }
+      },
+      "usage": {
+        "input_tokens": 3136,
+        "output_tokens": 223
+      },
+      "result_sha256": "1f0c9db3c2e1cb4fa09f2d3344225a660186060f2f0da558aa438f92128d69c2"
+    }
+  },
+  "interpretation": [
+    "Nonblocking profiler read failures are not guest-memory or physical-router fault verdicts.",
+    "Jev image boot-claim classification has confidence0.43; no actual boot test exists, not evidence the image cannot boot.",
+    "The image check was completed before the later fresh nominal callers; scope flags retain that chronology.",
+    "Limits are per engine invocation between existing progress checkpoints, not an entire constructor or physical timing bound."
+  ],
+  "native_caller_status_at_observation": "both running full DESC10 after all TXBUF phases and RX-event; no final verdict",
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "private_scope_sha256": "67b4acdf21c9ecefef74cf28bd708a6c41c6fa7484d81040e5e0359b2d9c654f",
+  "bound_paths": 12
+}

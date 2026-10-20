@@ -2,11 +2,14 @@
 
 ## 2026-10-21 - NPU Work Resuming
 
-Interrupted inputs and partial outputs still match their saved hashes;none is
-counted as a completed cold-boot result. A new tested capacity guard checks both
-Linux space and the actual Windows backing drive before copying or building.
-All23 focused guard/capsule tests pass. Fresh optimized image inputs/build and
-both-HIF cold qualification remain next,with the original limits intact.
+The optimized image now builds and passes offline FIT/package/ABI checks:
+Linux 6.18.52, 218 packages, 78 module checks and the exact optimized CODE/DATA.
+Image `70b3112e` and all three previous images have verified protected copies.
+A new 23-test capacity guard covers Linux and Windows backing-drive budgets.
+Fresh default/HIF2 original nominal cold callers are still running full DESC10,
+after all six TX-buffer phases and RX-event; they are not yet accepted.
+Full fault, setup, hot-path, IRQ, physical, boot and client gates remain open.
+No flash or hardware access.
 See the [resume checkpoint](research/checkpoints/2026-10-21-npu-resume/REPORT.md).
 
 ## 2026-10-20 - Workspace Cleanup And Recovery

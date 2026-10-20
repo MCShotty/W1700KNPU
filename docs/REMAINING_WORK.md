@@ -1,6 +1,6 @@
 # Remaining W1700K Work
 
-## 2026-10-21 - Guard Ready;Fresh Qualification Still Required
+## 2026-10-21 - Optimized Offline Image Passed;Nominal Callers Running
 
 Interrupted-input/partial-output inspection is complete:5051 frozen bindings
 rehash across four interrupted jobs;no partial verdict is promoted. The new
@@ -9,11 +9,26 @@ capacity,all five byte budgets and margin before optional exact child execution.
 All23 focused tests pass. It is a point-in-time check,not a space reservation.
 Read research/checkpoints/2026-10-21-npu-resume/REPORT.md/GUARD.json.
 
-Next:freeze fresh optimized world inputs with all four explicit linker aliases,
-then qualify the offline image independently. Resume exact original both-HIF
-cold/fault jobs with fresh names and unchanged full sizes/limits/checkpoints.
-Full setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/real boot/client gates remain.
-Original execution tools,pair/source lock and protected images are unchanged.
+Fresh6260-file optimized world freeze now passes with all four logical aliases.
+Offline world-inode-q1 is terminal0/passed:Gemtek FIT70b3112e,Linux6.18.52,218
+packages/78 module ABIs,exact optimized658c9c32/3d821c93 pair. All891138 original
+build/4617 cache entries,frozen inputs and three earlier images remain unchanged.
+New image has a verified protected C: copy;WORLD.json binds the result.
+
+Next:finish/audit fresh default-hif-q3/hif2-q3 original nominal callers,currently
+running in inode-plan-caller-v2 with new resume-caller-q3/resume-caller-hif2-q3
+outputs. No verdict yet. Current full fault matrices/full setup/hot/IRQ/RRO/
+lifecycle/physical/whole-stack/real boot/client gates remain. No native limits,
+counts/checkpoints/hashes changed;no flash or hardware access.
+
+Both new nominal profiles passed all six TXBUF phases53260 stores and RX-event,
+but DESC10/caller verdicts are still pending. OBSERVER.json preserves host-only
+samples:2/6 usable,two emulators inside Unicorn,four profiler read errors. Not
+guest faults,physical timing or a dominant RV32-function proof. The controller
+was briefly job-control-stopped/immediately bg-resumed to reuse its existing
+shell after new WSL sessions timed out. Original PIDs/native limits/checkpoints
+retained;no VM restart/cache drop or memory-policy change. Do not relaunch copies
+without checking the named live processes/results first.
 
 ## 2026-10-20 - Storage Recovered;Native Work Must Resume Fresh
 

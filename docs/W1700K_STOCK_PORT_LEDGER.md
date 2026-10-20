@@ -1,6 +1,6 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (resumption guard tested;interrupted inputs/partials rehashed;fresh image/cold acceptance and full NPU work remain open)
+Last updated: 2026-10-21 (optimized offline image passes;fresh original nominal callers running;full fault/setup/physical/boot/client acceptance remains open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
@@ -8,6 +8,31 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
 
 ## 2026-10-21 - Resumption Guard And Interrupted-Run Audit
 
+- Later same-session result:clean e524b5a fresh6260-file/3.058GB freeze2cfb5301
+  preserves all four actual logical linker aliases. Private world-inode-q1
+  terminal0/passed,FIT70b3112e/27009866 bytes,exact658c9c32/3d821c93 pair,168hooks,
+  22 normal RV32 objects,Linux6.18.52,218 packages/78 module ABI checks. Gemtek
+  DTB/FIT/rootfs ownership and5 kernel/22 exported/329 mt76 sources pass.
+  Parent compares891138 original build/4617 cache entries and frozen inputs,
+  all unchanged. Three earlier protected images rehash;new verified C: copy.
+  WORLD.json21ad6bed/private scopec532abf3 binds50 derivative paths,not another
+  full-snapshot/trace regrade. Offline qualification,not module load/boot/physical.
+- Fresh nominal default-hif-q3/hif2-q3 run in unchanged caller-v2,outputs
+  resume-caller-q3/resume-caller-hif2-q3. Both enroll15 records,no final verdict.
+  Original3M/60M-us limits/full sizes/checkpoints stay. Old interrupted outputs
+  and older-pair matrices unchanged. Full fault/setup/hot/IRQ/RRO/lifecycle/
+  physical/whole-stack/actual boot/client gates remain;no hardware or subagents.
+- Later live observation:both profiles pass all6 TXBUF phases53260 stores and
+  RX-event;fresh DESC10 prefixes exist,no complete verdict. Per-engine budgets
+  between existing checkpoints,not a full-constructor/physical-time bound.
+  New WSL session timeouts persisted. Brief job-control stop/immediate bg resume
+  reused existing root shell;original PIDs continue. Task-local verified PySpy
+  produced2/6 usable nonblocking/no-locals host stacks inside Unicorn;four profiler
+  read errors are not native faults. No guest-hotspot/physical timing proof.
+  OBSERVER.json/private scope67b4acdf binds12 paths;initial metadata hash typo
+  failed closed before output,exact source/failure retained. Jev boot confidence
+  0.43 is not an observed failed boot. No restart/cache drop/memory-policy change.
+  New dated C: archive indexb934181e/image verified,older index unchanged.
 - All5051 immutable bindings across two optimized callers/two older tail jobs
   match;5948 distinct input/partial paths bound. Both optimized outputs retain
   one DESC10 snapshot/43 files each;older tail outputs402 files each. No final
@@ -24,11 +49,10 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   executable-copy fixture passes,not actual world preparation/build acceptance.
   Public GUARD.json1e53b1d3/private scope66b756d5;Jev alias-relevance0.70 stays
   uncertain,not approval. Read research/checkpoints/2026-10-21-npu-resume/REPORT.md.
-- Fresh optimized freeze/image and both-HIF full cold/fault/full setup/hot/IRQ/
-  RRO/lifecycle/physical/whole-stack/real boot/client gates remain. No native
-  execution,new image,module load,hardware,flash,radio change or subagents for
-  this checkpoint. Pair/source-lock/protected image contents and all original
-  count/time limits/checkpoints/hash gates stay unchanged.
+- The preceding guard-only phase did not execute firmware;the later image and
+  nominal-launch bullets above supersede its pending image/run description.
+  Pair/source-lock/previous protected image contents and all original count/time
+  limits/checkpoints/hash gates stay unchanged.
 
 ## 2026-10-20 - Verified Cleanup And Host Storage Recovery
 

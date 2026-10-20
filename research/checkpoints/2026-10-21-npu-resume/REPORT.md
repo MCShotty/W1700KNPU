@@ -42,11 +42,91 @@ Noul 0.09; capacity-guard relevance 0.94; proposed alias-fix relevance 0.70.
 The latter uncertainty is retained; deterministic alias/input checks, not the
 model judgment, must establish any actual freeze. Raw probabilities are private.
 
+## Optimized Offline Image
+
+Fresh `world-optimized-inode-v3` freezes 6,260 read-only inputs / 3,057,575,834
+bytes from clean main `e524b5a3011497491603cc971324acf2baebffbe`. All four
+explicit logical linker aliases pass actual input checks. Snapshot receipt
+`2cfb5301f01609110f1f522b58cc8faaddc3fed917ca5dc35922181cc21e7496`;
+postcheck `ad825d99e3dc69dec83019c0cf58433f1a6da5ade9ce819acbaa5e41673cf10d`.
+Earlier archived preparations are not restored, rewritten or retroactively passed.
+
+The private offline `world-inode-q1` build is terminal0/passed, after cleaning
+critical kernel/module and RV32 outputs. FIT SHA256:
+`70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9`
+(27,009,866 bytes). It contains the exact optimized CODE `658c9c32...` and
+DATA `3d821c93...`, 168 hooks, all 22 normal RV32 archive objects, Linux 6.18.52,
+218 packages and 78 passing module ABI checks. Required UI/Wi-Fi packages and
+firmware are checked as packaged artifacts, not rendered/client-tested features.
+FIT hashes, Gemtek W1700K DTB model/compatible, rootfs boot ownership and source
+identities pass. Five kernel patch files, 22 exported component sources and 329
+mt76 sources match the current producer references.
+
+The execution tool compares all 891,138 original build entries and 4,617 cache
+entries before/after, verifies frozen inputs before/after, and checks namespaces.
+Everything covered is unchanged. Original three protected images also rehash.
+The derivative audit binds 50 paths; it does not redundantly rehash the entire
+snapshot or independently regrade execution. See [WORLD.json](WORLD.json).
+World result `fcb5746214662fc0572d6e46812341f28fcab647bb93d6508a6b544b601a28ad`;
+private scope `c532abf38b7f0c76e57358bd41e8f6a1a342b856d486bd670ee52f9b71abc6cc`.
+
+The image is also preserved byte-identically at
+`C:\Users\captain\W1700K-Archives\2026-10-21-npu-resume\protected-images\70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9.itb`.
+Do not remove this protected copy or change the earlier archive index.
+The new separate `2026-10-21-index.json` hashes
+`b934181e53875cf81b4f384baed6b46f91e8ea9e18d0996949f894c0a918eb4a`;
+its image identity and the unchanged earlier index were checked through Windows.
+Dated indexes are preservation metadata, not additional firmware qualification.
+Windows D: had 15,379,476,480 bytes free at the post-build observation. Two read-only WSL
+client commands timed out during this work; a VMBus ring allocation warning was
+observed, but the build continued and passed. No restart or memory-policy change
+was made. This is not attributed to a firmware failure or proved OOM kill.
+
+## Original Nominal Callers
+
+Fresh tags `default-hif-q3` / `hif2-q3` are running in the unchanged
+`inode-plan-caller-v2` capsule, with new outputs `resume-caller-q3` /
+`resume-caller-hif2-q3`. Both enroll all 15 retained records. No completed verdict
+yet. The 3M-instruction / 60M-us per-engine budgets, full sizes and progress
+checkpoints stay unchanged. The parent capacity check includes output and margin;
+the two nominal jobs share its cooperative lock. Earlier interrupted runs and
+older-pair matrices are not overwritten or promoted.
+
+Both have since completed the six TX-buffer phases (53,260 original stores) and
+RX-event initialization. The saved fresh DESC10 prefixes exist, but no complete
+DESC10/caller verdict exists at this checkpoint. Limits are per engine invocation
+between the existing progress checkpoints, not a whole-constructor or physical
+timing bound. No count, checkpoint or budget waiver was introduced.
+
+## Host Observations
+
+Further new WSL sessions continued timing out. The original controller group was
+briefly job-control-stopped and immediately background-resumed to reuse its
+already-open root shell; the same original emulator PIDs continued running.
+The scheduling intervention is recorded, not hidden as an uninterrupted run.
+No VM restart, cache drop, memory compaction or persistent policy change occurred.
+Current buddy-allocation data contained free contiguous blocks, so memory controls
+were left unchanged. This transport issue is not a firmware-failure verdict.
+
+Task-local py-spy 0.4.2 matches its official PyPI wheel's binary. Six nonblocking,
+no-locals snapshots produced two successful dumps (one per emulator) and four
+profiler PyCodeObject/Bad-address read errors. Both successful samples contain
+Unicorn `emu_start`. These thin, potentially inconsistent host snapshots do not
+identify a dominant RV32 function, establish physical timing or complete DESC10.
+The profiler errors are not native guest-memory fault receipts.
+
+[OBSERVER.json](OBSERVER.json) binds the host/semantic scope observations; private
+scope `67b4acdf21c9ecefef74cf28bd708a6c41c6fa7484d81040e5e0359b2d9c654f`.
+An initial metadata helper rejected a 65-character transcribed SHA before writing
+any receipt. Its exact failed source/failure record remain; the corrected helper
+keeps the strict 64-character content comparison. No sample/native data repaired.
+Jev image-scope checks retain a low-confidence boot-claim label (0.43): no boot
+test exists, which is not evidence that the image cannot boot. Host-stack routes
+select emulation/profiler-error, not a native verdict; raw probabilities retained.
+
 ## Next
 
-Freeze newly named optimized image inputs using all four explicit linker
-identities, then qualify the offline build separately. Original both-HIF cold/
-fault acceptance still needs fresh named complete runs at unchanged budgets and
-checkpoints. Full setup/hot/checked IRQ/RRO/lifecycle/physical/whole-stack and
-real boot/client gates remain. No new native execution, image, module load,
-hardware access, radio change, flash or subagents occurred for this guard checkpoint.
+Finish and audit both fresh original nominal callers. Full current fault matrices,
+full setup/hot/checked IRQ/RRO/lifecycle/physical/whole-stack and real boot/client
+gates remain. The image is offline-qualified only: no module load, actual boot,
+hardware access, radio change, flash or subagents.

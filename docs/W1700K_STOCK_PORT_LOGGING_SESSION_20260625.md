@@ -1,11 +1,33 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (storage guard tested;interrupted inputs/partials rehashed;image/cold and overall NPU gates remain open)
+Last updated: 2026-10-21 (optimized offline image passes;fresh nominal callers running;full fault/setup/physical/boot/client gates remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
 ## 2026-10-21 - Resumption Capacity Guard And Partial-Run Preservation
 
+- Later same-session:clean e524b5a optimized6260-file freeze2cfb5301 includes
+  all four actual logical linker aliases. Offline world-inode-q1 terminal0/
+  passed,FIT70b3112e,exact optimized pair,22 normal objects,168 hooks,Linux6.18.52,
+  218 packages/78 module ABIs. Actual Gemtek FIT/DTB,ownership and5 kernel/22
+  exported/329 mt76 sources match. All891138 original build/4617 cache entries,
+  frozen inputs and three earlier images unchanged;new protected C: image copy.
+  WORLD.json21ad6bed/private scopec532abf3 binds50 derivative paths,not physical
+  acceptance or an independent full-snapshot/trace regrade.
+- Fresh default-hif-q3/hif2-q3 nominal callers running in unchanged caller-v2,
+  new resume-caller outputs. Both enroll15 records;no verdict yet. Full fault/
+  setup/hot/IRQ/RRO/physical/whole-stack/boot/client gates stay. No native limit/
+  count/checkpoint/hash changes,hardware,flash,radio change or subagents.
+- Later live status:both profiles pass6 TXBUF phases53260 stores/RX-event,
+  fresh DESC10 prefixes,no verdict. New WSL session timeouts persisted;brief
+  job-control stop/immediate bg resume reused the root shell,original PIDs remain.
+  OBSERVER.json/private scope67b4acdf binds12 paths. Two usable nonblocking/no-
+  locals host samples inside Unicorn/four profiler read errors are not native
+  faults,guest-hotspot or physical timing proof. Failed65-char metadata-hash
+  preflight/exact source retained;corrected strict content check passes.
+  Native per-engine3M/60M-us limits/checkpoints unchanged. No restart/cache drop/
+  memory-policy changes. Dated C: indexb934181e/new image verified;older index
+  unchanged. Jev boot-label confidence0.43 is not a failed physical boot test.
 - Rehashed5051 immutable bindings and5948 distinct input/partial paths for four
   interrupted jobs. Both optimized callers have DESC10 snapshots but no final
   result/execution receipt. Both older tail outputs remain partial. No evidence
@@ -18,9 +40,8 @@ Purpose: dated logging session and future-reference copy tracking what has been 
   before its child. Four explicit alias readonly-copy fixture passes.
 - Public GUARD.json1e53b1d3/private scope66b756d5 and REPORT.md under the new
   2026-10-21-npu-resume checkpoint. Original execution tools,pair,source lock and
-  protected images unchanged. Fresh optimized freeze/image and both-HIF cold/
-  fault/full setup/hot/IRQ/RRO/physical/whole-stack/client gates remain. No new
-  native,image,hardware,flash,radio change or subagents for this guard checkpoint.
+  previous protected images unchanged. This guard-only phase predates the later
+  completed image/new nominal launches above;its no-execution scope is retained.
 
 ## 2026-10-20 - Cleanup,Disk Compaction And Job-Status Reconciliation
 

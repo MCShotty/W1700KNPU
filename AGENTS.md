@@ -1,18 +1,31 @@
 # W1700KNPU Workspace
 
-## 2026-10-21 - Resumption Guard And Interrupted Inputs
+## 2026-10-21 - Optimized Offline Image And Fresh Nominal Callers
 
 - Read research/checkpoints/2026-10-21-npu-resume/REPORT.md and GUARD.json.
   All5051 frozen input bindings/four interrupted partial outputs rehash;no native
-  verdict was inferred. Prior runs remain unchanged. No jobs restarted yet.
+  verdict was inferred. Prior runs remain unchanged. Read WORLD.json too:
+  world-inode-q1 passed with image70b3112e,exact658c9c32/3d821c93 pair,Linux6.18.52,
+  218 packages/78 module ABIs. Original891138 build/4617 cache entries and frozen
+  inputs remain unchanged. New protected image copy is in the dated C: archive.
 - Use tools/npu_storage_budget.py before new copying/builds. Supply all five
   explicit byte estimates plus a new private receipt;optional command after --
   runs only when BOTH guest and actual Windows VHD backing volume fit. Keep its
   advisory lock through cooperating work. It is not a storage reservation.
 - All23 focused tests pass,including18 new guard/alias tests. Original execution
-  tools stay byte-identical. Actual optimized freeze/build and both-HIF cold/
-  faults/full setup/hot/IRQ/RRO/physical/whole-stack/client gates stay open.
+  tools stay byte-identical. Fresh default-hif-q3/hif2-q3 nominal callers are
+  running in inode-plan-caller-v2,outputs resume-caller-q3/resume-caller-hif2-q3.
+  Inspect existing status before restarting,never overwrite. No completed verdict.
+  Full fault/setup/hot/IRQ/RRO/physical/whole-stack/actual boot/client gates stay.
   No limit/checkpoint/hash waivers,hardware or subagents.
+- Both nominal runs have since passed all six TXBUF phases53260 stores and
+  RX-event;fresh DESC10 prefixes exist,no final DESC10/caller verdict. Source
+  limits are per engine invocation between unchanged existing checkpoints.
+  New WSL sessions can time out;original PIDs continue. Existing controller was
+  briefly stopped/immediately bg-resumed to reuse its root shell. OBSERVER.json
+  records2/6 usable nonblocking host dumps/four profiler read errors,not native
+  faults or a guest-hotspot verdict. No restart/cache drop/memory-policy change.
+  Preserve new C:2026-10-21-index.json/image copy without rewriting the older index.
 
 ## 2026-10-20 - Verified Cleanup And Storage Recovery
 

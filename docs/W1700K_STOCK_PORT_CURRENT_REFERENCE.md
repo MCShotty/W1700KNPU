@@ -2,6 +2,26 @@
 
 ## 2026-10-21 - Storage Guard And Interrupted-Run Identity
 
+Later same-session update:actual6260-file alias-preserving optimized freeze
+2cfb5301 passes;world-inode-q1 is terminal0/passed,FIT70b3112e/27009866 bytes.
+Exact658c9c32/3d821c93 pair,168 hooks,22 normal RV32 objects,Linux6.18.52,218
+packages/78 module ABIs,Gemtek DTB/FIT/rootfs/source checks pass. All891138
+original build/4617 cache entries,frozen inputs and three protected images stay
+unchanged. WORLD.json21ad6bed/private scopec532abf3;new protected C: image copy.
+Fresh nominal default-hif-q3/hif2-q3 are running in unchanged caller-v2 with
+new resume-caller outputs,no verdict yet. No hardware/boot acceptance follows.
+
+Later live status:both profiles passed all6 TXBUF phases53260 stores and RX-event;
+fresh DESC10 prefixes exist,no final verdict. Original controller group briefly
+job-control-stopped/immediately bg-resumed,same PIDs,to reuse its root shell while
+new WSL connections timed out. OBSERVER.json/private scope67b4acdf records two
+usable no-locals/nonblocking host samples/four profiler read errors,not native
+faults or guest-hotspot/physical-time proof. Metadata helper typo65-char hash
+rejected before output;exact failed source retained,strict corrected comparison.
+No VM restart/cache drop/compaction/persistent memory change. New dated C: archive
+indexb934181e verified;older index unchanged. Jev boot-label confidence0.43 is not
+a failed boot test. Per-engine3M/60M-us budgets/checkpoints remain unchanged.
+
 Read research/checkpoints/2026-10-21-npu-resume/REPORT.md/GUARD.json. All5051
 frozen input bindings across four interrupted jobs and5948 distinct input/
 partial paths rehash. Both optimized callers retain DESC10 snapshots,no final
@@ -14,10 +34,11 @@ or guarantee against unrelated consumption. All23 focused tests pass;live21.6GB
 budget passes and34.36GB control is denied despite guest headroom. Original
 execution tools stay unchanged. Scope66b756d5/statusa481ec62;metadata1e53b1d3.
 
-Fresh actual alias-preserving optimized freeze/image and both-HIF cold/fault/
-full setup/hot/IRQ/RRO/physical/whole-stack/client gates stay open. No native
-run,new image,module load,hardware,flash,radio change or subagents for this
-guard checkpoint;no limit/checkpoint/hash waivers.
+The earlier guard-only checkpoint did not execute firmware. The later image
+and nominal-launch status above supersedes its pending freeze/image description.
+Current full cold/fault/full setup/hot/IRQ/RRO/physical/whole-stack/client gates
+stay. No module load,actual boot,hardware,flash,radio change,subagents or native
+limit/checkpoint/hash waivers.
 
 ## 2026-10-20 - Verified Cleanup And Recovered Host Capacity
 

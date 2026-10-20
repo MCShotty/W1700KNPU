@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "scope": "offline-optimized-FIT-package-ABI-and-source-identity-not-boot-or-native-acceptance",
+  "source_commit": "e524b5a3011497491603cc971324acf2baebffbe",
+  "tracked_dirty": false,
+  "snapshot_files": 6260,
+  "snapshot_bytes": 3057575834,
+  "snapshot_sha256": "2cfb5301f01609110f1f522b58cc8faaddc3fed917ca5dc35922181cc21e7496",
+  "world_result_sha256": "fcb5746214662fc0572d6e46812341f28fcab647bb93d6508a6b544b601a28ad",
+  "image_sha256": "70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9",
+  "image_bytes": 27009866,
+  "image_model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "image_compatible": "gemtek,w1700k-ubi airoha,an7581 airoha,en7581",
+  "kernel": "6.18.52~f98de6b195852764a24492a3802e6ef7-r1",
+  "packages": 218,
+  "module_abi_checks": 78,
+  "normal_rv32_objects": 22,
+  "checked_pair_sha256": {
+    "code": "658c9c329b34945ba196f60bafc09a81ed6f5f15011d15f632d8594f3c632392",
+    "data": "3d821c93e8d298d57dee941b3b05e748551b527c3beb6c70b28d15c748e329a4"
+  },
+  "checked_pair_hooks": 168,
+  "prepared_sources": {
+    "kernel_patch_files": 5,
+    "component_sources": 22,
+    "mt76_source_files": 329
+  },
+  "original_build_entries": 891138,
+  "original_cache_entries": 4617,
+  "original_build_and_cache_unchanged": true,
+  "original_execution_tools_unchanged": true,
+  "all_frozen_inputs_rechecked_by_world_runner": true,
+  "derivative_rehashes_entire_snapshot_again": false,
+  "three_prior_protected_images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+    ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1"
+  },
+  "preserved_copy": {
+    "path": "/mnt/c/Users/captain/W1700K-Archives/2026-10-21-npu-resume/protected-images/70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9.itb",
+    "sha256": "70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9"
+  },
+  "capacity_after": {
+    "observed_unix_ns": 1792535836817048212,
+    "project": "/home/captain/W1700KNPU",
+    "filesystem": "ext4",
+    "distro": "Ubuntu",
+    "host": {
+      "distro": "Ubuntu",
+      "vhd_path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+      "vhd_bytes": 160794935296,
+      "drive": "D",
+      "free_bytes": 15379476480,
+      "total_bytes": 256059109376
+    },
+    "guest": {
+      "free_bytes": 872289153024,
+      "total_bytes": 1081101176832
+    },
+    "writable_ext4": true
+  },
+  "native_cold_qualified": false,
+  "full_setup": false,
+  "module_loaded": false,
+  "booted": false,
+  "physical_acceptance": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "private_scope_sha256": "c532abf38b7f0c76e57358bd41e8f6a1a342b856d486bd670ee52f9b71abc6cc",
+  "bound_paths": 50
+}
