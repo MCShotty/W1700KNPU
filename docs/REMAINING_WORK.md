@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Current Qualification And Original Switch Frontier
+
+The normal-object INODE RV32 model now passes2522 calls/326 controls/both
+full1036 projections. Its original500M/30M-us model bounds and188/4372 ABI
+stay;NATIVE_MODEL.json548c1494/private774deaf2 rehash66 paths. This does not
+bind original store sites or qualify a cold caller. Actual v2 default/HIF2
+callers and four old-pair fault matrices remain live. Finish their exact scopes,
+then current-pair fault/stage1/new24/full setup and a latest-code image.
+
+Original0x840183b2 now qualifies its15-entry relative table and192-byte local
+frame under explicit snapshot/ABI assumptions. Formatter0x840107ca still denies
+three alternate prefix entries;qualify them without weakening guards. All249
+unique/267 unit executions,24 synthetic and110 isolated original-prefix guests
+pass in their own scopes. No complete routine/child/whole-stack/IRQ/per-hart/
+physical proof or global graph requalification. Read RELATIVE_SWITCHES.md/json.
+
+All hot TX/RX/event-body,checked IRQ/quarantine/rearm,RRO,lifecycle/DMA/cache/
+drain/recovery and real Gemtek boot/radios/clients/performance/stability gates
+remain. No hardware or subagents. The full project objective is not complete.
+Older running-normal-model and both-unknown-switch descriptions are superseded.
+
 ## 2026-10-20 - INODE Snapshot Candidate
 
 Full-plan snapshot checks are implemented with full geometry/owner checks

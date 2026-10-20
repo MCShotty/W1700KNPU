@@ -1,0 +1,330 @@
+{
+  "format": "synthetic-rv32-relative-switch-fixtures-v1",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "source_sha256": "52158d0fea82d3387c654406a6b535ffb9c577d4e9262c99535be3ecfc180591",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--discard-none,--image-base=0x0,-Ttext=0x10000,--section-start=.rodata=0x20000,-e,case_basic",
+    "/home/captain/W1700KNPU/tests/npu/fixtures/relative_switch.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/relative-switch-q4.elf"
+  ],
+  "synthetic_only": true,
+  "no_router_firmware_bytes": true,
+  "programs": {
+    "basic": {
+      "address": 65536,
+      "program_hex": "0100aa870d476363f70297060100938666ff8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131072,
+      "table_hex": "1c00ffff2000ffff2400ffff2800ffff",
+      "labels": {
+        "upper": 65546,
+        "table": 131072,
+        "case0": 65564,
+        "case1": 65568,
+        "case2": 65572,
+        "case3": 65576
+      }
+    },
+    "bound_alias": {
+      "address": 65584,
+      "program_hex": "0100aa878d4663e3f60297060100938666fd8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131088,
+      "table_hex": "3c00ffff4000ffff4400ffff4800ffff",
+      "labels": {
+        "upper": 65594,
+        "table": 131088,
+        "case0": 65612,
+        "case1": 65616,
+        "case2": 65620,
+        "case3": 65624
+      }
+    },
+    "biased": {
+      "address": 65632,
+      "program_hex": "01000d47930705fe6363f70297060100938646fb8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131104,
+      "table_hex": "5e00ffff6200ffff6600ffff6a00ffff",
+      "labels": {
+        "upper": 65644,
+        "table": 131104,
+        "case0": 65662,
+        "case1": 65666,
+        "case2": 65670,
+        "case3": 65674
+      }
+    },
+    "signed_guard": {
+      "address": 65684,
+      "program_hex": "0100aa870d476343f70297060100938626f98a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131120,
+      "table_hex": "8000ffff8400ffff8800ffff8c00ffff",
+      "labels": {
+        "upper": 65694,
+        "table": 131120,
+        "case0": 65712,
+        "case1": 65716,
+        "case2": 65720,
+        "case3": 65724
+      }
+    },
+    "negative_max": {
+      "address": 65732,
+      "program_hex": "0100aa877d576363f70297060100938626f78a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131136,
+      "table_hex": "a000ffffa400ffffa800ffffac00ffff",
+      "labels": {
+        "upper": 65742,
+        "table": 131136,
+        "case0": 65760,
+        "case1": 65764,
+        "case2": 65768,
+        "case3": 65772
+      }
+    },
+    "oversized_max": {
+      "address": 65780,
+      "program_hex": "0100aa87130700406363f70297060100938606f58a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131152,
+      "table_hex": "c200ffffc600ffffca00ffffce00ffff",
+      "labels": {
+        "upper": 65792,
+        "table": 131152,
+        "case0": 65810,
+        "case1": 65814,
+        "case2": 65818,
+        "case3": 65822
+      }
+    },
+    "wrong_shift": {
+      "address": 65832,
+      "program_hex": "0100aa870d476363f702970601009386e6f28607b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131168,
+      "table_hex": "e400ffffe800ffffec00fffff000ffff",
+      "labels": {
+        "upper": 65842,
+        "table": 131168,
+        "case0": 65860,
+        "case1": 65864,
+        "case2": 65868,
+        "case3": 65872
+      }
+    },
+    "wrong_base": {
+      "address": 65880,
+      "program_hex": "0100aa870d476363f702970601009386e6f08a07b2979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131184,
+      "table_hex": "0401ffff0801ffff0c01ffff1001ffff",
+      "labels": {
+        "upper": 65890,
+        "table": 131184,
+        "case0": 65908,
+        "case1": 65912,
+        "case2": 65916,
+        "case3": 65920
+      }
+    },
+    "wrong_load": {
+      "address": 65928,
+      "program_hex": "0100aa870d476363f702970601009386e6ee8a07b697dc43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131200,
+      "table_hex": "2401ffff2801ffff2c01ffff3001ffff",
+      "labels": {
+        "upper": 65938,
+        "table": 131200,
+        "case0": 65956,
+        "case1": 65960,
+        "case2": 65964,
+        "case3": 65968
+      }
+    },
+    "wrong_post_add": {
+      "address": 65976,
+      "program_hex": "0100aa870d476363f702970601009386e6ec8a07b6979c43b2978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131216,
+      "table_hex": "4401ffff4801ffff4c01ffff5001ffff",
+      "labels": {
+        "upper": 65986,
+        "table": 131216,
+        "case0": 66004,
+        "case1": 66008,
+        "case2": 66012,
+        "case3": 66016
+      }
+    },
+    "bypass": {
+      "address": 66024,
+      "program_hex": "99c9aa870d476363f702970601009386e6ea8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131232,
+      "table_hex": "6401ffff6801ffff6c01ffff7001ffff",
+      "labels": {
+        "upper": 66034,
+        "table": 131232,
+        "case0": 66052,
+        "case1": 66056,
+        "case2": 66060,
+        "case3": 66064
+      }
+    },
+    "unreachable": {
+      "address": 66072,
+      "program_hex": "3da0aa870d476363f702970601009386e6e88a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131248,
+      "table_hex": "8401ffff8801ffff8c01ffff9001ffff",
+      "labels": {
+        "upper": 66082,
+        "table": 131248,
+        "case0": 66100,
+        "case1": 66104,
+        "case2": 66108,
+        "case3": 66112
+      }
+    },
+    "identical_guard_edges": {
+      "address": 66120,
+      "program_hex": "0100aa870d476362f700970601009386e6e68a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131264,
+      "table_hex": "a401ffffa801ffffac01ffffb001ffff",
+      "labels": {
+        "upper": 66130,
+        "table": 131264,
+        "case0": 66148,
+        "case1": 66152,
+        "case2": 66156,
+        "case3": 66160
+      }
+    },
+    "external_default": {
+      "address": 66168,
+      "program_hex": "0100aa870d47636df71a970601009386e6e48a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131280,
+      "table_hex": "c401ffffc801ffffcc01ffffd001ffff",
+      "labels": {
+        "upper": 66178,
+        "table": 131280,
+        "case0": 66196,
+        "case1": 66200,
+        "case2": 66204,
+        "case3": 66208
+      }
+    },
+    "prefix_default": {
+      "address": 66216,
+      "program_hex": "0100aa870d47e36ff7fe970601009386e6e28a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131296,
+      "table_hex": "e401ffffe801ffffec01fffff001ffff",
+      "labels": {
+        "upper": 66226,
+        "table": 131296,
+        "case0": 66244,
+        "case1": 66248,
+        "case2": 66252,
+        "case3": 66256
+      }
+    },
+    "call_not_internal": {
+      "address": 66264,
+      "program_hex": "0100aa870d476363f702970601009386e6e08a07b6979c43b6978297010001a8010031a0010021a0010011a001008280",
+      "table_address": 131312,
+      "table_hex": "0402ffff0802ffff0c02ffff1002ffff",
+      "labels": {
+        "upper": 66274,
+        "table": 131312,
+        "case0": 66292,
+        "case1": 66296,
+        "case2": 66300,
+        "case3": 66304
+      }
+    },
+    "unknown_tail": {
+      "address": 66312,
+      "program_hex": "0100aa870d476363f702970601009386e6de8a07b6979c43b6978287010009a8010039a0010029a0010019a0028601008280",
+      "table_address": 131328,
+      "table_hex": "2402ffff2802ffff2c02ffff3002ffff",
+      "labels": {
+        "upper": 66322,
+        "table": 131328,
+        "case0": 66340,
+        "case1": 66344,
+        "case2": 66348,
+        "case3": 66352
+      }
+    },
+    "trap": {
+      "address": 66364,
+      "program_hex": "0100aa870d476363f702970601009386a6dc8a07b6979c43b6978287010011a8010001a8010031a0010021a07300000001008280",
+      "table_address": 131344,
+      "table_hex": "4802ffff4c02ffff5002ffff5402ffff",
+      "labels": {
+        "upper": 66374,
+        "table": 131344,
+        "case0": 66392,
+        "case1": 66396,
+        "case2": 66400,
+        "case3": 66404
+      }
+    },
+    "unknown_call": {
+      "address": 66416,
+      "program_hex": "0100aa870d476363f70297060100938666da8a07b6979c43b6978287010009a8010039a0010029a0010019a0029601008280",
+      "table_address": 131360,
+      "table_hex": "6c02ffff7002ffff7402ffff7802ffff",
+      "labels": {
+        "upper": 66426,
+        "table": 131360,
+        "case0": 66444,
+        "case1": 66448,
+        "case2": 66452,
+        "case3": 66456
+      }
+    },
+    "framed": {
+      "address": 66468,
+      "program_hex": "4111aa870d476363f70297060100938626d88a07b6979c43b6978287010001a8010031a0010021a0010011a0010041018280",
+      "table_address": 131376,
+      "table_hex": "9002ffff9402ffff9802ffff9c02ffff",
+      "labels": {
+        "upper": 66478,
+        "table": 131376,
+        "case0": 66496,
+        "case1": 66500,
+        "case2": 66504,
+        "case3": 66508
+      }
+    },
+    "stack_leak": {
+      "address": 66520,
+      "program_hex": "0100aa870d476363f702970601009386e6d58a07b6979c43b6978287010001a8010031a0010021a0411111a001008280",
+      "table_address": 131392,
+      "table_hex": "b402ffffb802ffffbc02ffffc002ffff",
+      "labels": {
+        "upper": 66530,
+        "table": 131392,
+        "case0": 66548,
+        "case1": 66552,
+        "case2": 66556,
+        "case3": 66560
+      }
+    },
+    "stack_overrun": {
+      "address": 66568,
+      "program_hex": "0100aa870d476363f702970601009386e6d38a07b6979c43b697828706c001a8010031a0010021a0010011a001008280",
+      "table_address": 131408,
+      "table_hex": "d402ffffd802ffffdc02ffffe002ffff",
+      "labels": {
+        "upper": 66578,
+        "table": 131408,
+        "case0": 66596,
+        "case1": 66600,
+        "case2": 66604,
+        "case3": 66608
+      }
+    }
+  }
+}

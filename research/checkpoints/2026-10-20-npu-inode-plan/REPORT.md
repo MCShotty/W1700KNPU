@@ -4,6 +4,30 @@
 progress. This is not yet a successful original cold constructor or a new
 packaged image. The full NPU implementation objective remains open.
 
+## Normal RV32 Completion
+
+The normal-object regression is now terminal0/passed:2522 calls/326 controls,
+both full1036-effect projections,188-byte plan/4372-byte owner,with the original
+500M-instruction/30M-us per-invocation model limits. This is normal compiled
+core modeling,not binding to original store sites or an authenticated cold
+caller. The original-caller3M/60M-us limits remain unchanged. The4704-byte
+maximum individual frame is not a whole-chain or physical stack bound.
+
+Native receipt `0f9bd46618d932aae0198daf0dd40ed625ac192f49708c8e1054218d572bced6`
+has its exact sources/objects/binaries rehashed. `NATIVE_MODEL.json`
+`548c1494cdd145a1bba8e25993ee1c639b3c4d3e2091048617734ff2d8a78f88`
+points to the66-path private scope
+`774deaf2a5964187ccaa588ae6cdb7953f82ae18f7cf754c5ac0f657fbb29f4a`.
+The earlier partial preflight remains unchanged. An initial derivative metadata
+input-count off-by-one is preserved privately with its source; this corrected
+scope does not alter or rerun the native test.
+
+Fresh default/HIF2 nominal callers in inode-plan-caller-v2 remain live,not
+accepted. Frozen old-pair DESC10/tail matrices remain separate. A latest-code
+image and the full cold/stage1/new24/fault/full setup/hot/IRQ/physical/client
+gates are still required. Older running-normal-model descriptions below are
+historical and superseded by this section.
+
 ## Failure And Change
 
 Both preceding frozen callers failed at INODE preimage 217/1030 before an

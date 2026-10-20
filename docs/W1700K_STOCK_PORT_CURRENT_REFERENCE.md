@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Normal INODE Pass;Original Relative Switch Progress
+
+Normal-object RV32 snapshot regression is terminal0:2522 calls/326 controls,
+both full1036 projections. Its500M/30M-us model limits stay;original-caller
+3M/60M-us limits stay. NATIVE_MODEL.json548c1494/private774deaf2 binds66 paths.
+No original cold success. Both actual v2 callers and four frozen old-pair fault
+matrices remain live;their scopes are separate. A latest-code image is pending.
+
+Relative analysis now qualifies0x840183b2's15-entry/five-target table and
+192-byte local frame conditionally. Formatter0x840107ca still denies three
+alternate prefix entries.249 unique/267 unit executions,24 synthetic and110
+isolated original-prefix guests pass;no complete routine/child/whole-stack/
+IRQ/per-hart/physical bound or current global graph requalification. Read
+original-irq/RELATIVE_SWITCHES.md/json:scope c569d647 verifies2551 paths,
+including2366 readonly prior files;metadata ce6f9e3a. Old31 absolute fixtures
+and strict label contract stay. Executable-blob table immutability is assumed,
+not physical permission. Firmware/pair/source-lock/images/budgets stay;full
+cold/fault/full setup/hot/IRQ/RRO/physical/client gates remain. No hardware or
+subagents. This supersedes running-model/both-unqualified-table notes below.
+
 ## 2026-10-20 - INODE Snapshot Candidate In Main Working Source
 
 Implemented full188-byte snapshot comparison around metadata/preimage/prefix

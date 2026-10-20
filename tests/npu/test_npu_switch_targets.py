@@ -30,7 +30,73 @@ def immediate(instruction, name, count):
             and operands[-1].type == RISCV_OP_IMM)
 
 
+def relative_table_sequence(instructions, index):
+    if index < 8:
+        return None
+    jump = instructions[index]
+    if jump.mnemonic not in ('jr', 'c.jr') or not registers(jump, 1) or returned(jump):
+        return None
+    target = jump.operands[0].reg
+    guard, upper, addition, shift, combine, load, target_add = instructions[index-7:index]
+    if not (immediate(guard, 'bltu', 3) and immediate(upper, 'auipc', 2)
+            and immediate(addition, 'addi', 3) and immediate(shift, 'c.slli', 2)
+            and shift.operands[1].imm == 2 and combine.mnemonic == target_add.mnemonic == 'c.add'
+            and registers(combine, 2) and registers(target_add, 2)):
+        return None
+    operands = load.operands
+    if not (load.mnemonic == 'c.lw' and len(operands) == 3
+            and operands[0].type == operands[2].type == RISCV_OP_REG
+            and operands[1].type == RISCV_OP_IMM and operands[1].imm == 0):
+        return None
+    bound, pointer, base = guard.operands[0].reg, guard.operands[1].reg, upper.operands[0].reg
+    if not (target == pointer == shift.operands[0].reg == combine.operands[0].reg
+            == operands[0].reg == operands[2].reg == target_add.operands[0].reg
+            and base == addition.operands[0].reg == addition.operands[1].reg
+            == combine.operands[1].reg == target_add.operands[1].reg
+            and base != pointer and bound != pointer
+            and all(jump.reg_name(reg) not in ('zero', 'ra', 'sp') for reg in (bound, pointer, base))):
+        return None
+
+    def is_limit(item):
+        return ((immediate(item, 'c.li', 2) or (immediate(item, 'addi', 3)
+            and item.reg_name(item.operands[1].reg) == 'zero'))
+            and item.operands[0].reg == bound)
+
+    start = index - 8
+    limit = instructions[start]
+    if not is_limit(limit):
+        # Some compilers materialize the biased index between limit and guard.
+        bias = limit
+        if not ((immediate(bias, 'addi', 3) or immediate(bias, 'c.addi', 2))
+                and bias.operands[0].reg == pointer and start > 0):
+            return None
+        start -= 1
+        limit = instructions[start]
+        if not is_limit(limit):
+            return None
+    maximum = limit.operands[-1].imm
+    if not (0 <= maximum < 1024 and 0 <= upper.operands[1].imm < 1 << 20
+            and -2048 <= addition.operands[2].imm <= 2047):
+        return None
+    prefix = instructions[start:index+1]
+    if not all(left.address + left.size == right.address for left, right in zip(prefix, prefix[1:])):
+        return None
+    table = (upper.address + (upper.operands[1].imm << 12) + addition.operands[2].imm) & 0xffffffff
+    if table % 4 or table + 4 * (maximum + 1) > 1 << 32:
+        return None
+    return dict(address=jump.address, definition_start=limit.address, guard=guard.address,
+        guard_fallthrough=upper.address, default_target=(guard.address + guard.operands[2].imm) & 0xffffffff,
+        table_address=table, entry_count=maximum+1, load_address=load.address,
+        target_register=jump.reg_name(target), index_register=jump.reg_name(pointer),
+        table_entry_encoding='base-relative-u32',
+        prefix_addresses=[item.address for item in prefix],
+        prefix_hex=b''.join(bytes(item.bytes) for item in prefix).hex())
+
+
 def table_sequence(instructions, index):
+    relative = relative_table_sequence(instructions, index)
+    if relative is not None:
+        return relative
     jump = instructions[index]
     if jump.mnemonic not in ('jr', 'c.jr') or not registers(jump, 1) or returned(jump):
         return None
@@ -116,6 +182,8 @@ def inspect_function(data, address, read_table):
         raw = read_table(row['table_address'], row['entry_count'])
         assert isinstance(raw, bytes) and len(raw) == 4 * row['entry_count'], 'table-length-drift'
         targets = list(struct.unpack('<' + 'I' * row['entry_count'], raw))
+        if row.get('table_entry_encoding') == 'base-relative-u32':
+            targets = [(row['table_address'] + value) & 0xffffffff for value in targets]
         assert all(target in positions and target != address and target % 2 == 0 for target in targets), 'noninternal-table-target'
         assert row['default_target'] in positions and row['default_target'] != address, 'noninternal-default-target'
         assert not set(targets + [row['default_target']]).intersection(row['prefix_addresses']), 'table-target-enters-prefix'
@@ -159,7 +227,8 @@ def inspect_function(data, address, read_table):
         for left, right in zip(row['prefix_addresses'], row['prefix_addresses'][1:]):
             assert predecessors[right] == {left}, 'prefix-can-bypass-definition'
         without_safe = reachable(successors, address, (row['guard'], row['guard_fallthrough']))
-        assert not set(row['prefix_addresses'][2:]).intersection(without_safe), 'guard-safe-edge-does-not-dominate'
+        protected_prefix = row['prefix_addresses'][row['prefix_addresses'].index(row['guard']) + 1:]
+        assert not set(protected_prefix).intersection(without_safe), 'guard-safe-edge-does-not-dominate'
         row.update(control_flow_qualified=True, guard_safe_edge_dominates_load_and_jump=True,
                    same_function_only=True, interfunction_edge=False)
     return dict(tables=list(tables.values()), instruction_count=len(instructions),

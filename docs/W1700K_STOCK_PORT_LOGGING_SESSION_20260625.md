@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (INODE snapshot candidate implemented;modeled/predicate checks pass;full RV32/fresh callers/physical remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;relative callee192 local frame conditionally qualified;formatter/fresh cold/fault/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Normal INODE Pass And Relative Table Frontier
+
+- Normal-object snapshot RV32 regression terminal0/passed2522/326,both full
+  1036 projections;188/4372 ABI and500M/30M-us model limits stay. Native receipt
+  0f9bd466/scope774deaf2/metadata548c1494 binds66 paths. Original-caller budget
+  remains3M/60M-us;both fresh v2 callers and four old-pair fault matrices stay
+  live. No original cold success,new image or physical acceptance yet.
+- New relative-table/default-preserving local-SP checks qualify original
+  0x840183b2's15-entry/five-target dispatch and192-byte local frame under stated
+  assumptions. Formatter0x840107ca still rejects three alternate entries.
+  All249 unique/267 unit executions,24 synthetic/110 original isolated-prefix
+  guests pass. No complete routine/child/whole IRQ/per-hart/physical bound.
+- Relative scope c569d647/metadata ce6f9e3a verifies2551 paths/2366 prior readonly
+  files. Old31 fixtures/label rules,firmware/pair/source-lock/images/budgets stay.
+  Executable-blob snapshots do not prove physical table permissions or current
+  global graph. Initial assembly/input-count derivative mistakes are preserved.
+  Read RELATIVE_SWITCHES.md/json and NATIVE_MODEL.json. Full cold/fault/full
+  setup/hot/IRQ/RRO/physical/client gates remain;no hardware or subagents.
+  This supersedes running-model/both-unqualified-table descriptions below.
 
 ## 2026-10-20 - INODE Snapshot Candidate
 

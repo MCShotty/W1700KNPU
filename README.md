@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-20 - INODE Model Passes;Cold Qualification Continues
+
+The normal compiled RV32 INODE regression now passes2522 calls/326 controls,
+including both full1036-effect projections. Fresh original default/HIF2 cold
+callers are still running. The built `633b4d71` image predates the optimization.
+See the [INODE checkpoint](research/checkpoints/2026-10-20-npu-inode-plan/REPORT.md).
+
+One original relative-table routine now has a conditional192-byte local-frame
+analysis. The larger formatter still rejects alternate dispatch entries; neither
+result establishes a whole IRQ stack or hardware readiness. See the
+[relative-switch checkpoint](research/checkpoints/2026-10-17-npu-original-irq/RELATIVE_SWITCHES.md).
+The full NPU reverse-engineering/implementation and real-device gates remain.
+
 ## 2026-10-20 - INODE Optimization In Progress
 
 Implemented exact plan-snapshot checks to avoid repeating expensive geometry

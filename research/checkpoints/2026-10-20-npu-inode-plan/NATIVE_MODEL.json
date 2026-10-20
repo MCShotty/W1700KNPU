@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "scope": "normal-object-RV32-core-model-not-original-cold-caller",
+  "inspected_at_commit": "e13e6c72456629fb3e790efa89d82f5ddf88a782",
+  "exact_inputs_verified": true,
+  "native_receipt_sha256": "0f9bd46618d932aae0198daf0dd40ed625ac192f49708c8e1054218d572bced6",
+  "calls": 2522,
+  "controls": 326,
+  "nominal_effects_per_profile": 1036,
+  "HIF_profiles": [
+    0,
+    1
+  ],
+  "plan_bytes": 188,
+  "owner_bytes": 4372,
+  "normal_object_sha256": "ff719335f4940cab5a19d82298f033707821956f62a86861d10a0b8587e657d5",
+  "stack_probe_matches_normal_sections": true,
+  "maximum_individual_frame_bytes": 4704,
+  "native_instruction_budget_per_invocation": 500000000,
+  "native_wall_microseconds_per_invocation": 30000000,
+  "original_caller_budget_changed": false,
+  "partial_preflight_preserved": true,
+  "fresh_original_cold_constructor_qualified": false,
+  "original_store_sites_bound": false,
+  "whole_chain_or_physical_stack_bound_proved": false,
+  "full_setup": false,
+  "hardware": false,
+  "limits": [
+    "Original store sites/authenticated caller are not bound.",
+    "Identical preimage/value flags need native site execution proof; readback alone cannot distinguish a write.",
+    "Compiler frame sizes are not a full native call-chain or physical stack bound."
+  ],
+  "private_scope_sha256": "774deaf2a5964187ccaa588ae6cdb7953f82ae18f7cf754c5ac0f657fbb29f4a",
+  "input_count": 66
+}

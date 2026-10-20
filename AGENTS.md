@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Normal INODE Model Passes;Original Relative Table Progress
+
+- Normal-object RV32 snapshot regression is terminal0:2522 calls/326 controls,
+  both full1036 projections;188/4372 ABI and500M/30M-us model limits stay.
+  NATIVE_MODEL.json548c1494/private774deaf2 rehash66 paths. It is not an
+  original cold caller. Actual default/HIF2 v2 callers remain live;old-pair
+  four fault matrices remain separate. No whole-stack or hardware acceptance.
+- Relative checker now qualifies original0x840183b2's15-entry/five-target
+  table and192-byte local frame conditionally. Formatter0x840107ca still
+  denies prefix-can-bypass-definition at three alternate entries. Do not
+  waive them. All249 unique/267 unit executions and24 synthetic prefix guests
+  pass;110 isolated original-prefix guests stop before cases with synthetic
+  state. No complete original function/child/IRQ/per-hart/physical bound.
+- Read original-irq/RELATIVE_SWITCHES.md/json and inode-plan/NATIVE_MODEL.json.
+  Relative scope c569d647 verifies2551 paths/2366 readonly prior files;
+  metadata ce6f9e3a. Old31 absolute fixtures/label contract unchanged. Original
+  executable-blob tables assume immutable snapshots,not physical permissions.
+  No global graph requalification,firmware/pair/source-lock/image/budget
+  changes,hardware or subagents. Full fresh cold/fault/image/overall gates stay.
+  This supersedes running-normal-model and both-unqualified-switch summaries.
+
 ## 2026-10-20 - INODE Snapshot Candidate Under Qualification
 
 - Main working source now snapshots the full188-byte plan around metadata/

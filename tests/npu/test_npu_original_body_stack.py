@@ -75,11 +75,16 @@ def local_effect(instruction, state, edge):
     return effects(instruction, state, edge)
 
 
-def local_body(data, address, max_frame=4096):
+def local_body(data, address, max_frame=4096, read_table=None):
     assert address % 2 == 0 and 0 <= address < address + len(data) <= 0x100000000
     assert 0 < max_frame <= 0x100000 and max_frame % 16 == 0
     instructions = decode(data, address)
     positions = {i.address:i for i in instructions}
+    tables = {}
+    if read_table is not None:
+        from test_npu_switch_targets import inspect_function
+        reviewed = inspect_function(data, address, read_table)
+        tables = {row['address']:row for row in reviewed['tables']}
     edges, successors, tails = {}, {}, {}
     controls = {capstone.CS_GRP_JUMP, capstone.CS_GRP_CALL, capstone.CS_GRP_RET,
                 capstone.CS_GRP_INT, capstone.CS_GRP_IRET}
@@ -98,18 +103,22 @@ def local_body(data, address, max_frame=4096):
                 assert instruction.operands[0].type == RISCV_OP_REG and instruction.operands[0].reg == RISCV_REG_RA, 'unknown-noncall-register-flow'
             edge = dict(target=None, kind='ordinary-ABI-unresolved-call')
         elif edge is not None and edge['target'] is None:
-            raise AssertionError('unknown-noncall-register-flow')
+            assert pc in tables, 'unknown-noncall-register-flow'
+            edge = dict(target=None, kind='internal-bounded-table')
         if edge is None:
             assert not controls.intersection(instruction.groups) and name not in (
                 'ecall', 'ebreak', 'c.ebreak', 'uret', 'sret', 'mret', 'wfi', 'unimp', 'c.unimp'), 'unsupported-control-flow'
         elif 'call' not in edge['kind']:
-            target = edge['target']
-            if address <= target < address + len(data):
-                assert target in positions, 'mid-instruction-target'
-                successors[pc].add(target)
+            if edge['kind'] == 'internal-bounded-table':
+                successors[pc].update(tables[pc]['table_targets'])
             else:
-                assert edge['kind'] == 'direct-tail', 'conditional-exit-outside-body'
-                tails[pc] = target
+                target = edge['target']
+                if address <= target < address + len(data):
+                    assert target in positions, 'mid-instruction-target'
+                    successors[pc].add(target)
+                else:
+                    assert edge['kind'] == 'direct-tail', 'conditional-exit-outside-body'
+                    tails[pc] = target
         falls = edge is None or 'call' in edge['kind'] or edge['kind'] == 'conditional-direct-transfer'
         if falls:
             following = pc + instruction.size
@@ -156,7 +165,7 @@ def local_body(data, address, max_frame=4096):
                 assert updates <= 66 * len(instructions), 'local-state-convergence-bound'
     assert set(states) == set(positions), 'unreachable-or-unreviewed-body-instruction'
     assert returns or tails, 'no-reviewed-return-or-tail'
-    return dict(entry=address, bytes=len(data), instructions=len(instructions),
+    result = dict(entry=address, bytes=len(data), instructions=len(instructions),
         local_max_stack_bytes=peak, returns=sorted(returns),
         external_transfers=[transfers[pc] for pc in sorted(transfers)],
         stack_memory=[memory[pc] for pc in sorted(memory)],
@@ -164,6 +173,10 @@ def local_body(data, address, max_frame=4096):
         all_body_instructions_reached_by_conservative_CFG=True,
         reviewed_returns_and_tail_SP_balanced=True, child_frames_proved=False,
         termination_proved=False, complete_call_chain_bound_proven=False)
+    if read_table is not None:
+        result.update(internal_tables=list(tables.values()),
+            table_snapshot_immutability_assumed=True, physical_table_permissions_proved=False)
+    return result
 
 
 def audit(original, paired, export_path):

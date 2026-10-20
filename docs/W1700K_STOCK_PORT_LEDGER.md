@@ -1,10 +1,43 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (built image633b4d71 qualified separately;INODE snapshot candidate implemented and partly validated;full RV32/fresh callers/overall goal remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;one original relative local frame qualified conditionally;formatter/fresh cold/fault/overall project remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Normal INODE Completion And Original Relative Switches
+
+- Normal-object RV32 model now terminal0/passed2522 calls/326 controls,both
+  full1036-effect projections.188/4372 ABI,500M/30M-us model bounds stay.
+  Native receipt0f9bd466 is rehashed with exact inputs/binaries;66-path scope
+  774deaf2/metadata548c1494. Initial derivative input-count error/source stay
+  private;no native rerun or producing-receipt rewrite. Partial preflight stays.
+- New narrow relative-table grammar retains unsigned bounds,exact registers,
+  target starts,extent/alignment,full-prefix predecessors and guard dominance.
+  Optional local-SP reader rechecks same-body tables,not an allowed-target list.
+  Old31 absolute fixtures/strict Ghidra label contract and default SP rules stay.
+- Original0x840183b2:2876-byte body,15 words/five targets,conditional192-byte
+  local frame now qualifies. Formatter0x840107ca:7544 bytes,91 words/28 targets,
+  still rejects prefix-can-bypass-definition at0x84010a38->0x840108d2,
+  0x840110fa->0x840108ca,0x84011118->0x840108ca. No waiver.
+- All249 unique/267 unit executions,no skips,22 compiled fixtures/24 synthetic
+  prefix guests pass.110 original isolated prefixes also pass with synthetic
+  state and stops before case bodies. Registers/PC/MSTATUS/ordered reads/no
+  writes/whole protected bytes match before restoration. No complete original
+  routine or external callee executes. Initial assembly failure/source stays.
+- Scope c569d647 verifies2551 paths/2366 readonly pre-edit files;metadata
+  ce6f9e3a. Original bodies/table bytes match original/current658c9c32 CODE,
+  not a whole older-ELF/current-graph requalification. Tables are executable-
+  blob snapshots;physical permission/exclusion and child/whole-chain/IRQ/per-
+  hart/physical stack stay unproved. Jev0.93/0.88 checks are not proof;retain
+  formatter contradiction1.0 and physical contradiction0.91/confidence0.86.
+- Read original-irq/RELATIVE_SWITCHES.md/json and inode-plan/NATIVE_MODEL.json.
+  Both actual v2 cold callers and four old-pair fault jobs remain live. Firmware/
+  source-lock/raw pair/saved images/native budgets stay. Fresh current faults/
+  stage1/new24/full setup/latest image/hot/IRQ/RRO/physical/client gates remain.
+  No hardware or subagents. This supersedes earlier live-normal-model and
+  both-unqualified-switch descriptions,not the failed historical executions.
 
 ## 2026-10-20 - INODE Plan Snapshot Candidate Implemented
 
