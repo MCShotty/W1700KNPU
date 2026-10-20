@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (verified cleanup/host-capacity recovery;bindings/images intact;native jobs failed or interrupted,not live;overall NPU gates remain open)
+Last updated: 2026-10-21 (storage guard tested;interrupted inputs/partials rehashed;image/cold and overall NPU gates remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Resumption Capacity Guard And Partial-Run Preservation
+
+- Rehashed5051 immutable bindings and5948 distinct input/partial paths for four
+  interrupted jobs. Both optimized callers have DESC10 snapshots but no final
+  result/execution receipt. Both older tail outputs remain partial. No evidence
+  rewritten/regraded. Statusa481ec62 is identity evidence,not firmware execution.
+- Added separate tools/npu_storage_budget.py with actual Windows WSL2 backing-
+  volume and writable native-ext4 guest checks. All five budgets plus margin
+  must fit both. Cooperative lock and exact child argv avoid overlapping guarded
+  launches;not storage reservation or protection against unrelated consumption.
+  All23 tests pass,no skips. Live21.609GB budget passes;34.36GB control refuses
+  before its child. Four explicit alias readonly-copy fixture passes.
+- Public GUARD.json1e53b1d3/private scope66b756d5 and REPORT.md under the new
+  2026-10-21-npu-resume checkpoint. Original execution tools,pair,source lock and
+  protected images unchanged. Fresh optimized freeze/image and both-HIF cold/
+  fault/full setup/hot/IRQ/RRO/physical/whole-stack/client gates remain. No new
+  native,image,hardware,flash,radio change or subagents for this guard checkpoint.
 
 ## 2026-10-20 - Cleanup,Disk Compaction And Job-Status Reconciliation
 

@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Resumption Guard And Interrupted Inputs
+
+- Read research/checkpoints/2026-10-21-npu-resume/REPORT.md and GUARD.json.
+  All5051 frozen input bindings/four interrupted partial outputs rehash;no native
+  verdict was inferred. Prior runs remain unchanged. No jobs restarted yet.
+- Use tools/npu_storage_budget.py before new copying/builds. Supply all five
+  explicit byte estimates plus a new private receipt;optional command after --
+  runs only when BOTH guest and actual Windows VHD backing volume fit. Keep its
+  advisory lock through cooperating work. It is not a storage reservation.
+- All23 focused tests pass,including18 new guard/alias tests. Original execution
+  tools stay byte-identical. Actual optimized freeze/build and both-HIF cold/
+  faults/full setup/hot/IRQ/RRO/physical/whole-stack/client gates stay open.
+  No limit/checkpoint/hash waivers,hardware or subagents.
+
 ## 2026-10-20 - Verified Cleanup And Storage Recovery
 
 - Read research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md and CLEANUP.json.

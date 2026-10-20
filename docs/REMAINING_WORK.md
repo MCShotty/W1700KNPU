@@ -1,5 +1,20 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Guard Ready;Fresh Qualification Still Required
+
+Interrupted-input/partial-output inspection is complete:5051 frozen bindings
+rehash across four interrupted jobs;no partial verdict is promoted. The new
+tools/npu_storage_budget.py checks actual Windows VHD backing-volume AND guest
+capacity,all five byte budgets and margin before optional exact child execution.
+All23 focused tests pass. It is a point-in-time check,not a space reservation.
+Read research/checkpoints/2026-10-21-npu-resume/REPORT.md/GUARD.json.
+
+Next:freeze fresh optimized world inputs with all four explicit linker aliases,
+then qualify the offline image independently. Resume exact original both-HIF
+cold/fault jobs with fresh names and unchanged full sizes/limits/checkpoints.
+Full setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/real boot/client gates remain.
+Original execution tools,pair/source lock and protected images are unchanged.
+
 ## 2026-10-20 - Storage Recovered;Native Work Must Resume Fresh
 
 Verified cleanup removed about24.46GB of redundant file data;guest allocation

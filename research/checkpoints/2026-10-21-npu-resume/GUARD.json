@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "scope": "capacity-and-linker-alias-input-guards-not-firmware-qualification",
+  "tests_run": 23,
+  "skipped": 0,
+  "new_guard_tests": 18,
+  "existing_capsule_tests": 5,
+  "launches": [
+    {
+      "name": "storage-preflight-q2",
+      "returncode": 0,
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/captain/W1700KNPU/tools/npu_storage_budget.py",
+        "--output",
+        "/home/captain/W1700KNPU/.local/npu-resume-20261021/storage-preflight-q2.json",
+        "--snapshot-bytes",
+        "3355443200",
+        "--cache-bytes",
+        "2684354560",
+        "--overlay-bytes",
+        "10737418240",
+        "--output-bytes",
+        "536870912",
+        "--margin-bytes",
+        "4294967296",
+        "--",
+        "/usr/bin/true"
+      ],
+      "stdout": "{\"passed\": true, \"required_bytes\": 21609054208, \"remaining_after_budget_bytes\": {\"host\": 4608503808, \"guest\": 862361665536}, \"receipt\": \"/home/captain/W1700KNPU/.local/npu-resume-20261021/storage-preflight-q2.json\"}\n",
+      "stderr": ""
+    },
+    {
+      "name": "storage-refusal-q2",
+      "returncode": 2,
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/captain/W1700KNPU/tools/npu_storage_budget.py",
+        "--output",
+        "/home/captain/W1700KNPU/.local/npu-resume-20261021/storage-refusal-q2.json",
+        "--snapshot-bytes",
+        "0",
+        "--cache-bytes",
+        "0",
+        "--overlay-bytes",
+        "0",
+        "--output-bytes",
+        "0",
+        "--margin-bytes",
+        "34359738368",
+        "--",
+        "/usr/bin/python3",
+        "-c",
+        "raise SystemExit(73)"
+      ],
+      "stdout": "{\"passed\": false, \"required_bytes\": 34359738368, \"remaining_after_budget_bytes\": {\"host\": -8142180352, \"guest\": 849610977280}, \"receipt\": \"/home/captain/W1700KNPU/.local/npu-resume-20261021/storage-refusal-q2.json\"}\n",
+      "stderr": ""
+    }
+  ],
+  "original_execution_tools_unchanged": {
+    "tools/npu_validation_capsule.py": "2db72da9fce603edc93260f08b11693983d3e0fb256eb2912be48e1c59bbfb67",
+    "tools/npu_isolated_world.py": "daf00547f0eea4c354816b65c0112e94719d9bf2455a5c3eedf567ffc9fbe3dc"
+  },
+  "interrupted_jobs": 4,
+  "frozen_input_bindings_rehashed": 5051,
+  "space_reserved": false,
+  "native_execution": false,
+  "world_build": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "private_scope_sha256": "66b756d5de7e4da2925481ef137581a1ceed9488bab83281803b10f207e92ade",
+  "bound_paths": 10,
+  "interrupted_audit_sha256": "a481ec629fde4f40dbd6ffa2205ebd40c8f12894108caf8a253c914a81eb7321"
+}

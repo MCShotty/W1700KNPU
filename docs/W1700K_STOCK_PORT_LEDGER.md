@@ -1,10 +1,34 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (verified cleanup and host-capacity recovery;protected bindings/images unchanged;native jobs terminal or interrupted,not live;full NPU work remains open)
+Last updated: 2026-10-21 (resumption guard tested;interrupted inputs/partials rehashed;fresh image/cold acceptance and full NPU work remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Resumption Guard And Interrupted-Run Audit
+
+- All5051 immutable bindings across two optimized callers/two older tail jobs
+  match;5948 distinct input/partial paths bound. Both optimized outputs retain
+  one DESC10 snapshot/43 files each;older tail outputs402 files each. No final
+  constructor/execution verdicts or regrading. Original partial outputs untouched.
+  Private statusa481ec62 retains exact hashes/log observations,not native proof.
+- Added separate tools/npu_storage_budget.py;original capsule/world execution
+  tools unchanged. It resolves registered WSL2 VHD/Windows volume and requires
+  writable native ext4 plus enough host AND guest space for snapshot/cache/
+  overlay/output/positive margin. Optional exact argv child holds cooperative
+  advisory lock;no shell,space reservation or unrelated-process guarantee.
+- All23 focused tests/no skips pass:18 new guard/alias and five existing capsule
+  controls. Live21.609GB budget fits;34.36GB control fails despite ample guest
+  space,child not launched,Linux exit2 instead of its73. Four-alias readonly
+  executable-copy fixture passes,not actual world preparation/build acceptance.
+  Public GUARD.json1e53b1d3/private scope66b756d5;Jev alias-relevance0.70 stays
+  uncertain,not approval. Read research/checkpoints/2026-10-21-npu-resume/REPORT.md.
+- Fresh optimized freeze/image and both-HIF full cold/fault/full setup/hot/IRQ/
+  RRO/lifecycle/physical/whole-stack/real boot/client gates remain. No native
+  execution,new image,module load,hardware,flash,radio change or subagents for
+  this checkpoint. Pair/source-lock/protected image contents and all original
+  count/time limits/checkpoints/hash gates stay unchanged.
 
 ## 2026-10-20 - Verified Cleanup And Host Storage Recovery
 

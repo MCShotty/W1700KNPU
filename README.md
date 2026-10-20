@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - NPU Work Resuming
+
+Interrupted inputs and partial outputs still match their saved hashes;none is
+counted as a completed cold-boot result. A new tested capacity guard checks both
+Linux space and the actual Windows backing drive before copying or building.
+All23 focused guard/capsule tests pass. Fresh optimized image inputs/build and
+both-HIF cold qualification remain next,with the original limits intact.
+See the [resume checkpoint](research/checkpoints/2026-10-21-npu-resume/REPORT.md).
+
 ## 2026-10-20 - Workspace Cleanup And Recovery
 
 Removed about24.46GB of redundant expanded files, preserving verified private

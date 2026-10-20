@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Storage Guard And Interrupted-Run Identity
+
+Read research/checkpoints/2026-10-21-npu-resume/REPORT.md/GUARD.json. All5051
+frozen input bindings across four interrupted jobs and5948 distinct input/
+partial paths rehash. Both optimized callers retain DESC10 snapshots,no final
+receipt;older tail outputs stay partial. No new execution/acceptance inferred.
+
+New tools/npu_storage_budget.py checks writable native ext4 plus the registered
+WSL2 VHD's actual Windows volume. Snapshot/cache/overlay/output/margin must fit
+BOTH;optional child launch holds a cooperative advisory lock. Not a reservation
+or guarantee against unrelated consumption. All23 focused tests pass;live21.6GB
+budget passes and34.36GB control is denied despite guest headroom. Original
+execution tools stay unchanged. Scope66b756d5/statusa481ec62;metadata1e53b1d3.
+
+Fresh actual alias-preserving optimized freeze/image and both-HIF cold/fault/
+full setup/hot/IRQ/RRO/physical/whole-stack/client gates stay open. No native
+run,new image,module load,hardware,flash,radio change or subagents for this
+guard checkpoint;no limit/checkpoint/hash waivers.
+
 ## 2026-10-20 - Verified Cleanup And Recovered Host Capacity
 
 Read research/checkpoints/2026-10-20-workspace-cleanup/REPORT.md and CLEANUP.json.
