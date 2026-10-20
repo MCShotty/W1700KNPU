@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;both original relative local frames conditional under explicit guard proof;fresh cold/fault/whole-chain/overall project remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;64 current original bodies/62 conditional local passes/two denied contracts;fresh cold/fault/whole-chain/overall project remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-20 - Current Original Child Frontier And Guard Setup
+
+- Read-only/no-analysis Ghidra12.1.2 checks28 exact child entries and exports
+  28+six+one bodies. Original/current/Ghidra range/instruction bytes bind64
+  selected routines;62 pass conditional local checks,two stay denied. No
+  complete NPU/global graph,whole-chain/IRQ/per-hart/physical bound or full
+  original function/constructor/child execution is established.
+- Explicit guard-set grammar admits at most two pure nonclobbering ADDI/XOR
+  setups before the guard,plus the existing single checked index bias. Bound/
+  index/base/zero/RA/SP writes,loads/stores/calls/third setups still deny.
+  Actual constants/predecessors/cutset/targets stay. Strict default and prior
+  31 absolute/22 relative/31 guard fixtures stay. Original17ce8 local48 now
+  qualifies conditionally with15 entries/bound14. No guard or hash waiver.
+- All275 unique/293 unit executions,no skips,13 new compiled controls,18
+  synthetic/17 original isolated-prefix guests pass. All GPR/PC/MSTATUS,
+  ordered reads/no writes/full protected bytes match before restoration;
+  state/permissions are synthetic and original cases stop before bodies.
+- Keep17086 denied for unsupported ECALL control at170a8/170ce,a7=0xd6.
+  Installed Linux UAPI brk214 match does not prove the NPU trap/syscall ABI
+  or replacement;170fa error child unreviewed. Keep103aa denied as two ranges
+  totaling106 bytes with62-byte gap and computed103e0/10440 sites. No fabricated
+  contiguous function or opaque ordinary-call approval. Two blocked child sites
+  and denied-body outgoing paths remain even with no other named targets.
+- Scope7c245788 verifies2589 paths/2385 readonly pre-edit files;metadata
+  692ed539. Exact historical inputs retain the old unrecognized-prefix denial.
+  Initial contiguity-assumption abort/evidence-name collision sources stay;
+  protected prior3f22a3bd receipt is unchanged. Reusable Ghidra entry tool is
+  byte-identical to the executed private copy,not an inferred original symbol.
+- Jev bounded setup0.92/activation0.88 is not proof. ECALL role unknown0.99/
+  confidence0.99 and ABI/replacement not-established0.92/confidence0.88 stay.
+  No ECALL is treated as normal fallthrough or patched. Read CHILD_FRONTIER.md.
+- Source-lockd6b6e2da,raw658c9c32/3d821c93 and all FITs978f9ddd/a22300ea/
+  633b4d71 rehash unchanged. Normal INODE2522/326 passes;actual v2 both-HIF
+  callers/four old-pair fault jobs stay live. Full cold/fault/latest image/full
+  setup/hot/IRQ/RRO/physical/client gates remain. No hardware,subagents or
+  native-budget/checkpoint changes;full implementation objective stays open.
 
 ## 2026-10-20 - Guard Sets Close The Conditional Formatter Local Body
 

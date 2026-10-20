@@ -31,7 +31,7 @@ def immediate(instruction, name, count):
             and operands[-1].type == RISCV_OP_IMM)
 
 
-def relative_table_sequence(instructions, index):
+def relative_table_sequence(instructions, index, guard_setup=False):
     if index < 8:
         return None
     jump = instructions[index]
@@ -65,7 +65,25 @@ def relative_table_sequence(instructions, index):
 
     start = index - 8
     limit = instructions[start]
-    if not is_limit(limit):
+    setup = []
+    if guard_setup:
+        biased = False
+        while not is_limit(limit):
+            destination = limit.operands[0].reg if limit.operands and limit.operands[0].type == RISCV_OP_REG else None
+            bias = ((immediate(limit, 'addi', 3) or immediate(limit, 'c.addi', 2))
+                and destination == pointer and not biased)
+            harmless = ((immediate(limit, 'addi', 3) or (limit.mnemonic == 'xor' and registers(limit, 3)))
+                and destination not in (None, bound, pointer, base)
+                and limit.reg_name(destination) not in ('zero', 'ra', 'sp') and len(setup) < 2)
+            if start == 0 or not (bias or harmless):
+                return None
+            if bias:
+                biased = True
+            else:
+                setup.append(limit.address)
+            start -= 1
+            limit = instructions[start]
+    elif not is_limit(limit):
         # Some compilers materialize the biased index between limit and guard.
         bias = limit
         if not ((immediate(bias, 'addi', 3) or immediate(bias, 'c.addi', 2))
@@ -85,17 +103,20 @@ def relative_table_sequence(instructions, index):
     table = (upper.address + (upper.operands[1].imm << 12) + addition.operands[2].imm) & 0xffffffff
     if table % 4 or table + 4 * (maximum + 1) > 1 << 32:
         return None
-    return dict(address=jump.address, definition_start=limit.address, guard=guard.address,
+    result = dict(address=jump.address, definition_start=limit.address, guard=guard.address,
         guard_fallthrough=upper.address, default_target=(guard.address + guard.operands[2].imm) & 0xffffffff,
         table_address=table, entry_count=maximum+1, load_address=load.address,
         target_register=jump.reg_name(target), index_register=jump.reg_name(pointer),
         table_entry_encoding='base-relative-u32',
         prefix_addresses=[item.address for item in prefix],
         prefix_hex=b''.join(bytes(item.bytes) for item in prefix).hex())
+    if setup:
+        result['pre_guard_setup_instructions'] = sorted(setup)
+    return result
 
 
-def table_sequence(instructions, index):
-    relative = relative_table_sequence(instructions, index)
+def table_sequence(instructions, index, guard_setup=False):
+    relative = relative_table_sequence(instructions, index, guard_setup=guard_setup)
     if relative is not None:
         return relative
     jump = instructions[index]
@@ -228,7 +249,7 @@ def inspect_function(data, address, read_table, relative_guard_sets=False):
     positions = {item.address:item for item in instructions}
     tables = {}
     for index, item in enumerate(instructions):
-        row = table_sequence(instructions, index)
+        row = table_sequence(instructions, index, guard_setup=relative_guard_sets)
         if row is None:
             continue
         raw = read_table(row['table_address'], row['entry_count'])

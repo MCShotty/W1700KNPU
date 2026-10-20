@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-20 - Original Child Frontier And Bounded Guard Setup
+
+- Read original-irq/CHILD_FRONTIER.md/json.64 original bodies are current-byte
+  bound;62 pass conditional local checks,two stay denied. This is not the
+  complete NPU/global graph or whole-chain/IRQ/per-hart/physical bound.
+- Explicit guard-set profile additionally allows at most two nonclobbering
+  pure ADDI/XOR setup instructions. Bound/index/base/zero/RA/SP writes,loads,
+  stores,calls/third setups still deny. Single checked index bias and actual
+  constant/predecessor/cutset/target checks stay. Strict default and prior
+  31/22/31 fixtures stay. Original0x84017ce8 now local48 conditionally.
+- All275 unique/293 units,no skips,13 new fixtures,18 synthetic and17 original
+  isolated-prefix guests pass. No full original function/constructor/child.
+  Scope7c245788 verifies2589 paths/2385 readonly prior files;metadata692ed539.
+  Read-only/no-analysis Ghidra entry/export checks grant no ABI authority.
+- Keep0x84017086 denied:ECALL at170a8/170ce,a7=0xd6;Linux brk-number match
+  is not NPU ABI proof,error child170fa unreviewed. Keep0x840103aa denied:
+  two recovered ranges/62-byte gap,computed sites103e0/10440. Do not join
+  ranges,fake ordinary calls/returns or omit denied-body outgoing paths.
+  Jev role unknown0.99/ABI not-established0.92 remains. No runtime equivalence.
+- Firmware/source-lock/pair/three FITs rehash unchanged;actual v2 both-HIF
+  callers/four old-pair fault jobs remain live,normal INODE2522/326 passed.
+  Latest image/full setup/hot/IRQ/RRO/physical/client gates stay. No hardware,
+  native-limit/checkpoint/hash waivers or subagents. Full goal stays active.
+
 ## 2026-10-20 - Guard Sets Qualify Conditional Original Local Frames
 
 - Read original-irq/GUARD_SETS.md/json. Explicit relative guard-set profile

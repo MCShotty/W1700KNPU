@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "scope": "current-original-child-local-bodies-with-denied-trap-and-computed-entry-contracts",
+  "unique_units": 275,
+  "unit_executions": 293,
+  "new_compiled_setup_fixtures": 13,
+  "new_synthetic_prefix_guests": 18,
+  "new_original_isolated_prefix_guests": 17,
+  "prior_fixtures31_22_31_unchanged": true,
+  "inspected_original_bodies": 64,
+  "conditional_local_qualified": 62,
+  "denied_local_bodies": 2,
+  "new_conditional_48_byte_body": "0x84017ce8",
+  "actual_guard_bound": 14,
+  "pre_guard_nonbias_setup_count": 2,
+  "strict_default_denial_retained": true,
+  "default_absolute_and_relative_profiles_unchanged": true,
+  "arbitrary_setup_loads_stores_calls_or_protected_writes_not_allowed": true,
+  "new_guest_original_function_or_constructor_executed": false,
+  "denied": [
+    {
+      "entry": "0x840103aa",
+      "error": "noncontiguous-body-not-reviewed"
+    },
+    {
+      "entry": "0x84017086",
+      "error": "unsupported-control-flow"
+    }
+  ],
+  "ECALL_sites": [
+    "0x840170a8",
+    "0x840170ce"
+  ],
+  "ECALL_a7_value": "0xd6",
+  "ECALL_error_child_unreviewed": "0x840170fa",
+  "Linux_header_brk_number_match_not_NPU_ABI_proof": true,
+  "computed_entries": [
+    "0x840103e0",
+    "0x84010440"
+  ],
+  "noncontiguous_ranges": [
+    [
+      "0x840103aa",
+      "0x840103e3"
+    ],
+    [
+      "0x84010422",
+      "0x84010451"
+    ]
+  ],
+  "gap_bytes_unreviewed": 62,
+  "unqualified_outgoing_paths_not_omitted_as_safe": true,
+  "frozen_source_files_verified": 2385,
+  "historical_exact_hash_binding_count": 2,
+  "initial_contiguous_body_assertion_retained": true,
+  "selected_Ghidra_import_is_older_a681_CODE_not_whole_current_graph": true,
+  "current_global_graph_extended_or_requalified": false,
+  "whole_chain_IRQ_per_hart_or_physical_bound_proved": false,
+  "ordinary_ABI_and_immutable_code_snapshots_assumed": true,
+  "hardware": false,
+  "full_setup": false,
+  "source_lock_firmware_pair_images_native_budgets_unchanged": true,
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "bounded_nonbias_setup": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "explicit_activation": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "ecall_role": {
+        "type": "choice",
+        "choice": "unknown",
+        "confidence": 0.99,
+        "probabilities": {
+          "heap_growth": 0.01,
+          "packet_parser": 0.0,
+          "IRQ_controller": 0.0,
+          "unknown": 0.99
+        }
+      },
+      "ecall_implementation_claim": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.88,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.08,
+          "not_established": 0.92
+        }
+      }
+    },
+    "result_sha256": "431501ceb4d9f483d880af43dcd427c2045499db7d5f487ce0967a7e5aa34cac",
+    "judgment_not_proof": true
+  },
+  "private_scope_sha256": "7c245788999a3645baa7b3a25235e7b1ce9b5a78e9574974a0d8c2445b584a6d",
+  "input_count": 2589
+}

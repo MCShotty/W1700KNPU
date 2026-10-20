@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-20 - Current Original Child Frontier
+
+64 original bodies are current-byte-bound;62 pass conditional local checks.
+The explicit guard profile now handles two protected-register-safe ADDI/XOR
+setups;strict default/prior31/22/31 fixtures stay.275 unique/293 units,13 new
+fixtures,18 synthetic/17 original isolated prefixes pass.0x84017ce8 local48
+is conditional,not a whole child chain. See CHILD_FRONTIER.md/json.
+
+Keep ECALL routine0x84017086 and noncontiguous computed-entry0x840103aa denied.
+The ECALL handler/ABI/error child170fa and computed targets103e0/10440/62-byte
+gap need explicit contracts. No range joining,call/return assumption or heap
+rewrite. Empty other-name worklist is not closure. Scope7c245788 verifies2589
+paths/2385 readonly files;metadata692ed539. No global/whole-stack/physical proof.
+
+Normal INODE2522/326 passes;both v2 actual callers/four old-pair fault matrices
+remain live. Latest-code image/full setup/hot/checked IRQ/RRO/lifecycle/physical/
+real Gemtek boot/radios/clients/performance gates remain. Firmware/pair/source-
+lock/three images rehash unchanged;no native-budget/checkpoint/hardware/subagents.
+
 ## 2026-10-20 - Both Original Local Frames Now Conditional
 
 The explicit guarded-entry profile now qualifies formatter496/callee192 local

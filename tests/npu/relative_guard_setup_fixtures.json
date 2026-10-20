@@ -1,0 +1,100 @@
+{
+  "format": "synthetic-rv32-relative-guard-setup-fixtures-v1",
+  "programs": {
+    "two_setup": {
+      "address": 65536,
+      "program_hex": "aa870d4733465a01130815006363f70297060100938606ff8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131072,
+      "table_hex": "2200ffff2600ffff2a00ffff2e00ffff"
+    },
+    "one_setup": {
+      "address": 65592,
+      "program_hex": "aa870d47130815006363f702970601009386c6fc8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131088,
+      "table_hex": "4600ffff4a00ffff4e00ffff5200ffff"
+    },
+    "biased_setup": {
+      "address": 65644,
+      "program_hex": "aa870d47930705fe33465a01130815006363f70297060100938606fa8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131104,
+      "table_hex": "7200ffff7600ffff7a00ffff7e00ffff"
+    },
+    "bound_clobber": {
+      "address": 65704,
+      "program_hex": "aa870d47130715006363f702970601009386c6f78a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131120,
+      "table_hex": "9600ffff9a00ffff9e00ffffa200ffff"
+    },
+    "index_clobber": {
+      "address": 65756,
+      "program_hex": "aa870d47b3475a016363f70297060100938686f58a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131136,
+      "table_hex": "ba00ffffbe00ffffc200ffffc600ffff"
+    },
+    "base_clobber": {
+      "address": 65808,
+      "program_hex": "aa870d47930615006363f70297060100938646f38a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131152,
+      "table_hex": "de00ffffe200ffffe600ffffea00ffff"
+    },
+    "SP_clobber": {
+      "address": 65860,
+      "program_hex": "aa870d4741116363f70297060100938626f18a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131168,
+      "table_hex": "0001ffff0401ffff0801ffff0c01ffff"
+    },
+    "RA_clobber": {
+      "address": 65908,
+      "program_hex": "aa870d47930015006363f70297060100938606ef8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131184,
+      "table_hex": "2201ffff2601ffff2a01ffff2e01ffff"
+    },
+    "zero_write": {
+      "address": 65960,
+      "program_hex": "aa870d47130015006363f702970601009386c6ec8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131200,
+      "table_hex": "4601ffff4a01ffff4e01ffff5201ffff"
+    },
+    "third_setup": {
+      "address": 66012,
+      "program_hex": "aa870d4733465a0113081500930825006363f70297060100938606ea8a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131216,
+      "table_hex": "7201ffff7601ffff7a01ffff7e01ffff"
+    },
+    "memory_read": {
+      "address": 66072,
+      "program_hex": "aa870d4710416363f702970601009386e6e78a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131232,
+      "table_hex": "9401ffff9801ffff9c01ffffa001ffff"
+    },
+    "memory_write": {
+      "address": 66120,
+      "program_hex": "aa870d4710c16363f702970601009386e6e58a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131248,
+      "table_hex": "b401ffffb801ffffbc01ffffc001ffff"
+    },
+    "call": {
+      "address": 66168,
+      "program_hex": "aa870d4735206363f702970601009386e6e38a07b6979c43b6978287010001a8010031a0010021a0010011a001008280",
+      "table_address": 131264,
+      "table_hex": "d401ffffd801ffffdc01ffffe001ffff"
+    }
+  },
+  "source_sha256": "751231f862201a11b9a0e02445fc358d831b26f9f7a0b5949d0ce4c02cbb7550",
+  "compiler_sha256": "412bbe8c60571a1eb06f48fde89635033621caeb01a9b4ee76d46711bae8e932",
+  "linker_sha256": "6a65863a9eba1af6b6e8969f8e96a5ad4df0e8b705f98491a28b1790ce35718c",
+  "command": [
+    "/usr/lib/llvm-21/bin/clang",
+    "--target=riscv32-none-elf",
+    "-fuse-ld=/home/captain/W1700KNPU/.local/npu-barrier/lld/usr/lib/llvm-21/bin/ld.lld",
+    "-march=rv32imac_zicsr",
+    "-mabi=ilp32",
+    "-nostdlib",
+    "-Wl,--no-relax,--discard-none,--image-base=0x0,-Ttext=0x10000,--section-start=.rodata=0x20000,-e,case_two_setup",
+    "/home/captain/W1700KNPU/tests/npu/fixtures/relative_guard_setup.S",
+    "-o",
+    "/home/captain/W1700KNPU/.local/npu-original-irq-20261017/relative-guard-setup-q1.elf"
+  ],
+  "synthetic_only": true,
+  "no_router_firmware_bytes": true
+}

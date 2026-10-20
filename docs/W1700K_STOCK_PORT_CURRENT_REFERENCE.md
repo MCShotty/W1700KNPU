@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-20 - Original Child Frontier:62 Local,Two Denied
+
+Read original-irq/CHILD_FRONTIER.md/json before further original/stack work.
+64 bodies byte-match original/current658c9c32/Ghidra exports;62 pass conditional
+local checks. New two-instruction nonclobbering ADDI/XOR setup is explicit-
+profile only. Strict default/prior31/22/31 fixtures stay.275 unique/293 units,
+13 new fixtures,18 synthetic/17 original isolated prefixes pass. New17ce8 local
+48 is not a whole function-chain/IRQ/per-hart/physical bound. Scope7c245788
+binds2589 paths/2385 readonly prior files;metadata692ed539. No global graph.
+
+Keep0x84017086 ECALL and0x840103aa noncontiguous/computed-entry contracts denied.
+ECALL a7=0xd6/Linux-number match grants no NPU ABI or replacement equivalence;
+170fa error child remains. Computed103e0/10440 and62-byte unrecovered gap need
+explicit entry/return/bounds contracts,not joined ranges or opaque safe calls.
+Jev role unknown0.99/ABI not-established0.92 stays. Full original execution
+and denied-body outgoing paths are not qualified by the local corpus.
+
+Normal INODE2522/326 passes;v2 both-HIF actual callers/four old-pair fault jobs
+remain live. Firmware/source-lock/pair/three FIT hashes reverify unchanged.
+Latest image/full setup/hot/IRQ/RRO/physical/client gates stay;no native limits,
+checkpoints,hash waivers,hardware or subagents. Older narrower summaries follow.
+
 ## 2026-10-20 - Both Original Local Frames Under Guard-Set Proof
 
 Explicit relative guard sets now qualify original formatter496/callee192 local

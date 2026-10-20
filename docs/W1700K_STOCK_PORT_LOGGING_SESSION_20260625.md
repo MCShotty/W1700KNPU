@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-20 (normal INODE RV32 passes;explicit original guard proof gives conditional496/192 local frames;fresh cold/fault/whole-chain/physical remain open)
+Last updated: 2026-10-20 (normal INODE RV32 passes;64 current original bodies/62 conditional local passes/two denied contracts;fresh cold/fault/whole-chain/physical remain open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-20 - Current Original Child Frontier
+
+- 64 exact original/current/Ghidra bodies now audited;62 conditional local
+  passes,two denied contracts. Explicit two nonclobbering ADDI/XOR setups let
+  17ce8 qualify local48;strict default/prior31/22/31 controls stay. All275
+  unique/293 units,13 new fixtures,18 synthetic/17 original isolated prefixes
+  pass. No complete original routine/child/whole stack/IRQ/per-hart/physical
+  bound or current global graph. Ghidra checks were read-only/no-analysis.
+- ECALL17086 at170a8/170ce and computed/noncontiguous103aa stay denied.
+  Linux syscall-number match grants no NPU ABI;error child170fa and computed
+  103e0/10440/62-byte gap remain unreviewed. No joined ranges/opaque safe call.
+  Jev role unknown0.99/replacement not-established0.92 remains,not approval.
+- Scope7c245788/metadata692ed539 binds2589 paths/2385 readonly old files.
+  Historical denial/contiguity abort/output-name collision are preserved;
+  prior3f22a3bd unchanged. Read CHILD_FRONTIER.md/json. Firmware/pair/source-
+  lock/three FITs rehash unchanged;normal INODE2522/326 passed. Both v2 callers/
+  four old-pair matrices remain live;full cold/fault/latest image/full setup/
+  hot/IRQ/RRO/physical/client gates stay. No hardware,budget/checkpoint changes
+  or subagents. Full reverse-engineering/implementation remains active.
 
 ## 2026-10-20 - Conditional Formatter Guard-Set Proof
 

@@ -1,5 +1,8 @@
 # Original Guarded Entries
 
+Follow-up: [child frontier](CHILD_FRONTIER.md) rechecks64 selected original
+bodies,qualifies62 local bodies and retains two denied contracts.
+
 2026-10-20. The explicit relative safe-edge-set profile now qualifies both
 original local bodies, with frames496 and192 bytes under the existing entry,
 ordinary-ABI and immutable-snapshot assumptions. The strict default still
