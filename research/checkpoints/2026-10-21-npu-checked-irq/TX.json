@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "cases": 18,
+  "rejected_mutants": 1,
+  "actual": {
+    "passed": true,
+    "returncode": 0,
+    "observations": {
+      "passed": true,
+      "cases": 18
+    },
+    "source_sha256": "1274782325dccfdccbb274358af56d97613c9f777c354aada2666b8d6e58c1f1",
+    "binary_sha256": "b441722fad818a9f3c67c6c8d020ed67c9e800e66ecab7321cb2e0f33c8204ea"
+  },
+  "entire_actual_tx_queue_body": true,
+  "fixture_limits": [
+    "Actual complete queue-entry C;skb,token-preparation,DMA/cache and callbacks are explicit host fixtures.",
+    "Rejects new post-fault admission before mapping/preparation;does not establish in-flight drain or physical TX ownership."
+  ],
+  "private_evidence": {
+    "path": ".local/npu-checked-irq-20261021/checkpoint-evidence-q1.json",
+    "sha256": "02b58276557d304e962c6da27cfb92536db71bf5a70f7d5df992ead1eea5c82f",
+    "bound_paths": 609
+  },
+  "in_flight_drain_proven": false
+}

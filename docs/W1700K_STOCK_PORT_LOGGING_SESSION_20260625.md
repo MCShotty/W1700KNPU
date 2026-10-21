@@ -1,8 +1,35 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (current-pair offline image01fc0ef0 passes;fresh publication/startup passes;corrected original replays live;full fault/physical gates open)
+Last updated: 2026-10-21 (checked IRQ software/host fixtures/four AArch64 module links pass;original replays live;new IRQ image and physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Checked IRQ Software And Unloaded Module Qualification
+
+- Mainline integrated patches/lockcb035741 implement checked IRQ read/ack/
+  mask/arm/readback,exclusive initially-disabled RX lines,sticky first-fault
+  quarantine and RX/TX admission. Separate fault disable depth survives either
+  tested late startup enable. Reset callers propagate errors;legacy callbacks
+  retained but not used as checked fallback. New target needs matched modules.
+- Actual selected-C fixtures pass353 IRQ cases/six mutants;whole TX queue-entry
+  fixtures pass18 cases/one mutant,including the fallback-error regression.
+  ASan/UBSan/leak checks. Provider and three mt76 AArch64 modules link onLinux
+  6.18.52;24 supporting tests and70+5 source export checks pass. Private overlay
+  uses88014878 bytes,complete original kernel/mt76/protected inputs unchanged.
+  UI/WiFi untouched. Pre-existing description warnings remain,no unresolved
+  imports accepted. Checkpoint evidence02b58276 binds609 paths;read
+  research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md and receipts.
+- Old148/5624/12/eight IRQ losses are retained negative characterization,not
+  current checked-fixture failures. Original wrapper failure is not waived;
+  failed extractor/component-preflight/TX-fixture attempts remain preserved.
+  No native budgets/checkpoints weakened. Current components stage privately.
+- Both frozen73ce969 default/HIF2 originals still run unchanged,pass all six
+  TXBUF/RX-event and enterDESC10;no terminal verdict. PROGRESS.json rehashes2473
+  frozen inputs and captures non-atomic prefixes,not a completed caller or
+  new-IRQ qualification. No restart/pause,hardware,flash,radio or VM restart.
+  Prior image01fc0ef0 lacks this new IRQ change. Fresh full image,actual IRQ/
+  in-flight DMA drain/retirement,hot paths,RRO/lifecycle/whole-stack/physical/
+  boot/radio/client/performance gates stay open. Full NPU goal remains active.
 
 ## 2026-10-21 - Current-Pair Offline Image And Fresh Original Replays
 

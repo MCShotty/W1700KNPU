@@ -1,10 +1,54 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (current-pair offline image01fc0ef0 passes;fresh publication/startup passes;corrected original replays live;full fault/physical acceptance open)
+Last updated: 2026-10-21 (checked IRQ software/host fixtures/four AArch64 module links pass;original replays live;new IRQ image and physical acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Checked IRQ Contract Implementation
+
+- Canonical integrated provider/mt76 patches now implement checked read/ack/
+  mask/arm callbacks, requested-bit validation, zero-on-read-failure and mask
+  readback. Legacy callbacks remain,not a fallback for the checked target.
+  Provider and consumer require a matched rebuild. Distinct exclusive RX IRQ
+  lines startNO_AUTOEN until NAPI/setup;watchdog/mailbox ownership unchanged.
+- Serialized handler masks before ack and schedules only on success. First
+  error latches sticky quarantine and a separate host disable depth that normal
+  startup enables cannot release. Enable runs outside spinlock/RCU;stop/rearm
+  and reset callers propagate failure. Re-entry rejects before setup stages.
+  New RX-batch/TX-entry admission closes before mappings/token preparation.
+  The TX gate preservesENOMEM on later allocation failure;the temporary
+  success-clobbers-error regression is caught by its dedicated mutant.
+- Actual selected-C IRQ host fixtures pass353 cases/six mutants,including
+  partial effects/readback and both late-enable points;complete TX-entry host C
+  passes18 cases/one mutant. Address/undefined/leak checks. Four actual AArch64
+  final module links pass onLinux6.18.52/GCC14.4.0,with checked edges/exports/
+  actual dependency indices/vermagic. Pre-existing description warnings remain.
+  Another24 build-contract unit tests pass. Private overlay output88014878
+  bytes,complete original kernel/mt76 inventories and protected inputs unchanged.
+- Both integrated patches apply atzero fuzz and match references;lockcb035741.
+  Cumulative export70OpenWrt/fiveLuCI entries pass. UI/WiFi,root cumulative
+  patches,build config and existing images untouched. CHECKED_IRQ/TX/MODULES/
+  SOURCE.json and private02b58276 bind609 paths. Evidence:
+  research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md.
+- Preserved old characterization shows148 error schedules/5624 silent bulk
+  errors/12 startup/eight hot losses;not remaining checked-fixture failures.
+  Its three target tests passed,but original aggregate wrapper failed after
+  execution on relative paths. Audit is not a retroactive wrapper pass. New
+  extractor,bool-support/component-preflight/libc-identifier failures remain;
+  no test/native budget/checkpoint weakened. Current components staged privately.
+- Software IRQ suppression/readback/admission is not handler synchronization,
+  in-flight DMA drain,reset completion or permission to retire storage. No
+  module load,new world/image,hardware,flash,radio,VM restart or subagents.
+  Image01fc0ef0 predates this source. PROGRESS.json rehashes2473 frozen inputs:
+  both unchanged73ce969 original jobs pass six TXBUF/RX-event and are inDESC10,
+  no terminal verdict. Full cold/fault/setup,hot/IRQphysical/RRO/lifecycle/cache/
+  PMA/exclusion/drain/retirement/whole-stack/boot/client/performance remain.
+- Actual Jev supports handler ordering0.93/conf0.89 and late-enable wording
+  0.75/conf0.62;in-flight claim uncertain0.56not-established/0.44contradicted.
+  Semantic checks are not proof;exact modeled interleavings tested,broader
+  physical and in-flight scope explicitly stays open.
 
 ## 2026-10-21 - Latest Pair Offline Image And Corrected Original Replay Launch
 

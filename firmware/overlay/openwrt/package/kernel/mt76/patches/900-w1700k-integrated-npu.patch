@@ -6,7 +6,22 @@ build input; compilation is not a physical drain or recovery proof.
 ---
 --- a/dma.c
 +++ b/dma.c
-@@ -850,8 +850,12 @@
+@@ -684,6 +684,14 @@
+ 
+ 	if (test_bit(MT76_RESET, &phy->state))
+ 		goto free_skb;
++	if (mt76_npu_device_active(dev)) {
++		int err = mt76_npu_io_admit(dev);
++
++		if (err) {
++			ret = err;
++			goto free_skb;
++		}
++	}
+ 
+ 	/* TODO: Take into account unlinear skbs */
+ 	if (mt76_npu_device_active(dev) && skb_linearize(skb))
+@@ -850,8 +858,12 @@
  	else
  		size = sizeof(struct mt76_desc);
  
@@ -23,18 +38,115 @@ build input; compilation is not a physical drain or recovery proof.
  
 --- a/mt76.h
 +++ b/mt76.h
-@@ -1680,8 +1680,9 @@
+@@ -17,6 +17,37 @@
+ #include <linux/soc/airoha/airoha_offload.h>
+ #else
+ #include "airoha_offload.h"
++#endif
++#ifndef AIROHA_NPU_CHECKED_IRQ_API
++#define AIROHA_NPU_CHECKED_IRQ_API 0
++static inline bool airoha_npu_wlan_irq_supported(struct airoha_npu *npu)
++{
++	return false;
++}
++
++static inline int airoha_npu_wlan_irq_read(struct airoha_npu *npu, int q,
++					   u32 *status)
++{
++	if (status)
++		*status = 0;
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_ack(struct airoha_npu *npu, int q,
++					  u32 status)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_arm(struct airoha_npu *npu, int q)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_mask(struct airoha_npu *npu, int q)
++{
++	return -EOPNOTSUPP;
++}
+ #endif
+ #include <linux/soc/mediatek/mtk_wed.h>
+ #include <net/netlink.h>
+@@ -722,6 +753,14 @@
+ 	int (*parse_irq)(struct mt76_dev *dev, struct mt76s_intr *intr);
+ };
+ 
++struct mt76_npu_irq {
++	int line[2];
++	unsigned long requested;
++	unsigned long blocked;
++	int error;
++	bool running;
++};
++
+ struct mt76_mmio {
+ 	void __iomem *regs;
+ 	spinlock_t irq_lock;
+@@ -734,6 +773,8 @@
+ 
+ 	struct airoha_ppe_dev __rcu *ppe_dev;
+ 	struct airoha_npu __rcu *npu;
++	/* Protected by irq_lock; blocked tracks only the normal disable depth. */
++	struct mt76_npu_irq npu_irq;
+ 	phys_addr_t phy_addr;
+ 	int npu_type;
+ };
+@@ -1679,9 +1720,14 @@
+ int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q);
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
- void mt76_npu_disable_irqs(struct mt76_dev *dev);
+-void mt76_npu_disable_irqs(struct mt76_dev *dev);
 -int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, int type);
++int mt76_npu_disable_irqs(struct mt76_dev *dev);
++int mt76_npu_start_irqs(struct mt76_dev *dev);
++int mt76_npu_rearm_irq(struct mt76_dev *dev, enum mt76_rxq_id qid);
++int mt76_npu_io_admit(struct mt76_dev *dev);
++int mt76_npu_irq_error(struct mt76_dev *dev);
 +int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
  void mt76_npu_deinit(struct mt76_dev *dev);
 +int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
  int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-@@ -1721,13 +1722,18 @@
+@@ -1716,18 +1762,45 @@
+ {
+ }
+ 
+-static inline void mt76_npu_disable_irqs(struct mt76_dev *dev)
+-{
++static inline int mt76_npu_disable_irqs(struct mt76_dev *dev)
++{
++	return 0;
++}
++
++static inline int mt76_npu_start_irqs(struct mt76_dev *dev)
++{
++	return 0;
++}
++
++static inline int mt76_npu_rearm_irq(struct mt76_dev *dev,
++				     enum mt76_rxq_id qid)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_io_admit(struct mt76_dev *dev)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_irq_error(struct mt76_dev *dev)
++{
++	return 0;
  }
  
  static inline int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr,
@@ -147,6 +259,42 @@ build input; compilation is not a physical drain or recovery proof.
  		u32 wed_irq_mask = irq_mask;
  
  		wed_irq_mask |= MT_INT_TX_DONE_BAND0 | MT_INT_TX_DONE_BAND1;
+@@ -957,12 +956,16 @@
+ 	return 0;
+ }
+ 
+-void mt7996_dma_reset(struct mt7996_dev *dev, bool force)
++int mt7996_dma_reset(struct mt7996_dev *dev, bool force)
+ {
+ 	struct mt76_phy *phy2 = dev->mt76.phys[MT_BAND1];
+ 	struct mt76_phy *phy3 = dev->mt76.phys[MT_BAND2];
+ 	u32 hif1_ofs = MT_WFDMA0_PCIE1(0) - MT_WFDMA0(0);
+-	int i;
++	int i, err;
++
++	err = mt76_npu_disable_irqs(&dev->mt76);
++	if (err)
++		return err;
+ 
+ 	mt76_clear(dev, MT_WFDMA0_GLO_CFG,
+ 		   MT_WFDMA0_GLO_CFG_TX_DMA_EN |
+@@ -1005,7 +1008,6 @@
+ 	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+ 		mtk_wed_device_dma_reset(&dev->mt76.mmio.wed);
+ 
+-	mt76_npu_disable_irqs(&dev->mt76);
+ 	mt7996_dma_disable(dev, force);
+ 	mt76_wed_dma_reset(&dev->mt76);
+ 
+@@ -1047,6 +1049,8 @@
+ 	}
+ 
+ 	mt7996_dma_enable(dev, !force);
++
++	return 0;
+ }
+ 
+ void mt7996_dma_cleanup(struct mt7996_dev *dev)
 --- a/mt7996/init.c
 +++ b/mt7996/init.c
 @@ -772,7 +772,8 @@
@@ -359,7 +507,72 @@ build input; compilation is not a physical drain or recovery proof.
  		dev_kfree_skb(skb);
  		break;
  	}
-@@ -2389,9 +2481,14 @@
+@@ -2153,6 +2245,10 @@
+ 	struct mt7996_phy *phy;
+ 	int i, ret;
+ 
++	ret = mt76_npu_disable_irqs(mdev);
++	if (ret)
++		return ret;
++
+ 	if (dev->hif2) {
+ 		mt76_wr(dev, MT_INT1_MASK_CSR, 0x0);
+ 		mt76_wr(dev, MT_INT1_SOURCE_CSR, ~0);
+@@ -2189,7 +2285,9 @@
+ 	mt7996_tx_token_put(dev);
+ 	idr_init(&dev->mt76.token);
+ 
+-	mt7996_dma_reset(dev, true);
++	ret = mt7996_dma_reset(dev, true);
++	if (ret)
++		return ret;
+ 
+ 	mt76_for_each_q_rx(mdev, i) {
+ 		if (mtk_wed_device_active(&dev->mt76.mmio.wed) &&
+@@ -2317,13 +2415,13 @@
+ 	rcu_read_unlock();
+ }
+ 
+-static void
++static int
+ mt7996_mac_full_reset(struct mt7996_dev *dev)
+ {
+ 	struct ieee80211_hw *hw = mt76_hw(dev);
+ 	struct mt7996_phy *phy;
+ 	LIST_HEAD(list);
+-	int i;
++	int i, ret;
+ 
+ 	dev->recovery.hw_full_reset = true;
+ 
+@@ -2339,8 +2437,16 @@
+ 
+ 	mutex_lock(&dev->mt76.mutex);
+ 	for (i = 0; i < 10; i++) {
+-		if (!mt7996_mac_restart(dev))
++		ret = mt7996_mac_restart(dev);
++		if (!ret)
+ 			break;
++		if (READ_ONCE(dev->mt76.mmio.npu_irq.error)) {
++			WRITE_ONCE(dev->recovery.npu_error, ret);
++			mutex_unlock(&dev->mt76.mutex);
++			dev_err(dev->mt76.dev,
++				"NPU IRQ quarantine prevents full reset: %d\n", ret);
++			return ret;
++		}
+ 	}
+ 
+ 	if (i == 10)
+@@ -2382,6 +2488,8 @@
+ 	ieee80211_wake_queues(mt76_hw(dev));
+ 
+ 	ieee80211_restart_hw(mt76_hw(dev));
++
++	return 0;
+ }
+ 
+ void mt7996_mac_reset_work(struct work_struct *work)
+@@ -2389,9 +2497,17 @@
  	struct ieee80211_hw *hw;
  	struct mt7996_dev *dev;
  	struct mt7996_phy *phy;
@@ -368,6 +581,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	int i, ret;
  
  	dev = container_of(work, struct mt7996_dev, reset_work);
++	ret = mt76_npu_irq_error(&dev->mt76);
++	if (ret)
++		WRITE_ONCE(dev->recovery.npu_error, ret);
 +	/* Do not re-disable NAPI or escalate after a failed NPU recovery. */
 +	if (READ_ONCE(dev->recovery.npu_error))
 +		return;
@@ -375,7 +591,18 @@ build input; compilation is not a physical drain or recovery proof.
  	hw = mt76_hw(dev);
  
  	/* chip full reset */
-@@ -2431,7 +2528,8 @@
+@@ -2405,7 +2521,9 @@
+ 		else
+ 			dev->recovery.wm_reset_count++;
+ 
+-		mt7996_mac_full_reset(dev);
++		ret = mt7996_mac_full_reset(dev);
++		if (ret)
++			return;
+ 
+ 		/* enable mcu irq */
+ 		mt7996_irq_enable(dev, MT_INT_MCU_CMD);
+@@ -2431,7 +2549,8 @@
  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
  		mtk_wed_device_stop(&dev->mt76.mmio.wed);
  
@@ -385,7 +612,7 @@ build input; compilation is not a physical drain or recovery proof.
  	ieee80211_stop_queues(mt76_hw(dev));
  
  	set_bit(MT76_RESET, &dev->mphy.state);
-@@ -2465,6 +2563,12 @@
+@@ -2465,20 +2584,43 @@
  	}
  	napi_disable(&dev->mt76.tx_napi);
  
@@ -398,7 +625,12 @@ build input; compilation is not a physical drain or recovery proof.
  	mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_STOPPED);
  
  	if (mt7996_wait_reset_state(dev, MT_MCU_CMD_RESET_DONE)) {
-@@ -2474,11 +2578,26 @@
+-		mt7996_dma_reset(dev, false);
++		ret = mt7996_dma_reset(dev, false);
++		if (ret)
++			goto npu_recovery_failed;
+ 
+ 		mt7996_tx_token_put(dev);
  		idr_init(&dev->mt76.token);
  
  		mt76_wr(dev, MT_MCU_INT_EVENT, MT_MCU_INT_EVENT_DMA_INIT);
@@ -427,7 +659,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	/* enable DMA Rx/Tx and interrupt */
  	mt7996_dma_start(dev, false, false);
-@@ -2503,8 +2622,6 @@
+@@ -2503,8 +2645,6 @@
  				     MT_INT_TX_RX_DONE_EXT);
  	}
  
@@ -436,15 +668,18 @@ build input; compilation is not a physical drain or recovery proof.
  	clear_bit(MT76_MCU_RESET, &dev->mphy.state);
  	mt7996_for_each_phy(dev, phy)
  		clear_bit(MT76_RESET, &phy->mt76->state);
-@@ -2546,6 +2663,14 @@
+@@ -2546,6 +2686,17 @@
  					     MT7996_WATCHDOG_TIME);
  	dev_info(dev->mt76.dev,"\n%s L1 SER recovery completed.",
  		 wiphy_name(dev->mt76.hw->wiphy));
 +	return;
 +
 +npu_recovery_failed:
++	if (!ret)
++		ret = mt76_npu_disable_irqs(&dev->mt76);
++	else
++		mt76_npu_disable_irqs(&dev->mt76);
 +	WRITE_ONCE(dev->recovery.npu_error, ret);
-+	mt76_npu_disable_irqs(&dev->mt76);
 +	mutex_unlock(&dev->mt76.mutex);
 +	dev_err(dev->mt76.dev, "NPU L1 recovery failed: %d; resources retained\n",
 +		ret);
@@ -453,15 +688,19 @@ build input; compilation is not a physical drain or recovery proof.
  /* firmware coredump */
 --- a/mt7996/mmio.c
 +++ b/mt7996/mmio.c
-@@ -723,9 +723,11 @@
+@@ -721,11 +721,10 @@
+ 				    enum mt76_rxq_id q)
+ {
  	if (q == MT_RXQ_NPU0 || q == MT_RXQ_NPU1) {
- 		struct airoha_npu *npu;
- 
-+		rcu_read_lock();
- 		npu = rcu_dereference(mdev->mmio.npu);
- 		if (npu)
- 			airoha_npu_wlan_enable_irq(npu, q - MT_RXQ_NPU0);
-+		rcu_read_unlock();
+-		struct airoha_npu *npu;
+-
+-		npu = rcu_dereference(mdev->mmio.npu);
+-		if (npu)
+-			airoha_npu_wlan_enable_irq(npu, q - MT_RXQ_NPU0);
++		int err = mt76_npu_rearm_irq(mdev, q);
++
++		if (err && err != -ESHUTDOWN)
++			dev_err_ratelimited(mdev->dev, "NPU IRQ rearm failed: %d\n", err);
  	} else {
  		struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev,
  						      mt76);
@@ -475,6 +714,15 @@ build input; compilation is not a physical drain or recovery proof.
  		bool hw_full_reset:1;
  		bool hw_init_done:1;
  		bool restart:1;
+@@ -741,7 +742,7 @@
+ s8 mt7996_eeprom_get_power_delta(struct mt7996_dev *dev, int band);
+ bool mt7996_eeprom_has_background_radar(struct mt7996_dev *dev);
+ int mt7996_dma_init(struct mt7996_dev *dev);
+-void mt7996_dma_reset(struct mt7996_dev *dev, bool force);
++int mt7996_dma_reset(struct mt7996_dev *dev, bool force);
+ void mt7996_dma_prefetch(struct mt7996_dev *dev);
+ void mt7996_dma_cleanup(struct mt7996_dev *dev);
+ void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
 --- a/mt7996/npu.c
 +++ b/mt7996/npu.c
 @@ -7,6 +7,7 @@
@@ -513,18 +761,37 @@ build input; compilation is not a physical drain or recovery proof.
  static int mt7996_npu_rx_event_init(struct mt7996_dev *dev,
  				    struct airoha_npu *npu)
  {
-@@ -522,6 +544,10 @@
+@@ -516,11 +538,19 @@
+ int __mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
+ 	struct airoha_npu *npu;
+-	int i, err;
++	int err;
++
++	err = mt76_npu_irq_error(&dev->mt76);
++	if (err)
++		return err;
+ 
+ 	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
  	if (!npu)
  		return 0;
- 
++
 +	err = mt7996_npu_rx_event_validate(dev);
 +	if (err)
 +		return err;
-+
+ 
  	err = mt7996_npu_offload_init(dev, npu);
  	if (err)
+@@ -550,18 +580,26 @@
+ 	if (err)
  		return err;
-@@ -558,10 +584,18 @@
+ 
+-	for (i = MT_RXQ_NPU0; i <= MT_RXQ_NPU1; i++)
+-		airoha_npu_wlan_enable_irq(npu, i - MT_RXQ_NPU0);
+-
+-	return 0;
++	return mt76_npu_start_irqs(&dev->mt76);
+ }
  
  int mt7996_npu_hw_init(struct mt7996_dev *dev)
  {
@@ -537,6 +804,9 @@ build input; compilation is not a physical drain or recovery proof.
  	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
 -
 +	mutex_lock(&dev->mt76.mutex);
++	err = mt76_npu_irq_error(&dev->mt76);
++	if (err)
++		goto unlock;
 +	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
 +	if (!npu) {
 +		err = 0;
@@ -545,7 +815,7 @@ build input; compilation is not a physical drain or recovery proof.
  	for (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {
  		int band = i && is_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND0;
  		u32 size = is_mt7996(&dev->mt76) ? band == MT_BAND2
-@@ -569,23 +603,27 @@
+@@ -569,23 +607,27 @@
  						 : MT7996_NPU_RX_RING_SIZE / 2
  						 : MT7996_TX_RING_SIZE;
  
@@ -710,7 +980,46 @@ build input; compilation is not a physical drain or recovery proof.
  
  	return skb;
  }
-@@ -148,6 +175,9 @@
+@@ -141,6 +168,38 @@
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_check_ppe);
+ 
++static bool mt76_npu_irq_poll_allowed(struct mt76_dev *dev)
++{
++	return !mt76_npu_io_admit(dev);
++}
++
++int mt76_npu_io_admit(struct mt76_dev *dev)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	unsigned long flags;
++	int err;
++
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	err = state->error ?: (state->running ? 0 : -ESHUTDOWN);
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_io_admit);
++
++int mt76_npu_irq_error(struct mt76_dev *dev)
++{
++	unsigned long flags;
++	int err;
++
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	err = dev->mmio.npu_irq.error;
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_irq_error);
++
+ static int mt76_npu_rx_poll(struct napi_struct *napi, int budget)
+ {
+ 	struct mt76_dev *dev = mt76_priv(napi->dev);
+@@ -148,10 +207,13 @@
  	struct airoha_npu *npu;
  	int done = 0;
  
@@ -720,7 +1029,12 @@ build input; compilation is not a physical drain or recovery proof.
  	rcu_read_lock();
  
  	npu = rcu_dereference(dev->mmio.npu);
-@@ -161,6 +191,10 @@
+-	if (!npu)
++	if (!npu || !mt76_npu_irq_poll_allowed(dev))
+ 		goto out;
+ 
+ 	while (done < budget) {
+@@ -161,6 +223,10 @@
  		skb = mt76_npu_dequeue(dev, &dev->q_rx[qid], &info);
  		if (!skb)
  			break;
@@ -731,7 +1045,306 @@ build input; compilation is not a physical drain or recovery proof.
  
  		dev->drv->rx_skb(dev, qid, skb, &info);
  		mt76_rx_poll_complete(dev, qid, napi);
-@@ -437,7 +471,7 @@
+@@ -177,6 +243,40 @@
+ 	return done;
+ }
+ 
++static int mt76_npu_irq_fault_locked(struct mt76_dev *dev,
++				     struct airoha_npu *npu, int error)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	unsigned int q;
++
++	if (state->error)
++		return state->error;
++	state->error = error < 0 ? error : -EIO;
++	state->running = false;
++	/* This extra depth is never released by an in-flight normal enable. */
++	for (q = 0; q < ARRAY_SIZE(state->line); q++)
++		if (state->requested & BIT(q))
++			disable_irq_nosync(state->line[q]);
++	for (q = 0; q < ARRAY_SIZE(state->line); q++)
++		if (npu && (state->requested & BIT(q)))
++			airoha_npu_wlan_irq_mask(npu, q);
++
++	return state->error;
++}
++
++static void mt76_npu_irq_block_locked(struct mt76_dev *dev)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	unsigned int q;
++
++	for (q = 0; q < ARRAY_SIZE(state->line); q++) {
++		if (!(state->requested & BIT(q)) || (state->blocked & BIT(q)))
++			continue;
++		disable_irq_nosync(state->line[q]);
++		state->blocked |= BIT(q);
++	}
++}
++
+ static irqreturn_t mt76_npu_irq_handler(int irq, void *q_instance)
+ {
+ 	struct mt76_queue *q = q_instance;
+@@ -184,23 +284,48 @@
+ 	int qid = q - &dev->q_rx[0];
+ 	int index = qid - MT_RXQ_NPU0;
+ 	struct airoha_npu *npu;
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	irqreturn_t result = IRQ_NONE;
++	unsigned long flags;
+ 	u32 status;
++	int err;
+ 
+ 	rcu_read_lock();
+ 
+ 	npu = rcu_dereference(dev->mmio.npu);
+-	if (!npu)
+-		goto out;
+-
+-	status = airoha_npu_wlan_get_irq_status(npu, index);
+-	airoha_npu_wlan_set_irq_status(npu, status);
+-
+-	airoha_npu_wlan_disable_irq(npu, index);
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	if (index < 0 || index >= ARRAY_SIZE(state->line) ||
++	    !(state->requested & BIT(index)) || state->line[index] != irq)
++		goto unlock;
++	result = IRQ_HANDLED;
++	if (state->error || !state->running)
++		goto unlock;
++	if (!npu) {
++		err = -ENODEV;
++		goto fault;
++	}
++	err = airoha_npu_wlan_irq_read(npu, index, &status);
++	if (err)
++		goto fault;
++	if (!status) {
++		result = IRQ_NONE;
++		goto unlock;
++	}
++	err = airoha_npu_wlan_irq_mask(npu, index);
++	if (err)
++		goto fault;
++	err = airoha_npu_wlan_irq_ack(npu, index, status);
++	if (err)
++		goto fault;
+ 	napi_schedule(&dev->napi[qid]);
+-out:
++	goto unlock;
++fault:
++	mt76_npu_irq_fault_locked(dev, npu, err);
++unlock:
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
+ 	rcu_read_unlock();
+ 
+-	return IRQ_HANDLED;
++	return result;
+ }
+ 
+ int mt76_npu_dma_add_buf(struct mt76_phy *phy, struct mt76_queue *q,
+@@ -259,16 +384,36 @@
+ {
+ 	int err, irq, qid = q - &dev->q_rx[0];
+ 	int size, index = qid - MT_RXQ_NPU0;
+-	struct airoha_npu *npu;
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	struct airoha_npu *npu;
++	unsigned long flags;
+ 	const char *name;
+ 
+ 	mutex_lock(&dev->mutex);
+ 
+ 	npu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);
+-	irq = npu && index < ARRAY_SIZE(npu->irqs) ? npu->irqs[index]
+-						   : -EINVAL;
++	if (index < 0 || index >= ARRAY_SIZE(state->line)) {
++		err = -EINVAL;
++		goto out;
++	}
++	if (!airoha_npu_wlan_irq_supported(npu)) {
++		err = -EOPNOTSUPP;
++		goto out;
++	}
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	err = state->error;
++	if (!err && (state->requested & BIT(index)))
++		err = -EBUSY;
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++	if (err)
++		goto out;
++	irq = npu->irqs[index];
+ 	if (irq < 0) {
+ 		err = irq;
++		goto out;
++	}
++	if (npu->irqs[1 - index] == irq) {
++		err = -EINVAL;
+ 		goto out;
+ 	}
+ 
+@@ -286,13 +431,18 @@
+ 	}
+ 
+ 	err = devm_request_irq(dev->dev, irq, mt76_npu_irq_handler,
+-			       IRQF_SHARED, name, q);
++			       IRQF_NO_AUTOEN, name, q);
+ 	if (err)
+ 		goto out;
+ 
+ 	netif_napi_add(dev->napi_dev, &dev->napi[qid], mt76_npu_rx_poll);
+ 	mt76_npu_fill_rx_queue(dev, q);
+ 	napi_enable(&dev->napi[qid]);
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	state->line[index] = irq;
++	state->requested |= BIT(index);
++	state->blocked |= BIT(index);
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
+ out:
+ 	mutex_unlock(&dev->mutex);
+ 
+@@ -413,37 +563,138 @@
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_send_txrx_addr);
+ 
+-void mt76_npu_disable_irqs(struct mt76_dev *dev)
+-{
+-	struct airoha_npu *npu;
+-	int i;
+-
++int mt76_npu_start_irqs(struct mt76_dev *dev)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	struct airoha_npu *npu;
++	unsigned long flags, release = 0;
++	unsigned int q;
++	int err = 0;
++
++	lockdep_assert_held(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	if (state->error) {
++		err = state->error;
++		goto unlock;
++	}
++	if (!npu && !state->requested)
++		goto unlock;
++	if (!airoha_npu_wlan_irq_supported(npu)) {
++		err = -EOPNOTSUPP;
++		goto unlock;
++	}
++	if (state->requested != GENMASK(1, 0) || state->running) {
++		err = state->running ? -EBUSY : -EAGAIN;
++		goto unlock;
++	}
++	for (q = 0; q < ARRAY_SIZE(state->line); q++) {
++		err = airoha_npu_wlan_irq_arm(npu, q);
++		if (err) {
++			err = mt76_npu_irq_fault_locked(dev, npu, err);
++			goto unlock;
++		}
++	}
++	state->running = true;
++	release = state->blocked & state->requested;
++	state->blocked &= ~release;
++unlock:
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++	/* enable_irq may sleep with some irqchips. The fault's separate depth
++	 * survives even if it races either of these normal-depth releases.
++	 */
++	for (q = 0; q < ARRAY_SIZE(state->line); q++)
++		if (release & BIT(q))
++			enable_irq(state->line[q]);
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	if (state->error)
++		err = state->error;
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_start_irqs);
++
++int mt76_npu_rearm_irq(struct mt76_dev *dev, enum mt76_rxq_id qid)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	int q = qid - MT_RXQ_NPU0, err = 0;
++	struct airoha_npu *npu;
++	unsigned long flags;
++
++	if (q < 0 || q >= ARRAY_SIZE(state->line))
++		return -EINVAL;
+ 	rcu_read_lock();
+-
+ 	npu = rcu_dereference(dev->mmio.npu);
+-	if (!npu)
+-		goto unlock;
+-
+-	for (i = MT_RXQ_NPU0; i <= MT_RXQ_NPU1; i++) {
+-		int qid = i - MT_RXQ_NPU0;
+-		u32 status;
+-
+-		status = airoha_npu_wlan_get_irq_status(npu, qid);
+-		airoha_npu_wlan_set_irq_status(npu, status);
+-		airoha_npu_wlan_disable_irq(npu, qid);
+-	}
+-unlock:
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	if (state->error)
++		err = state->error;
++	else if (!state->running)
++		err = -ESHUTDOWN;
++	else if (!npu)
++		err = mt76_npu_irq_fault_locked(dev, NULL, -ENODEV);
++	else {
++		err = airoha_npu_wlan_irq_arm(npu, q);
++		if (err)
++			err = mt76_npu_irq_fault_locked(dev, npu, err);
++	}
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
+ 	rcu_read_unlock();
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rearm_irq);
++
++/* IRQ suppression alone is not a DMA-drain or storage-retirement witness. */
++int mt76_npu_disable_irqs(struct mt76_dev *dev)
++{
++	struct mt76_npu_irq *state = &dev->mmio.npu_irq;
++	struct airoha_npu *npu;
++	unsigned long flags;
++	unsigned int q;
++	int err = 0;
++
++	lockdep_assert_held(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	state->running = false;
++	mt76_npu_irq_block_locked(dev);
++	for (q = 0; q < ARRAY_SIZE(state->line); q++) {
++		u32 status = 0;
++		int error;
++
++		if (!(state->requested & BIT(q)))
++			continue;
++		error = airoha_npu_wlan_irq_mask(npu, q);
++		if (!error)
++			error = airoha_npu_wlan_irq_read(npu, q, &status);
++		if (!error)
++			error = airoha_npu_wlan_irq_ack(npu, q, status);
++		if (!err && error)
++			err = error;
++	}
++	if (err)
++		err = mt76_npu_irq_fault_locked(dev, npu, err);
++	else if (state->error)
++		err = state->error;
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++
++	return err;
  }
  EXPORT_SYMBOL_GPL(mt76_npu_disable_irqs);
  
@@ -740,7 +1353,16 @@ build input; compilation is not a physical drain or recovery proof.
  {
  	struct airoha_ppe_dev *ppe_dev;
  	struct airoha_npu *npu;
-@@ -468,6 +502,9 @@
+ 	int err = 0;
+ 
+ 	mutex_lock(&dev->mutex);
++	err = mt76_npu_irq_error(dev);
++	if (err)
++		goto error_unlock;
+ 
+ 	npu = airoha_npu_get(dev->dev);
+ 	if (IS_ERR(npu)) {
+@@ -468,6 +719,9 @@
  	}
  
  	err = airoha_npu_wlan_init_reserved_memory(npu);
@@ -750,7 +1372,7 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		goto error_ppe_put;
  
-@@ -497,6 +534,37 @@
+@@ -497,6 +751,37 @@
  }
  EXPORT_SYMBOL_GPL(mt76_npu_init);
  
@@ -788,7 +1410,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt76_npu_deinit(struct mt76_dev *dev)
  {
  	struct airoha_ppe_dev *ppe_dev;
-@@ -506,16 +574,18 @@
+@@ -506,16 +791,18 @@
  
  	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
  				  lockdep_is_held(&dev->mutex));

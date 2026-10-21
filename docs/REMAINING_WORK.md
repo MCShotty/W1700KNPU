@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Checked IRQ Software Progress
+
+Checked read/ack/mask/arm, readback, initially-disabled exclusive RX lines, sticky
+quarantine and RX/TX admission are implemented (lockcb035741). Actual selected-C
+IRQ fixtures pass353 cases/six mutants; whole TX-entry fixtures pass18 cases/one
+mutant. Four AArch64 modules link;24 supporting tests and70+5 source exports pass.
+Original kernel/mt76/protected inputs and UI/WiFi stay unchanged. Read
+research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md and its receipts.
+
+Still required: fresh complete image, real kernel IRQ concurrency/routing,
+in-flight DMA ownership/drain/recovery/retirement. Already-admitted work may
+survive quarantine. Both frozen default/HIF2 original replays remain live at
+DESC10 after six TXBUF phases/RX-event; no verdict or new-IRQ qualification.
+Full cold/fault/setup,hot TX/RX/events/token/TXFREE/free-pool/PPE/FastTX,RRO context,
+lifecycle/cache/PMA/exclusion,whole-stack,physical boot/radio/client/performance/
+stability gates stay open. Image01fc0ef0 predates this change. No hardware/flash.
+
 ## 2026-10-21 - Latest Offline Image Passed;Original Replays Pending
 
 The latest4e43de6f/a282ca7a image01fc0ef0 now passes full offline world/FIT/board/
@@ -303,10 +320,11 @@ an equivalent bounded implementation;do not relabel the caller or raise limits.
   INODE faults and broader full setup. Do not seed replacement owners or SETUP.
 - Complete hot TX/RX: packet/SKB/token/TXFREE/scatter/BA/free-pool/PPE/FastTX
   ownership, workers and complete host/native lifecycle contracts.
-- Add checked IRQ read/ack/mask/enable, partial-effect/readback handling,
-  quarantine and atomic rearm. The148 error schedules/5624 silent bulk errors/
-  12 initial/eight hot enable losses remain. RRO's atomic-context bridge stays
-  denied until its ownership/context contract is established.
+- Qualify checked IRQ read/ack/mask/arm, partial-effect/readback, quarantine and
+  serialized rearm beyond its353-case host fixture/four unloaded module links.
+  The148/5624/12/eight losses are preserved old-code characterization,not current
+  checked-fixture failures. Real concurrency/routing/drain remain. RRO's atomic-
+  context bridge stays denied until its ownership/context contract is established.
 - Close DMA/cache/PMA/exclusion, drain/remove/rearm/recovery, remaining original
   and indirect callees, and whole IRQ/per-hart/physical stack bounds.
 - Build and qualify an updated complete image, then separately validate actual

@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Checked IRQ Implementation
+
+Mainline patches now propagate IRQ errors, check mask readback, start RX IRQs
+disabled and retain first-fault quarantine across startup enables. RX/TX admission
+closes on fault; reset callers propagate errors. Host fixtures pass353 IRQ and18
+complete TX-entry cases, rejecting seven mutants. Four AArch64 modules link on
+Linux6.18.52;24 supporting tests and all source exports pass. Original build,
+images and UI/WiFi remain unchanged.
+
+This is software-fixture/module-link evidence, not physical IRQ/DMA drain or
+full NPU acceptance. Image01fc0ef0 predates this change. Both unchanged original
+replays pass TXBUF/RX-event and are in DESC10; no final verdict yet.
+See the [checked IRQ checkpoint](research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md).
+
 ## 2026-10-21 - Current-Pair Image Verified
 
 The new image `01fc0ef0` passes offline Gemtek FIT/DTB,218-package and78-module

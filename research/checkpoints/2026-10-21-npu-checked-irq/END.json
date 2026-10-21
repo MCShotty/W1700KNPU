@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "scope": "derivative-integrity-source-whitespace-and-live-handles-not-native-reexecution",
+  "private_evidence_sha256": "02b58276557d304e962c6da27cfb92536db71bf5a70f7d5df992ead1eea5c82f",
+  "rehashed_evidence_paths": 609,
+  "content_whitespace_checks": {
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": {
+      "before_sha256": "aff9c217f84994ffd3d5279af49e416cd9dcc1b2d5375d808b97bcbe20a9a633",
+      "after_sha256": "2cc7a1694f3168497b5cf2beb235592fa6baff6c2c79d4084d07885c5399b3b3",
+      "added_lines_checked": 69
+    },
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h": {
+      "before_sha256": "e4e165ce3e4e862d67337f1784820d86a70e9c0a158e0894514cc2fa1dbb8520",
+      "after_sha256": "ad7af00653d222dba862d6a2129b763950ae6397a2892e08c9aaadb285b66b79",
+      "added_lines_checked": 77
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/airoha_offload.h": {
+      "before_sha256": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+      "after_sha256": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+      "added_lines_checked": 0
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt76.h": {
+      "before_sha256": "95de363959fea5a56f5dc66a6f1e22dc4aef1f55b6aa324ae064e2668eca7536",
+      "after_sha256": "510332502f16ee4068b3bf58e1ce9e216c97cb6aa141ba694f6ff61fa24d0c91",
+      "added_lines_checked": 70
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/npu.c": {
+      "before_sha256": "18d4633ac33b3aa0b0d541859c950db89c81c121714e2c1829f23041ffffa7ac",
+      "after_sha256": "93cd49814c42e329097a5670e8acb824aa88d13f0b919ae22b10aa534bcec69d",
+      "added_lines_checked": 249
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/npu.c": {
+      "before_sha256": "6f825c768630335d9a8b479ac402e082cc7ed66fe64a4958791beec458a76cff",
+      "after_sha256": "7210c5f1fa5155dfb48dad20b3a32c9bcbc1658e2ac9231cc956eea128e9e21f",
+      "added_lines_checked": 9
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mmio.c": {
+      "before_sha256": "67de8cc04f5db4159a3d7235e5221cf619802ccb03fe780b45c15457ab6bfea0",
+      "after_sha256": "161f7e4c7f2eb43288f4bb5c98268078e3b51a0fe83ce5173a50e06f3c60db4f",
+      "added_lines_checked": 4
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c": {
+      "before_sha256": "e565520865dd3b4d3b1bc270f3d4ebe88404eeda0def10f3f112ae655a7ed3d3",
+      "after_sha256": "21d1b877ecdcc80565893615df12f9f58e6bf1ad24e06dc1fe2290885d37407b",
+      "added_lines_checked": 8
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c": {
+      "before_sha256": "7243304001b6a315f3c724e725faa4bb851ed59a8a08fbc1695e8acc8ca7bad0",
+      "after_sha256": "9fe003f7b7fdec334a17fbaad27e76e0785b99d898fd1b888611609a3f086b56",
+      "added_lines_checked": 33
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/dma.c": {
+      "before_sha256": "265baf565c4c651a816da29d63224799bd38e643cea31ab1fa7c332090a15701",
+      "after_sha256": "873bc623ebb1705ccf25860b35f239bdd8afe32bc8716f6af502cda81e5eaac4",
+      "added_lines_checked": 8
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h": {
+      "before_sha256": "37421222ba80195825d4c694bc8a1ec920d63f1acf3b5905b4539fc538cfd1eb",
+      "after_sha256": "9e8a1762731b304207d0b312aeb52280e20aaec7448119faff1734588c42a640",
+      "added_lines_checked": 1
+    }
+  },
+  "non_patch_git_diff_check_passed": true,
+  "patch_whitespace_scope": "Unified-patch context prefixes are not C whitespace;actual added source lines checked independently.",
+  "plaintext_source_pattern_scan_passed": true,
+  "source_paths": {
+    "AGENTS.md": "25c9cdb2b432ab8339576ac843006f12ffb14a26fbee7580ec2debc8deb8627a",
+    "README.md": "828b7054e1c9c7da6fb3cab2391bd83b26b838a6d3ff5847008594983451a3b2",
+    "docs/REMAINING_WORK.md": "6f49b70bd53d998eac92d0fd8ac56d6dc850f9c7f869b100cfeef65fe29ba118",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "64a83de81bd6ba1a8d791c7b262b925b4e80f6839a19f4e2f76e7d1946b278a8",
+    "docs/W1700K_STOCK_PORT_LEDGER.md": "9f3f9a4634a596796d44fec850630dea900cb87962ea76cc3dcbd3516962e992",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "95cee037647db57dc5e40d948a1c1471a9ef259618dba5d500f8d4e8b2a75aa8",
+    "firmware/source-lock.json": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "tests/npu/checked-irq-harness.c": "f42673d5cf8352aa8859de2e466540ac6393a7d375aaa9d619fa1011fbb08812",
+    "tests/npu/checked-irq-tx-harness.c": "dcb4b2295fff361c6895c679c9a62adc020cfebfc85f7f8f1a7b4b09f5cc8271",
+    "tests/npu/test_checked_irq_contract.py": "fa4c60b018cb2a03b5354366a4d5ded576d5b32ef2a51303e540abcb5bdb034a",
+    "tests/npu/test_checked_irq_tx.py": "e99127bc9b31fae4b9e99d52e234e3c41869144b5a66fcfd9ce81e0f97e86652",
+    "tests/npu/test_checked_irq_modules.py": "f795e165e23bc85e68f726e860069e697406e92ed58d522c68dc1f4d1d203880",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "284c591e329c0e8961e7d66b1d0aa793ee68a830684d7c2c111f3a37d2d9c966",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": "95dd1164f3febe5f7bb29a4776067d740fb4760cfb1040a78ad636c4e64e70ad",
+    "research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md": "67e60ceed828ba0e336c283bc8d5576b18315b1f3dcab43eb227b6c788e82b59",
+    "research/checkpoints/2026-10-21-npu-checked-irq/SOURCE.json": "9cc885eff63b15fe5abf04e72527af07f5653e941f5336a9dec517fb3a445485",
+    "research/checkpoints/2026-10-21-npu-checked-irq/PROGRESS.json": "72b89964515614c923c4377d5acbb2c1297d8f5b811fb679978b27c594931324",
+    "research/checkpoints/2026-10-21-npu-checked-irq/MODULES.json": "810f49052acad573a13f9a8b97e7aed62a71b73ee494d8f204d960c42c039b87",
+    "research/checkpoints/2026-10-21-npu-checked-irq/CHECKED_IRQ.json": "0c9fd64cc39767cdec832cf6ba6024f4afef95453f120673df6419ea5adab1b1",
+    "research/checkpoints/2026-10-21-npu-checked-irq/TX.json": "f5e51882e73996e933f58cb2dd880f470ca256c55a1274ae64c9f1b1772180dc"
+  },
+  "retained_failure_paths": {
+    ".local/npu-checked-irq-tx/checked-q1/actual.c": "0eb372560dea0297594917944649f9ea928e18342daf55479a165e288326c4ad",
+    ".local/npu-checked-irq-tx/checked-q1/actual.build.log": "c133a9ba5f174e46c0ab7bba720056c874a1c71b9bd88e044a23198272758281",
+    ".local/npu-checked-irq-modules/checked-q1/capacity.json": "5918b174d7b9b511dd138935628b928b10d1276466cb394902611b892593c138",
+    ".local/npu-checked-irq-modules/checked-q1/provider-patch.log": "9a0ffb46b50747fd7430f667434aab2917dc9ef698127bd8377e55e368f14741",
+    ".local/npu-checked-irq-modules/checked-q1/kernel-before.json": "b1a8e64984d7d0a015150adf59fb37c94c666a248c264c9fc18399b60b86e097",
+    ".local/npu-checked-irq-modules/checked-q1/test-before.py": "bdc5deb56ce72c562b56dc0f5985ce408c2751d792109dd72dacbd65ceb2595f",
+    ".local/npu-checked-irq-modules/checked-q1/mt76-before.json": "1c42941b11d129447faec0dd43df906ac5c5834a1f13ec6dcf4ea7977871fdac",
+    ".local/npu-checked-irq-modules/checked-q1/mt76-patch.log": "04f8caf67ca84cf606c65cd26f1b703374e833777e8acfb9f93e510ff6065de4",
+    ".local/npu-checked-irq-20261021/fixed-q1.log": "2d5d22a7a25488a50981d617ae630c02e74927539341b76301b2880a7e9b9614",
+    ".local/npu-checked-irq-20261021/fixed-q1.json": "567b31216c2f6cdccf010d7224b01daa457e4bfaff46656e490d82e9d8d9ef00",
+    ".local/npu-checked-irq-20261021/baseline-audit-q2.json": "5859502adf2e396150cdca9624ecc2c35f42512e03e649b32dfec787485c9d54"
+  },
+  "live_guard": {
+    "pid": 400207,
+    "start_ticks": "3965596",
+    "lock": "lock:\t1: FLOCK  ADVISORY  WRITE 400207 08:30:2919797 0 EOF"
+  },
+  "original_replays_restarted_or_paused": false,
+  "new_image_qualification": false,
+  "full_npu_goal_complete": false,
+  "hardware": false
+}

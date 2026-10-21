@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "patches": [
+    {
+      "component": "kernel",
+      "patch": "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
+      "before_sha256": "284c591e329c0e8961e7d66b1d0aa793ee68a830684d7c2c111f3a37d2d9c966",
+      "after_sha256": "284c591e329c0e8961e7d66b1d0aa793ee68a830684d7c2c111f3a37d2d9c966",
+      "files": {
+        "drivers/clk/clk-en7523.c": "3e05c0bcd5e47475f4e649b93b0b1d119e5fc29b041852dddb9eab221a7277b7",
+        "drivers/net/ethernet/airoha/Kconfig": "485654e38b548f9ea9d9b26feadaabadfe82489709669f02e83130a8cb8e5be8",
+        "drivers/net/ethernet/airoha/Makefile": "b5731434bc89980fc2b90a5496319a0dc67b1b0805900f5b87814cccf28fd5e3",
+        "drivers/net/ethernet/airoha/airoha_npu.c": "2cc7a1694f3168497b5cf2beb235592fa6baff6c2c79d4084d07885c5399b3b3",
+        "include/linux/soc/airoha/airoha_offload.h": "ad7af00653d222dba862d6a2129b763950ae6397a2892e08c9aaadb285b66b79"
+      },
+      "zero_fuzz": true
+    },
+    {
+      "component": "mt76",
+      "patch": "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "before_sha256": "0f227df7fd946cbed6e897875f7ea76997c737d34d83b2a2a2c735a42531dbb3",
+      "after_sha256": "95dd1164f3febe5f7bb29a4776067d740fb4760cfb1040a78ad636c4e64e70ad",
+      "files": {
+        "dma.c": "873bc623ebb1705ccf25860b35f239bdd8afe32bc8716f6af502cda81e5eaac4",
+        "mt76.h": "510332502f16ee4068b3bf58e1ce9e216c97cb6aa141ba694f6ff61fa24d0c91",
+        "mt7996/debugfs.c": "e6bc7350bcd0f3b71bcc1078db7d78acf7b36f15c68b7ada5250cdd4f42e4eb2",
+        "mt7996/dma.c": "21d1b877ecdcc80565893615df12f9f58e6bf1ad24e06dc1fe2290885d37407b",
+        "mt7996/init.c": "e6f59c1f65de8e01a813a62fb8e4cea8e5cc86babbc8e7a80a49b07ed73b24eb",
+        "mt7996/mac.c": "9fe003f7b7fdec334a17fbaad27e76e0785b99d898fd1b888611609a3f086b56",
+        "mt7996/mmio.c": "161f7e4c7f2eb43288f4bb5c98268078e3b51a0fe83ce5173a50e06f3c60db4f",
+        "mt7996/mt7996.h": "9e8a1762731b304207d0b312aeb52280e20aaec7448119faff1734588c42a640",
+        "mt7996/npu.c": "7210c5f1fa5155dfb48dad20b3a32c9bcbc1658e2ac9231cc956eea128e9e21f",
+        "mt7996/pci.c": "713cf61d0fabe889eb1fb77912c7f767854cd7738da7db30497610c5f1ff6b3d",
+        "npu.c": "93cd49814c42e329097a5670e8acb824aa88d13f0b919ae22b10aa534bcec69d"
+      },
+      "zero_fuzz": true
+    }
+  ],
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "cumulative_source_export": [
+    {
+      "component": "openwrt",
+      "base": "288d79449f622a37c727cb12e81e85dba822aecb",
+      "tracked_patched_tree": "da5ca5f79707ad0c7d081bfaad25bd57ac8a0d6d",
+      "changed_files_verified": 70,
+      "passed": true
+    },
+    {
+      "component": "luci",
+      "base": "d24568155976063c56ad001a0bd5d10ab4880f3e",
+      "tracked_patched_tree": "40fcfa52537326eaf6e8bb62a8d850fb4b901750",
+      "changed_files_verified": 5,
+      "passed": true
+    }
+  ],
+  "current_image_contains_new_irq": false,
+  "private_evidence": {
+    "path": ".local/npu-checked-irq-20261021/checkpoint-evidence-q1.json",
+    "sha256": "02b58276557d304e962c6da27cfb92536db71bf5a70f7d5df992ead1eea5c82f",
+    "bound_paths": 609
+  }
+}

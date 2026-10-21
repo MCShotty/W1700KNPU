@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Checked IRQ Source And Modules
+
+Read research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md. Lockcb035741
+exports checked read/ack/mask/arm/readback, initially-disabled exclusive RX IRQs,
+sticky quarantine and RX/TX admission. Reset callers propagate failure; a
+separate fault disable-depth hold survives both tested late startup enables.
+Actual selected-C IRQ fixtures pass353 cases/six mutants; complete TX-entry C
+passes18 cases/one mutant,with address/undefined/leak checks. Provider plus three
+mt76 modules link forAArch64/Linux6.18.52;24 build-contract tests and70+5 source
+exports pass. Private overlay output88014878 bytes;original kernel/mt76 and
+protected inputs/UI/WiFi unchanged. CHECKED_IRQ/TX/MODULES/SOURCE.json bind scope;
+private evidence02b58276 binds609 paths. Preserve failed attempts/old source.
+Prepared sources intentionally remain older;do not refresh exports from them
+over current authority. Reconstruct from locked patches/current components.
+
+This is not physical IRQ/concurrency/DMA drain or a new full image. Image01fc0ef0
+predates this IRQ code. Both original default/HIF2 jobs still run frozen73ce969,
+pass six TXBUF phases/RX-event and have entered DESC10;no terminal verdict.
+PROGRESS.json rehashes2473 frozen inputs and records prefixes,not final results.
+Do not pause/restart them or change sizes/native3M/60M-us limits/checkpoints.
+Continue full cold/fault/setup,hot packet/event/token ownership,RRO context,
+lifecycle/cache/PMA/exclusion/drain/retirement,whole-stack/physical/client work.
+No hardware,flash,VM restart,policy change or subagents.
+
 ## 2026-10-21 - Current-Pair Offline Image Passed;Fresh Original Jobs Live
 
 Read the image-replay checkpoint/WORLD.json9f5109fb/private3d11b02e. Actual clean

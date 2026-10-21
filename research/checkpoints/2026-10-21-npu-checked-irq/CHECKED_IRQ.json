@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "actual-selected-C-with-explicit-host-IRQ-regmap-fixtures",
+  "cases": 353,
+  "rejected_mutants": 6,
+  "actual": {
+    "passed": true,
+    "cases": 353,
+    "handler_fault_cases": 96,
+    "start_fault_cases": 48,
+    "rearm_fault_cases": 48,
+    "stop_fault_cases": 96,
+    "late_start_fault_cases": 2,
+    "ordinary_poll_cases": 19,
+    "returncode": 0,
+    "source_sha256": "326a3e92431dcade21b5177ad88ab60880ea52d7165ccf5b3ff1dae8b3089ee3",
+    "binary_sha256": "3a41d2225b017c26783280cff0ce2ae55b9fcd2a8440aa50c5db4460d31f492e",
+    "log_sha256": "acf88077f7c027197598086089af3ea5ec344f731639801e1098d0295d7fb4eb"
+  },
+  "first_fault_sticky": true,
+  "legacy_callbacks_retained_but_not_target_fallback": true,
+  "prior_characterization": {
+    "handler_error_schedules": 148,
+    "silent_bulk_errors": 5624,
+    "startup_lost_errors": 12,
+    "hot_lost_errors": 8,
+    "historical_preserved_sources": true,
+    "original_wrapper_passed": false
+  },
+  "private_evidence": {
+    "path": ".local/npu-checked-irq-20261021/checkpoint-evidence-q1.json",
+    "sha256": "02b58276557d304e962c6da27cfb92536db71bf5a70f7d5df992ead1eea5c82f",
+    "bound_paths": 609
+  },
+  "limits": [
+    "Actual selected C bodies/types are compiled;regmap effects/errors,IRQ nesting,RCU,NAPI and setup stages are explicit fixtures.",
+    "A host-disable depth prevents a late normal enable from undoing quarantine;disable_nosync is not handler synchronization or DMA drain.",
+    "I/O admission rejects new work after fault;already-admitted work and all physical ownership/drain/retirement contracts remain separate.",
+    "No complete packet poll/TX/reset-body execution,kernel concurrency,module load,router boot or client acceptance."
+  ]
+}

@@ -1805,7 +1805,79 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static void airoha_npu_wlan_irq_enable(struct airoha_npu *npu, int q)
-@@ -742,22 +2044,84 @@
+@@ -646,6 +1948,71 @@
+ static void airoha_npu_wlan_irq_disable(struct airoha_npu *npu, int q)
+ {
+ 	regmap_clear_bits(npu->regmap, REG_IRQ_RXDONE(q), NPU_IRQ_RX_MASK(q));
++}
++
++static int airoha_npu_wlan_irq_read_checked(struct airoha_npu *npu, int q,
++					  u32 *status)
++{
++	u32 val = 0;
++	int err;
++
++	if (!status)
++		return -EINVAL;
++	*status = 0;
++	if (!npu || q < 0 || q > 1)
++		return -EINVAL;
++	err = regmap_read(npu->regmap, REG_IRQ_STATUS, &val);
++	if (err)
++		return err;
++	*status = val & NPU_IRQ_RX_MASK(q);
++
++	return 0;
++}
++
++static int airoha_npu_wlan_irq_ack_checked(struct airoha_npu *npu, int q,
++					 u32 status)
++{
++	if (!npu || q < 0 || q > 1)
++		return -EINVAL;
++	if (status & ~NPU_IRQ_RX_MASK(q))
++		return -EINVAL;
++	if (!status)
++		return 0;
++
++	/* Status may reassert; a later read is not an acknowledgement witness. */
++	return regmap_write(npu->regmap, REG_IRQ_STATUS, status);
++}
++
++static int airoha_npu_wlan_irq_update_checked(struct airoha_npu *npu, int q,
++					    bool enabled)
++{
++	u32 val = 0, mask;
++	int err;
++
++	if (!npu || q < 0 || q > 1)
++		return -EINVAL;
++	mask = NPU_IRQ_RX_MASK(q);
++	if (enabled)
++		err = regmap_set_bits(npu->regmap, REG_IRQ_RXDONE(q), mask);
++	else
++		err = regmap_clear_bits(npu->regmap, REG_IRQ_RXDONE(q), mask);
++	if (err)
++		return err;
++	err = regmap_read(npu->regmap, REG_IRQ_RXDONE(q), &val);
++	if (err)
++		return err;
++
++	return !!(val & mask) == enabled ? 0 : -EIO;
++}
++
++static int airoha_npu_wlan_irq_arm_checked(struct airoha_npu *npu, int q)
++{
++	return airoha_npu_wlan_irq_update_checked(npu, q, true);
++}
++
++static int airoha_npu_wlan_irq_mask_checked(struct airoha_npu *npu, int q)
++{
++	return airoha_npu_wlan_irq_update_checked(npu, q, false);
+ }
+ 
+ struct airoha_npu *airoha_npu_get(struct device *dev)
+@@ -742,22 +2109,84 @@
  	.disable_locking	= true,
  };
  
@@ -1893,7 +1965,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,9 +2129,12 @@
+@@ -765,23 +2194,50 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -1909,7 +1981,13 @@ build input; compilation is not a physical drain or recovery proof.
  	npu->ops.wlan_get_queue_addr = airoha_npu_wlan_queue_addr_get;
  	npu->ops.wlan_set_irq_status = airoha_npu_wlan_irq_status_set;
  	npu->ops.wlan_get_irq_status = airoha_npu_wlan_irq_status_get;
-@@ -777,11 +2144,31 @@
+ 	npu->ops.wlan_enable_irq = airoha_npu_wlan_irq_enable;
+ 	npu->ops.wlan_disable_irq = airoha_npu_wlan_irq_disable;
++	npu->ops.wlan_irq_read = airoha_npu_wlan_irq_read_checked;
++	npu->ops.wlan_irq_ack = airoha_npu_wlan_irq_ack_checked;
++	npu->ops.wlan_irq_arm = airoha_npu_wlan_irq_arm_checked;
++	npu->ops.wlan_irq_mask = airoha_npu_wlan_irq_mask_checked;
+ 
  	npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
  	if (IS_ERR(npu->regmap))
  		return PTR_ERR(npu->regmap);
@@ -1941,7 +2019,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +2180,6 @@
+@@ -793,9 +2249,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -1951,7 +2029,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +2189,6 @@
+@@ -805,8 +2258,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -1960,7 +2038,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +2207,33 @@
+@@ -825,55 +2276,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  
@@ -2032,7 +2110,15 @@ build input; compilation is not a physical drain or recovery proof.
  		.of_match_table = of_airoha_npu_match,
 --- a/include/linux/soc/airoha/airoha_offload.h
 +++ b/include/linux/soc/airoha/airoha_offload.h
-@@ -172,6 +172,8 @@
+@@ -67,6 +67,7 @@
+ 
+ #define NPU_NUM_CORES		8
+ #define NPU_NUM_IRQ		6
++#define AIROHA_NPU_CHECKED_IRQ_API	1
+ #define NPU_RX0_DESC_NUM	512
+ #define NPU_RX1_DESC_NUM	512
+ 
+@@ -172,6 +173,8 @@
  		struct airoha_npu *npu;
  		/* protect concurrent npu memory accesses */
  		spinlock_t lock;
@@ -2041,7 +2127,7 @@ build input; compilation is not a physical drain or recovery proof.
  		struct work_struct wdt_work;
  		/* Coherent bounce buffer for mailbox cmd/rsp */
  		void *buf;
-@@ -195,6 +197,17 @@
+@@ -195,6 +198,17 @@
  					    u32 entry_size, u32 hash,
  					    bool ppe2);
  		int (*wlan_init_reserved_memory)(struct airoha_npu *npu);
@@ -2059,7 +2145,18 @@ build input; compilation is not a physical drain or recovery proof.
  		int (*wlan_send_msg)(struct airoha_npu *npu, int ifindex,
  				     enum airoha_npu_wlan_set_cmd func_id,
  				     void *data, int data_len, gfp_t gfp);
-@@ -214,10 +227,40 @@
+@@ -207,6 +221,10 @@
+ 		u32 (*wlan_get_irq_status)(struct airoha_npu *npu, int q);
+ 		void (*wlan_enable_irq)(struct airoha_npu *npu, int q);
+ 		void (*wlan_disable_irq)(struct airoha_npu *npu, int q);
++		int (*wlan_irq_read)(struct airoha_npu *npu, int q, u32 *status);
++		int (*wlan_irq_ack)(struct airoha_npu *npu, int q, u32 status);
++		int (*wlan_irq_arm)(struct airoha_npu *npu, int q);
++		int (*wlan_irq_mask)(struct airoha_npu *npu, int q);
+ 	} ops;
+ #endif
+ };
+@@ -214,10 +232,40 @@
  #if (IS_BUILTIN(CONFIG_NET_AIROHA_NPU) || IS_MODULE(CONFIG_NET_AIROHA_NPU))
  struct airoha_npu *airoha_npu_get(struct device *dev);
  void airoha_npu_put(struct airoha_npu *npu);
@@ -2100,7 +2197,57 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static inline int airoha_npu_wlan_send_msg(struct airoha_npu *npu,
-@@ -271,7 +314,37 @@
+@@ -261,6 +309,49 @@
+ {
+ 	npu->ops.wlan_disable_irq(npu, q);
+ }
++
++static inline bool airoha_npu_wlan_irq_supported(struct airoha_npu *npu)
++{
++	return npu && npu->ops.wlan_irq_read && npu->ops.wlan_irq_ack &&
++	       npu->ops.wlan_irq_arm && npu->ops.wlan_irq_mask;
++}
++
++static inline int airoha_npu_wlan_irq_read(struct airoha_npu *npu, int q,
++					   u32 *status)
++{
++	if (!status)
++		return -EINVAL;
++	*status = 0;
++	if (!airoha_npu_wlan_irq_supported(npu))
++		return -EOPNOTSUPP;
++
++	return npu->ops.wlan_irq_read(npu, q, status);
++}
++
++static inline int airoha_npu_wlan_irq_ack(struct airoha_npu *npu, int q,
++					  u32 status)
++{
++	if (!airoha_npu_wlan_irq_supported(npu))
++		return -EOPNOTSUPP;
++
++	return npu->ops.wlan_irq_ack(npu, q, status);
++}
++
++static inline int airoha_npu_wlan_irq_arm(struct airoha_npu *npu, int q)
++{
++	if (!airoha_npu_wlan_irq_supported(npu))
++		return -EOPNOTSUPP;
++
++	return npu->ops.wlan_irq_arm(npu, q);
++}
++
++static inline int airoha_npu_wlan_irq_mask(struct airoha_npu *npu, int q)
++{
++	if (!airoha_npu_wlan_irq_supported(npu))
++		return -EOPNOTSUPP;
++
++	return npu->ops.wlan_irq_mask(npu, q);
++}
+ #else
+ static inline struct airoha_npu *airoha_npu_get(struct device *dev)
+ {
+@@ -271,7 +362,37 @@
  {
  }
  
@@ -2138,3 +2285,39 @@ build input; compilation is not a physical drain or recovery proof.
  {
  	return -EOPNOTSUPP;
  }
+@@ -315,6 +436,35 @@
+ static inline void airoha_npu_wlan_disable_irq(struct airoha_npu *npu, int q)
+ {
+ }
++
++static inline bool airoha_npu_wlan_irq_supported(struct airoha_npu *npu)
++{
++	return false;
++}
++
++static inline int airoha_npu_wlan_irq_read(struct airoha_npu *npu, int q,
++					   u32 *status)
++{
++	if (status)
++		*status = 0;
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_ack(struct airoha_npu *npu, int q,
++					  u32 status)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_arm(struct airoha_npu *npu, int q)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int airoha_npu_wlan_irq_mask(struct airoha_npu *npu, int q)
++{
++	return -EOPNOTSUPP;
++}
+ #endif
+ 
+ #endif /* AIROHA_OFFLOAD_H */

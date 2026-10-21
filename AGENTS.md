@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Checked IRQ Software Implemented
+
+- Read research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md. Lockcb035741
+  exports checked IRQ errors/readback, exclusive initially-disabled RX lines,
+  sticky quarantine and RX/TX admission. Separate fault disable depth survives
+  both tested late startup enables. Reset callers propagate errors.
+- Actual selected-C IRQ fixtures pass353 cases/six mutants; complete TX-entry
+  fixtures pass18 cases/one mutant. ASan/UBSan/leak checks. Four AArch64 modules
+  link onLinux6.18.52;24 build-contract tests and70+5 source exports pass.
+  Private overlay uses88014878 bytes; original kernel/mt76/protected inputs and
+  UI/WiFi unchanged. Evidence index02b58276 binds609 paths.
+- Prepared sources are intentionally older. Do not export/refresh from that
+  tree over current authority; reconstruct fresh sources from the locked
+  patches first. The new module runner stages current components privately.
+- Not physical IRQ/concurrency/drain/retirement or a new full image. Image
+  01fc0ef0 predates this change. Both unchanged frozen73ce969 original replays
+  pass six TXBUF phases/RX-event and are in DESC10;no terminal verdict.
+  PROGRESS.json separately rehashes2473 frozen inputs. No restart/pause,flash,
+  hardware,VM restart,policy/native-limit change or subagents.
+- Continue full cold/fault/setup,hot TX/RX/event/token ownership,RRO context,
+  lifecycle/DMA/cache/PMA/exclusion/drain,whole-stack/physical/client work.
+  Old148/5624/12/eight IRQ losses are preserved old-code characterization,
+  not current checked-fixture failures. Do not restart existing replays.
+
 ## 2026-10-21 - Current-Pair Image Passed;Original Replays Live
 
 - Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md and WORLD.json.

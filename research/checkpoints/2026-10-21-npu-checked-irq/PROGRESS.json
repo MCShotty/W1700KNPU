@@ -1,0 +1,68 @@
+{
+  "observed_utc": "2026-10-21T06:58:08.451972+00:00",
+  "scope": "non-atomic-live-log-prefix-observation-not-terminal-qualification",
+  "service": "w1700k-npu-bytewise-callers-q2.service",
+  "guard": {
+    "pid": 400207,
+    "start_ticks": "3965596",
+    "lock": "lock:\t1: FLOCK  ADVISORY  WRITE 400207 08:30:2919797 0 EOF"
+  },
+  "source_commit": "73ce969bf05c40c618a23efe62c7d11e43b5be20",
+  "capsule_sha256": "941716f099e7d4fcfe1758c7487b44ba2290dc58f2bab598e87672cafdc90052",
+  "frozen_inputs_rehashed": 2473,
+  "jobs": [
+    {
+      "tag": "bytewise-default-q2",
+      "pid": 400219,
+      "start_ticks": "3965760",
+      "observed_log_bytes": 3150,
+      "prefix_sha256": "f2eb2ae81ab9d9295fac4eed713ede3abc8d72dbb5d8d84fab89412476909d61",
+      "prefix_path": ".local/npu-checked-irq-20261021/original-progress-q1/bytewise-default-q2.log-prefix",
+      "txbuf_passed_phases": 6,
+      "rx_event_passed": true,
+      "latest_record": {
+        "native_command": [
+          16,
+          22,
+          2533359616
+        ],
+        "packet_claims": 2560,
+        "ba_claims": 1792
+      },
+      "terminal_result_present": false,
+      "terminal_execution_present": false
+    },
+    {
+      "tag": "bytewise-hif2-q2",
+      "pid": 400220,
+      "start_ticks": "3965760",
+      "observed_log_bytes": 3150,
+      "prefix_sha256": "159fd9b5d233518fb504242dda443823eef8f1eab20359003df46b709ee3c39d",
+      "prefix_path": ".local/npu-checked-irq-20261021/original-progress-q1/bytewise-hif2-q2.log-prefix",
+      "txbuf_passed_phases": 6,
+      "rx_event_passed": true,
+      "latest_record": {
+        "native_command": [
+          16,
+          22,
+          2533359616
+        ],
+        "packet_claims": 2560,
+        "ba_claims": 1792
+      },
+      "terminal_result_present": false,
+      "terminal_execution_present": false
+    }
+  ],
+  "original_instruction_limit": 3000000,
+  "original_timeout_us": 60000000,
+  "native_policy_changed": false,
+  "original_jobs_paused_or_restarted": false,
+  "current_irq_code_qualified_by_these_replays": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "private_receipt": {
+    "path": ".local/npu-checked-irq-20261021/original-progress-q1/receipt.json",
+    "sha256": "6f04b8b11d960e6befb41919d0a3d5fedf5ae6f1912bbef7b8d84741a590fad4"
+  }
+}
