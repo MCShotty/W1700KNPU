@@ -1,4 +1,5 @@
 """Synthetic cache admission/staging controls;not a world or native verdict."""
+import errno
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,48 @@ import npu_isolated_world as world
 
 
 class DownloadCacheTests(unittest.TestCase):
+    def test_buffered_copy_avoids_fast_copy_and_preserves_exact_large_payload(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source, target = (Path(temporary) / name for name in ('source', 'copy'))
+            source.write_bytes(bytes(range(256)) * 8192 + b'tail')
+            source.chmod(0o444)
+            with patch.object(world.shutil, 'copyfile', side_effect=AssertionError('fast copy forbidden')), \
+                    patch.object(world.shutil, 'copy2', side_effect=AssertionError('fast copy forbidden')), \
+                    patch.object(world.os, 'copy_file_range', side_effect=AssertionError('fast copy forbidden')), \
+                    patch.object(world.os, 'sendfile', side_effect=AssertionError('fast copy forbidden')):
+                self.assertEqual(world.copy_download_file(source, target), str(target))
+            self.assertEqual(target.read_bytes(), source.read_bytes())
+            self.assertEqual(stat.S_IMODE(target.stat().st_mode), 0o444)
+
+    def test_buffered_copy_does_not_replace_an_existing_destination(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source, target = (Path(temporary) / name for name in ('source', 'copy'))
+            source.write_bytes(b'source bytes')
+            target.write_bytes(b'protected existing bytes')
+            with self.assertRaises(FileExistsError): world.copy_download_file(source, target)
+            self.assertEqual(target.read_bytes(), b'protected existing bytes')
+            self.assertEqual(source.read_bytes(), b'source bytes')
+
+    def test_buffered_copy_rejects_same_length_zero_filled_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source, target = (Path(temporary) / name for name in ('source', 'copy'))
+            source.write_bytes(b'nonzero archive fixture')
+            def zero_copy(reader, writer, length):
+                writer.write(b'\0' * len(reader.read()))
+            with patch.object(world.shutil, 'copyfileobj', side_effect=zero_copy):
+                with self.assertRaisesRegex(AssertionError, 'buffered-download-copy-drift'):
+                    world.copy_download_file(source, target)
+            self.assertEqual(target.stat().st_size, source.stat().st_size)
+            self.assertEqual(source.read_bytes(), b'nonzero archive fixture')
+
+    def test_buffered_copy_propagates_a_writeback_error(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source, target = (Path(temporary) / name for name in ('source', 'copy'))
+            source.write_bytes(b'archive fixture')
+            with patch.object(world.os, 'fsync', side_effect=OSError(errno.EIO, 'synthetic writeback error')):
+                with self.assertRaises(OSError) as failure: world.copy_download_file(source, target)
+            self.assertEqual(failure.exception.errno, errno.EIO)
+
     def test_missing_cache_stops_run_before_output_or_original_tree_inventory(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

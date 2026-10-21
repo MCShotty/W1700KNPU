@@ -3,6 +3,45 @@
 Date: 2026-10-21. Supersedes the prior new-WSL-entry blockage, not any NPU
 runtime verdict. Full reverse engineering and implementation remain active.
 
+## Cache Staging Follow-Up
+
+The first freeze wrote preservation receiptb53fa1c6 but its wrapper exited1:
+four logical linker aliases had collapsed during ordinary resolved-path includes.
+That attempt is retained. Supplying the genuine alias receipt fixed the graph;
+alias-complete freeze6d2c971f has6673 files/3117708513 bytes,6667 shared/six copied/
+24531762 new payload bytes, clean tracked57b08cd source and current90abc8f3 authority.
+
+The actual world-checked-irq-q2 run entered its private namespaces but exited1
+at the private download-cache manifest check, before cleaning or compilation.
+All891138 original build entries,4617 original cache entries, frozen inputs and
+parent namespaces compared unchanged. No new image or native verdict resulted.
+All3774 copied filenames and lengths match; exactly three archives are entirely
+zero-filled, while their frozen sources still match their expected hashes.
+
+A separate actual overlay comparison ran36 cases:27 default-copy/buffered/sendfile
+copies matched, and nine direct copy_file_range calls returnedEXDEV. Inner and
+physical-upper hashes agree. The small default-copy probe did not reproduce the
+earlier corruption. A specific kernel/Python defect is **not established**.
+
+The cache copier now uses exclusive targets, explicit1MiB userspace copying,
+flush/fsync, preserved metadata and per-file SHA256 equality. Existing complete
+source/target manifests and all later world/image gates remain. All47 Linux
+world/source/cache units pass,zero skips. Four new methods check fast-copy
+avoidance, refusal to overwrite, same-length zero-fill rejection and writeback
+failure propagation.
+
+The complete3774-file actual staging probe passes with this production helper,
+including physical-upper manifest comparison after the namespace exits. This is
+cache staging, not a world/image or hardware pass. CACHE.json binds that scope,
+the failed run, retained copy comparisons, unit logs and current source501a5e07.
+RECOVERY.json remains evidence for the earlier57b08cd source, not the changed
+copier. WSL new entries remain intermittent; the recovered root session is kept.
+
+Next:commit this source, plan/freeze world-checked-irq-v3 from that clean head,
+refresh both-volume budgets including the retained failed/probe outputs, and
+run the full image again with a unique output name. Original replays remain
+untouched; full NPU/physical/client scope remains open.
+
 ## Verified Progress
 
 The installed Store WSL executable launches root Linux normally. The documented

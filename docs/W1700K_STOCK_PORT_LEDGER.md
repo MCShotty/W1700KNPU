@@ -1,10 +1,38 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (Linux entry recovered;36 Linux units and C-backed ext4 probe pass;current image preparation;original replays and full acceptance open)
+Last updated: 2026-10-21 (47 Linux units/full buffered-cache probe pass;first world stopped before compilation;fresh image retry and full acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Cache Copy Failure Preserved;Full Buffered Staging Passes
+
+- First freeze preservesb53fa1c6 but its wrapper failed missing four logical
+  aliases. Genuine alias-receipt expansion fixes graph;6d2c971f has6673 files/
+  3117708513 bytes,6667 shared/six copied/24531762 payload bytes,clean57b08cd
+  and current90abc8f3 producer. No old receipts changed or alias guard waived.
+- Actual world-checked-irq-q2 entered private namespaces,then exited1 at cache
+  byte identity BEFORE clean/compiler. All891138 original build/4617 cache
+  entries,snapshot and parent namespaces unchanged. No image/native verdict.
+  Exactly three copied archives are all zeros despite matching3774 names/sizes;
+  all three frozen source hashes still match. Failed outputs retained.
+- Separate36-case actual overlay probe:27 default/buffered/sendfile copies
+  match,nine direct copy_file_range operations returnEXDEV. Inner/physical
+  hashes agree;small default-copy probes did not reproduce. Specific kernel/
+  Python cause not established. Do not claim one or patch three output files.
+- New source501a5e07 uses exclusive buffered1MiB I/O,flush/fsync/copystat and
+  per-file SHA equality. Whole-cache source/target manifests stay. All47 Linux
+  units pass,zero skips;four new failure/path controls. Complete actual3774-file
+  production staging passes,plus physical-upper comparison after namespace exit.
+  Not a world/image/boot/physical pass. CACHE.json binds scope;RECOVERY.json is
+  the earlier source checkpoint. WSL fresh entries remain intermittent.
+- Next clean commit/replan/freeze v3,fresh D/C/guest budgets including retained
+  C outputs,then complete world/image retry. No firmware/source-lock/UI/WiFi,
+  hardware/flash/subagents or original native sizes/3M/60M-us/checkpoints change.
+  Original jobs remain pending;full cold/fault/setup/hot/RRO/lifecycle/cache/PMA/
+  exclusion/drain/retirement/whole-stack/physical/client goal remains open.
+  Read research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md and CACHE.json.
 
 ## 2026-10-21 - Linux Entry Recovery And C-Backed Native Build Scratch
 

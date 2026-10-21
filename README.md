@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Cache Staging Hardened
+
+The first checked-IRQ world attempt stopped before compilation:three private
+download copies failed byte-identity checks. Originals stayed unchanged. The
+copier now uses buffered I/O,exclusive creation,writeback and per-file hashes;
+all47 Linux units and the complete3774-file private-cache probe pass. A fresh
+full image retry is next;none of this is physical NPU or boot acceptance.
+See the [recovery/cache checkpoint](research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md).
+
 ## 2026-10-21 - Linux Build Entry Restored
 
 Linux entry works again without restarting the VM or original validations.

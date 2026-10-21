@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (Linux recovered;36 Linux units and C-backed ext4 probe pass;fresh image preparation;original replays/full acceptance open)
+Last updated: 2026-10-21 (47 Linux units/full buffered-cache staging pass;first world failed before compilation;fresh image retry/full acceptance pending)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Preserved Cache Failure And Buffered Full-Cache Verification
+
+- Missing-alias freezeb53fa1c6 wrapper failed;unchanged actual alias receipt
+  fixes graph. Current6d2c971f has6673 files,6667 shared/six copied/24531762 new
+  bytes and genuine90abc8f3/lockcb035741. Actual q2 world stops at cache identity
+  before clean/compiler. Original891138 build/4617 cache/snapshot/namespaces
+  unchanged;no image/native qualification. Three of3774 same-size copies zero-
+  filled,with frozen originals still exact. Failed attempts preserved.
+- Small36-case overlay comparison has27 default/buffered/sendfile matches/nine
+  direct-CFR EXDEV;physical hashes agree. Default small copies did not reproduce;
+  kernel/Python cause unproven. Current501a5e07 buffered copier adds exclusive
+  targets/fsync/per-file hashes and retains full manifests. All47 Linux units
+  pass,zero skips. Full3774-file actual staging AND post-namespace physical
+  manifest pass. Cache-only,not complete image or physical NPU acceptance.
+- Clean commit/v3 plan/freeze/fresh C/D+guest budgets with retained outputs,
+  then full world retry. Original jobs untouched/pending,native budgets and
+  full cold/fault/setup/hot/RRO/lifecycle/drain/physical/client gates retained.
+  WSL fresh entry intermittent;no VM/job restart or hardware/flash/subagents,
+  firmware/source-lock/UI/WiFi change. Read recovery REPORT.md/CACHE.json.
 
 ## 2026-10-21 - Recovered Linux Entry And C-Backed Ext4 Build Workspace
 

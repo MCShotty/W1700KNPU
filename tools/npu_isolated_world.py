@@ -101,6 +101,17 @@ def download_cache_input(frozen, record):
         kernel_archive_sha256=hashes[0],kernel_recipe=recipe,kernel_recipe_sha256=record['files'][recipe])
 
 
+def copy_download_file(source, destination):
+    # Verify userspace I/O before the later whole-cache manifest check.
+    with open(source, 'rb') as reader, open(destination, 'xb') as writer:
+        shutil.copyfileobj(reader, writer, 1048576)
+        writer.flush()
+        os.fsync(writer.fileno())
+    shutil.copystat(source, destination)
+    assert digest(Path(destination)) == digest(Path(source)), ('buffered-download-copy-drift', str(source))
+    return str(destination)
+
+
 def stage_download_cache(build, cache, expected):
     source,source_sha256 = cache_manifest(cache)
     assert len(source) == expected['file_count'] and source_sha256 == expected['manifest_sha256'], 'cache-stage-source-drift'
@@ -108,14 +119,15 @@ def stage_download_cache(build, cache, expected):
     assert target.is_symlink() and os.readlink(target) == str(cache), 'unexpected-private-dl-link'
     assert not cache.resolve().is_relative_to(build.resolve()), 'cache-inside-build'
     target.unlink()
-    shutil.copytree(cache,target)
+    shutil.copytree(cache,target,copy_function=copy_download_file)
     for path in (target,*target.rglob('*')):
         assert not path.is_symlink()
         path.chmod(stat.S_IMODE(path.stat().st_mode) | (0o700 if path.is_dir() else 0o600))
     assert cache_manifest(target) == (source,source_sha256), 'private-download-cache-copy-drift'
     assert cache_manifest(cache) == (source,source_sha256), 'source-download-cache-changed'
     return dict(files_copied=len(source),manifest_sha256=source_sha256,
-        private_dl_replaced_symlink=True,source_cache_contents_unchanged=True)
+        private_dl_replaced_symlink=True,source_cache_contents_unchanged=True,
+        copy_mode='buffered-userspace-with-per-file-hash')
 
 
 def command(frozen, directory, name, context, probe):

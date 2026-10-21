@@ -1,5 +1,20 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Full Image Retry After Verified Buffered Cache
+
+Alias-complete current freeze6d2c971f passed. Actual world-checked-irq-q2 stopped
+before cleaning/compilation at private cache identity:three same-size zero-filled
+copies among3774. Original891138 build/4617 cache entries/snapshot/namespaces
+unchanged. Specific kernel/Python cause is not established by the small probe.
+
+Current buffered copier501a5e07 retains aggregate checks and adds exclusive create,
+fsync/per-file hashes. All47 Linux units and full3774-file actual staging plus
+physical-upper comparison pass. Next:clean commit, v3 plan/freeze,fresh C/D and
+guest budgets INCLUDING retained failed/probe outputs, then complete world/image.
+No new image yet. Existing native jobs remain pending with unchanged limits;
+full cold/fault/setup/hot/RRO/lifecycle/drain/physical/client gates remain.
+Read recovery REPORT.md/CACHE.json;preserve failures,not partial image promotion.
+
 ## 2026-10-21 - Linux Recovered;Fresh Checked-IRQ Image Next
 
 The installed WSL entry works without VM/job restarts. Complete Linux world/

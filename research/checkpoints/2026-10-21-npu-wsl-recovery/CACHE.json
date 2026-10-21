@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "scope": "guarded-cache-failure-and-full-buffered-staging-not-world-or-hardware",
+  "world_source_sha256": "501a5e07556d6d701522fd98fac2d9775cf82c97afd654280b7fba5e779ff6bd",
+  "Linux_units": 47,
+  "skipped": 0,
+  "earlier_world_failed_before_clean_or_compilation": true,
+  "original_build_entries": 891138,
+  "original_cache_entries": 4617,
+  "original_build_cache_snapshot_and_namespaces_unchanged": true,
+  "zero_filled_same_size_private_archives": 3,
+  "specific_kernel_or_Python_cause_established": false,
+  "copy_method_cases": 36,
+  "valid_copies": 27,
+  "direct_CFR_EXDEV_cases": 9,
+  "complete_buffered_cache_files": 3774,
+  "complete_buffered_cache_manifest_sha256": "369997138f0825d844b4f09f265a45dadf0cef3d522f716ecc87c77ba6727297",
+  "physical_upper_manifest_matches": true,
+  "guarded_writeback_and_per_file_hashes": true,
+  "native_before": [
+    {
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "S",
+      "user_ticks": 978571,
+      "system_ticks": 72218
+    },
+    {
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_ticks": 977793,
+      "system_ticks": 73672
+    }
+  ],
+  "native_after": [
+    {
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_ticks": 978627,
+      "system_ticks": 72250
+    },
+    {
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_ticks": 977895,
+      "system_ticks": 73679
+    }
+  ],
+  "native_CPU_advanced": true,
+  "native_terminal_receipt_exists": false,
+  "original_native_jobs_modified_or_paused": false,
+  "native_limits_or_checkpoints_changed": false,
+  "source_lock_UI_WiFi_changed": false,
+  "world_retry_started": false,
+  "new_image_qualified": false,
+  "native_cold_qualified": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "failure_route": {
+        "type": "choice",
+        "choice": "prebuild_cache_staging",
+        "confidence": 1.0,
+        "probabilities": {
+          "prebuild_cache_staging": 1.0,
+          "compiler_failure": 0.0,
+          "physical_NPU_fault": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "specific_kernel_bug": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.01,
+          "not_established": 0.99
+        }
+      },
+      "length_is_identity": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "guard_retention": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 897,
+      "output_tokens": 146
+    }
+  },
+  "private_scope_sha256": "d3c49ba96e5bbbf55313522db72848d1c6ff27af349915a95782ecd8bb1e64b7",
+  "bound_paths": 49
+}

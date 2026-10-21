@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Buffered Cache Passed;Full Image Retry Pending
+
+- Read the recovery checkpoint REPORT.md/CACHE.json. Alias-complete freeze
+  6d2c971f has6673 files and current producer90abc8f3/lockcb035741. First alias-
+  missing freezeb53fa1c6 is retained. Old receipts were not rewritten.
+- Actual world-checked-irq-q2 stopped at cache byte-identity BEFORE clean or
+  compilation. Three of3774 same-size copies were zero-filled; frozen sources
+  still match. All891138 lower/4617 cache entries/snapshot/namespaces unchanged.
+  Small36-case overlay probe:27 copies match,nine direct-CFR EXDEV;default copy
+  did not reproduce. Specific kernel/Python cause is unproven.
+- Current copier501a5e07 uses userspace buffers/exclusive create/fsync/per-file
+  hashes and retains full manifests. All47 Linux units pass,zero skips. Full
+  actual3774-file buffered staging AND post-namespace physical hashes pass.
+  Not a new image. Commit/replan/freeze v3,capacity-check retained C outputs,
+  then full world under unchanged image/source/native/physical gates. Preserve
+  failed outputs and old snapshots;do not patch in the three cache files.
+- WSL entry still intermittent;keep root session/VM/native jobs. Original
+  default/HIF2 jobs remain pending,not later IRQ qualification. No hardware,
+  flash,firmware/source-lock/UI/WiFi/subagent or native-limit changes.
+
 ## 2026-10-21 - Linux Entry Recovered;C-Backed Ext4 Scratch
 
 - Read research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md. Installed

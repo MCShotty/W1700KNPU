@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Verified Buffered Cache;Fresh World Retry Required
+
+Alias-complete6d2c971f freezes6673 files/current90abc8f3 producer. Actual q2
+world stopped BEFORE cleaning/compilation at private cache byte identity;three
+of3774 exact-size copies were zero-filled. Original891138 build/4617 cache
+entries/snapshot/namespaces match. First missing-alias freeze is retained.
+Small36-case overlay probe has27 valid copies/nine direct-CFR EXDEV;default
+copy did not reproduce the zero-fill. Kernel/Python cause remains unproven.
+
+New copier501a5e07 uses exclusive buffered copying/fsync/per-file hashes while
+retaining complete manifests/all later gates. All47 Linux units pass,zero skips;
+all3774 actual staged files and their physical-upper manifest pass. Cache-only,
+not world/image/physical acceptance. Read recovery REPORT.md/CACHE.json. Clean
+commit/replan/freeze v3 and refresh full C/D/guest budgets including retained
+outputs before the full retry. Old original jobs/native budgets/checkpoints,
+firmware/source-lock/UI/WiFi/images unchanged. WSL new entries intermittent;
+no restart/flash/hardware. Full NPU/physical/client goal remains open.
+
 ## 2026-10-21 - Linux Recovery And Native C-Backed Build Scratch
 
 Supersedes the older entry blockage:installed Store wsl.exe launches root and
