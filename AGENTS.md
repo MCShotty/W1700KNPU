@@ -1,5 +1,24 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Combined World Producer Path Prepared
+
+- Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md. World run now
+  accepts --module-receipt exclusively with the old provider/mt76 pair.
+  Genuine unchanged90abc8f3 at lockcb035741 rehashes364 inputs,five kernel/
+  329 mt76 sources/four actual AArch64 artifacts. No fake/rewritten old receipts.
+  Before-build input validation and after-build receipt-bound prepared-source
+  checks distinguish a replaced output image from immutable source identity.
+- Fifteen Windows-portable contract/CLI/log units pass,zero skips. Linux POSIX/
+  namespace/full image execution remains UNRUN: new wsl.exe entries time out
+  0x8007274c. Ubuntu/UNC access and both old native children remain live with
+  matching start ticks/cgroup,advancing CPU and guard FLOCK. Both are at DESC10
+  after six TXBUF/RX-event passes,no terminal verdict. Do not restart the VM/jobs.
+- Next recover WSL entry,run complete Linux suites,freeze current source with
+  the genuine combined receipt and four module files,then capacity-check/build/
+  inspect a fresh image. Old snapshot reuse is storage reuse,not old authority.
+  Full cold/fault/setup/hot/RRO/lifecycle/drain/physical/client goal stays open.
+  No firmware/source-lock/UI/WiFi/hardware/flash/policy/native-limit change.
+
 ## 2026-10-21 - Checked IRQ Software Implemented
 
 - Read research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md. Lockcb035741

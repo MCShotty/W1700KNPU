@@ -153,6 +153,28 @@ def run_logged(argv, log, timeout=86400):
     return dict(returncode=process.returncode, host_timeout=False, host_timeout_seconds=timeout)
 
 
+def producer_context(frozen, record, args, context):
+    import npu_world_sources
+    module_receipt = getattr(args, 'module_receipt', None)
+    if module_receipt is not None:
+        assert args.provider_receipt is args.mt76_receipt is None, 'mixed-producer-contracts'
+        name = module_receipt.resolve().relative_to(ROOT).as_posix()
+        assert name in record['files'] and digest(frozen / name) == record['files'][name]
+        combined = npu_world_sources.linked_module_sources(frozen, frozen / name)
+        assert combined['source_lock_sha256'] == context['source_lock_sha256']
+        for key, expected in {**combined['inputs'], **combined['artifacts']}.items():
+            assert record['files'].get(key) == expected, ('undeclared-combined-producer-input', key)
+        context['module_receipt'] = name
+        return
+    for key,path in (('provider_receipt',args.provider_receipt),('mt76_receipt',args.mt76_receipt)):
+        assert path is not None, ('missing-current-producer-reference',key)
+        name = str(path.resolve().relative_to(ROOT))
+        assert name in record['files'] and digest(frozen / name) == record['files'][name]
+        reference = json.loads((frozen / name).read_bytes())
+        assert reference['passed'] is True and reference['source_lock_sha256'] == context['source_lock_sha256']
+        context[key] = name
+
+
 def inner(args):
     context = json.loads(args.context)
     assert os.getuid() == context['uid'] == 1000
@@ -188,10 +210,17 @@ def inner(args):
         result = dict(passed=True, proof=proof, world_build=False, hardware=False)
     else:
         import npu_world_sources
-        provider = json.loads(npu_world_sources.relative_file(ROOT,context['provider_receipt']).read_bytes())
-        consumer = json.loads(npu_world_sources.relative_file(ROOT,context['mt76_receipt']).read_bytes())
-        assert provider['passed'] is consumer['passed'] is True
-        assert provider['source_lock_sha256'] == consumer['source_lock_sha256'] == context['source_lock_sha256']
+        module_receipt = context.get('module_receipt')
+        if module_receipt is not None:
+            producer_path = npu_world_sources.relative_file(ROOT, module_receipt)
+            combined = npu_world_sources.linked_module_sources(ROOT, producer_path)
+            assert combined['source_lock_sha256'] == context['source_lock_sha256']
+            provider = consumer = None
+        else:
+            provider = json.loads(npu_world_sources.relative_file(ROOT,context['provider_receipt']).read_bytes())
+            consumer = json.loads(npu_world_sources.relative_file(ROOT,context['mt76_receipt']).read_bytes())
+            assert provider['passed'] is consumer['passed'] is True
+            assert provider['source_lock_sha256'] == consumer['source_lock_sha256'] == context['source_lock_sha256']
         linker = ROOT / context['linker']['path']
         assert linker == LINKER_PREFIX / 'bin/ld.lld' and digest(linker) == context['linker']['sha256']
         linker_version = subprocess.check_output([str(linker), '--version'], text=True, timeout=30).strip()
@@ -220,7 +249,8 @@ def inner(args):
         for row in lock['component_sources']:
             assert row['tree'] == 'openwrt' and digest(BUILD / row['destination']) == row['sha256']
         assert digest(BUILD / '.config') == digest(ROOT / 'firmware/build.config'), 'world-config-drift'
-        prepared_sources = npu_world_sources.verify(BUILD,ROOT,lock,provider,consumer)
+        prepared_sources = npu_world_sources.verify(BUILD,ROOT,lock,provider,consumer,
+            module_sources=combined if module_receipt is not None else None)
         verify = subprocess.run([sys.executable, '-u', '-B', str(ROOT / 'tools/verify_merged_image.py'),
             '--name', build_name + '-image'], stdin=subprocess.DEVNULL)
         assert verify.returncode == 0, ('world-image-verification-failed', verify.returncode)
@@ -247,13 +277,7 @@ def run(args):
     if not args.probe_only:
         context['linker'] = linker_input(frozen, record)
         context['download_cache'] = download_cache_input(frozen, record)
-        for key,path in (('provider_receipt',args.provider_receipt),('mt76_receipt',args.mt76_receipt)):
-            assert path is not None, ('missing-current-producer-reference',key)
-            name = str(path.resolve().relative_to(ROOT))
-            assert name in record['files'] and digest(frozen / name) == record['files'][name]
-            reference = json.loads((frozen / name).read_bytes())
-            assert reference['passed'] is True and reference['source_lock_sha256'] == context['source_lock_sha256']
-            context[key] = name
+        producer_context(frozen, record, args, context)
     directory.mkdir(parents=True)
     for name in ('build-upper', 'build-work', 'log-upper', 'log-work', 'tmp'): (directory / name).mkdir()
     print(json.dumps(dict(phase='inventory-protected-lower-build', probe_only=args.probe_only)), flush=True)
@@ -307,6 +331,7 @@ def main():
     outer.add_argument('--snapshot', type=Path, required=True)
     outer.add_argument('--provider-receipt', type=Path)
     outer.add_argument('--mt76-receipt', type=Path)
+    outer.add_argument('--module-receipt', type=Path)
     outer.add_argument('--probe-only', action='store_true')
     child = sub.add_parser('inner')
     child.add_argument('--name', required=True)
@@ -314,8 +339,11 @@ def main():
     child.add_argument('--probe-only', action='store_true')
     args = parser.parse_args()
     if not re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name): parser.error('Invalid result name')
-    if args.mode == 'run' and not args.probe_only and (args.provider_receipt is None or args.mt76_receipt is None):
-        parser.error('Current provider and mt76 producer receipts are required for a world build')
+    if args.mode == 'run':
+        if args.module_receipt is not None and (args.provider_receipt is not None or args.mt76_receipt is not None):
+            parser.error('Combined and separate producer receipts cannot be mixed')
+        if not args.probe_only and args.module_receipt is None and (args.provider_receipt is None or args.mt76_receipt is None):
+            parser.error('Current provider and mt76 producer receipts are required for a world build, or use --module-receipt')
     (run if args.mode == 'run' else inner)(args)
 
 

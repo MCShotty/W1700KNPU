@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "derivative-integrity-only-not-Linux-runtime-qualification",
+  "private_evidence": {
+    "path": ".local/npu-irq-world-20261021/evidence-q1.json",
+    "sha256": "6e9b397a3334ec0e767d99772138a2224a740af82ce8100530c8b68e33d4f91e",
+    "bound_paths": 381
+  },
+  "source_and_public_files": {
+    "AGENTS.md": "1be1dea1a85bacfb83b0217687009ccf37e1effcd4d9b83cb33ccc6a0e698d59",
+    "README.md": "8c9f618137ab9591fe1b8baf7aca4c37a3425385ea1d70aafd9063a61ec68c4c",
+    "docs/REMAINING_WORK.md": "9fb582f7da0052ba6bbed4c7524d33030fb258e575baed379428c0b2492ee46f",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "9282cab5ab3ffc8c31bb0a6c2e858f13841f835be8dca4b1fa0cf4ce1977ec5e",
+    "docs/W1700K_STOCK_PORT_LEDGER.md": "af104bc8551982e3a8d53f9ba4f3ee5faa3e3fa03167e24320504a084cc36bff",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "714b5a3d288368d763e0b0fabfb95835f88be8767d354a36444d162e7901ce58",
+    "tools/npu_isolated_world.py": "3100ca586d57c6f1a891ca13be6e04c0dd46a890aa027fc3eca592d350e51e12",
+    "tools/npu_world_sources.py": "afa4045d914cf1ff03f6b678a18ddbbec52ef86961cde1a39a4df5980c47379c",
+    "tests/test_npu_combined_world_sources.py": "96839d3571bd793bd3cbca64614cff70662eeceacc3a40671c301511b69b6711",
+    "research/checkpoints/2026-10-21-npu-irq-world/REPORT.md": "3e99c7ba872f965eec8123c788f57c35a5eb7c6c23f05753523f99ffe5b47700",
+    "research/checkpoints/2026-10-21-npu-irq-world/LIVE.json": "30560e3f16a9d1c306e1e6b405f892903708dbffa6e7a207943e511d501090fe",
+    "research/checkpoints/2026-10-21-npu-irq-world/ADAPTER.json": "5ef488cae5b0e39db3eaea202eb7fdea223676a46004d64eb6a3e63f09f58294"
+  },
+  "protected_firmware_and_prior_IRQ_test_inputs": {
+    "firmware/source-lock.json": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "tests/npu/checked-irq-harness.c": "f42673d5cf8352aa8859de2e466540ac6393a7d375aaa9d619fa1011fbb08812",
+    "tests/npu/checked-irq-tx-harness.c": "dcb4b2295fff361c6895c679c9a62adc020cfebfc85f7f8f1a7b4b09f5cc8271",
+    "tests/npu/test_checked_irq_contract.py": "fa4c60b018cb2a03b5354366a4d5ded576d5b32ef2a51303e540abcb5bdb034a",
+    "tests/npu/test_checked_irq_tx.py": "e99127bc9b31fae4b9e99d52e234e3c41869144b5a66fcfd9ce81e0f97e86652",
+    "tests/npu/test_checked_irq_modules.py": "f795e165e23bc85e68f726e860069e697406e92ed58d522c68dc1f4d1d203880",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "284c591e329c0e8961e7d66b1d0aa793ee68a830684d7c2c111f3a37d2d9c966",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": "95dd1164f3febe5f7bb29a4776067d740fb4760cfb1040a78ad636c4e64e70ad"
+  },
+  "Windows_git_fileMode_false_per_command": true,
+  "git_whitespace_check": true,
+  "current_source_lock_unchanged": true,
+  "native_runtime_policy_unchanged": true,
+  "WSL_new_process_error": "Wsl/Service/0x8007274c",
+  "Linux_namespace_or_world_verified": false,
+  "full_npu_goal_complete": false,
+  "hardware": false
+}

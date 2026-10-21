@@ -1,10 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (checked IRQ software/host fixtures/four AArch64 module links pass;original replays live;new IRQ image and physical acceptance open)
+Last updated: 2026-10-21 (combined module/world adapter portable tests pass;WSL launch unavailable;original replays live;fresh image and physical acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Combined Module Receipt To World Integration
+
+- New exclusive world --module-receipt path consumes genuine unchanged checked-
+  IRQ producer90abc8f3 at lockcb035741. No invented/rewritten separate receipts.
+  Passing/unloaded/header scope,current lock/every input and four AArch64 ELF
+  header/size/hash/vermagic artifacts checked. All must be frozen declarations.
+  Prebuild validates inputs;postbuild checks original receipt/scope/maps and
+  actual prepared kernel/component/mt76 identities,not old image observation
+  bytes against a newly built output. Original lower/cache/snapshot checks stay.
+- Fifteen Windows-portable contract/CLI/log tests pass,zero skips. Genuine364
+  source inputs,five kernel/329 mt76 identities and four retained artifacts
+  revalidate;not new module compilation. Old prepared provider correctly rejects
+  as stale without editing it. Initial Windows discovery/fixture failures are
+  retained;canonical fixture keys/context repaired,no production guard relaxed.
+- New root/captain/system wsl.exe entries time out0x8007274c. Ubuntu/UNC remain
+  live;original child PIDs/start ticks/cgroup match,CPU counters advance and
+  guard400207 retains FLOCK. Both original profiles pass six TXBUF/RX-event and
+  remain in DESC10,no terminal verdict. No restart/pause/kill/VM shutdown or
+  native budget/checkpoint change. Debug shell required elevation,not entered;
+  Ghidra MCP found no running instance. No new runtime qualification claimed.
+- Linux POSIX/namespace/full-world/new-image path is UNRUN. Recover entry,run
+  Linux suites,freeze current source with actual combined receipt/four modules,
+  re-evaluate backing capacity including existing native output/margin,and build/
+  inspect through existing FIT/board/package/ABI/source checks. All full cold/
+  fault/setup/hot/RRO/lifecycle/cache/PMA/exclusion/drain/retirement/whole-stack/
+  physical boot/radio/MLO/client/performance gates remain. Full goal active.
+  Firmware/source-lock/UI/WiFi/images unchanged;no hardware/flash/subagents.
+  Evidence:research/checkpoints/2026-10-21-npu-irq-world/REPORT.md.
 
 ## 2026-10-21 - Checked IRQ Contract Implementation
 

@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Combined Producer World Wiring;Linux Run Pending
+
+World --module-receipt now consumes the genuine combined checked-IRQ link
+receipt90abc8f3,exclusive with old separate receipts. Fifteen portable contract/
+CLI/log tests pass;364 real inputs,five kernel/329 mt76 identities and four
+module artifacts revalidate. New source verifier retains source identity across
+output-image replacement. Firmware patches/lockcb035741/UI/WiFi are unchanged.
+
+Linux POSIX/namespace/world and new-image validation are UNRUN: fresh wsl.exe
+entries time out0x8007274c. Ubuntu/UNC and original native processes are live;
+matching start ticks,cgroup,advancing CPU,FLOCK;still DESC10 after six TXBUF/
+RX-event passes,no terminal verdict. Do not restart/stop them or the VM.
+Recover WSL entry,run complete Linux suites,freeze current source with actual
+combined receipt/four modules,then recheck full backing capacity and build/image
+gates. Full cold/fault/setup/hot/RRO/lifecycle/physical/client work remains.
+Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md.
+
 ## 2026-10-21 - Checked IRQ Software Progress
 
 Checked read/ack/mask/arm, readback, initially-disabled exclusive RX lines, sticky

@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Combined Producer World Adapter
+
+Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md. New exclusive
+world --module-receipt accepts actual90abc8f3 without rewriting/faking old
+separate receipts. Fifteen Windows-portable units pass,zero skips. Actual364
+inputs/five kernel/329 mt76 identities/four module artifacts revalidate at
+unchanged lockcb035741. Prepared-source checks stay bound to the original
+receipt while allowing legitimate replacement of old observed image outputs.
+
+Linux POSIX/namespace/world and fresh-image execution remain UNRUN. WSL new
+launches time out0x8007274c;UNC and the same original native processes remain
+live with advancing CPU,cgroup and FLOCK. Both still at DESC10,no final verdict.
+Do not restart/pause the jobs or VM. Recover entry,run Linux suites,freeze current
+source/real receipt/four modules,then capacity-check and build the complete image.
+Full NPU/hot/RRO/lifecycle/drain/physical/client scope stays open;no hardware,
+flash,policy/native-limit or firmware/source-lock/UI/WiFi changes this turn.
+
 ## 2026-10-21 - Checked IRQ Source And Modules
 
 Read research/checkpoints/2026-10-21-npu-checked-irq/REPORT.md. Lockcb035741

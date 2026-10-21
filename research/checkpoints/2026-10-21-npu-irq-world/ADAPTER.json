@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "scope": "Windows-portable-contract-and-retained-module-input-check-only",
+  "tests": 15,
+  "skipped": 0,
+  "source_inputs": {
+    "tools/npu_world_sources.py": "afa4045d914cf1ff03f6b678a18ddbbec52ef86961cde1a39a4df5980c47379c",
+    "tools/npu_isolated_world.py": "3100ca586d57c6f1a891ca13be6e04c0dd46a890aa027fc3eca592d350e51e12",
+    "tests/test_npu_combined_world_sources.py": "96839d3571bd793bd3cbca64614cff70662eeceacc3a40671c301511b69b6711",
+    "tests/test_npu_world_sources.py": "a7690e69c04f05de5ba0d2b6acc8b70a41a539a9b63372db61a2b64e690d2c45",
+    "tests/test_npu_isolated_world.py": "8cb8f5ad5a102aff54ba4fbfb2b1d45f343c9388ebc961313025213a85fde4c7"
+  },
+  "actual_combined_receipt_sha256": "90abc8f3c83f91334ed81963586703f9fe110dd8fd9a94fc74d9edf184ef20ab",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "actual_source_input_files": 364,
+  "kernel_source_files": 5,
+  "mt76_source_files": 329,
+  "module_artifacts": {
+    ".local/npu-checked-irq-modules/checked-q2/airoha_npu.ko": "3dcc9e70259fa132268262f6062bc7f9ec303b2db74ed19d8b8e9768db2c905f",
+    ".local/npu-checked-irq-modules/checked-q2/mt76/mt76.ko": "9bc4d0e06f2471e2c2abcebf0c484b4098c656f69211dd78ef885247a3338b8e",
+    ".local/npu-checked-irq-modules/checked-q2/mt76/mt76-connac-lib.ko": "663ab99338b35dbab0ccc6512a377be8994ca7e5e3b16c1fcbc5acf3131977c1",
+    ".local/npu-checked-irq-modules/checked-q2/mt76/mt7996/mt7996e.ko": "67d27bdeda1c595a39b94cb982e1fbb8ad1a7b68b1d7dd01cc8a4a3164417de9"
+  },
+  "old_prepared_source_rejected": [
+    [
+      "prepared-kernel-source-drift",
+      "drivers/net/ethernet/airoha/airoha_npu.c"
+    ]
+  ],
+  "receipt_rewritten": false,
+  "fresh_module_link": false,
+  "new_Linux_POSIX_namespace_execution": false,
+  "world_build": false,
+  "new_image": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "private_evidence": {
+    "path": ".local/npu-irq-world-20261021/evidence-q1.json",
+    "sha256": "6e9b397a3334ec0e767d99772138a2224a740af82ce8100530c8b68e33d4f91e",
+    "bound_paths": 381
+  }
+}

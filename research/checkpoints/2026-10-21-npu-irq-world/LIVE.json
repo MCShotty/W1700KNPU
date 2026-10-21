@@ -1,0 +1,149 @@
+{
+  "scope": "specific-live-handles-CPU-cgroup-FLOCK-and-nonatomic-prefix-observation",
+  "observed_utc": "2026-10-21T07:19:44.584806+00:00",
+  "before": {
+    "400207": {
+      "pid": 400207,
+      "start_ticks": "3965596",
+      "state": "S",
+      "user_cpu_ticks": 5,
+      "system_cpu_ticks": 1,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400216": {
+      "pid": 400216,
+      "start_ticks": "3965757",
+      "state": "S",
+      "user_cpu_ticks": 3,
+      "system_cpu_ticks": 0,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400219": {
+      "pid": 400219,
+      "start_ticks": "3965760",
+      "state": "S",
+      "user_cpu_ticks": 133,
+      "system_cpu_ticks": 24,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400220": {
+      "pid": 400220,
+      "start_ticks": "3965760",
+      "state": "S",
+      "user_cpu_ticks": 130,
+      "system_cpu_ticks": 26,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400224": {
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_cpu_ticks": 505206,
+      "system_cpu_ticks": 30449,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400225": {
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_cpu_ticks": 505310,
+      "system_cpu_ticks": 31033,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    }
+  },
+  "after": {
+    "400207": {
+      "pid": 400207,
+      "start_ticks": "3965596",
+      "state": "S",
+      "user_cpu_ticks": 5,
+      "system_cpu_ticks": 1,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400216": {
+      "pid": 400216,
+      "start_ticks": "3965757",
+      "state": "S",
+      "user_cpu_ticks": 3,
+      "system_cpu_ticks": 0,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400219": {
+      "pid": 400219,
+      "start_ticks": "3965760",
+      "state": "S",
+      "user_cpu_ticks": 133,
+      "system_cpu_ticks": 24,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400220": {
+      "pid": 400220,
+      "start_ticks": "3965760",
+      "state": "S",
+      "user_cpu_ticks": 130,
+      "system_cpu_ticks": 26,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400224": {
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_cpu_ticks": 505426,
+      "system_cpu_ticks": 30457,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    },
+    "400225": {
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_cpu_ticks": 505528,
+      "system_cpu_ticks": 31043,
+      "cgroup": "0::/system.slice/w1700k-npu-bytewise-callers-q2.service"
+    }
+  },
+  "guard_flock": "2: FLOCK  ADVISORY  WRITE 400207 08:30:2919797 0 EOF",
+  "profiles": [
+    {
+      "tag": "bytewise-default-q2",
+      "prefix_sha256": "f2eb2ae81ab9d9295fac4eed713ede3abc8d72dbb5d8d84fab89412476909d61",
+      "bytes": 3150,
+      "latest_record": {
+        "native_command": [
+          16,
+          22,
+          2533359616
+        ],
+        "packet_claims": 2560,
+        "ba_claims": 1792
+      },
+      "txbuf_phases_passed": 6,
+      "rx_event_passed": true
+    },
+    {
+      "tag": "bytewise-hif2-q2",
+      "prefix_sha256": "159fd9b5d233518fb504242dda443823eef8f1eab20359003df46b709ee3c39d",
+      "bytes": 3150,
+      "latest_record": {
+        "native_command": [
+          16,
+          22,
+          2533359616
+        ],
+        "packet_claims": 2560,
+        "ba_claims": 1792
+      },
+      "txbuf_phases_passed": 6,
+      "rx_event_passed": true
+    }
+  ],
+  "terminal_caller_verdict": false,
+  "native_policy_changed": false,
+  "original_jobs_restarted_or_paused": false,
+  "VM_restarted": false,
+  "hardware": false,
+  "private_evidence": {
+    "path": ".local/npu-irq-world-20261021/evidence-q1.json",
+    "sha256": "6e9b397a3334ec0e767d99772138a2224a740af82ce8100530c8b68e33d4f91e",
+    "bound_paths": 381
+  }
+}

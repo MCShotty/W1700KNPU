@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Image Producer Integration
+
+The isolated image runner now accepts the genuine combined checked-IRQ module
+receipt. Fifteen portable contract tests pass;364 retained inputs and all four
+module artifacts revalidate. Receipt-bound source checks remain strict while
+allowing a rebuilt output image to differ from the protected prior image.
+
+New WSL launches are timing out,so the Linux namespace path and fresh image are
+not yet run. Both original NPU replays remain live at DESC10 with advancing CPU;
+they have not been interrupted. Full NPU/physical acceptance is still incomplete.
+See the [world adapter checkpoint](research/checkpoints/2026-10-21-npu-irq-world/REPORT.md).
+
 ## 2026-10-21 - Checked IRQ Implementation
 
 Mainline patches now propagate IRQ errors, check mask readback, start RX IRQs

@@ -1,8 +1,30 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (checked IRQ software/host fixtures/four AArch64 module links pass;original replays live;new IRQ image and physical gates open)
+Last updated: 2026-10-21 (combined module/world adapter portable tests pass;WSL launch unavailable;original replays live;fresh image and physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Combined Producer World Adapter;Linux Execution Pending
+
+- New exclusive --module-receipt consumes genuine checked-IRQ90abc8f3 with
+  input/artifact/source-lock validation,not fake old receipt files. Frozen
+  declarations cover receipt/all inputs/four modules;postbuild sources remain
+  bound while output image observation may legitimately change. Legacy pair
+  support and all Linux build/image/native/physical gates remain intact.
+- Fifteen Windows-portable contract/CLI/log units pass,zero skips. Actual364
+  retained inputs,five kernel/329 mt76 identities/four artifacts revalidate at
+  unchanged lockcb035741. No fresh module link;old prepared provider rejects
+  as stale. Failed discovery/platform/fixture attempt is preserved privately.
+- New WSL root/captain/system launches time out0x8007274c. Existing Ubuntu/UNC
+  and original service children remain live,same ticks/cgroup,advancing CPU,
+  retained FLOCK. Both are still at DESC10 after six TXBUF/RX-event passes,no
+  terminal receipt. No job or VM restart/pause/kill,budget/checkpoint change.
+  Linux POSIX/namespace/world/new-image execution remains UNRUN. Recover entry,
+  run full Linux suites,freeze current source/actual receipt/four modules,check
+  full backing capacity and build/inspect the image. Full cold/fault/setup/hot/
+  IRQphysical/RRO/lifecycle/drain/retirement/stack/boot/radio/client gates stay.
+  No firmware/source-lock/UI/WiFi/image/hardware/flash/subagent changes.
+  Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md.
 
 ## 2026-10-21 - Checked IRQ Software And Unloaded Module Qualification
 
