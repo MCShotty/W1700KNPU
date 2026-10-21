@@ -1,8 +1,29 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (47 Linux units/full buffered-cache staging pass;first world failed before compilation;fresh image retry/full acceptance pending)
+Last updated: 2026-10-21 (private locked-overlay staging/52+5 tests pass;7,545 verified cache duplicates pruned;full corrected image retry pending)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Correct Private Source Preparation And Cache Consolidation
+
+- q3 make returned0,but current-source audit rejected old seed recipes. No
+  new kernel/mt76 recipe was staged. Not zero-fill;image unqualified for new
+  checked IRQ. Original891138 build/4617 cache entries/snapshot unchanged.
+- New private overlay stage precedes cache/clean/compile,checks authoritative
+  inputs/copies and all70+5 locked files/22 components/config/modes. Stale
+  cumulative-only files fail. Actual probe checks55 authorities,copies two
+  recipes/verifies75+22,second call copieszero;original locked subset intact.
+  All52 Linux source/world/cache and five cleanup-guard tests pass,zero skips.
+- 7545 exact independent cachedownload duplicates/4856372501 bytes removed
+  from two closed C-scratch DL trees. Read-only frozen keepers rechecked before/
+  after;metadata/xattrs/mappings/journal retained. Three bad samples/directories/
+  images/build evidence/unique data/native inputs kept. Scratch free observed
+  10225426432->15103901696 bytes,not host capacity recovery. Old output cache
+  copies now logically consolidated;restore before old replays. No resize.
+- Read recovery REPORT.md/STAGING.json. Commit/v4 freeze/fresh backing+guest
+  budgets/full image retry next;all postbuild/native/physical gates remain.
+  No firmware/lock/UI/WiFi/raw-pair/hardware/flash/subagent,job/VM restart or
+  native-limit/checkpoint changes. Full goal and original verdicts stay open.
 
 ## 2026-10-21 - Preserved Cache Failure And Buffered Full-Cache Verification
 

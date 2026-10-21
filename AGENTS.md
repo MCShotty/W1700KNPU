@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Current Overlay Staging Implemented;Cache Duplicates Pruned
+
+- Read recovery REPORT.md/STAGING.json. q3 make returned0 but source audit
+  rejected older unchanged kernel/mt76 recipes from the protected seed. No
+  current recipe was installed in that upper. q3 image is NOT checked-IRQ
+  qualified. This is distinct from earlier zero-fill;all originals unchanged.
+- Inner world now stages current authoritative overlays/components/config
+  BEFORE cache/clean/compile,then checks70+5 locked files/22 components/modes.
+  Cumulative-only files must already match,not be invented. Actual private
+  stage checks55 authorities,copies exactly two recipes,verifies75+22,second
+  call copieszero;original locked subset unchanged. All52 Linux units/five
+  cleanup guards pass. All postbuild source/image gates retained.
+- 7545 independent cache duplicates/4856372501 bytes removed only from q2
+  failed-cache and buffered-cache probe DL trees. Verified read-only frozen
+  keepers/mappings/metadata/journal retained;three bad samples/directories/
+  images/unique data/native inputs untouched. Scratch free now15103901696
+  bytes at observation;not host Windows space recovery. Old cache outputs are
+  logically consolidated,not independent copies;restore before old replays.
+- Commit/replan/freeze v4,fresh full backing/guest budget,then world. Preserve
+  q3 failed build and diagnostics. No firmware/lock/UI/WiFi,hardware/flash,
+  native limits/checkpoints,job/VM restart,swap/disk resize or subagents.
+  Full goal and old original replay verdicts remain pending.
+
 ## 2026-10-21 - Buffered Cache Passed;Full Image Retry Pending
 
 - Read the recovery checkpoint REPORT.md/CACHE.json. Alias-complete freeze

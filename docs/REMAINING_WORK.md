@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Full Current-Overlay Image Retry Next
+
+q3 make returned0,but the source audit rejected unchanged older recipes from
+the protected seed. That image is unqualified for checked IRQ. Current staging
+now runs before cache/clean/compile and verifies70+5 locked files/22 components;
+actual private probe copies exactly two recipes/idempotent second call,original
+locked subset unchanged. All52 Linux units/five cleanup guards pass.
+
+7545 verified duplicate cache files/4856372501 bytes consolidated into retained
+read-only frozen keepers. Three bad samples/build evidence/images untouched;
+scratch free observed15103901696 bytes. Old physical cache outputs require
+restoration from their mappings,not independent-copy claims. No disk resize.
+Next:clean commit/v4 freeze/fresh C/D+guest budgets/full world/image,retaining
+all postbuild source/FIT/package/ABI/native/physical gates. Full NPU scope and
+old original replay verdicts stay pending. Read recovery REPORT.md/STAGING.json.
+
 ## 2026-10-21 - Full Image Retry After Verified Buffered Cache
 
 Alias-complete current freeze6d2c971f passed. Actual world-checked-irq-q2 stopped

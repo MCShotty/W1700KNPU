@@ -1,0 +1,150 @@
+{
+  "passed": true,
+  "scope": "actual-locked-overlay-staging-and-verified-cache-consolidation-not-image-qualification",
+  "source_stage_units": 52,
+  "cleanup_guard_units": 5,
+  "skipped": 0,
+  "world_source_sha256": "ed0a73c5515a255a5acf538fefa0ef19ddad9f21a76ea99eea975fd4ca21f6e4",
+  "source_tool_sha256": "5cc9db44e6ec39d605c792d97011e5f13c28e02459dc25a1ae073b31a8ee7c3c",
+  "actual_private_staging": {
+    "locked_files_checked": {
+      "openwrt": 70,
+      "luci": 5
+    },
+    "component_sources_checked": 22,
+    "authority_files_checked": 55,
+    "copied": [
+      "package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch"
+    ],
+    "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "cumulative_only_files_require_existing_exact_bytes": true,
+    "private_overlay_only": true
+  },
+  "original_locked_source_subset_unchanged": true,
+  "earlier_make_world_returncode": 0,
+  "earlier_source_audit_passed": false,
+  "unqualified_image": {
+    "path": ".local/npu-build-scratch/native-c1/world-checked-irq-q3/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb",
+    "sha256": "1eb4ea495e75d9ab9137881f203a530edd015ae14e12ad43ed4d2ac79941e6ea",
+    "bytes": 27009866,
+    "current_checked_IRQ_qualified": false,
+    "do_not_promote": true
+  },
+  "original_build_entries": 891138,
+  "original_cache_entries": 4617,
+  "original_build_cache_and_frozen_inputs_unchanged": true,
+  "cleanup": {
+    "passed": true,
+    "removed_files": 7545,
+    "logical_bytes": 4856372501,
+    "excluded_retained": 3,
+    "all_keepers_content_and_metadata_unchanged": true,
+    "scratch_available_before": 10225426432,
+    "scratch_available_after": 15103901696,
+    "plan_sha256": "e267e2c6f7e67c4a23029b4eb4fc61ac590b4ddfd2772f4f56bc5c2a3ac1d646",
+    "journal_sha256": "50154f28a5a9d13dc6206745f8a7c33945b1e1af99e1eccde9fe57f4d48aadc9",
+    "source_sha256": "ca84168b910d3f13cd213ced3942fb50c91b24ebb3a8eb42e46af2c6a357228b",
+    "unique_or_bad_bytes_removed": false,
+    "directories_removed": false,
+    "hardware": false,
+    "original_native_jobs_modified_or_paused": false,
+    "host_compaction_or_disk_resize": false
+  },
+  "bad_copies_retained": [
+    {
+      "path": ".local/npu-build-scratch/native-c1/world-checked-irq-q2/build-upper/dl/iperf-3.21.tar.gz",
+      "sha256": "e1ddda5d6aeebc85c432c3a57ee2fc8a14a49fe84d50c74bb1d6a63de58c5dac"
+    },
+    {
+      "path": ".local/npu-build-scratch/native-c1/world-checked-irq-q2/build-upper/dl/libbpf-1.7.0.tar.zst",
+      "sha256": "b6a8f46a96313bfdb7027da7066ece3985fa03b827259fd7a044db69acaa19d2"
+    },
+    {
+      "path": ".local/npu-build-scratch/native-c1/world-checked-irq-q2/build-upper/dl/squashfs4-4.7.5.tar.zst",
+      "sha256": "e9d6b5862e591dd67823b6fe1de21e6c3c3119d60d8541f66995af46b9b7af63"
+    }
+  ],
+  "old_physical_cache_outputs_logically_consolidated_not_independent": true,
+  "native_before": [
+    {
+      "pid": 400224,
+      "state": "R",
+      "start_ticks": "3965918",
+      "user_ticks": 1225543,
+      "system_ticks": 94102
+    },
+    {
+      "pid": 400225,
+      "state": "R",
+      "start_ticks": "3965918",
+      "user_ticks": 1224812,
+      "system_ticks": 95680
+    }
+  ],
+  "native_after": [
+    {
+      "pid": 400224,
+      "state": "R",
+      "start_ticks": "3965918",
+      "user_ticks": 1225645,
+      "system_ticks": 94109
+    },
+    {
+      "pid": 400225,
+      "state": "R",
+      "start_ticks": "3965918",
+      "user_ticks": 1224917,
+      "system_ticks": 95684
+    }
+  ],
+  "native_terminal_receipt_exists": false,
+  "full_corrected_world_started": false,
+  "native_reexecuted": false,
+  "source_lock_UI_WiFi_raw_pair_changed": false,
+  "original_native_jobs_modified_or_paused": false,
+  "native_limits_or_checkpoints_changed": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "new_failure_route": {
+        "type": "choice",
+        "choice": "stale_seed_not_refreshed",
+        "confidence": 1.0,
+        "probabilities": {
+          "stale_seed_not_refreshed": 1.0,
+          "another_zero_filled_copy": 0.0,
+          "physical_NPU_fault": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "postbuild_gates": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "independent_backup_claim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "current_achievement": {
+        "type": "choice",
+        "choice": "source_staging_and_cleanup_only",
+        "confidence": 1.0,
+        "probabilities": {
+          "source_staging_and_cleanup_only": 1.0,
+          "new_checked_IRQ_image_qualified": 0.0,
+          "physical_NPU_accepted": 0.0,
+          "unknown": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 992,
+      "output_tokens": 173
+    }
+  },
+  "private_scope_sha256": "2d5dd6f1722fe2e8d86e816e25d11e438c52a90bc85edaea3e32041a6684f84c",
+  "bound_paths": 42
+}

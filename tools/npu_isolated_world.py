@@ -101,14 +101,14 @@ def download_cache_input(frozen, record):
         kernel_archive_sha256=hashes[0],kernel_recipe=recipe,kernel_recipe_sha256=record['files'][recipe])
 
 
-def copy_download_file(source, destination):
+def copy_verified_file(source, destination):
     # Verify userspace I/O before the later whole-cache manifest check.
     with open(source, 'rb') as reader, open(destination, 'xb') as writer:
         shutil.copyfileobj(reader, writer, 1048576)
         writer.flush()
         os.fsync(writer.fileno())
     shutil.copystat(source, destination)
-    assert digest(Path(destination)) == digest(Path(source)), ('buffered-download-copy-drift', str(source))
+    assert digest(Path(destination)) == digest(Path(source)), ('buffered-copy-drift', str(source))
     return str(destination)
 
 
@@ -119,7 +119,7 @@ def stage_download_cache(build, cache, expected):
     assert target.is_symlink() and os.readlink(target) == str(cache), 'unexpected-private-dl-link'
     assert not cache.resolve().is_relative_to(build.resolve()), 'cache-inside-build'
     target.unlink()
-    shutil.copytree(cache,target,copy_function=copy_download_file)
+    shutil.copytree(cache,target,copy_function=copy_verified_file)
     for path in (target,*target.rglob('*')):
         assert not path.is_symlink()
         path.chmod(stat.S_IMODE(path.stat().st_mode) | (0o700 if path.is_dir() else 0o600))
@@ -248,6 +248,9 @@ def inner(args):
             consumer = json.loads(npu_world_sources.relative_file(ROOT,context['mt76_receipt']).read_bytes())
             assert provider['passed'] is consumer['passed'] is True
             assert provider['source_lock_sha256'] == consumer['source_lock_sha256'] == context['source_lock_sha256']
+        lock = json.loads((ROOT / 'firmware/source-lock.json').read_bytes())
+        proof['locked_overlay_staging'] = npu_world_sources.stage_locked_overlays(BUILD, ROOT, lock, copy_verified_file)
+        print(json.dumps(dict(phase='current-locked-overlays-verified', staging=proof['locked_overlay_staging'])), flush=True)
         linker = ROOT / context['linker']['path']
         assert linker == LINKER_PREFIX / 'bin/ld.lld' and digest(linker) == context['linker']['sha256']
         linker_version = subprocess.check_output([str(linker), '--version'], text=True, timeout=30).strip()

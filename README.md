@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Current Build Overlays Staged Privately
+
+A completed world command was rejected for using older seed recipes. The
+runner now stages and verifies current locked overlays before compilation;
+actual75-file/22-component checks and52 Linux units pass. Verified duplicate
+cache consolidation reclaimed4.86GB inside scratch while retaining originals,
+bad samples and build evidence. The complete corrected image retry is next;
+no new image or physical acceptance is claimed yet.
+See the [staging checkpoint](research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md).
+
 ## 2026-10-21 - Cache Staging Hardened
 
 The first checked-IRQ world attempt stopped before compilation:three private

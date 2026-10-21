@@ -89,6 +89,59 @@ def linked_module_sources(root, receipt_path):
                 inputs=inputs, artifacts=artifacts, **sources)
 
 
+def stage_locked_overlays(build, root, lock, copy_file):
+    """Refresh authoritative files only in the caller's private build overlay."""
+    planned = {}
+
+    def add(source, name, expected, mode):
+        source = relative_file(root, source)
+        target = relative_file(build, name)
+        assert source.is_file() and digest(source) == expected, ('overlay-source-drift', str(source))
+        assert not target.exists() or target.is_file(), ('overlay-target-not-file', name)
+        entry = dict(source=source, target=target, sha256=expected, mode=int(mode, 8))
+        if name in planned:
+            assert planned[name]['sha256'] == expected and planned[name]['mode'] == entry['mode'], 'conflicting-overlay-authority'
+        planned[name] = entry
+
+    for label, prefix in (('openwrt', Path()), ('luci', Path('feeds/luci'))):
+        for row in lock[label]['changed_files']:
+            authority = Path('firmware/overlay') / label / row['path']
+            source = relative_file(root, str(authority))
+            if source.exists():
+                add(str(authority), str(prefix / row['path']), row['sha256'], row['mode'])
+    for row in lock['component_sources']:
+        assert row['tree'] == 'openwrt', 'unsupported-component-tree'
+        add(row['source'], row['destination'], row['sha256'], row['mode'])
+    config = relative_file(root, 'firmware/build.config')
+    add('firmware/build.config', '.config', digest(config), '0644')
+    copied = []
+    for name, row in planned.items():
+        target = row['target']
+        if target.is_file() and digest(target) == row['sha256'] and target.stat().st_mode & 0o7777 == row['mode']:
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            target.unlink()
+        copy_file(row['source'], target)
+        target.chmod(row['mode'])
+        assert digest(target) == row['sha256'], ('staged-overlay-drift', name)
+        copied.append(name)
+    checked = {}
+    for label, tree in (('openwrt', build), ('luci', build / 'feeds/luci')):
+        for row in lock[label]['changed_files']:
+            target = relative_file(tree, row['path'])
+            assert target.is_file() and digest(target) == row['sha256'], ('prebuild-locked-source-drift', label, row['path'])
+            assert target.stat().st_mode & 0o7777 == int(row['mode'], 8), ('prebuild-locked-source-mode', label, row['path'])
+        checked[label] = len(lock[label]['changed_files'])
+    for row in lock['component_sources']:
+        target = relative_file(build, row['destination'])
+        assert digest(target) == row['sha256'] and target.stat().st_mode & 0o7777 == int(row['mode'], 8), ('prebuild-component-drift', row['destination'])
+    assert digest(build / '.config') == digest(config), 'prebuild-config-drift'
+    return dict(locked_files_checked=checked, component_sources_checked=len(lock['component_sources']),
+                authority_files_checked=len(planned), copied=copied, source_lock_sha256=digest(root / 'firmware/source-lock.json'),
+                cumulative_only_files_require_existing_exact_bytes=True, private_overlay_only=True)
+
+
 def verify(build, root, lock, provider=None, consumer=None, *, module_receipt=None, module_sources=None):
     source_lock = digest(root / 'firmware/source-lock.json')
     if module_receipt is not None or module_sources is not None:

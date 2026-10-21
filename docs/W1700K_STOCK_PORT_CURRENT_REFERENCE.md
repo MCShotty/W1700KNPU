@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Current Source Overlays And Verified Cache Consolidation
+
+q3 make returned0 but source audit rejected old seed recipes,not zero-filled
+new copies. No current recipe was staged;all891138 lower/4617 cache entries and
+snapshot unchanged. q3 image is unqualified for checked IRQ. New private stage
+installs current overlays/components/config before cache/clean/compile,then
+checks70+5 locked files/22 components/modes. Cumulative-only stale files fail.
+Actual stage checks55 authorities,copies two recipes/verifies75+22,second call
+copieszero;original locked subset unchanged. All52 Linux/five cleanup units pass.
+
+7545 exact independent cache copies/4856372501 bytes removed;read-only frozen
+keepers fully rechecked,mappings/metadata/journal retained. Three bad samples,
+directories,images,unique data,native inputs untouched. Scratch available rose
+10225426432->15103901696 bytes;not Windows host-volume recovery. Old cache
+output copies are logically consolidated and require restoration before replay.
+Read recovery REPORT.md/STAGING.json. Clean commit/v4 freeze/budget/full image
+retry next. Firmware/lockcb035741/UI/WiFi/raw pair unchanged;all broader NPU/
+physical/client gates open. No restart/hardware/flash/resize/subagents.
+
 ## 2026-10-21 - Verified Buffered Cache;Fresh World Retry Required
 
 Alias-complete6d2c971f freezes6673 files/current90abc8f3 producer. Actual q2

@@ -24,7 +24,7 @@ class DownloadCacheTests(unittest.TestCase):
                     patch.object(world.shutil, 'copy2', side_effect=AssertionError('fast copy forbidden')), \
                     patch.object(world.os, 'copy_file_range', side_effect=AssertionError('fast copy forbidden')), \
                     patch.object(world.os, 'sendfile', side_effect=AssertionError('fast copy forbidden')):
-                self.assertEqual(world.copy_download_file(source, target), str(target))
+                self.assertEqual(world.copy_verified_file(source, target), str(target))
             self.assertEqual(target.read_bytes(), source.read_bytes())
             self.assertEqual(stat.S_IMODE(target.stat().st_mode), 0o444)
 
@@ -33,7 +33,7 @@ class DownloadCacheTests(unittest.TestCase):
             source, target = (Path(temporary) / name for name in ('source', 'copy'))
             source.write_bytes(b'source bytes')
             target.write_bytes(b'protected existing bytes')
-            with self.assertRaises(FileExistsError): world.copy_download_file(source, target)
+            with self.assertRaises(FileExistsError): world.copy_verified_file(source, target)
             self.assertEqual(target.read_bytes(), b'protected existing bytes')
             self.assertEqual(source.read_bytes(), b'source bytes')
 
@@ -44,8 +44,8 @@ class DownloadCacheTests(unittest.TestCase):
             def zero_copy(reader, writer, length):
                 writer.write(b'\0' * len(reader.read()))
             with patch.object(world.shutil, 'copyfileobj', side_effect=zero_copy):
-                with self.assertRaisesRegex(AssertionError, 'buffered-download-copy-drift'):
-                    world.copy_download_file(source, target)
+                with self.assertRaisesRegex(AssertionError, 'buffered-copy-drift'):
+                    world.copy_verified_file(source, target)
             self.assertEqual(target.stat().st_size, source.stat().st_size)
             self.assertEqual(source.read_bytes(), b'nonzero archive fixture')
 
@@ -54,7 +54,7 @@ class DownloadCacheTests(unittest.TestCase):
             source, target = (Path(temporary) / name for name in ('source', 'copy'))
             source.write_bytes(b'archive fixture')
             with patch.object(world.os, 'fsync', side_effect=OSError(errno.EIO, 'synthetic writeback error')):
-                with self.assertRaises(OSError) as failure: world.copy_download_file(source, target)
+                with self.assertRaises(OSError) as failure: world.copy_verified_file(source, target)
             self.assertEqual(failure.exception.errno, errno.EIO)
 
     def test_missing_cache_stops_run_before_output_or_original_tree_inventory(self):

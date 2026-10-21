@@ -3,6 +3,53 @@
 Date: 2026-10-21. Supersedes the prior new-WSL-entry blockage, not any NPU
 runtime verdict. Full reverse engineering and implementation remain active.
 
+## Private Source Staging And Cache Consolidation
+
+The q3 `make world` command returned0, but the enclosing locked-source audit
+rejected the result before image verification. The protected seed still has
+the older mt76/kernel integration recipes; neither current recipe had been
+installed into the private upper. This is a missing source-staging step, not
+another zero-filled cache copy. The q3 image is **unqualified for checked IRQ**.
+All891138 original build entries,4617 cache entries and frozen inputs remain
+unchanged. Its build output and failed audit are preserved.
+
+The runner now installs authoritative overlay-backed locked files, components
+and config into its private build overlay **before** download staging, cleaning
+or compilation. Canonical source hashes and destination paths are checked;
+copies use the verified userspace helper. All70 OpenWrt/five LuCI locked files,
+22 components and config are then checked. Cumulative-only files without an
+overlay body must already match; missing/stale ones fail, not get invented.
+Every existing postbuild prepared-source/FIT/package/ABI gate remains.
+
+Actual source-stage-q1 passes on the older lower:55 authority files checked,
+exactly two recipe files copied,75 locked files/22 components verified,second
+call copies zero. The original locked-source subset remains byte/mode unchanged.
+All52 Linux world/source/cache units and five cleanup guards pass,zero skips.
+This is staging and test evidence, not a new image or hardware result.
+
+To fit a complete retry without resizing or deleting build evidence,7545
+ordinary independent cache duplicates were verified and removed from two closed
+C-scratch cache trees. Every selected file matches its declared retained
+read-only frozen keeper; identities/hashes were rechecked before removal and
+keepers rehashed afterward. The three unmatched zero-filled samples remain.
+Modes/ownership/mtime/xattrs and mappings are in the manifest/removal journal.
+No directories,images,unique data,source or native-job inputs were removed.
+Keeper identity checks cover mode,uid/gid,size,mtime,inode,nlink,blocks and device;
+atime/ctime equality is not claimed. Copy xattrs are retained as restoration data.
+
+Removed duplicate payload:4856372501 bytes. Actual scratch availability rose
+from10225426432 to15103901696 bytes. This reclaims space **inside** the existing
+24GiB C-file filesystem, not Windows host-volume capacity. Cache output copies
+are logically consolidated, not independent backups; restore them from the
+recorded frozen keepers before trying to replay those old private outputs.
+No disk growth,compaction,VM restart,extra swap or original-job intervention.
+
+STAGING.json binds the rejected q3 world,actual stage,52+5 tests,cleanup and
+current sources. Next:clean commit/v4 plan/freeze/fresh C/D+guest budgets/full
+world retry. Source-lockcb035741,firmware/UI/WiFi and the4e43de6f/a282ca7a pair
+are unchanged. Full NPU,cold/fault/hot/RRO/lifecycle/drain/physical/client scope
+remains open. Do not promote q3 merely because make returned0.
+
 ## Cache Staging Follow-Up
 
 The first freeze wrote preservation receiptb53fa1c6 but its wrapper exited1:

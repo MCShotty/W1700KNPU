@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (47 Linux units/full buffered-cache probe pass;first world stopped before compilation;fresh image retry and full acceptance open)
+Last updated: 2026-10-21 (private current-overlay staging/52+5 units pass;7,545 duplicate caches pruned;full corrected image retry/acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Locked Overlay Staging And Cache Consolidation
+
+- q3 make world returned0,then source audit rejected old kernel/mt76 recipes
+  inherited from the protected seed. Current recipes were not staged into its
+  upper. Not another zero-filled copy. Image unqualified for checked IRQ;
+  all891138 original build/4617 cache entries/snapshot unchanged. Preserve run.
+- New inner stage installs authoritative overlay-backed sources/components/
+  config before cache/clean/compiler,using verified buffered copying. All70+5
+  locked files/22 components/config then checked;missing/stale cumulative-only
+  files fail,not be invented. Existing postbuild prepared-source/FIT/package/
+  ABI checks stay. Actual private probe checks55 authorities,copies exactly
+  two recipes,verifies75+22,second call copieszero. Original locked subset
+  unchanged. All52 Linux world/source/cache and five cleanup units pass.
+- Exact duplicate consolidation removes7545 ordinary independent cachedownload
+  copies/4856372501 bytes from two closed C-scratch DL trees. Every retained
+  read-only frozen keeper is identity/hash-checked before and after removals;
+  manifest records metadata/xattrs/mappings and removal journal. Three unmatched
+  zero-filled samples and all directories/build evidence/images/unique data/
+  keys/calibration/recovery/native inputs kept. No broad directory deletion.
+- Actual scratch availability10225426432->15103901696 bytes. This is space
+  within existing24GiB C-file ext4,not host Windows free capacity. Physical
+  cache copies are logically consolidated,not independent backups;restore
+  recorded keeper bytes/metadata before attempting those old output replays.
+  No compaction/resize/swap/VM or original-job intervention.
+- STAGING.json binds source-stage probe,52+5 tests,rejected q3 and cleanup.
+  Next clean commit/v4 plan/freeze/full C/D+guest budget/world. No fresh qualified
+  image yet. Firmware/lockcb035741/UI/WiFi/raw pair and native budgets unchanged;
+  full cold/fault/setup/hot/RRO/lifecycle/drain/whole-stack/physical/client goal
+  stays open. No hardware/flash/subagents. Read recovery REPORT.md.
 
 ## 2026-10-21 - Cache Copy Failure Preserved;Full Buffered Staging Passes
 
