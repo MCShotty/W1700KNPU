@@ -17,7 +17,8 @@
   cross-fs overlay reproduces tar identity errors without new I/O faults.
   Private UID1000 xino=on overlay then verifies the entire same manifest.
   System bwrap/global xino_auto remain unchanged. --bubblewrap selects only
-  a declared read-only nonprivileged frozen executable;all old gates remain.
+  a declared read-only nonprivileged frozen executable;security.capability
+  xattrs are rejected as well as special mode bits. All old gates remain.
 - All56 project/five cleanup units pass,zero skips. Upstream bwrap is NOT
   globally test-clean:3 suites pass,1 skips,FD-input suite aborts134 in BOTH
   pristine/patched controls. No --file in this world command. Preserve scope.

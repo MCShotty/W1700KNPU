@@ -34,6 +34,8 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   retains all isolation/source/producer/image/input gates. Default is absolute
   system binary;system installation/global settings untouched. All56 project/
   five cleanup units pass,zero skips. Custom binary12f8d226 is not privileged.
+  Follow-up additionally rejects security.capability xattrs,with a negative
+  control;CAPABILITIES.json binds the later source/test scope separately.
 - Upstream bwrap tests are not all green:3 suites pass,seccomp skips,and FD-input
   suite aborts134 in both pristine and patched builds;isolated --file0 controls
   reproduce both. World uses no --file. Preserve this residual tool limitation.

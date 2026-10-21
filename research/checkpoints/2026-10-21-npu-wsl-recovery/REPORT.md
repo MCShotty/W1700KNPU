@@ -72,6 +72,13 @@ limits general launcher qualification;the common failure's cause is unproven.
 Original source LICENSE -> COPYING is recorded as a literal upstream alias;
 its frozen representation must be an explicit read-only ordinary file.
 
+The subsequent CAPABILITIES.json supplement binds an explicit
+security.capability xattr rejection and its negative unit control. Special
+mode bits alone are not a complete file-privilege check. All56 project/five
+cleanup units pass again on that later source;the actual selected binary also
+has no file capabilities. STORAGE.json retains its earlier exact source scope
+at06b90b1 rather than being rewritten after this additional check.
+
 STORAGE.json binds these results,source/test/provenance data and independently
 rescued objects,and rehashes all five protected images. Both unchanged original
 replays now pass DESC10,RX-PCIe and tail stages0/1,no final verdict. Next clean

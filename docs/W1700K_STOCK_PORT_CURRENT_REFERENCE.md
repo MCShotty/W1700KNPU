@@ -16,7 +16,8 @@ errors without new I/O faults. Private UID1000 bwrap xino=on then verifies the
 identical full content manifest;system binary/global xino_auto stay unchanged.
 
 Optional --bubblewrap requires declared read-only/nonprivileged frozen bytes
-and records/rechecks the executed hash. All old source/isolation/image gates
+and rejects security.capability xattrs as well as special mode bits,then
+records/rechecks the executed hash. All old source/isolation/image gates
 remain. All56 project/five cleanup units pass. Broader upstream tool suite:
 3 pass,1 seccomp skip,FD-input abort134 in both pristine/patched controls;not
 globally qualified. Read REPORT.md/STORAGE.json. Commit/v5 freeze/budget/full

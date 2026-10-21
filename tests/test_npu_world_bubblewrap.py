@@ -39,7 +39,7 @@ class FrozenBubblewrapTests(unittest.TestCase):
             self.assertEqual(metadata['sha256'], record['files'][name])
 
     def test_undeclared_changed_and_unsafe_executables_are_rejected(self):
-        for mutation in ('unlisted','source-bytes','frozen-bytes','writable','nonexecutable','setuid','setgid','sticky','symlink','external','capsule'):
+        for mutation in ('unlisted','source-bytes','frozen-bytes','writable','nonexecutable','setuid','setgid','sticky','capability','symlink','external','capsule'):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temporary:
                 root, selected, frozen, name, record = self.fixture(temporary)
                 target = frozen / name
@@ -51,13 +51,16 @@ class FrozenBubblewrapTests(unittest.TestCase):
                     changed.chmod(0o555)
                 elif mutation in ('writable','nonexecutable','setuid','setgid','sticky'):
                     target.chmod({'writable':0o755,'nonexecutable':0o444,'setuid':0o4555,'setgid':0o2555,'sticky':0o1555}[mutation])
+                elif mutation == 'capability': pass
                 elif mutation == 'symlink':
                     alias = root / '.local/alias'
                     alias.symlink_to(selected.parent, target_is_directory=True)
                     selected = alias / 'bwrap'
                 elif mutation == 'external': selected = Path('/usr/bin/bwrap')
                 else: selected = target
-                with patch.object(world, 'ROOT', root), self.assertRaises((AssertionError, FileNotFoundError)):
+                with patch.object(world, 'ROOT', root), \
+                        patch.object(world.os, 'listxattr', return_value=['security.capability'] if mutation == 'capability' else []), \
+                        self.assertRaises((AssertionError, FileNotFoundError)):
                     world.bubblewrap_input(SimpleNamespace(bubblewrap=selected), frozen, record)
 
     def test_command_changes_only_executable_and_keeps_all_isolation_flags(self):

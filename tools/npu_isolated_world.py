@@ -143,6 +143,7 @@ def bubblewrap_input(args, frozen, record):
     executable = frozen / name
     mode = executable.lstat().st_mode
     assert stat.S_ISREG(mode) and not mode & 0o7222 and mode & 0o111, 'bubblewrap-not-readonly-nonprivileged-executable'
+    assert 'security.capability' not in os.listxattr(executable), 'bubblewrap-has-file-capabilities'
     assert executable.resolve(strict=True) == executable, 'bubblewrap-frozen-alias'
     assert digest(executable) == record['files'][name] == digest(path), 'bubblewrap-input-drift'
     return executable, dict(path=name, sha256=record['files'][name], frozen=True)

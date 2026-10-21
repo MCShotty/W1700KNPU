@@ -10,7 +10,8 @@ Linux6.18.52 extraction/content checks. The separate cross-fs tar identity
 failure reproduces without I/O errors and passes with private per-mount xino=on.
 System bwrap/global overlay parameters/original Ubuntu and jobs are unchanged.
 
-All56 project/five cleanup units pass;upstream FD-input failure reproduces in
+The private launcher guard also rejects file-capability xattrs,not only mode
+bits. All56 project/five cleanup units pass;upstream FD-input failure reproduces in
 both pristine/patched launchers,so do not claim universal tool qualification.
 Next:clean commit,v5 frozen launcher/source/provenance,fresh D/C+guest budgets,
 full checked-IRQ world/FIT/package/ABI audit and protected copy only on success.

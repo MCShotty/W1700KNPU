@@ -24,7 +24,9 @@ Purpose: dated logging session and future-reference copy tracking what has been 
   No claim that xino diagnoses/fixes the old loop I/O/zero-fill cause.
 - Explicit frozen-launcher selection records actual bytes,requires read-only
   nonprivileged declared input and retains all old guards. All56 project/five
-  cleanup units pass. Upstream tests:3 suites pass,seccomp skips,FD-input abort134
+  cleanup units pass again after explicit file-capability rejection;the
+  CAPABILITIES.json supplement binds that later source/test scope.
+  Upstream tests:3 suites pass,seccomp skips,FD-input abort134
   in both pristine/patched controls. Not globally tool-qualified;world no --file.
 - Read REPORT.md/STORAGE.json. Five protected images rehash. Original replays
   now pass DESC10/RX-PCIe/tail0/1,no verdict. Clean commit/v5 freeze/full fresh

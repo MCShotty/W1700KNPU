@@ -8,7 +8,7 @@ independently copied and verified. A new native C-backed WSL disk passes full
 kernel content checks;per-mount inode identity also fixes the separately
 reproduced overlay extraction failure. Original Ubuntu and NPU jobs stay live.
 
-The image runner can select a snapshot-bound private launcher while retaining
+The image runner can select a snapshot-bound,capability-free private launcher while retaining
 all isolation/source/image gates. All56 project tests and five cleanup guards
 pass. The broader upstream launcher suite has a recorded FD-input failure in
 both pristine and patched builds;this is not an all-tests-passed claim.
