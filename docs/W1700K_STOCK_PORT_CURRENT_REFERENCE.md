@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Linux Recovery And Native C-Backed Build Scratch
+
+Supersedes the older entry blockage:installed Store wsl.exe launches root and
+documented WSL API launches captain. No VM/original-job restart or pause. All36
+Linux world/source units pass,zero skips. Actual C-file ext4/POSIX/cross-filesystem
+private-overlay probe passes;separate new24GiB scratch mounted at
+.local/npu-build-scratch/native-c1,UUID4a6f22ea-746e-441b-8191-5d726aff1b66.
+No existing disk/partition/VHD formatted,no fstab/policy/swap change. Explicit
+--output-root retains all namespaces/clean/world/source/image/input gates.
+
+Windows-direct nonce/hash-bound <=60-second capacity observations work around
+the still-failing long encoded interop query. D counts snapshot/metadata plus
+full1GiB native future output/2GiB margin;C counts full24GiB file growth/2GiB
+margin and guest2.5GiB cache/8GiB overlay/512MiB output/2GiB margin. Own C lock
+does not displace old native guard400207's D lock. Do not restart VM/compact.
+Precommit plan6665 files/6291 shared/374 copied/59130011 new payload bytes is
+not an actual snapshot/image. Replan clean commit,freeze current90abc8f3 producer/
+364 inputs/four modules/lockcb035741,then world. Old94de35ba is storage reuse only.
+Both original73ce969 jobs remain live atDESC10,no terminal verdict. Full NPU/
+physical/client scope stays open. Read the npu-wsl-recovery checkpoint/RECOVERY.json.
+
 ## 2026-10-21 - Combined Producer World Adapter
 
 Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md. New exclusive

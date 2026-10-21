@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Linux Entry Recovered;C-Backed Ext4 Scratch
+
+- Read research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md. Installed
+  Store wsl.exe launches root;documented API also launches captain. No VM/jobs
+  restarted or paused. Configuration/long Windows query transport stays limited.
+- Complete Linux world/source suites now pass36 tests,zero skips. Optional
+  --output-root requires existing writable ext4 under .local,outside capsules,
+  without aliases;default output/build/source/image gates unchanged. Actual
+  C-file ext4/POSIX/cross-filesystem private-overlay probe passed and detached.
+  New24GiB C-file ext4 build scratch is mounted at .local/npu-build-scratch/native-c1,
+  UUID4a6f22ea-746e-441b-8191-5d726aff1b66;no existing disk/partition formatted.
+- Fresh nonce/hash-bound Windows-direct observations must be <=60seconds old.
+  D budgets new snapshot/metadata PLUS existing full1GiB native future output/
+  2GiB margin;C budgets whole24GiB file growth/2GiB margin and scratch guest
+  cache2.5GiB/overlay8GiB/output512MiB/margin2GiB. Hold separate C scratch lock;
+  do not displace old guard400207's D lock. No compaction/shutdown/fstab change.
+- Precommit plan6665 files,6291 shared/374 copied/59130011 payload bytes is
+  plan-only. Current90abc8f3 producer/364 inputs/four modules/lockcb035741 must
+  be frozen;old94de35ba is storage reuse only. Two changed private references
+  are explicitly current-producer-bound. Replan clean commit,freeze,run world.
+  New full image still UNRUN. Both unchanged original jobs live atDESC10,no
+  final verdict. All full NPU/physical/client gates remain;no hardware/flash.
+
 ## 2026-10-21 - Combined World Producer Path Prepared
 
 - Read research/checkpoints/2026-10-21-npu-irq-world/REPORT.md. World run now

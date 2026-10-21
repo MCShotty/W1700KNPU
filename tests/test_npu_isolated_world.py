@@ -14,6 +14,51 @@ import npu_isolated_world as world
 
 
 class IsolatedWorldTests(unittest.TestCase):
+    def test_default_output_root_does_not_change_existing_store_or_probe(self):
+        with patch.object(world.subprocess, 'check_output') as probe:
+            self.assertEqual(world.output_root(SimpleNamespace()), world.STORE)
+            probe.assert_not_called()
+
+    def test_explicit_native_ext4_output_root_is_retained(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            output = root / '.local/scratch'
+            output.mkdir(parents=True)
+            with patch.object(world, 'ROOT', root), \
+                    patch.object(world.subprocess, 'check_output', return_value='ext4\n') as probe, \
+                    patch.object(world.os, 'statvfs') as stat:
+                stat.return_value.f_flag = 0
+                self.assertEqual(world.output_root(SimpleNamespace(output_root=output)), output)
+                probe.assert_called_once_with(['findmnt', '-n', '-o', 'FSTYPE', '--target', str(output)],
+                    text=True, timeout=10)
+
+    def test_output_root_rejects_ntfs_readonly_external_and_frozen_storage(self):
+        for mutation in ('ntfs', 'readonly', 'external', 'frozen'):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary).resolve()
+                output = root / ('.local/scratch' if mutation != 'frozen' else '.local/npu-validation-capsules/frozen')
+                if mutation == 'external': output = root / 'external'
+                output.mkdir(parents=True)
+                with patch.object(world, 'ROOT', root), \
+                        patch.object(world.subprocess, 'check_output', return_value='9p' if mutation == 'ntfs' else 'ext4'), \
+                        patch.object(world.os, 'statvfs') as stat:
+                    stat.return_value.f_flag = os.ST_RDONLY if mutation == 'readonly' else 0
+                    with self.assertRaises(AssertionError): world.output_root(SimpleNamespace(output_root=output))
+
+    def test_output_root_rejects_file_or_directory_alias(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            output = root / '.local/scratch'
+            output.mkdir(parents=True)
+            alias = root / '.local/alias'
+            alias.symlink_to('scratch')
+            (output / 'file').write_text('not an output directory')
+            with patch.object(world, 'ROOT', root):
+                for target in (alias, alias / 'nested', output / 'file'):
+                    if target == alias / 'nested': (output / 'nested').mkdir()
+                    with self.subTest(target=target), self.assertRaises(AssertionError):
+                        world.output_root(SimpleNamespace(output_root=target))
+
     def test_host_timeout_is_recorded_without_a_successful_exit_code(self):
         with tempfile.TemporaryDirectory() as temporary:
             log = Path(temporary) / 'run.log'

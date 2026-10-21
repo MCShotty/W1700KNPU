@@ -1,8 +1,32 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (combined module/world adapter portable tests pass;WSL launch unavailable;original replays live;fresh image and physical gates open)
+Last updated: 2026-10-21 (Linux recovered;36 Linux units and C-backed ext4 probe pass;fresh image preparation;original replays/full acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Recovered Linux Entry And C-Backed Ext4 Build Workspace
+
+- Installed Store wsl.exe launches root;documented API launches captain. No
+  VM/job restart or pause,sudo bypass or policy change. Long encoded Windows
+  capacity query still fails;fresh <=60-second nonce/hash-bound Windows-direct
+  observations report actual Healthy C/D volumes/Ubuntu VHD identity instead.
+- Complete Linux world/source units pass36/zero skips;explicit --output-root
+  keeps default store and all namespace/clean/build/source/image/input gates.
+  Real64MiB C-file ext4/POSIX/private cross-filesystem overlay probe passed and
+  detached;new exclusive24GiB C-file ext4 scratch native-c1 mounted,UUID
+  4a6f22ea-746e-441b-8191-5d726aff1b66. No existing partition/VHD/image formatted.
+  No persistent fstab/swap/policy,shutdown or compaction. Read new recovery report.
+- D budget includes128MiB inputs/32MiB metadata/full1GiB native future output/
+  2GiB margin. C budgets whole24GiB file growth/2GiB margin and guest2.5GiB cache/
+  8GiB overlay/512MiB output/2GiB margin. Separate C lock preserves old D guard.
+  Precommit6665 files/6291 shared/374 copied/59130011 bytes is plan-only;clean
+  commit/replan/freeze current90abc8f3/364 inputs/four modules/lockcb035741 next,
+  then full world. Old94de35ba storage reuse is not old producer authority.
+- Both old original children retain ticks/cgroup/CPU progress and FLOCK;still
+  DESC10,no final receipt. No restart/pause/native limit/checkpoint changes.
+  Full image UNRUN,all broader cold/fault/setup/hot/RRO/lifecycle/drain/physical/
+  client gates remain. No firmware/source-lock/UI/WiFi/hardware/flash/subagents.
+  Evidence:research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md,RECOVERY.json.
 
 ## 2026-10-21 - Combined Producer World Adapter;Linux Execution Pending
 

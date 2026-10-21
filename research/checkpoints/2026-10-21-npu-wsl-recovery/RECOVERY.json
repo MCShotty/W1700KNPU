@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "scope": "Linux-entry-unit-filesystem-and-input-plan-not-world-or-hardware",
+  "evidence_index": ".local/npu-wsl-recovery-20261021/recovery-evidence-q1.json",
+  "evidence_index_sha256": "04a3cebe2c2dc6cbaeff0931154b815ec1bcbef7d1c1ae978acfaf06ef301b61",
+  "evidence_paths": 409,
+  "Linux_units": 36,
+  "skipped": 0,
+  "current_world_script_sha256": "437e580f096b5dfb8ff0491fd398d0d76e72d756841643895561f71a2383fd44",
+  "POSIX_cross_filesystem_probe_passed": true,
+  "new_C_regular_file_ext4_scratch": true,
+  "scratch_UUID": "4a6f22ea-746e-441b-8191-5d726aff1b66",
+  "scratch_bytes": 25769803776,
+  "precommit_plan": {
+    "file_count": 6665,
+    "logical_bytes": 3093161390,
+    "shared_files": 6291,
+    "copied_files": 374,
+    "copied_payload_bytes": 59130011
+  },
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "producer_receipt_sha256": "90abc8f3c83f91334ed81963586703f9fe110dd8fd9a94fc74d9edf184ef20ab",
+  "old_snapshot_is_execution_authority": false,
+  "world_build": false,
+  "new_image_qualified": false,
+  "original_native_jobs_modified_or_paused": false,
+  "native_limits_or_checkpoints_changed": false,
+  "firmware_UI_WiFi_changed": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "storage_reuse": {
+        "type": "choice",
+        "choice": "storage_only_current_authority",
+        "confidence": 1.0,
+        "probabilities": {
+          "storage_only_current_authority": 1.0,
+          "stale_execution_authority": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "world_gate_retention": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "unit_implies_image": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "offline_implies_physical": {
+        "type": "noul",
+        "noul": 0.07
+      }
+    },
+    "usage": {
+      "input_tokens": 780,
+      "output_tokens": 115
+    }
+  }
+}

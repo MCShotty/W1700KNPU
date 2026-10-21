@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Linux Build Entry Restored
+
+Linux entry works again without restarting the VM or original validations.
+All36 Linux world/source tests pass. A real C-backed ext4 filesystem and private
+overlay probe passed;the image runner can explicitly place outputs there while
+retaining its full clean-build and verification gates. Fresh current-source
+inputs are planned,not yet frozen or built. Existing images/UI/WiFi are unchanged.
+Both original native replays still run;full NPU and physical acceptance remain.
+See the [Linux recovery checkpoint](research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md).
+
 ## 2026-10-21 - Image Producer Integration
 
 The isolated image runner now accepts the genuine combined checked-IRQ module

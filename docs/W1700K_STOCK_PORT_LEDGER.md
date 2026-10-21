@@ -1,10 +1,45 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (combined module/world adapter portable tests pass;WSL launch unavailable;original replays live;fresh image and physical acceptance open)
+Last updated: 2026-10-21 (Linux entry recovered;36 Linux units and C-backed ext4 probe pass;current image preparation;original replays and full acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Linux Entry Recovery And C-Backed Native Build Scratch
+
+- Installed Store WSL entry launches root,documented API launches captain. No
+  VM/original-job restart/pause or sudo bypass. Configuration queries denied;
+  long encoded Linux-to-Windows capacity transport still fails,not claimed fixed.
+- Complete Linux world/source tests pass36/zero skips after explicit optional
+  --output-root. Default store unchanged;explicit paths require alias-free
+  writable ext4 under .local,outside capsules. All namespace/clean/world/source/
+  FIT/DTB/package/ABI and original lower/cache/snapshot checks stay. Units are
+  not image/physical qualification. Earlier32 Linux units also passed.
+- Exclusively created64MiB C-file ext4 probe passed real POSIX/UID1000/private
+  cross-filesystem overlay/lower-unchanged checks,then unmounted/detached.
+  Separate exclusive24GiB regular file now backs scratch native-c1 at UUID
+  4a6f22ea-746e-441b-8191-5d726aff1b66. No existing disks/VHD/partitions or
+  protected images formatted;no fstab/policy/swap change or compaction.
+- Real Windows-direct Healthy C/D observation includes registered VHD identity,
+  nonce/hash and <=60-second Linux freshness gate. D counts snapshot128MiB,
+  metadata32MiB,existing full1GiB native future output and2GiB margin. C counts
+  maximum24GiB file growth/2GiB margin;guest cache2.5GiB/overlay8GiB/output512MiB/
+  margin2GiB. Separate C advisory lock does not reacquire/displace original D
+  guard. Estimates/point-in-time checks,not reservations.
+- Precommit6665 files/3093161390 logical bytes;6291 shared/374 copied/59130011
+  payload bytes is plan-only. Actual producer90abc8f3 binds364 inputs/four
+  AArch64 artifacts/lockcb035741. Two changed private references must match it;
+  every other reused private file matches prior hash. Prior94de35ba is storage,
+  not execution authority. Replan clean commit/freeze before full world/image.
+- Both original children400224/400225 retain ticks3965918/cgroup/advancing CPU;
+  guard400207 retains FLOCK,no final controller receipt. DESC10 after six
+  TXBUF/RX-event passes,not final qualification or later-IRQ proof. Full sizes/
+  3M/60M-us/checkpoints unchanged. No hardware/flash/subagents/UI/WiFi/firmware/
+  lock change. Full cold/fault/setup/hot/RRO/lifecycle/drain/whole-stack/physical/
+  client goal remains. New full image UNRUN. Read npu-wsl-recovery/REPORT.md and
+  RECOVERY.json. Jev storage-only1.0/conf1.0,gates0.91,unit-implies-image0.04,
+  offline-implies-physical0.07 are semantic checks,not proof.
 
 ## 2026-10-21 - Combined Module Receipt To World Integration
 

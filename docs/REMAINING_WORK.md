@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Linux Recovered;Fresh Checked-IRQ Image Next
+
+The installed WSL entry works without VM/job restarts. Complete Linux world/
+source suites pass36 tests,zero skips. Actual C-backed ext4/POSIX/private-overlay
+probe passed;24GiB native ext4 build scratch is mounted. Explicit output-root
+does not remove cleaning/source/FIT/DTB/package/ABI/protected-input gates.
+Fresh two-volume capacity checks count existing native future output/margin;
+use a separate C lock,not replacement of the old D guard. Read the new
+research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md.
+
+Next:clean commit/replan/freeze current producer90abc8f3/lockcb035741 and four
+modules,then full image. Precommit6665-file/59130011-copy-byte plan is not a
+snapshot or image. Prior snapshot is storage reuse only. Both original jobs
+remain atDESC10 with advancing CPU,no final verdict. Full cold/fault/setup/hot/
+RRO/lifecycle/drain/physical/client goal remains;no flash/hardware/UI/WiFi change.
+
 ## 2026-10-21 - Combined Producer World Wiring;Linux Run Pending
 
 World --module-receipt now consumes the genuine combined checked-IRQ link

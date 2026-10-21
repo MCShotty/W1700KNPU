@@ -175,6 +175,21 @@ def producer_context(frozen, record, args, context):
         context[key] = name
 
 
+def output_root(args):
+    selected = getattr(args, 'output_root', None)
+    if selected is None:
+        return STORE
+    absolute = selected.absolute()
+    resolved = selected.resolve(strict=True)
+    assert absolute == resolved and resolved.is_dir(), 'output-root-alias-or-not-directory'
+    assert resolved.is_relative_to(ROOT / '.local'), 'output-root-outside-private-workspace'
+    assert not resolved.is_relative_to(ROOT / '.local/npu-validation-capsules'), 'output-root-inside-frozen-inputs'
+    filesystem = subprocess.check_output(['findmnt', '-n', '-o', 'FSTYPE', '--target', str(resolved)],
+        text=True, timeout=10).strip()
+    assert filesystem == 'ext4' and not os.statvfs(resolved).f_flag & os.ST_RDONLY, 'output-root-requires-writable-ext4'
+    return resolved
+
+
 def inner(args):
     context = json.loads(args.context)
     assert os.getuid() == context['uid'] == 1000
@@ -269,7 +284,8 @@ def inner(args):
 
 def run(args):
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name) and os.getuid() == 1000
-    directory = STORE / args.name
+    selected_output_root = output_root(args)
+    directory = selected_output_root / args.name
     assert not directory.exists()
     frozen, record = snapshot(args.snapshot)
     context = dict(uid=os.getuid(), parent_namespaces=namespaces(), frozen_root_identity=identity(frozen),
@@ -290,6 +306,7 @@ def run(args):
         snapshot_source_commit=record['source_commit'], source_lock_sha256=context['source_lock_sha256'],
         parent_namespaces=context['parent_namespaces'], protected_lower_build=str(BUILD),
         physical_output_root=str(directory), bwrap_sha256=digest(Path('/usr/bin/bwrap')), network_isolated=True)
+    envelope['selected_output_root'] = str(selected_output_root)
     with (directory / 'launch.json').open('x') as stream: stream.write(json.dumps(envelope, indent=2) + '\n')
     print(json.dumps(dict(phase='launch-private-offline-world', name=args.name, probe_only=args.probe_only)), flush=True)
     execution = run_logged(argv, directory / 'run.log')
@@ -332,6 +349,8 @@ def main():
     outer.add_argument('--provider-receipt', type=Path)
     outer.add_argument('--mt76-receipt', type=Path)
     outer.add_argument('--module-receipt', type=Path)
+    outer.add_argument('--output-root', type=Path,
+        help='Existing writable ext4 output directory under the private workspace; budget its actual backing volume separately')
     outer.add_argument('--probe-only', action='store_true')
     child = sub.add_parser('inner')
     child.add_argument('--name', required=True)
