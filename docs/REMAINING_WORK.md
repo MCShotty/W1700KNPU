@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Latest Offline Image Passed;Original Replays Pending
+
+The latest4e43de6f/a282ca7a image01fc0ef0 now passes full offline world/FIT/board/
+218-package/78-ABI checks on Linux6.18.52. Original build/cache/frozen inputs and
+four protected earlier images match;new protected C: copy exists. Fresh actual-C
+publication60 cases/eight mutants and8-hart raw startup pass. First two stale-
+publication launches remain failed before raw factory,not native runtime faults.
+
+Next:audit terminal default/HIF2 original results under
+w1700k-npu-bytewise-callers-q2.service,currently live in corrected bytewise-caller-v2
+receipt941716f0. Runners400219/400220,start ticks3965760;see CALLERS.json and
+caller-controller-q2.result.json when present. Do not overwrite/relaunch existing
+names or transfer old stage passes. All full sizes/native3M/60M-us/checkpoints stay.
+Current full fault matrices/full setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/
+actual boot/client acceptance remain open. No hardware,flash or subagents.
+Both jobs have since enrolled15 records and begun native command frames;
+PROGRESS.json preserves finite console prefixes,not completed callers. END.json
+checks derivative integrity/live handles without reexecuting those traces.
+
 ## 2026-10-21 - Current-Pair Image Preparation
 
 Read the image-replay checkpoint. All35 storage/capsule controls pass with zero

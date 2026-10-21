@@ -1,0 +1,34 @@
+{
+  "evidence_audited": true,
+  "scope": "two-stale-publication-launch-failures-before-raw-RV32-construction",
+  "capsule_sha256": "8c7a73234c742b789556ebf4eb401e04208e4d2e7940c9c95f2eaf5158b4dcba",
+  "failures": [
+    {
+      "tag": "bytewise-default-q1",
+      "returncode": 1,
+      "host_library_compiled": true,
+      "stopped_before_raw_factory": true,
+      "complete_caller_result": false,
+      "native_failure_receipt": false
+    },
+    {
+      "tag": "bytewise-hif2-q1",
+      "returncode": 1,
+      "host_library_compiled": true,
+      "stopped_before_raw_factory": true,
+      "complete_caller_result": false,
+      "native_failure_receipt": false
+    }
+  ],
+  "service_terminal_state": "ActiveState=failed\nSubState=failed\nMainPID=0\nResult=exit-code\nExecMainStatus=1\n",
+  "expected_CODE_sha256": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+  "stale_published_CODE_sha256": "658c9c329b34945ba196f60bafc09a81ed6f5f15011d15f632d8594f3c632392",
+  "equality_guard_retained": true,
+  "emulator_factory_line": 45,
+  "failing_equality_line": 31,
+  "native_caller_qualified": false,
+  "firmware_runtime_fault_established": false,
+  "hardware": false,
+  "private_scope_sha256": "b86f9034c7149fb0b61aa5ad2602aebd1358271564dee52473830a3509fc966b",
+  "bound_paths": 3083
+}

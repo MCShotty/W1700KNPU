@@ -1,8 +1,38 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (35 read-only input-reuse controls pass;current-pair image plan only;original/full fault/physical gates open)
+Last updated: 2026-10-21 (current-pair offline image01fc0ef0 passes;fresh publication/startup passes;corrected original replays live;full fault/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Current-Pair Offline Image And Fresh Original Replays
+
+- Actual freeze94de35ba at clean tracked73ce969 has6310 files/3060956830 bytes,
+  6247 shared/63 copied/6582098 copied payload bytes. Offline world-bytewise-q1
+  terminal0/passed,FIT01fc0ef0/27009866 bytes,Gemtek DTB,Linux6.18.52,218 packages/
+  78 module ABIs,exact4e43de6f/a282ca7a pair/168 hooks/22 normal RV32 objects.
+  All891138 original build/4617 cache entries/frozen inputs/four prior images
+  unchanged. WORLD.json9f5109fb/private3d11b02e binds56 derivative paths;new
+  protected C: copy/index. No actual module load/boot/physical acceptance follows.
+- First new both-HIF launches failed before raw factory:stale published CODE
+  658c9c32 vs4e43de6f. Equality guard retained;PREFLIGHT.json keeps both exit1
+  failures,not native firmware faults. Fresh actual-C publication60 cases/eight
+  mutants/address/undefined/leak checks and8-hart raw startup pass. No synthetic
+  plan/identity/ELF injection. PUBLICATION.json/privateb86f9034 binds3083 paths.
+- Corrected bytewise-caller-v2/941716f0 has2473 inputs/526399900 bytes,same
+  tracked73ce969 source,16 unchanged replay/publication policy files. Both new
+  q2 jobs are live in w1700k-npu-bytewise-callers-q2.service,guard400207,
+  runners400219/400220,ticks3965760. CALLERS.jsonfdf21da7/private3f13c188 binds
+  2488 paths;zero full caller results. Check exact unit/PIDs/ticks/results before
+  relaunch. Service holds capacity lock,no auto restart;WSL shutdown interrupts.
+- One new WSL client timed out0x8007274c while existing build continued;direct
+  --exec root shell worked. No VM restart,extra swap,persistent policy change or
+  native-limit/checkpoint waiver. Full fault/setup/hot/IRQ/RRO/lifecycle/physical/
+  whole-stack/real boot/client gates stay. No hardware,flash,radio or subagents.
+- Later PROGRESS.json72ee0321/private997ee533 binds6 paths/two290-byte prefixes.
+  Both jobs enroll15 exact-plan/RX-event records and show first3 native commands;
+  not full/atomic trace revalidation or terminal acceptance. END.json checks
+  derivative integrity/live handles without native reexecution. Jev scope support
+  0.95/conf0.92,pending0.97/startup-to-full-caller0.12 are not firmware proof.
 
 ## 2026-10-21 - Current-Pair Image Input Reuse
 

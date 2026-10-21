@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Current-Pair Image Verified
+
+The new image `01fc0ef0` passes offline Gemtek FIT/DTB,218-package and78-module
+checks on Linux6.18.52,with the latest4e43de6f/a282ca7a firmware pair. Original
+build/cache inputs and all four prior images remain unchanged;the new image has
+a verified protected C: copy. Fresh actual-C publication passes60 cases/eight
+mutants and8-hart raw startup. Two stale-publication launches failed before RV32
+construction and remain preserved. Corrected both-HIF original replays are now
+live with15 enrolled records each and unchanged limits/checkpoints;no terminal caller result or boot/physical
+acceptance is claimed. See the [image replay checkpoint](research/checkpoints/2026-10-21-npu-image-replay/REPORT.md).
+
 ## 2026-10-21 - Current-Pair Image Preparation
 
 Optional verified read-only snapshot reuse now passes 35 storage controls.

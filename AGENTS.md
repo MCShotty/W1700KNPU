@@ -1,5 +1,35 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Current-Pair Image Passed;Original Replays Live
+
+- Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md and WORLD.json.
+  Clean tracked73ce969 freeze94de35ba has6310 files,6247 shared/63 copied,
+  6582098 copied payload bytes. Offline world-bytewise-q1 terminal0/passed:
+  Gemtek FIT01fc0ef0/27009866 bytes,exact4e43de6f/a282ca7a pair,168 hooks,
+  22 normal RV32 objects,Linux6.18.52,218 packages/78 ABIs. Original891138 build/
+  4617 cache entries and frozen inputs unchanged;all four prior images match.
+  New byte-identical C: archive/index is separate and protected.
+- First bytewise-v1 default/HIF2 launches exited1 before raw factory:old
+  published CODE658c9c32 mismatched new4e43de6f. Equality guard retained,not a
+  native runtime fault. PREFLIGHT.json retains failures. Fresh actual-C current
+  pair publication passes60 loader cases/eight mutants and all8-hart raw startup;
+  no synthetic plan/identity writes or ELF injection. PUBLICATION.json/private
+  b86f9034 binds3083 paths. Not full original-caller acceptance.
+- Corrected bytewise-caller-v2 receipt941716f0 has2473 read-only inputs,
+  same tracked73ce969 source,16 unchanged replay/publication policy files.
+  Both bytewise-default-q2/hif2-q2 are live under transient service
+  w1700k-npu-bytewise-callers-q2.service,guard400207,runners400219/400220,
+  start ticks3965760. CALLERS.jsonfdf21da7/private3f13c188 rehashes2488 paths;
+  launch only,zero complete caller results. Check exact unit/PIDs/start ticks/
+  terminal files before restarting. Service holds capacity lock,no auto restart.
+  WSL shutdown may interrupt it without a native verdict. All full sizes/native
+  3M/60M-us limits/checkpoints and broader fault/setup/hot/IRQ/RRO/lifecycle/
+  physical/whole-stack/boot/client gates stay. No hardware/flash/subagents.
+- Later PROGRESS.json72ee0321/private997ee533 preserves two290-byte prefixes:
+  both enroll15 exact-plan/RX-event records and show first3 native commands.
+  Six bound paths,not a terminal/atomic full-trace qualification. END.json is a
+  later derivative integrity/live-handle check,not a new execution result.
+
 ## 2026-10-21 - Current-Pair Image Input Reuse
 
 - Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md and

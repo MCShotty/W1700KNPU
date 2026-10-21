@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (35 read-only input-reuse controls pass;current-pair image plan only;original/full fault/physical acceptance open)
+Last updated: 2026-10-21 (current-pair offline image01fc0ef0 passes;fresh publication/startup passes;corrected original replays live;full fault/physical acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Latest Pair Offline Image And Corrected Original Replay Launch
+
+- Actual clean tracked73ce969 freeze94de35ba has6310 files/3060956830 logical
+  bytes,6247 shared/63 copied/6582098 copied payload bytes. All35 storage controls
+  passed earlier. Offline world-bytewise-q1 terminal0/passed,FIT01fc0ef0/
+  27009866 bytes,actual Gemtek DTB,exact4e43de6f/a282ca7a pair,168 hooks,
+  22 normal RV32 objects,Linux6.18.52,218 packages/78 module ABIs. Original891138
+  build/4617 cache entries,frozen inputs and four prior images unchanged.
+  WORLD.json9f5109fb/private3d11b02e binds56 derivative paths;full world runner
+  performs its own complete inventories. Separate protected C: image/index exists.
+- First current-pair default/HIF2 launches in bytewise-caller-v1 exited1 at
+  raw.load's CODE-publication equality before factory construction. Old published
+  CODE658c9c32 did not match4e43de6f;no native-failure/full-caller receipt.
+  PREFLIGHT.json preserves both failures;not firmware runtime/budget failures.
+  Fresh actual current-C publication passes60 loader cases/eight mutants with
+  address/undefined/leak checks;raw startup from exact readbacks passes all8 harts.
+  No synthetic plan/identity writes/ELF injection. Published DATAa7add2d2 differs
+  only in declared runtime slots. PUBLICATION.json/privateb86f9034 binds3083 paths.
+- Corrected bytewise-caller-v2 receipt941716f0 freezes2473 inputs/526399900
+  logical bytes,2452 shared/21 copied/2740833 copied payload bytes,same tracked
+  source73ce969. Sixteen replay/publication policy sources remain byte-identical.
+  Both new q2 originals live under w1700k-npu-bytewise-callers-q2.service,
+  guard400207,runners400219/400220,start ticks3965760. CALLERS.jsonfdf21da7/private
+  3f13c188 binds2488 paths;launch/input integrity only,zero complete caller results.
+  Service holds cooperative capacity lock;no auto restart. Verify exact unit/
+  PIDs/ticks/results before relaunch;WSL shutdown can interrupt without a verdict.
+- One new WSL client failed0x8007274c;existing build continued,direct --exec
+  root shell succeeded. No VM restart,extra swap,permanent policy/native budget/
+  checkpoint changes. All full fault/setup/hot/IRQ/RRO/lifecycle/physical/
+  whole-stack/boot/client gates remain. No hardware,flash,radio or subagents.
+- Later PROGRESS.json72ee0321/private997ee533 binds6 paths/two290-byte prefixes:
+  both enroll15 exact-plan/RX-event records and emit first3 native command frames.
+  No terminal/atomic full-trace regrade. END.json checks derivative integrity/
+  live handles,not native reexecution. Fresh Jev labels stale-publication mismatch
+  1.0/conf1.0 and report scope0.95/conf0.92;pending-coverage0.97/startup-to-full-
+  caller0.12 remain semantic judgments,not acceptance or authority.
 
 ## 2026-10-21 - Current-Pair Image Input Reuse
 

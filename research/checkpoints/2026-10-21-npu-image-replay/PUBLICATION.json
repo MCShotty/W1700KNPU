@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "scope": "current-pair-actual-C-publication-fault-controls-and-raw-startup-not-full-original-callers",
+  "loader_cases": 60,
+  "rejected_mutants": 8,
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "producer_receipt_sha256": "28230867830e7badad1a09a2deeeb1043669a7a43dfb2d61d869fcc5f7c4f2ce",
+  "startup_receipt_sha256": "3b8f91c350392dce9a802bc060c1403c1900458339ef5e9b1489af3672c876e6",
+  "copied_CODE_sha256": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+  "raw_DATA_sha256": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16",
+  "published_DATA_sha256": "a7add2d29a60babf4eb67e76dfcd48f5133aa990eb1d5718eda11ad151c1fc98",
+  "actual_C_publication": true,
+  "synthetic_plan_identity_writes": false,
+  "post_load_elf_injection": false,
+  "allowed_runtime_DATA_slots": [
+    {
+      "offset": 25344,
+      "bytes": 48
+    },
+    {
+      "offset": 25504,
+      "bytes": 8
+    }
+  ],
+  "startup_harts": 8,
+  "parked": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "native_caller_qualified": false,
+  "full_setup": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "private_scope_sha256": "b86f9034c7149fb0b61aa5ad2602aebd1358271564dee52473830a3509fc966b",
+  "bound_paths": 3083
+}

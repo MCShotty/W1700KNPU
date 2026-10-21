@@ -1,0 +1,110 @@
+{
+  "launch_verified": true,
+  "scope": "current-pair-both-HIF-original-caller-live-launch-and-input-integrity-not-native-acceptance",
+  "service": "w1700k-npu-bytewise-callers-q2.service",
+  "service_status": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "MainPID": "400207",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "ControlGroup": "/system.slice/w1700k-npu-bytewise-callers-q2.service"
+  },
+  "controller_pid": 400216,
+  "storage_guard_pid": 400207,
+  "source_commit": "73ce969bf05c40c618a23efe62c7d11e43b5be20",
+  "tracked_dirty": false,
+  "capsule_sha256": "941716f099e7d4fcfe1758c7487b44ba2290dc58f2bab598e87672cafdc90052",
+  "snapshot_files": 2473,
+  "snapshot_bytes": 526399900,
+  "materialization": {
+    "strategy": "verified-readonly-hardlinks-with-copy-fallback",
+    "shared_readonly_files": 2452,
+    "shared_readonly_bytes": 523659067,
+    "independently_copied_files": 21,
+    "copied_regular_file_payload_bytes": 2740833,
+    "prior_receipt": ".local/npu-validation-capsules/world-bytewise-inode-v1/receipt.json",
+    "prior_receipt_sha256": "94de35ba15001029e7f75f6cdec298ac6058e933b1d007941d22474b3cbf3c4e",
+    "prior_file_content_modes_ownership_mtime_unchanged": true,
+    "shared_inode_link_counts_ctime_atime_not_preserved": true
+  },
+  "expected_pair_sha256": {
+    "code": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+    "data": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16"
+  },
+  "publication": {
+    "directory": ".local/npu-loader-publish-20261010/bytewise-publish-q1/nominal",
+    "publisher_receipt_sha256": "28230867830e7badad1a09a2deeeb1043669a7a43dfb2d61d869fcc5f7c4f2ce",
+    "startup_receipt_sha256": "3b8f91c350392dce9a802bc060c1403c1900458339ef5e9b1489af3672c876e6",
+    "copied_CODE_sha256": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+    "published_DATA_sha256": "a7add2d29a60babf4eb67e76dfcd48f5133aa990eb1d5718eda11ad151c1fc98",
+    "actual_C_publication": true,
+    "synthetic_plan_identity_writes": false,
+    "startup_harts": 8,
+    "loader_cases": 60,
+    "loader_mutants": 8,
+    "preflight_CODE_equal": true,
+    "DATA_only_declared_runtime_slots": true
+  },
+  "original_instruction_limit": 3000000,
+  "original_timeout_us": 60000000,
+  "counts_or_checkpoints_changed": false,
+  "native_policy_sources_unchanged": {
+    "tests/npu/test_host_tx_lifetime_native.py": "ce95413bd19db0b8be9c5396ae578c7cf3b1cd9f2476a49d84f751a6846759dd",
+    "tests/npu/test_provider_session.py": "4adefb1748caa4f39c47a15ff710db7792f1a892bad5b6972619a7ac6e990f8e",
+    "tests/npu/test_boot_irq_installation.py": "4edcc39cf8b4a1e2e1c420e4c56fb28b534417c7d4737dfa3255327f44f0a76c",
+    "tests/npu/test_bootstrap_control_v2.py": "cd0b3c4d5c81f354f7ab016558c4b03785bd4421546fa33b66303ce439c7e0e9",
+    "tests/npu/test_bootstrap_v2_composition.py": "ad5413a23a7d9a305aaf0d948d0fd5614babbeb96adaccd169af539468dbabb3",
+    "tests/npu/cold_wire_native.py": "a2f9888a3417b261bde624e988e1472c2ce47e0015d0f65b6d5e7a0ddb80ee3d",
+    "tests/npu/pcie_tail_trace.py": "7b24b624ee20386085fca74aa369c026a9ea7211021b9239d9a8bc71483d7c88",
+    "tests/npu/pcie_tail_wire_native.py": "15c9b8d4103c09ea95cc112844421eb4d62ea42a01aeb708b506de5fec68f604",
+    "tests/npu/inode_trace.py": "4ee599450f5f2303d1d4243a83efd1b453186753fb17b756d691f99c8b0202e2",
+    "tests/npu/restore_native_prefix.py": "ceabfece7b95e74787b5f48a9bc64ef5be70378aa23b72cc04d0e72089523078",
+    "tests/npu/desc10_progress_probe.py": "330473bc969a6357cd4654dd4594bd2d6a0314d968651b896bf7c903f008755e",
+    "tests/npu/desc10_transaction_oracle.py": "ed6e16ffc09e3bdddb06f7719934ec0ada67de9830f601aadb33567f24354fee",
+    "tests/npu/native_prefix_snapshot.py": "489826ddd6bf71f47cad3b9acdb818873ac6589ba6f02ff1f8dfa299d953f9bb",
+    "tests/npu/test_npu_raw_pair.py": "6b05bf112d75b00136f3b1a09d63c56ee66bef272649aadae4422262aa45358d",
+    "tests/npu/test_checked_loader.py": "bfb20a007b30932daa4dbd263e9a5ef86553d62002197ad75d7ef84e7cb2eb2c",
+    "tests/npu/test_published_loader_native.py": "095a171c6d53b676ab7b7c171da166aee25fbc2d5b8a17f60e59fbde7b5f3fc7"
+  },
+  "live": [
+    {
+      "tag": "bytewise-default-q2",
+      "pid": 400219,
+      "start_ticks": "3965760",
+      "capsule_runner_live": true,
+      "terminal": false,
+      "native_passed": null,
+      "log_prefix_bytes": 0,
+      "observed_log_bytes": 0,
+      "observation_is_concurrent_log_prefix_not_terminal_result": true
+    },
+    {
+      "tag": "bytewise-hif2-q2",
+      "pid": 400220,
+      "start_ticks": "3965760",
+      "capsule_runner_live": true,
+      "terminal": false,
+      "native_passed": null,
+      "log_prefix_bytes": 0,
+      "observed_log_bytes": 0,
+      "observation_is_concurrent_log_prefix_not_terminal_result": true
+    }
+  ],
+  "complete_original_caller_results": 0,
+  "native_cold_qualified": false,
+  "host_fault_matrix": false,
+  "full_setup": false,
+  "module_loaded": false,
+  "booted": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "limits": [
+    "Live process identity and frozen input integrity are not completed guest execution or firmware acceptance.",
+    "The managed transient service holds the cooperative capacity lock through both exact original jobs.",
+    "No automatic restart is configured. Inspect this unit, exact start ticks and final files before relaunching.",
+    "Short private log observations are concurrent prefixes, not atomic/terminal native traces or a regrade."
+  ],
+  "private_scope_sha256": "3f13c188d3144a9ef7f07e1c4661ffbf69af7335dcf76f9864bfca5515e2e434",
+  "bound_paths": 2488
+}

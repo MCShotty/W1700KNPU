@@ -1,0 +1,82 @@
+{
+  "evidence_observed": true,
+  "scope": "live-current-pair-native-enrollment-and-command-prefix-not-terminal-qualification",
+  "unit": "w1700k-npu-bytewise-callers-q2.service",
+  "service_state": "ActiveState=active\nSubState=running\nMainPID=400207\n",
+  "observations": [
+    {
+      "tag": "bytewise-default-q2",
+      "pid": 400219,
+      "start_ticks": "3965760",
+      "enrollment": {
+        "native_enrollment_records": 15,
+        "exact_plan": true,
+        "rx_event_enrolled": true
+      },
+      "observed_commands": [
+        [
+          48,
+          10,
+          0
+        ],
+        [
+          16,
+          14,
+          2
+        ],
+        [
+          16,
+          1,
+          1536
+        ]
+      ],
+      "prefix_bytes": 290,
+      "live": true,
+      "terminal": false,
+      "complete_original_caller_result": false
+    },
+    {
+      "tag": "bytewise-hif2-q2",
+      "pid": 400220,
+      "start_ticks": "3965760",
+      "enrollment": {
+        "native_enrollment_records": 15,
+        "exact_plan": true,
+        "rx_event_enrolled": true
+      },
+      "observed_commands": [
+        [
+          48,
+          10,
+          0
+        ],
+        [
+          16,
+          14,
+          2
+        ],
+        [
+          16,
+          1,
+          1536
+        ]
+      ],
+      "prefix_bytes": 290,
+      "live": true,
+      "terminal": false,
+      "complete_original_caller_result": false
+    }
+  ],
+  "complete_caller_results": 0,
+  "inputs_reexecuted_by_this_observer": false,
+  "native_cold_qualified": false,
+  "full_setup": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "limits": [
+    "Concurrent finite console prefixes,not atomic full native trace revalidation or completed caller receipts.",
+    "Actual original jobs retain existing sizes,limits,checkpoints and final pass/fail assertions."
+  ],
+  "private_scope_sha256": "997ee5331e8c4a94d5b1c78ae51507f2f83abc0ff69c479a9ba245e8f829d93f",
+  "bound_paths": 6
+}

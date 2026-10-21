@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "scope": "derivative-checkpoint-binding-and-live-original-handle-verification-not-native-reexecution",
+  "scopes": [
+    {
+      "public": "MATERIALIZATION.json",
+      "sha256": "2fc6915113e7c5ec635f646ce51f87dc0f05c698fd1fad9da7c8b72e4623fefb",
+      "private_sha256": "8b055dd3b9fd1b7c5ec7fc2fe2e1408f1f2efee229aa9cf4e59f77f36bce018c",
+      "declared_bindings": 11
+    },
+    {
+      "public": "WORLD.json",
+      "sha256": "9f5109fb1a20242947a062980ba7b0b6bc29871487912834d3952a3162569581",
+      "private_sha256": "3d11b02e39e2d94d59dc0ebc16d22298f35c30b0649f352ddc18e9e1ca644d5e",
+      "declared_bindings": 56
+    },
+    {
+      "public": "PREFLIGHT.json",
+      "sha256": "bda17fc312f6da8fa191e6a4ffd77c97ada2c042a822c8575d58173658e90468",
+      "private_sha256": "b86f9034c7149fb0b61aa5ad2602aebd1358271564dee52473830a3509fc966b",
+      "declared_bindings": 3083
+    },
+    {
+      "public": "PUBLICATION.json",
+      "sha256": "2a7220f7355e9439191e389690fef980da996bf7d59c843dfb2c0441a285d18e",
+      "private_sha256": "b86f9034c7149fb0b61aa5ad2602aebd1358271564dee52473830a3509fc966b",
+      "declared_bindings": 3083
+    },
+    {
+      "public": "CALLERS.json",
+      "sha256": "fdf21da789e56e53b1083dc4ba611d48df0f721887e35d03b6997ce3d6b1121e",
+      "private_sha256": "3f13c188d3144a9ef7f07e1c4661ffbf69af7335dcf76f9864bfca5515e2e434",
+      "declared_bindings": 2488
+    },
+    {
+      "public": "PROGRESS.json",
+      "sha256": "72ee032119156be6de940353fdaba4d24c287f258c71764dea32fe24114113ff",
+      "private_sha256": "997ee5331e8c4a94d5b1c78ae51507f2f83abc0ff69c479a9ba245e8f829d93f",
+      "declared_bindings": 6
+    }
+  ],
+  "verified_distinct_paths": 5661,
+  "source_candidate_commit": "73ce969bf05c40c618a23efe62c7d11e43b5be20",
+  "documentation_only_changes_pending_commit": [
+    "AGENTS.md",
+    "README.md",
+    "docs/REMAINING_WORK.md",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md",
+    "docs/W1700K_STOCK_PORT_LEDGER.md",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md",
+    "research/checkpoints/2026-10-21-npu-image-replay/REPORT.md"
+  ],
+  "semantic_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "failure_category": {
+        "type": "choice",
+        "choice": "publication_identity_mismatch",
+        "confidence": 1.0,
+        "probabilities": {
+          "publication_identity_mismatch": 1.0,
+          "native_firmware_runtime_fault": 0.0,
+          "OS_launch_failure": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "startup_proves_full_caller": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "report_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.92,
+        "probabilities": {
+          "supported": 0.95,
+          "contradicted": 0.01,
+          "not_established": 0.04
+        }
+      },
+      "pending_coverage": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 1072,
+      "output_tokens": 147
+    },
+    "elapsed_ms": 747,
+    "authority_or_execution_proof": false
+  },
+  "service": "w1700k-npu-bytewise-callers-q2.service",
+  "service_state": "ActiveState=active\nSubState=running\nMainPID=400207\nResult=success\nExecMainStatus=0\n",
+  "current_originals_live": true,
+  "complete_current_original_results": 0,
+  "native_reexecuted": false,
+  "full_setup": false,
+  "module_loaded": false,
+  "booted": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "limits": [
+    "Rehashes declared immutable bindings and current docs;does not regrade guest traces or rerun firmware.",
+    "Six checkpoint records refer to five private scopes;preflight and publication share one combined private audit.",
+    "Live status is a point-in-time observation;inspect exact unit/PIDs/start ticks and final records before continuing."
+  ],
+  "private_scope_sha256": "b22d4e7eb75a420b24b012b3467d25fd4b51cc05849065d0f1733ff890ac2862"
+}

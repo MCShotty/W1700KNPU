@@ -1,5 +1,33 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Current-Pair Offline Image Passed;Fresh Original Jobs Live
+
+Read the image-replay checkpoint/WORLD.json9f5109fb/private3d11b02e. Actual clean
+tracked73ce969 freeze94de35ba/6310 files uses6247 shared/63 copied/6582098 new
+payload bytes. Offline world-bytewise-q1 terminal0/passed,Gemtek FIT01fc0ef0/
+27009866 bytes,exact4e43de6f/a282ca7a pair,168 hooks,22 normal objects,Linux6.18.52,
+218 packages/78 module ABIs. All891138 original build/4617 cache entries/frozen
+inputs and four prior images match. New separate protected C: image/index exists.
+
+First new default/HIF2 launches exited1 before raw factory:stale published CODE
+658c9c32 mismatched new pair. Existing equality guard stayed;PREFLIGHT.json keeps
+failures,not firmware runtime faults. Fresh actual-C new-pair publication passes
+60 cases/eight mutants and8-hart raw startup;no synthetic publication/ELF injection.
+PUBLICATION.json/privateb86f9034 binds3083 paths,not full cold-caller acceptance.
+
+Corrected bytewise-caller-v2/941716f0 has2473 inputs,same tracked73ce969 source,
+16 byte-identical replay/publication policy files. Both q2 jobs live under
+w1700k-npu-bytewise-callers-q2.service,guard400207,runners400219/400220,
+start ticks3965760. CALLERS.jsonfdf21da7/private3f13c188 binds2488 paths,launch/
+input integrity only,zero completed original callers. Check service/PIDs/ticks/
+terminal files before relaunch;no auto restart,WSL shutdown can interrupt it.
+All original3M/60M-us limits/full sizes/checkpoints and full fault/setup/hot/IRQ/
+RRO/lifecycle/physical/whole-stack/real boot/client gates stay. No hardware/flash.
+Later PROGRESS.json72ee0321/private997ee533 preserves both290-byte live prefixes:
+15 exact-plan/RX-event enrollments each and first3 native command frames. Six
+bound paths,not complete/atomic trace revalidation. END.json is a derivative
+integrity/live-handle check,not a native replay or completion proof.
+
 ## 2026-10-21 - Current-Pair Image Input Reuse
 
 Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md/MATERIALIZATION.json.
