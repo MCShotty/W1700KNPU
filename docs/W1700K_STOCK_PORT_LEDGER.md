@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (private current-overlay staging/52+5 units pass;7,545 duplicate caches pruned;full corrected image retry/acceptance open)
+Last updated: 2026-10-21 (faulty loop read-only/evidence rescued;native C and per-mount xino full extraction pass;56+5 units;full image pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Native Build Storage And Isolated Xino Qualification
+
+- v4 freeze3b303442 has6680 files at cleane1a58ae. Actual q4 stages current
+  kernel/mt76 recipes,then make exits2 during archive extraction. Outer fails1;
+  all891138 original build/4617 cache entries,snapshot/namespaces unchanged.
+  No new checked-IRQ image qualified. Failed run and old receipts retained.
+- Kernel logs show real loop0 read/write/writeback errors,including failed
+  unwritten-extent conversion. errors_count=0 and earlier small probes do not
+  establish health. Verified idle exact loop/UUID/image was remounted read-only.
+  62 selected logs/receipts/bad samples/unqualified image hash-match separate
+  Windows-native C objects and prior bindings. Raw24GiB image retained;no repair,
+  deletion,VM/job restart,compaction or native-limit changes.
+- Checksum-verified official Ubuntu Base26.04.1 imported as an additive WSL2
+  storage instance on C. Original Ubuntu registration/default unchanged. Native
+  VHDX ext4 UUIDb0b1bc48-d684-4090-a8cf-1ecb2939c36d is shared/bound at native-c2;
+  fresh registry/VHD/Healthy host-capacity and guest observations are required.
+  Planned growth is budgeted,not the entire logical VHD maximum.
+- Direct extraction verifies all91151 regular files/6048 directories/85 links
+  against the locked Linux6.18.52 archive. System cross-fs overlay reproduces
+  tar directory-identity failure without new I/O errors. Private mount-namespace
+  xino=on passes;global xino_auto staysN. Actual UID1000 private bubblewrap with
+  only the xino mount-option edit passes the complete identical content manifest.
+  This isolates a second overlay problem,not a claimed fix/cause for loop faults.
+- World tool now supports explicit declared frozen nonprivileged read-only
+  launcher selection,executes frozen bytes,records/rechecks actual hash and
+  retains all isolation/source/producer/image/input gates. Default is absolute
+  system binary;system installation/global settings untouched. All56 project/
+  five cleanup units pass,zero skips. Custom binary12f8d226 is not privileged.
+- Upstream bwrap tests are not all green:3 suites pass,seccomp skips,and FD-input
+  suite aborts134 in both pristine and patched builds;isolated --file0 controls
+  reproduce both. World uses no --file. Preserve this residual tool limitation.
+- STORAGE.json binds scope and rehashes all five protected images. Original
+  default/HIF2 jobs now pass DESC10/RX-PCIe/PCIe-tail0/1,still no terminal verdict.
+  Next clean commit,v5 source/launcher freeze,fresh two-volume budget/full image.
+  Firmware/lockcb035741/UI/WiFi/raw pair unchanged;full NPU/physical/client goal
+  remains open. No hardware/flash/subagents. Read recovery REPORT.md.
 
 ## 2026-10-21 - Locked Overlay Staging And Cache Consolidation
 

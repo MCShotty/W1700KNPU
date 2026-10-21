@@ -214,7 +214,7 @@ class IsolatedWorldTests(unittest.TestCase):
     def test_command_has_readonly_host_and_snapshot_and_exact_two_overlays(self):
         context = {'uid':1000,'example':'synthetic context'}
         result = world.command(Path('/snapshot'), Path('/session'), 'fixture', context, True)
-        self.assertEqual(result[:8], ['bwrap','--unshare-all','--ro-bind','/','/','--ro-bind','/snapshot',str(world.ROOT)])
+        self.assertEqual(result[:8], ['/usr/bin/bwrap','--unshare-all','--ro-bind','/','/','--ro-bind','/snapshot',str(world.ROOT)])
         self.assertNotIn('--share-net', result)
         self.assertEqual(result.count('--overlay-src'), 2)
         self.assertEqual(result.count('--overlay'), 2)

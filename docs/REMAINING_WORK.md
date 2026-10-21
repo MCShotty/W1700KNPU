@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Fresh Image On Validated Native Storage Next
+
+q4 stages current recipes but make exits2 extracting the kernel. Original
+build/cache/snapshot/namespaces match. The old C-file loop has real I/O faults;
+it is read-only,not a usable build destination. Its raw disk and62 independently
+verified evidence paths remain. Native C VHDX ext4 at native-c2 now passes full
+Linux6.18.52 extraction/content checks. The separate cross-fs tar identity
+failure reproduces without I/O errors and passes with private per-mount xino=on.
+System bwrap/global overlay parameters/original Ubuntu and jobs are unchanged.
+
+All56 project/five cleanup units pass;upstream FD-input failure reproduces in
+both pristine/patched launchers,so do not claim universal tool qualification.
+Next:clean commit,v5 frozen launcher/source/provenance,fresh D/C+guest budgets,
+full checked-IRQ world/FIT/package/ABI audit and protected copy only on success.
+Both original replays pass DESC10/RX-PCIe/tail0/1;no final verdict. Full cold/
+fault/setup/hot/RRO/lifecycle/drain/physical/client acceptance remains open.
+Read recovery REPORT.md/STORAGE.json. No hardware/flash/native-budget changes.
+
 ## 2026-10-21 - Full Current-Overlay Image Retry Next
 
 q3 make returned0,but the source audit rejected unchanged older recipes from

@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Native C Storage And Per-Mount Inode Identity
+
+- Read recovery REPORT.md/STORAGE.json. q4 stages the two current recipes,
+  then make exits2 extracting Linux6.18.52. Its original891138 build/4617 cache
+  entries,snapshot and parent namespaces still match. No qualified IRQ image.
+- Old native-c1 is a DrvFS regular-file loop with actual block/writeback I/O
+  faults. It is READ-ONLY;do not build there or suppress errors. Raw image kept;
+  62 selected receipts/logs/bad samples/unqualified image copied/hash-verified
+  to the Windows-native loop-quarantine archive. No protected data deleted.
+- Additive W1700K-BuildScratch-20261021 uses native C VHDX ext4 UUID
+  b0b1bc48-d684-4090-a8cf-1ecb2939c36d,shared/bound at native-c2. Original
+  Ubuntu registration/default/VM/jobs unchanged. Fresh original-D/native-C
+  sidecars and full future-output/margin budgets are mandatory,not guest df.
+- Plain extraction verifies91151 files/6048 directories/85 links. System
+  cross-fs overlay reproduces tar identity errors without new I/O faults.
+  Private UID1000 xino=on overlay then verifies the entire same manifest.
+  System bwrap/global xino_auto remain unchanged. --bubblewrap selects only
+  a declared read-only nonprivileged frozen executable;all old gates remain.
+- All56 project/five cleanup units pass,zero skips. Upstream bwrap is NOT
+  globally test-clean:3 suites pass,1 skips,FD-input suite aborts134 in BOTH
+  pristine/patched controls. No --file in this world command. Preserve scope.
+- Next clean commit,v5 freeze including launcher/provenance/license alias,
+  fresh capacities,full image. Both original replays pass DESC10/RX-PCIe/tail
+  stages0/1;no verdict. No firmware/lock/UI/WiFi/raw-pair,hardware/flash,
+  native limits/checkpoints,job/VM restart,global policy change or subagents.
+
 ## 2026-10-21 - Current Overlay Staging Implemented;Cache Duplicates Pruned
 
 - Read recovery REPORT.md/STAGING.json. q3 make returned0 but source audit

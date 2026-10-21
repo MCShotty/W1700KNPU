@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Quarantined Loop;Native C And Xino Extraction Pass
+
+q4 uses current two recipes but make exits2 extracting Linux6.18.52;all891138
+original build/4617 cache entries,snapshot/namespaces match. Actual loop0 I/O
+faults are preserved. native-c1 is read-only;raw disk retained and62 selected
+evidence paths hash-match an independent Windows-native archive. No images,
+unique data,calibration/recovery or original native inputs deleted.
+
+Additive W1700K-BuildScratch-20261021 provides native C VHDX ext4/native-c2,
+UUIDb0b1bc48-d684-4090-a8cf-1ecb2939c36d. Original Ubuntu registration/default
+and running jobs unchanged. Plain full extraction checks91151 regular files,
+6048 directories/85 links. System cross-fs overlay reproduces tar identity
+errors without new I/O faults. Private UID1000 bwrap xino=on then verifies the
+identical full content manifest;system binary/global xino_auto stay unchanged.
+
+Optional --bubblewrap requires declared read-only/nonprivileged frozen bytes
+and records/rechecks the executed hash. All old source/isolation/image gates
+remain. All56 project/five cleanup units pass. Broader upstream tool suite:
+3 pass,1 seccomp skip,FD-input abort134 in both pristine/patched controls;not
+globally qualified. Read REPORT.md/STORAGE.json. Commit/v5 freeze/budget/full
+image next. Firmware/lockcb035741/UI/WiFi/raw pair unchanged. Both original
+replays now pass DESC10/RX-PCIe/tail0/1,no verdict. Full NPU/physical scope open.
+
 ## 2026-10-21 - Current Source Overlays And Verified Cache Consolidation
 
 q3 make returned0 but source audit rejected old seed recipes,not zero-filled

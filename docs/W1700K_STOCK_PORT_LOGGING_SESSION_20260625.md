@@ -1,8 +1,36 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (private locked-overlay staging/52+5 tests pass;7,545 verified cache duplicates pruned;full corrected image retry pending)
+Last updated: 2026-10-21 (loop faults contained/evidence rescued;native C/xino full extraction pass;56+5 units;full image retry pending)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Storage Fault Containment And Per-Mount Overlay Repair
+
+- Actual v4/q4 stages the two current recipes,then make exits2 extracting the
+  kernel;outer fails1. Original891138 build/4617 cache entries/snapshot/parent
+  namespaces match. No qualified checked-IRQ image. Raw failed outputs kept.
+- Exact idle native-c1/loop0 has real block/writeback faults;now read-only.
+  62 selected evidence paths match independent Windows-native C copies and
+  prior bindings;bad samples/unqualified image/raw24GiB disk retained. No
+  protected deletion,repair,VM/job restart or old receipt modification.
+- Official-checksum-verified Ubuntu Base26.04.1 imported additively on C as
+  W1700K-BuildScratch-20261021. Original Ubuntu registration/default unchanged.
+  Native VHDX ext4/native-c2 UUIDb0b1bc48-d684-4090-a8cf-1ecb2939c36d is checked
+  against fresh Windows backing/Healthy host capacity and actual guest storage.
+- Plain full kernel extraction verifies91151 files/6048 directories/85 links.
+  System cross-fs overlay independently fails tar identity without new I/O
+  errors. Private per-mount xino=on passes;actual UID1000 private launcher also
+  passes the same full content manifest. System bwrap/global xino_auto unchanged.
+  No claim that xino diagnoses/fixes the old loop I/O/zero-fill cause.
+- Explicit frozen-launcher selection records actual bytes,requires read-only
+  nonprivileged declared input and retains all old guards. All56 project/five
+  cleanup units pass. Upstream tests:3 suites pass,seccomp skips,FD-input abort134
+  in both pristine/patched controls. Not globally tool-qualified;world no --file.
+- Read REPORT.md/STORAGE.json. Five protected images rehash. Original replays
+  now pass DESC10/RX-PCIe/tail0/1,no verdict. Clean commit/v5 freeze/full fresh
+  budget/world next. Firmware/lock/UI/WiFi/raw pair/native limits/checkpoints
+  unchanged;full cold/fault/hot/RRO/lifecycle/drain/physical/client goal open.
+  No hardware/flash/subagents.
 
 ## 2026-10-21 - Correct Private Source Preparation And Cache Consolidation
 

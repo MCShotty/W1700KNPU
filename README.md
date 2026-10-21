@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Native Build Storage And Overlay Repair
+
+The corrected-source image attempt stopped during kernel extraction. Its
+scratch loop had real I/O faults and is now read-only,with selected evidence
+independently copied and verified. A new native C-backed WSL disk passes full
+kernel content checks;per-mount inode identity also fixes the separately
+reproduced overlay extraction failure. Original Ubuntu and NPU jobs stay live.
+
+The image runner can select a snapshot-bound private launcher while retaining
+all isolation/source/image gates. All56 project tests and five cleanup guards
+pass. The broader upstream launcher suite has a recorded FD-input failure in
+both pristine and patched builds;this is not an all-tests-passed claim.
+A new complete checked-IRQ image remains pending,not boot or hardware proof.
+See the [storage checkpoint](research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md).
+
 ## 2026-10-21 - Current Build Overlays Staged Privately
 
 A completed world command was rejected for using older seed recipes. The

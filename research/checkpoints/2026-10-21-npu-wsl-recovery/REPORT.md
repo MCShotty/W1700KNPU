@@ -3,6 +3,88 @@
 Date: 2026-10-21. Supersedes the prior new-WSL-entry blockage, not any NPU
 runtime verdict. Full reverse engineering and implementation remain active.
 
+## Native Storage And Per-Mount Inode Identity
+
+The actual v4 freeze is3b303442e70fef480db7a4fb8a3419c51881e1a0af1862820508cc6ea29d8e82,
+6680 files at cleane1a58ae. q4 stages both current recipes and passes cache
+identity,but make exits2 while extracting Linux6.18.52. Outer fails1;all891138
+original build entries,4617 cache entries,snapshot and parent namespaces match.
+No image is qualified for checked IRQ. These are preserved terminal failures.
+
+### Two Distinct Problems
+
+Actual kernel logs contain loop0 read/write resource errors,ext4 writeback I/O
+errors and failed unwritten-extent conversion/potential-data-loss warnings.
+The zero filesystem error counter does not certify health. The exact idle loop
+and image identity were checked and only native-c1 was remounted read-only.
+Its raw24GiB file remains untouched. No repair,forced teardown or VM restart.
+All62 selected evidence paths,including prior-bound logs,receipts,three bad
+samples and the unqualified q3 image,were independently rescued to Windows C:
+content-addressed objects with matching hashes and a restoration journal.
+
+Official Ubuntu Base26.04.1 amd64 checksum
+a496a960472ce474a59590b8987d3a1135d3cbef1991f3b1abe8cacfea8bf85a was verified
+before a documented own-user WSL2 import on C. Signature verification is not
+claimed. The additive W1700K-BuildScratch-20261021 native VHDX gives ext4 UUID
+b0b1bc48-d684-4090-a8cf-1ecb2939c36d,shared via /mnt/wsl and bound at native-c2.
+Original Ubuntu's registration/default and live replay identities are unchanged.
+Two fresh nonce/hash-bound Windows sidecars check the actual D/C backings and
+Healthy host capacity;guest free space alone is insufficient. Budgets retain
+the full native future-output allowance/margin and count planned C VHD growth,
+not the entire logical maximum. No fstab/global-policy/system-bwrap replacement.
+
+Native direct extraction verifies91151 regular files/6048 directories/85 symlinks,
+1538072591 regular bytes. The regular-file manifest is
+a4e5ee95d0104b5c3018745e5c49b7ed87a17c9fef0b9fb5534b7a1832a2c16d.
+The original cross-filesystem bubblewrap overlay still fails tar directory
+identity checks on this native disk,with no new I/O errors. Thus replacing the
+loop alone is insufficient. A private mount-namespace xino=on extraction passes,
+while global xino_auto staysN. This follows the documented OverlayFS inode
+identity distinction,but does not establish the loop I/O/zero-fill root cause.
+
+### Private Launcher And Validation Scope
+
+Upstream bubblewrap0.11.1 commit124c4cdf4321f63ef17a1cb0ce8f9dd45bd7adbe is
+built privately with the single userxattr -> userxattr,xino=on edit. Source patch
+reverse-checks against the actual tree. Binary SHA256
+12f8d2268caed87b5325ac1cfe5800e3914018c12549b055e9778e94a70a6f7f is0555,
+non-setuid and capability-free. The system binary and global module parameter
+are unchanged. Only meson/libcap-dev were installed,not upgrades/autoremove.
+
+An actual UID1000 private-overlay extraction using this binary passes and
+verifies the complete same native/archive content manifest,with actual xino=on
+mount evidence and zero new I/O errors. An earlier q2 probe stopped before
+launch because the binary had not yet copied after a Git-ownership guard;
+that partial directory is retained. q3 is the successful private-binary probe.
+
+The world tool's optional --bubblewrap requires an ordinary,declared,read-only,
+nonprivileged frozen executable under .local,checks source/frozen hashes,executes
+the frozen path and records/rechecks the actual hash. Default execution is the
+absolute system binary. All mount/network/PID/root/snapshot,clean,source/module,
+image/FIT/package/ABI and protected-input gates remain. Inner proof also records
+the actual overlay mount lines. All56 project units/five cleanup guards pass,
+zero skips. This is not yet a full world with the new launcher.
+
+Broader upstream tests are explicitly not all green:three suites pass,seccomp
+skips,and test-run.sh aborts134 at --file0. The same abort reproduces in an
+unmodified build and identical isolated controls. World uses no --file. This
+limits general launcher qualification;the common failure's cause is unproven.
+Original source LICENSE -> COPYING is recorded as a literal upstream alias;
+its frozen representation must be an explicit read-only ordinary file.
+
+STORAGE.json binds these results,source/test/provenance data and independently
+rescued objects,and rehashes all five protected images. Both unchanged original
+replays now pass DESC10,RX-PCIe and tail stages0/1,no final verdict. Next clean
+commit,v5 freeze with launcher/provenance/alias,fresh budget,full image and
+protected copy only on success. Firmware/lockcb035741/UI/WiFi/raw pair unchanged.
+No hardware,flash,job signals,restarts,native-limit/checkpoint changes or
+subagents. Full cold/fault/setup/hot/RRO/lifecycle/drain/physical/client goal open.
+
+Primary context: [WSL import](https://learn.microsoft.com/en-us/windows/wsl/use-custom-distro),
+[Ubuntu checksums](https://cdimage.ubuntu.com/ubuntu-base/releases/26.04/release/SHA256SUMS),
+[OverlayFS inode properties](https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html),
+[bubblewrap source](https://github.com/containers/bubblewrap/tree/124c4cdf4321f63ef17a1cb0ce8f9dd45bd7adbe).
+
 ## Private Source Staging And Cache Consolidation
 
 The q3 `make world` command returned0, but the enclosing locked-source audit

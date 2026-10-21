@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "scope": "native-build-storage-and-overlay-extraction-not-full-image-or-hardware-acceptance",
+  "q4_world_passed": false,
+  "q4_make_world_returncode": 2,
+  "q4_current_overlay_staging": {
+    "locked_files_checked": {
+      "openwrt": 70,
+      "luci": 5
+    },
+    "component_sources_checked": 22,
+    "authority_files_checked": 55,
+    "copied": [
+      "package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch"
+    ],
+    "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "cumulative_only_files_require_existing_exact_bytes": true,
+    "private_overlay_only": true
+  },
+  "q4_original_build_entries": 891138,
+  "q4_original_cache_entries": 4617,
+  "q4_original_build_cache_snapshot_namespaces_unchanged": true,
+  "old_loop_has_actual_IO_faults": true,
+  "old_loop_readonly_not_deleted_or_repaired": true,
+  "rescued_paths": 62,
+  "rescue_hashes_match_prior_bindings": true,
+  "new_distro": "W1700K-BuildScratch-20261021",
+  "new_native_C_VHD": "C:\\Users\\captain\\W1700K-BuildScratch\\2026-10-21-native-wsl-v1\\distro\\ext4.vhdx",
+  "original_Ubuntu_registration_and_default_unchanged": true,
+  "new_ext4_UUID": "b0b1bc48-d684-4090-a8cf-1ecb2939c36d",
+  "full_archive_content": {
+    "passed": true,
+    "counts": {
+      "regular": 91151,
+      "directory": 6048,
+      "symlink": 85,
+      "hardlink": 0,
+      "bytes": 1538072591
+    },
+    "regular_content_manifest_sha256": "a4e5ee95d0104b5c3018745e5c49b7ed87a17c9fef0b9fb5534b7a1832a2c16d"
+  },
+  "default_cross_filesystem_overlay_tar_failed": true,
+  "private_UID1000_xino_on_overlay_full_extraction_passed": true,
+  "new_probe_IO_errors": [],
+  "global_xino_auto_changed": false,
+  "system_bubblewrap_replaced": false,
+  "bubblewrap_sha256": "12f8d2268caed87b5325ac1cfe5800e3914018c12549b055e9778e94a70a6f7f",
+  "upstream_commit": "124c4cdf4321f63ef17a1cb0ce8f9dd45bd7adbe",
+  "all_upstream_tests_passed": false,
+  "upstream_source_aliases": {
+    ".local/npu-bwrap-xino-20261021/source/LICENSE": {
+      "literal_target": "COPYING",
+      "dereferenced_sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+      "frozen_representation": "explicit-readonly-ordinary-file"
+    }
+  },
+  "upstream_test_scope": "3 pass,1 seccomp skip,1 FD-input abort134 in both pristine and patched;world uses no --file",
+  "project_units": 56,
+  "cleanup_guard_units": 5,
+  "project_unit_skips": 0,
+  "protected_images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+    ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1",
+    ".local/npu-isolated-world/world-inode-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9",
+    ".local/npu-isolated-world/world-bytewise-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "01fc0ef04b0b3e9a61933aa8faf47794d2003d162db4f27725e7048f3cfaf405"
+  },
+  "native_progress": [
+    {
+      "label": "default",
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_ticks": 1578055,
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1
+      ],
+      "prefix_bytes": 3852,
+      "prefix_sha256": "8490d8dd06f164050908bd3ce6bbc3d0aa20b300f78ba96852f060a48e610b92"
+    },
+    {
+      "label": "hif2",
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "R",
+      "user_ticks": 1578618,
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1
+      ],
+      "prefix_bytes": 3852,
+      "prefix_sha256": "052057724c0b422305923bd6aecda0b83ffca4a729a1d83b43601a0dfc24aa8c"
+    }
+  ],
+  "native_terminal_receipt_exists": false,
+  "old_zero_fill_specific_cause_established": false,
+  "full_image_with_new_launcher_started": false,
+  "new_image_qualified": false,
+  "native_verdict_inferred": false,
+  "firmware_source_lock_UI_WiFi_changed": false,
+  "original_native_jobs_modified_or_paused": false,
+  "native_limits_or_checkpoints_changed": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "recorded_unix": 1792577964.0952785,
+  "private_scope_sha256": "cd462e232adc3baf0f822d9e283eff64e96d1222f20434374c99472aab61962c",
+  "bound_paths": 114,
+  "external_objects": 59
+}

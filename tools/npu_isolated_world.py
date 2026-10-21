@@ -130,8 +130,26 @@ def stage_download_cache(build, cache, expected):
         copy_mode='buffered-userspace-with-per-file-hash')
 
 
-def command(frozen, directory, name, context, probe):
-    return ['bwrap', '--unshare-all', '--ro-bind', '/', '/', '--ro-bind', str(frozen), str(ROOT),
+def bubblewrap_input(args, frozen, record):
+    selected = getattr(args, 'bubblewrap', None)
+    if selected is None:
+        path = Path('/usr/bin/bwrap')
+        return path, dict(path=str(path), sha256=digest(path), frozen=False)
+    path = selected.absolute()
+    assert path == selected.resolve(strict=True) and path.is_relative_to(ROOT / '.local'), 'bubblewrap-outside-private-workspace-or-alias'
+    assert not path.is_relative_to(ROOT / '.local/npu-validation-capsules'), 'bubblewrap-selected-from-capsule'
+    name = path.relative_to(ROOT).as_posix()
+    assert name in record['files'], 'bubblewrap-not-frozen'
+    executable = frozen / name
+    mode = executable.lstat().st_mode
+    assert stat.S_ISREG(mode) and not mode & 0o7222 and mode & 0o111, 'bubblewrap-not-readonly-nonprivileged-executable'
+    assert executable.resolve(strict=True) == executable, 'bubblewrap-frozen-alias'
+    assert digest(executable) == record['files'][name] == digest(path), 'bubblewrap-input-drift'
+    return executable, dict(path=name, sha256=record['files'][name], frozen=True)
+
+
+def command(frozen, directory, name, context, probe, bubblewrap=Path('/usr/bin/bwrap')):
+    return [str(bubblewrap), '--unshare-all', '--ro-bind', '/', '/', '--ro-bind', str(frozen), str(ROOT),
         '--overlay-src', str(BUILD), '--overlay', str(directory / 'build-upper'), str(directory / 'build-work'), str(BUILD),
         '--overlay-src', str(frozen / WORK.relative_to(ROOT)), '--overlay', str(directory / 'log-upper'),
         str(directory / 'log-work'), str(WORK), '--bind', str(directory / 'tmp'), '/tmp',
@@ -210,9 +228,11 @@ def inner(args):
     assert all(current[name] != context['parent_namespaces'][name] for name in current)
     assert not Path('/oldroot').exists(), 'old-root-escape-path'
     mounts = Path('/proc/self/mountinfo').read_text().splitlines()
+    overlay_mounts = {}
     for path in (BUILD, WORK):
         rows = [line for line in mounts if line.split()[4] == str(path)]
         assert len(rows) == 1 and ' - overlay ' in rows[0], ('missing-private-overlay', str(path))
+        overlay_mounts[str(path.relative_to(ROOT))] = rows[0]
     sentinel = ROOT / ('.isolated-readonly-' + args.name)
     assert not sentinel.exists()
     try:
@@ -230,6 +250,7 @@ def inner(args):
     probe_log = WORK / ('namespace-probe-' + args.name + '.json')
     assert not probe_log.exists()
     proof = dict(uid=os.getuid(), namespaces=current, root_readonly=True, overlays=['build', 'logs'],
+        overlay_mounts=overlay_mounts,
         hardware=False, router_contact=False, probe_only=args.probe_only)
     with probe_log.open('x') as stream: stream.write(json.dumps(proof, indent=2) + '\n')
     print(json.dumps(dict(isolated_namespace=True, probe_only=args.probe_only)), flush=True)
@@ -309,6 +330,7 @@ def run(args):
         context['linker'] = linker_input(frozen, record)
         context['download_cache'] = download_cache_input(frozen, record)
         producer_context(frozen, record, args, context)
+    bubblewrap, bubblewrap_metadata = bubblewrap_input(args, frozen, record)
     directory.mkdir(parents=True)
     for name in ('build-upper', 'build-work', 'log-upper', 'log-work', 'tmp'): (directory / name).mkdir()
     print(json.dumps(dict(phase='inventory-protected-lower-build', probe_only=args.probe_only)), flush=True)
@@ -316,15 +338,17 @@ def run(args):
     with (directory / 'cache-before.json').open('x') as stream: stream.write(json.dumps(cache_before,sort_keys=True) + '\n')
     before = tree_state(BUILD)
     with (directory / 'lower-before.json').open('x') as stream: stream.write(json.dumps(before, sort_keys=True) + '\n')
-    argv = command(frozen, directory, args.name, context, args.probe_only)
+    argv = command(frozen, directory, args.name, context, args.probe_only, bubblewrap)
     envelope = dict(command=argv, snapshot_receipt_sha256=digest(args.snapshot),
         snapshot_source_commit=record['source_commit'], source_lock_sha256=context['source_lock_sha256'],
         parent_namespaces=context['parent_namespaces'], protected_lower_build=str(BUILD),
-        physical_output_root=str(directory), bwrap_sha256=digest(Path('/usr/bin/bwrap')), network_isolated=True)
+        physical_output_root=str(directory), bwrap_sha256=bubblewrap_metadata['sha256'],
+        bubblewrap=bubblewrap_metadata, network_isolated=True)
     envelope['selected_output_root'] = str(selected_output_root)
     with (directory / 'launch.json').open('x') as stream: stream.write(json.dumps(envelope, indent=2) + '\n')
     print(json.dumps(dict(phase='launch-private-offline-world', name=args.name, probe_only=args.probe_only)), flush=True)
     execution = run_logged(argv, directory / 'run.log')
+    assert digest(bubblewrap) == bubblewrap_metadata['sha256'], 'bubblewrap-executable-changed'
     unchanged = tree_state(BUILD) == before
     cache_unchanged = tree_state(CACHE) == cache_before
     snapshot(args.snapshot)
@@ -366,6 +390,8 @@ def main():
     outer.add_argument('--module-receipt', type=Path)
     outer.add_argument('--output-root', type=Path,
         help='Existing writable ext4 output directory under the private workspace; budget its actual backing volume separately')
+    outer.add_argument('--bubblewrap', type=Path,
+        help='Optional declared frozen read-only nonprivileged executable under .local; the system executable remains the default')
     outer.add_argument('--probe-only', action='store_true')
     child = sub.add_parser('inner')
     child.add_argument('--name', required=True)
