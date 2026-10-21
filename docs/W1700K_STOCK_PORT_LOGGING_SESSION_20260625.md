@@ -39,6 +39,12 @@ Purpose: dated logging session and future-reference copy tracking what has been 
   scope315b4367 binds2392 paths/rehashes2378 readonly capsule inputs,exact image
   pair. Saved stage evidence checks,not native reexecution/full-caller/fault
   acceptance. Remaining caller stages run;no terminal verdict yet.
+- Later host-only4GiB private regular-file swap is active,root0600,in the resume
+  .local directory. Creatione1227b22/source5c9a26c9;both-space9.127GB budget passes.
+  No permanent fstab/sysctl/WSL policy or native source/limits/checkpoints changed.
+  Never read/archive/upload this private process-memory file or unlink active
+  swap. After both callers/controller finish,existing temporary_swap_q1.py cleanup
+  checks original identity,swapoff,then unlink. No physical timing/guest verdict.
 - Rehashed5051 immutable bindings and5948 distinct input/partial paths for four
   interrupted jobs. Both optimized callers have DESC10 snapshots but no final
   result/execution receipt. Both older tail outputs remain partial. No evidence

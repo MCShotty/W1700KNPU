@@ -152,6 +152,22 @@ job-control stop/resume, are explicitly acknowledged; PIDs/source/checkpoints/
 limits stay unchanged. Private `host-counters-q3.json` SHA256
 `3bd8ede6736a931493adf7cba93ae8f2a1b1cc15559fdbf60c8109fa0104f347`.
 
+As the later caller stages grew host memory usage, one new 4-GiB task-local swap
+file was exclusively created, formatted and activated. Both storage spaces passed
+a 9,126,805,504-byte budget, including a separate 4-GiB margin and 512-MiB output
+allowance. Creation receipt SHA256
+`e1227b22005a48305e7af80a14d77e2e648dcb9b6bc6e867b64f26510950d2ca`.
+The root-owned regular file is mode 0600; it can contain private process memory,
+so never read, archive or upload its bytes. It is currently active. After both
+callers/controller terminate, the existing private `temporary_swap_q1.py cleanup`
+must check its original device/inode/size/ownership, deactivate it, then remove it.
+No existing partition/device, fstab, sysctl or persistent WSL policy was modified.
+Host scheduling/memory behavior can change; no physical-time claim is made.
+Firmware, native limits and checkpoints are unchanged. This host resource action
+does not provide additional NPU correctness evidence. Jev's bounded source checks
+classify the format target as a new regular file (1.0/confidence 1.0), retain a
+persistent-policy-change Noul 0.03 and private-memory treatment Noul 0.98.
+
 ## Next
 
 Finish and audit both fresh original nominal callers. Full current fault matrices,

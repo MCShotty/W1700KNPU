@@ -32,6 +32,13 @@
   Later four brief profiler quiescences retained only whitelisted host counters;
   no full frame-local dumps saved. Earlier173278/171268 chunks are not live guest
   PCs or qualification. Both scheduling interventions stay disclosed.
+- A later host-only4GiB temporary swap is ACTIVE at
+  .local/npu-resume-20261021/host-memory-q1.swap (root0600). It can contain private
+  process memory:never read/archive/upload it or unlink while active. After BOTH
+  native processes76558/76559 and controller76544 finish,audit terminal results,
+  then run the existing private temporary_swap_q1.py cleanup as root. Creation
+  receipte1227b22 binds exact file identity/source;cleanup checks identity and
+  swapoff before unlink. No persistent WSL/sysctl/fstab or native-input changes.
 
 ## 2026-10-20 - Verified Cleanup And Storage Recovery
 

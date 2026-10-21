@@ -27,6 +27,13 @@ No VM restart/cache drop/compaction/persistent memory change. New dated C: archi
 indexb934181e verified;older index unchanged. Jev boot-label confidence0.43 is not
 a failed boot test. Per-engine3M/60M-us budgets/checkpoints remain unchanged.
 
+Later host headroom:temporary4GiB private regular-file swap is active under the
+resume.local directory,root0600. Creatione1227b22/source5c9a26c9 passes both-space
+9.127GB budget. No fstab/sysctl/WSL persistent-policy or native-state changes.
+It can contain private process memory:never read/archive/upload it or unlink
+active swap. After both callers/controller finish,use existing private
+temporary_swap_q1.py cleanup;it checks original file identity,swapoff,then unlink.
+
 Read research/checkpoints/2026-10-21-npu-resume/REPORT.md/GUARD.json. All5051
 frozen input bindings across four interrupted jobs and5948 distinct input/
 partial paths rehash. Both optimized callers retain DESC10 snapshots,no final

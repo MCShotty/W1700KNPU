@@ -47,6 +47,15 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   all2378 immutable capsule inputs. Exact optimized pair matches the new image.
   This derivative checks saved stage evidence,not a native reexecution or full
   caller/fault acceptance. Remaining caller stages still run;no terminal verdict.
+- Later host-only headroom:created/activated one new4GiB root0600 regular-file
+  swap under.local/npu-resume-20261021. Creatione1227b22/source5c9a26c9 passes
+  both-space9.127GB budget (including4GiB margin/512MiB output). File can contain
+  private process memory;never read/archive/upload/unlink it while active.
+  After BOTH original callers/controller finish,existing temporary_swap_q1.py
+  cleanup verifies device/inode/size/mode/owner,swapoff,then unlink. No existing
+  partition/device or fstab/sysctl/WSL persistent policy modified. Host scheduling/
+  memory behavior can change,not physical-time proof. Native inputs/limits/stops
+  remain unchanged. This is resource management,not additional NPU qualification.
 - All5051 immutable bindings across two optimized callers/two older tail jobs
   match;5948 distinct input/partial paths bound. Both optimized outputs retain
   one DESC10 snapshot/43 files each;older tail outputs402 files each. No final

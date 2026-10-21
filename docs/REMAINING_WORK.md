@@ -35,6 +35,12 @@ shell after new WSL sessions timed out. Original PIDs/native limits/checkpoints
 retained;no VM restart/cache drop or memory-policy change. Do not relaunch copies
 without checking the named live processes/results first.
 
+Host-only temporary4GiB swap is active under.local/npu-resume-20261021. Treat its
+bytes as private process memory;never archive/upload/unlink active swap. After
+both callers/controller finish,run existing temporary_swap_q1.py cleanup as root
+and verify deactivation/removal. Creatione1227b22 passed a9.127GB combined host/
+guest capacity budget;no permanent policy or native/checkpoint changes.
+
 ## 2026-10-20 - Storage Recovered;Native Work Must Resume Fresh
 
 Verified cleanup removed about24.46GB of redundant file data;guest allocation
