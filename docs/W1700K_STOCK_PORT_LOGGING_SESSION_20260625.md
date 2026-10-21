@@ -28,6 +28,17 @@ Purpose: dated logging session and future-reference copy tracking what has been 
   Native per-engine3M/60M-us limits/checkpoints unchanged. No restart/cache drop/
   memory-policy changes. Dated C: indexb934181e/new image verified;older index
   unchanged. Jev boot-label confidence0.43 is not a failed physical boot test.
+- Later counter artifact3bd8ede6:173278/171268 completed engine chunks,last
+  checkpoint840d47f0,actual3M/60M-us arguments. Twelve nonblocking counter
+  attempts unusable;four brief pause/resume snapshots,first pair schema/null,
+  corrected pair whitelisted integers only. No full locals saved;host scheduling
+  intervention recorded,not an uninterrupted/timing/live-guest-PC proof.
+  Native source/state/checkpoints/limits unchanged;both caller verdicts pending.
+- Subsequent fresh both-HIF DESC10 stages pass512 requests/25606 original stores,
+  20 copied PCs/856064 protected bytes each. Metadata DESC10.json5b4daa7e/private
+  scope315b4367 binds2392 paths/rehashes2378 readonly capsule inputs,exact image
+  pair. Saved stage evidence checks,not native reexecution/full-caller/fault
+  acceptance. Remaining caller stages run;no terminal verdict yet.
 - Rehashed5051 immutable bindings and5948 distinct input/partial paths for four
   interrupted jobs. Both optimized callers have DESC10 snapshots but no final
   result/execution receipt. Both older tail outputs remain partial. No evidence

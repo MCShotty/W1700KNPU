@@ -15,17 +15,23 @@
 - All23 focused tests pass,including18 new guard/alias tests. Original execution
   tools stay byte-identical. Fresh default-hif-q3/hif2-q3 nominal callers are
   running in inode-plan-caller-v2,outputs resume-caller-q3/resume-caller-hif2-q3.
-  Inspect existing status before restarting,never overwrite. No completed verdict.
+  Inspect existing status before restarting,never overwrite. No terminal caller verdict.
   Full fault/setup/hot/IRQ/RRO/physical/whole-stack/actual boot/client gates stay.
   No limit/checkpoint/hash waivers,hardware or subagents.
 - Both nominal runs have since passed all six TXBUF phases53260 stores and
-  RX-event;fresh DESC10 prefixes exist,no final DESC10/caller verdict. Source
+  RX-event. Both full DESC10 stages now pass512 requests/25606 original stores,
+  20 copied PCs/856064 protected bytes each. DESC10.json/private scope315b4367
+  rehashes2378 frozen inputs/2392 bound paths;not a native reexecution or terminal
+  caller verdict. Remaining stages run. Source
   limits are per engine invocation between unchanged existing checkpoints.
   New WSL sessions can time out;original PIDs continue. Existing controller was
   briefly stopped/immediately bg-resumed to reuse its root shell. OBSERVER.json
   records2/6 usable nonblocking host dumps/four profiler read errors,not native
   faults or a guest-hotspot verdict. No restart/cache drop/memory-policy change.
   Preserve new C:2026-10-21-index.json/image copy without rewriting the older index.
+  Later four brief profiler quiescences retained only whitelisted host counters;
+  no full frame-local dumps saved. Earlier173278/171268 chunks are not live guest
+  PCs or qualification. Both scheduling interventions stay disclosed.
 
 ## 2026-10-20 - Verified Cleanup And Storage Recovery
 

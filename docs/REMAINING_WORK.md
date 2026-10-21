@@ -21,8 +21,13 @@ outputs. No verdict yet. Current full fault matrices/full setup/hot/IRQ/RRO/
 lifecycle/physical/whole-stack/real boot/client gates remain. No native limits,
 counts/checkpoints/hashes changed;no flash or hardware access.
 
-Both new nominal profiles passed all six TXBUF phases53260 stores and RX-event,
-but DESC10/caller verdicts are still pending. OBSERVER.json preserves host-only
+Both new nominal profiles passed all six TXBUF phases53260 stores,RX-event and
+full DESC10:512 requests/25606 original stores/20 copied PCs each. DESC10.json
+binds2392 paths,rehashes2378 immutable inputs and checks856064 protected bytes
+per profile. Remaining caller stages still run;full-caller verdicts are pending.
+Four later brief profiler quiescences read only whitelisted host counters into
+saved outputs,not full frame-local dumps;these are not native qualification.
+OBSERVER.json preserves earlier host-only
 samples:2/6 usable,two emulators inside Unicorn,four profiler read errors. Not
 guest faults,physical timing or a dominant RV32-function proof. The controller
 was briefly job-control-stopped/immediately bg-resumed to reuse its existing

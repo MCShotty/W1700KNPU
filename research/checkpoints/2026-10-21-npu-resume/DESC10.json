@@ -1,0 +1,76 @@
+{
+  "evidence_audited": true,
+  "passed": true,
+  "scope": "completed-current-pair-DESC10-observations-not-terminal-caller-or-fault-qualification",
+  "profiles": [
+    {
+      "profile": "resume-caller-q3",
+      "hif2": false,
+      "passed": true,
+      "observed_sha256": "d4b2997e71bcd4115ef2390d54b0d16c1aade735f7bd5cc7a402d33ec6ac4b4c",
+      "requests": 512,
+      "packet_claims": 3072,
+      "original_stores": 25606,
+      "original_copied_store_sites": 20,
+      "compared_protected_bytes": 856064,
+      "differing_protected_bytes": 0,
+      "checkpoint_hits": {
+        "0x840d47f0": 76818,
+        "0x8404308c": 319560
+      },
+      "full_caller_qualified": false
+    },
+    {
+      "profile": "resume-caller-hif2-q3",
+      "hif2": true,
+      "passed": true,
+      "observed_sha256": "76185db4cd8427cd60aa614589ba3d7fc3a3b0a970f68acea8ae3957fb5ac317",
+      "requests": 512,
+      "packet_claims": 3072,
+      "original_stores": 25606,
+      "original_copied_store_sites": 20,
+      "compared_protected_bytes": 856064,
+      "differing_protected_bytes": 0,
+      "checkpoint_hits": {
+        "0x840d47f0": 76818,
+        "0x8404308c": 319560
+      },
+      "full_caller_qualified": false
+    }
+  ],
+  "frozen_input_bindings_rehashed": 2378,
+  "frozen_source_commit": "20c71649412ba70df99458f1d6d3cf9fc9ce64f9",
+  "raw_pair_matches_offline_image": true,
+  "original_instruction_limit": 3000000,
+  "original_timeout_us": 60000000,
+  "limit_scope": "per-engine-invocation-between-existing-progress-checkpoints",
+  "progress_checkpoints_changed": false,
+  "counters_are_host_checkpoints_not_live_guest_PC": true,
+  "prior_host_counters": [
+    {
+      "profile": "resume-caller-q3",
+      "observed_unix_ns": 1792540619514167099,
+      "completed_host_chunks": 173278,
+      "last_checkpoint": "0x840d47f0"
+    },
+    {
+      "profile": "resume-caller-hif2-q3",
+      "observed_unix_ns": 1792540619527900907,
+      "completed_host_chunks": 171268,
+      "last_checkpoint": "0x840d47f0"
+    }
+  ],
+  "brief_profiler_quiescence_observations": 4,
+  "earlier_job_control_stop_and_resume": true,
+  "native_state_modified_by_profiler": false,
+  "derivative_is_native_reexecution": false,
+  "full_caller_qualified": false,
+  "current_fault_matrix_qualified": false,
+  "full_setup": false,
+  "physical_acceptance": false,
+  "booted": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "bound_paths": 2392,
+  "private_scope_sha256": "315b4367bb6f178ea8081a8e284b7c31069cb86e07e68aa328114ff516d53d63"
+}

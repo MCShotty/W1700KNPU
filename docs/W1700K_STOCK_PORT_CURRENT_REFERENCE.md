@@ -11,8 +11,13 @@ unchanged. WORLD.json21ad6bed/private scopec532abf3;new protected C: image copy.
 Fresh nominal default-hif-q3/hif2-q3 are running in unchanged caller-v2 with
 new resume-caller outputs,no verdict yet. No hardware/boot acceptance follows.
 
-Later live status:both profiles passed all6 TXBUF phases53260 stores and RX-event;
-fresh DESC10 prefixes exist,no final verdict. Original controller group briefly
+Later live status:both profiles passed all6 TXBUF phases53260 stores,RX-event and
+full DESC10:512 requests/25606 original stores/20 copied PCs/856064 protected bytes
+each. DESC10.json5b4daa7e/private scope315b4367 binds2392 paths and rehashes2378
+frozen inputs,not native reexecution. Remaining caller stages run,no terminal
+caller verdict. Four later brief profiler quiescences retained only whitelisted
+host counters;no full locals saved,not live guest-PC/timing/qualification proof.
+Original controller group briefly
 job-control-stopped/immediately bg-resumed,same PIDs,to reuse its root shell while
 new WSL connections timed out. OBSERVER.json/private scope67b4acdf records two
 usable no-locals/nonblocking host samples/four profiler read errors,not native

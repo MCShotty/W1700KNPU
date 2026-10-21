@@ -92,11 +92,27 @@ checkpoints stay unchanged. The parent capacity check includes output and margin
 the two nominal jobs share its cooperative lock. Earlier interrupted runs and
 older-pair matrices are not overwritten or promoted.
 
-Both have since completed the six TX-buffer phases (53,260 original stores) and
-RX-event initialization. The saved fresh DESC10 prefixes exist, but no complete
-DESC10/caller verdict exists at this checkpoint. Limits are per engine invocation
-between the existing progress checkpoints, not a whole-constructor or physical
-timing bound. No count, checkpoint or budget waiver was introduced.
+Both have since completed the six TX-buffer phases (53,260 original stores),
+RX-event initialization and full DESC10. Each DESC10 result passes all 512
+requests and 25,606 original stores at 20 copied store sites; all 856,064 compared
+protected bytes match. Each retains the existing 76,818 recipe / 319,560 prior
+TX-buffer checkpoint hits. No checkpoint was removed or batched away.
+
+[DESC10.json](DESC10.json) binds 2,392 paths and rehashes all 2,378 immutable
+capsule inputs; the exact optimized pair matches the image. Private stage-audit
+SHA256 `315b4367bb6f178ea8081a8e284b7c31069cb86e07e68aa328114ff516d53d63`.
+This derivative checks saved completed-stage evidence, not a native reexecution.
+Remaining caller stages are still running; neither full caller has a terminal
+verdict. Limits are per engine invocation between the existing progress
+checkpoints, not a whole-constructor or physical timing bound. No count,
+checkpoint or budget waiver was introduced.
+
+Fresh Jev stage-scope checks support the completed-stage claim at 0.96 /
+confidence 0.94. The full-caller-success claim is contradicted because the
+callers are still active, not because either has a terminal failure. Disclosure
+of scheduling interventions scores Noul 0.98; separation from remaining gates
+scores 0.97. Raw request/probabilities remain private (`jev-desc10-q1`, result
+SHA256 prefix `78552b93`); none replaces the deterministic evidence checks.
 
 ## Host Observations
 
@@ -123,6 +139,18 @@ keeps the strict 64-character content comparison. No sample/native data repaired
 Jev image-scope checks retain a low-confidence boot-claim label (0.43): no boot
 test exists, which is not evidence that the image cannot boot. Host-stack routes
 select emulation/profiler-error, not a native verdict; raw probabilities retained.
+
+A later counter investigation had twelve unusable nonblocking attempts. Two
+brief pause/resume snapshots exposed the local-variable schema but retained null
+numeric candidates; a corrected schema-specific, two-snapshot read retained only
+whitelisted integer fields. No full frame-local dump was saved. The latter
+records 173,278 / 171,268 completed engine chunks and last checkpoint
+`0x840d47f0`, with actual arguments count 3,000,000 / timeout 60,000,000 us.
+These are host loop/last-checkpoint values, not live guest-PC, complete-DESC10 or
+hardware-timing proof. Four brief profiler quiescences, in addition to the prior
+job-control stop/resume, are explicitly acknowledged; PIDs/source/checkpoints/
+limits stay unchanged. Private `host-counters-q3.json` SHA256
+`3bd8ede6736a931493adf7cba93ae8f2a1b1cc15559fdbf60c8109fa0104f347`.
 
 ## Next
 

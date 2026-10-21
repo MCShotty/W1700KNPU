@@ -33,6 +33,20 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   failed closed before output,exact source/failure retained. Jev boot confidence
   0.43 is not an observed failed boot. No restart/cache drop/memory-policy change.
   New dated C: archive indexb934181e/image verified,older index unchanged.
+- Later counter observation3bd8ede6 retains only whitelisted integers after
+  twelve unusable nonblocking attempts and four brief profiler pause/resume
+  snapshots (first pair found schema/null values,corrected pair read counters).
+  Recorded173278/171268 engine chunks,last checkpoint840d47f0,actual3M/60M-us
+  arguments. Not live guest PC,full DESC10 or physical timing proof. No full
+  frame-local dump retained;PIDs/source/native limits/checkpoints unchanged.
+  Both fresh nominal verdicts remain pending. Host scheduling was perturbed,
+  not represented as uninterrupted;no guest state or input changes.
+- Subsequent completed stage:both fresh default/HIF2 DESC10 observations pass
+  all512 requests/25606 original stores/20 copied PCs and856064 protected bytes
+  each. DESC10.json5b4daa7e/private scope315b4367 binds2392 paths and rehashes
+  all2378 immutable capsule inputs. Exact optimized pair matches the new image.
+  This derivative checks saved stage evidence,not a native reexecution or full
+  caller/fault acceptance. Remaining caller stages still run;no terminal verdict.
 - All5051 immutable bindings across two optimized callers/two older tail jobs
   match;5948 distinct input/partial paths bound. Both optimized outputs retain
   one DESC10 snapshot/43 files each;older tail outputs402 files each. No final

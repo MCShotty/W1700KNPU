@@ -6,8 +6,9 @@ The optimized image now builds and passes offline FIT/package/ABI checks:
 Linux 6.18.52, 218 packages, 78 module checks and the exact optimized CODE/DATA.
 Image `70b3112e` and all three previous images have verified protected copies.
 A new 23-test capacity guard covers Linux and Windows backing-drive budgets.
-Fresh default/HIF2 original nominal cold callers are still running full DESC10,
-after all six TX-buffer phases and RX-event; they are not yet accepted.
+Fresh default/HIF2 original callers passed all six TX-buffer phases, RX-event
+and full DESC10 (512 requests/25,606 stores each). Remaining caller stages are
+still running; neither full caller is accepted yet.
 Full fault, setup, hot-path, IRQ, physical, boot and client gates remain open.
 No flash or hardware access.
 See the [resume checkpoint](research/checkpoints/2026-10-21-npu-resume/REPORT.md).
