@@ -49,8 +49,40 @@ def receipt_inputs(record):
         for value in record: yield from receipt_inputs(value)
 
 
-def copy_files(root, target, files):
+def load_reuse_snapshot(root, receipt_path):
+    root, receipt_path = root.resolve(), receipt_path.resolve(strict=True)
+    assert receipt_path.is_relative_to(root / '.local/npu-validation-capsules')
+    receipt_sha256 = digest(receipt_path)
+    record = json.loads(receipt_path.read_bytes())
+    assert record['format'] == 'npu-validation-capsule-v1' and record['preservation_verified'] is True
+    assert record['source_root'] == str(root) and record['sources_read_only'] is True
+    frozen = Path(record['input_root'])
+    assert frozen == receipt_path.parent / 'root' and frozen.resolve(strict=True) == frozen
+    names, metadata = set(), {}
+    for path in frozen.rglob('*'):
+        mode = path.lstat().st_mode
+        assert stat.S_ISREG(mode) or stat.S_ISDIR(mode), ('unsafe-reuse-node', str(path))
+        if stat.S_ISREG(mode): names.add(str(path.relative_to(frozen)))
+    assert names == record['files'].keys(), 'reuse-snapshot-file-set'
+    total = 0
+    for name, expected in record['files'].items():
+        assert isinstance(expected, str) and re.fullmatch('[0-9a-f]{64}', expected)
+        path = source_file(frozen, name)
+        info = path.stat()
+        assert not info.st_mode & 0o222 and digest(path) == expected, ('reuse-input-drift', name)
+        assert info.st_dev == root.stat().st_dev, ('reuse-input-filesystem', name)
+        metadata[name] = (stat.S_IMODE(info.st_mode), info.st_uid, info.st_gid, info.st_size, info.st_mtime_ns)
+        total += info.st_size
+    assert type(record['file_count']) is int and record['file_count'] == len(names)
+    assert type(record['bytes']) is int and record['bytes'] == total
+    assert digest(receipt_path) == receipt_sha256, 'reuse-receipt-drift'
+    return dict(root=frozen, files=record['files'], metadata=metadata,
+                receipt=receipt_path, receipt_sha256=receipt_sha256)
+
+
+def copy_files(root, target, files, reuse=None):
     assert not target.exists() and target.resolve().is_relative_to(root)
+    assert reuse is None or not target.resolve().is_relative_to(reuse['root'])
     for name, expected in files.items():
         assert digest(source_file(root, name)) == expected, ('capsule-pre-copy-drift', name)
     target.mkdir(parents=True)
@@ -59,9 +91,20 @@ def copy_files(root, target, files):
         source, output = source_file(root, name), target / name
         assert output.resolve().is_relative_to(target) and not source.is_relative_to(target)
         output.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, output)
+        prior = reuse['root'] / name if reuse and reuse['files'].get(name) == expected else None
+        wanted_mode = stat.S_IMODE(source.stat().st_mode) & ~0o222
+        if prior is not None:
+            assert not prior.is_symlink() and prior.resolve().is_relative_to(reuse['root'])
+            info = prior.stat()
+            assert not info.st_mode & 0o222 and digest(prior) == expected, ('reuse-link-input-drift', name)
+        if prior is not None and (stat.S_IMODE(info.st_mode), info.st_uid, info.st_gid) == (
+                wanted_mode, os.geteuid(), os.getegid()):
+            os.link(prior, output, follow_symlinks=False)
+        else:
+            shutil.copy2(source, output)
+            output.chmod(wanted_mode)
         assert digest(output) == digest(source) == expected, ('capsule-copy-drift', name)
-        output.chmod(stat.S_IMODE(output.stat().st_mode) & ~0o222)
+        assert not output.is_symlink() and stat.S_IMODE(output.stat().st_mode) == wanted_mode
         total += output.stat().st_size
     return total
 
@@ -69,6 +112,8 @@ def copy_files(root, target, files):
 def create(args):
     destination = CAPSULES / args.name
     assert not destination.exists()
+    reuse_path = getattr(args, 'reuse_snapshot', None)
+    reuse = load_reuse_snapshot(ROOT, reuse_path) if reuse_path is not None else None
     files, queue, expanded = {}, [], set()
     tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT).decode().split('\0')
     for name in filter(None, tracked): add_file(ROOT, files, name)
@@ -103,7 +148,14 @@ def create(args):
             for name, expected in mapping.items():
                 add_file(ROOT, files, name, expected)
                 if Path(name).suffix == '.json': queue.append(ROOT / name)
-    total = copy_files(ROOT, destination / 'root', files)
+    total = copy_files(ROOT, destination / 'root', files, reuse)
+    shared = []
+    if reuse is not None:
+        after = load_reuse_snapshot(ROOT, reuse['receipt'])
+        assert after['receipt_sha256'] == reuse['receipt_sha256'] and after['metadata'] == reuse['metadata'], 'prior-snapshot-changed'
+        shared = [name for name in files if reuse['files'].get(name) == files[name] and
+                  (destination / 'root' / name).samefile(reuse['root'] / name)]
+    shared_bytes = sum((destination / 'root' / name).stat().st_size for name in shared)
     owner = pwd.getpwuid(ROOT.stat().st_uid)
     environment = {key: os.environ[key] for key in
         ('PATH', 'LANG', 'LC_ALL', 'TZ', 'ASAN_OPTIONS', 'UBSAN_OPTIONS', 'UNICORN_LIB_PATH') if key in os.environ}
@@ -113,8 +165,16 @@ def create(args):
         tracked_dirty=subprocess.run(['git', 'diff', '--quiet', 'HEAD'], cwd=ROOT).returncode != 0,
         uid=owner.pw_uid, gid=owner.pw_gid, user=owner.pw_name, home=owner.pw_dir, environment=environment,
         sources_read_only=True, original_receipts_rewritten=False, complete_executable_environment=False,
+        materialization=dict(strategy='verified-readonly-hardlinks-with-copy-fallback' if reuse else 'independent-copy',
+            shared_readonly_files=len(shared), shared_readonly_bytes=shared_bytes,
+            independently_copied_files=len(files) - len(shared), copied_regular_file_payload_bytes=total - shared_bytes,
+            prior_receipt=str(reuse['receipt'].relative_to(ROOT)) if reuse else None,
+            prior_receipt_sha256=reuse['receipt_sha256'] if reuse else None,
+            prior_file_content_modes_ownership_mtime_unchanged=True if reuse else None,
+            shared_inode_link_counts_ctime_atime_not_preserved=bool(shared)),
         replay_verified=False, full_setup=False, full_npu_goal_complete=False, hardware=False,
         limits=['Copies tracked source, declared receipt inputs/artifacts, selected captures and the existing Python dependency directory.',
+                'Optional reuse shares verified read-only prior inodes; independent link counts/ctime/atime are not claimed.',
                 'Host interpreter, compiler and system libraries remain external; this is not a complete portable environment.',
                 'A separate private-namespace replay must pass before this is considered an execution copy.',
                 'Only the named older candidate is validated; this never qualifies later changes on main.'])
@@ -188,6 +248,8 @@ def main():
     copy.add_argument('--receipt', type=Path, action='append', default=[])
     copy.add_argument('--snapshot', type=Path, action='append', default=[])
     copy.add_argument('--include', type=Path, action='append', default=[])
+    copy.add_argument('--reuse-snapshot', type=Path,
+                      help='Share matching read-only inodes from a verified prior capsule; changed inputs are copied')
     launch = commands.add_parser('run')
     launch.add_argument('--name', required=True)
     launch.add_argument('--tag', required=True)

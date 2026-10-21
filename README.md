@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - Current-Pair Image Preparation
+
+Optional verified read-only snapshot reuse now passes 35 storage controls.
+The input plan copies about6.6MB instead of another3GB snapshot,while explicitly
+recording shared inodes. Default copies stay independent;native execution
+policy is unchanged. This is preparation,not a new image or caller pass.
+The next image and original replays must use the new4e43de6f/a282ca7a pair.
+See the [image replay checkpoint](research/checkpoints/2026-10-21-npu-image-replay/REPORT.md).
+
 ## 2026-10-21 - INODE Progress
 
 Both original callers finished with an INODE instruction-budget halt after

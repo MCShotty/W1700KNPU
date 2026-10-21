@@ -1,8 +1,22 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (original callers fail INODE capture;comparison optimization passes focused/model/raw checks;new image/caller/fault/physical gates open)
+Last updated: 2026-10-21 (35 read-only input-reuse controls pass;current-pair image plan only;original/full fault/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Current-Pair Image Input Reuse
+
+- Optional create --reuse-snapshot preserves default independent copies,verifies
+  prior read-only file identities and shares only matching inodes. Changed inputs
+  are copied. Shared link counts/ctime/atime independence is not claimed;old
+  receipts/exact old bootstrap remain. Five runtime ASTs unchanged,not whole-file
+  bootstrap identity. All35 focused tests pass,zero skips. Public MATERIALIZATION
+  and private8b055dd3 bind11 paths;precommit6308-file plan copies6573235 payload
+  bytes/61 files and shares6247. Plan only,not an actual snapshot or execution.
+- Next:clean source commit/replan,guarded new-pair full image,fresh both-HIF
+  original callers and current faults. No native limits/checkpoints waived.
+  All wider setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/boot/client gates
+  stay;no hardware,flash,radio changes or subagents.
 
 ## 2026-10-21 - Original INODE Halt And Comparator Verification
 

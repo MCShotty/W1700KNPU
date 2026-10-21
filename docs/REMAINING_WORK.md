@@ -1,5 +1,17 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - Current-Pair Image Preparation
+
+Read the image-replay checkpoint. All35 storage/capsule controls pass with zero
+skips;opt-in verified read-only reuse is explicitly shared storage,not independent
+copies. Default independence and native limits/checkpoints/verdict logic stay.
+The precommit input plan predicts6247 shared/61 copied files,6573235 new payload
+bytes;it is not an actual snapshot or image. Replan from a clean source commit,
+freeze under the explicit guest/backing-volume budget,and build the full image
+with4e43de6f/a282ca7a. Then execute fresh both-HIF original callers/current faults.
+Old failed q3 runs/images remain unchanged. Full setup/hot/IRQ/RRO/lifecycle/
+physical/whole-stack/real boot/client gates remain;no hardware or subagents.
+
 ## 2026-10-21 - INODE Budget Halt And Source Optimization
 
 Supersedes older q3-running/swap-active statements. Both original q3 callers are

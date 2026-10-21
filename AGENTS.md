@@ -1,5 +1,21 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Current-Pair Image Input Reuse
+
+- Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md and
+  MATERIALIZATION.json. All35 focused storage/capsule tests pass,zero skips.
+  Optional create --reuse-snapshot validates prior read-only hashes/modes/
+  ownership/file sets;default copying stays independent. Shared inodes are
+  explicitly not independent copies;link counts/ctime/atime are not preserved.
+  No old receipt is rewritten. Exact old bootstrap remains in Git/prior snapshot;
+  five runtime functions have unchanged AST,not a whole-file identity claim.
+- The precommit6308-file plan predicts6247 shared/61 copied files and6573235
+  copied payload bytes. Plan only,no snapshot/world/new-original pass yet.
+  Replan after clean commit;use explicit backing-volume/guest storage guard.
+  New4e43de6f/a282ca7a pair still needs full image and fresh original callers.
+  Keep all native limits/checkpoints,old failed runs,protected images/archives
+  and full fault/setup/hot/IRQ/RRO/lifecycle/physical/boot/client gates.
+
 ## 2026-10-21 - Original INODE Halt;Comparator Checks Pass
 
 - Supersedes all earlier q3-running/temporary-swap-ACTIVE statements below.

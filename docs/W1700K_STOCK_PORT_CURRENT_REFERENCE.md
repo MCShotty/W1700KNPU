@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Current-Pair Image Input Reuse
+
+Read research/checkpoints/2026-10-21-npu-image-replay/REPORT.md/MATERIALIZATION.json.
+All35 storage/capsule tests pass,zero skips. Optional verified read-only reuse
+shares only matching prior inodes;default copies remain independent. Link counts/
+ctime/atime independence is not claimed. Prior receipts/exact old bootstrap stay;
+five runtime ASTs are unchanged,not the whole modified bootstrap hash.
+Precommit plan6308 files/6247 shared/61 copied/6573235 copied payload bytes is
+plan-only,no actual freeze/world/new-original pass. Clean commit/replan/storage
+guard must precede actual new4e43de6f/a282ca7a image and fresh original callers.
+All native limits/checkpoints and broader fault/setup/hot/IRQ/RRO/lifecycle/
+physical/whole-stack/boot/client gates stay. No hardware/flash/subagents.
+
 ## 2026-10-21 - Original Callers Terminal;Comparator Optimization
 
 This supersedes older q3-live/swap-ACTIVE descriptions. Both original q3 runs

@@ -1,10 +1,27 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (original callers fail INODE capture;comparison optimization passes focused/model/raw checks;new full image/caller/fault/physical acceptance open)
+Last updated: 2026-10-21 (35 read-only input-reuse controls pass;current-pair image plan only;original/full fault/physical acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Current-Pair Image Input Reuse
+
+- New opt-in create --reuse-snapshot verifies prior receipt/file set/read-only
+  hashes/modes/ownership,shares only matching prior inodes,and copies changed
+  inputs. Default independent copies remain. No silent copy after hardlink failure.
+  Shared link counts/ctime/atime are not preserved;not tamper-proof immutability.
+  Existing receipts stay unchanged;exact old bootstrap is preserved. Five runtime
+  functions retain their AST,not a whole-bootstrap hash identity claim.
+- All35 focused tests pass,zero skips:5 retained capsule/12 new reuse/18 existing
+  storage-alias controls. MATERIALIZATION.json/private8b055dd3 binds11 paths.
+  Precommit plan6308 files/3060947967 logical bytes/6247 shared/61 copied/
+  6573235 copied payload bytes is explicitly plan-only. Actual clean freeze,
+  new4e43de6f/a282ca7a world and original callers remain pending. Explicit guest/
+  backing-volume guard is required,not a reservation. Full native limits/stops/
+  faults/setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/boot/client gates stay.
+  No hardware/flash/radio changes or subagents.
 
 ## 2026-10-21 - Original INODE Budget Halt And Comparison Optimization
 
