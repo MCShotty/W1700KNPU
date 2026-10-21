@@ -1,10 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (optimized offline image passes;fresh original nominal callers running;full fault/setup/physical/boot/client acceptance remains open)
+Last updated: 2026-10-21 (original callers fail INODE capture;comparison optimization passes focused/model/raw checks;new full image/caller/fault/physical acceptance open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-21 - Original INODE Budget Halt And Comparison Optimization
+
+- Supersedes earlier q3-running/swap-active statements:both original callers
+  exited1 after full TXBUF/RX-event/DESC10/RX-PCIe/all3 tail stages passed.
+  INODE0 stopped in inlined equal at840f02e6/840f02fa,750/1030 preimages,zero
+  original commits/publications;wall false/unmodeled null. NOMINAL.jsonc0c44e0e/
+  private4ff48062 binds3067 paths. Failed full callers,not accepted constructors.
+- New source unrolls only volatile byte equality;all before/after reader guards
+  remain.378 predicates/168 exact-read boundaries/two guard mutants pass. Matched
+  synthetic1030-read batch1672026 vsbytewise2537195 instructions;2M cost target
+  under unchanged3M execution cap,not full-entry/original-caller qualification.
+  Normal22 objects/174 C functions match frame instrumentation,max local4704.
+  Normal RV32 model2522 calls/326 controls and63 adjacent units pass,no skips.
+  Two new raw builds reproduce CODE4e43de6f/DATAa282ca7a,168 hooks;20 raw-pair
+  groups pass,no skips. INODE_BUDGET.json6dad5e55/privateee761656 binds3479 paths.
+  Model500M/30M-us remains a distinct pre-existing scope,not an original-budget
+  waiver. All validation processes are terminal. No new original-caller proof.
+  Fresh Jev supports finite scope0.99/conf0.98;new-original-pass label confidence
+  0.64 retained,not evidence the unrun new pair cannot pass. Resulta7786b51 kept.
+- Host-only4GiB swap was identity-checked,deactivated and removed. Public
+  HOST_MEMORY.json31418f17/private48b01d35;cleanupf0bdda1a. No memory bytes read/
+  archived/uploaded,permanent WSL/sysctl/fstab or native-state/limit/stop changes.
+- Image70b3112e contains old658c9c32/3d821c93 pair,predating this source fix.
+  New image/new original cold/current faults/full setup/hot/IRQ/RRO/lifecycle/
+  physical/whole-stack/actual boot/client gates remain. No hardware/subagents.
 
 ## 2026-10-21 - Resumption Guard And Interrupted-Run Audit
 

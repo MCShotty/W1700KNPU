@@ -1,0 +1,54 @@
+{
+  "evidence_audited": true,
+  "passed": false,
+  "scope": "fresh-frozen-default-HIF2-original-nominal-cold-callers-not-fault-or-full-setup-proof",
+  "profiles": [
+    {
+      "tag": "default-hif-q3",
+      "hif2": false,
+      "returncode": 1,
+      "passed": false,
+      "failure_record_sha256": "8900f4fd9e768a597069443d941fe9b12f9bc54c03132532eb337c875a58d360",
+      "failure_summary": {
+        "error_type": "AssertionError",
+        "pc": "0x840f02e6",
+        "wall_budget_exhausted": false
+      },
+      "existing_caller_tail_inode_contracts_passed": false,
+      "native_qualification": false
+    },
+    {
+      "tag": "hif2-q3",
+      "hif2": true,
+      "returncode": 1,
+      "passed": false,
+      "failure_record_sha256": "3dbcb2f2cfbc40d3b43c190b34fd919d8434ad8d79001244494482120722b8b1",
+      "failure_summary": {
+        "error_type": "AssertionError",
+        "pc": "0x840f02fa",
+        "wall_budget_exhausted": false
+      },
+      "existing_caller_tail_inode_contracts_passed": false,
+      "native_qualification": false
+    }
+  ],
+  "frozen_source_commit": "20c71649412ba70df99458f1d6d3cf9fc9ce64f9",
+  "capsule_sha256": "0582437a9e22e19a2db8c655a7b42faa29008b67c0f7c44e8b7a325baaaf832b",
+  "frozen_input_bindings_rehashed": 2378,
+  "raw_pair_matches_offline_image": true,
+  "original_instruction_limit": 3000000,
+  "original_timeout_us": 60000000,
+  "limit_scope": "per-engine-invocation-between-existing-progress-checkpoints-not-whole-constructor-or-physical-time",
+  "progress_checkpoints_changed": false,
+  "earlier_interrupted_runs_promoted": false,
+  "older_pair_controls_transferred": false,
+  "full_fault_matrix": false,
+  "full_setup": false,
+  "module_loaded": false,
+  "booted": false,
+  "physical_acceptance": false,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "bound_paths": 3067,
+  "private_scope_sha256": "4ff480621228dc6e51eae15a19c81ac726c19c2d8c3b7c54dd659af1da0c9808"
+}

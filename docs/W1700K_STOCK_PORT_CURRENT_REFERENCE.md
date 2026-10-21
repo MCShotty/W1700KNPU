@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-21 - Original Callers Terminal;Comparator Optimization
+
+This supersedes older q3-live/swap-ACTIVE descriptions. Both original q3 runs
+exited1 in INODE0's inlined byte comparison,PC840f02e6/840f02fa,750/1030 captured,
+zero original commits/publications;wall timeout false,unmodeled access null.
+Old-pair full TXBUF/RX-event/DESC10/RX-PCIe and all3 tail stages pass. NOMINAL.json
+c0c44e0e/private4ff48062 binds3067 paths;failed runs are not qualified callers.
+
+Latest cold-inode.c unrolls only equal's volatile byte loop;read-boundary guards
+stay.378 predicate/168 exact-read cases/two guard mutants pass;matched1030-read
+batch1672026 vs2537195 instructions,2M cost target under3M execution cap. Normal
+22 objects/174 functions/max local4704 pass byte-identical frame instrumentation.
+Normal-model2522 calls/326 controls,63 adjacent units/20 raw-pair groups pass,
+no skips. Reproducible new pair4e43de6f/a282ca7a retains168 hooks. Metadata
+INODE_BUDGET.json6dad5e55/privateee761656 binds3479 paths;no new original-caller/
+image proof. No validation jobs remain live. Model500M/30M-us budget remains
+distinct from original3M/60M-us;neither scope's limits/checkpoints were changed.
+Old image70b3112e embeds658c9c32/3d821c93 and predates this source change.
+
+Temporary4GiB root0600 swap is deactivated AND removed. HOST_MEMORY.json31418f17/
+private48b01d35 confirms exact-identity cleanup;no memory bytes read/archive/upload,
+permanent policy/native inputs/limits/checkpoints changed. All full fault/setup/
+hot/IRQ/RRO/lifecycle/physical/whole-stack/real boot/client gates remain.
+
 ## 2026-10-21 - Storage Guard And Interrupted-Run Identity
 
 Later same-session update:actual6260-file alias-preserving optimized freeze

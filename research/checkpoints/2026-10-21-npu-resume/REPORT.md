@@ -1,5 +1,58 @@
 # NPU Resumption After Storage Recovery
 
+## Latest Status
+
+This supersedes the earlier running/active-swap descriptions below. Both fresh
+original callers are terminal1, after passing TX-buffer, RX-event, DESC10,
+RX-PCIe and all three PCIe-tail stages. INODE0 stops inside its inlined byte
+comparison at `0x840f02e6` / `0x840f02fa`, after 750 of 1,030 preimages, with zero
+original INODE commits/publications. Wall-budget exhaustion is false and no
+unmodeled access is reported. The stop is consistent with the unchanged
+per-engine instruction cap, not a physical-device failure. [NOMINAL.json](NOMINAL.json)
+binds 3,067 paths and preserves the failed full-caller verdicts; private scope
+`4ff480621228dc6e51eae15a19c81ac726c19c2d8c3b7c54dd659af1da0c9808`.
+
+The latest source unrolls only the volatile byte-comparison loop. Both read-
+boundary guards remain. Focused checks pass 378 predicate cases, 168 exact-read
+boundaries and two guard mutants. A matched 1,030-read batch uses 1,672,026
+instructions versus 2,537,195 for its bytewise control; the separate 2M cost
+target leaves headroom under the unchanged 3M execution cap, but is not a full-
+entry proof. A prior, differently linked fixture measured 2,732,894; it is
+preserved separately, not treated as a matched comparison. The first missing-
+entry linker-GC preflight and exact sources also remain preserved.
+
+The normal 22 RV32 objects match their instrumented copies byte-for-byte, covering
+174 C functions with a largest individual frame of 4,704 bytes. The full modeled
+RV32 regression passes 2,522 calls and 326 controls; 63 adjacent unit tests and
+all 20 raw-pair groups pass without skips. Two builds reproduce the new pair:
+CODE `4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8`
+(998,944 bytes), DATA `a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16`
+(25,728 bytes), retaining all 168 hooks. The existing model's 500M/30M-us per-
+invocation budget is a separate scope, not a raised original-caller budget.
+[INODE_BUDGET.json](INODE_BUDGET.json) binds 3,479 paths; private scope
+`ee76165673c3d382bb446ef99b534ff603df70c43a44ce29bfb932a62b04b0f7`.
+The bytewise control restores the old loop but omits one blank source line;
+its different hash remains bound, not waived or called a byte-exact old replay.
+All validation processes are terminal. None of these finite checks establishes
+a fresh original-caller pass or whole-stack/physical acceptance.
+The `70b3112e` image predates this source fix; an updated full image and fresh
+both-HIF original replay remain required.
+
+The temporary 4-GiB host swap has been deactivated and removed, with exact file
+identity checked before removal. [HOST_MEMORY.json](HOST_MEMORY.json) records
+this cleanup without reading/archiving/uploading private memory bytes. No
+persistent policy or original native-input/checkpoint/limit change occurred.
+Its private scope is `48b01d354349908d303c526dee43958ca9fb7a5ef5ac4ac2f9040f860b0bc329`.
+
+Fresh Jev `jev-1.13.0` claim checks support the finite-check claim at 0.99 /
+confidence 0.98 and cleanup at 1.0 / confidence 1.0. Guard retention scores Noul
+0.95; budget/scope separation scores 0.97 each. Its new-original-pass label has
+confidence 0.64 and is retained without turning an unrun replay into a failure
+claim. The new pair has not been replayed through the original full caller.
+Raw request/probabilities are private; result SHA256
+`a7786b5104489b5152edb292a2a7ec9dc83ebcefcb30b42642bcfcbb64f7821a`.
+These semantic judgments do not replace execution, source checks or permission.
+
 ## Guard And Interrupted Evidence
 
 The four interrupted optimized-caller/older-tail runs remain interrupted, not
@@ -170,7 +223,9 @@ persistent-policy-change Noul 0.03 and private-memory treatment Noul 0.98.
 
 ## Next
 
-Finish and audit both fresh original nominal callers. Full current fault matrices,
-full setup/hot/checked IRQ/RRO/lifecycle/physical/whole-stack and real boot/client
-gates remain. The image is offline-qualified only: no module load, actual boot,
+Package the latest source into a new full image, then retry fresh both-HIF
+original callers and current-pair fault matrices. Do not transfer the old pair's
+passing stages to the changed pair. Full setup/hot/checked IRQ/RRO/lifecycle/
+physical/whole-stack and real boot/client gates remain. The preserved image is
+offline-qualified only and predates the latest fix: no module load, actual boot,
 hardware access, radio change, flash or subagents.

@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-21 - INODE Budget Halt And Source Optimization
+
+Supersedes older q3-running/swap-active statements. Both original q3 callers are
+terminal1 in INODE0,750/1030 captured preimages;no original INODE stores committed
+or published,no wall timeout/unmodeled access. Prior DESC10/RX-PCIe/three tail
+stages pass for the old658c9c32 pair,not automatically for a changed pair.
+NOMINAL.jsonc0c44e0e/private4ff48062 preserves the failed verdicts. Temporary4GiB
+swap is deactivated/removed;HOST_MEMORY.json31418f17/private48b01d35 confirms it.
+
+Latest byte-unrolled comparator retains all volatile reads and before/after
+guards.378 predicate/168 boundary cases,modeled2522 calls/326 controls,63 adjacent
+units and20 raw-pair groups pass,no skips. New pair4e43de6f/a282ca7a is reproducible
+with168 hooks;INODE_BUDGET.json6dad5e55/privateee761656 binds3479 paths. No validation
+jobs remain live. Next:rebuild the latest image and retry fresh both-HIF original
+callers/current faults;the finite checks do not qualify these. The old
+70b3112e image predates the fix. Full setup/hot/IRQ/RRO/lifecycle/whole-stack/
+physical/actual boot/client gates remain. No native-limit/checkpoint waiver.
+
 ## 2026-10-21 - Optimized Offline Image Passed;Nominal Callers Running
 
 Interrupted-input/partial-output inspection is complete:5051 frozen bindings

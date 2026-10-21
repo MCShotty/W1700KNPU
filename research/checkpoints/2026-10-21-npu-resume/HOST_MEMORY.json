@@ -1,0 +1,77 @@
+{
+  "evidence_audited": true,
+  "passed": true,
+  "scope": "task-local-temporary-host-swap-created-and-cleaned-not-NPU-correctness-or-physical-timing",
+  "allocated_bytes": 4294967296,
+  "new_private_regular_file": true,
+  "both_storage_spaces_budgeted": true,
+  "budget_bytes": 9126805504,
+  "root_owned_mode_0600": true,
+  "swap_bytes_read_archived_or_uploaded": false,
+  "native_processes_terminal": true,
+  "temporary_swap_deactivated_and_removed": true,
+  "swap_active_after": false,
+  "target_exists_after": false,
+  "persistent_policy_changed": false,
+  "source_script_sha256": "5c9a26c98ac62849808f8e574c278b6707bb37d651793f193a4b17541a4416a8",
+  "create_receipt_sha256": "e1227b22005a48305e7af80a14d77e2e648dcb9b6bc6e867b64f26510950d2ca",
+  "cleanup_receipt_sha256": "f0bdda1ae9ac752c230f151766d17a89b35b927ded4cfdabd7d90df2ef0e4c80",
+  "capacity_after": {
+    "observed_unix_ns": 1792556250202242368,
+    "project": "/home/captain/W1700KNPU",
+    "filesystem": "ext4",
+    "distro": "Ubuntu",
+    "host": {
+      "distro": "Ubuntu",
+      "vhd_path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+      "vhd_bytes": 160895598592,
+      "drive": "D",
+      "free_bytes": 15278813184,
+      "total_bytes": 256059109376
+    },
+    "guest": {
+      "free_bytes": 872173801472,
+      "total_bytes": 1081101176832
+    },
+    "writable_ext4": true
+  },
+  "memory_after": {
+    "MemTotal": 8240365568,
+    "MemAvailable": 7418822656,
+    "SwapTotal": 2147483648,
+    "SwapFree": 1780744192
+  },
+  "guest_unlink_is_not_Windows_space_recovery_proof": true,
+  "original_native_limits_or_checkpoints_changed": false,
+  "native_state_modified": false,
+  "physical_timing_qualified": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "semantic_model": "jev-1.13.0",
+  "semantic_answers": {
+    "format_target": {
+      "type": "choice",
+      "choice": "new_regular_file",
+      "confidence": 1.0,
+      "probabilities": {
+        "new_regular_file": 1.0,
+        "existing_device_or_data": 0.0,
+        "unclear": 0.0
+      }
+    },
+    "persistent_policy": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "memory_privacy": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "timing_scope": {
+      "type": "noul",
+      "noul": 0.97
+    }
+  },
+  "bound_paths": 10,
+  "private_scope_sha256": "48b01d354349908d303c526dee43958ca9fb7a5ef5ac4ac2f9040f860b0bc329"
+}

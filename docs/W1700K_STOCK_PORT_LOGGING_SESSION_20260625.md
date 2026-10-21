@@ -1,8 +1,30 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (optimized offline image passes;fresh nominal callers running;full fault/setup/physical/boot/client gates remain open)
+Last updated: 2026-10-21 (original callers fail INODE capture;comparison optimization passes focused/model/raw checks;new image/caller/fault/physical gates open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-21 - Original INODE Halt And Comparator Verification
+
+- Supersedes q3-live/swap-active text below. Both original q3 callers exited1;
+  prior full TXBUF/RX-event/DESC10/RX-PCIe/all3 tail stages pass. INODE0 captured
+  750/1030 with zero original commits/publications;PC840f02e6/840f02fa in the
+  inline byte comparison,wall timeout false/unmodeled null. NOMINAL.jsonc0c44e0e/
+  private4ff48062 binds3067 paths. No full-caller pass inferred.
+- Only equal's byte loop is unrolled;all volatile loads/reader guards remain.
+  Focused378 predicates/168 exact-read boundaries/two guard mutants pass;matched
+  synthetic batch1672026 vs2537195 instructions,2M target under3M execution cap.
+  Normal22 objects/174 functions/max local4704 have byte-identical frame probes.
+  Normal RV32 model2522/326,63 adjacent units and20 raw-pair groups pass,no skips;
+  new pair4e43de6f/a282ca7a/168 hooks reproduces across two builds. Metadata
+  INODE_BUDGET.json6dad5e55/privateee761656 binds3479 paths. All validation jobs
+  terminal;not new original-caller proof. Distinct existing model500M/30M-us vs
+  original3M/60M-us scopes kept;no limits/checkpoints changed.
+- Temporary4GiB root0600 swap was deactivated and removed after both original
+  runs. HOST_MEMORY.json31418f17/private48b01d35/cleanupf0bdda1a;no memory bytes
+  read/archive/upload,permanent policy or native inputs/limits/stops changed.
+  Image70b3112e predates this fix. New image/cold/fault/full setup/hot/IRQ/RRO/
+  lifecycle/physical/whole-stack/boot/client gates stay. No hardware/subagents.
 
 ## 2026-10-21 - Resumption Capacity Guard And Partial-Run Preservation
 

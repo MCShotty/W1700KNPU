@@ -4,6 +4,11 @@
 static struct npu_cold_inode_plan current, held;
 static uint32_t calls, changed, callback_result;
 uint32_t npu_test_snapshot_cases;
+volatile uint32_t npu_test_capture_count;
+uint32_t npu_test_capture_before[NPU_COLD_INODE_FIRST_STORES];
+static unsigned char compare_left[sizeof(struct npu_cold_inode_state) + 4];
+static unsigned char compare_right[sizeof(compare_left)];
+volatile uint32_t npu_test_compare_running;
 
 #define REQUIRE(condition) do { if (!(condition)) return __LINE__; } while (0)
 
@@ -66,9 +71,59 @@ uint32_t npu_test_snapshot_all(void)
     return 0;
 }
 
+uint32_t npu_test_capture_all(void)
+{
+    const struct npu_cold_inode_context c = {.read = reader, .opaque = &calls};
+
+    prepare();
+    npu_test_capture_count = 0;
+    for (uint32_t i = 0; i < NPU_COLD_INODE_FIRST_STORES; i++) {
+        REQUIRE(read_plan(&c, &current, &held, 0x3e8bc470, 4,
+                          &npu_test_capture_before[i]));
+        npu_test_capture_count++;
+    }
+    REQUIRE(calls == NPU_COLD_INODE_FIRST_STORES);
+    for (uint32_t i = 0; i < NPU_COLD_INODE_FIRST_STORES; i++)
+        REQUIRE(npu_test_capture_before[i] == 0x12345678);
+    return 0;
+}
+
+uint32_t npu_test_equal_boundary(uint32_t offset, uint32_t bytes, uint32_t changed)
+{
+    REQUIRE(offset < 4 && bytes <= sizeof(struct npu_cold_inode_state));
+    for (uint32_t i = 0; i < sizeof(compare_left); i++)
+        compare_left[i] = compare_right[i] = (i * 37 + 19) & 255;
+    REQUIRE(changed < sizeof(compare_left) - offset);
+    compare_right[offset + changed] ^= 0x80;
+    npu_test_compare_running = 1;
+    int result = equal(compare_left + offset, compare_right + offset, bytes);
+    npu_test_compare_running = 0;
+    REQUIRE(result == (changed >= bytes));
+    compare_right[offset + changed] ^= 0x80;
+    REQUIRE(equal((const void *)0, (const void *)0, 0));
+    for (uint32_t i = 0; i < sizeof(compare_left); i++)
+        REQUIRE(compare_left[i] == ((i * 37 + 19) & 255) &&
+                compare_right[i] == compare_left[i]);
+    return 0;
+}
+
 #ifndef __riscv
 int main(void)
 {
-    return npu_test_snapshot_all();
+    uint32_t result = npu_test_snapshot_all();
+
+    if (result) return result;
+    result = npu_test_capture_all();
+    if (result) return result;
+    for (uint32_t offset = 0; offset < 4; offset++)
+        for (uint32_t bytes = 0; bytes <= 9; bytes++) {
+            result = npu_test_equal_boundary(offset, bytes, bytes);
+            if (result) return result;
+            if (bytes) {
+                result = npu_test_equal_boundary(offset, bytes, bytes - 1);
+                if (result) return result;
+            }
+        }
+    return 0;
 }
 #endif

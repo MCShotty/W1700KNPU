@@ -32,8 +32,14 @@ static void copy(void *destination, const void *source, uint32_t bytes)
 static int equal(const void *a, const void *b, uint32_t bytes)
 {
     const volatile unsigned char *x = a, *y = b;
+    uint32_t i = 0;
 
-    for (uint32_t i = 0; i < bytes; i++)
+    /* Retain byte-width volatile reads while amortizing loop control. */
+    for (; bytes - i >= 4; i += 4)
+        if (x[i] != y[i] || x[i + 1] != y[i + 1] ||
+            x[i + 2] != y[i + 2] || x[i + 3] != y[i + 3])
+            return 0;
+    for (; i < bytes; i++)
         if (x[i] != y[i])
             return 0;
     return 1;

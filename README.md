@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-21 - INODE Progress
+
+Both original callers finished with an INODE instruction-budget halt after
+passing TX-buffer, RX-event, DESC10, RX-PCIe and all PCIe-tail stages. The latest
+source reduces comparison overhead while preserving byte checks. The modeled
+regression passes 2,522 calls/326 controls, alongside 63 unit tests and 20 raw-
+pair checks with reproducible builds. The image below predates this fix; a new
+image and original-caller retry remain required.
+The temporary host swap was removed; ledger and cleanup evidence are updated.
+
 ## 2026-10-21 - NPU Work Resuming
 
 The optimized image now builds and passes offline FIT/package/ABI checks:

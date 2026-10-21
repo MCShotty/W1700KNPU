@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-21 - Original INODE Halt;Comparator Checks Pass
+
+- Supersedes all earlier q3-running/temporary-swap-ACTIVE statements below.
+  Both original default-hif-q3/hif2-q3 are terminal1:TXBUF/RX-event/DESC10/
+  RX-PCIe/all3 tail stages pass,but INODE0 stops in the byte-compare loop at
+  840f02e6/840f02fa,750/1030 preimages,zero original INODE commits/publications.
+  No wall timeout/unmodeled access. NOMINAL.jsonc0c44e0e/private4ff48062 rehashes
+  3067 bound paths. Do not promote these failed original callers.
+- Temporary4GiB host swap is deactivated AND removed. HOST_MEMORY.json31418f17/
+  private48b01d35 binds creation/cleanup;no private memory bytes archived/uploaded.
+  No persistent WSL/sysctl/fstab or native-input/limit/checkpoint changes.
+- Latest cold-inode.c unrolls only byte equality;volatile byte loads and both
+  read-boundary guards remain. Focused378 predicates/168 exact-read cases and
+  two guard mutants pass;matched batch1672026 vs2537195 instructions,2M cost
+  target under unchanged3M execution cap. Not a full-entry/constructor proof.
+  Normal22 objects/174 C functions match stack instrumentation,max local4704.
+  Normal RV32 model2522 calls/326 controls,63 adjacent units/20 raw-pair groups
+  pass,no skips. New reproducible pair4e43de6f/a282ca7a has168 hooks. Read
+  INODE_BUDGET.json6dad5e55/privateee761656,3479 bound paths. All validation
+  processes are terminal;do not reuse old run names. Model500M/30M-us is a
+  distinct pre-existing scope,not a changed original3M/60M-us budget.
+- Image70b3112e contains OLD658c9c32/3d821c93 pair and predates this source fix.
+  Preserve it/earlier images/C:archives. Latest image and fresh original callers,
+  current fault/full setup/hot/IRQ/RRO/lifecycle/physical/whole-stack/boot/client
+  gates remain. No hardware or subagents.
+
 ## 2026-10-21 - Optimized Offline Image And Fresh Nominal Callers
 
 - Read research/checkpoints/2026-10-21-npu-resume/REPORT.md and GUARD.json.
