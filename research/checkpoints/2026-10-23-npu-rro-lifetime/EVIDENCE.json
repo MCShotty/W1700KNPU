@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "scope": "selected-C-bookkeeping-and-stock-current-synthetic-instructions-not-retained-RRO-qualification",
+  "source_commit_before_work": "5d4fbbd450613e4811e97e1edd070a880ec23420",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "caller_cases": 1021,
+  "caller_receipt": ".local/npu-rro-lifetime-callers/lifetime-q3/result.json",
+  "caller_receipt_sha256": "7d48599704c4fc362dec78a8f9450a5d29d625e5460a47fe407bee571feed627",
+  "stock_effect_frames": 134,
+  "current_denial_frames": 134,
+  "native_receipt": ".local/npu-rro-lifetime-native/stock-current-q3/result.json",
+  "native_receipt_sha256": "6e029ad77d0fafe46acd285c95050f32f8f3794c12ad3842c37628b7062a52fb",
+  "stock_executed_instructions": 6344077,
+  "stock_distinct_instruction_addresses": 116,
+  "checked_RRO_admitted": false,
+  "target_RRO_lifetime_qualified": false,
+  "modeled_DMA_devres_framework_boundaries": true,
+  "actual_kernel_dmam_bookkeeping": true,
+  "hardware": false,
+  "physical_UAF_demonstrated": false,
+  "firmware_or_source_lock_changed": false,
+  "image_built": false,
+  "image_flashed": false,
+  "current_offline_image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "protected_project_images_rehashed": 6,
+  "protected_external_images_rehashed": 1,
+  "project_units": 56,
+  "skipped": 0,
+  "native_progress": [
+    {
+      "label": "default",
+      "old_pid": 400225,
+      "process_present": false,
+      "terminal_verdict_present": false,
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1,
+        2
+      ],
+      "log_prefix": ".local/npu-rro-lifetime-20261022/default-seal-q1-prefix.jsonl",
+      "log_prefix_sha256": "2ceef099c15778e17bd4ded6948137d8d30b1c39e9a30438387913ae7e271068",
+      "complete_prefix_bytes": 4012,
+      "not_terminal_or_atomic_full_trace_qualification": true
+    },
+    {
+      "label": "hif2",
+      "old_pid": 400224,
+      "process_present": false,
+      "terminal_verdict_present": false,
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1,
+        2
+      ],
+      "log_prefix": ".local/npu-rro-lifetime-20261022/hif2-seal-q1-prefix.jsonl",
+      "log_prefix_sha256": "48049ed712f9ddf3dcec335b588f55a2b97aed551459000735c4e3f82d5da414",
+      "complete_prefix_bytes": 4012,
+      "not_terminal_or_atomic_full_trace_qualification": true
+    }
+  ],
+  "original_service": {
+    "ActiveState": "failed",
+    "SubState": "failed",
+    "InactiveEnterTimestamp": "Thu 2026-10-22 11:38:40 +03",
+    "Result": "oom-kill",
+    "OOMPolicy": "stop",
+    "ExecMainCode": "2",
+    "ExecMainStatus": "15",
+    "MemoryPeak": "7589953536",
+    "MemoryHigh": "infinity",
+    "MemoryMax": "infinity"
+  },
+  "original_output_files_rehashed": {
+    "bytewise-caller-q2": 312,
+    "bytewise-caller-hif2-q2": 312
+  },
+  "original_service_oom_failure": true,
+  "guard_process_present": false,
+  "guard_FLOCK_held": false,
+  "original_caller_terminal_receipt_exists": false,
+  "native_jobs_or_limits_modified_by_agent": false,
+  "no_subagents": true,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "provider_identity_requirement": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "physical_UAF_claim": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "retained_implementation_complete": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "early_return_only": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "stock_current_scope": {
+        "type": "choice",
+        "choice": "stock_effects_current_denials",
+        "confidence": 1.0,
+        "probabilities": {
+          "stock_effects_current_denials": 1.0,
+          "current_admitted_physical_RRO": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "unregister_scope": {
+        "type": "noul",
+        "noul": 0.17
+      }
+    },
+    "usage": {
+      "input_tokens": 1199,
+      "output_tokens": 186
+    }
+  },
+  "observed_unix_ns": 1792709264747271764,
+  "private_scope": ".local/npu-rro-lifetime-20261022/scope-q1.json",
+  "private_scope_sha256": "b902c97dd9d769023b64c0038dde18b221ef0d042b2c4ca51ec9500b2b55267f",
+  "indexed_project_paths": 1102,
+  "indexed_external_paths": 1
+}

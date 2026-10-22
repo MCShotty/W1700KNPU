@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Whole RRO Callers And Binary Scope Characterized
+
+- Read the new RRO lifetime checkpoint REPORT.md/EVIDENCE.json and
+  firmware/npu/RRO_LIFETIME_REQUIREMENTS.md. Actual complete selected callers,
+  sender/dispatcher/raw framing and kernel dmam bookkeeping pass1021 cases
+  with full128-block geometry and modeled framework/DMA/devres boundaries.
+- dma_dev is the NPU provider device. Endpoint devres cleanup is not provider
+  retirement. Higher init ignores publication/frame errors;worker discards
+  items despite NPU/MCU errors. Do not implement an early-return-only fix.
+- Same134 actual C frames yield stock exact byte effects and separate current
+  checked denials in synthetic memory. Current API24 entry is a checked jump,
+  not the untouched stock wrapper. Do not bypass it or claim admitted RRO.
+  Retained identity/generation/order,handoff,late/error/reset/drain/retirement
+  and physical acceptance remain. Firmware/lockcb035741/imagea3f1d04b unchanged.
+  No restart,limits change,hardware/flash or subagents;full goal stays active.
+
+- Final audit supersedes all earlier live-replay notes:original q2 service
+  failed oom-kill,all old PIDs/guard gone,no final verdict. Both prefixes pass
+  tail0/1/2 and reach command31/inode-prefix-0. Preserve outputs/journal;
+  profile/budget memory and controlled full-scope replay before restarting.
+
 ## 2026-10-22 - Checked-IRQ Image Qualified Offline
 
 - Supersedes earlier image-pending notes below. Read recovery REPORT.md,

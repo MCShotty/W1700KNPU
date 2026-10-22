@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""Whole selected RRO callers and kernel managed-DMA bookkeeping characterization.
+
+No production body is rewritten. DMA/devres/framework/concurrency boundaries are
+explicit models. A passing result describes current behavior, NOT target RRO
+ownership qualification. Output is exclusive and retained, including failures.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import struct
+import subprocess
+import sys
+import tarfile
+
+import test_host_queue_publication as q
+from test_memory_preflight import block
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'tools'))
+from npu_world_sources import linked_module_sources
+
+MT76 = ROOT / '.local/merge-nonoc-20260923/mt76-merged'
+KERNEL = ROOT / '.local/merge-nonoc-20260923/kernel-merged'
+BUILT_KERNEL = ROOT / ('.local/npu-build-scratch/native-c2/world-checked-irq-q6/build-upper/'
+    'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52')
+ARCHIVE = ROOT / '.local/npu-validation-capsules/world-checked-irq-v5/root/.build/openwrt/dl/linux-6.18.52.tar.xz'
+ARCHIVE_SHA = '2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8'
+MODULE = ROOT / '.local/npu-checked-irq-modules/checked-q2/result.json'
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with path.open('rb') as stream:
+        for data in iter(lambda: stream.read(1024 * 1024), b''): h.update(data)
+    return h.hexdigest()
+
+
+def prepare(destination):
+    producer = linked_module_sources(ROOT, MODULE)
+    inputs = {str(MODULE.relative_to(ROOT)): sha(MODULE), **producer['inputs'], **producer['artifacts']}
+    for path in (Path(__file__), Path(__file__).with_name('rro-lifetime-harness.c'),
+                 Path(q.__file__), Path(sys.modules[block.__module__].__file__),
+                 ROOT / 'tools/npu_world_sources.py'):
+        inputs[str(path.relative_to(ROOT))] = sha(path)
+    assert sha(ARCHIVE) == ARCHIVE_SHA, 'kernel-archive-identity'
+    inputs[str(ARCHIVE.relative_to(ROOT))] = ARCHIVE_SHA
+    needed = ('kernel/dma/mapping.c', 'include/linux/dma-mapping.h')
+    with tarfile.open(ARCHIVE, 'r:xz') as archive:
+        kernel = {name: archive.extractfile('linux-6.18.52/' + name).read() for name in needed}
+    for name, data in kernel.items():
+        path = BUILT_KERNEL / name
+        assert path.read_bytes() == data, ('managed-DMA-prepared-source-drift', name)
+        inputs[str(path.relative_to(ROOT))] = sha(path)
+    header = (MT76 / 'mt7996/mt7996.h').read_text()
+    mt76 = (MT76 / 'mt76.h').read_text()
+    offload = (KERNEL / 'include/linux/soc/airoha/airoha_offload.h').read_text()
+    provider = (KERNEL / 'drivers/net/ethernet/airoha/airoha_npu.c').read_text()
+    init = (MT76 / 'mt7996/init.c').read_text()
+    npu = (MT76 / 'npu.c').read_text()
+    # The selected source cohort explicitly changes DMA ownership on attach.
+    assert re.search(r'dev->dma_dev\s*=\s*npu->dev;', npu)
+    macros = ('MT7996_RRO_MAX_SESSION', 'MT7996_RRO_WINDOW_MAX_LEN', 'MT7996_RRO_ADDR_ELEM_LEN',
+              'MT7996_RRO_BA_BITMAP_LEN', 'MT7996_RRO_BA_BITMAP_CR_SIZE',
+              'MT7996_RRO_BA_BITMAP_SESSION_SIZE', 'MT7996_RRO_WINDOW_MAX_SIZE',
+              'MT7996_RRO_MSDU_PG_CR_CNT', 'MT7996_RRO_MSDU_PG_SIZE_PER_CR',
+              'MT7996_MAX_RRO_RRS_RING', 'MT7996_RRO_MSDU_PG_HASH_SIZE', 'WED_RRO_ADDR_SIGNATURE_MASK')
+    geometry = '\n'.join(q.macro(header, name) for name in macros) + '\n'
+    geometry += '\n'.join(q.declaration(header, 'struct', name) for name in
+        ('mt7996_wed_rro_addr', 'mt7996_wed_rro_session_id', 'mt7996_rro_queue_regs_emi')) + '\n'
+    geometry += q.declaration(mt76, 'enum', 'mt76_hwrro_mode') + '\n'
+    geometry += q.declaration(offload, 'enum', 'airoha_npu_wlan_set_cmd') + '\n'
+    member = block(header, r'(?m)^\tstruct \{(?=\n\t\tstruct \{\n\t\t\tvoid \*ptr;\n\t\t\tdma_addr_t phy_addr;\n\t\t\} ba_bitmap)')
+    assert header[header.index(member) + len(member):].startswith(' wed_rro;')
+    member += ' wed_rro;\n'
+    mapping, dma_header = (kernel[name].decode() for name in needed)
+    managed = q.declaration(mapping, 'struct', 'dma_devres') + '\n'
+    managed += q.function(dma_header, 'dma_free_coherent') + '\n'
+    managed += '\n'.join(q.function(mapping, name) for name in ('dmam_release', 'dmam_match', 'dmam_free_coherent')) + '\n'
+    managed += block(mapping, r'(?m)^void \*dmam_alloc_attrs\(') + '\n'
+    managed += block(dma_header, r'(?m)^static inline void \*dmam_alloc_coherent\(') + '\n'
+    callers = ('mt7996_wed_rro_init', 'mt7996_wed_rro_free', 'mt7996_wed_rro_work',
+               'mt7996_init_hardware', 'mt7996_unregister_device')
+    generated = {
+        'geometry.h': geometry, 'rro-member.h': member,
+        'active.h': q.function(header, 'mt7996_has_hwrro') + '\n' + q.function(mt76, 'mt76_npu_device_active'),
+        'managed-dma.h': managed,
+        'provider.h': q.function(provider, 'airoha_npu_wlan_msg_send_session'),
+        'raw-framing.h': '\n'.join(q.macro(provider, name) for name in
+            ('AIROHA_NPU_MBOX_SIZE', 'NPU_EN7581_7996_TX_CHECK_SIZE', 'NPU_EN7581_7996_INODE_DATA_SIZE')) + '\n' +
+            q.declaration(provider, 'struct', 'wlan_mbox_data') + '\n' + q.function(provider, 'airoha_npu_wlan_msg_send'),
+        'sender.h': q.function(offload, 'airoha_npu_wlan_send_msg') + '\n' + q.function(npu, 'mt76_npu_send_txrx_addr'),
+        'callers.h': '\n\n'.join(q.function(init, name) for name in callers),
+    }
+    for name, source in generated.items():
+        with (destination / name).open('x') as stream: stream.write(source + '\n')
+    return dict(producer=producer, inputs=inputs, selected_complete_callers=list(callers),
+                generated={name: sha(destination / name) for name in generated})
+
+
+def validate_packets(path):
+    raw = path.read_bytes()
+    assert len(raw) == 134 * 24, 'captured-sequence-size'
+    rows = list(struct.iter_unpack('<6I', raw))
+    expected = [(0x10, 24, i, 0x88000000 + i * 65536, 0, 0) for i in range(128)]
+    expected += [(0x11, 24, 0, 0x88801000, 0, 0)]
+    expected += [(0x13, 24, i, 0, 0, 0) for i in (0, 7, 8, 1023, 1024)]
+    assert rows == expected, 'actual-caller-payload-order'
+    return rows
+
+
+def run(destination):
+    metadata = prepare(destination)
+    harness = Path(__file__).with_name('rro-lifetime-harness.c')
+    shutil.copyfile(harness, destination / harness.name)
+    shutil.copyfile(__file__, destination / 'driver-at-run.py')
+    binary = destination / 'rro-lifetime'
+    command = [shutil.which('clang'), '-std=gnu11', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
+               '-Wno-unused-function', '-Wno-unused-parameter', '-Wno-sign-compare',
+               '-Wno-missing-field-initializers', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
+               '-I', str(destination), str(destination / harness.name), '-o', str(binary)]
+    done = subprocess.run(command, capture_output=True, text=True, timeout=120)
+    (destination / 'compile.log').write_text(done.stdout + done.stderr)
+    assert done.returncode == 0, done.stderr
+    environment = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:halt_on_error=1', UBSAN_OPTIONS='halt_on_error=1')
+    completed = subprocess.run([str(binary), str(destination / 'caller-payloads.bin')],
+        env=environment, capture_output=True, text=True, timeout=300)
+    (destination / 'run.jsonl').write_text(completed.stdout)
+    (destination / 'run.stderr').write_text(completed.stderr)
+    assert completed.returncode == 0, (completed.returncode, completed.stderr)
+    cases = [json.loads(line) for line in completed.stdout.splitlines()]
+    assert len(cases) == 1021, ('unexpected-characterization-case-count', len(cases))
+    packets = validate_packets(destination / 'caller-payloads.bin')
+    assert all(sha(ROOT / name) == value for name, value in metadata['inputs'].items()), 'input-drift'
+    artifacts = {str(path.relative_to(ROOT)): sha(path) for path in destination.iterdir() if path.is_file()}
+    return dict(format='w1700k-rro-lifetime-characterization-v1', passed=True, characterization_only=True,
+        cases=len(cases), observations=cases, captured_caller_payloads=len(packets), command=command,
+        metadata=metadata, artifacts=artifacts, sanitizers=['ASan', 'UBSan', 'leak-detection'],
+        checked_RRO_admitted=False, target_RRO_lifetime_qualified=False, hardware=False,
+        limits=['Complete selected init/free/worker/higher-init/unregister bodies run verbatim with actual sender/dispatcher/raw framing.',
+                'Actual kernel dmam allocation/match/free/release bodies execute, not the kernel devres framework.',
+                'Separate endpoint/provider devres registries and low-level DMA allocation/free are explicit models.',
+                'Transport, MCU, MMIO, other chip/framework APIs, locks/RCU scheduling and teardown internals are modeled.',
+                'Captured records are actual 24-byte raw frames from caller/sender/dispatcher/framing at the modeled mailbox boundary.',
+                'Raw model publication/free observations are not physical publication, use-after-free or drain proof.',
+                'Injected IDs/high DMA addresses/disconnect ordering do not establish producer or allocator reachability.',
+                'Characterization passes expose existing error/lifetime gaps; they do not qualify or implement retained RRO.'])
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--name', required=True)
+    args = parser.parse_args()
+    assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
+    destination = ROOT / '.local/npu-rro-lifetime-callers' / args.name
+    destination.mkdir(parents=True, exist_ok=False)
+    result = run(destination)
+    with (destination / 'result.json').open('x') as stream: stream.write(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(dict(passed=True, cases=result['cases'], receipt=str((destination / 'result.json').relative_to(ROOT)),
+        sha256=sha(destination / 'result.json'), target_RRO_lifetime_qualified=False, hardware=False)), flush=True)
+
+
+if __name__ == '__main__': main()

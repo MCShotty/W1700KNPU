@@ -1,5 +1,22 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - RRO Lifetime Gap Characterized End To End In Fixtures
+
+Complete selected RRO callers and actual mailbox framing now pass1,021
+full-size fault/ownership characterization cases. Their134 captured frames
+reproduce stock byte effects and separate current checked denials under RV32
+synthetic-memory execution. Provider-owned DMA lifetime and ignored higher
+errors are now executed evidence, not just source observations.
+
+Retained RRO admission/reset/drain/retirement is still unfinished. This adds
+tests and requirements, not a firmware fix, new image or physical DMA proof.
+Imagea3f1d04b remains offline qualified. See the
+[RRO lifetime checkpoint](research/checkpoints/2026-10-23-npu-rro-lifetime/REPORT.md).
+
+The older long replay service is now confirmed OOM-failed,not still running.
+Both logs pass PCIe-tail stage2 but have no final verdict;prefixes and diagnostics
+are preserved. Memory-profiled,full-scope replay recovery is also pending.
+
 ## 2026-10-22 - Checked-IRQ Image Passed Offline
 
 The complete current-source image now passes build,source,FIT,package,ABI and

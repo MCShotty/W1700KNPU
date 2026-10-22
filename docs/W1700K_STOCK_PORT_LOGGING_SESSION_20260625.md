@@ -1,8 +1,29 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-22 (checked-IRQ full offline image/source/ABI/symbol audits pass;C/D protected copies;original/native/physical acceptance open)
+Last updated: 2026-10-23 (complete RRO caller/bookkeeping fixtures and stock/current binary scopes pass;retained RRO and full NPU/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Whole RRO Caller Lifetime Characterized
+
+- Actual complete selected callers/sender/dispatcher/raw framing/kernel dmam
+  bookkeeping pass1021 full-geometry ASan/UBSan/leak cases. Framework/DMA/devres,
+  concurrency and MCU remain explicit models. Provider dma_dev ownership is
+  distinct from consumer identity;higher publication/reset errors are ignored.
+- Same134 captured C frames produce stock exact byte effects/ABI/MSTATUS and
+  separate current checked denials with exact fault projections. Current entry
+  is patched,not original stock. No checked RRO admission,physical UAF or drain
+  proof. Earlier identity-guard abort and complete q2 runs remain historical.
+- Read new RRO lifetime REPORT.md/EVIDENCE.json and retained requirements.
+  Identity/generation/order/handoff/errors/late/reset/IRQ/DMA drain/retirement
+  and physical acceptance remain. All56 build-tool units pass,zero skips.
+  No production/lockcb035741/raw/UI/WiFi/imagea3f1d04b changes,hardware/flash,
+  job restart/native-limit changes or subagents. Full NPU objective stays active.
+
+- Final check:original q2 service now failed oom-kill,all old PIDs/guard gone.
+  Both logs pass tail2/reach command31,retain inode-prefix-0,no final verdict.
+  Outputs/journal preserved;do not call it live or count prefixes as passes.
+  Memory-profile/budget controlled full-scope replay before any restart.
 
 ## 2026-10-22 - Qualified Offline Checked-IRQ Image
 

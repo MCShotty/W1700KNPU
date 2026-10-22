@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-22 (checked-IRQ full offline image/audits pass;protected C/D copies;original replays and full NPU/physical acceptance pending)
+Last updated: 2026-10-23 (complete RRO caller/bookkeeping characterization and stock/current binary scopes;retained RRO and full NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Whole RRO Caller And Managed-Lifetime Evidence
+
+- Full selected init/free/work/higher-init/unregister,sender/dispatcher/raw
+  framing and actual kernel dmam bodies pass1021 ASan/UBSan/leak cases with
+  full128 blocks. DMA/devres/framework/concurrency/MCU boundaries are modeled.
+  All830 allocation-prefix and129 frame-allocation failures are exercised.
+- Provider owns dma_dev. Endpoint cleanup leaves provider allocations;later
+  provider cleanup invokes actual managed release. Explicit free matches owner/
+  size/DMA/pointer. Higher callers ignore publication errors;worker loses items
+  despite NPU/MCU errors. Relative selected unregister call order does not prove
+  hardware lacks an earlier drain;no physical UAF is demonstrated.
+- Same134 actual C24-byte frames yield stock exact SRAM/alias/store/ABI effects
+  and separate current checked denials. Stock executes6344077 instructions at
+  116 distinct PCs. Current callback is a manifest-bound jump,not stock wrapper.
+  Current exact fault projection does not establish admitted RRO/cold setup.
+- Read 2026-10-23 RRO lifetime REPORT.md/EVIDENCE.json and the retained-lifetime
+  requirements. Implementation still needs identity/generation/order/handoff,
+  errors/partial/ambiguous/late/reset/IRQ/DMA drain/retirement. Early returns or
+  permanent denial are not completion. All56 build-tool units pass,zero skips.
+  Firmware/lockcb035741/raw pair/UI/WiFi/imagea3f1d04b unchanged. No flash,
+  hardware,job restart/limits/checkpoint changes or subagents. Full goal active.
+
+- Final audit supersedes prior live status:old q2 service failed oom-kill,
+  OOMPolicy stop/main SIGTERM,7589953536-byte memory peak/journal1.6G swap peak.
+  All old replay/controller/guard PIDs absent/FLOCK gone,no final verdict.
+  Both logs pass tail2/reach command31;inode-prefix-0 and all outputs retained.
+  Exact victim/allocation cause unavailable;not a firmware assertion/pass.
+  Profile/budget RAM and controlled full-scope replay before restart;no smaller
+  geometry,limits or coverage. RRO134-frame tests remain separate completed scopes.
 
 ## 2026-10-22 - Checked-IRQ Offline Image And Protected Copies
 

@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Complete RRO Caller Lifetime Characterization
+
+Actual complete selected callers/sender/dispatcher/raw framing and kernel
+managed bookkeeping pass1021 full-geometry characterization cases. Framework,
+DMA/devres,locks/RCU and MCU boundaries are models. Provider dma_dev identity
+matters:consumer cleanup leaves provider allocations. Higher publication/frame
+errors and worker NPU/MCU errors are ignored by current callers.
+
+Same134 C-generated frames reproduce exact stock effects and separately current
+checked denials in synthetic memory;current API24 entry is a checked hook,not
+stock. No retained RRO implementation or physical UAF/drain proof. Read the
+2026-10-23 RRO lifetime REPORT.md/EVIDENCE.json and explicit requirements.
+Next retained extents/identity/order/handoff/error/late/reset/drain/retirement,
+then full current callers/physical acceptance. Source lockcb035741 and offline
+imagea3f1d04b unchanged. No hardware/flash,job restart/limit change or subagents.
+
+Final audit:old q2 service failed oom-kill;all old PIDs/guard gone,no verdict.
+Both prefixes pass tail2/reach command31 and retain inode-prefix-0. This
+supersedes earlier live notes. Preserve all evidence;profile/budget RAM before
+controlled full-scope replay,not blind restart or smaller fixtures.
+
 ## 2026-10-22 - Current Checked-IRQ Image Passed Offline
 
 Supersedes older new-image-pending entries. Actual native-c2 q6 world and

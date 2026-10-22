@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Retained RRO Implementation Next
+
+The whole selected RRO init/free/work/higher-init/unregister and actual
+sender/dispatcher/raw framing now pass1021 characterization cases with actual
+kernel dmam bookkeeping and modeled framework/DMA/devres. Same134 captured
+frames reproduce stock byte effects and current checked denials separately.
+Current API24 entry is patched;stock effects do not qualify current admission.
+
+Implement provider/endpoint-bound full128-block/session retained extents,
+identity/generation/order,atomic/process handoff,higher errors,partial/ambiguous
+publication and late completion,reset/IRQ/DMA drain and retirement together.
+dma_dev belongs to the provider;consumer-devres cleanup or early returns alone
+are insufficient. Read the new RRO lifetime REPORT.md/EVIDENCE.json and
+firmware/npu/RRO_LIFETIME_REQUIREMENTS.md. No production/lock/image change.
+All56 build-tool units pass;full cold/hot/whole-stack/physical/client gates
+and the unchanged original caller verdicts remain open. Full goal stays active.
+
+Original q2 service is now oom-kill failed,all old PIDs/guard absent;do not call
+it live. Both logs pass tail2/reach command31 and retain inode-prefix-0,no final
+verdict. Preserve diagnostics/prefixes;profile RAM requirements and controlled
+nonconcurrent full-scope replay without lowering sizes/limits/coverage.
+
 ## 2026-10-22 - Fresh Checked-IRQ Image Gate Closed Offline
 
 q6 full world,prepared-source/FIT/package/ABI/symbol audits and preservation
