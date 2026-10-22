@@ -1,8 +1,22 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (lossless observer journal and exact bounded A/B;full caller recovery and retained RRO/NPU/physical acceptance open)
+Last updated: 2026-10-23 (current sticky-IRQ sender/linkage preflight;controlled full caller recovery and retained RRO/NPU/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Current Caller Recovery Preflight
+
+- Updated selected sender uses actual IRQ error accessor/state/enum and tests
+  four sticky failures before provider acquisition. Locks/framework are models;
+  actual sender sanitizers pass. No complete driver/physical IRQ proof.
+- Current C linkage has a separate compile-only receipt with88 exact inputs,
+  native_executed:false and no passed flag. Sender562a8113/preflightf02dc8c1;
+  all50 focused and80 build/storage units pass,zero skips.
+- Next clean current-source freeze,one complete nominal profile with lossless
+  journal/4GiB/no-new-swap/fresh backing budgets and unchanged native guards/
+  geometry/checkpoints/limits. HIF2 separate;old failed jobs/outputs retained.
+  Full RRO/hot/drain/physical scope open. Read caller-recovery checkpoint.
+  Firmware/lockcb035741/raw/imagea3f1d04b unchanged;no flash/subagents.
 
 ## 2026-10-23 - Replay Observer Memory Repair
 

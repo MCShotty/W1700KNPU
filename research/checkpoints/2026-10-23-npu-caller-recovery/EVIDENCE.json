@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "scope": "current-sender-and-linkage-preflight-not-full-native",
+  "source_commit_before_work": "cd6ddae94dae525830b29576ffa22f6f07c9a78c",
+  "observed_unix_ns": 1792713442885042820,
+  "sender_receipt_sha256": "562a8113d41b2ad2949fe3961f1fd5e1067eef9a661e2b8e44967c84980f6a4e",
+  "link_receipt_sha256": "f02dc8c178c79db1b5ddcf95a848911539ec76e930c4f54dfe4b931edf646265",
+  "sticky_irq_error_cases": 4,
+  "linkage_inputs": 88,
+  "focused_units": 50,
+  "build_storage_units": 80,
+  "skipped": 0,
+  "old_capsule_files_rehashed": 2473,
+  "interrupted_output_files_rehashed": 624,
+  "old_service_terminal": "ActiveState=failed\nMainPID=0\nResult=oom-kill\nMemoryPeak=7589953536\n",
+  "old_jobs_restarted": false,
+  "protected_project_copies_rehashed": 6,
+  "protected_external_copies_rehashed": 1,
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "native_replay_started": false,
+  "full_native_caller_verdict": false,
+  "firmware_raw_pair_image_changed": false,
+  "cleanup_deleted_files": 0,
+  "hardware": false,
+  "subagents": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "preflight_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 1.0,
+          "contradicted": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "sticky_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.72,
+        "probabilities": {
+          "supported": 0.81,
+          "contradicted": 0.05,
+          "not_established": 0.14
+        }
+      },
+      "full_npu": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.67,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.78,
+          "not_established": 0.22
+        }
+      },
+      "controller_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.56,
+        "probabilities": {
+          "supported": 0.71,
+          "contradicted": 0.05,
+          "not_established": 0.24
+        }
+      },
+      "all_memory": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.73,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.18,
+          "not_established": 0.82
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 5611,
+      "output_tokens": 228
+    }
+  },
+  "prior_self_log_manifest_not_authoritative": ".local/npu-caller-recovery-20261023/preflight-scope-q1.json",
+  "private_scope": ".local/npu-caller-recovery-20261023/preflight-scope-q2.json",
+  "private_scope_sha256": "825120599355322083f10d850c0d729093157903b1c25e4baeb7219d592057ce",
+  "indexed_project_paths": 3219,
+  "indexed_external_paths": 1
+}

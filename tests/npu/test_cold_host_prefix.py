@@ -28,14 +28,13 @@ typedef uint64_t u64;
 typedef uint64_t phys_addr_t;
 typedef uint64_t dma_addr_t;
 typedef int gfp_t;
+typedef struct { bool held; } spinlock_t;
 #define GFP_KERNEL 0
 #define dev_warn(...) ((void)0)
 #define dev_info(...) ((void)0)
 #define IS_ERR(p) ((uintptr_t)(p) > UINTPTR_MAX - 4095)
 #define PTR_ERR(p) ((int)(intptr_t)(p))
 #define ERR_PTR(e) ((void *)(intptr_t)(e))
-#define MT76_HWRRO_V3 3
-#define MT76_HWRRO_V3_1 4
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #define BUILD_BUG_ON(c) _Static_assert(!(c), "array contract")
 '''
@@ -47,7 +46,8 @@ struct airoha_npu { void *dev; };
 struct airoha_ppe_dev { unsigned unused; };
 struct mt76_dev {
     struct { struct airoha_npu *npu; struct airoha_ppe_dev *ppe_dev;
-             phys_addr_t phy_addr; int npu_type; } mmio;
+             phys_addr_t phy_addr; int npu_type; spinlock_t irq_lock;
+             struct mt76_npu_irq npu_irq; } mmio;
     void *dev, *dma_dev;
     int mutex, hwrro_mode, rx_token_size;
     u32 token_start;
@@ -64,6 +64,10 @@ static unsigned events[16], event_count, fault_stage, command_count;
 static int (*peer)(unsigned, unsigned, unsigned);
 static int (*peer4)(unsigned, unsigned, unsigned, u32 *);
 static void event(unsigned id) { assert(event_count < 16); events[event_count++] = id; }
+static unsigned long irq_lock_take(spinlock_t *lock) { assert(!lock->held); lock->held = true; return 0; }
+static void irq_lock_drop(spinlock_t *lock, unsigned long flags) { assert(lock->held && !flags); lock->held = false; }
+#define spin_lock_irqsave(lock,flags) do { (flags) = irq_lock_take(lock); } while (0)
+#define spin_unlock_irqrestore(lock,flags) irq_lock_drop(lock,flags)
 static bool is_mt7996(struct mt76_dev *dev) { return true; }
 static int mt7992_npu_txrx_offload_init(struct mt7996_dev *d, struct airoha_npu *p) { assert(false); return -EINVAL; }
 static void mutex_lock(int *lock) { assert(!*lock); *lock = 1; event(1); }
@@ -195,6 +199,15 @@ int main(void) {
     const unsigned nominal[] = {1, 2, 3, 4, 5, 6, 6, 7, 8};
     const unsigned fail_init[] = {1, 2, 3, 4, 9, 10, 8};
     const unsigned fail_bind[] = {1, 2, 3, 4, 5, 9, 10, 8};
+    const int sticky_errors[] = {-EIO, -ETIMEDOUT, -ESHUTDOWN, -ENODEV};
+    for (unsigned i = 0; i < ARRAY_SIZE(sticky_errors); i++) {
+        struct mt76_dev dev = {0};
+        dev.mmio.npu_irq.error = sticky_errors[i];
+        event_count = 0; fault_stage = 0;
+        assert(mt76_npu_init(&dev, 0x20000000, 0x100000, 2) == sticky_errors[i]);
+        assert(event_count == 2 && events[0] == 1 && events[1] == 8);
+        assert(!dev.mutex && !dev.mmio.irq_lock.held && !dev.mmio.npu && !dev.mmio.ppe_dev && !dev.dma_dev);
+    }
     for (unsigned stage = 0; stage < 3; stage++) {
         struct mt76_dev dev = {0};
         event_count = 0; fault_stage = stage ? stage + 3 : 0;
@@ -252,10 +265,13 @@ def main():
     common = text['mt76.h']
     program = [MODEL, q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_set_cmd')]
     program += [q.declaration(header.read_text(), 'enum', 'airoha_npu_wlan_get_cmd')]
-    program += [q.declaration(common, 'enum', name) for name in ('mt76_mcuq_id', 'mt76_rxq_id', 'mt76_band_id')]
+    program += [q.declaration(common, 'enum', name) for name in
+                ('mt76_mcuq_id', 'mt76_rxq_id', 'mt76_band_id', 'mt76_hwrro_mode')]
+    program += [q.declaration(common, 'struct', 'mt76_npu_irq')]
     program += [text['mt7996/regs.h']]
     program += [q.macro(text['mt7996/mt7996.h'], name) for name in ('MT7996_RX_RING_SIZE', 'MT7996_NPU_RX_RING_SIZE', 'MT7996_HW_TOKEN_SIZE', 'MT7996_RX_MCU_RING_SIZE')]
-    program += [STRUCTS, q.function(common, 'mt76_npu_send_msg'),
+    program += [STRUCTS, q.function(text['npu.c'], 'mt76_npu_irq_error'),
+                q.function(common, 'mt76_npu_send_msg'),
                 q.function(common, 'mt76_npu_get_msg'),
                 q.function(text['npu.c'], 'mt76_npu_init'),
                 q.function(text['mt7996/npu.c'], 'mt7996_npu_txrx_offload_init'),
@@ -285,6 +301,7 @@ def main():
     result = dict(passed=True, publication_cases=3, prefix=prefix, unsupported_next=None, completed_offload=True,
                   rx_getter_failure_cases=7,
                   pcie_tail_sender_cases=12,
+                  sticky_irq_error_cases=4, actual_sticky_irq_error_accessor=True,
                   inputs=inputs, shared=str(shared.relative_to(ROOT)), shared_sha256=loader.sha(shared),
                   binary_sha256=loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual mt76 initialization and complete mt7996 offload sender C; kernel references/RCU and queue state modeled.',

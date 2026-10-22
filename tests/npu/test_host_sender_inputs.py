@@ -1,5 +1,6 @@
 """Synthetic sender identity checks; no shared library is executed."""
 import hashlib
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -50,6 +51,49 @@ class HostSenderInputTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, 'receipt-not-passed'):
                 caller.checked_host_sender(self.receipt)
         digest.assert_not_called()
+
+
+class CompilePreflightTests(unittest.TestCase):
+    def setUp(self):
+        HostSenderInputTests.setUp(self)
+
+    def preflight(self):
+        with patch.object(caller.parent, 'ROOT', self.root):
+            return caller.record_compile_preflight(self.asset.parent, self.asset,
+                {'.local/sender.so': self.receipt['shared_sha256']})
+
+    def test_compile_receipt_is_not_a_native_result(self):
+        result = self.preflight()
+        self.assertTrue(result['compiled'])
+        self.assertFalse(result['native_executed'])
+        self.assertFalse(result['full_native_caller_verdict'])
+        self.assertFalse(result['hardware'])
+        self.assertNotIn('passed', result)
+        self.assertFalse((self.asset.parent / 'result.json').exists())
+        self.assertEqual(json.loads((self.asset.parent / 'compile-preflight.json').read_bytes()), result)
+
+    def test_compile_receipt_rejects_changed_input(self):
+        self.asset.write_bytes(b'changed-after-linkage')
+        with self.assertRaises(AssertionError):
+            self.preflight()
+        self.assertFalse((self.asset.parent / 'compile-preflight.json').exists())
+
+    def test_compile_receipt_rechecks_nonsender_source(self):
+        source = self.root / 'provider.c'
+        source.write_bytes(b'changed')
+        with patch.object(caller.parent, 'ROOT', self.root):
+            with self.assertRaises(AssertionError):
+                caller.record_compile_preflight(self.asset.parent, self.asset,
+                    {'.local/sender.so': self.receipt['shared_sha256'],
+                     'provider.c': hashlib.sha256(b'original').hexdigest()})
+        self.assertFalse((self.asset.parent / 'compile-preflight.json').exists())
+
+    def test_compile_receipt_cannot_overwrite_previous_observation(self):
+        self.preflight()
+        original = (self.asset.parent / 'compile-preflight.json').read_bytes()
+        with self.assertRaises(FileExistsError):
+            self.preflight()
+        self.assertEqual((self.asset.parent / 'compile-preflight.json').read_bytes(), original)
 
 
 if __name__ == '__main__':

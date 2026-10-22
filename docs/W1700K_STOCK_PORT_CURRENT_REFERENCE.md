@@ -1,5 +1,17 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Current Sender And Caller Linkage Preflight
+
+Actual sticky IRQ accessor/state/enum now compile in the selected sender
+fixture;four early errors prevent provider acquisition. Sanitizers pass.
+Separate compile-preflight.json records current C linkage/88 inputs,not native
+success. All50 focused and80 build/storage units pass,zero skips.
+
+Next freeze clean current sources with genuine module90abc8f3 and sender562a8113,
+then one full nominal profile under4GiB/no-new-swap with fresh backing budgets.
+HIF2 is a separate pending scope. Old OOM jobs are terminal and preserved.
+Full RRO/cold/hot/drain/physical goal open;lock/image unchanged. Read new report.
+
 ## 2026-10-23 - Lossless Replay Observer Storage
 
 Explicit event-journal option preserves every logical record using SQLite

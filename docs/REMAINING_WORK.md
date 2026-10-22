@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Freeze And Run Current Caller
+
+Current sticky-IRQ sender and C linkage preflights pass;50 focused and80
+build/storage units pass. The compile-only receipt explicitly excludes native
+execution. Read caller-recovery REPORT.md/EVIDENCE.json. Freeze clean source
+with current module90abc8f3/sender562a8113,then run one complete default nominal
+profile with lossless observer and4GiB/no-new-swap,fresh Windows backing/guest
+budgets and original full geometry/checkpoints/3M/60M-us limits. No success yet.
+
+HIF2 requires its own fresh budget/launch after default is terminal. Full fault
+matrices,retained RRO identity/order/handoff/errors/late/reset/drain/retirement,
+hot ownership,whole-stack and physical/client acceptance remain. Old OOM jobs
+and evidence stay untouched. Firmware/lockcb035741/imagea3f1d04b unchanged.
+
 ## 2026-10-23 - Observer-Integrated Full Replay Recovery Next
 
 Lossless event-journal option addresses measured checkpoint-list RAM growth;

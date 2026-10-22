@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Current Caller Recovery Preflight
+
+- Current sender compiles the actual sticky IRQ accessor/state/enum and passes
+  four pre-existing error cases before provider acquisition,plus existing
+  sanitizer controls. Explicit spinlock/framework boundaries remain models.
+- New --compile-only writes a separate compile-preflight.json,not result.json
+  or passed:true. Current C linkage/88 input identities pass;50 focused units
+  and80 build/storage units pass,zero skips. No full native verdict yet.
+- Read caller-recovery REPORT.md/EVIDENCE.json. Next clean current-source
+  capsule with genuine90abc8f3 module producer/new sender562a8113,then one
+  complete default profile under4GiB/no-new-swap and fresh backing budgets.
+  HIF2 needs a separate fresh launch;old OOM jobs/evidence remain unchanged.
+  Firmware/lockcb035741/imagea3f1d04b unchanged;full NPU/RRO/physical scope open.
+
 ## 2026-10-23 - Lossless Observer Memory Repair
 
 - Read the observer-memory REPORT.md/EVIDENCE.json. Final50k-event A/B preserves

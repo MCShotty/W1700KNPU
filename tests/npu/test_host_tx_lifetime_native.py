@@ -22,6 +22,19 @@ def checked_host_sender(receipt):
     return path, {str(path.relative_to(parent.ROOT)): expected}
 
 
+def record_compile_preflight(destination, shared, inputs):
+    root = parent.ROOT
+    assert shared.resolve().is_relative_to(root / '.local')
+    assert inputs[str(shared.relative_to(root))] == parent.loader.sha(shared)
+    assert all(parent.loader.sha(root / path) == digest for path, digest in inputs.items())
+    preflight = dict(compiled=True, scope='current-C-linkage-and-sender-identity-only',
+        native_executed=False, full_native_caller_verdict=False, hardware=False,
+        shared=str(shared.relative_to(root)), shared_sha256=parent.loader.sha(shared), inputs=inputs)
+    with (destination / 'compile-preflight.json').open('x') as stream:
+        stream.write(json.dumps(preflight, indent=2) + '\n')
+    return preflight
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--source',type=Path,required=True)
@@ -38,6 +51,8 @@ def main():
     parser.add_argument('--hif2',action='store_true')
     parser.add_argument('--event-journal', action='store_true',
                         help='Lossless disk-backed observer events; native limits/checkpoints remain unchanged')
+    parser.add_argument('--compile-only', action='store_true',
+                        help='Verify current C linkage and sender inputs without executing the native peer')
     args=parser.parse_args()
     assert not args.desc10 or args.rx_event
     assert not args.pcie_tail or args.desc10
@@ -129,6 +144,10 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     inputs |= sender_inputs
     inputs |= {str(path.relative_to(root)): parent.loader.sha(path)
                for path in destination.rglob('*') if path.is_file() and path.suffix in ('.c', '.h', '.inc', '.so')}
+    if args.compile_only:
+        record_compile_preflight(destination, shared, inputs)
+        print(json.dumps(dict(compiled=True, native_executed=False, full_native_caller_verdict=False)), flush=True)
+        return
     original_cdll=ctypes.CDLL
     observed=[]
 

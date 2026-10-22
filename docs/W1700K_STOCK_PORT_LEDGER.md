@@ -1,10 +1,28 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (lossless observer memory repair and exact bounded A/B;full caller recovery,retained RRO and NPU/physical acceptance pending)
+Last updated: 2026-10-23 (current sticky-IRQ sender/linkage preflight;controlled full caller recovery,retained RRO and NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Current Caller Recovery Preflight Passed
+
+- Selected sender compiles actual mt76_npu_irq_error,actual state/enum and a
+  checked lock model. Four sticky errors return before acquiring providers;
+  existing publication/getter/tail sanitizer cases still pass. Not physical IRQ.
+- New compile-only gate records compiled:true/native_executed:false separately,
+  no native result/passed flag. Current linkage/88 exact input paths pass.
+  Sender562a8113/preflightf02dc8c1 bind actual artifacts. All50 focused and80
+  build/storage units pass,zero skips;negative hash/overwrite controls included.
+- Prepare clean frozen current inputs using genuine module90abc8f3,old literal
+  raw/publication artifacts and new sender. Planned read-only reuse is storage
+  sharing,not independent backups or fresh loader execution. No native start
+  at this preflight checkpoint. One profile/4GiB/no-new-swap/fresh backing
+  budgets;original geometry/guards/checkpoints/limits remain. HIF2 separate.
+- Read caller-recovery REPORT.md/EVIDENCE.json. Old OOM evidence and protected
+  images retained. No production/lockcb035741/raw/UI/WiFi/imagea3f1d04b change,
+  hardware/flash or subagents. Full retained RRO/NPU/physical objective active.
 
 ## 2026-10-23 - Lossless Observer Journal Implemented
 
