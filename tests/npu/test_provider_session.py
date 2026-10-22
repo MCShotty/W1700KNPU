@@ -67,7 +67,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 cold_failure=False, page_failure=False, indication_failure=False, tx_failure=False,
                 token_failure=False, descriptor_failure=False, descriptor_fault_selector=5, host_sender=None, hif2=False,
                 txbuffer_enrollment=False, rx_event=False, desc10=False, pcie_tail=False, inode=False, nominal_only=False,
-                producer_inputs=None):
+                producer_inputs=None, event_journal=None):
     import test_npu_raw_pair as raw
     from test_provider_plan_native import ProviderRequest
     from test_bootstrap_native import BOOT, ADM
@@ -84,6 +84,7 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
 
     assert not pcie_tail or (desc10 and rx_event and cold_commands and host_sender)
     assert inode == pcie_tail, 'current-tail-sender-requires-explicit-INODE-qualification'
+    assert event_journal is None or cold_commands, 'event-journal-requires-cold-observer'
 
     native_dependencies = [Path(__file__), ROOT / 'tests/npu/cold_wire_native.py',
         ROOT / 'tests/npu/indication_native_controls.py', ROOT / 'tests/npu/tx_native_controls.py',
@@ -98,6 +99,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
         ROOT / 'tests/npu/test_cold_tx_buffer.py']
     if host_sender is not None:
         native_dependencies.append(Path(host_sender).resolve())
+    if event_journal is not None:
+        native_dependencies.append(ROOT / 'tests/npu/native_event_journal.py')
     native_inputs = {str(path.relative_to(ROOT)): loader.sha(path) for path in native_dependencies}
     native_inputs |= native_bootstrap_inputs()
     analysis_inputs = {}
@@ -112,7 +115,10 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     if cold_commands:
         from cold_wire_native import ColdProviderRequest
         factory = ColdProviderRequest
-    h, _, _, manifest = raw.load(pair, factory=partial(factory, request=request), published=(code, data))
+    factory_arguments = dict(request=request)
+    if event_journal is not None:
+        factory_arguments['event_journal'] = event_journal
+    h, _, _, manifest = raw.load(pair, factory=partial(factory, **factory_arguments), published=(code, data))
     native_inputs |= restore_native_prefix.pair_artifact_inputs(pair, manifest)
     if producer_inputs:
         for name, expected in producer_inputs.items():
@@ -211,6 +217,8 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
                 if reply['flags'] == 7 and reply['words'][14] == 0:
                     trace.validate()
                     saved['validated'] = True
+            if event_journal is not None:
+                event_journal.finish()
             frames.append(dict(request=words, reply=reply))
             if reply['flags'] != 7:
                 return -22
@@ -761,12 +769,16 @@ def native_peer(binary, pair, publication, *, wrong_identity=False, cold_command
     lib.npu_test_close()
     assert lib.npu_test_run() == (expected if expected else -71 if cold_failure or page_failure or indication_failure or tx_failure or token_failure or descriptor_failure else -108) and lib.npu_test_calls() == old_calls
     assert all(loader.sha(ROOT / path) == digest for path, digest in native_inputs.items())
+    journal_record = event_journal.finish() if event_journal is not None else None
+    if journal_record is not None:
+        analysis_inputs[str(event_journal.path.relative_to(ROOT))] = journal_record['sha256']
     return dict(passed=True, wrong_identity=wrong_identity, cold_failure=cold_failure, page_failure=page_failure,
                 indication_failure=indication_failure,
                 tx_failure=tx_failure, token_failure=token_failure, descriptor_failure=descriptor_failure,
                 descriptor_fault_selector=descriptor_fault_selector if descriptor_failure else None, hif2=hif2,
                 pcie_tail_requested=pcie_tail,
                 inode_requested=inode,
+                observer_event_journal=journal_record,
                 result=result, frames=frames, cold=cold,
                 workers=workers, strict_denials=strict, initial_held=True,
                 actual_c_linux_setup=True, actual_c_publication_readback=True,

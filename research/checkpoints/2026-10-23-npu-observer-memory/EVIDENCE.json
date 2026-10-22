@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "scope": "lossless-observer-option-units-and-bounded-restored-prefix-AB-not-full-caller-recovery",
+  "source_commit_before_work": "60c523a024f35a15f29cac65622ffa6daa05f3e6",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "observer_units": 50,
+  "build_tool_units": 56,
+  "skipped": 0,
+  "logical_AB_events": 50000,
+  "exact_logical_event_redecode": true,
+  "all_mapped_memory_equal": true,
+  "complete_CPU_architecture_payload_equal": true,
+  "raw_context_header_pointer_difference_explained": true,
+  "raw_contexts_or_strict_restore_checks_rewritten": false,
+  "baseline_rss_kib": 88512,
+  "journal_rss_kib": 76156,
+  "journal": {
+    "format": "npu-native-event-journal-v1",
+    "file": "/mnt/wsl/w1700k-build-native-c2-20261021/inode-memory-profile-q7/events.sqlite",
+    "bytes": 32768,
+    "sha256": "57f0e8bd0af92d3e727df02c40fdfcddfa2e4e029a204e1740f5bd4b49d015da",
+    "streams": {
+      "events": {
+        "events": 50000,
+        "runs": 26
+      },
+      "mmio": {
+        "events": 23,
+        "runs": 23
+      }
+    },
+    "lossless": true,
+    "lazy_slices": true,
+    "guest_writes": false
+  },
+  "native_limits_geometry_guards_checkpoint_coverage_changed": false,
+  "native_original_INODE_stores_at_cut": 0,
+  "diagnostic_RAM_cap_bytes": 805306368,
+  "diagnostic_swap_cap_bytes": 0,
+  "old_capsule_files_rehashed": 2473,
+  "old_capsule_sha256": "941716f099e7d4fcfe1758c7487b44ba2290dc58f2bab598e87672cafdc90052",
+  "interrupted_output_files_rehashed": 624,
+  "original_service_oom_failed": true,
+  "original_service_state": "ActiveState=failed\nResult=oom-kill\nMemoryPeak=7589953536\n",
+  "original_jobs_restarted": false,
+  "full_native_caller_verdict": false,
+  "all_historical_OOM_causes_fixed": false,
+  "fresh_loader_allocator_caller_proof": false,
+  "source_lock_firmware_raw_pair_changed": false,
+  "current_offline_image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "protected_project_image_copies_rehashed": 6,
+  "protected_external_image_copies_rehashed": 1,
+  "image_built": false,
+  "image_flashed": false,
+  "hardware": false,
+  "subagents": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "scope_summary": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "full_replay_claim": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "all_OOM_causes_fixed": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "defaults": {
+        "type": "noul",
+        "noul": 0.56
+      },
+      "raw_context_waiver": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 933,
+      "output_tokens": 127
+    }
+  },
+  "observed_unix_ns": 1792712364162359241,
+  "private_scope": ".local/npu-inode-memory-20261023/scope-q1.json",
+  "private_scope_sha256": "393b4c94bf6e8c9165bc64eea07d9465062f1be2243056c91963a5b98927b883",
+  "indexed_project_paths": 3179,
+  "indexed_external_paths": 1
+}

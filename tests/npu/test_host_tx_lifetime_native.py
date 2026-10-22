@@ -36,6 +36,8 @@ def main():
     parser.add_argument('--pcie-tail',action='store_true')
     parser.add_argument('--inode',action='store_true')
     parser.add_argument('--hif2',action='store_true')
+    parser.add_argument('--event-journal', action='store_true',
+                        help='Lossless disk-backed observer events; native limits/checkpoints remain unchanged')
     args=parser.parse_args()
     assert not args.desc10 or args.rx_event
     assert not args.pcie_tail or args.desc10
@@ -149,6 +151,12 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
         def __getattr__(self,key):return self.endpoint if key=='npu_test_endpoint' else getattr(self.library,key)
 
     loaded=[]
+    journal = None
+    if args.event_journal:
+        from native_event_journal import EventJournal
+        journal = EventJournal(destination / 'native-events.sqlite')
+        path = root / 'tests/npu/native_event_journal.py'
+        inputs[str(path.relative_to(root))] = parent.loader.sha(path)
     def load(path,*values,**options):
         library=original_cdll(path,*values,**options)
         if path is not None and Path(path).resolve()==shared:
@@ -159,10 +167,11 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
         native=parent.native_peer(shared,args.pair.resolve(),args.publication.resolve(),cold_commands=True,
                                   host_sender=host_sender,txbuffer_enrollment=True,rx_event=args.rx_event,
                                   desc10=args.desc10,pcie_tail=args.pcie_tail,inode=args.inode,hif2=args.hif2,
-                                  nominal_only=args.nominal_only,producer_inputs=inputs)
+                                  nominal_only=args.nominal_only,producer_inputs=inputs,event_journal=journal)
     finally:
         ctypes.CDLL=original_cdll
         for library in loaded:library.npu_test_dispose_tx_fixture()
+        if journal is not None: journal.close()
     assert native['passed'] and observed==[dict(allocations=6,published=True)]
     inputs |= native['inputs']
     for path in (shared,args.host_receipt.resolve()):inputs[str(path.relative_to(root))]=parent.loader.sha(path)

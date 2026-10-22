@@ -1,8 +1,22 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (complete RRO caller/bookkeeping fixtures and stock/current binary scopes pass;retained RRO and full NPU/physical acceptance open)
+Last updated: 2026-10-23 (lossless observer journal and exact bounded A/B;full caller recovery and retained RRO/NPU/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Replay Observer Memory Repair
+
+- Explicit lossless journal replaces unbounded checkpoint dictionaries only
+  when selected. Exact JSON/step runs,lazy reads,bounded SQLite cache and
+  fail-closed storage preserve records. Default observer unchanged.
+- Final50k A/B matches event digest/all memory/49 registers/complete CPU
+  payload. Raw header-only host pointer difference is compiled/explained,not
+  a restoration waiver. RSS88512->76156KiB at cut,not whole-run peak proof.
+- All50 observer and56 build-tool units pass. Old original q2 service remains
+  OOM-terminal;no fresh full verdict or restart. Next frozen current caller,
+  RAM/backing budget and complete nonconcurrent replays,then retained RRO and
+  full NPU/physical scope. Source-lock/raw pair/image unchanged;no subagents.
+  Read observer-memory REPORT.md/EVIDENCE.json for identities and limitations.
 
 ## 2026-10-23 - Whole RRO Caller Lifetime Characterized
 

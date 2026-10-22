@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Lossless Observer Memory Repair
+
+- Read the observer-memory REPORT.md/EVIDENCE.json. Final50k-event A/B preserves
+  exact decoded events,all mapped memory/architectural registers/complete CPU
+  payload. Only raw context's compiled host last_block field differs;no old
+  context/source identity check is waived. Native limits/checkpoints unchanged.
+- Explicit --event-journal stores lossless exact-step runs in bounded-cache
+  SQLite with lazy reads and fail-closed storage. Defaults remain lists. All50
+  observer and56 build-tool units pass. Not a full cold/caller/native verdict.
+- Old original service remains OOM-terminal,not restarted. Next freeze current
+  caller/observer and budget RAM/storage for nonconcurrent full-scope replays,
+  then retained RRO/full cold/hot/lifecycle/drain/physical acceptance. Firmware/
+  lockcb035741/imagea3f1d04b unchanged;no flash/global changes/subagents.
+
 ## 2026-10-23 - Whole RRO Callers And Binary Scope Characterized
 
 - Read the new RRO lifetime checkpoint REPORT.md/EVIDENCE.json and

@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Replay Memory Growth Addressed Losslessly
+
+The caller runner now offers a lossless event journal instead of retaining
+every checkpoint pause as a separate dictionary. A50,000-event prefix A/B
+preserves exact events,mapped memory and CPU state while reducing RSS from
+88,512 to76,156KiB. All50 observer and56 build-tool tests pass.
+
+This is replay-tooling progress,not completed NPU/RRO or a full caller verdict.
+The old OOM-failed replays remain stopped;controlled full-scope recovery is next.
+See the [observer-memory checkpoint](research/checkpoints/2026-10-23-npu-observer-memory/REPORT.md).
+
 ## 2026-10-23 - RRO Lifetime Gap Characterized End To End In Fixtures
 
 Complete selected RRO callers and actual mailbox framing now pass1,021

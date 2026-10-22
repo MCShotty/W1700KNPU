@@ -1,10 +1,30 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (complete RRO caller/bookkeeping characterization and stock/current binary scopes;retained RRO and full NPU/physical acceptance pending)
+Last updated: 2026-10-23 (lossless observer memory repair and exact bounded A/B;full caller recovery,retained RRO and NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Lossless Observer Journal Implemented
+
+- New capped restored-prefix diagnostic measures50k retained dictionaries,
+  49975 checkpoint pauses. This supports observer RAM growth,not exclusive
+  attribution of the old OOM. Old service/caller/guard remain terminal.
+- Explicit --event-journal preserves every record in exact-step SQLite runs,
+  with bounded cache,lazy slices,integrity checks and poisoned storage errors.
+  Default lists remain. No original guest guard/checkpoint/limit is removed.
+- Final baselineq5/journalq7 A/B matches50k event digest/all mapped memory/49
+  registers/entire928-byte architecture payload. Raw context mismatch is only
+  compiled8-byte host last_block at24;data starts40. No stored context or strict
+  restoration check changed. RSS88512->76156KiB at cut;26 runs/32768-byte DB.
+- All50 observer/factory/oracle/prefix units and56 build-tool units pass,zero
+  skips. Million-event exact reconstruction,corruption/gaps,exclusive paths and
+  storage-full failures covered. Not full native/cold/caller or physical proof.
+- Read observer-memory REPORT.md/EVIDENCE.json. Next current frozen caller,
+  RAM/backing budget and nonconcurrent complete scopes,then retained RRO and
+  full cold/hot/drain/whole-stack/physical/client work. Firmware/lockcb035741/
+  raw pair/UI/WiFi/imagea3f1d04b unchanged;no restart/flash/global/subagents.
 
 ## 2026-10-23 - Whole RRO Caller And Managed-Lifetime Evidence
 

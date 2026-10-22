@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Lossless Replay Observer Storage
+
+Explicit event-journal option preserves every logical record using SQLite
+exact-step runs/lazy reads,not sampling. Final50k A/B matches events/all mapped
+memory/49 registers/complete CPU payload. Only the raw context header's compiled
+host RAMBlock pointer differs;raw contexts/strict restore checks unchanged.
+RSS88512->76156KiB at cut;50 observer/56 build-tool units pass. Not a complete
+native caller verdict or universal peak-memory bound. Read new observer report.
+
+Old service remains OOM-terminal,not restarted. Freeze/budget current full
+caller RAM/storage for nonconcurrent replay,then retained RRO/full cold/hot/
+lifecycle/drain/physical acceptance. Firmware/lockcb035741/imagea3f1d04b unchanged.
+
 ## 2026-10-23 - Complete RRO Caller Lifetime Characterization
 
 Actual complete selected callers/sender/dispatcher/raw framing and kernel

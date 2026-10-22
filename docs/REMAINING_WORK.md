@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Observer-Integrated Full Replay Recovery Next
+
+Lossless event-journal option addresses measured checkpoint-list RAM growth;
+final50k-event A/B preserves events/all memory/CPU payload. All50 observer and
+56 build-tool units pass. The historical OOM's sole precise cause is not proven.
+Read observer-memory REPORT.md/EVIDENCE.json. No fresh full-caller verdict.
+
+Freeze the current caller/observer,validate RAM plus actual backing storage,
+then complete default/HIF2 replays nonconcurrently with unchanged full sizes,
+native guards/checkpoints/limits and fault coverage. Old q2 jobs remain terminal,
+not restarted. Retained RRO identity/order/handoff/errors/late/reset/drain/
+retirement,full cold/hot/whole-stack/physical/client gates still remain.
+Firmware/lockcb035741/raw pair/imagea3f1d04b unchanged;full objective active.
+
 ## 2026-10-23 - Retained RRO Implementation Next
 
 The whole selected RRO init/free/work/higher-init/unregister and actual

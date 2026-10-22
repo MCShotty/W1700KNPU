@@ -13,7 +13,7 @@ from npu_csr_sampler import CsrSampler
 
 
 class ColdProviderRequest(ProviderRequest):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, event_journal=None, **kwargs):
         self.cold_request = False
         self.cold_getters = 0
         self.cold_count = 0
@@ -32,6 +32,9 @@ class ColdProviderRequest(ProviderRequest):
         self.descriptor_fault = self.descriptor_injected = False
         super().__init__(*args, **kwargs)
         self.csr_sampler = CsrSampler(self.cpu)
+        if event_journal is not None:
+            for name in ('events', 'mmio', 'csr_events'):
+                setattr(self, name, event_journal.sequence(name, getattr(self, name)))
 
     def message(self, words, **kwargs):
         self.cold_request = len(words) == 20 and words[2] == 0x3253434e
