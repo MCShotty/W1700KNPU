@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-22 - Current Checked-IRQ Image Passed Offline
+
+Supersedes older new-image-pending entries. Actual native-c2 q6 world and
+controller return0,all preservation/source/image gates pass,no new I/O errors.
+Clean1550512/v5 da9cc624 freezes6741 files,6671 shared/70 copied/5154132 new
+payload bytes. Image a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796
+is27013962 bytes,Gemtek W1700K FIT/Linux6.18.52/218 packages/78 module ABIs.
+All75 locked files/22 components,5 kernel/329 mt76 prepared sources,22 RV32
+objects and exact168-hook4e43de6f/a282ca7a pair pass. Packaged checked-IRQ
+definitions/imports match genuine90abc8f3 requirements at lockcb035741.
+
+Original891138 build/4617 cache entries,snapshot and parent namespaces match.
+Actual frozen12f8d226/xino=on overlays verified. System bwrap/global xino remain
+unchanged;old faulty loop is read-only. C archive and independent readonly D
+copy hash-match through Linux and Windows;five earlier images still match.
+WORLD binds433 paths;END rehashes452 plus two external objects. These are
+offline and derivative-integrity results,not module load/boot/hardware proof.
+
+Both older-source original callers pass DESC10/RX-PCIe/tail0/1 and remain live
+with original starts/cgroup/guard FLOCK,no verdict. Full NPU cold/fault/setup,
+hot/RRO/lifecycle/drain/whole-stack/physical/client scope remains. Locked UI/
+WiFi source is preserved,not runtime tested. All56 project/five cleanup units
+pass;upstream FD-input failure remains in both pristine/patched controls.
+No flash,boot,hardware,job restart/pause,limits/checkpoint or subagent changes.
+Read recovery REPORT.md/WORLD.json/END.json;keep all prior failure evidence.
+
 ## 2026-10-21 - Quarantined Loop;Native C And Xino Extraction Pass
 
 q4 uses current two recipes but make exits2 extracting Linux6.18.52;all891138

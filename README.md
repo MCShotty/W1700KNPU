@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-22 - Checked-IRQ Image Passed Offline
+
+The complete current-source image now passes build,source,FIT,package,ABI and
+checked-IRQ symbol audits: Gemtek W1700K, Linux6.18.52,218 packages/78 module
+ABIs. Image `a3f1d04b` is27013962 bytes. Protected copies on C and D match
+independent Windows readback;all original inputs and five older images match.
+The native-storage/per-mount overlay repair passed without new I/O errors.
+
+No router was flashed or booted. Original replays are still pending;full NPU
+hot-path,lifecycle/DMA drain and physical/client acceptance remain open. UI/WiFi
+source is preserved,not runtime validated. All56 project/five cleanup units
+pass;the separate upstream launcher FD-input limitation remains documented.
+See the [qualified-image checkpoint](research/checkpoints/2026-10-21-npu-wsl-recovery/REPORT.md)
+and its WORLD.json/END.json. Built source is1550512;later tracking commits do
+not change the image's recorded source identity.
+
 ## 2026-10-21 - Native Build Storage And Overlay Repair
 
 The corrected-source image attempt stopped during kernel extraction. Its

@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-22 - Fresh Checked-IRQ Image Gate Closed Offline
+
+q6 full world,prepared-source/FIT/package/ABI/symbol audits and preservation
+checks pass. Image a3f1d04b/27013962 bytes is Gemtek W1700K,Linux6.18.52,
+218 packages/78 module ABIs with current checked IRQ and the exact168-hook
+4e43de6f/a282ca7a pair/22 RV32 objects. C and readonly D protected copies
+match independent Windows hashes;all original inputs/five older images match.
+Read recovery REPORT.md/WORLD.json/END.json. No new storage I/O errors.
+
+Next: obtain the unchanged original default/HIF2 caller verdicts (both pass
+DESC10/RX-PCIe/tail0/1,still live,no terminal result),then remaining full cold/
+fault/setup,hot TX/RX/events/token/TXFREE/free-pool/PPE/FastTX,RRO128-block
+context/identity/order,higher error paths,lifecycle/DMA/cache/PMA/exclusion,
+drain/reset/rearm/retirement,whole-stack and physical boot/IRQ/radios/MLO/
+actual-client throughput/stability. Old-source caller passes cannot qualify
+new IRQ behavior. This image has not been flashed or booted;UI/WiFi runtime
+is untested. All56 project/five cleanup units pass,but the broader pristine/
+patched launcher FD-input failure remains. No native limits/checkpoints or
+jobs were changed. Full reverse-engineering/implementation goal stays active.
+
 ## 2026-10-21 - Fresh Image On Validated Native Storage Next
 
 q4 stages current recipes but make exits2 extracting the kernel. Original

@@ -1,8 +1,34 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-21 (loop faults contained/evidence rescued;native C/xino full extraction pass;56+5 units;full image retry pending)
+Last updated: 2026-10-22 (checked-IRQ full offline image/source/ABI/symbol audits pass;C/D protected copies;original/native/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-22 - Qualified Offline Checked-IRQ Image
+
+- Clean1550512/v5 da9cc624 freeze6741 files,6671 shared/70 copied/5154132
+  new payload bytes. Actual native-c2 q6 world/controller pass0 and all
+  original891138 build/4617 cache entries,snapshot/namespaces match afterward.
+  No new I/O errors;explicit frozen launcher/two xino=on overlays verified.
+- Current75 locked files/22 components and postbuild5 kernel/22 component/
+  329 mt76 sources match. Gemtek W1700K FIT/Linux6.18.52/218 packages/78 module
+  ABIs,22 RV32 objects/exact168-hook4e43de6f/a282ca7a pair pass. Packaged mt76
+  checked definitions and mt7996 required checked imports verified.
+- Image a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796,
+  27013962 bytes,has protected C and separate0444/nlink1 D copies. Linux and
+  Windows readback agree;five older images match. Distinct Windows volumes,
+  not established separate physical disks. WORLD binds433 inputs;END rehashes
+  452 paths/two external objects,not a separate execution pass. See report.
+- Long host-time interruption did not change process starts;fresh capacity
+  checks pass. Original default/HIF2 callers remain live at tail2 after
+  DESC10/RX-PCIe/tail0/1,no final verdict. Exact cgroup/guard FLOCK retained;
+  no job pause/restart,VM restart,native-limit/checkpoint or subagent changes.
+- All56 project/five cleanup units pass;broader upstream FD-input failure
+  remains in pristine/patched controls. System bwrap/global xino unchanged;
+  old faulty loop stays read-only. No module load,flash,boot or hardware test.
+  Locked UI/WiFi source preserved,not runtime tested. Full NPU cold/fault/
+  setup/hot/RRO/lifecycle/drain/whole-stack/physical/client goal remains active.
+  Read recovery REPORT.md/WORLD.json/END.json;prior failure receipts remain.
 
 ## 2026-10-21 - Storage Fault Containment And Per-Mount Overlay Repair
 

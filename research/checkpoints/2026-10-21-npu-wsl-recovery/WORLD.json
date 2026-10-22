@@ -1,0 +1,186 @@
+{
+  "passed": true,
+  "scope": "offline-checked-IRQ-FIT-source-package-ABI-symbols-not-physical-acceptance",
+  "source_commit": "15505126f959c6a7da9f800f923818abce4facb4",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "snapshot_sha256": "da9cc62461bd15b9d9d5fd24950405d02036e04d83ea8296016ff2e8c864f29f",
+  "snapshot_files": 6741,
+  "snapshot_bytes": 3121684134,
+  "materialization": {
+    "strategy": "verified-readonly-hardlinks-with-copy-fallback",
+    "shared_readonly_files": 6671,
+    "shared_readonly_bytes": 3116530002,
+    "independently_copied_files": 70,
+    "copied_regular_file_payload_bytes": 5154132,
+    "prior_receipt": ".local/npu-validation-capsules/world-checked-irq-v4/receipt.json",
+    "prior_receipt_sha256": "3b303442e70fef480db7a4fb8a3419c51881e1a0af1862820508cc6ea29d8e82",
+    "prior_file_content_modes_ownership_mtime_unchanged": true,
+    "shared_inode_link_counts_ctime_atime_not_preserved": true
+  },
+  "image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "image_bytes": 27013962,
+  "image_model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "image_compatible": "gemtek,w1700k-ubi airoha,an7581 airoha,en7581",
+  "kernel": "6.18.52~f98de6b195852764a24492a3802e6ef7-r1",
+  "packages": 218,
+  "module_abi_checks": 78,
+  "normal_rv32_objects": 22,
+  "pair_sha256": {
+    "code": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+    "data": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16"
+  },
+  "pair_hooks": 168,
+  "download_cache_staging": {
+    "files_copied": 3774,
+    "manifest_sha256": "369997138f0825d844b4f09f265a45dadf0cef3d522f716ecc87c77ba6727297",
+    "private_dl_replaced_symlink": true,
+    "source_cache_contents_unchanged": true,
+    "copy_mode": "buffered-userspace-with-per-file-hash"
+  },
+  "locked_overlay_staging": {
+    "locked_files_checked": {
+      "openwrt": 70,
+      "luci": 5
+    },
+    "component_sources_checked": 22,
+    "authority_files_checked": 55,
+    "copied": [
+      "package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch"
+    ],
+    "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "cumulative_only_files_require_existing_exact_bytes": true,
+    "private_overlay_only": true
+  },
+  "prepared_sources": {
+    "kernel_patch_files": 5,
+    "component_sources": 22,
+    "mt76_source_files": 329
+  },
+  "checked_module_symbol_evidence": {
+    "mt76.ko": {
+      "checked_definitions": [
+        "mt76_npu_disable_irqs",
+        "mt76_npu_io_admit",
+        "mt76_npu_irq_error",
+        "mt76_npu_rearm_irq",
+        "mt76_npu_start_irqs"
+      ]
+    },
+    "mt7996e.ko": {
+      "checked_imports": [
+        "mt76_npu_disable_irqs",
+        "mt76_npu_irq_error",
+        "mt76_npu_rearm_irq",
+        "mt76_npu_start_irqs"
+      ]
+    }
+  },
+  "original_build_entries": 891138,
+  "original_cache_entries": 4617,
+  "original_build_cache_and_snapshot_unchanged": true,
+  "five_prior_protected_images": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+    ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1",
+    ".local/npu-isolated-world/world-inode-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9",
+    ".local/npu-isolated-world/world-bytewise-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "01fc0ef04b0b3e9a61933aa8faf47794d2003d162db4f27725e7048f3cfaf405"
+  },
+  "protected_copy": {
+    "path": "/mnt/c/Users/captain/W1700K-Archives/2026-10-21-npu-checked-irq/protected-images/a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796.itb",
+    "sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796"
+  },
+  "protected_index": {
+    "path": "/mnt/c/Users/captain/W1700K-Archives/2026-10-21-npu-checked-irq/2026-10-21-checked-irq-index.json",
+    "sha256": "845d56e6a5d4839f26f029d0d6280f45a6a4cfb6a9b64202ff42197300a27f00"
+  },
+  "capacity": {
+    "format": "npu-storage-budget-v1",
+    "passed": true,
+    "observation": {
+      "observed_unix_ns": 1792639073412401543,
+      "project": "/home/captain/W1700KNPU",
+      "filesystem": "ext4",
+      "distro": "Ubuntu",
+      "host": {
+        "distro": "Ubuntu",
+        "vhd_path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+        "vhd_bytes": 169753968640,
+        "drive": "D",
+        "free_bytes": 6420443136,
+        "total_bytes": 256059109376
+      },
+      "guest": {
+        "free_bytes": 862571085824,
+        "total_bytes": 1081101176832
+      },
+      "writable_ext4": true,
+      "host_query_transport": "Windows-direct-JSON-sidecar",
+      "sidecar_nonce": "checked-world-archive-q1",
+      "sidecar_age_ns": 1781631443
+    },
+    "budget_bytes": {
+      "snapshot": 0,
+      "cache": 0,
+      "overlay": 0,
+      "output": 1107296256,
+      "margin": 2147483648
+    },
+    "required_bytes": 3254779904,
+    "remaining_after_budget_bytes": {
+      "host": 3165663232,
+      "guest": 859316305920
+    },
+    "space_reserved": false,
+    "full_npu_goal_complete": false,
+    "hardware": false,
+    "limits": [
+      "Point-in-time check and explicit estimates, not a reservation or a world/native result.",
+      "Both guest and actual Windows backing volume must cover the entire budget, including margin.",
+      "An advisory lock serializes only cooperating launches; other applications can still consume space.",
+      "Budget VHD growth conservatively without relying on guest free blocks being host-allocated."
+    ]
+  },
+  "C_host_free_before_archive": 104338866176,
+  "native_C_backing": {
+    "format": "w1700k-native-C-storage-observation-v1",
+    "nonce": "checked-native-world-q6",
+    "observed_unix_ns": 1792578517220000000,
+    "distro": "W1700K-BuildScratch-20261021",
+    "registry_key": "{cc67b711-f747-49ea-bbd9-1664c082077f}",
+    "version": 2,
+    "default_uid": 0,
+    "default_distribution": "{0fcbed82-8aae-4f33-bf6b-9d22f461619d}",
+    "vhd_path": "C:\\Users\\captain\\W1700K-BuildScratch\\2026-10-21-native-wsl-v1\\distro\\ext4.vhdx",
+    "vhd_bytes": 7696547840,
+    "vhd_is_sparse": false,
+    "host": {
+      "drive": "C",
+      "health": "Healthy",
+      "free_bytes": 112919982080,
+      "total_bytes": 499057160192
+    },
+    "marker_sha256": "88204019cf6b25344f75c97fdca80954018427519f8d023c46edb7490a9e2ebf",
+    "script_sha256": "79c7efec4bff30124ac3fa2a053212e6ab42a42439cfa4d4c51d4dbdd75620b2"
+  },
+  "no_new_build_storage_IO_errors": true,
+  "full_native_and_overlay_kernel_extraction_verified": true,
+  "executed_frozen_bubblewrap": {
+    "path": ".local/npu-bwrap-xino-20261021/bin/bwrap",
+    "sha256": "12f8d2268caed87b5325ac1cfe5800e3914018c12549b055e9778e94a70a6f7f",
+    "frozen": true
+  },
+  "actual_xino_on_overlays": {
+    ".build/merged-openwrt": "804 801 0:123 / /home/captain/W1700KNPU/.build/merged-openwrt rw,relatime - overlay overlay rw,lowerdir=/oldroot/home/captain/W1700KNPU/.build/merged-openwrt,upperdir=/oldroot/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/world-checked-irq-q6/build-upper,workdir=/oldroot/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/world-checked-irq-q6/build-work,redirect_dir=nofollow,uuid=on,xino=on,userxattr",
+    ".local/merge-nonoc-20260923": "807 801 0:126 / /home/captain/W1700KNPU/.local/merge-nonoc-20260923 rw,relatime - overlay overlay rw,lowerdir=/oldroot/home/captain/W1700KNPU/.local/npu-validation-capsules/world-checked-irq-v5/root/.local/merge-nonoc-20260923,upperdir=/oldroot/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/world-checked-irq-q6/log-upper,workdir=/oldroot/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/world-checked-irq-q6/log-work,redirect_dir=nofollow,uuid=on,xino=on,userxattr"
+  },
+  "native_cold_qualified": false,
+  "full_setup": false,
+  "module_loaded": false,
+  "booted": false,
+  "physical_acceptance": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "private_scope_sha256": "0cc71955c736cd7362fad97f594f6a567d5ecfa39a5667991761d09ef4b426a6",
+  "bound_paths": 433
+}

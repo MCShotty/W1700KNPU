@@ -1,10 +1,50 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-21 (faulty loop read-only/evidence rescued;native C and per-mount xino full extraction pass;56+5 units;full image pending)
+Last updated: 2026-10-22 (checked-IRQ full offline image/audits pass;protected C/D copies;original replays and full NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-22 - Checked-IRQ Offline Image And Protected Copies
+
+- Actual native-c2 world-checked-irq-q6/controller pass0. Clean source1550512
+  and v5 da9cc624 freeze6741 files/3121684134 logical bytes,6671 shared/70
+  copied/5154132 copied payload bytes. Shared read-only inputs are not
+  independent backups;prior receipts/content/modes/ownership/mtime preserved,
+  shared link counts/ctime/atime not claimed unchanged.
+- Full current-overlay stage checks75 locked files/22 components,copies the
+  exact two current recipes;full cache/critical kernel/RV32 clean/world runs.
+  Postbuild5 kernel/22 component/329 mt76 sources match genuine90abc8f3 and
+  lockcb035741. FIT Gemtek W1700K,compatible gemtek,w1700k-ubi,Linux6.18.52,
+  218 packages/78 module ABI checks,22 normal RV32 objects,exact168-hook
+  4e43de6f/a282ca7a pair pass. Actual packaged mt76 defines all five required
+  checked functions;mt7996 imports every required checked edge.
+- Image SHA256a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796,
+  27013962 bytes. Original891138 build/4617 cache entries,snapshot and parent
+  namespaces unchanged. Frozen12f8d226 launcher/two actual xino=on overlays
+  verified;no new I/O errors. System binary/global xino unchanged;bad native-c1
+  remains read-only with raw image/evidence retained. No cause invented for
+  its old zero-fill. Long host-time gap triggered fresh passing capacity
+  observations;original build/replay process starts were retained.
+- Protected C archive and separate0444/nlink1 D archive under
+  .local/npu-qualified-images/checked-irq-20261022 match Linux and independent
+  Windows readback. Distinct Windows volumes,not proven distinct physical
+  disks. Five prior images rehash. WORLD/private0cc71195 binds433 paths;
+  END/private0c001d08 rehashes452 paths/two external objects. END is a
+  derivative integrity check,not an additional world/native execution pass.
+- Original older-source default/HIF2 replays retain exact PIDs/starts/cgroup/
+  guard FLOCK,advancing CPU and DESC10/RX-PCIe/tail0/1 prefixes. No terminal
+  verdict. Prefixes are not atomic full-trace/caller qualification. Full cold/
+  fault/setup/hot/RRO/lifecycle/DMA drain/whole-stack/physical/client goal open.
+  No module load,flash,boot,hardware,job pause/restart,limits/checkpoint changes
+  or subagents. Locked UI/WiFi source preserved,not runtime validated.
+- All56 project/five cleanup units pass. Broader upstream FD-input suite still
+  fails in pristine/patched controls;task-specific workflow passing does not
+  erase that limit. Jev checks offline/source/physical scope,not test proof.
+  Read recovery REPORT.md/WORLD.json/END.json. Firmware/source lock/raw pair
+  unchanged during build repair;new image packages the already-implemented
+  checked-IRQ software. Keep earlier failed/unqualified outputs and receipts.
 
 ## 2026-10-21 - Native Build Storage And Isolated Xino Qualification
 

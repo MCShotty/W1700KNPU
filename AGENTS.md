@@ -1,5 +1,35 @@
 # W1700KNPU Workspace
 
+## 2026-10-22 - Checked-IRQ Image Qualified Offline
+
+- Supersedes earlier image-pending notes below. Read recovery REPORT.md,
+  WORLD.json and END.json. Actual native-c2 world-checked-irq-q6/controller
+  pass0 from clean1550512 and v5 da9cc624 (6741 inputs). Image a3f1d04b,
+  27013962 bytes: Gemtek W1700K FIT, Linux6.18.52,218 packages/78 module ABIs,
+  exact4e43de6f/a282ca7a raw pair,168 hooks/22 RV32 objects. Current75 locked
+  files/22 components and5 kernel/329 mt76 prepared sources match. Packaged
+  mt76 defines all five checked edges;mt7996 imports required checked edges.
+- Original891138 build/4617 cache entries,snapshot/namespaces unchanged;
+  no new I/O faults. Explicit frozen12f8d226 launcher and actual two xino=on
+  overlays verified. System bwrap/global xino unchanged;bad native-c1 stays
+  READ-ONLY with its raw image/evidence retained. Use validated native-c2,
+  fresh backing/guest budgets,not a missing-mount directory on D by accident.
+- Protected C archive and separate readonly D .local/npu-qualified-images/
+  checked-irq-20261022 copy match Linux/Windows hashes. Distinct Windows
+  volumes,not proven distinct physical disks. Five older images still match.
+  WORLD binds433 paths;END rehashes452 paths/two external objects. Do not
+  overwrite old receipts/images or interpret shared snapshot links as backups.
+- Both unchanged older-source original replays pass DESC10/RX-PCIe/tail0/1,
+  remain live with exact start ticks/cgroup/guard FLOCK and no final verdict.
+  No restart/pause,limits/checkpoint change,flash,boot,module load or subagents.
+- This is OFFLINE qualification,not full NPU completion. Next original caller
+  verdicts/full cold-fault-setup,hot TX/RX/token/RRO,lifecycle/IRQ/DMA drain/
+  retirement,whole-stack and physical boot/radios/clients/performance/stability.
+  Locked UI/WiFi source remains preserved,not runtime tested. All56 project/
+  five cleanup units pass;broader upstream FD-input failure remains documented
+  in pristine/patched controls. Firmware/source lock/raw pair unchanged during
+  this build repair;the image packages the already-implemented checked IRQ.
+
 ## 2026-10-21 - Native C Storage And Per-Mount Inode Identity
 
 - Read recovery REPORT.md/STORAGE.json. q4 stages the two current recipes,

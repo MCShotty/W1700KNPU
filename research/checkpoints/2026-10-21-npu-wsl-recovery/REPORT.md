@@ -3,6 +3,99 @@
 Date: 2026-10-21. Supersedes the prior new-WSL-entry blockage, not any NPU
 runtime verdict. Full reverse engineering and implementation remain active.
 
+## 2026-10-22 - Checked-IRQ Image Qualified Offline
+
+This supersedes the earlier full-image-pending notes below,not any physical
+acceptance limit. Actual native-c2 world-checked-irq-q6 and controller return0.
+The clean15505126f959c6a7da9f800f923818abce4facb4 source is frozen in v5
+da9cc62461bd15b9d9d5fd24950405d02036e04d83ea8296016ff2e8c864f29f:
+6741 files/3121684134 logical bytes,6671 shared read-only/70 independently
+copied files/5154132 copied payload bytes. Shared inputs are not independent
+backups. Prior content/modes/ownership/mtime compare;shared inode link counts,
+ctime and atime are explicitly not preserved.
+
+### Full Build And Artifact Audit
+
+The actual run stages and verifies current75 locked files/22 components,
+copies exactly the two changed recipes,stages3774 verified cache files,cleans
+critical kernel/modules/RV32 outputs and runs complete make-world. Postbuild
+five kernel patch files,22 component files and329 mt76 prepared files match
+the unchanged genuine90abc8f3 receipt/lockcb035741. Original891138 build
+entries,4617 download-cache entries,frozen inputs and parent namespaces match
+afterward. Both actual overlay mounts report xino=on;the executed frozen
+launcher matches12f8d226. No new storage I/O errors were observed.
+
+Qualified image:
+
+- SHA256: a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796
+- Bytes:27013962.
+- FIT model:Gemtek W1700K (OpenWrt U-Boot layout).
+- Compatible:gemtek,w1700k-ubi airoha,an7581 airoha,en7581.
+- Kernel:6.18.52~f98de6b195852764a24492a3802e6ef7-r1.
+- Packages:218. Module ABI checks:78. Normal RV32 objects:22.
+- Exact CODE/DATA:4e43de6f/a282ca7a,168 hooks;full hashes are in WORLD.json.
+- Packaged mt76 defines all five genuine-producer-required checked-IRQ edges;
+  mt7996 imports every required checked edge. Actual readelf evidence is bound.
+
+WORLD.json/private0cc711955c736cd7362fad97f594f6a567d5ecfa39a5667991761d09ef4b426a6
+binds433 paths,including the real run,prepared producer,source identities,
+selected modules,RV32 objects and five protected earlier images. It is an
+offline image qualification,not module loading,router boot or physical proof.
+The earlier01fc0ef0 remains protected but is no longer the newest offline
+candidate;it predates checked IRQ. q3's1eb4ea49 remains explicitly unqualified.
+
+### Protected Copies And Final Integrity
+
+The protected Windows-native C copy is under:
+
+`C:\Users\captain\W1700K-Archives\2026-10-21-npu-checked-irq\protected-images\<full SHA256>.itb`
+
+The independent D-backed canonical copy is:
+
+`.local/npu-qualified-images/checked-irq-20261022/<full SHA256>.itb`
+
+The D copy is0444/nlink1. Both match userspace buffered/fsync Linux checks and
+independent Windows-direct SHA256 readback. These are distinct Windows volumes,
+not established distinct physical disks. The five prior protected images
+still match. New images remain private local artifacts,not uploaded firmware
+releases. Source/receipts/tracking are committed separately.
+
+END.json/private0c001d08a85f1b8f3251e67e43c24d8a3c6166630cb6cc35b2adbbcf008bcbb62
+rehashes452 paths/two external objects and binds C/D/Windows readback,live
+handles and final scope. It is a derivative integrity check,not an additional
+build/native execution pass. A first post-observer q1 stored the wrong text
+in its xino metadata field;the seal rejected it. That record remains private
+and unchanged. Corrected q2 captures actualN;no kernel setting was changed.
+
+A long host-time gap occurred during this run. The same build/native process
+starts survived;no VM/job restart was performed. Fresh nonce-bound C/D and
+guest capacity checks passed after the gap,without retroactively freshening
+the original launch observations. Actual system bubblewrap still matches its
+earlier hash and global xino_auto remainsN. The faulty loop/raw disk and its
+rescued evidence remain read-only/retained,not reused or repaired.
+
+### Remaining Scope
+
+Both original older-source default/HIF2 callers retain exact PIDs/start ticks,
+cgroup and guard FLOCK with advancing CPU. Complete captured prefixes pass
+DESC10,RX-PCIe and tail stages0/1,with tail2 commanded;no terminal verdict.
+These prefixes are not atomic full traces or current-IRQ caller acceptance.
+No existing native size,3M-instruction/60M-us limit or checkpoint was changed.
+
+Full cold/fault/setup,hot TX/RX/events/token/TXFREE/free-pool/PPE/FastTX,RRO
+retained128-block context/identity/generation/order,higher errors,partial/late
+completion,lifecycle/DMA/cache/PMA/exclusion,drain/reset/rearm/retirement,
+whole-stack and physical boot/IRQ/radios/MLO/actual-client performance/stability
+remain open. Locked UI/WiFi source/package preservation is not rendered UI or
+client validation. No module load,flash,boot,hardware action or subagents.
+
+All56 project/five cleanup units pass,zero skips. The broader upstream FD-input
+failure remains in pristine/patched controls;this workflow passing does not
+qualify unused launcher features. Jev's final scope checks select offline
+artifact/source preservation,not physical acceptance;raw probabilities remain
+bound and are not test proof. The specific old zero-fill cause remains
+unestablished. Full NPU reverse engineering/implementation stays active.
+
 ## Native Storage And Per-Mount Inode Identity
 
 The actual v4 freeze is3b303442e70fef480db7a4fb8a3419c51881e1a0af1862820508cc6ea29d8e82,

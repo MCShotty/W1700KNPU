@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "scope": "derivative-integrity-and-protected-copies-not-new-build-native-or-physical-execution",
+  "world_sha256": "656447c51151e34dc5b0f9fe49285c7743b4da5fd52800645dc46d84058ca685",
+  "world_private_scope_sha256": "0cc71955c736cd7362fad97f594f6a567d5ecfa39a5667991761d09ef4b426a6",
+  "world_source_commit": "15505126f959c6a7da9f800f923818abce4facb4",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "image_bytes": 27013962,
+  "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+  "kernel": "6.18.52~f98de6b195852764a24492a3802e6ef7-r1",
+  "packages": 218,
+  "module_abi_checks": 78,
+  "normal_rv32_objects": 22,
+  "raw_pair": {
+    "code": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+    "data": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16"
+  },
+  "pair_hooks": 168,
+  "C_protected_copy": "/mnt/c/Users/captain/W1700K-Archives/2026-10-21-npu-checked-irq/protected-images/a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796.itb",
+  "D_readonly_protected_copy": "/home/captain/W1700KNPU/.local/npu-qualified-images/checked-irq-20261022/a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796.itb",
+  "D_copy_mode": "0444",
+  "D_copy_nlink": 1,
+  "Windows_direct_both_image_hashes_match": true,
+  "distinct_Windows_volumes": [
+    "C",
+    "D"
+  ],
+  "distinct_physical_disks_not_established": true,
+  "five_prior_protected_images_rehashed": {
+    ".build/merged-openwrt/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+    ".local/npu-isolated-world/world-build-q4/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "a22300ea0dc2e856e3d215e38bbd5f8f6b0312b598b72ca4066f0fff20ac0f46",
+    ".local/npu-isolated-world/world-build-q5/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "633b4d71d7307a262c1e3d67980fafdc0f7e9bad15163a893a910c850dfb3fc1",
+    ".local/npu-isolated-world/world-inode-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "70b3112e241ad1fef915836cc07f6ec1640aba0face21d8b3c7a49ab872444a9",
+    ".local/npu-isolated-world/world-bytewise-q1/build-upper/bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb": "01fc0ef04b0b3e9a61933aa8faf47794d2003d162db4f27725e7048f3cfaf405"
+  },
+  "original_build_cache_snapshot_namespaces_unchanged": true,
+  "no_new_storage_IO_errors": true,
+  "system_bubblewrap_unchanged": true,
+  "global_xino_auto_unchanged": true,
+  "old_faulty_loop_still_readonly": true,
+  "fresh_capacity_after_long_host_time_gap_passed": true,
+  "no_native_processes_restarted": true,
+  "native_progress": [
+    {
+      "label": "default",
+      "pid": 400225,
+      "start_ticks": "3965918",
+      "state": "R",
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1
+      ],
+      "complete_prefix_bytes": 3852,
+      "prefix_sha256": "8490d8dd06f164050908bd3ce6bbc3d0aa20b300f78ba96852f060a48e610b92",
+      "not_terminal_or_atomic_full_trace_qualification": true
+    },
+    {
+      "label": "hif2",
+      "pid": 400224,
+      "start_ticks": "3965918",
+      "state": "R",
+      "DESC10_passed": true,
+      "RX_PCIe_passed": true,
+      "passed_PCIe_tail_stages": [
+        0,
+        1
+      ],
+      "complete_prefix_bytes": 3852,
+      "prefix_sha256": "052057724c0b422305923bd6aecda0b83ffca4a729a1d83b43601a0dfc24aa8c",
+      "not_terminal_or_atomic_full_trace_qualification": true
+    }
+  ],
+  "native_terminal_receipt_exists": false,
+  "original_caller_capsule_sha256": "941716f099e7d4fcfe1758c7487b44ba2290dc58f2bab598e87672cafdc90052",
+  "original_native_jobs_modified_or_paused": false,
+  "native_limits_or_checkpoints_changed": false,
+  "project_units": 56,
+  "cleanup_guard_units": 5,
+  "skipped": 0,
+  "all_broader_upstream_launcher_tests_passed": false,
+  "native_cold_requalification": false,
+  "full_setup": false,
+  "hot_paths": false,
+  "RRO_lifecycle_and_DMA_drain_accepted": false,
+  "module_loaded": false,
+  "booted": false,
+  "physical_acceptance": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "artifact_qualification": {
+        "type": "choice",
+        "choice": "offline_artifact_only",
+        "confidence": 1.0,
+        "probabilities": {
+          "offline_artifact_only": 1.0,
+          "physical_NPU_accepted": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "UI_WiFi_claim_scope": {
+        "type": "choice",
+        "choice": "locked_source_preserved_not_runtime_tested",
+        "confidence": 1.0,
+        "probabilities": {
+          "locked_source_preserved_not_runtime_tested": 1.0,
+          "live_UI_WiFi_performance_passed": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "summary_scope": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "zero_fill_specific_cause": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "upstream_tool_universally_qualified": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "judgments_not_test_proof": true
+  },
+  "recorded_unix": 1792639534.2352178,
+  "private_scope_sha256": "0c001d08a85f1b8f3251e67e43c24d8a3c616630cb6cc35b2adbbcf008bcbb62",
+  "rehashed_paths": 452,
+  "external_objects": 2
+}
