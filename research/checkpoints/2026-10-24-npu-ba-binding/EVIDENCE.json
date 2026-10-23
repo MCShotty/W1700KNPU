@@ -1,0 +1,563 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "af4bb8bd1d78aac65d25c2e5cfd6ef0bbca5c8de",
+  "scope": "Retained host BA creation/link association through actual status/DELETE/reset work",
+  "source_lock_sha256": "cc998c1f60222dc755edea4e8255ff764b9f6fd68b207e8e59665fdd987cab45",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "mt76_patch_outputs": 16,
+  "mt76_patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "producer": ".local/npu-checked-irq-modules/ba-binding-q1/result.json",
+  "producer_sha256": "5182ec7deba2a9d72fc3d89ccad936f76a9ef0ed632a8c096cea20770ab6e73b",
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "module_bytes_changed": {
+    "mt76.ko": false,
+    "mt76-connac-lib.ko": false,
+    "mt7996/mt7996e.ko": true
+  },
+  "provider_module_unchanged": true,
+  "typed_reset_edges_linked": [
+    "mt76_npu_rro_reset_mcu_begin",
+    "mt76_npu_rro_reset_mcu_complete",
+    "mt76_npu_rro_reset_npu"
+  ],
+  "actual_output_bytes": 155016207,
+  "module_cap_bytes": 247463936,
+  "output_ceiling_bytes": 268435456,
+  "copied_qualified_cache": true,
+  "tests": {
+    "candidate": {
+      "folder": ".local/npu-rro-ba-owner-20261024/candidate-q1",
+      "receipt_sha256": "a0849fcfa2e88085c5e79213171bad0e5aa2fda65b6a041f35100f4fa8c442a0"
+    },
+    "owner": {
+      "folder": ".local/npu-rro-ba-owner-20261024/current-q1",
+      "receipt_sha256": "0fcd22150435e5ff25a22a1ba2c8c5f343dbeb0f8084ad36a99f05450329c50e"
+    },
+    "candidate_creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/ba-binding-candidate-q1",
+      "receipt_sha256": "a246ec95f168c40189960f802e6d25842a4eedbdc1418f16100ce4a3fcc488e7"
+    },
+    "candidate_BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/ba-binding-candidate-q1",
+      "receipt_sha256": "b3adcb7f184cb099b1a2ed9e3408812a47886438602515cccfd921b321b0fb77"
+    },
+    "candidate_worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/ba-binding-candidate-q1",
+      "receipt_sha256": "af47de237a63b08c6013d3f60deeb28782e9206a06f7ac639c68d969b84a4b95"
+    },
+    "creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/ba-binding-current-q1",
+      "receipt_sha256": "ff6ce3816838b62e78342dee5fb48d1669d860944614f08436c0ef07d5c86917"
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/ba-binding-current-q1",
+      "receipt_sha256": "03af879cdf1d5e9645fd0a0b0c5c4ec2fd27f9532dd2b8fda3d086475b1688b3"
+    },
+    "worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/ba-binding-current-q1",
+      "receipt_sha256": "22f589f9e7a78f95734e259a936e5b3fe368d8dc4b549b862a446a1b87c4a1c4"
+    },
+    "joint": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/ba-binding-reset-q1",
+      "receipt_sha256": "1c92c8c320cfa546a5d9b6c243afed379e258b6538edccf7e92e3635117b19c7"
+    },
+    "broad": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/ba-binding-broad-q1",
+      "receipt_sha256": "310886e7b43f5390a4746c59ece8855814643a9a01152f223787ec97ba41992a"
+    },
+    "callers": {
+      "folder": ".local/npu-rro-reset-callers-20261023/ba-binding-current-q1",
+      "receipt_sha256": "2a971071b8dc848f9cbec55558da64a38cf9365b77bd8fabc09cb4fa11a46bc2"
+    }
+  },
+  "creation_measured_setups": 19,
+  "creation_controls": 12,
+  "BA_measured_setups": 18,
+  "BA_controls": 6,
+  "retained_BA_joint_setups": 23,
+  "retained_BA_joint_controls": 14,
+  "worker_cases": 23,
+  "worker_controls": 8,
+  "worker_prior_BA_enrollment_explicitly_modeled": true,
+  "joint_reset_transactions": 6150,
+  "joint_profiles": 3,
+  "reset_journal_generations": 2,
+  "joint_negative_cases": 12,
+  "joint_controls": 3,
+  "broad_cases": 456,
+  "broad_controls": 4,
+  "broad_publications": 387,
+  "broad_negative_joint": 11,
+  "broad_late_tx_checks": 12,
+  "caller_cases": 1090,
+  "caller_controls": 7,
+  "legacy_optional_provider_cases": 1040,
+  "owned_provider_model_cases": 50,
+  "total_units": 142,
+  "skipped": 0,
+  "actual_RX_creation_serial_implemented": true,
+  "serial_width_bits": 64,
+  "serial_device_local": true,
+  "serial_nonzero_and_nonwrapping": true,
+  "serial_assigned_before_RCU_publication": true,
+  "device_mutex_serializes_creation": true,
+  "allocation_failure_consumes_no_serial": true,
+  "MCU_failure_does_not_recycle_serial": true,
+  "exhaustion_preserves_existing_object": true,
+  "primary_mapping_and_shutdown_lock_retained": true,
+  "status0_and_owned_invalid_DELETE_rules_retained": true,
+  "retained_BA_binding_propagation": true,
+  "core_association_write_once": true,
+  "binding_table_entries": 1025,
+  "binding_table_bound_bytes": 32768,
+  "owner_bound_bytes": 65536,
+  "DELETE_infers_current_RX_identity": false,
+  "reset_snapshot_checked_before_provider": true,
+  "constructor_unpublished_owner_and_table_unwind": true,
+  "published_references_and_table_retained": true,
+  "owned_mode_change_keeps_status_metadata": true,
+  "closed_metadata_retained_without_new_admission": true,
+  "already_accepted_status_writer_join": false,
+  "post_close_absolute_ID_write_fence_qualified": false,
+  "firmware_BA_association_authenticated": false,
+  "firmware_reuse_fence_qualified": false,
+  "first_unseen_cookie_less_replacement_binding_characterized": true,
+  "real_firmware_reachability_or_physical_race_proved": false,
+  "initial_journal_generation_is_BA_identity": false,
+  "parked_guards_unchanged": true,
+  "hot_typed_reset_admitted": false,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "native": {
+    "complete": false,
+    "profiles_observed": [
+      {
+        "profile": "profile-0",
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "last_complete": {
+          "operation": 8,
+          "argument": 0,
+          "generation": 0,
+          "sequence": 6443,
+          "journal_sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+          "broker_sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+          "request_sha256": "09a4225758054545c9a2650074b9f39361d2958dcfe0428ed3953bf25c5e450d",
+          "reply_sha256": "e6bac2a664c1540b21e1ec8839e4bfa59c51d0b3994e4c950d2b2aa3da8ff6c2",
+          "rolling_sha256": "f671e6b818aebaa7b9cfedad1a5dffd40e11d3934d7be63e82d3ac75219dc1ae",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 124885,
+            "metadata_writes": 12270,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 519887431,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      },
+      {
+        "profile": "profile-1",
+        "positive_rpc_observed": 3060,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 930,
+          "6": 930,
+          "7": 930
+        },
+        "last_complete": {
+          "operation": 7,
+          "argument": 929,
+          "generation": 1,
+          "sequence": 3083,
+          "journal_sha256": "fb5b22a4e7fed8dc28a159134456b11fde558b4683ff91159e8bc20610356424",
+          "broker_sha256": "809df8e9ff55b3257d8dd2fd2199d86d75f367d39e7d8e59bb02ead50a479f45",
+          "request_sha256": "6b73404686a024857fcbefb12f4c2b8489bc3a130a47367f59a8c17cae091656",
+          "reply_sha256": "5488efc126a35acd0688c9b19e36047ea594a9aff1cf326d2f74c0eb48812c89",
+          "rolling_sha256": "17d7c2053baafa5685260f9949ab6a971333e3b89318059fbb7068896b45cdfa",
+          "modeled_MCU_result": true,
+          "counts": {
+            "blocks": 124911,
+            "metadata_writes": 12297,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 511040011,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      }
+    ],
+    "service": {
+      "MemoryCurrent": "122925056",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "161001472",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 6936490
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 2663805
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 6942845
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 2670246
+    }
+  ],
+  "native_input_graph_unchanged": true,
+  "original_replays_restarted": false,
+  "prior_bindings_rehashed": 21954,
+  "prior_external_bindings_rehashed": 2,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "REA_servers_signaled": false,
+  "subagents_launched": 0,
+  "VM_or_global_policy_changed": false,
+  "new_decryption_or_Ghidra_analysis": false,
+  "original_RAM_thresholds_and_limits_unchanged": true,
+  "initial_install_Windows_preflight_qualified": false,
+  "host_preflight_sequencing_error": {
+    "host_preflight_passed_before_install_dispatch": false,
+    "host_available_bytes_at_failed_preflight": 2255618048,
+    "unchanged_required_host_bytes": 2281701376,
+    "error": "The outer command list continued after the host preflight returned nonzero, dispatching the128MiB installer. Native guest/storage guards passed and installation completed. This does not retroactively qualify its Windows preflight.",
+    "immediate_post_install_recheck_passed": true,
+    "recheck_receipt": ".local/npu-ba-binding-20261024/install-recheck-q1-Windows-preflight-q1.json",
+    "correction": "All subsequent native auxiliary dispatches require a matching passed Windows receipt no older than60seconds, with the same2GiB+128MiB threshold, inside control_q2.py. Outer orchestration also stops on nonzero preflight.",
+    "RAM_threshold_or_replay_limit_relaxed": false,
+    "original_replays_restarted": false,
+    "hardware": false
+  },
+  "installed_source_and_all16_outputs_revalidated": true,
+  "subsequent_native_controller_requires_fresh_matching_Windows_receipt": true,
+  "dispatch_deny_controls": 4,
+  "broad_preflight_refusal": {
+    "host_available_bytes": 2248777728,
+    "unchanged_required_host_bytes": 2281701376,
+    "child_work_dispatched_after_failed_check": false,
+    "phase": "ba-binding-broad-q1",
+    "subsequent_fresh_check_passed": true,
+    "successful_preflight": ".local/npu-ba-binding-20261024/ba-binding-broad-q1-Windows-preflight-q1.json",
+    "RAM_threshold_or_replay_limit_relaxed": false,
+    "original_replays_restarted": false,
+    "hardware": false
+  },
+  "initial_seal_post_host_failure": {
+    "passed": false,
+    "stage": "Final host-after RAM check, after full native hashes and binding verification; no final private/public evidence manifest written",
+    "host_available_bytes": 2268532736,
+    "unchanged_required_host_bytes": 2281701376,
+    "sealer": ".local/npu-ba-binding-20261024/seal_q1.py",
+    "native_hashes": ".local/npu-ba-binding-20261024/native-hashes-ba-binding-q1.json",
+    "retry": "Use fresh seal_q2 output names and stream RPC summary rows instead of retaining all decoded rows; retain every old artifact and threshold.",
+    "source_or_test_or_module_bytes_modified": false,
+    "original_replays_restarted": false,
+    "hardware": false
+  },
+  "RPC_summary_streaming_only": true,
+  "RPC_summary_exact_comparisons": {
+    "passed": true,
+    "snapshots": [
+      {
+        "path": ".local/npu-ba-binding-20261024/native-seal-q1-profile-0.rpc.jsonl",
+        "sha256": "216ee1d93a5d9169c7fbe705c8d1d3fb5e425fca64200259e5e3464494d16c14",
+        "positive_RPCs": 6421,
+        "exact_count_operations_and_last_equal": true
+      },
+      {
+        "path": ".local/npu-ba-binding-20261024/native-seal-q1-profile-1.rpc.jsonl",
+        "sha256": "7f1e60293d6b7c0e7461ac38d802b80841391e16e5326cdb7c315c1d9cbe0ec6",
+        "positive_RPCs": 2961,
+        "exact_count_operations_and_last_equal": true
+      }
+    ],
+    "native_replay_algorithm_modified": false,
+    "observation_summary_only": true,
+    "all_original_limits_unchanged": true,
+    "hardware": false
+  },
+  "Jev_design": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "original_not_current": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "separate_generation": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "first_unseen_gap": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "sleeping_event": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 672,
+      "output_tokens": 79
+    }
+  },
+  "Jev_source": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "immutable_core_association": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "DELETE_no_current_lookup": {
+        "type": "noul",
+        "noul": 0.81
+      },
+      "event_sleep_or_allocate": {
+        "type": "noul",
+        "noul": 0.43
+      },
+      "distinct_reset_generation": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "firmware_fence_proved": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "absolute_post_close_write_fence": {
+        "type": "noul",
+        "noul": 0.18
+      }
+    },
+    "usage": {
+      "input_tokens": 5892,
+      "output_tokens": 122
+    }
+  },
+  "Jev_focused_event_scope": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "core_fields_not_overwritten": {
+        "type": "noul",
+        "noul": 0.82
+      },
+      "explicit_event_allocation_or_RPC": {
+        "type": "noul",
+        "noul": 0.17
+      },
+      "DELETE_uses_original_record": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "already_accepted_writer_join_proved": {
+        "type": "noul",
+        "noul": 0.34
+      }
+    },
+    "usage": {
+      "input_tokens": 1993,
+      "output_tokens": 91
+    }
+  },
+  "Jev_report": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "retained_host_not_firmware": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "first_unseen_gap": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "writer_join_gap": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "model_scope": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "preflight_error_honesty": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "full_goal_complete": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 3370,
+      "output_tokens": 120
+    }
+  },
+  "observed_unix_ns": 1792795111273192200,
+  "private_evidence": ".local/npu-ba-binding-20261024/evidence-q2.json",
+  "private_evidence_sha256": "e938ff3ae6682fd2f76441eac321588d889e1d5923703c02698bb6ef9ed0238b",
+  "project_bindings": 24862,
+  "external_bindings": 2
+}

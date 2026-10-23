@@ -9,6 +9,38 @@ completion identity, physical backing/coherency or retirement witnesses.
 See `research/checkpoints/2026-10-23-npu-rro-lifetime/REPORT.md` for executed
 caller, managed-bookkeeping and stock/current instruction evidence.
 
+## Current Retained Host BA Association
+
+Status0 now snapshots actual RX-TID serial, original active WLAN/TID and primary
+WCID into a separate preallocated1025-entry binding table attached to the pinned
+owner. The table stays below32KiB; the existing owner stays below64KiB. All
+unpublished allocation/reference failures unwind both objects. Published table,
+records and pins remain independently retained; no event allocates a BA record.
+Core association fields are write-once. Conflicting serial or tuple cannot rebind
+the first association and retains the proposed fault metadata. Missing-owner
+events still latch the pre-publication error; they cannot publish a later owner.
+
+DELETE requires the retained session/WLAN/TID association and snapshots its BA
+serial without looking up the current RX object. Work checks that snapshot and
+tuple before the existing typed reset-generation/ticket operations. Generation1
+is still the initial reset journal generation, not the BA creation serial.
+Closed/faulted valid metadata remains held without new reset admission. No
+provider-loss CPU fallback, production retirement/rearm or free authority is added.
+
+The combined actual selected RX creation/shutdown/stop, AMPDU, per-link BA loop,
+status/DELETE and complete owner C passes23 setups/14 controls. Separate worker
+23/eight includes explicitly synthetic prior BA enrollment; real creation/status
+is executed in the joint fixture. Framework scheduling/locks/references, provider
+transport, IRQ-abort effect and physical MCU/backing/drain remain models.
+
+First unseen cookie-less late status can still bind a replacement. Current
+firmware reachability/order, association authentication and late/reuse fencing
+remain unqualified. Close rejects later admission but is not a join for a status
+writer already accepted before close; the final tid->id write follows helper
+owner-lock release while retaining the TID lock/RCU. Full hot CPU lifetime must
+cover these readers/writers before consumer or backing retirement. Parked-only
+transport remains unchanged; no module-load/image/hardware/client proof follows.
+
 ## Allocation Order
 
 The reconstructed `rro-native.c` engine now implements publication/reset byte

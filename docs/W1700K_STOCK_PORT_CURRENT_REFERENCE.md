@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current Retained Host BA Association
+
+Status0 records actual RX-TID serial, active WLAN/TID and primary WCID in the
+independently retained owner. A separate preallocated1025-entry table stays below
+32KiB; the original owner stays below64KiB. Core associations are write-once;
+DELETE snapshots the retained serial, and work verifies it before reset calls.
+No current RX lookup supplies DELETE identity; no atomic-path BA allocation.
+
+Joint actual selected RX/AMPDU/per-link/event/full-owner C passes23 setups/14
+controls. Current creation19/12, BA18/six, worker23/eight,6150 resets/12 negatives/
+three controls, broad456/four, callers1090/seven and142 units pass,zero skips.
+Four modules link:producer5182ec7d/lockcc998c1f/31 mappings/5 kernel/330 mt76/
+16 fuzz0 outputs. Only mt7996e changes; original inventories stay unchanged.
+
+First unseen late status still targets a replacement: no firmware association/
+reuse fence is qualified. Owner close is not an already accepted writer join.
+Hot lifetime, retirement and physical/image/client gates remain. Initial installer
+host-preflight sequencing error is preserved; subsequent controller dispatch
+requires a fresh matching receipt, four deny controls pass. Neither replay graph
+was changed or restarted. Read ba-binding REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-24 - Current RX-TID Creation Identity
 
 Successful actual RX allocation now assigns a device-local nonzero u64 serial

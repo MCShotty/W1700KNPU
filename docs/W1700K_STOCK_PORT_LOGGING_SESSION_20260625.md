@@ -4,6 +4,23 @@ Last updated: 2026-10-24 (actual RX-TID creation serial and current regressions 
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
 
+## 2026-10-24 - Retained BA Association Through Reset Work
+
+Status0 now retains actual creation serial and original active/primary mapping;
+DELETE snapshots the association instead of consulting the current RX slot.
+Work checks the serial/tuple before reset-generation/ticket calls. Joint actual
+selected C passes23 setups/14 controls, creation19/12, BA18/six, worker23/eight,
+6150 resets/12 negatives/three controls, broad456/four, callers1090/seven and142
+units/zero skips. Four modules link:producer5182ec7d/lockcc998c1f/31 mappings.
+
+The first unseen late status still binds a replacement; firmware ordering and
+already accepted status-writer join remain open. Initial installer dispatch
+followed a failed host preflight; source/all16 outputs were revalidated, not
+retroactively resource-qualified. New controller enforces a fresh phase-matching
+Windows receipt, four deny controls pass, margins unchanged. Both original replay
+graphs stay intact; no hardware/VM/signals/subagents. Read ba-binding REPORT/
+EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-24 - RX-TID Creation Serial And Refreshed Checks
 
 Actual RX allocation now publishes a nonzero device-local u64 creation serial,

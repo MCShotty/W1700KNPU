@@ -62,24 +62,32 @@ struct delayed_work {
 #ifdef W1700K_REAL_RX_AGGR
 #include "selected-rx-tid.inc"
 #else
-struct mt76_rx_tid { u16 id; int lock; bool stopped; };
+struct mt76_rx_tid { u64 serial; u16 id; int lock; bool stopped; };
 #endif
 struct mt76_wcid {
 	struct mt76_rx_tid *aggr[16];
 	struct mt76_wcid *def_wcid;
+	u16 idx;
 	void *sta;
 	unsigned long ampdu_state;
 };
-struct mt76_dev { int mutex; u64 rx_tid_serial; };
+struct mt76_dev { int mutex; u64 rx_tid_serial; struct device *dev; };
 struct mt7996_dev {
 	struct mt76_dev mt76;
 	bool npu_rro_owned;
 	struct mt76_wcid *wcids[4];
 	bool hwrro;
+#ifdef W1700K_REAL_BA_OWNER
+	struct { int npu_error; } recovery;
+#endif
 	struct {
 		struct work_struct work;
 		struct list_head poll_list;
 		int lock;
+#ifdef W1700K_REAL_BA_OWNER
+		struct mt7996_npu_rro_reset_owner *reset_owner;
+		bool reset_closing;
+#endif
 	} wed_rro;
 };
 struct sk_buff {
@@ -166,7 +174,13 @@ static void model_write_once(u16 *slot, u16 value)
 	*slot = value;
 	status_writes++;
 }
+#ifdef W1700K_REAL_BA_OWNER
+static void model_write_int(int *slot, int value) { *slot = value; }
+#define WRITE_ONCE(slot, value) _Generic(&(slot), u16 *: model_write_once, \
+	int *: model_write_int)(&(slot), (value))
+#else
 #define WRITE_ONCE(slot, value) model_write_once(&(slot), (value))
+#endif
 static bool mt7996_has_hwrro(struct mt7996_dev *dev) { return dev->hwrro; }
 static bool pskb_may_pull(struct sk_buff *skb, size_t bytes)
 {
@@ -287,6 +301,14 @@ static void ieee80211_stop_tx_ba_cb_irqsafe(struct ieee80211_vif *vif,
 static int owned_enqueue_calls, owned_enqueue_error;
 static u16 owned_id, owned_wlan;
 static u8 owned_tid;
+#ifndef W1700K_REAL_BA_OWNER
+static int mt7996_npu_rro_ba_bind(struct mt7996_dev *dev, u16 id, u16 wlan,
+				u16 primary, u8 tid, u64 serial)
+{
+	CHECK(dev->npu_rro_owned, "modeled-BA-binding-boundary");
+	(void)id; (void)wlan; (void)primary; (void)tid; (void)serial;
+	return 0;
+}
 static int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan, u8 tid)
 {
 	CHECK(dev->npu_rro_owned, "owned-enqueue-boundary");
@@ -296,6 +318,18 @@ static int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan
 	owned_tid = tid;
 	return owned_enqueue_error;
 }
+#else
+#include "rro-ba-owner-platform.h"
+#define kzalloc ba_owner_zalloc
+#define kcalloc ba_owner_calloc
+#define kfree ba_owner_free
+#define ieee80211_queue_work ba_owner_queue_work
+#include "selected-owner.inc"
+#undef ieee80211_queue_work
+#undef kfree
+#undef kcalloc
+#undef kzalloc
+#endif
 
 #include "selected-main.inc"
 #include "selected-mcu.inc"

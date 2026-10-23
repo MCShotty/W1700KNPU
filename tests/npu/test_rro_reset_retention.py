@@ -181,7 +181,7 @@ def run(destination, source_root, mutants):
                                       executed.stderr)
     rows = [json.loads(line) for line in executed.stdout.splitlines() if line.strip()]
     assert len(rows) == 1 and rows[0] == {
-        "passed": True, "host_model_only": True, "cases": 22,
+        "passed": True, "host_model_only": True, "cases": 23,
     }, rows
 
     controls = []
@@ -237,6 +237,7 @@ def run(destination, source_root, mutants):
                              "owner initialization precedes RRO extent allocation",
                              "owned DELETE precedes legacy allocation", "CONFIG object linkage"],
         "modeled_boundaries": [
+            "prior BA status enrollment with synthetic creation serials",
             "owner allocation and constructor failure", "endpoint/device reference",
             "module reference", "spinlocks and mutex", "RCU-protected provider lookup",
             "IRQ disable and NPU mask", "work queue admission and cancellation",
@@ -244,6 +245,7 @@ def run(destination, source_root, mutants):
         ],
         "limits": [
             "Selected actual C bodies run against single-threaded host models.",
+            "Prior BA enrollment is explicitly modeled here; the separate BA-owner fixture executes actual RX creation/status/DELETE jointly.",
             "Modeled NPU success is not checked-provider legacy selector 3 admission.",
             "MCU ACK is not a BA-generation or physical DMA-drain witness.",
             "Only the fixture performs final owner disposal after retention checks; production has no retirement authority.",
@@ -258,7 +260,7 @@ def main():
                         help="candidate mt76-merged tree")
     parser.add_argument("--name", required=True)
     parser.add_argument("--mutants", action=argparse.BooleanOptionalAction,
-                        default=True, help="compile six targeted mutation controls")
+                        default=True, help="compile eight targeted mutation controls")
     args = parser.parse_args()
     assert re.fullmatch(r"[a-z][a-z0-9-]{0,39}", args.name), "invalid receipt name"
     destination = OUTPUT / args.name

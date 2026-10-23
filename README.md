@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - Retained BA Identity
+
+BA status now retains the original RX creation serial and active/primary link
+mapping. DELETE/reset work uses that association rather than the current RX slot.
+The combined actual selected-C suite passes23 setups/14 controls; current
+regressions and142 units pass, and all four AArch64 modules link.
+
+Firmware late/reuse ordering and joining already accepted status writers remain
+unqualified. Hot admission, production retirement and current-image/hardware/
+client acceptance remain open. Both long replay graphs stay untouched. See the
+[retained BA checkpoint](research/checkpoints/2026-10-24-npu-ba-binding/REPORT.md).
+
 ## 2026-10-24 - RX-TID Creation Identity
 
 Actual RX-TID allocations now receive a non-wrapping, device-local creation

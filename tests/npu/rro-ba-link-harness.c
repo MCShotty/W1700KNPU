@@ -77,6 +77,7 @@ static void linked_finish(struct linked_fixture *f)
 	finish(&f->common);
 }
 
+#ifndef W1700K_BA_OWNER_SUITE
 static void test_primary_creation_status_and_stop(void)
 {
 	struct linked_fixture f;
@@ -369,3 +370,4 @@ int main(void)
 	       "\"MCU_error_context_retained_characterized\":true,\"hardware\":false}\n", cases);
 	return 0;
 }
+#endif

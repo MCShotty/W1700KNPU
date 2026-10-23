@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - Retained Host BA Associations
+
+- Status0 now retains actual RX creation serial, original active WLAN/TID and
+  primary WCID in a separately preallocated1025-entry table. Conflicts preserve
+  the first association. DELETE snapshots that serial without current-slot
+  lookup; work checks it before existing reset-generation/ticket operations.
+- Joint actual RX/AMPDU/link/event/full-owner C passes23 setups/14 controls.
+  Separate creation19/12, BA18/six, worker23/eight, joint6150 resets/12 negatives/
+  three controls, broad456/four, callers1090/seven and142 units/zero skips pass.
+  Four modules link:producer5182ec7d/lockcc998c1f/31 mappings. Only mt7996e
+  changes; original inventories and both live replay input graphs stay intact.
+- This is retained host association, not firmware authentication. First unseen
+  cookie-less late status still binds a replacement; accepted status writers
+  are not joined by owner close. Qualify current-firmware ordering/cookie and
+  full hot CPU lifetime before reuse/admission, retirement or physical acceptance.
+- One installer dispatch incorrectly followed a failed Windows RAM preflight;
+  bytes were revalidated, not retroactively resource-qualified. New controller
+  requires a matching fresh Windows receipt; four deny controls pass. Limits,
+  margins and replay jobs unchanged. Read ba-binding REPORT/EVIDENCE; goal active.
+
 ## 2026-10-24 - Actual RX-TID Creation Serial
 
 - Successful real RX-TID allocation now assigns a nonzero device-local u64

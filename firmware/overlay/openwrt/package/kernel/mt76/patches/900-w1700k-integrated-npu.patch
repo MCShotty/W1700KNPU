@@ -1085,7 +1085,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt7996_dma_prefetch(struct mt7996_dev *dev);
  void mt7996_dma_cleanup(struct mt7996_dev *dev);
  void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
-@@ -1011,15 +1021,49 @@
+@@ -1011,15 +1021,57 @@
  
  #ifdef CONFIG_MT7996_NPU
  int __mt7996_npu_hw_init(struct mt7996_dev *dev);
@@ -1094,11 +1094,19 @@ build input; compilation is not a physical drain or recovery proof.
  int mt7996_npu_hw_stop(struct mt7996_dev *dev);
  int mt7996_npu_rx_queues_init(struct mt7996_dev *dev);
 +int mt7996_npu_rro_reset_init(struct mt7996_dev *dev);
++int mt7996_npu_rro_ba_bind(struct mt7996_dev *dev, u16 id, u16 wlan_id,
++			 u16 primary_wlan_id, u8 tid, u64 serial);
 +int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan_id, u8 tid);
 +void mt7996_npu_rro_reset_work(struct mt7996_dev *dev);
 +void mt7996_npu_rro_reset_close(struct mt7996_dev *dev);
 +void mt7996_npu_rro_reset_join(struct mt7996_dev *dev);
  #else
++static inline int mt7996_npu_rro_ba_bind(struct mt7996_dev *dev, u16 id,
++				      u16 wlan_id, u16 primary_wlan_id, u8 tid, u64 serial)
++{
++	return -EOPNOTSUPP;
++}
++
 +static inline int mt7996_npu_rro_reset_init(struct mt7996_dev *dev)
 +{
 +	return -EOPNOTSUPP;
@@ -2067,7 +2075,7 @@ build input; compilation is not a physical drain or recovery proof.
  	case IEEE80211_AMPDU_RX_STOP:
 --- a/mt7996/mcu.c
 +++ b/mt7996/mcu.c
-@@ -1029,64 +1029,104 @@
+@@ -1029,64 +1029,115 @@
  static void
  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
  {
@@ -2111,11 +2119,12 @@ build input; compilation is not a physical drain or recovery proof.
 +			struct mt7996_mcu_wed_rro_ba_event *e;
  			struct mt76_rx_tid *tid;
  			struct mt76_wcid *wcid;
++			bool owned = READ_ONCE(dev->npu_rro_owned), seen = false;
  			u16 idx;
  
 +			if (tag_len < sizeof(*e))
 +				return;
-+			if (!mt7996_has_hwrro(dev))
++			if (!mt7996_has_hwrro(dev) && !owned)
 +				break;
 +
  			e = (void *)skb->data;
@@ -2133,12 +2142,22 @@ build input; compilation is not a physical drain or recovery proof.
 +				tid = rcu_dereference(wcid->aggr[e->tid]);
 +				if (tid) {
 +					spin_lock_bh(&tid->lock);
-+					if (!tid->stopped)
-+						WRITE_ONCE(tid->id, le16_to_cpu(e->id));
++					if (!tid->stopped) {
++						int err = 0;
++
++						seen = true;
++						if (owned)
++							err = mt7996_npu_rro_ba_bind(dev, le16_to_cpu(e->id),
++								idx, wcid->idx, e->tid, tid->serial);
++						if (!err)
++							WRITE_ONCE(tid->id, le16_to_cpu(e->id));
++					}
 +					spin_unlock_bh(&tid->lock);
 +				}
 +			}
 +			rcu_read_unlock();
++			if (owned && !seen)
++				mt7996_npu_rro_ba_bind(dev, le16_to_cpu(e->id), idx, 0, e->tid, 0);
 +			break;
 +		}
 +		case UNI_WED_RRO_BA_SESSION_DELETE: {
@@ -2217,7 +2236,7 @@ build input; compilation is not a physical drain or recovery proof.
  mt7996e-$(CONFIG_DEV_COREDUMP) += coredump.o
 --- /dev/null
 +++ b/mt7996/npu-rro-reset.c
-@@ -0,0 +1,313 @@
+@@ -0,0 +1,422 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +#include <linux/module.h>
 +#include <linux/slab.h>
@@ -2243,12 +2262,19 @@ build input; compilation is not a physical drain or recovery proof.
 +	u8 tid, phase;
 +};
 +
++struct mt7996_npu_rro_ba_binding {
++	u64 serial, reset_serial;
++	u16 wlan_id, primary_wlan_id;
++	u8 tid;
++};
++
 +/* Arrival ordinals identify host records, not firmware BA lifetimes. No record
 + * or reference is retired until a separately qualified retirement path exists.
 + */
 +struct mt7996_npu_rro_reset_owner {
 +	struct device *endpoint;
 +	struct module *module;
++	struct mt7996_npu_rro_ba_binding *bindings;
 +	struct list_head retained, pending, held;
 +	spinlock_t lock;
 +	u64 arrivals, duplicates, conflicts;
@@ -2256,10 +2282,14 @@ build input; compilation is not a physical drain or recovery proof.
 +	bool closing, inflight, joined, retained_once, bad_valid;
 +	u16 bad_id, bad_wlan_id;
 +	u8 bad_tid;
++	u64 bad_serial;
++	u16 bad_primary_wlan_id;
 +	struct mt7996_npu_rro_reset_record records[MT7996_RRO_MAX_SESSION + 1];
 +};
 +
 +static_assert(sizeof(struct mt7996_npu_rro_reset_owner) <= 65536);
++static_assert(sizeof(struct mt7996_npu_rro_ba_binding) *
++	      (MT7996_RRO_MAX_SESSION + 1) <= 32768);
 +static LIST_HEAD(mt7996_npu_rro_retained);
 +static DEFINE_SPINLOCK(mt7996_npu_rro_retained_lock);
 +
@@ -2282,7 +2312,14 @@ build input; compilation is not a physical drain or recovery proof.
 +	owner = kzalloc(sizeof(*owner), GFP_KERNEL);
 +	if (!owner)
 +		return -ENOMEM;
++	owner->bindings = kcalloc(ARRAY_SIZE(owner->records),
++				 sizeof(*owner->bindings), GFP_KERNEL);
++	if (!owner->bindings) {
++		kfree(owner);
++		return -ENOMEM;
++	}
 +	if (!try_module_get(THIS_MODULE)) {
++		kfree(owner->bindings);
 +		kfree(owner);
 +		return -ENODEV;
 +	}
@@ -2290,6 +2327,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	owner->endpoint = get_device(dev->mt76.dev);
 +	if (!owner->endpoint) {
 +		module_put(owner->module);
++		kfree(owner->bindings);
 +		kfree(owner);
 +		return -ENODEV;
 +	}
@@ -2315,6 +2353,7 @@ build input; compilation is not a physical drain or recovery proof.
 +		spin_unlock_bh(&dev->wed_rro.lock);
 +		put_device(owner->endpoint);
 +		module_put(owner->module);
++		kfree(owner->bindings);
 +		kfree(owner);
 +		return err < 0 ? err : -EIO;
 +	}
@@ -2323,12 +2362,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	return 0;
 +}
 +
-+int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan_id, u8 tid)
++static struct mt7996_npu_rro_reset_owner *
++mt7996_npu_rro_get_owner(struct mt7996_dev *dev)
 +{
 +	struct mt7996_npu_rro_reset_owner *owner;
-+	struct mt7996_npu_rro_reset_record *record;
-+	bool queue;
-+	int err = 0;
 +
 +	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
 +	if (!owner) {
@@ -2340,13 +2377,101 @@ build input; compilation is not a physical drain or recovery proof.
 +			if (!dev->wed_rro.reset_closing)
 +				ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
 +			spin_unlock_bh(&dev->wed_rro.lock);
-+			return -ENODEV;
++			return NULL;
 +		}
 +		spin_unlock_bh(&dev->wed_rro.lock);
 +	}
++	return owner;
++}
++
++static void mt7996_npu_rro_bad_locked(struct mt7996_npu_rro_reset_owner *owner,
++				    u16 id, u16 wlan_id, u8 tid, int err,
++				    u64 serial, u16 primary_wlan_id)
++{
++	if (!owner->error)
++		owner->error = err;
++	if (!owner->bad_valid) {
++		owner->bad_valid = true;
++		owner->bad_id = id;
++		owner->bad_wlan_id = wlan_id;
++		owner->bad_tid = tid;
++		owner->bad_serial = serial;
++		owner->bad_primary_wlan_id = primary_wlan_id;
++	}
++	if (owner->conflicts != U64_MAX)
++		owner->conflicts++;
++}
++
++/* Core association fields are write-once. The serial identifies a host creation,
++ * not a firmware cookie: the first unseen late status still needs a real fence.
++ */
++int mt7996_npu_rro_ba_bind(struct mt7996_dev *dev, u16 id, u16 wlan_id,
++			 u16 primary_wlan_id, u8 tid, u64 serial)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	struct mt7996_npu_rro_ba_binding *ba;
++	int err = 0;
++
++	owner = mt7996_npu_rro_get_owner(dev);
++	if (!owner)
++		return -ENODEV;
++	spin_lock_bh(&owner->lock);
++	if (id >= ARRAY_SIZE(owner->records) || !serial || tid >= IEEE80211_NUM_TIDS) {
++		err = -EINVAL;
++		goto bad;
++	}
++	ba = &owner->bindings[id];
++	if (ba->serial) {
++		if (ba->serial != serial || ba->wlan_id != wlan_id ||
++		    ba->primary_wlan_id != primary_wlan_id || ba->tid != tid) {
++			err = -ESTALE;
++			goto bad;
++		}
++	} else {
++		if (owner->records[id].phase != MT7996_NPU_RRO_UNUSED) {
++			err = -ESTALE;
++			goto bad;
++		}
++		ba->wlan_id = wlan_id;
++		ba->primary_wlan_id = primary_wlan_id;
++		ba->tid = tid;
++		ba->serial = serial;
++	}
++	/* Retain late metadata, but do not grant a new ID write or callback. */
++	err = owner->closing ? -ESHUTDOWN : owner->error;
++	spin_unlock_bh(&owner->lock);
++	return err;
++bad:
++	mt7996_npu_rro_bad_locked(owner, id, wlan_id, tid, err, serial, primary_wlan_id);
++	if (!owner->closing)
++		ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
++	spin_unlock_bh(&owner->lock);
++	return err;
++}
++
++int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan_id, u8 tid)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	struct mt7996_npu_rro_reset_record *record;
++	struct mt7996_npu_rro_ba_binding *ba;
++	bool queue;
++	int err = 0;
++
++	owner = mt7996_npu_rro_get_owner(dev);
++	if (!owner)
++		return -ENODEV;
 +	spin_lock_bh(&owner->lock);
 +	if (id >= ARRAY_SIZE(owner->records)) {
 +		err = -EINVAL;
++		goto bad;
++	}
++	ba = &owner->bindings[id];
++	if (!ba->serial) {
++		err = -ENODATA;
++		goto bad;
++	}
++	if (ba->wlan_id != wlan_id || ba->tid != tid) {
++		err = -ESTALE;
 +		goto bad;
 +	}
 +	record = &owner->records[id];
@@ -2368,21 +2493,13 @@ build input; compilation is not a physical drain or recovery proof.
 +	record->arrival = ++owner->arrivals;
 +	record->wlan_id = wlan_id;
 +	record->tid = tid;
++	ba->reset_serial = ba->serial;
 +	record->phase = MT7996_NPU_RRO_QUEUED;
 +	list_add_tail(&record->list, owner->closing || owner->error ?
 +		      &owner->held : &owner->pending);
 +	goto unlock;
 +bad:
-+	if (!owner->error)
-+		owner->error = err;
-+	if (!owner->bad_valid) {
-+		owner->bad_valid = true;
-+		owner->bad_id = id;
-+		owner->bad_wlan_id = wlan_id;
-+		owner->bad_tid = tid;
-+	}
-+	if (owner->conflicts != U64_MAX)
-+		owner->conflicts++;
++	mt7996_npu_rro_bad_locked(owner, id, wlan_id, tid, err, 0, 0);
 +unlock:
 +	/* Queue while holding the admission lock so close cannot finish first and
 +	 * then have this producer schedule a new consumer callback behind it.
@@ -2398,6 +2515,7 @@ build input; compilation is not a physical drain or recovery proof.
 +{
 +	struct mt7996_npu_rro_reset_owner *owner;
 +	struct mt7996_npu_rro_reset_record *record;
++	struct mt7996_npu_rro_ba_binding *ba;
 +	bool closing;
 +	int err, result, mcu_result;
 +
@@ -2422,6 +2540,16 @@ build input; compilation is not a physical drain or recovery proof.
 +		}
 +		record = list_first_entry(&owner->pending,
 +					 struct mt7996_npu_rro_reset_record, list);
++		ba = &owner->bindings[record->id];
++		if (!ba->serial || ba->reset_serial != ba->serial ||
++		    ba->wlan_id != record->wlan_id || ba->tid != record->tid) {
++			mt7996_npu_rro_bad_locked(owner, record->id, record->wlan_id,
++					 record->tid, -ESTALE, ba->reset_serial, ba->primary_wlan_id);
++			list_splice_tail_init(&owner->pending, &owner->held);
++			spin_unlock_bh(&owner->lock);
++			mt7996_npu_rro_reset_fail(dev, -ESTALE);
++			return;
++		}
 +		list_del_init(&record->list);
 +		owner->inflight = true;
 +		record->phase = MT7996_NPU_RRO_NPU_POSSIBLE;

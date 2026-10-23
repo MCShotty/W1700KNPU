@@ -24,6 +24,7 @@ typedef u32 __le32;
 #define GENMASK(high, low) (((~0U) << (low)) & (~0U >> (31 - (high))))
 #define FIELD_PREP(mask, value) (((u32)(value) << __builtin_ctz(mask)) & (mask))
 #define U64_MAX UINT64_MAX
+#define IEEE80211_NUM_TIDS 16
 #define GFP_KERNEL 0
 #ifdef static_assert
 #undef static_assert
@@ -170,6 +171,7 @@ static void *legacy_event_pointer;
 static int legacy_frees;
 static struct mt7996_dev *close_on_get;
 static bool fail_alloc, fail_device, consumer_released;
+static bool fail_table_alloc;
 static bool enqueue_on_get;
 static int allocs, frees, test_only_disposals, cases;
 static int queue_calls, cancel_calls, send_calls, mcu_calls, cpu_writes;
@@ -192,6 +194,13 @@ static void *kzalloc(size_t size, int flags)
 	CHECK(pointer != NULL, "host-allocation");
 	allocs++;
 	return pointer;
+}
+
+static void *kcalloc(size_t count, size_t size, int flags)
+{
+	CHECK(count == MT7996_RRO_MAX_SESSION + 1 && size && count <= SIZE_MAX / size,
+	      "BA-binding-table-full-geometry");
+	return fail_table_alloc ? NULL : kzalloc(count * size, flags);
 }
 
 static void kfree(void *pointer)
@@ -432,6 +441,7 @@ static void start_case(void)
 	legacy_event_pointer = NULL;
 	legacy_frees = 0;
 	fail_alloc = fail_device = consumer_released = false;
+	fail_table_alloc = false;
 	close_on_send = close_on_mcu = physical_drain_witness = false;
 	allocs = frees = test_only_disposals = 0;
 	queue_calls = cancel_calls = send_calls = mcu_calls = cpu_writes = 0;
@@ -488,9 +498,10 @@ static void end_case(void)
 		list_del_init(&owner->retained);
 		put_device(owner->endpoint);
 		module_put(owner->module);
+		free(owner->bindings);
 		free(owner);
 		fixture.wed_rro.reset_owner = NULL;
-		test_only_disposals++;
+		test_only_disposals += 2;
 	} else {
 		CHECK(model_module.refs == 0, "constructor-unwind-module");
 	}
@@ -498,6 +509,19 @@ static void end_case(void)
 	CHECK(allocs == frees + test_only_disposals, "allocation-balance");
 	CHECK(endpoint.refs == (consumer_released ? 0 : 1),
 	      "endpoint-reference-balance");
+}
+
+/* These worker/IRQ regressions model prior status enrollment explicitly. The
+ * separate BA-owner suite executes actual RX creation/status/DELETE together.
+ */
+static int enqueue_with_modeled_BA(struct mt7996_dev *dev, u16 id, u16 wlan, u8 tid)
+{
+	struct mt7996_npu_rro_reset_owner *owner = dev->wed_rro.reset_owner;
+	if (owner && id < ARRAY_SIZE(owner->records) && !owner->bindings[id].serial) {
+		(void)mt7996_npu_rro_ba_bind(dev, id, wlan, wlan, tid, (u64)id + 1);
+		CHECK(owner->bindings[id].serial == (u64)id + 1, "modeled-BA-enrollment-retained");
+	}
+	return mt7996_npu_rro_reset_enqueue(dev, id, wlan, tid);
 }
 
 static void test_constructor(void)
@@ -521,6 +545,13 @@ static void test_constructor(void)
 	end_case();
 
 	start_case();
+	fail_table_alloc = true;
+	CHECK(mt7996_npu_rro_reset_init(&fixture) == -ENOMEM && !fixture.wed_rro.reset_owner &&
+	      allocs == 1 && frees == 1 && model_module.refs == 0 && endpoint.refs == 1,
+	      "constructor-BA-table-failure-unwinds-owner");
+	end_case();
+
+	start_case();
 	close_on_get = &fixture;
 	CHECK(mt7996_npu_rro_reset_init(&fixture) == -ESHUTDOWN,
 	      "constructor-close-before-publish");
@@ -532,14 +563,14 @@ static void test_constructor(void)
 static void test_missing_owner_close(void)
 {
 	start_case();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 1, 21, 2) == -ENODEV,
+	CHECK(enqueue_with_modeled_BA(&fixture, 1, 21, 2) == -ENODEV,
 	      "missing-owner-enqueue");
 	CHECK(queue_calls == 1 && fixture.wed_rro.lock.held == 0,
 	      "missing-owner-queue-under-lock");
 	CHECK(mt7996_npu_rro_reset_init(&fixture) == -ENODEV &&
 	      !fixture.wed_rro.reset_owner, "missing-owner-error-prevents-later-publication");
 	mt7996_npu_rro_reset_close(&fixture);
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 2, 22, 3) == -ENODEV &&
+	CHECK(enqueue_with_modeled_BA(&fixture, 2, 22, 3) == -ENODEV &&
 	      queue_calls == 1, "missing-owner-close-admission");
 	CHECK(mt7996_npu_rro_reset_init(&fixture) == -ESHUTDOWN,
 	      "close-before-init-refused");
@@ -567,6 +598,8 @@ static void publish_before_lock(spinlock_t *lock)
 {
 	CHECK(lock == &fixture.wed_rro.lock, "publication-race-lock");
 	init_owner();
+	CHECK(!mt7996_npu_rro_ba_bind(&fixture, 19, 31, 31, 7, 20),
+	      "publication-race-modeled-status-binding");
 }
 
 static void test_publication_recheck(void)
@@ -575,7 +608,7 @@ static void test_publication_recheck(void)
 
 	start_case();
 	before_spin_lock = publish_before_lock;
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 19, 31, 7) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 19, 31, 7) == 0,
 	      "publication-recheck-retains-arrival");
 	owner = fixture.wed_rro.reset_owner;
 	CHECK(owner && !fixture.recovery.npu_error && queue_calls == 1 &&
@@ -597,7 +630,7 @@ static void test_all_ids_and_bounds(void)
 	start_case();
 	owner = init_owner();
 	for (id = 0; id <= MT7996_RRO_MAX_SESSION; id++) {
-		CHECK(mt7996_npu_rro_reset_enqueue(&fixture, id, id + 30,
+		CHECK(enqueue_with_modeled_BA(&fixture, id, id + 30,
 							id % 16) == 0,
 		      "all-1025-ids-admitted");
 		CHECK(owner->records[id].id == id &&
@@ -608,7 +641,7 @@ static void test_all_ids_and_bounds(void)
 	}
 	CHECK(owner->arrivals == 1025 && list_count(&owner->pending) == 1025,
 	      "all-1025-pending");
-	CHECK(allocs == 1 && frees == 0, "all-records-preallocated");
+	CHECK(allocs == 2 && frees == 0, "all-records-preallocated");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
 	CHECK(send_calls == 1025 && mcu_calls == 1025 &&
 	      send_last_id == 1024 && mcu_last_id == 1024 &&
@@ -617,9 +650,9 @@ static void test_all_ids_and_bounds(void)
 	for (id = 0; id <= MT7996_RRO_MAX_SESSION; id++)
 		CHECK(owner->records[id].phase == MT7996_NPU_RRO_MCU_ACKED,
 		      "all-completed-records-held");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 1025, 7, 1) == -EINVAL,
+	CHECK(enqueue_with_modeled_BA(&fixture, 1025, 7, 1) == -EINVAL,
 	      "id-1025-out-of-bounds");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, UINT16_MAX, 8, 2) == -EINVAL,
+	CHECK(enqueue_with_modeled_BA(&fixture, UINT16_MAX, 8, 2) == -EINVAL,
 	      "u16-max-out-of-bounds");
 	CHECK(owner->bad_valid && owner->bad_id == 1025 &&
 	      owner->bad_wlan_id == 7 && owner->bad_tid == 1 &&
@@ -636,15 +669,15 @@ static void test_duplicates_and_conflicts(void)
 
 	start_case();
 	owner = init_owner();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 17, 71, 3) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 17, 71, 3) == 0,
 	      "initial-tuple");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 17, 71, 3) == -EALREADY,
+	CHECK(enqueue_with_modeled_BA(&fixture, 17, 71, 3) == -EALREADY,
 	      "pending-duplicate");
 	CHECK(owner->duplicates == 1 && owner->arrivals == 1 &&
 	      !owner->error, "pending-duplicate-no-new-arrival");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 17, 72, 3) == -ESTALE,
+	CHECK(enqueue_with_modeled_BA(&fixture, 17, 72, 3) == -ESTALE,
 	      "pending-conflicting-tuple");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 18, 72, 4) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 18, 72, 4) == 0,
 	      "post-conflict-record-held");
 	CHECK(owner->error == -ESTALE && owner->bad_valid &&
 	      owner->bad_id == 17 && owner->bad_wlan_id == 72 &&
@@ -658,12 +691,12 @@ static void test_duplicates_and_conflicts(void)
 
 	start_case();
 	owner = init_owner();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 5, 62, 6) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 5, 62, 6) == 0,
 	      "completion-first-arrival");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
 	CHECK(owner->records[5].phase == MT7996_NPU_RRO_MCU_ACKED,
 	      "modeled-completion");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 5, 62, 6) == -ESTALE,
+	CHECK(enqueue_with_modeled_BA(&fixture, 5, 62, 6) == -ESTALE,
 	      "completed-id-reuse-held");
 	CHECK(owner->arrivals == 1 && owner->conflicts == 1 &&
 	      owner->records[5].arrival == 1 && send_calls == 1 && mcu_calls == 1,
@@ -683,8 +716,8 @@ static void test_npu_errors(void)
 		start_case();
 		owner = init_owner();
 		send_error = raw[i];
-		CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 41, 91, 1) == 0 &&
-		      mt7996_npu_rro_reset_enqueue(&fixture, 42, 92, 2) == 0,
+		CHECK(enqueue_with_modeled_BA(&fixture, 41, 91, 1) == 0 &&
+		      enqueue_with_modeled_BA(&fixture, 42, 92, 2) == 0,
 		      "NPU-error-seed");
 		mt7996_wed_rro_work(&fixture.wed_rro.work);
 		CHECK(send_calls == 1 && mcu_calls == 0,
@@ -711,8 +744,8 @@ static void test_mcu_errors(void)
 		start_case();
 		owner = init_owner();
 		mcu_error = raw[i];
-		CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 51, 111, 5) == 0 &&
-		      mt7996_npu_rro_reset_enqueue(&fixture, 52, 112, 6) == 0,
+		CHECK(enqueue_with_modeled_BA(&fixture, 51, 111, 5) == 0 &&
+		      enqueue_with_modeled_BA(&fixture, 52, 112, 6) == 0,
 		      "MCU-error-seed");
 		mt7996_wed_rro_work(&fixture.wed_rro.work);
 		CHECK(send_calls == 1 && mcu_calls == 1 &&
@@ -734,7 +767,7 @@ static void test_provider_loss_no_cpu_fallback(void)
 
 	start_case();
 	owner = init_owner();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 7, 44, 3) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 7, 44, 3) == 0,
 	      "provider-loss-owned-arrival");
 	INIT_LIST_HEAD(&old.list);
 	old.id = MT7996_RRO_MAX_SESSION;
@@ -766,14 +799,14 @@ static void test_close_and_queue_order(void)
 
 	start_case();
 	owner = init_owner();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 2, 16, 3) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 2, 16, 3) == 0,
 	      "pre-close-queued");
 	queued = queue_calls;
 	mt7996_npu_rro_reset_close(&fixture);
 	model_cancel_work_sync();
 	CHECK(cancel_calls == 1 && owner->closing &&
 	      list_count(&owner->held) == 1, "close-moves-pending-before-cancel");
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 3, 17, 4) == 0 &&
+	CHECK(enqueue_with_modeled_BA(&fixture, 3, 17, 4) == 0 &&
 	      queue_calls == queued && list_count(&owner->held) == 2,
 	      "queue-after-close-refused");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
@@ -794,7 +827,7 @@ static void test_close_during_responses(void)
 	start_case();
 	owner = init_owner();
 	close_on_send = true;
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 9, 33, 1) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 9, 33, 1) == 0,
 	      "close-during-NPU-seed");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
 	CHECK(owner->closing && !owner->inflight &&
@@ -808,7 +841,7 @@ static void test_close_during_responses(void)
 	start_case();
 	owner = init_owner();
 	close_on_mcu = true;
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 10, 34, 2) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 10, 34, 2) == 0,
 	      "close-during-MCU-seed");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
 	CHECK(owner->closing && !owner->inflight &&
@@ -828,7 +861,7 @@ static void test_consumer_free_retains_records(void)
 
 	start_case();
 	owner = init_owner();
-	CHECK(mt7996_npu_rro_reset_enqueue(&fixture, 77, 255, 8) == 0,
+	CHECK(enqueue_with_modeled_BA(&fixture, 77, 255, 8) == 0,
 	      "consumer-release-seed");
 	mt7996_npu_rro_reset_close(&fixture);
 	mt7996_npu_rro_reset_join(&fixture);
@@ -854,7 +887,7 @@ static void test_typed_mcu_handoffs(void)
 
 	for (unsigned i = 0; i < ARRAY_SIZE(errors); i++) {
 		start_case(); owner = init_owner(); begin_error = errors[i];
-		CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 11, 35, 3), "typed-begin-seed");
+		CHECK(!enqueue_with_modeled_BA(&fixture, 11, 35, 3), "typed-begin-seed");
 		mt7996_wed_rro_work(&fixture.wed_rro.work);
 		CHECK(mcu_begin_calls == 1 && !mcu_calls && !mcu_complete_calls,
 		      "typed-begin-error-blocks-physical-MCU");
@@ -865,7 +898,7 @@ static void test_typed_mcu_handoffs(void)
 		assert_quarantined(errors[i] < 0 ? errors[i] : -EIO, true); end_case();
 
 		start_case(); owner = init_owner(); complete_error = errors[i];
-		CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 12, 36, 4), "typed-complete-seed");
+		CHECK(!enqueue_with_modeled_BA(&fixture, 12, 36, 4), "typed-complete-seed");
 		mt7996_wed_rro_work(&fixture.wed_rro.work);
 		CHECK(mcu_begin_calls == 1 && mcu_calls == 1 && mcu_complete_calls == 1 &&
 		      owner->records[12].phase == MT7996_NPU_RRO_MCU_ACKED &&
@@ -874,7 +907,7 @@ static void test_typed_mcu_handoffs(void)
 		assert_quarantined(errors[i] < 0 ? errors[i] : -EIO, true); end_case();
 	}
 	start_case(); owner = init_owner(); close_on_begin = true;
-	CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 13, 37, 5), "typed-close-seed");
+	CHECK(!enqueue_with_modeled_BA(&fixture, 13, 37, 5), "typed-close-seed");
 	mt7996_wed_rro_work(&fixture.wed_rro.work);
 	CHECK(owner->closing && mcu_begin_calls == 1 && !mcu_calls && !mcu_complete_calls &&
 	      owner->records[13].phase == MT7996_NPU_RRO_MCU_PREPARING && !owner->error,

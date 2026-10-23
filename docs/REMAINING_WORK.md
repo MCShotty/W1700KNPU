@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Qualify Firmware Ordering And Hot CPU Join
+
+Actual host BA creation identity now reaches retained status/DELETE/reset work,
+including original active/primary link mapping. The first association cannot be
+overwritten; DELETE no longer infers identity from the current RX slot. Joint
+selected C passes23 setups/14 controls; current creation19/12, BA18/six, worker23/
+eight,6150 resets/12 negatives/three controls, broad456/four, callers1090/seven
+and142 units pass. Four modules link:producer5182ec7d/lockcc998c1f/31 mappings.
+
+Next establish current-firmware BA ordering/cookie or a true late/reuse fence.
+The first unseen cookie-less late status still binds a replacement. Owner close
+rejects new admission but does not join an earlier accepted status writer; full
+hot CPU lifetime, transport admission, production retirement/rearm and physical
+drain remain. Finish both complete native replays, current full image/cold-fault-
+HIF2/hardware/client/performance/stability gates. Neither synthetic identities,
+reset journal generation1 nor a generic MCU ACK supplies these witnesses.
+Both live input graphs unchanged; read ba-binding REPORT/EVIDENCE. Full goal active.
+
 ## 2026-10-24 - Carry Creation Identity Into Retained BA Bindings
 
 Actual RX-TID creation now assigns a nonzero device-local u64 serial before

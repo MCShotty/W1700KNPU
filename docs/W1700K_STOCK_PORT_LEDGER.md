@@ -6,6 +6,43 @@ Purpose: one durable reference for what has been patched, implemented, reconstru
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
 
+## 2026-10-24 - Retained Host BA Creation And Link Association
+
+- Status0 now records actual RX-TID creation serial, original active WLAN/TID
+  and primary WCID in a1025-entry preallocated table attached to the independent
+  pinned reset owner. The first valid core association never gets overwritten;
+  conflicting status retains the proposed serial/tuple and first sticky error.
+- DELETE requires that retained association, snapshots its serial and never
+  queries the current RX slot. Work checks the snapshot and tuple before typed
+  reset-generation/ticket calls. The reset journal generation remains distinct.
+  Missing/mismatched binding faults retain records, with no CPU fallback.
+- Owner stays below64KiB and separate table below32KiB; both allocations unwind
+  before publication on failure. Published references/table stay retained through
+  errors and close. Valid closed metadata is retained without new admission;
+  mode changes do not discard owned status. No per-event BA allocation or RPC.
+- Joint actual selected RX creation/stop/AMPDU/per-link/status/DELETE/full-owner
+  C passes23 measured setups/14 compiled controls. Separate creation19/12, BA18/
+  six, worker23/eight,6150 resets/12 negatives/three controls, broad456/four,
+  callers1090/seven and142 units/zero skips pass. The worker suite now explicitly
+  models prior BA enrollment and adds a table-allocation failure case; it is not
+  mislabeled actual creation/status proof. Kernel/MCU/transport remain models.
+- Four AArch64 modules link:producer5182ec7d/lockcc998c1f/31 mappings/5 kernel/
+  330 mt76/16 fuzz0 outputs. New binding symbol/typed edges resolve. Only mt7996e
+  changes; original102685 kernel/516 mt76 entries stay unchanged. No world/image.
+- First unseen cookie-less late status still binds a replacement; real firmware
+  reachability/order is not proved. Close rejects later admission, not completion
+  of a status writer accepted before it. No full hot CPU join, reuse, physical
+  drain, retirement/rearm or free authority is established. Parked guards stay.
+- A host RAM check failed by25MiB, but outer orchestration still dispatched the
+  small128MiB installer. Its guest/storage guards passed; source/all16 outputs
+  were subsequently revalidated, without retroactively qualifying Windows RAM.
+  New native controller requires a passed phase-matching Windows receipt younger
+  than60seconds at the unchanged2GiB+128MiB threshold. Four deny controls pass.
+- All initial receipts/error notes remain. Both original replay identities and
+  input graphs stay unchanged; no restart/signals/subagents or new hardware/
+  module load/flash/VM-policy change. Firmware ordering, full hot lifetime and
+  physical/image/client gates remain. Read ba-binding REPORT/EVIDENCE; goal active.
+
 ## 2026-10-24 - Actual RX-TID Creation Identity
 
 - Added immutable nonzero device-local u64 creation serials to actual generic
