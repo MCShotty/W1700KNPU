@@ -66,16 +66,19 @@ mutex and use process-context provider operations. Publication latches possible
 exposure/ticket before the dedicated typed call, while holding the provider
 process mutex. The control mutex serializes the accepted reply. Exact echo
 correlates identities and full payload; it is not cryptographic authentication.
-Actual MCU work retention, atomic/process handoff and BA-lifetime identity still
-need implementation. The broker's MCU messages accept a host-reported correlated
+Actual typed MCU/journal handoff and BA-lifetime identity still need integration.
+Independent host work retention is now implemented as described below. The
+broker's MCU messages accept a host-reported correlated
 result; the host test models success and cannot establish a physical response.
 Keep selectors0/1/3's four-word payload distinct from scalar constructors2/7.
 
 Owned publication errors now propagate through the higher initializer before RRO
 hardware setup. Still preserve reset request identity/generation through NPU and
 MCU errors, duplicates and late results. Validate session IDs before publication.
-The existing reset worker does not yet invoke the retained journal; a freed work
-item cannot represent unfinished reset ownership. Define retry deduplication.
+The owned reset worker now uses independently retained preallocated records,
+not legacy disposable items. It still does not invoke the typed reset journal.
+Pending identical tuples deduplicate; conflicts/completed-slot reuse stop the
+owner. This fail-closed policy is not a qualified firmware retry/reuse fence.
 
 ## BA Lifetime And MCU Identity
 
@@ -83,8 +86,23 @@ The selected MCU status handler resolves `wlan_id` and `tid` against the current
 WCID/TID object before assigning the firmware session ID. RX BA start first
 stops an old object in that slot and publishes a new one. The tuple therefore
 does not by itself distinguish BA lifetimes. The selected delete event carries
-session ID/WLAN/TID, but its queued item currently copies only the session ID.
-The worker discards NPU/MCU return values and frees that item after both calls.
+session ID/WLAN/TID. Legacy queued items retain all three fields after the BA
+integrity checkpoint, but legacy worker error/disposal behavior is unchanged.
+The owned lane now retains the tuple, host arrival ordinal, raw NPU/MCU results
+and possible/acknowledged phases in an independent module/device-pinned owner.
+NPU error blocks the later MCU call, MCU error stays sticky, and provider loss
+cannot choose the legacy CPU-memory fallback. Close precedes cancellation and
+software join; requests/pins remain retained after consumer teardown. No published
+owner retirement or transparent rearm exists. The current selector3 call remains
+denied by the checked provider; modeled success is not operational admission.
+
+Owner publication and the missing-owner event path share the admission lock.
+An enqueue that initially sees NULL rechecks under that lock, so an intervening
+publication receives the exact tuple. If the event wins first, its sticky
+ENODEV prevents later owner publication and higher init stops before extents.
+This pre-owner failure retains an error, not a tuple or BA lifetime. Two explicit
+host interleavings and intended-failure controls cover these software decisions;
+they are not kernel concurrency or firmware-ordering qualification.
 
 Create a BA-lifetime token at actual RX-TID creation and a separate reset
 generation/ticket when an immutable retained reset request is first issued.

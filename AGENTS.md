@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Retained Host RRO Reset Ownership
+
+- Owned DELETE work now keeps preallocated WLAN/TID/session records and raw
+  NPU/MCU errors in an independent module/device-pinned owner. Provider loss
+  cannot choose CPU fallback; an NPU error prevents the later MCU call.
+- Close precedes work cancellation; software join follows it in unregister,
+  full reset and L1 reset. Closed/faulted requests remain retained. No production
+  owner/reference retirement or transparent rearm exists yet.
+- Current-source retention17/six compiled controls, BA15/three controls and
+  132 observer/tooling/verifier units pass, zero skips. Constructor/event
+  publication interleavings now latch errors or recheck the published owner.
+- Four current target-module links and the linked-producer1090 caller regression
+  remain pending. Auxiliary builds hit OOM/time limits; later launches refused
+  RAM. Do not label partial objects/current source as a qualified module set.
+  Read rro-reset REPORT/EVIDENCE for exact source versions and failed attempts.
+- Host arrival numbers are not BA generations. Checked legacy selector3 stays
+  denied; typed reset bridging, real BA creation/reuse authentication, hot CPU
+  lifetime, physical retirement/image/client acceptance remain. Full goal active.
+- Keep both live replay cohorts unchanged. New unique fixtures avoid editing
+  their captured C inputs. No image/hardware/VM/global-policy change.
+
 ## 2026-10-23 - Exact Observer Cache; Full Native Replay Running
 
 - Static block range/forbidden-PC/site checks now share the existing bounded
@@ -2360,9 +2381,10 @@ leaves the ledger unchanged.
 - Use bounded standalone prompts for authorized subagents; do not fork this
   accumulated task history by default. Keep large evidence in files and return
   concise summaries/hashes so duplicate histories do not exhaust the drives.
-- Use GPT-6 Luna with max reasoning for subagents. Prefer the requested v2 flow;
-  the user authorized the exposed v1 interface for read-only reviews on
-  2026-10-11. Do not substitute user-owned chats for subagents.
+- Use GPT-6 Luna/max for exploration and GPT-6 Sol/max for implementation.
+  Prefer the requested v2 flow; when unavailable, the user explicitly authorized
+  the exposed v1 interface with those models. Do not substitute user-owned chats
+  for subagents. Close finished workers and retain their exact work scope.
 - Use the authorized GitHub connector if native Git authentication is absent;
   do not extract connector credentials. Existing Windows Git authentication
   pushed successfully when WSL lacked push credentials. Reuse configured

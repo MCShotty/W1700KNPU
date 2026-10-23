@@ -1,0 +1,324 @@
+{
+  "goal_turn_classification": "progress",
+  "base_commit": "68035adb47c25a866f08c72be72d2a13bbe9debb",
+  "scope": "Integrated experimental host reset retention and modeled constructor/event handoff; target links pending",
+  "full_npu_goal_complete": false,
+  "tests": {
+    "retention": {
+      "folder": ".local/npu-rro-reset-retention-20261023/current-q1",
+      "cases": 17,
+      "controls": 6
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/current-q1",
+      "cases": 15,
+      "controls": 3
+    }
+  },
+  "structural_hooks": 7,
+  "total_units": 132,
+  "observer_units": 6,
+  "tooling_units": 116,
+  "inventory_units": 10,
+  "Python_mutation_controls": 3,
+  "skipped": 0,
+  "source_lock_sha256": "f7f843ff9f6580a2903fe8e716069728fa454ad13001f54e4507e40e6fd924fe",
+  "component_mappings": 31,
+  "patch_outputs": 15,
+  "patch_fuzz": 0,
+  "four_current_AArch64_module_links": false,
+  "current_linked_producer_caller_regression": false,
+  "last_successful_module_producer": ".local/npu-checked-irq-modules/rro-ba-q2/result.json",
+  "last_successful_module_producer_sha256": "b9e5003e8185f34c051bfba47978628d8eee993b239102c7f8e8a577943f567b",
+  "last_successful_module_producer_current": false,
+  "auxiliary_build_qualification": "pending; failures are not passes",
+  "prior_bindings_rehashed": 7894,
+  "prior_external_bindings_rehashed": 1,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "native": {
+    "complete": false,
+    "positive_rpc_observed": 3831,
+    "operations_observed": {
+      "1": 1,
+      "2": 139,
+      "3": 129,
+      "4": 1,
+      "5": 1187,
+      "6": 1187,
+      "7": 1187
+    },
+    "last_complete": {
+      "operation": 7,
+      "argument": 161,
+      "generation": 2,
+      "sequence": 3853,
+      "journal_sha256": "91a1b4982add1a94cd82ef31f375cf32c6568c5b2e1a4043fb2c4dca276ef85d",
+      "broker_sha256": "f36d631bb15e12dae7b77a7160afcd152252f1b4965a56abe44c11e115b3cff0",
+      "request_sha256": "b82264679f7b2a421ad35cf3a9e477a83b305716bbed61c6c71bc18fa4d336ff",
+      "reply_sha256": "2d9452d155ed2d82004ec1da21ef9a5c8b4a1c9991e5fa3418bd4a61ded633c5",
+      "rolling_sha256": "b4f0f8340076ad0f0b39c33a7e8bfedfd899fd62d5ce3cbe17d3ecb9aa302178",
+      "modeled_MCU_result": true,
+      "counts": {
+        "blocks": 124719,
+        "metadata_writes": 12301,
+        "payload_reads": 515,
+        "mailbox_veneer": 1,
+        "mailbox_binding": 1
+      },
+      "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wall_ns": 488460453,
+      "min_sp": 2214726368,
+      "mmio": [
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 256
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9
+        }
+      ]
+    },
+    "service": {
+      "MemoryCurrent": "124391424",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "163299328",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 5490286
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1192587
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 5493539
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1195879
+    }
+  ],
+  "legacy_selector3_admitted": false,
+  "BA_generation_authenticated": false,
+  "physical_MCU_authenticated": false,
+  "host_software_join_model_only": true,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "production_owner_retirement": false,
+  "raw_pair_or_RV32_components_changed": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "original_replay_restarted": false,
+  "VM_or_global_policy_changed": false,
+  "helper_cleanup_q1_invalidated": true,
+  "older_helpers_untouched": true,
+  "older_helper_cleanup_answer_pending": true,
+  "Jev_source_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "npu_failure_blocks_mcu": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.94,
+        "probabilities": {
+          "supported": 0.96,
+          "contradicted": 0.03,
+          "not_established": 0.01
+        }
+      },
+      "mcu_error_retained": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.97,
+        "probabilities": {
+          "supported": 0.98,
+          "contradicted": 0.0,
+          "not_established": 0.02
+        }
+      },
+      "provider_loss_no_cpu_fallback": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.52,
+        "probabilities": {
+          "supported": 0.68,
+          "contradicted": 0.08,
+          "not_established": 0.24
+        }
+      },
+      "host_arrival_not_BA_epoch": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.61,
+        "probabilities": {
+          "supported": 0.04,
+          "contradicted": 0.74,
+          "not_established": 0.22
+        }
+      },
+      "retention_not_retirement": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.82,
+        "probabilities": {
+          "supported": 0.88,
+          "contradicted": 0.01,
+          "not_established": 0.11
+        }
+      },
+      "init_rejects_latched_error": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.94,
+        "probabilities": {
+          "supported": 0.96,
+          "contradicted": 0.02,
+          "not_established": 0.02
+        }
+      },
+      "null_owner_recheck": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.95,
+        "probabilities": {
+          "supported": 0.97,
+          "contradicted": 0.02,
+          "not_established": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 4588,
+      "output_tokens": 337
+    }
+  },
+  "Jev_report_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "BA_authentication_claimed": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "legacy_selector_admitted": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "fixture_scope_explicit": {
+        "type": "noul",
+        "noul": 0.86
+      },
+      "failed_builds_disclosed": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "cleanup_correction_disclosed": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "full_goal_complete_claimed": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "current_target_pass_claimed": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "source_only_scope_clear": {
+        "type": "noul",
+        "noul": 0.93
+      }
+    },
+    "usage": {
+      "input_tokens": 2660,
+      "output_tokens": 170
+    }
+  },
+  "observed_unix_ns": 1792781800462126700,
+  "private_evidence": ".local/npu-rro-reset-20261023/evidence-q1.json",
+  "private_evidence_sha256": "dd251d7b4f106cf2004a3d123a6f10249e7d9c758b2616344d2656c21fb29d06",
+  "project_bindings": 12076,
+  "external_bindings": 1
+}

@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Host Reset Work Retained
+
+Owned RRO reset work now retains its WLAN/TID/session identity, raw errors and
+module/device references independently of consumer teardown. Provider loss
+cannot switch it to CPU fallback, and an NPU failure stops the later MCU reset.
+Close/cancel/join ordering is wired into unregister and both reset paths.
+Current-source retention17/six controls, BA15/three controls and132 observer/
+tooling/verifier units pass with zero skips. Constructor/event publication
+interleavings are covered by explicit host models. Four current target-module
+links and the linked-producer caller regression remain pending after auxiliary
+OOM/time limits and RAM refusals; partial objects are not a passing module set.
+
+This does not authenticate BA generations, enable checked legacy selector3,
+prove physical drain, or provide retirement/rearm. Both native replays remain
+untouched. See the [reset checkpoint](research/checkpoints/2026-10-23-npu-rro-reset/REPORT.md).
+
 ## 2026-10-23 - Native Observer Faster; Full Replay Running
 
 The exact observer now caches fixed block metadata while preserving every SP

@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (exact observer cache; new complete native replay live)
+Last updated: 2026-10-23 (host reset retention models pass; target qualification pending)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Retained Host Reset Worker
+
+Independent module/device-pinned records now retain owned DELETE tuples and raw
+NPU/MCU results across provider loss/close/consumer release. NPU errors prevent
+MCU reset; the owned work marker prevents CPU fallback. Close/cancel/software
+join is ordered in unregister/full reset/L1 reset, not physical drain proof.
+Current-source retention17/six controls, BA15/three controls, seven hook checks
+and132 units pass, zero skips. Constructor/event publication races are modeled
+in both orderings. Four current target links and the linked-producer1090 caller
+regression remain pending after auxiliary OOM/deadline/RAM failures. Lockf7f843ff
+has31 mappings; last fully linked b9e5003e remains older-source only.
+
+No production retirement/rearm or BA epoch is invented. Typed reset bridging,
+actual BA creation/late/reuse authentication, hot lifetime and physical/image/
+client acceptance remain. Both live replays are untouched. Refused RAM launches,
+missing-distro launch and corrected helper-cleanup bookkeeping remain recorded
+in rro-reset checkpoint; no image/hardware/VM/global-policy change. Goal active.
 
 ## 2026-10-23 - Exact Observer Cache; Full Replay Running
 

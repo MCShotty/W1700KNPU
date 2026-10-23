@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Independent Host Reset Work Ownership
+
+Owned DELETE records now retain WLAN/TID/session/arrival and raw NPU/MCU errors
+in an independent module/device-pinned owner. NPU failure blocks MCU admission;
+provider loss cannot enter legacy CPU fallback. Close/cancel/software-join is
+wired through unregister/full reset/L1 reset; teardown never retires the owner.
+Current-source retention17/six controls, BA15/three controls and132 units pass,
+zero skips. Constructor/event publication interleavings now retain an observed
+owner or reject publication after a missing-owner error. Four current module
+links and the linked-producer1090 caller regression remain pending. Auxiliary
+OOM/deadline/RAM failures are retained, not passes. Lockf7f843ff/31 mappings;
+last successful module producer b9e5003e is older-source only. Read rro-reset.
+
+The host ordinal is not a BA epoch, MCU ACK is not a reuse/drain fence, and checked
+legacy selector3 stays denied. Typed reset bridging, actual BA creation/late-event
+authentication, hot lifetime, production retirement/rearm and full physical/image/
+client acceptance remain. Both live replay cohorts stay frozen/unchanged.
+No image/hardware/VM/global-policy change; full reverse-engineering goal active.
+
 ## 2026-10-23 - Exact Observer Improved; New Full Run Live
 
 Static per-block range/site work now shares the bounded exact-code cache;

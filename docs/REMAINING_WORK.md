@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Finish Typed Reset And BA Lifetime Integration
+
+The owned host reset lane now retains immutable tuples/raw errors and independent
+module/device references, stops MCU work after an NPU error, and closes admission
+before cancellation/software join. Current-source retention17/six controls,
+BA15/three controls and132 units pass, zero skips; constructor/event publication
+interleavings are modeled. Finish the four target-module links and source-bound
+1090 caller regression: auxiliary OOM/deadline failures and RAM refusals are not
+passes. The last fully linked producer b9e5003e belongs to older source.
+
+Next connect retained requests to the typed reset journal/transport, create BA
+lifetime identity at actual RX-TID creation, and qualify a real late-event/reuse
+fence. Host arrival ordinals and generic MCU ACKs do not establish that identity.
+Legacy checked selector3 remains denied. Production owner retirement/rearm,
+complete hot CPU lifetime and independent physical drain/retirement remain open.
+Both native replays/full current image/cold-fault-HIF2/hardware/client/performance/
+stability gates remain. Preserve their captured inputs and never restart on an
+observation timeout. Read rro-reset checkpoint; full NPU goal remains active.
+
 ## 2026-10-23 - Complete The Fresh Exact-Observer Replay
 
 Fixed observer overhead by caching only static block metadata and write-region

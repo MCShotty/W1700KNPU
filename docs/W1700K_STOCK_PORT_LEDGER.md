@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (exact observer cache qualified; fresh full native replay running)
+Last updated: 2026-10-23 (host reset retention qualified in models; target links pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Retained Host RRO Reset Requests
+
+- The owned lane preallocates1025 records and retains WLAN/TID/session, host
+  arrival identity and raw NPU/MCU results. Independent module/device pins and
+  retained lists survive consumer teardown. No per-event legacy allocation.
+- NPU failure prevents a later MCU call; MCU failure remains sticky. Exact
+  pending duplicates do not retransmit; tuple conflicts/completed-slot reuse
+  stop admission without inventing a firmware BA epoch. Provider loss stays
+  on the owned path, never CPU-memory fallback.
+- Close precedes cancel_work_sync and software join follows in unregister,
+  full reset and L1 reset. A pre-admitted MCU call may complete during close;
+  no later MCU call is admitted. All records/references remain retained.
+- Current-source selected-C retention17/six compiled controls and BA15/three
+  controls pass. Seven structural checks and132 observer/tooling/verifier units
+  pass, zero skips. Constructor/event publication now rechecks under the lock
+  or rejects publication after a missing-owner error; two added controls cover it.
+- Four current module links and the linked-producer1090 caller regression remain
+  pending. Partial provider/core objects do not qualify the combined module set;
+  the last fully linked producer b9e5003e belongs to older source.
+- Patch reconstruction passes with zero fuzz; source lock f7f843ff has31 component
+  mappings. Live native input graphs are disjoint from changed existing sources.
+- Two new idle REA helpers introduced by the authorized Sol/max worker are gone;
+  one exited on agent close and one received identity-checked SIGTERM. The first
+  cleanup receipt incorrectly said both were gone and is explicitly invalid;
+  corrected q2 retains that mistake. Older helpers and replay jobs untouched.
+- RAM guard refusals occurred before compilation. A test launch also lacked
+  WSL_DISTRO_NAME and failed before the test. Fresh correctly scoped launches
+  retain these failures. Two192MiB builds hit OOM; a GC probe was intentionally
+  stopped. A separated build, freshly budgeted192->224->236MiB, reached its
+  deadline. Copied-cache preparation hit a metadata-type assertion; subsequent
+  launches refused RAM before compile. A malformed pre-start command also
+  failed before work. No original replay cap/bound or2GiB margin was relaxed.
+- Older REA servers remain untouched pending the user's resource-cleanup answer.
+- Checked legacy selector3 stays denied; typed reset/BA token/reuse integration
+  and production retirement/rearm remain open. No physical CPU/DMA proof, new
+  image, hardware, VM or global-policy changes. Full NPU goal remains active.
 
 ## 2026-10-23 - Exact Observer Cache And Fresh Full Replay
 

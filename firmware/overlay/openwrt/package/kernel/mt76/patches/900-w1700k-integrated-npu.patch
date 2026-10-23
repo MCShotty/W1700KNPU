@@ -122,7 +122,7 @@ build input; compilation is not a physical drain or recovery proof.
  #ifdef CONFIG_MT76_NPU
  void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
  			u32 info);
-@@ -1679,9 +1735,20 @@
+@@ -1679,9 +1735,21 @@
  int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q);
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
@@ -142,10 +142,11 @@ build input; compilation is not a physical drain or recovery proof.
 +		       u32 bytes, void **buf, dma_addr_t *addr);
 +int mt76_npu_rro_publish(struct mt76_dev *dev, u32 ordinal);
 +int mt76_npu_rro_close(struct mt76_dev *dev);
++int mt76_npu_rro_abort(struct mt76_dev *dev, int error);
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
  int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-@@ -1716,18 +1783,67 @@
+@@ -1716,18 +1784,72 @@
  {
  }
  
@@ -211,6 +212,11 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +
 +static inline int mt76_npu_rro_close(struct mt76_dev *dev)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_abort(struct mt76_dev *dev, int error)
 +{
 +	return -EOPNOTSUPP;
  }
@@ -357,7 +363,7 @@ build input; compilation is not a physical drain or recovery proof.
  	     (band == MT_BAND2 && mt76_npu_device_active(&dev->mt76)))) {
  		int i;
  
-@@ -984,24 +985,51 @@
+@@ -984,24 +985,54 @@
  		MT_RRO_HOST_INT_ENA_HOST_RRO_DONE_ENA);
  }
  
@@ -397,6 +403,9 @@ build input; compilation is not a physical drain or recovery proof.
 +			if (ret)
 +				return ret;
 +			dev->npu_rro_owned = true;
++			ret = mt7996_npu_rro_reset_init(dev);
++			if (ret)
++				return ret;
 +		}
 +	}
 +
@@ -416,7 +425,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  			dev->wed_rro.ba_bitmap[i].ptr = ptr;
  		}
-@@ -1010,12 +1038,11 @@
+@@ -1010,12 +1041,11 @@
  	for (i = 0; i < ARRAY_SIZE(dev->wed_rro.addr_elem); i++) {
  		int j;
  
@@ -434,7 +443,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		dev->wed_rro.addr_elem[i].ptr = ptr;
  		memset(dev->wed_rro.addr_elem[i].ptr, 0,
-@@ -1027,7 +1054,11 @@
+@@ -1027,7 +1057,11 @@
  			addr++;
  		}
  
@@ -447,7 +456,7 @@ build input; compilation is not a physical drain or recovery proof.
  		    mt76_npu_device_active(&dev->mt76))
  			mt76_npu_send_txrx_addr(&dev->mt76, 0, i,
  					dev->wed_rro.addr_elem[i].phy_addr,
-@@ -1045,12 +1076,11 @@
+@@ -1045,12 +1079,11 @@
  	}
  
  	for (i = 0; i < ARRAY_SIZE(dev->wed_rro.msdu_pg); i++) {
@@ -465,7 +474,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		dev->wed_rro.msdu_pg[i].ptr = ptr;
  
-@@ -1060,31 +1090,28 @@
+@@ -1060,31 +1093,28 @@
  
  	if (!mtk_wed_device_active(&dev->mt76.mmio.wed) &&
  	    dev->mt76.hwrro_mode == MT76_HWRRO_V3_1) {
@@ -512,7 +521,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	dev->wed_rro.session.ptr = ptr;
  	addr = dev->wed_rro.session.ptr;
-@@ -1093,7 +1120,11 @@
+@@ -1093,7 +1123,11 @@
  		addr++;
  	}
  
@@ -525,18 +534,30 @@ build input; compilation is not a physical drain or recovery proof.
  		mt76_npu_send_txrx_addr(&dev->mt76, 1, 0,
  					dev->wed_rro.session.phy_addr, 0, 0);
  
-@@ -1106,6 +1137,10 @@
+@@ -1106,6 +1140,11 @@
  {
  	int i;
  
 +	if (dev->npu_rro_owned) {
++		mt7996_npu_rro_reset_close(dev);
 +		mt76_npu_rro_close(&dev->mt76);
 +		return;
 +	}
  	if (!mt7996_has_hwrro(dev))
  		return;
  
-@@ -1317,6 +1352,10 @@
+@@ -1170,6 +1209,10 @@
+ 
+ 	dev = (struct mt7996_dev *)container_of(work, struct mt7996_dev,
+ 						wed_rro.work);
++	if (READ_ONCE(dev->npu_rro_owned)) {
++		mt7996_npu_rro_reset_work(dev);
++		return;
++	}
+ 
+ 	spin_lock_bh(&dev->wed_rro.lock);
+ 	list_splice_init(&dev->wed_rro.poll_list, &list);
+@@ -1317,6 +1360,10 @@
  	set_bit(MT76_STATE_INITIALIZED, &dev->mphy.state);
  
  	ret = mt7996_mcu_init(dev);
@@ -547,6 +568,17 @@ build input; compilation is not a physical drain or recovery proof.
  	if (ret)
  		return ret;
  
+@@ -1839,8 +1886,10 @@
+ 
+ void mt7996_unregister_device(struct mt7996_dev *dev)
+ {
++	mt7996_npu_rro_reset_close(dev);
+ 	cancel_work_sync(&dev->dump_work);
+ 	cancel_work_sync(&dev->wed_rro.work);
++	mt7996_npu_rro_reset_join(dev);
+ 	cancel_work_sync(&dev->reset_work);
+ 	cancel_work_sync(&dev->rc_work);
+ 	mt7996_unregister_phy(mt7996_phy3(dev));
 --- a/mt7996/mac.c
 +++ b/mt7996/mac.c
 @@ -4,6 +4,7 @@
@@ -785,7 +817,17 @@ build input; compilation is not a physical drain or recovery proof.
  
  	dev->recovery.hw_full_reset = true;
  
-@@ -2339,8 +2437,16 @@
+@@ -2331,7 +2429,9 @@
+ 	wake_up(&dev->mt76.mcu.wait);
+ 	ieee80211_stop_queues(hw);
+ 
++	mt7996_npu_rro_reset_close(dev);
+ 	cancel_work_sync(&dev->wed_rro.work);
++	mt7996_npu_rro_reset_join(dev);
+ 	mt7996_for_each_phy(dev, phy)
+ 		cancel_delayed_work_sync(&phy->mt76->mac_work);
+ 
+@@ -2339,8 +2439,16 @@
  
  	mutex_lock(&dev->mt76.mutex);
  	for (i = 0; i < 10; i++) {
@@ -803,7 +845,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	if (i == 10)
-@@ -2382,6 +2488,8 @@
+@@ -2382,6 +2490,8 @@
  	ieee80211_wake_queues(mt76_hw(dev));
  
  	ieee80211_restart_hw(mt76_hw(dev));
@@ -812,7 +854,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  void mt7996_mac_reset_work(struct work_struct *work)
-@@ -2389,9 +2497,17 @@
+@@ -2389,9 +2499,17 @@
  	struct ieee80211_hw *hw;
  	struct mt7996_dev *dev;
  	struct mt7996_phy *phy;
@@ -831,7 +873,7 @@ build input; compilation is not a physical drain or recovery proof.
  	hw = mt76_hw(dev);
  
  	/* chip full reset */
-@@ -2405,7 +2521,9 @@
+@@ -2405,7 +2523,9 @@
  		else
  			dev->recovery.wm_reset_count++;
  
@@ -842,7 +884,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		/* enable mcu irq */
  		mt7996_irq_enable(dev, MT_INT_MCU_CMD);
-@@ -2431,7 +2549,8 @@
+@@ -2431,7 +2551,8 @@
  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
  		mtk_wed_device_stop(&dev->mt76.mmio.wed);
  
@@ -852,7 +894,17 @@ build input; compilation is not a physical drain or recovery proof.
  	ieee80211_stop_queues(mt76_hw(dev));
  
  	set_bit(MT76_RESET, &dev->mphy.state);
-@@ -2465,20 +2584,43 @@
+@@ -2439,7 +2560,9 @@
+ 	wake_up(&dev->mt76.mcu.wait);
+ 	mt76_abort_scan(&dev->mt76);
+ 
++	mt7996_npu_rro_reset_close(dev);
+ 	cancel_work_sync(&dev->wed_rro.work);
++	mt7996_npu_rro_reset_join(dev);
+ 	mt7996_for_each_phy(dev, phy) {
+ 		mt76_abort_roc(phy->mt76);
+ 		set_bit(MT76_RESET, &phy->mt76->state);
+@@ -2465,20 +2588,43 @@
  	}
  	napi_disable(&dev->mt76.tx_napi);
  
@@ -899,7 +951,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	/* enable DMA Rx/Tx and interrupt */
  	mt7996_dma_start(dev, false, false);
-@@ -2503,8 +2645,6 @@
+@@ -2503,8 +2649,6 @@
  				     MT_INT_TX_RX_DONE_EXT);
  	}
  
@@ -908,7 +960,7 @@ build input; compilation is not a physical drain or recovery proof.
  	clear_bit(MT76_MCU_RESET, &dev->mphy.state);
  	mt7996_for_each_phy(dev, phy)
  		clear_bit(MT76_RESET, &phy->mt76->state);
-@@ -2546,6 +2686,17 @@
+@@ -2546,6 +2690,17 @@
  					     MT7996_WATCHDOG_TIME);
  	dev_info(dev->mt76.dev,"\n%s L1 SER recovery completed.",
  		 wiphy_name(dev->mt76.hw->wiphy));
@@ -946,16 +998,20 @@ build input; compilation is not a physical drain or recovery proof.
  						      mt76);
 --- a/mt7996/mt7996.h
 +++ b/mt7996/mt7996.h
-@@ -372,6 +372,8 @@
+@@ -372,7 +372,11 @@
  struct mt7996_wed_rro_session_id {
  	struct list_head list;
  	u16 id;
+-};
 +	u16 wlan_id;
 +	u8 tid;
- };
++};
++
++struct mt7996_npu_rro_reset_owner;
  
  struct mt7996_msdu_page {
-@@ -490,6 +492,7 @@
+ 	struct list_head list;
+@@ -490,6 +494,7 @@
  		u32 state;
  		u32 wa_reset_count;
  		u32 wm_reset_count;
@@ -963,7 +1019,15 @@ build input; compilation is not a physical drain or recovery proof.
  		bool hw_full_reset:1;
  		bool hw_init_done:1;
  		bool restart:1;
-@@ -546,6 +549,9 @@
+@@ -540,12 +545,17 @@
+ 		struct work_struct work;
+ 		struct list_head poll_list;
+ 		spinlock_t lock;
++		struct mt7996_npu_rro_reset_owner *reset_owner;
++		bool reset_closing;
+ 
+ 		struct list_head page_cache;
+ 		struct list_head page_map[MT7996_RRO_MSDU_PG_HASH_SIZE];
  	} wed_rro;
  
  	dma_addr_t npu_txd_addr[2 * MT7996_NPU_TXD_SIZE];
@@ -973,7 +1037,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	bool ibf;
  	u8 fw_debug_wm;
-@@ -741,7 +747,7 @@
+@@ -741,7 +751,7 @@
  s8 mt7996_eeprom_get_power_delta(struct mt7996_dev *dev, int band);
  bool mt7996_eeprom_has_background_radar(struct mt7996_dev *dev);
  int mt7996_dma_init(struct mt7996_dev *dev);
@@ -982,7 +1046,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt7996_dma_prefetch(struct mt7996_dev *dev);
  void mt7996_dma_cleanup(struct mt7996_dev *dev);
  void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
-@@ -1011,6 +1017,7 @@
+@@ -1011,15 +1021,49 @@
  
  #ifdef CONFIG_MT7996_NPU
  int __mt7996_npu_hw_init(struct mt7996_dev *dev);
@@ -990,7 +1054,37 @@ build input; compilation is not a physical drain or recovery proof.
  int mt7996_npu_hw_init(struct mt7996_dev *dev);
  int mt7996_npu_hw_stop(struct mt7996_dev *dev);
  int mt7996_npu_rx_queues_init(struct mt7996_dev *dev);
-@@ -1020,6 +1027,11 @@
++int mt7996_npu_rro_reset_init(struct mt7996_dev *dev);
++int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan_id, u8 tid);
++void mt7996_npu_rro_reset_work(struct mt7996_dev *dev);
++void mt7996_npu_rro_reset_close(struct mt7996_dev *dev);
++void mt7996_npu_rro_reset_join(struct mt7996_dev *dev);
+ #else
++static inline int mt7996_npu_rro_reset_init(struct mt7996_dev *dev)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev,
++					     u16 id, u16 wlan_id, u8 tid)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void mt7996_npu_rro_reset_work(struct mt7996_dev *dev)
++{
++}
++
++static inline void mt7996_npu_rro_reset_close(struct mt7996_dev *dev)
++{
++}
++
++static inline void mt7996_npu_rro_reset_join(struct mt7996_dev *dev)
++{
++}
++
+ static inline int __mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
  	return 0;
  }
  
@@ -1719,7 +1813,7 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		goto error_ppe_put;
  
-@@ -497,6 +751,97 @@
+@@ -497,6 +751,117 @@
  }
  EXPORT_SYMBOL_GPL(mt76_npu_init);
  
@@ -1814,10 +1908,30 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +EXPORT_SYMBOL_GPL(mt76_npu_rro_close);
 +
++int mt76_npu_rro_abort(struct mt76_dev *dev, int error)
++{
++	struct airoha_npu *npu;
++	unsigned long flags;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	spin_lock_irqsave(&dev->mmio.irq_lock, flags);
++	err = mt76_npu_irq_fault_locked(dev, npu, error);
++	spin_unlock_irqrestore(&dev->mmio.irq_lock, flags);
++	if (npu)
++		airoha_npu_wlan_rro_close(npu, dev->dev);
++	mutex_unlock(&dev->mutex);
++
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_abort);
++
  void mt76_npu_deinit(struct mt76_dev *dev)
  {
  	struct airoha_ppe_dev *ppe_dev;
-@@ -504,18 +849,24 @@
+@@ -504,18 +869,24 @@
  
  	mutex_lock(&dev->mutex);
  
@@ -1868,16 +1982,18 @@ build input; compilation is not a physical drain or recovery proof.
  	case IEEE80211_AMPDU_RX_STOP:
 --- a/mt7996/mcu.c
 +++ b/mt7996/mcu.c
-@@ -1029,64 +1029,84 @@
+@@ -1029,64 +1029,92 @@
  static void
  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
  {
 -	struct mt7996_mcu_wed_rro_event *event = (void *)skb->data;
+-
+-	if (!mt7996_has_hwrro(dev))
 +	struct mt7996_mcu_wed_rro_event *event;
 +	struct tlv *tlv;
 +	int len;
- 
- 	if (!mt7996_has_hwrro(dev))
++
++	if (!mt7996_has_hwrro(dev) && !READ_ONCE(dev->npu_rro_owned))
  		return;
  
 +	if (!pskb_may_pull(skb, sizeof(*event)))
@@ -1914,13 +2030,35 @@ build input; compilation is not a physical drain or recovery proof.
  
 +			if (tag_len < sizeof(*e))
 +				return;
++			if (!mt7996_has_hwrro(dev))
++				break;
 +
  			e = (void *)skb->data;
  			idx = le16_to_cpu(e->wlan_id);
 +			rcu_read_lock();
  			wcid = mt76_wcid_ptr(dev, idx);
 -			if (!wcid || !wcid->sta)
--				break;
++			if (wcid && wcid->sta && e->tid < ARRAY_SIZE(wcid->aggr)) {
++				tid = rcu_dereference(wcid->aggr[e->tid]);
++				if (tid)
++					WRITE_ONCE(tid->id, le16_to_cpu(e->id));
++			}
++			rcu_read_unlock();
++			break;
++		}
++		case UNI_WED_RRO_BA_SESSION_DELETE: {
++			struct mt7996_mcu_wed_rro_ba_delete_event *e;
++			struct mt7996_wed_rro_session_id *session;
++
++			if (tag_len < sizeof(*e))
++				return;
++
++			e = (void *)skb->data;
++			if (READ_ONCE(dev->npu_rro_owned)) {
++				mt7996_npu_rro_reset_enqueue(dev,
++					le16_to_cpu(e->session_id),
++					le16_to_cpu(e->wlan_id), e->tid);
+ 				break;
 -
 -			if (e->tid >= ARRAY_SIZE(wcid->aggr))
 -				break;
@@ -1931,28 +2069,17 @@ build input; compilation is not a physical drain or recovery proof.
 -
 -			tid->id = le16_to_cpu(e->id);
 -			skb_pull(skb, sizeof(*e));
-+			if (wcid && wcid->sta && e->tid < ARRAY_SIZE(wcid->aggr)) {
-+				tid = rcu_dereference(wcid->aggr[e->tid]);
-+				if (tid)
-+					WRITE_ONCE(tid->id, le16_to_cpu(e->id));
-+			}
-+			rcu_read_unlock();
-+			break;
- 		}
+-		}
 -		break;
 -	}
 -	case UNI_WED_RRO_BA_SESSION_DELETE: {
 -		struct mt7996_mcu_wed_rro_ba_delete_event *e;
 -
 -		while (skb->len >= sizeof(*e)) {
-+		case UNI_WED_RRO_BA_SESSION_DELETE: {
-+			struct mt7996_mcu_wed_rro_ba_delete_event *e;
- 			struct mt7996_wed_rro_session_id *session;
-+
-+			if (tag_len < sizeof(*e))
-+				return;
- 
- 			e = (void *)skb->data;
+-			struct mt7996_wed_rro_session_id *session;
+-
+-			e = (void *)skb->data;
++			}
  			session = kzalloc(sizeof(*session), GFP_ATOMIC);
  			if (!session)
 -				break;
@@ -1983,3 +2110,301 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  }
  
+--- a/mt7996/Makefile
++++ b/mt7996/Makefile
+@@ -6,5 +6,5 @@
+ mt7996e-y := pci.o init.o dma.o eeprom.o main.o mcu.o mac.o \
+ 	     debugfs.o mmio.o
+ 
+-mt7996e-$(CONFIG_MT7996_NPU) += npu.o
++mt7996e-$(CONFIG_MT7996_NPU) += npu.o npu-rro-reset.o
+ mt7996e-$(CONFIG_DEV_COREDUMP) += coredump.o
+--- /dev/null
++++ b/mt7996/npu-rro-reset.c
+@@ -0,0 +1,286 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "mt7996.h"
++
++enum mt7996_npu_rro_reset_phase {
++	MT7996_NPU_RRO_UNUSED,
++	MT7996_NPU_RRO_QUEUED,
++	MT7996_NPU_RRO_NPU_POSSIBLE,
++	MT7996_NPU_RRO_NPU_DONE,
++	MT7996_NPU_RRO_MCU_POSSIBLE,
++	MT7996_NPU_RRO_MCU_ACKED,
++};
++
++struct mt7996_npu_rro_reset_record {
++	struct list_head list;
++	u64 arrival;
++	int npu_error, mcu_error;
++	u16 id, wlan_id;
++	u8 tid, phase;
++};
++
++/* Arrival ordinals identify host records, not firmware BA lifetimes. No record
++ * or reference is retired until a separately qualified retirement path exists.
++ */
++struct mt7996_npu_rro_reset_owner {
++	struct device *endpoint;
++	struct module *module;
++	struct list_head retained, pending, held;
++	spinlock_t lock;
++	u64 arrivals, duplicates, conflicts;
++	int error;
++	bool closing, inflight, joined, retained_once, bad_valid;
++	u16 bad_id, bad_wlan_id;
++	u8 bad_tid;
++	struct mt7996_npu_rro_reset_record records[MT7996_RRO_MAX_SESSION + 1];
++};
++
++static_assert(sizeof(struct mt7996_npu_rro_reset_owner) <= 65536);
++static LIST_HEAD(mt7996_npu_rro_retained);
++static DEFINE_SPINLOCK(mt7996_npu_rro_retained_lock);
++
++static void mt7996_npu_rro_reset_fail(struct mt7996_dev *dev, int error)
++{
++	int err = mt76_npu_rro_abort(&dev->mt76, error);
++
++	if (!READ_ONCE(dev->recovery.npu_error))
++		WRITE_ONCE(dev->recovery.npu_error, err);
++}
++
++int mt7996_npu_rro_reset_init(struct mt7996_dev *dev)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	unsigned int i;
++	int err;
++
++	if (smp_load_acquire(&dev->wed_rro.reset_owner))
++		return -EALREADY;
++	owner = kzalloc(sizeof(*owner), GFP_KERNEL);
++	if (!owner)
++		return -ENOMEM;
++	if (!try_module_get(THIS_MODULE)) {
++		kfree(owner);
++		return -ENODEV;
++	}
++	owner->module = THIS_MODULE;
++	owner->endpoint = get_device(dev->mt76.dev);
++	if (!owner->endpoint) {
++		module_put(owner->module);
++		kfree(owner);
++		return -ENODEV;
++	}
++	INIT_LIST_HEAD(&owner->retained);
++	INIT_LIST_HEAD(&owner->pending);
++	INIT_LIST_HEAD(&owner->held);
++	spin_lock_init(&owner->lock);
++	for (i = 0; i < ARRAY_SIZE(owner->records); i++) {
++		INIT_LIST_HEAD(&owner->records[i].list);
++		owner->records[i].id = i;
++	}
++	spin_lock_bh(&dev->wed_rro.lock);
++	if (dev->wed_rro.reset_closing || dev->wed_rro.reset_owner) {
++		err = dev->wed_rro.reset_closing ? -ESHUTDOWN : -EALREADY;
++	} else {
++		err = READ_ONCE(dev->recovery.npu_error);
++	}
++	if (err) {
++		spin_unlock_bh(&dev->wed_rro.lock);
++		put_device(owner->endpoint);
++		module_put(owner->module);
++		kfree(owner);
++		return err < 0 ? err : -EIO;
++	}
++	smp_store_release(&dev->wed_rro.reset_owner, owner);
++	spin_unlock_bh(&dev->wed_rro.lock);
++	return 0;
++}
++
++int mt7996_npu_rro_reset_enqueue(struct mt7996_dev *dev, u16 id, u16 wlan_id, u8 tid)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	struct mt7996_npu_rro_reset_record *record;
++	bool queue;
++	int err = 0;
++
++	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
++	if (!owner) {
++		spin_lock_bh(&dev->wed_rro.lock);
++		owner = smp_load_acquire(&dev->wed_rro.reset_owner);
++		if (!owner) {
++			if (!READ_ONCE(dev->recovery.npu_error))
++				WRITE_ONCE(dev->recovery.npu_error, -ENODEV);
++			if (!dev->wed_rro.reset_closing)
++				ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
++			spin_unlock_bh(&dev->wed_rro.lock);
++			return -ENODEV;
++		}
++		spin_unlock_bh(&dev->wed_rro.lock);
++	}
++	spin_lock_bh(&owner->lock);
++	if (id >= ARRAY_SIZE(owner->records)) {
++		err = -EINVAL;
++		goto bad;
++	}
++	record = &owner->records[id];
++	if (record->phase != MT7996_NPU_RRO_UNUSED) {
++		if (record->wlan_id != wlan_id || record->tid != tid ||
++		    record->phase == MT7996_NPU_RRO_MCU_ACKED) {
++			err = -ESTALE;
++			goto bad;
++		}
++		if (owner->duplicates != U64_MAX)
++			owner->duplicates++;
++		err = -EALREADY;
++		goto unlock;
++	}
++	if (owner->arrivals == U64_MAX) {
++		err = -EOVERFLOW;
++		goto bad;
++	}
++	record->arrival = ++owner->arrivals;
++	record->wlan_id = wlan_id;
++	record->tid = tid;
++	record->phase = MT7996_NPU_RRO_QUEUED;
++	list_add_tail(&record->list, owner->closing || owner->error ?
++		      &owner->held : &owner->pending);
++	goto unlock;
++bad:
++	if (!owner->error)
++		owner->error = err;
++	if (!owner->bad_valid) {
++		owner->bad_valid = true;
++		owner->bad_id = id;
++		owner->bad_wlan_id = wlan_id;
++		owner->bad_tid = tid;
++	}
++	if (owner->conflicts != U64_MAX)
++		owner->conflicts++;
++unlock:
++	/* Queue while holding the admission lock so close cannot finish first and
++	 * then have this producer schedule a new consumer callback behind it.
++	 */
++	queue = !owner->closing;
++	if (queue)
++		ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
++	spin_unlock_bh(&owner->lock);
++	return err;
++}
++
++void mt7996_npu_rro_reset_work(struct mt7996_dev *dev)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	struct mt7996_npu_rro_reset_record *record;
++	bool closing;
++	int err, result;
++
++	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
++	if (!owner) {
++		mt7996_npu_rro_reset_fail(dev, -ENODEV);
++		return;
++	}
++	for (;;) {
++		spin_lock_bh(&owner->lock);
++		if (owner->closing || owner->error) {
++			list_splice_tail_init(&owner->pending, &owner->held);
++			err = owner->error;
++			spin_unlock_bh(&owner->lock);
++			if (err)
++				mt7996_npu_rro_reset_fail(dev, err);
++			return;
++		}
++		if (owner->inflight || list_empty(&owner->pending)) {
++			spin_unlock_bh(&owner->lock);
++			return;
++		}
++		record = list_first_entry(&owner->pending,
++					 struct mt7996_npu_rro_reset_record, list);
++		list_del_init(&record->list);
++		owner->inflight = true;
++		record->phase = MT7996_NPU_RRO_NPU_POSSIBLE;
++		spin_unlock_bh(&owner->lock);
++
++		result = is_mt7996(&dev->mt76) ?
++			mt76_npu_send_txrx_addr(&dev->mt76, 3, record->id, 0, 0, 0) :
++			-EOPNOTSUPP;
++
++		spin_lock_bh(&owner->lock);
++		record->npu_error = result;
++		if (result) {
++			if (!owner->error)
++				owner->error = result < 0 ? result : -EIO;
++			goto retain;
++		}
++		record->phase = MT7996_NPU_RRO_NPU_DONE;
++		if (owner->closing || owner->error)
++			goto retain;
++		/* Close may join this already admitted MCU call, but cannot admit a
++		 * later one. A generic MCU ACK is not BA-generation or DMA-drain proof.
++		 */
++		record->phase = MT7996_NPU_RRO_MCU_POSSIBLE;
++		spin_unlock_bh(&owner->lock);
++
++		result = mt7996_mcu_wed_rro_reset_sessions(dev, record->id);
++
++		spin_lock_bh(&owner->lock);
++		record->mcu_error = result;
++		if (result) {
++			if (!owner->error)
++				owner->error = result < 0 ? result : -EIO;
++		} else {
++			record->phase = MT7996_NPU_RRO_MCU_ACKED;
++		}
++retain:
++		owner->inflight = false;
++		list_add_tail(&record->list, &owner->held);
++		if (owner->closing || owner->error)
++			list_splice_tail_init(&owner->pending, &owner->held);
++		err = owner->error;
++		closing = owner->closing;
++		spin_unlock_bh(&owner->lock);
++		if (err)
++			mt7996_npu_rro_reset_fail(dev, err);
++		if (closing || err)
++			return;
++	}
++}
++
++void mt7996_npu_rro_reset_close(struct mt7996_dev *dev)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++	bool retain;
++
++	spin_lock_bh(&dev->wed_rro.lock);
++	dev->wed_rro.reset_closing = true;
++	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
++	spin_unlock_bh(&dev->wed_rro.lock);
++	if (!owner)
++		return;
++	spin_lock_bh(&owner->lock);
++	owner->closing = true;
++	list_splice_tail_init(&owner->pending, &owner->held);
++	retain = !owner->retained_once;
++	owner->retained_once = true;
++	spin_unlock_bh(&owner->lock);
++	if (retain) {
++		spin_lock_bh(&mt7996_npu_rro_retained_lock);
++		list_add_tail(&owner->retained, &mt7996_npu_rro_retained);
++		spin_unlock_bh(&mt7996_npu_rro_retained_lock);
++	}
++}
++
++void mt7996_npu_rro_reset_join(struct mt7996_dev *dev)
++{
++	struct mt7996_npu_rro_reset_owner *owner;
++
++	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
++	if (!owner)
++		return;
++	spin_lock_bh(&owner->lock);
++	if (owner->closing && !owner->inflight)
++		owner->joined = true;
++	else if (!owner->error)
++		owner->error = -EUCLEAN;
++	spin_unlock_bh(&owner->lock);
++}
