@@ -1,10 +1,57 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (RRO engine and complete exact-object Unicorn replay pass; transport/physical scope open)
+Last updated: 2026-10-23 (identity-bearing RRO transport implemented; qualification in progress)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - RRO Wire And Serial-Chain Integration In Progress
+
+- Implemented canonical 256-byte LE wire codec, client and retained native
+  broker; typed OPEN/ENROLL/PUBLISH/HARDWARE/CLOSE provider path. Full identity,
+  all four payload words and exact accepted control sequence are retained.
+  Original TX serial stays immutable, with a separate accepted RRO chain.
+- Codec host checks27,276/three compiled controls pass. Normal26 RV32 objects
+  build; new host client stays on the host/kernel side, not native archive.
+- Source lock31 and kernel patch reconstructed fuzz0. Current four-module
+  link, full session/provider/native-pair execution remain unqualified.
+  Raw pair ABI2 bindings installed; DATA0x6480/168hooks unchanged by design.
+- First codec256MiB launch refused RAM budget before compilation. Codec128MiB
+  run passes with unchanged replay reservation and2GiB margin. Sessionhost-q1
+  exposed fixture pointer-arithmetic UBSan failure; original input retained,
+  fixture corrected for a fresh run. No failed receipt is rewritten.
+- Existing shared hardlinks were snapshotted and atomically detached before
+  edits. Original replay and old pair/image cohorts remain untouched. No
+  physical MCU, CPU join, drain/reclaim or hardware proof; full goal active.
+
+### Qualification Update
+
+- Sessionhost-q2 passes19,261 RPCs/full-journal comparisons,415 enrollments,
+  387 publications,6150 NPU resets and6150 modeled MCU pairs across all3 profiles,
+  34 negative cases/19 direct denials/six I/O faults/five compiled controls.
+- Provider rro-wire-q2 passes456 cases/four controls,387 native effects and11
+  joint negative cases; twelve late-TX checks plus ordinary STATUS advance before
+  CLOSE. Native effect C executes on host arrays, not on the router.
+- TX223/12, RX168/7, journal5279/3, callers1090/seven controls and116 tooling units
+  pass, zero skips. The actual coherent sender/envelope gate passes330 assertions,
+  including full256-byte tail echo, invalid prefixes and timeout retention;
+  its peer is modeled. Earlier mutant-anchor and retirement-control diagnostic
+  failures are retained; controls now reach their intended assertions.
+- Source-lock31 metadata listings synchronized and fuzz0 source export verified.
+  Four AArch64 modules link with receipt16ec7aab/lock4ad342ff,5 kernel/329 mt76
+  sources; original prepared tree unchanged. Normal26 RV32 archive exact;
+  bootstrap-v2 changes, all other23 prior members remain byte-identical.
+- ABI2 pair/repeat/materializer controls pass:21 components,168 hooks,
+  DATA0x6480, zero sessionBSS30588. Native-q1/probe exposed a wrapper-only magic
+  precondition that incorrectly denied the optional non-RRO path. Removed that
+  extra precondition, retaining complete-zero validation and all IRQ/global gates.
+  Corrected pair-q2 CODEe6bc914c/DATAad905cb0 repeats exactly. Native-q2 full replay
+  is now running; no final native transport verdict is claimed yet.
+- Prior6068 bindings/external1, live capsule2865 files and protected14 project
+  image bindings/external1 rehash. Same original2396851/2396859 start ticks and
+  b7308cc5 invocation; CPU advances. All agents closed. No old replay restart,
+  instruction/time/geometry/margin reduction, image promotion or hardware work.
 
 ## 2026-10-23 - Reconstructed RRO Native Memory Engine
 

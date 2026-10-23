@@ -1,8 +1,32 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (native RRO effects/full Unicorn replay pass; transport/MCU/physical scope open)
+Last updated: 2026-10-23 (RRO wire/provider integration implemented; qualification in progress)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Identity-Bearing RRO Integration In Progress
+
+- New256-byte wire/client/broker and typed provider preserve full plan identity,
+  four payload words, journal ticket and exact accepted serial. Late TX retains
+  its original handle/geometry/identity checks with an explicit RRO serial chain.
+- Codec27,276 host checks/three controls and normal26-object RV32 archive pass.
+  Source lock31/fuzz0 kernel patch and ABI2 raw-pair binding installed; remaining
+  module/pair/session/provider qualification pending. Failed codec resource
+  refusal and session fixture UBSan input/logs retained; fixture corrected.
+- No replay restart, physical MCU/drain/join/reclaim/image/hardware acceptance.
+  Prior source versions survive in before snapshots; frozen capsule untouched.
+  Full cold/fault/hot/physical/client reverse-engineering objective stays active.
+
+Qualification update: session19,261/five controls, provider456/four, TX223/12,
+RX168/7, journal5279/3, callers1090/seven, coherent gateway330 assertions and116
+tooling units/zero skips pass. Four target modules link with producer16ec7aab,
+lock4ad342ff/31 mappings/5 kernel/329 mt76 sources. Normal26 RV32 members exact;
+bootstrap-v2 changes and the other23 prior members match. ABI2 raw pair/repeat
+and materializer controls pass. Native-q1/probe exposed an overly strict optional
+mode wrapper precondition; corrected pair-q2 e6bc914c/ad905cb0 is in full native
+replay, still without a final verdict. Failed fixture/control/metadata/native
+cohorts retained. Prior6068/external1, capsule2865, protected14/external1 rehash;
+original PIDs/start ticks/invocation match and CPU advances. All workers closed.
 
 ## 2026-10-23 - Reconstructed RRO Effects And Exact RV32 Replay
 

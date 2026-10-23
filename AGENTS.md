@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - RRO Wire Integration In Progress
+
+- Identity-bearing 256-byte RRO codec/client/broker and typed Linux provider
+  integration are implemented, not yet fully qualified. Exact accepted serials
+  extend the original TX lease; no buffer/identity validator is bypassed.
+- Codec27,276/three controls, joint session19,261 RPCs/five controls and provider
+  456 cases/four controls pass. TX223/12, RX168/7, journal5279/3, callers1090,
+  gateway330 assertions and116 tooling units/zero skips pass. Four target modules
+  link with producer16ec7aab/current lock4ad342ff, 31 mappings. Normal26 RV32
+  members build; of24 previous members, only bootstrap-v2 changes.
+- ABI2 pair/repeat builds and materializer tests pass, 21components/168hooks,
+  DATA0x6480/sessionBSS30588. Native-q1 exposed an overly strict wrapper magic
+  check for optional non-RRO mode; actual probe and failed cohort retained.
+  Corrected pair-q2 is e6bc914c/ad905cb0. Full native-q2 replay is running.
+- Read rro-wire REPORT.md/EVIDENCE.json and private source-bound receipts. Keep
+  original compact replay/capsule/images untouched. Native/MCU physical proof,
+  hot paths, CPU join and physical retirement remain open. Full goal active.
+- v1 Sol/max workers are authorized; v2 unavailable. Preserve frozen hardlinks
+  by snapshotting and atomically replacing changed canonical files.
+- All workers are now closed. Prior6068 bindings/external1/capsule2865 and
+  protected14 image bindings/external1 rehash; original native PID/start ticks
+  and invocation match, CPU advances. No restart or old limit/margin waiver.
+- While native-q2 is active, leave its bound source bytes unchanged. Docs/git
+  updates are fine; do not invalidate a long run by editing its inputs, or
+  promote its partial trace as a completed verdict.
+
 ## 2026-10-23 - Reconstructed RRO Native Engine
 
 - New rro-native.c implements stock-derived block/session publication and all

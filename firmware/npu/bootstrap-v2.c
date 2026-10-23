@@ -1,4 +1,5 @@
 #include "bootstrap-v2.h"
+#include "rro-wire.h"
 
 #define BOOT_RETAINED_MASK 0x1eu
 _Static_assert(NPU_BOOTSTRAP_STEPS == 6 && NPU_BOOT_TXCHECK == 1 && NPU_BOOT_BA == 4,
@@ -46,7 +47,8 @@ int npu_bootstrap_v2_transport(const struct npu_bootstrap *s,
     return s->magic == NPU_BOOTSTRAP_MAGIC && flags == 1 &&
            request->bytes == 256 && address == request->base && !(address & 3) &&
            address >= 0x80000000u && address <= 0xc0000000u - 256 &&
-           (bytes == NPU_BOOTSTRAP_PACKET_BYTES || bytes == NPU_CONTROL_V2_SIZE);
+           (bytes == NPU_BOOTSTRAP_PACKET_BYTES || bytes == NPU_CONTROL_V2_SIZE ||
+            bytes == NPU_RRO_WIRE_SIZE);
 }
 
 int npu_bootstrap_v2_control(const struct npu_bootstrap *s,

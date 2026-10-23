@@ -107,7 +107,7 @@ def main():
                '-I' + str(dest / 'shims'), '-I' + str(dest), '-I' + str(SOURCE),
                '-I' + str(ROOT / 'tests/npu'), str(HARNESS)]
     command += [str(SOURCE / name) for name in ('control-client.c', 'control-v2-client.c', 'cold-client.c',
-                'control-v2.c', 'admission.c', 'barrier.c')]
+                'rro-wire.c', 'rro-client.c', 'control-v2.c', 'admission.c', 'barrier.c')]
     binary = dest / 'linux-control-sanitize'
     build_log = out / 'host-build.log'
     execute(command + [SOURCE / 'linux-control.c', '-o', binary], build_log)
@@ -161,7 +161,8 @@ def main():
         directory.mkdir()
         for name in ('barrier.h', 'admission.h', 'control-client.h', 'control-v2.h',
                      'control-client.c', 'control-v2-client.c', 'linux-control.h',
-                     'cold-client.c', 'cold-setup.h', 'bootstrap.h'):
+                     'cold-client.c', 'cold-setup.h', 'bootstrap.h',
+                     'rro-wire.c', 'rro-client.c', 'rro-wire.h', 'rro-lifetime.h'):
             shutil.copy2(SOURCE / name, directory / name)
         shutil.copy2(SOURCE / 'linux-control.c', directory / 'executor.c')
         (directory / 'compat').mkdir()
@@ -172,7 +173,7 @@ def main():
             'sizeof(struct npu_control_v2_packet), offsetof(struct npu_control_v2_client, boot_lo) };\n'
             'MODULE_LICENSE("GPL");\nMODULE_DESCRIPTION("Unloaded Linux NPU control executor");\n')
         makefile = ('obj-m += npu-control-linux-test.o\n'
-                    'npu-control-linux-test-y := executor.o control-client.o control-v2-client.o cold-client.o module.o\n'
+                    'npu-control-linux-test-y := executor.o control-client.o control-v2-client.o cold-client.o rro-wire.o rro-client.o module.o\n'
                     'ccflags-y += -I$(src)/compat\n')
         if not enabled:
             (directory / 'disable-npu.h').write_text('#include <linux/kconfig.h>\n#undef CONFIG_NET_AIROHA_NPU\n#undef CONFIG_NET_AIROHA_NPU_MODULE\n')

@@ -55,14 +55,18 @@ def symbols(path):
 
 
 def check_imports(path, imports):
-    expected, actual = symbols(imports), symbols(path)
+    def globals_only(source):
+        return {s.name: s['st_value'] for s in elf(source).get_section_by_name('.symtab').iter_symbols()
+                if s.name and s['st_info']['bind'] != 'STB_LOCAL' and s['st_shndx'] != 'SHN_UNDEF'}
+
+    expected, actual = globals_only(imports), globals_only(path)
     differences = {name: dict(expected=hex(value), actual=hex(actual[name]))
                    for name, value in expected.items()
                    if name in actual and not name.startswith('$') and actual[name] != value}
     assert not differences, ('stale-imported-symbol', differences)
 
 
-def build(*, destination=BUILD, negative_controls=True):
+def build(*, destination=BUILD, negative_controls=True, rro_wire=False):
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / 'staged/firmware/npu/control-v2.c'
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -79,7 +83,8 @@ def build(*, destination=BUILD, negative_controls=True):
     run([*common, '-std=c11', *host, '--target=aarch64-none-elf', '-mgeneral-regs-only', '-nostdlib',
          f'--ld-path={lld}', f'-Wl,-T,{control.v1.LINKER}', '-o', paths[1]])
     run([*common, *rv, *sources, target, BASE / 'startup.c', BASE / 'gdma.c',
-         '-DNPU_EMULATION_BOOTSTRAP', '-DNPU_GDMA_POLL_LIMIT=65536', boot.PLATFORM,
+         '-DNPU_EMULATION_BOOTSTRAP', '-DNPU_GDMA_POLL_LIMIT=65536',
+         *(['-DNPU_EMULATION_RRO_WIRE'] if rro_wire else []), boot.PLATFORM,
          *[TESTS / name for name in ('startup-platform-emulation.c', 'bootstrap-platform-emulation.c',
              'gdma-platform-emulation.c', 'cold-setup-platform-emulation.c', 'startup-emulation.S', 'bootstrap-emulation.S',
              'admission-emulation.S', 'barrier-core5-emulation.S', 'barrier-workers-emulation.S')],
@@ -107,6 +112,11 @@ def build(*, destination=BUILD, negative_controls=True):
     parts['headers'] = component('headers', [headers.SOURCE, headers.ASM], headers.LINKER)
     parts['egress'] = component('egress', [egress.ASM], egress.LINKER, paths[2])
     parts['packets'] = component('packets', [packets.SOURCE, packets.ASM], packets.LINKER, parts['egress'])
+    if rro_wire:
+        parts['rro-wire'] = component('rro-wire',
+            [*[BASE / name for name in ('rro-lifetime.c', 'rro-native.c', 'rro-wire.c', 'rro-session.c')],
+             TESTS / 'rro-wire-native-platform.c', TESTS / 'rro-wire-native-veneers.S'],
+            TESTS / 'rro-wire-native-emulation.ld', paths[2])
     if negative_controls:
         stale = component('stale-v1-bridge-control', [bridge.ASM], bridge.LINKER, bridge.ELF)
         try:
@@ -141,6 +151,14 @@ def memory_layout(parts, *, original_code_bytes=None, negative_controls=True):
     assert all(CODE + 0x40000 <= s['start'] < s['end'] <= CODE + 0x200000 for s in sections)
     ring = next(s for s in sections if s['section'] == '.command_ring')
     assert ring['start'] == layout.RING and ring['end'] - ring['start'] == layout.RING_BYTES
+    if 'rro-wire' in parts:
+        rro = symbols(parts['rro-wire'])
+        assert rro['npu_emulation_rro_mailbox_veneer'] == 0x84100000
+        assert rro['npu_emulation_rro_cold_ready_veneer'] == 0x84100004
+        bss = [s for s in sections if s['component'] == 'rro-wire' and s['section'] == '.bss']
+        assert len(bss) == 1 and bss[0]['end'] - bss[0]['start'] == 30588
+        assert bss[0]['start'] <= rro['npu_emulation_rro_session_state'] and \
+            rro['npu_emulation_rro_session_state'] + 30588 <= bss[0]['end']
     changed = None
     if negative_controls:
         old, new = symbols(bridge.ELF), symbols(parts['base'])

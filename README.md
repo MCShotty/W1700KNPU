@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - RRO Transport Integration In Progress
+
+The typed RRO path now passes 27,276 codec checks, 19,261 joint client/broker
+requests, 456 provider cases and the existing TX/RX/journal/caller regressions.
+All four current target modules link; 116 tooling tests pass without skips.
+The 26-object RV32 archive and repeatable ABI2 raw pair also build and validate.
+
+Native transport replay is running against the corrected pair. Its first run
+found a wrapper that incorrectly forced RRO on the optional non-RRO path; the
+failed cohort and diagnostic probe are retained. Earlier fixture, mutation-anchor
+and source-lock metadata failures are preserved too.
+
+No current-image, hardware, physical MCU, hot-path or retirement acceptance is
+claimed. The original compact replay remains frozen and running unchanged.
+
 ## 2026-10-23 - RRO Native Effects Implemented
 
 The reconstructed RRO engine now implements block/session publication and reset

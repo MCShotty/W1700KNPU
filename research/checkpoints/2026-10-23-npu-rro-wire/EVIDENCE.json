@@ -1,0 +1,465 @@
+{
+  "scope": "RRO typed transport host-module-binary checks; full native run pending",
+  "goal_turn_classification": "progress",
+  "base_commit": "c426a0dd585741f50a319500f9446161ddc6eeac",
+  "full_npu_goal_complete": false,
+  "receipts": {
+    "codec": {
+      "path": ".local/npu-rro-wire-host-20261023/host-q1/result.json",
+      "sha256": "fa9edcc6c2f05c526bb670e172f27d01725b7417f46baa489f9cc210e67f9f75",
+      "matrix": {
+        "passed": true,
+        "cases": 27276,
+        "roundtrips": 30,
+        "echo_corruptions": 7560,
+        "reserved_rejections": 4720,
+        "rejected_inputs": 4862,
+        "profiles": 3,
+        "operations": 8
+      }
+    },
+    "session": {
+      "path": ".local/npu-rro-session-host-20261023/host-q2/result.json",
+      "sha256": "bfb2b989fd1038e80a9d00b2a25da099775ce0f340f2afb14f39cad7e10b88a2",
+      "matrix": {
+        "passed": true,
+        "profiles": 3,
+        "enrollments": 415,
+        "publications": 387,
+        "reset_npu": 6150,
+        "mcu_begin": 6150,
+        "mcu_complete": 6150,
+        "positive_rpc": 19261,
+        "journal_compares": 19261,
+        "memory_checks": 6537,
+        "full_memory_checks": 6,
+        "negative_cases": 34,
+        "direct_negative": 19,
+        "io_faults": 6,
+        "checks": 142042593,
+        "hardware": false
+      }
+    },
+    "provider": {
+      "path": ".local/npu-host-rro-lifetime-20261023/rro-wire-q2/result.json",
+      "sha256": "9d46f60ba027ade48e8e7605b4fd62e8c38f81837880dcc992771ce5c0934c6b",
+      "matrix": {
+        "passed": true,
+        "cases": 456,
+        "profiles": 3,
+        "publications": 387,
+        "negative_joint": 11,
+        "late_tx_checks": 12,
+        "native_effects": 387,
+        "hardware": false
+      }
+    },
+    "TX": {
+      "path": ".local/npu-host-tx-lifetime-20261011/rro-wire-q3/result.json",
+      "sha256": "a813f12e9b58f980ba63fe158381184e14102d2f5df0a63a97661169efd0790b",
+      "matrix": {
+        "passed": true,
+        "cases": 223,
+        "exposed_tx_frees": 0
+      }
+    },
+    "RX": {
+      "path": ".local/npu-rx-event-20261013/rro-wire-q3/result.json",
+      "sha256": "e5341cbce38bdbe36d0fcb83ba06e6aa3c309fd3f4aab95ce2a4a244bb0137d3",
+      "matrix": {
+        "passed": true,
+        "cases": 168,
+        "rx_bytes": 8192,
+        "tx_following": 6
+      }
+    },
+    "journal": {
+      "path": ".local/npu-rro-owner-20261023/rro-wire-q3/result.json",
+      "sha256": "0886b231d0c36d3c3b89eb6cac87b24290e973d08d8ccf6589a427addfd8d999",
+      "matrix": {}
+    },
+    "callers": {
+      "path": ".local/npu-rro-lifetime-callers/rro-wire-q1/result.json",
+      "sha256": "3b28bb686e5bf0a5c2d3999a1145669e84a6ea6f91d6a895b324b0573615bd53",
+      "matrix": {}
+    }
+  },
+  "module_receipt_sha256": "16ec7aabbfaf61759a271cc60dcee28f3042a6bcd1ee85499548170f0c4ecdc3",
+  "source_lock_sha256": "4ad342ffa7fe2031aca5525a1bf782ec771c6dd4babc670a51dafa73f922fbd2",
+  "kernel_sources": 5,
+  "mt76_sources": 329,
+  "component_sources": 31,
+  "target_modules": 4,
+  "normal_RV32_objects": 26,
+  "unchanged_prior_members": 23,
+  "codec_checks": 27276,
+  "codec_controls": 3,
+  "session_full_journal_compares": 19261,
+  "session_controls": 5,
+  "provider_cases": 456,
+  "provider_controls": 4,
+  "gateway_assertions": 330,
+  "tools_tests": 116,
+  "tools_skipped": 0,
+  "image_test_groups": 22,
+  "image_tests_skipped": 0,
+  "raw_pair": {
+    ".local/npu-rro-wire-20261023/pair-q2": {
+      "CODE.bin": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+      "DATA.bin": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+      "manifest.json": "0883feabfbf4c2aa30ac8d29099f867ee979a7784d3c0fb906c48e4cc9509f12"
+    },
+    ".local/npu-rro-wire-20261023/pair-repeat-q2": {
+      "CODE.bin": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+      "DATA.bin": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+      "manifest.json": "b9ade2f5ba43891092263c09bd30b67977eff3241661f343dcd19147b133aefa"
+    }
+  },
+  "full_native_transport_passed": false,
+  "native_partial_observation": {
+    "complete": false,
+    "native_transport_complete": false,
+    "observed_positive_RPC": 157,
+    "observed_operations": {
+      "1": 1,
+      "2": 139,
+      "3": 17
+    },
+    "last_positive": {
+      "operation": 3,
+      "argument": 16,
+      "generation": 0,
+      "sequence": 178,
+      "journal_sha256": "e41c3e7e52a0b4fa75bfc4e383e3b340db54bd046c7f68f12428f0ab8fabcbc1",
+      "broker_sha256": "1a63650f328de2cf233acb5cd96ad1a882a6ec4618382c3890e5ca876abfebd2",
+      "request_sha256": "2af96f095bba47e8ecef3667fcae04d7746f6e11bc5fa4ce7c7424a59a310f24",
+      "reply_sha256": "6b25678a8f3ac00337bb1451dc5cbca39b81d974e32d5ddd73e9107c76ce2299",
+      "rolling_sha256": "b194df4e5847055d2f8bdac1960729cc85946eb4afce6da63f25799576d4aa14",
+      "modeled_MCU_result": false,
+      "counts": {
+        "blocks": 7443710,
+        "metadata_writes": 760985,
+        "payload_reads": 515,
+        "mailbox_veneer": 1,
+        "mailbox_binding": 1,
+        "table_writes": 1,
+        "table_reads": 2,
+        "extent_writes": 24576,
+        "extent_reads": 24576
+      },
+      "write_sha256": "03f9446b02ab61b4e7419e3a4bbc0dfd827f103633a1c8ff528285ea0fe2c9c0",
+      "wall_ns": 53839156282,
+      "min_sp": 2214726352,
+      "mmio": [
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 256
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9
+        }
+      ]
+    },
+    "snapshot_sha256": "ce6dc4cea2a0f81b75e8a9f4a4a8a63e9da97bfc5f92730c504d221fba96a37a",
+    "source_trace": ".local/npu-rro-wire-native-pair-20261023/native-q2/profile-0/rpc.jsonl",
+    "source_bytes_observed": 225200,
+    "complete_bytes_copied": 225200,
+    "live_service": {
+      "ActiveState": "activating",
+      "SubState": "start",
+      "InvocationID": "cc1462781bd44a6d8e9a2f8c056935bf",
+      "Restart": "no",
+      "MainPID": "4106378",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "177827840",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "original_participants": [
+      {
+        "pid": 2396851,
+        "start_ticks": "13362592",
+        "CPU_ticks": 9
+      },
+      {
+        "pid": 2396859,
+        "start_ticks": "13362770",
+        "CPU_ticks": 3805740
+      }
+    ],
+    "controller_start_ticks": "16761977",
+    "driver_pid": 4106587,
+    "driver_start_ticks": "16762034",
+    "driver_CPU_ticks": 152406,
+    "planned_profiles": 3,
+    "planned_positive_RPC": 19261,
+    "planned_NPU_resets": 6150,
+    "planned_publications": 387,
+    "new_RPC_instruction_limit": 100000000,
+    "new_RPC_timeout_us": 60000000,
+    "original_replay_limits_unchanged": true,
+    "no_partial_verdict_promoted": true,
+    "hardware": false,
+    "observed_unix_ns": 1792766318749012696
+  },
+  "original_replay": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "Restart": "no",
+    "MainPID": "2396851",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "378957824",
+    "MemorySwapPeak": "0",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0"
+  },
+  "participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 3805763
+    }
+  ],
+  "terminal_services": {
+    "codec-q2": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "7bf2d6dd46f94fc4b345375739bc5964",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "73879552",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "134217728",
+      "MemorySwapMax": "0"
+    },
+    "archive-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "0a1e615d382840cb946f1716374ff4df",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "30752768",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "134217728",
+      "MemorySwapMax": "0"
+    },
+    "session-q2": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "08bf682b4d914b618aee3199413556ba",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "86552576",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "134217728",
+      "MemorySwapMax": "0"
+    },
+    "early-q3": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "6354b0bd653f496db64b0a6e9e63588a",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "134217728",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "134217728",
+      "MemorySwapMax": "0"
+    },
+    "provider-q2": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "f60e2afbc08a40dd831a38f9dcad06b7",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "375300096",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "modules-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "0165c8b08e4e436aba3cd746d9faf3cb",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "536870912",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "536870912",
+      "MemorySwapMax": "0"
+    },
+    "postmodules-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "b5d18e0fad52434aa0c6695a9975a67a",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "419430400",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "preserve-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "b3faaff03fc849a1a4243b28b205d3f8",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "134217728",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "134217728",
+      "MemorySwapMax": "0"
+    },
+    "pair-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "d2641b2805bf417998ba7cd008025501",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "149262336",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "268435456",
+      "MemorySwapMax": "0"
+    },
+    "ready-q1": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "8ad39979b7a149ca89f3029878d03187",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "90071040",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "268435456",
+      "MemorySwapMax": "0"
+    },
+    "pair-q2": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "528f4ccdb4534582a3e7e560a2fbfd87",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "112214016",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "268435456",
+      "MemorySwapMax": "0"
+    }
+  },
+  "prior_bindings_rehashed": 6068,
+  "prior_external_bindings_rehashed": 1,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "old_receipts_rewritten": false,
+  "original_replay_restarted": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "physical_MCU_authenticated": false,
+  "physical_retirement": false,
+  "CPU_join_proved": false,
+  "VM_or_global_policy_changed": false,
+  "observed_unix_ns": 1792766318964256034,
+  "limitations": [
+    "Full native-q2 replay has no terminal verdict; partial frames are not completion.",
+    "Host and native fixtures model backing, references, IRQ delivery and MCU results.",
+    "No whole cold/fault/HIF2/hot/physical/client acceptance is inferred."
+  ],
+  "Jev_report_check": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "claims_native_complete": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "claims_physical_MCU": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "scopes_distinguished": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "hides_native_defect": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "claims_full_goal": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1770,
+      "output_tokens": 101
+    }
+  },
+  "project_bindings": 7152,
+  "external_bindings": 1,
+  "private_evidence": ".local/npu-rro-wire-20261023/evidence-q1.json",
+  "private_evidence_sha256": "c3f4ac1f7ee7dc3adfde94b531f99ddc96fbe4ab854b8b143d93691e67616edc"
+}

@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Qualify The New RRO Transport
+
+Typed 256-byte codec/client/broker, provider serial-chain handling and raw-pair
+ABI2 binding are implemented. Codec27,276/three controls, session19,261/five,
+provider456/four, existing regressions, gateway330 and116 tooling units pass.
+All four current AArch64 modules link, with31 mappings; normal26 RV32 members
+and byte-identical repeat raw pairs/materializer controls pass. Native-q2 replay
+is running against e6bc914c/ad905cb0 after correcting the optional-mode wrapper.
+Failed fixture, mutation, metadata and native-q1/probe evidence are retained.
+Finish this full native run; do not treat compile/readback as execution proof.
+
+Then finish actual retained MCU/work-item generations, hot lifecycle, CPU join
+and independent physical retirement; current image, full cold/fault/HIF2 and
+actual-client/performance/stability acceptance still remain. The old compact
+replay stays live and frozen, never restarted. Full NPU goal remains active.
+
 ## 2026-10-23 - RRO Engine Built; Transport And Retirement Still Required
 
 Reconstructed publication/reset effects pass 14,412 host sanitizer cases/four

@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - RRO Wire Qualification In Progress
+
+Identity-bearing 256-byte codec/client/broker and typed provider serial chain
+are implemented, preserving the original late TX validation. Codec27,276/three,
+session19,261/five, provider456/four and TX/RX/journal/caller/gateway regressions
+pass. Four AArch64 modules link with producer16ec7aab/lock4ad342ff/31 mappings;
+normal26 RV32 objects and116 tooling units/zero skips pass. ABI2 pair/repeat and
+materializer tests pass; current pair-q2 CODEe6bc914c/DATAad905cb0. Full native-q2
+replay is running after correcting an optional-mode wrapper regression exposed
+by native-q1 and a focused probe. Earlier failed fixtures/controls are retained.
+No physical MCU, hot ownership, CPU join, drain, image or hardware acceptance.
+Original compact replay/capsule/protected images remain untouched; goal active.
+
 ## 2026-10-23 - Reconstructed Native RRO Effects
 
 New native engine publishes all 128 blocks plus the session table and resets

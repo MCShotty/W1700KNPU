@@ -56,7 +56,8 @@ class ImageTests(unittest.TestCase):
                          {'base': 412, 'allocator': 4, 'cold-pages': 1172, 'cold-packets': 2120,
                           'cold-tx': 164, 'cold-descriptor': 6264, 'cold-tx-buffer': 213768,
                           'cold-rx-event': 696, 'cold-txdone': 23080, 'cold-rx-pcie': 732,
-                          'cold-pcie-tail': 936, 'cold-inode': 5032})
+                          'cold-pcie-tail': 936, 'cold-inode': 5032,
+                          'rro-wire': image.RRO_SESSION_BYTES})
         for row in bss:
             self.assertEqual(code[row['start'] - image.CODE:row['end'] - image.CODE], bytes(row['end'] - row['start']))
 
@@ -147,6 +148,44 @@ class ImageTests(unittest.TestCase):
         parts = self.components.copy()
         parts.pop('cold-packets')
         self.rejected('incomplete-components', components=parts)
+        parts = self.components.copy()
+        parts.pop('rro-wire')
+        self.rejected('incomplete-components', components=parts)
+
+    def test_rro_veneer_and_retained_bss(self):
+        binding = self.manifest['rro_binding']
+        symbols = image.symbols(self.components['rro-wire'])
+        self.assertEqual((image.PAIR_VERSION, len(self.raw_data), len(self.manifest['hooks'])),
+                         (2, 0x6480, 168))
+        for veneer, target, name in (
+                ('mailbox_veneer', 'mailbox_target', 'npu_emulation_rro_mailbox'),
+                ('cold_ready_veneer', 'cold_ready_target', 'npu_emulation_rro_cold_ready')):
+            self.assertEqual(binding[target], symbols[name])
+            site = binding[veneer]
+            self.assertEqual(self.raw_code[site - image.CODE:site - image.CODE + 4],
+                             image.jal(site, binding[target]))
+        bss = next(row for row in self.manifest['sections']
+                   if row['component'] == 'rro-wire' and row['zero_fill'])
+        self.assertEqual((bss['start'], bss['end'] - bss['start']),
+                         (binding['session_address'], image.RRO_SESSION_BYTES))
+        self.assertEqual(symbols['npu_emulation_rro_session_state'], bss['start'])
+
+    def test_rro_binding_readback_controls(self):
+        binding = self.manifest['rro_binding']
+        m = deepcopy(self.manifest)
+        m['rro_binding']['mailbox_veneer'] += 4
+        with self.assertRaisesRegex(ValueError, '^rro-binding$'):
+            image.validate(self.raw_code, self.raw_data, m)
+        for address, reason in ((binding['mailbox_veneer'], 'rro-veneer-readback'),
+                                (binding['session_address'], 'nonzero-bss')):
+            changed = bytearray(self.raw_code)
+            changed[address - image.CODE] ^= 1
+            m = deepcopy(self.manifest)
+            m['code']['sha256'] = image.sha(changed)
+            row = next(row for row in m['sections'] if row['start'] <= address < row['end'])
+            row['sha256'] = image.sha(changed[row['start'] - image.CODE:row['end'] - image.CODE])
+            with self.assertRaisesRegex(ValueError, '^' + reason + '$'):
+                image.validate(bytes(changed), self.raw_data, m)
 
     def test_hook_preimage_and_width(self):
         hooks = self.arguments()['patches']

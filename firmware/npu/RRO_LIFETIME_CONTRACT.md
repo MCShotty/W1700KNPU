@@ -1,16 +1,18 @@
 # RRO Ownership Journal
 
-Status: implemented portable bookkeeping, not an operational RRO ABI or a
+Status: identity-bearing transport integration under qualification, not a
 physical retirement mechanism. `rro-lifetime.c` is part of the normal RV32
 archive and the canonical provider Kbuild. Actual provider-owned allocation,
 process-context mt76 bridges and early closing handoff now invoke it. Native
-admission, authenticated completion identity, MCU/work-item generations and
-physical retirement are still incomplete. Current selectors0/1/3 remain denied.
+broker enrollment and correlated replies are implemented; current raw-pair and
+provider qualification remain pending. Actual MCU/work-item generations, hot
+reset and physical retirement are still incomplete. Legacy selectors0/1/3
+remain denied; typed RRO transport is a separate admission path.
 
 ## Current Provider Integration
 
 `rro-native.c` now implements the reconstructed target memory effects using
-the same journal, without replacing the provider's current checked sender.
+the same journal and the new typed client/codec/broker transport.
 Publication latches exposure before table access, clears complete element
 blocks, sets signature bytes and verifies exact readback. Session publication
 preserves nonsignature bytes. Reset requires the caller's generation/ticket,
@@ -18,7 +20,13 @@ checks the exact retained table pointer and changes only signature bytes for
 the selected ID, including ID1024. Partial/error prefixes remain retained.
 The integrating caller must provide stable plan/context, mapped backing and CPU
 exclusion for the whole call. These callbacks establish no physical capability.
-Current source has no operational native enrollment/completion wiring yet.
+The 256-byte protocol binds the full provider/endpoint/boot/nonce/epoch identity,
+profile, operation and control sequence. Publication also binds ordinal, journal
+ticket, selector and all four words; reset binds session/generation/ticket.
+Only reply tag/status may change. This is correlation, not cryptographic
+authentication or a physical MCU witness. Host client/broker integration passes
+19,261 complete journal comparisons across all three profiles and two reset
+generations, with five compiled controls; raw-pair target qualification is pending.
 
 The 2026-10-23 rro-native checkpoint includes 14,412 host sanitizer cases/four
 controls, full exact-normal-object Unicorn RV32 execution, supplemental
@@ -31,16 +39,21 @@ records full backing before enrollment/caller output. Four optional operations
 provide open/allocate/publish/close through consumer-mutex process wrappers.
 Only EOPNOTSUPP at open permits the legacy managed-allocation lane.
 
-Publication uses the existing checked sender and retains possible exposure plus
-its host invocation ticket before that call. It does not authenticate a native
-completion. Owned initializer errors now propagate before hardware entry.
+Publication retains possible exposure and its host invocation ticket before a
+typed RPC, while the provider process mutex joins that call. The control mutex
+returns the exact accepted sequence. A separate origin/control/step chain extends
+the immutable TX allocation serial, preserving every late handle/geometry/identity
+check. Errors hold both ownership and control state; host/native journals remain
+separate. Owned initializer errors propagate before hardware entry.
 Owned free attempts closing before mode checks/managed frees and never falls
 through after provider loss. Lower detach also closes before unpublication.
 Neither closing call claims CPU join or any physical domain observation.
 
-The current first publication is still rejected. Full allocation geometry is
-tested without fake successful admission. Native/MCU/reset work and serial/epoch
-coordination with late TX validation remain required, not optional follow-ups.
+The new raw pair uses outer ABI2 so a current kernel rejects older ABI1 pairs.
+The 30,588-byte boot-owned native session is materialized zero inside CODE, not
+borrowed from unused SRAM. That binding is implemented but remains unqualified
+until image/link/readback and actual target-transport tests pass. MCU/reset work
+identity, hot execution and physical retirement remain required.
 
 ## Identity And Storage
 

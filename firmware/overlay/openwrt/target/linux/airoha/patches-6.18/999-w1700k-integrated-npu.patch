@@ -55,13 +55,13 @@ build input; compilation is not a physical drain or recovery proof.
  	help
 --- a/drivers/net/ethernet/airoha/Makefile
 +++ b/drivers/net/ethernet/airoha/Makefile
-@@ -7,3 +7,13 @@
+@@ -7,3 +7,15 @@
  airoha-eth-y := airoha_eth.o airoha_ppe.o
  airoha-eth-$(CONFIG_DEBUG_FS) += airoha_ppe_debugfs.o
  obj-$(CONFIG_NET_AIROHA_NPU) += airoha_npu.o
 +airoha_npu-y := w1700k/provider-main.o w1700k/control-client.o \
 +		w1700k/control-v2-client.o w1700k/cold-client.o w1700k/linux-control.o w1700k/rro-lifetime.o \
-+		w1700k/rro-native.o
++		w1700k/rro-native.o w1700k/rro-wire.o w1700k/rro-client.o
 +CFLAGS_w1700k/provider-main.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/control-client.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/control-v2-client.o := -I$(src)/w1700k/kernel-include
@@ -69,6 +69,8 @@ build input; compilation is not a physical drain or recovery proof.
 +CFLAGS_w1700k/linux-control.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/rro-lifetime.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/rro-native.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/rro-wire.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/rro-client.o := -I$(src)/w1700k/kernel-include
 --- a/drivers/net/ethernet/airoha/airoha_npu.c
 +++ b/drivers/net/ethernet/airoha/airoha_npu.c
 @@ -5,14 +5,22 @@
@@ -94,7 +96,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #define NPU_EN7581_FIRMWARE_DATA		"airoha/en7581_npu_data.bin"
  #define NPU_EN7581_FIRMWARE_RV32		"airoha/en7581_npu_rv32.bin"
-@@ -22,6 +30,19 @@
+@@ -22,6 +30,20 @@
  #define NPU_AN7583_FIRMWARE_RV32		"airoha/an7583_npu_rv32.bin"
  #define NPU_EN7581_FIRMWARE_RV32_MAX_SIZE	0x200000
  #define NPU_EN7581_FIRMWARE_DATA_MAX_SIZE	0x10000
@@ -104,6 +106,7 @@ build input; compilation is not a physical drain or recovery proof.
 +#define NPU_EN7581_7996_PLAN_REGIONS	6
 +#define NPU_EN7581_DMA_LIFETIME		1
 +#define NPU_EN7581_PAIR_MAGIC		0x32504e57
++#define NPU_EN7581_PAIR_VERSION		2
 +#define NPU_EN7581_CODE_TAG		0x3f000
 +#define NPU_EN7581_DATA_DESCRIPTOR	0x6400
 +#define NPU_EN7581_DESCRIPTOR_SIZE	128
@@ -114,7 +117,7 @@ build input; compilation is not a physical drain or recovery proof.
  #define NPU_DUMP_SIZE				512
  /*
   * Mailbox DMA payload size. Covers sizeof(struct ppe_mbox_data) (28) and
-@@ -122,6 +143,152 @@
+@@ -122,6 +144,153 @@
  	struct airoha_npu_fw fw_rv32;
  	struct airoha_npu_fw fw_data;
  };
@@ -129,6 +132,7 @@ build input; compilation is not a physical drain or recovery proof.
 +		u32 bytes;
 +	} allocations[NPU_RRO_MAX_EXTENTS];
 +	u32 attempts;
++	u32 origin_serial, control_serial, wire_steps;
 +	int error;
 +	bool inflight;
 +};
@@ -267,7 +271,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  #define MBOX_MSG_FUNC_ID	GENMASK(14, 11)
  #define MBOX_MSG_STATIC_BUF	BIT(5)
-@@ -171,10 +338,10 @@
+@@ -171,10 +340,10 @@
  				 u16 reply_len)
  {
  	struct airoha_npu_core *core = &npu->cores[0]; /* FIXME: core */
@@ -280,7 +284,7 @@ build input; compilation is not a physical drain or recovery proof.
  		return -EINVAL;
  
  	if (reply && reply_len > len)
-@@ -190,26 +357,57 @@
+@@ -190,26 +359,57 @@
  	 */
  	spin_lock_bh(&core->lock);
  
@@ -344,7 +348,7 @@ build input; compilation is not a physical drain or recovery proof.
  	spin_unlock_bh(&core->lock);
  
  	return ret;
-@@ -221,36 +419,531 @@
+@@ -221,36 +421,595 @@
  	return __airoha_npu_send_msg(npu, func_id, data, len, data, len);
  }
  
@@ -356,8 +360,17 @@ build input; compilation is not a physical drain or recovery proof.
 +
 +	if (!npu)
 +		return -ENODEV;
-+	if (!data || len != 80)
++	if (!data || (len != 80 && len != NPU_RRO_WIRE_SIZE))
 +		return -EINVAL;
++	if (len == NPU_RRO_WIRE_SIZE) {
++		if (get_unaligned_le32(bytes) != NPU_CONTROL_HEADER ||
++		    get_unaligned_le32(bytes + 4) != NPU_RRO_WIRE_API ||
++		    get_unaligned_le32(bytes + 8) != NPU_RRO_WIRE_REQUEST ||
++		    get_unaligned_le32(bytes + 12) != NPU_RRO_WIRE_VERSION ||
++		    get_unaligned_le32(bytes + 16) != NPU_RRO_WIRE_SIZE)
++			return -EINVAL;
++		return __airoha_npu_send_msg(npu, NPU_FUNC_WIFI, data, len, data, len);
++	}
 +	/* Dedicated control/cold envelopes, never a generic legacy callback. */
 +	if (get_unaligned_le32(bytes) != 0x3f ||
 +	    get_unaligned_le32(bytes + 12) != 2 ||
@@ -530,6 +543,38 @@ build input; compilation is not a physical drain or recovery proof.
 +	return 0;
 +}
 +
++/* wlan_session_lock joins provider calls; the control mutex serializes the
++ * actual reply. Only this exact accepted transition extends the TX lease.
++ */
++static int airoha_npu_rro_exchange(struct airoha_npu_priv *priv,
++		struct airoha_npu_rro_owner *owner, struct npu_rro_wire_message *message)
++{
++	struct npu_linux_control_snapshot before, after;
++	u32 sequence = 0;
++	int err;
++
++	err = npu_linux_control_snapshot(&priv->wlan_control, &before);
++	if (err || before.error || before.closed || owner->inflight ||
++	    before.client.base.serial != owner->control_serial ||
++	    owner->control_serial == U32_MAX || owner->wire_steps == U32_MAX)
++		return airoha_npu_rro_hold(priv, owner, err ?: -EPROTO);
++	message->plan = owner->plan;
++	owner->inflight = true;
++	err = npu_linux_control_rro_exchange(&priv->wlan_control, message, &sequence);
++	owner->inflight = false;
++	if (err)
++		return airoha_npu_rro_hold(priv, owner, err);
++	err = npu_linux_control_snapshot(&priv->wlan_control, &after);
++	if (err || after.error || after.closed ||
++	    sequence != owner->control_serial + 1 || after.client.base.serial != sequence ||
++	    memcmp(&before.client.base.nonce_lo, &after.client.base.nonce_lo, 2 * sizeof(u32)) ||
++	    before.client.boot_lo != after.client.boot_lo || before.client.boot_hi != after.client.boot_hi)
++		return airoha_npu_rro_hold(priv, owner, err ?: -EPROTO);
++	owner->control_serial = sequence;
++	owner->wire_steps++;
++	return 0;
++}
++
 +static int airoha_npu_wlan_rro_open_session(struct airoha_npu *npu,
 +		struct device *endpoint, struct device *dma_dev, u32 profile,
 +		const dma_addr_t *tx, unsigned int count)
@@ -538,6 +583,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
 +	struct airoha_npu_dma_lifetime *life;
 +	struct airoha_npu_rro_owner *owner;
++	struct npu_rro_wire_message message = { .operation = NPU_RRO_WIRE_OPEN };
 +	int err;
 +
 +	if (!priv->checked_pair)
@@ -563,9 +609,13 @@ build input; compilation is not a physical drain or recovery proof.
 +	}
 +	/* The already pinned lifetime owns the journal and every attempted DMA slot. */
 +	life->rro = owner;
++	owner->origin_serial = life->tx_serial;
++	owner->control_serial = life->tx_serial;
 +	err = airoha_npu_rro_plan(priv, profile, &owner->plan, owner->protected_cpu);
 +	if (!err)
 +		err = airoha_npu_rro_status(npu_rro_open(&owner->journal, &owner->plan));
++	if (!err)
++		err = airoha_npu_rro_exchange(priv, owner, &message);
 +	if (err)
 +		err = airoha_npu_rro_hold(priv, owner, err);
 +unlock:
@@ -599,6 +649,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
 +	struct airoha_npu_rro_owner *owner;
 +	struct npu_rro_extent extent;
++	struct npu_rro_wire_message message = { .operation = NPU_RRO_WIRE_ENROLL };
 +	u32 slot;
 +	u64 cpu;
 +	int err;
@@ -636,6 +687,11 @@ build input; compilation is not a physical drain or recovery proof.
 +		goto unlock;
 +	}
 +	err = airoha_npu_rro_status(npu_rro_enroll(&owner->journal, &owner->plan, &extent));
++	if (!err) {
++		message.ordinal = slot;
++		message.extent = extent;
++		err = airoha_npu_rro_exchange(priv, owner, &message);
++	}
 +	if (err) {
 +		err = airoha_npu_rro_hold(priv, owner, err);
 +		goto unlock;
@@ -652,35 +708,33 @@ build input; compilation is not a physical drain or recovery proof.
 +{
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
 +	struct airoha_npu_rro_owner *owner;
-+	struct npu_rro_command command;
-+	__le32 data[4];
++	struct npu_rro_wire_message message = { .operation = NPU_RRO_WIRE_PUBLISH };
 +	u32 ticket, status;
-+	unsigned int i;
 +	int err, transport;
 +
 +	mutex_lock(&priv->wlan_session_lock);
 +	err = airoha_npu_rro_guard(priv, endpoint, &owner);
 +	if (err)
 +		goto unlock;
-+	status = npu_rro_publish_begin(&owner->journal, &owner->plan, ordinal, &ticket, &command);
++	status = npu_rro_publish_begin(&owner->journal, &owner->plan, ordinal, &ticket, &message.command);
 +	err = airoha_npu_rro_status(status);
 +	if (err)
 +		goto unlock;
-+	for (i = 0; i < ARRAY_SIZE(data); i++)
-+		data[i] = cpu_to_le32(command.words[i]);
-+	owner->inflight = true;
-+	mutex_unlock(&priv->wlan_session_lock);
-+	/* Keep the existing checked gate. This is not a bypass into raw INODE. */
-+	transport = airoha_npu_wlan_msg_send_session(npu, command.selector,
-+			WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR, data, sizeof(data), GFP_KERNEL);
-+	mutex_lock(&priv->wlan_session_lock);
-+	owner->inflight = false;
++	message.ordinal = ordinal;
++	message.ticket = ticket;
++	transport = airoha_npu_rro_exchange(priv, owner, &message);
 +	status = npu_rro_publish_complete(&owner->journal, &owner->plan, ordinal, ticket, transport);
 +	err = transport ?: airoha_npu_rro_status(status);
 +	if (!err && priv->wlan_session_error)
 +		err = priv->wlan_session_error;
-+	if (!err && ordinal == NPU_RRO_BLOCKS)
++	if (!err && ordinal == NPU_RRO_BLOCKS) {
 +		err = airoha_npu_rro_status(npu_rro_hardware_begin(&owner->journal, &owner->plan));
++		if (!err) {
++			memset(&message, 0, sizeof(message));
++			message.operation = NPU_RRO_WIRE_HARDWARE;
++			err = airoha_npu_rro_exchange(priv, owner, &message);
++		}
++	}
 +	if (err)
 +		err = airoha_npu_rro_hold(priv, owner, err);
 +unlock:
@@ -694,7 +748,9 @@ build input; compilation is not a physical drain or recovery proof.
 +	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
 +	struct airoha_npu_dma_lifetime *life;
 +	struct airoha_npu_rro_owner *owner;
++	struct npu_rro_wire_message message = { .operation = NPU_RRO_WIRE_CLOSE };
 +	u32 ticket, status;
++	u32 sequence = 0;
 +	int err = 0;
 +
 +	if (!priv->checked_pair)
@@ -712,6 +768,18 @@ build input; compilation is not a physical drain or recovery proof.
 +					 owner->plan.identity.epoch, &ticket);
 +	if (status != NPU_RRO_OK && status != NPU_RRO_DUPLICATE)
 +		err = airoha_npu_rro_hold(priv, owner, airoha_npu_rro_status(status));
++	if (!err && status == NPU_RRO_OK && !owner->error && !owner->inflight &&
++	    !priv->wlan_session_error) {
++		/* Cold commands may have advanced since the pre-constructor lease.
++		 * CLOSE records a stop intent, never a new lease or a drain witness.
++		 */
++		message.plan = owner->plan;
++		message.stop_epoch = owner->plan.identity.epoch;
++		message.ticket = ticket;
++		err = npu_linux_control_rro_exchange(&priv->wlan_control, &message, &sequence);
++		if (err)
++			err = airoha_npu_rro_hold(priv, owner, err);
++	}
 +	if (!priv->wlan_session_error)
 +		priv->wlan_session_error = -ESHUTDOWN;
 +	npu_linux_control_close(&priv->wlan_control);
@@ -730,9 +798,9 @@ build input; compilation is not a physical drain or recovery proof.
 +				   const struct firmware *code,
 +				   const struct firmware *data)
 +{
-+	static const u32 tag[] = { NPU_EN7581_PAIR_MAGIC, 1, 32, 0x7996,
++	static const u32 tag[] = { NPU_EN7581_PAIR_MAGIC, NPU_EN7581_PAIR_VERSION, 32, 0x7996,
 +		NPU_EN7581_DATA_DESCRIPTOR, NPU_EN7581_DESCRIPTOR_SIZE, 1, 0 };
-+	u32 header[] = { NPU_EN7581_PAIR_MAGIC, 1, NPU_EN7581_DESCRIPTOR_SIZE,
++	u32 header[] = { NPU_EN7581_PAIR_MAGIC, NPU_EN7581_PAIR_VERSION, NPU_EN7581_DESCRIPTOR_SIZE,
 +		0x7996, 1, 0x84000000, code->size,
 +		NPU_EN7581_DATA_DESCRIPTOR + NPU_EN7581_DESCRIPTOR_SIZE, 0x3e900000,
 +		NPU_EN7581_NATIVE_PLAN, NPU_EN7581_NATIVE_SESSION, 20,
@@ -892,7 +960,7 @@ build input; compilation is not a physical drain or recovery proof.
  	int ret;
  
  	ret = of_property_read_string_array(dev->of_node, "firmware-name",
-@@ -259,26 +952,46 @@
+@@ -259,26 +1018,46 @@
  		return dev_err_probe(dev, -EINVAL,
  				     "invalid firmware-name property\n");
  
@@ -952,7 +1020,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	addr = devm_ioremap_resource(dev, res);
  	if (IS_ERR(addr))
-@@ -288,18 +1001,12 @@
+@@ -288,18 +1067,12 @@
  	 * dts if available.
  	 */
  	if (of_find_property(dev->of_node, "firmware-name", NULL))
@@ -977,7 +1045,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static irqreturn_t airoha_npu_mbox_handler(int irq, void *npu_instance)
-@@ -489,6 +1196,69 @@
+@@ -489,6 +1262,69 @@
  				    enum airoha_npu_wlan_set_cmd func_id,
  				    void *data, int data_len, gfp_t gfp)
  {
@@ -1047,7 +1115,7 @@ build input; compilation is not a physical drain or recovery proof.
  	struct wlan_mbox_data *wlan_data;
  	int err, len;
  
-@@ -498,29 +1268,6 @@
+@@ -498,29 +1334,6 @@
  		return -ENOMEM;
  
  	wlan_data->ifindex = ifindex;
@@ -1077,7 +1145,7 @@ build input; compilation is not a physical drain or recovery proof.
  	wlan_data->func_type = NPU_OP_GET;
  	wlan_data->func_id = func_id;
  
-@@ -531,89 +1278,1060 @@
+@@ -531,89 +1344,1065 @@
  	return err;
  }
  
@@ -1702,7 +1770,12 @@ build input; compilation is not a physical drain or recovery proof.
 +	if (life->boot_identity != priv->boot_identity ||
 +	    life->nonce_lo != snapshot.client.base.nonce_lo ||
 +	    life->nonce_hi != snapshot.client.base.nonce_hi ||
-+	    life->tx_serial != snapshot.client.base.serial ||
++	    (life->rro ? life->rro->error || life->rro->inflight ||
++	     life->rro->origin_serial != life->tx_serial || !life->rro->wire_steps ||
++	     life->rro->wire_steps > U32_MAX - life->tx_serial ||
++	     life->rro->control_serial != life->tx_serial + life->rro->wire_steps ||
++	     life->rro->control_serial != snapshot.client.base.serial :
++	     life->tx_serial != snapshot.client.base.serial) ||
 +	    !npu_cold_endpoint_valid(life->endpoint_base, life->endpoint_bytes) ||
 +	    life->rx_attempted != life->rx_published ||
 +	    (life->rx_published ? !airoha_npu_wlan_rx_event_valid(priv) :
@@ -2209,7 +2282,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static u32 airoha_npu_wlan_queue_addr_get(struct airoha_npu *npu, int qid,
-@@ -632,10 +2350,14 @@
+@@ -632,10 +2421,14 @@
  
  static u32 airoha_npu_wlan_irq_status_get(struct airoha_npu *npu, int q)
  {
@@ -2228,7 +2301,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  static void airoha_npu_wlan_irq_enable(struct airoha_npu *npu, int q)
-@@ -646,6 +2368,71 @@
+@@ -646,6 +2439,71 @@
  static void airoha_npu_wlan_irq_disable(struct airoha_npu *npu, int q)
  {
  	regmap_clear_bits(npu->regmap, REG_IRQ_RXDONE(q), NPU_IRQ_RX_MASK(q));
@@ -2300,7 +2373,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  struct airoha_npu *airoha_npu_get(struct device *dev)
-@@ -742,22 +2529,84 @@
+@@ -742,22 +2600,84 @@
  	.disable_locking	= true,
  };
  
@@ -2388,7 +2461,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	npu->dev = dev;
  	npu->ops.ppe_init = airoha_npu_ppe_init;
-@@ -765,23 +2614,55 @@
+@@ -765,23 +2685,55 @@
  	npu->ops.ppe_init_stats = airoha_npu_ppe_stats_setup;
  	npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
  	npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
@@ -2447,7 +2520,7 @@ build input; compilation is not a physical drain or recovery proof.
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0)
  		return irq;
-@@ -793,9 +2674,6 @@
+@@ -793,9 +2745,6 @@
  
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
@@ -2457,7 +2530,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		irq = platform_get_irq(pdev, i + 1);
  		if (irq < 0)
-@@ -805,8 +2683,6 @@
+@@ -805,8 +2754,6 @@
  				       IRQF_SHARED, "airoha-npu-wdt", core);
  		if (err)
  			return err;
@@ -2466,7 +2539,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	/* wlan IRQ lines */
-@@ -825,55 +2701,33 @@
+@@ -825,55 +2772,33 @@
  	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
  		struct airoha_npu_core *core = &npu->cores[i];
  

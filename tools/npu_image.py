@@ -13,7 +13,7 @@ CODE_SHA = 'e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643'
 DATA_SHA = '61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1'
 ORIGINAL_CODE_BYTES, ORIGINAL_DATA_BYTES = 122336, 3084
 COMPONENTS = frozenset(('base', 'bridge', 'reset', 'allocator', 'txdone', 'order', 'headers',
-                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie', 'cold-pcie-tail', 'cold-inode'))
+                        'egress', 'packets', 'cold-pages', 'rx-stats', 'cold-packets', 'cold-tx', 'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie', 'cold-pcie-tail', 'cold-inode', 'rro-wire'))
 HOOK_SITES = frozenset(CODE + offset for offset in (
     0x74, 0xf0, 0x188, 0xb24, 0xb36, 0x148a, 0x1500, 0x1582, 0x159e, 0x178e,
     0x1e78, 0x1e92, 0x1eea, 0x1f00, 0x1f3a, 0x30b2, 0x3f2e, 0x4a28, 0x4a3a,
@@ -38,8 +38,10 @@ STARTUP_ADDRESS = SRAM + 0x6180
 STARTUP_BYTES = struct.pack('<16I', 0x3153504e, 1, 64, *([0] * 13))
 BRIDGE_EDIT = dict(site=CODE + 0x1b230, before=struct.pack('<I', 58879).hex(),
                    after=struct.pack('<I', 69632).hex())
-PAIR_MAGIC, PAIR_VERSION, PAIR_PROFILE, PAIR_FLAGS = 0x32504e57, 1, 0x7996, 1
+PAIR_MAGIC, PAIR_VERSION, PAIR_PROFILE, PAIR_FLAGS = 0x32504e57, 2, 0x7996, 1
 CODE_TAG_OFFSET, DESCRIPTOR_OFFSET, DESCRIPTOR_BYTES = 0x3f000, 0x6400, 128
+RRO_MAILBOX_VENEER, RRO_COLD_READY_VENEER = 0x84100000, 0x84100004
+RRO_SESSION_BYTES = 30588
 CODE_TAG = struct.pack('<8I', PAIR_MAGIC, PAIR_VERSION, 32, PAIR_PROFILE,
                        DESCRIPTOR_OFFSET, DESCRIPTOR_BYTES, PAIR_FLAGS, 0)
 
@@ -123,11 +125,12 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
     require(sha(code) == CODE_SHA and sha(data) == DATA_SHA, 'wrong-original-pair')
     profile(patches, edits, initializers, loader_slots)
     require(set(components) == COMPONENTS, 'incomplete-components')
-    sections, occupied, tables = [], [], {}
+    sections, occupied, tables, sizes = [], [], {}, {}
     provenance = {}
     for name, path in components.items():
         binary = elf(path)
         tables[name] = {s.name: s['st_value'] for s in binary.get_section_by_name('.symtab').iter_symbols() if s.name}
+        sizes[name] = {s.name: s['st_size'] for s in binary.get_section_by_name('.symtab').iter_symbols() if s.name}
         provenance[name] = dict(path=str(path), sha256=sha(Path(path).read_bytes()))
         for section in binary.iter_sections():
             if not section['sh_flags'] & 2 or not section['sh_size']:
@@ -142,11 +145,35 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
                        zero_fill=section['sh_type'] == 'SHT_NOBITS', flags=section['sh_flags'], sha256=sha(payload))
             sections.append((row, payload))
     require(sections, 'missing-components')
+    rro = tables['rro-wire']
+    binding = dict(mailbox_veneer=RRO_MAILBOX_VENEER, cold_ready_veneer=RRO_COLD_READY_VENEER,
+                   mailbox_target=rro.get('npu_emulation_rro_mailbox'),
+                   cold_ready_target=rro.get('npu_emulation_rro_cold_ready'),
+                   session_address=rro.get('npu_emulation_rro_session_state'),
+                   session_bytes=RRO_SESSION_BYTES)
+    require(rro.get('npu_emulation_rro_mailbox_veneer') == RRO_MAILBOX_VENEER and
+            rro.get('npu_emulation_rro_cold_ready_veneer') == RRO_COLD_READY_VENEER and
+            isinstance(binding['mailbox_target'], int) and
+            isinstance(binding['cold_ready_target'], int) and
+            sizes['rro-wire'].get('npu_emulation_rro_session_state') == RRO_SESSION_BYTES,
+            'rro-symbol-layout')
+    rro_bss = [row for row, _ in sections if row['component'] == 'rro-wire' and row['zero_fill']]
+    require(len(rro_bss) == 1 and rro_bss[0]['end'] - rro_bss[0]['start'] == RRO_SESSION_BYTES and
+            rro_bss[0]['start'] <= binding['session_address'] and
+            binding['session_address'] + RRO_SESSION_BYTES <= rro_bss[0]['end'], 'rro-bss-layout')
     output_code = bytearray(max(row['end'] for row, _ in sections) - CODE)
     output_code[:len(code)] = code
     output_code[CODE_TAG_OFFSET:CODE_TAG_OFFSET + len(CODE_TAG)] = CODE_TAG
     for row, payload in sections:
         output_code[row['start'] - CODE:row['end'] - CODE] = payload
+    for key, target in (('mailbox_veneer', 'mailbox_target'),
+                        ('cold_ready_veneer', 'cold_ready_target')):
+        site = binding[key]
+        require(any(row['component'] == 'rro-wire' and row['flags'] & 4 and
+                    row['start'] <= site < site + 4 <= row['end'] for row, _ in sections),
+                'rro-veneer-section')
+        require(output_code[site - CODE:site - CODE + 4] == jal(site, binding[target]),
+                'rro-veneer-encoding')
     changed = []
     for patch in patches:
         site, target, rd = patch['site'], patch['target'], patch.get('rd', 0)
@@ -199,7 +226,8 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
         original=dict(code_sha256=CODE_SHA, data_sha256=DATA_SHA),
         code=dict(base=CODE, bytes=len(output_code), sha256=sha(output_code)),
         data=dict(base=SRAM, bytes=len(output_data), sha256=sha(output_data)),
-        components=provenance, sections=[row for row, _ in sections], hooks=patches, edits=list(edits),
+        components=provenance, sections=[row for row, _ in sections], rro_binding=binding,
+        hooks=patches, edits=list(edits),
         initializers=list(initializers), loader_slots=list(loader_slots),
         loader_abi=dict(version=PAIR_VERSION, flags=PAIR_FLAGS, code_tag_offset=CODE_TAG_OFFSET,
                         descriptor_offset=DESCRIPTOR_OFFSET, descriptor_bytes=DESCRIPTOR_BYTES),
@@ -211,6 +239,13 @@ def assemble(code, data, components, patches, edits=(), initializers=(), loader_
 def validate(code, data, manifest):
     """Check byte/manifest consistency, not authenticity or physical suitability."""
     require(manifest['format'] == 'w1700k-npu-pair-v2' and manifest['profile'] == 'mt7996-native-cold-v2', 'wrong-profile')
+    binding = manifest.get('rro_binding')
+    require(isinstance(binding, dict) and set(binding) ==
+            {'mailbox_veneer', 'cold_ready_veneer', 'mailbox_target', 'cold_ready_target',
+             'session_address', 'session_bytes'} and
+            binding['mailbox_veneer'] == RRO_MAILBOX_VENEER and
+            binding['cold_ready_veneer'] == RRO_COLD_READY_VENEER and
+            binding['session_bytes'] == RRO_SESSION_BYTES, 'rro-binding')
     require(manifest['loader_abi'] == dict(version=PAIR_VERSION, flags=PAIR_FLAGS, code_tag_offset=CODE_TAG_OFFSET,
             descriptor_offset=DESCRIPTOR_OFFSET, descriptor_bytes=DESCRIPTOR_BYTES), 'wrong-loader-abi')
     require(manifest['loader_provisioned'] is False and manifest['physical_storage_or_containment_proved'] is False,
@@ -252,6 +287,21 @@ def validate(code, data, manifest):
         require(not row['zero_fill'] or payload == bytes(len(payload)), 'nonzero-bss')
         expected_code[start - CODE:end - CODE] = payload
     require(found == set(manifest['components']) == COMPONENTS, 'incomplete-components')
+    bss = [row for row in manifest['sections'] if row['component'] == 'rro-wire' and row['zero_fill']]
+    require(len(bss) == 1 and bss[0]['end'] - bss[0]['start'] == RRO_SESSION_BYTES and
+            binding['session_address'] == bss[0]['start'], 'rro-bss-layout')
+    for veneer, target in (('mailbox_veneer', 'mailbox_target'),
+                           ('cold_ready_veneer', 'cold_ready_target')):
+        site, destination = binding[veneer], binding[target]
+        require(isinstance(destination, int) and any(
+            row['component'] == 'rro-wire' and row['flags'] & 4 and
+            row['start'] <= destination < row['end'] for row in manifest['sections']),
+            'rro-target-section')
+        require(any(row['component'] == 'rro-wire' and row['flags'] & 4 and
+                    row['start'] <= site < site + 4 <= row['end'] for row in manifest['sections']),
+                'rro-veneer-section')
+        require(code[site - CODE:site - CODE + 4] == jal(site, destination),
+                'rro-veneer-readback')
     require(code == expected_code and len(code) == max(row['end'] for row in manifest['sections']) - CODE,
             'unaccounted-code')
     expected_data = bytearray(DESCRIPTOR_OFFSET)

@@ -14,9 +14,11 @@ caller, managed-bookkeeping and stock/current instruction evidence.
 The reconstructed `rro-native.c` engine now implements publication/reset byte
 effects against retained extents with readback. This is one operational
 implementation component, not the final admission or reclamation contract.
-Connect it through a native-owned plan/enrollment and identity-bearing protocol;
-do not share unsynchronized host/native journal storage or treat direct-entry
-synthetic-memory tests as full cold transport/MCU/physical proof.
+The new 256-byte client/codec/broker connects native-owned plan/enrollment and
+exact correlated replies; host/native journal storage remains separate. Its
+19,261 host RPCs/full-journal comparisons and five mutation controls are not full
+cold target-transport, physical MCU or hardware proof. Qualify the ABI2 raw-pair
+binding and current provider/module cohort before promoting any current image.
 
 The checked provider now prepares its six retained TX buffers before the actual
 `mt7996_wed_rro_init` call. Late `mt7996_npu_hw_init` validates the retained lease
@@ -28,13 +30,13 @@ enrolls the exact slot, then returns caller outputs. Failed prefixes and invalid
 nonnull backing remain owned. Only an open result of `-EOPNOTSUPP` permits the
 legacy managed path; other open errors return without fallback.
 
-Current prepared validation expects the captured pre-constructor client serial.
-The admitted RRO protocol must explicitly coordinate its generation/serial
-transition with that validation. Do not simply bypass the validator to make
-additional commands fit. The current checked sender still rejects the first RRO
-publication. Full allocation geometry is tested separately; no successful
-current RRO publication was invented. This intermediate failure/retention path
-is not the requested final operational state.
+The original TX allocation serial remains immutable. The typed provider now
+tracks an explicit origin/control/accepted-step chain, extending it only for the
+exact accepted reply sequence. Late TX validation checks this chain and retains
+all original backing/handle/geometry/provider/endpoint/boot/nonce checks. Validate
+serial corruption, unrelated advances and late/error replies jointly; do not
+bypass the lease validator to make additional commands fit. Native pair and
+provider integration are under qualification, not physical acceptance.
 
 ## Ownership
 
@@ -61,10 +63,12 @@ current extent through late completion, initialization failure and detach.
 
 Generic sends hold RCU and use GFP_ATOMIC. New owned RRO calls hold the consumer
 mutex and use process-context provider operations. Publication latches possible
-exposure/ticket before invoking the existing checked sender, outside the provider
-mutex, then completes that host invocation under the mutex. This is not an
-authenticated firmware echo. Native admission/completion and the MCU worker's
-atomic/process handoff and retained request identity still need implementation.
+exposure/ticket before the dedicated typed call, while holding the provider
+process mutex. The control mutex serializes the accepted reply. Exact echo
+correlates identities and full payload; it is not cryptographic authentication.
+Actual MCU work retention, atomic/process handoff and BA-lifetime identity still
+need implementation. The broker's MCU messages accept a host-reported correlated
+result; the host test models success and cannot establish a physical response.
 Keep selectors0/1/3's four-word payload distinct from scalar constructors2/7.
 
 Owned publication errors now propagate through the higher initializer before RRO

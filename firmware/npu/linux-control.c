@@ -123,6 +123,44 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 	return 0;
 }
 
+int npu_linux_control_rro_exchange(struct npu_linux_control *control,
+                                   const struct npu_rro_wire_message *message,
+                                   u32 *accepted_sequence)
+{
+        struct npu_rro_wire_packet packet, request;
+        enum npu_client_result result;
+        u32 ticket, remote_status = NPU_RRO_WIRE_STATE;
+        int error;
+
+        if (!control || !control->initialized || !message || !accepted_sequence)
+                return -EINVAL;
+        mutex_lock(&control->mutex);
+        if (control->error) {
+                error = control->error;
+                goto unlock;
+        }
+        if (control->closed || !control->provider) {
+                error = hold(control, -ESHUTDOWN);
+                goto unlock;
+        }
+        ticket = npu_rro_client_request(&control->client, &packet, sizeof(packet), message);
+        if (!ticket) {
+                error = hold(control, -EPROTO);
+                goto unlock;
+        }
+        npu_rro_wire_copy(&request, &packet);
+        error = airoha_npu_wlan_control(control->provider, &packet, sizeof(packet));
+        result = npu_rro_client_complete(&control->client, ticket, error,
+                &request, &packet, sizeof(packet), &remote_status);
+        if (error || result != NPU_CLIENT_ACCEPTED)
+                error = hold(control, error < 0 ? error : error ? -EIO : -EPROTO);
+        else
+                *accepted_sequence = ticket;
+unlock:
+        mutex_unlock(&control->mutex);
+        return error;
+}
+
 int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 				    const struct npu_bootstrap_packet *command,
 				    u32 *value)

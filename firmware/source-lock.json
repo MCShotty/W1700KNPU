@@ -330,17 +330,62 @@
       },
       {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.c",
-        "sha256": "ecdfdc7b05be3ee82cecfc6c986ce52ec6092a62377f251b5e0c58c13987ffd3",
+        "sha256": "ccb2ac164f3f8f03a2753736b2025f8233b4459b2abb23b243eaa57f0d82df56",
         "mode": "0o644"
       },
       {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.h",
-        "sha256": "7c7aa114c35cc23a2ca02a840db79a4f68427daf0b91f33fef0f7d4c77277e1e",
+        "sha256": "eb2e07978aa3fe3b05901cbf1e115fed0a42c0066d36e64c7065198b380d8ec1",
         "mode": "0o644"
       },
       {
         "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/provider-main.c",
         "sha256": "761e768002464ac966016e2b4e580b61e07af264d437605bc46533d36258081a",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-client.c",
+        "sha256": "5fcb8d8313773742a7735d0adb8c890a8fc05242abe5b26574ec4d395880793f",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-lifetime.c",
+        "sha256": "87afb0168f440b5ee165689ee05f91a7377f744bafc7292603f9d44e8adba471",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-lifetime.h",
+        "sha256": "ed39252dbe3714797fb4a9460164d6523b5c73ae9990e2f462ceeb1c1c166f97",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-native.c",
+        "sha256": "b97e7339899c737017d3cf67447cc4d17b93b14b906e14bd1b2f690b10955217",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-native.h",
+        "sha256": "e62ddd34565c5f0036202c6b0414e13580db06bf0082218302e2d1d1d4526fa1",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-session.c",
+        "sha256": "f39b12e61fde0704d8d576e900ae2eaef3cab1ca851ad9941d85f0538b5193ce",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-session.h",
+        "sha256": "2978f4f04ba49e140ef699e6f15b2d474c0226c0189c5554c34563f08e0ae0a2",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-wire.c",
+        "sha256": "b1b24700768fb872cb8e16fb9d7a33de6c5889dfb981020e396daa23507ae0b3",
+        "mode": "0o644"
+      },
+      {
+        "path": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-wire.h",
+        "sha256": "eef9261a21a300b260790c33aebc7b4b0c45f2bb37d9af9cdc4b2e0f89df3549",
         "mode": "0o644"
       },
       {
@@ -350,7 +395,7 @@
       },
       {
         "path": "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
-        "sha256": "6dc24d3cb3898bb4aa5c8f4ca85a9189b9f70564a971c3d69b5c04346fa519c4",
+        "sha256": "82687c933c5f71a81cc77c64642ef7df6f09bc262d0bfb44c7891057a98c2d26",
         "mode": "0o644"
       },
       {
@@ -438,7 +483,7 @@
       "tree": "openwrt",
       "source": "firmware/npu/linux-control.c",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.c",
-      "sha256": "ecdfdc7b05be3ee82cecfc6c986ce52ec6092a62377f251b5e0c58c13987ffd3",
+      "sha256": "ccb2ac164f3f8f03a2753736b2025f8233b4459b2abb23b243eaa57f0d82df56",
       "mode": "0o644"
     },
     {
@@ -459,7 +504,7 @@
       "tree": "openwrt",
       "source": "firmware/npu/linux-control.h",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/linux-control.h",
-      "sha256": "7c7aa114c35cc23a2ca02a840db79a4f68427daf0b91f33fef0f7d4c77277e1e",
+      "sha256": "eb2e07978aa3fe3b05901cbf1e115fed0a42c0066d36e64c7065198b380d8ec1",
       "mode": "0o644"
     },
     {
@@ -600,6 +645,41 @@
       "source": "firmware/npu/rro-native.h",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-native.h",
       "sha256": "e62ddd34565c5f0036202c6b0414e13580db06bf0082218302e2d1d1d4526fa1",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-wire.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-wire.h",
+      "sha256": "eef9261a21a300b260790c33aebc7b4b0c45f2bb37d9af9cdc4b2e0f89df3549",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-wire.c",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-wire.c",
+      "sha256": "b1b24700768fb872cb8e16fb9d7a33de6c5889dfb981020e396daa23507ae0b3",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-client.c",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-client.c",
+      "sha256": "5fcb8d8313773742a7735d0adb8c890a8fc05242abe5b26574ec4d395880793f",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-session.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-session.h",
+      "sha256": "2978f4f04ba49e140ef699e6f15b2d474c0226c0189c5554c34563f08e0ae0a2",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-session.c",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-session.c",
+      "sha256": "f39b12e61fde0704d8d576e900ae2eaef3cab1ca851ad9941d85f0538b5193ce",
       "mode": "0o644"
     }
   ],

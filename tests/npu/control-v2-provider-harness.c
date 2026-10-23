@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "control-v2.h"
+#include "rro-wire.h"
+#include "cold-setup.h"
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -56,9 +58,19 @@ static u32 get_unaligned_le32(const void *pointer)
 
 static void firmware_complete(void)
 {
-    check(map.r[0] == npu.cores[0].addr && map.r[1] == 80);
+    check(map.r[0] == npu.cores[0].addr && (map.r[1] == 80 || map.r[1] == NPU_RRO_WIRE_SIZE));
     check(FIELD_GET(MBOX_MSG_FUNC_ID, map.r[3]) == 0 && (map.r[3] & 1));
-    int handled = npu_control_v2_dispatch(&session, &admission, &barrier,
+    int handled;
+    if (map.r[1] == NPU_RRO_WIRE_SIZE) {
+        /* Envelope-only peer model; broker authorization is tested separately. */
+        check(bounce[0] == NPU_CONTROL_HEADER && bounce[1] == NPU_RRO_WIRE_API &&
+              bounce[2] == NPU_RRO_WIRE_REQUEST && bounce[3] == NPU_RRO_WIRE_VERSION &&
+              bounce[4] == NPU_RRO_WIRE_SIZE);
+        bounce[2] = NPU_RRO_WIRE_REPLY;
+        bounce[7] = 0;
+        handled = 1;
+    } else
+        handled = npu_control_v2_dispatch(&session, &admission, &barrier,
                                          (struct npu_control_v2_packet *)bounce, map.r[1]);
     map.r[3] |= MBOX_MSG_DONE | (handled ? FIELD_PREP(MBOX_MSG_STATUS, NPU_MBOX_SUCCESS) : 0);
 }
@@ -126,6 +138,45 @@ static void exchange(void)
     check(status == 0 && !npu.cores[0].mbox_pending && !depth);
     check(npu_client_v2_complete(&client, ticket, status, wire + 1, 80) == NPU_CLIENT_ACCEPTED);
     check(wire[0] == 0xcc && wire[81] == 0xcc);
+}
+
+static void rro_gateway_checks(void)
+{
+    u32 packet[64], expected[64], retained[64];
+
+    for (unsigned i = 0; i < 64; i++)
+        packet[i] = 0xa5000000u + i;
+    packet[0] = NPU_CONTROL_HEADER;
+    packet[1] = NPU_RRO_WIRE_API;
+    packet[2] = NPU_RRO_WIRE_REQUEST;
+    packet[3] = NPU_RRO_WIRE_VERSION;
+    packet[4] = NPU_RRO_WIRE_SIZE;
+    for (unsigned field = 0; field < 5; field++) {
+        reset();
+        packet[field] ^= 1;
+        check(airoha_npu_wlan_control(&npu, packet, sizeof(packet)) == -EINVAL);
+        check(!writes && !kicks && !npu.cores[0].mbox_pending);
+        packet[field] ^= 1;
+    }
+    reset();
+    check(airoha_npu_wlan_control(&npu, packet, 80) == -EINVAL && !writes);
+    memcpy(expected, packet, sizeof(expected));
+    expected[2] = NPU_RRO_WIRE_REPLY;
+    expected[7] = 0;
+    check(!airoha_npu_wlan_control(&npu, packet, sizeof(packet)) &&
+          !memcmp(packet, expected, sizeof(expected)) && !npu.cores[0].mbox_pending);
+    packet[2] = NPU_RRO_WIRE_REQUEST;
+    reset();
+    deferred = 1;
+    memcpy(expected, packet, sizeof(expected));
+    check(airoha_npu_wlan_control(&npu, packet, sizeof(packet)) == -ETIMEDOUT &&
+          !memcmp(packet, expected, sizeof(expected)) && npu.cores[0].mbox_pending);
+    memcpy(retained, bounce, sizeof(retained));
+    int before = writes;
+    check(airoha_npu_wlan_control(&npu, packet, sizeof(packet)) == -EBUSY &&
+          writes == before && !memcmp(bounce, retained, sizeof(retained)));
+    firmware_complete();
+    check(!memcmp(bounce + 8, retained + 8, sizeof(retained) - 8 * sizeof(u32)));
 }
 
 int main(void)
@@ -205,8 +256,9 @@ int main(void)
         check(npu_client_v2_complete(&client, ticket, 0, bounce, 80) == NPU_CLIENT_IGNORED);
         check(client.base.phase == NPU_CLIENT_FAILED && !barrier.released && !barrier.armed);
     }
+    rro_gateway_checks();
     printf("{\"passed\":true,\"assertions\":%d,\"old_get_discards_body\":true,"
            "\"bidirectional_round_trips\":8,\"register_error_cases\":8,"
-           "\"timeout_cases\":2,\"physical_drains\":false}\n", assertions);
+           "\"timeout_cases\":2,\"rro_gateway_256\":true,\"physical_drains\":false}\n", assertions);
     return 0;
 }

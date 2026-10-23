@@ -1,6 +1,10 @@
 /* Test-only composition with the original cold-start and six-command binding. */
 #include "bootstrap-v2.h"
 #include "cold-setup.h"
+#ifdef NPU_EMULATION_RRO_WIRE
+#include "rro-wire.h"
+#include "rro-wire-native-abi.h"
+#endif
 extern int npu_emulation_cold_mailbox(struct npu_cold_packet *, uint32_t);
 
 #ifndef NPU_EMULATION_BOOTSTRAP
@@ -23,6 +27,11 @@ static int bootstrap_control(struct npu_control_v2_session *session,
                               struct npu_barrier *barrier,
                               struct npu_control_v2_packet *packet, uint32_t bytes)
 {
+#ifdef NPU_EMULATION_RRO_WIRE
+    if (bytes == NPU_RRO_WIRE_SIZE && packet->v1.header == NPU_CONTROL_HEADER &&
+        packet->v1.api == NPU_RRO_WIRE_API && packet->v1.magic == NPU_RRO_WIRE_REQUEST)
+        return ((int (*)(void *, uint32_t))(uintptr_t)NPU_RRO_NATIVE_MAILBOX_VENEER)(packet, bytes);
+#endif
     if (bytes == NPU_COLD_SIZE && packet->v1.header == NPU_CONTROL_HEADER &&
         packet->v1.api == NPU_COLD_API && packet->v1.magic == NPU_COLD_REQUEST)
         return npu_emulation_cold_mailbox((struct npu_cold_packet *)packet, bytes);

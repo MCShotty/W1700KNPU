@@ -1,5 +1,8 @@
 /* Raw native cold-command binding; physical backing/drains remain unproved. */
 #include "cold-setup.h"
+#ifdef NPU_EMULATION_RRO_WIRE
+#include "rro-wire-native-abi.h"
+#endif
 
 extern struct npu_bootstrap npu_emulation_bootstrap_state;
 extern struct npu_control_v2_session npu_emulation_control_v2_state;
@@ -20,6 +23,21 @@ int npu_emulation_cold_mailbox(struct npu_cold_packet *host, uint32_t bytes)
     if (bytes != sizeof(snapshot))
         return 0;
     npu_cold_packet_copy(&snapshot, host);
+#ifdef NPU_EMULATION_RRO_WIRE
+    /* Endpoint and retained-buffer enrollment precede RRO OPEN. The cold
+     * engine validates those records; execution commands require live RRO. */
+    if (!(snapshot.command.header == NPU_COLD_BIND_HEADER &&
+          (snapshot.command.api == NPU_COLD_BIND_BASE_API ||
+           snapshot.command.api == NPU_COLD_BIND_BYTES_API ||
+           npu_cold_txbuf_enrollment_step(&snapshot.command) < NPU_COLD_TXBUF_RECORDS ||
+           npu_cold_rx_event_enrollment(&snapshot.command))) &&
+        !((int (*)(void))(uintptr_t)NPU_RRO_NATIVE_COLD_READY_VENEER)()) {
+        snapshot.magic = NPU_COLD_REPLY;
+        snapshot.status = NPU_COLD_BAD_STATE;
+        npu_cold_packet_copy(host, &snapshot);
+        return 1;
+    }
+#endif
     status = npu_cold_setup_begin(s, &npu_emulation_control_v2_state,
         &npu_emulation_admission_state, &npu_emulation_barrier_state,
         &npu_emulation_bootstrap_state, &snapshot, bytes);

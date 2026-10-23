@@ -174,7 +174,7 @@ def main():
                  'stale or consumed prepared lease must not reach hardware entry'),
                 ('omit-prepared-consumption', host_inc, host_original, 'dev->npu_txd_claimed = true;', '(void)0;',
                  'late hardware attempt consumes the lease even when it fails'),
-                ('omit-prepared-serial', inc, original, 'life->tx_serial != snapshot.client.base.serial ||', 'false ||',
+                ('omit-prepared-serial', inc, original, 'life->tx_serial != snapshot.client.base.serial) ||', 'false) ||',
                  'stale or consumed prepared lease must not reach hardware entry'),
             )
             for name, container, contents, old, new, diagnostic in variants:

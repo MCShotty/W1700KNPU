@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Actual retained provider RRO allocator/journal and mt76 process-context bridge."""
+"""Host C provider/client/broker/native RRO chain; no physical admission."""
 import argparse
 import json
 import os
@@ -21,7 +21,8 @@ def controls(destination, command, environment):
          'false', 'invalid CPU/DMA backing is retained without narrowing or caller exposure'),
         ('missing-retirement-handoff',
          'npu_rro_retirement_begin(&owner->journal, &owner->plan,\n\t\t\t\t\t owner->plan.identity.epoch, &ticket)',
-         '((ticket = 0), NPU_RRO_OK)', 'close records handoff, not CPU or physical retirement'),
+         '((ticket = owner->journal.last_ticket + 1), NPU_RRO_OK)',
+         'close records handoff, not CPU or physical retirement'),
         ('missing-owner-retention', 'life->exposed || life->rro', 'life->exposed',
          'actual cleanup retains RRO, RX, TX, mailboxes and reference ownership'),
     )
@@ -36,8 +37,8 @@ def controls(destination, command, environment):
         shutil.copytree(destination / 'shims', directory / 'shims')
         (directory / 'provider-session.inc').write_text(parent.loader.once(original, before, after))
         changed = [str(value).replace(str(destination), str(directory)) for value in command]
-        parent.loader.run(changed, directory / 'build.log')
-        completed = subprocess.run([directory / 'test'], env=environment, capture_output=True, text=True, timeout=300)
+        parent.loader.run(changed, directory / 'build.log', timeout=300)
+        completed = subprocess.run([directory / 'test'], env=environment, capture_output=True, text=True, timeout=1800)
         (directory / 'run.log').write_text(completed.stdout + completed.stderr)
         assert completed.returncode == 11 and diagnostic in completed.stderr, (name, completed.returncode, completed.stderr)
         assert 'ERROR: AddressSanitizer' not in completed.stderr and 'runtime error:' not in completed.stderr
@@ -70,11 +71,13 @@ def main():
         'airoha_npu_wlan_alloc_rx_event_session', 'airoha_npu_wlan_alloc_tx_buffers_session',
         'airoha_npu_wlan_validate_tx_buffers_locked', 'airoha_npu_wlan_validate_tx_buffers_session',
         'airoha_npu_rro_status', 'airoha_npu_rro_hold', 'airoha_npu_rro_plan',
-        'airoha_npu_rro_guard', 'airoha_npu_wlan_rro_open_session', 'airoha_npu_rro_cpu_valid',
+        'airoha_npu_rro_guard', 'airoha_npu_rro_exchange',
+        'airoha_npu_wlan_rro_open_session', 'airoha_npu_rro_cpu_valid',
         'airoha_npu_wlan_rro_alloc_session', 'airoha_npu_wlan_rro_publish_session',
         'airoha_npu_wlan_rro_close_session')
     functions = '\n\n'.join(q.function(text, name) for name in names if name not in parent.FUNCTIONS)
     wrappers = ('airoha_npu_wlan_alloc_rx_event', 'airoha_npu_wlan_alloc_tx_buffers',
+        'airoha_npu_wlan_validate_tx_buffers',
         'airoha_npu_wlan_rro_open', 'airoha_npu_wlan_rro_alloc',
         'airoha_npu_wlan_rro_publish', 'airoha_npu_wlan_rro_close')
     with (destination / 'provider-session.inc').open('a') as stream:
@@ -82,6 +85,7 @@ def main():
     ops = '''struct airoha_npu { struct device *dev; struct {
 int (*wlan_alloc_rx_event)(struct airoha_npu *,struct device *,struct device *,u32,u32,void **,dma_addr_t *);
 int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,dma_addr_t *,unsigned);
+int (*wlan_validate_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,const dma_addr_t *,unsigned);
 int (*wlan_rro_open)(struct airoha_npu *,struct device *,struct device *,u32,const dma_addr_t *,unsigned);
 int (*wlan_rro_alloc)(struct airoha_npu *,struct device *,struct device *,u32,u32,u32,void **,dma_addr_t *);
 int (*wlan_rro_publish)(struct airoha_npu *,struct device *,u32);
@@ -114,6 +118,12 @@ static dma_addr_t addresses[147];''')
     *addr=addresses[index];
     if(index>=7 && bad_rro_cpu)return bad_rro_cpu;''')
     model = parent.loader.once(model, '#include "provider-session.inc"', platform + '\n#include "provider-session.inc"')
+    model = parent.loader.once(model,
+        'if (external_transport) {\n        error = external_transport(packet, bytes);',
+        'if (external_transport && bytes == NPU_RRO_WIRE_SIZE) {\n        error = external_transport(packet, bytes);')
+    model = parent.loader.once(model,
+        'check(npu == &priv.npu && bytes == 80, "control provider");',
+        'check(npu == &priv.npu && (bytes == 80 || bytes == NPU_RRO_WIRE_SIZE), "control provider");')
     common = (mt76 / 'mt76.h').read_text()
     bridge = '\n'.join(q.declaration(common, 'enum', name) for name in
         ('mt76_npu_rro_profile', 'mt76_npu_rro_role')) + '\n'
@@ -125,25 +135,29 @@ static dma_addr_t addresses[147];''')
     shutil.copyfile(__file__, destination / 'driver-at-run.py')
     shutil.copyfile(root / 'tests/npu/host-rro-lifetime-harness.c', destination / 'harness-at-run.c')
     command = [generated if path == parent.HARNESS else path for path in command]
-    command += [parent.SOURCE / 'rro-lifetime.c', '-fsanitize=address,undefined', '-fno-sanitize-recover=all',
+    command += [*[parent.SOURCE / name for name in ('rro-lifetime.c','rro-native.c','rro-session.c')],
+        '-fsanitize=address,undefined', '-fno-sanitize-recover=all',
         '-Wno-unused-function', '-Wno-unused-variable', '-Wno-sign-compare', '-o', destination / 'test']
-    parent.loader.run(command, destination / 'build.log')
-    environment = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:detect_stack_use_after_return=1')
-    completed = parent.loader.run([destination / 'test'], destination / 'run.log', env=environment)
+    parent.loader.run(command, destination / 'build.log', timeout=300)
+    environment = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:detect_stack_use_after_return=1:halt_on_error=1',
+        UBSAN_OPTIONS='halt_on_error=1')
+    completed = parent.loader.run([destination / 'test'], destination / 'run.log', env=environment, timeout=1800)
     matrix = json.loads(completed.stdout)
-    assert matrix['passed']
+    assert matrix['passed'] and matrix['cases']==456 and matrix['profiles']==3
+    assert matrix['publications']==3*129 and matrix['native_effects']==3*129
+    assert matrix['negative_joint']==11 and matrix['late_tx_checks']==12 and not matrix['hardware']
     mutants = controls(destination, command, environment)
     assert all(parent.loader.sha(root / name) == expected for name, expected in inputs.items()), 'source-input-drift'
     artifacts = {str(path.relative_to(root)):parent.loader.sha(path) for path in destination.rglob('*') if path.is_file()}
     result = dict(passed=True, matrix=matrix, mutants=mutants, inputs=inputs, artifacts=artifacts,
         compile_command=[str(value) for value in command], sanitizers=['address', 'undefined', 'leak'],
-        actual_provider_journal_and_mt76_bridge=True, current_RRO_publication_rejected=True,
-        operational_RRO_admitted=False, native_execution=False, physical_retirement=False, hardware=False,
-        limits=['Actual provider-owned allocation, retained cleanup, portable journal, checked sender and mt76 process wrappers execute.',
-            'DMA allocation/backing/device references/transport/framework are models; coherent CPU buffers are actual host heap allocations.',
-            'Full geometry is allocated, but the actual current checked publication guard rejects the first RRO command before transport.',
-            'No fake successful current RRO publication, CPU join, physical drain or reclamation is inferred.',
-            'Fixture frees of retained buffers and owner metadata are not production retirement.'])
+        actual_provider_client_broker_native_host_c=True, native_effect_engine=True,
+        operational_RRO_admitted=False, physical_retirement=False, hardware=False,
+        limits=['Actual provider-owned allocation, mt76 bridge, portable client, codec, broker, journal and native effect C execute together.',
+            'DMA backing/device references, mailbox transport, framework, CPU exclusion and cold platform effects remain host models.',
+            'All three profiles enroll complete geometry and publish 129 native block/session effects with full mapped-array checks.',
+            'No kernel module execution, RV32 instruction replay, physical drain, CPU join, reclamation or hardware admission is inferred.',
+            'Fixture-only frees of retained buffers and owner metadata are not production retirement.'])
     with (destination / 'result.json').open('x') as stream:
         json.dump(result, stream, indent=2)
         stream.write('\n')

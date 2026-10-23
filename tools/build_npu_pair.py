@@ -29,8 +29,10 @@ from test_barrier_core5 import SITES as CORE5_SITES
 
 
 def source_inputs():
-    sources = {Path(__file__), ROOT / 'tools/npu_image.py'}
-    for directory, patterns in ((ROOT / 'firmware/npu', ('*.c', '*.h')), (ROOT / 'tests/npu', ('*.c', '*.S', '*.ld'))):
+    sources = {Path(__file__), ROOT / 'tools/npu_image.py',
+               ROOT / 'tests/npu/rro-wire-native-abi.h'}
+    for directory, patterns in ((ROOT / 'firmware/npu', ('*.c', '*.h')),
+                                (ROOT / 'tests/npu', ('*.c', '*.S', '*.ld'))):
         for pattern in patterns:
             sources.update(directory.glob(pattern))
     sources.update(Path(module.__file__).resolve() for module in list(sys.modules.values())
@@ -104,7 +106,8 @@ def build(destination, *, firmware_directory=None):
                   'wrong-original-pair')
     destination.mkdir(parents=True)
     inputs = source_inputs()
-    paths, parts = composition.build(destination=destination / 'components', negative_controls=False)
+    paths, parts = composition.build(destination=destination / 'components', negative_controls=False,
+                                     rro_wire=True)
     page_dir, rx_dir, packet_dir, tx_dir, descriptor_dir = [destination / name for name in ('page', 'rx', 'packet', 'tx', 'descriptor')]
     for path in (page_dir, rx_dir, packet_dir, tx_dir, descriptor_dir):
         path.mkdir()

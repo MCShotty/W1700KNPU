@@ -29,7 +29,8 @@ FUNCTIONS = ('airoha_npu_wlan_cmd_with_retry', 'airoha_npu_wlan_init_memory',
              'airoha_npu_wlan_cold_command',
              'airoha_npu_wlan_bind_endpoint_session',
              'airoha_npu_wlan_msg_send_session', 'airoha_npu_wlan_msg_get_session')
-CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c', 'cold-client.c')
+CLIENTS = ('linux-control.c', 'control-client.c', 'control-v2-client.c', 'cold-client.c',
+           'rro-wire.c', 'rro-client.c')
 SERVERS = ('bootstrap.c', 'bootstrap-v2.c', 'control-v2.c', 'admission.c', 'barrier.c', 'cold-setup.c', 'cold-tx-buffer.c', 'cold-rx-event.c')
 NATIVE_TXBUF_RECORDS = 14
 
@@ -37,7 +38,7 @@ NATIVE_TXBUF_RECORDS = 14
 def prepare(directory, text, header):
     directory.mkdir(parents=True)
     shims = {
-        'linux/types.h': '#ifndef TEST_TYPES_H\n#define TEST_TYPES_H\n#include <stdint.h>\n#include <stdbool.h>\n#include <stddef.h>\ntypedef uint8_t u8;\ntypedef uint32_t u32;\ntypedef uint64_t u64;\n#endif\n',
+        'linux/types.h': '#ifndef TEST_TYPES_H\n#define TEST_TYPES_H\n#include <stdint.h>\n#include <stdbool.h>\n#include <stddef.h>\ntypedef uint8_t u8;\ntypedef uint32_t u32;\ntypedef uint64_t u64;\n#define U32_MAX UINT32_MAX\n#endif\n',
         'linux/mutex.h': '#ifndef TEST_MUTEX_H\n#define TEST_MUTEX_H\n#include <pthread.h>\n#include <assert.h>\nstruct mutex { pthread_mutex_t native; };\nstatic inline void mutex_init(struct mutex *m) { assert(!pthread_mutex_init(&m->native, 0)); }\nstatic inline void mutex_lock(struct mutex *m) { assert(!pthread_mutex_lock(&m->native)); }\nstatic inline void mutex_unlock(struct mutex *m) { assert(!pthread_mutex_unlock(&m->native)); }\n#endif\n',
         'linux/soc/airoha/airoha_offload.h': 'struct airoha_npu;\nint airoha_npu_wlan_control(struct airoha_npu *, void *, int);\n',
     }

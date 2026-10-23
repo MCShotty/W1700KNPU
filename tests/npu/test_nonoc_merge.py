@@ -195,7 +195,8 @@ def main():
                        '-I' + str(ROOT / 'firmware/npu'), '-I' + str(ROOT / 'tests/npu'),
                        ROOT / 'tests/npu/linux-control-harness.c']
     command += [CONTROL / name for name in ('control-client.c', 'control-v2-client.c', 'linux-control.c')]
-    command += [ROOT / 'firmware/npu' / name for name in ('control-v2.c', 'admission.c', 'barrier.c')]
+    command += [ROOT / 'firmware/npu' / name for name in
+                ('rro-wire.c', 'rro-client.c', 'control-v2.c', 'admission.c', 'barrier.c')]
     run(command + ['-o', dest / 'linux-control'], dest / 'linux-control-build.log')
     linux_result = json.loads(run([dest / 'linux-control'], dest / 'linux-control-run.log', environment))
     print(json.dumps(dict(stage='linux-control', **linux_result)), flush=True)

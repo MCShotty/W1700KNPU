@@ -168,7 +168,7 @@ def main():
     (dest / 'control-v2-provider.inc').write_text('#include "cold-setup.h"\n' + '\n\n'.join(parts) + '\n')
     core = ROOT / 'firmware/npu'
     component_names = ('control-client.c', 'control-v2-client.c', 'cold-client.c', 'linux-control.c',
-                       'control-v2.c', 'admission.c', 'barrier.c')
+                       'rro-wire.c', 'rro-client.c', 'control-v2.c', 'admission.c', 'barrier.c')
     command = flags + ['-pthread', '-I' + str(dest / 'shims'), '-I' + str(dest),
                        '-I' + str(core), '-I' + str(ROOT / 'tests/npu'),
                        ROOT / 'tests/npu/linux-control-harness.c']

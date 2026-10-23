@@ -5,6 +5,7 @@
 #include <linux/types.h>
 #include "control-v2.h"
 #include "cold-setup.h"
+#include "rro-wire.h"
 
 struct airoha_npu;
 
@@ -45,6 +46,9 @@ int npu_linux_control_snapshot(struct npu_linux_control *control,
 int npu_linux_control_cold_exchange(struct npu_linux_control *control,
 				    const struct npu_bootstrap_packet *command,
 				    u32 *value);
+int npu_linux_control_rro_exchange(struct npu_linux_control *control,
+                                   const struct npu_rro_wire_message *message,
+                                   u32 *accepted_sequence);
 void npu_linux_control_close(struct npu_linux_control *control);
 
 #endif
