@@ -1,0 +1,150 @@
+{
+  "format": "w1700k-verified-cache-cleanup-v1",
+  "passed": true,
+  "scope": "closed-build-download-cache-consolidation-not-NPU-qualification",
+  "source_commit": "4b8ea14efbba1ca921a74ef17e2c07a183c0ff52",
+  "removed_files": 11322,
+  "logical_bytes": 7287224205,
+  "per_tree": {
+    "/home/captain/W1700KNPU/.local/npu-isolated-world/world-inode-q1/build-upper/dl": {
+      "files": 3774,
+      "logical_bytes": 2429074735
+    },
+    "/home/captain/W1700KNPU/.local/npu-isolated-world/world-bytewise-q1/build-upper/dl": {
+      "files": 3774,
+      "logical_bytes": 2429074735
+    },
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/world-checked-irq-q6/build-upper/dl": {
+      "files": 3774,
+      "logical_bytes": 2429074735
+    }
+  },
+  "retained_readonly_keeper": ".local/npu-validation-capsules/world-checked-irq-v5/root/.build/openwrt/dl",
+  "keeper_capsule_sha256": "da9cc62461bd15b9d9d5fd24950405d02036e04d83ea8296016ff2e8c864f29f",
+  "excluded_retained": 0,
+  "preservation": {
+    "tracked_files": 2357,
+    "executing_capsule_files": 2865,
+    "protected_project_image_files": 14,
+    "protected_external_files": 1
+  },
+  "tracked_source_files_unchanged_before_tracking": true,
+  "only_preexisting_tracked_files_changed_after_cleanup": [
+    "AGENTS.md",
+    "README.md",
+    "docs/REMAINING_WORK.md",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md",
+    "docs/W1700K_STOCK_PORT_LEDGER.md",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+  ],
+  "unfinished_RRO_edits_preserved_not_validated": [
+    "tests/npu/rro-lifetime-harness.c",
+    "tests/npu/test_rro_lifetime_callers.py",
+    "tests/npu/test_rro_lifetime_native.py"
+  ],
+  "cleanup_guard_tests": 8,
+  "skipped": 0,
+  "guest_free_before": {
+    "/home/captain/W1700KNPU": 862339280896,
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2": 1010275880960
+  },
+  "guest_free_after": {
+    "/home/captain/W1700KNPU": 867214487552,
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2": 1012716007424
+  },
+  "post_host_observation": {
+    "format": "w1700k-host-storage-observation-v1",
+    "nonce": "cleanup-post-q1",
+    "observed_unix_ns": 1792717786363000000,
+    "root": {
+      "distro": "Ubuntu",
+      "vhd_path": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+      "vhd_bytes": 170324393984,
+      "drive": "D",
+      "free_bytes": 5850017792,
+      "total_bytes": 256059109376
+    },
+    "volumes": {
+      "C": {
+        "drive": "C",
+        "health": "Healthy",
+        "free_bytes": 107095384064,
+        "total_bytes": 499057160192
+      },
+      "D": {
+        "drive": "D",
+        "health": "Healthy",
+        "free_bytes": 5850017792,
+        "total_bytes": 256059109376
+      }
+    },
+    "script_sha256": "12e68275c9f24128cfdac75a8341b80eeec654eaeb6cfb003b1fb41cfcae869f"
+  },
+  "live_job_observation": {
+    "service": "ActiveState=active\nSubState=running\nMainPID=2396851\nResult=success\nMemoryCurrent=248877056\nMemoryPeak=378957824\nMemorySwapCurrent=0",
+    "processes": [
+      {
+        "pid": 2396851,
+        "start_ticks": "13362592",
+        "CPU_ticks": 9
+      },
+      {
+        "pid": 2396856,
+        "start_ticks": "13362608",
+        "CPU_ticks": 160
+      },
+      {
+        "pid": 2396858,
+        "start_ticks": "13362769",
+        "CPU_ticks": 0
+      },
+      {
+        "pid": 2396859,
+        "start_ticks": "13362770",
+        "CPU_ticks": 217262
+      }
+    ]
+  },
+  "old_cache_outputs_logically_consolidated": true,
+  "restoration_required_for_old_cache_paths": true,
+  "restoration_map": ".local/workspace-cleanup-20261023/plan.json",
+  "keeper_content_and_metadata_unchanged": true,
+  "original_receipts_rewritten": false,
+  "unique_bytes_removed": false,
+  "directories_removed": false,
+  "firmware_changed": false,
+  "source_lock_changed": false,
+  "images_changed": false,
+  "hardware": false,
+  "host_compaction": false,
+  "disk_resize": false,
+  "VM_or_jobs_restarted": false,
+  "new_NPU_tests": false,
+  "physical_acceptance": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "host_capacity_scope": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "native_acceptance_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "restoration_disclosed": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "dirty_RRO_test_scope": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "semantic_checks_not_test_proof": true
+  },
+  "recorded_unix_ns": 1792717821701057923,
+  "private_audit_sha256": "3f1bb1df67428098491efc9459d0fe1d0301d4a976cde558e042462e459dd6d0",
+  "bound_paths": 24
+}

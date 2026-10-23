@@ -1,5 +1,35 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Retained RRO Handoff Must Precede Explicit Frees
+
+The complete selected lower teardown now passes 1,037 sanitizer cases and three
+compiled negative controls. A final mt76_npu_deinit-only handoff is too late:
+the selected RRO frees already ran. Reader joins do not establish physical DMA
+quiescence. Implement the complete retained ownership/identity/generation and
+publication/reset/error/late/drain/retirement path together, before reclamation.
+
+Six real-Unicorn write-observer guards and all 134 stock/current composition
+cases pass; full rows/digests match prior results at the unchanged 400 MiB cap.
+Current RRO selectors remain denied. Import/OOM failures are preserved, not
+passes. Read rro-teardown REPORT.md/EVIDENCE.json and the updated requirements.
+The original compact default replay remains live with no terminal verdict.
+Full cold/fault/hot/whole-stack/physical/client acceptance remains open.
+Firmware/lock/raw pair/UI/WiFi/image unchanged; no hardware or subagents.
+
+## 2026-10-23 - Cache Cleanup Complete; NPU Scope Unchanged
+
+Verified duplicate cache cleanup removed 11,322 files, 7,287,224,205 logical
+bytes, from three closed builds. All retained keepers, 2,357 tracked files, 2,865
+live capsule inputs and protected image bindings pass preservation checks. Eight
+cleanup guards pass, zero skips. Three unfinished RRO edits remain unvalidated.
+
+Read workspace-cleanup REPORT.md/CLEANUP.json. Old physical cache paths now
+require restoration from their maps before exact old-tree replay. Guest free
+space is not host capacity recovery; no compaction/VM/job restart occurred.
+The compact nominal replay continues unchanged. Its terminal verdict, HIF2,
+full faults, retained RRO/hot/lifecycle/drain/whole-stack and physical/client
+acceptance remain open. Firmware/lock/UI/WiFi/images/backups are unchanged.
+
 ## 2026-10-23 - Complete Fresh Compact Default Replay
 
 New compact default nominal is live in w1700k-npu-compact-default-q1.service,

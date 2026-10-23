@@ -70,7 +70,11 @@ struct mtk_wed_device {
 };
 struct mt76_dev {
     struct device *dev, *dma_dev;
-    struct { struct airoha_npu *npu; struct mtk_wed_device wed; } mmio;
+    struct { struct airoha_npu *npu; void *ppe_dev; struct mtk_wed_device wed; } mmio;
+    struct { unsigned long state; } phy;
+    void *hw, *wq;
+    unsigned tx_worker, q_rx[__MT_RXQ_MAX];
+    int mutex;
     enum mt76_hwrro_mode hwrro_mode;
     bool chip7996, mmio_bus;
     unsigned long wcid_mask[1];
@@ -89,7 +93,9 @@ struct mt7996_dev {
 
 enum { MAX_ALLOCS = 140, MAX_MESSAGES = 256, MAX_EVENTS = 1024 };
 enum { EV_MCU_RESET = 1, EV_ITEM_FREE, EV_CANCEL, EV_UNREGISTER,
-       EV_DMA_FREE, EV_MCU_EXIT, EV_TOKENS, EV_DMA_CLEANUP, EV_DEVICE_FREE };
+       EV_DMA_FREE, EV_MCU_EXIT, EV_TOKENS, EV_DMA_CLEANUP, EV_DEVICE_FREE,
+       EV_WORKER_TEARDOWN, EV_WORKQUEUE_DESTROY, EV_UNPUBLISH, EV_RCU_JOIN,
+       EV_QUEUE_CLEANUP, EV_NPU_PUT, EV_PPE_PUT };
 struct allocation {
     void *ptr; size_t size; dma_addr_t dma; struct device *owner;
     bool live, model_published;
@@ -112,6 +118,8 @@ static struct {
     unsigned nmessages, downstream, cold, lookups, rcu_depth;
     unsigned frame_allocations, fail_frame_allocation;
     unsigned mcu_resets, items_freed, hw_init, dma_rro_init, published_frees;
+    unsigned unregister_calls, rcu_joins, queue_cleanups, npu_puts, ppe_puts;
+    unsigned worker_teardowns, workqueue_destroys;
     unsigned fail_devres, fail_dma, disconnect_at_lookup;
     int raw_result, mcu_result, stage, stage_result;
     bool high_dma;
@@ -264,13 +272,13 @@ static int observe_send(struct mt76_dev *d, int selector, u32 a, u32 b, u32 c, u
 }
 
 /* Unselected chip/framework APIs are observable boundaries, not no-op proof
- * of quiescence. In particular mt76_unregister_device's internals are absent. */
+ * of quiescence. Lower mt76 unregister/free/NPU detach bodies run verbatim;
+ * mac80211,worker,queue-cleanup,MCU and DMA internals remain modeled. */
 #define MT_INT_SOURCE_CSR 0
 #define MT_BAND0 0
 #define MT_BAND1 1
 #define MT_AFE_CTL_BAND_PLL_03(b) (b)
 #define MT_AFE_CTL_BAND_PLL_03_MSB_EN 1
-#define MT76_STATE_INITIALIZED 0
 #define MT7996_WTBL_STA 1
 #define MT_WCID_TX_INFO_SET 1
 static void mt76_wr(struct mt7996_dev *d, unsigned r, unsigned v) { (void)d; (void)r; (void)v; }
@@ -296,13 +304,48 @@ static struct mt7996_phy *mt7996_phy2(struct mt7996_dev *d) { return &d->phy; }
 static void mt7996_unregister_phy(struct mt7996_phy *p) { (void)p; }
 static void mt7996_unregister_thermal(struct mt7996_phy *p) { (void)p; }
 static void mt7996_coredump_unregister(struct mt7996_dev *d) { (void)d; }
-static void mt76_unregister_device(struct mt76_dev *d) { (void)d; event(EV_UNREGISTER); }
 static void mt7996_mcu_exit(struct mt7996_dev *d) { (void)d; event(EV_MCU_EXIT); }
 static void mt7996_tx_token_put(struct mt7996_dev *d) { (void)d; event(EV_TOKENS); }
 static void mt7996_dma_cleanup(struct mt7996_dev *d) { (void)d; event(EV_DMA_CLEANUP); }
 static void mt7996_rro_msdu_page_map_free(struct mt7996_dev *d) { (void)d; }
 static void tasklet_disable(unsigned *t) { (void)t; }
-static void mt76_free_device(struct mt76_dev *d) { (void)d; event(EV_DEVICE_FREE); }
+struct airoha_ppe_dev;
+#define CONFIG_MT76_LEDS 0
+#define IS_ENABLED(v) (v)
+static bool test_bit(unsigned bit, const unsigned long *word) { return !!(*word & (1UL << bit)); }
+static void mt76_led_cleanup(void *p) { (void)p; }
+static void mt76_tx_status_check(struct mt76_dev *d, bool flush) { assert(d == &s.dev.mt76 && flush); }
+static void mt76_wcid_cleanup(struct mt76_dev *d, void *wcid) { assert(wcid == &d->global_wcid); }
+static void ieee80211_unregister_hw(void *hw)
+{ assert(hw == &s.endpoint); s.unregister_calls++; event(EV_UNREGISTER); }
+static void mt76_worker_teardown(unsigned *worker)
+{ assert(worker == &s.dev.mt76.tx_worker); s.worker_teardowns++; event(EV_WORKER_TEARDOWN); }
+static void destroy_workqueue(void *wq)
+{ assert(wq == &s); s.workqueue_destroys++; event(EV_WORKQUEUE_DESTROY); }
+static void mutex_lock(int *lock) { assert(!*lock); *lock = 1; }
+static void mutex_unlock(int *lock) { assert(*lock == 1); *lock = 0; }
+#define lockdep_is_held(lock) (*(lock) == 1)
+#define rcu_replace_pointer(pointer, value, held) ({ \
+    assert(held); __auto_type old = (pointer); (pointer) = (value); event(EV_UNPUBLISH); old; })
+static void synchronize_rcu(void)
+{
+    assert(s.dev.mt76.mutex == 1 && !s.rcu_depth &&
+           !s.dev.mt76.mmio.npu && !s.dev.mt76.mmio.ppe_dev);
+    s.rcu_joins++; event(EV_RCU_JOIN);
+}
+static void mt76_npu_queue_cleanup(struct mt76_dev *d, unsigned *queue)
+{
+    assert(d == &s.dev.mt76 && !d->mutex && !d->mmio.npu && !d->mmio.ppe_dev);
+    assert(queue == &d->q_rx[MT_RXQ_NPU0] || queue == &d->q_rx[MT_RXQ_NPU1]);
+    s.queue_cleanups++; event(EV_QUEUE_CLEANUP);
+}
+static void airoha_npu_put(struct airoha_npu *npu)
+{ assert(npu == &s.priv.npu); s.npu_puts++; event(EV_NPU_PUT); }
+static void airoha_ppe_put_dev(struct airoha_ppe_dev *ppe)
+{ assert((void *)ppe == &s.provider); s.ppe_puts++; event(EV_PPE_PUT); }
+static void ieee80211_free_hw(void *hw)
+{ assert(hw == &s.endpoint && !s.dev.mt76.mutex); event(EV_DEVICE_FREE); }
+#include "teardown.h"
 #define mt76_npu_send_txrx_addr observe_send
 #include "callers.h"
 #undef mt76_npu_send_txrx_addr
@@ -318,6 +361,8 @@ static void setup(int profile, bool checked, bool npu)
     s.priv.npu.ops.wlan_send_msg = airoha_npu_wlan_msg_send_session;
     s.dev.mt76.dev = &s.endpoint; s.dev.mt76.dma_dev = npu ? &s.provider : &s.endpoint;
     s.dev.mt76.mmio.npu = npu ? &s.priv.npu : NULL;
+    s.dev.mt76.mmio.ppe_dev = npu ? &s.provider : NULL;
+    s.dev.mt76.hw = &s.endpoint; s.dev.mt76.wq = &s;
     s.dev.mt76.mmio_bus = true; s.dev.mt76.chip7996 = true;
     s.dev.mt76.hwrro_mode = profile == 0 ? MT76_HWRRO_V3 : MT76_HWRRO_V3_1;
     s.dev.mt76.mmio.wed.active = profile == 2;
@@ -360,9 +405,13 @@ static void finish(const char *kind, int profile, int result, unsigned failure)
     printf("{\"kind\":\"%s\",\"profile\":%d,\"result\":%d,\"failure\":%u,"
            "\"allocations\":%u,\"before_endpoint_cleanup\":%u,\"after_endpoint_cleanup\":%u,"
            "\"managed_release_callbacks\":%u,\"messages\":%u,\"downstream\":%u,"
-           "\"model_published_frees\":%u,\"MCU_resets\":%u,\"items_freed\":%u}\n",
+           "\"model_published_frees\":%u,\"MCU_resets\":%u,\"items_freed\":%u,"
+           "\"unregister_calls\":%u,\"worker_teardowns\":%u,\"workqueue_destroys\":%u,"
+           "\"RCU_joins\":%u,\"queue_cleanups\":%u,\"NPU_puts\":%u,\"PPE_puts\":%u}\n",
            kind, profile, result, failure, s.allocated, prefix, after_endpoint,
-           s.released_callbacks, s.nmessages, s.downstream, s.published_frees, s.mcu_resets, s.items_freed);
+           s.released_callbacks, s.nmessages, s.downstream, s.published_frees, s.mcu_resets, s.items_freed,
+           s.unregister_calls, s.worker_teardowns, s.workqueue_destroys, s.rcu_joins,
+           s.queue_cleanups, s.npu_puts, s.ppe_puts);
     cases++;
 }
 static void queue_ids(const u16 *ids, unsigned count)
@@ -411,17 +460,47 @@ int main(int argc, char **argv)
                 for (unsigned i = 0; i < s.nmessages; i++)
                     assert(s.messages[i].result == (checked ? -EINVAL : statuses[j]));
                 assert(s.downstream == (checked ? 0 : 129));
+                set_bit(MT76_STATE_REGISTERED, &s.dev.mt76.phy.state);
                 mt7996_unregister_device(&s.dev);
                 assert(!s.live && !s.provider.head && !s.released_callbacks);
+                assert(!s.dev.mt76.mmio.npu && !s.dev.mt76.mmio.ppe_dev &&
+                       "provider pointers must be unpublished");
+                assert(s.rcu_joins == 1 && "provider detach must join prior RCU readers");
+                assert(s.npu_puts == 1 && "NPU detach must release borrowed reference");
                 assert(first_event(EV_UNREGISTER) < first_event(EV_DMA_FREE));
                 assert(first_event(EV_DMA_FREE) < first_event(EV_MCU_EXIT));
                 assert(first_event(EV_MCU_EXIT) < first_event(EV_DMA_CLEANUP));
+                assert(first_event(EV_DMA_CLEANUP) < first_event(EV_WORKER_TEARDOWN));
+                assert(first_event(EV_WORKER_TEARDOWN) < first_event(EV_WORKQUEUE_DESTROY));
+                assert(first_event(EV_WORKQUEUE_DESTROY) < first_event(EV_UNPUBLISH));
+                assert(first_event(EV_UNPUBLISH) < first_event(EV_RCU_JOIN));
+                assert(first_event(EV_RCU_JOIN) < first_event(EV_QUEUE_CLEANUP));
+                assert(first_event(EV_QUEUE_CLEANUP) < first_event(EV_NPU_PUT));
+                assert(first_event(EV_NPU_PUT) < first_event(EV_PPE_PUT));
+                assert(first_event(EV_PPE_PUT) < first_event(EV_DEVICE_FREE));
+                assert(s.rcu_joins == 1 && s.npu_puts == 1 && s.ppe_puts == 1 && s.queue_cleanups == 2);
                 finish(checked ? "checked-denial-ignored" : "raw-result-ignored", profile, result, j);
             }
         }
         setup(profile, true, false);
         assert(!mt7996_init_hardware(&s.dev)); check_initialized(0);
         finish("endpoint-owned-without-NPU", profile, 0, 0);
+    }
+    for (unsigned mask = 0; mask < 16; mask++) {
+        bool npu = mask & 1, ppe = mask & 2, registered = mask & 4, workqueue = mask & 8;
+        setup(0, true, npu);
+        assert(!mt7996_init_hardware(&s.dev));
+        s.dev.mt76.mmio.ppe_dev = ppe ? &s.provider : NULL;
+        s.dev.mt76.phy.state = registered ? 1UL << MT76_STATE_REGISTERED : 0;
+        s.dev.mt76.wq = workqueue ? &s : NULL;
+        mt7996_unregister_device(&s.dev);
+        assert(!s.live && !s.dev.mt76.mmio.npu && !s.dev.mt76.mmio.ppe_dev && !s.dev.mt76.wq);
+        assert(s.unregister_calls == registered && s.worker_teardowns == 1 && s.workqueue_destroys == workqueue);
+        assert(s.rcu_joins == (npu || ppe) && s.npu_puts == npu && s.ppe_puts == ppe && s.queue_cleanups == 2);
+        assert(first_event(EV_DMA_FREE) < first_event(EV_UNPUBLISH));
+        assert(first_event(EV_UNPUBLISH) < first_event(EV_QUEUE_CLEANUP));
+        assert(first_event(EV_QUEUE_CLEANUP) < first_event(EV_DEVICE_FREE));
+        finish("complete-mt76-detach-reference-and-registration-boundaries", 0, 0, mask);
     }
     const u16 ids[] = { 0, 7, 8, 1023, 1024, 1025, 65535 };
     const int statuses[] = { 0, -EIO, -ETIMEDOUT };

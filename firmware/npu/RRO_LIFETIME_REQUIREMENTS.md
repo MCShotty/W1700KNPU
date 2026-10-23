@@ -37,6 +37,21 @@ unfinished reset ownership. Retrying must have defined deduplication semantics.
 
 ## Retirement And Acceptance
 
+The complete selected lower teardown is now executed in the RRO teardown
+checkpoint, including `mt76_unregister_device`, `mt76_free_device` and
+`mt76_npu_deinit`. In `mt7996_unregister_device`, explicit RRO frees precede
+MCU/token/DMA cleanup and the final lower provider detach. Put the retained
+ownership handoff before those explicit frees, not only in the final
+`mt76_npu_deinit`. Preserve the provider/endpoint identities and every allocated
+extent through failed initialization as well as ordinary unregister.
+
+The lower detach's pointer unpublication, reader join and reference puts are
+software lifetime operations, not physical NPU/firmware/DMA drain witnesses.
+Earlier mac80211 callbacks and the modeled DMA/MCU boundaries could contain
+other behavior; their relative position must not be used to invent a missing
+hardware proof. The new 1,037-case characterization and three negative controls
+do not implement or qualify the retained RRO ABI.
+
 Connect retained allocations to the actual provider/consumer teardown paths.
 Require independently established IRQ exclusion, DMA/firmware quiescence,
 cache/PMA correctness and drain/reset ordering before reclaim. Do not infer a

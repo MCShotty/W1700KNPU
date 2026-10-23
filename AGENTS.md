@@ -1,5 +1,34 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Complete Lower RRO Teardown And Bounded Observer
+
+- Actual lower mt76 unregister/free/NPU detach now execute with full selected
+  callers: 1,037 ASan/UBSan/leak cases, sixteen pointer/registration/workqueue
+  combinations and three compiled, intended-assertion negative controls pass.
+  Explicit RRO frees precede final provider detach; RCU join is not DMA drain.
+- A per-frame native write callback retained traces until cyclic GC. One scoped
+  hook now forwards every write; six real-Unicorn guards pass. All 134 stock
+  effects and current denials match prior full rows/digests at the same 400 MiB
+  cap, peak 182042624 bytes. Prior import/OOM failures remain recorded.
+- Read rro-teardown REPORT.md/EVIDENCE.json and updated RRO requirements.
+  Executing capsule/protected images and cleanup-bound old versions preserved.
+  Compact default stays live, not restarted. No firmware/lock/image/hardware
+  change; retained RRO admission/drain/retirement and full NPU scope stay open.
+
+## 2026-10-23 - Verified Duplicate Cache Cleanup
+
+- Removed 11,322 exact duplicate download-cache files, 7,287,224,205 logical
+  bytes, from closed inode/bytewise/native-c2-q6 builds. Read workspace-cleanup
+  REPORT.md and CLEANUP.json. Read-only v5 keepers and restoration maps remain;
+  old cache paths require restoration before exact old-tree replay.
+- All 2,357 tracked files, 2,865 executing capsule inputs, 14 bound project image
+  paths and one external object rehash; three unfinished RRO edits preserved,
+  not validated. Eight cleanup guards pass, zero skips. No unique data,
+  directories, receipts, compiled outputs, backups or damaged native-c1 removed.
+- Guest free space is not Windows host recovery. No compaction/VM/job restart,
+  swap/resize, firmware/lock/UI/WiFi/image/hardware/flash or subagents. Compact
+  replay stays live with original starts; full RRO/NPU/physical goal remains.
+
 ## 2026-10-23 - Fresh Compact Default Replay Running
 
 - Clean2f85e54/capsulea87f69da freezes2865 inputs/608124444 logical bytes;

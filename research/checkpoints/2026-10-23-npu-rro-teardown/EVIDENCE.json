@@ -1,0 +1,204 @@
+{
+  "scope": "complete-selected-RRO-teardown-and-full-synthetic-frame-replay-not-retained-admission",
+  "previous_goal_turn_classification": "progress",
+  "full_objective_preserved": true,
+  "base_commit": "4b8ea14efbba1ca921a74ef17e2c07a183c0ff52",
+  "caller_cases": 1037,
+  "teardown_state_combinations": 16,
+  "compiled_negative_controls": 3,
+  "observer_tests": 6,
+  "observer_test_skips": 0,
+  "stock_frames": 134,
+  "current_denials": 134,
+  "stock_instructions": 6344077,
+  "stock_distinct_PCs": 116,
+  "full_prior_observations_match": true,
+  "fresh_baseline_execution_A_B": false,
+  "caller_receipt_sha256": "758dbc1a69886533d97e7ad0c74c6979068904ad295eff78bd4b0c7d4ef6051b",
+  "native_receipt_sha256": "f9b57b7f6bd880dace4aa1b447d0466037f732a53d344cbbc1e2717884550888",
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "callback_instruction_limit": 2000000,
+  "callback_timeout_us": 3000000,
+  "auxiliary_cap_bytes": 419430400,
+  "passing_auxiliary_peak_bytes": 182042624,
+  "auxiliary_swap_peak": 0,
+  "native_child_max_RSS_KiB": 138888,
+  "prior_import_failure_preserved": true,
+  "prior_auxiliary_OOM_preserved": true,
+  "retained_RRO_admitted": false,
+  "target_RRO_lifetime_qualified": false,
+  "synthetic_memory": true,
+  "framework_DMA_MCU_RCU_scheduling_modeled": true,
+  "executing_capsule_inputs_rehashed": 2865,
+  "executing_source_commit": "2f85e54efabc827a5bcd071bc6bb936df1709b02",
+  "live_participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 383814
+    }
+  ],
+  "services": {
+    "w1700k-npu-rro-teardown-q1.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "63f2e1d8e2074fdda9e601dd17c9056e",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "419430400",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-teardown-q2.service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "18455f5eac3341d6a6014defb849135e",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ExecMainStatus": "1",
+      "MemoryPeak": "415887360",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-teardown-native-q3.service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "e42d8ef3becb4038aac141e7a63cf971",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "oom-kill",
+      "ExecMainStatus": "15",
+      "MemoryPeak": "419430400",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-teardown-native-q4.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "5fb032ce1a374c059996edf66544eb71",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "182042624",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-compact-default-q1.service": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "b7308cc55190453dbe64072f2c296090",
+      "Restart": "no",
+      "MainPID": "2396851",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "378957824",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "4294967296",
+      "MemorySwapMax": "0"
+    }
+  },
+  "protected_project_image_bindings": 14,
+  "external_objects": 1,
+  "cleanup_mutable_versions_preserved": 9,
+  "cleanup_unchanged_bindings": 15,
+  "older_mutable_paths_still_match_not_claimed": true,
+  "old_receipts_rewritten": false,
+  "firmware_or_raw_pair_changed": false,
+  "source_lock_changed": false,
+  "images_changed": false,
+  "full_cold_verdict": false,
+  "physical_acceptance": false,
+  "hardware": false,
+  "subagents": false,
+  "original_replays_restarted": false,
+  "VM_or_global_policy_changed": false,
+  "full_npu_goal_complete": false,
+  "Jev_source_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "retention_hook": {
+        "type": "choice",
+        "choice": "unknown",
+        "confidence": 0.22,
+        "probabilities": {
+          "before_wed_rro_free": 0.45,
+          "only_final_mt76_npu_deinit": 0.07,
+          "unknown": 0.48
+        }
+      },
+      "RCU_is_physical_drain": {
+        "type": "noul",
+        "noul": 0.15
+      },
+      "allocation_owner": {
+        "type": "choice",
+        "choice": "NPU_provider",
+        "confidence": 0.98,
+        "probabilities": {
+          "NPU_provider": 0.99,
+          "PCI_endpoint": 0.0,
+          "unknown": 0.01
+        }
+      },
+      "publication_errors_propagated": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "worker_retains_failed_request": {
+        "type": "noul",
+        "noul": 0.1
+      }
+    },
+    "usage": {
+      "input_tokens": 4093,
+      "output_tokens": 158
+    }
+  },
+  "observed_unix_ns": 1792719130527581283,
+  "Jev_final_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "observer_drops_unscoped_writes": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "observer_clears_trace_on_exception": {
+        "type": "noul",
+        "noul": 0.83
+      },
+      "report_claims_RRO_admission": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "report_hides_failures": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "report_calls_Jev_approval": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 4258,
+      "output_tokens": 116
+    }
+  },
+  "scope_review_is_not_test_or_permission_proof": true,
+  "passed": true,
+  "private_evidence_sha256": "c9dfdbe1210a8124bcd1a11bcb7c46a6428b9c28d745b18a7ad1b7a850e5f524",
+  "bound_paths": 3427
+}

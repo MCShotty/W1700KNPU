@@ -11,7 +11,9 @@ import json
 import os
 from pathlib import Path
 import re
+import resource
 import shutil
+import signal
 import struct
 import subprocess
 import sys
@@ -62,6 +64,7 @@ def prepare(destination):
     provider = (KERNEL / 'drivers/net/ethernet/airoha/airoha_npu.c').read_text()
     init = (MT76 / 'mt7996/init.c').read_text()
     npu = (MT76 / 'npu.c').read_text()
+    mac80211 = (MT76 / 'mac80211.c').read_text()
     # The selected source cohort explicitly changes DMA ownership on attach.
     assert re.search(r'dev->dma_dev\s*=\s*npu->dev;', npu)
     macros = ('MT7996_RRO_MAX_SESSION', 'MT7996_RRO_WINDOW_MAX_LEN', 'MT7996_RRO_ADDR_ELEM_LEN',
@@ -73,6 +76,8 @@ def prepare(destination):
     geometry += '\n'.join(q.declaration(header, 'struct', name) for name in
         ('mt7996_wed_rro_addr', 'mt7996_wed_rro_session_id', 'mt7996_rro_queue_regs_emi')) + '\n'
     geometry += q.declaration(mt76, 'enum', 'mt76_hwrro_mode') + '\n'
+    geometry += q.declaration(mt76, 'enum', 'mt76_rxq_id') + '\n'
+    geometry += block(mt76, r'(?m)^enum \{(?=\n\s+MT76_STATE_INITIALIZED,)') + ';\n'
     geometry += q.declaration(offload, 'enum', 'airoha_npu_wlan_set_cmd') + '\n'
     member = block(header, r'(?m)^\tstruct \{(?=\n\t\tstruct \{\n\t\t\tvoid \*ptr;\n\t\t\tdma_addr_t phy_addr;\n\t\t\} ba_bitmap)')
     assert header[header.index(member) + len(member):].startswith(' wed_rro;')
@@ -95,10 +100,13 @@ def prepare(destination):
             q.declaration(provider, 'struct', 'wlan_mbox_data') + '\n' + q.function(provider, 'airoha_npu_wlan_msg_send'),
         'sender.h': q.function(offload, 'airoha_npu_wlan_send_msg') + '\n' + q.function(npu, 'mt76_npu_send_txrx_addr'),
         'callers.h': '\n\n'.join(q.function(init, name) for name in callers),
+        'teardown.h': q.function(npu, 'mt76_npu_deinit') + '\n' +
+            '\n'.join(q.function(mac80211, name) for name in ('mt76_unregister_device', 'mt76_free_device')),
     }
     for name, source in generated.items():
         with (destination / name).open('x') as stream: stream.write(source + '\n')
     return dict(producer=producer, inputs=inputs, selected_complete_callers=list(callers),
+                selected_complete_teardown=['mt76_unregister_device', 'mt76_free_device', 'mt76_npu_deinit'],
                 generated={name: sha(destination / name) for name in generated})
 
 
@@ -111,6 +119,53 @@ def validate_packets(path):
     expected += [(0x13, 24, i, 0, 0, 0) for i in (0, 7, 8, 1023, 1024)]
     assert rows == expected, 'actual-caller-payload-order'
     return rows
+
+
+def no_core_dump():
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+
+
+def teardown_controls(destination, command, environment):
+    original = (destination / 'teardown.h').read_text()
+    variants = (
+        ('missing-rcu-join', 'mt76_npu_deinit', 'synchronize_rcu();',
+         'provider detach must join prior RCU readers'),
+        ('missing-provider-detach', 'mt76_free_device', 'mt76_npu_deinit(dev);',
+         'provider pointers must be unpublished'),
+        ('missing-npu-reference-release', 'mt76_npu_deinit', 'airoha_npu_put(npu);',
+         'NPU detach must release borrowed reference'),
+    )
+    controls = []
+    for name, function, call, diagnostic in variants:
+        directory = destination / name
+        directory.mkdir()
+        for path in destination.glob('*.h'):
+            shutil.copyfile(path, directory / path.name)
+        body = q.function(original, function)
+        assert body.count(call) == 1, ('mutant-anchor', function, call)
+        changed = original.replace(body, body.replace(call, '(void)0;'), 1)
+        (directory / 'teardown.h').write_text(changed)
+        harness = directory / 'rro-lifetime-harness.c'
+        shutil.copyfile(destination / harness.name, harness)
+        binary = directory / 'rro-lifetime'
+        replacements = {str(destination): str(directory),
+            str(destination / harness.name): str(harness), str(destination / binary.name): str(binary)}
+        compile_command = [replacements.get(argument, argument) for argument in command]
+        compiled = subprocess.run(compile_command, capture_output=True, text=True, timeout=120)
+        (directory / 'compile.log').write_text(compiled.stdout + compiled.stderr)
+        assert compiled.returncode == 0, ('mutant-must-compile', name, compiled.stderr)
+        completed = subprocess.run([str(binary), str(directory / 'caller-payloads.bin')],
+            env=environment, capture_output=True, text=True, timeout=300, preexec_fn=no_core_dump)
+        (directory / 'run.jsonl').write_text(completed.stdout)
+        (directory / 'run.stderr').write_text(completed.stderr)
+        assert completed.returncode == -signal.SIGABRT, ('mutant-not-assertion-rejected', name, completed.returncode)
+        assert diagnostic in completed.stderr, ('mutant-wrong-assertion', name, completed.stderr)
+        assert 'ERROR: AddressSanitizer' not in completed.stderr and 'runtime error:' not in completed.stderr
+        controls.append(dict(name=name, function=function, removed_call=call, compiled=True,
+            compile_returncode=compiled.returncode, run_returncode=completed.returncode,
+            intended_assertion=diagnostic, assertion_rejected=True, sanitizer_fault=False,
+            changed_header_sha256=sha(directory / 'teardown.h')))
+    return controls
 
 
 def run(destination):
@@ -133,18 +188,20 @@ def run(destination):
     (destination / 'run.stderr').write_text(completed.stderr)
     assert completed.returncode == 0, (completed.returncode, completed.stderr)
     cases = [json.loads(line) for line in completed.stdout.splitlines()]
-    assert len(cases) == 1021, ('unexpected-characterization-case-count', len(cases))
+    assert len(cases) == 1037, ('unexpected-characterization-case-count', len(cases))
     packets = validate_packets(destination / 'caller-payloads.bin')
+    controls = teardown_controls(destination, command, environment)
     assert all(sha(ROOT / name) == value for name, value in metadata['inputs'].items()), 'input-drift'
-    artifacts = {str(path.relative_to(ROOT)): sha(path) for path in destination.iterdir() if path.is_file()}
-    return dict(format='w1700k-rro-lifetime-characterization-v1', passed=True, characterization_only=True,
+    artifacts = {str(path.relative_to(ROOT)): sha(path) for path in destination.rglob('*') if path.is_file()}
+    return dict(format='w1700k-rro-lifetime-characterization-v2', passed=True, characterization_only=True,
         cases=len(cases), observations=cases, captured_caller_payloads=len(packets), command=command,
         metadata=metadata, artifacts=artifacts, sanitizers=['ASan', 'UBSan', 'leak-detection'],
+        teardown_negative_controls=controls,
         checked_RRO_admitted=False, target_RRO_lifetime_qualified=False, hardware=False,
         limits=['Complete selected init/free/worker/higher-init/unregister bodies run verbatim with actual sender/dispatcher/raw framing.',
                 'Actual kernel dmam allocation/match/free/release bodies execute, not the kernel devres framework.',
                 'Separate endpoint/provider devres registries and low-level DMA allocation/free are explicit models.',
-                'Transport, MCU, MMIO, other chip/framework APIs, locks/RCU scheduling and teardown internals are modeled.',
+                'Actual lower mt76 unregister/free/NPU detach bodies execute; mac80211/worker/queue cleanup/MCU/DMA internals and RCU scheduling are modeled.',
                 'Captured records are actual 24-byte raw frames from caller/sender/dispatcher/framing at the modeled mailbox boundary.',
                 'Raw model publication/free observations are not physical publication, use-after-free or drain proof.',
                 'Injected IDs/high DMA addresses/disconnect ordering do not establish producer or allocator reachability.',

@@ -1,8 +1,41 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (fresh compact default replay live;terminal verdict and retained RRO/NPU/physical acceptance open)
+Last updated: 2026-10-23 (complete selected lower RRO teardown and observer repair; full retained RRO/NPU scope open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Complete Lower RRO Teardown And Observer Repair
+
+- Actual lower mt76 unregister/free/NPU detach execute with complete selected
+  callers. All 1,037 sanitizer cases and three compiled intended-assertion
+  controls pass; framework, DMA/MCU and RCU scheduling remain modeled.
+- Explicit RRO frees precede final provider detach. Updated requirements place
+  retained handoff before the frees; RCU join is not a physical drain witness.
+- All 134 stock/current composition cases match prior complete rows/digests.
+  The per-frame hook retained trace objects until GC; one scoped write hook
+  passes six real-Unicorn tests and the full replay at the same 400 MiB cap,
+  peak 182042624 bytes. Import/OOM failures retained separately, not passes.
+- Nine cleanup-bound source/tracker versions preserved at exact old hashes;
+  old receipts unchanged. Frozen executing inputs/protected images rechecked.
+  Original compact default stays live with original starts, no terminal verdict.
+  Read rro-teardown REPORT.md/EVIDENCE.json. No firmware/lock/raw/UI/WiFi/image
+  or hardware change, VM/job restart, swap/global policy change or subagents.
+  Retained RRO admission/drain/retirement and full physical/client goal remain.
+
+## 2026-10-23 - Verified Duplicate Cache Cleanup
+
+- Removed 11,322 exact duplicate cache copies, 7,287,224,205 logical bytes, from
+  three passed closed builds. Read-only v5 keepers, metadata/restoration map
+  and journal retained. Old cache paths need restoration before exact replay;
+  old receipts were not rewritten. Read workspace-cleanup REPORT.md/CLEANUP.json.
+- All 2,357 tracked files, 2,865 live capsule inputs, 14 project image bindings,
+  one external object and keeper content/checked stat metadata match. Eight
+  cleanup guards pass, zero skips. Three unfinished RRO edits remain unvalidated.
+- Guest free gains of 4,875,206,656/2,440,126,464 bytes are not host recovery.
+  Compact service/PID starts remain live; no VM/job restart, compaction, swap/
+  resize or hardware/flash. Unique evidence, compiled outputs, images, backups,
+  damaged native-c1 and original source/cache were not removal targets.
+  Firmware/lock/UI/WiFi unchanged;full NPU/RRO/physical objective remains open.
 
 ## 2026-10-23 - Fresh Compact Default Caller Running
 

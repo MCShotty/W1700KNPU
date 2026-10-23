@@ -1,5 +1,34 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Actual Lower RRO Teardown Characterized
+
+Complete lower mt76 unregister/free/NPU detach execute verbatim with selected
+callers: 1,037 sanitizer cases and three compiled intended-assertion controls
+pass. Six scoped write-observer tests pass; all 134 stock effects and current
+denials match prior rows/digests. Same 400 MiB cap, 182042624-byte peak.
+The failed import and auxiliary OOM remain preserved, not native passes.
+
+The RRO handoff must precede explicit frees, not only final provider detach.
+RCU/software cleanup is not a physical drain witness. Read rro-teardown
+REPORT.md/EVIDENCE.json and updated RRO requirements. No retained RRO admission
+or retirement implementation yet. Executing capsule/protected images and nine
+cleanup-bound source versions remain exact. Compact default stays live with
+original starts. Firmware/lock/raw/UI/WiFi/image unchanged; full goal open.
+
+## 2026-10-23 - Verified Cache Consolidation
+
+Three closed build download caches lost only 11,322 independent byte-identical
+copies, 7,287,224,205 logical bytes. Read-only v5 keepers, metadata/map and removal
+journal remain; restore old cache paths before exact replay. Read the new
+workspace-cleanup REPORT.md/CLEANUP.json. All 2,357 tracked files, 2,865 executing
+capsule inputs, 14 project image bindings and one external object rehash. Eight
+cleanup guard tests pass, zero skips; three unfinished RRO edits not validated.
+
+No source/firmware/lock/UI/WiFi/image or protected-data change. Original compact
+service/native starts remain live. No compaction, VM/job restart, swap/resize,
+hardware/flash or subagents. Guest free space is not Windows host recovery.
+Full NPU/RRO/physical acceptance and terminal caller verdict remain open.
+
 ## 2026-10-23 - New Compact Default Replay Running
 
 Clean2f85e54/capsulea87f69da freezes2865 inputs/608124444 logical bytes,

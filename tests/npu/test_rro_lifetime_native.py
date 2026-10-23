@@ -31,6 +31,32 @@ DATA_SHA = 'a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16'
 MANIFEST = ROOT / '.local/npu-resume-20261021/pair-fix-q1/manifest.json'
 
 
+class RroWriteObserver:
+    """One native callback, retaining only the active call's exact write trace."""
+    def __init__(self, cpu):
+        self.cpu, self.trace = cpu, None
+        self.handle = cpu.hook_add(UC_HOOK_MEM_WRITE, self.write)
+
+    def write(self, cpu, access, address, size, value, unused):
+        assert self.trace is not None, 'RRO-write-outside-observed-call'
+        self.trace.write(cpu, access, address, size, value, unused)
+
+    def call(self, host, trace, address, *arguments):
+        assert self.handle is not None and host.cpu is self.cpu
+        assert self.trace is None, 'nested-RRO-write-observer'
+        self.trace = trace
+        try:
+            return host.call(address, *arguments)
+        finally:
+            self.trace = None
+
+    def close(self):
+        assert self.trace is None
+        if self.handle is not None:
+            self.cpu.hook_del(self.handle)
+            self.handle = None
+
+
 class CurrentRroMemory(NativeMemory):
     """Use the existing call ABI/limits, but load the qualified CURRENT raw pair."""
     def __init__(self):
@@ -93,6 +119,7 @@ def current_denials(destination, packets):
         if pc in (original.CALLBACK, hook['target']): counts[pc] = counts.get(pc, 0) + 1
 
     h.cpu.hook_add(UC_HOOK_CODE, instruction)
+    writes = RroWriteObserver(h.cpu)
     saved = [getattr(r, 'UC_RISCV_REG_S' + str(i)) for i in range(12)] + [r.UC_RISCV_REG_GP, r.UC_RISCV_REG_TP]
     rows = []
     for ordinal, packet in enumerate(packets):
@@ -108,9 +135,7 @@ def current_denials(destination, packets):
         h.cpu.mem_write(original.PAYLOAD, struct.pack('<6I', *packet))
         trace = original.Trace(h, allowed)
         previous = dict(counts)
-        handle = h.cpu.hook_add(UC_HOOK_MEM_WRITE, trace.write)
-        try: result = h.call(original.CALLBACK, original.PAYLOAD)
-        finally: h.cpu.hook_del(handle)
+        result = writes.call(h, trace, original.CALLBACK, original.PAYLOAD)
         assert result == 0, 'current-RRO-not-denied'
         assert [h.cpu.reg_read(register) for register in saved] == registers
         assert h.cpu.reg_read(r.UC_RISCV_REG_SP) == STACK_TOPS[0] and h.cpu.reg_read(r.UC_RISCV_REG_MSTATUS) == 8
@@ -126,6 +151,7 @@ def current_denials(destination, packets):
         rows.append(dict(ordinal=ordinal, selector=packet[0] & 15, result=result,
             original_constructor_entered=False, RRO_memory_unchanged=True, exact_fault_projection=True,
             ABI_preserved=True, MSTATUS_preserved=True, writes_sha256=trace.hash.hexdigest()))
+    writes.close()
     return dict(passed=True, cases=len(rows), observations=rows, hook=hook, field_offsets=offsets,
         fault_fields={hex(address): value for address, value in updates.items()},
         source_inputs={str(path.relative_to(ROOT)): sha(path) for path in [MANIFEST, *components.values(),
@@ -141,7 +167,13 @@ def run(destination, receipt_path):
     assert receipt_path.is_relative_to(ROOT / '.local/npu-rro-lifetime-callers')
     receipt = json.loads(receipt_path.read_bytes())
     assert receipt['passed'] and receipt['characterization_only']
-    assert receipt['cases'] == 1021 and receipt['target_RRO_lifetime_qualified'] is False
+    if receipt['format'] == 'w1700k-rro-lifetime-characterization-v1':
+        assert receipt['cases'] == 1021
+    else:
+        assert receipt['format'] == 'w1700k-rro-lifetime-characterization-v2' and receipt['cases'] == 1037
+        assert receipt['metadata']['selected_complete_teardown'] == [
+            'mt76_unregister_device', 'mt76_free_device', 'mt76_npu_deinit']
+    assert receipt['target_RRO_lifetime_qualified'] is False
     assert not receipt['hardware'] and not receipt['checked_RRO_admitted']
     # Rehash the original caller inputs/artifacts; no rewritten producer receipt.
     dependencies = {**receipt['metadata']['inputs'], **receipt['artifacts']}
@@ -152,7 +184,8 @@ def run(destination, receipt_path):
              PAIR / 'en7581_MT7996_npu_rv32.bin', PAIR / 'en7581_MT7996_npu_data.bin',
              original.INPUT / 'en7581_MT7996_npu_rv32.bin', ROOT / 'tests/npu/test_inode_rro_original.py',
              ROOT / 'tests/npu/test_firmware_memory_layout.py', ROOT / 'tests/npu/emulation_layout.py',
-             ROOT / 'tests/npu/test_firmware_stop_counterexample.py']
+             ROOT / 'tests/npu/test_firmware_stop_counterexample.py',
+             ROOT / 'tests/npu/test_rro_write_observer.py']
     manifest = json.loads(MANIFEST.read_bytes())
     paths += [MANIFEST, *[Path(manifest['components'][name]['path']) for name in ('base', 'cold-inode')]]
     paths += list((ROOT / 'firmware/npu').glob('*.h'))
@@ -177,6 +210,7 @@ def run(destination, receipt_path):
         if pc in (original.CALLBACK, original.INNER, original.CLEAR): counts[pc] = counts.get(pc, 0) + 1
 
     h.cpu.hook_add(UC_HOOK_CODE, instruction)
+    writes = RroWriteObserver(h.cpu)
     saved = [getattr(r, 'UC_RISCV_REG_S' + str(i)) for i in range(12)] + [r.UC_RISCV_REG_GP, r.UC_RISCV_REG_TP]
     rows = []
     for ordinal, packet in enumerate(packets):
@@ -194,9 +228,7 @@ def run(destination, receipt_path):
         h.cpu.mem_write(original.PAYLOAD, struct.pack('<6I', *packet))
         trace = original.Trace(h, allowed)
         previous = dict(counts)
-        hook = h.cpu.hook_add(UC_HOOK_MEM_WRITE, trace.write)
-        try: result = h.call(original.CALLBACK, original.PAYLOAD)
-        finally: h.cpu.hook_del(hook)
+        result = writes.call(h, trace, original.CALLBACK, original.PAYLOAD)
         assert result == 1 and [h.cpu.reg_read(register) for register in saved] == registers, 'stock-RRO-ABI'
         assert h.cpu.reg_read(r.UC_RISCV_REG_SP) == STACK_TOPS[0]
         assert h.cpu.reg_read(r.UC_RISCV_REG_MSTATUS) == 8
@@ -214,6 +246,7 @@ def run(destination, receipt_path):
             exact_SRAM_and_alias_projection=True, ABI_preserved=True, MSTATUS_preserved=True))
         if selector != 0 or ordinal % 16 == 0:
             print(json.dumps(dict(captured_frame=ordinal, selector=selector, argument=argument, passed=True)), flush=True)
+    writes.close()
     current = current_denials(destination, packets)
     inputs.update(current['source_inputs'])
     inputs = native_prefix_snapshot.source_inputs(inputs)

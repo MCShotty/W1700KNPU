@@ -1,5 +1,27 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - RRO Teardown Coverage And Observer Repair
+
+The actual lower provider-detach chain now passes 1,037 full-size RRO
+characterization cases and three negative controls. A scoped write observer
+also fixes measured callback retention: all 134 stock effects and current
+denials pass under the same memory cap, matching prior complete results.
+
+This is executed teardown and tooling evidence, not retained RRO admission or
+physical DMA acceptance. The separate compact default replay continues.
+See the [RRO teardown checkpoint](research/checkpoints/2026-10-23-npu-rro-teardown/REPORT.md).
+
+## 2026-10-23 - Duplicate Build Caches Cleaned
+
+Removed 11,322 verified duplicate cache files totaling 7.29 GB from three closed
+builds. Exact read-only keepers and restoration mappings remain. Source,
+images, backups and the running compact replay were preserved; the unfinished
+RRO test edits were not validated by this maintenance. Eight cleanup guards pass.
+
+This frees guest filesystem space, not a claim of recovered Windows capacity.
+No VM/job restart or new NPU qualification. See the
+[cleanup checkpoint](research/checkpoints/2026-10-23-workspace-cleanup/REPORT.md).
+
 ## 2026-10-23 - Fresh Compact Default Replay Running
 
 A new default nominal caller is running from clean frozen2f85e54,using the

@@ -1,10 +1,59 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (fresh compact default replay live;terminal verdict and full RRO/NPU/physical acceptance pending)
+Last updated: 2026-10-23 (complete selected lower RRO teardown and observer repair; retained RRO/NPU/physical scope open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Complete Lower RRO Teardown And Native Observer Repair
+
+- Added actual lower mt76 unregister/free/NPU detach bodies to complete selected
+  caller execution. All 1,037 ASan/UBSan/leak cases pass, including sixteen
+  injected NPU/PPE/registered/workqueue combinations. Three mutants compile
+  and fail at their intended assertions, not compiler/timeout/sanitizer errors.
+- Explicit RRO frees precede the final lower detach. Pointer unpublication,
+  reader join, queues and reference puts are not physical DMA drain proof.
+  Canonical requirements now require an earlier retained ownership handoff.
+  Framework/mac80211/DMA/MCU/RCU scheduling remain modeled boundaries.
+- All 134 actual frames reproduce stock effects and current denials. Every
+  saved full observation/digest matches; 6,344,077 original instructions at
+  116 PCs. Synthetic RAM, not admitted current RRO or full startup evidence.
+- First workflow passed C/controls but native import failed. Next invocation
+  OOM-killed at the 400 MiB auxiliary cap. Deleted callback traces remain alive
+  until cyclic GC in a real-runtime probe. One scoped hook retains only the
+  current trace; six real-Unicorn tests pass with full write/error coverage.
+  Fresh complete native replay passes under the same cap: peak 182042624 bytes,
+  child RSS 138888 KiB, no service swap. No guest guards/limits/sizes changed.
+- Prior failures/receipts and cleanup-bound old versions preserved. All executing
+  inputs/protected image bindings rechecked. Original compact default remains
+  live with unchanged starts; no new full-cold verdict. Jev's hook-point choice
+  remains uncertain (unknown, confidence 0.22), not approval or test proof.
+- Read rro-teardown REPORT.md/EVIDENCE.json. Firmware/lock cb035741, raw pair,
+  UI/WiFi and offline image a3f1d04b unchanged. No hardware/flash, VM/job restart,
+  swap/global policy changes or subagents. Full retained RRO, hot/lifecycle/
+  physical/client and whole-stack objective remains open.
+
+## 2026-10-23 - Verified Duplicate Cache Cleanup
+
+- Removed 11,322 independent exact duplicate cache files, 7,287,224,205 logical
+  bytes, from completed inode/bytewise/native-c2-q6 build dl trees. Retained
+  read-only v5 keeper receipt da9cc624, per-file stat/xattr/restoration mappings
+  and removal journal. Old cache outputs are consolidated, not independent
+  copies; restore their recorded paths before exact old-tree replay.
+- Rechecked 2,357 tracked file contents before/after cleanup, 2,865 executing
+  frozen inputs, 14 bound project image paths, one external object and all
+  keeper content/checked stat metadata. Eight cleanup guards pass, zero skips.
+  Three pre-existing unfinished RRO edits are preserved, not newly validated.
+- Guest available space rose 4,875,206,656 bytes on Ubuntu and 2,440,126,464 on
+  native-c2; not claimed as Windows host recovery. Fresh backing budgets pass.
+  Compact service remains live with original controller/native start ticks;
+  no full caller verdict or NPU qualification is inferred from maintenance.
+- No unique data, compiled trees, logs, results, directories, old receipts, failed
+  capsules, damaged native-c1, keys/calibration/device/recovery backups or
+  protected images removed. No compaction/VM/job restart,swap/resize,firmware/
+  lock/UI/WiFi/image/hardware/flash or subagents. Full NPU/RRO/physical scope
+  stays open. Read workspace-cleanup REPORT.md/CLEANUP.json.
 
 ## 2026-10-23 - Fresh Compact Default Caller Launched
 
