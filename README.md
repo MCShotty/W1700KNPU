@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Current Reset Modules Linked
+
+All four current AArch64 modules now link with GCC14.4.0/Linux6.18.52, including
+the new reset object and abort edge. The source-bound caller regression passes
+1090 cases/seven compiled controls with unchanged sanitizers;142 observer/tooling/
+inventory/phase units pass, zero skips. This supersedes the pending checks below.
+The phased build removes Python overhead during GCC, retaining the original
+inspections and a single compiler deadline. Failed attempts remain recorded.
+
+Host characterizations still model provider/concurrency boundaries. Neither
+module linking nor those models prove hardware operation, BA reuse identity or
+physical drain. Both long replays remain untouched; typed reset/BA lifetime,
+hot paths and image/client acceptance remain. See the
+[target reset checkpoint](research/checkpoints/2026-10-23-npu-rro-reset-target/REPORT.md).
+
 ## 2026-10-23 - Host Reset Work Retained
 
 Owned RRO reset work now retains its WLAN/TID/session identity, raw errors and

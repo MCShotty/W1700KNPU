@@ -27,6 +27,8 @@ typedef unsigned spinlock_t;
 #define __GFP_NOWARN 4U
 #define DMA_ATTR_NO_WARN 1U
 #define WARN_ON(v) assert(!(v))
+/* A value read only; this fixture does not model kernel memory ordering. */
+#define READ_ONCE(v) (v)
 #define CONFIG_NET_MEDIATEK_SOC_WED 1
 
 struct list_head { struct list_head *next, *prev; };

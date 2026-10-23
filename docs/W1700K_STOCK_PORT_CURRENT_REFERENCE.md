@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Current Reset Target Qualification
+
+Supersedes the pending links/callers below: all four current AArch64 modules
+link with GCC14.4.0/Linux6.18.52. Producer8065c523/lockf7f843ff binds5 kernel/
+330 mt76 sources and31 mappings. The actual mt7996e defines the five reset
+functions and imports the abort edge exported by mt76. Original kernel/old
+mt76 trees remain unchanged; this is an incremental private copied-cache build.
+Source-bound callers pass1090/seven compiled controls with unchanged ASan/UBSan/
+leaks:1040 optional and50 modeled-owned cases. All142 units pass, zero skips.
+
+Phased inspection/compile removes resident Python while GCC runs; unchanged
+inspection assertions and one compiler deadline remain. Build236MiB/callers
+400MiB passed fresh full-cap budgets and2GiB margin. Earlier failures retained.
+One I/O-attributed empty current-chat REA connection was retired; unrelated
+servers/replay jobs stay untouched. Read rro-reset-target REPORT/EVIDENCE.
+
+Typed reset bridging, authenticated BA creation/late/reuse fences, hot lifetime,
+physical retirement, full native verdicts/current image/hardware/client gates
+remain. No module load/image/VM/global-policy change; full NPU goal stays active.
+
 ## 2026-10-23 - Independent Host Reset Work Ownership
 
 Owned DELETE records now retain WLAN/TID/session/arrival and raw NPU/MCU errors

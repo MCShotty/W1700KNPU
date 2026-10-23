@@ -1,0 +1,257 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "46c1fa2d7770e362047a4081c1905ffada9065cc",
+  "source_lock_sha256": "f7f843ff9f6580a2903fe8e716069728fa454ad13001f54e4507e40e6fd924fe",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "new_reset_object_linked": true,
+  "new_abort_edge_resolved": true,
+  "producer": ".local/npu-checked-irq-modules/rro-reset-target-q1/result.json",
+  "producer_sha256": "8065c523c42c9c09f8a4e46ae2eb93ddf4962578a7e7e830672df16d09b5f3e9",
+  "incremental_copied_failed_cache": true,
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "actual_output_bytes": 185719792,
+  "module_cap_bytes": 247463936,
+  "compiler_has_no_resident_Python_parent": true,
+  "existing_inner_assertions_retained": true,
+  "compiler_phase_count": 3,
+  "shared_compiler_clock_seconds": 1800,
+  "current_linked_producer_caller_regression": true,
+  "caller_receipt": ".local/npu-rro-reset-callers-20261023/target-q3/result.json",
+  "caller_receipt_sha256": "1517bcfb7767f6a86a578872a54fcbef9cd19279f500962330c07f0f164ed477",
+  "caller_cases": 1090,
+  "caller_compiled_controls": 7,
+  "optional_provider_cases": 1040,
+  "modeled_owned_provider_cases": 50,
+  "caller_sanitizers": [
+    "ASan",
+    "UBSan",
+    "leak-detection"
+  ],
+  "caller_cap_bytes": 419430400,
+  "total_units": 142,
+  "observer_units": 6,
+  "tooling_units": 116,
+  "inventory_units": 10,
+  "phase_units": 10,
+  "python_mutation_controls": 3,
+  "skipped": 0,
+  "prior_bindings_rehashed": 12076,
+  "prior_external_bindings_rehashed": 1,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "retained_failures": [
+    "preparation-metadata-assertions",
+    "root-FD-permission",
+    "fixture-READ_ONCE",
+    "caller192MiB-OOM"
+  ],
+  "attributed_empty_current_chat_REA_retired": 2825659,
+  "unrelated_REA_servers_untouched": [
+    2015608,
+    3717030
+  ],
+  "native": {
+    "complete": false,
+    "positive_rpc_observed": 6421,
+    "operations_observed": {
+      "1": 1,
+      "2": 139,
+      "3": 129,
+      "4": 1,
+      "5": 2050,
+      "6": 2050,
+      "7": 2050,
+      "8": 1
+    },
+    "last_complete": {
+      "operation": 8,
+      "argument": 0,
+      "generation": 0,
+      "sequence": 6443,
+      "journal_sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+      "broker_sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+      "request_sha256": "09a4225758054545c9a2650074b9f39361d2958dcfe0428ed3953bf25c5e450d",
+      "reply_sha256": "e6bac2a664c1540b21e1ec8839e4bfa59c51d0b3994e4c950d2b2aa3da8ff6c2",
+      "rolling_sha256": "f671e6b818aebaa7b9cfedad1a5dffd40e11d3934d7be63e82d3ac75219dc1ae",
+      "modeled_MCU_result": false,
+      "counts": {
+        "blocks": 124885,
+        "metadata_writes": 12270,
+        "payload_reads": 515,
+        "mailbox_veneer": 1,
+        "mailbox_binding": 1
+      },
+      "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wall_ns": 519887431,
+      "min_sp": 2214726368,
+      "mmio": [
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c000",
+          "size": 4,
+          "value": 0
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 1
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c034",
+          "size": 4,
+          "value": 256
+        },
+        {
+          "kind": "mmio-read",
+          "address": "0x1ec0c030",
+          "size": 4,
+          "value": 2181038080
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0x1ec0c03c",
+          "size": 4,
+          "value": 7
+        },
+        {
+          "kind": "mmio-write",
+          "address": "0xc200004",
+          "size": 4,
+          "value": 9
+        }
+      ]
+    },
+    "service": {
+      "MemoryCurrent": "131981312",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "162906112",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 5898102
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1607496
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 5901718
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1611160
+    }
+  ],
+  "fresh_replay_systemctl": "Id=w1700k-npu-compact-default-q1.service\nSubState=running\nInvocationID=b7308cc55190453dbe64072f2c296090\nMainPID=2396851\n\nId=w1700k-npu-rro-observer-native-q3.service\nSubState=start\nInvocationID=c51dd850f884429ea9784effab39a7a7\nMainPID=2301044\n",
+  "original_replay_restarted": false,
+  "native_input_graph_unchanged": true,
+  "legacy_selector3_admitted": false,
+  "BA_generation_authenticated": false,
+  "physical_MCU_authenticated": false,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "production_owner_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "VM_or_global_policy_changed": false,
+  "Jev_report_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "caller_scope": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "hardware_scope": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "phase_failure": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "deadline": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "fixture_ordering": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "remaining_scope": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 3938,
+      "output_tokens": 106
+    }
+  },
+  "observed_unix_ns": 1792785555526303800,
+  "private_evidence": ".local/npu-rro-reset-target-20261023/evidence-q1.json",
+  "private_evidence_sha256": "98ddec489fe5c1e3f49f0f5fece6c05a5e152d36cb58bd85f5798dc826a45217",
+  "project_bindings": 13356,
+  "external_bindings": 1
+}

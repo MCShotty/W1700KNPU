@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Target Links And Caller Regression Finished
+
+The pending checks below are now closed: four current AArch64 module links,
+new reset object/abort-edge inspection and linked-producer1090 callers/seven
+compiled controls pass. Producer8065c523/lockf7f843ff binds5 kernel/330 mt76
+sources/31 mappings. All142 observer/tooling/inventory/phase units pass, zero
+skips. Caller geometry and ASan/UBSan/leak detection are unchanged;1040 optional
+and50 modeled-owned cases do not constitute joint kernel execution.
+
+Next: typed reset journal/transport bridging, actual RX-TID BA lifetime identity,
+late-event/reuse fences, hot CPU ownership and independent physical retirement.
+Host arrival and MCU ACK remain insufficient; checked legacy selector3 stays
+denied, with no production retirement/rearm. Both full native replays, current
+image/cold-fault-HIF2/hardware/client/performance/stability acceptance remain.
+Preserve both live input graphs; do not restart on observation timeout. Read
+rro-reset-target checkpoint for retained failures and exact scope. Goal active.
+
 ## 2026-10-23 - Finish Typed Reset And BA Lifetime Integration
 
 The owned host reset lane now retains immutable tuples/raw errors and independent

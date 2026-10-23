@@ -1,10 +1,52 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (host reset retention qualified in models; target links pending)
+Last updated: 2026-10-23 (current reset target links and caller regression pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Authorized Older REA Server Cleanup Addendum
+
+- After target evidence was sealed, the user authorized stopping both older
+  REA servers. PID2825659 was already retired; exact UID/argv/start/no-child
+  identity of3717030 was rechecked and SIGTERM sent through a process descriptor.
+  Both authorized PIDs are absent; the newer server was not signaled.
+- Both native replay PID/start/cgroup identities remain unchanged; neither
+  job/cap/bound nor VM policy changed. Prior "other servers untouched" statements
+  describe the earlier seal, not this subsequent authorized cleanup. Read
+  rro-reset-target/CLEANUP.json; original report/ledger bytes are preserved and
+  bound alongside their current versions. No binary/source/image change.
+
+## 2026-10-23 - Reset Target Links And Current Caller Regression
+
+- Supersedes the pending-link notes below. All four current AArch64 modules
+  final-link with GCC14.4.0/Linux6.18.52, lockf7f843ff/31 mappings. Producer
+  rro-reset-target-q1/result.json SHA8065c523 binds5 kernel/330 mt76 sources.
+  Actual mt7996e defines five reset helpers; mt76 exports its imported abort edge.
+- The original kernel102685/old mt76516 inventory entries remain unchanged.
+  The copied failed-cache cohort was source-revalidated, reconstructed fuzz0,
+  isolated and resumed; this is not a fresh world build. Its old bytes remain.
+- Phased driver replays the original inspection AST, adapting only make dispatch
+  and identical symvers creation. Python exits before GCC, one1800s compiler
+  clock remains; object GC knobs reduce heap pressure without optimizer changes.
+  The236MiB module build passes; all142 units/zero skips pass, including10 new
+  phase-controller checks. Four actual links, not merely partial objects.
+- Source-bound callers pass1090 cases and seven compiled intended-assertion
+  controls with unchanged geometry/ASan/UBSan/leaks. The1040 optional and50
+  modeled-owned cases are not joint kernel execution. Fixture READ_ONCE only
+  supplies a value read, not memory-ordering/concurrency proof.
+- Retained failures: preparation metadata assertions, the non-root final verifier
+  denied access to the old replay's root-owned FD, missing fixture READ_ONCE,
+  then caller192MiB OOM. Fresh root verification passes with the same FD check;
+  fresh caller400MiB run passes after full-cap RAM/storage preflight. No original
+  replay bound, sanitizer setting, geometry,2GiB margin or VM policy was relaxed.
+- REA request/response I/O identified the current-chat connection, with no open
+  target or retained evidence. Exact PID2825659/start identity received SIGTERM;
+  unrelated2015608/3717030 remain untouched. Both live replays preserve identity.
+- Read rro-reset-target REPORT/EVIDENCE. No new load/image/hardware acceptance.
+  Typed reset/BA creation/late/reuse, hot lifetime, production retirement/rearm
+  and physical/image/client gates remain; legacy selector3 denied. Goal active.
 
 ## 2026-10-23 - Retained Host RRO Reset Requests
 

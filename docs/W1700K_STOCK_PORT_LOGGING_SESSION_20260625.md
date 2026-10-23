@@ -1,8 +1,28 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (host reset retention models pass; target qualification pending)
+Last updated: 2026-10-23 (current reset links and caller regression pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Current Reset Target And Caller Checks Pass
+
+All four current AArch64 modules final-link with GCC14.4.0/Linux6.18.52,
+producer8065c523/lockf7f843ff/31 mappings/5 kernel/330 mt76 sources. Five reset
+helpers and the mt76 abort edge are present in actual linked objects. Original
+kernel/old mt76 inventories unchanged; old failed copied-cache bytes retained.
+Phased inspection/compile removes resident Python during GCC, retaining the
+original inspection assertions and one1800s clock. Build passes at236MiB.
+
+Current source-bound callers pass1090/seven compiled controls at freshly budgeted
+400MiB with unchanged geometry/ASan/UBSan/leaks;1040 optional and50 modeled-owned
+cases are not joint kernel qualification. All142 units pass, zero skips. Earlier
+metadata/FD-permission/fixture-macro/OOM failures remain retained. Empty current-
+chat REA connection was I/O-attributed and exact-PID retired; unrelated servers
+and both live replay jobs untouched. Read rro-reset-target REPORT/EVIDENCE.
+
+Supersedes pending-link notes below. No module load/image/hardware/VM/global
+policy change. Typed reset, BA lifetime/reuse, hot ownership, retirement and full
+native/image/client acceptance remain open. Full reverse-engineering goal active.
 
 ## 2026-10-23 - Retained Host Reset Worker
 

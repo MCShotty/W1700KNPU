@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "authorization": "Stop the two older REA servers",
+  "authorized_pids": [
+    2825659,
+    3717030
+  ],
+  "already_retired_pid": 2825659,
+  "newly_retired_pid": 3717030,
+  "process_descriptor_used": true,
+  "both_authorized_servers_absent": true,
+  "newer_server_signaled": false,
+  "firmware_replay_identities_unchanged": true,
+  "original_replays_restarted": false,
+  "previous_seal_immutable": true,
+  "full_npu_goal_complete": false,
+  "hardware": false,
+  "observed_unix_ns": 1792785770574782700,
+  "prior_evidence_sha256": "98ddec489fe5c1e3f49f0f5fece6c05a5e152d36cb58bd85f5798dc826a45217",
+  "private_evidence": ".local/npu-rro-reset-target-20261023/evidence-cleanup-q1.json",
+  "private_evidence_sha256": "a110646e2bab79b5b6bdae5838a5e9a8bb275643c512a938149a15c5836aa2ee",
+  "project_bindings": 12,
+  "scope": "Later authorized server cleanup; EVIDENCE describes the earlier target-validation snapshot."
+}

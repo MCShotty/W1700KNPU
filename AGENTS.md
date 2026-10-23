@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Current Reset Modules And Callers Qualified
+
+- Supersedes the pending-link status below: all four current AArch64 modules
+  link with GCC14.4.0/Linux6.18.52, lock f7f843ff, 31 component mappings.
+  Producer rro-reset-target-q1/result.json SHA8065c523 binds 5 kernel/330 mt76
+  sources; actual mt7996e includes the reset object and resolved abort edge.
+- Source-bound callers pass1090 cases/seven compiled controls, unchanged ASan,
+  UBSan and leak detection:1040 optional-provider and50 modeled-owned cases.
+  These are host characterizations, not joint kernel/concurrency qualification.
+  All142 observer/tooling/inventory/phase units pass, zero skips.
+- A phased driver removes resident Python during GCC and reruns the original
+  inspections; only make dispatch and identical symvers replay are adapted.
+  The incremental copied-cache build passed at236MiB, without changing source,
+  optimizer/configuration, replay caps or2GiB margin. Failed cohorts stay kept.
+- The current-chat REA connection was I/O-attributed and confirmed empty before
+  its exact PID was retired. Other REA servers and both live replays untouched.
+  Preserve their input graphs. No new module load, image or hardware acceptance.
+- Read rro-reset-target REPORT/EVIDENCE. Typed reset/real BA epoch/reuse fences,
+  hot CPU lifetime and physical retirement/image/client gates remain open;
+  checked legacy selector3 remains denied. Full NPU goal stays active.
+
 ## 2026-10-23 - Retained Host RRO Reset Ownership
 
 - Owned DELETE work now keeps preallocated WLAN/TID/session records and raw
