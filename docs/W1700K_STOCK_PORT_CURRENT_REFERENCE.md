@@ -1,5 +1,21 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Exact Observer Improved; New Full Run Live
+
+Static per-block range/site work now shares the bounded exact-code cache;
+dynamic SP/counters and owner/IRQ/access/digest checks are unchanged. Actual
+raw A/B matches142 journal states per variant and full transcripts/DMA/SRAM.
+Two publication times fall56.78/56.34s->39.66/39.43s at unchanged bounds.
+Six observer units/three Python controls plus116 tooling units pass,zero skips.
+
+Fresh w1700k-npu-rro-observer-native-q3.service runs the full unchanged recipe
+at400MiB/no swap/100M instructions/60M-us per RPC. First publication passes;
+no full verdict yet. Preserve its captured source graph. Original compact job
+remains live/frozen/unchanged; q2 failure retained. Firmware/lock/raw pair/current
+module producer b9e5003e unchanged, no image/hardware/VM/global-policy change.
+Read rro-observer checkpoint. Actual reset-worker lifetime/error/reuse, hot
+ownership, CPU join, physical retirement and full acceptance remain open.
+
 ## 2026-10-23 - BA Integrity; Native Replay Terminal
 
 RX_START propagates host allocation failure before MCU BA enable. The actual

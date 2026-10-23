@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Exact Observer Cache; Full Native Replay Running
+
+- Static block range/forbidden-PC/site checks now share the existing bounded
+  exact-code cache. Every block still samples SP and updates all counters;
+  per-access owner/IRQ/scope/digest checks remain. Write regions are precomputed.
+- Actual raw A/B:142 complete journal comparisons per variant, same transcripts,
+  counts, SP, full DMA/SRAM and write digests. Two publications drop from56.78/
+  56.34s to39.66/39.43s. Supplemental only, not a full replay verdict.
+- Six modeled observer units/three Python controls and all116 tooling units pass
+  together:122 tests,zero skips. Firmware/lock/raw pair/modules unchanged.
+- Fresh w1700k-npu-rro-observer-native-q3.service runs the unchanged full recipe
+  at400MiB/no swap/100M instructions/60M-us per RPC. First publication passes;
+  full result pending. Keep its captured input graph unchanged, never restart
+  for an observation timeout. Original compact job stays frozen/live untouched.
+- Read rro-observer REPORT.md/EVIDENCE.json. Reset-worker lifetime/error/reuse,
+  hot ownership, CPU join and physical retirement/image/client gates remain.
+  Full goal active. The Sol/max test worker is closed; no hardware/VM changes.
+
 ## 2026-10-23 - BA Event Integrity And Native Timeout
 
 - RX BA setup now propagates host allocation failure before MCU enable. RRO

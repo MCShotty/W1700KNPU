@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Complete The Fresh Exact-Observer Replay
+
+Fixed observer overhead by caching only static block metadata and write-region
+construction. Actual raw A/B matches142 whole journal states per variant, all
+counters/SP/digests/transcripts and full DMA/SRAM; measured publications56s->39s.
+Six modeled observer units/three Python controls plus116 tooling units pass.
+Fresh native-q3 runs the complete original recipe at unchanged bounds/cap,
+including faults and all3 profiles/6150 resets/two generations. First publication
+passes, full verdict pending. Do not edit its input graph or restart it because
+an observation expires. Original compact job remains live/frozen/not restarted.
+
+Still finish the complete native run, real reset-worker retention/error/late/
+reuse identity, hot lifecycle, CPU join, independent physical retirement, current
+image, cold/fault/HIF2 and hardware/client/performance/stability acceptance.
+Firmware, source lock, raw pair and target modules unchanged. Full goal active.
+
 ## 2026-10-23 - Native Timeout And Actual BA Lifetime Work
 
 The new native-q2 replay is terminal: 174 completed RPCs, then publication

@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Native Observer Faster; Full Replay Running
+
+The exact observer now caches fixed block metadata while preserving every SP
+sample, counter and dynamic memory/ownership/digest check. A raw-image A/B probe
+matches all142 journal states per variant and complete transcripts/memory effects.
+Its two publications fall from roughly56s to39s, at the same limits. All122
+observer/tooling tests pass without skips. This is not a full native verdict.
+
+A fresh complete replay is running with unchanged geometry, fault checks, reset
+generations and bounds; the original compact replay remains untouched. No new
+firmware, image or hardware acceptance is claimed. See the
+[observer checkpoint](research/checkpoints/2026-10-23-npu-rro-observer/REPORT.md).
+
 ## 2026-10-23 - BA Event Handling Hardened
 
 RX BA setup now stops before MCU enable if host allocation fails. RRO event

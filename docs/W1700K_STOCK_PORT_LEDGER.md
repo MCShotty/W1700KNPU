@@ -1,10 +1,37 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (BA event integrity implemented; new native replay terminal on time limit)
+Last updated: 2026-10-23 (exact observer cache qualified; fresh full native replay running)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Exact Observer Cache And Fresh Full Replay
+
+- Moved fixed executable-range/forbidden-PC/site classification into the already
+  bounded per-Pair exact-code cache. Every active block still samples SP and
+  counts repeated veneer/binding hits. Metadata write regions are precomputed;
+  dynamic scoped owner/IRQ/access/value/readback/digest checks remain unchanged.
+- Actual raw-image A/B passes142 complete broker/journal comparisons per
+  variant: OPEN,139 ENROLL,two PUBLISH. Complete transcripts, counters, SP minima,
+  full DMA/SRAM and write digests match except wall time. Publications56.78/
+  56.34s become39.66/39.43s. This supplemental result is not full qualification.
+- Six synthetic CPU/AST observer units and three intended-failure Python
+  mutation controls pass. Installed-source observer plus116 tooling units pass
+  together:122 tests,zero skips. Non-observer AST, full recipe/bounds, firmware,
+  lock8222e0e7/raw pair e6bc914c/ad905cb0 and module producer b9e5003e unchanged.
+- Fresh w1700k-npu-rro-observer-native-q3.service runs the complete3-profile,
+  19,261-RPC/6150-reset/two-generation recipe with all original fault checks at
+  400MiB,no swap,100M instructions/60M-us per RPC. First publication passes;
+  full result pending. q2 failed cohort retained, no restart or raised bounds.
+- Read rro-observer REPORT.md/EVIDENCE.json for source versions, budgets and
+  live partial receipt. Original compact job/capsule/protected images unchanged.
+  Windows bookkeeping plus an8MiB native checksum worker avoids a guest Python
+  analysis reservation; exact Linux case/symlink semantics and all margins stay.
+- No firmware/module rebuild, image promotion, hardware or VM/global-policy
+  changes. Reset-worker retained errors/late/reuse authentication, hot ownership,
+  CPU join, physical retirement and all full-image/client gates remain. Full
+  NPU goal active. Authorized Sol/max worker wrote only new tests and is closed.
 
 ## 2026-10-23 - BA Setup And Event Integrity
 

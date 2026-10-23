@@ -221,7 +221,7 @@ class Pair(raw.tx.TxPackets):
     def __init__(self, paths, parts):
         self.rpc_active = False
         self.retained = []
-        self.block_cache = set()
+        self.block_cache = {}
         self.current = None
         self.injection = None
         self.injected = False
@@ -249,12 +249,19 @@ class Pair(raw.tx.TxPackets):
         for site, symbol in ((MAILBOX_VENEER, 'npu_emulation_rro_mailbox'),
                              (READY_VENEER, 'npu_emulation_rro_cold_ready')):
             assert bytes(self.cpu.mem_read(site, 4)) == raw.image.jal(site, self.rro[symbol])
-        self.executables = [(CODE, raw.image.ORIGINAL_CODE_BYTES)] + [
+        self.executables = ((CODE, raw.image.ORIGINAL_CODE_BYTES),) + tuple(
             (row['start'], row['end'] - row['start']) for row in manifest['sections']
-            if row['component'] in ('base', 'rro-wire') and row['flags'] & 4]
-        self.rro_mutable = [(row['start'], row['end'] - row['start'])
+            if row['component'] in ('base', 'rro-wire') and row['flags'] & 4)
+        self.rro_mutable = tuple((row['start'], row['end'] - row['start'])
                             for row in manifest['sections']
-                            if row['component'] == 'rro-wire' and row['flags'] & 1]
+                            if row['component'] == 'rro-wire' and row['flags'] & 1)
+        self.block_sites = ((MAILBOX_VENEER, 'mailbox_veneer'),
+                            (READY_VENEER, 'ready_veneer'),
+                            (self.rro['npu_emulation_rro_mailbox'], 'mailbox_binding'),
+                            (self.rro['npu_emulation_rro_cold_ready'], 'cold_ready_binding'))
+        self.rpc_writable = ((STACK_TOPS[0] - 0x4000, 0x4000), (PAYLOAD, 256),
+                             (ADM, 44), (STATE, 104), (raw.composition.boot.SESSION, 20),
+                             (self.cold, 412), *self.rro_mutable)
         self.cpu.mem_map(DMA, DMA_BYTES)
         self.cpu.mem_write(DMA, b'\xa5' * DMA_BYTES)
         for physical, count in [(0x92000000, 8192)] + [
@@ -277,24 +284,21 @@ class Pair(raw.tx.TxPackets):
     def block(self, cpu, address, size, unused):
         if not self.rpc_active:
             return
-        assert any(contained(address, size, start, count) for start, count in self.executables), \
-            ('unexpected-executed-component', hex(address), size)
-        assert not any(address <= old < address + size for old in (0x8400fc2c, 0x8400e084)), \
-            'original raw RRO callback/helper executed'
         key = (address, size)
         if key not in self.block_cache:
+            assert any(contained(address, size, start, count) for start, count in self.executables), \
+                ('unexpected-executed-component', hex(address), size)
+            assert not any(address <= old < address + size for old in (0x8400fc2c, 0x8400e084)), \
+                'original raw RRO callback/helper executed'
             assert len(self.block_cache) < MAX_UNIQUE_BLOCKS, 'bounded exact-code observer exhausted'
             assert bytes(cpu.mem_read(address, size)) == self.raw_code[address - CODE:address - CODE + size]
-            self.block_cache.add(key)
+            # Code/layout are fixed for this Pair; dynamic counters and SP are not.
+            self.block_cache[key] = tuple(name for site, name in self.block_sites
+                                          if address <= site < address + size)
         self.counts['blocks'] += 1
         self.min_sp = min(self.min_sp, cpu.reg_read(r.UC_RISCV_REG_SP))
-        for site, name in ((MAILBOX_VENEER, 'mailbox_veneer'), (READY_VENEER, 'ready_veneer')):
-            if address <= site < address + size:
-                self.counts[name] += 1
-        for name in ('mailbox', 'cold_ready'):
-            site = self.rro['npu_emulation_rro_' + name]
-            if address <= site < address + size:
-                self.counts[name + '_binding'] += 1
+        for name in self.block_cache[key]:
+            self.counts[name] += 1
 
     def effect(self, address, size, value, write):
         scope = self.current
@@ -353,10 +357,7 @@ class Pair(raw.tx.TxPackets):
                 contained(address, size, BLOCK_TABLE, 128 * 4) or
                 contained(address, size, SESSION_TABLE, 4)):
             return self.effect(address, size, value, True)
-        allowed = [(STACK_TOPS[0] - 0x4000, 0x4000), (PAYLOAD, 256),
-                   (ADM, 44), (STATE, 104), (raw.composition.boot.SESSION, 20),
-                   (self.cold, 412), *self.rro_mutable]
-        if any(contained(address, size, start, count) for start, count in allowed):
+        if any(contained(address, size, start, count) for start, count in self.rpc_writable):
             self.counts['metadata_writes'] += 1
             return
         assert not self.is_memory(address, size), ('unexpected raw RRO memory write', hex(address), size)

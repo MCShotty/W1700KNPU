@@ -1,8 +1,23 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (BA event integrity; native-q2 terminal time-limit failure)
+Last updated: 2026-10-23 (exact observer cache; new complete native replay live)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Exact Observer Cache; Full Replay Running
+
+Static block metadata now uses the bounded exact-code cache; all dynamic SP,
+counters, memory/owner/IRQ checks and write digests remain. Actual raw A/B matches
+142 complete journal states per variant and full transcripts/DMA/SRAM. Two
+publications56.78/56.34s become39.66/39.43s. Six modeled units/three Python
+controls and all116 tooling units pass:122 tests,zero skips.
+
+Fresh native-q3 runs the full unchanged geometry/fault/reset recipe at400MiB,
+100M instructions/60M-us, no swap. First publication passes; full verdict pending.
+Do not alter its captured inputs. Original compact job remains live/frozen,
+not restarted. q2 timeout evidence retained. No firmware/lock/raw pair/module,
+image/hardware/VM/global-policy changes. Reset-worker identity/error/reuse, hot
+ownership, CPU join and physical retirement remain. Read rro-observer checkpoint.
 
 ## 2026-10-23 - BA Setup And Event Integrity
 
