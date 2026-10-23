@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Actual Provider-Owned RRO Allocation And Handoff
+
+- Actual checked-provider RRO allocation now attaches the journal and complete
+  CPU/DMA/length inventory to its independently retained lifetime. Four process
+  bridges connect the consumer; owned publication errors stop higher init.
+  Owned teardown closes before managed frees/mode checks and never falls through
+  after provider loss. Lower detach also closes before pointer unpublication.
+- Actual provider/core/bridge C passes 448 cases/four controls. TX 223/12 and
+  RX 168/7 regressions pass. Complete selected callers pass 1090 cases/seven
+  controls: 1040 explicitly optional-provider cases, 50 modeled owned-provider
+  cases. Do not describe these separate suites as full joint kernel execution.
+- All four AArch64 modules final-link; producer e0ff1a43/lock 975c5505 binds
+  5 kernel/329 mt76 sources/24 mappings. Journal 5279/3, exact 23 RV32 members
+  and 116 tooling tests pass, zero skips. Archive bytes match the prior build.
+- Read rro-provider REPORT.md/EVIDENCE.json and current RRO contracts. Existing
+  selectors 0/1/3 admission remains closed. Native/MCU/work-item authenticated
+  generations, serial coordination, CPU join and physical drain/retirement still
+  required; no free authority, current image or hardware proof. Both fixture
+  failures are preserved. Old image a3f1d04b lacks this callback ABI. Compact
+  default stays frozen/live/not restarted on 2f85e54. Full NPU scope active;
+  no subagents.
+
 ## 2026-10-23 - Checked TX Ownership Before RRO Init
 
 - The real checked TX allocator now prepares all six retained buffers before

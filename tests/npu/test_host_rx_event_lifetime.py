@@ -149,6 +149,8 @@ def main():
              'airoha_npu_wlan_rx_event_valid', 'airoha_npu_wlan_alloc_rx_event_session',
              'airoha_npu_wlan_tx_buffer_valid', 'airoha_npu_wlan_alloc_tx_buffers_session')
     if 'airoha_npu_wlan_validate_tx_buffers_session' in text:
+        if 'airoha_npu_wlan_validate_tx_buffers_locked' in text:
+            names += ('airoha_npu_wlan_validate_tx_buffers_locked',)
         names += ('airoha_npu_wlan_validate_tx_buffers_session',)
     provider = '\n'.join(q.function(text, name) for name in names if name not in parent.FUNCTIONS)
     inc = destination / 'provider-session.inc'

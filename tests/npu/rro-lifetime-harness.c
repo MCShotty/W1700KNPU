@@ -61,7 +61,12 @@ struct device { unsigned id; struct resource_node *head; };
 struct airoha_npu {
     struct device *dev;
     struct { int (*wlan_send_msg)(struct airoha_npu *, int,
-             enum airoha_npu_wlan_set_cmd, void *, int, gfp_t); } ops;
+             enum airoha_npu_wlan_set_cmd, void *, int, gfp_t);
+        int (*wlan_rro_open)(struct airoha_npu *,struct device *,struct device *,u32,const dma_addr_t *,unsigned);
+        int (*wlan_rro_alloc)(struct airoha_npu *,struct device *,struct device *,u32,u32,u32,void **,dma_addr_t *);
+        int (*wlan_rro_publish)(struct airoha_npu *,struct device *,u32);
+        int (*wlan_rro_close)(struct airoha_npu *,struct device *);
+    } ops;
 };
 struct airoha_npu_priv { struct airoha_npu npu; bool checked_pair; u32 txbuf_min_size; };
 struct mtk_wed_device {
@@ -88,6 +93,8 @@ struct mt7996_dev {
     struct { unsigned long state; } mphy;
     struct work_struct init_work, dump_work, reset_work, rc_work;
     struct mt7996_phy phy;
+    dma_addr_t npu_txd_addr[6];
+    bool npu_rro_owned;
 #include "rro-member.h"
 };
 
@@ -95,7 +102,7 @@ enum { MAX_ALLOCS = 140, MAX_MESSAGES = 256, MAX_EVENTS = 1024 };
 enum { EV_MCU_RESET = 1, EV_ITEM_FREE, EV_CANCEL, EV_UNREGISTER,
        EV_DMA_FREE, EV_MCU_EXIT, EV_TOKENS, EV_DMA_CLEANUP, EV_DEVICE_FREE,
        EV_WORKER_TEARDOWN, EV_WORKQUEUE_DESTROY, EV_UNPUBLISH, EV_RCU_JOIN,
-       EV_QUEUE_CLEANUP, EV_NPU_PUT, EV_PPE_PUT };
+       EV_QUEUE_CLEANUP, EV_NPU_PUT, EV_PPE_PUT, EV_RRO_CLOSE };
 struct allocation {
     void *ptr; size_t size; dma_addr_t dma; struct device *owner;
     bool live, model_published;
@@ -121,9 +128,10 @@ static struct {
     unsigned unregister_calls, rcu_joins, queue_cleanups, npu_puts, ppe_puts;
     unsigned worker_teardowns, workqueue_destroys;
     unsigned tx_prepares;
+    unsigned rro_opens, rro_closes, rro_publications;
     unsigned fail_devres, fail_dma, disconnect_at_lookup;
-    int raw_result, mcu_result, stage, stage_result;
-    bool high_dma, tx_prepared;
+    int raw_result, mcu_result, stage, stage_result, rro_open_result, rro_publish_result;
+    bool high_dma, tx_prepared, owned_capability;
     FILE *capture;
 } s;
 
@@ -204,6 +212,7 @@ static void *dma_alloc_attrs(struct device *d, size_t size, dma_addr_t *out,
 static void dma_free_attrs(struct device *d, size_t size, void *p,
                            dma_addr_t dma, unsigned long attrs)
 {
+    assert(!s.dev.npu_rro_owned && "owned RRO must not enter managed free");
     assert(!attrs);
     for (unsigned i = 0; i < s.allocated; i++) {
         struct allocation *a = &s.allocations[i];
@@ -297,7 +306,10 @@ static int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *d)
     assert(d == &s.dev && !s.allocated && !s.nmessages);
     s.tx_prepares++;
     int result = stage_result(8);
-    if (!result) s.tx_prepared = true;
+    if (!result) {
+        s.tx_prepared = true;
+        for(unsigned i=0;i<6;i++)d->npu_txd_addr[i]=0x96000000+i*0x100000;
+    }
     return result;
 }
 static void mt7996_rro_hw_init(struct mt7996_dev *d) { (void)d; s.hw_init++; }
@@ -355,6 +367,43 @@ static void airoha_ppe_put_dev(struct airoha_ppe_dev *ppe)
 { assert((void *)ppe == &s.provider); s.ppe_puts++; event(EV_PPE_PUT); }
 static void ieee80211_free_hw(void *hw)
 { assert(hw == &s.endpoint && !s.dev.mt76.mutex); event(EV_DEVICE_FREE); }
+#define rcu_dereference_protected(p,c) (assert(c),(p))
+static int model_rro_open(struct airoha_npu *npu,struct device *endpoint,struct device *dma,
+                          u32 profile,const dma_addr_t *tx,unsigned count)
+{
+    assert(npu==&s.priv.npu && endpoint==&s.endpoint && dma==&s.provider && s.dev.mt76.mutex);
+    if(!s.owned_capability)return -EOPNOTSUPP;
+    assert(s.tx_prepared && count==6 && profile<3 && "TX preparation must precede first RRO allocation");
+    for(unsigned i=0;i<6;i++)assert(tx[i]==0x96000000+i*0x100000);
+    s.rro_opens++;
+    return s.rro_open_result;
+}
+static int model_rro_alloc(struct airoha_npu *npu,struct device *endpoint,struct device *dma,
+                           u32 role,u32 index,u32 bytes,void **buf,dma_addr_t *addr)
+{
+    assert(npu==&s.priv.npu && endpoint==&s.endpoint && dma==&s.provider && s.dev.mt76.mutex);
+    assert(s.owned_capability && s.dev.npu_rro_owned && role<=MT76_NPU_RRO_SESSION && index<128);
+    void *allocated=dma_alloc_attrs(dma,bytes,addr,GFP_KERNEL,0);
+    if(!allocated)return -ENOMEM;
+    *buf=allocated;
+    return 0;
+}
+static int model_rro_publish(struct airoha_npu *npu,struct device *endpoint,u32 ordinal)
+{
+    assert(npu==&s.priv.npu && endpoint==&s.endpoint && s.dev.mt76.mutex && ordinal<=128);
+    assert(s.owned_capability && s.dev.npu_rro_owned && s.rro_publish_result);
+    struct mt7996_wed_rro_addr *addr=ordinal<128?s.dev.wed_rro.addr_elem[ordinal].ptr:s.dev.wed_rro.session.ptr;
+    assert(addr && !addr[0].head_low && addr[0].data==0xff000000);
+    s.rro_publications++;
+    return s.rro_publish_result;
+}
+static int model_rro_close(struct airoha_npu *npu,struct device *endpoint)
+{
+    assert(npu==&s.priv.npu && endpoint==&s.endpoint && s.dev.mt76.mutex);
+    s.rro_closes++;event(EV_RRO_CLOSE);
+    return s.owned_capability?0:-EOPNOTSUPP;
+}
+#include "rro-bridges.h"
 #include "teardown.h"
 #define mt76_npu_send_txrx_addr observe_send
 #include "callers.h"
@@ -369,6 +418,10 @@ static void setup(int profile, bool checked, bool npu)
     s.priv.checked_pair = checked; s.priv.npu.dev = &s.provider;
     s.priv.txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;
     s.priv.npu.ops.wlan_send_msg = airoha_npu_wlan_msg_send_session;
+    s.priv.npu.ops.wlan_rro_open=model_rro_open;
+    s.priv.npu.ops.wlan_rro_alloc=model_rro_alloc;
+    s.priv.npu.ops.wlan_rro_publish=model_rro_publish;
+    s.priv.npu.ops.wlan_rro_close=model_rro_close;
     s.dev.mt76.dev = &s.endpoint; s.dev.mt76.dma_dev = npu ? &s.provider : &s.endpoint;
     s.dev.mt76.mmio.npu = npu ? &s.priv.npu : NULL;
     s.dev.mt76.mmio.ppe_dev = npu ? &s.provider : NULL;
@@ -436,6 +489,20 @@ static unsigned first_event(unsigned value)
     for (unsigned i = 0; i < s.nevents; i++) if (s.events[i] == value) return i;
     assert(!"missing event"); return 0;
 }
+static void finish_owned(const char *kind,int profile,int result,unsigned mask)
+{
+    unsigned retained=s.live;
+    modeled_device_release(&s.endpoint);modeled_device_release(&s.provider);
+    assert(s.live==retained && !s.freed && !s.resources && !s.resource_frees &&
+           !s.released_callbacks && !s.hw_init && !s.dma_rro_init && !s.nmessages && !s.downstream);
+    printf("{\"kind\":\"%s\",\"profile\":%d,\"result\":%d,\"mask\":%u,"
+           "\"retained_allocations\":%u,\"managed_allocations\":%u,\"production_frees\":%u,"
+           "\"handoff_calls\":%u,\"publication_attempts\":%u,\"provider_callbacks_modeled\":true}\n",
+           kind,profile,result,mask,retained,s.resources,s.freed,s.rro_closes,s.rro_publications);
+    /* Fixture-only disposal is not provider retirement authority. */
+    for(unsigned i=0;i<s.allocated;i++)free(s.allocations[i].ptr);
+    s.live=0;cases++;
+}
 int main(int argc, char **argv)
 {
     assert(argc == 2 && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__);
@@ -478,6 +545,8 @@ int main(int argc, char **argv)
                        "provider pointers must be unpublished");
                 assert(s.rcu_joins == 1 && "provider detach must join prior RCU readers");
                 assert(s.npu_puts == 1 && "NPU detach must release borrowed reference");
+                assert(s.rro_closes==1 && first_event(EV_RRO_CLOSE)<first_event(EV_UNPUBLISH) &&
+                       "lower detach must hand off RRO before unpublishing provider");
                 assert(first_event(EV_UNREGISTER) < first_event(EV_DMA_FREE));
                 assert(first_event(EV_DMA_FREE) < first_event(EV_MCU_EXIT));
                 assert(first_event(EV_MCU_EXIT) < first_event(EV_DMA_CLEANUP));
@@ -577,6 +646,43 @@ int main(int argc, char **argv)
     assert(s.downstream == 134 && s.nmessages == 134 && s.items_freed == 5);
     assert(!fclose(s.capture)); s.capture = NULL;
     finish("captured-full-caller-sequence", 0, 0, 0);
+    const int owned_errors[]={-EINVAL,-EIO,-ETIMEDOUT};
+    for(int profile=0;profile<3;profile++){
+        unsigned prefix=profile==0?3:1;
+        for(unsigned error=0;error<ARRAY_SIZE(owned_errors);error++){
+            for(unsigned mask=0;mask<4;mask++){
+                setup(profile,true,true);s.owned_capability=true;s.rro_publish_result=owned_errors[error];
+                int result=mt7996_init_hardware(&s.dev);
+                assert(result==owned_errors[error] && s.dev.npu_rro_owned && s.allocated==prefix &&
+                       s.rro_publications==1 && !s.hw_init && !s.dma_rro_init &&
+                       "owned publication error stops higher init before hardware setup");
+                if(mask&1)s.dev.mt76.hwrro_mode=MT76_HWRRO_OFF;
+                if(mask&2)s.dev.mt76.mmio.npu=NULL;
+                mt7996_unregister_device(&s.dev);
+                assert(s.dev.npu_rro_owned && !s.freed && s.live==prefix);
+                assert(s.rro_closes==((mask&2)?0:2) &&
+                       "lower detach must hand off RRO before unpublishing provider");
+                if(!(mask&2))assert(first_event(EV_RRO_CLOSE)<first_event(EV_MCU_EXIT) &&
+                                    first_event(EV_RRO_CLOSE)<first_event(EV_UNPUBLISH));
+                finish_owned("owned-publication-error-retained",profile,result,mask);
+            }
+        }
+        for(unsigned failure=1;failure<=prefix;failure++){
+            setup(profile,true,true);s.owned_capability=true;s.rro_publish_result=-EINVAL;s.fail_dma=failure;
+            int result=mt7996_init_hardware(&s.dev);
+            assert(result==-ENOMEM && s.dev.npu_rro_owned && s.live==failure-1 && !s.rro_publications);
+            mt7996_unregister_device(&s.dev);
+            finish_owned("owned-allocation-prefix-retained",profile,result,failure);
+        }
+        for(unsigned error=0;error<ARRAY_SIZE(owned_errors);error++){
+            setup(profile,true,true);s.owned_capability=true;s.rro_open_result=owned_errors[error];
+            int result=mt7996_init_hardware(&s.dev);
+            assert(result==owned_errors[error] && !s.dev.npu_rro_owned && !s.dma_attempts && !s.attempts &&
+                   !s.rro_publications && "owned open error must not fall back to managed allocation");
+            mt7996_unregister_device(&s.dev);
+            finish_owned("owned-open-error-no-fallback",profile,result,error);
+        }
+    }
     fprintf(stderr, "RRO_LIFETIME_CHARACTERIZATION cases=%u target_qualified=0 hardware=0\n", cases);
     return 0;
 }

@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - RRO Owners Connected; Native/MCU And Retirement Next
+
+Implemented actual retained provider RRO allocation/journal, process bridges,
+owned initializer error propagation and early closing handoff without managed
+frees. Provider 448/4, TX 223/12, RX 168/7, caller 1090/seven controls, journal
+5279/3, 116 tooling tests/zero skips, four target module links and 23 exact RV32
+members pass. Caller coverage separates 1040 optional-provider cases from 50
+modeled owned cases; it is not full joint kernel execution. Read rro-provider
+REPORT.md/EVIDENCE.json.
+
+Next implement native RRO admission and authenticated completion identities,
+retained MCU/reset/work-item generations and late/error handling. Coordinate
+publication serial/epoch transitions with late TX validation; never bypass it.
+Complete CPU join plus independent IRQ/DMA/firmware/cache/PMA drain/retirement
+before reclaim. Current owned init still stops at first checked publication;
+this intermediate failure/retention behavior is not the requested final state.
+
+Build and qualify a complete current-source image; old a3f1d04b lacks this callback
+ABI. Finish frozen default, separate HIF2/full faults, hot ownership/lifecycle/
+whole-stack and physical boot/radios/actual-client/performance/stability gates.
+Compact replay live/not restarted on old 2f85e54. Raw pair/UI/radio policy/images
+unchanged; no hardware or subagents. Full reverse-engineering objective active.
+
 ## 2026-10-23 - TX Ordering Prerequisite Implemented; Real RRO Wiring Next
 
 Checked TX storage now exists before RRO init, with exact late validation and

@@ -100,7 +100,29 @@ build input; compilation is not a physical drain or recovery proof.
  	phys_addr_t phy_addr;
  	int npu_type;
  };
-@@ -1679,9 +1720,14 @@
+@@ -1670,6 +1711,21 @@
+ int mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state);
+ int mt76_testmode_alloc_skb(struct mt76_phy *phy, u32 len);
+ 
++enum mt76_npu_rro_profile {
++	MT76_NPU_RRO_V3 = 0,
++	MT76_NPU_RRO_V3_1 = 1,
++	MT76_NPU_RRO_V3_1_WED = 2,
++};
++
++enum mt76_npu_rro_role {
++	MT76_NPU_RRO_BA = 0,
++	MT76_NPU_RRO_ELEMENT = 1,
++	MT76_NPU_RRO_MSDU = 2,
++	MT76_NPU_RRO_EMI_CPU = 3,
++	MT76_NPU_RRO_EMI_DMA = 4,
++	MT76_NPU_RRO_SESSION = 5,
++};
++
+ #ifdef CONFIG_MT76_NPU
+ void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
+ 			u32 info);
+@@ -1679,9 +1735,20 @@
  int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q);
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
@@ -114,10 +136,16 @@ build input; compilation is not a physical drain or recovery proof.
 +int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
  void mt76_npu_deinit(struct mt76_dev *dev);
 +int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q);
++int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
++		      const dma_addr_t *tx, unsigned int count);
++int mt76_npu_rro_alloc(struct mt76_dev *dev, u32 role, u32 index,
++		       u32 bytes, void **buf, dma_addr_t *addr);
++int mt76_npu_rro_publish(struct mt76_dev *dev, u32 ordinal);
++int mt76_npu_rro_close(struct mt76_dev *dev);
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
  int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-@@ -1716,18 +1762,45 @@
+@@ -1716,18 +1783,67 @@
  {
  }
  
@@ -161,6 +189,28 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +
 +static inline int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
++				  const dma_addr_t *tx, unsigned int count)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_alloc(struct mt76_dev *dev, u32 role, u32 index,
++				   u32 bytes, void **buf, dma_addr_t *addr)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_publish(struct mt76_dev *dev, u32 ordinal)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_close(struct mt76_dev *dev)
 +{
 +	return -EOPNOTSUPP;
  }
@@ -307,7 +357,186 @@ build input; compilation is not a physical drain or recovery proof.
  	     (band == MT_BAND2 && mt76_npu_device_active(&dev->mt76)))) {
  		int i;
  
-@@ -1317,6 +1318,10 @@
+@@ -984,24 +985,51 @@
+ 		MT_RRO_HOST_INT_ENA_HOST_RRO_DONE_ENA);
+ }
+ 
++static int mt7996_wed_rro_alloc(struct mt7996_dev *dev, u32 role, u32 index,
++			       u32 bytes, void **buf, dma_addr_t *addr)
++{
++	void *allocated;
++
++	if (dev->npu_rro_owned)
++		return mt76_npu_rro_alloc(&dev->mt76, role, index, bytes, buf, addr);
++	allocated = dmam_alloc_coherent(dev->mt76.dma_dev, bytes, addr, GFP_KERNEL);
++	if (!allocated)
++		return -ENOMEM;
++	*buf = allocated;
++	return 0;
++}
++
+ static int mt7996_wed_rro_init(struct mt7996_dev *dev)
+ {
+ 	u32 val = FIELD_PREP(WED_RRO_ADDR_SIGNATURE_MASK, 0xff);
+ 	struct mt7996_wed_rro_addr *addr;
+ 	void *ptr;
+-	int i;
++	int i, ret;
+ 
+ 	if (!mt7996_has_hwrro(dev))
+ 		return 0;
+ 
++	if (mt76_npu_device_active(&dev->mt76)) {
++		u32 profile = dev->mt76.hwrro_mode == MT76_HWRRO_V3 ? MT76_NPU_RRO_V3 :
++			mtk_wed_device_active(&dev->mt76.mmio.wed) ?
++			MT76_NPU_RRO_V3_1_WED : MT76_NPU_RRO_V3_1;
++
++		ret = mt76_npu_rro_open(&dev->mt76, profile, dev->npu_txd_addr,
++					ARRAY_SIZE(dev->npu_txd_addr));
++		if (ret != -EOPNOTSUPP) {
++			if (ret)
++				return ret;
++			dev->npu_rro_owned = true;
++		}
++	}
++
+ 	if (dev->mt76.hwrro_mode == MT76_HWRRO_V3) {
+ 		for (i = 0; i < ARRAY_SIZE(dev->wed_rro.ba_bitmap); i++) {
+-			ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-						  MT7996_RRO_BA_BITMAP_CR_SIZE,
+-						  &dev->wed_rro.ba_bitmap[i].phy_addr,
+-						  GFP_KERNEL);
+-			if (!ptr)
+-				return -ENOMEM;
++			ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_BA, i,
++				MT7996_RRO_BA_BITMAP_CR_SIZE, &ptr,
++				&dev->wed_rro.ba_bitmap[i].phy_addr);
++			if (ret)
++				return ret;
+ 
+ 			dev->wed_rro.ba_bitmap[i].ptr = ptr;
+ 		}
+@@ -1010,12 +1038,11 @@
+ 	for (i = 0; i < ARRAY_SIZE(dev->wed_rro.addr_elem); i++) {
+ 		int j;
+ 
+-		ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-				MT7996_RRO_WINDOW_MAX_SIZE * sizeof(*addr),
+-				&dev->wed_rro.addr_elem[i].phy_addr,
+-				GFP_KERNEL);
+-		if (!ptr)
+-			return -ENOMEM;
++		ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_ELEMENT, i,
++			MT7996_RRO_WINDOW_MAX_SIZE * sizeof(*addr), &ptr,
++			&dev->wed_rro.addr_elem[i].phy_addr);
++		if (ret)
++			return ret;
+ 
+ 		dev->wed_rro.addr_elem[i].ptr = ptr;
+ 		memset(dev->wed_rro.addr_elem[i].ptr, 0,
+@@ -1027,7 +1054,11 @@
+ 			addr++;
+ 		}
+ 
+-		if (is_mt7996(&dev->mt76) &&
++		if (dev->npu_rro_owned) {
++			ret = mt76_npu_rro_publish(&dev->mt76, i);
++			if (ret)
++				return ret;
++		} else if (is_mt7996(&dev->mt76) &&
+ 		    mt76_npu_device_active(&dev->mt76))
+ 			mt76_npu_send_txrx_addr(&dev->mt76, 0, i,
+ 					dev->wed_rro.addr_elem[i].phy_addr,
+@@ -1045,12 +1076,11 @@
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(dev->wed_rro.msdu_pg); i++) {
+-		ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-					  MT7996_RRO_MSDU_PG_SIZE_PER_CR,
+-					  &dev->wed_rro.msdu_pg[i].phy_addr,
+-					  GFP_KERNEL);
+-		if (!ptr)
+-			return -ENOMEM;
++		ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_MSDU, i,
++			MT7996_RRO_MSDU_PG_SIZE_PER_CR, &ptr,
++			&dev->wed_rro.msdu_pg[i].phy_addr);
++		if (ret)
++			return ret;
+ 
+ 		dev->wed_rro.msdu_pg[i].ptr = ptr;
+ 
+@@ -1060,31 +1090,28 @@
+ 
+ 	if (!mtk_wed_device_active(&dev->mt76.mmio.wed) &&
+ 	    dev->mt76.hwrro_mode == MT76_HWRRO_V3_1) {
+-		ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-					  sizeof(*dev->wed_rro.emi_rings_cpu.ptr),
+-					  &dev->wed_rro.emi_rings_cpu.phy_addr,
+-					  GFP_KERNEL);
+-		if (!ptr)
+-			return -ENOMEM;
++		ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_EMI_CPU, 0,
++			sizeof(*dev->wed_rro.emi_rings_cpu.ptr), &ptr,
++			&dev->wed_rro.emi_rings_cpu.phy_addr);
++		if (ret)
++			return ret;
+ 
+ 		dev->wed_rro.emi_rings_cpu.ptr = ptr;
+ 
+-		ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-					  sizeof(*dev->wed_rro.emi_rings_dma.ptr),
+-					  &dev->wed_rro.emi_rings_dma.phy_addr,
+-					  GFP_KERNEL);
+-		if (!ptr)
+-			return -ENOMEM;
++		ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_EMI_DMA, 0,
++			sizeof(*dev->wed_rro.emi_rings_dma.ptr), &ptr,
++			&dev->wed_rro.emi_rings_dma.phy_addr);
++		if (ret)
++			return ret;
+ 
+ 		dev->wed_rro.emi_rings_dma.ptr = ptr;
+ 	}
+ 
+-	ptr = dmam_alloc_coherent(dev->mt76.dma_dev,
+-				  MT7996_RRO_WINDOW_MAX_LEN * sizeof(*addr),
+-				  &dev->wed_rro.session.phy_addr,
+-				  GFP_KERNEL);
+-	if (!ptr)
+-		return -ENOMEM;
++	ret = mt7996_wed_rro_alloc(dev, MT76_NPU_RRO_SESSION, 0,
++		MT7996_RRO_WINDOW_MAX_LEN * sizeof(*addr), &ptr,
++		&dev->wed_rro.session.phy_addr);
++	if (ret)
++		return ret;
+ 
+ 	dev->wed_rro.session.ptr = ptr;
+ 	addr = dev->wed_rro.session.ptr;
+@@ -1093,7 +1120,11 @@
+ 		addr++;
+ 	}
+ 
+-	if (is_mt7996(&dev->mt76) && mt76_npu_device_active(&dev->mt76))
++	if (dev->npu_rro_owned) {
++		ret = mt76_npu_rro_publish(&dev->mt76, MT7996_RRO_ADDR_ELEM_LEN);
++		if (ret)
++			return ret;
++	} else if (is_mt7996(&dev->mt76) && mt76_npu_device_active(&dev->mt76))
+ 		mt76_npu_send_txrx_addr(&dev->mt76, 1, 0,
+ 					dev->wed_rro.session.phy_addr, 0, 0);
+ 
+@@ -1106,6 +1137,10 @@
+ {
+ 	int i;
+ 
++	if (dev->npu_rro_owned) {
++		mt76_npu_rro_close(&dev->mt76);
++		return;
++	}
+ 	if (!mt7996_has_hwrro(dev))
+ 		return;
+ 
+@@ -1317,6 +1352,10 @@
  	set_bit(MT76_STATE_INITIALIZED, &dev->mphy.state);
  
  	ret = mt7996_mcu_init(dev);
@@ -725,16 +954,17 @@ build input; compilation is not a physical drain or recovery proof.
  		bool hw_full_reset:1;
  		bool hw_init_done:1;
  		bool restart:1;
-@@ -546,6 +547,8 @@
+@@ -546,6 +547,9 @@
  	} wed_rro;
  
  	dma_addr_t npu_txd_addr[2 * MT7996_NPU_TXD_SIZE];
 +	bool npu_txd_prepared;
 +	bool npu_txd_claimed;
++	bool npu_rro_owned;
  
  	bool ibf;
  	u8 fw_debug_wm;
-@@ -741,7 +744,7 @@
+@@ -741,7 +745,7 @@
  s8 mt7996_eeprom_get_power_delta(struct mt7996_dev *dev, int band);
  bool mt7996_eeprom_has_background_radar(struct mt7996_dev *dev);
  int mt7996_dma_init(struct mt7996_dev *dev);
@@ -743,7 +973,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt7996_dma_prefetch(struct mt7996_dev *dev);
  void mt7996_dma_cleanup(struct mt7996_dev *dev);
  void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
-@@ -1011,6 +1014,7 @@
+@@ -1011,6 +1015,7 @@
  
  #ifdef CONFIG_MT7996_NPU
  int __mt7996_npu_hw_init(struct mt7996_dev *dev);
@@ -751,7 +981,7 @@ build input; compilation is not a physical drain or recovery proof.
  int mt7996_npu_hw_init(struct mt7996_dev *dev);
  int mt7996_npu_hw_stop(struct mt7996_dev *dev);
  int mt7996_npu_rx_queues_init(struct mt7996_dev *dev);
-@@ -1020,6 +1024,11 @@
+@@ -1020,6 +1025,11 @@
  	return 0;
  }
  
@@ -1480,7 +1710,7 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		goto error_ppe_put;
  
-@@ -497,6 +751,37 @@
+@@ -497,6 +751,97 @@
  }
  EXPORT_SYMBOL_GPL(mt76_npu_init);
  
@@ -1515,11 +1745,77 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +EXPORT_SYMBOL_GPL(mt76_npu_alloc_rx_event);
 +
++int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
++		      const dma_addr_t *tx, unsigned int count)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_open(npu, dev->dev, dev->dma_dev,
++					    profile, tx, count) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_open);
++
++int mt76_npu_rro_alloc(struct mt76_dev *dev, u32 role, u32 index,
++		       u32 bytes, void **buf, dma_addr_t *addr)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_alloc(npu, dev->dev, dev->dma_dev,
++					     role, index, bytes, buf, addr) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_alloc);
++
++int mt76_npu_rro_publish(struct mt76_dev *dev, u32 ordinal)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_publish(npu, dev->dev, ordinal) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_publish);
++
++int mt76_npu_rro_close(struct mt76_dev *dev)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_close(npu, dev->dev) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_close);
++
  void mt76_npu_deinit(struct mt76_dev *dev)
  {
  	struct airoha_ppe_dev *ppe_dev;
-@@ -506,16 +791,18 @@
+@@ -504,18 +849,24 @@
  
+ 	mutex_lock(&dev->mutex);
+ 
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	if (npu)
++		airoha_npu_wlan_rro_close(npu, dev->dev);
  	npu = rcu_replace_pointer(dev->mmio.npu, NULL,
  				  lockdep_is_held(&dev->mutex));
 +	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,

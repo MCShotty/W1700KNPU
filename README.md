@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Provider-Owned RRO Storage
+
+Real RRO allocation now uses the retained provider journal and process-context
+bridges. Owned publication errors stop initialization, and teardown retains the
+buffers instead of falling through to managed frees. All four target modules,
+448 provider cases, 1090 caller cases and the TX/RX/journal/tooling regressions pass.
+
+This is partial integration, not operational RRO or physical acceptance. The
+checked publication gate still rejects the first RRO command. Native/MCU/reset
+identity and retirement remain required. No new image or flash. See the
+[provider RRO checkpoint](research/checkpoints/2026-10-23-npu-rro-provider/REPORT.md).
+
 ## 2026-10-23 - TX Ownership Prepared Before RRO
 
 The checked driver now prepares its retained TX buffers before RRO init and

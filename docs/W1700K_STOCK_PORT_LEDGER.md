@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (checked TX ownership prepared before RRO; actual RRO wiring and physical scope open)
+Last updated: 2026-10-23 (actual provider RRO storage/journal/process handoff; native/MCU/retirement scope open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Retained Provider RRO Allocation And Closing Handoff
+
+- Connected actual RRO allocations to an independent retained provider owner,
+  with immutable protected context and full CPU/DMA/length slots recorded before
+  journal enrollment/caller output. Allocation/error prefixes stay retained.
+  Four optional provider ops and mt76 process bridges now execute this path.
+- Actual owned initializer propagates publication errors before hardware setup.
+  Only optional EOPNOTSUPP takes legacy allocation. Owned free closes and returns
+  before managed frees/mode checks; provider loss cannot make it fall through.
+  Lower detach also closes before unpublication. Cleanup retains an RRO owner
+  independently of the exposure flag. Closing asserts no CPU join/domain drain.
+- Actual provider/core/bridge passes 448 ASan/UBSan/leak cases/four controls;
+  full 139/139/137 allocation profiles and every prefix covered. TX 223/12 and
+  RX 168/7 pass. Whole selected caller suite passes 1090 cases/seven controls:
+  1040 explicitly optional-provider cases, 50 with modeled owned callbacks.
+  Separate suites are not full joint kernel/provider/consumer execution.
+- Journal 5279/3 and all 116 tooling units/zero skips pass. All 134 legacy frame
+  bytes match. Four current AArch64 modules final-link, producer e0ff1a43 and
+  lock 975c5505, 5 kernel/329 mt76 identities/24 mappings. Exact 23-member RV32
+  archive bytes match prior build. Canonical patches reconstruct fuzz0; original
+  prepared sources unchanged. No new raw pair or complete image.
+- Preserved initial missing-endian-type/enum fixture compile failure and wrong
+  owned-free mutation diagnostic. The latter already hit actual kernel devres
+  rejection; corrected expected assertion, not production. Four provider mutants
+  disable leak checks only for intentional pre-disposal exits. Baselines retain
+  leak checks. Jev owned-free 0.51/fallback 0.49 remain uncertain, not proof.
+- Initial sealing rejected the combined RX receipt's missing mutant switch.
+  Its 168 passing cases had zero controls. Fresh canonical RX now passes all
+  seven controls; both the rejected seal and earlier baseline remain preserved.
+- Read rro-provider REPORT.md/EVIDENCE.json and RRO contracts. Checked native
+  RRO publication still rejects the first command. Native/MCU/work-item identity,
+  serial coordination, CPU join/physical drain/retirement and operational RRO
+  remain required. Full cold/HIF2/fault/hot/physical/client scope stays active.
+  Old a3f1d04b lacks this callback ABI. Frozen compact replay remains live on
+  2f85e54/not restarted. UI/radio policy/protected images unchanged; no hardware,
+  flash, VM/global policy change or subagents. Prior input generations preserved.
 
 ## 2026-10-23 - Checked TX Ownership Before RRO Allocation
 

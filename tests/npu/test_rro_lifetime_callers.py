@@ -77,6 +77,8 @@ def prepare(destination, module_receipt=MODULE):
         ('mt7996_wed_rro_addr', 'mt7996_wed_rro_session_id', 'mt7996_rro_queue_regs_emi')) + '\n'
     geometry += q.declaration(mt76, 'enum', 'mt76_hwrro_mode') + '\n'
     geometry += q.declaration(mt76, 'enum', 'mt76_rxq_id') + '\n'
+    geometry += '\n'.join(q.declaration(mt76, 'enum', name) for name in
+        ('mt76_npu_rro_profile', 'mt76_npu_rro_role')) + '\n'
     geometry += block(mt76, r'(?m)^enum \{(?=\n\s+MT76_STATE_INITIALIZED,)') + ';\n'
     geometry += q.declaration(offload, 'enum', 'airoha_npu_wlan_set_cmd') + '\n'
     member = block(header, r'(?m)^\tstruct \{(?=\n\t\tstruct \{\n\t\t\tvoid \*ptr;\n\t\t\tdma_addr_t phy_addr;\n\t\t\} ba_bitmap)')
@@ -88,7 +90,7 @@ def prepare(destination, module_receipt=MODULE):
     managed += '\n'.join(q.function(mapping, name) for name in ('dmam_release', 'dmam_match', 'dmam_free_coherent')) + '\n'
     managed += block(mapping, r'(?m)^void \*dmam_alloc_attrs\(') + '\n'
     managed += block(dma_header, r'(?m)^static inline void \*dmam_alloc_coherent\(') + '\n'
-    callers = ('mt7996_wed_rro_init', 'mt7996_wed_rro_free', 'mt7996_wed_rro_work',
+    callers = ('mt7996_wed_rro_alloc', 'mt7996_wed_rro_init', 'mt7996_wed_rro_free', 'mt7996_wed_rro_work',
                'mt7996_init_hardware', 'mt7996_unregister_device')
     generated = {
         'geometry.h': geometry, 'rro-member.h': member,
@@ -99,6 +101,9 @@ def prepare(destination, module_receipt=MODULE):
             ('AIROHA_NPU_MBOX_SIZE', 'NPU_EN7581_7996_TX_CHECK_SIZE', 'NPU_EN7581_7996_INODE_DATA_SIZE')) + '\n' +
             q.declaration(provider, 'struct', 'wlan_mbox_data') + '\n' + q.function(provider, 'airoha_npu_wlan_msg_send'),
         'sender.h': q.function(offload, 'airoha_npu_wlan_send_msg') + '\n' + q.function(npu, 'mt76_npu_send_txrx_addr'),
+        'rro-bridges.h': '\n'.join(q.function(offload, 'airoha_npu_wlan_rro_' + name) for name in
+            ('open', 'alloc', 'publish', 'close')) + '\n' +
+            '\n'.join(q.function(npu, 'mt76_npu_rro_' + name) for name in ('open', 'alloc', 'publish', 'close')),
         'callers.h': '\n\n'.join(q.function(init, name) for name in callers),
         'teardown.h': q.function(npu, 'mt76_npu_deinit') + '\n' +
             '\n'.join(q.function(mac80211, name) for name in ('mt76_unregister_device', 'mt76_free_device')),
@@ -134,6 +139,8 @@ def teardown_controls(destination, command, environment):
          'provider pointers must be unpublished'),
         ('missing-npu-reference-release', 'mt76_npu_deinit', 'airoha_npu_put(npu);',
          'NPU detach must release borrowed reference'),
+        ('missing-rro-detach-handoff', 'mt76_npu_deinit', 'airoha_npu_wlan_rro_close(npu, dev->dev);',
+         'lower detach must hand off RRO before unpublishing provider'),
     )
     controls = []
     for name, function, call, diagnostic in variants:
@@ -168,15 +175,14 @@ def teardown_controls(destination, command, environment):
     return controls
 
 
-def preparation_control(destination, command, environment):
+def caller_control(destination, command, environment, name, before, after, diagnostic):
     original = (destination / 'callers.h').read_text()
-    call = 'ret = mt7996_npu_prepare_tx_buffers(dev);'
-    assert original.count(call) == 1
-    directory = destination / 'missing-early-TX-preparation'
+    assert original.count(before) == 1, ('caller-control-anchor', name)
+    directory = destination / name
     directory.mkdir()
     for path in destination.glob('*.h'):
         shutil.copyfile(path, directory / path.name)
-    (directory / 'callers.h').write_text(original.replace(call, 'ret = 0;', 1))
+    (directory / 'callers.h').write_text(original.replace(before, after, 1))
     harness = directory / 'rro-lifetime-harness.c'
     shutil.copyfile(destination / harness.name, harness)
     binary = directory / 'rro-lifetime'
@@ -190,10 +196,9 @@ def preparation_control(destination, command, environment):
         capture_output=True, text=True, timeout=300, preexec_fn=no_core_dump)
     (directory / 'run.jsonl').write_text(completed.stdout)
     (directory / 'run.stderr').write_text(completed.stderr)
-    diagnostic = 'TX preparation must precede first RRO allocation'
     assert completed.returncode == -signal.SIGABRT and diagnostic in completed.stderr
     assert 'ERROR: AddressSanitizer' not in completed.stderr and 'runtime error:' not in completed.stderr
-    return dict(name='missing-early-TX-preparation', compiled=True, compile_returncode=compiled.returncode,
+    return dict(name=name, compiled=True, compile_returncode=compiled.returncode,
         run_returncode=completed.returncode, intended_assertion=diagnostic,
         assertion_rejected=True, sanitizer_fault=False, changed_header_sha256=sha(directory / 'callers.h'))
 
@@ -218,22 +223,38 @@ def run(destination, module_receipt=MODULE):
     (destination / 'run.stderr').write_text(completed.stderr)
     assert completed.returncode == 0, (completed.returncode, completed.stderr)
     cases = [json.loads(line) for line in completed.stdout.splitlines()]
-    assert len(cases) == 1040, ('unexpected-characterization-case-count', len(cases))
+    assert len(cases) == 1090, ('unexpected-characterization-case-count', len(cases))
     packets = validate_packets(destination / 'caller-payloads.bin')
     controls = teardown_controls(destination, command, environment)
-    early_control = preparation_control(destination, command, environment)
+    early_control = caller_control(destination, command, environment, 'missing-early-TX-preparation',
+        'ret = mt7996_npu_prepare_tx_buffers(dev);', 'ret = 0;',
+        'TX preparation must precede first RRO allocation')
+    owned_controls = [caller_control(destination, command, environment, *variant) for variant in (
+        ('ignored-owned-publication-error',
+         'ret = mt76_npu_rro_publish(&dev->mt76, i);\n\t\t\tif (ret)\n\t\t\t\treturn ret;',
+         'ret = mt76_npu_rro_publish(&dev->mt76, i);\n\t\t\t(void)ret;',
+         'owned publication error stops higher init before hardware setup'),
+        ('owned-free-falls-through',
+         'mt76_npu_rro_close(&dev->mt76);\n\t\treturn;',
+         'mt76_npu_rro_close(&dev->mt76);\n\t\t(void)0;',
+         'devres_destroy(dev, dmam_release, dmam_match, &match_data)'),
+    )]
     assert all(sha(ROOT / name) == value for name, value in metadata['inputs'].items()), 'input-drift'
     artifacts = {str(path.relative_to(ROOT)): sha(path) for path in destination.rglob('*') if path.is_file()}
-    return dict(format='w1700k-rro-lifetime-characterization-v3', passed=True, characterization_only=True,
+    return dict(format='w1700k-rro-lifetime-characterization-v4', passed=True, characterization_only=True,
         cases=len(cases), observations=cases, captured_caller_payloads=len(packets), command=command,
         metadata=metadata, artifacts=artifacts, sanitizers=['ASan', 'UBSan', 'leak-detection'],
         teardown_negative_controls=controls,
         early_preparation_negative_control=early_control,
+        owned_caller_negative_controls=owned_controls,
+        legacy_optional_provider_cases=1040, owned_provider_model_cases=50,
         checked_RRO_admitted=False, target_RRO_lifetime_qualified=False, hardware=False,
         limits=['Complete selected init/free/worker/higher-init/unregister bodies run verbatim with actual sender/dispatcher/raw framing.',
                 'Actual kernel dmam allocation/match/free/release bodies execute, not the kernel devres framework.',
                 'Separate endpoint/provider devres registries and low-level DMA allocation/free are explicit models.',
                 'Actual lower mt76 unregister/free/NPU detach bodies execute; early TX preparation is an observable modeled boundary in this harness, exercised as actual C separately.',
+                'The 1040 legacy cases explicitly return EOPNOTSUPP for optional RRO ownership, not current checked-provider behavior.',
+                'The 50 owned cases run actual initializer/free/mt76 bridges against modeled provider callbacks with nonzero publication errors; actual provider/core execute separately.',
                 'mac80211/worker/queue cleanup/MCU/DMA internals and RCU scheduling are modeled.',
                 'Captured records are actual 24-byte raw frames from caller/sender/dispatcher/framing at the modeled mailbox boundary.',
                 'Raw model publication/free observations are not physical publication, use-after-free or drain proof.',

@@ -48,6 +48,8 @@ def prepare(directory, text, header):
     q = loader.extract
     declarations = [q.declaration(header, 'enum', name) for name in
                     ('airoha_npu_wlan_set_cmd', 'airoha_npu_wlan_get_cmd')]
+    if 'struct airoha_npu_rro_owner {' in text:
+        declarations += ['#include "rro-lifetime.h"', q.declaration(text, 'struct', 'airoha_npu_rro_owner')]
     declarations += [q.declaration(text, 'struct', name) for name in ('airoha_npu_dma_lifetime', 'airoha_npu_priv')]
     (directory / 'provider-session-types.inc').write_text('\n'.join(declarations) + '\n')
     (directory / 'provider-session.inc').write_text('\n\n'.join(q.function(text, name) for name in FUNCTIONS) + '\n')

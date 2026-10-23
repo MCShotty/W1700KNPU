@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Actual RRO Owner/Journal And Process Handoff
+
+The checked provider now owns the RRO allocation inventory and journal through
+its existing independently retained DMA lifetime. Actual process bridges connect
+open/allocation/publication/closing. Owned publication errors reach higher init;
+owned teardown never enters managed free, even with changed mode/provider loss.
+Lower detach attempts closing before pointer unpublication. No CPU join or
+physical drain/free authority follows from either closing call.
+
+Provider/core/bridge 448 cases/four controls, TX 223/12, RX 168/7, complete callers
+1090/seven controls and journal 5279/3 pass. Caller scope: 1040 optional-provider
+cases and 50 modeled owned-provider cases, not full joint kernel execution.
+All 116 tooling tests pass/zero skips. Current producer e0ff1a43/lock 975c5505
+final-links four AArch64 modules, 5 kernel/329 mt76 sources/24 mappings. The exact
+23-member RV32 archive is byte-identical to its prior build; raw pair unchanged.
+
+Read rro-provider REPORT.md/EVIDENCE.json and RRO contracts. Current RRO native
+admission is still closed; owned init stops at first publication. Native/MCU/
+work-item authenticated generations, serial coordination, CPU join and physical
+retirement remain open. Both fixture failures retained; Jev 0.51/0.49 uncertain,
+not proof. No new image/native instructions/hardware/flash. Old a3f1d04b lacks
+this callback ABI. Compact default stays live/frozen/not restarted on 2f85e54.
+Full cold/fault/hot/physical/client objective remains active; no subagents.
+
 ## 2026-10-23 - Real TX Preparation Moved Before RRO
 
 The checked provider's existing six-buffer retained allocator now runs before

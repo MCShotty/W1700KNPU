@@ -1,8 +1,36 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (checked TX prepared before RRO; full operational RRO/physical scope open)
+Last updated: 2026-10-23 (actual retained RRO owner/process handoff; native/MCU/retirement remain)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Provider-Owned RRO Storage And Early Handoff
+
+- Actual checked RRO allocation attaches the journal/full inventory to the
+  existing retained lifetime. Process bridges handle open/alloc/publish/close;
+  publication errors stop higher init. Owned teardown closes before managed
+  frees/mode checks and retains on provider loss. Lower detach closes before
+  unpublication. Neither close claims CPU join, physical drain or free authority.
+- Provider 448/four controls, TX 223/12, RX 168/7, callers 1090/seven controls and
+  journal 5279/3 pass. Callers explicitly separate 1040 optional-provider cases
+  from 50 modeled owned-provider cases, not a full joint kernel execution.
+  All 134 legacy frames match. All 116 tooling units pass, zero skips.
+- Four AArch64 modules final-link, producer e0ff1a43/lock 975c5505, 5 kernel/329
+  mt76 identities/24 mappings. Exact 23 RV32 members/archive bytes match prior
+  build. Canonical patch reconstruction fuzz0; originals/old generations kept.
+- Initial endian/enum model compile failure and wrong mutation diagnostic kept.
+  The latter hit actual devres rejection earlier; expected assertion corrected
+  without weakening production. Jev 0.51/0.49 remain uncertain, not proof.
+- Sealing caught an omitted RX mutant switch in the combined runner. Retained
+  that rejected receipt/failed seal and ran fresh canonical RX: 168 cases and
+  all seven controls pass. The seal requires the complete fresh receipt.
+- Read rro-provider REPORT/EVIDENCE and current RRO contracts. First checked
+  RRO publication remains denied. Native/MCU/reset/work-item identities, serial
+  coordination and CPU/physical retirement remain required, alongside complete
+  current image, full cold/fault/HIF2/hot/whole-stack/physical/client acceptance.
+  Old image a3f1d04b lacks this callback ABI. Existing compact default stays live
+  on frozen 2f85e54/not restarted. UI/radio policy/raw pair/images unchanged;
+  no hardware/flash/global changes/subagents. Full objective stays active.
 
 ## 2026-10-23 - Checked TX Preparation Before RRO Init
 

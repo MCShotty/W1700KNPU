@@ -2,9 +2,29 @@
 
 Status: implemented portable bookkeeping, not an operational RRO ABI or a
 physical retirement mechanism. `rro-lifetime.c` is part of the normal RV32
-archive and the canonical provider Kbuild. Compiling it does not connect any
-provider, mt76, native transport or MCU caller. Current selectors0/1/3 remain
-denied by operational admission.
+archive and the canonical provider Kbuild. Actual provider-owned allocation,
+process-context mt76 bridges and early closing handoff now invoke it. Native
+admission, authenticated completion identity, MCU/work-item generations and
+physical retirement are still incomplete. Current selectors0/1/3 remain denied.
+
+## Current Provider Integration
+
+An independent heap owner belongs to the provider's existing retained DMA
+lifetime and pinned-reference contract. It snapshots protected identities and
+records full backing before enrollment/caller output. Four optional operations
+provide open/allocate/publish/close through consumer-mutex process wrappers.
+Only EOPNOTSUPP at open permits the legacy managed-allocation lane.
+
+Publication uses the existing checked sender and retains possible exposure plus
+its host invocation ticket before that call. It does not authenticate a native
+completion. Owned initializer errors now propagate before hardware entry.
+Owned free attempts closing before mode checks/managed frees and never falls
+through after provider loss. Lower detach also closes before unpublication.
+Neither closing call claims CPU join or any physical domain observation.
+
+The current first publication is still rejected. Full allocation geometry is
+tested without fake successful admission. Native/MCU/reset work and serial/epoch
+coordination with late TX validation remain required, not optional follow-ups.
 
 ## Identity And Storage
 
@@ -84,3 +104,11 @@ selected caller frames. These are host executions and byte comparisons, not
 execution of the new RV32 or AArch64 journal instructions. Consult the dated
 checkpoint for the actual compilation, module-link and image qualification
 scope; old images do not gain new source merely because their hashes still match.
+
+The rro-provider checkpoint additionally executes 448 actual provider/core/bridge
+cases and four compiled controls, with DMA/reference/framework models. The 1,090
+selected caller cases and seven controls run actual consumer/process wrappers:
+1,040 explicitly optional-provider cases and 50 modeled owned-provider cases.
+The latter check error propagation and retained teardown, not successful current
+RRO or full joint kernel execution. Baseline leak checks remain enabled; the four
+provider mutants disable only leak checking for intended pre-disposal exits.
