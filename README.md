@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Fresh Compact Default Replay Running
+
+A new default nominal caller is running from clean frozen2f85e54,using the
+compact observer. Its native process,namespace and actual format3 DB metadata
+are verified. RAM4GiB/zero new swap/journal64MiB limits and guest guards remain.
+
+No terminal verdict yet. HIF2/full faults/RRO/hot/drain/physical acceptance
+remain separate. Both old failed runs and protected images are preserved. See
+the [compact replay checkpoint](research/checkpoints/2026-10-23-npu-compact-replay/REPORT.md).
+
 ## 2026-10-23 - Observer Cap Found And Compact Storage Tested
 
 The new default replay is now terminal:its observer journal reached the64MiB

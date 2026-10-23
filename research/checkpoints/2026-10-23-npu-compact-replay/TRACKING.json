@@ -1,0 +1,109 @@
+{
+  "scope": "postlaunch-tracking-and-preservation-not-terminal-native-verdict",
+  "observed_unix_ns": 1792715971849976924,
+  "running": true,
+  "service": "w1700k-npu-compact-default-q1.service",
+  "state": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "Restart": "no",
+    "MainPID": "2396851",
+    "Result": "success",
+    "OOMPolicy": "stop",
+    "ControlGroup": "/system.slice/w1700k-npu-compact-default-q1.service",
+    "MemoryCurrent": "339828736",
+    "MemoryPeak": "340684800",
+    "MemorySwapPeak": "0",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "KillMode": "control-group"
+  },
+  "source_commit": "2f85e54efabc827a5bcd071bc6bb936df1709b02",
+  "capsule_sha256": "a87f69da9f0c26a0c71c09ed6caea33a3a06e3a06facb95d413319980aa27c40",
+  "frozen_inputs_rehashed": 2865,
+  "exact_tracking_changes": {
+    "AGENTS.md": {
+      "captured_cohort": "1fcdeada068a152f16c2b61d4eb30439c436aa103483af6b8a1521d7a8adc198",
+      "current_tracking": "735e3a7371c9a81d6fb7f17b0922a28e41c839b559939d60dd419cb24d133c63",
+      "captured_version_preserved": true
+    },
+    "README.md": {
+      "captured_cohort": "1087ba750b0b2f6c551a45dfdc4bf22a282c9d55e538f04eb4c64ef95a1f381f",
+      "current_tracking": "63ec842e255fe0b8311582680673e718280b01692c8d1b1ca2650030301a5d24",
+      "captured_version_preserved": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "captured_cohort": "ca39644bb3991f89fb74a19c65e6e5b9314fb72c0bb81e9baced576d97192dac",
+      "current_tracking": "a3ee7147b2fc1eee1e80600bd8bb0c552a12029eb720e6daf7d052c18c249eae",
+      "captured_version_preserved": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "captured_cohort": "4d01e273fb0e84e5c881a18a1d641feeda9263a55bb0514fa879b889318266de",
+      "current_tracking": "6e19b908da3b81f3c15f34d4614f39575adc5c3d48cb88199b3a46b4030be93d",
+      "captured_version_preserved": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "captured_cohort": "e3d423e1f63cacd676988ac4ed95520f5ba2b2cfda6d088b4ac40847894f8d94",
+      "current_tracking": "70c97f89d682bda7940e0c948ef4b739cfb0f7ffcc6c6d61b32f4407375abc17",
+      "captured_version_preserved": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "captured_cohort": "b2899ea68447e17d187749fab059e136dc688e2eb4765ec254f985c2b2fa69c4",
+      "current_tracking": "53bf1fef2478eb8c3b1f896f35fd03936bebe1a72e1f510f1e07f967cdbac03d",
+      "captured_version_preserved": true
+    }
+  },
+  "executing_source_and_prior_versions_preserved": true,
+  "terminal_result_available": false,
+  "full_native_caller_verdict": false,
+  "hif2_started": false,
+  "host_fault_matrix": false,
+  "old_services_restarted": false,
+  "old_capsule_inputs_rehashed": 2473,
+  "prior_checked_inputs_rehashed": 2860,
+  "interrupted_outputs_rehashed": 624,
+  "protected_project_image_copies_rehashed": 6,
+  "protected_external_image_copies_rehashed": 1,
+  "firmware_raw_pair_image_changed": false,
+  "hardware": false,
+  "subagents": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "caller_pass_overclaim": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "hardware_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "backup_overclaim": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "publication_overclaim": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "hif2_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1725,
+      "output_tokens": 107
+    }
+  },
+  "limits": [
+    "Tracking prose changed intentionally;captured versions still match the frozen executing source.",
+    "Executable/private/native input drift is rejected;live logs/journal are not immutable proof.",
+    "The full nominal caller is active,not a terminal full NPU or physical verdict."
+  ],
+  "private_scope": ".local/npu-compact-replay-20261023/tracking-scope-q1.json",
+  "private_scope_sha256": "efc5da50ffe8a03fa39e8a27494ecae4854d1a2d4ae84b5cc464a52549e2cee3",
+  "indexed_project_paths": 9024,
+  "indexed_external_paths": 1
+}

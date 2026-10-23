@@ -1,5 +1,18 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Complete Fresh Compact Default Replay
+
+New compact default nominal is live in w1700k-npu-compact-default-q1.service,
+controller2396851/native2396859 with recorded starts/advancing CPU and actual
+format3 DB metadata in a private frozen namespace. Clean2f85e54/capsulea87f69da
+freezes2865 verified inputs;13 native-policy files/geometry/3M/60M-us unchanged.
+Fresh RAM/backing budgets pass;4GiB/no-new-swap/64MiB journal cap retained.
+
+Read compact-replay REPORT.md/LAUNCH.json. No terminal verdict. After a default
+pass,obtain fresh capacity and launch HIF2 separately;then full fault matrices,
+retained RRO/hot/drain/whole-stack/physical/client acceptance. Old OOM and
+journal-cap failures remain terminal/preserved. Firmware/lock/image unchanged.
+
 ## 2026-10-23 - Fresh Compact Full Replay Required
 
 Default q1 is now exit-code terminal,not live/OOM/pass:64MiB observer storage

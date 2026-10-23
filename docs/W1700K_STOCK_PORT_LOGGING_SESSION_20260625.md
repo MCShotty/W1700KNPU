@@ -1,8 +1,21 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (default terminal at observer cap;compact repair tested,full replay and retained RRO/NPU/physical acceptance open)
+Last updated: 2026-10-23 (fresh compact default replay live;terminal verdict and retained RRO/NPU/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Fresh Compact Default Caller Running
+
+- Clean2f85e54/capsulea87f69da freezes2865 inputs,2807 shared read-only/58
+  copies/9824899 new payload bytes. Actual format3 journal is observed in the
+  running native process/private frozen namespace;CPU/start identities verified.
+- Service w1700k-npu-compact-default-q1.service,controller2396851/native2396859.
+  Fresh RAM/backing budgets pass;4GiB/no-new-swap/64MiB observer and13 original
+  native-policy files/geometry/3M/60M-us unchanged. No terminal verdict yet.
+- 9018 project paths/one external object rehash,including old failures/624
+  interrupted outputs/seven image copies. HIF2 requires default pass and fresh
+  separate launch;full faults/RRO/hot/drain/physical/client remain. No firmware/
+  lock/raw/image/flash/subagent change. Read compact-replay REPORT.md/LAUNCH.json.
 
 ## 2026-10-23 - Default Terminal; Compact Observer Repair
 

@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - New Compact Default Replay Running
+
+Clean2f85e54/capsulea87f69da freezes2865 inputs/608124444 logical bytes,
+2807 shared read-only/58 copies/9824899 new payload bytes. Only nominal default
+is live: w1700k-npu-compact-default-q1.service,controller2396851/native2396859,
+starts/CPU/private namespace verified. Live DB format3 is directly observed.
+Fresh RAM/backing budgets pass;4GiB/no-new-swap/64MiB journal/13 native policy
+files/full geometry/3M/60M-us limits unchanged. No terminal caller verdict.
+
+9018 project paths/one external object rehash,including old failures/624 outputs/
+seven image copies. Read compact-replay REPORT.md/LAUNCH.json. HIF2/full faults/
+RRO/hot/drain/physical/client scope remains;firmware/lock/image unchanged.
+
 ## 2026-10-23 - Default Terminal; Compact Observer Qualified By Prefix
 
 Supersedes q1 live observations:service failed exit-code at64MiB journal cap

@@ -1,5 +1,18 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Fresh Compact Default Replay Running
+
+- Clean2f85e54/capsulea87f69da freezes2865 inputs/608124444 logical bytes;
+  2807 shared read-only/58 copies/9824899 new payload bytes. Old failed
+  capsules are evidence,not reuse donors. Original13 native policy files match.
+- New w1700k-npu-compact-default-q1.service is live:controller2396851/native
+  2396859,recorded start ticks/advancing CPU/private frozen namespace. Actual
+  live DB metadata is format3.4GiB/no-new-swap/64MiB journal;fresh budgets pass.
+- Read compact-replay REPORT.md/LAUNCH.json.9018 project paths/one external
+  object rehash,including all old failures/outputs/seven image copies. No
+  terminal caller verdict yet. HIF2 requires separate fresh budget/default pass;
+  faults/RRO/hot/drain/physical/client remain. No firmware/image/hardware change.
+
 ## 2026-10-23 - Default Terminal; Compact Observer Repair
 
 - Supersedes live q1 notes:default service is exit-code failed,not running or

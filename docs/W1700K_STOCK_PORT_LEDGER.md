@@ -1,10 +1,29 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (default terminal at observer cap;compact storage tested,full replay and retained RRO/NPU/physical acceptance pending)
+Last updated: 2026-10-23 (fresh compact default replay live;terminal verdict and full RRO/NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Fresh Compact Default Caller Launched
+
+- Clean2f85e54/capsulea87f69da freezes2865 verified inputs/608124444 logical
+  bytes.2807 shared read-only/58 independent copies/9824899 copied payload
+  bytes;donor da9cc624 content/modes/owner/mtime exact,link counts/ctime not
+  preserved. Failed capsules are not exact-set donors or independent backups.
+- New w1700k-npu-compact-default-q1.service is live,controller2396851/native
+  2396859 with recorded starts/advancing CPU/private frozen project inode.
+  Direct read-only query observes actual journal format3. Only nominal default
+  requested;4GiB/no-new-swap/64MiB journal and original13 policy files/geometry/
+  checkpoints/3M/60M-us limits retained. Fresh RAM/backing budgets pass.
+- LAUNCH binds9018 project paths/one external object,including2473 old bytewise/
+  2860 checked inputs,624 interrupted outputs and seven protected image copies.
+  Closed log prefix sampled;live DB/log are not immutable full-trace proof.
+- No terminal verdict. HIF2 needs default pass and its own fresh budget/launch.
+  Full faults/retained RRO/hot/drain/whole-stack/physical/client scope remains.
+  Old OOM/journal-cap failures preserved;no restart/firmware/lock/raw/UI/WiFi/
+  image/hardware/flash/subagent change. Read compact-replay REPORT.md/LAUNCH.json.
 
 ## 2026-10-23 - Default Observer Limit And Compact Storage Repair
 
