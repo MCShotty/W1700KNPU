@@ -1,6 +1,9 @@
 # RRO Lifetime Requirements
 
-Status: implementation requirements, **not an implemented or qualified RRO ABI**.
+Status: operational implementation requirements, **not a qualified RRO ABI**.
+The portable ownership journal is implemented and compiled in the normal build;
+see `RRO_LIFETIME_CONTRACT.md`. Its synthetic metadata tests do not supply the
+real allocation/reference handoff, transport wiring or physical drain witnesses.
 See `research/checkpoints/2026-10-23-npu-rro-lifetime/REPORT.md` for executed
 caller, managed-bookkeeping and stock/current instruction evidence.
 
@@ -50,7 +53,9 @@ software lifetime operations, not physical NPU/firmware/DMA drain witnesses.
 Earlier mac80211 callbacks and the modeled DMA/MCU boundaries could contain
 other behavior; their relative position must not be used to invent a missing
 hardware proof. The new 1,037-case characterization and three negative controls
-do not implement or qualify the retained RRO ABI.
+do not implement or qualify the operational retained RRO ABI. The new journal
+records exact owners, tickets, generations and retirement observations but is
+not yet invoked by these callers. Its closing state grants no free authority.
 
 Connect retained allocations to the actual provider/consumer teardown paths.
 Require independently established IRQ exclusion, DMA/firmware quiescence,

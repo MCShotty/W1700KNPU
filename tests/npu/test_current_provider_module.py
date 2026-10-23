@@ -100,7 +100,7 @@ def main():
         add(applied / name)
         add(WORK / 'kernel-merged' / name, digest(applied / name))
     components = lock['component_sources']
-    assert len(components) == 22
+    assert len(components) == 24
     for row in components:
         assert row['tree'] == 'openwrt' and row['destination'].startswith('target/linux/airoha/files-6.18/' + DRIVER + '/w1700k/')
         add(ROOT / row['source'], row['sha256'])
@@ -170,11 +170,11 @@ def main():
         source_lock_sha256=inputs[str(lock_path.relative_to(ROOT))], inputs=inputs, artifacts=artifacts,
         module=linked, prior_module=previous, command=command, compiler=version,
         prepared_kernel_inventory_files=len(before), prepared_kernel_content_and_modes_unchanged=True,
-        current_provider_components=5, source_components_verified=22,
+        current_provider_components=6, source_components_verified=24,
         module_loaded=False, vmlinux_relinked=False, world_build=False, image_changed=False,
         native_cold_qualified=False, full_setup=False, hardware=False,
         limits=['Independent complete kernel copy;all original file content/modes/relative links are verified unchanged.',
-                'Current tracked kernel patch/22 component sources;normal pinned kernel/module configuration and real final module link.',
+                'Current tracked kernel patch/24 component sources;normal pinned kernel/module configuration and real final module link.',
                 'Host compiler/runtime and toolchain remain external;this is not a complete portable execution environment.',
                 'Module metadata/exports/import availability are offline checks,not module load,IRQ,drain,client or physical acceptance.'])
     target = directory / 'result.json'

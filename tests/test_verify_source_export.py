@@ -20,6 +20,7 @@ class SourceExportTests(unittest.TestCase):
         script = self.root / 'tools/migration/verify_source_export.py'
         script.parent.mkdir(parents=True)
         shutil.copy2(ROOT / 'tools/migration/verify_source_export.py', script)
+        shutil.copy2(ROOT / 'tools/migration/source_component_headers.py', script.parent / 'source_component_headers.py')
         self.script = script
         (self.root / '.migration').mkdir()
         self.lock = dict(build_directory='.build/current', component_sources=[])

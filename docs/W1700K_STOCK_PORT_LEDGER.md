@@ -1,10 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (complete selected lower RRO teardown and observer repair; retained RRO/NPU/physical scope open)
+Last updated: 2026-10-23 (retained RRO metadata journal compiled and linked; operational wiring and physical scope open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Retained RRO Metadata Journal In Canonical Builds
+
+- Added exact provider/endpoint/boot/nonce/epoch identity and full profile
+  allocation metadata: 139/139/137 extents, 128 element blocks and 1,025 reset
+  IDs. Reject high DMA narrowing, CPU/alias/protected-span overlaps. Latch
+  possible exposure before output, preserve ambiguous/late errors, correlate
+  reset generations/tickets and retain every extent through closing.
+- All 5,279 ASan/UBSan/leak cases and three compiled intended-assertion mutants
+  pass. Fresh current-source caller characterization passes 1,037 cases/three
+  controls and exactly matches the journal's 134 frames. CPU/device/DMA values
+  remain synthetic metadata. Five domain observations never grant free authority.
+- Canonical normal RV32 archive now has 23 exact objects; journal undefined
+  symbol guard passes. Canonical provider Kbuild/source lock include the new
+  C/header. All four AArch64 modules final-link with pinned GCC14.4.0 and
+  Linux6.18.52. Genuine current producer rro-owner-q2/383591e4 binds lock
+  fd6dd27f, 24 component mappings, 5 kernel and 329 mt76 sources. Original
+  prepared kernel/mt76 remain unchanged; only reconstructed generated Kbuild
+  authority advances. Old captured source cohorts remain preserved separately.
+- Earlier normal-archive memset guard failure and kernel __aarch64_cas4_rel
+  link failure are preserved. Volatile clears and kernel-native atomics fix
+  the actual sources, without a libc shim or relaxed unresolved-symbol check.
+  Four source-export fixture failures exposed a missing copied helper; fixed
+  the fixture. All 116 tooling units now pass, zero skips. q4 remains overall
+  failed; q5 rehashes its passing journal/caller/archive groups, not new runs.
+- Jev's fresh exposure-latch judgment is uncertain at 0.50. Exact C tests and
+  the intended latch mutant supply covered-behavior evidence; model judgments
+  are not approval. Read rro-owner REPORT.md/EVIDENCE.json and the contract.
+- Actual references, retained allocation handoff, provider/native/MCU caller
+  wiring, operational RRO admission and physical retirement remain open.
+  No new full image or new journal-instruction replay. Raw pair/UI/WiFi and
+  protected images unchanged; a3f1d04b stays old-source-qualified only. Frozen
+  compact replay stays live on 2f85e54 with original starts, not restarted.
+  No hardware/flash, VM/global changes or subagents; full objective remains.
 
 ## 2026-10-23 - Complete Lower RRO Teardown And Native Observer Repair
 

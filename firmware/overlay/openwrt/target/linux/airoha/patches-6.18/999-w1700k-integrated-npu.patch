@@ -55,17 +55,18 @@ build input; compilation is not a physical drain or recovery proof.
  	help
 --- a/drivers/net/ethernet/airoha/Makefile
 +++ b/drivers/net/ethernet/airoha/Makefile
-@@ -7,3 +7,10 @@
+@@ -7,3 +7,11 @@
  airoha-eth-y := airoha_eth.o airoha_ppe.o
  airoha-eth-$(CONFIG_DEBUG_FS) += airoha_ppe_debugfs.o
  obj-$(CONFIG_NET_AIROHA_NPU) += airoha_npu.o
 +airoha_npu-y := w1700k/provider-main.o w1700k/control-client.o \
-+		w1700k/control-v2-client.o w1700k/cold-client.o w1700k/linux-control.o
++		w1700k/control-v2-client.o w1700k/cold-client.o w1700k/linux-control.o w1700k/rro-lifetime.o
 +CFLAGS_w1700k/provider-main.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/control-client.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/control-v2-client.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/cold-client.o := -I$(src)/w1700k/kernel-include
 +CFLAGS_w1700k/linux-control.o := -I$(src)/w1700k/kernel-include
++CFLAGS_w1700k/rro-lifetime.o := -I$(src)/w1700k/kernel-include
 --- a/drivers/net/ethernet/airoha/airoha_npu.c
 +++ b/drivers/net/ethernet/airoha/airoha_npu.c
 @@ -5,14 +5,21 @@

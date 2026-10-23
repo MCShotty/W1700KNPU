@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - RRO Ownership Journal Compiled And Linked
+
+New retained metadata journal passes 5,279 ASan/UBSan/leak cases and three
+compiled intended-assertion controls, covering complete 139/139/137 profiles,
+all 128 blocks/1,025 session IDs, ambiguous/late errors and retirement subsets.
+Fresh current-source caller characterization passes 1,037 cases/three controls;
+its 134 frames exactly match. All 116 tooling units pass, zero skips.
+
+Normal RV32 archive now has 23 exact members; journal has no undefined symbols.
+Canonical provider Kbuild includes it. All four AArch64 modules link with
+GCC14.4.0/Linux6.18.52; current rro-owner-q2 producer receipt is 383591e4,
+source lock fd6dd27f, 24 component mappings/5 kernel/329 mt76 sources. Prior
+memset guard, kernel atomic link and four fixture failures stay recorded.
+q5 rehashes passing q4 journal/caller/archive outputs, not a new execution.
+
+Read rro-owner REPORT.md/EVIDENCE.json and RRO_LIFETIME_CONTRACT.md. Actual
+reference pinning, allocation handoff, provider/native/MCU wiring, operational
+RRO admission and physical retirement remain open. Observations never grant
+free authority. No new full image; protected a3f1d04b retains old-source scope
+and cannot satisfy the new lock/object set. Raw pair/UI/WiFi/images unchanged.
+The frozen compact replay stays live on 2f85e54, not the new working source;
+no restart or terminal verdict. Full cold/fault/hot/physical/client scope open.
+
 ## 2026-10-23 - Actual Lower RRO Teardown Characterized
 
 Complete lower mt76 unregister/free/NPU detach execute verbatim with selected

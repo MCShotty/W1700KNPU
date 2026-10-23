@@ -42,9 +42,9 @@ def sha(path):
     return h.hexdigest()
 
 
-def prepare(destination):
-    producer = linked_module_sources(ROOT, MODULE)
-    inputs = {str(MODULE.relative_to(ROOT)): sha(MODULE), **producer['inputs'], **producer['artifacts']}
+def prepare(destination, module_receipt=MODULE):
+    producer = linked_module_sources(ROOT, module_receipt)
+    inputs = {producer['receipt']: producer['receipt_sha256'], **producer['inputs'], **producer['artifacts']}
     for path in (Path(__file__), Path(__file__).with_name('rro-lifetime-harness.c'),
                  Path(q.__file__), Path(sys.modules[block.__module__].__file__),
                  ROOT / 'tools/npu_world_sources.py'):
@@ -168,8 +168,8 @@ def teardown_controls(destination, command, environment):
     return controls
 
 
-def run(destination):
-    metadata = prepare(destination)
+def run(destination, module_receipt=MODULE):
+    metadata = prepare(destination, module_receipt)
     harness = Path(__file__).with_name('rro-lifetime-harness.c')
     shutil.copyfile(harness, destination / harness.name)
     shutil.copyfile(__file__, destination / 'driver-at-run.py')
@@ -211,11 +211,12 @@ def run(destination):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', required=True)
+    parser.add_argument('--module-receipt', type=Path, default=MODULE)
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     destination = ROOT / '.local/npu-rro-lifetime-callers' / args.name
     destination.mkdir(parents=True, exist_ok=False)
-    result = run(destination)
+    result = run(destination, args.module_receipt)
     with (destination / 'result.json').open('x') as stream: stream.write(json.dumps(result, indent=2) + '\n')
     print(json.dumps(dict(passed=True, cases=result['cases'], receipt=str((destination / 'result.json').relative_to(ROOT)),
         sha256=sha(destination / 'result.json'), target_RRO_lifetime_qualified=False, hardware=False)), flush=True)

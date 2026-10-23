@@ -1,0 +1,317 @@
+{
+  "scope": "implemented-compiled-RRO-metadata-journal-not-operational-admission",
+  "previous_goal_turn_classification": "progress",
+  "full_objective_preserved": true,
+  "base_commit": "8f4a6a8fa98aba2f2cc50c83496a5093028f68be",
+  "host_journal_cases": 5279,
+  "compiled_journal_negative_controls": 3,
+  "profiles": 3,
+  "extent_geometry": [
+    139,
+    139,
+    137
+  ],
+  "element_blocks": 128,
+  "reset_session_ids": 1025,
+  "matching_caller_frames": 134,
+  "current_caller_characterization_cases": 1037,
+  "current_caller_negative_controls": 3,
+  "build_tool_units": {
+    "passed": true,
+    "tests": 116,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "modules": [
+      "test_verify_source_export",
+      "test_prepared_sources",
+      "test_npu_download_cache",
+      "test_build_firmware_host_tools",
+      "test_npu_world_staging",
+      "test_npu_isolated_world",
+      "test_npu_combined_world_sources",
+      "test_verify_control_ownership",
+      "test_npu_world_bubblewrap",
+      "test_npu_world_sources",
+      "test_merged_rootfs_owners",
+      "test_source_component_headers",
+      "test_current_provider_module_contract",
+      "test_current_mt76_modules_contract"
+    ],
+    "module_inputs": {
+      "tests/test_verify_source_export.py": "3fa43902e3988e13d98cfcd1627b0766c14d9b9b2d978f4587778f6a433c4d37",
+      "tests/test_prepared_sources.py": "9844b0e2abf5096ccd0a20c2fb4d3a88c9693221f5f4e4257bcd6ef9ea74d156",
+      "tests/test_npu_download_cache.py": "dad3a6a1c878eecc17746496b239a7947c91baacec04ee5558fdf7d9e7691a0c",
+      "tests/test_build_firmware_host_tools.py": "cc2260f277790418c58aff869e4c5f314bc57ae6f5752975747afa4e0c95bdcc",
+      "tests/test_npu_world_staging.py": "7394dc3a9026f1528007f8d5a0bc55b738a57848ec1109c67365f9dd7af89aef",
+      "tests/test_npu_isolated_world.py": "4b7083f62ee0aceeaec06a4b75670bd017ccac9a09ef85cdb3f7c768e309e734",
+      "tests/test_npu_combined_world_sources.py": "96839d3571bd793bd3cbca64614cff70662eeceacc3a40671c301511b69b6711",
+      "tests/test_verify_control_ownership.py": "a1e1ef303d12323a08874530827aa39dff3bb41839b652b8ab0e0ed5fdfca3c3",
+      "tests/test_npu_world_bubblewrap.py": "6394cbdd312051b130a37384952e15347a367ebfe6cb158265ba841011e5ce66",
+      "tests/test_npu_world_sources.py": "a7690e69c04f05de5ba0d2b6acc8b70a41a539a9b63372db61a2b64e690d2c45",
+      "tests/test_merged_rootfs_owners.py": "debe379c56d7571b59700d296438025d9b7bbc20f94e56eb9593093d369ac9e6",
+      "tests/npu/test_source_component_headers.py": "070b4b285a0387191143dcdffaa5163943324e5f5c6511015cbe33302f0e974f",
+      "tests/npu/test_current_provider_module_contract.py": "1e77472b4ef6bc7ddc717127165e0d446ed7a67a8321dc9a9ae1395f7eccc35d",
+      "tests/npu/test_current_mt76_modules_contract.py": "fc309f6f874b400dee1352b272f128e8cabdf1c8284a8a331f788bbeb1e4c338"
+    }
+  },
+  "current_module_receipt_sha256": "383591e46fb5a2e2059a7a3a906e2de947c29998c6424bf673bee3274d98c764",
+  "owner_receipt_sha256": "661e28e996e8c7cf0b26d83a2a72466e8b68c78b83e98b48825853f0963e159c",
+  "caller_receipt_sha256": "3cc0fda3594d40efec07fdb5bad5e3c2119a33f10caa45a8184bb1982eccaf62",
+  "source_lock_sha256": "fd6dd27f6bbe6c34aaab7fe354588f6398a2fec7e6e4262966eab2084be06eb6",
+  "component_source_mappings": 24,
+  "normal_RV32_objects": 23,
+  "exact_archive_members": true,
+  "AArch64_final_linked_modules": 4,
+  "compiled_public_journal_functions": [
+    "npu_rro_enroll",
+    "npu_rro_extent_count",
+    "npu_rro_extent_geometry",
+    "npu_rro_fault",
+    "npu_rro_hardware_begin",
+    "npu_rro_open",
+    "npu_rro_publish_begin",
+    "npu_rro_publish_complete",
+    "npu_rro_reset_mcu_begin",
+    "npu_rro_reset_mcu_complete",
+    "npu_rro_reset_npu_begin",
+    "npu_rro_reset_npu_complete",
+    "npu_rro_reset_queue",
+    "npu_rro_retirement_begin",
+    "npu_rro_retirement_join",
+    "npu_rro_retirement_record",
+    "npu_rro_retirement_snapshot"
+  ],
+  "kernel_sources_verified": 5,
+  "mt76_sources_verified": 329,
+  "originals_unchanged": true,
+  "kernel_compiler": "aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.4.0 r0-288d794) 14.4.0",
+  "kernel_vermagic": "6.18.52 SMP mod_unload aarch64",
+  "previous_memset_linkage_guard_failure_preserved": true,
+  "previous_kernel_atomic_link_failure_preserved": true,
+  "previous_four_source_export_fixture_failures_preserved": true,
+  "q4_journal_callers_RV32_passed": true,
+  "q4_controller_passed": false,
+  "q5_reuses_rehashed_q4_subresults_not_new_journal_execution": true,
+  "old_source_receipts_rewritten": false,
+  "old_working_source_paths_still_match_not_claimed": true,
+  "executing_capsule_sha256": "a87f69da9f0c26a0c71c09ed6caea33a3a06e3a06facb95d413319980aa27c40",
+  "executing_capsule_inputs_rehashed": 2865,
+  "executing_source_commit": "2f85e54efabc827a5bcd071bc6bb936df1709b02",
+  "protected_project_image_bindings": 14,
+  "protected_external_objects": 1,
+  "live_participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 730728
+    }
+  ],
+  "services": {
+    "w1700k-npu-rro-owner-q2.service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "96a9b82c7887461db39c5bd024446e2a",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ExecMainStatus": "1",
+      "MemoryPeak": "53297152",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-owner-q3.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "8f36dc7a7c42466e97a922666f01a753",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "52641792",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-owner-q4.service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "25d11ca8a4394b8984ee1f6df329bcbb",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ExecMainStatus": "1",
+      "MemoryPeak": "411406336",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-owner-q5.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "2c7ac7695d904033aa4825ec8cff979e",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "57176064",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-owner-modules-q1.service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "26931b5bb31d447eb8c3c18f9e3e8913",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ExecMainStatus": "1",
+      "MemoryPeak": "536870912",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "536870912",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-owner-modules-q2.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "4f53d55d176e4c2bb1a935fca539dabe",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "536870912",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "536870912",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-compact-default-q1.service": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "b7308cc55190453dbe64072f2c296090",
+      "Restart": "no",
+      "MainPID": "2396851",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "378957824",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "4294967296",
+      "MemorySwapMax": "0"
+    }
+  },
+  "portable_firmware_source_changed": true,
+  "kernel_build_inputs_changed": true,
+  "source_lock_changed": true,
+  "raw_pair_changed": false,
+  "images_changed": false,
+  "UI_or_WiFi_source_changed": false,
+  "new_full_image_built": false,
+  "journal_native_instruction_execution": false,
+  "operational_RRO_admitted": false,
+  "provider_native_MCU_journal_wiring_complete": false,
+  "real_provider_endpoint_reference_pinning": false,
+  "physical_retirement_authority": false,
+  "full_cold_terminal_verdict": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "original_replay_restarted": false,
+  "global_policy_or_VM_changed": false,
+  "subagents": false,
+  "Jev_source_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "publication_latch_before_output": {
+        "type": "noul",
+        "noul": 0.5
+      },
+      "publication_error_discards_extent": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "reset_duplicate_reuses_generation_ticket": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "reset_completion_checks_exact_ticket": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "MCU_requires_NPU_confirmation": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "retirement_requires_join": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "post_join_completion_is_stale": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "contract_claims_physical_free_authority": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "contract_claims_operational_wiring": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "usage": {
+      "input_tokens": 4212,
+      "output_tokens": 197
+    }
+  },
+  "observed_unix_ns": 1792722394693844073,
+  "Jev_final_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "report_claims_operational_RRO": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "report_promotes_old_image": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "report_hides_link_failures": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "report_claims_physical_free": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "report_treats_Jev_as_proof": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 6444,
+      "output_tokens": 117
+    }
+  },
+  "scope_review_is_not_test_or_permission_proof": true,
+  "final_live_participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 736522
+    }
+  ],
+  "passed": true,
+  "private_evidence_sha256": "b48a74ba67ab63e4bf2273cb54497d8e7f3d5aec4ec56942fc7d25b11f46ff24",
+  "bound_paths": 3541
+}

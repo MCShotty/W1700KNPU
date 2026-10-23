@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Retained RRO Ownership Journal
+
+The new ownership journal is integrated into the canonical RV32 and kernel
+builds. It tracks full allocation geometry, publication exposure, reset
+generations and retirement observations. All 5,279 sanitizer cases, three
+mutation controls, 1,037 current caller cases and 116 tooling units pass.
+The 23-object RV32 archive and four AArch64 modules compile/link successfully.
+
+This is retained bookkeeping, not operational RRO or physical reclamation.
+Real caller/reference/transport wiring remains next; no new image or hardware
+validation occurred. The existing compact replay continues unchanged.
+See the [RRO ownership checkpoint](research/checkpoints/2026-10-23-npu-rro-owner/REPORT.md).
+
 ## 2026-10-23 - RRO Teardown Coverage And Observer Repair
 
 The actual lower provider-detach chain now passes 1,037 full-size RRO

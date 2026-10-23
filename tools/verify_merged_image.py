@@ -231,7 +231,7 @@ def main():
         'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
         'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx',
         'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie',
-        'cold-pcie-tail', 'cold-inode',
+        'cold-pcie-tail', 'cold-inode', 'rro-lifetime',
         'gdma', 'tunnel-header', 'tunnel-packet')}
     archive = core / 'libw1700k-npu.a'
     archive_members = verify_core_archive(core, core_objects)

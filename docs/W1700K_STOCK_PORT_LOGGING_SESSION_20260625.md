@@ -1,8 +1,31 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (complete selected lower RRO teardown and observer repair; full retained RRO/NPU scope open)
+Last updated: 2026-10-23 (RRO ownership metadata journal compiled and linked; full operational/physical scope open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - RRO Ownership Journal Compiled In Both Builds
+
+- New full-geometry journal retains allocation/exposure/error/reset/retirement
+  metadata with exact identities, generations and tickets. All 5,279 sanitizer
+  cases/three intended-assertion controls pass. Fresh caller characterization
+  passes 1,037 cases/three controls; all 134 frame bytes match independently.
+- Normal RV32 archive has 23 exact objects/no journal undefined symbols.
+  Canonical provider Kbuild/source lock include C/header; all four AArch64
+  modules final-link using GCC14.4.0/Linux6.18.52. Current producer383591e4,
+  lockfd6dd27f, 24 component mappings/5 kernel/329 mt76 sources. Old original
+  prepared trees and executing frozen cohort preserved, not source authorities
+  for the new build. Old source lock/failed outputs remain separately retained.
+- Prior memset guard/kernel atomic link/four fixture failures remain recorded.
+  Actual source/fixture fixes retain guards; all 116 tooling units pass without
+  skips. q5 rehashes passing q4 host/caller/archive outputs, not fresh execution.
+  Jev's latch result0.50 remains uncertain, not proof or permission.
+- Read rro-owner REPORT.md/EVIDENCE.json and RRO_LIFETIME_CONTRACT.md. Real
+  reference pinning, allocation handoff, provider/native/MCU wiring, operational
+  admission and physical retirement still required. No new full image/native
+  journal execution; old a3f1d04b is old-source-qualified, raw/UI/WiFi/images
+  unchanged. Original compact default stays live/not restarted, no full verdict.
+  No hardware/flash, VM/global change or subagents; full NPU objective active.
 
 ## 2026-10-23 - Complete Lower RRO Teardown And Observer Repair
 

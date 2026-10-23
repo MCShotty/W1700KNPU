@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - RRO Ownership Journal In Canonical Builds
+
+- New full-geometry retained metadata journal passes 5,279 ASan/UBSan/leak
+  cases and three compiled intended-assertion controls. All 134 frames match
+  fresh current-source caller characterization: 1,037 cases/three controls.
+  Normal RV32 archive now has 23 exact objects and no journal undefined symbols.
+- Canonical Kbuild/source lock now include the journal; all four AArch64 modules
+  link with GCC14.4.0/Linux6.18.52. Current producer is rro-owner-q2 receipt
+  383591e4, lock fd6dd27f, 24 component mappings/5 kernel/329 mt76 sources.
+  Prior memset guard/kernel atomic link/four fixture failures remain recorded.
+  All 116 tooling units pass after the fixture dependency repair, zero skips.
+- Read rro-owner REPORT.md/EVIDENCE.json and RRO_LIFETIME_CONTRACT.md. This is
+  compiled bookkeeping, not actual reference pinning or provider/native/MCU
+  wiring, operational RRO admission or physical free authority. No new image.
+  Raw pair/UI/WiFi/protected old images unchanged; a3f1d04b is old-source only.
+  Frozen compact replay remains live on its old cohort, not restarted. Full
+  cold/fault/hot/drain/physical/client objective stays active. No subagents.
+
 ## 2026-10-23 - Complete Lower RRO Teardown And Bounded Observer
 
 - Actual lower mt76 unregister/free/NPU detach now execute with full selected

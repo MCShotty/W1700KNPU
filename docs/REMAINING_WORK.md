@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Wire The Compiled RRO Journal Into Real Owners
+
+The metadata core is implemented in canonical builds: 5,279 sanitizer cases,
+three journal controls, 1,037 fresh caller cases/three controls, 134 exact frames,
+23 RV32 objects and four final AArch64 module links pass. All 116 tooling units
+pass, zero skips; earlier guard/link/fixture failures remain preserved.
+Read rro-owner REPORT.md/EVIDENCE.json and RRO_LIFETIME_CONTRACT.md.
+
+Still required: actual provider/endpoint reference and allocation retention,
+an early handoff before explicit RRO frees, real process/atomic transport and
+MCU work ownership, authenticated generation/ticket completions, higher-init
+error propagation, and physical IRQ/DMA/firmware/cache/PMA drain and retirement.
+Only then admit operational RRO; the journal itself grants no free authority.
+Build a new complete image and qualify it separately. Protected a3f1d04b is an
+old-source image, not the new fd6dd27f/24-component/23-object build.
+
+The original frozen default replay remains live, not restarted or upgraded in
+place. Its terminal verdict, separate HIF2/full faults, hot ownership/lifecycle,
+whole-stack and physical boot/radio/client/performance/stability scope remain.
+Raw pair/UI/WiFi/images unchanged; no hardware/flash/global changes or subagents.
+
 ## 2026-10-23 - Retained RRO Handoff Must Precede Explicit Frees
 
 The complete selected lower teardown now passes 1,037 sanitizer cases and three
