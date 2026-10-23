@@ -131,6 +131,14 @@ def selected_sources(source_root):
 
 
 MUTATIONS = (
+    ("ignored-typed-mcu-begin-error", "selected-helper.inc",
+     "\t\trecord->bridge_error = result;\n\t\tif (result) {",
+     "\t\trecord->bridge_error = result;\n\t\tif (false) {",
+     "typed", "typed-begin-error-blocks-physical-MCU"),
+    ("missing-typed-begin-close-recheck", "selected-helper.inc",
+     "\t\tif (owner->closing || owner->error)\n\t\t\tgoto retain;\n\t\t/* Close may join",
+     "\t\tif (false)\n\t\t\tgoto retain;\n\t\t/* Close may join",
+     "typed", "close-during-typed-begin-does-not-admit-physical-MCU"),
     ("missed-npu-failure", "selected-helper.inc",
      "\t\trecord->npu_error = result;\n\t\tif (result) {",
      "\t\trecord->npu_error = result;\n\t\tif (false) {",
@@ -173,7 +181,7 @@ def run(destination, source_root, mutants):
                                       executed.stderr)
     rows = [json.loads(line) for line in executed.stdout.splitlines() if line.strip()]
     assert len(rows) == 1 and rows[0] == {
-        "passed": True, "host_model_only": True, "cases": 17,
+        "passed": True, "host_model_only": True, "cases": 22,
     }, rows
 
     controls = []
@@ -232,7 +240,7 @@ def run(destination, source_root, mutants):
             "owner allocation and constructor failure", "endpoint/device reference",
             "module reference", "spinlocks and mutex", "RCU-protected provider lookup",
             "IRQ disable and NPU mask", "work queue admission and cancellation",
-            "NPU sender selector 3", "MCU reset command", "consumer release",
+            "typed reset generation/ticket provider operations", "MCU reset command", "consumer release",
         ],
         "limits": [
             "Selected actual C bodies run against single-threaded host models.",

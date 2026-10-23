@@ -1,5 +1,22 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Typed Retained Reset Integration
+
+- Owned work now uses typed NPU-reset/MCU-begin/MCU-complete process bridges,
+  exact generation/tickets and separate raw MCU/completion-bridge results.
+  Begin errors or close stop new physical MCU calls; late metadata stays held.
+- Installed-source worker22/eight controls, BA15/three, joint6150 resets across
+  3 profiles/two generations plus12 negatives/three controls, and142 units pass.
+  All four modules link; typed edges resolve. Producer22b9827e/lock4f862e1a,
+  5 kernel/330 mt76 sources/31 mappings; original inventories unchanged.
+- Refresh the broader456 allocation/fault and1090 callers for this producer;
+  earlier passes below belong to older source. Do not promote them as current.
+- Generation1 is the initial journal transaction, not firmware BA identity.
+  Parked-only transport is unchanged. Restore status-0-only BA binding next;
+  no unsafe cached-pointer status3 replay. BA creation/link/late/reuse, hot CPU
+  lifetime, retirement/rearm and physical/image/client gates remain. Both live
+  graphs untouched. Read rro-reset-typed REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-23 - Current Reset Modules And Callers Qualified
 
 - Supersedes the pending-link status below: all four current AArch64 modules

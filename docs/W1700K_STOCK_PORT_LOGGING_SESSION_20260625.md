@@ -1,8 +1,27 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (current reset links and caller regression pass)
+Last updated: 2026-10-23 (typed retained reset integration and target links pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Typed Reset Journal And MCU Handoff
+
+Owned work uses typed NPU-reset/MCU-begin/MCU-complete process bridges and exact
+generation/tickets. Errors or close stop new physical MCU admission. Physical
+MCU and completion-bridge results remain separate; late metadata survives close
+without new RPC, CPU join or free authority. Journal generation is not BA identity.
+
+Installed-source worker22/eight controls, BA15/three, joint6150 resets across
+3 profiles/two generations plus12 negatives/three controls and142 units/zero
+skips pass. Four current modules link and typed edges resolve:producer22b9827e/
+lock4f862e1a/31 mappings. Broader456 allocation/fault and1090 caller refreshes
+are pending for this producer. Earlier source passes remain older evidence.
+
+Luna/main source review confirms the missing status-0 binding gate and no BA
+cookie; cached-pointer status3 replay is not restored. Actual creation/link/late/
+reuse identity, hot transport/CPU lifetime, retirement and physical/image/client
+gates remain. Both live graphs/jobs and parked-only guards untouched. No new
+image/hardware/VM/global-policy change; read rro-reset-typed REPORT/EVIDENCE.
 
 ## 2026-10-23 - Current Reset Target And Caller Checks Pass
 

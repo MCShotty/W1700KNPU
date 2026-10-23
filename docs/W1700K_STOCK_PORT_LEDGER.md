@@ -1,10 +1,33 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (current reset target links and caller regression pass)
+Last updated: 2026-10-23 (typed retained reset phases integrated and target linked)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Typed Retained Reset Worker And Provider Phases
+
+- Owned work now uses typed NPU-reset/MCU-begin/MCU-complete process bridges,
+  exact journal generation/ticket and accepted serial-chain correlation. Tickets
+  are retained before transport; duplicates do not retransmit. Errors stay sticky.
+- NPU/begin errors or close prevent new physical MCU admission. Actual MCU result
+  and completion-bridge result stay separate. Exact late metadata survives close
+  without a new RPC, CPU join, free or rearm. Generation1 is not BA authentication.
+- Installed-source worker22/eight controls, BA15/three, joint6150 resets across
+  3 profiles/two generations plus12 negatives/three controls and142 units pass.
+  Boundaries remain modeled. Four AArch64 modules link and typed edges resolve:
+  producer22b9827e/lock4f862e1a/5 kernel/330 mt76/31 mappings. Both patches fuzz0;
+  original inventories unchanged. Private incremental build236MiB,267096480 bytes.
+- Refresh broader456 allocation/fault and1090 callers for this producer. Prior
+  passes remain older-source evidence. Preserve overlap/preflight, oracle-pointer
+  UBSan and mutation-anchor failures. The live-bound fixture stays unchanged.
+- Closed Luna/main source review confirms missing status-0-only BA binding and
+  no firmware BA cookie. Restore the gate without unsafe status3 cached-pointer
+  replay, then actual creation/link/late/reuse identity and fences. Parked-only
+  transport is unchanged; hot CPU lifetime, retirement and physical/image/client
+  gates remain. Both live jobs/graphs untouched; no load/image/hardware/VM change.
+  Read rro-reset-typed REPORT/EVIDENCE; full reverse-engineering goal active.
 
 ## 2026-10-23 - Authorized Older REA Server Cleanup Addendum
 

@@ -1,0 +1,418 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "8213fc6b46b8847dad46d4c4ed4a93180add4f45",
+  "scope": "Typed retained worker/provider NPU and MCU journal integration; BA/hot/physical admission still incomplete",
+  "source_lock_sha256": "4f862e1aab09c4e26c6d696a2ddc10f61f7f9d9bddd6e3c4aff0d01def8c2b0a",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "typed_reset_edges_linked": [
+    "mt76_npu_rro_reset_mcu_begin",
+    "mt76_npu_rro_reset_mcu_complete",
+    "mt76_npu_rro_reset_npu"
+  ],
+  "producer": ".local/npu-checked-irq-modules/rro-reset-typed-q1/result.json",
+  "producer_sha256": "22b9827e6764346d8dc234b1f988bc5ff8fcf647e0d75e6384e26ffe1a56b44b",
+  "incremental_qualified_cache": true,
+  "module_cap_bytes": 247463936,
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "actual_output_bytes": 267096480,
+  "tests": {
+    "worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/typed-current-q1",
+      "receipt_sha256": "da8fea06e9b872bf49853eee135a66867da41bb11081de82d7c3ace10f180948"
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/typed-current-q1",
+      "receipt_sha256": "0d70948d3979bd5c84a1bd3686dbf3740dd36a59c27c621604f747b794fc5c2b"
+    },
+    "joint": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/typed-current-q1",
+      "receipt_sha256": "efc68a3dcde006daa26bcd12332e12490572ae866e6e419237d48c346302cd99"
+    }
+  },
+  "worker_cases": 22,
+  "worker_controls": 8,
+  "BA_cases": 15,
+  "BA_controls": 3,
+  "joint_reset_transactions": 6150,
+  "joint_profiles": 3,
+  "reset_journal_generations": 2,
+  "joint_negative_cases": 12,
+  "joint_compiled_controls": 3,
+  "total_units": 142,
+  "skipped": 0,
+  "current_broad_allocation_fault_regression": false,
+  "current_linked_1090_caller_regression": false,
+  "broader_refresh_status": "Pending; earlier456/1090 passes belong to older producer cohorts",
+  "MCU_and_transport_and_backing_modeled": true,
+  "consumer_one_shot_per_session": true,
+  "initial_journal_generation_is_BA_identity": false,
+  "hot_typed_reset_admitted": false,
+  "parked_guards_unchanged": true,
+  "prior_bindings_rehashed": 13356,
+  "prior_overlay_bindings_rehashed": 12,
+  "prior_external_bindings_rehashed": 1,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "native": {
+    "complete": false,
+    "profiles_observed": [
+      {
+        "profile": "profile-0",
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "last_complete": {
+          "operation": 8,
+          "argument": 0,
+          "generation": 0,
+          "sequence": 6443,
+          "journal_sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+          "broker_sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+          "request_sha256": "09a4225758054545c9a2650074b9f39361d2958dcfe0428ed3953bf25c5e450d",
+          "reply_sha256": "e6bac2a664c1540b21e1ec8839e4bfa59c51d0b3994e4c950d2b2aa3da8ff6c2",
+          "rolling_sha256": "f671e6b818aebaa7b9cfedad1a5dffd40e11d3934d7be63e82d3ac75219dc1ae",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 124885,
+            "metadata_writes": 12270,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 519887431,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      },
+      {
+        "profile": "profile-1",
+        "positive_rpc_observed": 189,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 49
+        },
+        "last_complete": {
+          "operation": 3,
+          "argument": 48,
+          "generation": 0,
+          "sequence": 211,
+          "journal_sha256": "e567dffb6bfb54a741ca526ae85df8ed99b36d810b7f0d87e44ef97234145963",
+          "broker_sha256": "b2301198d0bbcd3f41658bb82ad747ed69236afbbd3658d1838149e62b5ec814",
+          "request_sha256": "dcc9f9f10ec4b142d71b352ebb9fd3716ac2024b1bd4691fa9282ff44ee893fc",
+          "reply_sha256": "fd155ead4bc068632b605e46e872b57e9a745c10695ff608e46a46d366351dcf",
+          "rolling_sha256": "d7a12575f6af494430815e6538cc176ef094e85c5ce2e6d3019933bffaab08d3",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 7443444,
+            "metadata_writes": 760977,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1,
+            "table_writes": 1,
+            "table_reads": 2,
+            "extent_writes": 24576,
+            "extent_reads": 24576
+          },
+          "write_sha256": "93f178f7222f2e002cadb556beac0e144c641a26e6ced3b147ff663faf336054",
+          "wall_ns": 39962434145,
+          "min_sp": 2214726352,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      }
+    ],
+    "service": {
+      "MemoryCurrent": "129855488",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "162246656",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 6141974
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1855436
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 6146529
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 1860056
+    }
+  ],
+  "native_input_graph_unchanged": true,
+  "original_replays_restarted": false,
+  "legacy_selector3_admitted": false,
+  "BA_generation_authenticated": false,
+  "BA_status0_gate_missing": true,
+  "unsafe_cached_pointer_status3_not_restored": true,
+  "kernel_concurrency_qualified": false,
+  "physical_MCU_authenticated": false,
+  "physical_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "VM_or_global_policy_changed": false,
+  "retained_failures": [
+    "live-input-overlap-refusal",
+    "400MiB-RAM-refusal",
+    "oracle-intermediate-pointer-UBSan",
+    "mutation-anchor-ambiguity"
+  ],
+  "read_only_reviewer": {
+    "model": "gpt-6-luna",
+    "reasoning": "max",
+    "interface": "v1",
+    "agent_id": "01a16a5f-57d3-7151-be59-a027991d1e2a",
+    "closed": true
+  },
+  "REA_transport_closed": true,
+  "newer_REA_servers_untouched": true,
+  "newer_REA_shutdown_answer_pending": true,
+  "Jev_design": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "missing_bridge": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "ba_identity": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "hot_admission": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "exact_correlation": {
+        "type": "noul",
+        "noul": 0.95
+      }
+    },
+    "usage": {
+      "input_tokens": 525,
+      "output_tokens": 76
+    }
+  },
+  "Jev_source": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "npu_failure": {
+        "type": "noul",
+        "noul": 0.83
+      },
+      "begin_failure": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "raw_mcu": {
+        "type": "noul",
+        "noul": 0.84
+      },
+      "closed_completion": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "ba_claim": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "retirement": {
+        "type": "noul",
+        "noul": 0.91
+      }
+    },
+    "usage": {
+      "input_tokens": 4629,
+      "output_tokens": 109
+    }
+  },
+  "Jev_report": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "mcu_scope": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "hot_scope": {
+        "type": "noul",
+        "noul": 0.81
+      },
+      "ba_scope": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "regression_scope": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "native_scope": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "goal_scope": {
+        "type": "noul",
+        "noul": 0.96
+      }
+    },
+    "usage": {
+      "input_tokens": 1639,
+      "output_tokens": 109
+    }
+  },
+  "observed_unix_ns": 1792787802226659000,
+  "private_evidence": ".local/npu-rro-reset-typed-20261023/evidence-q1.json",
+  "private_evidence_sha256": "8ee99d870727b47c3dd5f0e946ca523de9bc72d1f793befdddd9ecd9d42e61a1",
+  "project_bindings": 15612,
+  "external_bindings": 1
+}

@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Typed Reset Path Integrated
+
+Retained work now uses typed provider/journal reset phases instead of legacy
+selector3. Installed-source tests pass6150 joint reset transactions,12 negatives/
+three controls,22 worker cases/eight controls,15 BA cases/three controls and142
+units. All four current AArch64 modules link with the typed edges resolved.
+
+Host-modeled backing/MCU/transport and target links are not hardware acceptance.
+Journal generation is not BA lifetime; parked-only guards remain. Refresh the
+older allocation/fault and1090 caller suites for this producer. BA status/
+creation/reuse, hot operation, retirement and image/client acceptance remain.
+Both long replays are untouched. See the
+[typed reset checkpoint](research/checkpoints/2026-10-23-npu-rro-reset-typed/REPORT.md).
+
 ## 2026-10-23 - Current Reset Modules Linked
 
 All four current AArch64 modules now link with GCC14.4.0/Linux6.18.52, including

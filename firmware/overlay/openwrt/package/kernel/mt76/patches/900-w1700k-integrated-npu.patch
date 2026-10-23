@@ -122,7 +122,7 @@ build input; compilation is not a physical drain or recovery proof.
  #ifdef CONFIG_MT76_NPU
  void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
  			u32 info);
-@@ -1679,9 +1735,21 @@
+@@ -1679,9 +1735,25 @@
  int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q);
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
@@ -142,11 +142,15 @@ build input; compilation is not a physical drain or recovery proof.
 +		       u32 bytes, void **buf, dma_addr_t *addr);
 +int mt76_npu_rro_publish(struct mt76_dev *dev, u32 ordinal);
 +int mt76_npu_rro_close(struct mt76_dev *dev);
++int mt76_npu_rro_reset_npu(struct mt76_dev *dev, u32 session, u32 generation, u32 *ticket);
++int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 session, u32 generation, u32 ticket);
++int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 session,
++				     u32 generation, u32 ticket, int result);
 +int mt76_npu_rro_abort(struct mt76_dev *dev, int error);
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
  int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-@@ -1716,18 +1784,72 @@
+@@ -1716,18 +1788,90 @@
  {
  }
  
@@ -212,6 +216,24 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +
 +static inline int mt76_npu_rro_close(struct mt76_dev *dev)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_reset_npu(struct mt76_dev *dev,
++		u32 session, u32 generation, u32 *ticket)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev,
++		u32 session, u32 generation, u32 ticket)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev,
++		u32 session, u32 generation, u32 ticket, int result)
 +{
 +	return -EOPNOTSUPP;
 +}
@@ -1813,7 +1835,7 @@ build input; compilation is not a physical drain or recovery proof.
  	if (err)
  		goto error_ppe_put;
  
-@@ -497,6 +751,117 @@
+@@ -497,6 +751,163 @@
  }
  EXPORT_SYMBOL_GPL(mt76_npu_init);
  
@@ -1894,6 +1916,52 @@ build input; compilation is not a physical drain or recovery proof.
 +}
 +EXPORT_SYMBOL_GPL(mt76_npu_rro_publish);
 +
++int mt76_npu_rro_reset_npu(struct mt76_dev *dev, u32 session, u32 generation, u32 *ticket)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_reset_npu(npu, dev->dev,
++					      session, generation, ticket) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_reset_npu);
++
++int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 session, u32 generation, u32 ticket)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_reset_mcu_begin(npu, dev->dev,
++						    session, generation, ticket) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_reset_mcu_begin);
++
++int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 session,
++				     u32 generation, u32 ticket, int result)
++{
++	struct airoha_npu *npu;
++	int err;
++
++	mutex_lock(&dev->mutex);
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->mutex));
++	err = npu ? airoha_npu_wlan_rro_reset_mcu_complete(npu, dev->dev,
++						       session, generation, ticket, result) : -ENODEV;
++	mutex_unlock(&dev->mutex);
++	return err;
++}
++EXPORT_SYMBOL_GPL(mt76_npu_rro_reset_mcu_complete);
++
 +int mt76_npu_rro_close(struct mt76_dev *dev)
 +{
 +	struct airoha_npu *npu;
@@ -1931,7 +1999,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt76_npu_deinit(struct mt76_dev *dev)
  {
  	struct airoha_ppe_dev *ppe_dev;
-@@ -504,18 +869,24 @@
+@@ -504,18 +915,24 @@
  
  	mutex_lock(&dev->mutex);
  
@@ -2121,7 +2189,7 @@ build input; compilation is not a physical drain or recovery proof.
  mt7996e-$(CONFIG_DEV_COREDUMP) += coredump.o
 --- /dev/null
 +++ b/mt7996/npu-rro-reset.c
-@@ -0,0 +1,286 @@
+@@ -0,0 +1,313 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +#include <linux/module.h>
 +#include <linux/slab.h>
@@ -2133,6 +2201,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	MT7996_NPU_RRO_QUEUED,
 +	MT7996_NPU_RRO_NPU_POSSIBLE,
 +	MT7996_NPU_RRO_NPU_DONE,
++	MT7996_NPU_RRO_MCU_PREPARING,
 +	MT7996_NPU_RRO_MCU_POSSIBLE,
 +	MT7996_NPU_RRO_MCU_ACKED,
 +};
@@ -2140,7 +2209,8 @@ build input; compilation is not a physical drain or recovery proof.
 +struct mt7996_npu_rro_reset_record {
 +	struct list_head list;
 +	u64 arrival;
-+	int npu_error, mcu_error;
++	u32 generation, ticket;
++	int npu_error, mcu_error, bridge_error;
 +	u16 id, wlan_id;
 +	u8 tid, phase;
 +};
@@ -2202,6 +2272,10 @@ build input; compilation is not a physical drain or recovery proof.
 +	for (i = 0; i < ARRAY_SIZE(owner->records); i++) {
 +		INIT_LIST_HEAD(&owner->records[i].list);
 +		owner->records[i].id = i;
++		/* This owner admits only the first reset request for each ID. The
++		 * journal starts at1; that number does not authenticate a BA lifetime.
++		 */
++		owner->records[i].generation = 1;
 +	}
 +	spin_lock_bh(&dev->wed_rro.lock);
 +	if (dev->wed_rro.reset_closing || dev->wed_rro.reset_owner) {
@@ -2297,7 +2371,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	struct mt7996_npu_rro_reset_owner *owner;
 +	struct mt7996_npu_rro_reset_record *record;
 +	bool closing;
-+	int err, result;
++	int err, result, mcu_result;
 +
 +	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
 +	if (!owner) {
@@ -2326,7 +2400,8 @@ build input; compilation is not a physical drain or recovery proof.
 +		spin_unlock_bh(&owner->lock);
 +
 +		result = is_mt7996(&dev->mt76) ?
-+			mt76_npu_send_txrx_addr(&dev->mt76, 3, record->id, 0, 0, 0) :
++			mt76_npu_rro_reset_npu(&dev->mt76, record->id,
++					       record->generation, &record->ticket) :
 +			-EOPNOTSUPP;
 +
 +		spin_lock_bh(&owner->lock);
@@ -2339,20 +2414,40 @@ build input; compilation is not a physical drain or recovery proof.
 +		record->phase = MT7996_NPU_RRO_NPU_DONE;
 +		if (owner->closing || owner->error)
 +			goto retain;
++		record->phase = MT7996_NPU_RRO_MCU_PREPARING;
++		spin_unlock_bh(&owner->lock);
++
++		result = mt76_npu_rro_reset_mcu_begin(&dev->mt76, record->id,
++						     record->generation, record->ticket);
++
++		spin_lock_bh(&owner->lock);
++		record->bridge_error = result;
++		if (result) {
++			if (!owner->error)
++				owner->error = result < 0 ? result : -EIO;
++			goto retain;
++		}
++		if (owner->closing || owner->error)
++			goto retain;
 +		/* Close may join this already admitted MCU call, but cannot admit a
 +		 * later one. A generic MCU ACK is not BA-generation or DMA-drain proof.
 +		 */
 +		record->phase = MT7996_NPU_RRO_MCU_POSSIBLE;
 +		spin_unlock_bh(&owner->lock);
 +
-+		result = mt7996_mcu_wed_rro_reset_sessions(dev, record->id);
++		mcu_result = mt7996_mcu_wed_rro_reset_sessions(dev, record->id);
++		result = mt76_npu_rro_reset_mcu_complete(&dev->mt76, record->id,
++							record->generation, record->ticket, mcu_result);
 +
 +		spin_lock_bh(&owner->lock);
-+		record->mcu_error = result;
-+		if (result) {
++		record->mcu_error = mcu_result;
++		record->bridge_error = result;
++		if (mcu_result || result) {
 +			if (!owner->error)
-+				owner->error = result < 0 ? result : -EIO;
-+		} else {
++				owner->error = mcu_result < 0 ? mcu_result : mcu_result ? -EIO :
++					       result < 0 ? result : -EIO;
++		}
++		if (!mcu_result) {
 +			record->phase = MT7996_NPU_RRO_MCU_ACKED;
 +		}
 +retain:

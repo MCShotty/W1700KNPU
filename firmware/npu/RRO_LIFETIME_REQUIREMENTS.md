@@ -66,8 +66,9 @@ mutex and use process-context provider operations. Publication latches possible
 exposure/ticket before the dedicated typed call, while holding the provider
 process mutex. The control mutex serializes the accepted reply. Exact echo
 correlates identities and full payload; it is not cryptographic authentication.
-Actual typed MCU/journal handoff and BA-lifetime identity still need integration.
-Independent host work retention is now implemented as described below. The
+Typed provider NPU-reset/MCU-begin/MCU-complete handoff is now connected to the
+retained worker. BA-lifetime identity and hot transport remain incomplete.
+Independent host work retention is implemented as described below. The
 broker's MCU messages accept a host-reported correlated
 result; the host test models success and cannot establish a physical response.
 Keep selectors0/1/3's four-word payload distinct from scalar constructors2/7.
@@ -76,7 +77,9 @@ Owned publication errors now propagate through the higher initializer before RRO
 hardware setup. Still preserve reset request identity/generation through NPU and
 MCU errors, duplicates and late results. Validate session IDs before publication.
 The owned reset worker now uses independently retained preallocated records,
-not legacy disposable items. It still does not invoke the typed reset journal.
+not legacy disposable items. It now invokes the typed reset journal through
+process-context provider bridges and keeps raw MCU/completion-bridge results
+separate. Its one-shot initial journal generation does not authenticate a BA.
 Pending identical tuples deduplicate; conflicts/completed-slot reuse stop the
 owner. This fail-closed policy is not a qualified firmware retry/reuse fence.
 
@@ -93,8 +96,10 @@ and possible/acknowledged phases in an independent module/device-pinned owner.
 NPU error blocks the later MCU call, MCU error stays sticky, and provider loss
 cannot choose the legacy CPU-memory fallback. Close precedes cancellation and
 software join; requests/pins remain retained after consumer teardown. No published
-owner retirement or transparent rearm exists. The current selector3 call remains
-denied by the checked provider; modeled success is not operational admission.
+owner retirement or transparent rearm exists. Legacy selector3 remains denied;
+the dedicated typed path still requires parked workers, not hot operational
+admission. Exact late MCU results can update retained host metadata after close
+without a new RPC or CPU join/reclamation authority.
 
 Owner publication and the missing-owner event path share the admission lock.
 An enqueue that initially sees NULL rechecks under that lock, so an intervening

@@ -54,6 +54,7 @@ def main():
     parser.add_argument('--header', type=Path, required=True)
     parser.add_argument('--mt76', type=Path, required=True)
     parser.add_argument('--name', required=True)
+    parser.add_argument('--resets', action='store_true')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     root, q = parent.ROOT, parent.loader.extract
@@ -64,6 +65,9 @@ def main():
         root / 'tests/npu/host-rro-lifetime-harness.c', parent.HARNESS,
         Path(parent.__file__), Path(parent.loader.__file__), Path(q.__file__), Path(rx.__file__)]
     paths += [path for path in parent.SOURCE.rglob('*') if path.is_file()]
+    if args.resets:
+        paths.append(root / 'tests/npu/host-rro-reset-typed-harness.c')
+        paths.append(root / 'tests/npu/test_rro_typed_controls.py')
     inputs = {str(path.relative_to(root)): parent.loader.sha(path) for path in paths}
     text, htext = source.read_text(), header.read_text()
     command = parent.prepare(destination, text, htext)
@@ -74,12 +78,16 @@ def main():
         'airoha_npu_rro_guard', 'airoha_npu_rro_exchange',
         'airoha_npu_wlan_rro_open_session', 'airoha_npu_rro_cpu_valid',
         'airoha_npu_wlan_rro_alloc_session', 'airoha_npu_wlan_rro_publish_session',
-        'airoha_npu_wlan_rro_close_session')
+        'airoha_npu_wlan_rro_close_session',
+        'airoha_npu_wlan_rro_reset_npu_session', 'airoha_npu_wlan_rro_reset_mcu_begin_session',
+        'airoha_npu_wlan_rro_reset_mcu_complete_session')
     functions = '\n\n'.join(q.function(text, name) for name in names if name not in parent.FUNCTIONS)
     wrappers = ('airoha_npu_wlan_alloc_rx_event', 'airoha_npu_wlan_alloc_tx_buffers',
         'airoha_npu_wlan_validate_tx_buffers',
         'airoha_npu_wlan_rro_open', 'airoha_npu_wlan_rro_alloc',
-        'airoha_npu_wlan_rro_publish', 'airoha_npu_wlan_rro_close')
+        'airoha_npu_wlan_rro_publish', 'airoha_npu_wlan_rro_close',
+        'airoha_npu_wlan_rro_reset_npu', 'airoha_npu_wlan_rro_reset_mcu_begin',
+        'airoha_npu_wlan_rro_reset_mcu_complete')
     with (destination / 'provider-session.inc').open('a') as stream:
         stream.write(functions + '\n' + '\n'.join(q.function(htext, name) for name in wrappers) + '\n')
     ops = '''struct airoha_npu { struct device *dev; struct {
@@ -90,6 +98,9 @@ int (*wlan_rro_open)(struct airoha_npu *,struct device *,struct device *,u32,con
 int (*wlan_rro_alloc)(struct airoha_npu *,struct device *,struct device *,u32,u32,u32,void **,dma_addr_t *);
 int (*wlan_rro_publish)(struct airoha_npu *,struct device *,u32);
 int (*wlan_rro_close)(struct airoha_npu *,struct device *);
+int (*wlan_rro_reset_npu)(struct airoha_npu *,struct device *,u32,u32,u32 *);
+int (*wlan_rro_reset_mcu_begin)(struct airoha_npu *,struct device *,u32,u32,u32);
+int (*wlan_rro_reset_mcu_complete)(struct airoha_npu *,struct device *,u32,u32,u32,int);
 } ops; };'''
     model = parent.loader.once(parent.HARNESS.read_text(), 'struct airoha_npu { struct device *dev; };', ops)
     platform = '''
@@ -128,12 +139,15 @@ static dma_addr_t addresses[147];''')
     bridge = '\n'.join(q.declaration(common, 'enum', name) for name in
         ('mt76_npu_rro_profile', 'mt76_npu_rro_role')) + '\n'
     bridge += '\n'.join(q.function((mt76 / 'npu.c').read_text(), name) for name in
-        ('mt76_npu_rro_open', 'mt76_npu_rro_alloc', 'mt76_npu_rro_publish', 'mt76_npu_rro_close'))
+        ('mt76_npu_rro_open', 'mt76_npu_rro_alloc', 'mt76_npu_rro_publish', 'mt76_npu_rro_close',
+         'mt76_npu_rro_reset_npu', 'mt76_npu_rro_reset_mcu_begin', 'mt76_npu_rro_reset_mcu_complete'))
     (destination / 'consumer.inc').write_text(bridge + '\n')
     generated = destination / 'test.c'
     generated.write_text('#define main provider_matrix_main\n' + model + '\n#undef main\n#include "harness-at-run.c"\n')
     shutil.copyfile(__file__, destination / 'driver-at-run.py')
-    shutil.copyfile(root / 'tests/npu/host-rro-lifetime-harness.c', destination / 'harness-at-run.c')
+    shutil.copyfile(root / 'tests/npu/host-rro-lifetime-harness.c', destination / 'publication-harness.inc')
+    harness_name = 'host-rro-reset-typed-harness.c' if args.resets else 'host-rro-lifetime-harness.c'
+    shutil.copyfile(root / 'tests/npu' / harness_name, destination / 'harness-at-run.c')
     command = [generated if path == parent.HARNESS else path for path in command]
     command += [*[parent.SOURCE / name for name in ('rro-lifetime.c','rro-native.c','rro-session.c')],
         '-fsanitize=address,undefined', '-fno-sanitize-recover=all',
@@ -143,10 +157,16 @@ static dma_addr_t addresses[147];''')
         UBSAN_OPTIONS='halt_on_error=1')
     completed = parent.loader.run([destination / 'test'], destination / 'run.log', env=environment, timeout=1800)
     matrix = json.loads(completed.stdout)
-    assert matrix['passed'] and matrix['cases']==456 and matrix['profiles']==3
-    assert matrix['publications']==3*129 and matrix['native_effects']==3*129
-    assert matrix['negative_joint']==11 and matrix['late_tx_checks']==12 and not matrix['hardware']
-    mutants = controls(destination, command, environment)
+    if args.resets:
+        assert matrix['passed'] and matrix['reset_transactions']==6150 and matrix['profiles']==3
+        assert matrix['negative_cases']==12 and not matrix['hardware']
+        from test_rro_typed_controls import controls as reset_controls
+        mutants = reset_controls(destination, command, environment)
+    else:
+        assert matrix['passed'] and matrix['cases']==456 and matrix['profiles']==3
+        assert matrix['publications']==3*129 and matrix['native_effects']==3*129
+        assert matrix['negative_joint']==11 and matrix['late_tx_checks']==12 and not matrix['hardware']
+        mutants = controls(destination, command, environment)
     assert all(parent.loader.sha(root / name) == expected for name, expected in inputs.items()), 'source-input-drift'
     artifacts = {str(path.relative_to(root)):parent.loader.sha(path) for path in destination.rglob('*') if path.is_file()}
     result = dict(passed=True, matrix=matrix, mutants=mutants, inputs=inputs, artifacts=artifacts,

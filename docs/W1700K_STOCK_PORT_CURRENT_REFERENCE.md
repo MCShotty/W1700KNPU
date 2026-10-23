@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Typed Retained Reset Path
+
+Owned work now uses three typed process bridges, exact journal generation/ticket
+correlation and separate raw MCU/completion-bridge results. Errors or close stop
+new physical MCU admission. Exact late metadata is retained after close without
+new RPC, CPU join or retirement authority. No legacy selector3 admission added.
+
+Installed-source worker22/eight controls, BA15/three, joint6150 resets across
+3 profiles/two generations plus12 negatives/three controls, and142 units pass.
+All four AArch64 modules link; typed edges resolve. Producer22b9827e/lock4f862e1a
+binds5 kernel/330 mt76 sources/31 mappings. Original inventories unchanged.
+Broader456 allocation/fault and1090 caller refreshes are pending for this producer.
+
+Backing/MCU/transport/concurrency remain models. Initial journal generation is
+not BA identity. Restore status-0-only binding, then creation/link and late/reuse
+fences; no unsafe status3 cached-pointer replay. Parked-only guards, hot CPU
+lifetime, retirement/rearm and physical/image/client gates remain. Both replays
+untouched. Read rro-reset-typed REPORT/EVIDENCE; full NPU goal remains active.
+
 ## 2026-10-23 - Current Reset Target Qualification
 
 Supersedes the pending links/callers below: all four current AArch64 modules

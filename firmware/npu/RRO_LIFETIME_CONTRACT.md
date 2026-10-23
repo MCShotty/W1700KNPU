@@ -37,6 +37,8 @@ An independent heap owner belongs to the provider's existing retained DMA
 lifetime and pinned-reference contract. It snapshots protected identities and
 records full backing before enrollment/caller output. Four optional operations
 provide open/allocate/publish/close through consumer-mutex process wrappers.
+Three additional reset operations now connect retained work to typed NPU-reset,
+MCU-begin and MCU-complete phases with exact session/reset-generation/ticket.
 Only EOPNOTSUPP at open permits the legacy managed-allocation lane.
 
 Publication retains possible exposure and its host invocation ticket before a
@@ -54,6 +56,22 @@ The 30,588-byte boot-owned native session is materialized zero inside CODE, not
 borrowed from unused SRAM. That binding is implemented but remains unqualified
 until image/link/readback and actual target-transport tests pass. MCU/reset work
 identity, hot execution and physical retirement remain required.
+
+## Current Retained Reset Integration
+
+The one-shot consumer owner starts at journal generation1, not an authenticated
+BA lifetime. Its typed NPU and MCU-begin failures prevent a new physical MCU call;
+it rechecks close after the sleeping begin bridge. Raw physical MCU return and
+typed completion-bridge return remain separate. Exact late host metadata can be
+recorded after close without issuing a new RPC, joining CPUs or granting free
+authority. The parked-only client/broker guard is unchanged; hot use is open.
+
+The rro-reset-typed checkpoint executes6150 actual provider/client/broker/native
+host-C reset transactions across three profiles/two journal generations,12
+negative cases and three controls, plus22 worker/eight controls and15 BA/three.
+Four target modules link and142 units pass. Backing/transport/MCU/concurrency
+remain models. Broader456 allocation/fault and1090 caller refreshes remain pending
+for this producer; prior passes belong to their explicitly older source cohorts.
 
 ## Identity And Storage
 

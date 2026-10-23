@@ -176,6 +176,8 @@ static int queue_calls, cancel_calls, send_calls, mcu_calls, cpu_writes;
 static int disable_count[2], mask_count[2], provider_close_calls;
 static int send_error, mcu_error, send_last_id, mcu_last_id;
 static bool close_on_send, close_on_mcu, physical_drain_witness;
+static int mcu_begin_calls, mcu_complete_calls, begin_error, complete_error;
+static bool close_on_begin;
 
 #define THIS_MODULE (&model_module)
 
@@ -291,6 +293,10 @@ static void ieee80211_queue_work(void *hw, struct work_struct *work);
 static int mt76_npu_send_txrx_addr(struct mt76_dev *dev, int selector, u16 id,
 				    int a, int b, int c);
 static int mt7996_mcu_wed_rro_reset_sessions(struct mt7996_dev *dev, u16 id);
+static int mt76_npu_rro_reset_npu(struct mt76_dev *dev, u32 id, u32 generation, u32 *ticket);
+static int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 id, u32 generation, u32 ticket);
+static int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 id,
+					 u32 generation, u32 ticket, int result);
 
 static bool is_mt7996(struct mt76_dev *dev)
 {
@@ -337,6 +343,40 @@ static int mt76_npu_send_txrx_addr(struct mt76_dev *dev, int selector, u16 id,
 	if (close_on_send)
 		mt7996_npu_rro_reset_close(&fixture);
 	return dev->mmio.npu ? send_error : -ENODEV;
+}
+
+static int mt76_npu_rro_reset_npu(struct mt76_dev *dev, u32 id, u32 generation, u32 *ticket)
+{
+	CHECK(generation == 1 && ticket == &fixture.wed_rro.reset_owner->records[id].ticket,
+	      "typed-reset-immutable-generation-output");
+	if (dev->mmio.npu)
+		*ticket = 130 + id;
+	return mt76_npu_send_txrx_addr(dev, 3, id, 0, 0, 0);
+}
+
+static void typed_mcu_identity(struct mt76_dev *dev, u32 id, u32 generation, u32 ticket)
+{
+	CHECK(dev == &fixture.mt76 && !fixture.wed_rro.reset_owner->lock.held &&
+	      generation == 1 && ticket == 130 + id,
+	      "typed-MCU-exact-ticket-outside-owner-lock");
+}
+
+static int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 id, u32 generation, u32 ticket)
+{
+	typed_mcu_identity(dev, id, generation, ticket);
+	mcu_begin_calls++;
+	if (close_on_begin)
+		mt7996_npu_rro_reset_close(&fixture);
+	return begin_error;
+}
+
+static int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 id,
+					 u32 generation, u32 ticket, int result)
+{
+	typed_mcu_identity(dev, id, generation, ticket);
+	CHECK(mcu_calls && result == mcu_error, "typed-MCU-complete-keeps-raw-result");
+	mcu_complete_calls++;
+	return complete_error;
 }
 
 static int mt7996_mcu_wed_rro_reset_sessions(struct mt7996_dev *dev, u16 id)
@@ -398,6 +438,8 @@ static void start_case(void)
 	disable_count[0] = disable_count[1] = 0;
 	mask_count[0] = mask_count[1] = provider_close_calls = 0;
 	send_error = mcu_error = send_last_id = mcu_last_id = 0;
+	mcu_begin_calls = mcu_complete_calls = begin_error = complete_error = 0;
+	close_on_begin = false;
 	cases++;
 }
 
@@ -805,6 +847,41 @@ static void test_consumer_free_retains_records(void)
 	end_case();
 }
 
+static void test_typed_mcu_handoffs(void)
+{
+	struct mt7996_npu_rro_reset_owner *owner;
+	const int errors[] = { -ETIMEDOUT, 6 };
+
+	for (unsigned i = 0; i < ARRAY_SIZE(errors); i++) {
+		start_case(); owner = init_owner(); begin_error = errors[i];
+		CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 11, 35, 3), "typed-begin-seed");
+		mt7996_wed_rro_work(&fixture.wed_rro.work);
+		CHECK(mcu_begin_calls == 1 && !mcu_calls && !mcu_complete_calls,
+		      "typed-begin-error-blocks-physical-MCU");
+		CHECK(owner->records[11].ticket == 141 && owner->records[11].generation == 1 &&
+		      owner->records[11].phase == MT7996_NPU_RRO_MCU_PREPARING &&
+		      owner->records[11].bridge_error == errors[i] && !owner->records[11].mcu_error,
+		      "typed-begin-error-retains-ticket-and-raw-bridge-result");
+		assert_quarantined(errors[i] < 0 ? errors[i] : -EIO, true); end_case();
+
+		start_case(); owner = init_owner(); complete_error = errors[i];
+		CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 12, 36, 4), "typed-complete-seed");
+		mt7996_wed_rro_work(&fixture.wed_rro.work);
+		CHECK(mcu_begin_calls == 1 && mcu_calls == 1 && mcu_complete_calls == 1 &&
+		      owner->records[12].phase == MT7996_NPU_RRO_MCU_ACKED &&
+		      owner->records[12].bridge_error == errors[i] && !owner->records[12].mcu_error,
+		      "typed-completion-error-does-not-overwrite-physical-result");
+		assert_quarantined(errors[i] < 0 ? errors[i] : -EIO, true); end_case();
+	}
+	start_case(); owner = init_owner(); close_on_begin = true;
+	CHECK(!mt7996_npu_rro_reset_enqueue(&fixture, 13, 37, 5), "typed-close-seed");
+	mt7996_wed_rro_work(&fixture.wed_rro.work);
+	CHECK(owner->closing && mcu_begin_calls == 1 && !mcu_calls && !mcu_complete_calls &&
+	      owner->records[13].phase == MT7996_NPU_RRO_MCU_PREPARING && !owner->error,
+	      "close-during-typed-begin-does-not-admit-physical-MCU");
+	mt7996_npu_rro_reset_join(&fixture); CHECK(owner->joined, "typed-close-software-join"); end_case();
+}
+
 int main(int argc, char **argv)
 {
 	if (argc == 2) {
@@ -822,6 +899,8 @@ int main(int argc, char **argv)
 			test_constructor_event_error();
 		} else if (!strcmp(argv[1], "publication")) {
 			test_publication_recheck();
+		} else if (!strcmp(argv[1], "typed")) {
+			test_typed_mcu_handoffs();
 		} else {
 			CHECK(false, "unknown-targeted-case");
 		}
@@ -841,6 +920,7 @@ int main(int argc, char **argv)
 	test_close_and_queue_order();
 	test_close_during_responses();
 	test_consumer_free_retains_records();
+	test_typed_mcu_handoffs();
 	printf("{\"passed\":true,\"host_model_only\":true,\"cases\":%d}\n", cases);
 	return 0;
 }

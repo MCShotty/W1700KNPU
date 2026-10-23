@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - BA Identity And Hot Reset Still Required
+
+Typed retained NPU-reset/MCU-begin/MCU-complete bridges are implemented. Current
+worker22/eight controls, BA15/three, joint6150 resets/12 negatives/three controls
+and142 units pass, zero skips. Four modules link:producer22b9827e/lock4f862e1a.
+Refresh broader456 allocation/fault and1090 callers for this producer; older
+passes are not current proof. The parked-only transport guard is unchanged.
+
+Restore status-0-only BA binding from retained stock/V6.24 evidence, without
+unsafe cached-pointer status3 retry. Create actual RX-TID BA identity with the
+correct primary/active-link mapping; qualify a late/reuse fence or firmware
+cookie. Journal generation1 is not BA authentication. Hot admission/CPU lifetime,
+retirement/rearm, physical drain and full native/image/cold-fault-HIF2/hardware/
+client/performance/stability acceptance remain. Both live graphs stay untouched.
+Read rro-reset-typed checkpoint; full NPU goal remains active.
+
 ## 2026-10-23 - Target Links And Caller Regression Finished
 
 The pending checks below are now closed: four current AArch64 module links,
