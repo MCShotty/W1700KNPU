@@ -1,10 +1,52 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-24 (accepted owned BA writers and work callback joined; current regressions pass)
+Last updated: 2026-10-24 (explicit PCI callback/tasklet ownership and current regressions pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-24 - Explicit PCI Callback And Tasklet Lifetime
+
+- Normal PCI removal previously freed consumer context inside unregister while
+  managed IRQ actions remained registered until later devres release. The IRQ
+  handler touches consumer fields before its initialized-state check; masking
+  alone did not remove a shared callback. This is source/host-model evidence,
+  not a demonstrated physical interrupt race on the router.
+- Probe now retains exact primary/HIF2 requested IRQ values, including WED
+  virtual IRQs, plus separate requested/vector acquisition flags. A modeled
+  successful IRQ-zero registration is not mistaken for an unrequested sentinel.
+  Cleanup masks sources and closes scheduling under the shared IRQ lock,
+  removes requested managed callbacks, then joins the deferred tasklet. Normal
+  unregister places this after MCU exit and before token/DMA cleanup. Serial
+  repeated cleanup neither frees an unacquired action nor touches released HIF2.
+- Probe-error prefixes release only acquired resources. The HIF2 device pin is
+  also released on primary vector-allocation failure. Normal remove retains its
+  captured HIF2 PCI-device reference through unregister and owned vector frees;
+  no consumer-private fields are read after unregister frees that consumer.
+- Selected actual probe/remove/IRQ enable/IRQ handler/shutdown/unregister C
+  passes234 measured setups/13 compiled controls. Coverage includes mixed WED/
+  vector ownership, single/HIF2, three domain/IRQ0 variants and12 injected
+  stages. Actual handler execution is injected at successful IRQ registration,
+  before initialization completes. Kernel/PCI/WED/tasklet/masks/DMA/MCU and
+  reference effects are models. The separate1090 caller suite models PCI join
+  explicitly; it is not joint kernel execution.
+- Current BA37/eight/separate TSan, owner23/14, creation19/12, BA18/six, worker23/
+  eight,6150 resets/12 negatives/three controls, broad456/four, callers1090/seven
+  and142 units/zero skips pass. Four AArch64 modules link:producer99e7ac56/
+  locke54552fe,31 mappings/5 kernel/330 mt76/16 fuzz0 outputs. Only mt7996e changes;
+  original102685 kernel/516 mt76 inventory entries remain unchanged.
+- Initial source extraction hit an unsupported return type/Windows resource
+  import; no Jev inference occurred on those attempts. The native retry succeeds.
+  First installer incorrectly expected PCI to be a new patch member and stopped
+  before canonical writes; corrected reconstruction reuses the existing16.
+  All failed receipts stay preserved, limits/margins unchanged.
+- Complete RX/NAPI and separate NPU ingress, HIF2 driver/devres pinning (a device
+  reference alone is insufficient), full cold-prefix unwind, firmware reuse,
+  hot admission and physical drain/retirement/rearm remain. Both live process
+  identities/input graphs and protected images stay intact. No new hardware,
+  module load, image build/promotion, flash, REA/Ghidra/decryption, subagents or
+  VM/global-policy change. Read pci-join REPORT/EVIDENCE; full goal active.
 
 ## 2026-10-24 - Accepted BA Writer And Work Callback Software Join
 

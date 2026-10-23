@@ -1,8 +1,23 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-24 (accepted owned BA writers and work callback joined; current regressions pass)
+Last updated: 2026-10-24 (explicit PCI callback/tasklet ownership and current regressions pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-24 - PCI Callback And Tasklet Join
+
+- Exact primary/HIF2 IRQ identities and requested/vector flags now govern
+  teardown. Scheduling close and enable share the IRQ lock; managed IRQ removal
+  precedes tasklet join, token/DMA cleanup and consumer free. HIF2 device/vector
+  lifetime extends through unregister. This is not a HIF2 driver/devres pin.
+- Selected actual C234/13 controls, current regressions and four module links
+  pass:producer99e7ac56/locke54552fe. Source-bound framework models do not prove
+  Linux concurrency or physical drains. Full RX/NAPI/NPU ingress, cold-prefix
+  unwind, firmware reuse, hot admission, retirement and physical/image/client
+  acceptance remain. Read pci-join REPORT/EVIDENCE; full NPU goal stays active.
+- First extractor/import and pre-write installer failures stay preserved. All
+  limits/margins and both native replay identities/graphs remain unchanged.
+  No module load, image, flash, new analysis server, subagents or VM policy edit.
 
 ## 2026-10-24 - BA Accepted Writer And Callback Join
 

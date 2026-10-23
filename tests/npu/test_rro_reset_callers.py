@@ -250,6 +250,7 @@ def run(destination, module_receipt=MODULE):
         legacy_optional_provider_cases=1040, owned_provider_model_cases=50,
         checked_RRO_admitted=False, target_RRO_lifetime_qualified=False, hardware=False,
         limits=['Complete selected init/free/worker/higher-init/unregister bodies run verbatim with actual sender/dispatcher/raw framing.',
+                'The PCI IRQ shutdown boundary is modeled here; its selected actual probe/remove/IRQ/cleanup C executes in the separate PCI lifetime suite.',
                 'Actual kernel dmam allocation/match/free/release bodies execute, not the kernel devres framework.',
                 'Separate endpoint/provider devres registries and low-level DMA allocation/free are explicit models.',
                 'Actual lower mt76 unregister/free/NPU detach bodies execute; early TX preparation is an observable modeled boundary in this harness, exercised as actual C separately.',

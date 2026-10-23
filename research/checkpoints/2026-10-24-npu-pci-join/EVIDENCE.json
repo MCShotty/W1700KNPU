@@ -1,0 +1,527 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "1b9969f3681d4175977c4673b476a7315a4f590e",
+  "scope": "Explicit primary/HIF2 PCI callback ownership and closed deferred-tasklet scheduling",
+  "source_lock_sha256": "e54552fe53bc2054169ef6e83eab23d2d91fb52a6857b444b5ff778226a12346",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "mt76_patch_outputs": 16,
+  "mt76_patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "producer": ".local/npu-checked-irq-modules/pci-join-q1/result.json",
+  "producer_sha256": "99e7ac56deababd9cf3654ccc5dd650ab256b52f9d42b984496c3ea165f2d07f",
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "module_bytes_changed": {
+    "mt76.ko": false,
+    "mt76-connac-lib.ko": false,
+    "mt7996/mt7996e.ko": true
+  },
+  "provider_module_unchanged": true,
+  "typed_reset_edges_linked": [
+    "mt76_npu_rro_reset_mcu_begin",
+    "mt76_npu_rro_reset_mcu_complete",
+    "mt76_npu_rro_reset_npu"
+  ],
+  "actual_output_bytes": 155130516,
+  "module_cap_bytes": 247463936,
+  "output_ceiling_bytes": 268435456,
+  "copied_qualified_cache": true,
+  "tests": {
+    "candidate_initial": {
+      "folder": ".local/npu-pci-irq-lifetime-20261024/candidate-q1",
+      "receipt_sha256": "39a73c27bafea48b85358b9995f19538e2c06b6f419a7ef1db4d3389bc7ed9c0"
+    },
+    "candidate": {
+      "folder": ".local/npu-pci-irq-lifetime-20261024/candidate-q2",
+      "receipt_sha256": "9ba296055b66bc5b848d4d3a2f3fd80c79f45f6a1c2ce2c1602998c0473d28af"
+    },
+    "PCI": {
+      "folder": ".local/npu-pci-irq-lifetime-20261024/current-q1",
+      "receipt_sha256": "19bdab7b602b7f0aa9166fc3388479013807728616af2a23b8e804b856aa7ea0"
+    },
+    "join": {
+      "folder": ".local/npu-rro-ba-join-20261024/pci-join-current-q1",
+      "receipt_sha256": "cfe173da57bef1418a88f84d7d75282c4c431367e5433a27c9814349751433d7"
+    },
+    "owner": {
+      "folder": ".local/npu-rro-ba-owner-20261024/pci-join-current-q1",
+      "receipt_sha256": "e2d8774bcbb2d2de7ffa86199148bf83489824b102c2b4674f2c8790af15a70d"
+    },
+    "creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/pci-join-current-q1",
+      "receipt_sha256": "dadd071ccb8c99823ff98486545d1fae47e67413c94682a9118d3bb18ea4cb15"
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/pci-join-current-q1",
+      "receipt_sha256": "d853f91319e8d143b6cde6c8c96e6dd7ee45c3cfb1d739dcca913f5fa3aec6e1"
+    },
+    "worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/pci-join-current-q1",
+      "receipt_sha256": "2c2ddb28b13a8b62830f7dd6f8da4bfbaaaa8e1dec8cfd8218714ed75d71e4c5"
+    },
+    "joint": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/pci-join-reset-q1",
+      "receipt_sha256": "bb867c5a944a82714a1ba7f385a4e8a65f0176af982f6ea00effcf76f0e474a5"
+    },
+    "broad": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/pci-join-broad-q1",
+      "receipt_sha256": "dcae4466f435b551761198dec9d47396dc3c099063874e7eadd6227cdd9a2a9b"
+    },
+    "callers": {
+      "folder": ".local/npu-rro-reset-callers-20261023/pci-join-current-q1",
+      "receipt_sha256": "aae60569a74ded45d2bbf595b775d57a1d963dba081d78604875634994fa71b0"
+    }
+  },
+  "creation_measured_setups": 19,
+  "creation_controls": 12,
+  "BA_measured_setups": 18,
+  "BA_controls": 6,
+  "retained_BA_joint_setups": 23,
+  "retained_BA_joint_controls": 14,
+  "worker_cases": 23,
+  "worker_controls": 8,
+  "worker_prior_BA_enrollment_explicitly_modeled": true,
+  "joint_reset_transactions": 6150,
+  "joint_profiles": 3,
+  "reset_journal_generations": 2,
+  "joint_negative_cases": 12,
+  "joint_controls": 3,
+  "broad_cases": 456,
+  "broad_controls": 4,
+  "broad_publications": 387,
+  "broad_negative_joint": 11,
+  "broad_late_tx_checks": 12,
+  "caller_cases": 1090,
+  "caller_controls": 7,
+  "legacy_optional_provider_cases": 1040,
+  "owned_provider_model_cases": 50,
+  "total_units": 142,
+  "skipped": 0,
+  "actual_RX_creation_serial_implemented": true,
+  "serial_width_bits": 64,
+  "serial_device_local": true,
+  "serial_nonzero_and_nonwrapping": true,
+  "serial_assigned_before_RCU_publication": true,
+  "device_mutex_serializes_creation": true,
+  "allocation_failure_consumes_no_serial": true,
+  "MCU_failure_does_not_recycle_serial": true,
+  "exhaustion_preserves_existing_object": true,
+  "primary_mapping_and_shutdown_lock_retained": true,
+  "status0_and_owned_invalid_DELETE_rules_retained": true,
+  "retained_BA_binding_propagation": true,
+  "core_association_write_once": true,
+  "binding_table_entries": 1025,
+  "binding_table_bound_bytes": 32768,
+  "owner_bound_bytes": 65536,
+  "DELETE_infers_current_RX_identity": false,
+  "reset_snapshot_checked_before_provider": true,
+  "constructor_unpublished_owner_and_table_unwind": true,
+  "published_references_and_table_retained": true,
+  "owned_mode_change_keeps_status_metadata": true,
+  "closed_metadata_retained_without_new_admission": true,
+  "already_accepted_status_writer_join": true,
+  "joined_after_callback_return_and_RCU": true,
+  "PCI_lifetime_setups": 234,
+  "PCI_lifetime_controls": 13,
+  "candidate_PCI_controls": 12,
+  "initial_candidate_PCI_controls": 11,
+  "exact_requested_IRQ_identities": true,
+  "separate_action_and_vector_acquisition_flags": true,
+  "scheduling_closed_under_IRQ_lock": true,
+  "IRQ_actions_removed_before_tasklet_join": true,
+  "HIF2_device_reference_through_unregister": true,
+  "HIF2_driver_devres_binding_pinned": false,
+  "full_cold_prefix_unwind": false,
+  "RX_NAPI_state_and_callback_return_join": false,
+  "new_join_fixture_setups": 37,
+  "new_join_fixture_controls": 8,
+  "scheduled_status_cases": 32,
+  "BA_join_separate_ThreadSanitizer_pass": true,
+  "full_RX_ingress_or_device_join": false,
+  "post_join_late_metadata_retained": true,
+  "post_close_absolute_ID_write_fence_qualified": false,
+  "firmware_BA_association_authenticated": false,
+  "firmware_reuse_fence_qualified": false,
+  "first_unseen_cookie_less_replacement_binding_characterized": true,
+  "real_firmware_reachability_or_physical_race_proved": false,
+  "initial_journal_generation_is_BA_identity": false,
+  "parked_guards_unchanged": true,
+  "hot_typed_reset_admitted": false,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "native": {
+    "complete": false,
+    "profiles_observed": [
+      {
+        "profile": "profile-0",
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "last_complete": {
+          "operation": 8,
+          "argument": 0,
+          "generation": 0,
+          "sequence": 6443,
+          "journal_sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+          "broker_sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+          "request_sha256": "09a4225758054545c9a2650074b9f39361d2958dcfe0428ed3953bf25c5e450d",
+          "reply_sha256": "e6bac2a664c1540b21e1ec8839e4bfa59c51d0b3994e4c950d2b2aa3da8ff6c2",
+          "rolling_sha256": "f671e6b818aebaa7b9cfedad1a5dffd40e11d3934d7be63e82d3ac75219dc1ae",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 124885,
+            "metadata_writes": 12270,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 519887431,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      },
+      {
+        "profile": "profile-1",
+        "positive_rpc_observed": 5850,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 1860,
+          "6": 1860,
+          "7": 1860
+        },
+        "last_complete": {
+          "operation": 7,
+          "argument": 834,
+          "generation": 2,
+          "sequence": 5873,
+          "journal_sha256": "63fe4b4c5e48ec4bd0c4c0f2488900114f00c01e19dc80d418c13fef7697a304",
+          "broker_sha256": "569cb6ac0f873ffd277092608c71cf48938984468a2fc1a92cdb0704e5dc4ab6",
+          "request_sha256": "6a27a63cff8dd4ffe3309ba7828d644090ad066c6655a5d18c0c4e5aeb22b41e",
+          "reply_sha256": "beb9a782f88beb4a2bf6ff5371af540f81b646a7d337ebf8fcc75d42cc01b5af",
+          "rolling_sha256": "7b253c426713283acc8c50aae98addb8bb29c4882daf6d44de6652948af341b0",
+          "modeled_MCU_result": true,
+          "counts": {
+            "blocks": 125006,
+            "metadata_writes": 12297,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 530941963,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      }
+    ],
+    "service": {
+      "MemoryCurrent": "132595712",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "159645696",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 7367636
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 3102763
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 7375585
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 3110809
+    }
+  ],
+  "native_input_graph_unchanged": true,
+  "original_replays_restarted": false,
+  "prior_bindings_rehashed": 28103,
+  "prior_external_bindings_rehashed": 2,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "REA_servers_signaled": false,
+  "subagents_launched": 0,
+  "VM_or_global_policy_changed": false,
+  "new_decryption_or_Ghidra_analysis": false,
+  "original_RAM_thresholds_and_limits_unchanged": true,
+  "all_controlled_verification_dispatches_require_fresh_matching_Windows_receipt": true,
+  "preserved_failures": [
+    {
+      "preservation_completed": true,
+      "candidate_edits_started": false,
+      "Jev_request_created": false,
+      "Jev_inference_performed": false,
+      "cause": "Existing C function extractor does not accept irqreturn_t",
+      "retry": "jev_source_q2.py reuses the existing braced parser on the verbatim typed definition",
+      "missing_request_helper_attempt_returncode": 1
+    },
+    {
+      "cause": "Linux-only resource module is unavailable in Windows Python",
+      "Jev_inference_performed": false,
+      "candidate_edits_started": false,
+      "retry": "Run the existing parsers natively in WSL with the usual guarded controller"
+    },
+    {
+      "phase": "pci-install-q1",
+      "returncode": 1,
+      "reason": "Installer incorrectly expected PCI to be absent from the16-output cumulative patch",
+      "canonical_writes_started": false,
+      "RAM_or_validation_limits_relaxed": false,
+      "retry": "install_q2.py reuses the existing PCI patch member"
+    }
+  ],
+  "RPC_summary_streaming_only": true,
+  "Jev_source": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "handler_before_init_guard": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "normal_remove_unbinds_irqs": {
+        "type": "noul",
+        "noul": 0.2
+      },
+      "enable_schedules_tasklet": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "IRQ_ids_can_differ_from_pci": {
+        "type": "noul",
+        "noul": 0.74
+      },
+      "current_evidence_full_device_join": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 2437,
+      "output_tokens": 112
+    }
+  },
+  "Jev_candidate": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "exact_IRQ_retention": {
+        "type": "noul",
+        "noul": 0.71
+      },
+      "only_acquired_release": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "lock_linearization": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "callback_then_tasklet": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "HIF2_pin_late_put": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "full_device_claim": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 2380,
+      "output_tokens": 123
+    }
+  },
+  "Jev_report": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "kernel_execution_claim": {
+        "type": "noul",
+        "noul": 0.14
+      },
+      "NAPI_and_HIF2_open": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "source_vs_physical_race": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "device_reference_not_driver_pin": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "NAPI_return_still_required": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "full_NPU_complete": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 2238,
+      "output_tokens": 125
+    }
+  },
+  "observed_unix_ns": 1792799086065701300,
+  "private_evidence": ".local/npu-pci-join-20261024/evidence-q1.json",
+  "private_evidence_sha256": "4ecac000d0ecb59ab477a4245f24b2fb226018cc551ef330114072c5263b685f",
+  "project_bindings": 31087,
+  "external_bindings": 2
+}

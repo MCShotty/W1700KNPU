@@ -1,5 +1,22 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - PCI Callback And Tasklet Ownership
+
+- Primary/HIF2 registration retains exact IRQ IDs and separate requested/vector
+  flags. Source masking and monotonic scheduling close precede explicit managed
+  callback removal, then tasklet_kill. Unregister does this after MCU exit and
+  before token/DMA cleanup. PCI vector and HIF2 reference release follow ownership.
+- Selected actual PCI probe/remove/IRQ enable/handler/shutdown/unregister C passes
+  234 setups/13 controls. IRQs are also injected at registration before probe
+  completes. Kernel/PCI/WED/tasklet/DMA/MCU/reference effects remain models.
+  Current BA37/eight/separate TSan, owner23/14, creation19/12, BA18/six, worker23/
+  eight,6150 resets/three controls, broad456/four, callers1090/seven and142 units
+  pass. Four modules link:producer99e7ac56/locke54552fe; only mt7996e changes.
+- Complete RX/NAPI and separate NPU ingress, concurrent HIF2-driver unbind,
+  complete cold-prefix unwind, firmware reuse, retirement/rearm and physical/
+  image/client gates remain. A device reference is not a HIF2 driver/devres pin.
+  Both live graphs remain unchanged. Read pci-join REPORT/EVIDENCE; goal active.
+
 ## 2026-10-24 - Accepted BA Writer And Callback Join
 
 - Owned reset join now requires closed admission, cancels/joins the actual work

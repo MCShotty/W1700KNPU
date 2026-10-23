@@ -57,6 +57,25 @@ RX/NAPI/IRQ/PCIe/device ingress join, firmware association/reuse fence or physic
 drain/retirement/free/rearm authority. Existing parked-only guards remain. Current
 module produceraa15d714/lock1c1573cb; read ba-join REPORT/EVIDENCE.
 
+## PCI Callback And Tasklet Join - 2026-10-24
+
+Primary/HIF2 IRQ registrations retain exact requested IDs, independently of PCI
+vector IDs, plus separate acquisition flags. Serialized PCI lifecycle cleanup
+masks sources and closes poll-completion scheduling under the IRQ lock, removes
+registered callbacks, then joins the tasklet before consumer token/DMA cleanup.
+Normal removal retains the HIF2 device reference through unregister and acquired
+vector frees. IRQ zero and failed acquisition prefixes are accounted for.
+
+Selected actual C passes234 setups/13 controls with kernel/PCI/WED/tasklet/DMA/
+MCU/reference effects modeled. Current modules:producer99e7ac56/locke54552fe.
+This is not complete RX/NAPI or separate NPU ingress exclusion, concurrent HIF2
+driver/devres binding pinning, physical drain or retirement/free/rearm authority.
+Full cold-prefix unwind, firmware reuse and hot admission remain unqualified.
+NAPI ownership release is not callback return. RX releases explicit RCU before
+the completion callback; TX invokes IRQ enable after completion. Those tails
+still require lifetime exclusion before consumer-private storage retirement.
+Read pci-join REPORT/EVIDENCE; no hardware or current-image acceptance follows.
+
 ## Allocation Order
 
 The reconstructed `rro-native.c` engine now implements publication/reset byte

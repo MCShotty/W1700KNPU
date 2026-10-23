@@ -618,6 +618,14 @@ build input; compilation is not a physical drain or recovery proof.
  	cancel_work_sync(&dev->reset_work);
  	cancel_work_sync(&dev->rc_work);
  	mt7996_unregister_phy(mt7996_phy3(dev));
+@@ -1850,6 +1899,7 @@
+ 	mt76_unregister_device(&dev->mt76);
+ 	mt7996_wed_rro_free(dev);
+ 	mt7996_mcu_exit(dev);
++	mt7996_pci_shutdown_irqs(dev);
+ 	mt7996_tx_token_put(dev);
+ 	mt7996_dma_cleanup(dev);
+ 	if (mt7996_has_hwrro(dev) &&
 --- a/mt7996/mac.c
 +++ b/mt7996/mac.c
 @@ -4,6 +4,7 @@
@@ -1037,7 +1045,19 @@ build input; compilation is not a physical drain or recovery proof.
  						      mt76);
 --- a/mt7996/mt7996.h
 +++ b/mt7996/mt7996.h
-@@ -372,7 +372,11 @@
+@@ -361,6 +361,11 @@
+ 	enum pcie_link_width width;
+ };
+ 
++struct mt7996_pci_irq {
++	int irq;
++	bool requested, vectors;
++};
++
+ #define WED_RRO_ADDR_SIGNATURE_MASK	GENMASK(31, 24)
+ #define WED_RRO_ADDR_COUNT_MASK		GENMASK(14, 4)
+ #define WED_RRO_ADDR_HEAD_HIGH_MASK	GENMASK(3, 0)
+@@ -372,7 +377,11 @@
  struct mt7996_wed_rro_session_id {
  	struct list_head list;
  	u16 id;
@@ -1050,7 +1070,16 @@ build input; compilation is not a physical drain or recovery proof.
  
  struct mt7996_msdu_page {
  	struct list_head list;
-@@ -490,6 +494,7 @@
+@@ -462,6 +471,8 @@
+ 	struct mac_address radio_addrs[MT7996_MAX_RADIOS];
+ 
+ 	struct mt7996_hif *hif2;
++	struct mt7996_pci_irq pci_irq[2];
++	bool irq_shutdown;
+ 	struct mt7996_reg_desc reg;
+ 	u8 q_id[MT7996_MAX_QUEUE];
+ 	u32 q_int_mask[MT7996_MAX_QUEUE];
+@@ -490,6 +501,7 @@
  		u32 state;
  		u32 wa_reset_count;
  		u32 wm_reset_count;
@@ -1058,7 +1087,7 @@ build input; compilation is not a physical drain or recovery proof.
  		bool hw_full_reset:1;
  		bool hw_init_done:1;
  		bool restart:1;
-@@ -540,12 +545,17 @@
+@@ -540,12 +552,17 @@
  		struct work_struct work;
  		struct list_head poll_list;
  		spinlock_t lock;
@@ -1076,7 +1105,15 @@ build input; compilation is not a physical drain or recovery proof.
  
  	bool ibf;
  	u8 fw_debug_wm;
-@@ -741,7 +751,7 @@
+@@ -725,6 +742,7 @@
+ void mt7996_rro_hw_init(struct mt7996_dev *dev);
+ void mt7996_wfsys_reset(struct mt7996_dev *dev);
+ irqreturn_t mt7996_irq_handler(int irq, void *dev_instance);
++void mt7996_pci_shutdown_irqs(struct mt7996_dev *dev);
+ u64 __mt7996_get_tsf(struct ieee80211_hw *hw, struct mt7996_vif_link *link);
+ int mt7996_register_device(struct mt7996_dev *dev);
+ void mt7996_unregister_device(struct mt7996_dev *dev);
+@@ -741,7 +759,7 @@
  s8 mt7996_eeprom_get_power_delta(struct mt7996_dev *dev, int band);
  bool mt7996_eeprom_has_background_radar(struct mt7996_dev *dev);
  int mt7996_dma_init(struct mt7996_dev *dev);
@@ -1085,7 +1122,28 @@ build input; compilation is not a physical drain or recovery proof.
  void mt7996_dma_prefetch(struct mt7996_dev *dev);
  void mt7996_dma_cleanup(struct mt7996_dev *dev);
  void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
-@@ -1011,15 +1021,57 @@
+@@ -886,12 +904,14 @@
+ 
+ static inline void mt7996_irq_enable(struct mt7996_dev *dev, u32 mask)
+ {
+-	if (dev->hif2)
+-		mt7996_dual_hif_set_irq_mask(dev, false, 0, mask);
+-	else
+-		mt76_set_irq_mask(&dev->mt76, 0, 0, mask);
+-
+-	tasklet_schedule(&dev->mt76.irq_tasklet);
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->mt76.mmio.irq_lock, flags);
++	if (!dev->irq_shutdown) {
++		dev->mt76.mmio.irqmask |= mask;
++		tasklet_schedule(&dev->mt76.irq_tasklet);
++	}
++	spin_unlock_irqrestore(&dev->mt76.mmio.irq_lock, flags);
+ }
+ 
+ static inline void mt7996_irq_disable(struct mt7996_dev *dev, u32 mask)
+@@ -1011,15 +1031,57 @@
  
  #ifdef CONFIG_MT7996_NPU
  int __mt7996_npu_hw_init(struct mt7996_dev *dev);
@@ -1349,14 +1407,192 @@ build input; compilation is not a physical drain or recovery proof.
  	return err;
 --- a/mt7996/pci.c
 +++ b/mt7996/pci.c
-@@ -141,6 +141,7 @@
+@@ -51,14 +51,6 @@
+ 	spin_unlock_bh(&hif_lock);
+ 
+ 	return hif;
+-}
+-
+-static void mt7996_put_hif2(struct mt7996_hif *hif)
+-{
+-	if (!hif)
+-		return;
+-
+-	put_device(hif->dev);
+ }
+ 
+ static struct mt7996_hif *mt7996_pci_init_hif2(struct pci_dev *pdev)
+@@ -96,6 +88,41 @@
+ 	return 0;
+ }
+ 
++void mt7996_pci_shutdown_irqs(struct mt7996_dev *dev)
++{
++	struct mt76_dev *mdev = &dev->mt76;
++	unsigned long flags;
++	int i;
++
++	/* Close scheduling before removing callbacks or their WED IRQ domains. */
++	spin_lock_irqsave(&mdev->mmio.irq_lock, flags);
++	if (!dev->irq_shutdown) {
++		dev->irq_shutdown = true;
++		mdev->mmio.irqmask = 0;
++		clear_bit(MT76_STATE_INITIALIZED, &dev->mphy.state);
++		if (mtk_wed_device_active(&mdev->mmio.wed))
++			mtk_wed_device_irq_set_mask(&mdev->mmio.wed, 0);
++		else
++			mt76_wr(dev, MT_INT_MASK_CSR, 0);
++		if (dev->hif2) {
++			if (mtk_wed_device_active(&mdev->mmio.wed_hif2))
++				mtk_wed_device_irq_set_mask(&mdev->mmio.wed_hif2, 0);
++			else
++				mt76_wr(dev, MT_INT1_MASK_CSR, 0);
++		}
++	}
++	spin_unlock_irqrestore(&mdev->mmio.irq_lock, flags);
++
++	for (i = ARRAY_SIZE(dev->pci_irq) - 1; i >= 0; i--) {
++		if (!dev->pci_irq[i].requested)
++			continue;
++		devm_free_irq(mdev->dev, dev->pci_irq[i].irq, dev);
++		dev->pci_irq[i].requested = false;
++	}
++	/* IRQ handlers and poll-completion enables can no longer queue this. */
++	tasklet_kill(&mdev->irq_tasklet);
++}
++
+ static int mt7996_pci_probe(struct pci_dev *pdev,
+ 			    const struct pci_device_id *id)
+ {
+@@ -139,44 +166,48 @@
+ 	mt7996_wfsys_reset(dev);
+ 	hif2 = mt7996_pci_init_hif2(pdev);
  	dev->hif2 = hif2;
++	hif2_dev = hif2 ? container_of(hif2->dev, struct pci_dev, dev) : NULL;
  
  	mt76_npu_init(mdev, pci_resource_start(pdev, 0),
 +		      pci_resource_len(pdev, 0),
  		      pci_domain_nr(pdev->bus) ? 3 : 2);
  
  	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
+ 	if (ret < 0)
+-		goto free_wed_or_irq_vector;
++		goto free_device;
+ 
+ 	if (!ret) {
+ 		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+ 		if (ret < 0)
+ 			goto free_device;
+ 
++		dev->pci_irq[0].vectors = true;
+ 		irq = pdev->irq;
+ 	}
+ 
+ 	ret = devm_request_irq(mdev->dev, irq, mt7996_irq_handler,
+ 			       IRQF_SHARED, KBUILD_MODNAME, dev);
+ 	if (ret)
+-		goto free_wed_or_irq_vector;
++		goto free_device;
++	dev->pci_irq[0].irq = irq;
++	dev->pci_irq[0].requested = true;
+ 
+ 	mt76_wr(dev, MT_INT_MASK_CSR, 0);
+ 	/* master switch of PCIe interrupt enable */
+ 	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+ 
+ 	if (hif2) {
+-		hif2_dev = container_of(hif2->dev, struct pci_dev, dev);
+-
+ 		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
+ 		if (ret < 0)
+-			goto free_hif2_wed_irq_vector;
++			goto free_device;
+ 
+ 		if (!ret) {
+ 			ret = pci_alloc_irq_vectors(hif2_dev, 1, 1,
+ 						    PCI_IRQ_ALL_TYPES);
+ 			if (ret < 0)
+-				goto free_hif2;
+-
++				goto free_device;
++
++			dev->pci_irq[1].vectors = true;
+ 			dev->hif2->irq = hif2_dev->irq;
+ 			hif2_irq = dev->hif2->irq;
+ 		}
+@@ -185,7 +216,9 @@
+ 				       IRQF_SHARED, KBUILD_MODNAME "-hif",
+ 				       dev);
+ 		if (ret)
+-			goto free_hif2_wed_irq_vector;
++			goto free_device;
++		dev->pci_irq[1].irq = hif2_irq;
++		dev->pci_irq[1].requested = true;
+ 
+ 		mt76_wr(dev, MT_INT1_MASK_CSR, 0);
+ 		/* master switch of PCIe tnterrupt enable */
+@@ -194,30 +227,24 @@
+ 
+ 	ret = mt7996_register_device(dev);
+ 	if (ret)
+-		goto free_hif2_irq;
++		goto free_device;
+ 
+ 	return 0;
+ 
+-free_hif2_irq:
+-	if (dev->hif2)
+-		devm_free_irq(mdev->dev, hif2_irq, dev);
+-free_hif2_wed_irq_vector:
+-	if (dev->hif2) {
++free_device:
++	mt7996_pci_shutdown_irqs(dev);
++	if (hif2_dev) {
+ 		if (mtk_wed_device_active(&dev->mt76.mmio.wed_hif2))
+ 			mtk_wed_device_detach(&dev->mt76.mmio.wed_hif2);
+-		else
++		else if (dev->pci_irq[1].vectors)
+ 			pci_free_irq_vectors(hif2_dev);
+ 	}
+-free_hif2:
+-	if (dev->hif2)
+-		put_device(dev->hif2->dev);
+-	devm_free_irq(mdev->dev, irq, dev);
+-free_wed_or_irq_vector:
+ 	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+ 		mtk_wed_device_detach(&dev->mt76.mmio.wed);
+-	else
++	else if (dev->pci_irq[0].vectors)
+ 		pci_free_irq_vectors(pdev);
+-free_device:
++	if (hif2_dev)
++		put_device(&hif2_dev->dev);
+ 	mt76_free_device(&dev->mt76);
+ 
+ 	return ret;
+@@ -234,11 +261,21 @@
+ {
+ 	struct mt76_dev *mdev;
+ 	struct mt7996_dev *dev;
++	struct pci_dev *hif2_dev;
++	bool vectors, hif2_vectors;
+ 
+ 	mdev = pci_get_drvdata(pdev);
+ 	dev = container_of(mdev, struct mt7996_dev, mt76);
+-	mt7996_put_hif2(dev->hif2);
++	hif2_dev = dev->hif2 ? container_of(dev->hif2->dev, struct pci_dev, dev) : NULL;
++	vectors = dev->pci_irq[0].vectors;
++	hif2_vectors = dev->pci_irq[1].vectors;
+ 	mt7996_unregister_device(dev);
++	if (hif2_vectors)
++		pci_free_irq_vectors(hif2_dev);
++	if (vectors)
++		pci_free_irq_vectors(pdev);
++	if (hif2_dev)
++		put_device(&hif2_dev->dev);
+ }
+ 
+ struct pci_driver mt7996_hif_driver = {
 --- a/npu.c
 +++ b/npu.c
 @@ -60,55 +60,82 @@

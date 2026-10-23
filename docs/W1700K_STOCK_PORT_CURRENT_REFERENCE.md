@@ -1,5 +1,21 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current PCI Callback And Tasklet Ownership
+
+Probe retains exact primary/HIF2 IRQ values and separate requested/vector flags.
+Shutdown masks sources, closes IRQ-enable/tasklet scheduling under the IRQ lock,
+removes managed callbacks and kills the tasklet. Normal unregister calls it after
+MCU exit and before token/DMA cleanup. HIF2 device reference release is delayed
+until unregister and acquired vector release finish. Error prefixes use the same
+ownership flags, including primary-vector allocation failure and modeled IRQ zero.
+
+Selected actual C234/13 controls and current regressions pass; four modules link:
+producer99e7ac56/locke54552fe,31 mappings/16 fuzz0 outputs. Only mt7996e changes.
+Kernel/framework effects remain models. Full RX/NAPI/NPU ingress, concurrent
+HIF2-driver unbind pinning, complete cold-prefix unwind, firmware reuse and
+physical/image/client gates remain. Both replay graphs unchanged; read pci-join
+REPORT/EVIDENCE. Full NPU objective remains active.
+
 ## 2026-10-24 - Current Accepted BA Writer And Callback Join
 
 Owned join refuses open admission without sleeping, then independently waits

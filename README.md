@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - Explicit PCI IRQ And Tasklet Shutdown
+
+Primary/HIF2 IRQ registrations now retain exact IRQ identities and ownership.
+Unregister removes those callbacks and joins the tasklet before token/DMA cleanup;
+late poll-completion enables cannot reopen scheduling. PCI vectors and the HIF2
+device reference are released only after their corresponding work is finished.
+
+Selected-C234 setups/13 controls, current regressions and four module links pass
+(producer99e7ac56/locke54552fe). Kernel/framework effects remain modeled; this is
+not full RX/NAPI lifetime, physical drain or hardware acceptance. See
+`research/checkpoints/2026-10-24-npu-pci-join/REPORT.md`. Full NPU work continues.
+
 ## 2026-10-24 - BA Close Waits For Accepted Writers
 
 The owned BA/reset close path now joins the work callback and accepted status

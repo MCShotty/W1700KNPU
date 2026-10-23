@@ -329,6 +329,11 @@ static void mt7996_unregister_phy(struct mt7996_phy *p) { (void)p; }
 static void mt7996_unregister_thermal(struct mt7996_phy *p) { (void)p; }
 static void mt7996_coredump_unregister(struct mt7996_dev *d) { (void)d; }
 static void mt7996_mcu_exit(struct mt7996_dev *d) { (void)d; event(EV_MCU_EXIT); }
+/* Actual PCI/IRQ ownership executes in the separate selected-C lifetime suite. */
+static void mt7996_pci_shutdown_irqs(struct mt7996_dev *d)
+{
+    assert(d == &s.dev && s.nevents && s.events[s.nevents - 1] == EV_MCU_EXIT);
+}
 static void mt7996_tx_token_put(struct mt7996_dev *d) { (void)d; event(EV_TOKENS); }
 static void mt7996_dma_cleanup(struct mt7996_dev *d) { (void)d; event(EV_DMA_CLEANUP); }
 static void mt7996_rro_msdu_page_map_free(struct mt7996_dev *d) { (void)d; }

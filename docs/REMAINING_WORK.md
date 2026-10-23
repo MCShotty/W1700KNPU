@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Complete RX/NAPI And HIF2 Lifetime Next
+
+PCI primary/HIF2 callbacks now have exact retained IRQ identities, explicit
+unregistration and tasklet join before consumer token/DMA cleanup. Scheduling
+close and poll-completion enable share the IRQ lock. Selected actual C passes
+234 setups/13 controls; current regressions and four module links pass with
+producer99e7ac56/locke54552fe. Both native replay graphs remain unchanged.
+
+Next qualify complete RX/NAPI and independent NPU ingress, including registered/
+enabled state on failed reset and partial startup: napi_disable is not idempotent.
+Ownership release is not poll callback return: RX drops explicit RCU before its
+completion callback, and TX enables IRQs after napi_complete_done. Join those
+callback tails before consumer storage can be retired.
+Pin/serialize the HIF2 driver/devres binding, not merely its device reference.
+Complete cold-prefix work/NAPI/MCU teardown, firmware BA ordering/reuse, hot
+transport admission, physical drains and production retirement/rearm. Finish
+both complete native replays and current full-image/cold-fault/HIF2/hardware/
+client/performance/stability gates. Read pci-join REPORT/EVIDENCE; goal active.
+
 ## 2026-10-24 - Firmware Ordering And Full Hot Lifetime Remain
 
 Accepted owned status ID writers now finish before join returns, using the RCU
