@@ -5,8 +5,9 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+import zlib
 
-from native_event_journal import EventJournal, MAX_INTEGER
+from native_event_journal import EventJournal, MAX_INTEGER, MAX_CHUNK_BYTES, checksum
 
 
 class EventJournalTests(unittest.TestCase):
@@ -109,6 +110,94 @@ class EventJournalTests(unittest.TestCase):
         self.assertEqual(actual.digest(), want.digest())
         self.assertEqual(self.log.finish()['streams']['events'], {'events': 1000000, 'runs': 1})
         self.assertLess(self.path.stat().st_size, 65536)
+
+
+class CompactEventJournalTests(EventJournalTests):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.path = Path(self.temp.name) / 'events.sqlite'
+        self.log = EventJournal(self.path, compact=True)
+        self.addCleanup(self.log.close)
+
+    def test_corrupt_missing_or_modified_run_is_rejected(self):
+        sequence = self.log.sequence('events', [dict(step=i, kind='p') for i in range(10)])
+        self.log.finish()
+        self.log.db.execute("UPDATE chunks SET payload=? WHERE stream='events'", (b'not-zlib',))
+        with self.assertRaisesRegex(ValueError, 'corruption'): list(sequence)
+
+    def test_deleted_run_cannot_silently_shorten_active_sequence(self):
+        sequence = self.log.sequence('events', [dict(step=i, kind=str(i)) for i in range(192)])
+        self.log.finish()
+        self.log.db.execute("DELETE FROM chunks WHERE stream='events' AND first_index=64")
+        with self.assertRaisesRegex(ValueError, 'gap'): list(sequence)
+
+    def test_storage_limit_raises_without_lossy_fallback(self):
+        small = EventJournal(self.path.with_name('small.sqlite'), max_bytes=65536, compact=True)
+        sequence = small.sequence('events')
+        with self.assertRaises(sqlite3.OperationalError):
+            for i in range(1000):
+                sequence.append(dict(step=i, content=hashlib.shake_256(str(i).encode()).hexdigest(1024)))
+        self.assertTrue(small.failed)
+        with self.assertRaisesRegex(RuntimeError, 'storage failed'): small.finish()
+        with self.assertRaisesRegex(RuntimeError, 'storage failed'): sequence[0]
+        small.close()
+
+    def test_interleaved_mmio_is_exact_and_bounded_without_rle_matches(self):
+        sequence = self.log.sequence('mmio')
+        digest = hashlib.sha256()
+        for i in range(100000):
+            event = dict(step=i * 17, kind='mmio-read', address=hex(0x1fc08030 + (i % 4) * 4),
+                pc=hex(0x840894bc + (i % 4) * 6), value=511799328,
+                model='Original TX setup register read/write storage; no DMA proof')
+            sequence.append(event)
+            digest.update(json.dumps(event, sort_keys=True).encode() + b'\n')
+        result = self.log.finish()
+        actual = hashlib.sha256()
+        for event in sequence:
+            actual.update(json.dumps(event, sort_keys=True).encode() + b'\n')
+        self.assertEqual(actual.digest(), digest.digest())
+        self.assertEqual(result['streams']['mmio'], {'events': 100000, 'runs': 100000})
+        self.assertEqual(result['format'], 'npu-native-event-journal-v3')
+        self.assertLess(result['bytes'], 8 * 1024 * 1024)
+
+    def test_large_fields_split_at_uncompressed_chunk_budget(self):
+        events = [dict(step=i, payload=str(i) + 'x' * 60000) for i in range(24)]
+        sequence = self.log.sequence('events', events)
+        self.log.finish()
+        rows = self.log.db.execute('SELECT raw_bytes,run_count FROM chunks').fetchall()
+        self.assertGreater(len(rows), 1)
+        self.assertTrue(all(size <= MAX_CHUNK_BYTES and count <= 64 for size, count in rows))
+        self.assertEqual(list(sequence), events)
+
+    def test_decoder_rejects_expansion_trailing_data_and_metadata_corruption(self):
+        sequence = self.log.sequence('events', [dict(step=1, payload=True)])
+        self.log.finish()
+        row = self.log.db.execute('SELECT first_index,logical_count,run_count,raw_bytes,payload,digest FROM chunks').fetchone()
+        for field, value in ((2, 65), (3, MAX_CHUNK_BYTES + 1), (4, row[4] + b'trailing'),
+                (4, zlib.compress(b'x' * (MAX_CHUNK_BYTES + 1))), (5, 'wrong-digest')):
+            altered = list(row); altered[field] = value
+            with self.assertRaisesRegex(ValueError, 'corruption'):
+                self.log.decode_chunk(altered)
+        self.assertEqual(list(sequence), [dict(step=1, payload=True)])
+
+    def test_legacy_compact_v2_remains_readable(self):
+        path = self.path.with_name('legacy-v2.sqlite')
+        database = sqlite3.connect(path)
+        database.executescript('CREATE TABLE metadata(format INTEGER);INSERT INTO metadata VALUES(2);'
+            'CREATE TABLE chunks(stream TEXT,first_index INTEGER,logical_count INTEGER,run_count INTEGER,'
+            'raw_bytes INTEGER,payload BLOB,digest TEXT);')
+        payload = '{"kind":"paused"}'
+        row = (0, 2, 7, 2, payload)
+        raw = json.dumps([[*row, checksum(*row)]], separators=(',', ':')).encode()
+        database.execute('INSERT INTO chunks VALUES(?,?,?,?,?,?,?)', ('events', 0, 2, 1, len(raw),
+            zlib.compress(raw), hashlib.sha256(raw).hexdigest()))
+        database.commit(); database.close()
+        reader = EventJournal(path, read_only=True)
+        try:
+            self.assertEqual(reader.version, 2)
+            self.assertEqual(list(reader.sequence('events')), [dict(step=7, kind='paused'), dict(step=9, kind='paused')])
+        finally: reader.close()
 
 
 if __name__ == '__main__': unittest.main()

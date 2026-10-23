@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - Observer Cap Found And Compact Storage Tested
+
+The new default replay is now terminal:its observer journal reached the64MiB
+cap during TX-buffer phase1. This was an ordinary error exit,not OOM or an NPU
+pass. The earlier live observations below are historical.
+
+Opt-in compact storage now preserves all260,793 retained committed events in
+3.5MB instead of67.1MB,with the same cap and unchanged guest limits. All66
+focused/80 tooling tests and fresh C linkage pass. A new frozen full replay
+is still required;HIF2/RRO/hot/drain/physical acceptance remain open. See the
+[caller-recovery checkpoint](research/checkpoints/2026-10-23-npu-caller-recovery/REPORT.md).
+
 ## 2026-10-23 - Current Default Caller Replay Running
 
 The refreshed sender now exercises the actual sticky-IRQ accessor and four

@@ -1,0 +1,134 @@
+{
+  "passed": true,
+  "scope": "observer-cap-terminal-and-compact-prefix-repair-not-native-pass",
+  "observed_unix_ns": 1792714958757637143,
+  "running": false,
+  "default_caller_passed": false,
+  "terminal": {
+    "ActiveState": "failed",
+    "SubState": "failed",
+    "MainPID": "0",
+    "Result": "exit-code",
+    "ExecMainStatus": "1",
+    "MemoryPeak": "190705664",
+    "MemorySwapPeak": "0"
+  },
+  "controller_returncode": 1,
+  "executed_source_commit": "132949e311d245b3a7f1e724e8e7304c7cf49733",
+  "executed_capsule_sha256": "e75e6f778222d1c6e9c4fb5596e118ec7fa3dadc558da754663eb580541fdf80",
+  "native_failure": "observer-SQLITE_FULL-during-TXBUF-phase1",
+  "source_journal_bytes": 67096576,
+  "compact_journal_bytes": 3522560,
+  "committed_events_exact": 260793,
+  "compact_format": "npu-native-event-journal-v3",
+  "compact_conversion_max_rss_kib": 28020,
+  "journal_limit_bytes": 67108864,
+  "compact_guest_execution": false,
+  "full_native_caller_verdict": false,
+  "hif2_started": false,
+  "full_fault_matrix": false,
+  "focused_units": 66,
+  "build_storage_units": 80,
+  "skipped": 0,
+  "fresh_C_linkage": true,
+  "preserved_capsule_input_counts": {
+    "bytewise-caller-v2": 2473,
+    "checked-irq-caller-v1": 2860
+  },
+  "old_interrupted_output_files_rehashed": 624,
+  "protected_project_image_copies_rehashed": 6,
+  "protected_external_image_copies_rehashed": 1,
+  "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+  "image_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+  "original_instruction_limit": 3000000,
+  "original_timeout_us": 60000000,
+  "old_services_restarted": false,
+  "firmware_raw_pair_image_changed": false,
+  "hardware": false,
+  "subagents": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "terminal_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 1.0,
+          "contradicted": 0.0,
+          "not_established": 0.0
+        }
+      },
+      "legacy_default": {
+        "type": "noul",
+        "noul": 0.96
+      }
+    },
+    "usage": {
+      "input_tokens": 3463,
+      "output_tokens": 64
+    }
+  },
+  "prior_Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "complete_caller": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 1.0,
+          "not_established": 0.0
+        }
+      },
+      "terminal_scope": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.22,
+        "probabilities": {
+          "supported": 0.48,
+          "contradicted": 0.17,
+          "not_established": 0.35
+        }
+      },
+      "all_capacity_fixed": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.28,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.52,
+          "not_established": 0.48
+        }
+      },
+      "checksum_before_parse": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "decode_bound": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "legacy_default": {
+        "type": "noul",
+        "noul": 0.74
+      }
+    },
+    "usage": {
+      "input_tokens": 2042,
+      "output_tokens": 193
+    }
+  },
+  "Jev_context_correction": "q4 selects EventJournal.__init__ explicitly; q3 selected another class constructor.",
+  "limits": [
+    "Earlier RUNTIME/TRACKING files are dated live observations,superseded by this terminal state.",
+    "Committed-prefix conversion does not recover failed uncommitted tails or qualify guest execution.",
+    "A fresh clean compact-enabled full default/HIF2/fault replay is still required."
+  ],
+  "private_scope": ".local/npu-caller-recovery-20261023/terminal-scope-q1.json",
+  "private_scope_sha256": "a3efe32ce5399fedd70429da5e7955c1106f245b4ffedc96d23b2b9d7b4b4179",
+  "indexed_project_paths": 6139,
+  "indexed_external_paths": 1
+}

@@ -37,4 +37,17 @@ class ColdEventJournalTests(unittest.TestCase):
             finally: log.close()
 
 
+    def test_explicit_compact_journal_preserves_factory_streams(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = EventJournal(Path(directory) / 'compact.sqlite', compact=True)
+            try:
+                with patch.object(cold.ProviderRequest, '__init__', self.fake_parent), patch.object(cold, 'CsrSampler'):
+                    h = cold.ColdProviderRequest('paths', 'parts', request=123, event_journal=log)
+                h.events.append(dict(step=3, kind='paused', pc='x'))
+                self.assertEqual(list(h.events), [dict(step=1, kind='entry'), dict(step=3, kind='paused', pc='x')])
+                self.assertEqual(list(h.mmio), [dict(step=2, kind='mmio-read', address='x')])
+                self.assertEqual(log.finish()['format'], 'npu-native-event-journal-v3')
+            finally: log.close()
+
+
 if __name__ == '__main__': unittest.main()

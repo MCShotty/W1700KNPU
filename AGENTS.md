@@ -1,5 +1,22 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Default Terminal; Compact Observer Repair
+
+- Supersedes live q1 notes:default service is exit-code failed,not running or
+  OOM;controller/native PIDs gone. Journal hit its64MiB cap during TXBUF phase1
+  after phase0. Peak190705664 bytes/zero service swap;no native caller verdict.
+- Explicit --event-journal --compact-event-journal uses v3 bounded64-run/1MiB
+  chunks with whole-raw-row SHA256 and bounded decompression. v1 default and
+  v1/v2 readers preserved. Cap64MiB and all guest guards/limits unchanged.
+- Actual260793 committed events reencode exactly:67096576->3522560 bytes;
+  actual v2/v3 readers match independent canonical digests. Uncommitted failed
+  tails are not recovered. All66 focused/80 tooling units and fresh C linkage
+  pass. Not fresh guest execution. Read caller-recovery TERMINAL.json/report.
+- Next clean new capsule/controller with compact flag,fresh RAM/backing budgets,
+  full default then separately HIF2/faults. Do not restart either old failed
+  service or reuse a capsule with extra outputs as an exact-set donor. Full
+  retained RRO/hot/drain/physical goal active;lock/image unchanged,no subagents.
+
 ## 2026-10-23 - Current Default Caller Recovery Running
 
 - Current sender compiles the actual sticky IRQ accessor/state/enum and passes

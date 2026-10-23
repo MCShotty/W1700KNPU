@@ -1,6 +1,48 @@
 # Current Caller Replay Recovery
 
-## Runtime Launch
+## Terminal Failure And Compact Repair
+
+The final service audit supersedes the earlier live observations below.
+Default q1 ended with controller/execution return1 and service `Result=exit-code`,
+not OOM or a full native pass. Peak cgroup memory was190705664 bytes,swap0.
+The stop receipt was written and all named processes are absent. The log passes
+TXBUF phase0,then fails in phase1 on SQLite `database or disk is full`. The
+original journal is67096576 bytes/16381 pages of4096,near its configured
+64MiB/16384-page limit;fresh host/guest capacity checks pass. Native failure
+is at0x840894dc in an observer append,not a guest assertion or wall-budget exit.
+All closed logs/receipts/failed journal remain retained. `TERMINAL.json` records
+the terminal state;RUNTIME.json/TRACKING.json are earlier dated observations.
+
+The dominant stored traffic repeatedly reads four original TX setup registers.
+Consecutive-only runs do not compress this interleaving. New explicit
+`--event-journal --compact-event-journal` packs up to64 complete runs per chunk,
+at most1MiB uncompressed per stream. SHA256 binds every raw row before decoding;
+v3 avoids storing redundant random per-run digests inside compressed chunks.
+Their legacy row-check interfaces are reconstructed only after chunk validation.
+Decompression is output-bounded and rejects trailing data,invalid metadata,
+corruption/gaps and over-expansion. v1 remains the default writer;v1 and the
+intermediate private v2 format remain readable. Cap64MiB and fail-closed storage
+behavior are retained. No event is sampled or dropped and no guest state is
+written. Native geometry/checkpoints/3M instruction/60M-us limits are unchanged.
+
+Actual retained-prefix conversion covers260793 committed events across all
+three streams with independent canonical digests. New v3 is3522560 bytes versus
+67096576 original;both the actual intermediate v2 and final v3 readers reproduce
+every recorded event exactly. Final conversion peak RSS28020KiB. Failed writer
+tails that never committed are not recovered or called crash-complete. This is
+storage conversion/backward compatibility,not a new guest execution or A/B CPU
+proof. All66 focused/80 tooling units and current C linkage pass,zero skips;
+controls include100k interleaved MMIO events,large-field chunk boundaries,
+one-million-event runs,legacy readback,corruption,storage-full and decode bounds.
+
+Next freeze clean compact-enabled current source and launch a new complete
+default profile under fresh RAM/backing budgets,then separately HIF2/full faults.
+Neither old failed service is restarted and capsules containing output files
+are not exact-set reuse donors. Retained RRO/hot/drain/whole-stack/physical/client
+acceptance remains required. No firmware/source-lock/raw-pair/image change,
+hardware/flash or subagent work. The full NPU objective remains active.
+
+## Runtime Launch (Historical)
 
 `RUNTIME.json` records an actual new default nominal profile, not a preflight:
 

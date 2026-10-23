@@ -1,10 +1,30 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (current default caller replay live from clean frozen source;terminal verdict,retained RRO and NPU/physical acceptance pending)
+Last updated: 2026-10-23 (default terminal at observer cap;compact storage tested,full replay and retained RRO/NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Default Observer Limit And Compact Storage Repair
+
+- Supersedes earlier live q1 status:service exit-code failed/controller1,
+  not OOM or caller pass. Journal failed near its64MiB configured page cap
+  during TXBUF phase1 after phase0. Peak190705664 bytes/zero swap;PIDs gone.
+  Closed execution/controller/stop/failure receipts/original DB are preserved.
+- New explicit compact option uses v3 chunks up to64 runs/1MiB decoded bytes,
+  whole-raw-row SHA256,bounded decompression and exact indexed/lazy reads.
+  Default v1 writer and v1/v2 read compatibility remain. Storage exhaustion
+  still poisons observation;cap64MiB/guest guards/geometry/limits unchanged.
+- All260793 retained committed events reencode exactly:67096576->3522560
+  bytes,independent canonical digests across actual legacy-v2/new-v3 readers.
+  Failed uncommitted tails are not recovered;not guest A/B or caller proof.
+  All66 focused/80 tooling units and new current C linkage pass,zero skips.
+- Read caller-recovery TERMINAL.json/report. No compact full replay yet. Next
+  clean new capsule/fresh RAM/backing budgets,full default then separateHIF2/
+  faults,retained RRO/hot/drain/physical scope. Do not restart old services or
+  overwrite failed evidence. Firmware/lockcb035741/raw/UI/WiFi/imagea3f1d04b
+  unchanged;no hardware/flash/subagents. Full NPU objective remains active.
 
 ## 2026-10-23 - Current Default Caller Recovery Running
 

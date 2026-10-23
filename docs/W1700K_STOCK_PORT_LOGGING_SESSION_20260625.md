@@ -1,8 +1,22 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (current default caller replay live;terminal verdict and retained RRO/NPU/physical acceptance open)
+Last updated: 2026-10-23 (default terminal at observer cap;compact repair tested,full replay and retained RRO/NPU/physical acceptance open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Default Terminal; Compact Observer Repair
+
+- q1 is exit-code failed at64MiB journal cap in TXBUF phase1,not OOM/pass;
+  peak190705664 bytes/zero swap,old PIDs gone. Closed terminal receipts and
+  failed DB retained. Earlier live observations are historical/superseded.
+- Explicit compact v3 chunks preserve260793 committed events:67096576->
+  3522560 bytes with exact independent digests. Bounded decode/raw-row SHA256,
+  v1 default/v1-v2 readers and64MiB cap retained. Failed tails not recovered.
+- All66 focused/80 tooling units and fresh C linkage pass. No fresh compact
+  guest execution or full caller verdict. Next clean freeze/new full default/
+  HIF2/fault scopes under fresh RAM/backing budgets,then retained RRO/hot/drain/
+  physical/client scope. Firmware/lock/raw/image unchanged;no subagents/flash.
+  Read caller-recovery TERMINAL.json/report;do not restart old failed services.
 
 ## 2026-10-23 - Current Default Caller Recovery Running
 

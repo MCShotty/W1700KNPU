@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Default Terminal; Compact Observer Qualified By Prefix
+
+Supersedes q1 live observations:service failed exit-code at64MiB journal cap
+during TXBUF phase1,not OOM/native pass. Peak190705664 bytes/zero swap,all
+processes gone;closed controller/execution/stop/failure evidence retained.
+
+Opt-in v3 bounded chunks preserve260793 committed records exactly at3522560
+bytes versus67096576. Whole-chunk SHA256/bounded decompression;legacy v1/v2
+readers and v1 writer default remain. Cap/guest limits unchanged. All66 focused/
+80 tooling units and fresh linkage pass,not fresh compact guest execution.
+Read TERMINAL.json/report. Next new frozen full default/HIF2/faults,retained
+RRO/hot/drain/physical acceptance. Firmware/lockcb035741/imagea3f1d04b unchanged.
+
 ## 2026-10-23 - Current Default Caller Replay Running
 
 Actual sticky IRQ accessor/state/enum now compile in the selected sender

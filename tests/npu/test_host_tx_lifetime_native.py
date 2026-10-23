@@ -51,9 +51,12 @@ def main():
     parser.add_argument('--hif2',action='store_true')
     parser.add_argument('--event-journal', action='store_true',
                         help='Lossless disk-backed observer events; native limits/checkpoints remain unchanged')
+    parser.add_argument('--compact-event-journal', action='store_true',
+                        help='Compress bounded observer chunks without changing events or the 64MiB cap')
     parser.add_argument('--compile-only', action='store_true',
                         help='Verify current C linkage and sender inputs without executing the native peer')
     args=parser.parse_args()
+    assert not args.compact_event_journal or args.event_journal
     assert not args.desc10 or args.rx_event
     assert not args.pcie_tail or args.desc10
     assert args.inode == args.pcie_tail, 'current-tail-sender-requires-explicit-INODE-qualification'
@@ -173,7 +176,7 @@ void npu_test_dispose_tx_fixture(void) { for(unsigned i=0;i<object_count;i++)fre
     journal = None
     if args.event_journal:
         from native_event_journal import EventJournal
-        journal = EventJournal(destination / 'native-events.sqlite')
+        journal = EventJournal(destination / 'native-events.sqlite', compact=args.compact_event_journal)
         path = root / 'tests/npu/native_event_journal.py'
         inputs[str(path.relative_to(root))] = parent.loader.sha(path)
     def load(path,*values,**options):

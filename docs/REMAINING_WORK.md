@@ -1,5 +1,20 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Fresh Compact Full Replay Required
+
+Default q1 is now exit-code terminal,not live/OOM/pass:64MiB observer storage
+limit during TXBUF phase1,190705664-byte peak/zero swap. Closed execution/
+controller/stop/failure receipts and original journal are retained. Read
+caller-recovery TERMINAL.json and report;earlier live notes are superseded.
+
+Compact v3 preserves260793 committed events exactly in3522560 bytes versus
+67096576;64MiB cap/guest guards/geometry/limits remain. All66 focused/80 tooling
+units and fresh C linkage pass. No fresh compact guest execution yet. Freeze
+new clean source with --event-journal --compact-event-journal and run complete
+default under fresh RAM/backing budgets,then HIF2 separately. Do not reuse
+the failed capsule as an exact-set donor or restart old services. Full fault/
+RRO/hot/drain/physical/client objective remains;firmware/lock/image unchanged.
+
 ## 2026-10-23 - Complete Running Current Default Caller
 
 Current sticky-IRQ sender and C linkage preflights pass;50 focused and80
