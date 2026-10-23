@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (actual retained RRO owner/process handoff; native/MCU/retirement remain)
+Last updated: 2026-10-23 (native RRO effects/full Unicorn replay pass; transport/MCU/physical scope open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Reconstructed RRO Effects And Exact RV32 Replay
+
+- New engine writes verified stock-derived publication/reset projections under
+  the retained journal. Host 14,412 sanitizer cases/four controls pass; failed
+  pointer-arithmetic fixture and mutation-diagnostic cohort retained.
+- Canonical source lock26/Kbuild and all four AArch64 module links pass with
+  producer c137169d/lock180d4358. Normal archive24 preserves the prior23 object
+  bytes. Existing TX/RX/provider/caller/journal regressions and all116 tooling
+  units pass, zero skips. Complete exact-object Unicorn RV32 replay passes all3
+  profiles/6958 states/6150 resets/two generations/78 I/O faults/13342 calls.
+  Supplemental host-seeded boundaries pass6 positive/78 fault cases; six observer
+  guard units pass. Refused parallel launch preserved, then sequential128/256 MiB
+  auxiliary runs pass with unchanged replay limits and2 GiB reserve.
+- Next native transport/MCU/work identities and serial coordination, CPU join,
+  physical drain/retirement and current-image/full cold/fault/hot/client gates.
+  No operational RRO admission, raw pair/image/hardware/flash change. Original
+  compact replay stays frozen/live/not restarted; full NPU objective active.
 
 ## 2026-10-23 - Provider-Owned RRO Storage And Early Handoff
 

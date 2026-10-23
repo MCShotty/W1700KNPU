@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - RRO Native Effects Implemented
+
+The reconstructed RRO engine now implements block/session publication and reset
+effects with retained ownership and exact readback. Its 14,412 host sanitizer
+cases/four controls, integration regressions, four target module links and
+24-member RV32 archive pass. Exact-object Unicorn RV32 execution also passes all
+three profiles, both reset generations and 6,958 complete journal comparisons.
+Supplemental boundary faults and six observer guard units pass.
+
+This is not operational RRO transport or physical acceptance. Native/MCU
+identity wiring, serial coordination, retirement and current-image/client
+validation remain required. No new image or flash; the original compact replay
+continues unchanged.
+
+See the [RRO native checkpoint](research/checkpoints/2026-10-23-npu-rro-native/REPORT.md).
+
 ## 2026-10-23 - Provider-Owned RRO Storage
 
 Real RRO allocation now uses the retained provider journal and process-context

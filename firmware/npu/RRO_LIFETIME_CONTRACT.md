@@ -9,6 +9,22 @@ physical retirement are still incomplete. Current selectors0/1/3 remain denied.
 
 ## Current Provider Integration
 
+`rro-native.c` now implements the reconstructed target memory effects using
+the same journal, without replacing the provider's current checked sender.
+Publication latches exposure before table access, clears complete element
+blocks, sets signature bytes and verifies exact readback. Session publication
+preserves nonsignature bytes. Reset requires the caller's generation/ticket,
+checks the exact retained table pointer and changes only signature bytes for
+the selected ID, including ID1024. Partial/error prefixes remain retained.
+The integrating caller must provide stable plan/context, mapped backing and CPU
+exclusion for the whole call. These callbacks establish no physical capability.
+Current source has no operational native enrollment/completion wiring yet.
+
+The 2026-10-23 rro-native checkpoint includes 14,412 host sanitizer cases/four
+controls, full exact-normal-object Unicorn RV32 execution, supplemental
+host-seeded boundary faults and six observer-method units. These are distinct
+proof scopes; MCU success and backing/exclusion remain models, not hardware.
+
 An independent heap owner belongs to the provider's existing retained DMA
 lifetime and pinned-reference contract. It snapshots protected identities and
 records full backing before enrollment/caller output. Four optional operations

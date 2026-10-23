@@ -1,10 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (actual provider RRO storage/journal/process handoff; native/MCU/retirement scope open)
+Last updated: 2026-10-23 (RRO engine and complete exact-object Unicorn replay pass; transport/physical scope open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Reconstructed RRO Native Memory Engine
+
+- Implemented retained-journal publication/reset effects with exact stock table
+  addresses, full block clear, every eighth signature byte and special ID1024.
+  Readback failure cannot confirm; possible exposure precedes every data access.
+  Caller owns immutable context, backing and exclusion. No reclaim/drain API.
+- Host ASan/UBSan/leak suite passes 14,412 cases/four compiled controls, all
+  three profiles/all IDs/two generations. Includes 7,740 selected publication
+  failures and 135 selected reset failures, not every instruction prefix.
+  All 134 frame bytes match. Full first-generation journal stream has 6,958
+  records of 30,356 bytes, ready for independent target execution comparison.
+- Canonical Kbuild/source lock now has 26 mappings. Four AArch64 modules link,
+  producer c137169d/lock180d4358, 5 kernel/329 mt76 source identities. Normal
+  RV32 archive has 24 exact members; previous 23 object bytes match. TX 223/12,
+  RX 168/7, provider 448/4, callers 1090/seven controls, journal 5279/3 and
+  116 tooling units pass, zero skips. Exact RV32 compile preflight and full
+  Unicorn replay pass: all3 profiles, 6958 complete journal states, 6150 resets
+  across two generations, 78 selected I/O faults and13342 fixture calls. All
+  instruction bytes, mapped SRAM/alias projections and integer ABI are checked.
+- Supplemental native session-table publication/ID1024 reset tests pass six
+  positive cases/78 faults using explicit host-seeded synthetic prefixes. They
+  complement the full native-prefix replay, not replace it. Six fake-CPU guard
+  units pass. Initial parallel guard launch was refused before execution by the
+  full-capacity RAM budget; sequential128/256 MiB auxiliary units pass without
+  changing either live replay's limit or the2 GiB reserved margin.
+- Failed host q1 pointer-arithmetic fixture and q2 mutation-diagnostic cohort
+  remain preserved. Corrected fixtures/assertion expectation, not production.
+  Source semantic review supports exposure/readback contract and distinguishes
+  modeled MCU/exclusion from hardware. Jev judgments are advisory, not proof.
+- Native transport enrollment/identity/MCU/work retention, serial coordination,
+  CPU join/physical retirement and operational RRO remain open. No new raw pair,
+  full image, hardware or flash. Original compact replay remains live/frozen/
+  not restarted. Full NPU reverse-engineering and implementation stays active.
+  Read rro-native REPORT.md/EVIDENCE.json. BA lifetime and MCU command sequence
+  remain distinct; no inferred event generation or physical race is promoted.
 
 ## 2026-10-23 - Retained Provider RRO Allocation And Closing Handoff
 

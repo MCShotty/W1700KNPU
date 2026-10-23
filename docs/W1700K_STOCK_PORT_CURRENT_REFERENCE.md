@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Reconstructed Native RRO Effects
+
+New native engine publishes all 128 blocks plus the session table and resets
+all 1,025 IDs against retained extents. Exact readback is required; any access
+failure retains possible exposure/ticket and stops confirmation. No reference,
+CPU exclusion, transport identity or physical retirement is manufactured.
+
+Host engine 14,412 cases/four controls pass. Existing TX 223/12, RX 168/7,
+provider 448/4, caller 1090/seven controls, journal 5279/3 and 116 tooling units
+pass, zero skips. Producer c137169d/lock180d4358 links four AArch64 modules,
+5 kernel/329 mt76 sources/26 mappings. Exact normal RV32 archive has 24 objects;
+all previous 23 object bytes match. Full exact-object Unicorn RV32 replay now
+passes all3 profiles/6958 complete states/6150 resets/two generations/78 I/O
+faults/13342 fixture calls. Supplemental host-seeded boundaries pass6 positives
+and78 faults; six fake-CPU observer units pass. Read rro-native REPORT/EVIDENCE.
+
+Native/MCU/work-item generation identity, serial coordination and physical
+retirement remain required. Current raw transport admission remains closed.
+No raw pair/full image/hardware/flash change. Original compact default remains
+live/frozen/not restarted. Full NPU/cold/fault/hot/physical/client scope active.
+
 ## 2026-10-23 - Actual RRO Owner/Journal And Process Handoff
 
 The checked provider now owns the RRO allocation inventory and journal through

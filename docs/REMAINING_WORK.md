@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - RRO Engine Built; Transport And Retirement Still Required
+
+Reconstructed publication/reset effects pass 14,412 host sanitizer cases/four
+controls. Canonical 26-mapping source lock links all four AArch64 modules and
+builds 24 normal RV32 objects, preserving all previous 23 object bytes. Existing
+TX/RX/provider/caller/journal regressions and 116 tooling units pass, zero skips.
+Exact-object Unicorn RV32 execution now passes all3 profiles, 6958 complete
+journal states, 6150 resets/two generations and78 I/O faults. Supplemental
+host-seeded boundaries pass6 positive/78 fault cases; six observer units pass.
+Read rro-native REPORT.md/EVIDENCE.json for the distinct execution scopes.
+
+Next connect this engine through a complete identity-bearing native transport,
+enrollment and completion path. Preserve all four RRO words, provider/endpoint/
+boot/nonce/epoch identity and reset generation/ticket. Retain MCU work identity
+and late/error state, coordinate serial advances with late TX validation, and
+establish actual CPU join plus independent IRQ/DMA/firmware/cache/PMA retirement.
+Current checked transport still denies RRO; permanent denial is not completion.
+
+Build/qualify a current image and finish full cold/fault/HIF2, hot ownership,
+whole-stack, physical boot/radios/actual-client/performance/stability acceptance.
+Protected image a3f1d04b is old-source only. Original compact replay stays live
+on its frozen cohort, not restarted. Full reverse-engineering scope stays open.
+
 ## 2026-10-23 - RRO Owners Connected; Native/MCU And Retirement Next
 
 Implemented actual retained provider RRO allocation/journal, process bridges,

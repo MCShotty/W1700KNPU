@@ -350,7 +350,7 @@
       },
       {
         "path": "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch",
-        "sha256": "5cdb41f55f2346f219e92f4ed5b7d96ead30dd82f272d56e21025cf8a67d375b",
+        "sha256": "6dc24d3cb3898bb4aa5c8f4ca85a9189b9f70564a971c3d69b5c04346fa519c4",
         "mode": "0o644"
       },
       {
@@ -586,6 +586,20 @@
       "source": "firmware/npu/rro-lifetime.h",
       "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-lifetime.h",
       "sha256": "ed39252dbe3714797fb4a9460164d6523b5c73ae9990e2f462ceeb1c1c166f97",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-native.c",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-native.c",
+      "sha256": "b97e7339899c737017d3cf67447cc4d17b93b14b906e14bd1b2f690b10955217",
+      "mode": "0o644"
+    },
+    {
+      "tree": "openwrt",
+      "source": "firmware/npu/rro-native.h",
+      "destination": "target/linux/airoha/files-6.18/drivers/net/ethernet/airoha/w1700k/rro-native.h",
+      "sha256": "e62ddd34565c5f0036202c6b0414e13580db06bf0082218302e2d1d1d4526fa1",
       "mode": "0o644"
     }
   ],

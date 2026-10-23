@@ -11,6 +11,13 @@ caller, managed-bookkeeping and stock/current instruction evidence.
 
 ## Allocation Order
 
+The reconstructed `rro-native.c` engine now implements publication/reset byte
+effects against retained extents with readback. This is one operational
+implementation component, not the final admission or reclamation contract.
+Connect it through a native-owned plan/enrollment and identity-bearing protocol;
+do not share unsynchronized host/native journal storage or treat direct-entry
+synthetic-memory tests as full cold transport/MCU/physical proof.
+
 The checked provider now prepares its six retained TX buffers before the actual
 `mt7996_wed_rro_init` call. Late `mt7996_npu_hw_init` validates the retained lease
 and consumes its hardware attempt without allocating again. Generic providers
@@ -65,6 +72,26 @@ hardware setup. Still preserve reset request identity/generation through NPU and
 MCU errors, duplicates and late results. Validate session IDs before publication.
 The existing reset worker does not yet invoke the retained journal; a freed work
 item cannot represent unfinished reset ownership. Define retry deduplication.
+
+## BA Lifetime And MCU Identity
+
+The selected MCU status handler resolves `wlan_id` and `tid` against the current
+WCID/TID object before assigning the firmware session ID. RX BA start first
+stops an old object in that slot and publishes a new one. The tuple therefore
+does not by itself distinguish BA lifetimes. The selected delete event carries
+session ID/WLAN/TID, but its queued item currently copies only the session ID.
+The worker discards NPU/MCU return values and frees that item after both calls.
+
+Create a BA-lifetime token at actual RX-TID creation and a separate reset
+generation/ticket when an immutable retained reset request is first issued.
+Keep WLAN/TID/session/BA association through queued work, errors, retries and
+late completions. A wrapping four-bit MCU command sequence correlates a command
+transaction; it is not a BA generation. Do not derive an event's generation
+from whichever journal or TID object happens to be current when it arrives.
+If the firmware event cannot echo a lifetime cookie, qualify an actual ordering/
+reuse fence before rebinding a slot or session ID. Merely adding a host counter
+does not establish that fence. These are open integration requirements, not
+claims of a demonstrated physical race or a newly qualified MCU contract.
 
 ## Retirement And Acceptance
 

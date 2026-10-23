@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Reconstructed RRO Native Engine
+
+- New rro-native.c implements stock-derived block/session publication and all
+  reset IDs against retained extents, with exact readback and ambiguous-prefix
+  retention. Caller exclusion/backing remain obligations; no reclaim authority.
+- Host engine passes 14,412 sanitizer cases/four controls. All integration
+  regressions and 116 tooling units pass, zero skips. Four AArch64 modules link
+  with producer c137169d/lock180d4358, 26 mappings. Normal archive has 24 RV32
+  members; all previous 23 members are byte-identical. Exact-object Unicorn RV32
+  replay passes all3 profiles/6958 whole states/6150 resets/78 I/O faults and
+  13342 fixture calls. Supplemental host-seeded boundaries pass6 positives/78
+  faults; six fake-CPU observer units pass. These are distinct proof scopes.
+- Read rro-native REPORT.md/EVIDENCE.json. Host fixture failures and the initial
+  parallel-unit RAM refusal are retained. Neither replay was restarted; no
+  instruction limit, native geometry or reserved margin was relaxed.
+- Native transport/MCU generation identity, serial coordination and physical
+  retirement remain open. No new raw pair/image/hardware. Original compact
+  replay remains live/frozen, never restarted. Full NPU objective stays active.
+  User now permits v1 Luna/max exploration and Sol/max work; v2 unavailable.
+
 ## 2026-10-23 - Actual Provider-Owned RRO Allocation And Handoff
 
 - Actual checked-provider RRO allocation now attaches the journal and complete
