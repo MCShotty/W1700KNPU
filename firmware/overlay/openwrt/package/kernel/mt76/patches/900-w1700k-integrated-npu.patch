@@ -2050,7 +2050,7 @@ build input; compilation is not a physical drain or recovery proof.
  	case IEEE80211_AMPDU_RX_STOP:
 --- a/mt7996/mcu.c
 +++ b/mt7996/mcu.c
-@@ -1029,64 +1029,92 @@
+@@ -1029,64 +1029,97 @@
  static void
  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
  {
@@ -2102,6 +2102,9 @@ build input; compilation is not a physical drain or recovery proof.
 +				break;
 +
  			e = (void *)skb->data;
++			/* Rollback/retry/unknown status is not a new BA binding. */
++			if (le32_to_cpu(e->status))
++				break;
  			idx = le16_to_cpu(e->wlan_id);
 +			rcu_read_lock();
  			wcid = mt76_wcid_ptr(dev, idx);
@@ -2129,7 +2132,9 @@ build input; compilation is not a physical drain or recovery proof.
  				break;
 -
 -			if (e->tid >= ARRAY_SIZE(wcid->aggr))
--				break;
++			}
++			if (le16_to_cpu(e->session_id) > MT7996_RRO_MAX_SESSION)
+ 				break;
 -
 -			tid = rcu_dereference(wcid->aggr[e->tid]);
 -			if (!tid)
@@ -2147,7 +2152,6 @@ build input; compilation is not a physical drain or recovery proof.
 -			struct mt7996_wed_rro_session_id *session;
 -
 -			e = (void *)skb->data;
-+			}
  			session = kzalloc(sizeof(*session), GFP_ATOMIC);
  			if (!session)
 -				break;

@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - BA Creation And Reuse Identity Remain
+
+Status0-only binding and legacy DELETE ID bounds are now implemented, preserving
+owned invalid-tuple faults. Current BA18 measured setups/six controls, worker22/
+eight, joint6150 resets/12 negatives/three controls, broad456/four, callers1090/
+seven and142 units pass,zero skips. Four modules link:producer3b85252f/lock961f5a40.
+The old BA15 label actually represents14 measured setups; old assertions remain.
+
+Next create actual RX-TID BA identity with primary/active-link mapping and qualify
+a firmware cookie or true late-event/reuse fence. Status0, journal generation1
+and generic MCU ACK are not that fence. The old mapped WM archive is a different
+build, not current ordering evidence. No unsafe status3 pointer retry is restored.
+Parked-only guards remain; hot CPU lifetime, production retirement/rearm, physical
+drain and full native/current-image/cold-fault-HIF2/hardware/client/performance/
+stability gates remain. Both live input graphs untouched. Read ba-status checkpoint;
+full NPU goal stays active.
+
 ## 2026-10-23 - BA Identity And Hot Reset Still Required
 
 Typed retained NPU-reset/MCU-begin/MCU-complete bridges are implemented. Current

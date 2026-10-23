@@ -23,9 +23,13 @@ typedef u32 __le32;
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #define cpu_to_le16(value) ((u16)(value))
 #define le16_to_cpu(value) ((u16)(value))
+#define cpu_to_le32(value) ((u32)(value))
+#define le32_to_cpu(value) ((u32)(value))
 #else
 #define cpu_to_le16(value) __builtin_bswap16((u16)(value))
 #define le16_to_cpu(value) __builtin_bswap16((u16)(value))
+#define cpu_to_le32(value) __builtin_bswap32((u32)(value))
+#define le32_to_cpu(value) __builtin_bswap32((u32)(value))
 #endif
 
 struct list_head { struct list_head *next, *prev; };
@@ -96,6 +100,8 @@ static int queue_calls, skb_pull_calls, may_pull_calls, may_pull_failures;
 static int host_alloc_errno, mcu_rx_errno;
 static bool delete_alloc_fail;
 static struct mt76_rx_tid *new_host_tid;
+static unsigned cases;
+static int delete_alloc_calls;
 
 static void rcu_read_lock(void) { rcu_depth++; rcu_locks++; }
 static void rcu_read_unlock(void)
@@ -142,6 +148,7 @@ static void *skb_pull(struct sk_buff *skb, size_t bytes)
 static void *kzalloc(size_t bytes, int flags)
 {
 	CHECK(flags == GFP_ATOMIC, "delete-allocator-flag");
+	delete_alloc_calls++;
 	return delete_alloc_fail ? NULL : calloc(1, bytes);
 }
 static void spin_lock_bh(int *lock)
@@ -253,12 +260,14 @@ struct fixture {
 
 static void setup(struct fixture *f)
 {
+	cases++;
 	memset(f, 0, sizeof(*f));
 	host_start_calls = host_stop_calls = mcu_rx_calls = mcu_tx_calls = 0;
 	queue_calls = skb_pull_calls = may_pull_calls = may_pull_failures = 0;
 	rcu_depth = rcu_locks = rcu_unlocks = status_writes = 0;
 	host_alloc_errno = mcu_rx_errno = 0;
 	delete_alloc_fail = false;
+	delete_alloc_calls = 0;
 	new_host_tid = &f->rx_tid;
 	f->dev.hwrro = true;
 	INIT_LIST_HEAD(&f->dev.wed_rro.poll_list);
@@ -321,6 +330,16 @@ static size_t put_delete(struct fixture *f, size_t at, u16 id, u16 wlan_id,
 	memcpy(f->bytes + at, &e, sizeof(e));
 	memset(f->bytes + at + sizeof(e), 0x5a, extension);
 	return at + sizeof(e) + extension;
+}
+
+static size_t put_status_value(struct fixture *f, size_t at, u32 status, u16 id)
+{
+	size_t end = put_status(f, at, 1, 2, id, 0);
+	__le32 raw = cpu_to_le32(status);
+
+	memcpy(f->bytes + at + offsetof(struct mt7996_mcu_wed_rro_ba_event, status),
+	       &raw, sizeof(raw));
+	return end;
 }
 static size_t put_unknown(struct fixture *f, size_t at, u16 tag, size_t length)
 {
@@ -397,7 +416,7 @@ static void test_mixed_and_queue_identity(void)
 	setup(&f);
 	at = put_unknown(&f, at, 99, 7);
 	at = put_status(&f, at, 1, 2, 0x123, 0);
-	at = put_delete(&f, at, 0x456, 0x234, 7, 0);
+	at = put_delete(&f, at, 0x356, 0x234, 7, 0);
 	at = put_status(&f, at, 1, 2, 0x789, 0);
 	run_event(&f, at, at, at);
 	CHECK(f.rx_tid.id == 0x789 && status_writes == 2,
@@ -406,7 +425,7 @@ static void test_mixed_and_queue_identity(void)
 	      "delete-enqueued-once");
 	entry = list_first_entry(&f.dev.wed_rro.poll_list,
 				 struct mt7996_wed_rro_session_id, list);
-	CHECK(entry->id == 0x456 && entry->wlan_id == 0x234 && entry->tid == 7,
+	CHECK(entry->id == 0x356 && entry->wlan_id == 0x234 && entry->tid == 7,
 	      "queued-wlan-tid-from-event");
 	CHECK(rcu_locks == 2 && rcu_unlocks == 2,
 	      "status-RCU-per-record");
@@ -540,6 +559,80 @@ static void test_owned_delete_route(void)
 	finish(&f);
 }
 
+static void test_nonzero_status_does_not_rebind(void)
+{
+	static const u32 statuses[] = { 1, 2, 3, 4, 0x100, 0x01000000, UINT32_MAX };
+	struct fixture f;
+	size_t at = PREFIX_LEN;
+
+	setup(&f);
+	at = put_status_value(&f, at, 0, 0x123);
+	for (unsigned i = 0; i < ARRAY_SIZE(statuses); i++)
+		at = put_status_value(&f, at, statuses[i], 0x333);
+	at = put_delete(&f, at, 1024, 1, 2, 0);
+	run_event(&f, at, at, at);
+	CHECK(f.rx_tid.id == 0x123 && status_writes == 1,
+	      "nonzero-32bit-status-cannot-rebind-session");
+	CHECK(queue_calls == 1 && delete_alloc_calls == 1,
+	      "rejected-status-records-do-not-stall-later-delete");
+	finish(&f);
+}
+
+static void test_retry_then_success_without_replay(void)
+{
+	struct fixture f;
+	size_t at = PREFIX_LEN;
+
+	setup(&f);
+	at = put_status_value(&f, at, 3, 0x333);
+	at = put_unknown(&f, at, 99, 7);
+	at = put_status_value(&f, at, 0, 0x234);
+	at = put_status_value(&f, at, 1, 0x555);
+	run_event(&f, at, PREFIX_LEN + sizeof(struct tlv), at);
+	CHECK(f.rx_tid.id == 0x234 && status_writes == 1 && rcu_locks == 1 &&
+	      !mcu_rx_calls && !mcu_tx_calls && !queue_calls,
+	      "retry-then-success-binds-only-success-without-cached-pointer-replay");
+	finish(&f);
+}
+
+static void test_legacy_delete_bounds_continue(void)
+{
+	struct fixture f;
+	struct mt7996_wed_rro_session_id *entry;
+	size_t at = PREFIX_LEN;
+
+	setup(&f);
+	at = put_delete(&f, at, 1025, 1, 2, 0);
+	at = put_delete(&f, at, UINT16_MAX, 1, 2, 0);
+	at = put_delete(&f, at, 1024, 1, 2, 0);
+	run_event(&f, at, at, at);
+	CHECK(queue_calls == 1 && delete_alloc_calls == 1,
+	      "legacy-delete-IDs-bounded-and-later-records-continue");
+	entry = list_first_entry(&f.dev.wed_rro.poll_list,
+				struct mt7996_wed_rro_session_id, list);
+	CHECK(entry->id == 1024, "legacy-special-final-ID-retained");
+	finish(&f);
+}
+
+static void test_owned_invalid_delete_is_not_discarded(void)
+{
+	struct fixture f;
+	size_t used;
+
+	setup(&f);
+	f.dev.npu_rro_owned = true;
+	f.dev.hwrro = false;
+	delete_alloc_fail = true;
+	owned_enqueue_calls = 0;
+	owned_enqueue_error = -EINVAL;
+	used = put_delete(&f, PREFIX_LEN, 1025, 0x234, 7, 0);
+	run_event(&f, used, used, used);
+	CHECK(owned_enqueue_calls == 1 && owned_id == 1025 &&
+	      owned_wlan == 0x234 && owned_tid == 7 && !delete_alloc_calls && !queue_calls,
+	      "owned-invalid-ID-keeps-exact-fault-tuple-without-legacy-fallback");
+	finish(&f);
+}
+
 int main(void)
 {
 	test_host_start();
@@ -551,6 +644,10 @@ int main(void)
 	test_pull_boundaries();
 	test_delete_allocator_failure();
 	test_owned_delete_route();
-	puts("{\"passed\":true,\"host_model_only\":true,\"cases\":15}");
+	test_nonzero_status_does_not_rebind();
+	test_retry_then_success_without_replay();
+	test_legacy_delete_bounds_continue();
+	test_owned_invalid_delete_is_not_discarded();
+	printf("{\"passed\":true,\"host_model_only\":true,\"cases\":%u}\n", cases);
 	return 0;
 }

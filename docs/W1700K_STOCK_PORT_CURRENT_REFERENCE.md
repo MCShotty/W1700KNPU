@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Current BA Status And Regression Qualification
+
+The MCU parser requires complete little-endian32 status0 before BA assignment.
+Legacy DELETE IDs above1024 skip allocation without stalling later TLVs;1024 is
+valid. Owned invalid tuples still reach retained error handling. No unsafe
+cached-pointer retry or old ambiguous-descriptor RX recycling was restored.
+Current BA18 measured setups/six controls, worker22/eight, joint6150 resets/12
+negatives/three controls, broad456/four, callers1090/seven and142 units pass.
+Four modules link:producer3b85252f/lock961f5a40/5 kernel/330 mt76/31 mappings.
+Original inventories unchanged; broader456/1090 refreshes are now current.
+
+The old BA15 count was hardcoded; preserved counter-only replay passes all old
+assertions and measures14 setups, plus four new setups gives18. Old receipts
+remain unchanged. BA creation/link/late/reuse identity, hot lifetime, retirement
+and physical/image/client acceptance remain. The older mapped-live WM archive
+does not match the current carrier. Both live graphs and parked-only guards
+untouched; read ba-status REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-23 - Typed Retained Reset Path
 
 Owned work now uses three typed process bridges, exact journal generation/ticket

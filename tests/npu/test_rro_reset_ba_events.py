@@ -17,6 +17,8 @@ import shutil
 import signal
 import subprocess
 
+from test_host_queue_publication import macro
+
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE_MT76 = ROOT / ".local/merge-nonoc-20260923/mt76-merged"
@@ -117,7 +119,8 @@ def run(destination, source_root):
         wire = BASE_MT76 / "mt7996/mcu.h"
     if not tlv_header.is_file():
         tlv_header = BASE_MT76 / "mt76_connac_mcu.h"
-    paths = [main, mcu, header, wire, tlv_header, HARNESS, Path(__file__)]
+    paths = [main, mcu, header, wire, tlv_header, HARNESS, Path(__file__),
+             ROOT / 'tests/npu/test_host_queue_publication.py']
     assert all(path.is_file() for path in paths), "missing candidate or paired wire source"
     inputs = {str(path.resolve()): sha(path) for path in paths}
 
@@ -131,6 +134,7 @@ def run(destination, source_root):
     structs.append(structure(tlv_header.read_text(), "tlv"))
     structs.append(event_enum(wire_text))
     structs.append(structure(header.read_text(), "mt7996_wed_rro_session_id"))
+    structs.append(macro(header.read_text(), "MT7996_RRO_MAX_SESSION"))
     selected = {"selected-structs.inc": "\n\n".join(structs) + "\n",
                 "selected-main.inc": main_body + "\n",
                 "selected-mcu.inc": mcu_body + "\n"}
@@ -148,10 +152,19 @@ def run(destination, source_root):
                                       executed.stderr)
     rows = [json.loads(line) for line in executed.stdout.splitlines() if line.strip()]
     assert len(rows) == 1 and rows[0] == {
-        "passed": True, "host_model_only": True, "cases": 15,
+        "passed": True, "host_model_only": True, "cases": 18,
     }, rows
 
     mutations = (
+        ("missing-status-zero-gate", "selected-mcu.inc",
+         "\t\t\tif (le32_to_cpu(e->status))\n\t\t\t\tbreak;\n", "",
+         "nonzero-32bit-status-cannot-rebind-session"),
+        ("truncated-status-gate", "selected-mcu.inc",
+         "if (le32_to_cpu(e->status))", "if ((u8)le32_to_cpu(e->status))",
+         "nonzero-32bit-status-cannot-rebind-session"),
+        ("missing-legacy-delete-range", "selected-mcu.inc",
+         "\t\t\tif (le16_to_cpu(e->session_id) > MT7996_RRO_MAX_SESSION)\n\t\t\t\tbreak;\n", "",
+         "legacy-delete-IDs-bounded-and-later-records-continue"),
         ("missing-host-allocation-guard", "selected-main.inc",
          "\t\tif (ret)\n\t\t\tbreak;\n", "",
          "no-mcu-on-host-allocation-failure"),

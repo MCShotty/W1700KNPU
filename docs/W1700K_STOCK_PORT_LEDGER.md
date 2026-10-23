@@ -1,10 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (typed retained reset phases integrated and target linked)
+Last updated: 2026-10-23 (BA status/delete integrity and current broad regressions pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Status0 BA Binding And Legacy Delete Bounds
+
+- Restored complete32-bit status0-only BA binding and legacy DELETE IDs0..1024
+  before allocation, continuing through later TLVs. Owned invalid tuples still
+  reach the retained owner/error latch. No cached-pointer status3 retry and no
+  historical ambiguous-descriptor RX recycling were copied.
+- Installed-source BA18 measured setups/six controls, worker22/eight, joint6150
+  resets/12 negatives/three controls, broad456/four and callers1090/seven pass;
+  all142 units pass,zero skips. Backing/transport/MCU/concurrency remain modeled.
+  Four AArch64 modules link, typed edges resolve:producer3b85252f/lock961f5a40,
+  5 kernel/330 mt76 sources/31 mappings. Original102685/516 entries unchanged;
+  lean incremental236MiB build,154970771 output bytes. mt7996e alone changes.
+- Count audit corrects old hardcoded BA15 to14 measured setup invocations with
+  all old assertions retained; four new setups yield18. Earlier receipts and
+  the initial17-vs18 counter failure stay preserved, not rewritten as passes.
+- Historical mapped-live WM archive96e6f37 verifies but build20260311120504
+  differs from current20260721003035/99020e57. It is not a current BA reuse fence.
+  No new decryption/Ghidra analysis/hardware access; no serial port observed.
+- Full-cap RAM/storage preflight now allows refreshed broad456/1090 without
+  changing2GiB margin, swap or replay limits. The two newer queried REA PIDs
+  were already absent; remaining server and both live jobs were not signaled.
+- Status0 is not BA authentication. Creation/link/late/reuse, hot CPU lifetime,
+  production retirement/rearm and physical/image/client gates remain. Both
+  live graphs untouched; no load/image/flash/VM change. Read ba-status
+  REPORT/EVIDENCE; full reverse-engineering goal remains active.
 
 ## 2026-10-23 - Typed Retained Reset Worker And Provider Phases
 

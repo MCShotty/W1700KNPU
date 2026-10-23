@@ -1,8 +1,25 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (typed retained reset integration and target links pass)
+Last updated: 2026-10-23 (BA status/delete integrity and current broad regressions pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - BA Status And Current Broad Regressions
+
+Complete32-bit status0 now gates BA binding; legacy DELETE IDs above1024 skip
+allocation while1024 remains valid. Owned invalid tuples retain their fault.
+No cached-pointer status3 replay or old RX-recycling hunk restored. Current
+BA18 measured setups/six controls, worker22/eight, joint6150 resets/12 negatives/
+three controls, broad456/four, callers1090/seven and142 units/zero skips pass.
+Four current modules link:producer3b85252f/lock961f5a40/31 mappings. Original
+kernel/mt76 inventories unchanged; private lean236MiB build154970771 bytes.
+
+Old BA15 was hardcoded. Counter-only replay preserves every old assertion and
+measures14 setups; four new setups yield18. Initial counter failure remains.
+The verified older mapped WM archive is a different build, not current BA reuse
+proof. Both live graphs untouched; no new analysis/load/image/hardware/VM change.
+Actual BA creation/link/late/reuse, hot CPU lifetime, retirement and full physical/
+image/client acceptance remain. Read ba-status REPORT/EVIDENCE; full goal active.
 
 ## 2026-10-23 - Typed Reset Journal And MCU Handoff
 

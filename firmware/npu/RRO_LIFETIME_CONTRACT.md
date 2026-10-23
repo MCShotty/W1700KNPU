@@ -66,12 +66,19 @@ typed completion-bridge return remain separate. Exact late host metadata can be
 recorded after close without issuing a new RPC, joining CPUs or granting free
 authority. The parked-only client/broker guard is unchanged; hot use is open.
 
-The rro-reset-typed checkpoint executes6150 actual provider/client/broker/native
+The ba-status checkpoint refreshes6150 actual provider/client/broker/native
 host-C reset transactions across three profiles/two journal generations,12
-negative cases and three controls, plus22 worker/eight controls and15 BA/three.
-Four target modules link and142 units pass. Backing/transport/MCU/concurrency
-remain models. Broader456 allocation/fault and1090 caller refreshes remain pending
-for this producer; prior passes belong to their explicitly older source cohorts.
+negative cases/three controls,22 worker/eight controls,18 measured BA setups/six,
+broad456 allocation/fault cases/four and1090 callers/seven. Four target modules
+link and142 units pass,zero skips. Backing/transport/MCU/concurrency remain models.
+The older BA15 label was hardcoded; counter-only replay measures14 old setups
+with every old assertion retained. Four new setups yield18; old receipts remain.
+
+The parser requires complete32-bit status0 before WCID/TID lookup and binding.
+Legacy DELETE IDs above1024 skip allocation without stopping later TLVs;1024
+is valid. Owned invalid tuples still reach retained fault handling. No cached-
+pointer status3 retry or ambiguous-descriptor RX recycling was restored. These
+rules do not authenticate a BA lifetime or qualify a late-event/reuse fence.
 
 ## Identity And Storage
 

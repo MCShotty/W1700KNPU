@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - BA Status Integrity Qualified Offline
+
+BA IDs now bind only on complete32-bit status0; invalid legacy DELETE IDs are
+filtered while owned fault tuples remain retained. No unsafe cached-pointer
+retry or RX-recycling hunk was restored. Current BA18 measured setups/six controls,
+worker22/eight, joint6150 resets/12 negatives/three controls, broad456/four,
+callers1090/seven and142 units pass. All four current AArch64 modules link.
+
+The earlier BA15 label was hardcoded: counter-only replay measures14 old setups
+with all assertions retained; four additions yield18. Status0 still cannot
+authenticate BA reuse. Hot lifetime, physical retirement and image/client
+acceptance remain open; both long replay jobs stay untouched. See the
+[BA status checkpoint](research/checkpoints/2026-10-23-npu-ba-status/REPORT.md).
+
 ## 2026-10-23 - Typed Reset Path Integrated
 
 Retained work now uses typed provider/journal reset phases instead of legacy

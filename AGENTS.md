@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - BA Status Integrity And Refreshed Regressions
+
+- Current MCU parsing binds BA IDs only for complete32-bit status0. Legacy
+  DELETE IDs above1024 are skipped before allocation;1024 remains valid. Owned
+  invalid tuples still reach retained fault ownership. No unsafe status3 cached-
+  pointer retry or historical ambiguous-descriptor RX recycling was restored.
+- Installed-source BA18 measured setups/six controls, worker22/eight, joint6150
+  resets/12 negatives/three controls, broad456/four and callers1090/seven pass.
+  All142 units pass,zero skips. Four modules link:producer3b85252f/lock961f5a40,
+  5 kernel/330 mt76 sources/31 mappings; original inventories unchanged.
+- Count correction: old BA15 was a hardcoded label, not a measured fixture
+  count. Counter-only replay of the old harness passes all assertions and
+  measures14 setups; four new setups yield18. Keep old receipts unchanged.
+- Status0 is not a BA lifetime/reuse fence. Actual creation/link/late/reuse,
+  hot CPU lifetime and physical retirement/image/client gates remain. Old WM
+  plaintext belongs to a different build, not current ordering proof. Both
+  live graphs untouched; read ba-status REPORT/EVIDENCE. Full goal active.
+
 ## 2026-10-23 - Typed Retained Reset Integration
 
 - Owned work now uses typed NPU-reset/MCU-begin/MCU-complete process bridges,

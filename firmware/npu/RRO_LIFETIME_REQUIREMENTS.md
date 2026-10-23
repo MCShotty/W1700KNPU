@@ -85,6 +85,15 @@ owner. This fail-closed policy is not a qualified firmware retry/reuse fence.
 
 ## BA Lifetime And MCU Identity
 
+The current status handler requires the complete little-endian32 status to be
+zero before WCID/TID lookup and session-ID assignment. Nonzero statuses advance
+to later TLVs without rebinding or a cached-pointer status3 retry. Legacy DELETE
+IDs above1024 are rejected before allocation;1024 remains valid. The owned route
+comes first and retains invalid tuples/errors rather than silently discarding
+them. Current selected-C BA coverage is18 measured setups/six controls. The old
+hardcoded15 label measured14 setups; all old assertions remain, plus four new
+setups. These rules are not a BA-lifetime or reuse-fence witness.
+
 The selected MCU status handler resolves `wlan_id` and `tid` against the current
 WCID/TID object before assigning the firmware session ID. RX BA start first
 stops an old object in that slot and publishes a new one. The tuple therefore
@@ -135,9 +144,10 @@ The lower detach's pointer unpublication, reader join and reference puts are
 software lifetime operations, not physical NPU/firmware/DMA drain witnesses.
 Earlier mac80211 callbacks and the modeled DMA/MCU boundaries could contain
 other behavior; their relative position must not be used to invent a missing
-hardware proof. The current 1,090 caller cases/seven controls separate 1,040
+hardware proof. The refreshed 1,090 caller cases/seven controls separate 1,040
 optional-provider cases from 50 modeled owned-provider cases. Actual provider,
-journal and process bridges execute independently in 448 cases/four controls.
+journal and process bridges execute independently in456 allocation/fault cases/
+four controls, plus6150 reset transactions/12 negatives/three controls.
 These suites are not full joint kernel execution. No actual CPU join or physical
 retirement observation is recorded by the new closing calls.
 
