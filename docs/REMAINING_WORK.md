@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - Native Timeout And Actual BA Lifetime Work
+
+The new native-q2 replay is terminal: 174 completed RPCs, then publication
+ordinal34 hit its unchanged 60-second RPC bound. No full native transport pass,
+restart or budget increase. Investigate observer overhead without dropping its
+execution/memory/stack/digest coverage; instrumentation is a plausible contributor,
+not an isolated cause. The original compact replay remains live and frozen.
+
+Host BA allocation-error propagation and per-record RRO event framing/RCU/queued
+WLAN-TID identity are implemented: fourteen host scenarios/three compiled controls
+and four current AArch64 module links pass. This does not authenticate BA reuse.
+The WM carrier's nine regions all carry the loader encryption flag; no plaintext
+firmware ordering semantics were recovered. Complete retained reset-worker error,
+late-event/generation and reuse-fence wiring, then hot lifecycle, CPU join and
+independent physical drain/retirement. Current image, cold/fault/HIF2 and actual
+hardware/client/performance/stability acceptance still remain. Full goal active.
+
 ## 2026-10-23 - Qualify The New RRO Transport
 
 Typed 256-byte codec/client/broker, provider serial-chain handling and raw-pair

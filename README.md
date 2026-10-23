@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - BA Event Handling Hardened
+
+RX BA setup now stops before MCU enable if host allocation fails. RRO event
+parsing validates each record, preserves queued WLAN/TID/session identity, and
+continues past unusable status destinations under RCU. Fourteen selected-C host
+scenarios and three compiled mutation controls pass; all four target modules
+link. These checks model skb, allocation, locks and MCU boundaries.
+
+The new native transport replay is now terminal on a per-RPC time limit after
+174 completed requests, not a pass. It was not restarted or given higher limits.
+The original compact replay remains frozen and live. Firmware BA lifetime/reuse
+ordering, retained reset errors, CPU join and physical retirement remain open.
+See [the BA checkpoint](research/checkpoints/2026-10-23-npu-rro-ba/REPORT.md).
+
 ## 2026-10-23 - RRO Transport Integration In Progress
 
 The typed RRO path now passes 27,276 codec checks, 19,261 joint client/broker

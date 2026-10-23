@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - BA Integrity; Native Replay Terminal
+
+RX_START propagates host allocation failure before MCU BA enable. The actual
+event parser validates TLVs/pulls, uses RCU for status lookup/update, continues
+past unusable destinations and preserves delete WLAN/TID/session tuples. Fourteen
+host scenarios/three compiled controls pass, with modeled skb/allocator/lock/MCU
+boundaries. Four target modules final-link with b9e5003e/lock8222e0e7/31 mappings.
+Read the rro-ba checkpoint for receipts and regression/preservation scope.
+
+Supersedes prior running native-q2 status: exit-code1/time limit at publication
+ordinal34, after174 completed RPCs. Bounds unchanged, no restart or full pass.
+Original compact replay stays live/frozen. All nine WM regions have ENCRYPT set;
+156-byte opaque gap retained, no decryption/ISA/BA reuse semantics inferred.
+Retained reset errors/late events, authenticated generations/reuse fences, hot
+lifecycle, CPU join and independent physical retirement remain open. No image,
+hardware, VM or global-policy change. Full reverse-engineering goal stays active.
+
 ## 2026-10-23 - RRO Wire Qualification In Progress
 
 Identity-bearing 256-byte codec/client/broker and typed provider serial chain

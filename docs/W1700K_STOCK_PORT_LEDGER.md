@@ -1,10 +1,40 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (identity-bearing RRO transport implemented; qualification in progress)
+Last updated: 2026-10-23 (BA event integrity implemented; new native replay terminal on time limit)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - BA Setup And Event Integrity
+
+- Actual RX_START now propagates mt76 host-allocation errno before MCU BA enable.
+  No speculative rollback of partially accepted MCU setup is introduced.
+- Actual RRO event parser checks every TLV header/length and linear pull, permits
+  known extensions/unknown well-framed tags, and stops malformed records. Invalid
+  status destinations no longer discard subsequent records. RCU protects the
+  lookup/update; queued deletes retain WLAN/TID/session ID. These are wire tuples,
+  not firmware-authenticated BA lifetimes or permission to retire storage.
+- Fourteen selected-C ASan/UBSan/leak scenarios and three compiled intended-
+  assertion controls pass. The cumulative mt76 authority reconstructs at fuzz0.
+  All four target modules final-link; b9e5003e/lock8222e0e7, 31 component mappings.
+- Native-q2 is now terminal exit-code1, not live/pass:174 completed RPCs,34
+  publications, then ordinal34 times out at60,000,000us.100M instruction bound
+  unchanged. Failed full trace/partial state retained; no restart/limit waiver.
+  Python observer cost is a hypothesis, not an isolated cause or a firmware bug.
+- WM carrier99020e57 has nine ENCRYPT-flagged regions and a156-byte opaque gap.
+  Initial exact-payload-coverage assertion failed and is retained; corrected
+  inventory partitions the carrier without claiming decryption/ISA/BA ordering.
+- First module launch refused RAM before compilation. Only the two idle REA
+  helpers launched for now-closed agents were retired; fresh budget then passed
+  at the same512MiB cap and2GiB margin. No replay/VM/global-policy change.
+- Read rro-ba REPORT.md/EVIDENCE.json for fresh regression/preservation receipts.
+  Fresh selected callers1090 (1040 optional,50 modeled owned),116 tooling tests/
+  zero skips and source export pass. All7152 prior bindings/external1/capsule2865
+  and14 project image bindings/external1 rehash; original native CPU advances.
+  Original compact replay/capsule/images stay untouched. Reset-worker errors,
+  late/reuse identity, hot ownership, CPU join and physical retirement remain;
+  no full image or hardware acceptance. Full NPU objective active.
 
 ## 2026-10-23 - RRO Wire And Serial-Chain Integration In Progress
 

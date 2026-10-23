@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (RRO wire/provider integration implemented; qualification in progress)
+Last updated: 2026-10-23 (BA event integrity; native-q2 terminal time-limit failure)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - BA Setup And Event Integrity
+
+Host BA allocation errors now stop before MCU enable. Actual event TLVs/pulls
+are validated, unusable status destinations are skipped under RCU, and queued
+deletes retain WLAN/TID/session tuples. Fourteen selected-C host scenarios/three
+compiled controls and four target module links pass (b9e5003e/lock8222e0e7).
+These are modeled host boundaries and compiled modules, not BA lifetime proof.
+
+Native-q2 supersedes its earlier live status: terminal time limit at publication
+ordinal34 after174 completed RPCs. No full pass, restart or limit increase.
+Original compact replay remains live and frozen. WM inventory flags all nine
+regions encrypted, with156 opaque gap bytes; no decryption/ISA/reuse-order claim.
+The parser's first coverage failure and module RAM refusal remain as evidence.
+Two idle closed-agent helpers retired; fresh budget passed with caps/margin
+unchanged. No image, hardware or global-policy change. Full reset-worker late/
+error/reuse identity, hot lifecycle, CPU join and physical retirement still open.
+Read the new rro-ba checkpoint for qualification and preserved source versions.
 
 ## 2026-10-23 - Identity-Bearing RRO Integration In Progress
 

@@ -1,5 +1,24 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - BA Event Integrity And Native Timeout
+
+- RX BA setup now propagates host allocation failure before MCU enable. RRO
+  events validate each TLV/pull, skip unusable status destinations under RCU,
+  and retain WLAN/TID/session tuples in queued deletes. No BA epoch invented.
+- Fourteen selected-C host scenarios/three compiled controls pass. All four
+  AArch64 modules link; producer b9e5003e/lock8222e0e7, 31 mappings. Read the
+  rro-ba checkpoint and exact private receipts for scope and fresh regressions.
+- Supersedes the live native-q2 notes below: terminal exit-code1/time limit,
+  174 completed RPCs (1 OPEN,139 ENROLL,34 PUBLISH), then ordinal34 times out.
+  No complete native verdict, restart or limit increase. Original compact job
+  remains live with its original PID/invocation and frozen capsule.
+- WM loader inventory: all nine regions have ENCRYPT set; 156-byte opaque gap
+  retained. No decryption, ISA or firmware BA-reuse ordering claim. Retained
+  reset-worker errors/late generations, CPU join and physical retirement remain.
+- First module launch refused RAM before compile. Two idle helpers belonging
+  to the now-closed agents were retired; fresh budget passed at the same caps
+  and 2GiB margin. No image/hardware/VM/global-policy changes; full goal active.
+
 ## 2026-10-23 - RRO Wire Integration In Progress
 
 - Identity-bearing 256-byte RRO codec/client/broker and typed Linux provider

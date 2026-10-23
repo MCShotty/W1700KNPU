@@ -1,0 +1,120 @@
+{
+  "scope": "Selected host BA callers/parser under modeled boundaries plus current target-module links",
+  "goal_turn_classification": "progress",
+  "base_commit": "78c6e4a458868bb9e9a903e38977d6e799b93a4d",
+  "full_npu_goal_complete": false,
+  "BA_fixture": {
+    "candidate-q1": {
+      "path": ".local/npu-rro-ba-events-20261023/candidate-q1/result.json",
+      "sha256": "095a7c801ae25cde7e58c35aae1bb3197ed6ebeee10b431dc5acdc2c026ba36b",
+      "scenarios": 14,
+      "compiled_mutation_controls": 3
+    },
+    "current-q1": {
+      "path": ".local/npu-rro-ba-events-20261023/current-q1/result.json",
+      "sha256": "c8d9ec6d2d250778088b052bf1fb5d72f6c181fc0304751a9e9a89dd8b7d7028",
+      "scenarios": 14,
+      "compiled_mutation_controls": 3
+    }
+  },
+  "tooling_tests": 116,
+  "tooling_skips": 0,
+  "caller_regression": {
+    "cases": 1090,
+    "optional_provider_cases": 1040,
+    "modeled_owned_cases": 50,
+    "receipt_sha256": "7f11b7910b9a1b93b1c75411629427a90d8c8fac0087e04fc9677bf7ab90829c",
+    "joint_kernel_execution": false
+  },
+  "module_receipt_sha256": "b9e5003e8185f34c051bfba47978628d8eee993b239102c7f8e8a577943f567b",
+  "source_lock_sha256": "8222e0e798ede46f8437f9075279a996cf2905ab9539107ad190135312f5b8bb",
+  "kernel_sources": 5,
+  "mt76_sources": 329,
+  "component_sources": 31,
+  "target_modules": 4,
+  "native_q2": {
+    "terminal": "failed-exit-code",
+    "completed_positive_rpc": 174,
+    "completed_publications": 34,
+    "next_publication_ordinal": 34,
+    "timed_out": true,
+    "timeout_us": 60000000,
+    "instruction_bound": 100000000,
+    "full_native_transport_passed": false,
+    "restarted": false
+  },
+  "firmware_inventory": {
+    "carrier_sha256": "99020e57ff91fdee09b833f9d35f97ff70722d0ef32fa8b02f70c8d3c6f95592",
+    "region_count": 9,
+    "encrypted_flag_regions": 9,
+    "opaque_gap_bytes": 156,
+    "decrypted": false,
+    "architecture_inferred": false,
+    "BA_reuse_ordering_proved": false
+  },
+  "original_replay": {
+    "SubState": "running",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "MainPID": "2396851"
+  },
+  "capsule_inputs_rehashed": 2865,
+  "prior_bindings_rehashed": 7152,
+  "prior_external_bindings_rehashed": 1,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "first_module_launch": "refused-RAM-budget-before-compile",
+  "retired_idle_closed_agent_helpers": 2,
+  "original_replay_restarted": false,
+  "old_receipts_rewritten": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "physical_MCU_authenticated": false,
+  "physical_retirement": false,
+  "CPU_join_proved": false,
+  "VM_or_global_policy_changed": false,
+  "Jev_semantic_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "allocation_guard": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "record_framing": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "tuple_retained": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "report_claims_epoch_proof": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "report_claims_native_pass": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "report_scope": {
+        "type": "noul",
+        "noul": 0.92
+      }
+    },
+    "usage": {
+      "input_tokens": 3516,
+      "output_tokens": 118
+    }
+  },
+  "observed_unix_ns": 1792769956270237749,
+  "limitations": [
+    "RCU/allocator/skb/locks/MCU are modeled in the host fixture, not kernel concurrency or firmware proof.",
+    "The worker retains WLAN/TID but still has no authenticated BA lifetime or error/late/reuse retirement protocol.",
+    "Per-RPC timeout is an incomplete native replay, not a pass or proof of a firmware defect.",
+    "No whole cold/fault/HIF2/hot/physical/client acceptance or current image is inferred."
+  ],
+  "project_bindings": 7806,
+  "external_bindings": 1,
+  "private_evidence": ".local/npu-rro-ba-20261023/evidence-q1.json",
+  "private_evidence_sha256": "61f01ec48708936c4143931517f5f9d79d6105b9190932284ee9f82105f7987c"
+}
