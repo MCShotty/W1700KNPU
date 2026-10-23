@@ -12,6 +12,8 @@ static void mt76_rx_aggr_reorder_work(struct work_struct *work) { (void)work; }
 #define INIT_DELAYED_WORK(work, callback) ((work)->function = (callback))
 #define spin_lock_init(lock) (*(lock) = 0)
 #define lockdep_is_held(lock) (*(lock) != 0)
+#define lockdep_assert_held(lock) CHECK(*(lock), "RX-TID-creation-under-device-mutex")
+#define U64_MAX UINT64_MAX
 #define struct_size(pointer, member, count) \
 	(sizeof(*(pointer)) + sizeof((pointer)->member[0]) * (count))
 
@@ -21,6 +23,8 @@ static void model_publish_tid(struct mt76_rx_tid **slot, struct mt76_rx_tid *tid
 	CHECK(tid->dev == &aggr_dev->mt76 && tid->reorder_work.function &&
 	      !tid->lock && !tid->stopped && !*slot,
 	      "RX-TID-initialized-before-publication");
+	CHECK(tid->serial && tid->serial == aggr_dev->mt76.rx_tid_serial,
+	      "RX-TID-serial-assigned-before-publication");
 	*slot = tid;
 }
 #define rcu_assign_pointer(slot, value) model_publish_tid(&(slot), (value))

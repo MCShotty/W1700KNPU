@@ -83,6 +83,29 @@ separate. Its one-shot initial journal generation does not authenticate a BA.
 Pending identical tuples deduplicate; conflicts/completed-slot reuse stop the
 owner. This fail-closed policy is not a qualified firmware retry/reuse fence.
 
+## Current Device-Local RX-TID Creation Identity
+
+The ba-creation checkpoint adds an immutable nonzero u64 serial to each actual
+successfully allocated RX-TID before its RCU publication. A per-mt76-device
+sequence is protected by the existing device mutex. Failed allocation consumes
+no serial. MCU failure does not recycle a published serial. Exhaustion returns
+EOVERFLOW before shutting down an existing object; ordinary ENOMEM still follows
+the existing stop-before-allocation behavior. No BA stop/recovery reset is added.
+
+The actual selected creation/shutdown/stop/AMPDU/per-link BA/event suite passes19
+measured setups/12 compiled controls, including distinct WCID/TID creations and
+the final u64 value. Framework/concurrency/physical MCU remain host models.
+Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+broad456/four, callers1090/seven and142 units pass; all four modules link.
+
+This serial is not carried by current firmware events and has not yet been
+propagated into immutable retained BA status/delete/reset associations. It is
+neither a host arrival ordinal nor a reset-journal generation. An injected
+cookie-less late status still selects the replacement even when creation serials
+differ. This proves host indistinguishability, not real firmware reachability.
+A current-build firmware cookie or qualified late/reuse fence remains required.
+No hot admission, production retirement/rearm, DMA drain or free authority follows.
+
 ## BA Lifetime And MCU Identity
 
 The ba-link checkpoint executes the actual RX-TID start/shutdown/stop, AMPDU,

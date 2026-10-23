@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - Actual RX-TID Creation Serial
+
+- Successful real RX-TID allocation now assigns a nonzero device-local u64
+  serial before RCU publication, under the existing device mutex. Allocation
+  failure consumes none; MCU failure never recycles a published identity.
+  Exhaustion rejects replacement before stopping the current object, without wrap.
+- Selected actual creation/shutdown/stop/AMPDU/per-link BA/event C passes19
+  measured setups/12 compiled controls. BA18/six, worker22/eight, joint6150
+  resets/12 negatives/three controls, broad456/four, callers1090/seven and142
+  units/zero skips pass. Four modules link:producera7cab69b/lock06132a68,
+  31 mappings/5 kernel/330 mt76/16 fuzz0 patch outputs. Original inventories stay.
+- Carry this identity into immutable retained BA status/delete/reset metadata
+  next. The firmware events do not carry this serial; a cookie or qualified
+  current-build late/reuse fence is still required. Hot admission/retirement,
+  full image/hardware/client gates remain. Do not equate this serial with the
+  arrival ordinal, reset journal generation, MCU ACK or firmware authentication.
+- Authorized REA PIDs104034/666864 were already absent; no signal. Both original
+  replay identities/input graphs remain unchanged. No new hardware/VM/subagents.
+  Read ba-creation REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-24 - RX BA Primary Mapping And Shutdown Integrity
 
 - Status lookup now follows def_wcid, matching shared primary RX reordering,

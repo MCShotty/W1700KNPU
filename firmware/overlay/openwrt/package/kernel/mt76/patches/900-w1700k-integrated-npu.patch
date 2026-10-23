@@ -76,7 +76,16 @@ build input; compilation is not a physical drain or recovery proof.
  #endif
  #include <linux/soc/mediatek/mtk_wed.h>
  #include <net/netlink.h>
-@@ -722,6 +753,14 @@
+@@ -471,6 +502,8 @@
+ 	spinlock_t lock;
+ 	struct delayed_work reorder_work;
+ 
++	/* Device-local creation identity, not a firmware BA cookie. */
++	u64 serial;
+ 	u16 id;
+ 	u16 head;
+ 	u16 size;
+@@ -722,6 +755,14 @@
  	int (*parse_irq)(struct mt76_dev *dev, struct mt76s_intr *intr);
  };
  
@@ -91,7 +100,7 @@ build input; compilation is not a physical drain or recovery proof.
  struct mt76_mmio {
  	void __iomem *regs;
  	spinlock_t irq_lock;
-@@ -734,6 +773,8 @@
+@@ -734,6 +775,8 @@
  
  	struct airoha_ppe_dev __rcu *ppe_dev;
  	struct airoha_npu __rcu *npu;
@@ -100,7 +109,15 @@ build input; compilation is not a physical drain or recovery proof.
  	phys_addr_t phy_addr;
  	int npu_type;
  };
-@@ -1670,6 +1711,21 @@
+@@ -947,6 +990,7 @@
+ 	u32 rx_ampdu_ref;
+ 
+ 	struct mutex mutex;
++	u64 rx_tid_serial; /* Protected by mutex; never reset on BA stop. */
+ 
+ 	const struct mt76_bus_ops *bus;
+ 	const struct mt76_driver_ops *drv;
+@@ -1670,6 +1714,21 @@
  int mt76_testmode_set_state(struct mt76_phy *phy, enum mt76_testmode_state state);
  int mt76_testmode_alloc_skb(struct mt76_phy *phy, u32 len);
  
@@ -122,7 +139,7 @@ build input; compilation is not a physical drain or recovery proof.
  #ifdef CONFIG_MT76_NPU
  void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
  			u32 info);
-@@ -1679,9 +1735,25 @@
+@@ -1679,9 +1738,25 @@
  int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q);
  int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q);
@@ -150,7 +167,7 @@ build input; compilation is not a physical drain or recovery proof.
  void mt76_npu_queue_setup(struct mt76_dev *dev, struct mt76_queue *q);
  void mt76_npu_txdesc_cleanup(struct mt76_queue *q, int index);
  int mt76_npu_net_setup_tc(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-@@ -1716,18 +1788,90 @@
+@@ -1716,18 +1791,90 @@
  {
  }
  
@@ -2514,3 +2531,23 @@ build input; compilation is not a physical drain or recovery proof.
 +		owner->error = -EUCLEAN;
 +	spin_unlock_bh(&owner->lock);
 +}
+--- a/agg-rx.c
++++ b/agg-rx.c
+@@ -246,12 +246,17 @@
+ {
+ 	struct mt76_rx_tid *tid;
+ 
++	lockdep_assert_held(&dev->mutex);
++	if (dev->rx_tid_serial == U64_MAX)
++		return -EOVERFLOW;
++
+ 	mt76_rx_aggr_stop(dev, wcid, tidno);
+ 
+ 	tid = kzalloc(struct_size(tid, reorder_buf, size), GFP_KERNEL);
+ 	if (!tid)
+ 		return -ENOMEM;
+ 
++	tid->serial = ++dev->rx_tid_serial;
+ 	tid->dev = dev;
+ 	tid->head = ssn;
+ 	tid->size = size;

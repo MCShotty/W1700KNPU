@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current RX-TID Creation Identity
+
+Successful actual RX allocation now assigns a device-local nonzero u64 serial
+under dev->mutex before RCU publication. It never resets on BA stop, consumes no
+serial on allocation failure, and rejects exhaustion before replacing the old
+object. Published identities are not recycled after MCU failure. The seven
+in-tree creation call sites use that mutex, directly or through Connac helpers.
+
+Selected actual creation/shutdown/stop/AMPDU/per-link BA/event C passes19 measured
+setups/12 controls. BA18/six, worker22/eight, joint6150 resets/12 negatives/three,
+broad456/four, callers1090/seven and142 units/zero skips pass. Four modules link:
+producera7cab69b/lock06132a68/31 mappings/5 kernel/330 mt76/16 fuzz0 outputs.
+Original kernel/mt76 inventories and both live graphs remain unchanged.
+
+Creation identity is not yet propagated into retained BA bindings/reset records;
+firmware association and late/reuse fencing remain unqualified. Cookie-less
+status still targets the replacement slot in the host model. Hot CPU lifetime,
+retirement and physical/image/client gates remain. Authorized REA servers were
+already absent, no signal; no new hardware/VM/subagents. Read ba-creation
+REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-24 - Current RX BA Link And Shutdown Qualification
 
 Status resolution follows def_wcid before finding the shared primary RX-TID,

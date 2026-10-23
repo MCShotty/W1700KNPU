@@ -1,8 +1,26 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-24 (RX BA primary mapping, shutdown and current regressions pass)
+Last updated: 2026-10-24 (actual RX-TID creation serial and current regressions pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-24 - RX-TID Creation Serial And Refreshed Checks
+
+Actual RX allocation now publishes a nonzero device-local u64 creation serial,
+serialized by dev->mutex. Allocation failure consumes none; published identities
+are not recycled after MCU error. Exhaustion preserves the existing object and
+prevents a new MCU enable. Combined actual selected C passes19 setups/12 controls;
+BA18/six, worker22/eight, joint6150 resets/12 negatives/three, broad456/four,
+callers1090/seven and142 units/zero skips pass. Four modules link:
+producera7cab69b/lock06132a68/31 mappings/5 kernel/330 mt76/16 fuzz0 outputs.
+
+Retained BA identity propagation and current firmware association/reuse fencing
+remain. Cookie-less status still selects the replacement in the host model;
+different serials alone do not authenticate the event. Both original replay
+identities/graphs stay intact. Authorized REA PIDs already absent, no signal.
+Initial environment-label failure and concurrent RAM refusal are preserved;
+unchanged guarded retries pass. No new hardware/VM/subagents. Read ba-creation
+REPORT/EVIDENCE; full NPU goal remains active.
 
 ## 2026-10-24 - RX BA Link Mapping And Shutdown Tests
 

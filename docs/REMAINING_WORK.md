@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Carry Creation Identity Into Retained BA Bindings
+
+Actual RX-TID creation now assigns a nonzero device-local u64 serial before
+publication. Replacement, allocation/MCU errors, cross-WCID/TID uniqueness and
+exhaustion pass in19 selected-C setups/12 controls. BA18/six, worker22/eight,
+joint6150 resets/12 negatives/three controls, broad456/four, callers1090/seven
+and142 units/zero skips pass. Four modules link:producera7cab69b/lock06132a68.
+
+Next retain the actual creation serial with original active-link/primary WCID,
+WLAN/TID and session association through status/delete/reset work. Do not infer
+DELETE identity from whichever object currently occupies the slot, or treat the
+new counter as firmware authentication. A current-build cookie or qualified
+late/reuse fence remains required; the injected cookie-less status still reaches
+the replacement object despite distinct host serials. Real producer reachability
+is not proved. Hot CPU lifetime, production retirement/rearm, physical drain,
+full native/current-image/cold-fault-HIF2/hardware/client/performance/stability
+gates remain. Both live graphs untouched. Read ba-creation REPORT/EVIDENCE;
+the full NPU goal remains active.
+
 ## 2026-10-24 - Establish Actual BA Identity And Firmware Ordering
 
 Primary-link status mapping and status/shutdown locking are fixed. New selected

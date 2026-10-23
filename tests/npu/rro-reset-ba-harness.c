@@ -13,6 +13,7 @@
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
+typedef uint64_t u64;
 typedef u16 __le16;
 typedef u32 __le32;
 #define __packed __attribute__((packed))
@@ -69,7 +70,7 @@ struct mt76_wcid {
 	void *sta;
 	unsigned long ampdu_state;
 };
-struct mt76_dev { int mutex; };
+struct mt76_dev { int mutex; u64 rx_tid_serial; };
 struct mt7996_dev {
 	struct mt76_dev mt76;
 	bool npu_rro_owned;

@@ -67,7 +67,7 @@ def run(destination, source, harness_root):
     command, binary, executed = variant(destination)
     assert executed.returncode == 0, ('real RX-TID/link harness', executed.returncode, executed.stderr)
     row = json.loads(executed.stdout)
-    assert row == dict(passed=True, cases=14, late_cookie_less_rebind_characterized=True,
+    assert row == dict(passed=True, cases=19, late_cookie_less_rebind_characterized=True,
         MCU_error_context_retained_characterized=True, hardware=False), row
     mutants = (
         ('missing-primary-mapping', 'selected-mcu.inc',
@@ -84,7 +84,24 @@ def run(destination, source, harness_root):
         ('missing-allocation-guard', 'selected-main.inc', '\t\tif (ret)\n\t\t\tbreak;\n', '',
          'MCU-enable-requires-published-RX-TID'),
         ('missing-per-link-error-break', 'selected-add-rx-ba.inc', '\t\tif (ret)\n\t\t\tbreak;\n', '',
-         'MCU-error-leaves-published-context-characterization-not-rollback-proof'))
+         'MCU-error-leaves-published-context-characterization-not-rollback-proof'),
+        ('missing-creation-serial', 'selected-aggr.inc',
+         '\ttid->serial = ++dev->rx_tid_serial;\n', '',
+         'RX-TID-serial-assigned-before-publication'),
+        ('reused-creation-serial', 'selected-aggr.inc',
+         '\ttid->serial = ++dev->rx_tid_serial;\n', '\ttid->serial = dev->rx_tid_serial = 1;\n',
+         'serial-replacement-never-reuses-identity'),
+        ('missing-exhaustion-check', 'selected-aggr.inc',
+         '\tif (dev->rx_tid_serial == U64_MAX)\n\t\treturn -EOVERFLOW;\n', '',
+         'RX-TID-serial-assigned-before-publication'),
+        ('late-exhaustion-check', 'selected-aggr.inc',
+         '\tif (dev->rx_tid_serial == U64_MAX)\n\t\treturn -EOVERFLOW;\n\n\tmt76_rx_aggr_stop(dev, wcid, tidno);',
+         '\tmt76_rx_aggr_stop(dev, wcid, tidno);\n\n\tif (dev->rx_tid_serial == U64_MAX)\n\t\treturn -EOVERFLOW;',
+         'serial-exhaustion-keeps-current-object-and-blocks-MCU'),
+        ('failed-allocation-consumes-serial', 'selected-aggr.inc',
+         '\ttid = kzalloc(struct_size(tid, reorder_buf, size), GFP_KERNEL);\n\tif (!tid)\n\t\treturn -ENOMEM;\n\n\ttid->serial = ++dev->rx_tid_serial;',
+         '\tdev->rx_tid_serial++;\n\ttid = kzalloc(struct_size(tid, reorder_buf, size), GFP_KERNEL);\n\tif (!tid)\n\t\treturn -ENOMEM;\n\n\ttid->serial = dev->rx_tid_serial;',
+         'failed-allocation-does-not-consume-serial'))
     controls = []
     for name, target, old, replacement, assertion in mutants:
         child = destination / name
@@ -105,12 +122,14 @@ def run(destination, source, harness_root):
         actual_status_parser=True, physical_MCU=False, kernel_concurrency=False,
         late_cookie_less_rebind_characterized=True, MCU_error_context_retained_characterized=True,
         BA_generation_authenticated=False, physical_retirement=False, hardware=False,
+        device_local_creation_serial=True, serial_nonwrapping=True,
+        retained_BA_binding_propagation=False,
         modeled_boundaries=['RCU grace periods', 'device/TID locks', 'allocator failure',
             'active-link iteration and station/vif lookup', 'work initialization/cancellation',
             'physical MCU BA command', 'skb framing'],
         limits=['Verbatim selected production C and RX-TID/wire structs execute in a single-threaded host fixture.',
             'One controlled lookup/stop interleaving is modeled; this is not kernel concurrency qualification.',
-            'A cookie-less late status still binds the replacement slot: this is an explicitly demonstrated remaining gap, not a passed reuse fence.',
+            'Real RX-TID allocation assigns a non-wrapping device-local serial before publication. A cookie-less late status still binds the replacement slot; no firmware cookie, reuse fence or retained BA binding propagation is established.',
             'MCU failure retains the published host context, including partial per-link enable: no physical rollback is established.',
             'Fixture deferred frees model RCU disposal, not physical NPU/DMA drain or production RRO owner retirement.'])
     with (destination / 'result.json').open('x') as stream:

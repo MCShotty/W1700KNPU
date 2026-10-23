@@ -84,6 +84,8 @@ static void test_primary_creation_status_and_stop(void)
 	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START), "real-RX-TID-created");
 	CHECK(current(&f) && mcu_saw_published && mcu_rx_calls == 3,
 	      "real-RX-TID-published-before-all-active-link-MCU-calls");
+	CHECK(current(&f)->serial == 1 && f.common.dev.mt76.rx_tid_serial == 1,
+	      "serial-nonzero-first-allocation");
 	linked_status(&f, 1, 0x123);
 	CHECK(current(&f)->id == 0x123, "primary-status-binds-real-RX-TID");
 	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_STOP) && !current(&f),
@@ -171,6 +173,8 @@ static void test_replacement_stops_and_defers_old(void)
 	CHECK(current(&f) != old && old->stopped && old->reorder_work.cancelled &&
 	      retired_count == 1 && retired_tids[0] == old,
 	      "replacement-shuts-down-old-object-before-publishing-new-object");
+	CHECK(old->serial == 1 && current(&f)->serial == 2,
+	      "serial-replacement-never-reuses-identity");
 	linked_finish(&f);
 }
 static void test_oom_does_not_enable_mcu(void)
@@ -185,6 +189,8 @@ static void test_oom_does_not_enable_mcu(void)
 	CHECK(linked_action(&f, IEEE80211_AMPDU_RX_START) == -ENOMEM &&
 	      !current(&f) && !mcu_rx_calls && old->stopped && retired_count == 1,
 	      "real-allocation-failure-does-not-enable-MCU");
+	CHECK(f.common.dev.mt76.rx_tid_serial == old->serial,
+	      "failed-allocation-does-not-consume-serial");
 	linked_finish(&f);
 }
 static void test_mcu_error_retains_context(void)
@@ -229,6 +235,8 @@ static void test_late_event_on_replaced_slot_is_unfenced(void)
 	linked_status(&f, 3, 0x123);
 	CHECK(old->stopped && current(&f) != old && current(&f)->id == 0x123,
 	      "cookie-less-late-event-still-targets-current-slot-characterization");
+	CHECK(old->serial != current(&f)->serial && current(&f)->serial == 2,
+	      "host-creation-serial-does-not-authenticate-cookie-less-status");
 	linked_finish(&f);
 }
 static void test_real_shutdown_releases_buffered_frames(void)
@@ -248,6 +256,94 @@ static void test_real_shutdown_releases_buffered_frames(void)
 	linked_finish(&f);
 }
 
+static void test_different_TIDs_share_device_sequence(void)
+{
+	struct linked_fixture f;
+	struct mt76_rx_tid *other;
+	linked_setup(&f);
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START), "real-RX-start");
+	mutex_lock(&f.common.dev.mt76.mutex);
+	CHECK(!mt76_rx_aggr_start(&f.common.dev.mt76, primary(&f), 3, 12, 8),
+	      "different-TID-allocation");
+	other = primary(&f)->aggr[3];
+	CHECK(other && current(&f)->serial == 1 && other->serial == 2,
+	      "different-TIDs-have-distinct-device-identities");
+	mt76_rx_aggr_stop(&f.common.dev.mt76, primary(&f), 3);
+	mutex_unlock(&f.common.dev.mt76.mutex);
+	linked_finish(&f);
+}
+static void test_different_WCIDs_share_device_sequence(void)
+{
+	struct linked_fixture f;
+	struct mt76_wcid *other;
+	linked_setup(&f);
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START), "real-RX-start");
+	other = &f.links[1].wcid;
+	mutex_lock(&f.common.dev.mt76.mutex);
+	CHECK(!mt76_rx_aggr_start(&f.common.dev.mt76, other, 3, 12, 8),
+	      "different-WCID-allocation");
+	CHECK(other->aggr[3] && current(&f)->serial == 1 && other->aggr[3]->serial == 2,
+	      "different-WCIDs-have-distinct-device-identities");
+	mt76_rx_aggr_stop(&f.common.dev.mt76, other, 3);
+	mutex_unlock(&f.common.dev.mt76.mutex);
+	linked_finish(&f);
+}
+static void test_serial_exhaustion_preserves_existing_object(void)
+{
+	struct linked_fixture f;
+	struct mt76_rx_tid *last;
+	int allocations, commands;
+	linked_setup(&f);
+	f.common.dev.mt76.rx_tid_serial = U64_MAX - 1;
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START),
+	      "serial-last-nonzero-value-is-usable");
+	last = current(&f);
+	CHECK(last->serial == U64_MAX, "serial-does-not-truncate-at-32-bits");
+	allocations = host_start_calls;
+	commands = mcu_rx_calls;
+	CHECK(linked_action(&f, IEEE80211_AMPDU_RX_START) == -EOVERFLOW &&
+	      current(&f) == last && !last->stopped && !retired_count &&
+	      host_start_calls == allocations && mcu_rx_calls == commands &&
+	      f.common.dev.mt76.rx_tid_serial == U64_MAX,
+	      "serial-exhaustion-keeps-current-object-and-blocks-MCU");
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_STOP) && !current(&f),
+	      "serial-exhaustion-does-not-prevent-stop");
+	commands = mcu_rx_calls;
+	CHECK(linked_action(&f, IEEE80211_AMPDU_RX_START) == -EOVERFLOW &&
+	      !current(&f) && host_start_calls == allocations && mcu_rx_calls == commands &&
+	      f.common.dev.mt76.rx_tid_serial == U64_MAX,
+	      "serial-exhaustion-is-sticky-after-stop");
+	linked_finish(&f);
+}
+static void test_initial_allocation_failure_retry(void)
+{
+	struct linked_fixture f;
+	linked_setup(&f);
+	host_alloc_errno = -ENOMEM;
+	CHECK(linked_action(&f, IEEE80211_AMPDU_RX_START) == -ENOMEM &&
+	      !current(&f) && !f.common.dev.mt76.rx_tid_serial && !mcu_rx_calls,
+	      "initial-allocation-failure-does-not-create-identity");
+	host_alloc_errno = 0;
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START) && current(&f)->serial == 1,
+	      "retry-after-allocation-failure-gets-first-identity");
+	linked_finish(&f);
+}
+static void test_mcu_failure_does_not_reuse_published_identity(void)
+{
+	struct linked_fixture f;
+	struct mt76_rx_tid *old;
+	linked_setup(&f);
+	mcu_rx_errno = -EIO;
+	CHECK(linked_action(&f, IEEE80211_AMPDU_RX_START) == -EIO && current(&f),
+	      "MCU-error-keeps-real-creation");
+	old = current(&f);
+	mcu_rx_errno = 0;
+	CHECK(!linked_action(&f, IEEE80211_AMPDU_RX_START) && old->stopped &&
+	      old->serial == 1 && current(&f)->serial == 2,
+	      "MCU-error-never-recycles-published-identity");
+	linked_finish(&f);
+}
+
 int main(void)
 {
 	test_primary_creation_status_and_stop();
@@ -264,6 +360,11 @@ int main(void)
 	test_missing_active_link_objects_are_skipped();
 	test_late_event_on_replaced_slot_is_unfenced();
 	test_real_shutdown_releases_buffered_frames();
+	test_different_TIDs_share_device_sequence();
+	test_different_WCIDs_share_device_sequence();
+	test_serial_exhaustion_preserves_existing_object();
+	test_initial_allocation_failure_retry();
+	test_mcu_failure_does_not_reuse_published_identity();
 	printf("{\"passed\":true,\"cases\":%u,\"late_cookie_less_rebind_characterized\":true,"
 	       "\"MCU_error_context_retained_characterized\":true,\"hardware\":false}\n", cases);
 	return 0;

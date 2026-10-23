@@ -1,10 +1,43 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-24 (RX BA primary mapping, shutdown and current regressions pass)
+Last updated: 2026-10-24 (actual RX-TID creation serial and current regressions pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-24 - Actual RX-TID Creation Identity
+
+- Added immutable nonzero device-local u64 creation serials to actual generic
+  RX-TID allocation, before RCU publication. The existing device mutex guards
+  the sequence and is now lockdep-asserted. All seven in-tree callers already
+  use it, directly or through the Connac acquire macros. No BA-stop reset/wrap.
+- Exhaustion returns EOVERFLOW before old-object shutdown/allocation/MCU enable.
+  ENOMEM consumes no identity, but retains the existing stop-before-allocation
+  behavior. MCU errors retain a published context and its consumed serial;
+  this is not physical rollback. Different WCIDs/TIDs share the device sequence.
+- Combined selected actual creation/shutdown/stop/AMPDU/per-link BA/event C
+  passes19 measured setups/12 compiled controls, extending all previous14/seven
+  checks. BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+  broad456/four, callers1090/seven and142 units/zero skips pass. Models remain
+  explicit; no kernel concurrency or physical MCU/DMA qualification is implied.
+- Four AArch64 modules link:producera7cab69b/lock06132a68/31 mappings/5 kernel/
+  330 mt76/16 fuzz0 outputs. Original102685 kernel/516 mt76 entries unchanged.
+  The private copied-cache build retains236MiB cap and256MiB output ceiling;
+  it is not a fresh world/image build. Consult EVIDENCE for exact module hashes.
+- The serial is not in firmware BA messages or retained reset metadata yet.
+  An injected old-looking status still binds the replacement despite differing
+  serials, not proof of real firmware reachability. Carry identity into immutable
+  retained associations, then qualify a current-build cookie or true reuse fence.
+- First candidate launch failed before tests: missing WSL_DISTRO_NAME. The
+  corrected launch passes at unchanged limits. A concurrent module launch was
+  refused by the full-cap RAM guard; retry after tests finished keeps all caps,
+  swap settings and2GiB margin. Earlier failed receipts/journals stay preserved.
+- Authorized REA PIDs104034/666864 were already absent. No signal was needed or
+  sent, and unrelated servers/both original replay identities and graphs stay
+  untouched. No new hardware/module load/image/flash/VM change or subagents.
+  Retained BA binding/reuse, hot lifetime, retirement and physical/image/client
+  acceptance remain. Read ba-creation REPORT/EVIDENCE. Full NPU goal stays active.
 
 ## 2026-10-24 - RX BA Primary-Link And Shutdown Integrity
 

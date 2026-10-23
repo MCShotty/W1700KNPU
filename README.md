@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - RX-TID Creation Identity
+
+Actual RX-TID allocations now receive a non-wrapping, device-local creation
+serial before publication. Replacement gets a new serial; allocation failure
+consumes none, and exhaustion preserves the current object. The combined
+selected-C suite passes19 measured setups/12 compiled controls. Current BA,
+reset-worker, joint, allocation/fault, caller and142 unit checks pass; four
+AArch64 modules link.
+
+This is host identity, not a firmware cookie or qualified reuse fence. Retained
+BA binding propagation, hot ownership, physical retirement and current image/
+hardware/client acceptance remain. Both long replays stay untouched. See the
+[creation checkpoint](research/checkpoints/2026-10-24-npu-ba-creation/REPORT.md).
+
 ## 2026-10-24 - RX BA Link And Shutdown Fixes
 
 BA status lookup now reaches the shared primary RX-TID from secondary links and
