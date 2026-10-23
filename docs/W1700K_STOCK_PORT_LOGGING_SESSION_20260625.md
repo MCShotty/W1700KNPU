@@ -1,8 +1,25 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-24 (actual RX-TID creation serial and current regressions pass)
+Last updated: 2026-10-24 (accepted owned BA writers and work callback joined; current regressions pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-24 - BA Accepted Writer And Callback Join
+
+- Closed owned admission now precedes process cancellation and RCU grace period;
+  joined follows both waits and a locked inflight check. Accepted status writes
+  and callback return are separate witnesses. Three legacy cancellations remain.
+- New pthread selected-C37/eight controls/separate TSan pass; current owner23/14,
+  creation19/12, BA18/six, worker23/eight,6150 resets/three controls, broad456/four,
+  callers1090/seven and142 units/zero skips pass. Four module links use producer
+  aa15d714/lock1c1573cb; only mt7996e changes. No world/image/hardware run.
+- Module build/verifier preflights refused before dispatch; no limit/margin waived.
+  REA PIDs104034/666864 absent, no signal. Both live replay identities/graphs,
+  original inventories and protected images stay intact. No subagents or VM edits.
+- Remaining: current-firmware BA association/reuse, complete hot CPU/device
+  lifetime/transport admission, production retirement/rearm, physical drains,
+  full native/image/cold-fault/HIF2/hardware/client/performance/stability gates.
+  Read ba-join REPORT/EVIDENCE; full NPU goal remains active.
 
 ## 2026-10-24 - Retained BA Association Through Reset Work
 

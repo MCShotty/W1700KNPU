@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - BA Close Waits For Accepted Writers
+
+The owned BA/reset close path now joins the work callback and accepted status
+ID writers before advertising joined. A37-setup/eight-control pthread fixture,
+separate ThreadSanitizer run and the current regression suites pass. Four current
+AArch64 modules link with produceraa15d714/lock1c1573cb; only mt7996e changes.
+
+This is a host lifetime improvement, not firmware reuse authentication or a full
+RX/device/physical drain witness. No new image, module load or hardware acceptance
+occurred. Both original replay jobs stay untouched. See
+`research/checkpoints/2026-10-24-npu-ba-join/REPORT.md` for scope and evidence.
+
 ## 2026-10-24 - Retained BA Identity
 
 BA status now retains the original RX creation serial and active/primary link

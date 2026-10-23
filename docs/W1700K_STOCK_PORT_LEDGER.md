@@ -1,10 +1,42 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-24 (actual RX-TID creation serial and current regressions pass)
+Last updated: 2026-10-24 (accepted owned BA writers and work callback joined; current regressions pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-24 - Accepted BA Writer And Work Callback Software Join
+
+- Owned join now checks closed admission under owner lock, drops the lock,
+  cancel_work_sync joins the callback, synchronize_rcu waits for already accepted
+  status writers, and only then joined is recorded under lock if inflight is clear.
+  Open admission retains EUCLEAN and returns without starting either wait.
+- The accepted owned status retains RCU/TID lock through its final ID write even
+  after ba_bind releases owner lock. Close blocks subsequent successful ID-write
+  admission. The callback can outlive inflight=false; these are separate waits.
+  Existing three outer cancellations remain for legacy WED, before device mutex.
+- New source-bound selected-C fixture passes37 measured setups/eight intended
+  compiled assertion controls, ASan/UBSan/leak detection and separate GCC TSan.
+  Thirty-two setups pause an accepted writer; another pauses the modeled outer
+  callback tail after the actual reset helper returns. POSIX work/RCU/locks are
+  models, not Linux scheduler/IRQ qualification. Outer teardown order is static.
+- Current owner23/14, creation19/12, BA18/six, worker23/eight,6150 resets across
+  three profiles/two journal generations plus12 negatives/three controls,
+  broad456/four, callers1090/seven and142 units/zero skips pass. Four modules
+  link:produceraa15d714/lock1c1573cb,31 mappings/5 kernel/330 mt76/16 fuzz0
+  outputs. New cancellation/RCU imports resolve; only mt7996e module changes.
+- Late metadata still reaches the independent retained owner after joined. This
+  is not a full RX/NAPI/IRQ/PCIe/device join or retirement/free/rearm authority.
+  Firmware BA association/reuse and physical drain remain unproved. First unseen
+  cookie-less late status still binds a replacement; parked transport guards stay.
+- Initial module build/verifier RAM preflights refused dispatch; fresh retries use
+  unchanged limits/margins. Original102685 kernel/516 mt76 inventory entries,
+  capsule and both live replay identities/input graphs stay unchanged. Authorized
+  REA PIDs104034/666864 remain absent; no signals. No subagents, module load,
+  image build/promotion, flash or VM/global-policy changes. Read ba-join
+  REPORT/EVIDENCE. Full NPU objective remains active.
+
 
 ## 2026-10-24 - Retained Host BA Creation And Link Association
 

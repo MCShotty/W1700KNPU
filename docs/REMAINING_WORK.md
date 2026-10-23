@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Firmware Ordering And Full Hot Lifetime Remain
+
+Accepted owned status ID writers now finish before join returns, using the RCU
+section already enclosing admission/write. The real work callback is joined
+independently of inflight. New selected-C pthread37/eight plus separate TSan,
+owner23/14, creation19/12, BA18/six, worker23/eight,6150 resets/three controls,
+broad456/four, callers1090/seven and142 units pass. Four modules link:
+produceraa15d714/lock1c1573cb; original inventories and both live graphs stay.
+
+Next establish current-firmware BA ordering/cookie or a real late/reuse fence.
+First unseen cookie-less status can still bind a replacement. Late retained
+metadata remains possible after joined; complete RX/NAPI/IRQ/PCIe/device CPU
+lifetime, hot transport admission, production retirement/rearm and physical drain
+are unqualified. Finish both full native replays and current full-image/cold-fault/
+HIF2/hardware/client/performance/stability gates. Read ba-join REPORT/EVIDENCE;
+the full NPU objective remains active, with no new hardware/image acceptance.
+
 ## 2026-10-24 - Qualify Firmware Ordering And Hot CPU Join
 
 Actual host BA creation identity now reaches retained status/DELETE/reset work,

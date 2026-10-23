@@ -1,5 +1,20 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - Accepted BA Writer And Callback Join
+
+- Owned reset join now requires closed admission, cancels/joins the actual work
+  item, waits an RCU grace period, then checks inflight and records joined. The
+  three outer cancellations remain for legacy WED; process calls precede mutex.
+- New selected-C pthread fixture passes37 setups/eight compiled controls with
+  ASan/UBSan/leaks and a separate TSan run. Current owner23/14, creation19/12,
+  BA18/six, worker23/eight,6150 resets/three controls, broad456/four, callers1090/
+  seven and142 units/zero skips pass. Four modules link:produceraa15d714/lock
+  1c1573cb; only mt7996e changes, original inventories remain intact.
+- This joins accepted owned ID writers and the callback, not all future metadata
+  or RX/NAPI/IRQ/PCIe ingress. No firmware BA-reuse fence, retirement/free/rearm,
+  physical drain or hardware acceptance follows. Both live replay graphs remain
+  unchanged. Read ba-join REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-24 - Retained Host BA Associations
 
 - Status0 now retains actual RX creation serial, original active WLAN/TID and

@@ -22,6 +22,16 @@ typedef u32 __le32;
 #define GFP_KERNEL 2
 #define READ_ONCE(value) (value)
 #define CHECK(ok, message) assert((ok) && message)
+#ifdef W1700K_THREADED_BA_JOIN
+#include "rro-ba-join-threading.h"
+typedef atomic_int test_counter_t;
+#else
+typedef int test_counter_t;
+#define MODEL_RCU_ENTER(depth) ((void)(depth))
+#define MODEL_RCU_EXIT(depth) ((void)(depth))
+#define MODEL_STATUS_WRITE_GATE() ((void)0)
+#define MODEL_LOCK_HELD(pointer) (*(pointer) != 0)
+#endif
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #define cpu_to_le16(value) ((u16)(value))
 #define le16_to_cpu(value) ((u16)(value))
@@ -135,9 +145,10 @@ enum {
 	IEEE80211_AMPDU_TX_START_IMMEDIATE = 50,
 };
 
-static int rcu_depth, rcu_locks, rcu_unlocks, status_writes;
-static int host_start_calls, host_stop_calls, mcu_rx_calls, mcu_tx_calls;
-static int queue_calls, skb_pull_calls, may_pull_calls, may_pull_failures;
+static _Thread_local int rcu_depth;
+static test_counter_t rcu_locks, rcu_unlocks, status_writes;
+static test_counter_t host_start_calls, host_stop_calls, mcu_rx_calls, mcu_tx_calls;
+static test_counter_t queue_calls, skb_pull_calls, may_pull_calls, may_pull_failures;
 static int host_alloc_errno, mcu_rx_errno;
 static bool delete_alloc_fail;
 static struct mt76_rx_tid *new_host_tid;
@@ -147,12 +158,18 @@ static int delete_alloc_calls;
 static struct mt7996_dev *aggr_dev;
 #endif
 
-static void rcu_read_lock(void) { rcu_depth++; rcu_locks++; }
+static void rcu_read_lock(void)
+{
+	MODEL_RCU_ENTER(rcu_depth);
+	rcu_depth++;
+	rcu_locks++;
+}
 static void rcu_read_unlock(void)
 {
 	CHECK(rcu_depth > 0, "unbalanced-RCU-unlock");
 	rcu_depth--;
 	rcu_unlocks++;
+	MODEL_RCU_EXIT(rcu_depth);
 }
 static struct mt76_wcid *mt76_wcid_ptr(struct mt7996_dev *dev, u16 idx)
 {
@@ -171,6 +188,7 @@ static void model_write_once(u16 *slot, u16 value)
 	CHECK(rcu_depth > 0, "status-write-without-RCU");
 	CHECK(tid->lock == 1, "status-write-without-TID-lock");
 	CHECK(!tid->stopped, "status-write-to-stopped-TID");
+	MODEL_STATUS_WRITE_GATE();
 	*slot = value;
 	status_writes++;
 }
@@ -218,13 +236,21 @@ static void *kzalloc(size_t bytes, int flags)
 }
 static void spin_lock_bh(int *lock)
 {
+#ifdef W1700K_THREADED_BA_JOIN
+	join_model_lock(lock);
+#else
 	CHECK(!*lock, "nested-queue-lock");
 	*lock = 1;
+#endif
 }
 static void spin_unlock_bh(int *lock)
 {
+#ifdef W1700K_THREADED_BA_JOIN
+	join_model_unlock(lock);
+#else
 	CHECK(*lock == 1, "unbalanced-queue-unlock");
 	*lock = 0;
+#endif
 }
 #define mt76_hw(dev) (dev)
 static void ieee80211_queue_work(void *hw, struct work_struct *work)
@@ -235,13 +261,21 @@ static void ieee80211_queue_work(void *hw, struct work_struct *work)
 static struct mt7996_dev *mt7996_hw_dev(struct ieee80211_hw *hw) { return hw->dev; }
 static void mutex_lock(int *lock)
 {
+#ifdef W1700K_THREADED_BA_JOIN
+	join_model_lock(lock);
+#else
 	CHECK(!*lock, "nested-ampdu-mutex");
 	*lock = 1;
+#endif
 }
 static void mutex_unlock(int *lock)
 {
+#ifdef W1700K_THREADED_BA_JOIN
+	join_model_unlock(lock);
+#else
 	CHECK(*lock == 1, "unbalanced-ampdu-mutex");
 	*lock = 0;
+#endif
 }
 #ifndef W1700K_REAL_RX_AGGR
 static int mt76_rx_aggr_start(struct mt76_dev *dev, struct mt76_wcid *wcid,

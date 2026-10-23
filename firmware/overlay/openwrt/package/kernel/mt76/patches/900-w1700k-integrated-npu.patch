@@ -2236,7 +2236,7 @@ build input; compilation is not a physical drain or recovery proof.
  mt7996e-$(CONFIG_DEV_COREDUMP) += coredump.o
 --- /dev/null
 +++ b/mt7996/npu-rro-reset.c
-@@ -0,0 +1,422 @@
+@@ -0,0 +1,438 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +#include <linux/module.h>
 +#include <linux/slab.h>
@@ -2652,6 +2652,22 @@ build input; compilation is not a physical drain or recovery proof.
 +	owner = smp_load_acquire(&dev->wed_rro.reset_owner);
 +	if (!owner)
 +		return;
++	spin_lock_bh(&owner->lock);
++	if (!owner->closing) {
++		if (!owner->error)
++			owner->error = -EUCLEAN;
++		spin_unlock_bh(&owner->lock);
++		return;
++	}
++	spin_unlock_bh(&owner->lock);
++
++	/* Keep caller cancellation for legacy WED. Own the retained-work join here:
++	 * inflight can clear before the callback returns. Accepted BA ID writers
++	 * still hold RCU after binding unlocks, so join those read-side sections too.
++	 */
++	cancel_work_sync(&dev->wed_rro.work);
++	synchronize_rcu();
++
 +	spin_lock_bh(&owner->lock);
 +	if (owner->closing && !owner->inflight)
 +		owner->joined = true;

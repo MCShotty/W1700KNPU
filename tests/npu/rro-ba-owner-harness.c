@@ -10,7 +10,7 @@ static void ba_owner_queue_work(void *hw, struct work_struct *work)
 	struct mt7996_npu_rro_reset_owner *owner = ba_device->wed_rro.reset_owner;
 	CHECK(hw == ba_device && work == &ba_device->wed_rro.work,
 	      "BA-owner-queue-target");
-	CHECK(ba_device->wed_rro.lock || (owner && owner->lock),
+	CHECK(MODEL_LOCK_HELD(&ba_device->wed_rro.lock) || (owner && MODEL_LOCK_HELD(&owner->lock)),
 	      "BA-owner-queue-under-admission-lock");
 	CHECK(!ba_device->wed_rro.reset_closing && (!owner || !owner->closing),
 	      "BA-owner-no-queue-after-close");
@@ -19,7 +19,7 @@ static void ba_owner_queue_work(void *hw, struct work_struct *work)
 static int mt76_npu_rro_abort(struct mt76_dev *dev, int error)
 {
 	CHECK(dev == &ba_device->mt76 && dev->mutex && !rcu_depth &&
-	      !ba_device->wed_rro.reset_owner->lock, "modeled-abort-process-boundary");
+	      !MODEL_LOCK_HELD(&ba_device->wed_rro.reset_owner->lock), "modeled-abort-process-boundary");
 	ba_abort_calls++;
 	return error;
 }
@@ -27,7 +27,7 @@ static struct mt7996_npu_rro_ba_binding *ba_callback_identity(u32 id)
 {
 	struct mt7996_npu_rro_reset_owner *owner = ba_device->wed_rro.reset_owner;
 	struct mt7996_npu_rro_ba_binding *ba = &owner->bindings[id];
-	CHECK(ba_device->mt76.mutex && !rcu_depth && !owner->lock &&
+	CHECK(ba_device->mt76.mutex && !rcu_depth && !MODEL_LOCK_HELD(&owner->lock) &&
 	      ba->serial && ba->reset_serial == ba->serial && ba->serial == ba_callback_serial,
 	      "provider-callback-needs-original-retained-identity");
 	return ba;
@@ -71,6 +71,21 @@ static int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 id,
 	ba_complete_calls++;
 	return ba_complete_error;
 }
+#ifndef W1700K_THREADED_BA_JOIN
+static bool cancel_work_sync(struct work_struct *work)
+{
+	CHECK(work == &ba_device->wed_rro.work && ba_device->wed_rro.reset_owner->closing &&
+	      !MODEL_LOCK_HELD(&ba_device->wed_rro.reset_owner->lock) && !rcu_depth,
+	      "BA-join-cancellation-after-close-outside-owner-lock");
+	return false;
+}
+static void synchronize_rcu(void)
+{
+	CHECK(ba_device->wed_rro.reset_owner->closing && !rcu_depth &&
+	      !MODEL_LOCK_HELD(&ba_device->wed_rro.reset_owner->lock),
+	      "BA-join-grace-period-process-context");
+}
+#endif
 static struct mt7996_npu_rro_reset_owner *ba_owner(struct linked_fixture *f)
 {
 	return f->common.dev.wed_rro.reset_owner;
@@ -149,6 +164,7 @@ static void ba_create_status(struct linked_fixture *f)
 	linked_status(f, 3, 21);
 }
 
+#ifndef W1700K_BA_JOIN_SUITE
 static void test_original_link_and_actual_serial(void)
 {
 	struct linked_fixture f;
@@ -374,3 +390,4 @@ int main(void)
 	       "\"firmware_reuse_fence\":false,\"hardware\":false}\n", cases);
 	return 0;
 }
+#endif

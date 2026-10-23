@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current Accepted BA Writer And Callback Join
+
+Owned join refuses open admission without sleeping, then independently waits
+for the work callback and preexisting RCU readers before recording joined.
+Successful owned status binding and final TID ID write already share that RCU
+section. The three outer legacy cancellations remain, outside device mutex.
+
+New selected-C pthread fixture37/eight controls and separate TSan pass. Current
+owner23/14, creation19/12, BA18/six, worker23/eight,6150 resets/three controls,
+broad456/four, callers1090/seven and142 units/zero skips pass. Four modules link:
+produceraa15d714/lock1c1573cb/31 mappings/16 fuzz0 outputs. Only mt7996e changes.
+
+The pthread framework is not Linux concurrency qualification. Late metadata,
+firmware association/reuse, full hot CPU/device lifetime, retirement/rearm and
+physical/image/client gates remain. Original inventories and both live replay
+graphs stay untouched. Read ba-join REPORT/EVIDENCE; full NPU goal active.
+
 ## 2026-10-24 - Current Retained Host BA Association
 
 Status0 records actual RX-TID serial, active WLAN/TID and primary WCID in the

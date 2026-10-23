@@ -302,6 +302,8 @@ static void ieee80211_queue_work(void *hw, struct work_struct *work);
 static int mt76_npu_send_txrx_addr(struct mt76_dev *dev, int selector, u16 id,
 				    int a, int b, int c);
 static int mt7996_mcu_wed_rro_reset_sessions(struct mt7996_dev *dev, u16 id);
+static bool cancel_work_sync(struct work_struct *work);
+static void synchronize_rcu(void);
 static int mt76_npu_rro_reset_npu(struct mt76_dev *dev, u32 id, u32 generation, u32 *ticket);
 static int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 id, u32 generation, u32 ticket);
 static int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 id,
@@ -790,6 +792,20 @@ static void model_cancel_work_sync(void)
 	      !fixture.wed_rro.reset_owner->lock.held,
 	      "close-before-cancellation");
 	cancel_calls++;
+}
+
+static bool cancel_work_sync(struct work_struct *work)
+{
+	CHECK(work == &fixture.wed_rro.work, "owned-work-cancel-target");
+	model_cancel_work_sync();
+	return false;
+}
+
+static void synchronize_rcu(void)
+{
+	CHECK(fixture.wed_rro.reset_owner->closing && cancel_calls > 0 &&
+	      !fixture.mt76.mutex && !fixture.wed_rro.reset_owner->lock.held,
+	      "owned-work-cancel-before-status-grace-period");
 }
 
 static void test_close_and_queue_order(void)

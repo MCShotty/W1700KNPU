@@ -1,0 +1,546 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "c3e88986f06d148d0a21622e7dad3d358ccd0ac8",
+  "scope": "Accepted owned BA ID writers and actual work callback joined after closed admission",
+  "source_lock_sha256": "1c1573cb5d2fd1b70b25b42d39210d2dd342054950a8f2dcd0a994bb77c4d1e2",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "mt76_patch_outputs": 16,
+  "mt76_patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "producer": ".local/npu-checked-irq-modules/ba-join-q1/result.json",
+  "producer_sha256": "aa15d714eacee0394cdd900b4c277641948c6f22dc1b2c744b84c22085e7a9c6",
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "module_bytes_changed": {
+    "mt76.ko": false,
+    "mt76-connac-lib.ko": false,
+    "mt7996/mt7996e.ko": true
+  },
+  "provider_module_unchanged": true,
+  "typed_reset_edges_linked": [
+    "mt76_npu_rro_reset_mcu_begin",
+    "mt76_npu_rro_reset_mcu_complete",
+    "mt76_npu_rro_reset_npu"
+  ],
+  "actual_output_bytes": 155024248,
+  "module_cap_bytes": 247463936,
+  "output_ceiling_bytes": 268435456,
+  "copied_qualified_cache": true,
+  "tests": {
+    "candidate_join": {
+      "folder": ".local/npu-rro-ba-join-20261024/candidate-q1",
+      "receipt_sha256": "1995c50f561885520f69104fcdef863c2c97d0ff148b58605e878f4875e27e94"
+    },
+    "join": {
+      "folder": ".local/npu-rro-ba-join-20261024/current-q1",
+      "receipt_sha256": "fb8be35b10e1840382939810cdfb24e5d173ca0b243119e1abdbb0158a438d6d"
+    },
+    "candidate": {
+      "folder": ".local/npu-rro-ba-owner-20261024/join-candidate-q1",
+      "receipt_sha256": "b76fe9bc664835f774beb2bb55be5119f9e5db8b59b67e23373339041f3b1af5"
+    },
+    "owner": {
+      "folder": ".local/npu-rro-ba-owner-20261024/join-current-q1",
+      "receipt_sha256": "a79bfad8088e534dea51793f253944939dc599c3eed7e03d7b22fa8b23f0f1ad"
+    },
+    "candidate_creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/ba-join-candidate-q1",
+      "receipt_sha256": "14c692168f7534b9e74f385a3aa6e5b86c75b5cf646b99401e54623244b48cd3"
+    },
+    "candidate_BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/ba-join-candidate-q1",
+      "receipt_sha256": "7344cd60992f1ef212a7015e970238deac7a9b5728ec3b26d747ebf5d7e5930f"
+    },
+    "candidate_worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/ba-join-candidate-q1",
+      "receipt_sha256": "a0784e22d6585e89536b43f6bb17b003cd68534b895b806aba9c8a5c56a5c3ec"
+    },
+    "creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/ba-join-current-q1",
+      "receipt_sha256": "c8f9d5ce8a7b1582b2bf2d75282042ed6c2a3f140053cee1d6b7fbe9aa0a7ea2"
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/ba-join-current-q1",
+      "receipt_sha256": "6ff4efa0a3082591f41cba07e2fa456b000594b4eca8a37188c8daa4aff9e21d"
+    },
+    "worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/ba-join-current-q1",
+      "receipt_sha256": "2c8cda70fd38544665919c1829057b37feb27d4fd5e7fe8d6d083de758dd2066"
+    },
+    "joint": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/ba-join-reset-q1",
+      "receipt_sha256": "c1bd593b35bcf86892009a4befabe41e00b7ba84b6eeca6cd17a326a21cc696d"
+    },
+    "broad": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/ba-join-broad-q1",
+      "receipt_sha256": "6b73279259bfaf232b2aec04bdca3417af0645636292b306855f80b6ab8f101e"
+    },
+    "callers": {
+      "folder": ".local/npu-rro-reset-callers-20261023/ba-join-current-q1",
+      "receipt_sha256": "276ae10f91ab25632ee743a4235d0c67c2b20e648f802f794e0e6f790a2eb63b"
+    }
+  },
+  "creation_measured_setups": 19,
+  "creation_controls": 12,
+  "BA_measured_setups": 18,
+  "BA_controls": 6,
+  "retained_BA_joint_setups": 23,
+  "retained_BA_joint_controls": 14,
+  "worker_cases": 23,
+  "worker_controls": 8,
+  "worker_prior_BA_enrollment_explicitly_modeled": true,
+  "joint_reset_transactions": 6150,
+  "joint_profiles": 3,
+  "reset_journal_generations": 2,
+  "joint_negative_cases": 12,
+  "joint_controls": 3,
+  "broad_cases": 456,
+  "broad_controls": 4,
+  "broad_publications": 387,
+  "broad_negative_joint": 11,
+  "broad_late_tx_checks": 12,
+  "caller_cases": 1090,
+  "caller_controls": 7,
+  "legacy_optional_provider_cases": 1040,
+  "owned_provider_model_cases": 50,
+  "total_units": 142,
+  "skipped": 0,
+  "actual_RX_creation_serial_implemented": true,
+  "serial_width_bits": 64,
+  "serial_device_local": true,
+  "serial_nonzero_and_nonwrapping": true,
+  "serial_assigned_before_RCU_publication": true,
+  "device_mutex_serializes_creation": true,
+  "allocation_failure_consumes_no_serial": true,
+  "MCU_failure_does_not_recycle_serial": true,
+  "exhaustion_preserves_existing_object": true,
+  "primary_mapping_and_shutdown_lock_retained": true,
+  "status0_and_owned_invalid_DELETE_rules_retained": true,
+  "retained_BA_binding_propagation": true,
+  "core_association_write_once": true,
+  "binding_table_entries": 1025,
+  "binding_table_bound_bytes": 32768,
+  "owner_bound_bytes": 65536,
+  "DELETE_infers_current_RX_identity": false,
+  "reset_snapshot_checked_before_provider": true,
+  "constructor_unpublished_owner_and_table_unwind": true,
+  "published_references_and_table_retained": true,
+  "owned_mode_change_keeps_status_metadata": true,
+  "closed_metadata_retained_without_new_admission": true,
+  "already_accepted_status_writer_join": true,
+  "joined_after_callback_return_and_RCU": true,
+  "new_join_fixture_setups": 37,
+  "new_join_fixture_controls": 8,
+  "scheduled_status_cases": 32,
+  "separate_ThreadSanitizer_pass": true,
+  "full_RX_ingress_or_device_join": false,
+  "post_join_late_metadata_retained": true,
+  "post_close_absolute_ID_write_fence_qualified": false,
+  "firmware_BA_association_authenticated": false,
+  "firmware_reuse_fence_qualified": false,
+  "first_unseen_cookie_less_replacement_binding_characterized": true,
+  "real_firmware_reachability_or_physical_race_proved": false,
+  "initial_journal_generation_is_BA_identity": false,
+  "parked_guards_unchanged": true,
+  "hot_typed_reset_admitted": false,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "native": {
+    "complete": false,
+    "profiles_observed": [
+      {
+        "profile": "profile-0",
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "last_complete": {
+          "operation": 8,
+          "argument": 0,
+          "generation": 0,
+          "sequence": 6443,
+          "journal_sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+          "broker_sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+          "request_sha256": "09a4225758054545c9a2650074b9f39361d2958dcfe0428ed3953bf25c5e450d",
+          "reply_sha256": "e6bac2a664c1540b21e1ec8839e4bfa59c51d0b3994e4c950d2b2aa3da8ff6c2",
+          "rolling_sha256": "f671e6b818aebaa7b9cfedad1a5dffd40e11d3934d7be63e82d3ac75219dc1ae",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 124885,
+            "metadata_writes": 12270,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 519887431,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      },
+      {
+        "profile": "profile-1",
+        "positive_rpc_observed": 4500,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 1410,
+          "6": 1410,
+          "7": 1410
+        },
+        "last_complete": {
+          "operation": 7,
+          "argument": 384,
+          "generation": 2,
+          "sequence": 4523,
+          "journal_sha256": "376d458da888f76fffb5f05c8a34fdf5825da6273ad2473c3b7a3ce3e80cf345",
+          "broker_sha256": "d372e9a806022c3f3c452be23c76e3b25adfd3d152d6e340bd68ff28c2da03ff",
+          "request_sha256": "8e4ce5e4a7e615859881e4083e175490e50863bd8d7952f59c6d170c55c7870e",
+          "reply_sha256": "8c8a2a8edf12ec91b2d6e8af04c5a852e959bccaa2ba0359c209738b96f6a13e",
+          "rolling_sha256": "dbf44dd4026f3980f7c03c04dafd9bdf13104a193cadf3e01bcf8fd965fb1aac",
+          "modeled_MCU_result": true,
+          "counts": {
+            "blocks": 124556,
+            "metadata_writes": 12297,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1
+          },
+          "write_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_ns": 557578505,
+          "min_sp": 2214726368,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        }
+      }
+    ],
+    "service": {
+      "MemoryCurrent": "128442368",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0",
+      "unit": "w1700k-npu-rro-observer-native-q3.service",
+      "SubState": "verified-live-process-and-populated-cgroup",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+      "MainPID": "2301044"
+    }
+  },
+  "original_service": {
+    "MemoryCurrent": "160972800",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "SubState": "verified-live-process-and-populated-cgroup",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090",
+    "identity_evidence": "Fresh systemctl baseline, exact live PID/start/cgroup; no environ read",
+    "MainPID": "2396851"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 7161711
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 2893006
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 7169104
+    },
+    {
+      "pid": 2301044,
+      "start_ticks": "17371634",
+      "CPU_ticks": 8
+    },
+    {
+      "pid": 2301292,
+      "start_ticks": "17371696",
+      "CPU_ticks": 2900497
+    }
+  ],
+  "native_input_graph_unchanged": true,
+  "original_replays_restarted": false,
+  "prior_bindings_rehashed": 24862,
+  "prior_external_bindings_rehashed": 2,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "REA_servers_signaled": false,
+  "subagents_launched": 0,
+  "VM_or_global_policy_changed": false,
+  "new_decryption_or_Ghidra_analysis": false,
+  "original_RAM_thresholds_and_limits_unchanged": true,
+  "all_controlled_verification_dispatches_require_fresh_matching_Windows_receipt": true,
+  "initial_module_preflight_refusal": {
+    "phase": "modules-ba-join-q1",
+    "passed": false,
+    "Windows_available_bytes": 2263273472,
+    "Windows_required_bytes": 2281701376,
+    "preflight_returncode": 1,
+    "native_build_dispatched": false,
+    "RAM_threshold_or_replay_limit_relaxed": false
+  },
+  "additional_host_preflight_refusals": [
+    {
+      "phase": "modules-ba-join-verify-q1",
+      "passed": false,
+      "Windows_available_bytes": 2245881856,
+      "Windows_required_bytes": 2281701376,
+      "preflight_returncode": 1,
+      "native_verification_dispatched": false,
+      "RAM_threshold_or_replay_limit_relaxed": false
+    },
+    {
+      "phase": "ba-join-current-q1",
+      "passed": false,
+      "Windows_required_bytes": 2281701376,
+      "Windows_available_bytes_in_observation_order": [
+        2142363648,
+        2203205632,
+        2262315008
+      ],
+      "preflight_returncodes": [
+        1,
+        1,
+        1
+      ],
+      "native_test_dispatches_from_these_attempts": 0,
+      "RAM_threshold_or_replay_limit_relaxed": false
+    },
+    {
+      "phase": "ba-join-current-q1",
+      "passed": false,
+      "Windows_required_bytes": 2281701376,
+      "Windows_available_bytes": 2253320192,
+      "preflight_returncode": 1,
+      "native_tests_dispatched": false,
+      "RAM_threshold_or_replay_limit_relaxed": false
+    },
+    {
+      "phase": "ba-join-current-q1",
+      "passed": false,
+      "Windows_required_bytes": 2281701376,
+      "Windows_available_bytes": 2258915328,
+      "preflight_returncode": 1,
+      "native_tests_dispatched": false,
+      "RAM_threshold_or_replay_limit_relaxed": false
+    },
+    {
+      "phase": "ba-join-current-q1",
+      "passed": false,
+      "Windows_required_bytes": 2281701376,
+      "Windows_available_bytes": 2275774464,
+      "preflight_returncode": 1,
+      "native_tests_dispatched": false,
+      "RAM_threshold_or_replay_limit_relaxed": false
+    }
+  ],
+  "RPC_summary_streaming_only": true,
+  "Jev_design": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "RCU_encloses_writer": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "cancel_is_separate": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "close_precedes_grace": {
+        "type": "noul",
+        "noul": 0.29
+      },
+      "physical_claim": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 587,
+      "output_tokens": 82
+    }
+  },
+  "Jev_source": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "open_returns_before_sleep": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "joined_after_both_waits": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "closed_metadata_without_admission": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "whole_device_join_claim": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1270,
+      "output_tokens": 84
+    }
+  },
+  "Jev_report": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "full_kernel_claim": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "close_vs_join_distinct": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "callback_model_clear": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "firmware_reuse_proved": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "late_metadata_scope": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 1988,
+      "output_tokens": 99
+    }
+  },
+  "observed_unix_ns": 1792797189000233300,
+  "private_evidence": ".local/npu-ba-join-20261024/evidence-q1.json",
+  "private_evidence_sha256": "01c42fa9af57c6847b68489e7641bce601907e2a51efe40240c750f1b54cd9f4",
+  "project_bindings": 28103,
+  "external_bindings": 2
+}

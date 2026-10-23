@@ -41,6 +41,22 @@ owner-lock release while retaining the TID lock/RCU. Full hot CPU lifetime must
 cover these readers/writers before consumer or backing retirement. Parked-only
 transport remains unchanged; no module-load/image/hardware/client proof follows.
 
+## Accepted Owned BA Writer Join - 2026-10-24
+
+The owned process join requires monotonic closed admission, joins the actual WED
+work callback, waits an RCU grace period, and only then records joined if inflight
+is clear. Successful owned BA admission and its final TID ID write share the
+existing RCU read-side section; a writer admitted before close is covered by the
+subsequent grace period. Three outer work cancellations remain for legacy WED.
+No process wait holds owner lock, RCU or device mutex at the inspected callers.
+
+Selected actual C passes37 measured setups/eight compiled controls with pthread
+RCU/work/lock models, ASan/UBSan/leaks and separate TSan. Actual kernel scheduling
+is not executed. Late retained metadata may still arrive: joined is not a complete
+RX/NAPI/IRQ/PCIe/device ingress join, firmware association/reuse fence or physical
+drain/retirement/free/rearm authority. Existing parked-only guards remain. Current
+module produceraa15d714/lock1c1573cb; read ba-join REPORT/EVIDENCE.
+
 ## Allocation Order
 
 The reconstructed `rro-native.c` engine now implements publication/reset byte

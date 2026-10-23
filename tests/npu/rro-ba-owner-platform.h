@@ -105,3 +105,5 @@ static int mt76_npu_rro_reset_mcu_begin(struct mt76_dev *dev, u32 id, u32 genera
 static int mt76_npu_rro_reset_mcu_complete(struct mt76_dev *dev, u32 id,
 					 u32 generation, u32 ticket, int result);
 static int mt7996_mcu_wed_rro_reset_sessions(struct mt7996_dev *dev, u16 id);
+static bool cancel_work_sync(struct work_struct *work);
+static void synchronize_rcu(void);
