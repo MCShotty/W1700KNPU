@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Establish Actual BA Identity And Firmware Ordering
+
+Primary-link status mapping and status/shutdown locking are fixed. New selected
+actual RX start/shutdown/stop/AMPDU/per-link BA/event C passes14 setups/seven
+controls. Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three,
+broad456/four, callers1090/seven and142 units/zero skips pass. Four modules link:
+producer1b9781c2/lock20c1747a/31 mappings. Both live graphs remain untouched.
+
+The host fixture injects an old-looking tuple after replacement and observes a
+current-slot binding; it does not prove real firmware can produce that order.
+MCU error retains the published context; partial per-link enable is not physically
+rolled back by this evidence. Create actual BA identity and qualify a firmware
+cookie or current-build late/reuse fence; a host counter alone cannot do so.
+Parked-only guards remain. Hot CPU ownership, retirement/rearm, physical drain,
+full native/current-image/cold-fault-HIF2/hardware/client/performance/stability
+gates stay open. Read ba-link REPORT/EVIDENCE; full NPU goal remains active.
+
 ## 2026-10-23 - BA Creation And Reuse Identity Remain
 
 Status0-only binding and legacy DELETE ID bounds are now implemented, preserving

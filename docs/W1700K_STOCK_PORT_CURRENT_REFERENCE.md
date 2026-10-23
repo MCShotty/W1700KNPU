@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current RX BA Link And Shutdown Qualification
+
+Status resolution follows def_wcid before finding the shared primary RX-TID,
+then takes its lock and rejects stopped objects. Existing status0/framing and
+owned invalid-DELETE behavior remain. New actual selected RX creation/shutdown/
+stop/AMPDU/per-link BA/event C passes14 measured setups/seven controls, with
+RCU/locks/work/active-link iteration/physical MCU explicitly modeled.
+Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+broad456/four, callers1090/seven and142 units/zero skips pass. Four modules link:
+producer1b9781c2/lock20c1747a/5 kernel/330 mt76/31 mappings. Original inventories
+unchanged; only mt7996e module bytes differ from the prior producer.
+
+An injected old-looking event still binds the replacement slot; producer
+reachability and firmware ordering remain unknown. No actual BA token/fence
+implemented. MCU errors retain current host context, not physical rollback
+proof. BA identity/reuse, hot lifetime, retirement and physical/image/client
+gates remain. Both live graphs untouched; read ba-link REPORT/EVIDENCE. No new
+analysis/hardware/VM change; REA transport closed. Full NPU goal remains active.
+
 ## 2026-10-23 - Current BA Status And Regression Qualification
 
 The MCU parser requires complete little-endian32 status0 before BA assignment.

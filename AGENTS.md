@@ -1,5 +1,23 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - RX BA Primary Mapping And Shutdown Integrity
+
+- Status lookup now follows def_wcid, matching shared primary RX reordering,
+  and holds the RX-TID lock while rejecting a stopped object. Status0/framing,
+  owned-invalid DELETE retention and no-cached-pointer-retry rules remain.
+- New selected actual RX start/shutdown/stop/AMPDU/per-link BA/event C passes14
+  measured setups/seven controls. Framework/concurrency/MCU remain models. An
+  injected old-looking tuple still binds a replacement slot; real firmware
+  reachability/order is not established. No BA token/reuse fence implemented.
+- Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+  broad456/four, callers1090/seven and142 units/zero skips pass. Four modules
+  link:producer1b9781c2/lock20c1747a/31 mappings/5 kernel/330 mt76. Only mt7996e
+  changes; original inventories and both live graphs stay untouched.
+- Actual BA creation/link identity, current-firmware late/reuse fence, hot CPU
+  lifetime, retirement and physical/image/client gates remain. Read ba-link
+  REPORT/EVIDENCE. REA transport is closed; no new analysis/hardware/VM change,
+  no subagents. Full NPU goal remains active.
+
 ## 2026-10-23 - BA Status Integrity And Refreshed Regressions
 
 - Current MCU parsing binds BA IDs only for complete32-bit status0. Legacy

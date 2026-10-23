@@ -2050,7 +2050,7 @@ build input; compilation is not a physical drain or recovery proof.
  	case IEEE80211_AMPDU_RX_STOP:
 --- a/mt7996/mcu.c
 +++ b/mt7996/mcu.c
-@@ -1029,64 +1029,97 @@
+@@ -1029,64 +1029,104 @@
  static void
  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
  {
@@ -2110,9 +2110,16 @@ build input; compilation is not a physical drain or recovery proof.
  			wcid = mt76_wcid_ptr(dev, idx);
 -			if (!wcid || !wcid->sta)
 +			if (wcid && wcid->sta && e->tid < ARRAY_SIZE(wcid->aggr)) {
++				/* RX reordering is shared by the primary link. */
++				if (wcid->def_wcid)
++					wcid = wcid->def_wcid;
 +				tid = rcu_dereference(wcid->aggr[e->tid]);
-+				if (tid)
-+					WRITE_ONCE(tid->id, le16_to_cpu(e->id));
++				if (tid) {
++					spin_lock_bh(&tid->lock);
++					if (!tid->stopped)
++						WRITE_ONCE(tid->id, le16_to_cpu(e->id));
++					spin_unlock_bh(&tid->lock);
++				}
 +			}
 +			rcu_read_unlock();
 +			break;

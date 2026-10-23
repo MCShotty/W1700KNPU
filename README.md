@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - RX BA Link And Shutdown Fixes
+
+BA status lookup now reaches the shared primary RX-TID from secondary links and
+serializes ID assignment with shutdown. A new fixture executes actual RX-TID
+creation/stop, AMPDU, per-link BA and event C together:14 measured setups/seven
+controls. Existing BA18/six, worker22/eight,6150 joint resets/12 negatives/three
+controls, broad456/four, callers1090/seven and142 tooling tests also pass. Four
+current AArch64 modules link.
+
+An injected old-looking status still targets a replacement slot. This is host
+characterization, not proof of firmware reachability or a qualified reuse fence.
+Actual BA identity, hot lifetime, physical retirement and image/client gates
+remain; both long replays stay untouched. See the
+[BA link checkpoint](research/checkpoints/2026-10-24-npu-ba-link/REPORT.md).
+
 ## 2026-10-23 - BA Status Integrity Qualified Offline
 
 BA IDs now bind only on complete32-bit status0; invalid legacy DELETE IDs are

@@ -85,6 +85,23 @@ owner. This fail-closed policy is not a qualified firmware retry/reuse fence.
 
 ## BA Lifetime And MCU Identity
 
+The ba-link checkpoint executes the actual RX-TID start/shutdown/stop, AMPDU,
+per-link RX BA loop and status parser together in14 measured host setups/seven
+controls. The status path now follows def_wcid and takes tid->lock, rejecting an
+already stopped object under the same lock as shutdown. RCU protects lookup and
+disposal; RCU scheduling, locks, nested types, allocation, active-link iteration,
+work and physical MCU remain models, not kernel-concurrency qualification.
+
+The host fixture injects an old-looking status after replacement and observes
+the current slot receiving it. This establishes host indistinguishability, not
+real-firmware reachability/order or a physical race. A current-build firmware
+cookie or qualified reuse fence remains required. No actual BA token/generation
+was created by this fix. MCU errors retain the published context, including
+partial per-link enable; no physical rollback/free authority is established.
+Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+broad456/four, callers1090/seven and142 units pass; all four target modules link.
+Parked-only guards, hot admission and physical-retirement limits remain unchanged.
+
 The current status handler requires the complete little-endian32 status to be
 zero before WCID/TID lookup and session-ID assignment. Nonzero statuses advance
 to later TLVs without rebinding or a cached-pointer status3 retry. Legacy DELETE
@@ -94,8 +111,9 @@ them. Current selected-C BA coverage is18 measured setups/six controls. The old
 hardcoded15 label measured14 setups; all old assertions remain, plus four new
 setups. These rules are not a BA-lifetime or reuse-fence witness.
 
-The selected MCU status handler resolves `wlan_id` and `tid` against the current
-WCID/TID object before assigning the firmware session ID. RX BA start first
+The selected MCU status handler resolves `wlan_id`, follows the primary
+`def_wcid` mapping and finds the current `tid` slot before assigning the firmware
+session ID under the TID lock. It rejects an already stopped object. RX BA start first
 stops an old object in that slot and publishes a new one. The tuple therefore
 does not by itself distinguish BA lifetimes. The selected delete event carries
 session ID/WLAN/TID. Legacy queued items retain all three fields after the BA

@@ -18,6 +18,7 @@ typedef u32 __le32;
 #define __packed __attribute__((packed))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #define GFP_ATOMIC 1
+#define GFP_KERNEL 2
 #define READ_ONCE(value) (value)
 #define CHECK(ok, message) assert((ok) && message)
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -46,11 +47,25 @@ static void list_add_tail(struct list_head *node, struct list_head *head)
 	((type *)((char *)(head)->next - offsetof(type, member)))
 struct work_struct { int unused; };
 
+#ifdef W1700K_REAL_RX_AGGR
+typedef int spinlock_t;
+struct rcu_head { int unused; };
+struct delayed_work {
+	void (*function)(struct work_struct *);
+	bool cancelled;
+};
+#endif
+
 #include "selected-structs.inc"
 
-struct mt76_rx_tid { u16 id; };
+#ifdef W1700K_REAL_RX_AGGR
+#include "selected-rx-tid.inc"
+#else
+struct mt76_rx_tid { u16 id; int lock; bool stopped; };
+#endif
 struct mt76_wcid {
 	struct mt76_rx_tid *aggr[16];
+	struct mt76_wcid *def_wcid;
 	void *sta;
 	unsigned long ampdu_state;
 };
@@ -74,10 +89,27 @@ struct sk_buff {
 };
 struct mt76_txq { bool aggr, send_bar; };
 struct ieee80211_txq { void *drv_priv; };
-struct ieee80211_sta { void *drv_priv; struct ieee80211_txq *txq[16]; u8 addr[6]; };
-struct mt7996_sta { struct { struct mt76_wcid wcid; } deflink; };
+struct ieee80211_link_sta { int unused; };
+struct ieee80211_sta {
+	void *drv_priv;
+	struct ieee80211_txq *txq[16];
+	u8 addr[6];
+	unsigned valid_links;
+	struct ieee80211_link_sta links[4];
+};
+struct mt7996_sta_link { struct mt76_wcid wcid; };
+struct mt7996_sta {
+	struct mt7996_sta_link deflink;
+	struct mt7996_sta_link *links[4];
+};
+struct mt76_vif_link { unsigned index; };
+struct mt7996_vif_link { struct mt76_vif_link mt76; };
 struct ieee80211_hw { struct mt7996_dev *dev; };
-struct ieee80211_vif { int unused; };
+struct ieee80211_vif {
+	int unused;
+	unsigned active_links;
+	struct mt7996_vif_link *links[4];
+};
 struct ieee80211_ampdu_params {
 	struct ieee80211_sta *sta;
 	u16 tid, ssn, buf_size;
@@ -102,6 +134,9 @@ static bool delete_alloc_fail;
 static struct mt76_rx_tid *new_host_tid;
 static unsigned cases;
 static int delete_alloc_calls;
+#ifdef W1700K_REAL_RX_AGGR
+static struct mt7996_dev *aggr_dev;
+#endif
 
 static void rcu_read_lock(void) { rcu_depth++; rcu_locks++; }
 static void rcu_read_unlock(void)
@@ -115,10 +150,18 @@ static struct mt76_wcid *mt76_wcid_ptr(struct mt7996_dev *dev, u16 idx)
 	CHECK(rcu_depth > 0, "wcid-lookup-without-RCU");
 	return idx < ARRAY_SIZE(dev->wcids) ? dev->wcids[idx] : NULL;
 }
+#ifdef W1700K_REAL_RX_AGGR
+#define rcu_dereference(pointer) model_aggr_dereference(&(pointer))
+#else
 #define rcu_dereference(pointer) (CHECK(rcu_depth > 0, "aggr-deref-without-RCU"), (pointer))
+#endif
 static void model_write_once(u16 *slot, u16 value)
 {
+	struct mt76_rx_tid *tid = (void *)((char *)slot - offsetof(struct mt76_rx_tid, id));
+
 	CHECK(rcu_depth > 0, "status-write-without-RCU");
+	CHECK(tid->lock == 1, "status-write-without-TID-lock");
+	CHECK(!tid->stopped, "status-write-to-stopped-TID");
 	*slot = value;
 	status_writes++;
 }
@@ -147,6 +190,13 @@ static void *skb_pull(struct sk_buff *skb, size_t bytes)
 }
 static void *kzalloc(size_t bytes, int flags)
 {
+#ifdef W1700K_REAL_RX_AGGR
+	if (flags == GFP_KERNEL) {
+		CHECK(aggr_dev && aggr_dev->mt76.mutex, "RX-TID-allocation-under-device-mutex");
+		host_start_calls++;
+		return host_alloc_errno ? NULL : calloc(1, bytes);
+	}
+#endif
 	CHECK(flags == GFP_ATOMIC, "delete-allocator-flag");
 	delete_alloc_calls++;
 	return delete_alloc_fail ? NULL : calloc(1, bytes);
@@ -178,6 +228,7 @@ static void mutex_unlock(int *lock)
 	CHECK(*lock == 1, "unbalanced-ampdu-mutex");
 	*lock = 0;
 }
+#ifndef W1700K_REAL_RX_AGGR
 static int mt76_rx_aggr_start(struct mt76_dev *dev, struct mt76_wcid *wcid,
 			     u8 tid, u16 ssn, u16 size)
 {
@@ -196,6 +247,11 @@ static void mt76_rx_aggr_stop(struct mt76_dev *dev, struct mt76_wcid *wcid, u8 t
 	wcid->aggr[tid] = NULL;
 	host_stop_calls++;
 }
+#else
+#include "rro-ba-link-platform.h"
+#include "selected-aggr.inc"
+#endif
+#ifndef W1700K_REAL_RX_AGGR
 static int mt7996_mcu_add_rx_ba(struct mt7996_dev *dev,
 				struct ieee80211_ampdu_params *params,
 				struct ieee80211_vif *vif, bool enable)
@@ -205,6 +261,9 @@ static int mt7996_mcu_add_rx_ba(struct mt7996_dev *dev,
 	mcu_rx_calls++;
 	return mcu_rx_errno;
 }
+#else
+#include "selected-add-rx-ba.inc"
+#endif
 static int mt7996_mcu_add_tx_ba(struct mt7996_dev *dev,
 				struct ieee80211_ampdu_params *params,
 				struct ieee80211_vif *vif, bool enable)
@@ -253,9 +312,9 @@ struct fixture {
 	struct mt76_txq mtxq;
 	struct mt76_wcid wcid;
 	struct mt76_wcid wcid_no_sta;
-	struct mt76_rx_tid rx_tid;
 	struct sk_buff skb;
 	u8 bytes[512];
+	struct mt76_rx_tid rx_tid;
 };
 
 static void setup(struct fixture *f)
@@ -293,7 +352,7 @@ static void prepare(struct fixture *f, size_t used, size_t linear, size_t limit)
 static void finish(struct fixture *f)
 {
 	struct list_head *head = &f->dev.wed_rro.poll_list;
-	CHECK(!rcu_depth && !f->dev.mt76.mutex && !f->dev.wed_rro.lock,
+	CHECK(!rcu_depth && !f->dev.mt76.mutex && !f->dev.wed_rro.lock && !f->rx_tid.lock,
 	      "modeled-boundaries-balanced");
 	while (!list_empty(head)) {
 		struct mt7996_wed_rro_session_id *entry =

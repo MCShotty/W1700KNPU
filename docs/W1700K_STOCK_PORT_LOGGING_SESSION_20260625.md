@@ -1,8 +1,25 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (BA status/delete integrity and current broad regressions pass)
+Last updated: 2026-10-24 (RX BA primary mapping, shutdown and current regressions pass)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-24 - RX BA Link Mapping And Shutdown Tests
+
+The status parser follows the primary def_wcid and locks RX-TID assignment
+against shutdown, rejecting stopped objects. Existing status0/DELETE rules stay.
+New combined actual selected RX creation/shutdown/stop/AMPDU/per-link BA/event C
+passes14 measured setups/seven controls. Existing BA18/six, worker22/eight,
+joint6150 resets/12 negatives/three controls, broad456/four, callers1090/seven
+and142 units/zero skips pass. Four modules link:producer1b9781c2/lock20c1747a/31
+mappings. Original inventories unchanged; only mt7996e differs. Private lean
+236MiB build154978289 bytes; no module load or fresh world image.
+
+Injected old-looking status reaches a replacement slot, not proof of physical
+producer reachability/order. MCU errors retain host context, not physical rollback.
+BA creation identity/reuse fence, hot lifetime, retirement and image/client gates
+remain. Both live graphs untouched; no hardware/VM/server signal/subagents. REA
+transport closed. Read ba-link REPORT/EVIDENCE; full NPU goal remains active.
 
 ## 2026-10-23 - BA Status And Current Broad Regressions
 

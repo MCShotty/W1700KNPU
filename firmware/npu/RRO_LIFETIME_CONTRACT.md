@@ -80,6 +80,25 @@ is valid. Owned invalid tuples still reach retained fault handling. No cached-
 pointer status3 retry or ambiguous-descriptor RX recycling was restored. These
 rules do not authenticate a BA lifetime or qualify a late-event/reuse fence.
 
+## Current RX BA Creation And Link Evidence
+
+The ba-link checkpoint executes the actual RX-TID start/shutdown/stop, AMPDU,
+per-link RX BA loop and status parser together in14 measured host setups/seven
+controls. The status path now follows def_wcid and takes tid->lock, rejecting an
+already stopped object under the same lock as shutdown. RCU protects lookup and
+disposal; RCU scheduling, locks, nested types, allocation, active-link iteration,
+work and physical MCU remain models, not kernel-concurrency qualification.
+
+The host fixture injects an old-looking status after replacement and observes
+the current slot receiving it. This establishes host indistinguishability, not
+real-firmware reachability/order or a physical race. A current-build firmware
+cookie or qualified reuse fence remains required. No actual BA token/generation
+was created by this fix. MCU errors retain the published context, including
+partial per-link enable; no physical rollback/free authority is established.
+Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+broad456/four, callers1090/seven and142 units pass; all four target modules link.
+Parked-only guards, hot admission and physical-retirement limits remain unchanged.
+
 ## Identity And Storage
 
 The caller supplies an initially zeroed, exclusively owned lifetime object and

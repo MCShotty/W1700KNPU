@@ -1,10 +1,38 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (BA status/delete integrity and current broad regressions pass)
+Last updated: 2026-10-24 (RX BA primary mapping, shutdown and current regressions pass)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-24 - RX BA Primary-Link And Shutdown Integrity
+
+- Status parsing follows the existing primary def_wcid mapping before RX-TID
+  lookup and locks the TID while rejecting stopped objects. It matches ordinary
+  reordering and serializes with actual shutdown. Status0/framing/owned invalid
+  DELETE retention remain; no cached-pointer retry, RX recycling or free added.
+- New combined selected C executes actual RX-TID start/shutdown/stop, AMPDU,
+  per-link BA MCU loop and event parser:14 measured setups/seven compiled
+  controls. RCU/locks/nested types/allocator/work/active-link iteration/MCU are
+  explicit host models, not kernel concurrency or physical operation proof.
+- Current BA18/six, worker22/eight, joint6150 resets/12 negatives/three controls,
+  broad456/four, callers1090/seven and142 units/zero skips pass. Four target
+  modules link:producer1b9781c2/lock20c1747a/31 mappings/5 kernel/330 mt76/15
+  fuzz0 outputs. Only mt7996e changes; original102685/516 entries unchanged.
+  Lean copied-cache build236MiB/154978289 bytes, not a fresh world build.
+- An injected old-looking status binds a replacement slot, demonstrating host
+  indistinguishability, not real-firmware reachability or a physical race. MCU
+  errors retain current context; partial per-link enable lacks physical rollback
+  evidence. No actual BA generation/token or reuse fence was implemented.
+- All previous evidence and first fixture layouts stay preserved. Moving nested
+  flexible members last removes two fixture warnings without dropping checks;
+  two selected-production-C host warnings remain. Guards/margins/sanitizers and
+  both live jobs/input graphs stay unchanged; no subagents or server signal.
+- REA connection is closed; no new Ghidra/decryption/hardware access. Passive
+  checks find no serial port and wired adapter disconnected. Actual BA identity/
+  ordering, hot CPU lifetime, retirement and physical/image/client gates remain.
+  Read ba-link REPORT/EVIDENCE; no load/image/flash/VM change. Full goal active.
 
 ## 2026-10-23 - Status0 BA Binding And Legacy Delete Bounds
 
