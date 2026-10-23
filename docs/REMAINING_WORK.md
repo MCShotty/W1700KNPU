@@ -1,13 +1,15 @@
 # Remaining W1700K Work
 
-## 2026-10-23 - Freeze And Run Current Caller
+## 2026-10-23 - Complete Running Current Default Caller
 
 Current sticky-IRQ sender and C linkage preflights pass;50 focused and80
 build/storage units pass. The compile-only receipt explicitly excludes native
-execution. Read caller-recovery REPORT.md/EVIDENCE.json. Freeze clean source
-with current module90abc8f3/sender562a8113,then run one complete default nominal
-profile with lossless observer and4GiB/no-new-swap,fresh Windows backing/guest
-budgets and original full geometry/checkpoints/3M/60M-us limits. No success yet.
+execution. Read caller-recovery REPORT.md/EVIDENCE.json/RUNTIME.json. Clean
+132949e/capsulee75e6f77 freezes2860 inputs with module90abc8f3/sender562a8113.
+Only default nominal is live in w1700k-npu-checked-default-q1.service,
+controller2367065/native2367072;start ticks/CPU/private namespace verified.
+Lossless observer/4GiB/no-new-swap/fresh Windows backing/guest budgets and
+original full geometry/checkpoints/3M/60M-us limits remain. No verdict yet.
 
 HIF2 requires its own fresh budget/launch after default is terminal. Full fault
 matrices,retained RRO identity/order/handoff/errors/late/reset/drain/retirement,

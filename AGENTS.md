@@ -1,6 +1,6 @@
 # W1700KNPU Workspace
 
-## 2026-10-23 - Current Caller Recovery Preflight
+## 2026-10-23 - Current Default Caller Recovery Running
 
 - Current sender compiles the actual sticky IRQ accessor/state/enum and passes
   four pre-existing error cases before provider acquisition,plus existing
@@ -8,9 +8,12 @@
 - New --compile-only writes a separate compile-preflight.json,not result.json
   or passed:true. Current C linkage/88 input identities pass;50 focused units
   and80 build/storage units pass,zero skips. No full native verdict yet.
-- Read caller-recovery REPORT.md/EVIDENCE.json. Next clean current-source
-  capsule with genuine90abc8f3 module producer/new sender562a8113,then one
-  complete default profile under4GiB/no-new-swap and fresh backing budgets.
+- Read caller-recovery REPORT.md/EVIDENCE.json/RUNTIME.json. Clean132949e
+  capsulee75e6f77 freezes2860 inputs with genuine90abc8f3/new sender562a8113;
+  all13 native-policy files unchanged. Only default nominal is now live in
+  w1700k-npu-checked-default-q1.service,controller2367065/native2367072 with
+  captured start ticks/private namespace/advancing CPU.4GiB/no-new-swap;
+  fresh RAM/backing budgets pass. No terminal verdict or full-fault pass.
   HIF2 needs a separate fresh launch;old OOM jobs/evidence remain unchanged.
   Firmware/lockcb035741/imagea3f1d04b unchanged;full NPU/RRO/physical scope open.
 

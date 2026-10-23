@@ -1,12 +1,12 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (current sticky-IRQ sender/linkage preflight;controlled full caller recovery,retained RRO and NPU/physical acceptance pending)
+Last updated: 2026-10-23 (current default caller replay live from clean frozen source;terminal verdict,retained RRO and NPU/physical acceptance pending)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
 
-## 2026-10-23 - Current Caller Recovery Preflight Passed
+## 2026-10-23 - Current Default Caller Recovery Running
 
 - Selected sender compiles actual mt76_npu_irq_error,actual state/enum and a
   checked lock model. Four sticky errors return before acquiring providers;
@@ -15,12 +15,20 @@ Future-use rule: read this file before making the next stock/NPU/WiFi patch. Upd
   no native result/passed flag. Current linkage/88 exact input paths pass.
   Sender562a8113/preflightf02dc8c1 bind actual artifacts. All50 focused and80
   build/storage units pass,zero skips;negative hash/overwrite controls included.
-- Prepare clean frozen current inputs using genuine module90abc8f3,old literal
-  raw/publication artifacts and new sender. Planned read-only reuse is storage
-  sharing,not independent backups or fresh loader execution. No native start
-  at this preflight checkpoint. One profile/4GiB/no-new-swap/fresh backing
-  budgets;original geometry/guards/checkpoints/limits remain. HIF2 separate.
-- Read caller-recovery REPORT.md/EVIDENCE.json. Old OOM evidence and protected
+- Clean132949e/capsulee75e6f77 freezes2860 inputs/607671333 logical bytes;
+  2807 shared read-only/53 independent copies/9371788 copied payload bytes.
+  Genuine module90abc8f3,new sender and old literal raw/publication bytes;
+  storage sharing is not independent backup or fresh loader execution.
+- Only default nominal is now live in w1700k-npu-checked-default-q1.service,
+  controller2367065/native2367072 with recorded starts/advancing CPU/private
+  namespace. Fresh RAM/backing budgets pass;4GiB cap/zero new swap,13 exact
+  native-policy files/geometry/checkpoints/3M/60M-us limits unchanged. No
+  terminal verdict,all-OOM-causes-fixed claim or full fault/physical pass.
+  HIF2 needs its own fresh budget/launch after default is terminal.
+- Read caller-recovery REPORT.md/EVIDENCE.json/RUNTIME.json.6090 project paths/
+  one external object rehash;old2473 inputs/624 interrupted outputs/seven image
+  copies remain exact. Closed log prefix sampled;live DB/log not immutable.
+  Old OOM evidence and protected
   images retained. No production/lockcb035741/raw/UI/WiFi/imagea3f1d04b change,
   hardware/flash or subagents. Full retained RRO/NPU/physical objective active.
 

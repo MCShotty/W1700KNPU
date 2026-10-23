@@ -1,14 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
-## 2026-10-23 - Current Caller Replay Preflight Passed
+## 2026-10-23 - Current Default Caller Replay Running
 
 The refreshed sender now exercises the actual sticky-IRQ accessor and four
 early failure cases. Current C linkage passes with a separate compile-only
 receipt;50 focused replay tests and80 build/storage tests pass,zero skips.
 
-Next is a clean frozen current-source replay,one full profile at a time with
-explicit RAM/backing-storage budgets. This is not a full native or physical
-NPU verdict. Old failed runs and protected images remain intact. See the
+One complete default nominal profile is now running from clean frozen132949e,
+with a4GiB RAM cap,zero new swap allowance and fresh backing-storage budgets.
+The native process/namespace/input identities are verified,not a terminal
+native or physical NPU verdict. HIF2/full faults remain pending. Old failed
+runs and protected images remain intact. See the
 [caller-recovery checkpoint](research/checkpoints/2026-10-23-npu-caller-recovery/REPORT.md).
 
 ## 2026-10-23 - Replay Memory Growth Addressed Losslessly

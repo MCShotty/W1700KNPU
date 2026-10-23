@@ -1,5 +1,36 @@
 # Current Caller Replay Recovery
 
+## Runtime Launch
+
+`RUNTIME.json` records an actual new default nominal profile, not a preflight:
+
+- Clean source `132949e311d245b3a7f1e724e8e7304c7cf49733` and capsule
+  `e75e6f778222d1c6e9c4fb5596e118ec7fa3dadc558da754663eb580541fdf80`.
+- 2860 verified immutable inputs/607671333 logical bytes, 2807 shared read-only
+  inputs and 53 independent copies/9371788 copied payload bytes. Prior donor
+  content/modes/ownership/mtime remain exact; link counts/ctime are not claimed.
+- Service `w1700k-npu-checked-default-q1.service`, controller PID2367065/start
+  tick13186072, native PID2367072/start tick13186243. Native CPU ticks advance;
+  actual mount namespace and project inode match the frozen input root and
+  differ from the parent namespace/worktree. Thirteen native-policy files
+  match the original frozen caller exactly. No restore-prefix shortcut.
+- Fresh RAM/storage budgets pass;4GiB service MemoryMax,MemorySwapMax0,
+  OOMPolicy stop,Restart no. No VM/swap/global setting changed. Initial runtime
+  observation is118759424 current/119480320 peak cgroup bytes,zero service
+  swap;this is a sample,not a whole-run peak-memory or all-OOM-causes-fixed proof.
+- Native output emits15 enrollment records and cold-command progress. A closed
+  log-prefix copy is hashed;the live log/journal are not asserted immutable.
+  Service `Result=success` while active is not its eventual terminal status.
+
+The runtime seal rehashes6090 project paths and one external object,including
+all2860 new inputs,the old2473 frozen inputs/624 interrupted outputs,and all
+seven protected image copies. Its private manifest is linked in RUNTIME.json.
+Only default nominal is running;no terminal execution/caller result exists at
+this observation. HIF2 needs a separate fresh budget/launch after default is
+terminal. Full faults,retained RRO,whole-stack and physical/client gates remain.
+The full NPU objective stays active. Later tracking commits do not redate the
+frozen executing source cohort.
+
 ## Preflight
 
 The current sender fixture now compiles the actual `mt76_npu_irq_error`
@@ -27,8 +58,11 @@ this flag.
   are not suite failures.
 
 This checkpoint does not contain a new full native caller result. Runtime
-status must be recorded separately after a clean source freeze and actual
-launch, not inferred from the preflight.
+status is recorded separately in RUNTIME.json after the clean freeze/actual
+launch, not inferred from this preflight. EVIDENCE.json describes the earlier
+preflight state before launch. Its first private seal attempt captured its
+own open log;that attempt remains private/non-authoritative. The final q2 seal
+rehashes closed outputs and passed an independent post-seal verification.
 
 ## Frozen Inputs
 

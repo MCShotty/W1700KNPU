@@ -1,0 +1,109 @@
+{
+  "scope": "tracking-and-source-preservation-after-live-launch-not-native-pass",
+  "observed_unix_ns": 1792713941859871273,
+  "running": true,
+  "service": "w1700k-npu-checked-default-q1.service",
+  "state": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "MainPID": "2367065",
+    "MemoryCurrent": "141991936",
+    "MemoryPeak": "141991936",
+    "MemorySwapCurrent": "0",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0"
+  },
+  "source_commit": "132949e311d245b3a7f1e724e8e7304c7cf49733",
+  "capsule_sha256": "e75e6f778222d1c6e9c4fb5596e118ec7fa3dadc558da754663eb580541fdf80",
+  "frozen_inputs_rehashed": 2860,
+  "old_capsule_inputs_rehashed": 2473,
+  "interrupted_output_files_rehashed": 624,
+  "protected_project_image_copies_rehashed": 6,
+  "protected_external_image_copies_rehashed": 1,
+  "exact_authorized_tracking_changes": {
+    "AGENTS.md": {
+      "captured_cohort": "7de19c1c9755ab56cb41ec7fb928fe229c49b86a953ac10311fe16a592449773",
+      "current_tracking": "5c470e4ad3669a19be95d0edc4131b5495bb1d405c9a3df4f33f4ac7dc4a9d3a",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "README.md": {
+      "captured_cohort": "fbab530684e9d93af13c850c6fb495c4f89c204217b603a2c03cb298efa8fb18",
+      "current_tracking": "10d431fd9392bb554629c8c120e27c8ec5f913ebcc1fd6764a3e44dca5a67690",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "captured_cohort": "eb416c62754bfe838723ad927d9e18ba22a41b8ce18f21f6e05b4169d6fd76e2",
+      "current_tracking": "f66be26566c2627c29374b0824569659f43db97285187f3ec77c5ae92bf9f082",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "captured_cohort": "0d098ecdebab60850cbb89cc5ff16afce7c31fd26cc64537b7b8a88dc439fffc",
+      "current_tracking": "60bfba5d8d65ff5792cf377e94728dde93b165fec921d37106f55e43a15080ea",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "captured_cohort": "2a009589ed23b076e7e1ef4898bfeda375e821bf874d3672dde06af989efb4f8",
+      "current_tracking": "520fc0d3ac0df279898a009f1b789e40c4eb811b30a615bfe21178a50807aaaf",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "captured_cohort": "c8c58d960d9ad4e6966031b52e84dcfd0481ae8038cc4ac4032cca857aac0d58",
+      "current_tracking": "fca06d395b77bd5b9b91dc0d1986e3d09e9389153dec8274b78c01574b266b5f",
+      "captured_source_preserved_in_frozen_capsule": true
+    },
+    "research/checkpoints/2026-10-23-npu-caller-recovery/REPORT.md": {
+      "captured_cohort": "4210a73b240b891af9b2259f89414b7b329c8f2edfd320e78029637938d576dd",
+      "current_tracking": "c61f34fc48cc57dc2fd2cb5a92ea5929c75971dff3142d38ba652075d5595814",
+      "captured_source_preserved_in_frozen_capsule": true
+    }
+  },
+  "executing_sources_unchanged": true,
+  "original_jobs_restarted": false,
+  "terminal_result_available": false,
+  "full_native_caller_verdict": false,
+  "hif2_started": false,
+  "full_fault_matrix": false,
+  "firmware_raw_pair_image_changed": false,
+  "hardware": false,
+  "subagents": false,
+  "full_npu_goal_complete": false,
+  "Jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "terminal_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "backup_overclaim": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "memory_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "physical_overclaim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "publication_overclaim": {
+        "type": "noul",
+        "noul": 0.09
+      }
+    },
+    "usage": {
+      "input_tokens": 2682,
+      "output_tokens": 104
+    }
+  },
+  "Jev_is_advisory_not_execution_proof": true,
+  "limits": [
+    "Current working tracking prose differs deliberately from the earlier captured cohort.",
+    "Every earlier captured tracker version is still hash-exact inside the frozen executing capsule.",
+    "No executable/private/native input drift is permitted or accepted."
+  ],
+  "private_scope": ".local/npu-caller-recovery-20261023/tracking-scope-q1.json",
+  "private_scope_sha256": "4253dab8d9279b6d4c038917ce1e6e69e4cd63ab799481cbedd0d889d8701302",
+  "indexed_project_paths": 6096,
+  "indexed_external_paths": 1
+}
