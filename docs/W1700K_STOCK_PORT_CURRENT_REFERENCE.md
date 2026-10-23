@@ -1,5 +1,32 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-23 - Real TX Preparation Moved Before RRO
+
+The checked provider's existing six-buffer retained allocator now runs before
+RRO init. Later hardware entry validates the exact retained lease/geometry,
+provider/endpoint/boot/nonce/TX serial and mailbox/RX records, then consumes the
+attempt before hardware entry. A failed setup cannot allocate/reenter again.
+Generic providers retain their original later allocation path.
+
+Actual C passes 223 TX cases/12 compiled controls and 168 RX composition cases/
+seven controls. The full selected caller fixture passes 1,040 cases, three
+teardown controls and one missing-early-preparation control. TX preparation is
+a modeled boundary in that fixture, not a claim of full joint execution.
+The old selected host C also passes its 113 applicable cases, not full-trace A/B.
+
+Current producer c72f31d7, lock13b5bba6: all four AArch64 modules final-link,
+5 kernel/329 mt76 source identities and 24 component mappings verified. All
+5,279 journal cases/three controls, 23 exact RV32 objects and 116 tooling units
+pass. Normal archive bytes match the previous build; raw pair unchanged.
+
+Read rro-allocation-order REPORT.md/EVIDENCE.json and RRO requirements. Actual
+RRO allocation/ref handoff, native/MCU/reset/drain/retirement integration still
+required; the metadata journal is not yet called by real RRO paths. Existing
+checked RRO denials remain, not the final intended state. No new full image,
+new native instruction replay, hardware or flash. UI/radio policy unchanged;
+MT7996 NPU driver paths changed. Frozen default remains live/not restarted on
+2f85e54, not current source. Full cold/fault/hot/physical/client scope open.
+
 ## 2026-10-23 - RRO Ownership Journal Compiled And Linked
 
 New retained metadata journal passes 5,279 ASan/UBSan/leak cases and three

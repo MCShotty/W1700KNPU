@@ -7,6 +7,21 @@ real allocation/reference handoff, transport wiring or physical drain witnesses.
 See `research/checkpoints/2026-10-23-npu-rro-lifetime/REPORT.md` for executed
 caller, managed-bookkeeping and stock/current instruction evidence.
 
+## Allocation Order
+
+The checked provider now prepares its six retained TX buffers before the actual
+`mt7996_wed_rro_init` call. Late `mt7996_npu_hw_init` validates the retained lease
+and consumes its hardware attempt without allocating again. Generic providers
+retain their previous allocation path. This resolves the missing protected-TX
+input order, not RRO owner/ref handoff: actual RRO allocations still use the
+existing managed path and do not yet invoke the journal.
+
+Current prepared validation expects the captured pre-constructor client serial.
+The admitted RRO protocol must explicitly coordinate its generation/serial
+transition with that validation. Do not simply bypass the validator to make
+additional commands fit. The allocation-order checkpoint records actual-C,
+whole-caller-boundary and target-module compilation as distinct proof scopes.
+
 ## Ownership
 
 Current mt76 attachment assigns `dma_dev = npu->dev`. RRO allocations can belong

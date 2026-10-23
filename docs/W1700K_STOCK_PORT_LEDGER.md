@@ -1,10 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-23 (retained RRO metadata journal compiled and linked; operational wiring and physical scope open)
+Last updated: 2026-10-23 (checked TX ownership prepared before RRO; actual RRO wiring and physical scope open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-23 - Checked TX Ownership Before RRO Allocation
+
+- Found the real ordering dependency: RRO init/publication preceded the later
+  six-buffer TX allocation, while the journal requires complete protected TX
+  spans. Actual checked TX preparation now runs after MCU init and before RRO
+  init. It retains real allocation-call outputs through the existing provider
+  owner; generic/unmarked providers do not allocate early or change fallback.
+- Added exact late TX lease validation under the provider mutex, including
+  retained handles/lengths, endpoint/provider/boot/nonce, captured TX serial,
+  all mailbox records and RX state. The consumer consumes a prepared hardware
+  attempt before entering setup; setup failure cannot create a retry lease.
+- Actual-C TX suite passes 223 cases and 12 compiled controls, including two
+  racing preparers, every allocation prefix, stale metadata, missing callbacks,
+  sticky IRQ errors and duplicate/failed late entry. RX composition passes 168
+  cases and seven controls, including a changed RX handle between preparation
+  and late validation. DMA/device-ref/transport/framework backing remain models.
+- Complete selected RRO caller fixture passes 1,040 cases, three teardown
+  controls and a missing-preparation control. Its TX stage is modeled; actual
+  TX code is exercised separately. All 134 frame bytes match prior captures.
+  Original selected host C passes 113 applicable cases, not full-trace A/B.
+- All four AArch64 modules final-link using GCC14.4.0/Linux6.18.52. Current
+  producer c72f31d7/lock13b5bba6 binds 5 kernel/329 mt76 sources/24 components.
+  Canonical patches reconstruct without fuzz; original prepared trees unchanged.
+  All 5,279 journal cases/three controls and 116 tooling units pass. The normal
+  23-object archive is byte-identical to the previous build; raw pair unchanged.
+- First new TX fixture incorrectly labeled a checked provider as generic;
+  case117 failure and exact fixture bytes are preserved. Corrected the fixture,
+  not production behavior. Jev's fallback judgment0.52 remains uncertain; exact
+  missing-validator C cases prove their covered no-fallback behavior instead.
+- Read rro-allocation-order REPORT.md/EVIDENCE.json and updated requirements.
+  Real RRO buffers/ref handoff, native/MCU/reset/retirement wiring remain open;
+  the metadata journal is still not invoked by actual RRO callers. No physical
+  free authority, new full image or new native-instruction execution. UI/radio
+  policy/images preserved; MT7996 NPU driver changed. Frozen default stays live
+  on2f85e54/not restarted. No hardware/flash/global changes/subagents; full goal
+  remains active. Old qualification receipts retain their original cohorts.
 
 ## 2026-10-23 - Retained RRO Metadata Journal In Canonical Builds
 

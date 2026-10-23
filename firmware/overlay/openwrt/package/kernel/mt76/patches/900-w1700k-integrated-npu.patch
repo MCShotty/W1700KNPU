@@ -307,6 +307,17 @@ build input; compilation is not a physical drain or recovery proof.
  	     (band == MT_BAND2 && mt76_npu_device_active(&dev->mt76)))) {
  		int i;
  
+@@ -1317,6 +1318,10 @@
+ 	set_bit(MT76_STATE_INITIALIZED, &dev->mphy.state);
+ 
+ 	ret = mt7996_mcu_init(dev);
++	if (ret)
++		return ret;
++
++	ret = mt7996_npu_prepare_tx_buffers(dev);
+ 	if (ret)
+ 		return ret;
+ 
 --- a/mt7996/mac.c
 +++ b/mt7996/mac.c
 @@ -4,6 +4,7 @@
@@ -714,7 +725,16 @@ build input; compilation is not a physical drain or recovery proof.
  		bool hw_full_reset:1;
  		bool hw_init_done:1;
  		bool restart:1;
-@@ -741,7 +742,7 @@
+@@ -546,6 +547,8 @@
+ 	} wed_rro;
+ 
+ 	dma_addr_t npu_txd_addr[2 * MT7996_NPU_TXD_SIZE];
++	bool npu_txd_prepared;
++	bool npu_txd_claimed;
+ 
+ 	bool ibf;
+ 	u8 fw_debug_wm;
+@@ -741,7 +744,7 @@
  s8 mt7996_eeprom_get_power_delta(struct mt7996_dev *dev, int band);
  bool mt7996_eeprom_has_background_radar(struct mt7996_dev *dev);
  int mt7996_dma_init(struct mt7996_dev *dev);
@@ -723,6 +743,26 @@ build input; compilation is not a physical drain or recovery proof.
  void mt7996_dma_prefetch(struct mt7996_dev *dev);
  void mt7996_dma_cleanup(struct mt7996_dev *dev);
  void mt7996_dma_start(struct mt7996_dev *dev, bool reset, bool wed_reset);
+@@ -1011,6 +1014,7 @@
+ 
+ #ifdef CONFIG_MT7996_NPU
+ int __mt7996_npu_hw_init(struct mt7996_dev *dev);
++int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *dev);
+ int mt7996_npu_hw_init(struct mt7996_dev *dev);
+ int mt7996_npu_hw_stop(struct mt7996_dev *dev);
+ int mt7996_npu_rx_queues_init(struct mt7996_dev *dev);
+@@ -1020,6 +1024,11 @@
+ 	return 0;
+ }
+ 
++static inline int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *dev)
++{
++	return 0;
++}
++
+ static inline int mt7996_npu_hw_init(struct mt7996_dev *dev)
+ {
+ 	return 0;
 --- a/mt7996/npu.c
 +++ b/mt7996/npu.c
 @@ -7,6 +7,7 @@
@@ -782,7 +822,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	err = mt7996_npu_offload_init(dev, npu);
  	if (err)
-@@ -550,18 +580,26 @@
+@@ -550,18 +580,14 @@
  	if (err)
  		return err;
  
@@ -790,32 +830,24 @@ build input; compilation is not a physical drain or recovery proof.
 -		airoha_npu_wlan_enable_irq(npu, i - MT_RXQ_NPU0);
 -
 -	return 0;
-+	return mt76_npu_start_irqs(&dev->mt76);
- }
- 
- int mt7996_npu_hw_init(struct mt7996_dev *dev)
- {
+-}
+-
+-int mt7996_npu_hw_init(struct mt7996_dev *dev)
+-{
 -	int i, err;
-+	struct airoha_npu *npu;
-+	u32 bytes[ARRAY_SIZE(dev->npu_txd_addr)];
++	return mt76_npu_start_irqs(&dev->mt76);
++}
++
++static void mt7996_npu_tx_buffer_sizes(struct mt7996_dev *dev, u32 *bytes)
++{
 +	unsigned int i;
-+	int err;
  
  	BUILD_BUG_ON(ARRAY_SIZE(dev->npu_txd_addr) % 3);
 -
-+	mutex_lock(&dev->mt76.mutex);
-+	err = mt76_npu_irq_error(&dev->mt76);
-+	if (err)
-+		goto unlock;
-+	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
-+	if (!npu) {
-+		err = 0;
-+		goto unlock;
-+	}
  	for (i = 0; i < ARRAY_SIZE(dev->npu_txd_addr); i += 3) {
  		int band = i && is_mt7996(&dev->mt76) ? MT_BAND2 : MT_BAND0;
  		u32 size = is_mt7996(&dev->mt76) ? band == MT_BAND2
-@@ -569,23 +607,27 @@
+@@ -569,23 +595,105 @@
  						 : MT7996_NPU_RX_RING_SIZE / 2
  						 : MT7996_TX_RING_SIZE;
  
@@ -833,11 +865,86 @@ build input; compilation is not a physical drain or recovery proof.
 -					 GFP_KERNEL))
 -			return -ENOMEM;
 -	}
--
--	mutex_lock(&dev->mt76.mutex);
 +		bytes[i] = 256 * size;
 +		bytes[i + 1] = bytes[i];
 +		bytes[i + 2] = 256 * 1024;
++	}
++}
++
++int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *dev)
++{
++	struct airoha_npu *npu;
++	u32 bytes[ARRAY_SIZE(dev->npu_txd_addr)];
++	dma_addr_t addr[ARRAY_SIZE(dev->npu_txd_addr)] = {};
++	unsigned int i;
++	int err;
+ 
+ 	mutex_lock(&dev->mt76.mutex);
++	err = mt76_npu_irq_error(&dev->mt76);
++	if (err)
++		goto unlock;
++	if (dev->npu_txd_prepared || dev->npu_txd_claimed) {
++		err = -EBUSY;
++		goto unlock;
++	}
++	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
++	if (!npu) {
++		err = 0;
++		goto unlock;
++	}
++	for (i = 0; i < ARRAY_SIZE(addr); i++)
++		if (dev->npu_txd_addr[i]) {
++			err = -EBUSY;
++			goto unlock;
++		}
++	mt7996_npu_tx_buffer_sizes(dev, bytes);
++	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
++					       dev->mt76.dma_dev, bytes, addr,
++					       ARRAY_SIZE(bytes));
++	if (err == -EOPNOTSUPP) {
++		/* Generic providers retain their later managed-allocation path. */
++		err = 0;
++		goto unlock;
++	}
++	if (err)
++		goto unlock;
++	memcpy(dev->npu_txd_addr, addr, sizeof(addr));
++	dev->npu_txd_prepared = true;
++unlock:
++	mutex_unlock(&dev->mt76.mutex);
++	return err;
++}
++
++int mt7996_npu_hw_init(struct mt7996_dev *dev)
++{
++	struct airoha_npu *npu;
++	u32 bytes[ARRAY_SIZE(dev->npu_txd_addr)];
++	unsigned int i;
++	int err;
++
++	mutex_lock(&dev->mt76.mutex);
++	err = mt76_npu_irq_error(&dev->mt76);
++	if (err)
++		goto unlock;
++	if (dev->npu_txd_claimed) {
++		err = -EBUSY;
++		goto unlock;
++	}
++	npu = rcu_dereference_protected(dev->mt76.mmio.npu, &dev->mt76.mutex);
++	if (!npu) {
++		err = dev->npu_txd_prepared ? -ENODEV : 0;
++		goto unlock;
++	}
++	mt7996_npu_tx_buffer_sizes(dev, bytes);
++	if (dev->npu_txd_prepared) {
++		err = airoha_npu_wlan_validate_tx_buffers(npu, dev->mt76.dev,
++						 dev->mt76.dma_dev, bytes,
++						 dev->npu_txd_addr, ARRAY_SIZE(bytes));
++		if (err)
++			goto unlock;
++		/* A failed hardware setup cannot recreate this boot's TX lease. */
++		dev->npu_txd_claimed = true;
++		goto initialize;
 +	}
 +	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
 +					       dev->mt76.dma_dev, bytes,
@@ -854,6 +961,7 @@ build input; compilation is not a physical drain or recovery proof.
 +	} else if (err) {
 +		goto unlock;
 +	}
++initialize:
  	err = __mt7996_npu_hw_init(dev);
 +unlock:
  	mutex_unlock(&dev->mt76.mutex);

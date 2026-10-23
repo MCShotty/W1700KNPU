@@ -1,0 +1,300 @@
+{
+  "scope": "actual-checked-TX-preparation-before-RRO-not-RRO-owner-wiring",
+  "previous_goal_turn_classification": "progress",
+  "full_objective_preserved": true,
+  "base_commit": "47f5f6f95207098cd6213c7f5dc82ba4ee647c92",
+  "receipts": {
+    "TX_before": {
+      "path": ".local/npu-host-tx-lifetime-20261011/rro-before-q1/result.json",
+      "sha256": "899750a5369dfe406e906c6c59863aa256c0fc21a00e8512d7b5e4a386b38363",
+      "cases": 113,
+      "controls": 0
+    },
+    "TX_current": {
+      "path": ".local/npu-host-tx-lifetime-20261011/rro-current-q1/result.json",
+      "sha256": "1837c244dc8227adef9f6e0f163a0eb2bcefaaa0ae0e4438d8292881fd9d9f8b",
+      "cases": 223,
+      "controls": 12
+    },
+    "RX_current": {
+      "path": ".local/npu-rx-event-20261013/rro-integration-q1/result.json",
+      "sha256": "38d5ba5ad9e327e29e13a49cdeae0d1edc8f02cdb61d9fe727a04f86ab6496ff",
+      "cases": 168,
+      "controls": 7
+    },
+    "RRO_callers": {
+      "path": ".local/npu-rro-lifetime-callers/rro-integration-q1/result.json",
+      "sha256": "5bee33964cbba344272edf236641e9494a1005f896f86e2348c84232ef20e200",
+      "cases": 1040,
+      "controls": 3
+    },
+    "journal": {
+      "path": ".local/npu-rro-owner-20261023/rro-integration-q1/result.json",
+      "sha256": "00bdc81183c57dd2347dd1a7e3d18fab63a6b17101a89c817f342b778615618d",
+      "cases": 5279,
+      "controls": 3
+    }
+  },
+  "RRO_callers_additional_preparation_control": 1,
+  "RRO_frames": 134,
+  "all_prior_frame_bytes_match": true,
+  "old_and_new_full_trace_AB_comparison": false,
+  "units": {
+    "passed": true,
+    "tests": 116,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "modules": [
+      "test_verify_source_export",
+      "test_prepared_sources",
+      "test_npu_download_cache",
+      "test_build_firmware_host_tools",
+      "test_npu_world_staging",
+      "test_npu_isolated_world",
+      "test_npu_combined_world_sources",
+      "test_verify_control_ownership",
+      "test_npu_world_bubblewrap",
+      "test_npu_world_sources",
+      "test_merged_rootfs_owners",
+      "test_source_component_headers",
+      "test_current_provider_module_contract",
+      "test_current_mt76_modules_contract"
+    ],
+    "inputs": {
+      "tests/test_verify_source_export.py": "3fa43902e3988e13d98cfcd1627b0766c14d9b9b2d978f4587778f6a433c4d37",
+      "tests/test_prepared_sources.py": "9844b0e2abf5096ccd0a20c2fb4d3a88c9693221f5f4e4257bcd6ef9ea74d156",
+      "tests/test_npu_download_cache.py": "dad3a6a1c878eecc17746496b239a7947c91baacec04ee5558fdf7d9e7691a0c",
+      "tests/test_build_firmware_host_tools.py": "cc2260f277790418c58aff869e4c5f314bc57ae6f5752975747afa4e0c95bdcc",
+      "tests/test_npu_world_staging.py": "7394dc3a9026f1528007f8d5a0bc55b738a57848ec1109c67365f9dd7af89aef",
+      "tests/test_npu_isolated_world.py": "4b7083f62ee0aceeaec06a4b75670bd017ccac9a09ef85cdb3f7c768e309e734",
+      "tests/test_npu_combined_world_sources.py": "96839d3571bd793bd3cbca64614cff70662eeceacc3a40671c301511b69b6711",
+      "tests/test_verify_control_ownership.py": "a1e1ef303d12323a08874530827aa39dff3bb41839b652b8ab0e0ed5fdfca3c3",
+      "tests/test_npu_world_bubblewrap.py": "6394cbdd312051b130a37384952e15347a367ebfe6cb158265ba841011e5ce66",
+      "tests/test_npu_world_sources.py": "a7690e69c04f05de5ba0d2b6acc8b70a41a539a9b63372db61a2b64e690d2c45",
+      "tests/test_merged_rootfs_owners.py": "debe379c56d7571b59700d296438025d9b7bbc20f94e56eb9593093d369ac9e6",
+      "tests/npu/test_source_component_headers.py": "070b4b285a0387191143dcdffaa5163943324e5f5c6511015cbe33302f0e974f",
+      "tests/npu/test_current_provider_module_contract.py": "1e77472b4ef6bc7ddc717127165e0d446ed7a67a8321dc9a9ae1395f7eccc35d",
+      "tests/npu/test_current_mt76_modules_contract.py": "fc309f6f874b400dee1352b272f128e8cabdf1c8284a8a331f788bbeb1e4c338"
+    }
+  },
+  "current_module_receipt_sha256": "c72f31d71652663a61bf1c142a71dc1d93f098b60ce528fadfd12bb5f1bac0b5",
+  "source_lock_sha256": "13b5bba636839d6e47bfa91f7c10f360bff2068cbd4f4b9edd075157f53057a3",
+  "AArch64_final_linked_modules": 4,
+  "kernel_sources": 5,
+  "mt76_sources": 329,
+  "component_source_mappings": 24,
+  "compiled_symbols": {
+    "provider": "airoha_npu_wlan_validate_tx_buffers_session",
+    "mt7996": "mt7996_npu_prepare_tx_buffers"
+  },
+  "compiled_initializer_calls_preparer": [
+    {
+      "section": ".rela.text",
+      "offset": 8644,
+      "type": 283
+    }
+  ],
+  "normal_RV32_objects": 23,
+  "archive_sha256": "689b5e45f4c3f29f032fd770ab0d6ba6bcd130fa07f938fc7e6ee049abd82fe9",
+  "old_archive_bytes_identical": true,
+  "original_prepared_trees_unchanged": true,
+  "actual_original_and_current_C_executed": true,
+  "DMA_device_refs_transport_and_framework_modeled": true,
+  "RRO_fixture_TX_stage_modeled": true,
+  "ordinary_source_whitespace_checked": [
+    ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+    ".local/merge-nonoc-20260923/kernel-merged/include/linux/soc/airoha/airoha_offload.h",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/npu.c",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h"
+  ],
+  "unified_patches_fuzz0_and_exact_sources_verified": true,
+  "initial_new_fixture_failure_preserved": true,
+  "earlier_199_and_final_223_cohorts_preserved": true,
+  "prior_receipt_mapped_bindings_verified": 3541,
+  "old_version_remappings": 17,
+  "old_receipts_rewritten": false,
+  "old_mutable_source_pathnames_still_match_not_claimed": true,
+  "executing_capsule_inputs_rehashed": 2865,
+  "executing_source_commit": "2f85e54efabc827a5bcd071bc6bb936df1709b02",
+  "protected_project_image_bindings": 14,
+  "external_objects": 1,
+  "services": {
+    "w1700k-npu-rro-integration-modules-q1.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "a6e9b906135e4f6a8b19282997d69b12",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "536870912",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "536870912",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-integration-regress-q1.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "7f03b97b306143d491fe68ff08405eb2",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "419430400",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-rro-integration-rx-q1.service": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "263bc5d471454a1b8638dd17ed08eb0f",
+      "Restart": "no",
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "91303936",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "w1700k-npu-compact-default-q1.service": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "b7308cc55190453dbe64072f2c296090",
+      "Restart": "no",
+      "MainPID": "2396851",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "378957824",
+      "MemorySwapPeak": "0",
+      "MemoryMax": "4294967296",
+      "MemorySwapMax": "0"
+    }
+  },
+  "live_participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 980825
+    }
+  ],
+  "kernel_and_mt7996_NPU_sources_changed": true,
+  "UI_and_radio_policy_changed": false,
+  "raw_pair_changed": false,
+  "images_changed": false,
+  "new_full_image_built": false,
+  "current_RRO_callers_invoke_journal": false,
+  "RRO_native_MCU_wiring_complete": false,
+  "operational_RRO_admitted": false,
+  "physical_retirement_authority": false,
+  "target_instruction_execution": false,
+  "full_cold_terminal_verdict": false,
+  "hardware": false,
+  "subagents": false,
+  "original_replay_restarted": false,
+  "VM_or_global_policy_changed": false,
+  "full_npu_goal_complete": false,
+  "Jev_source_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "early_before_RRO": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "early_generic_allocates_managed": {
+        "type": "noul",
+        "noul": 0.14
+      },
+      "late_prepared_reallocates": {
+        "type": "noul",
+        "noul": 0.09
+      },
+      "late_validation_before_hardware": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "late_claim_before_attempt": {
+        "type": "noul",
+        "noul": 0.74
+      },
+      "late_validation_EOP_falls_back": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "validator_serial_bound": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "validator_permits_missing_mailboxes": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "validator_grants_free": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 2920,
+      "output_tokens": 189
+    }
+  },
+  "observed_unix_ns": 1792724714091205154,
+  "passed": true,
+  "Jev_final_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "report_claims_RRO_wiring": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "report_claims_full_joint_init": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "report_hides_new_fixture_failure": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "report_claims_physical_retirement": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "report_claims_old_image_current": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "report_calls_Jev_proof": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 6236,
+      "output_tokens": 137
+    }
+  },
+  "final_live_participants": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 988614
+    }
+  ],
+  "semantic_review_not_proof_or_permission": true,
+  "private_evidence_sha256": "4705478791b252a8f10636d71b88f67748bb8a1e0bd588e54d510f5f23f769ff",
+  "bound_paths": 4337
+}

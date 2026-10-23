@@ -1,13 +1,21 @@
 /* Real provider/caller C; coherent DMA, refs, transport and devres are modeled. */
 struct mt76_dev {
-    struct { struct airoha_npu *npu; } mmio;
+    struct { struct airoha_npu *npu; unsigned irq_lock; struct { int error; } npu_irq; } mmio;
     struct device *dev, *dma_dev;
     struct mutex mutex;
 };
-struct mt7996_dev { struct mt76_dev mt76; dma_addr_t npu_txd_addr[6]; };
+struct mt7996_dev {
+    struct mt76_dev mt76;
+    dma_addr_t npu_txd_addr[6];
+    bool npu_txd_prepared, npu_txd_claimed;
+};
+static unsigned spin_depth;
+#define spin_lock_irqsave(lock, flags) do { (void)(lock); (flags)=0; check(!spin_depth++, "modeled IRQ lock"); } while (0)
+#define spin_unlock_irqrestore(lock, flags) do { (void)(lock); (void)(flags); check(spin_depth-- == 1, "modeled IRQ unlock"); } while (0)
 static bool family7996 = true;
 static unsigned managed_calls, hw_calls;
 static int hw_error;
+static bool require_blocked_entry;
 static bool is_mt7996(struct mt76_dev *dev) { (void)dev; return family7996; }
 #define BUILD_BUG_ON(c) _Static_assert(!(c), "array contract")
 #define rcu_dereference_protected(p, condition) (p)
@@ -20,6 +28,7 @@ static void *dmam_alloc_coherent(struct device *dev, size_t bytes, dma_addr_t *a
 static int __mt7996_npu_hw_init(struct mt7996_dev *dev)
 {
     check(pthread_mutex_trylock(&dev->mt76.mutex.native) == EBUSY, "host caller owns mutex");
+    check(!require_blocked_entry, "stale or consumed prepared lease must not reach hardware entry");
     hw_calls++;
 #ifndef BEFORE_HOST
     if (priv.checked_pair) {
@@ -50,7 +59,10 @@ static void fixture(bool bound)
         life.buffers[i].addr = 0x83000000u + i * 256;
     }
     priv.npu.ops.wlan_alloc_tx_buffers = airoha_npu_wlan_alloc_tx_buffers_session;
-    family7996 = true; hw_error = 0;
+#ifdef HAS_EARLY_TX_PREP
+    priv.npu.ops.wlan_validate_tx_buffers = airoha_npu_wlan_validate_tx_buffers_session;
+#endif
+    family7996 = true; hw_error = 0; require_blocked_entry = false;
     check(!npu_test_run(), "actual initial held session");
     if (bound) {
         check(!npu_test_endpoint(0x20000000,0x100000,2), "actual endpoint binding");
@@ -96,6 +108,171 @@ static void failed_output(int error, unsigned allocated, u32 *sizes)
               "retry has no allocation/wire/output effects");
     }
 }
+
+#ifdef HAS_EARLY_TX_PREP
+struct prepare_thread {
+    struct mt7996_dev *dev;
+    int result;
+};
+static void *prepare_worker(void *argument)
+{
+    struct prepare_thread *thread = argument;
+    thread->result = mt7996_npu_prepare_tx_buffers(thread->dev);
+    return NULL;
+}
+
+static void early_preparation_cases(void)
+{
+    for (unsigned mode = 0; mode < 4; mode++) {
+        fixture(true);
+        struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+        mutex_init(&dev.mt76.mutex);
+        if (mode == 1) hw_error = -EIO;
+        if (mode == 2) priv.checked_pair = false;
+        if (mode == 3) { priv.checked_pair = false; priv.npu.ops.wlan_alloc_tx_buffers = NULL; }
+        check(!mt7996_npu_prepare_tx_buffers(&dev), "early TX preparation result");
+        if (mode < 2) {
+            check(dev.npu_txd_prepared && !dev.npu_txd_claimed && dma_calls == 6 &&
+                  !managed_calls && !hw_calls && life.tx_serial == priv.wlan_control.client.base.serial,
+                  "early preparation publishes one retained TX lease before hardware");
+            unsigned wire = calls;
+            check(mt7996_npu_prepare_tx_buffers(&dev) == -EBUSY && calls == wire && dma_calls == 6,
+                  "second early preparation cannot allocate or publish again");
+        } else {
+            check(!dev.npu_txd_prepared && !dma_calls && !managed_calls && !hw_calls,
+                  "generic early preparation does not move its managed allocations");
+            for (unsigned i=0;i<6;i++) check(!dev.npu_txd_addr[i], "generic early outputs stay zero");
+        }
+        check(mt7996_npu_hw_init(&dev) == (mode == 1 ? -EIO : 0), "late hardware uses prepared lease");
+        check(hw_calls == 1 && dma_calls == 6 && managed_calls == (mode >= 2 ? 6 : 0),
+              "prepared path has no second allocation or managed fallback");
+        if (mode < 2) {
+            require_blocked_entry = true;
+            unsigned wire = calls;
+            check(dev.npu_txd_claimed && mt7996_npu_hw_init(&dev) == -EBUSY &&
+                  hw_calls == 1 && calls == wire && dma_calls == 6,
+                  "late hardware attempt consumes the lease even when it fails");
+        }
+        check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "early fixture mutex");
+        dispose();
+    }
+    for (unsigned failure=0;failure<6;failure++) {
+        fixture(true); fail_allocation = failure;
+        struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+        mutex_init(&dev.mt76.mutex);
+        check(mt7996_npu_prepare_tx_buffers(&dev) == -ENOMEM && object_count == failure &&
+              dma_calls == failure + 1 && !dev.npu_txd_prepared && !hw_calls && !managed_calls,
+              "early allocation failure retains its whole prefix without hardware entry");
+        for (unsigned i=0;i<6;i++) check(!dev.npu_txd_addr[i], "failed early outputs stay zero");
+        unsigned wire=calls, allocations=dma_calls;
+        check(mt7996_npu_prepare_tx_buffers(&dev) == -ENOMEM && calls == wire && dma_calls == allocations,
+              "early failure is sticky and cannot allocate another prefix");
+        check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "early failure mutex");
+        dispose();
+    }
+    for (unsigned kind=0;kind<82;kind++) {
+        fixture(true);
+        struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+        mutex_init(&dev.mt76.mutex);
+        check(!mt7996_npu_prepare_tx_buffers(&dev), "prepared mutation baseline");
+        if (kind < 6) dev.npu_txd_addr[kind] ^= 0x100;
+        else if (kind < 12) life.tx_buffers[kind-6].addr ^= 0x100;
+        else if (kind < 18) life.tx_buffers[kind-12].bytes++;
+        else if (kind < 24) life.tx_buffers[kind-18].buf = NULL;
+        else if (kind == 24) life.boot_identity ^= 1;
+        else if (kind == 25) life.nonce_lo ^= 1;
+        else if (kind == 26) life.nonce_hi ^= 1;
+        else if (kind == 27) life.tx_serial++;
+        else if (kind == 28) priv.wlan_control.client.base.serial++;
+        else if (kind == 29) life.endpoint = &other_device;
+        else if (kind == 30) life.dev = &other_device;
+        else if (kind == 31) life.tx_attempted = false;
+        else if (kind == 32) life.tx_published = false;
+        else if (kind == 33) life.tx_serial = 0;
+        else if (kind == 34) priv.wlan_control.descriptor_gets = 1;
+        else if (kind == 35) priv.wlan_control.descriptor_arena = 1;
+        else if (kind == 36) priv.wlan_control.txbuf_steps = 1;
+        else if (kind == 37) priv.wlan_control.rx_event = 1;
+        else if (kind == 38) priv.wlan_control.rx_event_steps = 1;
+        else if (kind == 39) priv.wlan_control.txbuf_enrolled--;
+        else if (kind == 40) life.endpoint_bound = false;
+        else if (kind == 41) priv.boot_identity ^= 1;
+        else if (kind == 42) priv.native_published = false;
+        else if (kind < 51) life.buffers[kind-43].addr = life.tx_buffers[0].addr;
+        else if (kind < 57) priv.native_plan[kind-51][0] = life.tx_buffers[0].addr;
+        else if (kind == 57) life.rx_event.buf = (void *)(uintptr_t)0x1234;
+        else if (kind < 66) life.buffers[kind-58].buf = NULL;
+        else if (kind < 74) life.buffers[kind-66].addr = 0;
+        else life.buffers[kind-74].addr |= UINT64_C(0x100000000);
+        unsigned wire=calls, allocations=dma_calls;
+        require_blocked_entry = true;
+        check(mt7996_npu_hw_init(&dev) == -EPROTO && !hw_calls && !managed_calls &&
+              calls == wire && dma_calls == allocations && !dev.npu_txd_claimed,
+              "stale prepared lease rejects before hardware, transport or allocation");
+        check(priv.wlan_session_error == -EPROTO && priv.wlan_control.closed && !freed_tx,
+              "stale prepared lease retains storage and closes the failed session");
+        check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "mutation fixture mutex");
+        dispose();
+    }
+    for (unsigned kind=0;kind<3;kind++) {
+        fixture(true);
+        struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+        mutex_init(&dev.mt76.mutex);
+        check(!mt7996_npu_prepare_tx_buffers(&dev), "interrupted preparation baseline");
+        int expected;
+        if (!kind) { dev.mt76.mmio.npu=NULL; expected=-ENODEV; }
+        else if (kind == 1) { npu_test_close(); expected=-ESHUTDOWN; }
+        else { priv.npu.ops.wlan_validate_tx_buffers=NULL; expected=-EOPNOTSUPP; }
+        unsigned wire=calls;
+        require_blocked_entry = true;
+        check(mt7996_npu_hw_init(&dev) == expected && !hw_calls && !managed_calls &&
+              calls == wire && dma_calls == 6 && !dev.npu_txd_claimed,
+              "missing, closed or unsupported prepared owner never falls back");
+        check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "interrupted fixture mutex");
+        dispose();
+    }
+    for (unsigned kind=0;kind<6;kind++) {
+        fixture(true);
+        struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+        mutex_init(&dev.mt76.mutex); dev.npu_txd_addr[kind]=0x1234;
+        unsigned wire=calls;
+        check(mt7996_npu_prepare_tx_buffers(&dev) == -EBUSY && !dma_calls && calls == wire &&
+              dev.npu_txd_addr[kind] == 0x1234 && !dev.npu_txd_prepared,
+              "early preparation cannot overwrite an existing handle");
+        check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "existing-handle mutex");
+        dispose();
+    }
+    for (unsigned after=0;after<2;after++)
+        for (unsigned kind=0;kind<4;kind++) {
+            const int errors[]={-EIO,-EFAULT,-ESHUTDOWN,-ETIMEDOUT};
+            fixture(true);
+            struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+            mutex_init(&dev.mt76.mutex);
+            if (after) check(!mt7996_npu_prepare_tx_buffers(&dev), "IRQ prepared baseline");
+            dev.mt76.mmio.npu_irq.error=errors[kind];
+            unsigned wire=calls, allocations=dma_calls;
+            require_blocked_entry = true;
+            check(mt7996_npu_prepare_tx_buffers(&dev) == errors[kind] &&
+                  mt7996_npu_hw_init(&dev) == errors[kind] && calls == wire && dma_calls == allocations &&
+                  !hw_calls && !managed_calls, "actual sticky IRQ accessor precedes both TX entries");
+            check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "IRQ fixture mutex");
+            dispose();
+        }
+    fixture(true);
+    struct mt7996_dev dev = {.mt76={.mmio.npu=&priv.npu,.dev=&endpoint_device,.dma_dev=&dma_device}};
+    mutex_init(&dev.mt76.mutex);
+    struct prepare_thread args[2]={{.dev=&dev},{.dev=&dev}};
+    pthread_t threads[2];
+    for (unsigned i=0;i<2;i++) check(!pthread_create(&threads[i],NULL,prepare_worker,&args[i]), "prepare thread create");
+    for (unsigned i=0;i<2;i++) check(!pthread_join(threads[i],NULL), "prepare thread join");
+    check((args[0].result == 0 && args[1].result == -EBUSY) ||
+          (args[1].result == 0 && args[0].result == -EBUSY), "one concurrent early preparation wins");
+    check(dma_calls == 6 && !managed_calls && !hw_calls && dev.npu_txd_prepared,
+          "concurrent preparation retains exactly one six-buffer lease");
+    check(!pthread_mutex_destroy(&dev.mt76.mutex.native), "concurrent fixture mutex");
+    dispose();
+}
+#endif
 
 int main(void)
 {
@@ -264,6 +441,9 @@ int main(void)
     check(!mt7996_npu_hw_init(&absent) && !dma_calls && !managed_calls && !hw_calls,
           "absent provider performs no allocation or initializer");
     check(!pthread_mutex_destroy(&absent.mt76.mutex.native),"absent host mutex");dispose();
+#ifdef HAS_EARLY_TX_PREP
+    early_preparation_cases();
+#endif
     printf("{\"passed\":true,\"cases\":%u,\"exposed_tx_frees\":0}\n",lifetime_cases);
     return 0;
 #endif

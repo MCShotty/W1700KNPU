@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-23 - TX Ordering Prerequisite Implemented; Real RRO Wiring Next
+
+Checked TX storage now exists before RRO init, with exact late validation and
+one-shot hardware consumption. Generic providers keep their late allocation.
+223 TX cases/12 controls, 168 RX cases/seven controls, 1,040 caller cases/four
+controls, 5,279 journal cases/three controls, 116 tooling units, four current
+AArch64 module links and the exact 23-member RV32 archive pass.
+Read rro-allocation-order REPORT.md/EVIDENCE.json and RRO requirements.
+
+Next connect actual provider-owned RRO allocations/references and early teardown
+handoff to the journal, replacing managed frees for possibly exposed RRO storage.
+Complete process/atomic transport and MCU request retention, generation/ticket
+binding, initializer error propagation and physical IRQ/DMA/firmware/cache/PMA
+drain/retirement together. Coordinate the admitted RRO protocol's serial advance
+with late TX validation; do not bypass the lease validator. No new RRO admission
+or reclamation authority follows from this allocation-order change.
+
+Build/qualify a complete current-source image; old a3f1d04b remains old-source
+only. Finish the original frozen default caller, separate HIF2/full faults,
+hot ownership/lifecycle/whole-stack and physical boot/radios/client/performance/
+stability acceptance. Original replay live/not restarted; raw pair/images and
+UI/radio policy unchanged. MT7996 NPU driver changed, no hardware or subagents.
+
 ## 2026-10-23 - Wire The Compiled RRO Journal Into Real Owners
 
 The metadata core is implemented in canonical builds: 5,279 sanitizer cases,

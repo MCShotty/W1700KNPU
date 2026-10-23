@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-23 - TX Ownership Prepared Before RRO
+
+The checked driver now prepares its retained TX buffers before RRO init and
+validates their identity at the later hardware entry without allocating twice.
+Generic-provider allocation timing stays unchanged. Actual-C TX/RX tests,
+complete caller characterization and all four AArch64 module links pass.
+
+This resolves a real initialization-order dependency, not full RRO integration
+or physical acceptance. The journal still needs actual RRO owner/transport/MCU
+wiring. No new image or flash. See the
+[allocation-order checkpoint](research/checkpoints/2026-10-23-npu-rro-allocation-order/REPORT.md).
+
 ## 2026-10-23 - Retained RRO Ownership Journal
 
 The new ownership journal is integrated into the canonical RV32 and kernel

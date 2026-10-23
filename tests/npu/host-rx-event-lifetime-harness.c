@@ -54,6 +54,9 @@ static void rx_fixture(void)
     }
     priv.npu.ops.wlan_alloc_rx_event = airoha_npu_wlan_alloc_rx_event_session;
     priv.npu.ops.wlan_alloc_tx_buffers = airoha_npu_wlan_alloc_tx_buffers_session;
+#ifdef HAS_EARLY_TX_PREP
+    priv.npu.ops.wlan_validate_tx_buffers = airoha_npu_wlan_validate_tx_buffers_session;
+#endif
     wifi.mt76.dev = &endpoint_device;
     wifi.mt76.dma_dev = &dma_device;
     wifi.mt76.mmio.npu = &priv.npu;
@@ -237,6 +240,21 @@ int main(void)
               "argument preflight preserves outputs, transport and one-shot state");
         rx_dispose();
     }
+#ifdef HAS_EARLY_TX_PREP
+    for (unsigned mutate=0;mutate<2;mutate++) {
+        rx_fixture(); check(!rx_queue(512), "early TX follows retained RX queue");
+        check(!mt7996_npu_prepare_tx_buffers(&wifi) && wifi.npu_txd_prepared &&
+              !wifi.npu_txd_claimed && dma_calls == 7 && !hw_calls && !managed_calls,
+              "early TX retains all six buffers after the actual RX allocation path");
+        unsigned wire = calls;
+        if (mutate) life.rx_event.addr ^= 16;
+        check(mt7996_npu_hw_init(&wifi) == (mutate ? -EPROTO : -EIO) &&
+              dma_calls == 7 && !managed_calls && calls == wire &&
+              hw_calls == !mutate && wifi.npu_txd_claimed == !mutate,
+              "late prepared validation binds retained RX and TX without another allocation");
+        rx_dispose();
+    }
+#endif
     printf("{\"passed\":true,\"cases\":%u,\"rx_bytes\":8192,\"tx_following\":6}\n", rx_cases);
     return 0;
 }

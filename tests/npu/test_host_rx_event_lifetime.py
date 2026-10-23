@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import shutil
 
 sys.dont_write_bytecode = True
 import test_provider_session as parent
@@ -73,12 +74,17 @@ struct mt76_queue {
     struct mt76_dev *dev;
 };
 struct mt76_dev {
-    struct { void *regs; struct airoha_npu *npu; struct mtk_wed_device wed; } mmio;
+    struct { void *regs; struct airoha_npu *npu; struct mtk_wed_device wed;
+        unsigned irq_lock; struct { int error; } npu_irq; } mmio;
     struct mt76_queue q_rx[__MT_RXQ_MAX];
     struct device *dev,*dma_dev;
     struct mutex mutex;
 };
-struct mt7996_dev { struct mt76_dev mt76; dma_addr_t npu_txd_addr[6]; };
+struct mt7996_dev { struct mt76_dev mt76; dma_addr_t npu_txd_addr[6];
+    bool npu_txd_prepared, npu_txd_claimed; };
+static unsigned spin_depth;
+#define spin_lock_irqsave(lock, flags) do { (void)(lock); (flags)=0; check(!spin_depth++, "modeled IRQ lock"); } while (0)
+#define spin_unlock_irqrestore(lock, flags) do { (void)(lock); (void)(flags); check(spin_depth-- == 1, "modeled IRQ unlock"); } while (0)
 static struct mt7996_dev wifi;
 static unsigned char register_space[4096];
 static struct mt76_queue_entry entries[512];
@@ -142,15 +148,21 @@ def main():
     names = ('airoha_npu_dma_retained', 'airoha_npu_dma_cleanup',
              'airoha_npu_wlan_rx_event_valid', 'airoha_npu_wlan_alloc_rx_event_session',
              'airoha_npu_wlan_tx_buffer_valid', 'airoha_npu_wlan_alloc_tx_buffers_session')
+    if 'airoha_npu_wlan_validate_tx_buffers_session' in text:
+        names += ('airoha_npu_wlan_validate_tx_buffers_session',)
     provider = '\n'.join(q.function(text, name) for name in names if name not in parent.FUNCTIONS)
     inc = destination / 'provider-session.inc'
     inc.write_text(inc.read_text() + provider + '\n' +
                    q.function(htext, 'airoha_npu_wlan_alloc_rx_event') + '\n' +
                    q.function(htext, 'airoha_npu_wlan_alloc_tx_buffers') + '\n')
+    if 'airoha_npu_wlan_validate_tx_buffers_session' in text:
+        with inc.open('a') as stream:
+            stream.write(q.function(htext, 'airoha_npu_wlan_validate_tx_buffers') + '\n')
     model = parent.HARNESS.read_text()
     ops = '''struct airoha_npu { struct device *dev; struct {
 int (*wlan_alloc_rx_event)(struct airoha_npu *,struct device *,struct device *,u32,u32,void **,dma_addr_t *);
 int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,dma_addr_t *,unsigned);
+int (*wlan_validate_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,const dma_addr_t *,unsigned);
 } ops; };'''
     model = parent.loader.once(model, 'struct airoha_npu { struct device *dev; };', ops)
     model = parent.loader.once(model, 'static void park(void)', 'static void rx_late_mutate(void);\nstatic void park(void)')
@@ -169,9 +181,18 @@ int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *
     constants = (mt76 / 'mt7996/mt7996.h').read_text()
     host_parts += '\n#define MT_BAND0 0\n#define MT_BAND2 2\n' + '\n'.join(queue_source.macro(constants, name) for name in
                   ('MT7996_NPU_RX_RING_SIZE', 'MT7996_NPU_TX_RING_SIZE', 'MT7996_TX_RING_SIZE'))
-    host_parts += '\n' + q.function((mt76 / 'mt7996/npu.c').read_text(), 'mt7996_npu_hw_init')
+    host_text = (mt76 / 'mt7996/npu.c').read_text()
+    if 'mt76_npu_irq_error(' in host_text:
+        host_parts += '\n' + q.function((mt76 / 'npu.c').read_text(), 'mt76_npu_irq_error')
+    if 'mt7996_npu_prepare_tx_buffers(' in host_text:
+        host_parts += '\n#define HAS_EARLY_TX_PREP 1\n'
+        host_parts += q.function(host_text, 'mt7996_npu_tx_buffer_sizes') + '\n'
+        host_parts += q.function(host_text, 'mt7996_npu_prepare_tx_buffers') + '\n'
+    host_parts += '\n' + q.function(host_text, 'mt7996_npu_hw_init')
     (destination / 'host-queue.inc').write_text(host_parts + '\n')
     generated = destination / 'test.c'
+    shutil.copyfile(__file__, destination / 'driver-at-run.py')
+    shutil.copyfile(root / 'tests/npu/host-rx-event-lifetime-harness.c', destination / 'harness-at-run.c')
     generated.write_text('#define main provider_matrix_main\n' + model + '\n#undef main\n#include "host-queue.inc"\n#include "' + str(root / 'tests/npu/host-rx-event-lifetime-harness.c') + '"\n')
     command = [generated if item == parent.HARNESS else item for item in command]
     flags = ['-fsanitize=address,undefined', '-fno-sanitize-recover=all',
@@ -199,6 +220,7 @@ int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *
             body = q.function(text, function_name)
             modified = parent.loader.once(body, before, after)
             inc.write_text(parent.loader.once(original, body, modified))
+            shutil.copyfile(inc, target / inc.name)
             mutant = target / 'test'
             parent.loader.run(command + flags + ['-o', mutant], target / 'build.log')
             done = parent.loader.run([mutant], target / 'run.log', env=env, accepted=11)
@@ -206,7 +228,8 @@ int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *
             rejected.append(dict(name=name, oracle=done.stderr.strip(), sha256=parent.loader.sha(mutant)))
         inc.write_text(original)
     assert matrix['passed'] and all(parent.loader.sha(root / p) == digest for p, digest in inputs.items())
-    result = dict(passed=True, matrix=matrix, mutants=rejected, inputs=inputs,
+    artifacts = {str(path.relative_to(root)):parent.loader.sha(path) for path in destination.rglob('*') if path.is_file()}
+    result = dict(passed=True, matrix=matrix, mutants=rejected, inputs=inputs, artifacts=artifacts,
                   binary_sha256=parent.loader.sha(binary), sanitizers=['address', 'undefined', 'leak'],
                   limits=['Actual provider allocation/binding/cleanup, inline wrappers, mt76 allocation hook/queue allocator and mt7996 TX allocator caller C.',
                           'DMA backing/device refs/register programming/page pool/entries/WED and transport delivery are modeled.',

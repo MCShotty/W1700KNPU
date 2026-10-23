@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-23 - Checked TX Ownership Before RRO Init
+
+- The real checked TX allocator now prepares all six retained buffers before
+  RRO init. Late hardware entry validates exact handles/geometry, provider/
+  endpoint/boot/nonce/TX serial and mailbox/RX records, then consumes the
+  prepared attempt. No duplicate allocation or managed fallback on that lane.
+  Generic providers keep their original later managed-allocation path.
+- Actual C passes 223 TX cases/12 controls and 168 RX-composition cases/seven
+  controls. Complete RRO caller characterization now passes 1,040 cases, three
+  teardown controls and one compiled missing-preparation control; its TX stage
+  is modeled there and executed independently in the actual-C suites.
+- Four current AArch64 modules final-link; producer c72f31d7/lock13b5bba6
+  binds 5 kernel/329 mt76 sources and 24 component mappings. All 5,279 journal
+  cases/three controls, 23 exact RV32 members and 116 tooling units pass.
+  Archive bytes equal the prior 23-object build. No new raw pair or full image.
+- Read rro-allocation-order REPORT.md/EVIDENCE.json and RRO requirements.
+  Actual RRO allocation/reference/transport/MCU/retirement wiring remains open;
+  the journal is still not invoked by real RRO callers. Current RRO native
+  admission remains closed. Existing compact default stays on frozen2f85e54,
+  live/not restarted. Full cold/fault/hot/physical/client objective stays active.
+
 ## 2026-10-23 - RRO Ownership Journal In Canonical Builds
 
 - New full-geometry retained metadata journal passes 5,279 ASan/UBSan/leak

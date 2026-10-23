@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import sys
 import re
+import shutil
 
 sys.dont_write_bytecode = True
 import test_provider_session as parent
@@ -65,6 +66,7 @@ def main():
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--header',type=Path,required=True)
     parser.add_argument('--host',type=Path,required=True)
+    parser.add_argument('--mt76-npu',type=Path,default=parent.ROOT / '.local/merge-nonoc-20260923/mt76-merged/npu.c')
     parser.add_argument('--name',required=True)
     parser.add_argument('--before-host',type=Path)
     parser.add_argument('--alias-counterexample',action='store_true')
@@ -78,19 +80,25 @@ def main():
     host=(args.before_host or args.host).resolve()
     paths=[source,header,host,parent.HARNESS,Path(__file__).resolve(),Path(parent.__file__),
            Path(parent.loader.__file__),Path(q.__file__),root/'tests/npu/host-tx-lifetime-harness.c',
-           args.host.resolve().with_name('mt7996.h')]
+           args.host.resolve().with_name('mt7996.h'), args.mt76_npu.resolve()]
     paths += [path for path in parent.SOURCE.rglob('*') if path.is_file()]
     inputs={str(path.relative_to(root)):parent.loader.sha(path) for path in paths}
     text,htext=source.read_text(),header.read_text()
     function_names=('airoha_npu_dma_retained','airoha_npu_dma_cleanup',
         'airoha_npu_wlan_rx_event_valid',
         'airoha_npu_wlan_tx_buffer_valid','airoha_npu_wlan_alloc_tx_buffers_session')
+    if 'airoha_npu_wlan_validate_tx_buffers_session' in text:
+        function_names += ('airoha_npu_wlan_validate_tx_buffers_session',)
     functions=[q.function(text,name) for name in function_names]
     extra='\n'.join(body for name,body in zip(function_names,functions) if name not in parent.FUNCTIONS)+'\n'+q.function(htext,'airoha_npu_wlan_alloc_tx_buffers')+'\n'
+    if 'airoha_npu_wlan_validate_tx_buffers_session' in text:
+        extra += q.function(htext, 'airoha_npu_wlan_validate_tx_buffers') + '\n'
     command=parent.prepare(destination,text,htext)
+    shutil.copyfile(__file__, destination / 'driver-at-run.py')
+    shutil.copyfile(root / 'tests/npu/host-tx-lifetime-harness.c', destination / 'harness-at-run.c')
     inc=destination/'provider-session.inc'
     inc.write_text(inc.read_text()+extra)
-    ops='struct airoha_npu { struct device *dev; struct { int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,dma_addr_t *,unsigned); } ops; };'
+    ops='struct airoha_npu { struct device *dev; struct { int (*wlan_alloc_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,dma_addr_t *,unsigned); int (*wlan_validate_tx_buffers)(struct airoha_npu *,struct device *,struct device *,const u32 *,const dma_addr_t *,unsigned); } ops; };'
     model=parent.loader.once(parent.HARNESS.read_text(),'struct airoha_npu { struct device *dev; };',ops)
     model=parent.loader.once(model,'static struct device *get_device(struct device *dev) { return dev; }',
                             'static struct device *get_device(struct device *dev) { dev->unused++; return dev; }')
@@ -100,8 +108,18 @@ def main():
     command=[generated if item==parent.HARNESS else item for item in command]
     constants=args.host.resolve().with_name('mt7996.h').read_text()
     definitions=[line for line in constants.splitlines() if re.match(r'#define MT7996_(?:NPU_RX_RING_SIZE|NPU_TX_RING_SIZE|TX_RING_SIZE)\b',line)]
+    host_text = host.read_text()
+    host_functions = []
+    if 'mt76_npu_irq_error(' in host_text:
+        host_functions.append(q.function(args.mt76_npu.read_text(), 'mt76_npu_irq_error'))
+    if 'mt7996_npu_prepare_tx_buffers(' in host_text:
+        assert 'airoha_npu_wlan_validate_tx_buffers_session' in text
+        host_functions += ['#define HAS_EARLY_TX_PREP 1',
+            q.function(host_text, 'mt7996_npu_tx_buffer_sizes'),
+            q.function(host_text, 'mt7996_npu_prepare_tx_buffers')]
+    host_functions.append(q.function(host_text,'mt7996_npu_hw_init'))
     (destination/'host-caller.inc').write_text('\n'.join(['#define MT_BAND0 0','#define MT_BAND2 2',*definitions,
-        q.function(host.read_text(),'mt7996_npu_hw_init')])+'\n')
+        *host_functions])+'\n')
     flags=['-fsanitize=address,undefined','-fno-sanitize-recover=all','-Wno-unused-function','-Wno-unused-variable','-Wno-sign-compare']
     if args.before_host:flags+=['-DBEFORE_HOST']
     if args.alias_counterexample:flags+=['-DALIAS_COUNTEREXAMPLE']
@@ -137,13 +155,44 @@ def main():
             mutated=parent.loader.once(original,relevant[0],replacement)
             target.mkdir(parents=True)
             inc.write_text(mutated)
+            shutil.copyfile(inc, target / inc.name)
             mutant=target/'test'
             parent.loader.run(command+flags+['-o',mutant],target/'build.log')
             done=parent.loader.run([mutant],target/'run.log',env=env,accepted=11)
             assert 'FAIL[session]' in done.stderr and 'AddressSanitizer' not in done.stderr
             rejected.append(dict(name=name,oracle=done.stderr.strip(),binary_sha256=parent.loader.sha(mutant)))
         inc.write_text(original)
+        if 'mt7996_npu_prepare_tx_buffers(' in host_text:
+            host_inc = destination / 'host-caller.inc'
+            host_original = host_inc.read_text()
+            validation_call = re.search(r'\terr = airoha_npu_wlan_validate_tx_buffers\([^;]+;', host_original)
+            assert validation_call is not None
+            variants = (
+                ('omit-prepared-validation', host_inc, host_original, validation_call.group(), '\terr = 0;',
+                 'stale or consumed prepared lease must not reach hardware entry'),
+                ('omit-prepared-consumption', host_inc, host_original, 'dev->npu_txd_claimed = true;', '(void)0;',
+                 'late hardware attempt consumes the lease even when it fails'),
+                ('omit-prepared-serial', inc, original, 'life->tx_serial != snapshot.client.base.serial ||', 'false ||',
+                 'stale or consumed prepared lease must not reach hardware entry'),
+            )
+            for name, container, contents, old, new, diagnostic in variants:
+                assert contents.count(old) == 1, ('early-mutant-anchor', name)
+                target = destination / 'mutants' / name
+                target.mkdir()
+                container.write_text(parent.loader.once(contents, old, new))
+                shutil.copyfile(container, target / container.name)
+                mutant = target / 'test'
+                compiled = parent.loader.run(command+flags+['-o',mutant],target/'build.log')
+                done = parent.loader.run([mutant],target/'run.log',env=env,accepted=11)
+                assert 'FAIL[session]' in done.stderr and diagnostic in done.stderr
+                assert 'AddressSanitizer' not in done.stderr and 'runtime error:' not in done.stderr
+                rejected.append(dict(name=name, compiled=compiled.returncode == 0,
+                    run_returncode=done.returncode, intended_assertion=diagnostic, oracle=done.stderr.strip(),
+                    binary_sha256=parent.loader.sha(mutant), source_sha256=parent.loader.sha(container)))
+                container.write_text(contents)
+    artifacts={str(path.relative_to(root)):parent.loader.sha(path) for path in destination.rglob('*') if path.is_file()}
     result=dict(passed=matrix['passed'],counterexample=bool(args.before_host or args.alias_counterexample),matrix=matrix,inputs=inputs,mutants=rejected,
+        artifacts=artifacts, early_TX_preparation_executed='mt7996_npu_prepare_tx_buffers(' in host_text,
         binary_sha256=parent.loader.sha(binary),sanitizers=['address','undefined','leak'],
         limits=['Actual provider allocator/binding/cleanup, actual inline allocation wrapper and actual mt7996 caller C.',
                 'DMA allocations/device refs/devres/backing/transport are modeled. STATUS validation is not physical drain proof.',

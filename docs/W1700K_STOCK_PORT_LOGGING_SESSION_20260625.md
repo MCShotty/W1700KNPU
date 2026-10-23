@@ -1,8 +1,32 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-23 (RRO ownership metadata journal compiled and linked; full operational/physical scope open)
+Last updated: 2026-10-23 (checked TX prepared before RRO; full operational RRO/physical scope open)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-23 - Checked TX Preparation Before RRO Init
+
+- The real checked TX allocator now runs before RRO init, supplying the future
+  journal's protected TX spans. Late entry validates retained identity/geometry/
+  serial/mailbox/RX records and consumes its hardware attempt. Generic providers
+  retain late managed allocation; a prepared lane never falls back or reallocates.
+- 223 actual-C TX cases/12 controls and 168 RX cases/seven controls pass. Full
+  selected caller fixture passes 1,040 cases/three teardown plus one preparation
+  control; its TX boundary is modeled and tested as actual C independently.
+  All 134 frames unchanged. Old host C passes 113 applicable cases, not trace A/B.
+- Current producer c72f31d7/lock13b5bba6 final-links all four AArch64 modules,
+  binding 5 kernel/329 mt76 sources/24 mappings. All 5,279 journal cases/three
+  controls and 116 tooling units pass. Exact 23-object archive bytes match the
+  previous build. Source authority advances from canonical patches, not old
+  prepared output. Originals/captured cohorts/protected image bindings retained.
+- Initial newly added fixture misflagged a generic provider and failed at
+  case117. Failure and fixture bytes kept; production behavior not loosened.
+  Jev's fallback0.52 remains uncertain, not test proof or approval.
+- Read rro-allocation-order REPORT.md/EVIDENCE.json and RRO requirements. Actual
+  RRO ownership/transport/MCU/drain/retirement still open; journal not wired to
+  real RRO paths. No new image/native-instruction/hardware/flash/global action.
+  Raw pair/UI/radio policy/images unchanged; MT7996 NPU paths changed. Original
+  compact default still live on2f85e54/not restarted; full objective active.
 
 ## 2026-10-23 - RRO Ownership Journal Compiled In Both Builds
 

@@ -120,9 +120,10 @@ static struct {
     unsigned mcu_resets, items_freed, hw_init, dma_rro_init, published_frees;
     unsigned unregister_calls, rcu_joins, queue_cleanups, npu_puts, ppe_puts;
     unsigned worker_teardowns, workqueue_destroys;
+    unsigned tx_prepares;
     unsigned fail_devres, fail_dma, disconnect_at_lookup;
     int raw_result, mcu_result, stage, stage_result;
-    bool high_dma;
+    bool high_dma, tx_prepared;
     FILE *capture;
 } s;
 
@@ -151,6 +152,7 @@ static struct airoha_npu *lookup(struct airoha_npu **p)
 static void *devres_alloc(void (*release)(struct device *, void *), size_t size, gfp_t gfp)
 {
     assert(gfp == GFP_KERNEL);
+    assert(s.tx_prepared && "TX preparation must precede first RRO allocation");
     if (++s.attempts == s.fail_devres) return NULL;
     struct resource_node *n = calloc(1, sizeof(*n) + size);
     assert(n); n->release = release; s.resources++;
@@ -290,6 +292,14 @@ static int stage_result(int stage) { return s.stage == stage ? s.stage_result : 
 static int mt7996_variant_type_init(struct mt7996_dev *d) { (void)d; return stage_result(1); }
 static int mt7996_dma_init(struct mt7996_dev *d) { (void)d; return stage_result(2); }
 static int mt7996_mcu_init(struct mt7996_dev *d) { (void)d; return stage_result(3); }
+static int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *d)
+{
+    assert(d == &s.dev && !s.allocated && !s.nmessages);
+    s.tx_prepares++;
+    int result = stage_result(8);
+    if (!result) s.tx_prepared = true;
+    return result;
+}
 static void mt7996_rro_hw_init(struct mt7996_dev *d) { (void)d; s.hw_init++; }
 static int mt7996_dma_rro_init(struct mt7996_dev *d) { (void)d; s.dma_rro_init++; return stage_result(4); }
 static int mt7996_variant_fem_init(struct mt7996_dev *d) { (void)d; return stage_result(5); }
@@ -443,11 +453,12 @@ int main(int argc, char **argv)
                 finish(backend ? "dma-allocation-failure" : "devres-allocation-failure", profile, result, failure);
             }
         }
-        for (int stage = 1; stage <= 7; stage++) {
+        for (int stage = 1; stage <= 8; stage++) {
             setup(profile, true, true); s.stage = stage; s.stage_result = stage == 7 ? 1 : -EIO;
             int result = mt7996_init_hardware(&s.dev);
             assert(result == (stage == 7 ? -ENOSPC : -EIO));
-            assert(s.allocated == (stage < 4 ? 0 : count) && !s.downstream);
+            assert(s.allocated == (stage < 4 || stage == 8 ? 0 : count) && !s.downstream);
+            if (stage == 8) assert(s.tx_prepares == 1 && !s.tx_prepared && !s.nmessages);
             finish("higher-startup-failure", profile, result, stage);
         }
         const int statuses[] = { 0, -EIO, -ETIMEDOUT, EIO };

@@ -168,6 +168,36 @@ def teardown_controls(destination, command, environment):
     return controls
 
 
+def preparation_control(destination, command, environment):
+    original = (destination / 'callers.h').read_text()
+    call = 'ret = mt7996_npu_prepare_tx_buffers(dev);'
+    assert original.count(call) == 1
+    directory = destination / 'missing-early-TX-preparation'
+    directory.mkdir()
+    for path in destination.glob('*.h'):
+        shutil.copyfile(path, directory / path.name)
+    (directory / 'callers.h').write_text(original.replace(call, 'ret = 0;', 1))
+    harness = directory / 'rro-lifetime-harness.c'
+    shutil.copyfile(destination / harness.name, harness)
+    binary = directory / 'rro-lifetime'
+    replacements = {str(destination): str(directory), str(destination / harness.name): str(harness),
+                    str(destination / binary.name): str(binary)}
+    compile_command = [replacements.get(argument, argument) for argument in command]
+    compiled = subprocess.run(compile_command, capture_output=True, text=True, timeout=120)
+    (directory / 'compile.log').write_text(compiled.stdout + compiled.stderr)
+    assert compiled.returncode == 0, ('preparation-mutant-must-compile', compiled.stderr)
+    completed = subprocess.run([str(binary), str(directory / 'caller-payloads.bin')], env=environment,
+        capture_output=True, text=True, timeout=300, preexec_fn=no_core_dump)
+    (directory / 'run.jsonl').write_text(completed.stdout)
+    (directory / 'run.stderr').write_text(completed.stderr)
+    diagnostic = 'TX preparation must precede first RRO allocation'
+    assert completed.returncode == -signal.SIGABRT and diagnostic in completed.stderr
+    assert 'ERROR: AddressSanitizer' not in completed.stderr and 'runtime error:' not in completed.stderr
+    return dict(name='missing-early-TX-preparation', compiled=True, compile_returncode=compiled.returncode,
+        run_returncode=completed.returncode, intended_assertion=diagnostic,
+        assertion_rejected=True, sanitizer_fault=False, changed_header_sha256=sha(directory / 'callers.h'))
+
+
 def run(destination, module_receipt=MODULE):
     metadata = prepare(destination, module_receipt)
     harness = Path(__file__).with_name('rro-lifetime-harness.c')
@@ -188,20 +218,23 @@ def run(destination, module_receipt=MODULE):
     (destination / 'run.stderr').write_text(completed.stderr)
     assert completed.returncode == 0, (completed.returncode, completed.stderr)
     cases = [json.loads(line) for line in completed.stdout.splitlines()]
-    assert len(cases) == 1037, ('unexpected-characterization-case-count', len(cases))
+    assert len(cases) == 1040, ('unexpected-characterization-case-count', len(cases))
     packets = validate_packets(destination / 'caller-payloads.bin')
     controls = teardown_controls(destination, command, environment)
+    early_control = preparation_control(destination, command, environment)
     assert all(sha(ROOT / name) == value for name, value in metadata['inputs'].items()), 'input-drift'
     artifacts = {str(path.relative_to(ROOT)): sha(path) for path in destination.rglob('*') if path.is_file()}
-    return dict(format='w1700k-rro-lifetime-characterization-v2', passed=True, characterization_only=True,
+    return dict(format='w1700k-rro-lifetime-characterization-v3', passed=True, characterization_only=True,
         cases=len(cases), observations=cases, captured_caller_payloads=len(packets), command=command,
         metadata=metadata, artifacts=artifacts, sanitizers=['ASan', 'UBSan', 'leak-detection'],
         teardown_negative_controls=controls,
+        early_preparation_negative_control=early_control,
         checked_RRO_admitted=False, target_RRO_lifetime_qualified=False, hardware=False,
         limits=['Complete selected init/free/worker/higher-init/unregister bodies run verbatim with actual sender/dispatcher/raw framing.',
                 'Actual kernel dmam allocation/match/free/release bodies execute, not the kernel devres framework.',
                 'Separate endpoint/provider devres registries and low-level DMA allocation/free are explicit models.',
-                'Actual lower mt76 unregister/free/NPU detach bodies execute; mac80211/worker/queue cleanup/MCU/DMA internals and RCU scheduling are modeled.',
+                'Actual lower mt76 unregister/free/NPU detach bodies execute; early TX preparation is an observable modeled boundary in this harness, exercised as actual C separately.',
+                'mac80211/worker/queue cleanup/MCU/DMA internals and RCU scheduling are modeled.',
                 'Captured records are actual 24-byte raw frames from caller/sender/dispatcher/framing at the modeled mailbox boundary.',
                 'Raw model publication/free observations are not physical publication, use-after-free or drain proof.',
                 'Injected IDs/high DMA addresses/disconnect ordering do not establish producer or allocator reachability.',
