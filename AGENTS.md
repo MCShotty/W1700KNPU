@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - Tracked NAPI And Permanent NPU IRQ Removal
+
+- Current user direction: continue without subagents. Earlier fallback/model
+  permissions below are historical, not authority to launch more workers.
+- MT7996 opts into separate registered/enabled NAPI state. Cleanup disables only
+  enabled instances, joins explicit RX/NPU/TX poll RCU tails, deletes registered
+  instances and clears dummy-device pointers. Failed-reset retries use the same
+  controls. IRQ actions are removed even if NPU physical masking fails; no new
+  registration/start/rearm is admitted after permanent close.
+- Selected actual NAPI44/12 controls/separate TSan, IRQ360/10, PCI234/14 and
+  refreshed BA37/eight/separate TSan, owner23/14, creation19/12, BA18/six, worker23/
+  eight,6150 resets/three controls, broad456/four, callers1090/seven and142 units
+  pass. Four modules link:producer8582153e/lock1177bd53,17 fuzz0 patch outputs.
+  Core and mt7996e change; all original prepared inventories remain unchanged.
+- Final detach opt-in guard passes16 actual selected-C setups/two compiled
+  controls. New CPU cleanup stays behind the driver's lifetime flag.
+- Reset re-enable requires allocated RX descriptors and a tracked registration;
+  the actual full/L1 enable loops execute in the new readiness cases.
+- Native q3 is now terminal exit1, not live: profiles0/1 each completed6421 RPCs
+  and2050 resets; profile2 first PUBLISH timed out at0x84104c72 under unchanged
+  100M/60M-us limits. No complete native pass/restart. Compact replay stays live.
+- Host models/module links are not Linux/physical lifetime qualification. Full
+  cold-prefix work/MCU unwind, concurrent HIF2 binding, firmware reuse, physical
+  retirement/rearm and current image/hardware/client gates remain. Read the
+  napi-lifetime REPORT/EVIDENCE; full NPU objective remains active.
+
 ## 2026-10-24 - PCI Callback And Tasklet Ownership
 
 - Primary/HIF2 registration retains exact IRQ IDs and separate requested/vector

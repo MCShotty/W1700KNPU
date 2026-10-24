@@ -18,7 +18,7 @@ from test_final_irq_contract import PROVIDER, KHEADER, MHEADER, CALLER, POLL
 
 ROOT = loader.ROOT
 CONSUMER = ROOT / '.local/merge-nonoc-20260923/mt76-merged/npu.c'
-HARNESS = ROOT / 'tests/npu/checked-irq-harness.c'
+HARNESS = ROOT / 'tests/npu/checked-irq-napi-harness.c'
 
 
 def sha(path):
@@ -32,10 +32,19 @@ def function(source, name):
 
 
 def main():
+    global CONSUMER, MHEADER, CALLER, POLL, HARNESS
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', required=True)
     parser.add_argument('--mutants', action='store_true')
+    parser.add_argument('--mt76-root', type=Path, default=CONSUMER.parent)
+    parser.add_argument('--harness', type=Path, default=HARNESS)
     args = parser.parse_args()
+    CONSUMER = args.mt76_root / 'npu.c'
+    MHEADER = args.mt76_root / 'mt76.h'
+    candidate_caller = args.mt76_root / 'mt7996/npu.c'
+    CALLER = candidate_caller if candidate_caller.is_file() else CALLER
+    POLL = args.mt76_root / 'mt7996/mmio.c'
+    HARNESS = args.harness.resolve()
     assert args.name.replace('-', '').isalnum()
     output = ROOT / '.local/npu-checked-irq' / args.name
     assert not output.exists()
@@ -60,7 +69,8 @@ def main():
         'airoha_npu_wlan_irq_ack', 'airoha_npu_wlan_irq_arm', 'airoha_npu_wlan_irq_mask')
     consumer_names = ('mt76_npu_io_admit', 'mt76_npu_irq_error', 'mt76_npu_irq_poll_allowed',
         'mt76_npu_irq_fault_locked', 'mt76_npu_irq_block_locked', 'mt76_npu_irq_handler',
-        'mt76_npu_rx_queue_init', 'mt76_npu_start_irqs', 'mt76_npu_rearm_irq', 'mt76_npu_disable_irqs')
+        'mt76_npu_rx_queue_init', 'mt76_npu_start_irqs', 'mt76_npu_rearm_irq', 'mt76_npu_disable_irqs',
+        'mt76_npu_shutdown_irqs')
     bodies = '\n'.join([*[function(provider, name) for name in provider_names],
         *[function(header, name) for name in wrappers], *[function(consumer, name) for name in consumer_names],
         function(CALLER.read_text(), '__mt7996_npu_hw_init'),
@@ -117,6 +127,17 @@ def main():
         assert start.count(final) == 1
         mutate('lose-late-start-fault', start, start.replace(final, ''))
         mutate('shared-auto-enabled-registration', 'IRQF_NO_AUTOEN, name, q', 'IRQF_SHARED, name, q')
+        shutdown = function(consumer, 'mt76_npu_shutdown_irqs')
+        mutate('missing-permanent-IRQ-unregistration', shutdown, shutdown.replace(
+            'devm_free_irq(dev->dev, irq, &dev->q_rx[MT_RXQ_NPU0 + q]);',
+            'if (false) devm_free_irq(dev->dev, irq, &dev->q_rx[MT_RXQ_NPU0 + q]);'))
+        mutate('IRQ-zero-mistaken-for-unrequested', shutdown, shutdown.replace(
+            'if (!(state->requested & BIT(q)))', 'if (!state->line[q] || !(state->requested & BIT(q)))'))
+        mutate('mask-error-skips-CPU-unbind', shutdown, shutdown.replace(
+            '\tmt76_npu_disable_irqs(dev);',
+            '\tif (mt76_npu_disable_irqs(dev)) { mutex_unlock(&dev->mutex); return; }'))
+        mutate('late-registration-not-closed', 'err = state->closing ? -ESHUTDOWN : state->error;',
+            'err = state->error;')
         for name, candidate in variants:
             mutants.append(dict(name=name, **execute(candidate, name, False)))
     assert all(sha(ROOT / name) == expected for name, expected in inputs.items())

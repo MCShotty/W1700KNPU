@@ -75,7 +75,11 @@ struct mtk_wed_device {
     bool active, rx;
     struct { struct { dma_addr_t addr_elem_phys[128]; } ind_cmd; } wlan;
 };
+struct model_driver_ops { unsigned long drv_flags; };
+#define MT_DRV_NAPI_LIFETIME (1UL << 8)
+static struct model_driver_ops model_driver = { MT_DRV_NAPI_LIFETIME };
 struct mt76_dev {
+    struct model_driver_ops *drv;
     struct device *dev, *dma_dev;
     struct { struct airoha_npu *npu; void *ppe_dev; struct mtk_wed_device wed; } mmio;
     struct { unsigned long state; } phy;
@@ -334,6 +338,9 @@ static void mt7996_pci_shutdown_irqs(struct mt7996_dev *d)
 {
     assert(d == &s.dev && s.nevents && s.events[s.nevents - 1] == EV_MCU_EXIT);
 }
+/* NAPI/IRQ control internals execute in the independent selected-C fixtures. */
+static void mt76_npu_shutdown_irqs(struct mt76_dev *d) { assert(d == &s.dev.mt76 && !d->mutex); }
+static void mt76_napi_cleanup(struct mt76_dev *d) { assert(d == &s.dev.mt76 && !d->mutex); }
 static void mt7996_tx_token_put(struct mt7996_dev *d) { (void)d; event(EV_TOKENS); }
 static void mt7996_dma_cleanup(struct mt7996_dev *d) { (void)d; event(EV_DMA_CLEANUP); }
 static void mt7996_rro_msdu_page_map_free(struct mt7996_dev *d) { (void)d; }
@@ -432,6 +439,7 @@ static void setup(int profile, bool checked, bool npu)
 {
     assert(!s.live && !s.provider.head && !s.endpoint.head);
     memset(&s, 0, sizeof(s));
+    s.dev.mt76.drv = &model_driver;
     s.provider.id = 1; s.endpoint.id = 2;
     s.priv.checked_pair = checked; s.priv.npu.dev = &s.provider;
     s.priv.txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;

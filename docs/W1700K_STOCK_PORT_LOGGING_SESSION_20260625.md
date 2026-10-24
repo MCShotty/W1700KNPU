@@ -1,8 +1,29 @@
 # W1700K Stock-Port Logging Session
 
-Last updated: 2026-10-24 (explicit PCI callback/tasklet ownership and current regressions pass)
+Last updated: 2026-10-24 (tracked NAPI and permanent NPU IRQ cleanup qualified in host models; native replay terminal)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.
+
+## 2026-10-24 - NAPI/IRQ Lifetime And Terminal Native Replay
+
+- Installed separate MT7996 NAPI added/enabled state, explicit RX/NPU/TX RCU
+  completion tails, zero-budget guards and permanent exact-action NPU IRQ removal.
+  Reset/control cleanup uses tracked registrations. Errors do not skip CPU joins.
+- Current selected C: NAPI44/12/separate TSan; IRQ360/10; PCI234/14; BA37/eight/
+  separate TSan; owner23/14; creation19/12; BA18/six; worker23/eight. Joint6150/
+  three controls, broad456/four, callers1090/seven and142 units/zero skips pass.
+  Four modules link:producer8582153e/lock1177bd53/17 fuzz0 outputs. Core/mt7996e
+  change; original prepared inventories remain intact. No module load/full image.
+- Final opt-in detach guard passes16 setups/two compiled controls; all current
+  source regressions/module links follow that correction. First cohort preserved.
+- Reset enable-loop cases retain allocated-queue admission; all final outputs
+  use fresh q3 names after a previous launcher refused an existing reset receipt.
+- Native q3 completed profiles0/1 (6421 RPCs/2050 resets each), then exited1 at
+  02:58:49 +03 on profile2 PUBLISH0, PC0x84104c72, unchanged100M/60M-us limits.
+  Complete native verdict remains false; no restart. Compact replay stays live.
+- Whole cold-prefix/HIF2/firmware-reuse/hot/physical/image/client gates remain.
+  No subagents or hardware/global-policy actions. Read napi-lifetime REPORT and
+  EVIDENCE for exact hashes, preserved failures and proof boundaries; goal active.
 
 ## 2026-10-24 - PCI Callback And Tasklet Join
 

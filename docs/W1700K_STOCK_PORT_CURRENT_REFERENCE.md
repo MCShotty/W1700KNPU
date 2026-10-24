@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Current NAPI And Permanent NPU IRQ Cleanup
+
+MT7996 uses serialized, separate NAPI added/enabled bitmaps. Normal remove and
+PCI error cleanup remove NPU IRQ actions, disable tracked NAPI, wait for explicit
+RX/NPU/TX RCU completion tails and delete only registered instances before their
+consumer resources. Reset sweeps tracked registrations rather than queue-flag
+guesses and joins disabled poll tails before token/reset work. Permanent close
+denies re-registration/start/rearm; masking failure does not skip CPU unbinding.
+
+Selected actual NAPI44/12/separate TSan, IRQ360/10, PCI234/14 and current BA/
+owner/creation/worker/reset/broad/caller/142-unit regressions pass. Four AArch64
+modules link:producer8582153e/lock1177bd53,31 mappings/330 mt76 sources/17 fuzz0
+outputs. Core and mt7996e change. Original prepared inventories stay intact.
+Final selected detach C also passes16 setups/two controls for the opt-in boundary.
+Actual reset enable-loop cases keep registered-but-unallocated RX unscheduled.
+
+Native q3 ended exit1 at profile2 PUBLISH0, PC0x84104c72, after profiles0/1 each
+completed6421 RPCs/2050 resets. Same100M instructions/60M-us per RPC; no restart
+or complete native verdict. Original compact replay remains live and unchanged.
+Full cold-prefix/HIF2/firmware-reuse/hot/physical/image/client gates remain.
+Read napi-lifetime REPORT/EVIDENCE. No subagents; full NPU objective stays active.
+
 ## 2026-10-24 - Current PCI Callback And Tasklet Ownership
 
 Probe retains exact primary/HIF2 IRQ values and separate requested/vector flags.

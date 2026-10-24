@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Full Cold Prefix, HIF2 And Native Profile2 Remain
+
+Tracked NAPI registration/enabled state and explicit poll-tail RCU join now pass
+selected-C host qualification:44 setups/12 controls/separate TSan. Permanent
+NPU IRQ removal passes360/10; PCI234/14 and all refreshed regressions pass. Four
+current modules link:producer8582153e/lock1177bd53. No current full image or load.
+The final detach opt-in guard passes16 selected-C setups/two controls.
+
+Next qualify complete cold-prefix async work/MCU unwind and serialize the HIF2
+driver/devres binding, not only its device reference. The NAPI/pthread and IRQ
+fixtures are not whole-device Linux concurrency or physical drain proof. Establish
+current-firmware BA ordering/cookie or a true late/reuse fence; first unseen
+cookie-less status can still associate with a replacement. Finish hot admission,
+production retirement/rearm, physical drains and image/cold-fault/HIF2/hardware/
+client/performance/stability gates.
+
+Native q3 is terminal exit1: profiles0/1 each finish6421 positive RPCs/2050 reset
+transactions; profile2 times out at its first publication, PC0x84104c72. Preserve
+its full inputs/outputs and unchanged100M/60M-us limits. Diagnose this frontier
+before another full replay; do not call two profiles a full pass or restart it
+for an observation timeout. Compact replay remains frozen/live. No subagents.
+Read napi-lifetime REPORT/EVIDENCE; the overall NPU goal remains active.
+
 ## 2026-10-24 - Complete RX/NAPI And HIF2 Lifetime Next
 
 PCI primary/HIF2 callbacks now have exact retained IRQ identities, explicit

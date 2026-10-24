@@ -11,9 +11,10 @@ import signal
 import subprocess
 
 import test_rro_reset_ba_events as ba
+import test_host_queue_publication as publication
 from test_host_queue_publication import function
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = ba.ROOT
 HERE = Path(__file__).resolve().parent
 HARNESS = HERE / 'pci-irq-lifetime-harness.c'
 
@@ -21,7 +22,7 @@ HARNESS = HERE / 'pci-irq-lifetime-harness.c'
 def run(destination, source):
     paths = {name: source / ('mt7996/' + name) for name in ('pci.c', 'init.c', 'mmio.c', 'mt7996.h')}
     inputs = {str(path.resolve()): ba.sha(path) for path in [*paths.values(), HARNESS,
-        Path(__file__), HERE / 'test_host_queue_publication.py', Path(ba.__file__)]}
+        Path(__file__), Path(publication.__file__), Path(ba.__file__)]}
     pci, init, mmio, header = (paths[name].read_text() for name in ('pci.c', 'init.c', 'mmio.c', 'mt7996.h'))
     anchor = 'irqreturn_t mt7996_irq_handler('
     assert mmio.count(anchor) == 1
@@ -64,8 +65,10 @@ def run(destination, source):
     assert row == dict(passed=True, cases=234, kernel_framework_modeled=True,
         complete_RX_NAPI_join=False, physical_drain=False, hardware=False), row
     mutations = (
+        ('missing-NAPI-join-before-token-free', 'selected-unregister.inc', '\tmt76_napi_cleanup(&dev->mt76);\n', '',
+         'modeled-NPU-NAPI-join-before-token-retirement'),
         ('missing-unregister-IRQ-join', 'selected-unregister.inc', '\tmt7996_pci_shutdown_irqs(dev);\n', '',
-         'IRQ-and-tasklet-join-before-modeled-DMA-cleanup'),
+         'PCI-IRQ-close-before-modeled-NPU-close'),
         ('primary-IRQ-left-live', 'selected-pci-shutdown.inc', 'if (!dev->pci_irq[i].requested)',
          'if (i == 0 || !dev->pci_irq[i].requested)', 'IRQ-actions-removed-before-tasklet-join'),
         ('HIF2-IRQ-left-live', 'selected-pci-shutdown.inc', 'if (!dev->pci_irq[i].requested)',
@@ -85,7 +88,7 @@ def run(destination, source):
          '\t}\n\tspin_unlock_irqrestore(&dev->mt76.mmio.irq_lock, flags);\n\ttasklet_schedule(&dev->mt76.irq_tasklet);',
          'poll-completion-scheduling-shares-shutdown-admission-lock'),
         ('missing-monotonic-shutdown-latch', 'selected-pci-shutdown.inc', '\t\tdev->irq_shutdown = true;\n', '',
-         'repeated-close-and-late-enable-cannot-rearm-or-touch-released-HIF2'),
+         'PCI-IRQ-close-before-modeled-NPU-close'),
         ('free-unallocated-primary-vectors', 'selected-pci-probe.inc', 'else if (dev->pci_irq[0].vectors)', 'else',
          'only-owned-vectors-freed-after-IRQ-removal'),
         ('early-HIF2-pin-release', 'selected-pci-remove.inc', '\tmt7996_unregister_device(dev);',

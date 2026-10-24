@@ -1,0 +1,447 @@
+{
+  "goal_turn_classification": "progress",
+  "full_npu_goal_complete": false,
+  "base_commit": "f30dbca9df81a659339647a4fa98cdbfbed7b958",
+  "scope": "Tracked NAPI registration/enabled state, explicit poll-tail RCU join and permanent NPU IRQ removal; host-modeled/linked, not hardware-qualified",
+  "source_lock_sha256": "1177bd5344ffa367aecc09f80a754411cfc72884fcfd1b0feac2d88f5ffd0985",
+  "component_mappings": 31,
+  "kernel_sources": 5,
+  "mt76_sources": 330,
+  "mt76_patch_outputs": 17,
+  "mt76_patch_fuzz": 0,
+  "four_current_AArch64_module_links": true,
+  "producer": ".local/npu-checked-irq-modules/napi-lifetime-q3/result.json",
+  "producer_sha256": "8582153e33b23c8e1d07621854ecdf746fdaa55e76ad1de549ca447d114046e8",
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "originals_unchanged": true,
+  "module_bytes_changed": {
+    "mt76.ko": true,
+    "mt76-connac-lib.ko": true,
+    "mt7996/mt7996e.ko": true
+  },
+  "incremental_module_bytes_changed": {
+    "mt76.ko": true,
+    "mt76-connac-lib.ko": false,
+    "mt7996/mt7996e.ko": true
+  },
+  "provider_module_unchanged": true,
+  "typed_reset_edges_linked": [
+    "mt76_npu_rro_reset_mcu_begin",
+    "mt76_npu_rro_reset_mcu_complete",
+    "mt76_npu_rro_reset_npu"
+  ],
+  "actual_output_bytes": 155202021,
+  "module_cap_bytes": 247463936,
+  "output_ceiling_bytes": 268435456,
+  "copied_qualified_cache": true,
+  "tests": {
+    "scope": {
+      "folder": ".local/npu-deinit-scope-20261024/current-q3",
+      "receipt_sha256": "710df90240d35d99ae9a0a003465f03eb48c57bbfef0ed93b8d815583875dd89"
+    },
+    "candidate_scope": {
+      "folder": ".local/npu-deinit-scope-20261024/candidate-q1",
+      "receipt_sha256": "ce31303bc186b12e68f73383316cbe25189b8c09163583859c77ee89c4218dc5"
+    },
+    "candidate_NAPI_initial": {
+      "folder": ".local/npu-napi-lifetime-fixture-20261024/candidate-q2",
+      "receipt_sha256": "ca3246ccf47bf75bfefe092ea2371b746b3834208defab26210114c2ea6cceed"
+    },
+    "candidate_NAPI": {
+      "folder": ".local/npu-napi-lifetime-fixture-20261024/readiness-candidate-q1",
+      "receipt_sha256": "b735289aa2ad2c0a7f4e72b56b9c3ff30ecd5afc6e04909e3bdfd495b6b6f11e"
+    },
+    "candidate_IRQ": {
+      "folder": ".local/npu-checked-irq/napi-candidate-q3",
+      "receipt_sha256": "88659b9ec55fb7081792d9185efb4171a9b861d85102f073b4b0669feac0b3bc"
+    },
+    "candidate_PCI": {
+      "folder": ".local/npu-pci-irq-lifetime-20261024/napi-candidate-q3",
+      "receipt_sha256": "13a992ea271d790709a87b8bcf1fbd58c83ba1ec1230114f3e6a96a0d8806ad2"
+    },
+    "NAPI": {
+      "folder": ".local/npu-napi-lifetime-fixture-20261024/current-q3",
+      "receipt_sha256": "bde1aaf16f2f96a101df8d7da01205f4709720c0502241c4fe51bfc572523a34"
+    },
+    "IRQ": {
+      "folder": ".local/npu-checked-irq/napi-current-q3",
+      "receipt_sha256": "6190142c09e37612f610639248aad68f3d2000fd0032040745973c5c5c7a800b"
+    },
+    "PCI": {
+      "folder": ".local/npu-pci-irq-lifetime-20261024/napi-current-q3",
+      "receipt_sha256": "dd4979512bd72f923f6dfda5cb061f6e73c1c121d2085af5dfa49636c2371537"
+    },
+    "join": {
+      "folder": ".local/npu-rro-ba-join-20261024/napi-lifetime-current-q3",
+      "receipt_sha256": "f72de084c6bceae605539e2238bc0563ae46162d93dba4f7333063a5d05df187"
+    },
+    "owner": {
+      "folder": ".local/npu-rro-ba-owner-20261024/napi-lifetime-current-q3",
+      "receipt_sha256": "fe104f589542d66b604e3b82784f06c25f23021de17f6500a3e97f13ed5dcfb1"
+    },
+    "creation": {
+      "folder": ".local/npu-rro-ba-link-20261024/napi-lifetime-current-q3",
+      "receipt_sha256": "38444d25dc10bd2261e99a8fd77ab4f4db0857b5b8f7982b1e4f114941731c3c"
+    },
+    "BA": {
+      "folder": ".local/npu-rro-reset-ba-events-20261023/napi-lifetime-current-q3",
+      "receipt_sha256": "035414616ba902d99a9c5d28eda52c0e03d4cf9e496b8fe3d16e9973418b51b9"
+    },
+    "worker": {
+      "folder": ".local/npu-rro-reset-retention-20261023/napi-lifetime-current-q3",
+      "receipt_sha256": "701859135a3e6ca30f151899c27e7e2182d3cd0dffeb9390e36a7aa6fd9ccd81"
+    },
+    "joint": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/napi-lifetime-reset-q3",
+      "receipt_sha256": "0740f2fcb676f08733d9859a14f7bc0a123d45254acaa1a779ac84689f9368d6"
+    },
+    "broad": {
+      "folder": ".local/npu-host-rro-lifetime-20261023/napi-lifetime-broad-q3",
+      "receipt_sha256": "494d67a0b55d7c6e076df3613e67e91083b8566b3a2c208444e70ce838ef6110"
+    },
+    "callers": {
+      "folder": ".local/npu-rro-reset-callers-20261023/napi-lifetime-current-q3",
+      "receipt_sha256": "e65dfa1e12148e79094fc3c8a213ca568323499e2473a0df4dbb095ab1d2f03a"
+    }
+  },
+  "creation_measured_setups": 19,
+  "creation_controls": 12,
+  "BA_measured_setups": 18,
+  "BA_controls": 6,
+  "retained_BA_joint_setups": 23,
+  "retained_BA_joint_controls": 14,
+  "worker_cases": 23,
+  "worker_controls": 8,
+  "worker_prior_BA_enrollment_explicitly_modeled": true,
+  "joint_reset_transactions": 6150,
+  "joint_profiles": 3,
+  "reset_journal_generations": 2,
+  "joint_negative_cases": 12,
+  "joint_controls": 3,
+  "broad_cases": 456,
+  "broad_controls": 4,
+  "broad_publications": 387,
+  "broad_negative_joint": 11,
+  "broad_late_tx_checks": 12,
+  "caller_cases": 1090,
+  "caller_controls": 7,
+  "legacy_optional_provider_cases": 1040,
+  "owned_provider_model_cases": 50,
+  "total_units": 142,
+  "skipped": 0,
+  "actual_RX_creation_serial_implemented": true,
+  "serial_width_bits": 64,
+  "separately_repaired_unit_invocation": true,
+  "final_current_qualification_sha256": "8995f72dc75c1103d09c2da5e09bfc4a3b94649c7fbea89f73fa775cadcc095d",
+  "completed_cache_duplicate_files_linked": 103,
+  "completed_cache_last_link_blocks_released_estimate_bytes": 24043520,
+  "completed_cache_bytes_and_recorded_metadata_unchanged": true,
+  "serial_device_local": true,
+  "serial_nonzero_and_nonwrapping": true,
+  "serial_assigned_before_RCU_publication": true,
+  "device_mutex_serializes_creation": true,
+  "allocation_failure_consumes_no_serial": true,
+  "MCU_failure_does_not_recycle_serial": true,
+  "exhaustion_preserves_existing_object": true,
+  "primary_mapping_and_shutdown_lock_retained": true,
+  "status0_and_owned_invalid_DELETE_rules_retained": true,
+  "retained_BA_binding_propagation": true,
+  "core_association_write_once": true,
+  "binding_table_entries": 1025,
+  "binding_table_bound_bytes": 32768,
+  "owner_bound_bytes": 65536,
+  "DELETE_infers_current_RX_identity": false,
+  "reset_snapshot_checked_before_provider": true,
+  "constructor_unpublished_owner_and_table_unwind": true,
+  "published_references_and_table_retained": true,
+  "owned_mode_change_keeps_status_metadata": true,
+  "closed_metadata_retained_without_new_admission": true,
+  "already_accepted_status_writer_join": true,
+  "joined_after_callback_return_and_RCU": true,
+  "PCI_lifetime_setups": 234,
+  "PCI_lifetime_controls": 14,
+  "candidate_PCI_controls": 14,
+  "NAPI_setups": 44,
+  "NAPI_controls": 12,
+  "NPU_deinit_opt_in_setups": 16,
+  "NPU_deinit_opt_in_controls": 2,
+  "NPU_deinit_new_controls_opt_in": true,
+  "RX_resume_requires_allocated_and_registered_queue": true,
+  "NAPI_separate_ThreadSanitizer_pass": true,
+  "NPU_IRQ_setups": 360,
+  "NPU_IRQ_controls": 10,
+  "NPU_IRQ_actions_explicitly_removed": true,
+  "exact_requested_IRQ_identities": true,
+  "separate_action_and_vector_acquisition_flags": true,
+  "scheduling_closed_under_IRQ_lock": true,
+  "IRQ_actions_removed_before_tasklet_join": true,
+  "HIF2_device_reference_through_unregister": true,
+  "HIF2_driver_devres_binding_pinned": false,
+  "full_cold_prefix_unwind": false,
+  "RX_NAPI_state_and_callback_return_join_in_pthread_model": true,
+  "new_join_fixture_setups": 37,
+  "new_join_fixture_controls": 8,
+  "scheduled_status_cases": 32,
+  "BA_join_separate_ThreadSanitizer_pass": true,
+  "full_RX_ingress_or_device_join": false,
+  "post_join_late_metadata_retained": true,
+  "post_close_absolute_ID_write_fence_qualified": false,
+  "firmware_BA_association_authenticated": false,
+  "firmware_reuse_fence_qualified": false,
+  "first_unseen_cookie_less_replacement_binding_characterized": true,
+  "real_firmware_reachability_or_physical_race_proved": false,
+  "initial_journal_generation_is_BA_identity": false,
+  "parked_guards_unchanged": true,
+  "hot_typed_reset_admitted": false,
+  "kernel_concurrency_qualified": false,
+  "physical_retirement": false,
+  "module_loaded": false,
+  "full_image_built": false,
+  "image_promoted": false,
+  "hardware": false,
+  "native": {
+    "complete": false,
+    "terminal_failed": true,
+    "profiles_observed": [
+      {
+        "profile": 0,
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "recipe_complete": true,
+        "reset_transactions": 2050,
+        "modeled_MCU_results": 2050,
+        "complete_journal_comparisons": 6421,
+        "summary_sha256": "3b5fe2553f496f616a6ac43480c8aa88f2d62c9da281d01f7872472f047ff240"
+      },
+      {
+        "profile": 1,
+        "positive_rpc_observed": 6421,
+        "operations_observed": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "recipe_complete": true,
+        "reset_transactions": 2050,
+        "modeled_MCU_results": 2050,
+        "complete_journal_comparisons": 6421,
+        "summary_sha256": "d90a98b6e98e17ecdef21fc50f144b1f2cfa32d42030fc1dc534d502eef214a8"
+      },
+      {
+        "profile": 2,
+        "positive_rpc_observed": 138,
+        "operations_observed": {
+          "1": 1,
+          "2": 137
+        },
+        "recipe_complete": false,
+        "first_publication_completed": false
+      }
+    ],
+    "failure": {
+      "profile": 2,
+      "error": "AssertionError(('new-RPC-budget', '0x84104c72', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 0, 'slot': 0, 'table': 1049632732, 'pointer': 1207959552, 'base': 1207959552, 'bytes': 65536}, {'blocks': 4497222, 'metadata_writes': 461891, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 5422}))",
+      "complete_verdict": false,
+      "output_bytes": 19497120
+    },
+    "service": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "c51dd850f884429ea9784effab39a7a7",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "NRestarts": "0",
+      "ExecMainExitTimestampMonotonic": "202615061791",
+      "ExecMainStatus": "1",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    }
+  },
+  "original_service": {
+    "unit": "w1700k-npu-compact-default-q1.service",
+    "MemoryCurrent": "159981568",
+    "MemoryMax": "4294967296",
+    "MemorySwapMax": "0",
+    "MainPID": "2396851",
+    "InvocationID": "b7308cc55190453dbe64072f2c296090"
+  },
+  "processes_before": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 8139957
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 2396851,
+      "start_ticks": "13362592",
+      "CPU_ticks": 9
+    },
+    {
+      "pid": 2396859,
+      "start_ticks": "13362770",
+      "CPU_ticks": 8171068
+    }
+  ],
+  "native_input_graph_unchanged": true,
+  "original_replays_restarted": false,
+  "prior_bindings_rehashed": 31087,
+  "prior_external_bindings_rehashed": 2,
+  "capsule_inputs_rehashed": 2865,
+  "protected_project_image_bindings": 14,
+  "protected_external_image_bindings": 1,
+  "REA_servers_signaled": false,
+  "subagents_launched": 0,
+  "VM_or_global_policy_changed": false,
+  "new_decryption_or_Ghidra_analysis": false,
+  "original_RAM_thresholds_and_limits_unchanged": true,
+  "all_controlled_verification_dispatches_require_fresh_matching_Windows_receipt": true,
+  "preserved_failures": [
+    "Initial guarded source extraction lacked WSL_DISTRO_NAME; no analysis ran.",
+    "Initial NAPI negative control was unused-function compile failure, not semantic rejection.",
+    "IRQ candidate used incorrect caller paths before correction.",
+    "PCI candidate helper path and earlier mutation assertion were corrected.",
+    "Installer refused before writes until newly patched mac80211.c was included as output17.",
+    "A repeated reset output and wrong historical unit-reference filename were refused; fresh reset output and a separate unit invocation qualified the same final source.",
+    "Shared compile-sized disk reservation refused a read-only verifier before execution; task-specific measured-output profiles retain the same2GiB margin."
+  ],
+  "RPC_summary_streaming_only": true,
+  "static_hash_stream_file_backed": true,
+  "first_hash_transport_timeout_seconds": 240,
+  "static_hash_observation_timeout_seconds": 900,
+  "Jev_source": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "rx_tail_outside_rcu": {
+        "type": "noul",
+        "noul": 0.1
+      },
+      "tx_zero_budget_completion": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "cleanup_tracks_enabled": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "npu_removes_actions": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "npu_tail_inside_rcu": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "full_native_pass": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "hardware_claim": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 14982,
+      "output_tokens": 139
+    }
+  },
+  "Jev_candidate": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "old_RX_tail_after_unlock": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "new_RX_completion_in_rcu": {
+        "type": "noul",
+        "noul": 0.73
+      },
+      "new_TX_zero_budget": {
+        "type": "noul",
+        "noul": 0.27
+      },
+      "tracked_enabled_not_added": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "tail_grace_after_disable": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "permanent_registration_close": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "unregister_despite_mask_error": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "physical_completion_claim": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 2610,
+      "output_tokens": 163
+    }
+  },
+  "Jev_report": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "host_not_hardware": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "native_failure_retained": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "no_complete_claim": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "scope_controls": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "jev_conflicts_visible": {
+        "type": "noul",
+        "noul": 0.96
+      }
+    },
+    "usage": {
+      "input_tokens": 2469,
+      "output_tokens": 97
+    }
+  },
+  "Jev_is_not_proof": true,
+  "Jev_conflicting_RX_and_TX_judgments_retained": true,
+  "observed_unix_ns": 1792806020566816900,
+  "private_evidence": ".local/npu-napi-lifetime-20261024/evidence-q1.json",
+  "private_evidence_sha256": "5e1803cda7a17c3f8715f2b2e9c277ed485ec69b1c28ce6244ed4d787ab78e15",
+  "project_bindings": 35500,
+  "external_bindings": 2
+}

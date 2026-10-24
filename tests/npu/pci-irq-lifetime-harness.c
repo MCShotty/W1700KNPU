@@ -59,6 +59,7 @@ static struct {
 	bool action[2], vectors[2], wed_owned[2];
 	int exact_irq[2], callback_after_free, releases, vector_frees, hif_puts;
 	int failure, cancel_calls, free_calls, dma_cleanup, mcu_exit, registered;
+	bool npu_irqs_closed, napi_joined;
 	bool enable_context;
 } model;
 static unsigned cases;
@@ -141,6 +142,19 @@ static struct mt7996_dev *mt7996_mmio_probe(struct device *dev, void *base, unsi
 	return &model.dev;
 }
 static void mt7996_wfsys_reset(struct mt7996_dev *dev) { (void)dev; }
+/* Actual NAPI/IRQ controller C executes in its separate source-bound fixtures. */
+static void mt76_npu_shutdown_irqs(struct mt76_dev *dev)
+{
+	CHECK(dev == &model.dev.mt76 && model.dev.irq_shutdown,
+	      "PCI-IRQ-close-before-modeled-NPU-close");
+	model.npu_irqs_closed = true;
+}
+static void mt76_napi_cleanup(struct mt76_dev *dev)
+{
+	CHECK(dev == &model.dev.mt76 && model.npu_irqs_closed,
+	      "NPU-IRQ-close-before-modeled-NAPI-join");
+	model.napi_joined = true;
+}
 static struct mt7996_hif *mt7996_pci_init_hif2(struct pci_dev *pdev)
 {
 	(void)pdev;
@@ -234,6 +248,8 @@ static void mt76_free_device(struct mt76_dev *dev)
 	CHECK(!model.action[0] && !model.action[1], "no-managed-IRQ-action-may-outlive-consumer-context");
 	CHECK(!dev->irq_tasklet.pending && dev->irq_tasklet.kills,
 	      "deferred-IRQ-tasklet-joined-before-consumer-free");
+	CHECK(model.npu_irqs_closed && model.napi_joined,
+	      "modeled-NPU-NAPI-join-before-context-free");
 	model.consumer_live = false;
 	model.free_calls++;
 }
@@ -249,7 +265,12 @@ static void mt7996_coredump_unregister(struct mt7996_dev *dev) { (void)dev; }
 static void mt76_unregister_device(struct mt76_dev *dev) { (void)dev; }
 static void mt7996_wed_rro_free(struct mt7996_dev *dev) { (void)dev; }
 static void mt7996_mcu_exit(struct mt7996_dev *dev) { (void)dev; model.mcu_exit++; }
-static void mt7996_tx_token_put(struct mt7996_dev *dev) { (void)dev; }
+static void mt7996_tx_token_put(struct mt7996_dev *dev)
+{
+	(void)dev;
+	CHECK(model.npu_irqs_closed && model.napi_joined,
+	      "modeled-NPU-NAPI-join-before-token-retirement");
+}
 static void mt7996_dma_cleanup(struct mt7996_dev *dev)
 {
 	CHECK(model.mcu_exit && !model.action[0] && !model.action[1] && dev->mt76.irq_tasklet.kills,

@@ -1,5 +1,25 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - NAPI And NPU Interrupt Cleanup
+
+The unified patch now tracks MT7996 NAPI registration separately from enable
+state, joins explicit poll completion/rearm tails, and removes retained NPU IRQ
+actions before consumer cleanup. Failed-reset retries cannot blindly disable a
+previously disabled NAPI. TX budget0 still performs TX cleanup without completion;
+RX budget0 avoids RX/page-pool processing. Other drivers do not opt into tracking.
+
+Actual selected-C host NAPI44/12/separate TSan, IRQ360/10, PCI234/14 and current
+regressions pass. Four AArch64 modules link:producer8582153e/lock1177bd53,17 fuzz0
+outputs; original prepared sources remain intact. These are host/compile results,
+not a module load, full current image, hardware/physical-drain or client pass.
+The final detach opt-in guard also passes16 setups/two compiled controls.
+Reset re-enable retains the allocated-queue check as well as registration state.
+
+The full native RRO run ended exit1 after two complete profiles. Profile2's first
+publication exceeded the unchanged per-RPC time limit. It was not restarted;
+the original compact replay remains live. Full cold/HIF2/firmware-reuse/physical/
+image/client gates remain. See [checkpoint](research/checkpoints/2026-10-24-npu-napi-lifetime/REPORT.md).
+
 ## 2026-10-24 - Explicit PCI IRQ And Tasklet Shutdown
 
 Primary/HIF2 IRQ registrations now retain exact IRQ identities and ownership.

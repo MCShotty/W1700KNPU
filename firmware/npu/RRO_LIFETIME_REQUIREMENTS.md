@@ -76,6 +76,36 @@ the completion callback; TX invokes IRQ enable after completion. Those tails
 still require lifetime exclusion before consumer-private storage retirement.
 Read pci-join REPORT/EVIDENCE; no hardware or current-image acceptance follows.
 
+## 2026-10-24 - Tracked NAPI And NPU IRQ CPU Cleanup
+
+MT7996 opts into separate registered/enabled state serialized by a control mutex.
+Permanent cleanup closes add/enable, disables enabled slots only, joins explicit
+RX/NPU/TX poll RCU sections through completion/rearm, then deletes registered NAPI
+and frees/nulls dummy netdev pointers. Reset paths use the tracked slot set and
+join disabled tails. RX budget0 does not process RX/page-pool operations; TX
+budget0 cleans TX without completing NAPI. Other drivers remain untracked.
+
+NPU IRQ close is serialized with registration/start by the device mutex. It
+rejects future registration/start/rearm, attempts suppression and removes all
+requested exact IRQ/queue-cookie actions even if physical masking fails. Normal
+remove places NPU IRQ close/NAPI join after MCU/PCI close and before token/DMA
+cleanup. Partial/repeated tracked CPU cleanup does not double-disable or free.
+
+Actual selected C passes NAPI44/12/separate TSan, IRQ360/10 and PCI234/14. Current
+regressions/four links pass (producer8582153e/lock1177bd53,17 fuzz0 outputs).
+NAPI/RCU/IRQ/framework effects are models, not Linux concurrency or physical
+drain qualification. Full cold-prefix async work/MCU lifetime, concurrent HIF2
+binding, firmware association/reuse, hot admission and physical retirement/rearm
+remain. Native q3 is terminal failure on profile2 PUBLISH0 after two complete
+profiles; compact replay is still frozen/live. No full image/hardware/client pass.
+Read napi-lifetime REPORT/EVIDENCE. The full NPU objective remains active.
+
+New detach CPU controls are themselves conditional on the driver opt-in flag;
+selected actual detach C passes16 setups/two controls across tracked/untracked
+and absent/present provider models. Existing non-opt-in detach behavior remains.
+Reset re-enable requires both allocation and registration. Actual full/L1 RX
+enable loops execute in readiness cases; unallocated registered RX stays disabled.
+
 ## Allocation Order
 
 The reconstructed `rro-native.c` engine now implements publication/reset byte

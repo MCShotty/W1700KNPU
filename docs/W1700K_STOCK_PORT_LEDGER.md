@@ -1,10 +1,66 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-24 (explicit PCI callback/tasklet ownership and current regressions pass)
+Last updated: 2026-10-24 (tracked NAPI and permanent NPU IRQ cleanup qualified in host models; native replay terminal)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 
 Future-use rule: read this file before making the next stock/NPU/WiFi patch. Update it after every stock-derived patch, successful full image, or meaningful router capture. Firmware archaeology is annoying enough without memory cosplay.
+
+## 2026-10-24 - NAPI Registration, Enable State And Callback Tails
+
+- Source inspection found unconditional TX disable on cleanup despite partial
+  startup/failed reset, RX deletion without tracked disable, RX completion after
+  its explicit RCU section, and TX completion/rearm without that section. These
+  are source/host-model findings, not demonstrated physical router races.
+- MT7996 now opts into mutex-serialized added/enabled bitmaps. Repeated disable
+  does not issue another non-idempotent kernel control call. Cleanup closes
+  registration/enable, disables enabled slots, waits for preexisting explicit
+  RX/NPU/TX RCU readers, deletes added slots and nulls freed dummy-device pointers.
+  Core RX and NPU RX budget0 do no RX processing; TX budget0 does cleanup without
+  napi_complete_done. Full/L1 reset use tracked slot sweeps and an RCU tail join.
+- NPU IRQ close serializes with registration/start, records permanent close,
+  suppresses IRQs and explicitly removes every requested exact-line/queue-cookie
+  action. Mask/read/ACK failure retains the error but cannot skip CPU unbinding.
+  IRQ zero is valid. Normal unregister orders MCU exit, PCI close, NPU IRQ close,
+  NAPI join, then token/DMA cleanup. Core/PCI error fallbacks are repeat-safe for
+  these tracked CPU controls, not a claim of complete cold-prefix unwind.
+- Actual selected NAPI C passes44 setups/12 compiled controls with ASan/UBSan/
+  leak detection and separate TSan. IRQ360/10, PCI234/14, BA37/eight/separate TSan,
+  owner23/14, creation19/12, BA18/six, worker23/eight,6150 resets/three controls,
+  broad456/four, callers1090/seven and142 units/zero skips pass on current source.
+  Kernel/IRQ/NAPI/RCU/provider/MCU/DMA boundaries remain explicit host models.
+- Shared-core review tightened the newly introduced NPU detach controls behind
+  the driver opt-in flag. Actual selected detach C passes16 setups/two compiled
+  controls, including untracked/tracked and absent/present providers. All current
+  regressions and modules were refreshed afterward; the first cohort stays kept.
+- Reset re-enable retains allocated descriptors as well as added NAPI state.
+  The actual full/L1 RX enable loops execute in two new readiness setups; a
+  compiled control rejects scheduling a registered-but-unallocated RX queue.
+  A second-cohort launcher refused an existing reset receipt; no overwrite.
+- Four modules link:producer8582153e/lock1177bd53,31 mappings/5 kernel/330 mt76
+  source identities/17 fuzz0 outputs. Core and mt7996e change; provider remains
+  unchanged. Original102685 kernel/516 mt76 prepared inventory entries stay.
+  Same236MiB/no-swap producer and256MiB output ceiling; no current full image/load.
+- Native q3 exited1 at02:58:49 +03. Profiles0/1 each completed6421 positive RPCs,
+  6421 full journal comparisons and2050 resets; profile2 first publication hit
+  60M-us at0x84104c72 (100M instruction cap unchanged). No full native pass or
+  restart. Compact replay remains live. Frozen native input bytes stay unchanged.
+- Initial test/extraction/installer refusals are retained. The installer refused
+  before writes until the newly patched mac80211.c was included as output17.
+  Jev's conflicting RX/TX judgments remain evidence, not proof or permission.
+- A mistaken historical unit-reference filename was repaired in a separate
+  invocation; individual final C suites and the142 units are bound by an exact
+  aggregate receipt. A shared compile-sized disk reservation refused a read-only
+  verifier before execution. Verifier128MiB/units16MiB/broad256MiB/sealer128MiB
+  output estimates retain the same2GiB storage margin and all RAM limits.
+- Completed-copy cache dedup linked103 exact .o/.ko peers, preserving bytes,
+  mode/mtime/owner/xattrs, with24043520 bytes estimated last-link guest blocks
+  released. This is not a claim of equal Windows-host free-space recovery.
+  Original prepared sources, live inputs and current cache were untouched.
+- Full cold work/MCU prefix, concurrent HIF2 binding, real firmware BA late/reuse,
+  hot admission, physical drains/retirement/rearm and image/hardware/client/
+  performance/stability gates remain. No subagents, REA signals or global-policy
+  change. Read napi-lifetime REPORT/EVIDENCE. Full NPU objective remains active.
 
 ## 2026-10-24 - Explicit PCI Callback And Tasklet Lifetime
 
