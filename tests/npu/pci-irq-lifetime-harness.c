@@ -19,6 +19,8 @@ typedef int irqreturn_t;
 #define READ_ONCE(v) (v)
 #define IS_ERR(v) ((uintptr_t)(v) >= (uintptr_t)-4095)
 #define PTR_ERR(v) ((int)(intptr_t)(v))
+#define ERR_PTR(v) ((void *)(intptr_t)(v))
+#define EPROBE_DEFER 517
 #define IRQF_SHARED 1
 #define PCI_IRQ_ALL_TYPES 7
 #define KBUILD_MODNAME "pci-lifetime-model"
@@ -58,7 +60,7 @@ static struct {
 	bool hif_present, wed[2], consumer_live, hif_ref, initialized;
 	bool action[2], vectors[2], wed_owned[2];
 	int exact_irq[2], callback_after_free, releases, vector_frees, hif_puts;
-	int failure, cancel_calls, free_calls, dma_cleanup, mcu_exit, registered;
+	int failure, cancel_calls, free_calls, dma_cleanup, mcu_exit, registered, npu_init_calls;
 	bool npu_irqs_closed, napi_joined;
 	bool enable_context;
 } model;
@@ -158,13 +160,21 @@ static void mt76_napi_cleanup(struct mt76_dev *dev)
 static struct mt7996_hif *mt7996_pci_init_hif2(struct pci_dev *pdev)
 {
 	(void)pdev;
+	if (model.failure >= 13)
+		return ERR_PTR(model.failure == 13 ? -EPROBE_DEFER :
+			       model.failure == 14 ? -ENOMEM : -EOVERFLOW);
 	if (!model.hif_present) return NULL;
 	model.hif_ref = true;
 	model.secondary.dev.refs++;
 	return &model.hif;
 }
 static void mt76_npu_init(struct mt76_dev *dev, unsigned long base, unsigned long length, int port)
-{ (void)dev; (void)base; (void)length; CHECK(port == (model.buses[0].domain ? 3 : 2), "NPU-port-selection-kept"); }
+{
+	(void)dev; (void)base; (void)length;
+	CHECK(model.failure < 13, "HIF2-init-error-stops-before-NPU-setup");
+	CHECK(port == (model.buses[0].domain ? 3 : 2), "NPU-port-selection-kept");
+	model.npu_init_calls++;
+}
 static unsigned long pci_resource_start(struct pci_dev *pdev, int bar) { (void)pdev; (void)bar; return 0x1000; }
 static unsigned long pci_resource_len(struct pci_dev *pdev, int bar) { (void)pdev; (void)bar; return 0x1000; }
 static int pci_domain_nr(struct pci_bus *bus) { return bus->domain; }
@@ -311,6 +321,10 @@ static void run_case(bool hif2, unsigned wed, int failure, unsigned domain)
 	int error;
 	setup(hif2, wed, failure, domain);
 	error = mt7996_pci_probe(&model.primary, &id);
+	if (failure >= 13)
+		CHECK(error == (failure == 13 ? -EPROBE_DEFER : failure == 14 ? -ENOMEM : -EOVERFLOW) &&
+		      !model.dev.hif2 && !model.npu_init_calls && model.free_calls == 1,
+		      "HIF2-init-error-propagated-before-resource-setup");
 	if (!error) {
 		CHECK(!failure || (failure >= 7 && failure <= 11), "unreachable-profile-failure-is-not-a-probe-error");
 		invoke_enable(0xff);
@@ -320,7 +334,8 @@ static void run_case(bool hif2, unsigned wed, int failure, unsigned domain)
 		      "actual-IRQ-handler-executed-before-remove");
 		mt7996_pci_remove(&model.primary);
 	} else {
-		CHECK(error == -EIO || error == -ENOMEM, "original-probe-error-propagated");
+		CHECK(error == -EIO || error == -ENOMEM || error == -EPROBE_DEFER || error == -EOVERFLOW,
+		      "original-probe-error-propagated");
 	}
 	CHECK(!model.consumer_live && !model.action[0] && !model.action[1] &&
 	      !model.vectors[0] && !model.vectors[1] && !model.wed_owned[0] && !model.wed_owned[1] &&
@@ -342,7 +357,7 @@ int main(void)
 	for (unsigned hif = 0; hif < 2; hif++)
 		for (unsigned wed = 0; wed < (hif ? 4U : 2U); wed++)
 			for (unsigned domain = 0; domain < 3; domain++)
-				for (unsigned failure = 0; failure <= 12; failure++)
+				for (unsigned failure = 0; failure <= 15; failure++)
 					run_case(hif, wed, failure, domain);
 	printf("{\"passed\":true,\"cases\":%u,\"kernel_framework_modeled\":true,"
 	       "\"complete_RX_NAPI_join\":false,\"physical_drain\":false,\"hardware\":false}\n", cases);

@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - HIF2 Driver-Binding Ownership
+
+HIF2 now retains the device, qualifies a managed driver dependency, then reads
+fresh HIF data. Discovery is locked, recognition IDs cannot wrap, optional
+single-HIF operation stays, and unsafe selected binding defers before NPU setup.
+Candidate actual HIF26/14 controls and PCI288/15 pass. Four AArch64 modules link:
+producer2b452f3f/lockb8901a71,17 fuzz0 outputs. Only mt7996e changes; protected
+build/cache inventories stay. All14 refreshed suites pass, including separate
+NAPI/BA-join TSan,6150 reset transactions and147 tooling tests with zero skips.
+
+The fresh WSL boot has no old replay handles. Missing is not a native pass;
+neither was restarted. Actual Linux HIF2, complete cold unwind, firmware BA
+reuse, physical/full-native/image/client/performance/stability gates remain.
+See [checkpoint](research/checkpoints/2026-10-25-npu-hif2-binding/REPORT.md).
+
 ## 2026-10-24 - Native Replay Diagnostics
 
 The retained RRO timeout maps to the actual reconstructed ownership checker,

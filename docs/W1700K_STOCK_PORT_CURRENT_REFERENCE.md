@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Current HIF2 Binding And Probe Errors
+
+Retained-device lookup now precedes a managed AUTOREMOVE_CONSUMER dependency,
+qualified CONSUMER_PROBE/expected driver, then fresh HIF owner/recognition checks.
+Discovery is locked, IDs do not wrap, and presence queries do not leak refs.
+Absent/unmatched HIF stays optional; unsafe selected binding defers. Primary
+probe handles error pointers before NPU setup. Core owns managed-link cleanup.
+
+Candidate actual HIF26/14 controls and PCI288/15 pass. Four module links pass:
+producer2b452f3f/lockb8901a71,17 fuzz0 outputs/31 mappings, only mt7996e changes.
+All102685 original kernel/516 mt76 and prior cache inventory entries stay.
+All14 refreshed suites pass, including NAPI/BA-join separate TSan,6150 resets
+and147 tooling tests,zero skips. A duplicate-result wrapper refusal remains;
+the tail cohort completes/revalidates all suite bindings. Compatible receipt:
+`.local/npu-build-scratch/native-c2/hif2-binding-current-q7/verified-modules/result.json`.
+
+Fresh WSL boot has neither old replay handle, not a new success or live wait.
+No replay restart. Full cold work/MCU, actual Linux HIF2, firmware reuse/hot/
+physical/full-native/image/client/performance/stability remain. Read hif2-binding
+REPORT/EVIDENCE. No load/flash/hardware action or subagents; full goal active.
+
 ## 2026-10-24 - Actual Replay Frontier; Read Adapter Qualified Separately
 
 Exact ELF symbols/disassembly map the retained RRO PC0x84104c72 to active_owner

@@ -1,5 +1,27 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - HIF2 Binding And Post-Reboot State
+
+Goal turn: progress, not completion. Continue solo. The old transient replay
+handles are not-found in the fresh WSL boot; no new success follows and neither
+replay restarted. Three zero-length previous Jev artifacts stay as such.
+
+Implemented retained-device lookup, qualified managed HIF2 driver dependency,
+fresh drvdata/identity, locked discovery and nonwrapping IDs. Optional no-HIF
+behavior stays; primary init errors stop before NPU setup. Candidate HIF26/14
+controls and PCI288/15 pass. Four module links pass:producer2b452f3f/lockb8901a71,
+17 fuzz0 outputs/31 mappings. Only mt7996e changes; original prepared/prior cache
+inventories stay. All14 refreshed suites pass, including NAPI/BA-join separate
+TSan,6150 resets and147 units/zero skips. The first wrapper's duplicate-result
+refusal stays; an exclusive tail completes/revalidates all suite source bindings.
+
+Existing validated native C storage was restored, not replaced. New400MiB/no-swap
+diagnostics retain backing output/margin checks and its existing lock. Module
+output155598572 bytes including metadata. No system launcher/VM/global-swap
+change, module load, image/flash or hardware acceptance. Full cold/Linux-HIF2/
+BA-reuse/hot/physical/native/image/client/performance/stability gates remain.
+Read hif2-binding REPORT/EVIDENCE; full NPU goal active.
+
 ## 2026-10-24 - Retained RRO PC And Fresh Boot Diagnostics
 
 Goal turn: progress, not completion. Exact retained ELF maps0x84104c72 to

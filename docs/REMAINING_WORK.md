@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Actual Linux HIF2 And Complete Cold Unwind Remain
+
+Managed HIF2 binding is implemented: retained-device discovery, qualified link/
+driver before fresh drvdata, locked discovery, nonwrapping IDs and primary error
+propagation. Candidate HIF26/14 controls and PCI288/15 pass; four modules link:
+producer2b452f3f/lockb8901a71,17 fuzz0 outputs. All14 refreshed suites pass,
+including NAPI/BA-join TSan,6150 resets and147 tooling tests with zero skips.
+Selected actual C with modeled interleavings is not live-Linux HIF2 proof.
+
+Next complete cold-prefix async work/MCU unwind and qualify HIF2 unbind in Linux.
+Current-firmware BA ordering/cookie or a real late/reuse fence, hot admission,
+production retirement/rearm, physical drains and complete native/current-image/
+cold-fault/HIF2/hardware/actual-client/performance/stability gates remain.
+Fresh WSL boot has no old replay handles; neither was restarted, no new native
+pass follows. The separately labelled60-second diagnostic budget is unanswered.
+Continue solo; read hif2-binding REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-24 - Raw Boot Blocks Fresh Profile2 Reproduction
 
 The retained0x84104c72 PC is in active_owner's worker-readiness check, not proof

@@ -1,5 +1,24 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - HIF2 Driver Binding Implemented; Runtime Qualification Open
+
+- Continue solo. HIF2 now retains the device, qualifies a managed CONSUMER_PROBE
+  link/expected driver, then reads fresh drvdata/identity. Discovery removal and
+  publication are locked;31-bit IDs cannot wrap. Absent/unmatched HIF remains
+  optional. Primary init errors stop before NPU setup; core owns link cleanup.
+- Candidate HIF26/14 controls and PCI288/15 pass. Four modules link:producer
+  2b452f3f/lockb8901a71,17 fuzz0 outputs/31 mappings. Only mt7996e changes;
+  original kernel/mt76 and prior cache inventories stay unchanged.
+- Current HIF26/14, PCI288/15, NAPI44/12/separate TSan, IRQ360/10 and all BA/
+  reset/broad/caller regressions pass;147 tooling tests,zero skips. The first
+  wrapper's duplicate-result refusal remains; an exclusive tail completes all14
+  suites and rechecks earlier source bindings. Both NAPI/BA-join TSan runs pass.
+- Fresh WSL boot has neither old transient replay handle. Missing is not live
+  or successful; do not restart/infer completion. Original q3 failure stays.
+- Full cold work/MCU, actual Linux HIF2 unbind, firmware BA reuse, hot admission/
+  retirement/rearm, physical/full-native/image/client/performance/stability
+  remain. Read hif2-binding REPORT/EVIDENCE. Full NPU goal stays active.
+
 ## 2026-10-24 - Raw-Boot Frontier And Native Register-Read Adapter
 
 - Continue without subagents. Firmware/lock1177bd53/current module producer

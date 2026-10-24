@@ -1,5 +1,45 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - HIF2 Managed Driver-Binding Ownership
+
+- Lookup no longer returns a devm HIF protected only by get_device. It retains
+  the device, adds a managed AUTOREMOVE_CONSUMER link, requires CONSUMER_PROBE/
+  expected driver, then reads fresh drvdata and rechecks owner/recognition ID.
+  Actual6.18.52 core can return non-null already-unbinding links; non-null alone
+  is insufficient. Core owns link cleanup; explicit pins survive existing teardown.
+- Drvdata is ready before locked publication; removal uses the discovery lock,
+  unpublishes and clears drvdata. Recognition allocation is locked and refuses
+  31-bit exhaustion. Presence queries no longer leak refs. Absent/no-match HIF
+  stays optional. Unsafe selected binding defers; primary errors stop before NPU.
+- Candidate actual selected HIF helpers/two kernel functions pass26 setups/14
+  intended compiled controls with ASan/UBSan/leaks. Framework/MMIO/locks/callbacks
+  and interleavings remain models. PCI288/15 retains234 old plus54 error cases.
+- Four GCC14.4.0/Linux6.18.52 module links pass:producer2b452f3f/lockb8901a71,
+  17 fuzz0 outputs/31 mappings/330 mt76 sources. Only mt7996e changes; all102685
+  original kernel/516 mt76 and prior cache inventory entries stay unchanged.
+  Fresh HIF26/14, PCI288/15, detach16/2, NAPI44/12/separate TSan, IRQ360/10,
+  BA-join37/8/separate TSan, owner23/14, creation19/12, BA18/6, worker23/8,
+  6150 resets/3, broad456/4, callers1090/7 and147 units/zero skips pass.
+  The first wrapper refuses a duplicate suite-owned result after seven suites;
+  its failure stays. The exclusive tail finishes all14 and rechecks earlier
+  source bindings. Compatible receipt copies the same four binary identities,
+  retains producer status and supplies the existing receipt format, not a rebuild.
+- Fresh WSL boot has neither old transient replay handle. Not-found is not a
+  pass or live wait. Original q3 failure stays; compact completion is unproved.
+  Neither replay restarted. Three zero-length prior Jev artifacts are retained,
+  not counted as review evidence. Fresh probabilities include0.35 on non-null/
+  unbinding interpretation; explicit core C and executable tests govern the claim.
+- Existing native C scratch was restored after UUID/marker/mount/backing checks;
+  new outputs hold its existing lock. D conservatively reserves1GiB old future
+  output plus64MiB phase plus2GiB margin. New400MiB/no-swap phases include resident
+  controllers/file cache. Modules reserve512MiB C, write155598572 bytes including
+  metadata. No original cap, VM/global-swap/system-launcher change. Only the
+  completed own auxiliary unit was released.
+- Complete cold work/MCU, actual Linux HIF2 unbind, firmware BA late/reuse, hot
+  admission/retirement/rearm, physical drains and complete native/current-image/
+  hardware/actual-client/performance/stability gates remain. No module load,
+  new image/flash or subagents. Read hif2-binding REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-24 - RRO Timeout Attribution And Host Read Adapter
 
 - Exact retained rro-wire ELF6a1319f1 symbols/disassembly place0x84104c72 in
@@ -47,7 +87,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-24 (RRO timeout attribution and host register-read adapter; native reproduction still blocked in raw boot)
+Last updated: 2026-10-25 (HIF2 driver-binding ownership; Linux, native and hardware qualification still open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

@@ -62,9 +62,11 @@ def run(destination, source):
     command, binary, executed = variant(destination)
     assert executed.returncode == 0, ('PCI lifetime', executed.returncode, executed.stderr)
     row = json.loads(executed.stdout)
-    assert row == dict(passed=True, cases=234, kernel_framework_modeled=True,
+    assert row == dict(passed=True, cases=288, kernel_framework_modeled=True,
         complete_RX_NAPI_join=False, physical_drain=False, hardware=False), row
     mutations = (
+        ('HIF2-init-error-lost', 'selected-pci-probe.inc', '\t\tret = PTR_ERR(hif2);\n', '\t\tret = 0;\n',
+         'HIF2-init-error-propagated-before-resource-setup'),
         ('missing-NAPI-join-before-token-free', 'selected-unregister.inc', '\tmt76_napi_cleanup(&dev->mt76);\n', '',
          'modeled-NPU-NAPI-join-before-token-retirement'),
         ('missing-unregister-IRQ-join', 'selected-unregister.inc', '\tmt7996_pci_shutdown_irqs(dev);\n', '',
@@ -120,9 +122,9 @@ def run(destination, source):
             'NPU/mac80211 registration and complete DMA/MCU cleanup', 'HIF2 device references'],
         limits=['The IRQ handler itself executes before normal remove in the selected-C fixture.',
             'Successful managed IRQ registration also invokes the actual handler before probe returns, while initialization is incomplete.',
-            '234 measured setup combinations cover single/HIF2, mixed WED/vector ownership, ports/IRQ0 and12 injected stages.',
+            '288 measured setup combinations retain234 old cases and add54 HIF2 init defer/allocation/exhaustion error cases.',
             'Framework resource accounting is not Linux concurrency, physical NPU/PCIe drain or complete RX/NAPI lifetime proof.',
-            'HIF2 device references do not alone pin a concurrently unbound HIF2 driver/devres object.'])
+            'HIF2 selection/linking is modeled here; the separate source-bound HIF2 fixture executes those actual helpers and selected kernel state functions.'])
 
 
 def main():
