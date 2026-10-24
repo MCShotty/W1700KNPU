@@ -1,6 +1,53 @@
 ﻿# W1700K Stock-Port Ledger
 
-Last updated: 2026-10-24 (tracked NAPI and permanent NPU IRQ cleanup qualified in host models; native replay terminal)
+## 2026-10-24 - RRO Timeout Attribution And Host Read Adapter
+
+- Exact retained rro-wire ELF6a1319f1 symbols/disassembly place0x84104c72 in
+  active_owner's worker-readiness loads. A stopped load does not establish a
+  false result. All24576 extent writes completed;5422 of24576 readbacks are
+  observed. This is neither nontermination nor hardware-performance proof.
+- New supplemental first-publication probes preserve the raw pair and native
+  instruction/time limits, but stop earlier in boot: scalar and existing CSR
+  batching near0x840103c4, native read adapter at0x84004ef6. None reaches RRO.
+  A profiling run deliberately changes observer timing and is attribution only.
+  Original native q3 remains terminal failed after two complete profiles.
+- Added host-only, explicit Linux x86_64/CPython3.14/Unicorn2.1.4 read adapter.
+  It calls the same loaded C APIs, checks engine/thread identity, holds the engine
+  owner, propagates errors and preserves fallback calls. No register-value cache,
+  guest instruction substitution or hook removal. Original raw Pair stays default.
+- Actual API/CSR tests pass26/zero skips per plain/UBSan variant, including fresh
+  values, unchanged memory/registers, context restore, backend errors, stale/null
+  handles, thread misuse, GC and dynamic instruction-hook transcript comparison.
+  Public build CLI reproduces plain14cd2aab/UBSanbfcddcce byte identities. Current
+  corrected-budget verification repeats both26-test suites successfully.
+- Refreshed observer/tooling/inventory/phase suite plus five build-CLI refusal
+  controls passes147 tests, zero skips, at128MiB/no swap with the corrected combined
+  storage reserve. Unsupported host/GIL and invalid/existing output paths cannot
+  launch a compiler or replace existing files in those tests.
+- 100000 SP reads take457041097ns through Python and133675524ns through the C
+  adapter in one sample, about3.4x. This is a host microbenchmark only; no complete
+  native replay or physical speedup follows. Interpreter/Unicorn bytes are bound.
+- Initial static launcher lacked its fresh storage sidecar and refused before
+  decoding. A later diagnostic refused an existing CSR-test result before boot.
+  Failed attempts remain unchanged. Jev's causality/scope uncertainty is retained;
+  actual code, unit results and terminal PCs govern the scoped claims.
+- Audit found initial auxiliary budgets omitted the compact replay's1GiB future
+  output. They are not retroactively resource-qualified. Initial host free-space
+  observations were3366989824 bytes; the whole cohort remains small. Corrected current/
+  public-tool phases reserve1GiB plus64MiB output plus2GiB margin, at128MiB/no swap,
+  with60MiB enforced cohort ceiling and4MiB metadata allowance. Original replay,
+  its lock, full RAM caps, swap and global policy remain unchanged.
+- HIF2 review finds get_device does not retain devm binding resources, list_del
+  lacks the lookup lock, and device_link_add may return a SUPPLIER_UNBIND link.
+  Qualify consumer-probe state, expected driver and fresh drvdata before use;
+  no HIF2 source patch or actual Linux/hardware unbind qualification yet.
+- Firmware/source-lock1177bd53/current module producer8582153e unchanged. No new
+  image/load/flash/client test. Full cold/BA-reuse/hot/retirement/physical gates
+  remain. The new60-second boot-budget question is pending; do not imply approval.
+  Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
+
+
+Last updated: 2026-10-24 (RRO timeout attribution and host register-read adapter; native reproduction still blocked in raw boot)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

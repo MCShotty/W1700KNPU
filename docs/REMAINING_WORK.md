@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-24 - Raw Boot Blocks Fresh Profile2 Reproduction
+
+The retained0x84104c72 PC is in active_owner's worker-readiness check, not proof
+of a returned rejection or infinite execution. Original native q3 still has two
+complete profiles and a failed third. Fresh diagnostic attempts fail earlier at
+the raw boot's10-second host deadline. No first-publication reproduction passes.
+
+The new host register-read adapter passes26 API/CSR tests per plain/UBSan build
+and advances the stopped boot PC, but it does not close native or hardware gates.
+Keep the original limits unless the user approves the separately labelled new
+60-second diagnostic boot budget; that answer was pending at this checkpoint.
+
+Implement and qualify HIF2 binding ownership next: retain the device rather than
+an unpinned devm hif pointer, serialize list removal, check a managed link's
+CONSUMER_PROBE state/expected driver before drvdata or MMIO use, and retain it
+through teardown. Kernel6.18.52 can return a non-null already-unbinding link.
+Full cold work/MCU unwind, firmware BA late/reuse, hot admission, physical drains/
+retirement/rearm and current-image/hardware/client/performance/stability remain.
+Read rro-profile2 REPORT/EVIDENCE. Continue solo; full NPU objective stays active.
+
+
 ## 2026-10-24 - Full Cold Prefix, HIF2 And Native Profile2 Remain
 
 Tracked NAPI registration/enabled state and explicit poll-tail RCU join now pass

@@ -1,5 +1,25 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-24 - Retained RRO PC And Fresh Boot Diagnostics
+
+Goal turn: progress, not completion. Exact retained ELF maps0x84104c72 to
+active_owner, at worker-readiness loading. Completed writes/partial readback do
+not show a false owner result or an infinite loop. Original q3 failure stays.
+
+Fresh raw-boot probes stop before RRO under the unchanged10-second boot deadline.
+An explicit native read adapter advances the PC but does not pass the prefix.
+It passes26 actual API/CSR units per plain/UBSan build, zero skips; the public CLI
+reproduces both exact binaries. The100000-read3.4x sample is not native/physical
+acceptance. Failed paths and Jev probabilities remain in private evidence.
+
+Initial auxiliary storage profiles omitted the original compact1GiB future
+allowance; corrected current/public checks include that plus64MiB and2GiB margin,
+with128MiB/no swap and60MiB cohort ceiling. No replay, lock or policy changed.
+HIF2 managed-link/list-lifetime work is reviewed, not implemented. Firmware,
+source lock, current modules and images are unchanged; no hardware/client action.
+Read rro-profile2 REPORT/EVIDENCE. Full NPU goal active; continue without subagents.
+
+
 Last updated: 2026-10-24 (tracked NAPI and permanent NPU IRQ cleanup qualified in host models; native replay terminal)
 
 Purpose: dated logging session and future-reference copy tracking what has been patched, implemented, reconstructed, or cloned from the stock Quantum Fiber W1700K firmware into our OpenWrt builds, and what is still left. Read this before doing more stock/NPU/WiFi work. This is the future-reference tracker unless a newer file explicitly supersedes it.

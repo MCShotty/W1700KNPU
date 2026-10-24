@@ -1,5 +1,24 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-24 - Native Replay Diagnostics
+
+The retained RRO timeout maps to the actual reconstructed ownership checker,
+not a demonstrated failed check or infinite loop. Fresh reproduction currently
+stops in the earlier10-second raw-boot prefix, before any RRO publication.
+
+Added an explicitly loaded host-only Unicorn register-read adapter and
+`tools/build_npu_read_api.py`. Plain and UBSan builds each pass26 API/CSR tests;
+the public CLI reproduces the exact qualified binaries. A100000-read SP-only
+microbenchmark measures about3.4x faster reads, not router throughput or
+whole-replay speed. No guest instruction, hook, native limit or firmware changed.
+Refreshed tooling plus five CLI refusal checks pass147 units, zero skips.
+
+Corrected auxiliary storage checks preserve the live compact replay's1GiB future
+output plus the phase budget and2GiB margin. The original full RRO replay remains
+failed; full cold/HIF2/firmware-reuse/physical/image/client gates remain open.
+See `research/checkpoints/2026-10-24-npu-rro-profile2/REPORT.md` and `EVIDENCE.json`.
+
+
 ## 2026-10-24 - NAPI And NPU Interrupt Cleanup
 
 The unified patch now tracks MT7996 NAPI registration separately from enable

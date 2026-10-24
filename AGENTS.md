@@ -1,5 +1,36 @@
 # W1700KNPU Workspace
 
+## 2026-10-24 - Raw-Boot Frontier And Native Register-Read Adapter
+
+- Continue without subagents. Firmware/lock1177bd53/current module producer
+  8582153e remain unchanged; no new image, load, flash or hardware acceptance.
+- Retained RRO profile2 timeout PC0x84104c72 maps to active_owner in the exact
+  rro-wire ELF, at a worker-readiness load. It does not show a false guard return
+  or prove nontermination. All24576 extent writes completed;5422/24576 readbacks
+  were observed. Original native q3 remains failed, not a complete replay.
+- New supplemental probes stop earlier in the raw boot prefix at the original
+  10-second host deadline. Scalar/CSR-only attempts stop near0x840103c4;
+  the C-backed reader stops at0x84004ef6 but still does not reach RRO.
+  The separately labelled60-second boot-budget question is unanswered at this
+  checkpoint; do not treat it as approved. Original jobs/limits stay untouched.
+- Host-only, explicitly loaded Linux x86_64/CPython3.14/Unicorn2.1.4 read adapter
+  passes26 API/CSR tests per plain/UBSan variant. The public build CLI reproduces
+  both original extension hashes. Fresh values, errors, handle/thread identity,
+  GC, context restore and actual instruction-hook transcripts are checked.
+  This is not whole-stack/hardware proof; raw Pair does not enable it by default.
+- Refreshed observer/tooling/inventory/phase checks plus five CLI refusal cases
+  pass147 units, zero skips. This suite does not execute native NPU firmware.
+- Corrected auxiliary preflights include the compact replay's1GiB future output
+  PLUS the phase output PLUS the unchanged2GiB margin. Initial auxiliary checks
+  omitted that future allowance: retain them as such, not retroactive passes.
+  Current/public-reader checks pass at128MiB/no swap with64MiB output reserve
+  and60MiB enforced cohort ceiling; no original replay or storage lock changed.
+- HIF2 source review: use a retained device pointer across lookup, protect list
+  removal, then qualify a managed link's CONSUMER_PROBE state and expected driver
+  before supplier drvdata/MMIO use. Non-null links can already be unbinding.
+  No HIF2 binding patch is implemented in this checkpoint. Full goal stays active.
+
+
 ## 2026-10-24 - Tracked NAPI And Permanent NPU IRQ Removal
 
 - Current user direction: continue without subagents. Earlier fallback/model

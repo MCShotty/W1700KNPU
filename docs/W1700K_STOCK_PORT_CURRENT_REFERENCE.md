@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-24 - Actual Replay Frontier; Read Adapter Qualified Separately
+
+Exact ELF symbols/disassembly map the retained RRO PC0x84104c72 to active_owner
+and a worker-readiness load. Its return value was not captured.24576 writes and
+5422/24576 required readbacks are observed; original native q3 remains failed.
+
+Fresh unchanged-limit diagnostics stop earlier in the raw boot prefix. The new
+Unicorn read adapter changes the stopped PC from the clear loop near0x840103c4 to
+0x84004ef6, but still no RRO publication is reached at the10-second boot deadline.
+Host-only plain/UBSan builds each pass26 API/CSR tests; public CLI binaries match.
+The3.4x SP-read microbenchmark is not whole-replay or physical performance proof.
+
+Corrected auxiliary budgets include1GiB compact future output, phase output and
+the unchanged2GiB margin. Initial omissions remain documented, not relabeled.
+HIF2 binding protection is reviewed but not patched; cold/full-native/firmware-
+reuse/physical/image/client gates stay open. Firmware/lock1177bd53/modules8582153e
+remain unchanged. No subagents, new image/load/hardware action or replay restart.
+Read rro-profile2 REPORT/EVIDENCE; full NPU objective remains active.
+
+
 ## 2026-10-24 - Current NAPI And Permanent NPU IRQ Cleanup
 
 MT7996 uses serialized, separate NAPI added/enabled bitmaps. Normal remove and
