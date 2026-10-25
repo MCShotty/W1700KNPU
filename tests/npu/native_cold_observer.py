@@ -47,7 +47,7 @@ def load_reviewed(receipt_path):
 
 
 def check_module(module):
-    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 3 or
+    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 4 or
             getattr(module, 'COLD_OBSERVER_PC_REG', None) != r.UC_RISCV_REG_PC or
             getattr(module, 'COLD_OBSERVER_X0_REG', None) != r.UC_RISCV_REG_X0 or
             any(getattr(r, 'UC_RISCV_REG_X' + str(i)) != r.UC_RISCV_REG_X0 + i for i in range(32))):
@@ -93,6 +93,7 @@ def enable(owner, observer, reader):
 
 
 def make_pair_type(base_type, module):
+    import test_rro_wire_native_pair as raw
     import test_cold_txdone_native as done
     import test_cold_packet_native as packets
     import test_rx_stats as stats
@@ -112,6 +113,23 @@ def make_pair_type(base_type, module):
     check_module(module)
 
     class NativeColdPair(base_type):
+        def memory_observer(self, name, write):
+            key = '_native_' + name
+            observer = self.__dict__.get(key)
+            if observer is None:
+                original = getattr(base_type, name).__get__(self, type(self))
+                observer = module.MemoryObserver(self, original, write)
+                self.__dict__[key] = observer
+            return observer
+
+        @property
+        def read_hook(self):
+            return self.memory_observer('read_hook', False)
+
+        @property
+        def write_hook(self):
+            return self.memory_observer('write_hook', True)
+
         @property
         def block(self):
             observer = self.__dict__.get('_native_block_observer')
@@ -137,5 +155,18 @@ def make_pair_type(base_type, module):
             self.get32 = self.native_reader.u32
             self._original_emu_start = install_emulator(self.cpu, self.native_reader)
             enable(self, self.code_hook, self.native_reader)
+            enable_memory(self, self.read_hook, self.write_hook, self.native_reader, raw)
 
     return NativeColdPair
+
+
+def enable_memory(owner, read, write, reader, raw):
+    from emulation_layout import SRAM, SRAM_BYTES
+
+    if (raw.CODE != CODE or raw.SRAM != SRAM or raw.SRAM_BYTES != SRAM_BYTES or
+            type(owner.executions) is not Counter):
+        raise RuntimeError('memory observer source/range profile differs')
+    effects = ((raw.DMA, raw.DMA_BYTES), (raw.BLOCK_TABLE, 128 * 4), (raw.SESSION_TABLE, 4))
+    read.enable(reader, ((CODE, raw.raw.image.CODE_LIMIT), (SRAM, SRAM_BYTES)),
+        ((raw.PAYLOAD, 256), *effects))
+    write.enable(reader, (), effects)

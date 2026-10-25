@@ -12,14 +12,16 @@ enum FieldName {
     F_RECORD, F_EVENTS, F_CSR_EVENTS, F_DONE_TRACKING, F_PACKET_TRACKING, F_RX_TRACKING,
     F_TRACKING, F_PROBING, F_RPC_ACTIVE, F_DENY_TYPE, F_INTERCEPT, F_STOPS, F_SKIP_ONCE,
     F_PENDING_CALL, F_RETURN_PC, F_LAST_CSR, F_TICK, F_STUB_COUNTS, F_HART, F_HART_CSR,
-    F_HOOK_EXCEPTION, F_BLOCK_CACHE, F_COUNTS, F_MIN_SP, F_BLOCKS, F_COUNT
+    F_HOOK_EXCEPTION, F_BLOCK_CACHE, F_COUNTS, F_MIN_SP, F_BLOCKS,
+    F_RPC_WRITABLE, F_METADATA_WRITES, F_COUNT
 };
 static const char *const field_names[F_COUNT] = {
     "_uch", "value", "__dict__", "cpu", "code", "executions", "csr_sampler", "get32",
     "record", "events", "csr_events", "done_tracking", "packet_tracking", "rx_tracking",
     "tracking", "probing", "rpc_active", "deny_type", "intercept", "stops", "skip_once",
     "pending_call", "return_pc", "last_csr", "tick", "stub_counts", "hart", "mhartid-csr",
-    "_hook_exception", "block_cache", "counts", "min_sp", "blocks"
+    "_hook_exception", "block_cache", "counts", "min_sp", "blocks",
+    "rpc_writable", "metadata_writes"
 };
 static PyObject *field_keys[F_COUNT];
 
@@ -75,6 +77,28 @@ typedef struct {
     uint64_t reference_calls;
     uint64_t inactive_calls;
 } BlockObserver;
+
+typedef struct {
+    uint64_t start;
+    uint64_t count;
+} ObserverRange;
+
+#define OBSERVER_RANGES 16
+typedef struct {
+    PyObject_HEAD
+    PyObject *owner;
+    PyObject *original;
+    PyObject *reader;
+    PyObject *state;
+    PyObject *counter_type;
+    ObserverRange allowed[OBSERVER_RANGES];
+    ObserverRange excluded[OBSERVER_RANGES];
+    Py_ssize_t allowed_count;
+    Py_ssize_t excluded_count;
+    int write;
+    uint64_t fast_calls;
+    uint64_t reference_calls;
+} MemoryObserver;
 
 static void *engine_handle(PyObject *cpu)
 {
@@ -823,6 +847,234 @@ static PyTypeObject BlockObserverType = {
     .tp_new = PyType_GenericNew,
 };
 
+static int observer_unsigned(PyObject *value, uint64_t *result)
+{
+    if (!value || !PyLong_CheckExact(value))
+        return 0;
+    *result = PyLong_AsUnsignedLongLong(value);
+    if (PyErr_Occurred()) {
+        PyErr_Clear();
+        return 0;
+    }
+    return 1;
+}
+
+static int observer_range(PyObject *value, ObserverRange *range)
+{
+    return PyTuple_CheckExact(value) && PyTuple_GET_SIZE(value) == 2 &&
+        observer_unsigned(PyTuple_GET_ITEM(value, 0), &range->start) &&
+        observer_unsigned(PyTuple_GET_ITEM(value, 1), &range->count) &&
+        range->count && range->start <= UINT32_MAX &&
+        range->count <= UINT64_C(0x100000000) - range->start;
+}
+
+static int observer_contains(uint64_t address, uint64_t size, ObserverRange range)
+{
+    return size && size <= range.count && address >= range.start &&
+        address - range.start <= range.count - size;
+}
+
+static PyObject *memory_reference(MemoryObserver *self, PyObject *args, PyObject *kwargs)
+{
+    self->reference_calls++;
+    return PyObject_Call(self->original, args, kwargs);
+}
+
+static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
+{
+    MemoryObserver *self = (MemoryObserver *)object;
+    Reader *reader;
+    PyObject *state, *ranges, *counts, *minimum;
+    uint64_t address, size, old_sp, sp = 0;
+    int selected = 0, status;
+
+    if (!self->owner || !self->original) {
+        PyErr_SetString(PyExc_RuntimeError, "memory observer is not initialized");
+        return NULL;
+    }
+    if (!self->reader || (kwargs && PyDict_Size(kwargs)) || PyTuple_GET_SIZE(args) != 6)
+        return memory_reference(self, args, kwargs);
+    state = PyObject_GetAttr(self->owner, field_keys[F_DICT]);
+    if (!state)
+        return NULL;
+    status = state == self->state;
+    Py_DECREF(state);
+    reader = (Reader *)self->reader;
+    if (!status || dict_field(self->state, F_RPC_ACTIVE) != Py_True ||
+        dict_field(self->state, F_CPU) != reader->cpu || PyTuple_GET_ITEM(args, 0) != reader->cpu ||
+        !observer_unsigned(PyTuple_GET_ITEM(args, 2), &address) ||
+        !observer_unsigned(PyTuple_GET_ITEM(args, 3), &size) || !size)
+        return memory_reference(self, args, kwargs);
+    for (Py_ssize_t i = 0; i < self->excluded_count; i++)
+        if (observer_contains(address, size, self->excluded[i]))
+            return memory_reference(self, args, kwargs);
+    if (!self->write) {
+        for (Py_ssize_t i = 0; i < self->allowed_count; i++)
+            if (observer_contains(address, size, self->allowed[i]))
+                selected = 1;
+        if (!selected)
+            return memory_reference(self, args, kwargs);
+        if (!check_reader(reader))
+            return NULL;
+        self->fast_calls++;
+        Py_RETURN_NONE;
+    }
+    ranges = dict_field(self->state, F_RPC_WRITABLE);
+    if (!ranges || !PyTuple_CheckExact(ranges) || PyTuple_GET_SIZE(ranges) > OBSERVER_RANGES)
+        return memory_reference(self, args, kwargs);
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(ranges); i++) {
+        ObserverRange range;
+        if (!observer_range(PyTuple_GET_ITEM(ranges, i), &range))
+            return memory_reference(self, args, kwargs);
+        if (observer_contains(address, size, range))
+            selected = 1;
+    }
+    counts = dict_field(self->state, F_COUNTS);
+    minimum = dict_field(self->state, F_MIN_SP);
+    if (!selected || !counts || (PyObject *)Py_TYPE(counts) != self->counter_type ||
+        !observer_unsigned(minimum, &old_sp))
+        return memory_reference(self, args, kwargs);
+    if (!check_reader(reader))
+        return NULL;
+    self->fast_calls++;
+    /* The reference observes SP before counting metadata or validating I/O. */
+    status = reader->read(reader->handle, UC_RISCV_REG_SP, &sp);
+    if (status)
+        return backend_error(reader, status, UC_RISCV_REG_SP, 1);
+    if (sp < old_sp) {
+        PyObject *value = PyLong_FromUnsignedLongLong(sp);
+        if (!value)
+            return NULL;
+        status = PyDict_SetItem(self->state, field_keys[F_MIN_SP], value);
+        Py_DECREF(value);
+        if (status < 0)
+            return NULL;
+    }
+    if (!increment_item(counts, field_keys[F_METADATA_WRITES]))
+        return NULL;
+    Py_RETURN_NONE;
+}
+
+static int memory_init(MemoryObserver *self, PyObject *args, PyObject *kwargs)
+{
+    PyObject *owner, *original, *write;
+    static char *names[] = {"owner", "original", "write", NULL};
+
+    if (self->owner) {
+        PyErr_SetString(PyExc_RuntimeError, "memory observer cannot be rebound");
+        return -1;
+    }
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "OOO", names, &owner, &original, &write))
+        return -1;
+    if (!PyCallable_Check(original) || (write != Py_True && write != Py_False)) {
+        PyErr_SetString(PyExc_TypeError, "memory observer requires a callback and exact write flag");
+        return -1;
+    }
+    self->owner = Py_NewRef(owner);
+    self->original = Py_NewRef(original);
+    self->write = write == Py_True;
+    return 0;
+}
+
+static PyObject *memory_enable(MemoryObserver *self, PyObject *args)
+{
+    Reader *reader;
+    PyObject *allowed, *excluded, *state, *executions;
+
+    if (!self->owner || !self->original || self->reader) {
+        PyErr_SetString(PyExc_RuntimeError, "memory observer cannot enable or rebind this state");
+        return NULL;
+    }
+    if (!PyArg_ParseTuple(args, "O!OO", &ReaderType, &reader, &allowed, &excluded))
+        return NULL;
+    if (!check_reader(reader))
+        return NULL;
+    if (!PyTuple_CheckExact(allowed) || !PyTuple_CheckExact(excluded) ||
+        PyTuple_GET_SIZE(allowed) > OBSERVER_RANGES || PyTuple_GET_SIZE(excluded) > OBSERVER_RANGES) {
+        PyErr_SetString(PyExc_TypeError, "memory observer requires bounded exact range tuples");
+        return NULL;
+    }
+    for (int group = 0; group < 2; group++) {
+        PyObject *ranges = group ? excluded : allowed;
+        ObserverRange *target = group ? self->excluded : self->allowed;
+        for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(ranges); i++) {
+            if (!observer_range(PyTuple_GET_ITEM(ranges, i), &target[i])) {
+                PyErr_SetString(PyExc_ValueError, "memory observer range is outside its unsigned32 profile");
+                return NULL;
+            }
+        }
+    }
+    state = PyObject_GetAttr(self->owner, field_keys[F_DICT]);
+    if (!state)
+        return NULL;
+    executions = PyDict_CheckExact(state) ? dict_field(state, F_EXECUTIONS) : NULL;
+    if (!executions || !PyDict_Check(executions) || dict_field(state, F_CPU) != reader->cpu) {
+        Py_DECREF(state);
+        PyErr_SetString(PyExc_RuntimeError, "memory observer owner/engine profile differs");
+        return NULL;
+    }
+    self->state = state;
+    self->reader = Py_NewRef((PyObject *)reader);
+    self->counter_type = Py_NewRef((PyObject *)Py_TYPE(executions));
+    self->allowed_count = PyTuple_GET_SIZE(allowed);
+    self->excluded_count = PyTuple_GET_SIZE(excluded);
+    Py_RETURN_NONE;
+}
+
+static PyObject *memory_stats(MemoryObserver *self, PyObject *unused)
+{
+    (void)unused;
+    return Py_BuildValue("{s:K,s:K}", "fast", (unsigned long long)self->fast_calls,
+        "reference", (unsigned long long)self->reference_calls);
+}
+
+static int memory_traverse(MemoryObserver *self, visitproc visit, void *arg)
+{
+    Py_VISIT(self->owner);
+    Py_VISIT(self->original);
+    Py_VISIT(self->reader);
+    Py_VISIT(self->state);
+    Py_VISIT(self->counter_type);
+    return 0;
+}
+
+static int memory_clear(MemoryObserver *self)
+{
+    Py_CLEAR(self->owner);
+    Py_CLEAR(self->original);
+    Py_CLEAR(self->reader);
+    Py_CLEAR(self->state);
+    Py_CLEAR(self->counter_type);
+    return 0;
+}
+
+static void memory_dealloc(MemoryObserver *self)
+{
+    PyObject_GC_UnTrack(self);
+    memory_clear(self);
+    Py_TYPE(self)->tp_free((PyObject *)self);
+}
+
+static PyMethodDef memory_methods[] = {
+    {"enable", (PyCFunction)memory_enable, METH_VARARGS, "Enable source-qualified metadata dispatch, never I/O validation bypass."},
+    {"stats", (PyCFunction)memory_stats, METH_NOARGS, "Return metadata dispatch counts, not guest acceptance."},
+    {NULL, NULL, 0, NULL}
+};
+
+static PyTypeObject MemoryObserverType = {
+    PyVarObject_HEAD_INIT(NULL, 0)
+    .tp_name = "_npu_read_api.MemoryObserver",
+    .tp_basicsize = sizeof(MemoryObserver),
+    .tp_dealloc = (destructor)memory_dealloc,
+    .tp_call = memory_call,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .tp_traverse = (traverseproc)memory_traverse,
+    .tp_clear = (inquiry)memory_clear,
+    .tp_methods = memory_methods,
+    .tp_init = (initproc)memory_init,
+    .tp_new = PyType_GenericNew,
+};
+
 static PyObject *reader_original(Reader *self, void *unused)
 {
     (void)unused;
@@ -945,7 +1197,8 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
         if (!field_keys[i])
             return NULL;
     }
-    if (PyType_Ready(&ReaderType) < 0 || PyType_Ready(&ColdObserverType) < 0 || PyType_Ready(&BlockObserverType) < 0)
+    if (PyType_Ready(&ReaderType) < 0 || PyType_Ready(&ColdObserverType) < 0 ||
+        PyType_Ready(&BlockObserverType) < 0 || PyType_Ready(&MemoryObserverType) < 0)
         return NULL;
     result = PyModule_Create(&module);
     if (!result)
@@ -960,7 +1213,8 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     }
     if (PyModule_AddObjectRef(result, "ColdObserver", (PyObject *)&ColdObserverType) < 0 ||
         PyModule_AddObjectRef(result, "BlockObserver", (PyObject *)&BlockObserverType) < 0 ||
-        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 3) < 0 ||
+        PyModule_AddObjectRef(result, "MemoryObserver", (PyObject *)&MemoryObserverType) < 0 ||
+        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 4) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_PC_REG", UC_RISCV_REG_PC) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_X0_REG", UC_RISCV_REG_X0) < 0) {
         Py_DECREF(result);

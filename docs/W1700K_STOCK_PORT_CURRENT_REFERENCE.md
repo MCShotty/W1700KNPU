@@ -1,5 +1,32 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Metadata Observer Preserves I/O; First Publication Completes
+
+Fromaddd5de, host observer profile4 handles only eligible ordinary metadata
+reads/writes in C, at the same registration positions. Payload/DMA/table and
+unmatched accesses call the original callbacks; actual IRQ/owner/fault-injection
+effects remain. Metadata writes retain each count and fresh SP; writable ranges
+and Counter are fetched each time. Read API2 and default reference backend stay.
+
+Build-q16 passes32 read/CSR plus37 observer units per plain/UBSan variant, with
+eleven intended-failure controls in controls-q21. Finite-q17 matches19517 raw
+instructions/40 regions/registers/events and verifies exact Pair.effect identity
+plus direct refusal/injection/boundary tests. Fresh tooling167/zero skips.
+Keep failed reduced-fixture build-q3 and invalid mutation-generator compile-q20.
+Fresh corrections preserve requirements; compiler flags and guards were not waived.
+
+Probe-q9 and q18 each complete139 RPCs including first PUBLISH. All24576 extent
+writes/readbacks, table1-write/2-read, broker, full DMA/SRAM and code checks pass.
+The retained138-RPC prefix and both completed transcripts match except timing.
+Raw boot3M/10s and RPC100M/60s remain. This closes first publication, not all native
+profiles, hardware or physical lifetime. Next guarded full-q31 targets the complete
+three-profile recipe; inspect the live unit/child and final result, not a stale log.
+
+Production lock88502ab3/patchbb457928/modulesa840d3cc and all five inventories
+stay unchanged. No original replay restart, image/load/router contact/flash.
+Physical cold/MCU drain/retention, reuse/hot, image/client/performance/stability
+remain. Read research/checkpoints/2026-10-25-npu-native-rpc-memory/REPORT.md.
+
 ## 2026-10-25 - Source-Bound Observer Completes Raw Profile2 Prefix
 
 From6e9a0c1, host-only cold observer API3 fuses the reviewed ordinary-PC hook

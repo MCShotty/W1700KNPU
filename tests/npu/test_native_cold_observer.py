@@ -3,6 +3,7 @@ from collections import Counter
 from copy import deepcopy
 import ctypes
 import gc
+import hashlib
 import io
 import json
 import os
@@ -19,7 +20,7 @@ import weakref
 
 from elftools.elf.elffile import ELFFile
 from unicorn import (Uc, UcError, UC_ARCH_RISCV, UC_ERR_ARG, UC_HOOK_BLOCK, UC_HOOK_CODE,
-    UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_MODE_RISCV32, riscv_const as r)
+    UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_MEM_READ, UC_MEM_WRITE, UC_MODE_RISCV32, riscv_const as r)
 import native_cold_observer as profile
 import native_read_api as api
 import test_rro_wire_native_pair as raw
@@ -528,6 +529,276 @@ ret
         errors.clear()
         gc.collect()
         self.assertIsNone(reference())
+
+    def memory_owner(self):
+        h,reader,unused = self.block_owner()
+        h.retained = []
+        h.rpc_writable = ((SRAM,SRAM_BYTES),)
+        read = self.module.MemoryObserver(h,h.read_hook,False)
+        write = self.module.MemoryObserver(h,h.write_hook,True)
+        profile.enable_memory(h,read,write,reader,raw)
+        return h,reader,read,write
+
+    def test_memory_callbacks_keep_actual_register_memory_and_hook_order_transcripts(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            trace = []
+            def before(cpu,kind,address,size,value,unused):
+                cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00 - 16 * len(trace))
+                if kind == UC_MEM_READ:
+                    cpu.mem_write(address,(0x12345678).to_bytes(4,'little'))
+                trace.append(('before',kind,address,size,value,h.min_sp,dict(h.counts)))
+            def after(cpu,kind,address,size,value,unused):
+                trace.append(('after',kind,address,size,value,h.min_sp,dict(h.counts)))
+            both = UC_HOOK_MEM_READ|UC_HOOK_MEM_WRITE
+            h.cpu.hook_add(both,before)
+            h.cpu.hook_add(UC_HOOK_MEM_READ,read if native else h.read_hook)
+            h.cpu.hook_add(UC_HOOK_MEM_WRITE,write if native else h.write_hook)
+            h.cpu.hook_add(both,after)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_PC),END)
+            self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_A4),0x12345678)
+            self.assertEqual(h.counts,Counter(metadata_writes=1))
+            if native:
+                self.assertEqual(read.stats(),dict(fast=1,reference=0))
+                self.assertEqual(write.stats(),dict(fast=1,reference=0))
+            return self.snapshot(h),trace,h.min_sp
+        self.assertEqual(run(False),run(True))
+
+    def test_memory_payload_and_io_reads_keep_reference_effects_and_counts(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            effects = []
+            h.effect = lambda *args: effects.append(args)
+            callback = read if native else h.read_hook
+            for address in (raw.PAYLOAD,raw.PAYLOAD+252,raw.DMA,raw.BLOCK_TABLE,raw.SESSION_TABLE):
+                callback(h.cpu,UC_MEM_READ,address,4,0,None)
+            self.assertEqual(h.counts,Counter(payload_reads=2))
+            self.assertEqual(len(effects),3)
+            if native: self.assertEqual(read.stats(),dict(fast=0,reference=5))
+            return dict(h.counts),effects,h.min_sp
+        self.assertEqual(run(False),run(True))
+
+    def test_memory_io_writes_observe_sp_before_the_original_effect(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            effects = []
+            h.effect = lambda *args: effects.append((args,h.min_sp,dict(h.counts)))
+            callback = write if native else h.write_hook
+            for index,address in enumerate((raw.DMA,raw.BLOCK_TABLE,raw.SESSION_TABLE)):
+                h.cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00 - 16 * index)
+                callback(h.cpu,UC_MEM_WRITE,address,4,index,None)
+            self.assertFalse(h.counts)
+            self.assertEqual([row[1] for row in effects],
+                [CODE + 0x21d00 - 16 * index for index in range(3)])
+            if native: self.assertEqual(write.stats(),dict(fast=0,reference=3))
+            return effects,h.min_sp
+        self.assertEqual(run(False),run(True))
+
+    def test_memory_full_interval_boundaries_and_protected_retained_refusals(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            effects = []
+            h.effect = lambda *args: effects.append(args)
+            callback = read if native else h.read_hook
+            for address,size in ((CODE,4),(CODE+raw.raw.image.CODE_LIMIT-4,4),
+                    (SRAM+SRAM_BYTES-4,4),(raw.BLOCK_TABLE-4,8),(raw.SESSION_TABLE+2,4)):
+                callback(h.cpu,UC_MEM_READ,address,size,0,None)
+            self.assertFalse(effects)
+            if native: self.assertEqual(read.stats(),dict(fast=5,reference=0))
+            h.retained = [(0x50000000,4096)]
+            with self.assertRaisesRegex(AssertionError,'protected retained') as caught:
+                callback(h.cpu,UC_MEM_READ,0x50000000,4,0,None)
+            return caught.exception.args,dict(h.counts),effects,h.min_sp
+        self.assertEqual(run(False),run(True))
+
+    def test_metadata_write_uses_fresh_ranges_counter_and_sp_each_time(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            callback = write if native else h.write_hook
+            for offset in (32,16,64,0):
+                h.counts = Counter()
+                h.cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00 - offset)
+                callback(h.cpu,UC_MEM_WRITE,SRAM,4,9,None)
+                self.assertEqual(h.counts,Counter(metadata_writes=1))
+            self.assertEqual(h.min_sp,CODE + 0x21d00 - 64)
+            h.counts = Counter()
+            for index in range(3): callback(h.cpu,UC_MEM_WRITE,SRAM,4,index,None)
+            self.assertEqual(h.counts,Counter(metadata_writes=3))
+            h.rpc_writable = ((PROGRAM,4),)
+            with self.assertRaisesRegex(AssertionError,'unexpected raw RRO memory write') as caught:
+                callback(h.cpu,UC_MEM_WRITE,SRAM,4,9,None)
+            if native: self.assertEqual(write.stats(),dict(fast=7,reference=1))
+            return caught.exception.args,dict(h.counts),h.min_sp
+        self.assertEqual(run(False),run(True))
+
+    def test_memory_unconfigured_and_inactive_callbacks_keep_original_arguments(self):
+        calls = []
+        def original(*args,**kwargs):
+            calls.append((args,kwargs))
+            return 'reference'
+        observer = self.module.MemoryObserver(SimpleNamespace(),original,False)
+        self.assertEqual(observer(1,2),'reference')
+        self.assertEqual(observer(cpu=3),'reference')
+        h,reader,read,write = self.memory_owner()
+        observer = self.module.MemoryObserver(h,original,False)
+        observer.enable(reader,((SRAM,SRAM_BYTES),),())
+        h.rpc_active = False
+        self.assertEqual(observer(h.cpu,UC_MEM_READ,SRAM,4,0,None),'reference')
+        self.assertEqual(observer.stats(),dict(fast=0,reference=1))
+        self.assertEqual(calls[:2],[((1,2),{}),((),dict(cpu=3))])
+        self.assertEqual(calls[2],((h.cpu,UC_MEM_READ,SRAM,4,0,None),{}))
+        with self.assertRaises(TypeError): self.module.MemoryObserver(h,original,0)
+
+    def test_memory_changed_metadata_falls_back_without_stale_owner_state(self):
+        for field,value in (('counts',{}),('min_sp',-1),('rpc_writable',[(SRAM,SRAM_BYTES)]),
+                            ('rpc_writable',((SRAM,-1),)),('__dict__',None)):
+            outcomes = []
+            for native in (False,True):
+                h,reader,read,write = self.memory_owner()
+                setattr(h,field,dict(h.__dict__) if field == '__dict__' else value.copy() if isinstance(value,dict) else value)
+                error = None
+                try: (write if native else h.write_hook)(h.cpu,UC_MEM_WRITE,SRAM,4,0,None)
+                except (KeyError,TypeError,AssertionError) as caught: error = (type(caught).__name__,str(caught))
+                outcomes.append((error,dict(h.counts),h.min_sp))
+                if native: self.assertEqual(write.stats(),dict(fast=0,reference=1))
+            self.assertEqual(*outcomes)
+
+    def test_memory_sp_backend_failure_precedes_metadata_count_and_io_effect(self):
+        function_type = ctypes.CFUNCTYPE(ctypes.c_int,ctypes.c_void_p,ctypes.c_int,ctypes.c_void_p)
+        for address in (SRAM,raw.DMA):
+            outcomes = []
+            for native in (False,True):
+                h,real,read,unused = self.memory_owner()
+                calls = []
+                def fail(handle,register,target):
+                    calls.append(register)
+                    return UC_ERR_ARG
+                function = function_type(fail)
+                library = api.binding.uclib
+                reader = self.module.Reader(h.cpu,real.original_read,UcError,
+                    ctypes.cast(function,ctypes.c_void_p).value,
+                    ctypes.cast(library.uc_reg_read_batch,ctypes.c_void_p).value,api.REGISTERS,
+                    ctypes.cast(library.uc_mem_read,ctypes.c_void_p).value)
+                h.cpu.reg_read = reader
+                read = self.module.MemoryObserver(h,h.read_hook,False)
+                write = self.module.MemoryObserver(h,h.write_hook,True)
+                profile.enable_memory(h,read,write,reader,raw)
+                with self.assertRaises(UcError) as caught:
+                    (write if native else h.write_hook)(h.cpu,UC_MEM_WRITE,address,4,0,None)
+                self.assertEqual(calls,[r.UC_RISCV_REG_SP])
+                self.assertFalse(h.counts)
+                outcomes.append((caught.exception.errno,str(caught.exception),h.min_sp))
+            self.assertEqual(*outcomes)
+
+    def test_memory_observer_profile_engine_thread_and_rebind_guards(self):
+        h,reader,read,write = self.memory_owner()
+        with self.assertRaises(RuntimeError): read.enable(reader,(),())
+        with self.assertRaises(RuntimeError): read.__init__(h,h.read_hook,False)
+        observer = self.module.MemoryObserver.__new__(self.module.MemoryObserver)
+        with self.assertRaises(RuntimeError): observer(h.cpu,UC_MEM_READ,SRAM,4,0,None)
+        errors = []
+        def other():
+            try: read(h.cpu,UC_MEM_READ,SRAM,4,0,None)
+            except Exception as error: errors.append(error)
+        thread = threading.Thread(target=other)
+        thread.start()
+        thread.join()
+        self.assertEqual(len(errors),1)
+        self.assertIsInstance(errors[0],RuntimeError)
+        original = h.cpu._uch
+        try:
+            h.cpu._uch = ctypes.c_void_p()
+            with self.assertRaises(RuntimeError): read(h.cpu,UC_MEM_READ,SRAM,4,0,None)
+        finally: h.cpu._uch = original
+        for ranges in ([[]],((SRAM,0),),((1 << 32,4),),tuple((SRAM,4) for i in range(17))):
+            observer = self.module.MemoryObserver(h,h.read_hook,False)
+            with self.assertRaises((TypeError,ValueError)): observer.enable(reader,ranges,())
+
+    def test_memory_observer_cycles_release_all_callbacks_and_cpu(self):
+        h,reader,read,write = self.memory_owner()
+        h._native_read_hook,h._native_write_hook = read,write
+        reference = weakref.ref(h.cpu)
+        h.cpu.hook_add(UC_HOOK_MEM_READ,read)
+        h.cpu.hook_add(UC_HOOK_MEM_WRITE,write)
+        del h,reader,read,write
+        gc.collect()
+        self.assertIsNone(reference())
+
+    def memory_effect_owner(self):
+        h,reader,read,write = self.memory_owner()
+        h.broker = CODE + 0x1f0000
+        h.current = dict(kind='publish',table=raw.BLOCK_TABLE,pointer=raw.DMA,base=raw.DMA,bytes=65536)
+        h.io_digest = hashlib.sha256()
+        h.injected,h.injection = False,None
+        h.put32(raw.ADM+4,1)
+        h.put32(raw.ADM+8,0)
+        h.put32(h.broker+8,1)
+        h.put32(raw.BLOCK_TABLE,raw.DMA)
+        h.cpu.reg_write(r.UC_RISCV_REG_MSTATUS,0)
+        return h,reader,read,write
+
+    def test_memory_effect_irq_and_owner_refusals_are_preserved(self):
+        for violation in ('irq','admission','broker'):
+            for kind,address,value in ((UC_MEM_READ,raw.DMA,0),(UC_MEM_READ,raw.BLOCK_TABLE,0),
+                    (UC_MEM_WRITE,raw.DMA,0),(UC_MEM_WRITE,raw.BLOCK_TABLE,raw.DMA)):
+                outcomes = []
+                for native in (False,True):
+                    h,reader,read,write = self.memory_effect_owner()
+                    h.cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00)
+                    if violation == 'irq': h.cpu.reg_write(r.UC_RISCV_REG_MSTATUS,8)
+                    else: h.put32(raw.ADM+4 if violation == 'admission' else h.broker+8,0)
+                    callback = (write if native else h.write_hook) if kind == UC_MEM_WRITE else (read if native else h.read_hook)
+                    message = 'IRQs enabled' if violation == 'irq' else 'without active owner'
+                    with self.assertRaisesRegex(AssertionError,message) as caught:
+                        callback(h.cpu,kind,address,4,value,None)
+                    self.assertFalse(h.counts)
+                    self.assertFalse(h.injected)
+                    if native:
+                        self.assertEqual((write if kind == UC_MEM_WRITE else read).stats(),dict(fast=0,reference=1))
+                    outcomes.append((caught.exception.args,h.min_sp,h.io_digest.hexdigest()))
+                self.assertEqual(*outcomes)
+
+    def test_memory_effect_barrier_admission_and_readback_injections_match(self):
+        for injection in ('barrier','admission','readback'):
+            outcomes = []
+            for native in (False,True):
+                h,reader,read,write = self.memory_effect_owner()
+                h.injection = injection
+                if injection == 'readback':
+                    callback = read if native else h.read_hook
+                    args = (h.cpu,UC_MEM_READ,raw.BLOCK_TABLE,4,0,None)
+                else:
+                    callback = write if native else h.write_hook
+                    args = (h.cpu,UC_MEM_WRITE,raw.DMA,4,0,None)
+                callback(*args)
+                self.assertTrue(h.injected)
+                if injection == 'readback': self.assertEqual(h.get32(raw.BLOCK_TABLE),raw.DMA ^ 4)
+                else: self.assertEqual(h.get32(STATE+16 if injection == 'barrier' else raw.ADM+8),1)
+                callback(*args)
+                self.assertEqual(h.counts,Counter(table_reads=2) if injection == 'readback' else Counter(extent_writes=2))
+                outcomes.append((dict(h.counts),h.io_digest.hexdigest(),h.min_sp,h.injected,
+                    h.get32(STATE+16),h.get32(raw.ADM+8),h.get32(raw.BLOCK_TABLE)))
+            self.assertEqual(*outcomes)
+
+    def test_memory_write_intervals_cannot_widen_the_current_metadata_range(self):
+        def run(native):
+            h,reader,read,write = self.memory_owner()
+            h.rpc_writable = ((SRAM+0x100,4),)
+            callback = write if native else h.write_hook
+            observations = []
+            cases = ((0,4,True),(1,4,False),(0,8,False),(-1,2,False),(3,1,True),(0,0,False),(0,-1,False))
+            for index,(offset,size,allowed) in enumerate(cases):
+                h.cpu.reg_write(r.UC_RISCV_REG_SP,CODE+0x21d00-16*index)
+                if allowed: callback(h.cpu,UC_MEM_WRITE,SRAM+0x100+offset,size,0,None)
+                else:
+                    with self.assertRaisesRegex(AssertionError,'unexpected raw RRO memory write'):
+                        callback(h.cpu,UC_MEM_WRITE,SRAM+0x100+offset,size,0,None)
+                observations.append((dict(h.counts),h.min_sp))
+            self.assertEqual(h.counts,Counter(metadata_writes=2))
+            if native: self.assertEqual(write.stats(),dict(fast=2,reference=5))
+            return observations
+        self.assertEqual(run(False),run(True))
 
 
 if __name__ == '__main__':

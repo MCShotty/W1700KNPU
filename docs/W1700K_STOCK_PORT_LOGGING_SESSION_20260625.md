@@ -1,5 +1,23 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - Native First Publication And Full-Replay Preparation
+
+Continued solo fromaddd5de. Host observer profile4 retains I/O delegation and
+fresh per-write SP/count/current-range metadata semantics at original hook slots.
+Both plain/UBSan pass69 adapter units; eleven compiled controls fail intended
+assertions. Finite19517-instruction/40-region state matches; exact actual
+Pair.effect identity and direct negative/injection tests pass. Fresh tooling167,
+zero skips. Retain failed fixture build-q3 and mutation-generator compile-q20;
+fresh corrected runs do not waive guards or overwrite consumed evidence.
+
+Two fresh probes complete139 RPCs and first PUBLISH:24576 writes/readbacks,
+full broker/DMA/SRAM/code checks, same counts and hashes except time. Original
+boot3M/10s and RPC100M/60s stay. Complete three-profile replay is next via guarded
+full-q31 with live process/cgroup acknowledgement, not yet a full native pass.
+Old jobs remain untouched. Lock/patch/four modules and protected inventories
+stay unchanged; no image/load/router contact/flash. Physical/reuse/hot/client
+gates remain open. Read native-rpc-memory REPORT/EVIDENCE; full goal stays active.
+
 ## 2026-10-25 - Native Cold Observer And Retained Publication Failure
 
 Continued solo from6e9a0c1. Explicit source-bound cold observer API3 retains

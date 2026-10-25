@@ -1,5 +1,30 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - First Native Publication Gate Passes; Finish Full Replay
+
+Two fresh actual profile2 probes now complete the first PUBLISH within original
+100M/60s bounds:24576 writes/readbacks, complete broker journal, all DMA/SRAM and
+code checks. Each completes139 positive RPCs and matches the retained138-RPC
+prefix; exact counters/hashes agree across probes. Raw boot stays3M/10s per run.
+
+Host observer profile4 preserves ordinary read behavior and every metadata
+write count/fresh SP/current range while delegating payload, DMA/table, protected
+and unmatched accesses. Plain/UBSan each pass69 units, eleven compiled controls
+fail intended assertions, finite raw19517-instruction/40-region state matches,
+and direct IRQ/owner/injection tests bind the exact Pair.effect function.
+
+Next run the full three-profile19261-RPC/387-publication/6150-reset recipe with
+the qualified receipt. The guarded full-q31 dispatcher has explicit process/
+cgroup verification and no replay restart on observation failure. A live handle
+is not a pass; inspect its actual status and retained result. Full native verdict
+is still unproven at this checkpoint. Neither old original replay was restarted.
+Keep source-bound replay inputs frozen while that job is live.
+
+Full target/physical cold MCU-exit failure and queue/page-pool retention/drain,
+current-firmware BA reuse, hot admission/retirement/rearm, current image/router/
+actual-client/performance/stability remain. Lock88502ab3/modulesa840d3cc stay;
+no hardware/load/flash. Read native-rpc-memory REPORT/EVIDENCE; continue solo.
+
 ## 2026-10-25 - Profile2 Boot Prefix Passes; First Publication Remains Open
 
 The fresh actual raw profile2 prefix now completes under the existing3M/10s

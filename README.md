@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - Native First Publication Passes
+
+The raw profile2 first publication now completes under the unchanged60-second
+RPC limit. Two fresh probes each match139 RPCs,24576 writes/readbacks and complete
+DMA/SRAM/code checks. Metadata callbacks are faster; guest ownership checks stay.
+
+Plain/UBSan each pass69 adapter units; eleven compiled controls catch intended
+defects. Full three-profile replay is next, not yet a complete native verdict.
+Production firmware/lock/modules remain unchanged; no router image or flash.
+Continued solo. See the
+[scoped report](research/checkpoints/2026-10-25-npu-native-rpc-memory/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-25 - Native Cold Prefix Advances
 
 A source-bound, opt-in host observer now completes the actual raw profile2

@@ -1,5 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - First Native Publication Completes Without Budget Changes
+
+- Continued solo fromaddd5de. Host observer profile4 adds ordinary metadata
+  read/write dispatch at the original hook positions. Read exclusions precede
+  allowed regions; payload/DMA/table/protected/unmatched paths retain original
+  callbacks and IRQ/owner/injection behavior. Every metadata write keeps a fresh
+  SP and count, with current writable ranges/Counter. No guest value cache or
+  instruction substitution. Reader API2/default reference backend remain.
+- Plain/UBSan build-q16 each pass32 read/CSR plus37 observer units, zero errors/
+  skips;69 unique methods repeated, not138 unique cases. Eleven independently
+  compiled controls in controls-q21 fail intended assertions with no errors/skips.
+  Finite-q17 matches19517 actual raw instructions,40 regions, registers/events/
+  counters. Exact Pair.effect identity and three repeated direct refusal/
+  injection/boundary tests pass; these repeats add no unique unit methods.
+- Probe-q9 and q18 each complete139 RPCs. Their retained138-RPC prefix matches
+  original evidence; first PUBLISH now completes with24576 writes/readbacks,
+  table1-write/2-read and complete broker/DMA/SRAM/code comparisons. Exact counts
+  and transcript hashes match between probes after removing only timing.
+  Publication walls are53252729911ns and54105626699ns, below original60M-us.
+  Per-run boot3M/10s and RPC100M/60s are unchanged; longer boot proposal unused.
+- Build-q3 remains failed on missing retained-list state in the reduced reference
+  fixture. Correct constructor state and explicit repeated-count coverage yield
+  fresh passes. Controls-q20 remains failed: the last mutation inserted a count
+  into the read branch and was rejected by Werror. Fresh q21 targets only the
+  write branch and completes all11. No failed result or compiler guard is waived.
+- Jev supplied source/semantic checks. An I/O-delegation judgment0.17 prompted
+  direct actual-effect tests and deterministic identity verification; focused
+  delegation0.91 still has effect-test uncertainty0.53. Keep raw results; executed
+  identity/refusal/injection tests and bypass mutants, not confidence, establish
+  the host callback boundary. They do not prove physical IRQ/DMA retirement.
+- Fresh tooling167/zero skips and five complete protected inventories remain.
+  Consumed sources/docs, aliases, flat/runtime bindings and failed artifacts are
+  retained. Same400MiB/no-swap, C lock, dual backing/RAM margins and old compact
+  future allowance. Full-q31 is the next guarded19261-RPC/387-publication/
+  6150-reset replay; dispatch verifies live exact guard/child/cgroup, and timeout
+  observations never authorize a restart. No complete native verdict is claimed.
+- Lock88502ab3/patchbb457928/four-module producera840d3cc stay unchanged. No old
+  replay restart, image, module load, router contact or flash. Full native,
+  physical MCU failure/retention/drain, BA reuse/hot lifetime, image/router/
+  actual-client/performance/stability remain. Full NPU goal active. Read
+  research/checkpoints/2026-10-25-npu-native-rpc-memory/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-25 - Native Profile2 Prefix Completes; Publication Frontier Retained
 
 - Continued solo from6e9a0c1. Explicit host-only cold observer API3 reduces
@@ -270,7 +312,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (native profile2 prefix complete; first publication still times out; full NPU goal open)
+Last updated: 2026-10-25 (native first publication passes; full replay and physical gates remain open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

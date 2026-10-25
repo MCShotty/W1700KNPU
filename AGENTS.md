@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - Native First Publication Passes; Full Replay Next
+
+- Continue solo. Host observer profile4 adds metadata read/write fast paths at
+  original hook positions. DMA/table/payload and unmatched accesses retain the
+  original callbacks; IRQ/owner/injection checks are not bypassed. Every metadata
+  write keeps its count and fresh SP; current writable ranges/Counter are reread.
+- Plain/UBSan each pass32 read/CSR plus37 observer units, zero errors/skips.
+  Eleven compiled controls fail intended assertions. Finite19517-instruction/
+  40-region state matches; actual Pair.effect identity and direct refusal/
+  injection tests execute. Three repeated checks are not new unique tests.
+- Fresh profile2 probes q9/q18 each complete139 RPCs, including first PUBLISH:
+  24576 writes AND24576 readbacks, full DMA/SRAM/code checks. Counts/hashes match.
+  Original boot3M/10s and RPC100M/60s stay; no longer boot budget was used.
+- Full three-profile19261-RPC replay is the next guarded phase. A finite
+  background dispatcher verifies exact live guard/child argv and cgroup caps;
+  inspect full-q31 service/process state, never infer completion from files or
+  restart on a polling timeout. Old original jobs stay untouched.
+  Freeze its source-bound inputs while live; do not invalidate a running replay
+  by editing the adapter, driver or other bound firmware/harness sources.
+- Read native-rpc-memory REPORT/EVIDENCE. Lock88502ab3/patchbb457928/modules
+  a840d3cc and protected inventories stay. Full native result remains unproven
+  here; physical cold/MCU drain/retention, BA reuse/hot lifetime, image/router/
+  actual-client/performance/stability remain. Full NPU goal stays active.
+
 ## 2026-10-25 - Native Profile2 Prefix Completes; Publication Still Times Out
 
 - Continue without subagents. Explicit host-only cold observer API3 keeps every
