@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - Cold Probe Work And Error Cleanup
+
+Probe failures and normal remove now share stage-aware cleanup. Work is built
+before IRQ registration; early recovery stays disabled, and teardown rejects
+new queues while joining callbacks. MCU responses are purged after IRQ/NAPI
+ingress closes. DMA cleanup precedes RRO release. Coredump allocation and shared
+mt76 TX-worker registration failures now unwind their published resources.
+
+Selected-C cold608/14 controls/separate TSan and all15 current suites pass,
+including147 tooling tests with zero skips. Four AArch64 modules link under
+Linux6.18.52, lock88502ab3 and18 zero-fuzz patch outputs. Original build/cache
+inventories stay unchanged. This is modeled-framework CPU-lifetime evidence,
+not actual Linux concurrency or physical DMA-drain qualification. Complete cold
+physical cleanup, HIF2, firmware reuse, native/image/hardware/client gates remain.
+See [checkpoint](research/checkpoints/2026-10-25-npu-cold-unwind/REPORT.md).
+
 ## 2026-10-25 - HIF2 Driver-Binding Ownership
 
 HIF2 now retains the device, qualifies a managed driver dependency, then reads

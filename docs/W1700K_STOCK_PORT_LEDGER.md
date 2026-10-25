@@ -1,5 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - Cold Probe Work And Error Cleanup
+
+- Original selected C reproduces four findings: missing unregister after late
+  registration failure, recovery queued during cold init, conditional dangling
+  coredump publication and ignored TX-worker creation failure. These are host
+  characterizations, not observed router crashes. The memdump-buffer failure
+  requires the modeled MT7996 layout, not W1700K MT7990's zero-length layout;
+  debugfs failure is contract injection because current debugfs init returns0.
+- Software construction moves before live IRQ registration. Recovery work is
+  disabled until all registration steps succeed. Probe/remove cleanup closes
+  owned admission, disables/joins init/dump/WED/reset/RC and scan/mac/constructed
+  ROC work, unregisters radios, parks TX and conditionally attempts MCU exit.
+  IRQ/NAPI joins and a final response purge precede token/DMA cleanup; RRO free
+  follows DMA cleanup. Coredump publication and shared-core worker rollback fix
+  the observed host ownership gaps. Readiness becomes a bool with paired access.
+- Candidate and installed cold608 measured setups/14 intended compiled controls
+  plus separate TSan pass. All15 current suites pass: HIF26/14, PCI288/15,
+  detach16/2, NAPI44/12/TSan, IRQ360/10, BA-join37/8/TSan, owner23/14,
+  creation19/12, BA18/6, worker23/8,6150 resets/3, broad456/4, callers1090/7
+  and147 tooling tests/zero skips. Old lifetime fixtures now execute the actual
+  cleanup helper, preserving resource assertions rather than substituting a stub.
+  A test-only exact caller spelling mismatch stops the first wrapper after four
+  suites. The tail corrects that assertion, completes the remaining suites and
+  revalidates every earlier source binding; neither partial wrapper is a full pass.
+- Four GCC14.4.0/Linux6.18.52 modules link: lock88502ab3,18 fuzz0 outputs,
+  31 mappings/330 mt76 sources. Core and mt7996e change; provider/connac do not.
+  All102685 original kernel/516 mt76 entries and prior cache stay unchanged.
+- Retain the receipt-schema error, temporary-file monitor race/partial install,
+  rejected empty-temp export and failed first actual compile. Exact known bytes
+  were reconciled; the empty temp is preserved outside source. Final compile
+  corrects a missing callback declaration and invalid WRITE_ONCE on a bitfield.
+  Jev probabilities include0.19 on corrected coredump publication; executable
+  source tests govern that branch. No fabricated agreement or physical proof.
+- New400MiB/no-swap phases keep dual storage margins and the existing C lock;
+  no original replay, cap, global policy or hardware changes. Old handles remain
+  missing, not new passes. Actual Linux work/HIF2, complete cold physical unwind,
+  firmware reuse/hot/retirement/rearm and native/image/hardware/client/performance/
+  stability gates remain. Read cold-unwind REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-25 - HIF2 Managed Driver-Binding Ownership
 
 - Lookup no longer returns a devm HIF protected only by get_device. It retains
@@ -87,7 +126,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (HIF2 driver-binding ownership; Linux, native and hardware qualification still open)
+Last updated: 2026-10-25 (cold probe work/error cleanup; Linux, native and physical qualification still open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

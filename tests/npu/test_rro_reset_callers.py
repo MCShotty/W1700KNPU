@@ -91,7 +91,7 @@ def prepare(destination, module_receipt=MODULE):
     managed += block(mapping, r'(?m)^void \*dmam_alloc_attrs\(') + '\n'
     managed += block(dma_header, r'(?m)^static inline void \*dmam_alloc_coherent\(') + '\n'
     callers = ('mt7996_wed_rro_alloc', 'mt7996_wed_rro_init', 'mt7996_wed_rro_free', 'mt7996_wed_rro_work',
-               'mt7996_init_hardware', 'mt7996_unregister_device')
+               'mt7996_init_hardware', 'mt7996_cleanup_device', 'mt7996_unregister_device')
     generated = {
         'geometry.h': geometry, 'rro-member.h': member,
         'active.h': q.function(header, 'mt7996_has_hwrro') + '\n' + q.function(mt76, 'mt76_npu_device_active'),

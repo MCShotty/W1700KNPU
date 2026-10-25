@@ -1,0 +1,220 @@
+{
+  "goal_turn_classification": "progress",
+  "base_commit": "bbca4d529b39ef6df2bcc61f58b5fd8a6aadcae4",
+  "scope": "Selected actual cold-prefix C with modeled framework/work APIs plus current AArch64 module links, not actual Linux or physical lifetime proof",
+  "cold_probe_cleanup_implemented": true,
+  "kernel_workqueue_concurrency_qualified": false,
+  "cases": {
+    "cold": 608,
+    "hif": 26,
+    "pci": 288,
+    "detach": 16,
+    "napi": 44,
+    "irq": 360,
+    "join": 37,
+    "owner": 23,
+    "creation": 19,
+    "ba": 18,
+    "worker": 23,
+    "resets": 6150,
+    "broad": 456,
+    "callers": 1090
+  },
+  "controls": {
+    "cold": 14,
+    "hif": 14,
+    "pci": 15,
+    "detach": 2,
+    "napi": 12,
+    "irq": 10,
+    "join": 8,
+    "owner": 14,
+    "creation": 12,
+    "ba": 6,
+    "worker": 8,
+    "resets": 3,
+    "broad": 4,
+    "callers": 7
+  },
+  "tooling_tests": 147,
+  "tooling_skips": 0,
+  "TSan": [
+    "cold",
+    "napi",
+    "join"
+  ],
+  "source_lock_sha256": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+  "mt76_patch_outputs": 18,
+  "component_mappings": 31,
+  "module_producer": ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json",
+  "module_producer_sha256": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f",
+  "module_bytes_changed": {
+    "mt76.ko": true,
+    "mt76-connac-lib.ko": false,
+    "mt7996/mt7996e.ko": true
+  },
+  "original_kernel_entries": 102685,
+  "original_mt76_entries": 516,
+  "original_and_prior_cache_inventories_unchanged": true,
+  "failed_monitor_partial_install_and_target_compile_preserved": true,
+  "exact_caller_source_assertion_corrected": true,
+  "failed_current_wrapper_preserved": true,
+  "current_boot_old_handles_missing_not_pass": true,
+  "original_replays_restarted": false,
+  "full_native_verdict": false,
+  "physical_drain": false,
+  "module_loaded": false,
+  "image_built": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "no_subagents": true,
+  "private_evidence": ".local/npu-build-scratch/native-c2/cold-unwind-proof-q23/evidence-q23.json",
+  "private_evidence_sha256": "b97ae440d32c8f516838f6ac87d35ca6406bf7948d307b18a2432003b6a0d123",
+  "project_bindings": 46718,
+  "external_bindings": 2,
+  "selected_runtime_bindings": 2,
+  "source_versions": {
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/pci.c": {
+      "old_sha256": "a994aea0e17ee883c16087fd45eb491e1e8e1ccc94b658f00bf175d02d19f39d",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/pci.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c": {
+      "old_sha256": "a8c5f9a828bd74fc23f3ef853f4d60560bc1b851dc20fe4174ff350e20375c4b",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/init.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mmio.c": {
+      "old_sha256": "71acecc0c2257a259ec0f4c0d46bb810f14c8d451b9d5fd8553199936d93fb9a",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/mmio.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h": {
+      "old_sha256": "4463e3602eeadc383555110dbb6b3dc699159189e271f9ff48d1e429b2e7bf6c",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/coredump.c": {
+      "old_sha256": "15820a81d1094c974458b5fa9b7eed5bb4332c4c5373901614266fee67d9dbcd",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/coredump.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mcu.c": {
+      "old_sha256": "44ba2830e3aa48d972252b4924a624c743d77bb26bb975b392e9f79bc94d4ef7",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/mcu.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c": {
+      "old_sha256": "054b4b68f4ebf5225fea9b182bbd006c81a4503be091c814e59f9b280078ab9c",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c"
+    },
+    ".local/merge-nonoc-20260923/mt76-merged/mac80211.c": {
+      "old_sha256": "8a286164621e8c61d5d222838b5e672403a3c847b9e272099c4e5b09f0986d61",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/.local/merge-nonoc-20260923/mt76-merged/mac80211.c"
+    },
+    "firmware/source-lock.json": {
+      "old_sha256": "b8901a719d37dd36b8be70c1d63ee7c33a6351ae541bad858c02a1082c442199",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/firmware/source-lock.json"
+    },
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": {
+      "old_sha256": "3bc71958ba997291f46d8beb4c11887b9ab98148de8dd79b06c8774ae327f0f6",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before/firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch"
+    },
+    "tests/npu/test_pci_irq_lifetime.py": {
+      "old_sha256": "a369602f0d9517432a2f1d5120b70e75f968cd51b7438dc9f46e2a32884a0ca4",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/test_pci_irq_lifetime.py"
+    },
+    "tests/npu/pci-irq-lifetime-harness.c": {
+      "old_sha256": "9cceaee84e9335ce9b3294ee6ffa988cd1f720455f1f250d5ee6f8066a5727af",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/pci-irq-lifetime-harness.c"
+    },
+    "tests/npu/test_rro_reset_callers.py": {
+      "old_sha256": "181ea957b835bcd6293276ad6db1b08284f3074159bbb840bacd25202e83d2e7",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/test_rro_reset_callers.py"
+    },
+    "tests/npu/rro-reset-callers-harness.c": {
+      "old_sha256": "84b174227b083977791848fcc1d11539e4ec350a4039dfe84c0dec58a5869671",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/rro-reset-callers-harness.c"
+    },
+    "tests/npu/test_rro_ba_join.py": {
+      "old_sha256": "9327152809b2bc3eed01c314ef35b23777392b6cad0658d22c6cc125c751be32",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/test_rro_ba_join.py"
+    },
+    "tests/npu/test_rro_reset_retention.py": {
+      "old_sha256": "1bf2c7f847f9d36667bf58e373c6c2b55a5d2b9cada1c7131f7d574c6cdae4e7",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/test_rro_reset_retention.py"
+    },
+    "tests/npu/test_napi_lifetime.py": {
+      "old_sha256": "64df4e33190181c0b0df0e19f3f7ef75bb68518b19a2c2e256e504427f93eadf",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-regressions-q5/tests/npu/test_napi_lifetime.py"
+    },
+    "AGENTS.md": {
+      "old_sha256": "1e50496298c10b6d61a7713ea5ce2917f0b91c4cc8904aecbdff7c99686d4728",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/AGENTS.md"
+    },
+    "README.md": {
+      "old_sha256": "c9443448ae8f90cffcf5ea619c0001ce8e80fd038abda1b731781d9ff7c4b9e0",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/README.md"
+    },
+    "docs/REMAINING_WORK.md": {
+      "old_sha256": "17b28064a36737ea98a0679a0e3011dd65726d517128edeb4ed99673a1f451b4",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/docs/REMAINING_WORK.md"
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "old_sha256": "c7db22f3af42ee50796fd8ddbfe9dd8551243f639b35b8229dbc4e451dab3491",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "old_sha256": "365db919c913bea1ba33a53a877a771ff1019765631f73bb0f6f679c9db2aebf",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "old_sha256": "fcc725a84bfe776d79eb39da4fd7ffc9b0fffcf692620e4171cacdfaf62d80a2",
+      "preserved_path": ".local/npu-cold-unwind-20261025/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+    }
+  },
+  "public_source_blobs": {
+    "AGENTS.md": "9ef85076ede9918080246a2823a4b562b116e538ba384ccfd023b16392f6b250",
+    "README.md": "3440a4465636dd05656a3c9a84fb9d22796fdee28677a0f4c238ad1bde733c9b",
+    "docs/REMAINING_WORK.md": "3ccaa36d2bddb7356db8a5e952a966f3a055d70cae58720c1aaa70859ddbebda",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "59ebe10323cf07020eedf7cc91ba6662db68da2827813f799226da29e95564ed",
+    "docs/W1700K_STOCK_PORT_LEDGER.md": "78f1d8fc879f04284f28871df057ed1038ad12fd7e1e0ada22f2ef3f6f2079b0",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "17d7114103cbb2b15f4c67ce2a71d0471661192de31dacf99d502c1a76cc32e4",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": "bb4579282feedf23edbe09007eb7b1566ffc96dceb39e49984ddc7a1cbaa2e71",
+    "firmware/source-lock.json": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+    "research/checkpoints/2026-10-25-npu-cold-unwind/REPORT.md": "93ff1807b224fd75aefec64b79774e5243f31fd6fd3f79b28ce747a55672f564",
+    "tests/npu/cold-probe-lifetime-harness.c": "78c2d0ec52292e99ee85e2a7873f5550a68c57cd23a9511ca7dc9a63e14444c7",
+    "tests/npu/pci-irq-lifetime-harness.c": "d67c18d5cac8e07a9d148588324542b876d539b6afb788715fee755c548e2212",
+    "tests/npu/rro-reset-callers-harness.c": "4fbef7e6c7401a4a43578b7ab4067b1ee40446f5ea574795a80c66de2d511168",
+    "tests/npu/test_cold_probe_lifetime.py": "ee54db6333c9c0c612d3b158222a9cb38975ba0534b6a06af9bb699da212c9a2",
+    "tests/npu/test_napi_lifetime.py": "5674c446fcc986985ba4a8981f0bf877a944a769bf69a837f62fd65178b831be",
+    "tests/npu/test_pci_irq_lifetime.py": "b2a280862f4da21004db2523fb6a26d4452463621bc1715a49aaf0ed4790222b",
+    "tests/npu/test_rro_ba_join.py": "52d1fab6853aba7f0482089fb4e77fdf99316487e649643a78e4a375ca73daa5",
+    "tests/npu/test_rro_reset_callers.py": "3eb5eaefb5b84f9d0bf97b02d16bf7efff94ad238b5eba13b4b2aa2228f5f7c1",
+    "tests/npu/test_rro_reset_retention.py": "1da4acfb9b77a5c363758e1f6c40fe3a11efa1b7d07142e74412938696c9e35c"
+  },
+  "receipts": {
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q21/cold/result.json": "d22448326b64777f2201adfd272d59c216cb69f26f859de21231cf7da6720db4",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q21/hif/result.json": "4aaf815372c4a9153a92395f8ca05d5b6303f9d001927ba5452a1597cb2f7dce",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q21/pci/result.json": "83c09478f2daee67b81f7a7737ecd1b2cdb3fecc665e4bafa9baed1893971855",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q21/detach/result.json": "45ee07ebf833ac7fe9e49ade34a256691effb02f609764aed84140fcb6151882",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/napi/result.json": "048f488892fcbf8de3e7a7e837dd9ad93017a423b0e585d8f1a42949366bc0e5",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/irq/result.json": "18512f9ed65bd38bde064c0b4f102f9984626cc84cf93b27778f2b37b58f6155",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/join/result.json": "a474deb3307b201388ec0378723a36ffb93ec007471aaf93ccaffe61e055bd41",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/owner/result.json": "ddad5e833070ff987f822f3c57814fd2eea130a21cab4628e8e04dfa7ecb3f89",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/creation/result.json": "06991bd840c8608a34005daee56b545fb4355f9bc0a679195dbf6169694ec4f3",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/ba/result.json": "42d3b6090cdc15db8bb5f049056b8813221a3a59d93fbb56c9082c25f8e03326",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/worker/result.json": "a5ddbadd9664de196d40e84316f3617111c573270fb12348511ad8a7811a9bc1",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/resets/result.json": "9505a68b627a5c6b0054358683e7121f453fdc5d7474cd72a1573c2ff3bf4a0e",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/broad/result.json": "8a4ee809b225d025dbf77c6ba62b8a5ff17a17366a8a2ffb31cbae64e102f983",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/callers/result.json": "0e045cb9a96318ba0d65ee435e6ff32fc4cf40b0f49fd84755db99830932f7fe",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/units/units-current-q1-result.json": "9a6dc14adc117c675d21e025ef9a3399f329a4616c5975c5d8ebae96a5ec2226"
+  },
+  "fixture_correction_receipt_sha256": "3f9ea77bcf7ee8ed5b8f1a05d9777fa7c01c4f4b11ce7646396f7442d66730c2",
+  "runtime_observation": {
+    "w1700k-npu-compact-default-q1.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    },
+    "w1700k-npu-rro-observer-native-q3.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    }
+  }
+}

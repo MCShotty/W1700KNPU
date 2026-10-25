@@ -52,7 +52,7 @@ def run(destination, source, thread_sanitizer):
         selected[name] = loops[0]
     caller_checks = {}
     for filename, symbol, calls in (
-        ('mt7996/init.c', 'mt7996_unregister_device', ('mt7996_mcu_exit(dev);',
+        ('mt7996/init.c', 'mt7996_cleanup_device', ('mt7996_mcu_exit(dev);',
             'mt7996_pci_shutdown_irqs(dev);', 'mt76_npu_shutdown_irqs(&dev->mt76);',
             'mt76_napi_cleanup(&dev->mt76);', 'mt7996_tx_token_put(dev);', 'mt7996_dma_cleanup(dev);')),
         ('mac80211.c', 'mt76_free_device', ('mt76_npu_shutdown_irqs(dev);',
@@ -64,6 +64,16 @@ def run(destination, source, thread_sanitizer):
         assert offsets == sorted(offsets), (symbol, offsets)
         caller_checks[symbol] = dict(source=filename, ordered_calls=calls,
             offsets=offsets, body_sha256=hashlib.sha256(body.encode()).hexdigest(), executed=False)
+    for filename, symbol, calls in (
+        ('mt7996/init.c', 'mt7996_unregister_device', ('mt7996_cleanup_device(dev);',
+            'mt76_free_device(&dev->mt76);')),
+        ('mt7996/pci.c', 'mt7996_pci_probe', ('free_device:', 'mt7996_cleanup_device(dev);',
+            'mt76_free_device(&dev->mt76);'))):
+        body = selected_function(texts[filename], symbol)
+        offsets = [body.index(call) for call in calls]
+        assert offsets == sorted(offsets), (symbol, offsets)
+        caller_checks[symbol] = dict(source=filename, ordered_calls=calls, offsets=offsets,
+            body_sha256=hashlib.sha256(body.encode()).hexdigest(), executed=False)
     assert 'MT_DRV_NAPI_LIFETIME' in texts['mt7996/mmio.c']
     for symbol in ('mt7996_mac_restart', 'mt7996_mac_reset_work'):
         body = selected_function(texts['mt7996/mac.c'], symbol)

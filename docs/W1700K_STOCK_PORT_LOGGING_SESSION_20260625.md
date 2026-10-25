@@ -1,5 +1,27 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - Cold Probe Work And Error Cleanup
+
+Goal turn: progress, not completion. Continued without subagents. Four original
+selected-C findings were reproduced before the source fix. Work construction
+now precedes IRQ registration; cold recovery stays disabled until full register,
+and probe failure/remove share work rejection/join and stage-aware cleanup.
+Coredump publication, late MCU-response purge and TX-worker rollback are fixed.
+
+Candidate and current cold608/14 controls/separate TSan pass. All15 refreshed
+suites pass, including NAPI/BA-join TSan,6150 resets and147 tooling tests with
+zero skips. Four ARM64 modules link with lock88502ab3/18 fuzz0 outputs/31 mappings;
+core and mt7996e change, original prepared trees and previous cache do not.
+Producer: `.local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json`.
+
+Retained failures include the monitor race/partial install, empty-temp export
+refusal and the first actual compile. Reconciliation only accepted exact known
+bytes; the empty temp was preserved, and readiness/declaration errors corrected.
+The host framework/work APIs remain models, not actual Linux concurrency or
+physical cold/DMA-drain proof. No replay restart, image/load/flash or hardware
+acceptance. Full Linux/HIF2, firmware reuse/hot/physical/native/image/client/
+performance/stability work remains. Read cold-unwind REPORT/EVIDENCE; goal active.
+
 ## 2026-10-25 - HIF2 Binding And Post-Reboot State
 
 Goal turn: progress, not completion. Continue solo. The old transient replay

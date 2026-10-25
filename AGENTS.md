@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - Cold Probe Work And Error Cleanup
+
+- Continue without subagents. Driver work/list/lock construction precedes IRQ
+  registration. Reset/dump admission stays disabled until registration finishes.
+  Probe failure and remove share stage-aware cleanup: permanently disable/join
+  work, unregister radios, park TX, attempt MCU exit only after MCU setup began,
+  close IRQ/NAPI ingress, purge late responses, then clean DMA before RRO free.
+- Readiness is a standalone bool with WRITE_ONCE/READ_ONCE, not a bitfield.
+  Coredump metadata publishes only after allocation succeeds. Shared mt76 rolls
+  back hw/LED registration on TX-worker creation failure and preserves errno.
+- Cold608/14 controls/separate TSan, all previous current suites and147 tooling
+  tests/zero skips pass. Four GCC14.4.0/Linux6.18.52 modules link with lock88502ab3,
+  18 fuzz0 outputs/31 mappings. Core and mt7996e change; protected inventories stay.
+- Retain failed monitor/partial-install/export and first target-compile evidence.
+  The empty interrupted temp was preserved outside source, not ignored by checks.
+  Full selected-C framework effects remain modeled; actual Linux work/HIF2,
+  complete cold physical cleanup, firmware reuse/hot/retirement/rearm and native/
+  image/hardware/client/performance/stability gates remain. No replay restart,
+  load, image or flash. Read cold-unwind REPORT/EVIDENCE; full NPU goal active.
+
 ## 2026-10-25 - HIF2 Driver Binding Implemented; Runtime Qualification Open
 
 - Continue solo. HIF2 now retains the device, qualifies a managed CONSUMER_PROBE

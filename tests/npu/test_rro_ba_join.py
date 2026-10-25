@@ -33,11 +33,12 @@ def run(destination, source, harness_root, thread_sanitizer=False):
     inputs = {str(path.resolve()): ba.sha(path) for path in [*paths.values(), *files.values(),
         Path(__file__), Path(ba.__file__), HERE / 'test_host_queue_publication.py']}
     callers = {}
-    for filename, name in (('mt7996/init.c', 'mt7996_unregister_device'),
+    for filename, name in (('mt7996/init.c', 'mt7996_cleanup_device'),
                            ('mt7996/mac.c', 'mt7996_mac_full_reset'),
                            ('mt7996/mac.c', 'mt7996_mac_reset_work')):
         body = function(paths[filename].read_text(), name)
-        calls = ['mt7996_npu_rro_reset_close(dev);', 'cancel_work_sync(&dev->wed_rro.work);',
+        cancel = 'disable_work_sync' if name == 'mt7996_cleanup_device' else 'cancel_work_sync'
+        calls = ['mt7996_npu_rro_reset_close(dev);', cancel + '(&dev->wed_rro.work);',
                  'mt7996_npu_rro_reset_join(dev);']
         offsets = [body.index(call) for call in calls]
         assert offsets == sorted(offsets), ('close/cancel/join order', name)
@@ -46,6 +47,9 @@ def run(destination, source, harness_root, thread_sanitizer=False):
         callers[name] = dict(source=filename, body_sha256=hashlib.sha256(body.encode()).hexdigest(),
             close_cancel_join_offsets=offsets, join_before_device_mutex=True,
             entire_outer_function_executed=False)
+    init = paths['mt7996/init.c'].read_text()
+    outer = function(init, 'mt7996_unregister_device')
+    assert outer.index('mt7996_cleanup_device(dev);') < outer.index('mt76_free_device(&dev->mt76);')
     wire = paths['mt7996/mcu.h'].read_text()
     structs = [ba.structure(wire, name) for name in ('mt7996_mcu_rxd',
         'mt7996_mcu_wed_rro_event', 'mt7996_mcu_wed_rro_ba_event', 'mt7996_mcu_wed_rro_ba_delete_event')]

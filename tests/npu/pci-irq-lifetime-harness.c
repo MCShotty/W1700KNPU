@@ -17,6 +17,7 @@ typedef int irqreturn_t;
 #define DMA_BIT_MASK(n) ((1ULL << (n)) - 1)
 #define container_of(p, type, member) ((type *)((char *)(p) - offsetof(type, member)))
 #define READ_ONCE(v) (v)
+#define WRITE_ONCE(v, value) ((v) = (value))
 #define IS_ERR(v) ((uintptr_t)(v) >= (uintptr_t)-4095)
 #define PTR_ERR(v) ((int)(intptr_t)(v))
 #define ERR_PTR(v) ((void *)(intptr_t)(v))
@@ -24,7 +25,7 @@ typedef int irqreturn_t;
 #define IRQF_SHARED 1
 #define PCI_IRQ_ALL_TYPES 7
 #define KBUILD_MODNAME "pci-lifetime-model"
-enum { IRQ_NONE, IRQ_HANDLED, MT76_STATE_INITIALIZED };
+enum { IRQ_NONE, IRQ_HANDLED, MT76_STATE_INITIALIZED, MT76_STATE_REGISTERED };
 enum { MT_INT_MASK_CSR = 1, MT_INT1_MASK_CSR, MT_PCIE_MAC_INT_ENABLE, MT_PCIE1_MAC_INT_ENABLE };
 enum { MT7996_DEVICE_ID_2 = 0x7991, MT7992_DEVICE_ID_2 = 0x7993, MT7990_DEVICE_ID_2 = 0x7995 };
 struct device { int refs, index; };
@@ -33,25 +34,34 @@ struct pci_dev { struct device dev; struct pci_bus *bus; int irq; void *driver_d
 struct pci_device_id { unsigned device; };
 struct tasklet_struct { bool pending, disabled; unsigned kills; };
 struct work_struct { int unused; };
+struct delayed_work { struct work_struct work; };
 struct mt7996_hif { struct device *dev; int irq; };
 struct mtk_wed_device { bool active; int irq; u32 mask; };
 struct mt76_dev {
 	struct device *dev;
 	struct { int irq_lock; u32 irqmask; struct mtk_wed_device wed, wed_hif2; } mmio;
 	struct tasklet_struct irq_tasklet;
+	void *queue_ops, *mcu_ops;
+	struct { unsigned res_q; } mcu;
+	unsigned tx_worker;
+	struct delayed_work scan_work;
 };
-struct mt76_phy { unsigned long state; };
+struct mt76_phy { unsigned long state; struct delayed_work mac_work, roc_work; };
+struct mt7996_phy { struct mt76_phy *mt76; };
 #include "selected-pci-irq.inc"
 struct mt7996_dev {
 	struct mt76_dev mt76;
 	struct mt76_phy mphy;
 	struct mt7996_hif *hif2;
 	struct mt7996_pci_irq pci_irq[2];
-	bool irq_shutdown;
-	struct work_struct dump_work, reset_work, rc_work;
+	bool irq_shutdown, cleanup_started;
+	struct work_struct init_work, dump_work, reset_work, rc_work;
 	struct { struct work_struct work; } wed_rro;
-	int phy;
+	struct mt7996_phy phy;
+	struct { bool hw_init_done; } recovery;
 };
+#define mt7996_for_each_phy(dev, phy) \
+	for ((phy) = &(dev)->phy; (phy); (phy) = NULL)
 static struct {
 	struct pci_dev primary, secondary;
 	struct pci_bus buses[2];
@@ -140,6 +150,7 @@ static struct mt7996_dev *mt7996_mmio_probe(struct device *dev, void *base, unsi
 	if (model.failure == 5) return (void *)(intptr_t)-ENOMEM;
 	model.consumer_live = true;
 	model.dev.mt76.dev = dev;
+	model.dev.phy.mt76 = &model.dev.mphy;
 	model.primary.driver_data = &model.dev.mt76;
 	return &model.dev;
 }
@@ -248,6 +259,7 @@ static void put_device(struct device *dev)
 static int mt7996_register_device(struct mt7996_dev *dev)
 {
 	model.registered++;
+	dev->mt76.queue_ops = dev->mt76.mcu_ops = dev;
 	dev->mphy.state |= BIT(MT76_STATE_INITIALIZED);
 	model.initialized = true;
 	return model.failure == 12 ? -EIO : 0;
@@ -266,11 +278,15 @@ static void mt76_free_device(struct mt76_dev *dev)
 static void *pci_get_drvdata(struct pci_dev *pdev) { return pdev->driver_data; }
 static void mt7996_npu_rro_reset_close(struct mt7996_dev *dev) { (void)dev; }
 static void cancel_work_sync(struct work_struct *work) { (void)work; model.cancel_calls++; }
+static void disable_work_sync(struct work_struct *work) { cancel_work_sync(work); }
+static void disable_delayed_work_sync(struct delayed_work *work) { cancel_work_sync(&work->work); }
+static void mt76_worker_disable(unsigned *worker) { (void)worker; }
+static void skb_queue_purge(unsigned *queue) { *queue = 0; }
 static void mt7996_npu_rro_reset_join(struct mt7996_dev *dev) { (void)dev; }
-static int *mt7996_phy3(struct mt7996_dev *dev) { (void)dev; return NULL; }
-static int *mt7996_phy2(struct mt7996_dev *dev) { (void)dev; return NULL; }
-static void mt7996_unregister_phy(int *phy) { (void)phy; }
-static void mt7996_unregister_thermal(int *phy) { (void)phy; }
+static struct mt7996_phy *mt7996_phy3(struct mt7996_dev *dev) { (void)dev; return NULL; }
+static struct mt7996_phy *mt7996_phy2(struct mt7996_dev *dev) { (void)dev; return NULL; }
+static void mt7996_unregister_phy(struct mt7996_phy *phy) { (void)phy; }
+static void mt7996_unregister_thermal(struct mt7996_phy *phy) { (void)phy; }
 static void mt7996_coredump_unregister(struct mt7996_dev *dev) { (void)dev; }
 static void mt76_unregister_device(struct mt76_dev *dev) { (void)dev; }
 static void mt7996_wed_rro_free(struct mt7996_dev *dev) { (void)dev; }
@@ -294,6 +310,7 @@ static bool mt7996_has_hwrro(struct mt7996_dev *dev) { (void)dev; return false; 
 static void mt7996_rro_msdu_page_map_free(struct mt7996_dev *dev) { (void)dev; }
 
 #include "selected-pci-shutdown.inc"
+#include "selected-cleanup.inc"
 #include "selected-unregister.inc"
 #include "selected-pci-probe.inc"
 #include "selected-pci-remove.inc"

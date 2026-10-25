@@ -29,6 +29,7 @@ typedef unsigned spinlock_t;
 #define WARN_ON(v) assert(!(v))
 /* A value read only; this fixture does not model kernel memory ordering. */
 #define READ_ONCE(v) (v)
+#define WRITE_ONCE(v, value) ((v) = (value))
 #define CONFIG_NET_MEDIATEK_SOC_WED 1
 
 struct list_head { struct list_head *next, *prev; };
@@ -52,6 +53,7 @@ static void list_splice_init(struct list_head *from, struct list_head *to)
 #define LIST_HEAD(name) struct list_head name = { &name, &name }
 #define list_first_entry(h, t, m) container_of((h)->next, t, m)
 struct work_struct { void (*fn)(struct work_struct *); };
+struct delayed_work { struct work_struct work; };
 #define INIT_WORK(w, f) ((w)->fn = (f))
 static void spin_lock_init(spinlock_t *s) { *s = 0; }
 static void spin_lock_bh(spinlock_t *s) { assert(!*s); *s = 1; }
@@ -76,13 +78,14 @@ struct mtk_wed_device {
     struct { struct { dma_addr_t addr_elem_phys[128]; } ind_cmd; } wlan;
 };
 struct model_driver_ops { unsigned long drv_flags; };
+struct mt76_phy { unsigned long state; struct delayed_work mac_work, roc_work; };
 #define MT_DRV_NAPI_LIFETIME (1UL << 8)
 static struct model_driver_ops model_driver = { MT_DRV_NAPI_LIFETIME };
 struct mt76_dev {
     struct model_driver_ops *drv;
     struct device *dev, *dma_dev;
     struct { struct airoha_npu *npu; void *ppe_dev; struct mtk_wed_device wed; } mmio;
-    struct { unsigned long state; } phy;
+    struct mt76_phy phy;
     void *hw, *wq;
     unsigned tx_worker, q_rx[__MT_RXQ_MAX];
     int mutex;
@@ -92,8 +95,11 @@ struct mt76_dev {
     struct { int idx, hw_key_idx; unsigned tx_info; } global_wcid;
     void *wcid[1];
     unsigned irq_tasklet;
+    void *queue_ops, *mcu_ops;
+    struct { unsigned res_q; } mcu;
+    struct delayed_work scan_work;
 };
-struct mt7996_phy { unsigned unused; };
+struct mt7996_phy { struct mt76_phy *mt76; };
 struct mt7996_dev {
     struct mt76_dev mt76;
     struct { unsigned long state; } mphy;
@@ -101,8 +107,12 @@ struct mt7996_dev {
     struct mt7996_phy phy;
     dma_addr_t npu_txd_addr[6];
     bool npu_rro_owned;
+    bool cleanup_started;
+    struct { bool hw_init_done; } recovery;
 #include "rro-member.h"
 };
+#define mt7996_for_each_phy(dev, phy) \
+    for ((phy) = &(dev)->phy; (phy); (phy) = NULL)
 
 enum { MAX_ALLOCS = 140, MAX_MESSAGES = 256, MAX_EVENTS = 1024 };
 enum { EV_MCU_RESET = 1, EV_ITEM_FREE, EV_CANCEL, EV_UNREGISTER,
@@ -305,8 +315,10 @@ static void set_bit(unsigned b, unsigned long *p) { *p |= 1UL << b; }
 static void mt7996_init_work(struct work_struct *w) { (void)w; }
 static int stage_result(int stage) { return s.stage == stage ? s.stage_result : 0; }
 static int mt7996_variant_type_init(struct mt7996_dev *d) { (void)d; return stage_result(1); }
-static int mt7996_dma_init(struct mt7996_dev *d) { (void)d; return stage_result(2); }
-static int mt7996_mcu_init(struct mt7996_dev *d) { (void)d; return stage_result(3); }
+static int mt7996_dma_init(struct mt7996_dev *d)
+{ int ret = stage_result(2); if (!ret) d->mt76.queue_ops = d; return ret; }
+static int mt7996_mcu_init(struct mt7996_dev *d)
+{ d->mt76.mcu_ops = d; return stage_result(3); }
 static int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *d)
 {
     assert(d == &s.dev && !s.allocated && !s.nmessages);
@@ -327,6 +339,10 @@ static int mt7996_mcu_wed_rro_reset_sessions(struct mt7996_dev *d, u16 id)
 { (void)d; (void)id; s.mcu_resets++; event(EV_MCU_RESET); return s.mcu_result; }
 static void kfree(void *p) { s.items_freed++; event(EV_ITEM_FREE); free(p); }
 static void cancel_work_sync(struct work_struct *w) { (void)w; event(EV_CANCEL); }
+static void disable_work_sync(struct work_struct *w) { cancel_work_sync(w); }
+static void disable_delayed_work_sync(struct delayed_work *w) { cancel_work_sync(&w->work); }
+static void mt76_worker_disable(unsigned *w) { assert(w == &s.dev.mt76.tx_worker); }
+static void skb_queue_purge(unsigned *queue) { *queue = 0; }
 static struct mt7996_phy *mt7996_phy3(struct mt7996_dev *d) { return &d->phy; }
 static struct mt7996_phy *mt7996_phy2(struct mt7996_dev *d) { return &d->phy; }
 static void mt7996_unregister_phy(struct mt7996_phy *p) { (void)p; }
@@ -440,6 +456,7 @@ static void setup(int profile, bool checked, bool npu)
     assert(!s.live && !s.provider.head && !s.endpoint.head);
     memset(&s, 0, sizeof(s));
     s.dev.mt76.drv = &model_driver;
+    s.dev.phy.mt76 = &s.dev.mt76.phy;
     s.provider.id = 1; s.endpoint.id = 2;
     s.priv.checked_pair = checked; s.priv.npu.dev = &s.provider;
     s.priv.txbuf_min_size = NPU_EN7581_7996_TX_CHECK_SIZE;
@@ -574,9 +591,9 @@ int main(int argc, char **argv)
                 assert(s.rro_closes==1 && first_event(EV_RRO_CLOSE)<first_event(EV_UNPUBLISH) &&
                        "lower detach must hand off RRO before unpublishing provider");
                 assert(first_event(EV_UNREGISTER) < first_event(EV_DMA_FREE));
-                assert(first_event(EV_DMA_FREE) < first_event(EV_MCU_EXIT));
                 assert(first_event(EV_MCU_EXIT) < first_event(EV_DMA_CLEANUP));
-                assert(first_event(EV_DMA_CLEANUP) < first_event(EV_WORKER_TEARDOWN));
+                assert(first_event(EV_DMA_CLEANUP) < first_event(EV_DMA_FREE));
+                assert(first_event(EV_DMA_FREE) < first_event(EV_WORKER_TEARDOWN));
                 assert(first_event(EV_WORKER_TEARDOWN) < first_event(EV_WORKQUEUE_DESTROY));
                 assert(first_event(EV_WORKQUEUE_DESTROY) < first_event(EV_UNPUBLISH));
                 assert(first_event(EV_UNPUBLISH) < first_event(EV_RCU_JOIN));
@@ -688,7 +705,7 @@ int main(int argc, char **argv)
                 assert(s.dev.npu_rro_owned && !s.freed && s.live==prefix);
                 assert(s.rro_closes==((mask&2)?0:2) &&
                        "lower detach must hand off RRO before unpublishing provider");
-                if(!(mask&2))assert(first_event(EV_RRO_CLOSE)<first_event(EV_MCU_EXIT) &&
+                if(!(mask&2))assert(first_event(EV_DMA_CLEANUP)<first_event(EV_RRO_CLOSE) &&
                                     first_event(EV_RRO_CLOSE)<first_event(EV_UNPUBLISH));
                 finish_owned("owned-publication-error-retained",profile,result,mask);
             }

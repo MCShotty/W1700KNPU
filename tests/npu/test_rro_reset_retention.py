@@ -85,16 +85,19 @@ def selected_sources(source_root):
     }
     assert all(path.is_file() for path in paths.values()), "missing candidate or paired header"
     source = {name: path.read_text() for name, path in paths.items()}
-    for text, name in ((source["worker"], "mt7996_unregister_device"),
+    for text, name in ((source["worker"], "mt7996_cleanup_device"),
                        (source["reset_callers"], "mt7996_mac_full_reset"),
                        (source["reset_callers"], "mt7996_mac_reset_work")):
         body = function(text, name)
+        cancel = "disable_work_sync" if name == "mt7996_cleanup_device" else "cancel_work_sync"
         hooks = ("mt7996_npu_rro_reset_close(dev);",
-                 "cancel_work_sync(&dev->wed_rro.work);",
+                 cancel + "(&dev->wed_rro.work);",
                  "mt7996_npu_rro_reset_join(dev);")
         assert all(body.count(hook) == 1 for hook in hooks), name
         positions = [body.index(hook) for hook in hooks]
         assert positions == sorted(positions), ("close-cancel-join", name)
+    outer = function(source["worker"], "mt7996_unregister_device")
+    assert outer.index("mt7996_cleanup_device(dev);") < outer.index("mt76_free_device(&dev->mt76);")
     body = function(source["worker"], "mt7996_wed_rro_free")
     assert body.index("mt7996_npu_rro_reset_close(dev);") < body.index(
         "mt76_npu_rro_close(&dev->mt76);") < body.index("dmam_free_coherent(")

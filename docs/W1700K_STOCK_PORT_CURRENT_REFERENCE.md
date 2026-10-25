@@ -1,5 +1,27 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Cold Probe Cleanup Implemented; Linux Qualification Open
+
+Work construction now precedes live IRQ registration. Cold reset/dump work is
+disabled until registration succeeds; teardown disables/joins driver and scan/
+PHY work before radio cleanup. Failed probe and remove use the same helper,
+park TX, attempt MCU exit only after setup began, close IRQ/NAPI ingress and
+purge late responses before token/DMA cleanup and RRO release. Coredump metadata
+is published only after allocation succeeds; TX-worker failure rolls back hw/LEDs.
+
+Installed-source cold608/14 controls/separate TSan plus all15 refreshed suites
+pass, including HIF26/14, PCI288/15, NAPI/BA-join TSan and147 units/zero skips.
+Four current modules link: lock88502ab3,18 fuzz0 outputs/31 mappings/330 sources;
+core and mt7996e change, original inventories and prior cache stay unchanged.
+Current producer: `.local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json`.
+
+The failed first target compile is retained; final readiness is an ordinary bool
+with paired WRITE_ONCE/READ_ONCE and the moved callback has a forward declaration.
+No actual Linux workqueue/HIF2, complete physical cold cleanup, firmware reuse,
+native/full-image/hardware/client/performance/stability acceptance follows. Old
+replay handles remain missing, not passed or restarted. Continue solo; read
+cold-unwind REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-25 - Current HIF2 Binding And Probe Errors
 
 Retained-device lookup now precedes a managed AUTOREMOVE_CONSUMER dependency,

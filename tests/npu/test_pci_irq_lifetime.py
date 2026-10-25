@@ -33,6 +33,7 @@ def run(destination, source):
         'selected-pci-shutdown.inc': function(pci, 'mt7996_pci_shutdown_irqs'),
         'selected-pci-probe.inc': function(pci, 'mt7996_pci_probe'),
         'selected-pci-remove.inc': function(pci, 'mt7996_pci_remove'),
+        'selected-cleanup.inc': function(init, 'mt7996_cleanup_device'),
         'selected-unregister.inc': function(init, 'mt7996_unregister_device')}
     compiler = shutil.which('clang') or shutil.which('gcc')
     assert compiler
@@ -67,9 +68,9 @@ def run(destination, source):
     mutations = (
         ('HIF2-init-error-lost', 'selected-pci-probe.inc', '\t\tret = PTR_ERR(hif2);\n', '\t\tret = 0;\n',
          'HIF2-init-error-propagated-before-resource-setup'),
-        ('missing-NAPI-join-before-token-free', 'selected-unregister.inc', '\tmt76_napi_cleanup(&dev->mt76);\n', '',
+        ('missing-NAPI-join-before-token-free', 'selected-cleanup.inc', '\tmt76_napi_cleanup(&dev->mt76);\n', '',
          'modeled-NPU-NAPI-join-before-token-retirement'),
-        ('missing-unregister-IRQ-join', 'selected-unregister.inc', '\tmt7996_pci_shutdown_irqs(dev);\n', '',
+        ('missing-unregister-IRQ-join', 'selected-cleanup.inc', '\tmt7996_pci_shutdown_irqs(dev);\n', '',
          'PCI-IRQ-close-before-modeled-NPU-close'),
         ('primary-IRQ-left-live', 'selected-pci-shutdown.inc', 'if (!dev->pci_irq[i].requested)',
          'if (i == 0 || !dev->pci_irq[i].requested)', 'IRQ-actions-removed-before-tasklet-join'),
@@ -116,6 +117,7 @@ def run(destination, source):
         sanitizers=['ASan', 'UBSan', 'leak-detection'],
         actual_selected_PCI_probe_remove_IRQ_enable_handler_and_unregister_C=True,
         actual_selected_PCI_shutdown_C=True, complete_RX_NAPI_join=False,
+        actual_selected_cleanup_C=True,
         kernel_concurrency=False, physical_drain=False, hardware=False,
         modeled_boundaries=['PCI/WED/IRQ/vector allocation and devres actions',
             'IRQ masks, register IDs and hardware side effects', 'tasklet execution/join and locks',

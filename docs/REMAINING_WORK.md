@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Cold CPU Cleanup Implemented; Linux And Physical Gates Remain
+
+Cold work construction, early recovery rejection and a shared probe/remove
+cleanup path are implemented. Selected actual C passes608 setups/14 controls
+and separate TSan. All15 current suites pass, including147 tooling tests with
+zero skips. Four modules link with lock88502ab3,18 zero-fuzz outputs and31 mappings;
+original prepared trees and prior cache remain unchanged.
+
+Next qualify work-disable/registration-failure teardown and managed HIF2 unbind
+in actual Linux. The pthread/host fixtures model framework, MCU and DMA effects;
+stage-aware call order does not prove complete cold-prefix physical cleanup.
+Establish current-firmware BA ordering/cookie or a real reuse fence, finish hot
+admission, production retirement/rearm and physical drains, then qualify complete
+native replays, the current full image, cold faults/HIF2 hardware, actual clients,
+performance and stability. The60-second diagnostic-budget question is unanswered;
+old handles are missing, not successful, and no replay was restarted. Continue
+without subagents. Read cold-unwind REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-25 - Actual Linux HIF2 And Complete Cold Unwind Remain
 
 Managed HIF2 binding is implemented: retained-device discovery, qualified link/
