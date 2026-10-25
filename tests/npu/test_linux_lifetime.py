@@ -33,6 +33,11 @@ CONTROLS = {
         ('supplier devres must outlive probing consumer', 'managed dependency must trigger consumer remove')),
     'unbinding-accepted': ('hif_mutation', 2, 'w1700k-linux-hif', 'k_already_unbinding_defers',
         ('an already-unbinding supplier must be rejected',))}
+SMP_CONTROLS = {
+    'work-same-cpu': ('work_mutation', 5, 'w1700k-linux-work', 'k_init_joins',
+        ('cleanup must execute on CPU 1',)),
+    'hif-same-cpu': ('hif_mutation', 3, 'w1700k-linux-hif', 'k_probe_and_remove_join',
+        ('HIF unbind must execute on CPU 1',))}
 
 
 def sha(path):
@@ -58,7 +63,7 @@ def stage(destination, source):
     paths = {name:source / name for name in ('mt7996/init.c', 'mt7996/pci.c',
         'mt7996/mt7996.h', 'mt7996/regs.h', 'mt76.h')}
     files = ('linux-lifetime-work.c', 'linux-lifetime-hif.c', 'linux-lifetime.Kconfig',
-        'linux-lifetime.Makefile', 'linux-lifetime.config')
+        'linux-lifetime.Makefile', 'linux-lifetime.config', 'linux-lifetime-arm64.config')
     inputs = {str(path.resolve()):sha(path) for path in [*paths.values(),
         *[HERE / name for name in files], Path(__file__), Path(cold.__file__),
         Path(hif.__file__), Path(ba.__file__)]}
@@ -110,7 +115,8 @@ def stage(destination, source):
     assert all(sha(Path(name)) == digest for name,digest in inputs.items())
     record = dict(passed=True, staged_only=True, kernel_built=False, kernel_executed=False,
         inputs_sha256=inputs, generated_sha256={path.name:sha(path) for path in destination.iterdir() if path.is_file()},
-        cases=CASES, controls=CONTROLS, selected_actual_C=True, kernel_API_execution_proven=False,
+        cases=CASES, controls=CONTROLS, smp_controls=SMP_CONTROLS,
+        selected_actual_C=True, kernel_API_execution_proven=False,
         modeled_boundaries=['PCI presence, register map, MMIO and bandwidth',
             'radio/mac80211, NAPI/IRQ, TX worker, MCU/DMA and RRO owner effects',
             'primary synthetic bus wrappers around actual HIF helper/probe/remove'], physical_hardware=False)
@@ -118,7 +124,30 @@ def stage(destination, source):
     return record
 
 
-def check_log(destination, log, kunit, mutation=None):
+def check_smp(raw, mutation=None):
+    for parameter in ('work_smp', 'hif_smp'):
+        assert 'w1700k_linux_lifetime.' + parameter + '=1' in raw, 'SMP-parameter-not-observed'
+    controls = {**CONTROLS, **SMP_CONTROLS}
+    names = {controls[mutation][3]} if mutation else {name for group in CASES.values() for name in group}
+    rows = [json.loads(value) for value in re.findall(r'\bW1700K_SMP (\{[^\n]*\})', raw)]
+    assert len(rows) == len(names) and {row['case'] for row in rows} == names, 'SMP-case-markers-missing-or-duplicated'
+    for row in rows:
+        assert type(row['online']) is int and row['online'] == 2, 'SMP-online-CPU-count'
+        assert all(type(row[name]) is int for name in ('callback', 'cleanup', 'probe', 'unbind')
+            if name in row), 'SMP-CPU-ID-type'
+        if row['case'] == 'k_ctor_admission':
+            expected = dict(kind='ctor', case=row['case'], online=2)
+        elif row['case'] in CASES['w1700k-linux-work']:
+            expected = dict(kind='work', case=row['case'], callback=0,
+                cleanup=0 if mutation == 'work-same-cpu' else 1, online=2)
+        else:
+            expected = dict(kind='hif', case=row['case'], probe=0,
+                unbind=0 if mutation == 'hif-same-cpu' else 1, online=2)
+        assert row == expected, ('unexpected-SMP-placement', row, expected)
+    return rows
+
+
+def check_log(destination, log, kunit, mutation=None, require_smp=False):
     assert not destination.exists()
     destination.mkdir(parents=True)
     raw = log.read_text()
@@ -140,16 +169,19 @@ def check_log(destination, log, kunit, mutation=None):
         assert groups == {suite:{name:'PASS' for name in names} for suite,names in CASES.items()}, groups
         assert counts == dict(tests=14, passed=14, failed=0, crashed=0, skipped=0, errors=0), counts
     else:
-        parameter, value, suite, name, messages = CONTROLS[mutation]
+        assert require_smp or mutation not in SMP_CONTROLS, 'SMP-control-requires-SMP-mode'
+        parameter, value, suite, name, messages = {**CONTROLS, **SMP_CONTROLS}[mutation]
         assert 'w1700k_linux_lifetime.' + parameter + '=' + str(value) in raw, 'mutation-parameter-not-observed'
         assert checked.returncode != 0
         assert groups == {suite:{name:'FAIL'}}, groups
         assert any(message in raw for message in messages), ('wrong-control-assertion', mutation)
         assert counts == dict(tests=1, passed=0, failed=1, crashed=0, skipped=0, errors=0), counts
+    smp_rows = check_smp(raw, mutation) if require_smp else []
     record = dict(passed=True, expected_failure=mutation is not None, mutation=mutation, counts=counts,
         groups=groups, command=command, parser_returncode=checked.returncode,
         raw_log_sha256=sha(log), parser_sha256=sha(kunit), parsed_json_sha256=sha(destination / 'parsed.json'),
         runner_sha256=sha(Path(__file__)), KTAP_interpreted=True,
+        SMP_required=require_smp, SMP_observations=smp_rows,
         kernel_execution_must_be_bound_by_outer_runner=True, physical_hardware=False)
     save(destination / 'result.json', record)
     return record
@@ -165,12 +197,14 @@ def main():
     checking.add_argument('--log', type=Path, required=True)
     checking.add_argument('--kunit', type=Path, required=True)
     checking.add_argument('--output', type=Path, required=True)
-    checking.add_argument('--mutation', choices=sorted(CONTROLS))
+    checking.add_argument('--mutation', choices=sorted({**CONTROLS, **SMP_CONTROLS}))
+    checking.add_argument('--require-smp', action='store_true')
     args = parser.parse_args()
     if args.command == 'stage':
         result = stage(args.output.resolve(), args.source_root.resolve())
     else:
-        result = check_log(args.output.resolve(), args.log.resolve(), args.kunit.resolve(), args.mutation)
+        result = check_log(args.output.resolve(), args.log.resolve(), args.kunit.resolve(),
+            args.mutation, args.require_smp)
     print(json.dumps(dict(passed=result['passed'], command=args.command)), flush=True)
 
 

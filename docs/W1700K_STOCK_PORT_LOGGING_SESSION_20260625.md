@@ -1,5 +1,31 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
+
+Continued solo from603c290. Isolated QEMU10.2.1 runtime and GCC14.4.0 build a
+Linux6.18.52 two-Cortex-A53 kernel. All14 selected-C cases pass; six behavior
+and two same-CPU controls fail intended assertions, with zero crashes/errors/
+skips. Twenty synthetic-host verifier units pass separately. Ten work and three
+HIF2 cases record real CPU0/1 placement; constructor admission sees two CPUs.
+Fresh default UP/UML compatibility also passes14/six controls with the same20
+units. Producer15bdee35 retains the original selected-UML cache unchanged.
+
+The first runtime controller remains failed on a truncated KUnit diagnostic
+after14/six controls. Preserve its logs/source bytes and original complete cache.
+Local snapshots shorten assertion text; copied O= rebinding and a fresh full run
+complete all controls. Same stock source/critical overrides, prior UML and
+original ARM64 cache are retained. New400MiB/no-swap jobs keep dual margins/C
+lock; no old budget, VM/global-policy or replay changes. Backup tracking bodies
+on C to avoid duplicate D storage.
+
+Generic virt/reduced types and synthetic PCI/MMIO/radio/MCU/DMA/IRQ/NAPI/owner/TX
+effects remain, not full-module ABI or W1700K/drain/deferred-reprobe proof.
+Production/lock88502ab3/modulesa840d3cc stay; no router image/load/flash. Full
+target/physical MCU-failure/drain, firmware reuse/hot retirement/rearm and
+native/image/hardware/client/performance/stability remain. Old handles absent
+are not successful;60-second raw-boot question unanswered. Read arm64-lifetime
+REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-25 - Linux UML Work And HIF2 Lifetime
 
 Goal turn: progress, not completion. Continued without subagents. Linux6.18.52

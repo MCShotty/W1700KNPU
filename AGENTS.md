@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
+
+- Continue without subagents. Selected current C passes14 cases in Linux6.18.52
+  on two emulated Cortex-A53 CPUs. Ten work joins and three HIF2 cases explicitly
+  record CPU0/1; the constructor checks cold admission with two CPUs online.
+  Six behavior and two same-CPU controls fail their intended assertions;20
+  separate synthetic-host checker units pass. No crashes/errors/skips.
+- Fresh default UP/UML compatibility also passes14/six controls and the same20
+  checker units. Keep per-architecture cases distinct; do not sum repeated units.
+- Real kernel work/scheduler/device-link/driver-core/ref/devres APIs execute.
+  Reduced mt76 types and synthetic PCI/MMIO/radio/MCU/DMA/IRQ/NAPI/owner/TX-worker
+  effects remain. Generic QEMU virt is not the W1700K or whole mt76 module;
+  deferred reprobe, complete target paths and physical retirement stay open.
+- Isolated APT-checksummed QEMU10.2.1, OpenWrt GCC14.4.0, work debugging,400MiB/
+  no swap, existing C lock and dual margins remain explicit. Original source,
+  earlier UML cache and completed first ARM64 cache are retained. The first run
+  fails diagnostic verification on expanded READ_ONCE text; preserved sources,
+  local-snapshot assertions and a copied incremental build yield the fresh pass.
+- Production/patch/lock88502ab3/four modulesa840d3cc stay unchanged. This creates
+  a generic test kernel, not a router image. Full PCI/mac80211/IRQ/NAPI, physical
+  cold/MCU-exit failure/drain, firmware BA reuse/hot retirement/rearm, complete
+  native/image/hardware/client/performance/stability remain. No replay restart,
+  load or flash. Read arm64-lifetime REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-25 - Linux UML Work And HIF2 Lifetime
 
 - Continue without subagents. Actual Linux6.18.52 UML now runs selected driver

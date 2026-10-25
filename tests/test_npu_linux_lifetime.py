@@ -27,7 +27,7 @@ class ResultChecks(unittest.TestCase):
             for suite,names in lifetime.CASES.items()],
             misc=dict(tests=14, passed=14, failed=0, crashed=0, skipped=0, errors=0))
 
-    def run_check(self, record=None, raw=None, mutation=None, returncode=0):
+    def run_check(self, record=None, raw=None, mutation=None, returncode=0, require_smp=False):
         record = self.record if record is None else record
         self.log.write_text(self.raw if raw is None else raw)
 
@@ -37,7 +37,7 @@ class ResultChecks(unittest.TestCase):
             return subprocess.CompletedProcess(command, returncode, 'synthetic checker unit\n', '')
 
         with patch.object(lifetime.subprocess, 'run', side_effect=parsed):
-            return lifetime.check_log(self.output, self.log, self.parser, mutation)
+            return lifetime.check_log(self.output, self.log, self.parser, mutation, require_smp)
 
     def control(self):
         record = dict(sub_groups=[dict(name='w1700k-linux-work',
@@ -106,6 +106,62 @@ class ResultChecks(unittest.TestCase):
         record, raw = self.control()
         with self.assertRaises(AssertionError):
             self.run_check(record, raw, 'cancel-init', 0)
+
+    def smp_raw(self):
+        raw = self.raw + 'w1700k_linux_lifetime.work_smp=1 w1700k_linux_lifetime.hif_smp=1\n'
+        for suite, names in lifetime.CASES.items():
+            for name in names:
+                if name == 'k_ctor_admission':
+                    row = dict(kind='ctor', case=name, online=2)
+                elif suite == 'w1700k-linux-work':
+                    row = dict(kind='work', case=name, callback=0, cleanup=1, online=2)
+                else:
+                    row = dict(kind='hif', case=name, probe=0, unbind=1, online=2)
+                raw += '# W1700K_SMP ' + json.dumps(row) + '\n'
+        return raw
+
+    def test_exact_SMP_observations(self):
+        result = self.run_check(raw=self.smp_raw(), require_smp=True)
+        self.assertTrue(result['SMP_required'])
+        self.assertEqual(len(result['SMP_observations']), 14)
+
+    def test_SMP_parameters_required(self):
+        with self.assertRaisesRegex(AssertionError, 'SMP-parameter-not-observed'):
+            self.run_check(raw=self.smp_raw().replace('hif_smp=1', 'hif_smp=0'), require_smp=True)
+
+    def test_SMP_marker_missing(self):
+        with self.assertRaisesRegex(AssertionError, 'SMP-case-markers'):
+            self.run_check(raw=self.smp_raw().split('# W1700K_SMP ')[0], require_smp=True)
+
+    def test_SMP_marker_duplicate(self):
+        raw = self.smp_raw()
+        with self.assertRaisesRegex(AssertionError, 'SMP-case-markers'):
+            self.run_check(raw=raw + raw.splitlines()[-1] + '\n', require_smp=True)
+
+    def test_SMP_wrong_CPU_rejected(self):
+        with self.assertRaisesRegex(AssertionError, 'unexpected-SMP-placement'):
+            self.run_check(raw=self.smp_raw().replace('"cleanup": 1', '"cleanup": 0'), require_smp=True)
+
+    def test_SMP_bool_CPU_rejected(self):
+        with self.assertRaisesRegex(AssertionError, 'SMP-CPU-ID-type'):
+            self.run_check(raw=self.smp_raw().replace('"unbind": 1', '"unbind": true'), require_smp=True)
+
+    def test_SMP_online_count_rejected(self):
+        with self.assertRaisesRegex(AssertionError, 'SMP-online-CPU-count'):
+            self.run_check(raw=self.smp_raw().replace('"online": 2', '"online": 1'), require_smp=True)
+
+    def test_SMP_same_CPU_control(self):
+        record, _ = self.control()
+        raw = self.raw + 'w1700k_linux_lifetime.work_smp=1 w1700k_linux_lifetime.hif_smp=1\n'
+        raw += 'w1700k_linux_lifetime.work_mutation=5\ncleanup must execute on CPU 1\n'
+        raw += '# W1700K_SMP ' + json.dumps(dict(kind='work', case='k_init_joins',
+            callback=0, cleanup=0, online=2)) + '\n'
+        self.assertTrue(self.run_check(record, raw, 'work-same-cpu', 1, True)['expected_failure'])
+
+    def test_SMP_control_cannot_use_UP_checker(self):
+        record, raw = self.control()
+        with self.assertRaisesRegex(AssertionError, 'SMP-control-requires-SMP-mode'):
+            self.run_check(record, raw, 'work-same-cpu', 1)
 
 
 if __name__ == '__main__':

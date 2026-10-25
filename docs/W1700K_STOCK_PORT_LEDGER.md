@@ -1,5 +1,48 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - ARM64/SMP Work And Managed HIF2 Lifetime
+
+- Continued solo. A Linux6.18.52 ARM64/SMP test kernel runs14 selected-current-C
+  cases on two emulated Cortex-A53 CPUs. Ten work cases explicitly observe
+  callbackCPU0/cleanupCPU1, three HIF2 cases probeCPU0/unbindCPU1, and the cold
+  constructor checks admission. Real workqueues, scheduling, kthreads/completions,
+  device links, driver-core, refs and devres execute. Six behavior and two
+  same-CPU controls fail intended KUnit assertions; no crashes/errors/skips.
+  Twenty separate synthetic-host verifier units pass.
+- Fresh current-source default UP/UML compatibility passes14 cases and six
+  original controls. The same20 units repeat, not additional unique tests.
+  Its producer15bdee35 retains the original selected-UML cache unchanged.
+- WQ_PERCPU plus explicit work queueing and pre-wakeup kthread binding force the
+  intended placement. Actual raw CPU IDs, two online CPUs, both SMP parameters,
+  exact cases/statuses and messages are required. Two topology controls ensure
+  an SMP boot alone cannot satisfy cross-CPU qualification.
+- QEMU10.2.1 is extracted from four APT-checksummed packages onto C scratch;
+  no global install or maintainer scripts. Runtime uses virt-10.2, TCG multi,
+  a32MiB translation buffer,192MiB guest RAM and no network/storage/default
+  devices. Live mappings bind48 executable/library identities. Two missing
+  package changelog links remain explicit documentation aliases.
+- GCC14.4.0 builds the generic kernel with one job/GC parameter5. Same16 critical
+  source files and two exact target overrides are retained.400MiB/no-swap
+  phases keep fresh dual margins and the existing C lock; original jobs/caps/
+  VM/global policies stay. Tracking-body copies are on C, not duplicated on D.
+- First ARM64 run passes14/six controls but refuses the same-CPU work assertion
+  because expanded READ_ONCE text hides its required diagnostic message. The
+  failed controller and consumed sources stay. Short local snapshots preserve
+  the check, a copied/rebound O= cache avoids changing the completed original,
+  and the fresh final run passes14/all eight controls. Original source, earlier
+  UML cache and3684-entry original ARM64 cache remain unchanged.
+- Reduced mt76 types and PCI/MMIO/radio/MCU/DMA/IRQ/NAPI/owner/TX effects remain
+  models. This is not full-module ABI, complete target/SMP schedules, deferred
+  reprobe or physical W1700K proof. Production/patch/lock88502ab3/four modules
+  a840d3cc remain unchanged; new Image8996f4b7 is a generic test kernel, not a
+  router image. Final runtime producerb2deaab2. No host module load or flash.
+- MCU exit failure still has no status propagated to cleanup; DMA disable has
+  no returned idle witness. Full PCI/mac80211/IRQ/NAPI, physical cold/MCU failures/
+  drain/retention, firmware BA reuse/hot retirement/rearm and complete native/
+  router-image/hardware/client/performance/stability remain. Old handles missing
+  are not passes/restarts; the60-second raw-boot question is unanswered.
+  Read arm64-lifetime REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-25 - Linux UML Work And Managed HIF2 Lifetime
 
 - Continued solo. Actual Linux6.18.52 UML executes selected constructor/init/
@@ -162,7 +205,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (Linux UML work/HIF2 qualification; target ARM64 and physical acceptance still open)
+Last updated: 2026-10-25 (selected ARM64/SMP work/HIF2 qualified; full target and physical gates open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

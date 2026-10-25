@@ -3,6 +3,7 @@
 #include <kunit/test.h>
 #include <linux/atomic.h>
 #include <linux/completion.h>
+#include <linux/cpu.h>
 #include <linux/delay.h>
 #include <linux/err.h>
 #include <linux/kthread.h>
@@ -10,6 +11,7 @@
 #include <linux/module.h>
 #include <linux/mutex.h>
 #include <linux/slab.h>
+#include <linux/smp.h>
 #include <linux/spinlock.h>
 #include <linux/wait.h>
 #include <linux/workqueue.h>
@@ -53,6 +55,7 @@ struct mt7996_dev {
 	struct workqueue_struct *test_wq;
 	struct completion entered, release, cleanup_entered, cleanup_done;
 	atomic_t running, invariant_bad, self_queued, self_attempted;
+	int callback_cpu, cleanup_cpu;
 	enum work_kind held;
 	unsigned int retired, mcu_exits, dma_cleanups, late_purges;
 };
@@ -62,11 +65,14 @@ struct mt7996_dev {
 
 static unsigned int work_mutation;
 module_param(work_mutation, uint, 0444);
+static bool work_smp;
+module_param(work_smp, bool, 0444);
 
 static void work_callback(struct mt7996_dev *dev, enum work_kind kind)
 {
 	if (READ_ONCE(dev->held) != kind)
 		return;
+	WRITE_ONCE(dev->callback_cpu, raw_smp_processor_id());
 	atomic_inc(&dev->running);
 	complete(&dev->entered);
 	if (!wait_for_completion_timeout(&dev->release, 10 * HZ))
@@ -162,6 +168,7 @@ static int cleanup_thread(void *data)
 {
 	struct mt7996_dev *dev = data;
 
+	WRITE_ONCE(dev->cleanup_cpu, raw_smp_processor_id());
 	selected_cleanup(dev);
 	complete(&dev->cleanup_done);
 	set_current_state(TASK_INTERRUPTIBLE);
@@ -175,16 +182,22 @@ static int cleanup_thread(void *data)
 
 static struct mt7996_dev *fixture_new(bool registered)
 {
-	struct mt7996_dev *dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+	struct mt7996_dev *dev;
 
+	if (work_smp && (!IS_ENABLED(CONFIG_SMP) || !cpu_online(0) || !cpu_online(1)))
+		return NULL;
+	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
 	if (!dev)
 		return NULL;
+	dev->callback_cpu = -1;
+	dev->cleanup_cpu = -1;
 	init_completion(&dev->entered);
 	init_completion(&dev->release);
 	init_completion(&dev->cleanup_entered);
 	init_completion(&dev->cleanup_done);
 	INIT_DELAYED_WORK(&dev->mt76.scan_work, model_scan_work);
-	dev->test_wq = alloc_ordered_workqueue("w1700k-lifetime", 0);
+	dev->test_wq = work_smp ? alloc_workqueue("w1700k-lifetime", WQ_PERCPU, 1) :
+		alloc_ordered_workqueue("w1700k-lifetime", 0);
 	if (!dev->test_wq) {
 		kfree(dev);
 		return NULL;
@@ -247,6 +260,9 @@ static void k_ctor_admission(struct kunit *test)
 	KUNIT_EXPECT_EQ(test, dev->mcu_exits, 0U);
 	KUNIT_EXPECT_EQ(test, dev->dma_cleanups, 0U);
 	KUNIT_EXPECT_EQ(test, dev->mt76.mcu.res_q, 0U);
+	if (work_smp)
+		pr_info("# W1700K_SMP {\"kind\":\"ctor\",\"case\":\"%s\",\"online\":%u}\n",
+			test->name, num_online_cpus());
 	fixture_free(dev, false);
 }
 
@@ -266,6 +282,7 @@ static void run_join_case(struct kunit *test, enum work_kind kind)
 	struct task_struct *task = NULL;
 	unsigned long deadline;
 	bool queued, after;
+	int callback_cpu, cleanup_cpu;
 	unsigned int retired;
 
 	KUNIT_ASSERT_NOT_NULL(test, dev);
@@ -283,13 +300,26 @@ static void run_join_case(struct kunit *test, enum work_kind kind)
 	default: fixture_free(dev, true); KUNIT_FAIL(test, "invalid work kind"); return;
 	}
 	WRITE_ONCE(dev->held, kind);
-	queued = delayed ? queue_delayed_work(dev->test_wq, delayed, 0) : queue_work(dev->test_wq, work);
+	if (work_smp)
+		queued = delayed ? queue_delayed_work_on(0, dev->test_wq, delayed, 0) :
+			queue_work_on(0, dev->test_wq, work);
+	else
+		queued = delayed ? queue_delayed_work(dev->test_wq, delayed, 0) :
+			queue_work(dev->test_wq, work);
 	KUNIT_EXPECT_TRUE(test, queued);
 	if (!queued || !wait_for_completion_timeout(&dev->entered, 5 * HZ)) {
 		KUNIT_FAIL(test, "work callback did not enter");
 		goto out;
 	}
-	task = kthread_run(cleanup_thread, dev, "w1700k-cleanup");
+	if (work_smp) {
+		task = kthread_create(cleanup_thread, dev, "w1700k-cleanup");
+		if (!IS_ERR(task)) {
+			kthread_bind(task, work_mutation == 5 ? 0 : 1);
+			wake_up_process(task);
+		}
+	} else {
+		task = kthread_run(cleanup_thread, dev, "w1700k-cleanup");
+	}
 	if (IS_ERR(task)) {
 		KUNIT_FAIL(test, "cleanup kthread creation failed");
 		task = NULL;
@@ -311,6 +341,14 @@ static void run_join_case(struct kunit *test, enum work_kind kind)
 	}
 	kthread_stop(task);
 	task = NULL;
+	if (work_smp) {
+		callback_cpu = READ_ONCE(dev->callback_cpu);
+		cleanup_cpu = READ_ONCE(dev->cleanup_cpu);
+		KUNIT_EXPECT_EQ_MSG(test, callback_cpu, 0, "held work must execute on CPU 0");
+		KUNIT_EXPECT_EQ_MSG(test, cleanup_cpu, 1, "cleanup must execute on CPU 1");
+		pr_info("# W1700K_SMP {\"kind\":\"work\",\"case\":\"%s\",\"callback\":%d,\"cleanup\":%d,\"online\":%u}\n",
+			test->name, callback_cpu, cleanup_cpu, num_online_cpus());
+	}
 	KUNIT_EXPECT_EQ_MSG(test, atomic_read(&dev->invariant_bad), 0, "resources must outlive held callback");
 	KUNIT_EXPECT_EQ(test, atomic_read(&dev->self_queued), 0);
 	WRITE_ONCE(dev->held, WK_NONE);

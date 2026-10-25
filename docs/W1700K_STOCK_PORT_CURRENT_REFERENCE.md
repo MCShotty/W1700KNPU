@@ -1,5 +1,30 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Selected ARM64/SMP Work And Managed HIF2 Qualification
+
+Actual Linux6.18.52 on two emulated Cortex-A53 CPUs passes14 selected-C cases.
+Ten held-work joins record callbackCPU0/cleanupCPU1; three HIF2 cases record
+probeCPU0/unbindCPU1. The remaining constructor checks cold admission. Six
+behavior and two same-CPU controls fail intended KUnit assertions without
+crashes/errors/skips. Twenty synthetic-host verifier units pass separately.
+Fresh default UP/UML compatibility passes14/six controls with the same20 units;
+its producer is arm64-lifetime-compat-q9, SHA15bdee35.
+
+QEMU virt-10.2 and reduced mt76 models do not qualify full target-module ABI,
+real PCI/MMIO/radio/MCU/DMA/IRQ/NAPI/NPU-owner/TX internals, deferred reprobe or
+W1700K physical retirement. Real work/scheduler/driver-core/link/ref/devres APIs
+execute. GCC14.4.0 builds the generic test kernel; it is not a router image.
+Producer: '.local/npu-build-scratch/native-c2/arm64-lifetime-run-q7/result.json'.
+Image8996f4b7; producerb2deaab2. Firmware lock88502ab3/modulesa840d3cc stay.
+
+Retain the first diagnostic-verifier failure, intermediate sources and original
+completed cache. Short local assertion operands repair READ_ONCE string
+truncation; a copied incremental build and fresh whole run complete all controls.
+Original source/prior caches remain. Full target/physical cold-MCU failure/drain,
+firmware reuse/hot retirement/rearm and native/router-image/hardware/client/
+performance/stability gates remain. No old replay restart/load/flash.
+Read arm64-lifetime REPORT/EVIDENCE; continue solo, full goal active.
+
 ## 2026-10-25 - Linux UML Work And Managed HIF2 Qualification
 
 Actual Linux6.18.52 UML executes selected constructor/init/cleanup and HIF2

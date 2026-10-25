@@ -1,5 +1,21 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
+
+Selected current C now passes14 cases inside Linux6.18.52 on two emulated
+Cortex-A53 CPUs. Ten work cases and three HIF2 cases require actual CPU0/1
+observations; the constructor checks cold admission. Six behavior controls and
+two same-CPU controls fail as intended. Twenty separate verifier units pass.
+The shared fixtures also pass a fresh default UP/UML run:14 cases/six controls.
+
+This exercises real Linux workqueue, scheduler and driver-core lifetime APIs,
+not the complete mt76 driver or W1700K hardware. Reduced types and synthetic
+PCI/MMIO/radio/MCU/DMA/IRQ/NAPI/owner boundaries remain. Production source, the
+firmware lock and four existing modules stay unchanged; no router image or flash.
+Physical drains, full target/native/hot lifetime, hardware and actual-client
+qualification remain. Continued solo.
+See [checkpoint](research/checkpoints/2026-10-25-npu-arm64-lifetime/REPORT.md).
+
 ## 2026-10-25 - Linux UML Work And HIF2 Lifetime
 
 Selected driver code now passes14 cases inside an actual Linux6.18.52 UML

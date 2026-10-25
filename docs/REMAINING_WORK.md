@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Selected ARM64/SMP Paths Qualified; Full Target And Physical Gates Open
+
+Selected work/HIF2 C passes14 cases in a two-Cortex-A53 Linux6.18.52 guest,
+including13 explicit cross-CPU cases and cold admission. Six behavior plus two
+topology controls fail intentionally;20 synthetic-host verifier units pass.
+Real Linux scheduler/workqueue/driver-core APIs replace the previous UP-only
+assumption for these paths. This is not complete target or physical proof.
+Fresh current-source default UP/UML also passes14/six controls; the20 verifier
+units repeat without being counted as additional unique tests.
+
+Next finish full PCI/mac80211/IRQ/NAPI lifetime, physical cold/MCU-exit failures
+and a real drain/retention contract. MCU exit does not return failure status to
+cleanup; DMA disable does not return an idle witness. The new lower-layer models
+cannot validate that contract. Establish current-firmware BA ordering/cookies or
+a reuse fence; finish hot admission, production retirement and rearm. Complete
+native replays, the current router image, hardware/cold faults/HIF2, actual
+clients, performance and stability. Lock88502ab3/modulesa840d3cc stay; no
+production change, router image/load/flash or original replay restart.
+The60-second raw-boot question is still unanswered. Continue solo; read
+arm64-lifetime REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-25 - Linux UML Paths Qualified; Full Target And Physical Gates Remain
 
 Selected work/HIF2 C now runs in actual Linux6.18.52 UML:14 cases, six intended

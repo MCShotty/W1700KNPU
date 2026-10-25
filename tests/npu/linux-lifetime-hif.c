@@ -3,6 +3,7 @@
 #include <kunit/test.h>
 #include <linux/atomic.h>
 #include <linux/completion.h>
+#include <linux/cpu.h>
 #include <linux/delay.h>
 #include <linux/device.h>
 #include <linux/err.h>
@@ -10,6 +11,7 @@
 #include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/slab.h>
+#include <linux/smp.h>
 #include <linux/spinlock.h>
 
 #include "selected-HIF-types.inc"
@@ -28,6 +30,7 @@ struct hif_fixture {
 	atomic_t sequence;
 	unsigned int consumer_remove_seq, supplier_free_seq;
 	int helper_result, probe_result, add_result;
+	int probe_cpu, unbind_cpu;
 	bool hold_probe, hold_consumer_remove, hold_supplier_remove, fail_probe, late_case;
 	bool supplier_added, consumer_added, supplier_initialized, consumer_initialized;
 	bool supplier_driver_added, consumer_driver_added, bus_added;
@@ -35,6 +38,8 @@ struct hif_fixture {
 static struct hif_fixture *active_fixture;
 static unsigned int hif_mutation;
 module_param(hif_mutation, uint, 0444);
+static bool hif_smp;
+module_param(hif_smp, bool, 0444);
 static LIST_HEAD(hif_list);
 static DEFINE_SPINLOCK(hif_lock);
 static u32 hif_idx;
@@ -138,6 +143,7 @@ static int consumer_probe(struct device *dev)
 	struct hif_fixture *fixture = dev->platform_data;
 	struct mt7996_hif *hif;
 
+	WRITE_ONCE(fixture->probe_cpu, raw_smp_processor_id());
 	switch (hif_mutation) {
 	case 1: hif = mt7996_pci_init_hif2_no_link(&fixture->consumer); break;
 	case 2: hif = mt7996_pci_init_hif2_no_state(&fixture->consumer); break;
@@ -198,15 +204,31 @@ static int unbind_thread(void *data)
 {
 	struct hif_fixture *fixture = data;
 
+	WRITE_ONCE(fixture->unbind_cpu, raw_smp_processor_id());
 	complete(&fixture->unbind_started);
 	device_release_driver(&fixture->supplier.dev);
 	complete(&fixture->unbind_done);
 	park_until_stop();
 	return 0;
 }
+static struct task_struct *start_hif_thread(int (*function)(void *), void *data,
+					   const char *name, unsigned int cpu)
+{
+	struct task_struct *task;
+
+	if (!hif_smp)
+		return kthread_run(function, data, "%s", name);
+	task = kthread_create(function, data, "%s", name);
+	if (!IS_ERR(task)) {
+		kthread_bind(task, cpu);
+		wake_up_process(task);
+	}
+	return task;
+}
+
 static bool start_probe(struct hif_fixture *fixture)
 {
-	fixture->probe_task = kthread_run(probe_thread, fixture, "w1700k-probe");
+	fixture->probe_task = start_hif_thread(probe_thread, fixture, "w1700k-probe", 0);
 	if (!IS_ERR(fixture->probe_task))
 		return true;
 	fixture->probe_task = NULL;
@@ -214,7 +236,7 @@ static bool start_probe(struct hif_fixture *fixture)
 }
 static bool start_unbind(struct hif_fixture *fixture)
 {
-	fixture->unbind_task = kthread_run(unbind_thread, fixture, "w1700k-unbind");
+	fixture->unbind_task = start_hif_thread(unbind_thread, fixture, "w1700k-unbind", hif_mutation == 3 ? 0 : 1);
 	if (!IS_ERR(fixture->unbind_task))
 		return true;
 	fixture->unbind_task = NULL;
@@ -227,6 +249,7 @@ static bool waited(struct completion *completion)
 static void fixture_dispose(struct kunit *test, struct hif_fixture *fixture)
 {
 	bool released = true;
+	int probe_cpu, unbind_cpu;
 
 	complete_all(&fixture->allow_probe);
 	complete_all(&fixture->allow_consumer_remove);
@@ -235,6 +258,14 @@ static void fixture_dispose(struct kunit *test, struct hif_fixture *fixture)
 		kthread_stop(fixture->probe_task);
 	if (fixture->unbind_task)
 		kthread_stop(fixture->unbind_task);
+	if (hif_smp) {
+		probe_cpu = READ_ONCE(fixture->probe_cpu);
+		unbind_cpu = READ_ONCE(fixture->unbind_cpu);
+		KUNIT_EXPECT_EQ_MSG(test, probe_cpu, 0, "HIF probe must execute on CPU 0");
+		KUNIT_EXPECT_EQ_MSG(test, unbind_cpu, 1, "HIF unbind must execute on CPU 1");
+		pr_info("# W1700K_SMP {\"kind\":\"hif\",\"case\":\"%s\",\"probe\":%d,\"unbind\":%d,\"online\":%u}\n",
+			test->name, probe_cpu, unbind_cpu, num_online_cpus());
+	}
 	if (fixture->consumer_added)
 		device_unregister(&fixture->consumer.dev);
 	else if (fixture->consumer_initialized)
@@ -262,11 +293,18 @@ static void fixture_dispose(struct kunit *test, struct hif_fixture *fixture)
 }
 static struct hif_fixture *fixture_create(struct kunit *test)
 {
-	struct hif_fixture *fixture = kzalloc(sizeof(*fixture), GFP_KERNEL);
+	struct hif_fixture *fixture;
 	int error;
 
+	if (hif_smp && (!IS_ENABLED(CONFIG_SMP) || !cpu_online(0) || !cpu_online(1))) {
+		KUNIT_FAIL(test, "two online CPUs are required for the HIF SMP fixture");
+		return NULL;
+	}
+	fixture = kzalloc(sizeof(*fixture), GFP_KERNEL);
 	if (!fixture)
 		return NULL;
+	fixture->probe_cpu = -1;
+	fixture->unbind_cpu = -1;
 #define INIT_GATE(name) init_completion(&fixture->name)
 	INIT_GATE(probe_entered); INIT_GATE(allow_probe); INIT_GATE(probe_done);
 	INIT_GATE(consumer_remove_entered); INIT_GATE(allow_consumer_remove);
