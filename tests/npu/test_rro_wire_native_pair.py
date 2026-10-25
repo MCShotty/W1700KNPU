@@ -906,12 +906,32 @@ def inputs_for(manifest, evidence, pair, evidence_path):
     return inputs
 
 
+def select_output_root(candidate):
+    if candidate is None:
+        return OUTPUT
+    path = Path(candidate)
+    path = path if path.is_absolute() else ROOT / path
+    resolved = path.resolve(strict=True)
+    if (path != resolved or not resolved.is_relative_to(ROOT / '.local') or
+            not resolved.is_dir() or not os.access(resolved, os.W_OK)):
+        raise ValueError('output root must be an existing writable unaliased private project directory')
+    filesystem = subprocess.check_output(['findmnt', '-n', '-o', 'FSTYPE', '--target', str(resolved)], text=True).strip()
+    if filesystem not in ('ext4', 'xfs', 'btrfs', 'overlay'):
+        raise ValueError('native Linux output storage is required')
+    return resolved
+
+
 def main():
+    global Pair
     parser = argparse.ArgumentParser()
     parser.add_argument('--pair', type=Path, required=True)
     parser.add_argument('--host-evidence', type=Path, required=True,
                         help='Current passing host-q2 session result.json, with exact input hashes')
     parser.add_argument('--name', required=True)
+    parser.add_argument('--native-cold-receipt', type=Path,
+                        help='Explicit source-bound native read/cold-observer build receipt; default keeps the reference backend')
+    parser.add_argument('--output-root', type=Path,
+                        help='Existing writable unaliased native Linux directory under project .local')
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name)
     pair, evidence_path = args.pair.resolve(), args.host_evidence.resolve()
@@ -922,8 +942,26 @@ def main():
     assert manifest['inputs'].get(str(HELPER.relative_to(ROOT))) == file_hash(HELPER) == HELPER_SHA256, \
         'pair must capture the frozen new C oracle source'
     evidence = host_evidence(evidence_path)
+    native_adapter = None
+    if args.native_cold_receipt is not None:
+        import native_cold_observer
+        receipt_path = args.native_cold_receipt.resolve(strict=True)
+        native_module = native_cold_observer.load_reviewed(receipt_path)
+        build = json.loads(receipt_path.read_bytes())
+        Pair = native_cold_observer.make_pair_type(Pair, native_module)
+        native_adapter = dict(build_receipt=str(receipt_path.relative_to(ROOT)),
+            build_receipt_sha256=file_hash(receipt_path), extension=build['extension'],
+            cold_observer_API=native_module.COLD_OBSERVER_API_VERSION,
+            per_engine_GIL_attached_emulation=True, instruction_and_timeout_limits_unchanged=True)
     inputs = inputs_for(manifest, evidence, pair, evidence_path)
-    destination = OUTPUT / args.name
+    if native_adapter is not None:
+        for absolute, expected in {**build['inputs'], **build['headers'],
+                build['extension']['path']:build['extension']['sha256'], str(receipt_path):file_hash(receipt_path)}.items():
+            name = str(Path(absolute).relative_to(ROOT))
+            assert name not in inputs or inputs[name] == expected, ('incompatible adapter input', name)
+            inputs[name] = expected
+        verify_inputs(inputs)
+    destination = select_output_root(args.output_root) / args.name
     destination.mkdir(parents=True, exist_ok=False)
     binary, command = build_oracle(destination)
     rows = []
@@ -956,6 +994,9 @@ def main():
                      journal_comparison_bytes=30356, journals_saved_per_profile=1,
                      comparison='complete bytes online, per-RPC and rolling SHA256 retained'),
         actual_raw_pair=True, actual_mailbox_broker=True, actual_raw_boots=3,
+        native_cold_adapter=native_adapter,
+        raw_boot_limits=dict(instructions_per_run=3000000,
+            timeout_us=int(os.environ.get('NPU_EMULATION_TIMEOUT_US', '10000000'))),
         physical_IRQ_entry=False, MCU_authenticated=False, hardware=False,
         whole_cold_setup=False, physical_retirement=False,
         scope=['Raw CODE/DATA bytes supply every executed base/RRO instruction and boot-owned RRO BSS.',

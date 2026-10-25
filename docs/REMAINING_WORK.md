@@ -1,5 +1,27 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Profile2 Boot Prefix Passes; First Publication Remains Open
+
+The fresh actual raw profile2 prefix now completes under the existing3M/10s
+per-run bounds, with1136899 observed instructions. Plan/discovery/status/server/
+cold enrollment and the first138 RPC transcripts match retained evidence.
+An opt-in host-only adapter preserves every per-PC/block/site count, fresh CSR/
+instruction/SP reads, dynamic return/mode guards and exact-code cache misses.
+Plain/UBSan each pass56 units, seven compiled controls fail as intended, and
+fresh tooling passes167/zero skips. These are not complete native replay proof.
+
+First PUBLISH still times out at0x841049ee under100M/60s, after24576 writes and
+14889/24576 readbacks. Next reduce remaining faithful RPC observation overhead
+and complete all three native profiles, including their failure/reset controls.
+The proposed longer boot budget was not used; neither old replay restarted.
+Current public CLI enables the adapter only with an explicit source-bound
+receipt and supports an existing private native-Linux output root.
+
+Full target/physical cold MCU-exit failure and queue/page-pool retention/drain,
+current-firmware BA reuse, hot admission/retirement/rearm, current image, router/
+actual-client, performance and stability gates remain. Lock88502ab3/modules
+a840d3cc stay unchanged. No hardware/load/flash. Read native-cold-observer.
+
 ## 2026-10-25 - Host Read Adapter Qualified; Native Boot Gate Still Open
 
 Fresh C-backed word reads pass32 API/CSR checks per plain/UBSan variant;167

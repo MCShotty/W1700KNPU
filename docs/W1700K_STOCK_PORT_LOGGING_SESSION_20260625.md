@@ -1,5 +1,24 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - Native Cold Observer And Retained Publication Failure
+
+Continued solo from6e9a0c1. Explicit source-bound cold observer API3 retains
+per-PC/tick/CSR/instruction and dynamic-guard semantics at the original hook
+position. Cached RPC blocks retain counts and fresh SP; misses remain reference.
+The same GIL-attached native emulation entry retains original count/time limits.
+Plain/UBSan each pass56 adapter units; seven compiled controls fail intended
+assertions. Actual19517-instruction reset traces match40 regions/registers/
+events/counters; fresh tooling167/zero skips. These repeat across variants,
+not112 unique cases. Earlier failures and consumed versions remain preserved.
+
+Fresh profile2 prefix completes with1136899 observed instructions and138 RPCs
+match retained evidence. First PUBLISH still fails100M/60s at0x841049ee after
+24576 writes and14889 readbacks. Boot3M/10s remains; no longer-budget use or
+old replay restart. Complete native replay and physical/reuse/hot/image/client
+gates stay open. Protected inventories, lock/patch/four modules stay unchanged.
+All new phases retain400MiB/no-swap, C lock and dual backing/RAM margins. No
+router image/load/contact/flash. Read native-cold-observer REPORT/EVIDENCE.
+
 ## 2026-10-25 - Native Word Reader And Unchanged Boot Timeout
 
 Continued solo from7f88c65. Host reader API version2 adds fresh checked u32

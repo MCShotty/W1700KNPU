@@ -1,5 +1,32 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Source-Bound Observer Completes Raw Profile2 Prefix
+
+From6e9a0c1, host-only cold observer API3 fuses the reviewed ordinary-PC hook
+chain without dropping counts, tick, fresh CSR/instruction reads or dynamic
+mode/stop/allocation-return effects. Cached RPC blocks retain every block/site
+increment and fresh SP; original miss checks and hook registration positions stay.
+The same native emulation API receives unchanged limits with the caller GIL
+attached. This is a qualified single-emulator-thread profile, not general
+concurrent Unicorn support. Default replay remains the reference backend.
+
+Build cold-observer-build-q23 passes32 read/CSR and24 observer units per plain/
+UBSan variant; controls-q28 detects seven compiled defects. Finite-q25 compares
+all40 regions/registers/events across19517 actual raw instructions exactly.
+Fresh tooling/checker167/zero skips; previous kernel producers checked, not rerun.
+
+Probe-q24 completes the1136899-instruction profile2 prefix and matches retained
+plan/discovery/status/server/cold enrollment plus138 RPC transcripts. First
+PUBLISH remains failed at0x841049ee:24576 writes,14889/24576 readbacks, unchanged
+100M/60s. Boot3M/10s remains; longer proposal unused. Earlier failed probes and
+intermediate source/builds remain, including the corrected test-only translated-
+cache setup issue. No full native verdict follows from the successful prefix.
+
+Lock88502ab3/patchbb457928/modulesa840d3cc and five protected inventories stay.
+No production build, router image/load/contact/flash or old replay restart.
+Full native/physical MCU-drain/reuse/hot/image/client gates remain. Read
+research/checkpoints/2026-10-25-npu-native-cold-observer/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-25 - Native Word Reader And Failed Supplemental Raw Boot
 
 From7f88c65, reader API version2 adds fresh little-endian u32 reads through the

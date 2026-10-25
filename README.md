@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - Native Cold Prefix Advances
+
+A source-bound, opt-in host observer now completes the actual raw profile2
+prefix under the original boot limits and matches the retained138 RPCs.
+Plain and UBSan each pass56 adapter units; seven compiled controls detect
+deliberately broken behavior. The broader tooling suite passes167, zero skips.
+
+The first RRO publication still times out: all24576 writes complete, but only
+14889/24576 readbacks finish within the unchanged60-second RPC limit. This is
+progress, not a full native or hardware pass. Production firmware/lock/modules
+are unchanged; no image or flash. Continued solo. See the
+[scoped report](research/checkpoints/2026-10-25-npu-native-cold-observer/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-25 - Native Word Reader And Remaining Boot Frontier
 
 The explicit host-only read adapter now supports fresh four-byte guest reads.

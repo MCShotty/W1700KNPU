@@ -1,0 +1,647 @@
+{
+  "goal_turn_classification": "progress",
+  "base_commit": "6e9a0c156d65744d1d28c2b031232c62586e19b8",
+  "scope": "Host observer qualification and raw profile2 prefix progress; first publication remains failed",
+  "read_API_version": 2,
+  "cold_observer_API_version": 3,
+  "plain_and_UBSan": true,
+  "API_CSR_units_per_variant": 32,
+  "observer_units_per_variant": 24,
+  "unique_adapter_unit_methods": 56,
+  "compiled_intended_failure_controls": 7,
+  "tooling_checker_units": 167,
+  "no_skips_in_passing_suites": true,
+  "repeated_variants_not_additional_unique_tests": true,
+  "fresh_CSR_instruction_SP_reads": true,
+  "per_PC_block_site_counts_retained": true,
+  "cache_misses_keep_reference_checks": true,
+  "default_replay_reference_backend": true,
+  "explicit_source_bound_opt_in": true,
+  "finite_actual_raw_instructions": 19517,
+  "finite_compared_memory_regions": 40,
+  "finite_transcript_sha256": "8add6704554cdb085bd6dd4bb31a559abe4de0e29625ed266402b7da5ceb80a8",
+  "raw_profile2_prefix_passed": true,
+  "raw_profile2_observed_instructions": 1136899,
+  "raw_profile2_fast_dispatch": 1131289,
+  "raw_profile2_reference_dispatch": 5610,
+  "retained_positive_RPC_transcripts_matched": 138,
+  "retained_cold_gate_records_matched": 2,
+  "first_publication_passed": false,
+  "first_publication_terminal_PC": 2215660014,
+  "first_publication_counts": {
+    "blocks": 5892245,
+    "metadata_writes": 603896,
+    "payload_reads": 259,
+    "mailbox_veneer": 1,
+    "mailbox_binding": 1,
+    "table_writes": 1,
+    "table_reads": 1,
+    "extent_writes": 24576,
+    "extent_reads": 14889
+  },
+  "boot_per_run_instruction_bound": 3000000,
+  "boot_per_run_timeout_us": 10000000,
+  "RPC_instruction_bound": 100000000,
+  "RPC_timeout_us": 60000000,
+  "proposed_longer_raw_boot_budget_used": false,
+  "failed_receipts_and_consumed_sources_retained": true,
+  "per_engine_GIL_attached_emulation": true,
+  "general_multi_threaded_Unicorn_qualified": false,
+  "source_lock_sha256": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+  "production_inputs_unchanged": true,
+  "retained_module_producer": ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json",
+  "retained_module_producer_sha256": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f",
+  "retained_module_hashes": {
+    "mt76.ko": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+    "mt76-connac-lib.ko": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3",
+    "mt7996/mt7996e.ko": "af458b048f32b015e550dc523f3706d00b5a650030e000c0bbf878f4186045bb",
+    "airoha_npu.ko": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+  },
+  "complete_protected_directory_inventories_unchanged": true,
+  "prior_kernel_producers_revalidated_not_reexecuted": true,
+  "original_replays_restarted": false,
+  "fresh_production_build": false,
+  "router_image_built": false,
+  "module_loaded": false,
+  "router_contact": false,
+  "physical_retirement": false,
+  "firmware_BA_reuse": false,
+  "hot_operation": false,
+  "full_native_verdict": false,
+  "full_target_driver_lifetime": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "no_subagents": true,
+  "private_evidence": ".local/npu-build-scratch/native-c2/cold-observer-seal-q32/evidence-q32.json",
+  "private_evidence_sha256": "959db4a1b3069b66de72a2a8ed5a9a551aff70cbd4af2ff76a307f7dfcd1286e",
+  "project_flat_bindings": 57349,
+  "external_bindings": 3,
+  "selected_inherited_runtime_external_bindings": 48,
+  "inherited_project_flat_bindings": 57027,
+  "inherited_external_bindings": 2,
+  "bound_directory_inventories": {
+    ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src": {
+      "entries": 91236,
+      "sha256": "83e832d8071cd2de382320390195f56c58116af14931755f0d55d26fefe59f18",
+      "method": "test_rro_reset_modules.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/stock-source.json",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src"
+    },
+    ".local/npu-build-scratch/native-c2/linux-lifetime-boot-q4/build": {
+      "entries": 101408,
+      "sha256": "d9de98e65d31fb95f9e8ba0d9eda98e819cad8c3e196a2f20e927066793fda51",
+      "method": "cache_inventory_q6.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/old-UML-cache.json",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src"
+    },
+    ".local/npu-build-scratch/native-c2/arm64-lifetime-build-q3/build": {
+      "entries": 3684,
+      "sha256": "e50144e6a741d6c820821247f6e8358b929bd835abb158e8b54963ee852b8e05",
+      "method": "cache_inventory_q6.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/old-ARM-cache.json",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src"
+    },
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q5/build": {
+      "entries": 2733,
+      "sha256": "d8462e6a1c79e6b4d7bf1a3ca9a2f0560a7178d4bc40fddde48a1441e01f7c56",
+      "method": "cache_inventory_q6.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/selected-UML-cache.json",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src"
+    },
+    ".local/npu-build-scratch/native-c2/arm64-lifetime-build-q6/build": {
+      "entries": 3684,
+      "sha256": "c7f101f8dd2b8d367f696dc26048ec38d87dbc842a364e15f321dd80648b23cc",
+      "method": "cache_inventory_q6.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/current-ARM-cache.json",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src"
+    }
+  },
+  "inventory_counts_not_deduplicated_or_flattened": true,
+  "source_versions": {
+    "tests/npu/linux-lifetime-work.c": [
+      {
+        "sha256": "9e6e185a15cc07dce8dbd15967c50d653deb2ce5739b900a60812b2aecfed023",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-tests/tests/npu/linux-lifetime-work.c"
+      },
+      {
+        "sha256": "fb1e442b1e7c512499f6fc181b22086ea06821f0984edf6316dbb451ef2834b7",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-diagnostic-q5/tests/npu/linux-lifetime-work.c"
+      }
+    ],
+    "tests/npu/linux-lifetime-hif.c": [
+      {
+        "sha256": "b4c73cb839549da3e70f9badaa2c2cd3787a3b7f131ac10beeb728589da4e11e",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-tests/tests/npu/linux-lifetime-hif.c"
+      },
+      {
+        "sha256": "51032988374ca0aa5d8e8ceae07b55b1791c815e38f3f5f330a83dc10ad8c8b9",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-diagnostic-q5/tests/npu/linux-lifetime-hif.c"
+      }
+    ],
+    "tests/npu/test_linux_lifetime.py": [
+      {
+        "sha256": "5ff71b7aac9e751acb7bb821fa6ca0f26bcda6cf02f7202d21cae8cf222be921",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-tests/tests/npu/test_linux_lifetime.py"
+      }
+    ],
+    "tests/test_npu_linux_lifetime.py": [
+      {
+        "sha256": "cfa60f756921cb4dee21bd38277f5bbb9e8c346d8f6b8c4d8e7ef6a85ed89ed0",
+        "preserved_path": ".local/npu-arm64-lifetime-20261025/before-tests/tests/test_npu_linux_lifetime.py"
+      }
+    ],
+    "AGENTS.md": [
+      {
+        "sha256": "bcfb8f6112986b81e00a15999c6721771a24bdba227d6fa0019ffe887be4d938",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/AGENTS.md"
+      },
+      {
+        "sha256": "0071ffd4444e1ecb7d47f01e47db0bd058a281bf71a97809762bd365dd52ec85",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/AGENTS.md"
+      },
+      {
+        "sha256": "4f615a35a4d91980b7a2a029b13bbd2f06ab5d4c1b74b0f712f4fbe347dd8291",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/AGENTS.md"
+      }
+    ],
+    "README.md": [
+      {
+        "sha256": "53441b2f27a3c5e0959631936bd036a031d52d57157c421f0279ff281a93e668",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/README.md"
+      },
+      {
+        "sha256": "e6c3095632284485b163f84597107bc765350fc81adbbd16d97a24eaed8fc262",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/README.md"
+      },
+      {
+        "sha256": "8a434fcc08e1e635577fac62fb921c059d3959901dfa5e43529304d0af18a9fb",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/README.md"
+      }
+    ],
+    "docs/REMAINING_WORK.md": [
+      {
+        "sha256": "ec79fae5ca8e1aabbf486fc0513affc1e62d97fcd7e9d4a5a2aafd41f7371c7e",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/docs/REMAINING_WORK.md"
+      },
+      {
+        "sha256": "c49519cae5bbedab8a443fe7fb3f0eddd274191c9714a698a389367e193b9d1d",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/docs/REMAINING_WORK.md"
+      },
+      {
+        "sha256": "630fa22dff1d9212b52686cea7e745e3e7c212db436d08b2afb262dc87836032",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/REMAINING_WORK.md"
+      }
+    ],
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": [
+      {
+        "sha256": "7ba58f7ed4c673666fbf0206d2919fa76cecadd53323827fc10c08d758e39553",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+      },
+      {
+        "sha256": "fe852a26d7c5d8d5683713b52aa3dcffaae2ac017f0e55c231b1ca27f2e744be",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+      },
+      {
+        "sha256": "d8dd96cd2cb991b181e75ff8767863212e1e63dda2f900326dc76d272ac9dcee",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+      }
+    ],
+    "docs/W1700K_STOCK_PORT_LEDGER.md": [
+      {
+        "sha256": "23a73ff9a4d2c08a2229f6108eb458cb6f03ecef2e208857d1342280b2e27851",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+      },
+      {
+        "sha256": "d315cbc77d3fa657852c8c41d1b07d81a8e4f9c30de49c094fe7c9cd1eeae866",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+      },
+      {
+        "sha256": "1af4951eb9a3f4112e92ff92236df055a3c33682c779597598f3c12fce6921c5",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+      }
+    ],
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": [
+      {
+        "sha256": "f62a4f7896ec79aa9180e9f299865dc418f72e760a9ba4767f6439023dc6bb77",
+        "preserved_path": ".local/npu-build-scratch/native-c2/arm64-lifetime-docs-q8/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+      },
+      {
+        "sha256": "af9a62457cd2717afa3abf922465453e6375940bc521667909f3a2a3e4786699",
+        "preserved_path": ".local/npu-build-scratch/native-c2/read-memory-audit-q5/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+      },
+      {
+        "sha256": "91728aba73e7101050142db2d1dc61b9e2d7777f3719a1de2b864afd860c4fef",
+        "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+      }
+    ],
+    "tests/npu/native-read-api.c": [
+      {
+        "sha256": "08289b86620ea7b06ea8576dbbd2e58b9630ba07c5ce63704dc16b0daa3dfcc7",
+        "preserved_path": ".local/npu-read-memory-20261025/before/tests/npu/native-read-api.c"
+      },
+      {
+        "sha256": "8d706a577bcfe7184cda730d1efd490bacaa5d20d82c4b8d7217469aea232d31",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/native-read-api.c"
+      },
+      {
+        "sha256": "5fce8d92805371c9b4a3619b1714a564fc5470440fd11efa6c7541cc0d36ed35",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/native-read-api.c"
+      },
+      {
+        "sha256": "f1cdce3631d81477ba9b9e005fc0f71777b50fe3fa49c5322d6cf3b6ea8ba3e4",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/native-read-api.c"
+      },
+      {
+        "sha256": "81c471f9240ec2a5e1a7c0f6045acbc07723e4bda83e083a2dcdfc5a3c84341a",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-native-hooks-q15/tests/npu/native-read-api.c"
+      }
+    ],
+    "tests/npu/native_read_api.py": [
+      {
+        "sha256": "8027b68a564d5c1fec985a3646a44a48215941ac8e84684adf30f412fd3b0a76",
+        "preserved_path": ".local/npu-read-memory-20261025/before/tests/npu/native_read_api.py"
+      },
+      {
+        "sha256": "ec9c1d59b87a76c2344627db613b853774c5d0a8a0be8b73910b44e681e4783a",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/native_read_api.py"
+      }
+    ],
+    "tests/npu/test_native_read_api.py": [
+      {
+        "sha256": "df1f8bc6960bf917b7d77b4a42bd6927f2d867adc3dfd230e4ab4e78f7967a02",
+        "preserved_path": ".local/npu-read-memory-20261025/before/tests/npu/test_native_read_api.py"
+      },
+      {
+        "sha256": "8b8fd1e530cad75ccfd747f05cab941103511e5fc7c75724a969afe2a857695e",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/test_native_read_api.py"
+      }
+    ],
+    "tests/npu/test_npu_csr_integration.py": [
+      {
+        "sha256": "98ba3509a1c51390e3296c9e73e3b476863df7fc3d1a7daa53aa1355671af25d",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/test_npu_csr_integration.py"
+      }
+    ],
+    "tests/npu/test_rro_wire_native_pair.py": [
+      {
+        "sha256": "b3eebd9a362fcf799b41281a082000044cc52094262452a57ff43a137b898580",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/test_rro_wire_native_pair.py"
+      },
+      {
+        "sha256": "b3eebd9a362fcf799b41281a082000044cc52094262452a57ff43a137b898580",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/test_rro_wire_native_pair.py"
+      },
+      {
+        "sha256": "69614248fed4ca773ed77767a3432f5de864f799c1319203f32ed3f9c278e67a",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-native-hooks-q15/tests/npu/test_rro_wire_native_pair.py"
+      }
+    ],
+    "tools/build_npu_read_api.py": [
+      {
+        "sha256": "16350fe27eb4e9839e23f84885e237cc14e6bc06199b4878481edb6fd42fba48",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tools/build_npu_read_api.py"
+      },
+      {
+        "sha256": "f27598013bf7d0ab26c51ed40404a4109f874c416ccd7404a9fa15662555e0a0",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tools/build_npu_read_api.py"
+      },
+      {
+        "sha256": "f27598013bf7d0ab26c51ed40404a4109f874c416ccd7404a9fa15662555e0a0",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tools/build_npu_read_api.py"
+      }
+    ],
+    "tests/test_build_npu_read_api.py": [
+      {
+        "sha256": "4707427ab8be03512619b230a0f1d38b004803487a4562ce68aec7832084c669",
+        "preserved_path": ".local/npu-cold-observer-20261025/before/tests/test_build_npu_read_api.py"
+      }
+    ],
+    "tests/npu/native_cold_observer.py": [
+      {
+        "sha256": "c335dda4c46889508c5f87f649efe62abeb8be984aaecd4bf7605d87066e83c5",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/native_cold_observer.py"
+      },
+      {
+        "sha256": "b9d2cce549405ce6ae9dd37f94da8eed101701e1813648cc7bb6bf691fb15e6d",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/native_cold_observer.py"
+      }
+    ],
+    "tests/npu/test_native_cold_observer.py": [
+      {
+        "sha256": "e00e20b68e081cc9bae829a000a5bfe6f0911066b15c29aa3c547f7863f66977",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/test_native_cold_observer.py"
+      },
+      {
+        "sha256": "5d6543217443798047d80d68fccc67c23c96b8f3e7eaf6a688c35dd490ad4b00",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/test_native_cold_observer.py"
+      },
+      {
+        "sha256": "4e3f2cbac0962d00300ac8b2479c0f73ef508e16cbb0e252efb3ea37d7e96962",
+        "preserved_path": ".local/npu-cold-observer-20261025/before-native-hooks-q15/tests/npu/test_native_cold_observer.py"
+      }
+    ]
+  },
+  "source_input_resolutions": [
+    {
+      "canonical": "tests/npu/test_rro_wire_native_pair.py",
+      "sha256": "b3eebd9a362fcf799b41281a082000044cc52094262452a57ff43a137b898580",
+      "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/test_rro_wire_native_pair.py"
+    },
+    {
+      "canonical": "tools/build_npu_read_api.py",
+      "sha256": "16350fe27eb4e9839e23f84885e237cc14e6bc06199b4878481edb6fd42fba48",
+      "preserved_path": ".local/npu-cold-observer-20261025/before/tools/build_npu_read_api.py"
+    },
+    {
+      "canonical": "AGENTS.md",
+      "sha256": "4f615a35a4d91980b7a2a029b13bbd2f06ab5d4c1b74b0f712f4fbe347dd8291",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/AGENTS.md"
+    },
+    {
+      "canonical": "README.md",
+      "sha256": "8a434fcc08e1e635577fac62fb921c059d3959901dfa5e43529304d0af18a9fb",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/README.md"
+    },
+    {
+      "canonical": "docs/REMAINING_WORK.md",
+      "sha256": "630fa22dff1d9212b52686cea7e745e3e7c212db436d08b2afb262dc87836032",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/REMAINING_WORK.md"
+    },
+    {
+      "canonical": "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md",
+      "sha256": "d8dd96cd2cb991b181e75ff8767863212e1e63dda2f900326dc76d272ac9dcee",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+    },
+    {
+      "canonical": "docs/W1700K_STOCK_PORT_LEDGER.md",
+      "sha256": "1af4951eb9a3f4112e92ff92236df055a3c33682c779597598f3c12fce6921c5",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+    },
+    {
+      "canonical": "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md",
+      "sha256": "91728aba73e7101050142db2d1dc61b9e2d7777f3719a1de2b864afd860c4fef",
+      "preserved_path": ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+    },
+    {
+      "canonical": "tests/npu/native-read-api.c",
+      "sha256": "8d706a577bcfe7184cda730d1efd490bacaa5d20d82c4b8d7217469aea232d31",
+      "preserved_path": ".local/npu-cold-observer-20261025/before/tests/npu/native-read-api.c"
+    },
+    {
+      "canonical": "tests/npu/native-read-api.c",
+      "sha256": "f1cdce3631d81477ba9b9e005fc0f71777b50fe3fa49c5322d6cf3b6ea8ba3e4",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/native-read-api.c"
+    },
+    {
+      "canonical": "tests/npu/native_cold_observer.py",
+      "sha256": "b9d2cce549405ce6ae9dd37f94da8eed101701e1813648cc7bb6bf691fb15e6d",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/native_cold_observer.py"
+    },
+    {
+      "canonical": "tests/npu/test_native_cold_observer.py",
+      "sha256": "4e3f2cbac0962d00300ac8b2479c0f73ef508e16cbb0e252efb3ea37d7e96962",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-native-hooks-q15/tests/npu/test_native_cold_observer.py"
+    },
+    {
+      "canonical": "tests/npu/native-read-api.c",
+      "sha256": "81c471f9240ec2a5e1a7c0f6045acbc07723e4bda83e083a2dcdfc5a3c84341a",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-native-hooks-q15/tests/npu/native-read-api.c"
+    },
+    {
+      "canonical": "tests/npu/native-read-api.c",
+      "sha256": "5fce8d92805371c9b4a3619b1714a564fc5470440fd11efa6c7541cc0d36ed35",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/native-read-api.c"
+    },
+    {
+      "canonical": "tests/npu/native_cold_observer.py",
+      "sha256": "c335dda4c46889508c5f87f649efe62abeb8be984aaecd4bf7605d87066e83c5",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/native_cold_observer.py"
+    },
+    {
+      "canonical": "tests/npu/test_native_cold_observer.py",
+      "sha256": "e00e20b68e081cc9bae829a000a5bfe6f0911066b15c29aa3c547f7863f66977",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-emulator-q5/tests/npu/test_native_cold_observer.py"
+    },
+    {
+      "canonical": "tests/npu/test_native_cold_observer.py",
+      "sha256": "5d6543217443798047d80d68fccc67c23c96b8f3e7eaf6a688c35dd490ad4b00",
+      "preserved_path": ".local/npu-cold-observer-20261025/before-test-fix-q9/tests/npu/test_native_cold_observer.py"
+    }
+  ],
+  "public_source_blobs": {
+    "AGENTS.md": "2a25f6c5791794f95861c62335ca61932682489624eb53f79632556f3a4745d6",
+    "README.md": "cc1110da7430a5baefeaf92443265749eed22071305923b0935282853cebaff2",
+    "docs/REMAINING_WORK.md": "f958f064354490b684923cf1de3fca2f24b851c016eae00f878aed028347713c",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "119a9998eb1087b349120a0d18acf08508ec527bb40a8d8755fe34300606efe3",
+    "docs/W1700K_STOCK_PORT_LEDGER.md": "6c66d5b2f49ecb086ba932dae41768fd522761af346301875e1ff91b27f0240d",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "f8bab4c6b1a9a07395270dce0490b72f83d6aa74e9568bb9ef448361c3c2b39c",
+    "research/checkpoints/2026-10-25-npu-native-cold-observer/REPORT.md": "c95323f278256bb0a6b2324843f5b85ebf5177c8d5962fca339e1579038bb8a4",
+    "tests/npu/native-read-api.c": "96f8d8e3cd5951b073de3c1ee785e07e2ec887039bfc059bdfc5673a03cd0ac2",
+    "tests/npu/native_cold_observer.py": "a0b15c8763bd63ada6ef11e899cc01378f212d1a6d85e8908c3690fd3b391969",
+    "tests/npu/test_native_cold_observer.py": "dd5d822c80e6338efd1d86b6b4b8f8c776ced327e20e074b5dc91772bb6edcdb",
+    "tests/npu/test_rro_wire_native_pair.py": "69614248fed4ca773ed77767a3432f5de864f799c1319203f32ed3f9c278e67a",
+    "tools/build_npu_read_api.py": "f27598013bf7d0ab26c51ed40404a4109f874c416ccd7404a9fa15662555e0a0"
+  },
+  "adapter_extensions": {
+    "plain": {
+      "path": "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/cold-observer-build-q23/plain/_npu_read_api.cpython-314-x86_64-linux-gnu.so",
+      "sha256": "cb92206eda7aba907d9355d80ceafdeef5e15578db13651b4629ab7f9e5222a0"
+    },
+    "ubsan": {
+      "path": "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/cold-observer-build-q23/ubsan/_npu_read_api.cpython-314-x86_64-linux-gnu.so",
+      "sha256": "907e816fb3440b6d5bc7005f19cfc22dfdf8293fb4c0389ce9749dda768ce34e"
+    }
+  },
+  "receipts": {
+    ".local/npu-build-scratch/native-c2/cold-observer-build-q23/result.json": "a16725e0a43732ec30499a26783965ef43005dcdba4c2b43f83be8f7966ab2a2",
+    ".local/npu-build-scratch/native-c2/cold-observer-finite-q25/result.json": "1786c3c8f01570b1c25effff20b7c977ebf07d963294ed60af41a9307652b6bc",
+    ".local/npu-build-scratch/native-c2/cold-observer-controls-q28/result.json": "0cedf8ae5414501adac3c660d264b5316614dca74df663ada4e710a47b15d8a0",
+    ".local/npu-build-scratch/native-c2/cold-observer-probe-q24/failure.json": "427541f693a083a5510728f874cccf28fc0b5f721cb7cf1d0af127f9cccad796",
+    ".local/npu-build-scratch/native-c2/cold-observer-audit-q29/result.json": "10b79557b4d89a0283cc5c863652212f397d92da70ac0092835b7080ea851538",
+    ".local/npu-cold-observer-20261025/probe-q24-controller.json": "3c87eb2700d4cd1bf199b5b77989c1b441c27ab2aebcebc159b7ceca1712c8e0",
+    ".local/npu-cold-observer-20261025/jev-report-q37.failure.json": "d61567920340844ee2d04e898b8bad561556c4d4f7a9c192b3e768609991d354",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f"
+  },
+  "actual_fresh_publication_failure": {
+    "error": "AssertionError(('new-RPC-budget', '0x841049ee', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 0, 'slot': 0, 'table': 1049632732, 'pointer': 1207959552, 'base': 1207959552, 'bytes': 65536}, {'blocks': 5892245, 'metadata_writes': 603896, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 14889}))",
+    "terminal_PC": 2215660014,
+    "SP": 2214726496,
+    "min_sp": 2214726352,
+    "mstatus": 0,
+    "current": {
+      "kind": "publish",
+      "ordinal": 0,
+      "slot": 0,
+      "table": 1049632732,
+      "pointer": 1207959552,
+      "base": 1207959552,
+      "bytes": 65536
+    },
+    "wall_ns": 60000605169,
+    "counts": {
+      "blocks": 5892245,
+      "metadata_writes": 603896,
+      "payload_reads": 259,
+      "mailbox_veneer": 1,
+      "mailbox_binding": 1,
+      "table_writes": 1,
+      "table_reads": 1,
+      "extent_writes": 24576,
+      "extent_reads": 14889
+    },
+    "timed_out": true
+  },
+  "Jev_reviews": {
+    "profile-q2": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "done_flag": {
+          "type": "noul",
+          "noul": 0.93
+        },
+        "packet_flag": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "rx_flag": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "caller_flag": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "pages_two_flags": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "per_instruction_count": {
+          "type": "noul",
+          "noul": 0.72
+        },
+        "dynamic_return": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "fresh_csr": {
+          "type": "noul",
+          "noul": 0.86
+        },
+        "outer_order": {
+          "type": "noul",
+          "noul": 0.92
+        }
+      },
+      "usage": {
+        "input_tokens": 4660,
+        "output_tokens": 160
+      },
+      "elapsed_ms": 1248,
+      "request_sha256": "f7daa5c5ae538b1e9afb9e5f31dc630aff14f7bd8734d9e67f276698f403587f",
+      "result_sha256": "cdc9b78b042c6424b0224015fb595efbf585911f3f2492dab39c67ee1421186a",
+      "semantic_evidence_not_proof": true
+    },
+    "verify-q26": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "miss_guards": {
+          "type": "noul",
+          "noul": 0.94
+        },
+        "fresh_sp": {
+          "type": "noul",
+          "noul": 0.92
+        },
+        "count_granularity": {
+          "type": "noul",
+          "noul": 0.92
+        },
+        "error_order": {
+          "type": "noul",
+          "noul": 0.66
+        },
+        "per_rpc_counter": {
+          "type": "noul",
+          "noul": 0.68
+        },
+        "cache_miss_bypass": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "registration_order": {
+          "type": "noul",
+          "noul": 0.74
+        },
+        "physical_claim": {
+          "type": "noul",
+          "noul": 0.03
+        }
+      },
+      "usage": {
+        "input_tokens": 6069,
+        "output_tokens": 149
+      },
+      "elapsed_ms": 1509,
+      "request_sha256": "73bd3641355453994874b6a1697635f4116895ab915cc723111911d88ac7e912",
+      "result_sha256": "16448c86603dd18e41db720e0fba6a3665dfd3452e1a4451a2c26f0c17ff5d71",
+      "semantic_evidence_not_proof": true
+    },
+    "report-q38": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "failure_label": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "full_replay_claim": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "physical_claim": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "variant_count": {
+          "type": "noul",
+          "noul": 0.95
+        },
+        "finite_scope": {
+          "type": "noul",
+          "noul": 0.98
+        },
+        "control_scope": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "first_publication_obligation": {
+          "type": "noul",
+          "noul": 0.73
+        },
+        "higher_budget_claim": {
+          "type": "noul",
+          "noul": 0.04
+        }
+      },
+      "usage": {
+        "input_tokens": 3638,
+        "output_tokens": 149
+      },
+      "elapsed_ms": 962,
+      "request_sha256": "251aa0c0a251c4ee94a4b44d367b54f6d443b0b78052e58188b7252994c08f3b",
+      "result_sha256": "6e14f9ef4a3533503aeb9ff1a26fc4b3dae236efc8d9fe108f072ee1b27809bc",
+      "semantic_evidence_not_proof": true
+    }
+  },
+  "original_service_observation": {
+    "w1700k-npu-compact-default-q1.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    },
+    "w1700k-npu-rro-observer-native-q3.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    }
+  }
+}

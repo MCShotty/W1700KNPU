@@ -1,5 +1,44 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - Native Profile2 Prefix Completes; Publication Frontier Retained
+
+- Continued solo from6e9a0c1. Explicit host-only cold observer API3 reduces
+  common-hook dispatch while retaining every PC count/tick, fresh CSR/instruction
+  reads, dynamic return/stop/tracking/mode effects and hook registration order.
+  RPC block cache hits retain every block/site count and fresh SP; misses call
+  original exact-code/range/forbidden-PC/capacity checks. No new guest substitute.
+- Same native emulation API retains count/time bounds and callback exception
+  identity/error priority with the GIL attached. Qualified single-engine/thread
+  use only. Public CLI requires an explicit source-bound receipt; default backend
+  remains reference. Private native-Linux output root is validated, not aliased.
+- Plain/UBSan build-q23 each pass32 read/CSR plus24 observer units, no errors/
+  skips. Seven independently compiled mutations fail intended assertions.
+  Finite-q25 matches19517 actual raw instructions,40 mapped regions and full
+  compared registers/events/counters. Fresh broad tooling167/zero skips.
+- Fresh probe-q24 completes profile2 raw prefix at1136899 observed instructions;
+  retained plan/discovery/status/server/cold enrollment and138 positive RPCs
+  match. First PUBLISH still times out at0x841049ee under100M/60s:24576 writes,
+  14889/24576 readbacks. Earlier observer probe-q17 reached11440 readbacks;
+  original q3 reached5422. These are failed attempts, not aggregate completion.
+  Boot3M/10s remains; proposed longer boot deadline was not used.
+- Retain earlier failed boot/probes, build-q6 test setup failure and translated-
+  cache diagnostic. Installing a hook after a translated loop requires explicit
+  cache invalidation in that fixture for both reference/native paths; corrected
+  fresh builds execute the same callback-exception requirement. No failed result
+  is relabelled. Consumed source and document versions are preserved exactly.
+- Jev supplies nine pre-profile and eight narrow post-change semantic judgments;
+  error-order/counter/order uncertainty is resolved by source and executed tests,
+  not confidence thresholds. No secrets are in request state or public evidence.
+- Fresh guarded400MiB/no-swap phases preserve C lock, backing/RAM margins and
+  old compact1GiB future allowance. All five complete protected inventories and
+  inherited flat/runtime bindings remain, not deduplicated or flattened.
+  Production lock88502ab3/patchbb457928/four-module producera840d3cc stay unchanged.
+  No old replay restart, image, module load, router contact or flash.
+- Full native replay, complete physical MCU-exit failure/queue/page-pool drain/
+  retention, BA reuse, hot admission/retirement/rearm, current image/hardware/
+  actual-client/performance/stability gates remain. Full NPU goal stays active.
+  See research/checkpoints/2026-10-25-npu-native-cold-observer/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-25 - Fresh Native Word Reads; Raw-Boot Diagnostic Still Fails
 
 - Continued solo from7f88c65. Host-only API version2 adds Reader.u32: four fresh
@@ -231,7 +270,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (native word API qualified; unchanged raw boot still incomplete; full NPU goal open)
+Last updated: 2026-10-25 (native profile2 prefix complete; first publication still times out; full NPU goal open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

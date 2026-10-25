@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - Native Profile2 Prefix Completes; Publication Still Times Out
+
+- Continue without subagents. Explicit host-only cold observer API3 keeps every
+  per-PC count/tick, fresh CSR and instruction reads, dynamic return/stop/mode
+  fallbacks, and original hook registration positions. RPC cached blocks keep
+  every block/site count and fresh SP; misses retain original exact-code checks.
+- Plain/UBSan each pass32 read/CSR plus24 observer units; seven independently
+  compiled broken adapters fail intended assertions. Fresh tooling167/zero skips.
+  Actual19517-instruction reset traces match all40 memory regions/registers/events.
+- Fresh profile2 completes the raw prefix at1136899 observed instructions and
+  matches the retained138 RPCs. First PUBLISH still fails the original100M/60s
+  bound at0x841049ee:24576 writes,14889/24576 readbacks. No full native verdict.
+  Per-run boot3M/10s stays; no longer boot budget or old replay restart.
+- Lock88502ab3/patchbb457928/module producera840d3cc and protected inventories
+  stay unchanged. Failed/intermediate sources and diagnostics remain. No image,
+  load, router contact or flash. Read native-cold-observer REPORT/EVIDENCE.
+- Next reduce remaining faithful RPC observer overhead, complete native replay,
+  then full physical cold/MCU failure/drain/retention, BA reuse/hot retirement/
+  rearm, image/hardware/client/performance/stability. Full NPU goal stays active.
+
 ## 2026-10-25 - Native Word Reader; Raw Boot Still Incomplete
 
 - Continue without subagents. Explicit host reader API version2 adds fresh

@@ -40,6 +40,7 @@ def main():
     import unicorn
     import unicorn.unicorn_py3.unicorn as binding
     from npu_csr_sampler import CsrSampler
+    from native_cold_observer import PROFILE_SOURCES
     cpu = unicorn.Uc(unicorn.UC_ARCH_RISCV, unicorn.UC_MODE_RISCV32)
     CsrSampler(cpu)
     include = Path(unicorn.__file__).resolve().parent / 'include'
@@ -50,6 +51,7 @@ def main():
     inputs = {str(path): sha(path) for path in (source, Path(__file__),
         ROOT / 'tests/npu/native_read_api.py', ROOT / 'tests/npu/npu_csr_sampler.py',
         ROOT / 'tests/npu/test_native_read_api.py')}
+    inputs.update({str(ROOT / name): sha(ROOT / name) for name in PROFILE_SOURCES})
     output.mkdir()
     extension = output / ('_npu_read_api' + sysconfig.get_config_var('EXT_SUFFIX'))
     command = ['/usr/bin/cc', '-std=c11', '-O2', '-g', '-Wall', '-Wextra', '-Werror',
