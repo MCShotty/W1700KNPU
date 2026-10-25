@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - Native Word Reader And Remaining Boot Frontier
+
+The explicit host-only read adapter now supports fresh four-byte guest reads.
+Plain and UBSan builds each pass32 API/CSR checks; the broader tooling/checker
+suite passes167 with zero skips. One local read microbenchmark is about5.3
+times faster, but the fresh raw firmware diagnostic still times out before RRO
+under its original10-second boot limit. No full native or hardware pass follows.
+
+Normal Pair, production firmware, source lock, mt76 patch and retained modules
+are unchanged. No new image or flash. Full retirement/reuse/hot/native/image/
+hardware/client gates remain. See the
+[scoped report](research/checkpoints/2026-10-25-npu-native-word-reader/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
 
 Selected current C now passes14 cases inside Linux6.18.52 on two emulated

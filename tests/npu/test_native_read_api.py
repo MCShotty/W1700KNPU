@@ -13,7 +13,8 @@ import weakref
 
 from elftools.elf.elffile import ELFFile
 from unicorn import (Uc, UcError, UC_ARCH_RISCV, UC_ERR_ARG, UC_HOOK_CODE,
-                     UC_MODE_RISCV32, UC_MODE_RISCV64, riscv_const as r)
+                     UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_MODE_RISCV32,
+                     UC_MODE_RISCV64, riscv_const as r)
 import native_read_api as adapter
 
 
@@ -80,6 +81,7 @@ class NativeReadAPITests(unittest.TestCase):
                 self.cpu._uch = value
                 with self.assertRaises(RuntimeError): self.reader(r.UC_RISCV_REG_SP)
                 with self.assertRaises(RuntimeError): self.reader.csrs()
+                with self.assertRaises(RuntimeError): self.reader.u32(0x1000)
         finally:
             self.cpu._uch = original
 
@@ -87,14 +89,15 @@ class NativeReadAPITests(unittest.TestCase):
         errors = []
 
         def other_thread():
-            for call in (lambda: self.reader(r.UC_RISCV_REG_SP), self.reader.csrs):
+            for call in (lambda: self.reader(r.UC_RISCV_REG_SP), self.reader.csrs,
+                         lambda: self.reader.u32(0x1000)):
                 try: call()
                 except Exception as error: errors.append(error)
 
         thread = threading.Thread(target=other_thread)
         thread.start()
         thread.join()
-        self.assertEqual(len(errors), 2)
+        self.assertEqual(len(errors), 3)
         self.assertTrue(all(isinstance(error, RuntimeError) for error in errors))
 
     def test_reinitialization_and_duplicate_installation_are_rejected(self):
@@ -141,6 +144,8 @@ class NativeReadAPITests(unittest.TestCase):
             with self.assertRaises(RuntimeError): adapter.install(cpu, self.extension)
         with patch.object(adapter.binding.uclib, 'uc_reg_read', Mock(argtypes=(), restype=ctypes.c_int)):
             with self.assertRaises(RuntimeError): adapter.install(cpu, self.extension)
+        with patch.object(adapter.binding.uclib, 'uc_mem_read', Mock(argtypes=(), restype=ctypes.c_int)):
+            with self.assertRaises(RuntimeError): adapter.install(cpu, self.extension)
         with patch.object(cpu, '_select_reg_class', return_value=ctypes.c_uint32):
             with self.assertRaises(RuntimeError): adapter.install(cpu, self.extension)
 
@@ -149,6 +154,109 @@ class NativeReadAPITests(unittest.TestCase):
         self.assertIs(adapter.load_extension(self.path, self.digest), self.extension)
         with patch.object(self.extension, '_verified_sha256', '0' * 64):
             with self.assertRaises(RuntimeError): adapter.load_extension(self.path, self.digest)
+        with patch.object(self.extension, 'API_VERSION', 1):
+            with self.assertRaises(RuntimeError): adapter.load_extension(self.path, self.digest)
+
+    def test_words_are_little_endian_unaligned_and_fresh(self):
+        self.cpu.mem_map(0x1000, 8192)
+        for payload in (bytes(range(256)) * 32, b'\xff' * 8192, bytes(8192)):
+            self.cpu.mem_write(0x1000, payload)
+            for offset in (0, 1, 2, 3, 255, 4093, 4094, 4095, 4096, 8188):
+                expected = int.from_bytes(self.cpu.mem_read(0x1000 + offset, 4), 'little')
+                self.assertEqual(self.reader.u32(0x1000 + offset), expected)
+        self.cpu.mem_unmap(0x1000, 8192)
+        with self.assertRaises(UcError): self.reader.u32(0x1000)
+        self.cpu.mem_map(0x1000, 8192)
+        self.cpu.mem_write(0x1000, b'\x78\x56\x34\x12')
+        self.assertEqual(self.reader.u32(0x1000), 0x12345678)
+
+    def test_word_boundaries_preserve_backend_errors_without_partial_values(self):
+        self.cpu.mem_map(0x1000, 4096)
+        self.cpu.mem_write(0x1000, b'\xa5' * 4096)
+        for address in (0, 0xffd, 0xfff, 0x1ffd, 0x1fff, 0x2000, 0xfffffffc):
+            errors = []
+            for read in (lambda a: int.from_bytes(self.cpu.mem_read(a, 4), 'little'), self.reader.u32):
+                with self.assertRaises(UcError) as caught: read(address)
+                errors.append((caught.exception.errno, str(caught.exception)))
+            self.assertEqual(errors[0], errors[1])
+        self.assertEqual(self.reader.u32(0x1ffc), 0xa5a5a5a5)
+
+    def test_word_arguments_are_explicitly_strict(self):
+        class Integer(int): pass
+
+        for argument in (True, False, 1.0, '4096', None, Integer(4096), object()):
+            with self.assertRaises(TypeError): self.reader.u32(argument)
+        for argument in (-1, 1 << 64, (1 << 64) - 3, (1 << 64) - 1):
+            with self.assertRaises(OverflowError): self.reader.u32(argument)
+        with self.assertRaises(TypeError): self.reader.u32()
+        with self.assertRaises(TypeError): self.reader.u32(address=4096)
+        with self.assertRaises(TypeError): self.reader.u32(4096, 4)
+
+    def test_word_read_has_no_guest_hook_or_memory_side_effect(self):
+        self.cpu.mem_map(0x1000, 4096)
+        self.cpu.mem_write(0x1000, b'\x78\x56\x34\x12' * 1024)
+        events = []
+        self.cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, lambda *args: events.append(args[1:]))
+        before = self.cpu.context_save()
+        for _ in range(50): self.assertEqual(self.reader.u32(0x1001), 0x78123456)
+        self.assertEqual(events, [])
+        self.assertEqual(bytes(self.cpu.mem_read(0x1000, 4096)), b'\x78\x56\x34\x12' * 1024)
+        registers = [getattr(r, 'UC_RISCV_REG_X' + str(index)) for index in range(32)]
+        registers += [r.UC_RISCV_REG_PC, *adapter.REGISTERS]
+        current = [self.original(register) for register in registers]
+        self.cpu.context_restore(before)
+        self.assertEqual(current, [self.original(register) for register in registers])
+
+    def test_word_backend_error_and_unbound_memory_are_not_values(self):
+        read = adapter.binding.uclib.uc_reg_read
+        batch = adapter.binding.uclib.uc_reg_read_batch
+        memory_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_uint64,
+                                       ctypes.c_void_p, ctypes.c_uint64)
+
+        def fail(handle, address, target, count):
+            ctypes.memset(target, 0xa5, count)
+            return UC_ERR_ARG
+
+        memory = memory_type(fail)
+        arguments = (self.cpu, self.original, UcError, ctypes.cast(read, ctypes.c_void_p).value,
+                     ctypes.cast(batch, ctypes.c_void_p).value, adapter.REGISTERS)
+        unbound = self.extension.Reader(*arguments)
+        with self.assertRaises(RuntimeError): unbound.u32(0x1000)
+        reader = self.extension.Reader(*arguments, ctypes.cast(memory, ctypes.c_void_p).value)
+        for _ in range(2):
+            with self.assertRaises(UcError) as caught: reader.u32(0x1000)
+            self.assertEqual(caught.exception.errno, UC_ERR_ARG)
+
+    def test_word_instruction_transcripts_include_current_guest_and_host_writes(self):
+        # lw a0,0(a1); addi a0,a0,1; sw a0,0(a1); ret
+        code = bytes.fromhex('03a505001305150023a0a50067800000')
+
+        def execute(native):
+            cpu = Uc(UC_ARCH_RISCV, UC_MODE_RISCV32)
+            cpu.mem_map(0x1000, 8192)
+            cpu.mem_write(0x1000, code)
+            cpu.mem_write(0x1800, b'\x00' * 4)
+            cpu.reg_write(r.UC_RISCV_REG_RA, 0x2000)
+            cpu.reg_write(r.UC_RISCV_REG_A1, 0x1800)
+            reader = adapter.install(cpu, self.extension) if native else None
+            word = reader.u32 if native else lambda a: int.from_bytes(cpu.mem_read(a, 4), 'little')
+            events = []
+
+            def instruction(cpu, pc, size, unused):
+                if pc == 0x1000: cpu.mem_write(0x1800, b'\xfe\xff\xff\xff')
+                events.append(('code', pc, word(0x1800), word(pc)))
+
+            def access(cpu, kind, address, size, value, unused):
+                events.append(('memory', kind, address, size, value, word(0x1800)))
+
+            cpu.hook_add(UC_HOOK_CODE, instruction)
+            cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, access)
+            cpu.emu_start(0x1000, 0x2000, count=100, timeout=1000000)
+            self.assertEqual(cpu.reg_read(r.UC_RISCV_REG_PC), 0x2000)
+            self.assertEqual(word(0x1800), 0xffffffff)
+            return events, bytes(cpu.mem_read(0x1800, 4)), cpu.reg_read(r.UC_RISCV_REG_A0)
+
+        self.assertEqual(execute(False), execute(True))
 
     def test_actual_instruction_hook_transcripts_match_with_dynamic_injection(self):
         assembly = b'''.option norvc\n.text\n.globl sample\nsample:\naddi sp,sp,-16\ncsrrci t0,mstatus,8\ncsrw mie,a1\ncsrw mtvec,a2\ncsrw mstatus,a0\naddi sp,sp,16\nret\n'''

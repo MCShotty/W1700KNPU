@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Native Word Reader And Failed Supplemental Raw Boot
+
+From7f88c65, reader API version2 adds fresh little-endian u32 reads through the
+same Unicorn memory API, with strict unsigned-address, thread/engine and error
+checks. The normal Pair source is unchanged; only the new diagnostic opts in.
+Build producer read-memory-build-q2 passes32 API/CSR checks per plain/UBSan
+variant, including six new word tests. Fresh tooling/checker suite passes167,
+zero skips; prior kernel producers are revalidated, not rerun here.
+
+Supplemental read-memory-probe-q4 remains failed: raw boot times out at0x84004efe,
+287383 cumulative observed instructions, before any RRO RPC. Per-run3M/10s boot
+and100M/60s RPC limits stay unchanged; longer raw-boot proposal unused. A5.3x
+word-read microbenchmark is host-only, not full-emulator/NPU throughput.
+
+Lock88502ab3, mt76 patchbb457928 and four-module producera840d3cc are unchanged;
+complete source/cache inventories and consumed versions are retained. Old jobs
+are not restarted. Full native/physical/hot/reuse/image/client gates remain.
+Read research/checkpoints/2026-10-25-npu-native-word-reader/REPORT.md and EVIDENCE.
+
 ## 2026-10-25 - Selected ARM64/SMP Work And Managed HIF2 Qualification
 
 Actual Linux6.18.52 on two emulated Cortex-A53 CPUs passes14 selected-C cases.

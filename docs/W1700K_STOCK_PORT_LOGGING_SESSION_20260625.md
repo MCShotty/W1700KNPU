@@ -1,5 +1,22 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - Native Word Reader And Unchanged Boot Timeout
+
+Continued solo from7f88c65. Host reader API version2 adds fresh checked u32
+reads without changing normal Pair, guest instructions or hooks. Plain and
+UBSan builds each pass32 API/CSR units; six new word cases include actual
+small RV32/host-injection transcript comparison. Fresh tooling/checker suite
+passes167, zero skips. Prior selected kernel producers are checked, not rerun.
+
+Word-read microbenchmark improves about5.3x, but fresh profile2 raw boot still
+times out before RRO at0x84004efe with287383 cumulative observed instructions.
+Original boot3M/10s and RPC100M/60s limits remain; no longer raw-boot budget or
+old replay restart. Failed diagnostic and source/docs versions are preserved.
+Process-only Utility import repairs two pre-dispatch storage-capture refusals.
+Dual backing/RAM margins,400MiB/no-swap and C lock remain. Lock/patch/four modules
+and complete protected inventories stay unchanged. No image/load/hardware/flash.
+Full native and physical/reuse/hot/client gates remain. Read native-word-reader.
+
 ## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
 
 Continued solo from603c290. Isolated QEMU10.2.1 runtime and GCC14.4.0 build a

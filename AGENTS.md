@@ -1,5 +1,25 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - Native Word Reader; Raw Boot Still Incomplete
+
+- Continue without subagents. Explicit host reader API version2 adds fresh
+  little-endian u32 reads with engine/thread/signature/error checks. Normal
+  Pair and cpu.mem_read remain unchanged; the private diagnostic opts in.
+- Plain/UBSan builds each pass32 API/CSR units (19 reader/13 CSR, six new word
+  tests); fresh tooling/checker suite passes167, zero skips. These are not
+  complete NPU execution or new target-kernel runs.
+- One word-read microbenchmark is about5.3 times faster. Fresh profile2 still
+  times out before RRO at0x84004efe, after287383 cumulative observed instructions.
+  Raw-boot3M/10s and RPC100M/60s limits are unchanged. Longer raw-boot question
+  remains unused; old q3 failure stays authoritative. Neither old job restarted.
+- Consumed sources/docs and failed diagnostic are retained. Source lock88502ab3,
+  mt76 patch and four modulesa840d3cc stay unchanged. Protected complete stock/
+  cache inventories compare unchanged. No image, load, hardware or flash.
+- Read native-word-reader REPORT/EVIDENCE. Further faithful observer reduction,
+  full native replay, complete MCU/queue physical lifetime, firmware BA reuse,
+  hot retirement/rearm, image/hardware/client/performance/stability remain open.
+  Full NPU goal remains active; do not promote the failed boot via API tests.
+
 ## 2026-10-25 - ARM64/SMP Work And HIF2 Lifetime
 
 - Continue without subagents. Selected current C passes14 cases in Linux6.18.52

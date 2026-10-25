@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Host Read Adapter Qualified; Native Boot Gate Still Open
+
+Fresh C-backed word reads pass32 API/CSR checks per plain/UBSan variant;167
+tooling/checker units pass separately. The six added word cases are host API
+tests, not NPU lifetime proof. Normal Pair remains unchanged.
+
+The supplemental profile2 run still hits its original3M-instruction/10-second
+raw-boot limit at0x84004efe before reaching RRO. RPC100M/60s limits are unchanged;
+the proposed longer raw-boot budget was not used. Preserve this failure and old
+q3 evidence. Neither original replay restarted; absent handles are not passes.
+
+Next native work needs faithful observer-cost reduction or an explicitly
+approved separately labelled diagnostic budget, followed by complete replay.
+Complete MCU-exit failure and queue/page-pool physical lifetime, firmware BA
+reuse, hot admission/retirement/rearm, current image, physical router/client,
+performance and stability gates still remain. Selected ARM64/SMP work/HIF2
+results below stay valid only for their documented scope. See native-word-reader.
+
 ## 2026-10-25 - Selected ARM64/SMP Paths Qualified; Full Target And Physical Gates Open
 
 Selected work/HIF2 C passes14 cases in a two-Cortex-A53 Linux6.18.52 guest,

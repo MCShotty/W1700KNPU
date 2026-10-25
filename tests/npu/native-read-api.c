@@ -6,6 +6,7 @@
 
 typedef uc_err (*read_register_fn)(uc_engine *, int, void *);
 typedef uc_err (*read_batch_fn)(uc_engine *, const int *, void **, int);
+typedef uc_err (*read_memory_fn)(uc_engine *, uint64_t, void *, uint64_t);
 
 typedef struct {
     PyObject_HEAD
@@ -16,6 +17,7 @@ typedef struct {
     unsigned long thread;
     read_register_fn read;
     read_batch_fn batch;
+    read_memory_fn memory;
     int registers[3];
 } Reader;
 
@@ -118,6 +120,38 @@ static PyObject *reader_csrs(Reader *self, PyObject *unused)
                          (unsigned long long)values[1], (unsigned long long)values[2]);
 }
 
+static PyObject *reader_u32(Reader *self, PyObject *argument)
+{
+    unsigned long long address;
+    unsigned char bytes[4] = {0, 0, 0, 0};
+    uint32_t value;
+    int status;
+
+    if (!check_reader(self))
+        return NULL;
+    if (!self->memory) {
+        PyErr_SetString(PyExc_RuntimeError, "native reader has no reviewed memory API");
+        return NULL;
+    }
+    if (!PyLong_CheckExact(argument)) {
+        PyErr_SetString(PyExc_TypeError, "memory word address must be an exact integer");
+        return NULL;
+    }
+    address = PyLong_AsUnsignedLongLong(argument);
+    if (PyErr_Occurred())
+        return NULL;
+    if (address > UINT64_MAX - 3) {
+        PyErr_SetString(PyExc_OverflowError, "memory word spans the u64 address range");
+        return NULL;
+    }
+    status = self->memory(self->handle, (uint64_t)address, bytes, sizeof(bytes));
+    if (status)
+        return backend_error(self, status, 0, 0);
+    value = (uint32_t)bytes[0] | (uint32_t)bytes[1] << 8 |
+            (uint32_t)bytes[2] << 16 | (uint32_t)bytes[3] << 24;
+    return PyLong_FromUnsignedLong(value);
+}
+
 static PyObject *reader_original(Reader *self, void *unused)
 {
     (void)unused;
@@ -131,16 +165,17 @@ static PyObject *reader_original(Reader *self, void *unused)
 static int reader_init(Reader *self, PyObject *args, PyObject *kwargs)
 {
     PyObject *cpu, *original, *error_type, *registers;
-    unsigned long long read_address, batch_address;
+    unsigned long long read_address, batch_address, memory_address = 0;
     void *handle;
-    static char *names[] = {"cpu", "original", "error_type", "read_address", "batch_address", "registers", NULL};
+    static char *names[] = {"cpu", "original", "error_type", "read_address", "batch_address", "registers",
+                            "memory_address", NULL};
 
     if (self->cpu) {
         PyErr_SetString(PyExc_RuntimeError, "native reader cannot be rebound");
         return -1;
     }
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "OOOKKO", names, &cpu, &original,
-                                    &error_type, &read_address, &batch_address, &registers))
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "OOOKKO|K", names, &cpu, &original,
+                                    &error_type, &read_address, &batch_address, &registers, &memory_address))
         return -1;
     if (!read_address || !batch_address || !PyCallable_Check(original) ||
         !PyExceptionClass_Check(error_type) || !PyTuple_Check(registers) || PyTuple_GET_SIZE(registers) != 3) {
@@ -167,6 +202,7 @@ static int reader_init(Reader *self, PyObject *args, PyObject *kwargs)
     self->thread = PyThread_get_thread_ident();
     self->read = (read_register_fn)(uintptr_t)read_address;
     self->batch = (read_batch_fn)(uintptr_t)batch_address;
+    self->memory = (read_memory_fn)(uintptr_t)memory_address;
     return 0;
 }
 
@@ -195,6 +231,7 @@ static void reader_dealloc(Reader *self)
 
 static PyMethodDef reader_methods[] = {
     {"csrs", (PyCFunction)reader_csrs, METH_NOARGS, "Read three fresh CSRs using the loaded Unicorn C API."},
+    {"u32", (PyCFunction)reader_u32, METH_O, "Read a fresh little-endian word using the loaded Unicorn memory API."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -221,7 +258,7 @@ static PyTypeObject ReaderType = {
 static struct PyModuleDef module = {
     PyModuleDef_HEAD_INIT,
     .m_name = "_npu_read_api",
-    .m_doc = "Per-engine/thread bridge to the same loaded Unicorn register-read APIs.",
+    .m_doc = "Per-engine/thread bridge to the same loaded Unicorn register and memory read APIs.",
     .m_size = -1,
 };
 
@@ -235,6 +272,10 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     if (!result)
         return NULL;
     if (PyModule_AddObjectRef(result, "Reader", (PyObject *)&ReaderType) < 0) {
+        Py_DECREF(result);
+        return NULL;
+    }
+    if (PyModule_AddIntConstant(result, "API_VERSION", 2) < 0) {
         Py_DECREF(result);
         return NULL;
     }

@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - Fresh Native Word Reads; Raw-Boot Diagnostic Still Fails
+
+- Continued solo from7f88c65. Host-only API version2 adds Reader.u32: four fresh
+  little-endian bytes from the same loaded Unicorn API, checked engine/thread,
+  strict unsigned-address bounds and errors, no value cache. Normal Pair and
+  general cpu.mem_read remain unchanged; only the fresh diagnostic opts in.
+- Public CLI plain/UBSan builds each pass32 API/CSR units:19 reader/13 CSR,
+  six new word tests, zero failures/errors/skips. Actual small RV32 load/store
+  transcripts include live host injection. These do not execute NPU firmware.
+  Fresh observer/tooling/checker suite passes167, zero skips.
+- One100000-call microbenchmark measures653249447ns Python versus123776179ns
+  native word reads, about5.3x. Fresh supplemental profile2 still fails before
+  RRO at0x84004efe,287383 cumulative observed instructions. Original per-run
+  boot3M/10s and RPC100M/60s limits remain. The longer raw-boot proposal was not
+  used. Probe/controller stay failed; old q3 failure is not replaced by a pass.
+- New phases retain400MiB/no-swap, fresh Windows/WSL RAM and both backing-volume
+  checks, C storage lock, old compact1GiB future reserve and both2GiB margins.
+  Two captures refused before dispatch on missing Get-FileHash; explicit Utility
+  import in the subprocess fixes dispatch, without global policy changes.
+- Consumed source/docs, exact old module/source bindings, failed probe and all
+  complete protected source/cache inventories are retained. Lock88502ab3,
+  patchbb457928 and module producera840d3cc stay unchanged. No old job restart,
+  image, module load, router contact or flash. Full native/MCU physical lifetime/
+  BA reuse/hot/image/client/performance/stability gates stay open. See
+  research/checkpoints/2026-10-25-npu-native-word-reader/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-25 - ARM64/SMP Work And Managed HIF2 Lifetime
 
 - Continued solo. A Linux6.18.52 ARM64/SMP test kernel runs14 selected-current-C
@@ -205,7 +231,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (selected ARM64/SMP work/HIF2 qualified; full target and physical gates open)
+Last updated: 2026-10-25 (native word API qualified; unchanged raw boot still incomplete; full NPU goal open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

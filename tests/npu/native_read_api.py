@@ -1,4 +1,4 @@
-"""Explicit opt-in read adapter; no hooks, guest instructions or register values are cached."""
+"""Explicit opt-in fresh register/word reads; no hooks, instructions or values are cached."""
 import ctypes
 import hashlib
 import importlib.util
@@ -27,10 +27,14 @@ def load_extension(path, expected_sha256):
         if (Path(module.__file__).resolve() != path or
                 module._verified_sha256 != expected_sha256):
             raise RuntimeError('a different native reader extension is already loaded')
+        if getattr(module, 'API_VERSION', None) != 2:
+            raise RuntimeError('native reader requires the reviewed register/word API version2')
         return module
     spec = importlib.util.spec_from_file_location('_npu_read_api', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    if getattr(module, 'API_VERSION', None) != 2:
+        raise RuntimeError('native reader requires the reviewed register/word API version2')
     module._verified_sha256 = expected_sha256
     sys.modules[spec.name] = module
     return module
@@ -41,9 +45,13 @@ def install(cpu, module):
     if isinstance(original, module.Reader):
         raise RuntimeError('native reader is already installed')
     read = binding.uclib.uc_reg_read
+    memory = binding.uclib.uc_mem_read
     if (tuple(read.argtypes or ()) != (ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p) or
             read.restype is not ctypes.c_int or ctypes.sizeof(ctypes.c_void_p) != 8):
         raise RuntimeError('native reader C API signature/host width changed')
+    if (tuple(memory.argtypes or ()) != (ctypes.c_void_p, ctypes.c_uint64,
+            ctypes.POINTER(ctypes.c_char), ctypes.c_uint64) or memory.restype is not ctypes.c_int):
+        raise RuntimeError('native reader memory C API signature changed')
     reviewed = CsrSampler(cpu)
     registers = tuple(getattr(r, 'UC_RISCV_REG_X' + str(index)) for index in range(32))
     registers += (r.UC_RISCV_REG_PC, *REGISTERS)
@@ -51,7 +59,8 @@ def install(cpu, module):
         raise RuntimeError('native reader register representation changed')
     reader = module.Reader(cpu, original, UcError,
         ctypes.cast(read, ctypes.c_void_p).value,
-        ctypes.cast(binding.uclib.uc_reg_read_batch, ctypes.c_void_p).value, REGISTERS)
+        ctypes.cast(binding.uclib.uc_reg_read_batch, ctypes.c_void_p).value, REGISTERS,
+        ctypes.cast(memory, ctypes.c_void_p).value)
     if any(reader(register) != original(register) for register in registers) or reader.csrs() != reviewed():
         raise RuntimeError('native reader values differ from the reviewed Python binding')
     cpu.reg_read = reader
