@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-25 - Linux UML Work And HIF2 Lifetime
+
+Selected driver code now passes14 cases inside an actual Linux6.18.52 UML
+kernel:11 work-lifetime cases and three managed-HIF2 cases. Six compiled controls
+produce their intended KUnit failures, with no crashes or skips. Eleven separate
+host units check the result verifier. Workqueues, device links, driver-core and
+devres are real Linux implementations, not the earlier pthread API models.
+
+The bus/PCI/MMIO and radio/MCU/DMA/NAPI/IRQ boundaries remain synthetic, and
+UML is not ARM64/SMP or router hardware. The current firmware/module bytes are
+unchanged; no router image or flash follows. Physical drains, complete native/
+hot lifetime, hardware and actual-client qualification remain open.
+See [checkpoint](research/checkpoints/2026-10-25-npu-linux-lifetime/REPORT.md).
+
 ## 2026-10-25 - Cold Probe Work And Error Cleanup
 
 Probe failures and normal remove now share stage-aware cleanup. Work is built

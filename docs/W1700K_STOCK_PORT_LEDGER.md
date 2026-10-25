@@ -1,5 +1,41 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-25 - Linux UML Work And Managed HIF2 Lifetime
+
+- Continued solo. Actual Linux6.18.52 UML executes selected constructor/init/
+  cleanup C with real workqueues and selected HIF2 lookup/init/probe/remove C
+  with real driver-core probe/remove, links, refs and devres. Eleven work plus
+  three HIF2 cases pass; six compiled controls each produce the intended KUnit
+  failure without crashes/errors/skips. Eleven new synthetic-host checker units
+  separately reject wrong/missing/skipped/crashed or unrelated-control results.
+- Work tests hold init/RC/dump/reset/WED/scan and primary/extra mac/ROC callbacks,
+  verify real joins, self-requeue and post-cleanup rejection. Cold recovery stays
+  disabled; unconstructed ROC is not touched. HIF2 holds real consumer probe/
+  remove while supplier unbind runs, then observes ordered devres release. An
+  already-unbinding supplier is rejected and failed probe releases its link/refs.
+- Reduced mt76 field types and bus/PCI/MMIO, radio/MCU/DMA/NAPI/IRQ/NPU-owner
+  effects remain models. The synthetic primary returns EIO before hardware
+  setup; actual deferred-reprobe policy is not exercised. UML/UP is not target
+  ARM64/SMP, the whole mt76 module or physical router ownership/drain proof.
+- Linux archive2b69564f matches recipe/official checksum. Sixteen critical files
+  match the prepared target using exact core.c/pci.h overrides. Source and prior
+  UML-cache inventories compare unchanged. Firmware lock88502ab3 and module
+  producera840d3cc/four module bytes remain; no new ARM64 compile/router image.
+- Preserve auxiliary OOM, boolean/integer Kconfig mismatch, initial read-only
+  HOME boot panic and wrong merged-object inspection. XZ is bounded to one
+  decoder; HOME is private. Built-in work/HIF component objects import real Linux
+  APIs. The linked image is reused after corrected inspection, not rebuilt by
+  the runtime adapter. A copied source-directory duplicate is not propagated
+  into the next cache; original caches remain intact.
+- New400MiB/no-swap jobs,128MiB UML guest and512MiB driver-run output reserve
+  retain both storage margins and the existing C lock. Old budgets/jobs/VM and
+  global policies do not change. Resource-only inherited generic kernel flags
+  do not decide UML test acceptance; future metadata names target ARM64 explicitly.
+- Actual target/full PCI/mac80211/IRQ/NAPI, physical cold/MCU-exit failures,
+  firmware BA reuse/hot retirement/rearm and complete native/image/hardware/
+  client/performance/stability remain. No host module load/flash or old replay
+  restart. Read linux-lifetime REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-25 - Cold Probe Work And Error Cleanup
 
 - Original selected C reproduces four findings: missing unregister after late
@@ -126,7 +162,7 @@
   Read rro-profile2 REPORT/EVIDENCE. Full goal active; no subagents.
 
 
-Last updated: 2026-10-25 (cold probe work/error cleanup; Linux, native and physical qualification still open)
+Last updated: 2026-10-25 (Linux UML work/HIF2 qualification; target ARM64 and physical acceptance still open)
 
 Purpose: one durable reference for what has been patched, implemented, reconstructed, or only observed from the stock Quantum Fiber W1700K firmware into our custom OpenWrt builds, and what is still left.
 

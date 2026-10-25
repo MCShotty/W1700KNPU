@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-25 - Linux UML Work And Managed HIF2 Qualification
+
+Actual Linux6.18.52 UML executes selected constructor/init/cleanup and HIF2
+lookup/init/probe/remove C:14 cases pass, six compiled controls fail precisely
+their intended KUnit assertions, and11 separate synthetic-host checker units pass.
+Real Linux work-disable/join, callback requeue rejection, kthreads/completions,
+driver-core consumer probe/remove joins, devm release and explicit refs execute.
+The target's16 critical source files match via two exact target overrides.
+
+This is a UP UML kernel with reduced mt76 model types and synthetic bus/PCI/MMIO;
+radio/MCU/DMA/NAPI/IRQ/NPU-owner boundaries remain models. It is not the complete
+ARM64 driver, actual PCI binding, deferred reprobe, physical DMA drain or hardware.
+The synthetic primary stops with EIO before radio setup. Firmware lock88502ab3
+and module producera840d3cc remain unchanged; no new ARM64 link/image is claimed.
+Producer: `.local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/result.json`.
+
+Original source/cache inventories stay unchanged. Retain the failed auxiliary
+extract/config/initial UML boot/object-path inspection and scope corrections.
+Next actual target/SMP and full PCI/mac80211/IRQ/NAPI lifetime, physical cold/MCU
+failure handling, firmware reuse/hot retirement/rearm, complete native/image/
+hardware/client/performance/stability. Old handles remain missing, not successful
+or restarted. Read linux-lifetime REPORT/EVIDENCE; continue solo, full goal active.
+
 ## 2026-10-25 - Cold Probe Cleanup Implemented; Linux Qualification Open
 
 Work construction now precedes live IRQ registration. Cold reset/dump work is

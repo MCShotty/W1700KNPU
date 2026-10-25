@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-25 - Linux UML Paths Qualified; Full Target And Physical Gates Remain
+
+Selected work/HIF2 C now runs in actual Linux6.18.52 UML:14 cases, six intended
+compiled controls and11 separate checker units. Workqueue and driver-core APIs
+are real, with work-object debugging enabled. This removes their previous
+host-model assumption for the tested paths, not for the entire device lifetime.
+
+Next qualify actual ARM64/SMP and complete PCI/mac80211/IRQ/NAPI lifetime, full
+cold-prefix physical/MCU-exit-failure handling and a real drain/retention contract.
+The UML bus/PCI/MMIO and radio/MCU/DMA/NAPI/IRQ/owner boundaries remain synthetic;
+deferred reprobe is not tested. Establish current-firmware BA ordering/cookie or
+a real reuse fence, finish hot admission/production retirement/rearm, then complete
+native replays, current full image, cold-fault/HIF2 hardware, actual clients,
+performance and stability. Source lock88502ab3/module producera840d3cc stay current;
+no image/load/flash or replay restart. The60-second diagnostic budget is still
+unanswered. Continue solo; read linux-lifetime REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-25 - Cold CPU Cleanup Implemented; Linux And Physical Gates Remain
 
 Cold work construction, early recovery rejection and a shared probe/remove

@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-25 - Linux UML Work And HIF2 Lifetime
+
+- Continue without subagents. Actual Linux6.18.52 UML now runs selected driver
+  constructor/init/cleanup and HIF2 lookup/init/probe/remove C. Eleven work cases
+  and three HIF2 cases pass; six compiled controls each fail their intended KUnit
+  assertion without crashes/skips. Eleven new checker units are synthetic-host
+  tests, not additional kernel cases. Kernel work-object debugging is enabled.
+- Real workqueues, kthreads, completions, device links, driver-core probe/remove,
+  device references and devres execute. PCI/MMIO and radio/MCU/DMA/NAPI/IRQ/owner
+  effects remain synthetic/models. This is UML/UP, not the full ARM64 mt76 module
+  or physical router. The synthetic primary returns EIO before radio setup;
+  actual deferred-reprobe policy is not qualified by the HIF2 helper test.
+- Source archive matches the recipe/official checksum;16 critical files match
+  the target using two exact target overrides. Completed compile inspection uses
+  two built-in objects, not an assumed merged object. Failed extraction/config/
+  initial boot/inspection attempts remain. Original source and prior UML cache
+  inventories compare unchanged. Firmware lock88502ab3/modulesa840d3cc stay;
+  no fresh ARM64 module link or router image is claimed here.
+- Target ARM64/SMP, full PCI/mac80211/IRQ/NAPI, complete physical cold/MCU-exit
+  failure handling, firmware BA reuse, hot retirement/rearm, complete native/
+  image/hardware/client/performance/stability remain. No replay restart or host
+  module load/flash. Read linux-lifetime REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-25 - Cold Probe Work And Error Cleanup
 
 - Continue without subagents. Driver work/list/lock construction precedes IRQ

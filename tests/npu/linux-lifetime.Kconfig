@@ -1,0 +1,4 @@
+config W1700K_LIFETIME_KUNIT_TEST
+	bool "W1700K selected-C work and HIF2 lifetime tests"
+	depends on KUNIT
+	default n

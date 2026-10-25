@@ -1,5 +1,27 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-25 - Linux UML Work And HIF2 Lifetime
+
+Goal turn: progress, not completion. Continued without subagents. Linux6.18.52
+UML now runs14 selected-C work/HIF2 cases with real Linux workqueues, kthreads,
+device links, driver-core and devres; six compiled controls fail their intended
+KUnit assertion without crashes/skips. Eleven separate checker units are host
+synthetics. Work-object debugging is enabled and the two built-in component
+objects import the real APIs. Runtime producer:a28080b8, kernel1bc41df8.
+
+The archive checksum and16 target-critical file identities are bound, with two
+exact target overrides. Original source/cache inventories stay. Keep the first
+extract/config/HOME-boot/object-path inspection failures. Private HOME corrects
+runtime isolation without loosening host writes; completed compile bytes are
+reused. The next cache uses a source link rather than another directory duplicate.
+
+This is UP UML with reduced model types/synthetic PCI/MMIO and radio/MCU/DMA/
+NAPI/IRQ/owner boundaries, not full ARM64/PCI/SMP or physical drain proof. The
+synthetic probe exits EIO before radio setup, so deferred reprobe remains open.
+Source lock88502ab3/module producera840d3cc remain unchanged; no router image,
+host module load/flash or replay restart. Full target/native/physical/hardware/
+client acceptance remains. Read linux-lifetime REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-25 - Cold Probe Work And Error Cleanup
 
 Goal turn: progress, not completion. Continued without subagents. Four original

@@ -1,0 +1,248 @@
+{
+  "goal_turn_classification": "progress",
+  "base_commit": "e87f1d04bf7ab5a500424126af556c7e37c5db16",
+  "scope": "Selected current work/HIF2 C executes real Linux 6.18.52 UML APIs; reduced mt76 types, synthetic PCI/MMIO and modeled lower hardware remain",
+  "actual_Linux_UML": true,
+  "positive_cases": 14,
+  "work_cases": 11,
+  "HIF2_cases": 3,
+  "compiled_intended_failure_controls": 6,
+  "synthetic_host_checker_units": 11,
+  "kernel_sha256": "1bc41df809ec73b5f79020be68e34845dae5c9cbefae73514c9729da465f36b0",
+  "kernel_config_sha256": "9efb4541e1bb39d6ed89aa6e241307ffa146c27e684b20f6a70d733d6ad5ff4d",
+  "architecture": "um",
+  "guest_memory_mib": 128,
+  "target_ARM64_SMP_qualified": false,
+  "real_workqueue_driver_core_devres": true,
+  "synthetic_bus_PCI_MMIO": true,
+  "radio_MCU_DMA_IRQ_NAPI_NPU_owner_modeled": true,
+  "deferred_reprobe_policy_qualified": false,
+  "whole_mt76_module_runtime_qualified": false,
+  "physical_drain": false,
+  "source_lock_sha256": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+  "retained_module_producer": ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json",
+  "retained_module_producer_sha256": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f",
+  "retained_module_hashes": {
+    "mt76.ko": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+    "mt76-connac-lib.ko": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3",
+    "mt7996/mt7996e.ko": "af458b048f32b015e550dc523f3706d00b5a650030e000c0bbf878f4186045bb",
+    "airoha_npu.ko": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+  },
+  "retained_module_inputs_unchanged": true,
+  "fresh_ARM64_compile": false,
+  "retained_15_host_suites_reexecuted": false,
+  "original_source_and_prior_UML_cache_unchanged": true,
+  "failed_attempts_preserved": true,
+  "failed_seal_q11_preserved": true,
+  "partial_extract_dangling_links": 1,
+  "current_boot_old_handles_missing_not_pass": true,
+  "original_replays_restarted": false,
+  "new_raw_boot_budget_used": false,
+  "module_loaded": false,
+  "image_built": false,
+  "hardware": false,
+  "full_native_verdict": false,
+  "full_npu_goal_complete": false,
+  "no_subagents": true,
+  "private_evidence": ".local/npu-build-scratch/native-c2/linux-lifetime-proof-q13/evidence-q13.json",
+  "private_evidence_sha256": "81cfb4ebc0d97a0480bdff694eb336e6e09c26f5170341c62833b8a06d5c1f47",
+  "project_flat_bindings": 53525,
+  "external_bindings": 2,
+  "selected_runtime_bindings": 2,
+  "bound_directory_inventories": {
+    ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src": {
+      "entries": 91236,
+      "sha256": "83e832d8071cd2de382320390195f56c58116af14931755f0d55d26fefe59f18",
+      "method": "test_rro_reset_modules.snapshot",
+      "snapshot": ".local/npu-build-scratch/native-c2/linux-lifetime-proof-q13/source-current.json"
+    },
+    ".local/npu-build-scratch/native-c2/linux-lifetime-boot-q4/build": {
+      "entries": 101408,
+      "sha256": "d9de98e65d31fb95f9e8ba0d9eda98e819cad8c3e196a2f20e927066793fda51",
+      "method": "cache_inventory_q6.snapshot",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src",
+      "snapshot": ".local/npu-build-scratch/native-c2/linux-lifetime-proof-q13/old-build-current.json"
+    }
+  },
+  "inventory_counts_are_not_deduplicated_totals": true,
+  "source_versions": {
+    "AGENTS.md": {
+      "old_sha256": "9ef85076ede9918080246a2823a4b562b116e538ba384ccfd023b16392f6b250",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/AGENTS.md"
+    },
+    "README.md": {
+      "old_sha256": "3440a4465636dd05656a3c9a84fb9d22796fdee28677a0f4c238ad1bde733c9b",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/README.md"
+    },
+    "docs/REMAINING_WORK.md": {
+      "old_sha256": "3ccaa36d2bddb7356db8a5e952a966f3a055d70cae58720c1aaa70859ddbebda",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/docs/REMAINING_WORK.md"
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "old_sha256": "59ebe10323cf07020eedf7cc91ba6662db68da2827813f799226da29e95564ed",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md"
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "old_sha256": "78f1d8fc879f04284f28871df057ed1038ad12fd7e1e0ada22f2ef3f6f2079b0",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/docs/W1700K_STOCK_PORT_LEDGER.md"
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "old_sha256": "17d7114103cbb2b15f4c67ce2a71d0471661192de31dacf99d502c1a76cc32e4",
+      "preserved_path": ".local/npu-linux-lifetime-20261025/before-docs/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md"
+    }
+  },
+  "public_source_blobs": {
+    "AGENTS.md": "bcfb8f6112986b81e00a15999c6721771a24bdba227d6fa0019ffe887be4d938",
+    "README.md": "53441b2f27a3c5e0959631936bd036a031d52d57157c421f0279ff281a93e668",
+    "docs/REMAINING_WORK.md": "ec79fae5ca8e1aabbf486fc0513affc1e62d97fcd7e9d4a5a2aafd41f7371c7e",
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "7ba58f7ed4c673666fbf0206d2919fa76cecadd53323827fc10c08d758e39553",
+    "docs/W1700K_STOCK_PORT_LEDGER.md": "23a73ff9a4d2c08a2229f6108eb458cb6f03ecef2e208857d1342280b2e27851",
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "f62a4f7896ec79aa9180e9f299865dc418f72e760a9ba4767f6439023dc6bb77",
+    "research/checkpoints/2026-10-25-npu-linux-lifetime/REPORT.md": "16835fdd5537ce804b66899cd026b32e7c1a649b070ae0908b195cc1008e493e",
+    "tests/npu/linux-lifetime-hif.c": "b4c73cb839549da3e70f9badaa2c2cd3787a3b7f131ac10beeb728589da4e11e",
+    "tests/npu/linux-lifetime-work.c": "9e6e185a15cc07dce8dbd15967c50d653deb2ce5739b900a60812b2aecfed023",
+    "tests/npu/linux-lifetime.Kconfig": "8898c0eedafaa6d3464b2d9da630282f02e7fdad26cd00f0fa10dfeee58dbef4",
+    "tests/npu/linux-lifetime.Makefile": "ddbbb9d569fcd708f39e9e3a2d462f9310a685e55899cdaf623d5b69e597ff7d",
+    "tests/npu/linux-lifetime.config": "816d2ef4c4e48f7da77d198d136a1b01cf5a754b881e81392545011b17d37717",
+    "tests/npu/test_linux_lifetime.py": "5ff71b7aac9e751acb7bb821fa6ca0f26bcda6cf02f7202d21cae8cf222be921",
+    "tests/test_npu_linux_lifetime.py": "cfa60f756921cb4dee21bd38277f5bbb9e8c346d8f6b8c4d8e7ef6a85ed89ed0"
+  },
+  "receipts": {
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/result.json": "a28080b85a5d116625fecb8c6a70cc6c57f56290ac1ac16de9a86d343beab181",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q5/checker-units.json": "7c985d53cc0e313bb65bb1e08192d0abc343faf799109493db9dcfa908d32d03",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-verify-q9/result.json": "41e48170523a0e9b9fd35fa762fb34cfeea2a551c0cea6e0cdd02d8d1f884ad1",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f",
+    ".local/npu-build-scratch/native-c2/cold-unwind-current-q26/result.json": "1c87dbcb82a1fb0434770fc215437f56f07ac3a7395c6863b69f255b4fc0b86f",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/actual/result.json": "795e3ede2bb00714d7e2b971255f6fbbbfb521bb0d6cb525d4c24dabad65f2a1",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/cancel-init/result.json": "4970a7b24e5e96b69290f6081a7a38fb5ff5a68647011734f6e8589ba4e16f57",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/missing-rc/result.json": "c08f8186f9ce4ca678d22af09e3237077c14895a77002f697c436a5da2928870",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/cancel-scan/result.json": "4682767e5ecf52de09e48613ee6d582588375e7a74f7be1d892a0e928fc96f0e",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/early-recovery/result.json": "c94700f162d027e95687c9bdb07af2aa4366f2edf641b4e0c7d788219953f462",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/no-managed-link/result.json": "15b26c93d0ca43bc9e479a8e53a54607c455eb99b1fb7ca0bae0668fd678cea8",
+    ".local/npu-build-scratch/native-c2/linux-lifetime-lifetime-q7/unbinding-accepted/result.json": "cef6b461daba77d6a17baf27e41b55ccf0bd986175bc555997c3aaddcc74f863"
+  },
+  "kernel_archive_sha256": "2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8",
+  "critical_target_sources": {
+    "drivers/base/core.c": {
+      "archive": "6682909efc08307b3714bb9594b4c211c1b48703f5f0b1811fccb0238e9af561",
+      "target": "1479a18a486671b0b48fc24c5110185a400aca01038120deac95cadff56b8f98"
+    },
+    "drivers/base/dd.c": {
+      "archive": "e980c66827102eda2ef0ce947257acd247e6b39f8bd45ed8e24e3dca95880b33",
+      "target": "e980c66827102eda2ef0ce947257acd247e6b39f8bd45ed8e24e3dca95880b33"
+    },
+    "drivers/base/bus.c": {
+      "archive": "53975b1d25058a6828ea4a1d0fa2cc3d1a23dc5ba37a8cb8e2a765fb707399e1",
+      "target": "53975b1d25058a6828ea4a1d0fa2cc3d1a23dc5ba37a8cb8e2a765fb707399e1"
+    },
+    "drivers/base/driver.c": {
+      "archive": "eb941fd97750d96c5c877fe390fa2ac4ced8cd7eb34a66f4a27f88ecb4341bfa",
+      "target": "eb941fd97750d96c5c877fe390fa2ac4ced8cd7eb34a66f4a27f88ecb4341bfa"
+    },
+    "drivers/base/devres.c": {
+      "archive": "5c2b58422bebe697e6b528d02bf1f9aea2a2d77c0ba47d8a44e190ee0bfb5a6b",
+      "target": "5c2b58422bebe697e6b528d02bf1f9aea2a2d77c0ba47d8a44e190ee0bfb5a6b"
+    },
+    "kernel/workqueue.c": {
+      "archive": "bf0289039704157176081b91d8e4e4315dd43af144c6d09c4d71ae35efe69556",
+      "target": "bf0289039704157176081b91d8e4e4315dd43af144c6d09c4d71ae35efe69556"
+    },
+    "kernel/kthread.c": {
+      "archive": "edc2aa0e2788de9f706e6a155d2eee0593c1dac61c6f3f480fc929f32c30c90e",
+      "target": "edc2aa0e2788de9f706e6a155d2eee0593c1dac61c6f3f480fc929f32c30c90e"
+    },
+    "include/linux/workqueue.h": {
+      "archive": "69d623babcc1d9a482d32c6a86dab97a43913914b2d4705620747bb35b1bb030",
+      "target": "69d623babcc1d9a482d32c6a86dab97a43913914b2d4705620747bb35b1bb030"
+    },
+    "include/linux/kthread.h": {
+      "archive": "9208cb960a53e6aa64f5578c225eb118f649bee407cdb7ab12d684a8c4e1248d",
+      "target": "9208cb960a53e6aa64f5578c225eb118f649bee407cdb7ab12d684a8c4e1248d"
+    },
+    "include/linux/device.h": {
+      "archive": "2f57fe1d62086943b07fb0476a6ee98c773dbc660296186b2e22f4253c9e47d9",
+      "target": "2f57fe1d62086943b07fb0476a6ee98c773dbc660296186b2e22f4253c9e47d9"
+    },
+    "include/linux/device/driver.h": {
+      "archive": "f103b4925305db24e33ce6a2c999e2fa28b1ac967615d312e486336201bbca6c",
+      "target": "f103b4925305db24e33ce6a2c999e2fa28b1ac967615d312e486336201bbca6c"
+    },
+    "include/linux/device/bus.h": {
+      "archive": "ecd13dfdc547c3ea25e9659e89efb7cd79de83cece44cb612bd3894b8e800325",
+      "target": "ecd13dfdc547c3ea25e9659e89efb7cd79de83cece44cb612bd3894b8e800325"
+    },
+    "include/linux/pci.h": {
+      "archive": "8c9a16833fa406d6a85bc7df93c77a1ffc170315e34f8ddc9684adb249162680",
+      "target": "150d0e190bbf135b3a8523055569d040e22df8e02352b898e7bbcab4adb7c18f"
+    },
+    "lib/kunit/test.c": {
+      "archive": "2b2bfa0a53a3797260d0df3d001809939a77bb3ce402238d7311e13d7a87890a",
+      "target": "2b2bfa0a53a3797260d0df3d001809939a77bb3ce402238d7311e13d7a87890a"
+    },
+    "lib/kunit/executor.c": {
+      "archive": "99463d90f4e5e6c5483c8716bdca287b3ec531ed311b403f291170e4bf3831ac",
+      "target": "99463d90f4e5e6c5483c8716bdca287b3ec531ed311b403f291170e4bf3831ac"
+    },
+    "lib/kunit/try-catch.c": {
+      "archive": "de5b720e6fb5a8c4e87c2c2e187a5c756d261999fa83807dae309374034d873f",
+      "target": "de5b720e6fb5a8c4e87c2c2e187a5c756d261999fa83807dae309374034d873f"
+    }
+  },
+  "Jev_report_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "real_API_claim_supported": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "hardware_limit_clear": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "full_ARM64_claim": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "controls_not_crashes": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "host_units_separate": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "deferred_reprobe_limited": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "no_fresh_ARM64_build": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "failed_attempts_disclosed": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 4655,
+      "output_tokens": 166
+    },
+    "elapsed_ms": 1472,
+    "request_sha256": "5e4a11ffa3e7b369e208a3eb6224f8a71a9f379c603d35798a84d36cbe164cdb",
+    "result_sha256": "6aa825fd7a4c83adf578d828706cd660ff879eb11d9b0c8cf62ace87ab454cdf",
+    "semantic_evidence_not_proof": true
+  },
+  "runtime_observation": {
+    "w1700k-npu-compact-default-q1.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    },
+    "w1700k-npu-rro-observer-native-q3.service": {
+      "LoadState": "not-found",
+      "SubState": "dead",
+      "MainPID": "0"
+    }
+  }
+}
