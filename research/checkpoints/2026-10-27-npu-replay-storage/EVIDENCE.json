@@ -1,0 +1,392 @@
+{
+  "format": "w1700k-replay-storage-scope-v1",
+  "base_commit": "11d4abaf93f393bb775742e799c3a7b1db9c733d",
+  "observed_unix_ns": 1793055380947700880,
+  "compaction": {
+    "Target": "D:\\WSL\\Ubuntu\\ext4.vhdx",
+    "StartedUtc": "2026-10-26T22:39:04.1206027Z",
+    "Method": "Microsoft CompactVirtualDisk V2 open / V1 compact",
+    "BeforeBytes": 173275086848,
+    "BeforeDFreeBytes": 20476542976,
+    "SparseBefore": false,
+    "BeforeAuditSHA256": "69bc5c25db63e7f51752d999e4e79a4fb8dec21b3cde00bd35194f2491c18dc6",
+    "PriorRefusalPreserved": true,
+    "Deletion": false,
+    "SparseModeChanged": false,
+    "OriginalReplaysRestarted": false,
+    "RunningDistrosBeforeShutdown": [
+      "Ubuntu"
+    ],
+    "GlobalShutdown": true,
+    "ExclusiveOfflineOpenSucceeded": true,
+    "Win32Status": 0,
+    "Message": "The operation completed successfully.",
+    "AfterBytes": 173193297920,
+    "AfterDFreeBytes": 20558331904,
+    "ReclaimedBytes": 81788928,
+    "SparseAfter": false,
+    "RestartExitCode": 0,
+    "FinishedUtc": "2026-10-26T22:41:51.6663246Z",
+    "Passed": true
+  },
+  "post_startup_snapshot": {
+    "ObservedUtc": "2026-10-26T22:48:47.1345383Z",
+    "CFreeBytes": 104577490944,
+    "DFreeBytes": 20524777472,
+    "UbuntuVHDBytes": 173226852352,
+    "KeepaliveWindowsPID": 8964,
+    "KeepaliveAlive": true
+  },
+  "before_tracking_edits": {
+    "compared_files": 2536,
+    "tracked_files": 2498,
+    "all_bound_files_unchanged": true,
+    "prepared_replay_bindings": 293,
+    "git_connectivity_only_exit": 0,
+    "complete_private_archive_audit": false
+  },
+  "after_tracking_edits": {
+    "other_bound_files_unchanged": 2530,
+    "previous_tracking_bodies_byte_identical": true,
+    "files": {
+      "AGENTS.md": {
+        "original_blob_sha256": "fe49c22f4932ea89a6fb82e34a3e67881e34ae5997b2a2e5fbfdb93897436c5d",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 1636,
+        "current_sha256": "1342220b5fb73be60465a997b7b61f6886774d8bc6f80b5b824c1fe011de274e"
+      },
+      "README.md": {
+        "original_blob_sha256": "40b02542a8aec5642bc804400ecd6ce293e9cc4274bb2931db2e0450de0fe85e",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 605,
+        "current_sha256": "b7d0bb124e7fe2d0b0c854cd59c58130a326de3c9ef6e00315f1df8b07ab28d2"
+      },
+      "docs/REMAINING_WORK.md": {
+        "original_blob_sha256": "4caa25631172a42c0c30e6522d1e5fbf177ae9adc7baaac1f8b58afd6f61ffec",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 1235,
+        "current_sha256": "79979aed258125859a0e8e2eaeae569c3191ee2c3f021777f2088973c883d8b6"
+      },
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+        "original_blob_sha256": "0c54360c5fa14419f07a7d9cbb4e730f79fcc7f25e1c01a2679190ad440a65f4",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 1706,
+        "current_sha256": "4d59bfb503f85d46a1e7df88da674ac3939d7cd53dde2ac59f11af645fdf7eb6"
+      },
+      "docs/W1700K_STOCK_PORT_LEDGER.md": {
+        "original_blob_sha256": "65bfb223f35a5333f30ac490326da7d9fc7d2a00bdd107306b72391507c5309f",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 3123,
+        "current_sha256": "4cc37514dc2d246718f39ccd809a7645f9bdeade8a822ad2f8adbc0a0d3c2046"
+      },
+      "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+        "original_blob_sha256": "045a12ad433dfe1da7681809dd93b78cf1e60ccadf36668fd3e10ec7a5156d32",
+        "original_body_byte_identical": true,
+        "prefix_bytes": 1452,
+        "current_sha256": "63a7c2de1401914b59b686444bfa1053ce25cd4415af06811b7acbcd5f069618"
+      }
+    }
+  },
+  "replay": {
+    "terminal": "failed",
+    "exit_code": 1,
+    "recorded_positive_RPCs": 149,
+    "operation_counts": {
+      "1": 1,
+      "2": 139,
+      "3": 9
+    },
+    "failure": {
+      "profile": 0,
+      "error": "AssertionError(('new-RPC-budget', '0x84104d02', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 9, 'slot': 11, 'table': 1049632768, 'pointer': 1208549376, 'base': 1208549376, 'bytes': 65536}, {'blocks': 7062678, 'metadata_writes': 722891, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 22812}))",
+      "counts": {
+        "blocks": 7062678,
+        "metadata_writes": 722891,
+        "payload_reads": 259,
+        "mailbox_veneer": 1,
+        "mailbox_binding": 1,
+        "table_writes": 1,
+        "table_reads": 1,
+        "extent_writes": 24576,
+        "extent_reads": 22812
+      },
+      "current": {
+        "kind": "publish",
+        "ordinal": 9,
+        "slot": 11,
+        "table": 1049632768,
+        "pointer": 1208549376,
+        "base": 1208549376,
+        "bytes": 65536
+      },
+      "injected": false,
+      "instruction_budget": 100000000,
+      "timeout_us": 60000000,
+      "last_native_failure": {
+        "error": "AssertionError(('new-RPC-budget', '0x84104d02', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 9, 'slot': 11, 'table': 1049632768, 'pointer': 1208549376, 'base': 1208549376, 'bytes': 65536}, {'blocks': 7062678, 'metadata_writes': 722891, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 22812}))",
+        "terminal_PC": 2215660802,
+        "SP": 2214726576,
+        "min_sp": 2214726352,
+        "mstatus": 0,
+        "current": {
+          "kind": "publish",
+          "ordinal": 9,
+          "slot": 11,
+          "table": 1049632768,
+          "pointer": 1208549376,
+          "base": 1208549376,
+          "bytes": 65536
+        },
+        "wall_ns": 60001780830,
+        "counts": {
+          "blocks": 7062678,
+          "metadata_writes": 722891,
+          "payload_reads": 259,
+          "mailbox_veneer": 1,
+          "mailbox_binding": 1,
+          "table_writes": 1,
+          "table_reads": 1,
+          "extent_writes": 24576,
+          "extent_reads": 22812
+        },
+        "timed_out": true
+      },
+      "restored_context_PC": 2214873468,
+      "unmodeled": null,
+      "complete_verdict": false
+    },
+    "frozen_inputs_unchanged": true,
+    "original_replays_restarted": false,
+    "full_native_verdict": false
+  },
+  "native_storage_gate": {
+    "observed_unix_ns": 1793055372201640800,
+    "filesystem": "ext4",
+    "writable_ext4": true,
+    "distro": "Ubuntu",
+    "project": "/home/captain/W1700KNPU",
+    "host": {
+      "drive": "C",
+      "health": "Healthy",
+      "free_bytes": 104557641728,
+      "total_bytes": 499057160192
+    },
+    "guest": {
+      "free_bytes": 1005963620352,
+      "total_bytes": 1081101176832
+    },
+    "backing_evidence": {
+      "format": "w1700k-native-C-storage-observation-v1",
+      "nonce": "maintenance-q8",
+      "observed_unix_ns": 1793055368281000000,
+      "distro": "W1700K-BuildScratch-20261021",
+      "registry_key": "{cc67b711-f747-49ea-bbd9-1664c082077f}",
+      "version": 2,
+      "default_uid": 0,
+      "default_distribution": "{0fcbed82-8aae-4f33-bf6b-9d22f461619d}",
+      "vhd_path": "C:\\Users\\captain\\W1700K-BuildScratch\\2026-10-21-native-wsl-v1\\distro\\ext4.vhdx",
+      "vhd_bytes": 21593325568,
+      "vhd_is_sparse": false,
+      "host": {
+        "drive": "C",
+        "health": "Healthy",
+        "free_bytes": 104557641728,
+        "total_bytes": 499057160192
+      },
+      "marker_sha256": "88204019cf6b25344f75c97fdca80954018427519f8d023c46edb7490a9e2ebf",
+      "script_sha256": "79c7efec4bff30124ac3fa2a053212e6ab42a42439cfa4d4c51d4dbdd75620b2"
+    },
+    "mount": {
+      "target": "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2",
+      "source": "/dev/sde[/w1700k-build-scratch]",
+      "fstype": "ext4",
+      "uuid": "b0b1bc48-d684-4090-a8cf-1ecb2939c36d",
+      "options": "rw,nosuid,nodev,relatime,discard,errors=remount-ro,data=ordered"
+    },
+    "sidecar_age_ns": 3893548247,
+    "native_VHD_not_DrvFS_regular_file_loop": true,
+    "budget_counts_planned_growth_not_entire_logical_VHD_maximum": true
+  },
+  "private_evidence_bindings": {
+    ".local/npu-vhd-maintenance-20261027/after-q1.json": {
+      "bytes": 2358,
+      "sha256": "9428b3c72cb1ba5f7fadb623f45bd16522541ff981157514dd8d3765c0528c9a"
+    },
+    ".local/npu-vhd-maintenance-20261027/audit_q1.py": {
+      "bytes": 7484,
+      "sha256": "ad42bce07403977909b757c8e98a25d736d38845795240287867eb1f474ecec6"
+    },
+    ".local/npu-vhd-maintenance-20261027/before-q1.json": {
+      "bytes": 412660,
+      "sha256": "69bc5c25db63e7f51752d999e4e79a4fb8dec21b3cde00bd35194f2491c18dc6"
+    },
+    ".local/npu-vhd-maintenance-20261027/compact_ubuntu_q1.ps1": {
+      "bytes": 6272,
+      "sha256": "0b5db1cfeaeb5b456e64d1355b02d50e3f176edeac9a947b0e1b529611084207"
+    },
+    ".local/npu-vhd-maintenance-20261027/compact_ubuntu_q2.ps1": {
+      "bytes": 5253,
+      "sha256": "628d5152ca585a678183c2df7589143f4ef044cb5a10536ccb29b9e7d3f3c4d7"
+    },
+    ".local/npu-vhd-maintenance-20261027/full-q25-terminal-journal.log": {
+      "bytes": 1899,
+      "sha256": "8f37096be69be2a0d00356459f9d9ddc736f9a9d877c6c4f7f4bf0399b6b1b32"
+    },
+    ".local/npu-vhd-maintenance-20261027/jev-replay-scope-q1.request.json": {
+      "bytes": 3353,
+      "sha256": "846ed499027df0cf5d6be360012330bbc86c063c704a7832ec99512b28825b1d"
+    },
+    ".local/npu-vhd-maintenance-20261027/jev-replay-scope-q1.result.json": {
+      "bytes": 3538,
+      "sha256": "6bb29bd9848c52209f085ed31da9ef1472371204ea049504bf58d4604df258f5"
+    },
+    ".local/npu-vhd-maintenance-20261027/keepalive-q3.json": {
+      "bytes": 273,
+      "sha256": "59a037c25c2e00c34341c618f03fbf74a0475ec68bfc9adaeec5bfd4dfb7893f"
+    },
+    ".local/npu-vhd-maintenance-20261027/native-storage-q3.json": {
+      "bytes": 810,
+      "sha256": "fe14d1c97a5151ad666845e2db837b382389ff2c305ac6a02fdb29aefba92827"
+    },
+    ".local/npu-vhd-maintenance-20261027/native_compact_q2.cs": {
+      "bytes": 1411,
+      "sha256": "f38cf56c9d88880a025f1111c594de9ea3fccf5d21d535ff9e4dac65e74b7ec7"
+    },
+    ".local/npu-vhd-maintenance-20261027/prepare_seal_q6.py": {
+      "bytes": 1319,
+      "sha256": "5d6ddc8a4ea24acaa8dab8acea99377913749b694d9ed96cec6edf44ef4c8929"
+    },
+    ".local/npu-vhd-maintenance-20261027/prepare_seal_q7.py": {
+      "bytes": 1504,
+      "sha256": "48165f90791d17a43d71fc518433fb08b68f864bb8a89df7be703bddf8487916"
+    },
+    ".local/npu-vhd-maintenance-20261027/prepare_seal_q8.py": {
+      "bytes": 1480,
+      "sha256": "6ef341bbc8f5521cf5904b337d38d8afe26b8e0c96b72a0e8eab77a1356e131b"
+    },
+    ".local/npu-vhd-maintenance-20261027/restore_scratch_q2.py": {
+      "bytes": 2490,
+      "sha256": "f516b4034ed9b6d786b589f7e1dc6af6c6123920bf28e399c1d0fee56bf75eaf"
+    },
+    ".local/npu-vhd-maintenance-20261027/restore_scratch_q3.py": {
+      "bytes": 2839,
+      "sha256": "72be0a3086912afec2d922801f07e21f129448d822df9eea0b6260087c81af83"
+    },
+    ".local/npu-vhd-maintenance-20261027/result-q1.json": {
+      "bytes": 952,
+      "sha256": "603584b46e37ddb3272bbc1af725d0b1470cc73e4b95a11a2e4503305367ea6c"
+    },
+    ".local/npu-vhd-maintenance-20261027/result-q2.json": {
+      "bytes": 891,
+      "sha256": "152cc0c318999646ab1e14a91cd86f9c1030a6929f0b990744059db99607599e"
+    },
+    ".local/npu-vhd-maintenance-20261027/scratch-restored-q2.json": {
+      "bytes": 825,
+      "sha256": "38d69847cf309a1665b8795b694cd0c5d2ecf69239c4dd0a10ce4f0fd47b5036"
+    },
+    ".local/npu-vhd-maintenance-20261027/scratch-restored-q3.json": {
+      "bytes": 909,
+      "sha256": "380efb7e26170fef47bbb6644f4bdba28b8879c1c45eb71f3a4718d94525a8cf"
+    },
+    ".local/npu-vhd-maintenance-20261027/seal-corrections-q8.json": {
+      "bytes": 996,
+      "sha256": "ad6afee7ac2fb28ca781dcf381a2c1c79af5732e76297b2cf0b8d86e1940a8de"
+    },
+    ".local/npu-vhd-maintenance-20261027/seal_q5.py": {
+      "bytes": 7400,
+      "sha256": "9e64b6ff20de906523280c62351b532e04f98d571d4a948952e39eec71a31314"
+    },
+    ".local/npu-vhd-maintenance-20261027/seal_q8.py": {
+      "bytes": 7424,
+      "sha256": "c96bc5d9023dd520b4022c1362af3b6f35d076f6d88131c00abc8a8f3b2c5902"
+    },
+    ".local/npu-vhd-maintenance-20261027/tracking-bodies-q8.json": {
+      "bytes": 1870,
+      "sha256": "b1965bf7202a290aa21d765cff1a76d18fa3ad6fb6fd17d55af04d016b180a25"
+    },
+    ".local/npu-vhd-maintenance-20261027/windows-post-q4.json": {
+      "bytes": 210,
+      "sha256": "10b822b001b3e6f713fb702f14fa9900600f8d1baa6eac2933ce8ed5834be8ec"
+    },
+    ".local/npu-build-scratch/native-c2/observer-vectorcall-full-q25/prepared.json": {
+      "bytes": 40760,
+      "sha256": "003ef6dc8944b5a69e012e84ae525c4fec036adcdaabf16747ee5c0eee7dd457"
+    },
+    ".local/npu-build-scratch/native-c2/observer-vectorcall-full-q25/failure.json": {
+      "bytes": 331,
+      "sha256": "0e06632b729963667cddef3daff5f77a444cb0d28fa7342ea6ee5233142ead6f"
+    },
+    ".local/npu-build-scratch/native-c2/observer-vectorcall-full-q25/runs/matrix-q1/profile-0/failure.json": {
+      "bytes": 2073,
+      "sha256": "0bf32e3f22944c010cd85d4c4421896d82b84420cd16a1138604762e05893e45"
+    },
+    ".local/npu-build-scratch/native-c2/observer-vectorcall-full-q25/runs/matrix-q1/profile-0/rpc.jsonl": {
+      "bytes": 214165,
+      "sha256": "f998ad548aab774b398c78d8b3acb08e27641465be5ed18789fd173746b92dad"
+    },
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json": {
+      "bytes": 125387,
+      "sha256": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f"
+    },
+    ".local/npu-wsl-recovery-20261021/maintenance-20261027-q8-native.json": {
+      "bytes": 810,
+      "sha256": "9838443dd94d7c243a776c1fb7b82882f9f717de5b5a1db004e444c34441382b"
+    }
+  },
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "full_pass": {
+        "type": "choice",
+        "choice": "contradicted",
+        "confidence": 0.98,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.99,
+          "not_established": 0.01
+        }
+      },
+      "partial": {
+        "type": "choice",
+        "choice": "supported",
+        "confidence": 0.49,
+        "probabilities": {
+          "supported": 0.66,
+          "contradicted": 0.12,
+          "not_established": 0.22
+        }
+      },
+      "firmware_bug": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 1.0,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.0,
+          "not_established": 1.0
+        }
+      },
+      "physical": {
+        "type": "choice",
+        "choice": "not_established",
+        "confidence": 0.92,
+        "probabilities": {
+          "supported": 0.0,
+          "contradicted": 0.05,
+          "not_established": 0.95
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1107,
+      "output_tokens": 185
+    }
+  },
+  "full_native_verdict": false,
+  "physical_acceptance": false,
+  "image_built": false,
+  "module_loaded": false,
+  "router_contact": false,
+  "flashed": false,
+  "full_npu_goal_complete": false
+}

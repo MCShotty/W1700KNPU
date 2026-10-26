@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Replay Outcome And Storage Maintenance
+
+The full vectorcall replay fails on its tenth publication under the original
+60-second bound, after149 checked positive RPCs and nine completed publications.
+It is preserved, not restarted or a full native pass. Firmware stays unchanged.
+
+Approved, job-audited Ubuntu VHD compaction succeeds but reclaims only78MiB.
+No files were deleted. Scratch mounts are restored and2536 saved file hashes
+match. See the [maintenance and replay report](research/checkpoints/2026-10-27-npu-replay-storage/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-27 - Native Callback Overhead Reduced
 
 The source-bound host observer now uses CPython vectorcall without changing

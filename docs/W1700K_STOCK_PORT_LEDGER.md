@@ -1,5 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Failed Full Replay Preserved; Approved VHD Compaction
+
+- Continued solo from11d4aba. Full-q25 is terminal failed: exit1/MainPID0,
+  Result=exit-code, invocatione89d9b04ed0843d6a1f7527d52fa3f62. Retained JSONL
+  contains149 checked positives: OPEN1/ENROLL139/PUBLISH9. The tenth publication
+  (ordinal9/slot11) times out at0x84104d02 with24576 extent writes/22812 reads,
+  7062678 blocks and722891 metadata writes. Injection=false, wall60001780830ns.
+  Boot3M/10s and RPC100M/60s stay. There is no profile summary or full verdict.
+  The wrapper records source_inputs_unchanged=true, returncode1. No retry.
+- User approved compaction after the job audit. No build/replay/analysis child
+  was running; two REA servers were idle. D: was already above the unchanged
+  reserve at20476542976 free bytes. Before shutdown, saved terminal unit/journal,
+  all293 replay input bindings and a2536-file before manifest.
+- q1 trims only the Ubuntu root and syncs, then terminates only Ubuntu. Windows
+  still holds its VHD: exclusive-open refuses before native compaction. Retain
+  this failed attempt and zero reclaimed bytes; do not relabel it as a pass.
+- q2 freshly checks jobs and requires Ubuntu as the sole running distro before
+  WSL shutdown. Exclusive offline open succeeds; Microsoft CompactVirtualDisk
+  returns0. Only D:\WSL\Ubuntu\ext4.vhdx is compacted,173275086848 ->173193297920
+  bytes, reclaiming81788928 bytes (78MiB). D: offline free20558331904 bytes.
+  Startup growth is separate: later VHD173226852352/D: free20524777472. No file
+  deletion, sparse change, execution-policy change, recovery or C: compaction.
+- Original scratch UUID/marker/identity2112:65538 and mount flags are restored.
+  All2536 saved hashes, including2498 tracked files, match before tracking edits;
+  Git connectivity check exits0. These are scoped checks, not a new full audit
+  of every private archive or the five earlier complete source/cache inventories.
+- Ubuntu idle-stop drops the first restored mounts while the kernel boot ID
+  staysb92d6fc6. Preserve the initial restoration and failed subsequent remount.
+  A hidden Windows WSL sleep keepalive (recorded PID8964) now retains the distro;
+  fresh q3 restoration repeats2536 hashes with the original mount flags. q4
+  passes the existing registered C native-storage gate. No permanent config
+  change or REA/replay restart. Check current PIDs/mounts rather than assuming.
+- Jev claim checks retain raw probabilities: full-pass contradicted0.99,
+  firmware-cause not-established1.00, physical not-established0.95; partial
+  support0.66/confidence0.49 prompted source/record inspection. The positive
+  writer emits rows only after mailbox/reply/broker/extent assertions. Model
+  output does not replace those checks or establish a complete replay pass.
+- Firmware/lock88502ab3/patchbb457928/module producera840d3cc stay unchanged.
+  No image/load/router contact/flash. Next faithful hook-overhead reduction and
+  requalification; full native/physical MCU/queue retention/drain/BA reuse/hot/
+  current image/client/performance/stability remain. Read npu-replay-storage.
+
 ## 2026-10-27 - Host Vectorcall And Fresh Native Publication Proof
 
 - Continued solo from b9a90dd. Observer profile5 uses initialized vectorcall

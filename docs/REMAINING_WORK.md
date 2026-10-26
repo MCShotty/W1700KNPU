@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Reduce Faithful Hook Overhead Before A New Full Recipe
+
+Vectorcall full-q25 is terminal failed. Profile0 records149 checked positives:
+OPEN1/ENROLL139/PUBLISH9. Publication ordinal9 times out at0x84104d02 after24576
+writes/22812 readbacks. No profile summary or complete native verdict exists.
+Retain original boot3M/10s, RPC100M/60s,400MiB/no swap, storage lock and dual
+margins. Do not restart unchanged inputs or combine partial runs into a pass.
+Further direct native block-hook dispatch is a candidate, not implemented or
+qualified here. Preserve callback order, counts, fresh reads, failures/lifetime
+and all existing guest checks when reducing host overhead.
+
+Approved storage maintenance is complete: job audit, scoped-release refusal,
+offline compaction (78MiB), exact scratch restoration and2536 matching files.
+No deletion/sparse change. A temporary WSL keepalive prevents idle-stop mount
+loss; check it and the mounts before new work. Full native, physical MCU/queue/
+page-pool retention/drain, firmware BA reuse, hot lifetime, current image/router/
+actual-client/performance/stability remain. No firmware or hardware changed.
+Read npu-replay-storage REPORT/EVIDENCE; continue solo and keep the full goal.
+
 ## 2026-10-27 - Complete Native Replay With Qualified Vectorcall Observer
 
 Host observer profile5 retains the same per-instruction/block/site and metadata

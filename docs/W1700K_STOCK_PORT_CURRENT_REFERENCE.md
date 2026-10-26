@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Terminal Full Replay And Verified VHD Maintenance
+
+From11d4aba, full-q25 fails exit1 with MainPID0. Recorded positives are149:
+OPEN1/ENROLL139/PUBLISH9. Publication ordinal9 times out at0x84104d02 under the
+unchanged100M/60s bound:24576 writes/22812 readbacks, no injection,60001780830ns.
+The wrapper confirms unchanged inputs and no full verdict. All293 prepared
+bindings rehash before/after maintenance. Preserve its terminal journal because
+transient systemd state disappears on distro shutdown. No replay was restarted.
+
+The approved job audit found no running build/replay, only two idle childless
+REA servers. D: had recovered above reserve. Scoped Ubuntu termination did not
+release its VHD; an exclusive-open guard refused compaction. A fresh audit
+allowed global WSL shutdown only with Ubuntu as the sole running distro.
+Microsoft CompactVirtualDisk returns0, reducing173275086848 to173193297920 bytes:
+81788928 bytes/78MiB reclaimed. Normal startup subsequently grows the file;
+do not report the offline reduction as unchanged live free space. No deletion,
+sparse conversion, persistent policy change or recovery/scratch compaction.
+
+Scratch UUID/marker/identity and original mount flags are restored. All2536
+bound files (including2498 tracked files) match before tracking edits, and Git
+connectivity passes. Idle distro stops dropped the first temporary mounts
+without changing the kernel boot ID; a hidden WSL sleep keepalive now retains
+the working distro. Exact C backing observation also passes the existing gate.
+Lock/patch/module producer stay. Full native/physical/reuse/hot/image/client
+gates remain. No image/load/router contact/flash. Read npu-replay-storage report.
+
 ## 2026-10-27 - Qualified Host Vectorcall; Complete Native Recipe Next
 
 From b9a90dd, observer profile5 changes only the C cold/block/memory callable

@@ -1,5 +1,28 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Full Replay Failure And Approved Storage Maintenance
+
+Continued solo from11d4aba. Vectorcall full-q25 records149 checked positives,
+including nine publications, then fails publication ordinal9 at0x84104d02 after
+24576 writes/22812 readbacks under unchanged100M/60s. Terminal exit1/MainPID0,
+wrapper failure and journal are preserved. All293 frozen input bindings match;
+there is no complete profile/native verdict and no unchanged-input retry.
+
+Approved job audit finds no live build/replay; two REA servers have no children.
+D: is above reserve. Scoped termination leaves the Ubuntu VHD held, so q1
+refuses compaction. Fresh q2 audits Ubuntu as the sole running distro, shuts
+WSL down and verifies exclusive file access. Native compaction returns0 and
+reclaims78MiB. No deletion/sparse/persistent policy change. Startup grows the
+VHD again; offline and live free-space measurements remain distinct.
+
+The scratch UUID/marker/directory identity and mount flags are restored;2536
+hashes and Git connectivity pass. Idle-stop loses temporary mounts with the
+same kernel boot ID; a documented hidden WSL sleep keepalive and fresh q3
+restoration resolve it. q4 passes the original registered native-storage gate.
+No REA server or replay restart, image/load/router contact/flash. Firmware/
+patch/lock/modules stay; full native/physical/reuse/hot/image/client gates
+remain. Read npu-replay-storage REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Source-Bound Vectorcall And Fresh Publication Probes
 
 Continued solo from b9a90dd. Host observer profile5 replaces only C argument

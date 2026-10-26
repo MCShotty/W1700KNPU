@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Full Replay Failed; Approved Storage Maintenance Complete
+
+- Continue solo. Vectorcall full-q25 is terminal failed, not next/live/passed:
+  exit1/MainPID0,149 checked positive RPCs (OPEN1/ENROLL139/PUBLISH9). The tenth
+  publication, ordinal9, times out at0x84104d02 with24576 writes/22812 readbacks.
+  Preserve its failure/journal/controller and all293 frozen input bindings.
+  Original boot3M/10s and RPC100M/60s stay; do not restart unchanged inputs.
+- Approved Ubuntu VHD maintenance audited all jobs first. No build/replay was
+  live; two idle REA servers had no children. D: was already above reserve.
+  Scoped termination could not release the file and refused compaction; retain
+  that receipt. A fresh audit found only Ubuntu running before WSL shutdown.
+  Native compaction succeeds, reclaiming81788928 bytes (78MiB), not gigabytes.
+  No deletion or sparse/persistent configuration change occurred.
+- Restore C scratch by registered backing/UUID/marker and exact directory
+  identity. Same mount flags and2536 file hashes match; Git connectivity passes.
+  Ubuntu idle-stop drops temporary mounts even with the same kernel boot ID.
+  A documented hidden WSL sleep keepalive now holds the working distro; no REA
+  server or replay was restarted. Check actual mounts/processes before reuse.
+- Firmware/lock88502ab3/patchbb457928/module producera840d3cc remain unchanged.
+  Next reduce faithful host hook overhead and requalify before another complete
+  recipe. Full native/physical MCU retention/drain/reuse/hot/image/client gates
+  remain. No load/router contact/flash. Read npu-replay-storage REPORT/EVIDENCE.
+
 ## 2026-10-27 - Native Observer Vectorcall Qualification
 
 - Continue solo. Host observer profile5 uses the CPython vectorcall protocol
