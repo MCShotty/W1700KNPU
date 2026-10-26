@@ -1,5 +1,31 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Source-Bound Vectorcall And Fresh Publication Probes
+
+Continued solo from b9a90dd. Host observer profile5 replaces only C argument
+transport, retaining the three inner bodies exactly after the known transform.
+Pointers initialize before init, tuple calls bridge, reference keywords/error
+identity stay, and an explicit recursion guard covers pure-C cycles. Read API2,
+hook order, explicit source-bound opt-in and default reference backend remain.
+
+Plain/UBSan each pass73 methods;15 compiled controls each fail one assertion
+without errors/skips. Finite19517-instruction/40-region transcripts match, with
+exact Pair.effect identity and repeated direct effect tests. Corrected RV32-loop
+benchmark measures10.5% less median candidate time against old UBSan callbacks;
+this is not native/hardware performance acceptance. Retain failed benchmark TB
+assumption, multi-subtest mutation-controller refusal and preparation count
+failure. Fresh corrections preserve assertions, flags and all limits.
+
+Profile0/profile2 first-publication probes pass141/139 RPCs, complete24576 writes/
+readbacks, broker journal and full DMA/SRAM/code checks under original10s/60s
+per-call bounds. Full recipe remains next via full-q25; inspect real service/
+children and final driver/wrapper result. Freeze bound source inputs while live.
+Fresh tooling167/zero skips and all five complete protected inventories pass;
+old kernel/module producers are revalidated, not rerun. Lock/patch/four modules
+stay. No original replay restart/load/image/router contact/flash. Full native/
+physical/reuse/hot/image/client/performance/stability gates remain open. Read
+observer-vectorcall REPORT/EVIDENCE; full NPU goal remains incomplete.
+
 ## 2026-10-26 - Recovered Storage And Separate Replay Outcomes
 
 Continued solo from e6d299f. D: recovered above reserve without compaction,

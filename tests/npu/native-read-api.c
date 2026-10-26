@@ -1,6 +1,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <limits.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <unicorn/unicorn.h>
 #include <unicorn/riscv.h>
@@ -53,6 +54,7 @@ static PyTypeObject ReaderType;
 
 typedef struct {
     PyObject_HEAD
+    vectorcallfunc vectorcall;
     PyObject *owner;
     PyObject *original;
     PyObject *reader;
@@ -68,6 +70,7 @@ typedef struct {
 
 typedef struct {
     PyObject_HEAD
+    vectorcallfunc vectorcall;
     PyObject *owner;
     PyObject *original;
     PyObject *reader;
@@ -86,6 +89,7 @@ typedef struct {
 #define OBSERVER_RANGES 16
 typedef struct {
     PyObject_HEAD
+    vectorcallfunc vectorcall;
     PyObject *owner;
     PyObject *original;
     PyObject *reader;
@@ -331,10 +335,24 @@ static int increment_item(PyObject *dictionary, PyObject *key)
     return result == 0;
 }
 
-static PyObject *cold_reference(ColdObserver *self, PyObject *args, PyObject *kwargs)
+static PyObject *observer_vectorcall(vectorcallfunc function, PyObject *object,
+    PyObject *const *args, size_t nargsf, PyObject *kwnames)
+{
+    PyObject *result;
+
+    /* Match tp_call's recursion guard, including pure-C reference cycles. */
+    if (Py_EnterRecursiveCall(" while calling a Python object"))
+        return NULL;
+    result = function(object, args, nargsf, kwnames);
+    Py_LeaveRecursiveCall();
+    return result;
+}
+
+static PyObject *cold_reference(ColdObserver *self, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     self->reference_calls++;
-    return PyObject_Call(self->original, args, kwargs);
+    return PyObject_Vectorcall(self->original, args, nargsf, kwnames);
 }
 
 static int cold_csr_record(ColdObserver *self, Reader *reader)
@@ -401,7 +419,8 @@ done:
     return status;
 }
 
-static PyObject *cold_call(PyObject *object, PyObject *args, PyObject *kwargs)
+static PyObject *cold_call(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     ColdObserver *self = (ColdObserver *)object;
     Reader *reader;
@@ -416,10 +435,10 @@ static PyObject *cold_call(PyObject *object, PyObject *args, PyObject *kwargs)
         PyErr_SetString(PyExc_RuntimeError, "cold observer is not initialized");
         return NULL;
     }
-    if (!self->reader || (kwargs && PyDict_Size(kwargs)) || PyTuple_GET_SIZE(args) != 4)
-        return cold_reference(self, args, kwargs);
+    if (!self->reader || (kwnames && PyTuple_GET_SIZE(kwnames)) || PyVectorcall_NARGS(nargsf) != 4)
+        return cold_reference(self, args, nargsf, kwnames);
     reader = (Reader *)self->reader;
-    if (PyTuple_GET_ITEM(args, 0) != reader->cpu) {
+    if (args[0] != reader->cpu) {
         PyErr_SetString(PyExc_RuntimeError, "cold observer received a different engine");
         return NULL;
     }
@@ -439,18 +458,18 @@ static PyObject *cold_call(PyObject *object, PyObject *args, PyObject *kwargs)
         dict_field(self->state, F_WORD_READER) != self->word_reader ||
         dict_field(self->state, F_RECORD) ||
         !events || !PyList_CheckExact(events) || !csr_events || !PyList_CheckExact(csr_events))
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
     for (int i = 0; flags[i] != F_COUNT; i++)
         if (dict_field(self->state, flags[i]) != Py_False)
-            return cold_reference(self, args, kwargs);
+            return cold_reference(self, args, nargsf, kwnames);
     if (dict_field(self->state, F_DENY_TYPE) != Py_None ||
         dict_field(self->state, F_INTERCEPT) != Py_None)
-        return cold_reference(self, args, kwargs);
-    pc_object = PyTuple_GET_ITEM(args, 1);
-    if (!PyLong_CheckExact(pc_object) || !PyLong_CheckExact(PyTuple_GET_ITEM(args, 2)))
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
+    pc_object = args[1];
+    if (!PyLong_CheckExact(pc_object) || !PyLong_CheckExact(args[2]))
+        return cold_reference(self, args, nargsf, kwnames);
     pc = PyLong_AsUnsignedLongLong(pc_object);
-    size = PyLong_AsUnsignedLong(PyTuple_GET_ITEM(args, 2));
+    size = PyLong_AsUnsignedLong(args[2]);
     if (PyErr_Occurred())
         return NULL;
     selected = PySet_Contains(self->interesting, pc_object);
@@ -458,14 +477,14 @@ static PyObject *cold_call(PyObject *object, PyObject *args, PyObject *kwargs)
         return NULL;
     value = dict_field(self->state, F_STOPS);
     if (!value || !PySet_CheckExact(value))
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
     if (!selected)
         selected = PySet_Contains(value, pc_object);
     if (selected < 0)
         return NULL;
     value = dict_field(self->state, F_SKIP_ONCE);
     if (!value || (value != Py_None && !PyLong_CheckExact(value)))
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
     if (!selected)
         selected = PyObject_RichCompareBool(value, pc_object, Py_EQ);
     if (selected < 0)
@@ -473,30 +492,30 @@ static PyObject *cold_call(PyObject *object, PyObject *args, PyObject *kwargs)
     pending = dict_field(self->state, F_PENDING_CALL);
     if (pending && pending != Py_None) {
         if (!PyDict_CheckExact(pending) || !(value = dict_field(pending, F_RETURN_PC)))
-            return cold_reference(self, args, kwargs);
+            return cold_reference(self, args, nargsf, kwnames);
         if (!selected)
             selected = PyObject_RichCompareBool(value, pc_object, Py_EQ);
         if (selected < 0)
             return NULL;
     }
     if (selected || !pending)
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
     value = dict_field(self->state, F_LAST_CSR);
     if (!value)
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
     if (value != Py_None) {
         if (!PyTuple_CheckExact(value) || PyTuple_GET_SIZE(value) != 3)
-            return cold_reference(self, args, kwargs);
+            return cold_reference(self, args, nargsf, kwnames);
         for (int i = 0; i < 3; i++)
             if (!PyLong_CheckExact(PyTuple_GET_ITEM(value, i)))
-                return cold_reference(self, args, kwargs);
+                return cold_reference(self, args, nargsf, kwnames);
     }
     tick = dict_field(self->state, F_TICK);
     count = PyDict_GetItemWithError(self->executions, pc_object);
     if (PyErr_Occurred())
         return NULL;
     if (!tick || !PyLong_CheckExact(tick) || (count && !PyLong_CheckExact(count)))
-        return cold_reference(self, args, kwargs);
+        return cold_reference(self, args, nargsf, kwnames);
 
     /* Preserve per-instruction counts and fresh CSR/code reads at the common PCs. */
     self->fast_calls++;
@@ -652,6 +671,22 @@ static void cold_dealloc(ColdObserver *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
+static PyObject *cold_vectorcall(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
+{
+    return observer_vectorcall(cold_call, object, args, nargsf, kwnames);
+}
+
+static PyObject *cold_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
+{
+    ColdObserver *self = (ColdObserver *)type->tp_alloc(type, 0);
+    (void)args;
+    (void)kwargs;
+    if (self)
+        self->vectorcall = cold_vectorcall;
+    return (PyObject *)self;
+}
+
 static PyMethodDef cold_methods[] = {
     {"enable", (PyCFunction)cold_enable, METH_VARARGS, "Enable the explicitly qualified raw cold-observer profile."},
     {"stats", (PyCFunction)cold_stats, METH_NOARGS, "Return observer dispatch counts, not guest acceptance."},
@@ -663,22 +698,25 @@ static PyTypeObject ColdObserverType = {
     .tp_name = "_npu_read_api.ColdObserver",
     .tp_basicsize = sizeof(ColdObserver),
     .tp_dealloc = (destructor)cold_dealloc,
-    .tp_call = cold_call,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .tp_call = PyVectorcall_Call,
+    .tp_vectorcall_offset = offsetof(ColdObserver, vectorcall),
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_traverse = (traverseproc)cold_traverse,
     .tp_clear = (inquiry)cold_clear,
     .tp_methods = cold_methods,
     .tp_init = (initproc)cold_init,
-    .tp_new = PyType_GenericNew,
+    .tp_new = cold_new,
 };
 
-static PyObject *block_reference(BlockObserver *self, PyObject *args, PyObject *kwargs)
+static PyObject *block_reference(BlockObserver *self, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     self->reference_calls++;
-    return PyObject_Call(self->original, args, kwargs);
+    return PyObject_Vectorcall(self->original, args, nargsf, kwnames);
 }
 
-static PyObject *block_call(PyObject *object, PyObject *args, PyObject *kwargs)
+static PyObject *block_call(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     BlockObserver *self = (BlockObserver *)object;
     Reader *reader;
@@ -691,29 +729,29 @@ static PyObject *block_call(PyObject *object, PyObject *args, PyObject *kwargs)
         PyErr_SetString(PyExc_RuntimeError, "block observer is not initialized");
         return NULL;
     }
-    if ((kwargs && PyDict_Size(kwargs)) || PyTuple_GET_SIZE(args) != 4)
-        return block_reference(self, args, kwargs);
+    if ((kwnames && PyTuple_GET_SIZE(kwnames)) || PyVectorcall_NARGS(nargsf) != 4)
+        return block_reference(self, args, nargsf, kwnames);
     state = PyObject_GetAttr(self->owner, field_keys[F_DICT]);
     if (!state)
         return NULL;
     status = state == self->state;
     Py_DECREF(state);
     if (!status)
-        return block_reference(self, args, kwargs);
+        return block_reference(self, args, nargsf, kwnames);
     state = self->state;
     if (dict_field(state, F_RPC_ACTIVE) == Py_False) {
         self->inactive_calls++;
         Py_RETURN_NONE;
     }
     reader = (Reader *)self->reader;
-    if (dict_field(state, F_RPC_ACTIVE) != Py_True || PyTuple_GET_ITEM(args, 0) != reader->cpu ||
-        dict_field(state, F_CPU) != reader->cpu || !PyLong_CheckExact(PyTuple_GET_ITEM(args, 1)) ||
-        !PyLong_CheckExact(PyTuple_GET_ITEM(args, 2)))
-        return block_reference(self, args, kwargs);
+    if (dict_field(state, F_RPC_ACTIVE) != Py_True || args[0] != reader->cpu ||
+        dict_field(state, F_CPU) != reader->cpu || !PyLong_CheckExact(args[1]) ||
+        !PyLong_CheckExact(args[2]))
+        return block_reference(self, args, nargsf, kwnames);
     cache = dict_field(state, F_BLOCK_CACHE);
     if (!cache || !PyDict_CheckExact(cache))
-        return block_reference(self, args, kwargs);
-    key = PyTuple_Pack(2, PyTuple_GET_ITEM(args, 1), PyTuple_GET_ITEM(args, 2));
+        return block_reference(self, args, nargsf, kwnames);
+    key = PyTuple_Pack(2, args[1], args[2]);
     if (!key)
         return NULL;
     names = PyDict_GetItemWithError(cache, key);
@@ -722,21 +760,21 @@ static PyObject *block_call(PyObject *object, PyObject *args, PyObject *kwargs)
         return NULL;
     /* Cache misses retain the reference's complete byte/range/forbidden-PC checks. */
     if (!names || !PyTuple_CheckExact(names))
-        return block_reference(self, args, kwargs);
+        return block_reference(self, args, nargsf, kwnames);
     counts = dict_field(state, F_COUNTS);
     minimum = dict_field(state, F_MIN_SP);
     if (!counts || (PyObject *)Py_TYPE(counts) != self->counter_type || !minimum || !PyLong_CheckExact(minimum))
-        return block_reference(self, args, kwargs);
+        return block_reference(self, args, nargsf, kwnames);
     old_sp = PyLong_AsUnsignedLongLong(minimum);
     if (PyErr_Occurred()) {
         if (!PyErr_ExceptionMatches(PyExc_OverflowError))
             return NULL;
         PyErr_Clear();
-        return block_reference(self, args, kwargs);
+        return block_reference(self, args, nargsf, kwnames);
     }
     for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(names); i++)
         if (!PyUnicode_CheckExact(PyTuple_GET_ITEM(names, i)))
-            return block_reference(self, args, kwargs);
+            return block_reference(self, args, nargsf, kwnames);
     if (!check_reader(reader))
         return NULL;
     self->fast_calls++;
@@ -828,6 +866,22 @@ static void block_dealloc(BlockObserver *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
+static PyObject *block_vectorcall(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
+{
+    return observer_vectorcall(block_call, object, args, nargsf, kwnames);
+}
+
+static PyObject *block_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
+{
+    BlockObserver *self = (BlockObserver *)type->tp_alloc(type, 0);
+    (void)args;
+    (void)kwargs;
+    if (self)
+        self->vectorcall = block_vectorcall;
+    return (PyObject *)self;
+}
+
 static PyMethodDef block_methods[] = {
     {"stats", (PyCFunction)block_stats, METH_NOARGS, "Return block dispatch counts, not NPU acceptance."},
     {NULL, NULL, 0, NULL}
@@ -838,13 +892,14 @@ static PyTypeObject BlockObserverType = {
     .tp_name = "_npu_read_api.BlockObserver",
     .tp_basicsize = sizeof(BlockObserver),
     .tp_dealloc = (destructor)block_dealloc,
-    .tp_call = block_call,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .tp_call = PyVectorcall_Call,
+    .tp_vectorcall_offset = offsetof(BlockObserver, vectorcall),
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_traverse = (traverseproc)block_traverse,
     .tp_clear = (inquiry)block_clear,
     .tp_methods = block_methods,
     .tp_init = (initproc)block_init,
-    .tp_new = PyType_GenericNew,
+    .tp_new = block_new,
 };
 
 static int observer_unsigned(PyObject *value, uint64_t *result)
@@ -874,13 +929,15 @@ static int observer_contains(uint64_t address, uint64_t size, ObserverRange rang
         address - range.start <= range.count - size;
 }
 
-static PyObject *memory_reference(MemoryObserver *self, PyObject *args, PyObject *kwargs)
+static PyObject *memory_reference(MemoryObserver *self, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     self->reference_calls++;
-    return PyObject_Call(self->original, args, kwargs);
+    return PyObject_Vectorcall(self->original, args, nargsf, kwnames);
 }
 
-static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
+static PyObject *memory_call(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
 {
     MemoryObserver *self = (MemoryObserver *)object;
     Reader *reader;
@@ -892,8 +949,8 @@ static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
         PyErr_SetString(PyExc_RuntimeError, "memory observer is not initialized");
         return NULL;
     }
-    if (!self->reader || (kwargs && PyDict_Size(kwargs)) || PyTuple_GET_SIZE(args) != 6)
-        return memory_reference(self, args, kwargs);
+    if (!self->reader || (kwnames && PyTuple_GET_SIZE(kwnames)) || PyVectorcall_NARGS(nargsf) != 6)
+        return memory_reference(self, args, nargsf, kwnames);
     state = PyObject_GetAttr(self->owner, field_keys[F_DICT]);
     if (!state)
         return NULL;
@@ -901,19 +958,19 @@ static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
     Py_DECREF(state);
     reader = (Reader *)self->reader;
     if (!status || dict_field(self->state, F_RPC_ACTIVE) != Py_True ||
-        dict_field(self->state, F_CPU) != reader->cpu || PyTuple_GET_ITEM(args, 0) != reader->cpu ||
-        !observer_unsigned(PyTuple_GET_ITEM(args, 2), &address) ||
-        !observer_unsigned(PyTuple_GET_ITEM(args, 3), &size) || !size)
-        return memory_reference(self, args, kwargs);
+        dict_field(self->state, F_CPU) != reader->cpu || args[0] != reader->cpu ||
+        !observer_unsigned(args[2], &address) ||
+        !observer_unsigned(args[3], &size) || !size)
+        return memory_reference(self, args, nargsf, kwnames);
     for (Py_ssize_t i = 0; i < self->excluded_count; i++)
         if (observer_contains(address, size, self->excluded[i]))
-            return memory_reference(self, args, kwargs);
+            return memory_reference(self, args, nargsf, kwnames);
     if (!self->write) {
         for (Py_ssize_t i = 0; i < self->allowed_count; i++)
             if (observer_contains(address, size, self->allowed[i]))
                 selected = 1;
         if (!selected)
-            return memory_reference(self, args, kwargs);
+            return memory_reference(self, args, nargsf, kwnames);
         if (!check_reader(reader))
             return NULL;
         self->fast_calls++;
@@ -921,11 +978,11 @@ static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
     }
     ranges = dict_field(self->state, F_RPC_WRITABLE);
     if (!ranges || !PyTuple_CheckExact(ranges) || PyTuple_GET_SIZE(ranges) > OBSERVER_RANGES)
-        return memory_reference(self, args, kwargs);
+        return memory_reference(self, args, nargsf, kwnames);
     for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(ranges); i++) {
         ObserverRange range;
         if (!observer_range(PyTuple_GET_ITEM(ranges, i), &range))
-            return memory_reference(self, args, kwargs);
+            return memory_reference(self, args, nargsf, kwnames);
         if (observer_contains(address, size, range))
             selected = 1;
     }
@@ -933,7 +990,7 @@ static PyObject *memory_call(PyObject *object, PyObject *args, PyObject *kwargs)
     minimum = dict_field(self->state, F_MIN_SP);
     if (!selected || !counts || (PyObject *)Py_TYPE(counts) != self->counter_type ||
         !observer_unsigned(minimum, &old_sp))
-        return memory_reference(self, args, kwargs);
+        return memory_reference(self, args, nargsf, kwnames);
     if (!check_reader(reader))
         return NULL;
     self->fast_calls++;
@@ -1055,6 +1112,22 @@ static void memory_dealloc(MemoryObserver *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
+static PyObject *memory_vectorcall(PyObject *object, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames)
+{
+    return observer_vectorcall(memory_call, object, args, nargsf, kwnames);
+}
+
+static PyObject *memory_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
+{
+    MemoryObserver *self = (MemoryObserver *)type->tp_alloc(type, 0);
+    (void)args;
+    (void)kwargs;
+    if (self)
+        self->vectorcall = memory_vectorcall;
+    return (PyObject *)self;
+}
+
 static PyMethodDef memory_methods[] = {
     {"enable", (PyCFunction)memory_enable, METH_VARARGS, "Enable source-qualified metadata dispatch, never I/O validation bypass."},
     {"stats", (PyCFunction)memory_stats, METH_NOARGS, "Return metadata dispatch counts, not guest acceptance."},
@@ -1066,13 +1139,14 @@ static PyTypeObject MemoryObserverType = {
     .tp_name = "_npu_read_api.MemoryObserver",
     .tp_basicsize = sizeof(MemoryObserver),
     .tp_dealloc = (destructor)memory_dealloc,
-    .tp_call = memory_call,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .tp_call = PyVectorcall_Call,
+    .tp_vectorcall_offset = offsetof(MemoryObserver, vectorcall),
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_traverse = (traverseproc)memory_traverse,
     .tp_clear = (inquiry)memory_clear,
     .tp_methods = memory_methods,
     .tp_init = (initproc)memory_init,
-    .tp_new = PyType_GenericNew,
+    .tp_new = memory_new,
 };
 
 static PyObject *reader_original(Reader *self, void *unused)
@@ -1214,7 +1288,7 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     if (PyModule_AddObjectRef(result, "ColdObserver", (PyObject *)&ColdObserverType) < 0 ||
         PyModule_AddObjectRef(result, "BlockObserver", (PyObject *)&BlockObserverType) < 0 ||
         PyModule_AddObjectRef(result, "MemoryObserver", (PyObject *)&MemoryObserverType) < 0 ||
-        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 4) < 0 ||
+        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 5) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_PC_REG", UC_RISCV_REG_PC) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_X0_REG", UC_RISCV_REG_X0) < 0) {
         Py_DECREF(result);

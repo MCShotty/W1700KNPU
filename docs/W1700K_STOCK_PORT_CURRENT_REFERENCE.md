@@ -1,5 +1,36 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Qualified Host Vectorcall; Complete Native Recipe Next
+
+From b9a90dd, observer profile5 changes only the C cold/block/memory callable
+protocol. Vectorcall pointers exist before init; generic tuple calls bridge;
+fallback positional/keyword arguments and exception identity stay. An explicit
+balanced recursion guard covers pure-C reference cycles. All three inner bodies
+match an exact argument-transport-only transform. Read API2, original callback
+registration positions, source-bound opt-in and reference default stay.
+
+Plain/UBSan each pass32 read/CSR plus41 observer methods, zero errors/skips.
+Fifteen compiled controls each fail one intended assertion. Finite19517 actual
+raw instructions match40 regions/registers/events; exact Pair.effect identity
+and three repeated direct effect tests pass, adding no new unique methods.
+Corrected actual RV32-loop benchmark matches real Pair.block/old/new contracts
+and measures about10.5% less candidate median wall time, not whole-NPU throughput.
+
+Fresh profile0/profile2 first PUBLISH completes141/139 RPCs, all24576 writes/
+readbacks, broker journal and full DMA/SRAM/code checks. Original boot3M/10s
+and RPC100M/60s remain. Full three-profile result is still unproven; inspect
+w1700k-npu-observer-vectorcall-full-q25.service and exact process/final receipt
+state. Freeze its bound sources while live; observation timeout is not restart
+permission. Earlier original jobs remain interrupted/failed, not restarted.
+
+Fresh tooling167/zero skips and five complete source/cache inventories pass.
+Prior ARM64/UML/module producer evidence is revalidated, not reexecuted. Retain
+failed benchmark-q6/inspection-q8, mutation controller-q7 and preparer-q9;
+fresh fixes preserve compiler flags, exact-one-failure checks and all limits.
+Lock88502ab3/patchbb457928/modulesa840d3cc stay; no image/load/router contact/
+flash. Full native/physical/reuse/hot/image/client gates remain. Read
+research/checkpoints/2026-10-27-npu-observer-vectorcall/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-26 - Storage Recovered; Native Replay Outcomes Stay Separate
 
 D: recovered above the unchanged reserve before maintenance. No compaction,

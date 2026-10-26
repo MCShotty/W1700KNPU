@@ -400,6 +400,64 @@ ret
         self.assertIn('--native-cold-receipt',result.stdout)
         self.assertIn('--output-root',result.stdout)
 
+    def call_protocol_observers(self, callback):
+        h,reader,unused = self.block_owner()
+        return [self.module.ColdObserver(h,callback),
+            self.module.BlockObserver(h,callback,reader),
+            self.module.MemoryObserver(h,callback,False),
+            self.module.MemoryObserver(h,callback,True)]
+
+    def test_vectorcall_pointers_exist_before_init_and_after_construction(self):
+        function = ctypes.pythonapi.PyVectorcall_Function
+        function.argtypes, function.restype = (ctypes.py_object,), ctypes.c_void_p
+        for kind in (self.module.ColdObserver,self.module.BlockObserver,self.module.MemoryObserver):
+            observer = kind.__new__(kind)
+            self.assertTrue(function(observer),kind.__name__)
+            with self.assertRaisesRegex(RuntimeError,'not initialized'):
+                observer()
+        for observer in self.call_protocol_observers(lambda *args,**kwargs: None):
+            self.assertTrue(function(observer),type(observer).__name__)
+
+    def test_vectorcall_and_tuple_bridge_forward_all_fallback_arguments(self):
+        calls,token = [],object()
+        def original(*args,**kwargs):
+            calls.append((args,kwargs))
+            return token
+        bridge = ctypes.pythonapi.PyVectorcall_Call
+        bridge.argtypes,bridge.restype = (ctypes.py_object,ctypes.py_object,ctypes.py_object),ctypes.py_object
+        cases = [((),{}),((object(),),{}),((1,2,3,4),{}),((1,2,3,4,5,6),{}),
+            ((),{'address':17,'unused':token}),((3,4),{'size':8,'marker':token})]
+        for observer in self.call_protocol_observers(original):
+            for args,kwargs in cases:
+                with self.subTest(observer=type(observer).__name__,args=len(args),keywords=tuple(kwargs)):
+                    calls.clear()
+                    self.assertIs(observer(*args,**kwargs),token)
+                    self.assertEqual(calls,[(args,kwargs)])
+                    self.assertIs(bridge(observer,args,kwargs),token)
+                    self.assertEqual(calls,[(args,kwargs),(args,kwargs)])
+
+    def test_vectorcall_keyword_fallback_keeps_original_exception_identity(self):
+        failure = ValueError('original vectorcall fallback')
+        def original(*args,**kwargs):
+            raise failure
+        for observer in self.call_protocol_observers(original):
+            with self.assertRaises(ValueError) as caught:
+                observer(marker=17)
+            self.assertIs(caught.exception,failure)
+
+    def test_vectorcall_reference_cycles_raise_recursion_error_without_crashing(self):
+        h,reader,unused = self.block_owner()
+        for kind in (self.module.ColdObserver,self.module.BlockObserver,self.module.MemoryObserver):
+            observer = kind.__new__(kind)
+            if kind is self.module.BlockObserver:
+                observer.__init__(h,observer,reader)
+            elif kind is self.module.MemoryObserver:
+                observer.__init__(h,observer,False)
+            else:
+                observer.__init__(h,observer)
+            with self.assertRaises(RecursionError):
+                observer(marker=17)
+
     def block_owner(self):
         h,reader,unused = self.owner(False)
         h.rpc_active = True

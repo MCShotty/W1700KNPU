@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Native Callback Overhead Reduced
+
+The source-bound host observer now uses CPython vectorcall without changing
+guest checks, counters, fresh reads or callback order. Plain/UBSan each pass73
+adapter methods;15 compiled controls catch intended defects. A fixed RV32-loop
+benchmark measures about10.5% less median callback time, not router throughput.
+
+Fresh profile0/profile2 first-publication probes complete141/139 RPCs and all
+24576 writes/readbacks under the unchanged60-second RPC limit. Complete native
+replay remains next, not passed. Production firmware/modules and hardware stay
+unchanged. Continued solo. See the
+[scoped report](research/checkpoints/2026-10-27-npu-observer-vectorcall/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-26 - Native Replay Recovery
 
 D: recovered above the required reserve without compaction or deletion. A later

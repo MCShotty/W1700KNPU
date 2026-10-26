@@ -1,5 +1,30 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Complete Native Replay With Qualified Vectorcall Observer
+
+Host observer profile5 retains the same per-instruction/block/site and metadata
+counts, fresh SP/CSR/data reads, current Counter/ranges and original effect/
+fallback behavior. Only the call protocol changes. Plain/UBSan each pass73
+methods;15 compiled controls detect intended failures. Finite19517 instructions/
+40 regions match. The fixed-loop10.5% median reduction is not NPU performance.
+
+Fresh profile0/profile2 probes now complete first PUBLISH,141/139 RPCs, complete
+24576 writes/readbacks and full DMA/SRAM/code checks under original bounds.
+The next complete recipe is three profiles/19261 RPCs/387 publications/6150 each
+RESET/MCU_BEGIN/MCU_COMPLETE. The prepared full-q25 dispatcher verifies actual
+live guard/child/cgroup state; inspect the final driver/wrapper verdict. Never
+combine partial runs or restart solely on observation timeout. Freeze bound
+firmware, adapter and harness inputs during that run. Same400MiB/no swap,
+C lock, dual backing/RAM margins, boot3M/10s and RPC100M/60s remain.
+
+Complete source/cache inventories match; retained kernel/module producers are
+revalidated, not rerun. Failed benchmark/mutation/preparation attempts remain
+with their corrections; no assertion or limit was relaxed. Production lock/
+patch/four modules stay. Full physical cold MCU-exit failure/queue/page-pool
+retention/drain, current-firmware BA reuse, hot admission/retirement/rearm,
+current image/router/actual-client/performance/stability remain. Continue solo;
+read observer-vectorcall REPORT/EVIDENCE. Full NPU completion remains unproven.
+
 ## 2026-10-26 - Reduce Observer Overhead; Full Replay Still Times Out
 
 Interrupted full-q31 retained5652 checked positive RPC records from profile0:

@@ -1,5 +1,53 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Host Vectorcall And Fresh Native Publication Proof
+
+- Continued solo from b9a90dd. Observer profile5 uses initialized vectorcall
+  pointers, generic tuple-call bridge and original positional/keyword fallback.
+  Explicit recursion protection retains safe pure-C reference cycles. The three
+  inner bodies match an exact argument-transport-only transform. Read API2,
+  callback registration order and default reference replay remain unchanged.
+- Plain/UBSan build-q4 each pass32 read/CSR and41 observer methods, zero errors/
+  skips;73 unique methods repeated, not146 unique cases. Four new methods cover
+  actual pointer/pre-init state, argument/keyword/tuple bridge, original error
+  identity and recursive-reference refusal. Controls-q11 compiles15 independent
+  mutants; each fails exactly one intended assertion with zero errors/skips.
+- Finite-q5 matches19517 raw instructions and all40 compared memory regions,
+  registers/CSRs/events/MMIO/counters, transcript SHA8add6704. Exact Pair.effect
+  identity and three repeated direct refusal/injection/boundary tests pass;
+  these repeats add no unique tests or physical IRQ/DMA acceptance.
+- Benchmark-q14 executes real Pair.block and old/new UBSan adapters in the same
+  RV32 loop:400000 block callbacks, identical final state/cache/counts. Candidate
+  median1161237851ns versus old1297070377ns is about10.5% less time. This fixed
+  host-loop result is not complete native or actual-router throughput proof.
+- First benchmark-q6/inspection-q8 fail a wrong hand-derived TB count. Count-
+  limited Unicorn emits two TB callbacks per iteration; actual reference/old/
+  new execution confirms the corrected contract. Controller-q7 rejects two
+  keyword-mutant subtest failures where exactly one was required. Fresh q11
+  narrows two mutants to one subcase without changing the verifier or tests.
+  Preparer-q9 refuses an incorrect namespace occurrence count; fresh q13 checks
+  both sites. Failed inputs/receipts remain; no guard or compiler flag is waived.
+- Fresh profile0 probe-q12 completes141 RPCs and first PUBLISH in56296801479ns:
+  all24576 writes/readbacks, table1-write/2-read and complete broker/DMA/SRAM/code
+  checks. Profile2 probe-p2-q17 completes139 RPCs with the same I/O requirements.
+  Retained canonical transcripts match except timing. Boot3M/10s and RPC100M/
+  60s stay. These are first-publication proofs, not a complete native verdict.
+- Initial broad Jev questions retain material uncertainty; focused eligible-
+  branch results include count0.68, fresh-SP0.94, current-Counter0.89 and
+  registration0.75. Preserve raw results; exact source transforms, unchanged
+  registration and executed tests/mutants establish the covered software
+  boundary, not confidence. No physical acceptance follows from model output.
+- Fresh tooling167/zero skips, retained kernel/module producers and five full
+  protected source/cache inventories pass. Consumed versions, aliases and full
+  inherited bindings remain. Kernel/module producers are revalidated, not rerun.
+  Same400MiB/no swap, C lock and dual backing/RAM margins remain. Complete
+  full-q25 is next via actual guard/child/cgroup acknowledgement and final
+  driver/wrapper verdict; freeze bound inputs and never restart on polling timeout.
+- Lock88502ab3/patchbb457928/four-module producera840d3cc stay. No old replay
+  restart, image, module load, router contact or flash. Full native, physical
+  MCU failure/retention/drain, BA reuse/hot lifetime and image/router/actual-
+  client/performance/stability remain. Read observer-vectorcall REPORT/EVIDENCE.
+
 ## 2026-10-26 - Storage And Interrupted Native Replay Recovery
 
 - Continued solo. D: recovered to about20.8GB free before maintenance, above

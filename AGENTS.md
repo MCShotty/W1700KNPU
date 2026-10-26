@@ -1,5 +1,32 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Native Observer Vectorcall Qualification
+
+- Continue solo. Host observer profile5 uses the CPython vectorcall protocol
+  for the same cold/block/memory callbacks, with initialized pre-init pointers,
+  tuple-call bridge, unchanged fallback arguments and explicit recursion guard.
+  The three inner bodies match an exact argument-transport-only transform.
+  Read API2, hook registration order and default reference backend stay.
+- Plain/UBSan each pass32 read/CSR plus41 observer methods, zero skips/errors.
+  Fifteen independent compiled controls each fail one intended assertion.
+  Finite19517-instruction/40-region state and actual Pair.effect identity match.
+  The corrected loop benchmark executes real Pair.block and both adapters;
+  about10.5% less candidate median wall time is host-only, not NPU throughput.
+- Fresh profile0/profile2 first-publication probes pass141/139 RPCs, all24576
+  writes/readbacks and complete DMA/SRAM/code checks, with original boot3M/10s
+  and RPC100M/60s. First-publication proof is not a full three-profile verdict.
+- Preserve failed benchmark-q6/inspection-q8, mutation-controller-q7 and failed
+  preparer-q9. Fresh corrections retain assertions, compiler flags and limits.
+  Original interrupted/failed replays remain unchanged and are not restarted.
+- Complete native recipe is next via w1700k-npu-observer-vectorcall-full-q25.
+  Inspect actual live guard/child state and terminal driver/wrapper results.
+  Never restart on observation timeout. Freeze all bound source inputs while
+  live. Same400MiB/no swap, C lock, dual backing/RAM margins remain.
+- Production lock88502ab3/patchbb457928/modulesa840d3cc stay. Full native,
+  physical cold MCU failure/queue/page-pool retention/drain, BA reuse/hot lifetime
+  and image/router/actual-client/performance/stability remain. No image/load/
+  router contact/flash. Read observer-vectorcall REPORT/EVIDENCE; goal incomplete.
+
 ## 2026-10-26 - Reboot Recovery; Full Native Replay Still Times Out
 
 - Continue solo. D: recovered above the unchanged reserve; no compaction, trim,
