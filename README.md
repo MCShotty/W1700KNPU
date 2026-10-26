@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-26 - Native Replay Recovery
+
+D: recovered above the required reserve without compaction or deletion. A later
+WSL reboot interrupted the first full replay after5652 recorded positive RPCs,
+including all129 profile0 publications. It has no complete native verdict.
+
+A fresh run hit the unchanged10-second raw-boot deadline. A separate diagnostic
+then completed the exact raw prefix with a byte-identical receipt. Fresh full-q7
+passed boot and140 RPCs, but first publication timed out at60s with24576 writes
+and23833 readbacks. No replay remains running and no full native pass is claimed.
+Next reduce faithful observer overhead. No limits, firmware, modules or hardware
+changed. Continued solo.
+See the [recovery report](research/checkpoints/2026-10-26-npu-native-replay-recovery/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-25 - Native First Publication Passes
 
 The raw profile2 first publication now completes under the unchanged60-second

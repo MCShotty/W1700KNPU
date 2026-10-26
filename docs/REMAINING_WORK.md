@@ -1,5 +1,30 @@
 # Remaining W1700K Work
 
+## 2026-10-26 - Reduce Observer Overhead; Full Replay Still Times Out
+
+Interrupted full-q31 retained5652 checked positive RPC records from profile0:
+129 publications and1794 RESET/MCU_BEGIN/MCU_COMPLETE each. There is no profile
+summary or full verdict. Separately named full-q4 failed the original10-second
+raw-boot bound at0x84004ed6 before any RPCs. Neither is a complete native pass.
+
+Diagnostic-q5 subsequently completes1136899 raw instructions; its prefix receipt
+is byte-identical to q31 profile0. A new full-q7 recipe starts from raw initial
+state and passes boot/140 RPCs, but first PUBLISH times out at0x84104abe after
+24576 writes/23833 readbacks. It is terminal exit1/MainPID0; no replay remains
+running. Retain both failures and interrupted output. Next reduce faithful
+host-observer overhead/requalify timing before another complete recipe.
+Boot3M/10s, RPC100M/60s,400MiB/no swap, C storage lock and dual margins remain
+unchanged. Never combine partial runs into a pass; freeze bound adapter/
+firmware/harness inputs during future runs.
+
+D: has recovered above its reserve; no compaction/trim/deletion/shutdown was
+performed. The C native scratch bind mounts were restored after UUID/marker
+checks. WSL reboot cause is not established. Source checkpoint e6d299f remains;
+only tracking documents change. Full target/physical cold MCU-exit failure and
+queue/page-pool retention/drain, firmware BA reuse, hot admission/retirement/
+rearm, current image/router/actual-client/performance/stability remain open.
+Read native-replay-recovery REPORT/EVIDENCE. Continue solo; full goal is incomplete.
+
 ## 2026-10-25 - First Native Publication Gate Passes; Finish Full Replay
 
 Two fresh actual profile2 probes now complete the first PUBLISH within original

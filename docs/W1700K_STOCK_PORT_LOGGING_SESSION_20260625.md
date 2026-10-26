@@ -1,5 +1,31 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-26 - Recovered Storage And Separate Replay Outcomes
+
+Continued solo from e6d299f. D: recovered above reserve without compaction,
+trim, deletion, shutdown or server termination. A later WSL reboot detached the
+C native scratch; exact UUID/marker checks precede restoration of bind mounts.
+The reboot cause is not established. No original replay was restarted.
+
+Full-q31 retains5652 checked positive RPCs in profile0, all129 publications and
+1794 RESET/MCU_BEGIN/MCU_COMPLETE each, without a profile or complete verdict.
+All38 prepared source bindings match. Large inventory/runtime audits remain
+retained prior evidence, not rerun in this recovery. Full-q4 then fails the
+unchanged10-second raw-boot bound at0x84004ed6 before RPCs. Diagnostic-q5 passes
+1136899 instructions with byte-identical prior profile0 prefix; its longest
+call8.936308784s does not establish stable timing or full replay success.
+
+Fresh full-q7 starts from raw state with extra failed-run/prefix preconditions,
+exclusive output and unchanged recipe/limits/400MiB/no-swap/C-lock/dual margins.
+It passes boot/140 RPCs but first PUBLISH times out at0x84104abe:24576 writes/
+23833 readbacks, original100M/60s. Wrapper/controller fail exit1/MainPID0; no
+replay remains live. The140 positive prefix matches q31 except timing. Preserve
+all outcomes; next reduce faithful observer overhead/requalify timing before
+a new full recipe. Only tracking documents changed. Source checkpoint
+e6d299f/lock88502ab3/patchbb457928/modulesa840d3cc stay. Full native/physical/
+reuse/hot/image/hardware/client/performance/stability remain; no image/load/
+router contact/flash. Read native-replay-recovery REPORT/EVIDENCE.
+
 ## 2026-10-25 - Native First Publication And Full-Replay Preparation
 
 Continued solo fromaddd5de. Host observer profile4 retains I/O delegation and

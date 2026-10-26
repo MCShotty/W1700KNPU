@@ -1,5 +1,33 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-26 - Storage Recovered; Native Replay Outcomes Stay Separate
+
+D: recovered above the unchanged reserve before maintenance. No compaction,
+trim, deletion, shutdown or server termination occurred. A later WSL boot ID
+change and missing transient service were observed; reboot cause is unknown.
+The registered C scratch was reattached through UUID/marker-checked bind mounts.
+
+Full-q31 is interrupted, not passed:5652 recorded positive RPCs in profile0,
+129 publications and1794 RESET/MCU_BEGIN/MCU_COMPLETE each, with no terminal
+profile/driver/wrapper receipt. Thirty-eight prepared source bindings rehash
+unchanged. Previous complete source/cache/runtime inventories remain retained
+at the e6d299f publication audit; this recovery does not rerun those large audits.
+
+Fresh full-q4 fails the original10-second raw-boot limit at0x84004ed6 before
+RPCs. Diagnostic-q5 then completes1136899 instructions with exactly the prior
+profile0 prefix receipt (bb2a5e29); slowest run8.936308784s. Neither diagnostic
+success nor earlier partial RPCs replace a complete native verdict.
+
+Fresh raw-state full-q7 passes boot/140 positive RPCs, then first PUBLISH times
+out at0x84104abe:24576 writes/23833 readbacks, original100M/60s. Wrapper and
+controller both fail exit1; service MainPID0. No replay remains running. Retain
+its failed artifacts and the earlier separate outcomes. Next reduce faithful
+observer overhead/requalify timing before a new full recipe. Future runs must
+freeze bound inputs. Same400MiB/no swap, C lock, dual margins and boot3M/10s.
+Only tracking docs changed; production lock88502ab3/patchbb457928/modules
+a840d3cc stay. Full native/physical/reuse/hot/image/client gates remain. No
+image/load/router contact/flash. Read native-replay-recovery REPORT/EVIDENCE.
+
 ## 2026-10-25 - Metadata Observer Preserves I/O; First Publication Completes
 
 Fromaddd5de, host observer profile4 handles only eligible ordinary metadata

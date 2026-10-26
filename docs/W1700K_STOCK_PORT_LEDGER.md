@@ -1,5 +1,45 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-26 - Storage And Interrupted Native Replay Recovery
+
+- Continued solo. D: recovered to about20.8GB free before maintenance, above
+  the3288334336-byte reserve. No compaction, trim, deletion, shutdown, server
+  termination or permanent configuration change was performed. Later observed
+  WSL boot change14d59cc9 to1862d6d4 is not attributed to a proven cause.
+- Restored the registered C native scratch bind mounts after exact UUID/marker
+  checks; source and shared mounts resolve to the same ext4 directory identity.
+  Preserved full-q31 output and dispatch/guard receipts. It recorded5652 checked
+  positive RPCs: OPEN1/ENROLL139/PUBLISH129/HARDWARE1 and1794 each RESET/MCU_BEGIN/
+  MCU_COMPLETE. Complete-publication and generation1 memory markers exist, but
+  no profile summary or driver/wrapper/controller final result exists.
+- Rehashed all38 prepared input bindings unchanged. Earlier57695-file/five-
+  inventory/48-runtime publication audit remains prior evidence, not a fresh
+  recovery audit. Source checkpoint e6d299f, lock88502ab3, patchbb457928 and
+  four-module producera840d3cc remain unchanged; no production rebuild occurred.
+- Separately named full-q4 fails the unchanged10-second raw-boot deadline at
+  0x84004ed6, before RPCs. Retain exit1, source hashes, logs and diagnostics.
+  Diagnostic-q5 subsequently completes1136899 raw instructions (1131289 fast/
+  5610 reference); its prefix receipt is byte-identical to q31 profile0,
+  SHAbb2a5e29. Slowest call8.936308784s stays below the original deadline.
+  This is a boot witness, not proof of stable host timing or full replay.
+- Fresh raw-state full-q7 uses an exclusive output and extra failed-run/exact-
+  prefix preconditions, with original recipe/limits. Dispatch verifies live
+  guard/child argv/caps. It passes boot/140 RPCs, but first PUBLISH times out at
+  0x84104abe:24576 writes/23833 readbacks,7214255 blocks,738206 metadata writes,
+  60001845304ns. Injection is false; table readback is not complete. Wrapper/
+  controller fail exit1 and MainPID0; no replay remains running. Its140 recorded
+  positives match the interrupted q31 prefix except timing. Retain all separate
+  outcomes. Next reduce faithful observer overhead/requalify timing before a
+  new complete recipe. No budgets or requirements were relaxed.
+- Jev scope checks retain probabilities: completion0.05, firmware-cause0.08,
+  partial-scope0.83, physical0.04, fresh-scope0.80. Deterministic parsing/hashes
+  and executed results, not probabilities, support the scoped observations.
+- Same400MiB/no swap, C storage lock, dual backing/RAM margins, boot3M/10s and
+  RPC100M/60s. Neither old original replay restarted. Full native, physical MCU
+  failure/retention/drain, BA reuse/hot lifetime and image/router/actual-client/
+  performance/stability remain. No image/load/router contact/flash. Read
+  research/checkpoints/2026-10-26-npu-native-replay-recovery/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-25 - First Native Publication Completes Without Budget Changes
 
 - Continued solo fromaddd5de. Host observer profile4 adds ordinary metadata

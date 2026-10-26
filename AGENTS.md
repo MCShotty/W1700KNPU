@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-26 - Reboot Recovery; Full Native Replay Still Times Out
+
+- Continue solo. D: recovered above the unchanged reserve; no compaction, trim,
+  deletion, shutdown or server termination was performed. The subsequently
+  observed WSL reboot has no established cause. Restore the registered C native
+  scratch bind mounts only after matching UUID and storage marker.
+- Retain interrupted full-q31: 5652 recorded positive RPCs, 129 profile0
+  publications, 1794 RESET/MCU_BEGIN/MCU_COMPLETE each. No profile summary or
+  complete verdict exists. Separately named full-q4 failed the original raw
+  boot10s limit at0x84004ed6 before RPCs; do not relabel either result.
+- Boot diagnostic-q5 completes1136899 instructions and its prefix receipt is
+  byte-identical to q31 profile0. The slowest call is8.936308784s, not a longer
+  budget. This is a boot witness, not full replay or stable timing acceptance.
+- Fresh raw-state full-q7 passes boot and140 positive RPCs, but first PUBLISH
+  times out at0x84104abe:24576 writes/23833 readbacks, original100M/60s. It is
+  terminal exit1/MainPID0, not live or a pass. No replay remains running here.
+  Preserve both failures and interrupted output; do not restart them. Next
+  reduce faithful host-observer overhead/requalify timing before a new full
+  recipe. Future runs must freeze bound adapter/firmware/harness inputs. Same
+  400MiB/no swap, C lock, dual margins and boot3M/10s remain.
+- Source checkpoint e6d299f/lock88502ab3/modulesa840d3cc stay. Full native,
+  physical cold/MCU retention/drain, BA reuse/hot lifetime and image/router/
+  actual-client/performance/stability remain. Read native-replay-recovery report.
+
 ## 2026-10-25 - Native First Publication Passes; Full Replay Next
 
 - Continue solo. Host observer profile4 adds metadata read/write fast paths at
