@@ -1,5 +1,26 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Fresh Complete Native Recipe Next
+
+The memory callback gateway is implemented and qualified as host profile 8.
+Plain/UBSan each pass 113 methods; all 25 compiled controls, finite raw trace
+identity and 167 tooling methods pass. The controlled metadata loop is 2.70x
+faster; a fresh 139-RPC native subset publishes in 25.519s with complete byte,
+journal and state comparisons. Neither is a complete recipe or physical proof.
+
+Use freshly rebuilt pair-q9, manifest d0eddf16, with current source provenance
+and byte-identical CODE/DATA. Old pair-q2 correctly refuses the changed IRQ
+registration source; preserve that failure. After commit/post verification,
+run prepared full-q16 from fresh raw state and require all three profiles/19261
+RPCs independently under unchanged boot 3M/10s and RPC 100M/60s. Freeze bound
+inputs, inspect actual processes/results, never restart on observation timeout,
+and avoid competing compilation/sampling. A prepared launcher is not a live run.
+
+Complete consumer containment/physical drain, BA reuse/hot lifetime, current
+image/board and real-client performance/stability acceptance remain. Qualified
+RXWI driver/module state is unchanged. Ethernet remains disconnected; no flash
+or Wi-Fi change. Read native-memory-hook REPORT/EVIDENCE; full goal stays active.
+
 ## 2026-10-27 - Native Memory Callback Gateway Next
 
 Current profile 7 passes a fresh profile-2 first-publication subset: 139 checked

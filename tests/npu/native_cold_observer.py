@@ -9,7 +9,7 @@ import sys
 
 import native_read_api as read_api
 import unicorn.unicorn_py3.unicorn as binding
-from unicorn import UC_ERR_OK, UC_HOOK_BLOCK, UcError
+from unicorn import UC_ERR_OK, UC_HOOK_BLOCK, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UcError
 from unicorn import riscv_const as r
 from emulation_layout import CODE
 
@@ -55,7 +55,7 @@ def load_reviewed(receipt_path):
 
 
 def check_module(module):
-    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 7 or
+    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 8 or
             getattr(module, 'COLD_OBSERVER_PC_REG', None) != r.UC_RISCV_REG_PC or
             getattr(module, 'COLD_OBSERVER_X0_REG', None) != r.UC_RISCV_REG_X0 or
             any(getattr(r, 'UC_RISCV_REG_X' + str(i)) != r.UC_RISCV_REG_X0 + i for i in range(32))):
@@ -76,29 +76,46 @@ def install_emulator(cpu, reader):
 
 
 def install_block_hook(cpu, observer):
-    add, remove = binding.uclib.uc_hook_add, binding.uclib.uc_hook_del
-    callbacks = cpu._callbacks
     module = sys.modules.get('_npu_read_api')
     if (type(observer) is not getattr(module, 'BlockObserver', None) or
-            type(cpu._uch) is not ctypes.c_void_p or type(callbacks) is not dict or
+            tuple(binding.HOOK_CODE_CFUNC._argtypes_) != (ctypes.c_void_p, ctypes.c_uint64,
+                ctypes.c_uint32, ctypes.c_void_p) or binding.HOOK_CODE_CFUNC._restype_ is not None):
+        raise RuntimeError('native block hook API/registry signature differs')
+    return _install_native_hook(cpu, observer, UC_HOOK_BLOCK, binding.HOOK_CODE_CFUNC, (), 'block')
+
+
+def install_memory_hook(cpu, observer, hook_type):
+    module = sys.modules.get('_npu_read_api')
+    if (type(observer) is not getattr(module, 'MemoryObserver', None) or
+            type(hook_type) is not int or hook_type not in (UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE) or
+            tuple(binding.HOOK_MEM_ACCESS_CFUNC._argtypes_) != (ctypes.c_void_p, ctypes.c_int,
+                ctypes.c_uint64, ctypes.c_int, ctypes.c_int64, ctypes.c_void_p) or
+            binding.HOOK_MEM_ACCESS_CFUNC._restype_ is not None):
+        raise RuntimeError('native memory hook API/registry signature differs')
+    return _install_native_hook(cpu, observer, hook_type, binding.HOOK_MEM_ACCESS_CFUNC,
+                                (hook_type,), 'memory')
+
+
+def _install_native_hook(cpu, observer, hook_type, callback_type, info_args, label):
+    add, remove = binding.uclib.uc_hook_add, binding.uclib.uc_hook_del
+    callbacks = cpu._callbacks
+    if (type(cpu._uch) is not ctypes.c_void_p or type(callbacks) is not dict or
             tuple(add.argtypes or ()) != (ctypes.c_void_p, ctypes.POINTER(binding.uc_hook_h),
                 ctypes.c_int32, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint64, ctypes.c_uint64) or
             add.restype is not ctypes.c_int or
             tuple(remove.argtypes or ()) != (ctypes.c_void_p, binding.uc_hook_h) or
-            remove.restype is not ctypes.c_int or
-            tuple(binding.HOOK_CODE_CFUNC._argtypes_) != (ctypes.c_void_p, ctypes.c_uint64,
-                ctypes.c_uint32, ctypes.c_void_p) or binding.HOOK_CODE_CFUNC._restype_ is not None):
-        raise RuntimeError('native block hook API/registry signature differs')
-    address, userdata = observer.hook_info(cpu)
+            remove.restype is not ctypes.c_int):
+        raise RuntimeError('native ' + label + ' hook API/registry signature differs')
+    address, userdata = observer.hook_info(cpu, *info_args)
     if cpu._callbacks is not callbacks:
-        raise RuntimeError('native block hook callback registry changed')
-    pointer = ctypes.cast(address, binding.HOOK_CODE_CFUNC)
+        raise RuntimeError('native ' + label + ' hook callback registry changed')
+    pointer = ctypes.cast(address, callback_type)
     pointer._observer = observer
     guard, handle = object(), binding.uc_hook_h()
     callbacks[guard] = pointer
     registered = False
     try:
-        status = add(cpu._uch, ctypes.byref(handle), UC_HOOK_BLOCK, pointer,
+        status = add(cpu._uch, ctypes.byref(handle), hook_type, pointer,
             ctypes.c_void_p(userdata), ctypes.c_uint64(1), ctypes.c_uint64(0))
         if status != UC_ERR_OK:
             raise UcError(status)
@@ -111,9 +128,9 @@ def install_block_hook(cpu, observer):
             try:
                 status = remove(cpu._uch, handle)
             except BaseException:
-                raise RuntimeError('native block hook rollback failed; callback retained') from error
+                raise RuntimeError('native ' + label + ' hook rollback failed; callback retained') from error
             if status != UC_ERR_OK:
-                raise RuntimeError('native block hook rollback failed; callback retained') from error
+                raise RuntimeError('native ' + label + ' hook rollback failed; callback retained') from error
         del callbacks[guard]
         raise
     del callbacks[guard]
@@ -168,6 +185,9 @@ def make_pair_type(base_type, module):
     class NativeColdPair(base_type):
         def install_block_hook(self):
             return install_block_hook(self.cpu, self.block)
+
+        def install_memory_hook(self, hook_type, callback):
+            return install_memory_hook(self.cpu, callback, hook_type)
 
         def memory_observer(self, name, write):
             key = '_native_' + name

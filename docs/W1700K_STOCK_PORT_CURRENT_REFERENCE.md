@@ -1,5 +1,31 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Native Memory Gateway Qualified
+
+From ff0788f, profile 8 adds the header-typed C memory gateway at original read/
+write hook positions. Default Pair forwards unchanged; nine core C bodies stay
+byte-identical, read API remains 2. Fresh plain/UBSan each pass 113 methods,
+25 independent compiled controls fail their intended assertions, finite raw
+traces match 19517 instructions/40 regions, and 167 tooling methods pass.
+
+Metadata-loop medians are 1384101427/512733364ns, wrapped/direct ratio 2.69946,
+identical guest state/counts/fresh SP. Fresh native subset passes 139 positive
+RPCs and 141 canonical rows except wall_ns. Publication is 25518956577ns with
+all 24576 writes/readbacks and complete broker/DMA/SRAM/code comparisons. The
+prior 46.865s run was profiled, not a paired whole-publication benchmark.
+
+Preserved native-q8 refuses old pair provenance before execution. Fresh pair-q9
+has 274 current inputs, manifest d0eddf16 and byte-identical CODE e6bc914c/DATA
+ad905cb0. Use that pair with fresh adapter f0f130b2/plain or 1c909741/UBSan.
+All 323 current inputs/438 target inputs verify; old 309 and 294 native versions
+remain auditable with four preserved aliases. Lock d55e71a3 and drivers stay.
+
+Prepared full-q16 is next only after commit/post verification; require actual
+live/terminal evidence and a fresh complete result, not assembled subsets.
+Keep limits, caps/margins/lock and frozen inputs; no competing compilation.
+No router image/load/contact/flash or Wi-Fi change. Ethernet stays disconnected.
+Physical/reuse/hot/image/client gates remain. Read native-memory-hook REPORT/EVIDENCE.
+
 ## 2026-10-27 - Current Native Publication Profiled
 
 From c18c7dc, unchanged host profile 7 passes a fresh profile-2 native subset:

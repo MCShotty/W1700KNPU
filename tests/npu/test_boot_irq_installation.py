@@ -70,9 +70,12 @@ class Installation(NativeMemory):
         for offset in range(0, 28, 4):
             self.put32(0x0c002000 + offset, enable_seed)
         self.instruction_hook = self.cpu.hook_add(UC_HOOK_CODE, self.code_hook)
-        self.cpu.hook_add(UC_HOOK_MEM_READ, self.read_hook)
-        self.cpu.hook_add(UC_HOOK_MEM_WRITE, self.write_hook)
+        self.install_memory_hook(UC_HOOK_MEM_READ, self.read_hook)
+        self.install_memory_hook(UC_HOOK_MEM_WRITE, self.write_hook)
         self.cpu.hook_add(UC_HOOK_MEM_INVALID, self.invalid_hook)
+
+    def install_memory_hook(self, hook_type, callback):
+        return self.cpu.hook_add(hook_type, callback)
 
     def record(self, kind, **details):
         event = {'step': self.tick, 'kind': kind,

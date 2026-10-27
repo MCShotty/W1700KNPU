@@ -1,5 +1,37 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Native Memory Gateway Qualified
+
+- Continue solo; keep Ethernet disconnected. Mainline observer profile 8 adds a
+  direct C read/write memory callback at the original registration positions.
+  Default Pair still forwards to Python. Read API 2 and nine core C bodies are
+  byte-identical; shared registry retention/rollback serves block and memory.
+- Fresh plain/UBSan each pass 113 methods (32 read/CSR, 81 observer), zero skips.
+  Eighteen new observer methods cover all six arguments/signed values, early
+  registration, owner-CPU rebinding, order/SP/counters, exceptions/context/backend
+  precedence, unhook/inflight/GC and registration/rollback. All 25 compiled
+  mutation controls fail one intended assertion; 167 tooling methods pass.
+- Metadata-loop medians are wrapped 1384101427ns/direct 512733364ns, ratio 2.69946,
+  same 200000 reads/writes, counts and fresh SP. This is host-only microbenchmark
+  evidence. Finite raw traces match 19517 instructions/40 regions. Fresh native
+  subset passes 139 RPCs/141 canonical rows, all extent/broker/DMA/SRAM/code checks;
+  first publication is 25518956577ns. Prior 46.865s was profiled, not a paired trial.
+- Preserve native-q8's source-cohort refusal, before firmware ran. Fresh pair-q9
+  compiles current provenance: 274 inputs, manifest d0eddf16, CODE e6bc914c/DATA
+  ad905cb0 byte-identical to the retained pair. Do not edit old manifests or
+  bypass checks. Use this fresh pair for profile 8, not old pair-q2 provenance.
+- Next full-q16 uses the committed, post-verified profile-8 adapter and fresh
+  pair. Require its actual live/terminal state; never restart on observation
+  timeout. Freeze its bound inputs while live. No competing compilation or
+  sampling, no relaxed limits; all three profiles/19261 RPCs must pass afresh.
+  The full script/launcher are prepared, not acceptance or proof of a live job.
+- All 323 subset inputs and 438 target inputs verify; four old 309-file paths
+  use preserved pre-edit versions. All 294 old full inputs remain read-only;
+  the consumed 80-method test version is retained before the 81st addition.
+  Source lock d55e71a3, driver patches/modules stay. No router image/load/contact/
+  flash or Wi-Fi change. Physical containment/drain, reuse/hot and image/client
+  gates remain. Read native-memory-hook REPORT/EVIDENCE; full NPU goal active.
+
 ## 2026-10-27 - Current Native Publication Profiled
 
 - Continue solo and keep Ethernet disconnected. Source/profile 7 remains c18c7dc;

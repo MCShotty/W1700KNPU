@@ -95,6 +95,9 @@ typedef struct {
     PyObject *reader;
     PyObject *state;
     PyObject *counter_type;
+    PyObject *hook_cpu;
+    uc_engine *hook_handle;
+    unsigned long hook_thread;
     ObserverRange allowed[OBSERVER_RANGES];
     ObserverRange excluded[OBSERVER_RANGES];
     Py_ssize_t allowed_count;
@@ -1140,6 +1143,7 @@ static int memory_init(MemoryObserver *self, PyObject *args, PyObject *kwargs)
     self->owner = Py_NewRef(owner);
     self->original = Py_NewRef(original);
     self->write = write == Py_True;
+    self->hook_thread = PyThread_get_thread_ident();
     return 0;
 }
 
@@ -1156,6 +1160,11 @@ static PyObject *memory_enable(MemoryObserver *self, PyObject *args)
         return NULL;
     if (!check_reader(reader))
         return NULL;
+    if (self->hook_cpu && (self->hook_cpu != reader->cpu ||
+            self->hook_handle != reader->handle || self->hook_thread != reader->thread)) {
+        PyErr_SetString(PyExc_RuntimeError, "memory observer native hook binding differs");
+        return NULL;
+    }
     if (!PyTuple_CheckExact(allowed) || !PyTuple_CheckExact(excluded) ||
         PyTuple_GET_SIZE(allowed) > OBSERVER_RANGES || PyTuple_GET_SIZE(excluded) > OBSERVER_RANGES) {
         PyErr_SetString(PyExc_TypeError, "memory observer requires bounded exact range tuples");
@@ -1202,6 +1211,7 @@ static int memory_traverse(MemoryObserver *self, visitproc visit, void *arg)
     Py_VISIT(self->reader);
     Py_VISIT(self->state);
     Py_VISIT(self->counter_type);
+    Py_VISIT(self->hook_cpu);
     return 0;
 }
 
@@ -1212,6 +1222,7 @@ static int memory_clear(MemoryObserver *self)
     Py_CLEAR(self->reader);
     Py_CLEAR(self->state);
     Py_CLEAR(self->counter_type);
+    Py_CLEAR(self->hook_cpu);
     return 0;
 }
 
@@ -1228,6 +1239,99 @@ static PyObject *memory_vectorcall(PyObject *object, PyObject *const *args,
     return observer_vectorcall(memory_call, object, args, nargsf, kwnames);
 }
 
+static void memory_hook_callback(uc_engine *engine, uc_mem_type access, uint64_t address,
+    int size, int64_t value, void *userdata)
+{
+    PyGILState_STATE gil = PyGILState_Ensure();
+    MemoryObserver *self = (MemoryObserver *)userdata;
+    PyObject *cpu = NULL, *kind = NULL, *location = NULL, *length = NULL;
+    PyObject *amount = NULL, *result = NULL;
+
+    /* The registry owns userdata; also pin it across an in-callback unhook. */
+    Py_INCREF(self);
+    if (!self->hook_cpu) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook is not initialized");
+        goto out;
+    }
+    cpu = Py_NewRef(self->hook_cpu);
+    if (engine != self->hook_handle) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook engine differs");
+        goto out;
+    }
+    if (PyThread_get_thread_ident() != self->hook_thread) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook is per-thread");
+        goto out;
+    }
+    kind = PyLong_FromLong(access);
+    location = PyLong_FromUnsignedLongLong(address);
+    length = PyLong_FromLong(size);
+    amount = PyLong_FromLongLong(value);
+    if (kind && location && length && amount) {
+        PyObject *args[] = {cpu, kind, location, length, amount, Py_None};
+        result = memory_vectorcall((PyObject *)self, args, 6, NULL);
+    }
+out:
+    if (!result)
+        block_hook_error(cpu, (PyObject *)self);
+    Py_XDECREF(result);
+    Py_XDECREF(amount);
+    Py_XDECREF(length);
+    Py_XDECREF(location);
+    Py_XDECREF(kind);
+    Py_XDECREF(cpu);
+    Py_DECREF(self);
+    PyGILState_Release(gil);
+}
+
+_Static_assert(_Generic(&memory_hook_callback, uc_cb_hookmem_t: 1, default: 0),
+    "memory hook must match the loaded Unicorn header prototype");
+
+static PyObject *memory_hook_info(MemoryObserver *self, PyObject *args)
+{
+    PyObject *cpu, *state;
+    void *handle;
+    int hook_type, valid;
+
+    if (!self->owner || !self->original) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook is not initialized");
+        return NULL;
+    }
+    if (!PyArg_ParseTuple(args, "Oi:hook_info", &cpu, &hook_type))
+        return NULL;
+    if (hook_type != (self->write ? UC_HOOK_MEM_WRITE : UC_HOOK_MEM_READ)) {
+        PyErr_SetString(PyExc_ValueError, "native memory hook type differs");
+        return NULL;
+    }
+    if (PyThread_get_thread_ident() != self->hook_thread) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook is per-thread");
+        return NULL;
+    }
+    state = PyObject_GetAttr(self->owner, field_keys[F_DICT]);
+    if (!state)
+        return NULL;
+    valid = PyDict_CheckExact(state) && dict_field(state, F_CPU) == cpu;
+    Py_DECREF(state);
+    if (!valid || (self->hook_cpu && self->hook_cpu != cpu) ||
+            (self->reader && ((Reader *)self->reader)->cpu != cpu)) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook engine differs");
+        return NULL;
+    }
+    handle = engine_handle(cpu);
+    if (!handle)
+        return NULL;
+    if ((self->hook_cpu && self->hook_handle != handle) ||
+            (self->reader && ((Reader *)self->reader)->handle != handle)) {
+        PyErr_SetString(PyExc_RuntimeError, "native memory hook engine differs");
+        return NULL;
+    }
+    if (!self->hook_cpu) {
+        self->hook_cpu = Py_NewRef(cpu);
+        self->hook_handle = handle;
+    }
+    return Py_BuildValue("(KK)", (unsigned long long)(uintptr_t)memory_hook_callback,
+        (unsigned long long)(uintptr_t)self);
+}
+
 static PyObject *memory_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     MemoryObserver *self = (MemoryObserver *)type->tp_alloc(type, 0);
@@ -1241,6 +1345,7 @@ static PyObject *memory_new(PyTypeObject *type, PyObject *args, PyObject *kwargs
 static PyMethodDef memory_methods[] = {
     {"enable", (PyCFunction)memory_enable, METH_VARARGS, "Enable source-qualified metadata dispatch, never I/O validation bypass."},
     {"stats", (PyCFunction)memory_stats, METH_NOARGS, "Return metadata dispatch counts, not guest acceptance."},
+    {"hook_info", (PyCFunction)memory_hook_info, METH_VARARGS, "Return a retained per-engine native read/write callback binding."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -1398,7 +1503,7 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     if (PyModule_AddObjectRef(result, "ColdObserver", (PyObject *)&ColdObserverType) < 0 ||
         PyModule_AddObjectRef(result, "BlockObserver", (PyObject *)&BlockObserverType) < 0 ||
         PyModule_AddObjectRef(result, "MemoryObserver", (PyObject *)&MemoryObserverType) < 0 ||
-        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 7) < 0 ||
+        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 8) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_PC_REG", UC_RISCV_REG_PC) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_X0_REG", UC_RISCV_REG_X0) < 0) {
         Py_DECREF(result);

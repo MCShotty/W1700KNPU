@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Native Memory Gateway Qualified
+
+Mainline profile 8 now dispatches read/write memory callbacks directly in C,
+preserving the original observer bodies and registration positions. Plain/UBSan
+each pass 113 methods; 25 compiled controls and 167 tooling methods pass. The
+metadata microbenchmark is 2.70x faster with identical guest state and counts.
+
+A fresh pair has current provenance but byte-identical CODE/DATA. Its native
+139-RPC subset matches all 141 canonical rows except timing; the first complete
+publication takes 25.519s under the existing 60s limit. This does not complete
+the full recipe or physical acceptance. A fresh full three-profile replay is
+the next gate. No router image, hardware or Wi-Fi change; Ethernet stays
+disconnected. See [the gateway checkpoint](research/checkpoints/2026-10-27-npu-native-memory-hook/REPORT.md).
+
 ## 2026-10-27 - Current Native Publication Profiled
 
 Current observer profile 7 now passes a fresh 139-RPC native subset. Its first

@@ -1,5 +1,58 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Native Memory Gateway Qualified
+
+- Continued solo from ff0788f. Added direct read/write C memory callbacks in
+  mainline profile 8, preserving the exact registration positions through a
+  default forwarding method. Shared block/memory registry code retains userdata
+  during registration, callback execution, unhook, GC and failed rollback.
+- The new callback matches the actual Unicorn header via C11 static assertion,
+  forwards all six values including signed int64 value/int size, preserves the
+  registered CPU/thread before enablement, and rejects inconsistent later enable.
+  It uses the existing error/context/stop handling. Nine core C bodies, including
+  read/block/cold/memory/emulate, are byte-identical. Read API remains 2.
+- Fresh q2 plain/UBSan initially pass 112 methods. Preserve their consumed
+  80-method test source before adding an owner-CPU rebinding regression. Fresh
+  q3 each pass 32 read/CSR plus 81 observer methods, zero errors/skips. Eighteen
+  new observer methods are unique additions, not the sum of repeated executions.
+  Both build generations produce the same respective plain/UBSan binary bytes.
+- All 25 independently compiled controls fail one intended assertion each.
+  Five memory controls cover unsigned value corruption, swapped arguments,
+  omitted inflight pin, omitted CPU GC edge and omitted enable-binding guard.
+  Existing counter/CSR/SP/range/transport/context controls still detect failures.
+  Heap safety outside these explicit environments is not universally proven.
+- Actual RV32 metadata loop alternates wrapped/direct modes across three trials
+  each. Same 200000 reads/writes, counters, terminal state and fresh SP; medians
+  1384101427/512733364ns, ratio 2.6994565288. This is host-only microbenchmarking.
+  Finite raw complete transcripts match 19517 instructions/40 regions; fresh
+  167 tooling methods pass. Kernel/hardware effects are not executed by these.
+- Native-q8 correctly refuses an old manifest's IRQ-source binding before any
+  firmware executes. Preserve it; no source check or manifest was bypassed.
+  Fresh guarded pair-q9 recompiles/assembles 274 current source inputs and all
+  21 components. CODE e6bc914c and DATA ad905cb0 are byte-identical to the old
+  pair; manifest d0eddf16 supplies current provenance. No router image is built.
+- Native-q10 passes 139 positive RPCs/journal comparisons and 141 canonical rows
+  except wall_ns. Raw prefix tracks 1136899 instructions in 35108769468ns. First
+  publication takes 25518956577ns: 7438798 blocks, 760661 metadata writes, 515
+  payload reads, table writes/reads 1/2, extent writes/reads 24576/24576, complete
+  broker/DMA/SRAM/code checks. Prior 46.865s was profiled; do not claim a paired
+  whole-publication speedup or that ordinal119/full recipe is now accepted.
+- All 323 new native inputs and qualified build inputs/headers/binaries rehash.
+  Four changed paths in the old 309-input set map to preserved pre-edit versions.
+  The original 294 inputs remain read-only/hash-correct. All 438 target inputs,
+  source lock d55e71a3, mt76/kernel patches and qualified RXWI modules stay.
+- Every phase keeps 400MiB/no swap, 128MiB C output, fresh dual backing/RAM
+  observations, margins and held C writer lock. Actual Jev contract/claim
+  judgments remain separate from compiler/runtime evidence. Six old tracking
+  bodies are preserved. No module load/router contact/flash/Wi-Fi change;
+  Ethernet stays disconnected. No shutdown or additional compaction occurred.
+- Prepared full-q16 will require a committed/post-verified clean cohort, fresh
+  raw three-profile execution, all 19261 RPCs and unchanged 3M/10s boot, 100M/60s
+  RPC limits. It preserves producing inputs before running and never restarts
+  on observation timeout. Preparation is not a live job or a passing verdict.
+  Complete physical containment/drain, BA reuse/hot and image/client gates remain.
+  Read research/checkpoints/2026-10-27-npu-native-memory-hook/REPORT.md and EVIDENCE.json; full goal active.
+
 ## 2026-10-27 - Current Native Publication Profiled
 
 - Continued solo from c18c7dc. No source/registration edits, new compiler, image,

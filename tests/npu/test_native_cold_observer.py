@@ -1,6 +1,7 @@
 """Differential actual RV32 fixture traces for the selected raw Pair hook, not NPU replay."""
 from collections import Counter
 from copy import deepcopy
+import ast
 import ctypes
 import gc
 import hashlib
@@ -972,6 +973,347 @@ ret
         write = self.module.MemoryObserver(h,h.write_hook,True)
         profile.enable_memory(h,read,write,reader,raw)
         return h,reader,read,write
+
+    def memory_gateway_owner(self, write=False, original=None):
+        gc.collect()
+        h,reader,read,store = self.memory_owner()
+        observer = store if write else read
+        if original is not None:
+            observer = self.module.MemoryObserver(h,original,write)
+        return h,reader,observer,UC_HOOK_MEM_WRITE if write else UC_HOOK_MEM_READ
+
+    def test_native_memory_hook_pointer_and_registry_holder(self):
+        for write in (False,True):
+            h,reader,observer,kind = self.memory_gateway_owner(write)
+            address,userdata = observer.hook_info(h.cpu,kind)
+            self.assertEqual(userdata,id(observer))
+            handle = profile.install_memory_hook(h.cpu,observer,kind)
+            pointer = h.cpu._callbacks[handle]
+            self.assertIsInstance(pointer,profile.binding.HOOK_MEM_ACCESS_CFUNC)
+            self.assertEqual(ctypes.cast(pointer,ctypes.c_void_p).value,address)
+            self.assertIs(pointer._observer,observer)
+            self.assertEqual(len(h.cpu._callbacks),1)
+            h.cpu.hook_del(handle)
+            self.assertFalse(h.cpu._callbacks)
+
+    def test_native_memory_hook_actual_order_and_dynamic_stack_counter(self):
+        def run(mode):
+            gc.collect()
+            h,reader,read,write = self.memory_owner()
+            trace = []
+            def before(cpu,kind,address,size,value,unused):
+                cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00 - 16 * len(trace))
+                if kind == UC_MEM_WRITE:
+                    h.counts = Counter(metadata_writes=4)
+                else:
+                    cpu.mem_write(address,(0x12345678).to_bytes(4,'little'))
+                trace.append(('before',kind,address,size,value,h.min_sp,dict(h.counts)))
+            def after(cpu,kind,address,size,value,unused):
+                trace.append(('after',kind,address,size,value,h.min_sp,dict(h.counts)))
+            both = UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE
+            h.cpu.hook_add(both,before)
+            for kind,observer,reference in ((UC_HOOK_MEM_READ,read,h.read_hook),
+                                            (UC_HOOK_MEM_WRITE,write,h.write_hook)):
+                if mode == 'gateway': profile.install_memory_hook(h.cpu,observer,kind)
+                else: h.cpu.hook_add(kind,observer if mode == 'vectorcall' else reference)
+            h.cpu.hook_add(both,after)
+            if mode == 'gateway': profile.install_emulator(h.cpu,reader)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_PC),END)
+            self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_A4),0x12345678)
+            self.assertEqual(h.counts,Counter(metadata_writes=5))
+            if mode != 'reference':
+                self.assertEqual(read.stats(),dict(fast=1,reference=0))
+                self.assertEqual(write.stats(),dict(fast=1,reference=0))
+            return self.snapshot(h),trace,h.min_sp
+        reference = run('reference')
+        self.assertEqual(reference,run('vectorcall'))
+        self.assertEqual(reference,run('gateway'))
+
+    def test_native_memory_hook_fallback_arguments_and_signed_values(self):
+        for write in (False,True):
+            observations = []
+            for native in (False,True):
+                h,reader,unused,kind = self.memory_gateway_owner(write)
+                calls = []
+                def original(*args):
+                    self.assertIs(args[0],h.cpu)
+                    calls.append(args[1:])
+                observer = self.module.MemoryObserver(h,original,write)
+                handle = (profile.install_memory_hook(h.cpu,observer,kind) if native else
+                          h.cpu.hook_add(kind,observer))
+                pointer = h.cpu._callbacks[handle]
+                access = UC_MEM_WRITE if write else UC_MEM_READ
+                for address,size,value in ((SRAM,4,-1),(0xffffffffffffffff,-7,-(1<<63)),
+                                           (SRAM,8,(1<<63)-1)):
+                    userdata = ctypes.c_void_p(id(observer)) if native else None
+                    pointer(h.cpu._uch,access,address,size,value,userdata)
+                self.assertEqual(calls,[(access,SRAM,4,-1,None),
+                    (access,0xffffffffffffffff,-7,-(1<<63),None),
+                    (access,SRAM,8,(1<<63)-1,None)])
+                self.assertEqual(observer.stats(),dict(fast=0,reference=3))
+                observations.append(calls)
+                h.cpu.hook_del(handle)
+            self.assertEqual(*observations)
+
+    def test_native_memory_hook_can_register_before_enable(self):
+        for write in (False,True):
+            h,reader,unused,kind = self.memory_gateway_owner(write)
+            observer = self.module.MemoryObserver(h,h.write_hook if write else h.read_hook,write)
+            handle = profile.install_memory_hook(h.cpu,observer,kind)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertEqual(observer.stats(),dict(fast=0,reference=1))
+            observer.enable(reader,((SRAM,SRAM_BYTES),),())
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertEqual(observer.stats(),dict(fast=1,reference=1))
+            self.assertEqual(h.counts,Counter(metadata_writes=2) if write else Counter())
+            h.cpu.hook_del(handle)
+
+    def test_native_memory_hook_rejects_enable_with_replaced_owner_cpu(self):
+        h,reader,unused,kind = self.memory_gateway_owner()
+        observer = self.module.MemoryObserver(h,h.read_hook,False)
+        cpu = h.cpu
+        handle = profile.install_memory_hook(cpu,observer,kind)
+        other = Uc(UC_ARCH_RISCV,UC_MODE_RISCV32)
+        other_reader = api.install(other,self.module)
+        try:
+            h.cpu = other
+            with self.assertRaisesRegex(RuntimeError,'binding differs'):
+                observer.enable(other_reader,((SRAM,SRAM_BYTES),),())
+            self.assertEqual(observer.stats(),dict(fast=0,reference=0))
+        finally:
+            h.cpu = cpu
+            cpu.hook_del(handle)
+
+    def test_native_memory_hook_preserves_exception_identity(self):
+        for write in (False,True):
+            for native_emulator in (False,True):
+                for error_type in (AssertionError,KeyboardInterrupt):
+                    error = error_type('memory callback marker')
+                    def original(*args): raise error
+                    h,reader,observer,kind = self.memory_gateway_owner(write,original)
+                    profile.install_memory_hook(h.cpu,observer,kind)
+                    if native_emulator: profile.install_emulator(h.cpu,reader)
+                    with self.assertRaises(error_type) as caught:
+                        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+                    self.assertIs(caught.exception,error)
+                    self.assertIs(h.cpu._hook_exception,error)
+
+    def test_native_memory_hook_preserves_first_exception(self):
+        for write in (False,True):
+            first,second = AssertionError('first'),ValueError('second')
+            def original(*args): raise second
+            h,reader,observer,kind = self.memory_gateway_owner(write,original)
+            h.cpu.hook_add(kind,lambda cpu,*args:setattr(cpu,'_hook_exception',first))
+            profile.install_memory_hook(h.cpu,observer,kind)
+            profile.install_emulator(h.cpu,reader)
+            with self.assertRaises(AssertionError) as caught:
+                h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertIs(caught.exception,first)
+            self.assertIs(h.cpu._hook_exception,first)
+
+    def test_native_memory_hook_backend_error_precedence(self):
+        error = AssertionError('callback marker')
+        def original(*args): raise error
+        h,reader,observer,kind = self.memory_gateway_owner(False,original)
+        address,userdata = observer.hook_info(h.cpu,kind)
+        pointer = ctypes.cast(address,profile.binding.HOOK_MEM_ACCESS_CFUNC)
+        function_type = ctypes.CFUNCTYPE(ctypes.c_int,ctypes.c_void_p,ctypes.c_uint64,
+            ctypes.c_uint64,ctypes.c_uint64,ctypes.c_size_t)
+        def backend(handle,begin,end,timeout,count):
+            pointer(handle,UC_MEM_READ,SRAM,4,0,ctypes.c_void_p(userdata))
+            return UC_ERR_ARG
+        function = self.hook_api(function_type(backend),profile.binding.uclib.uc_emu_start)
+        with patch.object(profile.binding.uclib,'uc_emu_start',function):
+            profile.install_emulator(h.cpu,reader)
+            with self.assertRaises(UcError) as caught:
+                h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertEqual(caught.exception.errno,UC_ERR_ARG)
+        self.assertIs(h.cpu._hook_exception,error)
+
+    def test_native_memory_hook_handled_exception_context_matches_binding(self):
+        for native in (False,True):
+            outer,first,stop = LookupError('outer'),AssertionError('first'),RuntimeError('stop')
+            def original(*args): raise first
+            h,reader,observer,kind = self.memory_gateway_owner(False,original)
+            seen,ignored = [],[]
+            def failed_stop():
+                seen.append(sys.exception())
+                raise stop
+            if native: profile.install_memory_hook(h.cpu,observer,kind)
+            else: h.cpu.hook_add(kind,observer)
+            profile.install_emulator(h.cpu,reader)
+            h.cpu.emu_stop = failed_stop
+            with patch.object(sys,'unraisablehook',ignored.append):
+                try: raise outer
+                except LookupError:
+                    with self.assertRaises(AssertionError) as caught:
+                        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+                    self.assertIs(sys.exception(),outer)
+            self.assertIs(caught.exception,first)
+            self.assertEqual(seen,[first])
+            self.assertEqual(len(ignored),1)
+            self.assertIs(ignored[0].exc_value,stop)
+            self.assertIs(stop.__context__,first)
+
+    def test_native_memory_hook_unhook_stops_observation(self):
+        h,reader,observer,kind = self.memory_gateway_owner(True)
+        handle = profile.install_memory_hook(h.cpu,observer,kind)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        counts,stats = h.counts.copy(),observer.stats()
+        h.cpu.hook_del(handle)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertEqual(h.counts,counts)
+        self.assertEqual(observer.stats(),stats)
+        self.assertNotIn(handle,h.cpu._callbacks)
+
+    def test_native_memory_hook_holds_inflight_reference_during_self_unhook(self):
+        calls = []
+        def original(cpu,access,address,size,value,unused):
+            self.assertGreaterEqual(sys.getrefcount(observer),outside + 1)
+            cpu.hook_del(handle)
+            gc.collect()
+            calls.append((access,address,size,value))
+        h,reader,observer,kind = self.memory_gateway_owner(False,original)
+        handle = profile.install_memory_hook(h.cpu,observer,kind)
+        outside = sys.getrefcount(observer)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertEqual(len(calls),1)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_memory_hook_cycles_are_collectable(self):
+        for write in (False,True):
+            h,reader,observer,kind = self.memory_gateway_owner(write)
+            h._native_memory_observer = observer
+            profile.install_memory_hook(h.cpu,observer,kind)
+            reference = weakref.ref(h.cpu)
+            del h,reader,observer
+            gc.collect()
+            self.assertIsNone(reference())
+
+    def test_native_memory_hook_registration_error_removes_guard(self):
+        h,reader,observer,kind = self.memory_gateway_owner()
+        def fail(*args):
+            self.assertEqual(len(h.cpu._callbacks),1)
+            self.assertIs(next(iter(h.cpu._callbacks.values()))._observer,observer)
+            return UC_ERR_ARG
+        with patch.object(profile.binding.uclib,'uc_hook_add',self.hook_api(fail,profile.binding.uclib.uc_hook_add)):
+            with self.assertRaises(UcError) as caught:
+                profile.install_memory_hook(h.cpu,observer,kind)
+        self.assertEqual(caught.exception.errno,UC_ERR_ARG)
+        self.assertFalse(h.cpu._callbacks)
+
+    def memory_hook_rollback(self, fails):
+        calls = []
+        h,reader,observer,kind = self.memory_gateway_owner(False,lambda *args:calls.append(args))
+        add,remove = profile.binding.uclib.uc_hook_add,profile.binding.uclib.uc_hook_del
+        handles,removed = [],[]
+        error = MemoryError('registry commit marker')
+        def record_add(*args):
+            status = add(*args)
+            handles.append(int.from_bytes(ctypes.string_at(args[1],ctypes.sizeof(profile.binding.uc_hook_h)),sys.byteorder))
+            return status
+        def record_remove(cpu,handle):
+            removed.append(int.from_bytes(ctypes.string_at(ctypes.byref(handle),ctypes.sizeof(handle)),sys.byteorder))
+            return UC_ERR_ARG if fails else remove(cpu,handle)
+        def fail_value(handle): raise error
+        with patch.object(profile.binding.uclib,'uc_hook_add',self.hook_api(record_add,add)), \
+                patch.object(profile.binding.uclib,'uc_hook_del',self.hook_api(record_remove,remove)), \
+                patch.object(profile.binding.uc_hook_h,'value',property(fail_value)):
+            with self.assertRaises(RuntimeError if fails else MemoryError) as caught:
+                profile.install_memory_hook(h.cpu,observer,kind)
+        self.assertEqual(handles,removed)
+        self.assertEqual(len(handles),1)
+        if fails:
+            self.assertIs(caught.exception.__cause__,error)
+            self.assertEqual(len(h.cpu._callbacks),1)
+            self.assertIs(next(iter(h.cpu._callbacks.values()))._observer,observer)
+            try:
+                gc.collect()
+                h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+                self.assertEqual(len(calls),1)
+            finally:
+                self.assertEqual(remove(h.cpu._uch,profile.binding.uc_hook_h(handles[0])),0)
+                h.cpu._callbacks.clear()
+        else:
+            self.assertIs(caught.exception,error)
+            self.assertFalse(h.cpu._callbacks)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertFalse(calls)
+
+    def test_native_memory_hook_commit_failure_rolls_back(self):
+        self.memory_hook_rollback(False)
+
+    def test_native_memory_hook_rollback_failure_keeps_userdata_alive(self):
+        self.memory_hook_rollback(True)
+
+    def test_native_memory_hook_engine_thread_mode_and_preinit_guards(self):
+        h,reader,observer,kind = self.memory_gateway_owner()
+        other = Uc(UC_ARCH_RISCV,UC_MODE_RISCV32)
+        with self.assertRaises(RuntimeError): profile.install_memory_hook(other,observer,kind)
+        with self.assertRaises(ValueError): profile.install_memory_hook(h.cpu,observer,UC_HOOK_MEM_WRITE)
+        uninitialized = self.module.MemoryObserver.__new__(self.module.MemoryObserver)
+        with self.assertRaises(RuntimeError): uninitialized.hook_info(h.cpu,kind)
+        errors = []
+        def attempt():
+            try: profile.install_memory_hook(h.cpu,observer,kind)
+            except Exception as error: errors.append(error)
+        thread = threading.Thread(target=attempt)
+        thread.start()
+        thread.join(timeout=5)
+        self.assertFalse(thread.is_alive())
+        self.assertEqual(len(errors),1)
+        self.assertIsInstance(errors[0],RuntimeError)
+        original = h.cpu._uch
+        try:
+            h.cpu._uch = ctypes.c_void_p()
+            with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,observer,kind)
+        finally: h.cpu._uch = original
+        address,userdata = observer.hook_info(h.cpu,kind)
+        stopped = []
+        h.cpu.emu_stop = lambda:stopped.append(True)
+        ctypes.cast(address,profile.binding.HOOK_MEM_ACCESS_CFUNC)(
+            other._uch,UC_MEM_READ,SRAM,4,0,ctypes.c_void_p(userdata))
+        self.assertIsInstance(h.cpu._hook_exception,RuntimeError)
+        self.assertIn('engine differs',str(h.cpu._hook_exception))
+        self.assertEqual(stopped,[True])
+        self.assertEqual(observer.stats(),dict(fast=0,reference=0))
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_memory_hook_api_and_registry_refusals(self):
+        h,reader,observer,kind = self.memory_gateway_owner()
+        class OtherDict(dict): pass
+        with patch.object(h.cpu,'_callbacks',OtherDict()):
+            with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,observer,kind)
+        with patch.object(profile.binding.uclib.uc_hook_add,'restype',ctypes.c_uint64):
+            with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,observer,kind)
+        with patch.object(profile.binding,'HOOK_MEM_ACCESS_CFUNC',ctypes.CFUNCTYPE(ctypes.c_int)):
+            with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,observer,kind)
+        with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,object(),kind)
+        with self.assertRaises(RuntimeError): profile.install_memory_hook(h.cpu,observer,UC_HOOK_MEM_READ|UC_HOOK_MEM_WRITE)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_memory_hook_default_and_registration_order(self):
+        h,reader,observer,kind = self.memory_gateway_owner()
+        calls = []
+        with patch.object(h.cpu,'hook_add',lambda *args:calls.append(args) or 123):
+            self.assertEqual(raw.Pair.install_memory_hook(h,kind,h.read_hook),123)
+        self.assertEqual(calls,[(kind,h.read_hook)])
+        candidate = object.__new__(profile.make_pair_type(raw.Pair,self.module))
+        candidate.__dict__.update(h.__dict__)
+        candidate.native_reader = reader
+        handle = candidate.install_memory_hook(kind,candidate.read_hook)
+        self.assertIs(candidate.cpu._callbacks[handle]._observer,candidate.read_hook)
+        candidate.cpu.hook_del(handle)
+        source = (profile.ROOT/'tests/npu/test_boot_irq_installation.py').read_text()
+        tree = ast.parse(source)
+        installation, = [node for node in tree.body if isinstance(node,ast.ClassDef) and node.name == 'Installation']
+        init, = [node for node in installation.body if isinstance(node,ast.FunctionDef) and node.name == '__init__']
+        registrations = sorted((node for node in ast.walk(init) if isinstance(node,ast.Call) and
+            isinstance(node.func,ast.Attribute) and node.func.attr in ('hook_add','install_memory_hook')),key=lambda node:node.lineno)
+        self.assertEqual([(node.func.attr,node.args[0].id) for node in registrations],
+            [('hook_add','UC_HOOK_CODE'),('install_memory_hook','UC_HOOK_MEM_READ'),
+             ('install_memory_hook','UC_HOOK_MEM_WRITE'),('hook_add','UC_HOOK_MEM_INVALID')])
 
     def test_memory_callbacks_keep_actual_register_memory_and_hook_order_transcripts(self):
         def run(native):

@@ -1,5 +1,24 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Native Memory Gateway Qualified
+
+Continued solo from ff0788f. Mainline profile 8 adds direct C memory callbacks
+at original registration positions. Default Pair and nine core C bodies stay.
+Fresh plain/UBSan each pass 113 methods; all 25 compiled controls and 167 tooling
+methods pass. Finite raw state matches 19517 instructions/40 regions. Controlled
+metadata loop is 2.70x faster, not a real-client/NPU throughput claim.
+
+Preserve native-q8's old-manifest refusal. Fresh pair-q9 has current provenance
+and byte-identical CODE/DATA. Native-q10 passes 139 RPCs/141 canonical rows,
+complete bytes/state, with a 25.519s first publication under the same 60s limit.
+It is not the full recipe or proof of the original ordinal119 failure's cause.
+Prepared full-q16 follows commit/post verification, with fresh raw state and
+unchanged limits/frozen inputs. All 323 current/438 target/294 retained inputs
+verify; old 309-file changed paths have preserved aliases. Drivers stay.
+No router image/load/contact/flash or Wi-Fi change; Ethernet disconnected.
+Full physical/reuse/hot/image/client gates remain. Read native-memory-hook
+REPORT/EVIDENCE; the full NPU goal remains active.
+
 ## 2026-10-27 - Current Native Publication Profiled
 
 Continued solo from c18c7dc with unchanged profile-7 source and adapter. Fresh
