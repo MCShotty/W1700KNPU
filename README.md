@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - RXWI Metadata Cleanup Fix Integrated
+
+The unified mt76 source now drains RXWI metadata returned by RRO token cleanup.
+A bounded replay of the retained pre-fix AArch64 helpers reproduces the stranded
+metadata and verifies the additional drain sequence in ten cases/three controls.
+Kernel effects and outer teardown remain modeled. Source reconstruction,
+strict narrow checkpatch and export checks pass; target compilation is pending
+behind the unchanged full native replay. Retained modules predate this fix.
+
+The full replay's latest retained observation has237 checked RPCs/97
+publications in profile0, not a full verdict. Physical DMA retirement remains
+open. See [the RXWI checkpoint](research/checkpoints/2026-10-27-npu-rxwi-cache-drain/REPORT.md).
+
 ## 2026-10-27 - Consumer DMA Ownership Map And Live Replay
 
 The source-only teardown audit now separates retained provider allocations

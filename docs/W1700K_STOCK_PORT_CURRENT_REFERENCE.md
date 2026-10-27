@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Integrated RXWI Cache Drain; Compiled Candidate Still Pending
+
+From5328fb6, source inspection follows actual TX payload unmapping and RXWI
+ownership. The non-WED RRO cleanup can return active RXWI metadata after shared
+DMA cleanup's cache drain. The SHA-bound pre-fix AArch64 helpers reproduce that
+conditional cache lifetime:0/0/1/3/2 metadata objects remain across five seeded
+fixtures; an additional drain leaves zero. Ten paired cases/three boundary
+controls pass, repeated under400MiB/no swap with read-only shared inputs.
+Actual Linux IDR/page-pool effects and outer cleanup remain modeled.
+
+Source now drains metadata after mt7996_rx_token_put in the common RRO page-map
+free helper. Only mac.c changes among18 reconstructed patch outputs, zero fuzz/
+offsets. Strict narrow checkpatch and79 OpenWrt/five LuCI export entries pass.
+Source lockd55e71a3/mt76 patch5fa42f93; kernel patch unchanged. Retained module
+producera840d3cc is pre-fix, with exact source/patch/lock aliases preserved.
+Current-target compilation and actual-candidate helper execution are pending.
+
+The original full-q21 remains live: observation-q17 verifies237 positives/97
+publications in profile0 and advancing driver CPU, not a full native verdict.
+All294 frozen inputs match despite unbound source updates. No competing build,
+restart, image/router contact/flash or Wi-Fi association change. Physical DMA
+retirement and full-project gates remain. Read RXWI REPORT/EVIDENCE.
+
 ## 2026-10-27 - Source-Bound Consumer DMA Ownership Boundary
 
 Frome5cf6a5, seven current mt76/provider files match module producera840d3cc;

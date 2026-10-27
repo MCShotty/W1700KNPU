@@ -1,5 +1,28 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Compile And Qualify The Integrated RXWI Drain
+
+Current source adds the existing mt76_free_pending_rxwi call immediately after
+RX-token retirement in mt7996_rro_msdu_page_map_free. This fixes the identified
+late metadata-cache ownership hole at source level; it does not implement the
+complete physical DMA retention/drain contract. Retained a840d3cc modules are
+pre-fix. Ten AArch64 helper cases/three boundary controls execute those old
+helpers and a modeled additional-drain sequence, not newly compiled fix code.
+
+After the original full-q21 is terminal, build/link current modules under the
+existing guarded storage/RAM policy. Replay test_rxwi_retirement_native.py with
+the fresh producer hash and current source; require the actual RRO helper's
+cache-drain call to match source and leave no RXWI live at modeled context free.
+Then run selected-C cold/PCI/NAPI/RRO regression and actual-kernel coverage.
+Do not overlap compilation with the timed replay or relabel old modules current.
+
+Full-q21 remains live; its retained profile0 prefix contains237 checked RPCs/
+97 publications and advancing actual driver CPU. All294 inputs remain frozen.
+Lockd55e71a3/patch5fa42f93 reconstruct all18 outputs; kernel patch stays.
+Physical MCU/queue/page-pool retention/drain, BA reuse/hot lifecycle, current
+image/board/actual-client/performance/stability still require full acceptance.
+Read RXWI REPORT/EVIDENCE. Ethernet is disconnected; no Wi-Fi change or flash.
+
 ## 2026-10-27 - Complete Consumer Ownership Before Physical Retirement
 
 The current source trace identifies five resource classes: explicit provider

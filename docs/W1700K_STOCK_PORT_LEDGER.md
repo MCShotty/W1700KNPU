@@ -1,5 +1,58 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - RXWI Metadata Cache Drain Integrated; Target Build Pending
+
+- Continued solo from5328fb6. Source tracing follows TX token release through
+  payload unmap/SKB completion/TXWI caching and distinguishes software RXWI from
+  DMA-visible page data. The current non-WED RRO source can move active RXWI
+  into its cache after shared DMA cleanup's earlier pending-cache drain.
+- A bounded replay executes the retained a840d3cc AArch64 RRO page-map, put-RXWI,
+  pending-RXWI and core-free helper instructions. Five seeded fixtures with/
+  without an additional modeled late drain give ten cases. Without that drain,
+  live metadata at modeled context free is0/0/1/3/2; with it all are zero.
+  Empty/cached-only, sparse tokens including32767 and shared-page fragments are
+  covered. IDR/page-pool/CPU lifecycle and outer cleanup remain models; no
+  physical leak or complete Linux teardown is claimed.
+- Three boundary controls detect omitted native enqueue, omitted modeled free,
+  and batched-PC control transfer. Real list/atomic instructions execute, with
+  fresh argument reads and all caller-saved clobbers. Ten cases/three controls
+  repeat in scoped-q11 and protected scoped-q16, not20 unique cases. The latter
+  refuses write opens to shared source and C-backed module with EROFS;400MiB/
+  no swap, unchanged1M/5s per helper and existing backing/RAM margins apply.
+- Minimal debug data has no matching complete structure-type DIEs. The first
+  layout assertion conflated absence with inconsistency; fresh diagnostics
+  retain empty candidate lists, not an ABI mismatch claim. Actual memory
+  operands and SHA-bound modules establish this fixture's specific offsets.
+- Preserve the failed bounded q4/q5 runs, q6 stopped-state diagnostic, q7 PC-
+  batch assertion, q8 parse failure and q9 bound failure. The q6 diagnostic
+  records24081 token queries at5001056777ns. Fresh preallocated SDK batch buffers
+  keep every register read/clobber and scalar PC transfer; no limit is extended.
+  q10 then fails receipt-path normalization after scenarios, so is not a pass.
+  Fresh q11/q16 produce actual passing receipts. Consumed source versions remain.
+- Canonical mt7996_rro_msdu_page_map_free now invokes mt76_free_pending_rxwi
+  immediately after mt7996_rx_token_put, using the already declared/exported
+  callee and matching the WED release pattern. Only two C lines are added.
+  All18 cumulative patch outputs reconstruct at zero fuzz/offsets;17 outputs
+  remain byte-identical. Strict narrow checkpatch and79 OpenWrt/five LuCI
+  export identities pass;31 component mappings stay. Raw Git whitespace
+  diagnostics for nested patch context are retained, not treated as C errors.
+- Source lockd55e71a34038adbc16dc4d38c126469ff76f64a904d4f6b75fc0612531bd5da7;
+  mt76 patch5fa42f93cd3528557556978f9335a3c78013b447f5b7cfd2503e607af3cf5cb6.
+  Kernel patchaacc0ffc stays. Retained a840d3cc modules predate the fix; no target
+  compile or newly compiled source-C execution is claimed. Preserved15 inputs
+  include original source/patch/lock and six tracking bodies. Compile/link and
+  qualify the actual candidate after full-q21 is terminal, then full regressions.
+- Jev retains actual Noul answers: late metadata transfer0.95, existing late
+  caller drain0.24, proposed cache target0.83, complete-kernel proof0.05 and
+  physical retirement0.05. These are semantic evidence, not tests or permission.
+- Full-q21 invocation6c1bc5ff/guard18906/wrapper18920/driver18942 remains live.
+  observation-q17 has241 advancing driver CPU ticks and237 positives:
+  OPEN1/ENROLL139/PUBLISH97, a finite complete-line prefix, not a full verdict.
+  All294 inputs rehash and no bound input changes. No competing compilation,
+  restart, image/load/router contact/flash or Wi-Fi change. Ethernet is physically
+  disconnected. Physical ownership/drain/reuse/hot/client gates remain; goal active.
+  Read research/checkpoints/2026-10-27-npu-rxwi-cache-drain/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - Consumer DMA Owners Traced During Live Full Replay
 
 - Continued solo frome5cf6a5. Twelve selected source files rehash: seven current

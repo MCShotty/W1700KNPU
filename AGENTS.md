@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - RXWI Cache Drain Integrated; Target Compile Pending
+
+- Continue solo. The retained AArch64 helpers reproduce a conditional metadata
+  leak under modeled outer cleanup order: RX-token retirement returns RXWI to
+  a cache after its earlier drain. Ten cases/three boundary controls pass;
+  repeated scoped runs are not extra unique cases. IDR/page-pool/CPU lifecycle
+  effects and the outer cleanup sequence remain models, not actual Linux.
+- Canonical mt76 source now drains RXWI metadata immediately after token put
+  in mt7996_rro_msdu_page_map_free, matching the existing WED release pattern.
+  All18 patch outputs reconstruct with zero fuzz/offsets; only mac.c changes.
+  Strict narrow checkpatch and79 OpenWrt/five LuCI export identities pass.
+  Lockd55e71a3/mt76 patch5fa42f93; kernel patch remainsaacc0ffc.
+- Retained modulesa840d3cc predate this source fix. Their original source,
+  patch/lock and consumed helper versions are preserved under the RXWI cohort.
+  Do not describe the fix as target-compiled or actual-source-C tested yet.
+  Next build/link fresh modules after full-q21 is terminal, execute the new
+  helper replay with the new producer hash, then cold/IRQ/NAPI/RRO regressions.
+- Full-q21 remains the original invocation. observation-q17 verifies driver
+  CPU progress and237 positives/97 publications in profile0, no full verdict;
+  all294 bound inputs stay. No competing compilation, restart, image or flash.
+  Physical retention/drain, reuse/hot and client gates remain. Read RXWI report.
+
 ## 2026-10-27 - Consumer DMA Owners Traced; Full Replay Remains Live
 
 - Continue solo. A finite source audit matches seven current mt76/provider

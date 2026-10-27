@@ -1,5 +1,26 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - RXWI Late Cache Reclamation Added To Unified Source
+
+Continued solo from5328fb6. Current source and retained AArch64 helpers expose
+a conditional software-metadata hole: RRO token retirement returns RXWI after
+the earlier cache drain. Ten helper cases/three boundary controls pass with
+modeled IDR/page-pool/outer cleanup effects; repeated scoped results are not new
+unique cases. The additional drain sequence frees metadata exactly once.
+
+The unified source now calls mt76_free_pending_rxwi immediately after token put
+in RRO page-map free. Eighteen patch outputs reconstruct exactly, strict narrow
+checkpatch passes, and79 OpenWrt/five LuCI export identities verify. Lockd55e71a3/
+patch5fa42f93 are source-only current; a840d3cc modules predate this fix. Target
+compilation/actual-candidate execution and broader regression remain pending
+behind the live full replay. Original source, helpers/failures and documents stay.
+
+The original full-q21 has237 checked positives/97 publications in retained
+profile0 prefix and advancing CPU. All294 bound inputs match; no restart,
+competing compile, image/load/router contact/flash, compaction or Wi-Fi change.
+Ethernet is disconnected. Physical DMA retirement and full-project acceptance
+remain open. Read RXWI REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Consumer DMA Source Ownership And Unchanged Live Replay
 
 Continued solo frome5cf6a5. The selected source audit binds seven mt76/provider
