@@ -1,5 +1,27 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Consumer DMA Source Ownership And Unchanged Live Replay
+
+Continued solo frome5cf6a5. The selected source audit binds seven mt76/provider
+files to the retained module producer and five Linux6.18.52 reference files to
+the earlier complete inventory. Twenty structural assertions/26 functions map
+five resource classes; these are not newly executed lifetime tests. Retained
+provider mailboxes/RRO do not cover consumer pages, endpoint metadata and all
+managed descriptor rings. Ordinary references do not gate unbind devres cleanup,
+and pool scrub precedes deferred inflight release. MCU/reset physical semantics
+remain unknown, with neither fault nor drain proof. Jev's pool answer0.59 stays
+uncertain; direct source ordering is recorded, not replaced by model output.
+
+The first parser refuses a void-pointer signature before producing evidence;
+its original helper/failure note remain. A fresh exact-signature extractor
+completes. observation-q3 retains the original full-q21 process chain and242
+advancing driver CPU ticks, plus a profile0 prefix of157 checked RPCs/17
+publications. All294 bound inputs rehash; no full verdict or restarted run.
+No competing compilation, new compaction, firmware/module/image/load/hardware
+change or flash. Existing tracking bodies stay byte-identical. Read
+consumer-dma-lifetime REPORT/EVIDENCE; complete native/physical/full-project
+acceptance remains open.
+
 ## 2026-10-27 - Direct Block Entry And Ten Successful Publications
 
 Continued solo fromf63ed53. Host observer profile6 bypasses the block hook's

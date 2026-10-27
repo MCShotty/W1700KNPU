@@ -1,5 +1,19 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Consumer DMA Ownership Map And Live Replay
+
+The source-only teardown audit now separates retained provider allocations
+from consumer descriptor devres, queue metadata, RX pages/page pools and the
+mt76 context. Retaining a device reference or delaying pool destruction does
+not alone preserve those DMA owners. Hardware reset/drain semantics remain
+unproven; no physical fault or fix is claimed.
+
+The unchanged full native replay is running. Its retained observation records
+157 checked RPCs/17 publications in profile0 and advancing actual driver CPU,
+not a complete result. All294 frozen inputs match. No new module/image/flash;
+the next implementation must cover the complete consumer owner and failure
+paths. See [the source ownership checkpoint](research/checkpoints/2026-10-27-npu-consumer-dma-lifetime/REPORT.md).
+
 ## 2026-10-27 - Native Publication Timeout Frontier Crossed
 
 A source-bound direct C block hook now keeps the original checks, counts,

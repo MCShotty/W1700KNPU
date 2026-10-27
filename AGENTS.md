@@ -1,5 +1,27 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Consumer DMA Owners Traced; Full Replay Remains Live
+
+- Continue solo. A finite source audit matches seven current mt76/provider
+  files to module producera840d3cc and five Linux6.18.52 reference files to
+  the retained complete inventory. Twenty structural assertions/26 selected
+  functions are source checks, not newly executed target or lifetime tests.
+- Provider retention does not encompass all consumer owners: ordinary queue
+  descriptors use provider-device devres, entries use endpoint devres, while
+  RX pages/page pools and the mt76 context have separate cleanup paths.
+  Ordinary device references do not gate driver-unbind devres cleanup. Delayed
+  pool destruction is not a DMA retention witness: scrub precedes inflight.
+- Preserve MCU poll/reset hardware uncertainty; no DMA fault or physical drain
+  is demonstrated. Do not fix this merely by retaining a provider pointer,
+  requesting an ACK, or assuming generic PCI remove clears bus mastering.
+  A complete consumer owner/drain contract and failure tests remain next.
+- full-q21 remains the original running invocation, not restarted. A retained
+  two-sample observation verifies driver18942 CPU progress and157 checked RPCs/
+  17 publications in profile0, not a full verdict. All294 inputs rehash.
+  Freeze them; no competing compilation while the timed replay is live.
+- Six tracking bodies are preserved; lock/patch/modules stay. No image, target
+  contact, flash or additional compaction. Read consumer-dma-lifetime report.
+
 ## 2026-10-27 - Native Block Gateway; Ten Publications Pass
 
 - Continue solo. Source-bound observer profile6 installs one direct C block

@@ -1,0 +1,842 @@
+{
+  "schema": "w1700k-consumer-dma-source-evidence-v1",
+  "source_characterization_complete": true,
+  "producing_parent_commit": "e5cf6a54d38508333af53bb8523524bf627c71f4",
+  "scope": "Source-only ownership and cleanup characterization; no new compiled or hardware verdict",
+  "source_trace": {
+    "source_characterization_complete": true,
+    "observed_unix_ns": 1793061714903479326,
+    "scope": "Source-only ownership and cleanup characterization; no new compiled or hardware verdict",
+    "producer": {
+      "path": ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json",
+      "sha256": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f",
+      "source_subset_matched": true,
+      "producer_rerun": false
+    },
+    "kernel_reference": {
+      "version": "6.18.52",
+      "source_root": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src",
+      "previous_inventory_path": ".local/npu-build-scratch/native-c2/native-block-hook-audit-q11/stock-source.json",
+      "inventory_sha256": "83e832d8071cd2de382320390195f56c58116af14931755f0d55d26fefe59f18",
+      "inventory_entries": 91236,
+      "selected_files_matched": true,
+      "complete_inventory_rerun": false,
+      "prior_audit_path": ".local/npu-build-scratch/native-c2/native-block-hook-audit-q11/result.json",
+      "prior_audit_sha256": "345532fe2e4283f6e3b5a3ed0e8eafaebe7c02fdaa351a3b940120a56c0ab29c"
+    },
+    "input_bindings": {
+      ".local/merge-nonoc-20260923/mt76-merged/npu.c": {
+        "sha256": "7cbe4189a7162a67bd31e1ed0f47b498e122d2e5b998b3e6b4bfcd4bd30902d8",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/dma.c": {
+        "sha256": "7006de553a1d466be720b8d10fa911ba4b704cced42106a9ee11f6cf186917a6",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mac80211.c": {
+        "sha256": "5c430a6d231dbfbfeb979c531d2574dec0b5fd9a94d4a48e30f075f0e9821df0",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c": {
+        "sha256": "3f8869c8a18fc18b3a929f780ec673024fd1e7a5faf174f47d74fda5b9e1b8b7",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c": {
+        "sha256": "52e7fc760cfe1b18377104fc6d726aad352d6d10ab52cfa4863cab25c2082ffd",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mt7996/mcu.c": {
+        "sha256": "44ba2830e3aa48d972252b4924a624c743d77bb26bb975b392e9f79bc94d4ef7",
+        "matched_existing_module_producer": true
+      },
+      ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c": {
+        "sha256": "7162cec0d0483d5f2228aed5fc794b389fd68b8451b325b0c4b25d04e67c8544",
+        "matched_existing_module_producer": true
+      },
+      ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/kernel/dma/mapping.c": {
+        "sha256": "715f7fe354130e1f5de083f58d60725da0d82ff2d120dccb441fc01058b52f73",
+        "matched_prior_complete_kernel_inventory": true
+      },
+      ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/base/dd.c": {
+        "sha256": "e980c66827102eda2ef0ce947257acd247e6b39f8bd45ed8e24e3dca95880b33",
+        "matched_prior_complete_kernel_inventory": true
+      },
+      ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/net/core/page_pool.c": {
+        "sha256": "21ce1130c768357d98269b0292073c22b94cf6e80e11f16714aafdea6cef6687",
+        "matched_prior_complete_kernel_inventory": true
+      },
+      ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/pci/pci-driver.c": {
+        "sha256": "fab5474a4e712bc3c6cc3974a7b51ab21a1940933b4b14f64a7555c910c7561e",
+        "matched_prior_complete_kernel_inventory": true
+      },
+      ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/Makefile": {
+        "sha256": "15ffd352b7e6cfcea9121f15c1e49daa73f6e116377aa35266e35066d356f1fd",
+        "matched_prior_complete_kernel_inventory": true
+      }
+    },
+    "source_assertions": [
+      "NPU admission selects provider DMA device",
+      "NPU0 and NPU1 use queue allocator and page fill",
+      "Consumer NPU RX descriptors have separate DMA address-bearing entries",
+      "Only selected TXFREE queue can receive provider-owned RX-event allocation",
+      "Ordinary queue descriptors are managed on dma_dev, entries on endpoint dev",
+      "RX page pool maps against provider-selected DMA device",
+      "NPU RX cleanup dispatch returns all queued buffers before pool destruction",
+      "Cold cleanup continues from void MCU exit through tokens and DMA cleanup",
+      "Radio DMA cleanup invokes reset-disable then shared cleanup",
+      "Shown DMA-disable helper has no returned idle result or poll call",
+      "Consumer hardware context is freed after cleanup and provider release",
+      "Provider cleanup retains its life record without owning consumer pool cleanup",
+      "Linux unbind releases managed resources after remove without refcount gate here",
+      "Managed DMA release invokes DMA free despite ordinary device reference retention",
+      "Page pool deferred release scrubs mappings before checking inflight",
+      "Generic PCI remove differs from conditional kexec shutdown bus-master clear",
+      "Kernel reference version is Linux 6.18.52",
+      "Production source lock stays at existing producer identity",
+      "Live native replay is bound to original published commit and 294 files",
+      "No traced source or tracking document is in frozen native replay inputs"
+    ],
+    "selections": {
+      "consumer_dma_device": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_init",
+        "first_line": 730,
+        "last_line": 797,
+        "sha256": "24173c4d68edd4ba88f99faf26f3945a7547363c68cf2f40e7c88b0f065097ef",
+        "source": "int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type)\n{\n\tstruct airoha_ppe_dev *ppe_dev;\n\tstruct airoha_npu *npu;\n\tint err = 0;\n\n\tmutex_lock(&dev->mutex);\n\tif (dev->mmio.npu_irq.closing) {\n\t\terr = -ESHUTDOWN;\n\t\tgoto error_unlock;\n\t}\n\terr = mt76_npu_irq_error(dev);\n\tif (err)\n\t\tgoto error_unlock;\n\n\tnpu = airoha_npu_get(dev->dev);\n\tif (IS_ERR(npu)) {\n\t\trequest_module(\"airoha-npu\");\n\t\tnpu = airoha_npu_get(dev->dev);\n\t}\n\n\tif (IS_ERR(npu)) {\n\t\terr = PTR_ERR(npu);\n\t\tgoto error_unlock;\n\t}\n\n\tppe_dev = airoha_ppe_get_dev(dev->dev);\n\tif (IS_ERR(ppe_dev)) {\n\t\trequest_module(\"airoha-eth\");\n\t\tppe_dev = airoha_ppe_get_dev(dev->dev);\n\t}\n\n\tif (IS_ERR(ppe_dev)) {\n\t\terr = PTR_ERR(ppe_dev);\n\t\tgoto error_npu_put;\n\t}\n\n\terr = airoha_npu_wlan_init_reserved_memory(npu);\n\tif (err)\n\t\tgoto error_ppe_put;\n\terr = airoha_npu_wlan_bind_endpoint(npu, dev->dev, phy_addr, bar_bytes, type);\n\tif (err)\n\t\tgoto error_ppe_put;\n\n\tdev->dma_dev = npu->dev;\n\tdev->mmio.phy_addr = phy_addr;\n\tdev->mmio.npu_type = type;\n\t/* NPU offloading requires HW-RRO for RX packet reordering. */\n\tdev->hwrro_mode = is_mt7996(dev) ? MT76_HWRRO_V3 : MT76_HWRRO_V3_1;\n\tdev->rx_token_size = 32768;\n\n\trcu_assign_pointer(dev->mmio.npu, npu);\n\trcu_assign_pointer(dev->mmio.ppe_dev, ppe_dev);\n\tsynchronize_rcu();\n\n\tmutex_unlock(&dev->mutex);\n\n\treturn 0;\n\nerror_ppe_put:\n\tairoha_ppe_put_dev(ppe_dev);\nerror_npu_put:\n\tairoha_npu_put(npu);\nerror_unlock:\n\tmutex_unlock(&dev->mutex);\n\n\treturn err;\n}"
+      },
+      "consumer_rx_init": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_rx_queue_init",
+        "first_line": 385,
+        "last_line": 455,
+        "sha256": "43a246efcfcc3b9366fc889cedfd1ee00183a9751687841d6f130b99f9451be9",
+        "source": "int mt76_npu_rx_queue_init(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tint err, irq, qid = q - &dev->q_rx[0];\n\tint size, index = qid - MT_RXQ_NPU0;\n\tstruct mt76_npu_irq *state = &dev->mmio.npu_irq;\n\tstruct airoha_npu *npu;\n\tunsigned long flags;\n\tconst char *name;\n\n\tmutex_lock(&dev->mutex);\n\n\tnpu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);\n\tif (index < 0 || index >= ARRAY_SIZE(state->line)) {\n\t\terr = -EINVAL;\n\t\tgoto out;\n\t}\n\tspin_lock_irqsave(&dev->mmio.irq_lock, flags);\n\terr = state->closing ? -ESHUTDOWN : state->error;\n\tif (!err && (state->requested & BIT(index)))\n\t\terr = -EBUSY;\n\tspin_unlock_irqrestore(&dev->mmio.irq_lock, flags);\n\tif (err)\n\t\tgoto out;\n\tif (!airoha_npu_wlan_irq_supported(npu)) {\n\t\terr = -EOPNOTSUPP;\n\t\tgoto out;\n\t}\n\tirq = npu->irqs[index];\n\tif (irq < 0) {\n\t\terr = irq;\n\t\tgoto out;\n\t}\n\tif (npu->irqs[1 - index] == irq) {\n\t\terr = -EINVAL;\n\t\tgoto out;\n\t}\n\n\tq->flags = MT_NPU_Q_RX(index);\n\tsize = qid == MT_RXQ_NPU1 ? NPU_RX1_DESC_NUM : NPU_RX0_DESC_NUM;\n\terr = dev->queue_ops->alloc(dev, q, 0, size,\n\t\t\t\t    MT76_NPU_RX_BUF_SIZE, 0);\n\tif (err)\n\t\tgoto out;\n\n\tname = devm_kasprintf(dev->dev, GFP_KERNEL, \"mt76-npu.%d\", index);\n\tif (!name) {\n\t\terr = -ENOMEM;\n\t\tgoto out;\n\t}\n\n\terr = mt76_napi_add(dev, qid, mt76_npu_rx_poll);\n\tif (err)\n\t\tgoto out;\n\terr = devm_request_irq(dev->dev, irq, mt76_npu_irq_handler,\n\t\t\t       IRQF_NO_AUTOEN, name, q);\n\tif (err)\n\t\tgoto out;\n\n\tspin_lock_irqsave(&dev->mmio.irq_lock, flags);\n\tstate->line[index] = irq;\n\tstate->requested |= BIT(index);\n\tstate->blocked |= BIT(index);\n\tspin_unlock_irqrestore(&dev->mmio.irq_lock, flags);\n\tmt76_npu_fill_rx_queue(dev, q);\n\tif (!mt76_napi_enable(dev, qid))\n\t\terr = -ESHUTDOWN;\nout:\n\tmutex_unlock(&dev->mutex);\n\n\treturn err;\n}"
+      },
+      "consumer_rx_fill": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_fill_rx_queue",
+        "first_line": 17,
+        "last_line": 44,
+        "sha256": "fa26f8807be1259572036d423b3fa5aa2bbfdb5dab799cc2d0cf4530443abcee",
+        "source": "int mt76_npu_fill_rx_queue(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tint nframes = 0;\n\n\twhile (q->queued < q->ndesc - 1) {\n\t\tstruct airoha_npu_rx_dma_desc *desc = (void *)q->desc;\n\t\tstruct mt76_queue_entry *e = &q->entry[q->head];\n\t\tstruct page *page;\n\t\tint offset;\n\n\t\te->buf = mt76_get_page_pool_buf(q, &offset, q->buf_size);\n\t\tif (!e->buf)\n\t\t\tbreak;\n\n\t\te->dma_len[0] = SKB_WITH_OVERHEAD(q->buf_size);\n\t\tpage = virt_to_head_page(e->buf);\n\t\te->dma_addr[0] = page_pool_get_dma_addr(page) + offset;\n\n\t\tmemset(&desc[q->head], 0, sizeof(*desc));\n\t\tdesc[q->head].addr = e->dma_addr[0];\n\n\t\tq->head = (q->head + 1) % q->ndesc;\n\t\tq->queued++;\n\t\tnframes++;\n\t}\n\n\treturn nframes;\n}"
+      },
+      "provider_rx_event_exception": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_alloc_rx_event",
+        "first_line": 800,
+        "last_line": 828,
+        "sha256": "6f62c34e2be5e26c982925cbfdf0bc3bea3ea1f1f7025df92a4c45fdd6c4def1",
+        "source": "int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tint qid = is_mt7996(dev) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;\n\tstruct airoha_npu *npu;\n\tdma_addr_t addr;\n\tvoid *buf;\n\tint err;\n\n\tBUILD_BUG_ON(sizeof(*q->desc) != 16);\n\tif (q != &dev->q_rx[qid] || q->flags != MT_NPU_Q_TXFREE(0))\n\t\treturn -EOPNOTSUPP;\n\tif (q->desc || q->desc_dma)\n\t\treturn -EBUSY;\n\tmutex_lock(&dev->mutex);\n\tnpu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);\n\tif (!npu) {\n\t\terr = -ENODEV;\n\t\tgoto unlock;\n\t}\n\terr = airoha_npu_wlan_alloc_rx_event(npu, dev->dev, dev->dma_dev,\n\t\t\t\t\t     q->ndesc, sizeof(*q->desc), &buf, &addr);\n\tif (!err) {\n\t\tq->desc = buf;\n\t\tq->desc_dma = addr;\n\t}\nunlock:\n\tmutex_unlock(&dev->mutex);\n\treturn err;\n}"
+      },
+      "consumer_queue_allocation": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/dma.c",
+        "symbol": "mt76_dma_alloc_queue",
+        "first_line": 836,
+        "last_line": 897,
+        "sha256": "c99c5fc873b0c6b4601723507fa7767a98f76ef062c347de01892a9bd2f96c7f",
+        "source": "static int\nmt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,\n\t\t     int idx, int n_desc, int bufsize,\n\t\t     u32 ring_base)\n{\n\tint ret, size;\n\n\tspin_lock_init(&q->lock);\n\tspin_lock_init(&q->cleanup_lock);\n\n\tq->regs = dev->mmio.regs + ring_base + idx * MT_RING_SIZE;\n\tq->ndesc = n_desc;\n\tq->buf_size = bufsize;\n\tq->hw_idx = idx;\n\tq->dev = dev;\n\n\tif (mt76_queue_is_wed_rro_ind(q))\n\t\tsize = sizeof(struct mt76_wed_rro_desc);\n\telse if (mt76_queue_is_npu_tx(q))\n\t\tsize = sizeof(struct airoha_npu_tx_dma_desc);\n\telse if (mt76_queue_is_npu_rx(q))\n\t\tsize = sizeof(struct airoha_npu_rx_dma_desc);\n\telse\n\t\tsize = sizeof(struct mt76_desc);\n\n\tret = mt76_npu_alloc_rx_event(dev, q);\n\tif (ret == -EOPNOTSUPP)\n\t\tq->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,\n\t\t\t\t\t      &q->desc_dma, GFP_KERNEL);\n\telse if (ret)\n\t\treturn ret;\n\tif (!q->desc)\n\t\treturn -ENOMEM;\n\n\tmt76_dma_queue_magic_cnt_init(dev, q);\n\tsize = q->ndesc * sizeof(*q->entry);\n\tq->entry = devm_kzalloc(dev->dev, size, GFP_KERNEL);\n\tif (!q->entry)\n\t\treturn -ENOMEM;\n\n\tret = mt76_create_page_pool(dev, q);\n\tif (ret)\n\t\treturn ret;\n\n\tmt76_npu_queue_setup(dev, q);\n\tret = mt76_wed_dma_setup(dev, q, false);\n\tif (ret)\n\t\treturn ret;\n\n\tif (mtk_wed_device_active(&dev->mmio.wed)) {\n\t\tif ((mtk_wed_get_rx_capa(&dev->mmio.wed) && mt76_queue_is_wed_rro(q)) ||\n\t\t    mt76_queue_is_wed_tx_free(q))\n\t\t\treturn 0;\n\t}\n\n\t/* HW specific driver is supposed to reset brand-new EMI queues since\n\t * it needs to set cpu index pointer.\n\t */\n\tmt76_dma_queue_reset(dev, q, !mt76_queue_is_emi(q));\n\n\treturn 0;\n}"
+      },
+      "consumer_page_pool": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mac80211.c",
+        "symbol": "mt76_create_page_pool",
+        "first_line": 617,
+        "last_line": 665,
+        "sha256": "486baf2454942c69e6d6f54249962715ca92b4c5c16b28ceddcf8f559617e5e4",
+        "source": "int mt76_create_page_pool(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tbool is_qrx = mt76_queue_is_rx(dev, q);\n\tstruct page_pool_params pp_params = {\n\t\t.order = 0,\n\t\t.flags = 0,\n\t\t.nid = NUMA_NO_NODE,\n\t\t.dev = dev->dma_dev,\n\t};\n\tint idx = is_qrx ? q - dev->q_rx : -1;\n\n\t/* Allocate page_pools just for rx/wed_tx_free queues */\n\tif (!is_qrx && !mt76_queue_is_wed_tx_free(q))\n\t\treturn 0;\n\n\tswitch (idx) {\n\tcase MT_RXQ_MAIN:\n\tcase MT_RXQ_BAND1:\n\tcase MT_RXQ_BAND2:\n\tcase MT_RXQ_NPU0:\n\tcase MT_RXQ_NPU1:\n\t\tpp_params.pool_size = 256;\n\t\tbreak;\n\tdefault:\n\t\tpp_params.pool_size = 16;\n\t\tbreak;\n\t}\n\n\tif (mt76_is_mmio(dev)) {\n\t\t/* rely on page_pool for DMA mapping */\n\t\tpp_params.flags |= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;\n\t\tpp_params.dma_dir = DMA_FROM_DEVICE;\n\t\tpp_params.max_len = PAGE_SIZE;\n\t\tpp_params.offset = 0;\n\t\t/* NAPI is available just for rx queues */\n\t\tif (idx >= 0 && idx < ARRAY_SIZE(dev->napi))\n\t\t\tpp_params.napi = &dev->napi[idx];\n\t}\n\n\tq->page_pool = page_pool_create(&pp_params);\n\tif (IS_ERR(q->page_pool)) {\n\t\tint err = PTR_ERR(q->page_pool);\n\n\t\tq->page_pool = NULL;\n\t\treturn err;\n\t}\n\n\treturn 0;\n}"
+      },
+      "consumer_npu_queue_cleanup": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_queue_cleanup",
+        "first_line": 46,
+        "last_line": 60,
+        "sha256": "a3b53553bbc1f86035b866338ecccef0255b05e1bb27a4bc90f0eadc8086025e",
+        "source": "void mt76_npu_queue_cleanup(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tspin_lock_bh(&q->lock);\n\twhile (q->queued > 0) {\n\t\tstruct mt76_queue_entry *e = &q->entry[q->tail];\n\n\t\tdma_sync_single_for_cpu(dev->dma_dev, e->dma_addr[0],\n\t\t\t\t\te->dma_len[0],\n\t\t\t\t\tpage_pool_get_dma_dir(q->page_pool));\n\t\tmt76_put_page_pool_buf(e->buf, false);\n\t\tq->tail = (q->tail + 1) % q->ndesc;\n\t\tq->queued--;\n\t}\n\tspin_unlock_bh(&q->lock);\n}"
+      },
+      "consumer_dma_rx_cleanup": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/dma.c",
+        "symbol": "mt76_dma_rx_cleanup",
+        "first_line": 899,
+        "last_line": 941,
+        "sha256": "0d23007d5032755dace89a818bdebd8954ddcad422ec5ce707c608859cdc715a",
+        "source": "static void\nmt76_dma_rx_cleanup(struct mt76_dev *dev, struct mt76_queue *q)\n{\n\tvoid *buf;\n\tbool more;\n\n\tif (!q->ndesc)\n\t\treturn;\n\n\tif (mt76_queue_is_npu(q)) {\n\t\tmt76_npu_queue_cleanup(dev, q);\n\t\treturn;\n\t}\n\n\tdo {\n\t\tspin_lock_bh(&q->lock);\n\t\tbuf = mt76_dma_dequeue(dev, q, true, NULL, NULL, &more, NULL);\n\t\tspin_unlock_bh(&q->lock);\n\n\t\tif (!buf)\n\t\t\tbreak;\n\n\t\tif (mtk_wed_device_active(&dev->mmio.wed) &&\n\t\t    mt76_queue_is_wed_rro(q))\n\t\t\tcontinue;\n\n\t\tif (mt76_npu_device_active(dev) &&\n\t\t    mt76_queue_is_wed_rro(q))\n\t\t\tcontinue;\n\n\t\tif (!mt76_queue_is_wed_rro_rxdmad_c(q) &&\n\t\t    !mt76_queue_is_wed_rro_ind(q))\n\t\t\tmt76_put_page_pool_buf(buf, false);\n\t} while (1);\n\n\tspin_lock_bh(&q->lock);\n\tif (q->rx_head) {\n\t\tdev_kfree_skb(q->rx_head);\n\t\tq->rx_head = NULL;\n\t}\n\n\tspin_unlock_bh(&q->lock);\n}"
+      },
+      "consumer_dma_cleanup": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/dma.c",
+        "symbol": "mt76_dma_cleanup",
+        "first_line": 1213,
+        "last_line": 1267,
+        "sha256": "1c889fde36b6185cc204a4a7a4de820b20119f01595ce36a69a312a35754cdb5",
+        "source": "void mt76_dma_cleanup(struct mt76_dev *dev)\n{\n\tbool tracked = dev->drv->drv_flags & MT_DRV_NAPI_LIFETIME;\n\tint i;\n\n\tmt76_worker_disable(&dev->tx_worker);\n\tif (tracked) {\n\t\tmt76_npu_shutdown_irqs(dev);\n\t\tmt76_napi_cleanup(dev);\n\t} else {\n\t\tnapi_disable(&dev->tx_napi);\n\t\tnetif_napi_del(&dev->tx_napi);\n\t}\n\n\tfor (i = 0; i < ARRAY_SIZE(dev->phys); i++) {\n\t\tstruct mt76_phy *phy = dev->phys[i];\n\t\tint j;\n\n\t\tif (!phy)\n\t\t\tcontinue;\n\n\t\tfor (j = 0; j < ARRAY_SIZE(phy->q_tx); j++)\n\t\t\tmt76_dma_tx_cleanup(dev, phy->q_tx[j], true);\n\t}\n\n\tfor (i = 0; i < ARRAY_SIZE(dev->q_mcu); i++)\n\t\tmt76_dma_tx_cleanup(dev, dev->q_mcu[i], true);\n\n\tmt76_for_each_q_rx(dev, i) {\n\t\tstruct mt76_queue *q = &dev->q_rx[i];\n\n\t\tif (!tracked)\n\t\t\tnetif_napi_del(&dev->napi[i]);\n\t\tmt76_dma_rx_cleanup(dev, q);\n\n\t\tpage_pool_destroy(q->page_pool);\n\t}\n\n\tif (mtk_wed_device_active(&dev->mmio.wed))\n\t\tmtk_wed_device_detach(&dev->mmio.wed);\n\n\tif (mtk_wed_device_active(&dev->mmio.wed_hif2))\n\t\tmtk_wed_device_detach(&dev->mmio.wed_hif2);\n\n\tmt76_free_pending_txwi(dev);\n\tmt76_free_pending_rxwi(dev);\n\tif (dev->napi_dev) {\n\t\tfree_netdev(dev->napi_dev);\n\t\tdev->napi_dev = NULL;\n\t}\n\tif (dev->tx_napi_dev) {\n\t\tfree_netdev(dev->tx_napi_dev);\n\t\tdev->tx_napi_dev = NULL;\n\t}\n}"
+      },
+      "radio_dma_disable": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c",
+        "symbol": "mt7996_dma_disable",
+        "first_line": 261,
+        "last_line": 304,
+        "sha256": "9766cd3aeb409a883b250bef9290e3883ac3af0ab292a7b61996e2c7f6eead41",
+        "source": "static void mt7996_dma_disable(struct mt7996_dev *dev, bool reset)\n{\n\tu32 hif1_ofs = 0;\n\n\tif (dev->hif2)\n\t\thif1_ofs = MT_WFDMA0_PCIE1(0) - MT_WFDMA0(0);\n\n\tif (reset) {\n\t\tmt76_clear(dev, MT_WFDMA0_RST,\n\t\t\t   MT_WFDMA0_RST_DMASHDL_ALL_RST |\n\t\t\t   MT_WFDMA0_RST_LOGIC_RST);\n\n\t\tmt76_set(dev, MT_WFDMA0_RST,\n\t\t\t MT_WFDMA0_RST_DMASHDL_ALL_RST |\n\t\t\t MT_WFDMA0_RST_LOGIC_RST);\n\n\t\tif (dev->hif2) {\n\t\t\tmt76_clear(dev, MT_WFDMA0_RST + hif1_ofs,\n\t\t\t\t   MT_WFDMA0_RST_DMASHDL_ALL_RST |\n\t\t\t\t   MT_WFDMA0_RST_LOGIC_RST);\n\n\t\t\tmt76_set(dev, MT_WFDMA0_RST + hif1_ofs,\n\t\t\t\t MT_WFDMA0_RST_DMASHDL_ALL_RST |\n\t\t\t\t MT_WFDMA0_RST_LOGIC_RST);\n\t\t}\n\t}\n\n\t/* disable */\n\tmt76_clear(dev, MT_WFDMA0_GLO_CFG,\n\t\t   MT_WFDMA0_GLO_CFG_TX_DMA_EN |\n\t\t   MT_WFDMA0_GLO_CFG_RX_DMA_EN |\n\t\t   MT_WFDMA0_GLO_CFG_OMIT_TX_INFO |\n\t\t   MT_WFDMA0_GLO_CFG_OMIT_RX_INFO |\n\t\t   MT_WFDMA0_GLO_CFG_OMIT_RX_INFO_PFET2);\n\n\tif (dev->hif2) {\n\t\tmt76_clear(dev, MT_WFDMA0_GLO_CFG + hif1_ofs,\n\t\t\t   MT_WFDMA0_GLO_CFG_TX_DMA_EN |\n\t\t\t   MT_WFDMA0_GLO_CFG_RX_DMA_EN |\n\t\t\t   MT_WFDMA0_GLO_CFG_OMIT_TX_INFO |\n\t\t\t   MT_WFDMA0_GLO_CFG_OMIT_RX_INFO |\n\t\t\t   MT_WFDMA0_GLO_CFG_OMIT_RX_INFO_PFET2);\n\t}\n}"
+      },
+      "radio_dma_cleanup": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c",
+        "symbol": "mt7996_dma_cleanup",
+        "first_line": 1059,
+        "last_line": 1064,
+        "sha256": "b047a0731c58e002219b2c54e69b38e9967e72cd7fd4367fb1ac1ff06f2b971c",
+        "source": "void mt7996_dma_cleanup(struct mt7996_dev *dev)\n{\n\tmt7996_dma_disable(dev, true);\n\n\tmt76_dma_cleanup(&dev->mt76);\n}"
+      },
+      "cold_cleanup": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c",
+        "symbol": "mt7996_cleanup_device",
+        "first_line": 1892,
+        "last_line": 1936,
+        "sha256": "bd33e3e40c557782cf190267f03a4a5f6a75a21e6bdab76eca9094bbcddb93a8",
+        "source": "void mt7996_cleanup_device(struct mt7996_dev *dev)\n{\n\tstruct mt7996_phy *phy;\n\tbool dma_attached = !!dev->mt76.queue_ops;\n\n\t/* Probe/remove are serialized by the driver core. */\n\tif (dev->cleanup_started)\n\t\treturn;\n\tdev->cleanup_started = true;\n\tWRITE_ONCE(dev->recovery.hw_init_done, false);\n\n\tmt7996_npu_rro_reset_close(dev);\n\tdisable_work_sync(&dev->init_work);\n\tdisable_work_sync(&dev->dump_work);\n\tdisable_work_sync(&dev->wed_rro.work);\n\tmt7996_npu_rro_reset_join(dev);\n\tdisable_work_sync(&dev->reset_work);\n\tdisable_work_sync(&dev->rc_work);\n\tdisable_delayed_work_sync(&dev->mt76.scan_work);\n\tmt7996_for_each_phy(dev, phy) {\n\t\tdisable_delayed_work_sync(&phy->mt76->mac_work);\n\t\tif (test_bit(MT76_STATE_REGISTERED, &phy->mt76->state))\n\t\t\tdisable_delayed_work_sync(&phy->mt76->roc_work);\n\t}\n\tmt7996_unregister_phy(mt7996_phy3(dev));\n\tmt7996_unregister_phy(mt7996_phy2(dev));\n\tmt7996_unregister_thermal(&dev->phy);\n\tmt76_unregister_device(&dev->mt76);\n\tmt76_worker_disable(&dev->mt76.tx_worker);\n\tmt7996_coredump_unregister(dev);\n\tif (dev->mt76.mcu_ops)\n\t\tmt7996_mcu_exit(dev);\n\tmt7996_pci_shutdown_irqs(dev);\n\tmt76_npu_shutdown_irqs(&dev->mt76);\n\tmt76_napi_cleanup(&dev->mt76);\n\t/* Responses can arrive until IRQ/NAPI ingress has finished. */\n\tskb_queue_purge(&dev->mt76.mcu.res_q);\n\tmt7996_tx_token_put(dev);\n\tif (dma_attached)\n\t\tmt7996_dma_cleanup(dev);\n\tmt7996_wed_rro_free(dev);\n\tif (dma_attached && mt7996_has_hwrro(dev) &&\n\t    !mtk_wed_device_active(&dev->mt76.mmio.wed))\n\t\tmt7996_rro_msdu_page_map_free(dev);\n}"
+      },
+      "mcu_exit": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mt7996/mcu.c",
+        "symbol": "mt7996_mcu_exit",
+        "first_line": 4291,
+        "last_line": 4305,
+        "sha256": "7fa360516c09fd960fa6bdf9c8a7b96a8fae00c37d6d7f51bcc7c0fa07988ab2",
+        "source": "void mt7996_mcu_exit(struct mt7996_dev *dev)\n{\n\tmt7996_mcu_restart(&dev->mt76);\n\tif (mt7996_firmware_state(dev, FW_STATE_FW_DOWNLOAD)) {\n\t\tdev_err(dev->mt76.dev, \"Failed to exit mcu\\n\");\n\t\tgoto out;\n\t}\n\n\tmt76_wr(dev, MT_TOP_LPCR_HOST_BAND(0), MT_TOP_LPCR_HOST_FW_OWN);\n\tif (dev->hif2)\n\t\tmt76_wr(dev, MT_TOP_LPCR_HOST_BAND(1),\n\t\t\tMT_TOP_LPCR_HOST_FW_OWN);\nout:\n\tskb_queue_purge(&dev->mt76.mcu.res_q);\n}"
+      },
+      "radio_unregister": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mt7996/init.c",
+        "symbol": "mt7996_unregister_device",
+        "first_line": 1938,
+        "last_line": 1942,
+        "sha256": "904822cbd81486d8d84bebe61f0d7fb38df7756f6bac0f99f0626947c2e805b0",
+        "source": "void mt7996_unregister_device(struct mt7996_dev *dev)\n{\n\tmt7996_cleanup_device(dev);\n\tmt76_free_device(&dev->mt76);\n}"
+      },
+      "consumer_context_free": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/mac80211.c",
+        "symbol": "mt76_free_device",
+        "first_line": 954,
+        "last_line": 967,
+        "sha256": "3824276cc2530a71124a489d98006c3141be68f5cab8c5916217f02813a75946",
+        "source": "void mt76_free_device(struct mt76_dev *dev)\n{\n\tmt76_worker_teardown(&dev->tx_worker);\n\tif (dev->wq) {\n\t\tdestroy_workqueue(dev->wq);\n\t\tdev->wq = NULL;\n\t}\n\tif (dev->drv->drv_flags & MT_DRV_NAPI_LIFETIME) {\n\t\tmt76_npu_shutdown_irqs(dev);\n\t\tmt76_napi_cleanup(dev);\n\t}\n\tmt76_npu_deinit(dev);\n\tieee80211_free_hw(dev->hw);\n}"
+      },
+      "consumer_provider_release": {
+        "path": ".local/merge-nonoc-20260923/mt76-merged/npu.c",
+        "symbol": "mt76_npu_deinit",
+        "first_line": 957,
+        "last_line": 988,
+        "sha256": "1d6e7af7c680069e9c37814c8da6f4d8f75fe93f7c519b3a930aafe66ef5be1b",
+        "source": "void mt76_npu_deinit(struct mt76_dev *dev)\n{\n\tstruct airoha_ppe_dev *ppe_dev;\n\tstruct airoha_npu *npu;\n\n\tif (dev->drv->drv_flags & MT_DRV_NAPI_LIFETIME) {\n\t\tmt76_npu_shutdown_irqs(dev);\n\t\tmt76_napi_cleanup(dev);\n\t}\n\tmutex_lock(&dev->mutex);\n\n\tnpu = rcu_dereference_protected(dev->mmio.npu,\n\t\t\t\t\tlockdep_is_held(&dev->mutex));\n\tif (npu)\n\t\tairoha_npu_wlan_rro_close(npu, dev->dev);\n\tnpu = rcu_replace_pointer(dev->mmio.npu, NULL,\n\t\t\t\t  lockdep_is_held(&dev->mutex));\n\tppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,\n\t\t\t\t      lockdep_is_held(&dev->mutex));\n\tif (npu || ppe_dev)\n\t\tsynchronize_rcu();\n\n\tmutex_unlock(&dev->mutex);\n\n\tmt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);\n\tmt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);\n\n\tif (npu)\n\t\tairoha_npu_put(npu);\n\tif (ppe_dev)\n\t\tairoha_ppe_put_dev(ppe_dev);\n}"
+      },
+      "provider_retention": {
+        "path": ".local/merge-nonoc-20260923/kernel-merged/drivers/net/ethernet/airoha/airoha_npu.c",
+        "symbol": "airoha_npu_dma_cleanup",
+        "first_line": 238,
+        "last_line": 269,
+        "sha256": "be269b0f2bd52d89e8aafa78726e91b369ff037ef730719f6164fd5a5f170a49",
+        "source": "static void airoha_npu_dma_cleanup(void *data)\n{\n\tstruct airoha_npu_dma_lifetime *life = data;\n\tunsigned int i;\n\n\t/* No physical retirement witness exists yet. Publication errors, detach\n\t * and software parking must not release possibly device-owned mailboxes.\n\t */\n\tif (life->exposed || life->rro) {\n\t\tmutex_lock(&airoha_npu_retained_lock);\n\t\tlist_add_tail(&life->retained, &airoha_npu_retained_dma);\n\t\tmutex_unlock(&airoha_npu_retained_lock);\n\t\tdev_warn(life->dev, \"retaining NPU DMA mailboxes pending retirement proof\\n\");\n\t\treturn;\n\t}\n\tfor (i = 0; i < ARRAY_SIZE(life->buffers); i++)\n\t\tif (life->buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,\n\t\t\t\t\t  life->buffers[i].buf, life->buffers[i].addr);\n\tfor (i = 0; i < ARRAY_SIZE(life->tx_buffers); i++)\n\t\tif (life->tx_buffers[i].buf)\n\t\t\tdma_free_coherent(life->dev, life->tx_buffers[i].bytes,\n\t\t\t\t\t  life->tx_buffers[i].buf,\n\t\t\t\t\t  life->tx_buffers[i].addr);\n\tif (life->rx_event.buf)\n\t\tdma_free_coherent(life->dev, life->rx_event.bytes,\n\t\t\t\t  life->rx_event.buf, life->rx_event.addr);\n\tif (life->endpoint)\n\t\tput_device(life->endpoint);\n\tput_device(life->dev);\n\tkfree(life);\n}"
+      },
+      "linux_managed_dma_allocation": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/kernel/dma/mapping.c",
+        "symbol": "dmam_alloc_attrs",
+        "first_line": 93,
+        "last_line": 117,
+        "sha256": "709bcd98b4f4c432758a4ed974f239e2dba2495dd3db4c4f5742d5b34c8bed47",
+        "source": "void *dmam_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,\n\t\tgfp_t gfp, unsigned long attrs)\n{\n\tstruct dma_devres *dr;\n\tvoid *vaddr;\n\n\tdr = devres_alloc(dmam_release, sizeof(*dr), gfp);\n\tif (!dr)\n\t\treturn NULL;\n\n\tvaddr = dma_alloc_attrs(dev, size, dma_handle, gfp, attrs);\n\tif (!vaddr) {\n\t\tdevres_free(dr);\n\t\treturn NULL;\n\t}\n\n\tdr->vaddr = vaddr;\n\tdr->dma_handle = *dma_handle;\n\tdr->size = size;\n\tdr->attrs = attrs;\n\n\tdevres_add(dev, dr);\n\n\treturn vaddr;\n}"
+      },
+      "linux_managed_dma_release": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/kernel/dma/mapping.c",
+        "symbol": "dmam_release",
+        "first_line": 40,
+        "last_line": 46,
+        "sha256": "51c170e52276b5525421f01a65a8336dbaed9eb80f9d1403e94fac83cdf75653",
+        "source": "static void dmam_release(struct device *dev, void *res)\n{\n\tstruct dma_devres *this = res;\n\n\tdma_free_attrs(dev, this->size, this->vaddr, this->dma_handle,\n\t\t\tthis->attrs);\n}"
+      },
+      "linux_driver_unbind": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/base/dd.c",
+        "symbol": "__device_release_driver",
+        "first_line": 1322,
+        "last_line": 1367,
+        "sha256": "5c70ef2057fe30dcb09ea4a038be5f9696b4017d3b0456514bcf1cf3c8c5bb70",
+        "source": "static void __device_release_driver(struct device *dev, struct device *parent)\n{\n\tstruct device_driver *drv;\n\n\tdrv = dev->driver;\n\tif (drv) {\n\t\tpm_runtime_get_sync(dev);\n\n\t\twhile (device_links_busy(dev)) {\n\t\t\t__device_driver_unlock(dev, parent);\n\n\t\t\tdevice_links_unbind_consumers(dev);\n\n\t\t\t__device_driver_lock(dev, parent);\n\t\t\t/*\n\t\t\t * A concurrent invocation of the same function might\n\t\t\t * have released the driver successfully while this one\n\t\t\t * was waiting, so check for that.\n\t\t\t */\n\t\t\tif (dev->driver != drv) {\n\t\t\t\tpm_runtime_put(dev);\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\n\t\tdriver_sysfs_remove(dev);\n\n\t\tbus_notify(dev, BUS_NOTIFY_UNBIND_DRIVER);\n\n\t\tpm_runtime_put_sync(dev);\n\n\t\tdevice_remove(dev);\n\n\t\tif (dev->bus && dev->bus->dma_cleanup)\n\t\t\tdev->bus->dma_cleanup(dev);\n\n\t\tdevice_unbind_cleanup(dev);\n\t\tdevice_links_driver_cleanup(dev);\n\n\t\tklist_remove(&dev->p->knode_driver);\n\t\tdevice_pm_check_callbacks(dev);\n\n\t\tbus_notify(dev, BUS_NOTIFY_UNBOUND_DRIVER);\n\t\tkobject_uevent(&dev->kobj, KOBJ_UNBIND);\n\t}\n}"
+      },
+      "linux_unbind_cleanup": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/base/dd.c",
+        "symbol": "device_unbind_cleanup",
+        "first_line": 607,
+        "last_line": 620,
+        "sha256": "36079b60ee500be8dc759b3842bf5565dd95ee5e2742c3c411bd8c0c8942505d",
+        "source": "static void device_unbind_cleanup(struct device *dev)\n{\n\tdevres_release_all(dev);\n\tarch_teardown_dma_ops(dev);\n\tkfree(dev->dma_range_map);\n\tdev->dma_range_map = NULL;\n\tdevice_set_driver(dev, NULL);\n\tdev_set_drvdata(dev, NULL);\n\tdev_pm_domain_detach(dev, dev->power.detach_power_off);\n\tif (dev->pm_domain && dev->pm_domain->dismiss)\n\t\tdev->pm_domain->dismiss(dev);\n\tpm_runtime_reinit(dev);\n\tdev_pm_set_driver_flags(dev, 0);\n}"
+      },
+      "linux_page_pool_destroy": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/net/core/page_pool.c",
+        "symbol": "page_pool_destroy",
+        "first_line": 1296,
+        "last_line": 1316,
+        "sha256": "ca221d626b8821051750503f6e2abe8696ed7fcc40575b48640e64f356d87946",
+        "source": "void page_pool_destroy(struct page_pool *pool)\n{\n\tif (!pool)\n\t\treturn;\n\n\tif (!page_pool_put(pool))\n\t\treturn;\n\n\tpage_pool_disable_direct_recycling(pool);\n\tpage_pool_free_frag(pool);\n\n\tif (!page_pool_release(pool))\n\t\treturn;\n\n\tpage_pool_detached(pool);\n\tpool->defer_start = jiffies;\n\tpool->defer_warn  = jiffies + DEFER_WARN_INTERVAL;\n\n\tINIT_DELAYED_WORK(&pool->release_dw, page_pool_release_retry);\n\tschedule_delayed_work(&pool->release_dw, DEFER_TIME);\n}"
+      },
+      "linux_page_pool_release": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/net/core/page_pool.c",
+        "symbol": "page_pool_release",
+        "first_line": 1193,
+        "last_line": 1207,
+        "sha256": "7d90a89691aa6adaf15fbd55d7eab91c0482d509b2457925b72f185bd63c2d11",
+        "source": "static int page_pool_release(struct page_pool *pool)\n{\n\tbool in_softirq;\n\tint inflight;\n\n\tpage_pool_scrub(pool);\n\tinflight = page_pool_inflight(pool, true);\n\t/* Acquire producer lock to make sure producers have exited. */\n\tin_softirq = page_pool_producer_lock(pool);\n\tpage_pool_producer_unlock(pool, in_softirq);\n\tif (!inflight)\n\t\t__page_pool_destroy(pool);\n\n\treturn inflight;\n}"
+      },
+      "linux_page_pool_scrub": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/net/core/page_pool.c",
+        "symbol": "page_pool_scrub",
+        "first_line": 1160,
+        "last_line": 1191,
+        "sha256": "e8aa12ff4dcdb4501b6432b15593015e98630c579e5962dac3b273e31ce1f687",
+        "source": "static void page_pool_scrub(struct page_pool *pool)\n{\n\tunsigned long id;\n\tvoid *ptr;\n\n\tpage_pool_empty_alloc_cache_once(pool);\n\tif (!pool->destroy_cnt++ && pool->dma_map) {\n\t\tif (pool->dma_sync) {\n\t\t\t/* Disable page_pool_dma_sync_for_device() */\n\t\t\tpool->dma_sync = false;\n\n\t\t\t/* Make sure all concurrent returns that may see the old\n\t\t\t * value of dma_sync (and thus perform a sync) have\n\t\t\t * finished before doing the unmapping below. Skip the\n\t\t\t * wait if the device doesn't actually need syncing, or\n\t\t\t * if there are no outstanding mapped pages.\n\t\t\t */\n\t\t\tif (dma_dev_need_sync(pool->p.dev) &&\n\t\t\t    !xa_empty(&pool->dma_mapped))\n\t\t\t\tsynchronize_net();\n\t\t}\n\n\t\t/* No page ref, dma-unmap only. */\n\t\txa_for_each(&pool->dma_mapped, id, ptr)\n\t\t\t__page_pool_unmap_netmem_dma(pool, page_to_netmem((struct page *)ptr));\n\t}\n\n\t/* No more consumers should exist, but producers could still\n\t * be in-flight.\n\t */\n\tpage_pool_empty_ring(pool);\n}"
+      },
+      "linux_pci_remove": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/pci/pci-driver.c",
+        "symbol": "pci_device_remove",
+        "first_line": 469,
+        "last_line": 510,
+        "sha256": "44e7ed6d4158bfa2e1c220d6167edb5c99de7b2b0021c751f3e6eb33c6086825",
+        "source": "static void pci_device_remove(struct device *dev)\n{\n\tstruct pci_dev *pci_dev = to_pci_dev(dev);\n\tstruct pci_driver *drv = pci_dev->driver;\n\n\tif (drv->remove) {\n\t\tpm_runtime_get_sync(dev);\n\t\t/*\n\t\t * If the driver provides a .runtime_idle() callback and it has\n\t\t * started to run already, it may continue to run in parallel\n\t\t * with the code below, so wait until all of the runtime PM\n\t\t * activity has completed.\n\t\t */\n\t\tpm_runtime_barrier(dev);\n\t\tdrv->remove(pci_dev);\n\t\tpm_runtime_put_noidle(dev);\n\t}\n\tpcibios_free_irq(pci_dev);\n\tpci_dev->driver = NULL;\n\tpci_iov_remove(pci_dev);\n\n\t/* Undo the runtime PM settings in local_pci_probe() */\n\tpm_runtime_put_sync(dev);\n\n\t/*\n\t * If the device is still on, set the power state as \"unknown\",\n\t * since it might change by the next time we load the driver.\n\t */\n\tif (pci_dev->current_state == PCI_D0)\n\t\tpci_dev->current_state = PCI_UNKNOWN;\n\n\t/*\n\t * We would love to complain here if pci_dev->is_enabled is set, that\n\t * the driver should have called pci_disable_device(), but the\n\t * unfortunate fact is there are too many odd BIOS and bridge setups\n\t * that don't like drivers doing that all of the time.\n\t * Oh well, we can dream of sane hardware when we sleep, no matter how\n\t * horrible the crap we have to deal with is when we are awake...\n\t */\n\n\tpci_dev_put(pci_dev);\n}"
+      },
+      "linux_pci_shutdown": {
+        "path": ".local/npu-build-scratch/native-c2/linux-lifetime-bootstrap-q2/kernel-src/drivers/pci/pci-driver.c",
+        "symbol": "pci_device_shutdown",
+        "first_line": 512,
+        "last_line": 531,
+        "sha256": "5a64d10ab090aeb9d197331fa32d728280deb177daacece7974845d8b9530a7d",
+        "source": "static void pci_device_shutdown(struct device *dev)\n{\n\tstruct pci_dev *pci_dev = to_pci_dev(dev);\n\tstruct pci_driver *drv = pci_dev->driver;\n\n\tpm_runtime_resume(dev);\n\n\tif (drv && drv->shutdown)\n\t\tdrv->shutdown(pci_dev);\n\n\t/*\n\t * If this is a kexec reboot, turn off Bus Master bit on the\n\t * device to tell it to not continue to do DMA. Don't touch\n\t * devices in D3cold or unknown states.\n\t * If it is not a kexec reboot, firmware will hit the PCI\n\t * devices with big hammer and stop their DMA any way.\n\t */\n\tif (kexec_in_progress && (pci_dev->current_state <= PCI_D3hot))\n\t\tpci_clear_master(pci_dev);\n}"
+      }
+    },
+    "resources": [
+      {
+        "resource": "Provider mailboxes, TX buffers, RX-event and RRO allocations",
+        "allocation_owner": "airoha_npu_dma_lifetime",
+        "release_domain": "provider explicit lifetime",
+        "current_policy": "retained after exposure or RRO creation",
+        "consumer_RX_pages_owned": false
+      },
+      {
+        "resource": "Ordinary queue descriptor rings, including NPU0/1 RX rings",
+        "allocation_owner": "dmam_alloc_coherent(dev->dma_dev)",
+        "release_domain": "provider device devres after NPU admission",
+        "current_policy": "not transferred into explicit retained DMA lifetime"
+      },
+      {
+        "resource": "Queue entry metadata",
+        "allocation_owner": "devm_kzalloc(dev->dev)",
+        "release_domain": "consumer endpoint devres",
+        "current_policy": "not transferred to provider retained lifetime"
+      },
+      {
+        "resource": "NPU RX packet pages and page pools",
+        "allocation_owner": "consumer mt76 queue/page_pool",
+        "release_domain": "mt76_dma_cleanup -> mt76_dma_rx_cleanup -> mt76_npu_queue_cleanup; page_pool_destroy",
+        "current_policy": "buffers returned and pool mappings scrubbed; no explicit retained consumer owner"
+      },
+      {
+        "resource": "mt76/mt7996 consumer context and queue objects",
+        "allocation_owner": "ieee80211 hardware context",
+        "release_domain": "mt76_free_device -> ieee80211_free_hw",
+        "current_policy": "freed independently of retained provider mailboxes"
+      }
+    ],
+    "source_lock_sha256": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+    "frozen_native_inputs_rehashed": 294,
+    "helper_bindings": {
+      ".local/npu-consumer-dma-lifetime-20261027/trace_q2.py": "aedf7b7f5830136324e952930e5169c33895fb843edff8a9edc08ffcebc545dd",
+      "tests/npu/test_cold_probe_lifetime.py": "ee54db6333c9c0c612d3b158222a9cb38975ba0534b6a06af9bb699da212c9a2",
+      "tests/npu/test_rro_reset_ba_events.py": "12397aa181f1b931abc882631bfea965f950ae6eec620ceed7d34a5f59b77a3a"
+    },
+    "interpreted_boundary": "MCU poll and MMIO reset/disable may have hardware semantics; this trace does not establish drain success or a DMA fault.",
+    "compiled_tests_run": false,
+    "target_execution": false,
+    "firmware_changed": false,
+    "hardware": false,
+    "physical_retirement": false,
+    "full_native_verdict": false,
+    "full_npu_goal_complete": false
+  },
+  "source_trace_path": ".local/npu-consumer-dma-lifetime-20261027/trace-q2.json",
+  "source_trace_sha256": "77e259e591b7dff693f04ab70c856f21f81a927d6fd7022844f110a233a88ab3",
+  "live_replay_observation": {
+    "verified_live": true,
+    "observations": [
+      {
+        "unit": {
+          "ActiveState": "activating",
+          "SubState": "start",
+          "InvocationID": "6c1bc5ff20d74add9235553e70e26931",
+          "MainPID": "18906",
+          "MemoryCurrent": "356679680",
+          "CPUUsageNSec": "1316867093000",
+          "MemoryMax": "419430400",
+          "MemorySwapMax": "0"
+        },
+        "processes": {
+          "guard": {
+            "pid": 18906,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/.local/npu-native-block-hook-20261027/guard_phase_q1.py",
+              "full-q21"
+            ],
+            "start_ticks": 623305,
+            "CPU_ticks": 3097
+          },
+          "wrapper": {
+            "pid": 18920,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/.local/npu-native-block-hook-20261027/full_native_q21.py"
+            ],
+            "start_ticks": 623357,
+            "CPU_ticks": 214
+          },
+          "driver": {
+            "pid": 18942,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/tests/npu/test_rro_wire_native_pair.py",
+              "--pair",
+              "/home/captain/W1700KNPU/.local/npu-rro-wire-20261023/pair-q2",
+              "--host-evidence",
+              "/home/captain/W1700KNPU/.local/npu-rro-session-host-20261023/host-q2/result.json",
+              "--name",
+              "matrix-q1",
+              "--output-root",
+              "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs",
+              "--native-cold-receipt",
+              "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-block-hook-build-q5/ubsan/build.json"
+            ],
+            "start_ticks": 623609,
+            "CPU_ticks": 126746
+          }
+        },
+        "observed_unix_ns": 1793061815301769533
+      },
+      {
+        "unit": {
+          "ActiveState": "activating",
+          "SubState": "start",
+          "InvocationID": "6c1bc5ff20d74add9235553e70e26931",
+          "MainPID": "18906",
+          "MemoryCurrent": "356679680",
+          "CPUUsageNSec": "1319340083000",
+          "MemoryMax": "419430400",
+          "MemorySwapMax": "0"
+        },
+        "processes": {
+          "guard": {
+            "pid": 18906,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/.local/npu-native-block-hook-20261027/guard_phase_q1.py",
+              "full-q21"
+            ],
+            "start_ticks": 623305,
+            "CPU_ticks": 3103
+          },
+          "wrapper": {
+            "pid": 18920,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/.local/npu-native-block-hook-20261027/full_native_q21.py"
+            ],
+            "start_ticks": 623357,
+            "CPU_ticks": 214
+          },
+          "driver": {
+            "pid": 18942,
+            "argv": [
+              "/usr/bin/python3",
+              "-u",
+              "-B",
+              "/home/captain/W1700KNPU/tests/npu/test_rro_wire_native_pair.py",
+              "--pair",
+              "/home/captain/W1700KNPU/.local/npu-rro-wire-20261023/pair-q2",
+              "--host-evidence",
+              "/home/captain/W1700KNPU/.local/npu-rro-session-host-20261023/host-q2/result.json",
+              "--name",
+              "matrix-q1",
+              "--output-root",
+              "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs",
+              "--native-cold-receipt",
+              "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-block-hook-build-q5/ubsan/build.json"
+            ],
+            "start_ticks": 623609,
+            "CPU_ticks": 126988
+          }
+        },
+        "observed_unix_ns": 1793061817334732285
+      }
+    ],
+    "prefixes": {
+      "profile-0": {
+        "source_path": ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/rpc.jsonl",
+        "retained_prefix": ".local/npu-consumer-dma-lifetime-20261027/profile-0-rpc-prefix-q3.jsonl",
+        "retained_bytes": 225201,
+        "incomplete_trailing_bytes_ignored": 0,
+        "sha256": "ea64ec7d63cbe8eb16cdc61f41f8a395ac6b52330565e8316ea74f4181e4c636",
+        "complete_rows": 185,
+        "positive_rpc_rows": 157,
+        "operations": {
+          "1": 1,
+          "2": 139,
+          "3": 17
+        },
+        "last_positive": {
+          "operation": 3,
+          "argument": 16,
+          "generation": 0,
+          "sequence": 178,
+          "journal_sha256": "e41c3e7e52a0b4fa75bfc4e383e3b340db54bd046c7f68f12428f0ab8fabcbc1",
+          "broker_sha256": "1a63650f328de2cf233acb5cd96ad1a882a6ec4618382c3890e5ca876abfebd2",
+          "request_sha256": "2af96f095bba47e8ecef3667fcae04d7746f6e11bc5fa4ce7c7424a59a310f24",
+          "reply_sha256": "6b25678a8f3ac00337bb1451dc5cbca39b81d974e32d5ddd73e9107c76ce2299",
+          "rolling_sha256": "b194df4e5847055d2f8bdac1960729cc85946eb4afce6da63f25799576d4aa14",
+          "modeled_MCU_result": false,
+          "counts": {
+            "blocks": 7443710,
+            "metadata_writes": 760985,
+            "payload_reads": 515,
+            "mailbox_veneer": 1,
+            "mailbox_binding": 1,
+            "table_writes": 1,
+            "table_reads": 2,
+            "extent_writes": 24576,
+            "extent_reads": 24576
+          },
+          "write_sha256": "03f9446b02ab61b4e7419e3a4bbc0dfd827f103633a1c8ff528285ea0fe2c9c0",
+          "wall_ns": 44339398771,
+          "min_sp": 2214726352,
+          "mmio": [
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c000",
+              "size": 4,
+              "value": 0
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 1
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c034",
+              "size": 4,
+              "value": 256
+            },
+            {
+              "kind": "mmio-read",
+              "address": "0x1ec0c030",
+              "size": 4,
+              "value": 2181038080
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0x1ec0c03c",
+              "size": 4,
+              "value": 7
+            },
+            {
+              "kind": "mmio-write",
+              "address": "0xc200004",
+              "size": 4,
+              "value": 9
+            }
+          ]
+        },
+        "interpretation": "Finite complete-line prefix of a live journal, not an atomic guest snapshot or full verdict"
+      }
+    },
+    "original_replay_commit": "e5cf6a54d38508333af53bb8523524bf627c71f4",
+    "frozen_input_count": 294,
+    "full_native_verdict": false,
+    "physical_retirement": false,
+    "hardware": false,
+    "replay_restarted": false,
+    "Ubuntu_stopped": false,
+    "compiled_other_work": false
+  },
+  "live_replay_prepared_sha256": "950c5c34e15cc9653726be4c0a128ad49e050273ee057d8d88d270efd4054f35",
+  "frozen_replay_inputs_rehashed": 294,
+  "production_bindings": {
+    "firmware/source-lock.json": "88502ab3798b2ccdf01e6fd3c8779bcd2ad0f24a970c080f97ac9992b97f740a",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": "bb4579282feedf23edbe09007eb7b1566ffc96dceb39e49984ddc7a1cbaa2e71",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch": "aacc0ffccdd91a6f004e5e0a85d5e10be83ddf54f0efd0ea661c80087d4e15e6",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/result.json": "a840d3cccb1d0bd8cc60a856d1a1bb9723dfc05af73484d955a33978a458d22f"
+  },
+  "current_retained_module_bindings": {
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/mt76/mt76.ko": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/mt76/mt76-connac-lib.ko": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/mt76/mt7996/mt7996e.ko": "af458b048f32b015e550dc523f3706d00b5a650030e000c0bbf878f4186045bb",
+    ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/airoha_npu.ko": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+  },
+  "provider_module_alias": {
+    "path": ".local/npu-build-scratch/native-c2/cold-unwind-modules-q20/modules/kernel-upper/drivers/net/ethernet/airoha/airoha_npu.ko",
+    "sha256": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+  },
+  "documents": {
+    "AGENTS.md": {
+      "before_sha256": "6c4e00db014c217580acaa93beb7fd66a00fc23d198e7e32b4d13016ffe96452",
+      "after_sha256": "f0f2729d596676c63b29d83e6ed013d00f86f17ef64f67b8f02f4c20c7af4896",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/AGENTS.md",
+      "old_header_bytes": 22,
+      "added_bytes": 1516,
+      "old_body_bytes": 198141,
+      "old_header_and_body_byte_identical": true
+    },
+    "README.md": {
+      "before_sha256": "247eb914c89951e426f622b6b89424d8ad552216759b7d8697706fb6deb8b8e1",
+      "after_sha256": "971bca759bd81f3d6014aba33138cddfd5db0fca97aa01d1cbea0ad01fe637ee",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/README.md",
+      "old_header_bytes": 35,
+      "added_bytes": 837,
+      "old_body_bytes": 105490,
+      "old_header_and_body_byte_identical": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "before_sha256": "6c9f1b5e816302273c8a3a9cc76b2bd73131d54d0361aeb1c18d5d2cec2e451b",
+      "after_sha256": "fcb95e13dc355fd03ec5300c419fd67de377552087a727ffc1828d46518dc42a",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__REMAINING_WORK.md",
+      "old_header_bytes": 24,
+      "added_bytes": 1529,
+      "old_body_bytes": 204329,
+      "old_header_and_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "before_sha256": "e21768b1a15ccbd4895a5b44ac607b5932f0a5a5aa86c3bbea5931e91599c078",
+      "after_sha256": "1f83e6c6cfa4698ad961f82ccf95a665f75b57bc81d99769dd85665fc4b2aa78",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_CURRENT_REFERENCE.md",
+      "old_header_bytes": 42,
+      "added_bytes": 1551,
+      "old_body_bytes": 825404,
+      "old_header_and_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "before_sha256": "725256b9cd978bdc0d331733e32ab3c233078e43f7143787d4ba2f8b159bf099",
+      "after_sha256": "33072ca3018e3e3a6d17d249d02aed191b91848ead1b23ffe75c6f47be54edf0",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_LEDGER.md",
+      "old_header_bytes": 31,
+      "added_bytes": 3148,
+      "old_body_bytes": 1672741,
+      "old_header_and_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "before_sha256": "d07bf3e236f50e6cfe8546e2b508417647f7a701aee8ef05e7373a63631a1be9",
+      "after_sha256": "a7f418bf91e21b5ebbe22c3764257c488dbfebd67c6d8b1fc7d82ff1ca0844ce",
+      "preserved_path": ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md",
+      "old_header_bytes": 36,
+      "added_bytes": 1411,
+      "old_body_bytes": 568583,
+      "old_header_and_body_byte_identical": true
+    }
+  },
+  "report_sha256": "1611d7b1c321015e5497469ff1462946e337515a50daf84cccb1a0623ed5b16b",
+  "judgments": {
+    "jev-trace-q2": {
+      "request_path": ".local/npu-consumer-dma-lifetime-20261027/jev-trace-q2.request.json",
+      "request_sha256": "2564530f86c2cdde9373d48249baf016e66859f2317cc9ad27478c329cb2d453",
+      "result_path": ".local/npu-consumer-dma-lifetime-20261027/jev-trace-q2.result.json",
+      "result_sha256": "e75280fcaa54b8663729f2802b1a680d32a6967cf1fd2efa5521aa27b807b141",
+      "questions": {
+        "retained_provider_covers_consumer_pages": {
+          "type": "noul",
+          "instructions": "Does provider_retention itself retain the consumer RX pages/page pools released in consumer_dma_cleanup and consumer_npu_queue_cleanup?"
+        },
+        "device_ref_prevents_devres": {
+          "type": "noul",
+          "instructions": "Do linux_driver_unbind and linux_unbind_cleanup condition managed-resource release on ordinary outstanding get_device references?"
+        },
+        "pool_defer_preserves_dma": {
+          "type": "noul",
+          "instructions": "Do linux_page_pool_release and linux_page_pool_scrub defer DMA unmapping until after all inflight pages return?"
+        },
+        "mcu_error_gates_queue_release": {
+          "type": "noul",
+          "instructions": "Does cold_cleanup gate consumer DMA cleanup on a returned success status from mcu_exit?"
+        },
+        "rx_event_is_all_queues": {
+          "type": "noul",
+          "instructions": "Does provider_rx_event_exception allocate a provider-retained descriptor buffer for every queue, including NPU0/1 receive queues?"
+        },
+        "generic_remove_clears_master": {
+          "type": "noul",
+          "instructions": "Does linux_pci_remove itself call pci_clear_master, as distinct from linux_pci_shutdown?"
+        },
+        "physical_fault_established": {
+          "type": "noul",
+          "instructions": "Does this source-only evidence, without target execution or a hardware idle/drain witness, establish an actual physical DMA fault?"
+        }
+      },
+      "response": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "retained_provider_covers_consumer_pages": {
+            "type": "noul",
+            "noul": 0.11
+          },
+          "device_ref_prevents_devres": {
+            "type": "noul",
+            "noul": 0.22
+          },
+          "pool_defer_preserves_dma": {
+            "type": "noul",
+            "noul": 0.59
+          },
+          "mcu_error_gates_queue_release": {
+            "type": "noul",
+            "noul": 0.05
+          },
+          "rx_event_is_all_queues": {
+            "type": "noul",
+            "noul": 0.12
+          },
+          "generic_remove_clears_master": {
+            "type": "noul",
+            "noul": 0.05
+          },
+          "physical_fault_established": {
+            "type": "noul",
+            "noul": 0.04
+          }
+        },
+        "usage": {
+          "input_tokens": 7830,
+          "output_tokens": 156
+        }
+      },
+      "elapsed_ms": 1316
+    },
+    "jev-review-q6": {
+      "request_path": ".local/npu-consumer-dma-lifetime-20261027/jev-review-q6.request.json",
+      "request_sha256": "79e885ba1d52861beff538093875c8232b25f86c71f8dbd15c49b26002711cb4",
+      "result_path": ".local/npu-consumer-dma-lifetime-20261027/jev-review-q6.result.json",
+      "result_sha256": "5b5a4adc18ae60194fb9d9379114b2faa46960a1c206aa299dc32263f773ad50",
+      "questions": {
+        "source_not_executed_tests": {
+          "type": "noul",
+          "instructions": "Do the new tracking prefixes and report clearly distinguish structural source checks from newly executed compiled or hardware lifetime tests?"
+        },
+        "live_not_full_pass": {
+          "type": "noul",
+          "instructions": "Do the new tracking prefixes and report describe the live replay prefix as partial observation, without claiming complete native acceptance?"
+        },
+        "physical_fault_not_claimed": {
+          "type": "noul",
+          "instructions": "Do the new tracking prefixes and report preserve unknown hardware reset/drain semantics and avoid asserting an observed physical DMA fault?"
+        },
+        "implementation_still_required": {
+          "type": "noul",
+          "instructions": "Do the new tracking prefixes and report clearly mark the consumer ownership/drain implementation as remaining work, rather than an implemented fix?"
+        },
+        "pool_uncertainty_disclosed": {
+          "type": "noul",
+          "instructions": "Does the report disclose the 0.59 Jev pool question as uncertain and rely on inspected source ordering instead of treating the model answer as acceptance?"
+        },
+        "PCI_negative_bounded": {
+          "type": "noul",
+          "instructions": "Does the report bound its PCI bus-master negative observation to the selected generic remove helper rather than claiming no other PCI path disables DMA?"
+        }
+      },
+      "response": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "source_not_executed_tests": {
+            "type": "noul",
+            "noul": 0.96
+          },
+          "live_not_full_pass": {
+            "type": "noul",
+            "noul": 0.98
+          },
+          "physical_fault_not_claimed": {
+            "type": "noul",
+            "noul": 0.98
+          },
+          "implementation_still_required": {
+            "type": "noul",
+            "noul": 0.98
+          },
+          "pool_uncertainty_disclosed": {
+            "type": "noul",
+            "noul": 0.99
+          },
+          "PCI_negative_bounded": {
+            "type": "noul",
+            "noul": 0.97
+          }
+        },
+        "usage": {
+          "input_tokens": 5107,
+          "output_tokens": 125
+        }
+      },
+      "elapsed_ms": 1404
+    }
+  },
+  "private_cohort_bindings": {
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/AGENTS.md": "6c4e00db014c217580acaa93beb7fd66a00fc23d198e7e32b4d13016ffe96452",
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/README.md": "247eb914c89951e426f622b6b89424d8ad552216759b7d8697706fb6deb8b8e1",
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__REMAINING_WORK.md": "6c9f1b5e816302273c8a3a9cc76b2bd73131d54d0361aeb1c18d5d2cec2e451b",
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "e21768b1a15ccbd4895a5b44ac607b5932f0a5a5aa86c3bbea5931e91599c078",
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_LEDGER.md": "725256b9cd978bdc0d331733e32ab3c233078e43f7143787d4ba2f8b159bf099",
+    ".local/npu-consumer-dma-lifetime-20261027/before-docs/docs__W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "d07bf3e236f50e6cfe8546e2b508417647f7a701aee8ef05e7373a63631a1be9",
+    ".local/npu-consumer-dma-lifetime-20261027/docs-before-q4.json": "d10dea41b1ade83815029c76a65a39f5ab2558cbd9937976cdd8b30fcf0e52b1",
+    ".local/npu-consumer-dma-lifetime-20261027/docs-installed-q5.json": "34a3195a82a93c49617f109f12de187fe447532cec1dc806903756ece2541bb2",
+    ".local/npu-consumer-dma-lifetime-20261027/jev-review-q6.request.json": "79e885ba1d52861beff538093875c8232b25f86c71f8dbd15c49b26002711cb4",
+    ".local/npu-consumer-dma-lifetime-20261027/jev-review-q6.result.json": "5b5a4adc18ae60194fb9d9379114b2faa46960a1c206aa299dc32263f773ad50",
+    ".local/npu-consumer-dma-lifetime-20261027/jev-trace-q2.request.json": "2564530f86c2cdde9373d48249baf016e66859f2317cc9ad27478c329cb2d453",
+    ".local/npu-consumer-dma-lifetime-20261027/jev-trace-q2.result.json": "e75280fcaa54b8663729f2802b1a680d32a6967cf1fd2efa5521aa27b807b141",
+    ".local/npu-consumer-dma-lifetime-20261027/normalize_docs_q5.py": "bdc39375fcd9ca817540f694a1e620b96438fafd1b6912aa3db6a8b97bf4b1b2",
+    ".local/npu-consumer-dma-lifetime-20261027/observation-q3.json": "4dca66644e4866694bf2cc2a67536c5a4319ffb0322e87a5b9c3ccbfade8ccb7",
+    ".local/npu-consumer-dma-lifetime-20261027/observe_q3.py": "fd0bbabf39a261c108feb371d5803970bb4aeaaaec2d98e4712bfb25b4945c9e",
+    ".local/npu-consumer-dma-lifetime-20261027/prepare_docs_q4.py": "1647d84dac15fea8486d600e6dedeac95ea50dc8751febf227713c36e5725d27",
+    ".local/npu-consumer-dma-lifetime-20261027/profile-0-rpc-prefix-q3.jsonl": "ea64ec7d63cbe8eb16cdc61f41f8a395ac6b52330565e8316ea74f4181e4c636",
+    ".local/npu-consumer-dma-lifetime-20261027/review_q6.py": "62664447718520b01563667d656d510e94021587c464b4b85766f715cf1e230d",
+    ".local/npu-consumer-dma-lifetime-20261027/seal-q7.failure.txt": "e37964c0792a89e5df9c1e5bcd863d93ca3e1ec958c0fee0880797837e4aeb7d",
+    ".local/npu-consumer-dma-lifetime-20261027/seal_q7.py": "64371bfdc2878ab0ca97eb6e415af85ec4f2b5693491c873519aae0df44753d7",
+    ".local/npu-consumer-dma-lifetime-20261027/seal_q8.py": "966c0009d45078ae1bcf89ac23cabbeecdf1092b0f135b958f9721301e2f4b13",
+    ".local/npu-consumer-dma-lifetime-20261027/trace-q1.failure.txt": "d5e19a0526e7ff32dd7c8569f83adeeb71b03aaa55e56988a42dcb763be11875",
+    ".local/npu-consumer-dma-lifetime-20261027/trace-q2.json": "77e259e591b7dff693f04ab70c856f21f81a927d6fd7022844f110a233a88ab3",
+    ".local/npu-consumer-dma-lifetime-20261027/trace_q1.py": "662a5b73a7c4bfaaa74595fbaf6edbc965dbcf9bef7fbd3cc7e0ad93393da819",
+    ".local/npu-consumer-dma-lifetime-20261027/trace_q2.py": "aedf7b7f5830136324e952930e5169c33895fb843edff8a9edc08ffcebc545dd"
+  },
+  "preserved_failed_attempt": {
+    "helper": ".local/npu-consumer-dma-lifetime-20261027/trace_q1.py",
+    "note": ".local/npu-consumer-dma-lifetime-20261027/trace-q1.failure.txt",
+    "process_exit_code": 1,
+    "correction": ".local/npu-consumer-dma-lifetime-20261027/trace_q2.py"
+  },
+  "preserved_seal_preparation_failure": {
+    "helper": ".local/npu-consumer-dma-lifetime-20261027/seal_q7.py",
+    "note": ".local/npu-consumer-dma-lifetime-20261027/seal-q7.failure.txt",
+    "process_exit_code": 1,
+    "public_evidence_written": false,
+    "correction": ".local/npu-consumer-dma-lifetime-20261027/seal_q8.py"
+  },
+  "prior_inventory_or_module_producers_rerun": false,
+  "new_compilation": false,
+  "physical_fault_established": false,
+  "physical_retirement": false,
+  "full_native_verdict": false,
+  "hardware": false,
+  "full_npu_goal_complete": false
+}

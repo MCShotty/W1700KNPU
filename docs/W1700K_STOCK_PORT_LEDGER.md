@@ -1,5 +1,48 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Consumer DMA Owners Traced During Live Full Replay
+
+- Continued solo frome5cf6a5. Twelve selected source files rehash: seven current
+  mt76/provider inputs match module producera840d3cc; five Linux6.18.52 reference
+  files match retained inventory83e832d8 (91236 entries). Twenty structural
+  assertions and26 selected functions characterize source only. No compiler,
+  kernel/module execution, fresh complete inventory or hardware test ran.
+- Provider exposure/RRO retention covers its explicit allocations, not every
+  consumer resource. Ordinary descriptor rings are dmam-managed on dma_dev,
+  which NPU admission selects as the provider device; queue entries are devm-
+  managed on endpoint dev. NPU RX pages/page pools and the ieee80211 context
+  have separate explicit cleanup. Do not confuse the special provider-owned
+  TXFREE RX-event allocation with all NPU0/1 receive descriptors.
+- Cold cleanup continues after void MCU exit through token/DMA cleanup. NPU
+  queue cleanup returns queued pages, followed by page_pool_destroy. Linux
+  unbind invokes devres cleanup after remove without an ordinary-reference
+  gate. Page-pool scrub precedes inflight checks and may unmap before delayed
+  destruction; deferred pool release is not a physical DMA retention witness.
+- The selected generic PCI remove has no bus-master clear; the shown clear is
+  conditional kexec shutdown, a different path. Actual MCU state/reset/disable
+  hardware semantics remain unknown. Neither a physical DMA fault nor drain
+  success is established. Complete consumer ownership, TX/token/wider resources
+  and cold-failure/remove qualification remain open; no retention fix is claimed.
+- Jev's seven raw Noul answers remain available. The pool-defer question is
+  uncertain0.59 and is not acceptance: exact source orders scrub before inflight,
+  and scrub contains DMA unmapping. Other probabilities include provider-page
+  coverage0.11, reference gate0.22, MCU-success gate0.05, physical fault0.04.
+  Source and exact assertions govern the documented characterization.
+- Initial trace-q1 cannot parse dmam_alloc_attrs' void-pointer return and exits1
+  before writing a trace/request. Preserve its helper/failure note. Fresh q2
+  uses an exact uniqueness-checked signature with the existing mask/braced
+  extraction helpers; no production/test/runtime guard changes.
+- Retained observation-q3 verifies the same full-q21 invocation6c1bc5ff and
+  guard18906/wrapper18920/driver18942 with242 additional driver CPU ticks over
+  two samples. Profile0 has157 checked RPCs: OPEN1/ENROLL139/PUBLISH17. This is
+  a complete-line journal prefix, not an atomic guest snapshot or full pass.
+  All294 frozen inputs rehash; no bound input or replay recipe changed.
+- Approved compaction is already recorded complete at78MiB; no new shutdown,
+  compaction, cleanup deletion, competing build, module/image/load/router contact
+  or flash. Source lock88502ab3/patchbb457928/modulesa840d3cc stay. Six tracking
+  bodies are preserved byte-for-byte. Full NPU remains active; read
+  research/checkpoints/2026-10-27-npu-consumer-dma-lifetime/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - Native Block Gateway Crosses The Tenth Publication
 
 - Continued solo fromf63ed53. Profile6 installs one raw C block callback at the

@@ -1,5 +1,29 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Complete Consumer Ownership Before Physical Retirement
+
+The current source trace identifies five resource classes: explicit provider
+allocations, managed ordinary descriptor rings, endpoint-managed entries,
+consumer RX pages/page pools, and consumer hardware context. The first class's
+retention does not cover the others. Linux6.18.52 unbind releases devres after
+remove independently of ordinary device references; page-pool scrub can unmap
+before deferred inflight release completes. MCU exit still returns no status
+to gate cleanup. These are source facts, not observed hardware DMA failure.
+
+Next bind a complete consumer ownership capsule to cold-failure/remove paths,
+including allocation-domain/devres release and every DMA-visible page. Define
+and test the actual radio/NPU drain or conservative retention decision before
+tokens, pages, descriptors or context can be released. Device refs, CPU joins,
+ACK request changes or generic PCI remove alone are insufficient evidence.
+TX payload/token and wider RRO/HIF2 ownership still need complete coverage.
+
+full-q21 continues unchanged: the retained two-sample observation shows157
+checked RPCs/17 publications in profile0, no terminal verdict. All294 bound
+inputs rehash. Do not restart it, change those files or run competing builds.
+Production lock/patch/modules remain unchanged. Complete native, physical,
+reuse/hot, image/router/actual-client/performance/stability gates remain.
+Read consumer-dma-lifetime REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Complete Native Matrix With Qualified Direct Block Entry
 
 Host observer profile6 now crosses the previous tenth-publication frontier:

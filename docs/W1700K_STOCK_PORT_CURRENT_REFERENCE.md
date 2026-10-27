@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Source-Bound Consumer DMA Ownership Boundary
+
+Frome5cf6a5, seven current mt76/provider files match module producera840d3cc;
+five Linux6.18.52 reference files match the retained91236-entry source inventory.
+Only the selected files are rehashed here, not a fresh complete inventory or
+kernel/module execution. Twenty structural assertions and26 function selections
+separate provider-retained allocations from ordinary descriptor devres, endpoint
+entry devres, consumer pages/page pools and ieee80211 hardware context.
+
+The MCU void exit path does not gate subsequent cleanup on poll success.
+Generic unbind releases devres after remove without an ordinary-reference gate;
+pool scrub precedes inflight checking and can unmap before deferred destruction.
+Generic PCI remove is not the conditional kexec bus-master-clear path. Reset/
+firmware-state hardware semantics remain unknown; no physical fault, containment
+or drain proof follows. A complete consumer owner and failure qualification are
+still required; the provider lifetime alone is not that implementation.
+
+The original full-q21 invocation is verified live with guard18906/wrapper18920/
+driver18942 and advancing CPU. Retained profile0 prefix:157 checked RPCs,17
+publications. No full result exists at that observation. All294 frozen inputs
+match; none of this turn's traced source or tracking docs is bound by that run.
+No replay restart/competing compilation, firmware change, image/load/router
+contact/flash or further compaction. Read consumer-dma-lifetime REPORT/EVIDENCE.
+
 ## 2026-10-27 - Direct Native Block Hook And Fresh Ten-Publication Proof
 
 Fromf63ed53, observer profile6 adds a direct C block entry at the original
