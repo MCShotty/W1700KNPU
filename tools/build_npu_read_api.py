@@ -52,6 +52,8 @@ def main():
         ROOT / 'tests/npu/native_read_api.py', ROOT / 'tests/npu/npu_csr_sampler.py',
         ROOT / 'tests/npu/test_native_read_api.py')}
     inputs.update({str(ROOT / name): sha(ROOT / name) for name in PROFILE_SOURCES})
+    binding_source = Path(binding.__file__).resolve(strict=True)
+    inputs[str(binding_source)] = sha(binding_source)
     output.mkdir()
     extension = output / ('_npu_read_api' + sysconfig.get_config_var('EXT_SUFFIX'))
     command = ['/usr/bin/cc', '-std=c11', '-O2', '-g', '-Wall', '-Wextra', '-Werror',
@@ -73,7 +75,8 @@ def main():
         interpreter=dict(path=str(Path(sys.executable).resolve()), sha256=sha(Path(sys.executable).resolve()),
             version=sys.version, GIL_enabled=True),
         unicorn=dict(version=unicorn.__version__, native_version=unicorn.uc_version(),
-            library=str(binding.uclib._name), sha256=sha(Path(binding.uclib._name).resolve())),
+            library=str(binding.uclib._name), sha256=sha(Path(binding.uclib._name).resolve()),
+            binding_source=dict(path=str(binding_source), sha256=inputs[str(binding_source)])),
         observed_unix_ns=time.time_ns(), firmware=False, hardware=False,
         limits=['Host read-API build only, not native replay or performance acceptance.',
             'Caller must qualify live RAM and backing storage before this compiler launch.'])

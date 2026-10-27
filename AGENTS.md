@@ -1,5 +1,35 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Native Block Gateway; Ten Publications Pass
+
+- Continue solo. Source-bound observer profile6 installs one direct C block
+  callback at the existing configure position. Default Pair still installs
+  its original Python callback. Read API2 and cold/block/memory/emulate inner
+  bodies stay byte-identical. No counter, fresh-SP, exact-miss or I/O check is
+  removed. The Python binding source is now pinned in the build/load receipt.
+- Callback ownership covers registry retention, in-flight self-unhook and GC;
+  failed registration rolls back, while failed rollback retains userdata.
+  First-error identity, backend precedence and handled exception context stay.
+  q3 passes its initial88 methods but misses handled context; the fresh q4
+  regression fails as intended. q5 fixes that context and passes89 methods
+  per plain/UBSan variant. Preserve all consumed versions and the q6 preparer
+  namespace refusal. Eighteen compiled controls each fail one intended assertion.
+- Finite19517-instruction/40-region traces match. The actual400000-block loop
+  has a2.02 baseline/candidate median ratio, host-only. Profile0 completes150
+  RPCs/ten publications, including former failing ordinal9 at43.592216169s;
+  all24576 writes/readbacks and complete memory checks pass each time. Its177
+  retained rows/149 positives match except wall_ns. Profile2 passes139 RPCs
+  and first publication;141 canonical rows match except timing. Original
+  boot3M/10s, RPC100M/60s,400MiB/no swap, lock and dual margins remain.
+- Fresh tooling167/zero skips and all five full protected inventories pass.
+  Prior target/kernel producers are revalidated, not rerun. MCU source tracing
+  confirms no-wait power-off and a void exit path; this is not physical proof
+  or an implemented MCU/queue retention fix. Lock88502ab3/patchbb457928/modules
+  a840d3cc stay. No image/load/router contact/flash. Full recipe next via
+  w1700k-npu-native-block-hook-full-q21; inspect actual driver/CPU/final results,
+  freeze bound inputs and never restart on an observation timeout. Full native/
+  physical/reuse/hot/image/client gates remain. Read native-block-hook report.
+
 ## 2026-10-27 - Full Replay Failed; Approved Storage Maintenance Complete
 
 - Continue solo. Vectorcall full-q25 is terminal failed, not next/live/passed:

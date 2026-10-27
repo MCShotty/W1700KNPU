@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -587,6 +588,306 @@ ret
         errors.clear()
         gc.collect()
         self.assertIsNone(reference())
+
+    @staticmethod
+    def hook_api(function, original):
+        function.argtypes, function.restype = original.argtypes, original.restype
+        return function
+
+    def test_native_block_hook_pointer_and_registry_holder(self):
+        h,reader,observer = self.block_owner()
+        address,userdata = observer.hook_info(h.cpu)
+        self.assertEqual(userdata,id(observer))
+        handle = profile.install_block_hook(h.cpu,observer)
+        pointer = h.cpu._callbacks[handle]
+        self.assertIsInstance(pointer,profile.binding.HOOK_CODE_CFUNC)
+        self.assertEqual(ctypes.cast(pointer,ctypes.c_void_p).value,address)
+        self.assertIs(pointer._observer,observer)
+        self.assertEqual(len(h.cpu._callbacks),1)
+        h.cpu.hook_del(handle)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_block_hook_actual_order_counts_and_stack(self):
+        def run(mode):
+            h,reader,observer = self.block_owner()
+            trace = []
+            def before(cpu,pc,size,unused):
+                cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00 - 16 * len(trace))
+                if len(trace) == 2:
+                    h.counts = Counter()
+            def after(cpu,pc,size,unused):
+                trace.append((pc,size,dict(h.counts),h.min_sp))
+            h.cpu.hook_add(UC_HOOK_BLOCK,before)
+            if mode == 'gateway':
+                profile.install_emulator(h.cpu,reader)
+                profile.install_block_hook(h.cpu,observer)
+            else:
+                h.cpu.hook_add(UC_HOOK_BLOCK,observer if mode == 'vectorcall' else h.block)
+            h.cpu.hook_add(UC_HOOK_BLOCK,after)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertEqual(h.cpu.reg_read(r.UC_RISCV_REG_PC),END)
+            self.assertGreater(len(trace),3)
+            if mode != 'reference':
+                self.assertGreater(observer.stats()['fast'],0)
+                self.assertGreater(observer.stats()['reference'],0)
+            return self.snapshot(h),trace,dict(h.block_cache)
+        reference = run('reference')
+        self.assertEqual(reference,run('vectorcall'))
+        self.assertEqual(reference,run('gateway'))
+
+    def test_native_block_hook_fallback_arguments(self):
+        results = []
+        for native in (False,True):
+            h,reader,unused = self.block_owner()
+            calls = []
+            def original(*args):
+                self.assertIs(args[0],h.cpu)
+                calls.append(args[1:])
+            observer = self.module.BlockObserver(h,original,reader)
+            if native: profile.install_block_hook(h.cpu,observer)
+            else: h.cpu.hook_add(UC_HOOK_BLOCK,observer)
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertGreater(len(calls),3)
+            self.assertTrue(all(len(row) == 3 and row[2] is None for row in calls))
+            self.assertEqual(observer.stats()['reference'],len(calls))
+            results.append(calls)
+        self.assertEqual(*results)
+
+    def test_native_block_hook_preserves_exception_identity(self):
+        for native_emulator in (False,True):
+            for kind in (AssertionError,KeyboardInterrupt):
+                with self.subTest(native_emulator=native_emulator,kind=kind):
+                    h,reader,unused = self.block_owner()
+                    error = kind('native block exception identity')
+                    def original(*args): raise error
+                    observer = self.module.BlockObserver(h,original,reader)
+                    profile.install_block_hook(h.cpu,observer)
+                    if native_emulator: profile.install_emulator(h.cpu,reader)
+                    with self.assertRaises(kind) as caught:
+                        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+                    self.assertIs(caught.exception,error)
+                    self.assertIs(h.cpu._hook_exception,error)
+
+    def test_native_block_hook_preserves_first_hook_exception(self):
+        h,reader,unused = self.block_owner()
+        first,second = AssertionError('first'),ValueError('second')
+        def before(cpu,pc,size,unused): cpu._hook_exception = first
+        def original(*args): raise second
+        h.cpu.hook_add(UC_HOOK_BLOCK,before)
+        profile.install_block_hook(h.cpu,self.module.BlockObserver(h,original,reader))
+        profile.install_emulator(h.cpu,reader)
+        with self.assertRaises(AssertionError) as caught:
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertIs(caught.exception,first)
+        self.assertIs(h.cpu._hook_exception,first)
+
+    def test_native_block_hook_stop_failure_is_unraisable_not_replacement(self):
+        h,reader,unused = self.block_owner()
+        first,stop = AssertionError('first'),RuntimeError('stop failed')
+        ignored = []
+        def original(*args): raise first
+        def failed_stop(): raise stop
+        profile.install_block_hook(h.cpu,self.module.BlockObserver(h,original,reader))
+        profile.install_emulator(h.cpu,reader)
+        h.cpu.emu_stop = failed_stop
+        with patch.object(sys,'unraisablehook',ignored.append):
+            with self.assertRaises(AssertionError) as caught:
+                h.cpu.emu_start(PROGRAM,END,count=1,timeout=1000000)
+        self.assertIs(caught.exception,first)
+        self.assertEqual(len(ignored),1)
+        self.assertIs(ignored[0].exc_value,stop)
+
+    def test_native_block_hook_unhook_stops_observation(self):
+        h,reader,observer = self.block_owner()
+        handle = profile.install_block_hook(h.cpu,observer)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertGreater(h.counts['blocks'],0)
+        counts,stats = h.counts.copy(),observer.stats()
+        h.cpu.hook_del(handle)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertEqual(h.counts,counts)
+        self.assertEqual(observer.stats(),stats)
+        self.assertNotIn(handle,h.cpu._callbacks)
+
+    def test_native_block_hook_handled_exception_context_matches_binding(self):
+        for native in (False,True):
+            with self.subTest(native=native):
+                h,reader,unused = self.block_owner()
+                outer,first,stop = LookupError('outer'),AssertionError('first'),RuntimeError('stop')
+                seen,ignored = [],[]
+                def original(*args): raise first
+                def failed_stop():
+                    seen.append(sys.exception())
+                    raise stop
+                observer = self.module.BlockObserver(h,original,reader)
+                if native: profile.install_block_hook(h.cpu,observer)
+                else: h.cpu.hook_add(UC_HOOK_BLOCK,observer)
+                profile.install_emulator(h.cpu,reader)
+                h.cpu.emu_stop = failed_stop
+                with patch.object(sys,'unraisablehook',ignored.append):
+                    try: raise outer
+                    except LookupError:
+                        with self.assertRaises(AssertionError) as caught:
+                            h.cpu.emu_start(PROGRAM,END,count=1,timeout=1000000)
+                        self.assertIs(sys.exception(),outer)
+                self.assertIs(caught.exception,first)
+                self.assertEqual(seen,[first])
+                self.assertEqual(len(ignored),1)
+                self.assertIs(ignored[0].exc_value,stop)
+                self.assertIs(stop.__context__,first)
+
+    def test_native_block_hook_holds_inflight_reference_during_self_unhook(self):
+        h,reader,unused = self.block_owner()
+        calls = []
+        def original(cpu,pc,size,userdata):
+            self.assertGreaterEqual(sys.getrefcount(observer),outside + 1)
+            cpu.hook_del(handle)
+            gc.collect()
+            calls.append((pc,size,userdata))
+        observer = self.module.BlockObserver(h,original,reader)
+        handle = profile.install_block_hook(h.cpu,observer)
+        outside = sys.getrefcount(observer)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertEqual(len(calls),1)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_block_hook_cycles_are_collectable(self):
+        h,reader,observer = self.block_owner()
+        h._native_block_observer = observer
+        profile.install_block_hook(h.cpu,observer)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        reference = weakref.ref(h.cpu)
+        collected = []
+        weakref.finalize(h.cpu,collected.append,'cpu')
+        del h,reader,observer
+        gc.collect()
+        self.assertIsNone(reference())
+        self.assertEqual(collected,['cpu'])
+
+    def test_native_block_hook_registration_error_removes_guard(self):
+        h,reader,observer = self.block_owner()
+        def fail(*args):
+            self.assertEqual(len(h.cpu._callbacks),1)
+            self.assertIs(next(iter(h.cpu._callbacks.values()))._observer,observer)
+            return UC_ERR_ARG
+        function = self.hook_api(fail,profile.binding.uclib.uc_hook_add)
+        with patch.object(profile.binding.uclib,'uc_hook_add',function):
+            with self.assertRaises(UcError) as caught:
+                profile.install_block_hook(h.cpu,observer)
+        self.assertEqual(caught.exception.errno,UC_ERR_ARG)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_block_hook_commit_failure_rolls_back(self):
+        h,reader,observer = self.block_owner()
+        add,remove = profile.binding.uclib.uc_hook_add,profile.binding.uclib.uc_hook_del
+        handles,removed = [],[]
+        error = MemoryError('registry commit fixture')
+        def record_add(*args):
+            status = add(*args)
+            handles.append(int.from_bytes(ctypes.string_at(args[1],ctypes.sizeof(profile.binding.uc_hook_h)),sys.byteorder))
+            return status
+        def record_remove(cpu,handle):
+            removed.append(int.from_bytes(ctypes.string_at(ctypes.byref(handle),ctypes.sizeof(handle)),sys.byteorder))
+            return remove(cpu,handle)
+        def fail_value(handle): raise error
+        # Fail Python handle publication after a real successful native registration.
+        with patch.object(profile.binding.uclib,'uc_hook_add',self.hook_api(record_add,add)), \
+                patch.object(profile.binding.uclib,'uc_hook_del',self.hook_api(record_remove,remove)), \
+                patch.object(profile.binding.uc_hook_h,'value',property(fail_value)):
+            with self.assertRaises(MemoryError) as caught:
+                profile.install_block_hook(h.cpu,observer)
+        self.assertIs(caught.exception,error)
+        self.assertEqual(handles,removed)
+        self.assertEqual(len(handles),1)
+        self.assertFalse(h.cpu._callbacks)
+        h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+        self.assertFalse(h.counts)
+
+    def test_native_block_hook_rollback_failure_keeps_userdata_alive(self):
+        h,reader,observer = self.block_owner()
+        add,remove = profile.binding.uclib.uc_hook_add,profile.binding.uclib.uc_hook_del
+        handles = []
+        error = MemoryError('registry commit fixture')
+        def record_add(*args):
+            status = add(*args)
+            handles.append(int.from_bytes(ctypes.string_at(args[1],ctypes.sizeof(profile.binding.uc_hook_h)),sys.byteorder))
+            return status
+        def fail_value(handle): raise error
+        with patch.object(profile.binding.uclib,'uc_hook_add',self.hook_api(record_add,add)), \
+                patch.object(profile.binding.uclib,'uc_hook_del',self.hook_api(lambda *args:UC_ERR_ARG,remove)), \
+                patch.object(profile.binding.uc_hook_h,'value',property(fail_value)):
+            with self.assertRaisesRegex(RuntimeError,'callback retained') as caught:
+                profile.install_block_hook(h.cpu,observer)
+        self.assertIs(caught.exception.__cause__,error)
+        try:
+            self.assertEqual(len(h.cpu._callbacks),1)
+            self.assertIs(next(iter(h.cpu._callbacks.values()))._observer,observer)
+            gc.collect()
+            h.cpu.emu_start(PROGRAM,END,count=1000,timeout=1000000)
+            self.assertGreater(h.counts['blocks'],0)
+        finally:
+            self.assertEqual(remove(h.cpu._uch,profile.binding.uc_hook_h(handles[0])),0)
+            h.cpu._callbacks.clear()
+
+    def test_native_block_hook_engine_thread_and_preinit_refusals(self):
+        h,reader,observer = self.block_owner()
+        other = Uc(UC_ARCH_RISCV,UC_MODE_RISCV32)
+        with self.assertRaises(RuntimeError): profile.install_block_hook(other,observer)
+        uninitialized = self.module.BlockObserver.__new__(self.module.BlockObserver)
+        with self.assertRaises(RuntimeError): uninitialized.hook_info(h.cpu)
+        errors = []
+        def attempt():
+            try: profile.install_block_hook(h.cpu,observer)
+            except Exception as error: errors.append(error)
+        thread = threading.Thread(target=attempt)
+        thread.start()
+        thread.join(timeout=5)
+        self.assertFalse(thread.is_alive())
+        self.assertEqual(len(errors),1)
+        self.assertIsInstance(errors[0],RuntimeError)
+        original = h.cpu._uch
+        try:
+            h.cpu._uch = ctypes.c_void_p()
+            with self.assertRaises(RuntimeError): profile.install_block_hook(h.cpu,observer)
+        finally: h.cpu._uch = original
+        address,userdata = observer.hook_info(h.cpu)
+        stopped = []
+        h.cpu.emu_stop = lambda:stopped.append(True)
+        ctypes.cast(address,profile.binding.HOOK_CODE_CFUNC)(other._uch,PROGRAM,4,ctypes.c_void_p(userdata))
+        self.assertIsInstance(h.cpu._hook_exception,RuntimeError)
+        self.assertIn('engine differs',str(h.cpu._hook_exception))
+        self.assertEqual(stopped,[True])
+        self.assertFalse(h.counts)
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_block_hook_api_and_registry_refusals(self):
+        h,reader,observer = self.block_owner()
+        class OtherDict(dict): pass
+        with patch.object(h.cpu,'_callbacks',OtherDict()):
+            with self.assertRaises(RuntimeError): profile.install_block_hook(h.cpu,observer)
+        with patch.object(profile.binding.uclib.uc_hook_add,'restype',ctypes.c_uint64):
+            with self.assertRaises(RuntimeError): profile.install_block_hook(h.cpu,observer)
+        with patch.object(profile.binding,'HOOK_CODE_CFUNC',ctypes.CFUNCTYPE(ctypes.c_int)):
+            with self.assertRaises(RuntimeError): profile.install_block_hook(h.cpu,observer)
+        with self.assertRaises(RuntimeError): profile.install_block_hook(h.cpu,object())
+        self.assertFalse(h.cpu._callbacks)
+
+    def test_native_block_hook_pair_default_and_binding_source(self):
+        h,reader,unused = self.block_owner()
+        calls = []
+        with patch.object(h.cpu,'hook_add',lambda *args:calls.append(args) or 123):
+            self.assertEqual(raw.Pair.install_block_hook(h),123)
+        self.assertEqual(calls,[(UC_HOOK_BLOCK,h.block)])
+        kind = profile.make_pair_type(raw.Pair,self.module)
+        candidate = object.__new__(kind)
+        candidate.__dict__.update(h.__dict__)
+        candidate.native_reader = reader
+        handle = candidate.install_block_hook()
+        self.assertIs(candidate.cpu._callbacks[handle]._observer,candidate.block)
+        candidate.cpu.hook_del(handle)
+        with patch.object(profile.binding,'__file__',str(Path(__file__).resolve())):
+            with self.assertRaisesRegex(RuntimeError,'binding source'):
+                profile.load_reviewed(self.receipt_path)
 
     def memory_owner(self):
         h,reader,unused = self.block_owner()

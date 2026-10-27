@@ -272,8 +272,11 @@ class Pair(raw.tx.TxPackets):
             self.retained.append((address, count))
         self.initial_retained = [(address, bytes(self.cpu.mem_read(address, count)))
                                  for address, count in self.retained]
-        self.cpu.hook_add(UC_HOOK_BLOCK, self.block)
+        self.install_block_hook()
         self.bss_zero()
+
+    def install_block_hook(self):
+        return self.cpu.hook_add(UC_HOOK_BLOCK, self.block)
 
     def bss_zero(self):
         row = next(row for row in self.manifest['sections']

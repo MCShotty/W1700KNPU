@@ -1,5 +1,32 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Complete Native Matrix With Qualified Direct Block Entry
+
+Host observer profile6 now crosses the previous tenth-publication frontier:
+profile0 completes150 checked RPCs/ten publications, full24576 writes/readbacks
+and complete DMA/SRAM/code checks after each. All177 retained rows/149 positive
+RPCs match except wall_ns. Profile2 completes139 RPCs and first publication,
+matching141 canonical rows except timing. These remain partial native probes.
+
+Next execute the unchanged three-profile19261-RPC/387-publication recipe on
+the clean published source. Use full-q21's actual guard/wrapper/driver and final
+receipt, not file presence or a stale handle. Freeze all bound inputs. Keep
+boot3M/10s, RPC100M/60s,400MiB/no swap, storage lock and dual margins. Retain the
+old full-q25 failure and all earlier interrupted/failed runs; do not retry them.
+
+The new callback's argument/lifetime/error-context paths pass89 methods per
+plain/UBSan variant,18 compiled controls and the exact finite state comparison.
+The paired2.02 host-loop timing ratio is not NPU performance acceptance. Fresh
+tooling167 and five complete source/cache inventories pass; production stays.
+
+Physical cold MCU/queue/page-pool retention/drain remains: current POWER_OFF
+does not wait for a reply, and void MCU exit does not return poll failure to
+cleanup. Existing selected-C test stubs do not exercise that real transport or
+poll failure. Returning enqueue status alone would not close this gate. This
+is a source-only lead, not an implemented fix or new hardware test. Firmware BA
+reuse, hot lifetime, current image/router/actual-client/performance/stability
+remain. Read native-block-hook REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Reduce Faithful Hook Overhead Before A New Full Recipe
 
 Vectorcall full-q25 is terminal failed. Profile0 records149 checked positives:

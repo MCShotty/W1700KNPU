@@ -872,6 +872,93 @@ static PyObject *block_vectorcall(PyObject *object, PyObject *const *args,
     return observer_vectorcall(block_call, object, args, nargsf, kwnames);
 }
 
+static void block_hook_error(PyObject *cpu, PyObject *observer)
+{
+    PyObject *error = PyErr_GetRaisedException(), *first = NULL, *stopped = NULL;
+    PyObject *handled;
+
+    if (!error) {
+        PyErr_SetString(PyExc_SystemError, "native block hook failed without an exception");
+        error = PyErr_GetRaisedException();
+    }
+    handled = PyErr_GetHandledException();
+    PyErr_SetHandledException(error);
+    if (!cpu)
+        goto unraisable;
+    first = PyObject_GetAttr(cpu, field_keys[F_HOOK_EXCEPTION]);
+    if (!first)
+        goto unraisable;
+    if (first == Py_None && PyObject_SetAttr(cpu, field_keys[F_HOOK_EXCEPTION], error) < 0)
+        goto unraisable;
+    stopped = PyObject_CallMethod(cpu, "emu_stop", NULL);
+    if (!stopped)
+        goto unraisable;
+    goto out;
+unraisable:
+    if (!PyErr_Occurred())
+        PyErr_SetObject((PyObject *)Py_TYPE(error), error);
+    PyErr_WriteUnraisable(observer);
+out:
+    PyErr_SetHandledException(handled);
+    Py_XDECREF(handled);
+    Py_XDECREF(stopped);
+    Py_XDECREF(first);
+    Py_XDECREF(error);
+}
+
+static void block_hook_callback(uc_engine *engine, uint64_t address, uint32_t size, void *userdata)
+{
+    PyGILState_STATE gil = PyGILState_Ensure();
+    BlockObserver *self = (BlockObserver *)userdata;
+    PyObject *cpu = NULL, *pc = NULL, *length = NULL, *result = NULL;
+    Reader *reader;
+
+    /* The registry retains userdata; this reference also covers in-callback unhook. */
+    Py_INCREF(self);
+    reader = (Reader *)self->reader;
+    if (!reader || !reader->cpu) {
+        PyErr_SetString(PyExc_RuntimeError, "native block hook is not initialized");
+        goto out;
+    }
+    cpu = Py_NewRef(reader->cpu);
+    if (engine != reader->handle) {
+        PyErr_SetString(PyExc_RuntimeError, "native block hook engine differs");
+        goto out;
+    }
+    pc = PyLong_FromUnsignedLongLong(address);
+    length = PyLong_FromUnsignedLong(size);
+    if (pc && length) {
+        PyObject *args[] = {cpu, pc, length, Py_None};
+        result = block_vectorcall((PyObject *)self, args, 4, NULL);
+    }
+out:
+    if (!result)
+        block_hook_error(cpu, (PyObject *)self);
+    Py_XDECREF(result);
+    Py_XDECREF(length);
+    Py_XDECREF(pc);
+    Py_XDECREF(cpu);
+    Py_DECREF(self);
+    PyGILState_Release(gil);
+}
+
+static PyObject *block_hook_info(BlockObserver *self, PyObject *cpu)
+{
+    Reader *reader = (Reader *)self->reader;
+
+    if (!reader || !check_reader(reader)) {
+        if (!PyErr_Occurred())
+            PyErr_SetString(PyExc_RuntimeError, "native block hook is not initialized");
+        return NULL;
+    }
+    if (cpu != reader->cpu) {
+        PyErr_SetString(PyExc_RuntimeError, "native block hook engine differs");
+        return NULL;
+    }
+    return Py_BuildValue("(KK)", (unsigned long long)(uintptr_t)block_hook_callback,
+        (unsigned long long)(uintptr_t)self);
+}
+
 static PyObject *block_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     BlockObserver *self = (BlockObserver *)type->tp_alloc(type, 0);
@@ -884,6 +971,7 @@ static PyObject *block_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 
 static PyMethodDef block_methods[] = {
     {"stats", (PyCFunction)block_stats, METH_NOARGS, "Return block dispatch counts, not NPU acceptance."},
+    {"hook_info", (PyCFunction)block_hook_info, METH_O, "Return the reviewed native block callback and retained userdata addresses."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -1288,7 +1376,7 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     if (PyModule_AddObjectRef(result, "ColdObserver", (PyObject *)&ColdObserverType) < 0 ||
         PyModule_AddObjectRef(result, "BlockObserver", (PyObject *)&BlockObserverType) < 0 ||
         PyModule_AddObjectRef(result, "MemoryObserver", (PyObject *)&MemoryObserverType) < 0 ||
-        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 5) < 0 ||
+        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 6) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_PC_REG", UC_RISCV_REG_PC) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_X0_REG", UC_RISCV_REG_X0) < 0) {
         Py_DECREF(result);

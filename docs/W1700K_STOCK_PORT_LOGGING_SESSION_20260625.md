@@ -1,5 +1,35 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Direct Block Entry And Ten Successful Publications
+
+Continued solo fromf63ed53. Host observer profile6 bypasses the block hook's
+Python/ctypes entry only. Registration remains at the same configure point;
+default Pair still registers its original Python callback. Read API2 and all
+four cold/block/memory/emulate bodies stay byte-identical. The callback keeps
+fresh counts/SP, fallback checks, first error and handled exception context.
+Binding source, native API shape and callback lifetime are explicitly checked.
+
+Initial q3 passes88 methods but a new q4 regression catches missing handled
+context. Fresh q5 fixes it and passes89 methods per plain/UBSan variant, zero
+errors/skips. Eighteen compiled controls fail intended assertions. Consumed
+versions, regression and preparer namespace refusal remain. Finite19517 raw
+instructions/40 regions match; exact Pair.effect/repeated effect tests pass.
+The paired actual400000-callback benchmark has a2.02 median wall ratio, host-only.
+
+Fresh profile0 passes150 RPCs/ten publications with24576 writes/readbacks and
+full memory checks each; all177 old rows/149 positives match except wall_ns.
+The former failing ordinal9 completes in43.592216169s. Profile2 passes139 RPCs
+and first publication41.235315129s;141 canonical rows match except timing.
+Boot3M/10s, RPC100M/60s,400MiB/no swap, C lock and dual margins are unchanged.
+Fresh tooling167 and five full protected inventories pass; target producers
+are revalidated, not rerun. Source-only no-ACK/void MCU-exit tracing refines the
+remaining physical gate without implementing it. Production stays unchanged.
+
+Publish clean source/receipt closure, then full-q21 with actual driver/CPU/final
+verification and frozen bound inputs. No old replay restart, image/load/router
+contact/flash. Full native/physical/reuse/hot/image/client/performance/stability
+remain. Read native-block-hook REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Full Replay Failure And Approved Storage Maintenance
 
 Continued solo from11d4aba. Vectorcall full-q25 records149 checked positives,

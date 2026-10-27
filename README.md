@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Native Publication Timeout Frontier Crossed
+
+A source-bound direct C block hook now keeps the original checks, counts,
+fresh reads and callback position while avoiding the Python/ctypes entry.
+Plain/UBSan each pass89 adapter methods;18 compiled controls detect intended
+defects. The default reference backend remains unchanged.
+
+Fresh profile0 completes150 RPCs and ten publications, including the one that
+previously timed out. Every publication completes its writes/readbacks and
+full memory checks within the original60-second limit. Profile2 also passes
+its139-RPC first-publication probe. The full three-profile recipe remains
+unproven, as do physical retirement and actual-client acceptance. See the
+[scoped report](research/checkpoints/2026-10-27-npu-native-block-hook/REPORT.md)
+and [remaining work](docs/REMAINING_WORK.md).
+
 ## 2026-10-27 - Replay Outcome And Storage Maintenance
 
 The full vectorcall replay fails on its tenth publication under the original

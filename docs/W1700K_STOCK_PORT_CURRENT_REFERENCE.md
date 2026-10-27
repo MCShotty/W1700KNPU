@@ -1,5 +1,39 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Direct Native Block Hook And Fresh Ten-Publication Proof
+
+Fromf63ed53, observer profile6 adds a direct C block entry at the original
+registration position; default Pair delegates to its exact original hook_add.
+Read API2 and the cold/block/memory/emulate inner bodies remain byte-identical.
+The callback retains the GIL and its observer during entry, preserves every
+count/fresh SP/reference miss, stores only the first hook error and restores
+handled exception context. Registry/rollback/GC paths execute in the tests.
+The official Python binding source is pinned alongside the native library.
+
+Initial q3 passes88 methods but omits handled exception context. A fresh q4
+regression demonstrates the mismatch; q5 corrects it and passes32 read/CSR plus
+57 observer methods per plain/UBSan variant, zero errors/skips. Eighteen compiled
+controls each fail exactly one intended assertion. Preserve both earlier
+adapter versions, the regression and the q6 preparer namespace refusal.
+
+Finite19517 instructions/40 regions/registers/events match. The actual400000-
+callback loop measures1.072086212s old versus0.530710539s candidate median;
+the2.02 ratio is host-only. Fresh profile0 passes150 RPCs/ten publications,
+40.84-45.37s each; former failing ordinal9 completes in43.592216169s. Every
+publication has24576 writes/readbacks and full DMA/SRAM/code checks. All177
+retained rows/149 positives match except wall_ns. Fresh profile2 passes139 RPCs,
+first publication41.235315129s,141 canonical rows match except timing.
+
+Fresh tooling167/zero skips and five complete protected inventories pass; prior
+kernel/module producers are revalidated, not rerun. Source-only MCU tracing
+links no-wait POWER_OFF, conditional ACK, void exit and unconditional caller
+continuation. It does not implement physical retention/drain or qualify hardware.
+Lock88502ab3/patchbb457928/modulesa840d3cc stay. Full three-profile native recipe
+is next via full-q21 after clean publication; freeze inputs and verify actual
+driver CPU progress/final verdict. Original limits/caps/lock/margins remain.
+Full native/physical/reuse/hot/image/client gates remain. No image/load/router
+contact/flash. Read research/checkpoints/2026-10-27-npu-native-block-hook/REPORT.md.
+
 ## 2026-10-27 - Terminal Full Replay And Verified VHD Maintenance
 
 From11d4aba, full-q25 fails exit1 with MainPID0. Recorded positives are149:

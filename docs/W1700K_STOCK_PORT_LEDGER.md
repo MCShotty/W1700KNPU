@@ -1,5 +1,61 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Native Block Gateway Crosses The Tenth Publication
+
+- Continued solo fromf63ed53. Profile6 installs one raw C block callback at the
+  existing configure position, with a default method still calling the original
+  Python hook. Read API2 and all four cold/block/memory/emulate inner bodies
+  remain byte-identical. No instruction/block/site count, fresh SP or exact-code
+  miss/effect check is removed. The build/load receipt now pins binding.py.
+- The ctypes pointer holder owns the observer; a registry guard precedes native
+  registration. Successful hook deletion releases it, registration publication
+  failure rolls back, and failed rollback retains userdata. A C in-flight ref
+  protects self-unhook. Actual entry/argument/order/Counter/SP, GC, first-error,
+  API/engine/thread and failure paths execute. Default reference stays opt-in free.
+- Initial build-q3 passes32+56 methods but lacks the caught exception context
+  during emu_stop. Fresh context-q4 proves one intended assertion failure, no
+  errors/skips, on that retained adapter. q5 saves/restores handled exception
+  state and passes32+57=89 unique methods per plain/UBSan variant. Repeats across
+  variants are not additional unique tests. Source snapshots/receipts remain.
+- Controls-q6 compiles18 independent mutants; each fails exactly one intended
+  assertion with zero errors/skips. Three new controls corrupt native arguments,
+  remove balanced in-flight retention, or omit handled context. The preparer
+  first refuses a missing literal namespace in a dynamic-BASE template; fresh
+  q9 marks only that namespace inapplicable. All runtime/test guards stay.
+- Finite-q7 matches19517 actual raw instructions and40 complete regions plus
+  registers/CSRs/events/MMIO, transcript8add6704. Exact Pair.effect identity and
+  three repeated direct effect tests pass; those repeats add no unique methods.
+- Benchmark-q8 executes actual Pair.block and old/new UBSan entries over the
+  same400000-callback RV32 loop. Guest counts/state/cache match. Median old
+  1072086212ns versus candidate530710539ns is a2.0201 wall ratio, not router/NPU
+  throughput or complete native performance acceptance.
+- Fresh profile0 probe-ten-q10 passes150 RPCs and ten publications, each24576
+  writes/readbacks plus complete DMA/SRAM/code checks. All177 retained q25 rows/
+  149 positives match except wall_ns. Ordinal9, formerly timed out, completes in
+  43592216169ns; the ten range40839962537-45373008511ns. Fresh profile2 q14 passes
+  139 RPCs/first publication41235315129ns and141 canonical rows except timing.
+  Boot3M/10s and RPC100M/60s remain; no interrupted state or old job was resumed.
+- Fresh tooling167/zero skips and all five complete source/cache inventories
+  match. Prior target/kernel/module producers are revalidated, not rerun. The
+  unchanged400MiB/no swap, C lock and dual backing/RAM margins apply throughout.
+- Source-only physical lead binds three current MCU/shared/caller files to the
+  a840d3cc module producer and records current selected-C test stubs. POWER_OFF
+  uses wait_resp=false; the UNI descriptor sets ACK only for non-NULL wait_seq.
+  MCU exit ignores send status and cannot return its FW-state poll failure;
+  cleanup continues. Stubs return success/false and do not execute real transport
+  or poll failure. Enqueue success alone is not a drain witness; no physical fix
+  or fresh binary/hardware verification is claimed by this source trace.
+- Jev raw probabilities remain evidence, not proof. Implemented checks include
+  arguments0.67, retention0.75, first-error0.65 and handled-context0.91; concrete
+  source inspection, executed fixtures and mutants establish the covered scope.
+  The physical status question remains uncertain0.53; the void signature and
+  standalone caller were inspected directly. No physical completion follows.
+- Lock88502ab3/patchbb457928/four-module producera840d3cc stay. No image/load/
+  router contact/flash. Full native recipe next via full-q21 after clean published
+  blobs/closure checks; verify actual guard/driver/CPU and freeze bound sources.
+  Full physical MCU/queue retention/drain, BA reuse/hot lifetime and current
+  image/actual-client/performance/stability remain. Read native-block-hook report.
+
 ## 2026-10-27 - Failed Full Replay Preserved; Approved VHD Compaction
 
 - Continued solo from11d4aba. Full-q25 is terminal failed: exit1/MainPID0,
