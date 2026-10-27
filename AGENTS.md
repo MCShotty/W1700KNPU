@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Native Observer Counter Reentry Qualified
+
+- Continue solo and keep Ethernet disconnected. No router contact, module load,
+  image, flash, shutdown or Wi-Fi change. Full NPU and physical gates stay open.
+- Host observer profile 7 falls back before custom arithmetic in the examined
+  block/name counters. Four old-adapter state mismatches were reproduced without
+  freeing old objects; six regressions also require reference __iadd__ and exact
+  exception/cache-clear behavior. This is not a demonstrated heap error.
+- Fresh plain and UBSan builds each pass 95 methods, zero skips/errors. All 20
+  compiled mutation controls fail their intended assertions. Finite raw traces
+  match 19,517 instructions and 40 memory regions; 167 tooling methods pass.
+- Ordinary-block timing is essentially unchanged: old/new medians 548839600/
+  555230629ns for 400,000 blocks. Do not call this a speedup or timeout fix.
+  User-only perf sampling of four million blocks makes generic attribute lookup
+  a measured lead in this workload, not the cause of full-q21's timeout.
+- All 294 old native producing versions remain read-only and hash-correct; three
+  live host input paths changed. Old full-q21 receipts do not qualify profile 7.
+  The separate 438 target inputs remain unchanged, as do source lock d55e71a3
+  and qualified RXWI modules. Do not restart unchanged full-q21 or relax limits.
+  Next measure a representative publication and reduce overhead faithfully,
+  preserving dynamic state, fresh SP, counters and all I/O/fault checks. Complete
+  consumer containment/drain, reuse/hot lifetime and image/client gates remain.
+  Read native-observer-reentry REPORT/EVIDENCE before further host edits.
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 - Continue solo and keep Ethernet disconnected. No router contact, module load,

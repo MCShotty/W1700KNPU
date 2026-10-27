@@ -1,5 +1,20 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Native Observer Counter Reentry Qualified
+
+The host observer now preserves the reference callback when counter arithmetic
+can replace live state. Four old-adapter mismatches were reproduced; six new
+regressions pass. Fresh plain/UBSan builds each pass 95 methods, plus 20 compiled
+mutation controls, a matching 19,517-instruction/40-region finite raw trace and
+167 tooling methods. This is observer correctness, not full NPU acceptance.
+
+The 400,000-block benchmark is roughly unchanged, not a timeout fix. A private
+user-only perf run identifies attribute lookup as a lead in that small workload.
+Full-q21 remains failed; native timing, complete physical containment/drain,
+reuse/hot lifetime and current image/real-client acceptance remain. No hardware
+contact or Wi-Fi change; Ethernet stays disconnected. See
+[the observer checkpoint](research/checkpoints/2026-10-27-npu-native-observer-reentry/REPORT.md).
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 The integrated RXWI fix is now target-compiled and executed: its compiled RRO

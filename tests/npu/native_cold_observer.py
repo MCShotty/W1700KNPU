@@ -55,7 +55,7 @@ def load_reviewed(receipt_path):
 
 
 def check_module(module):
-    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 6 or
+    if (CODE != 0x84000000 or getattr(module, 'COLD_OBSERVER_API_VERSION', None) != 7 or
             getattr(module, 'COLD_OBSERVER_PC_REG', None) != r.UC_RISCV_REG_PC or
             getattr(module, 'COLD_OBSERVER_X0_REG', None) != r.UC_RISCV_REG_X0 or
             any(getattr(r, 'UC_RISCV_REG_X' + str(i)) != r.UC_RISCV_REG_X0 + i for i in range(32))):

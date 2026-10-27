@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Faithful Native Timing Still Required
+
+Observer profile 7 fixes reproduced custom-counter state mismatches by using
+the original callback before custom arithmetic. Plain/UBSan each pass 95 methods;
+20 compiled controls, finite raw state and 167 tooling methods pass. No general
+heap-safety or full replay claim follows. The ordinary-block benchmark is not a
+speedup: 548839600ns old versus 555230629ns current median for 400,000 blocks.
+
+User-only sampling of four million blocks identifies generic attribute lookup
+as a measured lead in this small workload, not a causal full-q21 diagnosis.
+Next sample a representative publication, then reduce verified overhead without
+stale metadata, omitted fresh SP/counts/I/O/fault checks or larger budgets.
+Requalify changed inputs before a new full recipe. Old 294 inputs are retained;
+three current host paths changed, while all 438 target inputs stay unchanged.
+Full native, consumer containment/physical drain, BA reuse/hot lifetime, current
+image/board/real-client/performance/stability gates remain. Keep Ethernet
+disconnected. Read native-observer-reentry REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 The RXWI target compile/helper/regression gate is closed for source lockd55e71a3:

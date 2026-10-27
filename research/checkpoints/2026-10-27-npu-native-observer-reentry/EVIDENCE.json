@@ -1,0 +1,1282 @@
+{
+  "format": "w1700k-native-observer-reentry-v1",
+  "passed": true,
+  "facts": {
+    "passed": true,
+    "base_commit": "32ae6139023e560c01d3f695a4d7e7354a4bfd06",
+    "adapter_profile": 7,
+    "read_API": 2,
+    "read_methods": 32,
+    "observer_methods": 63,
+    "methods_per_variant": 95,
+    "variants": [
+      "plain",
+      "ubsan"
+    ],
+    "compiled_mutation_controls": 20,
+    "reproduced_state_mismatches": 4,
+    "old_adapter_regression_failures": 6,
+    "tooling_methods": 167,
+    "finite_instructions": 19517,
+    "finite_memory_regions": 40,
+    "median_wall_ns": {
+      "reference": 548839600,
+      "candidate": 555230629,
+      "python-reference": 1768116517
+    },
+    "baseline_over_candidate": 0.9884894156298427,
+    "sampled_blocks": 4000000,
+    "original_native_preserved": 294,
+    "old_native_live_paths_changed": [
+      "tests/npu/native_cold_observer.py",
+      "tests/npu/native-read-api.c",
+      "tests/npu/test_native_cold_observer.py"
+    ],
+    "unchanged_target_graph_files": 438,
+    "C_output_bytes": 53108211,
+    "source_lock_sha256": "d55e71a34038adbc16dc4d38c126469ff76f64a904d4f6b75fc0612531bd5da7",
+    "physical_hardware": false,
+    "full_native_verdict": false,
+    "timeout_cause_established": false,
+    "heap_error_demonstrated": false,
+    "no_subagents": true,
+    "ethernet_disconnected": true
+  },
+  "production_sources": {
+    "tests/npu/native-read-api.c": "063129ac93f33855b249d843a42cdbce8127506b5fc8021f4ec07632654baf41",
+    "tests/npu/native_cold_observer.py": "fa9592be49c2c9b6c20fd49990eb266327348ac1010d0875a1e89238ac08453f",
+    "tests/npu/test_native_cold_observer.py": "a724931364804ed9696ce718b4ea654170cfd7510a31714de3cd2e0ff42e7dc5"
+  },
+  "patch_shape_verified": true,
+  "tracking": {
+    "AGENTS.md": {
+      "before_sha256": "9f964dcca7b9f8863e29a107f1be1b5070cd26904ee2b65ef71351a3c74b714c",
+      "previous_body_sha256": "41b08cc202f7f8fe04678f29a16e3177f3331895d2b97c260d95db12bd0b75d3",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1709,
+      "sha256": "f503f7c3f91071da94057423fc107e84b0b997abbd2ffbf2b3049e785cab5845"
+    },
+    "README.md": {
+      "before_sha256": "1a8c5abd4f8602363a586ec011f72cef7c89af0c451376c30b2283ceb6c9c2d7",
+      "previous_body_sha256": "73816a3188dee20e1ddeed37994ddb48c2562e9c2c1ad0a1b8f6919e22c6d3c7",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 928,
+      "sha256": "e89fb62c214a0dd2c8372b33e4816cf79fd5ff649f3d872c1dd9a58f734ba459"
+    },
+    "docs/REMAINING_WORK.md": {
+      "before_sha256": "5d551b3cb6b2b6461278ec1617443c32fc0be879f37dec2d81574cebcd509162",
+      "previous_body_sha256": "166741d56b548cc77a1443d86016a2a557637650b3bcbb8d2aeecac7a5b3a397",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1156,
+      "sha256": "41d75fe7600015627cb1606f39e81ad4877b9965404981eba891e744ffc17baa"
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "before_sha256": "0f8fef1a2e767a4ffbe63452b382e4a8e45341931ed4a5597971bd97141e8594",
+      "previous_body_sha256": "acf02054b34f17f3c9aab02a5ff005c70f57bf62b96d97173958624d5d5e39d4",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1476,
+      "sha256": "fcbd692ea533a0ba4c71bd6167991c0cdd6bdd7f7df62c0e551b68e69d175705"
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "before_sha256": "ff35bf80041b5e36dd256b299d1f09d384638b6179f83c438a8e0628a5df340d",
+      "previous_body_sha256": "284a09f90f6ae9cbd36fc9e9464afe5d6a1e09fa81dd4c013c063e86931f0e78",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 3675,
+      "sha256": "43725d223d00ab8b009e6d153eff6aabc832f46fe564d4727f7fccffad5319e3"
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "before_sha256": "ed7d02bcb734b68e41eed987002ac3dbd0a500c63518f1bdb3da34e332ee907b",
+      "previous_body_sha256": "5d8972c8e6a8446ae3e84ccd8273b5bdaf77c2e37169be4e3eb1bc7072681dce",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1016,
+      "sha256": "165c4e9a4d48306c867f265a1067c05ffd7a64b83a80b58f11b5a420eefd8cef"
+    }
+  },
+  "report_sha256": "e53585823c2c11772fa4a213a89b174a86ca9558eb2eba1642ef023f6bd843cb",
+  "retained_artifacts": {
+    ".local/npu-observer-reentry-20261027/before/AGENTS.md": {
+      "sha256": "9f964dcca7b9f8863e29a107f1be1b5070cd26904ee2b65ef71351a3c74b714c",
+      "bytes": 206168
+    },
+    ".local/npu-observer-reentry-20261027/before/README.md": {
+      "sha256": "1a8c5abd4f8602363a586ec011f72cef7c89af0c451376c30b2283ceb6c9c2d7",
+      "bytes": 109167
+    },
+    ".local/npu-observer-reentry-20261027/before/docs/REMAINING_WORK.md": {
+      "sha256": "5d551b3cb6b2b6461278ec1617443c32fc0be879f37dec2d81574cebcd509162",
+      "bytes": 210743
+    },
+    ".local/npu-observer-reentry-20261027/before/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "sha256": "0f8fef1a2e767a4ffbe63452b382e4a8e45341931ed4a5597971bd97141e8594",
+      "bytes": 832561
+    },
+    ".local/npu-observer-reentry-20261027/before/docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "sha256": "ff35bf80041b5e36dd256b299d1f09d384638b6179f83c438a8e0628a5df340d",
+      "bytes": 1689991
+    },
+    ".local/npu-observer-reentry-20261027/before/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "sha256": "ed7d02bcb734b68e41eed987002ac3dbd0a500c63518f1bdb3da34e332ee907b",
+      "bytes": 574943
+    },
+    ".local/npu-observer-reentry-20261027/before/tests/npu/native-read-api.c": {
+      "sha256": "cf6b18d267a80d6a9a7a4469aa47024dc12b17b7a65fa1c24743d65308210c0d",
+      "bytes": 49736
+    },
+    ".local/npu-observer-reentry-20261027/before/tests/npu/native_cold_observer.py": {
+      "sha256": "4af5f6ad098c8c4de2e201875ccc91b20c2da5c60a84604f8d5aef9325f540ec",
+      "bytes": 10883
+    },
+    ".local/npu-observer-reentry-20261027/before/tests/npu/test_native_cold_observer.py": {
+      "sha256": "a499565d709edbb3a719651abbb200ab17e855ea4b1b7e630842670897aee356",
+      "bytes": 60594
+    },
+    ".local/npu-observer-reentry-20261027/before/tests/npu/test_rro_wire_native_pair.py": {
+      "sha256": "9e336bb92dcc7b1b33c9111d1ac5fbf3aa556a3596c28a4007cc109942294a4b",
+      "bytes": 54363
+    },
+    ".local/npu-observer-reentry-20261027/before/tools/build_npu_read_api.py": {
+      "sha256": "a730c7adb102e009b5f0b919a8f53a821ad640afdb8fec3f07bdb36632b0059a",
+      "bytes": 4914
+    },
+    ".local/npu-observer-reentry-20261027/benchmark-derivation-q7.json": {
+      "sha256": "bdcdef210ccabad30114e6acbb4ab219a1ec5cb7fdf5ab4cd0ad826369b04ad5",
+      "bytes": 274
+    },
+    ".local/npu-observer-reentry-20261027/benchmark-q7-budget.json": {
+      "sha256": "72598cdb80915ef3b68850dc6827c91366be669d80fed98d1a7fb265c20ff8db",
+      "bytes": 6732
+    },
+    ".local/npu-observer-reentry-20261027/benchmark-q7-controller.json": {
+      "sha256": "2288aa97aed7099ba6973eb1bae3e0d91bd7051f1f139f10dc0e70ddc86ef548",
+      "bytes": 257
+    },
+    ".local/npu-observer-reentry-20261027/benchmark-q7-host.json": {
+      "sha256": "65cdf23610423a27a206c7218b31a7bf98abd2d6c86e834c139b3f3ba71c67a2",
+      "bytes": 1124
+    },
+    ".local/npu-observer-reentry-20261027/benchmark-q7-windows.json": {
+      "sha256": "936005ac1e497d9991ed49caedce0d2a78a7fb20243b360666803bbd00ba4098",
+      "bytes": 1801
+    },
+    ".local/npu-observer-reentry-20261027/benchmark_q7.py": {
+      "sha256": "300f0f465a48a244f4026b900fb5a02916f325d96a222c669a1b66cf58229f8e",
+      "bytes": 1669
+    },
+    ".local/npu-observer-reentry-20261027/build-derivation-q4.json": {
+      "sha256": "5a02e5c442a89e35f653eaae9fad218926f52bebd15d6f3e7eb4c6a7d5e2b5d7",
+      "bytes": 270
+    },
+    ".local/npu-observer-reentry-20261027/build-q4-budget.json": {
+      "sha256": "0ae9b8ea608d3c24dc8d2f2f898d969447cc1b180a3697fc2a7174b6c9ce09b1",
+      "bytes": 6696
+    },
+    ".local/npu-observer-reentry-20261027/build-q4-controller.json": {
+      "sha256": "104f96226bbdd8eade9d0db8711a77dc027144d2fca89e632e311e50978f4eec",
+      "bytes": 258
+    },
+    ".local/npu-observer-reentry-20261027/build-q4-host.json": {
+      "sha256": "36d51660b3bd86d758f6057aced470e471f1f13335d2ca57dfe0393a549ef096",
+      "bytes": 1120
+    },
+    ".local/npu-observer-reentry-20261027/build-q4-windows.json": {
+      "sha256": "b45b6eb946f4ef7c6c7548218a5882f5cb3a1eee8963ee21d91ca22d6b956300",
+      "bytes": 1777
+    },
+    ".local/npu-observer-reentry-20261027/build_q4.py": {
+      "sha256": "6456aea6445bbd5c4c8898dc043ba88157ddecf3704d8b58b2789753574125d1",
+      "bytes": 1032
+    },
+    ".local/npu-observer-reentry-20261027/controls-derivation-q5.json": {
+      "sha256": "3bb50bb8103db447ea2118904a17d9baed4b6cbcc15ee53745442ba5f2c4584c",
+      "bytes": 273
+    },
+    ".local/npu-observer-reentry-20261027/controls-q5-budget.json": {
+      "sha256": "273cbe2e822a7e49036abd767a0f80ba39c308c04754838741ba4c03cc3e840c",
+      "bytes": 6723
+    },
+    ".local/npu-observer-reentry-20261027/controls-q5-controller.json": {
+      "sha256": "fcda404c5e1306ab623e1d12dd35af6735767694d51c66cf5f45068967a59273",
+      "bytes": 259
+    },
+    ".local/npu-observer-reentry-20261027/controls-q5-host.json": {
+      "sha256": "7d5863f95001fdf743dd23b6c24c4b5246b22c914cc5ed202e63d3ba1a1ecd8c",
+      "bytes": 1123
+    },
+    ".local/npu-observer-reentry-20261027/controls-q5-windows.json": {
+      "sha256": "56eef67587bd0986a7e0154988beb3cc30ce21a9769f78c1a9906bca646f70d1",
+      "bytes": 1795
+    },
+    ".local/npu-observer-reentry-20261027/controls_q5.py": {
+      "sha256": "bc5310edd54560aac43140f46429e33d75625754bf60d1f72b28c57bdbffda28",
+      "bytes": 2123
+    },
+    ".local/npu-observer-reentry-20261027/facts-derivation-q11.json": {
+      "sha256": "023509f8ae9f2c2595a1c97bf1356f15afa349f127efced416d73a2710348414",
+      "bytes": 368
+    },
+    ".local/npu-observer-reentry-20261027/facts-q10-budget.json": {
+      "sha256": "571506934058c7b452e3f5324507cad3d0f7185f379a55925fcaef5e2e37b95c",
+      "bytes": 6705
+    },
+    ".local/npu-observer-reentry-20261027/facts-q10-controller.json": {
+      "sha256": "4787af65be4dcfd82adc3d48988a6c350df926c539e03f7c418493c2178b776b",
+      "bytes": 254
+    },
+    ".local/npu-observer-reentry-20261027/facts-q10-host.json": {
+      "sha256": "711b3f42e3425d1cfa7008109a0a11afff173fcb1c28bb62ce786a2737be0280",
+      "bytes": 1121
+    },
+    ".local/npu-observer-reentry-20261027/facts-q10-windows.json": {
+      "sha256": "4c62fb36c5bc29d28e3026866946fe01f65b2e19209e339b034e602331d2eaf1",
+      "bytes": 1783
+    },
+    ".local/npu-observer-reentry-20261027/facts-q11-budget.json": {
+      "sha256": "046a0c3474deb8d70d6360bd9fe630cd668cb3e18090f6c66d3bd0c1deffd296",
+      "bytes": 6705
+    },
+    ".local/npu-observer-reentry-20261027/facts-q11-controller.json": {
+      "sha256": "8d7654559b8d4e0426ccad1b19a7f21de23461ff6e610aaff33f1c61348fd121",
+      "bytes": 253
+    },
+    ".local/npu-observer-reentry-20261027/facts-q11-host.json": {
+      "sha256": "7c7d59f5008a74dd35a3cff11951d5d3cc475fea11af1a6ea0d11100606b8a2a",
+      "bytes": 1121
+    },
+    ".local/npu-observer-reentry-20261027/facts-q11-windows.json": {
+      "sha256": "56d4a7e4be24ffbfe42dfa1b339497af4f16cf04a4c986238f9cfe63b8546441",
+      "bytes": 1783
+    },
+    ".local/npu-observer-reentry-20261027/facts-q11.json": {
+      "sha256": "81c72067a74d5aa5ff3df4735d6f4d63df7212e32baff27f6ae9c0c39b379b19",
+      "bytes": 1196
+    },
+    ".local/npu-observer-reentry-20261027/facts_q10.py": {
+      "sha256": "1f050485cc55f414f09681100fabf5c62e24b5a8c4dea140b328397e5eb3f6ab",
+      "bytes": 6224
+    },
+    ".local/npu-observer-reentry-20261027/facts_q11.py": {
+      "sha256": "dc038f1127e0799d25b02f3659633d3031a6d765812a0a716dcd364994d75ef1",
+      "bytes": 1101
+    },
+    ".local/npu-observer-reentry-20261027/finite-derivation-q6.json": {
+      "sha256": "7e598d09184976291edd9c30412d5b880c184e1354471281df47553764a08c70",
+      "bytes": 275
+    },
+    ".local/npu-observer-reentry-20261027/finite-q6-budget.json": {
+      "sha256": "91dcaa96f200af31acf6df91828128a5f71c9c4d9cc8af1e3466b5af71b6551d",
+      "bytes": 6705
+    },
+    ".local/npu-observer-reentry-20261027/finite-q6-controller.json": {
+      "sha256": "7d656d2554fee2a1bbb1594be1554ac6c5768d772b13b200cd0348d267541a3f",
+      "bytes": 259
+    },
+    ".local/npu-observer-reentry-20261027/finite-q6-host.json": {
+      "sha256": "b5680a868da9a8b3c7cc8312351c9a1f1515b73940e104f05643c1d4c6893b50",
+      "bytes": 1121
+    },
+    ".local/npu-observer-reentry-20261027/finite-q6-windows.json": {
+      "sha256": "42d67f5874170ec442be6ab841b9bb4e44d3a5e6fb70c8275a89aa541d177c36",
+      "bytes": 1783
+    },
+    ".local/npu-observer-reentry-20261027/finite_q6.py": {
+      "sha256": "40e0d80d5a82d9a92df5092c8cf66a501538acc2f905040bec8d1f57d0d1a24a",
+      "bytes": 877
+    },
+    ".local/npu-observer-reentry-20261027/guard_phase_q1.py": {
+      "sha256": "6aec43a5cb11069657ce780820fa744db7a731ccdd5de88cecc1c9f9d741c38f",
+      "bytes": 1758
+    },
+    ".local/npu-observer-reentry-20261027/jev-scope-q1.request.json": {
+      "sha256": "fb70d1ebe0a0220037aaf0c08bde43e921b51931fe9a0b56ae26bb0fd0a98d0b",
+      "bytes": 6250
+    },
+    ".local/npu-observer-reentry-20261027/jev-scope-q1.result.json": {
+      "sha256": "5d6ec67059acbfdcaa683d57c8bfd3c5958b9a16a69e0a6d67f3708f1501bf4f",
+      "bytes": 1578
+    },
+    ".local/npu-observer-reentry-20261027/jev-verify-q11.request.json": {
+      "sha256": "b824cae00f43b1ac26e3c1fcef8e37084cb8e57554a7d4369c966355fac57814",
+      "bytes": 10344
+    },
+    ".local/npu-observer-reentry-20261027/jev-verify-q11.result.json": {
+      "sha256": "02faef1e8c3ef128bfaeebd2bd4b9648057682a343f0a6d3e8f1fd04852009c0",
+      "bytes": 2120
+    },
+    ".local/npu-observer-reentry-20261027/launch_phase_q1.py": {
+      "sha256": "95c880a365201d8d2f216d2fa2e2a8190d2e16748498498d2a79b460eda24b49",
+      "bytes": 1104
+    },
+    ".local/npu-observer-reentry-20261027/perf-q8-budget.json": {
+      "sha256": "02bc4215d140642163b071b9a57376b4f00bc1bd64eb19fafe73c17cca57a469",
+      "bytes": 6687
+    },
+    ".local/npu-observer-reentry-20261027/perf-q8-controller.json": {
+      "sha256": "3dfe61b4ba089ea82327f51c502d88beb6cb652e4c2923b44eda6ff1405de314",
+      "bytes": 260
+    },
+    ".local/npu-observer-reentry-20261027/perf-q8-host.json": {
+      "sha256": "9d8c7a554179100234c0bad74d320030519af1aae6b41cc194fda6101173a4e0",
+      "bytes": 1119
+    },
+    ".local/npu-observer-reentry-20261027/perf-q8-windows.json": {
+      "sha256": "e3396b977a17b4bff8f93043ba039a3e728d974cafeb534bfcd4b133d0a55a84",
+      "bytes": 1771
+    },
+    ".local/npu-observer-reentry-20261027/perf_q8.py": {
+      "sha256": "f62bd24a018a3435eac6bc5a4d0a6d5b40213fc7fe64bd9d1c10c948bf8d41db",
+      "bytes": 3321
+    },
+    ".local/npu-observer-reentry-20261027/prepare_q1.py": {
+      "sha256": "a4f10e08f855f548f8654da730af498b9ccdfe113eb564e346ce36ee62ff7950",
+      "bytes": 3831
+    },
+    ".local/npu-observer-reentry-20261027/refresh-q1.json": {
+      "sha256": "e506fc9bd0c6c36b97f5d6f8d075cbf96c61c7c9486c7bf5cad85b9e934086f1",
+      "bytes": 4359
+    },
+    ".local/npu-observer-reentry-20261027/regression-q3-budget.json": {
+      "sha256": "75d9b060bcf98f03f52bb32aea5bdee59f1366da17d06352136edbcf10beb73c",
+      "bytes": 6741
+    },
+    ".local/npu-observer-reentry-20261027/regression-q3-controller.json": {
+      "sha256": "bd89c4657e6ab1f06b168565a7f80dea8b00b8957989649904bee5c3799e873c",
+      "bytes": 256
+    },
+    ".local/npu-observer-reentry-20261027/regression-q3-host.json": {
+      "sha256": "f5dcd1e57986f4211dd820f4ff750d0f9baae8583ed34d485446e14058f1f3b5",
+      "bytes": 1125
+    },
+    ".local/npu-observer-reentry-20261027/regression-q3-windows.json": {
+      "sha256": "c7174012b0b29a7ddf0e9e4375ca9fc1e25bace08cb36c87ca614b2b199de174",
+      "bytes": 1807
+    },
+    ".local/npu-observer-reentry-20261027/regression_q3.py": {
+      "sha256": "a43909f7b3c11b46a85824e81b20658d23223702752c9fc332f21c6d27a5120f",
+      "bytes": 1293
+    },
+    ".local/npu-observer-reentry-20261027/reproduce-q2-budget.json": {
+      "sha256": "9794b1e702f43e88d2d0b81e04e41666055f24a86b2fa83ea2d2d3e09fd69d57",
+      "bytes": 6732
+    },
+    ".local/npu-observer-reentry-20261027/reproduce-q2-controller.json": {
+      "sha256": "b2fd0cf13c43453a02e0318d3aac96f8b280de10e42faa639744cdf9716df3e7",
+      "bytes": 256
+    },
+    ".local/npu-observer-reentry-20261027/reproduce-q2-host.json": {
+      "sha256": "764ffafa0ab5039fa56b7a5b0c34c69cf91c172aa70c74bb52b762a87951d01f",
+      "bytes": 1124
+    },
+    ".local/npu-observer-reentry-20261027/reproduce-q2-windows.json": {
+      "sha256": "e42ab5fba77836ac2e4140e33d4973e6bbf912e21cabf1381f39f041d69eae79",
+      "bytes": 1801
+    },
+    ".local/npu-observer-reentry-20261027/reproduce_q2.py": {
+      "sha256": "8aa3172b774ec1f9c6d2f2180eb0971af8a9cdbd74c93725cc3da773da3e2b14",
+      "bytes": 2806
+    },
+    ".local/npu-observer-reentry-20261027/seal-q12-budget.json": {
+      "sha256": "96620203e1534d09663ab55de28569b0f7ddb6bb956ce6297674a2402e7aa5ae",
+      "bytes": 6696
+    },
+    ".local/npu-observer-reentry-20261027/seal-q12-host.json": {
+      "sha256": "d1c7b7f3b58a7d37d16fec45fa7e1da2465fa56f4fb67ca2b2615c63a8e7e336",
+      "bytes": 1120
+    },
+    ".local/npu-observer-reentry-20261027/seal-q12-windows.json": {
+      "sha256": "c010b58d9825d9b84da908db2d4d2bcec57b5ad7ff5a76e48de518e0a22376bc",
+      "bytes": 1777
+    },
+    ".local/npu-observer-reentry-20261027/seal_q12.py": {
+      "sha256": "8d6d5f43379e3e4cb76f7d1bbd0052502186f787a038bf709414ab55604c19fb",
+      "bytes": 5641
+    },
+    ".local/npu-observer-reentry-20261027/tooling-derivation-q9.json": {
+      "sha256": "15a4badef732299f34b032df2f1df7959d2357ed087f258c6d94b70a0249797c",
+      "bytes": 336
+    },
+    ".local/npu-observer-reentry-20261027/tooling-q9-budget.json": {
+      "sha256": "9924fa87b7394882a34e02d7ff3075f2643c549955258689c3b51ad972313e19",
+      "bytes": 6714
+    },
+    ".local/npu-observer-reentry-20261027/tooling-q9-controller.json": {
+      "sha256": "55da2adc9e44e5c1c554d0b3f12c41f5bac8debb3fcd6eca72bde958a1a43573",
+      "bytes": 257
+    },
+    ".local/npu-observer-reentry-20261027/tooling-q9-host.json": {
+      "sha256": "a08b2c65779a68531a2d05b50569ba9ce968a5ae633333d2982973f1c82f29fe",
+      "bytes": 1122
+    },
+    ".local/npu-observer-reentry-20261027/tooling-q9-windows.json": {
+      "sha256": "4efb15f22a845a955b3e685d9fff56714cd5ae52db8f965e9dfedf01538f47be",
+      "bytes": 1789
+    },
+    ".local/npu-observer-reentry-20261027/tooling_q9.py": {
+      "sha256": "e50baa0c4e0a10295cf3cca94feced92c0135deba679a6d1575857d904ada33a",
+      "bytes": 948
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/cache-native.log": {
+      "sha256": "a5f88c2dd0cfe86d79ab843662cee39b217e2be6820ad18d7974662fc432e03c",
+      "bytes": 165
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/cache-reference.log": {
+      "sha256": "0a8db4d23d2a008fd430c347d288a52da8bdbc6153d1822e96773562147afc78",
+      "bytes": 147
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/counter-native.log": {
+      "sha256": "1ea3ea327f3ebfea1cbdc49a8269a20008611355f96a39080accfe02963fa058",
+      "bytes": 162
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/counter-reference.log": {
+      "sha256": "53e52201e4f6ca7d6b396a27797600de8fde87a95cf6a0534140d8d7c1e1aa00",
+      "bytes": 139
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/minimum-native.log": {
+      "sha256": "44bc6553a74c47c52f1f9345ba9d73cd48116c604756de451c46b22ba4654e70",
+      "bytes": 173
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/minimum-reference.log": {
+      "sha256": "36132ac3ecf528d1be7923c8eeb7be5c83a50db5e192348ba96eb4e6a35f4adc",
+      "bytes": 173
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/per-name-native.log": {
+      "sha256": "7a77f06a4778c3386c18bbb213f429d81933c8baec3fc2fe6a3075f19421cbef",
+      "bytes": 163
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/per-name-reference.log": {
+      "sha256": "a48c20b0c13ee10c70a82dfce60aa7b734908e949a539c0dcf061fc03861c360",
+      "bytes": 152
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-reproduce-q2/result.json": {
+      "sha256": "ea2346a61e933ee47f66715343b98a1ac3dafe3e79975aae1b8eacb4d0c8cecb",
+      "bytes": 3101
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-regression-q3/regressions.log": {
+      "sha256": "e22befd5fa7ef9459ae79e325270502ead3527a9e3b9c2257097b91c81c0dd26",
+      "bytes": 7114
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-regression-q3/result.json": {
+      "sha256": "574dc2410c73ea51d9d5faf0a013e01088772e25fea34202e5e30fad59739a27",
+      "bytes": 129
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions/tests/npu/native-read-api.c": {
+      "sha256": "063129ac93f33855b249d843a42cdbce8127506b5fc8021f4ec07632654baf41",
+      "bytes": 50514
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions/tests/npu/native_cold_observer.py": {
+      "sha256": "fa9592be49c2c9b6c20fd49990eb266327348ac1010d0875a1e89238ac08453f",
+      "bytes": 10883
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions/tests/npu/test_native_cold_observer.py": {
+      "sha256": "a724931364804ed9696ce718b4ea654170cfd7510a31714de3cd2e0ff42e7dc5",
+      "bytes": 63857
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions/tests/npu/test_rro_wire_native_pair.py": {
+      "sha256": "9e336bb92dcc7b1b33c9111d1ac5fbf3aa556a3596c28a4007cc109942294a4b",
+      "bytes": 54363
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions/tools/build_npu_read_api.py": {
+      "sha256": "a730c7adb102e009b5f0b919a8f53a821ad640afdb8fec3f07bdb36632b0059a",
+      "bytes": 4914
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/input-versions.json": {
+      "sha256": "a826df2a706f4e39dd9065086c187d5c0c40e2fa153fc2159d9b82e1f83251f5",
+      "bytes": 1378
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "8f6795b1b28749834b356ad7e48a85932ea23272ffe9ac4bc5bad365352927a9",
+      "bytes": 173400
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/build.json": {
+      "sha256": "43bbbea886fe5f45a87cba2ce0ed063aafb6d38efb5cc569e497dd906c92d518",
+      "bytes": 7176
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/cold-observer-units.json": {
+      "sha256": "9718c1e08051ed032e2d649b18ff607b044820b906d2ddbc7c88aa89993ce802",
+      "bytes": 83
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/cold-observer-units.log": {
+      "sha256": "dd060bb7ae2f92aa912922b18aafa350d6ad9ba424e0d70dab7e01778933abe2",
+      "bytes": 11438
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/read-api-units.json": {
+      "sha256": "f94834d7008186f4c9114e291b9ebfc3bccebf63137b7e4b3275c188e0c81909",
+      "bytes": 83
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain/read-api-units.log": {
+      "sha256": "48ef3eec688733d31090f66a24db6814a0389be5dcf6bc2a54dee69f88977c1b",
+      "bytes": 7520
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/plain-build.log": {
+      "sha256": "1bdd8099722dc76c7c05a0286af285bd80f66d975ba3c685f0cee3da26108928",
+      "bytes": 278
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/result.json": {
+      "sha256": "575d97e88938f985843b6a8a163009b4e09afca120259d59a2026bcb1f311767",
+      "bytes": 16675
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "79f91fc4dd1ec564458e035513f58736b847cfd4899de3ee045870b530bcd4ab",
+      "bytes": 280048
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/build.json": {
+      "sha256": "47042a9b31d045f8a3ce8bfd6e3e6c875960a08ee1277697ee72dc623cea0b3a",
+      "bytes": 7243
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/cold-observer-units.json": {
+      "sha256": "9718c1e08051ed032e2d649b18ff607b044820b906d2ddbc7c88aa89993ce802",
+      "bytes": 83
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/cold-observer-units.log": {
+      "sha256": "180099254f4a4cfc13ccefa968f72e5aa5e9e4b436d6bbad1906f330b6bc26dc",
+      "bytes": 11438
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/read-api-units.json": {
+      "sha256": "f94834d7008186f4c9114e291b9ebfc3bccebf63137b7e4b3275c188e0c81909",
+      "bytes": 83
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/read-api-units.log": {
+      "sha256": "2791c595441c33b43f2a17b5378d7cb77f1351e242ae2ec63067d0bb1843fa16",
+      "bytes": 7520
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan-build.log": {
+      "sha256": "6035f5a452903b3667f599b8292fb5a3b0a1a487d49d74ab3e80d0d447bb4b29",
+      "bytes": 278
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "437a45a291a52faca7dc976f4e0519d70610adc0f16250f8977c2f706a24cb54",
+      "bytes": 280216
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/build.json": {
+      "sha256": "013135453c974ae5a13ba44de9ba92c7e8c834ba5c93d1e7ea75035a96cd5274",
+      "bytes": 1226
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/control.log": {
+      "sha256": "d4eed471b9ac1af8b2a9328c8541dabea26f8428b8a6ccd81811c4af379b414c",
+      "bytes": 906
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-block-miss/mutant.c": {
+      "sha256": "811bb0334faf05bcc6506adf88bfaf4923023c7a87568772d6f01c6d625594b0",
+      "bytes": 50477
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "5f934a5be1f4b1f135d566e7417725df4e30bc88d258b6bad2cd52f6b19deb31",
+      "bytes": 279760
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/build.json": {
+      "sha256": "c1beb23f44185281afc65b9eb7a487ff7278ab1ce8c27979f1977007373e972f",
+      "bytes": 1254
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/control.log": {
+      "sha256": "4ea65fe66bbd45a3a7a12a04c436bb484d17fe34d63f02e33e172712f0ac192b",
+      "bytes": 1106
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/bypass-memory-exclusions/mutant.c": {
+      "sha256": "8ab0dcdec162e958ea382b9bad6f7a391f26860d53fb8336c4a93a00158faf7b",
+      "bytes": 50519
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "4050072ca5e6f5cb187fa7b5fb22c587ba4ea2173aa763392c34471141166719",
+      "bytes": 281560
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/build.json": {
+      "sha256": "bfcff1f68c55309da18c97fee062153279214772e3801649fd1b822a61ba7c7e",
+      "bytes": 1218
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/control.log": {
+      "sha256": "741932310e8abd3b0d2b9c00ecfef13cb8470b4018d9754da17a053494eadc50",
+      "bytes": 1157
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-counter/mutant.c": {
+      "sha256": "f81df897606eb4f970f8478562519dbdee48209d61e9800da82fa9d89b166009",
+      "bytes": 50524
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "17afaf5fcb13a18cf8eebb9d6d05f582f3122b24725ea9b58e3104144bc7ccce",
+      "bytes": 280320
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/build.json": {
+      "sha256": "11ea71eabcf538c79b1cb59436764c7c823c96fcac675d177058ab2355fcf530",
+      "bytes": 1254
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/control.log": {
+      "sha256": "c8a6c320a984c7ea4d5cb2192afc11a9f5ff44bc5426bfe73ad470eef7ca2fc1",
+      "bytes": 1188
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/coarsen-metadata-counter/mutant.c": {
+      "sha256": "7c78857dc1427e609e435e240ec38ae2e5fe462587bc0ad4e9e4185fb1190e27",
+      "bytes": 50577
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "88007bed9d788427d4a686c659cb36a7540e6d2c994f50abd4d619c25c0e6a74",
+      "bytes": 280232
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/build.json": {
+      "sha256": "ab478d91bf63b78bae40bf441c48fe026b2b1ccc2fe2b3a050fdbcf9b524c281",
+      "bytes": 1250
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/control.log": {
+      "sha256": "88c9425743d44664c7e460e895409bc7a047030a280dd4e07b2a5b782e825b20",
+      "bytes": 966
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/count-before-sp-failure/mutant.c": {
+      "sha256": "6814134737bf588ea3dbab414855af7e5416afe0807e9b322658ff6a090906c8",
+      "bytes": 50591
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "cff92f7ce798d25820a11b4666e1eed70fdbdfdf26e63d2efa6983630145b447",
+      "bytes": 279936
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/build.json": {
+      "sha256": "c4882e6839b4568f71b64d6f0b5049a6592de0b2d6c45db205e9d877181f4c6b",
+      "bytes": 1278
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/control.log": {
+      "sha256": "6efa4e4c7a709161f8ff0253ad10439b9d274caf47c6d0636f3d8b369d2e0bfd",
+      "bytes": 1295
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-block-counter-unguarded/mutant.c": {
+      "sha256": "0d36cbe9e3b655641e4e9ada24112a82ab45872fc41a9ad67cd0d3ebe5ca52c6",
+      "bytes": 50461
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "f0dfabe256533bc06c0135e1c7285353d341cbf42c9b12998bc122162dd1a937",
+      "bytes": 279344
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/build.json": {
+      "sha256": "356e5e5f0ee1ec79665ea5a249f5a11c5dbf27dc404473c59e5244a5ba3e0b18",
+      "bytes": 1274
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/control.log": {
+      "sha256": "d967c702afb337a24fd29676d35a964f525ed837012f4a8855086fc81038380d",
+      "bytes": 1327
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/custom-name-counter-unguarded/mutant.c": {
+      "sha256": "60124cf4c5de137d9aceb7c82948ef343d40de72fe38b792e46550603070d122",
+      "bytes": 50455
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "bcbaea2d41782ea3b245d9f139291f68378990f46f9f989595ab503e34661976",
+      "bytes": 280168
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/build.json": {
+      "sha256": "47a2b02b18a3286e50eded9a256eb5d2b0b7631e4d9311d4c2d7d01be51e7df8",
+      "bytes": 1218
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/control.log": {
+      "sha256": "8d4c63437ce72eec5cb45d1615985250dbef88c73195fa391d34ed17224f04a3",
+      "bytes": 1333
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/discard-timeout/mutant.c": {
+      "sha256": "55f2058b866dbf826f20b35c8716634059238e4e469bcbc82cfd5537c31183a6",
+      "bytes": 50506
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "ffe82fcd46ba93344804ac3744876d1a0b04123bf40999a60f8c1ba42e952144",
+      "bytes": 282944
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/build.json": {
+      "sha256": "265a097514459032f24bc9d5659612b698237ca49b4f66a6e734e9509295749a",
+      "bytes": 1210
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/control.log": {
+      "sha256": "00bbea17972dc1225e6faac6208f96a6b83dc6d22ff43be19024fbba08582b34",
+      "bytes": 1526
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-keywords/mutant.c": {
+      "sha256": "0a6037eaacd430c9fa63582bce29106f0ff246014b9eef9b7a6b0673d06b551b",
+      "bytes": 50642
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "ef09c1974c82709e78a2a63376ab5b1274d35953e41cdbf1b790dca47a66b472",
+      "bytes": 280208
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/build.json": {
+      "sha256": "19eaf0930efd917f39b2fd78602cc2f23d4cdd059538cb4a60b30b0b323de184",
+      "bytes": 1242
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/control.log": {
+      "sha256": "4634eb319a83a097b381c04a1374e11244406aeafa92d37e648b0ef2eab5f2ba",
+      "bytes": 1416
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/drop-positional-count/mutant.c": {
+      "sha256": "de00ff16f8b509f1ee771bc4982af6f41fd6ca9a86c488715238fdb67379da20",
+      "bytes": 50590
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "f4820d499e42f51dd1dfc59af12aa33eb3f12c7627cf0ef7cc9bd9a9eefae32f",
+      "bytes": 280208
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/build.json": {
+      "sha256": "bba97af20d05070ff2d694046cf97aa3e5a671f279b4d30ab86b7636f8ebde87",
+      "bytes": 1250
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/control.log": {
+      "sha256": "0fd6c0683ca238c05a8bdd37414e51cbb5da4ee443d839c4bcb56f659519ca3c",
+      "bytes": 983
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/missing-preinit-pointer/mutant.c": {
+      "sha256": "2b410599a14d90a1e9faa497177dec6ca6f8bb1a8585ae55680fccf2f84f9b82",
+      "bytes": 50535
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "747be3f1389ddf166e8f3573e4a6175c49159a158ff085ca68e2e13922c3fbb2",
+      "bytes": 280216
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/build.json": {
+      "sha256": "0e1fd8061370f7005b739f7f6045aeea606acee9f709047b1bf9ee6a92c66994",
+      "bytes": 1254
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/control.log": {
+      "sha256": "4527723b51a4f6914516bd1e7a9a95abb59a5c8767358dd94c58e20a7eba948a",
+      "bytes": 1061
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-arguments-swapped/mutant.c": {
+      "sha256": "c2ce710168aa5d40b429709a8fdf7fedd218e1906bda90f8e72aed8f1cf4cac6",
+      "bytes": 50514
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "e44687410793f72be2ffedad0f9a55ba404a3f7ee47ec74717e55f5defb8c766",
+      "bytes": 280328
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/build.json": {
+      "sha256": "4b676d72d93991535889fdc950e78a2cdd9a1a1fc6ee4c5d42c600c3a1382802",
+      "bytes": 1278
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/control.log": {
+      "sha256": "e7b150a2fd96532fdb57e0e0c77458ad4963b9fa080e68d7e46d203f8c2f1ef8",
+      "bytes": 1318
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-handled-context-omitted/mutant.c": {
+      "sha256": "6367c4cfec578e875a7a4bfb106a6f55b19f931b10351930fba6c5b45f33f9df",
+      "bytes": 50493
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "9897371a15df4de1f10d36885529258e4f5e0818cd9fd2176fb83794dde8cfce",
+      "bytes": 279896
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/build.json": {
+      "sha256": "8e5ed846d636861e6ef05e97006b1196c1ea93f3988e0ac0cbc93d3a732fd5d4",
+      "bytes": 1290
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/control.log": {
+      "sha256": "61647cc3f94ec07d324cfefad1430dc2eaa73d2daba143ed44480620a92da77f",
+      "bytes": 1377
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/native-inflight-reference-omitted/mutant.c": {
+      "sha256": "6f8e04b1144b019d1cbcc23c4307179aed5bec9716cc656963261549f6d5f6cb",
+      "bytes": 50504
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "5725fc68722b34d8c724b3b11ac332b728ee4a3561819fd151ee75159f1a2dc2",
+      "bytes": 280152
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/build.json": {
+      "sha256": "4edbe37f41934c9ff33043fffc851cbe45a7358ec85ee493fc66ead6b176c069",
+      "bytes": 1222
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/control.log": {
+      "sha256": "900e6a7fefbbb48de51a6916e85a10dc3696e70d6dd83de69f781375035e14e6",
+      "bytes": 1135
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-block-count/mutant.c": {
+      "sha256": "f3789b41a6c3b5160ca94449fcabf7b9db1e691b7c771724800bb0bc8ec76c13",
+      "bytes": 50519
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "c35ec79f74611046a79b4758d1df554e30bf642124918b942c68afe36349de23",
+      "bytes": 279976
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/build.json": {
+      "sha256": "77fdcbb9a80388394515781e253c55efe2a2fef45497206cf84e90550fd5454e",
+      "bytes": 1234
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/control.log": {
+      "sha256": "97cfe6a00d9b6be511699716002ba1b73a217433fb158c319aef68b5383d4d25",
+      "bytes": 1170
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-dynamic-return/mutant.c": {
+      "sha256": "3c08b663865effc9d797aa3be2b6bd94e4b6bc60be31029e1cac091fbcf527ad",
+      "bytes": 50466
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "7433818105abbad2d0a3b9ac25eed1cdb3b96899f22bb63c0eedb1d62c8d204a",
+      "bytes": 264568
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/build.json": {
+      "sha256": "b8ae55566351b4eba69cc0a3fb6fc828d268e0b26669cdbe117d944905a0d588",
+      "bytes": 1214
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/control.log": {
+      "sha256": "e083d978092bdcf99371d0bc58a0ca6389f586a50a9a6776ce954fe6d5792921",
+      "bytes": 1211
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/omit-fresh-csr/mutant.c": {
+      "sha256": "06266660685a6dac0a4c3659a33214946c14b7520f8dae572ed8630f9b30cb9c",
+      "bytes": 50521
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "c006602f407b8f7badc85d70c09f13f7d1b321c59a8c4eaa7b749d7b92e11119",
+      "bytes": 280376
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/build.json": {
+      "sha256": "ca96fc1e7eca224921da9868864a2230c9110653e919690b45758b0e23a83af2",
+      "bytes": 1262
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/control.log": {
+      "sha256": "3807330662e349edce1486ee58027cacc5172088da778ec23617792c2621c74e",
+      "bytes": 1018
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/replace-original-exception/mutant.c": {
+      "sha256": "3bcef2f4b8beb7bdc0b7c961a4f3ec3930b6b88a9c14f7f6d8cb3664edbc9e52",
+      "bytes": 50701
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/result.json": {
+      "sha256": "fbd2b49244d49dc25935ffc2b08eb454a877323995246373d9bf6ebf456c3a2a",
+      "bytes": 8006
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "5b33de65d6aca305bbeac2c66eb763479509da7de49bf26624f22797848d4f45",
+      "bytes": 279856
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/build.json": {
+      "sha256": "de1cfdb26d8ec4568ed56c95cec914d441b8a2bb4fedac4a71b77f0bb24c7376",
+      "bytes": 1214
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/control.log": {
+      "sha256": "11cadc47f93ff3b8cf87f987b0a761b2709fc8841ffd5ad1519ec78c504e728b",
+      "bytes": 945
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-block-sp/mutant.c": {
+      "sha256": "5e57c6f7deb2535a43a7bd406f2ea7ad93c905593322bbc026a19195082919e3",
+      "bytes": 50478
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "sha256": "5e0f31ba8a2f2ec35879a27ed13ec9301e2bb265d6763da92e662257fae6a146",
+      "bytes": 279152
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/build.json": {
+      "sha256": "4e96d1e7e9422b38b624c908b62e081eb5338c445df029868733d863f45c4c06",
+      "bytes": 1226
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/compile.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/control.json": {
+      "sha256": "4ec48467de62078daeb46d99322a1406a3516402c5755322eb4f6a37af4b3562",
+      "bytes": 92
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/control.log": {
+      "sha256": "ac2d510098ecf50b67de535bb70ab5568a5c16e4113a182609834439557add2e",
+      "bytes": 1132
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-controls-q5/stale-metadata-sp/mutant.c": {
+      "sha256": "5fd04a1320523e64d6cfa18c1e34b603a8340472475ecd308c5bc0d2582fe74a",
+      "bytes": 50478
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-finite-q6/candidate-transcript.json": {
+      "sha256": "8add6704554cdb085bd6dd4bb31a559abe4de0e29625ed266402b7da5ceb80a8",
+      "bytes": 660473
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-finite-q6/reference-transcript.json": {
+      "sha256": "8add6704554cdb085bd6dd4bb31a559abe4de0e29625ed266402b7da5ceb80a8",
+      "bytes": 660473
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-finite-q6/result.json": {
+      "sha256": "1ad13460408b13f0e98f58becc1d73cfe7aac72afbc53f5d419bce7f287e68fb",
+      "bytes": 1170
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-0.json": {
+      "sha256": "90d41bdf9ce54bc48101c1e91d2d72d4bfe69499b4eaa409ee20e9adf28b0322",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-1.json": {
+      "sha256": "52a2fd2432240d1a680c491b336fd89b7584c3a8261a9b607dd54c6c46595ff5",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-2.json": {
+      "sha256": "65cee794cb8ca0f5f010a00b236a833299e460af71d41f8f4a98e357fdf2b23a",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/candidate-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/loop.bin": {
+      "sha256": "37d46cefa5dd0f9c0cc8ca52b3e5bf47cf92626005e2ebb3208240f0f4895edd",
+      "bytes": 16
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/program.json": {
+      "sha256": "a36163e4b0593c24f7cec551cff529939cf8690eecc8f66c750886a386a78f59",
+      "bytes": 505
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/python-reference-0.json": {
+      "sha256": "b1771f01998d3ed845752ba4a787f013e04a046e8e32fa3696de40dd8f178460",
+      "bytes": 621
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/python-reference-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-0.json": {
+      "sha256": "a4f178d2982d21f172b2ea17df30ebaffb14185dc5c21866e94323d5759bfedb",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-1.json": {
+      "sha256": "3d690e0d4bc7d6c5404e735f0dc18990196584dc40c234b6eb684c71e435e071",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-2.json": {
+      "sha256": "270992ae955037c2c8f810f13fe852cf886d0f2bf48720d3b0045c05587311b4",
+      "bytes": 678
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/reference-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-benchmark-q7/result.json": {
+      "sha256": "13ad8fc6020b4cc54c17befb6d66d95905cc612abc5d4d5f372fc45ff5402425",
+      "bytes": 7663
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/annotate.log": {
+      "sha256": "b3d831be46f2ee5232b89495d421848e531ee1a504474947d3cf2b8e06f7ae1f",
+      "bytes": 49628
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/candidate-profile.json": {
+      "sha256": "889c4b35f824dd9baa9759f89988f10104918af89ac362391ee7055ce5f9f4f9",
+      "bytes": 682
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libdebuginfod1t64-download.log": {
+      "sha256": "8d878cb518fb1d6410736ad619c8879ab103478209635d95b4cad6728199091e",
+      "bytes": 135
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libdebuginfod1t64-extract.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libdebuginfod1t64-package.log": {
+      "sha256": "baacb2d0ea37873b267e72273f8995c4f4032fe57999b50f3c6fa75a3426dbd7",
+      "bytes": 1872
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libdebuginfod1t64_0.194-4_amd64.deb": {
+      "sha256": "2d1eacbaf69feb2ba6a775e53606b2bf85cd975f7a3832d4d46d414443241b6e",
+      "bytes": 20688
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libtraceevent1-download.log": {
+      "sha256": "e621bac7c9483950aa11384297a7542cd8200a099a76a58eaa491a3f2cd14102",
+      "bytes": 133
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libtraceevent1-extract.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libtraceevent1-package.log": {
+      "sha256": "8f1bc38b8aa8e286fe0814d7c5af752a23dcbd5028acb921941aef5d565dcc86",
+      "bytes": 1106
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/libtraceevent1_1%3a1.8.7-1_amd64.deb": {
+      "sha256": "da1d7942e60a041bb9938cf6eeb5acd61171d5673c86784c45165b5edc97847b",
+      "bytes": 61400
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/linux-perf-download.log": {
+      "sha256": "cc62feb4bea6bb51f2edd9b32b4a54e3b56210cf8b84704b18e4784faa5290f8",
+      "bytes": 140
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/linux-perf-extract.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/linux-perf-package.log": {
+      "sha256": "e02af5b208bac6ffbd10eb2c3dee0b7624acddb7e77c743db0059eca330b573e",
+      "bytes": 1142
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/linux-perf_7.0.0-38.38_amd64.deb": {
+      "sha256": "c09e0183f04bab0a74015b0eb5055879ffa8c7b778ad5ab02224954bea2dfe46",
+      "bytes": 7118580
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/perf.data": {
+      "sha256": "12f2eda78ed7c44588b116d1c95736a4aca4e54c3496bc2448c6874afe9aed2a",
+      "bytes": 287000
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/record.log": {
+      "sha256": "b3dd74aec1853c363898ce728b8433ef23d0253ebbb272b0c7629491fd74fce6",
+      "bytes": 187
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/report.log": {
+      "sha256": "4f166e8972eeef4808f903e1cbe022ae92f6b16461f89dd834d5c2a876005f41",
+      "bytes": 3381
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/result.json": {
+      "sha256": "ddb14634371539adb10fa7a11956f7ef9f96bc65980c1a415ab1f77f5fe5f7ea",
+      "bytes": 1567
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/version.log": {
+      "sha256": "496b3d503a88d37a5f9137643742e6101b6a7f183075dd04d279982e92dcc662",
+      "bytes": 20
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-tooling-q9/units-current-q1-result.json": {
+      "sha256": "12aa8d8bec8b47922879644df0190d79da1fa1f2583e2a12c53a6759a3389189",
+      "bytes": 3229
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-tooling-q9/units-current-q1.log": {
+      "sha256": "9447ee2f78b73b530274b02b3e99292b2a4cace14f0ea751fb4314cc8ded86e7",
+      "bytes": 25737
+    },
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/bin/perf": {
+      "sha256": "1371ae5cb9fa59632d1d0e34b877d7251df4029810ba67dc56e946545e87b531",
+      "bytes": 25192472
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs-q1.json": {
+      "sha256": "c36a9679bb5538c36bc02699d89068f354b915296e06f92f0e8915f620d89cfb",
+      "bytes": 96472
+    },
+    ".local/npu-rxwi-target-20261027/plan-q2.json": {
+      "sha256": "3a0bbeb6d54b5efb63c2470451a4681f2e9b05c5b306b1688d43ac6b8a84abad",
+      "bytes": 58544
+    }
+  },
+  "Jev_actual_responses": {
+    "jev-scope-q1.result.json": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "dynamic_counter": {
+          "type": "noul",
+          "noul": 0.13
+        },
+        "numeric_callback": {
+          "type": "noul",
+          "noul": 0.84
+        },
+        "lifetime_probe_scope": {
+          "type": "noul",
+          "noul": 0.12
+        },
+        "timing_cause": {
+          "type": "noul",
+          "noul": 0.21
+        }
+      },
+      "usage": {
+        "input_tokens": 1828,
+        "output_tokens": 76
+      }
+    },
+    "jev-verify-q11.result.json": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "custom_arithmetic_fallback": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "state_and_iadd_tests": {
+          "type": "noul",
+          "noul": 0.57
+        },
+        "removed_fresh_SP": {
+          "type": "noul",
+          "noul": 0.15
+        },
+        "full_native_acceptance": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "heap_error": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "attribute_timeout_cause": {
+          "type": "noul",
+          "noul": 0.04
+        }
+      },
+      "usage": {
+        "input_tokens": 2927,
+        "output_tokens": 122
+      }
+    }
+  },
+  "failed_mode_verifier_preserved": true,
+  "old_native_receipts_are_historical": true,
+  "complete_runtime_archived": false,
+  "limitations": [
+    "Custom-numeric observer regression scope, not universal reentrancy or heap safety.",
+    "Finite raw transcript, host benchmark and sampling do not qualify full native replay.",
+    "No physical DMA drain, kernel lifetime, image, board or client acceptance."
+  ]
+}

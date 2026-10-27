@@ -1,5 +1,54 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Native Observer Counter Reentry Qualified
+
+- Continued solo from 32ae613. Verified original full-q21 terminal failed and
+  both RXWI dependent phases stopped. No replay, queue, hardware or compaction
+  was restarted. Ethernet remains disconnected; no Wi-Fi association change.
+- Four bounded old-adapter probes reproduce replaced-counter, minimum, cache
+  and per-name counter mismatches. Old names/counters are retained deliberately:
+  these are semantic failures, not a demonstrated use-after-free. Six mainline
+  regressions fail against the old adapter, including __iadd__ versus __add__,
+  exact cache-clear refusal and original exception identity.
+- Profile 7 preflights the examined block/name counter values and delegates
+  custom arithmetic to the actual reference callback before native increments.
+  Read API 2, normal counter/fresh-SP reads, miss byte/range/forbidden-PC checks,
+  gateway ownership and I/O/fault logic remain. This is not universal callback
+  reentrancy or heap-safety qualification; other dynamic hooks still need care.
+- Fresh plain and UBSan builds each pass 32 read/CSR plus 63 observer methods,
+  zero failures/errors/skips. Twenty independent compiled controls each fail
+  one intended assertion, including both new preflight omissions. Finite raw
+  traces match all 19,517 instructions and 40 memory regions. Fresh 167 tooling
+  methods pass. These finite/model/tooling checks do not close full native work.
+- Alternating old/current ordinary-block medians are 548839600/555230629ns for
+  400,000 callbacks, identical guest counts/state. The ratio 0.9884894156 is not a
+  speedup or timeout fix. Python reference ran once; do not imply three samples.
+- Privately extracted Ubuntu perf and two libraries, with package SHA checks,
+  sample four million actual RV32 block callbacks at cpu-clock:u/997Hz. Kernel
+  policy/global packages stay unchanged. Zero samples are reported lost; generic
+  attribute lookup is the largest named entry at 10.03%, block_call at 7.36%.
+  Sampling includes worker startup and no call chains. This is a measured lead
+  in this workload, not causal attribution for profile2 publication 119.
+- All 294 original native producing files remain read-only and hash-correct;
+  three live host paths changed and have fresh source-bound build receipts.
+  Old full-q21 receipts remain historical. All 438 target inputs still hash
+  unchanged, preserving RXWI module/source qualification. Lock d55e71a3 and
+  mt76/kernel patch identities stay. No new firmware/module/image compilation.
+- Every guarded phase keeps 400MiB/no swap, 128MiB C output, fresh dual backing
+  budgets, full cap plus margin and the held C writer lock. Existing failures
+  and producing versions remain. Six previous tracking bodies are preserved.
+  Jev judgments are retained, including a preliminary reference-reading answer
+  contradicted by direct source/tests; they do not override executable evidence.
+- Preserve facts-q10's failed mode assumption and missing-request Jev attempt:
+  no inference occurred for that attempt. Retained executable input mode 0555
+  is correctly read-only. Fresh facts-q11 requires exact recorded modes and no
+  write bits; all 294 retained versions and 438 current target inputs pass.
+  Jev's later fidelity answers remain uncertain; direct tests/controls establish
+  only their explicitly covered execution contract, not universal reentrancy.
+- Full goal remains active: faithful native timing, complete consumer owner/
+  containment/drain, BA reuse/hot lifetime and image/board/real clients remain.
+  Read research/checkpoints/2026-10-27-npu-native-observer-reentry/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 - Continued solo fromca05dff. Original full-q21 invocation6c1bc5ff is terminal

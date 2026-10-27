@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Native Observer Counter Reentry Qualified
+
+From 32ae613, source-bound host profile 7 checks block/name counter values before
+native increments and falls back for custom arithmetic. Four old-adapter state
+mismatches are reproduced without freeing old objects; six fresh regressions
+also check __iadd__, cache clearing and original exception identity. This is a
+fidelity fix, not demonstrated heap corruption or firmware-root-cause evidence.
+
+Fresh plain/UBSan each pass 95 methods; 20 independently compiled controls fail
+one intended assertion each. Finite raw traces match 19,517 instructions and 40
+memory regions. All 167 tooling methods pass, zero skips/errors. Old/current
+400,000-block medians are 548839600/555230629ns: no claimed speedup. User-only
+perf samples four million blocks, zero lost samples, with attribute lookup the
+largest named entry in this bounded workload, not full-q21 causal attribution.
+
+All 294 historical native versions remain read-only/hash-correct; three live
+host paths changed. Current builds qualify those new paths, not an old full
+recipe. All 438 target inputs remain unchanged; source lock d55e71a3 and RXWI
+module qualification stay. Full-q21 is still terminal failed. No full restart,
+limit relaxation, image/load/router contact/flash or Wi-Fi change. Keep Ethernet
+disconnected; complete native/physical/reuse/hot/image/client gates remain.
+Read research/checkpoints/2026-10-27-npu-native-observer-reentry/REPORT.md.
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 Fromca05dff, the dependency queue completed after original full-q21 stopped.

@@ -1,5 +1,21 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Native Observer Counter Reentry Qualified
+
+Continued solo from 32ae613, Ethernet disconnected. Four retained-object probes
+reproduce old native observer mismatches; six new regressions fail old code.
+Profile 7 falls back before custom arithmetic in the examined counters. Fresh
+plain/UBSan each pass 95 methods; 20 compiled controls fail as intended, finite
+raw state matches 19,517 instructions/40 regions, and 167 tooling methods pass.
+
+Ordinary-block timing is roughly unchanged, not a timeout fix. Private user-only
+perf sampling of four million blocks gives an attribute-lookup lead, not a full
+replay diagnosis. All 294 old native producing versions remain read-only; three
+live host paths changed and all 438 target inputs remain unchanged. RXWI module
+qualification stays. No replay restart, larger limits, image/load/router contact,
+flash, compaction or Wi-Fi change. Full native/physical/reuse/hot/image/client
+gates remain. Read native-observer-reentry REPORT/EVIDENCE before continuing.
+
 ## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
 
 Continued solo fromca05dff. Full-q21 is now failed/exit1/MainPID0, not live.

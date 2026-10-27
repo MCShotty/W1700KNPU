@@ -715,6 +715,15 @@ static PyObject *block_reference(BlockObserver *self, PyObject *const *args,
     return PyObject_Vectorcall(self->original, args, nargsf, kwnames);
 }
 
+static int block_plain_counter_item(PyObject *counts, PyObject *key)
+{
+    PyObject *value = PyDict_GetItemWithError(counts, key);
+
+    if (!value)
+        return PyErr_Occurred() ? -1 : 1;
+    return PyLong_CheckExact(value);
+}
+
 static PyObject *block_call(PyObject *object, PyObject *const *args,
     size_t nargsf, PyObject *kwnames)
 {
@@ -775,6 +784,19 @@ static PyObject *block_call(PyObject *object, PyObject *const *args,
     for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(names); i++)
         if (!PyUnicode_CheckExact(PyTuple_GET_ITEM(names, i)))
             return block_reference(self, args, nargsf, kwnames);
+    /* Custom arithmetic can replace the counter, cache or stack minimum. */
+    status = block_plain_counter_item(counts, field_keys[F_BLOCKS]);
+    if (status < 0)
+        return NULL;
+    if (!status)
+        return block_reference(self, args, nargsf, kwnames);
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(names); i++) {
+        status = block_plain_counter_item(counts, PyTuple_GET_ITEM(names, i));
+        if (status < 0)
+            return NULL;
+        if (!status)
+            return block_reference(self, args, nargsf, kwnames);
+    }
     if (!check_reader(reader))
         return NULL;
     self->fast_calls++;
@@ -1376,7 +1398,7 @@ PyMODINIT_FUNC PyInit__npu_read_api(void)
     if (PyModule_AddObjectRef(result, "ColdObserver", (PyObject *)&ColdObserverType) < 0 ||
         PyModule_AddObjectRef(result, "BlockObserver", (PyObject *)&BlockObserverType) < 0 ||
         PyModule_AddObjectRef(result, "MemoryObserver", (PyObject *)&MemoryObserverType) < 0 ||
-        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 6) < 0 ||
+        PyModule_AddIntConstant(result, "COLD_OBSERVER_API_VERSION", 7) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_PC_REG", UC_RISCV_REG_PC) < 0 ||
         PyModule_AddIntConstant(result, "COLD_OBSERVER_X0_REG", UC_RISCV_REG_X0) < 0) {
         Py_DECREF(result);

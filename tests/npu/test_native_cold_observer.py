@@ -521,6 +521,81 @@ ret
         self.assertEqual(h.min_sp,CODE + 0x21d00 - 64)
         self.assertEqual(observer.stats(),dict(fast=4,reference=1,inactive=0))
 
+    def block_counter_reentry(self, mode, native):
+        h,reader,observer = self.block_owner()
+        key = (PROGRAM,4)
+        held_names = tuple(['entry','loop'])
+        h.block_cache[key] = held_names
+        held_counts = h.counts
+        replacement = Counter(entry=40,loop=50)
+        lower = CODE + 0x21000
+        h.cpu.reg_write(r.UC_RISCV_REG_SP,CODE + 0x21d00)
+        calls = []
+        error = RuntimeError('counter arithmetic marker')
+
+        class Value:
+            def __iadd__(self, other):
+                calls.append(('iadd',other))
+                if mode in ('counter','per-name'):
+                    h.counts = replacement
+                elif mode == 'minimum':
+                    h.min_sp = lower
+                elif mode == 'cache':
+                    h.block_cache[key] = tuple(['changed'])
+                elif mode == 'clear-cache':
+                    h.block_cache.clear()
+                elif mode == 'exception':
+                    raise error
+                return 1
+
+            def __add__(self, other):
+                calls.append(('add',other))
+                return self.__iadd__(other)
+
+        held_counts['entry' if mode == 'per-name' else 'blocks'] = Value()
+        caught = None
+        try:
+            (observer if native else h.block)(h.cpu,PROGRAM,4,None)
+        except (KeyError,RuntimeError) as failure:
+            caught = failure
+        if mode == 'exception':
+            self.assertIs(caught,error)
+            held_counts.clear()
+        elif mode == 'clear-cache':
+            self.assertIsInstance(caught,KeyError)
+            self.assertEqual(caught.args,(key,))
+        else:
+            self.assertIsNone(caught)
+        self.assertEqual(calls,[('iadd',1)])
+        if native:
+            self.assertEqual(observer.stats(),dict(fast=0,reference=1,inactive=0))
+        return dict(counts=dict(h.counts),old_counts=dict(held_counts),minimum=h.min_sp,
+                    cache=dict(h.block_cache),calls=calls)
+
+    def test_block_custom_arithmetic_reloads_current_counter(self):
+        self.assertEqual(self.block_counter_reentry('counter',False),
+                         self.block_counter_reentry('counter',True))
+
+    def test_block_custom_arithmetic_reloads_current_minimum(self):
+        self.assertEqual(self.block_counter_reentry('minimum',False),
+                         self.block_counter_reentry('minimum',True))
+
+    def test_block_custom_arithmetic_reloads_current_cache(self):
+        self.assertEqual(self.block_counter_reentry('cache',False),
+                         self.block_counter_reentry('cache',True))
+
+    def test_block_custom_arithmetic_reloads_counter_for_each_name(self):
+        self.assertEqual(self.block_counter_reentry('per-name',False),
+                         self.block_counter_reentry('per-name',True))
+
+    def test_block_custom_arithmetic_preserves_cleared_cache_refusal(self):
+        self.assertEqual(self.block_counter_reentry('clear-cache',False),
+                         self.block_counter_reentry('clear-cache',True))
+
+    def test_block_custom_arithmetic_preserves_exception_identity(self):
+        self.assertEqual(self.block_counter_reentry('exception',False),
+                         self.block_counter_reentry('exception',True))
+
     def test_inactive_blocks_are_noops_and_metadata_changes_use_reference(self):
         h,reader,observer = self.block_owner()
         h.rpc_active = False
