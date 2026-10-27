@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Token/RRO And Complete Ownership Remain
+
+Nonempty ordinary RX/TX compiled cleanup now passes64 cases/seven controls,
+14 actually entered bodies and23 source/module bindings. Failed modeled MCU
+polling still reaches selected retirement calls. Actual MT7996 outer cases keep
+TXWI_NO_FREE; generic flag-clear cache tests do not close its nonempty token IDR
+or real connac SKB callback. Kernel/DMA/pool effects remain models. Complete
+consumer allocation/devres/context retention and physical containment/drain,
+token/RRO, reuse/hot and current image/board/client acceptance stay open.
+
+Original full-q16 continues with advancing CPU and all332 frozen/read-only
+inputs verified. Corrected17 prefix1239 positives/129 publications/323 reset
+triplets is not profile/full acceptance. Before-q16 reset/MCU zero counters had
+wrong labels; use source-derived corrected counts. Keep limits/margins/lock,
+no restart or competing compile/sampling. Ethernet disconnected, no hardware
+change. Read rxtx-native REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-27 - Complete Consumer Ownership Still Required
 
 Selected compiled consumer RX cleanup now passes35 cases/six mutation controls

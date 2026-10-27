@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
+
+- Added test_consumer_rxtx_native.py. Current producer92c75156/core3011a796/
+  radiod7cad6df,23 input bindings. Final q15 passes64 cases/seven emulator-byte
+  controls and four equal send-return trace groups. Fourteen bodies enter;
+  mapped mt76_dma_tx_cleanup wrapper/NPU RX helper do not enter in this matrix.
+- Nonempty ordinary RX executes compiled flush-DONE writes, queue decrement/
+  tail wrap and buffer clear before modeled page returns/pool destruction.
+  Nonempty TX checks two payload unmaps/skip bits, copied SKB entries, entry
+  clear, NPU DONE clear, hardware-index resync and waiter wakeup. Isolated source
+  capacities/boundaries include RX1536, ordinary TX2048/NPU1024, MCU256/FWDL128;
+  synthetic combinations are not captured physical allocation topology.
+- MT7996 outer cases preserve its actual TXWI_NO_FREE flag. Only labeled generic
+  flag-clear cases execute cache insertion and shared compiled cache draining,
+  with modeled metadata unmap/free once in reverse order. Nonempty MT7996 token
+  IDR and the actual connac SKB callback are not executed. Kernel/SKB/physical
+  effects remain models; no physical drain/UAF or working retention fix is shown.
+- Preserve q10's missing-inline-symbol failure, q13's one-case cleared-flag probe,
+  q14's consumed source and q15's corrected entered/mapped accounting. Repeated
+  64-case runs do not add unique cases. Previous q7/35-case inputs remain unchanged.
+- Original full-q16 invocation20c8f1ab remains live with advancing CPU and all332
+  frozen/read-only inputs verified. Corrected17 prefix1239 positives/129
+  publications/323 RESET+MCU_BEGIN+MCU_COMPLETE each is not acceptance. Before-q16
+  zero reset/MCU counts used wrong labels; preserve old helper/snapshot, use IDs
+  parsed from producing source. Full original limits/caps/margins/lock stay.
+- Independent analysis192MiB/no swap/Nice19/C-write EROFS/zero C output; final q15
+  reports92.4MiB peak/27.973s, not a firmware benchmark. No restart, competing
+  compile/sampling or production edit/compile/module/image/load/hardware change.
+  Ethernet stays disconnected. Six tracking bodies preserved. Read rxtx-native
+  REPORT/EVIDENCE. Complete native/owner/drain/token/RRO/reuse/hot/image/board/client
+  gates remain; no additional compaction. Full NPU goal remains active.
+
 ## 2026-10-27 - Compiled Consumer RX Cleanup Contract
 
 - Added test_consumer_dma_native.py: seven retained AArch64 radio/core cleanup

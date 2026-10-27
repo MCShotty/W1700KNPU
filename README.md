@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
+
+The consumer replay now covers nonempty ordinary RX/TX:64 cases/seven mutation
+controls,14 entered compiled bodies and23 source/module bindings. Kernel, SKB,
+DMA and pool effects remain models. MT7996 outer cases keep TXWI_NO_FREE;
+generic cache retirement is not token-reclamation proof. Full native replay
+continues unchanged; physical ownership/drain, reuse/hot and board/client gates
+remain. No production/module/image or hardware change. Ethernet stays disconnected.
+Scope: `research/checkpoints/2026-10-27-npu-consumer-rxtx-native/REPORT.md`.
+
 ## 2026-10-27 - Compiled Consumer RX Cleanup
 
 A new source-bound replay executes seven retained AArch64 radio/core cleanup

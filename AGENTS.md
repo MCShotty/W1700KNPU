@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
+
+- Continue solo, Ethernet disconnected. New test_consumer_rxtx_native.py passes
+  64 cases/seven emulator-byte controls with current producer92c75156 and23
+  inputs. Fourteen compiled bodies actually enter; two mapped regions do not.
+  Ordinary RX flush forces software DONE, clears buffers and reaches modeled
+  page returns/pool destruction; TX payload and NPU descriptor paths execute.
+- Every outer MT7996 fixture keeps TXWI_NO_FREE. Generic flag-clear cases alone
+  exercise TXWI cache insertion/retirement. Do not call that MT7996 token proof:
+  nonempty token IDR and the real connac SKB callback remain unexecuted. Kernel,
+  SKB, DMA-unmap/pool/free and physical effects remain models, not a retention fix.
+- Preserve q13's old one-case/cleared-flag probe and q14's consumed source. Q15
+  distinguishes14 entered/16 mapped regions and checks four equal send-return
+  trace groups; repeated64-case runs are not128. Isolated queue geometries do
+  not establish a captured physical topology. Read rxtx-native REPORT/EVIDENCE.
+- Full-q16 stays original20c8f1ab/driver137844/start5470636 with advancing CPU;
+  all332 live/read-only inputs verify. Corrected17 prefix1239 RPCs/129 publications/
+  323 RESET/MCU_BEGIN/COMPLETE each is not a verdict. Before-q16 reset/MCU zero
+  counters used wrong labels; preserve them, use source-derived corrected counts.
+- No production edit/compile/module/image/load/contact/flash or Wi-Fi change.
+  Freeze replay inputs; keep limits/caps/margins/lock, no restart/competing compile/
+  sampling. Full native, complete owner/drain, token/RRO, reuse/hot and board/client
+  gates remain. Full NPU goal is active; do not repeat completed compaction.
+
 ## 2026-10-27 - Compiled Consumer RX Cleanup Contract
 
 - Continue solo; keep Ethernet disconnected. New test_consumer_dma_native.py

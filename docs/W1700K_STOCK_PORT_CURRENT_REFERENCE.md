@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
+
+Current producer92c75156/core3011a796/radiod7cad6df now has64 ordinary RX/TX
+cases/seven instruction controls,14 entered bodies/16 mapped regions and23
+input bindings. Four equal send-return trace groups include failed modeled MCU
+polling. Ordinary RX forces software DONE on flush; TX payload/index/NPU DONE
+cleanup executes. Kernel, SKB, DMA-unmap/pool/free and physical effects are models.
+
+MT7996 outer fixtures keep TXWI_NO_FREE. Generic flag-clear cache retirement
+does not establish nonempty token IDR or actual connac SKB behavior. No physical
+drain/UAF or retention fix is proven. Preserve q13/q14 source versions; q15 is
+current, not128 cases. No production source/module/image/hardware changes.
+Original full-q16 stays live20c8f1ab/driver137844/start5470636; all332 inputs and
+read-only copies verify. Corrected17 prefix1239 RPCs/129 publications/323 reset
+triplets is not a verdict. Before-q16 reset/MCU labels were wrong, now parsed
+from producing source. Keep frozen inputs/caps/limits/margins/lock; no restart/
+competing compile/sampling. Ethernet disconnected. Complete owner/drain, token/
+RRO, reuse/hot and image/board/client gates remain. Read rxtx-native REPORT/EVIDENCE.
+
 ## 2026-10-27 - Compiled Consumer RX Cleanup Contract
 
 Current producer92c75156/core3011a796/radiod7cad6df now has a source-bound replay

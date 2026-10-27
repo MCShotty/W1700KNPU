@@ -1,5 +1,21 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
+
+Solo compiled consumer replay now passes a64-case ordinary RX/TX matrix/seven
+controls:14 entered bodies,23 bindings, four equal send-return groups. MT7996
+outer fixtures keep TXWI_NO_FREE; generic cache/free cases are not token proof.
+Kernel/SKB/DMA/pool/physical effects remain models. Preserve q13/q14 producing
+versions and previous q7 inputs; no production or new target/module/image change.
+
+Full-q16 stays original20c8f1ab with advancing CPU and all332 frozen/read-only
+inputs verified. Corrected17 prefix1239 positives/129 publications/323 reset
+triplets is not a verdict. Before-q16 reset/MCU labels were wrong; preserve the
+old observation, use producing-source-derived IDs. No restart/competing compile/
+sampling. Ethernet disconnected; no load/contact/flash/Wi-Fi change or new
+compaction. Full ownership/drain/token/RRO/reuse/hot/image/client gates stay.
+Six prior tracking bodies preserved; read rxtx-native REPORT/EVIDENCE.
+
 ## 2026-10-27 - Compiled Consumer RX Cleanup Contract
 
 Solo source-bound consumer replay now executes seven retained AArch64 cleanup
