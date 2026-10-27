@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Compile And Qualify FW-TXP Source Fix
+
+Source now decodes MT7996 FW-TXP DMA high bits and masks its length correctly,
+integrated in lockcc128c3b/patch73ccff87. Native old-code replay reproduces36
+wrong argument cases of90/four controls; default correct contract fails on that
+old producer. Static style/18-file patch/export checks pass. No target compile
+or execution of the new fix has run. Producer92c75156/modules remain pre-fix.
+
+After original full-q16 is actually terminal, build fresh modules and require
+the new test's default correct contract90/four controls plus RXWI/MCU/RX-TX/
+broader regressions. Do not promote an image or infer a physical fault/drain.
+Token IDR/RRO/full consumer/devres/context lifetime, physical containment/drain,
+reuse/hot and current image/board/client acceptance remain. All417 old producer
+inputs verify with three preserved aliases; all332 live replay inputs stay frozen.
+Audit27 prefix3060 RPCs/129 publications/930 reset triplets is not a full verdict.
+Ethernet disconnected; no restart/competing compile/sampling or hardware change.
+Read txp-dma-decode REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-27 - Token/RRO And Complete Ownership Remain
 
 Nonempty ordinary RX/TX compiled cleanup now passes64 cases/seven controls,

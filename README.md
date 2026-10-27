@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - FW-TXP DMA Decode Source Fix
+
+Retained compiled code reproduces malformed FW-TXP unmap arguments in36 of90
+cases. The MT7996 source fix is integrated in patch73ccff87/lockcc128c3b;
+strict style,18-file reconstruction and source-export checks pass. Target
+compilation/execution is pending behind the unchanged full native replay.
+Old modules are pre-fix; baseline reproduction is not fixed acceptance or
+physical-fault proof. Ethernet remains disconnected. Scope and next gates:
+`research/checkpoints/2026-10-27-npu-txp-dma-decode/REPORT.md`.
+
 ## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
 
 The consumer replay now covers nonempty ordinary RX/TX:64 cases/seven mutation

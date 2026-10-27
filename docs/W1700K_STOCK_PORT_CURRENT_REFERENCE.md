@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
+
+Native pre-fix MT7996/connac bodies reproduce malformed FW-TXP DMA-unmap
+arguments in36 of90 cases/four controls: high address bits are dropped and
+included in length. PCI declares36-bit streaming/32-bit coherent masks. This
+does not establish an assigned high address or physical failure on the W1700K.
+
+Local FW decode is integrated in lockcc128c3b/patch73ccff87. MAC tail/shared
+connac remain; strict checkpatch,18-file zero-fuzz reconstruction and OpenWrt79/
+LuCI5 exports pass. Target compile/execution remains pending. Producer92c75156/
+modules are pre-fix; all417 inputs verify with three preserved aliases. Baseline
+q26 behavioral_contract_pass=false is reproduction, not fixed acceptance.
+
+After original full-q16 terminal state, qualify fresh modules/default correct
+90/four controls and wider regressions. All332 live/read-only inputs stay;
+audit27 prefix3060 positives/129 publications/930 reset triplets is not full
+acceptance. No restart/competing compile/sampling, load/image/flash/Wi-Fi change.
+Ethernet disconnected. Complete token/RRO/consumer/physical/reuse/hot/image/board/
+client gates remain; read txp-dma-decode REPORT/EVIDENCE. Full NPU goal active.
+
 ## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
 
 Current producer92c75156/core3011a796/radiod7cad6df now has64 ordinary RX/TX

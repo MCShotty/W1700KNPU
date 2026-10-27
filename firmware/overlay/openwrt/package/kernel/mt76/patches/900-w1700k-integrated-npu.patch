@@ -1226,7 +1226,29 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	amsdu_info = FIELD_GET(MT_RXD4_NORMAL_PAYLOAD_FORMAT, rxd4);
-@@ -1551,10 +1629,13 @@
+@@ -1183,7 +1261,20 @@
+ 	u32 val;
+ 
+ 	if (!(le32_to_cpu(txwi[7]) & MT_TXD7_MAC_TXD)) {
+-		mt76_connac_txp_skb_unmap(mdev, t);
++		struct mt76_connac_fw_txp *fw;
++		int i;
++
++		fw = (void *)(txwi_ptr + MT_TXD_SIZE);
++		/* The FW length field also carries streaming DMA address bits. */
++		for (i = 0; i < fw->nbuf; i++) {
++			val = le16_to_cpu(fw->len[i]);
++			addr = le32_to_cpu(fw->buf[i]);
++#ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
++			addr |= (dma_addr_t)FIELD_GET(MT_TXP_DMA_ADDR_H, val) << 32;
++#endif
++			dma_unmap_single(mdev->dma_dev, addr,
++					 FIELD_GET(MT_TXP_BUF_LEN, val), DMA_TO_DEVICE);
++		}
+ 		return;
+ 	}
+ 
+@@ -1551,10 +1642,13 @@
  			 struct sk_buff *skb, u32 *info)
  {
  	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
@@ -1242,7 +1264,7 @@ build input; compilation is not a physical drain or recovery proof.
  	type = le32_get_bits(rxd[0], MT_RXD0_PKT_TYPE);
  	if (type != PKT_TYPE_NORMAL) {
  		u32 sw_type = le32_get_bits(rxd[0], MT_RXD0_SW_PKT_TYPE_MASK);
-@@ -1563,6 +1644,10 @@
+@@ -1563,6 +1657,10 @@
  			     MT_RXD0_SW_PKT_TYPE_FRAME))
  			type = PKT_TYPE_NORMAL;
  	}
@@ -1253,7 +1275,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	switch (type) {
  	case PKT_TYPE_TXRX_NOTIFY:
-@@ -1576,9 +1661,15 @@
+@@ -1576,9 +1674,15 @@
  		napi_consume_skb(skb, 1);
  		break;
  	case PKT_TYPE_RX_EVENT:
@@ -1269,7 +1291,7 @@ build input; compilation is not a physical drain or recovery proof.
  		for (rxd += MT_TXS_HDR_SIZE; rxd + MT_TXS_SIZE <= end; rxd += MT_TXS_SIZE)
  			mt7996_mac_add_txs(dev, rxd);
  		dev_kfree_skb(skb);
-@@ -1594,6 +1685,7 @@
+@@ -1594,6 +1698,7 @@
  		}
  		fallthrough;
  	default:
@@ -1277,7 +1299,7 @@ build input; compilation is not a physical drain or recovery proof.
  		dev_kfree_skb(skb);
  		break;
  	}
-@@ -1736,6 +1828,8 @@
+@@ -1736,6 +1841,8 @@
  	local_bh_enable();
  
  	mt7996_rx_token_put(dev);
@@ -1286,7 +1308,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  int mt7996_rro_msdu_page_add(struct mt76_dev *mdev, struct mt76_queue *q,
-@@ -2153,6 +2247,10 @@
+@@ -2153,6 +2260,10 @@
  	struct mt7996_phy *phy;
  	int i, ret;
  
@@ -1297,7 +1319,7 @@ build input; compilation is not a physical drain or recovery proof.
  	if (dev->hif2) {
  		mt76_wr(dev, MT_INT1_MASK_CSR, 0x0);
  		mt76_wr(dev, MT_INT1_SOURCE_CSR, ~0);
-@@ -2175,29 +2273,21 @@
+@@ -2175,29 +2286,21 @@
  
  	/* disable all tx/rx napi */
  	mt76_worker_disable(&dev->mt76.tx_worker);
@@ -1335,7 +1357,7 @@ build input; compilation is not a physical drain or recovery proof.
  			local_bh_disable();
  			napi_schedule(&dev->mt76.napi[i]);
  			local_bh_enable();
-@@ -2275,10 +2365,11 @@
+@@ -2275,10 +2378,11 @@
  	mt7996_for_each_phy(dev, phy)
  		clear_bit(MT76_RESET, &phy->mt76->state);
  
@@ -1351,7 +1373,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	mt76_worker_enable(&dev->mt76.tx_worker);
  	return ret;
-@@ -2317,13 +2408,13 @@
+@@ -2317,13 +2421,13 @@
  	rcu_read_unlock();
  }
  
@@ -1367,7 +1389,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	dev->recovery.hw_full_reset = true;
  
-@@ -2331,7 +2422,9 @@
+@@ -2331,7 +2435,9 @@
  	wake_up(&dev->mt76.mcu.wait);
  	ieee80211_stop_queues(hw);
  
@@ -1377,7 +1399,7 @@ build input; compilation is not a physical drain or recovery proof.
  	mt7996_for_each_phy(dev, phy)
  		cancel_delayed_work_sync(&phy->mt76->mac_work);
  
-@@ -2339,8 +2432,16 @@
+@@ -2339,8 +2445,16 @@
  
  	mutex_lock(&dev->mt76.mutex);
  	for (i = 0; i < 10; i++) {
@@ -1395,7 +1417,7 @@ build input; compilation is not a physical drain or recovery proof.
  	}
  
  	if (i == 10)
-@@ -2382,6 +2483,8 @@
+@@ -2382,6 +2496,8 @@
  	ieee80211_wake_queues(mt76_hw(dev));
  
  	ieee80211_restart_hw(mt76_hw(dev));
@@ -1404,7 +1426,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  void mt7996_mac_reset_work(struct work_struct *work)
-@@ -2389,9 +2492,17 @@
+@@ -2389,9 +2505,17 @@
  	struct ieee80211_hw *hw;
  	struct mt7996_dev *dev;
  	struct mt7996_phy *phy;
@@ -1423,7 +1445,7 @@ build input; compilation is not a physical drain or recovery proof.
  	hw = mt76_hw(dev);
  
  	/* chip full reset */
-@@ -2405,7 +2516,9 @@
+@@ -2405,7 +2529,9 @@
  		else
  			dev->recovery.wm_reset_count++;
  
@@ -1434,7 +1456,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  		/* enable mcu irq */
  		mt7996_irq_enable(dev, MT_INT_MCU_CMD);
-@@ -2431,7 +2544,8 @@
+@@ -2431,7 +2557,8 @@
  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
  		mtk_wed_device_stop(&dev->mt76.mmio.wed);
  
@@ -1444,7 +1466,7 @@ build input; compilation is not a physical drain or recovery proof.
  	ieee80211_stop_queues(mt76_hw(dev));
  
  	set_bit(MT76_RESET, &dev->mphy.state);
-@@ -2439,7 +2553,9 @@
+@@ -2439,7 +2566,9 @@
  	wake_up(&dev->mt76.mcu.wait);
  	mt76_abort_scan(&dev->mt76);
  
@@ -1454,7 +1476,7 @@ build input; compilation is not a physical drain or recovery proof.
  	mt7996_for_each_phy(dev, phy) {
  		mt76_abort_roc(phy->mt76);
  		set_bit(MT76_RESET, &phy->mt76->state);
-@@ -2449,36 +2565,48 @@
+@@ -2449,36 +2578,48 @@
  	mutex_lock(&dev->mt76.mutex);
  
  	mt76_worker_disable(&dev->mt76.tx_worker);
@@ -1521,7 +1543,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	/* enable DMA Rx/Tx and interrupt */
  	mt7996_dma_start(dev, false, false);
-@@ -2503,25 +2631,13 @@
+@@ -2503,25 +2644,13 @@
  				     MT_INT_TX_RX_DONE_EXT);
  	}
  
@@ -1548,7 +1570,7 @@ build input; compilation is not a physical drain or recovery proof.
  		local_bh_disable();
  		napi_schedule(&dev->mt76.napi[i]);
  		local_bh_enable();
-@@ -2531,10 +2647,11 @@
+@@ -2531,10 +2660,11 @@
  
  	mt76_worker_enable(&dev->mt76.tx_worker);
  
@@ -1564,7 +1586,7 @@ build input; compilation is not a physical drain or recovery proof.
  
  	ieee80211_wake_queues(hw);
  	mt7996_update_beacons(dev);
-@@ -2546,6 +2663,17 @@
+@@ -2546,6 +2676,17 @@
  					     MT7996_WATCHDOG_TIME);
  	dev_info(dev->mt76.dev,"\n%s L1 SER recovery completed.",
  		 wiphy_name(dev->mt76.hw->wiphy));
@@ -1582,7 +1604,7 @@ build input; compilation is not a physical drain or recovery proof.
  }
  
  /* firmware coredump */
-@@ -2619,7 +2747,7 @@
+@@ -2619,7 +2760,7 @@
  
  void mt7996_reset(struct mt7996_dev *dev)
  {

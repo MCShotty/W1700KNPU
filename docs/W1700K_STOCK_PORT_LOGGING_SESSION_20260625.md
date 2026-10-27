@@ -1,5 +1,21 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
+
+Solo native unmap reproduction finds36 wrong FW-TXP argument cases of90/four
+controls. Local MT7996 decoder source is integrated: lockcc128c3b/patch73ccff87,
+strict checkpatch/18-file reconstruction/79+5 exports pass. MAC/shared helper
+remain. Modules92c75156 are pre-fix; target compile/execution awaits full-q16
+termination. Baseline-bug pass is explicitly not behavioral acceptance.
+
+All417 old module inputs verify with three preserved aliases. All332 live
+replay/read-only inputs stay; original20c8f1ab/driver137844 CPU advances. Audit27
+prefix3060 positives/129 publications/930 reset triplets is not a verdict.
+No restart/competing compile/sampling. Ethernet disconnected; no load/image/
+flash/Wi-Fi change/new compaction. Physical fault/drain and full token/RRO/owner/
+reuse/hot/board/client gates remain. Six prior tracking bodies preserved; read
+txp-dma-decode REPORT/EVIDENCE. Full NPU goal remains active.
+
 ## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
 
 Solo compiled consumer replay now passes a64-case ordinary RX/TX matrix/seven

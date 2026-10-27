@@ -1,5 +1,38 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
+
+- Native MT7996 txwi_free/shared FW unmap reproduces36 malformed argument cases
+  in90/four mutation controls with pre-fix producer92c75156. FW lengths carry
+  DMA35:32 in15:12; old calls truncate address and inflate length. Example
+  expected0x123400000/64 versus observed0x23400000/4160. PCI source declares a
+  36-bit streaming mask distinct from32-bit coherent. No physical fault proven.
+- Added test_txp_dma_unmap_native.py with explicit correct/baseline-bug contracts.
+  q20 correct-contract failure is preserved. q26 baseline pass records behavioral
+  contract false, not candidate acceptance. Fifteen bindings, FW0/1/2/6 buffers,
+  low/high addresses, lengths1/64/4095, null/non-null SKB and MAC controls. Actual
+  DMA/SKB/cache effects and token IDR remain modeled/unexecuted. Preserve q19/
+  q22 sources; repeated90-case runs are not270 unique cases.
+- Integrated local MT7996 FW decoder: reconstruct high address under64-bit DMA
+  config and mask length. Shared connac and MAC tail stay. Strict checkpatch,
+  18-file zero-fuzz/offset patch reconstruction and79/5 source exports pass.
+  New lockcc128c3b/mt76 patch73ccff87; kernel patch/components unchanged. Old417
+  module inputs verify with preserved lock/patch/mac.c aliases.
+- Target compilation and execution of the new source are pending; modules92c75156
+  predate it. After original full-q16 terminal state require fresh modules and
+  correct-contract90/four controls plus RXWI/MCU/RX-TX/wider regressions. No image
+  promotion or load based on the source-only fix. No competing compiler ran.
+- Original full-q16 invocation20c8f1ab/driver137844/start5470636 still advances.
+  All332 inputs/read-only copies verify; source/patch/lock/new test are outside
+  that set. Audit27 prefix3060 checked RPCs/129 publications/930 RESET+MCU_BEGIN+
+  MCU_COMPLETE each is not a full verdict. Original limits/caps/margins/lock stay;
+  no restart or sampling. Analysis192MiB/no swap/Nice19/C-write EROFS/zero C output.
+- Six old tracking bodies are preserved. Jev reviewed source/scope claims with
+  raw probabilities retained. Ethernet disconnected; no module/image/load/flash,
+  Wi-Fi change, shutdown or additional compaction. Full token/RRO/consumer owner,
+  physical drain/reuse/hot/image/board/client gates remain. Full NPU goal active.
+  Read txp-dma-decode REPORT/EVIDENCE and exact baseline/source receipts.
+
 ## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
 
 - Added test_consumer_rxtx_native.py. Current producer92c75156/core3011a796/

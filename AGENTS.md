@@ -1,5 +1,32 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
+
+- Continue solo; Ethernet disconnected. Native pre-fix MT7996 FW-TXP replay
+  reproduces malformed unmap arguments in36 of90 cases/four controls. Writer
+  packs DMA35:32 into length15:12; shared decoder drops address bits and includes
+  them in length. Example expected0x123400000/64, observed0x23400000/4160.
+  This is an argument contract failure, not an observed physical W1700K fault.
+- Canonical mt7996_txp_skb_unmap now decodes FW fields locally. MAC tail/shared
+  connac stay; strict checkpatch,18-file zero-fuzz reconstruction and79/5 export
+  checks pass. Lockcc128c3b/mt76 patch73ccff87. Target compile/execution is pending;
+  producer92c75156/modules are pre-fix. All417 inputs verify with three old aliases.
+- Default correct-contract q20 fails on old modules as intended. Baseline-bug
+  q26 records behavioral_contract_pass=false despite successful reproduction.
+  Do not call90 baseline cases fixed acceptance or repeated runs270 cases.
+  Preserve consumed q19/q22 versions. Native DMA/SKB/cache effects are modeled;
+  token IDR/complete lifetime and physical containment/drain remain unexecuted.
+- After original full-q16 is truly terminal, build fresh modules and require
+  default correct-contract90/four controls plus wider regressions before image
+  promotion. Do not compile beside the live replay or claim old modules contain
+  this source fix. Read txp-dma-decode REPORT/EVIDENCE; new test supports preserved
+  old-source baseline and fresh-producer correct-contract modes.
+- Original20c8f1ab/driver137844/start5470636 still advances, all332 frozen/read-only
+  inputs verify. Audit27 prefix3060 RPCs/129 publications/930 reset triplets is
+  not full acceptance. Keep original caps/limits/margins/lock; no restart/sampling.
+  No load/image/flash/Wi-Fi change/new compaction. Full native/owner/token/RRO/
+  physical/reuse/hot/board/client gates stay; full NPU goal active.
+
 ## 2026-10-27 - Compiled Ordinary RX/TX Cleanup
 
 - Continue solo, Ethernet disconnected. New test_consumer_rxtx_native.py passes
