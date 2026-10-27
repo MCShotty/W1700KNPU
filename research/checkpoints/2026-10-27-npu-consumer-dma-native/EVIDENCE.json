@@ -1,0 +1,225 @@
+{
+  "passed": true,
+  "checkpoint": "compiled-consumer-dma-native",
+  "source_parent": "38deb5aea7f58aacba68f6bc1ce38f3372138857",
+  "test_sha256": "724519bb4825eedc08fec2ee85f1130c72d32cd60ae756d8c3b5d57e096536f2",
+  "report_sha256": "49451755cf1224b5680f6f694655ea9891f51bda2e8ed3de6b666220a84fa01c",
+  "current_receipt_sha256": "ca9a5ebae9f4152908169a90dcb279883b91019bec7f7a1de4316f9a0a357aad",
+  "cases": 35,
+  "controls": [
+    {
+      "mutation": "omit-queue-cleanup",
+      "failed_assertion": "queue-drained-before-pool-destroy",
+      "emulator_bytes_only": true
+    },
+    {
+      "mutation": "omit-page-return",
+      "failed_assertion": "all-modeled-pages-returned",
+      "emulator_bytes_only": true
+    },
+    {
+      "mutation": "omit-DMA-sync",
+      "failed_assertion": "every-noncoherent-entry-synchronized",
+      "emulator_bytes_only": true
+    },
+    {
+      "mutation": "omit-pool-destroy",
+      "failed_assertion": "pool-destroy-boundary",
+      "emulator_bytes_only": true
+    },
+    {
+      "mutation": "read-descriptor-status",
+      "failed_assertion": "descriptor-status-not-consulted",
+      "emulator_bytes_only": true
+    },
+    {
+      "mutation": "omit-firmware-poll",
+      "failed_assertion": "firmware-state-poll-count",
+      "emulator_bytes_only": true
+    }
+  ],
+  "actual_functions": [
+    "mt7996_cleanup_device",
+    "mt7996_mcu_exit",
+    "mt7996_dma_cleanup",
+    "mt7996_dma_disable",
+    "mt76_dma_cleanup",
+    "mt76_dma_rx_cleanup",
+    "mt76_npu_queue_cleanup"
+  ],
+  "producer_sha256": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e",
+  "production_inputs": {
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/result.json": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e",
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/context.json": "d9c090641d0646d7dbde55e8686f3a4b5e39f8de1c92a9e64761c71c708f810b",
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76/mt76.ko": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+    "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76/mt7996/mt7996e.ko": "d7cad6dfeb8578fa884220f14462089b416f0b98a895dd9d5d601214052d266d",
+    "/home/captain/W1700KNPU/tests/npu/test_consumer_dma_native.py": "724519bb4825eedc08fec2ee85f1130c72d32cd60ae756d8c3b5d57e096536f2",
+    "/home/captain/W1700KNPU/tests/npu/test_cold_mcu_native.py": "5b47b7a93e68cadac8e2aac3ed3640b742441baee5c0ee8735f88b644b858233",
+    "/home/captain/W1700KNPU/tests/npu/test_rxwi_retirement_native.py": "30d6cfd160ebf9d34e2d92745ddd4cb392385435247f8f2635005b4fa48d308d",
+    "/home/captain/W1700KNPU/tests/npu/test_host_queue_publication.py": "184706671c0583b4b12d5ea0bfdd5bc3a7a9c2d0409851cc17796eeec1e7aaf0",
+    "/home/captain/W1700KNPU/tests/npu/test_rro_reset_ba_events.py": "12397aa181f1b931abc882631bfea965f950ae6eec620ceed7d34a5f59b77a3a",
+    "/home/captain/W1700KNPU/tests/npu/test_cold_probe_lifetime.py": "ee54db6333c9c0c612d3b158222a9cb38975ba0534b6a06af9bb699da212c9a2",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/dma.c": "7006de553a1d466be720b8d10fa911ba4b704cced42106a9ee11f6cf186917a6",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/npu.c": "7cbe4189a7162a67bd31e1ed0f47b498e122d2e5b998b3e6b4bfcd4bd30902d8",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/mt76.h": "51c4dbe4dd5f6607c638c60eeb7257fdc911c5b2334b1fd3fa9e25c007078576",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/dma.h": "a566971580c731541a3d6a9dd278033d0367cab4b8c0160cc6cc6150bd9fb1c6",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/airoha_offload.h": "163ecaa3da33e43ca7cd4afe7f8ec89987ea44b192175cd035b6c9b865a7d38b",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/mt7996/init.c": "52e7fc760cfe1b18377104fc6d726aad352d6d10ab52cfa4863cab25c2082ffd",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/mt7996/mcu.c": "44ba2830e3aa48d972252b4924a624c743d77bb26bb975b392e9f79bc94d4ef7",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/mt7996/dma.c": "3f8869c8a18fc18b3a929f780ec673024fd1e7a5faf174f47d74fda5b9e1b8b7",
+    "/home/captain/W1700KNPU/.local/merge-nonoc-20260923/mt76-merged/mt7996/mt7996.h": "e300a67445db1d67915bf33d3a0c727430997b16fad63e5dee9ebb4fbc173bf3"
+  },
+  "tracking": {
+    "AGENTS.md": {
+      "sha256": "0cc44b2ee5fb9ff265f84cd092ad5ff6ed408f971e2b39af93d5bb4885814764",
+      "before_sha256": "8cfc060a128980daddb6fabe7e1a71e9a77e27ef8a20a5819bc0e682d49404c5",
+      "body_byte_identical": true
+    },
+    "README.md": {
+      "sha256": "d8e28561400dfa6ee9d190eb14732a440182514fe3acc4fb4f6627ad83415181",
+      "before_sha256": "78f87f5cc9e2854c26e6097905e7faea6c167a0f7785ca3578bdacd022f25bc6",
+      "body_byte_identical": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "sha256": "c5cf02032ad25dab71e988e620ca258327cb4f916ef9c7d002618c3c59b2bba6",
+      "before_sha256": "d4fe2d214d9db2d39aea3947aaab0328b2ed33cba82d93086578b58c4b938c9c",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "sha256": "17b43cec6367c3bc3ab9820476b5131a8c2943fbdd7b4b576152b11fd2009afa",
+      "before_sha256": "16e080884807b6a11be3c74dcaf3cb6af64acc3189d1fcbfef68bcb017c806b3",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "sha256": "ff328f89bfd39ce014142a1663d0b4b99cc061cacd8708bf9aeadd8ce29bbc39",
+      "before_sha256": "f60fbf814a21457e928dab2e5ba46be735beb44d10493e3c16c38bc8738d4f2e",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "sha256": "3fce883191d00a710c21a54480e4c9ed9832eb30a1783b77842e3299547d5b92",
+      "before_sha256": "b5297395bd56a6f2a8d1445e3702213c6b08fb2db919f477f24f159e66857d29",
+      "body_byte_identical": true
+    }
+  },
+  "private_artifacts": {
+    ".local/npu-consumer-native-20261027/audit-q8/audit.json": "dd16c7373f3a45203e523a21ccbd7a9b8f651ba69e55f7b08d45ab09419b412e",
+    ".local/npu-consumer-native-20261027/audit-q8/jev-request.json": "30b4e9b2897522374f8762a8de42627bb9499e3f153a0c371b6bb377f9ca63f4",
+    ".local/npu-consumer-native-20261027/audit-q8/jev-result.json": "48c75b44876ba564f223a2a839d77f846a7352c7a1cecbf0afb0e6c7efabf201",
+    ".local/npu-consumer-native-20261027/audit-q8-controller.json": "1208497a2864aa3d922c9a53f579f502b7afd83d9ed173783aa9e672d8ad04e6",
+    ".local/npu-consumer-native-20261027/audit-q8-guard.json": "ed83409d10c0cf0cfd186ea632c83d15c06d6bf77e8e490c4a1fac4436f9383f",
+    ".local/npu-consumer-native-20261027/audit-q8-process.log": "66d36dd3d2737315d4b6fe90f2d8bebbfc824803d5342e765d21b8385e67825d",
+    ".local/npu-consumer-native-20261027/audit-q8-windows.json": "55d4a3c7e328b97ad349aa31b99a2e6d4ce25619b4d1f1b1b73193882a8c5eb3",
+    ".local/npu-consumer-native-20261027/audit_q8.py": "51114106c62b819561b9edc02423aa3bd8eb8f723ed1513aaad491f5f6b24c8e",
+    ".local/npu-consumer-native-20261027/guard_q1.py": "463b3008faa84da2fe2ee3b2c725d7cb4b54b1cb316e601509a8b3ab66bc9f82",
+    ".local/npu-consumer-native-20261027/inspect-q2/inspection.json": "a564f3c8b45a88b239e2b2328c137b6dd0db96cb48ade3f8b0ea4e302a5d74a0",
+    ".local/npu-consumer-native-20261027/inspect-q2-controller.json": "1208497a2864aa3d922c9a53f579f502b7afd83d9ed173783aa9e672d8ad04e6",
+    ".local/npu-consumer-native-20261027/inspect-q2-guard.json": "de361074f647ea5d1a7e6de5e1da1eeadb4645bd1fa9738f4bfedc8e740cd47f",
+    ".local/npu-consumer-native-20261027/inspect-q2-process.log": "b0cd1ab8e9e9be0c41d30291fd80074c6e3ce552d9bd1b6b311efb3be7d8129a",
+    ".local/npu-consumer-native-20261027/inspect-q2-windows.json": "d02c4ce3fc0e25e1dfdfe3cc27df99a10c44c11a0ecfaf5d5133808d13c188d9",
+    ".local/npu-consumer-native-20261027/inspect_q2.py": "d3f17e0dc3d665b21f984e30eb224f4d2c41a9f7af85fb30edda19e9f83af8a5",
+    ".local/npu-consumer-native-20261027/launch_q1.py": "6e61517a42cc80693817518be738abeb7f969d9a04a193a96d63c3af2ced4893",
+    ".local/npu-consumer-native-20261027/layout-q3-controller.json": "363563a9b53840b92db2185e763b3955996254367500ca57432764205227e3f4",
+    ".local/npu-consumer-native-20261027/layout-q3-guard.json": "ae575704ae307c59cc51c0de7cc59f21d8b67541de3de62631932a9a0d439012",
+    ".local/npu-consumer-native-20261027/layout-q3-process.log": "98a738a747b666f8b3059e6577d0ce2917a6fd8d6bdb5da7041229ce14676efc",
+    ".local/npu-consumer-native-20261027/layout-q3-windows.json": "c6863ae4626212a31f475d1d3e8adbf1a8206f278093f255b71df5318322b077",
+    ".local/npu-consumer-native-20261027/layout-q4/layout.json": "9d9c47efedf99ef265d9d9b8cd128b14d436d92d791cf67aa4b44d87f3f64122",
+    ".local/npu-consumer-native-20261027/layout-q4-controller.json": "363563a9b53840b92db2185e763b3955996254367500ca57432764205227e3f4",
+    ".local/npu-consumer-native-20261027/layout-q4-guard.json": "b597995c36a3460f31adfa8949b6c8f95fa48c837501ce12a268bb2aec32d280",
+    ".local/npu-consumer-native-20261027/layout-q4-process.log": "ccdea84caa8bcc72f338a26a0495a05a36a0edf2e5bb5cff61e15012fa5738b6",
+    ".local/npu-consumer-native-20261027/layout-q4-windows.json": "bd7d14e5fa089a239785c383205966737b6559bb3932fb8dcddda1abc1bdeece",
+    ".local/npu-consumer-native-20261027/layout_q3.py": "0ceac494a3d3531b6bc09a6d262be2fb355f377ab82a3da91fae3bb7ab8f9202",
+    ".local/npu-consumer-native-20261027/layout_q4.py": "bdb99e80183fcd66b884f0cefec1f1ddc964917b677caf0f671ff8f3909a519b",
+    ".local/npu-consumer-native-20261027/release_q9.py": "9297629d0150093a9e47c0fe03ac6bf535292285345b0c16846af99278da3d2c",
+    ".local/npu-consumer-native-20261027/replay-q5/native/result.json": "dff75ccc46c4b68eb89eaf689604af9d84c0154d22464719572bf28cde9ba0a1",
+    ".local/npu-consumer-native-20261027/replay-q5-controller.json": "1208497a2864aa3d922c9a53f579f502b7afd83d9ed173783aa9e672d8ad04e6",
+    ".local/npu-consumer-native-20261027/replay-q5-guard.json": "5b25065b58c59ab79909e781f8af2992c155a7935d8d2e29d11f80626fbb0647",
+    ".local/npu-consumer-native-20261027/replay-q5-process.log": "a120ca48460e1f437b3d07cd922ac98ce4a4147c94a983c2e704ca527e32e76c",
+    ".local/npu-consumer-native-20261027/replay-q5-windows.json": "b225ed330a0552181908b2f27340db5b4624987304b43cc7c60e81d8c26ab09a",
+    ".local/npu-consumer-native-20261027/replay-q6/native/result.json": "7276cb19e03550c133c3ba8a2edfb6e0bfa9e9c862feb83fbd53de146be6a50f",
+    ".local/npu-consumer-native-20261027/replay-q6-controller.json": "1208497a2864aa3d922c9a53f579f502b7afd83d9ed173783aa9e672d8ad04e6",
+    ".local/npu-consumer-native-20261027/replay-q6-guard.json": "9fed62abdddf2e709939c568a06501e6d9e76b08ec392c148b9c5904dba8a78e",
+    ".local/npu-consumer-native-20261027/replay-q6-process.log": "a368806cdc1bbab9c20ac8e04ba5fa3747513d01a5609d2fadd5b83f929a0978",
+    ".local/npu-consumer-native-20261027/replay-q6-windows.json": "7b7c269e3ded08660edf4d6ff57eb4e27df93a3eb4693e8227b380e85c565cbc",
+    ".local/npu-consumer-native-20261027/replay-q7/native/result.json": "ca9a5ebae9f4152908169a90dcb279883b91019bec7f7a1de4316f9a0a357aad",
+    ".local/npu-consumer-native-20261027/replay-q7-controller.json": "1208497a2864aa3d922c9a53f579f502b7afd83d9ed173783aa9e672d8ad04e6",
+    ".local/npu-consumer-native-20261027/replay-q7-guard.json": "e626e3d74bf63bd1d24b654e3417c325b54ae8cd1670bba2a1af52e1b6692188",
+    ".local/npu-consumer-native-20261027/replay-q7-process.log": "a492339ccb340e8e91ac7bb875a4b23b0c48f74c6fbc4da54d2b6d96feed7ac2",
+    ".local/npu-consumer-native-20261027/replay-q7-windows.json": "02b0de8765d0989f623e86a2a9e06f756a81fee29f9cfc83946baca2985ec87d",
+    ".local/npu-consumer-native-20261027/report-claim-order-q9.json": "b9194f81981b5d055662f8c98fa0ea55507fc5e450c7a605086de35f84540638",
+    ".local/npu-consumer-native-20261027/report-jev-request-q9.json": "f742d5413e8dee153990d288a8e4158a153c3ca4e8852bbdfe4b1dd7128b8c92",
+    ".local/npu-consumer-native-20261027/report-jev-result-q9.json": "6f1e245d2418213469340e5ffd36dc3ffb59077de425437640a0ffc951a549c1",
+    ".local/npu-consumer-native-20261027/retained-q5/test_consumer_dma_native.py": "153e5eb564d3d460ea7f3a5ac604d7270cd044c8e5d7c7fd1d0478a74d3446b7",
+    ".local/npu-consumer-native-20261027/retained-q6/test_consumer_dma_native.py": "b52347dd0c6353e8f3f10167768922d6507b7bc5edfd1e67f7fba0ddee328478",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/AGENTS.md": "8cfc060a128980daddb6fabe7e1a71e9a77e27ef8a20a5819bc0e682d49404c5",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/README.md": "78f87f5cc9e2854c26e6097905e7faea6c167a0f7785ca3578bdacd022f25bc6",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/docs/REMAINING_WORK.md": "d4fe2d214d9db2d39aea3947aaab0328b2ed33cba82d93086578b58c4b938c9c",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "16e080884807b6a11be3c74dcaf3cb6af64acc3189d1fcbfef68bcb017c806b3",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/docs/W1700K_STOCK_PORT_LEDGER.md": "f60fbf814a21457e928dab2e5ba46be735beb44d10493e3c16c38bc8738d4f2e",
+    ".local/npu-consumer-native-20261027/tracking-before-q9/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "b5297395bd56a6f2a8d1445e3702213c6b08fb2db919f477f24f159e66857d29",
+    ".local/npu-consumer-native-20261027/tracking-before-q9.json": "fe3aad7f50dbc3222deb8a2a2531ccefef15800847d2f7392eea03dc2aafb449"
+  },
+  "live_full_replay": {
+    "passed": true,
+    "source_parent": "38deb5aea7f58aacba68f6bc1ce38f3372138857",
+    "tracking": {
+      "AGENTS.md": {
+        "sha256": "0cc44b2ee5fb9ff265f84cd092ad5ff6ed408f971e2b39af93d5bb4885814764",
+        "before_sha256": "8cfc060a128980daddb6fabe7e1a71e9a77e27ef8a20a5819bc0e682d49404c5",
+        "body_byte_identical": true
+      },
+      "README.md": {
+        "sha256": "d8e28561400dfa6ee9d190eb14732a440182514fe3acc4fb4f6627ad83415181",
+        "before_sha256": "78f87f5cc9e2854c26e6097905e7faea6c167a0f7785ca3578bdacd022f25bc6",
+        "body_byte_identical": true
+      },
+      "docs/REMAINING_WORK.md": {
+        "sha256": "c5cf02032ad25dab71e988e620ca258327cb4f916ef9c7d002618c3c59b2bba6",
+        "before_sha256": "d4fe2d214d9db2d39aea3947aaab0328b2ed33cba82d93086578b58c4b938c9c",
+        "body_byte_identical": true
+      },
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+        "sha256": "17b43cec6367c3bc3ab9820476b5131a8c2943fbdd7b4b576152b11fd2009afa",
+        "before_sha256": "16e080884807b6a11be3c74dcaf3cb6af64acc3189d1fcbfef68bcb017c806b3",
+        "body_byte_identical": true
+      },
+      "docs/W1700K_STOCK_PORT_LEDGER.md": {
+        "sha256": "ff328f89bfd39ce014142a1663d0b4b99cc061cacd8708bf9aeadd8ce29bbc39",
+        "before_sha256": "f60fbf814a21457e928dab2e5ba46be735beb44d10493e3c16c38bc8738d4f2e",
+        "body_byte_identical": true
+      },
+      "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+        "sha256": "3fce883191d00a710c21a54480e4c9ed9832eb30a1783b77842e3299547d5b92",
+        "before_sha256": "b5297395bd56a6f2a8d1445e3702213c6b08fb2db919f477f24f159e66857d29",
+        "body_byte_identical": true
+      }
+    },
+    "state": {
+      "ActiveState": "activating",
+      "InvocationID": "20c8f1ab62d74236bf977c134d09b059",
+      "MainPID": "137794",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "observed_unix_ns": 1793112010654377610,
+    "original_driver_start_ticks": 5470636,
+    "driver_CPU_advanced": true,
+    "driver_CPU_ticks": 332112,
+    "frozen_inputs_verified": 332,
+    "retained_versions_verified": 332,
+    "current_consumer_inputs_verified": 19,
+    "progress_prefix": {
+      "profile-0": {
+        "positive_RPC": 237,
+        "publications": 97
+      }
+    },
+    "full_native_recipe_pass": false,
+    "hardware": false
+  },
+  "no_production_driver_or_firmware_edits": true,
+  "no_compilation": true,
+  "module_loaded": false,
+  "actual_Linux_cleanup_executed": false,
+  "physical_retirement": false,
+  "hardware": false
+}

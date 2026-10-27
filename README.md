@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled Consumer RX Cleanup
+
+A new source-bound replay executes seven retained AArch64 radio/core cleanup
+bodies:35 cases/six mutation controls pass. Failed modeled MCU polling still
+reaches compiled RX/NPU queue cleanup and modeled page-return/pool destruction.
+This is not actual Linux or physical DMA retirement, and is not a retention fix.
+Driver/module/image bytes stay unchanged. Full-q16 remains the original live
+invocation, with all332 inputs frozen; complete native and physical/reuse/hot/
+board/client gates remain. Ethernet stays disconnected. Scope and corrections:
+`research/checkpoints/2026-10-27-npu-consumer-dma-native/REPORT.md`.
+
 ## 2026-10-27 - Fresh Full Native Replay Running
 
 The qualified profile-8 gateway is committed at 8ba2a34. A fresh complete

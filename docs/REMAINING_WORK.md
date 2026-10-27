@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Complete Consumer Ownership Still Required
+
+Selected compiled consumer RX cleanup now passes35 cases/six mutation controls
+across seven retained AArch64 bodies. Failed modeled MCU polling proceeds into
+compiled queue cleanup and modeled page return/pool destruction. No physical
+DMA drain, actual Linux teardown or retention fix is proven. Nonempty ordinary
+RX/TX/RRO owners, pool/devres/context lifetime and full containment stay open.
+Nominal refill occupancy is511 of512; shared fragments are helper-only models.
+
+Original full-q16 invocation20c8f1ab is still live with advancing driver CPU;
+all332 inputs/read-only versions verify. Do not restart or compile/sample beside
+it; require its own complete three-profile/19261-RPC verdict. Prefix237 RPCs/
+97 publications in profile0 is not acceptance. BA reuse/hot, current image/board
+and real-client gates remain. Ethernet stays disconnected. Read consumer-dma-native
+REPORT/EVIDENCE; firmware/driver/module/image bytes are unchanged here.
+
 ## 2026-10-27 - Observe The Original Full-q16 Invocation
 
 Fresh full-q16 is live: invocation20c8f1ab, guard137794/wrapper137812/driver137844,

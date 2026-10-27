@@ -1,5 +1,21 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled Consumer RX Cleanup Contract
+
+Solo source-bound consumer replay now executes seven retained AArch64 cleanup
+bodies:35 cases/six instruction controls pass with current producer92c75156.
+Failed modeled MCU polling reaches compiled RX/NPU cleanup and modeled page
+return/pool destruction.19 input bindings verify. Partial DWARF failures and
+consumed q5/q6 sources stay; current nominal occupancy is511 of512. Shared
+fragments are helper models. No production edit, compiler or physical fix.
+
+Full-q16 stays the original20c8f1ab invocation with advancing CPU and all332
+frozen/read-only inputs verified. Snapshot237 positives/97 publications is not
+acceptance. No restart/competing compile/sampling. Consumer ownership/physical
+drain, reuse/hot and image/board/client gates stay. Ethernet disconnected; no
+module load/router contact/flash, Wi-Fi change or new compaction. Read the
+consumer-dma-native REPORT/EVIDENCE; six previous tracking bodies are preserved.
+
 ## 2026-10-27 - Fresh Full Native Replay Running
 
 After source8ba2a34 post verification, new full-q16 invocation20c8f1ab starts

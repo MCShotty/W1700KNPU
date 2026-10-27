@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled Consumer RX Cleanup Contract
+
+Current producer92c75156/core3011a796/radiod7cad6df now has a source-bound replay
+of seven retained AArch64 cleanup bodies:35 cases/six emulator-byte controls,
+19 input bindings. Failed modeled MCU polling reaches compiled RX/NPU cleanup
+and modeled page-return/pool-destruction calls. Both descriptor DONE states
+are ignored by this selected cleanup. Kernel/physical effects remain models;
+no actual Linux teardown, physical drain/UAF or working retention fix is proven.
+
+Nominal occupancy is511 of512, with tail wrap and coherent/noncoherent paths.
+The old q5 512-entry fixture and q6 source remain retained; no additive case
+count. Shared fragments are helper models, not current allocation evidence.
+Nonempty ordinary RX/TX/RRO, devres/pool/context lifetime and containment remain.
+No firmware/driver/module/image changes. Full-q16 is the original live20c8f1ab
+invocation with advancing CPU/all332 inputs and read-only copies verified.
+Prefix237/97 RPCs/publications is not a full verdict. Freeze those inputs, keep
+limits/margins/lock and no restart/competing compile/sampling. Ethernet stays
+disconnected; native/physical/reuse/hot/image/board/client gates remain open.
+Read consumer-dma-native REPORT/EVIDENCE.
+
 ## 2026-10-27 - Fresh Full Native Replay Running
 
 Qualified source8ba2a34 is now executing full-q16, invocation20c8f1ab62d74236bf977c134d09b059,

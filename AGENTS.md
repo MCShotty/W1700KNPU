@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled Consumer RX Cleanup Contract
+
+- Continue solo; keep Ethernet disconnected. New test_consumer_dma_native.py
+  executes seven retained AArch64 radio/core cleanup bodies with current
+  producer92c75156. All35 cases/six emulator-byte controls pass; 19 inputs bind
+  the source/modules. No production driver/firmware source or module changes.
+- Modeled MCU poll failure reaches compiled RX/NPU queue cleanup and modeled
+  page-return/pool-destruction calls. Both DONE states are ignored in this
+  selected cleanup. This is not actual Linux, physical drain, a demonstrated
+  physical UAF or a retention fix. Kernel APIs and their effects remain models.
+- Nominal queue occupancy is at most511 of512 slots. Preserve q5's earlier
+  512-entry fixture/source and q6's consumed source; do not count those runs
+  as extra cases or current acceptance. Two shared-fragment cases are helper
+  models, not the current allocation profile. Partial DWARF extraction failed;
+  exact compiled operands bind offsets. Nonempty ordinary RX/TX/RRO, devres,
+  pool internals, context lifetime and complete consumer containment remain.
+- Original full-q16 invocation20c8f1ab remains live with driver137844/start5470636,
+  advancing CPU and all332 frozen/read-only inputs verified. Snapshot prefix
+  237 RPCs/97 publications is not a verdict. Keep original limits/caps/margins/
+  lock, no restart or competing compile/sampling. New test is outside its inputs.
+- Read consumer-dma-native REPORT/EVIDENCE. Complete native recipe, physical
+  ownership/drain, BA reuse/hot and image/board/client gates stay open. No image,
+  module load/router contact/flash, Wi-Fi change, shutdown or new compaction.
+
 ## 2026-10-27 - Fresh Full Native Replay Running
 
 - Full-q16 is the original live invocation 20c8f1ab62d74236bf977c134d09b059:

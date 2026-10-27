@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled Consumer RX Cleanup Contract
+
+- Added test_consumer_dma_native.py: seven retained AArch64 radio/core cleanup
+  bodies, current producer92c75156/core3011a796/radiod7cad6df. Final q7 passes35
+  cases/six emulator-byte controls, four equal send-return trace groups and19
+  source/module/producer input bindings. No new compiler or production edits.
+- Failed modeled MCU polling continues into compiled mt76 DMA/RX/NPU cleanup,
+  queued entry retirement and modeled page return/pool destruction. Assertions
+  check exact DMA-sync arguments, tail wrap, fragment exhaustion/unique returns,
+  zero queue depth before pool destruction and balanced bottom halves. Descriptor
+  addresses are initialized; DONE clear/set is not consulted, with an inserted
+  read mutation as negative control. This is not a physical drain/UAF witness.
+- Current nominal occupancy follows refill's511-of512 limit. Preserve q5's
+  out-of-refill-profile512 fixture/source and q6's consumed source; those runs
+  do not add unique cases/current acceptance. Two shared-fragment cases exercise
+  a helper model only. Partial DWARF lacks required layouts; both failed attempts
+  remain. Exact compiled operands bind offsets instead.
+- IRQ/NAPI, scheduler, firmware/MMIO, DMA-sync and pool effects remain models.
+  TX/token/RRO allocations and ordinary RX dequeue are empty; their nonempty
+  cleanup, devres/pool internals/context and full consumer ownership stay open.
+  No working retention fix or actual Linux/hardware teardown is claimed.
+- Original full-q16 invocation20c8f1ab remains live, driver137844/start5470636,
+  advancing CPU. Snapshot237 checked RPCs/97 publications in profile0 is only a
+  prefix. All332 live inputs/read-only copies verify. New test/docs are outside
+  that set. Original limits,400MiB/no swap,margins/reserve/lock stay; no restart,
+  competing compile or sampling. Independent q7 uses192MiB/no swap/Nice19,
+  C-write EROFS control and zero C output; systemd reports63MiB peak.
+- Preserve six tracking bodies. Read consumer-dma-native REPORT/EVIDENCE and
+  private q7/audit-q8 receipts. Full native/physical/reuse/hot/image/board/client
+  gates remain; Ethernet disconnected. No image/load/router contact/flash,
+  Wi-Fi change, shutdown or additional compaction. Full NPU goal remains active.
+
 ## 2026-10-27 - Fresh Full Native Replay Running
 
 - Published/post-verified qualified source8ba2a347452ada5d079248211cffaa136353940a.
