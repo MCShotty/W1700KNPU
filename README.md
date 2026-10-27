@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Fresh Full Native Replay Running
+
+The qualified profile-8 gateway is committed at 8ba2a34. A fresh complete
+three-profile native replay is now running with the original instruction/time
+limits, 400MiB/no swap and 332 frozen, read-only-retained producing inputs.
+Actual driver CPU advance is verified. Its initial 141-RPC/one-publication
+prefix is progress, not a full result. See
+[the startup receipt](research/checkpoints/2026-10-27-npu-native-memory-hook/STARTED.json).
+Ethernet remains disconnected; no flash or Wi-Fi change.
+
 ## 2026-10-27 - Native Memory Gateway Qualified
 
 Mainline profile 8 now dispatches read/write memory callbacks directly in C,

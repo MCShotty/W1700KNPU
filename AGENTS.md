@@ -1,5 +1,28 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Fresh Full Native Replay Running
+
+- Full-q16 is the original live invocation 20c8f1ab62d74236bf977c134d09b059:
+  guard137794/wrapper137812/driver137844, driver start ticks5470636. Qualified
+  source is 8ba2a34, observer8/pair-q9. Do not restart it. Check real processes,
+  start ticks, CPU and terminal receipts; activating/Result=success is not done.
+- Read-only observation-q17 verifies advancing driver CPU and all 332 producing
+  inputs, each copied read-only under full-q16/retained-inputs. Keep every bound
+  live input frozen. No competing compilation/sampling or source edits to that
+  set while running. Documentation-only prefixes are outside that input set.
+- Keep 400MiB/no swap, 512MiB C-output reserve, fresh dual margins and the held
+  C writer lock. Observer17 is 192MiB/no swap/Nice19/C output zero, with EROFS
+  controls. STARTED.json records only a 141-RPC/one-publication profile0 prefix
+  at its timestamp, not completion of any profile or the full recipe.
+- The qualification report/EVIDENCE and post-q15 describe source commit 8ba2a34.
+  Later documentation-only commits do not alter frozen source; use those Git
+  blobs/preserved bodies rather than rerunning old current-doc SHA assumptions.
+- Next continue observing this exact job; require all three profiles/19261 RPCs
+  and final checks independently. No firmware/hardware parity is inferred.
+  Keep Ethernet disconnected. Complete physical owner/containment/drain,
+  reuse/hot and image/client gates remain. Read native-memory-hook STARTED.json,
+  REPORT/EVIDENCE and private observation-q17.json; full NPU goal stays active.
+
 ## 2026-10-27 - Native Memory Gateway Qualified
 
 - Continue solo; keep Ethernet disconnected. Mainline observer profile 8 adds a

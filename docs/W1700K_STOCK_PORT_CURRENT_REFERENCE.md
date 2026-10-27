@@ -1,5 +1,20 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Fresh Full Native Replay Running
+
+Qualified source8ba2a34 is now executing full-q16, invocation20c8f1ab62d74236bf977c134d09b059,
+guard137794/wrapper137812/driver137844 (driver start ticks5470636). Read-only
+observer17 verifies actual CPU advance and all332 frozen inputs plus read-only
+retained copies. Original3M/10s boot,100M/60s RPC,400MiB/no swap,512MiB C output,
+dual margins and C writer lock stay. No competing compile or sampling.
+
+STARTED.json records141 profile0 RPCs/one publication at its observation time,
+not a finished profile/full verdict. Do not restart on observation timeout or
+treat an activating unit's default success result as completion. Qualification
+report/EVIDENCE/post-q15 refer to8ba2a34; doc-only prefixes preserve those bodies
+and do not alter frozen source. No hardware contact/flash/Wi-Fi change; Ethernet
+disconnected. Full native and physical/reuse/hot/image/client gates remain.
+
 ## 2026-10-27 - Native Memory Gateway Qualified
 
 From ff0788f, profile 8 adds the header-typed C memory gateway at original read/

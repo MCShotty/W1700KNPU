@@ -1,5 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Observe The Original Full-q16 Invocation
+
+Fresh full-q16 is live: invocation20c8f1ab, guard137794/wrapper137812/driver137844,
+qualified source8ba2a34. Read-only observer17 confirms CPU advance and all332
+frozen inputs/read-only copies. Do not relaunch, compile alongside, sample or
+edit bound inputs while it runs. Preserve the 400MiB/no swap cap,512MiB C-output
+reserve and original boot/RPC limits. An observation timeout is not termination.
+
+Require its own complete three-profile/19261-RPC verdict; the initial141-RPC/
+one-publication prefix is not a profile pass. Subsequent doc-only commits do not
+change qualified source. Physical containment/drain, reuse/hot lifetime and
+image/board/real-client gates remain. Ethernet stays disconnected. Read the
+native-memory-hook STARTED.json and exact live/terminal evidence before action.
+
 ## 2026-10-27 - Fresh Complete Native Recipe Next
 
 The memory callback gateway is implemented and qualified as host profile 8.

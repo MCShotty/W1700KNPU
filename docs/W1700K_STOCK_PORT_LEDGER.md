@@ -1,5 +1,30 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Fresh Full Native Replay Running
+
+- Published/post-verified qualified source8ba2a347452ada5d079248211cffaa136353940a.
+  Dispatched a new complete fresh raw recipe, full-q16 invocation
+  20c8f1ab62d74236bf977c134d09b059. Guard137794/wrapper137812/driver137844 are the
+  verified chain; driver start ticks5470636. Original failed full-q21 is untouched.
+- Read-only observation-q17 verifies exact argv/cgroup/start ticks, advancing
+  driver CPU, matching invocation and all332 live input hashes plus332 read-only
+  retained copies. Prepared receiptfa899f1d and retained manifest18aecc69 bind the
+  producing set. This preserves declared inputs, not an entire runtime/toolchain.
+- Replay caps400MiB/no swap and512MiB C output remain; original boot3M/10s and
+  RPC100M/60s, fresh dual backing/RAM margins and held C writer lock stay. Audit
+  is192MiB/no swap/Nice19/CPUWeight1, C output zero, with EROFS write control.
+  No competing compilation/sampling or frozen-source modification occurred.
+- STARTED.json records141 complete positive profile0 RPCs (OPEN1/ENROLL139/
+  PUBLISH1) at its timestamp. No profile/full verdict exists. Inspect the same
+  actual process/receipts after observation timeouts; never restart solely for
+  missing output or default success while the oneshot unit remains activating.
+- This subsequent commit changes only tracking/startup documentation. The sealed
+  qualification report/EVIDENCE and post-q15 remain evidence for source8ba2a34;
+  verify their Git blobs/old preserved bodies rather than treating old doc SHAs
+  as current. All332 actual producing inputs remain unchanged. No load/router
+  contact/flash/Wi-Fi change; Ethernet disconnected. Full physical owner/drain,
+  reuse/hot and image/client gates remain; full NPU goal active.
+
 ## 2026-10-27 - Native Memory Gateway Qualified
 
 - Continued solo from ff0788f. Added direct read/write C memory callbacks in

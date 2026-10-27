@@ -1,5 +1,17 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Fresh Full Native Replay Running
+
+After source8ba2a34 post verification, new full-q16 invocation20c8f1ab starts
+fresh with observer8/pair-q9. Guard137794/wrapper137812/driver137844 are verified;
+read-only observer17 shows advancing driver CPU and332 matching live/retained
+input hashes. Keep those inputs frozen,400MiB/no swap,512MiB C output, original
+boot/RPC limits/margins/lock; no competing compile or sampling. Initial141-RPC/
+one-publication profile0 prefix is not a profile/full pass. Do not restart after
+an observation timeout. Doc-only prefixes do not change the qualified source.
+Ethernet stays disconnected; no flash/Wi-Fi change. Full physical/reuse/hot/
+image/client gates remain. Read native-memory-hook STARTED.json and live state.
+
 ## 2026-10-27 - Native Memory Gateway Qualified
 
 Continued solo from ff0788f. Mainline profile 8 adds direct C memory callbacks

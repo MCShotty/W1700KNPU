@@ -1,0 +1,39 @@
+{
+  "format": "w1700k-native-memory-full-start-v1",
+  "qualified_source_commit": "8ba2a347452ada5d079248211cffaa136353940a",
+  "unit": "w1700k-npu-native-memory-hook-full-q16.service",
+  "invocation": "20c8f1ab62d74236bf977c134d09b059",
+  "guard_PID": 137794,
+  "wrapper_PID": 137812,
+  "driver_PID": 137844,
+  "driver_start_ticks": 5470636,
+  "driver_CPU_advanced": true,
+  "source_inputs_unchanged": true,
+  "read_only_retained_inputs": 332,
+  "full_prepared_sha256": "fa899f1dec903858e758c097f8e76158e3cf4ec6419e5ca51340e5b25751339f",
+  "retained_manifest_sha256": "18aecc69cb2a2a6a7982a7965ad15f420b45f87a85875c32e2ba9b4939a5590a",
+  "observation_sha256": "c5cb9c8b55edcd810fe106b901a3adc4b2fe4b2f19cd573e2ef84beb2f6416f3",
+  "cap_bytes": 419430400,
+  "swap_max": 0,
+  "C_output_reserve": 536870912,
+  "boot": {
+    "instructions_per_run": 3000000,
+    "timeout_us": 10000000
+  },
+  "RPC": {
+    "instructions": 100000000,
+    "timeout_us": 60000000
+  },
+  "checked_profile0_RPC_prefix": 141,
+  "checked_profile0_operations": {
+    "1": 1,
+    "2": 139,
+    "3": 1
+  },
+  "observed_unix_ns": 1793109483256880737,
+  "running_not_complete": true,
+  "full_native_recipe_pass": false,
+  "original_replays_restarted": false,
+  "hardware": false,
+  "full_npu_goal_complete": false
+}
