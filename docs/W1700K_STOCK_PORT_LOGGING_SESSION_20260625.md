@@ -1,5 +1,25 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+Continued solo fromca05dff. Full-q21 is now failed/exit1/MainPID0, not live.
+Profiles0/1 each complete6421 RPCs; profile2 records257 before publication
+ordinal119 hits the unchanged60s limit at0x841047c4. Partial readback23721/24576
+and a byte-matched read_memory symbol do not identify a firmware defect. The
+original failure is preserved and294 producing inputs retained read-only.
+
+The dependent queue then completes current modules/helper and15 regression
+suites/167 tooling units with zero skips. Four-module producer92c75156 binds
+lockd55e71a3; only mt7996e bytes change. Actual source-drain replay10/three leaves
+zero RXWI at modeled context free, and current-module MCU31/three passes. These
+are software qualifications, not actual Linux teardown or physical DMA proof.
+
+All438 target/294 native inputs rehash; no old replay restart, production source edit,
+limit relaxation, image/load/router contact/flash, Wi-Fi change or compaction.
+Keep Ethernet disconnected. Six earlier tracking bodies remain. Faithful full
+native timing, physical ownership/drain, reuse/hot and image/client acceptance
+remain open. Read rxwi-target-qualified REPORT/EVIDENCE; full NPU goal active.
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 Continued solo from2c17d02. New mainline test executes four retained AArch64

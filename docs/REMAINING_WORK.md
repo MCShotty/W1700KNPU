@@ -1,5 +1,25 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+The RXWI target compile/helper/regression gate is closed for source lockd55e71a3:
+four-module producer92c75156, actual compiled RRO drain10 cases/three controls,
+fresh-module MCU31/three, all15 suites and167 tooling units/zero skips pass.
+No new image, actual Linux teardown, physical retirement or client proof follows.
+
+Full-q21 is terminal failed: profiles0/1 complete6421 RPCs each; profile2 stops
+after257 positives at publication ordinal119,60.000840634s, PC0x841047c4.
+It has24576 writes/23721 readbacks, not the required completed readback. Local
+ELF/byte inspection identifies read_memory, not the cause of the timeout.
+Preserve294 producing versions and the failure. Do not restart unchanged inputs
+or combine completed old profiles with a changed-source probe as a full pass.
+
+Next investigate faithful observation overhead and requalify original timing/
+I/O/fault bounds before another full recipe. Complete consumer ownership across
+devres/pages/mappings/context, physical MCU/NPU drain, BA reuse/hot lifetime,
+current image/board/real clients/performance/stability remain open. Ethernet
+stays disconnected. Read rxwi-target-qualified REPORT/EVIDENCE; full goal active.
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 The actual compiled cold/MCU path now has31 cases/three instruction controls.

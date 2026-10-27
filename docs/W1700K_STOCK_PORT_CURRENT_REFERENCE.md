@@ -1,5 +1,28 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+Fromca05dff, the dependency queue completed after original full-q21 stopped.
+Four-module producer92c75156 qualifies current source lockd55e71a3 on Linux6.18.52.
+The changed mt7996e moduled7cad6df contains the real RXWI drain; provider/core/
+connac bytes remain unchanged. Ten helper cases/three controls leave zero RXWI
+at modeled context free. Current-module MCU31/three,15 regression suites and
+167 tooling units pass with zero skips. This is not physical/kernel acceptance.
+
+Full-q21 remains terminal failed, invocation6c1bc5ff/MainPID0/exit1. Profiles0/1
+each complete6421 checked RPCs with full extent/journal/final-memory comparisons.
+Profile2 records257 positives before ordinal119 exceeds unchanged100M/60s:
+24576 writes/23721 reads, no injection, timed_out true. PC0x841047c4 lies in
+read_memory; its96-byte ELF function matches paired CODE. This locates a stopped
+load, not a firmware logic defect or physical fault. No full result exists.
+
+All294 producing input bytes are preserved read-only in the terminal cohort;
+both294 native/438 target graphs rehash. The finite queue is complete, with no
+module/regression process left. Old inputs must be preserved before subsequent
+source changes; do not relabel old/new subsets as a new complete native recipe.
+Existing caps/margins/locks stay. No new image/load/router contact/flash/compaction
+or Wi-Fi change. Keep Ethernet disconnected. Read qualification REPORT/EVIDENCE.
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 From2c17d02, new test_cold_mcu_native.py executes retained AArch64 cleanup,

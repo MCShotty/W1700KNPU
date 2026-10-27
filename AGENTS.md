@@ -1,5 +1,31 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+- Continue solo and keep Ethernet disconnected. No router contact, module load,
+  image/flash or Wi-Fi change occurred. Full NPU and physical gates stay open.
+- Current source lockd55e71a3/patch5fa42f93 now has qualified four-module producer
+  92c75156 on Linux6.18.52. Only mt7996e bytes change; provider/core/connac stay.
+  The actual compiled RRO source drain passes10 cases/three controls with zero
+  live RXWI at modeled context free. Current-module MCU replay passes31/three;
+  all15 regression suites and167 tooling units pass, zero skips. Kernel and
+  hardware effects remain modeled in the selected-helper/host tests.
+- Full-q21 is terminal failed, not live or accepted. Profiles0/1 each complete
+  6421 checked RPCs; profile2 has257 before publication ordinal119 times out
+  at0x841047c4 under the unchanged100M/60s limit. Its byte-matched containing
+  symbol is read_memory; a halted load is not a firmware-root-cause finding.
+  Preserve this failure. Never restart the unchanged full recipe.
+- Waiting controller3416 has completed both phases; its units are collected.
+  All294 native producing inputs are preserved read-only under
+  .local/npu-native-terminal-20261027/retained-inputs, with an explicit manifest.
+  The438 target input graph also rehashes, but is not an archived toolchain.
+  Before future edits preserve other consumed versions and qualify fresh inputs.
+  Do not combine old/new profile receipts into a new complete native verdict.
+- Next investigate faithful observer timing without dropping counts, fresh SP,
+  I/O or fault checks or extending budgets. Complete consumer containment/drain,
+  BA reuse/hot lifetime, current image and real clients remain. Existing images
+  predate this RXWI qualification. Read rxwi-target-qualified REPORT/EVIDENCE.
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 - Continue solo and keep Ethernet disconnected, as the user requested. No

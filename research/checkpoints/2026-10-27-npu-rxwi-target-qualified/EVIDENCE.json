@@ -1,0 +1,2117 @@
+{
+  "format": "w1700k-rxwi-target-qualified-v1",
+  "base_commit": "ca05dff2adaa985aff277561e75b434014d97df6",
+  "observed_unix_ns": 1793100756875369543,
+  "report_sha256": "533b30449c1338d323c7952c7145340668082dff9b3dcd9e4f403b2d68534308",
+  "tracking": {
+    "AGENTS.md": {
+      "previous_sha256": "b07d2b33b61d6dea8bb20ee471d5885c8e472024ff1555406abb9573cf78b25c",
+      "current_sha256": "9f964dcca7b9f8863e29a107f1be1b5070cd26904ee2b65ef71351a3c74b714c",
+      "prefix_bytes": 1843,
+      "previous_body_byte_identical": true
+    },
+    "README.md": {
+      "previous_sha256": "88126afad804e9d208ed352aa6a0b99947192477c075ce7ef41faf74ef1de065",
+      "current_sha256": "1a8c5abd4f8602363a586ec011f72cef7c89af0c451376c30b2283ceb6c9c2d7",
+      "prefix_bytes": 756,
+      "previous_body_byte_identical": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "previous_sha256": "0d848a52bc5449a1935baca4fd4b1fd1a78129c7b180b80ebd0f64f9305be913",
+      "current_sha256": "5d551b3cb6b2b6461278ec1617443c32fc0be879f37dec2d81574cebcd509162",
+      "prefix_bytes": 1245,
+      "previous_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "previous_sha256": "9b86721ab3ffec8334e933acc4528b0be24c17fc6e84313b0565d828c31eee2a",
+      "current_sha256": "0f8fef1a2e767a4ffbe63452b382e4a8e45341931ed4a5597971bd97141e8594",
+      "prefix_bytes": 1493,
+      "previous_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "previous_sha256": "28040449a5afad4903297ba8b3e26c13c070c3b7650765dbe01663f0881c497e",
+      "current_sha256": "ff35bf80041b5e36dd256b299d1f09d384638b6179f83c438a8e0628a5df340d",
+      "prefix_bytes": 4001,
+      "previous_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "previous_sha256": "71868cccdd704f81029a3d6edecdf89f867f1c5406925b664fbe31bb90564af4",
+      "current_sha256": "ed7d02bcb734b68e41eed987002ac3dbd0a500c63518f1bdb3da34e332ee907b",
+      "prefix_bytes": 1243,
+      "previous_body_byte_identical": true
+    }
+  },
+  "current_target": {
+    "qualified": {
+      "passed": true,
+      "module_receipt": ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/result.json",
+      "module_receipt_sha256": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e",
+      "helper_receipt": ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/actual-rxwi-helper/result.json",
+      "helper_receipt_sha256": "c85efeb36352ca104d9e686dc046e5896099b2e7be1b6e38c59d6aaa97aff40e",
+      "current_target_fix_compiled": true,
+      "actual_helper_executes_source_fix": true,
+      "full_cold_cleanup_executed": false,
+      "hardware": false,
+      "physical_retirement": false
+    },
+    "qualified_sha256": "41f2ebf592ccd0e7c44d1efec32a6e07602116b1bc464634eb3d379e36970e3a",
+    "producer_sha256": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e",
+    "helper_sha256": "c85efeb36352ca104d9e686dc046e5896099b2e7be1b6e38c59d6aaa97aff40e",
+    "current_mcu_sha256": "caf9f6a1bf468e6e7076d479a7788c2bd75939e368d2da20fe3ae6d6eb7498d6",
+    "modules": {
+      "mt76.ko": {
+        "sha256": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+        "bytes": 1429152,
+        "vermagic": "6.18.52 SMP mod_unload aarch64"
+      },
+      "mt76-connac-lib.ko": {
+        "sha256": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3",
+        "bytes": 652104,
+        "vermagic": "6.18.52 SMP mod_unload aarch64"
+      },
+      "mt7996/mt7996e.ko": {
+        "sha256": "d7cad6dfeb8578fa884220f14462089b416f0b98a895dd9d5d601214052d266d",
+        "bytes": 2006480,
+        "vermagic": "6.18.52 SMP mod_unload aarch64"
+      }
+    },
+    "provider_sha256": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+  },
+  "current_target_qualification": true,
+  "current_MCU_cases": 31,
+  "current_MCU_controls": 3,
+  "RXWI_cases": 10,
+  "RXWI_controls": 3,
+  "regression_suites": 15,
+  "tooling_units": 167,
+  "tooling_skipped": 0,
+  "current_source_lock_sha256": "d55e71a34038adbc16dc4d38c126469ff76f64a904d4f6b75fc0612531bd5da7",
+  "native_completed_profiles": [
+    0,
+    1
+  ],
+  "failed_native_profile": 2,
+  "native_positive_RPCs": 13099,
+  "native_publications": 377,
+  "native_profile_audits": {
+    "0": {
+      "counts": {
+        "1": 1,
+        "positive_rpc": 6421,
+        "2": 139,
+        "3": 129,
+        "complete_extent_compares": 2179,
+        "4": 1,
+        "5": 2050,
+        "6": 2050,
+        "7": 2050,
+        "8": 1
+      },
+      "complete_rows": 6480,
+      "memory_compare_rows": 4,
+      "summary_present": true,
+      "positive_sequence_matches_recipe": true,
+      "last_operation": 8,
+      "publication_wall_ns": {
+        "min": 2095370745,
+        "median": 44868587424,
+        "p95_nearest_rank": 50643115156,
+        "max": 57531079569,
+        "first_ten": [
+          45432428947,
+          48964192844,
+          44280280767,
+          43077158897,
+          46943653173,
+          44905528605,
+          43458668448,
+          43531446336,
+          49439348105,
+          56429609563
+        ],
+        "last_ten": [
+          42421311164,
+          41463965593,
+          44412363382,
+          43867587827,
+          42180916881,
+          46619953148,
+          44753982075,
+          49480359987,
+          42590850812,
+          2095370745
+        ]
+      },
+      "performance": {
+        "1": {
+          "calls": 1,
+          "wall_ns": 581160616,
+          "max_wall_ns": 581160616,
+          "max_blocks": 125407,
+          "min_sp": 2214726368
+        },
+        "2": {
+          "calls": 139,
+          "wall_ns": 39267439864,
+          "max_wall_ns": 535121050,
+          "max_blocks": 123327,
+          "min_sp": 2214726368
+        },
+        "3": {
+          "calls": 129,
+          "wall_ns": 5822659580283,
+          "max_wall_ns": 57531079569,
+          "max_blocks": 7445486,
+          "min_sp": 2214726352
+        },
+        "4": {
+          "calls": 1,
+          "wall_ns": 532853244,
+          "max_wall_ns": 532853244,
+          "max_blocks": 122664,
+          "min_sp": 2214726368
+        },
+        "5": {
+          "calls": 2050,
+          "wall_ns": 7282106675034,
+          "max_wall_ns": 7576356706,
+          "max_blocks": 677761,
+          "min_sp": 2214726336
+        },
+        "6": {
+          "calls": 2050,
+          "wall_ns": 1019224680015,
+          "max_wall_ns": 1185779631,
+          "max_blocks": 127636,
+          "min_sp": 2214726368
+        },
+        "7": {
+          "calls": 2050,
+          "wall_ns": 1116903947717,
+          "max_wall_ns": 1270608368,
+          "max_blocks": 125582,
+          "min_sp": 2214726368
+        },
+        "8": {
+          "calls": 1,
+          "wall_ns": 551096367,
+          "max_wall_ns": 551096367,
+          "max_blocks": 124885,
+          "min_sp": 2214726368
+        }
+      }
+    },
+    "1": {
+      "counts": {
+        "1": 1,
+        "positive_rpc": 6421,
+        "2": 139,
+        "3": 129,
+        "complete_extent_compares": 2179,
+        "4": 1,
+        "5": 2050,
+        "6": 2050,
+        "7": 2050,
+        "8": 1
+      },
+      "complete_rows": 6433,
+      "memory_compare_rows": 4,
+      "summary_present": true,
+      "positive_sequence_matches_recipe": true,
+      "last_operation": 8,
+      "publication_wall_ns": {
+        "min": 2987847217,
+        "median": 47043417966,
+        "p95_nearest_rank": 49956511658,
+        "max": 50699234473,
+        "first_ten": [
+          46875862223,
+          45014425764,
+          47417538437,
+          46020717324,
+          44929596210,
+          48376757939,
+          43396082882,
+          48134825719,
+          46568555204,
+          48089952130
+        ],
+        "last_ten": [
+          48808263620,
+          45973776346,
+          48675793384,
+          48817057293,
+          45910821941,
+          47373979905,
+          48903235581,
+          49947114877,
+          46685446800,
+          2987847217
+        ]
+      },
+      "performance": {
+        "1": {
+          "calls": 1,
+          "wall_ns": 520506824,
+          "max_wall_ns": 520506824,
+          "max_blocks": 125407,
+          "min_sp": 2214726368
+        },
+        "2": {
+          "calls": 139,
+          "wall_ns": 34008098824,
+          "max_wall_ns": 495368530,
+          "max_blocks": 122941,
+          "min_sp": 2214726368
+        },
+        "3": {
+          "calls": 129,
+          "wall_ns": 6038382216265,
+          "max_wall_ns": 50699234473,
+          "max_blocks": 7444708,
+          "min_sp": 2214726352
+        },
+        "4": {
+          "calls": 1,
+          "wall_ns": 546166176,
+          "max_wall_ns": 546166176,
+          "max_blocks": 122278,
+          "min_sp": 2214726368
+        },
+        "5": {
+          "calls": 2050,
+          "wall_ns": 7289018402911,
+          "max_wall_ns": 4667513845,
+          "max_blocks": 676435,
+          "min_sp": 2214726336
+        },
+        "6": {
+          "calls": 2050,
+          "wall_ns": 1020870731041,
+          "max_wall_ns": 696182283,
+          "max_blocks": 127250,
+          "min_sp": 2214726368
+        },
+        "7": {
+          "calls": 2050,
+          "wall_ns": 1112774146989,
+          "max_wall_ns": 773659158,
+          "max_blocks": 125196,
+          "min_sp": 2214726368
+        },
+        "8": {
+          "calls": 1,
+          "wall_ns": 537278895,
+          "max_wall_ns": 537278895,
+          "max_blocks": 124499,
+          "min_sp": 2214726368
+        }
+      }
+    },
+    "2": {
+      "counts": {
+        "1": 1,
+        "positive_rpc": 257,
+        "2": 137,
+        "3": 119,
+        "complete_extent_compares": 119
+      },
+      "complete_rows": 259,
+      "memory_compare_rows": 0,
+      "summary_present": false,
+      "positive_sequence_matches_recipe": true,
+      "last_operation": 3,
+      "publication_wall_ns": {
+        "min": 41424563673,
+        "median": 47704913672,
+        "p95_nearest_rank": 50155465284,
+        "max": 53806025641,
+        "first_ten": [
+          48592965260,
+          51015235430,
+          44733623254,
+          48482769445,
+          47954417321,
+          47849485634,
+          47934883727,
+          51735122430,
+          47852550387,
+          46934327162
+        ],
+        "last_ten": [
+          47295085475,
+          47131729844,
+          43482577868,
+          46726659318,
+          48452794091,
+          45509690792,
+          48643141800,
+          49711574761,
+          47784702919,
+          53806025641
+        ]
+      },
+      "performance": {
+        "1": {
+          "calls": 1,
+          "wall_ns": 522835039,
+          "max_wall_ns": 522835039,
+          "max_blocks": 125407,
+          "min_sp": 2214726368
+        },
+        "2": {
+          "calls": 137,
+          "wall_ns": 21015687631,
+          "max_wall_ns": 525835507,
+          "max_blocks": 120427,
+          "min_sp": 2214726368
+        },
+        "3": {
+          "calls": 119,
+          "wall_ns": 5627746365579,
+          "max_wall_ns": 53806025641,
+          "max_blocks": 7439538,
+          "min_sp": 2214726352
+        }
+      }
+    }
+  },
+  "native_failure": {
+    "profile": 2,
+    "error": "AssertionError(('new-RPC-budget', '0x841047c4', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 119, 'slot': 119, 'table': 1049633208, 'pointer': 1215758336, 'base': 1215758336, 'bytes': 65536}, {'blocks': 7195228, 'metadata_writes': 736363, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 23721}))",
+    "counts": {
+      "blocks": 7195228,
+      "metadata_writes": 736363,
+      "payload_reads": 259,
+      "mailbox_veneer": 1,
+      "mailbox_binding": 1,
+      "table_writes": 1,
+      "table_reads": 1,
+      "extent_writes": 24576,
+      "extent_reads": 23721
+    },
+    "current": {
+      "kind": "publish",
+      "ordinal": 119,
+      "slot": 119,
+      "table": 1049633208,
+      "pointer": 1215758336,
+      "base": 1215758336,
+      "bytes": 65536
+    },
+    "injected": false,
+    "instruction_budget": 100000000,
+    "timeout_us": 60000000,
+    "last_native_failure": {
+      "error": "AssertionError(('new-RPC-budget', '0x841047c4', 1, 100000000, 60000000, {'kind': 'publish', 'ordinal': 119, 'slot': 119, 'table': 1049633208, 'pointer': 1215758336, 'base': 1215758336, 'bytes': 65536}, {'blocks': 7195228, 'metadata_writes': 736363, 'payload_reads': 259, 'mailbox_veneer': 1, 'mailbox_binding': 1, 'table_writes': 1, 'table_reads': 1, 'extent_writes': 24576, 'extent_reads': 23721}))",
+      "terminal_PC": 2215659460,
+      "SP": 2214726544,
+      "min_sp": 2214726352,
+      "mstatus": 0,
+      "current": {
+        "kind": "publish",
+        "ordinal": 119,
+        "slot": 119,
+        "table": 1049633208,
+        "pointer": 1215758336,
+        "base": 1215758336,
+        "bytes": 65536
+      },
+      "wall_ns": 60000840634,
+      "counts": {
+        "blocks": 7195228,
+        "metadata_writes": 736363,
+        "payload_reads": 259,
+        "mailbox_veneer": 1,
+        "mailbox_binding": 1,
+        "table_writes": 1,
+        "table_reads": 1,
+        "extent_writes": 24576,
+        "extent_reads": 23721
+      },
+      "timed_out": true
+    },
+    "restored_context_PC": 2214873468,
+    "unmodeled": null,
+    "complete_verdict": false
+  },
+  "terminal_original_identity": {
+    "unit": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "InvocationID": "6c1bc5ff20d74add9235553e70e26931",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ExecMainStatus": "1",
+      "ControlGroup": "",
+      "CPUUsageNSec": "44608201605000"
+    },
+    "cgroup_pids": [],
+    "original_processes_live": {},
+    "history": {
+      "invocation": "6c1bc5ff20d74add9235553e70e26931",
+      "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1",
+      "verified_live": true
+    },
+    "durable_terminal_receipt": {
+      "path": ".local/npu-native-block-hook-20261027/full-q21-controller.json",
+      "sha256": "98888278d5c32741084ce53e3b3caa321bda5247816e4e21bb357ad53aecd6d9",
+      "controller_passed": false,
+      "returncode": 1
+    },
+    "observed_unix_ns": 1793100751958456686,
+    "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1"
+  },
+  "full_native_recipe_passed": false,
+  "retained_native_input_files": 294,
+  "retained_native_input_bytes": 5777126,
+  "entire_runtime_or_toolchain_archived": false,
+  "target_input_graph_archived": false,
+  "frozen_target_inputs_verified": 438,
+  "native_inputs_verified": 294,
+  "kernel_and_hardware_effects_modeled": true,
+  "physical_retirement": false,
+  "current_image_built": false,
+  "module_loaded": false,
+  "router_contact": false,
+  "Ethernet_remains_disconnected": true,
+  "original_replay_restarted": false,
+  "new_compaction": false,
+  "hardware": false,
+  "full_npu_goal_complete": false,
+  "jev_source_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "data_corruption_demonstrated": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "firmware_logic_root_cause": {
+        "type": "noul",
+        "noul": 0.13
+      },
+      "full_native_acceptance": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "compiled_metadata_fix": {
+        "type": "noul",
+        "noul": 0.86
+      },
+      "physical_drain": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "cleanup_still_proceeds": {
+        "type": "noul",
+        "noul": 0.9
+      }
+    },
+    "usage": {
+      "input_tokens": 5803,
+      "output_tokens": 124
+    }
+  },
+  "jev_report_checks": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "claims_full_native_pass": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "compiled_scope_clear": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "claims_root_cause": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "claims_physical_regressions": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "claims_full_toolchain_capture": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "full_objective_open": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 2422,
+      "output_tokens": 122
+    }
+  },
+  "current_and_original_artifact_bindings": {
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/prepared.json": {
+      "bytes": 40906,
+      "sha256": "950c5c34e15cc9653726be4c0a128ad49e050273ee057d8d88d270efd4054f35"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/failure.json": {
+      "bytes": 331,
+      "sha256": "9f283d4f98d14417bb1ecfb678f22cbf8c2bc051d71b45b60f0d287002458209"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/replay.log": {
+      "bytes": 5087,
+      "sha256": "121573aa4a90f6282a22f5d6a30ac665661f3b3ec5f5aafe47a3720dfb6f0942"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-2/failure.json": {
+      "bytes": 2085,
+      "sha256": "d8cceee882d90f2402e7dce335acb61355d805c5b2ed96614046f5bd0e09291c"
+    },
+    ".local/npu-native-block-hook-20261027/full-q21-controller.json": {
+      "bytes": 261,
+      "sha256": "98888278d5c32741084ce53e3b3caa321bda5247816e4e21bb357ad53aecd6d9"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/summary.json": {
+      "bytes": 16314,
+      "sha256": "e9c849ca6800d610f69810a8967b97a3f084ffbf879fdb6821dc87f37cba9a72"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/broker-final.bin": {
+      "bytes": 30588,
+      "sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/oracle-journal-final.bin": {
+      "bytes": 30356,
+      "sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/rpc.jsonl": {
+      "bytes": 8489979,
+      "sha256": "5f64ce806566ba99270583170569f5bf435fd7837005310c15f302957c8f1831"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/prefix.json": {
+      "bytes": 124690,
+      "sha256": "bb2a5e29fd19fbca51cbbe0443eb04ce06670ae133124a99f85ad61bfa117b30"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-0/oracle.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/summary.json": {
+      "bytes": 16310,
+      "sha256": "3b2708c1e2a00ad5d539ba51a13155666fc68f8957cc8b415fa63f940c4ef699"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/broker-final.bin": {
+      "bytes": 30588,
+      "sha256": "34e1ad9ad0b3deae66ace9728f6c84141aa06d0d197826eda1d4259bc1ef9ada"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/oracle-journal-final.bin": {
+      "bytes": 30356,
+      "sha256": "496aabb93eac2d48334b90123e4941003cfa88bd87f304a1db93ff3387941fd4"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/rpc.jsonl": {
+      "bytes": 8453155,
+      "sha256": "400519df25c9d65a007b8ddaa6f1917d50725dba2b3175ba6b8af66678d2f587"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/prefix.json": {
+      "bytes": 124690,
+      "sha256": "04b888ade11027ff46760e294edab074c2fdbaa985752248fedc707d9ddd5172"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-1/oracle.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-2/rpc.jsonl": {
+      "bytes": 343895,
+      "sha256": "02d635884911f21d3afcde8fba5480d47176518d877ba6616151906e5bfb8c5b"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-2/prefix.json": {
+      "bytes": 124690,
+      "sha256": "5f96c059a6dca86d01ce408002f7905a27e541e4b44491a746cb5c3bb6cb4c91"
+    },
+    ".local/npu-build-scratch/native-c2/native-block-hook-full-q21/runs/matrix-q1/profile-2/oracle.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".local/npu-rxwi-target-20261027/queue-result-q1.json": {
+      "bytes": 258,
+      "sha256": "ffaf3a736815dafafa04c5141fefb83ae1077e88ac2180efda078d2cc7d8326e"
+    },
+    ".local/npu-rxwi-target-20261027/modules-q3-controller.json": {
+      "bytes": 261,
+      "sha256": "476b13c7fdbfe1ed96446ca3d0b8528a6b26acdf12b35e509f3236682e949f9a"
+    },
+    ".local/npu-rxwi-target-20261027/regressions-q4-controller.json": {
+      "bytes": 261,
+      "sha256": "156f3d18ebc51a0a520ab00144af1b9c32a416a91d41742a4dd39fe0e93637b9"
+    },
+    ".local/npu-rxwi-target-20261027/modules-q3-budget.json": {
+      "bytes": 6695,
+      "sha256": "7d826a543015b9eb1feecc38e8904def72dad964ebdbde5785ba030adcd07b5f"
+    },
+    ".local/npu-rxwi-target-20261027/regressions-q4-budget.json": {
+      "bytes": 6730,
+      "sha256": "99d103fcf957ce5ce996613e82b81126c7526ddddceb16d086e39dac14094f5a"
+    },
+    ".local/npu-rxwi-target-20261027/modules-q3-queue-process.log": {
+      "bytes": 471,
+      "sha256": "f1eb3a829ec0cdb7605289c781d0341f80283e7e71afa27463205a489a8a1d15"
+    },
+    ".local/npu-rxwi-target-20261027/regressions-q4-queue-process.log": {
+      "bytes": 2168,
+      "sha256": "5408a93f15ffd8a140bf104119ac019154307f87570e6910680ae82deb9f9740"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/result.json": {
+      "bytes": 600,
+      "sha256": "41f2ebf592ccd0e7c44d1efec32a6e07602116b1bc464634eb3d379e36970e3a"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/result.json": {
+      "bytes": 125819,
+      "sha256": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/outer-state.json": {
+      "bytes": 57601,
+      "sha256": "351604d2b2dd3ceaf321f386c9ee2b1ebdd2069e15ffd568b08b804b5883dd1d"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/context.json": {
+      "bytes": 46115,
+      "sha256": "d9c090641d0646d7dbde55e8686f3a4b5e39f8de1c92a9e64761c71c708f810b"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/kernel-before.json": {
+      "bytes": 15287416,
+      "sha256": "f2b8a497f08a26438c0a9695ef564e540e47bc1c3084c44b1027dacb3133ffb8"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/kernel-after.json": {
+      "bytes": 15287416,
+      "sha256": "f2b8a497f08a26438c0a9695ef564e540e47bc1c3084c44b1027dacb3133ffb8"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76-before.json": {
+      "bytes": 69046,
+      "sha256": "7d8f2f3ca5304df72b1b667c919447cbb57b9cb8d243cfa839f3b2b0f9407b30"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76-after.json": {
+      "bytes": 69046,
+      "sha256": "7d8f2f3ca5304df72b1b667c919447cbb57b9cb8d243cfa839f3b2b0f9407b30"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/old-cache-before.json": {
+      "bytes": 147186,
+      "sha256": "f6ff216f5ab56abfafc95c7a3f0c3490f4a81c0cda2f933400bdb7f0a3175369"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/old-cache-after.json": {
+      "bytes": 147186,
+      "sha256": "f6ff216f5ab56abfafc95c7a3f0c3490f4a81c0cda2f933400bdb7f0a3175369"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/actual-rxwi-helper/result.json": {
+      "bytes": 14658,
+      "sha256": "c85efeb36352ca104d9e686dc046e5896099b2e7be1b6e38c59d6aaa97aff40e"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/result.json": {
+      "bytes": 5324,
+      "sha256": "c08d8b00fa1c9875e6d7d5475fd61dd9f9361d8f73a7bb01ed5d4400f0ddcabd"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76/mt76.ko": {
+      "bytes": 1429152,
+      "sha256": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76/mt76-connac-lib.ko": {
+      "bytes": 652104,
+      "sha256": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/mt76/mt7996/mt7996e.ko": {
+      "bytes": 2006480,
+      "sha256": "d7cad6dfeb8578fa884220f14462089b416f0b98a895dd9d5d601214052d266d"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-modules-q3/modules/airoha_npu.ko": {
+      "bytes": 384968,
+      "sha256": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/cold/result.json": {
+      "bytes": 68351,
+      "sha256": "bcde98abb761355bae9fedb10528020158b7bf5f28ae7c7bdf7acfd38991847b"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/hif/result.json": {
+      "bytes": 33595,
+      "sha256": "fd123b8cb94eeec19e8ec71456f5b19c4789a69184142c22b2d68419bfd7439a"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/pci/result.json": {
+      "bytes": 41880,
+      "sha256": "6bd74b67ae8023e9dc19f6420ac7fd1950aa2af7923c7ed77ae3921c6060b09a"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/detach/result.json": {
+      "bytes": 2486,
+      "sha256": "6ab87b603ab4cdda3a1ce0d0b7ea79c0fd511f97f4e0d04cf641d3e4c5543049"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/napi/result.json": {
+      "bytes": 38581,
+      "sha256": "41062bdeb59aca3f702abef30e148e43b37eb833df1a27ba0edb7b6304339fc3"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/irq/result.json": {
+      "bytes": 6654,
+      "sha256": "739fc2ccf80fa6d93350ed5d49bfa378d6a0c5194556ea223d153d5a01760992"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/join/result.json": {
+      "bytes": 35414,
+      "sha256": "d1e50bd0069c86e4cc4856f2393bd7f78f62238e2030272d5ed4d77748bfead4"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/owner/result.json": {
+      "bytes": 45213,
+      "sha256": "0c1b4f7bca6bf1d08ddbc89750aabd35fffb2ee1875cf64046e2dd501108e198"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/creation/result.json": {
+      "bytes": 34027,
+      "sha256": "3b329f4f980f3958f858b82815fa47a900ea523dc4d16677c08fac78ee1ccfd5"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/ba/result.json": {
+      "bytes": 14575,
+      "sha256": "b637e3d25e58676c1ac6fa6265891c1b0ddee22dbb1f25daaeb67faba6ce781d"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/worker/result.json": {
+      "bytes": 23052,
+      "sha256": "d01ddbf8759ec9a77230f1e3e2481d03d7f3638bcf756c6437362f0710e1db22"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/resets/result.json": {
+      "bytes": 21676,
+      "sha256": "8ab443269d07488ca281286f0063b1f4ff944bd385dda92b0bd850cb3c4cab9d"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/broad/result.json": {
+      "bytes": 24095,
+      "sha256": "f1cea218e8c1a2d7905b12083f94b43784b9b6d098ed331f28b0d595396e6646"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/callers/result.json": {
+      "bytes": 778701,
+      "sha256": "76aaa1a9455bb66d00cfe71b10994717b4351befa7d084da9afe3e72137d8567"
+    },
+    ".local/npu-build-scratch/native-c2/rxwi-target-regressions-q4/units/units-current-q1-result.json": {
+      "bytes": 3263,
+      "sha256": "56bfcc9fb07fdde00dc69a1f870078d727225a8509b7da3c0deb737922f19957"
+    }
+  },
+  "private_evidence_bindings": {
+    ".local/npu-native-terminal-20261027/PC-map-q6.json": {
+      "bytes": 7689,
+      "sha256": "a667a466da938e1efc4c9ef3942f630de260c1779962b9c8b61a9b50866add01"
+    },
+    ".local/npu-native-terminal-20261027/audit-q1.json": {
+      "bytes": 16644,
+      "sha256": "aa0f117c67da848bb8485d4cf71c6432c047a227b22ae7e3135a2dfd85fc8716"
+    },
+    ".local/npu-native-terminal-20261027/audit_q1.py": {
+      "bytes": 10911,
+      "sha256": "b97fb8ecddc9a69469e27730cd70433f8f0113a783cc706c9e387d82974847fc"
+    },
+    ".local/npu-native-terminal-20261027/current-mcu-q2/result.json": {
+      "bytes": 270636,
+      "sha256": "caf9f6a1bf468e6e7076d479a7788c2bd75939e368d2da20fe3ae6d6eb7498d6"
+    },
+    ".local/npu-native-terminal-20261027/current-mcu-q2-controller.json": {
+      "bytes": 1280,
+      "sha256": "ca5f2ba7ebb78f4492392a0943d9ba2362edcd98909621908c98fc447c18bc1e"
+    },
+    ".local/npu-native-terminal-20261027/current-mcu-q2-process.log": {
+      "bytes": 1387,
+      "sha256": "0f50d50eacf6cd138c5313621e7ed98769c019b4aacae059dc85ed3d7b7fc8d4"
+    },
+    ".local/npu-native-terminal-20261027/current-mcu-q2-replay.log": {
+      "bytes": 130,
+      "sha256": "a64d018c2063af07c74aa08cecbe466743f2661af86864565053ba7310fa3f62"
+    },
+    ".local/npu-native-terminal-20261027/current-mcu-q2-windows.json": {
+      "bytes": 367,
+      "sha256": "e6ad7fca3827dc40e397b079640c30562448579441d1f9ed371da0540053eda0"
+    },
+    ".local/npu-native-terminal-20261027/current-target-q5.json": {
+      "bytes": 1676,
+      "sha256": "c4575e64a9d500b5c1aafb241bc5f40e0e53a7d8ace1ba2a0ed2db523868c04a"
+    },
+    ".local/npu-native-terminal-20261027/current_mcu_q2.py": {
+      "bytes": 4540,
+      "sha256": "11b67806dc0401583434ac5fe57ebc675091c64d7d6e88bd48f4d87afb3b2739"
+    },
+    ".local/npu-native-terminal-20261027/jev-q3.failure.txt": {
+      "bytes": 393,
+      "sha256": "bfc63a4ffffdabe33333a5355df05802eb3a1c20960bd5427e693bd5fb5732e6"
+    },
+    ".local/npu-native-terminal-20261027/jev-q4.failure.txt": {
+      "bytes": 383,
+      "sha256": "8ad647d7ee4a879822d75d57bbd9068484649baff8d098eabf4c694cc44a7f97"
+    },
+    ".local/npu-native-terminal-20261027/jev-q5.request.json": {
+      "bytes": 17913,
+      "sha256": "405dce91aee83255119811ae95338f54cc6e59a50a52041c0f58dfc6ef2d428c"
+    },
+    ".local/npu-native-terminal-20261027/jev-q5.result.json": {
+      "bytes": 2329,
+      "sha256": "63e241fee90eb3d2ae222b1eb93665cb5939fa9651a263f5de7d2959f18af1ac"
+    },
+    ".local/npu-native-terminal-20261027/jev-review-q9.request.json": {
+      "bytes": 8720,
+      "sha256": "d2c25cc1b68bf08d73171a35e01ff771313efebb1ff7a86eeb750f67a5601bab"
+    },
+    ".local/npu-native-terminal-20261027/jev-review-q9.result.json": {
+      "bytes": 2269,
+      "sha256": "940c0b9ebd6446fdd51e2b552eda2e0439ce44cfff1b9493941fe65a8836337f"
+    },
+    ".local/npu-native-terminal-20261027/jev_q3.py": {
+      "bytes": 4112,
+      "sha256": "2fcbdada7ecbbd9ac4c308a30fee73495660917e72c7c9e8d13a139a5754beb4"
+    },
+    ".local/npu-native-terminal-20261027/jev_q4.py": {
+      "bytes": 4113,
+      "sha256": "75f86d32dcc5370302ff20a9c80a5c304a9159b15a017ee5e6b818f8f5d2844e"
+    },
+    ".local/npu-native-terminal-20261027/jev_q5.py": {
+      "bytes": 4113,
+      "sha256": "1a05cbaedb0faba52b69a52678ace0c22fb05841794c93d10ecd4e35205aee05"
+    },
+    ".local/npu-native-terminal-20261027/launch_audit_q1.py": {
+      "bytes": 2636,
+      "sha256": "8e160a10011d1922c0083b240f965f4ee34d122f8670012bfd8cba7a4c161c12"
+    },
+    ".local/npu-native-terminal-20261027/launch_current_mcu_q2.py": {
+      "bytes": 2588,
+      "sha256": "7331e0786e5ffa0932d40e784da9281d41e33cb49fedf643ec8c549b67318188"
+    },
+    ".local/npu-native-terminal-20261027/map_failure_q6.py": {
+      "bytes": 3465,
+      "sha256": "284d0b1bd2f78f74e4c54d17c7796c7f3bb6120c2a34cd44cb02ea06df769899"
+    },
+    ".local/npu-native-terminal-20261027/precheck-q7.json": {
+      "bytes": 6563,
+      "sha256": "4c59525a15b3a7f9b737981a24ed6cc57baf81ba113cb0ad125e0bbe8aa13cb0"
+    },
+    ".local/npu-native-terminal-20261027/precheck_q7.py": {
+      "bytes": 6563,
+      "sha256": "779bf6f7921cadc6e5aa76b1e4ec95d62be407d1739104dfe63ba7eeed564d7f"
+    },
+    ".local/npu-native-terminal-20261027/process-q1.log": {
+      "bytes": 580,
+      "sha256": "4a6f9e9c926b5087a7972711b9b8356406051af3bf2400ca85ab1644dc294346"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-bootmem/candidate/an7581-w1700k-ubi.dtb": {
+      "bytes": 29256,
+      "sha256": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-build-scratch/native-c2/native-block-hook-build-q5/ubsan/_npu_read_api.cpython-314-x86_64-linux-gnu.so": {
+      "bytes": 278240,
+      "sha256": "d4a58bc6aeca0b3ab3b58b1a90e997421a01f75f13d5c3c41f85de8cd98e3169"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-build-scratch/native-c2/native-block-hook-build-q5/ubsan/build.json": {
+      "bytes": 7245,
+      "sha256": "4793041ab48d022130bbe673163d4b1f412fcde707f2bcb7ba59576e8c4db945"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-build-scratch/native-c2/native-block-hook-post-q20/result.json": {
+      "bytes": 741,
+      "sha256": "fa820dec8f53b695c5cea2bc5167a9aa705818e0d909c7244c057070839bdaad"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-native-block-hook-20261027/full_native_q21.py": {
+      "bytes": 5670,
+      "sha256": "f762d1d157e7463ce52a06784f711c9416eb00c9236b2e35558d8500299b1cef"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-quiescence/firmware/en7581_MT7996_npu_data.bin": {
+      "bytes": 3084,
+      "sha256": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": {
+      "bytes": 122336,
+      "sha256": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/arm.h": {
+      "bytes": 5379,
+      "sha256": "de68a0b8f91035baa32cf76fdbd677a16dac433e93c75b084ecd0eeef67be7de"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/arm64.h": {
+      "bytes": 8969,
+      "sha256": "7fc1a00cfe6234ea8859026e4e27cb625e4cecedbc95a06bec9c694137831981"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/m68k.h": {
+      "bytes": 1548,
+      "sha256": "1511ee296557a3de03f71e25b1378761dc7213bfb2f5b2df7aa2d3ef8722b449"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/mips.h": {
+      "bytes": 6464,
+      "sha256": "f6a8d3a5056330a7431954cfe19ec1b4927fa0e8f0a9d83ceac8aeeb98a2a030"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/platform.h": {
+      "bytes": 6813,
+      "sha256": "10ec4c482940d039fcbbf2f7e5791d3dc3f991f0a3c5b16e22f378ae1829fdde"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/ppc.h": {
+      "bytes": 10791,
+      "sha256": "2645d9f4448ab0c1ff28d2096262335d53a9479f210567d546cd76de85dbd530"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/riscv.h": {
+      "bytes": 9603,
+      "sha256": "c2efc0644c236feca3f17e2957a28149498b9f6e06772ced7e11204797fd0327"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/s390x.h": {
+      "bytes": 4318,
+      "sha256": "43ba5d9eed2495ae129da50a8e3f59902d05dc4601bfad12d2b3f4454953d0b4"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/sparc.h": {
+      "bytes": 4054,
+      "sha256": "f30427a1738b7bc9c46dd00cee2097ae375f95ad8db9c386f3d61a14574b3624"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/tricore.h": {
+      "bytes": 3973,
+      "sha256": "053f337160ab3b0cb29bc564e301950fed4c2f93bde50918a3d428b85d0a3f45"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/unicorn.h": {
+      "bytes": 52576,
+      "sha256": "66fdf8f39df34e507a163eb550549669cec3399c2103b8dc84bc4131f600e55a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/include/unicorn/x86.h": {
+      "bytes": 40041,
+      "sha256": "6b01b368f4d1bd0e0ac93a6107cd2edb3b5abfef578f94bf82a00e0ae34ed76f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": {
+      "bytes": 52722,
+      "sha256": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-rro-session-host-20261023/host-q2/result.json": {
+      "bytes": 10892,
+      "sha256": "bfb2b989fd1038e80a9d00b2a25da099775ce0f340f2afb14f39cad7e10b88a2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-rro-wire-20261023/pair-q2/CODE.bin": {
+      "bytes": 1099244,
+      "sha256": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-rro-wire-20261023/pair-q2/DATA.bin": {
+      "bytes": 25728,
+      "sha256": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/.local/npu-rro-wire-20261023/pair-q2/manifest.json": {
+      "bytes": 97703,
+      "sha256": "0883feabfbf4c2aa30ac8d29099f867ee979a7784d3c0fb906c48e4cc9509f12"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/admission.c": {
+      "bytes": 6604,
+      "sha256": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/admission.h": {
+      "bytes": 3207,
+      "sha256": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/allocator.c": {
+      "bytes": 6610,
+      "sha256": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/allocator.h": {
+      "bytes": 2260,
+      "sha256": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/barrier.c": {
+      "bytes": 4642,
+      "sha256": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/barrier.h": {
+      "bytes": 1861,
+      "sha256": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/bootstrap-v2.c": {
+      "bytes": 2775,
+      "sha256": "36cd517c0636e42edede338daf8b377f9d31fb5322ee03611da52ef4b670a331"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/bootstrap-v2.h": {
+      "bytes": 1583,
+      "sha256": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/bootstrap.c": {
+      "bytes": 4421,
+      "sha256": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/bootstrap.h": {
+      "bytes": 1771,
+      "sha256": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-client.c": {
+      "bytes": 4046,
+      "sha256": "a344c82672564bc49fc8e2f2ab741972447170109f79e73101224a36dddd6afd"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-descriptor.c": {
+      "bytes": 5817,
+      "sha256": "8b1fb816b8a67303d8e981c1aee3d5ce921bf65ac10bd211e121725221e327ed"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-descriptor.h": {
+      "bytes": 3206,
+      "sha256": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-indication.c": {
+      "bytes": 5226,
+      "sha256": "923b9d5ffac630e03423139c05b3e11004ad55f49977aa0d671cd46e497e4bad"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-indication.h": {
+      "bytes": 2242,
+      "sha256": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-inode.c": {
+      "bytes": 11042,
+      "sha256": "5f89d2b22940baa4151301d0661b82dd7d1f3b7bb0dff38d4b9f3c748900b487"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-inode.h": {
+      "bytes": 2722,
+      "sha256": "a71face94f6be8a13798436865723c2ab086fbacaab5862b71d9c356994439ea"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-packet.c": {
+      "bytes": 129,
+      "sha256": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-packet.h": {
+      "bytes": 2652,
+      "sha256": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-page.c": {
+      "bytes": 7949,
+      "sha256": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-page.h": {
+      "bytes": 3519,
+      "sha256": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-pcie-tail.c": {
+      "bytes": 12315,
+      "sha256": "ac083964e8d6a5d736958b3ada4460d0b58bef653b0306bd387e3a6fdb4a4711"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-pcie-tail.h": {
+      "bytes": 3041,
+      "sha256": "0785a674827e2fb312dde7d8dc7753e45f9cda4e4c6d7268a249f5932da45efa"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-rx-event.c": {
+      "bytes": 6207,
+      "sha256": "0ab94125e9d875ca960bc93d01397858d1a7aef06954b0e2f7e0ad3acea7b543"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-rx-event.h": {
+      "bytes": 2485,
+      "sha256": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-rx-pcie.c": {
+      "bytes": 4984,
+      "sha256": "4915f0b966d9b3a2d854cb9839d54a4afc4d2c07f7f277c98f60266091754f87"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-rx-pcie.h": {
+      "bytes": 2472,
+      "sha256": "ae2139e6ef61454b8cad60b9ced1b899fa1f66c7f01e0cfaa4ecaf8ac7bf0d89"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-setup.c": {
+      "bytes": 23156,
+      "sha256": "8779246bedf8ff43543899a5a7037d495b41256b509555c2b6a899b751fe216a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-setup.h": {
+      "bytes": 10609,
+      "sha256": "ed7bf5184c0d70c3a3577b430a26e6cc719541b53191bc8c90046092fe8548ac"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-tx-buffer.c": {
+      "bytes": 12808,
+      "sha256": "2657742489291bcc24f3434f7dfe3745b43fb7327b3679c9796767087914ba18"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-tx-buffer.h": {
+      "bytes": 3065,
+      "sha256": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-tx.c": {
+      "bytes": 7520,
+      "sha256": "176fb608da32c7636057f0640acb7a1ae40233aeb4851b89fb2e5a595e8c7f9c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-tx.h": {
+      "bytes": 1562,
+      "sha256": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-txdone.c": {
+      "bytes": 20438,
+      "sha256": "ba3b84d0abfde53eb6c4f467c079a3dc51b09770b3739a2c7786b2c2e9fd1826"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/cold-txdone.h": {
+      "bytes": 4758,
+      "sha256": "89603ef51444274cb9892806e8e4c6894b68fa0a673cf4239669ec06f4ecfbd3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/control-client.c": {
+      "bytes": 6289,
+      "sha256": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/control-client.h": {
+      "bytes": 2526,
+      "sha256": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/control-v2-client.c": {
+      "bytes": 3849,
+      "sha256": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/control-v2.c": {
+      "bytes": 3742,
+      "sha256": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/control-v2.h": {
+      "bytes": 2222,
+      "sha256": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/gdma.c": {
+      "bytes": 1853,
+      "sha256": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/gdma.h": {
+      "bytes": 692,
+      "sha256": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/linux-control.c": {
+      "bytes": 11490,
+      "sha256": "ccb2ac164f3f8f03a2753736b2025f8233b4459b2abb23b243eaa57f0d82df56"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/linux-control.h": {
+      "bytes": 2154,
+      "sha256": "eb2e07978aa3fe3b05901cbf1e115fed0a42c0066d36e64c7065198b380d8ec1"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/provider-main.c": {
+      "bytes": 145,
+      "sha256": "761e768002464ac966016e2b4e580b61e07af264d437605bc46533d36258081a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-client.c": {
+      "bytes": 4043,
+      "sha256": "5fcb8d8313773742a7735d0adb8c890a8fc05242abe5b26574ec4d395880793f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-lifetime.c": {
+      "bytes": 23562,
+      "sha256": "87afb0168f440b5ee165689ee05f91a7377f744bafc7292603f9d44e8adba471"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-lifetime.h": {
+      "bytes": 5814,
+      "sha256": "ed39252dbe3714797fb4a9460164d6523b5c73ae9990e2f462ceeb1c1c166f97"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-native.c": {
+      "bytes": 4762,
+      "sha256": "b97e7339899c737017d3cf67447cc4d17b93b14b906e14bd1b2f690b10955217"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-native.h": {
+      "bytes": 1092,
+      "sha256": "e62ddd34565c5f0036202c6b0414e13580db06bf0082218302e2d1d1d4526fa1"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-session.c": {
+      "bytes": 9145,
+      "sha256": "f39b12e61fde0704d8d576e900ae2eaef3cab1ca851ad9941d85f0538b5193ce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-session.h": {
+      "bytes": 1152,
+      "sha256": "2978f4f04ba49e140ef699e6f15b2d474c0226c0189c5554c34563f08e0ae0a2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-wire.c": {
+      "bytes": 14552,
+      "sha256": "b1b24700768fb872cb8e16fb9d7a33de6c5889dfb981020e396daa23507ae0b3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/rro-wire.h": {
+      "bytes": 3182,
+      "sha256": "eef9261a21a300b260790c33aebc7b4b0c45f2bb37d9af9cdc4b2e0f89df3549"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/startup.c": {
+      "bytes": 3301,
+      "sha256": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/startup.h": {
+      "bytes": 1240,
+      "sha256": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/tunnel-header.c": {
+      "bytes": 1462,
+      "sha256": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/tunnel-header.h": {
+      "bytes": 957,
+      "sha256": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/tunnel-packet.c": {
+      "bytes": 1079,
+      "sha256": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/firmware/npu/tunnel-packet.h": {
+      "bytes": 553,
+      "sha256": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": {
+      "bytes": 1665607,
+      "sha256": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/admission-emulation.S": {
+      "bytes": 429,
+      "sha256": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/admission-platform-emulation.c": {
+      "bytes": 5935,
+      "sha256": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-bridge-emulation.c": {
+      "bytes": 2511,
+      "sha256": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-concurrency.c": {
+      "bytes": 4312,
+      "sha256": "0cc1d0c119b30324688b76547c501cc9baf724dc491356bd9494a2000768a43a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-emulation.ld": {
+      "bytes": 328,
+      "sha256": "ab6c13d09c0763fe64fc162c453c94bd38d197e0a26d24b9a8e66711d1c992c9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-placement-emulation.ld": {
+      "bytes": 584,
+      "sha256": "c0aa6b388a88e3bb97b4af1441921030c2a5cd4e8fdd83bda2754d3227ee4f9d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-reset-emulation.S": {
+      "bytes": 637,
+      "sha256": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-reset-emulation.ld": {
+      "bytes": 395,
+      "sha256": "cf3ac8ba7d426ce1d681d9384b5aae0c9ae0a8c64298b7e7e68b0f8c44c5fd08"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-startup-emulation.S": {
+      "bytes": 1007,
+      "sha256": "60241564eba40309c079be36fda0bd8f82b6c3444691189d5c4ae68579247e7f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-startup-emulation.c": {
+      "bytes": 7500,
+      "sha256": "f335907de92bf71df0cb7454be42c8834bc32a6f797215cd5087b967311f15f7"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-startup-emulation.ld": {
+      "bytes": 395,
+      "sha256": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/allocator-test-binding.c": {
+      "bytes": 3222,
+      "sha256": "2cd924cbf46ecb74b55237487191ca8b3d4ea4162a8864f9268e43b90656dfd5"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/barrier-core5-emulation.S": {
+      "bytes": 1890,
+      "sha256": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/barrier-emulation.ld": {
+      "bytes": 743,
+      "sha256": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/barrier-workers-emulation.S": {
+      "bytes": 4166,
+      "sha256": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/barrier-workers-emulation.ld": {
+      "bytes": 2458,
+      "sha256": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/boot-launch-harness.c": {
+      "bytes": 6240,
+      "sha256": "d6e17774ddeafe20625954be42b87507f626d2147fb08ccd8091fe1b65c6c967"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bootstrap-emulation.S": {
+      "bytes": 469,
+      "sha256": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bootstrap-platform-emulation.c": {
+      "bytes": 1905,
+      "sha256": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bootstrap-v2-emulation.ld": {
+      "bytes": 575,
+      "sha256": "6be0605087b8384691e333ee71e550b4badc1903b5ef57f2c812923ccad83437"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bootstrap-v2-platform-emulation.c": {
+      "bytes": 2070,
+      "sha256": "58c8cfc046ee280c9f62b9e5fc3b79ce6295060ce8d0e2b503c768bd1456feed"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bootstrap-v2-sanitize.c": {
+      "bytes": 4397,
+      "sha256": "91c6d074473c2fed80ef9af8a9e73d57cbba0d56ddcba383fa29df54709b3964"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bridge-startup-emulation.S": {
+      "bytes": 1356,
+      "sha256": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/bridge-startup-emulation.ld": {
+      "bytes": 405,
+      "sha256": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/checked-irq-harness.c": {
+      "bytes": 18473,
+      "sha256": "f42673d5cf8352aa8859de2e466540ac6393a7d375aaa9d619fa1011fbb08812"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/checked-irq-tx-harness.c": {
+      "bytes": 6619,
+      "sha256": "dcb4b2295fff361c6895c679c9a62adc020cfebfc85f7f8f1a7b4b09f5cc8271"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/checked-loader-harness.c": {
+      "bytes": 4044,
+      "sha256": "ce40842d5ca496d060f4d69c3dd5d1b1c87465d9c7cc53cffb14c3e69f55fe4d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-descriptor-native-emulation.S": {
+      "bytes": 1584,
+      "sha256": "95589008aaec9d1e4e71eb61b94d8f6fd83aeeaa151cab466cb2d5809fbabe28"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-descriptor-native-emulation.c": {
+      "bytes": 12393,
+      "sha256": "273df68eda02d3b323806c872770a7597afd8a6f04d3c9c772ddbf980e48e034"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-descriptor-native-emulation.ld": {
+      "bytes": 378,
+      "sha256": "02738f0b7fb6982f3773b2d779e2a0fcee1eefb965731c97fb7988113a83d3b9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-descriptor-probe.ld": {
+      "bytes": 193,
+      "sha256": "abf6cfddf459db73e0d13723e34ee34009e9b9e0ad58b3be77e6e521adfad54f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-descriptor-sanitize.c": {
+      "bytes": 1782,
+      "sha256": "cbd7c2ae7d2fe8ea00715bfa7899d4b6cfad4ede5c6c7b3411be4073034641dd"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-indication-native-emulation.S": {
+      "bytes": 1650,
+      "sha256": "fa242526d8b94c829764fff091d1ef546d1ca6714fedcd272b350528ec768f32"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-indication-native-emulation.c": {
+      "bytes": 6128,
+      "sha256": "a3852a0c9192f4452ad7130fac9e9530ed4c2bba7ec6c0417783f4272d873a87"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-indication-probe.ld": {
+      "bytes": 244,
+      "sha256": "7f095cfdb399dcd398879200dd554e914420d472f88b0ce8f51351d3ef175bb6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-indication-sanitize.c": {
+      "bytes": 5095,
+      "sha256": "d68171ff10a2dd96ea2c15150193b872ae7d8fbb9f22eda9ca85ed9c24a89d97"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-abi-stubs.S": {
+      "bytes": 288,
+      "sha256": "c61e89540613d7ed7b36f8fde71af00877b3038f74cd9ab7da84b400dac2aba5"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-fixture.c": {
+      "bytes": 9803,
+      "sha256": "18b8c4a0299e17e40d72e72a75faa74ad75316882847f88bdabecc1b7140b398"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-native-callback.S": {
+      "bytes": 378,
+      "sha256": "2a1837c14db2e50356ffe9ea73672fa596c4656d3f3e05e7a3175eefd8ffe2fa"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-native-emulation.c": {
+      "bytes": 9883,
+      "sha256": "e8f064a34373f3ac818d8899c789bf385b69cfe1f13ee163423c1ce96aa265a0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-native-emulation.ld": {
+      "bytes": 658,
+      "sha256": "e8b45977b7a283a45a3cec49042c54053ccbd90bf0dbd3be978f8553fcdf6141"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-native-stores.S": {
+      "bytes": 2642,
+      "sha256": "5c1d71caf49b8e3b33769d2b8a4336064a4f109103838755fc23e95a69278b35"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-native-stores.ld": {
+      "bytes": 615,
+      "sha256": "fcb384e80c1ddeca7285976465e56833e0ef3093c01d3452b1e639bd88d55072"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-inode-sanitize.c": {
+      "bytes": 2756,
+      "sha256": "f7db70f805a3fe706db2023e73d29c39fd5ae1013b02c15ddd94c3ffb8f05c4a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-memory-plan-harness.c": {
+      "bytes": 8222,
+      "sha256": "b454cc43c9ffe1a29a33e36067a39d2fea0bfca3a401bf389ab19f8b58e175b3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-native-dispatch-fixture.c": {
+      "bytes": 2126,
+      "sha256": "4b953fbf78697fb5e5242db8e1b9d45fd430d25b409822bb415df5437831c719"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-packet-native-emulation.S": {
+      "bytes": 2034,
+      "sha256": "27d1b68aa815401f1bfbb02ed24a56361c7b101a79d59c766371d3f7359522ff"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-packet-native-emulation.c": {
+      "bytes": 8139,
+      "sha256": "94771606561a6d475bbc26c5cfdf8df5537085f3998416de65adcf96acb9a864"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-packet-native-emulation.ld": {
+      "bytes": 522,
+      "sha256": "94d860ff3aceb3ff6e894e2153e77bc5e32e3e5c63da61baf065fc957464e542"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-packet-probe.c": {
+      "bytes": 683,
+      "sha256": "c613aa5c645056bee181e984481cf8e204e30c9ae0dd2504ab380154c64da275"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-packet-sanitize.c": {
+      "bytes": 3383,
+      "sha256": "8e7680ae7d2eebc49db07bb8e670fc59bdea0af42c1c17675e2a4966a908326c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-native-emulation.S": {
+      "bytes": 900,
+      "sha256": "6160f4537144c934a24dba739e9a79d75661fa45058529eaafdfe500dcd0c74f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-native-emulation.c": {
+      "bytes": 6314,
+      "sha256": "e40f94c3d985889b257e0e3a6de915b6f991b2034fcba8397960ecc1149ff367"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-native-emulation.ld": {
+      "bytes": 626,
+      "sha256": "82126d444103189085072b0ceef559518d7b0863666deb54359512739050b7f6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-probe.c": {
+      "bytes": 663,
+      "sha256": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-probe.ld": {
+      "bytes": 223,
+      "sha256": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-page-sanitize.c": {
+      "bytes": 6407,
+      "sha256": "31109fdf98f92dc2102d8a2f90050b5ddc8a8c9d5af8b2523c933168d8eebcf0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-abi-stubs.S": {
+      "bytes": 304,
+      "sha256": "1d65cfbba04f580a8a15dddc7ed78a99a872a6044eeb9ae7aa85e82d258f77f9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-fixture.c": {
+      "bytes": 9947,
+      "sha256": "fb1ab5145bf149d72a4c51c94f30ebb0539e28d1f3326f1be35078800acb5372"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-native-emulation.c": {
+      "bytes": 11679,
+      "sha256": "08020491b0efab065d42db86d2515d02d9b3b72846f8341fdd574b1c58fcc688"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-native-emulation.ld": {
+      "bytes": 600,
+      "sha256": "ff70cd33280681f230b0d1bce8b9e839b62d502959663cecee3263757049d0fe"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-native-stores.S": {
+      "bytes": 2872,
+      "sha256": "ae9147d1244fb454dc2c2d5e0ce27969c6b59ecce563d454aa328fb15191f0ce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-native-stores.ld": {
+      "bytes": 591,
+      "sha256": "da455727f0641ef0a9e76854ba17c0959775a907c3d94dd9b0415af7754ea368"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-pcie-tail-sanitize.c": {
+      "bytes": 1926,
+      "sha256": "5b71af7339da1c710f22ec1c9287b3219ccd94316f41d9d1d89ee3ffa2230f7a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-event-native-emulation.S": {
+      "bytes": 1445,
+      "sha256": "52e3e4ff360be84234df7eef10369248d835c4223551ede6fb7c84cbc7c9d00e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-event-native-emulation.c": {
+      "bytes": 7833,
+      "sha256": "da157fc59c4b93ef825627376991b9a48ce85b6cf2337504004bd1777592b081"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-event-native-emulation.ld": {
+      "bytes": 330,
+      "sha256": "3a04a9925085a53d68f6d0699e4e2e70821d58e73cca730604e5faef12d7144e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-event-probe.ld": {
+      "bytes": 271,
+      "sha256": "1aa8a197f1519c51ccee166136c0cb21b7223fbaf8513d27522fe79e3d8a3975"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-event-sanitize.c": {
+      "bytes": 2354,
+      "sha256": "4cb52f34b0e27f1bab1f4485b5d134f3faba021e9bae21b66ceb85e96866f80a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-pcie-fixture.c": {
+      "bytes": 5769,
+      "sha256": "710cdbababc07c551b23901910fc8eeca1ccefa3ec2339ab40d7e2df35732ea9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-pcie-native-emulation.S": {
+      "bytes": 1532,
+      "sha256": "6e05725c5e9a911cf9094a61c19fe56b7b819b41968726503e3f0162573934d2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-pcie-native-emulation.c": {
+      "bytes": 8230,
+      "sha256": "84b94a509d02c61e2b353c579fad72674426e0f17e5c37be71114b95994090a3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-rx-pcie-native-emulation.ld": {
+      "bytes": 326,
+      "sha256": "d9999e2c31f83728b3693b3f4477dff7de796c227bd95d7803c8c3d21025c752"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-setup-platform-emulation.c": {
+      "bytes": 3904,
+      "sha256": "68274c5ef3b26cabd90c0dacc922b70a35a4ff3a36a4abb8488110e951a7f5bc"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-buffer-native-emulation.S": {
+      "bytes": 5307,
+      "sha256": "832b4271e251480b0d4d5069b6ef2cbc4a9d6e26b254fb1c44aea39d6fec55ea"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-buffer-native-emulation.c": {
+      "bytes": 11368,
+      "sha256": "5e4a5fe07a43e6380b1c2ac10ea81cb22a4362c34690718b41d5bb7e4aac086a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-buffer-native-emulation.ld": {
+      "bytes": 288,
+      "sha256": "106825b0e755d83d034fdc2edacd22e32845fb5cdfd2d453ba84a3c6c6a80874"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-buffer-probe.ld": {
+      "bytes": 244,
+      "sha256": "616cd73352175eefc0fad1c1af8b1a0fdfe3157dd39c24106d5b9f0310a1ae2f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-buffer-sanitize.c": {
+      "bytes": 8912,
+      "sha256": "361068de39d7c0ce5e1a4ac59464f09317336a02f3d889a1968d33909725ca6a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-native-emulation.S": {
+      "bytes": 2666,
+      "sha256": "2f1d5a1de2aabe630ec5a59f45b510469d426e65d7708598fe21d64ac064ede8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-native-emulation.c": {
+      "bytes": 8924,
+      "sha256": "583a1d592e3839a28dbf4911312f860254ace1e8fc7e89e07bf6c42106a6e70e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-native-emulation.ld": {
+      "bytes": 562,
+      "sha256": "df7c7cf12bf580daa2d074359b1fa46901fed179f8a02f8c8498574c24e31f88"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-probe.ld": {
+      "bytes": 228,
+      "sha256": "01f5ab6d1c27cc46df2beed2a2095ec031012f3de90492667ba3bda3451cce91"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-tx-sanitize.c": {
+      "bytes": 4650,
+      "sha256": "73dc83a14e1e603f477fec5686a9e7a30fd84efe209a8ad631aabe6ae96d0b7f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-txdone-fixture.c": {
+      "bytes": 11303,
+      "sha256": "e9a7cd9c143f8fc7e0f5e07a205f53d5ef950b1f0879d200517f2488e7957036"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-txdone-native-emulation.S": {
+      "bytes": 7004,
+      "sha256": "33220b7fcd9cdbc26b428f9cd48feaf6016023f894f2829cb2775c7855272523"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-txdone-native-emulation.c": {
+      "bytes": 14626,
+      "sha256": "36bc419d9d710275e6f15c215d5a9e5bb7ca5d7d6e8913359d2ea7fba0ac704f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-txdone-native-emulation.ld": {
+      "bytes": 288,
+      "sha256": "e229b588e9c6eb55282f374c5ead4a3d5f144a6837596f8793077347f10ce01c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-txdone-probe.ld": {
+      "bytes": 269,
+      "sha256": "d3419b2d76737f6b8ae7eea31cfbb9498677ce2da33eab74724ecb7d258f9a3b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold-wire-harness.c": {
+      "bytes": 70603,
+      "sha256": "2dbec5811dccdd6c77410b310d7d8f4356ce6aaa3df4a3c5a9fff736bfe6ed1a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/cold_client_native.py": {
+      "bytes": 1242,
+      "sha256": "724af2eb2c08cc42f53fff14f2a09db5eac59d332bd8de7bfacab14262ee2e7a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/command-ring-order-emulation.S": {
+      "bytes": 982,
+      "sha256": "f3a8d2d60b46aa543ea200fc37e6725798415418bc2297a8f569f85f55afbed9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/command-ring-order-emulation.ld": {
+      "bytes": 384,
+      "sha256": "0bb1ea12ccfbf7c74c43f9c3b3b93b06bd1ff800d4e041aa00218680e2017b6b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/control-client-emulation.ld": {
+      "bytes": 291,
+      "sha256": "bfb517f6c8c5521b52153553ce01b8bdba67917078902d485929a2d7679e7507"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/control-client-sanitize.c": {
+      "bytes": 3654,
+      "sha256": "824eb989668dfba6f7b94a2636fe161b2cc80167cdc7ec68c9b32276235737cf"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/control-v2-platform-emulation.c": {
+      "bytes": 1127,
+      "sha256": "4fef70f27d0e9fc22bc51778158b6f5fc96ed576e097c657a422114d88de11a8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/control-v2-provider-harness.c": {
+      "bytes": 9965,
+      "sha256": "abfa53c318f5df8d2be09a226cf6362ab7c66ff6a52db3ff596563c74d36bad8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/desc10-packet-plan-harness.c": {
+      "bytes": 6933,
+      "sha256": "7f8b938c1a5cea8a029449ef68c489baae8242e3b98b4087a805de7018bf4847"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/descriptor_wire_native.py": {
+      "bytes": 2400,
+      "sha256": "a503461e7e149c8b6be6153d143c5e269284b3ca842a193715bb3d4f205090a6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/dma-lifetime-harness.c": {
+      "bytes": 4016,
+      "sha256": "d01f99d7582be90549ea5c4ffb2c52fa7e1d7c18025ff3c77939cac27df21fa9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/egress-emulation.S": {
+      "bytes": 1895,
+      "sha256": "6204d49d0c0276e3b5bf685bb51d1434560c269bd893c6735126e6f65b8e91a7"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/egress-emulation.ld": {
+      "bytes": 368,
+      "sha256": "deff4a5da337633ee332f54b7c95543333a8965baeaa1ff0fd05969808a2eae6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/emulation_layout.py": {
+      "bytes": 421,
+      "sha256": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/firmware-loader-harness.c": {
+      "bytes": 13350,
+      "sha256": "8cd283be7823a56134e5ef9f2d281da8f2df01c48b8e1a980b03a117a373247b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/gdma-platform-emulation.c": {
+      "bytes": 1269,
+      "sha256": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/host-rro-lifetime-harness.c": {
+      "bytes": 29969,
+      "sha256": "54c8ffb339c3822c70995fb2db555889d7a343a1c75aa4c978ea828fb5666676"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/host-rx-event-lifetime-harness.c": {
+      "bytes": 12874,
+      "sha256": "d1f3229f91ab22ad7216607f4096a84dd7f722d71d02cda20f18961082de1bb2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/host-tx-lifetime-harness.c": {
+      "bytes": 24350,
+      "sha256": "63d88a75e6d8032c802784126dff38e39bde448f334d72c794107dca6ec430c9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/inode-frame-harness.c": {
+      "bytes": 5239,
+      "sha256": "93ff4e4b15c796e80d66ebab72a23668446daab661da33ceac392cfd0d26318c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/inode-plan-snapshot-fixture.c": {
+      "bytes": 4587,
+      "sha256": "27de67e0643c5623290413d5306241d00c2fce1c47d7f0c162d9b6ef150ef38c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/inode-plan-snapshot.ld": {
+      "bytes": 374,
+      "sha256": "bd8d956ab225225ec0962fec8b86f595d0d8332b5fd6671a2a0aae63bb969033"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/inode-provider-harness.c": {
+      "bytes": 11484,
+      "sha256": "12ecc9722efc9bdb0afa6ee9fed274a365182c941143b20fe88f1243c43cd6ce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/inode_wire_native.py": {
+      "bytes": 3155,
+      "sha256": "d7eaa6e70f0b73255e99380eafbcf1a9288f5022126c1f32966d3167804d9da6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/l1-recovery-harness.c": {
+      "bytes": 16015,
+      "sha256": "08cd36d1f53cbe86da6a368454839e09381c76081c652e7753718bbc42c2f486"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/linux-control-harness.c": {
+      "bytes": 12641,
+      "sha256": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/native-read-api.c": {
+      "bytes": 49736,
+      "sha256": "cf6b18d267a80d6a9a7a4469aa47024dc12b17b7a65fa1c24743d65308210c0d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/native_cold_observer.py": {
+      "bytes": 10883,
+      "sha256": "4af5f6ad098c8c4de2e201875ccc91b20c2da5c60a84604f8d5aef9325f540ec"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/native_read_api.py": {
+      "bytes": 3622,
+      "sha256": "ec9c1d59b87a76c2344627db613b853774c5d0a8a0be8b73910b44e681e4783a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/npu-rcu-lifetime-harness.c": {
+      "bytes": 8250,
+      "sha256": "cdd9e892a4ea5c7a14a3170c2bf8531a6387e45bbcec916b2e8fa7cf44ab3d76"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/npu-rx-ownership-harness.c": {
+      "bytes": 20279,
+      "sha256": "79051bd5148f86a313395cba0dc8a1ac667e795b044440bc432db76a9a542213"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/npu-rx-parser-harness.c": {
+      "bytes": 19392,
+      "sha256": "df421dc157c004627a7e5e8055acf25aa68e540fad00f4903ffe843e776fcf41"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/npu_csr_sampler.py": {
+      "bytes": 2371,
+      "sha256": "e607e627bc1cd497069066c62ff0da0e3ab47bf513c2f75f0018085992cb98ce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/page-request-harness.c": {
+      "bytes": 3515,
+      "sha256": "adfd86fd992ee081643b7054e135b6f7f0d35d5b6b91d64a89db52fd20418a33"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/pcie-tail-provider-harness.c": {
+      "bytes": 4758,
+      "sha256": "fed72a81f9dba7e82de67d9ad6cae416ffebf2aeca7e254621fffa54d9cb8c6b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/pcie_tail_wire_native.py": {
+      "bytes": 3942,
+      "sha256": "15c9b8d4103c09ea95cc112844421eb4d62ea42a01aeb708b506de5fec68f604"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/preflight_dtb_cases.py": {
+      "bytes": 5427,
+      "sha256": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/provider-lifetime-harness.c": {
+      "bytes": 11409,
+      "sha256": "5a4f60711fe41708b3173e137bba047ab772adf288c6a54ef1d4bb20f25c77bc"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/provider-request-plan-harness.c": {
+      "bytes": 6547,
+      "sha256": "b5ee26ec5f5948aa54d59acafb7a77a1ad844ba078f1fdc9a0afba59c0c12783"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/provider-session-harness.c": {
+      "bytes": 20876,
+      "sha256": "114c5a5efa5dbb87706f02d7152246aa0fc1f16105be0f7713a2bb716a49a82b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/raw-pair-loader-harness.c": {
+      "bytes": 4317,
+      "sha256": "3c0a10ed3f6c1f0094be60046ce5197b1eed8a1a2bed3571fc6368d14e820d05"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/reset-control-harness.c": {
+      "bytes": 6687,
+      "sha256": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-lifetime-harness.c": {
+      "bytes": 34908,
+      "sha256": "6f742cd79d03f65f01907fe5518a39e72f4af731bee2e2b972b95a81365d1ed3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-native-emulation.c": {
+      "bytes": 5003,
+      "sha256": "69d27aacfca71d36b557e2dc8e843a7110cb2cb966c7848392209b9ee6c0ab1a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-native-emulation.ld": {
+      "bytes": 316,
+      "sha256": "7f0951c79c1303ba01f495ae539c114fe5f87857fb64ed19aed2de3c17123548"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-native-fixture.h": {
+      "bytes": 1826,
+      "sha256": "00c071574fc3a43cb56bf2bcfa152550bf5b7d8877784b41827aca76f383cd2b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-native-harness.c": {
+      "bytes": 13300,
+      "sha256": "6c3e083d6bbaedb4a2366894e90eac62175820f1dd54f498b5de81e3e88c08a4"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-owner-harness.c": {
+      "bytes": 18252,
+      "sha256": "ab4fe895a5eb614c01afdd5ef2a5d95bf4535099e3391e80308b43566b0b48e8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-session-harness.c": {
+      "bytes": 52454,
+      "sha256": "fdd28ce04c8d5fdf56edc8ba470feb15f9063bfe584567ce20958a9ded2c7fe6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-harness.c": {
+      "bytes": 25182,
+      "sha256": "72570ca7b12579083db14d5ab307adf3a75df564f3210902878182e1a7609539"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-native-abi.h": {
+      "bytes": 371,
+      "sha256": "7ea6dba9e8b7922e1a5b54826a5116621079acdf5235fe08a37c8032146deae0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-native-emulation.ld": {
+      "bytes": 1007,
+      "sha256": "1929fe7f0f1774e208a5d81426f6af185f3c98f78aa76a76c9afdb5d3413268e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-native-pair-oracle.c": {
+      "bytes": 6696,
+      "sha256": "3aaa465d5774ee7c76c0e747209dab20493ba3b1137f8b4e57701b4b5ee5ab32"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-native-platform.c": {
+      "bytes": 8048,
+      "sha256": "02948617ca3681dc0fd4f8d33db81ed32efedaeb4c13e89245dd19d5c1671604"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rro-wire-native-veneers.S": {
+      "bytes": 617,
+      "sha256": "0a6cc37934c097ed4fad7426237205bee1f73c9f2ebabc60051daa3345533389"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rx-stats-emulation.S": {
+      "bytes": 1762,
+      "sha256": "f5e1d675cc2b5103643fe3cfaede6307d061475f6e8ad07fb868f7146d09f18f"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rx-stats-emulation.c": {
+      "bytes": 2693,
+      "sha256": "989f90cdb8a6c0bf0dd737668fb738d3a60015e3c7ee592f0092e9457361157b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rx-stats-emulation.ld": {
+      "bytes": 634,
+      "sha256": "c09ac6c27bf89a649e972d7d28957067c7e65e329247a984d609b4d8c4f9c920"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rx_event_wire_native.py": {
+      "bytes": 2771,
+      "sha256": "c7007d92bf4a880872fa10bcedea6284b0fb865d8b8162d6ace55940c29398b6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/rx_pcie_wire_native.py": {
+      "bytes": 2809,
+      "sha256": "bda02494fb6a3edabc0ee8bf22bdb89322ba73380491a0a0cf6d0131c46209e3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/startup-emulation.S": {
+      "bytes": 2257,
+      "sha256": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/startup-platform-emulation.c": {
+      "bytes": 2217,
+      "sha256": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_admission_native.py": {
+      "bytes": 25268,
+      "sha256": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_admission_protocol.py": {
+      "bytes": 12397,
+      "sha256": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_allocator_native.py": {
+      "bytes": 15997,
+      "sha256": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_allocator_placement.py": {
+      "bytes": 11625,
+      "sha256": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_allocator_protocol.py": {
+      "bytes": 19210,
+      "sha256": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_allocator_reset.py": {
+      "bytes": 17282,
+      "sha256": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_allocator_startup.py": {
+      "bytes": 26563,
+      "sha256": "9fd4df8e6550bfb66a407129df4ddde720f4fe9281056a5f9d37858fa43e62e6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_attach_rx_callbacks.py": {
+      "bytes": 30305,
+      "sha256": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_attach_tx_callbacks.py": {
+      "bytes": 29333,
+      "sha256": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_barrier_core5.py": {
+      "bytes": 12199,
+      "sha256": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_barrier_protocol.py": {
+      "bytes": 11099,
+      "sha256": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_barrier_workers.py": {
+      "bytes": 25431,
+      "sha256": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_boot_irq_installation.py": {
+      "bytes": 28916,
+      "sha256": "4edcc39cf8b4a1e2e1c420e4c56fb28b534417c7d4737dfa3255327f44f0a76c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_bootstrap_control_v2.py": {
+      "bytes": 27090,
+      "sha256": "cd0b3c4d5c81f354f7ab016558c4b03785bd4421546fa33b66303ce439c7e0e9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_bootstrap_native.py": {
+      "bytes": 14257,
+      "sha256": "cfee804d33a3fcaba50077a56a9bff6ef845c17f4cca95292055e7b42fba5e6c"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_bootstrap_v2_composition.py": {
+      "bytes": 28337,
+      "sha256": "6b6ac35102db6e4547cefea2693bcde971c8f6b5dc8d164dbef9c24db10f1438"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_bridge_memory_budget.py": {
+      "bytes": 12717,
+      "sha256": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_bridge_startup.py": {
+      "bytes": 24542,
+      "sha256": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_cold_packet_native.py": {
+      "bytes": 24239,
+      "sha256": "5066c2c989e28afb6192d34ae7c93f5956a15c1df0abf30fad6b3703c4447169"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_cold_page_caller.py": {
+      "bytes": 6520,
+      "sha256": "f07d682c8635ccca524b4206e1ebf794dd89ffc79c4625f8344fce2961644771"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_cold_page_native.py": {
+      "bytes": 18394,
+      "sha256": "055f1cef368bcd14a1317744332d63e5dc9655e068877231676af46323db9b58"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_cold_txdone_native.py": {
+      "bytes": 25273,
+      "sha256": "c283e83a7177249e643da6c48047fae6d5cc7f10fd460112e231eeaa9cdf8559"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_command_ring_layout.py": {
+      "bytes": 23837,
+      "sha256": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_command_ring_order.py": {
+      "bytes": 20615,
+      "sha256": "9008a6f511144c22f5facd14e09b0bbcbf3dc3b0937169925c5b09ebbdfe2009"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_control_client.py": {
+      "bytes": 27938,
+      "sha256": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_control_v2.py": {
+      "bytes": 23089,
+      "sha256": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_egress_guards.py": {
+      "bytes": 22543,
+      "sha256": "77ce0dd487046e8dfade1bc946a22d1b3d9738936f0e0d3372d7a2b658b9d5d8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_firmware_mailbox_dispatch.py": {
+      "bytes": 6195,
+      "sha256": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_firmware_memory_layout.py": {
+      "bytes": 10608,
+      "sha256": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_firmware_stop_counterexample.py": {
+      "bytes": 8967,
+      "sha256": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_firmware_stop_irqs.py": {
+      "bytes": 4531,
+      "sha256": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_mt7996_bootstrap_sequence.py": {
+      "bytes": 36799,
+      "sha256": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_multihart_cold_boot.py": {
+      "bytes": 21056,
+      "sha256": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_native_cold_observer.py": {
+      "bytes": 60594,
+      "sha256": "a499565d709edbb3a719651abbb200ab17e855ea4b1b7e630842670897aee356"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_native_read_api.py": {
+      "bytes": 15748,
+      "sha256": "8b8fd1e530cad75ccfd747f05cab941103511e5fc7c75724a969afe2a857695e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_native_wifi_boot.py": {
+      "bytes": 17278,
+      "sha256": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_npu_raw_pair.py": {
+      "bytes": 7056,
+      "sha256": "6b05bf112d75b00136f3b1a09d63c56ee66bef272649aadae4422262aa45358d"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_rro_session.py": {
+      "bytes": 8047,
+      "sha256": "d2fc4a3382a5dd913eaf15523450514d322b548cfefb2e2601010cb3f34c3821"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_rro_wire_native_pair.py": {
+      "bytes": 54363,
+      "sha256": "9e336bb92dcc7b1b33c9111d1ac5fbf3aa556a3596c28a4007cc109942294a4b"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_rx_stats.py": {
+      "bytes": 18471,
+      "sha256": "8f4e74a7202718808827bf61b1bd38331aba935f414a38f4b8075ad24d8cd55e"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_startup_native.py": {
+      "bytes": 13488,
+      "sha256": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_tunnel_header_bounds.py": {
+      "bytes": 27129,
+      "sha256": "669b5f35e5178b4ac20d6cca2e6a3c06efece54f63a3b11abe57e9d93cfce7ba"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_tunnel_packet_extents.py": {
+      "bytes": 22299,
+      "sha256": "f2efa4f57c1887e2349904318d106f046d0a6ca26cedf430e689ec40c0698460"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_txbuf_dtbs.py": {
+      "bytes": 4588,
+      "sha256": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/test_txdone_init.py": {
+      "bytes": 32945,
+      "sha256": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tunnel-header-emulation.S": {
+      "bytes": 1915,
+      "sha256": "fb73d9a39738a1170263a18418f90c7f342dcc71f67824352a0b4847cf073297"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tunnel-header-emulation.ld": {
+      "bytes": 459,
+      "sha256": "c477e930973c6bbad74e47970bf12f8568ebbab94085540cc2e904dd79833aff"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tunnel-packet-emulation.S": {
+      "bytes": 964,
+      "sha256": "a2c99b7551880ce5443b608797679277ad9a4d4203a3d318b0b0b4b60fd74815"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tunnel-packet-emulation.ld": {
+      "bytes": 377,
+      "sha256": "28b98a6fc2f561d163a88918703eff4f7a03dc71151ddc285003d251683a15dc"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tx_buffer_wire_native.py": {
+      "bytes": 3440,
+      "sha256": "0134dfdddb59d9a990f80c1cd27c07d1c2c667f069db2ae01445a9e30b27c772"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/tx_wire_native.py": {
+      "bytes": 2505,
+      "sha256": "cce0b13ea21e1cd7c3a980129504aec7f46a71183bafe2f14688520327185bdb"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/txdone-init-emulation.S": {
+      "bytes": 2504,
+      "sha256": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/txdone-init-emulation.c": {
+      "bytes": 5712,
+      "sha256": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/txdone-init-emulation.ld": {
+      "bytes": 661,
+      "sha256": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tests/npu/txdone_wire_native.py": {
+      "bytes": 4273,
+      "sha256": "3f5d4a0faeff9c1e366f39d8a585a165b8bb91b1c28a598bded25fa36e7fe5f9"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tools/build_npu_pair.py": {
+      "bytes": 10215,
+      "sha256": "05a3c8d161f2d117717daed72d9a4486d7933220eac65285ad4c02d90187c0a0"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tools/build_npu_read_api.py": {
+      "bytes": 4914,
+      "sha256": "a730c7adb102e009b5f0b919a8f53a821ad640afdb8fec3f07bdb36632b0059a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs/tools/npu_image.py": {
+      "bytes": 19399,
+      "sha256": "8b164a59f53aafef1b677340e9f4828b72e9cf9a18310b472a85f75581ee716a"
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs-q1.json": {
+      "bytes": 96472,
+      "sha256": "c36a9679bb5538c36bc02699d89068f354b915296e06f92f0e8915f620d89cfb"
+    },
+    ".local/npu-native-terminal-20261027/review_report_q9.py": {
+      "bytes": 2221,
+      "sha256": "4ebc71ae66f4480486e0066573f7017103b252953300baba5f4f58d7d72b9e3f"
+    },
+    ".local/npu-native-terminal-20261027/seal_q10.py": {
+      "bytes": 6304,
+      "sha256": "e80bdd58711e7e1e9a085bbb8ef7f182d76b727c2094e11167735b3f69d76060"
+    },
+    ".local/npu-native-terminal-20261027/terminal-unit-journal-q1.log": {
+      "bytes": 1890,
+      "sha256": "8d7b0a5461ff8d713b13ce193e2355ec85cea4e2ddb0f4d86847eccb2a717b71"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/AGENTS.md": {
+      "bytes": 204325,
+      "sha256": "b07d2b33b61d6dea8bb20ee471d5885c8e472024ff1555406abb9573cf78b25c"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/README.md": {
+      "bytes": 108411,
+      "sha256": "88126afad804e9d208ed352aa6a0b99947192477c075ce7ef41faf74ef1de065"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/docs/REMAINING_WORK.md": {
+      "bytes": 209498,
+      "sha256": "0d848a52bc5449a1935baca4fd4b1fd1a78129c7b180b80ebd0f64f9305be913"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "bytes": 831068,
+      "sha256": "9b86721ab3ffec8334e933acc4528b0be24c17fc6e84313b0565d828c31eee2a"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "bytes": 1685990,
+      "sha256": "28040449a5afad4903297ba8b3e26c13c070c3b7650765dbe01663f0881c497e"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "bytes": 573700,
+      "sha256": "71868cccdd704f81029a3d6edecdf89f867f1c5406925b664fbe31bb90564af4"
+    },
+    ".local/npu-native-terminal-20261027/tracking-before-q7.json": {
+      "bytes": 859,
+      "sha256": "3a7220a02936f1eed3b3ad5729082301657aa67c18054821f63115eee965da69"
+    },
+    ".local/npu-native-terminal-20261027/tracking-preserved-q10.json": {
+      "bytes": 1733,
+      "sha256": "cc01957fa2b157fdb7666c5029af54c21d4c1503d53e8e961cddc9a103415df1"
+    },
+    ".local/npu-native-terminal-20261027/verify_completed_q8.py": {
+      "bytes": 983,
+      "sha256": "68785eaa745c57f781aa87db44cbe2cab424d8d399c3c66f22c704c4c74edd42"
+    },
+    ".local/npu-native-terminal-20261027/windows-q1.json": {
+      "bytes": 421,
+      "sha256": "17f0d9a7e45e3ca424abb5623ed7ac1fe69176eb32a5362d737ef78238739dbb"
+    }
+  }
+}

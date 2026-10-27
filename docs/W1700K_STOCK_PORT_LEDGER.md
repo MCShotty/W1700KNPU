@@ -1,5 +1,57 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+- Continued solo fromca05dff. Original full-q21 invocation6c1bc5ff is terminal
+  failed/exit1/MainPID0, no cgroup/original processes. Its controller/wrapper fail,
+  not a full native pass. The dependent queue observes termination before its
+  module phase and has now completed modules-q3 plus regressions-q4 successfully.
+  Windows controller3416 has exited and both successful transient units collected.
+- A bounded terminal audit checks all positive operation/argument/generation
+  sequences, I/O counts, performance aggregates, rolling final digest and final
+  broker/journal/prefix hashes. Profiles0/1 each complete6421 positives,129
+  publications and2050 of each reset phase, with2179 extent and four full-memory
+  comparisons. Profile2 has257 positives, including119 completed publications.
+  Overall13099 positives/377 publications are partial recipe evidence, not19261.
+- Profile2 ordinal119/slot119 times out at0x841047c4 after60000840634ns, unchanged
+  100M/60s. It records24576 writes/23721 reads, one of two table reads, no injection
+  or unmodeled access. No data-mismatch assertion or firmware cause is established.
+  ELF/Capstone inspection byte-matches the entire96-byte read_memory function
+  and its halted lw instruction to paired CODE. This is not Ghidra/REA/runtime
+  hardware evidence. Preserve failure and do not restart unchanged inputs.
+- All294 prepared native inputs are copied to a read-only retained-inputs tree:
+  5777126 bytes, explicit original/retained paths and modes, hashes checked before/
+  after. This preserves those producing file bytes, not an entire runtime or
+  toolchain. The separate438 target input graph rehashes without being copied.
+  All earlier failures remain; no cleanup deletion, shutdown or compaction.
+- Current four-module producer92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e
+  passes copied-cache compile/link,18 zero-fuzz patch outputs and unchanged
+  original inventories:102685 kernel/516 mt76/1036 cache entries in the verifier's
+  scope. Provider/core/connac bytes stay; only mt7996e changes tod7cad6df. Linux
+  vermagic6.18.52/aarch64 and source lockd55e71a3 bind the current module set.
+- Actual compiled RRO/helper receiptc85efeb3 passes10 cases/three controls with
+  source drain present, all32768 token queries per case and zero metadata at
+  modeled context free. The current-module MCU receiptcaf9f6a1 passes31/three and
+  eight send-error trace groups. Other kernel/firmware/MMIO effects remain models;
+  complete Linux cleanup and physical retirement are not proven.
+- Fresh15-suite regression receiptc08d8b00 passes, including167 tooling units/
+  zero skips and the three selected host-C TSan lanes. These are fresh selected-C/
+  model/tooling tests, not fresh UML/ARM64-kernel or physical tests. All nested
+  declared inputs and suite/module artifact hashes are rechecked before publication.
+- Module/regression caps stay400MiB/no swap, output reserves512/768MiB, original
+  dual margins and C writer lock. Read-only terminal audit uses192MiB/no swap;
+  current-module MCU probe uses400MiB, EROFS controls, no C output and extra
+  concurrent D-output reserve. No replay limit or firmware check is relaxed.
+- Preserve failed Jev preparers q3(parse) and q4(overbroad local version rename);
+  neither produced an inference. Fresh q5's six actual semantic answers remain
+  retained, including compiled metadata fix0.86, full native acceptance0.07 and
+  physical drain0.05. Direct module/tests establish their covered software scope.
+- Six previous tracking bodies remain byte-identical. Lockd55e71a3/mt76 patch
+  5fa42f93/kernel patchaacc0ffc remain. No new image/module load/router contact/
+  flash or Wi-Fi change. Keep Ethernet disconnected. Faithful timing, complete
+  consumer retention/drain, reuse/hot and image/client gates remain; goal active.
+  Read research/checkpoints/2026-10-27-npu-rxwi-target-qualified/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 - Continued solo from2c17d02. Added test_cold_mcu_native.py directly to mainline

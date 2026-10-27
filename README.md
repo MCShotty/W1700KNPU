@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - RXWI Target Qualified; Native Recipe Failed
+
+The integrated RXWI fix is now target-compiled and executed: its compiled RRO
+helper passes10 cases/three controls with no metadata left at modeled context
+free. Fresh modules also pass the31-case MCU contract,15 regression suites and
+167 tooling units with zero skips. These offline checks are not physical DMA
+retirement or complete Linux teardown.
+
+The full native recipe completed profiles0/1 but failed profile2's publication
+ordinal119 at the unchanged60-second limit. That failure is preserved, not
+restarted or relabeled a pass. Ethernet stays disconnected; no new image or
+flash. See [the qualification checkpoint](research/checkpoints/2026-10-27-npu-rxwi-target-qualified/REPORT.md).
+
 ## 2026-10-27 - Compiled MCU Cleanup Failure Contract
 
 A new retained-AArch64 replay passes31 MCU/cold-cleanup cases and detects three
