@@ -1,5 +1,25 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Original Native Profile 1 Completed
+
+- Original full-q16/20c8f1ab completed profiles0/1 and entered profile2 with
+  unchanged guard137794/wrapper137812/driver137844/start5470636. The full
+  three-profile/19261 result is still pending; no older profiles are stitched in.
+- New private artifact audit verifies profile1's6421 positive RPC/journal
+  comparisons,2179 extents, four full-memory records, complete recipe order,
+  increasing serials and final broker/journal/transcript hashes. Five final
+  artifacts are preserved read-only. This reads the original saved evidence;
+  no extra emulator run or new6421-case execution occurred. Audit SHA256:
+  3f5b580374583187a45cc8c411148a0f5f171f423ae051138e1940898a73e2ae.
+- All454 queued target inputs and332 original/read-only versions rehash. Queue
+  PID17788/plan e67d5198 still waits; no target phase started. Current FW-TXP
+  fix/lock cc128c3b stays compile-pending. Original limits/caps/reserve/lock stay.
+  No production source change, restart or competing compile/native sampling.
+- Read native-profile-progress REPORT/EVIDENCE. Provider/IRQ/MCU/physical
+  effects stay modeled; no physical drain, complete lifetime or reuse closure.
+  Ethernet disconnected; no board/load/image/flash/Wi-Fi/subagent/shutdown/
+  compaction/cleanup. Full owner/drain/reuse/hot/image/board/client goal stays open.
+
 ## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
 
 - Added test_tx_status_kernel_native.py. Final parser-backed replay-q6 passes

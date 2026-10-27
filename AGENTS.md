@@ -1,5 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Original Replay Now In Profile 2
+
+- Original full-q16/20c8f1ab has completed profiles0/1 and entered profile2;
+  original guard137794/wrapper137812/driver137844/start5470636 remain live.
+  Profile1 artifact audit verifies6421 RPC/journal comparisons,2179 extents,
+  four full-memory records, exact event order and final hashes. This audit is
+  not another emulator run or full three-profile/19261 acceptance. MCU/physical
+  effects stay modeled. Read native-profile-progress REPORT/EVIDENCE.
+- Queue PID17788/plan e67d5198 still waits;454 target/332 original/read-only
+  bindings verify. No target phase started; current fix/lock cc128c3b remains
+  compile-pending. Do not restart/edit the original or duplicate the queue.
+  Keep caps/limits/reserve/lock and Ethernet disconnected; no subagents.
+  Complete owner/drain/reuse/hot/image/board/client gates and full goal stay open.
+
 ## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
 
 - Continue solo; Ethernet disconnected. New status replay passes 64 cases/nine

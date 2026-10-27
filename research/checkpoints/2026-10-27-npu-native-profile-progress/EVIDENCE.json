@@ -1,0 +1,240 @@
+{
+  "passed": true,
+  "checkpoint": "original-native-two-profile-progress",
+  "source_parent": "61b5d2ed5d444f691a9526961030c509ad43b94f",
+  "observed_unix_ns": 1793129701159630566,
+  "profiles": [
+    {
+      "profile": 0,
+      "receipt": ".local/npu-tx-token-native-20261027/profile0-verified-q7.json",
+      "receipt_sha256": "84badc959744a39d3d598bbe36c4a4de535962d69b670af78c8203242213cb67",
+      "positive_RPC": 6421,
+      "complete_journal_compares": 6421,
+      "complete_extent_compares": 2179,
+      "complete_memory_compares": 4,
+      "exact_event_order_additionally_audited": false
+    },
+    {
+      "profile": 1,
+      "receipt": ".local/npu-native-profile-audit-20261027/profile1-verified-q1.json",
+      "receipt_sha256": "3f5b580374583187a45cc8c411148a0f5f171f423ae051138e1940898a73e2ae",
+      "positive_RPC": 6421,
+      "complete_journal_compares": 6421,
+      "complete_extent_compares": 2179,
+      "complete_memory_compares": 4,
+      "exact_event_order_additionally_audited": true
+    }
+  ],
+  "total_original_completed_RPC": 12842,
+  "profile2_started": true,
+  "whole_three_profile_recipe_pass": false,
+  "report_sha256": "6a7342357aa7e2f83da164fa2182336733b4699e6292f0a2ec9638af09fd0bde",
+  "tracking": {
+    "AGENTS.md": {
+      "before_sha256": "f80803a0e9ef5f7ce19ef33dd9623324471ca55dfa15e2e8292b852fc16c8474",
+      "sha256": "1fcfcee40f78aba6c6f76bdbaec4afda38c23e08eddd67cd65a9c479af29c632",
+      "old_body_byte_identical": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "before_sha256": "c295860a7b454af2f8b02f717a2895a53e37b3aebccc6b27bd2b5a0ac425346b",
+      "sha256": "cfe679a2a9c61ee80a206dc865d426474c6b4fdcad61c33d9631dfbd4b7b92bf",
+      "old_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "before_sha256": "1bf10aac6bf0bdd7e020c752eeae99866c9285698b79a2ebb25854cb36167cc9",
+      "sha256": "f5741c5e6e812ef2b1ac155342cf8b292d51a63a4c0e175cc9eab98eafe880f7",
+      "old_body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "before_sha256": "b7a611319bf4288a444de2a4305d39ef88df454b8bcf405667ce59c3d5d675a6",
+      "sha256": "398f13999916ed9ca320cae7ce2fc349998fbec98478258853d481d2147bc4c1",
+      "old_body_byte_identical": true
+    }
+  },
+  "target_inputs_verified": 454,
+  "native_inputs_verified": 332,
+  "retained_inputs_verified": 332,
+  "plan_sha256": "e67d5198b90accba2785cc9ae08b55e4d665d5747df58cce1ce913ee68e23bea",
+  "current_target_build_started": false,
+  "current_source_fix_target_compile_pending": true,
+  "actual_original_state": {
+    "unit": {
+      "LoadState": "loaded",
+      "ActiveState": "activating",
+      "SubState": "start",
+      "InvocationID": "20c8f1ab62d74236bf977c134d09b059",
+      "MainPID": "137794",
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ControlGroup": "/system.slice/w1700k-npu-native-memory-hook-full-q16.service",
+      "CPUUsageNSec": "26418377107000",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "cgroup_pids": [
+      137794,
+      137812,
+      137844,
+      208732
+    ],
+    "original_processes_live": {
+      "guard": {
+        "pid": 137794,
+        "ppid": 1,
+        "start_ticks": 5470192,
+        "CPU_ticks": 200899,
+        "argv": [
+          "/usr/bin/python3",
+          "-u",
+          "-B",
+          "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/guard_phase_q1.py",
+          "full-q16"
+        ],
+        "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+      },
+      "wrapper": {
+        "pid": 137812,
+        "ppid": 137794,
+        "start_ticks": 5470277,
+        "CPU_ticks": 259,
+        "argv": [
+          "/usr/bin/python3",
+          "-u",
+          "-B",
+          "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/full_q16.py"
+        ],
+        "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+      },
+      "driver": {
+        "pid": 137844,
+        "ppid": 137812,
+        "start_ticks": 5470636,
+        "CPU_ticks": 2434809,
+        "argv": [
+          "/usr/bin/python3",
+          "-u",
+          "-B",
+          "/home/captain/W1700KNPU/tests/npu/test_rro_wire_native_pair.py",
+          "--pair",
+          "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair",
+          "--host-evidence",
+          "/home/captain/W1700KNPU/.local/npu-rro-session-host-20261023/host-q2/result.json",
+          "--name",
+          "matrix-q1",
+          "--output-root",
+          "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-full-q16/runs",
+          "--native-cold-receipt",
+          "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-build-q3/ubsan/build.json"
+        ],
+        "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+      }
+    },
+    "history": {
+      "invocation": "20c8f1ab62d74236bf977c134d09b059",
+      "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1",
+      "verified_live": true
+    },
+    "durable_terminal_receipt": null,
+    "observed_unix_ns": 1793129700719622825,
+    "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1"
+  },
+  "private_artifacts": {
+    ".local/npu-tx-token-native-20261027/profile0-final-q7/broker-final.bin": {
+      "sha256": "c3e11b6cb800a1790f92f9127bd29f2a39c72467b82a6ea75e908f9e5326a6f9",
+      "bytes": 30588
+    },
+    ".local/npu-tx-token-native-20261027/profile0-final-q7/oracle-journal-final.bin": {
+      "sha256": "1582c54877ae9fb0964f85fc4ec33ab1cc173aeb9459a21c2d17de7e500afd1c",
+      "bytes": 30356
+    },
+    ".local/npu-tx-token-native-20261027/profile0-final-q7/prefix.json": {
+      "sha256": "bb2a5e29fd19fbca51cbbe0443eb04ce06670ae133124a99f85ad61bfa117b30",
+      "bytes": 124690
+    },
+    ".local/npu-tx-token-native-20261027/profile0-final-q7/summary.json": {
+      "sha256": "34b497b3b1fca2f377c0306972342afe32440080db1aaa7957b62d0e8d67b4e7",
+      "bytes": 16310
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-final-q1/broker-final.bin": {
+      "sha256": "34e1ad9ad0b3deae66ace9728f6c84141aa06d0d197826eda1d4259bc1ef9ada",
+      "bytes": 30588
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-final-q1/oracle-journal-final.bin": {
+      "sha256": "496aabb93eac2d48334b90123e4941003cfa88bd87f304a1db93ff3387941fd4",
+      "bytes": 30356
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-final-q1/prefix.json": {
+      "sha256": "04b888ade11027ff46760e294edab074c2fdbaa985752248fedc707d9ddd5172",
+      "bytes": 124690
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-final-q1/summary.json": {
+      "sha256": "408cd2fca7f71cfc9015a3552c888f896f112d297356c79b674c4fc7d462310b",
+      "bytes": 16308
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-final-q1/rpc.jsonl": {
+      "sha256": "1f53a0b06c68950fbe1091a4b0fcbbd149b8f3952a07359af7ca7551c6b366b5",
+      "bytes": 8453130
+    },
+    ".local/npu-tx-token-native-20261027/profile0-verified-q7.json": {
+      "sha256": "84badc959744a39d3d598bbe36c4a4de535962d69b670af78c8203242213cb67",
+      "bytes": 1257
+    },
+    ".local/npu-native-profile-audit-20261027/profile1-verified-q1.json": {
+      "sha256": "3f5b580374583187a45cc8c411148a0f5f171f423ae051138e1940898a73e2ae",
+      "bytes": 4453
+    },
+    ".local/npu-native-profile-audit-20261027/verify_profile1_q1.py": {
+      "sha256": "5a532037145a5f78ba0413799b804325d3ddb13a9580bea6d177b12d055e7f39",
+      "bytes": 6168
+    },
+    ".local/npu-native-profile-audit-20261027/jev-request-q2.json": {
+      "sha256": "09201702afd750682a3d5d13cd78b7d5449f229216c5a0f3556fc861b7e445b3",
+      "bytes": 5560
+    },
+    ".local/npu-native-profile-audit-20261027/jev-result-q2.json": {
+      "sha256": "858b5286de15ffa8b6c7dc328c85065a5bd9ef8630b77d8d9319bab6ecad89c4",
+      "bytes": 2172
+    },
+    ".local/npu-native-profile-audit-20261027/seal_progress_q2.py": {
+      "sha256": "51b98dd1b2219d2632dd08d8a9c36e4dc4e26ae81f1239faa8f590646f08aed0",
+      "bytes": 5873
+    }
+  },
+  "jev_response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "scope": {
+        "type": "choice",
+        "choice": "two_profiles",
+        "confidence": 1.0,
+        "probabilities": {
+          "two_profiles": 1.0,
+          "full_native": 0.0,
+          "physical": 0.0,
+          "unknown": 0.0
+        }
+      },
+      "counts_audit_as_execution": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "fresh_build_pass": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "model_boundary": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 1691,
+      "output_tokens": 104
+    }
+  },
+  "new_emulator_execution": false,
+  "per_RPC_assertions_from_original_bound_driver": true,
+  "production_source_changed": false,
+  "physical_retirement": false,
+  "hardware": false
+}

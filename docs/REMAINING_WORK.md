@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Finish The Same Third Native Profile
+
+Original full-q16/20c8f1ab has completed profiles0/1 and entered profile2.
+Profile1's saved artifacts verify6421 positive RPC/journal comparisons,2179
+extent comparisons, four full-memory records, exact event order and final
+hashes. This is an artifact audit, not new emulator execution or full19261
+acceptance. The original process identities and332 original/read-only inputs
+remain intact. Require the same full run's own terminal result and all artifacts.
+
+Queue PID17788/plan e67d5198 still waits with454 target inputs; no target phase
+has started. Current fix/lock cc128c3b stays compile/execution pending. Do not
+restart or change the frozen run/queue. Fresh modules/regressions and the three
+newer token/status suites still need qualification. Complete consumer/devres/
+context/RRO ownership, physical containment/drain, BA reuse/hot and current
+image/board/client acceptance remain. Ethernet disconnected; full goal active.
+Read native-profile-progress REPORT/EVIDENCE for the two completed profiles.
+
 ## 2026-10-27 - Complete Consumer And Physical Ownership
 
 Selected packet-status registration/removal and both DMA/TXS/flush orderings now

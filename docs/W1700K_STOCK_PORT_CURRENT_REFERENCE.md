@@ -1,5 +1,21 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Two Native Profiles Complete; Third Running
+
+The same original full-q16/20c8f1ab has completed profiles0/1 and entered
+profile2, with original guard137794/wrapper137812/driver137844/start5470636.
+Profile1 artifact audit independently verifies6421 positive RPC/journal
+comparisons,2179 extents, four full-memory records, exact event order and final
+hashes. Read native-profile-progress REPORT/EVIDENCE. This is not a new emulator
+run or the full three-profile/19261 verdict; MCU/physical effects remain models.
+
+All454 queued target/332 original/read-only inputs verify. Queue PID17788/plan
+e67d5198 still waits and no target phase started. Source fix/lock cc128c3b stays
+compile-pending. Keep the original inputs/limits/caps/reserve/lock intact; no
+restart or competing build. Complete consumer/devres/context/RRO ownership,
+physical containment/drain, reuse/hot/image/board/client gates remain open.
+Ethernet disconnected; no subagents. The full NPU goal remains active.
+
 ## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
 
 Parser-backed status replay passes 64 cases/nine controls, 34 current inputs.
