@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
+
+Parser-backed status replay passes 64 cases/nine controls, 34 current inputs.
+Actual MT7996 TXS parsing/locking, status registration/removal, kernel allocation
+logic and both completion orders execute. All 23 linked-kernel bodies enter;
+35 bodies enter/38 map overall. Across fixtures, 510 modeled status completions
+occur once, 136 nodes retire and 12 allocation requests fail as injected.
+Slab/RCU scheduling/mac80211/DMA/RX delivery remain models. Full SMP, station/PS,
+consumer/devres/context/RRO and physical containment/drain/reuse/hot stay open.
+
+Shared-loader compat-q8 passes 56/7 with 30 current inputs; original kernel source
+and helper60 consumed versions preserve older receipts. Prior token62/9 stays.
+Producer92c75156/all417 inputs verify with three aliases; current fix/lock
+cc128c3b remains compile-pending. Original20c8f1ab advances; profile1 snapshot
+2874 RPCs/129 publications/868 triplets is not complete. Queue PID17788/plan
+e67d5198 waits, 454 target/332 native/read-only inputs unchanged, no phase started.
+Tests are not added to the frozen queue. Rerun all three on fresh modules after
+qualification. Ethernet disconnected; full goal active. Read status REPORT/EVIDENCE.
+
 ## 2026-10-27 - Compiled Kernel IDR Token Lifetime
 
 New kernel-backed token replay passes56 cases/seven controls with30 bindings.

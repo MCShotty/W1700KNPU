@@ -1,5 +1,30 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
+
+- Continue solo; Ethernet disconnected. New status replay passes 64 cases/nine
+  controls with 34 current bindings. Actual MT7996 TXS parser, core registration/
+  removal/locking and all 23 linked-kernel IDR bodies execute. Overall 35 bodies
+  enter/38 map. Both DMA/TXS orders, forced/expiry flush, wrap, ACK/header handling
+  and allocation failure are covered; 510 fixture status completions occur once.
+- Slab memory, RCU grace scheduling, mac80211/DMA effects and RX IRQ delivery
+  remain models. Empty context setup is supplied; tree allocation/constructors
+  execute compiled code. This is not full Linux SMP, RX delivery or physical drain.
+  Station/PS, full non-AQL/capacity, consumer/devres/context/RRO/reuse/hot remain.
+- Shared kernel loader now supports selected components and PREL32 tables.
+  Default compat-q8 passes 56/7 with 30 current inputs. Old kernel source is
+  preserved before-api-q1; its old receipt needs that alias. Helper-only60 uses
+  two consumed aliases and is not final parser acceptance. Prior token62/9 and
+  17 inputs stay. Read tx-status-native REPORT/EVIDENCE; do not add repeated runs.
+- Producer92c75156/all417 inputs verify with three old aliases. Current source
+  fix/lock cc128c3b remains compile-pending. Original full-q16/20c8f1ab advances;
+  profile1 snapshot2874 RPCs/129 publications/868 reset triplets is not a verdict.
+- Queue PID17788/plan e67d5198 still waits, 454 target/332 native/read-only inputs
+  unchanged, no phase started. These tests are outside the frozen sets and not
+  added to the queue. Keep caps/limits/reserve/lock; no restart/competing compile.
+  Rerun all three suites on fresh matching modules afterward. Full ownership,
+  physical containment/drain, image/board/client goal remains open.
+
 ## 2026-10-27 - Compiled Kernel IDR Token Lifetime
 
 - Continue solo; Ethernet disconnected. New test_tx_token_kernel_native.py

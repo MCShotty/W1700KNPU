@@ -25,9 +25,11 @@ ROOT_IDR_FREE = 0x2000000
 
 
 class KernelObjects:
-    def __init__(self, kernel):
+    def __init__(self, kernel, *, paths=None, bases=None, roots=None):
         self.elfs, self.symbols, self.definitions, self.relocations = {}, {}, {}, {}
-        self.paths = dict(idr=kernel/'lib/idr.o',radix=kernel/'lib/radix-tree.o')
+        self.paths = dict(idr=kernel/'lib/idr.o',radix=kernel/'lib/radix-tree.o') if paths is None else dict(paths)
+        self.bases = dict(KERNEL_BASES if bases is None else bases)
+        assert self.paths.keys() == self.bases.keys()
         for label,path in self.paths.items():
             elf = ELFFile(io.BytesIO(path.read_bytes()))
             assert elf['e_machine'] == 'EM_AARCH64' and elf.little_endian
@@ -44,7 +46,9 @@ class KernelObjects:
                     table = elf.get_section(section['sh_link'])
                     self.relocations[label] += [(relocation,table.get_symbol(relocation['r_info_sym']))
                                                 for relocation in section.iter_relocations()]
-        selected = {'idr_get_next','idr_get_next_ul','idr_destroy','radix_tree_node_rcu_free'}
+        selected = set(roots) if roots is not None else {
+            'idr_get_next','idr_get_next_ul','idr_destroy','radix_tree_node_rcu_free'}
+        assert selected <= self.definitions.keys()
         decoder = Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN)
         while True:
             before = set(selected)
@@ -86,7 +90,7 @@ class KernelObjects:
 
 class KernelModule:
     def __init__(self, objects, label):
-        self.base, self.path = KERNEL_BASES[label], objects.paths[label]
+        self.base, self.path = objects.bases[label], objects.paths[label]
         self.sha256 = sha(self.path)
         elf = objects.elfs[label]
         index = elf.get_section_index('.text')
@@ -96,6 +100,7 @@ class KernelModule:
                           for name,(component,symbol) in objects.definitions.items()
                           if component == label and name in objects.selected}
         self.instructions, self.calls, self.tails, self.data = {}, {}, set(), {}
+        self.data_writable = set()
         self.relocated_data = []
         decoder = Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN)
         for name,(start,size) in self.functions.items():
@@ -117,8 +122,11 @@ class KernelModule:
             if target['st_shndx'] == index:
                 address = self.base+target['st_value']+relocation['r_addend']
             elif target['st_shndx'] == 'SHN_UNDEF':
-                assert target.name == '__stack_chk_guard',('undefined-kernel-data',target.name)
-                address = GUARD+relocation['r_addend']
+                if target.name == '__stack_chk_guard':
+                    address = GUARD+relocation['r_addend']
+                else:
+                    assert label == 'core' and target.name == 'jiffies',('undefined-kernel-data',target.name)
+                    address = base.JIFFIES+relocation['r_addend']
             else:
                 target_index = target['st_shndx']
                 assert isinstance(target_index,int)
@@ -129,8 +137,13 @@ class KernelModule:
                     for symbol in objects.symbols[label]:
                         if symbol.name == 'radix_tree_node_cachep' and symbol['st_shndx'] == target_index:
                             struct.pack_into('<Q',payload,symbol['st_value'],SLAB)
-                    address = 0x1a000000+list(KERNEL_BASES).index(label)*0x200000+len(self.data)*0x10000
+                    assert len(self.data) < 32
+                    address = 0x1a000000+list(objects.paths).index(label)*0x200000+len(self.data)*0x10000
+                    assert address+section['sh_size'] <= 0x30000000
+                    assert not (address < base.END+4096 and address+section['sh_size'] > base.END)
                     self.data[target_index] = (address,bytes(payload))
+                    if section['sh_flags'] & 1:
+                        self.data_writable.add(address)
                 address = self.data[target_index][0]+target['st_value']+relocation['r_addend']
             if kind == RELOC['R_AARCH64_ADR_PREL_PG_HI21']:
                 assert word & 0x9f000000 == 0x90000000
@@ -165,6 +178,25 @@ class KernelModule:
                 self.calls[pc] = target
                 if mnemonic == 'b':
                     self.tails.add(pc)
+        self.data_relocations = []
+        for data_index,(address,payload) in list(self.data.items()):
+            data = bytearray(payload)
+            for section in elf.iter_sections():
+                if section['sh_type'] != 'SHT_RELA' or section['sh_info'] != data_index:
+                    continue
+                targets = elf.get_section(section['sh_link'])
+                for relocation in section.iter_relocations():
+                    target = targets.get_symbol(relocation['r_info_sym'])
+                    assert relocation['r_info_type'] == RELOC['R_AARCH64_PREL32']
+                    assert target['st_shndx'] == index
+                    offset = relocation['r_offset']
+                    assert 0 <= offset <= len(data)-4
+                    destination = self.base+target['st_value']+relocation['r_addend']
+                    relative = destination-(address+offset)
+                    assert -(1 << 31) <= relative < 1 << 31
+                    struct.pack_into('<i',data,offset,relative)
+                    self.data_relocations.append(dict(address=address+offset,target=destination))
+            self.data[data_index] = (address,bytes(data))
         required = {
             'idr_get_next': {('ldrsw','x2, [x19]'),('str','w1, [x19]')},
             'idr_get_next_ul': {('ldr','w21, [x0, #0x10]'),('add','x22, x0, #8')},
@@ -196,7 +228,7 @@ def link(modules):
 
 
 def verify_linked_bodies(objects,path):
-    wanted = objects.selected
+    wanted = {name for name in objects.selected if objects.definitions[name][0] in KERNEL_BASES}
     found = {}
     with path.open('rb') as stream:
         elf = ELFFile(stream)

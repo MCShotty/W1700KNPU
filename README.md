@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
+
+The retained MT7996 TXS parser and kernel-backed packet-status lifecycle now pass
+64 cases/nine controls, including both DMA/TXS orders, flush, expiry/wrap and
+allocation failure. The shared-loader compatibility suite also passes 56/7.
+This is compiled emulation with stated memory/RCU/DMA models, not physical drain
+or client acceptance. The full native replay continues and the current DMA-fix
+build remains queued. Ethernet stays disconnected. See [scope and evidence](research/checkpoints/2026-10-27-npu-tx-status-native/REPORT.md).
+
 ## 2026-10-27 - Compiled Kernel IDR Token Lifetime
 
 The token replay now executes matching compiled Linux IDR/radix-tree routines:

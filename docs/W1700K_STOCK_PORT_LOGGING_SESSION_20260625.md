@@ -1,5 +1,23 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
+
+Solo parser-backed status replay passes64 cases/nine controls, 34 current inputs.
+Actual MT7996 TXS/locking, status registration/removal and23 kernel bodies execute;
+35 bodies enter/38 map. Both orders/flush/expiry/wrap/ACK/header/allocation-failure
+states are covered; 510 fixture status returns occur once. Slab/RCU scheduling/
+mac80211/DMA/RX delivery remain models, not physical acceptance.
+
+Shared-loader compat-q8 passes56/7 on30 current inputs. Preserve original API
+source and helper60 consumed aliases; prior token62/9 stays. Old producer92c75156/
+417 inputs verify with three aliases; fix/lock cc128c3b is compile-pending.
+Original20c8f1ab advances, profile1 snapshot2874 positives/129 publications/868
+triplets is not full19261 acceptance. Queue PID17788/plan e67d5198 waits,454
+target/332 native/read-only inputs unchanged, no phase started. Tests are outside
+the frozen queue; rerun all three on new modules after qualification. Read status
+REPORT/EVIDENCE. No compiler/C write/load/image/hardware/Wi-Fi/shutdown/compaction/
+subagents; Ethernet disconnected. Full lifetime/physical/board/client goal stays.
+
 ## 2026-10-27 - Compiled Kernel IDR Token Lifetime
 
 Solo kernel-backed token replay passes56 cases/seven controls,30 bindings.

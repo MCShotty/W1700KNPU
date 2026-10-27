@@ -1,5 +1,39 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
+
+- Added test_tx_status_kernel_native.py. Final parser-backed replay-q6 passes
+  64 distinct cases/nine byte controls, 34 current bindings. Actual MT7996 TXS
+  parsing, locking, status registration/removal and 23 linked-kernel IDR bodies
+  execute; 35 bodies enter/38 map overall. No modeled IDR implementation is used.
+- Both DMA/TXS orders, forced flush before/after DMA, expiry before/at25 jiffies,
+  wrap, dense64-SKB leaf crossings, header/ACK outcomes and allocation failures
+  are covered. Registered status packets retain the other owner after token zero
+  or empty packet IDR until the second condition. Across fixtures: 510 returns once,
+  136 allocated/deferred/returned nodes and 12 injected allocation failures.
+- Compiled allocation/tree constructors execute on modeled slab buffers. RCU
+  grace scheduling, mac80211/DMA effects and RX IRQ delivery remain models. This
+  is not real Linux SMP or physical drain. Simple non-AQL counter retirement
+  executes; full station/PS/non-AQL/capacity and consumer/devres/context stay open.
+- Extended the shared kernel loader with selected components, core jiffies,
+  writable-data metadata and PREL32 switch-table relocations. Current compat-q8
+  requalifies 56/7 on 30 current inputs. Preserve original source before-api-q1;
+  old receipt uses one alias. Helper-only60 verifies with two consumed aliases,
+  not extra final cases. Prior token62/9 and its17 inputs remain unchanged.
+- Final runtime62.055s/peak105.9MiB under192MiB/no swap, fresh dual margins,
+  bounded oneshot and EROFS C-write control. No compiler/C output/load/hardware
+  action. All417 old producer inputs verify via three aliases. Current source
+  fix/lock cc128c3b remains target-compile/execution pending.
+- Original full-q16/20c8f1ab exact process chain advances. Profile0 final stays;
+  profile1 snapshot2874 positives/129 publications/868 RESET+MCU_BEGIN+COMPLETE
+  each is not a full verdict. No original restart or limit/reserve/lock changes.
+- Queue PID17788/plan e67d5198 waits with454 target/332 native/read-only inputs
+  unchanged, no phase started. New tests are unbound and not added to the queue;
+  rerun all three on fresh modules afterward. Six old tracking bodies preserved.
+  Read tx-status-native REPORT/EVIDENCE. Ethernet disconnected; no image/flash,
+  Wi-Fi/shutdown/compaction/subagents. Full NPU ownership/drain/reuse/hot/image/
+  board/client goal stays active.
+
 ## 2026-10-27 - Compiled Kernel IDR Token Lifetime
 
 - Added test_tx_token_kernel_native.py: final replay-q5 passes56 cases/seven

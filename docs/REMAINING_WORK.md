@@ -1,5 +1,23 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Complete Consumer And Physical Ownership
+
+Selected packet-status registration/removal and both DMA/TXS/flush orderings now
+execute with the actual MT7996 TXS parser: 64 cases/nine controls, 34 current
+bindings. All 23 kernel IDR bodies enter. Simple non-AQL count retirement is
+checked; station/PS/full non-AQL and capacity pressure remain. Real RX IRQ/NAPI
+delivery, concurrent Linux SMP/RCU, complete consumer/devres/context/RRO lifetime,
+physical containment/drain, reuse/hot and image/board/client acceptance stay open.
+
+The shared loader's default suite passes 56/7 on 30 current inputs. Preserve the
+old source alias and helper60 consumed versions; they are not extra parser cases.
+Old producer92c75156 is still pre-FW-fix. Follow queue PID17788/plan e67d5198:
+454 target/332 native/read-only inputs stay, no phase started. Tests are outside
+its frozen sets; rerun all three on fresh modules after qualification. Current
+fix cc128c3b remains compile-pending. Original full-q16 stays live; profile1
+snapshot2874 RPCs/129 publications/868 triplets is not full19261 acceptance.
+Ethernet disconnected; read tx-status-native REPORT/EVIDENCE. Full goal stays.
+
 ## 2026-10-27 - Continue Packet-Status Ownership
 
 Compiled token-IDR traversal/destroy now passes56 cases/seven controls using
