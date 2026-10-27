@@ -1,5 +1,23 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+Continued solo from2c17d02. New mainline test executes four retained AArch64
+MCU/cold-cleanup functions and passes31 cases/three instruction mutations.
+Private q4 then stricter public q6 are repeated qualification, not62 cases.
+Eight groups keep exactly equal traces across send0/EIO/ETIMEDOUT. Actual poll
+failure still reaches later token/shared-DMA cleanup after CPU ingress joins.
+Firmware poll/MMIO/kernel effects remain models; no physical drain or fix.
+
+Source bindings match current MCU/init/DMA files/two headers to olda840d3cc.
+All438 queued/294 native inputs rehash under read-only400MiB/no swap/Nice10
+guards; no C writer lock displacement or compilation. Full-q21 stays live,
+with3546 checked positives/129 publications and1092 of each reset phase in the
+retained profile0 prefix, not a full verdict. Source lockd55e71a3/patch5fa42f93
+stay and RXWI target build remains queued. Keep Ethernet disconnected as the
+user requested. No image/load/router contact/flash/Wi-Fi change/compaction.
+Six prior tracking bodies remain; read cold-mcu-native REPORT/EVIDENCE.
+
 ## 2026-10-27 - RXWI Validation Queued
 
 Continued solo from95dee00c. The approved VHD compaction is verified already

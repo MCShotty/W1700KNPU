@@ -1,5 +1,21 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+The actual compiled cold/MCU path now has31 cases/three instruction controls.
+Firmware poll failure and send errors do not gate token/shared-DMA cleanup;
+CPU joins and reset/disable writes are not a physical retirement witness.
+Use this contract when implementing complete consumer containment/retention,
+including devres, pages/mappings, rings, metadata and context. Owned-RRO fixtures
+use empty managed allocations; live-resource failure coverage remains required.
+
+Keep438 queued/294 native inputs frozen. After original full-q21 stops, require
+the queued current RXWI build/helper/regressions and rerun the new MCU contract
+against the fresh producer. No new compile happened here. Current prefix3546/
+129 publications/1092 of each reset phase is not a full result. Physical DMA,
+BA reuse/hot lifetime and image/client acceptance remain open. Ethernet stays
+disconnected at the user's request. Read cold-mcu-native REPORT/EVIDENCE.
+
 ## 2026-10-27 - RXWI Validation Queued
 
 The finite RXWI queue is waiting on original full-q21, not compiling alongside

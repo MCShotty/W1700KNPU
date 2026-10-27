@@ -1,5 +1,46 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+- Continued solo from2c17d02. Added test_cold_mcu_native.py directly to mainline
+  tests. It executes four retained AArch64 functions: cleanup_device, mcu_exit,
+  dma_cleanup and dma_disable. Moduleaf458b04 matches retained producera840d3cc;
+  current init.c/mcu.c/dma.c and two headers match that producer's source context.
+  This does not relabel the pre-fix RXWI module current or newly compile anything.
+- All31 cases/three instruction mutations pass. Cases vary MCU/queue attachment,
+  HIF2, send0/EIO/ETIMEDOUT, modeled poll success/failure, owned-RRO flags and
+  already-started cleanup. Public scoped-q6 adds eight exact equal trace groups
+  across send results and MCU/ingress/purge/token order assertions. The earlier
+  private scoped-q4 is retained; repeated runs are not62 unique cases.
+- Actual native instructions form the12-byte no-wait power-off request and
+  invoke the firmware-state poll with unchanged bounds. Poll failure logs and
+  skips firmware-own writes, then returns to caller token/shared-DMA cleanup.
+  DMA reset/disable RMW arguments execute for both HIFs. Those hardware effects,
+  CPU joins, tokens and shared DMA are models. Owned-RRO cases have empty managed
+  slots; no live-buffer retirement, complete Linux or physical proof is claimed.
+- Three in-emulator instruction mutations invert the MCU-poll branch, omit
+  DMA cleanup or omit firmware polling. Each fails its named contract assertion.
+  Original module bytes are read-only. Maximum1084 instructions per scenario
+  includes the idempotent repeat; per-entry1M/5s limits stay unchanged.
+- Scoped-q4/q6 succeed under400MiB/no swap/Nice10/CPUWeight10 with fresh backing/
+  RAM margins, protected EROFS write-open controls and zero new C output. All438
+  queued/294 native inputs rehash; no C writer lock is displaced. No compilation,
+  original-job restart or resource-policy relaxation occurred.
+- REA binary_session reports Transport closed; no registration or engine change
+  is attempted. ELF/Capstone observations are labeled ordinary local analysis,
+  not REA Evidence or Ghidra verification. Four actual Jev checks remain retained
+  with low support for drain/caller-error/retention/physical-proof claims.
+- Observation-q7 verifies unchanged full-q21 guard18906/wrapper18920/driver18942
+  and advancing CPU. Its finite profile0 prefix has3546 positives: OPEN1/ENROLL139/
+  PUBLISH129/HARDWARE1/RESET1092/MCU_BEGIN1092/MCU_COMPLETE1092. HARDWARE is a modeled
+  protocol operation, not physical board access. No full native verdict exists.
+- Keep Ethernet disconnected per the user's answer. No router contact, flash,
+  image/module load, Wi-Fi change, shutdown or compaction. Six prior tracking
+  bodies remain byte-identical. Lockd55e71a3/patch5fa42f93/kernel patchaacc0ffc stay.
+  RXWI target compilation and broad regressions remain queued. Full physical
+  consumer retention/drain, reuse/hot and client gates remain; goal active. Read
+  research/checkpoints/2026-10-27-npu-cold-mcu-native/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - RXWI Validation Queued
 
 - Continued solo from95dee00c. Rehashed the original successful Ubuntu VHD

@@ -1,5 +1,26 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+- Continue solo and keep Ethernet disconnected, as the user requested. No
+  router contact, flash or Wi-Fi association change; hardware gates stay open.
+- New test_cold_mcu_native.py executes four retained AArch64 cleanup functions.
+  All31 cases/three instruction mutations pass, including eight equal trace
+  groups for send0/EIO/ETIMEDOUT. A repeated private/public run is not62 cases.
+  Firmware poll, MMIO, scheduler, token and shared-DMA effects remain models.
+- Actual compiled MCU-poll failure still reaches token and shared DMA cleanup;
+  requested power-off is no-wait. Reset/disable MMIO arguments and HIF2 order
+  execute, but neither their physical semantics nor containment is proven.
+  Owned-RRO flag fixtures have empty managed allocation slots, not live-buffer
+  retirement coverage. This adds an executable contract, not a retention fix.
+- The MCU/init/DMA sources and two headers match pre-fix producera840d3cc.
+  No new compiler ran. RXWI source fix remains uncompiled on target. Lockd55e71a3/
+  patch5fa42f93 stay; all438 queued/294 native inputs match and remain frozen.
+- Original full-q21 remains live. observation-q7 records3546 positives in
+  profile0:129 publications and1092 RESET/MCU_BEGIN/MCU_COMPLETE each, no full
+  verdict. The waiting controller remains independent; do not restart either.
+  Existing limits, margins and C writer lock stay. Read cold-mcu-native report.
+
 ## 2026-10-27 - RXWI Validation Queued
 
 - Continue solo. The approved Ubuntu VHD compaction is already complete:

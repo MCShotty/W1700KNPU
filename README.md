@@ -1,5 +1,17 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+A new retained-AArch64 replay passes31 MCU/cold-cleanup cases and detects three
+instruction mutations. It confirms that modeled firmware-state failure still
+reaches later token/DMA cleanup. Hardware effects and other kernel APIs remain
+modeled; this is an executable failure contract, not physical drain or a fix.
+
+The full native replay is live at3546 checked RPCs/129 publications in its
+retained profile0 prefix, not a complete verdict. RXWI target validation remains
+queued. Ethernet stays disconnected. See
+[the MCU cleanup checkpoint](research/checkpoints/2026-10-27-npu-cold-mcu-native/REPORT.md).
+
 ## 2026-10-27 - RXWI Validation Queued
 
 A guarded waiting controller now sequences a fresh current-source module build,

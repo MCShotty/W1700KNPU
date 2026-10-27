@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled MCU Cleanup Failure Contract
+
+From2c17d02, new test_cold_mcu_native.py executes retained AArch64 cleanup,
+MCU-exit, DMA-cleanup and DMA-disable functions. Three current source files and
+two headers match producera840d3cc. All31 cases/three instruction mutations pass;
+the public run adds eight equal traces across send0/EIO/ETIMEDOUT and stricter
+MCU/CPU-ingress/purge/token ordering. Repeated runs are not62 unique cases.
+
+The native no-wait power-off packet, poll call, HIF2 ownership writes and DMA
+reset/disable arguments execute. Poll/MMIO/kernel effects remain explicit models.
+MCU-poll failure still reaches token/shared-DMA cleanup, including owned-RRO
+flag fixtures with empty managed slots. No physical drain, actual Linux cleanup,
+live RRO allocation retirement or retention implementation is proven.
+
+Read-only scoped-q4/q6 pass under400MiB/no swap/Nice10, with EROFS write-open
+controls and original driver CPU progress. All438 queued/294 native inputs match.
+Observation-q7 retains3546 checked positives/129 publications and1092 of each
+reset phase in profile0; original full-q21 is live, not complete. RXWI compile
+remains queued. Source lockd55e71a3/patch5fa42f93 stay. Keep Ethernet disconnected.
+No compiler, image/load/router contact/flash or Wi-Fi change. Read MCU REPORT/EVIDENCE.
+
 ## 2026-10-27 - RXWI Validation Queued
 
 From95dee00c, a finite Windows controller is verified live at PID3416, waiting
