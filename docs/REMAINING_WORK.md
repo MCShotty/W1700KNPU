@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Native Memory Callback Gateway Next
+
+Current profile 7 passes a fresh profile-2 first-publication subset: 139 checked
+positive RPCs, 141 canonical rows equal except wall_ns, complete extent/broker/
+DMA/SRAM/code comparisons, 46.865s publication. Scoped sampling yields 46693
+samples, zero reported loss. This neither completes the full recipe nor explains
+the original publication-119 timeout. No source or compiled artifact changed.
+
+The actual memory-hook registration still uses Unicorn's Python wrapper. Next
+test a direct C gateway analogous to the existing block gateway. Preserve its
+original registration position, all callback arguments/signed values, dynamic
+metadata, fresh SP, I/O/fault checks, exact errors and complete callback lifetime.
+Keep the default Pair reference; require plain/UBSan regressions, mutation
+controls, actual guest trace identity and measured performance before a fresh
+complete recipe. Current 309 probe inputs, 438 target inputs and 294 retained
+native versions verify. Full native, consumer containment/physical drain, BA
+reuse/hot lifetime, current image/board/real-client performance/stability remain.
+Ethernet stays disconnected. Read native-publication-profile REPORT/EVIDENCE.
+
 ## 2026-10-27 - Faithful Native Timing Still Required
 
 Observer profile 7 fixes reproduced custom-counter state mismatches by using

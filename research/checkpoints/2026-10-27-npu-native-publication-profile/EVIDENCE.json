@@ -1,0 +1,806 @@
+{
+  "format": "w1700k-native-publication-profile-v1",
+  "passed": true,
+  "facts": {
+    "passed": true,
+    "base_commit": "c18c7dcd3a84fb5202d287cd042869612d4082d2",
+    "host_observer_profile": 7,
+    "source_changed": false,
+    "new_compiler_run": false,
+    "profile": 2,
+    "checked_positive_RPC": 139,
+    "canonical_rows": 141,
+    "publication_wall_ns": 46864880212,
+    "counts": {
+      "blocks": 7438798,
+      "metadata_writes": 760661,
+      "payload_reads": 515,
+      "mailbox_veneer": 1,
+      "mailbox_binding": 1,
+      "table_writes": 1,
+      "table_reads": 2,
+      "extent_writes": 24576,
+      "extent_reads": 24576
+    },
+    "samples": 46693,
+    "reported_lost_samples": 0,
+    "sample_clock": "CLOCK_MONOTONIC",
+    "all_samples_inside_window": true,
+    "no_inheritance": true,
+    "user_CPU_only": true,
+    "no_call_chains": true,
+    "zero_kernel_policy_changes": true,
+    "native_bound_inputs": 309,
+    "unchanged_target_inputs": 438,
+    "historical_native_inputs_preserved": 294,
+    "full_native_recipe_pass": false,
+    "publication119_timeout_cause_proven": false,
+    "hardware": false,
+    "full_npu_goal_complete": false
+  },
+  "production_sources": {
+    "tests/npu/native-read-api.c": "063129ac93f33855b249d843a42cdbce8127506b5fc8021f4ec07632654baf41",
+    "tests/npu/native_cold_observer.py": "fa9592be49c2c9b6c20fd49990eb266327348ac1010d0875a1e89238ac08453f",
+    "tests/npu/test_native_cold_observer.py": "a724931364804ed9696ce718b4ea654170cfd7510a31714de3cd2e0ff42e7dc5"
+  },
+  "tracking": {
+    "AGENTS.md": {
+      "before_sha256": "f503f7c3f91071da94057423fc107e84b0b997abbd2ffbf2b3049e785cab5845",
+      "previous_body_sha256": "eee7d02938b5cda680b1cff18b407a5e055759ec51474a85ab5db12bec76b1cb",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 2049,
+      "sha256": "6f92495824d26b0649b4a43470ceef3be0570bb6f2375e27d91eb98b32bc5686"
+    },
+    "README.md": {
+      "before_sha256": "e89fb62c214a0dd2c8372b33e4816cf79fd5ff649f3d872c1dd9a58f734ba459",
+      "previous_body_sha256": "37ea2dbf22ab58b245aed0809c22b5f0ac0d550620d830371a5d2953b19a7517",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 783,
+      "sha256": "588aaade8ee312d526cd69854abb9b46753c436c3413b2ea7afb98d4fa058873"
+    },
+    "docs/REMAINING_WORK.md": {
+      "before_sha256": "41d75fe7600015627cb1606f39e81ad4877b9965404981eba891e744ffc17baa",
+      "previous_body_sha256": "3b7d17a0a8713d927e7b1a5aae508827f73ee97ef139891c76bec6c9982bbbe8",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1237,
+      "sha256": "36e347f935febff9776c752f1578f90072cce8f0bdd5c28e87c31e66ed5d0d19"
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "before_sha256": "fcbd692ea533a0ba4c71bd6167991c0cdd6bdd7f7df62c0e551b68e69d175705",
+      "previous_body_sha256": "c9713ed48452e86810f27ef7f7b3eec5e8b329b4b2a490ca503f5fde70377285",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1523,
+      "sha256": "91444bf189b0e2da38df2d37a7d58e855ebfbbc3b8efcb286639147d294fd2ee"
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "before_sha256": "43725d223d00ab8b009e6d153eff6aabc832f46fe564d4727f7fccffad5319e3",
+      "previous_body_sha256": "4885e02db6a4747d3c381351dcd5a6e10aa7a85b5c56725df5b64889d385bbf9",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 3558,
+      "sha256": "d3b44504e91b3cd4e8edeff0e57d2ed6bd12cf042036d78c1f8849c96599d845"
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "before_sha256": "165c4e9a4d48306c867f265a1067c05ffd7a64b83a80b58f11b5a420eefd8cef",
+      "previous_body_sha256": "6812057844c65fe04483bb26c5b0d444076080ffc971896de2c625cbfc4b28ca",
+      "previous_body_byte_identical": true,
+      "prefix_bytes": 1042,
+      "sha256": "49b15cd46a8bc99015ea69782104152982319a31fc7a9c21db8e48a1979359bc"
+    }
+  },
+  "report_sha256": "6637c96a45d43347cc2a3bdc5827ff42e61ac61718a715a044a580fba3d8bf07",
+  "retained_artifacts": {
+    ".local/npu-publication-profile-20261027/analyze-q7-budget.json": {
+      "sha256": "e5f1ae65de9f847b82ca32e482458ece3854bdd1d158787ad430462d0ecc8e81",
+      "bytes": 6726
+    },
+    ".local/npu-publication-profile-20261027/analyze-q7-controller.json": {
+      "sha256": "6d77b901fcf1cf86bed46d401173b808e74f855121be2d33366c8e18acb6db10",
+      "bytes": 257
+    },
+    ".local/npu-publication-profile-20261027/analyze-q7-host.json": {
+      "sha256": "91c04219dab0a436ee26b5006a320fb7b1d3de3bed4d35a5d40241db98f8cb4a",
+      "bytes": 1122
+    },
+    ".local/npu-publication-profile-20261027/analyze-q7-windows.json": {
+      "sha256": "7cde1ca9c545307569163dbce3840b0c040eb4fbd760686bec06df39af68fb69",
+      "bytes": 1798
+    },
+    ".local/npu-publication-profile-20261027/analyze_q7.py": {
+      "sha256": "4cd38f958ca6adf29b566e9e532e8ed540dcc4fd4196494039663d93560e2fc3",
+      "bytes": 6829
+    },
+    ".local/npu-publication-profile-20261027/before/AGENTS.md": {
+      "sha256": "f503f7c3f91071da94057423fc107e84b0b997abbd2ffbf2b3049e785cab5845",
+      "bytes": 207877
+    },
+    ".local/npu-publication-profile-20261027/before/README.md": {
+      "sha256": "e89fb62c214a0dd2c8372b33e4816cf79fd5ff649f3d872c1dd9a58f734ba459",
+      "bytes": 110095
+    },
+    ".local/npu-publication-profile-20261027/before/docs/REMAINING_WORK.md": {
+      "sha256": "41d75fe7600015627cb1606f39e81ad4877b9965404981eba891e744ffc17baa",
+      "bytes": 211899
+    },
+    ".local/npu-publication-profile-20261027/before/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "sha256": "fcbd692ea533a0ba4c71bd6167991c0cdd6bdd7f7df62c0e551b68e69d175705",
+      "bytes": 834037
+    },
+    ".local/npu-publication-profile-20261027/before/docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "sha256": "43725d223d00ab8b009e6d153eff6aabc832f46fe564d4727f7fccffad5319e3",
+      "bytes": 1693666
+    },
+    ".local/npu-publication-profile-20261027/before/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "sha256": "165c4e9a4d48306c867f265a1067c05ffd7a64b83a80b58f11b5a420eefd8cef",
+      "bytes": 575959
+    },
+    ".local/npu-publication-profile-20261027/before/tests/npu/native-read-api.c": {
+      "sha256": "063129ac93f33855b249d843a42cdbce8127506b5fc8021f4ec07632654baf41",
+      "bytes": 50514
+    },
+    ".local/npu-publication-profile-20261027/before/tests/npu/native_cold_observer.py": {
+      "sha256": "fa9592be49c2c9b6c20fd49990eb266327348ac1010d0875a1e89238ac08453f",
+      "bytes": 10883
+    },
+    ".local/npu-publication-profile-20261027/before/tests/npu/test_native_cold_observer.py": {
+      "sha256": "a724931364804ed9696ce718b4ea654170cfd7510a31714de3cd2e0ff42e7dc5",
+      "bytes": 63857
+    },
+    ".local/npu-publication-profile-20261027/control-q2-budget.json": {
+      "sha256": "2c5b76a539fbf850b98928260d88b4d50e1fc9d1ba41fdd4097cf1a245e9ce1e",
+      "bytes": 6743
+    },
+    ".local/npu-publication-profile-20261027/control-q2-controller.json": {
+      "sha256": "689156b270e098fd5d12c31000f1fda343bc51b53ebf40bace5faf66e65a5b89",
+      "bytes": 258
+    },
+    ".local/npu-publication-profile-20261027/control-q2-host.json": {
+      "sha256": "6490d22e889ca0b7749cdd07f8d0db3a885ab82f4786f817a9f5f73dfaaf6840",
+      "bytes": 1122
+    },
+    ".local/npu-publication-profile-20261027/control-q2-windows.json": {
+      "sha256": "51044e4580b8a4abb3ca0995a77461ebe01b46994c7284d8ce2a4839f19ed507",
+      "bytes": 1814
+    },
+    ".local/npu-publication-profile-20261027/control-q5-budget.json": {
+      "sha256": "e918f785c33b36a93fd982de895bd84d522261391bf7bc21e07495d116627782",
+      "bytes": 6743
+    },
+    ".local/npu-publication-profile-20261027/control-q5-controller.json": {
+      "sha256": "2067bb27a58ef2a2f3889a9b62307d6ba543eef9c6b5629733606260fa328bb6",
+      "bytes": 257
+    },
+    ".local/npu-publication-profile-20261027/control-q5-host.json": {
+      "sha256": "98af0b70da29ee4b145c336f091a3c3e240a1d5f57fcd9a81f71141a3c76482a",
+      "bytes": 1122
+    },
+    ".local/npu-publication-profile-20261027/control-q5-windows.json": {
+      "sha256": "b5624c6f3cf8d47ff5fe1665aeb768d45134db5017f8f3cdd3cd7050e0ab6e82",
+      "bytes": 1814
+    },
+    ".local/npu-publication-profile-20261027/control_body_q2.py": {
+      "sha256": "f490c9fb72348062f224e6fee990c6a6950a4a3fb2b024a75311db51ce96678e",
+      "bytes": 439
+    },
+    ".local/npu-publication-profile-20261027/control_body_q4.py": {
+      "sha256": "efffa31857bd4daf19da2c3ca1bc2639d3e2a4405d2dbad967e92ccf42ce6311",
+      "bytes": 439
+    },
+    ".local/npu-publication-profile-20261027/facts-q7.json": {
+      "sha256": "340fcf3fbcd15028f2618a1a1258737ded184ce7a118943896c72d860f56feb2",
+      "bytes": 1015
+    },
+    ".local/npu-publication-profile-20261027/guard_phase_q1.py": {
+      "sha256": "9ce2bbf77094853923cd2fa0ee5a3dba3c0b6d74a642ff668bc511d7a379523a",
+      "bytes": 1770
+    },
+    ".local/npu-publication-profile-20261027/jev-scope-q1.request.json": {
+      "sha256": "8f5224ae44df5d6c2bd57a06f7f71a05d2cb58f2387d43915f8de21589c08ce6",
+      "bytes": 1301
+    },
+    ".local/npu-publication-profile-20261027/jev-scope-q1.result.json": {
+      "sha256": "a88e852653a5ca931a1dd9a95984bfd66a4cfe6e2166a6b756ea679125a53241",
+      "bytes": 1615
+    },
+    ".local/npu-publication-profile-20261027/jev-verify-q7.request.json": {
+      "sha256": "6f5d0d98b6c2cdeb5c32bd094a6d15e9611cddc36e636fe2e30596421a6cbf26",
+      "bytes": 3261
+    },
+    ".local/npu-publication-profile-20261027/jev-verify-q7.result.json": {
+      "sha256": "0c7c855307e34a49442cf667d6f23ad2beb9a716736185473f1d144308e60646",
+      "bytes": 2115
+    },
+    ".local/npu-publication-profile-20261027/launch_phase_q1.py": {
+      "sha256": "76ec3b274e37fa891e8eb5f16b623dacf244fe3bf09173685f4066ac8f9095c4",
+      "bytes": 1110
+    },
+    ".local/npu-publication-profile-20261027/preparation-q1.json": {
+      "sha256": "6eef48c8c1714c7b6d37b4350e5d7b9a842b243b966357ae98006908c04c51e1",
+      "bytes": 4326
+    },
+    ".local/npu-publication-profile-20261027/preparation-q4.json": {
+      "sha256": "e5dc59e60b3a4fbcbba2b3dd2fd8d820032ad53864cd56537d07b42d80af9f22",
+      "bytes": 5113
+    },
+    ".local/npu-publication-profile-20261027/prepare_q1.py": {
+      "sha256": "795b5a7a003c8b3e2917e1ef62825020c679cb09ac06cb133db3d48533d358af",
+      "bytes": 6624
+    },
+    ".local/npu-publication-profile-20261027/prepare_q4.py": {
+      "sha256": "270a4feac84a6b65346060ecd40e18a1c8321c788335bbb2cfb760c627b4ed4c",
+      "bytes": 2534
+    },
+    ".local/npu-publication-profile-20261027/profile_q2.py": {
+      "sha256": "3ef3fe64de65cc4e8580a510b1e442b8f8a7087e220cd4ab8901250ba5d4b4bd",
+      "bytes": 3815
+    },
+    ".local/npu-publication-profile-20261027/profile_q4.py": {
+      "sha256": "5d928a5fa39d94b5edd619e6987c1e4ace43d096e4b68c774a3d47dbf69029e6",
+      "bytes": 3880
+    },
+    ".local/npu-publication-profile-20261027/publication-q6-budget.json": {
+      "sha256": "dabe70029d7da8c76eb7021adf202009d240c5fef5541a3dd4c5e12f4802a762",
+      "bytes": 6779
+    },
+    ".local/npu-publication-profile-20261027/publication-q6-controller.json": {
+      "sha256": "2ba4e6598a70ef70d040cd29b73c8953737b0f1934a28233eb12e524eb681a5d",
+      "bytes": 259
+    },
+    ".local/npu-publication-profile-20261027/publication-q6-host.json": {
+      "sha256": "ca0588a70c0c103593dc2c1a5f309d9425baae9352b292fbf2a0bc30e36399b2",
+      "bytes": 1126
+    },
+    ".local/npu-publication-profile-20261027/publication-q6-windows.json": {
+      "sha256": "57a1ab2ee4321024953099e04569f05bf6a07245e42164ea56188df44c425fb6",
+      "bytes": 1838
+    },
+    ".local/npu-publication-profile-20261027/publication_body_q3.py": {
+      "sha256": "d01af7fa1c5a78a133ba7afae55ae98ab727d7c5f0cee0b21a1a0aa1b1f3e414",
+      "bytes": 11911
+    },
+    ".local/npu-publication-profile-20261027/publication_body_q6.py": {
+      "sha256": "e1e56c8f6f6e4f6a8348e65ccd3c3c4d2ab47f8ce1543d13a14f13fc56a51734",
+      "bytes": 11911
+    },
+    ".local/npu-publication-profile-20261027/publication_sampler_q2.py": {
+      "sha256": "4d1024bdfeb405c4b9afd40e74c93175c54411f8b705ac691f566038ca28d721",
+      "bytes": 1276
+    },
+    ".local/npu-publication-profile-20261027/publication_sampler_q4.py": {
+      "sha256": "6de46c69a9d9541798d73acdd7f7ea4d917f38f7256dd3fa11149595aa094cf4",
+      "bytes": 1370
+    },
+    ".local/npu-publication-profile-20261027/refresh-q1.json": {
+      "sha256": "0890af6797f572517a800550bcc1b2d365e58355d1bea2327b8f036cb0c8b95f",
+      "bytes": 4359
+    },
+    ".local/npu-publication-profile-20261027/seal-q8-budget.json": {
+      "sha256": "543cc9f65f46e6e9d4056faae66292138003b43a59c8091ba186fdc6b4dadf1a",
+      "bytes": 6699
+    },
+    ".local/npu-publication-profile-20261027/seal-q8-host.json": {
+      "sha256": "8f42e48400fc9cc0fec4146c83b36523b425e88b02804f4f91707b3af0606cc0",
+      "bytes": 1119
+    },
+    ".local/npu-publication-profile-20261027/seal-q8-windows.json": {
+      "sha256": "4fd4cc04e16b53e62d13a50933f576c13fa6112f23efc01d3344f563376cdc83",
+      "bytes": 1780
+    },
+    ".local/npu-publication-profile-20261027/seal_q8.py": {
+      "sha256": "396359ae868c4c1fa5b6c73f0c5a9d378b84a1a62229a897ffce5767217e69c4",
+      "bytes": 5806
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q2/perf.data": {
+      "sha256": "f9067223b6f5ecf88f86b987547aa39678406796da14181bc9b07ebd6994741b",
+      "bytes": 32184
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q2/record.log": {
+      "sha256": "4d4d4c81dc1610cb9c03c7e9fe2617291866cbd17d3b4e218dd09a8f3f854f35",
+      "bytes": 982
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q2/sample-window.json": {
+      "sha256": "2cf97230675dff6184f9270b33a1445b10165b6563741a4f20547b604721aff5",
+      "bytes": 68
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/perf.data": {
+      "sha256": "1d5f2b36df28c0f18863d7fea9ec82660bec9af0eeb7be015dbef5cbd3651ee6",
+      "bytes": 39576
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/record.log": {
+      "sha256": "4b8b1e49a5e6d0d5f176588888320413301aba26ce36843bc7aa66cf2aa68dd4",
+      "bytes": 240
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/report.log": {
+      "sha256": "acf68b3e6a461f589d7bcfab0cf0250aae1c8c9caacdadb0b549bf4be2904043",
+      "bytes": 2231
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/sample-times.log": {
+      "sha256": "65edd541b524c651f2bb1b53bf572c298ac2f7550a7c538855e466a234af37eb",
+      "bytes": 8964
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/sample-window.json": {
+      "sha256": "3cefb05d91f182cc3ea1b6ab7f0fcfc16f4ddd2616a2b2037f62086b8ebb371b",
+      "bytes": 371
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-control-q5/sampling-result.json": {
+      "sha256": "f7cd1cbfb0241ffc644a63efc74f2e3a6ae55e758ff0d36e29e6bb9dbadceff7",
+      "bytes": 1543
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/annotate-block.log": {
+      "sha256": "8ae33a1ff8478d7c52ac068c8ce597871332b30ce8bf36cec45a4fab6e9e22cd",
+      "bytes": 49628
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/annotate-memory.log": {
+      "sha256": "fc99b42c20f50b374c071c2ee55a128a7c3bb8da68a3f3968809606ca9401319",
+      "bytes": 136
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/canonical-match.json": {
+      "sha256": "5f95c0b71b670462f1f65fad8a77aa4e1317bd1c75e79c1a33e91b7ea5ce26f8",
+      "bytes": 203
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/first-publication.json": {
+      "sha256": "e901abcb815d2f729dad9ea369321cc38f64cad2d48654e328a8b8faef6abf85",
+      "bytes": 2136
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/inputs.json": {
+      "sha256": "89b9555ca0f3a3a6faecb7d6c9e6881e1610989f01ceab38bffafba3d2d99621",
+      "bytes": 35351
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/oracle.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/perf.data": {
+      "sha256": "ff79a8dc3d69a16df609e03ea798800cd3dc1d477561ddb0392013f270433b25",
+      "bytes": 2504168
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/prefix-runtime.json": {
+      "sha256": "8639c9fe68c0f5cf318d04d946c8d7dd5b827bbe9c941012edc88a18ae1c788b",
+      "bytes": 314
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/prefix.json": {
+      "sha256": "5f96c059a6dca86d01ce408002f7905a27e541e4b44491a746cb5c3bb6cb4c91",
+      "bytes": 124690
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/record.log": {
+      "sha256": "ad60c0f39d94b0f56eb4ba519b6aa7df4b278799788315716d3546ef629abdd8",
+      "bytes": 1942
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/report.log": {
+      "sha256": "bfa27fc748739fce0068596eaeb0ca03b425ef4a3f03ed665d67671c8b4a5869",
+      "bytes": 3446
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/result.json": {
+      "sha256": "a8a002663b046778970008e1c0f3775485f081a29d57fcff84a1738a312c9bc7",
+      "bytes": 57215
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/rpc.jsonl": {
+      "sha256": "551df85b75a417272273f6dbf489d91e40d12f37e883afb2bf7e755ceb00c047",
+      "bytes": 181059
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/sample-times.log": {
+      "sha256": "243fd155cf1c2888b1d4133ba6f5c34d4c3d9c96ad4ba5dc61a5683cc0465083",
+      "bytes": 840474
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/sample-window.json": {
+      "sha256": "0938db9751eabbbaa77c8d1b96e4eebb3d66c23e873d95947277d5de5c610ca7",
+      "bytes": 371
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-publication-q6/sampling-result.json": {
+      "sha256": "818e4f22f62458cd4472e02133700bc62cc5129adc94865423c2145eccc59f42",
+      "bytes": 1575
+    },
+    ".local/npu-build-scratch/native-c2/publication-profile-analyze-q7/annotate-memory-vectorcall.log": {
+      "sha256": "27ffeb466c873b7f4ca21e38efaa16f443107e2ed848d64dd9d695e969a4838a",
+      "bytes": 40443
+    },
+    "research/checkpoints/2026-10-27-npu-native-observer-reentry/EVIDENCE.json": {
+      "sha256": "1743a8543f008072d2cbed5639508ed9cd9ea283ccfbcef19032618aa2695aba",
+      "bytes": 63326
+    },
+    ".local/npu-native-block-hook-20261027/probe_profile2_q14.py": {
+      "sha256": "263996b1f9ff7a64b9b71fc3dfe634a60bd6bd0d84239a56410c4e525d374908",
+      "bytes": 11543
+    },
+    ".local/npu-build-scratch/native-c2/observer-vectorcall-probe-p2-q17/rpc.jsonl": {
+      "sha256": "b165e8034ad87eac076be7a94820be8abb93639fe4bbc65d4e36b226d0473f6c",
+      "bytes": 181059
+    },
+    ".local/npu-native-block-hook-20261027/before/tests/npu/test_rro_wire_native_pair.py": {
+      "sha256": "69614248fed4ca773ed77767a3432f5de864f799c1319203f32ed3f9c278e67a",
+      "bytes": 54287
+    },
+    ".local/npu-native-terminal-20261027/retained-inputs-q1.json": {
+      "sha256": "c36a9679bb5538c36bc02699d89068f354b915296e06f92f0e8915f620d89cfb",
+      "bytes": 96472
+    },
+    ".local/npu-rxwi-target-20261027/plan-q2.json": {
+      "sha256": "3a0bbeb6d54b5efb63c2470451a4681f2e9b05c5b306b1688d43ac6b8a84abad",
+      "bytes": 58544
+    }
+  },
+  "native_bound_inputs": {
+    "firmware/npu/admission.c": "1a2bdd297df8182018b9aa6a1bc033a09d96d96cb18c088cb34f1ce7fa7397b2",
+    "firmware/npu/admission.h": "d42037a1d2df92646e2e4367f7362416f0eab48b0901012082ec8d53f62ac63f",
+    "firmware/npu/allocator.c": "2db934eeff46ebd1b807b2197f9ecdd6404b31296500a94b43765bf7455355b5",
+    "firmware/npu/allocator.h": "1dc133c00bb1e7af0a287a40566805eda11a5c44e42ea95e8db1f1fd98a8efec",
+    "firmware/npu/barrier.c": "18040c59b6b0403021fb7c54ed3850683f248ee7f1c6d9394334a17124fa5ed3",
+    "firmware/npu/barrier.h": "27c684e04ad4db261639f16cfd5c6585d554da977d87eebb4d8e8fe4a7ca3640",
+    "firmware/npu/bootstrap-v2.c": "36cd517c0636e42edede338daf8b377f9d31fb5322ee03611da52ef4b670a331",
+    "firmware/npu/bootstrap-v2.h": "67789bf6cd7c2f8b024963f5faf1077c29152517f86c5d1944f6dfc9dab2cd39",
+    "firmware/npu/bootstrap.c": "45a2c0d7fe2e21e25fbe93395490d4b4d8f0b7399419c3157d5f73b981a506c9",
+    "firmware/npu/bootstrap.h": "fb67f754db5dba8988919166342ce59a2f1b39051ec133bb4f40e7f2cbde4a80",
+    "firmware/npu/cold-client.c": "a344c82672564bc49fc8e2f2ab741972447170109f79e73101224a36dddd6afd",
+    "firmware/npu/cold-descriptor.c": "8b1fb816b8a67303d8e981c1aee3d5ce921bf65ac10bd211e121725221e327ed",
+    "firmware/npu/cold-descriptor.h": "a792db8b368d6bb238f2d7f8f451e3b77ed73e31726cc646f2f8c71996359257",
+    "firmware/npu/cold-indication.c": "923b9d5ffac630e03423139c05b3e11004ad55f49977aa0d671cd46e497e4bad",
+    "firmware/npu/cold-indication.h": "06bf275f518176a5979e75c67e602bb202ed53283fdf42adcced1d4c3bde46fa",
+    "firmware/npu/cold-inode.c": "5f89d2b22940baa4151301d0661b82dd7d1f3b7bb0dff38d4b9f3c748900b487",
+    "firmware/npu/cold-inode.h": "a71face94f6be8a13798436865723c2ab086fbacaab5862b71d9c356994439ea",
+    "firmware/npu/cold-packet.c": "ce63f4ad388807fe660eb1d178a4be1a987f5ce95697a9e293c987f694ad5ea3",
+    "firmware/npu/cold-packet.h": "09d544292c16a227bcaa17c9b6a65c3c65b8bf9b503bfb2b769429b87b989e54",
+    "firmware/npu/cold-page.c": "e7a997c29e81cc68b708381402d51a97e5f734acf092f1d9954eca256a5bd049",
+    "firmware/npu/cold-page.h": "6e53a16516823cf2a9076dc1f76db40a30db62ad218812f50276f0f63de44e67",
+    "firmware/npu/cold-pcie-tail.c": "ac083964e8d6a5d736958b3ada4460d0b58bef653b0306bd387e3a6fdb4a4711",
+    "firmware/npu/cold-pcie-tail.h": "0785a674827e2fb312dde7d8dc7753e45f9cda4e4c6d7268a249f5932da45efa",
+    "firmware/npu/cold-rx-event.c": "0ab94125e9d875ca960bc93d01397858d1a7aef06954b0e2f7e0ad3acea7b543",
+    "firmware/npu/cold-rx-event.h": "954d8b1e109810ae63b6eb79fafa5cd239851853a44aad19e75b341a84f3f88b",
+    "firmware/npu/cold-rx-pcie.c": "4915f0b966d9b3a2d854cb9839d54a4afc4d2c07f7f277c98f60266091754f87",
+    "firmware/npu/cold-rx-pcie.h": "ae2139e6ef61454b8cad60b9ced1b899fa1f66c7f01e0cfaa4ecaf8ac7bf0d89",
+    "firmware/npu/cold-setup.c": "8779246bedf8ff43543899a5a7037d495b41256b509555c2b6a899b751fe216a",
+    "firmware/npu/cold-setup.h": "ed7bf5184c0d70c3a3577b430a26e6cc719541b53191bc8c90046092fe8548ac",
+    "firmware/npu/cold-tx-buffer.c": "2657742489291bcc24f3434f7dfe3745b43fb7327b3679c9796767087914ba18",
+    "firmware/npu/cold-tx-buffer.h": "e215142ec7d56354d0989695debcb3a46a7243afb082cf78404c5b266bd72776",
+    "firmware/npu/cold-tx.c": "176fb608da32c7636057f0640acb7a1ae40233aeb4851b89fb2e5a595e8c7f9c",
+    "firmware/npu/cold-tx.h": "6188d17b47980487eae7f034696b1cbfb348b03d5e2ef0b00bc4402b00ed9b8a",
+    "firmware/npu/cold-txdone.c": "ba3b84d0abfde53eb6c4f467c079a3dc51b09770b3739a2c7786b2c2e9fd1826",
+    "firmware/npu/cold-txdone.h": "89603ef51444274cb9892806e8e4c6894b68fa0a673cf4239669ec06f4ecfbd3",
+    "firmware/npu/control-client.c": "bef5a44087fd722a0f00575c49c509f2e9a55aa21e1b0d928ec17093232d9023",
+    "firmware/npu/control-client.h": "5de3f944bec26059dae8754915cebe56402ede3f027bb6b26455971b0dc638c0",
+    "firmware/npu/control-v2-client.c": "3cddca5cd70c375c0284384dccd11551c2f409b8b63e16c7b3a7135e28ffd1df",
+    "firmware/npu/control-v2.c": "aba88ea2a55c39aec91ecd6719acb0f6326ccb72b56a1834797ef24d7225e017",
+    "firmware/npu/control-v2.h": "60b3047c8dac3b9012f3640cfab668f3e9d96ccdaeb2f5cd606c34577933d0be",
+    "firmware/npu/gdma.c": "b5cddad9b2bf879263f6ad0b5e24e7c2c8749356b183fbc798e27ca9ab661b63",
+    "firmware/npu/gdma.h": "965ce02bda3e2f9b4e72f01069d12132d13ae67788494e6b1e6acd73f98b0038",
+    "firmware/npu/linux-control.c": "ccb2ac164f3f8f03a2753736b2025f8233b4459b2abb23b243eaa57f0d82df56",
+    "firmware/npu/linux-control.h": "eb2e07978aa3fe3b05901cbf1e115fed0a42c0066d36e64c7065198b380d8ec1",
+    "firmware/npu/provider-main.c": "761e768002464ac966016e2b4e580b61e07af264d437605bc46533d36258081a",
+    "firmware/npu/rro-client.c": "5fcb8d8313773742a7735d0adb8c890a8fc05242abe5b26574ec4d395880793f",
+    "firmware/npu/rro-lifetime.c": "87afb0168f440b5ee165689ee05f91a7377f744bafc7292603f9d44e8adba471",
+    "firmware/npu/rro-lifetime.h": "ed39252dbe3714797fb4a9460164d6523b5c73ae9990e2f462ceeb1c1c166f97",
+    "firmware/npu/rro-native.c": "b97e7339899c737017d3cf67447cc4d17b93b14b906e14bd1b2f690b10955217",
+    "firmware/npu/rro-native.h": "e62ddd34565c5f0036202c6b0414e13580db06bf0082218302e2d1d1d4526fa1",
+    "firmware/npu/rro-session.c": "f39b12e61fde0704d8d576e900ae2eaef3cab1ca851ad9941d85f0538b5193ce",
+    "firmware/npu/rro-session.h": "2978f4f04ba49e140ef699e6f15b2d474c0226c0189c5554c34563f08e0ae0a2",
+    "firmware/npu/rro-wire.c": "b1b24700768fb872cb8e16fb9d7a33de6c5889dfb981020e396daa23507ae0b3",
+    "firmware/npu/rro-wire.h": "eef9261a21a300b260790c33aebc7b4b0c45f2bb37d9af9cdc4b2e0f89df3549",
+    "firmware/npu/startup.c": "3871ecd96e5978bca57c6e8692c809a71ca083465894c0ae5b5bb4aeb8459fe6",
+    "firmware/npu/startup.h": "19ff8fc7b84d2c317a5c2687dd7d6cb752651b8c32d6b7a8196c504c32bb4302",
+    "firmware/npu/tunnel-header.c": "e976e3dcfbb26b82bd8d2787925b3f85cfd53d1cfe571ae68a7ff86e65124213",
+    "firmware/npu/tunnel-header.h": "afb450e8094dd176d06606333b38555039895bed4bed175a42a51e6303c82c65",
+    "firmware/npu/tunnel-packet.c": "6489d5aa16a827074b5597175cbae7668742aa9b400dc00becb6f50cbfa8c6c0",
+    "firmware/npu/tunnel-packet.h": "e197ca71baf6675d0691a84bf1a6224807e1acad69ae0cd31c4a8ea53bed4a60",
+    "tests/npu/admission-emulation.S": "3b43049362ca39d7f10e1455035059b005c06635f5429e6c00babd8af1dadacf",
+    "tests/npu/admission-platform-emulation.c": "bb6210b2a4ce60c4ff78b238305513384c38a1712bb821242ba4d61112942e35",
+    "tests/npu/allocator-bridge-emulation.c": "55c718588a515a916940388aa2f2df21c28c87cbb43285b2fb016e5402314a64",
+    "tests/npu/allocator-concurrency.c": "0cc1d0c119b30324688b76547c501cc9baf724dc491356bd9494a2000768a43a",
+    "tests/npu/allocator-emulation.ld": "ab6c13d09c0763fe64fc162c453c94bd38d197e0a26d24b9a8e66711d1c992c9",
+    "tests/npu/allocator-placement-emulation.ld": "c0aa6b388a88e3bb97b4af1441921030c2a5cd4e8fdd83bda2754d3227ee4f9d",
+    "tests/npu/allocator-reset-emulation.S": "e98461a2e92c0935a20de76815cc95576ce9ff2da865ea7534f76fe1e7fb1325",
+    "tests/npu/allocator-reset-emulation.ld": "cf3ac8ba7d426ce1d681d9384b5aae0c9ae0a8c64298b7e7e68b0f8c44c5fd08",
+    "tests/npu/allocator-startup-emulation.S": "60241564eba40309c079be36fda0bd8f82b6c3444691189d5c4ae68579247e7f",
+    "tests/npu/allocator-startup-emulation.c": "f335907de92bf71df0cb7454be42c8834bc32a6f797215cd5087b967311f15f7",
+    "tests/npu/allocator-startup-emulation.ld": "b6dd5267d0fb4a3f336bed9f572940e124fdc2e83b7d1eab00cb7e38d3b854cb",
+    "tests/npu/allocator-test-binding.c": "2cd924cbf46ecb74b55237487191ca8b3d4ea4162a8864f9268e43b90656dfd5",
+    "tests/npu/barrier-core5-emulation.S": "aeb810d966650758093192e976d1ad5b9f0be7ae98e17229c8eab9e4c5295118",
+    "tests/npu/barrier-emulation.ld": "0fd53b02c4670ecaeae0ca054413968f198ef16668ba3e60cd6e6d9a84a4cb82",
+    "tests/npu/barrier-workers-emulation.S": "9097ef5502b5e49eb97b83cd336cde05f1c4bd5ced823414d9e4fd0207df6e7e",
+    "tests/npu/barrier-workers-emulation.ld": "6c69a874c4697d92a3cee0a89410e1d5816c711b31a589efeea96ffa23f80a90",
+    "tests/npu/boot-launch-harness.c": "d6e17774ddeafe20625954be42b87507f626d2147fb08ccd8091fe1b65c6c967",
+    "tests/npu/bootstrap-emulation.S": "78286ec3ae562263b4cff3eb9b2fa55480ec0a23eed220edb3f5301429d02bc0",
+    "tests/npu/bootstrap-platform-emulation.c": "f41237a0f610657516d24a788f9711ff883ffb3d5d7d2861ebad2bd97d22cd8d",
+    "tests/npu/bootstrap-v2-emulation.ld": "6be0605087b8384691e333ee71e550b4badc1903b5ef57f2c812923ccad83437",
+    "tests/npu/bootstrap-v2-platform-emulation.c": "58c8cfc046ee280c9f62b9e5fc3b79ce6295060ce8d0e2b503c768bd1456feed",
+    "tests/npu/bootstrap-v2-sanitize.c": "91c6d074473c2fed80ef9af8a9e73d57cbba0d56ddcba383fa29df54709b3964",
+    "tests/npu/bridge-startup-emulation.S": "cec1ac3003e121ef122519960cdb83a7ca72f5103486a9b67a3273d92eb771d8",
+    "tests/npu/bridge-startup-emulation.ld": "0c9a6cd2485d079a2fbfa41c646b39a05303170d8236167f93647e69ed233d78",
+    "tests/npu/checked-irq-harness.c": "f42673d5cf8352aa8859de2e466540ac6393a7d375aaa9d619fa1011fbb08812",
+    "tests/npu/checked-irq-tx-harness.c": "dcb4b2295fff361c6895c679c9a62adc020cfebfc85f7f8f1a7b4b09f5cc8271",
+    "tests/npu/checked-loader-harness.c": "ce40842d5ca496d060f4d69c3dd5d1b1c87465d9c7cc53cffb14c3e69f55fe4d",
+    "tests/npu/cold-descriptor-native-emulation.S": "95589008aaec9d1e4e71eb61b94d8f6fd83aeeaa151cab466cb2d5809fbabe28",
+    "tests/npu/cold-descriptor-native-emulation.c": "273df68eda02d3b323806c872770a7597afd8a6f04d3c9c772ddbf980e48e034",
+    "tests/npu/cold-descriptor-native-emulation.ld": "02738f0b7fb6982f3773b2d779e2a0fcee1eefb965731c97fb7988113a83d3b9",
+    "tests/npu/cold-descriptor-probe.ld": "abf6cfddf459db73e0d13723e34ee34009e9b9e0ad58b3be77e6e521adfad54f",
+    "tests/npu/cold-descriptor-sanitize.c": "cbd7c2ae7d2fe8ea00715bfa7899d4b6cfad4ede5c6c7b3411be4073034641dd",
+    "tests/npu/cold-indication-native-emulation.S": "fa242526d8b94c829764fff091d1ef546d1ca6714fedcd272b350528ec768f32",
+    "tests/npu/cold-indication-native-emulation.c": "a3852a0c9192f4452ad7130fac9e9530ed4c2bba7ec6c0417783f4272d873a87",
+    "tests/npu/cold-indication-probe.ld": "7f095cfdb399dcd398879200dd554e914420d472f88b0ce8f51351d3ef175bb6",
+    "tests/npu/cold-indication-sanitize.c": "d68171ff10a2dd96ea2c15150193b872ae7d8fbb9f22eda9ca85ed9c24a89d97",
+    "tests/npu/cold-inode-abi-stubs.S": "c61e89540613d7ed7b36f8fde71af00877b3038f74cd9ab7da84b400dac2aba5",
+    "tests/npu/cold-inode-fixture.c": "18b8c4a0299e17e40d72e72a75faa74ad75316882847f88bdabecc1b7140b398",
+    "tests/npu/cold-inode-native-callback.S": "2a1837c14db2e50356ffe9ea73672fa596c4656d3f3e05e7a3175eefd8ffe2fa",
+    "tests/npu/cold-inode-native-emulation.c": "e8f064a34373f3ac818d8899c789bf385b69cfe1f13ee163423c1ce96aa265a0",
+    "tests/npu/cold-inode-native-emulation.ld": "e8b45977b7a283a45a3cec49042c54053ccbd90bf0dbd3be978f8553fcdf6141",
+    "tests/npu/cold-inode-native-stores.S": "5c1d71caf49b8e3b33769d2b8a4336064a4f109103838755fc23e95a69278b35",
+    "tests/npu/cold-inode-native-stores.ld": "fcb384e80c1ddeca7285976465e56833e0ef3093c01d3452b1e639bd88d55072",
+    "tests/npu/cold-inode-sanitize.c": "f7db70f805a3fe706db2023e73d29c39fd5ae1013b02c15ddd94c3ffb8f05c4a",
+    "tests/npu/cold-memory-plan-harness.c": "b454cc43c9ffe1a29a33e36067a39d2fea0bfca3a401bf389ab19f8b58e175b3",
+    "tests/npu/cold-native-dispatch-fixture.c": "4b953fbf78697fb5e5242db8e1b9d45fd430d25b409822bb415df5437831c719",
+    "tests/npu/cold-packet-native-emulation.S": "27d1b68aa815401f1bfbb02ed24a56361c7b101a79d59c766371d3f7359522ff",
+    "tests/npu/cold-packet-native-emulation.c": "94771606561a6d475bbc26c5cfdf8df5537085f3998416de65adcf96acb9a864",
+    "tests/npu/cold-packet-native-emulation.ld": "94d860ff3aceb3ff6e894e2153e77bc5e32e3e5c63da61baf065fc957464e542",
+    "tests/npu/cold-packet-probe.c": "c613aa5c645056bee181e984481cf8e204e30c9ae0dd2504ab380154c64da275",
+    "tests/npu/cold-packet-sanitize.c": "8e7680ae7d2eebc49db07bb8e670fc59bdea0af42c1c17675e2a4966a908326c",
+    "tests/npu/cold-page-native-emulation.S": "6160f4537144c934a24dba739e9a79d75661fa45058529eaafdfe500dcd0c74f",
+    "tests/npu/cold-page-native-emulation.c": "e40f94c3d985889b257e0e3a6de915b6f991b2034fcba8397960ecc1149ff367",
+    "tests/npu/cold-page-native-emulation.ld": "82126d444103189085072b0ceef559518d7b0863666deb54359512739050b7f6",
+    "tests/npu/cold-page-probe.c": "e442f53198de72fea3da4f84b936cad98b39ffd3d1635196d095fab0d8162a31",
+    "tests/npu/cold-page-probe.ld": "2421ea8136cfe4789dc1d3800f2e9343e852ffd04b0229be36ac73e51645f408",
+    "tests/npu/cold-page-sanitize.c": "31109fdf98f92dc2102d8a2f90050b5ddc8a8c9d5af8b2523c933168d8eebcf0",
+    "tests/npu/cold-pcie-tail-abi-stubs.S": "1d65cfbba04f580a8a15dddc7ed78a99a872a6044eeb9ae7aa85e82d258f77f9",
+    "tests/npu/cold-pcie-tail-fixture.c": "fb1ab5145bf149d72a4c51c94f30ebb0539e28d1f3326f1be35078800acb5372",
+    "tests/npu/cold-pcie-tail-native-emulation.c": "08020491b0efab065d42db86d2515d02d9b3b72846f8341fdd574b1c58fcc688",
+    "tests/npu/cold-pcie-tail-native-emulation.ld": "ff70cd33280681f230b0d1bce8b9e839b62d502959663cecee3263757049d0fe",
+    "tests/npu/cold-pcie-tail-native-stores.S": "ae9147d1244fb454dc2c2d5e0ce27969c6b59ecce563d454aa328fb15191f0ce",
+    "tests/npu/cold-pcie-tail-native-stores.ld": "da455727f0641ef0a9e76854ba17c0959775a907c3d94dd9b0415af7754ea368",
+    "tests/npu/cold-pcie-tail-sanitize.c": "5b71af7339da1c710f22ec1c9287b3219ccd94316f41d9d1d89ee3ffa2230f7a",
+    "tests/npu/cold-rx-event-native-emulation.S": "52e3e4ff360be84234df7eef10369248d835c4223551ede6fb7c84cbc7c9d00e",
+    "tests/npu/cold-rx-event-native-emulation.c": "da157fc59c4b93ef825627376991b9a48ce85b6cf2337504004bd1777592b081",
+    "tests/npu/cold-rx-event-native-emulation.ld": "3a04a9925085a53d68f6d0699e4e2e70821d58e73cca730604e5faef12d7144e",
+    "tests/npu/cold-rx-event-probe.ld": "1aa8a197f1519c51ccee166136c0cb21b7223fbaf8513d27522fe79e3d8a3975",
+    "tests/npu/cold-rx-event-sanitize.c": "4cb52f34b0e27f1bab1f4485b5d134f3faba021e9bae21b66ceb85e96866f80a",
+    "tests/npu/cold-rx-pcie-fixture.c": "710cdbababc07c551b23901910fc8eeca1ccefa3ec2339ab40d7e2df35732ea9",
+    "tests/npu/cold-rx-pcie-native-emulation.S": "6e05725c5e9a911cf9094a61c19fe56b7b819b41968726503e3f0162573934d2",
+    "tests/npu/cold-rx-pcie-native-emulation.c": "84b94a509d02c61e2b353c579fad72674426e0f17e5c37be71114b95994090a3",
+    "tests/npu/cold-rx-pcie-native-emulation.ld": "d9999e2c31f83728b3693b3f4477dff7de796c227bd95d7803c8c3d21025c752",
+    "tests/npu/cold-setup-platform-emulation.c": "68274c5ef3b26cabd90c0dacc922b70a35a4ff3a36a4abb8488110e951a7f5bc",
+    "tests/npu/cold-tx-buffer-native-emulation.S": "832b4271e251480b0d4d5069b6ef2cbc4a9d6e26b254fb1c44aea39d6fec55ea",
+    "tests/npu/cold-tx-buffer-native-emulation.c": "5e4a5fe07a43e6380b1c2ac10ea81cb22a4362c34690718b41d5bb7e4aac086a",
+    "tests/npu/cold-tx-buffer-native-emulation.ld": "106825b0e755d83d034fdc2edacd22e32845fb5cdfd2d453ba84a3c6c6a80874",
+    "tests/npu/cold-tx-buffer-probe.ld": "616cd73352175eefc0fad1c1af8b1a0fdfe3157dd39c24106d5b9f0310a1ae2f",
+    "tests/npu/cold-tx-buffer-sanitize.c": "361068de39d7c0ce5e1a4ac59464f09317336a02f3d889a1968d33909725ca6a",
+    "tests/npu/cold-tx-native-emulation.S": "2f1d5a1de2aabe630ec5a59f45b510469d426e65d7708598fe21d64ac064ede8",
+    "tests/npu/cold-tx-native-emulation.c": "583a1d592e3839a28dbf4911312f860254ace1e8fc7e89e07bf6c42106a6e70e",
+    "tests/npu/cold-tx-native-emulation.ld": "df7c7cf12bf580daa2d074359b1fa46901fed179f8a02f8c8498574c24e31f88",
+    "tests/npu/cold-tx-probe.ld": "01f5ab6d1c27cc46df2beed2a2095ec031012f3de90492667ba3bda3451cce91",
+    "tests/npu/cold-tx-sanitize.c": "73dc83a14e1e603f477fec5686a9e7a30fd84efe209a8ad631aabe6ae96d0b7f",
+    "tests/npu/cold-txdone-fixture.c": "e9a7cd9c143f8fc7e0f5e07a205f53d5ef950b1f0879d200517f2488e7957036",
+    "tests/npu/cold-txdone-native-emulation.S": "33220b7fcd9cdbc26b428f9cd48feaf6016023f894f2829cb2775c7855272523",
+    "tests/npu/cold-txdone-native-emulation.c": "36bc419d9d710275e6f15c215d5a9e5bb7ca5d7d6e8913359d2ea7fba0ac704f",
+    "tests/npu/cold-txdone-native-emulation.ld": "e229b588e9c6eb55282f374c5ead4a3d5f144a6837596f8793077347f10ce01c",
+    "tests/npu/cold-txdone-probe.ld": "d3419b2d76737f6b8ae7eea31cfbb9498677ce2da33eab74724ecb7d258f9a3b",
+    "tests/npu/cold-wire-harness.c": "2dbec5811dccdd6c77410b310d7d8f4356ce6aaa3df4a3c5a9fff736bfe6ed1a",
+    "tests/npu/command-ring-order-emulation.S": "f3a8d2d60b46aa543ea200fc37e6725798415418bc2297a8f569f85f55afbed9",
+    "tests/npu/command-ring-order-emulation.ld": "0bb1ea12ccfbf7c74c43f9c3b3b93b06bd1ff800d4e041aa00218680e2017b6b",
+    "tests/npu/control-client-emulation.ld": "bfb517f6c8c5521b52153553ce01b8bdba67917078902d485929a2d7679e7507",
+    "tests/npu/control-client-sanitize.c": "824eb989668dfba6f7b94a2636fe161b2cc80167cdc7ec68c9b32276235737cf",
+    "tests/npu/control-v2-platform-emulation.c": "4fef70f27d0e9fc22bc51778158b6f5fc96ed576e097c657a422114d88de11a8",
+    "tests/npu/control-v2-provider-harness.c": "abfa53c318f5df8d2be09a226cf6362ab7c66ff6a52db3ff596563c74d36bad8",
+    "tests/npu/desc10-packet-plan-harness.c": "7f8b938c1a5cea8a029449ef68c489baae8242e3b98b4087a805de7018bf4847",
+    "tests/npu/descriptor_wire_native.py": "a503461e7e149c8b6be6153d143c5e269284b3ca842a193715bb3d4f205090a6",
+    "tests/npu/dma-lifetime-harness.c": "d01f99d7582be90549ea5c4ffb2c52fa7e1d7c18025ff3c77939cac27df21fa9",
+    "tests/npu/egress-emulation.S": "6204d49d0c0276e3b5bf685bb51d1434560c269bd893c6735126e6f65b8e91a7",
+    "tests/npu/egress-emulation.ld": "deff4a5da337633ee332f54b7c95543333a8965baeaa1ff0fd05969808a2eae6",
+    "tests/npu/emulation_layout.py": "f9cb5bc0127df420415f1b7400ef6890dbd24d5af6d6ec8995715f5f95256887",
+    "tests/npu/firmware-loader-harness.c": "8cd283be7823a56134e5ef9f2d281da8f2df01c48b8e1a980b03a117a373247b",
+    "tests/npu/gdma-platform-emulation.c": "872aa43ef4bcdf576d7c8727d929186e74dc38f4c73c27d9c70231b1e33268f7",
+    "tests/npu/host-rro-lifetime-harness.c": "54c8ffb339c3822c70995fb2db555889d7a343a1c75aa4c978ea828fb5666676",
+    "tests/npu/host-rx-event-lifetime-harness.c": "d1f3229f91ab22ad7216607f4096a84dd7f722d71d02cda20f18961082de1bb2",
+    "tests/npu/host-tx-lifetime-harness.c": "63d88a75e6d8032c802784126dff38e39bde448f334d72c794107dca6ec430c9",
+    "tests/npu/inode-frame-harness.c": "93ff4e4b15c796e80d66ebab72a23668446daab661da33ceac392cfd0d26318c",
+    "tests/npu/inode-plan-snapshot-fixture.c": "27de67e0643c5623290413d5306241d00c2fce1c47d7f0c162d9b6ef150ef38c",
+    "tests/npu/inode-plan-snapshot.ld": "bd8d956ab225225ec0962fec8b86f595d0d8332b5fd6671a2a0aae63bb969033",
+    "tests/npu/inode-provider-harness.c": "12ecc9722efc9bdb0afa6ee9fed274a365182c941143b20fe88f1243c43cd6ce",
+    "tests/npu/inode_wire_native.py": "d7eaa6e70f0b73255e99380eafbcf1a9288f5022126c1f32966d3167804d9da6",
+    "tests/npu/l1-recovery-harness.c": "08cd36d1f53cbe86da6a368454839e09381c76081c652e7753718bbc42c2f486",
+    "tests/npu/linux-control-harness.c": "55847ebeb93d6fdf6fbc98ddfa21c4677b3374f09c8e35f158818536802700ce",
+    "tests/npu/npu-rcu-lifetime-harness.c": "cdd9e892a4ea5c7a14a3170c2bf8531a6387e45bbcec916b2e8fa7cf44ab3d76",
+    "tests/npu/npu-rx-ownership-harness.c": "79051bd5148f86a313395cba0dc8a1ac667e795b044440bc432db76a9a542213",
+    "tests/npu/npu-rx-parser-harness.c": "df421dc157c004627a7e5e8055acf25aa68e540fad00f4903ffe843e776fcf41",
+    "tests/npu/page-request-harness.c": "adfd86fd992ee081643b7054e135b6f7f0d35d5b6b91d64a89db52fd20418a33",
+    "tests/npu/pcie-tail-provider-harness.c": "fed72a81f9dba7e82de67d9ad6cae416ffebf2aeca7e254621fffa54d9cb8c6b",
+    "tests/npu/pcie_tail_wire_native.py": "15c9b8d4103c09ea95cc112844421eb4d62ea42a01aeb708b506de5fec68f604",
+    "tests/npu/preflight_dtb_cases.py": "28429b6d7c7fb833f4ae09e16524615ed8bd7ed6e086dd1ca5e8fc78009a476a",
+    "tests/npu/provider-lifetime-harness.c": "5a4f60711fe41708b3173e137bba047ab772adf288c6a54ef1d4bb20f25c77bc",
+    "tests/npu/provider-request-plan-harness.c": "b5ee26ec5f5948aa54d59acafb7a77a1ad844ba078f1fdc9a0afba59c0c12783",
+    "tests/npu/provider-session-harness.c": "114c5a5efa5dbb87706f02d7152246aa0fc1f16105be0f7713a2bb716a49a82b",
+    "tests/npu/raw-pair-loader-harness.c": "3c0a10ed3f6c1f0094be60046ce5197b1eed8a1a2bed3571fc6368d14e820d05",
+    "tests/npu/reset-control-harness.c": "4ff008af5f365eb87062d87243ae4fb5657ca3b2747d4a5c4d7f5af869cd1dae",
+    "tests/npu/rro-lifetime-harness.c": "6f742cd79d03f65f01907fe5518a39e72f4af731bee2e2b972b95a81365d1ed3",
+    "tests/npu/rro-native-emulation.c": "69d27aacfca71d36b557e2dc8e843a7110cb2cb966c7848392209b9ee6c0ab1a",
+    "tests/npu/rro-native-emulation.ld": "7f0951c79c1303ba01f495ae539c114fe5f87857fb64ed19aed2de3c17123548",
+    "tests/npu/rro-native-harness.c": "6c3e083d6bbaedb4a2366894e90eac62175820f1dd54f498b5de81e3e88c08a4",
+    "tests/npu/rro-owner-harness.c": "ab4fe895a5eb614c01afdd5ef2a5d95bf4535099e3391e80308b43566b0b48e8",
+    "tests/npu/rro-session-harness.c": "fdd28ce04c8d5fdf56edc8ba470feb15f9063bfe584567ce20958a9ded2c7fe6",
+    "tests/npu/rro-wire-harness.c": "72570ca7b12579083db14d5ab307adf3a75df564f3210902878182e1a7609539",
+    "tests/npu/rro-wire-native-abi.h": "7ea6dba9e8b7922e1a5b54826a5116621079acdf5235fe08a37c8032146deae0",
+    "tests/npu/rro-wire-native-emulation.ld": "1929fe7f0f1774e208a5d81426f6af185f3c98f78aa76a76c9afdb5d3413268e",
+    "tests/npu/rro-wire-native-pair-oracle.c": "3aaa465d5774ee7c76c0e747209dab20493ba3b1137f8b4e57701b4b5ee5ab32",
+    "tests/npu/rro-wire-native-platform.c": "02948617ca3681dc0fd4f8d33db81ed32efedaeb4c13e89245dd19d5c1671604",
+    "tests/npu/rro-wire-native-veneers.S": "0a6cc37934c097ed4fad7426237205bee1f73c9f2ebabc60051daa3345533389",
+    "tests/npu/rx-stats-emulation.S": "f5e1d675cc2b5103643fe3cfaede6307d061475f6e8ad07fb868f7146d09f18f",
+    "tests/npu/rx-stats-emulation.c": "989f90cdb8a6c0bf0dd737668fb738d3a60015e3c7ee592f0092e9457361157b",
+    "tests/npu/rx-stats-emulation.ld": "c09ac6c27bf89a649e972d7d28957067c7e65e329247a984d609b4d8c4f9c920",
+    "tests/npu/rx_event_wire_native.py": "c7007d92bf4a880872fa10bcedea6284b0fb865d8b8162d6ace55940c29398b6",
+    "tests/npu/rx_pcie_wire_native.py": "bda02494fb6a3edabc0ee8bf22bdb89322ba73380491a0a0cf6d0131c46209e3",
+    "tests/npu/startup-emulation.S": "b29c875d0ed3e1b55f33879002b6e62bee79369b2fd58498c504fcc0ea6d0c46",
+    "tests/npu/startup-platform-emulation.c": "bb04076315c005e114cdd0742fd83656ff696c5bebd5705e594a0203c0decbf7",
+    "tests/npu/test_admission_native.py": "9d28d226c1f0996b5b959f575c8343d39b830a8590fe660a936f9eac427528e6",
+    "tests/npu/test_admission_protocol.py": "3b1d782f42bb6c074adda7587831d34bd2fefb448fb8bdd8c9afc2aa89e0e347",
+    "tests/npu/test_allocator_native.py": "b0cb3896489be0eb07b35d90fcfce713882f1ce4b9a8ad7aeb6398ec6bdd4b91",
+    "tests/npu/test_allocator_placement.py": "74c323e0668d996aab0039f9544c4e24bb1c45f349bf1339b7f2de1bed06b79e",
+    "tests/npu/test_allocator_protocol.py": "668af375ff6a3b14dba102a8eeec41b549ffe182134cddf615e6409d4371567d",
+    "tests/npu/test_allocator_reset.py": "71c78aed365ef19680d00c508e0cfde19bd9b7754af7649a9a9329204c656af9",
+    "tests/npu/test_allocator_startup.py": "9fd4df8e6550bfb66a407129df4ddde720f4fe9281056a5f9d37858fa43e62e6",
+    "tests/npu/test_attach_rx_callbacks.py": "c7b04924b71e9a09fef3eeba3c1143381a5a1e67157f51b1e341a1910e37f100",
+    "tests/npu/test_attach_tx_callbacks.py": "02a81009ff74bfef0386b9d669c0089d0d092fbd8f99f7583773e6392ef3a3c6",
+    "tests/npu/test_barrier_core5.py": "2d98394e9b2b1498be959212e411e9383c01b3e264fba0fe5d24f0fa9f4d469a",
+    "tests/npu/test_barrier_protocol.py": "cddff62d73db1bd28722997bde2cd88c8d88618ea0b7d908d4e03674a0d49887",
+    "tests/npu/test_barrier_workers.py": "3cde0332d3848b88c0f37daf6bd96f6bccafbbb95332087abfeeeece33b9dfc8",
+    "tests/npu/test_boot_irq_installation.py": "4edcc39cf8b4a1e2e1c420e4c56fb28b534417c7d4737dfa3255327f44f0a76c",
+    "tests/npu/test_bootstrap_control_v2.py": "cd0b3c4d5c81f354f7ab016558c4b03785bd4421546fa33b66303ce439c7e0e9",
+    "tests/npu/test_bootstrap_native.py": "cfee804d33a3fcaba50077a56a9bff6ef845c17f4cca95292055e7b42fba5e6c",
+    "tests/npu/test_bootstrap_v2_composition.py": "6b6ac35102db6e4547cefea2693bcde971c8f6b5dc8d164dbef9c24db10f1438",
+    "tests/npu/test_bridge_memory_budget.py": "8e24b6a47aa3923b4da556c510fbae06501d99c109e55c9813772417c2bca799",
+    "tests/npu/test_bridge_startup.py": "7a5568a7f7dfcd96c25855ca1262ae7306f03a36e7701a873be01975fdef765e",
+    "tests/npu/test_cold_packet_native.py": "5066c2c989e28afb6192d34ae7c93f5956a15c1df0abf30fad6b3703c4447169",
+    "tests/npu/test_cold_page_caller.py": "f07d682c8635ccca524b4206e1ebf794dd89ffc79c4625f8344fce2961644771",
+    "tests/npu/test_cold_page_native.py": "055f1cef368bcd14a1317744332d63e5dc9655e068877231676af46323db9b58",
+    "tests/npu/test_command_ring_layout.py": "c43c37b267a8011715bbdceca2b3ad10497e632e42f475412673a97ccb2f2d48",
+    "tests/npu/test_command_ring_order.py": "9008a6f511144c22f5facd14e09b0bbcbf3dc3b0937169925c5b09ebbdfe2009",
+    "tests/npu/test_control_client.py": "80db66c2d8e2441f548979d7f92f2b39ce51b407d7038dd24eab9e4cdaef48ea",
+    "tests/npu/test_control_v2.py": "06d560935cbfef5c115d41304822a31c24c3f5ef5989dcd37468557ce366ab8b",
+    "tests/npu/test_egress_guards.py": "77ce0dd487046e8dfade1bc946a22d1b3d9738936f0e0d3372d7a2b658b9d5d8",
+    "tests/npu/test_firmware_mailbox_dispatch.py": "41ab6be09f778be75dc2e8ad15726e562d55a6fca63fa3c84890d492ec5ccd28",
+    "tests/npu/test_firmware_memory_layout.py": "9376680cddb93a11b297eab2da8037ab85c69f3c724848130338886173d82077",
+    "tests/npu/test_firmware_stop_counterexample.py": "0052dcd9993012d8efde6333199231fc84f22af0fa12bfb1064a295f52c3e0a3",
+    "tests/npu/test_firmware_stop_irqs.py": "6106be194fc329c45c8e4f446673cfae246ef145e23b26b4a360d5157db9f3f8",
+    "tests/npu/test_mt7996_bootstrap_sequence.py": "93a8faaab3de05599bd262fafd32564216cdb3ee438abf19ab006c8c057a94dd",
+    "tests/npu/test_multihart_cold_boot.py": "c7a34f40abb30b444e47adfc6d2761d665d3cf764210a64878baa53208cc6e85",
+    "tests/npu/test_native_wifi_boot.py": "d86cf4fddda6804bd0391426cc5201b7e7214be7520ab688d9a8cb97cbec8340",
+    "tests/npu/test_rx_stats.py": "8f4e74a7202718808827bf61b1bd38331aba935f414a38f4b8075ad24d8cd55e",
+    "tests/npu/test_startup_native.py": "bbec2fbe8bbe1591b27c9cd1924cab4c04ef205ba0a07f4c6d60831fd0e19efb",
+    "tests/npu/test_tunnel_header_bounds.py": "669b5f35e5178b4ac20d6cca2e6a3c06efece54f63a3b11abe57e9d93cfce7ba",
+    "tests/npu/test_tunnel_packet_extents.py": "f2efa4f57c1887e2349904318d106f046d0a6ca26cedf430e689ec40c0698460",
+    "tests/npu/test_txbuf_dtbs.py": "8a5544ab2ee52b5f102699a27042dbae1cab3d85c7c1c92f7c9bf585da464a99",
+    "tests/npu/test_txdone_init.py": "1ac107f4c56c00028f832d00828855d7cd225880d44971f946412a306b139bc2",
+    "tests/npu/tunnel-header-emulation.S": "fb73d9a39738a1170263a18418f90c7f342dcc71f67824352a0b4847cf073297",
+    "tests/npu/tunnel-header-emulation.ld": "c477e930973c6bbad74e47970bf12f8568ebbab94085540cc2e904dd79833aff",
+    "tests/npu/tunnel-packet-emulation.S": "a2c99b7551880ce5443b608797679277ad9a4d4203a3d318b0b0b4b60fd74815",
+    "tests/npu/tunnel-packet-emulation.ld": "28b98a6fc2f561d163a88918703eff4f7a03dc71151ddc285003d251683a15dc",
+    "tests/npu/tx_buffer_wire_native.py": "0134dfdddb59d9a990f80c1cd27c07d1c2c667f069db2ae01445a9e30b27c772",
+    "tests/npu/tx_wire_native.py": "cce0b13ea21e1cd7c3a980129504aec7f46a71183bafe2f14688520327185bdb",
+    "tests/npu/txdone-init-emulation.S": "bc17cf58b51ec48a0236618aec03c54ec97a853952fc45fb9b2a5a9d97ad9cce",
+    "tests/npu/txdone-init-emulation.c": "4ab27a7b45065cba4ba34d0558b100907d510a394b0d0affaf2751e889eb77d0",
+    "tests/npu/txdone-init-emulation.ld": "3ddd2f6ac4980d72f8c47a0d899c0204daf3b6bf049bb09b9d4e8100d9df987a",
+    "tests/npu/txdone_wire_native.py": "3f5d4a0faeff9c1e366f39d8a585a165b8bb91b1c28a598bded25fa36e7fe5f9",
+    "tools/build_npu_pair.py": "05a3c8d161f2d117717daed72d9a4486d7933220eac65285ad4c02d90187c0a0",
+    "tools/npu_image.py": "8b164a59f53aafef1b677340e9f4828b72e9cf9a18310b472a85f75581ee716a",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643",
+    ".local/npu-quiescence/firmware/en7581_MT7996_npu_data.bin": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+    "tests/npu/test_rro_session.py": "d2fc4a3382a5dd913eaf15523450514d322b548cfefb2e2601010cb3f34c3821",
+    "tests/npu/rro-native-fixture.h": "00c071574fc3a43cb56bf2bcfa152550bf5b7d8877784b41827aca76f383cd2b",
+    "tests/npu/test_rro_wire_native_pair.py": "9e336bb92dcc7b1b33c9111d1ac5fbf3aa556a3596c28a4007cc109942294a4b",
+    ".local/npu-rro-session-host-20261023/host-q2/result.json": "bfb2b989fd1038e80a9d00b2a25da099775ce0f340f2afb14f39cad7e10b88a2",
+    "tests/npu/test_npu_raw_pair.py": "6b05bf112d75b00136f3b1a09d63c56ee66bef272649aadae4422262aa45358d",
+    ".local/npu-rro-wire-20261023/pair-q2/manifest.json": "0883feabfbf4c2aa30ac8d29099f867ee979a7784d3c0fb906c48e4cc9509f12",
+    "tests/npu/cold_client_native.py": "724af2eb2c08cc42f53fff14f2a09db5eac59d332bd8de7bfacab14262ee2e7a",
+    ".local/npu-rro-wire-20261023/pair-q2/CODE.bin": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+    "tests/npu/npu_csr_sampler.py": "e607e627bc1cd497069066c62ff0da0e3ab47bf513c2f75f0018085992cb98ce",
+    ".local/npu-bootmem/candidate/an7581-w1700k-ubi.dtb": "dfe83e60933b9905712ebd1dc35f182cf943acbbd6f03902031be3856cf70344",
+    "tests/npu/native_cold_observer.py": "fa9592be49c2c9b6c20fd49990eb266327348ac1010d0875a1e89238ac08453f",
+    ".local/npu-rro-wire-20261023/pair-q2/DATA.bin": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+    "tests/npu/test_cold_txdone_native.py": "c283e83a7177249e643da6c48047fae6d5cc7f10fd460112e231eeaa9cdf8559",
+    "tests/npu/native_read_api.py": "ec9c1d59b87a76c2344627db613b853774c5d0a8a0be8b73910b44e681e4783a",
+    "tests/npu/native-read-api.c": "063129ac93f33855b249d843a42cdbce8127506b5fc8021f4ec07632654baf41",
+    "tools/build_npu_read_api.py": "a730c7adb102e009b5f0b919a8f53a821ad640afdb8fec3f07bdb36632b0059a",
+    "tests/npu/test_native_read_api.py": "8b8fd1e530cad75ccfd747f05cab941103511e5fc7c75724a969afe2a857695e",
+    "tests/npu/test_native_cold_observer.py": "a724931364804ed9696ce718b4ea654170cfd7510a31714de3cd2e0ff42e7dc5",
+    "research/checkpoints/2026-09-05-npu-admission/ghidra-mailbox/en7581_MT7996_npu_rv32.bin.txt": "1536a9972838ca7c02da77629e784b392af919c5d25368478aff4d0c2422e2ca",
+    ".local/npu-reset/python-lib/unicorn/unicorn_py3/unicorn.py": "62ffe84341f4288e309040e06555b81798031817d32fd19a945e250813f872f0",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/arm.h": "de68a0b8f91035baa32cf76fdbd677a16dac433e93c75b084ecd0eeef67be7de",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/arm64.h": "7fc1a00cfe6234ea8859026e4e27cb625e4cecedbc95a06bec9c694137831981",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/m68k.h": "1511ee296557a3de03f71e25b1378761dc7213bfb2f5b2df7aa2d3ef8722b449",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/mips.h": "f6a8d3a5056330a7431954cfe19ec1b4927fa0e8f0a9d83ceac8aeeb98a2a030",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/platform.h": "10ec4c482940d039fcbbf2f7e5791d3dc3f991f0a3c5b16e22f378ae1829fdde",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/ppc.h": "2645d9f4448ab0c1ff28d2096262335d53a9479f210567d546cd76de85dbd530",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/riscv.h": "c2efc0644c236feca3f17e2957a28149498b9f6e06772ced7e11204797fd0327",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/s390x.h": "43ba5d9eed2495ae129da50a8e3f59902d05dc4601bfad12d2b3f4454953d0b4",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/sparc.h": "f30427a1738b7bc9c46dd00cee2097ae375f95ad8db9c386f3d61a14574b3624",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/tricore.h": "053f337160ab3b0cb29bc564e301950fed4c2f93bde50918a3d428b85d0a3f45",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/unicorn.h": "66fdf8f39df34e507a163eb550549669cec3399c2103b8dc84bc4131f600e55a",
+    ".local/npu-reset/python-lib/unicorn/include/unicorn/x86.h": "6b01b368f4d1bd0e0ac93a6107cd2edb3b5abfef578f94bf82a00e0ae34ed76f",
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/_npu_read_api.cpython-314-x86_64-linux-gnu.so": "79f91fc4dd1ec564458e035513f58736b847cfd4899de3ee045870b530bcd4ab",
+    ".local/npu-build-scratch/native-c2/observer-reentry-build-q4/ubsan/build.json": "47042a9b31d045f8a3ce8bfd6e3e6c875960a08ee1277697ee72dc623cea0b3a",
+    ".local/npu-publication-profile-20261027/publication_body_q6.py": "e1e56c8f6f6e4f6a8348e65ccd3c3c4d2ab47f8ce1543d13a14f13fc56a51734",
+    ".local/npu-publication-profile-20261027/launch_phase_q1.py": "76ec3b274e37fa891e8eb5f16b623dacf244fe3bf09173685f4066ac8f9095c4",
+    ".local/npu-publication-profile-20261027/control_body_q2.py": "f490c9fb72348062f224e6fee990c6a6950a4a3fb2b024a75311db51ce96678e",
+    ".local/npu-publication-profile-20261027/guard_phase_q1.py": "9ce2bbf77094853923cd2fa0ee5a3dba3c0b6d74a642ff668bc511d7a379523a",
+    ".local/npu-publication-profile-20261027/prepare_q1.py": "795b5a7a003c8b3e2917e1ef62825020c679cb09ac06cb133db3d48533d358af",
+    ".local/npu-publication-profile-20261027/publication_body_q3.py": "d01af7fa1c5a78a133ba7afae55ae98ab727d7c5f0cee0b21a1a0aa1b1f3e414",
+    ".local/npu-publication-profile-20261027/profile_q2.py": "3ef3fe64de65cc4e8580a510b1e442b8f8a7087e220cd4ab8901250ba5d4b4bd",
+    ".local/npu-publication-profile-20261027/publication_sampler_q2.py": "4d1024bdfeb405c4b9afd40e74c93175c54411f8b705ac691f566038ca28d721",
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/bin/perf": "1371ae5cb9fa59632d1d0e34b877d7251df4029810ba67dc56e946545e87b531",
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/lib/x86_64-linux-gnu/libtraceevent.so.1.8.7": "7e401c9eabc1718605fd8df406bc6c1bb9308e153b18b10cd14108aeb2621158",
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/lib/x86_64-linux-gnu/libtraceevent.so.1": "7e401c9eabc1718605fd8df406bc6c1bb9308e153b18b10cd14108aeb2621158",
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/lib/x86_64-linux-gnu/libdebuginfod-0.194.so": "de47d33dc64fd76934e37507c49e1472a6ef0713ff550aa30665db75fb3b9ab6",
+    ".local/npu-build-scratch/native-c2/observer-reentry-perf-q8/package/usr/lib/x86_64-linux-gnu/libdebuginfod.so.1": "de47d33dc64fd76934e37507c49e1472a6ef0713ff550aa30665db75fb3b9ab6",
+    ".local/npu-publication-profile-20261027/control_body_q4.py": "efffa31857bd4daf19da2c3ca1bc2639d3e2a4405d2dbad967e92ccf42ce6311",
+    ".local/npu-publication-profile-20261027/publication_sampler_q4.py": "6de46c69a9d9541798d73acdd7f7ea4d917f38f7256dd3fa11149595aa094cf4",
+    ".local/npu-publication-profile-20261027/profile_q4.py": "5d928a5fa39d94b5edd619e6987c1e4ace43d096e4b68c774a3d47dbf69029e6",
+    ".local/npu-publication-profile-20261027/prepare_q4.py": "270a4feac84a6b65346060ecd40e18a1c8321c788335bbb2cfb760c627b4ed4c"
+  },
+  "prior_qualification": {
+    "path": "research/checkpoints/2026-10-27-npu-native-observer-reentry/EVIDENCE.json",
+    "sha256": "1743a8543f008072d2cbed5639508ed9cd9ea283ccfbcef19032618aa2695aba",
+    "reverified_artifacts": 279,
+    "tests_rerun": false
+  },
+  "positive_function_AST_unchanged": true,
+  "Jev_actual_responses": {
+    "jev-scope-q1.result.json": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "later_timeout_proof": {
+          "type": "noul",
+          "noul": 0.1
+        },
+        "full_recipe_acceptance": {
+          "type": "noul",
+          "noul": 0.11
+        },
+        "guest_check_omission": {
+          "type": "noul",
+          "noul": 0.7
+        },
+        "host_cost_evidence": {
+          "type": "noul",
+          "noul": 0.81
+        }
+      },
+      "usage": {
+        "input_tokens": 479,
+        "output_tokens": 84
+      }
+    },
+    "jev-verify-q7.result.json": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "full_acceptance": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "timeout_cause": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "eval_attribution": {
+          "type": "noul",
+          "noul": 0.12
+        },
+        "memory_wrapper_boundary": {
+          "type": "noul",
+          "noul": 0.79
+        },
+        "memory_direct_gateway": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "physical_drain": {
+          "type": "noul",
+          "noul": 0.04
+        }
+      },
+      "usage": {
+        "input_tokens": 1029,
+        "output_tokens": 114
+      }
+    }
+  },
+  "original_full_recipe_still_failed": true,
+  "complete_runtime_archived": false,
+  "limitations": [
+    "First native publication, not the original failure at ordinal119 or a full recipe.",
+    "Self samples do not identify Python callers or prove a causal timeout diagnosis.",
+    "No physical DMA drain, kernel lifetime, image, board or real-client acceptance."
+  ]
+}

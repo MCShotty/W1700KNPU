@@ -1,5 +1,33 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Current Native Publication Profiled
+
+- Continue solo and keep Ethernet disconnected. Source/profile 7 remains c18c7dc;
+  no firmware, driver, observer or registration source changed in this checkpoint.
+- Fresh profile-2 probe passes 139 positive RPCs and 141 canonical rows, differing
+  only in wall_ns. The first 64KiB publication takes 46864880212ns with all 24576
+  writes/readbacks and complete broker/DMA/SRAM/code comparisons. This is not
+  publication 119, a full recipe or a timeout fix. Original full-q21 stays failed.
+- Main-task user-CPU sampling is enabled only around positive(PUBLISH), including
+  parent request/broker/extent checks. All 46693 samples lie inside acknowledged
+  CLOCK_MONOTONIC bounds; zero samples reported lost. No inheritance/call chains
+  or kernel-policy changes. Preserve failed q2 ACK framing; fresh q4/q5 handles
+  the actual ack-newline-NUL frame. Memory body annotation uses memory_vectorcall;
+  the attempted memory_call symbol annotation is not absence of memory traffic.
+- Python evaluation 8.48%, generic attribute lookup 5.60% and Unicorn trace helper
+  5.14% are named self-sample entries, not causal shares for the old timeout.
+  Memory callbacks still cross Unicorn's Python wrapper into MemoryObserver;
+  the direct native gateway currently applies only to block callbacks.
+- Next implement/test a faithful direct memory callback gateway, preserving the
+  exact original registration position, all six arguments/signed values, dynamic
+  state, fresh SP/I/O/fault checks, exception identity/precedence and callback
+  retention/unhook/GC/rollback. Keep default Pair behavior and qualify actual
+  guest traces plus performance before another complete recipe. Do not relax
+  budgets or combine old/new subsets into a full verdict. All 309 probe inputs,
+  438 target inputs and 294 retained old native versions verify. Physical owner/
+  containment/drain, reuse/hot lifetime and image/client gates remain. Read
+  native-publication-profile REPORT/EVIDENCE; full NPU goal remains active.
+
 ## 2026-10-27 - Native Observer Counter Reentry Qualified
 
 - Continue solo and keep Ethernet disconnected. No router contact, module load,

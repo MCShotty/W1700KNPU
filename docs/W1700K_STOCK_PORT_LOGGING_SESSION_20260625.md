@@ -1,5 +1,22 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Current Native Publication Profiled
+
+Continued solo from c18c7dc with unchanged profile-7 source and adapter. Fresh
+profile-2 probe passes 139 positive RPCs and 141 canonical rows except timing.
+Its first publication takes 46.865s; all 24576 writes/readbacks and complete
+broker/DMA/SRAM/code comparisons pass. Full-q21 stays failed, not a full pass.
+
+Scoped perf collection yields 46693 main-task user-CPU samples, all within
+acknowledged monotonic bounds, zero reported loss. Preserve failed ACK control
+q2 and corrected q4/q5. Native q6 is terminal successful. Self samples give
+callback/dispatch leads, not publication-119 causal attribution. Next qualify
+a faithful native memory callback gateway; preserve all checks and lifetime.
+All 309 probe/438 target inputs and 294 historical native versions verify.
+No source/compiler/image/hardware/Wi-Fi change; Ethernet remains disconnected.
+Full native/physical/reuse/hot/image/client gates remain. Read publication profile
+REPORT/EVIDENCE; the full NPU goal remains active.
+
 ## 2026-10-27 - Native Observer Counter Reentry Qualified
 
 Continued solo from 32ae613, Ethernet disconnected. Four retained-object probes

@@ -1,5 +1,52 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Current Native Publication Profiled
+
+- Continued solo from c18c7dc. No source/registration edits, new compiler, image,
+  module load, router contact, flash, shutdown or Wi-Fi association change.
+  Ethernet remains disconnected. Original full-q21 is not restarted or accepted.
+- Fresh derived profile-2 probe uses qualified profile-7 UBSan adapter 79f91fc4,
+  unchanged boot 3M/10s and RPC 100M/60s. Its raw prefix executes 1136899 tracked
+  instructions in 38637348105ns. It checks OPEN plus 137 ENROLL before the first
+  publication; all 139 positive RPCs/journals and 141 canonical rows match the
+  retained oracle/rows except wall_ns. The complete recipe remains unproven.
+- Publication takes 46864880212ns, recording 7438798 blocks, 760661 metadata
+  writes, 515 payload reads, one mailbox veneer/binding each, table writes/reads
+  1/2 and extent writes/reads 24576/24576. Complete extent, broker, DMA, SRAM and
+  code comparisons pass. Do not treat this first-publication result as the
+  original failing ordinal119, a firmware cause or a new full native verdict.
+- New perf controller starts disabled and enables only around positive(PUBLISH),
+  including parent request/broker/extent checks. Main task user CPU only, 997Hz,
+  no inheritance or call chains, explicit CLOCK_MONOTONIC. All 46693 timestamps
+  lie between acknowledged enable/disable bounds; zero samples reported lost.
+  The small control collects 498 samples within its independent test window.
+- Preserve control-q2's terminal ACK-framing failure, before any firmware ran.
+  Perf's ACK includes a terminating NUL; fresh q4 records the exact 61636b0a00
+  response and control-q5 passes. No failed or consumed helper was overwritten.
+  The native q6 invocation is terminal successful, not a still-running wait.
+- Named self-sample entries: Python eval 8.48%, generic attribute lookup 5.60%,
+  Unicorn trace helper 5.14%, C block_call 1.99%, memory_vectorcall 1.71%. These
+  do not identify Python callers or assign causal cost to the old timeout.
+  Attempted memory_call annotation has no samples; fresh q7 annotates the actual
+  memory_vectorcall symbol. This does not mean memory traffic was absent.
+- Actual base registration and Unicorn binding source still route memory
+  callbacks through Python into the C observer. A direct memory callback gateway
+  is the next candidate, not implemented or benchmarked as an optimization here.
+  Preserve default registration order, all arguments/signed values, dynamic
+  state/SP/I/O/fault checks, exceptions and callback retention/unhook/GC/rollback.
+- All 309 declared probe inputs, qualified build inputs/headers/extension, 438
+  current target inputs and 294 read-only historical native versions rehash.
+  Source lock d55e71a3, mt76/kernel patches and RXWI module qualification stay.
+  Prior 95/20/167 observer/tooling qualification is revalidated, not rerun here.
+- Every new phase keeps 400MiB/no swap, 128MiB C-output reserve, fresh dual backing
+  observations, full-cap-plus-margin checks and the held C writer lock. Perf
+  sampling policy/global packages stay unchanged. Six previous tracking bodies
+  remain byte-identical. Actual Jev scope/claim judgments are retained separately
+  from executable evidence; their probabilities do not override checks.
+- Full goal active: full native replay, complete consumer containment/physical
+  drain, BA reuse/hot lifetime and current image/board/real-client acceptance
+  remain. Read research/checkpoints/2026-10-27-npu-native-publication-profile/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - Native Observer Counter Reentry Qualified
 
 - Continued solo from 32ae613. Verified original full-q21 terminal failed and

@@ -1,5 +1,29 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Current Native Publication Profiled
+
+From c18c7dc, unchanged host profile 7 passes a fresh profile-2 native subset:
+139 positive RPCs, 141 canonical rows equal except wall_ns. First publication
+completes in 46864880212ns with 7438798 blocks, 760661 metadata writes and all
+24576 extent writes/readbacks. Complete broker/DMA/SRAM/code comparisons pass.
+This is first-publication evidence, not publication-119/full-recipe acceptance.
+
+Perf collection starts disabled and encloses only positive(PUBLISH), including
+parent request/broker/extent checks. All 46693 main-task user-CPU samples lie
+inside acknowledged monotonic bounds, zero reported loss, no inheritance or
+call chains. Named self entries include Python eval 8.48%, generic attr 5.60%
+and Unicorn trace helper 5.14%; none establishes the earlier timeout's cause.
+Direct memory-hook source still uses Python wrapper dispatch. Next qualify a
+faithful native gateway without losing ordering, arguments, checks or lifetime.
+
+All 309 current native inputs, 438 target inputs and 294 read-only historical
+native versions verify. Source lock d55e71a3, patches/modules and observer source
+remain unchanged; no new compiler ran. Preserve failed ACK control q2, corrected
+q4/q5 and terminal successful native q6. No full replay restart, limit change,
+image/load/router contact/flash or Wi-Fi change. Ethernet stays disconnected.
+Full native/physical/reuse/hot/image/client gates remain. Read publication profile
+REPORT/EVIDENCE; full NPU goal stays active.
+
 ## 2026-10-27 - Native Observer Counter Reentry Qualified
 
 From 32ae613, source-bound host profile 7 checks block/name counter values before

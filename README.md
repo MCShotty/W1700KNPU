@@ -1,5 +1,18 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Current Native Publication Profiled
+
+Current observer profile 7 now passes a fresh 139-RPC native subset. Its first
+64KiB publication completes in 46.865s with all 24576 writes/readbacks and full
+broker/DMA/SRAM/code comparisons. All 141 canonical rows match except timing.
+This is not the full recipe or a fix for the later publication-119 timeout.
+
+Scoped host profiling provides 46693 samples with zero reported loss. Memory
+callbacks still use a Python wrapper; a faithful direct native gateway is the
+next candidate, with correctness and timing qualification required. No source,
+image, hardware or Wi-Fi change occurred; Ethernet remains disconnected.
+See [the publication checkpoint](research/checkpoints/2026-10-27-npu-native-publication-profile/REPORT.md).
+
 ## 2026-10-27 - Native Observer Counter Reentry Qualified
 
 The host observer now preserves the reference callback when counter arithmetic
