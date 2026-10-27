@@ -1,5 +1,24 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - FW-TXP Validation Queued
+
+Source fix8e8339b/lockcc128c3b/patch73ccff87 now has a live Windows waiting
+controller PID17788, actual executable/creation time verified. Private cohort
+.local/npu-txp-target-20261027, frozen plan e67d5198:454 target inputs and332
+original native inputs/read-only copies verify. No target build has started.
+All29 gate/15 mocked-launch driver tests pass; this is not target acceptance.
+
+Original full-q16 stays20c8f1ab/guard137794/wrapper137812/driver137844 with advancing
+CPU. Audit3 prefix5181 RPCs/129 publications/1637 reset triplets is not a full
+verdict. Actual terminal process/cgroup state gates modules-q2, then regressions-q3.
+Fresh modules must pass TXP90/4 correct-contract and four existing native suites;
+broader15/167 regressions follow only after module/controller success. Source
+compile/execution remains pending. Keep caps/margins/lock/original limits; no
+restart/competing compile/sampling. Freeze454 inputs; CANCEL affects own queue/
+child only, reprepare before edits. Tracking prefixes are unbound. Ethernet
+disconnected; full native/owner/drain/token/RRO/reuse/hot/image/board/client gates
+stay. Read txp-target-queue REPORT/EVIDENCE and actual queue/phase receipts.
+
 ## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
 
 Native pre-fix MT7996/connac bodies reproduce malformed FW-TXP DMA-unmap

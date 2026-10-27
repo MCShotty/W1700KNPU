@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - FW-TXP Validation Queued
+
+The integrated DMA fix now has a live dependent validation controller, waiting
+for the original full native replay. Its454 target inputs and332 native inputs
+verify;29 gate/15 driver-control tests pass. No target build has started or
+qualified yet. Fresh modules/native suites and broader regressions run only
+after the exact predecessor is terminal. Physical/client gates stay open;
+Ethernet disconnected. `research/checkpoints/2026-10-27-npu-txp-target-queue/REPORT.md`
+records the actual process, frozen plan, guards and resume instructions.
+
 ## 2026-10-27 - FW-TXP DMA Decode Source Fix
 
 Retained compiled code reproduces malformed FW-TXP unmap arguments in36 of90

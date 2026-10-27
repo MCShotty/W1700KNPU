@@ -1,5 +1,21 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - FW-TXP Validation Queued
+
+Solo dependent validation controller PID17788 is live/waiting, actual identity
+verified. Plan e67d5198 freezes454 target inputs;332 native/read-only inputs
+verify. Gate29/driver15 control tests pass, not target validation. Preserve the
+first mock-error run and generated driver versions. modules-q2/native suites,
+then regressions-q3 are gated on exact full-q16 termination and prior phase success.
+
+Original20c8f1ab/driver137844 still advances; audit3 prefix5181 positives/129
+publications/1637 reset triplets is not a verdict. Source fix8e8339b stays pending
+target compile/execution. No duplicate build/restart/competing compile/sampling.
+Freeze454 inputs; own CANCEL/reprepare before edits. Ethernet disconnected;
+no load/image/flash/Wi-Fi change/new compaction. Full physical/owner/token/RRO/
+reuse/hot/image/client gates stay. Six prior tracking bodies preserved; read
+txp-target-queue REPORT/EVIDENCE and actual queue/phase receipts. Full goal active.
+
 ## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
 
 Solo native unmap reproduction finds36 wrong FW-TXP argument cases of90/four

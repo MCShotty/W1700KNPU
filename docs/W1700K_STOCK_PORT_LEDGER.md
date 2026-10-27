@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - FW-TXP Validation Queued
+
+- Launched one hidden Windows waiting controller, PID17788, with actual executable,
+  command line and creation time verified. Cohort .local/npu-txp-target-20261027,
+  plan e67d5198 freezes454 current target inputs and separately rehashes332 live
+  native inputs/read-only copies. Decision is wait; no build phase has started.
+- Reused tested dependency gate/storage guard with exact original20c8f1ab process
+  identities. No main/cgroup/original process may remain before dependent launch;
+  collected units need verified same-boot history/durable terminal receipt. An
+  observation timeout is retry, not termination. Failed predecessor may permit
+  independent build, never native acceptance or restart of the old recipe.
+- modules-q2 plans fresh four-module build, then default correct-contract TXP90/4,
+  RXWI10/3, MCU31/3, consumer35/6 and RX-TX64/7. regressions-q3 follows only after
+  module/controller success and requires15 suites/167 tooling units. No candidate
+  pass/target compile is claimed. Fix8e8339b/lockcc128c3b/patch73ccff87 unchanged.
+- All29 gate and15 driver-contract host tests pass, zero skips. First42-test run
+  had three missing-STDOUT mock errors; preserve its log/test source. No production
+  guard weakened. New tests cover wait/refusal/cancel/retry, command binding,
+  full-cap Windows RAM and failed-module blocking. They mock launches, not hardware.
+- New phases bind commands exactly,400MiB/no swap, fresh dual RAM/storage margins,
+  512/768MiB C-output reserves and existing writer lock. Oneshot activation limits
+  use TimeoutStartSec3500/TimeoutStopSec20/control-group kill, restart disabled.
+  Native boot3M/10s, RPC100M/60s,400MiB/no swap/reserve/lock stay untouched.
+- Audit3 confirms advancing original driver CPU and prefix5181 checked RPCs/129
+  publications/1637 RESET+MCU_BEGIN+MCU_COMPLETE each in profile0, not acceptance.
+  Freeze454 target inputs; CANCEL stops only this queue/its own child. Reprepare
+  before edits; tracking prefixes remain unbound. No competing compiler/sampling.
+- Six tracking bodies preserved. Read txp-target-queue REPORT/EVIDENCE and actual
+  controller/phase/terminal receipts before manual work. Ethernet disconnected;
+  no load/image/flash/Wi-Fi change/shutdown/new compaction. Full native/owner/drain/
+  token/RRO/reuse/hot/image/board/client gates stay. Full NPU goal remains active.
+
 ## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
 
 - Native MT7996 txwi_free/shared FW unmap reproduces36 malformed argument cases

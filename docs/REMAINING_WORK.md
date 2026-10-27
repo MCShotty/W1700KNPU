@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Follow The Existing FW-TXP Validation Queue
+
+Windows PID17788 is waiting in .local/npu-txp-target-20261027. Plan e67d5198
+freezes454 target inputs; all332 live/read-only native inputs verify. No target
+phase has started. Do not launch a duplicate or edit bound inputs. CANCEL stops
+this queue/its own child only; cancel/reprepare before changing the target cohort.
+
+After exact full-q16 termination, modules-q2 must build fresh modules and pass
+TXP90/4 correct-contract, RXWI10/3, MCU31/3, consumer35/6 and RX-TX64/7. Only then
+regressions-q3 runs15 suites/167 tooling units. Gate29/driver15 host-control tests
+pass, not target acceptance. Source fix8e8339b remains compile/execution pending.
+Full native, complete owner/token/RRO/devres/context and physical drain/reuse/hot/
+image/board/client gates remain. Audit3 prefix5181 positives/129 publications/
+1637 reset triplets is not a verdict. Ethernet disconnected; original limits/
+caps/margins/lock stay, no restart/competing compile/sampling. Read txp-target-queue
+REPORT/EVIDENCE and actual process/unit/terminal receipts. Full NPU goal active.
+
 ## 2026-10-27 - Compile And Qualify FW-TXP Source Fix
 
 Source now decodes MT7996 FW-TXP DMA high bits and masks its length correctly,

@@ -1,5 +1,33 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - FW-TXP Validation Queued
+
+- Continue solo, Ethernet disconnected. A live Windows controller PID17788 owns
+  the dependent FW-TXP build/regression chain in .local/npu-txp-target-20261027.
+  Actual process path/creation time are verified. Plan e67d5198 freezes454 target
+  inputs;332 original native inputs/read-only versions verify separately. No
+  target phase has started. Inspect actual queue/unit/receipt state before work;
+  do not launch another controller or compile beside the original replay.
+- Source fix8e8339b/lockcc128c3b/patch73ccff87 stays. After full-q16 is truly
+  terminal, modules-q2 builds fresh modules and requires TXP90/4 correct-contract,
+  RXWI10/3, MCU31/3, consumer35/6 and RX-TX64/7 native suites. Then regressions-q3
+  requires15 suites/167 tooling units. These are planned checks, not passed target
+  validation. Pre-fix producer92c75156 remains pre-fix. Physical gates stay open.
+- All29 predecessor-policy and15 mocked-launch driver tests pass, zero skips.
+  Preserve the first42-test mock-error log/source and pre-strengthening drivers.
+  New phases bind exact commands,400MiB/no swap, fresh dual margins,512/768MiB
+  C-output reserves and writer lock. Type=oneshot uses TimeoutStartSec3500/
+  TimeoutStopSec20/control-group kill. Original boot/RPC limits remain unchanged.
+- Gate original20c8f1ab/guard137794/wrapper137812/driver137844 by exact identities
+  and actual cgroup/process termination. Collected units additionally need
+  same-boot live history/durable terminal receipt. Timeout is not termination;
+  failed predecessor is not a native pass. No restart of the original job.
+- Freeze454 target inputs until this queue terminates; CANCEL affects only this
+  queue/its own new child. Cancel/reprepare before changing bound inputs. Tracking
+  prefixes remain unbound. Audit3 prefix5181 RPCs/129 publications/1637 reset
+  triplets is not acceptance. Read txp-target-queue REPORT/EVIDENCE; full native/
+  owner/drain/token/RRO/reuse/hot/image/board/client gates and full NPU goal stay.
+
 ## 2026-10-27 - FW-TXP DMA Source Fix; Compile Pending
 
 - Continue solo; Ethernet disconnected. Native pre-fix MT7996 FW-TXP replay
