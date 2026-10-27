@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Continue Packet-Status Ownership
+
+Compiled token-IDR traversal/destroy now passes56 cases/seven controls using
+five linked-kernel-matched Linux6.18.52 bodies. Callback execution/188 fixture
+node returns do not prove real RCU grace periods, slab/SMP or physical drain.
+Initial tree allocation remains modeled. Complete nonempty packet-status
+registration/removal, TXS/flush/DMA ordering, station/PS/non-AQL and consumer/
+devres/context lifetime remain; token zero is not every SKB finished.
+
+Original full-q16 stays live with profile0 final6421 and profile1 snapshot237
+RPCs/97 publications, not full19261 acceptance. Queue PID17788/plan e67d5198
+still waits,454 target/332 native/read-only inputs unchanged, no phase started.
+Do not edit/duplicate it. Both new token suites are outside its frozen sets;
+rerun them on fresh matching modules after qualification. Source fix cc128c3b
+is compile-pending. Keep physical/reuse/hot/image/board/client gates open and
+Ethernet disconnected. Read kernel-idr-native REPORT/EVIDENCE; full goal stays.
+
 ## 2026-10-27 - Follow The Queue; Complete SKB Ownership
 
 New compiled token/SKB replay passes 62 cases/nine controls on old producer

@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled Kernel IDR Token Lifetime
+
+New kernel-backed token replay passes56 cases/seven controls with30 bindings.
+Five retained Linux6.18.52 bodies match linked vmlinux after relocation-immediate
+normalization; opcode/register/other bytes match. Eleven bodies enter/13 map.
+Compiled IDR traversal/destroy and188 node callbacks execute; initial allocation,
+RCU grace scheduling, slab/mac80211/DMA/physical effects remain models. Nonempty
+packet-status registration/removal and TXS/flush/DMA orderings stay unexecuted.
+
+Old producer92c75156/all417 inputs verify with three aliases; prior token62/9
+and17 bindings stay. Source fix/lock cc128c3b remains compile-pending. Original
+full-q16/20c8f1ab stays live, profile0 final6421; profile1 snapshot237 RPCs/97
+publications is not complete. Queue PID17788/plan e67d5198 waits with454 target/
+332 native/read-only inputs unchanged, no phase started. New suite is unbound,
+not added to the queue. Rerun on fresh modules afterward. Ethernet disconnected;
+full lifetime/physical/drain/reuse/hot/image/board/client goal remains. Read report.
+
 ## 2026-10-27 - Compiled TX Token And SKB Paths
 
 New test_tx_token_native.py passes 62 cases/nine controls, 17 bindings, seven

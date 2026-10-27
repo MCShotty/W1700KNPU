@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled Kernel IDR Token Lifetime
+
+The token replay now executes matching compiled Linux IDR/radix-tree routines:
+56 cases/seven controls pass, including dense and cross-level trees. Compiled
+node callbacks run, but RCU grace scheduling, allocation and physical effects
+remain modeled. This does not close packet-status/SKB or physical ownership.
+The full native replay continues and the fresh DMA-fix build remains queued.
+Ethernet stays disconnected. See [scope and evidence](research/checkpoints/2026-10-27-npu-kernel-idr-native/REPORT.md).
+
 ## 2026-10-27 - Compiled TX Token And SKB Paths
 
 Selected retained AArch64 token and SKB cleanup now passes 62 cases/nine controls

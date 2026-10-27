@@ -1,5 +1,37 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled Kernel IDR Token Lifetime
+
+- Added test_tx_token_kernel_native.py: final replay-q5 passes56 cases/seven
+  emulator-byte controls,30 bindings. Actual Linux6.18.52 get-next/get-next-ul/
+  next-chunk/destroy/node-RCU-free bodies replace Python IDR hooks. All five
+  match linked vmlinux after normalizing relocation immediates only. Eleven
+  bodies enter/13 map; ordinary callback/put_txwi.part.0 are unentered here.
+- Empty/sparse/dense64-slot/cross-level trees reach229 next calls,56 destroys,
+  173 TXWI returns and188 actual node callbacks across fixtures. Actual root/
+  index/free-marker stores and node zero/private-list restore are checked.
+  Seven omission controls fail at their intended assertions, emulator bytes only.
+- Tree allocation, RCU grace scheduling, slab/mac80211/DMA effects remain models.
+  Callbacks after a declared modeled grace point are not real Linux SMP/RCU or
+  physical drain proof. IDR tree nodes are not every SKB payload. Nonempty status
+  registration/removal, TXS/flush/DMA orderings and complete ownership remain open.
+- Preserve inspection3/object-only4 and consumed sources; linked5 is final56,
+  not112 cases. Failed preparer1/recovery2 are preserved; directory-derived guard
+  needs no cohort-name replacement. No production guard/native control weakened.
+- Final runtime29.355s/peak163MiB under192MiB/no swap, low priority, fresh dual
+  RAM/backing margins, bounded oneshot/EROFS C-write control. No compiler/C output,
+  load or hardware action. Prior token62/9 and17 inputs remain unchanged. Old
+  producer92c75156/all417 inputs verify via three aliases; current fix is pending.
+- Original full-q16/20c8f1ab exact process chain advances. Profile0 final6421
+  remains; profile1 snapshot237 RPCs/97 publications is not a verdict. Complete
+  three-profile/19261 recipe remains open. Queue PID17788/plan e67d5198 waits,
+  454 target/332 live/read-only inputs unchanged, no target phase started.
+- New suite is outside frozen sets and not added to the queue; rerun both token
+  suites on fresh modules/source after qualification. Source lock cc128c3b stays.
+  Read kernel-idr-native REPORT/EVIDENCE. Six old tracking bodies preserved.
+  Ethernet disconnected; no image/flash/Wi-Fi/shutdown/compaction/subagents.
+  Full ownership/drain/reuse/hot/image/board/client NPU goal remains active.
+
 ## 2026-10-27 - Compiled TX Token And SKB Paths
 
 - Added test_tx_token_native.py: final replay-q5 passes 62 cases/nine emulator

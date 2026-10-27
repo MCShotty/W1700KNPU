@@ -1,0 +1,457 @@
+{
+  "passed": true,
+  "checkpoint": "compiled-kernel-IDR-token-lifetime",
+  "source_parent": "6a1edc28da1cac5940eaca7b80e8c3901257b754",
+  "test_sha256": "83f0f8b20dbce41268005f1142032914f214fb263de83fa2559a41f795c48fc9",
+  "report_sha256": "c359120779f2024db71e2d7a1e437a7ac9966285a93db0d41793289385687cca",
+  "tracking": {
+    "AGENTS.md": {
+      "sha256": "fe63e1791683aeca057de2f728bb57753f4e8282d9adc956cc8bee136077de27",
+      "before_sha256": "b78d27452f04debe24d746ff904b50c2b030fd1d55c3da0adfa9ff013b71c848",
+      "body_byte_identical": true
+    },
+    "README.md": {
+      "sha256": "9c1cbf6b2cd1914815324b929e0991a34122e7871bcd707e99926f650a887943",
+      "before_sha256": "2f2431caff450e401bdc657b0b9f7f6210974062ccf51d5e46663e28b5292a00",
+      "body_byte_identical": true
+    },
+    "docs/REMAINING_WORK.md": {
+      "sha256": "52f3f1680b8a088ef82ee3169220c860eafac80afc051af2762e118f8d841e15",
+      "before_sha256": "9184f8de5ac47aec2fa0bcead26860ae0234a2fdb3114353ca567cec3d1f8f81",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": {
+      "sha256": "5890fa8b1888b4c9ede291d26a9b580647457dc3e636e63bfb85d37964d9241c",
+      "before_sha256": "fad1b1d224f0a4071e3ee39b511cdaff497b523a82ea9bad4c86fd3cefb7fdba",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LEDGER.md": {
+      "sha256": "bc63c32fd5fda0050b7f81709f825ee823a05b19bc1a86e5318c2656ff0026cb",
+      "before_sha256": "3db95f723dfb6d7c1ac076b5b2e49f18d90565fc059d64598c163e56f3bc5620",
+      "body_byte_identical": true
+    },
+    "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": {
+      "sha256": "d3951cd2b5ca91d46a618499b87176dbc47271083f1f4e6b057ced6df57611b9",
+      "before_sha256": "e5e00d744632bdc885fb50b0e4fe63b97f5107d64bf5b5f32ac3750af84e5c80",
+      "body_byte_identical": true
+    }
+  },
+  "qualification": {
+    "passed": true,
+    "observed_unix_ns": 1793121644388279063,
+    "result_sha256": "bd0830659f3573b62a2de6e43fb6e24b402a07775728821d041f0a7ba10c7266",
+    "test_sha256": "83f0f8b20dbce41268005f1142032914f214fb263de83fa2559a41f795c48fc9",
+    "cases": 56,
+    "controls": 7,
+    "inputs_verified": 30,
+    "native_entry_totals": {
+      "__mt76_tx_complete_skb": 69,
+      "mt76_tx_status_unlock": 6,
+      "mt76_put_txwi": 173,
+      "mt76_put_txwi.part.0": 0,
+      "mt7996_tx_token_put": 56,
+      "mt7996_txwi_free": 173,
+      "mt76_connac_tx_complete_skb": 0,
+      "mt76_connac_txp_skb_unmap": 118,
+      "idr_get_next_ul": 229,
+      "idr_get_next": 229,
+      "radix_tree_next_chunk": 229,
+      "idr_destroy": 56,
+      "radix_tree_node_rcu_free": 188
+    },
+    "selected_but_unentered": [
+      "mt76_put_txwi.part.0",
+      "mt76_connac_tx_complete_skb"
+    ],
+    "kernel_linked_functions": {
+      "idr_get_next_ul": {
+        "bytes": 212,
+        "object_sha256": "2c848f8a935e72c4ce06a3fc9647ba7204c28348fe8df9a3c0c476a300069fcc",
+        "linked_sha256": "9b7cea559597402d1d533073b308aaad71a7e67b2759262021d1ab764044eefa",
+        "relocation_immediates_normalized": 1,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "radix_tree_node_rcu_free": {
+        "bytes": 84,
+        "object_sha256": "ffdf4fe5e91e64db16e95111558fa0a26b71279d363138b875036f8471438355",
+        "linked_sha256": "5aecadbe997b2fe0f8fc294493fe1cb7d2de240fb386eb112634cbf889f725be",
+        "relocation_immediates_normalized": 4,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "radix_tree_next_chunk": {
+        "bytes": 620,
+        "object_sha256": "3b7531674866a5bea3953ec38fd1c0ffb9549b2cc45f6568435c1d1b929bafa0",
+        "linked_sha256": "3b7531674866a5bea3953ec38fd1c0ffb9549b2cc45f6568435c1d1b929bafa0",
+        "relocation_immediates_normalized": 0,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "idr_destroy": {
+        "bytes": 260,
+        "object_sha256": "4c41a37dd1d143c068c14841c8064d82f70759c6424ef66e4f09cac35df7174b",
+        "linked_sha256": "90c01cf72b7e95052427713c004d84580c9bc45848633e18f8aa0fcc56d90871",
+        "relocation_immediates_normalized": 4,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "idr_get_next": {
+        "bytes": 84,
+        "object_sha256": "082b4b012582f3496f412fc5d65ac307c7678b6d67c2526961fbcef35ff6e1ec",
+        "linked_sha256": "2c3e616c33578a51ec15b082219e8d741c97dc4680044715e2fe9efe6e71ccb4",
+        "relocation_immediates_normalized": 1,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      }
+    },
+    "kernel_nodes": 188,
+    "old_producer_inputs_verified": 417,
+    "old_producer_aliases": {
+      "firmware/source-lock.json": {
+        "sha256": "d55e71a34038adbc16dc4d38c126469ff76f64a904d4f6b75fc0612531bd5da7",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-project/firmware/source-lock.json"
+      },
+      "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": {
+        "sha256": "5fa42f93cd3528557556978f9335a3c78013b447f5b7cfd2503e607af3cf5cb6",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-project/firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch"
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c": {
+        "sha256": "683f7f520cde9d1142d8924723b6a8bc7cc5b13e7e35c49a473c4289b0d311ea",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-source/mt7996/mac.c"
+      }
+    },
+    "prior_token_suite_inputs_verified": 17,
+    "target_inputs_verified": 454,
+    "native_inputs_verified": 332,
+    "retained_versions_verified": 332,
+    "actual_original_state": {
+      "unit": {
+        "LoadState": "loaded",
+        "ActiveState": "activating",
+        "SubState": "start",
+        "InvocationID": "20c8f1ab62d74236bf977c134d09b059",
+        "MainPID": "137794",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "ControlGroup": "/system.slice/w1700k-npu-native-memory-hook-full-q16.service",
+        "CPUUsageNSec": "16012562276000",
+        "MemoryMax": "419430400",
+        "MemorySwapMax": "0"
+      },
+      "cgroup_pids": [
+        137794,
+        137812,
+        137844,
+        167443
+      ],
+      "original_processes_live": {
+        "guard": {
+          "pid": 137794,
+          "ppid": 1,
+          "start_ticks": 5470192,
+          "CPU_ticks": 120142,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/guard_phase_q1.py",
+            "full-q16"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        },
+        "wrapper": {
+          "pid": 137812,
+          "ppid": 137794,
+          "start_ticks": 5470277,
+          "CPU_ticks": 259,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/full_q16.py"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        },
+        "driver": {
+          "pid": 137844,
+          "ppid": 137812,
+          "start_ticks": 5470636,
+          "CPU_ticks": 1477001,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/tests/npu/test_rro_wire_native_pair.py",
+            "--pair",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair",
+            "--host-evidence",
+            "/home/captain/W1700KNPU/.local/npu-rro-session-host-20261023/host-q2/result.json",
+            "--name",
+            "matrix-q1",
+            "--output-root",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-full-q16/runs",
+            "--native-cold-receipt",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-build-q3/ubsan/build.json"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        }
+      },
+      "history": {
+        "invocation": "20c8f1ab62d74236bf977c134d09b059",
+        "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1",
+        "verified_live": true
+      },
+      "durable_terminal_receipt": null,
+      "observed_unix_ns": 1793121640766952649,
+      "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1"
+    },
+    "original_driver_CPU_advanced": true,
+    "driver_CPU_ticks": 1477241,
+    "plan_sha256": "e67d5198b90accba2785cc9ae08b55e4d665d5747df58cce1ce913ee68e23bea",
+    "current_target_build_started": false,
+    "current_source_fix_target_compile_pending": true,
+    "full_native_recipe_pass": false,
+    "hardware": false,
+    "source_parent": "6a1edc28da1cac5940eaca7b80e8c3901257b754",
+    "tracking_before": {
+      "AGENTS.md": "b78d27452f04debe24d746ff904b50c2b030fd1d55c3da0adfa9ff013b71c848",
+      "README.md": "2f2431caff450e401bdc657b0b9f7f6210974062ccf51d5e46663e28b5292a00",
+      "docs/REMAINING_WORK.md": "9184f8de5ac47aec2fa0bcead26860ae0234a2fdb3114353ca567cec3d1f8f81",
+      "docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "fad1b1d224f0a4071e3ee39b511cdaff497b523a82ea9bad4c86fd3cefb7fdba",
+      "docs/W1700K_STOCK_PORT_LEDGER.md": "3db95f723dfb6d7c1ac076b5b2e49f18d90565fc059d64598c163e56f3bc5620",
+      "docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "e5e00d744632bdc885fb50b0e4fe63b97f5107d64bf5b5f32ac3750af84e5c80"
+    },
+    "progress_prefix": {
+      "profile-0": {
+        "positive_RPC": 6421,
+        "prefix_sha256": "72b15f0dc74138471bd3814107cf450e32af13ebb5b055401961011c1c413191",
+        "publications": 129,
+        "resets": 2050,
+        "MCU_begin": 2050,
+        "MCU_complete": 2050
+      },
+      "profile-1": {
+        "positive_RPC": 237,
+        "prefix_sha256": "9fe5b50ec1e7dd86cf9732669c8b3f2396184fbfee5c7f42b8d81088e552dafc",
+        "publications": 97,
+        "resets": 0,
+        "MCU_begin": 0,
+        "MCU_complete": 0
+      }
+    }
+  },
+  "current": {
+    "passed": true,
+    "observed_unix_ns": 1793121878437446918,
+    "result_sha256": "bd0830659f3573b62a2de6e43fb6e24b402a07775728821d041f0a7ba10c7266",
+    "test_sha256": "83f0f8b20dbce41268005f1142032914f214fb263de83fa2559a41f795c48fc9",
+    "cases": 56,
+    "controls": 7,
+    "inputs_verified": 30,
+    "native_entry_totals": {
+      "__mt76_tx_complete_skb": 69,
+      "mt76_tx_status_unlock": 6,
+      "mt76_put_txwi": 173,
+      "mt76_put_txwi.part.0": 0,
+      "mt7996_tx_token_put": 56,
+      "mt7996_txwi_free": 173,
+      "mt76_connac_tx_complete_skb": 0,
+      "mt76_connac_txp_skb_unmap": 118,
+      "idr_get_next_ul": 229,
+      "idr_get_next": 229,
+      "radix_tree_next_chunk": 229,
+      "idr_destroy": 56,
+      "radix_tree_node_rcu_free": 188
+    },
+    "selected_but_unentered": [
+      "mt76_put_txwi.part.0",
+      "mt76_connac_tx_complete_skb"
+    ],
+    "kernel_linked_functions": {
+      "idr_get_next_ul": {
+        "bytes": 212,
+        "object_sha256": "2c848f8a935e72c4ce06a3fc9647ba7204c28348fe8df9a3c0c476a300069fcc",
+        "linked_sha256": "9b7cea559597402d1d533073b308aaad71a7e67b2759262021d1ab764044eefa",
+        "relocation_immediates_normalized": 1,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "radix_tree_node_rcu_free": {
+        "bytes": 84,
+        "object_sha256": "ffdf4fe5e91e64db16e95111558fa0a26b71279d363138b875036f8471438355",
+        "linked_sha256": "5aecadbe997b2fe0f8fc294493fe1cb7d2de240fb386eb112634cbf889f725be",
+        "relocation_immediates_normalized": 4,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "radix_tree_next_chunk": {
+        "bytes": 620,
+        "object_sha256": "3b7531674866a5bea3953ec38fd1c0ffb9549b2cc45f6568435c1d1b929bafa0",
+        "linked_sha256": "3b7531674866a5bea3953ec38fd1c0ffb9549b2cc45f6568435c1d1b929bafa0",
+        "relocation_immediates_normalized": 0,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "idr_destroy": {
+        "bytes": 260,
+        "object_sha256": "4c41a37dd1d143c068c14841c8064d82f70759c6424ef66e4f09cac35df7174b",
+        "linked_sha256": "90c01cf72b7e95052427713c004d84580c9bc45848633e18f8aa0fcc56d90871",
+        "relocation_immediates_normalized": 4,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      },
+      "idr_get_next": {
+        "bytes": 84,
+        "object_sha256": "082b4b012582f3496f412fc5d65ac307c7678b6d67c2526961fbcef35ff6e1ec",
+        "linked_sha256": "2c3e616c33578a51ec15b082219e8d741c97dc4680044715e2fe9efe6e71ccb4",
+        "relocation_immediates_normalized": 1,
+        "opcode_register_and_nonrelocated_bytes_identical": true
+      }
+    },
+    "kernel_nodes": 188,
+    "old_producer_inputs_verified": 417,
+    "old_producer_aliases": {
+      "firmware/source-lock.json": {
+        "sha256": "d55e71a34038adbc16dc4d38c126469ff76f64a904d4f6b75fc0612531bd5da7",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-project/firmware/source-lock.json"
+      },
+      "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch": {
+        "sha256": "5fa42f93cd3528557556978f9335a3c78013b447f5b7cfd2503e607af3cf5cb6",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-project/firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch"
+      },
+      ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c": {
+        "sha256": "683f7f520cde9d1142d8924723b6a8bc7cc5b13e7e35c49a473c4289b0d311ea",
+        "preserved_path": ".local/npu-consumer-native-20261027/txp-before-q21/before-source/mt7996/mac.c"
+      }
+    },
+    "prior_token_suite_inputs_verified": 17,
+    "target_inputs_verified": 454,
+    "native_inputs_verified": 332,
+    "retained_versions_verified": 332,
+    "actual_original_state": {
+      "unit": {
+        "LoadState": "loaded",
+        "ActiveState": "activating",
+        "SubState": "start",
+        "InvocationID": "20c8f1ab62d74236bf977c134d09b059",
+        "MainPID": "137794",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "ControlGroup": "/system.slice/w1700k-npu-native-memory-hook-full-q16.service",
+        "CPUUsageNSec": "16312598874000",
+        "MemoryMax": "419430400",
+        "MemorySwapMax": "0"
+      },
+      "cgroup_pids": [
+        137794,
+        137812,
+        137844,
+        167443
+      ],
+      "original_processes_live": {
+        "guard": {
+          "pid": 137794,
+          "ppid": 1,
+          "start_ticks": 5470192,
+          "CPU_ticks": 122344,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/guard_phase_q1.py",
+            "full-q16"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        },
+        "wrapper": {
+          "pid": 137812,
+          "ppid": 137794,
+          "start_ticks": 5470277,
+          "CPU_ticks": 259,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/.local/npu-native-memory-hook-20261027/full_q16.py"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        },
+        "driver": {
+          "pid": 137844,
+          "ppid": 137812,
+          "start_ticks": 5470636,
+          "CPU_ticks": 1504802,
+          "argv": [
+            "/usr/bin/python3",
+            "-u",
+            "-B",
+            "/home/captain/W1700KNPU/tests/npu/test_rro_wire_native_pair.py",
+            "--pair",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair",
+            "--host-evidence",
+            "/home/captain/W1700KNPU/.local/npu-rro-session-host-20261023/host-q2/result.json",
+            "--name",
+            "matrix-q1",
+            "--output-root",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-full-q16/runs",
+            "--native-cold-receipt",
+            "/home/captain/W1700KNPU/.local/npu-build-scratch/native-c2/native-memory-hook-build-q3/ubsan/build.json"
+          ],
+          "cgroup": "0::/system.slice/w1700k-npu-native-memory-hook-full-q16.service\n"
+        }
+      },
+      "history": {
+        "invocation": "20c8f1ab62d74236bf977c134d09b059",
+        "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1",
+        "verified_live": true
+      },
+      "durable_terminal_receipt": null,
+      "observed_unix_ns": 1793121874152872142,
+      "boot_id": "b92d6fc6-06ef-4c33-bec6-addec6937ff1"
+    },
+    "original_driver_CPU_advanced": true,
+    "driver_CPU_ticks": 1505040,
+    "plan_sha256": "e67d5198b90accba2785cc9ae08b55e4d665d5747df58cce1ce913ee68e23bea",
+    "current_target_build_started": false,
+    "current_source_fix_target_compile_pending": true,
+    "full_native_recipe_pass": false,
+    "hardware": false
+  },
+  "private_artifacts": {
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/AGENTS.md": "b78d27452f04debe24d746ff904b50c2b030fd1d55c3da0adfa9ff013b71c848",
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/README.md": "2f2431caff450e401bdc657b0b9f7f6210974062ccf51d5e46663e28b5292a00",
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/docs/REMAINING_WORK.md": "9184f8de5ac47aec2fa0bcead26860ae0234a2fdb3114353ca567cec3d1f8f81",
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/docs/W1700K_STOCK_PORT_CURRENT_REFERENCE.md": "fad1b1d224f0a4071e3ee39b511cdaff497b523a82ea9bad4c86fd3cefb7fdba",
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/docs/W1700K_STOCK_PORT_LEDGER.md": "3db95f723dfb6d7c1ac076b5b2e49f18d90565fc059d64598c163e56f3bc5620",
+    ".local/npu-kernel-idr-native-20261027/before-report-q6/docs/W1700K_STOCK_PORT_LOGGING_SESSION_20260625.md": "e5e00d744632bdc885fb50b0e4fe63b97f5107d64bf5b5f32ac3750af84e5c80",
+    ".local/npu-kernel-idr-native-20261027/drivers-q2.json": "23e1956645e61ce43f344a54d37c5d5b34f6d30b18aba78fff0da604648282dc",
+    ".local/npu-kernel-idr-native-20261027/guard_q1.py": "546e8dd6c61f62aab7a0107304852d2a2de2a12d66f1f2a3447f2cdf91e4fcaf",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3/consumed-test.py": "4bb79aa1b6144a0ed9ac63d570e1e2a28e050d5fd9190b0f298a27c40a88d5d2",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3/native/result.json": "b44a359e7b5eb474552127407ed3106b94cd948508d74ca9b94feccacd7745f9",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3-controller.json": "b5541e0ffa4d87fb60a7746444e96d109c7ccd69b7eb951290f70058450ff1a2",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3-guard.json": "ffec2cb4be6895780d96b36d583721b2ca965e3f2b8a687c1d36f80762e5d4d6",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3-process.log": "581c326cb1db2d76f9bde6d071fda51740394ccffb390a8b71c4c491629985f0",
+    ".local/npu-kernel-idr-native-20261027/inspect-q3-windows.json": "e487ffad924a0223f3b97e1ff804f653293c4287e9c6054b2052ccc118f359c9",
+    ".local/npu-kernel-idr-native-20261027/jev-request-q6.json": "bf735872c9eb3ce1b9f4ebae89c35736092ffed5dbaece1aea5ddddd61a81c46",
+    ".local/npu-kernel-idr-native-20261027/jev-result-q6.json": "229450be29eb3c83320dd4e4e4497c1b4f50ce1dc518bffea2d9f4685052a7b5",
+    ".local/npu-kernel-idr-native-20261027/launch_q1.py": "a6c006a8fe430e0e95cb23d2f12514b0196cc9e46275adbc2a685056fcc805e8",
+    ".local/npu-kernel-idr-native-20261027/native-profile-0-prefix-q6.jsonl": "72b15f0dc74138471bd3814107cf450e32af13ebb5b055401961011c1c413191",
+    ".local/npu-kernel-idr-native-20261027/native-profile-1-prefix-q6.jsonl": "9fe5b50ec1e7dd86cf9732669c8b3f2396184fbfee5c7f42b8d81088e552dafc",
+    ".local/npu-kernel-idr-native-20261027/prepare_q1.py": "030847b8dccb812cad470573d65be6e25ce7d8ae0ac758586ba4dbef2056c867",
+    ".local/npu-kernel-idr-native-20261027/prepare_q2.py": "83bb3e444d5b73a07a9fab1f1b84e858bfd7ac0f63a0d27d981264574115f2e2",
+    ".local/npu-kernel-idr-native-20261027/release_q6.py": "b6c1b6e5059d835dda7d9e711f665cd1a9560354758023f5f8be369ccbaa54ac",
+    ".local/npu-kernel-idr-native-20261027/release_windows_q6.py": "9b0a21f3516d6cc7a5a7d87cbbb145a188a3e06e19c81b8012f92421810595a3",
+    ".local/npu-kernel-idr-native-20261027/replay-q4/consumed-test.py": "ced8dd03b2b8ea7eba242531162bacdcf78c0bb3b6ddac76541ab8bf535de1d4",
+    ".local/npu-kernel-idr-native-20261027/replay-q4/native/result.json": "22e945ca283c45cf57b3ac2369cb5f9fe4bf95924cddcb381311b2a0a3337077",
+    ".local/npu-kernel-idr-native-20261027/replay-q4-controller.json": "bb714a8cf38df02380e5815895ced16a967d7f8f8f23b6c9d94d9f2007f0d470",
+    ".local/npu-kernel-idr-native-20261027/replay-q4-guard.json": "4a55cbc2a67125c9512eb6c9954c9f47ccec79c6cb751fd2a36f9d9672a0d971",
+    ".local/npu-kernel-idr-native-20261027/replay-q4-process.log": "f23fd3b280b9cb0d065a4836fa675adf2e1a26d1011940a5b0f5a913eb7f5b5a",
+    ".local/npu-kernel-idr-native-20261027/replay-q4-windows.json": "ee7954e3ed0493b7a27889a3d5623d9f5dc8cf349425c74456254687125c8f57",
+    ".local/npu-kernel-idr-native-20261027/replay-q5/consumed-test.py": "83f0f8b20dbce41268005f1142032914f214fb263de83fa2559a41f795c48fc9",
+    ".local/npu-kernel-idr-native-20261027/replay-q5/native/result.json": "bd0830659f3573b62a2de6e43fb6e24b402a07775728821d041f0a7ba10c7266",
+    ".local/npu-kernel-idr-native-20261027/replay-q5-controller.json": "a15b7b416293f557e90b70c15ec9e611f88534f745f70326c6ccd2453774055c",
+    ".local/npu-kernel-idr-native-20261027/replay-q5-guard.json": "c0a7e0176ff142e7602006d2a1343693518c668bcf4b2eda278e08d78d0c952e",
+    ".local/npu-kernel-idr-native-20261027/replay-q5-process.log": "e576658166ea0718b746db218732309e0b3a98e8ffc396988c47dd3dfabccf3c",
+    ".local/npu-kernel-idr-native-20261027/replay-q5-windows.json": "def89d9a95815952bd5d1f9ea5da21d767a0fc1f73c09e0d89137fd9b5d565dd",
+    ".local/npu-kernel-idr-native-20261027/snapshot-q6.json": "a3413638c11653229c919f29e7e5ea7c6e7ef50f31a53441cd9405e9d6802203",
+    ".local/npu-kernel-idr-native-20261027/windows-claims-q6.json": "daafa6b49586935110f570b94077cbf3b88588ae556330f9ff14f83801d7f062",
+    ".local/npu-kernel-idr-native-20261027/windows-seal-q6.json": "88b9b0b9cc4e06453a3d43640cbc90f5214af7e12ca74a05195bdbcd6ace4aab",
+    ".local/npu-kernel-idr-native-20261027/windows-snapshot-q6.json": "6b2dfa75c203ad9a41a1adee60022f60f9594a559317a52701d4d71242482c82"
+  },
+  "actual_Linux_SMP": false,
+  "RCU_grace_period_modeled": true,
+  "physical_retirement": false,
+  "hardware": false
+}

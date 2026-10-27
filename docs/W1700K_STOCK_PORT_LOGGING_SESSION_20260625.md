@@ -1,5 +1,22 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled Kernel IDR Token Lifetime
+
+Solo kernel-backed token replay passes56 cases/seven controls,30 bindings.
+Five compiled IDR/radix bodies match linked Linux6.18.52 code with relocation
+immediates normalized;11 bodies enter/13 map. Actual traversal/destroy/188 node
+callbacks execute. Allocation/grace scheduling/slab/mac80211/DMA remain models;
+nonempty status-IDR/TXS/flush and complete physical ownership stay open.
+
+Pre-FW-fix producer92c75156/all417 inputs verify with three aliases; prior62/9
+token suite and17 bindings stay. Current fix/lock cc128c3b is compile-pending.
+Original20c8f1ab advances, profile0 final6421; profile1 snapshot237 RPCs/97
+publications is not full19261 acceptance. Queue PID17788/plan e67d5198 waits,
+454 target/332 native/read-only inputs unchanged, no phase started. New test is
+outside frozen sets, not added to the queue; rerun on new modules afterward.
+Read kernel-idr-native REPORT/EVIDENCE. No compiler/C write/load/image/hardware/
+Wi-Fi/shutdown/compaction/subagents; Ethernet disconnected. Full goal stays active.
+
 ## 2026-10-27 - Compiled TX Token And SKB Paths
 
 Solo read-only token replay now passes 62 cases/nine controls on pre-FW-fix

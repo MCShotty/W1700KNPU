@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled Kernel IDR Token Lifetime
+
+- Continue solo; Ethernet disconnected. New test_tx_token_kernel_native.py
+  passes 56 cases/seven byte controls, 30 bindings. Five Linux 6.18.52 IDR/radix
+  bodies replace Python get-next/destroy hooks and match linked vmlinux with
+  only relocation immediates normalized. Eleven bodies enter/13 map overall.
+- Actual tree traversal/destroy and compiled RCU node callbacks execute. Across
+  fixtures: 229 next calls, 56 destroys, 173 TXWI returns and 188 node callbacks.
+  Allocation, grace-period scheduling, slab/mac80211/DMA effects stay models;
+  this is not actual Linux SMP or physical drain. IDR nodes are not SKB payloads.
+- Prior token62/9 and its17 inputs stay. New suite uses pre-FW-fix producer
+  92c75156; all417 inputs verify with three aliases. Source fix/lock cc128c3b
+  remains compile-pending. Preserve inspection3/object-only4; final linked5 is
+  56 cases, not112. Read kernel-idr-native REPORT/EVIDENCE.
+- Original full-q16/20c8f1ab stays live; profile0 final remains6421, profile1
+  snapshot237 RPCs/97 publications is not complete. Queue PID17788/plan e67d5198
+  still waits,454 target/332 native/read-only inputs unchanged, no phase started.
+  This test is outside the frozen sets and not added to the queue. Keep caps,
+  limits, reserve and writer lock; no restart/competing compiler/sampling.
+- After fresh qualification rerun both token suites on matching new modules.
+  Next execute nonempty packet-status registration/removal and TXS/flush/DMA
+  orderings. Station/PS/non-AQL, consumer/devres/context, physical containment/
+  drain/reuse/hot/image/board/client gates and the full NPU goal remain open.
+
 ## 2026-10-27 - Compiled TX Token And SKB Paths
 
 - Continue solo, Ethernet disconnected. New test_tx_token_native.py passes
