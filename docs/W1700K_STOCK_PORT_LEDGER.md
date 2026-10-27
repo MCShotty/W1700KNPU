@@ -1,5 +1,36 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - Compiled TX Token And SKB Paths
+
+- Added test_tx_token_native.py: final replay-q5 passes 62 cases/nine emulator
+  instruction controls, 17 input bindings. Seven compiled bodies enter/eight map;
+  put_txwi.part.0 is unentered. Producer 92c75156 is pre-FW-fix, with all 417
+  inputs verified using three old aliases. Current source fix remains pending.
+- Exercises 54 token cases/eight connac callbacks, actual MT7996 flags 0x1b1,
+  sparse IDs through 16383, FW/MAC formats, SKB/PHY variants and pending/ready
+  status paths. Compiled list/lock stores return 102 TXWIs across cases. Per-token
+  checks enforce unmap/status/clear/cache/count ordering and balanced locks/BH.
+- Three pending SKBs remain DMA_DONE without modeled status completion after
+  token zero/cache return; three ready SKBs reach modeled mac80211 status. Token
+  retirement is not every SKB finished. IDR/mac80211/DMA/kernel effects remain
+  models; nonempty status IDR, station/PS/non-AQL, physical/full lifetime stay open.
+- Preserve q2's failed selector oracle/log/source; correction uses the original
+  PHY selector and checks native clearing. q3's 50-case zero-flags fixture is
+  historical. q4/q5 actual-flags 62-case runs are not 124 distinct cases.
+- Final service peaks at 72.7 MiB with 192 MiB/no swap, low priority, fresh host
+  margins, EROFS C-write control and bounded oneshot deadline. No compiler/C
+  output/load/hardware action. Seventeen test/417 old/454 queued/332 live and
+  read-only retained inputs verify. Existing queue and source lock stay unchanged.
+- Original full-q16 profile 0 final artifacts verify 6421 journal/2179 extent/
+  four memory comparisons and transcript/broker/journal/prefix/summary hashes.
+  Profile 1 audit prefix 173 RPCs/33 publications is not a verdict. Original
+  20c8f1ab process chain advances; complete three-profile/19261 recipe remains open.
+- Queue PID 17788 waits, no target phase started. New token test is outside the
+  frozen sets and not in the queue; rerun with fresh modules/source afterward.
+  Read token REPORT/EVIDENCE. Six old tracking bodies preserved. Ethernet stays
+  disconnected; no load/image/flash/Wi-Fi change/shutdown/compaction/subagents.
+  Full native, ownership/drain/reuse/hot/image/board/client NPU goal stays active.
+
 ## 2026-10-27 - FW-TXP Validation Queued
 
 - Launched one hidden Windows waiting controller, PID17788, with actual executable,

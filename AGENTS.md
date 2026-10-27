@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - Compiled TX Token And SKB Paths
+
+- Continue solo, Ethernet disconnected. New test_tx_token_native.py passes
+  62 cases/nine byte-mutation controls on pre-FW-fix producer 92c75156, with
+  17 bindings. Seven compiled bodies enter/eight map; put_txwi.part.0 is unentered.
+  Actual MT7996 flags 0x1b1 and sparse IDs through 16383 are covered. All 417
+  old producer inputs verify with the three preserved old-source aliases.
+- The compiled loop returns 102 TXWIs across cases, clears token SKB pointers,
+  decrements counts and reaches modeled IDR destruction. Pending versus ready
+  status cases prove token zero/cache transfer is not every SKB finished.
+  IDR/mac80211/DMA/kernel effects remain models; nonempty packet-status IDR,
+  station/PS/non-AQL, physical drain and complete lifetime remain unexecuted.
+- Preserve q2's failed PHY-selector oracle/source and q3's zero-flags fixture.
+  q4/q5 use actual flags; q5 adds ordering checks. Do not count repeated cases
+  twice. Read tx-token-native REPORT/EVIDENCE. No production source/module change.
+- Original full-q16/20c8f1ab remains live. Profile 0 final artifacts independently
+  verify 6421 journal/2179 extent/four memory comparisons and hashes. Profile 1
+  audit prefix 173 RPCs/33 publications is not complete; full 19261 remains open.
+- Queue PID 17788/plan e67d5198 still waits, with 454 target/332 live/read-only
+  native inputs verified. No target phase started. This test is outside those
+  sets and was not added to the frozen queue. Leave inputs/caps/limits/lock intact;
+  after fresh qualification rerun it on matching new modules/source. Full native,
+  ownership/drain/reuse/hot/image/board/client gates and full NPU goal stay open.
+
 ## 2026-10-27 - FW-TXP Validation Queued
 
 - Continue solo, Ethernet disconnected. A live Windows controller PID17788 owns

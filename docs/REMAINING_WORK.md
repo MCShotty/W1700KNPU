@@ -1,5 +1,22 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - Follow The Queue; Complete SKB Ownership
+
+New compiled token/SKB replay passes 62 cases/nine controls on old producer
+92c75156. This closes selected nonempty token-loop/callback execution, not actual
+kernel IDR ownership or physical drain. Pending-status SKBs survive token/cache
+retirement in the fixture; complete nonempty status-IDR, TXS/flush, station,
+non-AQL/PS and consumer/devres/context lifetime work remains.
+
+Original full-q16 profile 0 has verified 6421 journal/2179 extent/four memory
+comparisons and final hashes; profile 1 is running. All three profiles/19261 RPCs
+still need a complete result. Existing queue PID 17788/plan e67d5198 remains live
+and waiting, 454 target/332 native inputs unchanged, no new target phase started.
+Do not edit/restart it; the token suite is outside its frozen inputs. After fresh
+module/regression qualification, rerun it against the new producer/current source.
+Current FW-TXP fix compilation remains pending. Keep physical containment/drain,
+reuse/hot/image/board/client gates open; Ethernet disconnected. Read token report.
+
 ## 2026-10-27 - Follow The Existing FW-TXP Validation Queue
 
 Windows PID17788 is waiting in .local/npu-txp-target-20261027. Plan e67d5198

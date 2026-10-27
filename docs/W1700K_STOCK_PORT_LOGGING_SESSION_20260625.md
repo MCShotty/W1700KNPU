@@ -1,5 +1,22 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - Compiled TX Token And SKB Paths
+
+Solo read-only token replay now passes 62 cases/nine controls on pre-FW-fix
+producer 92c75156, 17 bindings, actual MT7996 flags 0x1b1. Seven compiled bodies
+enter/eight map. Pending/ready status cases separate token zero/cache return from
+SKB completion; IDR/mac80211/DMA and physical effects remain models. Preserve q2
+oracle failure and q3 zero-flags source; q5 is final, not accumulated case counts.
+
+Original full-q16 profile 0 final artifacts independently verify 6421 journal/
+2179 extent/four memory comparisons and hashes. Profile 1 audit prefix 173 RPCs/
+33 publications is not a verdict; full 19261 remains pending. Queue PID 17788/
+plan e67d5198 still waits, 454 target/332 native/read-only inputs unchanged, no
+target phase started. New test is outside the frozen queue; rerun on new modules
+after qualification. Current lock cc128c3b/fix remain compile-pending. Read token
+REPORT/EVIDENCE. No compiler/load/image/hardware/Wi-Fi/shutdown/compaction/subagents;
+Ethernet disconnected. Full ownership/drain/reuse/hot/board/client goal stays.
+
 ## 2026-10-27 - FW-TXP Validation Queued
 
 Solo dependent validation controller PID17788 is live/waiting, actual identity

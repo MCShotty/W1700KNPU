@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - Compiled TX Token And SKB Paths
+
+Selected retained AArch64 token and SKB cleanup now passes 62 cases/nine controls
+with actual MT7996 flags. A zero token count and TXWI cache return do not mean
+every SKB has completed: the compiled pending-status path is now exercised.
+Kernel/IDR/mac80211/DMA effects remain modeled, and the modules predate the current
+FW-TXP fix. Original native profile 0 has verified final artifacts; the complete
+three-profile result and queued fresh build are still pending. Ethernet stays
+disconnected. See [scope and evidence](research/checkpoints/2026-10-27-npu-tx-token-native/REPORT.md).
+
 ## 2026-10-27 - FW-TXP Validation Queued
 
 The integrated DMA fix now has a live dependent validation controller, waiting

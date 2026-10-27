@@ -1,5 +1,23 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - Compiled TX Token And SKB Paths
+
+New test_tx_token_native.py passes 62 cases/nine controls, 17 bindings, seven
+entered/eight mapped compiled bodies on pre-FW-fix producer 92c75156. Actual
+MT7996 flags 0x1b1 and sparse IDs through 16383 are covered; all 417 producer
+inputs verify with three old aliases. Pending/ready cases distinguish token zero
+and cache transfer from SKB completion. IDR/mac80211/DMA/physical effects remain
+models; nonempty packet-status IDR, station/PS/non-AQL and full lifetime stay open.
+
+Original full-q16 profile 0 has independent final-count/hash verification:
+6421 journal, 2179 extent and four memory comparisons. Profile 1 audit prefix
+173 RPCs/33 publications is not acceptance; full three-profile/19261 remains open.
+Queue PID 17788/plan e67d5198 still waits, with 454 target/332 native/read-only
+inputs verified. No target phase started. This test is unbound and not added to
+the frozen queue; rerun on fresh modules/source after its qualification. Source
+fix/lock cc128c3b stay compile-pending. Ethernet disconnected; full physical,
+ownership/drain/reuse/hot/image/board/client goal stays. Read token REPORT/EVIDENCE.
+
 ## 2026-10-27 - FW-TXP Validation Queued
 
 Source fix8e8339b/lockcc128c3b/patch73ccff87 now has a live Windows waiting
