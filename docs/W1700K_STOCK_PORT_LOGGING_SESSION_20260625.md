@@ -1,5 +1,25 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-10-27 - RXWI Validation Queued
+
+Continued solo from95dee00c. The approved VHD compaction is verified already
+complete at78MiB reclaimed. No repeated shutdown/compaction/deletion occurred.
+The current full-q21 is the same live invocation6c1bc5ff, with exact original
+guard/wrapper/driver identities and advancing driver CPU, not a full verdict.
+
+Finite waiting controller PID3416 is live on frozen plan-q2. All438 target and
+294 native inputs match;29 gate methods pass, zero skips. The earlier22-test
+plan was never launched. Collected-unit handling now requires same-boot live
+history, terminal receipt and no original/cgroup processes. It does not infer
+a native pass. The failed preparer/checkpoint-helper versions remain intact.
+
+New modules-q3/actual compiled RXWI helper and regressions-q4 are queued, not
+started or passed. Existing400MiB/no swap, source/cache inventories, dual margins
+and C lock remain. CANCEL cancels only the new queue/its own child. Source
+lockd55e71a3/patch5fa42f93 and pre-fix a840d3cc modules stay. Six prior tracking
+bodies remain byte-identical. No image/load/router contact/flash/Wi-Fi change;
+full native/physical/reuse/hot/client gates remain. Read RXWI queue REPORT/EVIDENCE.
+
 ## 2026-10-27 - RXWI Late Cache Reclamation Added To Unified Source
 
 Continued solo from5328fb6. Current source and retained AArch64 helpers expose

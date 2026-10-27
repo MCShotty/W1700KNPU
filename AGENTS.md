@@ -1,5 +1,29 @@
 # W1700KNPU Workspace
 
+## 2026-10-27 - RXWI Validation Queued
+
+- Continue solo. The approved Ubuntu VHD compaction is already complete:
+  81788928 bytes/78MiB reclaimed, with its exact receipt rehashed. Do not repeat
+  shutdown/compaction on the basis of that already-consumed approval.
+- A finite Windows waiting controller, PID3416, now owns the dependent RXWI
+  module/helper and regression chain. Its private cohort is
+  .local/npu-rxwi-target-20261027; plan-q2 freezes438 target inputs and verifies
+  the original294 native inputs. Tracking docs are outside those input sets.
+  All29 dependency-gate tests pass, zero skips. Build phases have not started.
+- The predecessor is the original full-q21 invocation6c1bc5ff, with unchanged
+  guard18906/wrapper18920/driver18942 and advancing driver CPU. Wait for actual
+  termination; unit success while active is not completion. A collected unit
+  additionally requires same-boot verified history, a durable terminal receipt
+  and no original processes/cgroup members. No native pass is inferred.
+- Then modules-q3 builds fresh C-backed modules and executes the compiled RXWI
+  helper; regressions-q4 follows only after that phase passes. Preserve400MiB/
+  no swap, fresh Windows/Linux dual-backing/RAM gates and the C writer lock.
+  Keep438 inputs frozen. CANCEL in the private cohort cancels only this queue/
+  its own new child, never the original replay. Inspect receipts before retry.
+- Lockd55e71a3/patch5fa42f93 stay; a840d3cc modules remain pre-fix. Actual target
+  compile/helper execution, broader regressions and physical gates are pending.
+  No image/load/router contact/flash or Wi-Fi change. Read RXWI queue report.
+
 ## 2026-10-27 - RXWI Cache Drain Integrated; Target Compile Pending
 
 - Continue solo. The retained AArch64 helpers reproduce a conditional metadata

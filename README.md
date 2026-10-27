@@ -1,5 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-10-27 - RXWI Validation Queued
+
+A guarded waiting controller now sequences a fresh current-source module build,
+execution of the compiled RXWI cleanup helper, and broader regressions after
+the running native replay stops. Its29 dependency-gate tests pass; compilation
+has not started, and neither native completion nor physical teardown is proven.
+
+The approved Ubuntu VHD compaction already completed, reclaiming78MiB. It was
+not repeated during this audit. Source and pre-fix modules remain unchanged.
+See [the queued validation checkpoint](research/checkpoints/2026-10-27-npu-rxwi-target-queue/REPORT.md).
+
 ## 2026-10-27 - RXWI Metadata Cleanup Fix Integrated
 
 The unified mt76 source now drains RXWI metadata returned by RRO token cleanup.

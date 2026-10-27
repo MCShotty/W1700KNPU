@@ -1,5 +1,26 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-10-27 - RXWI Validation Queued
+
+From95dee00c, a finite Windows controller is verified live at PID3416, waiting
+on original full-q21 invocation6c1bc5ff. Its guard18906/wrapper18920/driver18942
+retain exact argv/start ticks and advancing driver CPU. Dependent module and
+regression units are absent/MainPID0; no current-fix compilation has started.
+All438 target/294 native inputs rehash, and29 gate methods pass with zero skips.
+
+Plan-q2 handles transient-unit collection using verified same-boot history,
+durable terminal receipt and no original processes/cgroup members. Neither
+unit success while active nor stopped-state eligibility establishes native
+acceptance. The original run is never restarted. New guarded modules-q3 and
+actual compiled RXWI replay precede regressions-q4; all are still pending.
+
+The approved compaction receipt matches the published maintenance evidence:
+81788928 bytes/78MiB reclaimed. No second shutdown, compaction or deletion
+occurred. Existing400MiB/no swap, backing/RAM margins and C lock stay. The
+private queue's CANCEL sentinel affects only its own new work. Lockd55e71a3/
+patch5fa42f93 and olda840d3cc modules stay. Physical gates remain; no image/load/
+router contact/flash or Wi-Fi change. Read RXWI queue REPORT/EVIDENCE.
+
 ## 2026-10-27 - Integrated RXWI Cache Drain; Compiled Candidate Still Pending
 
 From5328fb6, source inspection follows actual TX payload unmapping and RXWI

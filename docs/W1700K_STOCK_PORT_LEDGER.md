@@ -1,5 +1,47 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-10-27 - RXWI Validation Queued
+
+- Continued solo from95dee00c. Rehashed the original successful Ubuntu VHD
+  compaction receipt against the published maintenance binding: Win32Status0,
+  173275086848 to173193297920 bytes,81788928 bytes/78MiB reclaimed. This is the
+  completed earlier operation, not a fresh reclaim or a current free-space
+  delta. No further shutdown, compaction, deletion or configuration change.
+- Prepared a finite dependency queue in .local/npu-rxwi-target-20261027.
+  The first driver preparer refused an anchor appearing twice, before writing
+  generated drivers; fresh q2 validates exact counts and all ASTs before output.
+  Keep both versions. The unlaunched22-test plan-q1 is retained; plan-q2 adds
+  collected-transient-unit handling and passes29 methods, zero errors/skips.
+- Frozen plan3a0bbeb6 binds438 target inputs; all match, as do original294
+  native inputs. Production source/patches are unchanged. Source lockd55e71a3,
+  mt76 patch5fa42f93 and kernel patchaacc0ffc stay. Retained module producera840d3cc
+  predates the RXWI fix and is not relabeled current.
+- Windows queue PID3416/actual argv/start time are verified. Immutable retained
+  queue observations all say wait. Original full-q21 invocation6c1bc5ff remains
+  live with guard18906/wrapper18920/driver18942, unchanged identities and advancing
+  driver CPU. Dependent module/regression units are absent/MainPID0; no target
+  compilation, actual-candidate replay or broader regression was executed here.
+- Readiness requires stopped original processes/cgroup. A collected unit also
+  needs same-boot verified invocation history and a durable terminal receipt.
+  Failed native tests may permit an independent build once stopped, but never
+  count as native acceptance. No original-job stop/restart is in the queue.
+- Pending modules-q3 retains source/cache inventories, reconstructs18 patch
+  outputs, builds four fresh modules and executes the actual compiled RXWI fix.
+  Ten cases/three controls and15-suite regressions-q4/167 units are required
+  future assertions, not newly passing results. Per-phase400MiB/no swap, fresh
+  Windows/Linux dual backing/RAM guards, output caps and C writer lock remain.
+  CANCEL in the private cohort cancels only the queue and its own new child.
+- The first checkpoint helper q4 failed a read-only Windows executable-path
+  assumption before writing tracking snapshots. Fresh q5 uses the verified
+  executable; preserve the failed source/note. Six prior tracking bodies remain
+  byte-identical. Jev's five initial and five report checks are retained, not
+  execution proof. Report wording distinguishes parsed-field equality from
+  serialized-byte equality; the bound original raw receipt hash passes.
+- No module load/image/router contact/flash or Wi-Fi change. Full native,
+  physical ownership/drain, BA reuse/hot lifecycle and board/client acceptance
+  remain open; full NPU goal stays active. Read
+  research/checkpoints/2026-10-27-npu-rxwi-target-queue/REPORT.md and EVIDENCE.json.
+
 ## 2026-10-27 - RXWI Metadata Cache Drain Integrated; Target Build Pending
 
 - Continued solo from5328fb6. Source tracing follows TX token release through

@@ -1,5 +1,24 @@
 # Remaining W1700K Work
 
+## 2026-10-27 - RXWI Validation Queued
+
+The finite RXWI queue is waiting on original full-q21, not compiling alongside
+it. Plan-q2 binds438 target inputs and rechecks294 native inputs. Keep these
+frozen;29 dependency-gate tests pass, but no new target/helper/regression result
+exists yet. Prior compaction is already complete at78MiB and was not repeated.
+
+After the exact predecessor stops, require fresh guarded modules-q3 compilation
+and actual compiled-helper execution: ten cases/three controls, with the RRO
+helper's source drain present and zero remaining RXWI at modeled context free.
+Only then run regressions-q4's15 suites, including167 tooling units. These are
+queued requirements, not new passing counts or complete kernel/physical proof.
+Inspect the predecessor's own full result independently, even if it fails.
+
+The queue's CANCEL sentinel stops only its own work. Existing storage/RAM/caps/
+writer lock remain. Full physical consumer retention/drain, BA reuse/hot life,
+current image/board/client/performance/stability acceptance remain open. Read
+research/checkpoints/2026-10-27-npu-rxwi-target-queue/REPORT.md. No hardware change.
+
 ## 2026-10-27 - Compile And Qualify The Integrated RXWI Drain
 
 Current source adds the existing mt76_free_pending_rxwi call immediately after
