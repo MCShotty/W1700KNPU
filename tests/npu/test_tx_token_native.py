@@ -15,6 +15,7 @@ from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE, UC_PROT_READ, 
 from unicorn import arm64_const as arm
 
 import test_rxwi_retirement_native as native
+from txwi_skb_binding import skb_binding
 
 ROOT, sha, REGS = native.ROOT, native.sha, native.REGS
 DEV, STACK, TASK, DRIVER, OBJECTS, SKBS, PHYS, HW, DMA_DEV, ENTRY, END = (
@@ -109,10 +110,13 @@ class Module:
                          and symbol['st_info']['type'] == 'STT_FUNC'
                          and self.base + symbol['st_value'] == pc + delta}
                 self.calls[pc] = name
+        self.skb_binding = None
+        if 'mt7996_txwi_free' in self.functions:
+            start, size = self.functions['mt7996_txwi_free']
+            self.skb_binding = skb_binding(bytes(self.text[start-self.base:start-self.base+size]), start, self.calls)
         required = {
             'mt7996_tx_token_put': {('mov','x1, #0x40a0'), ('mov','x0, #0x40a8'),
                                     ('strh','w1, [x20, #0xc2]'), ('str','wzr, [x0, #0x78]')},
-            'mt7996_txwi_free': {('ldr','x2, [x19, #0x18]'), ('str','xzr, [x19, #0x18]')},
             '__mt76_tx_complete_skb': {('ldrb','w0, [x21, #0x52]'), ('ldrb','w1, [x21, #0x53]'),
                                         ('str','x3, [x21, #0x48]'), ('add','x0, x20, #0x8e8')},
             'mt76_put_txwi.part.0': {('add','x0, x0, #0x7e4'), ('str','x20, [x19, #0x33c0]')},
@@ -156,12 +160,12 @@ class Replay:
             text = bytearray(module.text)
             if mutation in targets:
                 self.nops.update(pc for pc, name in module.calls.items() if name == targets[mutation])
-            elif mutation in ('omit-token-decrement', 'omit-mgmt-reset', 'omit-SKB-clear') and label == 'radio':
-                name = 'mt7996_txwi_free' if mutation == 'omit-SKB-clear' else 'mt7996_tx_token_put'
+            elif mutation == 'omit-SKB-clear' and label == 'radio':
+                self.nops.add(module.skb_binding['clear_pc'])
+            elif mutation in ('omit-token-decrement', 'omit-mgmt-reset') and label == 'radio':
                 operands = {'omit-token-decrement': {('strh', 'w1, [x20, #0xc2]')},
-                            'omit-mgmt-reset': {('str', 'wzr, [x0, #0x78]')},
-                            'omit-SKB-clear': {('str', 'xzr, [x19, #0x18]')}}[mutation]
-                self.nops.update(pc for pc, mnemonic, operand in module.instructions[name]
+                            'omit-mgmt-reset': {('str', 'wzr, [x0, #0x78]')}}[mutation]
+                self.nops.update(pc for pc, mnemonic, operand in module.instructions['mt7996_tx_token_put']
                                  if (mnemonic, operand) in operands)
             for pc in self.nops:
                 if module.base <= pc < module.base + len(text):
@@ -399,7 +403,8 @@ def main():
     modules = {label: Module(path, label, producer['inner']['modules'][filenames[label]]['sha256'])
                for label, path in paths.items()}
     link(modules)
-    inspection = {label: dict(functions=module.functions, calls=module.calls, instructions=module.instructions)
+    inspection = {label: dict(functions=module.functions, calls=module.calls, instructions=module.instructions,
+                              txwi_skb_binding=module.skb_binding)
                   for label, module in modules.items()}
     args.output.mkdir(parents=True)
     if args.inspect_only:

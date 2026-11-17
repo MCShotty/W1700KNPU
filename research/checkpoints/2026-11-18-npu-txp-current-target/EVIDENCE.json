@@ -1,0 +1,227 @@
+{
+  "source_parent": "231914d4d4a01dfcaf9268b7223e03eaeec27206",
+  "producer": ".local/npu-build-scratch/native-c2/fw-txp-20261118-modules-a/modules/result.json",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "pre_fix_producer_sha256": "92c75156014d8e4a4ed795656bf29d47268ca6b64e5a40544a35acc181d4e31e",
+  "old_inputs_verified": 417,
+  "old_source_aliases": [
+    "firmware/source-lock.json",
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+    ".local/merge-nonoc-20260923/mt76-merged/mt7996/mac.c"
+  ],
+  "producer_input_count": 420,
+  "artifact_sha256": {
+    "airoha_npu.ko": "3c5cff3e179928729d4ab1680b24545add77e8a231401b5935579862babb46e5",
+    "mt76/mt76.ko": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+    "mt76/mt76-connac-lib.ko": "c3a1dfffdd3481bb79b7d08f30d22f082a9711f5a971193325b94044be7aeed3",
+    "mt76/mt7996/mt7996e.ko": "cb1d9f0f4e0f1187f17b5a722c007e1d5b14c0ec6e2e4669e200e8f52d98429b"
+  },
+  "warning_set_matches_previous": true,
+  "source_paths": 330,
+  "patch_outputs": 18,
+  "zero_fuzz": true,
+  "baseline_inventories": {
+    "kernel": 102685,
+    "mt76": 516,
+    "prior_cache": 1036
+  },
+  "phases": {
+    "modules-a": {
+      "passed": true,
+      "invocation": "a7791ab65dae41e8aa154c167f40a6f5",
+      "result_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+      "controller_sha256": "346dfd503df505fb6b06b03a04eaf51545b942c6ae9312d5b225a9b929d27426",
+      "plan_sha256": "a9c3bdde110e6cabe42154feff82bc4b5b3be0537261fdad3df54b6fad31a2cd",
+      "bound_inputs": 822,
+      "historical_source_aliases": {
+        "tests/npu/test_tx_token_native.py": ".local/npu-txp-fresh-20261118/before-abi/test_tx_token_native.py"
+      }
+    },
+    "helpers-b": {
+      "passed": false,
+      "invocation": "f1d149ef897d47f7a31515cc8973d96f",
+      "result_sha256": "4e2177677e8f49ee2fbf091eaf404e3da5bdebe8188b14520904401119ddfa08",
+      "controller_sha256": "6ca5a26a14994f7345a8c927c45ec0aed9e2b689c9b10021f8553ea2b2f6b20a",
+      "plan_sha256": "4623513a11d75b335ab4f057d84aa080121ecc960262b058148e5100f46f0faf",
+      "bound_inputs": 828,
+      "historical_source_aliases": {
+        "tests/npu/test_tx_token_native.py": ".local/npu-txp-fresh-20261118/before-abi/test_tx_token_native.py"
+      }
+    },
+    "regressions-a": {
+      "passed": true,
+      "invocation": "6c584cca934440178c704eb9f1f0a5a9",
+      "result_sha256": "7719bdbd219be84f1d25a2a95d303add1b2ad52f9cd03ae8a1fe91c1efd6f591",
+      "controller_sha256": "e8d196d43e1bc9036da116c68c518960f3194ce40b8572f2c00b0ae90b428470",
+      "plan_sha256": "a9c3bdde110e6cabe42154feff82bc4b5b3be0537261fdad3df54b6fad31a2cd",
+      "bound_inputs": 822,
+      "historical_source_aliases": {
+        "tests/npu/test_tx_token_native.py": ".local/npu-txp-fresh-20261118/before-abi/test_tx_token_native.py"
+      }
+    },
+    "helpers-c": {
+      "passed": true,
+      "invocation": "c8d8f8f7791349b8860671a0cc6372d1",
+      "result_sha256": "644fce8898dae0fdc76a4912aa0f98ea244bb88d05552175d7ec7f4b73aae907",
+      "controller_sha256": "271c866f4e5efd17dbb8ddaaa047dbbe0b7ddbbe73159eea012005512c656825",
+      "plan_sha256": "a24d5d341ade2b7aad9ffcaa98f29806b4a8a42aad3cc571a999c20576e86f91",
+      "bound_inputs": 838,
+      "historical_source_aliases": {
+        "tests/npu/txwi_skb_binding.py": ".local/npu-txp-fresh-20261118/before-abi-c/txwi_skb_binding.py",
+        "tests/npu/test_txwi_skb_binding.py": ".local/npu-txp-fresh-20261118/before-abi-c/test_txwi_skb_binding.py"
+      }
+    },
+    "helpers-d": {
+      "passed": true,
+      "invocation": "70bdc6f452be457cb4ea19284d8a0dbf",
+      "result_sha256": "58ad16a948d98f326d12783f4d0f76170b949ad8a161d36ae0cc7046f403b3d3",
+      "controller_sha256": "edd780d79b08a78a52e26fba268f677294f69f0c77a098e0129249c2b5365f8f",
+      "plan_sha256": "eda91359ed886253906380f629c31553f4267e383a78b709239badeb4bf23b03",
+      "bound_inputs": 845,
+      "historical_source_aliases": {}
+    }
+  },
+  "compiled_helpers": {
+    "txp": {
+      "phase": "helpers-b",
+      "cases": 90,
+      "controls": 4,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-b/txp/result.json",
+      "sha256": "42a33172705657bd576128079fcba3500a71f68350b8401779d25e38a8a86270"
+    },
+    "rxwi": {
+      "phase": "helpers-b",
+      "cases": 10,
+      "controls": 3,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-b/rxwi/result.json",
+      "sha256": "5ebbbe41e5168c8ee3da81014bf46b6eaf829f08bf6ffb2795b3d6973a94247b"
+    },
+    "mcu": {
+      "phase": "helpers-b",
+      "cases": 31,
+      "controls": 3,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-b/mcu/result.json",
+      "sha256": "05e3e7e9b47bf0cdc6667553d49f4fb0131193bb591e8fb847f6f99ee8e87d83"
+    },
+    "consumer": {
+      "phase": "helpers-b",
+      "cases": 35,
+      "controls": 6,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-b/consumer/result.json",
+      "sha256": "65dca750d00053f7793bce24c8176c74e6c913180f5f7aa9a162c35b41920e3d"
+    },
+    "rxtx": {
+      "phase": "helpers-b",
+      "cases": 64,
+      "controls": 7,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-b/rxtx/result.json",
+      "sha256": "4f1fe8552e2b44f5381c2cfaf399221c1b1d6aebfcfc55ab32e40bc00184dd9a"
+    },
+    "token": {
+      "phase": "helpers-d",
+      "cases": 62,
+      "controls": 9,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-d/token/result.json",
+      "sha256": "84e8a4e9e98f42274a555fa70307a8a977f782960cb803d6025ee080635ddad4"
+    },
+    "idr": {
+      "phase": "helpers-d",
+      "cases": 56,
+      "controls": 7,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-d/idr/result.json",
+      "sha256": "90201a123ab6f16c6cc0746d8dee3d6ed05e4f61ab6d2115f6aaea67459763d3"
+    },
+    "status": {
+      "phase": "helpers-d",
+      "cases": 64,
+      "controls": 9,
+      "receipt": ".local/npu-build-scratch/native-c2/fw-txp-20261118-helpers-d/status/result.json",
+      "sha256": "2be4997bfdb7dddd905405096beafffd075c0c21d3f4bb939e3ba0cc92cf0730"
+    }
+  },
+  "DMA_sample": [
+    1124073472,
+    4886364160,
+    64,
+    1,
+    0
+  ],
+  "incorrect_DMA_cases": 0,
+  "txwi_binding": {
+    "cache_register": "x22",
+    "skb_offset": 24,
+    "clear_pc": 285294144,
+    "complete_pcs": [
+      285294140,
+      285294296
+    ],
+    "put_pc": 285294156
+  },
+  "linked_kernel_IDR_functions": 23,
+  "regression_suite_count": 15,
+  "regression_units": 167,
+  "host_units": 214,
+  "module_loaded": false,
+  "hardware": false,
+  "full_RV32_verdict": false,
+  "harness_files": [
+    {
+      "path": "tests/npu/test_tx_token_native.py",
+      "sha256": "efb7fd9af1c17770017cef5be64f5b6f84c027d02fd269b8fa2eaf1f4f6c9ede"
+    },
+    {
+      "path": "tests/npu/txwi_skb_binding.py",
+      "sha256": "6715d9794f7cd0abe37ba7553955ba8d00222048b25c5431f08afd37aa59f981"
+    },
+    {
+      "path": "tests/npu/test_txwi_skb_binding.py",
+      "sha256": "88c77bb8966b1f35497d2711c740b1d10e4a49bbc8473bbc4ad660ff7f1f6bc4"
+    }
+  ],
+  "report_sha256": "2cd0eafc4235a5806c1cc252e0c0e6ee117ed3938b97a03290359472114cc7f3",
+  "audit_sha256": "acd7c0e39dd94df0b7fc17c08b8c5082c540bdb69851c4343e1eb98a2e7ea613",
+  "private_audit_sha256": "0338592155d5e3e6da5c937eb67b9fb8e172e4166c0a74deab388b20b4bded17",
+  "host_unit_log_sha256": "272447a6f969c68d9a2e55bdd9c1f8d78f57248a3366e4d60007a7f40a1dc83d",
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "target_scope": {
+        "type": "choice",
+        "choice": "correct",
+        "confidence": 1,
+        "probabilities": {
+          "correct": 1,
+          "source": 0,
+          "physical": 0,
+          "unknown": 0
+        }
+      },
+      "all_fresh_cc": {
+        "type": "noul",
+        "noul": 0.09
+      },
+      "fixture": {
+        "type": "choice",
+        "choice": "register",
+        "confidence": 0.98,
+        "probabilities": {
+          "register": 0.99,
+          "kernel": 0,
+          "unknown": 0.01
+        }
+      },
+      "native_complete": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 645,
+      "output_tokens": 118
+    }
+  },
+  "no_new_image": true,
+  "physical_retirement": false,
+  "new_full_native_verdict": false
+}

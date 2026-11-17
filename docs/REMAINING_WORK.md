@@ -1,5 +1,14 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Target Qualified; Full RV32 Replay Next
+
+The current FW-TXP module build, eight compiled helper suites and 15 wider
+regressions passed. The next firmware gate is one complete three-profile
+19,261-RPC run from reset with a distinct boot-bound output and unchanged
+instruction limits. Keep the interrupted run intact. Complete consumer
+ownership, physical drain, reuse/hot and current image/board/client gates
+remain. [Target evidence](../research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+
 ## 2026-11-18 - Scratch Reattached; New Build Still Pending
 
 Both C-backed scratch binds and the marker verified on this boot; the fixed

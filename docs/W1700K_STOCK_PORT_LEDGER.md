@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Compiled FW-TXP Fix And Current Lifetime Regressions
+
+- Fresh AArch64 producer b5af9591, 420 inputs. Radio cb1d9f0f changed; provider
+  and two companion modules stayed byte-identical. No original trees changed.
+- Eight actual compiled helper suites passed: TXP 90/4 (zero bad arguments),
+  RXWI 10/3, MCU 31/3, consumer 35/6, RX/TX 64/7, token 62/9, kernel IDR 56/7,
+  status 64/9. Final three are helpers-d, not a pass for the helpers-b refusal.
+  All 15 wider regressions and 214 final host methods passed. No load or flash.
+- Separate RV32 runtime input closure matches; no new whole-recipe verdict
+  or physical DMA evidence is inferred. [Report and receipt](../research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+
 ## 2026-11-18 - Corrected Disk Admission And Restored Scratch
 
 - The old host probe budgeted C: for a VHD on D:. The fixed query resolves the

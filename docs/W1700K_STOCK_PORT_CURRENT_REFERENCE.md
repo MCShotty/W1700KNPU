@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Current FW-TXP Arguments Verified
+
+Producer b5af9591 binds the corrected radio module cb1d9f0f and three
+unchanged modules. All 90 correct-contract cases/four controls passed; both
+token suites and MT7996 status passed with the corrected register binding.
+The full RV32 verdict and hardware acceptance remain open.
+[Target evidence](../research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+
 ## 2026-11-18 - Backing Volume Follow-Up
 
 Scratch access on C: was restored for this boot. Ubuntu's registered C: path

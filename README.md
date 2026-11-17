@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Current MT7996 Module Verified
+
+The AArch64 radio module now passes all 90 FW/MAC descriptor DMA argument
+cases, including addresses above 4 GiB. Eight compiled suites and the wider
+regression run passed on the same module producer. This is local code
+execution, not a router boot or physical drain. [Results and limits](research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+
 ## 2026-11-18 - Storage Follow-Up
 
 The build budget now checks the actual VHD volume, including directory

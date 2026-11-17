@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Post-Boot Module Qualification
+
+Verified the fresh module build, corrected a register-specific token fixture
+and reran the affected suites. Compiled FW DMA arguments now preserve the high
+nibble and the true length. No physical DMA, new image or client test.
+[Detailed run](../research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+
 ## 2026-11-18 - Scratch And Git Follow-Up
 
 Verified both scratch bindings and the D: backing of the Ubuntu registry

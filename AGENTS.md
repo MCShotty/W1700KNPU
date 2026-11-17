@@ -1,5 +1,14 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Use The Qualified FW-TXP Producer
+
+Use producer b5af9591 (420 inputs), not the pre-fix 92c75156, for current
+compiled contracts. Eight suites and 15 wider regressions passed. Helpers-b
+as a whole failed on a register-specific harness; final token/IDR/status are
+helpers-d. Preserve old source versions. The full raw firmware replay and
+physical gates remain separate. [Receipts](research/checkpoints/2026-11-18-npu-txp-current-target/REPORT.md).
+Keep Ethernet disconnected and continue solo.
+
 ## 2026-11-18 - Verify The Backing Volume
 
 Ubuntu's registered C: path is a junction to D:. Use the corrected VHD/file
