@@ -1,5 +1,13 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Check The Selected Image Payloads
+
+Use a pinned combined producer for current-image verification. Follow the
+FIT default configuration, not subimage order or filenames. Protected
+a3f1d04b and prepared 978f9ddd each differ from producer b5af9591 and the
+RV32 pair under test. Keep both intact. Do not flash or compete with replay
+61e2d7b8. [Receipt and exact CLI](research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - Fresh RV32 Invocation Dispatched
 
 Observe unit w1700k-npu-rv32-20261118-full-a.service, invocation 61e2d7b8,

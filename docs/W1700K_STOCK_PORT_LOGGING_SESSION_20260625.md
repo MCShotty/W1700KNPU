@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Offline FIT Comparison
+
+Verified named default components and packaged module/firmware identities in
+two local sysupgrade images. No image was altered and the running RV32 replay
+was left alone. [Full results](../research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - Fresh RV32 Replay Dispatch
 
 Confirmed the actual new process tree, retained inputs and first publication.

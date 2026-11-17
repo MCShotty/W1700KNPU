@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Default FIT Payloads
+
+Protected FIT a3f1d04b matches all four historical modules after packaging;
+neither it nor prepared FIT 978f9ddd matches any of the four current modules
+or either current RV32 payload. Both selected DTBs identify the W1700K.
+No new image, boot or hardware proof. [Comparison](../research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - Raw Replay From Reset
 
 New invocation 61e2d7b8 was observed with guard 120993, wrapper 121006 and

@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - FIT Selection And Module Provenance
+
+- Fixed default configuration resolution; the prior verifier selected the same
+  rootfs for both defaults in a two-config fixture. Combined world verification
+  now requires all four packaged digests to match its pinned producer.
+- Protected a3f1d04b: 4/4 historical matches, 0/4 current. Prepared 978f9ddd:
+  0/4 current. Neither contains the RV32 CODE/DATA pair under replay. 90 host
+  tests passed. No new world, boot, module load, flash or device contact.
+- Replay 61e2d7b8 was still live; 345 inputs reverified. A 1,140-record
+  profile-0 prefix is not a terminal result. [Receipts](../research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - New RV32 Full Run Observed
 
 Source 6c18c51, new invocation 61e2d7b8. The guard/wrapper/driver and CPU

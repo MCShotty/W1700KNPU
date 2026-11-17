@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Which Image Is Current?
+
+Neither the protected October FIT nor the prepared sysupgrade contains the
+current four NPU/Wi-Fi modules or the RV32 pair under test. The image verifier
+now follows the declared default boot configuration and checks exact packaged
+module bytes when supplied a pinned producer. The October image still matches
+its historical producer. [Results and comparison command](research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - Fresh Firmware Replay Started
 
 A new three-profile RV32 invocation started from reset on the verified inputs.

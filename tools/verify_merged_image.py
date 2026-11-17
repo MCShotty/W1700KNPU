@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import tempfile
 
 from elftools.elf.elffile import ELFFile
 import npu_image
@@ -42,6 +43,156 @@ def prop(path, node, name, kind='s', optional=False):
     done = subprocess.run(['fdtget', '-t', kind, str(path), node, name], capture_output=True, text=True)
     assert done.returncode == 0 or optional, done.stderr
     return done.stdout.strip() if done.returncode == 0 else None
+
+
+def select_fit_configuration(image, image_types):
+    """Resolve the W1700K sysupgrade profile, not an arbitrary image by type."""
+    def reference(node, propname):
+        raw = bytes(int(x, 16) for x in prop(image, node, propname, 'bx').split())
+        if not re.fullmatch(rb'[A-Za-z0-9_-]+\0', raw):
+            raise ValueError(f'{node}/{propname}: expected exactly one FIT node name')
+        return raw[:-1].decode('ascii')
+
+    parent = '/configurations'
+    default = reference(parent, 'default')
+    if default not in run(['fdtget', '-l', image, parent]).decode().splitlines():
+        raise ValueError(f'Unknown default FIT configuration: {default}')
+    node = parent + '/' + default
+    properties = set(run(['fdtget', '-p', image, node]).decode().splitlines())
+    if properties - {'description', 'compatible'} != {'kernel', 'fdt', 'loadables'}:
+        raise ValueError(f'Unsupported W1700K sysupgrade configuration: {sorted(properties)}')
+    selected = {'name': default}
+    for key, role, kind in [('kernel', 'kernel', 'kernel'), ('fdt', 'fdt', 'flat_dt'),
+                            ('loadables', 'rootfs', 'filesystem')]:
+        name = reference(node, key)
+        if image_types.get(name) != kind:
+            raise ValueError(f'{node}/{key}: {name} does not reference a {kind} image')
+        selected[role] = name
+    return selected
+
+
+def extract_fit_components(image, directory):
+    names = run(['fdtget', '-l', image, '/images']).decode().splitlines()
+    if len(names) != len(set(names)) or any(not re.fullmatch(r'[a-zA-Z0-9_-]+', n) for n in names):
+        raise ValueError('Invalid FIT subimage names')
+    types = {n: prop(image, '/images/' + n, 'type') for n in names}
+    selected = select_fit_configuration(image, types)
+    components, paths = [], {}
+    for index, name in enumerate(names):
+        node, output = '/images/' + name, directory / (name + '.bin')
+        if output.exists() or output.is_symlink():
+            raise FileExistsError(output)
+        run(['dumpimage', '-T', 'flat_dt', '-p', index, '-o', output, image])
+        hashes = []
+        for child in run(['fdtget', '-l', image, node]).decode().splitlines():
+            algorithm = prop(image, node + '/' + child, 'algo', optional=True)
+            if algorithm not in ('sha1', 'sha256', 'md5'):
+                continue
+            expected = bytes(int(b, 16) for b in prop(image, node + '/' + child, 'value', 'bx').split())
+            assert hashlib.new(algorithm, output.read_bytes()).digest() == expected
+            hashes.append(dict(algorithm=algorithm, value=expected.hex()))
+        assert hashes, name
+        components.append(dict(name=name, type=types[name], sha256=sha(output), verified_hashes=hashes))
+        paths[name] = output
+    return selected, components, {role: paths[selected[role]] for role in ('kernel', 'fdt', 'rootfs')}
+
+
+MODULE_NAMES = ('mt76.ko', 'mt76-connac-lib.ko', 'mt7996e.ko', 'airoha_npu.ko')
+# The locked W1700K OpenWrt strip-kmod.sh profile: NO_RENAME=1, no KEEP_BUILD_ID or KEEP_SYMBOLS.
+KMOD_OBJCOPY_ARGS = ('-R', '.comment', '-R', '.pdr', '-R', '.mdebug.abi32', '-R', '.gnu.attributes',
+                     '-R', '.reginfo', '-R', '.MIPS.abiflags', '-R', '.note.GNU-stack',
+                     '-x', '-G', '__this_module', '--strip-unneeded', '-R', '.note.gnu.build-id')
+
+
+def bound_producer(root, receipt, expected_sha256):
+    from npu_world_sources import linked_module_sources
+    path = root / receipt
+    if (not re.fullmatch(r'[0-9a-f]{64}', expected_sha256) or path.is_symlink()
+            or not path.resolve(strict=True).is_relative_to(root.resolve()) or sha(path) != expected_sha256):
+        raise ValueError('Module producer path or digest mismatch')
+    linked = linked_module_sources(root, path)
+    if linked['receipt_sha256'] != expected_sha256:
+        raise ValueError('Module producer changed during verification')
+    return linked
+
+
+def compare_packaged_modules(root, build, linked, packaged, scratch):
+    from npu_world_sources import relative_file
+    build = build.resolve(strict=True)
+    config = build / '.config'
+    config_hash = sha(root / 'firmware/build.config')
+    text = config.read_text()
+    lines = set(text.splitlines())
+    versions = re.findall(r'^CONFIG_GCC_VERSION="([0-9]+(?:\.[0-9]+)+)"$', text, re.MULTILINE)
+    required = {'CONFIG_KERNEL_KALLSYMS=y', 'CONFIG_TARGET_ARCH_PACKAGES="aarch64_cortex-a53"', 'CONFIG_TARGET_SUFFIX="musl"'}
+    if (sha(config) != config_hash or len(versions) != 1 or not required <= lines
+            or {'CONFIG_NO_STRIP=y', 'CONFIG_KERNEL_PROFILING=y'} & lines):
+        raise ValueError('Unsupported or unlocked W1700K module packaging profile')
+    staging = (build / 'staging_dir').resolve(strict=True)
+    objcopy = (staging / f'toolchain-aarch64_cortex-a53_gcc-{versions[0]}_musl/bin/aarch64-openwrt-linux-musl-objcopy').resolve()
+    if not staging.is_relative_to(build) or not objcopy.is_file() or not objcopy.is_relative_to(staging):
+        raise ValueError('The configured OpenWrt AArch64 objcopy is required')
+    tool_hash = sha(objcopy)
+    artifacts = linked['artifacts']
+    if (len(artifacts) != len(MODULE_NAMES) or {Path(k).name for k in artifacts} != set(MODULE_NAMES)
+            or set(packaged) != set(MODULE_NAMES)):
+        raise ValueError('Expected exactly the four selected kernel modules')
+    modules = {}
+    with tempfile.TemporaryDirectory(prefix='package-compare-', dir=scratch) as tmp:
+        for relative, expected in sorted(artifacts.items()):
+            source = relative_file(root, relative)
+            if sha(source) != expected:
+                raise ValueError(f'Producer artifact changed: {relative}')
+            dest = Path(tmp) / source.name
+            run([objcopy, *KMOD_OBJCOPY_ARGS, source, dest])
+            normalized = sha(dest)
+            modules[source.name] = dict(linked_sha256=expected, expected_packaged_sha256=normalized,
+                                        actual_packaged_sha256=packaged[source.name],
+                                        matches=normalized == packaged[source.name])
+            if sha(source) != expected:
+                raise ValueError(f'Producer artifact changed during comparison: {relative}')
+    if sha(config) != config_hash or sha(objcopy) != tool_hash:
+        raise ValueError('Packaging configuration or tool changed during comparison')
+    mismatches = sorted(name for name, row in modules.items() if not row['matches'])
+    return dict(matches=not mismatches, mismatches=mismatches, modules=modules,
+                producer=linked['receipt'], producer_sha256=linked['receipt_sha256'],
+                source_lock_sha256=linked['source_lock_sha256'], config_sha256=config_hash,
+                profile='openwrt-w1700k-no-rename-no-build-id',
+                objcopy=str(objcopy.relative_to(build)), objcopy_sha256=tool_hash,
+                objcopy_args=list(KMOD_OBJCOPY_ARGS))
+
+
+def board_identity(dtb):
+    model, compatible = prop(dtb, '/', 'model'), prop(dtb, '/', 'compatible')
+    assert model == 'Gemtek W1700K (OpenWrt U-Boot layout)'
+    assert 'gemtek,w1700k-ubi' in compatible.split()
+    return model, compatible
+
+
+def compare_module_image(image, root, build, linked, scratch):
+    """Check packaged bytes in an existing FIT without running a world build or boot."""
+    image_hash = sha(image)
+    kernel = json.loads((root / 'firmware/source-lock.json').read_bytes())['kernel']
+    if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', kernel):
+        raise ValueError('Unsupported target kernel version')
+    with tempfile.TemporaryDirectory(prefix='fit-compare-', dir=scratch) as tmp:
+        directory = Path(tmp)
+        selected, components, paths = extract_fit_components(image, directory)
+        model, compatible = board_identity(paths['fdt'])
+        packaged = {name: hashlib.sha256(run(['unsquashfs', '-processors', '1', '-mem', '16M', '-cat',
+                    paths['rootfs'], f'lib/modules/{kernel}/{name}'])).hexdigest() for name in MODULE_NAMES}
+        binding = compare_packaged_modules(root, build, linked, packaged, directory)
+    if sha(image) != image_hash:
+        raise ValueError('FIT changed during inspection')
+    return dict(matches=binding['matches'], image_sha256=image_hash, fit_configuration=selected,
+                components=components, model=model, compatible=compatible, packaged_module_provenance=binding,
+                full_image_verified=False, module_loaded=False, hardware=False)
+
+
+def save_comparison(directory, result):
+    with (directory / 'module-comparison.json').open('x') as stream:
+        json.dump(result, stream, indent=2)
+        stream.write('\n')
 
 
 def module(path):
@@ -131,41 +282,36 @@ def main():
     global OUT
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', default='image-verification')
+    parser.add_argument('--module-receipt', type=Path, help='Source-bound four-module producer')
+    parser.add_argument('--expected-producer-sha256', help='Independently pinned SHA256 of --module-receipt')
+    parser.add_argument('--modules-only-image', type=Path, metavar='FIT',
+                        help='Compare the named FIT to the producer without requiring a complete world build')
     args = parser.parse_args()
+    if not __debug__:
+        parser.error('Image verification requires Python assertions enabled (no -O or PYTHONOPTIMIZE)')
+    if (args.module_receipt is None) != (args.expected_producer_sha256 is None):
+        parser.error('Use --module-receipt and --expected-producer-sha256 together')
+    if args.modules_only_image is not None and args.module_receipt is None:
+        parser.error('--modules-only-image requires a pinned module producer')
+    linked = bound_producer(ROOT, args.module_receipt, args.expected_producer_sha256) if args.module_receipt else None
     assert re.fullmatch(r'[a-z0-9][a-z0-9-]*', args.name), 'Invalid receipt name'
     OUT = OUT.parent / args.name
     assert not OUT.exists(), 'Keep prior verification; use a fresh result directory for a changed image.'
     OUT.mkdir(parents=True)
+    if args.modules_only_image is not None:
+        result = compare_module_image(args.modules_only_image, ROOT, BUILD, linked, OUT)
+        save_comparison(OUT, result)
+        print(json.dumps(dict(matches=result['matches'], mismatches=result['packaged_module_provenance']['mismatches'],
+                              receipt=str(OUT / 'module-comparison.json'))))
+        return 0 if result['matches'] else 1
     image = BUILD / 'bin/targets/airoha/an7581/openwrt-airoha-an7581-gemtek_w1700k-ubi-squashfs-sysupgrade.itb'
     assert image.is_file()
     image_hash = sha(image)
     (OUT / 'fit.txt').write_bytes(run(['dumpimage', '-l', image]))
-    names = run(['fdtget', '-l', image, '/images']).decode().splitlines()
-    components = []
-    dtb = rootfs = kernel = None
-    for index, name in enumerate(names):
-        assert re.fullmatch('[a-zA-Z0-9_-]+', name)
-        node, output = '/images/' + name, OUT / (name + '.bin')
-        run(['dumpimage', '-T', 'flat_dt', '-p', index, '-o', output, image])
-        hashes = []
-        for child in run(['fdtget', '-l', image, node]).decode().splitlines():
-            algorithm = prop(image, node + '/' + child, 'algo', optional=True)
-            if algorithm not in ('sha1', 'sha256', 'md5'):
-                continue
-            expected = bytes(int(b, 16) for b in prop(image, node + '/' + child, 'value', 'bx').split())
-            assert hashlib.new(algorithm, output.read_bytes()).digest() == expected
-            hashes.append(dict(algorithm=algorithm, value=expected.hex()))
-        assert hashes, name
-        kind = prop(image, node, 'type')
-        components.append(dict(name=name, type=kind, sha256=sha(output), verified_hashes=hashes))
-        if kind == 'flat_dt': dtb = output
-        if kind == 'filesystem': rootfs = output
-        if kind == 'kernel': kernel = output
-    assert dtb and rootfs and kernel
+    selected, components, paths = extract_fit_components(image, OUT)
+    dtb, rootfs, kernel = paths['fdt'], paths['rootfs'], paths['kernel']
     rootfs_owners = verify_rootfs_ownership(rootfs)
-    model, compatible = prop(dtb, '/', 'model'), prop(dtb, '/', 'compatible')
-    assert model == 'Gemtek W1700K (OpenWrt U-Boot layout)'
-    assert 'gemtek,w1700k-ubi' in compatible.split()
+    model, compatible = board_identity(dtb)
     board = board_configuration(dtb)
     (OUT / 'board.dts').write_bytes(run(['dtc', '-I', 'dtb', '-O', 'dts', dtb]))
     built_kernel = BUILD / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/arch/arm64/boot/Image'
@@ -190,13 +336,20 @@ def main():
     assert set(required) <= packages.keys(), sorted(set(required) - packages.keys())
     assert packages['kernel'].startswith('6.18.52')
     modules = {}
-    for name in ('mt76.ko', 'mt76-connac-lib.ko', 'mt7996e.ko', 'airoha_npu.ko'):
+    for name in MODULE_NAMES:
         path = root / 'lib/modules/6.18.52' / name
         row, defined, imports = module(path)
         modules[name] = row
         verify_control_ownership(name, defined, imports)
         if name == 'mt7996e.ko':
             assert 'mt76_npu_init' in imports
+    binding = None
+    if linked is not None:
+        binding = compare_packaged_modules(ROOT, BUILD, linked, {n: m['sha256'] for n, m in modules.items()}, OUT)
+        if not binding['matches']:
+            save_comparison(OUT, dict(matches=False, image_sha256=image_hash, fit_configuration=selected,
+                                      packaged_module_provenance=binding, full_image_verified=False, hardware=False))
+            raise ValueError(f"Packaged modules differ from the qualified producer: {binding['mismatches']}")
     module_paths = list((root / 'lib/modules').glob('*/*.ko'))
     assert all(p.parent.name == '6.18.52' for p in module_paths)
     for path in module_paths:
@@ -245,7 +398,8 @@ def main():
     assert sha(image) == image_hash
     receipt = dict(passed=True, image=str(image.relative_to(ROOT)), sha256=image_hash,
                    bytes=image.stat().st_size, components=components, model=model,
-                   compatible=compatible, metadata=data, packages=packages,
+                   compatible=compatible, metadata=data, packages=packages, fit_configuration=selected,
+                   packaged_module_provenance=binding, pinned_module_bytes_verified=binding is not None,
                    rootfs_numeric_boot_ownership=rootfs_owners,
                    board_configuration=board,
                    wifi_firmware_sha256=wifi_firmware,
@@ -259,13 +413,16 @@ def main():
                    selected_modules=modules, all_module_abi_checks=len(module_paths),
                    source_lock_sha256=sha(ROOT / 'firmware/source-lock.json'),
                    limits=['Offline image integrity/package/ABI checks only, not boot, throughput or physical recovery.',
+                           'The FIT-declared default is inspected, not a bootloader override or signature trust decision.',
+                           'Without a pinned producer, module ABI checks do not identify the qualified module bytes.',
                            'Linux V2 client and once-owned initial setup are compiled into the provider; full strict setup and physical cold-lifetime proof remain incomplete.',
                            'The checked experimental raw CODE/DATA pair is packaged; physical cold containment,strict full setup and retirement remain incomplete.'])
     path = OUT / 'result.json'
     path.write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps(dict(passed=True, image_sha256=image_hash, bytes=receipt['bytes'],
-                         packages=len(packages), module_abi_checks=len(module_paths), receipt=str(path))))
+                         packages=len(packages), module_abi_checks=len(module_paths),
+                         pinned_module_bytes_verified=receipt['pinned_module_bytes_verified'], receipt=str(path))))
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())

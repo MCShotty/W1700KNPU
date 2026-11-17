@@ -1,0 +1,305 @@
+{
+  "parent_commit": "11f4f540e20f976327dd2af964e347ce40ce9ba5",
+  "report_sha256": "af51d661fd6df53ba0adecb252ce43e0898bf3e47a99d27005f07afa10f480cc",
+  "historical_positive": {
+    "matches": 4,
+    "source_receipt": ".local/npu-checked-irq-modules/checked-q2/result.json",
+    "source_receipt_sha256": "90abc8f3c83f91334ed81963586703f9fe110dd8fd9a94fc74d9edf184ef20ab",
+    "source_inputs": 364,
+    "source_lock_sha256": "cb03574121783bb048eb2e8e954accb8234f03ba85db8fa8a2579b239ba9b8ae",
+    "comparison_sha256": "510501249f73e4045819a397ee9d98a902d2da66858846af7957a39ce2b40332"
+  },
+  "current_producer": {
+    "sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+    "source_inputs": 420,
+    "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d"
+  },
+  "packaging": {
+    "profile": "openwrt-w1700k-no-rename-no-build-id",
+    "objcopy_sha256": "607d5f9d8ec4903cc4bf859e6f4daa425c2d238aae38cb74acca1c87451bf418",
+    "objcopy_args": [
+      "-R",
+      ".comment",
+      "-R",
+      ".pdr",
+      "-R",
+      ".mdebug.abi32",
+      "-R",
+      ".gnu.attributes",
+      "-R",
+      ".reginfo",
+      "-R",
+      ".MIPS.abiflags",
+      "-R",
+      ".note.GNU-stack",
+      "-x",
+      "-G",
+      "__this_module",
+      "--strip-unneeded",
+      "-R",
+      ".note.gnu.build-id"
+    ],
+    "config_sha256": "b15966e2f04ee6a54e9344e08c049d201d3c38dcc1df88593fadd92971be6ec6"
+  },
+  "images": {
+    "protected": {
+      "fit_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+      "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+      "compatible": "gemtek,w1700k-ubi airoha,an7581 airoha,en7581",
+      "declared_default": {
+        "name": "config-1",
+        "kernel": "kernel-1",
+        "fdt": "fdt-1",
+        "rootfs": "rootfs-1"
+      },
+      "component_sha256": {
+        "kernel-1": "1ddec0a94a4fed27bed95a2d26ae7fc53d753a5aeb4fdc0240594e96e6e3b9c5",
+        "fdt-1": "8ad1b262b756a11ee7a3c32353135f69f9dc4667cd8498af125158aa194a57b2",
+        "rootfs-1": "d87e42cc41ecaee98873a5526fb03ee3b84d71fff9f188c29ee7a5ea445088e1"
+      },
+      "actual_packaged_modules": {
+        "airoha_npu.ko": "24c8df4e68567de3cac2ce0f430fd72bb62b63e356642838dd86cd2c6d590995",
+        "mt76-connac-lib.ko": "7fa29e6ff93e216ebedc038244e67e49f4b28a347d2829e1850effd262e26b20",
+        "mt76.ko": "34e8d94a86197661065b162ea9a52c6d3dd9b72c1d214fc7d4babb309dcc556c",
+        "mt7996e.ko": "1791cd6e37eb60cd03f3e437d98555c490a07759ea865ad20e17e3bdc264f0ad"
+      },
+      "expected_current_packaged_modules": {
+        "airoha_npu.ko": "92740c60c51bd5bbe9d042bfcf5f00cedaf56a5dd892ad36f3f69eb4b2763cba",
+        "mt76-connac-lib.ko": "52c571ac77894399f7000574557e811a02dfa48aa4434e9d5e1d5577e7d32c98",
+        "mt76.ko": "6567b566b1b051661742270f4bd9df8eb375e54704b5df5bf02546fc9c97b2f3",
+        "mt7996e.ko": "134e6913ca37640d23c24196c994f31456496c6f0d9373087e2308cb32404450"
+      },
+      "current_matches": 0,
+      "embedded_pair": {
+        "code": {
+          "bytes": 998944,
+          "sha256": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+          "matches_running_pair": false
+        },
+        "data": {
+          "bytes": 25728,
+          "sha256": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16",
+          "matches_running_pair": false
+        }
+      },
+      "embedded_pair_manifest_sha256": "f017c2eb383e5c3998da30b1b3261a35b6b3d2dd065d22d7c0f5e70fc0cd92c2",
+      "detailed_receipt": ".local/merge-nonoc-20260923/fit-binding-protected-q6-20261118/module-comparison.json",
+      "detailed_receipt_sha256": "b81ccf260af09be0e4db99eceb5f5d896626ed29e03f6d5821ed98c893401b7a"
+    },
+    "prepared": {
+      "fit_sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+      "model": "Gemtek W1700K (OpenWrt U-Boot layout)",
+      "compatible": "gemtek,w1700k-ubi airoha,an7581 airoha,en7581",
+      "declared_default": {
+        "name": "config-1",
+        "kernel": "kernel-1",
+        "fdt": "fdt-1",
+        "rootfs": "rootfs-1"
+      },
+      "component_sha256": {
+        "kernel-1": "1ddec0a94a4fed27bed95a2d26ae7fc53d753a5aeb4fdc0240594e96e6e3b9c5",
+        "fdt-1": "8ad1b262b756a11ee7a3c32353135f69f9dc4667cd8498af125158aa194a57b2",
+        "rootfs-1": "ec195ee1fac8a0a79b7edb6a6455b4436dda534a1420c9d5332fd1c786f3c318"
+      },
+      "actual_packaged_modules": {
+        "airoha_npu.ko": "1a001dc25cf6882716fa63b8490cc2440d2c028f0405a4254c13ac660663784f",
+        "mt76-connac-lib.ko": "7fa29e6ff93e216ebedc038244e67e49f4b28a347d2829e1850effd262e26b20",
+        "mt76.ko": "b40832b36e3f4d56629ffecb58cb18a25f57a2cda9f6a5346546050d1d9a3a6f",
+        "mt7996e.ko": "c85cdbc345e3ce6555ea4fc75c242fd7a971471680ec62a30ff5ccf6916f8f7d"
+      },
+      "expected_current_packaged_modules": {
+        "airoha_npu.ko": "92740c60c51bd5bbe9d042bfcf5f00cedaf56a5dd892ad36f3f69eb4b2763cba",
+        "mt76-connac-lib.ko": "52c571ac77894399f7000574557e811a02dfa48aa4434e9d5e1d5577e7d32c98",
+        "mt76.ko": "6567b566b1b051661742270f4bd9df8eb375e54704b5df5bf02546fc9c97b2f3",
+        "mt7996e.ko": "134e6913ca37640d23c24196c994f31456496c6f0d9373087e2308cb32404450"
+      },
+      "current_matches": 0,
+      "embedded_pair": {
+        "code": {
+          "bytes": 937828,
+          "sha256": "07f3585bc4966d1a6b5a61d04c7297ae6d39113c4fdd26a47efa6aeaf188b8a1",
+          "matches_running_pair": false
+        },
+        "data": {
+          "bytes": 25728,
+          "sha256": "eb15df4e032e4c7e2ad7c606b5823d3fbb00715ce6dac8a2aef55f040fb1c7ef",
+          "matches_running_pair": false
+        }
+      },
+      "embedded_pair_manifest_sha256": "d1e55f288edfa5fd509fbc4550c3729d02a6ecd83c64773174d827dd746591c7",
+      "detailed_receipt": ".local/merge-nonoc-20260923/fit-binding-prepared-q6-20261118/module-comparison.json",
+      "detailed_receipt_sha256": "62f81051bb1608005c2d28ccbbe3bbd112f7132377044f7fbe27966bcf2a72bf"
+    }
+  },
+  "rv32_runtime_pair": {
+    "CODE.bin": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+    "DATA.bin": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+    "manifest.json": "d0eddf16148c9a087bc299d166c242649314f8f86c2a4e7d0451baeb35d7209a"
+  },
+  "fixture_default_switch": [
+    {
+      "default": "board-a",
+      "legacy_rootfs": "loadables-a",
+      "corrected_rootfs": "loadables-a"
+    },
+    {
+      "default": "board-b",
+      "legacy_rootfs": "loadables-a",
+      "corrected_rootfs": "loadables-b"
+    }
+  ],
+  "host_tests": 90,
+  "focused_test_methods": 21,
+  "skips": 0,
+  "full_world_run": false,
+  "firmware_executed_by_image_checks": false,
+  "hardware": false,
+  "images_modified": false,
+  "replay_observation": {
+    "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "expected_boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "observed_unix_ns": 1794949120085742800,
+    "whole_run_pass": false,
+    "status": "live",
+    "unit": {
+      "LoadState": "loaded",
+      "ActiveState": "activating",
+      "SubState": "start",
+      "InvocationID": "61e2d7b8caed4f76bd9b5e61c55b02db",
+      "Restart": "no",
+      "TimeoutStartUSec": "14h",
+      "MainPID": "120993",
+      "ControlGroup": "/system.slice/w1700k-npu-rv32-20261118-full-a.service",
+      "MemoryCurrent": "361431040",
+      "CPUUsageNSec": "4969334810000",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "processes": {
+      "guard": {
+        "pid": 120993,
+        "ppid": 1,
+        "start_ticks": 597958,
+        "cpu_ticks": 22419
+      },
+      "wrapper": {
+        "pid": 121006,
+        "ppid": 120993,
+        "start_ticks": 598007,
+        "cpu_ticks": 262
+      },
+      "driver": {
+        "pid": 121014,
+        "ppid": 121006,
+        "start_ticks": 598332,
+        "cpu_ticks": 472654
+      }
+    },
+    "driver_cpu_delta": 224,
+    "retained_and_active_hashes_verified": 345,
+    "observed_profiles": [
+      {
+        "profile": 0,
+        "complete_positive_lines": 1140,
+        "publications": 129,
+        "summary_exists": false
+      }
+    ]
+  },
+  "whole_replay_verdict": null,
+  "history": {
+    "plan": {
+      "inputs": 822,
+      "declared_digest": "a9c3bdde110e6cabe42154feff82bc4b5b3be0537261fdad3df54b6fad31a2cd",
+      "historical_aliases": {
+        "tools/verify_merged_image.py": ".local/npu-fit-binding-20261118/before/verify_merged_image.py",
+        "tests/npu/test_tx_token_native.py": ".local/npu-txp-fresh-20261118/before-abi/test_tx_token_native.py",
+        "tools/npu_isolated_world.py": ".local/npu-fit-binding-20261118/before/npu_isolated_world.py"
+      }
+    },
+    "helpers-b-plan": {
+      "inputs": 828,
+      "declared_digest": "4623513a11d75b335ab4f057d84aa080121ecc960262b058148e5100f46f0faf",
+      "historical_aliases": {
+        "tools/verify_merged_image.py": ".local/npu-fit-binding-20261118/before/verify_merged_image.py",
+        "tests/npu/test_tx_token_native.py": ".local/npu-txp-fresh-20261118/before-abi/test_tx_token_native.py",
+        "tools/npu_isolated_world.py": ".local/npu-fit-binding-20261118/before/npu_isolated_world.py"
+      }
+    },
+    "helpers-c-plan": {
+      "inputs": 838,
+      "declared_digest": "a24d5d341ade2b7aad9ffcaa98f29806b4a8a42aad3cc571a999c20576e86f91",
+      "historical_aliases": {
+        "tools/verify_merged_image.py": ".local/npu-fit-binding-20261118/before/verify_merged_image.py",
+        "tools/npu_isolated_world.py": ".local/npu-fit-binding-20261118/before/npu_isolated_world.py",
+        "tests/npu/txwi_skb_binding.py": ".local/npu-txp-fresh-20261118/before-abi-c/txwi_skb_binding.py",
+        "tests/npu/test_txwi_skb_binding.py": ".local/npu-txp-fresh-20261118/before-abi-c/test_txwi_skb_binding.py"
+      }
+    },
+    "helpers-d-plan": {
+      "inputs": 845,
+      "declared_digest": "eda91359ed886253906380f629c31553f4267e383a78b709239badeb4bf23b03",
+      "historical_aliases": {
+        "tools/verify_merged_image.py": ".local/npu-fit-binding-20261118/before/verify_merged_image.py",
+        "tools/npu_isolated_world.py": ".local/npu-fit-binding-20261118/before/npu_isolated_world.py"
+      }
+    }
+  },
+  "code_sha256": {
+    "tools/verify_merged_image.py": "61e1399597540498870e60b0465ca6e5e096902c531079b903e898c1e994ac6b",
+    "tools/npu_isolated_world.py": "613c80ebad0ad2f2b40c36973a7dd53379cd02dbc2174047a5319ed9d032821c",
+    "tests/test_w1700k_fit_binding.py": "d45f92c51a9f41526524693ffa97f233def697f344ecd1de94c494d3d80775b9"
+  },
+  "scope_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "release": {
+        "type": "choice",
+        "choice": "older_only",
+        "confidence": 0.97,
+        "probabilities": {
+          "older_only": 0.98,
+          "both_current": 0,
+          "corrupt": 0,
+          "other": 0.02
+        }
+      },
+      "boot": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "firmware_identity": {
+        "type": "choice",
+        "choice": "different",
+        "confidence": 1,
+        "probabilities": {
+          "different": 1,
+          "same": 0,
+          "unknown": 0
+        }
+      },
+      "native_verdict": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 689,
+      "output_tokens": 121
+    }
+  },
+  "receipts_sha256": {
+    "verified-q6.json": "7cc316b45e5f3d774be4b25970469ab9a8ae8e6c5781ed86f5adb7d15fdd8fd8",
+    "protected-old-q6.json": "510501249f73e4045819a397ee9d98a902d2da66858846af7957a39ce2b40332",
+    "pair-identities.json": "7f444bd9608c071150d4d2aeccba7663ee9888006f50233f91f9b4ea52e145e8",
+    "host-regressions-q6.log": "ba811e6962573a4f83e025dc4b6801097d853a9e6429eb940384d29183be74f2",
+    "validate.py": "15a201885964099f013d7e5a143a7d2b630c10933eabc78fd7232fd8ecdf7299",
+    "validate_q5.py": "7b57c3ce21c6c505a3beab6eaef2ccea869ea426d4495af22b2fc6e153730406",
+    "validate_q6.py": "9dee00ada7095e45ec4b84b4db889ff8a53136c02bfb393cbd336e76f8b59e70",
+    "pairs.py": "9e03a755949a415f632dca27d5e64ac1821192f51728fcba4cb995c3b0ca067b",
+    "seal.py": "3540e5b7c4febf53227e69d0c45005418af6a3bf017e9dd5f73154a9f4d9c5ee",
+    "live-observation.json": "a03d4258fdac7eec39e08f20cc8bacacbbec23c437a0807664b22a05a401d2f1",
+    "jev-final-result.json": "fda0d0687c4e2906a78b5999c71879b2f5c918c3cfddf5ceea8d8ef6e61dd5b3"
+  }
+}

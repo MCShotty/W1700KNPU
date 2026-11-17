@@ -206,6 +206,37 @@ def producer_context(frozen, record, args, context):
         context[key] = name
 
 
+def verify_world_image(build_name, source_lock_sha256, combined):
+    args = [sys.executable, '-u', '-B', str(ROOT / 'tools/verify_merged_image.py'), '--name', build_name + '-image']
+    if combined is not None:
+        args += ['--module-receipt', combined['receipt'], '--expected-producer-sha256', combined['receipt_sha256']]
+    verify = subprocess.run(args, stdin=subprocess.DEVNULL)
+    if verify.returncode != 0:
+        raise RuntimeError(f'World image verifier exited {verify.returncode}')
+    path = WORK / (build_name + '-image/result.json')
+    image = json.loads(path.read_bytes())
+    if image.get('passed') is not True or image.get('source_lock_sha256') != source_lock_sha256:
+        raise ValueError('World image verification receipt or source lock mismatch')
+    if combined is not None:
+        binding = image.get('packaged_module_provenance')
+        if (image.get('pinned_module_bytes_verified') is not True or not binding
+                or binding.get('matches') is not True or binding.get('mismatches') != []
+                or binding.get('producer') != combined['receipt'] or binding.get('producer_sha256') != combined['receipt_sha256']
+                or binding.get('source_lock_sha256') != source_lock_sha256):
+            raise ValueError('World image lacks an exact binding to its selected four-module producer')
+        expected = {Path(name).name: value for name, value in combined['artifacts'].items()}
+        rows, selected = binding.get('modules', {}), image.get('selected_modules', {})
+        if len(expected) != 4 or rows.keys() != expected.keys() or selected.keys() != expected.keys():
+            raise ValueError('Incomplete world image module binding')
+        for name, linked_hash in expected.items():
+            actual, row = selected[name].get('sha256'), rows[name]
+            if (not isinstance(actual, str) or not re.fullmatch(r'[0-9a-f]{64}', actual)
+                    or row.get('matches') is not True or row.get('linked_sha256') != linked_hash
+                    or row.get('actual_packaged_sha256') != actual or row.get('expected_packaged_sha256') != actual):
+                raise ValueError(f'World image module binding disagrees for {name}')
+    return image, path
+
+
 def output_root(args):
     selected = getattr(args, 'output_root', None)
     if selected is None:
@@ -260,6 +291,7 @@ def inner(args):
     else:
         import npu_world_sources
         module_receipt = context.get('module_receipt')
+        combined = None
         if module_receipt is not None:
             producer_path = npu_world_sources.relative_file(ROOT, module_receipt)
             combined = npu_world_sources.linked_module_sources(ROOT, producer_path)
@@ -303,12 +335,7 @@ def inner(args):
         assert digest(BUILD / '.config') == digest(ROOT / 'firmware/build.config'), 'world-config-drift'
         prepared_sources = npu_world_sources.verify(BUILD,ROOT,lock,provider,consumer,
             module_sources=combined if module_receipt is not None else None)
-        verify = subprocess.run([sys.executable, '-u', '-B', str(ROOT / 'tools/verify_merged_image.py'),
-            '--name', build_name + '-image'], stdin=subprocess.DEVNULL)
-        assert verify.returncode == 0, ('world-image-verification-failed', verify.returncode)
-        image_path = WORK / (build_name + '-image/result.json')
-        image = json.loads(image_path.read_bytes())
-        assert image['passed'] is True and image['source_lock_sha256'] == context['source_lock_sha256']
+        image, image_path = verify_world_image(build_name, context['source_lock_sha256'], combined)
         result = dict(passed=True, proof=proof, world_build=True, image_verification=image,
             critical_kernel_modules_and_RV32_cleaned=True, prepared_sources_verified=prepared_sources,
             image_verification_receipt=str(image_path.relative_to(ROOT)), image_verification_sha256=digest(image_path),
@@ -399,6 +426,8 @@ def main():
     child.add_argument('--context', required=True)
     child.add_argument('--probe-only', action='store_true')
     args = parser.parse_args()
+    if not __debug__:
+        parser.error('World verification requires Python assertions enabled (no -O or PYTHONOPTIMIZE)')
     if not re.fullmatch('[a-z][a-z0-9-]{0,39}', args.name): parser.error('Invalid result name')
     if args.mode == 'run':
         if args.module_receipt is not None and (args.provider_receipt is not None or args.mt76_receipt is not None):

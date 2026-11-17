@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Keep Native And Image Gates Separate
+
+Continue observing invocation 61e2d7b8 without restarting it. Neither inspected
+sysupgrade contains the current modules or RV32 pair. After native validation,
+the fresh image still needs a combined-producer world build, exact packaged
+module and firmware checks, then separately authorized board/client acceptance.
+[Image evidence](../research/checkpoints/2026-11-18-npu-fit-provenance/REPORT.md).
+
 ## 2026-11-18 - Verify The New Whole-Recipe Result
 
 Fresh invocation 61e2d7b8 began from reset on source 6c18c51. Observe that
