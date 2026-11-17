@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Raw Replay From Reset
+
+New invocation 61e2d7b8 was observed with guard 120993, wrapper 121006 and
+driver 121014/start ticks 598332. All 345 current/retained inputs verified.
+No old profile data is counted and no full verdict is claimed.
+[Start receipt](../research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Current FW-TXP Arguments Verified
 
 Producer b5af9591 binds the corrected radio module cb1d9f0f and three

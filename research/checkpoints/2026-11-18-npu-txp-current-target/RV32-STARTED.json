@@ -1,0 +1,120 @@
+{
+  "source_commit": "6c18c51ca144701369843723dc15f0a57d88f3b7",
+  "source_tree": "bda26e01293614a551e7731f2eed07456c32dce0",
+  "qualified_runtime_input_count": 330,
+  "private_plan_input_count": 345,
+  "cap_bytes": 419430400,
+  "swap_bytes": 0,
+  "C_output_reserve_bytes": 536870912,
+  "outer_timeout_hours": 14,
+  "raw_boot_limits": {
+    "instructions": 3000000,
+    "time_us": 10000000
+  },
+  "per_RPC_limits": {
+    "instructions": 100000000,
+    "time_us": 60000000,
+    "unique_blocks": 16384
+  },
+  "observation": {
+    "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "expected_boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "observed_unix_ns": 1794945249691777500,
+    "whole_run_pass": false,
+    "status": "live",
+    "unit": {
+      "LoadState": "loaded",
+      "ActiveState": "activating",
+      "SubState": "start",
+      "InvocationID": "61e2d7b8caed4f76bd9b5e61c55b02db",
+      "Restart": "no",
+      "TimeoutStartUSec": "14h",
+      "MainPID": "120993",
+      "ControlGroup": "/system.slice/w1700k-npu-rv32-20261118-full-a.service",
+      "MemoryCurrent": "357052416",
+      "CPUUsageNSec": "155217735000",
+      "MemoryMax": "419430400",
+      "MemorySwapMax": "0"
+    },
+    "processes": {
+      "guard": {
+        "pid": 120993,
+        "ppid": 1,
+        "start_ticks": 597958,
+        "cpu_ticks": 730
+      },
+      "wrapper": {
+        "pid": 121006,
+        "ppid": 120993,
+        "start_ticks": 598007,
+        "cpu_ticks": 262
+      },
+      "driver": {
+        "pid": 121014,
+        "ppid": 121006,
+        "start_ticks": 598332,
+        "cpu_ticks": 13077
+      }
+    },
+    "driver_cpu_delta": 263,
+    "retained_and_active_hashes_verified": 345,
+    "observed_profiles": [
+      {
+        "profile": 0,
+        "complete_positive_lines": 141,
+        "publications": 1,
+        "summary_exists": false
+      }
+    ]
+  },
+  "windows_wait_client": {
+    "pid": 5292,
+    "creation_unix_ms": 1794945119895,
+    "unit": "w1700k-npu-rv32-20261118-full-a.service"
+  },
+  "source_and_readonly_copies_verified": 345,
+  "prior_results_stitched": false,
+  "whole_run_verdict": null,
+  "hardware": false,
+  "physical_retirement": false,
+  "private_receipts": {
+    "plan.json": "8739afe217d75e010d91a5d9fbde0170ecb096a6879ccc26069ab60406fdaec0",
+    "guard.py": "89a426004ab8735e85cc1822ab4a8b409ed79a2695a29d15370e53e1c213efc4",
+    "full.py": "03111e334b964ed6d028c24bd30feeae9181f9aa55b2fa136c66c7b5b4faa2a0",
+    "prepare.py": "09c161760e601090dc05009af87c18918e9c2d40f362693aa0691da185339241",
+    "terminal.py": "16d6f684d41758b5c1c0318f8b6f6c2a198720bba8205fb001686b8d1ec4d055",
+    "observe.py": "c5636e87ea1582a61274b3e488e30b0e1c548f3bd444a67811f549ca74975e6c",
+    "initial-live.json": "17cd02b1299d8abf947fd409294c5826f72d3fbba359694691a51801a73df9e1",
+    "full-a-started.json": "ea737f5bb47c3a2e7b10178290ad7fb20f83a689e31ad4ca80d13cb6e4945f43",
+    "prepared.json": "f3077e33666962b09d41ccb36864d44bbbcfcab4cc48b55c7cd1e6dea54b410e"
+  },
+  "jev_scope": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "evidence": {
+        "type": "choice",
+        "choice": "equivalence",
+        "confidence": 0.91,
+        "probabilities": {
+          "equivalence": 0.93,
+          "complete": 0,
+          "physical": 0,
+          "other": 0.07
+        }
+      },
+      "stitch": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "terminal": {
+        "type": "noul",
+        "noul": 0.07
+      }
+    },
+    "usage": {
+      "input_tokens": 501,
+      "output_tokens": 85
+    }
+  }
+}

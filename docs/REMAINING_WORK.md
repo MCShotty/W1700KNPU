@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Verify The New Whole-Recipe Result
+
+Fresh invocation 61e2d7b8 began from reset on source 6c18c51. Observe that
+exact job and independently verify its own three profiles and terminal result;
+do not start another. The first 141 positive records are progress only. Keep
+345 inputs frozen and Ethernet disconnected. Physical and client gates remain.
+[Start receipt](../research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Target Qualified; Full RV32 Replay Next
 
 The current FW-TXP module build, eight compiled helper suites and 15 wider

@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Fresh Firmware Replay Started
+
+A new three-profile RV32 invocation started from reset on the verified inputs.
+It reached the first publication in profile 0; this is not a 19,261-RPC verdict
+or a router test. [Start receipt](research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Current MT7996 Module Verified
 
 The AArch64 radio module now passes all 90 FW/MAC descriptor DMA argument

@@ -1,5 +1,13 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Fresh RV32 Invocation Dispatched
+
+Observe unit w1700k-npu-rv32-20261118-full-a.service, invocation 61e2d7b8,
+via `.local/npu-rv32-fresh-20261118/observe.py`. Verify the actual handle
+and terminal receipt; do not restart on a polling timeout. All 345 bound
+inputs have read-only copies; no competing compiler/replay or bound edits.
+The initial 141 records are a prefix only. [Start receipt](research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Use The Qualified FW-TXP Producer
 
 Use producer b5af9591 (420 inputs), not the pre-fix 92c75156, for current

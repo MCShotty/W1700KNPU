@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Fresh RV32 Replay Dispatch
+
+Confirmed the actual new process tree, retained inputs and first publication.
+The full 19,261-RPC verdict is still open. Do not restart the unit or substitute
+October's partial results. [Start receipt](../research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Post-Boot Module Qualification
 
 Verified the fresh module build, corrected a register-specific token fixture

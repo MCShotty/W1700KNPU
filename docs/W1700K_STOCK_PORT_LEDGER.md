@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - New RV32 Full Run Observed
+
+Source 6c18c51, new invocation 61e2d7b8. The guard/wrapper/driver and CPU
+advance verified; 330 runtime inputs match the qualified pair and all 345
+plan inputs have matching read-only copies. Initial profile 0 had 141 positive
+records and one publication. No final verdict, hardware or physical drain.
+[Start evidence](../research/checkpoints/2026-11-18-npu-txp-current-target/RV32-STARTED.json).
+
 ## 2026-11-18 - Compiled FW-TXP Fix And Current Lifetime Regressions
 
 - Fresh AArch64 producer b5af9591, 420 inputs. Radio cb1d9f0f changed; provider
