@@ -1,5 +1,15 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Current Status After Audit
+
+The October replay and dependent build queue are no longer running. Two
+emulated profiles completed; the third has 251 recorded RPCs but no verdict.
+The current DMA fix still needs a fresh target build. The audit corrected
+artifact restoration and the Wi-Fi test source, verified both release bundles,
+and reclaimed 1.06 GiB of local cache and Git duplicates. No router was touched.
+See the [audit](docs/maintenance/audit-20261118/REPORT.md) and
+[remaining work](docs/REMAINING_WORK.md). Earlier dated entries are historical.
+
 ## 2026-10-27 - Compiled MT7996 TXS And Status Ownership
 
 The retained MT7996 TXS parser and kernel-backed packet-status lifecycle now pass

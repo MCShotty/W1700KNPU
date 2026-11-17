@@ -1,5 +1,17 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Start From A Verified New Cohort
+
+The October replay and target queue were interrupted without a terminal
+receipt. Do not wait for them, restart their launchers, or combine profiles.
+First verify the C-backed scratch bind, marker, both free-space budgets and
+writer lock. Then qualify fresh target modules for the FW-TXP fix, run the
+correct-contract and regression suites (including token/IDR/status), and get a
+complete three-profile/19,261-RPC verdict from one qualified invocation.
+Keep every old artifact. Consumer ownership, physical drain, BA reuse/hot
+lifecycle and image/board/client gates remain open; Ethernet stays disconnected.
+See the [audit](maintenance/audit-20261118/REPORT.md).
+
 ## 2026-10-27 - Finish The Same Third Native Profile
 
 Original full-q16/20c8f1ab has completed profiles0/1 and entered profile2.

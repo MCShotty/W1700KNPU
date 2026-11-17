@@ -1,5 +1,14 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Offline Audit Supersedes Live Status
+
+The original full-q16 job and its dependent controller are gone. Saved
+profiles 0/1 have 6,421 positive RPCs each. Profile 2 has 251 positive records
+but no summary or terminal verdict. No new target build was found. The scratch
+data exists on the separate C-backed volume; the old Ubuntu path was unmounted.
+Follow the [audit](maintenance/audit-20261118/REPORT.md) before new work. No
+firmware, physical acceptance or router state changed.
+
 ## 2026-10-27 - Two Native Profiles Complete; Third Running
 
 The same original full-q16/20c8f1ab has completed profiles0/1 and entered

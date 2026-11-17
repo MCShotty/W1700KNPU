@@ -1,0 +1,296 @@
+{
+  "audit": "W1700K offline workspace and evidence audit",
+  "parent": "973ac20396acdb95811bf12718d5b8d5c0e9a56c",
+  "report_sha256": "59a36702a298316004b8090618c18a3dde0abf2d4d7ab0995cda8139f53f5ee4",
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "production_firmware_changed": false,
+  "storage_remounted": false,
+  "image_built": false,
+  "router_accessed": false,
+  "repository": {
+    "tracked": 2543,
+    "tracked_json": 947,
+    "split_archives": {
+      "research/history-20260905.tar.gz.parts.json": {
+        "parts": 13,
+        "bytes": 214780145,
+        "sha256": "c4726e4acdde800a4d6a167870e4a03af67c25e130220008a819e271459ac0b7"
+      },
+      "research/legacy-npu/mt76-daybreak19-source.tar.gz.parts.json": {
+        "parts": 2,
+        "bytes": 22282907,
+        "sha256": "e521759d4a5450fb4004f997c5c1c0cc762facad20064de091be5a01eee27c06"
+      },
+      "research/stock/WXK001-05.00.30.82.bin.parts.json": {
+        "parts": 3,
+        "bytes": 44331008,
+        "sha256": "33b3f9238ba18c2b7f49a1f174692357e078afa57f96b0c09abf63b3ed052051"
+      }
+    },
+    "imported_artifacts": 127,
+    "release_checksum_rows": {
+      "Daybreak21-R1": 31,
+      "V6.87-rollback": 82
+    },
+    "checkpoint_directories": 160,
+    "checkpoint_reports": 150,
+    "checkpoint_evidence_files": 49,
+    "explicit_report_hashes_verified": 16,
+    "active_doc_relative_links": 116,
+    "missing_active_links": []
+  },
+  "checkpoint_binding_groups": {
+    "2026-10-27-npu-consumer-dma-native/private_artifacts": [
+      55,
+      55
+    ],
+    "2026-10-27-npu-consumer-rxtx-native/private_artifacts": [
+      105,
+      105
+    ],
+    "2026-10-27-npu-kernel-idr-native/private_artifacts": [
+      39,
+      39
+    ],
+    "2026-10-27-npu-native-memory-hook/retained_artifacts": [
+      360,
+      360
+    ],
+    "2026-10-27-npu-native-observer-reentry/retained_artifacts": [
+      279,
+      279
+    ],
+    "2026-10-27-npu-native-profile-progress/private_artifacts": [
+      15,
+      15
+    ],
+    "2026-10-27-npu-native-publication-profile/retained_artifacts": [
+      82,
+      82
+    ],
+    "2026-10-27-npu-tx-status-native/private_artifacts": [
+      94,
+      94
+    ],
+    "2026-10-27-npu-tx-token-native/private_artifacts": [
+      53,
+      53
+    ],
+    "2026-10-27-npu-txp-dma-decode/private_artifacts": [
+      194,
+      194
+    ],
+    "2026-10-27-npu-txp-target-queue/private_artifacts": [
+      53,
+      53
+    ]
+  },
+  "checkpoint_artifact_declarations_verified": 1329,
+  "source_export": [
+    {
+      "component": "openwrt",
+      "base": "288d79449f622a37c727cb12e81e85dba822aecb",
+      "tracked_patched_tree": "da5ca5f79707ad0c7d081bfaad25bd57ac8a0d6d",
+      "changed_files_verified": 79,
+      "passed": true
+    },
+    {
+      "component": "luci",
+      "base": "d24568155976063c56ad001a0bd5d10ab4880f3e",
+      "tracked_patched_tree": "40fcfa52537326eaf6e8bb62a8d850fb4b901750",
+      "changed_files_verified": 5,
+      "passed": true
+    }
+  ],
+  "host_unit_tests": 208,
+  "host_unit_skips": 0,
+  "windows_restore": {
+    "passed": 5,
+    "skipped": 1,
+    "skipped_case": "dangling output link; Windows symlink privilege unavailable"
+  },
+  "wifi": {
+    "scope": "synthetic shell and browser fixtures",
+    "shell_cases": 63,
+    "shell_sha256": "8ad893d582ad04e3b93923747cf7aa52cf9a8a14ea5d8dd0d479cf6452a73604",
+    "regulatory_sha256": "04497f40bb5c774d985784ee920b682da16d6e8ae71d55778400477a7111b7d5",
+    "wireless_js_sha256": "9241e0549738d693d4b47b0af7651891c4ca776b3975e20ecd3b34a10c983ea2",
+    "form_js_sha256": "360a8c675c2d75aa11bc875e6627fa84ea53a891b844ee828a1d4a6e60ca4fb2",
+    "browser_states": 4,
+    "viewports": [
+      [
+        1280,
+        800
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "browser_receipt_sha256": "7f6016b8f4dd73cafd84e79c1b4035f7a11eb792af1bc4ac2bca61fcd5c1dc12"
+  },
+  "replay": {
+    "target_bindings": 454,
+    "native_bindings": 332,
+    "retained_bindings": 332,
+    "private_artifacts": 15,
+    "profiles": [
+      {
+        "profile": 0,
+        "lines": 6480,
+        "positive": 6421,
+        "operations": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "transcript_sha256": "72b15f0dc74138471bd3814107cf450e32af13ebb5b055401961011c1c413191",
+        "last_sequence": 6443,
+        "summary_sha256": "34b497b3b1fca2f377c0306972342afe32440080db1aaa7957b62d0e8d67b4e7"
+      },
+      {
+        "profile": 1,
+        "lines": 6433,
+        "positive": 6421,
+        "operations": {
+          "1": 1,
+          "2": 139,
+          "3": 129,
+          "4": 1,
+          "5": 2050,
+          "6": 2050,
+          "7": 2050,
+          "8": 1
+        },
+        "transcript_sha256": "1f53a0b06c68950fbe1091a4b0fcbbd149b8f3952a07359af7ca7551c6b366b5",
+        "last_sequence": 6444,
+        "summary_sha256": "408cd2fca7f71cfc9015a3552c888f896f112d297356c79b674c4fc7d462310b"
+      },
+      {
+        "profile": 2,
+        "lines": 253,
+        "positive": 251,
+        "operations": {
+          "1": 1,
+          "2": 137,
+          "3": 113
+        },
+        "transcript_sha256": "141ce1ebea5196c37522bbfe474905ef1b611ce792c8411b5fe52a1d78a7cfa1",
+        "last_sequence": 273
+      }
+    ],
+    "queue_complete_rows": 490,
+    "queue_non_newline_tail_bytes": 0,
+    "queue_zero_tail_bytes": 2076,
+    "queue_last_decision": "wait",
+    "queue_journal_sha256": "37de7da36c366ffc8e9d51e8b7c49ee7e02e2543a7160df92c5a5f5bcfed70f6",
+    "whole_run_verdict": null,
+    "fresh_target_build_evidence": false,
+    "new_emulation": false,
+    "hardware": false
+  },
+  "cleanup": {
+    "packed_duplicates_removed": 4038,
+    "pyc_removed": 89,
+    "empty_cache_dirs_removed": 6,
+    "ccache_bytes_reclaimed": 972025856,
+    "git_bytes_reclaimed": 168603648,
+    "pyc_blocks_removed": 1716224,
+    "refs_and_reflogs_unchanged": true
+  },
+  "verified_guest_allocated_bytes_removed": 1142345728,
+  "windows_host_reclaimed_bytes": null,
+  "git_fsck_after": {
+    "dangling_objects_retained": 25,
+    "integrity_errors": 0,
+    "prune_packable": 0
+  },
+  "orphan_scan": {
+    "active_entries": 2931,
+    "active_candidates": [],
+    "private_entries": 9431,
+    "private_candidates": []
+  },
+  "code_sha256": {
+    "tests/wifi/security_ui_fixture.py": "b929e3a812b3963232caef7cacc0402cc561a22e51118c8ae6206a842e4340e4",
+    "tests/wifi/test_security_validation.py": "e0bda1b152fcab05d14ff95a972da4a3931cd05167d37f67cbb4a3508adba7df",
+    "tools/migration/test_restore_artifact.py": "ed6fdf99bd0a204701e622df952d5208ee89cb9efe6843432af899dd2a25587f",
+    "tools/restore_artifact.py": "242d10b756dea2ac6531452c657889464e4cf0c33417e459fe17ae1bf3da9257"
+  },
+  "private_receipts_sha256": {
+    "checkpoint-bindings.json": "405c458085f61b502498a94f018b74351532c43909cfc98a49aca7c639cca1e6",
+    "cleanup-after.json": "f882fd84780d9cde477d69a971bde7da86233cb49ed09e1a0cfdda54f2f1a31a",
+    "cleanup-before.json": "f0fb9600cd41a253edbea42a0d1629a9e76847dee5fcadaa983c2a3f79b21342",
+    "cleanup.py": "e0d907a0dff9798248d3f948ab2a8c8bd4ad9c3b208e6c53f584de7fd939bfb6",
+    "export.json": "efdcbf91c9e318fa43520ebb80e85b90878526a183aa95ebdd423aa7e01cd437",
+    "fsck-after.log": "fbea051b60308a8dc05d19cec24a163304e5c0a9c2a469003766f749381c3261",
+    "host-units-final.log": "8ebd01cb02819b08592340af50653b927dfeb2e6c916f741fe69ad08d4630531",
+    "host-units.log": "0014316b3320030dd57d89d4e3b90eb189f06c22679756ad43c3e2fad9ac8d0f",
+    "jev-final-request.json": "f96ff8569ba42720f1a34582e0e148a07d986a690627070d5840ddb9dd66be38",
+    "jev-final.json": "8ef49fa9e0255484315d175e731e106ca005b7de4c2649f21213ef1249a1494e",
+    "jev-request.json": "514b5e55463f16960c1f371ce9f4ce23e8331c7f2cc23d5e350e8b7b12b69344",
+    "jev-result.json": "af2aca3fe112ad26643394e4313d8a03499019e0b9783f8fe3aeb291787a1521",
+    "original-unit.json": "fbf33f8b346a7e1dade4cfdf7add9eacb060851a846fd1ec82889a89d8897f3a",
+    "orphan-candidates.json": "c1d6cf5e9cd2c62ad72ac57e49b9f02dce1e2f1824e721df853477f28255a050",
+    "replay.json": "da1d743f49a31f179075004f3f4c3a277db1d79a792e313a35d4703bcf327a4d",
+    "replay_audit.py": "4d138e52163aee7801bbf7ba2bcfca3041ce59251ef1c2cad2106695d5bf814a",
+    "repository.json": "c8122ddfd34148cc614cce5873afdb9dde94abbf62813a48829c97e9745d6283",
+    "restore-windows.txt": "036274a4c941aacc638f541ca40696daf3f1e737bf7429e76fee4f65f4eb778c",
+    "ui-current.json": "9791acf4546603793c8bec1b666c2be03e11da2de2b2f9dd8e08c92e86dde6a6",
+    "ui-legacy.json": "68565dfd37ce3989c32891cc8468909cb65f8b222cb6b5cf35c3b67da29d47cd",
+    "ui.json": "68565dfd37ce3989c32891cc8468909cb65f8b222cb6b5cf35c3b67da29d47cd",
+    "wifi-current.json": "874c08a5415415b27c808076345cfed51eaa4e8d5670c1f411dc29980dccc954",
+    "wifi.json": "7d7472f41700cfbedc35ad7ac0da7cb608e680d4f33865cd29b1d81396f9cc88"
+  },
+  "jev_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "native": {
+        "type": "choice",
+        "choice": "partial",
+        "confidence": 0.99,
+        "probabilities": {
+          "partial": 0.99,
+          "whole": 0.01,
+          "physical": 0,
+          "other": 0
+        }
+      },
+      "capacity": {
+        "type": "choice",
+        "choice": "guest",
+        "confidence": 1,
+        "probabilities": {
+          "guest": 1,
+          "host": 0,
+          "both": 0,
+          "unknown": 0
+        }
+      },
+      "wifi_level": {
+        "type": "choice",
+        "choice": "fixture",
+        "confidence": 1,
+        "probabilities": {
+          "fixture": 1,
+          "router": 0,
+          "client": 0,
+          "other": 0
+        }
+      },
+      "windows_symlink": {
+        "type": "noul",
+        "noul": 0.09
+      }
+    },
+    "usage": {
+      "input_tokens": 745,
+      "output_tokens": 150
+    }
+  }
+}

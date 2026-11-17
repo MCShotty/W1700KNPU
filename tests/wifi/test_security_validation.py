@@ -13,8 +13,6 @@ from test_regulatory_channels import phy_map
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = Path('target/linux/airoha/an7581/base-files')
-SOURCE = ROOT / '.build/openwrt' / BASE / 'usr/sbin/w1700k-wireless-validate'
-HELPER = ROOT / '.build/openwrt' / BASE / 'usr/libexec/w1700k-wireless-regulatory'
 
 
 def config(devices, transition, *, disabled=False, encryption='owe'):
@@ -41,7 +39,7 @@ def config(devices, transition, *, disabled=False, encryption='owe'):
     return values
 
 
-def run(source, values, scratch):
+def run(source, values, scratch, helper):
     types = '\n'.join(f'{k}={v}' for k, v in values.items() if k.count('.') == 1)
     branches = '\n'.join(f'{shlex.quote(k)}) printf "%s\\n" {shlex.quote(v)} ;;'
                          for k, v in values.items())
@@ -54,7 +52,7 @@ def run(source, values, scratch):
     fixture = scratch / 'phy.txt'
     fixture.write_text(phy_map(1))
     env = dict(os.environ, W1700K_FUNCTIONS_LIB=str(library),
-               W1700K_REG_HELPER=str(HELPER), W1700K_IW_PHY_INFO_FILE=str(fixture), LC_ALL='C')
+               W1700K_REG_HELPER=str(helper), W1700K_IW_PHY_INFO_FILE=str(fixture), LC_ALL='C')
     env.pop('W1700K_IW_PHY_INFO_LOADED', None)
     env.pop('W1700K_IW_PHY_INFO', None)
     return subprocess.run(['sh', str(source)], env=env, text=True,
@@ -65,7 +63,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--before', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--build-root', type=Path, help='Override the source-lock build directory for historical QA')
     args = parser.parse_args()
+    build = args.build_root or ROOT / json.loads((ROOT / 'firmware/source-lock.json').read_bytes())['build_directory']
+    base = build.resolve() / BASE
+    source = base / 'usr/sbin/w1700k-wireless-validate'
+    helper = base / 'usr/libexec/w1700k-wireless-regulatory'
     rows = []
     with tempfile.TemporaryDirectory(prefix='w1700k-security-') as name:
         scratch = Path(name)
@@ -75,8 +78,8 @@ def main():
                 for disabled in [False, True]:
                     values = config(devices, transition, disabled=disabled)
                     expected = 1 if reject and not disabled else 0
-                    current = run(SOURCE, values, scratch)
-                    before = run(args.before, values, scratch)
+                    current = run(source, values, scratch, helper)
+                    before = run(args.before, values, scratch, helper)
                     assert not current.stdout and not before.stdout
                     assert 'unexpected-uci-command' not in current.stderr + before.stderr
                     assert current.returncode == expected, (devices, transition, disabled, current.stderr)
@@ -85,11 +88,12 @@ def main():
                     rows.append(dict(devices=devices, transition=transition, disabled=disabled,
                                      expected=expected, current=current.returncode, before=before.returncode))
         for devices in [[2], [1, 0], [1, 2, 0]]:
-            result = run(SOURCE, config(devices, 'ifname', encryption='sae'), scratch)
+            result = run(source, config(devices, 'ifname', encryption='sae'), scratch, helper)
             assert result.returncode == 0, result.stderr
             rows.append(dict(devices=devices, control='SAE ignores unused OWE fields', current=0))
     report = dict(cases=len(rows), failures=[], predecessor_failures=sum(r.get('expected', 0) for r in rows),
-                  source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+                  source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+                  helper_sha256=hashlib.sha256(helper.read_bytes()).hexdigest(),
                   predecessor_sha256=hashlib.sha256(args.before.read_bytes()).hexdigest(), results=rows,
                   scope='Complete shell validator and regulatory helper; synthetic read-only UCI/iw/board inputs')
     args.out.write_text(json.dumps(report, indent=2) + '\n')

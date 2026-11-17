@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Offline Workspace And Evidence Audit
+
+- Corrected stale live-job and queued-build guidance. Two completed emulated
+  profiles reverified; the third ends in a saved 251-RPC prefix with no verdict.
+  All 454 target, 332 native and 332 saved input bindings rehashed.
+- Fixed the restore tool's no-overwrite contract and the security fixtures'
+  default build tree. 208 host tests, 63 synthetic Wi-Fi cases and four browser
+  fixture states passed. Both rollback/release inventories and all split archives
+  verified. No fresh target firmware build or board/client evidence was added.
+- Removed 1,142,345,728 allocated bytes of verified cache and packed duplicates;
+  retained 25 dangling objects, calibration, recovery and research evidence.
+  See the [full audit and receipt](maintenance/audit-20261118/REPORT.md).
+
 ## 2026-10-27 - Original Native Profile 1 Completed
 
 - Original full-q16/20c8f1ab completed profiles0/1 and entered profile2 with

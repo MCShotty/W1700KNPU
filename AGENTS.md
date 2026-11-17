@@ -1,5 +1,14 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Resume After Interrupted Replay
+
+The October original and queue are not live. Keep their evidence; do not wait
+on PID17788, reuse that boot-bound plan, or claim a full pass. Profiles 0/1
+completed; profile 2 has 251 positive records and no final verdict. Before new
+writes, verify the actual C-backed scratch mount, marker, budgets and lock.
+Use a fresh invocation/output path. Keep Ethernet disconnected; no subagents.
+See [the audit and exact bindings](docs/maintenance/audit-20261118/REPORT.md).
+
 ## 2026-10-27 - Original Replay Now In Profile 2
 
 - Original full-q16/20c8f1ab has completed profiles0/1 and entered profile2;

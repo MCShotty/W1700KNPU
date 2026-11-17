@@ -8,13 +8,11 @@ from pathlib import Path
 from test_frequency_consumers import function
 
 ROOT = Path(__file__).resolve().parents[2]
-LUCI = ROOT / '.build/openwrt/feeds/luci'
 WIRELESS = Path('modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js')
-FORM = LUCI / 'modules/luci-base/htdocs/luci-static/resources/form.js'
+FORM = Path('modules/luci-base/htdocs/luci-static/resources/form.js')
 
 
-def program(source):
-    form = FORM.read_text()
+def program(source, form):
     start = form.index('\tupdateDefaultValue(section_id) {')
     end = form.index('\n\t},', start) + 3
     method = form[start:end].replace('\tupdateDefaultValue', 'function updateDefaultValue', 1)
@@ -30,11 +28,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--before', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--build-root', type=Path, help='Override the source-lock build directory for historical QA')
     args = parser.parse_args()
-    source = (LUCI / WIRELESS).read_text()
-    payload = dict(current=program(source), before=program(args.before.read_text()),
-                   source_sha256=hashlib.sha256((LUCI / WIRELESS).read_bytes()).hexdigest(),
-                   form_sha256=hashlib.sha256(FORM.read_bytes()).hexdigest())
+    build = args.build_root or ROOT / json.loads((ROOT / 'firmware/source-lock.json').read_bytes())['build_directory']
+    luci = build / 'feeds/luci'
+    source, form = (luci / WIRELESS).read_bytes(), (luci / FORM).read_bytes()
+    payload = dict(current=program(source.decode(), form.decode()), before=program(args.before.read_text(), form.decode()),
+                   source_sha256=hashlib.sha256(source).hexdigest(), form_sha256=hashlib.sha256(form).hexdigest())
     args.out.write_text(json.dumps(payload, indent=2) + '\n')
     print(args.out)
 

@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 
 parser = argparse.ArgumentParser()
@@ -11,8 +12,8 @@ parser.add_argument('--output', type=Path, required=True)
 args = parser.parse_args()
 manifest = args.manifest.resolve(strict=True)
 data = json.loads(manifest.read_text())
-output = args.output.resolve()
-if output.exists():
+output = args.output.parent.resolve() / args.output.name
+if output.exists() or output.is_symlink():
     raise SystemExit(f'Refusing to overwrite {output}')
 output.parent.mkdir(parents=True, exist_ok=True)
 partial = output.with_name(output.name + '.partial')
@@ -34,10 +35,13 @@ try:
             size += len(blob)
     if total.hexdigest() != data['sha256'] or size != data['bytes']:
         raise RuntimeError('Reassembled artifact mismatch')
-    partial.rename(output)
-except BaseException:
-    # Remove only the newly created partial, never an existing user artifact.
-    if created and partial.exists():
-        partial.unlink()
-    raise
+    # Windows rename refuses an occupied name; POSIX rename would replace it.
+    if os.name == 'nt':
+        partial.rename(output)
+        created = False
+    else:
+        output.hardlink_to(partial)
+finally:
+    if created:
+        partial.unlink(missing_ok=True)
 print(f'{data["sha256"]}  {output}')
