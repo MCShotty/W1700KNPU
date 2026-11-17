@@ -1,5 +1,13 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Verify The Backing Volume
+
+Ubuntu's registered C: path is a junction to D:. Use the corrected VHD/file
+volume probe. The C-backed scratch binds were restored on this boot; always
+recheck the UUID/marker, mounts, budgets, RAM and writer lock at launch. No
+new compiler or replay started. Use native Git for pack maintenance. See the
+[follow-up](docs/maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Resume After Interrupted Replay
 
 The October original and queue are not live. Keep their evidence; do not wait

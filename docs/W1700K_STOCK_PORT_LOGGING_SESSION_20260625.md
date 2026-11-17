@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Scratch And Git Follow-Up
+
+Verified both scratch bindings and the D: backing of the Ubuntu registry
+junction. Corrected disk budgeting and consolidated redundant Git packs using
+native Ubuntu Git. Fresh preflight passed; no target process was launched.
+[Follow-up](maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Workspace Audit And Cleanup
 
 Observed a different boot, no original replay processes and no terminal

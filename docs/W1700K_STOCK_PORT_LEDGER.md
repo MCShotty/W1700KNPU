@@ -1,5 +1,15 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Corrected Disk Admission And Restored Scratch
+
+- The old host probe budgeted C: for a VHD on D:. The fixed query resolves the
+  actual file and checks its volume. Both real distributions and 209 host tests
+  passed. Scratch mount/marker, point-in-time capacity and writer lock verified.
+- Repaired the Git multi-pack index and expired four verified redundant packs.
+  All 6,431 object identities and 25 dangling objects survived; net guest cleanup
+  is 1,879,097,344 bytes. No new target compile, replay, image or router contact.
+  [Storage and maintenance receipts](maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Offline Workspace And Evidence Audit
 
 - Corrected stale live-job and queued-build guidance. Two completed emulated

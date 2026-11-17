@@ -1,5 +1,12 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Scratch Reattached; New Build Still Pending
+
+Both C-backed scratch binds and the marker verified on this boot; the fixed
+budget probe resolved the Ubuntu junction to D:. Refresh those observations
+and the writer lock when preparing the **new** module plan. Do not use the
+expired October controller. [Preflight and scope](maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Start From A Verified New Cohort
 
 The October replay and target queue were interrupted without a terminal

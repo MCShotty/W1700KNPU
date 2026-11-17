@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Storage Follow-Up
+
+The build budget now checks the actual VHD volume, including directory
+junctions. Scratch access was restored and verified on this boot. Net local
+cleanup was **1.75 GiB**; the current FW-TXP target build is still pending.
+See the [follow-up](docs/maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Current Status After Audit
 
 The October replay and dependent build queue are no longer running. Two

@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Backing Volume Follow-Up
+
+Scratch access on C: was restored for this boot. Ubuntu's registered C: path
+actually resolves to D:; the budget tool now verifies the file's volume.
+Guest cleanup is 1.75 GiB net. No new firmware or physical result.
+[Follow-up](maintenance/audit-20261118/FOLLOWUP.md).
+
 ## 2026-11-18 - Offline Audit Supersedes Live Status
 
 The original full-q16 job and its dependent controller are gone. Saved

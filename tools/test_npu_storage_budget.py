@@ -78,7 +78,7 @@ class StorageBudgetTests(unittest.TestCase):
         argv = run.call_args.args[0]
         self.assertEqual(argv[:5], ['powershell.exe', '-NoLogo', '-NoProfile', '-NonInteractive', '-EncodedCommand'])
         script = base64.b64decode(argv[-1]).decode('utf-16le')
-        for text in ('Lxss', 'VhdFileName', 'Get-Volume', "-ceq 'Ubuntu'"):
+        for text in ('Lxss', 'VhdFileName', 'GetFinalPathNameByHandleW', 'Get-Volume -FilePath', "-ceq 'Ubuntu'"):
             self.assertIn(text, script)
         for text in ('Set-', 'Remove-', 'diskpart', 'wsl.exe', 'Format-', 'Resize-'):
             self.assertNotIn(text, script)
@@ -117,6 +117,14 @@ class StorageBudgetTests(unittest.TestCase):
                         dict(vhd_bytes=0)):
             with self.subTest(changed=changed), self.assertRaises(ValueError):
                 self.observe(host=self.host | changed)
+
+    def test_registry_junction_does_not_choose_the_budget_drive(self):
+        host = self.host | dict(registered_vhd_path=r'C:\redirect\Ubuntu\ext4.vhdx')
+        observed = self.observe(host=host)
+        self.assertEqual(observed['host']['drive'], 'D')
+        self.assertEqual(observed['host']['vhd_path'], self.host['vhd_path'])
+        with self.assertRaises(ValueError):
+            self.observe(host=host | dict(drive='C'))
 
     def cli(self, root, observation, output, command):
         argv = ['npu_storage_budget.py', '--output', str(output)]

@@ -40,12 +40,35 @@ $vhd = Get-Item -LiteralPath (Join-Path $base $name)
 if ($vhd.PSIsContainer -or $vhd.Extension -ine '.vhdx' -or $vhd.Length -le 0) {
     throw 'Missing WSL backing disk'
 }
-$path = $vhd.FullName -replace '^\\\?\\', ''
+# FileInfo.FullName keeps the spelling of a registry path, including junctions.
+# Open for metadata only; WSL may already have the VHD open for data access.
+Add-Type -Namespace W1700K -Name VhdPath -MemberDefinition @'
+[System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, ExactSpelling=true, SetLastError=true)]
+private static extern Microsoft.Win32.SafeHandles.SafeFileHandle CreateFileW(string path, uint access, uint share, IntPtr security, uint mode, uint flags, IntPtr template);
+[System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, ExactSpelling=true, SetLastError=true)]
+private static extern uint GetFinalPathNameByHandleW(Microsoft.Win32.SafeHandles.SafeFileHandle file, System.Text.StringBuilder path, uint capacity, uint flags);
+public static string Resolve(string path) {
+    // Zero desired access, share read/write/delete, OPEN_EXISTING; follow links.
+    using (var file = CreateFileW(path, 0, 7, IntPtr.Zero, 3, 0, IntPtr.Zero)) {
+        if (file.IsInvalid) throw new System.ComponentModel.Win32Exception();
+        var text = new System.Text.StringBuilder(32768);
+        uint size = GetFinalPathNameByHandleW(file, text, (uint)text.Capacity, 0);
+        if (size == 0) throw new System.ComponentModel.Win32Exception();
+        if (size >= text.Capacity) throw new System.IO.IOException("Final VHD path too long");
+        return text.ToString();
+    }
+}
+'@
+$final = [W1700K.VhdPath]::Resolve($vhd.FullName)
+if (-not $final.StartsWith('\\?\', [StringComparison]::Ordinal)) { throw 'Unexpected final path format' }
+$path = $final.Substring(4)
 if ($path -notmatch '^[A-Za-z]:\\') { throw 'Unsupported backing-volume path' }
 $drive = $path.Substring(0,1).ToUpperInvariant()
-$volume = Get-Volume -DriveLetter $drive
-if ($volume.HealthStatus -ne 'Healthy') { throw 'Backing volume is not healthy' }
-[ordered]@{ distro=$row.DistributionName; vhd_path=$path; vhd_bytes=[long]$vhd.Length;
+$volumes = @(Get-Volume -FilePath $vhd.FullName)
+if ($volumes.Count -ne 1 -or [string]$volumes[0].DriveLetter -ine $drive -or
+    $volumes[0].HealthStatus -ne 'Healthy') { throw 'Backing volume identity or health mismatch' }
+$volume = $volumes[0]
+[ordered]@{ distro=$row.DistributionName; registered_vhd_path=$vhd.FullName; vhd_path=$path; vhd_bytes=[long]$vhd.Length;
     drive=$drive; free_bytes=[long]$volume.SizeRemaining; total_bytes=[long]$volume.Size } |
     ConvertTo-Json -Compress
 '''.replace('__DISTRO__', distro)

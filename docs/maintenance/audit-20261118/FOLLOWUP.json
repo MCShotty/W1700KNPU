@@ -1,0 +1,91 @@
+{
+  "parent": "ba4cdc32608f8d0453a8c959765d5acc1d96e861",
+  "report_sha256": "3f7242840d119b1eaafb37ef2ab4d1b68f5f5ad0db784a437b854fea7398488f",
+  "files": {
+    "tools/npu_storage_budget.py": "61b8b6126d5135aa157c4c7caa62b6c0a0ee5a01c97457154e16275bf84f3e2a",
+    "tools/test_npu_storage_budget.py": "97ff1cd74c43ea7d6d6b3b845325d1e8c1490bce8725b7f8f74a6c095a41522d"
+  },
+  "git": {
+    "native_git_index_verified": true,
+    "all_objects_verified": true,
+    "unique_objects": 6431,
+    "inventory_sha256": "3f322ea6f454970dcaff011599eccd3ae4f64d898991c9ece0a4fc12fa8066b5",
+    "dangling_set_unchanged": 25,
+    "refs_reflogs_stashes_worktrees_unchanged": true,
+    "expired_packs": [
+      "pack-019696529c497e649774ec3415919f3fa84e14a2",
+      "pack-4604ad2c00a9665ee49a00c782cea33bd9862dad",
+      "pack-995f81fa55f6ee982cdc872219a962eccd829b0c",
+      "pack-e0e22bf45359173d91b1a2c9813739c5ec9bccd9"
+    ],
+    "remaining_packs": 5,
+    "all_cruft_retained": true,
+    "additional_packed_loose_removed": 365,
+    "guest_object_bytes_before": 1450930176,
+    "guest_object_bytes_after": 358449152,
+    "guest_object_bytes_reduction": 1092481024
+  },
+  "net_guest_bytes_reclaimed": 1879097344,
+  "windows_host_bytes_reclaimed": null,
+  "unit_tests": 209,
+  "unit_skips": 0,
+  "storage_tests": 19,
+  "ubuntu_vhd_registry_drive": "C",
+  "ubuntu_vhd_verified_drive": "D",
+  "scratch_vhd_verified_drive": "C",
+  "scratch_uuid": "b0b1bc48-d684-4090-a8cf-1ecb2939c36d",
+  "storage_marker_sha256": "88204019cf6b25344f75c97fdca80954018427519f8d023c46edb7490a9e2ebf",
+  "preflight": {
+    "observed_unix_ns": 1794941774710876400,
+    "D_host_free": 20055011328,
+    "C_host_free": 92138512384,
+    "D_guest_free": 860921344000,
+    "C_guest_free": 1005335547904,
+    "D_estimated_bytes": 3288334336,
+    "C_estimated_bytes": 2684354560,
+    "linux_available_RAM": 6974451712,
+    "writer_lock_available": true,
+    "writer_launched": false,
+    "capacity_reserved": false
+  },
+  "private_receipts_sha256": {
+    "git-native-before.json": "fecd402a6da968f3d75db3ea8486f1bc0a48d1e24ef7fdd209b9770b7e292b74",
+    "git-native-after.json": "a4aaea68bff8ca03e6fd409781de275079b4de3e93100c607a0016ddfbd02d77",
+    "budget-real-volumes.json": "bb4043a8e998e3f9af185041a3c21acf50b5d7664b8ca66844150ae518a6daee",
+    "budget-units.log": "285a78b55e37e499badc077055ca203c3cddd2bc08f619516c4c0bbf3794e644",
+    "host-units-storage.log": "52ba888b4730851390ee564c6669f112068539360898f690a42a683d9a1bf276",
+    "fresh-preflight.json": "6c2881a480120f2f350acee4768d1fb8e51b68737968608fd2ab237e12547ff4",
+    "jev-storage-request.json": "53558036471fadac71fb4b30212e291fdeff15623d397f92eabb42411e73c222",
+    "jev-storage-result.json": "1a74f7bc6930f4d1e67bdba908a00a4c3e0313271e8c81a9873499ba044be35c"
+  },
+  "jev": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "backing": {
+        "type": "choice",
+        "choice": "D",
+        "confidence": 0.64,
+        "probabilities": {
+          "D": 0.76,
+          "C": 0.14,
+          "unknown": 0.1
+        }
+      },
+      "net": {
+        "type": "noul",
+        "noul": 0.11
+      },
+      "target": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 538,
+      "output_tokens": 72
+    }
+  },
+  "new_target_build": false,
+  "new_full_native_verdict": false,
+  "physical_acceptance": false
+}
