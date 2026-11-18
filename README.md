@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Ethernet QDMA Retention Staged
+
+The combined source bundle retains published rings and packet backing
+through uncertain teardown. Eleven modeled cases and a relocatable
+AArch64 Ethernet object passed. No production module or board test yet.
+[Checks and handoff](research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
+
 ## 2026-11-18 - PPE Table Retention Staged
 
 The next source bundle keeps exposed PPE tables through uncertain teardown.

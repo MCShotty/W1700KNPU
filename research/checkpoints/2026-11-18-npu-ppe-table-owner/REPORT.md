@@ -47,6 +47,9 @@ python3 -B tests/npu/verify_ppe_table_owner.py --check --cross
 
 ## Next Build
 
+The [later combined variant](../2026-11-18-npu-qdma-owner/REPORT.md) includes
+QDMA. This section records the unchanged `coherent-ppe-a` substack.
+
 `coherent-ppe-a` stages the PPE change together with the already checked
 coherent provider, pool binding, board DTS and mt76 changes. The private
 stager reapplied the final series, verified all postimages, and rebuilt the

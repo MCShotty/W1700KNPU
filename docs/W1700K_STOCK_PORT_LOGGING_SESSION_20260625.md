@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Ethernet QDMA Owner Staged
+
+The combined source bundle now includes retained QDMA backing and a
+scoped stop-timeout gate. The frozen run is independent and still
+compiling. No production Ethernet module, image or board action.
+[Checks](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
+
 ## 2026-11-18 - PPE Table Retention And Baseline Compile
 
 The original baseline user unit is compiling. The combined successor

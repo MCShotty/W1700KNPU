@@ -1,11 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Keep Exposed QDMA Backing
+
+After sealing the frozen baseline, use the verified combined source bundle
+`coherent-ppe-qdma-a`. Ordinary host idle checks only gate TX cleanup;
+teardown retains exposed rings and mappings. Eleven modeled cases and the
+relocatable Ethernet object passed, not a production module or board.
+[QDMA patch, scope and handoff](research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
+
 ## 2026-11-18 - Keep The PPE Table Owner
 
-Use the verified `coherent-ppe-a` source bundle after sealing the frozen
-baseline, not the earlier `coherent-a` substack. It adds W1700K PPE table
-retention; 9 modeled cases and 2 AArch64 objects passed. No linked Ethernet
-module, FIT or physical retirement yet.
+The original `coherent-ppe-a` source bundle adds W1700K PPE table
+retention; 9 modeled cases and 2 AArch64 objects passed. The current
+combined bundle also includes QDMA. No production Ethernet module,
+FIT or physical retirement yet.
 [Owner and bundle](research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 
 ## 2026-11-18 - Observe The Frozen Baseline World

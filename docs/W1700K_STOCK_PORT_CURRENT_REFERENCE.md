@@ -1,11 +1,19 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Staged Ethernet QDMA Owner
+
+The W1700K source keeps exposed backing across failed probe and detach.
+The host idle check scopes ordinary TX cleanup; timeout parks the engine.
+Use `coherent-ppe-qdma-a` after sealing the frozen baseline.
+Only a relocatable Ethernet object was built with this change.
+[Cases, limitations and bundle](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
+
 ## 2026-11-18 - Staged PPE Table Owner
 
 The W1700K table owner retains each exposed DMA allocation across detach.
 There is no positive PPE or QDMA retirement witness. The source bundle
 `coherent-ppe-a` was rechecked, and two isolated AArch64 objects built.
-Use its lock only after the compiling frozen baseline is sealed.
+The current combined bundle also includes the QDMA owner.
 [Exact inputs and scope](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 
 ## 2026-11-18 - Frozen Baseline World In Progress

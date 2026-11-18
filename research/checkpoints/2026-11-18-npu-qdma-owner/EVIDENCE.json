@@ -1,0 +1,76 @@
+{
+  "baseline_config_sha256": "e6fee1dd3dd98757e104798fd4c8301a752d01ce9604e2583683b0586adcc4e3",
+  "board_run": false,
+  "cross_compile": {
+    "address_space_limit_bytes": 402653184,
+    "compiler_sha256": "7f770a9b898c9c2ffce1bea614e10a520d0ee55f2dfcc3b6d9a35d9da76e06d4",
+    "debugfs": {
+      "command_sha256": "725d854a96fa38324ce3edb5a1332dd29bbac9a53e666ac7af3d0db95f6c27dc",
+      "sha256": "3fee3ac201c9db3e762100da37a41b6fec37b9e07cfc85d7861fba6c8c6a0ff7"
+    },
+    "objects": {
+      "airoha_eth": {
+        "command_sha256": "3aef3fed96915ac87830ca0607832a90dedb14c8d3064ed1802281ab9bc9d7e4",
+        "sha256": "ef0ef197e9041c7ad9ce1edcf71947124397c9470303483bf4c00a551d6371b9",
+        "text_sha256": "ef3992da5dacca15fc24381d63e367bf0c9088294c618341f3d970c1d4f5b6d1"
+      },
+      "airoha_ppe": {
+        "command_sha256": "d0d1c792311038aff4a71f43851d59e7b9f3d44d32b05c7006725fcfa1bb540b",
+        "sha256": "279f24d519cab22fabc8ff786f85637589804f75f9d9e4c76067dae0a500d9bd",
+        "text_sha256": "9630f9c5eb3cac443b67163bbf240158888bd3c3720f99d1ad1ea29285ce9bae"
+      }
+    },
+    "relocatable_aggregate": {
+      "linker_sha256": "ece7e3272f489f2fc72135d3214aff88353b3f811c125d8de7ac12c48871a67e",
+      "resolved": [
+        "airoha_ppe_prepare_dma",
+        "airoha_ppe_debugfs_init",
+        "airoha_dev_xmit",
+        "airoha_qdma_release_owner",
+        "airoha_remove",
+        "airoha_probe"
+      ],
+      "sha256": "ff5dc4d0defe79b06b69cbeb148c82d4e19fcf893c34b8d3939e9f074b6e65c5"
+    }
+  },
+  "fit_built": false,
+  "full_module_built": false,
+  "native": {
+    "cases": 11,
+    "controls": [
+      "release-published-engine",
+      "bypass-owner-guard",
+      "publish-before-mark",
+      "allow-unknown-readback",
+      "forced-cleanup-after-timeout",
+      "release-published-rx-pages",
+      "stale-bql-owner"
+    ],
+    "extracted_sha256": "07b8e50951e5942988c37009b1e32a0e6a9d7f658345f19040e72cd626fec0f4"
+  },
+  "original": {
+    "airoha_eth.c": "6979a3f1f7b283f67d1b3616597f53b946c1a4058e0ab40017b2ab45167c605e",
+    "airoha_eth.h": "7f98889723402a832bba31420a892fd7275b6f0ef130df9358815f8de514bc39"
+  },
+  "patch_sha256": "af37a9452873d9e3f03a63c8e8854b4dbc3bab3e4fddd7d3c5d57dd6030755bf",
+  "patched": {
+    "airoha_eth.c": "8da5b66c7872233f676a4f0cfabf38180c024cc9863cc3ce0b043debe4f2f76a",
+    "airoha_eth.h": "f341c3c165d83f58b509f82294ea2b3561fefdeac31113851e02b3975f9bf3b8"
+  },
+  "physical_retirement_proven": false,
+  "schema": "w1700k-qdma-owner-v1",
+  "source_contracts": [
+    "bounded_host_idle_before_forced_cleanup",
+    "close_keeps_packet_data_and_disarms_bql",
+    "exclusive_skb_header_at_map",
+    "hardware_forwarding_has_own_base",
+    "migration_joins_old_tx_before_bql_reset",
+    "no_zero_register_as_idle",
+    "parked_engine_cannot_restart_or_accept_tx",
+    "probe_owns_before_reset",
+    "probe_unwinds_with_owner",
+    "publish_before_queue_access",
+    "published_port_pages_owned",
+    "remove_parks_before_unregister"
+  ]
+}

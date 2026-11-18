@@ -31,6 +31,9 @@ class HandoffTests(unittest.TestCase):
         with_ppe = handoff.derive_lock(original, {"added": b"candidate"}, with_ppe=True)
         self.assertNotEqual(with_ppe["snapshot"], result["snapshot"])
         self.assertEqual(with_ppe["openwrt"], result["openwrt"])
+        with_qdma = handoff.derive_lock(original, {"added": b"candidate"}, with_qdma=True)
+        self.assertNotEqual(with_qdma["snapshot"], with_ppe["snapshot"])
+        self.assertEqual(with_qdma["openwrt"], with_ppe["openwrt"])
         with self.assertRaisesRegex(ValueError, "already owns"):
             handoff.derive_lock(original, {"base": b"different"})
 

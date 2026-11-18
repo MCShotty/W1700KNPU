@@ -5,18 +5,19 @@
 The original terminal replay is verified and the unchanged capsule is
 compiling with the pinned combined producer. Verify the live unit's
 terminal world result and seal its exact FIT bytes. Only then switch to
-the verified `coherent-ppe-a` source delta and rebuild its modules.
+the verified `coherent-ppe-qdma-a` source delta and rebuild its modules.
 [World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
 ## 2026-11-18 - Qualify PPE And Ethernet Retirement
 
-The staged W1700K source keeps exposed PPE tables across detach and
-does not release them on the deinit ACK. Verify the linked Ethernet
-module and bind it to the next selected FIT alongside the existing
-modules. The Ethernet QDMA timeout still reaches TX cleanup. Separately
-gate its actual queue backing, including removal. Neither proves
-Wi-Fi or remote NPU retirement.
+The staged W1700K source retains exposed PPE tables and QDMA backing
+across detach. A host QDMA timeout now parks the affected engine rather
+than freeing its TX mappings. Verify the production Ethernet module in
+the next selected FIT and test probe unwind, open/close and shared-port
+migration. Independently qualify hardware retirement. Neither retained
+owner establishes Wi-Fi or remote NPU retirement.
+[Staged QDMA ownership](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
 [Staged table ownership](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 [Binary evidence and limits](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
 
@@ -31,8 +32,8 @@ Wi-Fi fallback and offload. Physical DMA retirement is still open.
 The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
 measure actual cold consumption and validate exhaustion on the linked build.
 [Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
-The coherent and PPE changes are staged with one verified source lock.
-Use the [combined handoff](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md)
+The coherent, PPE and QDMA changes share one verified source lock.
+Use the [combined handoff](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md)
 after the frozen gates pass. The derived lock requires fresh linked modules.
 
 ## 2026-11-18 - Qualify Checked DMA Ownership

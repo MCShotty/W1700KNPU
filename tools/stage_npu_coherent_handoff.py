@@ -22,6 +22,7 @@ CHECKPOINTS = ROOT / "research/checkpoints"
 WINDOW = CHECKPOINTS / "2026-11-18-npu-coherent-window"
 PACKET = CHECKPOINTS / "2026-11-18-npu-packet-owner"
 PPE_OWNER = CHECKPOINTS / "2026-11-18-npu-ppe-table-owner"
+QDMA_OWNER = CHECKPOINTS / "2026-11-18-npu-qdma-owner"
 KDIR = "target/linux/airoha/patches-6.18"
 MDIR = "package/kernel/mt76/patches"
 DT = "target/linux/airoha/dts/an7581-w1700k-ubi.dts"
@@ -117,7 +118,8 @@ def apply_series(target, patch_dir, selected):
     return re.findall(r"^Applying .*/([^/ ]+) using plaintext: ", text, re.M)
 
 
-def rehearse(component, source, order, expected_pre, expected_post, scratch, upstream_overrides):
+def rehearse(component, source, order, expected_pre, expected_post, scratch, upstream_overrides,
+             prerequisites):
     target = scratch / component
     legacy = scratch / (component + "-integrated-patch")
     series = scratch / (component + "-patches")
@@ -142,14 +144,19 @@ def rehearse(component, source, order, expected_pre, expected_post, scratch, ups
     require(apply_series(target, legacy, "*") == order[:1], "wrong integrated patch applied")
     for name in sorted(legacy_paths | late_paths):
         require(digest(target / name) == expected_pre[name], f"integrated {component} preimage differs: {name}")
-    require(apply_series(target, series, "*") == order[1:], "wrong late patch order")
+    applied = []
+    for patch in order[1:]:
+        require(all(digest(target / name) == sha for name, sha in prerequisites.get(patch, {}).items()),
+                "wrong intermediate preimage for " + patch)
+        applied.extend(apply_series(target, series, patch))
+    require(applied == order[1:], "wrong late patch order")
     post = {name: digest(target / name) for name in sorted(legacy_paths | late_paths)}
     require(post == {name: expected_post.get(name, expected_pre[name]) for name in post},
             f"final {component} postimages differ")
     return dict(patch_order=order, baseline_outputs_checked=len(legacy_paths), postimages=post)
 
 
-def derive_lock(lock, additions, *, with_ppe=False):
+def derive_lock(lock, additions, *, with_ppe=False, with_qdma=False):
     result = copy.deepcopy(lock)
     rows = result["openwrt"]["changed_files"]
     existing = {row["path"] for row in rows}
@@ -157,8 +164,8 @@ def derive_lock(lock, additions, *, with_ppe=False):
             "prepared lock already owns a candidate path")
     rows.extend(dict(path=name, sha256=sha_bytes(data), mode="0o644") for name, data in additions.items())
     rows.sort(key=lambda row: row["path"])
-    result["snapshot"] = ("nonoc-merged-coherent-ppe-20261118" if with_ppe
-                          else "nonoc-merged-coherent-window-20261118")
+    variant = "ppe-qdma" if with_qdma else "ppe" if with_ppe else "window"
+    result["snapshot"] = f"nonoc-merged-coherent-{variant}-20261118"
     return result
 
 
@@ -191,7 +198,7 @@ def check_staging(parent_lock, new_lock, additions, scratch):
     return prepared, {**proof, "copied": sorted(proof["copied"]), "stale_aggregates_refreshed": stale}
 
 
-def prepare(producer, pin, *, with_ppe=False):
+def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
     require(__debug__ and digest(producer) == pin, "unverified producer")
     checked = linked_module_sources(ROOT, producer)
     window = read_json(WINDOW / "EVIDENCE.json")
@@ -204,14 +211,22 @@ def prepare(producer, pin, *, with_ppe=False):
     kernel, = (BUILD / "build_dir").glob(f"target-*/linux-airoha*/linux-{baseline['kernel']}")
     protected = {ROOT / SOURCE_LOCK, BUILD / DT, kernel / BINDING, BUILD / "scripts/patch-kernel.sh"}
     protected.update(p / name for name in OLD_PATCHES.values() for p in (ROOT / OV, BUILD))
-    ppe = read_json(PPE_OWNER / "EVIDENCE.json") if with_ppe else None
+    ppe = read_json(PPE_OWNER / "EVIDENCE.json") if with_ppe or with_qdma else None
+    qdma = read_json(QDMA_OWNER / "EVIDENCE.json") if with_qdma else None
     ppe_patch = PPE_OWNER / "airoha-ppe-table-owner.patch"
+    qdma_patch = QDMA_OWNER / "airoha-qdma-owner.patch"
     ppe_dir = "drivers/net/ethernet/airoha"
     if ppe is not None:
         require(set(ppe["original"]) == set(ppe["patched"]) ==
                 {"airoha_eth.c", "airoha_eth.h", "airoha_ppe.c"}, "unexpected PPE owner paths")
         protected.update(relative_file(kernel, f"{ppe_dir}/{n}") for n in ppe["original"])
         protected.update((kernel / ".config", ppe_patch))
+    if qdma is not None:
+        require(set(qdma["original"]) == set(qdma["patched"]) == {"airoha_eth.c", "airoha_eth.h"}
+                and all(sha == ppe["patched"][name] for name, sha in qdma["original"].items())
+                and qdma["baseline_config_sha256"] == ppe["baseline_configuration"]["config_sha256"],
+                "QDMA patch is not based on the staged PPE sources")
+        protected.add(qdma_patch)
     protected_before = {p: digest(p) for p in protected}
     expect = {row["path"]: row["sha256"] for row in baseline["openwrt"]["changed_files"]}
     require(digest(BUILD / DT) == window["preimages"][DT] and
@@ -226,11 +241,17 @@ def prepare(producer, pin, *, with_ppe=False):
             late = dict(NEW_PATCHES[group])
             pins = dict(window["patch_sha256"])
             overrides = {}
+            prerequisites = {}
             if group == "kernel" and ppe is not None:
                 late[f"{KDIR}/9999-w1700k-ppe-table-owner.patch"] = ppe_patch
                 pins[ppe_patch.name] = ppe["patch_sha256"]
                 require(protected_before[kernel / ".config"] ==
                         ppe["baseline_configuration"]["config_sha256"], "unverified PPE configuration")
+                if qdma is not None:
+                    qdma_name = "9999-w1700k-qdma-owner.patch"
+                    late[f"{KDIR}/{qdma_name}"] = qdma_patch
+                    pins[qdma_patch.name] = qdma["patch_sha256"]
+                    prerequisites[qdma_name] = {f"{ppe_dir}/{f}": sha for f, sha in qdma["original"].items()}
             order = check_order(BUILD / Path(old).parent, Path(old).name, [Path(p).name for p in late])
             paths = {Path(n).name: p for n, p in {old: old_file, **late}.items()}
             require(all(digest(p) == pins[p.name] for p in late.values()), "staged patch drift")
@@ -246,9 +267,11 @@ def prepare(producer, pin, *, with_ppe=False):
                         overrides[name] = relative_file(kernel, name)
                         pre[name] = sha
                         post[name] = ppe["patched"][file]
+                if qdma is not None:
+                    post.update((f"{ppe_dir}/{f}", sha) for f, sha in qdma["patched"].items())
             else:
                 post = packet["postimages"]["mt76"]
-            proof[group] = rehearse(group, paths, order, pre, post, scratch, overrides)
+            proof[group] = rehearse(group, paths, order, pre, post, scratch, overrides, prerequisites)
             additions.update((n, p.read_bytes()) for n, p in late.items())
 
         dtree = scratch / "dts"
@@ -260,7 +283,7 @@ def prepare(producer, pin, *, with_ppe=False):
         run(["git", "apply", "--whitespace=error-all", dt_patch], dtree)
         require(digest(updated) == window["postimages"][DT], "DTS postimage differs")
         additions[DT] = updated.read_bytes()
-        derived = derive_lock(baseline, additions, with_ppe=with_ppe)
+        derived = derive_lock(baseline, additions, with_ppe=with_ppe, with_qdma=with_qdma)
         prepared, staging = check_staging(baseline, derived, additions, scratch)
         dts_dir = Path(DT).parent
         overlay_dts = run(["cpp", "-x", "assembler-with-cpp", "-nostdinc", "-undef", "-D__DTS__",
@@ -320,11 +343,13 @@ def main():
     parser.add_argument("--producer", type=Path, required=True)
     parser.add_argument("--producer-sha256", required=True)
     parser.add_argument("--ppe-table-owner", action="store_true", help="include the staged W1700K PPE owner")
+    parser.add_argument("--qdma-owner", action="store_true", help="include the staged PPE and QDMA owners")
     args = parser.parse_args()
     try:
         out = bundle_path(args.name or args.check)
         require(not args.name or not out.exists(), "bundle already exists")
-        files, receipt = prepare(args.producer, args.producer_sha256, with_ppe=args.ppe_table_owner)
+        files, receipt = prepare(args.producer, args.producer_sha256,
+                                 with_ppe=args.ppe_table_owner, with_qdma=args.qdma_owner)
         if args.name:
             publish(out, files, receipt)
         check_published(out, files, receipt)

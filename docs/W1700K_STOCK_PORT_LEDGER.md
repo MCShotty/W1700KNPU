@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage The Ethernet QDMA Owner
+
+- Bound the five address publication sites and made probe unwind and
+  removal retain exposed backing. Host timeout now parks that engine;
+  ordinary close still requires an initialized, idle host readback.
+- Verified 12 source contracts, 11 modeled cases and 7 negative controls.
+  Three AArch64 objects formed a relocatable Ethernet aggregate. No
+  production Ethernet module, FIT or physical DMA result.
+- Rehearsed combined source bundle `coherent-ppe-qdma-a` with lock
+  `365f303e` and receipt `f3bd466b`. Baseline `1137136a` stayed on its
+  original lock and continued compiling. Router untouched.
+  [Exact patch and receipts](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
+
 ## 2026-11-18 - Stage The W1700K PPE Table Owner
 
 - Confirmed stats are off in the retained config; the initial replay
