@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - RRO Release Senders And Queue Completion
+
+- Recovered the stock group-0/0x55 queue table binding and nonwaiting branch;
+  the callback clears the return register after calling the actual sender.
+- Verified 12/8 stock versus 14/10 current command/TLV bytes against both
+  host ELFs. The current sender matches pinned upstream; receiver policy
+  and a BA generation fence are still unproven.
+- Added an offline saved-capture decoder; 250 host tests and six independent
+  binary controls passed. No driver, image, active replay input or hardware
+  change. [Evidence](../research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - World Inputs And First Replay Profile
 
 - Fixed an unbounded capsule hash and the world verifier reading a replaced

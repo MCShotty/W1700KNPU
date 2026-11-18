@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - RRO Release Wire Reference
+
+Stock `40c8f974` and qualified radio `cb1d9f0f` use CID 0x57, tag 6
+and a two-byte session ID at offset 8, but send 12 and 14 bytes respectively.
+No current receiver result or reusable BA identity follows from either body.
+[Reference and limits](../research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - Current World Input Snapshot
 
 Source `28abea8`, snapshot `3d166089`, module producer `b5af9591`: 420

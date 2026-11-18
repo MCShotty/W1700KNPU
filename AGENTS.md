@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Keep RRO Sender And Receiver Evidence Separate
+
+Stock emits a 12-byte release body; qualified mt76 emits 14 bytes. A stock
+enqueue return is not a radio ACK, and a matching current generic result is
+not a BA reuse fence. Do not change padding or release an owner based on this.
+[Binary checks and saved-capture decoder](research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - Use The Frozen Producer View
 
 World inputs for source `28abea8` are frozen in capsule `3d166089`. Resolve

@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Stock Queue And Radio Wire Check
+
+Compared both compiled senders and recovered the stock queue/callback result
+boundary. The current carrier was identified but not executed. No contact,
+flash or competing replay. [Results](../research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - World Input And Retention Audit
 
 Verified the current producer through an unshadowed snapshot, reproduced the

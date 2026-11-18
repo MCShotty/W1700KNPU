@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Radio Session Release
+
+The stock and merged radio drivers send different lengths for the same RRO
+session-release command. An offline decoder now distinguishes them in saved
+captures. Neither encoding has been validated against the July receiver here.
+[Comparison and command examples](research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - Build Inputs Verified
 
 The current drivers and firmware inputs have a verified offline snapshot.

@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Establish The Radio Release Contract
+
+Stock sends body/TLV 12/8; current upstream-derived mt76 sends 14/10.
+Keep current behavior until there is receiver evidence for the matching WM
+build. A single generic result does not prove delayed BA events are excluded
+or physical retirement is complete. The separate RV32 and image gates remain.
+[What to capture and what it proves](../research/checkpoints/2026-11-18-npu-rro-release-wire/REPORT.md).
+
 ## 2026-11-18 - Inputs Ready, World Not Run
 
 Profile 0 passed its independent artifact check; profiles 1 and 2 still need
