@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Radio Idle Poll Outcome
+
+Checked the stock PCI registration, missing traffic callback and radio PDMA
+stop outcome through token exit. The linked current reset's pre-cleanup sleep
+is not an idle check. Four in-memory controls pass; original replay inputs stay
+frozen. [Trace](../research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+
 ## 2026-11-18 - Offline FIT Seal
 
 Checked publication controls and the selected bytes of two existing FITs

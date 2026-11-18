@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Radio DMA Stop
+
+The stock PCI teardown does not gate token cleanup on radio DMA idle.
+The current linked radio's reset path also lacks a checked idle result before
+queue cleanup. [Reproducible stop trace](research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+
 ## 2026-11-18 - Offline Candidate Sealing
 
 The local release gate now ties the exact built FIT to the completed RV32

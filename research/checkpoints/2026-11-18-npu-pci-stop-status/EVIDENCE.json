@@ -1,0 +1,59 @@
+{
+  "current": {
+    "cleanup_disable_then_release_calls": [
+      ".text+0x5e14",
+      ".text+0x5e1c"
+    ],
+    "enable_idle_poll_call": ".text+0x479c",
+    "module_sha256": "cb1d9f0f4e0f1187f17b5a722c007e1d5b14c0ec6e2e4669e200e8f52d98429b",
+    "producer": ".local/npu-build-scratch/native-c2/fw-txp-20261118-modules-a/modules/result.json",
+    "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+    "reset_sleep_then_tx_cleanup_calls": [
+      ".text+0x5b70",
+      ".text+0x5b94"
+    ]
+  },
+  "schema": 1,
+  "scope": "pinned host instructions and static PCI registration; no live bus or DMA observation",
+  "stock": {
+    "bus_started_bit_cleared_before_dispatch": true,
+    "bus_stop_callback_status_checked": false,
+    "pci_traffic_stop": {
+      "has_relocation": false,
+      "return": -95,
+      "slot": ".data+0x138"
+    },
+    "pdma_stop": {
+      "busy_mask": 1,
+      "entry": ".text+0xcc4",
+      "idle_return": 0,
+      "maximum_busy_samples": 101,
+      "missing_accessor_can_return": 0,
+      "pci_bar_idle_register": "0xd7044",
+      "timeout_return": 1,
+      "timeout_still_runs_interrupt_shutdown": true
+    },
+    "teardown_calls": {
+      "device_stop": [
+        "0xc650",
+        "0xc658",
+        "0xc660"
+      ],
+      "ge_dma_token_disable": [
+        "0xcf40",
+        "0xcf4c",
+        "0xcf54"
+      ],
+      "order": [
+        "mtk_bus_stop_device",
+        "mtk_bus_exit_device",
+        "mtk_tk_exit"
+      ]
+    }
+  },
+  "stock_sha256": {
+    "mt7990.ko": "502cd4b1ddab60b5a23a0d4d904f49ddae795dfa09154d70b63f933add323f81",
+    "mtk_hwifi.ko": "6d82ba02d96d638da9e80592a63e31c09d2f8603620066b604c1702d1171c8f7",
+    "mtk_pci.ko": "c71b2073eeb2498c05c5e42bb5ceaf3df664cff42bf0b0740eb6152458e0857b"
+  }
+}

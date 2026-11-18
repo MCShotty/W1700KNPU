@@ -1,5 +1,15 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Check Stop Results Before Releasing Owners
+
+The static stock PCI route reaches a radio PDMA poll but ignores its timeout,
+and its separate traffic-stop slot has no callback. The current built mt7996
+checks the same idle field only on enable and sleeps before reset queue
+cleanup. Define a scoped radio idle result and retain affected resources if
+it fails or cannot be observed. A passing poll does not cover HIF2, WED,
+or the independent SoC NPU without further evidence. The complete resource
+retention contract is still open. [Stop trace and tests](../research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+
 ## 2026-11-18 - Finish The Replay Before Sealing
 
 The independent sealer is implemented and tested. To use it, require the

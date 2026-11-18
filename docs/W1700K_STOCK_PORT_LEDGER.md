@@ -1,5 +1,18 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Radio PDMA Stop Status Trace
+
+- Closed the registration and callback route for stock MT7990 PCI: no
+  alternate-operations callback, an unsupported traffic stop, and a separate
+  `0xd7044` bit-0 poll. The poll's timeout logs, still runs interrupt shutdown
+  and returns 1. Neither examined teardown caller gates token exit on it.
+- Rehashed and checked producer `b5af9591`: reset sleeps before queue
+  cleanup; the checked-field poll is on enable. The ELF verifier and four
+  mutation controls pass. No driver or bound input changed, and no physical
+  quiescence is inferred. [Report and receipt](../research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+- Invocation `61e2d7b8` remains live; 345 inputs verified, profile 1 prefix
+  4,215 positive records with no summary. No new build or flash.
+
 ## 2026-11-18 - Replay-To-Image Sealer
 
 - Added a local no-overwrite release gate for the world receipt, replay

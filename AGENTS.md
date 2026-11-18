@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Treat Radio Idle As A Scoped Result
+
+The stock PCI traffic-stop slot is empty; stock PDMA timeout is discarded
+before token cleanup. The linked mt7996 reset sleeps before cleanup and its
+same-field idle poll is on enable. Do not retire shared memory on any of
+these observations alone. [Binary evidence](research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+
 ## 2026-11-18 - Seal Only The Replayed FIT Bytes
 
 After the original terminal pass and a successful fresh combined world, use

@@ -1,5 +1,14 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Radio Stop Status
+
+Stock PCI registration leaves the traffic-stop slot empty. The separate
+PDMA stop samples radio BAR0 `0xd7044` bit 0, but timeout still runs the common
+shutdown and the bus wrapper discards its status before token exit. The
+linked mt7996 module samples that field on enable, not before reset cleanup.
+This is host code evidence, not DMA retirement or a live board result.
+[Bindings and check commands](../research/checkpoints/2026-11-18-npu-pci-stop-status/REPORT.md).
+
 ## 2026-11-18 - Offline Image Acceptance
 
 The sealer binds a pinned complete world and the original terminal RV32
