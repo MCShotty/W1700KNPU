@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - PPE And Ethernet Stop Scope
+
+The exact initial replay table selects the PPE handler that always
+returns success after configuration cleanup. The prepared Ethernet
+module discards its return; the separate QDMA timeout still reaches
+TX cleanup. No physical retirement established.
+[Reproduce](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - Coherent Window Candidate
 
 The saved FITs both lack a named NPU coherent pool. The replacement kernel

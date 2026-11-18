@@ -1,5 +1,14 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Qualify PPE And Ethernet Retirement
+
+Do not treat the PPE deinit ACK as a drain result. Its firmware path has no
+polling cycle, the Ethernet caller discards its status, and the separate
+QDMA timeout still reaches TX cleanup. Keep PPE table and Ethernet queue
+backing owned until their own retirement checks succeed, including
+removal; neither proves Wi-Fi or remote NPU retirement.
+[Binary evidence and limits](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - Qualify The Coherent DMA Window
 
 Account for the original terminal replay and frozen image first. Then use

@@ -1,0 +1,104 @@
+{
+  "firmware": {
+    "checked_cfg": {
+      "0x84005eae": {
+        "calls": [
+          "0x84008c94"
+        ],
+        "end": "0x84005ebe",
+        "reachable_instructions": 7,
+        "returns": [
+          "0x84005ebc"
+        ]
+      },
+      "0x840075d6": {
+        "calls": [],
+        "end": "0x8400762c",
+        "reachable_instructions": 31,
+        "returns": [
+          "0x8400761a",
+          "0x8400762a"
+        ]
+      },
+      "0x84007c08": {
+        "calls": [],
+        "end": "0x84007e6c",
+        "reachable_instructions": 197,
+        "returns": [
+          "0x84007d94",
+          "0x84007e30"
+        ]
+      },
+      "0x84008c94": {
+        "calls": [
+          "0x840075d6",
+          "0x84007c08"
+        ],
+        "end": "0x84008f6e",
+        "reachable_instructions": 231,
+        "returns": [
+          "0x84008e70",
+          "0x84008ee0"
+        ]
+      }
+    },
+    "deinit_handler": "0x84005eae",
+    "executed_on_board": false,
+    "ghidra_export_sha256": "098da31821148eddb15d68d5d0c7b9cb889c03a5f2e1282f0b31e33aafbebcb9",
+    "initial_deinit_slot": "0x3e900134",
+    "inputs": {
+      ".local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair/CODE.bin": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+      ".local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair/DATA.bin": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+      ".local/npu-build-scratch/native-c2/native-memory-hook-pair-q9/pair/manifest.json": "d0eddf16148c9a087bc299d166c242649314f8f86c2a4e7d0451baeb35d7209a",
+      ".local/npu-quiescence/firmware/en7581_MT7996_npu_data.bin": "61a75afb052feed2ceb2f3023e16f50317c05c78f9c8e564bf01924ce39c7ec1",
+      ".local/npu-quiescence/firmware/en7581_MT7996_npu_rv32.bin": "e743d1b59a9ca6d043e38ff71075e8d28702a104b94abb17a4035514efda4643"
+    },
+    "operation": [
+      5,
+      1,
+      2
+    ],
+    "registration_hook_resume": "0x84003f32",
+    "replay_plan_sha256": "8739afe217d75e010d91a5d9fbde0170ecb096a6879ccc26069ab60406fdaec0",
+    "reply_constant": 1,
+    "unchanged_spans": {
+      "0x84003cd6": {
+        "end": "0x84003e46",
+        "sha256": "bc09dcfce72582bcc6348506dc2f42940481949b176d65756ed3295fcc5d4ae7"
+      },
+      "0x84005eae": {
+        "end": "0x84005ebe",
+        "sha256": "875e47b71732ad2afc0501d59fe1a8a208401b8206bce64f90eb3f2c20f09136"
+      },
+      "0x840060a8": {
+        "end": "0x84006170",
+        "sha256": "418b6257916480d524aa8d5d1878e4928dca8e90bc5caff6f83fcc36685f9346"
+      },
+      "0x840075d6": {
+        "end": "0x8400762c",
+        "sha256": "1958cab128e1c318d5c12a6c667c9479a32404e1eaaf5f3c23bde440b02dcafc"
+      },
+      "0x84007c08": {
+        "end": "0x84007e6c",
+        "sha256": "b2651750a54be3511135837522aac65bfb59dc9c484a515b21121c648b6971a2"
+      },
+      "0x84008c94": {
+        "end": "0x84008f6e",
+        "sha256": "5ae392c5453a4780413fee93b4399f95f85fc14294629aea76643ade47b3ddd9"
+      }
+    }
+  },
+  "host": {
+    "eth_source_sha256": "8b884862cbfce17d0e515334a90f143aad549819dbdc6c7d5f9e8baae5ac9517",
+    "locked_npu_provider_sha256": "7162cec0d0483d5f2228aed5fc794b389fd68b8451b325b0c4b25d04e67c8544",
+    "ppe_result_discarded": true,
+    "ppe_source_sha256": "476ccc884f0a66ae35ffa2b8535d587fe9b697b0654877b8a9c114615def6f03",
+    "prepared_ethernet_sha256": "dc9e5cdcd738811160725ba049cc44e24f674d5b59e08be1b772332dd551c12c",
+    "qdma_busy_mask": "0xa",
+    "qdma_timeout_reaches_tx_cleanup": true,
+    "same_as_newly_linked_candidate_proven": false
+  },
+  "physical_ppe_tunnel_drain_proven": false,
+  "physical_qdma_retirement_proven": false,
+  "schema": 1
+}

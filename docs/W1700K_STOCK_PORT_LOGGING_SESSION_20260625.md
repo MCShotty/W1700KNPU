@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - PPE Stop Evidence
+
+The retained binary routes distinguish configuration ACK from physical
+drain. Ethernet QDMA has its own idle poll, but timeout still reaches
+TX cleanup. No module load, target contact or change to the replay.
+[Trace and limits](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - Coherent Pool Candidate
 
 The default DTBs in both saved images lack a low coherent pool. The staged

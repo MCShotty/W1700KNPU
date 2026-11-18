@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - PPE And Ethernet DMA Stop
+
+PPE's firmware ACK does not report drain, and Ethernet QDMA's timeout
+still reaches TX cleanup. Firmware and linked-module checks establish the
+scope. [Evidence and remaining work](research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - NPU Coherent DMA Window
 
 Both saved FITs lack a dedicated NPU coherent pool. The staged W1700K

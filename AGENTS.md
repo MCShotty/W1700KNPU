@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Keep PPE And QDMA Retirement Separate
+
+PPE deinit returns a constant firmware ACK; the retained Ethernet module
+discards provider status. Its Ethernet QDMA busy-timeout path also reaches
+TX cleanup. Neither is a shared DMA drain witness. Keep buffer release
+gated. [Exact firmware and module checks](research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - Use The Coherent Window Stack
 
 The staged W1700K DTS reserves a low coherent pool, and the replacement

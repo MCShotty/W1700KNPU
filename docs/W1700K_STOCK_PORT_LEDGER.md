@@ -1,5 +1,15 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Trace The PPE And QDMA Stop Routes
+
+- Decoded the PPE table, startup hook and deinit callees in the original
+  replay pair. The deinit handler's closed four-function graph has no
+  polling cycle and returns constant success.
+- Confirmed the retained Ethernet module discards the provider's PPE
+  result. Its separate QDMA busy timeout rejoins normal TX cleanup.
+  Hardware retirement and retention across that release path are open.
+  [Exact binary checks](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
+
 ## 2026-11-18 - Rehearse The Coherent Source Handoff
 
 - The prepared directory's kernel and mt76 aggregate copies were stale.
