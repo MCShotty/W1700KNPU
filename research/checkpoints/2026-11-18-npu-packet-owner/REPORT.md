@@ -1,5 +1,8 @@
 # Keep the checked consumer's DMA backing through host detach
 
+The [coherent window stack](../2026-11-18-npu-coherent-window/REPORT.md)
+supersedes the provider patch below. Its mt76 half is unchanged.
+
 The exact [older queue-owner patch](../2026-11-18-npu-consumer-queue-owner/REPORT.md)
 reacquires `dev->mutex` inside the queue allocator. The bound
 `mt76_npu_rx_queue_init` holds that same mutex across `queue_ops->alloc`.

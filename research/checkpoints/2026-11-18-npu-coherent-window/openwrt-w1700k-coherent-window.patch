@@ -1,0 +1,31 @@
+diff --git a/target/linux/airoha/dts/an7581-w1700k-ubi.dts b/target/linux/airoha/dts/an7581-w1700k-ubi.dts
+index d312d8e..7d260c9 100644
+--- a/target/linux/airoha/dts/an7581-w1700k-ubi.dts
++++ b/target/linux/airoha/dts/an7581-w1700k-ubi.dts
+@@ -27,6 +27,16 @@
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
++	reserved-memory {
++		npu_dma: npu-dma-pool {
++			compatible = "shared-dma-pool";
++			size = <0x0 0x01000000>;
++			alignment = <0x0 0x01000000>;
++			alloc-ranges = <0x0 0x80000000 0x0 0x40000000>;
++			no-map;
++		};
++	};
++
+ 	keys {
+ 		compatible = "gpio-keys";
+ 
+@@ -303,6 +313,9 @@
+ };
+ 
+ &npu {
++	memory-region = <&npu_binary>, <&npu_pkt>, <&npu_txpkt>,
++			<&npu_txbufid>, <&npu_ba>, <&npu_dma>;
++	memory-region-names = "binary", "pkt", "tx-pkt", "tx-bufid", "ba", "dma";
+ 	status = "okay";
+ };
+ 

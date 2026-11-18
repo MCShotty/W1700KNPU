@@ -1,5 +1,19 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage Low NPU Coherent Memory
+
+- Both saved FITs select DTB `8ad1b262`, with no named coherent pool.
+  Added a W1700K-only low pool reservation and required valid provider
+  attachment before mailbox allocation. The existing exposed owner keeps
+  the attachment; streaming DMA is unchanged.
+- Three new patches apply to exact 6.18.52 and OpenWrt preimages. The DTB
+  compiled with only baseline warnings and preserved all five old NPU
+  carveouts. Both historical FITs fail the new check. The replacement
+  provider includes the old ownership work; keep the same mt76 patch.
+- No kernel or image build, router contact, or flash. Physical retirement
+  and client coverage remain open.
+  [Changes and evidence](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Stage Checked Packet Owner
 
 - Reproduced the old staged RX allocator's recursive mutex acquisition.

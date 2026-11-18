@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Coherent Window Candidate
+
+The saved FITs both lack a named NPU coherent pool. The replacement kernel
+provider and W1700K DTS enforce the low window and keep pool attachment
+with exposed buffers. Firmware and streaming mappings are unchanged.
+The standalone DTB passed; no kernel, FIT or board qualification yet.
+[Exact patch stack](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Checked Packet Owner Candidate
 
 The replacement pair covers the inspected checked detach through pool,

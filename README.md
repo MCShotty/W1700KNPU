@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - NPU Coherent DMA Window
+
+Both saved FITs lack a dedicated NPU coherent pool. The staged W1700K
+device tree reserves 16 MiB in the EN7581 window, and the provider keeps
+the pool while firmware may still own allocations. The standalone tree
+passed; the kernel, FIT, and board are not yet qualified.
+[Replacement stack and checks](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Packet DMA Retention
 
 The staged replacement fixes allocator lock order, keeps checked packet

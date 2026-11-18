@@ -1,0 +1,322 @@
+diff --git a/drivers/net/ethernet/airoha/airoha_npu.c b/drivers/net/ethernet/airoha/airoha_npu.c
+index 8bd509a..4385592 100644
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -13,8 +13,11 @@
+ #include <linux/of_net.h>
+ #include <linux/of_platform.h>
+ #include <linux/of_reserved_mem.h>
++#include <linux/overflow.h>
+ #include <linux/regmap.h>
+ #include <linux/random.h>
++#include <linux/sizes.h>
++#include <linux/slab.h>
+ #include <linux/unaligned.h>
+ #include <crypto/sha2.h>
+ 
+@@ -34,6 +37,8 @@
+ #define NPU_EN7581_7996_TX_CHECK_SIZE	(0x7000 * sizeof(u16))
+ #define NPU_EN7581_7996_INODE_DATA_SIZE	(4 * sizeof(u32))
+ #define NPU_EN7581_7996_PLAN_REGIONS	6
++#define NPU_EN7581_DRAM_START		0x80000000ULL
++#define NPU_EN7581_DRAM_END		0xbfffffffULL
+ #define NPU_EN7581_DMA_LIFETIME		1
+ #define NPU_EN7581_PAIR_MAGIC		0x32504e57
+ #define NPU_EN7581_PAIR_VERSION		2
+@@ -162,6 +167,15 @@ struct airoha_npu_rro_owner {
+ 
+ static_assert(sizeof(struct airoha_npu_rro_owner) <= 65536);
+ 
++#define NPU_WLAN_MAX_QUEUE_MEM		48
++#define NPU_WLAN_MAX_QUEUE_BYTES	SZ_8M
++
++struct airoha_npu_retained_queue_mem {
++	struct airoha_npu_wlan_queue_mem mem;
++	size_t desc_bytes;
++	size_t entry_bytes;
++};
++
+ struct airoha_npu_dma_lifetime {
+ 	struct device *dev;
+ 	struct list_head retained;
+@@ -179,6 +193,9 @@ struct airoha_npu_dma_lifetime {
+ 		dma_addr_t addr;
+ 		u32 bytes;
+ 	} rx_event;
++	struct airoha_npu_retained_queue_mem queue_mem[NPU_WLAN_MAX_QUEUE_MEM];
++	size_t queue_mem_bytes;
++	unsigned int queue_mem_count;
+ 	struct device *endpoint;
+ 	u64 boot_identity;
+ 	u32 nonce_lo, nonce_hi;
+@@ -190,6 +207,7 @@ struct airoha_npu_dma_lifetime {
+ 	bool rx_attempted;
+ 	bool rx_published;
+ 	u32 rx_serial;
++	bool coherent_pool;
+ 	bool exposed;
+ 	struct airoha_npu_rro_owner *rro;
+ };
+@@ -241,15 +259,23 @@ static void airoha_npu_dma_cleanup(void *data)
+ 	unsigned int i;
+ 
+ 	/* No physical retirement witness exists yet. Publication errors, detach
+-	 * and software parking must not release possibly device-owned mailboxes.
++	 * and software parking must not release possibly device-owned memory.
+ 	 */
+ 	if (life->exposed || life->rro) {
+ 		mutex_lock(&airoha_npu_retained_lock);
+ 		list_add_tail(&life->retained, &airoha_npu_retained_dma);
+ 		mutex_unlock(&airoha_npu_retained_lock);
+-		dev_warn(life->dev, "retaining NPU DMA mailboxes pending retirement proof\n");
++		dev_warn(life->dev, "retaining NPU DMA memory pending retirement proof\n");
+ 		return;
+ 	}
++	for (i = 0; i < life->queue_mem_count; i++) {
++		struct airoha_npu_retained_queue_mem *queue = &life->queue_mem[i];
++
++		if (queue->desc_bytes)
++			dma_free_coherent(life->dev, queue->desc_bytes,
++					  queue->mem.desc, queue->mem.dma_addr);
++		kvfree(queue->mem.entry);
++	}
+ 	for (i = 0; i < ARRAY_SIZE(life->buffers); i++)
+ 		if (life->buffers[i].buf)
+ 			dma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,
+@@ -264,6 +290,8 @@ static void airoha_npu_dma_cleanup(void *data)
+ 				  life->rx_event.buf, life->rx_event.addr);
+ 	if (life->endpoint)
+ 		put_device(life->endpoint);
++	if (life->coherent_pool)
++		of_reserved_mem_device_release(life->dev);
+ 	put_device(life->dev);
+ 	kfree(life);
+ }
+@@ -1788,6 +1816,97 @@ unlock:
+ 	return err;
+ }
+ 
++bool airoha_npu_wlan_uses_checked_dma(struct airoha_npu *npu)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++
++	return priv->checked_pair;
++}
++EXPORT_SYMBOL_GPL(airoha_npu_wlan_uses_checked_dma);
++
++int airoha_npu_wlan_alloc_queue_mem(struct airoha_npu *npu, struct device *endpoint,
++				    struct device *dma_dev, unsigned int count,
++				    size_t desc_size, size_t entry_size, bool rx_event,
++				    struct airoha_npu_wlan_queue_mem *out)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_wlan_queue_mem mem = {};
++	struct airoha_npu_dma_lifetime *life;
++	size_t desc_bytes, entry_bytes, bytes;
++	int err;
++
++	if (!priv->checked_pair)
++		return AIROHA_NPU_WLAN_QUEUE_MANAGED;
++	if (!out || !count || !desc_size || !entry_size ||
++	    check_mul_overflow((size_t)count, desc_size, &desc_bytes) ||
++	    check_mul_overflow((size_t)count, entry_size, &entry_bytes) ||
++	    check_add_overflow(desc_bytes, entry_bytes, &bytes))
++		return -EINVAL;
++	if (bytes > NPU_WLAN_MAX_QUEUE_BYTES)
++		return -ENOSPC;
++
++	if (rx_event) {
++		err = airoha_npu_wlan_alloc_rx_event_session(npu, endpoint, dma_dev,
++							     count, desc_size, &mem.desc,
++							     &mem.dma_addr);
++		if (err)
++			return err;
++	}
++
++	mutex_lock(&priv->wlan_session_lock);
++	life = priv->dma_lifetime;
++	err = priv->wlan_session_error;
++	if (err)
++		goto unlock;
++	if (!life || !life->exposed || !life->endpoint_bound ||
++	    life->endpoint != endpoint || life->dev != dma_dev ||
++	    life->dev != npu->dev || life->boot_identity != priv->boot_identity) {
++		err = -ENODEV;
++		goto unlock;
++	}
++	if (life->queue_mem_count >= ARRAY_SIZE(life->queue_mem) ||
++	    bytes > NPU_WLAN_MAX_QUEUE_BYTES - life->queue_mem_bytes) {
++		err = -ENOSPC;
++		goto unlock;
++	}
++	if (rx_event && (!life->rx_published || !mem.desc ||
++			 life->rx_event.buf != mem.desc ||
++			 life->rx_event.addr != mem.dma_addr ||
++			 life->rx_event.bytes != desc_bytes)) {
++		err = -EPROTO;
++		goto unlock;
++	}
++
++	mem.entry = kvzalloc(entry_bytes, GFP_KERNEL);
++	if (!mem.entry) {
++		err = -ENOMEM;
++		goto unlock;
++	}
++	if (!rx_event) {
++		mem.desc = dma_alloc_coherent(dma_dev, desc_bytes, &mem.dma_addr,
++					      GFP_KERNEL);
++		if (!mem.desc) {
++			kvfree(mem.entry);
++			err = -ENOMEM;
++			goto unlock;
++		}
++	}
++
++	/* Record both objects before returning pointers to the consumer. */
++	life->queue_mem[life->queue_mem_count++] =
++		(struct airoha_npu_retained_queue_mem) {
++			.mem = mem,
++			.desc_bytes = rx_event ? 0 : desc_bytes,
++			.entry_bytes = entry_bytes,
++		};
++	life->queue_mem_bytes += bytes;
++	*out = mem;
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++	return err;
++}
++EXPORT_SYMBOL_GPL(airoha_npu_wlan_alloc_queue_mem);
++
+ static int airoha_npu_wlan_alloc_tx_buffers_session(struct airoha_npu *npu,
+ 						    struct device *endpoint,
+ 						    struct device *dma_dev,
+@@ -2772,6 +2891,78 @@ static int airoha_npu_start_firmware(struct airoha_npu_priv *priv,
+ 	return 0;
+ }
+ 
++static int airoha_npu_attach_coherent_pool(struct airoha_npu_priv *priv)
++{
++	struct device *dev = priv->npu.dev;
++	struct device_node *np = dev->of_node;
++	bool w1700k = of_machine_is_compatible("gemtek,w1700k-ubi");
++	struct device_node *node __free(device_node) = NULL;
++	struct resource pool, other;
++	int count, idx, err, i;
++
++	idx = of_property_match_string(np, "memory-region-names", "dma");
++	if (idx < 0) {
++		if (!w1700k && (idx == -EINVAL || idx == -ENODATA))
++			return 0;
++		return dev_err_probe(dev, idx, "missing NPU coherent DMA pool\n");
++	}
++
++	count = of_property_count_u32_elems(np, "memory-region");
++	if (!idx || idx != count - 1 ||
++	    count != of_property_count_strings(np, "memory-region-names") ||
++	    !of_device_is_compatible(np, "airoha,en7581-npu"))
++		return dev_err_probe(dev, -EINVAL, "invalid NPU DMA region list\n");
++
++	node = of_parse_phandle(np, "memory-region", idx);
++	if (!node || !of_device_is_available(node) ||
++	    of_property_count_strings(node, "compatible") != 1 ||
++	    !of_device_is_compatible(node, "shared-dma-pool") ||
++	    !of_property_read_bool(node, "no-map") ||
++	    of_property_read_bool(node, "reusable") ||
++	    of_property_read_bool(node, "linux,dma-default") ||
++	    of_property_read_bool(node, "linux,cma-default"))
++		return dev_err_probe(dev, -EINVAL, "NPU DMA pool must be dedicated\n");
++
++	err = of_reserved_mem_region_to_resource(np, idx, &pool);
++	if (err)
++		return dev_err_probe(dev, err, "NPU DMA pool was not reserved\n");
++	if (!airoha_npu_memory_valid(&pool) ||
++	    !IS_ALIGNED(pool.start | resource_size(&pool), PAGE_SIZE) ||
++	    pool.start < NPU_EN7581_DRAM_START || pool.end > NPU_EN7581_DRAM_END ||
++	    (w1700k && resource_size(&pool) < SZ_16M))
++		return dev_err_probe(dev, -ERANGE, "NPU DMA pool outside usable DRAM\n");
++
++	/* Firmware uses the same DRAM addresses as the host. */
++	if (dev->dma_range_map || device_iommu_mapped(dev) ||
++	    pool.end > min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit))
++		return dev_err_probe(dev, -ERANGE, "NPU DMA pool needs direct addressing\n");
++
++	for (i = 0; i < idx; i++) {
++		err = of_reserved_mem_region_to_resource(np, i, &other);
++		if (err)
++			return dev_err_probe(dev, err, "NPU memory region was not reserved\n");
++		if (resource_overlaps(&pool, &other))
++			return dev_err_probe(dev, -EINVAL,
++					     "NPU DMA pool overlaps reserved memory\n");
++	}
++
++#ifdef CONFIG_DMA_DECLARE_COHERENT
++	/* The pinned shared-dma-pool code can silently keep another pool. */
++	if (dev->dma_mem)
++		return dev_err_probe(dev, -EBUSY, "NPU DMA pool already assigned\n");
++	err = of_reserved_mem_device_init_by_idx(dev, np, idx);
++	if (err)
++		return dev_err_probe(dev, err, "cannot attach NPU coherent DMA pool\n");
++	priv->dma_lifetime->coherent_pool = true;
++	if (!dev->dma_mem)
++		return dev_err_probe(dev, -ENODEV, "NPU coherent DMA pool not attached\n");
++
++	return 0;
++#else
++	return dev_err_probe(dev, -EOPNOTSUPP, "no NPU coherent DMA pool support\n");
++#endif
++}
++
+ static int airoha_npu_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -2838,6 +3029,13 @@ static int airoha_npu_probe(struct platform_device *pdev)
+ 	if (err)
+ 		return err;
+ 
++	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
++	if (err)
++		return err;
++	err = airoha_npu_attach_coherent_pool(priv);
++	if (err)
++		return err;
++
+ 	/* Register work cleanup before IRQs, so devres stops producers first. */
+ 	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
+ 		struct airoha_npu_core *core = &npu->cores[i];
+@@ -2880,10 +3078,6 @@ static int airoha_npu_probe(struct platform_device *pdev)
+ 		npu->irqs[i] = irq;
+ 	}
+ 
+-	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+-	if (err)
+-		return err;
+-
+ 	for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
+ 		struct airoha_npu_core *core = &npu->cores[i];
+ 
+diff --git a/include/linux/soc/airoha/airoha_offload.h b/include/linux/soc/airoha/airoha_offload.h
+index f998c8d..58c0465 100644
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -254,6 +254,21 @@ struct airoha_npu *airoha_npu_get(struct device *dev);
+ void airoha_npu_put(struct airoha_npu *npu);
+ int airoha_npu_wlan_control(struct airoha_npu *npu, void *data, int len);
+ 
++struct airoha_npu_wlan_queue_mem {
++	void *desc;
++	dma_addr_t dma_addr;
++	void *entry;
++};
++
++/* Only the legacy firmware profile can select managed queue memory. */
++#define AIROHA_NPU_WLAN_QUEUE_MANAGED	1
++
++bool airoha_npu_wlan_uses_checked_dma(struct airoha_npu *npu);
++int airoha_npu_wlan_alloc_queue_mem(struct airoha_npu *npu, struct device *endpoint,
++				    struct device *dma_dev, unsigned int count,
++				    size_t desc_size, size_t entry_size, bool rx_event,
++				    struct airoha_npu_wlan_queue_mem *out);
++
+ static inline int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *npu)
+ {
+ 	return npu->ops.wlan_init_reserved_memory(npu);

@@ -1,10 +1,19 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Use The Coherent Window Stack
+
+The staged W1700K DTS reserves a low coherent pool, and the replacement
+provider retains its attachment with exposed allocations. Reuse the exact
+packet-owner mt76 patch, not its original kernel patch. Keep the running
+replay and frozen image inputs untouched; no new kernel or FIT has been built.
+[Apply order and gates](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Use The Replacement DMA Owner Pair
 
 The replacement pair keeps packet backing through checked CPU detach and
 fixes a recursive lock in the previous staged NPU RX allocator. It includes
-the earlier hot-reset changes; apply only this pair after frozen-source work.
+the earlier hot-reset changes. The new coherent window provider supersedes
+the kernel half; keep the mt76 half.
 Still uncompiled. [Rebuild and qualification gates](research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
 
 ## 2026-11-18 - Keep Queue Allocations Beyond Devres

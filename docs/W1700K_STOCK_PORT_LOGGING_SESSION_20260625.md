@@ -1,5 +1,13 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Coherent Pool Candidate
+
+The default DTBs in both saved images lack a low coherent pool. The staged
+tree and provider fix that placement while keeping attachment through
+possible firmware exposure. The standalone DTB was checked; no new FIT,
+board boot, or physical drain witness.
+[Source and verification](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Checked Packet Owner Candidate
 
 The source check caught the old staged RX lock recursion. The replacement

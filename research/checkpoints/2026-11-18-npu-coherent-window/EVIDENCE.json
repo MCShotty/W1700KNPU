@@ -1,0 +1,129 @@
+{
+  "binding_yaml_parsed": true,
+  "board_contact": false,
+  "dtc_warning_count": 10,
+  "fixed_regions_and_firmware_names_unchanged": true,
+  "full_binding_validation": false,
+  "historical_fits": {
+    "prepared": {
+      "diagnostic": "missing NPU coherent DMA pool",
+      "dtb_sha256": "8ad1b262b756a11ee7a3c32353135f69f9dc4667cd8498af125158aa194a57b2",
+      "fit_sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+      "selected": {
+        "fdt": "fdt-1",
+        "kernel": "kernel-1",
+        "name": "config-1",
+        "rootfs": "rootfs-1"
+      }
+    },
+    "protected": {
+      "diagnostic": "missing NPU coherent DMA pool",
+      "dtb_sha256": "8ad1b262b756a11ee7a3c32353135f69f9dc4667cd8498af125158aa194a57b2",
+      "fit_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+      "selected": {
+        "fdt": "fdt-1",
+        "kernel": "kernel-1",
+        "name": "config-1",
+        "rootfs": "rootfs-1"
+      }
+    }
+  },
+  "kernel": "6.18.52",
+  "kernel_compiled": false,
+  "kernel_config_sha256": "e6fee1dd3dd98757e104798fd4c8301a752d01ce9604e2583683b0586adcc4e3",
+  "new_fit_built": false,
+  "patch_sha256": {
+    "airoha-checked-coherent-window.patch": "a5ba732798122aebc7d025becec20691a9d85290dc21641dfc794054bbfb9da7",
+    "airoha-npu-coherent-pool-binding.patch": "a912534e1598fdd171c49946253871b880175998a775ea257b133e022f91914b",
+    "mt76-checked-dma-owner.patch": "7ea4850ed91c7032fd614011b3a8f158308439566090a1961a406db3b7874114",
+    "openwrt-w1700k-coherent-window.patch": "92a43e9de12413385c62415cb33c7e9a9bfd9cdd80ec6010eb0d38c9efc67e25"
+  },
+  "physical_retirement_proven": false,
+  "postimages": {
+    "Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml": "0e4b054b031bbdfaaca4f007f21293f2769368d17d2867adc3c85125898af9ca",
+    "drivers/net/ethernet/airoha/airoha_npu.c": "e52511c7182ecbbcff048da3ec56ab904a9a53716d9e817a6a7c63f94a74144c",
+    "include/linux/soc/airoha/airoha_offload.h": "50d94c3b480b836d5fc59b2d256fcb0e20cd8ba62d511b0ad30d5e0e86cc10e0",
+    "target/linux/airoha/dts/an7581-w1700k-ubi.dts": "a7f02878c37dc06a57bf76212c3100322ffa559134d0ea2c1803799b52506701"
+  },
+  "preimages": {
+    "Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml": "7061f1678815607bc2553d830349f75182d7f50320cea898e33445d5216f0283",
+    "drivers/net/ethernet/airoha/airoha_npu.c": "7162cec0d0483d5f2228aed5fc794b389fd68b8451b325b0c4b25d04e67c8544",
+    "include/linux/soc/airoha/airoha_offload.h": "0007bc458dbc4855ab79d67d5ff0ec659b2a59d3c4994ee35e6c2768af9a12fd",
+    "target/linux/airoha/dts/an7581-w1700k-ubi.dts": "74033d7660fa81da3493288ba52ebdce686f9b14894207f19a22108a6ee8f460"
+  },
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "schema": 1,
+  "source_checks": [
+    "packet, queue and hot-reset source contracts preserved",
+    "retained reprobe and pool verification precede IRQ, allocation and boot",
+    "range, direct addressing, overlap and actual attachment checked",
+    "unexposed coherent frees precede sole release; exposed branch returns"
+  ],
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "standalone_dtb": {
+    "dtb_sha256": "8c12d9077057a9a1b598e86c4d6665d83238d0c4c027c0d4c83644d4318454bb",
+    "fixed_npu_regions": {
+      "ba": [
+        2428559360,
+        2097152
+      ],
+      "binary": [
+        2214592512,
+        10485760
+      ],
+      "pkt": [
+        2315255808,
+        46137344
+      ],
+      "tx-bufid": [
+        2428502016,
+        57344
+      ],
+      "tx-pkt": [
+        2361393152,
+        67108864
+      ]
+    },
+    "npu_path": "/soc/npu@1e900000",
+    "pool_alignment": 16777216,
+    "pool_path": "/reserved-memory/npu-dma-pool",
+    "pool_size": 16777216,
+    "pool_window": [
+      2147483648,
+      3221225472
+    ]
+  },
+  "baseline_commit": "1a0d7bacd8eaff67de06154aa36e186ec4d6282b",
+  "checkpatch": {
+    "new_patches": 3,
+    "errors": 0,
+    "warnings": 0
+  },
+  "host_regression": {
+    "tests": 61,
+    "failures": 0,
+    "skipped": 0
+  },
+  "verifier_sha256": "074362f0325c81f93f2ce3376ab1e8a8cfd3a823cfb6eba53ff3dcf8d0cc1762",
+  "verifier_tests_sha256": "f6a840a876ba2636dd3999e74e687feb08c9045e9a798b96c7297095e00aa4b7",
+  "semantic_review": {
+    "model": "jev-1.14.0",
+    "answers": {
+      "hold_keeps_attachment": {
+        "type": "choice",
+        "choice": "retain_then_return",
+        "confidence": 1,
+        "probabilities": {
+          "retain_then_return": 1,
+          "release_pool": 0,
+          "unknown": 0
+        }
+      },
+      "pool_missing": {
+        "type": "noul",
+        "noul": 0.95
+      }
+    },
+    "used_as_proof": false
+  }
+}

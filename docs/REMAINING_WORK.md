@@ -1,10 +1,19 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Qualify The Coherent DMA Window
+
+Account for the original terminal replay and frozen image first. Then use
+the new binding, W1700K DTS, replacement provider, and unchanged packet-owner
+mt76 patch. Do not layer on the earlier provider patch. Verify the selected
+FIT, boot-time pool address and capacity, exhaustion, probe failure, normal
+Wi-Fi fallback and offload. Physical DMA retirement is still open.
+[Patch stack and verification](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+
 ## 2026-11-18 - Qualify Checked DMA Ownership
 
-Use the replacement provider/mt76 pair, not the preceding allocator patch
-that reacquired the device mutex during RX setup. The staged pair retains
-ring, pool, token and context state across the examined detach and rejects
+The packet-owner work replaced the allocator patch that reacquired the device
+mutex during RX setup. It retains ring, pool, token and context state across
+the examined detach and rejects
 matching rebind. Verify original terminal replay and exact frozen image
 first, then build matching modules and run the failure and legacy cases.
 Physical retirement, authorized releases and real-client tests remain open.
