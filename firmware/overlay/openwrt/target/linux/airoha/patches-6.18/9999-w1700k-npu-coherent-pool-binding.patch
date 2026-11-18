@@ -1,0 +1,58 @@
+diff --git a/Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml b/Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml
+index c7644e6..c0916c3 100644
+--- a/Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml
++++ b/Documentation/devicetree/bindings/net/airoha,en7581-npu.yaml
+@@ -41,21 +41,41 @@ properties:
+       - description: wlan irq line5
+ 
+   memory-region:
+-    oneOf:
+-      - items:
+-          - description: NPU firmware binary region
+-      - items:
+-          - description: NPU firmware binary region
+-          - description: NPU wlan offload RX buffers region
+-          - description: NPU wlan offload TX buffers region
+-          - description: NPU wlan offload TX packet identifiers region
++    minItems: 1
++    maxItems: 6
++    description:
++      Firmware binary, then any WLAN offload regions in name order. When
++      present, the final region named dma is a dedicated, non-reusable
++      shared-dma-pool with no-map, within the EN7581 NPU's host DRAM window
++      (0x80000000 through 0xbfffffff). It backs only coherent allocations
++      made on the NPU device, not streaming packet mappings.
+ 
+   memory-region-names:
++    oneOf:
++      - minItems: 1
++        items:
++          - enum: [firmware, binary]
++          - const: dma
++      - minItems: 4
++        items:
++          - enum: [firmware, binary]
++          - const: pkt
++          - const: tx-pkt
++          - const: tx-bufid
++          - const: dma
++      - minItems: 5
++        items:
++          - enum: [firmware, binary]
++          - const: pkt
++          - const: tx-pkt
++          - const: tx-bufid
++          - const: ba
++          - const: dma
++
++  firmware-name:
+     items:
+-      - const: firmware
+-      - const: pkt
+-      - const: tx-pkt
+-      - const: tx-bufid
++      - description: RV32 code firmware filename
++      - description: Data firmware filename
+ 
+ required:
+   - compatible

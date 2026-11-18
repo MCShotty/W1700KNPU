@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Source Promotion After Module Link
+
+The clean private link and unchanged-input inventories passed. Source
+lock `e4ac1fd7` is canonical with producer `659a9626` verified.
+Keep the baseline seal intact; the next work is the successor replay
+and isolated world. [Evidence](../research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
+
 ## 2026-11-18 - Ethernet Link And FIT Verification
 
 Staged Ethernet sources now require a fifth selected module at offline

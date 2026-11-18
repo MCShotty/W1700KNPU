@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Linked Successor In The Canonical Source
+
+Lock `e4ac1fd7` now selects the combined source stack. Producer
+`659a9626` independently linked four NPU/Wi-Fi modules; mt76 imports the
+provider's two new queue-ownership functions. Ethernet linked in the same
+scratch run. There is no successor world or FIT yet.
+[Evidence and next gates](../research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
+
 ## 2026-11-18 - Baseline FIT Seal And Successor Source Gate
 
 The original offline world made the W1700K UBI FIT. Its frozen verifier
@@ -11,7 +19,7 @@ original terminal inventory and replay. It does not authorize flashing.
 The next source authority is `coherent-ppe-qdma-frame-source-a` from
 `coherent-ppe-qdma-frame-a`. A staged fix keeps the cold command's lease
 snapshot off the stack; three AArch64 objects passed with the original
-Kbuild limit. It is not active or linked into a successor FIT.
+Kbuild limit. The successor source is now active and linked, not in a FIT.
 [Exact source and image seal](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 
 ## 2026-11-18 - Ethernet Module Seal Gate

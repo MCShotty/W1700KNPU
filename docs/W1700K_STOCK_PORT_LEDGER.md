@@ -1,5 +1,15 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Link And Promote The Successor Stack
+
+- An independent one-job Kbuild link produced the four NPU/Wi-Fi modules
+  and a scratch Ethernet module. Both new queue-owner exports are resolved
+  by mt76. All 412 authority inputs and both retained inventories match.
+- Promoted the exact eight-file delta to canonical lock `e4ac1fd7`.
+  Producer `659a9626` is read-only and validated; no successor FIT or
+  board action. The separate baseline seal and full replay are preserved.
+  [Link and promotion evidence](../research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
+
 ## 2026-11-18 - Seal The Baseline FIT Read-Only
 
 - The original wrapper retained its verifier failure and unchanged lower,

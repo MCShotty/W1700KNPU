@@ -1,0 +1,61 @@
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -248,6 +248,7 @@
+ 	bool firmware_loaded;
+ 	bool boot_attempted;
+ 	struct mutex wlan_session_lock; /* Serializes setup, reattach and CPU close. */
++	struct airoha_npu_dma_lifetime *wlan_lease_capture;
+ 	struct npu_linux_control wlan_control;
+ 	bool wlan_session_attempted;
+ 	int wlan_session_error;
+@@ -2241,7 +2242,8 @@
+ 					u32 api, void *data, int len)
+ {
+ 	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
+-	struct airoha_npu_dma_lifetime *life, captured;
++	struct airoha_npu_dma_lifetime *captured = priv->wlan_lease_capture;
++	struct airoha_npu_dma_lifetime *life;
+ 	const size_t lease_offset = offsetof(struct airoha_npu_dma_lifetime, buffers);
+ 	struct npu_bootstrap_packet command = { .header = header, .api = api };
+ 	u32 plan[NPU_EN7581_7996_PLAN_REGIONS][2];
+@@ -2289,19 +2291,19 @@
+ 		err = -EPROTO;
+ 	else {
+ 		if (pinned) {
+ 			/* Cleanup owns the retained-list links independently of this lane. */
+-			captured.dev = life->dev;
+-			memcpy((u8 *)&captured + lease_offset, (u8 *)life + lease_offset,
+-			       sizeof(captured) - lease_offset);
++			captured->dev = life->dev;
++			memcpy((u8 *)captured + lease_offset, (u8 *)life + lease_offset,
++			       sizeof(*captured) - lease_offset);
+ 			memcpy(plan, priv->native_plan, sizeof(plan));
+ 		}
+ 		err = npu_linux_control_cold_exchange(&priv->wlan_control, &command, &value);
+ 	}
+ 	if (!err && pinned &&
+-	    (priv->dma_lifetime != life || !priv->checked_pair || life->dev != captured.dev ||
+-	     memcmp((u8 *)life + lease_offset, (u8 *)&captured + lease_offset,
+-		    sizeof(captured) - lease_offset) ||
++	    (priv->dma_lifetime != life || !priv->checked_pair || life->dev != captured->dev ||
++	     memcmp((u8 *)life + lease_offset, (u8 *)captured + lease_offset,
++		    sizeof(*captured) - lease_offset) ||
+ 	     memcmp(plan, priv->native_plan, sizeof(plan)) ||
+ 	     !airoha_npu_wlan_tail_lifetime_valid(priv)))
+ 		err = -EPROTO;
+ 	if (err) {
+@@ -2979,9 +2981,14 @@
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
++	/* Keep the lease snapshot off the stack and under wlan_session_lock. */
++	priv->wlan_lease_capture = devm_kmalloc(dev, sizeof(*priv->wlan_lease_capture),
++						    GFP_KERNEL);
++	if (!priv->wlan_lease_capture)
++		return -ENOMEM;
+ 	npu = &priv->npu;
+ 	mutex_init(&priv->wlan_session_lock);
+ 
+ 	npu->dev = dev;
+ 	npu->ops.ppe_init = airoha_npu_ppe_init;
+ 	npu->ops.ppe_deinit = airoha_npu_ppe_deinit;

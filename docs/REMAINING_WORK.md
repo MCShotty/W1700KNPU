@@ -1,12 +1,13 @@
 # Remaining W1700K Work
 
-## 2026-11-18 - Link The Successor Modules
+## 2026-11-18 - Replay And Build The Linked Successor
 
-The original FIT is sealed locally with its replay. Use the pinned
-`coherent-ppe-qdma-frame-a` bundle and link a new combined producer.
-Verify the new prepared sources, replay and world; the resulting FIT also
-needs the exact linked Ethernet module. No board work is authorized by
-the baseline seal.
+The original FIT is sealed locally. The successor is active as `e4ac1fd7`
+and the fresh four-module producer `659a9626` is verified. Freeze the
+promoted tree and the private authority together, run a new RV32 replay,
+and build the isolated successor world. Its FIT also needs the exact
+Ethernet module from that world. No board work is authorized by the seal.
+[Link evidence](../research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
 [Baseline seal and new source contract](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 [World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
@@ -37,8 +38,8 @@ The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
 measure actual cold consumption and validate exhaustion on the linked build.
 [Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
 The coherent, PPE, QDMA and frame changes share one verified source lock.
-The source fixture and three object builds passed. The derived lock still
-requires fresh linked modules, its own replay and FIT.
+The source fixture, object checks, and freshly linked modules passed. The
+active lock still needs its own replay and FIT.
 
 ## 2026-11-18 - Qualify Checked DMA Ownership
 

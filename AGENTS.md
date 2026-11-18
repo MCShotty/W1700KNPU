@@ -1,5 +1,15 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Successor Sources Active, Modules Linked
+
+The coherent pool, queue ownership, frame, PPE and QDMA stack is active
+in canonical source lock `e4ac1fd7`. Fresh producer `659a9626` binds the
+four linked NPU/Wi-Fi modules and exact inputs. A fifth Ethernet module
+linked in scratch; its world-built bytes must still qualify separately.
+Freeze the promoted source and private authority for a new replay and
+world. Keep the sealed baseline, lower build and router untouched.
+[Exact link and scope](research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
+
 ## 2026-11-18 - Baseline Sealed, Link The Successor
 
 The frozen `make world` succeeded. Its original stale-roster verifier
@@ -7,7 +17,8 @@ failure is preserved. The corrected read-only postflight and original
 replay sealed `baseline-txp-20261118-a` locally, not for flashing.
 The next bundle is `coherent-ppe-qdma-frame-a` with a pinned prepared-source
 contract and a frame fix checked by three scratch AArch64 object builds.
-Build a fresh producer from that authority; do not reuse the baseline modules.
+The linked successor above now uses that authority; keep the baseline
+modules for the baseline only.
 [Source contract, baseline seal and remaining gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 
 ## 2026-11-18 - Bind The Production Ethernet Module

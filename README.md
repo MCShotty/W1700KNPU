@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Successor Sources And Modules
+
+The combined DMA ownership stack is now in the active W1700K source lock.
+Four NPU/Wi-Fi modules linked from fresh objects with their new queue
+ownership imports resolved; Ethernet also linked in scratch. The new
+replay, world image, and hardware checks still remain.
+[Build evidence](research/checkpoints/2026-11-18-npu-successor-link/REPORT.md).
+
 ## 2026-11-18 - Baseline FIT Sealed Locally
 
 The frozen OpenWrt W1700K FIT was sealed after a read-only verifier recheck

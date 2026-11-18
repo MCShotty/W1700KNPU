@@ -1,0 +1,645 @@
+diff --git a/dma.c b/dma.c
+index cf99bab..31a196c 100644
+--- a/dma.c
++++ b/dma.c
+@@ -840,6 +840,9 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ {
+ 	int ret, size;
+ 
++	if (q->desc || q->entry)
++		return -EBUSY;
++
+ 	spin_lock_init(&q->lock);
+ 	spin_lock_init(&q->cleanup_lock);
+ 
+@@ -858,25 +861,26 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ 	else
+ 		size = sizeof(struct mt76_desc);
+ 
+-	ret = mt76_npu_alloc_rx_event(dev, q);
+-	if (ret == -EOPNOTSUPP)
++	ret = mt76_npu_alloc_queue_mem(dev, q, size);
++	if (ret == MT76_NPU_QUEUE_MEM_MANAGED) {
+ 		q->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,
+ 					      &q->desc_dma, GFP_KERNEL);
+-	else if (ret)
+-		return ret;
+-	if (!q->desc)
+-		return -ENOMEM;
+-
+-	mt76_dma_queue_magic_cnt_init(dev, q);
+-	size = q->ndesc * sizeof(*q->entry);
+-	q->entry = devm_kzalloc(dev->dev, size, GFP_KERNEL);
+-	if (!q->entry)
+-		return -ENOMEM;
++		if (q->desc)
++			q->entry = devm_kcalloc(dev->dev, q->ndesc,
++					       sizeof(*q->entry), GFP_KERNEL);
++	} else if (ret) {
++		goto clear_count;
++	}
++	if (!q->desc || !q->entry) {
++		ret = -ENOMEM;
++		goto clear_count;
++	}
+ 
+ 	ret = mt76_create_page_pool(dev, q);
+ 	if (ret)
+-		return ret;
++		goto clear_count;
+ 
++	mt76_dma_queue_magic_cnt_init(dev, q);
+ 	mt76_npu_queue_setup(dev, q);
+ 	ret = mt76_wed_dma_setup(dev, q, false);
+ 	if (ret)
+@@ -894,6 +898,11 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ 	mt76_dma_queue_reset(dev, q, !mt76_queue_is_emi(q));
+ 
+ 	return 0;
++
++clear_count:
++	/* No consumer register was published for this incomplete queue. */
++	q->ndesc = 0;
++	return ret;
+ }
+ 
+ static void
+@@ -1224,6 +1233,9 @@ void mt76_dma_cleanup(struct mt76_dev *dev)
+ 		netif_napi_del(&dev->tx_napi);
+ 	}
+ 
++	if (READ_ONCE(dev->npu_dma.hold))
++		return;
++
+ 	for (i = 0; i < ARRAY_SIZE(dev->phys); i++) {
+ 		struct mt76_phy *phy = dev->phys[i];
+ 		int j;
+diff --git a/mac80211.c b/mac80211.c
+index baedb53..3e3619a 100644
+--- a/mac80211.c
++++ b/mac80211.c
+@@ -501,7 +501,19 @@ mt76_alloc_radio_phy(struct mt76_dev *dev, unsigned int size,
+ 	struct mt76_phy *phy;
+ 
+ 	phy_size = ALIGN(sizeof(*phy), 8);
+-	phy = devm_kzalloc(dev->dev, size + phy_size, GFP_KERNEL);
++	if (READ_ONCE(dev->npu_dma.hold)) {
++		mutex_lock(&dev->npu_dma.lock);
++		phy = NULL;
++		if (!dev->npu_dma.closing &&
++		    band_idx < ARRAY_SIZE(dev->npu_dma.phys) &&
++		    !dev->npu_dma.phys[band_idx]) {
++			phy = kzalloc(size + phy_size, GFP_KERNEL);
++			dev->npu_dma.phys[band_idx] = phy;
++		}
++		mutex_unlock(&dev->npu_dma.lock);
++	} else {
++		phy = devm_kzalloc(dev->dev, size + phy_size, GFP_KERNEL);
++	}
+ 	if (!phy)
+ 		return NULL;
+ 
+@@ -699,6 +711,7 @@ mt76_alloc_device(struct device *pdev, unsigned int size,
+ 	spin_lock_init(&dev->wed_lock);
+ 	mutex_init(&dev->mutex);
+ 	mutex_init(&dev->napi_lifetime.mutex);
++	mutex_init(&dev->npu_dma.lock);
+ 	init_waitqueue_head(&dev->tx_wait);
+ 
+ 	skb_queue_head_init(&dev->mcu.res_q);
+@@ -936,6 +949,12 @@ void mt76_napi_cleanup(struct mt76_dev *dev)
+ 	/* Ownership release precedes the poll's completion/rearm tail. */
+ 	if (!bitmap_empty(state->added, MT76_NAPI_MAX))
+ 		synchronize_rcu();
++	if (READ_ONCE(dev->npu_dma.hold)) {
++		/* Detach disabled NAPI from pools without unmapping their pages. */
++		for (qid = 0; qid < ARRAY_SIZE(dev->q_rx); qid++)
++			if (dev->q_rx[qid].page_pool)
++				page_pool_disable_direct_recycling(dev->q_rx[qid].page_pool);
++	}
+ 	for_each_set_bit(qid, state->added, MT76_NAPI_MAX)
+ 		netif_napi_del(mt76_napi_get(dev, qid));
+ 	bitmap_zero(state->added, MT76_NAPI_MAX);
+@@ -963,7 +982,8 @@ void mt76_free_device(struct mt76_dev *dev)
+ 		mt76_napi_cleanup(dev);
+ 	}
+ 	mt76_npu_deinit(dev);
+-	ieee80211_free_hw(dev->hw);
++	if (!READ_ONCE(dev->npu_dma.hold))
++		ieee80211_free_hw(dev->hw);
+ }
+ EXPORT_SYMBOL_GPL(mt76_free_device);
+ 
+@@ -2145,7 +2165,23 @@ mt76_init_queue(struct mt76_dev *dev, int qid, int idx, int n_desc,
+ 	struct mt76_queue *hwq;
+ 	int err;
+ 
+-	hwq = devm_kzalloc(dev->dev, sizeof(*hwq), GFP_KERNEL);
++	if (READ_ONCE(dev->npu_dma.hold)) {
++		mutex_lock(&dev->npu_dma.lock);
++		if (dev->npu_dma.closing) {
++			mutex_unlock(&dev->npu_dma.lock);
++			return ERR_PTR(-ESHUTDOWN);
++		}
++		if (dev->npu_dma.queue_count >= ARRAY_SIZE(dev->npu_dma.queues)) {
++			mutex_unlock(&dev->npu_dma.lock);
++			return ERR_PTR(-ENOSPC);
++		}
++		hwq = kzalloc(sizeof(*hwq), GFP_KERNEL);
++		if (hwq)
++			dev->npu_dma.queues[dev->npu_dma.queue_count++] = hwq;
++		mutex_unlock(&dev->npu_dma.lock);
++	} else {
++		hwq = devm_kzalloc(dev->dev, sizeof(*hwq), GFP_KERNEL);
++	}
+ 	if (!hwq)
+ 		return ERR_PTR(-ENOMEM);
+ 
+diff --git a/mt76.h b/mt76.h
+index c871fc5..518e3af 100644
+--- a/mt76.h
++++ b/mt76.h
+@@ -985,6 +985,16 @@ struct mt76_napi_lifetime {
+ 	bool closing;
+ };
+ 
++struct mt76_npu_dma_lifetime {
++	/* Nested inside dev->mutex; queue alloc may already hold dev->mutex. */
++	struct mutex lock;
++	struct mt76_queue *queues[__MT_TXQ_MAX * __MT_MAX_BAND + __MT_MCUQ_MAX];
++	struct mt76_phy *phys[__MT_MAX_BAND];
++	unsigned int queue_count;
++	bool hold;
++	bool closing;
++};
++
+ struct mt76_dev {
+ 	struct mt76_phy phy; /* must be first */
+ 	struct mt76_phy *phys[__MT_MAX_BAND];
+@@ -1110,6 +1120,7 @@ struct mt76_dev {
+ 
+ 	atomic_t bus_hung;
+ 	struct mt76_napi_lifetime napi_lifetime;
++	struct mt76_npu_dma_lifetime npu_dma;
+ };
+ 
+ /* per-phy stats.  */
+@@ -1748,6 +1759,8 @@ enum mt76_npu_rro_role {
+ 	MT76_NPU_RRO_SESSION = 5,
+ };
+ 
++#define MT76_NPU_QUEUE_MEM_MANAGED	1
++
+ #ifdef CONFIG_MT76_NPU
+ void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
+ 			u32 info);
+@@ -1765,7 +1778,8 @@ int mt76_npu_io_admit(struct mt76_dev *dev);
+ int mt76_npu_irq_error(struct mt76_dev *dev);
+ int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
+ void mt76_npu_deinit(struct mt76_dev *dev);
+-int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q);
++int mt76_npu_alloc_queue_mem(struct mt76_dev *dev, struct mt76_queue *q,
++			    size_t desc_size);
+ int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+ 		      const dma_addr_t *tx, unsigned int count);
+ int mt76_npu_rro_alloc(struct mt76_dev *dev, u32 role, u32 index,
+@@ -1851,9 +1865,10 @@ static inline void mt76_npu_deinit(struct mt76_dev *dev)
+ {
+ }
+ 
+-static inline int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++static inline int mt76_npu_alloc_queue_mem(struct mt76_dev *dev,
++					 struct mt76_queue *q, size_t desc_size)
+ {
+-	return -EOPNOTSUPP;
++	return MT76_NPU_QUEUE_MEM_MANAGED;
+ }
+ 
+ static inline int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+diff --git a/mt7996/dma.c b/mt7996/dma.c
+index 1eed2c5..1c2c006 100644
+--- a/mt7996/dma.c
++++ b/mt7996/dma.c
+@@ -970,6 +970,10 @@ int mt7996_dma_reset(struct mt7996_dev *dev, bool force)
+ 	if (err)
+ 		return err;
+ 
++	/* Masking NPU IRQs does not retire its descriptor or payload references. */
++	if (mt76_npu_device_active(&dev->mt76))
++		return -EOPNOTSUPP;
++
+ 	mt76_clear(dev, MT_WFDMA0_GLO_CFG,
+ 		   MT_WFDMA0_GLO_CFG_TX_DMA_EN |
+ 		   MT_WFDMA0_GLO_CFG_RX_DMA_EN);
+@@ -981,6 +985,16 @@ int mt7996_dma_reset(struct mt7996_dev *dev, bool force)
+ 
+ 	usleep_range(1000, 2000);
+ 
++	/* This is a radio-side check, not a fence for a shared NPU queue. */
++	if (!mt76_poll(dev, MT_WFDMA_EXT_CSR_HIF_MISC,
++		       MT_WFDMA_EXT_CSR_HIF_MISC_BUSY, 0, 1000))
++		return -ETIMEDOUT;
++
++	if (force) {
++		mt7996_tx_token_put(dev);
++		idr_init(&dev->mt76.token);
++	}
++
+ 	for (i = 0; i < __MT_TXQ_MAX; i++) {
+ 		mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[i], true);
+ 		if (phy2)
+diff --git a/mt7996/init.c b/mt7996/init.c
+index c633da4..a177555 100644
+--- a/mt7996/init.c
++++ b/mt7996/init.c
+@@ -1041,7 +1041,7 @@ static int mt7996_wed_rro_init(struct mt7996_dev *dev)
+ 
+ 		ret = mt76_npu_rro_open(&dev->mt76, profile, dev->npu_txd_addr,
+ 					ARRAY_SIZE(dev->npu_txd_addr));
+-		if (ret != -EOPNOTSUPP) {
++		if (ret != -EOPNOTSUPP || dev->mt76.npu_dma.hold) {
+ 			if (ret)
+ 				return ret;
+ 			dev->npu_rro_owned = true;
+@@ -1893,6 +1893,7 @@ void mt7996_cleanup_device(struct mt7996_dev *dev)
+ {
+ 	struct mt7996_phy *phy;
+ 	bool dma_attached = !!dev->mt76.queue_ops;
++	bool hold_dma = READ_ONCE(dev->mt76.npu_dma.hold);
+ 
+ 	/* Probe/remove are serialized by the driver core. */
+ 	if (dev->cleanup_started)
+@@ -1919,13 +1920,17 @@ void mt7996_cleanup_device(struct mt7996_dev *dev)
+ 	mt76_unregister_device(&dev->mt76);
+ 	mt76_worker_disable(&dev->mt76.tx_worker);
+ 	mt7996_coredump_unregister(dev);
+-	if (dev->mt76.mcu_ops)
++	if (dev->mt76.mcu_ops && !hold_dma)
+ 		mt7996_mcu_exit(dev);
+ 	mt7996_pci_shutdown_irqs(dev);
+ 	mt76_npu_shutdown_irqs(&dev->mt76);
+ 	mt76_napi_cleanup(&dev->mt76);
+ 	/* Responses can arrive until IRQ/NAPI ingress has finished. */
+ 	skb_queue_purge(&dev->mt76.mcu.res_q);
++	if (hold_dma) {
++		dev_warn(dev->mt76.dev, "holding NPU packet DMA pending retirement proof\n");
++		return;
++	}
+ 	mt7996_tx_token_put(dev);
+ 	if (dma_attached)
+ 		mt7996_dma_cleanup(dev);
+diff --git a/mt7996/mac.c b/mt7996/mac.c
+index 2656ffc..33ec686 100644
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -2291,13 +2291,11 @@ mt7996_mac_restart(struct mt7996_dev *dev)
+ 	mt76_napi_disable(mdev, MT76_NAPI_TX);
+ 	synchronize_rcu();
+ 
+-	/* token reinit */
+-	mt7996_tx_token_put(dev);
+-	idr_init(&dev->mt76.token);
+-
+ 	ret = mt7996_dma_reset(dev, true);
+-	if (ret)
++	if (ret) {
++		WRITE_ONCE(dev->recovery.npu_error, ret);
+ 		return ret;
++	}
+ 
+ 	mt76_for_each_q_rx(mdev, i) {
+ 		if (mt76_napi_enable(mdev, i)) {
+@@ -2448,11 +2446,13 @@ mt7996_mac_full_reset(struct mt7996_dev *dev)
+ 		ret = mt7996_mac_restart(dev);
+ 		if (!ret)
+ 			break;
+-		if (READ_ONCE(dev->mt76.mmio.npu_irq.error)) {
++		if (READ_ONCE(dev->mt76.mmio.npu_irq.error) ||
++		    READ_ONCE(dev->recovery.npu_error)) {
+ 			WRITE_ONCE(dev->recovery.npu_error, ret);
+ 			mutex_unlock(&dev->mt76.mutex);
+ 			dev_err(dev->mt76.dev,
+-				"NPU IRQ quarantine prevents full reset: %d\n", ret);
++				"DMA shutdown unverified; full reset deferred: %d\n",
++				ret);
+ 			return ret;
+ 		}
+ 	}
+@@ -2685,7 +2685,7 @@ npu_recovery_failed:
+ 		mt76_npu_disable_irqs(&dev->mt76);
+ 	WRITE_ONCE(dev->recovery.npu_error, ret);
+ 	mutex_unlock(&dev->mt76.mutex);
+-	dev_err(dev->mt76.dev, "NPU L1 recovery failed: %d; resources retained\n",
++	dev_err(dev->mt76.dev, "L1 recovery failed: %d; resources retained\n",
+ 		ret);
+ }
+ 
+diff --git a/mt7996/mt7996.h b/mt7996/mt7996.h
+index af74aae..1a189ff 100644
+--- a/mt7996/mt7996.h
++++ b/mt7996/mt7996.h
+@@ -459,6 +459,16 @@ struct mt7996_phy {
+ 	bool sku_path_en;
+ };
+ 
++struct mt7996_retained_pci {
++	struct pci_dev *pdev;
++	resource_size_t bar_start;
++	resource_size_t bar_end;
++	int domain;
++	u8 bus;
++	u8 devfn;
++	bool bar_valid;
++};
++
+ struct mt7996_dev {
+ 	union { /* must be first */
+ 		struct mt76_dev mt76;
+@@ -588,6 +598,8 @@ struct mt7996_dev {
+ 	} var;
+ 
+ 	bool vow_atf_en;
++	struct list_head retained_dma;
++	struct mt7996_retained_pci retained_pci[2];
+ };
+ 
+ enum {
+diff --git a/mt7996/npu.c b/mt7996/npu.c
+index d01bd18..f9d5b48 100644
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -631,7 +631,7 @@ int mt7996_npu_prepare_tx_buffers(struct mt7996_dev *dev)
+ 	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
+ 					       dev->mt76.dma_dev, bytes, addr,
+ 					       ARRAY_SIZE(bytes));
+-	if (err == -EOPNOTSUPP) {
++	if (err == -EOPNOTSUPP && !dev->mt76.npu_dma.hold) {
+ 		/* Generic providers retain their later managed-allocation path. */
+ 		err = 0;
+ 		goto unlock;
+@@ -679,7 +679,7 @@ int mt7996_npu_hw_init(struct mt7996_dev *dev)
+ 	err = airoha_npu_wlan_alloc_tx_buffers(npu, dev->mt76.dev,
+ 					       dev->mt76.dma_dev, bytes,
+ 					       dev->npu_txd_addr, ARRAY_SIZE(bytes));
+-	if (err == -EOPNOTSUPP) {
++	if (err == -EOPNOTSUPP && !dev->mt76.npu_dma.hold) {
+ 		/* Unmarked providers retain their existing managed allocation path. */
+ 		for (i = 0; i < ARRAY_SIZE(bytes); i++) {
+ 			if (!dmam_alloc_coherent(dev->mt76.dma_dev, bytes[i],
+@@ -726,10 +726,11 @@ int mt7996_npu_hw_stop(struct mt7996_dev *dev)
+ 		usleep_range(10000, 15000);
+ 	}
+ 
++	/* GET3 reports a firmware state word, not completion of deferred DMA.
++	 * Do not issue SET6 or let the caller reset shared queues on that basis.
++	 */
+ 	if (!err)
+-		err = mt76_npu_send_msg(npu, 6,
+-					WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR,
+-					0, GFP_KERNEL);
++		err = -EOPNOTSUPP;
+ 	else
+ 		dev_err(dev->mt76.dev, "npu stop failed\n");
+ unlock:
+diff --git a/mt7996/pci.c b/mt7996/pci.c
+index 82b8536..fe9f6a0 100644
+--- a/mt7996/pci.c
++++ b/mt7996/pci.c
+@@ -15,6 +15,68 @@ static LIST_HEAD(hif_list);
+ static DEFINE_SPINLOCK(hif_lock);
+ static u32 hif_idx;
+ 
++static LIST_HEAD(mt7996_retained_dma);
++static DEFINE_MUTEX(mt7996_retained_dma_lock);
++
++static void mt7996_record_retained_pci(struct mt7996_retained_pci *id,
++				      struct pci_dev *pdev)
++{
++	if (!pdev)
++		return;
++
++	id->pdev = pci_dev_get(pdev);
++	id->domain = pci_domain_nr(pdev->bus);
++	id->bus = pdev->bus->number;
++	id->devfn = pdev->devfn;
++	id->bar_valid = (pci_resource_flags(pdev, 0) & IORESOURCE_MEM) &&
++			pci_resource_len(pdev, 0);
++	id->bar_start = pci_resource_start(pdev, 0);
++	id->bar_end = pci_resource_end(pdev, 0);
++}
++
++static bool mt7996_pci_matches_retained(const struct mt7996_retained_pci *id,
++				       struct pci_dev *pdev)
++{
++	if (!id->pdev)
++		return false;
++	if (id->domain == pci_domain_nr(pdev->bus) &&
++	    id->bus == pdev->bus->number && id->devfn == pdev->devfn)
++		return true;
++
++	return id->bar_valid && (pci_resource_flags(pdev, 0) & IORESOURCE_MEM) &&
++	       pci_resource_len(pdev, 0) &&
++	       pci_resource_start(pdev, 0) <= id->bar_end &&
++	       id->bar_start <= pci_resource_end(pdev, 0);
++}
++
++static bool mt7996_pci_dma_retained(struct pci_dev *pdev)
++{
++	struct mt7996_dev *dev;
++	bool retained = false;
++
++	mutex_lock(&mt7996_retained_dma_lock);
++	list_for_each_entry(dev, &mt7996_retained_dma, retained_dma) {
++		if (mt7996_pci_matches_retained(&dev->retained_pci[0], pdev) ||
++		    mt7996_pci_matches_retained(&dev->retained_pci[1], pdev)) {
++			retained = true;
++			break;
++		}
++	}
++	mutex_unlock(&mt7996_retained_dma_lock);
++
++	return retained;
++}
++
++static void mt7996_pci_keep_dma(struct mt7996_dev *dev, struct pci_dev *pdev,
++				struct pci_dev *hif2)
++{
++	mt7996_record_retained_pci(&dev->retained_pci[0], pdev);
++	mt7996_record_retained_pci(&dev->retained_pci[1], hif2);
++	mutex_lock(&mt7996_retained_dma_lock);
++	list_add_tail(&dev->retained_dma, &mt7996_retained_dma);
++	mutex_unlock(&mt7996_retained_dma_lock);
++}
++
+ static const struct pci_device_id mt7996_pci_device_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, MT7996_DEVICE_ID) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MEDIATEK, MT7992_DEVICE_ID) },
+@@ -166,6 +228,10 @@ static int mt7996_pci_probe(struct pci_dev *pdev,
+ 	int irq, hif2_irq, ret;
+ 	struct mt76_dev *mdev;
+ 
++	if (mt7996_pci_dma_retained(pdev))
++		return dev_err_probe(&pdev->dev, -EBUSY,
++				     "NPU DMA retirement is still pending\n");
++
+ 	ret = pcim_enable_device(pdev);
+ 	if (ret)
+ 		return ret;
+@@ -206,11 +272,24 @@ static int mt7996_pci_probe(struct pci_dev *pdev,
+ 	dev->hif2 = hif2;
+ 	hif2_dev = hif2 ? container_of(hif2->dev, struct pci_dev, dev) : NULL;
+ 
+-	mt76_npu_init(mdev, pci_resource_start(pdev, 0),
+-		      pci_resource_len(pdev, 0),
+-		      pci_domain_nr(pdev->bus) ? 3 : 2);
++	/* A checked attempt may publish the BAR even if its reply fails. */
++	if (!try_module_get(THIS_MODULE)) {
++		ret = -ENODEV;
++		goto free_device;
++	}
++	ret = mt76_npu_init(mdev, pci_resource_start(pdev, 0),
++			    pci_resource_len(pdev, 0),
++			    pci_domain_nr(pdev->bus) ? 3 : 2);
++	if (mdev->npu_dma.hold) {
++		mt7996_pci_keep_dma(dev, pdev, hif2_dev);
++		if (ret)
++			goto free_device;
++	} else {
++		module_put(THIS_MODULE);
++	}
+ 
+-	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
++	/* Checked NPU allocations are tied to the provider's DMA device. */
++	ret = mdev->npu_dma.hold ? 0 : mt7996_mmio_wed_init(dev, pdev, false, &irq);
+ 	if (ret < 0)
+ 		goto free_device;
+ 
+@@ -235,7 +314,8 @@ static int mt7996_pci_probe(struct pci_dev *pdev,
+ 	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+ 
+ 	if (hif2) {
+-		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
++		ret = mdev->npu_dma.hold ? 0 :
++		      mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
+ 		if (ret < 0)
+ 			goto free_device;
+ 
+diff --git a/npu.c b/npu.c
+index faae6df..224c2fa 100644
+--- a/npu.c
++++ b/npu.c
+@@ -767,9 +767,16 @@ int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int
+ 	err = airoha_npu_wlan_init_reserved_memory(npu);
+ 	if (err)
+ 		goto error_ppe_put;
++
++	mutex_lock(&dev->npu_dma.lock);
++	/* A failed binding reply is not proof the BAR was never exposed. */
++	if (airoha_npu_wlan_uses_checked_dma(npu))
++		WRITE_ONCE(dev->npu_dma.hold, true);
+ 	err = airoha_npu_wlan_bind_endpoint(npu, dev->dev, phy_addr, bar_bytes, type);
+-	if (err)
++	if (err) {
++		mutex_unlock(&dev->npu_dma.lock);
+ 		goto error_ppe_put;
++	}
+ 
+ 	dev->dma_dev = npu->dev;
+ 	dev->mmio.phy_addr = phy_addr;
+@@ -780,6 +787,7 @@ int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int
+ 
+ 	rcu_assign_pointer(dev->mmio.npu, npu);
+ 	rcu_assign_pointer(dev->mmio.ppe_dev, ppe_dev);
++	mutex_unlock(&dev->npu_dma.lock);
+ 	synchronize_rcu();
+ 
+ 	mutex_unlock(&dev->mutex);
+@@ -797,36 +805,43 @@ error_unlock:
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_init);
+ 
+-int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++int mt76_npu_alloc_queue_mem(struct mt76_dev *dev, struct mt76_queue *q,
++			    size_t desc_size)
+ {
+ 	int qid = is_mt7996(dev) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;
++	struct airoha_npu_wlan_queue_mem mem;
+ 	struct airoha_npu *npu;
+-	dma_addr_t addr;
+-	void *buf;
++	bool rx_event;
+ 	int err;
+ 
+ 	BUILD_BUG_ON(sizeof(*q->desc) != 16);
+-	if (q != &dev->q_rx[qid] || q->flags != MT_NPU_Q_TXFREE(0))
+-		return -EOPNOTSUPP;
+-	if (q->desc || q->desc_dma)
+-		return -EBUSY;
+-	mutex_lock(&dev->mutex);
+-	npu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);
++	rx_event = q == &dev->q_rx[qid] && q->flags == MT_NPU_Q_TXFREE(0);
++	mutex_lock(&dev->npu_dma.lock);
++	if (dev->npu_dma.closing) {
++		err = -ESHUTDOWN;
++		goto unlock;
++	}
++	npu = rcu_dereference_protected(dev->mmio.npu,
++					lockdep_is_held(&dev->npu_dma.lock));
+ 	if (!npu) {
+-		err = -ENODEV;
++		err = dev->npu_dma.hold ? -ENODEV : MT76_NPU_QUEUE_MEM_MANAGED;
+ 		goto unlock;
+ 	}
+-	err = airoha_npu_wlan_alloc_rx_event(npu, dev->dev, dev->dma_dev,
+-					     q->ndesc, sizeof(*q->desc), &buf, &addr);
+-	if (!err) {
+-		q->desc = buf;
+-		q->desc_dma = addr;
++	err = airoha_npu_wlan_alloc_queue_mem(npu, dev->dev, dev->dma_dev, q->ndesc,
++					    desc_size, sizeof(*q->entry), rx_event, &mem);
++	if (err == AIROHA_NPU_WLAN_QUEUE_MANAGED) {
++		err = dev->npu_dma.hold ? -EPROTO : MT76_NPU_QUEUE_MEM_MANAGED;
++	} else if (err > 0) {
++		err = -EPROTO;
++	} else if (!err) {
++		q->desc = mem.desc;
++		q->desc_dma = mem.dma_addr;
++		q->entry = mem.entry;
+ 	}
+ unlock:
+-	mutex_unlock(&dev->mutex);
++	mutex_unlock(&dev->npu_dma.lock);
+ 	return err;
+ }
+-EXPORT_SYMBOL_GPL(mt76_npu_alloc_rx_event);
+ 
+ int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+ 		      const dma_addr_t *tx, unsigned int count)
+@@ -964,6 +979,8 @@ void mt76_npu_deinit(struct mt76_dev *dev)
+ 		mt76_napi_cleanup(dev);
+ 	}
+ 	mutex_lock(&dev->mutex);
++	mutex_lock(&dev->npu_dma.lock);
++	dev->npu_dma.closing = true;
+ 
+ 	npu = rcu_dereference_protected(dev->mmio.npu,
+ 					lockdep_is_held(&dev->mutex));
+@@ -973,13 +990,16 @@ void mt76_npu_deinit(struct mt76_dev *dev)
+ 				  lockdep_is_held(&dev->mutex));
+ 	ppe_dev = rcu_replace_pointer(dev->mmio.ppe_dev, NULL,
+ 				      lockdep_is_held(&dev->mutex));
++	mutex_unlock(&dev->npu_dma.lock);
+ 	if (npu || ppe_dev)
+ 		synchronize_rcu();
+ 
+ 	mutex_unlock(&dev->mutex);
+ 
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
+-	mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
++	if (!READ_ONCE(dev->npu_dma.hold)) {
++		mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU0]);
++		mt76_npu_queue_cleanup(dev, &dev->q_rx[MT_RXQ_NPU1]);
++	}
+ 
+ 	if (npu)
+ 		airoha_npu_put(npu);
