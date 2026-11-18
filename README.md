@@ -1,5 +1,13 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Build Inputs Verified
+
+The current drivers and firmware inputs have a verified offline snapshot.
+The image verifier now keeps original module evidence separate from the file
+a rebuild replaces. The first of three firmware replay profiles is verified;
+no new image or hardware pass is claimed.
+[Audit, cleanup and remaining gates](docs/maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - Which Image Is Current?
 
 Neither the protected October FIT nor the prepared sysupgrade contains the

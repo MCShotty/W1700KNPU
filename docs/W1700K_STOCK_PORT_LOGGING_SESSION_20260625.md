@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - World Input And Retention Audit
+
+Verified the current producer through an unshadowed snapshot, reproduced the
+old output-path failure in a private mount and rechecked the first native
+profile. No full build or device access. [Report and receipts](maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - Offline FIT Comparison
 
 Verified named default components and packaged module/firmware identities in

@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Use The Frozen Producer View
+
+World inputs for source `28abea8` are frozen in capsule `3d166089`. Resolve
+the 420 producer inputs and four linked modules outside the writable overlays;
+the prior FIT path is one of those inputs. Do not start a competing world.
+[Audit and resume checks](docs/maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - Check The Selected Image Payloads
 
 Use a pinned combined producer for current-image verification. Follow the

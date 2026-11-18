@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Current World Input Snapshot
+
+Source `28abea8`, snapshot `3d166089`, module producer `b5af9591`: 420
+inputs and four linked artifacts verified independently of the output overlay.
+Prepared FIT `978f9ddd` still mismatches all four. No new world or boot.
+[Offline evidence](maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - Default FIT Payloads
 
 Protected FIT a3f1d04b matches all four historical modules after packaging;

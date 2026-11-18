@@ -1,5 +1,17 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - World Inputs And First Replay Profile
+
+- Fixed an unbounded capsule hash and the world verifier reading a replaced
+  FIT as an original producer input. Both paths have real offline controls.
+- Snapshot `3d166089`: 6,896 files, 420 producer inputs, four modules, 345
+  replay inputs. The real older FIT fails all four current module comparisons.
+- Rechecked release, checkpoint and archive identities; 236 host tests passed.
+  Removed two reproduced caches (36,864 allocated bytes); retained unmatched data.
+- Verified profile 0 from invocation `61e2d7b8`: 6,421 ordered RPC/journal,
+  2,179 extent and four full-memory comparisons. Profile 1 started. No
+  terminal matrix, new image or physical verdict. [Audit](maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - FIT Selection And Module Provenance
 
 - Fixed default configuration resolution; the prior verifier selected the same

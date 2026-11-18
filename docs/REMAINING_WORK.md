@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Inputs Ready, World Not Run
+
+Profile 0 passed its independent artifact check; profiles 1 and 2 still need
+a terminal verdict from invocation `61e2d7b8`. Preserve its C: writer lock.
+The verified input snapshot is `3d166089`; recheck capacity and producer pins
+before a fresh world. Exact packaged drivers, CODE/DATA and separate physical
+and client acceptance still matter. [Receipt](maintenance/audit-20261118/WORLD-INPUTS.md).
+
 ## 2026-11-18 - Keep Native And Image Gates Separate
 
 Continue observing invocation 61e2d7b8 without restarting it. Neither inspected
