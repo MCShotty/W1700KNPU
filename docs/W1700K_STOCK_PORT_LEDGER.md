@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Seal The Baseline FIT Read-Only
+
+- The original wrapper retained its verifier failure and unchanged lower,
+  cache and snapshot receipts. Opt-in postflight reverified the exact
+  prepared sources and FIT without rerunning or overwriting the build.
+- Sealed `baseline-txp-20261118-a` with FIT `5af3c3a3`, receipt
+  `915f07f3`, and the original 19,261-operation, 345-input replay.
+  All 126 focused tests passed. No flash authorization, board contact,
+  module load or boot result.
+  [Recovery gates and exact evidence](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+
 ## 2026-11-18 - Bind Successor Sources And Recheck The Baseline FIT
 
 - Frozen `make world` returned zero; the original verifier expected 23

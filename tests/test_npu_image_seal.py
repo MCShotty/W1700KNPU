@@ -210,6 +210,29 @@ class SealTests(unittest.TestCase):
             seal.seal(self.root,self.args('fixture-positive'))
         self.assertEqual(fit.read_bytes(), self.fit_bytes)
 
+    def test_roster_recheck_is_explicit_and_still_requires_a_terminal_replay(self):
+        original = self.world_row['child']
+        failed = self.world_row | dict(passed=False, world_build=False, returncode=1, child=None)
+        proof = dict(original_wrapper_passed=False, original_wrapper_returncode=1)
+        with replace(self.world, failed) as pin, \
+             patch('npu_world_postflight.recheck', return_value=(
+                 original['image_verification'], original['image_verification_sha256'], proof)) as recheck, \
+             patch.object(seal, 'inspect_fit_pair', return_value=self.packed):
+            with self.assertRaisesRegex(ValueError, 'Not a passing isolated world'):
+                seal.seal(self.root, self.args('fixture-recheck', world_sha256=pin))
+            recheck.assert_not_called()
+            with self.assertRaisesRegex(ValueError, 'Receipt digest mismatch'):
+                seal.seal(self.root, self.args('fixture-recheck', world_sha256=pin,
+                                              recover_rv32_roster=True, terminal_sha256='0' * 64))
+            self.assertFalse((self.store / 'fixture-recheck').exists())
+            receipt = seal.seal(self.root, self.args('fixture-recheck', world_sha256=pin, recover_rv32_roster=True))
+            self.assertEqual(replay.digest(self.world), pin)
+        row, _ = replay.read_receipt(receipt)
+        self.assertEqual(row['world_postflight'], proof)
+        self.assertEqual(row['world_sha256'], pin)
+        self.assertTrue(row['rv32_emulator_replay_bound'])
+        self.assertFalse(row['flash_authorized'])
+
     def test_ethernet_enabled_seal_uses_five_modules_and_no_fallback(self):
         name = seal.npu_ethernet_fit.ETH_MODULE
         eth_pin = "7" * 64

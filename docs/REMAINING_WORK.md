@@ -1,13 +1,13 @@
 # Remaining W1700K Work
 
-## 2026-11-18 - Seal The Frozen Baseline
+## 2026-11-18 - Link The Successor Modules
 
-The original replay passed, the frozen `make world` returned zero, and the
-read-only FIT recheck passed after correcting the stale RV32 roster. Bind
-the completed original inventory and the distinct corrected recheck,
-then seal the exact original FIT and replay. Only then switch to the pinned
-`coherent-ppe-qdma-frame-a` authority and link a new combined producer.
-[Recheck and new source contract](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+The original FIT is sealed locally with its replay. Use the pinned
+`coherent-ppe-qdma-frame-a` bundle and link a new combined producer.
+Verify the new prepared sources, replay and world; the resulting FIT also
+needs the exact linked Ethernet module. No board work is authorized by
+the baseline seal.
+[Baseline seal and new source contract](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 [World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
@@ -27,8 +27,8 @@ retirement. Neither retained owner establishes Wi-Fi or remote NPU retirement.
 
 ## 2026-11-18 - Qualify The Coherent DMA Window
 
-The original replay passed; account for its frozen image first. Then use
-the new binding, W1700K DTS, replacement provider, and unchanged packet-owner
+The original replay and offline FIT seal passed. Use the new binding,
+W1700K DTS, replacement provider, and unchanged packet-owner
 mt76 patch. Do not layer on the earlier provider patch. Verify the selected
 FIT, boot-time pool address and capacity, exhaustion, probe failure, normal
 Wi-Fi fallback and offload. Physical DMA retirement is still open.
@@ -45,8 +45,8 @@ requires fresh linked modules, its own replay and FIT.
 The packet-owner work replaced the allocator patch that reacquired the device
 mutex during RX setup. It retains ring, pool, token and context state across
 the examined detach and rejects
-matching rebind. Verify original terminal replay and exact frozen image
-first, then build matching modules and run the failure and legacy cases.
+matching rebind. Build matching successor modules and run the failure
+and legacy cases.
 Physical retirement, authorized releases and real-client tests remain open.
 [Exact preimages and gates](../research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
 
@@ -54,9 +54,9 @@ Physical retirement, authorized releases and real-client tests remain open.
 
 The staged checked-session provider retains descriptor and software-entry
 storage, including entries for the original RX-event ring. This doesn't
-gate existing removal-time writes or payload frees. The original replay
-passed; keep its frozen image inputs until the baseline FIT is sealed.
-Then build and test the paired owner changes with the hot-reset patch.
+gate existing removal-time writes or payload frees. The original
+baseline FIT is sealed. Build and test the paired owner changes with
+the hot-reset patch.
 Protect page pools, payload mappings, tokens, context and rebind paths, and
 prove physical retirement before enabling shared owner release.
 [Exact patches and receipt](../research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).

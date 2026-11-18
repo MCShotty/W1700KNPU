@@ -30,16 +30,18 @@ FIT_PAIR_FILES = {
 }
 
 
-def verify_world(root, result_path, result_pin, snapshot_path):
+def verify_world(root, result_path, result_pin, snapshot_path, *, recover_rv32_roster=False):
     result_path = path_under(root / '.local', root / result_path)
     directory = result_path.parent
     world, _ = read_pinned(result_path, result_pin)
-    require(result_path.name == 'result.json' and world['returncode'] == 0 and
-            all(world[k] is True for k in ('passed', 'world_build', 'snapshot_unchanged', 'parent_namespaces_unchanged',
-                'original_build_content_modes_ownership_links_unchanged',
-                'original_download_cache_content_modes_ownership_links_unchanged')) and
-            all(world[k] is False for k in ('host_timeout', 'probe_only', 'hardware', 'module_loaded')),
-            'Not a passing isolated world build')
+    require(result_path.name == 'result.json', 'Not a world result receipt')
+    if not recover_rv32_roster:
+        require(world['returncode'] == 0 and
+                all(world[k] is True for k in ('passed', 'world_build', 'snapshot_unchanged', 'parent_namespaces_unchanged',
+                    'original_build_content_modes_ownership_links_unchanged',
+                    'original_download_cache_content_modes_ownership_links_unchanged')) and
+                all(world[k] is False for k in ('host_timeout', 'probe_only', 'hardware', 'module_loaded')),
+                'Not a passing isolated world build')
     envelope = world['envelope']
     require(envelope['network_isolated'] is True and envelope['physical_output_root'] == str(directory) and
             envelope['protected_lower_build'] == str(root / BUILD), 'World output directory does not match its envelope')
@@ -55,21 +57,31 @@ def verify_world(root, result_path, result_pin, snapshot_path):
             'World does not use the current source lock')
     release = lock['kernel']
     require(isinstance(release, str) and re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', release), 'Unknown module path')
+    physical = path_under(directory, f'build-upper/{IMAGE_PATH}')
     child = world['child']
-    require(child['world_build'] is True and child['passed'] is True and child['hardware'] is False and
-            child['critical_kernel_modules_and_RV32_cleaned'] is True and child['proof']['root_readonly'] is True and
-            child['proof']['producer_view_readonly'] is True, 'No clean combined world proof')
-    name = Path(child['image_verification_receipt'])
-    require(not name.is_absolute() and name.is_relative_to(LOGS) and name.name == 'result.json',
-            'Missing independent image-verification receipt')
-    image, image_receipt_pin = read_pinned(path_under(directory, Path('log-upper') / name.relative_to(LOGS)),
-                                           child['image_verification_sha256'])
-    require(image == child['image_verification'] and image['passed'] is True and image['source_lock_sha256'] == lock_pin and
+    verification = {}
+    if recover_rv32_roster:
+        require(not npu_world_sources.has_late_module_patches(lock), 'RV32 roster recovery is for the pinned baseline only')
+        from npu_world_postflight import recheck
+        image, image_receipt_pin, postflight = recheck(
+            root, directory, world, result_pin, frozen, capsule['files'], lock_pin, physical)
+        verification['world_postflight'] = postflight
+    else:
+        require(child['world_build'] is True and child['passed'] is True and child['hardware'] is False and
+                child['critical_kernel_modules_and_RV32_cleaned'] is True and child['proof']['root_readonly'] is True and
+                child['proof']['producer_view_readonly'] is True, 'No clean combined world proof')
+        name = Path(child['image_verification_receipt'])
+        require(not name.is_absolute() and name.is_relative_to(LOGS) and name.name == 'result.json',
+                'Missing independent image-verification receipt')
+        image, image_receipt_pin = read_pinned(path_under(directory, Path('log-upper') / name.relative_to(LOGS)),
+                                               child['image_verification_sha256'])
+        require(image == child['image_verification'], 'World and image receipts differ')
+        require(str(physical) == world['physical_image'] and image['sha256'] == world['physical_image_sha256'],
+                'World FIT path or digest mismatch')
+    require(image['passed'] is True and image['source_lock_sha256'] == lock_pin and
             image['image'] == f'{BUILD}/{IMAGE_PATH}' and image['pinned_module_bytes_verified'] is True,
             'Not the verified image from this world')
-    physical = path_under(directory, f'build-upper/{IMAGE_PATH}')
-    require(str(physical) == world['physical_image'] and is_digest(image['sha256']) and
-            image['sha256'] == world['physical_image_sha256'] and image['bytes'] == physical.stat().st_size and
+    require(is_digest(image['sha256']) and image['bytes'] == physical.stat().st_size and
             0 < image['bytes'] <= MAX_FIT, 'World FIT path, size or digest mismatch')
     binding = image['packaged_module_provenance']
     producer_name, producer_pin = binding['producer'], binding['producer_sha256']
@@ -101,7 +113,7 @@ def verify_world(root, result_path, result_pin, snapshot_path):
     return dict(frozen=frozen, declarations=capsule['files'], world_sha256=result_pin, snapshot_sha256=capsule_pin,
                 source_lock_sha256=lock_pin, producer_sha256=producer_pin, image_receipt_sha256=image_receipt_pin,
                 fit=physical, image=image, module_sha256=modules, kernel=release, source_lock=lock,
-                build_upper=path_under(directory, 'build-upper', directory=True)) | successor
+                build_upper=path_under(directory, 'build-upper', directory=True)) | successor | verification
 
 
 def inspect_fit_pair(image_path, scratch, kernel, replay_pair, module_names=fit_tools.MODULE_NAMES):
@@ -175,7 +187,8 @@ def seal(root, args):
     store = path_under(root, QUALIFIED, directory=True)
     output = store / args.name
     require(not os.path.lexists(output), 'Candidate name already exists')
-    world = verify_world(root, args.world_result, args.world_sha256, args.snapshot)
+    recovery = {'recover_rv32_roster': True} if getattr(args, 'recover_rv32_roster', False) else {}
+    world = verify_world(root, args.world_result, args.world_sha256, args.snapshot, **recovery)
     replay = verify_replay(root, args.start, args.start_sha256, args.terminal, args.terminal_sha256,
                            world['frozen'], world['declarations'])
     require(replay['source_lock_sha256'] == world['source_lock_sha256'], 'Replay and world source locks differ')
@@ -199,6 +212,8 @@ def seal(root, args):
                                           'image_receipt_sha256')}
         if 'source_contract_sha256' in world:
             receipt['source_contract_sha256'] = world['source_contract_sha256']
+        if 'world_postflight' in world:
+            receipt['world_postflight'] = world['world_postflight']
         receipt.update(format='w1700k-offline-sealed-fit-v1', image=filename, image_sha256=fit['sha256'], bytes=fit['bytes'],
                        replay=replay, packaged=packed, rv32_emulator_replay_bound=True,
                        scope='Exact inspected local FIT and emulator payload binding only',
@@ -232,6 +247,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--name', required=True)
     parser.add_argument('--snapshot', required=True, type=Path)
+    parser.add_argument('--recover-rv32-roster', action='store_true',
+                        help='explicitly recheck the pinned baseline RV32 roster failure read-only')
     parser.add_argument('--ethernet-bundle', type=Path, help='Verified source bundle receipt for the staged Ethernet lock')
     parser.add_argument('--ethernet-bundle-sha256', help='Independently pinned Ethernet bundle receipt SHA-256')
     parser.add_argument('--ethernet-linked-sha256', help='SHA-256 of the raw module from the same passing world')

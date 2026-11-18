@@ -39,6 +39,7 @@
     "terminal_wrapper_passed": false,
     "terminal_protected_inputs_unchanged": true,
     "build_state_sha256": "2f24ece143c04bfadc729e9f150ea2ee85036f30e2feeaadd763a5d43e3c018a",
+    "run_log_sha256": "75254132a6078264e1b35178470b362cf8c89de523f2776319a3be37f60d66f1",
     "make_world_exit_code": 0,
     "first_image_verifier_exit_code": 1,
     "frozen_verifier_sha256": "3a70e03a3b35819f80bfb718410e64dd2047cb51062c0757eb5d744cd0375722",
@@ -51,9 +52,13 @@
     "module_abi_checks": 78,
     "exact_linked_module_matches": 4,
     "rv32_archive_objects": 26,
-    "sealed": false
+    "sealed": true,
+    "seal_path": ".local/npu-qualified-images/baseline-txp-20261118-a/receipt.json",
+    "seal_sha256": "915f07f3a048a33aadc04f638db60b52c6e2855649c4ff51eba74c02f832ff2f",
+    "seal_replay_operations": 19261,
+    "seal_reverified_inputs": 345
   },
-  "focused_host_tests_passed": 120,
+  "focused_host_tests_passed": 126,
   "hardware": false,
   "board_contact": false
 }

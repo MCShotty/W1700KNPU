@@ -1,14 +1,14 @@
 # W1700KNPU Workspace
 
-## 2026-11-18 - Use The Pinned Successor Sources
+## 2026-11-18 - Baseline Sealed, Link The Successor
 
-The frozen `make world` succeeded, but its image verifier used a stale
-23-object RV32 list. The independent read-only FIT recheck passed with all
-26 objects and four exact modules. Preserve the original failed verifier
-output and finish terminal accounting and sealing before switching locks.
+The frozen `make world` succeeded. Its original stale-roster verifier
+failure is preserved. The corrected read-only postflight and original
+replay sealed `baseline-txp-20261118-a` locally, not for flashing.
 The next bundle is `coherent-ppe-qdma-frame-a` with a pinned prepared-source
 contract and a frame fix checked by three scratch AArch64 object builds.
-[Source contract, FIT recheck and remaining gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+Build a fresh producer from that authority; do not reuse the baseline modules.
+[Source contract, baseline seal and remaining gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 
 ## 2026-11-18 - Bind The Production Ethernet Module
 
@@ -38,8 +38,7 @@ FIT or physical retirement yet.
 
 The admitted user service `w1700k-world-txp-20261118-stream-a.service`,
 invocation `1137136a`, built the FIT. Do not relaunch or change its
-frozen inputs. See the successor-source checkpoint for the verifier recheck
-and the remaining publication gate.
+frozen inputs. See the successor-source checkpoint for the final offline seal.
 [Handle and resource limits](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 
 ## 2026-11-18 - Original Replay Verified

@@ -17,8 +17,17 @@ It passed for W1700K `config-1`: 218 packages, 78 module ABI checks,
 four matching packaged modules, and 26 byte-matched RV32 archive members.
 The original wrapper then exited with verifier failure and confirmed that
 both protected inventories and the snapshot were unchanged. The independent
-recheck is not a successful original wrapper result or a publication receipt.
-Keep the original terminal evidence and replay gates before sealing.
+recheck never replaces that failed wrapper result.
+
+The baseline is now sealed locally as `baseline-txp-20261118-a`.
+`--recover-rv32-roster` is explicit and only accepts the pinned failure. It
+reconstructs the read-only build view, verifies the prepared sources, and
+requires the corrected image receipt to exactly match the independent
+recheck. The ordinary sealing path rejected the failed result without
+writing anything. The seal then checked the complete original replay
+(19,261 operations, 345 input hashes) and extracted the FIT payload
+again. The original world receipt is preserved and the seal records its
+nonzero return code.
 
 ## Successor
 
@@ -39,14 +48,13 @@ prepared-source proof, and the Ethernet seal requires the same bundle.
 
 The revised provider, mt76 `dma.c` and `npu.c` compiled separately using the
 pinned AArch64 compiler, retained flags and the original frame limit. All
-120 focused host tests passed. These are relocatable objects only. Source
+126 focused host tests passed. These are relocatable objects only. Source
 pins, artifact hashes, and the independent FIT receipt are in
 [EVIDENCE.json](EVIDENCE.json).
 
 ## Next
 
-Bind the original inventories and independent FIT recheck without
-treating the failed wrapper as a pass, and seal the baseline with
-its original replay. Then build a fresh source-bound producer and world for
-the successor and bind its new replay and fifth (Ethernet) module. No image
-was flashed, module loaded, or board contacted.
+Keep the sealed baseline as an offline reference. Build a fresh
+source-bound producer and world for the successor, then bind its own
+replay and fifth (Ethernet) module. No image was flashed, module loaded,
+or board contacted.

@@ -1,12 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
-## 2026-11-18 - Baseline FIT And Successor Sources Checked
+## 2026-11-18 - Baseline FIT Sealed Locally
 
-The frozen OpenWrt build produced a W1700K FIT. A read-only recheck passed
-with all 26 RV32 archive objects and the four exact linked modules. The
-original verifier stopped at a stale list, so the recheck alone is not a
-seal or a boot test. The next source bundle fixes the provider stack frame
-and pins the prepared inputs for a fresh producer.
+The frozen OpenWrt W1700K FIT was sealed after a read-only verifier recheck
+and the complete original replay. The original stale-roster failure is
+preserved; no board boot or flash was attempted. The successor source
+bundle fixes the provider stack frame and pins the prepared inputs for a
+fresh producer.
 [Evidence and next gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 
 ## 2026-11-18 - Ethernet Module Bound At FIT Seal

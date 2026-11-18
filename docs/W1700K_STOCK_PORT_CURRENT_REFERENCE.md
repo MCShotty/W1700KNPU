@@ -1,18 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
-## 2026-11-18 - Baseline FIT Recheck And Successor Source Gate
+## 2026-11-18 - Baseline FIT Seal And Successor Source Gate
 
 The original offline world made the W1700K UBI FIT. Its frozen verifier
 rejected a valid 26-object RV32 archive because it expected only 23.
 The corrected read-only recheck verified the exact FIT, four linked modules,
-and the current archive. The separate original terminal inventory, replay
-binding, and final seal are still required.
+and the current archive. The seal `baseline-txp-20261118-a` then bound the
+original terminal inventory and replay. It does not authorize flashing.
 
 The next source authority is `coherent-ppe-qdma-frame-source-a` from
 `coherent-ppe-qdma-frame-a`. A staged fix keeps the cold command's lease
 snapshot off the stack; three AArch64 objects passed with the original
 Kbuild limit. It is not active or linked into a successor FIT.
-[Exact source and image recheck](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+[Exact source and image seal](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 
 ## 2026-11-18 - Ethernet Module Seal Gate
 
