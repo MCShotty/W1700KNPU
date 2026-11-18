@@ -1,5 +1,17 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage Hot Reset Retention
+
+- Prepared an exact patch to the qualified mt76 source: GET3 zero no longer
+  permits SET6, attached NPU defers shared hot reset, and the radio-only path
+  checks idle before token/ring release. Full reset latches failed stop.
+- Reapplied it to three producer-bound source files; all seven source
+  bypass controls rejected and checkpatch clean. Not compiled, promoted or
+  deployed. PCI unbind allocation ownership and physical retirement remain
+  open. [Handoff and receipt](../research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+- No frozen input changed. Replay `61e2d7b8` remains live with 345 bindings
+  rehashed and a 5,652-record profile 1 prefix.
+
 ## 2026-11-18 - Radio PDMA Stop Status Trace
 
 - Closed the registration and callback route for stock MT7990 PCI: no

@@ -1,5 +1,16 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Qualify Staged Hot Reset Retention
+
+The patch removes the GET3-zero to SET6 transition and puts full-reset
+token release behind the TX/RX disable and radio poll. Attached NPU and an
+unverified radio stop defer reset rather than retry or wake queues. Staged
+source checks pass; the driver is not compiled or selected. Keep the original
+replay and image producer frozen. Then integrate, compile and run the error
+and no-NPU regression cases. Explicit allocation ownership across PCI
+unbind and positive shared DMA retirement remain open.
+[Patch, evidence and gate](../research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+
 ## 2026-11-18 - Check Stop Results Before Releasing Owners
 
 The static stock PCI route reaches a radio PDMA poll but ignores its timeout,

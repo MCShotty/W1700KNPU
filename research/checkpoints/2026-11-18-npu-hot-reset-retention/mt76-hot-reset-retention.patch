@@ -1,0 +1,97 @@
+diff --git a/mt7996/dma.c b/mt7996/dma.c
+index 1eed2c5..1c2c006 100644
+--- a/mt7996/dma.c
++++ b/mt7996/dma.c
+@@ -970,6 +970,10 @@ int mt7996_dma_reset(struct mt7996_dev *dev, bool force)
+ 	if (err)
+ 		return err;
+ 
++	/* Masking NPU IRQs does not retire its descriptor or payload references. */
++	if (mt76_npu_device_active(&dev->mt76))
++		return -EOPNOTSUPP;
++
+ 	mt76_clear(dev, MT_WFDMA0_GLO_CFG,
+ 		   MT_WFDMA0_GLO_CFG_TX_DMA_EN |
+ 		   MT_WFDMA0_GLO_CFG_RX_DMA_EN);
+@@ -981,6 +985,16 @@ int mt7996_dma_reset(struct mt7996_dev *dev, bool force)
+ 
+ 	usleep_range(1000, 2000);
+ 
++	/* This is a radio-side check, not a fence for a shared NPU queue. */
++	if (!mt76_poll(dev, MT_WFDMA_EXT_CSR_HIF_MISC,
++		       MT_WFDMA_EXT_CSR_HIF_MISC_BUSY, 0, 1000))
++		return -ETIMEDOUT;
++
++	if (force) {
++		mt7996_tx_token_put(dev);
++		idr_init(&dev->mt76.token);
++	}
++
+ 	for (i = 0; i < __MT_TXQ_MAX; i++) {
+ 		mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[i], true);
+ 		if (phy2)
+diff --git a/mt7996/mac.c b/mt7996/mac.c
+index 2656ffc..33ec686 100644
+--- a/mt7996/mac.c
++++ b/mt7996/mac.c
+@@ -2291,13 +2291,11 @@ mt7996_mac_restart(struct mt7996_dev *dev)
+ 	mt76_napi_disable(mdev, MT76_NAPI_TX);
+ 	synchronize_rcu();
+ 
+-	/* token reinit */
+-	mt7996_tx_token_put(dev);
+-	idr_init(&dev->mt76.token);
+-
+ 	ret = mt7996_dma_reset(dev, true);
+-	if (ret)
++	if (ret) {
++		WRITE_ONCE(dev->recovery.npu_error, ret);
+ 		return ret;
++	}
+ 
+ 	mt76_for_each_q_rx(mdev, i) {
+ 		if (mt76_napi_enable(mdev, i)) {
+@@ -2448,11 +2446,13 @@ mt7996_mac_full_reset(struct mt7996_dev *dev)
+ 		ret = mt7996_mac_restart(dev);
+ 		if (!ret)
+ 			break;
+-		if (READ_ONCE(dev->mt76.mmio.npu_irq.error)) {
++		if (READ_ONCE(dev->mt76.mmio.npu_irq.error) ||
++		    READ_ONCE(dev->recovery.npu_error)) {
+ 			WRITE_ONCE(dev->recovery.npu_error, ret);
+ 			mutex_unlock(&dev->mt76.mutex);
+ 			dev_err(dev->mt76.dev,
+-				"NPU IRQ quarantine prevents full reset: %d\n", ret);
++				"DMA shutdown unverified; full reset deferred: %d\n",
++				ret);
+ 			return ret;
+ 		}
+ 	}
+@@ -2685,7 +2685,7 @@ npu_recovery_failed:
+ 		mt76_npu_disable_irqs(&dev->mt76);
+ 	WRITE_ONCE(dev->recovery.npu_error, ret);
+ 	mutex_unlock(&dev->mt76.mutex);
+-	dev_err(dev->mt76.dev, "NPU L1 recovery failed: %d; resources retained\n",
++	dev_err(dev->mt76.dev, "L1 recovery failed: %d; resources retained\n",
+ 		ret);
+ }
+ 
+diff --git a/mt7996/npu.c b/mt7996/npu.c
+index d01bd18..4d771ab 100644
+--- a/mt7996/npu.c
++++ b/mt7996/npu.c
+@@ -726,10 +726,11 @@ int mt7996_npu_hw_stop(struct mt7996_dev *dev)
+ 		usleep_range(10000, 15000);
+ 	}
+ 
++	/* GET3 reports a firmware state word, not completion of deferred DMA.
++	 * Do not issue SET6 or let the caller reset shared queues on that basis.
++	 */
+ 	if (!err)
+-		err = mt76_npu_send_msg(npu, 6,
+-					WLAN_FUNC_SET_WAIT_INODE_TXRX_REG_ADDR,
+-					0, GFP_KERNEL);
++		err = -EOPNOTSUPP;
+ 	else
+ 		dev_err(dev->mt76.dev, "npu stop failed\n");
+ unlock:

@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Hot Reset Retention
+
+A staged mt76 change prevents L1 and watchdog recovery from recycling
+NPU-owned queues on an unverified stop. It is source-checked and still needs
+build qualification. [Patch and scope](research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+
 ## 2026-11-18 - Radio DMA Stop
 
 The stock PCI teardown does not gate token cleanup on radio DMA idle.

@@ -1,0 +1,29 @@
+{
+  "before": {
+    "mt7996/dma.c": "3f8869c8a18fc18b3a929f780ec673024fd1e7a5faf174f47d74fda5b9e1b8b7",
+    "mt7996/mac.c": "e58a9aa074f927e144a8745918d504da34bc6c831105f8a8b6081e17acf6e577",
+    "mt7996/npu.c": "d2f628745af524bea8bf8233e502b0466ccfc4fd516b2e48e395c28da123414e"
+  },
+  "candidate": {
+    "mt7996/dma.c": "9bd05a4c0d6a1eadf0fa8250d24fd34752b036eec043aa317a64c6ac0d4fd7ad",
+    "mt7996/mac.c": "51cfed11789ee04dc96295cba5788e9458caf7a5bede0a7532286f87c6be4601",
+    "mt7996/npu.c": "5ba6e9876c4ddbc23f861626156465f71899b7edc71333f6cc8e4b626c86898d"
+  },
+  "compiled": false,
+  "patch_sha256": "718765b69e744a32803294a077d6cc7eef7bb25ddd0888a35f001f974852d919",
+  "physical_retirement_proven": false,
+  "producer": ".local/npu-build-scratch/native-c2/fw-txp-20261118-modules-a/modules/result.json",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "rejected_source_controls": [
+    "permit-attached-npu",
+    "ignore-radio-timeout",
+    "move-early-token-free",
+    "omit-watchdog-latch",
+    "retry-retained-reset",
+    "restore-set6",
+    "ignore-l1-stop-error"
+  ],
+  "schema": 1,
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "staged_not_promoted": true
+}

@@ -1,5 +1,14 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Staged Hot Reset Retention
+
+The qualified radio still frees full-reset tokens before checking DMA.
+The staged patch defers shared reset while NPU is attached and gates
+radio-only reset cleanup on the existing radio idle bit. An L1 GET3 zero
+stops before SET6. This is source-only; do not promote it over the frozen
+producer or infer unbind or physical retirement coverage.
+[Patch and verification](../research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+
 ## 2026-11-18 - Radio Stop Status
 
 Stock PCI registration leaves the traffic-stop slot empty. The separate

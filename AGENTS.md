@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Do Not Recycle On An Unverified Reset
+
+The hot-reset patch is staged with seven source controls. It defers an
+attached-NPU reset and checks the radio idle bit before queue/token cleanup
+when NPU is absent. Do not apply it to the frozen producer while its replay
+and image build depend on the old source. [Integration gate](research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+
 ## 2026-11-18 - Treat Radio Idle As A Scoped Result
 
 The stock PCI traffic-stop slot is empty; stock PDMA timeout is discarded

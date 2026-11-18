@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Hot Reset Retention Candidate
+
+Source patch and seven negative controls cover both early release paths.
+Pending compile and producer promotion; no change to original replay input,
+hardware, or PCI unbind ownership. [Handoff](../research/checkpoints/2026-11-18-npu-hot-reset-retention/REPORT.md).
+
 ## 2026-11-18 - Radio Idle Poll Outcome
 
 Checked the stock PCI registration, missing traffic callback and radio PDMA
