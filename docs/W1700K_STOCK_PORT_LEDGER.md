@@ -1,5 +1,15 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Start Frozen Baseline World
+
+- Streamed the protected host inventories without changing the frozen
+  build command or source. Verified matching row fields and refusal on
+  drift; all 101 focused host tests passed.
+- Admitted the exact baseline from capsule `3d166089` and producer
+  `b5af9591`. User service invocation `1137136a` held both locks and
+  advanced through lower inventory at the saved check. No world pass,
+  FIT or target contact. [Launch receipt](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+
 ## 2026-11-18 - Verify Original RV32 Terminal
 
 - Original unit exited successfully on its original invocation. Independently

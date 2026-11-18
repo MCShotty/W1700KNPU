@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Frozen Baseline World Dispatch
+
+Admitted and observed the exact private baseline on the C-backed scratch.
+Keep the frozen inputs and lower unchanged. Verification is still
+pre-build; no FIT, load or hardware result.
+[Run and limits](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+
 ## 2026-11-18 - Original RV32 Replay Terminal
 
 Verified the original terminal, all three ordered profiles, and all 345

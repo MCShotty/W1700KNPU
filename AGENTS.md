@@ -1,9 +1,17 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Observe The Frozen Baseline World
+
+The admitted user service `w1700k-world-txp-20261118-stream-a.service`,
+invocation `1137136a`, was advancing through protected source inventory.
+Do not start it again or change old inputs while it is live. Verify its
+terminal world and seal the exact FIT before promoting the source delta.
+[Handle and resource limits](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+
 ## 2026-11-18 - Original Replay Verified
 
 Invocation `61e2d7b8` passed all 19,261 ordered operations and 345 input
-bindings. Keep the old source lock for the next frozen baseline world;
+bindings. Keep the old source lock for the running baseline world;
 no world, board boot or physical retirement is qualified by replay.
 [Terminal proof and next gates](research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 

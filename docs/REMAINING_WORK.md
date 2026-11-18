@@ -2,10 +2,11 @@
 
 ## 2026-11-18 - Build The Frozen Baseline
 
-The original terminal replay is verified. Build the unchanged capsule
-with the pinned combined producer after fresh resource admission, then
-seal its exact FIT bytes. Only then switch to the separately verified
-coherent source delta and rebuild its modules.
+The original terminal replay is verified and the unchanged capsule is
+running with the pinned combined producer. Verify the live unit's
+terminal world result and seal its exact FIT bytes. Only then switch
+to the separately verified coherent source delta and rebuild its modules.
+[World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
 ## 2026-11-18 - Qualify PPE And Ethernet Retirement

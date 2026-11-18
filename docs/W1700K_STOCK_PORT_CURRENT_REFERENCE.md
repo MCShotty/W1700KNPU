@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Frozen Baseline World In Progress
+
+Invocation `1137136a` passed memory, storage and lock admission.
+Protected inventory was advancing. No terminal world result or FIT.
+Use the exact user service and do not relaunch while it remains live.
+[Launch and scope](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+
 ## 2026-11-18 - Original RV32 Terminal Pass
 
 Independent verification found all 19,261 expected operations and 345

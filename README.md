@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Frozen Baseline World Running
+
+The offline build was admitted with bounded memory and the exact replayed
+inputs. The lower-tree audit now streams its inventory. No FIT or board
+result yet. [Live handle and checks](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+
 ## 2026-11-18 - Original RV32 Replay Passed
 
 All three profiles passed, with 19,261 verified operations and 345 matching

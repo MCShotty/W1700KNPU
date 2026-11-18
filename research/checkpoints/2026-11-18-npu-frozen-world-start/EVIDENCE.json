@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "host_change_commit": "5a0e79f",
+  "replay_terminal_sha256": "e5214834c100cd4855941026d2ee781ced3603be6f772a00d3075341e6ab0d71",
+  "capsule_sha256": "3d166089dbb5a89650521a1d7331f8e2ce967472ed67ed1eebe0af50362caff3",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "frozen_inner_sha256": "b685750779ba87d99149cd28076b80c3448b6acd16e6d526bcf70a31c4567f48",
+  "synthetic_inventory": {
+    "logical_rows": 891138,
+    "address_space_ceiling_bytes": 134217728,
+    "streamed_peak_rss_bytes": 21606400,
+    "old_dictionary_raised_memory_error": true,
+    "streamed_sha256": "5b2d36cf97e8113ec9098c4fcab713ae5c3ff25387a437bde061cd729ce03eed"
+  },
+  "host_tests": {
+    "passed": 101,
+    "failed": 0,
+    "skipped": 0
+  },
+  "live": {
+    "admission_sha256": "3eadf2b1ae9eb75f444457e8e991bc59b6b2d20c19550971511c7a4b3294088b",
+    "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "budget_bytes": {
+      "C": 13958643712,
+      "D": 3288334336
+    },
+    "controller_pid": 193318,
+    "controller_sha256": "f597b7a218e7467734444ae23da42c04d51415f22140389b3c2a026d9c39768a",
+    "cpu_delta_ns": 827290000,
+    "frozen_inner_dispatched": false,
+    "guest_available_bytes": 6921613312,
+    "hardware": false,
+    "invocation": "1137136aae6141e9bbaa3196bc3e69a9",
+    "launcher_sha256": "7eef42bd2f2a5e656be115628217c8c97d2684c4bb1b86268fcb933bbe8c9412",
+    "lower_manifest_bytes": 6286169,
+    "lower_manifest_growth_bytes": 261752,
+    "memory_anon_bytes": 32509952,
+    "memory_file_bytes": 63401984,
+    "memory_max_bytes": 1610612736,
+    "memory_oom_kills": 0,
+    "memory_reserve_bytes": 2147483648,
+    "memory_swap_max_bytes": 0,
+    "observed_unix_ns": 1795012042666834700,
+    "output": ".local/npu-build-scratch/native-c2/world-txp-20261118-stream-a",
+    "started_sha256": "68013c2367982add4b2b264aafb90253a18f1ccee041a16beeaf0ca2bb02761b",
+    "unit": "w1700k-world-txp-20261118-stream-a.service",
+    "windows_available_bytes": 6215200768,
+    "world_pass": false,
+    "writer_locks": 2
+  }
+}
