@@ -301,6 +301,19 @@ class SealTests(unittest.TestCase):
         with replace(p,{'passed':True}), self.assertRaisesRegex(ValueError,'Receipt digest mismatch'):
             seal.seal(self.root,self.args('fixture-unmatched'))
 
+    def test_a_late_patch_world_must_publish_the_exact_prepared_source_proof(self):
+        proof = dict(kernel_patch_files=9, component_sources=31, mt76_source_files=330,
+                     source_contract_sha256='b'*64, patch_orders={'kernel': ['integrated', 'late']})
+        with patch.object(seal.npu_world_sources, 'has_late_module_patches', return_value=True), \
+             patch('npu_successor_sources.world_contract', return_value=({'staged_bundle_sha256': 'c'*64}, proof)):
+            with self.assertRaisesRegex(ValueError, 'lacks the exact successor prepared-source proof'):
+                seal.verify_world(self.root, self.world, self.world_pin, self.snapshot)
+            child = self.world_row['child'] | dict(prepared_sources_verified=proof)
+            with replace(self.world, self.world_row | dict(child=child)) as pin:
+                world = seal.verify_world(self.root, self.world, pin, self.snapshot)
+        self.assertEqual(world['source_contract_sha256'], 'b'*64)
+        self.assertEqual(world['staged_bundle_sha256'], 'c'*64)
+
     def test_fit_is_copied_by_digest_not_name_or_size(self):
         with replace(self.fit,b'x'*len(self.fit_bytes)), patch.object(seal,'inspect_fit_pair') as inspect:
             with self.assertRaisesRegex(ValueError,'FIT bytes differ'):

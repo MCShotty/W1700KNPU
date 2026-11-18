@@ -1,11 +1,13 @@
 # Remaining W1700K Work
 
-## 2026-11-18 - Build The Frozen Baseline
+## 2026-11-18 - Seal The Frozen Baseline
 
-The original terminal replay is verified and the unchanged capsule is
-compiling with the pinned combined producer. Verify the live unit's
-terminal world result and seal its exact FIT bytes. Only then switch to
-the verified `coherent-ppe-qdma-a` source delta and rebuild its modules.
+The original replay passed, the frozen `make world` returned zero, and the
+read-only FIT recheck passed after correcting the stale RV32 roster. Bind
+the completed original inventory and the distinct corrected recheck,
+then seal the exact original FIT and replay. Only then switch to the pinned
+`coherent-ppe-qdma-frame-a` authority and link a new combined producer.
+[Recheck and new source contract](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
 [World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
@@ -34,9 +36,9 @@ Wi-Fi fallback and offload. Physical DMA retirement is still open.
 The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
 measure actual cold consumption and validate exhaustion on the linked build.
 [Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
-The coherent, PPE and QDMA changes share one verified source lock.
-Use the [combined handoff](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md)
-after the frozen gates pass. The derived lock requires fresh linked modules.
+The coherent, PPE, QDMA and frame changes share one verified source lock.
+The source fixture and three object builds passed. The derived lock still
+requires fresh linked modules, its own replay and FIT.
 
 ## 2026-11-18 - Qualify Checked DMA Ownership
 
@@ -53,7 +55,7 @@ Physical retirement, authorized releases and real-client tests remain open.
 The staged checked-session provider retains descriptor and software-entry
 storage, including entries for the original RX-event ring. This doesn't
 gate existing removal-time writes or payload frees. The original replay
-passed; keep its frozen image inputs until the compiling baseline is sealed.
+passed; keep its frozen image inputs until the baseline FIT is sealed.
 Then build and test the paired owner changes with the hot-reset patch.
 Protect page pools, payload mappings, tokens, context and rebind paths, and
 prove physical retirement before enabling shared owner release.

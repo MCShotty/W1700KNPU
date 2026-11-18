@@ -79,6 +79,14 @@ def verify_world(root, result_path, result_pin, snapshot_path):
     require(producer['receipt_sha256'] == producer_pin and producer['source_lock_sha256'] == lock_pin and
             all(capsule['files'].get(n) == h for n, h in (producer['inputs'] | producer['artifacts']).items()),
             'Module producer does not match its snapshot')
+    successor = {}
+    if npu_world_sources.has_late_module_patches(lock):
+        from npu_successor_sources import world_contract
+        contract, proof = world_contract(frozen, lock, producer)
+        require(child.get('prepared_sources_verified') == proof,
+                'World lacks the exact successor prepared-source proof')
+        successor = dict(source_contract_sha256=proof['source_contract_sha256'],
+                         staged_bundle_sha256=contract['staged_bundle_sha256'])
     linked = {Path(n).name: h for n, h in producer['artifacts'].items()}
     rows, selected = binding['modules'], image['selected_modules']
     require(set(fit_tools.MODULE_NAMES) == linked.keys() == rows.keys() == selected.keys(),
@@ -93,7 +101,7 @@ def verify_world(root, result_path, result_pin, snapshot_path):
     return dict(frozen=frozen, declarations=capsule['files'], world_sha256=result_pin, snapshot_sha256=capsule_pin,
                 source_lock_sha256=lock_pin, producer_sha256=producer_pin, image_receipt_sha256=image_receipt_pin,
                 fit=physical, image=image, module_sha256=modules, kernel=release, source_lock=lock,
-                build_upper=path_under(directory, 'build-upper', directory=True))
+                build_upper=path_under(directory, 'build-upper', directory=True)) | successor
 
 
 def inspect_fit_pair(image_path, scratch, kernel, replay_pair, module_names=fit_tools.MODULE_NAMES):
@@ -189,6 +197,8 @@ def seal(root, args):
         require(digest(staged) == fit['sha256'], 'Inspected FIT changed before publication')
         receipt = {k: world[k] for k in ('world_sha256', 'snapshot_sha256', 'source_lock_sha256', 'producer_sha256',
                                           'image_receipt_sha256')}
+        if 'source_contract_sha256' in world:
+            receipt['source_contract_sha256'] = world['source_contract_sha256']
         receipt.update(format='w1700k-offline-sealed-fit-v1', image=filename, image_sha256=fit['sha256'], bytes=fit['bytes'],
                        replay=replay, packaged=packed, rv32_emulator_replay_bound=True,
                        scope='Exact inspected local FIT and emulator payload binding only',

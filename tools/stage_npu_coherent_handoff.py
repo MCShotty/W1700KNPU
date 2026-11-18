@@ -23,6 +23,8 @@ WINDOW = CHECKPOINTS / "2026-11-18-npu-coherent-window"
 PACKET = CHECKPOINTS / "2026-11-18-npu-packet-owner"
 PPE_OWNER = CHECKPOINTS / "2026-11-18-npu-ppe-table-owner"
 QDMA_OWNER = CHECKPOINTS / "2026-11-18-npu-qdma-owner"
+FRAME_FIX = CHECKPOINTS / "2026-11-18-npu-successor-source-gate"
+FRAME_PATCH_NAME = "9999-w1700k-npu-session-frame.patch"
 KDIR = "target/linux/airoha/patches-6.18"
 MDIR = "package/kernel/mt76/patches"
 DT = "target/linux/airoha/dts/an7581-w1700k-ubi.dts"
@@ -156,7 +158,8 @@ def rehearse(component, source, order, expected_pre, expected_post, scratch, ups
     return dict(patch_order=order, baseline_outputs_checked=len(legacy_paths), postimages=post)
 
 
-def derive_lock(lock, additions, *, with_ppe=False, with_qdma=False):
+def derive_lock(lock, additions, *, with_ppe=False, with_qdma=False, with_frame_fix=False):
+    require(not with_frame_fix or with_qdma, "frame fix requires the staged QDMA stack")
     result = copy.deepcopy(lock)
     rows = result["openwrt"]["changed_files"]
     existing = {row["path"] for row in rows}
@@ -165,6 +168,8 @@ def derive_lock(lock, additions, *, with_ppe=False, with_qdma=False):
     rows.extend(dict(path=name, sha256=sha_bytes(data), mode="0o644") for name, data in additions.items())
     rows.sort(key=lambda row: row["path"])
     variant = "ppe-qdma" if with_qdma else "ppe" if with_ppe else "window"
+    if with_frame_fix:
+        variant += "-frame"
     result["snapshot"] = f"nonoc-merged-coherent-{variant}-20261118"
     return result
 
@@ -198,7 +203,9 @@ def check_staging(parent_lock, new_lock, additions, scratch):
     return prepared, {**proof, "copied": sorted(proof["copied"]), "stale_aggregates_refreshed": stale}
 
 
-def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
+def prepare(producer, pin, *, with_ppe=False, with_qdma=False, with_frame_fix=False,
+            inspect_rehearsal=None):
+    require(not with_frame_fix or with_qdma, "frame fix requires the staged QDMA stack")
     require(__debug__ and digest(producer) == pin, "unverified producer")
     checked = linked_module_sources(ROOT, producer)
     window = read_json(WINDOW / "EVIDENCE.json")
@@ -213,8 +220,10 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
     protected.update(p / name for name in OLD_PATCHES.values() for p in (ROOT / OV, BUILD))
     ppe = read_json(PPE_OWNER / "EVIDENCE.json") if with_ppe or with_qdma else None
     qdma = read_json(QDMA_OWNER / "EVIDENCE.json") if with_qdma else None
+    frame = read_json(FRAME_FIX / "EVIDENCE.json")["provider_frame_fix"] if with_frame_fix else None
     ppe_patch = PPE_OWNER / "airoha-ppe-table-owner.patch"
     qdma_patch = QDMA_OWNER / "airoha-qdma-owner.patch"
+    frame_patch = FRAME_FIX / "airoha-npu-session-frame.patch"
     ppe_dir = "drivers/net/ethernet/airoha"
     if ppe is not None:
         require(set(ppe["original"]) == set(ppe["patched"]) ==
@@ -227,6 +236,10 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
                 and qdma["baseline_config_sha256"] == ppe["baseline_configuration"]["config_sha256"],
                 "QDMA patch is not based on the staged PPE sources")
         protected.add(qdma_patch)
+    if frame is not None:
+        require(frame["before_sha256"] == window["postimages"][PROVIDER],
+                "frame fix is not based on the staged coherent provider")
+        protected.add(frame_patch)
     protected_before = {p: digest(p) for p in protected}
     expect = {row["path"]: row["sha256"] for row in baseline["openwrt"]["changed_files"]}
     require(digest(BUILD / DT) == window["preimages"][DT] and
@@ -242,6 +255,10 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
             pins = dict(window["patch_sha256"])
             overrides = {}
             prerequisites = {}
+            if group == "kernel" and frame is not None:
+                late[f"{KDIR}/{FRAME_PATCH_NAME}"] = frame_patch
+                pins[frame_patch.name] = frame["patch_sha256"]
+                prerequisites[FRAME_PATCH_NAME] = {PROVIDER: frame["before_sha256"]}
             if group == "kernel" and ppe is not None:
                 late[f"{KDIR}/9999-w1700k-ppe-table-owner.patch"] = ppe_patch
                 pins[ppe_patch.name] = ppe["patch_sha256"]
@@ -260,6 +277,8 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
                 overrides[BINDING] = kernel / BINDING
                 pre[BINDING] = window["preimages"][BINDING]
                 post = {name: window["postimages"][name] for name in (PROVIDER, HEADER, BINDING)}
+                if frame is not None:
+                    post[PROVIDER] = frame["after_sha256"]
                 if ppe is not None:
                     for file, sha in ppe["original"].items():
                         name = f"{ppe_dir}/{file}"
@@ -283,7 +302,8 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
         run(["git", "apply", "--whitespace=error-all", dt_patch], dtree)
         require(digest(updated) == window["postimages"][DT], "DTS postimage differs")
         additions[DT] = updated.read_bytes()
-        derived = derive_lock(baseline, additions, with_ppe=with_ppe, with_qdma=with_qdma)
+        derived = derive_lock(baseline, additions, with_ppe=with_ppe, with_qdma=with_qdma,
+                              with_frame_fix=with_frame_fix)
         prepared, staging = check_staging(baseline, derived, additions, scratch)
         dts_dir = Path(DT).parent
         overlay_dts = run(["cpp", "-x", "assembler-with-cpp", "-nostdinc", "-undef", "-D__DTS__",
@@ -297,15 +317,18 @@ def prepare(producer, pin, *, with_ppe=False, with_qdma=False):
         require(all(digest(p) == sha for p, sha in protected_before.items()) and
                 digest(ROOT / SOURCE_LOCK) == checked["source_lock_sha256"], "protected source changed")
 
-    files = {SOURCE_LOCK: as_json(derived), **{f"{OV}/{k}": v for k, v in additions.items()}}
-    return files, dict(
-        schema=1, source_preflight_passed=True, source_delta_only=True,
-        parent_lock_sha256=checked["source_lock_sha256"], producer_sha256=pin,
-        patch_driver_sha256=protected_before[BUILD / "scripts/patch-kernel.sh"],
-        source_stack=proof, prepared_overlay_staging=staging, standalone_dtb_sha256=layout["dtb_sha256"],
-        files={name: sha_bytes(data) for name, data in files.items()}, active_sources_unchanged=True,
-        linux_modules_built=False, fit_built=False, board_contact=False,
-    )
+        files = {SOURCE_LOCK: as_json(derived), **{f"{OV}/{k}": v for k, v in additions.items()}}
+        receipt = dict(
+            schema=1, source_preflight_passed=True, source_delta_only=True,
+            parent_lock_sha256=checked["source_lock_sha256"], producer_sha256=pin,
+            patch_driver_sha256=protected_before[BUILD / "scripts/patch-kernel.sh"],
+            source_stack=proof, prepared_overlay_staging=staging, standalone_dtb_sha256=layout["dtb_sha256"],
+            files={name: sha_bytes(data) for name, data in files.items()}, active_sources_unchanged=True,
+            linux_modules_built=False, fit_built=False, board_contact=False,
+        )
+        if inspect_rehearsal is not None:
+            inspect_rehearsal(checked, scratch, prepared, files, receipt)
+    return files, receipt
 
 
 def bundle_path(name):
@@ -344,12 +367,15 @@ def main():
     parser.add_argument("--producer-sha256", required=True)
     parser.add_argument("--ppe-table-owner", action="store_true", help="include the staged W1700K PPE owner")
     parser.add_argument("--qdma-owner", action="store_true", help="include the staged PPE and QDMA owners")
+    parser.add_argument("--session-frame-fix", action="store_true",
+                        help="also include the cold command frame fix (requires --qdma-owner)")
     args = parser.parse_args()
     try:
         out = bundle_path(args.name or args.check)
         require(not args.name or not out.exists(), "bundle already exists")
         files, receipt = prepare(args.producer, args.producer_sha256,
-                                 with_ppe=args.ppe_table_owner, with_qdma=args.qdma_owner)
+                                 with_ppe=args.ppe_table_owner, with_qdma=args.qdma_owner,
+                                 with_frame_fix=args.session_frame_fix)
         if args.name:
             publish(out, files, receipt)
         check_published(out, files, receipt)

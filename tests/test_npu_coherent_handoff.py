@@ -34,6 +34,12 @@ class HandoffTests(unittest.TestCase):
         with_qdma = handoff.derive_lock(original, {"added": b"candidate"}, with_qdma=True)
         self.assertNotEqual(with_qdma["snapshot"], with_ppe["snapshot"])
         self.assertEqual(with_qdma["openwrt"], with_ppe["openwrt"])
+        frame_fix = handoff.derive_lock(original, {"added": b"candidate"}, with_qdma=True,
+                                        with_frame_fix=True)
+        self.assertNotEqual(frame_fix["snapshot"], with_qdma["snapshot"])
+        self.assertEqual(frame_fix["openwrt"], with_qdma["openwrt"])
+        with self.assertRaisesRegex(ValueError, "requires the staged QDMA stack"):
+            handoff.derive_lock(original, {}, with_frame_fix=True)
         with self.assertRaisesRegex(ValueError, "already owns"):
             handoff.derive_lock(original, {"base": b"different"})
 

@@ -92,6 +92,9 @@ class EthernetBindingTests(unittest.TestCase):
     def test_bundle_must_be_pinned_ordered_and_in_capsule(self):
         with self.assertRaisesRegex(ValueError, "Receipt digest mismatch"):
             eth.verify_bundle(self.root, self.world, self.patches, self.bundle, "2" * 64)
+        unrelated = self.world | dict(staged_bundle_sha256="9" * 64)
+        with self.assertRaisesRegex(ValueError, "differs from the successor source contract"):
+            eth.verify_bundle(self.root, unrelated, self.patches, self.bundle, self.bundle_pin)
         trimmed = self.world | dict(declarations={eth.SOURCE_LOCK: self.world["source_lock_sha256"]})
         with self.assertRaisesRegex(ValueError, "does not bind Ethernet bundle member"):
             eth.verify_bundle(self.root, trimmed, self.patches, self.bundle, self.bundle_pin)

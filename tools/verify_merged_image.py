@@ -17,6 +17,12 @@ import npu_image
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / '.build/merged-openwrt'
 OUT = ROOT / '.local/merge-nonoc-20260923/image-verification'
+CORE_OBJECT_NAMES = frozenset(name + '.o' for name in (
+    'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
+    'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx',
+    'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie',
+    'cold-pcie-tail', 'cold-inode', 'rro-lifetime', 'rro-native', 'rro-wire', 'rro-session',
+    'gdma', 'tunnel-header', 'tunnel-packet'))
 
 
 def sha(path):
@@ -38,6 +44,19 @@ def verify_core_archive(core, objects):
               for name in members}
     assert actual == objects, 'RV32 archive contains stale or different object bytes'
     return actual
+
+
+def verify_core_objects(core):
+    objects = {}
+    for path in core.glob('*.o'):
+        elf = ELFFile(io.BytesIO(path.read_bytes()))
+        assert elf['e_machine'] == 'EM_RISCV' and elf.elfclass == 32
+        assert elf.get_section_by_name('.text')['sh_size'] > 0
+        objects[path.name] = sha(path)
+    assert objects.keys() == CORE_OBJECT_NAMES, (
+        'RV32 normal object set differs', sorted(CORE_OBJECT_NAMES - objects.keys()),
+        sorted(objects.keys() - CORE_OBJECT_NAMES))
+    return objects
 
 
 def prop(path, node, name, kind='s', optional=False):
@@ -395,18 +414,7 @@ def main():
         wifi_firmware[path.name] = sha(path)
     assert {'mt7996_wm.bin', 'mt7996_wa.bin', 'mt7996_dsp.bin', 'mt7996_rom_patch.bin'} <= wifi_firmware.keys()
     core = BUILD / 'bin/npu'
-    core_objects = {}
-    for path in core.glob('*.o'):
-        elf = ELFFile(io.BytesIO(path.read_bytes()))
-        assert elf['e_machine'] == 'EM_RISCV' and elf.elfclass == 32
-        assert elf.get_section_by_name('.text')['sh_size'] > 0
-        core_objects[path.name] = sha(path)
-    assert set(core_objects) == {name + '.o' for name in (
-        'barrier', 'admission', 'control-v2', 'bootstrap', 'bootstrap-v2', 'cold-setup',
-        'startup', 'allocator', 'cold-page', 'cold-packet', 'cold-indication', 'cold-tx',
-        'cold-descriptor', 'cold-tx-buffer', 'cold-rx-event', 'cold-txdone', 'cold-rx-pcie',
-        'cold-pcie-tail', 'cold-inode', 'rro-lifetime',
-        'gdma', 'tunnel-header', 'tunnel-packet')}
+    core_objects = verify_core_objects(core)
     archive = core / 'libw1700k-npu.a'
     archive_members = verify_core_archive(core, core_objects)
     metadata = OUT / 'fwtool.json'

@@ -1,5 +1,19 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Baseline FIT Recheck And Successor Source Gate
+
+The original offline world made the W1700K UBI FIT. Its frozen verifier
+rejected a valid 26-object RV32 archive because it expected only 23.
+The corrected read-only recheck verified the exact FIT, four linked modules,
+and the current archive. The separate original terminal inventory, replay
+binding, and final seal are still required.
+
+The next source authority is `coherent-ppe-qdma-frame-source-a` from
+`coherent-ppe-qdma-frame-a`. A staged fix keeps the cold command's lease
+snapshot off the stack; three AArch64 objects passed with the original
+Kbuild limit. It is not active or linked into a successor FIT.
+[Exact source and image recheck](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+
 ## 2026-11-18 - Ethernet Module Seal Gate
 
 The combined staged source requires its actual linked Ethernet module in
@@ -11,7 +25,7 @@ retained headers and exports. This is not a production module or board run.
 
 The W1700K source keeps exposed backing across failed probe and detach.
 The host idle check scopes ordinary TX cleanup; timeout parks the engine.
-Use `coherent-ppe-qdma-a` after sealing the frozen baseline.
+The source authority above incorporates this patch.
 Only a relocatable Ethernet object was built with this change.
 [Cases, limitations and bundle](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
 
@@ -23,12 +37,11 @@ There is no positive PPE or QDMA retirement witness. The source bundle
 The current combined bundle also includes the QDMA owner.
 [Exact inputs and scope](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 
-## 2026-11-18 - Frozen Baseline World In Progress
+## 2026-11-18 - Frozen Baseline World Launch
 
 Invocation `1137136a` passed memory, storage and lock admission.
-Protected inventory passed and the isolated world reached kernel
-compilation. No terminal world result or FIT.
-Use the exact user service and do not relaunch while it remains live.
+Keep its frozen inputs and original log; use the read-only recheck above
+for the produced image. Do not relaunch to duplicate the completed build.
 [Launch and scope](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 
 ## 2026-11-18 - Original RV32 Terminal Pass

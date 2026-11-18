@@ -1,5 +1,15 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Use The Pinned Successor Sources
+
+The frozen `make world` succeeded, but its image verifier used a stale
+23-object RV32 list. The independent read-only FIT recheck passed with all
+26 objects and four exact modules. Preserve the original failed verifier
+output and finish terminal accounting and sealing before switching locks.
+The next bundle is `coherent-ppe-qdma-frame-a` with a pinned prepared-source
+contract and a frame fix checked by three scratch AArch64 object builds.
+[Source contract, FIT recheck and remaining gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+
 ## 2026-11-18 - Bind The Production Ethernet Module
 
 The staged Ethernet source locks require a fifth module in the offline FIT
@@ -10,8 +20,8 @@ not the production pin. The frozen baseline still uses its four-module seal.
 
 ## 2026-11-18 - Keep Exposed QDMA Backing
 
-After sealing the frozen baseline, use the verified combined source bundle
-`coherent-ppe-qdma-a`. Ordinary host idle checks only gate TX cleanup;
+The successor bundle above incorporates this change.
+Ordinary host idle checks only gate TX cleanup;
 teardown retains exposed rings and mappings. Eleven modeled cases and the
 relocatable Ethernet object passed, not a production module or board.
 [QDMA patch, scope and handoff](research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
@@ -27,9 +37,9 @@ FIT or physical retirement yet.
 ## 2026-11-18 - Observe The Frozen Baseline World
 
 The admitted user service `w1700k-world-txp-20261118-stream-a.service`,
-invocation `1137136a`, passed protected source inventory and reached kernel compilation.
-Do not start it again or change old inputs while it is live. Verify its
-terminal world and seal the exact FIT before promoting the source delta.
+invocation `1137136a`, built the FIT. Do not relaunch or change its
+frozen inputs. See the successor-source checkpoint for the verifier recheck
+and the remaining publication gate.
 [Handle and resource limits](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 
 ## 2026-11-18 - Original Replay Verified

@@ -1,5 +1,14 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Baseline FIT And Successor Sources Checked
+
+The frozen OpenWrt build produced a W1700K FIT. A read-only recheck passed
+with all 26 RV32 archive objects and the four exact linked modules. The
+original verifier stopped at a stale list, so the recheck alone is not a
+seal or a boot test. The next source bundle fixes the provider stack frame
+and pins the prepared inputs for a fresh producer.
+[Evidence and next gates](research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+
 ## 2026-11-18 - Ethernet Module Bound At FIT Seal
 
 Staged PPE/QDMA images must contain the matching linked Ethernet module.
@@ -20,17 +29,16 @@ The next source bundle keeps exposed PPE tables through uncertain teardown.
 Modeled failures and two AArch64 object builds passed; no linked module or
 board test yet. [Scope and handoff](research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 
-## 2026-11-18 - Frozen Baseline World Running
+## 2026-11-18 - Frozen Baseline Launch
 
-The bounded offline run finished its source inventory and reached kernel
-compilation. No terminal build, FIT or board result yet.
-[Live handle and checks](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+The bounded offline run started after source, storage and memory admission.
+[Original launch and checks](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 
 ## 2026-11-18 - Original RV32 Replay Passed
 
 All three profiles passed, with 19,261 verified operations and 345 matching
-inputs. The frozen baseline image build and hardware checks are still
-pending. [Terminal receipt](research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+inputs. Replay is not hardware qualification.
+[Terminal receipt](research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
 ## 2026-11-18 - PPE And Ethernet DMA Stop
 

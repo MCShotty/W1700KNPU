@@ -142,8 +142,21 @@ def stage_locked_overlays(build, root, lock, copy_file):
                 cumulative_only_files_require_existing_exact_bytes=True, private_overlay_only=True)
 
 
+def has_late_module_patches(lock):
+    minor = lock['kernel'].rsplit('.', 1)[0]
+    integrated = {f'target/linux/airoha/patches-{minor}': '999-w1700k-integrated-npu.patch',
+                  'package/kernel/mt76/patches': '900-w1700k-integrated-npu.patch'}
+    for row in lock.get('openwrt', {}).get('changed_files', []):
+        path = PurePosixPath(row['path'])
+        first = integrated.get(path.parent.as_posix())
+        if first and path.suffix == '.patch' and path.name > first:
+            return True
+    return False
+
+
 def verify(build, root, lock, provider=None, consumer=None, *, module_receipt=None, module_sources=None):
     source_lock = digest(root / 'firmware/source-lock.json')
+    successor = has_late_module_patches(lock)
     if module_receipt is not None or module_sources is not None:
         assert provider is consumer is None, 'mixed-producer-contracts'
         assert module_receipt is None or module_sources is None, 'mixed-combined-source-contracts'
@@ -164,9 +177,17 @@ def verify(build, root, lock, provider=None, consumer=None, *, module_receipt=No
                 assert combined[label] == expected_sources and expected_sources, 'combined-contract-source-drift'
             assert combined['source_lock_sha256'] == record['inputs']['firmware/source-lock.json']
         assert combined['source_lock_sha256'] == source_lock
+        if successor:
+            from npu_successor_sources import verify_prepared, world_contract
+            contract, proof = world_contract(root, lock, combined)
+            verify_prepared(build, contract, lock)
+            return proof
+
         kernel_inputs = combined['kernel']
         expected = {name: dict(sha256=value) for name, value in combined['mt76'].items()}
     else:
+        if successor:
+            raise ValueError('Late module patches require a combined successor producer')
         assert provider['passed'] is consumer['passed'] is True
         assert provider['source_lock_sha256'] == consumer['source_lock_sha256'] == source_lock
         prefix = '.local/merge-nonoc-20260923/kernel-merged/'

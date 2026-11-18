@@ -1,5 +1,22 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Bind Successor Sources And Recheck The Baseline FIT
+
+- Frozen `make world` returned zero; the original verifier expected 23
+  RV32 objects and stopped. Corrected the roster to the 26 objects made
+  by the Makefile. Read-only postflight on the same FIT passed: 218
+  packages, 78 module ABI checks, and four exact linked modules.
+  The independent recheck is not an original passing world or a seal.
+- Prepared `coherent-ppe-qdma-frame-a` (lock `e4ac1fd7`, source contract
+  `74879585`). Verified ordered late patches, 9 kernel paths, 330 mt76
+  inputs and 31 mapped components. A fresh producer and exact world
+  proof are required for the successor seal.
+- Moved the cold command's 2,400-byte frame snapshot to probe-owned
+  storage. Provider, mt76 DMA and mt76 NPU objects passed under
+  unchanged retained Kbuild flags and the 2,048-byte kernel limit.
+  All 120 focused tests passed. No module load, board contact or flash.
+  [Receipts and next gates](../research/checkpoints/2026-11-18-npu-successor-source-gate/REPORT.md).
+
 ## 2026-11-18 - Bind Ethernet Into The Offline FIT Seal
 
 - Staged PPE/QDMA locks now require their source bundle, prepared Ethernet

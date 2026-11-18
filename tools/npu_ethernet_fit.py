@@ -38,6 +38,8 @@ def verify_bundle(root, world, patches, bundle_path, pin):
     require(path.name == "receipt.json" and path.parent.parent == root / BUNDLES,
             "Expected a staged Ethernet source bundle receipt")
     bundle, bundle_pin = read_pinned(path, pin)
+    require(world.get("staged_bundle_sha256", bundle_pin) == bundle_pin,
+            "Ethernet bundle differs from the successor source contract")
     require(bundle["schema"] == 1 and bundle["source_preflight_passed"] is True and
             bundle["source_delta_only"] is True and bundle["linux_modules_built"] is False and
             bundle["fit_built"] is False and bundle["board_contact"] is False,
