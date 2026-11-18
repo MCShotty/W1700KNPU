@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Offline Image Acceptance
+
+The sealer binds a pinned complete world and the original terminal RV32
+artifact chain to the selected FIT modules and pair. Both existing FITs are
+negative controls. No freshly qualified image has been sealed.
+[Verification and limits](../research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - RRO Release Wire Reference
 
 Stock `40c8f974` and qualified radio `cb1d9f0f` use CID 0x57, tag 6

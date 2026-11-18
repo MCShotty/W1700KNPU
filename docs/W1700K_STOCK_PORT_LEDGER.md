@@ -1,5 +1,15 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Replay-To-Image Sealer
+
+- Added a local no-overwrite release gate for the world receipt, replay
+  artifacts and actual packaged CODE/DATA and module bytes.
+- 264 host tests passed. Real live invocation refused; both existing FITs
+  failed pair comparison. The exact pair passed in a nonbootable fixture.
+- Profile 0 reverified; profile 1 at 2,874 positive records in the saved
+  observation. No terminal pass, world build, published candidate or hardware.
+  [Receipts](../research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - RRO Release Senders And Queue Completion
 
 - Recovered the stock group-0/0x55 queue table binding and nonwaiting branch;

@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Seal Only The Replayed FIT Bytes
+
+After the original terminal pass and a successful fresh combined world, use
+`tools/seal_npu_image.py` with independently pinned receipts. It checks the
+selected FIT itself before creating a new offline candidate. No candidate
+exists from this gate yet. [Handoff](research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - Keep RRO Sender And Receiver Evidence Separate
 
 Stock emits a 12-byte release body; qualified mt76 emits 14 bytes. A stock

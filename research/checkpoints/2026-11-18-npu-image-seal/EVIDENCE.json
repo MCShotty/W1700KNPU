@@ -1,0 +1,164 @@
+{
+  "parent_commit": "65b36b10a03f2081843e96ef0a650bd1c20c3aac",
+  "report_sha256": "133846893096d763e70cb487319a1e9a8007dfb70c46bc019fd1d2f10519797a",
+  "code_sha256": {
+    "tools/npu_replay_proof.py": "721e47a33f2b8201363581ef308ad2625394baf9de586e82b77e696c3f340328",
+    "tools/seal_npu_image.py": "6d61864a9136bf384e4fb26a518028a15f2bf609e0f97210a7e4715a4f2cf02c",
+    "tests/test_npu_image_seal.py": "d09271f23c5dc24dcf32eaf13745e4f4871e0e322e66e810b8ff3249235a7883"
+  },
+  "independent_controls": {
+    "real_terminal_gate": {
+      "terminal_absent_at_check": true,
+      "cli_refused": true,
+      "exit_code": 2
+    },
+    "real_profile_0": {
+      "profile": 0,
+      "positive_rpc": 6421,
+      "transcript_sha256": "5ce114604854067501842f72ffdec6fda1a9166e3cef0b1e02e12ebb30eda528",
+      "summary_sha256": "adcdb50a875ed3ea9ff505010cea50b862e418be8a1276c72b35a537a15f6320"
+    },
+    "known_legacy_images": {
+      "protected": {
+        "fit_sha256": "a3f1d04beaf83468ea33a20476adbaa96f6faa324dd2ef74674138fc920ac796",
+        "readback": {
+          "code": "4e43de6fd2ba1a163c1e9e8c2aebe28954bc15ed13d8a774749d2e1cb9f1ffe8",
+          "data": "a282ca7ac0bd9cd262f2250bfe4fa4a7b4a556dc804e54e8463ae381a25d6f16",
+          "manifest": "f017c2eb383e5c3998da30b1b3261a35b6b3d2dd065d22d7c0f5e70fc0cd92c2"
+        },
+        "mismatching_payloads": [
+          "code",
+          "data"
+        ],
+        "exact_rootfs_extraction": true,
+        "published": false
+      },
+      "prepared": {
+        "fit_sha256": "978f9ddd735e860df25ebab52dfeb1ef2b6fa991832c90893c4916dfa335f33f",
+        "readback": {
+          "code": "07f3585bc4966d1a6b5a61d04c7297ae6d39113c4fdd26a47efa6aeaf188b8a1",
+          "data": "eb15df4e032e4c7e2ad7c606b5823d3fbb00715ce6dac8a2aef55f040fb1c7ef",
+          "manifest": "d1e55f288edfa5fd509fbc4550c3729d02a6ecd83c64773174d827dd746591c7"
+        },
+        "mismatching_payloads": [
+          "code",
+          "data"
+        ],
+        "exact_rootfs_extraction": true,
+        "published": false
+      }
+    },
+    "disposable_fixture": {
+      "fit_sha256": "7073dbed1c6bdef475c33c4cf587088c299f38193fececc9314577dfeeb425bf",
+      "pair": {
+        "code": {
+          "base": 2214592512,
+          "bytes": 1099244,
+          "sha256": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525"
+        },
+        "data": {
+          "base": 1049624576,
+          "bytes": 25728,
+          "sha256": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512"
+        },
+        "manifest_sha256": "0fed3fca980d6536ace40740144b5246a1cecfa5ba1a790443872ecb58c79f89"
+      },
+      "four_placeholder_module_hashes_match": true,
+      "pair_validator_executed": true,
+      "actual_rv32_payloads_equal": true,
+      "manifest_metadata_differs": true,
+      "kernel_is_placeholder": true,
+      "not_a_bootable_image": true,
+      "published": false
+    },
+    "capsule_sha256": "3d166089dbb5a89650521a1d7331f8e2ce967472ed67ed1eebe0af50362caff3",
+    "candidate_store_unchanged": true,
+    "temporary_fits_removed": true,
+    "world_run": false,
+    "hardware": false
+  },
+  "host_tests": {
+    "tests": 264,
+    "modules": 24,
+    "new_seal_methods": 14,
+    "skips": 0,
+    "log_sha256": "9790c4ba71d0ce7230384b9e939c9c7464dceebcde74df77decabcb83256c401"
+  },
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "selected_producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "selected_start_sha256": "7742f7d08849a7d238b72367d45a9a161a3aea017826b044eb9662871c87fcff",
+  "replay_observation": {
+    "status": "live",
+    "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "observed_unix_ns": 1794997743671089200,
+    "driver_cpu_delta": 213,
+    "retained_and_active_hashes_verified": 345,
+    "observed_profiles": [
+      {
+        "profile": 0,
+        "complete_positive_lines": 6421,
+        "publications": 129,
+        "summary_exists": true
+      },
+      {
+        "profile": 1,
+        "complete_positive_lines": 2874,
+        "publications": 129,
+        "summary_exists": false
+      }
+    ],
+    "whole_run_pass": false
+  },
+  "semantic_scope_review": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "actual": {
+        "type": "choice",
+        "choice": "readback",
+        "confidence": 1,
+        "probabilities": {
+          "readback": 1,
+          "deployment": 0,
+          "world": 0,
+          "unknown": 0
+        }
+      },
+      "passed": {
+        "type": "noul",
+        "noul": 0.1
+      },
+      "images": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "physical": {
+        "type": "noul",
+        "noul": 0.07
+      }
+    },
+    "usage": {
+      "input_tokens": 611,
+      "output_tokens": 96
+    }
+  },
+  "private_artifacts": {
+    ".local/npu-image-seal-20261118/real_controls.py": "9886d2d67c1deed2e522f7879740709ff09649fb31724ed05ec02253cf8493f5",
+    ".local/npu-image-seal-20261118/real-controls.json": "fd39642e0bde62d8a41bff6e8249d32eb323f86ab98ea2dab9bf2fb6084ccca9",
+    ".local/npu-image-seal-20261118/host-suites-final.json": "9f7648ced9156da6f6438518f40d7de9a828ba7671132facfb7388d4ad21f470",
+    ".local/npu-image-seal-20261118/host-suites-final.log": "9790c4ba71d0ce7230384b9e939c9c7464dceebcde74df77decabcb83256c401",
+    ".local/npu-image-seal-20261118/replay-observation.json": "f357d140f95a5ec2967e5babe18a74c7d0254321a631ae748d08ecdbfc914f22",
+    ".local/npu-image-seal-20261118/intake.json": "e1a393d4d9af909fbbff09d598f77a8804e310af719c506a1c36922312af8504",
+    ".local/npu-image-seal-20261118/intake-result.json": "f493d2dbe1d18eacc6c2484e53bb38c345a24156e2eeb21b660474af7c6a2255",
+    ".local/npu-image-seal-20261118/scope.json": "c066be699c289083289433d6e364316fe72d6578a0057ed641c12a1c4a99689d",
+    ".local/npu-image-seal-20261118/scope-result.json": "c61cba57fb7339b4017b2b69c0bb6c6fdb5362c37aef90ff5861adb37888aac2",
+    ".local/npu-image-seal-20261118/fixture-tests-a.log": "a0c1da2dde3748aa81cd518b0fcec166297a2bd774b1d4236ca028221d60c11e"
+  },
+  "no_overwrite_implemented": true,
+  "publishes_exact_verified_fit_only": true,
+  "world_build": false,
+  "real_candidate_published": false,
+  "full_replay_pass": false,
+  "source_or_module_bytes_changed": false,
+  "frozen_inputs_modified": false,
+  "hardware": false
+}

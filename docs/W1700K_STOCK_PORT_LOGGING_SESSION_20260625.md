@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Offline FIT Seal
+
+Checked publication controls and the selected bytes of two existing FITs
+and a disposable nonbootable test FIT. The original replay stayed active.
+[Report](../research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - Stock Queue And Radio Wire Check
 
 Compared both compiled senders and recovered the stock queue/callback result

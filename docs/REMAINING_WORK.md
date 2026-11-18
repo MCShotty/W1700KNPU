@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Finish The Replay Before Sealing
+
+The independent sealer is implemented and tested. To use it, require the
+original three-profile pass, run the fresh world using the frozen snapshot,
+then inspect and seal that exact FIT into a new local directory. Nothing
+here satisfies the separate board, DMA, reuse or client gates.
+[Next commands](../research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - Establish The Radio Release Contract
 
 Stock sends body/TLV 12/8; current upstream-derived mt76 sends 14/10.

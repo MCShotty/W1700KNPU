@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Offline Candidate Sealing
+
+The local release gate now ties the exact built FIT to the completed RV32
+replay and the four qualified modules. It refuses premature publication.
+[How sealing works](research/checkpoints/2026-11-18-npu-image-seal/REPORT.md).
+
 ## 2026-11-18 - Radio Session Release
 
 The stock and merged radio drivers send different lengths for the same RRO
