@@ -11,7 +11,7 @@ import stat
 from types import SimpleNamespace
 
 import npu_isolated_world as frozen_world
-from npu_replay_proof import verify_replay
+from npu_replay_proof import SUCCESSOR_CONTRACT, bind_world_replay, verify_replay
 from npu_world_sources import digest, relative_file
 
 
@@ -92,7 +92,10 @@ def run(args):
     replay = verify_replay(world.ROOT, args.start, args.start_sha256, args.terminal, args.terminal_sha256,
                            frozen, source["files"])
     lock = digest(frozen / "firmware/source-lock.json")
-    assert replay["source_lock_sha256"] == lock, "replay and frozen source locks differ"
+    from npu_world_sources import has_late_module_patches
+    source_lock = json.loads((frozen / "firmware/source-lock.json").read_bytes())
+    contract = source["files"].get(SUCCESSOR_CONTRACT, "") if has_late_module_patches(source_lock) else None
+    bind_world_replay(replay, lock, args.producer_sha256, contract)
     context = dict(uid=os.getuid(), parent_namespaces=world.namespaces(),
                    frozen_root_identity=world.identity(frozen), source_lock_sha256=lock)
     context["linker"] = world.linker_input(frozen, source)

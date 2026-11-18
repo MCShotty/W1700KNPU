@@ -8,6 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_LOCK = 'firmware/source-lock.json'
 PAIR_FILES = {'code': 'CODE.bin', 'data': 'DATA.bin', 'manifest': 'manifest.json'}
 JSON_LIMIT = 8 << 20
+SUCCESSOR_PLAN = 'w1700k-successor-rv32-plan-v1'
+SUCCESSOR_CONTRACT = '.local/npu-successor-sources/contract.json'
+REPLAY_LAUNCHER = 'tools/npu_successor_replay.py'
+REPLAY_CHECKER = 'tools/npu_replay_proof.py'
+REPLAY_BWRAP = '.local/npu-bwrap-xino-20261021/bin/bwrap'
 
 
 class QualificationError(ValueError):
@@ -156,6 +161,38 @@ def verify_matrix(root, matrix_dir, result, inputs, pair_names, command):
     return summaries
 
 
+def plan_cohort(plan):
+    inputs = plan['inputs']
+    require(plan['runtime_bindings'] == 330 and isinstance(inputs, dict) and
+            all(is_digest(value) for value in inputs.values()), 'Invalid bound replay inputs')
+    if 'format' not in plan:
+        require(len(inputs) == 345, 'Different legacy replay input count')
+        return {}
+    require(plan['format'] == SUCCESSOR_PLAN, 'Unsupported replay plan format')
+    runtime = plan['runtime_inputs']
+    producer = plan['producer']
+    require(isinstance(producer, str) and producer.startswith('.local/npu-successor-modules/') and
+            Path(producer).name == 'result.json' and Path(producer).as_posix() == producer and
+            '..' not in Path(producer).parts, 'Unbound successor producer path')
+    controls = {SOURCE_LOCK: plan['source_lock_sha256'], SUCCESSOR_CONTRACT: plan['source_contract_sha256'],
+                producer: plan['producer_sha256'], 'firmware/build.config': plan['config_sha256'],
+                REPLAY_LAUNCHER: plan['launcher_sha256'], REPLAY_CHECKER: plan['checker_sha256'],
+                REPLAY_BWRAP: plan['bwrap_sha256']}
+    require(len(runtime) == 330 and not runtime.keys() & controls.keys() and
+            inputs == runtime | controls and is_digest(plan['capsule_sha256']),
+            'Successor replay input membership or control pins differ')
+    return dict(capsule_sha256=plan['capsule_sha256'], producer_sha256=plan['producer_sha256'],
+                source_contract_sha256=plan['source_contract_sha256'])
+
+
+def bind_world_replay(replay, source_lock, producer, contract=None):
+    require(replay['source_lock_sha256'] == source_lock, 'Replay and world source locks differ')
+    if contract is not None:
+        require(is_digest(contract) and is_digest(producer) and
+                replay.get('source_contract_sha256') == contract and replay.get('producer_sha256') == producer,
+                'Replay and world successor source or module producer differ')
+
+
 def terminal_inputs(root, start_path, start_pin, terminal_path, terminal_pin):
     start, _ = read_pinned(path_under(root, start_path), start_pin)
     observation = start['observation']
@@ -181,17 +218,21 @@ def terminal_inputs(root, start_path, start_pin, terminal_path, terminal_pin):
             controller['passed'] is True and controller['phase'] == 'full-a' and controller['returncode'] == 0 and
             controller['breach'] is False and controller['hardware'] is False, 'Replay controller mismatch')
     phase = plan['phases']['full-a']
-    require(phase['unit'] == start['windows_wait_client']['unit'] and
+    unit = start['systemd_unit'] if plan.get('format') == SUCCESSOR_PLAN else start['windows_wait_client']['unit']
+    require(phase['unit'] == unit and
             (plan['boot'], plan['head']) == (boot, start['source_commit']) and plan['old_transcripts_used'] is False,
             'Replay plan mismatch')
     output = path_under(root / '.local', phase['output'], directory=True)
     prep, _ = read_pinned(path_under(output, 'prepared.json'), start['private_receipts']['prepared.json'])
     inputs = plan['inputs']
+    cohort = plan_cohort(plan)
     require((prep['boot'], prep['invocation'], prep['plan'], prep['head']) == (boot, inv, plan_pin, plan['head']) and
             prep['from_reset'] is True and prep['earlier_profile_outputs_used'] is False and
-            len(inputs) == prep['retained_plan_inputs'] == start['private_plan_input_count'] == 345 and
+            len(inputs) == prep['retained_plan_inputs'] == start['private_plan_input_count'] and
             prep['runtime_bindings'] == plan['runtime_bindings'] == start['qualified_runtime_input_count'] == 330,
             'Different replay preparation')
+    require(not cohort or (prep['capsule_sha256'] == start['capsule_sha256'] == cohort['capsule_sha256'] and
+                           prep['network_isolated'] is True), 'Successor replay was not launched in the selected capsule')
     command = prep['command']
     require(command[0:4] == ['/usr/bin/python3', '-u', '-B', str(root / 'tests/npu/test_rro_wire_native_pair.py')] and
             command[4::2] == ['--pair', '--host-evidence', '--name', '--output-root', '--native-cold-receipt'] and
@@ -203,12 +244,16 @@ def terminal_inputs(root, start_path, start_pin, terminal_path, terminal_pin):
         require(is_digest(inputs.get(name)), f'Replayed pair is unbound: {name}')
     return dict(invocation=inv, boot=boot, start_sha256=start_pin, plan_sha256=plan_pin, terminal_sha256=terminal_pin,
                 controller_sha256=controller_pin, result_sha256=controller['result'], output=output,
-                inputs=inputs, pair_names=pair_names, command=command)
+                inputs=inputs, pair_names=pair_names, command=command, cohort=cohort)
 
 
 def verify_replay(root, start_path, start_pin, terminal_path, terminal_pin, frozen, declarations):
     bound = terminal_inputs(root, start_path, start_pin, terminal_path, terminal_pin)
     inputs, output, pair_names = (bound[k] for k in ('inputs', 'output', 'pair_names'))
+    if bound['cohort']:
+        capsule, _ = read_pinned(path_under(frozen.parent, 'receipt.json'), bound['cohort']['capsule_sha256'])
+        require(capsule['files'] == declarations and capsule['input_root'] == str(frozen),
+                'Replay was run from a different successor capsule')
     retained = path_under(output, 'retained-inputs', directory=True)
     for name, pin in inputs.items():
         require(is_digest(pin) and declarations.get(name) == pin, f'World snapshot does not bind replay input: {name}')
@@ -224,4 +269,4 @@ def verify_replay(root, start_path, start_pin, terminal_path, terminal_pin, froz
     return {k: bound[k] for k in ('invocation', 'boot', 'start_sha256', 'plan_sha256', 'terminal_sha256',
                                  'controller_sha256', 'result_sha256')} | dict(
         matrix_sha256=result['matrix_sha256'], profiles=profiles, positive_rpc=19261, source_lock_sha256=inputs[SOURCE_LOCK],
-        reverified_inputs=len(inputs), pair={key: inputs[name] for key, name in pair_names.items()})
+        reverified_inputs=len(inputs), pair={key: inputs[name] for key, name in pair_names.items()}) | bound['cohort']

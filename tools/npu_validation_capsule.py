@@ -84,15 +84,26 @@ def load_reuse_snapshot(root, receipt_path):
                 receipt=receipt_path, receipt_sha256=receipt_sha256)
 
 
-def copy_files(root, target, files, reuse=None):
+def copy_files(root, target, files, reuse=None, *, selected_sources=None):
     assert not target.exists() and target.resolve().is_relative_to(root)
     assert reuse is None or not target.resolve().is_relative_to(reuse['root'])
+    chosen = selected_sources or {}
+    assert chosen.keys() <= files.keys()
+
+    def input_file(name):
+        if name not in chosen:
+            return source_file(root, name)
+        source = chosen[name]
+        assert source.is_relative_to(root) and source.resolve(strict=True) == source and source.is_file(), (
+            'invalid-selected-capsule-input', name)
+        return source
+
     for name, expected in files.items():
-        assert digest(source_file(root, name)) == expected, ('capsule-pre-copy-drift', name)
+        assert digest(input_file(name)) == expected, ('capsule-pre-copy-drift', name)
     target.mkdir(parents=True)
     total = 0
     for name, expected in sorted(files.items()):
-        source, output = source_file(root, name), target / name
+        source, output = input_file(name), target / name
         assert output.resolve().is_relative_to(target) and not source.is_relative_to(target)
         output.parent.mkdir(parents=True, exist_ok=True)
         prior = reuse['root'] / name if reuse and reuse['files'].get(name) == expected else None

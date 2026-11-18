@@ -106,7 +106,8 @@ class StreamedWorldTests(unittest.TestCase):
         world = host.frozen_world
         frozen = self.root / "frozen"
         (frozen / "firmware").mkdir(parents=True)
-        (frozen / "firmware/source-lock.json").write_bytes(b"fixture lock")
+        (frozen / "firmware/source-lock.json").write_text(json.dumps(
+            {"kernel": "6.18.52", "openwrt": {"changed_files": []}}))
         lock = host.digest(frozen / "firmware/source-lock.json")
         capsule = self.root / "receipt.json"
         capsule.write_bytes(b"synthetic capsule")

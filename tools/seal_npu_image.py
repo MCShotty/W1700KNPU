@@ -10,7 +10,7 @@ import tempfile
 
 import npu_ethernet_fit
 import npu_image
-from npu_replay_proof import (ROOT, SOURCE_LOCK, QualificationError, digest, is_digest, path_under,
+from npu_replay_proof import (ROOT, SOURCE_LOCK, QualificationError, bind_world_replay, digest, is_digest, path_under,
                               read_pinned, read_receipt, require, verify_replay)
 import npu_world_sources
 import verify_merged_image as fit_tools
@@ -191,7 +191,8 @@ def seal(root, args):
     world = verify_world(root, args.world_result, args.world_sha256, args.snapshot, **recovery)
     replay = verify_replay(root, args.start, args.start_sha256, args.terminal, args.terminal_sha256,
                            world['frozen'], world['declarations'])
-    require(replay['source_lock_sha256'] == world['source_lock_sha256'], 'Replay and world source locks differ')
+    bind_world_replay(replay, world['source_lock_sha256'], world['producer_sha256'],
+                      world.get('source_contract_sha256'))
     fit = world['image']
     filename = fit['sha256'] + '.itb'
     with tempfile.TemporaryDirectory(prefix='.seal-', dir=store) as temp:
