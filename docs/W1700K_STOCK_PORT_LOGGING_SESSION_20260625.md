@@ -1,5 +1,13 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - PPE Table Retention And Baseline Compile
+
+The original baseline user unit is compiling. The combined successor
+bundle includes the PPE table owner as well as the coherent provider and
+mt76 stack. Two candidate objects compiled separately; nothing was
+linked or loaded.
+[Receipts](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
+
 ## 2026-11-18 - Frozen Baseline World Dispatch
 
 Admitted and observed the exact private baseline on the C-backed scratch.

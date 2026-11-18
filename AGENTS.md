@@ -1,9 +1,17 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Keep The PPE Table Owner
+
+Use the verified `coherent-ppe-a` source bundle after sealing the frozen
+baseline, not the earlier `coherent-a` substack. It adds W1700K PPE table
+retention; 9 modeled cases and 2 AArch64 objects passed. No linked Ethernet
+module, FIT or physical retirement yet.
+[Owner and bundle](research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
+
 ## 2026-11-18 - Observe The Frozen Baseline World
 
 The admitted user service `w1700k-world-txp-20261118-stream-a.service`,
-invocation `1137136a`, was advancing through protected source inventory.
+invocation `1137136a`, passed protected source inventory and reached kernel compilation.
 Do not start it again or change old inputs while it is live. Verify its
 terminal world and seal the exact FIT before promoting the source delta.
 [Handle and resource limits](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
@@ -33,9 +41,10 @@ For the exact 4 KiB-page stack, the
 [cold pool ceiling](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
 is 13.48 MiB. Recheck after geometry or allocator changes; it is not a
 boot-time measurement.
-Use the [source-only handoff](research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
-when the frozen gates pass. Both integrated patches in the raw prepared
-directory are stale. The handoff validates the locked versions in scratch.
+The [original coherent handoff](research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
+documents the common source preimages. Both integrated patches in the raw
+prepared directory are stale. The full next bundle validates the locked
+versions in scratch and adds the PPE table owner.
 
 ## 2026-11-18 - Use The Replacement DMA Owner Pair
 

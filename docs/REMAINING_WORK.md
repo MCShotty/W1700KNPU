@@ -3,19 +3,21 @@
 ## 2026-11-18 - Build The Frozen Baseline
 
 The original terminal replay is verified and the unchanged capsule is
-running with the pinned combined producer. Verify the live unit's
-terminal world result and seal its exact FIT bytes. Only then switch
-to the separately verified coherent source delta and rebuild its modules.
+compiling with the pinned combined producer. Verify the live unit's
+terminal world result and seal its exact FIT bytes. Only then switch to
+the verified `coherent-ppe-a` source delta and rebuild its modules.
 [World handle](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 [Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
 
 ## 2026-11-18 - Qualify PPE And Ethernet Retirement
 
-Do not treat the PPE deinit ACK as a drain result. Its firmware path has no
-polling cycle, the Ethernet caller discards its status, and the separate
-QDMA timeout still reaches TX cleanup. Keep PPE table and Ethernet queue
-backing owned until their own retirement checks succeed, including
-removal; neither proves Wi-Fi or remote NPU retirement.
+The staged W1700K source keeps exposed PPE tables across detach and
+does not release them on the deinit ACK. Verify the linked Ethernet
+module and bind it to the next selected FIT alongside the existing
+modules. The Ethernet QDMA timeout still reaches TX cleanup. Separately
+gate its actual queue backing, including removal. Neither proves
+Wi-Fi or remote NPU retirement.
+[Staged table ownership](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 [Binary evidence and limits](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).
 
 ## 2026-11-18 - Qualify The Coherent DMA Window
@@ -29,10 +31,9 @@ Wi-Fi fallback and offload. Physical DMA retirement is still open.
 The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
 measure actual cold consumption and validate exhaustion on the linked build.
 [Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
-The next source lock and overlay delta are staged and verified in scratch.
-Use the [handoff](../research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
-after the frozen gates pass; the raw prepared patch copies are stale and
-the derived lock requires a fresh linked-module producer.
+The coherent and PPE changes are staged with one verified source lock.
+Use the [combined handoff](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md)
+after the frozen gates pass. The derived lock requires fresh linked modules.
 
 ## 2026-11-18 - Qualify Checked DMA Ownership
 
@@ -48,8 +49,8 @@ Physical retirement, authorized releases and real-client tests remain open.
 
 The staged checked-session provider retains descriptor and software-entry
 storage, including entries for the original RX-event ring. This doesn't
-gate existing removal-time writes or payload frees. Keep the original replay
-and frozen image source; profiles 0 and 1 verified, profile 2 still live.
+gate existing removal-time writes or payload frees. The original replay
+passed; keep its frozen image inputs until the compiling baseline is sealed.
 Then build and test the paired owner changes with the hot-reset patch.
 Protect page pools, payload mappings, tokens, context and rebind paths, and
 prove physical retirement before enabling shared owner release.

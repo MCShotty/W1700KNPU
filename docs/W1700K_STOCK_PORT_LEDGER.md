@@ -1,5 +1,19 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage The W1700K PPE Table Owner
+
+- Confirmed stats are off in the retained config; the initial replay
+  selector 4 is also a refusal stub. The default FOE route publishes its
+  base through the front end. Neither path qualifies physical retirement.
+- The staged patch retains exposed tables through teardown, rejects
+  same-board reprobe and returns SRAM failures. Nine modeled cases,
+  five negative controls and two AArch64 object builds passed.
+- Rehearsed and rechecked combined source bundle `coherent-ppe-a`,
+  derived lock `2f912d3f` and receipt `bcab9998`. Baseline invocation
+  `1137136a` reached kernel compilation unchanged. No new linked
+  Ethernet module, FIT or router run.
+  [Checks and handoff](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
+
 ## 2026-11-18 - Start Frozen Baseline World
 
 - Streamed the protected host inventories without changing the frozen

@@ -21,6 +21,7 @@ OUT = ROOT / ".local/npu-coherent-handoff-20261118/bundles"
 CHECKPOINTS = ROOT / "research/checkpoints"
 WINDOW = CHECKPOINTS / "2026-11-18-npu-coherent-window"
 PACKET = CHECKPOINTS / "2026-11-18-npu-packet-owner"
+PPE_OWNER = CHECKPOINTS / "2026-11-18-npu-ppe-table-owner"
 KDIR = "target/linux/airoha/patches-6.18"
 MDIR = "package/kernel/mt76/patches"
 DT = "target/linux/airoha/dts/an7581-w1700k-ubi.dts"
@@ -116,7 +117,7 @@ def apply_series(target, patch_dir, selected):
     return re.findall(r"^Applying .*/([^/ ]+) using plaintext: ", text, re.M)
 
 
-def rehearse(component, source, order, expected_pre, expected_post, scratch, binding=None):
+def rehearse(component, source, order, expected_pre, expected_post, scratch, upstream_overrides):
     target = scratch / component
     legacy = scratch / (component + "-integrated-patch")
     series = scratch / (component + "-patches")
@@ -129,7 +130,9 @@ def rehearse(component, source, order, expected_pre, expected_post, scratch, bin
     require(late_paths == set(expected_post) and legacy_paths <= expected_pre.keys(),
             f"unexpected {component} patch target set")
     for name in sorted(legacy_paths | late_paths):
-        upstream = binding if name == BINDING else relative_file(WORK / (component + "-upstream"), name)
+        upstream = upstream_overrides.get(name)
+        if upstream is None:
+            upstream = relative_file(WORK / (component + "-upstream"), name)
         if upstream.exists():
             copy_source(upstream, target / name)
     copy_source(old, legacy / order[0])
@@ -146,7 +149,7 @@ def rehearse(component, source, order, expected_pre, expected_post, scratch, bin
     return dict(patch_order=order, baseline_outputs_checked=len(legacy_paths), postimages=post)
 
 
-def derive_lock(lock, additions):
+def derive_lock(lock, additions, *, with_ppe=False):
     result = copy.deepcopy(lock)
     rows = result["openwrt"]["changed_files"]
     existing = {row["path"] for row in rows}
@@ -154,7 +157,8 @@ def derive_lock(lock, additions):
             "prepared lock already owns a candidate path")
     rows.extend(dict(path=name, sha256=sha_bytes(data), mode="0o644") for name, data in additions.items())
     rows.sort(key=lambda row: row["path"])
-    result["snapshot"] = "nonoc-merged-coherent-window-20261118"
+    result["snapshot"] = ("nonoc-merged-coherent-ppe-20261118" if with_ppe
+                          else "nonoc-merged-coherent-window-20261118")
     return result
 
 
@@ -187,7 +191,7 @@ def check_staging(parent_lock, new_lock, additions, scratch):
     return prepared, {**proof, "copied": sorted(proof["copied"]), "stale_aggregates_refreshed": stale}
 
 
-def prepare(producer, pin):
+def prepare(producer, pin, *, with_ppe=False):
     require(__debug__ and digest(producer) == pin, "unverified producer")
     checked = linked_module_sources(ROOT, producer)
     window = read_json(WINDOW / "EVIDENCE.json")
@@ -200,6 +204,14 @@ def prepare(producer, pin):
     kernel, = (BUILD / "build_dir").glob(f"target-*/linux-airoha*/linux-{baseline['kernel']}")
     protected = {ROOT / SOURCE_LOCK, BUILD / DT, kernel / BINDING, BUILD / "scripts/patch-kernel.sh"}
     protected.update(p / name for name in OLD_PATCHES.values() for p in (ROOT / OV, BUILD))
+    ppe = read_json(PPE_OWNER / "EVIDENCE.json") if with_ppe else None
+    ppe_patch = PPE_OWNER / "airoha-ppe-table-owner.patch"
+    ppe_dir = "drivers/net/ethernet/airoha"
+    if ppe is not None:
+        require(set(ppe["original"]) == set(ppe["patched"]) ==
+                {"airoha_eth.c", "airoha_eth.h", "airoha_ppe.c"}, "unexpected PPE owner paths")
+        protected.update(relative_file(kernel, f"{ppe_dir}/{n}") for n in ppe["original"])
+        protected.update((kernel / ".config", ppe_patch))
     protected_before = {p: digest(p) for p in protected}
     expect = {row["path"]: row["sha256"] for row in baseline["openwrt"]["changed_files"]}
     require(digest(BUILD / DT) == window["preimages"][DT] and
@@ -211,18 +223,32 @@ def prepare(producer, pin):
         for group, old in OLD_PATCHES.items():
             old_file = ROOT / OV / old
             require(digest(old_file) == expect[old], f"{group} aggregate drift")
-            late = NEW_PATCHES[group]
+            late = dict(NEW_PATCHES[group])
+            pins = dict(window["patch_sha256"])
+            overrides = {}
+            if group == "kernel" and ppe is not None:
+                late[f"{KDIR}/9999-w1700k-ppe-table-owner.patch"] = ppe_patch
+                pins[ppe_patch.name] = ppe["patch_sha256"]
+                require(protected_before[kernel / ".config"] ==
+                        ppe["baseline_configuration"]["config_sha256"], "unverified PPE configuration")
             order = check_order(BUILD / Path(old).parent, Path(old).name, [Path(p).name for p in late])
             paths = {Path(n).name: p for n, p in {old: old_file, **late}.items()}
-            require(all(digest(p) == window["patch_sha256"][p.name] for p in late.values()),
-                    "staged patch drift")
+            require(all(digest(p) == pins[p.name] for p in late.values()), "staged patch drift")
             pre = dict(checked[group])
             if group == "kernel":
+                overrides[BINDING] = kernel / BINDING
                 pre[BINDING] = window["preimages"][BINDING]
                 post = {name: window["postimages"][name] for name in (PROVIDER, HEADER, BINDING)}
+                if ppe is not None:
+                    for file, sha in ppe["original"].items():
+                        name = f"{ppe_dir}/{file}"
+                        require(name not in pre and name not in post, "overlapping PPE owner preimage")
+                        overrides[name] = relative_file(kernel, name)
+                        pre[name] = sha
+                        post[name] = ppe["patched"][file]
             else:
                 post = packet["postimages"]["mt76"]
-            proof[group] = rehearse(group, paths, order, pre, post, scratch, kernel / BINDING)
+            proof[group] = rehearse(group, paths, order, pre, post, scratch, overrides)
             additions.update((n, p.read_bytes()) for n, p in late.items())
 
         dtree = scratch / "dts"
@@ -234,7 +260,7 @@ def prepare(producer, pin):
         run(["git", "apply", "--whitespace=error-all", dt_patch], dtree)
         require(digest(updated) == window["postimages"][DT], "DTS postimage differs")
         additions[DT] = updated.read_bytes()
-        derived = derive_lock(baseline, additions)
+        derived = derive_lock(baseline, additions, with_ppe=with_ppe)
         prepared, staging = check_staging(baseline, derived, additions, scratch)
         dts_dir = Path(DT).parent
         overlay_dts = run(["cpp", "-x", "assembler-with-cpp", "-nostdinc", "-undef", "-D__DTS__",
@@ -293,11 +319,12 @@ def main():
     names.add_argument("--check")
     parser.add_argument("--producer", type=Path, required=True)
     parser.add_argument("--producer-sha256", required=True)
+    parser.add_argument("--ppe-table-owner", action="store_true", help="include the staged W1700K PPE owner")
     args = parser.parse_args()
     try:
         out = bundle_path(args.name or args.check)
         require(not args.name or not out.exists(), "bundle already exists")
-        files, receipt = prepare(args.producer, args.producer_sha256)
+        files, receipt = prepare(args.producer, args.producer_sha256, with_ppe=args.ppe_table_owner)
         if args.name:
             publish(out, files, receipt)
         check_published(out, files, receipt)

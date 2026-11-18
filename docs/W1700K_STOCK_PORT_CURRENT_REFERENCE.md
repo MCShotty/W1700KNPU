@@ -1,9 +1,18 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Staged PPE Table Owner
+
+The W1700K table owner retains each exposed DMA allocation across detach.
+There is no positive PPE or QDMA retirement witness. The source bundle
+`coherent-ppe-a` was rechecked, and two isolated AArch64 objects built.
+Use its lock only after the compiling frozen baseline is sealed.
+[Exact inputs and scope](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
+
 ## 2026-11-18 - Frozen Baseline World In Progress
 
 Invocation `1137136a` passed memory, storage and lock admission.
-Protected inventory was advancing. No terminal world result or FIT.
+Protected inventory passed and the isolated world reached kernel
+compilation. No terminal world result or FIT.
 Use the exact user service and do not relaunch while it remains live.
 [Launch and scope](../research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 

@@ -1,10 +1,16 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - PPE Table Retention Staged
+
+The next source bundle keeps exposed PPE tables through uncertain teardown.
+Modeled failures and two AArch64 object builds passed; no linked module or
+board test yet. [Scope and handoff](research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
+
 ## 2026-11-18 - Frozen Baseline World Running
 
-The offline build was admitted with bounded memory and the exact replayed
-inputs. The lower-tree audit now streams its inventory. No FIT or board
-result yet. [Live handle and checks](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
+The bounded offline run finished its source inventory and reached kernel
+compilation. No terminal build, FIT or board result yet.
+[Live handle and checks](research/checkpoints/2026-11-18-npu-frozen-world-start/REPORT.md).
 
 ## 2026-11-18 - Original RV32 Replay Passed
 

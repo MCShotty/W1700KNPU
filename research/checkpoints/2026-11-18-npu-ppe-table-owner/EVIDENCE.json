@@ -1,0 +1,54 @@
+{
+  "baseline_configuration": {
+    "code_sha256": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+    "config_sha256": "e6fee1dd3dd98757e104798fd4c8301a752d01ce9604e2583683b0586adcc4e3",
+    "data_sha256": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+    "initial_stats_slot": "0x3e90013c",
+    "initial_stats_stub": "0x84005df2",
+    "stats_enabled": false,
+    "stats_selector": 4,
+    "stats_stub_return": 0
+  },
+  "board_run": false,
+  "cross_compile": {
+    "address_space_limit_bytes": 402653184,
+    "compiler_sha256": "7f770a9b898c9c2ffce1bea614e10a520d0ee55f2dfcc3b6d9a35d9da76e06d4",
+    "objects": {
+      "airoha_eth": {
+        "command_sha256": "3aef3fed96915ac87830ca0607832a90dedb14c8d3064ed1802281ab9bc9d7e4",
+        "sha256": "07314808a8d489ddafabbfe6caa269a9de87d0db7974b9469d0a39c1fc0b993f",
+        "text_sha256": "5a293d949fe4368237ed98e920e5014c5e1ae255e1051cbf0307fe57e4197f3e"
+      },
+      "airoha_ppe": {
+        "command_sha256": "d0d1c792311038aff4a71f43851d59e7b9f3d44d32b05c7006725fcfa1bb540b",
+        "sha256": "724cc5b0cc9a8094d85c7a95dbf44557c81208630add4efb09d5775a69bc39dc",
+        "text_sha256": "fc340ea748020604846324ebc2d7d9feeca6f38120a61390f36ee8b997fe7b5f"
+      }
+    }
+  },
+  "linked_module": false,
+  "native": {
+    "cases": 9,
+    "extracted_sha256": "eda3494680922c60d2e85a9727ed9773c058ef3fe952b209a33d4c7c5551701a",
+    "mutated_assertions": [
+      "free-exposed",
+      "allow-rebind",
+      "ignore-module-refusal",
+      "retry-partial-publication",
+      "leave-offload-open-on-deinit"
+    ]
+  },
+  "original": {
+    "airoha_eth.c": "8b884862cbfce17d0e515334a90f143aad549819dbdc6c7d5f9e8baae5ac9517",
+    "airoha_eth.h": "385ee3d772b3483c62fc4072b833d802f1fab5eb982abeda3949f22738eb153b",
+    "airoha_ppe.c": "476ccc884f0a66ae35ffa2b8535d587fe9b697b0654877b8a9c114615def6f03"
+  },
+  "patch_sha256": "9fcd868793eee6392c95f2f4e6ee0655e330352de3bb0454d034aee5c62a8235",
+  "patched": {
+    "airoha_eth.c": "6979a3f1f7b283f67d1b3616597f53b946c1a4058e0ab40017b2ab45167c605e",
+    "airoha_eth.h": "7f98889723402a832bba31420a892fd7275b6f0ef130df9358815f8de514bc39",
+    "airoha_ppe.c": "344c860afb3283c63548e4684ae4680755059f05ddccc3048a0eb543a05ef68b"
+  },
+  "physical_retirement_proven": false,
+  "schema": "w1700k-ppe-table-owner-v1"
+}

@@ -5,6 +5,10 @@ WSL user manager. Invocation `1137136aae6141e9bbaa3196bc3e69a9` holds
 both writer locks. It has **not** produced a world verdict or FIT.
 [Launch, resource and live-process pins](EVIDENCE.json).
 
+At the [follow-up](../2026-11-18-npu-ppe-table-owner/BUNDLE.json), the same
+invocation had completed the 845,102-entry protected inventory at
+36.1 MiB parent peak RSS and reached kernel compilation.
+
 ## Smaller Host Overhead
 
 The previous host launcher retained a full lower-tree dictionary during

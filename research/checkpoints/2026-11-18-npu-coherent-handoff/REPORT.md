@@ -1,5 +1,9 @@
 # Rehearse the next W1700K build inputs
 
+The later [combined bundle](../2026-11-18-npu-ppe-table-owner/REPORT.md)
+adds PPE retention to this verified substack. This report records the
+unchanged original `coherent-a` receipt.
+
 The raw prepared OpenWrt directory has older copies of both integrated
 patches. Using those copies on the retained component bases produced
 different `airoha_npu.c` and `npu.c` bytes. Both were refused before the
