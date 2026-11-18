@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Packet DMA Retention
+
+The staged replacement fixes allocator lock order, keeps checked packet
+backing through host detach, and refuses same-driver rebind on the recorded
+PCI functions. Build and physical retirement are separate.
+[Replacement patches](research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+
 ## 2026-11-18 - NPU Queue Memory
 
 Staged matching provider and radio changes give checked NPU descriptor rings

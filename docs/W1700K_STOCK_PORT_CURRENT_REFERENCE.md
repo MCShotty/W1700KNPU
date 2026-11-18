@@ -1,5 +1,13 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Checked Packet Owner Candidate
+
+The replacement pair covers the inspected checked detach through pool,
+TX token, queue object and hardware context retention, and fixes the old
+staged allocator's nested lock. Matching PCI reprobe is denied before
+enable; no hardware fence or deployment is inferred. Source only.
+[Replacement and limits](../research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+
 ## 2026-11-18 - Staged Consumer Queue Owner
 
 The linked mt76 ring allocator still uses managed descriptors and entries.

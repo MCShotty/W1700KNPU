@@ -1,5 +1,10 @@
 # Explicit ownership for checked-session queue memory
 
+> Superseded. This historical patch passes its bounded checks but can
+> reacquire a mutex already held during NPU RX queue allocation. Do not
+> integrate it alone. Use the [replacement pair](../2026-11-18-npu-packet-owner/REPORT.md),
+> which includes the ownership work and fixes the lock order.
+
 The [allocation-domain audit](../2026-10-27-npu-consumer-dma-lifetime/REPORT.md)
 found that ordinary NPU-backed rings still used the DMA provider's devres and
 their entries used the PCI endpoint's devres. The qualified `mt76.ko` confirms

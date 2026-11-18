@@ -1,5 +1,17 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage Checked Packet Owner
+
+- Reproduced the old staged RX allocator's recursive mutex acquisition.
+  Replaced the pending stack with a verified pair that uses a separate
+  lifetime lock and holds checked pools, mappings and context at detach.
+- Added a pre-enable probe check on saved primary/HIF2 identities or BAR0
+  overlap, and blocked checked managed fallbacks. Twelve source bypasses
+  rejected; 12 preimages and prior hot-reset ordering verified. No compile,
+  image or hardware qualification. [Patches and receipt](../research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+- Invocation `61e2d7b8` verified live with 345 inputs and profile 2 at
+  219 operations and 81 publications; no terminal verdict.
+
 ## 2026-11-18 - Stage Consumer Queue Memory Owner
 
 - Source-checked paired kernel/mt76 changes give the checked NPU explicit

@@ -1,5 +1,15 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Qualify Checked DMA Ownership
+
+Use the replacement provider/mt76 pair, not the preceding allocator patch
+that reacquired the device mutex during RX setup. The staged pair retains
+ring, pool, token and context state across the examined detach and rejects
+matching rebind. Verify original terminal replay and exact frozen image
+first, then build matching modules and run the failure and legacy cases.
+Physical retirement, authorized releases and real-client tests remain open.
+[Exact preimages and gates](../research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+
 ## 2026-11-18 - Retain The Rest Of The DMA Graph
 
 The staged checked-session provider retains descriptor and software-entry

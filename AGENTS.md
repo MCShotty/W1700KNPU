@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Use The Replacement DMA Owner Pair
+
+The replacement pair keeps packet backing through checked CPU detach and
+fixes a recursive lock in the previous staged NPU RX allocator. It includes
+the earlier hot-reset changes; apply only this pair after frozen-source work.
+Still uncompiled. [Rebuild and qualification gates](research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+
 ## 2026-11-18 - Keep Queue Allocations Beyond Devres
 
 Staged paired provider/mt76 patches retain checked-session descriptors and

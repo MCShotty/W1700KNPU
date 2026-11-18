@@ -1,0 +1,72 @@
+{
+  "baseline": {
+    "calls": {
+      "0xe58": "mt76_npu_alloc_rx_event",
+      "0xe94": "devm_kmalloc",
+      "0xf18": "dmam_alloc_attrs"
+    },
+    "module_sha256": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834"
+  },
+  "compiled": false,
+  "patch_sha256": {
+    "airoha-checked-dma-owner.patch": "f68de522cbaffba2fceb6ceaf212b4936b2473a804ada8fb17835446ab892f5e",
+    "mt76-checked-dma-owner.patch": "7ea4850ed91c7032fd614011b3a8f158308439566090a1961a406db3b7874114"
+  },
+  "physical_retirement_proven": false,
+  "postimages": {
+    "kernel": {
+      "drivers/net/ethernet/airoha/airoha_npu.c": "f0c916870a42cdd236b7858316e8a85670216ebe6ac20df3597806e1ca03ef0a",
+      "include/linux/soc/airoha/airoha_offload.h": "50d94c3b480b836d5fc59b2d256fcb0e20cd8ba62d511b0ad30d5e0e86cc10e0"
+    },
+    "mt76": {
+      "dma.c": "823b2466a3a65136542fb2253e4b41c907eebfa4ef5ed3112db93daf69320107",
+      "mac80211.c": "dc3ed5d56eaa895346ff2254ebdd93a05ca8821fa5709d1d39955d3f88c62b1d",
+      "mt76.h": "4305c34f3a3a5a209e15db7c70555bc97021aff3d99be0a04b79cd3b0b014931",
+      "mt7996/dma.c": "9bd05a4c0d6a1eadf0fa8250d24fd34752b036eec043aa317a64c6ac0d4fd7ad",
+      "mt7996/init.c": "7cb56101065ffd9acd9d07d2b0279aae9c645500b840558350812ff0a2dccc2b",
+      "mt7996/mac.c": "51cfed11789ee04dc96295cba5788e9458caf7a5bede0a7532286f87c6be4601",
+      "mt7996/mt7996.h": "70f35754f15ab3c2f992a4598fe8a1b62b69d56b3478eae797ac0cacd303a34c",
+      "mt7996/npu.c": "5336f339e7d5f61e652484de5567ced32fcf3797a6d5d680d84a08e1e62740aa",
+      "mt7996/pci.c": "541b2bc4f8755f7864f33f154ec813df08577e2d655387a331da82a31e2b8a9f",
+      "npu.c": "7df10e543ba817d5eb33e72db97b352f873401212c5f1faf270d94a718b24683"
+    }
+  },
+  "preimages": {
+    "kernel": {
+      "drivers/net/ethernet/airoha/airoha_npu.c": "7162cec0d0483d5f2228aed5fc794b389fd68b8451b325b0c4b25d04e67c8544",
+      "include/linux/soc/airoha/airoha_offload.h": "0007bc458dbc4855ab79d67d5ff0ec659b2a59d3c4994ee35e6c2768af9a12fd"
+    },
+    "mt76": {
+      "dma.c": "7006de553a1d466be720b8d10fa911ba4b704cced42106a9ee11f6cf186917a6",
+      "mac80211.c": "5c430a6d231dbfbfeb979c531d2574dec0b5fd9a94d4a48e30f075f0e9821df0",
+      "mt76.h": "51c4dbe4dd5f6607c638c60eeb7257fdc911c5b2334b1fd3fa9e25c007078576",
+      "mt7996/dma.c": "3f8869c8a18fc18b3a929f780ec673024fd1e7a5faf174f47d74fda5b9e1b8b7",
+      "mt7996/init.c": "52e7fc760cfe1b18377104fc6d726aad352d6d10ab52cfa4863cab25c2082ffd",
+      "mt7996/mac.c": "e58a9aa074f927e144a8745918d504da34bc6c831105f8a8b6081e17acf6e577",
+      "mt7996/mt7996.h": "e300a67445db1d67915bf33d3a0c727430997b16fad63e5dee9ebb4fbc173bf3",
+      "mt7996/npu.c": "d2f628745af524bea8bf8233e502b0466ccfc4fd516b2e48e395c28da123414e",
+      "mt7996/pci.c": "1e49bcde0f09e075cff733b10802893cd7bd701c0c79387eb4184ef7e16d9706",
+      "npu.c": "7cbe4189a7162a67bd31e1ed0f47b498e122d2e5b998b3e6b4bfcd4bd30902d8"
+    }
+  },
+  "prior_hot_reset_contract_preserved": true,
+  "producer": ".local/npu-build-scratch/native-c2/fw-txp-20261118-modules-a/modules/result.json",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "rejected_source_controls": [
+    "recursive-core-lock",
+    "allow-checked-managed-fallback",
+    "require-reply-before-hold",
+    "unconditional-NPU-RX-release",
+    "managed-extra-queue",
+    "pool-unmaps-before-detach",
+    "release-held-hw-context",
+    "restart-MCU-with-held-DMA",
+    "release-tokens-before-guard",
+    "drop-retained-HIF2-match",
+    "omit-pin-before-bind",
+    "allow-checked-RRO-fallback"
+  ],
+  "schema": 1,
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "superseded_queue_patch_sha256": "da9d5203a21584df130d734965dc96f11bc795dd72524a50701e5c67160b414a"
+}

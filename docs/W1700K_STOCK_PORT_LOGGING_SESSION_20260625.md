@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Checked Packet Owner Candidate
+
+The source check caught the old staged RX lock recursion. The replacement
+pair carries the queue owner and hot-reset checks forward, adds host detach
+retention, and leaves the running replay unchanged.
+[Checks and limits](../research/checkpoints/2026-11-18-npu-packet-owner/REPORT.md).
+
 ## 2026-11-18 - Consumer Queue Owner Candidate
 
 Paired provider and mt76 source checks passed. Independently confirmed the

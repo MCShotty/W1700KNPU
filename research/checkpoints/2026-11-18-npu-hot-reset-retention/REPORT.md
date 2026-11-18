@@ -1,5 +1,8 @@
 # Retain live NPU owners when hot reset cannot prove a drain
 
+> The [replacement checked-DMA pair](../2026-11-18-npu-packet-owner/REPORT.md)
+> already includes this hot-reset change. Do not apply this patch on top of it.
+
 The qualified mt7996 driver releases TX token mappings in
 `mt7996_mac_restart` before calling `mt7996_dma_reset`. IRQ/NAPI and worker
 shutdown stop CPU access, but are not a device DMA fence. The L1 helper also
