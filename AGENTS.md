@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Keep Queue Allocations Beyond Devres
+
+Staged paired provider/mt76 patches retain checked-session descriptors and
+entries and reject fallback on checked errors. Payload DMA and unbind are not
+qualified. Keep the frozen source while the original replay is in profile 2;
+profile 1 independently verified. [Patches and gates](research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Do Not Recycle On An Unverified Reset
 
 The hot-reset patch is staged with seven source controls. It defers an

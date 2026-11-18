@@ -1,5 +1,14 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Staged Consumer Queue Owner
+
+The linked mt76 ring allocator still uses managed descriptors and entries.
+Paired staged patches enroll those objects in the checked provider's retained
+lifetime before pointer publication. RX-event descriptors keep their
+existing owner; checked errors never select managed fallback. Not built.
+Profile 1 of the original invocation verified; profile 2 remains live.
+[Scope and receipts](../research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Staged Hot Reset Retention
 
 The qualified radio still frees full-reset tokens before checking DMA.

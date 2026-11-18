@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - NPU Queue Memory
+
+Staged matching provider and radio changes give checked NPU descriptor rings
+and their entries an explicit owner. Build qualification and payload/PCI
+retirement are still open. [Evidence](research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Hot Reset Retention
 
 A staged mt76 change prevents L1 and watchdog recovery from recycling

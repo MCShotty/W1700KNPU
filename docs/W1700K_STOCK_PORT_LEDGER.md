@@ -1,5 +1,19 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Stage Consumer Queue Memory Owner
+
+- Source-checked paired kernel/mt76 changes give the checked NPU explicit
+  descriptor and queue-entry ownership. Existing RX-event storage is
+  borrowed, and failures cannot silently choose managed allocations.
+- Five exact preimages reapplied alongside the earlier hot-reset patch;
+  seven bypass controls rejected and both patches checkpatch clean. No build
+  or deployment. Packet payloads, DMA retirement and rebind remain open.
+- Refreshed the stale export regression to check the active RCU and IRQ
+  lock coverage in the checked rearm helper. All 21 related tests pass.
+- Original invocation `61e2d7b8`: 345 inputs rehashed; all 6,421 profile 1
+  operations and final state verified. Profile 2 recorded a live prefix only.
+  [Patches, evidence and replay receipt](../research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Stage Hot Reset Retention
 
 - Prepared an exact patch to the qualified mt76 source: GET3 zero no longer

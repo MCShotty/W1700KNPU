@@ -1,5 +1,16 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Retain The Rest Of The DMA Graph
+
+The staged checked-session provider retains descriptor and software-entry
+storage, including entries for the original RX-event ring. This doesn't
+gate existing removal-time writes or payload frees. Keep the original replay
+and frozen image source; profiles 0 and 1 verified, profile 2 still live.
+Then build and test the paired owner changes with the hot-reset patch.
+Protect page pools, payload mappings, tokens, context and rebind paths, and
+prove physical retirement before enabling shared owner release.
+[Exact patches and receipt](../research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Qualify Staged Hot Reset Retention
 
 The patch removes the GET3-zero to SET6 transition and puts full-reset

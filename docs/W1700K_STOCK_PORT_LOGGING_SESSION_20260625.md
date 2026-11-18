@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Consumer Queue Owner Candidate
+
+Paired provider and mt76 source checks passed. Independently confirmed the
+original profile 1 terminal artifacts; profile 2 is running. No frozen byte
+or hardware change. [Receipt and scope](../research/checkpoints/2026-11-18-npu-consumer-queue-owner/REPORT.md).
+
 ## 2026-11-18 - Hot Reset Retention Candidate
 
 Source patch and seven negative controls cover both early release paths.

@@ -1,0 +1,183 @@
+diff --git a/drivers/net/ethernet/airoha/airoha_npu.c b/drivers/net/ethernet/airoha/airoha_npu.c
+index 8bd509a..c5743ae 100644
+--- a/drivers/net/ethernet/airoha/airoha_npu.c
++++ b/drivers/net/ethernet/airoha/airoha_npu.c
+@@ -13,8 +13,11 @@
+ #include <linux/of_net.h>
+ #include <linux/of_platform.h>
+ #include <linux/of_reserved_mem.h>
++#include <linux/overflow.h>
+ #include <linux/regmap.h>
+ #include <linux/random.h>
++#include <linux/sizes.h>
++#include <linux/slab.h>
+ #include <linux/unaligned.h>
+ #include <crypto/sha2.h>
+ 
+@@ -162,6 +165,15 @@ struct airoha_npu_rro_owner {
+ 
+ static_assert(sizeof(struct airoha_npu_rro_owner) <= 65536);
+ 
++#define NPU_WLAN_MAX_QUEUE_MEM		48
++#define NPU_WLAN_MAX_QUEUE_BYTES	SZ_8M
++
++struct airoha_npu_retained_queue_mem {
++	struct airoha_npu_wlan_queue_mem mem;
++	size_t desc_bytes;
++	size_t entry_bytes;
++};
++
+ struct airoha_npu_dma_lifetime {
+ 	struct device *dev;
+ 	struct list_head retained;
+@@ -179,6 +191,9 @@ struct airoha_npu_dma_lifetime {
+ 		dma_addr_t addr;
+ 		u32 bytes;
+ 	} rx_event;
++	struct airoha_npu_retained_queue_mem queue_mem[NPU_WLAN_MAX_QUEUE_MEM];
++	size_t queue_mem_bytes;
++	unsigned int queue_mem_count;
+ 	struct device *endpoint;
+ 	u64 boot_identity;
+ 	u32 nonce_lo, nonce_hi;
+@@ -241,15 +256,23 @@ static void airoha_npu_dma_cleanup(void *data)
+ 	unsigned int i;
+ 
+ 	/* No physical retirement witness exists yet. Publication errors, detach
+-	 * and software parking must not release possibly device-owned mailboxes.
++	 * and software parking must not release possibly device-owned memory.
+ 	 */
+ 	if (life->exposed || life->rro) {
+ 		mutex_lock(&airoha_npu_retained_lock);
+ 		list_add_tail(&life->retained, &airoha_npu_retained_dma);
+ 		mutex_unlock(&airoha_npu_retained_lock);
+-		dev_warn(life->dev, "retaining NPU DMA mailboxes pending retirement proof\n");
++		dev_warn(life->dev, "retaining NPU DMA memory pending retirement proof\n");
+ 		return;
+ 	}
++	for (i = 0; i < life->queue_mem_count; i++) {
++		struct airoha_npu_retained_queue_mem *queue = &life->queue_mem[i];
++
++		if (queue->desc_bytes)
++			dma_free_coherent(life->dev, queue->desc_bytes,
++					  queue->mem.desc, queue->mem.dma_addr);
++		kvfree(queue->mem.entry);
++	}
+ 	for (i = 0; i < ARRAY_SIZE(life->buffers); i++)
+ 		if (life->buffers[i].buf)
+ 			dma_free_coherent(life->dev, AIROHA_NPU_MBOX_SIZE,
+@@ -1788,6 +1811,89 @@ unlock:
+ 	return err;
+ }
+ 
++int airoha_npu_wlan_alloc_queue_mem(struct airoha_npu *npu, struct device *endpoint,
++				    struct device *dma_dev, unsigned int count,
++				    size_t desc_size, size_t entry_size, bool rx_event,
++				    struct airoha_npu_wlan_queue_mem *out)
++{
++	struct airoha_npu_priv *priv = container_of(npu, struct airoha_npu_priv, npu);
++	struct airoha_npu_wlan_queue_mem mem = {};
++	struct airoha_npu_dma_lifetime *life;
++	size_t desc_bytes, entry_bytes, bytes;
++	int err;
++
++	if (!priv->checked_pair)
++		return AIROHA_NPU_WLAN_QUEUE_MANAGED;
++	if (!out || !count || !desc_size || !entry_size ||
++	    check_mul_overflow((size_t)count, desc_size, &desc_bytes) ||
++	    check_mul_overflow((size_t)count, entry_size, &entry_bytes) ||
++	    check_add_overflow(desc_bytes, entry_bytes, &bytes))
++		return -EINVAL;
++	if (bytes > NPU_WLAN_MAX_QUEUE_BYTES)
++		return -ENOSPC;
++
++	if (rx_event) {
++		err = airoha_npu_wlan_alloc_rx_event_session(npu, endpoint, dma_dev,
++							     count, desc_size, &mem.desc,
++							     &mem.dma_addr);
++		if (err)
++			return err;
++	}
++
++	mutex_lock(&priv->wlan_session_lock);
++	life = priv->dma_lifetime;
++	err = priv->wlan_session_error;
++	if (err)
++		goto unlock;
++	if (!life || !life->exposed || !life->endpoint_bound ||
++	    life->endpoint != endpoint || life->dev != dma_dev ||
++	    life->dev != npu->dev || life->boot_identity != priv->boot_identity) {
++		err = -ENODEV;
++		goto unlock;
++	}
++	if (life->queue_mem_count >= ARRAY_SIZE(life->queue_mem) ||
++	    bytes > NPU_WLAN_MAX_QUEUE_BYTES - life->queue_mem_bytes) {
++		err = -ENOSPC;
++		goto unlock;
++	}
++	if (rx_event && (!life->rx_published || !mem.desc ||
++			 life->rx_event.buf != mem.desc ||
++			 life->rx_event.addr != mem.dma_addr ||
++			 life->rx_event.bytes != desc_bytes)) {
++		err = -EPROTO;
++		goto unlock;
++	}
++
++	mem.entry = kvzalloc(entry_bytes, GFP_KERNEL);
++	if (!mem.entry) {
++		err = -ENOMEM;
++		goto unlock;
++	}
++	if (!rx_event) {
++		mem.desc = dma_alloc_coherent(dma_dev, desc_bytes, &mem.dma_addr,
++					      GFP_KERNEL);
++		if (!mem.desc) {
++			kvfree(mem.entry);
++			err = -ENOMEM;
++			goto unlock;
++		}
++	}
++
++	/* Record both objects before returning pointers to the consumer. */
++	life->queue_mem[life->queue_mem_count++] =
++		(struct airoha_npu_retained_queue_mem) {
++			.mem = mem,
++			.desc_bytes = rx_event ? 0 : desc_bytes,
++			.entry_bytes = entry_bytes,
++		};
++	life->queue_mem_bytes += bytes;
++	*out = mem;
++unlock:
++	mutex_unlock(&priv->wlan_session_lock);
++	return err;
++}
++EXPORT_SYMBOL_GPL(airoha_npu_wlan_alloc_queue_mem);
++
+ static int airoha_npu_wlan_alloc_tx_buffers_session(struct airoha_npu *npu,
+ 						    struct device *endpoint,
+ 						    struct device *dma_dev,
+diff --git a/include/linux/soc/airoha/airoha_offload.h b/include/linux/soc/airoha/airoha_offload.h
+index f998c8d..23c8ab0 100644
+--- a/include/linux/soc/airoha/airoha_offload.h
++++ b/include/linux/soc/airoha/airoha_offload.h
+@@ -254,6 +254,20 @@ struct airoha_npu *airoha_npu_get(struct device *dev);
+ void airoha_npu_put(struct airoha_npu *npu);
+ int airoha_npu_wlan_control(struct airoha_npu *npu, void *data, int len);
+ 
++struct airoha_npu_wlan_queue_mem {
++	void *desc;
++	dma_addr_t dma_addr;
++	void *entry;
++};
++
++/* Only the legacy firmware profile can select managed queue memory. */
++#define AIROHA_NPU_WLAN_QUEUE_MANAGED	1
++
++int airoha_npu_wlan_alloc_queue_mem(struct airoha_npu *npu, struct device *endpoint,
++				    struct device *dma_dev, unsigned int count,
++				    size_t desc_size, size_t entry_size, bool rx_event,
++				    struct airoha_npu_wlan_queue_mem *out);
++
+ static inline int airoha_npu_wlan_init_reserved_memory(struct airoha_npu *npu)
+ {
+ 	return npu->ops.wlan_init_reserved_memory(npu);

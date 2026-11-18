@@ -1,0 +1,53 @@
+{
+  "before": {
+    "kernel": {
+      "drivers/net/ethernet/airoha/airoha_npu.c": "7162cec0d0483d5f2228aed5fc794b389fd68b8451b325b0c4b25d04e67c8544",
+      "include/linux/soc/airoha/airoha_offload.h": "0007bc458dbc4855ab79d67d5ff0ec659b2a59d3c4994ee35e6c2768af9a12fd"
+    },
+    "mt76": {
+      "dma.c": "7006de553a1d466be720b8d10fa911ba4b704cced42106a9ee11f6cf186917a6",
+      "mt76.h": "51c4dbe4dd5f6607c638c60eeb7257fdc911c5b2334b1fd3fa9e25c007078576",
+      "npu.c": "7cbe4189a7162a67bd31e1ed0f47b498e122d2e5b998b3e6b4bfcd4bd30902d8"
+    }
+  },
+  "candidate": {
+    "kernel": {
+      "drivers/net/ethernet/airoha/airoha_npu.c": "975a3eaffb19d869e6ffe20fe4f1bb753c19a493992d039741434fb70cef1379",
+      "include/linux/soc/airoha/airoha_offload.h": "c943c3e31bed8a7d6a46ccbbeb57637cb5b30fcb8b43481f92a9129da7f727d6"
+    },
+    "mt76": {
+      "dma.c": "5d25193c255a3a172fe249d9ec800fab158559940800f79aa4ddfb7ef86f1f28",
+      "mt76.h": "ec149d6c334be8c47e6f8f88be0b12ea3ae03f71e70bf2edacdb9ae1e96a97b4",
+      "npu.c": "333244b6d1ac1ff32eb28addf27a97b81fd2643c6d51260b4a53abdbe0af1a69"
+    }
+  },
+  "compiled": false,
+  "linked_baseline": {
+    "calls": {
+      "0xe58": "mt76_npu_alloc_rx_event",
+      "0xe94": "devm_kmalloc",
+      "0xf18": "dmam_alloc_attrs"
+    },
+    "module_sha256": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834"
+  },
+  "patch_sha256": {
+    "airoha-consumer-queue-owner.patch": "6091135d737a22154b7183100e97edb300350e734ac6dfe7c6de1bc11420b996",
+    "mt76-consumer-queue-owner.patch": "da9d5203a21584df130d734965dc96f11bc795dd72524a50701e5c67160b414a"
+  },
+  "physical_retirement_proven": false,
+  "previous_hot_reset_patch_sha256": "718765b69e744a32803294a077d6cc7eef7bb25ddd0888a35f001f974852d919",
+  "producer": ".local/npu-build-scratch/native-c2/fw-txp-20261118-modules-a/modules/result.json",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "rejected_source_controls": [
+    "omit-endpoint-binding",
+    "ignore-borrow-error",
+    "publish-before-enrollment",
+    "free-exposed-objects",
+    "double-free-borrowed-objects",
+    "fallback-after-checked-failure",
+    "walk-incomplete-queue"
+  ],
+  "retains_packet_payload": false,
+  "schema": 1,
+  "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d"
+}

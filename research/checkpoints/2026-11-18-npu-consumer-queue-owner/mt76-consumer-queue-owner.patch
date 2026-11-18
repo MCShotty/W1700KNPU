@@ -1,0 +1,159 @@
+diff --git a/dma.c b/dma.c
+index cf99bab..8dc452f 100644
+--- a/dma.c
++++ b/dma.c
+@@ -840,6 +840,9 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ {
+ 	int ret, size;
+ 
++	if (q->desc || q->entry)
++		return -EBUSY;
++
+ 	spin_lock_init(&q->lock);
+ 	spin_lock_init(&q->cleanup_lock);
+ 
+@@ -858,25 +861,26 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ 	else
+ 		size = sizeof(struct mt76_desc);
+ 
+-	ret = mt76_npu_alloc_rx_event(dev, q);
+-	if (ret == -EOPNOTSUPP)
++	ret = mt76_npu_alloc_queue_mem(dev, q, size);
++	if (ret == MT76_NPU_QUEUE_MEM_MANAGED) {
+ 		q->desc = dmam_alloc_coherent(dev->dma_dev, q->ndesc * size,
+ 					      &q->desc_dma, GFP_KERNEL);
+-	else if (ret)
+-		return ret;
+-	if (!q->desc)
+-		return -ENOMEM;
+-
+-	mt76_dma_queue_magic_cnt_init(dev, q);
+-	size = q->ndesc * sizeof(*q->entry);
+-	q->entry = devm_kzalloc(dev->dev, size, GFP_KERNEL);
+-	if (!q->entry)
+-		return -ENOMEM;
++		if (q->desc)
++			q->entry = devm_kcalloc(dev->dev, q->ndesc,
++					       sizeof(*q->entry), GFP_KERNEL);
++	} else if (ret) {
++		goto clear_count;
++	}
++	if (!q->desc || !q->entry) {
++		ret = -ENOMEM;
++		goto clear_count;
++	}
+ 
+ 	ret = mt76_create_page_pool(dev, q);
+ 	if (ret)
+-		return ret;
++		goto clear_count;
+ 
++	mt76_dma_queue_magic_cnt_init(dev, q);
+ 	mt76_npu_queue_setup(dev, q);
+ 	ret = mt76_wed_dma_setup(dev, q, false);
+ 	if (ret)
+@@ -894,6 +898,11 @@ mt76_dma_alloc_queue(struct mt76_dev *dev, struct mt76_queue *q,
+ 	mt76_dma_queue_reset(dev, q, !mt76_queue_is_emi(q));
+ 
+ 	return 0;
++
++clear_count:
++	/* No consumer register was published for this incomplete queue. */
++	q->ndesc = 0;
++	return ret;
+ }
+ 
+ static void
+diff --git a/mt76.h b/mt76.h
+index c871fc5..4391aab 100644
+--- a/mt76.h
++++ b/mt76.h
+@@ -1748,6 +1748,8 @@ enum mt76_npu_rro_role {
+ 	MT76_NPU_RRO_SESSION = 5,
+ };
+ 
++#define MT76_NPU_QUEUE_MEM_MANAGED	1
++
+ #ifdef CONFIG_MT76_NPU
+ void mt76_npu_check_ppe(struct mt76_dev *dev, struct sk_buff *skb,
+ 			u32 info);
+@@ -1765,7 +1767,8 @@ int mt76_npu_io_admit(struct mt76_dev *dev);
+ int mt76_npu_irq_error(struct mt76_dev *dev);
+ int mt76_npu_init(struct mt76_dev *dev, phys_addr_t phy_addr, u64 bar_bytes, int type);
+ void mt76_npu_deinit(struct mt76_dev *dev);
+-int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q);
++int mt76_npu_alloc_queue_mem(struct mt76_dev *dev, struct mt76_queue *q,
++			    size_t desc_size);
+ int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+ 		      const dma_addr_t *tx, unsigned int count);
+ int mt76_npu_rro_alloc(struct mt76_dev *dev, u32 role, u32 index,
+@@ -1851,9 +1854,10 @@ static inline void mt76_npu_deinit(struct mt76_dev *dev)
+ {
+ }
+ 
+-static inline int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++static inline int mt76_npu_alloc_queue_mem(struct mt76_dev *dev,
++					 struct mt76_queue *q, size_t desc_size)
+ {
+-	return -EOPNOTSUPP;
++	return MT76_NPU_QUEUE_MEM_MANAGED;
+ }
+ 
+ static inline int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+diff --git a/npu.c b/npu.c
+index faae6df..ac34bb8 100644
+--- a/npu.c
++++ b/npu.c
+@@ -797,36 +797,38 @@ error_unlock:
+ }
+ EXPORT_SYMBOL_GPL(mt76_npu_init);
+ 
+-int mt76_npu_alloc_rx_event(struct mt76_dev *dev, struct mt76_queue *q)
++int mt76_npu_alloc_queue_mem(struct mt76_dev *dev, struct mt76_queue *q,
++			    size_t desc_size)
+ {
+ 	int qid = is_mt7996(dev) ? MT_RXQ_TXFREE_BAND0 : MT_RXQ_MAIN_WA;
++	struct airoha_npu_wlan_queue_mem mem;
+ 	struct airoha_npu *npu;
+-	dma_addr_t addr;
+-	void *buf;
++	bool rx_event;
+ 	int err;
+ 
+ 	BUILD_BUG_ON(sizeof(*q->desc) != 16);
+-	if (q != &dev->q_rx[qid] || q->flags != MT_NPU_Q_TXFREE(0))
+-		return -EOPNOTSUPP;
+-	if (q->desc || q->desc_dma)
+-		return -EBUSY;
++	rx_event = q == &dev->q_rx[qid] && q->flags == MT_NPU_Q_TXFREE(0);
+ 	mutex_lock(&dev->mutex);
+ 	npu = rcu_dereference_protected(dev->mmio.npu, &dev->mutex);
+ 	if (!npu) {
+-		err = -ENODEV;
++		err = MT76_NPU_QUEUE_MEM_MANAGED;
+ 		goto unlock;
+ 	}
+-	err = airoha_npu_wlan_alloc_rx_event(npu, dev->dev, dev->dma_dev,
+-					     q->ndesc, sizeof(*q->desc), &buf, &addr);
+-	if (!err) {
+-		q->desc = buf;
+-		q->desc_dma = addr;
++	err = airoha_npu_wlan_alloc_queue_mem(npu, dev->dev, dev->dma_dev, q->ndesc,
++					    desc_size, sizeof(*q->entry), rx_event, &mem);
++	if (err == AIROHA_NPU_WLAN_QUEUE_MANAGED) {
++		err = MT76_NPU_QUEUE_MEM_MANAGED;
++	} else if (err > 0) {
++		err = -EPROTO;
++	} else if (!err) {
++		q->desc = mem.desc;
++		q->desc_dma = mem.dma_addr;
++		q->entry = mem.entry;
+ 	}
+ unlock:
+ 	mutex_unlock(&dev->mutex);
+ 	return err;
+ }
+-EXPORT_SYMBOL_GPL(mt76_npu_alloc_rx_event);
+ 
+ int mt76_npu_rro_open(struct mt76_dev *dev, u32 profile,
+ 		      const dma_addr_t *tx, unsigned int count)
