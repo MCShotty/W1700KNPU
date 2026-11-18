@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -229,6 +230,66 @@ class PackagedModuleTests(unittest.TestCase):
             image.bound_producer(self.root, receipt, '0'*64)
         verified.assert_not_called()
 
+    def test_producer_view_requires_the_same_root_and_no_writable_overlay(self):
+        view = self.root / 'view'
+        view.mkdir()
+        self.assertEqual(image.producer_input_root(self.root, None), self.root)
+        for wrong in (self.root, view):
+            with self.subTest(wrong=wrong), self.assertRaises(ValueError):
+                image.producer_input_root(self.root, wrong)
+        with patch.object(Path, 'samefile', return_value=True), patch.object(image, 'os') as os_mock:
+            os_mock.ST_RDONLY = 1
+            for writable in (view, view / '.build/merged-openwrt', view / '.local/merge-nonoc-20260923'):
+                os_mock.statvfs.side_effect = lambda path: SimpleNamespace(f_flag=int(path != writable))
+                with self.subTest(writable=writable), self.assertRaises(ValueError):
+                    image.producer_input_root(self.root, view)
+            os_mock.statvfs.side_effect = lambda path: SimpleNamespace(f_flag=1)
+            (view / 'firmware').mkdir()
+            for name in ('source-lock.json', 'build.config'):
+                (self.root / 'firmware' / name).write_text(name)
+                (view / 'firmware' / name).write_text(name)
+            self.assertEqual(image.producer_input_root(self.root, view), view)
+            (view / 'firmware/source-lock.json').write_text('unrelated')
+            with self.assertRaisesRegex(ValueError, 'differs from the image workspace'):
+                image.producer_input_root(self.root, view)
+
+    def test_new_image_is_not_the_original_producer_input(self):
+        from test_npu_combined_world_sources import CombinedProducerTests
+        with tempfile.TemporaryDirectory() as tmp:
+            _, source, _, _, _, _, _, receipt, record = CombinedProducerTests().fixture(tmp)
+            old = '.build/merged-openwrt/bin/w1700k.itb'
+            target = source / old
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(b'previous image observed during module compilation')
+            record['inputs'][old] = image.sha(target)
+            receipt.write_text(json.dumps(record))
+            relative, pin = receipt.relative_to(source), image.sha(receipt)
+            frozen = self.root / 'frozen'
+            shutil.copytree(source, frozen)
+            target.write_bytes(b'new image produced at the very same pathname')
+            with self.assertRaisesRegex(AssertionError, 'combined-input-drift'):
+                image.bound_producer(source, relative, pin)
+            checked = image.bound_producer(frozen, relative, pin)
+            self.assertEqual(checked['inputs'][old], image.sha(frozen / old))
+            self.assertEqual(len(checked['artifacts']), 4)
+            (frozen / old).write_bytes(b'changed reference')
+            with self.assertRaisesRegex(AssertionError, 'combined-input-drift'):
+                image.bound_producer(frozen, relative, pin)
+
+    def test_world_mounts_the_unshadowed_reference_after_private_tmp(self):
+        frozen, session = Path('/frozen'), Path('/session')
+        command = world.command(frozen, session, 'fixture', {}, False)
+        pos = command.index(str(world.PRODUCER_VIEW))
+        self.assertEqual(command[pos-2:pos], ['--ro-bind', str(frozen)])
+        self.assertGreater(pos, command.index('--bind'))
+
+    def test_cli_refuses_unbound_or_absolute_receipt_for_separate_view(self):
+        for extra in ([], ['--module-receipt', str(self.root / 'not-read'), '--expected-producer-sha256', 'a'*64]):
+            result = subprocess.run([sys.executable, '-B', image.__file__, '--frozen-producer-root', str(self.root),
+                                     *extra], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 2)
+            self.assertIn('snapshot-relative pinned module receipt', result.stderr)
+
     def test_world_rejects_missing_or_wrong_receipt_even_after_zero_exit(self):
         name = 'test-world'
         work = self.root / (name + '-image')
@@ -249,6 +310,7 @@ class PackagedModuleTests(unittest.TestCase):
             args = run.call_args.args[0]
             self.assertIn(self.linked['receipt'], args)
             self.assertIn(self.linked['receipt_sha256'], args)
+            self.assertEqual(args[args.index('--frozen-producer-root') + 1], str(world.PRODUCER_VIEW))
 
     def test_world_does_not_trust_a_match_flag_without_the_four_bytestring_digests(self):
         with patch.object(world, 'WORK', self.root), patch.object(world.subprocess, 'run',

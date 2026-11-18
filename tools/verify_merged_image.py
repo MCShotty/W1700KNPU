@@ -5,6 +5,7 @@ import gzip
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -114,6 +115,21 @@ def bound_producer(root, receipt, expected_sha256):
     if linked['receipt_sha256'] != expected_sha256:
         raise ValueError('Module producer changed during verification')
     return linked
+
+
+def producer_input_root(workspace, selected):
+    if selected is None:
+        return workspace
+    # Both mounts name the same snapshot root, but only the workspace has
+    # writable build/log overlays. A producer may pin the image being replaced.
+    if (selected == workspace.resolve() or selected != selected.resolve(strict=True) or not selected.is_dir()
+            or not selected.samefile(workspace) or any(not os.statvfs(path).f_flag & os.ST_RDONLY
+                for path in (selected, selected / '.build/merged-openwrt', selected / '.local/merge-nonoc-20260923'))):
+        raise ValueError('Producer view must be a read-only mount of the same source snapshot')
+    for name in ('firmware/source-lock.json', 'firmware/build.config'):
+        if sha(selected / name) != sha(workspace / name):
+            raise ValueError(f'Producer view differs from the image workspace: {name}')
+    return selected
 
 
 def compare_packaged_modules(root, build, linked, packaged, scratch):
@@ -284,6 +300,8 @@ def main():
     parser.add_argument('--name', default='image-verification')
     parser.add_argument('--module-receipt', type=Path, help='Source-bound four-module producer')
     parser.add_argument('--expected-producer-sha256', help='Independently pinned SHA256 of --module-receipt')
+    parser.add_argument('--frozen-producer-root', type=Path,
+                        help='Read producer inputs through a read-only snapshot view outside the build overlays')
     parser.add_argument('--modules-only-image', type=Path, metavar='FIT',
                         help='Compare the named FIT to the producer without requiring a complete world build')
     args = parser.parse_args()
@@ -293,13 +311,16 @@ def main():
         parser.error('Use --module-receipt and --expected-producer-sha256 together')
     if args.modules_only_image is not None and args.module_receipt is None:
         parser.error('--modules-only-image requires a pinned module producer')
-    linked = bound_producer(ROOT, args.module_receipt, args.expected_producer_sha256) if args.module_receipt else None
+    if args.frozen_producer_root and (not args.module_receipt or args.module_receipt.is_absolute()):
+        parser.error('--frozen-producer-root requires a snapshot-relative pinned module receipt')
+    producer_root = producer_input_root(ROOT, args.frozen_producer_root)
+    linked = bound_producer(producer_root, args.module_receipt, args.expected_producer_sha256) if args.module_receipt else None
     assert re.fullmatch(r'[a-z0-9][a-z0-9-]*', args.name), 'Invalid receipt name'
     OUT = OUT.parent / args.name
     assert not OUT.exists(), 'Keep prior verification; use a fresh result directory for a changed image.'
     OUT.mkdir(parents=True)
     if args.modules_only_image is not None:
-        result = compare_module_image(args.modules_only_image, ROOT, BUILD, linked, OUT)
+        result = compare_module_image(args.modules_only_image, producer_root, BUILD, linked, OUT)
         save_comparison(OUT, result)
         print(json.dumps(dict(matches=result['matches'], mismatches=result['packaged_module_provenance']['mismatches'],
                               receipt=str(OUT / 'module-comparison.json'))))
@@ -345,7 +366,7 @@ def main():
             assert 'mt76_npu_init' in imports
     binding = None
     if linked is not None:
-        binding = compare_packaged_modules(ROOT, BUILD, linked, {n: m['sha256'] for n, m in modules.items()}, OUT)
+        binding = compare_packaged_modules(producer_root, BUILD, linked, {n: m['sha256'] for n, m in modules.items()}, OUT)
         if not binding['matches']:
             save_comparison(OUT, dict(matches=False, image_sha256=image_hash, fit_configuration=selected,
                                       packaged_module_provenance=binding, full_image_verified=False, hardware=False))

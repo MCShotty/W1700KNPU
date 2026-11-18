@@ -7,6 +7,8 @@ import io
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -21,6 +23,40 @@ class ValidationCapsuleTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         (self.root / 'input').write_bytes(b'proof')
+
+    def test_hash_large_file_under_a_smaller_address_space_limit(self):
+        from resource import RLIMIT_AS, getrlimit, RLIM_INFINITY
+        limit = 64 << 20
+        hard = getrlimit(RLIMIT_AS)[1]
+        if hard != RLIM_INFINITY:
+            limit = min(limit, hard)
+        archive = self.root / 'large-cache-entry'
+        block = bytes(1 << 20)
+        expected = hashlib.sha256()
+        with archive.open('wb') as stream:
+            for _ in range((limit >> 20) + 1):
+                stream.seek(len(block), os.SEEK_CUR)
+                expected.update(block)
+            stream.write(b'end')
+            expected.update(b'end')
+        code = ("from pathlib import Path; import sys, resource; "
+                "sys.path.insert(0,sys.argv[1]); from npu_validation_capsule import digest; "
+                "n=int(sys.argv[3]); resource.setrlimit(resource.RLIMIT_AS,(n,n)); "
+                "print(digest(Path(sys.argv[2])))")
+        out = subprocess.check_output([sys.executable, '-I', '-B', '-c', code,
+                                       str(Path(capsule.__file__).parent), str(archive), str(limit)], text=True)
+        self.assertEqual(out.strip(), expected.hexdigest())
+
+    def test_optimized_import_refused_before_any_validation_or_output(self):
+        for module in ('npu_validation_capsule', 'npu_isolated_world'):
+            with self.subTest(module=module):
+                code = 'import sys; sys.path.insert(0,sys.argv[1]); __import__(sys.argv[2])'
+                result = subprocess.run([sys.executable, '-I', '-B', '-O', '-c', code,
+                                         str(Path(capsule.__file__).parent), module],
+                                        cwd=self.root, capture_output=True, text=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn('requires Python assertions enabled', result.stderr)
+                self.assertEqual({p.name for p in self.root.iterdir()}, {'input'})
 
     def test_path_escape_and_nonfiles_are_rejected(self):
         for name in ('../elsewhere', '/etc/passwd', '.', 'missing'):

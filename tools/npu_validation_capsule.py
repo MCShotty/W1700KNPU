@@ -13,12 +13,16 @@ import subprocess
 import sys
 import time
 
+if not __debug__:
+    raise RuntimeError('NPU capsule validation requires Python assertions enabled')
+
 ROOT = Path(__file__).resolve().parents[1]
 CAPSULES = ROOT / '.local/npu-validation-capsules'
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
 def source_file(root, name):

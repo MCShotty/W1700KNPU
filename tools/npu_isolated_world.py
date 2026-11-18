@@ -12,12 +12,16 @@ import stat
 import subprocess
 import sys
 
+if not __debug__:
+    raise RuntimeError('NPU isolated world validation requires Python assertions enabled')
+
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / '.build/merged-openwrt'
 WORK = ROOT / '.local/merge-nonoc-20260923'
 STORE = ROOT / '.local/npu-isolated-world'
 LINKER_PREFIX = ROOT / '.local/npu-barrier/lld/usr/lib/llvm-21'
 CACHE = ROOT / '.build/openwrt/dl'
+PRODUCER_VIEW = Path('/tmp/w1700k-frozen-producer')
 
 
 def digest(path):
@@ -154,6 +158,7 @@ def command(frozen, directory, name, context, probe, bubblewrap=Path('/usr/bin/b
         '--overlay-src', str(BUILD), '--overlay', str(directory / 'build-upper'), str(directory / 'build-work'), str(BUILD),
         '--overlay-src', str(frozen / WORK.relative_to(ROOT)), '--overlay', str(directory / 'log-upper'),
         str(directory / 'log-work'), str(WORK), '--bind', str(directory / 'tmp'), '/tmp',
+        '--ro-bind', str(frozen), str(PRODUCER_VIEW),
         '--proc', '/proc', '--dev', '/dev', '--new-session', '--die-with-parent', '--clearenv',
         '--setenv', 'PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         '--setenv', 'HOME', str(BUILD / '.isolated-home'), '--setenv', 'TMPDIR', '/tmp',
@@ -209,7 +214,8 @@ def producer_context(frozen, record, args, context):
 def verify_world_image(build_name, source_lock_sha256, combined):
     args = [sys.executable, '-u', '-B', str(ROOT / 'tools/verify_merged_image.py'), '--name', build_name + '-image']
     if combined is not None:
-        args += ['--module-receipt', combined['receipt'], '--expected-producer-sha256', combined['receipt_sha256']]
+        args += ['--module-receipt', combined['receipt'], '--expected-producer-sha256', combined['receipt_sha256'],
+                 '--frozen-producer-root', str(PRODUCER_VIEW)]
     verify = subprocess.run(args, stdin=subprocess.DEVNULL)
     if verify.returncode != 0:
         raise RuntimeError(f'World image verifier exited {verify.returncode}')
@@ -256,6 +262,7 @@ def inner(args):
     context = json.loads(args.context)
     assert os.getuid() == context['uid'] == 1000
     assert identity(ROOT) == context['frozen_root_identity']
+    assert identity(PRODUCER_VIEW) == identity(ROOT) and os.statvfs(PRODUCER_VIEW).f_flag & os.ST_RDONLY
     current = namespaces()
     assert all(current[name] != context['parent_namespaces'][name] for name in current)
     assert not Path('/oldroot').exists(), 'old-root-escape-path'
@@ -282,6 +289,7 @@ def inner(args):
     probe_log = WORK / ('namespace-probe-' + args.name + '.json')
     assert not probe_log.exists()
     proof = dict(uid=os.getuid(), namespaces=current, root_readonly=True, overlays=['build', 'logs'],
+        producer_view_readonly=True, producer_view_identity=identity(PRODUCER_VIEW),
         overlay_mounts=overlay_mounts,
         hardware=False, router_contact=False, probe_only=args.probe_only)
     with probe_log.open('x') as stream: stream.write(json.dumps(proof, indent=2) + '\n')
@@ -293,8 +301,8 @@ def inner(args):
         module_receipt = context.get('module_receipt')
         combined = None
         if module_receipt is not None:
-            producer_path = npu_world_sources.relative_file(ROOT, module_receipt)
-            combined = npu_world_sources.linked_module_sources(ROOT, producer_path)
+            producer_path = npu_world_sources.relative_file(PRODUCER_VIEW, module_receipt)
+            combined = npu_world_sources.linked_module_sources(PRODUCER_VIEW, producer_path)
             assert combined['source_lock_sha256'] == context['source_lock_sha256']
             provider = consumer = None
         else:
@@ -333,7 +341,7 @@ def inner(args):
         for row in lock['component_sources']:
             assert row['tree'] == 'openwrt' and digest(BUILD / row['destination']) == row['sha256']
         assert digest(BUILD / '.config') == digest(ROOT / 'firmware/build.config'), 'world-config-drift'
-        prepared_sources = npu_world_sources.verify(BUILD,ROOT,lock,provider,consumer,
+        prepared_sources = npu_world_sources.verify(BUILD,PRODUCER_VIEW if combined is not None else ROOT,lock,provider,consumer,
             module_sources=combined if module_receipt is not None else None)
         image, image_path = verify_world_image(build_name, context['source_lock_sha256'], combined)
         result = dict(passed=True, proof=proof, world_build=True, image_verification=image,
