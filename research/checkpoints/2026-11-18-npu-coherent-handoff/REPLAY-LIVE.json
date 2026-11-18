@@ -1,0 +1,64 @@
+{
+  "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+  "expected_boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+  "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+  "observed_unix_ns": 1795008552452458200,
+  "whole_run_pass": false,
+  "status": "live",
+  "unit": {
+    "LoadState": "loaded",
+    "ActiveState": "activating",
+    "SubState": "start",
+    "InvocationID": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "Restart": "no",
+    "TimeoutStartUSec": "14h",
+    "MainPID": "120993",
+    "ControlGroup": "/system.slice/w1700k-npu-rv32-20261118-full-a.service",
+    "MemoryCurrent": "379101184",
+    "CPUUsageNSec": "32614332920000",
+    "MemoryMax": "419430400",
+    "MemorySwapMax": "0"
+  },
+  "processes": {
+    "guard": {
+      "pid": 120993,
+      "ppid": 1,
+      "start_ticks": 597958,
+      "cpu_ticks": 158495
+    },
+    "wrapper": {
+      "pid": 121006,
+      "ppid": 120993,
+      "start_ticks": 598007,
+      "cpu_ticks": 262
+    },
+    "driver": {
+      "pid": 121014,
+      "ppid": 121006,
+      "start_ticks": 598332,
+      "cpu_ticks": 3096666
+    }
+  },
+  "driver_cpu_delta": 224,
+  "retained_and_active_hashes_verified": 345,
+  "observed_profiles": [
+    {
+      "profile": 0,
+      "complete_positive_lines": 6421,
+      "publications": 129,
+      "summary_exists": true
+    },
+    {
+      "profile": 1,
+      "complete_positive_lines": 6421,
+      "publications": 129,
+      "summary_exists": true
+    },
+    {
+      "profile": 2,
+      "complete_positive_lines": 4411,
+      "publications": 129,
+      "summary_exists": false
+    }
+  ]
+}

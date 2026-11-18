@@ -9,6 +9,8 @@ passed; the kernel, FIT, and board are not yet qualified.
 [Replacement stack and checks](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
 The [cold-probe sizing check](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
 leaves 2.52 MiB of modeled headroom; boot consumption is still unmeasured.
+The [source handoff](research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
+now verifies the exact OpenWrt patch order and derives the next lock offline.
 
 ## 2026-11-18 - Packet DMA Retention
 

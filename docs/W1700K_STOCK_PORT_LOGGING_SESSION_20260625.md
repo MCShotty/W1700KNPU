@@ -10,6 +10,9 @@ board boot, or physical drain witness.
 The [coherent cold budget](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
 covers the linked layout and staged ownership routes. Actual allocation
 and boot placement still need on-board evidence.
+The [source-only handoff](../research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
+reproduced the late patch order from the locked inputs, despite stale raw
+prepared aggregates. A new linked producer is still required.
 
 ## 2026-11-18 - Checked Packet Owner Candidate
 

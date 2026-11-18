@@ -11,6 +11,10 @@ Wi-Fi fallback and offload. Physical DMA retirement is still open.
 The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
 measure actual cold consumption and validate exhaustion on the linked build.
 [Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
+The next source lock and overlay delta are staged and verified in scratch.
+Use the [handoff](../research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
+after the frozen gates pass; the raw prepared patch copies are stale and
+the derived lock requires a fresh linked-module producer.
 
 ## 2026-11-18 - Qualify Checked DMA Ownership
 

@@ -11,6 +11,9 @@ For the exact 4 KiB-page stack, the
 [cold pool ceiling](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
 is 13.48 MiB. Recheck after geometry or allocator changes; it is not a
 boot-time measurement.
+Use the [source-only handoff](research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md)
+when the frozen gates pass. Both integrated patches in the raw prepared
+directory are stale. The handoff validates the locked versions in scratch.
 
 ## 2026-11-18 - Use The Replacement DMA Owner Pair
 

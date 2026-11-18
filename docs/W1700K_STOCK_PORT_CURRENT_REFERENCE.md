@@ -8,6 +8,13 @@ with exposed buffers. Firmware and streaming mappings are unchanged.
 The standalone DTB passed; no kernel, FIT or board qualification yet.
 [Exact patch stack](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
 
+## 2026-11-18 - Verified Source Handoff
+
+The private delta restores both locked integrated patches, then applies
+the matching late kernel and mt76 changes. It reproduces the staged DTB
+and derives lock `2b692d07`; no linked module or FIT was produced.
+[Order, inputs and gates](../research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md).
+
 ## 2026-11-18 - Checked Cold Pool Sizing
 
 The 16 MiB candidate covers a 13.48 MiB conservative cold-probe ceiling

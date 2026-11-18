@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Rehearse The Coherent Source Handoff
+
+- The prepared directory's kernel and mt76 aggregate copies were stale.
+  Both failed the pinned source controls. The locked aggregates reproduced
+  all 23 known outputs before the new patches applied at zero fuzz.
+- Verified 83 OpenWrt paths, five LuCI paths and 31 component mappings
+  with private-world staging. Produced a checked local source delta with
+  four overlay files and derived lock `2b692d07`; receipt `8911be49`.
+- Active sources and the last router-tested snapshot were unchanged.
+  No new kernel or FIT built. [Handoff](../research/checkpoints/2026-11-18-npu-coherent-handoff/REPORT.md).
+
 ## 2026-11-18 - Verify Coherent Cold Pool Sizing
 
 - Bound the staged provider/mt76 allocations to the 4 KiB kernel allocator

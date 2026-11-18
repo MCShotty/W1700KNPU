@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "parent_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "patch_driver_sha256": "6ffa12ee1c362aa17d67b010b92089b4b8f4e5ee61eb8696b2592bb4696e1101",
+  "staged_dtb_sha256": "8c12d9077057a9a1b598e86c4d6665d83238d0c4c027c0d4c83644d4318454bb",
+  "files": {
+    "firmware/overlay/openwrt/package/kernel/mt76/patches/901-w1700k-checked-dma-owner.patch": "7ea4850ed91c7032fd614011b3a8f158308439566090a1961a406db3b7874114",
+    "firmware/overlay/openwrt/target/linux/airoha/dts/an7581-w1700k-ubi.dts": "a7f02878c37dc06a57bf76212c3100322ffa559134d0ea2c1803799b52506701",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/9999-w1700k-npu-coherent-pool-binding.patch": "a912534e1598fdd171c49946253871b880175998a775ea257b133e022f91914b",
+    "firmware/overlay/openwrt/target/linux/airoha/patches-6.18/9999-w1700k-npu-coherent-provider.patch": "a5ba732798122aebc7d025becec20691a9d85290dc21641dfc794054bbfb9da7",
+    "firmware/source-lock.json": "2b692d07aba89ec514c5e2d536ef496f4965e0ca926bff1461d00f6d8edf0f12"
+  },
+  "baseline_outputs_checked": [
+    5,
+    18
+  ],
+  "patch_order": {
+    "kernel": [
+      "999-w1700k-integrated-npu.patch",
+      "9999-w1700k-npu-coherent-pool-binding.patch",
+      "9999-w1700k-npu-coherent-provider.patch"
+    ],
+    "mt76": [
+      "900-w1700k-integrated-npu.patch",
+      "901-w1700k-checked-dma-owner.patch"
+    ]
+  },
+  "verified_stage": {
+    "locked_files_checked": {
+      "luci": 5,
+      "openwrt": 83
+    },
+    "component_sources_checked": 31,
+    "stale_aggregates_refreshed": [
+      "package/kernel/mt76/patches/900-w1700k-integrated-npu.patch",
+      "target/linux/airoha/patches-6.18/999-w1700k-integrated-npu.patch"
+    ]
+  },
+  "active_sources_unchanged": true,
+  "linux_modules_built": false,
+  "fit_built": false,
+  "board_contact": false,
+  "bundle": ".local/npu-coherent-handoff-20261118/bundles/coherent-a",
+  "receipt_sha256": "8911be4966d16b66f66342a8b246b0bea99e113837753086761296681dd14bb1",
+  "tool_sha256": "7c99330513d00735a5d1700ec03262e45afb6de1e48852dd8c80c51f47e57370",
+  "test_sha256": "90a3c3814ee2129b32f537a82d9cccd98e1e164de0a4d2c97e26facfbcf66530",
+  "last_router_tested_snapshot_unchanged": true,
+  "stale_negative_controls": {
+    "kernel": {
+      "splice": "retained base plus stale prepared aggregate",
+      "rejected_output": "drivers/net/ethernet/airoha/airoha_npu.c",
+      "sha256": "55e97086f843466c1ea674ba00b13a923e56babf3735597b2072e8e5ef559c0e"
+    },
+    "mt76": {
+      "splice": "retained base plus stale prepared aggregate",
+      "rejected_output": "npu.c",
+      "sha256": "ef19e49618292089e59727f9acb38627451f975efa2132094d185037a0c4a4a1"
+    }
+  },
+  "rejected_cli_controls": [
+    "occupied bundle name",
+    "optimized Python",
+    "wrong producer pin"
+  ],
+  "host_tests": {
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0
+  }
+}
