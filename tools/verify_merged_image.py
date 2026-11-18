@@ -286,7 +286,13 @@ def verify_rootfs_ownership(rootfs):
     return rootfs_owner_table(listing)
 
 
-def board_configuration(dtb):
+def expects_coherent_pool(lock):
+    minor = lock['kernel'].rsplit('.', 1)[0]
+    binding = f'target/linux/airoha/patches-{minor}/9999-w1700k-npu-coherent-pool-binding.patch'
+    return any(row['path'] == binding for row in lock.get('openwrt', {}).get('changed_files', []))
+
+
+def board_configuration(dtb, *, coherent_pool=False):
     regions = {'npu-binary@84000000': (0x84000000, 0xa00000),
                'npu-pkt@8a000000': (0x8a000000, 0x2c00000),
                'npu-txpkt@8cc00000': (0x8cc00000, 0x4000000),
@@ -301,16 +307,22 @@ def board_configuration(dtb):
         handles.append(int(prop(dtb, node, 'phandle', 'x'), 16))
     npu = '/soc/npu@1e900000'
     assert prop(dtb, npu, 'status') == 'okay'
-    assert prop(dtb, npu, 'memory-region-names').split() == ['binary', 'pkt', 'tx-pkt', 'tx-bufid', 'ba']
-    assert [int(n, 16) for n in prop(dtb, npu, 'memory-region', 'x').split()] == handles
+    names = ['binary', 'pkt', 'tx-pkt', 'tx-bufid', 'ba'] + (['dma'] if coherent_pool else [])
+    assert prop(dtb, npu, 'memory-region-names').split() == names, 'NPU memory names differ from the selected lock'
+    refs = [int(n, 16) for n in prop(dtb, npu, 'memory-region', 'x').split()]
+    assert len(refs) == len(names) and refs[:len(handles)] == handles, 'NPU reservation handles differ'
     frequencies = []
     for name in run(['fdtget', '-l', dtb, '/opp-table']).decode().splitlines():
         raw = bytes(int(n, 16) for n in prop(dtb, '/opp-table/' + name, 'opp-hz', 'bx').split())
         assert len(raw) == 8
         frequencies.append(int.from_bytes(raw, 'big'))
     assert sorted(frequencies) == list(range(500000000, 1200000001, 50000000))
-    return dict(npu_regions=regions, cpu_opp_hz=sorted(frequencies),
-                scope='Device-tree configuration only; not measured CPU clocks or physical memory ownership.')
+    result = dict(npu_regions=regions, cpu_opp_hz=sorted(frequencies),
+                  scope='Device-tree configuration only; not measured CPU clocks or physical memory ownership.')
+    if coherent_pool:
+        from verify_npu_coherent_window import verify_dtb
+        result['coherent_dma_pool'] = verify_dtb(dtb)
+    return result
 
 
 def main():
@@ -352,7 +364,8 @@ def main():
     dtb, rootfs, kernel = paths['fdt'], paths['rootfs'], paths['kernel']
     rootfs_owners = verify_rootfs_ownership(rootfs)
     model, compatible = board_identity(dtb)
-    board = board_configuration(dtb)
+    lock = json.loads((ROOT / 'firmware/source-lock.json').read_bytes())
+    board = board_configuration(dtb, coherent_pool=expects_coherent_pool(lock))
     (OUT / 'board.dts').write_bytes(run(['dtc', '-I', 'dtb', '-O', 'dts', dtb]))
     built_kernel = BUILD / 'build_dir/target-aarch64_cortex-a53_musl/linux-airoha_an7581/linux-6.18.52/arch/arm64/boot/Image'
     assert gzip.decompress(kernel.read_bytes()) == built_kernel.read_bytes()

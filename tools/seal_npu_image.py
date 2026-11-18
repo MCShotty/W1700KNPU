@@ -81,6 +81,13 @@ def verify_world(root, result_path, result_pin, snapshot_path, *, recover_rv32_r
     require(image['passed'] is True and image['source_lock_sha256'] == lock_pin and
             image['image'] == f'{BUILD}/{IMAGE_PATH}' and image['pinned_module_bytes_verified'] is True,
             'Not the verified image from this world')
+    if fit_tools.expects_coherent_pool(lock):
+        pools = image.get('board_configuration', {}).get('coherent_dma_pool', {})
+        selected_dtb = image['fit_configuration']['fdt']
+        dtb_pins = [row['sha256'] for row in image['components'] if row['name'] == selected_dtb and
+                    row['type'] == 'flat_dt']
+        require(is_digest(pools.get('dtb_sha256')) and dtb_pins == [pools['dtb_sha256']],
+                'Missing coherent DMA pool proof for the selected world DTB')
     require(is_digest(image['sha256']) and image['bytes'] == physical.stat().st_size and
             0 < image['bytes'] <= MAX_FIT, 'World FIT path, size or digest mismatch')
     binding = image['packaged_module_provenance']
