@@ -62,6 +62,9 @@ offload, and teardown. Module/firmware identity must still pass the normal
 image gates. No local board boot, DMA drain, hot reset, or client result has
 been established by this checkpoint.
 
+The [cold-probe sizing check](../2026-11-18-npu-coherent-budget/REPORT.md)
+supports retaining 16 MiB for the exact staged stack.
+
 The original replay was still live in profile 2 with 1,522 positive trace
 records and no terminal verdict. The read-only observer rehashed all 345
 bindings and sampled advancing driver CPU time. [Observation](REPLAY-LIVE.json).

@@ -8,6 +8,14 @@ with exposed buffers. Firmware and streaming mappings are unchanged.
 The standalone DTB passed; no kernel, FIT or board qualification yet.
 [Exact patch stack](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
 
+## 2026-11-18 - Checked Cold Pool Sizing
+
+The 16 MiB candidate covers a 13.48 MiB conservative cold-probe ceiling
+with 4 KiB pages, including each allocation's order rounding. Linked
+baseline layout and exact staged sources were verified. This is not a
+measurement of router consumption or fragmentation after teardown.
+[Sizing and receipts](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
+
 ## 2026-11-18 - Checked Packet Owner Candidate
 
 The replacement pair covers the inspected checked detach through pool,

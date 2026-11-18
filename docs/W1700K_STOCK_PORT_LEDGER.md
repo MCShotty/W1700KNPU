@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Verify Coherent Cold Pool Sizing
+
+- Bound the staged provider/mt76 allocations to the 4 KiB kernel allocator
+  and the qualified baseline's linked descriptor widths. The conservative
+  V3 ceiling is 14,131,200 bytes and V3.1 is 14,008,320 bytes. Both fit
+  the initial 16 MiB pool; the 8 MiB control fails.
+- Kept streaming payloads and CPU-only entries out of the pool budget,
+  checked the exhaustion path, and covered post-free fragmentation
+  separately. No new build, board boot or physical DMA proof.
+  [Sizing and exact scope](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
+
 ## 2026-11-18 - Stage Low NPU Coherent Memory
 
 - Both saved FITs select DTB `8ad1b262`, with no named coherent pool.

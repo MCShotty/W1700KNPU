@@ -8,6 +8,9 @@ mt76 patch. Do not layer on the earlier provider patch. Verify the selected
 FIT, boot-time pool address and capacity, exhaustion, probe failure, normal
 Wi-Fi fallback and offload. Physical DMA retirement is still open.
 [Patch stack and verification](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+The offline 13.48 MiB ceiling supports leaving the pool at 16 MiB. Still
+measure actual cold consumption and validate exhaustion on the linked build.
+[Sizing and limits](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md).
 
 ## 2026-11-18 - Qualify Checked DMA Ownership
 

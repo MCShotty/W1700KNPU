@@ -7,6 +7,10 @@ provider retains its attachment with exposed allocations. Reuse the exact
 packet-owner mt76 patch, not its original kernel patch. Keep the running
 replay and frozen image inputs untouched; no new kernel or FIT has been built.
 [Apply order and gates](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+For the exact 4 KiB-page stack, the
+[cold pool ceiling](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
+is 13.48 MiB. Recheck after geometry or allocator changes; it is not a
+boot-time measurement.
 
 ## 2026-11-18 - Use The Replacement DMA Owner Pair
 

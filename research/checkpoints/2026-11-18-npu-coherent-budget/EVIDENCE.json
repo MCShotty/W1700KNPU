@@ -1,0 +1,113 @@
+{
+  "allocator_source_sha256": {
+    "include/asm-generic/getorder.h": "8a11cb3fb27590a28ee50220547925d7228712f8bcc9eac01c8230d2a2c45506",
+    "include/linux/bitmap.h": "69b7f73e5bf226cffb7f8621bd0549154f432edae996d2a366b984ca9a96a16b",
+    "kernel/dma/coherent.c": "91fe1a6c8c585ca2923bfe0cf07c05424471e9869586306fd805ef876e39ee93",
+    "kernel/dma/mapping.c": "715f7fe354130e1f5de083f58d60725da0d82ff2d120dccb441fc01058b52f73"
+  },
+  "board_contact": false,
+  "checked_fresh_no_free_only": true,
+  "half_pool_rejected": true,
+  "linked_descriptor_sizes": [
+    8,
+    16,
+    24,
+    208
+  ],
+  "linked_mt76_sha256": "3011a7968e1e0f206571b4057bbd6f66a8ade65021e6e546b59ca855595cd834",
+  "max_other_ring_descriptors": 2048,
+  "modeled_max_tx_rings": 3,
+  "new_modules_compiled": false,
+  "page_bytes": 4096,
+  "patch_sha256": {
+    "airoha-checked-coherent-window.patch": "a5ba732798122aebc7d025becec20691a9d85290dc21641dfc794054bbfb9da7",
+    "airoha-npu-coherent-pool-binding.patch": "a912534e1598fdd171c49946253871b880175998a775ea257b133e022f91914b",
+    "mt76-checked-dma-owner.patch": "7ea4850ed91c7032fd614011b3a8f158308439566090a1961a406db3b7874114",
+    "openwrt-w1700k-coherent-window.patch": "92a43e9de12413385c62415cb33c7e9a9bfd9cdd80ec6010eb0d38c9efc67e25"
+  },
+  "physical_retirement_proven": false,
+  "pool_bytes": 16777216,
+  "producer_sha256": "b5af9591d0f6116547a08749fe733a98ac4d89b6088f8d1465950b052e4f69bd",
+  "profiles": {
+    "v3": {
+      "groups": {
+        "mailboxes": {
+          "requested_bytes": 2048,
+          "requests": 8,
+          "reserved_bytes": 32768
+        },
+        "other_dma_rings": {
+          "requested_bytes": 2211840,
+          "requests": 45,
+          "reserved_bytes": 2949120
+        },
+        "rro_blocks": {
+          "requested_bytes": 9043968,
+          "requests": 138,
+          "reserved_bytes": 9043968
+        },
+        "rro_session": {
+          "requested_bytes": 8192,
+          "requests": 1,
+          "reserved_bytes": 8192
+        },
+        "tx_descriptor_buffers": {
+          "requested_bytes": 1310720,
+          "requests": 6,
+          "reserved_bytes": 1310720
+        },
+        "tx_dma_rings": {
+          "requested_bytes": 638976,
+          "requests": 3,
+          "reserved_bytes": 786432
+        }
+      },
+      "headroom_bytes": 2646016,
+      "reserved_bytes": 14131200
+    },
+    "v3_1": {
+      "groups": {
+        "mailboxes": {
+          "requested_bytes": 2048,
+          "requests": 8,
+          "reserved_bytes": 32768
+        },
+        "other_dma_rings": {
+          "requested_bytes": 2211840,
+          "requests": 45,
+          "reserved_bytes": 2949120
+        },
+        "rro_blocks": {
+          "requested_bytes": 8912896,
+          "requests": 136,
+          "reserved_bytes": 8912896
+        },
+        "rro_emi": {
+          "requested_bytes": 32,
+          "requests": 2,
+          "reserved_bytes": 8192
+        },
+        "rro_session": {
+          "requested_bytes": 8192,
+          "requests": 1,
+          "reserved_bytes": 8192
+        },
+        "tx_descriptor_buffers": {
+          "requested_bytes": 1310720,
+          "requests": 6,
+          "reserved_bytes": 1310720
+        },
+        "tx_dma_rings": {
+          "requested_bytes": 638976,
+          "requests": 3,
+          "reserved_bytes": 786432
+        }
+      },
+      "headroom_bytes": 2768896,
+      "reserved_bytes": 14008320
+    }
+  },
+  "ring_slots": 48,
+  "schema": 1,
+  "staged_dtb_sha256": "8c12d9077057a9a1b598e86c4d6665d83238d0c4c027c0d4c83644d4318454bb"
+}

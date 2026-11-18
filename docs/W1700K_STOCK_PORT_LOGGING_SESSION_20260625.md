@@ -7,6 +7,9 @@ tree and provider fix that placement while keeping attachment through
 possible firmware exposure. The standalone DTB was checked; no new FIT,
 board boot, or physical drain witness.
 [Source and verification](../research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+The [coherent cold budget](../research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
+covers the linked layout and staged ownership routes. Actual allocation
+and boot placement still need on-board evidence.
 
 ## 2026-11-18 - Checked Packet Owner Candidate
 

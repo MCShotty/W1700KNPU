@@ -7,6 +7,8 @@ device tree reserves 16 MiB in the EN7581 window, and the provider keeps
 the pool while firmware may still own allocations. The standalone tree
 passed; the kernel, FIT, and board are not yet qualified.
 [Replacement stack and checks](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
+The [cold-probe sizing check](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)
+leaves 2.52 MiB of modeled headroom; boot consumption is still unmeasured.
 
 ## 2026-11-18 - Packet DMA Retention
 
