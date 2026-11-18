@@ -1,5 +1,12 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Ethernet Link And FIT Verification
+
+Staged Ethernet sources now require a fifth selected module at offline
+publication. Retained-context Kbuild produced a scratch module; the
+successor world, actual FIT and target validation remain open.
+[Checks](../research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
+
 ## 2026-11-18 - Ethernet QDMA Owner Staged
 
 The combined source bundle now includes retained QDMA backing and a

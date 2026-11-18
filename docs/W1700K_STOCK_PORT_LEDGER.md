@@ -1,5 +1,16 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Bind Ethernet Into The Offline FIT Seal
+
+- Staged PPE/QDMA locks now require their source bundle, prepared Ethernet
+  postimages and independently pinned linked module. Verify the fifth
+  packaged module in the selected rootfs; leave the baseline seal unchanged.
+- Retained-context modpost and final linking produced raw `d86b170f`,
+  normalized `d7428fa7`. The earlier FIT contains `9e8307fa` and does not
+  match the staged driver. All 103 host tests passed. No successor world,
+  production FIT or hardware result.
+  [Proof and next gates](../research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
+
 ## 2026-11-18 - Stage The Ethernet QDMA Owner
 
 - Bound the five address publication sites and made probe unwind and

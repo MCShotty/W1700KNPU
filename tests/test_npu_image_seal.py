@@ -210,6 +210,31 @@ class SealTests(unittest.TestCase):
             seal.seal(self.root,self.args('fixture-positive'))
         self.assertEqual(fit.read_bytes(), self.fit_bytes)
 
+    def test_ethernet_enabled_seal_uses_five_modules_and_no_fallback(self):
+        name = seal.npu_ethernet_fit.ETH_MODULE
+        eth_pin = "7" * 64
+        evidence = dict(expected_packaged_sha256=eth_pin, linked_sha256="8" * 64)
+        with patch.object(seal.npu_ethernet_fit, 'bind_linked', return_value=evidence), \
+             patch.object(seal, 'inspect_fit_pair') as inspect:
+            for bad in (self.packed['module_sha256'],
+                        self.packed['module_sha256'] | {name: "9" * 64}):
+                inspect.return_value = self.packed | dict(module_sha256=bad)
+                with self.assertRaisesRegex(ValueError, 'FIT Ethernet module differs'):
+                    seal.seal(self.root, self.args('fixture-ethernet-fail'))
+                self.assertFalse((self.store/'fixture-ethernet-fail').exists())
+            modules = self.packed['module_sha256'] | {name: eth_pin}
+            inspect.return_value = self.packed | dict(module_sha256=modules | {'mt76.ko': '6' * 64})
+            with self.assertRaisesRegex(ValueError, 'four qualified modules'):
+                seal.seal(self.root, self.args('fixture-ethernet-fail'))
+            self.assertFalse((self.store/'fixture-ethernet-fail').exists())
+            inspect.return_value = self.packed | dict(module_sha256=modules)
+            receipt = seal.seal(self.root, self.args('fixture-ethernet-pass'))
+        row, _ = replay.read_receipt(receipt)
+        self.assertEqual(set(inspect.call_args.args[4]), set(modules))
+        self.assertEqual(row['ethernet']['actual_packaged_sha256'], eth_pin)
+        self.assertEqual(row['packaged']['module_sha256'], modules)
+        self.assertFalse(row['hardware'])
+
     def test_missing_terminal_cannot_publish_even_if_image_and_prefix_exist(self):
         with patch.object(seal, 'verify_world') as world:
             with self.assertRaisesRegex(ValueError, 'no terminal receipt'):

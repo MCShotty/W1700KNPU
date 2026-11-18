@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Ethernet Module Seal Gate
+
+The combined staged source requires its actual linked Ethernet module in
+the default FIT rootfs. A full scratch Kbuild module link passed using
+retained headers and exports. This is not a production module or board run.
+[Exact link and FIT checks](../research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
+
 ## 2026-11-18 - Staged Ethernet QDMA Owner
 
 The W1700K source keeps exposed backing across failed probe and detach.

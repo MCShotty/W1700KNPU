@@ -72,3 +72,6 @@ Seal the independent frozen baseline first. Then build and bind the exact
 new `airoha-eth.ko` from the selected FIT alongside the NPU and mt76
 modules, verify normal open/close and shared-port migration, and separately
 qualify physical retirement. No router was contacted, flashed or loaded.
+
+The later [Ethernet seal checkpoint](../2026-11-18-npu-ethernet-fit-gate/REPORT.md)
+adds the fifth-module gate and records a full retained-context scratch link.

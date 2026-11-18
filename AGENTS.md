@@ -1,5 +1,13 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Bind The Production Ethernet Module
+
+The staged Ethernet source locks require a fifth module in the offline FIT
+seal. Use the pinned source bundle and raw module from the same passing
+successor world. The scratch Kbuild link passed with retained inputs; it is
+not the production pin. The frozen baseline still uses its four-module seal.
+[Evidence and flags](research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
+
 ## 2026-11-18 - Keep Exposed QDMA Backing
 
 After sealing the frozen baseline, use the verified combined source bundle

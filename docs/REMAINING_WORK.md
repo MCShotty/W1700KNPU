@@ -13,10 +13,12 @@ the verified `coherent-ppe-qdma-a` source delta and rebuild its modules.
 
 The staged W1700K source retains exposed PPE tables and QDMA backing
 across detach. A host QDMA timeout now parks the affected engine rather
-than freeing its TX mappings. Verify the production Ethernet module in
-the next selected FIT and test probe unwind, open/close and shared-port
-migration. Independently qualify hardware retirement. Neither retained
-owner establishes Wi-Fi or remote NPU retirement.
+than freeing its TX mappings. Retained-context modpost and final Ethernet
+link passed. The staged source lock now requires its production module
+bytes in the selected FIT. Build and verify them, then test probe unwind,
+open/close and shared-port migration. Independently qualify hardware
+retirement. Neither retained owner establishes Wi-Fi or remote NPU retirement.
+[Ethernet build and seal gate](../research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
 [Staged QDMA ownership](../research/checkpoints/2026-11-18-npu-qdma-owner/REPORT.md).
 [Staged table ownership](../research/checkpoints/2026-11-18-npu-ppe-table-owner/REPORT.md).
 [Binary evidence and limits](../research/checkpoints/2026-11-18-npu-ppe-stop/REPORT.md).

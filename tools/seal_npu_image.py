@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import tempfile
 
+import npu_ethernet_fit
 import npu_image
 from npu_replay_proof import (ROOT, SOURCE_LOCK, QualificationError, digest, is_digest, path_under,
                               read_pinned, read_receipt, require, verify_replay)
@@ -91,7 +92,8 @@ def verify_world(root, result_path, result_pin, snapshot_path):
         modules[name] = actual
     return dict(frozen=frozen, declarations=capsule['files'], world_sha256=result_pin, snapshot_sha256=capsule_pin,
                 source_lock_sha256=lock_pin, producer_sha256=producer_pin, image_receipt_sha256=image_receipt_pin,
-                fit=physical, image=image, module_sha256=modules, kernel=release)
+                fit=physical, image=image, module_sha256=modules, kernel=release, source_lock=lock,
+                build_upper=path_under(directory, 'build-upper', directory=True))
 
 
 def inspect_fit_pair(image_path, scratch, kernel, replay_pair, module_names=fit_tools.MODULE_NAMES):
@@ -115,11 +117,17 @@ def inspect_fit_pair(image_path, scratch, kernel, replay_pair, module_names=fit_
                 pair={key: manifest[key] for key in ('code', 'data')} | dict(manifest_sha256=manifest_pin),
                 module_sha256={name: digest(path_under(rootfs, path)) for name, path in modules.items()})
 
-def bind_packaged(packed, world, replay):
+def bind_packaged(packed, world, replay, ethernet=None):
     inspected = world['image']
     for k in ('fit_configuration', 'components', 'model', 'compatible'):
         require(packed[k] == inspected[k], f'Selected FIT {k} differs from the world receipt')
-    require(packed['module_sha256'] == world['module_sha256'], 'Packaged files differ from the four qualified modules')
+    modules = packed['module_sha256']
+    eth_name = npu_ethernet_fit.ETH_MODULE
+    if ethernet is not None:
+        require(modules.get(eth_name) == ethernet['expected_packaged_sha256'],
+                'Selected FIT Ethernet module differs from the linked world module')
+        modules = {name: pin for name, pin in modules.items() if name != eth_name}
+    require(modules == world['module_sha256'], 'Packaged files differ from the four qualified modules')
     pair, image_pair = packed['pair'], inspected['checked_npu_pair']
     require(all(pair[k] == image_pair[k] for k in ('code', 'data', 'manifest_sha256')),
             'Packaged RV32 pair differs from the world receipt')
@@ -167,12 +175,17 @@ def seal(root, args):
     filename = fit['sha256'] + '.itb'
     with tempfile.TemporaryDirectory(prefix='.seal-', dir=store) as temp:
         scratch = Path(temp)
+        ethernet = npu_ethernet_fit.bind_linked(root, world, args, scratch)
         staged = scratch / filename
         stage_fit(world['fit'], staged, fit['bytes'], fit['sha256'])
         inspect_dir = scratch / 'inspection'
         inspect_dir.mkdir()
-        packed = inspect_fit_pair(staged, inspect_dir, world['kernel'], replay['pair'])
-        bind_packaged(packed, world, replay)
+        if ethernet is None:
+            packed = inspect_fit_pair(staged, inspect_dir, world['kernel'], replay['pair'])
+        else:
+            names = (*fit_tools.MODULE_NAMES, npu_ethernet_fit.ETH_MODULE)
+            packed = inspect_fit_pair(staged, inspect_dir, world['kernel'], replay['pair'], names)
+        bind_packaged(packed, world, replay, ethernet)
         require(digest(staged) == fit['sha256'], 'Inspected FIT changed before publication')
         receipt = {k: world[k] for k in ('world_sha256', 'snapshot_sha256', 'source_lock_sha256', 'producer_sha256',
                                           'image_receipt_sha256')}
@@ -180,6 +193,9 @@ def seal(root, args):
                        replay=replay, packaged=packed, rv32_emulator_replay_bound=True,
                        scope='Exact inspected local FIT and emulator payload binding only',
                        boot_verified=False, physical_retirement=False, hardware=False, flash_authorized=False)
+        if ethernet is not None:
+            receipt['ethernet'] = {**ethernet, 'matches': True,
+                                   'actual_packaged_sha256': packed['module_sha256'][npu_ethernet_fit.ETH_MODULE]}
         publication = scratch / 'receipt.json'
         with publication.open('x') as stream:
             json.dump(receipt, stream, indent=2)
@@ -206,6 +222,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--name', required=True)
     parser.add_argument('--snapshot', required=True, type=Path)
+    parser.add_argument('--ethernet-bundle', type=Path, help='Verified source bundle receipt for the staged Ethernet lock')
+    parser.add_argument('--ethernet-bundle-sha256', help='Independently pinned Ethernet bundle receipt SHA-256')
+    parser.add_argument('--ethernet-linked-sha256', help='SHA-256 of the raw module from the same passing world')
     for flag in ('world-result', 'start', 'terminal'):
         parser.add_argument('--' + flag, required=True, type=Path)
         parser.add_argument('--' + ('world' if flag == 'world-result' else flag) + '-sha256', required=True)

@@ -1,5 +1,12 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Ethernet Module Bound At FIT Seal
+
+Staged PPE/QDMA images must contain the matching linked Ethernet module.
+A retained-context Kbuild link passed, and the older prepared FIT
+correctly failed the staged-byte comparison. No successor FIT yet.
+[Verification and handoff](research/checkpoints/2026-11-18-npu-ethernet-fit-gate/REPORT.md).
+
 ## 2026-11-18 - Ethernet QDMA Retention Staged
 
 The combined source bundle retains published rings and packet backing
