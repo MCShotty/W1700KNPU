@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "independent_verification": {
+    "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "start_sha256": "7742f7d08849a7d238b72367d45a9a161a3aea017826b044eb9662871c87fcff",
+    "plan_sha256": "8739afe217d75e010d91a5d9fbde0170ecb096a6879ccc26069ab60406fdaec0",
+    "terminal_sha256": "e5214834c100cd4855941026d2ee781ced3603be6f772a00d3075341e6ab0d71",
+    "controller_sha256": "c11210995ee6bf3a5761bf6a7149df966729bad0ae21c057ee8021fc9e0c8800",
+    "result_sha256": "4b29087d6b9d198dff73c422017ed3beac1f944b24f79201fa7b2047ba3e1b3b",
+    "matrix_sha256": "0a1ef9dc466e13c83f4e74f7f158d13feeac8c91b305b3285d5816212468ae8f",
+    "profiles": [
+      {
+        "profile": 0,
+        "positive_rpc": 6421,
+        "transcript_sha256": "5ce114604854067501842f72ffdec6fda1a9166e3cef0b1e02e12ebb30eda528",
+        "summary_sha256": "adcdb50a875ed3ea9ff505010cea50b862e418be8a1276c72b35a537a15f6320"
+      },
+      {
+        "profile": 1,
+        "positive_rpc": 6421,
+        "transcript_sha256": "a0d359b045832da8b1c782f288190bd865a0f47680c118a3e6d259c71c3cd493",
+        "summary_sha256": "7e97c928b05fc8c5b9ab7c9de80fde4e7db99fbbb14ad62e5084fce79e6d9b9a"
+      },
+      {
+        "profile": 2,
+        "positive_rpc": 6419,
+        "transcript_sha256": "79f008d848144dd7e44d244b4e295a9d8fa65788c973478ea146a49263e34397",
+        "summary_sha256": "f32966310eae32e5ba94189f8febcbaded49301c9b5e5125e98b7a23f36c10b8"
+      }
+    ],
+    "positive_rpc": 19261,
+    "source_lock_sha256": "cc128c3b2dc196c41c3b7db858dd22c3a1c7eb76ed9ca01efe11f060122c9d2d",
+    "reverified_inputs": 345,
+    "pair": {
+      "code": "e6bc914ccc087e963a431279fc5759006e7449183da63b97a4c4f9770ae6e525",
+      "data": "ad905cb06b54b4f3f84308895c8de1bf9296ccec799bc20ef5aef0d14e000512",
+      "manifest": "d0eddf16148c9a087bc299d166c242649314f8f86c2a4e7d0451baeb35d7209a"
+    },
+    "frozen_capsule_sha256": "3d166089dbb5a89650521a1d7331f8e2ce967472ed67ed1eebe0af50362caff3",
+    "physical_dma_retirement_proven": false
+  },
+  "systemd_terminal": {
+    "observed_unix_ns": 1795010393244059100,
+    "boot": "80b021e9-619c-42e9-9656-d8e60e9531b4",
+    "invocation": "61e2d7b8caed4f76bd9b5e61c55b02db",
+    "plan": "8739afe217d75e010d91a5d9fbde0170ecb096a6879ccc26069ab60406fdaec0",
+    "service_result": "success",
+    "exit_code": "exited",
+    "exit_status": "0",
+    "passed": true,
+    "controller_sha256": "c11210995ee6bf3a5761bf6a7149df966729bad0ae21c057ee8021fc9e0c8800"
+  },
+  "executed_new_replay": false,
+  "world_built": false,
+  "hardware": false
+}

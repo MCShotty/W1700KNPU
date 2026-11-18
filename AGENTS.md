@@ -1,5 +1,12 @@
 # W1700KNPU Workspace
 
+## 2026-11-18 - Original Replay Verified
+
+Invocation `61e2d7b8` passed all 19,261 ordered operations and 345 input
+bindings. Keep the old source lock for the next frozen baseline world;
+no world, board boot or physical retirement is qualified by replay.
+[Terminal proof and next gates](research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - Keep PPE And QDMA Retirement Separate
 
 PPE deinit returns a constant firmware ACK; the retained Ethernet module
@@ -11,8 +18,8 @@ gated. [Exact firmware and module checks](research/checkpoints/2026-11-18-npu-pp
 
 The staged W1700K DTS reserves a low coherent pool, and the replacement
 provider retains its attachment with exposed allocations. Reuse the exact
-packet-owner mt76 patch, not its original kernel patch. Keep the running
-replay and frozen image inputs untouched; no new kernel or FIT has been built.
+packet-owner mt76 patch, not its original kernel patch. Keep the frozen
+baseline image inputs untouched; no new kernel or FIT has been built.
 [Apply order and gates](research/checkpoints/2026-11-18-npu-coherent-window/REPORT.md).
 For the exact 4 KiB-page stack, the
 [cold pool ceiling](research/checkpoints/2026-11-18-npu-coherent-budget/REPORT.md)

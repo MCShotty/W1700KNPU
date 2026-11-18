@@ -1,5 +1,14 @@
 ﻿# W1700K Stock-Port Ledger
 
+## 2026-11-18 - Verify Original RV32 Terminal
+
+- Original unit exited successfully on its original invocation. Independently
+  verified all 19,261 ordered operations, memory/final-state receipts and
+  345 retained and frozen input bindings. No old profile output was used.
+- Baseline world, FIT seal and physical retirement remain open. Keep the
+  old lock, frozen capsule and combined producer for the baseline.
+  [Evidence](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - Trace The PPE And QDMA Stop Routes
 
 - Decoded the PPE table, startup hook and deinit callees in the original

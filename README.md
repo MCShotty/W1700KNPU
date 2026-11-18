@@ -1,5 +1,11 @@
 # W1700K NPU and OpenWrt Workbench
 
+## 2026-11-18 - Original RV32 Replay Passed
+
+All three profiles passed, with 19,261 verified operations and 345 matching
+inputs. The frozen baseline image build and hardware checks are still
+pending. [Terminal receipt](research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - PPE And Ethernet DMA Stop
 
 PPE's firmware ACK does not report drain, and Ethernet QDMA's timeout

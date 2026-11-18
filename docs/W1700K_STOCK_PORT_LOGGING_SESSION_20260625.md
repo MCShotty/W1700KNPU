@@ -1,5 +1,11 @@
 # W1700K Stock-Port Logging Session
 
+## 2026-11-18 - Original RV32 Replay Terminal
+
+Verified the original terminal, all three ordered profiles, and all 345
+replay bindings against the frozen capsule. No new world or hardware run.
+[Result and gates](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - PPE Stop Evidence
 
 The retained binary routes distinguish configuration ACK from physical

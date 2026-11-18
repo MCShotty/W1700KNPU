@@ -1,5 +1,13 @@
 # Remaining W1700K Work
 
+## 2026-11-18 - Build The Frozen Baseline
+
+The original terminal replay is verified. Build the unchanged capsule
+with the pinned combined producer after fresh resource admission, then
+seal its exact FIT bytes. Only then switch to the separately verified
+coherent source delta and rebuild its modules.
+[Replay proof](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - Qualify PPE And Ethernet Retirement
 
 Do not treat the PPE deinit ACK as a drain result. Its firmware path has no
@@ -11,7 +19,7 @@ removal; neither proves Wi-Fi or remote NPU retirement.
 
 ## 2026-11-18 - Qualify The Coherent DMA Window
 
-Account for the original terminal replay and frozen image first. Then use
+The original replay passed; account for its frozen image first. Then use
 the new binding, W1700K DTS, replacement provider, and unchanged packet-owner
 mt76 patch. Do not layer on the earlier provider patch. Verify the selected
 FIT, boot-time pool address and capacity, exhaustion, probe failure, normal

@@ -1,5 +1,12 @@
 ﻿# W1700K Stock-Port Current Reference
 
+## 2026-11-18 - Original RV32 Terminal Pass
+
+Independent verification found all 19,261 expected operations and 345
+matching retained/frozen inputs. Next is the unchanged offline baseline
+world; no kernel, FIT or hardware qualification follows from that replay.
+[Terminal and next gates](../research/checkpoints/2026-11-18-npu-rv32-terminal/REPORT.md).
+
 ## 2026-11-18 - PPE And Ethernet Stop Scope
 
 The exact initial replay table selects the PPE handler that always
